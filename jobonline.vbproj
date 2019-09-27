@@ -449,6 +449,7 @@
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
     <None Include="My Project\PublishProfiles\apll.pubxml" />
+    <None Include="My Project\PublishProfiles\bizocean.pubxml" />
     <None Include="My Project\PublishProfiles\jobbeta.pubxml" />
     <None Include="My Project\PublishProfiles\localhost.pubxml" />
     <None Include="My Project\PublishProfiles\servertawan.pubxml" />
@@ -756,6 +757,27 @@
     <Content Include="Resource\Import\Mas_UserRoleDetail.json" />
     <Content Include="Resource\Import\Mas_UserRolePolicy.json" />
     <Content Include="Resource\Export\Resource_Export_25620906170910.json" />
+    <Content Include="Web-BIZ.config" />
+    <Content Include="Web-BIZ.Debug.config">
+      <DependentUpon>Web-BIZ.config</DependentUpon>
+    </Content>
+    <Content Include="Web-BIZ.Release.config">
+      <DependentUpon>Web-BIZ.config</DependentUpon>
+    </Content>
+    <Content Include="Web-APL.config" />
+    <Content Include="Web-APL.Debug.config">
+      <DependentUpon>Web-APL.config</DependentUpon>
+    </Content>
+    <Content Include="Web-APL.Release.config">
+      <DependentUpon>Web-APL.config</DependentUpon>
+    </Content>
+    <Content Include="Web-DEMO.config" />
+    <Content Include="Web-DEMO.Debug.config">
+      <DependentUpon>Web-DEMO.config</DependentUpon>
+    </Content>
+    <Content Include="Web-DEMO.Release.config">
+      <DependentUpon>Web-DEMO.config</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

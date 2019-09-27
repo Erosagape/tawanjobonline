@@ -1117,7 +1117,7 @@ End Code
                 success: function (response) {
                     ShowMessage(response.result.msg);
                     ShowData($('#txtBranchCode').val(), $('#txtClrNo').val());
-                    $('#frmDetail').modal('hide');
+                    //$('#frmDetail').modal('hide');
                 }
             });
             return;

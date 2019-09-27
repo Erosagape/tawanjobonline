@@ -292,7 +292,7 @@ Namespace Controllers
                         If data.AdvDate = DateTime.MinValue Then
                             data.AdvDate = Today.Date
                         End If
-                        data.AddNew(prefix & "-" & data.AdvDate.ToString("yyMM") & "____")
+                        data.AddNew(prefix & data.AdvDate.ToString("yyMM") & "____")
                     End If
 
                     If AuthorizeStr.IndexOf("E") < 0 Then

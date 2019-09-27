@@ -1,6 +1,5 @@
 ﻿@Code
     ViewBag.Title = "Tracking Status"
-    Layout = "~/Views/Shared/_Layout.vbhtml"
 End Code
     <div class="row">
         <div class="col-sm-4">

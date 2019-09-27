@@ -907,12 +907,14 @@ End Code
         $('#txtSICode').val('');
         $('#txtSDescription').val('');
         $('#txtDocNo').val('');
-        $('#txtJobType').val('');
-        $('#txtShipBy').val('');
-        $('#txtJobTypeName').val('');
-        $('#txtShipByName').val('');
-        $('#txtInvNo').val('');
-        $('#txtForJNo').val('');
+        if (job == '') {
+            $('#txtJobType').val('');
+            $('#txtShipBy').val('');
+            $('#txtJobTypeName').val('');
+            $('#txtShipByName').val('');
+            $('#txtInvNo').val('');
+            $('#txtForJNo').val('');
+        }
         $('#txtacType').val('');
         $('#cboacType').val('');
         $('#cboacType').change();

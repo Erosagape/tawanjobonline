@@ -313,7 +313,7 @@ Public Class CAdvDetail
                         row.ForJNo = rd.GetString(rd.GetOrdinal("ForJNo")).ToString()
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("ItemNo"))) = False Then
-                        row.ItemNo = rd.GetByte(rd.GetOrdinal("ItemNo"))
+                        row.ItemNo = rd.GetValue(rd.GetOrdinal("ItemNo"))
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("STCode"))) = False Then
                         row.STCode = rd.GetString(rd.GetOrdinal("STCode")).ToString()
@@ -328,10 +328,10 @@ Public Class CAdvDetail
                         row.AdvAmount = rd.GetDouble(rd.GetOrdinal("AdvAmount"))
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("IsChargeVAT"))) = False Then
-                        row.IsChargeVAT = rd.GetByte(rd.GetOrdinal("IsChargeVAT"))
+                        row.IsChargeVAT = rd.GetValue(rd.GetOrdinal("IsChargeVAT"))
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("Is50Tavi"))) = False Then
-                        row.Is50Tavi = rd.GetByte(rd.GetOrdinal("Is50Tavi"))
+                        row.Is50Tavi = rd.GetValue(rd.GetOrdinal("Is50Tavi"))
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("ChargeVAT"))) = False Then
                         row.ChargeVAT = rd.GetDouble(rd.GetOrdinal("ChargeVAT"))
@@ -352,7 +352,7 @@ Public Class CAdvDetail
                         row.TRemark = rd.GetString(rd.GetOrdinal("TRemark")).ToString()
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("IsDuplicate"))) = False Then
-                        row.IsDuplicate = rd.GetByte(rd.GetOrdinal("IsDuplicate"))
+                        row.IsDuplicate = rd.GetValue(rd.GetOrdinal("IsDuplicate"))
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("PayChqTo"))) = False Then
                         row.PayChqTo = rd.GetString(rd.GetOrdinal("PayChqTo")).ToString()

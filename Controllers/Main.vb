@@ -239,14 +239,14 @@ update adv
 set adv.DocStatus=src.ClrStatus
 from Job_AdvHeader adv inner join
 (
-    select BranchCode,AdvNo,
-    (CASE WHEN sum(ClrCount)=Count(*) THEN 5 ELSE 
+    select BranchCode,AdvNo,sum(ClrCount) as ClrCount,
+    (CASE WHEN sum(CASE WHEN IsDuplicate=0 THEN ClrCount ELSE 0 END)=Count(*) THEN 5 ELSE 
          (CASE WHEN Sum(ClrCount) > 0 THEN 4 ELSE Max(AdvStatus) END) 
      END) as ClrStatus 
     ,sum(ClrNet) as ClrNet,Sum(AdvNet) as AdvNet
     from
     (
-        select h.BranchCode,d.AdvNo,d.ItemNo,d.AdvAmount as AdvNet,
+        select h.BranchCode,d.AdvNo,d.ItemNo,d.IsDuplicate,d.AdvAmount as AdvNet,
         (CASE WHEN d.IsDuplicate=1 THEN ISNULL(c.ClrNet,0) ELSE ISNULL(c.AdvNet,0) END) as ClrNet,
         (CASE WHEN h.PaymentRef<>'' THEN 3 ELSE (CASE WHEN h.ApproveBy<>'' THEN 2 ELSE 1 END) END) as AdvStatus,
         (CASE WHEN c.ClrNo IS NULL THEN 0 ELSE 1 END) as ClrCount
@@ -373,7 +373,7 @@ AND a.DocNo=b.DocNo
     End Function
 
     Function SQLSelectVoucher() As String
-        Return "
+        Dim sql As String = "
 SELECT h.BranchCode,h.ControlNo,h.VoucherDate,h.TRemark,h.CustCode,h.CustBranch,h.RecUser,h.RecDate,h.RecTime,
 h.PostedBy,h.PostedDate,h.PostedTime,h.CancelReson,h.CancelProve,h.CancelDate,h.CancelTime,
 d.ItemNo,d.PRVoucher,d.PRType,d.ChqNo,d.BookCode,d.BankCode,d.BankBranch,d.ChqDate,d.CashAmount,d.ChqAmount,d.CreditAmount,
@@ -384,8 +384,9 @@ FROM Job_CashControl h inner join Job_CashControlSub d
 on h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
 left join Job_CashControlDoc r
 on d.BranchCode=r.BranchCode AND d.ControlNo=r.ControlNo
-AND d.acType=r.acType
+AND d.acType=r.acType AND d.DocNo=r.DocNo
 "
+        Return sql
     End Function
     Function SQLSelectWHTax()
         Return "

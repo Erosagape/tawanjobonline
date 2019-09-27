@@ -747,7 +747,7 @@ Namespace Controllers
                         Case "CASHR"
                             tSqlw &= " AND d.CashAmount>0 AND PRType='R'"
                         Case "TACC"
-                            tSqlw &= String.Format(" AND d.DocNo Like '{0}%'", Request.QueryString("Type").ToString)
+                            tSqlw &= " AND d.DocNo Like '" & expPrefix & "%' "
                     End Select
                 End If
                 Dim oData = New CUtil(jobWebConn).GetTableFromSQL(tSqlw)
