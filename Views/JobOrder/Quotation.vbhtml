@@ -732,17 +732,17 @@ End Code
         row.BillToCustCode = $('#txtBCustCode').val();
         row.BillToCustBranch = $('#txtBCustBranch').val();
         row.ContactName = $('#txtContactName').val();
-        row.DocDate = CDateTH($('#txtDocDate').val());
+        row.DocDate = CDateEN($('#txtDocDate').val());
         row.ManagerCode = $('#txtManagerCode').val();
         row.DescriptionH = $('#txtDescriptionH').val();
         row.DescriptionF = $('#txtDescriptionF').val();
         row.TRemark = $('#txtTRemark').val();
         row.DocStatus = $('#txtDocStatus').val();
         row.ApproveBy = $('#txtApproveBy').val();
-        row.ApproveDate = CDateTH($('#txtApproveDate').val());
+        row.ApproveDate = CDateEN($('#txtApproveDate').val());
         row.ApproveTime = $('#txtApproveTime').val();
         row.CancelBy = $('#txtCancelBy').val();
-        row.CancelDate = CDateTH($('#txtCancelDate').val());
+        row.CancelDate = CDateEN($('#txtCancelDate').val());
         row.CancelReason = $('#txtCancelReason').val();
 
         let jsonString = JSON.stringify({ data: row });
@@ -786,7 +786,8 @@ End Code
                 if (response.result.data !== null) {
                     $('#txtSeqNo').val(response.result.data);
                     ShowDetail($('#txtBranchCode').val(), $('#txtDocNo').val());
-                    ShowItem($('#txtBranchCode').val(), $('#txtDocNo').val(), response.result.data);
+                    $('#txtDocItemNo').val(response.result.data);
+                    ShowItem($('#txtBranchCode').val(), $('#txtDocNo').val(), $('#txtDocItemNo').val());
                     ShowMessage(response.result.data);
                     //$('#frmDetail').modal('hide');
                     return;
@@ -1052,8 +1053,8 @@ End Code
             CreateLOV(dv, '#frmSearchServ', '#tbServ', 'Service Code', response, 2);
             //Quotation Remark,header,footer
             CreateLOV(dv, '#frmSearchRemark', '#tbRemark', 'Remark List', response, 1);
-            CreateLOV(dv, '#frmSearchHeader', '#tbHeader', 'Header List', response, 1);
-            CreateLOV(dv, '#frmSearchFooter', '#tbFooter', 'Footer List', response, 1);
+            CreateLOV(dv, '#frmSearchHeader', '#tbListHeader', 'Header List', response, 1);
+            CreateLOV(dv, '#frmSearchFooter', '#tbListFooter', 'Footer List', response, 1);
             CreateLOV(dv, '#frmSearchDesc', '#tbDesc', 'Description List', response, 1);
         });
     }
@@ -1088,10 +1089,10 @@ End Code
                 SetGridDataDistinct(path, '#tbRemark', '?Table=Job_QuotationHeader&Field=TRemark', '#frmSearchRemark', ReadRemark);
                 break;
             case 'header':
-                SetGridDataDistinct(path, '#tbHeader', '?Table=Job_QuotationHeader&Field=DescriptionH', '#frmSearchHeader', ReadHeader);
+                SetGridDataDistinct(path, '#tbListHeader', '?Table=Job_QuotationHeader&Field=DescriptionH', '#frmSearchHeader', ReadHeader);
                 break;
             case 'footer':
-                SetGridDataDistinct(path, '#tbFooter', '?Table=Job_QuotationHeader&Field=DescriptionF', '#frmSearchFooter', ReadFooter);
+                SetGridDataDistinct(path, '#tbListFooter', '?Table=Job_QuotationHeader&Field=DescriptionF', '#frmSearchFooter', ReadFooter);
                 break;
             case 'desc':
                 SetGridDataDistinct(path, '#tbDesc', '?Table=Job_QuotationDetail&Field=Description', '#frmSearchDesc', ReadDesc);

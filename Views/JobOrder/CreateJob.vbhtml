@@ -8,7 +8,7 @@ End Code
                     <label id="lblJobType" style="display:block;width:100%;">Job Type</label>
                 </div>
                 <div style="width:70%">
-                    <select id="cboJobType" class="form-control dropdown" style="width:100%" tabindex="0"></select>
+                    <select id="cboJobType" class="form-control dropdown" onchange="GetQuotation()" style="width:100%" tabindex="0"></select>
                 </div>                               
             </div>
             <div class="col-sm-6" style="display:flex">
@@ -16,7 +16,7 @@ End Code
                     <label id="lblShipBy" style="display:block;width:100%;">Ship By</label>
                 </div>
                 <div style="width:70%">
-                    <select id="cboShipBy" class="form-control dropdown" style="width:100%" tabindex="1"></select>
+                    <select id="cboShipBy" class="form-control dropdown" onchange="GetQuotation()"  style="width:100%" tabindex="1"></select>
                 </div>                                
             </div>
         </div>
@@ -422,7 +422,7 @@ End Code
                     data.CustCode = $('#txtCustCode').val();
                     data.CustBranch = $('#txtCustBranch').val();
                     data.CSCode = $('#txtCSCode').val();
-                    data.DocDate = CDateTH($('#txtJobDate').val());
+                    data.DocDate = CDateEN($('#txtJobDate').val());
                     data.Consigneecode = $('#txtConsignee').val();
                     data.CustContactName = $('#txtContactPerson').val();
                     data.QNo = $('#txtQNo').val();

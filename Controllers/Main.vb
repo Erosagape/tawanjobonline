@@ -956,6 +956,7 @@ AND a.BillAcceptNo=b.BillAcceptNo
         Return String.Format(sql, branch, billno)
     End Function
     Function SQLUpdateJobStatus(sqlwhere As String) As String
+        Dim today = DateTime.Today.ToString("yyyy-MM-dd")
         Dim sql As String = "
 UPDATE j
 SET j.JobStatus=c.JobStatus
@@ -971,11 +972,11 @@ FROM Job_Order j INNER JOIN (
         AND JobStatus<>1 AND NOT ISNULL(CancelReson,'')<>''
         UNION
         SELECT BranchCode,JNo,1 FROM Job_Order 
-        WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND NOT DutyDate<=GETDATE()
+        WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND NOT DutyDate<=Convert(datetime,'" & today & "',102)
         AND JobStatus<>1 AND NOT ISNULL(CancelReson,'')<>''
         UNION
         SELECT BranchCode,JNo,2 FROM Job_Order 
-        WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate<=GETDATE()
+        WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate<=Convert(datetime,'" & today & "',102)
         AND JobStatus<>2 AND NOT ISNULL(CancelReson,'')<>'' 
         UNION
         SELECT BranchCode,JNo,3 FROM Job_Order 
@@ -1247,12 +1248,12 @@ FROM Job_InvoiceHeader ih INNER JOIN Job_InvoiceDetail id ON ih.BranchCode=id.Br
 INNER JOIN Job_ClearDetail cd ON id.BranchCode=cd.BranchCode AND id.DocNo=cd.LinkBillNo AND id.ItemNo=cd.LinkItem
 WHERE cd.BranchCode='{0}' AND cd.JobNo='{1}'
 UNION
-select ch.ChqDate,ch.ChqNo,'CHQ' as DocType,Convert(varchar,ch.ChqAmount) +' REF# '+ch.PRVoucher as Descr,SUM(ISNULL(cd.PaidAmount,0)) as Amount,
+select ch.ChqDate,ch.ChqNo,'CHQ' as DocType,Convert(varchar,ch.ChqAmount) +' '+ ch.CurrencyCode +' REF# '+ch.PRVoucher as Descr,SUM(ISNULL(cd.PaidAmount,0)) as Amount,
 (CASE WHEN ISNULL(vc.PostedBy,'')<>'' THEN 1 ELSE (CASE WHEN vc.CancelProve<>'' THEN 99 ELSE 0 END) END) as DocStatus
 FROM Job_CashControlSub ch INNER JOIN Job_CashControl vc ON ch.BranchCode=vc.BranchCode AND ch.ControlNo=vc.ControlNo
 LEFT JOIN Job_CashControlDoc cd ON ch.BranchCode=cd.BranchCode AND ch.ControlNo=cd.ControlNo AND ch.acType=cd.acType
 WHERE ch.BranchCode='{0}' AND ch.ForJNo='{1}'
-GROUP BY ch.ChqDate,ch.ChqNo,ch.ChqAmount,ch.PRVoucher,vc.PostedBy,vc.CancelProve
+GROUP BY ch.ChqDate,ch.ChqNo,ch.ChqAmount,ch.PRVoucher,vc.PostedBy,vc.CancelProve,ch.CurrencyCode
 UNION
 select rh.ReceiptDate,rh.ReceiptNo,'RCV' as DocType,rd.SDescription +' INV#' + rd.InvoiceNo as Descr,cd.BNet as Amount,
 (CASE WHEN rh.CancelProve<>'' THEN 99 ELSE (CASE WHEN ISNULL(rd.ControlNo,'')<>'' THEN 1 ELSE 0 END) END) as DocStatus

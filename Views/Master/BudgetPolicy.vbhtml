@@ -187,7 +187,7 @@ End Code
             MinCharge:CNum($('#txtMinCharge').val()),
             MinProfit:CNum($('#txtMinProfit').val()),
             Active:$('#txtActive').val(),
-            LastUpdate:CDateTH($('#txtLastUpdate').val()),
+            LastUpdate:CDateEN($('#txtLastUpdate').val()),
             UpdateBy:user,
         };
         if (obj.ID !== "") {

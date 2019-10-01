@@ -30,16 +30,16 @@ End Code
         <div class="col-sm-2">
             <div class="btn-group-vertical">
                 <br />
-                <a href="#" class="btn btn-default w3-purple" id="btnGenJob" onclick="CreateNewJob()">
-                    <i class="fa fa-lg fa-file-o"></i> &nbsp;<b>Create Job</b>
+                <a href="#" class="btn btn-primary" id="btnRefresh" onclick="getJobdata()">
+                    <i class="fa fa-lg fa-filter"></i> &nbsp;<b>Search</b>
                 </a>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <a href="#" class="btn btn-primary" id="btnRefresh" onclick="getJobdata()">
-                <i class="fa fa-lg fa-filter"></i> &nbsp;<b>Search</b>
+            <a href="#" class="btn btn-default w3-purple" id="btnGenJob" onclick="CreateNewJob()">
+                <i class="fa fa-lg fa-file-o"></i> &nbsp;<b>Create Job</b>
             </a>
             <table id="tblJob" class="table table-bordered">
                 <thead>

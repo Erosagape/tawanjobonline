@@ -333,7 +333,7 @@ End Code
         let dataInv = {
             BranchCode:$('#txtBranchCode').val(),
             BillAcceptNo: $('#txtDocNo').val(),
-            BillDate: CDateTH($('#txtDocDate').val()),
+            BillDate: CDateEN($('#txtDocDate').val()),
             CustCode:$('#txtBillToCustCode').val(),
             CustBranch:$('#txtBillToCustBranch').val(),
             BillRecvBy: '',
@@ -345,7 +345,7 @@ End Code
             CancelDate:null,
             CancelTime: null,
             EmpCode: user,
-            RecDateTime:CDateTH(GetToday())
+            RecDateTime:CDateEN(GetToday())
         };
         let jsonString = JSON.stringify({ data: dataInv });
         $.ajax({

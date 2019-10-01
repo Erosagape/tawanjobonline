@@ -308,17 +308,17 @@ End Code
             BranchCode:$('#txtBranchCode').val(),
             GLRefNo:$('#txtGLRefNo').val(),
             FiscalYear:$('#txtFiscalYear').val(),
-            LastupDate:CDateTH(GetToday()),
+            LastupDate:CDateEN(GetToday()),
             UpdateBy:user,
             GLType:$('#txtGLType').val(),
             Remark:$('#txtRemark').val(),
             TotalDebit:CNum($('#txtTotalDebit').val()),
             TotalCredit:CNum($('#txtTotalCredit').val()),
-            ApproveDate:CDateTH($('#txtApproveDate').val()),
+            ApproveDate:CDateEN($('#txtApproveDate').val()),
             ApproveBy:$('#txtApproveBy').val(),
-            PostDate:CDateTH($('#txtPostDate').val()),
+            PostDate:CDateEN($('#txtPostDate').val()),
             PostBy:$('#txtPostBy').val(),
-            CancelDate:CDateTH($('#txtCancelDate').val()),
+            CancelDate:CDateEN($('#txtCancelDate').val()),
             CancelBy:$('#txtCancelBy').val(),
             CancelReason:$('#txtCancelReason').val()
         };
@@ -354,7 +354,7 @@ End Code
             SourceDocument: $('#txtSourceDocument').val(),
             DebitAmt: CNum($('#txtDebitAmt').val()),
             CreditAmt: CNum($('#txtCreditAmt').val()),
-            EntryDate: CDateTH(GetToday()),
+            EntryDate: CDateEN(GetToday()),
             EntryBy: user
         };
         if (obj.ItemNo != "") {

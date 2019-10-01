@@ -469,10 +469,10 @@ End Code
             };
             if ($('#chkFromClr').prop('checked') == true) {
                 obj.DocNo = o.ClrNo + '#'+ o.ItemNo;
-                obj.DocDate = CDateTH(o.ClrDate);
+                obj.DocDate = CDateEN(o.ClrDate);
             } else {
                 obj.DocNo = o.AdvNo + '#'+ o.ItemNo;
-                obj.DocDate = CDateTH(o.PaymentDate);
+                obj.DocDate = CDateEN(o.PaymentDate);
             }
             if (o.acType == 'CA') sum_ca += Number(o.ClrBal);
             if (o.acType == 'CH') sum_ch += Number(o.ClrBal);
@@ -582,7 +582,7 @@ End Code
                 BookCode: '',
                 BankCode: '',
                 BankBranch: '',
-                ChqDate: CDateTH($('#txtChqCashTranDate').val()),
+                ChqDate: CDateEN($('#txtChqCashTranDate').val()),
                 CashAmount: 0,
                 ChqAmount: Math.abs(sum_chqcash.sumamount),
                 CreditAmount: 0,
@@ -619,7 +619,7 @@ End Code
                 BookCode: $('#txtBookChq').val(),
                 BankCode: $('#fldBankCodeChqCash').val(),
                 BankBranch: $('#fldBankBranchChqCash').val(),
-                ChqDate: CDateTH($('#txtChqTranDate').val()),
+                ChqDate: CDateEN($('#txtChqTranDate').val()),
                 CashAmount: 0,
                 ChqAmount: Math.abs(sum_chq.sumamount),
                 CreditAmount: 0,
@@ -656,7 +656,7 @@ End Code
                 BookCode: '',
                 BankCode: '',
                 BankBranch: '',
-                ChqDate: CDateTH($('#txtCredTranDate').val()),
+                ChqDate: CDateEN($('#txtCredTranDate').val()),
                 CashAmount: 0,
                 ChqAmount: 0,
                 CreditAmount: Math.abs(sum_cr.sumamount),
@@ -759,11 +759,11 @@ End Code
         let oHeader = {
             BranchCode: $('#txtBranchCode').val(),
             ControlNo: '',
-            VoucherDate: CDateTH($('#txtPaymentDate').val()),
+            VoucherDate: CDateEN($('#txtPaymentDate').val()),
             TRemark: $('#txtTRemark').val(),
             RecUser: user,
-            RecDate: CDateTH(GetToday()),
-            RecTime: CDateTH(GetTime()),
+            RecDate: CDateEN(GetToday()),
+            RecTime: CDateEN(GetTime()),
             PostedBy: '',
             PostedDate: '',
             PostedTime: '',

@@ -324,7 +324,7 @@
 
     function CheckLogin() {
         if (userID === '') {
-            CheckSession();
+            CheckSession(null);
         } else {
             $('#imgMenu').attr('src','/Resource/@ViewBag.PROFILE_LOGO');
             $('#imgCompany').attr('src','/Resource/@ViewBag.PROFILE_LOGO');

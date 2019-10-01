@@ -876,9 +876,9 @@ End Code
                     $('#txtDescription').val(dr.Description);
                     $('#txtCancelReason').val(dr.CancelReson);
                     ShowUser(path,dr.CancelProve, '#txtCancelBy');
-                    $('#txtConsignee').val(dr.consigneecode);
+                    $('#txtConsignee').val(dr.Consigneecode);
                     $('#txtConsBranch').val(dr.CustBranch);
-                    ShowCustomerFull(path,dr.consigneecode, dr.CustBranch, '#txtConsignName', '#txtBillTAddress', '#txtBillEAddress', '');
+                    ShowCustomerFull(path,dr.Consigneecode, dr.CustBranch, '#txtConsignName', '#txtBillTAddress', '#txtBillEAddress', '');
 
                     $('#txtCancelDate').val(CDateEN(dr.CancelDate));
                     $('#txtProjectName').val(dr.ProjectName);
@@ -1030,23 +1030,23 @@ End Code
         dr.CustCode = $('#txtCustCode').val();
         dr.CustBranch = $('#txtCustBranch').val();
         dr.JRevise = Number($('#txtRevised').val()) + 1;
-        dr.DocDate= CDateTH($('#txtDocDate').val());
+        dr.DocDate= CDateEN($('#txtDocDate').val());
         dr.QNo=$('#txtQNo').val();
         dr.Revise=$('#txtQRevise').val();
         dr.InvNo=$('#txtCustInvNo').val();
         dr.DeclareNumber=$('#txtDeclareNo').val();
         dr.Commission=$('#txtCommission').val();
         dr.CustContactName=$('#txtContactName').val();
-        dr.ConfirmDate=CDateTH($('#txtConfirmDate').val());
+        dr.ConfirmDate=CDateEN($('#txtConfirmDate').val());
 
         dr.TRemark = $('#txtJobCondition').val();
 
-        dr.CloseJobDate = CDateTH($('#txtCloseDate').val());
+        dr.CloseJobDate = CDateEN($('#txtCloseDate').val());
 
         dr.CustRefNO=$('#txtCustPoNo').val();
         dr.Description = $('#txtDescription').val();
 
-        dr.CancelDate = CDateTH($('#txtCancelDate').val());
+        dr.CancelDate = CDateEN($('#txtCancelDate').val());
         dr.CancelReson=$('#txtCancelReason').val();
 
         dr.Consigneecode=$('#txtConsignee').val();
@@ -1079,15 +1079,15 @@ End Code
 
         dr.TotalContainer = $('#txtTotalCTN').val();
 
-        dr.ETDDate = CDateTH($('#txtETDDate').val());
-        dr.ETADate = CDateTH($('#txtETADate').val());
-        dr.LoadDate = CDateTH($('#txtLoadDate').val());
-        dr.EstDeliverDate = CDateTH($('#txtDeliveryDate').val());
-        dr.ImExDate = CDateTH($('#txtEDIDate').val());
-        dr.ReadyToClearDate = CDateTH($('#txtReadyClearDate').val());
-        dr.DutyDate = CDateTH($('#txtDutyDate').val());
+        dr.ETDDate = CDateEN($('#txtETDDate').val());
+        dr.ETADate = CDateEN($('#txtETADate').val());
+        dr.LoadDate = CDateEN($('#txtLoadDate').val());
+        dr.EstDeliverDate = CDateEN($('#txtDeliveryDate').val());
+        dr.ImExDate = CDateEN($('#txtEDIDate').val());
+        dr.ReadyToClearDate = CDateEN($('#txtReadyClearDate').val());
+        dr.DutyDate = CDateEN($('#txtDutyDate').val());
 
-        dr.ClearDate = CDateTH($('#txtClearDate').val());
+        dr.ClearDate = CDateEN($('#txtClearDate').val());
         dr.ClearPort = $('#txtReleasePort').val();
         dr.ClearPortNo = $('#txtPortNo').val();
 

@@ -464,6 +464,7 @@
     <Content Include="Resource\apl-logo.png" />
     <Content Include="Resource\jobtawan_bg.jpg" />
     <Content Include="Resource\logo-tawan.jpg" />
+    <Content Include="Resource\logo-biz.png" />
     <Content Include="Scripts\bootstrap-select.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />
@@ -757,12 +758,12 @@
     <Content Include="Resource\Import\Mas_UserRoleDetail.json" />
     <Content Include="Resource\Import\Mas_UserRolePolicy.json" />
     <Content Include="Resource\Export\Resource_Export_25620906170910.json" />
-    <Content Include="Web-BIZ.config" />
-    <Content Include="Web-BIZ.Debug.config">
-      <DependentUpon>Web-BIZ.config</DependentUpon>
+    <Content Include="Web-BIZ_TAWAN.config" />
+    <Content Include="Web-BIZ_TAWAN.Debug.config">
+      <DependentUpon>Web-BIZ_TAWAN.config</DependentUpon>
     </Content>
-    <Content Include="Web-BIZ.Release.config">
-      <DependentUpon>Web-BIZ.config</DependentUpon>
+    <Content Include="Web-BIZ_TAWAN.Release.config">
+      <DependentUpon>Web-BIZ_TAWAN.config</DependentUpon>
     </Content>
     <Content Include="Web-APL.config" />
     <Content Include="Web-APL.Debug.config">
@@ -771,12 +772,26 @@
     <Content Include="Web-APL.Release.config">
       <DependentUpon>Web-APL.config</DependentUpon>
     </Content>
-    <Content Include="Web-DEMO.config" />
-    <Content Include="Web-DEMO.Debug.config">
-      <DependentUpon>Web-DEMO.config</DependentUpon>
+    <Content Include="Web-DEMO_TAWAN.config" />
+    <Content Include="Web-DEMO_TAWAN.Debug.config">
+      <DependentUpon>Web-DEMO_TAWAN.config</DependentUpon>
     </Content>
-    <Content Include="Web-DEMO.Release.config">
-      <DependentUpon>Web-DEMO.config</DependentUpon>
+    <Content Include="Web-DEMO_TAWAN.Release.config">
+      <DependentUpon>Web-DEMO_TAWAN.config</DependentUpon>
+    </Content>
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web-APL_TAWAN.config" />
+    <Content Include="Web-APL_TAWAN.Debug.config">
+      <DependentUpon>Web-APL_TAWAN.config</DependentUpon>
+    </Content>
+    <Content Include="Web-APL_TAWAN.Release.config">
+      <DependentUpon>Web-APL_TAWAN.config</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -818,13 +833,6 @@
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
     <Content Include="Scripts\umd\popper.min.js" />
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Views\_ViewStart.vbhtml" />
     <Content Include="Views\Shared\Error.vbhtml" />

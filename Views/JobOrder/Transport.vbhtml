@@ -444,7 +444,7 @@ End Code
                 SetGridServUnitFilter(path, '#tbUnit', '?Type=0', '#frmSearchUnit', ReadUnit);
                 break;
             case 'carunit':
-                SetGridServUnitFilter(path, '#tbUnit', '?Type=2', '#frmSearchUnit', ReadUnit);
+                SetGridServUnitFilter(path, '#tbUnit', '?Type=2', '#frmSearchUnit', ReadCarUnit);
                 break;
             case 'booking':
                 let w = '?Branch=' + $('#txtBranchCode').val();
@@ -579,16 +579,16 @@ End Code
             VenderCode:$('#txtVenderCode').val(),
             ContactName:$('#txtContactName').val(),
             BookingNo:$('#txtBookingNo').val(),
-            LoadDate:CDateTH($('#txtLoadDate').val()),
+            LoadDate:CDateEN($('#txtLoadDate').val()),
             Remark:$('#txtRemark').val(),
             PackingPlace:$('#txtPackingPlace').val(),
             CYPlace:$('#txtCYPlace').val(),
             FactoryPlace:$('#txtFactoryPlace').val(),
             ReturnPlace:$('#txtReturnPlace').val(),
-            PackingDate:CDateTH($('#txtPackingDate').val()),
-            CYDate:CDateTH($('#txtCYDate').val()),
-            FactoryDate:CDateTH($('#txtFactoryDate').val()),
-            ReturnDate:CDateTH($('#txtReturnDate').val()),
+            PackingDate:CDateEN($('#txtPackingDate').val()),
+            CYDate:CDateEN($('#txtCYDate').val()),
+            FactoryDate:CDateEN($('#txtFactoryDate').val()),
+            ReturnDate:CDateEN($('#txtReturnDate').val()),
             PackingTime:$('#txtPackingTime').val(),
             CYTime:$('#txtCYTime').val(),
             FactoryTime:$('#txtFactoryTime').val(),
@@ -694,7 +694,7 @@ End Code
             CTN_NO:$('#txtCTN_NO').val(),
             SealNumber:$('#txtSealNumber').val(),
             TruckNO:$('#txtTruckNO').val(),
-            TruckIN:CDateTH($('#txtTruckIN').val()),
+            TruckIN:CDateEN($('#txtTruckIN').val()),
             Start:$('#txtStart').val(),
             Finish:$('#txtFinish').val(),
             TimeUsed:$('#txtTimeUsed').val(),
@@ -702,16 +702,16 @@ End Code
             Comment:$('#txtComment').val(),
             TruckType:$('#txtTruckType').val(),
             Driver:$('#txtDriver').val(),
-            TargetYardDate:CDateTH($('#txtTargetYardDate').val()),
+            TargetYardDate:CDateEN($('#txtTargetYardDate').val()),
             TargetYardTime:$('#txtTargetYardTime').val(),
-            ActualYardDate:CDateTH($('#txtActualYardDate').val()),
+            ActualYardDate:CDateEN($('#txtActualYardDate').val()),
             ActualYardTime:$('#txtActualYardTime').val(),
-            UnloadFinishDate:CDateTH($('#txtUnloadFinishDate').val()),
+            UnloadFinishDate:CDateEN($('#txtUnloadFinishDate').val()),
             UnloadFinishTime:$('#txtUnloadFinishTime').val(),
-            UnloadDate:CDateTH($('#txtUnloadDate').val()),
+            UnloadDate:CDateEN($('#txtUnloadDate').val()),
             UnloadTime:$('#txtUnloadTime').val(),
             Location:$('#txtLocation').val(),
-            ReturnDate:CDateTH($('#txtDReturnDate').val()),
+            ReturnDate:CDateEN($('#txtDReturnDate').val()),
             ShippingMark:$('#txtShippingMark').val(),
             ProductDesc:$('#txtProductDesc').val(),
             CTN_SIZE:$('#txtCTN_SIZE').val(),
@@ -796,6 +796,9 @@ End Code
     }
     function ReadUnit(dr) {
         $('#txtProductUnit').val(dr.UnitType);
+    }
+    function ReadCarUnit(dr) {
+        $('#txtTruckType').val(dr.UnitType);
     }
     function GenerateDO() {        
         let branch = $('#txtBranchCode').val();

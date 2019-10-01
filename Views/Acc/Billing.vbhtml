@@ -377,14 +377,14 @@ End Code
         if (row !== null) {
             row.BillRemark = $('#txtBillRemark').val();
             row.BillRecvBy = $('#txtBillRecvBy').val();
-            row.BillRecvDate = CDateTH($('#txtBillRecvDate').val());
-            row.DuePaymentDate = CDateTH($('#txtDuePaymentDate').val());
-            row.CancelDate = CDateTH($('#txtCancelDate').val());
+            row.BillRecvDate = CDateEN($('#txtBillRecvDate').val());
+            row.DuePaymentDate = CDateEN($('#txtDuePaymentDate').val());
+            row.CancelDate = CDateEN($('#txtCancelDate').val());
             row.CancelTime = $('#txtCancelTime').val();
             row.CancelProve = $('#txtCancelProve').val();
             row.CancelReson = $('#txtCancelReson').val();
             row.EmpCode = user;
-            row.RecDateTime = CDateTH(GetToday());
+            row.RecDateTime = CDateEN(GetToday());
 
             let jsonString = JSON.stringify({ data: row });
             $.ajax({
@@ -419,7 +419,7 @@ End Code
                         {
                             data: null, title: "Inv.Date",
                             render: function (data) {
-                                return CDateTH(data.InvDate);
+                                return CDateEN(data.InvDate);
                             }
                         },
                         { data: "AmtCustAdvance", title: "Cust.Adv" },

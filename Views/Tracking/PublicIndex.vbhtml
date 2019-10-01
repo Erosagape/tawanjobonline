@@ -1,6 +1,30 @@
 ﻿@Code
     ViewBag.Title = "Tracking Status"
+    Layout = Nothing
 End Code
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="~/Content/Site.css">
+        <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+        <link rel="stylesheet" href="~/Content/bootstrap-select.min.css">
+        <link rel="stylesheet" href="~/Content/jquery.datatables.min.css">
+        <link rel="stylesheet" href="~/Content/responsive.dataTables.min.css">
+        <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+        <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+        <script src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
+        <script src="~/Scripts/bootstrap.js"></script>
+        <script src="~/Scripts/bootbox.js"></script>
+        <script src="~/Scripts/bootstrap-select.js"></script>
+        <script src="~/Scripts/Func/util.js"></script>
+        <script src="~/Scripts/Func/popup.js"></script>
+        <script src="~/Scripts/Func/combo.js"></script>
+        <script src="~/Scripts/Func/menu.js"></script>
+        <script src="~/Scripts/Func/lang.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+    </head>
     <div class="row">
         <div class="col-sm-4">
             Branch
@@ -37,17 +61,17 @@ End Code
     <table id="tbDetail" class="table table-responsive">
         <thead>
             <tr>
-                <th>REFERENCE</th>
+                <th class="all">CUST.INV</th>
                 <th class="all">JOB NO</th>
-                <th class="desktop">PREPARING</th>
-                <th class="desktop">AUTHORIZED</th>
-                <th class="desktop">CUSTOMS READY</th>
-                <th class="desktop">DEPARTURE</th>
-                <th class="desktop">ARRIVAL</th>
-                <th class="desktop">LOADING</th>
-                <th class="desktop">DELIVERED</th>
-                <th class="desktop">BILLED</th>
-                <th class="desktop">STATUS</th>
+                <th>PREPARING</th>
+                <th>AUTHORIZED</th>
+                <th>CUSTOMS READY</th>
+                <th>DEPARTURE</th>
+                <th>ARRIVAL</th>
+                <th>LOADING</th>
+                <th>DELIVERED</th>
+                <th>BILLED</th>
+                <th class="all">STATUS</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -56,7 +80,7 @@ End Code
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
-    let dbID = getQueryString("db") == '' ? '0' : getQueryString("db");
+    let dbIndex = getQueryString("db") == '' ? '0' : getQueryString("db");
 
     google.charts.load("current", { packages: ["corechart"] });
     window.onresize = () => {
@@ -64,11 +88,11 @@ End Code
     }
     QuickCallback(function () {
         SetLOVs();
-    },dbID);
+    },dbIndex);
     $('#txtTaxNumber').focusout(function () {
         QuickCallback(function () {
             ShowCompanyByTax(path, $('#txtTaxNumber').val(), '#txtCustName');
-        },dbID);
+        },dbIndex);
     });
     function SetLOVs() {
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
@@ -84,7 +108,7 @@ End Code
             case 'branch':
                 QuickCallback(function () {
                     SetGridBranch(path, '#tbBranch', '#frmSearchBranch', ReadBranch);
-                },dbID);
+                },dbIndex);
                 break;
         }
     }
@@ -131,14 +155,12 @@ End Code
                                 html += data.DeclareNumber;
                             } else {
                                 if (data.ImExDate !== null) {
-                                    html += 'EDI:' + CDateEN(data.ImExDate);
-                                } else {
-                                    html += 'WAIT EDI';
+                                    html += 'SENT:' + CDateEN(data.ImExDate);
                                 }
                             }
                             if (data.ClearDate !== null) {
                                 if (html !== '') html += '<br/>';
-                                html += CDateEN(data.ClearDate);
+                                html += 'APPR:'+CDateEN(data.ClearDate);
                             }
                             return html;
                         }
@@ -152,7 +174,7 @@ End Code
                             }
                             if (data.DutyDate !== null) {
                                 if (html !== '') html += '<br/>';
-                                html += CDateEN(data.DutyDate);
+                                html += 'CLEAR:'+CDateEN(data.DutyDate);
                             }
                             return html;
                         }
@@ -229,17 +251,26 @@ End Code
                     {
                         data: null, title: "BILLED",
                         render: function (data) {
-                            let html = 'FROM:' + data.consigneecode + '<br/>';
-                            if (data.BillToCustCode !== null) html += 'TO:' + data.BillToCustCode + '<br/>';
-                            return html;
+                            if (data.consigneecode !== null) {
+                                let html = 'FROM:' + data.consigneecode + '<br/>';
+                                if (data.BillToCustCode !== null) html += 'TO:' + data.BillToCustCode + '<br/>';
+                                return html;
+                            } else {
+                                return '';
+                            }
                         }
                     },
                     {
                         data: null, title: "STATUS",
                         render: function (data) {
-                            let html = 'STATUS:' + CCode(data.JobStatus);
+                            let html = '';
+                            let status = $('#cboStatus option[value="' + CCode(data.JobStatus) + '"]').text();
+                            if (status !== '') {
+                                status = status.split('/')[1];
+                            }
+                            html = status;
                             if (data.CloseJobDate !== null) {
-                                html += '<br/>CLOSED:' + CDateEN(data.CloseJobDate);
+                                html += '<br/>' + CDateEN(data.CloseJobDate);
                             }
                             return html;
                         }
@@ -249,7 +280,7 @@ End Code
                 responsive:true
             });
             drawChart();
-        },dbID);
+        },dbIndex);
     }
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);

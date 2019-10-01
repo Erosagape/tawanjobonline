@@ -116,9 +116,9 @@ End Code
         var obj = {
             Code: $('#txtCode').val(),
             TName: $('#txtTName').val(),
-            StartDate: CDateTH($('#txtStartDate').val()),
-            FinishDate: CDateTH($('#txtFinishDate').val()),
-            LastUpdate: CDateTH(GetToday()),
+            StartDate: CDateEN($('#txtStartDate').val()),
+            FinishDate: CDateEN($('#txtFinishDate').val()),
+            LastUpdate: CDateEN(GetToday()),
         };
         if (obj.Code != "") {
             if (obj.TName == '') {

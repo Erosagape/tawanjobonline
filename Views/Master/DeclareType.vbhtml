@@ -114,9 +114,9 @@ End Code
             Type: $('#txtType').val(),
             Description: $('#txtDescription').val(),
             Category: $('#txtCategory').val(),
-            StartDate: CDateTH($('#txtStartDate').val()),
-            FinishDate: CDateTH($('#txtFinishDate').val()),
-            LastUpdate: CDateTH(GetToday()),
+            StartDate: CDateEN($('#txtStartDate').val()),
+            FinishDate: CDateEN($('#txtFinishDate').val()),
+            LastUpdate: CDateEN(GetToday()),
         };
         if (obj.Type != "") {
             if (obj.Description == '') {

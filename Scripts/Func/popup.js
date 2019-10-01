@@ -16,7 +16,9 @@ function CheckSession(ev) {
                 }
             });
         } else {
-            ev();
+            if (ev !== null) {
+                ev();
+            }
         }
     });
 }

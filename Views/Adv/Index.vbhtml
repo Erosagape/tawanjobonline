@@ -870,7 +870,7 @@ End Code
         let dt = {
             BranchCode : $('#txtBranchCode').val(),
             AdvNo : $('#txtAdvNo').val(),
-            AdvDate : CDateTH($('#txtAdvDate').val()),
+            AdvDate : CDateEN($('#txtAdvDate').val()),
             EmpCode : $('#txtReqBy').val(),
             AdvBy : $('#txtAdvBy').val(),
             CustCode : $('#txtCustCode').val(),
@@ -881,16 +881,16 @@ End Code
 
             CancelProve : $('#txtCancelProve').val(),
             CancelReson : $('#txtCancelReson').val(),
-            CancelDate : CDateTH($('#txtCancelDate').val()),
+            CancelDate : CDateEN($('#txtCancelDate').val()),
             CancelTime : $('#txtCancelTime').val(),
 
             PaymentBy : $('#txtPaymentBy').val(),
-            PaymentDate : CDateTH($('#txtPaymentDate').val()),
+            PaymentDate : CDateEN($('#txtPaymentDate').val()),
             PaymentTime : $('#txtPaymentTime').val(),
             PaymentRef : $('#txtPaymentRef').val(),
 
             ApproveBy : $('#txtApproveBy').val(),
-            ApproveDate : CDateTH($('#txtApproveDate').val()),
+            ApproveDate : CDateEN($('#txtApproveDate').val()),
             ApproveTime : $('#txtApproveTime').val(),
 
             AdvCash : CNum($('#txtAdvCash').val()),
@@ -1800,7 +1800,7 @@ End Code
                     DocNo:docno,
                     ItemNo:i,
                     IncType:14,
-                    PayDate:CDateTH($('#txtAdvDate').val()),
+                    PayDate:CDateEN($('#txtAdvDate').val()),
                     PayAmount:d.AdvAmount,
                     PayTax:d.Charge50Tavi,
                     PayTaxDesc:d.SDescription,
@@ -1837,7 +1837,7 @@ End Code
         let obj = {
             BranchCode: $('#txtBranchCode').val(),
             DocNo: '',
-            DocDate: CDateTH($('#txtAdvDate').val()),
+            DocDate: CDateEN($('#txtAdvDate').val()),
             TaxNumber1: dt.TaxNumber,
             TName1: dt.NameThai,
             TAddress1: dt.TAddress1 + ' ' +dt.TAddress2,
@@ -1868,7 +1868,7 @@ End Code
             CancelProve: '',
             CancelReason: '',
             CancelDate: null,
-            LastUpdate: CDateTH(GetToday()),
+            LastUpdate: CDateEN(GetToday()),
             TeacherAmt: 0,
             Branch1: '',
             Branch2: '',

@@ -128,8 +128,8 @@ End Code
             PortCode: $('#txtPortCode').val(),
             PortName:$('#txtPortName').val(),
             CountryCode:$('#txtCountryCode').val(),
-            StartDate:CDateTH($('#txtStartDate').val()),
-            FinishDate:CDateTH($('#txtFinishDate').val()),
+            StartDate:CDateEN($('#txtStartDate').val()),
+            FinishDate:CDateEN($('#txtFinishDate').val()),
         };
         if (obj.PortCode !== "") {
             if (obj.CountryCode === "") {

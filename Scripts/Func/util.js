@@ -129,7 +129,11 @@ function CDateEN(sqldateString) {
         if (year < '1901') {
             return '';
         }
-        let date = year + "-" + month + "-" + day;
+        let yy = Number(year);
+        if (yy > 2500) {
+            yy = Number(year) - 543;
+        }
+        let date = yy + "-" + month + "-" + day;
         return date;
     }
     catch (e) {
