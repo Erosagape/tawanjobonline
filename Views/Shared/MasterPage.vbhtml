@@ -133,17 +133,17 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-6">
-                            <button id="mnuMasA1" class="btn btn-default btn-block" onclick="OpenMenu('customers')">ผู้นำเข้าส่งออก</button>
-                            <button id="mnuMasA2" class="btn btn-default btn-block" onclick="OpenMenu('venders')">ผู้ให้บริการ</button>
-                            <button id="mnuMasA3" class="btn btn-default btn-block" onclick="OpenMenu('ServUnit')">หน่วยบริการ</button>
-                            <button id="mnuMasA4" class="btn btn-default btn-block" onclick="OpenMenu('Bank')">ธนาคาร</button>
+                            <button id="mnuMasA1" class="btn btn-default btn-block" onclick="OpenMenu('customers')">- Customers</button>
+                            <button id="mnuMasA2" class="btn btn-default btn-block" onclick="OpenMenu('venders')">- Venders</button>
+                            <button id="mnuMasA3" class="btn btn-default btn-block" onclick="OpenMenu('ServUnit')">- Service Units</button>
+                            <button id="mnuMasA4" class="btn btn-default btn-block" onclick="OpenMenu('Bank')">- Bank</button>
                         </div>
                         <div class="col-sm-6">
-                            <button id="mnuMasA5" class="btn btn-default btn-block" onclick="OpenMenu('BookAccount')">สมุดบัญชีธนาคาร</button>
-                            <button id="mnuMasA6" class="btn btn-default btn-block" onclick="OpenMenu('ServiceGroup')">กลุ่มค่าบริการ</button>
-                            <button id="mnuMasA7" class="btn btn-default btn-block" onclick="OpenMenu('ServiceCode')">รหัสค่าบริการ</button>
-                            <button id="mnuMasA8" class="btn btn-default btn-block" onclick="OpenMenu('BudgetPolicy')">มาตรฐานค่าบริการ</button>
-                            <button id="mnuMasA9" class="btn btn-default btn-block" onclick="OpenMenu('AccountCode')">รหัสบัญชี</button>
+                            <button id="mnuMasA5" class="btn btn-default btn-block" onclick="OpenMenu('BookAccount')">- Bank Accounts</button>
+                            <button id="mnuMasA6" class="btn btn-default btn-block" onclick="OpenMenu('ServiceGroup')">- Service Groups</button>
+                            <button id="mnuMasA7" class="btn btn-default btn-block" onclick="OpenMenu('ServiceCode')">- Service Code</button>
+                            <button id="mnuMasA8" class="btn btn-default btn-block" onclick="OpenMenu('BudgetPolicy')">- Service Policy</button>
+                            <button id="mnuMasA9" class="btn btn-default btn-block" onclick="OpenMenu('AccountCode')">- Account Code</button>
                         </div>
                     </div>
                 </div>
@@ -164,13 +164,13 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-6">
-                            <button id="mnuMasS1" class="btn btn-default btn-block" onclick="OpenMenu('Constant')">ค่าคงที่ระบบ</button>
-                            <button id="mnuMasS2" class="btn btn-default btn-block" onclick="OpenMenu('users');">ผู้ใช้งาน</button>
-                            <button id="mnuMasS3" class="btn btn-default btn-block" onclick="OpenMenu('UserAuth');">กำหนดสิทธิ์ผู้ใช้งาน</button>
+                            <button id="mnuMasS1" class="btn btn-default btn-block" onclick="OpenMenu('Constant')">- System Variables</button>
+                            <button id="mnuMasS2" class="btn btn-default btn-block" onclick="OpenMenu('users');">- System User</button>
+                            <button id="mnuMasS3" class="btn btn-default btn-block" onclick="OpenMenu('UserAuth');">- User Authorize</button>
                         </div>
                         <div class="col-sm-6">
-                            <button id="mnuMasS4" class="btn btn-default btn-block" onclick="OpenMenu('Branch')">สาขา</button>
-                            <button id="mnuMasS5" class="btn btn-default btn-block" onclick="OpenMenu('Role')">กลุ่มผู้ใช้งาน</button>
+                            <button id="mnuMasS4" class="btn btn-default btn-block" onclick="OpenMenu('Branch')">- Branch</button>
+                            <button id="mnuMasS5" class="btn btn-default btn-block" onclick="OpenMenu('Role')">- User Role</button>
                         </div>
                     </div>
 
@@ -192,16 +192,16 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-6">
-                            <button id="mnuMasG1" class="btn btn-default btn-block" onclick="OpenMenu('Currency')">สกุลเงิน</button>
-                            <button id="mnuMasG2" class="btn btn-default btn-block" onclick="OpenMenu('Country')">ประเทศ</button>
-                            <button id="mnuMasG3" class="btn btn-default btn-block" onclick="OpenMenu('InterPort')">ท่าต่างประเทศ</button>
-                            <button id="mnuMasG4" class="btn btn-default btn-block" onclick="OpenMenu('vessel')">ชื่อพาหนะ</button>
+                            <button id="mnuMasG1" class="btn btn-default btn-block" onclick="OpenMenu('Currency')">- Currency</button>
+                            <button id="mnuMasG2" class="btn btn-default btn-block" onclick="OpenMenu('Country')">- Country</button>
+                            <button id="mnuMasG3" class="btn btn-default btn-block" onclick="OpenMenu('InterPort')">- Inter Ports</button>
+                            <button id="mnuMasG4" class="btn btn-default btn-block" onclick="OpenMenu('vessel')">- Vessel/Vehicles/Flight</button>
                         </div>
                         <div class="col-sm-6">
-                            <button id="mnuMasG8" class="btn btn-default btn-block" onclick="OpenMenu('Province')">จังหวัด/ตำบล/อำเภอ</button>
-                            <button id="mnuMasG5" class="btn btn-default btn-block" onclick="OpenMenu('DeclareType')">ประเภทใบขน</button>
-                            <button id="mnuMasG6" class="btn btn-default btn-block" onclick="OpenMenu('CustomsPort')">ท่าตรวจปล่อย</button>
-                            <button id="mnuMasG7" class="btn btn-default btn-block" onclick="OpenMenu('CustomsUnit')">หน่วยสินค้า</button>
+                            <button id="mnuMasG8" class="btn btn-default btn-block" onclick="OpenMenu('Province')">- Province</button>
+                            <button id="mnuMasG5" class="btn btn-default btn-block" onclick="OpenMenu('DeclareType')">- Declare Type</button>
+                            <button id="mnuMasG6" class="btn btn-default btn-block" onclick="OpenMenu('CustomsPort')">- Customs Port</button>
+                            <button id="mnuMasG7" class="btn btn-default btn-block" onclick="OpenMenu('CustomsUnit')">- Product Units</button>
                         </div>
                     </div>
                 </div>
@@ -330,6 +330,7 @@
             $('#imgCompany').attr('src','/Resource/@ViewBag.PROFILE_LOGO');
             $('#lblUserID').text('@ViewBag.UserName');
             $('#lblLicenseName').text('@ViewBag.LICENSE_NAME');
+            $('#cboLanguage').val('@ViewBag.PROFILE_DEFAULT_LANG');
         }
     }
     function SetLogout() {

@@ -112,10 +112,10 @@ End Code
                 <label for="chkIsUsedCoSlip">Used for Co-operation</label>
             </div>
         </div>
+        <input type="checkbox" id="chkCopyMode" /><b>Copy Mode</b>
         <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddData()">
             <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New</b>
         </a>
-        <input type="checkbox" id="chkCopyMode" /><b>Copy Mode</b>
         <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
             <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
         </a>
@@ -133,10 +133,15 @@ End Code
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let row = {}; //row pointer to current record show in buffer
+    let sicode = getQueryString("code");
     //$(document).ready(function () {
     SetEvents();
     SetEnterToTab();
-    AddData();
+    if (sicode !== '') {
+        SearchData(sicode);
+    } else {
+        AddData();
+    }
     //});
     function SetEnterToTab() {
         //Set enter to tab

@@ -43,7 +43,7 @@ End Code
                 <label class="radio-inline"><input type="radio" name="optWHT" value="2">Pay 50Tavi by Customer</label>
                 <br />
                 <input type="checkbox" id="chkIsApplyPolicy" />
-                <label for="chkIsShowPrice">Apply Policy To all Code</label>
+                <label for="chkIsApplyPolicy">Apply Policy To all Code</label>
             </div>
         </div>
         <div id="dvCommand">
@@ -215,6 +215,7 @@ End Code
         $('#chkIsCredit').prop('checked', false);
         $('#chkIsExpense').prop('checked', false);
         row = {};
+        $('#tbDetail').DataTable().clear().draw();
     }
     function DeleteData() {
         var code = $('#txtGroupCode').val();
@@ -260,7 +261,15 @@ End Code
                     { data: "NameThai", title: "Description (TH)" },
                     { data: "NameEng", title: "Description (EN)" }
                 ],
+                select:true,
                 destroy:true
+            });
+			$('#tbDetail tbody').on('click', 'tr', function () {
+                SetSelect('#tbDetail', this);
+            });
+            $('#tbDetail tbody').on('dblclick', 'tr', function () {
+                let dr = $('#tbDetail').DataTable().row(this).data(); //read current row selected
+                window.open(path + 'Master/ServiceCode?code=' + dr.SICode, '', '');
             });
         });
     }
@@ -289,7 +298,7 @@ End Code
         return dt;
     }
     function SaveData() {
-        var obj = GetDataSave();
+        var obj = GetDataSave();        
         if (obj.GroupCode == '') {
             ShowMessage('Please enter code');
             return;
@@ -298,6 +307,7 @@ End Code
             ShowMessage('Please enter name');
             return;
         }
+        row = obj;
         ShowConfirm("Do you need to " + (row.GroupCode == "" ? "Add" : "Save") + " this data?", function (ask) {
             if (ask == false) return;
             var jsonText = JSON.stringify({ data: obj });
@@ -311,6 +321,7 @@ End Code
                     if (response.result.data!=null) {
                         $('#txtGroupCode').val(response.result.data);
                         $('#txtGroupCode').focus();
+                        SearchData($('#txtGroupCode').val());
                     }
                     ShowMessage(response.result.msg);
                 },
@@ -322,7 +333,16 @@ End Code
     }
     function SaveDetail() {
         if (row_d !== null) {
-            row_d.GroupCode = $('#txtGroupCode').val();
+            row_d.GroupCode = row.GroupCode;
+            if (row.IsApplyPolicy==1) {
+                row_d.IsTaxCharge = row.IsTaxCharge;
+                row_d.Is50Tavi = row.Is50Tavi;
+                row_d.IsPay50TaviTo = $('input:radio[name=optWHT]:checked').val() == '2' ? 1 : 0;
+                row_d.IsLtdAdv50Tavi = $('input:radio[name=optWHT]:checked').val() == '1' ? 1 : 0;
+                row_d.IsHaveSlip = row.IsHaveSlip;
+                row_d.IsCredit = row.IsCredit;
+                row_d.IsExpense = row.IsExpense;
+            }
             ShowConfirm("Do you need to set " + (row_d.SICode) + " to this group?", function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: row_d });

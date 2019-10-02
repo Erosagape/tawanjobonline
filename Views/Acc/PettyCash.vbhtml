@@ -454,7 +454,7 @@ End Code
         }
         if (dt.payment.length > 0) {
             let data = dt.payment.filter(function (d) {
-                return d.PRType=$('#cboPRType').val() && d.CashAmount>0
+                return d.PRType==$('#cboPRType').val() && d.CashAmount>0
             });
             SetGridPayment(data);
         }
@@ -490,7 +490,7 @@ End Code
                 success: function (response) {
                     if (response.result.data != null) {
                         $('#txtControlNo').val(response.result.data);
-                        $('#txtControlNo').focus();
+                        LoadData();
                     }
                     ShowMessage(response.result.msg);
                 },
@@ -633,7 +633,7 @@ End Code
             $('#txtItemNo').val(dr.ItemNo);
             $('#txtPRVoucher').val(dr.PRVoucher);
             //$('#txtPRType').val(dr.PRType);
-            //$('#cboPRType').val(dr.PRType);
+            $('#cboPRTypeD').val(dr.PRType);
             //$('#txtChqNo').val(dr.ChqNo);
             $('#txtBankCode').val(dr.BankCode);
             $('#txtBookCode').val(dr.BookCode);
@@ -681,6 +681,7 @@ End Code
         $('#btnDelPay').attr('disabled', 'disabled');
     }
     function ClearPayment() {
+        $('#cboPRTypeD').val($('#cboPRType').val());
         $('#txtPRVoucher').val('');
         $('#txtItemNo').val('0');
         //$('#txtChqNo').val('');
@@ -775,6 +776,7 @@ End Code
             contentType: "application/json",
             data: jsonText,
             success: function (response) {
+                ShowMessage(response.result.msg);
                 LoadData();
             },
             error: function (e) {
@@ -789,6 +791,7 @@ End Code
         let branch = $('#txtBranchCode').val();
 
         $.get(path + 'acc/delvouchersub?branch=' + branch + '&code=' + code + '&item=' + itemno, function (r) {
+            LoadData();
             ShowMessage(r.voucher.result);
         });
     }
@@ -818,20 +821,17 @@ End Code
         let excrate = Number($('#txtExchangeRate').val());
         let totalamt = amtbase * excrate;
         $('#txtTotalAmt').val(CDbl(totalamt, 4));
-        //calculate for exclude vat/wht
-        totalamt = Number($('#txtTotalAmt').val());
-        let vatexc = Number($('#txtVatExc').val());
-        let whtexc = Number($('#txtWhtExc').val());
-        totalamt += vatexc;
-        totalamt -= whtexc;
-        $('#txtTotalNet').val(CDbl(totalamt, 4));
-
         //calculate base for included vat/wht
         let vatinc = Number($('#txtVatInc').val());
         let whtinc = Number($('#txtWhtInc').val());
         totalamt += whtinc;
         totalamt -= vatinc;
-        $('#txtTotalAmt').val(CDbl(totalamt, 4));
+        //calculate for exclude vat/wht
+        let vatexc = Number($('#txtVatExc').val());
+        let whtexc = Number($('#txtWhtExc').val());
+        totalamt += vatexc;
+        totalamt -= whtexc;
+        $('#txtTotalNet').val(CDbl(totalamt, 4));
     }
     function PrintData() {
         if (userRights.indexOf('P') < 0) {

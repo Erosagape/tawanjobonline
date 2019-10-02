@@ -1711,4 +1711,18 @@ dbo.Job_BillAcceptDetail AS d ON h.BranchCode = d.BranchCode
 "
         Return sql
     End Function
+    Function SQLUpdateServiceCode() As String
+        Return "
+UPDATE d
+SET d.IsTaxCharge=h.IsTaxCharge,
+d.Is50Tavi=h.Is50Tavi,
+d.IsHaveSlip=h.IsHaveSlip,
+d.IsCredit=h.IsCredit,
+d.IsExpense=h.IsExpense,
+d.IsCredit=h.IsCredit,
+d.IsLtdAdv50Tavi=h.IsLtdAdv50Tavi
+FROM Job_SrvGroup h INNER JOIN Job_SrvSingle d
+ON h.GroupCode=d.GroupCode
+"
+    End Function
 End Module

@@ -43,7 +43,7 @@ Public Class CController
                 Case "CurrRights"
                     Session(sName) = "*MIREDP"
                 Case "CurrentLang"
-                    Session(sName) = GetValueConfig("PROFILE", "DEFAULT_LANGUAGE", "EN")
+                    Session(sName) = GetValueConfig("PROFILE", "DEFAULT_LANGUAGE")
                 Case "CurrBranch"
                     Session(sName) = GetValueConfig("PROFILE", "DEFAULT_BRANCH")
                 Case "CurrBranchName"
@@ -63,11 +63,11 @@ Public Class CController
                 Case "CompanyAddr2"
                     Session(sName) = GetValueConfig("PROFILE", "COMPANY_ADDRESS2")
                 Case "Currency"
-                    Session(sName) = GetValueConfig("PROFILE", "CURRENCY", "THB")
+                    Session(sName) = GetValueConfig("PROFILE", "CURRENCY")
                 Case "VatRate"
-                    Session(sName) = GetValueConfig("PROFILE", "VATRATE", "0.07")
+                    Session(sName) = GetValueConfig("PROFILE", "VATRATE")
                 Case "CreditDays"
-                    Session(sName) = GetValueConfig("PROFILE", "PAYMENT_CREDIT_DAYS", "30")
+                    Session(sName) = GetValueConfig("PROFILE", "PAYMENT_CREDIT_DAYS")
                 Case "TaxNumber"
                     Session(sName) = GetValueConfig("PROFILE", "COMPANY_TAXNUMBER")
                 Case "TaxBranch"
@@ -103,8 +103,8 @@ Public Class CController
         ViewBag.CONNECTION_MAS = jobMasConn
         ViewBag.DATABASE = GetSession("DatabaseID").ToString
         ViewBag.LICENSE_NAME = GetSession("CurrLicense").ToString
-        ViewBag.PROFILE_DEFAULT_LANG = GetSession("CurrentLang").ToString()
         If jobWebConn <> "" Then
+            ViewBag.PROFILE_DEFAULT_LANG = GetSession("CurrentLang").ToString()
             ViewBag.PROFILE_DEFAULT_BRANCH = GetSession("CurrBranch").ToString
             ViewBag.PROFILE_DEFAULT_BRANCH_NAME = GetSession("CurrBranchName").ToString
             ViewBag.PROFILE_LOGO = GetSession("CompanyLogo").ToString
@@ -134,6 +134,7 @@ Public Class CController
             ViewBag.PROFILE_PAYMENT_CREDIT_DAYS = ""
             ViewBag.PROFILE_TAXNUMBER = ""
             ViewBag.PROFILE_TAXBRANCH = ""
+            ViewBag.PROFILE_DEFAULT_LANG = "EN"
         End If
         ViewBag.SESSION_ID = Session.SessionID
         Return Not bExpired

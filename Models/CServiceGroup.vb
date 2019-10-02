@@ -111,6 +111,22 @@ Public Class CServiceGroup
             m_IsLtdAdv50Tavi = value
         End Set
     End Property
+    Public Sub UpdateData()
+        Using cn As New SqlConnection(m_ConnStr)
+            Try
+                cn.Open()
+
+                Using cm As New SqlCommand(SQLUpdateServiceCode() & String.Format(" WHERE h.IsApplyPolicy=1 AND h.GroupCode='{0}'", Me.GroupCode), cn)
+                    cm.CommandTimeout = 0
+                    cm.CommandType = CommandType.Text
+                    cm.ExecuteNonQuery()
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceGroup", "UpdateData", cm.CommandText)
+                End Using
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceGroup", "UpdateData", ex.Message)
+            End Try
+        End Using
+    End Sub
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -136,6 +152,7 @@ Public Class CServiceGroup
                             dr("IsLtdAdv50Tavi") = Me.IsLtdAdv50Tavi
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
+                            If Me.IsApplyPolicy = 1 Then Me.UpdateData()
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceGroup", "SaveData", Me)
                             msg = "Save Complete"
                         End Using
