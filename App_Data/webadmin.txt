@@ -1,0 +1,148 @@
+﻿-----------------------------------------------------
+tawantechonline.com
+-----------------------------------------------------
+Hosting Control Panel : http://tawantechonline.com:8880 หรือ http://ns29.1baht.net:8880/
+User Name : tawantec
+Password : J4@r9q8q
+
+FTP Server : ftp.tawantechonline.com หรือ ns29.1baht.net
+User Name : tawantec
+Password : J4@r9q8q
+
+Name Server 1 : ns29.1baht.net
+Name Server 2 : ns30.1baht.net
+
+คู่มือการใช้งานเบื้องต้น http://www.login.in.th/knowledgebase.php?action=displaycat&catid=15
+โปรแกรม FileZilla FTP http://www.login.in.th/knowledgebase.php?action=displayarticle&id=8
+
+SQL SERVER 2014  INSTANCE
+.\SQLSERVER2014
+
+DB/USER: tawantec_jobmaster,tawantech_job_apl
+password: D04gm^k9 
+
+USER:tawantec_sa
+password: ucrC89I55y
+ 
+
+--------------------------------------
+tawanasp.com
+-------------------------------------
+Primary Name Server 
+Nameserver 1 : w01.metrabyte.cloud
+Nameserver 1 IP : 119.59.96.60
+ 
+Secondary Name Server 
+Nameserver 2 : w02.metrabyte.cloud 
+Nameserver 2 IP : 119.59.96.60
+ 
+Plesk Control Panel
+ 
+ท่านสามารถเข้าใช้งาน Plesk Control Panel เพื่อสร้าง Email Account / Database / Subdomain ได้ที่
+https://119.59.96.60:8443/ หรือ https://www.tawanasp.com:8443/
+Username: tawanasp
+Password: ucrC89I55y
+
+คู่มือการเข้าใช้งาน Plesk Control Panel
+https://www.metrabyte.cloud/hosting/knowledgebase.php
+ 
+FTP Server
+ 
+ท่านสามารถอัพโหลดเว็บไซต์ของท่านมาที่ server ด้วยโปรแกรม FTP Client ต่างๆ
+โดยใช้ค่าดังต่อไปนี้ในการล็อกอิน
+ 
+FTP Hostname: tawanasp.com หรือ 119.59.96.60
+FTP Username: tawanasp
+FTP Password: ucrC89I55y
+FTP Port : 21
+ 
+http://www.metrabyte.cloud/pro/FileZilla_3.9.0.6_win32-setup.exe
+
+โดยนำข้อมูลเว็บไซต์ไปไว้ในโฟลเดอร์สำหรับเว็บไซต์ : httpdocs
+ 
+คู่มือ การ Upload File ขึ้น Server ผ่าน FTP Client โดยใช้ โปรแกรม FileZilla
+http://www.metrabyte.cloud/hosting/knowledgebase/41/-FTP-File--Server--Program-Filezilla.html
+ 
+คู่มือ การ Upload File ขึ้น Server ผ่าน FTP Client โดยใช้ Windows Explore
+http://www.metrabyte.cloud/hosting/knowledgebase/42/-FTP-File--Server--Browser.html
+ 
+ 
+Email Settings
+ 
+ท่านสามารถสร้าง email account ได้ผ่านทาง Plesk Control Panel
+เช็คอีเมล์ผ่านทางเว็บ (web mail) คือ
+http://webmail.tawanasp.com
+ 
+คู่มือการสร้าง Email Account
+http://www.metrabyte.cloud/hosting/knowledgebase/20/-Email-Account.html
+ 
+การตั้งค่ารับและส่งอีเมล์ เพื่อเช็คอีเมล์ผ่านทาง Outlook
+
+Incoming Mail Server (POP3) : mail.tawanasp.com
+Outgoing Mail Server (SMTP) : mail.tawanasp.com
+Username (ต้องตามด้วย @tawanasp.com ) และ Password ตามที่สร้างขึ้นผ่านทาง Direct Admin Control Panel
+
+SQLSERVER 2016 INSTANCE
+
+.\MSSQLSERVER2016
+
+user : tawantech
+password : ucrC89I55y
+
+------------------------------------------
+tawanccs.com
+------------------------------------------
+
+Primary Name Server
+Nameserver 1 : ns117.hostinglotus.net
+Nameserver 1 IP : 119.59.104.44
+ 
+Secondary Name Server
+Nameserver 2 : ns118.hostinglotus.net
+Nameserver 2 IP : 119.59.104.44
+ 
+Direct Admin Control Panel
+ 
+ท่านสามารถเข้าใช้งาน Direct Admin Control Panel เพื่อสร้าง Email Account / Database / Subdomain ได้ที่
+https://119.59.104.44:2222/ หรือ https://www.tawanccs.com:2222/
+Username: tawanccs
+Password: 34qCa14Gtl
+
+คู่มือการเข้าใช้งาน Direct Admin Control Panel
+http://www.hostinglotus.com/hosting/knowledgebase/6/Contol-Panel-DirectAdmin
+ 
+FTP Server
+ 
+ท่านสามารถอัพโหลดเว็บไซต์ของท่านมาที่ server ด้วยโปรแกรม FTP Client ต่างๆ
+โดยใช้ค่าดังต่อไปนี้ในการล็อกอิน
+ 
+FTP Hostname: tawanccs.com หรือ 119.59.104.44
+FTP Username: tawanccs
+FTP Password: 34qCa14Gtl
+FTP Port : 2002
+ 
+http://www.hostinglotus.com/t3e/FileZilla_3.9.0.6_win32-setup.exe
+
+โดยนำข้อมูลเว็บไซต์ไปไว้ในโฟลเดอร์สำหรับเว็บไซต์ : public_html
+ 
+คู่มือ การ Upload File ขึ้น Server ผ่าน FTP Client โดยใช้ โปรแกรม FileZilla
+http://www.hostinglotus.com/hosting/knowledgebase/41/-FTP-File--Server--Program-Filezilla.html
+ 
+คู่มือ การ Upload File ขึ้น Server ผ่าน FTP Client โดยใช้ Windows Explore
+http://www.hostinglotus.com/hosting/knowledgebase/42/-FTP-File--Server--Browser.html
+ 
+ 
+Email Settings
+ 
+ท่านสามารถสร้าง email account ได้ผ่านทาง Direct Admin Control Panel
+เช็คอีเมล์ผ่านทางเว็บ (web mail) คือ
+http://www.tawanccs.com/webmail
+ 
+คู่มือการสร้าง Email Account
+http://www.hostinglotus.com/hosting/knowledgebase/20/-Email-Account.html
+ 
+การตั้งค่ารับและส่งอีเมล์ เพื่อเช็คอีเมล์ผ่านทาง Outlook
+
+Incoming Mail Server (POP3) : mail.tawanccs.com
+Outgoing Mail Server (SMTP) : mail.tawanccs.com
+Username (ต้องตามด้วย @tawanccs.com ) และ Password ตามที่สร้างขึ้นผ่านทาง Direct Admin Control Panel

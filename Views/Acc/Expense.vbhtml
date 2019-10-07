@@ -450,7 +450,7 @@ End Code
             ShowMessage('you are not authorize to view data');
             return;
         }
-        $.get(path + 'acc/getpayment?branch'+branchcode+'&code='+ docno, function (r) {
+        $.get(path + 'acc/getpayment?branch='+branchcode+'&code='+ docno, function (r) {
             let h = r.payment.header[0];
             ReadPaymentHeader(h);
             let d = r.payment.detail;

@@ -277,7 +277,7 @@
         $('#cboLanguage').val(userLang);
         ChangeLanguage(userLang, $('#lblModule').text());
     }
-    SetEvents();
+    CheckLogin();
 
     function SetEvents() {
         $('#dvLogin').on('shown.bs.modal', function () {
@@ -293,7 +293,7 @@
                 SetVariable();
             }
         });
-        CheckLogin();
+
     }
     function GetDatabaseID() {
         let dbName = '@ViewBag.LICENSE_NAME';
@@ -331,6 +331,7 @@
             $('#lblUserID').text('@ViewBag.UserName');
             $('#lblLicenseName').text('@ViewBag.LICENSE_NAME');
             $('#cboLanguage').val('@ViewBag.PROFILE_DEFAULT_LANG');
+            SetEvents();
         }
     }
     function SetLogout() {

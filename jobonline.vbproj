@@ -37,7 +37,7 @@
     <OutputPath>bin\</OutputPath>
     <DocumentationFile>jobonline.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -256,6 +256,7 @@
     <Content Include="App_Data\script_database_mas.sql" />
     <Content Include="App_Data\script_database_weblicense.sql" />
     <Content Include="App_Data\SQL_Delete_Data.sql" />
+    <Content Include="App_Data\webadmin.txt" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -444,6 +445,8 @@
     <Content Include="Content\DataTables\css\common.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\semanticui.scss" />
+    <Content Include="App_Data\คู่มือ jobonline - การตั้งค่าข้อมูลมาตรฐานเริ่มต้นระบบฃ.pdf" />
+    <Content Include="App_Data\คู่มือ jobonline - เปิด job งาน.pdf" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -772,12 +775,26 @@
     <Content Include="Web-APL.Release.config">
       <DependentUpon>Web-APL.config</DependentUpon>
     </Content>
-    <Content Include="Web-DEMO_TAWAN.config" />
-    <Content Include="Web-DEMO_TAWAN.Debug.config">
-      <DependentUpon>Web-DEMO_TAWAN.config</DependentUpon>
+    <Content Include="Web-APL_TAWAN.config" />
+    <Content Include="Web-APL_TAWAN.Debug.config">
+      <DependentUpon>Web-APL_TAWAN.config</DependentUpon>
     </Content>
-    <Content Include="Web-DEMO_TAWAN.Release.config">
-      <DependentUpon>Web-DEMO_TAWAN.config</DependentUpon>
+    <Content Include="Web-APL_TAWAN.Release.config">
+      <DependentUpon>Web-APL_TAWAN.config</DependentUpon>
+    </Content>
+    <Content Include="Web-PGM.config" />
+    <Content Include="Web-PGM.Debug.config">
+      <DependentUpon>Web-PGM.config</DependentUpon>
+    </Content>
+    <Content Include="Web-PGM.Release.config">
+      <DependentUpon>Web-PGM.config</DependentUpon>
+    </Content>
+    <Content Include="Web-DEMO_TAWAN - Copy.config" />
+    <Content Include="Web-DEMO_TAWAN - Copy.Debug.config">
+      <DependentUpon>Web-DEMO_TAWAN - Copy.config</DependentUpon>
+    </Content>
+    <Content Include="Web-DEMO_TAWAN - Copy.Release.config">
+      <DependentUpon>Web-DEMO_TAWAN - Copy.config</DependentUpon>
     </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -785,13 +802,6 @@
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web-APL_TAWAN.config" />
-    <Content Include="Web-APL_TAWAN.Debug.config">
-      <DependentUpon>Web-APL_TAWAN.config</DependentUpon>
-    </Content>
-    <Content Include="Web-APL_TAWAN.Release.config">
-      <DependentUpon>Web-APL_TAWAN.config</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>
