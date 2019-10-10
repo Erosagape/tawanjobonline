@@ -39,7 +39,7 @@ End Code
                 <li><a data-toggle="tab" href="#tabtracking">Job Document Tracking</a></li>
                 <li><a data-toggle="tab" href="#tabremark">Other Controls</a></li>
             </ul>
-            <div class="tab-content">
+            <div class="tab-content">   
                 <div id="tabinfo" class="tab-pane fade in active">
                     <div class="row">
                         <div class="col-md-8">
@@ -128,7 +128,7 @@ End Code
                     <div class="row">
                         <div class="col-md-5">
                             <label for="txtCustInvNo">Cust.Invoice No :</label>
-                            <input type="text" id="txtCustInvNo" style="width:200px" tabindex="13" disabled />
+                            <input type="text" id="txtCustInvNo" style="width:200px" tabindex="13" />
                             <br />
                             <label for="txtInvProduct">Products :</label>
                             <input type="text" id="txtInvProduct" style="width:200px" tabindex="14" />
@@ -1321,4 +1321,6 @@ End Code
         $('#txtTotalCTN').val($('#txtTotalCon').val());
         $('#frmContainerEdit').modal('hide');
     }
+
+
 </script>

@@ -350,27 +350,35 @@ End Code
                     for (let i = 0; i < d.length; i++) {
                         let incType = CNum(d[i].IncType);
                         if (incType > 0 && incType <= 14) {
-                            $('#txtPayDate'+incType).text(ShowDate(CDateTH(d[i].PayDate)));
+                            let oldData = $('#txtPayDate' + incType).html();
+                            if (oldData !== '') oldData += '<br/>';
+                            oldData += ShowDate(CDateTH(d[i].PayDate));
+                            $('#txtPayDate'+incType).html(oldData);
 
-                            let amt=Number($('#txtPayAmount'+incType).text());
-                            let tax=Number($('#txtPayTax'+incType).text());
-
-                            amt += Number(d[i].PayAmount);
-                            tax += Number(d[i].PayTax);
+                            let amt=Number(d[i].PayAmount);
+                            let tax=Number(d[i].PayTax);
 
                             totalamt += Number(d[i].PayAmount);
                             totaltax += Number(d[i].PayTax);
 
-                            $('#txtPayAmount' + incType).text(CDbl(amt,2));
-                            $('#txtPayTax' + incType).text(CDbl(tax,2));
+                            oldData = $('#txtPayAmount' + incType).html();
+                            if (oldData !== '') oldData += '<br/>';
+                            oldData += CCurrency(amt, 2);
+                            $('#txtPayAmount' + incType).html(oldData);
+
+                            oldData = $('#txtPayTax' + incType).html();
+                            if (oldData !== '') oldData += '<br/>';
+                            oldData += CCurrency(tax, 2);
+                            $('#txtPayTax' + incType).html(oldData);
 
                             switch (incType) {
                                 case 8:
                                 case 12:
                                 case 14:
-                                    $('#txtPayDesc' + incType).text(d[0].PayTaxDesc);
-                                    $('#txtPayDesc' + incType).text(d[0].PayTaxDesc);
-                                    $('#txtPayDesc' + incType).text(d[0].PayTaxDesc);
+                                    oldData = $('#txtPayDesc' + incType).html();
+                                    if (oldData !== '') oldData += '<br/>';
+                                    oldData += d[i].PayTaxDesc;
+                                    $('#txtPayDesc' + incType).html(d[i].PayTaxDesc);
                                     break;
                                 default:
                                     break;

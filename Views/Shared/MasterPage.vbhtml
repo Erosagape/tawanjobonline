@@ -108,9 +108,9 @@
                 Master Files
             </div>
             <div id="mnuMas" class="w3-hide w3-sand w3-card-4">
-                <a href="#" id="mnuMas3" class="w3-bar-item w3-button" onclick="OpenMenu('MasS')">- System Files</a>
-                <a href="#" id="mnuMas1" class="w3-bar-item w3-button" onclick="OpenMenu('MasG')">- Customs File</a>
                 <a href="#" id="mnuMas2" class="w3-bar-item w3-button" onclick="OpenMenu('MasA')">- Accounts File</a>
+                <a href="#" id="mnuMas1" class="w3-bar-item w3-button" onclick="OpenMenu('MasG')">- Customs File</a>
+                <a href="#" id="mnuMas3" class="w3-bar-item w3-button" onclick="OpenMenu('MasS')">- System Files</a>
             </div>
             <div id="mainUtil" class="w3-bar-item w3-button" onclick="w3_accordion('mnuUtil')">
                 Utility
@@ -255,7 +255,7 @@
                     </div>
                     <div class="modal-body">
                         Database : <select class="form-control dropdown" id="cboDatabase"></select>
-                        User ID : <input type="text" class="form-control" id="txtUserLogin" />
+                                   <a onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
                         Password : <input type="password" class="form-control" id="txtUserPassword" />
                     </div>
                     <div class="modal-footer">
@@ -278,7 +278,13 @@
         ChangeLanguage(userLang, $('#lblModule').text());
     }
     CheckLogin();
-
+    function ForceLogout() {
+        $.get('/config/setlogout?code=' + $('#txtUserLogin').val()).done(function (r) {
+            if (r == "Y") {
+                ShowMessage('Logout complete!');
+            }
+        });
+    }
     function SetEvents() {
         $('#dvLogin').on('shown.bs.modal', function () {
             $('#txtUserLogin').focus();

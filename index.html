@@ -46,7 +46,7 @@
                         </div>
                         <div class="modal-body">
                             Database : <select class="form-control dropdown" id="txtDatabaseID"></select>
-                            User ID : <input type="text" class="form-control" id="txtUserID" />
+                            <a onclick="ForceLogout()">User ID :</a><input type="text" class="form-control" id="txtUserID" />
                             Password : <input type="password" class="form-control" id="txtPassword" />
                         </div>
                         <div class="modal-footer">
@@ -83,6 +83,13 @@
         SetEvents();
         $('#txtUserID').focus();
         //});
+        function ForceLogout() {
+        $.get('/config/setlogout?code=' + $('#txtUserID').val()).done(function (r) {
+            if (r == "Y") {
+                ShowMessage('Logout complete!');
+            }
+        });
+    
         function SetEvents() {
             $('#dvLogin').on('shown.bs.modal', function () {
                 $('#txtUserID').focus();

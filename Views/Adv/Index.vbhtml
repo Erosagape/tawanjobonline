@@ -495,6 +495,18 @@ End Code
             });
         });
     }
+    function CalPayment(id) {
+        let val = GetTotal();
+        if (val < 0) {
+            ShowMessage('Total not Balance,Please check');
+            $('#txtAdv' + id.substr(3)).val(0);
+            $('#txtAdv' + id.substr(3)).attr('disabled', 'disabled');
+            $('#chk' + id.substr(3)).checked = false;
+            return;
+        }
+        $('#txtAdv' + id.substr(3)).val(val);
+        $('#txtAdv' + id.substr(3)).removeAttr('disabled');
+    }
     function SetEvents() {        
         if (userRights.indexOf('I') < 0) $('#btnNew').attr('disabled', 'disabled');
         if (userRights.indexOf('I') < 0) $('#btnAdd').attr('disabled', 'disabled');
@@ -513,7 +525,7 @@ End Code
 
                 $('#txtSICode').attr('disabled', 'disabled');
                 $('#txtSDescription').attr('disabled', 'disabled');
-                $('#chkDuplicate').prop('checked', true);
+                $('#chkDuplicate').prop('checked', false);
                 return;
             }
             $('#chkDuplicate').prop('checked', false);
@@ -528,16 +540,7 @@ End Code
                 $('#txtAdv' + id.substr(3)).attr('disabled', 'disabled');
                 return;
             }
-            let val = GetTotal();
-            if (val < 0) {
-                ShowMessage('Total not Balance,Please check');
-                $('#txtAdv' + id.substr(3)).val(0);
-                $('#txtAdv' + id.substr(3)).attr('disabled', 'disabled');
-                this.checked = false;
-                return;
-            }
-            $('#txtAdv' + id.substr(3)).val(val);
-            $('#txtAdv' + id.substr(3)).removeAttr('disabled');
+            CalPayment(this.id);
             return;
         });
         $('#txtAdvCash,#txtAdvChq,#txtAdvChqCash,#txtAdvCred').keydown(function (e) {
@@ -822,7 +825,8 @@ End Code
             if (Number($('#txtTotalAmount').val())!==Number(SumTotal())) {
                 if (Number($('#txtTotalAmount').val()) > 0) {
                     if (Number(SumTotal()) == 0) {
-                        $('#chkCash').checked = true;
+                        ShowMessage('Please select type of advance payment');
+                        return;
                     } else {
                         ShowMessage('Total not balance,Please check on payment total');
                         return;
@@ -1379,7 +1383,7 @@ End Code
         $('#txtItemNo').val('0');
         $('#txtSICode').val('');
         $('#cboSTCode').val('');
-        $('#chkDuplicate').prop('checked', true);
+        $('#chkDuplicate').prop('checked', false);
         if (isjobmode == false) {
             $('#txtForJNo').val('');
             $('#txtInvNo').val('');
@@ -1405,7 +1409,7 @@ End Code
         $('#txtDetCurrency').val($('#txtMainCurrency').val());
         $('#txtVenCode').val('');
 
-        $('#chkDuplicate').prop('checked', true);
+        $('#chkDuplicate').prop('checked', false);
         $('#txtAMT').removeAttr('disabled');
         $('#txtVATRate').removeAttr('disabled');
         $('#txtWHTRate').removeAttr('disabled');

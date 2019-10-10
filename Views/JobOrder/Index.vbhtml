@@ -51,7 +51,7 @@ End Code
                         <th class="all">Inv.Customer</th>
                         <th class="desktop">Customer</th>
                         <th>DeclareNo</th>
-                        <th class="desktop">Commodity</th>
+                        <th class="desktop">Po/Ref</th>
                     </tr>
                 </thead>
             </table>
@@ -138,7 +138,7 @@ End Code
                     { "data": "InvNo", "title": "Customer Inv." },
                     { "data": "CustTName", "title": "Customer" },
                     { "data": "DeclareNumber", "title": "Declare No." },
-                    { "data": "InvProduct", "title": "Commodity" }
+                    { "data": "CustRefNO", "title": "Cust.Ref" }
                 ]
             });
             $('#tblJob tbody').on('click', 'tr', function () {

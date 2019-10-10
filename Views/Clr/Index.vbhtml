@@ -258,7 +258,7 @@ End Code
                             <label for="txtItemNo">No :</label>
                             <input type="text" id="txtItemNo" style="width:40px" disabled />
                             <select id="cboSTCode" class="dropdown"></select>
-                            <input type="checkbox" id="chkDuplicate" disabled />
+                            <input type="checkbox" id="chkDuplicate" onchange="ToggleClearBtn()"/>
                             <label for="chkDuplicate">Partial Clear</label>
                             <br />
                             <label for="txtSICode">Code :</label>
@@ -331,7 +331,7 @@ End Code
                         </div>
                         <div class="modal-footer">
                             <div style="float:left">
-                                <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddDetail()">
+                                <a href="#" class="btn btn-default w3-purple" id="btnAddD" onclick="ClearDetail()">
                                     <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New</b>
                                 </a>
                                 <a href="#" class="btn btn-success" id="btnUpdate" onclick="SaveDetail()">
@@ -458,6 +458,17 @@ End Code
         SetEnterToTab();
         CheckParam();
     //});
+    function ToggleClearBtn() {
+        if ($('#txtAdvNo').val() == '') {
+            $('#btnAddD').show();
+        } else {
+            if ($('#chkDuplicate').prop('checked') == false) {
+                $('#btnAddD').show();
+            } else {
+                $('#btnAddD').hide();
+            }
+        }
+    }
     function CheckParam() {
         ClearHeader();
         //read query string parameters
@@ -478,7 +489,6 @@ End Code
                     CallBackQueryJob(path, $('#txtBranchCode').val(), job, LoadJob);
                 }
             }
-
         } else {
             $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
             $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
@@ -981,6 +991,7 @@ End Code
         });
     }
     function AddDetail() {
+        $('#chkDuplicate').prop('checked', false);
         ClearDetail();
         $.get(path + 'clr/getnewcleardetail?branchcode=' + $('#txtBranchCode').val() + '&clrno=' + $('#txtClrNo').val(), function (r) {
             let d = r.clr.detail[0];
@@ -1336,18 +1347,19 @@ End Code
         ShowCurrency(path, $('#txtSubCurrency').val(), '#txtCurrencyName');
         ShowCaption();
         $('#txtVenCode').val('');
-        $('#txtAdvNo').val('');
-        $('#txtAdvAmount').val('0');
-        $('#txtSlipNo').val('');
-        $('#txtAdvItemNo').val('0');
-
-        $('#chkDuplicate').prop('checked', false);
+        if ($('#chkDuplicate').prop('checked') == false) {
+            $('#txtAdvNo').val('');
+            $('#txtAdvAmount').val('0');
+            $('#txtAdvItemNo').val('0');
+        }
+        $('#txtSlipNo').val('');        
         $('#txtSlipNo').removeAttr('disabled');
         $('#txtAMT').removeAttr('disabled');
         $('#txtVATRate').removeAttr('disabled');
         $('#txtWHTRate').removeAttr('disabled');
         $('#txtVAT').removeAttr('disabled');
         $('#txtWHT').removeAttr('disabled');
+        $('#btnAddD').show();
     }
     function LoadService() {
         if (serv.length==0) {
@@ -1446,7 +1458,8 @@ End Code
                 SetGridServUnit(path, '#tbUnit', '#frmSearchUnit', ReadUnit);
                 break;
             case 'quotation':
-                let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val() + '&code=' + $('#txtSICode').val() + '&jtype=' + $('#txtJobType').val() + '&sby=' + $('#txtShipBy').val();
+                //let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val() + '&code=' + $('#txtSICode').val() + '&jtype=' + $('#txtJobType').val() + '&sby=' + $('#txtShipBy').val();
+                let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val() + '&jtype=' + $('#txtJobType').val() + '&sby=' + $('#txtShipBy').val();
                 SetGridQuotation(path, '#tbQuo', qry, '#frmSearchQuo', ReadQuotation);
                 break;
         }

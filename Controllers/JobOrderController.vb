@@ -963,6 +963,13 @@ Namespace Controllers
                     If data.JNo = "" Then
                         Return Content("{""msg"":""Please select JobNo""}", jsonContent)
                     End If
+                    Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
+                    Dim FindJob = New CJobOrder(jobWebConn).GetData(sql)
+                    If FindJob.Count > 0 Then
+                        If FindJob(0).JNo <> data.JNo Then
+                            Return Content("{""msg"":""invoice '" + data.InvNo + "' has been opened for job '" + FindJob(0).JNo + "' ""}", jsonContent)
+                        End If
+                    End If
                     Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetJobOrder", "Save", JsonConvert.SerializeObject(data))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
                     Return Content("{""msg"":""" & msg & """}", jsonContent)
