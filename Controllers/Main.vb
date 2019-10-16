@@ -630,6 +630,7 @@ left join (
   ah.CustCode,ah.CustBranch
   from Job_AdvHeader ah inner join Job_AdvDetail ad
   on ah.BranchCode=ad.BranchCode and ah.AdvNo=ad.AdvNo
+  where ah.DocStatus <>99
 ) a 
 on d.BranchCode=a.BranchCode and d.AdvNO=a.AdvNo and d.AdvItemNo=a.ItemNo
 left join (
@@ -661,6 +662,7 @@ left join (
   ah.CustCode,ah.CustBranch,ah.DocStatus
   from Job_AdvHeader ah inner join Job_AdvDetail ad
   on ah.BranchCode=ad.BranchCode and ah.AdvNo=ad.AdvNo
+  where ah.DocStatus<>99 
 ) a 
 on d.BranchCode=a.BranchCode and d.AdvNO=a.AdvNo and d.AdvItemNo=a.ItemNo
 left join (

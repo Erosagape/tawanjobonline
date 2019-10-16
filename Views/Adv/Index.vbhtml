@@ -1023,7 +1023,7 @@ End Code
                     $('#btnUpdate').removeAttr('disabled');
                 } else {
                     if (dt.DocStatus == 2) {
-                        $('#chkApprove').attr('disabled', 'disabled');
+                        //$('#chkApprove').attr('disabled', 'disabled');
                         $('#txtApproveDate').attr('disabled', 'disabled');
                         $('#txtApproveBy').attr('disabled', 'disabled');
                         $('#txtApproveTime').attr('disabled', 'disabled');

@@ -940,7 +940,7 @@ End Code
                     EnableSave(true);
                 } else {
                     if (dt.DocStatus == 2) {
-                        $('#chkApprove').attr('disabled', 'disabled');
+                        //$('#chkApprove').attr('disabled', 'disabled');
                         EnableSave(false);
                     }
                 }

@@ -584,8 +584,18 @@ End Code
                 { data: "CmpType", title: "For" },
                 { data: "CmpCode", title: "Customer" },
                 { data: "CmpBranch", title: "Branch" },
-                { data: "TotalAmount", title: "Doc.Total" },
-                { data: "PaidAmount", title: "Paid" }
+                {
+                    data: "TotalAmount", title: "Doc.Total",
+                    render: function (data) {
+                        return ShowNumber(data,2);
+                    }
+                },
+                {
+                    data: "PaidAmount", title: "Paid",
+                    render: function (data) {
+                        return ShowNumber(data,2);
+                    }
+                }
             ],
             responsive:true,
             destroy:true

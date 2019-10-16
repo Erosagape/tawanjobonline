@@ -147,6 +147,9 @@ Public Class CVoucherDoc
                             dr("acType") = Me.acType
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
+                            If Me.DocType = "PAY" Then
+
+                            End If
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVoucherDoc", "SaveData", Me)
                             msg = "Save Complete"
                         End Using
@@ -247,6 +250,9 @@ Public Class CVoucherDoc
     Public Function CancelData() As String
         Dim msg As String = "OK"
         Select Case Me.DocType
+            Case "PAY" 'Bill Payments
+                Dim sql = String.Format(" WHERE BranchCode='{0}' AND VenderBillingNo='{1}'", Me.BranchCode, Me.DocNo)
+                msg = New CUtil(jobWebConn).ExecuteSQL(" UPDATE Job_ClearDetail SET VenderBillingNo='*" & Me.DocNo & "' " & sql)
             Case "ADV" 'Advance Payments
                 Dim sql = String.Format(" WHERE BranchCode='{0}' AND AdvNo='{1}'", Me.BranchCode, Me.DocNo)
                 Dim tb = New CAdvHeader(jobWebConn).GetData(sql)

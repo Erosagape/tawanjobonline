@@ -385,10 +385,30 @@ End Code
                     { data: "ContactName", title: "Contact" },
                     { data: "RefNo", title: "Ref.No" },
                     { data: "PoNo", title: "PO.No" },
-                    { data: "TotalExpense", title: "Amount" },
-                    { data: "TotalVAT", title: "VAT" },
-                    { data: "TotalTax", title: "Tax" },
-                    { data: "TotalNet", title: "Net" }
+                    {
+                        data: "TotalExpense", title: "Amount",
+                    render: function (data) {
+                        return ShowNumber(data,2);
+                    }
+                    },
+                    {
+                        data: "TotalVAT", title: "VAT",
+                    render: function (data) {
+                        return ShowNumber(data,2);
+                    }
+                    },
+                    {
+                        data: "TotalTax", title: "Tax",
+                    render: function (data) {
+                        return ShowNumber(data,2);
+                    }
+                    },
+                    {
+                        data: "TotalNet", title: "Net",
+                    render: function (data) {
+                        return ShowNumber(data,2);
+                    }
+                    }
                 ],
                 responsive: true,
                 destroy:true
@@ -973,4 +993,5 @@ End Code
     function PrintVoucher(br, cno) {
         window.open(path + 'Acc/FormVoucher?branch=' + $('#txtBranchCode').val() + '&controlno=' + $('#txtControlNo').val());
     }
+
 </script>

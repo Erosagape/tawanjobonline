@@ -389,11 +389,36 @@ End Code
                     { data: "ItemNo", title: "No" },
                     { data: "SICode", title: "Adv.Code" },
                     { data: "SDescription", title: "Adv.Expenses" },
-                    { data: "AdvNet", title: "Adv Total" },
-                    { data: "ClrNet", title: "Clear" },
-                    { data: "ClrVat", title: "VAT" },
-                    { data: "Clr50Tavi", title: "WT" },
-                    { data: "ClrBal", title: "Balance" }
+                    {
+                        data: "AdvNet", title: "Adv Total",
+                        render: function (data) {
+                            return ShowNumber(data,2);
+                        }
+                    },
+                    {
+                        data: "ClrNet", title: "Clear",
+                        render: function (data) {
+                            return ShowNumber(data,2);
+                        }
+                    },
+                    {
+                        data: "ClrVat", title: "VAT",
+                        render: function (data) {
+                            return ShowNumber(data,2);
+                        }
+                    },
+                    {
+                        data: "Clr50Tavi", title: "WT",
+                        render: function (data) {
+                            return ShowNumber(data,2);
+                        }
+                    },
+                    {
+                        data: "ClrBal", title: "Balance",
+                        render: function (data) {
+                            return ShowNumber(data,2);
+                        }
+                    }
                 ],
                 responsive: true,
                 destroy:true
@@ -498,8 +523,18 @@ End Code
                 { data: "CmpType", title: "For" },
                 { data: "CmpCode", title: "Customer" },
                 { data: "CmpBranch", title: "Branch" },
-                { data: "TotalAmount", title: "Doc.Total" },
-                { data: "PaidAmount", title: "Paid" }
+                {
+                    data: "TotalAmount", title: "Doc.Total",
+                    render: function (data) {
+                        return CCurrency(data);
+                    }
+                },
+                {
+                    data: "PaidAmount", title: "Paid",
+                    render: function (data) {
+                        return CCurrency(data);
+                    }
+                }
             ],
             responsive:true,
             destroy:true
