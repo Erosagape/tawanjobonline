@@ -119,10 +119,10 @@ Namespace Controllers
                     If "" & data.BranchCode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
                     End If
+                    data.SetConnect(jobWebConn)
                     If "" & data.DocNo = "" Then
                         data.AddNew(payPrefix & Now.ToString("yyMM") & "-____")
                     End If
-                    data.SetConnect(jobWebConn)
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' ", data.BranchCode, data.DocNo))
                     Dim json = "{""result"":{""data"":""" & data.DocNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)

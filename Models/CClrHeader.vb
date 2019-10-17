@@ -84,12 +84,12 @@ Public Class CClrHeader
             m_JobType = value
         End Set
     End Property
-    Private m_JNo As Date
-    Public Property JNo As Date
+    Private m_JNo As String
+    Public Property JNo As String
         Get
             Return m_JNo
         End Get
-        Set(value As Date)
+        Set(value As String)
             m_JNo = value
         End Set
     End Property
@@ -338,7 +338,7 @@ Public Class CClrHeader
                             dr("AdvRefNo") = Me.AdvRefNo
                             dr("AdvTotal") = Me.AdvTotal
                             dr("JobType") = Me.JobType
-                            dr("JNo") = Main.GetDBDate(Me.JNo)
+                            dr("JNo") = Me.JNo
                             dr("InvNo") = Me.InvNo
                             dr("ClearType") = Me.ClearType
                             dr("ClearFrom") = Me.ClearFrom

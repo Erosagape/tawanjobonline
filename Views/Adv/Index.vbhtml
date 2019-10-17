@@ -809,45 +809,52 @@ End Code
         }
         window.open(path + 'Adv/FormAdv?branch=' + $('#txtBranchCode').val() + '&advno=' + $('#txtAdvNo').val());
     }
+    function CheckEntry() {
+        if (hdr == undefined) {
+            ShowMessage('No data to save');
+            return false;
+        }
+        if (hdr.AdvNo == '') {
+            if (userRights.indexOf('I') < 0) {
+                ShowMessage('you are not authorize to add');
+                return false;
+            }
+        }
+        if (userRights.indexOf('E') < 0) {
+            ShowMessage('you are not authorize to save');
+            return false;
+        }
+        if (Number($('#txtTotalAmount').val())!==Number(SumTotal())) {
+            if (Number($('#txtTotalAmount').val()) > 0) {
+                if (Number(SumTotal()) == 0) {
+                    ShowMessage('Please select type of advance payment');
+                    return false;
+                } else {
+                    ShowMessage('Total not balance,Please check on payment total');
+                    return false;
+                }                    
+            }
+        }
+        if ($('#cboJobType').val() == 0) {
+            ShowMessage('please select job type');
+            $('#cboJobType').focus();
+            return false;
+        }
+        if ($('#cboShipBy').val() == 0) {
+            ShowMessage('please select ship by');
+            $('#cboShipBy').focus();
+            return false;
+        }
+        if ($('#cboAdvType').val() == 0) {
+            ShowMessage('please select advance type');
+            $('#cboAdvType').focus();
+            return false;
+        }
+        return true;
+    }
     function SaveHeader() {
-        if (hdr != undefined) {
+        if (CheckEntry()==true) {            
             let obj = GetDataHeader(hdr);
-            if (obj.AdvNo == '') {
-                if (userRights.indexOf('I') < 0) {
-                    ShowMessage('you are not authorize to add');
-                    return;
-                }
-            }
-            if (userRights.indexOf('E') < 0) {
-                ShowMessage('you are not authorize to save');
-                return;
-            }
-            if (Number($('#txtTotalAmount').val())!==Number(SumTotal())) {
-                if (Number($('#txtTotalAmount').val()) > 0) {
-                    if (Number(SumTotal()) == 0) {
-                        ShowMessage('Please select type of advance payment');
-                        return;
-                    } else {
-                        ShowMessage('Total not balance,Please check on payment total');
-                        return;
-                    }                    
-                }
-            }
-            if ($('#cboJobType').val() == 0) {
-                ShowMessage('please select job type');
-                $('#cboJobType').focus();
-                return;
-            }
-            if ($('#cboShipBy').val() == 0) {
-                ShowMessage('please select ship by');
-                $('#cboShipBy').focus();
-                return;
-            }
-            if ($('#cboAdvType').val() == 0) {
-                ShowMessage('please select advance type');
-                $('#cboAdvType').focus();
-                return;
-            }
             let jsonString = JSON.stringify({ data: obj });
             //ShowMessage(jsonString);
             $.ajax({
@@ -866,9 +873,7 @@ End Code
                     ShowMessage(e);
                 }
             });
-            return;
         }
-        ShowMessage('No data to save');
     }
     function GetDataHeader() {
         let dt = {
@@ -1276,11 +1281,13 @@ End Code
     function GetAdvDetail(list) {
         let rows = [];
         let header = list.header[0];
+        let item = 0;
         for (let row of list.detail) {
+            item += 1;
             let dt = {
                 BranchCode : $('#txtBranchCode').val(),
                 AdvNo : $('#txtAdvNo').val(),
-                ItemNo : 0,
+                ItemNo : item,
                 SICode : row.SICode,
                 STCode : 'EXP',
                 ForJNo : row.ForJNo,
@@ -1509,7 +1516,10 @@ End Code
                 SetGridAdv();
                 break;
             case 'payment':
-                SetGridPayment(path, '#tbPay', '?branch='+ $('#txtBranchCode').val() +'&type=NOPAY', '#frmSearchPay', ReadPayment);
+                if (CheckEntry() == true) {
+                    SaveHeader();
+                    SetGridPayment(path, '#tbPay', '?branch=' + $('#txtBranchCode').val() + '&type=NOPAY', '#frmSearchPay', ReadPayment);
+                }
                 break;
             case 'branch':
                 SetGridBranch(path, '#tbBranch', '#frmSearchBranch', ReadBranch);
@@ -1635,17 +1645,20 @@ End Code
         $('#txtInvNo').val(dt.InvNo);
     }
     function ReadPayment(dt) {
-        SaveHeader();
-        let docno = dt.DocNo;
-        let branch = dt.BranchCode;
-        $('#txtPaymentNo').val(docno);
-        $.get(path + 'acc/getpayment?branch=' + branch + '&code=' + docno)
-            .done(function (r) {
-                if (r.payment.detail.length > 0) {
-                    let dt = GetAdvDetail(r.payment);
-                    SaveAdvFromPay(dt);
-                }
-            });
+        if ($('#txtAdvNo').val() !== '') {
+            let docno = dt.DocNo;
+            let branch = dt.BranchCode;
+            $('#txtPaymentNo').val(docno);
+            $.get(path + 'acc/getpayment?branch=' + branch + '&code=' + docno)
+                .done(function (r) {
+                    if (r.payment.detail.length > 0) {
+                        let dt = GetAdvDetail(r.payment);
+                        SaveAdvFromPay(dt);
+                    } 
+                });
+        } else {
+            ShowMessage('Please save header first');
+        }
     }
     function SaveAdvFromPay(obj) {
         let jsonString = JSON.stringify({ data: obj });
@@ -1681,15 +1694,11 @@ End Code
         if (qty > 0) {
             let amt = CNum(qty) * CNum(price);
             $('#txtAMTCal').val(CDbl(CNum(amt), 4));
-            //let exc = CDbl($('#txtExchangeRate').val(), 4); //rate ของ header
-            //let total = CDbl(CNum(amt) / CNum(exc),4);
             if (type == '0' || type == '') type = '1';
             if (type == '2') {
-                //$('#txtNET').val(CDbl(CNum(total),4));
                 $('#txtNET').val(CDbl(CNum(amt) * CNum(rate), 4));
             }
             if (type == '1') {
-                //$('#txtAMT').val(CDbl(CNum(total),4));
                 $('#txtAMT').val(CDbl(CNum(amt) * CNum(rate),4));
             }
             CalVATWHT();

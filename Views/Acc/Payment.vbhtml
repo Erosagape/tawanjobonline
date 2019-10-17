@@ -387,27 +387,27 @@ End Code
                     { data: "PoNo", title: "PO.No" },
                     {
                         data: "TotalExpense", title: "Amount",
-                    render: function (data) {
-                        return ShowNumber(data,2);
-                    }
+                        render: function (data) {
+                            return ShowNumber(data,2);
+                        }
                     },
                     {
                         data: "TotalVAT", title: "VAT",
-                    render: function (data) {
-                        return ShowNumber(data,2);
-                    }
+                        render: function (data) {
+                            return ShowNumber(data,2);
+                        }
                     },
                     {
                         data: "TotalTax", title: "Tax",
-                    render: function (data) {
-                        return ShowNumber(data,2);
-                    }
+                        render: function (data) {
+                            return ShowNumber(data,2);
+                        }
                     },
                     {
                         data: "TotalNet", title: "Net",
-                    render: function (data) {
-                        return ShowNumber(data,2);
-                    }
+                        render: function (data) {
+                            return ShowNumber(data,2);
+                        }
                     }
                 ],
                 responsive: true,
@@ -733,6 +733,22 @@ End Code
             ShowMessage('No data need to payment');
         }
     }
+    function SaveClearing() {
+        if (list.length > 0) {
+            let str = '';
+            for (let i = 0; i < list.length; i++) {
+                let o = list[i];
+                str += (str !== '' ? ',' : '') + o.DocNo;
+            }
+            $.get(path + 'clr/setclrbypay?branch=' + $('#txtBranchCode').val() + '&ref=' + docno + '&code=' + str + '&status=Y')
+                .done(function (r) {
+                    alert(r.clr.result);
+                })
+                .error(function (e) {
+                    alert(e);
+                });
+        }
+    }
     function SaveDetail() {
         if (list.length > 0) {
             for (let i = 0; i < list.length; i++) {
@@ -747,7 +763,7 @@ End Code
                 data: jsonString,
                 success: function (response) {
                     if (response.result.data != null) {
-                        ShowMessage(response.result.data);
+                        SaveClearing();
                         SetGridAdv(false);
                     }
                 },

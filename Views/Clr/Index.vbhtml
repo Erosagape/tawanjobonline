@@ -485,6 +485,7 @@ End Code
                 $('#dvJob').html('<h4>***For Job ' + job.toUpperCase() + '***</h4>');
                 if (job.length > 0) {
                     isjobmode = true;
+                    $('#txtForJNo').val(job);
                     $('#txtClrNo').attr('disabled', 'disabled');
                     CallBackQueryJob(path, $('#txtBranchCode').val(), job, LoadJob);
                 }
@@ -1459,7 +1460,13 @@ End Code
                 break;
             case 'quotation':
                 //let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val() + '&code=' + $('#txtSICode').val() + '&jtype=' + $('#txtJobType').val() + '&sby=' + $('#txtShipBy').val();
-                let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val() + '&jtype=' + $('#txtJobType').val() + '&sby=' + $('#txtShipBy').val();
+                let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val();
+                if ($('#txtJobType').val() > '0') {
+                    qry += '&jtype=' + $('#txtJobType').val();
+                }
+                if ($('#txtShipBy').val() > '0') {
+                    qry += '&sby=' + $('#txtShipBy').val();
+                }                
                 SetGridQuotation(path, '#tbQuo', qry, '#frmSearchQuo', ReadQuotation);
                 break;
         }

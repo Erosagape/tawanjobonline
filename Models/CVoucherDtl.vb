@@ -147,9 +147,6 @@ Public Class CVoucherDoc
                             dr("acType") = Me.acType
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
-                            If Me.DocType = "PAY" Then
-
-                            End If
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVoucherDoc", "SaveData", Me)
                             msg = "Save Complete"
                         End Using

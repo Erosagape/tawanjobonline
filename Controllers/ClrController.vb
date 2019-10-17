@@ -702,5 +702,164 @@ Namespace Controllers
                 Return Content("[]", jsonContent)
             End Try
         End Function
+        Function SetClrByPay() As ActionResult
+            Try
+                Dim branchcode As String = ""
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    branchcode = Request.QueryString("Branch").ToString()
+                Else
+                    Return Content("{""clr"":{""result"":""Please Select Some Branch"",""data"":[]}}", jsonContent)
+                End If
+                Dim docList As String = ""
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    docList = Request.QueryString("Code").ToString() & ","
+                Else
+                    Return Content("{""clr"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                End If
+                Dim refno As String = ""
+                If Not IsNothing(Request.QueryString("Ref")) Then
+                    refno = Request.QueryString("Ref").ToString()
+                Else
+                    Return Content("{""clr"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                End If
+                Dim bCancel As Boolean = False
+                If Not IsNothing(Request.QueryString("Status")) Then
+                    If Request.QueryString("Status").ToString() = "N" Then
+                        bCancel = True
+                    End If
+                End If
+                Dim clrNoList As String = ""
+                For Each docno In docList.Split(",")
+                    If docno <> "" Then
+                        Dim oHead = New CPayHeader(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' ", branchcode, docno))
+                        Dim oDet = New CPayDetail(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' ORDER BY ForJNo ", branchcode, docno))
+                        If oHead.Count > 0 Then
+                            Dim oPayH = oHead(0)
+                            Dim LastJob As String = ""
+                            Dim iCount As Integer = 1
+                            Dim totalamt As Double = 0
+                            Dim totalvat As Double = 0
+                            Dim totalwht As Double = 0
+                            Dim totalnet As Double = 0
+                            Dim row As Integer = 0
+                            For Each oPayD In oDet
+                                Dim oClr = New CClrHeader(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' AND AdvRefNO='{1}' AND CTN_NO='{2}' ", branchcode, docno, oPayD.SRemark))
+                                Dim oClrH = New CClrHeader(jobWebConn)
+                                If oClr.Count > 0 Then
+                                    oClrH = oClr(0)
+                                Else
+                                    oClrH.BranchCode = oPayH.BranchCode
+                                    oClrH.AddNew(expPrefix & DateTime.Now.ToString("yyMM") & "-____")
+                                    oClrH.ClrDate = DateTime.Today
+                                    oClrH.ClearanceDate = DateTime.MinValue
+                                    oClrH.ClearType = 0
+                                    oClrH.ClearFrom = 0
+                                    oClrH.AdvRefNo = oPayH.DocNo
+                                    oClrH.CTN_NO = oPayD.SRemark
+                                    oClrH.SaveData(String.Format(" WHERE BranchCode='{0}' AND ClrNo='{1}' ", oClrH.BranchCode, oClrH.ClrNo))
+                                End If
+                                If clrNoList.IndexOf(oClrH.ClrNo) < 0 Then
+                                    clrNoList &= If(clrNoList <> "", ",", "") & oClrH.ClrNo
+                                End If
+                                oClrH.EmpCode = oPayH.EmpCode
+                                oClrH.DocStatus = If(bCancel = True Or oPayH.CancelProve <> "", 99, 2)
+                                oClrH.ApproveBy = GetSession("CurrUser").ToString()
+                                oClrH.ApproveDate = Main.GetDBDate(DateTime.Today)
+                                oClrH.ApproveTime = Main.GetDBTime(DateTime.Now)
+                                oClrH.ReceiveBy = GetSession("CurrUser").ToString()
+                                oClrH.ReceiveDate = Main.GetDBDate(DateTime.Today)
+                                oClrH.ReceiveTime = Main.GetDBTime(DateTime.Now)
+                                oClrH.ReceiveRef = refno
+                                oClrH.CancelReson = oPayH.CancelReson
+                                oClrH.CancelDate = If(bCancel = True, Main.GetDBDate(DateTime.Today), oPayH.CancelDate)
+                                oClrH.CancelTime = If(bCancel = True, Main.GetDBTime(DateTime.Now), oPayH.CancelTime)
+                                oClrH.CancelProve = If(bCancel = True, GetSession("CurrUser").ToString(), oPayH.CancelProve)
+
+                                row += 1
+                                Dim oClrDet = New CClrDetail(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' AND ClrNo='{1}' AND ItemNo={2} ", oClrH.BranchCode, oClrH.ClrNo, row))
+                                Dim oClrD = New CClrDetail(jobWebConn)
+                                If oClrDet.Count > 0 Then
+                                    oClrD = oClrDet(0)
+                                Else
+                                    oClrD.BranchCode = oPayD.BranchCode
+                                    oClrD.ClrNo = oClrH.ClrNo
+                                    oClrD.ItemNo = row
+                                    oClrD.LinkItem = 0
+                                End If
+                                oClrD.SICode = oPayD.SICode
+                                oClrD.SDescription = oPayD.SDescription
+
+                                Dim oServ = New CServiceCode(jobWebConn).GetData(String.Format(" WHERE SICode='{0}'", oPayD.SICode))
+
+                                oClrD.VenderCode = oPayH.VenCode
+                                oClrD.Qty = oPayD.Qty
+                                oClrD.UnitCode = oPayD.QtyUnit
+                                oClrD.CurrencyCode = oPayH.CurrencyCode
+                                oClrD.CurRate = oPayH.ExchangeRate
+                                Dim isCost As Boolean = False
+                                If oServ.Count > 0 Then
+                                    isCost = If(oServ(0).IsExpense = 1, True, False)
+                                End If
+                                If isCost Then
+                                    oClrD.UnitPrice = 0
+                                    oClrD.FPrice = 0
+                                    oClrD.BPrice = 0
+                                Else
+                                    oClrD.UnitPrice = oPayD.UnitPrice
+                                    oClrD.FPrice = (oPayD.UnitPrice * oPayD.Qty) / oPayH.ExchangeRate
+                                    oClrD.BPrice = (oPayD.UnitPrice * oPayD.Qty)
+                                End If
+                                oClrD.UnitCost = oPayD.UnitPrice
+                                oClrD.FCost = (oPayD.UnitPrice * oPayD.Qty) / oPayH.ExchangeRate
+                                oClrD.BCost = (oPayD.UnitPrice * oPayD.Qty)
+                                oClrD.UsedAmount = oPayD.Amt - oPayD.AmtDisc
+                                oClrD.ChargeVAT = oPayD.AmtVAT
+                                oClrD.Tax50Tavi = oPayD.AmtWHT
+                                oClrD.FNet = (oPayD.Total) / oPayH.ExchangeRate
+                                oClrD.BNet = oPayD.Total
+                                oClrD.VenderBillingNo = oPayH.RefNo
+                                oClrD.JobNo = oPayD.ForJNo
+                                oClrD.VATType = If(oPayD.AmtVAT > 0, 1, 0)
+                                oClrD.VATRate = oPayH.VATRate
+                                oClrD.Tax50TaviRate = oPayH.TaxRate
+                                oClrD.QNo = oPayH.PoNo
+                                oClrD.SaveData(String.Format(" WHERE BranchCode='{0}' AND ClrNo='{1}' AND ItemNo={2} ", oClrH.BranchCode, oClrH.ClrNo, row))
+
+                                totalamt += oPayD.Amt - oPayD.AmtDisc
+                                totalvat += oPayD.AmtVAT
+                                totalwht += oPayD.AmtWHT
+                                totalnet += oPayD.Total
+
+                                If iCount = oDet.Count Or LastJob <> oPayD.SRemark Then
+                                    LastJob = oPayD.SRemark
+
+                                    oClrH.TotalExpense = totalamt
+
+                                    oClrH.ClearTotal = totalamt
+                                    oClrH.ClearVat = totalvat
+                                    oClrH.ClearWht = totalwht
+                                    oClrH.ClearNet = totalnet
+                                    oClrH.SaveData(String.Format(" WHERE BranchCode='{0}' AND ClrNo='{1}' ", oClrH.BranchCode, oClrH.ClrNo))
+                                    totalamt = 0
+                                    totalvat = 0
+                                    totalwht = 0
+                                    totalnet = 0
+                                    row = 0
+                                End If
+                                iCount += 1
+                            Next
+                        End If
+                    End If
+                Next
+                If clrNoList <> "" Then
+                    Return Content("{""clr"":{""result"":""Save To " & clrNoList & """,""data"":[]}}", jsonContent)
+                Else
+                    Return Content("{""clr"":{""result"":""No Data To Save"",""data"":[]}}", jsonContent)
+                End If
+            Catch ex As Exception
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetClrByPay", "ERROR", ex.Message)
+                Return Content("{""clr"":{""result"":""" & ex.Message & """,""data"":[]}}", jsonContent)
+            End Try
+        End Function
     End Class
 End Namespace
