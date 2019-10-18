@@ -255,7 +255,7 @@
                     </div>
                     <div class="modal-body">
                         Database : <select class="form-control dropdown" id="cboDatabase"></select>
-                                   <a onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
+                        <a id="linkLogout" onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
                         Password : <input type="password" class="form-control" id="txtUserPassword" />
                     </div>
                     <div class="modal-footer">
@@ -277,7 +277,8 @@
         $('#cboLanguage').val(userLang);
         ChangeLanguage(userLang, $('#lblModule').text());
     }
-    CheckLogin();
+    SetEvents();
+
     function ForceLogout() {
         $.get('/config/setlogout?code=' + $('#txtUserLogin').val()).done(function (r) {
             if (r == "Y") {
@@ -299,7 +300,7 @@
                 SetVariable();
             }
         });
-
+        CheckLogin();
     }
     function GetDatabaseID() {
         let dbName = '@ViewBag.LICENSE_NAME';
@@ -337,7 +338,6 @@
             $('#lblUserID').text('@ViewBag.UserName');
             $('#lblLicenseName').text('@ViewBag.LICENSE_NAME');
             $('#cboLanguage').val('@ViewBag.PROFILE_DEFAULT_LANG');
-            SetEvents();
         }
     }
     function SetLogout() {
@@ -348,7 +348,7 @@
                     .done(function (r) {
                         CloseWait();
                         if (r == 'Y') {
-                            window.location.href='/index.html';
+                            window.location.href='/';
                         }
                     });
             }

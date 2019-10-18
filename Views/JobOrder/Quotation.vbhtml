@@ -4,7 +4,7 @@ End Code
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-4">
-                Branch
+                <label id="lblBranch">Branch</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -14,7 +14,7 @@ End Code
 
             </div>
             <div class="col-sm-6">
-                Customer :<br />
+                <label id="lblCustomer">Customer</label>:<br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" class="form-control" style="width:130px" />
                     <input type="text" id="txtCustBranch" class="form-control" style="width:70px" />
@@ -25,19 +25,19 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-2">
-                Date From:<br />
+                <label id="lblDateFrom">Date From</label>:<br />
                 <input type="date" class="form-control" id="txtDocDateF" />
             </div>
             <div class="col-sm-2">
-                Date To:<br />
+                <label id="lblDateTo"></label>:<br />
                 <input type="date" class="form-control" id="txtDocDateT" />
             </div>
             <div class="col-sm-6">
                 <br />
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="ShowHeader()">
-                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b><label id="lblSearch">Search</label></b>
                 </a>
-                <input type="checkbox" id="chkCancel" /><b><label style="color:red">Show Cancel Only</label></b>
+                <input type="checkbox" id="chkCancel" /><b><label id="lblShowCancel" style="color:red">Show Cancel Only</label></b>
             </div>
         </div>
         <div>
@@ -69,9 +69,10 @@ End Code
                 </div>
                 <div class="tab-pane fade" id="tabDetail">
                     <p>
-                        Details of Quotation No:<input type="text" id="txtDocNo" style="width:10%" disabled />
+                        <label id="lblDetail">Details of Quotation No</label>
+                        :<input type="text" id="txtDocNo" style="width:10%" disabled />
                         <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
-                            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Section</b>
+                            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblAddSection">Add Section</label></b>
                         </a>
                         <table id="tbDetail" class="table table-responsive">
                             <thead>
@@ -85,7 +86,7 @@ End Code
                             </thead>
                         </table>
                         <a href="#" class="btn btn-danger" id="btnDelDetail" onclick="DeleteDetail()">
-                            <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete Section</b>
+                            <i class="fa fa-lg fa-trash"></i>&nbsp;<b><label id="lblDelSection">Delete Section</label></b>
                         </a>
                     </p>
                 </div>
@@ -93,29 +94,29 @@ End Code
         </div>
         <p>
             <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddHeader()">
-                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New Quotation</b>
+                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblAddQuo">New Quotation</label></b>
             </a>
             <a href="#" class="btn btn-warning" id="btnCancel" onclick="CopyData()">
-                <i class="fa fa-lg fa-close"></i>&nbsp;<b>Copy Quotation</b>
+                <i class="fa fa-lg fa-close"></i>&nbsp;<b><label id="lblCopyQuo">Copy Quotation</label></b>
             </a>
             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-                <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Quotation</b>
+                <i class="fa fa-lg fa-print"></i>&nbsp;<b><label id="lblPrintQuo">Print Quotation</label></b>
             </a>
         </p>
         <div id="frmHeader" class="modal fade">
             <div class="modal-dialog-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4><b>Add/Edit Quotation</b></h4>
+                        <h4><b><label id="lblQuoHeader">Add/Edit Quotation</label></b></h4>
                         <div class="row">
                             <div class="col-sm-3">
-                                Quotation No:<br /> <input type="text" id="txtQNo" class="form-control" disabled />
+                                <label id="lblQNo">Quotation No</label>:<br /> <input type="text" id="txtQNo" class="form-control" disabled />
                             </div>
                             <div class="col-sm-3">
-                                Issue Date:<br /> <input type="date" id="txtDocDate" class="form-control" />
+                                <label id="lblDocDate">Issue Date</label>:<br /> <input type="date" id="txtDocDate" class="form-control" />
                             </div>
                             <div class="col-sm-3">
-                                Status :<br />
+                                <label id="lblStatus">Status</label> :<br />
                                 <select id="txtDocStatus" class="form-control dropdown" disabled>
                                     <option value="0">REQUEST</option>
                                     <option value="1">APPROVE</option>
@@ -123,7 +124,7 @@ End Code
                                 </select>
                             </div>
                             <div class="col-sm-3">
-                                Refer Q.No : <br />
+                                <label id="lblReferQNo">Refer Q.No</label> : <br />
                                 <input type="text" id="txtReferQNo" class="form-control" />
                             </div>
                         </div>
@@ -131,7 +132,7 @@ End Code
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                Billing To:<br />
+                                <label id="lblBillingTo">Billing To</label>:<br />
                                 <div style="display:flex">
                                     <input type="text" id="txtBCustCode" style="width:150px" disabled />
                                     <input type="text" id="txtBCustBranch" style="width:100px" disabled />
@@ -140,7 +141,7 @@ End Code
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                Manager <br />
+                                <label id="lblManager">Manager</label>:<br />
                                 <div style="display:flex">
                                     <input type="text" id="txtManagerCode" style="width:150px" disabled />
                                     <input type="button" class="btn btn-default" value="..." onclick="SearchData('sales')" />
@@ -150,7 +151,7 @@ End Code
                         </div>
                         <div class="row">
                             <div class="col-sm-4">
-                                Contact Name
+                                <label id="lblContact">Contact Name</label>:
                                 <br/>
                                 <div style="display:flex">
                                     <input type="text" id="txtContactName" class="form-control" style="width:100%" />
@@ -158,44 +159,61 @@ End Code
                                 </div>                                
                             </div>
                             <div class="col-sm-8">
-                                <a href="#" onclick="SearchData('remark')">Remark</a><textarea id="txtTRemark" class="form-control"></textarea>
+                                <label id="lblRemark">Remark</label>:
+                                <br/>
+                                <div style="display:flex">
+                                    <textarea id="txtTRemark" class="form-control"></textarea>
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('remark')" />
+                                </div>                                
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                <a href="#" onclick="SearchData('header')">Header</a><textarea id="txtDescriptionH" class="form-control"></textarea>
+                                <label id="lblDescriptionH">Header</label>:
+                                <br />
+                                <div style="display:flex">
+                                    <textarea id="txtDescriptionH" class="form-control"></textarea>
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('header')" />
+                                </div>                                
                             </div>
                             <div class="col-sm-6">
-                                <a href="#" onclick="SearchData('footer')">Footer</a><textarea id="txtDescriptionF" class="form-control"></textarea>
+                                <label id="lblDescriptionF">Footer</label>:
+                                <br />
+                                <div style="display:flex">
+                                    <textarea id="txtDescriptionF" class="form-control"></textarea>
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('footer')" />
+                                </div>                                
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
                                 <div style="display:flex">
                                     <div style="flex:1">
-                                        Approve By <input type="text" id="txtApproveBy" style="width:100%" disabled />
+                                        <label id="lblApproveBy">Approve By</label>:<input type="text" id="txtApproveBy" style="width:100%" disabled />
                                     </div>
                                     <div style="flex:1">
-                                        Approve Date<br /><input type="date" id="txtApproveDate" disabled /> &nbsp;
+                                        <label id="lblApproveDate">Approve Date</label>:
+                                        <br /><input type="date" id="txtApproveDate" disabled /> &nbsp;
                                     </div>
                                     <div style="flex:1">
-                                        Approve Time<br /><input type="text" id="txtApproveTime" disabled /> &nbsp;
+                                        <label id="lblApproveTime">Approve Time</label>:
+                                        <br /><input type="text" id="txtApproveTime" disabled /> &nbsp;
                                     </div>
                                 </div>
                                 <input type="button" id="btnApprove" class="btn btn-primary" onclick="ApproveData()" value="Approve" />
                             </div>
                             <div class="col-sm-3" style="display:flex">
                                 <div style="flex:1">
-                                    Cancel By<br />
+                                    <label id="lblCancelBy">Cancel By</label>:<br />
                                     <input type="text" id="txtCancelBy" style="width:100%" disabled />
                                 </div>
                                 <div style="flex:1">
-                                    Cancel Date<br />
+                                    <label id="lblCancelDate">Cancel Date</label>:<br />
                                     <input type="date" id="txtCancelDate" disabled /> &nbsp;
                                 </div>
                             </div>
                             <div class="col-sm-3">
-                                Reason<br />
+                                <label id="lblCancelReason">Cancel Reason</label>:<br />
                                 <textarea id="txtCancelReason" style="width:100%"></textarea>
                                 <input type="button" id="btnCancel" class="btn btn-danger" onclick="CancelData()" value="Cancel" />
                             </div>
@@ -204,9 +222,9 @@ End Code
                     </div>
                     <div class="modal-footer">
                         <div style="float:left">
-                            <a href="#" class="btn btn-success" id="btnUpdate" onclick="SaveData()">
-                                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Update Quotation</b>
-                            </a>
+                            <button class="btn btn-success" id="btnUpdate" onclick="SaveData()">
+                                <i id="lblSaveQuo" class="fa fa-lg fa-save">Update Quotation</i>
+                            </button>                            
                         </div>
                         <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                     </div>
@@ -218,39 +236,43 @@ End Code
                 <div class="modal-content">
                     <div class="modal-header">
                         <div style="display:flex">
-                            <h4><b>Section And Expenses</b></h4>
+                            <h4><b><label id="lblSection">Section And Expenses</label></b></h4>
                         </div>
                         <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
-                            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Section</b>
+                            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblNewSection">New Section</label></b>
                         </a>
                         <div class="row">
                             <div class="col-sm-2">
-                                Section No<br />
+                                <label id="lblSeqNo">Section No</label>:<br />
                                 <input type="text" id="txtSeqNo" class="form-control" disabled />
                             </div>
                             <div class="col-sm-3">
-                                Job Type :<br /><select id="txtJobType" class="form-control dropdown" value="0"></select>
+                                <label id="lblJobType">Job Type</label> :<br /><select id="txtJobType" class="form-control dropdown" value="0"></select>
                             </div>
                             <div class="col-sm-3">
-                                Ship By :<br /><select id="txtShipBy" class="form-control dropdown" value="0"></select>
+                                <label id="lblShipBy">Ship By</label> :<br /><select id="txtShipBy" class="form-control dropdown" value="0"></select>
                             </div>
                             <div class="col-sm-4">
-                                <a href="#" onclick="SearchData('desc')">Description:</a><br />
-                                <textarea id="txtDescription" class="form-control"></textarea>
+                                <label id="lblSDescription">Description</label>:
+                                <br/>
+                                <div style="display:flex">
+                                    <textarea id="txtDescription" class="form-control"></textarea>
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('desc')" />
+                                </div>                                
                             </div>
                         </div>
                         <div>
                             <div style="float:left">
                                 <a href="#" class="btn btn-success" id="btnUpdateD" onclick="SaveDetail()">
-                                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Update Section</b>
+                                    <i class="fa fa-lg fa-save"></i>&nbsp;<b><label id="lblUpdSection">Update Section</label></b>
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="modal-body">
-                        <h4><b>Lists of Expenses:</b></h4>
+                        <h4><b><label id="lblExpenses">Lists of Expenses</label>:</b></h4>
                         <a href="#" class="btn btn-default w3-purple" id="btnAddItem" onclick="AddItem()">
-                            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Expenses</b>
+                            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblNewExpenses">Add Expenses</label></b>
                         </a>
                         <input type="hidden" id="txtDocItemNo" />
                         <table id="tbItem" class="table table-responsive" style="width:100%">
@@ -270,7 +292,7 @@ End Code
                             </thead>
                         </table>
                         <a href="#" class="btn btn-danger" id="btnDelItem" onclick="DeleteItem()">
-                            <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete Expense</b>
+                            <i class="fa fa-lg fa-trash"></i>&nbsp;<b><label id="lblDelExpenses">Delete Expense</label></b>
                         </a>
                     </div>
                     <div class="modal-footer">
@@ -285,13 +307,13 @@ End Code
                     <div class="modal-header">
                         <h4>For <label id="lblHeader"></label></h4>
                         <br />
-                        Item No <input type="text" id="txtItemNo" disabled />
-                        Calculate Type
+                        <label id="lblItemNo">Item No</label>:<input type="text" id="txtItemNo" disabled />
+                        <label id="lblCalType">Calculate Type</label>
                         <select id="txtCalculateType">
                             <option value="0">Last Price</option>
                             <option value="1">Accumulate Price</option>
                         </select>
-                        Required?
+                        <label id="lblRequired">Required?</label>
                         <select id="txtIsRequired">
                             <option value="0">No</option>
                             <option value="1">Yes</option>
@@ -300,38 +322,38 @@ End Code
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-12">
-                                Service Code <input type="text" id="txtSICode" style="width:20%" disabled />
+                                <label id="lblSICode">Service Code</label> <input type="text" id="txtSICode" style="width:20%" disabled />
                                 <input type="button" id="btnServ" value="..." onclick="SearchData('service')" />
                                 <input type="text" id="txtSDescription" style="width:60%" disabled />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                Currency <input type="text" id="txtCurrencyCode" style="width:10%" disabled />
+                                <label id="lblCurrency">Currency</label> <input type="text" id="txtCurrencyCode" style="width:10%" disabled />
                                 <input type="button" id="btnCurr" value="..." onclick="SearchData('currency')" />
                                 <input type="text" id="txtCurrencyName" style="width:40%" disabled />
-                                Exc.Rate <input type="text" id="txtCurrencyRate" style="width:15%" onchange="CalAmount()" />
+                                <label id="lblExchangeRate">Exc.Rate</label> <input type="text" id="txtCurrencyRate" style="width:15%" onchange="CalAmount()" />
                             </div>
                         </div>
                         <p>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    Service Description <textarea id="txtDescriptionThai" style="width:100%"></textarea>
+                                    <label id="lblDescriptionTH">Service Description</label> <textarea id="txtDescriptionThai" style="width:100%"></textarea>
                                 </div>
                                 <div class="col-sm-3" style="display:flex;flex-direction:row">
                                     <div style="flex-direction:column;flex:1">
-                                        Qty Start <input type="text" id="txtQtyBegin" />
+                                        <label id="lblQtyBegin">Qty Start </label><input type="text" id="txtQtyBegin" />
                                     </div>
                                     <div style="flex-direction:column;flex:1">
-                                        Qty End <input type="text" id="txtQtyEnd" />
+                                        <label id="lblQtyEnd">Qty End</label> <input type="text" id="txtQtyEnd" />
                                     </div>
                                 </div>
                                 <div class="col-sm-3" style="display:flex;flex-direction:row">
                                     <div style="flex-direction:column;flex:1">
-                                        Unit <input type="text" id="txtUnitCheck" />
+                                        <label id="lblUnitCheck">Unit </label><input type="text" id="txtUnitCheck" />
                                     </div>
                                     <div style="flex-direction:column;flex:1">
-                                        Price <input type="text" id="txtChargeAmt" onchange="CalAmount()" />
+                                        <label id="lblChargeAmt">Price</label><input type="text" id="txtChargeAmt" onchange="CalAmount()" />
                                     </div>
                                 </div>
                             </div>
@@ -339,14 +361,14 @@ End Code
                                 <div class="col-sm-6">
                                     <div style="display:flex">
                                         <div style="flex:1">
-                                            Discount Type
+                                            <label id="lblDiscountType">Discount Type</label>
                                             <select id="txtDiscountType" onchange="ShowDiscount()">
                                                 <option value="0" selected>Percent</option>
                                                 <option value="1">Cash</option>
                                             </select>
                                         </div>
                                         <div style="flex:1">
-                                            Discount Rate
+                                            <label id="lblDiscountRate">Discount Rate</label>
                                             <input type="text" id="txtUnitDiscntPerc" style="width:50%" onchange="CalDiscount()" />
                                         </div>
                                     </div>
@@ -354,9 +376,11 @@ End Code
                                 <div class="col-sm-6">
                                     <div style="display:flex">
                                         <div style="flex:1">
-                                            Discount (B)<input type="text" id="txtUnitDiscntAmt" onchange="CalDiscount()" disabled />
+                                            <label id="lblDiscountB">Discount (B)</label>
+                                            <input type="text" id="txtUnitDiscntAmt" onchange="CalDiscount()" disabled />
                                         </div>
                                         <div style="flex:1">
+                                            <label id="lblDiscountF">Discount (F)</label>
                                             Discount (F)<input type="text" id="txtFUnitDiscntAmt" disabled />
                                         </div>
                                     </div>
@@ -366,73 +390,71 @@ End Code
                                 <div class="col-sm-6" style="display:flex;flex-direction:column">
                                     <div style="display:flex">
                                         <div style="flex:1">
-                                            Vender <input type="text" id="txtVenderCode" style="width:150px" disabled />
+                                            <label id="lblVender">Vender</label> <input type="text" id="txtVenderCode" style="width:150px" disabled />
                                             <input type="button" id="btnBrow" value="..." onclick="SearchData('vender')" />
                                             <input type="text" id="txtVenderName" style="width:100%" disabled />
-                                            Cost Amount <input type="text" id="txtVenderCost" onchange="CalProfit()" />
+                                            <label id="lblCostAmt">Cost Amount</label> <input type="text" id="txtVenderCost" onchange="CalProfit()" />
                                         </div>
                                     </div>
                                     <br />
                                     <div style="display:flex">
                                         <div style="flex:1">
-                                            Commission Type
+                                            <label id="lblCommType">Commission Type</label>
                                             <select id="txtCommissionType" onchange="ShowCommission()">
                                                 <option value="0" selected>Percent</option>
                                                 <option value="1">Fixed</option>
                                             </select>
                                             <input type="text" id="txtCommissionPerc" style="width:20%" onchange="CalCommission()" />
-                                            Commission Amount <input type="text" id="txtCommissionAmt" onchange="CalProfit()" disabled />
+                                            <label id="lblCommAmt">Commission Amount</label> <input type="text" id="txtCommissionAmt" onchange="CalProfit()" disabled />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6" style="display:flex;flex-direction:column">
                                     <div style="display:flex">
                                         <div style="flex:1">
-                                            VAT
-
+                                            <label id="lblVAT">VAT</label>
                                             <select id="txtIsvat" onchange="CalVATWHT()">
                                                 <option value="0">NO</option>
                                                 <option value="1">EX</option>
                                                 <option value="2">IN</option>
                                             </select>
 
-                                            Rate
-
+                                            <label id="lblVATRate">Rate</label>
                                             <input type="text" id="txtVatRate" onchange="CalVATWHT()" />
                                             <br />
-                                            VAT Amt
+                                            <label id="lblVATAmt">VAT Amt</label>
                                             <input type="text" id="txtVatAmt" onchange="CalCommission()" />
 
                                         </div>
                                         <div style="flex:1">
-                                            WHT
+                                            <label id="lblWHT">WHT</label>
                                             <select id="txtIsTax" onchange="CalVATWHT()">
                                                 <option value="0">NO</option>
                                                 <option value="1">YES</option>
                                             </select>
-                                            Rate
+                                            <label id="lblWHTRate">Rate</label>
                                             <input type="text" id="txtTaxRate" onchange="CalVATWHT()" />
                                             <br />
-                                            WHT Amt
+                                            <label id="lblWHTAmt">WHT Amt</label>
                                             <input type="text" id="txtTaxAmt" onchange="CalCommission()" />
                                         </div>
                                     </div>
                                     <div style="display:flex;flex-direction:row">
                                         <div style="flex:1">
-                                            <b>Charge</b><br />
+                                            <b><label id="lblCharge">Charge</label></b><br />
                                             <input type="text" id="txtTotalCharge" disabled style="font:bold" />
                                         </div>
                                         <div style="flex:1">
-                                            <b>Total</b><br />
+                                            <b><label id="lblTotal">Total</label></b><br />
                                             <input type="text" id="txtTotalAmt" disabled style="font:bold" />
                                         </div>
                                     </div>
                                     <div style="display:flex;flex-direction:row">
                                         <div style="flex:1">
-                                            Base Profit<br /><input type="text" id="txtBaseProfit" disabled />
+                                            <label id="lblBaseProfit">Base Profit</label><br /><input type="text" id="txtBaseProfit" disabled />
                                         </div>
                                         <div style="flex:1">
-                                            Net Profit<br /><input type="text" id="txtNetProfit" disabled />
+                                            <label id="lblNetProfit">Net Profit</label><br /><input type="text" id="txtNetProfit" disabled />
                                         </div>
                                     </div>
                                 </div>
@@ -442,10 +464,10 @@ End Code
                     <div class="modal-footer">
                         <div style="float:left">
                             <a href="#" class="btn btn-default w3-purple" id="btnAddItem" onclick="AddItem()">
-                                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Expenses</b>
+                                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblAddExpense">Add Expenses</label></b>
                             </a>
                             <a href="#" class="btn btn-success" id="btnUpdateI" onclick="SaveItem()">
-                                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Update Expenses</b>
+                                <i class="fa fa-lg fa-save"></i>&nbsp;<b><label id="lblUpdExpense">Update Expenses</label></b>
                             </a>
                         </div>
                         <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
@@ -457,14 +479,16 @@ End Code
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        Create Quotation Base From
+                        <label id="lblCreateFrom">Create Quotation Base From</label>
                     </div>
                     <div class="modal-body">
                         <input type="text" id="txtBaseQNo" class="form-control" />
                     </div>
                     <div class="modal-footer">
                         <div style="float:left">
-                            <button id="btnGen" class="btn btn-success" onclick="CreateData()">Create</button>
+                            <a href="#" class="btn btn-success" id="btnGen" onclick="CreateData()">
+                                <i class="fa fa-lg fa-save"></i>&nbsp;<b><label id="lblCreate">Create</label></b>
+                            </a>
                         </div>
                         <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                     </div>
@@ -482,7 +506,6 @@ End Code
     let row_d = {};
     let row_i = {};
     let chkmode = '';
-
     SetLOVs();
 
     function ShowHeader() {
@@ -746,6 +769,7 @@ End Code
         row.CancelReason = $('#txtCancelReason').val();
 
         let jsonString = JSON.stringify({ data: row });
+
         $.ajax({
             url: "@Url.Action("SetQuoHeader", "JobOrder")",
             type: "POST",
@@ -755,16 +779,18 @@ End Code
                 if (response.result.data !== null) {
                     ShowHeader();
                     $('#txtDocNo').val(response.result.data);
-                    ShowMessage(response.result.data);
-                    $('#frmHeader').modal('hide');
+                    ShowMessage(response.result.data);                    
                     return;
                 }
                 ShowMessage(response.result.msg);
+                return;
             },
             error: function (e) {
                 ShowMessage(e);
-            }
+                return;
+            },            
         });
+        return;
     }
     function SaveDetail() {
         row_d.BranchCode = $('#txtBranchCode').val();

@@ -46,7 +46,7 @@
                         </div>
                         <div class="modal-body">
                             Database : <select class="form-control dropdown" id="txtDatabaseID"></select>
-                            <a onclick="ForceLogout()">User ID :</a><input type="text" class="form-control" id="txtUserID" />
+                            <a id="linkLogout" onclick="ForceLogout()">User ID :</a><input type="text" class="form-control" id="txtUserID" />
                             Password : <input type="password" class="form-control" id="txtPassword" />
                         </div>
                         <div class="modal-footer">
@@ -73,37 +73,39 @@
     let userID = '';
     let path = '/';
 
-        let openURL = getQueryString("redirect");
-        let msg = getQueryString("message");
-        //$(document).ready(function () {
-        if (msg !== '') {
-            ShowMessage(msg);
-        }
-        CheckLogin();
-        SetEvents();
-        $('#txtUserID').focus();
+    let openURL = getQueryString("redirect");
+    let msg = getQueryString("message");
+    //$(document).ready(function () {
+    if (msg !== '') {
+        ShowMessage(msg);
+    }
+    CheckLogin();
+    SetEvents();
+    $('#txtUserID').focus();
         //});
-        function ForceLogout() {
+    function ForceLogout() {
+        $('#linkLogout').attr('disabled', 'disabled');
         $.get('/config/setlogout?code=' + $('#txtUserID').val()).done(function (r) {
             if (r == "Y") {
+                $('#linkLogout').removeAttr('disabled');
                 ShowMessage('Logout complete!');
             }
         });
-    
-        function SetEvents() {
-            $('#dvLogin').on('shown.bs.modal', function () {
-                $('#txtUserID').focus();
-            });
-            $('#txtUserID').keydown(function (event) {
-                if (event.which === 13) {
-                    $('#txtPassword').focus();
-                }
-            });
-            $('#txtPassword').keydown(function (event) {
-                if (event.which === 13) {
-                    Login();
-                }
-            });
+    }
+    function SetEvents() {
+        $('#dvLogin').on('shown.bs.modal', function () {
+            $('#txtUserID').focus();
+        });
+        $('#txtUserID').keydown(function (event) {
+            if (event.which === 13) {
+                $('#txtPassword').focus();
+            }
+        });
+        $('#txtPassword').keydown(function (event) {
+            if (event.which === 13) {
+                Login();
+            }
+        });
     }
     function SetDatabaseList(e) {
         $(e).empty();
@@ -121,49 +123,50 @@
             }
         });
     }
-        function CheckLogin() {
-            if (userID === '') {
-                $('#dvForm').hide();
-                $.get(path +'Config/GetLogin')
-                    .done(function (r) {
-                        if (r.user.data.UserID !== null) {
-                            OpenMenu();
-                        } else {
-                            userID = '';
-                            SetDatabaseList('#txtDatabaseID');
-                        }
-                    });
-            }
+    function CheckLogin() {
+        if (userID === '') {
+            $('#dvForm').hide();
+            $.get(path +'Config/GetLogin')
+                .done(function (r) {
+                    if (r.user.data.UserID !== null) {
+                        OpenMenu();
+                    } else {
+                        userID = '';
+                        SetDatabaseList('#txtDatabaseID');
+                    }
+                });
         }
-        function Login() {
-            userID = $('#txtUserID').val();
-            if (userID !== '') {
-                var Password = $('#txtPassword').val();
-                var dbName = $('#txtDatabaseID').val();
-                if (dbName == '') {
-                    ShowMessage('Please choose database first');
-                    return;
-                }
-                $.get(path + 'Config/SetLogin?Code=' + userID + '&Pass=' + Password + '&Database=' + dbName)
-                    .done(function (r) {
-                        if (r.user.data.length > 0) {
-                            OpenMenu();
-                        } else {
-                            userID = '';
-                            ShowMessage(r.user.message);
-                        }
-                    });
-            } else {
-                userID = '';
-            }
-        }
-        function OpenMenu() {
-            if (openURL !== '') {
-                window.location.href = openURL;
+    }
+    function Login() {
+        $('#btnLogin').attr('disabled', 'disabled');
+        userID = $('#txtUserID').val();
+        if (userID !== '') {
+            var Password = $('#txtPassword').val();
+            var dbName = $('#txtDatabaseID').val();
+            if (dbName == '') {
+                ShowMessage('Please choose database first');
                 return;
             }
-            window.location.href = path +'Menu/Index';
+            $.get(path + 'Config/SetLogin?Code=' + userID + '&Pass=' + Password + '&Database=' + dbName)
+                .done(function (r) {
+                    if (r.user.data.length > 0) {
+                        OpenMenu();
+                    } else {
+                        userID = '';
+                        ShowMessage(r.user.message);
+                    }
+                });
+        } else {
+            userID = '';
         }
+    }
+    function OpenMenu() {
+        if (openURL !== '') {
+            window.location.href = openURL;
+            return;
+        }
+        window.location.href = path +'Menu/Index';
+    }
     </script>
 </body>
 </html>

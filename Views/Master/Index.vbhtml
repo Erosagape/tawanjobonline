@@ -3,7 +3,9 @@
 End Code
 <div class="panel-body">
     <div class="container">
-        <input type="button" onclick="TestFunction()" value="Test Save Log" />
+        <a href="#" class="btn btn-success" id="btnUpdate" onclick="TestFunction()">
+            <i class="fa fa-lg fa-save"></i>&nbsp;<b><label id="lblSaveQuo">Test Log</label></b>
+        </a>
     </div>
     <div id="dvLOVs"></div>
 </div>
@@ -12,7 +14,7 @@ End Code
     const path = '@Url.Content("~")';
     function TestFunction() {
         $.post(path + 'Config/SetLog', { LogID: 0, CustID: 'TAWAN', AppID: 'JOBSHIPPING', ModuleName: 'TEST', LogAction: 'Test', Message: 'ทดสอบ' }).done(function (r) {
-            alert(r.result.msg);
+            ShowMessage(r.result.msg);
         });
     }
 </script>

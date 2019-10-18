@@ -81,8 +81,9 @@ End Code
                     <label id="lblQuotation" style="display:block;width:100%;">Quotation</label>
                 </div>
                 <div style="display:flex;width:70%">                    
-                    <input type="text" class="form-control" style="width:100%" id="txtQNo" tabindex="8" />
-                    <input type="text" class="form-control" style="width:50px" id="txtRevise" tabindex="9" />
+                    <input type="text" class="form-control" style="width:100%" id="txtQNo" tabindex="8" disabled />
+                    <input type="text" class="form-control" style="width:50px" id="txtRevise" tabindex="9" disabled />
+                    <input type="button" class="btn btn-default" id="btnBrowseQuo" value="..." onclick="SearchData('quotation')" />
                     <input type="hidden" id="txtManagerCode" />
                 </div>
             </div>
@@ -206,6 +207,7 @@ End Code
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
+            CreateLOV(dv,'#frmSearchQuo','#tbQuo','Quotations',response,3);
             //Customers
             CreateLOV(dv,'#frmSearchCust','#tbCust','Customers',response,3);
             //Consignee
@@ -316,6 +318,10 @@ End Code
     function ReadJob(dt) {
         $('#txtCopyFromJob').val(dt.JNo);
     }
+    function ReadQuo(dt) {
+        $('#txtQNo').val(dt.QNo);
+        $('#txtRevise').val(dt.SeqNo);
+    }
     function SearchData(type) {
         switch (type) {
             case 'branch':
@@ -336,6 +342,13 @@ End Code
                 break;
             case 'job':
                 SetGridJob(path, '#tbJob', '#frmSearchJob', GetParam() , ReadJob);
+                break;
+            case 'quotation':
+                let branch = $('#txtBranchCode').val();
+                let cust = $('#txtCustCode').val();
+                let jtype = $('#cboJobType').val();
+                let sby = $('#cboShipBy').val();        
+                SetGridQuotationDesc(path, '#tbQuo', '?branch=' + branch + '&cust=' + cust + '&jtype=' + jtype + '&sby=' + sby + '&status=1', '#frmSearchQuo', ReadQuo);
                 break;
         }
     }
@@ -371,6 +384,7 @@ End Code
             });
     }
     function CreateJob() {
+        $('#btnCreateJob').attr('disabled', 'disabled');
         if ($('#txtBranchName').val() === '') {
             ShowMessage('Please select branch before create job');
             $('#txtBranchCode').focus();
@@ -456,6 +470,7 @@ End Code
                 $('#txtJNo').val(obj.JNo);
                 $('#dvResp').html(r.msg);
                 $('#frmShowJob').modal('show');
+                $('#btnCreateJob').removeAttr('disabled');
             }
         });
     }

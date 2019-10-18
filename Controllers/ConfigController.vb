@@ -290,6 +290,9 @@ Namespace Controllers
         End Function
         Function GetConfig() As ActionResult
             Try
+                If jobWebConn = "" Then
+                    Return Content("[]", jsonContent)
+                End If
                 Dim tSqlw As String = " WHERE ConfigCode<>'' "
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND ConfigCode IN('{0}')", Request.QueryString("Code").ToString)

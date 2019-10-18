@@ -1178,6 +1178,9 @@ Namespace Controllers
         End Function
         Function GetDashboard() As ActionResult
             Try
+                If jobWebConn = "" Then
+                    Return Content("{""result"":[],""msg"":""No Connection""}", jsonContent)
+                End If
                 Dim msg As String = New CUtil(jobWebConn).ExecuteSQL(SQLUpdateJobStatus(""), False)
                 Dim tSqlw1 As String = ""
                 Dim bCheck As Boolean = False

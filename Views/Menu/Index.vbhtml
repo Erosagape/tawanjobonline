@@ -25,19 +25,20 @@ Last Update : <label id="lblLastUpdate">@DateTime.Now().ToString("dd/MM/yyyy HH:
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     var path = '@Url.Content("~")';
-    window.onload = function () {
-        loadCombos(path, 'SHIP_BY=#cboShipBy,JOB_TYPE=#cboJobType');
-    }
+
+    loadCombos(path, 'SHIP_BY=#cboShipBy,JOB_TYPE=#cboJobType');
+
     google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawChart);
 
     window.onresize = () => {
+        CheckSession(drawChart());
         drawChart();
     }
     setInterval(function () {
-        drawChart();
+        CheckSession(drawChart());
     }, 30000);
-    function drawChart() {
+    function drawChart() {    
         let w = '';
         if ($('#cboJobType').val() > '') {
             if (w == '') w += '?';

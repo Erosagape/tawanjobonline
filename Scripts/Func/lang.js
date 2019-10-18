@@ -145,9 +145,89 @@ function ChangeLanguage(code, module) {
         });
 }
 function ChangeLanguageForm(fname) {
+    let lang = {};
     switch (fname) {
+        case 'MODULE_SALES/Quotation':
+            lang = {
+                lblTitle: 'Quotation|ใบเสนอราคา',
+                lblSearch: 'Search|ค้นหา',
+                lblBranch: 'Branch|สาขา',
+                lblCustomer: 'Customer|ลูกค้า',
+                lblDateFrom: 'Date From|วันที่เอกสาร',
+                lblDateTo: 'Date To|ถึงวันที่',
+                lblShowCancel: 'Show Cancel Only|แสดงเอกสารที่ยกเลิก',
+                lblDetail: 'Detail of Quotation|รายการใบเสนอราคา',
+                lblAddSection: 'Add Section|เพิ่มรายการ',
+                lblDelSection: 'Delete Section|ลบรายการ',
+                lblAddQuo: 'Add Quotation|เพิ่มใบเสนอราคา',
+                lblCopyQuo: 'Copy Quotation|ก๊อปปี้ใบเสนอราคา',
+                lblPrintQuo: 'Print Quotation|พิมพ์ใบเสนอราคา',
+                lblQuoHeader: 'Add/Edit Quotation|ข้อมูลใบเสนอราคา',
+                lblQNo: 'Quotation No|เลขที่ใบเสนอราคา',
+                lblDocDate: 'Issue Date|วันที่เอกสาร',
+                lblStatus: 'Status|สถานะ',
+                lblReferQNo: 'Refer Q.No|อ้างถึงใบเสนอราคา',
+                lblBillingTo: 'Billing To|เก็บเงินที่',
+                lblManager: 'Manager|ผู้เสนอราคา',
+                lblContact: 'Contact Name|ผู้ติดต่อ',
+                lblRemark: 'Remark|หมายเหตุ',
+                lblDescriptionH: 'Header|ข้อความส่วนต้น',
+                lblDescriptionF: 'Footer|ข้อความส่วนท้าย',
+                lblApproveBy: 'Approve By|อนุมัติโดย',
+                lblApproveDate: 'Approve Date|วันที่อนุมัติ',
+                lblApproveTime: 'Approve Time|เวลาอนุมัติ',
+                lblCancelBy: 'Cancel By|ยกเลิกโดย',
+                lblCancelDate: 'Cancel Date|วันที่ยกเลิก',
+                lblCancelReason: 'Cancel Reason|เหตุผลที่ยกเลิก',
+                lblSaveQuo: 'Update Quotation|บันทึกข้อมูล',
+                lblSection: 'Section and Expenses|หัวข้อและรายการ',
+                lblNewSection: 'New Section|เพิ่มหัวข้อ',
+                lblSeqNo: 'Section No|หัวข้อที่',
+                lblJobType: 'Job Type|ประเภทงาน',
+                lblShipBy: 'Ship By|ลักษณะงาน',
+                lblSDescription: 'Description|คำอธิบายหัวข้อ',
+                lblUpdSection: 'Update Section|ปรับปรุงหัวข้อ',
+                lblExpenses: 'Lists of expenses|รายการค่าบริการ',
+                lblNewExpenses: 'New Expense|เพิ่มรายการ',
+                lblDelExpenses: 'Delete Expenses|ลบรายการ',
+                lblItemNo: 'Item No|รายการที่',
+                lblCalType: 'Calculate Type|ประเภทการคำนวณ',
+                lblRequired: 'Required?|จำเป็นต้องเรียกเก็บทุกครั้ง',
+                lblSICode: 'Service Code|รหัสค่าบริการ',
+                lblCurrency: 'Currency|สกุลเงิน',
+                lblExchangeRate: 'Exc.Rate|อัตราแลกเปลี่บน',
+                lblDescriptionTH: 'Service Description|ความหมายค่าบริการ',
+                lblQtyBegin: 'Qty Begin|จำนวนเริ่มต้น',
+                lblQtyEnd: 'Qty End|จำนวนสิ้นสุด',
+                lblUnitCheck: 'Unit|หน่วยบริการ',
+                lblChargeAmt: 'Price|ราคาต่อหน่วย',
+                lblDiscountType: 'Discount Type|ประเภทส่วนลด',
+                lblDiscountRate: 'Discount Rate|อัตราส่วนลด',
+                lblVender: 'Vender|ผู้ให้บริการ',
+                lblCostAmt: 'Cost Amount|ราคาทุน',
+                lblCommType: 'Commission Type|วิธีคิดคอมมิชชั่น',
+                lblCommAmt: 'Commission Amt|ยอดเงินคอมมิชชั่น',
+                lblVAT: 'VAT|ภาษีมูลค่าเพิ่ม',
+                lblVATRate: 'Rate|ร้อยละ',
+                lblVATAmt: 'VAT Amt|ยอดเงิน',
+                lblWHT: 'WHT|ภาษี ณ ที่จ่าย',
+                lblWHTRate: 'Rate|ร้อยละ',
+                lblWHTAmt: 'WHT Amt|ยอดเงิน',
+                lblCharge: 'Charge|ค่าบริการ',
+                lblTotal: 'Total|ยอดสุทธิ',
+                lblBaseProfit: 'Base Profit|กำไรขั้นต้น',
+                lblNetProfit: 'Net Profit|กำไรสุทธิ',
+                lblAddExpense: 'Add Expense|เพิ่มรายการ',
+                lblUpdExpense: 'Update Expense|บันทึกรายการ',
+                lblCreateFrom: 'Create Quotation Base From|สร้างใบเสนอราคาจาก',
+                lblCreate: 'Create|สร้างเลย',
+                lblDiscountB: 'Discount (B)|ส่วนลด (บาท)',
+                lblDiscountF: 'Discount (F)|ส่วนลด (ตปท)'
+            };
+            SetLanguage(lang);
+            break;
         case 'MODULE_CS/CreateJob':
-            let lang = {
+            lang = {
                 lblTitle: 'Create Job|สร้างหมายเลขงานใหม่',
                 lblJobType: 'Job Type|ประเภทงาน',
                 lblShipBy: 'Ship By|ลักษณะงานขนส่ง',
@@ -195,7 +275,6 @@ function ChangeLanguageForm(fname) {
                 responsive: true,
                 destroy:true
             });
-
             break;
     }    
 }
