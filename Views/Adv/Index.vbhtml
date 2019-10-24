@@ -1293,7 +1293,7 @@ End Code
                 ForJNo : row.ForJNo,
                 TRemark : row.SRemark,
                 Doc50Tavi : '',
-                PayChqTo : '',
+                PayChqTo : header.DocNo +'#' + row.ItemNo,
                 SDescription : row.SDescription,
                 IsChargeVAT : row.IsTaxCharge,
                 VATRate: header.VATRate,
@@ -1649,7 +1649,7 @@ End Code
             let docno = dt.DocNo;
             let branch = dt.BranchCode;
             $('#txtPaymentNo').val(docno);
-            $.get(path + 'acc/getpayment?branch=' + branch + '&code=' + docno)
+            $.get(path + 'acc/getpaymentforadv?branch=' + branch + '&code=' + docno)
                 .done(function (r) {
                     if (r.payment.detail.length > 0) {
                         let dt = GetAdvDetail(r.payment);

@@ -182,6 +182,52 @@ Public Class CPayDetail
             m_ForJNo = value
         End Set
     End Property
+
+    Private m_ClrRefNo As String
+    Public Property ClrRefNo As String
+        Get
+            Return m_ClrRefNo
+        End Get
+        Set(value As String)
+            m_ClrRefNo = value
+        End Set
+    End Property
+    Private m_BookingRefNo As String
+    Public Property BookingRefNo As String
+        Get
+            Return m_BookingRefNo
+        End Get
+        Set(value As String)
+            m_BookingRefNo = value
+        End Set
+    End Property
+    Private m_AdvItemNo As Integer
+    Public Property AdvItemNo As Integer
+        Get
+            Return m_AdvItemNo
+        End Get
+        Set(value As Integer)
+            m_AdvItemNo = value
+        End Set
+    End Property
+    Private m_ClrItemNo As Integer
+    Public Property ClrItemNo As Integer
+        Get
+            Return m_ClrItemNo
+        End Get
+        Set(value As Integer)
+            m_ClrItemNo = value
+        End Set
+    End Property
+    Private m_BookingItemNo As Integer
+    Public Property BookingItemNo As Integer
+        Get
+            Return m_BookingItemNo
+        End Get
+        Set(value As Integer)
+            m_BookingItemNo = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -214,6 +260,11 @@ Public Class CPayDetail
                             dr("Total") = Me.Total
                             dr("FTotal") = Me.FTotal
                             dr("ForJNo") = Me.ForJNo
+                            dr("ClrRefNo") = Me.ClrRefNo
+                            dr("BookingRefNo") = Me.BookingRefNo
+                            dr("AdvItemNo") = Me.AdvItemNo
+                            dr("ClrItemNo") = Me.ClrItemNo
+                            dr("BookingItemNo") = Me.BookingItemNo
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             UpdateTotal(cn)
@@ -298,6 +349,21 @@ Public Class CPayDetail
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("ForJNo"))) = False Then
                         row.ForJNo = rd.GetString(rd.GetOrdinal("ForJNo")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("AdvItemNo"))) = False Then
+                        row.AdvItemNo = rd.GetValue(rd.GetOrdinal("AdvItemNo"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ClrRefNo"))) = False Then
+                        row.ClrRefNo = rd.GetString(rd.GetOrdinal("ClrRefNo")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ClrItemNo"))) = False Then
+                        row.ClrItemNo = rd.GetValue(rd.GetOrdinal("ClrItemNo"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("BookingRefNo"))) = False Then
+                        row.BookingRefNo = rd.GetString(rd.GetOrdinal("BookingRefNo")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("BookingItemNo"))) = False Then
+                        row.BookingItemNo = rd.GetValue(rd.GetOrdinal("BookingItemNo"))
                     End If
                     lst.Add(row)
                 End While

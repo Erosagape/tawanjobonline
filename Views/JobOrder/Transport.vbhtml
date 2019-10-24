@@ -419,7 +419,8 @@ End Code
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
             //Units
-            CreateLOV(dv, '#frmSearchUnit', '#tbUnit', 'Car Unit', response, 2);
+            CreateLOV(dv, '#frmSearchUnitS', '#tbUnitS', 'Commodity Unit', response, 2);
+            CreateLOV(dv, '#frmSearchUnitC', '#tbUnitC', 'Car Unit', response, 2);
             //Job
             CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job', response, 3);
             //Booking
@@ -441,10 +442,10 @@ End Code
                 SetGridJob(path, '#tbJob', '#frmSearchJob', '?branch=' + $('#txtBranchCode').val(), ReadJob);
                 break;
             case 'servunit':
-                SetGridServUnitFilter(path, '#tbUnit', '?Type=0', '#frmSearchUnit', ReadUnit);
+                SetGridServUnitFilter(path, '#tbUnitS', '?Type=0', '#frmSearchUnitS', ReadUnit);
                 break;
             case 'carunit':
-                SetGridServUnitFilter(path, '#tbUnit', '?Type=2', '#frmSearchUnit', ReadCarUnit);
+                SetGridServUnitFilter(path, '#tbUnitC', '?Type=2', '#frmSearchUnitC', ReadCarUnit);
                 break;
             case 'booking':
                 let w = '?Branch=' + $('#txtBranchCode').val();

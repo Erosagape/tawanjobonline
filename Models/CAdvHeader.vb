@@ -479,6 +479,10 @@ Public Class CAdvHeader
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
             Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvHeader", "UpdateTotal", cm.CommandText)
+
+            If Me.DocStatus = 99 Then
+                Main.DBExecute(jobWebConn, String.Format("UPDATE Job_PaymentHeader SET AdvRef='' WHERE BranchCode='{0}' AND AdvRef='{1}' ", Me.BranchCode, Me.AdvNo))
+            End If
         End Using
     End Sub
     Public Function GetData(pSQLWhere As String) As List(Of CAdvHeader)

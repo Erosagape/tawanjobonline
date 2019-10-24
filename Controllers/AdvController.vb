@@ -346,13 +346,21 @@ Namespace Controllers
                 Dim str As String = ""
                 Dim branchcode As String = ""
                 Dim docno As String = ""
-
+                Dim isUpdatePay As Boolean = False
                 For Each o As CAdvDetail In data
                     i += 1
                     branchcode = o.BranchCode
                     docno = o.AdvNo
                     o.SetConnect(jobWebConn)
                     Dim msg = o.SaveData(String.Format(" WHERE BranchCode='{0}' AND AdvNo='{1}' And ItemNo='{2}' ", o.BranchCode, o.AdvNo, o.ItemNo))
+
+                    If o.STCode = "EXP" And o.PayChqTo.IndexOf("#") > 0 Then
+                        If isUpdatePay = False Then
+                            Main.DBExecute(jobWebConn, String.Format("UPDATE Job_PaymentHeader SET AdvRef='{0}' WHERE BranchCode='{1}' AND DocNo='{2}' ", o.AdvNo, o.BranchCode, o.PayChqTo.Split("#".ToCharArray())(0)))
+                            isUpdatePay = True
+                        End If
+                        Main.DBExecute(jobWebConn, String.Format("UPDATE Job_PaymentDetail SET AdvItemNo={0} WHERE BranchCode='{1}' AND DocNo='{2}' AND ItemNo={3}", o.ItemNo, o.BranchCode, o.PayChqTo.Split("#".ToCharArray())(0), o.PayChqTo.Split("#".ToCharArray())(1)))
+                    End If
                     If str <> "" Then str &= ","
                     str &= msg
                 Next

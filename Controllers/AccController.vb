@@ -31,6 +31,40 @@ Namespace Controllers
         Function Payment() As ActionResult
             Return GetView("Payment", "MODULE_ACC")
         End Function
+        Function GetPaymentForAdv() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE DocNo<>'' "
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format(" AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format(" AND DocNo='{0}' ", Request.QueryString("Code").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("VenCode")) Then
+                    tSqlw &= String.Format(" AND VenCode='{0}' ", Request.QueryString("VenCode").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Currency")) Then
+                    tSqlw &= String.Format(" AND CurrencyCode='{0}' ", Request.QueryString("Currency").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlw &= " AND DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00' "
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlw &= " AND DocDate<='" & Request.QueryString("DateTo") & " 23:59:00' "
+                End If
+
+                Dim oData = New CPayHeader(jobWebConn).GetData(tSqlw & " AND NOT ISNULL(AdvRef,'')<>''")
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                Dim oDataD = New CPayDetail(jobWebConn).GetData(tSqlw & " AND AdvItemNo=0 ")
+                Dim jsonD As String = JsonConvert.SerializeObject(oDataD)
+
+                json = "{""payment"":{""header"":" & json & ",""detail"":" & jsonD & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetPayment", "ERROR", ex.Message)
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
         Function GetPayment() As ActionResult
             Try
                 Dim tSqlw As String = " WHERE DocNo<>'' "
@@ -94,7 +128,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Type")) Then
                     If Request.QueryString("Type").ToString = "NOPAY" Then
                         tSqlw &= String.Format(" AND NOT (h.DocNo IN(SELECT p.DocNo FROM (SELECT hd.DocNo FROM Job_CashControlDoc hd INNER JOIN Job_CashControlSub dt ON hd.BranchCode=dt.BranchCode AND hd.ControlNo=dt.ControlNo AND hd.acType=dt.acType WHERE hd.DocType='PAY' AND dt.PRType='P' AND hd.BranchCode='{0}') p  )", Request.QueryString("Branch").ToString)
-                        tSqlw &= String.Format(" OR h.DocNo IN(SELECT DISTINCT p.PaymentNo FROM (SELECT hd.PaymentNo FROM Job_AdvHeader hd WHERE hd.DocStatus<>99 AND hd.BranchCode='{0}') p WHERE p.PaymentNo IS NOT NULL))", Request.QueryString("Branch").ToString)
+                        tSqlw &= String.Format(" OR ISNULL(h.AdvRef,'')<>'')", Request.QueryString("Branch").ToString)
                     End If
                 End If
                 If Not IsNothing(Request.QueryString("Show")) Then

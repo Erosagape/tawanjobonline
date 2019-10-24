@@ -227,6 +227,78 @@ Public Class CPayHeader
             m_PayType = value
         End Set
     End Property
+    Private m_AdvRef As String
+    Public Property AdvRef As String
+        Get
+            Return m_AdvRef
+        End Get
+        Set(value As String)
+            m_AdvRef = value
+        End Set
+    End Property
+    Private m_ApproveBy As String
+    Public Property ApproveBy As String
+        Get
+            Return m_ApproveBy
+        End Get
+        Set(value As String)
+            m_ApproveBy = value
+        End Set
+    End Property
+    Private m_ApproveDate As Date
+    Public Property ApproveDate As Date
+        Get
+            Return m_ApproveDate
+        End Get
+        Set(value As Date)
+            m_ApproveDate = value
+        End Set
+    End Property
+    Private m_ApproveTime As Date
+    Public Property ApproveTime As Date
+        Get
+            Return m_ApproveTime
+        End Get
+        Set(value As Date)
+            m_ApproveTime = value
+        End Set
+    End Property
+    Private m_PaymentBy As String
+    Public Property PaymentBy As String
+        Get
+            Return m_PaymentBy
+        End Get
+        Set(value As String)
+            m_PaymentBy = value
+        End Set
+    End Property
+    Private m_PaymentDate As Date
+    Public Property PaymentDate As Date
+        Get
+            Return m_PaymentDate
+        End Get
+        Set(value As Date)
+            m_PaymentDate = value
+        End Set
+    End Property
+    Private m_PaymentTime As Date
+    Public Property PaymentTime As Date
+        Get
+            Return m_PaymentTime
+        End Get
+        Set(value As Date)
+            m_PaymentTime = value
+        End Set
+    End Property
+    Private m_PaymentRef As String
+    Public Property PaymentRef As String
+        Get
+            Return m_PaymentRef
+        End Get
+        Set(value As String)
+            m_PaymentRef = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -263,6 +335,14 @@ Public Class CPayHeader
                             dr("ForeignAmt") = Me.ForeignAmt
                             dr("RefNo") = Me.RefNo
                             dr("PayType") = Me.PayType
+                            dr("AdvRef") = Me.AdvRef
+                            dr("ApproveBy") = Me.ApproveBy
+                            dr("ApproveDate") = Main.GetDBDate(Me.ApproveDate)
+                            dr("ApproveTime") = Main.GetDBTime(Me.ApproveTime)
+                            dr("PaymentBy") = Me.PaymentBy
+                            dr("PaymentDate") = Main.GetDBDate(Me.PaymentDate)
+                            dr("PaymentTime") = Main.GetDBTime(Me.PaymentTime)
+                            dr("PaymentRef") = Me.PaymentRef
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CPayHeader", "SaveData", Me)
@@ -365,6 +445,30 @@ Public Class CPayHeader
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("PayType"))) = False Then
                         row.PayType = rd.GetString(rd.GetOrdinal("PayType")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("AdvRef"))) = False Then
+                        row.AdvRef = rd.GetString(rd.GetOrdinal("AdvRef")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ApproveBy"))) = False Then
+                        row.ApproveBy = rd.GetString(rd.GetOrdinal("ApproveBy")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ApproveDate"))) = False Then
+                        row.ApproveDate = rd.GetValue(rd.GetOrdinal("ApproveDate"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ApproveTime"))) = False Then
+                        row.ApproveTime = rd.GetValue(rd.GetOrdinal("ApproveTime"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PaymentBy"))) = False Then
+                        row.PaymentBy = rd.GetString(rd.GetOrdinal("PaymentBy")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PaymentDate"))) = False Then
+                        row.PaymentDate = rd.GetValue(rd.GetOrdinal("PaymentDate"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PaymentTime"))) = False Then
+                        row.PaymentTime = rd.GetValue(rd.GetOrdinal("PaymentTime"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PaymentRef"))) = False Then
+                        row.PaymentRef = rd.GetString(rd.GetOrdinal("PaymentRef")).ToString()
                     End If
                     lst.Add(row)
                 End While

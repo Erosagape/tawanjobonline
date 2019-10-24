@@ -15,9 +15,9 @@ delete from Job_GLDetail
 delete from Job_GLHeader
 delete from Job_InvoiceDetail
 delete from Job_InvoiceHeader
-delete from Job_LoadInfo
-delete from Job_LoadInfoDetail
-delete from Job_Order
+--delete from Job_LoadInfo
+--delete from Job_LoadInfoDetail
+--delete from Job_Order
 delete from Job_PaymentDetail
 delete from Job_PaymentHeader
 --delete from Job_QuotationDetail

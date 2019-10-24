@@ -391,7 +391,11 @@ Public Class CAdvDetail
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
+
                     Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvDetail", "DeleteData", cm.CommandText)
+
+                    cm.CommandText = String.Format("UPDATE Job_PaymentDetail SET AdvItemNo=0 WHERE BranchCode='{0}' AND DocNo IN(SELECT DocNo FROM Job_PaymentHeader WHERE AdvRef='{1}') AND AdvItemNo={2}", Me.BranchCode, Me.AdvNo, Me.ItemNo)
+                    cm.ExecuteNonQuery()
                 End Using
                 UpdateTotal(cn)
 

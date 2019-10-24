@@ -740,6 +740,12 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("CustCode")) Then
                     tSqlW &= " AND CustCode='" & Request.QueryString("CustCode") & "'"
                 End If
+                If Not IsNothing(Request.QueryString("Vend")) Then
+                    tSqlW &= " AND AgentCode='" & Request.QueryString("Vend") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("Agent")) Then
+                    tSqlW &= " AND ForwarderCode='" & Request.QueryString("Agent") & "'"
+                End If
                 If Not IsNothing(Request.QueryString("TaxNumber")) Then
                     tSqlW &= " AND CustCode IN(SELECT CustCode FROM Mas_Company WHERE TaxNumber='" & Request.QueryString("TaxNumber") & "')"
                 End If

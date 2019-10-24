@@ -93,12 +93,14 @@ End Code
                                 </td>
                             </tr>
                         </table>
-                    </div>                    
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-7">
                         Remark:
                         <textarea id="txtRemark" style="width:100%;height:80px" tabindex="8"></textarea>
+                        <br />
+                        Advance Reference:<input type="text" id="txtAdvRef" style="width:200px" disabled />
                     </div>
                     <div class="col-sm-5">
                         <a onclick="SearchData('currency')">Currency:</a>
@@ -107,11 +109,37 @@ End Code
                         Exchange Rate:
                         <input type="text" id="txtExchangeRate" style="width:50px" value="1" />
                         <br />
-                        <buttom id="btnGetExcRate" class="btn btn-warning" onclick="GetExchangeRate()">Get Rate</buttom>                                                
+                        <buttom id="btnGetExcRate" class="btn btn-warning" onclick="GetExchangeRate()">Get Rate</buttom>
+                        <br/>
+                        VAT Rate :<input type="text" id="txtVATRate" style="width:50px" /><br />
+                        TAX Rate :<input type="text" id="txtTaxRate" style="width:50px" /><br />
+                        Pay Type :<select id="txtPayType"></select>
                     </div>
-                </div>
+                </div>                
                 <div class="row">
-                    <div class="col-sm-7" style="border-style:solid;border-width:1px;color:red">
+                    <div class="col-sm-4" style="border-style:solid;border-width:1px">
+                        <input type="checkbox" id="chkApprove" />
+                        <label for="chkApprove">Approve By</label>
+                        <br />
+                        <input type="text" id="txtApproveBy" style="width:250px" disabled />
+                        <br />
+                        Date:
+                        <input type="date" id="txtApproveDate" disabled />
+                        Time:
+                        <input type="text" id="txtApproveTime" style="width:80px" disabled />
+                    </div>
+                    <div class="col-sm-4" style="border-style:solid;border-width:1px">
+                        <label id="lblPayment">Payment By</label>
+                        <input type="text" id="txtPaymentBy" style="width:250px" disabled />
+                        <br />
+                        Date:
+                        <input type="date" id="txtPaymentDate" disabled />
+                        Time:
+                        <input type="text" id="txtPaymentTime" style="width:80px" disabled />
+                        <br />
+                        Payment Ref:<input type="text" id="txtPaymentRef" style="width:200px" disabled />
+                    </div>
+                    <div class="col-sm-4" style="border-style:solid;border-width:1px;color:red">
                         <input type="checkbox" id="chkCancel" />
                         <label for="chkCancel">Cancel By</label>
                         <input type="text" id="txtCancelProve" style="width:250px" disabled />
@@ -122,11 +150,6 @@ End Code
                         <input type="text" id="txtCancelTime" style="width:80px" disabled />
                         <br />
                         Cancel Reason :<input type="text" id="txtCancelReson" style="width:250px" />
-                    </div>
-                    <div class="col-sm-5">
-                        VAT Rate :<input type="text" id="txtVATRate" style="width:50px" /><br />
-                        TAX Rate :<input type="text" id="txtTaxRate" style="width:50px" /><br />
-                        Pay Type :<select id="txtPayType"></select>
                     </div>
                 </div>
                 <div id="dvCommand">
@@ -222,7 +245,15 @@ End Code
                             <br />
                             Remark : <input type="text" id="txtSRemark" style="width:230px" tabindex="23" />
                             <br />
-                            Job No : <input type="text" id="txtForJNo" style="width:230px" tabindex="24" />
+                            Job No : <input type="text" id="txtForJNo" style="width:230px" disabled />
+                            <input type="button" onclick="SearchData('job')" value="..." />
+                            <br/>
+                            Booking No : <input type="text" id="txtBookingRefNo" style="width:200px" disabled />
+                            # <input type="text" id="txtBookingItemNo" style="width:50px" disabled />
+                            <br />
+                            Clearing No : <input type="text" id="txtClrRefNo" style="width:200px" disabled />
+                            # <input type="text" id="txtClrItemNo" style="width:50px" disabled />
+                            <input type="hidden" id="txtAdvItemNo" />
                         </div>
                         <div class="modal-footer">
                             <div style="float:left">
@@ -344,6 +375,10 @@ End Code
             chkmode = this.checked;
             CallBackAuthorize(path, 'MODULE_ACC', 'Expense', 'D', SetCancel);
         });
+        $('#chkApprove').on('click', function () {
+            chkmode = this.checked;
+            CallBackAuthorize(path, 'MODULE_ADV', 'Approve',(chkmode ? 'I':'D'), SetApprove);
+        });
         $('#txtBranchCode').focusout(function (event) {
             if (true) {
                 ShowBranch(path, $('#txtBranchCode').val(), '#txtBranchName');
@@ -407,6 +442,15 @@ End Code
             }
         });
     }
+    function SetApprove(b) {
+        if (b == true) {
+            $('#txtApproveBy').val(chkmode  ? user : '');
+            $('#txtApproveDate').val(chkmode ? GetToday() : '');
+            $('#txtApproveTime').val(chkmode ? ShowTime(GetTime()) : '');
+        } else {
+            ShowMessage('you are not allow to approve quotation');
+        }
+    }
     function SetCancel(b) {
         if (b == true) {
             ShowConfirm("Do you want to " + (chkmode ? 'cancel' : 're-open') + "?", function (result) {
@@ -434,15 +478,17 @@ End Code
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Venders
-            CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response,4);
+            CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response,2);
             //Users
-            CreateLOV(dv, '#frmSearchEmp', '#tbEmp', 'Entry By', response,4);
+            CreateLOV(dv, '#frmSearchEmp', '#tbEmp', 'Entry By', response,2);
             //Branch
-            CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response,4);
+            CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response,2);
             //SICode
-            CreateLOV(dv, '#frmSearchSICode', '#tbServ', 'Service Code', response,4);
+            CreateLOV(dv, '#frmSearchSICode', '#tbServ', 'Service Code', response,2);
             //Currency
-            CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency Code', response,4);
+            CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency Code', response, 2);
+            //Jobs
+            CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Jobs', response, 3);
         });
     }
     function ShowData(branchcode, docno) {
@@ -512,7 +558,15 @@ End Code
             ExchangeRate:CNum($('#txtExchangeRate').val()),
             ForeignAmt:CNum($('#txtForeignAmt').val()),
             RefNo: $('#txtRefNo').val(),
-            PayType:$('#txtPayType').val()
+            PayType: $('#txtPayType').val(),
+            PaymentBy: $('#txtPaymentBy').val(),
+            PaymentDate : CDateEN($('#txtPaymentDate').val()),
+            PaymentTime : $('#txtPaymentTime').val(),
+            PaymentRef : $('#txtPaymentRef').val(),
+            ApproveBy : $('#txtApproveBy').val(),
+            ApproveDate : CDateEN($('#txtApproveDate').val()),
+            ApproveTime : $('#txtApproveTime').val(),
+            AdvRef: $('#txtAdvRef').val()
         };
         return dt;
     }
@@ -538,12 +592,22 @@ End Code
             $('#txtTotalNet').val(dt.TotalNet);
             $('#txtForeignAmt').val(dt.ForeignAmt);
             $('#txtRemark').val(dt.Remark);
+            $('#txtPaymentBy').val(dt.PaymentBy);
+            $('#txtPaymentDate').val(CDateEN(dt.PaymentDate));
+            $('#txtPaymentTime').val(ShowTime(dt.PaymentTime));
+            $('#txtPaymentRef').val(dt.PaymentRef);
+            $('#txtApproveBy').val(dt.ApproveBy);
+            $('#txtApproveDate').val(CDateEN(dt.ApproveDate));
+            $('#txtApproveTime').val(ShowTime(dt.ApproveTime));
             $('#txtCancelReson').val(dt.CancelReson);
             $('#txtCancelProve').val(dt.CancelProve);
             $('#txtCancelDate').val(CDateEN(dt.CancelDate));
             $('#txtCancelTime').val(ShowTime(dt.CancelTime));
+            $('#txtAdvRef').val(dt.AdvRef);
             $('#txtRefNo').val(dt.RefNo);
             $('#txtPayType').val(dt.PayType);
+            $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
+            $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
             return;
         }
         ClearHeader();
@@ -603,12 +667,22 @@ End Code
         $('#txtTotalNet').val('0');
         $('#txtForeignAmt').val('0');
         $('#txtRemark').val('');
+        $('#txtAdvRef').val('');
+        $('#txtPaymentBy').val('');
+        $('#txtPaymentDate').val('');
+        $('#txtPaymentTime').val('');
+        $('#txtPaymentRef').val('');
+        $('#txtApproveBy').val('');
+        $('#txtApproveDate').val('');
+        $('#txtApproveTime').val('');
         $('#txtCancelReson').val('');
         $('#txtCancelProve').val('');
         $('#txtCancelDate').val('');
         $('#txtCancelTime').val('');
         $('#txtRefNo').val('');
         $('#txtPayType').val('CA');
+        $('#chkCancel').prop('checked', false);
+        $('#chkApprove').prop('checked', false);
     }
     function SaveDetail() {
 
@@ -652,8 +726,8 @@ End Code
                 { data: null, title: "Edit" },
                 { data: "SICode", title: "Exp" },
                 { data: "SDescription", title: "Description" },
-                { data: "Qty", title: "Qty" },
-                { data: "UnitPrice", title: "Price" },
+                { data: "ForJNo", title: "Job" },
+                { data: "SRemark", title: "Remark" },
                 { data: "Amt", title: "Amount" },
                 { data: "AmtVAT", title: "Vat" },
                 { data: "AmtWHT", title: "WH-Tax" },
@@ -703,7 +777,12 @@ End Code
             AmtWHT: $('#txtAmtWHT').val(),
             Total: $('#txtTotal').val(),
             FTotal: $('#txtFTotal').val(),
-            ForJNo: $('#txtForJNo').val()
+            ForJNo: $('#txtForJNo').val(),
+            ClrRefNo: $('#txtClrRefNo').val(),
+            ClrItemNo: $('#txtClrItemNo').val(),
+            BookingRefNo: $('#txtBookingRefNo').val(),
+            BookingItemNo: $('#txtBookingItemNo').val(),
+            AdvItemNo: $('#txtAdvItemNo').val()
         };
         return dt;
     }
@@ -728,6 +807,11 @@ End Code
             $('#txtTotal').val(dt.Total);
             $('#txtFTotal').val(dt.FTotal);
             $('#txtForJNo').val(dt.ForJNo);
+            $('#txtBookingRefNo').val(dt.BookingRefNo);
+            $('#txtBookingItemNo').val(dt.BookingItemNo);
+            $('#txtClrRefNo').val(dt.ClrRefNo);
+            $('#txtClrItemNo').val(dt.ClrItemNo);
+            $('#txtAdvItemNo').val(dt.AdvItemNo);
             return;
         }
         ClearDetail();
@@ -751,6 +835,11 @@ End Code
         $('#txtTotal').val('0');
         $('#txtFTotal').val('0');
         $('#txtForJNo').val('');
+        $('#txtAdvItemNo').val(0);
+        $('#txtBookingRefNo').val('');
+        $('#txtBookingItemNo').val(0);
+        $('#txtClrRefNo').val('');
+        $('#txtClrItemNo').val(0);
     }
     function LoadService() {
         if (serv.length==0) {
@@ -838,6 +927,9 @@ End Code
             case 'vender':
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
                 break;
+            case 'job':
+                SetGridJob(path, '#tbJob', '#frmSearchJob', '?Vend=' + $('#txtVenCode').val(), ReadJob);
+                break;
         }
     }
     function GetParam() {
@@ -845,6 +937,9 @@ End Code
         strParam += 'Branch=' + $('#txtBranchCode').val();
         strParam += '&VenCode=' + $('#txtVenCode').val();
         return strParam;
+    }
+    function ReadJob(dt) {
+        $('#txtForJNo').val(dt.JNo);
     }
     function ReadVender(dt) {
         $('#txtVenCode').val(dt.VenCode);
@@ -866,6 +961,8 @@ End Code
         if (dt != undefined) {
             $('#txtSICode').val(dt.SICode);
             $('#txtSDescription').val(dt.NameThai);
+            $('#txtQtyUnit').val(dt.UnitCharge);
+            $('#txtUnitPrice').val(CDbl(CNum(dt.StdPrice) / CNum($('#txtExchangeRate').val()), 2));
             return;
         }
         CalVATWHT();
