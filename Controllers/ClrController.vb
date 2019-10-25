@@ -365,6 +365,39 @@ Namespace Controllers
                 Return Content("{""clr"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
             End Try
         End Function
+        Function GetPaymentForClear() As ActionResult
+            Try
+                Dim tSqlW As String = " AND d.ClrItemNo=0 "
+                If Not IsNothing(Request.QueryString("Show")) Then
+                    If Request.QueryString("Show").ToString = "CLR" Then
+                        tSqlW = " AND d.ClrItemNo>0 "
+                    End If
+                End If
+
+
+                If Not IsNothing(Request.QueryString("JobNo")) Then
+                    tSqlW &= " AND d.ForJNo='" & Request.QueryString("JobNo") & "' "
+                End If
+                If Not IsNothing(Request.QueryString("Vender")) Then
+                    tSqlW &= " AND h.VenCode IN(SELECT UserID FROM Mas_User WHERE DeptID='" & Request.QueryString("Vender") & "')"
+                End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlW &= " AND h.DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlW &= " AND h.DocDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
+                Dim sql As String = SQLSelectPayForClear() & "{0}"
+
+                Dim oData As DataTable = New CUtil(jobWebConn).GetTableFromSQL(String.Format(sql, tSqlW))
+                Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetPaymentForClear", "ERROR", ex.Message)
+                Return Content("{""clr"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
+            End Try
+
+        End Function
         Function GetAdvForClear() As ActionResult
             Try
                 Dim tSqlW As String = " WHERE (a.AdvNet-ISNULL(d.TotalCleared,0))>0 AND c.DocStatus IN('3','4') "

@@ -215,6 +215,7 @@ End Code
                         <div class="modal-body">
                             <label for="txtItemNo">No :</label>
                             <input type="text" id="txtItemNo" style="width:40px" disabled />
+                            <input type="checkbox" id="chkCopy" /> Use Copy Mode
                             <br />
                             <label for="txtSICode">Code :</label>
                             <input type="text" id="txtSICode" style="width:80px" tabindex="12" />
@@ -260,7 +261,7 @@ End Code
                                 <a href="#" class="btn btn-default w3-purple" id="btnAddDet" onclick="AddDetail()">
                                     <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New</b>
                                 </a>
-                                <a href="#" class="btn btn-success" id="btnSaveDet" onclick="SaveDetail()">
+                                <a href="#" class="btn btn-success" id="btnUpdate" onclick="SaveDetail()">
                                     <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
                                 </a>
                             </div>
@@ -361,12 +362,6 @@ End Code
         });
     }
     function SetEvents() {
-        if (userRights.indexOf('I') < 0) $('#btnNew').attr('disabled', 'disabled');
-        if (userRights.indexOf('I') < 0) $('#btnAdd').attr('disabled', 'disabled');
-        if (userRights.indexOf('E') < 0) $('#btnSave').attr('disabled', 'disabled');
-        if (userRights.indexOf('E') < 0) $('#btnUpdate').attr('disabled', 'disabled');
-        if (userRights.indexOf('D') < 0) $('#btnDel').attr('disabled', 'disabled');
-        if (userRights.indexOf('P') < 0) $('#btnPrint').attr('disabled', 'disabled');
 
         $('#frmDetail').on('shown.bs.modal', function () {
             $('#txtSICode').focus();
@@ -441,12 +436,14 @@ End Code
                 }
             }
         });
+        EnableSave();
     }
     function SetApprove(b) {
         if (b == true) {
             $('#txtApproveBy').val(chkmode  ? user : '');
             $('#txtApproveDate').val(chkmode ? GetToday() : '');
             $('#txtApproveTime').val(chkmode ? ShowTime(GetTime()) : '');
+            EnableSave();
         } else {
             ShowMessage('you are not allow to approve quotation');
         }
@@ -608,6 +605,7 @@ End Code
             $('#txtPayType').val(dt.PayType);
             $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
             $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
+            EnableSave();
             return;
         }
         ClearHeader();
@@ -683,6 +681,8 @@ End Code
         $('#txtPayType').val('CA');
         $('#chkCancel').prop('checked', false);
         $('#chkApprove').prop('checked', false);
+        $('#tbDetail').DataTable().clear().draw();
+        EnableSave();
     }
     function SaveDetail() {
 
@@ -819,27 +819,29 @@ End Code
     function ClearDetail() {
         dtl = {};
         $('#txtItemNo').val(0);
-        $('#txtSICode').val('');
-        $('#txtSDescription').val('');
-        $('#txtSRemark').val('');
-        $('#txtQty').val('1');
-        $('#txtQtyUnit').val('');
-        $('#txtUnitPrice').val('');
-        $('#txtIsTaxCharge').prop('checked', false);
-        $('#txtIs50Tavi').prop('checked', false);
-        $('#txtDiscountPerc').val('0');
-        $('#txtAmt').val('0');
-        $('#txtAmtDisc').val('0');
-        $('#txtAmtVAT').val('0');
-        $('#txtAmtWHT').val('0');
-        $('#txtTotal').val('0');
-        $('#txtFTotal').val('0');
-        $('#txtForJNo').val('');
-        $('#txtAdvItemNo').val(0);
-        $('#txtBookingRefNo').val('');
-        $('#txtBookingItemNo').val(0);
-        $('#txtClrRefNo').val('');
-        $('#txtClrItemNo').val(0);
+        if ($('#chkCopy').prop('checked') == false) {
+            $('#txtSICode').val('');
+            $('#txtSDescription').val('');
+            $('#txtSRemark').val('');
+            $('#txtQty').val('1');
+            $('#txtQtyUnit').val('');
+            $('#txtUnitPrice').val('');
+            $('#txtIsTaxCharge').prop('checked', false);
+            $('#txtIs50Tavi').prop('checked', false);
+            $('#txtDiscountPerc').val('0');
+            $('#txtAmt').val('0');
+            $('#txtAmtDisc').val('0');
+            $('#txtAmtVAT').val('0');
+            $('#txtAmtWHT').val('0');
+            $('#txtTotal').val('0');
+            $('#txtFTotal').val('0');
+            $('#txtForJNo').val('');
+            $('#txtAdvItemNo').val(0);
+            $('#txtBookingRefNo').val('');
+            $('#txtBookingItemNo').val(0);
+            $('#txtClrRefNo').val('');
+            $('#txtClrItemNo').val(0);
+        }
     }
     function LoadService() {
         if (serv.length==0) {
@@ -1029,5 +1031,23 @@ End Code
             let rate = CDbl(r[$('#txtCurrencyCode').val() + '_THB'], 4);
             $('#txtExchangeRate').val(rate);
         });
+    }
+    function EnableSave() {
+        let b = (userRights.indexOf('E') > 0 && ($('#txtApproveBy').val()=='' && $('#txtCancelProve').val()=='' ))
+        if (b == false) {
+            $('#btnSave').attr('disabled', 'disabled');
+            $('#btnDel').attr('disabled', 'disabled');
+            $('#btnUpdate').attr('disabled', 'disabled');
+        } else {
+            $('#btnSave').removeAttr('disabled');
+            $('#btnDel').removeAttr('disabled');
+            $('#btnUpdate').removeAttr('disabled');
+        }
+        if (userRights.indexOf('I') < 0) $('#btnNew').attr('disabled', 'disabled');
+        if (userRights.indexOf('I') < 0) $('#btnAdd').attr('disabled', 'disabled');
+        if (userRights.indexOf('E') < 0) $('#btnSave').attr('disabled', 'disabled');
+        if (userRights.indexOf('E') < 0) $('#btnUpdate').attr('disabled', 'disabled');
+        if (userRights.indexOf('D') < 0) $('#btnDel').attr('disabled', 'disabled');
+        if (userRights.indexOf('P') < 0) $('#btnPrint').attr('disabled', 'disabled');
     }
 </script>

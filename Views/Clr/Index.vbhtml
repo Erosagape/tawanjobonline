@@ -104,7 +104,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-7">
-                        Co-person Reference:<br/>
+                        Co-person Reference:<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtCoPersonCode" />
                         </div>
@@ -197,7 +197,10 @@ End Code
                     <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Detail</b>
                 </a>
                 <a href="#" class="btn btn-warning" id="btnChooseAdv" onclick="LoadAdvance()">
-                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Choose Advance</b>
+                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Choose Advances</b>
+                </a>
+                <a href="#" class="btn btn-warning" id="btnChooseAdv" onclick="LoadPayment()">
+                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Choose Payments</b>
                 </a>
                 <div class="row">
                     <div class="col-sm-12">
@@ -258,7 +261,7 @@ End Code
                             <label for="txtItemNo">No :</label>
                             <input type="text" id="txtItemNo" style="width:40px" disabled />
                             <select id="cboSTCode" class="dropdown"></select>
-                            <input type="checkbox" id="chkDuplicate" onchange="ToggleClearBtn()"/>
+                            <input type="checkbox" id="chkDuplicate" onchange="ToggleClearBtn()" />
                             <label for="chkDuplicate">Partial Clear</label>
                             <br />
                             <label for="txtSICode">Code :</label>
@@ -371,6 +374,38 @@ End Code
                         </div>
                         <div class="modal-footer">
                             <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="frmPayment" class="modal modal-lg fade">
+                <div class="modal-dialog-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title"><label id="lblHeaderPay">Payments List</label></h4>
+                        </div>
+                        <div class="modal-body">
+                            <table id="tbPayment" class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>PaymentNo</th>
+                                        <th class="desktop">DueDate</th>
+                                        <th class="all">ItemNo</th>
+                                        <th class="desktop">SICode</th>
+                                        <th>Description</th>
+                                        <th class="desktop">JobNo</th>
+                                        <th class="desktop">Currency</th>
+                                        <th class="desktop">ExcRate</th>
+                                        <th class="desktop">Qty</th>
+                                        <th class="desktop">Unit</th>
+                                        <th class="all">Net</th>
+                                        <th class="all">50Tavi</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="btnHideP" class="btn btn-danger" data-dismiss="modal">X</button>
                         </div>
                     </div>
                 </div>
@@ -1757,4 +1792,56 @@ End Code
         ShowVender(path, dt.VenderCode, '#txtPayChqTo');
         CalAmount();
     }
+    function LoadPayment() {
+        let branch = $('#txtBranchCode').val();
+        $.get(path + 'Clr/GetPaymentForClear?branch=' + branch, function (r) {
+            if (r.clr.data.length > 0) {
+                let d = r.clr.data[0].Table;
+                $('#tbPayment').DataTable({
+                    data: d,
+                    selected: true, //ให้สามารถเลือกแถวได้
+                    columns: [ //กำหนด property ของ header column
+                        { data: "VenderBillingNo", title: "Payment.No" },
+                        {
+                            data: "VenderBillDate", title: "Due.Date",
+                            render: function (data) {
+                                return CDateEN(data);
+                            }
+                        },
+                        { data: "ItemNo", title: "#" },
+                        { data: "SICode", title: "Code" },
+                        { data: "SDescription", title: "Expense Name" },
+                        { data: "JobNo", title: "Job" },
+                        { data: "CurrencyCode", title: "Currency" },
+                        { data: "CurRate", title: "Rate" },
+                        { data: "Qty", title: "Qty" },
+                        { data: "UnitCode", title: "Unit" },
+                        { data: "BNet", title: "Total" },
+                        { data: "Tax50Tavi", title: "WHT" },
+                    ],
+                    responsive:true,
+                    destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                });
+                $('#tbPayment tbody').on('click', 'tr', function () {
+                    $('#tbPayment tbody > tr').removeClass('selected');
+                    $(this).addClass('selected');
+
+                    let dt = $('#tbPayment').DataTable().row(this).data(); //read current row selected
+
+                    dt.BranchCode = $('#txtBranchCode').val();
+                    dt.ClrNo = $('#txtClrNo').val();
+                    dtl = dt;
+                    $('#frmPayment').modal('hide');
+                    ClearDetail();
+                    LoadDetailFromAdv(dt);
+                    $('#frmDetail').modal('show');
+
+                });
+                $('#frmPayment').modal('show');
+            } else {
+                ShowMessage("Not found data for payment");
+            }
+        });
+    }
+
 </script>

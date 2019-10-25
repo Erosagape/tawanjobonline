@@ -36,10 +36,10 @@ Module Main
     End Function
     Friend Function GetValueSQL(conn As String, sql As String) As CResult
         Dim ret As New CResult With {
-            .Source = sql,
-            .Param = conn,
-            .Result = ""
-        }
+    .Source = sql,
+    .Param = conn,
+    .Result = ""
+}
         Try
             Using cn As New SqlConnection(conn)
                 cn.Open()
@@ -149,11 +149,11 @@ Module Main
             For Each dr As DataRow In dt.Rows
 
                 Dim oAuth = New CUserAuth(jobWebConn) With {
-                    .UserID = If(uname <> "", uname, dr("UserID").ToString()),
-                    .AppID = dr("ModuleCode").ToString(),
-                    .MenuID = dr("ModuleFunc").ToString(),
-                    .Author = dr("Authorize").ToString()
-                }
+    .UserID = If(uname <> "", uname, dr("UserID").ToString()),
+    .AppID = dr("ModuleCode").ToString(),
+    .MenuID = dr("ModuleFunc").ToString(),
+    .Author = dr("Authorize").ToString()
+}
                 msg += oAuth.SaveData(String.Format(" WHERE UserID='{0}' AND AppID='{1}' AND MenuID='{2}'", oAuth.UserID, oAuth.AppID, oAuth.MenuID)) & "\n"
                 iRow += 1
             Next
@@ -179,11 +179,11 @@ Module Main
             For Each dr As DataRow In dt.Rows
 
                 Dim oAuth = New CUserAuth(jobWebConn) With {
-                    .UserID = dr("UserID").ToString(),
-                    .AppID = dr("ModuleCode").ToString(),
-                    .MenuID = dr("ModuleFunc").ToString(),
-                    .Author = dr("Authorize").ToString()
-                }
+    .UserID = dr("UserID").ToString(),
+    .AppID = dr("ModuleCode").ToString(),
+    .MenuID = dr("ModuleFunc").ToString(),
+    .Author = dr("Authorize").ToString()
+}
                 msg += oAuth.SaveData(String.Format(" WHERE UserID='{0}' AND AppID='{1}' AND MenuID='{2}'", oAuth.UserID, oAuth.AppID, oAuth.MenuID)) & "\n"
                 iRow += 1
             Next
@@ -241,33 +241,33 @@ from Job_AdvHeader adv inner join
 (
     select BranchCode,AdvNo,sum(ClrCount) as ClrCount,
     (CASE WHEN sum(CASE WHEN IsDuplicate=0 THEN ClrCount ELSE 0 END)=Count(*) THEN 5 ELSE 
-         (CASE WHEN Sum(ClrCount) > 0 THEN 4 ELSE Max(AdvStatus) END) 
+ (CASE WHEN Sum(ClrCount) > 0 THEN 4 ELSE Max(AdvStatus) END) 
      END) as ClrStatus 
     ,sum(ClrNet) as ClrNet,Sum(AdvNet) as AdvNet
     from
     (
-        select h.BranchCode,d.AdvNo,d.ItemNo,d.IsDuplicate,d.AdvAmount as AdvNet,
-        (CASE WHEN d.IsDuplicate=1 THEN ISNULL(c.ClrNet,0) ELSE ISNULL(c.AdvNet,0) END) as ClrNet,
-        (CASE WHEN h.PaymentRef<>'' THEN 3 ELSE (CASE WHEN h.ApproveBy<>'' THEN 2 ELSE 1 END) END) as AdvStatus,
-        (CASE WHEN c.ClrNo IS NULL THEN 0 ELSE 1 END) as ClrCount
-        from Job_AdvHeader h inner join Job_AdvDetail d
-        on h.BranchCode=d.BranchCode
-        and h.AdvNo=d.AdvNo 
-        left join
-        (
-            select a.BranchCode,a.AdvNO,a.AdvItemNo
-            ,Max(a.ClrNo) as ClrNo
-            ,Sum(a.BNet) as ClrNet,Sum(a.AdvAmount) as AdvNet 
-            FROM Job_ClearDetail a inner join Job_ClearHeader b
-            on a.BranchCode=b.BranchCode
-            and a.ClrNo=b.ClrNo
-            where b.DocStatus<>99
-            group by a.BranchCode,a.AdvNO,a.AdvItemNo
-        ) c
-        on h.BranchCode=c.BranchCode
-        and h.AdvNo=c.AdvNO
-        and d.ItemNo=c.AdvItemNo
-        where h.DocStatus<>99
+select h.BranchCode,d.AdvNo,d.ItemNo,d.IsDuplicate,d.AdvAmount as AdvNet,
+(CASE WHEN d.IsDuplicate=1 THEN ISNULL(c.ClrNet,0) ELSE ISNULL(c.AdvNet,0) END) as ClrNet,
+(CASE WHEN h.PaymentRef<>'' THEN 3 ELSE (CASE WHEN h.ApproveBy<>'' THEN 2 ELSE 1 END) END) as AdvStatus,
+(CASE WHEN c.ClrNo IS NULL THEN 0 ELSE 1 END) as ClrCount
+from Job_AdvHeader h inner join Job_AdvDetail d
+on h.BranchCode=d.BranchCode
+and h.AdvNo=d.AdvNo 
+left join
+(
+    select a.BranchCode,a.AdvNO,a.AdvItemNo
+    ,Max(a.ClrNo) as ClrNo
+    ,Sum(a.BNet) as ClrNet,Sum(a.AdvAmount) as AdvNet 
+    FROM Job_ClearDetail a inner join Job_ClearHeader b
+    on a.BranchCode=b.BranchCode
+    and a.ClrNo=b.ClrNo
+    where b.DocStatus<>99
+    group by a.BranchCode,a.AdvNO,a.AdvItemNo
+) c
+on h.BranchCode=c.BranchCode
+and h.AdvNo=c.AdvNO
+and d.ItemNo=c.AdvItemNo
+where h.DocStatus<>99
     ) clr
     group by BranchCode,AdvNo
 ) src
@@ -288,7 +288,7 @@ from Job_AdvHeader b left join
 	sum(Charge50Tavi) as Sum50Tavi
 	from Job_AdvDetail 
 	group by BranchCode,AdvNo
-) a                                     
+) a     
 on b.BranchCode =a.BranchCode
 and b.AdvNo=a.AdvNo
 "
@@ -312,7 +312,7 @@ from Job_PaymentHeader b left join
     sum(FTotal) as SumFTotal
 	from Job_PaymentDetail 
 	group by BranchCode,DocNo
-) a                                     
+) a     
 on b.BranchCode =a.BranchCode
 and b.DocNo=a.DocNo
 "
@@ -354,9 +354,9 @@ FROM Job_CNDNHeader a LEFT JOIN
 (
     SELECT BranchCode,DocNo,
     (SELECT STUFF((
-        SELECT DISTINCT ',' + BillingNo
-        FROM Job_CNDNDetail WHERE BranchCode=d.BranchCode
-        AND DocNo=d.DocNo  
+SELECT DISTINCT ',' + BillingNo
+FROM Job_CNDNDetail WHERE BranchCode=d.BranchCode
+AND DocNo=d.DocNo  
     FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
     )) as InvoiceNo,
     Sum(DiffAmt) as TotalAmt,
@@ -472,6 +472,24 @@ LEFT JOIN (
 ON a.BranchCode=d.BranchCode AND a.AdvNo=d.AdvNo
 "
     End Function
+    Function SQLSelectPayForClear() As String
+        Return "
+  SELECT d.BranchCode, '' AS ClrNo, 0 AS ItemNo, 0 AS LinkItem, 'EXP' AS STCode, d.SICode, 
+ d.SDescription, h.VenCode AS VenderCode, d.Qty, d.QtyUnit AS UnitCode, 
+ h.CurrencyCode, h.ExchangeRate AS CurRate, d.UnitPrice, 
+ d.Qty * d.UnitPrice AS FPrice, 
+ d.Qty * d.UnitPrice / h.ExchangeRate AS BPrice, d.AmtVAT AS ChargeVAT, 
+ d.AmtWHT AS Tax50Tavi,'' AS AdvNO, 0 AS AdvAmount, d.Amt AS UsedAmount, 0 AS IsQuoItem, '' AS SlipNO, 
+ '' AS Remark, 0 AS IsDuplicate, 0 AS IsLtdAdv50Tavi, '' AS Pay50TaviTo, '' AS NO50Tavi, NULL AS Date50Tavi, d.DocNo AS VenderBillingNo, 
+ '' AS AirQtyStep, '' AS StepSub, d.ForJNo AS JobNo, 0 AS AdvItemNo, 0 AS LinkBillNo, 0 AS VATType, h.VATRate, 
+ h.TaxRate AS Tax50TaviRate,'' AS QNo, d.Total AS FNet, 
+ d.Total / h.ExchangeRate AS BNet ,h.DocDate as VenderBillDate
+FROM    dbo.Job_PaymentDetail d INNER JOIN
+ dbo.Job_PaymentHeader h ON d.BranchCode = h.BranchCode AND 
+ d.DocNo = h.DocNo
+WHERE d.AdvItemNo=0
+"
+    End Function
     Function SQLSelectAdvForClear() As String
         Return "
 Select a.BranchCode,'' as ClrNo,0 as ItemNo,0 as LinkItem,
@@ -482,7 +500,7 @@ a.AdvQty as Qty,b.UnitCharge as UnitCode,a.CurrencyCode,a.ExchangeRate as CurRat
 (CASE WHEN b.IsExpense=0 THEN a.AdvQty*a.UnitPrice*a.ExchangeRate ELSE 0 END) as BPrice,
 q.TotalCharge as QUnitPrice,a.AdvQty*q.ChargeAmt as QFPrice,a.AdvQty*q.ChargeAmt*q.CurrencyRate as QBPrice,
 a.UnitPrice as UnitCost,a.AdvQty*a.UnitPrice as FCost,a.AdvQty*a.UnitPrice*a.ExchangeRate as BCost,
-a.ChargeVAT,a.Charge50Tavi as Tax50Tavi,a.AdvNo as AdvNO,a.ItemNo as AdvItemNo,a.AdvAmount,a.AdvNet,
+a.ChargeVAT,a.Charge50Tavi as Tax50Tavi,a.AdvNo as AdvNO,d.AdvDate,a.ItemNo as AdvItemNo,a.AdvAmount,a.AdvNet,
 a.AdvNet-ISNULL(d.TotalCleared,0) as AdvBalance,ISNULL(d.TotalCleared,0) as UsedAmount,
 (CASE WHEN ISNULL(q.QNo,'')='' THEN 0 ELSE 1 END) as IsQuoItem,
 a.IsDuplicate,b.IsExpense,
@@ -519,14 +537,14 @@ on a.BranchCode=q.BranchCode and b.SICode=q.SICode and ISNULL(a.VenCode,b.Defaul
 and b.UnitCharge=q.UnitCheck and a.AdvQty <=q.QtyEnd and a.AdvQty>=q.QtyBegin and q.QNo=j.QNo
 left join 
 (
-	SELECT ad.BranchCode,ad.AdvNo,ad.ItemNo,
+	SELECT ad.BranchCode,ad.AdvNo,ad.ItemNo,ah.AdvDate,
     SUM(CASE WHEN ad.IsDuplicate=1 THEN ISNULL(cd.BNet,0) ELSE ISNULL(cd.AdvAmount,0) END) as TotalCleared    
 	FROM Job_ClearDetail cd INNER JOIN Job_ClearHeader ch
 	on cd.BranchCode=ch.BranchCode	and cd.ClrNo =ch.ClrNo 	and ch.DocStatus<>99
     INNER JOIN Job_AdvDetail ad on cd.BranchCode=ad.BranchCode and cd.AdvNO=ad.AdvNo and cd.AdvItemNo=ad.ItemNo
     INNER JOIN Job_AdvHeader ah on ad.BranchCode=ah.BranchCode and ad.AdvNo=ah.AdvNo
     WHERE ah.DocStatus<>99
-	GROUP BY ad.BranchCode,ad.AdvNo,ad.ItemNo
+	GROUP BY ad.BranchCode,ad.AdvNo,ad.ItemNo,ah.AdvDate
 ) d
 ON a.BranchCode=d.BranchCode and a.AdvNo=d.AdvNo and a.ItemNo=d.ItemNo "
     End Function
@@ -720,8 +738,8 @@ LEFT JOIN (
     FROM Job_CashControlSub h INNER JOIN Job_CashControlDoc d
     ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
     WHERE NOT EXISTS(
-        select ControlNo from Job_CashControl
-        where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
+select ControlNo from Job_CashControl
+where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
     )
     GROUP BY h.BranchCode,h.ChqNo
     " & If(pType = "CU", ",h.RecvBank,h.RecvBranch", ",h.BankCode,h.BankBranch") & "
@@ -743,8 +761,8 @@ LEFT JOIN (
     FROM Job_CashControlSub h INNER JOIN Job_CashControlDoc d
     ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
     WHERE h.PRType='" & If(pType = "R", "P", "R") & "' AND NOT EXISTS(
-        select ControlNo from Job_CashControl
-        where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
+select ControlNo from Job_CashControl
+where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
     )
     GROUP BY h.BranchCode,h.DocNo
 ) c
@@ -965,102 +983,102 @@ SET j.JobStatus=c.JobStatus
 FROM Job_Order j INNER JOIN (
     SELECT s.BranchCode,s.JNo,MAX(s.JobStatus) as JobStatus
     FROM (
-        SELECT BranchCode,JNo,0 as JobStatus FROM Job_Order 
-        WHERE ConfirmDate IS NULL 
-        AND JobStatus<>99 AND NOT ISNULL(CancelReson,'')<>''
-        UNION
-        SELECT BranchCode,JNo,1 FROM Job_Order 
-        WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate IS NULL
-        AND JobStatus<>1 AND NOT ISNULL(CancelReson,'')<>''
-        UNION
-        SELECT BranchCode,JNo,1 FROM Job_Order 
-        WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND NOT DutyDate<=Convert(datetime,'" & today & "',102)
-        AND JobStatus<>1 AND NOT ISNULL(CancelReson,'')<>''
-        UNION
-        SELECT BranchCode,JNo,2 FROM Job_Order 
-        WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate<=Convert(datetime,'" & today & "',102)
-        AND JobStatus<>2 AND NOT ISNULL(CancelReson,'')<>'' 
-        UNION
-        SELECT BranchCode,JNo,3 FROM Job_Order 
-        WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NOT NULL
-        AND JobStatus<>3 AND NOT ISNULL(CancelReson,'')<>''
-        UNION
-        SELECT a.BranchCode,a.JNo,4 FROM Job_Order a 
-        WHERE EXISTS(
-              SELECT b.BranchCode,b.JobNo as JNo,
-              SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END) as TotalBill
-              FROM Job_ClearDetail b INNER JOIN Job_ClearHeader h
-              ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
-              WHERE b.BranchCode=a.BranchCode AND b.JobNo=a.JNo
-              AND h.DocStatus<>99 
-              GROUP BY b.BranchCode,b.JobNo
-              HAVING SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)=0
-        )
-        AND a.JobStatus<>99 AND NOT ISNULL(a.CancelReson,'')<>''
-        UNION 
-        SELECT a.BranchCode,a.JNo,5 FROM Job_Order a 
-        WHERE EXISTS(
-              SELECT b.BranchCode,b.JobNo as JNo,
-              SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END) as TotalBill,
-              COUNT(*) as TotalDoc
-              FROM Job_ClearDetail b INNER JOIN Job_ClearHeader h
-              ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
-              WHERE b.BranchCode=a.BranchCode AND b.JobNo=a.JNo
-              AND h.DocStatus<>99 
-              GROUP BY b.BranchCode,b.JobNo
-              HAVING COUNT(*)>SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
-              AND SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)>0
-        )
-        AND a.JobStatus<>99 AND NOT ISNULL(a.CancelReson,'')<>''
-        UNION 
-        SELECT a.BranchCode,a.JNo,6 FROM Job_Order a 
-        WHERE EXISTS (
-              SELECT b.BranchCode,b.JobNo as JNo,
-              SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END) as TotalBill,
-              COUNT(*) as TotalDoc
-              FROM Job_ClearDetail b INNER JOIN Job_ClearHeader h
-              ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
-              WHERE b.BranchCode=a.BranchCode AND b.JobNo=a.JNo
-              AND h.DocStatus<>99 
-              GROUP BY b.BranchCode,b.JobNo
-              HAVING COUNT(*)=SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
-        )
-        AND a.JobStatus<>99 AND NOT ISNULL(a.CancelReson,'')<>''
-        UNION
-        SELECT a.BranchCode,a.JNo,7 FROM Job_Order a 
-        WHERE EXISTS
-        (
-              SELECT b.BranchCode,b.JobNo as JNo,SUM(b.BNet-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0)) as Balance
-              FROM Job_ClearDetail b INNER JOIN Job_ClearHeader h
-              ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
-              LEFT JOIN (
-                SELECT rh.BranchCode,rd.InvoiceNo,rd.InvoiceItemNo,Sum(rd.Net) as TotalRcv,id.AmtCredit,id.AmtDiscount
-                FROM Job_ReceiptHeader rh INNER JOIN Job_ReceiptDetail rd
-                ON rh.BranchCode=rd.BranchCode AND rh.ReceiptNo=rd.ReceiptNo
-                INNER JOIN Job_InvoiceHeader ih
-                ON rd.BranchCode=ih.BranchCode AND rd.InvoiceNo=ih.DocNo
-                INNER JOIN Job_InvoiceDetail id
-                ON rd.BranchCode=id.BranchCode AND rd.InvoiceNo=id.DocNo AND rd.InvoiceItemNo=id.ItemNo
-                WHERE ISNULL(rh.CancelProve,'')='' AND ISNULL(ih.CancelProve,'')='' 
-                GROUP BY rh.BranchCode,rd.InvoiceNo,rd.InvoiceItemNo,id.AmtCredit,id.AmtDiscount
-              ) r                
-              ON b.BranchCode=r.BranchCode AND b.LinkBillNo=r.InvoiceNo AND b.LinkItem=r.InvoiceItemNo
-              LEFT JOIN (
-                " & SQLSelectCNDNByInvoice() & "
-              ) c
-              ON b.BranchCode=c.BranchCode AND b.LinkBillNo=c.BillingNo AND b.LinkItem=c.BillItemNo
-              WHERE h.DocStatus<>99 AND b.BranchCode=a.BranchCode AND b.JobNo=a.JNo 
-              AND b.LinkItem>0 AND ISNULL(b.LinkBillNo,'')<>'' 
-              GROUP BY b.BranchCode,b.JobNo
-              HAVING SUM(b.BNet-ISNULL(r.TotalRcv,0))<=0
-        ) AND a.ConfirmDate IS NOT NULL AND a.CloseJobDate IS NOT NULL  
-        AND a.JobStatus<>99 AND NOT ISNULL(a.CancelReson,'')<>''
-        UNION
-        SELECT BranchCode,JNo,98 as JobStatus FROM Job_Order 
-        WHERE ISNULL(CancelReson,'')<>'' AND JobStatus<>99 AND ISNULL(CancelProve,'')=''
-        UNION
-        SELECT BranchCode,JNo,99 as JobStatus FROM Job_Order 
-        WHERE ISNULL(CancelReson,'')<>'' AND ISNULL(CancelProve,'')<>''
+SELECT BranchCode,JNo,0 as JobStatus FROM Job_Order 
+WHERE ConfirmDate IS NULL 
+AND JobStatus<>99 AND NOT ISNULL(CancelReson,'')<>''
+UNION
+SELECT BranchCode,JNo,1 FROM Job_Order 
+WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate IS NULL
+AND JobStatus<>1 AND NOT ISNULL(CancelReson,'')<>''
+UNION
+SELECT BranchCode,JNo,1 FROM Job_Order 
+WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND NOT DutyDate<=Convert(datetime,'" & today & "',102)
+AND JobStatus<>1 AND NOT ISNULL(CancelReson,'')<>''
+UNION
+SELECT BranchCode,JNo,2 FROM Job_Order 
+WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate<=Convert(datetime,'" & today & "',102)
+AND JobStatus<>2 AND NOT ISNULL(CancelReson,'')<>'' 
+UNION
+SELECT BranchCode,JNo,3 FROM Job_Order 
+WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NOT NULL
+AND JobStatus<>3 AND NOT ISNULL(CancelReson,'')<>''
+UNION
+SELECT a.BranchCode,a.JNo,4 FROM Job_Order a 
+WHERE EXISTS(
+      SELECT b.BranchCode,b.JobNo as JNo,
+      SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END) as TotalBill
+      FROM Job_ClearDetail b INNER JOIN Job_ClearHeader h
+      ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
+      WHERE b.BranchCode=a.BranchCode AND b.JobNo=a.JNo
+      AND h.DocStatus<>99 
+      GROUP BY b.BranchCode,b.JobNo
+      HAVING SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)=0
+)
+AND a.JobStatus<>99 AND NOT ISNULL(a.CancelReson,'')<>''
+UNION 
+SELECT a.BranchCode,a.JNo,5 FROM Job_Order a 
+WHERE EXISTS(
+      SELECT b.BranchCode,b.JobNo as JNo,
+      SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END) as TotalBill,
+      COUNT(*) as TotalDoc
+      FROM Job_ClearDetail b INNER JOIN Job_ClearHeader h
+      ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
+      WHERE b.BranchCode=a.BranchCode AND b.JobNo=a.JNo
+      AND h.DocStatus<>99 
+      GROUP BY b.BranchCode,b.JobNo
+      HAVING COUNT(*)>SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
+      AND SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)>0
+)
+AND a.JobStatus<>99 AND NOT ISNULL(a.CancelReson,'')<>''
+UNION 
+SELECT a.BranchCode,a.JNo,6 FROM Job_Order a 
+WHERE EXISTS (
+      SELECT b.BranchCode,b.JobNo as JNo,
+      SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END) as TotalBill,
+      COUNT(*) as TotalDoc
+      FROM Job_ClearDetail b INNER JOIN Job_ClearHeader h
+      ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
+      WHERE b.BranchCode=a.BranchCode AND b.JobNo=a.JNo
+      AND h.DocStatus<>99 
+      GROUP BY b.BranchCode,b.JobNo
+      HAVING COUNT(*)=SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
+)
+AND a.JobStatus<>99 AND NOT ISNULL(a.CancelReson,'')<>''
+UNION
+SELECT a.BranchCode,a.JNo,7 FROM Job_Order a 
+WHERE EXISTS
+(
+      SELECT b.BranchCode,b.JobNo as JNo,SUM(b.BNet-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0)) as Balance
+      FROM Job_ClearDetail b INNER JOIN Job_ClearHeader h
+      ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
+      LEFT JOIN (
+SELECT rh.BranchCode,rd.InvoiceNo,rd.InvoiceItemNo,Sum(rd.Net) as TotalRcv,id.AmtCredit,id.AmtDiscount
+FROM Job_ReceiptHeader rh INNER JOIN Job_ReceiptDetail rd
+ON rh.BranchCode=rd.BranchCode AND rh.ReceiptNo=rd.ReceiptNo
+INNER JOIN Job_InvoiceHeader ih
+ON rd.BranchCode=ih.BranchCode AND rd.InvoiceNo=ih.DocNo
+INNER JOIN Job_InvoiceDetail id
+ON rd.BranchCode=id.BranchCode AND rd.InvoiceNo=id.DocNo AND rd.InvoiceItemNo=id.ItemNo
+WHERE ISNULL(rh.CancelProve,'')='' AND ISNULL(ih.CancelProve,'')='' 
+GROUP BY rh.BranchCode,rd.InvoiceNo,rd.InvoiceItemNo,id.AmtCredit,id.AmtDiscount
+      ) r
+      ON b.BranchCode=r.BranchCode AND b.LinkBillNo=r.InvoiceNo AND b.LinkItem=r.InvoiceItemNo
+      LEFT JOIN (
+" & SQLSelectCNDNByInvoice() & "
+      ) c
+      ON b.BranchCode=c.BranchCode AND b.LinkBillNo=c.BillingNo AND b.LinkItem=c.BillItemNo
+      WHERE h.DocStatus<>99 AND b.BranchCode=a.BranchCode AND b.JobNo=a.JNo 
+      AND b.LinkItem>0 AND ISNULL(b.LinkBillNo,'')<>'' 
+      GROUP BY b.BranchCode,b.JobNo
+      HAVING SUM(b.BNet-ISNULL(r.TotalRcv,0))<=0
+) AND a.ConfirmDate IS NOT NULL AND a.CloseJobDate IS NOT NULL  
+AND a.JobStatus<>99 AND NOT ISNULL(a.CancelReson,'')<>''
+UNION
+SELECT BranchCode,JNo,98 as JobStatus FROM Job_Order 
+WHERE ISNULL(CancelReson,'')<>'' AND JobStatus<>99 AND ISNULL(CancelProve,'')=''
+UNION
+SELECT BranchCode,JNo,99 as JobStatus FROM Job_Order 
+WHERE ISNULL(CancelReson,'')<>'' AND ISNULL(CancelProve,'')<>''
     ) s
     GROUP BY s.BranchCode,s.JNo
 ) c

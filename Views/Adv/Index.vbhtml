@@ -1517,7 +1517,6 @@ End Code
                 break;
             case 'payment':
                 if (CheckEntry() == true) {
-                    SaveHeader();
                     SetGridPayment(path, '#tbPay', '?branch=' + $('#txtBranchCode').val() + '&type=NOPAY', '#frmSearchPay', ReadPayment);
                 }
                 break;
@@ -1652,6 +1651,7 @@ End Code
             $.get(path + 'acc/getpaymentforadv?branch=' + branch + '&code=' + docno)
                 .done(function (r) {
                     if (r.payment.detail.length > 0) {
+                        SaveHeader();
                         let dt = GetAdvDetail(r.payment);
                         SaveAdvFromPay(dt);
                     } 
