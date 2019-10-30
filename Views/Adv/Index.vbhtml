@@ -835,6 +835,11 @@ End Code
                 }                    
             }
         }
+        if ($('#txtCustCode').val() == '') {
+            ShowMessage('please select customer');
+            $('#txtCustCode').focus();
+            return false;
+        }
         if ($('#cboJobType').val() == 0) {
             ShowMessage('please select job type');
             $('#cboJobType').focus();
@@ -1516,8 +1521,29 @@ End Code
                 SetGridAdv();
                 break;
             case 'payment':
+                if ($('#txtPaymentNo').val() !== '') {
+                    ShowMessage('Payment Bill is choosed!');
+                    return;
+                }
+                let pt = '';
+                if ($('#chkCash').prop('checked') == true) {
+                    pt = '&paytype=CA';
+                }
+                if ($('#chkChqCash').prop('checked') == true) {
+                    pt = '&paytype=CU';
+                }
+                if ($('#chkChq').prop('checked') == true) {
+                    pt = '&paytype=CH';
+                }
+                if ($('#chkCred').prop('checked') == true) {
+                    pt = '&paytype=CR';
+                }
+                if (pt == '') {
+                    ShowMessage('Please select type of advance payment');
+                    return;
+                }
                 if (CheckEntry() == true) {
-                    SetGridPayment(path, '#tbPay', '?branch=' + $('#txtBranchCode').val() + '&type=NOPAY', '#frmSearchPay', ReadPayment);
+                    SetGridPayment(path, '#tbPay', '?branch=' + $('#txtBranchCode').val() + '&type=NOPAY' + pt, '#frmSearchPay', ReadPayment);
                 }
                 break;
             case 'branch':
@@ -1650,8 +1676,7 @@ End Code
             $('#txtPaymentNo').val(docno);
             $.get(path + 'acc/getpaymentforadv?branch=' + branch + '&code=' + docno)
                 .done(function (r) {
-                    if (r.payment.detail.length > 0) {
-                        SaveHeader();
+                    if (r.payment.detail.length > 0) {                        
                         let dt = GetAdvDetail(r.payment);
                         SaveAdvFromPay(dt);
                     } 
@@ -1667,9 +1692,9 @@ End Code
             type: "POST",
             contentType: "application/json",
             data: jsonString,
-            success: function (response) {                
-                ShowMessage(response.result.msg);
+            success: function (response) {                                
                 ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val());
+                SaveHeader();
             }
         });
         return;

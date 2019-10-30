@@ -1,9 +1,25 @@
 ﻿@Code
     ViewBag.Title = "Main Dashboard"
 End Code
-Job Type : <select id="cboJobType" onchange="drawChart()"></select>
-Transport By : <select id="cboShipBy" onchange="drawChart()"></select>
-Last Update : <label id="lblLastUpdate">@DateTime.Now().ToString("dd/MM/yyyy HH:mm:ss")</label>
+<div class="row">
+    <div class="col-sm-3">
+        Job Type : <br/><select id="cboJobType" onchange="drawChart()"></select>
+    </div>
+    <div class="col-sm-3">
+        Transport By : <br /><select id="cboShipBy" onchange="drawChart()"></select>
+    </div>
+    <div class="col-sm-2">
+        Duty Date From :<br />
+        <input type="date" id="txtDateFrom" />
+    </div>
+    <div class="col-sm-2">
+        Duty Date To :<br />
+        <input type="date" id="txtDateTo" />
+    </div>
+    <div class="col-sm-2">
+        <input type="button" class="btn btn-success" onclick="RefreshGrid()" value="Show" />
+    </div>
+</div>
 <div class="row">
     <div class="col-md-6">
         <b>Volume By Status:</b>
@@ -38,6 +54,9 @@ Last Update : <label id="lblLastUpdate">@DateTime.Now().ToString("dd/MM/yyyy HH:
     setInterval(function () {
         CheckSession(drawChart());
     }, 30000);
+    function RefreshGrid() {
+        CheckSession(drawChart());
+    }
     function drawChart() {    
         let w = '';
         if ($('#cboJobType').val() > '') {
@@ -47,6 +66,14 @@ Last Update : <label id="lblLastUpdate">@DateTime.Now().ToString("dd/MM/yyyy HH:
         if ($('#cboShipBy').val() > '') {
             w += (w !== '' ? '&' : '?');
             w += 'ShipBy=' + $('#cboShipBy').val();
+        }
+        if ($('#txtDateFrom').val()!==null) {
+            w += (w !== '' ? '&' : '?');
+            w += 'DateFrom=' + CDateEN($('#txtDateFrom').val());
+        }
+        if ($('#txtDateTo').val()!==null) {
+            w += (w !== '' ? '&' : '?');
+            w += 'DateTo=' + CDateEN($('#txtDateTo').val());
         }
         ShowWait();
         $.get(path + 'JobOrder/GetDashBoard' + w, function (r) {
@@ -82,11 +109,10 @@ Last Update : <label id="lblLastUpdate">@DateTime.Now().ToString("dd/MM/yyyy HH:
                 };
                 var chartCust = new google.visualization.BarChart(document.getElementById('chartCust'));
                 chartCust.draw(custView, custOptions);
-
             }
             CloseWait();
-            $('#lblLastUpdate').text(new Date().toTimeString());
         });
+        return true;
     }
     function getDataTable(dt) {
         if (dt.length > 0) {

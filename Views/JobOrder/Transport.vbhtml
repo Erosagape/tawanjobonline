@@ -212,6 +212,9 @@ End Code
                 </tr>
             </thead>
         </table>
+        <a href="#" class="btn btn-primary" id="btnExpense" onclick="EntryExpenses()">
+            <i class="fa fa-lg fa-save"></i>&nbsp;<b>Entry Expenses</b>
+        </a>
         <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
             <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Delivery Slip</b>
         </a>
@@ -812,5 +815,10 @@ End Code
             LoadDetail($('#txtBranchCode').val(), $('#txtBookingNo').val());
             ShowMessage(r);
         });
+    }
+    function EntryExpenses() {
+        if (row.ItemNo !== undefined) {
+            window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&BookNo=' + row.BookingNo + '&Item=' + row.ItemNo + '&Job=' + $('#txtJNo').val() + '&Vend='+$('#txtVenderCode').val(), '', '');
+        }
     }
 </script>

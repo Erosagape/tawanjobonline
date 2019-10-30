@@ -138,10 +138,10 @@ End Code
                             <input type="text" id="txtInvTotal" style="width:130px" tabindex="15" />
                             <br />
                             <label for="txtInvCurrency" onclick="window.open('/Master/Currency');">Currency :</label>
-                            <input type="text" id="txtInvCurrency" style="width:40px" tabindex="17" />
+                            <input type="text" id="txtInvCurrency" style="width:80px" tabindex="17" />
                             <input type="button" id="btnBrowseRate" value="..." onclick="SearchData('CURRENCY')" />
                             <label for="txtInvCurRate">Exchange Rate :</label>
-                            <input type="text" id="txtInvCurRate" style="width:60px" tabindex="18" />
+                            <input type="text" id="txtInvCurRate" style="width:80px" tabindex="18" />
                             <br />
                             <label for="txtBookingNo">Booking No :</label>
                             <input type="text" id="txtBookingNo" style="width:250px" tabindex="19" />
@@ -298,7 +298,7 @@ End Code
                             <input type="button" id="btnBrowseLCPort" value="..." onclick="SearchData('RFARS')" />
                             <input type="text" id="txtReleasePortName" style="width:200px" disabled />
                             <label for="txtPortNo">PORT#</label>
-                            <input type="text" id="txtPortNo" style="width:30px" tabindex="52" />
+                            <input type="text" id="txtPortNo" style="width:100px" tabindex="52" />
                         </div>
                     </div>
                     <div class="row">
@@ -1228,7 +1228,7 @@ End Code
     function SetContainerEdit() {
         $('#tbSUnt').DataTable({
             ajax: {
-                url: path + 'Master/GetServUnit?Type=1', //web service ที่จะ call ไปดึงข้อมูลมา
+                url: path + 'Master/GetServUnit', //web service ที่จะ call ไปดึงข้อมูลมา
                 dataSrc: 'servunit.data'
             },
             selected: true, //ให้สามารถเลือกแถวได้
@@ -1279,6 +1279,14 @@ End Code
         $('#frmContainerEdit').modal('show');
     }
     function AddService() {
+		if($('#txtUnitAdd').val()==''){
+			ShowMessage('Please Enter Unit');
+			return;
+		}
+		if($('#txtQtyAdd').val()==''){
+			ShowMessage('Please Enter Qty');
+			return;
+		}		
         AddNewService($('#txtQtyAdd').val() + 'x' + $('#txtUnitAdd').val());
     }
     function AddNewService(val) {

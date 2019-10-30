@@ -481,7 +481,11 @@ Public Class CAdvHeader
             Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvHeader", "UpdateTotal", cm.CommandText)
 
             If Me.DocStatus = 99 Then
-                Main.DBExecute(jobWebConn, String.Format("UPDATE Job_PaymentHeader SET AdvRef='' WHERE BranchCode='{0}' AND AdvRef='{1}' ", Me.BranchCode, Me.AdvNo))
+                cm.CommandText = String.Format("UPDATE Job_PaymentDetail SET AdvItemNo=0 WHERE BranchCode='{0}' AND DocNo IN(SELECT DocNo FROM Job_PaymentHeader WHERE AdvRef='{1}') AND AdvItemNo>0 ", Me.BranchCode, Me.AdvNo)
+                cm.ExecuteNonQuery()
+                cm.CommandText = String.Format("UPDATE Job_PaymentHeader SET AdvRef='' WHERE BranchCode='{0}' AND AdvRef='{1}' ", Me.BranchCode, Me.AdvNo)
+                cm.ExecuteNonQuery()
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvHeader", "CancelPayInAdvance", cm.CommandText)
             End If
         End Using
     End Sub

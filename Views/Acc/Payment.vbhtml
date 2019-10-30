@@ -360,7 +360,7 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
-        w = w + '&Type=NOPAY';
+        w = w + '&Type=NOPAY&Status=A';
         $.get(path + 'acc/getpayment?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.payment.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
@@ -457,7 +457,7 @@ End Code
     function ShowSummary() {
         let tot = 0;
         let cash = 0;
-        let chq = 0;
+        let chqcash = 0;
         let chqcust = 0;
         let cred = 0;
         let wtax = 0;
@@ -470,7 +470,7 @@ End Code
             wtax += (o.TotalTax > 0 ? o.TotalTax : 0);
             tot += (o.TotalExpense > 0 ? o.TotalExpense+o.TotalVAT : 0);
             cash += (o.PayType == 'CA' ? o.TotalNet : 0);
-            chq += (o.PayType == 'CH' ? o.TotalNet : 0);
+            chqcash += (o.PayType == 'CH' ? o.TotalNet : 0);
             chqcust += (o.PayType == 'CU' ? o.TotalNet : 0);
             cred += (o.PayType =='CR' ? o.TotalNet : 0);
             doc += (doc != '' ? ',' : '') + o.DocNo;
@@ -518,11 +518,11 @@ End Code
         SetStatusInput('#dvCash', (cash > 0 ? true : false), '#txtAdvCash');
         $('#txtAdvCash').val(CDbl(cash, 2));
 
-        SetStatusInput('#dvChqCash', (chqcust > 0 ? true : false), '#txtAdvChqCash');
-        $('#txtAdvChqCash').val(CDbl(chqcust, 2));
+        SetStatusInput('#dvChqCash', (chqcash > 0 ? true : false), '#txtAdvChqCash');
+        $('#txtAdvChqCash').val(CDbl(chqcash, 2));
 
-        SetStatusInput('#dvChq', (chq > 0 ? true : false), '#txtAdvChq');
-        $('#txtAdvChq').val(CDbl(chq, 2));
+        SetStatusInput('#dvChq', (chqcust > 0 ? true : false), '#txtAdvChq');
+        $('#txtAdvChq').val(CDbl(chqcust, 2));
         $('#txtRefNoChq').attr('disabled', 'disabled');
 
         SetStatusInput('#dvCred', (cred > 0 ? true : false), '#txtAdvCred');
@@ -532,6 +532,7 @@ End Code
         $('#txtSumWHTax').val(CDbl(wtax, 2));
 
         $('#txtListApprove').val(doc);
+        $('#txtTRemark').val(doc);
     }
     function GetSumPayment(type) {
         let filter_data = arr.filter(function (data) {
@@ -763,8 +764,9 @@ End Code
                 data: jsonString,
                 success: function (response) {
                     if (response.result.data != null) {
-                        SaveClearing();
+                        //SaveClearing();
                         SetGridAdv(false);
+                        ShowMessage(response.result.msg);
                     }
                 },
                 error: function (e) {

@@ -50,7 +50,6 @@ Module Main
                             ret.Result = val
                         End If
                     End If
-                    rd.Close()
                 End Using
             End Using
         Catch ex As Exception
@@ -480,14 +479,14 @@ ON a.BranchCode=d.BranchCode AND a.AdvNo=d.AdvNo
  d.Qty * d.UnitPrice AS FPrice, 
  d.Qty * d.UnitPrice / h.ExchangeRate AS BPrice, d.AmtVAT AS ChargeVAT, 
  d.AmtWHT AS Tax50Tavi,'' AS AdvNO, 0 AS AdvAmount, d.Amt AS UsedAmount, 0 AS IsQuoItem, '' AS SlipNO, 
- '' AS Remark, 0 AS IsDuplicate, 0 AS IsLtdAdv50Tavi, '' AS Pay50TaviTo, '' AS NO50Tavi, NULL AS Date50Tavi, d.DocNo AS VenderBillingNo, 
- '' AS AirQtyStep, '' AS StepSub, d.ForJNo AS JobNo, 0 AS AdvItemNo, 0 AS LinkBillNo, 0 AS VATType, h.VATRate, 
+ '' AS Remark, 0 AS IsDuplicate, 0 AS IsLtdAdv50Tavi, '' AS Pay50TaviTo, '' AS NO50Tavi, NULL AS Date50Tavi,
+d.DocNo + '#' + Convert(varchar,d.ItemNo) AS VenderBillingNo,'' AS AirQtyStep, '' AS StepSub, d.ForJNo AS JobNo, 0 AS AdvItemNo, '' AS LinkBillNo, 0 AS VATType, h.VATRate, 
  h.TaxRate AS Tax50TaviRate,'' AS QNo, d.Total AS FNet, 
  d.Total / h.ExchangeRate AS BNet ,h.DocDate as VenderBillDate
 FROM    dbo.Job_PaymentDetail d INNER JOIN
  dbo.Job_PaymentHeader h ON d.BranchCode = h.BranchCode AND 
  d.DocNo = h.DocNo
-WHERE d.AdvItemNo=0
+WHERE d.AdvItemNo=0 AND ISNULL(h.ApproveBy,'')<>'' 
 "
     End Function
     Function SQLSelectAdvForClear() As String
@@ -504,8 +503,8 @@ a.ChargeVAT,a.Charge50Tavi as Tax50Tavi,a.AdvNo as AdvNO,d.AdvDate,a.ItemNo as A
 a.AdvNet-ISNULL(d.TotalCleared,0) as AdvBalance,ISNULL(d.TotalCleared,0) as UsedAmount,
 (CASE WHEN ISNULL(q.QNo,'')='' THEN 0 ELSE 1 END) as IsQuoItem,
 a.IsDuplicate,b.IsExpense,
-b.IsLtdAdv50Tavi,a.PayChqTo as Pay50TaviTo,a.Doc50Tavi as NO50Tavi,NULL as Date50Tavi,
-'' as VenderBillingNo,'' as SlipNO,'' as Remark,
+b.IsLtdAdv50Tavi,(CASE WHEN CHARINDEX('#',a.PayChqTo,0)>0 THEN '' ELSE a.PayChqTo END) as Pay50TaviTo,a.Doc50Tavi as NO50Tavi,NULL as Date50Tavi,
+(CASE WHEN CHARINDEX('#',a.PayChqTo,0)>0 THEN a.PayChqTo ELSE '' END) as VenderBillingNo,'' as SlipNO,'' as Remark,
 (SELECT STUFF((
 	SELECT DISTINCT ',' + Convert(varchar,QtyBegin) + '-'+convert(varchar,QtyEnd)+'='+convert(varchar,ChargeAmt)
 	FROM Job_QuotationItem WHERE BranchCode=q.BranchCode
@@ -1471,7 +1470,6 @@ dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
                 If bChk Then
                     jobMasConn = pDBName
                 End If
-                cn.Close()
                 Return bChk
             End Using
             Return True
@@ -1488,7 +1486,6 @@ dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
                 If bChk Then
                     jobWebConn = pDBName
                 End If
-                cn.Close()
                 Return bChk
             End Using
             Return True

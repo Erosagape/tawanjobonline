@@ -990,7 +990,7 @@ End Code
         $('#tbItem').DataTable().clear().draw();
     }
     function ClearItem() {
-        $('#lblHeader').text(row_d.Description);
+        $('#lblHeader').text($('#txtDescription').val());
         $('#txtItemNo').val('0');
         $('#txtSICode').val('');
         $('#txtSDescription').val('');

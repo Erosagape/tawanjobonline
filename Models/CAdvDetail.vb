@@ -284,7 +284,7 @@ Public Class CAdvDetail
         End Using
         Return msg
     End Function
-    Public Sub UpdateTotal(cn As SqlConnection)
+    Public Sub UpdateTotal(cn As SqlConnection, Optional IsDelete As Boolean = False)
         Dim sql As String = SQLUpdateAdvHeader()
 
         Using cm As New SqlCommand(sql, cn)
@@ -292,6 +292,15 @@ Public Class CAdvDetail
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
             Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvDetail", "UpdateTotal", cm.CommandText)
+            If Me.PayChqTo.IndexOf("#") > 0 Then
+                If IsDelete Then
+                    cm.CommandText = String.Format("UPDATE Job_PaymentDetail SET AdvItemNo=0 WHERE BranchCode='{1}' AND DocNo='{2}' AND ItemNo={3}", Me.ItemNo, Me.BranchCode, Me.PayChqTo.Split("#".ToCharArray())(0), Me.PayChqTo.Split("#".ToCharArray())(1))
+                Else
+                    cm.CommandText = String.Format("UPDATE Job_PaymentDetail SET AdvItemNo={0} WHERE BranchCode='{1}' AND DocNo='{2}' AND ItemNo={3}", Me.ItemNo, Me.BranchCode, Me.PayChqTo.Split("#".ToCharArray())(0), Me.PayChqTo.Split("#".ToCharArray())(1))
+                End If
+                cm.ExecuteNonQuery()
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvDetail", "UpdatePayInAdvance", cm.CommandText)
+            End If
         End Using
     End Sub
     Public Function GetData(pSQLWhere As String) As List(Of CAdvDetail)
@@ -394,10 +403,8 @@ Public Class CAdvDetail
 
                     Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvDetail", "DeleteData", cm.CommandText)
 
-                    cm.CommandText = String.Format("UPDATE Job_PaymentDetail SET AdvItemNo=0 WHERE BranchCode='{0}' AND DocNo IN(SELECT DocNo FROM Job_PaymentHeader WHERE AdvRef='{1}') AND AdvItemNo={2}", Me.BranchCode, Me.AdvNo, Me.ItemNo)
-                    cm.ExecuteNonQuery()
                 End Using
-                UpdateTotal(cn)
+                UpdateTotal(cn, True)
 
                 msg = "Delete Complete"
             Catch ex As Exception

@@ -671,7 +671,7 @@ Public Class CClrDetail
                     cm.ExecuteNonQuery()
                     Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrDetail", "DeleteData", cm.CommandText)
                     If Me.ClrNo <> "" Then
-                        UpdateTotal(cn)
+                        UpdateTotal(cn, True)
                     End If
                 End Using
 
@@ -683,7 +683,7 @@ Public Class CClrDetail
         End Using
         Return msg
     End Function
-    Public Sub UpdateTotal(cn As SqlConnection)
+    Public Sub UpdateTotal(cn As SqlConnection, Optional isDelete As Boolean = False)
         Dim sql As String = SQLUpdateClearHeader()
 
         Using cm As New SqlCommand(sql, cn)
@@ -698,6 +698,17 @@ Public Class CClrDetail
                 cm.CommandType = CommandType.Text
                 cm.ExecuteNonQuery()
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrDetail", "UpdateAdvStatus", cm.CommandText)
+            End If
+            If Me.VenderBillingNo <> "" Then
+                If Me.VenderBillingNo.IndexOf("#") > 0 Then
+                    If isDelete Then
+                        cm.CommandText = "UPDATE Job_PaymentDetail SET ClrReFNo=NULL,ClrItemNo=0 WHERE BranchCode='" & Me.BranchCode & "' AND ClrRefNo='" & Me.ClrNo & "' AND ClrItemNo=" & Me.ItemNo
+                    Else
+                        cm.CommandText = "UPDATE Job_PaymentDetail SET ClrReFNo='" & Me.ClrNo & "',ClrItemNo=" & Me.ItemNo & " WHERE BranchCode='" & Me.BranchCode & "' AND DocNo='" & Me.VenderBillingNo.Split("#")(0) & "' AND ItemNo=" & Me.VenderBillingNo.Split("#")(1)
+                    End If
+                    cm.ExecuteNonQuery()
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrDetail", "UpdatePayInClearing", cm.CommandText)
+                End If
             End If
         End Using
     End Sub

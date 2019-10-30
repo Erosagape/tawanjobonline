@@ -236,8 +236,11 @@ End Code
                 $('#txtConsignee').val('');
                 CallBackQueryCustomerSingle(path, $('#txtCustCode').val(), function (dr) {
                     $('#txtCustBranch').val(dr.Branch);
-                    $('#txtCustName').val(dr.NameThai);
+                    $('#txtCustName').val(dr.NameThai);					
                     $('#txtConsignee').val(dr.BillToCustCode);
+					if($('#txtConsignee').val()==''){
+						$('#txtConsignee').val(dr.CustCode);
+					}
                     ReadCustRelateData();
                 });
             }
@@ -380,6 +383,7 @@ End Code
                     $('#txtQNo').val(r.quotation.data[0].QNo);
                     $('#txtRevise').val(r.quotation.data[0].SeqNo);
                     $('#txtManagerCode').val(r.quotation.data[0].ManagerCode);
+					$('#txtContactPerson').val(r.quotation.data[0].ContactName);
                 }
             });
     }

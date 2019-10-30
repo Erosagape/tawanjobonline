@@ -197,6 +197,8 @@ Namespace Controllers
  WHERE DocStatus=2 AND BranchCode+'|'+AdvNo in({0})", lst)
                     Dim result = Main.DBExecute(jobWebConn, tSQL)
                     If result = "OK" Then
+                        Main.DBExecute(jobWebConn, String.Format("UPDATE Job_PaymentHeader SET PaymentRef='" & docno & "',PaymentBy='" & user & "',PaymentDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PaymentTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
+ WHERE NOT ISNULL(CancelProve,'')<>'' AND BranchCode+'|'+AdvRef in({0})", lst))
                         Return New HttpResponseMessage(HttpStatusCode.OK)
                     End If
                 End If
@@ -352,15 +354,13 @@ Namespace Controllers
                     branchcode = o.BranchCode
                     docno = o.AdvNo
                     o.SetConnect(jobWebConn)
-                    Dim msg = o.SaveData(String.Format(" WHERE BranchCode='{0}' AND AdvNo='{1}' And ItemNo='{2}' ", o.BranchCode, o.AdvNo, o.ItemNo))
-
                     If o.STCode = "EXP" And o.PayChqTo.IndexOf("#") > 0 Then
                         If isUpdatePay = False Then
                             Main.DBExecute(jobWebConn, String.Format("UPDATE Job_PaymentHeader SET AdvRef='{0}' WHERE BranchCode='{1}' AND DocNo='{2}' ", o.AdvNo, o.BranchCode, o.PayChqTo.Split("#".ToCharArray())(0)))
                             isUpdatePay = True
                         End If
-                        Main.DBExecute(jobWebConn, String.Format("UPDATE Job_PaymentDetail SET AdvItemNo={0} WHERE BranchCode='{1}' AND DocNo='{2}' AND ItemNo={3}", o.ItemNo, o.BranchCode, o.PayChqTo.Split("#".ToCharArray())(0), o.PayChqTo.Split("#".ToCharArray())(1)))
                     End If
+                    Dim msg = o.SaveData(String.Format(" WHERE BranchCode='{0}' AND AdvNo='{1}' And ItemNo='{2}' ", o.BranchCode, o.AdvNo, o.ItemNo))
                     If str <> "" Then str &= ","
                     str &= msg
                 Next
@@ -439,13 +439,11 @@ Namespace Controllers
                 End If
                 tSqlW &= " AND ItemNo=" & ItemNo & ""
 
-                Dim oADVD As New CAdvDetail(jobWebConn) With {
-                    .BranchCode = Branch,
-                    .AdvNo = Docno,
-                    .ItemNo = ItemNo
-                }
-                Dim msg As String = oADVD.DeleteData(tSqlW)
-
+                Dim oADVD = New CAdvDetail(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' And AdvNo='{1}' And ItemNo={2}", Branch, Docno, ItemNo))
+                Dim msg As String = "No Data To Delete"
+                If oADVD.Count > 0 Then
+                    msg = oADVD(0).DeleteData(tSqlW)
+                End If
                 Dim json = "{""adv"":{""result"":""" & msg & """}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception

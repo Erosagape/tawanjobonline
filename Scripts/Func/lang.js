@@ -83,7 +83,7 @@ function ChangeLanguage(code, module) {
                 mainFin: 'Finance Works|แผนกการเงิน',
                 mnuFin1: 'Payment Advance|จ่ายเงินตามใบเบิก',
                 mnuFin2: 'Payment Bill|จ่ายเงินตามบิลค่าใช้จ่าย',
-                mnuFin3: 'Receive Clearing|รับเงินตามใบเบิก',
+                mnuFin3: 'Receive Clearing|รับเคลียร์เงินใบเบิก/ปิด',
                 mnuFin4: 'Receive Invoice|รับชำระใบแจ้งหนี้',
                 mnuFin5: 'Cheque Management|บันทึกรับ/จ่ายเช็ค',
                 mnuFin6: 'Credit Advance|เบิกเงินทดรองจ่าย',
@@ -149,8 +149,7 @@ function ChangeLanguageForm(fname) {
     switch (fname) {
         case 'MODULE_SALES/Quotation':
             lang = {
-                lblTitle: 'Quotation|ใบเสนอราคา',
-                lblSearch: 'Search|ค้นหา',
+                lblTitle:'Quotation|ใบเสนอราคา',
                 lblBranch: 'Branch|สาขา',
                 lblCustomer: 'Customer|ลูกค้า',
                 lblDateFrom: 'Date From|วันที่เอกสาร',

@@ -67,34 +67,42 @@ Namespace Controllers
         End Function
         Function GetPayment() As ActionResult
             Try
-                Dim tSqlw As String = " WHERE DocNo<>'' "
+                Dim tSqlH As String = " WHERE DocNo<>'' "
+                Dim tSqlD As String = tSqlH
                 If Not IsNothing(Request.QueryString("Branch")) Then
-                    tSqlw &= String.Format(" AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+                    tSqlH &= String.Format(" AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+                    tSqlD = tSqlH
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
-                    tSqlw &= String.Format(" AND DocNo='{0}' ", Request.QueryString("Code").ToString)
+                    tSqlH &= String.Format(" AND DocNo='{0}' ", Request.QueryString("Code").ToString)
+                    tSqlD = tSqlH
                 End If
                 If Not IsNothing(Request.QueryString("VenCode")) Then
-                    tSqlw &= String.Format(" AND VenCode='{0}' ", Request.QueryString("VenCode").ToString)
+                    tSqlH &= String.Format(" AND VenCode='{0}' ", Request.QueryString("VenCode").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("Currency")) Then
-                    tSqlw &= String.Format(" AND CurrencyCode='{0}' ", Request.QueryString("Currency").ToString)
+                    tSqlH &= String.Format(" AND CurrencyCode='{0}' ", Request.QueryString("Currency").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
-                    tSqlw &= " AND DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00' "
+                    tSqlH &= " AND DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00' "
                 End If
                 If Not IsNothing(Request.QueryString("DateTo")) Then
-                    tSqlw &= " AND DocDate<='" & Request.QueryString("DateTo") & " 23:59:00' "
+                    tSqlH &= " AND DocDate<='" & Request.QueryString("DateTo") & " 23:59:00' "
                 End If
                 If Not IsNothing(Request.QueryString("Type")) Then
                     If Request.QueryString("Type").ToString = "NOPAY" Then
-                        tSqlw &= String.Format(" AND NOT (DocNo IN(SELECT p.DocNo FROM (SELECT h.DocNo FROM Job_CashControlDoc h INNER JOIN Job_CashControlSub d ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo AND h.acType=d.acType WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}') p  )", Request.QueryString("Branch").ToString)
-                        tSqlw &= String.Format(" OR DocNo IN(SELECT DISTINCT p.PaymentNo FROM (SELECT h.PaymentNo FROM Job_AdvHeader h WHERE h.DocStatus<>99 AND h.BranchCode='{0}') p WHERE p.PaymentNo IS NOT NULL))", Request.QueryString("Branch").ToString)
+                        tSqlH &= String.Format(" AND NOT (DocNo IN(SELECT p.DocNo FROM (SELECT h.DocNo FROM Job_CashControlDoc h INNER JOIN Job_CashControlSub d ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo AND h.acType=d.acType WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}') p  )", Request.QueryString("Branch").ToString)
+                        tSqlH &= String.Format(" OR DocNo IN(SELECT DISTINCT p.PaymentNo FROM (SELECT h.PaymentNo FROM Job_AdvHeader h WHERE h.DocStatus<>99 AND h.BranchCode='{0}') p WHERE p.PaymentNo IS NOT NULL))", Request.QueryString("Branch").ToString)
                     End If
                 End If
-                Dim oData = New CPayHeader(jobWebConn).GetData(tSqlw)
+                If Not IsNothing(Request.QueryString("Status")) Then
+                    If Request.QueryString("Status").ToString = "A" Then
+                        tSqlH &= " AND ISNULL(ApproveBy,'')<>'' AND NOT ISNULL(CancelProve,'')<>'' "
+                    End If
+                End If
+                Dim oData = New CPayHeader(jobWebConn).GetData(tSqlH)
                 Dim json As String = JsonConvert.SerializeObject(oData)
-                Dim oDataD = New CPayDetail(jobWebConn).GetData(tSqlw)
+                Dim oDataD = New CPayDetail(jobWebConn).GetData(tSqlD & " AND DocNo IN(SELECT DocNo FROM Job_PaymentHeader " & tSqlH & " )")
                 Dim jsonD As String = JsonConvert.SerializeObject(oDataD)
 
                 json = "{""payment"":{""header"":" & json & ",""detail"":" & jsonD & "}}"
@@ -116,6 +124,9 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("VenCode")) Then
                     tSqlw &= String.Format(" AND h.VenCode='{0}' ", Request.QueryString("VenCode").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("PayType")) Then
+                    tSqlw &= String.Format(" AND h.PayType='{0}' ", Request.QueryString("PayType").ToString)
+                End If
                 If Not IsNothing(Request.QueryString("Currency")) Then
                     tSqlw &= String.Format(" AND h.CurrencyCode='{0}' ", Request.QueryString("Currency").ToString)
                 End If
@@ -128,7 +139,8 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Type")) Then
                     If Request.QueryString("Type").ToString = "NOPAY" Then
                         tSqlw &= String.Format(" AND NOT (h.DocNo IN(SELECT p.DocNo FROM (SELECT hd.DocNo FROM Job_CashControlDoc hd INNER JOIN Job_CashControlSub dt ON hd.BranchCode=dt.BranchCode AND hd.ControlNo=dt.ControlNo AND hd.acType=dt.acType WHERE hd.DocType='PAY' AND dt.PRType='P' AND hd.BranchCode='{0}') p  )", Request.QueryString("Branch").ToString)
-                        tSqlw &= String.Format(" OR ISNULL(h.AdvRef,'')<>'')", Request.QueryString("Branch").ToString)
+                        tSqlw &= " OR ISNULL(h.AdvRef,'')<>'')"
+                        tSqlw &= " AND ISNULL(h.ApproveBy,'')<>'' "
                     End If
                 End If
                 If Not IsNothing(Request.QueryString("Show")) Then

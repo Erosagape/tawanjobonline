@@ -346,7 +346,7 @@ End Code
         $('#txtBookCash').val('');
         $('#txtRefNoCash').val('');
         $('#txtCashTranDate').val(CDateEN(GetToday()));
-        $('#txtCashTranTime').val('');
+        $('#txtCashTranTime').val(ShowTime(GetTime()));
         $('#cboBankCash').val('');
         $('#txtBankBranchCash').val('');
         $('#txtCashPayTo').val('');
@@ -618,6 +618,7 @@ End Code
         $('#txtSumWHTax').val(CDbl(wtax, 2));
                                 
         $('#txtListApprove').val(doc);
+        $('#txtTRemark').val(doc);
     }
     function GetSumPayment(type) {
         let filter_data = arr.filter(function (data) {

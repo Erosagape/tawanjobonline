@@ -148,6 +148,9 @@ Public Class CVoucherDoc
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVoucherDoc", "SaveData", Me)
+                            If Me.DocType = "PAY" Then
+                                msg = New CUtil(jobWebConn).ExecuteSQL(" UPDATE a SET a.PaymentRef=b.ControlNo,a.PaymentDate=b.VoucherDate,a.PaymentBy=b.RecUser,a.PaymentTime=b.RecTime FROM Job_PaymentHeader a ,Job_CashControl b  WHERE a.BranchCode=b.BranchCode AND a.BranchCode='" & Me.BranchCode & "' AND a.DocNo='" & Me.DocNo & "' AND b.ControlNo='" & Me.ControlNo & "' ")
+                            End If
                             msg = "Save Complete"
                         End Using
                     End Using
@@ -248,8 +251,7 @@ Public Class CVoucherDoc
         Dim msg As String = "OK"
         Select Case Me.DocType
             Case "PAY" 'Bill Payments
-                Dim sql = String.Format(" WHERE BranchCode='{0}' AND VenderBillingNo='{1}'", Me.BranchCode, Me.DocNo)
-                msg = New CUtil(jobWebConn).ExecuteSQL(" UPDATE Job_ClearDetail SET VenderBillingNo='*" & Me.DocNo & "' " & sql)
+                msg = New CUtil(jobWebConn).ExecuteSQL(" UPDATE Job_PaymentHeader SET PaymentRef='',PaymentDate=NULL,PaymentTime=NULL,PaymentBy='' WHERE BranchCode='" & Me.BranchCode & "' AND DocNo='" & Me.DocNo & "' ")
             Case "ADV" 'Advance Payments
                 Dim sql = String.Format(" WHERE BranchCode='{0}' AND AdvNo='{1}'", Me.BranchCode, Me.DocNo)
                 Dim tb = New CAdvHeader(jobWebConn).GetData(sql)

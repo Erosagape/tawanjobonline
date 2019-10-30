@@ -12,7 +12,7 @@ End Code
         <link rel="stylesheet" href="~/Content/bootstrap-select.min.css">
         <link rel="stylesheet" href="~/Content/jquery.datatables.min.css">
         <link rel="stylesheet" href="~/Content/responsive.dataTables.min.css">
-        <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+        <script src="~/Scripts/jquery-3.4.1.min.js"></script>
         <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
         <script src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
         <script src="~/Scripts/bootstrap.js"></script>

@@ -495,9 +495,15 @@ End Code
             if ($('#chkFromClr').prop('checked') == true) {
                 obj.DocNo = o.ClrNo + '#'+ o.ItemNo;
                 obj.DocDate = CDateEN(o.ClrDate);
+                if (doc.indexOf(o.ClrNo) < 0) {
+                    doc += (doc !== '' ? ',' : '') + o.ClrNo;
+                }
             } else {
                 obj.DocNo = o.AdvNo + '#'+ o.ItemNo;
                 obj.DocDate = CDateEN(o.PaymentDate);
+                if (doc.indexOf(o.AdvNo) < 0) {
+                    doc += (doc !== '' ? ',' : '') + o.AdvNo;
+                }
             }
             if (o.acType == 'CA') sum_ca += Number(o.ClrBal);
             if (o.acType == 'CH') sum_ch += Number(o.ClrBal);
@@ -505,7 +511,6 @@ End Code
             if (o.acType == 'CR') sum_cr += Number(o.ClrBal);
 
             list.push(obj);
-
         }
         //show selected details
         $('#tbDetail').DataTable({
@@ -547,6 +552,7 @@ End Code
         $('#txtSumApprove').val(CDbl(tot, 2));
         $('#txtSumWHTax').val(CDbl(wtax, 2));
         $('#txtListApprove').val(doc);
+        $('#txtTRemark').val(doc);
 
     }
     function GetSumPayment(type) {
@@ -556,11 +562,13 @@ End Code
         let filter_sum = {
             sumamount: 0,
             currencycode : '@ViewBag.PROFILE_CURRENCY',
-            exchangerate : 1
+            exchangerate: 1,
+            count: 0
         };
         for (let i = 0; i < filter_data.length; i++) {
 
             filter_sum.sumamount += Number(filter_data[i].ClrBal);
+            filter_sum.count += 1;
         }
         return filter_sum;
     }
@@ -568,7 +576,7 @@ End Code
         let oData = [];
         let i = 0;
         let sum_cash = GetSumPayment('CA');
-        if (sum_cash.sumamount !== 0) {
+        if (sum_cash.count !== 0) {
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
@@ -605,7 +613,7 @@ End Code
             });
         }
         let sum_chqcash = GetSumPayment('CU');
-        if (sum_chqcash.sumamount !== 0) {
+        if (sum_chqcash.count !== 0) {
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
@@ -642,7 +650,7 @@ End Code
             });
         }
         let sum_chq = GetSumPayment('CH');
-        if (sum_chq.sumamount !== 0) {
+        if (sum_chq.count !== 0) {
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
@@ -679,7 +687,7 @@ End Code
             });
         }
         let sum_cr = GetSumPayment('CR');
-        if (sum_cr.sumamount!== 0) {
+        if (sum_cr.count!== 0) {
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),

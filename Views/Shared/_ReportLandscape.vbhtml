@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/Content/bootstrap-select.min.css" media="all">
     <link rel="stylesheet" href="~/Content/jquery.datatables.min.css" media="all">
     <link rel="stylesheet" type="text/css" href="~/Content/sheets-of-paper-a4-landscape.css" media="all">
-    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/bootstrap-select.js"></script>

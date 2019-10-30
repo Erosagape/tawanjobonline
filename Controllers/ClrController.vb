@@ -367,13 +367,13 @@ Namespace Controllers
         End Function
         Function GetPaymentForClear() As ActionResult
             Try
-                Dim tSqlW As String = " AND d.ClrItemNo=0 "
+                Dim tSqlW As String = " AND d.ClrItemNo=0 AND d.AdvItemNo=0 "
                 If Not IsNothing(Request.QueryString("Show")) Then
                     If Request.QueryString("Show").ToString = "CLR" Then
                         tSqlW = " AND d.ClrItemNo>0 "
                     End If
                 End If
-
+                tSqlW &= " AND NOT ISNULL(h.CancelProve,'')<>'' "
 
                 If Not IsNothing(Request.QueryString("JobNo")) Then
                     tSqlW &= " AND d.ForJNo='" & Request.QueryString("JobNo") & "' "

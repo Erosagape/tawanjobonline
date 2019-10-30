@@ -510,13 +510,17 @@ Public Class CClrHeader
         Using cn As New SqlConnection(m_ConnStr)
             Try
                 cn.Open()
-                UpdateTotal(cn)
+                UpdateTotal(cn, True)
 
                 Using cm As New SqlCommand("DELETE FROM Job_ClearHeader" + pSQLWhere, cn)
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
+
                     Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrHeader", "DeleteData", cm.CommandText)
+
+                    cm.CommandText = "DELETE FROM Job_ClearDetail" + pSQLWhere
+                    cm.ExecuteNonQuery()
                 End Using
 
                 msg = "Delete Complete"
@@ -527,7 +531,7 @@ Public Class CClrHeader
         End Using
         Return msg
     End Function
-    Public Sub UpdateTotal(cn As SqlConnection)
+    Public Sub UpdateTotal(cn As SqlConnection, Optional IsDelete As Boolean = False)
         Dim sql As String = Main.SQLUpdateClearHeader
         Using cm As New SqlCommand(sql, cn)
             cm.CommandText = sql + " WHERE a.BranchCode='" + Me.BranchCode + "' and a.ClrNo='" + Me.ClrNo + "'"
@@ -539,6 +543,11 @@ Public Class CClrHeader
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
             Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrHeader", "UpdateAdvStatus", cm.CommandText)
+            If IsDelete Then
+                cm.CommandText = "UPDATE Job_PaymentDetail SET ClrRefNo=NULL,ClrItemNo=0 WHERE ClrRefNo='" & Me.ClrNo & "'"
+                cm.ExecuteNonQuery()
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrHeader", "ClearPaymentRelated", cm.CommandText)
+            End If
         End Using
     End Sub
 End Class

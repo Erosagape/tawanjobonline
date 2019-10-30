@@ -313,9 +313,22 @@ End Code
     let serv = []; //must be array of object
     let hdr = {}; //simple object
     let dtl = {}; //simple object
-    let job = '';
     let isjobmode = false;
     let chkmode = false;
+    let branchcode = getQueryString("BranchCode");
+    let bookno = getQueryString("BookNo");
+    let item = getQueryString("Item");
+    let job = getQueryString("Job");
+    let vend = getQueryString("Vend");
+    if ((branchcode + bookno + item).trim() !== '') {
+        $('#txtBookingRefNo').val(bookno);
+        $('#txtBookingItemNo').val(item);
+        $('#txtForJNo').val(job);
+        $('#txtVenCode').val(vend);
+        ShowVender(path, $('#txtVenCode').val(), '#txtVenName');
+    } else {
+        item = 0;
+    }
     //$(document).ready(function () {
     SetLOVs();
     SetEvents();
@@ -439,13 +452,18 @@ End Code
         EnableSave();
     }
     function SetApprove(b) {
-        if (b == true) {
-            $('#txtApproveBy').val(chkmode  ? user : '');
-            $('#txtApproveDate').val(chkmode ? GetToday() : '');
-            $('#txtApproveTime').val(chkmode ? ShowTime(GetTime()) : '');
-            EnableSave();
+        if ($('#txtPaymentBy').val() == '' && $('#txtCancelProve').val() == '') {
+            if (b == true) {
+                $('#txtApproveBy').val(chkmode ? user : '');
+                $('#txtApproveDate').val(chkmode ? GetToday() : '');
+                $('#txtApproveTime').val(chkmode ? ShowTime(GetTime()) : '');
+                SaveHeader();
+                EnableSave();
+            } else {
+                ShowMessage('you are not allow to approve quotation');
+            }
         } else {
-            ShowMessage('you are not allow to approve quotation');
+            ShowMessage('Cannot change approve status of this document');
         }
     }
     function SetCancel(b) {
@@ -627,12 +645,16 @@ End Code
         $('#frmDetail').modal('show');
     }
     function DeleteDetail() {
-        if (dtl != undefined) {
+        if (dtl.ItemNo != undefined) {
             if (userRights.indexOf('D') < 0) {
                 ShowMessage('you are not authorize to delete');
                 return;
             }
-            ShowConfirm('are you sure to delete this data?', function (result) {
+            if (dtl.ClrItemNo > 0 || dtl.AdvItemNo>0) {
+                ShowMessage('This item has been advanced/cleared!,Cannot delete');
+                return;
+            }
+            ShowConfirm('are you sure to delete item '+ dtl.ItemNo+'?', function (result) {
                 if (result == true) {
                     $.get(path + 'acc/delpaydetail?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtDocNo').val() + '&item=' + dtl.ItemNo, function (r) {
                         ShowMessage(r.payment.result);
@@ -648,7 +670,7 @@ End Code
         hdr = {};
         //$('#txtDocNo').val('');
         $('#txtDocDate').val(GetToday());
-        $('#txtVenCode').val('');
+        $('#txtVenCode').val(vend);
         $('#txtVenName').val('');
         $('#txtContactName').val('');
         $('#txtEmpCode').val(user);
@@ -705,6 +727,11 @@ End Code
             ShowMessage('you are not authorize to edit');
             return;
         }
+        if (obj.ClrItemNo > 0 || obj.AdvItemNo>0) {
+            ShowMessage('This item has been advanced/cleared!,Cannot Edit');
+            return;
+        }
+
         let jsonString = JSON.stringify({ data: obj });
         //ShowMessage(jsonString);
         $.ajax({
@@ -812,6 +839,9 @@ End Code
             $('#txtClrRefNo').val(dt.ClrRefNo);
             $('#txtClrItemNo').val(dt.ClrItemNo);
             $('#txtAdvItemNo').val(dt.AdvItemNo);
+            if (dr.ClrItemNo > 0 || dr.AdvItemNo > 0) {
+                $('#btnUpdate').attr('disabled', 'disabled');
+            }
             return;
         }
         ClearDetail();
@@ -835,13 +865,14 @@ End Code
             $('#txtAmtWHT').val('0');
             $('#txtTotal').val('0');
             $('#txtFTotal').val('0');
-            $('#txtForJNo').val('');
-            $('#txtAdvItemNo').val(0);
-            $('#txtBookingRefNo').val('');
-            $('#txtBookingItemNo').val(0);
-            $('#txtClrRefNo').val('');
-            $('#txtClrItemNo').val(0);
+            $('#txtForJNo').val(job);
+            $('#txtBookingRefNo').val(bookno);
+            $('#txtBookingItemNo').val(item);
         }
+        $('#txtAdvItemNo').val(0);
+        $('#txtClrRefNo').val('');
+        $('#txtClrItemNo').val(0);
+        //EnableSave();
     }
     function LoadService() {
         if (serv.length==0) {
@@ -965,9 +996,10 @@ End Code
             $('#txtSDescription').val(dt.NameThai);
             $('#txtQtyUnit').val(dt.UnitCharge);
             $('#txtUnitPrice').val(CDbl(CNum(dt.StdPrice) / CNum($('#txtExchangeRate').val()), 2));
+            CalAmount();
             return;
         }
-        CalVATWHT();
+        CalAmount();
     }
     function CalDiscount() {
         let rate = CNum($('#txtDiscountPerc').val());
@@ -1033,7 +1065,7 @@ End Code
         });
     }
     function EnableSave() {
-        let b = (userRights.indexOf('E') > 0 && ($('#txtApproveBy').val()=='' && $('#txtCancelProve').val()=='' ))
+        let b = (userRights.indexOf('E') > 0 && ($('#txtApproveBy').val()=='' && $('#txtCancelProve').val()=='' && $('#txtAdvRef').val()=='' && $('#txtPaymentRef').val()==''))
         if (b == false) {
             $('#btnSave').attr('disabled', 'disabled');
             $('#btnDel').attr('disabled', 'disabled');

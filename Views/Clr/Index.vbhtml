@@ -199,7 +199,7 @@ End Code
                 <a href="#" class="btn btn-warning" id="btnChooseAdv" onclick="LoadAdvance()">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Choose Advances</b>
                 </a>
-                <a href="#" class="btn btn-warning" id="btnChooseAdv" onclick="LoadPayment()">
+                <a href="#" class="btn btn-primary" id="btnChooseAdv" onclick="LoadPayment()">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Choose Payments</b>
                 </a>
                 <div class="row">
@@ -1311,6 +1311,49 @@ End Code
             return;
         }
     }
+    function LoadDetailFromPay(dt) {
+        if (dt != undefined) {
+            dtl = dt;
+            $('#txtItemNo').val(dt.ItemNo);
+            $('#txtSICode').val(dt.SICode);
+            $('#cboSTCode').val(dt.STCode);
+            let r = FindService($('#txtSICode').val())
+            ReadService(r);
+            $('#txtForJNo').val(dt.JobNo);
+            $('#txtInvNo').val('');
+            if ($('#txtForJNo').val() != '') {
+                //ShowInvNo(path, $('#txtBranchCode').val(), $('#txtForJNo').val(), '#txtInvNo');
+                CallBackQueryJob(path, $('#txtBranchCode').val(), $('#txtForJNo').val(), ReadJob);
+            }
+            $('#txtQty').val(dt.Qty);
+            $('#txtCurRate').val(dt.CurRate);
+            $('#txtUnitPrice').val(dt.UnitPrice);
+            $('#txtUnitCode').val(dt.UnitCode);            
+            $('#txtRemark').val(dt.Remark);
+            $('#txtSlipNo').val(dt.SlipNO);
+            $('#txt50Tavi').val(dt.NO50Tavi);
+            $('#txtPayChqTo').val(dt.Pay50TaviTo);
+            $('#txtSDescription').val(dt.SDescription);
+            $('#txtVatType').val(dt.VATType);
+            $('#txtVATRate').val(dt.VATRate);
+            $('#txtWHTRate').val(dt.Tax50TaviRate);
+            $('#txtAMT').val(dt.UnitPrice);
+            $('#txtVAT').val(CNum($('#txtAMT').val())*(dt.VATRate*0.01));
+            $('#txtWHT').val(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01));
+            $('#txtNET').val(CNum($('#txtAMT').val()) + (CNum($('#txtAMT').val()) * (dt.VATRate * 0.01)) - (CNum($('#txtAMT').val()) * (dt.Tax50TaviRate * 0.01)));
+            $('#txtVenCode').val(dt.VenderCode);
+            $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
+            $('#txtCurrencyCode').val(dt.CurrencyCode);
+            $('#chkIsCost').prop('checked', dt.IsExpense == 1 ? true : false);
+            $('#txtAdvNo').val('');
+            $('#txtAdvItemNo').val(0);
+            $('#txtAdvAmount').val(0);
+            $('#txtQNo').val('');
+            ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
+            ShowCaption();
+            return;
+        }
+    }
     function LoadDetailFromAdv(dt) {
         if (dt != undefined) {
             dtl = dt;
@@ -1590,6 +1633,7 @@ End Code
             $('#txtVatType').val(dt.IsTaxCharge);
             $('#txtVATRate').val(dt.IsTaxCharge == "0" ? "0" : CDbl(@ViewBag.PROFILE_VATRATE*100,0));
             $('#txtWHTRate').val(dt.Is50Tavi == "0" ? "0" : dt.Rate50Tavi);
+            $('#txtUnitCode').val(dt.UnitCharge);
             if (dt.IsTaxCharge == "2") {
                 $('#txtAMT').attr('disabled', 'disabled');
                 $('#txtVATRate').attr('disabled', 'disabled');
@@ -1793,6 +1837,10 @@ End Code
         CalAmount();
     }
     function LoadPayment() {
+        if ($('#txtClrNo').val() == '') {
+            ShowMessage('Please Save Before Choose Advance');
+            return;
+        }
         let branch = $('#txtBranchCode').val();
         $.get(path + 'Clr/GetPaymentForClear?branch=' + branch, function (r) {
             if (r.clr.data.length > 0) {
@@ -1833,7 +1881,7 @@ End Code
                     dtl = dt;
                     $('#frmPayment').modal('hide');
                     ClearDetail();
-                    LoadDetailFromAdv(dt);
+                    LoadDetailFromPay(dt);
                     $('#frmDetail').modal('show');
 
                 });

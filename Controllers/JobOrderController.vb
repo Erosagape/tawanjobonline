@@ -1195,6 +1195,19 @@ Namespace Controllers
                     Dim yy = Request.QueryString("Period").ToString().Split("/")(1)
                     Dim mm = Convert.ToInt16(Request.QueryString("Period").ToString().Split("/")(0))
                     tSqlw1 = " WHERE Year(j.DocDate)=" & yy & " AND Month(j.DocDate)=" & mm & " "
+                Else
+                    If Not Request.QueryString("DateFrom") Is Nothing Then
+                        If Request.QueryString("DateFrom").ToString() <> "" Then
+                            bCheck = True
+                            tSqlw1 = " WHERE j.DutyDate)>='" & Request.QueryString("DateFrom").ToString() & " 00:00:00' "
+                        End If
+                    End If
+                    If Not Request.QueryString("DateTo") Is Nothing Then
+                        If Request.QueryString("DateTo").ToString() <> "" Then
+                            bCheck = True
+                            tSqlw1 = " WHERE j.DutyDate)<='" & Request.QueryString("DateTo").ToString() & " 23:59:59' "
+                        End If
+                    End If
                 End If
                 If Not Request.QueryString("ShipBy") Is Nothing Then
                     If bCheck Then
