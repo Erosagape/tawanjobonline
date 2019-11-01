@@ -190,12 +190,14 @@
     <Compile Include="Models\CCustomsPort.vb" />
     <Compile Include="Models\CCustomsUnit.vb" />
     <Compile Include="Models\CDeclareType.vb" />
+    <Compile Include="Models\CDocument.vb" />
     <Compile Include="Models\CGLDetail.vb" />
     <Compile Include="Models\CGLHeader.vb" />
     <Compile Include="Models\CInterPort.vb" />
     <Compile Include="Models\CInvDetail.vb" />
     <Compile Include="Models\CInvHeader.vb" />
     <Compile Include="Models\CJobOrder.vb" />
+    <Compile Include="Models\CJobOrderLog.vb" />
     <Compile Include="Models\CLog.vb" />
     <Compile Include="Models\CPayDetail.vb" />
     <Compile Include="Models\CPayHeader.vb" />
@@ -449,8 +451,6 @@
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
-    <None Include="My Project\PublishProfiles\apll.pubxml" />
-    <None Include="My Project\PublishProfiles\bizocean.pubxml" />
     <None Include="My Project\PublishProfiles\jobbeta.pubxml" />
     <None Include="My Project\PublishProfiles\localhost.pubxml" />
     <None Include="My Project\PublishProfiles\servertawan.pubxml" />

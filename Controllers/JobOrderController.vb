@@ -29,6 +29,7 @@ Namespace Controllers
         Function FormQuotation() As ActionResult
             Return GetView("FormQuotation")
         End Function
+
         Function ApproveQuotation(<FromBody()> ByVal data As String()) As HttpResponseMessage
             Try
                 ViewBag.User = Session("CurrUser").ToString()
@@ -768,6 +769,73 @@ Namespace Controllers
                 Return Content("[]", jsonContent)
             End Try
         End Function
+        Function GetJobOrderLog() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE ItemNo>0 "
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format(" AND BranchCode ='{0}'", Request.QueryString("Branch").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format(" AND JNo ='{0}'", Request.QueryString("Code").ToString)
+                End If
+                Dim oData = New CJobOrderLog(jobWebConn).GetData(tSqlw)
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                json = "{""joborderlog"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
+        Function SetJobOrderLog(<FromBody()> data As CJobOrderLog) As ActionResult
+            Try
+                If Not IsNothing(data) Then
+                    If "" & data.JNo = "" Or "" & data.BranchCode = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                    End If
+                    data.SetConnect(jobWebConn)
+                    If data.ItemNo = 0 Then
+                        data.AddNew()
+                    End If
+                    Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo={2} ", data.BranchCode, data.JNo, data.ItemNo))
+                    Dim json = "{""result"":{""data"":""" & data.ItemNo & """,""msg"":""" & msg & """}}"
+                    Return Content(json, jsonContent)
+                Else
+                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Return Content(json, jsonContent)
+                End If
+            Catch ex As Exception
+                Dim json = "{""result"":{""data"":null,""msg"":""" & ex.Message & """}}"
+                Return Content(json, jsonContent)
+            End Try
+        End Function
+        Function DelJobOrderLog() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE ItemNo>0 "
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format(" AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+                Else
+                    Return Content("{""joborderlog"":{""result"":""Please Select Some Branch"",""data"":[]}}", jsonContent)
+                End If
+
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format(" AND JNo='{0}' ", Request.QueryString("Code").ToString)
+                Else
+                    Return Content("{""joborderlog"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                End If
+
+                If Not IsNothing(Request.QueryString("Item")) Then
+                    tSqlw &= String.Format(" AND ItemNo={0} ", Request.QueryString("Item").ToString)
+                End If
+
+                Dim oData As New CJobOrderLog(jobWebConn)
+                Dim msg = oData.DeleteData(tSqlw)
+
+                Dim json = "{""joborderlog"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
         Function GetDataDistinct() As ActionResult
             Try
                 Dim tSqlW As String = ""
@@ -975,14 +1043,21 @@ Namespace Controllers
                         If FindJob(0).JNo <> data.JNo Then
                             Return Content("{""msg"":""invoice '" + data.InvNo + "' has been opened for job '" + FindJob(0).JNo + "' ""}", jsonContent)
                         End If
+                        Dim log As String = ""
+                        For Each prop In New CJobOrder().GetType().GetProperties()
+                            Dim valOld = prop.GetValue(FindJob(0))
+                            Dim valNew = prop.GetValue(data)
+                            If valOld.Equals(valNew) = False Then
+                                log &= prop.Name & "=" & prop.GetValue(FindJob(0)) & vbCrLf
+                            End If
+                        Next
                     End If
-                    Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetJobOrder", "Save", JsonConvert.SerializeObject(data))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
+                    Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetJobOrder", "Save", JsonConvert.SerializeObject(data))
                     Return Content("{""msg"":""" & msg & """}", jsonContent)
                 Else
                     Return Content("{""msg"":""No data to save""}", jsonContent)
                 End If
-
             Catch ex As Exception
                 Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetJobOrder", "ERROR", ex.Message)
                 Dim json = "{""msg"":""" & ex.Message & """}"
@@ -1299,6 +1374,79 @@ Namespace Controllers
             Catch ex As Exception
                 Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetDashboard", "ERROR", ex.Message)
                 Return Content("{""result"":[],""msg"":""" & ex.Message & """}", jsonContent)
+            End Try
+        End Function
+        Function GetDocument() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE JNo<>'' "
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format("AND BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format("AND JNo ='{0}' ", Request.QueryString("Code").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Type")) Then
+                    tSqlw &= String.Format("AND DocType ='{0}' ", Request.QueryString("Type").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Item")) Then
+                    tSqlw &= String.Format("AND ItemNo={0} ", Request.QueryString("Item").ToString)
+                End If
+                Dim oData = New CDocument(jobWebConn).GetData(tSqlw)
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                json = "{""document"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
+        Function SetDocument(<FromBody()> data As CDocument) As ActionResult
+            Try
+                If Not IsNothing(data) Then
+                    If "" & data.BranchCode = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                    End If
+                    If "" & data.JNo = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                    End If
+                    data.SetConnect(jobWebConn)
+                    If data.ItemNo = 0 Then
+                        data.AddNew()
+                    End If
+                    Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo={2} ", data.BranchCode, data.JNo, data.ItemNo))
+                    Dim json = "{""result"":{""data"":""" & data.JNo & """,""msg"":""" & msg & """}}"
+                    Return Content(json, jsonContent)
+                Else
+                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Return Content(json, jsonContent)
+                End If
+            Catch ex As Exception
+                Dim json = "{""result"":{""data"":null,""msg"":""" & ex.Message & """}}"
+                Return Content(json, jsonContent)
+            End Try
+        End Function
+        Function DelDocument() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE JNo<>'' "
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format("AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+                Else
+                    Return Content("{""document"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format("AND JNo='{0}' ", Request.QueryString("Code").ToString)
+                Else
+                    Return Content("{""document"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                End If
+                If Not IsNothing(Request.QueryString("Item")) Then
+                    tSqlw &= String.Format("AND ItemNo={0} ", Request.QueryString("Item").ToString)
+                End If
+                Dim oData As New CDocument(jobWebConn)
+                Dim msg = oData.DeleteData(tSqlw)
+
+                Dim json = "{""document"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Return Content("[]", jsonContent)
             End Try
         End Function
     End Class

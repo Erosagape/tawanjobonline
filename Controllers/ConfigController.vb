@@ -930,7 +930,6 @@ Namespace Controllers
                 End Select
                 msg &= """}"
                 Return Content(msg, jsonContent)
-
             Catch ex As Exception
                 Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "ImportData", "ERROR", ex.Message)
                 Return Content("{""result"":""" & ex.Message & """}", jsonContent)

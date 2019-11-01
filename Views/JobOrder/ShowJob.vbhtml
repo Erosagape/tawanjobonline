@@ -968,7 +968,27 @@ End Code
                     }
                 }
             });
-
+        $.get(path + 'joborder/getjoborderlog?branch=' + Branch + '&code=' + Job)
+            .done(function (r) {
+                if (r.joborderlog.data.length > 0) {
+                    let d = r.joborderlog.data;
+                    $('#tbLog').DataTable({
+                        data: d,
+                        selected: true, //ให้สามารถเลือกแถวได้
+                        columns: [ //กำหนด property ของ header column
+                            {
+                                data: "LogDate", title: "Date",
+                                render: function (data) {
+                                    return CDateEN(data);
+                                }
+                            },
+                            { data: "EmpCode", title: "Staff" },
+                            { data: "TRemark", title: "Description" }
+                        ],
+                        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                    });
+                }
+            });
         $.get(path + 'joborder/getjobdocument?branch=' + Branch + '&job=' + Job)
             .done(function (r) {
                 if (r.job.data.length > 0) {
@@ -1024,8 +1044,7 @@ End Code
     }
     function OpenCheque() {
         window.open(path + 'Acc/Cheque?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
-    }
-
+    }    
     function GetDataSave(dr) {
         dr.CustCode = $('#txtCustCode').val();
         dr.CustBranch = $('#txtCustBranch').val();
