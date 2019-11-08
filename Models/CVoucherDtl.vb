@@ -138,7 +138,7 @@ Public Class CVoucherDoc
                             dr("ItemNo") = Me.ItemNo
                             dr("DocType") = Me.DocType
                             dr("DocNo") = Me.DocNo
-                            dr("DocDate") = If(Me.DocDate.Year < 1900, System.DBNull.Value, Me.DocDate)
+                            dr("DocDate") = If(DocDate.Year >= 1900, DocDate, DBNull.Value)
                             dr("CmpType") = Me.CmpType
                             dr("CmpCode") = Me.CmpCode
                             dr("CmpBranch") = Me.CmpBranch

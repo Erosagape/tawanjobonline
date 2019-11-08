@@ -36,8 +36,10 @@
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\</OutputPath>
     <DocumentationFile>jobonline.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,7 +49,9 @@
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
     <DocumentationFile>jobonline.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
+    <WarningsAsErrors>
+    </WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -214,6 +218,8 @@
     <Compile Include="Models\CServUnit.vb" />
     <Compile Include="Models\CTransportDetail.vb" />
     <Compile Include="Models\CTransportHeader.vb" />
+    <Compile Include="Models\CTransportPrice.vb" />
+    <Compile Include="Models\CTransportRoute.vb" />
     <Compile Include="Models\CUser.vb" />
     <Compile Include="Models\CUserAuth.vb" />
     <Compile Include="Models\CUtil.vb" />
@@ -452,6 +458,7 @@
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
     <None Include="My Project\PublishProfiles\jobbeta.pubxml" />
+    <None Include="My Project\PublishProfiles\kwanchai.pubxml" />
     <None Include="My Project\PublishProfiles\localhost.pubxml" />
     <None Include="My Project\PublishProfiles\servertawan.pubxml" />
     <None Include="My Project\PublishProfiles\tawanonline.pubxml" />
@@ -762,12 +769,12 @@
     <Content Include="Resource\Import\Mas_UserRoleDetail.json" />
     <Content Include="Resource\Import\Mas_UserRolePolicy.json" />
     <Content Include="Resource\Export\Resource_Export_25620906170910.json" />
-    <Content Include="Web-BIZ_TAWAN.config" />
-    <Content Include="Web-BIZ_TAWAN.Debug.config">
-      <DependentUpon>Web-BIZ_TAWAN.config</DependentUpon>
+    <Content Include="Web-KWAN.config" />
+    <Content Include="Web-KWAN.Debug.config">
+      <DependentUpon>Web-KWAN.config</DependentUpon>
     </Content>
-    <Content Include="Web-BIZ_TAWAN.Release.config">
-      <DependentUpon>Web-BIZ_TAWAN.config</DependentUpon>
+    <Content Include="Web-KWAN.Release.config">
+      <DependentUpon>Web-KWAN.config</DependentUpon>
     </Content>
     <Content Include="Web-APL.config" />
     <Content Include="Web-APL.Debug.config">
@@ -775,13 +782,6 @@
     </Content>
     <Content Include="Web-APL.Release.config">
       <DependentUpon>Web-APL.config</DependentUpon>
-    </Content>
-    <Content Include="Web-APL_TAWAN.config" />
-    <Content Include="Web-APL_TAWAN.Debug.config">
-      <DependentUpon>Web-APL_TAWAN.config</DependentUpon>
-    </Content>
-    <Content Include="Web-APL_TAWAN.Release.config">
-      <DependentUpon>Web-APL_TAWAN.config</DependentUpon>
     </Content>
     <Content Include="Web-PGM.config" />
     <Content Include="Web-PGM.Debug.config">

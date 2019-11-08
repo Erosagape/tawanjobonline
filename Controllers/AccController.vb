@@ -271,7 +271,7 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("Item")) Then
                     tSqlw &= String.Format(" AND ItemNo={0} ", Request.QueryString("Item").ToString)
-                    oData.ItemNo = Request.QueryString("Item").ToString
+                    oData.ItemNo = Convert.ToInt32(Request.QueryString("Item").ToString)
                 Else
                     Return Content("{""payment"":{""result"":""Please Select Some Item"",""data"":[]}}", jsonContent)
                 End If
@@ -1059,7 +1059,7 @@ Namespace Controllers
                 If IsNothing(Request.QueryString("Item")) Then
                     Return Content("{""voucher"":{""result"":""Please Select Some Item"",""data"":[]}}", jsonContent)
                 Else
-                    oData.ItemNo = Request.QueryString("Item").ToString
+                    oData.ItemNo = Convert.ToInt32(Request.QueryString("Item").ToString)
                     tSqlw &= String.Format(" AND ItemNo='{0}'", Request.QueryString("Item").ToString)
                 End If
                 Dim msg = ""
@@ -1185,7 +1185,7 @@ Namespace Controllers
                 Return Content("{""whtax"":{""msg"":""" & ex.Message & """,""header"":[],""detail"":[]}}", jsonContent)
             End Try
         End Function
-        Function GetWHTaxGrid()
+        Function GetWHTaxGrid() As ActionResult
             Try
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "WHTax")

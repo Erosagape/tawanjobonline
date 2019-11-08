@@ -78,7 +78,7 @@ Public Class CController
         End If
         Return Session(sName).ToString
     End Function
-    Friend Function CheckSession(sName) As Boolean
+    Friend Function CheckSession(sName As String) As Boolean
         If IsNothing(Session(sName)) Then
             Return True
         Else

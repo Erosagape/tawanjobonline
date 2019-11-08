@@ -379,7 +379,7 @@ Namespace Controllers
         End Function
         Function GetLogin() As ActionResult
             LoadCompanyProfile()
-            Dim oData
+            Dim oData As Object
             If ViewBag.User <> "" Then
                 oData = New CUser(jobWebConn).GetData(String.Format(" WHERE UserID='{0}'", ViewBag.User))
                 If oData.Count > 0 Then

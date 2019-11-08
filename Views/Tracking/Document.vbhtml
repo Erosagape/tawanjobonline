@@ -162,11 +162,18 @@ End Code
 <div id="dvLOVs"></div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
+    let branchcode = getQueryString("BranchCode");
+    let jobno = getQueryString("JNo");
     let row = {};
     SetLOVs();
+    if (jobno !== '' && branchcode !=='') {
+        $('#txtBranchCode').val(branchcode);
+        $('#txtJNo').val(jobno);
+        RefreshGrid();
+    }
     function SetLOVs() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');        
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Job

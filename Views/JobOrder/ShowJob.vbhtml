@@ -474,6 +474,9 @@ End Code
                     </table>
                 </div>
                 <div id="tabremark" class="tab-pane fade">
+                    <a href="#" class="btn btn-default w3-purple" id="btnAddLog" onclick="AddJobLog()">
+                        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Remark</b>
+                    </a>
                     <div class="row">
                         <div class="col-md-12">
                             <table id="tbLog" class="table table-responsive">
@@ -514,6 +517,19 @@ End Code
                 <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print</b>
             </a>
         </p>
+        <div id="frmJobOrderLog" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <textarea id="txtLogRemark" class="form-control"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="btnSaveLog" onclick="SaveJobLog()">Save Remark</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="frmContainerEdit" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -849,125 +865,155 @@ End Code
     //This section for Load Data And Print data
     function ShowJob(Branch, Job) {
         $.get(path + 'joborder/getjobsql?branch=' + Branch + '&jno=' + Job)
-            .done(function (r) {
-                if (r.job.data.length > 0) {
-                    let dr = r.job.data[0];
-                    rec = dr;
-                    $('#txtJNo').val(dr.JNo);
-                    $('#txtCustCode').val(dr.CustCode);
-                    $('#txtCustBranch').val(dr.CustBranch);
-                    ShowCustomerFull(path,dr.CustCode, dr.CustBranch, '#txtCustName', '#txtTAddress', '#txtEAddress', '#txtPhoneFax');
-                    ShowJobTypeShipBy(path,dr.JobType, dr.ShipBy, dr.JobStatus, '#txtJobType', '#txtShipBy', '#txtJobStatus');
-                    $('#txtRevised').val(dr.JRevise);
-                    $('#txtDocDate').val(CDateEN(dr.DocDate));
-                    $('#txtQNo').val(dr.QNo);
-                    $('#txtQRevise').val(dr.Revise);
-                    $('#txtCustInvNo').val(dr.InvNo);
-                    $('#txtDeclareNo').val(dr.DeclareNumber);
-                    ShowUser(path,dr.ManagerCode, '#txtManagerCode');
-                    $('#txtCommission').val(dr.Commission);
-                    $('#txtContactName').val(dr.CustContactName);
-                    ShowUser(path,dr.CSCode, '#txtCSName');
-                    $('#txtConfirmDate').val(CDateEN(dr.ConfirmDate));
-                    ShowUser(path,dr.CloseJobBy, '#txtCloseBy');
-                    $('#txtJobCondition').val(dr.TRemark);
-                    $('#txtCloseDate').val(CDateEN(dr.CloseJobDate));
-                    $('#txtCustPoNo').val(dr.CustRefNO);
-                    $('#txtDescription').val(dr.Description);
-                    $('#txtCancelReason').val(dr.CancelReson);
-                    ShowUser(path,dr.CancelProve, '#txtCancelBy');
-                    $('#txtConsignee').val(dr.Consigneecode);
-                    $('#txtConsBranch').val(dr.CustBranch);
-                    ShowCustomerFull(path,dr.Consigneecode, dr.CustBranch, '#txtConsignName', '#txtBillTAddress', '#txtBillEAddress', '');
+        .done(function (r) {
+            if (r.job.data.length > 0) {
+                let dr = r.job.data[0];
+                rec = dr;
+                $('#txtJNo').val(dr.JNo);
+                $('#txtCustCode').val(dr.CustCode);
+                $('#txtCustBranch').val(dr.CustBranch);
+                ShowCustomerFull(path,dr.CustCode, dr.CustBranch, '#txtCustName', '#txtTAddress', '#txtEAddress', '#txtPhoneFax');
+                ShowJobTypeShipBy(path,dr.JobType, dr.ShipBy, dr.JobStatus, '#txtJobType', '#txtShipBy', '#txtJobStatus');
+                $('#txtRevised').val(dr.JRevise);
+                $('#txtDocDate').val(CDateEN(dr.DocDate));
+                $('#txtQNo').val(dr.QNo);
+                $('#txtQRevise').val(dr.Revise);
+                $('#txtCustInvNo').val(dr.InvNo);
+                $('#txtDeclareNo').val(dr.DeclareNumber);
+                ShowUser(path,dr.ManagerCode, '#txtManagerCode');
+                $('#txtCommission').val(dr.Commission);
+                $('#txtContactName').val(dr.CustContactName);
+                ShowUser(path,dr.CSCode, '#txtCSName');
+                $('#txtConfirmDate').val(CDateEN(dr.ConfirmDate));
+                ShowUser(path,dr.CloseJobBy, '#txtCloseBy');
+                $('#txtJobCondition').val(dr.TRemark);
+                $('#txtCloseDate').val(CDateEN(dr.CloseJobDate));
+                $('#txtCustPoNo').val(dr.CustRefNO);
+                $('#txtDescription').val(dr.Description);
+                $('#txtCancelReason').val(dr.CancelReson);
+                ShowUser(path,dr.CancelProve, '#txtCancelBy');
+                $('#txtConsignee').val(dr.Consigneecode);
+                $('#txtConsBranch').val(dr.CustBranch);
+                ShowCustomerFull(path,dr.Consigneecode, dr.CustBranch, '#txtConsignName', '#txtBillTAddress', '#txtBillEAddress', '');
 
-                    $('#txtCancelDate').val(CDateEN(dr.CancelDate));
-                    $('#txtProjectName').val(dr.ProjectName);
-                    $('#txtInvProduct').val(dr.InvProduct);
-                    $('#txtInvQty').val(dr.InvProductQty);
-                    $('#txtInvUnit').val(dr.InvProductUnit);
-                    $('#txtInvPackQty').val(dr.TotalQty);
-                    $('#txtInvTotal').val(dr.InvTotal);
-                    $('#txtMeasurement').val(dr.Measurement);
-                    $('#txtNetWeight').val(dr.TotalNW);
-                    $('#txtGrossWeight').val(dr.TotalGW);
-                    $('#txtWeightUnit').val(dr.GWUnit);
+                $('#txtCancelDate').val(CDateEN(dr.CancelDate));
+                $('#txtProjectName').val(dr.ProjectName);
+                $('#txtInvProduct').val(dr.InvProduct);
+                $('#txtInvQty').val(dr.InvProductQty);
+                $('#txtInvUnit').val(dr.InvProductUnit);
+                $('#txtInvPackQty').val(dr.TotalQty);
+                $('#txtInvTotal').val(dr.InvTotal);
+                $('#txtMeasurement').val(dr.Measurement);
+                $('#txtNetWeight').val(dr.TotalNW);
+                $('#txtGrossWeight').val(dr.TotalGW);
+                $('#txtWeightUnit').val(dr.GWUnit);
 
-                    $('#cboTyAuthorSp').val(dr.TyAuthorSp);
-                    $('#cboTy19BIS').val(dr.Ty19BIS);
-                    $('#cboTyClearTax').val(dr.TyClearTax);
-                    $('#txtClearTaxReson').val(dr.TyClearTaxReson);
+                $('#cboTyAuthorSp').val(dr.TyAuthorSp);
+                $('#cboTy19BIS').val(dr.Ty19BIS);
+                $('#cboTyClearTax').val(dr.TyClearTax);
+                $('#txtClearTaxReson').val(dr.TyClearTaxReson);
 
-                    $('#chkTSRequest').prop('checked', dr.TSRequest === 1 ? true : false);
-                    $('#chkTyAuthorSp').prop('checked', $('#cboTyAuthorSp').val()==='' ? false : true);
-                    $('#chkTy19BIS').prop('checked', $('#cboTy19BIS').val() === '' ? false : true);
-                    $('#chkTyClearTax').prop('checked', $('#cboTyClearTax').val() === '' ? false : true);
+                $('#chkTSRequest').prop('checked', dr.TSRequest === 1 ? true : false);
+                $('#chkTyAuthorSp').prop('checked', $('#cboTyAuthorSp').val()==='' ? false : true);
+                $('#chkTy19BIS').prop('checked', $('#cboTy19BIS').val() === '' ? false : true);
+                $('#chkTyClearTax').prop('checked', $('#cboTyClearTax').val() === '' ? false : true);
 
-                    $('input:radio[name=optDeclareStatus]:checked').prop('checked', false);
-                    $('input:radio[name=optDeclareStatus][value="' + dr.DeclareStatus + '"]').prop('checked', true);
+                $('input:radio[name=optDeclareStatus]:checked').prop('checked', false);
+                $('input:radio[name=optDeclareStatus][value="' + dr.DeclareStatus + '"]').prop('checked', true);
 
-                    $('#txtInvCurrency').val(dr.InvCurUnit);
-                    $('#txtInvCurRate').val(dr.InvCurRate);
-                    $('#txtInvCountryCode').val(dr.InvCountry);
-                    $('#txtInvFCountryCode').val(dr.InvFCountry);
-                    ShowCountry(path,dr.InvCountry, '#txtInvCountry');
-                    ShowCountry(path,dr.InvFCountry, '#txtInvFCountry');
-                    $('#txtBookingNo').val(dr.BookingNo);
-                    $('#txtBLNo').val(dr.BLNo);
-                    $('#txtHAWB').val(dr.HAWB);
-                    $('#txtMAWB').val(dr.MAWB);
-                    $('#txtForwarder').val(dr.ForwarderCode);
-                    ShowVender(path,dr.ForwarderCode, '#txtForwarderName');
-                    $('#txtVesselName').val(dr.VesselName);
-                    $('#txtMVesselName').val(dr.MVesselName);
-                    $('#txtInterPort').val(dr.InvInterPort);
-                    ShowInterPort(path, dr.JobType == 1 ? dr.InvFCountry : dr.InvCountry, dr.InvInterPort, '#txtInterPortName');
-                    $('#txtTransporter').val(dr.AgentCode);
-                    ShowVender(path,dr.AgentCode, '#txtTransporterName');
-                    $('#txtTotalCTN').val(dr.TotalContainer);
-                    $('#txtETDDate').val(CDateEN(dr.ETDDate));
-                    $('#txtETADate').val(CDateEN(dr.ETADate));
-                    $('#txtLoadDate').val(CDateEN(dr.LoadDate));
-                    $('#txtDeliveryDate').val(CDateEN(dr.EstDeliverDate));
-                    $('#txtEDIDate').val(CDateEN(dr.ImExDate));
-                    $('#txtReadyClearDate').val(CDateEN(dr.ReadyToClearDate));
-                    $('#txtDutyDate').val(CDateEN(dr.DutyDate));
-                    $('#txtClearDate').val(CDateEN(dr.ClearDate));
-                    $('#txtDeclareType').val(dr.DeclareType);
-                    ShowDeclareType(path,dr.DeclareType, '#txtDeclareTypeName');
-                    $('#txtReleasePort').val(dr.ClearPort);
-                    $('#txtPortNo').val(dr.ClearPortNo);
-                    ShowReleasePort(path,dr.ClearPort, '#txtReleasePortName');
-                    $('#txtDutyAmt').val(dr.DutyAmount);
-                    $('#txtShipping').val(dr.ShippingEmp);
-                    ShowUser(path,dr.ShippingEmp, '#txtShippingName');
-                    $('#txtShippingCmd').val(dr.ShippingCmd);
+                $('#txtInvCurrency').val(dr.InvCurUnit);
+                $('#txtInvCurRate').val(dr.InvCurRate);
+                $('#txtInvCountryCode').val(dr.InvCountry);
+                $('#txtInvFCountryCode').val(dr.InvFCountry);
+                ShowCountry(path,dr.InvCountry, '#txtInvCountry');
+                ShowCountry(path,dr.InvFCountry, '#txtInvFCountry');
+                $('#txtBookingNo').val(dr.BookingNo);
+                $('#txtBLNo').val(dr.BLNo);
+                $('#txtHAWB').val(dr.HAWB);
+                $('#txtMAWB').val(dr.MAWB);
+                $('#txtForwarder').val(dr.ForwarderCode);
+                ShowVender(path,dr.ForwarderCode, '#txtForwarderName');
+                $('#txtVesselName').val(dr.VesselName);
+                $('#txtMVesselName').val(dr.MVesselName);
+                $('#txtInterPort').val(dr.InvInterPort);
+                ShowInterPort(path, dr.JobType == 1 ? dr.InvFCountry : dr.InvCountry, dr.InvInterPort, '#txtInterPortName');
+                $('#txtTransporter').val(dr.AgentCode);
+                ShowVender(path,dr.AgentCode, '#txtTransporterName');
+                $('#txtTotalCTN').val(dr.TotalContainer);
+                $('#txtETDDate').val(CDateEN(dr.ETDDate));
+                $('#txtETADate').val(CDateEN(dr.ETADate));
+                $('#txtLoadDate').val(CDateEN(dr.LoadDate));
+                $('#txtDeliveryDate').val(CDateEN(dr.EstDeliverDate));
+                $('#txtEDIDate').val(CDateEN(dr.ImExDate));
+                $('#txtReadyClearDate').val(CDateEN(dr.ReadyToClearDate));
+                $('#txtDutyDate').val(CDateEN(dr.DutyDate));
+                $('#txtClearDate').val(CDateEN(dr.ClearDate));
+                $('#txtDeclareType').val(dr.DeclareType);
+                ShowDeclareType(path,dr.DeclareType, '#txtDeclareTypeName');
+                $('#txtReleasePort').val(dr.ClearPort);
+                $('#txtPortNo').val(dr.ClearPortNo);
+                ShowReleasePort(path,dr.ClearPort, '#txtReleasePortName');
+                $('#txtDutyAmt').val(dr.DutyAmount);
+                $('#txtShipping').val(dr.ShippingEmp);
+                ShowUser(path,dr.ShippingEmp, '#txtShippingName');
+                $('#txtShippingCmd').val(dr.ShippingCmd);
 
-                    $('#txtComPaidChq').val(dr.DutyLtdPayChqAmt);
-                    $('#txtComPaidCash').val(dr.DutyLtdPayCashAmt);
-                    $('#txtComPaidEPay').val(dr.DutyLtdPayEPAYAmt);
-                    $('#txtComPaidOthers').val(dr.DutyLtdPayOtherAmt);
-                    $('#txtComOthersPayBy').val(dr.DutyLtdPayOther);
+                $('#txtComPaidChq').val(dr.DutyLtdPayChqAmt);
+                $('#txtComPaidCash').val(dr.DutyLtdPayCashAmt);
+                $('#txtComPaidEPay').val(dr.DutyLtdPayEPAYAmt);
+                $('#txtComPaidOthers').val(dr.DutyLtdPayOtherAmt);
+                $('#txtComOthersPayBy').val(dr.DutyLtdPayOther);
 
-                    $('#txtCustPaidChq').val(dr.DutyCustPayChqAmt);
-                    $('#txtCustPaidCash').val(dr.DutyCustPayCashAmt);
-                    $('#txtCustPaidCard').val(dr.DutyCustPayCardAmt);
-                    $('#txtCustPaidBank').val(dr.DutyCustPayBankAmt);
-                    $('#txtCustPaidEPay').val(dr.DutyCustPayEPAYAmt);
-                    $('#txtCustPaidOthers').val(dr.DutyCustPayOtherAmt);
-                    $('#txtCustOthersPayBy').val(dr.DutyCustPayOther);
+                $('#txtCustPaidChq').val(dr.DutyCustPayChqAmt);
+                $('#txtCustPaidCash').val(dr.DutyCustPayCashAmt);
+                $('#txtCustPaidCard').val(dr.DutyCustPayCardAmt);
+                $('#txtCustPaidBank').val(dr.DutyCustPayBankAmt);
+                $('#txtCustPaidEPay').val(dr.DutyCustPayEPAYAmt);
+                $('#txtCustPaidOthers').val(dr.DutyCustPayOtherAmt);
+                $('#txtCustOthersPayBy').val(dr.DutyCustPayOther);
 
-                    CalTotalLtd();
-                    CalTotalCust();
+                CalTotalLtd();
+                CalTotalCust();
 
-                    $('#txtDeliverNo').val(dr.DeliveryNo);
-                    $('#txtDeliverTo').val(dr.DeliveryTo);
-                    $('#txtDeliverAddr').val(dr.DeliveryAddr);
+                $('#txtDeliverNo').val(dr.DeliveryNo);
+                $('#txtDeliverTo').val(dr.DeliveryTo);
+                $('#txtDeliverAddr').val(dr.DeliveryAddr);
 
-                    if (dr.JobStatus >= 7) {
-                        $('#btnSave').attr('disabled', 'disabled');
-                    }
+                if (dr.JobStatus >= 7) {
+                    $('#btnSave').attr('disabled', 'disabled');
                 }
-            });
+            }
+        });
+        ShowLog(Branch, Job);
+        ShowTracking(Branch, Job);
+    }
+    function ShowTracking(Branch, Job) {
+        $.get(path + 'joborder/getjobdocument?branch=' + Branch + '&job=' + Job)
+        .done(function (r) {
+            if (r.job.data.length > 0) {
+                let d = r.job.data;
+                $('#tbTracking').DataTable({
+                    data: d,
+                    selected: true, //ให้สามารถเลือกแถวได้
+                    columns: [ //กำหนด property ของ header column
+                        {
+                            data: "DocDate", title: "Doc Date",
+                            render: function (data) {
+                                return CDateEN(data);
+                            }
+                        },
+                        { data: "DocType", title: "Type" },
+                        { data: "DocNo", title: "Doc No" },
+                        { data: "Expense", title: "Description" },
+                        { data: "Amount", title: "Amount" },
+                        { data: "DocStatus", title: "Status" }
+                    ],
+                    destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                });
+            }
+        });
+    }
+    function ShowLog(Branch,Job) {
         $.get(path + 'joborder/getjoborderlog?branch=' + Branch + '&code=' + Job)
             .done(function (r) {
                 if (r.joborderlog.data.length > 0) {
@@ -984,30 +1030,6 @@ End Code
                             },
                             { data: "EmpCode", title: "Staff" },
                             { data: "TRemark", title: "Description" }
-                        ],
-                        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                    });
-                }
-            });
-        $.get(path + 'joborder/getjobdocument?branch=' + Branch + '&job=' + Job)
-            .done(function (r) {
-                if (r.job.data.length > 0) {
-                    let d = r.job.data;
-                    $('#tbTracking').DataTable({
-                        data: d,
-                        selected: true, //ให้สามารถเลือกแถวได้
-                        columns: [ //กำหนด property ของ header column
-                            {
-                                data: "DocDate", title: "Doc Date",
-                                render: function (data) {
-                                    return CDateEN(data);
-                                }
-                            },
-                            { data: "DocType", title: "Type" },
-                            { data: "DocNo", title: "Doc No" },
-                            { data: "Expense", title: "Description" },
-                            { data: "Amount", title: "Amount" },
-                            { data: "DocStatus", title: "Status" }
                         ],
                         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
                     });
@@ -1348,6 +1370,33 @@ End Code
         $('#txtTotalCTN').val($('#txtTotalCon').val());
         $('#frmContainerEdit').modal('hide');
     }
-
-
+    function AddJobLog() {
+        $('#txtLogRemark').val('');
+        $('#frmJobOrderLog').modal('show');
+    }
+    function SaveJobLog() {
+        let obj = {
+            BranchCode: $('#txtBranchCode').val(),
+            JNo: $('#txtJNo').val(),
+            ItemNo: 0,
+            EmpCode: user,
+            LogDate: CDateTH(GetToday()),
+            LogTime: GetTime(),
+            TRemark: $('#txtLogRemark').val()
+        };
+        let jsonText = JSON.stringify({ data: obj });
+        $.ajax({
+            url: "@Url.Action("SetJobOrderLog", "JobOrder")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonText,
+            success: function (r) {
+                ShowLog($('#txtBranchCode').val(), $('#txtJNo').val());
+                ShowMessage(r.result.msg);
+            },
+            error: function (e) {
+                ShowMessage(e);
+            }
+        });
+    }
 </script>

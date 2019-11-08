@@ -701,6 +701,9 @@ End Code
     }
     function SetApprove(b) {
         if (b == true) {
+            $('#txtApproveBy').val(chkmode ? user : '');
+            $('#txtApproveDate').val(chkmode ? CDateEN(GetToday()) : '');
+            $('#txtApproveTime').val(chkmode ? ShowTime(GetTime()) : '');
             if (chkmode) {
                 let dataApp = [];
                 dataApp.push(user);
@@ -713,8 +716,7 @@ End Code
                     data: jsonString,
                     success: function (response) {
                         if (response) {
-                            ShowData($('#txtBranchCode').val(), $('#txtClrNo').val());
-                            ShowMessage("Approve Completed!");
+                            SaveHeader();
                         } else {
                             ShowMessage("Cannot Approve");
                         }
@@ -730,10 +732,8 @@ End Code
                 if ($('#cboDocStatus').val().substr(0, 2) == '02') {
                     $('#cboDocStatus').val('01');
                 }
+                SaveHeader();
             }
-            $('#txtApproveBy').val(chkmode ? user : '');
-            $('#txtApproveDate').val(chkmode ? CDateEN(GetToday()) : '');
-            $('#txtApproveTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }
         ShowMessage('You are not allow to ' + (b ? 'approve Advance!' : 'cancel approve!'));
@@ -757,6 +757,7 @@ End Code
             $('#txtCancelProve').val(chkmode ? user : '');
             $('#txtCancelDate').val(chkmode ? CDateEN(GetToday()) : '');
             $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
+            SaveHeader();
             return;
         }
         ShowMessage('You are not allow to ' + (b ? 'cancel Advance!' : 'do this!'));
@@ -823,30 +824,36 @@ End Code
         }
         window.open(path + 'Clr/FormClr?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtClrNo').val());
     }
+    function CheckEntry() {
+        if ($('#txtBranchName').val() == '') {
+            ShowMessage('please select branch code');
+            $('#txtBranchCode').focus();
+            return false;
+        }
+        if ($('#cboJobType').val() == 0) {
+            ShowMessage('please select job type');
+            $('#cboJobType').focus();
+            return false;
+        }
+        if ($('#cboClrType').val() == 0) {
+            ShowMessage('please select clear type');
+            $('#cboClrType').focus();
+            return false;
+        }
+        if ($('#cboClrFrom').val() == 0) {
+            ShowMessage('please select clear from');
+            $('#cboClrFrom').focus();
+            return false;
+        }
+        if (userRights.indexOf('E') < 0) {
+            ShowMessage('you are not authorize to save');
+            return false;
+        }
+        return true;
+    }
     function SaveHeader() {
         if (hdr != undefined) {
-            if ($('#txtBranchName').val() == '') {
-                ShowMessage('please select branch code');
-                $('#txtBranchCode').focus();
-                return;
-            }
-            if ($('#cboJobType').val() == 0) {
-                ShowMessage('please select job type');
-                $('#cboJobType').focus();
-                return;
-            }
-            if ($('#cboClrType').val() == 0) {
-                ShowMessage('please select clear type');
-                $('#cboClrType').focus();
-                return;
-            }
-            if ($('#cboClrFrom').val() == 0) {
-                ShowMessage('please select clear from');
-                $('#cboClrFrom').focus();
-                return;
-            }
-            if (userRights.indexOf('E') < 0) {
-                ShowMessage('you are not authorize to save');
+            if (CheckEntry() == false) {
                 return;
             }
             let obj = GetDataHeader();
@@ -971,14 +978,11 @@ End Code
                 //if document paymented/cancelled/cleared then disable save button
                 EnableSave(false);
             } else {
-                //if document approved by this user or not then check authorized to unlock
-                if (dt.DocStatus == 2 && user == dt.ApproveBy && userRights.indexOf('E') >= 0) {
-                    EnableSave(true);
+                if (dt.DocStatus == 2) {
+                    //$('#chkApprove').attr('disabled', 'disabled');
+                    EnableSave(false);
                 } else {
-                    if (dt.DocStatus == 2) {
-                        //$('#chkApprove').attr('disabled', 'disabled');
-                        EnableSave(false);
-                    }
+                    EnableSave(true);
                 }
             }
             $('#cboClrType').attr('disabled', 'disabled');

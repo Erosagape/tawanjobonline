@@ -682,6 +682,9 @@ End Code
     }
     function SetApprove(b) {
         if (b == true) {
+            $('#txtApproveBy').val(chkmode ? user : '');
+            $('#txtApproveDate').val(chkmode ? CDateEN(GetToday()) : '');
+            $('#txtApproveTime').val(chkmode ? ShowTime(GetTime()) : '');
             if (chkmode) {
                 if ($('#cboDocStatus').val().substr(0, 2) == '01') {
                     let dataApp = [];
@@ -695,8 +698,7 @@ End Code
                         data: jsonString,
                         success: function (response) {
                             if (response) {
-                                ShowMessage("Approve Completed!");
-                                ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val());
+                                SaveHeader();
                             } else {
                                 ShowMessage("Cannot Approve");
                             }
@@ -714,9 +716,6 @@ End Code
                     $('#cboDocStatus').val('01');
                 }
             }
-            $('#txtApproveBy').val(chkmode ? user : '');
-            $('#txtApproveDate').val(chkmode ? CDateEN(GetToday()) : '');
-            $('#txtApproveTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }
         ShowMessage('You are not allow to ' + (b ? 'approve Advance!' : 'cancel approve!'));
@@ -739,6 +738,7 @@ End Code
                     $('#txtCancelProve').val(chkmode ? user : '');
                     $('#txtCancelDate').val(chkmode ? CDateEN(GetToday()) : '');
                     $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
+                    SaveHeader();
                     return;
                 }
                 $('#chkCancel').prop('checked', !chkmode);

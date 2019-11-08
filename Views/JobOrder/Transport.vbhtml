@@ -99,83 +99,105 @@ End Code
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    CY Place :<br />
-                    <div style="display:flex;flex-direction:row">
-                        <input type="text" id="txtCYPlace" class="form-control">
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    At CY Date :<br />
-                    <div style="display:flex;flex-direction:row"><input type="date" id="txtCYDate" class="form-control"></div>
-                </div>
-                <div class="col-sm-3">
-                    At CY Time :<br />
-                    <div style="display:flex;flex-direction:row"><input type="text" id="txtCYTime" class="form-control"></div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    Factory Place :<br />
-                    <div style="display:flex;flex-direction:row">
-                        <input type="text" id="txtFactoryPlace" class="form-control">
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    At Factory Date :<br />
-                    <div style="display:flex;flex-direction:row"><input type="date" id="txtFactoryDate" class="form-control"></div>
-                </div>
-                <div class="col-sm-3">
-                    At Factory Time :<br />
-                    <div style="display:flex;flex-direction:row"><input type="text" id="txtFactoryTime" class="form-control"></div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    Packing Place :<br />
-                    <div style="display:flex;flex-direction:row">
-                        <input type="text" id="txtPackingPlace" class="form-control">
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    Packing Date :<br />
-                    <div style="display:flex;flex-direction:row">
-                        <input type="date" id="txtPackingDate" class="form-control">
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    Packing Time :<br />
-                    <div style="display:flex;flex-direction:row">
-                        <input type="text" id="txtPackingTime" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
-                    Return Place :<br />
-                    <div style="display:flex;flex-direction:row">
-                        <input type="text" id="txtReturnPlace" class="form-control">
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    Return Date :<br />
-                    <div style="display:flex;flex-direction:row">
-                        <input type="date" id="txtReturnDate" class="form-control">
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    Return Time :<br />
-                    <div style="display:flex;flex-direction:row">
-                        <input type="text" id="txtReturnTime" class="form-control">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6">
                     Payment Condition :<br /><div style="display:flex;flex-direction:row"><input type="text" id="txtPaymentCondition" class="form-control"></div>
                 </div>
                 <div class="col-sm-6">
                     Payment By :<br /><div style="display:flex;flex-direction:row"><input type="text" id="txtPaymentBy" class="form-control"></div>
                 </div>
+            </div>
+            <div class="panel" style="background-color:lightgreen;padding:10px 10px 10px 10px;margin-top:10px">
+                <div class="row">
+                    <div class="col-sm-6">
+                        Select Route: <br />
+                        <select id="cboLocation" class="form-control dropdown" onchange="LoadLocation()"></select>
+                    </div>
+                    <div class="col-sm-2">
+                        Active Trip:<br />
+                        <input type="text" id="txtTotalTripA" class="form-control" disabled />
+                    </div>
+                    <div class="col-sm-2">
+                        Finished Trip:<br />
+                        <input type="text" id="txtTotalTripF" class="form-control" disabled />
+                    </div>
+                    <div class="col-sm-2">
+                        Cancelled Trip:<br />
+                        <input type="text" id="txtTotalTripC" class="form-control" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        CY Place :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="text" id="txtCYPlace" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        At CY Date :<br />
+                        <div style="display:flex;flex-direction:row"><input type="date" id="txtCYDate" class="form-control"></div>
+                    </div>
+                    <div class="col-sm-3">
+                        At CY Time :<br />
+                        <div style="display:flex;flex-direction:row"><input type="text" id="txtCYTime" class="form-control"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        Factory Place :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="text" id="txtFactoryPlace" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        At Factory Date :<br />
+                        <div style="display:flex;flex-direction:row"><input type="date" id="txtFactoryDate" class="form-control"></div>
+                    </div>
+                    <div class="col-sm-3">
+                        At Factory Time :<br />
+                        <div style="display:flex;flex-direction:row"><input type="text" id="txtFactoryTime" class="form-control"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        Packing Place :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="text" id="txtPackingPlace" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        Packing Date :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="date" id="txtPackingDate" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        Packing Time :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="text" id="txtPackingTime" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        Return Place :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="text" id="txtReturnPlace" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        Return Date :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="date" id="txtReturnDate" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        Return Time :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="text" id="txtReturnTime" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <input type="button" id="btnSaveLoc" value="Save Route" class="btn btn-primary" onclick="SaveLocation()" />
+                <input type="button" id="btnEditExp" value="Edit Expenses" class="btn btn-info" onclick="EditExpense()" />
             </div>
         </div>
         <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearBooking()">
@@ -218,6 +240,61 @@ End Code
         <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
             <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Delivery Slip</b>
         </a>
+    </div>
+</div>
+<div id="dvExpenses" class="modal fade">
+    <div class="modal-dialog-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Edit Expenses For Route</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-1">
+                        <input type="text" id="txtLocationID" class="form-control" disabled />
+                    </div>
+                    <div class="col-sm-11">
+                        <input type="text" id="txtLocationRoute" class="form-control" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label id="lblSICode">Expense Code</label><br />
+                        <div style="display:flex">
+                            <input type="text" id="txtSICode" class="form-control" disabled />
+                            <input type="button" class="btn btn-default" value="..." />
+                        </div>
+                    </div>
+                    <div class="col-sm-10">
+                        <label id="lblSIDesc">Expense Description</label><br />
+                        <div style="display:flex">
+                            <input type="text" id="txtSDescription" class="form-control" disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label id="lblCostAmt">Cost Amount</label><br />
+                        <div style="display:flex">
+                            <input type="number" id="txtCostAmount" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label id="lblChargeAmt">Charge Amount</label><br />
+                        <div style="display:flex">
+                            <input type="number" id="txtChargeAmount" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <br />
+                        <input type="button" class="btn btn-success" value="Save Expense" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" data-dismiss="modal">X</button>
+            </div>
+        </div>
     </div>
 </div>
 <div id="dvContainer" class="modal fade">
@@ -403,6 +480,7 @@ End Code
         }
         if (job !== '') {
             $('#txtJNo').val(job);
+            CallBackQueryJob(path, $('#txtBranchCode').val(), $('#txtJNo').val(), ReadJobFull);
         }
         $('#txtBookingNo').keydown(function (ev) {
             if (ev.which == 13) {
@@ -410,8 +488,25 @@ End Code
             }
         });
     }
+    function loadRoute() {
+        $.get(path + 'JobOrder/GetTransportRoute', function (r) {
+            if (r.transportroute.data !== undefined) {
+                let dr = r.transportroute.data;
+                $('#cboLocation').empty();
+                $('#cboLocation').append($('<option>', { value: '0' })
+                    .text('New'));
+                if (dr.length > 0) {
+                    for (let i = 0; i < dr.length; i++) {
+                        $('#cboLocation').append($('<option>', { value: dr[i].LocationID })
+                            .text(dr[i].LocationRoute));
+                    }
+                }
+            }
+        });
+    }
     function SetLOVs() {
         loadUnit('#txtCTN_SIZE', path, '?Type=1');
+        loadRoute();
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
@@ -470,6 +565,15 @@ End Code
     }
     function ReadJob(dt) {
         $('#txtJNo').val(dt.JNo);
+    }
+    function ReadJobFull(dr) {
+        $('#txtJNo').val(dr.JNo);
+        $('#txtVenderCode').val(dr.AgentCode);
+        ShowVender(path, dr.VenderCode, '#txtVenderName');
+        $('#txtLoadDate').val(CDateEN(dr.LoadDate));
+        $('#txtNotifyCode').val(dr.CustCode);
+        ShowCompany(path, dr.CustCode, '#txtNotifyName');
+        $('#txtContactName').val(dr.CustContactName);
     }
     function ReadBooking(dr, loadcont = true) {
         $('#txtBranchCode').val(dr.BranchCode);
@@ -819,6 +923,78 @@ End Code
     function EntryExpenses() {
         if (row.ItemNo !== undefined) {
             window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&BookNo=' + row.BookingNo + '&Item=' + row.ItemNo + '&Job=' + $('#txtJNo').val() + '&Vend='+$('#txtVenderCode').val(), '', '');
+        }
+    }
+    function LoadLocation() {
+        $.get(path + 'JobOrder/GetTransportRoute?ID=' + $('#cboLocation').val(), function (r) {
+            if (r.transportroute.data !== undefined) {
+                let dr = r.transportroute.data[0];
+                $('#txtCYPlace').val(dr.Place1);
+                $('#txtFactoryPlace').val(dr.Place2);
+                $('#txtPackingPlace').val(dr.Place3);
+                $('#txtReturnPlace').val(dr.Place4);
+            }
+        });
+    }
+    function GetRoute() {
+        let w = '';
+        if ($('#txtCYPlace').val() !== '') {
+            w += (w == '' ? '': '->') + $('#txtCYPlace').val();
+        }
+        if ($('#txtFactoryPlace').val() !== '') {
+            w += (w == '' ? '': '->') + $('#txtFactoryPlace').val();
+        }
+        if ($('#txtPackingPlace').val() !== '') {
+            w += (w == '' ? '': '->') + $('#txtPackingPlace').val();
+        }
+        if ($('#txtReturnPlace').val() !== '') {
+            w += (w == '' ? '' : '->') + $('#txtReturnPlace').val();
+        }
+        return w;
+    }
+    function SaveLocation() {
+        if ($('#txtCYPlace').val() !== '') {
+            let obj = {
+                LocationID: $('#cboLocation').val(),
+                Place1: $('#txtCYPlace').val(),
+                Place2: $('#txtFactoryPlace').val(),
+                Place3: $('#txtPackingPlace').val(),
+                Place4: $('#txtReturnPlace').val(),
+                LocationRoute: GetRoute(),
+                IsActive: true
+            };
+            let jsonText = JSON.stringify({ data: obj });
+            $.ajax({
+                url: "@Url.Action("SetTransportRoute", "JobOrder")",
+                type: "POST",
+                contentType: "application/json",
+                data: jsonText,
+                success: function (response) {
+                    if (response.result.data != null) {
+                        if (response.result.data >= 0) {
+                            ShowMessage('Save Route Complete');
+                        }
+                        loadRoute();
+                        return;
+                    }
+                    ShowMessage(response.result.msg);
+                },
+                error: function (e) {
+                    ShowMessage(e);
+                }
+            });
+        } else {
+            ShowMessage('Please enter some data');
+        }
+    }
+    function EditExpense() {
+        if ($('#cboLocation').val() > 0) {
+            $('#txtLocationID').val($('#cboLocation').val());
+            $('#txtLocationRoute').val($('#cboLocation option:selected').text());
+
+            $('#dvExpenses').modal('show');
+        } else {
+            ShowMessage('Please select route first!');
         }
     }
 </script>

@@ -1043,14 +1043,14 @@ Namespace Controllers
                         If FindJob(0).JNo <> data.JNo Then
                             Return Content("{""msg"":""invoice '" + data.InvNo + "' has been opened for job '" + FindJob(0).JNo + "' ""}", jsonContent)
                         End If
-                        Dim log As String = ""
-                        For Each prop In New CJobOrder().GetType().GetProperties()
-                            Dim valOld = prop.GetValue(FindJob(0))
-                            Dim valNew = prop.GetValue(data)
-                            If valOld.Equals(valNew) = False Then
-                                log &= prop.Name & "=" & prop.GetValue(FindJob(0)) & vbCrLf
-                            End If
-                        Next
+                        'Dim log As String = ""
+                        'For Each prop In New CJobOrder().GetType().GetProperties()
+                        'Dim valOld = prop.GetValue(FindJob(0))
+                        'Dim valNew = prop.GetValue(data)
+                        'If valOld.Equals(valNew) = False Then
+                        'log &= prop.Name & "=" & prop.GetValue(FindJob(0)) & vbCrLf
+                        'End If
+                        'Next
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
                     Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetJobOrder", "Save", JsonConvert.SerializeObject(data))
@@ -1396,6 +1396,7 @@ Namespace Controllers
                 json = "{""document"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetDocument", "ERROR", ex.Message)
                 Return Content("[]", jsonContent)
             End Try
         End Function
@@ -1413,6 +1414,7 @@ Namespace Controllers
                         data.AddNew()
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo={2} ", data.BranchCode, data.JNo, data.ItemNo))
+                    Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetDocument", "Save", JsonConvert.SerializeObject(data))
                     Dim json = "{""result"":{""data"":""" & data.JNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
@@ -1420,6 +1422,7 @@ Namespace Controllers
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetDocument", "ERROR", ex.Message)
                 Dim json = "{""result"":{""data"":null,""msg"":""" & ex.Message & """}}"
                 Return Content(json, jsonContent)
             End Try
@@ -1442,10 +1445,169 @@ Namespace Controllers
                 End If
                 Dim oData As New CDocument(jobWebConn)
                 Dim msg = oData.DeleteData(tSqlw)
-
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "DelDocument", "SQL", tSqlw)
                 Dim json = "{""document"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "DelDocument", "ERROR", ex.Message)
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
+        Function GetTransportPrice() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE LocationID>0 "
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format("AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("ID")) Then
+                    tSqlw &= String.Format("AND LocationID ={0} ", Request.QueryString("ID").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Vend")) Then
+                    tSqlw &= String.Format("AND VenderCode='{0}' ", Request.QueryString("Vend").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Cust")) Then
+                    tSqlw &= String.Format("AND CustCode='{0}' ", Request.QueryString("Cust").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format("AND SICode='{0}' ", Request.QueryString("Code").ToString)
+                End If
+                Dim oData = New CTransportPrice(jobWebConn).GetData(tSqlw)
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                json = "{""transportprice"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetTransportPrice", "ERROR", ex.Message)
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
+        Function SetTransportPrice(<FromBody()> data As CTransportPrice) As ActionResult
+            Try
+                If Not IsNothing(data) Then
+                    If "" & data.BranchCode = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
+                    End If
+                    If "" & data.VenderCode = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Vender""}}", jsonContent)
+                    End If
+                    If "" & data.CustCode = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Customer""}}", jsonContent)
+                    End If
+                    If "" & data.SICode = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Code""}}", jsonContent)
+                    End If
+                    If data.LocationID = 0 Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Location""}}", jsonContent)
+                    End If
+                    data.SetConnect(jobWebConn)
+                    Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND LocationID={1} AND VenderCode='{2}' AND CustCode='{3}' AND SICode='{4}'  ", data.BranchCode, data.LocationID, data.VenderCode, data.CustCode, data.SICode))
+                    Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetTransportPrice", "Save", JsonConvert.SerializeObject(data))
+                    Dim json = "{""result"":{""data"":""" & data.LocationID & """,""msg"":""" & msg & """}}"
+                    Return Content(json, jsonContent)
+                Else
+                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Return Content(json, jsonContent)
+                End If
+            Catch ex As Exception
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetTransportPrice", "ERROR", ex.Message)
+                Dim json = "{""result"":{""data"":null,""msg"":""" & ex.Message & """}}"
+                Return Content(json, jsonContent)
+            End Try
+        End Function
+        Function DelTransportPrice() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE LocationID>0 "
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format("AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("ID")) Then
+                    tSqlw &= String.Format("AND LocationID={0} ", Request.QueryString("ID").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Vend")) Then
+                    tSqlw &= String.Format("AND VenderCode='{0}' ", Request.QueryString("Vend").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Cust")) Then
+                    tSqlw &= String.Format("AND CustCode='{0}' ", Request.QueryString("Cust").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format("AND SICode='{0}' ", Request.QueryString("Code").ToString)
+                End If
+                Dim oData As New CTransportPrice(jobWebConn)
+                Dim msg = oData.DeleteData(tSqlw)
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "DelTransportPrice", "SQL", tSqlw)
+                Dim json = "{""transportprice"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "DelTransportPrice", "ERROR", ex.Message)
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
+        Function GetTransportRoute() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE LocationID>0 "
+                If Not IsNothing(Request.QueryString("ID")) Then
+                    tSqlw &= String.Format("AND LocationID ={0}", Request.QueryString("ID").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Place1")) Then
+                    tSqlw &= String.Format("AND Place1='{0}' ", Request.QueryString("Place1").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Place2")) Then
+                    tSqlw &= String.Format("AND Place2='{0}' ", Request.QueryString("Place2").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Place3")) Then
+                    tSqlw &= String.Format("AND Place3='{0}' ", Request.QueryString("Place3").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Place4")) Then
+                    tSqlw &= String.Format("AND Place4='{0}' ", Request.QueryString("Place4").ToString)
+                End If
+                Dim oData = New CTransportRoute(jobWebConn).GetData(tSqlw)
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                json = "{""transportroute"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetTransportRoute", "ERROR", ex.Message)
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
+        Function SetTransportRoute(<FromBody()> data As CTransportRoute) As ActionResult
+            Try
+                If Not IsNothing(data) Then
+                    If "" & data.Place1 = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Begin Place""}}", jsonContent)
+                    End If
+                    data.SetConnect(jobWebConn)
+                    Dim msg = data.SaveData(String.Format(" WHERE LocationID={0} ", data.LocationID))
+                    If msg.Substring(0, 1) <> "[" Then
+                        Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetTransportRoute", "Save", JsonConvert.SerializeObject(data))
+                    Else
+                        Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetTransportRoute", "ERROR", msg)
+                    End If
+                    Dim json = "{""result"":{""data"":""" & data.LocationID & """,""msg"":""" & msg & """}}"
+                    Return Content(json, jsonContent)
+                Else
+                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Return Content(json, jsonContent)
+                End If
+            Catch ex As Exception
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetTransportRoute", "ERROR", ex.Message)
+                Dim json = "{""result"":{""data"":null,""msg"":""" & ex.Message & """}}"
+                Return Content(json, jsonContent)
+            End Try
+        End Function
+        Function DelTransportRoute() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE LocationID>0 "
+                If Not IsNothing(Request.QueryString("ID")) Then
+                    tSqlw &= String.Format("AND LocationID ={0}", Request.QueryString("ID").ToString)
+                Else
+                    Return Content("{""transportroute"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                End If
+                Dim oData As New CTransportRoute(jobWebConn)
+                Dim msg = oData.DeleteData(tSqlw)
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "DelTransportRoute", "SQL", tSqlw)
+                Dim json = "{""transportroute"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "DelTransportRoute", "ERROR", ex.Message)
                 Return Content("[]", jsonContent)
             End Try
         End Function

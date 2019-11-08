@@ -762,7 +762,7 @@ Namespace Controllers
                     End If
                 End If
                 Dim clrNoList As String = ""
-                For Each docno In docList.Split(",")
+                For Each docno As String In docList.Split(",")
                     If docno <> "" Then
                         Dim oHead = New CPayHeader(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' ", branchcode, docno))
                         Dim oDet = New CPayDetail(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' ORDER BY ForJNo ", branchcode, docno))

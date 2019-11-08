@@ -274,7 +274,7 @@ on adv.BranchCode=src.BranchCode
 and adv.AdvNo=src.AdvNo
 "
     End Function
-    Public Function SQLUpdateAdvHeader()
+    Public Function SQLUpdateAdvHeader() As String
         Return "
 update b 
 set b.TotalAdvance =ISNULL(a.SumAdvance,0)
@@ -292,7 +292,7 @@ on b.BranchCode =a.BranchCode
 and b.AdvNo=a.AdvNo
 "
     End Function
-    Public Function SQLUpdatePayHeader()
+    Public Function SQLUpdatePayHeader() As String
         Return "
 update b 
 set b.TotalExpense =ISNULL(a.SumNet,0)
@@ -387,7 +387,7 @@ AND d.acType=r.acType AND d.DocNo=r.DocNo
 "
         Return sql
     End Function
-    Function SQLSelectWHTax()
+    Function SQLSelectWHTax() As String
         Return "
 SELECT h.*,d.ItemNo,d.IncType,d.PayDate,d.PayAmount,d.PayTax,d.PayTaxDesc,
 d.JNo,d.DocRefType,d.DocRefNo,d.PayRate,
