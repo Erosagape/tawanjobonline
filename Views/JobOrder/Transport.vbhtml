@@ -120,7 +120,7 @@ End Code
                         <input type="text" id="txtTotalTripF" class="form-control" disabled />
                     </div>
                     <div class="col-sm-2">
-                        Cancelled Trip:<br />
+                        Non-active Trip:<br />
                         <input type="text" id="txtTotalTripC" class="form-control" disabled />
                     </div>
                 </div>
@@ -226,9 +226,6 @@ End Code
                     <th class="all">TruckNO</th>
                     <th class="desktop">TruckType</th>
                     <th class="desktop">Location</th>
-                    <th class="desktop">ProductDesc</th>
-                    <th class="desktop">ProductQty</th>
-                    <th class="desktop">GrossWeight</th>
                     <th class="all">UnloadDate</th>
                     <th class="all">DeliveryNo</th>
                 </tr>
@@ -262,7 +259,7 @@ End Code
                         <label id="lblSICode">Expense Code</label><br />
                         <div style="display:flex">
                             <input type="text" id="txtSICode" class="form-control" disabled />
-                            <input type="button" class="btn btn-default" value="..." />
+                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('servicecode');" />
                         </div>
                     </div>
                     <div class="col-sm-10">
@@ -287,7 +284,7 @@ End Code
                     </div>
                     <div class="col-sm-4">
                         <br />
-                        <input type="button" class="btn btn-success" value="Save Expense" />
+                        <input type="button" class="btn btn-success" value="Save Expense" onclick="SaveExpense()" />
                     </div>
                 </div>
             </div>
@@ -347,10 +344,11 @@ End Code
                         Job Status:<br />
                         <div style="display:flex">
                             <select id="txtCauseCode" class="form-control dropdown">
-                                <option value="0">Working</option>
-                                <option value="1">Late</option>
-                                <option value="2">Accident</option>
-                                <option value="3">Cancel</option>
+                                <option value="0">Checking</option>
+                                <option value="1">Approved</option>
+                                <option value="2">Rejected</option>
+                                <option value="3">Finished</option>
+                                <option value="99">Cancelled</option>
                             </select>
                         </div>
                     </div>
@@ -372,22 +370,19 @@ End Code
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
-                        Location :<br /><div style="display:flex"><input type="text" id="txtLocation" class="form-control"></div>
-                    </div>
-                    <div class="col-sm-6">
-                        Shipping Mark :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
+                    <div class="col-sm-12">
+                        Location :<br />
+                        <div style="display:flex">
+                            <select id="txtLocation" class="form-control"></select>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-8">
+                    <div class="col-sm-6">
                         Operation Note :<br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
                     </div>
-                    <div class="col-sm-4">
-                        Delivery No: 
-                        <input type="button" id="btnGenDeliveryNo" onclick="GenerateDO()" class="btn btn-warning" value="Create" />
-                        <br />
-                        <div style="display:flex"><input type="text" id="txtDeliveryNo" class="form-control" disabled></div>
+                    <div class="col-sm-6">
+                        Shipping Mark :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
                     </div>
                 </div>
                 <div class="row">
@@ -437,6 +432,11 @@ End Code
                         </div>
                     </div>
                 </div>
+                Delivery No:
+                <div style="display:flex;">
+                    <div style="display:flex"><input type="text" id="txtDeliveryNo" class="form-control" disabled></div>
+                    <input type="button" id="btnGenDeliveryNo" onclick="GenerateDO()" class="btn btn-warning" value="Create" />
+                </div>
             </div>
             <div class="modal-footer">
                 <div style="float:left">
@@ -462,6 +462,7 @@ End Code
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
     let row = {};
+    let isjobmode = false;
     SetLOVs();
     SetEvents();
     function AddDetail() {
@@ -479,6 +480,7 @@ End Code
             $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
         }
         if (job !== '') {
+            isjobmode = true;
             $('#txtJNo').val(job);
             CallBackQueryJob(path, $('#txtBranchCode').val(), $('#txtJNo').val(), ReadJobFull);
         }
@@ -493,12 +495,18 @@ End Code
             if (r.transportroute.data !== undefined) {
                 let dr = r.transportroute.data;
                 $('#cboLocation').empty();
+                $('#txtLocation').empty();
                 $('#cboLocation').append($('<option>', { value: '0' })
                     .text('New'));
+                $('#txtLocation').append($('<option>', { value: '' })
+                    .text('N/A'));
                 if (dr.length > 0) {
                     for (let i = 0; i < dr.length; i++) {
                         $('#cboLocation').append($('<option>', { value: dr[i].LocationID })
                             .text(dr[i].LocationRoute));
+                        $('#txtLocation').append($('<option>', { value: dr[i].LocationRoute })
+                            .text(dr[i].LocationRoute));
+
                     }
                 }
             }
@@ -516,6 +524,7 @@ End Code
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response, 2);
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
+            CreateLOV(dv, '#frmSearchServ', '#tbServ', 'Service Code', response, 2);
             //Units
             CreateLOV(dv, '#frmSearchUnitS', '#tbUnitS', 'Commodity Unit', response, 2);
             CreateLOV(dv, '#frmSearchUnitC', '#tbUnitC', 'Car Unit', response, 2);
@@ -537,7 +546,7 @@ End Code
                 SetGridBranch(path, '#tbBranch','#frmSearchBranch', ReadBranch);
                 break;
             case 'job':
-                SetGridJob(path, '#tbJob', '#frmSearchJob', '?branch=' + $('#txtBranchCode').val(), ReadJob);
+                SetGridJob(path, '#tbJob', '#frmSearchJob', '?branch=' + $('#txtBranchCode').val(), ReadJobFull);
                 break;
             case 'servunit':
                 SetGridServUnitFilter(path, '#tbUnitS', '?Type=0', '#frmSearchUnitS', ReadUnit);
@@ -549,7 +558,17 @@ End Code
                 let w = '?Branch=' + $('#txtBranchCode').val();
                 SetGridTransport(path, '#tbBook', '#frmSearchBook', w, ReadBooking);
                 break;
+            case 'servicecode':
+                SetGridSICode(path, '#tbServ', '', '#frmSearchServ', ReadService);
+                break;
         }
+    }
+    function ReadService(dt) {
+        $('#txtSICode').val(dt.SICode);
+        $('#txtSDescription').val(dt.NameThai);
+        $('#txtChargeAmount').val(CDbl(dt.StdPrice,2));
+        $('#txtCostAmount').val(CDbl(dt.StdPrice, 2));
+        LoadExpense();
     }
     function ReadVender(dt) {
         $('#txtVenderCode').val(dt.VenCode);
@@ -563,9 +582,6 @@ End Code
         $('#txtBranchCode').val(dt.Code);
         $('#txtBranchName').val(dt.BrName);
     }
-    function ReadJob(dt) {
-        $('#txtJNo').val(dt.JNo);
-    }
     function ReadJobFull(dr) {
         $('#txtJNo').val(dr.JNo);
         $('#txtVenderCode').val(dr.AgentCode);
@@ -574,6 +590,12 @@ End Code
         $('#txtNotifyCode').val(dr.CustCode);
         ShowCompany(path, dr.CustCode, '#txtNotifyName');
         $('#txtContactName').val(dr.CustContactName);
+
+        $('#txtProductDesc').val(dr.InvProduct);
+        $('#txtProductQty').val('0.00');
+        $('#txtProductUnit').val(dr.InvProductUnit);
+        $('#txtGrossWeight').val(dr.TotalGW);
+        $('#txtMeasurement').val(dr.Measurement);
     }
     function ReadBooking(dr, loadcont = true) {
         $('#txtBranchCode').val(dr.BranchCode);
@@ -611,9 +633,24 @@ End Code
         $.get(path + 'joborder/gettransportdetail?Branch=' + code + '&Code=' + doc).done(function (r) {
             let dr = r.transport.detail;
             if (dr.length > 0) {
+                CountContainer(dr);
                 ReadContainer(dr);
             }
         });
+    }
+    function CountContainer(dr) {
+        let countA=dr.filter(function (el) {
+            return CNum(el.CauseCode) >= 1 && CNum(el.CauseCode) < 99;
+        }).length;
+        let countF=dr.filter(function (el) {
+            return CNum(el.CauseCode) ==3;
+        }).length;
+        let countC = dr.filter(function (el) {
+            return CNum(el.CauseCode) == 0 || CNum(el.CauseCode) == 99;
+        }).length;
+        $('#txtTotalTripA').val(countA);
+        $('#txtTotalTripF').val(countF);
+        $('#txtTotalTripC').val(countC);
     }
     function ReadContainer(dr) {
         $('#tbDetail').DataTable({
@@ -625,9 +662,6 @@ End Code
                 { data: "TruckNO", title: "Truck No" },
                 { data: "TruckType", title: "Truck.Type" },
                 { data: "Location", title: "To Location" },
-                { data: "ProductDesc", title: "Product" },
-                { data: "ProductQty", title: "Qty" },
-                { data: "GrossWeight", title: "Gross Weight" },
                 {
                     data: null, title: "Unload Date",
                     render: function (data) {
@@ -758,6 +792,9 @@ End Code
         $('#txtPaymentCondition').val('');
         $('#txtPaymentBy').val('');
         $('#tbDetail').DataTable().clear().draw();
+        $('#txtTotalTripA').val(0);
+        $('#txtTotalTripF').val(0);
+        $('#txtTotalTripC').val(0);
     }
     function PrintBooking() {
         window.open(path + 'JobOrder/FormDelivery?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
@@ -787,12 +824,14 @@ End Code
         $('#txtDeliveryNo').val('');
         $('#txtDReturnDate').val('');
         $('#txtShippingMark').val('');
-        $('#txtProductDesc').val('');
         $('#txtCTN_SIZE').val('');
-        $('#txtProductQty').val('0.00');
-        $('#txtProductUnit').val('');
-        $('#txtGrossWeight').val('0.00');
-        $('#txtMeasurement').val('0.00');
+        if (isjobmode == false) {
+            $('#txtProductDesc').val('');
+            $('#txtProductQty').val('0.00');
+            $('#txtProductUnit').val('');
+            $('#txtGrossWeight').val('0.00');
+            $('#txtMeasurement').val('0.00');
+        }
     }
     function SaveDetail() {
         let obj = {			
@@ -833,6 +872,7 @@ End Code
         if (obj.ItemNo != "") {
             ShowConfirm("Do you need to Save " + obj.ItemNo + "?", function (ask) {
                 if (ask == false) return;
+                row = obj;
                 let jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
                 $.ajax({
@@ -922,8 +962,17 @@ End Code
     }
     function EntryExpenses() {
         if (row.ItemNo !== undefined) {
-            window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&BookNo=' + row.BookingNo + '&Item=' + row.ItemNo + '&Job=' + $('#txtJNo').val() + '&Vend='+$('#txtVenderCode').val(), '', '');
+            window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&BookNo=' + row.BookingNo + '&Item=' + row.ItemNo + '&Job=' + $('#txtJNo').val() + '&Vend='+$('#txtVenderCode').val() + '&Cont=' + row.CTN_NO + '&Cust=' + $('#txtNotifyCode').val(), '', '');
         }
+    }
+    function LoadExpense() {
+        $.get(path + 'JobOrder/GetTransportPrice?Branch='+$('#txtBranchCode').val()+'&ID=' + $('#txtLocationID').val() + '&Vend=' + $('#txtVenderCode').val() + '&Cust=' + $('#txtNotifyCode').val() + '&Code=' + $('#txtSICode').val(), function (r) {
+            if (r.transportprice.data.length>0) {
+                let dr = r.transportprice.data[0];
+                $('#txtCostAmount').val(CDbl(dr.CostAmount,2));
+                $('#txtChargeAmount').val(CDbl(dr.ChargeAmount,2));
+            }
+        });
     }
     function LoadLocation() {
         $.get(path + 'JobOrder/GetTransportRoute?ID=' + $('#cboLocation').val(), function (r) {
@@ -987,8 +1036,57 @@ End Code
             ShowMessage('Please enter some data');
         }
     }
+    function SaveExpense() {
+        if ($('#txtSICode').val() !== '') {
+            let obj = {
+                BranchCode: $('#txtBranchCode').val(),
+                LocationID: $('#cboLocation').val(),
+                VenderCode: $('#txtVenderCode').val(),
+                CustCode: $('#txtNotifyCode').val(),
+                SICode: $('#txtSICode').val(),
+                SDescription: $('#txtSDescription').val(),
+                CostAmount: CDbl($('#txtCostAmount').val(),2),
+                ChargeAmount: CDbl($('#txtChargeAmount').val(), 2),
+                Location: $('#txtLocationRoute').val()
+            };
+            let jsonText = JSON.stringify({ data: obj });
+            $.ajax({
+                url: "@Url.Action("SetTransportPrice", "JobOrder")",
+                type: "POST",
+                contentType: "application/json",
+                data: jsonText,
+                success: function (response) {
+                    if (response.result.data != null) {
+                        if (response.result.data >= 0) {
+                            ShowMessage('Save Price Complete');
+                        }
+                        loadRoute();
+                        return;
+                    }
+                    ShowMessage(response.result.msg);
+                },
+                error: function (e) {
+                    ShowMessage(e);
+                }
+            });
+        } else {
+            ShowMessage('Please enter some data');
+        }
+    }
     function EditExpense() {
-        if ($('#cboLocation').val() > 0) {
+        if ($('#txtVenderCode').val() == '') {
+            ShowMessage('Please Select Vender First');
+            return;
+        }
+        if ($('#txtNotifyCode').val() == '') {
+            ShowMessage('Please Select Notift Party First');
+            return;
+        }
+        if ($('#txtBranchCode').val() == '') {
+            ShowMessage('Please Select Branch First');
+            return;
+        }
+        if ($('#cboLocation').val() > 0) {            
             $('#txtLocationID').val($('#cboLocation').val());
             $('#txtLocationRoute').val($('#cboLocation option:selected').text());
 

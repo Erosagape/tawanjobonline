@@ -75,6 +75,24 @@ Public Class CTransportPrice
             m_ChargeAmount = value
         End Set
     End Property
+    Private m_SDescription As String
+    Public Property SDescription As String
+        Get
+            Return m_SDescription
+        End Get
+        Set(value As String)
+            m_SDescription = value
+        End Set
+    End Property
+    Private m_Location As String
+    Public Property Location As String
+        Get
+            Return m_Location
+        End Get
+        Set(value As String)
+            m_Location = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -89,9 +107,11 @@ Public Class CTransportPrice
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
                             dr("BranchCode") = Me.BranchCode
                             dr("LocationID") = Me.LocationID
+                            dr("Location") = Me.Location
                             dr("VenderCode") = Me.VenderCode
                             dr("CustCode") = Me.CustCode
                             dr("SICode") = Me.SICode
+                            dr("SDescription") = Me.SDescription
                             dr("CostAmount") = Me.CostAmount
                             dr("ChargeAmount") = Me.ChargeAmount
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
@@ -113,6 +133,8 @@ Public Class CTransportPrice
         m_VenderCode = ""
         m_CustCode = ""
         m_SICode = ""
+        m_SDescription = ""
+        m_Location = ""
         m_CostAmount = 0
         m_ChargeAmount = 0
     End Sub
@@ -139,6 +161,12 @@ Public Class CTransportPrice
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("SICode"))) = False Then
                         row.SICode = rd.GetString(rd.GetOrdinal("SICode")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("SDescription"))) = False Then
+                        row.SDescription = rd.GetString(rd.GetOrdinal("SDescription")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("Location"))) = False Then
+                        row.Location = rd.GetString(rd.GetOrdinal("Location")).ToString()
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("CostAmount"))) = False Then
                         row.CostAmount = rd.GetDouble(rd.GetOrdinal("CostAmount"))

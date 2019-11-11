@@ -217,6 +217,16 @@ End Code
                             <input type="text" id="txtItemNo" style="width:40px" disabled />
                             <input type="checkbox" id="chkCopy" /> Use Copy Mode
                             <br />
+                            Job No : <input type="text" id="txtForJNo" style="width:180px" disabled />
+                            <input type="button" onclick="SearchData('job')" value="..." />
+                            For : <input type="text" id="txtCustCode" style="width:150px" disabled />
+                            <br />
+                            Booking No : <input type="text" id="txtBookingRefNo" style="width:200px" disabled />
+                            # <input type="text" id="txtBookingItemNo" style="width:50px" disabled />
+                            <br />
+                            Container No : <input type="text" id="txtContainerNo" style="width:200px" disabled />
+                            <input type="button" value="Select Price" onclick="SearchData('transportprice')" />
+                            <br />
                             <label for="txtSICode">Code :</label>
                             <input type="text" id="txtSICode" style="width:80px" tabindex="12" />
                             <input type="button" id="btnBrowseS" value="..." onclick="SearchData('service')" />
@@ -245,12 +255,6 @@ End Code
                             <input type="text" id="txtFTotal" style="width:100px;text-align:right" disabled />
                             <br />
                             Remark : <input type="text" id="txtSRemark" style="width:230px" tabindex="23" />
-                            <br />
-                            Job No : <input type="text" id="txtForJNo" style="width:230px" disabled />
-                            <input type="button" onclick="SearchData('job')" value="..." />
-                            <br/>
-                            Booking No : <input type="text" id="txtBookingRefNo" style="width:200px" disabled />
-                            # <input type="text" id="txtBookingItemNo" style="width:50px" disabled />
                             <br />
                             Clearing No : <input type="text" id="txtClrRefNo" style="width:200px" disabled />
                             # <input type="text" id="txtClrItemNo" style="width:50px" disabled />
@@ -315,20 +319,13 @@ End Code
     let dtl = {}; //simple object
     let isjobmode = false;
     let chkmode = false;
-    let branchcode = getQueryString("BranchCode");
+
     let bookno = getQueryString("BookNo");
     let item = getQueryString("Item");
     let job = getQueryString("Job");
     let vend = getQueryString("Vend");
-    if ((branchcode + bookno + item).trim() !== '') {
-        $('#txtBookingRefNo').val(bookno);
-        $('#txtBookingItemNo').val(item);
-        $('#txtForJNo').val(job);
-        $('#txtVenCode').val(vend);
-        ShowVender(path, $('#txtVenCode').val(), '#txtVenName');
-    } else {
-        item = 0;
-    }
+    let cont = getQueryString("Cont");
+    let cust = getQueryString("Cust");
     //$(document).ready(function () {
     SetLOVs();
     SetEvents();
@@ -350,6 +347,19 @@ End Code
         } else {
             $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
             $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        }
+        if ((br + bookno + item).trim() !== '') {
+            isjobmode = true;
+            $('#txtBookingRefNo').val(bookno);
+            $('#txtBookingItemNo').val(item);
+            $('#txtForJNo').val(job);
+            $('#txtVenCode').val(vend);
+            $('#txtContainerNo').val(cont);
+            $('#txtRefNo').val(cont);
+            $('#txtCustCode').val(cust);
+            ShowVender(path, $('#txtVenCode').val(), '#txtVenName');
+        } else {
+            item = 0;
         }
     }
     function SetEnterToTab() {
@@ -504,6 +514,7 @@ End Code
             CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency Code', response, 2);
             //Jobs
             CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Jobs', response, 3);
+            CreateLOV(dv, '#frmSearchPrice', '#tbPrice', 'Price Lists', response, 3);
         });
     }
     function ShowData(branchcode, docno) {
@@ -669,7 +680,7 @@ End Code
     function ClearHeader() {
         hdr = {};
         //$('#txtDocNo').val('');
-        $('#txtDocDate').val(GetToday());
+        $('#txtDocDate').val(CDateTH(GetToday()));
         $('#txtVenCode').val(vend);
         $('#txtVenName').val('');
         $('#txtContactName').val('');
@@ -699,7 +710,11 @@ End Code
         $('#txtCancelProve').val('');
         $('#txtCancelDate').val('');
         $('#txtCancelTime').val('');
-        $('#txtRefNo').val('');
+        if (isjobmode == false) {
+            $('#txtRefNo').val('');
+        } else {
+            $('#txtRefNo').val(cont);
+        }
         $('#txtPayType').val('CA');
         $('#chkCancel').prop('checked', false);
         $('#chkApprove').prop('checked', false);
@@ -867,6 +882,7 @@ End Code
             $('#txtFTotal').val('0');
             $('#txtForJNo').val(job);
             $('#txtBookingRefNo').val(bookno);
+            $('#txtContainerNo').val(cont);
             $('#txtBookingItemNo').val(item);
         }
         $('#txtAdvItemNo').val(0);
@@ -963,6 +979,9 @@ End Code
             case 'job':
                 SetGridJob(path, '#tbJob', '#frmSearchJob', '?Vend=' + $('#txtVenCode').val(), ReadJob);
                 break;
+            case 'transportprice':
+                SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch='+$('#txtBranchCode').val()+'&Vend=' + $('#txtVenCode').val() + '&Cust=' + $('#txtCustCode').val(), ReadPrice);
+                break;
         }
     }
     function GetParam() {
@@ -973,6 +992,7 @@ End Code
     }
     function ReadJob(dt) {
         $('#txtForJNo').val(dt.JNo);
+        $('#txtCustCode').val(dt.CustCode);
     }
     function ReadVender(dt) {
         $('#txtVenCode').val(dt.VenCode);
@@ -996,10 +1016,19 @@ End Code
             $('#txtSDescription').val(dt.NameThai);
             $('#txtQtyUnit').val(dt.UnitCharge);
             $('#txtUnitPrice').val(CDbl(CNum(dt.StdPrice) / CNum($('#txtExchangeRate').val()), 2));
-            CalAmount();
+            CalAmount();    
             return;
         }
         CalAmount();
+    }
+    function ReadPrice(dt) {
+        if (dt !== undefined) {
+            $('#txtSICode').val(dt.SICode);
+            $('#txtSDescription').val(dt.SDescription);
+            $('#txtSRemark').val(dt.Location);
+            $('#txtUnitPrice').val(CDbl(CNum(dt.CostAmount) / CNum($('#txtExchangeRate').val()), 2));
+            CalAmount();    
+        }
     }
     function CalDiscount() {
         let rate = CNum($('#txtDiscountPerc').val());
