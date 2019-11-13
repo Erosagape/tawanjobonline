@@ -406,12 +406,42 @@ End Code
                             return data.SICode + '-' + data.SDescription + (data.ExpSlipNO == null ? '' : ' #' + data.ExpSlipNO);
                         }
                     },
-                    { data: "AmtCost", title: "Cost" },
-                    { data: "AmtAdvance", title: "Advance" },
-                    { data: "AmtCharge", title: "Charge" },
-                    { data: "AmtVat", title: "VAT" },
-                    { data: "Amt50Tavi", title: "WHT" },
-                    { data: "AmtNet", title: "NET" }
+                    {
+                        data: "AmtCost", title: "Cost",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "AmtAdvance", title: "Advance",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "AmtCharge", title: "Charge",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "AmtVat", title: "VAT",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "Amt50Tavi", title: "WHT",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "AmtNet", title: "NET",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    }
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
@@ -518,11 +548,36 @@ End Code
                     }
                 },
                 { data: "ExpSlipNO", title: "Slip No" },
-                { data: "AmtAdvance", title: "Advance" },
-                { data: "AmtCharge", title: "Charge" },
-                { data: "AmtVat", title: "VAT" },
-                { data: "Amt50Tavi", title: "WHT" },
-                { data: "TotalAmt", title: "NET" }
+                {
+                    data: "AmtAdvance", title: "Advance",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "AmtCharge", title: "Charge",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "AmtVat", title: "VAT",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "Amt50Tavi", title: "WHT",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "TotalAmt", title: "NET",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                }
             ],
             responsive:true,
             destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
@@ -558,10 +613,30 @@ End Code
                     }
                 },
                 { data: "ExpSlipNO", title: "Slip No" },
-                { data: "AmtCost", title: "Advance" },
-                { data: "AmtVat", title: "VAT" },
-                { data: "Amt50Tavi", title: "WHT" },
-                { data: "AmtNet", title: "NET" }
+                {
+                    data: "AmtCost", title: "Advance",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "AmtVat", title: "VAT",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "Amt50Tavi", title: "WHT",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "AmtNet", title: "NET",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                }
             ],
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
@@ -699,7 +774,7 @@ End Code
                 $('#txtAmtWHT').attr('disabled', 'disabled');
                 $('#txtAmtVATRate').attr('disabled', 'disabled');
                 $('#txtAmtWHTRate').attr('disabled', 'disabled');
-                $('#txtAmtAdvance').val(dr.AmtAdvance+dr.AmtDiscount);
+                $('#txtAmtAdvance').val(CDbl((dr.AmtAdvance+dr.AmtDiscount),2));
         } else {
             $('#txtAmtAdvance').val(0);
                 $('#txtAmtAdvance').attr('disabled', 'disabled');
@@ -708,13 +783,13 @@ End Code
                 $('#txtAmtWHT').removeAttr('disabled');
                 $('#txtAmtVATRate').removeAttr('disabled');
                 $('#txtAmtWHTRate').removeAttr('disabled');
-                $('#txtAmtCharge').val(dr.AmtCharge+dr.AmtDiscount);
+                $('#txtAmtCharge').val(CDbl((dr.AmtCharge+dr.AmtDiscount),2));
             }
-            $('#txtAmtVAT').val(dr.AmtVat);
-            $('#txtAmtWHT').val(dr.Amt50Tavi);
-            $('#txtAmtNET').val(dr.TotalAmt);
+            $('#txtAmtVAT').val(CDbl(dr.AmtVat,2));
+            $('#txtAmtWHT').val(CDbl(dr.Amt50Tavi,2));
+            $('#txtAmtNET').val(CDbl(dr.TotalAmt,2));
             $('#txtAmtDiscountPerc').val(dr.DiscountPerc);
-            $('#txtAmtDiscount').val(dr.AmtDiscount);
+            $('#txtAmtDiscount').val(CDbl(dr.AmtDiscount,2));
             //CalVATWHT(0);
         if (dr.ClrNo !== '') {
             $('#btnSplit').attr('disabled', 'disabled');
@@ -958,9 +1033,9 @@ End Code
         if (dt.AmountRemain > 0) {
             $('#txtChqNo').val(dt.ChqNo);
             if (dt.AmountRemain <= CNum($('#txtTotalNet').val())) {
-                $('#txtChqAmount').val(CNum(dt.AmountRemain));
+                $('#txtChqAmount').val(CDbl(dt.AmountRemain,2));
             } else {
-                $('#txtChqAmount').val(CNum($('#txtTotalNet').val()));
+                $('#txtChqAmount').val(CDbl($('#txtTotalNet').val(),2));
             }
             $('#txtControlNo').val(dt.ControlNo);
             return;
@@ -1177,7 +1252,7 @@ End Code
             ChqAmount: $('#txtChqAmount').val()
         };
         if (c.ChqAmount <= CNum($('#txtTotalNet').val())) {
-            $('#txtChqAmount').val(c.ChqAmount);
+            $('#txtChqAmount').val(CDbl(c.ChqAmount,2));
         } else {
             ShowMessage('Cheque Amount is more than total invoices');
             return;
@@ -1201,7 +1276,12 @@ End Code
             columns: [ //กำหนด property ของ header column
                 { data: null, title: "#" },
                 { data: "ChqNo", title: "Cheque No" },
-                { data: "ChqAmount", title: "Amount" }
+                {
+                    data: "ChqAmount", title: "Amount",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                }
             ],
             columnDefs: [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -1244,7 +1324,7 @@ End Code
     function SetDiscount() {
         let amt = CNum($('#txtTotalAdvance').val()) + CNum($('#txtTotalCharge').val()) + CNum($('#txtTotalVat').val()) - CNum($('#txtTotal50Tavi').val()) - CNum($('#txtTotalCustAdv').val());
         let disc = amt * CNum($('#txtDiscountRate').val()) * 0.01;
-        $('#txtCalDiscount').val(Number(disc));
+        $('#txtCalDiscount').val(ShowNumber(disc,2));
         SumDiscount();
     }
     function SumDiscount() {

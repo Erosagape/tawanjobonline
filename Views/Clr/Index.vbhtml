@@ -705,28 +705,31 @@ End Code
             $('#txtApproveDate').val(chkmode ? CDateEN(GetToday()) : '');
             $('#txtApproveTime').val(chkmode ? ShowTime(GetTime()) : '');
             if (chkmode) {
-                let dataApp = [];
-                dataApp.push(user);
-                dataApp.push($('#txtBranchCode').val() + '|' + $('#txtClrNo').val());
-                let jsonString = JSON.stringify({ data: dataApp });
-                $.ajax({
-                    url: "@Url.Action("ApproveClearing", "Clr")",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: jsonString,
-                    success: function (response) {
-                        if (response) {
-                            SaveHeader();
-                        } else {
-                            ShowMessage("Cannot Approve");
+                if ($('#cboDocStatus').val().substr(0, 2) == '01') {
+                    $('#cboDocStatus').val('02');
+                    let dataApp = [];
+                    dataApp.push(user);
+                    dataApp.push($('#txtBranchCode').val() + '|' + $('#txtClrNo').val());
+                    let jsonString = JSON.stringify({ data: dataApp });
+                    $.ajax({
+                        url: "@Url.Action("ApproveClearing", "Clr")",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: jsonString,
+                        success: function (response) {
+                            if (response) {
+                                SaveHeader();
+                            } else {
+                                ShowMessage("Cannot Approve");
+                            }
+                            return;
+                        },
+                        error: function (e) {
+                            ShowMessage(e);
+                            return;
                         }
-                        return;
-                    },
-                    error: function (e) {
-                        ShowMessage(e);
-                        return;
-                    }
-                });
+                    });
+                }
                 return;
             } else {
                 if ($('#cboDocStatus').val().substr(0, 2) == '02') {
@@ -1186,11 +1189,36 @@ End Code
                 { data: "SICode", title: "Service" },
                 { data: "SDescription", title: "Description" },
                 { data: "AdvNO", title: "Adv.No" },
-                { data: "AdvAmount", title: "Advance" },
-                { data: "UsedAmount", title: "Clear" },
-                { data: "ChargeVAT", title: "VAT" },
-                { data: "Tax50Tavi", title: "WH-Tax" },
-                { data: "BNet", title: "Net" },
+                {
+                    data: "AdvAmount", title: "Advance",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "UsedAmount", title: "Clear",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "ChargeVAT", title: "VAT",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "Tax50Tavi", title: "WH-Tax",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "BNet", title: "Net",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
                 { data: "CurrencyCode", title: "Currency" },
                 { data: "SlipNO", title: "Slip No" }
             ],
@@ -1299,17 +1327,17 @@ End Code
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(CDbl(dt.VATRate,0));
             $('#txtWHTRate').val(dt.Tax50TaviRate);
-            $('#txtAMT').val(dt.UsedAmount);
-            $('#txtVAT').val(dt.ChargeVAT);
-            $('#txtWHT').val(dt.Tax50Tavi);
-            $('#txtNET').val(dt.BNet);
+            $('#txtAMT').val(CDbl(dt.UsedAmount,2));
+            $('#txtVAT').val(CDbl(dt.ChargeVAT,2));
+            $('#txtWHT').val(CDbl(dt.Tax50Tavi,2));
+            $('#txtNET').val(CDbl(dt.BNet,2));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
             $('#txtCurrencyCode').val(dt.CurrencyCode);
             $('#txtAdvNo').val(dt.AdvNO);
             $('#txtQNo').val(dt.QNo);
             $('#txtAdvItemNo').val(dt.AdvItemNo);
-            $('#txtAdvAmount').val(dt.AdvAmount);
+            $('#txtAdvAmount').val(CDbl(dt.AdvAmount,2));
             ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
             ShowCaption();
             return;
@@ -1331,7 +1359,7 @@ End Code
             }
             $('#txtQty').val(dt.Qty);
             $('#txtCurRate').val(dt.CurRate);
-            $('#txtUnitPrice').val(dt.UnitPrice);
+            $('#txtUnitPrice').val(CDbl(dt.UnitPrice,2));
             $('#txtUnitCode').val(dt.UnitCode);            
             $('#txtRemark').val(dt.Remark);
             $('#txtSlipNo').val(dt.SlipNO);
@@ -1341,10 +1369,10 @@ End Code
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Tax50TaviRate);
-            $('#txtAMT').val(dt.UnitPrice);
-            $('#txtVAT').val(CNum($('#txtAMT').val())*(dt.VATRate*0.01));
-            $('#txtWHT').val(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01));
-            $('#txtNET').val(CNum($('#txtAMT').val()) + (CNum($('#txtAMT').val()) * (dt.VATRate * 0.01)) - (CNum($('#txtAMT').val()) * (dt.Tax50TaviRate * 0.01)));
+            $('#txtAMT').val(CDbl(dt.UnitPrice,2));
+            $('#txtVAT').val(CDbl(CNum($('#txtAMT').val())*(dt.VATRate*0.01),2));
+            $('#txtWHT').val(CDbl(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01),2));
+            $('#txtNET').val(CDbl(CNum($('#txtAMT').val()) + (CNum($('#txtAMT').val()) * (dt.VATRate * 0.01)) - (CNum($('#txtAMT').val()) * (dt.Tax50TaviRate * 0.01)),2));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
             $('#txtCurrencyCode').val(dt.CurrencyCode);
@@ -1374,7 +1402,7 @@ End Code
             }
             $('#txtQty').val(dt.Qty);
             $('#txtCurRate').val(dt.CurRate);
-            $('#txtUnitPrice').val(dt.UnitCost);
+            $('#txtUnitPrice').val(CDbl(dt.UnitCost,2));
             $('#txtUnitCode').val(dt.UnitCode);            
             $('#txtRemark').val(dt.Remark);
             $('#txtSlipNo').val(dt.SlipNO);
@@ -1384,17 +1412,17 @@ End Code
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Tax50TaviRate);
-            $('#txtAMT').val(dt.AdvBalance / CDbl(1 + ((dt.VATRate - dt.Tax50TaviRate) * 0.01),2));
-            $('#txtVAT').val(CNum($('#txtAMT').val())*(dt.VATRate*0.01));
-            $('#txtWHT').val(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01));
-            $('#txtNET').val(CNum($('#txtAMT').val()) + (CNum($('#txtAMT').val()) * (dt.VATRate * 0.01)) - (CNum($('#txtAMT').val()) * (dt.Tax50TaviRate * 0.01)));
+            $('#txtAMT').val(CDbl(dt.AdvBalance / CDbl(1 + ((dt.VATRate - dt.Tax50TaviRate) * 0.01),2),2));
+            $('#txtVAT').val(CDbl(CNum($('#txtAMT').val())*(dt.VATRate*0.01),2));
+            $('#txtWHT').val(CDbl(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01),2));
+            $('#txtNET').val(CDbl(CNum($('#txtAMT').val()) + (CNum($('#txtAMT').val()) * (dt.VATRate * 0.01)) - (CNum($('#txtAMT').val()) * (dt.Tax50TaviRate * 0.01)),2));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
             $('#txtCurrencyCode').val(dt.CurrencyCode);
             $('#chkIsCost').prop('checked', dt.IsExpense == 1 ? true : false);
             $('#txtAdvNo').val(dt.AdvNO);
             $('#txtAdvItemNo').val(dt.AdvItemNo);
-            $('#txtAdvAmount').val(dt.AdvBalance);
+            $('#txtAdvAmount').val(CDbl(dt.AdvBalance,2));
             $('#txtQNo').val(dt.QNo);
             ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
             ShowCaption();
@@ -1488,10 +1516,20 @@ End Code
                     { data: "JobNo", title: "Job Number" },
                     { data: "CustInvNo", title: "Cust Inv" },
                     { data: "DocStatus", title: "Status" },
-                    { data: "ClrNet", title: "Clr.Total" },
+                    {
+                        data: "ClrNet", title: "Clr.Total",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
                     { data: "CurrencyCode", title: "Currency" },
                     { data: "AdvNO", title: "Adv No" },
-                    { data: "AdvNet", title: "Adv.Total" },
+                    {
+                        data: "AdvNet", title: "Adv.Total",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
                     { data: "TRemark", title: "Remark" },
                 ],
                 responsive:true,
@@ -1784,8 +1822,18 @@ End Code
                         { data: "CurRate", title: "Rate" },
                         { data: "Qty", title: "Qty" },
                         { data: "AdvNO", title: "Unit" },
-                        { data: "AdvBalance", title: "Balance" },
-                        { data: "UsedAmount", title: "Used" },
+                        {
+                            data: "AdvBalance", title: "Balance",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "UsedAmount", title: "Used",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
                     ],
                     responsive:true,
                     destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
@@ -1834,7 +1882,7 @@ End Code
         $('#txtCurrencyCode').val(dt.CurrencyCode);
         ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
         $('#txtCurRate').val(dt.CurrencyRate);
-        $('#txtUnitPrice').val(dt.ChargeAmt);
+        $('#txtUnitPrice').val(CDbl(dt.ChargeAmt,2));
         $('#txtUnitCode').val(dt.UnitCheck);            
         $('#txtVenCode').val(dt.VenderCode);           
         ShowVender(path, dt.VenderCode, '#txtPayChqTo');
@@ -1868,8 +1916,18 @@ End Code
                         { data: "CurRate", title: "Rate" },
                         { data: "Qty", title: "Qty" },
                         { data: "UnitCode", title: "Unit" },
-                        { data: "BNet", title: "Total" },
-                        { data: "Tax50Tavi", title: "WHT" },
+                        {
+                            data: "BNet", title: "Total",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "Tax50Tavi", title: "WHT",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
                     ],
                     responsive:true,
                     destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page

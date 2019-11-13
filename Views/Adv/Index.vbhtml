@@ -576,12 +576,6 @@ End Code
             chkmode = this.checked;
             CallBackAuthorize(path, 'MODULE_ADV', 'Approve',(chkmode ? 'I':'D'), SetApprove);
         });
-        /*
-        $('#chkPayment').on('click', function () {
-            chkmode = this.checked;
-            CallBackAuthorize(path, 'MODULE_ADV', 'Payment', (chkmode ? 'I' : 'D'), SetPayment);
-        });
-        */
         $('#chkCancel').on('click', function () {
             chkmode = this.checked;
             CallBackAuthorize(path, 'MODULE_ADV', 'Index', 'D', SetCancel);
@@ -687,6 +681,7 @@ End Code
             $('#txtApproveTime').val(chkmode ? ShowTime(GetTime()) : '');
             if (chkmode) {
                 if ($('#cboDocStatus').val().substr(0, 2) == '01') {
+                    $('#cboDocStatus').val('02');
                     let dataApp = [];
                     dataApp.push(user);
                     dataApp.push($('#txtBranchCode').val() + '|' + $('#txtAdvNo').val());
@@ -1253,11 +1248,36 @@ End Code
                 { data: "CurrencyCode", title: "Currency" },
                 { data: "ExchangeRate", title: "Rate" },
                 { data: "AdvQty", title: "Qty" },
-                { data: "UnitPrice", title: "Price" },
-                { data: "AdvAmount", title: "Amount" },
-                { data: "ChargeVAT", title: "VAT" },
-                { data: "Charge50Tavi", title: "WH-Tax" },
-                { data: "AdvNet", title: "Net" }
+                {
+                    data: "UnitPrice", title: "Price",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "AdvAmount", title: "Amount",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "ChargeVAT", title: "VAT",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "Charge50Tavi", title: "WH-Tax",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "AdvNet", title: "Net",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                }
             ],
             "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
                 {
@@ -1304,9 +1324,9 @@ End Code
                 VATRate: header.VATRate,
                 Is50Tavi: row.Is50Tavi,
                 Rate50Tavi : header.TaxRate,
-                AdvAmount : CDbl(CNum(row.Amt/header.ExchangeRate),2),
-                ChargeVAT : CDbl(CNum(row.AmtVAT/header.ExchangeRate),2),
-                Charge50Tavi : CDbl(CNum(row.AmtWHT/header.ExchangeRate),2),
+                AdvAmount : CDbl(CNum(row.Amt/header.ExchangeRate),4),
+                ChargeVAT : CDbl(CNum(row.AmtVAT/header.ExchangeRate),4),
+                Charge50Tavi : CDbl(CNum(row.AmtWHT/header.ExchangeRate),4),
                 AdvNet: row.FTotal,
                 AdvQty: row.Qty,
                 UnitPrice: row.UnitPrice,
@@ -1368,7 +1388,7 @@ End Code
             }                
             $('#txtAdvQty').val(dt.AdvQty);
             $('#txtExcRate').val(dt.ExchangeRate);
-            $('#txtUnitPrice').val(dt.UnitPrice);
+            $('#txtUnitPrice').val(CDbl(dt.UnitPrice,4));
             CalAmount();
             $('#txtRemark').val(dt.TRemark);
             $('#txt50Tavi').val(dt.Doc50Tavi);
@@ -1377,10 +1397,10 @@ End Code
             $('#txtVatType').val(dt.IsChargeVAT);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Rate50Tavi);
-            $('#txtAMT').val(dt.AdvAmount);
-            $('#txtVAT').val(dt.ChargeVAT);
-            $('#txtWHT').val(dt.Charge50Tavi);
-            $('#txtNET').val(dt.AdvNet);
+            $('#txtAMT').val(CDbl(dt.AdvAmount,4));
+            $('#txtVAT').val(CDbl(dt.ChargeVAT,4));
+            $('#txtWHT').val(CDbl(dt.Charge50Tavi,4));
+            $('#txtNET').val(CDbl(dt.AdvNet,4));
             $('#txtVenCode').val(dt.VenCode);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate > 0 ? true : false);
             $('#txtCurrencyCode').val(dt.CurrencyCode);
@@ -1487,8 +1507,18 @@ End Code
                     { data: "JobNo", title: "Job Number" },
                     { data: "CustInvNo", title: "Cust Inv" },
                     { data: "DocStatus", title: "Status" },
-                    { data: "TotalAdvance", title: "Total" },
-                    { data: "Total50Tavi", title: "W/T" },
+                    {
+                        data: "TotalAdvance", title: "Total",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "Total50Tavi", title: "W/T",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
                     { data: "Doc50Tavi", title: "W/T No" },
                     { data: "PaymentNo", title: "A/P No" },
                     {

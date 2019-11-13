@@ -624,11 +624,36 @@ End Code
                                 return data.QtyBegin + '-' + data.QtyEnd + '/' + data.UnitCheck;
                             }
                         },
-                        { data: "TotalAmt", title: "Total" },
-                        { data: "UnitDiscntAmt", title: "Discount" },
-                        { data: "TotalCharge", title: "Net" },
-                        { data: "CommissionAmt", title: "Commission" },
-                        { data: "NetProfit", title: "Profit" }
+                        {
+                            data: "TotalAmt", title: "Total",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "UnitDiscntAmt", title: "Discount",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "TotalCharge", title: "Net",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "CommissionAmt", title: "Commission",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "NetProfit", title: "Profit",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        }
                     ],
                     responsive:true,
                     destroy:true
@@ -1194,28 +1219,28 @@ End Code
         $('#txtCurrencyCode').val(row_i.CurrencyCode);
         ShowCurrency(path, row_i.CurrencyCode, '#txtCurrencyName');
         $('#txtCurrencyRate').val(row_i.CurrencyRate);
-        $('#txtChargeAmt').val(row_i.ChargeAmt);
+        $('#txtChargeAmt').val(CDbl(row_i.ChargeAmt,2));
         $('#txtIsvat').val(row_i.Isvat);
         $('#txtVatRate').val(row_i.VatRate);
-        $('#txtVatAmt').val(row_i.VatAmt);
+        $('#txtVatAmt').val(CDbl(row_i.VatAmt,2));
         $('#txtIsTax').val(row_i.IsTax);
         $('#txtTaxRate').val(row_i.TaxRate);
-        $('#txtTaxAmt').val(row_i.TaxAmt);
-        $('#txtTotalAmt').val(row_i.TotalAmt);
-        $('#txtTotalCharge').val(row_i.TotalCharge);
+        $('#txtTaxAmt').val(CDbl(row_i.TaxAmt,2));
+        $('#txtTotalAmt').val(CDbl(row_i.TotalAmt,2));
+        $('#txtTotalCharge').val(CDbl(row_i.TotalCharge,2));
         $('#txtDiscountType').val((row_i.UnitDiscntPerc > 0 ? '0' : '1'));
         ShowDiscount();
         $('#txtUnitDiscntPerc').val(row_i.UnitDiscntPerc);
-        $('#txtUnitDiscntAmt').val(row_i.UnitDiscntAmt);
+        $('#txtUnitDiscntAmt').val(CDbl(row_i.UnitDiscntAmt,2));
         $('#txtVenderCode').val(row_i.VenderCode);
         ShowVender(path, row_i.VenderCode, '#txtVenderName');
-        $('#txtVenderCost').val(row_i.VenderCost);
-        $('#txtBaseProfit').val(row_i.BaseProfit);
+        $('#txtVenderCost').val(CDbl(row_i.VenderCost,2));
+        $('#txtBaseProfit').val(CDbl(row_i.BaseProfit,2));
         $('#txtCommissionType').val((row_i.CommissionPerc > 0 ? '0' : '1'));
         ShowCommission();
         $('#txtCommissionPerc').val(row_i.CommissionPerc);
-        $('#txtCommissionAmt').val(row_i.CommissionAmt);
-        $('#txtNetProfit').val(row_i.BaseProfit);
+        $('#txtCommissionAmt').val(CDbl(row_i.CommissionAmt,2));
+        $('#txtNetProfit').val(CDbl(row_i.BaseProfit,2));
         $('#txtIsRequired').val(row_i.IsRequired);
         CalAmount();
     }
@@ -1266,7 +1291,7 @@ End Code
         $('#txtUnitCheck').val(dt.UnitCharge);
         $('#txtCurrencyCode').val(dt.CurrencyCode);
         ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
-        $('#txtChargeAmt').val(dt.StdPrice);
+        $('#txtChargeAmt').val(CDbl(dt.StdPrice,2));
         $('#txtVenderCode').val(dt.DefaultVender);
         ShowVender(path, dt.DefaultVender, '#txtVenderName');
         CalAmount();
@@ -1294,7 +1319,7 @@ End Code
     function CalAmount() {
         let rate = CNum($('#txtCurrencyRate').val());
         let charge = CDbl(($('#txtChargeAmt').val() * rate), 2);
-        $('#txtTotalAmt').val(charge);
+        $('#txtTotalAmt').val(CDbl(charge,2));
         CalDiscount();
     }
     function CalDiscount() {
@@ -1305,7 +1330,7 @@ End Code
             disc = CNum($('#txtUnitDiscntAmt').val());
         } else {
             disc = CDbl((CNum($('#txtChargeAmt').val()) * CNum($('#txtCurrencyRate').val())) * (rate * 0.01), 2);
-            $('#txtUnitDiscntAmt').val(disc);
+            $('#txtUnitDiscntAmt').val(CDbl(disc,2));
         }
         $('#txtFUnitDiscntAmt').val(CDbl(disc / CNum($('#txtCurrencyRate').val()),2));
         $('#txtTotalCharge').val(CNum($('#txtTotalAmt').val()) - disc);

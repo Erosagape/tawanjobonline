@@ -427,12 +427,42 @@ End Code
                     { data: "JobNo", title: "Job Number" },
                     { data: "CustInvNo", title: "InvNo" },
                     { data: "CustCode", title: "Customer" },
-                    { data: "AdvCashCal", title: "Cash/Transfer" },
-                    { data: "AdvChqCashCal", title: "Company Chq" },
-                    { data: "AdvChqCal", title: "Customer Chq" },
-                    { data: "AdvCredCal", title: "Credit" },
-                    { data: "TotalAdvance", title: "Total" },
-                    { data: "Total50Tavi", title: "W/T Amt" },
+                    {
+                        data: "AdvCashCal", title: "Cash/Transfer",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "AdvChqCashCal", title: "Company Chq",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "AdvChqCal", title: "Customer Chq",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "AdvCredCal", title: "Credit",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "TotalAdvance", title: "Total",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "Total50Tavi", title: "W/T Amt",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
                     { data: "EmpCode", title: "Request By" }
                 ],
                 responsive:true,
@@ -602,20 +632,20 @@ End Code
         });
 
         SetStatusInput('#dvCash', (cash > 0 ? true : false), '#txtAdvCash');
-        $('#txtAdvCash').val(CDbl(cash, 2));
+        $('#txtAdvCash').val(CDbl(cash, 4));
 
         SetStatusInput('#dvChqCash', (chqcust > 0 ? true : false), '#txtAdvChqCash');
-        $('#txtAdvChqCash').val(CDbl(chqcust, 2));
+        $('#txtAdvChqCash').val(CDbl(chqcust, 4));
 
         SetStatusInput('#dvChq', (chq > 0 ? true : false), '#txtAdvChq');
-        $('#txtAdvChq').val(CDbl(chq, 2));
+        $('#txtAdvChq').val(CDbl(chq, 4));
         $('#txtRefNoChq').attr('disabled', 'disabled');
 
         SetStatusInput('#dvCred', (cred > 0 ? true : false), '#txtAdvCred');
-        $('#txtAdvCred').val(CDbl(cred, 2));
+        $('#txtAdvCred').val(CDbl(cred, 4));
 
-        $('#txtSumApprove').val(CDbl(tot, 2));
-        $('#txtSumWHTax').val(CDbl(wtax, 2));
+        $('#txtSumApprove').val(CDbl(tot, 4));
+        $('#txtSumWHTax').val(CDbl(wtax, 4));
                                 
         $('#txtListApprove').val(doc);
         $('#txtTRemark').val(doc);

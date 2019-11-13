@@ -380,14 +380,14 @@ End Code
             case 'CR':
                 $('#txt' + chqfld).val(0);
                 $('#txt' + cashfld).val(0);
-                $('#txt' + credfld).val(sumval);
+                $('#txt' + credfld).val(CDbl(sumval,4));
                 $('#txt' + credfld).removeAttr('disabled');
                 $('#dvChqInfo').hide();
                 break;
             case 'CA':
                 $('#txt' + chqfld).val(0);
                 $('#txt' + credfld).val(0);
-                $('#txt' + cashfld).val(sumval);
+                $('#txt' + cashfld).val(CDbl(sumval,4));
                 $('#txt' + cashfld).removeAttr('disabled');
                 $('#dvChqInfo').hide();
                 $('#dvBookInfo').show();
@@ -395,13 +395,13 @@ End Code
             case 'CU':
                 $('#txt' + cashfld).val(0);
                 $('#txt' + credfld).val(0);
-                $('#txt' + chqfld).val(sumval);
+                $('#txt' + chqfld).val(CDbl(sumval,4));
                 $('#txt' + chqfld).removeAttr('disabled');
                 break;
             case 'CH':
                 $('#txt' + cashfld).val(0);
                 $('#txt' + credfld).val(0);
-                $('#txt' + chqfld).val(sumval);
+                $('#txt' + chqfld).val(CDbl(sumval,4));
                 $('#txt' + chqfld).removeAttr('disabled');
                 $('#dvBookInfo').show();
                 break;
@@ -715,9 +715,24 @@ End Code
                             return CDateEN(data);
                         }
                     },
-                    { data: "ChqAmount", title: "Chq Total" },
-                    { data: "CashAmount", title: "Cash Total" },
-                    { data: "CreditAmount", title: "Credit Total" },
+                    {
+                        data: "ChqAmount", title: "Chq Total",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "CashAmount", title: "Cash Total",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "CreditAmount", title: "Credit Total",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
                     { data: "CurrencyCode", title: "Currency" },
                     { data: "ControlNo", title: "Control No" }
                 ],
@@ -745,9 +760,24 @@ End Code
             data: list,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
-                { data: "ChqAmount", title: "Cheque" },
-                { data: "CashAmount", title: "Cash" },
-                { data: "CreditAmount", title: "Credit" },
+                {
+                    data: "ChqAmount", title: "Cheque",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }                    
+                },
+                {
+                    data: "CashAmount", title: "Cash",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
+                {
+                    data: "CreditAmount", title: "Credit",
+                    render: function (data) {
+                        return ShowNumber(data, 2);
+                    }
+                },
                 { data: "CurrencyCode", title: "Currency" },
                 { data: "PRVoucher", title: "Voucher" },
                 { data: "ChqNo", title: "Chq.No" },
@@ -830,19 +860,19 @@ End Code
             $('#txtBookCode').val(dr.BookCode);
             $('#txtBankBranch').val(dr.BankBranch);
             $('#txtChqDate').val(CDateEN(dr.ChqDate));
-            $('#txtCashAmount').val(dr.CashAmount);
-            $('#txtChqAmount').val(dr.ChqAmount);
-            $('#txtCreditAmount').val(dr.CreditAmount);
-            $('#txtSumAmt').val(dr.SumAmount);
+            $('#txtCashAmount').val(CDbl(dr.CashAmount,4));
+            $('#txtChqAmount').val(CDbl(dr.ChqAmount,4));
+            $('#txtCreditAmount').val(CDbl(dr.CreditAmount,4));
+            $('#txtSumAmt').val(CDbl(dr.SumAmount,4));
             $('#txtCurrencyCode').val(dr.CurrencyCode);
             ShowCurrency(path, dr.CurrencyCode, '#txtCurrencyName');
             $('#txtExchangeRate').val(dr.ExchangeRate);
-            $('#txtTotalAmt').val(dr.TotalAmount);
-            $('#txtVatExc').val(dr.VatExc);
-            $('#txtWhtExc').val(dr.WhtExc);
-            $('#txtVatInc').val(dr.VatInc);
-            $('#txtWhtInc').val(dr.WhtInc);
-            $('#txtTotalNet').val(dr.TotalNet);
+            $('#txtTotalAmt').val(CDbl(dr.TotalAmount,4));
+            $('#txtVatExc').val(CDbl(dr.VatExc,4));
+            $('#txtWhtExc').val(CDbl(dr.WhtExc,4));
+            $('#txtVatInc').val(CDbl(dr.VatInc,4));
+            $('#txtWhtInc').val(CDbl(dr.WhtInc,4));
+            $('#txtTotalNet').val(CDbl(dr.TotalNet,4));
             $('#txtIsLocal').val(dr.IsLocal);
             $('#chkIsLocal').prop('checked', dr.IsLocal == 1 ? true : false);
             $('#txtChqStatus').val(dr.ChqStatus);

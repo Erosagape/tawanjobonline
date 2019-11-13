@@ -66,12 +66,12 @@ Public Class CTransportRoute
             m_LocationRoute = value
         End Set
     End Property
-    Private m_IsActive As String
-    Public Property IsActive As String
+    Private m_IsActive As Boolean
+    Public Property IsActive As Boolean
         Get
             Return m_IsActive
         End Get
-        Set(value As String)
+        Set(value As Boolean)
             m_IsActive = value
         End Set
     End Property
@@ -138,7 +138,7 @@ Public Class CTransportRoute
                         row.LocationRoute = rd.GetString(rd.GetOrdinal("LocationRoute")).ToString()
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("IsActive"))) = False Then
-                        row.IsActive = rd.GetValue(rd.GetOrdinal("IsActive")).ToString()
+                        row.IsActive = rd.GetBoolean(rd.GetOrdinal("IsActive")).ToString()
                     End If
                     lst.Add(row)
                 End While

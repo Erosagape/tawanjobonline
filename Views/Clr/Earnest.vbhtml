@@ -326,8 +326,18 @@ End Code
                     { data: "InvNo", title: "InvNo" },
                     { data: "CustCode", title: "Customer" },
                     { data: "AdvNO", title: "Adv.No" },
-                    { data: "AdvNet", title: "Total.Adv" },
-                    { data: "ClrNet", title: "Total.Clr" },
+                    {
+                        data: "AdvNet", title: "Total.Adv",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "ClrNet", title: "Total.Clr",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
                     { data: "SlipNO", title: "Slip No" }
                 ],
                 responsive:true,
@@ -480,9 +490,9 @@ End Code
         $('#txtExpWht').val(0);
         $('#txtExpNet').val(0);
         $('#dvExpense').empty();
-        $('#txtClrNet').val(dr.ClrNet);
+        $('#txtClrNet').val(CDbl(dr.ClrNet,4));
         $('#txtExpSum').val(0);
-        $('#txtTotalNet').val(dr.ClrNet);
+        $('#txtTotalNet').val(CDbl(dr.ClrNet,4));
         $('#cboRefType').val('CA');
         $('#txtRefBook').val('');
         $('#txtRefBank').val('');
@@ -506,7 +516,7 @@ End Code
 
         let html = '<tr>';
         html += '<td style="width:80%">'+desc+'</td>';
-        html += '<td style="width:20%">' + CDbl($('#txtExpNet').val(), 2) + '</td>';
+        html += '<td style="width:20%">' + ShowNumber($('#txtExpNet').val(), 2) + '</td>';
         html += '</tr>';
 
         dv.insertAdjacentHTML('beforeend',html);

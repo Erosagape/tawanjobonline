@@ -338,7 +338,7 @@ End Code
                         M3 :<br /><div style="display:flex"><input type="number" id="txtMeasurement" class="form-control" value="0.00"></div>
                     </div>
                     <div class="col-sm-4">
-                        Return Date :<br /><div style="display:flex"><input type="date" id="txtDReturnDate" class="form-control"></div>
+                        Days Used :<br /><div style="display:flex"><input type="number" id="txtTimeUsed" class="form-control"></div>
                     </div>
                     <div class="col-sm-3">
                         Job Status:<br />
@@ -370,65 +370,81 @@ End Code
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-9">
                         Location :<br />
                         <div style="display:flex">
-                            <select id="txtLocation" class="form-control"></select>
+                            <input type="text" id="txtLocation" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        Route ID:<br/>
+                        <div style="display:flex">
+                            <input type="text" id="txtRouteID" class="form-control" disabled />
+                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('route')" />
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        Operation Note :<br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
+                        Remarks :<br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
                     </div>
                     <div class="col-sm-6">
-                        Shipping Mark :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
+                        Shipping Comment :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4" style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
-                        <b>Summary:</b>
+                        <b>Pick-up:</b>
                         <div>
-                            Truck In :<br /><div style="display:flex"><input type="date" id="txtTruckIN" class="form-control"></div>
+                            Target Date :<br />
+                            <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control"></div>
                         </div>
                         <div>
-                            Truck Out:<br /><div style="display:flex"><input type="text" id="txtStart" class="form-control"></div>
+                            Target Time:<br />
+                            <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control"></div>
+
                         </div>
                         <div>
-                            Truck Return:<br /><div style="display:flex"><input type="text" id="txtFinish" class="form-control"></div>
+                            Actual Date :<br />
+                            <div style="display:flex"><input type="date" id="txtActualYardDate" class="form-control"></div>
                         </div>
                         <div>
-                            Mile Used :<br /><div style="display:flex"><input type="number" id="txtTimeUsed" class="form-control"></div>
+                            Actual Time :<br />
+                            <div style="display:flex"><input type="text" id="txtActualYardTime" class="form-control"></div>
                         </div>
                     </div>
                     <div class="col-sm-4" style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
-                        <b>Target:</b>
+                        <b>Delivery:</b>
                         <div>
-                            At Yard Date:<br /><div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control"></div>
+                            Target Date :<br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control"></div>
                         </div>
                         <div>
-                            At Yard Time :<br /><div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control"></div>
+                            Target Time :<br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control"></div>
                         </div>
                         <div>
-                            Unload Date :<br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control"></div>
+                            Actual Date :<br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
                         </div>
                         <div>
-                            Unload Time :<br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control"></div>
+                            Actual Time :<br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
                         </div>
                     </div>
                     <div class="col-sm-4" style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
-                        <b>Actual:</b>
+                        <b>Return:</b>
                         <div>
-                            At Yard Date :<br /><div style="display:flex"><input type="date" id="txtActualYardDate" class="form-control"></div>
+                            Target Date:<br />
+                            <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control"></div>
                         </div>
                         <div>
-                            At Yard Time :<br /><div style="display:flex"><input type="text" id="txtActualYardTime" class="form-control"></div>
+                            Target Time :<br />
+                            <div style="display:flex"><input type="text" id="txtStart" class="form-control"></div>
                         </div>
                         <div>
-                            Unload Date :<br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
+                            Actual Date:<br />
+                            <div style="display:flex"><input type="date" id="txtDReturnDate" class="form-control"></div>
                         </div>
                         <div>
-                            Unload Time :<br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
+                            Actual Time:<br />
+                            <div style="display:flex"><input type="text" id="txtFinish" class="form-control"></div>
                         </div>
                     </div>
                 </div>
@@ -495,18 +511,12 @@ End Code
             if (r.transportroute.data !== undefined) {
                 let dr = r.transportroute.data;
                 $('#cboLocation').empty();
-                $('#txtLocation').empty();
                 $('#cboLocation').append($('<option>', { value: '0' })
                     .text('New'));
-                $('#txtLocation').append($('<option>', { value: '' })
-                    .text('N/A'));
                 if (dr.length > 0) {
                     for (let i = 0; i < dr.length; i++) {
                         $('#cboLocation').append($('<option>', { value: dr[i].LocationID })
                             .text(dr[i].LocationRoute));
-                        $('#txtLocation').append($('<option>', { value: dr[i].LocationRoute })
-                            .text(dr[i].LocationRoute));
-
                     }
                 }
             }
@@ -525,6 +535,7 @@ End Code
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
             CreateLOV(dv, '#frmSearchServ', '#tbServ', 'Service Code', response, 2);
+            CreateLOV(dv, '#frmSearchRoute', '#tbRoute', 'Transport Route', response, 2);
             //Units
             CreateLOV(dv, '#frmSearchUnitS', '#tbUnitS', 'Commodity Unit', response, 2);
             CreateLOV(dv, '#frmSearchUnitC', '#tbUnitC', 'Car Unit', response, 2);
@@ -561,7 +572,13 @@ End Code
             case 'servicecode':
                 SetGridSICode(path, '#tbServ', '', '#frmSearchServ', ReadService);
                 break;
+            case 'route':
+                SetGridTransportRoute(path, '#tbRoute', '#frmSearchRoute', ReadRoute);
+                break;
         }
+    }
+    function ReadRoute(dt) {
+        $('#txtRouteID').val(dt.LocationID);
     }
     function ReadService(dt) {
         $('#txtSICode').val(dt.SICode);
@@ -821,6 +838,7 @@ End Code
         $('#txtUnloadDate').val('');
         $('#txtUnloadTime').val('');
         $('#txtLocation').val('');
+        $('#txtRouteID').val('');
         $('#txtDeliveryNo').val('');
         $('#txtDReturnDate').val('');
         $('#txtShippingMark').val('');
@@ -857,7 +875,8 @@ End Code
             UnloadFinishTime:$('#txtUnloadFinishTime').val(),
             UnloadDate:CDateEN($('#txtUnloadDate').val()),
             UnloadTime:$('#txtUnloadTime').val(),
-            Location:$('#txtLocation').val(),
+            Location: $('#txtLocation').val(),
+            LocationID: $('#txtRouteID').val(),
             ReturnDate:CDateEN($('#txtDReturnDate').val()),
             ShippingMark:$('#txtShippingMark').val(),
             ProductDesc:$('#txtProductDesc').val(),
@@ -919,6 +938,7 @@ End Code
         $('#txtUnloadDate').val(CDateEN(dr.UnloadDate));
         $('#txtUnloadTime').val(ShowTime(dr.UnloadTime));
         $('#txtLocation').val(dr.Location);
+        $('#txtRouteID').val(dr.LocationID);
         $('#txtDeliveryNo').val(dr.DeliveryNo);
         $('#txtDReturnDate').val(CDateEN(dr.ReturnDate));
         $('#txtShippingMark').val(dr.ShippingMark);

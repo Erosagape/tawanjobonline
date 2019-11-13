@@ -211,10 +211,10 @@ End Code
                             amtinv += amt;
                         }
                     }
-                    html += '<td>'+ adv +'</td>';
-                    html += '<td>'+ serv +'</td>';
-                    html += '<td>' + cost + '</td>';
-                    html += '<td>' + profit + '</td>';
+                    html += '<td>'+ ShowNumber(adv,2) +'</td>';
+                    html += '<td>'+ ShowNumber(serv,2) +'</td>';
+                    html += '<td>' + ShowNumber(cost,2) + '</td>';
+                    html += '<td>' + ShowNumber(profit,2) + '</td>';
                     html += '</tr>';
 
                     amtadvance += adv;

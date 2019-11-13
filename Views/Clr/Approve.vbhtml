@@ -170,9 +170,24 @@ End Code
                     { data: "CustInvNo", title: "InvNo" },
                     { data: "CustCode", title: "Customer" },
                     { data: "AdvNO", title: "Adv.No" },
-                    { data: "AdvTotal", title: "Total.Adv" },
-                    { data: "ClrAmt", title: "Total.Clr" },
-                    { data: "Clr50Tavi", title: "W/T" }
+                    {
+                        data: "AdvTotal", title: "Total.Adv",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "ClrAmt", title: "Total.Clr",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "Clr50Tavi", title: "W/T",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    }
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page

@@ -146,7 +146,7 @@ End Code
         $('#txtSICode').val(dr.SICode);
         $('#txtSDescription').val(dr.SDescription);
         $('#txtTRemark').val(dr.TRemark);
-        $('#txtAmountCharge').val(dr.AmountCharge);
+        $('#txtAmountCharge').val(CDbl(dr.AmountCharge,4));
         $('#txtStatus').val(dr.Status);
     }
     function SaveData() {
@@ -223,7 +223,12 @@ End Code
                         }
                     },
                     { data: "JNo", title: "Job No" },
-                    { data: "AmountCharge", title: "Charge" },
+                    {
+                        data: "AmountCharge", title: "Charge",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
                     { data: "ClrNo", title: "Clearing No" }
                 ],
                 destroy: true,

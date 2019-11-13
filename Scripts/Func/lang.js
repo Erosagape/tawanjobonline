@@ -236,7 +236,7 @@ function ChangeLanguageForm(fname) {
                 lblBillingPlace: 'Billing To|สถานที่วางบิล',
                 lblContactName: 'Contact|ผู้ติดต่อ',
                 lblQuotation: 'Quotation|ใบเสนอราคา',
-                lblCustInv: 'Commercial Invoice|อินวอยลูกค้า',
+                lblCustInv: 'Commercial Inv./Booking No.|อินวอยลูกค้า/เลขที่ใบจอง',
                 lblPoNo: 'PO No/RefNo|ใบสั่งซื้อของลูกค้า',
                 lblHAWB: 'House AWB/BL|House AWB/BL',
                 lblMAWB: 'Master AWB/BL|Master AWB/BL',

@@ -1543,7 +1543,7 @@ Namespace Controllers
         End Function
         Function GetTransportRoute() As ActionResult
             Try
-                Dim tSqlw As String = " WHERE LocationID>0 "
+                Dim tSqlw As String = " WHERE IsActive=1 "
                 If Not IsNothing(Request.QueryString("ID")) Then
                     tSqlw &= String.Format("AND LocationID ={0}", Request.QueryString("ID").ToString)
                 End If

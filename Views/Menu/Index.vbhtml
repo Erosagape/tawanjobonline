@@ -3,20 +3,21 @@
 End Code
 <div class="row">
     <div class="col-sm-3">
-        Job Type : <br/><select id="cboJobType" onchange="drawChart()"></select>
+        Job Type : <br/><select id="cboJobType" class="form-control dropdown" onchange="drawChart()"></select>
     </div>
     <div class="col-sm-3">
-        Transport By : <br /><select id="cboShipBy" onchange="drawChart()"></select>
+        Transport By : <br /><select id="cboShipBy" class="form-control dropdown" onchange="drawChart()"></select>
     </div>
     <div class="col-sm-2">
         Duty Date From :<br />
-        <input type="date" id="txtDateFrom" />
+        <input type="date" id="txtDateFrom" class="form-control" />
     </div>
     <div class="col-sm-2">
         Duty Date To :<br />
-        <input type="date" id="txtDateTo" />
+        <input type="date" id="txtDateTo" class="form-control" />
     </div>
     <div class="col-sm-2">
+        <input type="checkbox" id="chkAutoRefresh" checked />Auto Refresh<br/>
         <input type="button" class="btn btn-success" onclick="RefreshGrid()" value="Show" />
     </div>
 </div>
@@ -52,7 +53,9 @@ End Code
         drawChart();
     }
     setInterval(function () {
-        CheckSession(drawChart());
+        if ($('#chkAutoRefresh').prop('checked')) {
+            CheckSession(drawChart());
+        }
     }, 30000);
     function RefreshGrid() {
         CheckSession(drawChart());

@@ -309,6 +309,15 @@ Public Class CTransportDetail
             m_DeliveryNo = value
         End Set
     End Property
+    Private m_LocationID As Integer
+    Public Property LocationID As Integer
+        Get
+            Return m_LocationID
+        End Get
+        Set(value As Integer)
+            m_LocationID = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -355,6 +364,7 @@ Public Class CTransportDetail
                             dr("GrossWeight") = Me.GrossWeight
                             dr("Measurement") = Me.Measurement
                             dr("DeliveryNo") = Me.DeliveryNo
+                            dr("LocationID") = Me.LocationID
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportDetail", "SaveData", Me)
@@ -480,6 +490,9 @@ Public Class CTransportDetail
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("DeliveryNo"))) = False Then
                         row.DeliveryNo = rd.GetString(rd.GetOrdinal("DeliveryNo"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("LocationID"))) = False Then
+                        row.LocationID = rd.GetInt32(rd.GetOrdinal("LocationID"))
                     End If
                     lst.Add(row)
                 End While

@@ -483,7 +483,7 @@ ON a.BranchCode=d.BranchCode AND a.AdvNo=d.AdvNo
 d.DocNo + '#' + Convert(varchar,d.ItemNo) AS VenderBillingNo,'' AS AirQtyStep, '' AS StepSub, d.ForJNo AS JobNo, 0 AS AdvItemNo, '' AS LinkBillNo, 0 AS VATType, h.VATRate, 
  h.TaxRate AS Tax50TaviRate,'' AS QNo, d.Total AS FNet, 
  d.Total / h.ExchangeRate AS BNet ,h.DocDate as VenderBillDate
-FROM    dbo.Job_PaymentDetail d INNER JOIN
+FROM dbo.Job_PaymentDetail d INNER JOIN
  dbo.Job_PaymentHeader h ON d.BranchCode = h.BranchCode AND 
  d.DocNo = h.DocNo
 WHERE d.AdvItemNo=0 AND ISNULL(h.ApproveBy,'')<>'' 

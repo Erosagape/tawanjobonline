@@ -179,8 +179,18 @@ End Code
                     { data: "JobNo", title: "Job Number" },
                     { data: "CustInvNo", title: "InvNo" },
                     { data: "CustCode", title: "Customer" },
-                    { data: "TotalAdvance", title: "Total" },
-                    { data: "Total50Tavi", title: "W/T Amt" },
+                    {
+                        data: "TotalAdvance", title: "Total",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "Total50Tavi", title: "W/T Amt",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
                     { data: "EmpCode", title: "Request By" }
                 ],
                 responsive:true,
@@ -223,7 +233,7 @@ End Code
             tot += o.TotalAdvance;
             doc += (doc != '' ? ',' : '') + o.AdvNo;
         }
-        $('#txtSumApprove').val(CDbl(tot, 2));
+        $('#txtSumApprove').val(CDbl(tot, 4));
         $('#txtListApprove').val(doc);
     }
     function ApproveData() {
