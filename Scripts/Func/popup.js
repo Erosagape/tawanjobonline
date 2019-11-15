@@ -11,7 +11,7 @@ function CheckSession(ev) {
                         $('#cboDatabase').append($('<option>', { value: (i + 1) })
                             .text(dr.company + '->' + dr.database[i].trim()));
                     }
-                    $('#cboDatabase').val(1);
+                    $('#cboDatabase').val(1);                    
                     $('#dvLogin').modal('show');
                 }
             });

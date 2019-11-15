@@ -31,12 +31,8 @@
             <div style="width:100%;text-align:center;background-color:white">
                 <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:150px;padding:5px 5px 5px 5px;" />
             </div>
-            <div style="width:100%;text-align:center;background-color:white;color:black">
-                <a href="#" onclick="SetLogin()"><label id="lblUserID">Please Login</label></a>
-                <select id="cboLanguage" onchange="ChangeLanguage($(this).val(),'@ViewBag.Module')" data-width="fit">
-                    <option value="EN">EN</option>
-                    <option value="TH">ไทย</option>
-                </select>
+            <div style="width:100%;text-align:center;background-color:white;color:black;font-size:11px">
+                <label id="lblLicenseName" onclick="CheckDatabase()">@ViewBag.LICENSE_NAME</label>
             </div>
             <div id="mainMkt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMkt')">
                 Marketing Works
@@ -65,7 +61,7 @@
                 Approving
             </div>
             <div id="mnuApp" class="w3-hide w3-pale-yellow w3-card-4">
-			    <a href="#" id="mnuMkt2" class="w3-bar-item w3-button" onclick="OpenMenu('AppQuo')">- Approve Quotation</a>
+                <a href="#" id="mnuMkt2" class="w3-bar-item w3-button" onclick="OpenMenu('AppQuo')">- Approve Quotation</a>
                 <a href="#" id="mnuApp1" class="w3-bar-item w3-button" onclick="OpenMenu('AppAdvance')">- Approve Advance</a>
                 <a href="#" id="mnuApp2" class="w3-bar-item w3-button" onclick="OpenMenu('AppClearing')">- Approve Clearing</a>
             </div>
@@ -74,12 +70,12 @@
             </div>
             <div id="mnuFin" class="w3-hide w3-pale-blue w3-card-4">
                 <a href="#" id="mnuFin1" class="w3-bar-item w3-button" onclick="OpenMenu('PayAdvance')">- Payment Advance</a>
-				<a href="#" id="mnuFin3" class="w3-bar-item w3-button" onclick="OpenMenu('RecvClear')">- Receive Clearing</a>
-				<a href="#" id="mnuFin2" class="w3-bar-item w3-button" onclick="OpenMenu('Payment')">- Payment Bill</a>
+                <a href="#" id="mnuFin3" class="w3-bar-item w3-button" onclick="OpenMenu('RecvClear')">- Receive Clearing</a>
+                <a href="#" id="mnuFin2" class="w3-bar-item w3-button" onclick="OpenMenu('Payment')">- Payment Bill</a>
                 <a href="#" id="mnuFin4" class="w3-bar-item w3-button" onclick="OpenMenu('RecvInv')">- Receive Invoice</a>
                 <a href="#" id="mnuFin5" class="w3-bar-item w3-button" onclick="OpenMenu('Cheque')">- Cheque Management</a>
                 <a href="#" id="mnuFin7" class="w3-bar-item w3-button" onclick="OpenMenu('PettyCash')">- Petty Cash</a>
-				<a href="#" id="mnuFin6" class="w3-bar-item w3-button" onclick="OpenMenu('CreditAdv')">- Credit Advance</a>
+                <a href="#" id="mnuFin6" class="w3-bar-item w3-button" onclick="OpenMenu('CreditAdv')">- Credit Advance</a>
                 <a href="#" id="mnuFin8" class="w3-bar-item w3-button" onclick="OpenMenu('Earnest')">- Earnest Clearing</a>
             </div>
             <div id="mainAcc" class="w3-bar-item w3-button" onclick="w3_accordion('mnuAcc')">
@@ -220,9 +216,16 @@
                         <div>
                             <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:100px" onclick="w3_open();" />
                         </div>
-                        <div style="margin-left:10px">
+                        <div style="margin-left:10px;width:100%">
                             <h4><label id="lblTitle" onclick="OpenContact()">@ViewBag.Title</label></h4>
                             <label style="display:none" id="lblModule">@ViewBag.Module</label>
+                        </div>
+                        <div style="float:right;text-align:right;">
+                            <a href="#" onclick="SetLogin()"><label id="lblUserID" style="color:white;font-size:11px">Please Login</label></a><br/>
+                            <select id="cboLanguage" onchange="ChangeLanguage($(this).val(),'@ViewBag.Module')" data-width="fit">
+                                <option value="EN">EN</option>
+                                <option value="TH">ไทย</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -231,9 +234,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div id="dvCommands" class="w3-indigo" style="text-align:center;bottom:0;position:fixed;line-height:50px;width:100%;padding-left:5px">
-        <label id="lblLicenseName" onclick="CheckDatabase()">@ViewBag.LICENSE_NAME</label>
     </div>
     <div id="dvWaiting" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
         <div class="vertical-alignment-helper">
@@ -272,10 +272,11 @@
     let dbMas = '@ViewBag.CONNECTION_MAS';
     let dbJob = '@ViewBag.CONNECTION_JOB';
     let userLang = '@ViewBag.PROFILE_DEFAULT_LANG';
-
     if (userLang !== 'EN' && userLang !== '') {
         $('#cboLanguage').val(userLang);
         ChangeLanguage(userLang, $('#lblModule').text());
+    } else {
+        $('#cboLanguage').val('EN');
     }
     SetEvents();
 
@@ -317,7 +318,7 @@
         $.get('/Config/SetLogin?Code=' + userID + '&Pass=' + Password + '&Database=' + dbID)
             .done(function (r) {
                 if (r.user.data.length > 0) {
-                    location.reload();
+                    window.location.reload();
                 } else {
                     ShowMessage(r.user.message);
                 }

@@ -1,20 +1,14 @@
 ﻿@Code
-    ViewBag.Title = "Master Files"
+    ViewBag.Title = "Home"
 End Code
-<div class="panel-body">
-    <div class="container">
-        <a href="#" class="btn btn-success" id="btnUpdate" onclick="TestFunction()">
-            <i class="fa fa-lg fa-save"></i>&nbsp;<b><label id="lblSaveQuo">Test Log</label></b>
-        </a>
+<div class="row">
+    <div class="col-md-12 text-center" >
+        <img src="~/Resource/jobtawan_bg.jpg" style="width:100%"/>
     </div>
-    <div id="dvLOVs"></div>
 </div>
-<script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
-    const path = '@Url.Content("~")';
-    function TestFunction() {
-        $.post(path + 'Config/SetLog', { LogID: 0, CustID: 'TAWAN', AppID: 'JOBSHIPPING', ModuleName: 'TEST', LogAction: 'Test', Message: 'ทดสอบ' }).done(function (r) {
-            ShowMessage(r.result.msg);
-        });
+    let user='@ViewBag.User';
+    if(user!==''){
+        window.location.href = 'Menu/Index';
     }
 </script>

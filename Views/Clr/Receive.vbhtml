@@ -222,6 +222,7 @@ End Code
     const user = '@ViewBag.User';
     let arr = [];
     let list = [];
+    let dataApp = [];
     let docno = '';
     //$(document).ready(function () {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
@@ -741,6 +742,20 @@ End Code
                 }
             });
         } else {
+            dataApp = [];
+            dataApp.push(user + '|' + docno + '|' + ($('#chkFromClr').prop('checked') ? 'CLR' : 'ADV'));
+            for (let i = 0; i < arr.length; i++) {
+                let o = arr[i];
+                let docApp = '';
+                if ($('#chkFromClr').prop('checked') == true) {
+                    docApp = $('#txtBranchCode').val() + '|' + o.ClrNo;
+                } else {
+                    docApp = $('#txtBranchCode').val() + '|' + o.AdvNo;
+                }
+                if (dataApp.indexOf(docApp) < 0) {
+                    dataApp.push(docApp);
+                }
+            }                    
             ReceiveClearing(docno);
         }
     }
@@ -759,6 +774,12 @@ End Code
                 success: function (response) {
                     if (response.result.data != null) {
                         if ($('#txtAdvNo').val() !== '') {
+
+                            dataApp = [];
+                            dataApp.push(user + '|' + response.result.data + '|' + ($('#chkFromClr').prop('checked') ? 'CLR' : 'ADV'));
+        
+                            dataApp.push($('#txtBranchCode').val() + '|' + $('#txtAdvNo').val());
+
                             ReceiveClearing(response.result.data);
                         }
                         SetGridAdv(false);
@@ -774,11 +795,6 @@ End Code
     }
     function ReceiveClearing(cno) {
         let msg = "Clear Document " + cno + " Completed!";
-
-        let dataApp = [];
-        dataApp.push(user + '|' + cno + '|' + ($('#chkFromClr').prop('checked') ? 'CLR' : 'ADV'));
-        
-        dataApp.push($('#txtBranchCode').val() + '|' + $('#txtAdvNo').val());
 
         let jsonString = JSON.stringify({ data: dataApp });
         $.ajax({

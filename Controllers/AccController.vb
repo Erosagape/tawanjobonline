@@ -1874,7 +1874,7 @@ Namespace Controllers
         End Function
         Function GetClearForInv() As ActionResult
             Try
-                Dim tSqlw As String = " WHERE ISNULL(b.LinkBillNo,'')='' AND a.DocStatus NOT IN('99','1') AND b.UsedAmount>0 "
+                Dim tSqlw As String = " WHERE ISNULL(b.LinkBillNo,'')='' AND a.DocStatus NOT IN('99','1') AND b.BNet>0 "
 
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" AND b.BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
@@ -2203,7 +2203,7 @@ Namespace Controllers
                         tSqlw &= " AND ISNULL(a.CancelProve,'')<>'' "
                     End If
                 Else
-                    tSqlw &= " AND ISNULL(a.BillAcceptNo,'')='' "
+                    tSqlw &= " AND ISNULL(a.BillAcceptNo,'')='' AND  NOT ISNULL(a.CancelProve,'')<>''  "
                 End If
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" AND a.BranchCode ='{0}' ", Request.QueryString("Branch").ToString)

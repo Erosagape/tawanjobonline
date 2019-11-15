@@ -1274,13 +1274,13 @@ Namespace Controllers
                     If Not Request.QueryString("DateFrom") Is Nothing Then
                         If Request.QueryString("DateFrom").ToString() <> "" Then
                             bCheck = True
-                            tSqlw1 = " WHERE j.DutyDate)>='" & Request.QueryString("DateFrom").ToString() & " 00:00:00' "
+                            tSqlw1 = " WHERE j.DutyDate>=Convert(datetime,'" & Request.QueryString("DateFrom").ToString() & " 00:00:00',102) "
                         End If
                     End If
                     If Not Request.QueryString("DateTo") Is Nothing Then
                         If Request.QueryString("DateTo").ToString() <> "" Then
                             bCheck = True
-                            tSqlw1 = " WHERE j.DutyDate)<='" & Request.QueryString("DateTo").ToString() & " 23:59:59' "
+                            tSqlw1 = " WHERE j.DutyDate<=Convert(datetime,'" & Request.QueryString("DateTo").ToString() & " 23:59:59',102) "
                         End If
                     End If
                 End If

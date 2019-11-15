@@ -261,6 +261,9 @@
     <Content Include="App_Data\script_database_job.sql" />
     <Content Include="App_Data\script_database_mas.sql" />
     <Content Include="App_Data\script_database_weblicense.sql" />
+    <Content Include="App_Data\script_startup_data_job.sql" />
+    <Content Include="App_Data\script_startup_master_job.sql" />
+    <Content Include="App_Data\script_startup_weblicense.sql" />
     <Content Include="App_Data\SQL_Delete_Data.sql" />
     <Content Include="App_Data\webadmin.txt" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -783,12 +786,12 @@
     <Content Include="Web-APL.Release.config">
       <DependentUpon>Web-APL.config</DependentUpon>
     </Content>
-    <Content Include="Web-PGM.config" />
-    <Content Include="Web-PGM.Debug.config">
-      <DependentUpon>Web-PGM.config</DependentUpon>
+    <Content Include="Web-SERVER-TAWAN.config" />
+    <Content Include="Web-SERVER-TAWAN.Debug.config">
+      <DependentUpon>Web-SERVER-TAWAN.config</DependentUpon>
     </Content>
-    <Content Include="Web-PGM.Release.config">
-      <DependentUpon>Web-PGM.config</DependentUpon>
+    <Content Include="Web-SERVER-TAWAN.Release.config">
+      <DependentUpon>Web-SERVER-TAWAN.config</DependentUpon>
     </Content>
     <Content Include="Web-DEMO_TAWAN.config" />
     <Content Include="Web-DEMO_TAWAN.Debug.config">
@@ -799,6 +802,13 @@
     </Content>
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="Web-PGM.config" />
+    <Content Include="Web-PGM.Debug.config">
+      <DependentUpon>Web-PGM.config</DependentUpon>
+    </Content>
+    <Content Include="Web-PGM.Release.config">
+      <DependentUpon>Web-PGM.config</DependentUpon>
+    </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

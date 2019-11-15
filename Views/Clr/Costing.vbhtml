@@ -145,7 +145,7 @@ End Code
                 $('#txtBranchName').val(h.BranchName);
                 $('#txtJNo').val(h.JobNo);
                 $('#txtCloseDate').val(CDateEN(h.CloseJobDate));
-                if ($('#txtCloseDate').val() == '') {
+                if (h.CloseJobBy !== '') {
                     $('#btnGenerateInv').attr('disabled', 'disabled');
                 }
                 $('#txtJobStatus').val(h.JobStatusName);

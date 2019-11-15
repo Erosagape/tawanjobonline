@@ -1,49 +1,51 @@
 ﻿@Code
     ViewBag.Title = "Main Dashboard"
 End Code
-<div class="row">
-    <div class="col-sm-3">
-        Job Type : <br/><select id="cboJobType" class="form-control dropdown" onchange="drawChart()"></select>
-    </div>
-    <div class="col-sm-3">
-        Transport By : <br /><select id="cboShipBy" class="form-control dropdown" onchange="drawChart()"></select>
-    </div>
-    <div class="col-sm-2">
-        Duty Date From :<br />
-        <input type="date" id="txtDateFrom" class="form-control" />
-    </div>
-    <div class="col-sm-2">
-        Duty Date To :<br />
-        <input type="date" id="txtDateTo" class="form-control" />
-    </div>
-    <div class="col-sm-2">
-        <input type="checkbox" id="chkAutoRefresh" checked />Auto Refresh<br/>
-        <input type="button" class="btn btn-success" onclick="RefreshGrid()" value="Show" />
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-6">
-        <b>Volume By Status:</b>
-        <div id="chartVol"></div>
-    </div>
-    <div class="col-md-6">
-        <b>Status By Shipment Type:</b>
-        <div id="chartStatus"></div>
+<div id="dvCliteria">
+    <div class="row">
+        <div class="col-sm-3">
+            Job Type : <br /><select id="cboJobType" class="form-control dropdown" onchange="drawChart()"></select>
+        </div>
+        <div class="col-sm-3">
+            Transport By : <br /><select id="cboShipBy" class="form-control dropdown" onchange="drawChart()"></select>
+        </div>
+        <div class="col-sm-2">
+            Duty Date From :<br />
+            <input type="date" id="txtDateFrom" class="form-control" />
+        </div>
+        <div class="col-sm-2">
+            Duty Date To :<br />
+            <input type="date" id="txtDateTo" class="form-control" />
+        </div>
+        <div class="col-sm-2">
+            <input type="checkbox" id="chkAutoRefresh" checked />Auto Refresh<br />
+            <input type="button" class="btn btn-success" onclick="RefreshGrid()" value="Show" />
+        </div>
     </div>
 </div>
-<br />
-<div class="row">
-    <div class="col-md-12">
-        <b>Status By Customer:</b>
-        <div id="chartCust"></div>
+<div id="dvMainDashboard">
+    <div class="row">
+        <div class="col-md-6">
+            <b>Volume By Status:</b>
+            <div id="chartVol"></div>
+        </div>
+        <div class="col-md-6">
+            <b>Status By Shipment Type:</b>
+            <div id="chartStatus"></div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12">
+            <b>Status By Customer:</b>
+            <div id="chartCust"></div>
+        </div>
     </div>
 </div>
 <script type="text/javascript" src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     var path = '@Url.Content("~")';
-
-    loadCombos(path, 'SHIP_BY=#cboShipBy,JOB_TYPE=#cboJobType');
 
     google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawChart);
@@ -57,10 +59,16 @@ End Code
             CheckSession(drawChart());
         }
     }, 30000);
+    SetLOVs();
+
+    function SetLOVs() {
+        loadCombos(path, 'SHIP_BY=#cboShipBy,JOB_TYPE=#cboJobType');
+        return;
+    }
     function RefreshGrid() {
         CheckSession(drawChart());
     }
-    function drawChart() {    
+    function getWhere() {
         let w = '';
         if ($('#cboJobType').val() > '') {
             if (w == '') w += '?';
@@ -78,8 +86,11 @@ End Code
             w += (w !== '' ? '&' : '?');
             w += 'DateTo=' + CDateEN($('#txtDateTo').val());
         }
+        return w;
+    }
+    function drawChart() {    
         ShowWait();
-        $.get(path + 'JobOrder/GetDashBoard' + w, function (r) {
+        $.get(path + 'JobOrder/GetDashBoard' + getWhere(), function (r) {
             if (r.result.length > 0) {
                 var dataVol = google.visualization.arrayToDataTable(getDataTable(r.result[0].data1));
                 var volOptions = {

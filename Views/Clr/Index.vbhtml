@@ -1892,9 +1892,21 @@ End Code
         if ($('#txtClrNo').val() == '') {
             ShowMessage('Please Save Before Choose Advance');
             return;
-        }
+        }        
         let branch = $('#txtBranchCode').val();
-        $.get(path + 'Clr/GetPaymentForClear?branch=' + branch, function (r) {
+        let w = '';
+        switch ($('#cboClrType').val()) {
+            case '1':
+                w = '&type=ADV';
+                break;
+            case '2':
+                w = '&type=COST';
+                break;
+            case '3':
+                w = '&type=SERV';
+                break;
+        }
+        $.get(path + 'Clr/GetPaymentForClear?branch=' + branch + w, function (r) {
             if (r.clr.data.length > 0) {
                 let d = r.clr.data[0].Table;
                 $('#tbPayment').DataTable({

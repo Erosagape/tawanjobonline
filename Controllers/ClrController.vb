@@ -276,10 +276,10 @@ Namespace Controllers
                 End If
                 If bClrDoc = False Then
                     If tbPrefix = "a" Then
-                        tSqlW &= " AND a.AdvNo IS NOT NULL"
+                        tSqlW &= " AND a.DocStatus<6 AND a.AdvNo IS NOT NULL"
                         tSqlW &= " AND a.AdvNo+'#'+Convert(varchar,a.ItemNo) NOT IN(SELECT c1.DocNo FROM Job_CashControlDoc c1 inner join Job_CashControl c2 on c1.BranchCode=c2.BranchCode and c1.ControlNo=c2.ControlNo where ISNULL(c2.CancelProve,'')='')"
                     Else
-                        tSqlW &= " AND a.AdvNo IS NULL"
+                        tSqlW &= " AND h.DocStatus<3 AND a.AdvNo IS NULL"
                         tSqlW &= " AND h.ClrNo+'#'+Convert(varchar,d.ItemNo) NOT IN(SELECT c1.DocNo FROM Job_CashControlDoc c1 inner join Job_CashControl c2 on c1.BranchCode=c2.BranchCode and c1.ControlNo=c2.ControlNo where ISNULL(c2.CancelProve,'')='')"
                     End If
                 Else
@@ -372,9 +372,24 @@ Namespace Controllers
                     If Request.QueryString("Show").ToString = "CLR" Then
                         tSqlW = " AND d.ClrItemNo>0 "
                     End If
+                    If Request.QueryString("Show").ToString = "CANCEL" Then
+                        tSqlW &= " AND ISNULL(h.CancelProve,'')<>'' "
+                    Else
+                        tSqlW &= " AND NOT ISNULL(h.CancelProve,'')<>'' "
+                    End If
+                Else
+                    tSqlW &= " AND NOT ISNULL(h.CancelProve,'')<>'' "
                 End If
-                tSqlW &= " AND NOT ISNULL(h.CancelProve,'')<>'' "
-
+                If Not IsNothing(Request.QueryString("Type")) Then
+                    Select Case Request.QueryString("Type").ToString().ToUpper()
+                        Case "ADV"
+                            tSqlW &= " AND d.SICode IN(SELECT SICode FROM Job_SrvSingle WHERE IsCredit=1 AND IsExpense=0) "
+                        Case "COST"
+                            tSqlW &= " AND d.SICode IN(SELECT SICode FROM Job_SrvSingle WHERE IsExpense=1) "
+                        Case "SERV"
+                            tSqlW &= " AND d.SICode IN(SELECT SICode FROM Job_SrvSingle WHERE IsCredit=0 AND IsExpense=0) "
+                    End Select
+                End If
                 If Not IsNothing(Request.QueryString("JobNo")) Then
                     tSqlW &= " AND d.ForJNo='" & Request.QueryString("JobNo") & "' "
                 End If
