@@ -97,8 +97,9 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     If Request.QueryString("Status").ToString = "A" Then
-                        tSqlH &= " AND ISNULL(ApproveBy,'')<>'' AND NOT ISNULL(CancelProve,'')<>'' "
+                        tSqlH &= " AND ISNULL(ApproveBy,'')<>'' "
                     End If
+                    tSqlH &= " AND NOT ISNULL(CancelProve,'')<>'' "
                 End If
                 Dim oData = New CPayHeader(jobWebConn).GetData(tSqlH)
                 Dim json As String = JsonConvert.SerializeObject(oData)
@@ -2111,9 +2112,9 @@ Namespace Controllers
                         tSqlw = ""
                     Else
                         If Request.QueryString("Show").ToString.ToUpper = "CANCEL" Then
-                            tSqlw = " AND NOT ISNULL(ih.CancelProve,'')='' " & tSqlw
+                            tSqlw = " WHERE NOT ISNULL(ih.CancelProve,'')='' " & tSqlw
                         Else
-                            tSqlw = " AND ISNULL(ih.CancelProve,'')='' " & tSqlw
+                            tSqlw = " WHERE ISNULL(ih.CancelProve,'')='' " & tSqlw
                         End If
                     End If
                 End If
@@ -2173,7 +2174,7 @@ Namespace Controllers
                         'have service but no vat
                         tSqlw &= " AND ISNULL(id.AmtCharge,0)>0 AND ISNULL(id.AmtVat,0)=0 "
                     End If
-                    If Request.QueryString("Type").ToString.ToUpper = "RCP" Then
+                    If Request.QueryString("Type").ToString.ToUpper = "RCV" Then
                         'have service non vat or advance
                         tSqlw &= " AND ((ISNULL(id.AmtCharge,0)>0 AND ISNULL(id.AmtVat,0)=0) OR ISNULL(id.AmtAdvance,0)>0)) "
                     End If

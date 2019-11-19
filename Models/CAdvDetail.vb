@@ -292,7 +292,7 @@ Public Class CAdvDetail
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
             Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvDetail", "UpdateTotal", cm.CommandText)
-            If Me.PayChqTo.IndexOf("#") > 0 Then
+            If ("" & Me.PayChqTo).ToString().IndexOf("#") > 0 Then
                 If IsDelete Then
                     cm.CommandText = String.Format("UPDATE Job_PaymentDetail SET AdvItemNo=0 WHERE BranchCode='{1}' AND DocNo='{2}' AND ItemNo={3}", Me.ItemNo, Me.BranchCode, Me.PayChqTo.Split("#".ToCharArray())(0), Me.PayChqTo.Split("#".ToCharArray())(1))
                 Else

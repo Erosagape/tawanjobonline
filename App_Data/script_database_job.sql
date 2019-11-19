@@ -1385,12 +1385,21 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 CREATE TABLE [dbo].[Job_TransportRoute](
 	[LocationID] [int] IDENTITY(1,1) NOT NULL,
 	[Place1] [nvarchar](255) NULL,
 	[Place2] [nvarchar](255) NULL,
 	[Place3] [nvarchar](255) NULL,
 	[Place4] [nvarchar](255) NULL,
+	[Address1] [nvarchar](max) NULL,
+	[Contact1] [nvarchar](500) NULL,
+	[Address2] [nvarchar](max) NULL,
+	[Contact2] [nvarchar](500) NULL,
+	[Address3] [nvarchar](max) NULL,
+	[Contact3] [nvarchar](500) NULL,
+	[Address4] [nvarchar](max) NULL,
+	[Contact4] [nvarchar](500) NULL,
 	[LocationRoute] [nvarchar](max) NULL,
 	[IsActive] [bit] NULL,
  CONSTRAINT [PK_Job_TransportRoute] PRIMARY KEY CLUSTERED 

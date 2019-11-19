@@ -665,7 +665,11 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Job")) Then
                     job = Request.QueryString("Job").ToString
                 End If
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(SQLSelectDocumentByJob(branch, job))
+                Dim status = " WHERE DocStatus<>99 "
+                If Not IsNothing(Request.QueryString("Cancel")) Then
+                    status = " WHERE " & If(Request.QueryString("Cancel").ToString = "Y", "DocStatus=99", "DocStatus<>99")
+                End If
+                Dim oData = New CUtil(jobWebConn).GetTableFromSQL("SELECT * FROM (" & SQLSelectDocumentByJob(branch, job) & ") as t " & status)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""job"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)

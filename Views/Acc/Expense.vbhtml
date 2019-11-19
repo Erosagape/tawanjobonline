@@ -914,7 +914,7 @@ End Code
         if ($('#txtEmpCode').val() !== '') {
             w += '&empcode=' + $('#txtEmpCode').val();
         }
-        $.get(path + 'acc/getpayment?branch=' +  w, function (r) {
+        $.get(path + 'acc/getpayment?status=Y&branch=' +  w, function (r) {
             if (r.payment.header.length == 0) {
                 ShowMessage('data not found on this branch');
                 return;

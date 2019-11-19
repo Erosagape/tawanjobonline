@@ -279,8 +279,9 @@ Namespace Controllers
                         tSqlW &= " AND a.DocStatus<6 AND a.AdvNo IS NOT NULL"
                         tSqlW &= " AND a.AdvNo+'#'+Convert(varchar,a.ItemNo) NOT IN(SELECT c1.DocNo FROM Job_CashControlDoc c1 inner join Job_CashControl c2 on c1.BranchCode=c2.BranchCode and c1.ControlNo=c2.ControlNo where ISNULL(c2.CancelProve,'')='')"
                     Else
-                        tSqlW &= " AND h.DocStatus<3 AND a.AdvNo IS NULL"
+                        tSqlW &= " AND h.DocStatus<3 AND a.AdvNo IS NULL AND h.ClearType<>3 "
                         tSqlW &= " AND h.ClrNo+'#'+Convert(varchar,d.ItemNo) NOT IN(SELECT c1.DocNo FROM Job_CashControlDoc c1 inner join Job_CashControl c2 on c1.BranchCode=c2.BranchCode and c1.ControlNo=c2.ControlNo where ISNULL(c2.CancelProve,'')='')"
+                        tSqlW &= " AND h.ClrNo+'#'+Convert(varchar,d.ItemNo) NOT IN(SELECT p1.ClrRefNo+'#'+Convert(varchar,p1.ClrItemNo) FROM Job_PaymentDetail p1 INNER JOIN Job_PaymentHeader p2 ON p1.BranchCode=p2.BranchCode AND p1.DocNo=p2.DocNo WHERE ISNULL(p2.CancelProve,'')='' AND p1.ClrRefNo=h.ClrNo AND p1.ClrItemNo=d.ItemNo) "
                     End If
                 Else
                     If tbPrefix = "a" Then

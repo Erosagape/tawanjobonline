@@ -447,6 +447,7 @@ End Code
                     </div>
                 </div>
                 <div id="tabtracking" class="tab-pane fade">
+                    <input type="checkbox" id="chkCancel" onchange="ShowTracking($('#txtBranchCode').val(), $('#txtJNo').val());">Show Cancelled Document
                     <table id="tbTracking" class="table table-responsive">
                         <thead>
                             <tr>
@@ -988,7 +989,8 @@ End Code
         ShowTracking(Branch, Job);
     }
     function ShowTracking(Branch, Job) {
-        $.get(path + 'joborder/getjobdocument?branch=' + Branch + '&job=' + Job)
+        let w = '&cancel=' + ($('#chkCancel').prop('checked') ? 'Y' : 'N');
+        $.get(path + 'joborder/getjobdocument?branch=' + Branch + '&job=' + Job + w)
         .done(function (r) {
             if (r.job.data.length > 0) {
                 let d = r.job.data;

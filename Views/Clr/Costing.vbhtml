@@ -146,6 +146,8 @@ End Code
                 $('#txtJNo').val(h.JobNo);
                 $('#txtCloseDate').val(CDateEN(h.CloseJobDate));
                 if (h.CloseJobBy !== '') {
+                    $('#btnGenerateInv').removeAttr('disabled');
+                } else {
                     $('#btnGenerateInv').attr('disabled', 'disabled');
                 }
                 $('#txtJobStatus').val(h.JobStatusName);

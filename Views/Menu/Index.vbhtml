@@ -20,6 +20,7 @@ End Code
         <div class="col-sm-2">
             <input type="checkbox" id="chkAutoRefresh" checked />Auto Refresh<br />
             <input type="button" class="btn btn-success" onclick="RefreshGrid()" value="Show" />
+            <input type="button" class="btn w3-indigo" onclick="CreateNewJob()" value="New" />
         </div>
     </div>
 </div>
@@ -46,7 +47,7 @@ End Code
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     var path = '@Url.Content("~")';
-
+    var branch = '@ViewBag.PROFILE_DEFAULT_BRANCH';
     google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawChart);
 
@@ -161,4 +162,8 @@ End Code
     function getAnnotation(dataTable, rowIndex, columnIndex) {
         return dataTable.getFormattedValue(rowIndex, columnIndex) == "0" ? null : dataTable.getFormattedValue(rowIndex, columnIndex);
     }
+    function CreateNewJob() {
+        window.open(path +'joborder/createjob?JType=' + $('#cboJobType').val() + '&SBy=' + $('#cboShipBy').val() + '&Branch=' + branch);
+    }
+
 </script>

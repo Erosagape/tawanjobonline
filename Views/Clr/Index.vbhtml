@@ -1034,6 +1034,10 @@ End Code
         });
     }
     function AddDetail() {
+        if ($('#txtClrNo').val() == '') {
+            ShowMessage('Please Save Before Add Detail');
+            return;
+        }  
         $('#chkDuplicate').prop('checked', false);
         ClearDetail();
         $.get(path + 'clr/getnewcleardetail?branchcode=' + $('#txtBranchCode').val() + '&clrno=' + $('#txtClrNo').val(), function (r) {
@@ -1460,9 +1464,9 @@ End Code
         $('#txtVenCode').val('');
         if ($('#chkDuplicate').prop('checked') == false) {
             $('#txtAdvNo').val('');
-            $('#txtAdvAmount').val('0');
             $('#txtAdvItemNo').val('0');
         }
+        $('#txtAdvAmount').val('0');
         $('#txtSlipNo').val('');        
         $('#txtSlipNo').removeAttr('disabled');
         $('#txtAMT').removeAttr('disabled');
@@ -1561,7 +1565,7 @@ End Code
                 break;
             case 'servicecode':
                 let q = GetClrType($('#cboClrType').val());
-                if ($('#cboSTCode').val() !== '') {
+                if ($('#cboSTCode').val() !== null) {
                     q += '&group=' + $('#cboSTCode').val();
                 }
                 SetGridSICodeFilter(path, '#tbServ', q, '#frmSearchSICode', ReadService);
@@ -1794,6 +1798,10 @@ End Code
         CalTotal();
     }
     function LoadAdvance() {
+        if ($('#txtClrNo').val() == '') {
+            ShowMessage('Please Save Before Choose Advance');
+            return;
+        }  
         let jtype = $('#cboJobType').val();
         let branch = $('#txtBranchCode').val();
         if (job !== "") {
@@ -1890,7 +1898,7 @@ End Code
     }
     function LoadPayment() {
         if ($('#txtClrNo').val() == '') {
-            ShowMessage('Please Save Before Choose Advance');
+            ShowMessage('Please Save Before Choose Payment');
             return;
         }        
         let branch = $('#txtBranchCode').val();

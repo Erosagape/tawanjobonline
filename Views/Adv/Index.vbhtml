@@ -524,7 +524,7 @@ End Code
                 $('#txtSDescription').val('');
 
                 $('#txtSICode').attr('disabled', 'disabled');
-                $('#txtSDescription').attr('disabled', 'disabled');
+                //$('#txtSDescription').attr('disabled', 'disabled');
                 $('#chkDuplicate').prop('checked', false);
                 return;
             }
@@ -1080,7 +1080,7 @@ End Code
             let d = r.adv.detail[0];
             LoadDetail(d);
             $('#txtSICode').attr('disabled', 'disabled');
-            $('#txtSDescription').attr('disabled', 'disabled');
+            //$('#txtSDescription').attr('disabled', 'disabled');
 
             $('#frmDetail').modal('show');
             $('#txtCurrencyCode').val($('#txtSubCurrency').val());

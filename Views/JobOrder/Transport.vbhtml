@@ -105,6 +105,64 @@ End Code
                     Payment By :<br /><div style="display:flex;flex-direction:row"><input type="text" id="txtPaymentBy" class="form-control"></div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-sm-3" style="display:flex;flex-direction:row">
+                    <div>
+                        Closing Date :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="date" id="txtCYDate" class="form-control">
+                        </div>
+                    </div>
+                    <div>
+                        Closing Time :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="text" id="txtCYTime" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3" style="display:flex;flex-direction:row">
+                    <div>
+                        Factory Date :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="date" id="txtFactoryDate" class="form-control">
+                        </div>
+                    </div>
+                    <div>
+                        Factory Time :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="text" id="txtFactoryTime" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3" style="display:flex;flex-direction:row">
+                    <div>
+                        Packing Date :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="date" id="txtPackingDate" class="form-control">
+                        </div>
+                    </div>
+                    <div>
+                        Packing Time :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="text" id="txtPackingTime" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3" style="display:flex;flex-direction:row">
+                    <div>
+                        Return Date :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="date" id="txtReturnDate" class="form-control">
+                        </div>
+                    </div>
+                    <div>
+                        Return Time :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="text" id="txtReturnTime" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="panel" style="background-color:lightgreen;padding:10px 10px 10px 10px;margin-top:10px">
                 <div class="row">
                     <div class="col-sm-6">
@@ -125,78 +183,71 @@ End Code
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
-                        CY Place :<br />
+                    <div class="col-sm-4">
+                        CY Place: <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtCYPlace" class="form-control">
                         </div>
                     </div>
-                    <div class="col-sm-3">
-                        At CY Date :<br />
-                        <div style="display:flex;flex-direction:row"><input type="date" id="txtCYDate" class="form-control"></div>
+                    <div class="col-sm-5">
+                        Address:<br />
+                        <textarea id="txtCYAddress" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
-                        At CY Time :<br />
-                        <div style="display:flex;flex-direction:row"><input type="text" id="txtCYTime" class="form-control"></div>
+                        Contact:<br />
+                        <input type="text" class="form-control" id="txtCYContact" />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         Factory Place :<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtFactoryPlace" class="form-control">
                         </div>
                     </div>
-                    <div class="col-sm-3">
-                        At Factory Date :<br />
-                        <div style="display:flex;flex-direction:row"><input type="date" id="txtFactoryDate" class="form-control"></div>
+                    <div class="col-sm-5">
+                        Address:<br />
+                        <textarea id="txtFactoryAddress" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
-                        At Factory Time :<br />
-                        <div style="display:flex;flex-direction:row"><input type="text" id="txtFactoryTime" class="form-control"></div>
+                        Contact:<br />
+                        <input type="text" class="form-control" id="txtFactoryContact" />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         Packing Place :<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtPackingPlace" class="form-control">
                         </div>
                     </div>
-                    <div class="col-sm-3">
-                        Packing Date :<br />
-                        <div style="display:flex;flex-direction:row">
-                            <input type="date" id="txtPackingDate" class="form-control">
-                        </div>
+                    <div class="col-sm-5">
+                        Address:<br />
+                        <textarea id="txtPackingAddress" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
-                        Packing Time :<br />
-                        <div style="display:flex;flex-direction:row">
-                            <input type="text" id="txtPackingTime" class="form-control">
-                        </div>
+                        Contact:<br />
+                        <input type="text" class="form-control" id="txtPackingContact" />
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                         Return Place :<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtReturnPlace" class="form-control">
                         </div>
                     </div>
-                    <div class="col-sm-3">
-                        Return Date :<br />
-                        <div style="display:flex;flex-direction:row">
-                            <input type="date" id="txtReturnDate" class="form-control">
-                        </div>
+                    <div class="col-sm-5">
+                        Address:<br />
+                        <textarea id="txtReturnAddress" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
-                        Return Time :<br />
-                        <div style="display:flex;flex-direction:row">
-                            <input type="text" id="txtReturnTime" class="form-control">
-                        </div>
+                        Contact:<br />
+                        <input type="text" class="form-control" id="txtReturnContact" />
                     </div>
                 </div>
-                <input type="button" id="btnSaveLoc" value="Save Route" class="btn btn-primary" onclick="SaveLocation()" />
+                <input type="button" id="btnSaveLoc" value="Save Route" class="btn btn-primary" onclick="SaveLocation(true)" />
+                <input type="button" id="btnDelLoc" value="Cancel Route" class="btn btn-danger" onclick="SaveLocation(false)" />
                 <input type="button" id="btnEditExp" value="Edit Expenses" class="btn btn-info" onclick="EditExpense()" />
             </div>
         </div>
@@ -579,6 +630,7 @@ End Code
     }
     function ReadRoute(dt) {
         $('#txtRouteID').val(dt.LocationID);
+        $('#txtLocation').val(dt.LocationRoute);
     }
     function ReadService(dt) {
         $('#txtSICode').val(dt.SICode);
@@ -803,6 +855,14 @@ End Code
         $('#txtCYTime').val('');
         $('#txtFactoryTime').val('');
         $('#txtReturnTime').val('');
+        $('#txtPackingAddress').val('');
+        $('#txtCYAddress').val('');
+        $('#txtFactoryAddress').val('');
+        $('#txtReturnAddress').val('');
+        $('#txtPackingContact').val('');
+        $('#txtCYContact').val('');
+        $('#txtFactoryContact').val('');
+        $('#txtReturnContact').val('');
         $('#txtNotifyCode').val('');
         $('#txtNotifyName').val('');
         $('#txtTransMode').val('');
@@ -1002,6 +1062,14 @@ End Code
                 $('#txtFactoryPlace').val(dr.Place2);
                 $('#txtPackingPlace').val(dr.Place3);
                 $('#txtReturnPlace').val(dr.Place4);
+                $('#txtCYAddress').val(dr.Address1);
+                $('#txtFactoryAddress').val(dr.Address2);
+                $('#txtPackingAddress').val(dr.Address3);
+                $('#txtReturnAddress').val(dr.Address4);
+                $('#txtCYContact').val(dr.Contact1);
+                $('#txtFactoryContact').val(dr.Contact2);
+                $('#txtPackingContact').val(dr.Contact3);
+                $('#txtReturnContact').val(dr.Contact4);
             }
         });
     }
@@ -1021,7 +1089,7 @@ End Code
         }
         return w;
     }
-    function SaveLocation() {
+    function SaveLocation(active = true) {
         if ($('#txtCYPlace').val() !== '') {
             let obj = {
                 LocationID: $('#cboLocation').val(),
@@ -1029,8 +1097,16 @@ End Code
                 Place2: $('#txtFactoryPlace').val(),
                 Place3: $('#txtPackingPlace').val(),
                 Place4: $('#txtReturnPlace').val(),
+                Address1: $('#txtCYAddress').val(),
+                Address2: $('#txtFactoryAddress').val(),
+                Address3: $('#txtPackingAddress').val(),
+                Address4: $('#txtReturnAddress').val(),
+                Contact1: $('#txtCYContact').val(),
+                Contact2: $('#txtFactoryContact').val(),
+                Contact3: $('#txtPackingContact').val(),
+                Contact4: $('#txtReturnContact').val(),
                 LocationRoute: GetRoute(),
-                IsActive: true
+                IsActive: active
             };
             let jsonText = JSON.stringify({ data: obj });
             $.ajax({
@@ -1060,7 +1136,7 @@ End Code
         if ($('#txtSICode').val() !== '') {
             let obj = {
                 BranchCode: $('#txtBranchCode').val(),
-                LocationID: $('#cboLocation').val(),
+                LocationID: $('#txtLocationID').val(),
                 VenderCode: $('#txtVenderCode').val(),
                 CustCode: $('#txtNotifyCode').val(),
                 SICode: $('#txtSICode').val(),

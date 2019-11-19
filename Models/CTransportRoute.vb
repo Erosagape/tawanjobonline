@@ -57,6 +57,78 @@ Public Class CTransportRoute
             m_Place4 = value
         End Set
     End Property
+    Private m_Address1 As String
+    Public Property Address1 As String
+        Get
+            Return m_Address1
+        End Get
+        Set(value As String)
+            m_Address1 = value
+        End Set
+    End Property
+    Private m_Address2 As String
+    Public Property Address2 As String
+        Get
+            Return m_Address2
+        End Get
+        Set(value As String)
+            m_Address2 = value
+        End Set
+    End Property
+    Private m_Address3 As String
+    Public Property Address3 As String
+        Get
+            Return m_Address3
+        End Get
+        Set(value As String)
+            m_Address3 = value
+        End Set
+    End Property
+    Private m_Address4 As String
+    Public Property Address4 As String
+        Get
+            Return m_Address4
+        End Get
+        Set(value As String)
+            m_Address4 = value
+        End Set
+    End Property
+    Private m_Contact1 As String
+    Public Property Contact1 As String
+        Get
+            Return m_Contact1
+        End Get
+        Set(value As String)
+            m_Contact1 = value
+        End Set
+    End Property
+    Private m_Contact2 As String
+    Public Property Contact2 As String
+        Get
+            Return m_Contact2
+        End Get
+        Set(value As String)
+            m_Contact2 = value
+        End Set
+    End Property
+    Private m_Contact3 As String
+    Public Property Contact3 As String
+        Get
+            Return m_Contact3
+        End Get
+        Set(value As String)
+            m_Contact3 = value
+        End Set
+    End Property
+    Private m_Contact4 As String
+    Public Property Contact4 As String
+        Get
+            Return m_Contact4
+        End Get
+        Set(value As String)
+            m_Contact4 = value
+        End Set
+    End Property
     Private m_LocationRoute As String
     Public Property LocationRoute As String
         Get
@@ -92,6 +164,14 @@ Public Class CTransportRoute
                             dr("Place2") = Me.Place2
                             dr("Place3") = Me.Place3
                             dr("Place4") = Me.Place4
+                            dr("Address1") = Me.Address1
+                            dr("Address2") = Me.Address2
+                            dr("Address3") = Me.Address3
+                            dr("Address4") = Me.Address4
+                            dr("Contact1") = Me.Contact1
+                            dr("Contact2") = Me.Contact2
+                            dr("Contact3") = Me.Contact3
+                            dr("Contact4") = Me.Contact4
                             dr("LocationRoute") = Me.LocationRoute
                             dr("IsActive") = Me.IsActive
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
@@ -133,6 +213,30 @@ Public Class CTransportRoute
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("Place4"))) = False Then
                         row.Place4 = rd.GetString(rd.GetOrdinal("Place4")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("Address1"))) = False Then
+                        row.Address1 = rd.GetString(rd.GetOrdinal("Address1")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("Address2"))) = False Then
+                        row.Address2 = rd.GetString(rd.GetOrdinal("Address2")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("Address3"))) = False Then
+                        row.Address3 = rd.GetString(rd.GetOrdinal("Address3")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("Address4"))) = False Then
+                        row.Address4 = rd.GetString(rd.GetOrdinal("Address4")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("Contact1"))) = False Then
+                        row.Contact1 = rd.GetString(rd.GetOrdinal("Contact1")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("Contact2"))) = False Then
+                        row.Contact2 = rd.GetString(rd.GetOrdinal("Contact2")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("Contact3"))) = False Then
+                        row.Contact3 = rd.GetString(rd.GetOrdinal("Contact3")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("Contact4"))) = False Then
+                        row.Contact4 = rd.GetString(rd.GetOrdinal("Contact4")).ToString()
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("LocationRoute"))) = False Then
                         row.LocationRoute = rd.GetString(rd.GetOrdinal("LocationRoute")).ToString()

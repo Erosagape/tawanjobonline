@@ -537,13 +537,13 @@ and b.UnitCharge=q.UnitCheck and a.AdvQty <=q.QtyEnd and a.AdvQty>=q.QtyBegin an
 left join 
 (
 	SELECT ad.BranchCode,ad.AdvNo,ad.ItemNo,ah.AdvDate,
-    SUM(CASE WHEN ad.IsDuplicate=1 THEN ISNULL(cd.BNet,0) ELSE ISNULL(cd.AdvAmount,0) END) as TotalCleared    
+    (CASE WHEN ad.IsDuplicate=1 THEN ad.AdvNet ELSE SUM(ISNULL(cd.BNet,0)) END) as TotalCleared    
 	FROM Job_ClearDetail cd INNER JOIN Job_ClearHeader ch
 	on cd.BranchCode=ch.BranchCode	and cd.ClrNo =ch.ClrNo 	and ch.DocStatus<>99
     INNER JOIN Job_AdvDetail ad on cd.BranchCode=ad.BranchCode and cd.AdvNO=ad.AdvNo and cd.AdvItemNo=ad.ItemNo
     INNER JOIN Job_AdvHeader ah on ad.BranchCode=ah.BranchCode and ad.AdvNo=ah.AdvNo
     WHERE ah.DocStatus<>99
-	GROUP BY ad.BranchCode,ad.AdvNo,ad.ItemNo,ah.AdvDate
+	GROUP BY ad.BranchCode,ad.AdvNo,ad.ItemNo,ah.AdvDate,ad.IsDuplicate,ad.AdvNet
 ) d
 ON a.BranchCode=d.BranchCode and a.AdvNo=d.AdvNo and a.ItemNo=d.ItemNo "
     End Function
@@ -1211,7 +1211,6 @@ inner join (
     " & If(pNoVoucher, " AND ISNULL(rd.ControlNo,'')=''", "") & "
 ) r
 on id.BranchCode=r.BranchCode AND id.DocNo=r.InvoiceNo AND id.ItemNo=r.InvoiceItemNo
-where ISNULL(ih.CancelProve,'')='' 
 "
     End Function
     Function SQLSelectDocumentByJob(branch As String, job As String) As String
