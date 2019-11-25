@@ -48,12 +48,14 @@ End Code
 <script type="text/javascript">
     var path = '@Url.Content("~")';
     var branch = '@ViewBag.PROFILE_DEFAULT_BRANCH';
+    var jobtype = '';
+    var shipby = '';
+
     google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawChart);
 
     window.onresize = () => {
         CheckSession(drawChart());
-        drawChart();
     }
     setInterval(function () {
         if ($('#chkAutoRefresh').prop('checked')) {
@@ -89,7 +91,15 @@ End Code
         }
         return w;
     }
-    function drawChart() {    
+    function checkJobType() {
+        if (jobtype !== $('#cboJobType').val()) {
+            jobtype = $('#cboJobType').val();
+            shipby = $('#cboShipBy').val();
+            
+        }
+        drawChart();
+    }
+    function drawChart() {   
         ShowWait();
         $.get(path + 'JobOrder/GetDashBoard' + getWhere(), function (r) {
             if (r.result.length > 0) {

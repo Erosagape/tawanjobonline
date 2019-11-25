@@ -9,6 +9,9 @@ Namespace Controllers
         Function Index() As ActionResult
             Return GetView("Index", "MODULE_CS")
         End Function
+        Function Config() As ActionResult
+            Return GetView("Config")
+        End Function
         Function CreateJob() As ActionResult
             Return GetView("CreateJob", "MODULE_CS")
         End Function

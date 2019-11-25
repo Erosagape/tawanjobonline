@@ -23,7 +23,11 @@ Module Main
             If pTodayAsDefault Then
                 Return DateTime.Today
             Else
-                Return System.DBNull.Value
+                If (pDate.Year + 543) > 1900 Then
+                    Return pDate.AddYears(543)
+                Else
+                    Return System.DBNull.Value
+                End If
             End If
         End If
     End Function

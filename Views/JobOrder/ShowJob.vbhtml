@@ -1227,7 +1227,7 @@ End Code
             return;
         } else {
             if (user == rec.CloseJobBy) {
-                if (rec.JobStatus == 3) {
+                if (rec.JobStatus >= 3) {
                     rec.JobStatus = 0;
                     rec.CloseJobBy = null;
                     rec.CloseJobTime = null;

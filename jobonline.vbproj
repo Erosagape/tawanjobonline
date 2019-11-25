@@ -473,6 +473,7 @@
     <None Include="packages.config" />
     <Content Include="index.html" />
     <Content Include="Resource\apl-logo.png" />
+    <Content Include="Resource\asal-logo.png" />
     <Content Include="Resource\jobtawan_bg.jpg" />
     <Content Include="Resource\logo-tawan.jpg" />
     <Content Include="Resource\logo-biz.png" />
@@ -816,6 +817,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Views\JobOrder\Config.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
