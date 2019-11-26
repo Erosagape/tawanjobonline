@@ -1033,7 +1033,9 @@ Namespace Controllers
                 Return Content(json, jsonContent)
             End Try
         End Function
-
+        Function _SetJobData(<FromBody()> ByVal data As CJobOrder) As ActionResult
+            Return Content("{""msg"":" & JsonConvert.SerializeObject(data) & "}", jsonContent)
+        End Function
         Function SetJobData(<FromBody()> ByVal data As CJobOrder) As ActionResult
             Try
                 If Not IsNothing(data) Then

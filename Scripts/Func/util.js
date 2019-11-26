@@ -126,7 +126,7 @@ function CDateEN(sqldateString) {
         let month = jsDate.substr(5, 2);
         let day = jsDate.substr(8, 2);
         let year = jsDate.substr(0, 4);
-        if (year < '1901') {
+        if (year < '1901' || year > '2201') {
             return '';
         }
         let yy = Number(year);
