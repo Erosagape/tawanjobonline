@@ -363,12 +363,12 @@ End Code
 
                             oldData = $('#txtPayAmount' + incType).html();
                             if (oldData !== '') oldData += '<br/>';
-                            oldData += CCurrency(amt, 2);
+                            oldData +=''+ ShowNumber(amt,2);
                             $('#txtPayAmount' + incType).html(oldData);
 
                             oldData = $('#txtPayTax' + incType).html();
                             if (oldData !== '') oldData += '<br/>';
-                            oldData += CCurrency(tax, 2);
+                            oldData += ''+ ShowNumber(tax,2);
                             $('#txtPayTax' + incType).html(oldData);
 
                             switch (incType) {
@@ -378,7 +378,7 @@ End Code
                                     oldData = $('#txtPayDesc' + incType).html();
                                     if (oldData !== '') oldData += '<br/>';
                                     oldData += d[i].PayTaxDesc;
-                                    $('#txtPayDesc' + incType).html(d[i].PayTaxDesc);
+                                    $('#txtPayDesc' + incType).html(oldData);
                                     break;
                                 default:
                                     break;

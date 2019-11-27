@@ -932,7 +932,11 @@ End Code
         $('#chkCancel').prop('checked', !chkmode);
     }
     function SaveDetail() {
-        SaveHeader(false);
+        if ($('#txtDocNo').val() == '') {
+            ShowMessage('Save Header First');
+            return;
+        }
+        //SaveHeader(false);
         let obj={			
             BranchCode:$('#txtBranchCode').val(),
             DocNo:$('#txtDocNo').val(),
