@@ -494,15 +494,15 @@ End Code
         CheckParam();
     //});
     function ToggleClearBtn() {
-        if ($('#txtAdvNo').val() == '') {
-            $('#btnAddD').show();
-        } else {
-            if ($('#chkDuplicate').prop('checked') == false) {
-                $('#btnAddD').show();
-            } else {
-                $('#btnAddD').hide();
-            }
-        }
+        //if ($('#txtAdvNo').val() == '') {
+        //    $('#btnAddD').show();
+        //} else {
+        //    if ($('#chkDuplicate').prop('checked') == false) {
+        //        $('#btnAddD').show();
+        //    } else {
+        //        $('#btnAddD').hide();
+        //    }
+        //}
     }
     function CheckParam() {
         ClearHeader();
