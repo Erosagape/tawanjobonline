@@ -390,7 +390,7 @@ End Code
         $('#txtRoleID').val('');
         $('#txtRoleDesc').val('');
         $('#txtRoleGroup').val('');
-        ClearUser();
+        //ClearUser();
         ClearPolicy();
     }
     function ClearUser() {

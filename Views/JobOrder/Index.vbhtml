@@ -13,7 +13,7 @@ End Code
         </div>
         <div class="col-sm-2">
             <label for="cboJobType" id="lblJObType">Job Type</label>
-            <select id="cboJobType" class="form-control dropdown"></select>
+            <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()"></select>
         </div>
         <div class="col-sm-2">
             <label for="cboShipBy" id="lblShipBy">Ship By</label>
@@ -77,12 +77,20 @@ End Code
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
-    
+    let jt = '';
     //$(document).ready(function () {
         loadCombo();
         getJobdata();
         SetEvents();
     //});    
+    function CheckJobType() {
+        if (jt !== $('#cboJobType').val()) {
+            jt = $('#cboJobType').val();
+            loadShipByByType(path, jt, '#cboShipBy');
+            return;
+        }
+        return;
+    }
 
     function SetEvents() {
         $('#txtJobNo').keydown(function (e) {

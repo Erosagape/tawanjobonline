@@ -249,7 +249,7 @@ End Code
                                 <input type="text" id="txtSeqNo" class="form-control" disabled />
                             </div>
                             <div class="col-sm-3">
-                                <label id="lblJobType">Job Type</label> :<br /><select id="txtJobType" class="form-control dropdown" value="0"></select>
+                                <label id="lblJobType">Job Type</label> :<br /><select id="txtJobType" class="form-control dropdown" value="0" onchange="CheckJobType()" ></select>
                             </div>
                             <div class="col-sm-3">
                                 <label id="lblShipBy">Ship By</label> :<br /><select id="txtShipBy" class="form-control dropdown" value="0"></select>
@@ -535,8 +535,18 @@ End Code
     let row_d = {};
     let row_i = {};
     let chkmode = '';
+    let jt = '';
+
     SetLOVs();
 
+    function CheckJobType() {
+        if (jt !== $('#txtJobType').val()) {
+            jt = $('#txtJobType').val();
+            loadShipByByType(path, jt, '#txtShipBy');
+            return;
+        }
+        return;
+    }
     function ShowHeader() {
         ShowWait();
         let w = '';

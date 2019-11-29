@@ -4,7 +4,7 @@ End Code
 <div id="dvCliteria">
     <div class="row">
         <div class="col-sm-3">
-            Job Type : <br /><select id="cboJobType" class="form-control dropdown" onchange="drawChart()"></select>
+            Job Type : <br /><select id="cboJobType" class="form-control dropdown" onchange="checkJobType()"></select>
         </div>
         <div class="col-sm-3">
             Transport By : <br /><select id="cboShipBy" class="form-control dropdown" onchange="drawChart()"></select>
@@ -61,7 +61,7 @@ End Code
         if ($('#chkAutoRefresh').prop('checked')) {
             CheckSession(drawChart());
         }
-    }, 30000);
+    }, 300000);
     SetLOVs();
 
     function SetLOVs() {
@@ -95,9 +95,12 @@ End Code
         if (jobtype !== $('#cboJobType').val()) {
             jobtype = $('#cboJobType').val();
             shipby = $('#cboShipBy').val();
-            
+            loadShipByByType(path, jobtype, '#cboShipBy');
+            drawChart();
+            return;
         }
         drawChart();
+        return;
     }
     function drawChart() {   
         ShowWait();

@@ -23,7 +23,7 @@ End Code
                     </div>
                     <div class="col-sm-2">
                         Job Type: <br />
-                        <select id="cboJobType" class="form-control dropdown"></select>
+                        <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()"></select>
                     </div>
                     <div class="col-sm-2">
                         Ship By:<br />
@@ -270,9 +270,18 @@ End Code
     let arr = [];
     let list = [];
     let docno = '';
+    let jt = '';
     //$(document).ready(function () {
         SetEvents();
     //});
+    function CheckJobType() {
+        if (jt !== $('#cboJobType').val()) {
+            jt = $('#cboJobType').val();
+            loadShipByByType(path, jt, '#cboShipBy');
+            return;
+        }
+        return;
+    }
     function SetEvents() {
         //Combos
         let lists = 'JOB_TYPE=#cboJobType';

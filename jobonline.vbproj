@@ -460,6 +460,7 @@
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
+    <None Include="My Project\PublishProfiles\103.225.168.137.pubxml" />
     <None Include="My Project\PublishProfiles\jobbeta.pubxml" />
     <None Include="My Project\PublishProfiles\kwanchai.pubxml" />
     <None Include="My Project\PublishProfiles\localhost.pubxml" />
@@ -773,42 +774,50 @@
     <Content Include="Resource\Import\Mas_UserRoleDetail.json" />
     <Content Include="Resource\Import\Mas_UserRolePolicy.json" />
     <Content Include="Resource\Export\Resource_Export_25620906170910.json" />
-    <Content Include="Web-KWAN.config" />
-    <Content Include="Web-KWAN.Debug.config">
+    <Content Include="App_Data\Web-KWAN.config" />
+    <Content Include="App_Data\Web-KWAN.Debug.config">
       <DependentUpon>Web-KWAN.config</DependentUpon>
     </Content>
-    <Content Include="Web-KWAN.Release.config">
+    <Content Include="App_Data\Web-KWAN.Release.config">
       <DependentUpon>Web-KWAN.config</DependentUpon>
     </Content>
-    <Content Include="Web-APL.config" />
-    <Content Include="Web-APL.Debug.config">
+    <Content Include="App_Data\Web-APL.config" />
+    <Content Include="App_Data\Web-APL.Debug.config">
       <DependentUpon>Web-APL.config</DependentUpon>
     </Content>
-    <Content Include="Web-APL.Release.config">
+    <Content Include="App_Data\Web-APL.Release.config">
       <DependentUpon>Web-APL.config</DependentUpon>
     </Content>
-    <Content Include="Web-SERVER-TAWAN.config" />
-    <Content Include="Web-SERVER-TAWAN.Debug.config">
+    <Content Include="App_Data\Web-SERVER-TAWAN.config" />
+    <Content Include="App_Data\Web-SERVER-TAWAN.Debug.config">
       <DependentUpon>Web-SERVER-TAWAN.config</DependentUpon>
     </Content>
-    <Content Include="Web-SERVER-TAWAN.Release.config">
+    <Content Include="App_Data\Web-SERVER-TAWAN.Release.config">
       <DependentUpon>Web-SERVER-TAWAN.config</DependentUpon>
     </Content>
-    <Content Include="Web-DEMO_TAWAN.config" />
-    <Content Include="Web-DEMO_TAWAN.Debug.config">
+    <Content Include="App_Data\Web-DEMO_TAWAN.config" />
+    <Content Include="App_Data\Web-DEMO_TAWAN.Debug.config">
       <DependentUpon>Web-DEMO_TAWAN.config</DependentUpon>
     </Content>
-    <Content Include="Web-DEMO_TAWAN.Release.config">
+    <Content Include="App_Data\Web-DEMO_TAWAN.Release.config">
       <DependentUpon>Web-DEMO_TAWAN.config</DependentUpon>
     </Content>
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
-    <Content Include="Web-PGM.config" />
-    <Content Include="Web-PGM.Debug.config">
+    <Content Include="App_Data\Web-PGM.config" />
+    <Content Include="App_Data\Web-PGM.Debug.config">
       <DependentUpon>Web-PGM.config</DependentUpon>
     </Content>
-    <Content Include="Web-PGM.Release.config">
+    <Content Include="App_Data\Web-PGM.Release.config">
       <DependentUpon>Web-PGM.config</DependentUpon>
+    </Content>
+    <Content Include="Views\JobOrder\Config.vbhtml" />
+    <Content Include="App_Data\Web-ASAL.config" />
+    <Content Include="App_Data\Web-ASAL.Debug.config">
+      <DependentUpon>Web-ASAL.config</DependentUpon>
+    </Content>
+    <Content Include="App_Data\Web-ASAL.Release.config">
+      <DependentUpon>Web-ASAL.config</DependentUpon>
     </Content>
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -817,7 +826,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\JobOrder\Config.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

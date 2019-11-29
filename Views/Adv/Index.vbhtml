@@ -97,7 +97,7 @@ End Code
                                             Job Type :
                                         </td>
                                         <td>
-                                            <select id="cboJobType" style="width:200px" class="form-control dropdown" tabindex="8"></select>
+                                            <select id="cboJobType" style="width:200px" class="form-control dropdown" tabindex="8" onchange="CheckJobType()"></select>
                                         </td>
                                     </tr>
                                     <tr>
@@ -413,12 +413,21 @@ End Code
     let job = '';
     let isjobmode = false;
     let chkmode = false;
+    let jt = '';
     //$(document).ready(function () {       
     SetLOVs();
     SetEvents();
     SetEnterToTab();
     CheckParam();
     //});
+    function CheckJobType() {
+        if (jt !== $('#cboJobType').val()) {
+            jt = $('#cboJobType').val();
+            loadShipByByType(path, jt, '#cboShipBy');
+            return;
+        }
+        return;
+    }
     function CheckParam() {
         ClearHeader();
         //read query string parameters

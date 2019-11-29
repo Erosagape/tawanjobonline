@@ -8,7 +8,7 @@ End Code
                     <label id="lblJobType" style="display:block;width:100%;">Job Type</label>
                 </div>
                 <div style="width:70%">
-                    <select id="cboJobType" class="form-control dropdown" onchange="GetQuotation()" style="width:100%" tabindex="0"></select>
+                    <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()" style="width:100%" tabindex="0"></select>
                 </div>                               
             </div>
             <div class="col-sm-6" style="display:flex">
@@ -168,22 +168,32 @@ End Code
         </div>
     </div>
     <div id="dvLOVs"></div>
-    <script src="~/Scripts/Func/combo.js"></script>
-    <script type="text/javascript">
+<script src="~/Scripts/Func/combo.js"></script>
+<script type="text/javascript">
     //define letiables
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
+    let br = getQueryString('Branch');
+    let jt = getQueryString('JType');
+    let sb = getQueryString('SBy');
     //$(document).ready(function () {
         CheckParam();
         SetLOVs();
         SetEvents();
         SetEnterToTab();
     //});
+    function CheckJobType() {
+        if (jt !== $('#cboJobType').val()) {
+            jt = $('#cboJobType').val();
+            loadShipByByType(path, jt, '#cboShipBy');
+            GetQuotation();
+            return;
+        }
+        GetQuotation();
+        return;
+    }
     function CheckParam() {
         //read query string parameters
-        let br = getQueryString('Branch');
-        let jt = getQueryString('JType');
-        let sb = getQueryString('SBy');
         if (br !== "") {
             $('#txtBranchCode').val(br);
             ShowBranch(path, $('#txtBranchCode').val(), '#txtBranchName');
@@ -478,5 +488,5 @@ End Code
             }
         });
     }
-            </script>
+</script>
 

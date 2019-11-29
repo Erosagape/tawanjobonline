@@ -766,6 +766,20 @@ Namespace Controllers
                 Return Content("[]", jsonContent)
             End Try
         End Function
+        Function GetShipBy() As ActionResult
+            If Not Request.QueryString("Type") Is Nothing Then
+                Dim tsqlW As String = If(Request.QueryString("Type").ToString = "", "", " AND EXISTS(select b.ConfigValue from Mas_Config b where b.ConfigCode='SHIP_BY_FILTER' and b.ConfigKey='" & Request.QueryString("Type").ToString & "' AND CHARINDEX(a.ConfigKey,b.ConfigValue)>0)")
+                Dim odata = New CConfig(jobWebConn).GetData(" a WHERE a.ConfigCode='SHIP_BY' " & tsqlW)
+                Dim json = JsonConvert.SerializeObject(odata)
+                json = "{""config"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Else
+                Dim oData = New CConfig(jobWebConn).GetData(" WHERE ConfigCode='SHIP_BY' ORDER BY ConfigKey ASC ")
+                Dim json = JsonConvert.SerializeObject(oData)
+                json = "{""config"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            End If
+        End Function
         Function GetJobYear() As ActionResult
             Try
                 Dim oData As DataTable = New CUtil(jobWebConn).GetTableFromSQL("SELECT DISTINCT Year(DocDate) as JobYear from Job_Order")
