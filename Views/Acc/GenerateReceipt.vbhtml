@@ -37,6 +37,8 @@ End Code
         <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
             <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
         </a>
+        <label for="chkGroupByDoc">Group By Document</label>
+        <input type="checkbox" id="chkGroupByDoc" />
         <div class="row">
             <div class="col-sm-12">
                 <table id="tbHeader" class="table table-responsive">
@@ -199,8 +201,8 @@ End Code
                 w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
             }
         }
-
-        $.get(path + 'acc/getinvforreceive?show=WAIT&type=ADV&branch=' + $('#txtBranchCode').val() + w, function (r) {
+        let url = path + 'acc/getinvforreceive?show=WAIT&type=ADV&branch=' + $('#txtBranchCode').val() + w;
+        $.get(url , function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if (isAlert==true) ShowMessage('data not found');
