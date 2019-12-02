@@ -368,8 +368,9 @@ Namespace Controllers
         End Function
         Function GetPaymentForClear() As ActionResult
             Try
-                Dim tSqlW As String = " AND d.ClrItemNo=0 AND d.AdvItemNo=0 "
+                Dim tSqlW As String = ""
                 If Not IsNothing(Request.QueryString("Show")) Then
+                    tSqlW = " AND d.ClrItemNo=0 AND d.AdvItemNo=0 "
                     If Request.QueryString("Show").ToString = "CLR" Then
                         tSqlW = " AND d.ClrItemNo>0 "
                     End If
@@ -381,6 +382,7 @@ Namespace Controllers
                 Else
                     tSqlW &= " AND NOT ISNULL(h.CancelProve,'')<>'' "
                 End If
+                Dim isForCharge As Boolean = False
                 If Not IsNothing(Request.QueryString("Type")) Then
                     Select Case Request.QueryString("Type").ToString().ToUpper()
                         Case "ADV"
@@ -388,7 +390,8 @@ Namespace Controllers
                         Case "COST"
                             tSqlW &= " AND d.SICode IN(SELECT SICode FROM Job_SrvSingle WHERE IsExpense=1) "
                         Case "SERV"
-                            tSqlW &= " AND d.SICode IN(SELECT SICode FROM Job_SrvSingle WHERE IsCredit=0 AND IsExpense=0) "
+                            tSqlW &= " AND (p.ChargeCode + d.DocNo + '#0') NOT IN(SELECT x.SICode+x.VenderBillingNo FROM Job_ClearDetail x INNER JOIN Job_ClearHeader y ON x.BranchCode=y.BranchCode AND x.ClrNo=y.ClrNo WHERE y.DocStatus<>99 AND x.VenderBillingNo IS NOT NULL) "
+                            isForCharge = True
                     End Select
                 End If
                 If Not IsNothing(Request.QueryString("JobNo")) Then
@@ -403,11 +406,18 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("DateTo")) Then
                     tSqlW &= " AND h.DocDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
-                Dim sql As String = SQLSelectPayForClear() & "{0}"
-
-                Dim oData As DataTable = New CUtil(jobWebConn).GetTableFromSQL(String.Format(sql, tSqlW))
-                Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
-                Return Content(json, jsonContent)
+                If isForCharge = False Then
+                    tsqlw &=" AND d.ClrItemNo=0 "
+                    Dim sql As String = SQLSelectPayForClear() & "{0}"
+                    Dim oData As DataTable = New CUtil(jobWebConn).GetTableFromSQL(String.Format(sql, tSqlW))
+                    Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                    Return Content(json, jsonContent)
+                Else
+                    Dim sql As String = SQLSelectPayForCharge() & "{0}"
+                    Dim oData As DataTable = New CUtil(jobWebConn).GetTableFromSQL(String.Format(sql, tSqlW))
+                    Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                    Return Content(json, jsonContent)
+                End If
             Catch ex As Exception
                 Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetPaymentForClear", "ERROR", ex.Message)
                 Return Content("{""clr"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)

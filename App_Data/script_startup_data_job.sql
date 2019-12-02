@@ -184,12 +184,6 @@ INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'J
 GO
 INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'JOB_STATUS', N'99', N'JOB CANCELLED')
 GO
-INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'JOB_TYPE', N'01', N'IMPORT')
-GO
-INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'JOB_TYPE', N'02', N'EXPORT')
-GO
-INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'JOB_TYPE', N'03', N'DOMESTIC')
-GO
 INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'MODULE', N'ACC', N'Accounting')
 GO
 INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'MODULE', N'ADM', N'Admin')
@@ -370,20 +364,6 @@ INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'S
 GO
 INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SERVICE_TYPE', N'STD', N'Standard Services')
 GO
-INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'01', N'AIR')
-GO
-INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'02', N'SEA')
-GO
-INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'03', N'TRUCK')
-GO
-INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'04', N'TRAIN')
-GO
-INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'05', N'PARCEL')
-GO
-INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'06', N'PASSENGER')
-GO
-INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'07', N'19BIS')
-GO
 INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'USER_LEVEL', N'01', N'Managing director')
 GO
 INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'USER_LEVEL', N'02', N'Manager')
@@ -399,6 +379,142 @@ GO
 INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'USER_LEVEL', N'98', N'Others')
 GO
 INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'USER_LEVEL', N'99', N'Administrators')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'JOB_TYPE', N'01', N'IMPORT')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'JOB_TYPE', N'02', N'EXPORT')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'JOB_TYPE', N'03', N'DOMESTIC')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'JOB_TYPE', N'04', N'C/O')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'JOB_TYPE', N'05', N'BANKING')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'JOB_TYPE', N'06', N'OFFICE')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'JOB_TYPE', N'07', N'SUPPORT')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'JOB_TYPE', N'08', N'FREIGHT')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'JOB_TYPE', N'99', N'GENERAL')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'01', N'AIR')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'02', N'SEA')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'03', N'TRUCK')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'04', N'TRAIN')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'05', N'PARCEL')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'06', N'PASSENGER')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'07', N'19BIS')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'08', N'MACHINE')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'09', N'CONSIGNMENT')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'10', N'LOCAL')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'11', N'TRANSFER-IN')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'12', N'TRANSFER-OUT')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'13', N'REFUND-TAX')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'14', N'BOI')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'15', N'RE-EXPORT')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'16', N'FORMULA')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'17', N'TAX-RETURN')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'18', N'FORM-A')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'19', N'FORM-D')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'20', N'FORM-E')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'21', N'FORM-CO')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'22', N'CHAMBER')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'23', N'FORM-AI')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'24', N'FORM-AK')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'25', N'TEXTTILE')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'26', N'THAI-AUS')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'27', N'JTEPA')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'28', N'MEXICO')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'29', N'ANNZ')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'30', N'REGISTER')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'31', N'BANKING')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'32', N'LEGALIZE')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'33', N'INSURANCE')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'34', N'COURIER')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'35', N'MARGETING')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'36', N'FREIGHT')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'37', N'DOCUMENT')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'38', N'WAREHOUSE')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'39', N'LABOUR')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'40', N'MILK-RUN')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'41', N'FREEZONE')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'42', N'YARD')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'43', N'SUPPLY-CHAIN')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'44', N'CUSTOMER-SERVICE')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'45', N'OTHERS')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'46', N'AIR-IMP')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'47', N'AIR-EXP')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'48', N'SEA-IMP')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'49', N'SEA-EXP')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY', N'50', N'DOMESTIC')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY_FILTER', N'01', N'01,02,03,04,45')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY_FILTER', N'02', N'01,02,03,04,45')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY_FILTER', N'03', N'01,02,03,04,07,08,10,13,14,15,16,17,45')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY_FILTER', N'04', N'18,19,20,21,22,23,24,25,26,27,28,29,30,45')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY_FILTER', N'05', N'31,32,33,37,45')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY_FILTER', N'06', N'30,35,36,45')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY_FILTER', N'07', N'09,37,38,39,40,45')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY_FILTER', N'08', N'01,02,41,45,46,47,48,49,50')
+GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'SHIP_BY_FILTER', N'99', N'09,10,37,38,40,42,43,44,45')
 GO
 INSERT [dbo].[Mas_User] ([UserID], [UPassword], [TName], [EName], [TPosition], [LoginDate], [LoginTime], [LogoutDate], [LogoutTime], [UPosition], [MaxRateDisc], [MaxAdvance], [JobAuthorize], [EMail], [MobilePhone], [IsAlertByAgent], [IsAlertByEMail], [IsAlertBySMS], [UserUpline], [GLAccountCode], [UsedLanguage], [DMailAccount], [DMailPassword], [JobPolicy], [AlertPolicy], [DeptID]) VALUES (N'ACM', N'acm', N'ผู้จัดการฝ่ายบัญชี', N'Account Manager', N'ACC-MGR', NULL, NULL, NULL, NULL, 2, 0, 0, NULL, N'account@tawantech.co.th', NULL, 0, 0, 0, N'BOAT', NULL, N'TH', NULL, NULL, NULL, NULL, N'5')
 GO

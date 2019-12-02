@@ -93,6 +93,15 @@ Public Class CTransportPrice
             m_Location = value
         End Set
     End Property
+    Private m_ChargeCode As String
+    Public Property ChargeCode As String
+        Get
+            Return m_ChargeCode
+        End Get
+        Set(value As String)
+            m_ChargeCode = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -114,6 +123,7 @@ Public Class CTransportPrice
                             dr("SDescription") = Me.SDescription
                             dr("CostAmount") = Me.CostAmount
                             dr("ChargeAmount") = Me.ChargeAmount
+                            dr("ChargeCode") = Me.ChargeCode
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             msg = "Save Complete"
@@ -137,6 +147,7 @@ Public Class CTransportPrice
         m_Location = ""
         m_CostAmount = 0
         m_ChargeAmount = 0
+        m_ChargeCode = ""
     End Sub
     Public Function GetData(pSQLWhere As String) As List(Of CTransportPrice)
         Dim lst As New List(Of CTransportPrice)
@@ -173,6 +184,9 @@ Public Class CTransportPrice
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("ChargeAmount"))) = False Then
                         row.ChargeAmount = rd.GetDouble(rd.GetOrdinal("ChargeAmount"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ChargeCode"))) = False Then
+                        row.ChargeCode = rd.GetString(rd.GetOrdinal("ChargeCode")).ToString()
                     End If
                     lst.Add(row)
                 End While

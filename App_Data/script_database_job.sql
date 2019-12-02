@@ -1367,6 +1367,7 @@ CREATE TABLE [dbo].[Job_TransportPrice](
 	[CostAmount] [float] NULL,
 	[ChargeAmount] [float] NULL,
 	[Location] [nvarchar](max) NULL,
+	[ChargeCode] [varchar](10) NOT NULL,
  CONSTRAINT [PK_Job_TransportPrice] PRIMARY KEY CLUSTERED 
 (
 	[BranchCode] ASC,

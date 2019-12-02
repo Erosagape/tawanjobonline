@@ -2180,11 +2180,19 @@ Namespace Controllers
                     End If
                 End If
                 tSqlw &= " ORDER BY ih.DocNo DESC"
-                Dim sql As String = If(Not byReceipt, SQLSelectInvForReceive(bCheckVoucher) & tSqlw, SQLSelectInvByReceive(recvNo, bCheckVoucher) & tSqlw)
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(sql)
-                Dim json As String = JsonConvert.SerializeObject(oData)
-                json = "{""invdetail"":{""data"":" & json & ",""condition"":""" & tSqlw & """}}"
-                Return Content(json, jsonContent)
+                If byReceipt Then
+                    Dim sql As String = SQLSelectInvByReceive(recvNo, bCheckVoucher) & tSqlw
+                    Dim oData = New CUtil(jobWebConn).GetTableFromSQL(sql)
+                    Dim json As String = JsonConvert.SerializeObject(oData)
+                    json = "{""invdetail"":{""data"":" & json & ",""condition"":""" & tSqlw & """}}"
+                    Return Content(json, jsonContent)
+                Else
+                    Dim sql As String = SQLSelectInvForReceive(bCheckVoucher) & tSqlw
+                    Dim oData = New CUtil(jobWebConn).GetTableFromSQL(sql)
+                    Dim json As String = JsonConvert.SerializeObject(oData)
+                    json = "{""invdetail"":{""data"":" & json & ",""condition"":""" & tSqlw & """}}"
+                    Return Content(json, jsonContent)
+                End If
             Catch ex As Exception
                 Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetInvForReceive", "ERROR", ex.Message)
                 Return Content("{""invdetail"":{""msg"":""" & ex.Message & """,""data"":[],""condition"":""" & tSqlw & """}}", jsonContent)

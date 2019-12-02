@@ -475,22 +475,50 @@ LEFT JOIN (
 ON a.BranchCode=d.BranchCode AND a.AdvNo=d.AdvNo
 "
     End Function
+    Function SQLSelectPayForCharge() As String
+        Return "
+ SELECT d.BranchCode, '' AS ClrNo, 0 AS ItemNo, 0 AS LinkItem, 'SRV' AS STCode, p.ChargeCode AS SICode, 
+ p.SDescription, h.VenCode AS VenderCode, d.Qty, d.QtyUnit AS UnitCode, 
+ h.CurrencyCode, h.ExchangeRate AS CurRate, p.ChargeAmount as UnitPrice, 
+ d.Qty * p.ChargeAmount AS FPrice, 
+ (d.Qty * p.ChargeAmount / h.ExchangeRate) AS BPrice, (d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.VATRate*0.01)*d.IsTaxCharge AS ChargeVAT, 
+ (d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.TaxRate*0.01)*d.Is50Tavi AS Tax50Tavi,'' AS AdvNO, 0 AS AdvAmount, (d.Qty * p.ChargeAmount / h.ExchangeRate) AS UsedAmount, 0 AS IsQuoItem, '' AS SlipNO, 
+ '' AS Remark, 0 AS IsDuplicate, 0 AS IsLtdAdv50Tavi, '' AS Pay50TaviTo, '' AS NO50Tavi, NULL AS Date50Tavi,
+ d.DocNo + '#0' AS VenderBillingNo,'' AS AirQtyStep, '' AS StepSub, d.ForJNo AS JobNo, 0 AS AdvItemNo, '' AS LinkBillNo, 0 AS VATType, h.VATRate, 
+ h.TaxRate AS Tax50TaviRate,'' AS QNo, (d.Qty * p.ChargeAmount / h.ExchangeRate)+((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.VATRate*0.01)*d.IsTaxCharge)-((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.TaxRate*0.01)*d.Is50Tavi) AS BNet, 
+ ((d.Qty * p.ChargeAmount / h.ExchangeRate)+((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.VATRate*0.01)*d.IsTaxCharge)-((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.TaxRate*0.01)*d.Is50Tavi)) * h.ExchangeRate AS FNet ,h.DocDate as VenderBillDate
+  FROM dbo.Job_PaymentDetail d INNER JOIN
+ dbo.Job_PaymentHeader h ON d.BranchCode = h.BranchCode AND 
+ d.DocNo = h.DocNo
+ INNER JOIN (SELECT x.*,y.VenderCode,y.NotifyCode FROM dbo.Job_LoadInfoDetail x INNER JOIN dbo.Job_LoadInfo y ON x.BranchCode=y.BranchCode AND x.BookingNo=y.BookingNo ) b
+ ON d.BranchCode=b.BranchCode
+ AND d.BookingRefNo=b.BookingNo
+ AND d.BookingItemNo=b.ItemNo
+   INNER JOIN dbo.Job_TransportPrice p
+ ON b.BranchCode=p.BranchCode
+ AND b.LocationID=p.LocationID
+ AND b.VenderCode=p.VenderCode
+ AND b.NotifyCode=p.CustCode
+ AND d.SICode=p.SICode
+ WHERE ISNULL(h.ApproveBy,'')<>'' 
+"
+    End Function
     Function SQLSelectPayForClear() As String
         Return "
   SELECT d.BranchCode, '' AS ClrNo, 0 AS ItemNo, 0 AS LinkItem, 'EXP' AS STCode, d.SICode, 
- d.SDescription, h.VenCode AS VenderCode, d.Qty, d.QtyUnit AS UnitCode, 
- h.CurrencyCode, h.ExchangeRate AS CurRate, d.UnitPrice, 
- d.Qty * d.UnitPrice AS FPrice, 
- d.Qty * d.UnitPrice / h.ExchangeRate AS BPrice, d.AmtVAT AS ChargeVAT, 
- d.AmtWHT AS Tax50Tavi,'' AS AdvNO, 0 AS AdvAmount, d.Amt AS UsedAmount, 0 AS IsQuoItem, '' AS SlipNO, 
- '' AS Remark, 0 AS IsDuplicate, 0 AS IsLtdAdv50Tavi, '' AS Pay50TaviTo, '' AS NO50Tavi, NULL AS Date50Tavi,
-d.DocNo + '#' + Convert(varchar,d.ItemNo) AS VenderBillingNo,'' AS AirQtyStep, '' AS StepSub, d.ForJNo AS JobNo, 0 AS AdvItemNo, '' AS LinkBillNo, 0 AS VATType, h.VATRate, 
+  d.SDescription, h.VenCode AS VenderCode, d.Qty, d.QtyUnit AS UnitCode, 
+  h.CurrencyCode, h.ExchangeRate AS CurRate, d.UnitPrice, 
+  d.Qty * d.UnitPrice AS FPrice, 
+  d.Qty * d.UnitPrice / h.ExchangeRate AS BPrice, d.AmtVAT AS ChargeVAT, 
+  d.AmtWHT AS Tax50Tavi,'' AS AdvNO, 0 AS AdvAmount, d.Amt AS UsedAmount, 0 AS IsQuoItem, '' AS SlipNO, 
+  '' AS Remark, 0 AS IsDuplicate, 0 AS IsLtdAdv50Tavi, '' AS Pay50TaviTo, '' AS NO50Tavi, NULL AS Date50Tavi,
+ d.DocNo + '#' + Convert(varchar,d.ItemNo) AS VenderBillingNo,'' AS AirQtyStep, '' AS StepSub, d.ForJNo AS JobNo, 0 AS AdvItemNo, '' AS LinkBillNo, 0 AS VATType, h.VATRate, 
  h.TaxRate AS Tax50TaviRate,'' AS QNo, d.Total AS FNet, 
  d.Total / h.ExchangeRate AS BNet ,h.DocDate as VenderBillDate
-FROM dbo.Job_PaymentDetail d INNER JOIN
+ FROM dbo.Job_PaymentDetail d INNER JOIN
  dbo.Job_PaymentHeader h ON d.BranchCode = h.BranchCode AND 
  d.DocNo = h.DocNo
-WHERE d.AdvItemNo=0 AND ISNULL(h.ApproveBy,'')<>'' 
+ WHERE d.AdvItemNo=0 AND ISNULL(h.ApproveBy,'')<>'' 
 "
     End Function
     Function SQLSelectAdvForClear() As String

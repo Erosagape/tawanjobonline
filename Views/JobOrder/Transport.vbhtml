@@ -310,7 +310,7 @@ End Code
                         <label id="lblSICode">Expense Code</label><br />
                         <div style="display:flex">
                             <input type="text" id="txtSICode" class="form-control" disabled />
-                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('servicecode');" />
+                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('servicecode1');" />
                         </div>
                     </div>
                     <div class="col-sm-10">
@@ -321,19 +321,26 @@ End Code
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-2">
                         <label id="lblCostAmt">Cost Amount</label><br />
                         <div style="display:flex">
                             <input type="number" id="txtCostAmount" class="form-control" />
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-2">
                         <label id="lblChargeAmt">Charge Amount</label><br />
                         <div style="display:flex">
                             <input type="number" id="txtChargeAmount" class="form-control" />
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-2">
+                        <label id="lblChargeCode">Charge Code</label><br />
+                        <div style="display:flex">
+                            <input type="text" id="txtChargeCode" class="form-control" disabled />
+                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('servicecode2');" />
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
                         <br />
                         <input type="button" class="btn btn-success" value="Save Expense" onclick="SaveExpense()" />
                     </div>
@@ -585,7 +592,8 @@ End Code
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response, 2);
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
-            CreateLOV(dv, '#frmSearchServ', '#tbServ', 'Service Code', response, 2);
+            CreateLOV(dv, '#frmSearchServ1', '#tbServ1', 'Service Code', response, 2);
+            CreateLOV(dv, '#frmSearchServ2', '#tbServ2', 'Service Code', response, 2);
             CreateLOV(dv, '#frmSearchRoute', '#tbRoute', 'Transport Route', response, 2);
             //Units
             CreateLOV(dv, '#frmSearchUnitS', '#tbUnitS', 'Commodity Unit', response, 2);
@@ -620,8 +628,11 @@ End Code
                 let w = '?Branch=' + $('#txtBranchCode').val();
                 SetGridTransport(path, '#tbBook', '#frmSearchBook', w, ReadBooking);
                 break;
-            case 'servicecode':
-                SetGridSICode(path, '#tbServ', '', '#frmSearchServ', ReadService);
+            case 'servicecode1':
+                SetGridSICode(path, '#tbServ1', '', '#frmSearchServ1', ReadService1);
+                break;
+            case 'servicecode2':
+                SetGridSICode(path, '#tbServ2', '', '#frmSearchServ2', ReadService2);
                 break;
             case 'route':
                 SetGridTransportRoute(path, '#tbRoute', '#frmSearchRoute', ReadRoute);
@@ -632,12 +643,16 @@ End Code
         $('#txtRouteID').val(dt.LocationID);
         $('#txtLocation').val(dt.LocationRoute);
     }
-    function ReadService(dt) {
+    function ReadService1(dt) {
         $('#txtSICode').val(dt.SICode);
         $('#txtSDescription').val(dt.NameThai);
         $('#txtChargeAmount').val(CDbl(dt.StdPrice,2));
         $('#txtCostAmount').val(CDbl(dt.StdPrice, 2));
         LoadExpense();
+    }
+    function ReadService2(dt) {
+        $('#txtChargeCode').val(dt.SICode);
+        $('#txtSDescription').val(dt.NameThai);
     }
     function ReadVender(dt) {
         $('#txtVenderCode').val(dt.VenCode);
@@ -1050,7 +1065,8 @@ End Code
             if (r.transportprice.data.length>0) {
                 let dr = r.transportprice.data[0];
                 $('#txtCostAmount').val(CDbl(dr.CostAmount,2));
-                $('#txtChargeAmount').val(CDbl(dr.ChargeAmount,2));
+                $('#txtChargeAmount').val(CDbl(dr.ChargeAmount, 2));
+                $('#txtChargeCode').val(dr.ChargeCode);
             }
         });
     }
@@ -1143,7 +1159,8 @@ End Code
                 SDescription: $('#txtSDescription').val(),
                 CostAmount: CDbl($('#txtCostAmount').val(),2),
                 ChargeAmount: CDbl($('#txtChargeAmount').val(), 2),
-                Location: $('#txtLocationRoute').val()
+                Location: $('#txtLocationRoute').val(),
+                ChargeCode: $('#txtChargeCode').val()
             };
             let jsonText = JSON.stringify({ data: obj });
             $.ajax({
