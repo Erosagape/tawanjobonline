@@ -543,7 +543,7 @@ End Code
         let code = $('#txtBranchCode').val();
         $.get(path + 'acc/getwhtaxgrid?branch=' + code, function (r) {
             if (r.whtax.data.length == 0) {
-                ShowMessage('data not found on this branch');
+                ShowMessage('data not found on this branch',true);
                 return;
             }
             let h = r.whtax.data[0].Table;
@@ -916,7 +916,7 @@ End Code
                     if(showalert) ShowMessage(response.result.msg);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         });
@@ -928,12 +928,12 @@ End Code
             $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'cancel document!' : 'do this!'));
+        ShowMessage('You are not allow to ' + (b ? 'cancel document!' : 'do this!'),true);
         $('#chkCancel').prop('checked', !chkmode);
     }
     function SaveDetail() {
         if ($('#txtDocNo').val() == '') {
-            ShowMessage('Save Header First');
+            ShowMessage('Save Header First',true);
             return;
         }
         //SaveHeader(false);
@@ -967,7 +967,7 @@ End Code
                 ShowMessage(response.result.msg);
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
     }
@@ -1009,7 +1009,7 @@ End Code
     }
     function PrintData() {
         if (userRights.indexOf('P') < 0) {
-            ShowMessage('you are not authorize to print');
+            ShowMessage('you are not authorize to print',true);
             return;
         }
         window.open(path + 'Acc/FormWHTax?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtDocNo').val());

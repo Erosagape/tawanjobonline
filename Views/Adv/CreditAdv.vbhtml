@@ -541,7 +541,7 @@ End Code
             $('#txtPostedTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'Post voucher!' : 'cancel post!'));
+        ShowMessage('You are not allow to ' + (b ? 'Post voucher!' : 'cancel post!'),true);
         $('#chkPosted').prop('checked', !chkmode);
     }
     function SetCancel(b) {
@@ -551,7 +551,7 @@ End Code
             $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'cancel voucher!' : 'do this!'));
+        ShowMessage('You are not allow to ' + (b ? 'cancel voucher!' : 'do this!'),true);
         $('#chkCancel').prop('checked', !chkmode);
     }
     function LoadData() {
@@ -625,7 +625,7 @@ End Code
     }
     function AddPayment() {
         if (userRights.indexOf('I') < 0) {
-            ShowMessage('you are not authorize to add payment');
+            ShowMessage('you are not authorize to add payment',true);
             return;
         }
         ClearPayment();
@@ -677,7 +677,7 @@ End Code
                     ShowMessage(response.result.msg);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
 
@@ -690,7 +690,7 @@ End Code
         }
         $.get(path + 'acc/getvouchergrid?branch=' + code + '&type=TACC', function (r) {
             if (r.voucher.data.length == 0) {
-                ShowMessage('data not found on this branch');
+                ShowMessage('data not found on this branch',true);
                 return;
             }
             let h = r.voucher.data[0].Table;
@@ -1029,7 +1029,7 @@ End Code
                     }
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
     }
@@ -1111,11 +1111,11 @@ End Code
                     }
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function SaveDetailAdv() {
@@ -1161,11 +1161,11 @@ End Code
                     ShowMessage(response.result.msg);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         } else {
-            ShowMessage('No document to save');
+            ShowMessage('No document to save',true);
         }
     }
     function DeleteAdvance() {
@@ -1263,7 +1263,7 @@ End Code
     }
     function PrintData() {
         if (userRights.indexOf('P') < 0) {
-            ShowMessage('you are not authorize to print');
+            ShowMessage('you are not authorize to print',true);
             return;
         }
         window.open(path + 'Adv/FormCreditAdv?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtControlNo').val());

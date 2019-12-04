@@ -29,7 +29,7 @@ End Code
         Job Status:
         <br />
         <div style="display:flex;flex-direction:row">
-            <input type="text" class="form-control" id="txtJobStatus" disabled />
+            <input type="text" class="form-control" id="txtJobStatus" style="background-color:lightgoldenrodyellow;color:red;" disabled />
         </div>
     </div>
 </div>

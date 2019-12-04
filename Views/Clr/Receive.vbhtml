@@ -369,7 +369,7 @@ End Code
         $.get(path + 'clr/getclearingsum?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.clr.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                if(isAlert==true) ShowMessage('data not found');
+                if(isAlert==true) ShowMessage('data not found',true);
                 return;
             }
             let h = r.clr.data[0].Table;
@@ -738,7 +738,7 @@ End Code
                     }
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         } else {
@@ -788,7 +788,7 @@ End Code
                     }
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         }
@@ -803,16 +803,16 @@ End Code
             contentType: "application/json",
             data: jsonString,
             success: function (response) {
-                response ? ShowMessage(msg) : ShowMessage("Cannot Clear Document");
+                response ? ShowMessage(msg) : ShowMessage("Cannot Clear Document",true);
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
     }
     function ApproveData() {
         if (arr.length < 0) {
-            ShowMessage('no data to approve');
+            ShowMessage('no data to approve',true);
             return;
         }
         let oHeader = {
@@ -850,7 +850,7 @@ End Code
                 }
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
         return;

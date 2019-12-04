@@ -120,15 +120,15 @@ End Code
         //post data input to web API
         var obj = GetInput();
         if (obj.ConfigCode == '') {
-            ShowMessage('please enter config code');
+            ShowMessage('please enter config code',true);
             return;
         }
         if (obj.ConfigKey == '') {
-            ShowMessage('please enter config key');
+            ShowMessage('please enter config key',true);
             return;
         }
         if (obj.ConfigValue == '') {
-            ShowMessage('please enter config value');
+            ShowMessage('please enter config value',true);
             return;
         }
         ShowConfirm("Do you need to Save " + obj.ConfigCode + "/" + obj.ConfigKey + "?", function (ask) {
@@ -139,7 +139,7 @@ End Code
                 contentType: "application/json",
                 data: JSON.stringify({ data: obj }),
                 success: function (response) {
-                    response ? ShowMessage("Save Completed!") : ShowMessage("Cannot Save data");
+                    response ? ShowMessage("Save Completed!") : ShowMessage("Cannot Save data",true);
                     ShowData($('#txtCode').val(), "");
                     $("#txtCode").focus();
                 }

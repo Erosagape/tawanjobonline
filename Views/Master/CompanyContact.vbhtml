@@ -97,7 +97,7 @@ End Code
         $.get(path + 'master/getcompanycontact?branch=' + $('#txtBranch').val() + '&code=' + $('#txtCustCode').val(), function (r) {
             if (r.companycontact.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                if (isAlert==true) ShowMessage('data not found');
+                if (isAlert==true) ShowMessage('data not found',true);
                 return;
             }
             let h = r.companycontact.data;
@@ -175,7 +175,7 @@ End Code
             Phone:$('#txtPhone').val(),
         };
         if (obj.CustCode == '' || obj.Branch == '') {
-            ShowMessage('Please select customer');
+            ShowMessage('Please select customer',true);
             return;
         }
         if (obj.ItemNo != "") {
@@ -196,12 +196,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
 	}
 	function ClearData(){		

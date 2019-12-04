@@ -5,6 +5,7 @@ Public Class CController
     Friend Sub ClearSession()
         Session("CurrUser") = Nothing
         Session("UserProfiles") = Nothing
+        Session("UserGroup") = Nothing
         Session("DatabaseID") = Nothing
         Session("CurrLicense") = Nothing
         Session("ConnJob") = Nothing
@@ -64,14 +65,16 @@ Public Class CController
                     Session(sName) = GetValueConfig("PROFILE", "COMPANY_ADDRESS2")
                 Case "Currency"
                     Session(sName) = GetValueConfig("PROFILE", "CURRENCY")
-                Case "VatRate"
-                    Session(sName) = GetValueConfig("PROFILE", "VATRATE")
                 Case "CreditDays"
                     Session(sName) = GetValueConfig("PROFILE", "PAYMENT_CREDIT_DAYS")
                 Case "TaxNumber"
                     Session(sName) = GetValueConfig("PROFILE", "COMPANY_TAXNUMBER")
                 Case "TaxBranch"
                     Session(sName) = GetValueConfig("PROFILE", "COMPANY_TAXBRANCH")
+                Case "VatRate"
+                    Session(sName) = GetValueConfig("PROFILE", "VATRATE")
+                Case "UserGroup"
+                    Session(sName) = "S"
                 Case Else
                     Session(sName) = ""
             End Select
@@ -92,6 +95,7 @@ Public Class CController
         jobMasConn = GetSession("ConnMas").ToString
 
         ViewBag.User = GetSession("CurrUser").ToString
+        ViewBag.UserGroup = GetSession("UserGroup").ToString
         If ViewBag.User = "" Then
             bExpired = True
             ViewBag.UserName = "**TIME OUT**"
@@ -151,7 +155,9 @@ Public Class CController
                     Return RedirectToAction("AuthError", "Menu")
                 End If
             Else
-                Session("CurrForm") = Me.ControllerContext.RouteData.Values("Controller").ToString() & "/" & vName
+                If Me.ControllerContext.RouteData.Values("Controller").ToString() & "/" & vName <> "Menu/AuthError" Then
+                    Session("CurrForm") = Me.ControllerContext.RouteData.Values("Controller").ToString() & "/" & vName
+                End If
                 Session("CurrRights") = "*MIREDP"
                 ViewBag.Module = GetSession("CurrForm").ToString()
             End If

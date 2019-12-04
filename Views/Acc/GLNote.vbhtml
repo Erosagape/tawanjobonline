@@ -339,7 +339,7 @@ End Code
                     ShowMessage(response.result.msg);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         });
@@ -374,12 +374,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });            
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function ClearData() {
@@ -458,7 +458,7 @@ End Code
             chkmode = $('#txtApproveBy').val() == '' ? 'I' : 'D';
             CallBackAuthorize(path, 'MODULE_ACC', 'Approve', chkmode, SetApprove);
         } else {
-            ShowMessage('this entry is cancelled');
+            ShowMessage('this entry is cancelled',true);
         }
     }
     function SetApprove(b) {
@@ -476,13 +476,13 @@ End Code
                 $('#btnDeleteDetail').removeAttr('disabled');
             }
         } else {
-            ShowMessage('you are not allow to approve journal entry');
+            ShowMessage('you are not allow to approve journal entry',true);
         }
     }
     function CancelData() {
         if (userRights.indexOf('D') > 0) {
             if ($('#txtCancelReason').val() == '') {
-                ShowMessage('Please enter reason for cancel');
+                ShowMessage('Please enter reason for cancel',true);
                 $('#txtCancelReason').focus();
                 return;
             }
@@ -490,7 +490,7 @@ End Code
             $('#txtCancelBy').val(user);
             SaveData();
         } else {
-            ShowMessage('you are not allow to cancel journal Entry');
+            ShowMessage('you are not allow to cancel journal Entry',true);
         }
     }
 

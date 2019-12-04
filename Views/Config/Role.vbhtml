@@ -303,11 +303,11 @@ End Code
                     ShowMessage(response.result.msg);
                 });
                 result.fail(function (err) {
-                    ShowMessage(err);
+                    ShowMessage(err,true);
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
 	function SaveHeader(){
@@ -337,12 +337,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function SavePolicy() {
@@ -369,11 +369,11 @@ End Code
                     ShowMessage(response.result.msg);
                 });
                 result.fail(function (err) {
-                    ShowMessage(err);
+                    ShowMessage(err,true);
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function GetAuthor() {

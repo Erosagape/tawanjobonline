@@ -398,7 +398,7 @@ End Code
         $.get(path + 'acc/getclearforinv?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                if (isAlert==true) ShowMessage('data not found');
+                if (isAlert==true) ShowMessage('data not found',true);
                 return;
             }
             let h = r.invdetail.data;
@@ -525,11 +525,11 @@ End Code
     }
     function ShowSummary() {
         if ($('#txtCustCode').val() == '') {
-            ShowMessage('Please Select Customer Before');
+            ShowMessage('Please Select Customer Before',true);
             return;
         }
         if (arr.length == 0) {
-            ShowMessage('No data selected');
+            ShowMessage('No data selected',true);
             return;
         }
 
@@ -761,7 +761,7 @@ End Code
                 }
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
     }
@@ -832,15 +832,15 @@ End Code
     }
     function ApproveData() {
         if (userRights.indexOf('I') < 0) {
-            ShowMessage('you are not authorize to create invoice');
+            ShowMessage('you are not authorize to create invoice',true);
             return;
         }
         if (arr.length==0) {
-            ShowMessage('no data to approve');
+            ShowMessage('no data to approve',true);
             return;
         }
         if ($('#txtCustCode').val() == '') {
-            ShowMessage('Please select Customer first!');
+            ShowMessage('Please select Customer first!',true);
             return;
         }
 
@@ -916,10 +916,10 @@ End Code
                     ResetData();
                     return;
                 }
-                ShowMessage(response.result.msg);
+                ShowMessage(response.result.msg,true);
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
         return;
@@ -967,10 +967,10 @@ End Code
                     ShowMessage(response.result.msg);
                     return;
                 }
-                ShowMessage(response.result.msg);
+                ShowMessage(response.result.msg,true);
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
     }
@@ -998,10 +998,10 @@ End Code
                         $('#btnGen').hide();
                         return;
                     }
-                    ShowMessage(response.result.msg);
+                    ShowMessage(response.result.msg,true);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
     }
@@ -1049,7 +1049,7 @@ End Code
             $('#txtControlNo').val(dt.ControlNo);
             return;
         } else {
-            ShowMessage('Cheque amount is zero');
+            ShowMessage('Cheque amount is zero',true);
         }
     }
     function ReadBranch(dt) {
@@ -1263,13 +1263,13 @@ End Code
         if (c.ChqAmount <= CNum($('#txtTotalNet').val())) {
             $('#txtChqAmount').val(CDbl(c.ChqAmount,2));
         } else {
-            ShowMessage('Cheque Amount is more than total invoices');
+            ShowMessage('Cheque Amount is more than total invoices',true);
             return;
         }
         if (chq.indexOf(c) < 0) {
             chq.push(c);
         } else {
-            ShowMessage('This amount has been added');
+            ShowMessage('This amount has been added',true);
             return;
         }
         $('#txtChqNo').val('');

@@ -133,11 +133,11 @@ End Code
         };
         if (obj.PortCode !== "") {
             if (obj.CountryCode === "") {
-                ShowMessage('Please enter country code');
+                ShowMessage('Please enter country code',true);
                 return;
             }
             if (obj.PortName === "") {
-                ShowMessage('Please enter port name');
+                ShowMessage('Please enter port name',true);
                 return;
             }
             ShowConfirm("Do you need to Save " + obj.PortCode + "?", function (ask) {
@@ -157,12 +157,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function ClearData(){   

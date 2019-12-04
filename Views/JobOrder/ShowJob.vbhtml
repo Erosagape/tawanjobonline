@@ -1180,7 +1180,7 @@ End Code
                 SaveData();
                 return;
             } else {
-                ShowMessage('Please enter reason of canceling');
+                ShowMessage('Please enter reason of canceling',true);
                 return;
             }
         } else {
@@ -1201,17 +1201,17 @@ End Code
                 return;
             }
         }
-        ShowMessage('This job already cancelled');
+        ShowMessage('This job already cancelled',true);
     }
     function CloseJob() {
         if ($('#txtCloseBy').val() == '') {
             if ($('#txtDutyDate').val()=='') {
-                ShowMessage('Please Entry Duty Date before close job');
+                ShowMessage('Please Entry Duty Date before close job',true);
                 $('#txtDutyDate').focus();
                 return;
             }
             if ($('#txtConfirmDate').val()=='') {
-                ShowMessage('Please Entry Confirm Date before close job');
+                ShowMessage('Please Entry Confirm Date before close job',true);
                 $('#txtConfirmDate').focus();
                 return;
             }
@@ -1260,11 +1260,11 @@ End Code
                     ShowMessage(r.msg);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     //This section is for Total Container Editing
@@ -1323,11 +1323,11 @@ End Code
     }
     function AddService() {
 		if($('#txtUnitAdd').val()==''){
-			ShowMessage('Please Enter Unit');
+			ShowMessage('Please Enter Unit',true);
 			return;
 		}
 		if($('#txtQtyAdd').val()==''){
-			ShowMessage('Please Enter Qty');
+			ShowMessage('Please Enter Qty',true);
 			return;
 		}		
         AddNewService($('#txtQtyAdd').val() + 'x' + $('#txtUnitAdd').val());
@@ -1397,7 +1397,7 @@ End Code
                 ShowMessage(r.result.msg);
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
     }

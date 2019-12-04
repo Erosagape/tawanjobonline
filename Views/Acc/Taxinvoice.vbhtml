@@ -406,7 +406,7 @@ End Code
     function CancelData() {
         if (userRights.indexOf('D') > 0) {
             if ($('#txtCancelReson').val() == '') {
-                ShowMessage('Please enter reason for cancel');
+                ShowMessage('Please enter reason for cancel',true);
                 $('#txtCancelReson').focus();
                 return;
             }
@@ -414,7 +414,7 @@ End Code
             $('#txtCancelTime').val(ShowTime(GetTime()));
             $('#txtCancelProve').val(user);
         } else {
-            ShowMessage('you are not allow to cancel receipt');
+            ShowMessage('you are not allow to cancel receipt',true);
         }
     }
     function SaveData() {
@@ -461,10 +461,10 @@ End Code
                     $('#frmHeader').modal('hide');
                     return;
                 }
-                ShowMessage(response.result.msg);
+                ShowMessage(response.result.msg,true);
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
     }
@@ -495,7 +495,7 @@ End Code
         $.get(path + 'acc/getReceipt?type=' + type + '&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.receipt.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                ShowMessage('data not found');
+                ShowMessage('data not found',true);
                 return;
             }
             let h = r.receipt.header[0];
@@ -543,7 +543,7 @@ End Code
                 if (userRights.indexOf('E') > 0) {
                     $('#frmHeader').modal('show');
                 } else {
-                    ShowMessage('you are not allow to edit receipt document');
+                    ShowMessage('you are not allow to edit receipt document',true);
                 }
             });
         });
@@ -592,7 +592,7 @@ End Code
                     if (userRights.indexOf('E') > 0) {
                         $('#frmDetail').modal('show');
                     } else {
-                        ShowMessage('you are not allow to edit receipt document');
+                        ShowMessage('you are not allow to edit receipt document',true);
                     }
                 });
             }
@@ -730,14 +730,14 @@ End Code
                         $('#frmDetail').modal('hide');
                         return;
                     }
-                    ShowMessage(response.result.msg);
+                    ShowMessage(response.result.msg,true);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         } else {
-            ShowMessage('no data to save');
+            ShowMessage('no data to save',true);
         }
     }
     function DeleteDetail() {
@@ -750,7 +750,7 @@ End Code
                     ShowMessage(r.rcpdetail.result);
                 });
         } else {
-            ShowMessage('no data to delete');
+            ShowMessage('no data to delete',true);
         }
     }
     function ChangeAmount() {

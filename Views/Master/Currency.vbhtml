@@ -122,7 +122,7 @@ End Code
         };
         if (obj.Code != "") {
             if (obj.TName == '') {
-                ShowMessage('Please enter currency name');
+                ShowMessage('Please enter currency name',true);
                 return;
             }
             ShowConfirm("Do you need to Save " + obj.Code + "?", function (ask) {
@@ -142,12 +142,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function SearchData(type) {

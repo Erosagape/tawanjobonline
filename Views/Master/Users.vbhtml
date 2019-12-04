@@ -220,7 +220,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('Data Not Found');
+            ShowMessage('Data Not Found',true);
             ClearData();
         }
         //$('#txtUserID').focus();
@@ -269,11 +269,11 @@ End Code
         if (row.UserID != undefined) {
             var obj = GetDataSave();
             if (obj.UserID == '') {
-                ShowMessage('Please enter user ID');
+                ShowMessage('Please enter user ID',true);
                 return;
             }
             if (obj.TName == '') {
-                ShowMessage('Please enter user name');
+                ShowMessage('Please enter user name',true);
                 return;
             }
             ShowConfirm("Do you need to " + (row.UserID == "" ? "Add" : "Save") + " this data?", function (ask) {
@@ -293,12 +293,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function DeleteData() {

@@ -186,6 +186,6 @@
             window.open(mnuPath, '', '');
         }
     } else {
-        ShowMessage('Please login first');
+        ShowMessage('Please login first',true);
     }
 }

@@ -470,10 +470,10 @@ End Code
                 SaveHeader();
                 EnableSave();
             } else {
-                ShowMessage('you are not allow to approve quotation');
+                ShowMessage('you are not allow to approve quotation',true);
             }
         } else {
-            ShowMessage('Cannot change approve status of this document');
+            ShowMessage('Cannot change approve status of this document',true);
         }
     }
     function SetCancel(b) {
@@ -489,7 +489,7 @@ End Code
             });
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'cancel payment!' : 'do this!'));
+        ShowMessage('You are not allow to ' + (b ? 'cancel payment!' : 'do this!'),true);
         $('#chkCancel').prop('checked', !chkmode);
     }
     function SetLOVs() {
@@ -519,7 +519,7 @@ End Code
     }
     function ShowData(branchcode, docno) {
         if (userRights.indexOf('R') < 0) {
-            ShowMessage('you are not authorize to view data');
+            ShowMessage('you are not authorize to view data',true);
             return;
         }
         $.get(path + 'acc/getpayment?branch='+branchcode+'&code='+ docno, function (r) {
@@ -533,12 +533,12 @@ End Code
         let obj = GetDataHeader();
         if (obj.DocNo == '') {
             if (userRights.indexOf('I') < 0) {
-                ShowMessage('you are not authorize to add');
+                ShowMessage('you are not authorize to add',true);
                 return;
             }
         }
         if (userRights.indexOf('E') < 0) {
-            ShowMessage('you are not authorize to save');
+            ShowMessage('you are not authorize to save',true);
             return;
         }
         let jsonString = JSON.stringify({ data: obj });
@@ -555,7 +555,7 @@ End Code
                 }
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
     }
@@ -641,7 +641,7 @@ End Code
     }
     function AddHeader() {
         if (userRights.indexOf('I') < 0) {
-            ShowMessage('you are not authorize to add');
+            ShowMessage('you are not authorize to add',true);
             return;
         }
         $('#txtDocNo').val('');
@@ -649,7 +649,7 @@ End Code
     }
     function AddDetail() {
         if ($('#txtDocNo').val() == '') {
-            ShowMessage('Please save document before add detail');
+            ShowMessage('Please save document before add detail',true);
             return;
         }
         ClearDetail();
@@ -658,11 +658,11 @@ End Code
     function DeleteDetail() {
         if (dtl.ItemNo != undefined) {
             if (userRights.indexOf('D') < 0) {
-                ShowMessage('you are not authorize to delete');
+                ShowMessage('you are not authorize to delete',true);
                 return;
             }
             if (dtl.ClrItemNo > 0 || dtl.AdvItemNo>0) {
-                ShowMessage('This item has been advanced/cleared!,Cannot delete');
+                ShowMessage('This item has been advanced/cleared!,Cannot delete',true);
                 return;
             }
             ShowConfirm('are you sure to delete item '+ dtl.ItemNo+'?', function (result) {
@@ -674,7 +674,7 @@ End Code
                 }
             });
         } else {
-            ShowMessage('No data to delete');
+            ShowMessage('No data to delete',true);
         }
     }
     function ClearHeader() {
@@ -724,26 +724,26 @@ End Code
     function SaveDetail() {
 
         if (hdr == undefined) {
-            ShowMessage('Please add header before');
+            ShowMessage('Please add header before',true);
             return;
         }
         if (hdr.DocNo == '') {
-            ShowMessage('Please save header first');
+            ShowMessage('Please save header first',true);
             return;
         }
         let obj = GetDataDetail();
         if (obj.ItemNo == 0) {
             if (userRights.indexOf('I') < 0) {
-                ShowMessage('you are not authorize to add');
+                ShowMessage('you are not authorize to add',true);
                 return;
             }
         }
         if (userRights.indexOf('E') < 0) {
-            ShowMessage('you are not authorize to edit');
+            ShowMessage('you are not authorize to edit',true);
             return;
         }
         if (obj.ClrItemNo > 0 || obj.AdvItemNo>0) {
-            ShowMessage('This item has been advanced/cleared!,Cannot Edit');
+            ShowMessage('This item has been advanced/cleared!,Cannot Edit',true);
             return;
         }
 
@@ -916,7 +916,7 @@ End Code
         }
         $.get(path + 'acc/getpayment?status=Y&branch=' +  w, function (r) {
             if (r.payment.header.length == 0) {
-                ShowMessage('data not found on this branch');
+                ShowMessage('data not found on this branch',true);
                 return;
             }
             let h = r.payment.header;

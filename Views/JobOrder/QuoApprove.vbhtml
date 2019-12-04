@@ -141,7 +141,7 @@ End Code
         $.get(path + 'joborder/getquotation?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.quotation.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                if (isAlert==true) ShowMessage('data not found');
+                if (isAlert==true) ShowMessage('data not found',true);
                 return;
             }
             let h = r.quotation.header;
@@ -204,7 +204,7 @@ End Code
     }
     function ApproveData() {
         if (arr.length < 0) {
-            ShowMessage('no data to approve');
+            ShowMessage('no data to approve',true);
             return;
         }
         let dataApp = [];
@@ -220,10 +220,10 @@ End Code
             data: jsonString,
             success: function (response) {
                 SetGridAdv(false);
-                response ? ShowMessage("Approve Completed!") : ShowMessage("Cannot Approve");
+                response ? ShowMessage("Approve Completed!") : ShowMessage("Cannot Approve",true);
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
         return;

@@ -144,7 +144,7 @@
             var Password = $('#txtPassword').val();
             var dbName = $('#txtDatabaseID').val();
             if (dbName == '') {
-                ShowMessage('Please choose database first');
+                ShowMessage('Please choose database first',true);
                 return;
             }
             $.get(path + 'Config/SetLogin?Code=' + userID + '&Pass=' + Password + '&Database=' + dbName)
@@ -153,7 +153,7 @@
                         OpenMenu();
                     } else {
                         userID = '';
-                        ShowMessage(r.user.message);
+                        ShowMessage(r.user.message,true);
                     }
                 });
         } else {

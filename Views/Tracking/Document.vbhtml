@@ -281,12 +281,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function DeleteData() {
@@ -310,13 +310,13 @@ End Code
                 });
             }
         } else {
-            ShowMessage('No File To Delete');
+            ShowMessage('No File To Delete',true);
         }
     }
     function UploadFile() {
         let count = $('#objFile')[0].files.length;
         if (count == 0) {
-            ShowMessage('no file selected');
+            ShowMessage('no file selected',true);
             return;
         }
         let saveTo = 'Resource/Import';
@@ -337,7 +337,7 @@ End Code
                         RefreshGrid();
                         return;
                     }
-                    ShowMessage(xhr.responseText);
+                    ShowMessage(xhr.responseText,true);
                 }
             }
         }

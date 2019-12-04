@@ -465,7 +465,7 @@ End Code
     function CancelData() {
         if (userRights.indexOf('D') > 0) {
             if ($('#txtCancelReson').val() == '') {
-                ShowMessage('Please enter reason for cancel');
+                ShowMessage('Please enter reason for cancel',true);
                 $('#txtCancelReson').focus();
                 return;
             }
@@ -474,7 +474,7 @@ End Code
             $('#txtUpdateBy').val(user);
             $('#txtDocStatus').val('99');
         } else {
-            ShowMessage('you are not allow to cancel Document');
+            ShowMessage('you are not allow to cancel Document',true);
         }
     }
     function SaveData() {
@@ -509,10 +509,10 @@ End Code
                     $('#frmHeader').modal('hide');
                     return;
                 }
-                ShowMessage(response.result.msg);
+                ShowMessage(response.result.msg,true);
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
     }
@@ -542,7 +542,7 @@ End Code
         $.get(path + 'Acc/GetCNDNGrid?Branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.creditnote.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                ShowMessage('data not found');
+                ShowMessage('data not found',true);
                 return;
             }
             let h = r.creditnote.data;
@@ -588,7 +588,7 @@ End Code
                 if (userRights.indexOf('E') > 0) {
                     $('#frmHeader').modal('show');
                 } else {
-                    ShowMessage('you are not allow to edit this document');
+                    ShowMessage('you are not allow to edit this document',true);
                 }
             });
         });
@@ -639,7 +639,7 @@ End Code
             if (userRights.indexOf('E') > 0) {
                 $('#frmDetail').modal('show');
             } else {
-                ShowMessage('you are not allow to edit this document');
+                ShowMessage('you are not allow to edit this document',true);
             }
         });
     }
@@ -726,11 +726,11 @@ End Code
                 TaxInvNo: row_d.TaxInvNo
             };
             if ($('#txtDocType').val() == '0' && obj.TotalNet < 0) {
-                ShowMessage('Credit Note value must be more than zero');
+                ShowMessage('Credit Note value must be more than zero',true);
                 return;
             }
             if ($('#txtDocType').val() == '1' && obj.TotalNet > 0) {
-                ShowMessage('Debit Note value must be less than zero');
+                ShowMessage('Debit Note value must be less than zero',true);
                 return;
             }
             let jsonText = JSON.stringify({ data: obj });
@@ -747,14 +747,14 @@ End Code
                         $('#frmDetail').modal('hide');
                         return;
                     }
-                    ShowMessage(response.result.msg);
+                    ShowMessage(response.result.msg,true);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         } else {
-            ShowMessage('no data to save');
+            ShowMessage('no data to save',true);
         }
     }
     function DeleteDetail() {
@@ -767,7 +767,7 @@ End Code
                     ShowMessage(r.creditnote.result);
                 });
         } else {
-            ShowMessage('no data to delete');
+            ShowMessage('no data to delete',true);
         }
     }
     function CalDiff() {

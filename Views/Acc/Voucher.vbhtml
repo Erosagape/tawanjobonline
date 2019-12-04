@@ -673,7 +673,7 @@ End Code
             $('#txtPostedTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'Post voucher!' : 'cancel post!'));
+        ShowMessage('You are not allow to ' + (b ? 'Post voucher!' : 'cancel post!'),true);
         $('#chkPosted').prop('checked', !chkmode);
     }
     function SetCancel(b) {
@@ -683,7 +683,7 @@ End Code
             $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'cancel voucher!' : 'do this!'));
+        ShowMessage('You are not allow to ' + (b ? 'cancel voucher!' : 'do this!'),true);
         $('#chkCancel').prop('checked', !chkmode);
     }
     function SearchData(type) {
@@ -770,7 +770,7 @@ End Code
     }
     function AddPayment() {
         if (userRights.indexOf('I') < 0) {
-            ShowMessage('you are not authorize to add payment');
+            ShowMessage('you are not authorize to add payment',true);
             return;
         }
         ClearPayment();
@@ -778,7 +778,7 @@ End Code
     }
     function AddDocument() {
         if (userRights.indexOf('I') < 0) {
-            ShowMessage('you are not authorize to add document');
+            ShowMessage('you are not authorize to add document',true);
             return;
         }
         ClearDocument();
@@ -786,7 +786,7 @@ End Code
     }
     function DeletePayment() {
         if (userRights.indexOf('D') < 0) {
-            ShowMessage('you are not authorize to delete');
+            ShowMessage('you are not authorize to delete',true);
             return;
         }
         $.get(path + 'acc/delvouchersub?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtControlNo').val() + '&item=' + $('#txtItemNo').val(), function (r) {
@@ -798,14 +798,14 @@ End Code
     }
     function DeleteDocument() {
         if (userRights.indexOf('D') < 0) {
-            ShowMessage('you are not authorize to delete');
+            ShowMessage('you are not authorize to delete',true);
             return;
         }
         let sumDoc = Number($('#txtDocSum').val().replace(/[^0-9.-]+/g,""));
         let thisAmt = Number($('#txtPaidAmount').val().replace(/[^0-9.-]+/g,""));
         let sumVoucher = Number($('#txtPRSum').val().replace(/[^0-9.-]+/g,""));
         if ((sumDoc - thisAmt) < sumVoucher) {
-            ShowMessage('Total voucher cannot less than document\nPlease adjust payment information before');
+            ShowMessage('Total voucher cannot less than document\nPlease adjust payment information before',true);
             return;
         }
         $.get(path + 'acc/delvoucherdoc?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtControlNo').val() + '&item=' + $('#txtDocItemNo').val(), function (r) {
@@ -908,7 +908,7 @@ End Code
                     ShowMessage(response.result.msg);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         });
@@ -920,7 +920,7 @@ End Code
         let code = $('#txtBranchCode').val();
         $.get(path + 'acc/getvouchergrid?branch=' + code, function (r) {
             if (r.voucher.data.length == 0) {
-                ShowMessage('data not found on this branch');
+                ShowMessage('data not found on this branch',true);
                 return;
             }
             let h = r.voucher.data[0].Table;
@@ -1287,7 +1287,7 @@ End Code
                     ShowMessage("Save " + response.result.msg +"!");
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         });
@@ -1327,12 +1327,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });                        
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function ReadVender(dt) {
@@ -1408,7 +1408,7 @@ End Code
     }
     function PrintData() {
         if (userRights.indexOf('P') < 0) {
-            ShowMessage('you are not authorize to print');
+            ShowMessage('you are not authorize to print',true);
             return;
         }
         window.open(path + 'Acc/FormVoucher?branch=' + $('#txtBranchCode').val() + '&controlno=' + $('#txtControlNo').val());

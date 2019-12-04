@@ -470,7 +470,7 @@ End Code
                 $('#cboCompanyType').val(cons);
             }
         } else {
-            ShowMessage('Data Not Found');
+            ShowMessage('Data Not Found',true);
             ClearData();
         }
     }
@@ -642,11 +642,11 @@ End Code
         };
         if (obj.CustCode != "") {
             if (obj.Branch == '') {
-                ShowMessage('Please enter branch');
+                ShowMessage('Please enter branch',true);
                 return;
             }
             if (obj.NameThai == '') {
-                ShowMessage('Please enter customer name');
+                ShowMessage('Please enter customer name',true);
                 return;
             }
             ShowConfirm("Do you need to Save " + obj.CustCode + "/" + obj.Branch + "?", function (ask) {
@@ -666,12 +666,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function DeleteData() {

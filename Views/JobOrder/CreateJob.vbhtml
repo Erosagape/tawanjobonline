@@ -400,32 +400,32 @@ End Code
     function CreateJob() {
         $('#btnCreateJob').attr('disabled', 'disabled');
         if ($('#txtBranchName').val() === '') {
-            ShowMessage('Please select branch before create job');
+            ShowMessage('Please select branch before create job',true);
             $('#txtBranchCode').focus();
             return;
         }
         if ($('#cboJobType').val() === '') {
-            ShowMessage('Please select job type before create job');
+            ShowMessage('Please select job type before create job',true);
             $('#cboJobType').focus();
             return;
         }
         if ($('#cboShipBy').val() === '') {
-            ShowMessage('Please select ship by before create job');
+            ShowMessage('Please select ship by before create job',true);
             $('#cboShipBy').focus();
             return;
         }
         if ($('#txtCSName').val() === '') {
-            ShowMessage('Please select CS before create job');
+            ShowMessage('Please select CS before create job',true);
             $('#txtCSCode').focus();
             return;
         }
         if ($('#txtCustName').val() === '') {
-            ShowMessage('Please select customer before create job');
+            ShowMessage('Please select customer before create job',true);
             $('#txtCustCode').focus();
             return;
         }
         if ($('#txtCustInv').val() === '') {
-            ShowMessage('Please select customer invoice before create job');
+            ShowMessage('Please select customer invoice before create job',true);
             $('#txtCustInv').focus();
             return;
         }
@@ -442,7 +442,7 @@ End Code
         $.get(strParam)
             .done(function (r) {
                 if (r.length == 0) {
-                    ShowMessage(strParam);
+                    ShowMessage(strParam,true);
                     return;
                 }
                 if (r.job.status == "Y") {
@@ -462,7 +462,7 @@ End Code
                     data.ManagerCode = $('#txtManagerCode').val();
                     PostData(data);
                 } else {
-                    ShowMessage(r.job.result);
+                    ShowMessage(r.job.result,true);
                 }
                 return;
                 //ShowMessage(r.job.result + '=>' + data.JNo);

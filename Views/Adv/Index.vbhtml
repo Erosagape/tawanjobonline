@@ -507,7 +507,7 @@ End Code
     function CalPayment(id) {
         let val = GetTotal();
         if (val < 0) {
-            ShowMessage('Total not Balance,Please check');
+            ShowMessage('Total not Balance,Please check',true);
             $('#txtAdv' + id.substr(3)).val(0);
             $('#txtAdv' + id.substr(3)).attr('disabled', 'disabled');
             $('#chk' + id.substr(3)).checked = false;
@@ -555,7 +555,7 @@ End Code
         $('#txtAdvCash,#txtAdvChq,#txtAdvChqCash,#txtAdvCred').keydown(function (e) {
             if (e.which == 13) {
                 if (GetTotal() < 0) {
-                    ShowMessage('Total not Balance,Please check');
+                    ShowMessage('Total not Balance,Please check',true);
                     $('#' + this.id).val(0);
                 }
                 let amt = $('#' + this.id).val();
@@ -573,7 +573,7 @@ End Code
                         $('#' + this.id).val(0);
                         $('#chk' + this.id.substr(6)).prop('checked', false);
                         $('#' + this.id).attr('disabled', 'disabled');
-                        ShowMessage('Total not Balance,Please check');
+                        ShowMessage('Total not Balance,Please check',true);
                     }
                 }
                 return;
@@ -704,12 +704,12 @@ End Code
                             if (response) {
                                 SaveHeader();
                             } else {
-                                ShowMessage("Cannot Approve");
+                                ShowMessage("Cannot Approve",true);
                             }
                             return;
                         },
                         error: function (e) {
-                            ShowMessage(e);
+                            ShowMessage(e,true);
                             return;
                         }
                     });
@@ -722,7 +722,7 @@ End Code
             }
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'approve Advance!' : 'cancel approve!'));
+        ShowMessage('You are not allow to ' + (b ? 'approve Advance!' : 'cancel approve!'),true);
         $('#chkApprove').prop('checked', !chkmode);
     }
     function GetStatus() {
@@ -749,7 +749,7 @@ End Code
             });
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'cancel Advance!' : 'do this!'));
+        ShowMessage('You are not allow to ' + (b ? 'cancel Advance!' : 'do this!'),true);
         $('#chkCancel').prop('checked', !chkmode);
     }
     function SetLOVs() {
@@ -788,15 +788,15 @@ End Code
     }
     function ShowData(branchcode, advno) {
         if (branchcode == '') {
-            //ShowMessage('Please select branch');
+            ShowMessage('Please select branch',true);
             return;
         }
         if (advno == '') {
-            //ShowMessage('Please enter advance no');
+            ShowMessage('Please enter advance no',true);
             return;
         }
         if (userRights.indexOf('R') < 0) {
-            ShowMessage('you are not authorize to view data');
+            ShowMessage('you are not authorize to view data',true);
             return;
         }
         $.get(path + 'adv/getadvance?branchcode='+branchcode+'&advno='+ advno, function (r) {
@@ -808,54 +808,54 @@ End Code
     }
     function PrintData() {
         if (userRights.indexOf('P') < 0) {
-            ShowMessage('you are not authorize to print');
+            ShowMessage('you are not authorize to print',true);
             return;
         }
         window.open(path + 'Adv/FormAdv?branch=' + $('#txtBranchCode').val() + '&advno=' + $('#txtAdvNo').val());
     }
     function CheckEntry() {
         if (hdr == undefined) {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
             return false;
         }
         if (hdr.AdvNo == '') {
             if (userRights.indexOf('I') < 0) {
-                ShowMessage('you are not authorize to add');
+                ShowMessage('you are not authorize to add',true);
                 return false;
             }
         }
         if (userRights.indexOf('E') < 0) {
-            ShowMessage('you are not authorize to save');
+            ShowMessage('you are not authorize to save',true);
             return false;
         }
         if (Number($('#txtTotalAmount').val())!==Number(SumTotal())) {
             if (Number($('#txtTotalAmount').val()) > 0) {
                 if (Number(SumTotal()) == 0) {
-                    ShowMessage('Please select type of advance payment');
+                    ShowMessage('Please select type of advance payment',true);
                     return false;
                 } else {
-                    ShowMessage('Total not balance,Please check on payment total');
+                    ShowMessage('Total not balance,Please check on payment total',true);
                     return false;
                 }                    
             }
         }
         if ($('#txtCustCode').val() == '') {
-            ShowMessage('please select customer');
+            ShowMessage('please select customer',true);
             $('#txtCustCode').focus();
             return false;
         }
         if ($('#cboJobType').val() == 0) {
-            ShowMessage('please select job type');
+            ShowMessage('please select job type',true);
             $('#cboJobType').focus();
             return false;
         }
         if ($('#cboShipBy').val() == 0) {
-            ShowMessage('please select ship by');
+            ShowMessage('please select ship by',true);
             $('#cboShipBy').focus();
             return false;
         }
         if ($('#cboAdvType').val() == 0) {
-            ShowMessage('please select advance type');
+            ShowMessage('please select advance type',true);
             $('#cboAdvType').focus();
             return false;
         }
@@ -879,7 +879,7 @@ End Code
                     }
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         }
@@ -1054,7 +1054,7 @@ End Code
     }
     function AddHeader() {
         if (userRights.indexOf('I') < 0) {
-            ShowMessage('you are not authorize to add');
+            ShowMessage('you are not authorize to add',true);
             return;
         }
         $('#txtAdvNo').val('');
@@ -1082,7 +1082,7 @@ End Code
     }
     function AddDetail() {
         if ($('#txtAdvNo').val() == '') {
-            ShowMessage('Please save document before add detail');
+            ShowMessage('Please save document before add detail',true);
             return;
         }
         $.get(path + 'adv/getnewadvancedetail?branchcode=' + $('#txtBranchCode').val() + '&advno=' + $('#txtAdvNo').val(), function (r) {
@@ -1100,7 +1100,7 @@ End Code
     function DeleteDetail() {
         if (dtl != undefined) {
             if (userRights.indexOf('D') < 0) {
-                ShowMessage('you are not authorize to delete');
+                ShowMessage('you are not authorize to delete',true);
                 return;
             }
             $.get(path + 'adv/deladvancedetail?branchcode=' + $('#txtBranchCode').val() + '&advno=' + $('#txtAdvNo').val() + '&itemno=' + dtl.ItemNo, function (r) {
@@ -1108,7 +1108,7 @@ End Code
                 ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val());
             });
         } else {
-            ShowMessage('No data to delete');
+            ShowMessage('No data to delete',true);
         }
     }
     function ClearHeader() {
@@ -1199,27 +1199,27 @@ End Code
     function SaveDetail() {
 
         if (hdr == undefined) {
-            ShowMessage('Please add header before');
+            ShowMessage('Please add header before',true);
             return;
         }
         if (hdr.AdvNo == '') {
-            ShowMessage('Please save header first');
+            ShowMessage('Please save header first',true);
             return;
         }
         if (dtl != undefined) {
             let obj = GetDataDetail();
             if (obj.ItemNo == 0) {
                 if (userRights.indexOf('I') < 0) {
-                    ShowMessage('you are not authorize to add');
+                    ShowMessage('you are not authorize to add',true);
                     return;
                 }
             }
             if (userRights.indexOf('E') < 0) {
-                ShowMessage('you are not authorize to edit');
+                ShowMessage('you are not authorize to edit',true);
                 return;
             }
             if (CheckDuplicate(obj) == true) {
-                ShowMessage('This data is duplicate!');
+                ShowMessage('This data is duplicate!',true);
                 return;
             }
             let jsonString = JSON.stringify({ data: obj });
@@ -1236,7 +1236,7 @@ End Code
             });
             return;
         }
-        ShowMessage('No data to save');
+        ShowMessage('No data to save',true);
     }
     function CheckDuplicate(o) {
         let rows = $('#tbDetail').DataTable().rows().data();
@@ -1496,7 +1496,7 @@ End Code
         }
         $.get(path + 'adv/getadvancegrid?branchcode=' +  w, function (r) {
             if (r.adv.data.length == 0) {
-                ShowMessage('data not found on this branch');
+                ShowMessage('data not found on this branch',true);
                 return;
             }
             let h = r.adv.data[0].Table;
@@ -1561,7 +1561,7 @@ End Code
                 break;
             case 'payment':
                 if ($('#txtPaymentNo').val() !== '') {
-                    ShowMessage('Payment Bill is choosed!');
+                    ShowMessage('Payment Bill is choosed!',true);
                     return;
                 }
                 let pt = '';
@@ -1578,7 +1578,7 @@ End Code
                     pt = '&paytype=CR';
                 }
                 if (pt == '') {
-                    ShowMessage('Please select type of advance payment');
+                    ShowMessage('Please select type of advance payment',true);
                     return;
                 }
                 if (CheckEntry() == true) {
@@ -1702,7 +1702,7 @@ End Code
     }
     function ReadJob(dt) {
         if (ShowDate(dt.CloseJobDate) !== '-') {
-            ShowMessage('This job is closed,Please re-open first!');
+            ShowMessage('This job is closed,Please re-open first!',true);
             return;
         }
         $('#txtForJNo').val(dt.JNo);
@@ -1721,7 +1721,7 @@ End Code
                     } 
                 });
         } else {
-            ShowMessage('Please save header first');
+            ShowMessage('Please save header first',true);
         }
     }
     function SaveAdvFromPay(obj) {
@@ -1837,7 +1837,7 @@ End Code
     }
     function SaveWHTax(dt) {
         if ($('#btnSave').attr('disabled') == 'disabled') {
-            ShowMessage('Cannot Save WH-Tax because document has been locked');
+            ShowMessage('Cannot Save WH-Tax because document has been locked',true);
             return;
         }
         let obj = GetWHTaxHeader(dt);
@@ -1856,10 +1856,10 @@ End Code
                     $('#txtDoc50Tavi').focus();
                     return;
                 }
-                ShowMessage(response.result.msg);
+                ShowMessage(response.result.msg,true);
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
     }
@@ -1906,7 +1906,7 @@ End Code
                 }                                
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
     }

@@ -171,7 +171,7 @@ End Code
     //$(document).ready(function () {
         SetEvents();
     //});
-    function ShowMessage(str) {
+    function DisplayMessage(str) {
         $('#dvMsg').append('<br/>' + str);
     }
     function SetEvents() {
@@ -229,7 +229,7 @@ End Code
         $.get(url, function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                if (isAlert==true) ShowMessage('data not found');
+                if (isAlert==true) ShowMessage('data not found',true);
                 return;
             }
             let h = r.invdetail.data;
@@ -270,12 +270,12 @@ End Code
     }
     function ShowSummary() {
         if ($('#txtCustCode').val() == '') {
-            ShowMessage('Please select Customer first');
+            ShowMessage('Please select Customer first',true);
             return;
         }
 
         if (arr.length == 0) {
-            ShowMessage('no data to approve');
+            ShowMessage('no data to approve',true);
             return;
         }
         let totaladv = 0;
@@ -338,11 +338,11 @@ End Code
     }
     function ApproveData() {
         if ($('#txtCustCode').val() == '') {
-            ShowMessage('Please select Customer');
+            ShowMessage('Please select Customer',true);
             return;
         }
         if ($('#txtBillToCustCode').val() == '') {
-            ShowMessage('Please select Billing Place first');
+            ShowMessage('Please select Billing Place first',true);
             return;
         }
         if ($('#chkMerge').prop('checked') == true) {
@@ -386,10 +386,10 @@ End Code
                         SaveDetail(response.result.data);
                         return;
                     }
-                    ShowMessage(response.result.msg);
+                    ShowMessage(response.result.msg,true);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
 
@@ -466,10 +466,10 @@ function SaveHeaderByInv(dt,inv) {
                     resp_count +=1;
                     return;
                 }
-                ShowMessage(response.result.msg);
+                ShowMessage(response.result.msg,true);
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
     }
@@ -485,15 +485,15 @@ function SaveHeaderByInv(dt,inv) {
                 data: jsonText,
                 success: function (response) {
                     if (response.result.data !== null) {
-                        ShowMessage(response.result.msg+'\n->'+response.result.data);
+                        DisplayMessage(response.result.msg+'\n->'+response.result.data);
                         SetGridAdv(false);
                         $('#btnGen').hide();
                         return;
                     }
-                    ShowMessage(response.result.msg);
+                    ShowMessage(response.result.msg,true);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
     }
@@ -507,13 +507,13 @@ function SaveHeaderByInv(dt,inv) {
             data: jsonText,
             success: function (response) {
                 if (response.result.data !== null) {
-                    ShowMessage(response.result.msg + '=>' + response.result.data);
+                    DisplayMessage(response.result.msg + '=>' + response.result.data);
                     return;
                 }
-                ShowMessage(response.result.msg);
+                ShowMessage(response.result.msg,true);
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
     }

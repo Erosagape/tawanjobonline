@@ -842,12 +842,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function ClearBooking() {
@@ -983,12 +983,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function ReadDetail(dr){		
@@ -1138,14 +1138,14 @@ End Code
                         loadRoute();
                         return;
                     }
-                    ShowMessage(response.result.msg);
+                    ShowMessage(response.result.msg,true);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         } else {
-            ShowMessage('Please enter some data');
+            ShowMessage('Please enter some data',true);
         }
     }
     function SaveExpense() {
@@ -1176,27 +1176,27 @@ End Code
                         loadRoute();
                         return;
                     }
-                    ShowMessage(response.result.msg);
+                    ShowMessage(response.result.msg,true);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         } else {
-            ShowMessage('Please enter some data');
+            ShowMessage('Please enter some data',true);
         }
     }
     function EditExpense() {
         if ($('#txtVenderCode').val() == '') {
-            ShowMessage('Please Select Vender First');
+            ShowMessage('Please Select Vender First',true);
             return;
         }
         if ($('#txtNotifyCode').val() == '') {
-            ShowMessage('Please Select Notift Party First');
+            ShowMessage('Please Select Notift Party First',true);
             return;
         }
         if ($('#txtBranchCode').val() == '') {
-            ShowMessage('Please Select Branch First');
+            ShowMessage('Please Select Branch First',true);
             return;
         }
         if ($('#cboLocation').val() > 0) {            
@@ -1205,7 +1205,7 @@ End Code
 
             $('#dvExpenses').modal('show');
         } else {
-            ShowMessage('Please select route first!');
+            ShowMessage('Please select route first!',true);
         }
     }
 </script>

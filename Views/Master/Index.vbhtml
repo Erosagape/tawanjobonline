@@ -7,8 +7,9 @@ End Code
     </div>
 </div>
 <script type="text/javascript">
+    var path = '@Url.Content("~")';
     let user='@ViewBag.User';
     if(user!==''){
-        window.location.href = 'Menu/Index';
+        window.location.href = path+ 'Menu/Index';
     }
 </script>

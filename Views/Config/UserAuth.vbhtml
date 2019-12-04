@@ -21,7 +21,13 @@ End Code
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    UserID :<br />
+                    Set By :
+                    <select id="cboUserType">
+                        <option value="U" selected>User ID</option>
+                        <option value="C">Customer ID</option>
+                        <option value="V">Vender ID</option>
+                    </select>
+                     :<br />
                     <div style="display:flex">
                         <div style="flex:1">
                             <input type="text" id="txtUserID" class="form-control" tabIndex="1" />
@@ -115,11 +121,21 @@ End Code
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             var dv = document.getElementById("dvLOVs");
             CreateLOV(dv, '#frmSearchUser', '#tbUser', 'Search User', response, 2);
+            CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Search Customer', response, 2);
+            CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Search Vender', response, 2);
         });     
         $('#txtUserID').keydown(function (event) {
             if (event.which == 13) {
                 $('#txtUserName').val('');
-                CallBackQueryUser(path, $('#txtUserID').val(), ReadUser);
+                if ($('#cboUserType').val() == 'U') {
+                    CallBackQueryUser(path, $('#txtUserID').val(), ReadUser);
+                }
+                if ($('#cboUserType').val() == 'C') {
+                    CallBackQueryCustomerSingle(path, $('#txtUserID').val(), ReadCustomer);
+                }
+                if ($('#cboUserType').val() == 'V') {
+                    CallBackQueryVender(path, $('#txtUserID').val(), ReadVender);
+                }
             }
         });
     }
@@ -128,10 +144,28 @@ End Code
         $('#txtUserName').val(dr.TName);
         ShowData();
     }
+    function ReadCompany(dr) {
+        $('#txtUserID').val(dr.LoginName);
+        $('#txtUserName').val(dr.NameThai);
+        ShowData();
+    }
+    function ReadVender(dr) {
+        $('#txtUserID').val(dr.LoginName);
+        $('#txtUserName').val(dr.TName);
+        ShowData();
+    }
     function SearchData(type) {
         switch (type) {
             case 'user':
-                SetGridUser(path, '#tbUser', '#frmSearchUser', ReadUser);
+                if ($('#cboUserType').val() == 'U') {
+                    SetGridUser(path, '#tbUser', '#frmSearchUser', ReadUser);
+                }
+                if ($('#cboUserType').val() == 'C') {
+                    SetGridCompanyLogin(path, '#tbCust', '#frmSearchCust', ReadCompany);
+                }
+                if ($('#cboUserType').val() == 'V') {
+                    SetGridVenderLogin(path, '#tbVend', '#frmSearchVend', ReadVender);
+                }
                 break;
         }
     }
@@ -174,12 +208,12 @@ End Code
         };
         if (obj.UserID !== "") {
             if (obj.AppID === "") {
-                ShowMessage('Please select Application');
+                ShowMessage('Please select Application',true);
                 return;
             }
             obj.AppID = "MODULE_" + $('#txtAppID').val();
             if (obj.MenuID === "") {
-                ShowMessage('Please select Menu');
+                ShowMessage('Please select Menu',true);
                 return;
             }
             ShowConfirm("Do you need to Save This Authorize '" + obj.Author + "' for " + obj.UserID + " (" + obj.AppID + "/" + obj.MenuID + ")?", function (ask) {
@@ -194,12 +228,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function ClearData(){

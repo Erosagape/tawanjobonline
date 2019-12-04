@@ -34,179 +34,236 @@
             <div style="width:100%;text-align:center;background-color:white;color:black;font-size:11px">
                 <label id="lblLicenseName" onclick="CheckDatabase()">@ViewBag.LICENSE_NAME</label>
             </div>
-            <div id="mainMkt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMkt')">
-                Marketing Works
+            <div id="dvShippingMenu">
+                <div id="mainMkt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMkt')">
+                    Marketing Works
+                </div>
+                <div id="mnuMkt" class="w3-hide w3-pale-green w3-card-4">
+                    <a href="#" id="mnuMkt1" class="w3-bar-item w3-button" onclick="OpenMenu('Quotation')">- Quotation</a>
+                    <a href="#" id="mnuMkt3" class="w3-bar-item w3-button" onclick="OpenMenu('EstimateCost')">- Estimate Costing</a>
+                </div>
+                <div id="mainCS" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCS')">
+                    CS Works
+                </div>
+                <div id="mnuCS" class="w3-hide w3-light-grey w3-card-4">
+                    <a href="#" id="mnuCS1" class="w3-bar-item w3-button" onclick="OpenMenu('CreateJob')">- Create Job</a>
+                    <a href="#" id="mnuCS2" class="w3-bar-item w3-button" onclick="OpenMenu('SearchJob')">- List Job</a>
+                    <a href="#" id="mnuCS3" class="w3-bar-item w3-button" onclick="OpenMenu('Transport')">- Loading Info</a>
+                    <a href="#" id="mnuCS4" class="w3-bar-item w3-button" onclick="OpenMenu('WHTax')">- Withholding Tax</a>
+                </div>
+                <div id="mainShp" class="w3-bar-item w3-button" onclick="w3_accordion('mnuShp')">
+                    Shipping Works
+                </div>
+                <div id="mnuShp" class="w3-hide w3-khaki w3-card-4">
+                    <a href="#" id="mnuShp1" class="w3-bar-item w3-button" onclick="OpenMenu('Advance')">- Advance</a>
+                    <a href="#" id="mnuShp2" class="w3-bar-item w3-button" onclick="OpenMenu('Clearing')">- Clearing</a>
+                </div>
+                <div id="mainApp" class="w3-bar-item w3-button" onclick="w3_accordion('mnuApp')">
+                    Approving
+                </div>
+                <div id="mnuApp" class="w3-hide w3-pale-yellow w3-card-4">
+                    <a href="#" id="mnuMkt2" class="w3-bar-item w3-button" onclick="OpenMenu('AppQuo')">- Approve Quotation</a>
+                    <a href="#" id="mnuApp1" class="w3-bar-item w3-button" onclick="OpenMenu('AppAdvance')">- Approve Advance</a>
+                    <a href="#" id="mnuApp2" class="w3-bar-item w3-button" onclick="OpenMenu('AppClearing')">- Approve Clearing</a>
+                </div>
+                <div id="mainFin" class="w3-bar-item w3-button" onclick="w3_accordion('mnuFin')">
+                    Finance Works
+                </div>
+                <div id="mnuFin" class="w3-hide w3-pale-blue w3-card-4">
+                    <a href="#" id="mnuFin1" class="w3-bar-item w3-button" onclick="OpenMenu('PayAdvance')">- Payment Advance</a>
+                    <a href="#" id="mnuFin3" class="w3-bar-item w3-button" onclick="OpenMenu('RecvClear')">- Receive Clearing</a>
+                    <a href="#" id="mnuFin2" class="w3-bar-item w3-button" onclick="OpenMenu('Payment')">- Payment Bill</a>
+                    <a href="#" id="mnuFin4" class="w3-bar-item w3-button" onclick="OpenMenu('RecvInv')">- Receive Invoice</a>
+                    <a href="#" id="mnuFin5" class="w3-bar-item w3-button" onclick="OpenMenu('Cheque')">- Cheque Management</a>
+                    <a href="#" id="mnuFin7" class="w3-bar-item w3-button" onclick="OpenMenu('PettyCash')">- Petty Cash</a>
+                    <a href="#" id="mnuFin6" class="w3-bar-item w3-button" onclick="OpenMenu('CreditAdv')">- Credit Advance</a>
+                    <a href="#" id="mnuFin8" class="w3-bar-item w3-button" onclick="OpenMenu('Earnest')">- Earnest Clearing</a>
+                </div>
+                <div id="mainAcc" class="w3-bar-item w3-button" onclick="w3_accordion('mnuAcc')">
+                    Account Works
+                </div>
+                <div id="mnuAcc" class="w3-hide w3-pale-red w3-card-4">
+                    <a href="#" id="mnuAcc1" class="w3-bar-item w3-button" onclick="OpenMenu('Voucher')">- Vouchers</a>
+                    <a href="#" id="mnuAcc2" class="w3-bar-item w3-button" onclick="OpenMenu('Invoice')">- Invoice</a>
+                    <a href="#" id="mnuAcc3" class="w3-bar-item w3-button" onclick="OpenMenu('Billing')">- Billing</a>
+                    <a href="#" id="mnuAcc4" class="w3-bar-item w3-button" onclick="OpenMenu('Receipt')">- Receipts</a>
+                    <a href="#" id="mnuAcc5" class="w3-bar-item w3-button" onclick="OpenMenu('TaxInvoice')">- Tax-invoice</a>
+                    <a href="#" id="mnuAcc6" class="w3-bar-item w3-button" onclick="OpenMenu('Expense')">- Payments Bill</a>
+                    <a href="#" id="mnuAcc7" class="w3-bar-item w3-button" onclick="OpenMenu('CreditNote')">- Credit/Debit Note</a>
+                    <a href="#" id="mnuAcc8" class="w3-bar-item w3-button" onclick="OpenMenu('GLNote')">- Journal Entry</a>
+                </div>
+                <div id="mainRpt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuRpt')">
+                    Report & Tracking
+                </div>
+                <div id="mnuRpt" class="w3-hide w3-amber w3-card-4">
+                    <a href="#" id="mnuRpt1" class="w3-bar-item w3-button" onclick="OpenMenu('Report')">- Reports</a>
+                    <a href="#" id="mnuRpt2" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
+                    <a href="#" id="mnuRpt4" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking2')">- Customer Tracking</a>
+                    <a href="#" id="mnuRpt3" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard')">-Job Dashboard</a>
+                </div>
+                <div id="mainMas" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMas')">
+                    Master Files
+                </div>
+                <div id="mnuMas" class="w3-hide w3-sand w3-card-4">
+                    <a href="#" id="mnuMas2" class="w3-bar-item w3-button" onclick="OpenMenu('MasA')">- Accounts File</a>
+                    <a href="#" id="mnuMas1" class="w3-bar-item w3-button" onclick="OpenMenu('MasG')">- Customs File</a>
+                    <a href="#" id="mnuMas3" class="w3-bar-item w3-button" onclick="OpenMenu('MasS')">- System Files</a>
+                </div>
+                <div id="mainUtil" class="w3-bar-item w3-button" onclick="w3_accordion('mnuUtil')">
+                    Utility
+                </div>
+                <div id="mnuUtil" class="w3-hide w3-sand w3-card-4">
+                    <a href="#" id="mnuUtil1" class="w3-bar-item w3-button" onclick="OpenMenu('Import')">- Import data</a>
+                    <a href="#" id="mnuUtil2" class="w3-bar-item w3-button" onclick="OpenMenu('Export')">- Export data</a>
+                </div>
             </div>
-            <div id="mnuMkt" class="w3-hide w3-pale-green w3-card-4">
-                <a href="#" id="mnuMkt1" class="w3-bar-item w3-button" onclick="OpenMenu('Quotation')">- Quotation</a>
-                <a href="#" id="mnuMkt3" class="w3-bar-item w3-button" onclick="OpenMenu('EstimateCost')">- Estimate Costing</a>
+            <div id="dvCustomerMenu">
+                <div id="mainCust" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCust')">
+                    Importer/Exporter
+                </div>
+                <div id="mnuCust" class="w3-hide w3-pale-red w3-card-4">
+                    <a href="#" id="mnuCust1" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Shipment Tracking</a>
+                    <a href="#" id="mnuCust2" class="w3-bar-item w3-button" onclick="OpenMenu('CreateJob')">- Shipment Order</a>
+                </div>
             </div>
-            <div id="mainCS" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCS')">
-                CS Works
+            <div id="dvVenderMenu">
+                <div id="mainVend" class="w3-bar-item w3-button" onclick="w3_accordion('mnuVend')">
+                    Vender Works
+                </div>
+                <div id="mnuVend" class="w3-hide w3-pale-red w3-card-4">
+                    <a href="#" id="mnuVend1" class="w3-bar-item w3-button" onclick="OpenMenu('Expense')">- Expenses Entry</a>
+                    <a href="#" id="mnuVend2" class="w3-bar-item w3-button" onclick="OpenMenu('Transport')">- Job Transport</a>
+                </div>
             </div>
-            <div id="mnuCS" class="w3-hide w3-light-grey w3-card-4">
-                <a href="#" id="mnuCS1" class="w3-bar-item w3-button" onclick="OpenMenu('CreateJob')">- Create Job</a>
-                <a href="#" id="mnuCS2" class="w3-bar-item w3-button" onclick="OpenMenu('SearchJob')">- List Job</a>
-                <a href="#" id="mnuCS3" class="w3-bar-item w3-button" onclick="OpenMenu('Transport')">- Loading Info</a>
-                <a href="#" id="mnuCS4" class="w3-bar-item w3-button" onclick="OpenMenu('WHTax')">- Withholding Tax</a>
+        </div>
+    </div>
+    <div id="dvModals">
+        <div id="dvMasA" class="modal" style="width:100%">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:black">
+                        <div id="mainMasA" class="modal-title" style="color:white;text-align:center">
+                            Account Master Files
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <button id="mnuMasA1" class="btn btn-default btn-block" onclick="OpenMenu('customers')">- Customers</button>
+                                <button id="mnuMasA2" class="btn btn-default btn-block" onclick="OpenMenu('venders')">- Venders</button>
+                                <button id="mnuMasA3" class="btn btn-default btn-block" onclick="OpenMenu('ServUnit')">- Service Units</button>
+                                <button id="mnuMasA4" class="btn btn-default btn-block" onclick="OpenMenu('Bank')">- Bank</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button id="mnuMasA5" class="btn btn-default btn-block" onclick="OpenMenu('BookAccount')">- Bank Accounts</button>
+                                <button id="mnuMasA6" class="btn btn-default btn-block" onclick="OpenMenu('ServiceGroup')">- Service Groups</button>
+                                <button id="mnuMasA7" class="btn btn-default btn-block" onclick="OpenMenu('ServiceCode')">- Service Code</button>
+                                <button id="mnuMasA8" class="btn btn-default btn-block" onclick="OpenMenu('BudgetPolicy')">- Service Policy</button>
+                                <button id="mnuMasA9" class="btn btn-default btn-block" onclick="OpenMenu('AccountCode')">- Account Code</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
             </div>
-            <div id="mainShp" class="w3-bar-item w3-button" onclick="w3_accordion('mnuShp')">
-                Shipping Works
+        </div>
+        <div id="dvMasS" class="modal" style="width:100%">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:black">
+                        <div id="mainMasS" class="modal-title" style="color:white;text-align:center">
+                            System Master Files
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <button id="mnuMasS1" class="btn btn-default btn-block" onclick="OpenMenu('Constant')">- System Variables</button>
+                                <button id="mnuMasS2" class="btn btn-default btn-block" onclick="OpenMenu('users');">- System User</button>
+                                <button id="mnuMasS3" class="btn btn-default btn-block" onclick="OpenMenu('UserAuth');">- User Authorize</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button id="mnuMasS4" class="btn btn-default btn-block" onclick="OpenMenu('Branch')">- Branch</button>
+                                <button id="mnuMasS5" class="btn btn-default btn-block" onclick="OpenMenu('Role')">- User Role</button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
             </div>
-            <div id="mnuShp" class="w3-hide w3-khaki w3-card-4">
-                <a href="#" id="mnuShp1" class="w3-bar-item w3-button" onclick="OpenMenu('Advance')">- Advance</a>
-                <a href="#" id="mnuShp2" class="w3-bar-item w3-button" onclick="OpenMenu('Clearing')">- Clearing</a>
+        </div>
+        <div id="dvMasG" class="modal" style="width:100%">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="background-color:black">
+                        <div id="mainMasG" class="modal-title" style="color:white;text-align:center">
+                            General Master Files
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <button id="mnuMasG1" class="btn btn-default btn-block" onclick="OpenMenu('Currency')">- Currency</button>
+                                <button id="mnuMasG2" class="btn btn-default btn-block" onclick="OpenMenu('Country')">- Country</button>
+                                <button id="mnuMasG3" class="btn btn-default btn-block" onclick="OpenMenu('InterPort')">- Inter Ports</button>
+                                <button id="mnuMasG4" class="btn btn-default btn-block" onclick="OpenMenu('vessel')">- Vessel/Vehicles/Flight</button>
+                            </div>
+                            <div class="col-sm-6">
+                                <button id="mnuMasG8" class="btn btn-default btn-block" onclick="OpenMenu('Province')">- Province</button>
+                                <button id="mnuMasG5" class="btn btn-default btn-block" onclick="OpenMenu('DeclareType')">- Declare Type</button>
+                                <button id="mnuMasG6" class="btn btn-default btn-block" onclick="OpenMenu('CustomsPort')">- Customs Port</button>
+                                <button id="mnuMasG7" class="btn btn-default btn-block" onclick="OpenMenu('CustomsUnit')">- Product Units</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
             </div>
-            <div id="mainApp" class="w3-bar-item w3-button" onclick="w3_accordion('mnuApp')">
-                Approving
+        </div>
+        <div id="dvWaiting" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
+            <div class="vertical-alignment-helper">
+                <div class="modal-dialog vertical-align-center">
+                    <div class="modal-content">
+                        <div class="modal-body">Please wait...</div>
+                    </div>
+                </div>
             </div>
-            <div id="mnuApp" class="w3-hide w3-pale-yellow w3-card-4">
-                <a href="#" id="mnuMkt2" class="w3-bar-item w3-button" onclick="OpenMenu('AppQuo')">- Approve Quotation</a>
-                <a href="#" id="mnuApp1" class="w3-bar-item w3-button" onclick="OpenMenu('AppAdvance')">- Approve Advance</a>
-                <a href="#" id="mnuApp2" class="w3-bar-item w3-button" onclick="OpenMenu('AppClearing')">- Approve Clearing</a>
-            </div>
-            <div id="mainFin" class="w3-bar-item w3-button" onclick="w3_accordion('mnuFin')">
-                Finance Works
-            </div>
-            <div id="mnuFin" class="w3-hide w3-pale-blue w3-card-4">
-                <a href="#" id="mnuFin1" class="w3-bar-item w3-button" onclick="OpenMenu('PayAdvance')">- Payment Advance</a>
-                <a href="#" id="mnuFin3" class="w3-bar-item w3-button" onclick="OpenMenu('RecvClear')">- Receive Clearing</a>
-                <a href="#" id="mnuFin2" class="w3-bar-item w3-button" onclick="OpenMenu('Payment')">- Payment Bill</a>
-                <a href="#" id="mnuFin4" class="w3-bar-item w3-button" onclick="OpenMenu('RecvInv')">- Receive Invoice</a>
-                <a href="#" id="mnuFin5" class="w3-bar-item w3-button" onclick="OpenMenu('Cheque')">- Cheque Management</a>
-                <a href="#" id="mnuFin7" class="w3-bar-item w3-button" onclick="OpenMenu('PettyCash')">- Petty Cash</a>
-                <a href="#" id="mnuFin6" class="w3-bar-item w3-button" onclick="OpenMenu('CreditAdv')">- Credit Advance</a>
-                <a href="#" id="mnuFin8" class="w3-bar-item w3-button" onclick="OpenMenu('Earnest')">- Earnest Clearing</a>
-            </div>
-            <div id="mainAcc" class="w3-bar-item w3-button" onclick="w3_accordion('mnuAcc')">
-                Account Works
-            </div>
-            <div id="mnuAcc" class="w3-hide w3-pale-red w3-card-4">
-                <a href="#" id="mnuAcc1" class="w3-bar-item w3-button" onclick="OpenMenu('Voucher')">- Vouchers</a>
-                <a href="#" id="mnuAcc2" class="w3-bar-item w3-button" onclick="OpenMenu('Invoice')">- Invoice</a>
-                <a href="#" id="mnuAcc3" class="w3-bar-item w3-button" onclick="OpenMenu('Billing')">- Billing</a>
-                <a href="#" id="mnuAcc4" class="w3-bar-item w3-button" onclick="OpenMenu('Receipt')">- Receipts</a>
-                <a href="#" id="mnuAcc5" class="w3-bar-item w3-button" onclick="OpenMenu('TaxInvoice')">- Tax-invoice</a>
-                <a href="#" id="mnuAcc6" class="w3-bar-item w3-button" onclick="OpenMenu('Expense')">- Payments Bill</a>
-                <a href="#" id="mnuAcc7" class="w3-bar-item w3-button" onclick="OpenMenu('CreditNote')">- Credit/Debit Note</a>
-                <a href="#" id="mnuAcc8" class="w3-bar-item w3-button" onclick="OpenMenu('GLNote')">- Journal Entry</a>
-            </div>
-            <div id="mainRpt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuRpt')">
-                Report & Tracking
-            </div>
-            <div id="mnuRpt" class="w3-hide w3-amber w3-card-4">
-                <a href="#" id="mnuRpt1" class="w3-bar-item w3-button" onclick="OpenMenu('Report')">- Reports</a>
-                <a href="#" id="mnuRpt2" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
-                <a href="#" id="mnuRpt4" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking2')">- Customer Tracking</a>
-                <a href="#" id="mnuRpt3" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard')">-Job Dashboard</a>
-            </div>
-            <div id="mainMas" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMas')">
-                Master Files
-            </div>
-            <div id="mnuMas" class="w3-hide w3-sand w3-card-4">
-                <a href="#" id="mnuMas2" class="w3-bar-item w3-button" onclick="OpenMenu('MasA')">- Accounts File</a>
-                <a href="#" id="mnuMas1" class="w3-bar-item w3-button" onclick="OpenMenu('MasG')">- Customs File</a>
-                <a href="#" id="mnuMas3" class="w3-bar-item w3-button" onclick="OpenMenu('MasS')">- System Files</a>
-            </div>
-            <div id="mainUtil" class="w3-bar-item w3-button" onclick="w3_accordion('mnuUtil')">
-                Utility
-            </div>
-            <div id="mnuUtil" class="w3-hide w3-sand w3-card-4">
-                <a href="#" id="mnuUtil1" class="w3-bar-item w3-button" onclick="OpenMenu('Import')">- Import data</a>
-                <a href="#" id="mnuUtil2" class="w3-bar-item w3-button" onclick="OpenMenu('Export')">- Export data</a>
+        </div>
+        <div id="dvLogin" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
+            <div class="vertical-alignment-helper">
+                <div class="modal-dialog vertical-align-center">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background-color:black">
+                            <div class="modal-title" style="color:white;text-align:center">
+                                Log in
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            Data : <select class="form-control dropdown" id="cboDatabase"></select>
+                            <a id="linkLogout" onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
+                            Password : <input type="password" class="form-control" id="txtUserPassword" />
+                        </div>
+                        <div class="modal-footer">
+                            <div style="display:flex;flex-direction:row;float:left;">
+                                <input type="radio" name="optRole" id="optShip" value="S" checked /><label for="optShip" style="padding-right:10px">Shipper</label>
+                                <input type="radio" name="optRole" id="optVend" value="V" /><label for="optVend" style="padding-right:10px">Vender</label>
+                                <input type="radio" name="optRole" id="optImEx" value="C" /><label for="optImEx" style="padding-right:10px">Importer/Exporter</label>
+                            </div>
+                            <button class="btn btn-primary" id="btnLogin" onclick="SetVariable()">Log in</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <div class="w3-overlay w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" id="myOverlay"></div>
-    <div id="dvMasA" class="modal" style="width:100%">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color:black">
-                    <div id="mainMasA" class="modal-title" style="color:white;text-align:center">
-                        Account Master Files
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <button id="mnuMasA1" class="btn btn-default btn-block" onclick="OpenMenu('customers')">- Customers</button>
-                            <button id="mnuMasA2" class="btn btn-default btn-block" onclick="OpenMenu('venders')">- Venders</button>
-                            <button id="mnuMasA3" class="btn btn-default btn-block" onclick="OpenMenu('ServUnit')">- Service Units</button>
-                            <button id="mnuMasA4" class="btn btn-default btn-block" onclick="OpenMenu('Bank')">- Bank</button>
-                        </div>
-                        <div class="col-sm-6">
-                            <button id="mnuMasA5" class="btn btn-default btn-block" onclick="OpenMenu('BookAccount')">- Bank Accounts</button>
-                            <button id="mnuMasA6" class="btn btn-default btn-block" onclick="OpenMenu('ServiceGroup')">- Service Groups</button>
-                            <button id="mnuMasA7" class="btn btn-default btn-block" onclick="OpenMenu('ServiceCode')">- Service Code</button>
-                            <button id="mnuMasA8" class="btn btn-default btn-block" onclick="OpenMenu('BudgetPolicy')">- Service Policy</button>
-                            <button id="mnuMasA9" class="btn btn-default btn-block" onclick="OpenMenu('AccountCode')">- Account Code</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="dvMasS" class="modal" style="width:100%">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color:black">
-                    <div id="mainMasS" class="modal-title" style="color:white;text-align:center">
-                        System Master Files
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <button id="mnuMasS1" class="btn btn-default btn-block" onclick="OpenMenu('Constant')">- System Variables</button>
-                            <button id="mnuMasS2" class="btn btn-default btn-block" onclick="OpenMenu('users');">- System User</button>
-                            <button id="mnuMasS3" class="btn btn-default btn-block" onclick="OpenMenu('UserAuth');">- User Authorize</button>
-                        </div>
-                        <div class="col-sm-6">
-                            <button id="mnuMasS4" class="btn btn-default btn-block" onclick="OpenMenu('Branch')">- Branch</button>
-                            <button id="mnuMasS5" class="btn btn-default btn-block" onclick="OpenMenu('Role')">- User Role</button>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="dvMasG" class="modal" style="width:100%">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color:black">
-                    <div id="mainMasG" class="modal-title" style="color:white;text-align:center">
-                        General Master Files
-                    </div>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <button id="mnuMasG1" class="btn btn-default btn-block" onclick="OpenMenu('Currency')">- Currency</button>
-                            <button id="mnuMasG2" class="btn btn-default btn-block" onclick="OpenMenu('Country')">- Country</button>
-                            <button id="mnuMasG3" class="btn btn-default btn-block" onclick="OpenMenu('InterPort')">- Inter Ports</button>
-                            <button id="mnuMasG4" class="btn btn-default btn-block" onclick="OpenMenu('vessel')">- Vessel/Vehicles/Flight</button>
-                        </div>
-                        <div class="col-sm-6">
-                            <button id="mnuMasG8" class="btn btn-default btn-block" onclick="OpenMenu('Province')">- Province</button>
-                            <button id="mnuMasG5" class="btn btn-default btn-block" onclick="OpenMenu('DeclareType')">- Declare Type</button>
-                            <button id="mnuMasG6" class="btn btn-default btn-block" onclick="OpenMenu('CustomsPort')">- Customs Port</button>
-                            <button id="mnuMasG7" class="btn btn-default btn-block" onclick="OpenMenu('CustomsUnit')">- Product Units</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div style="display:flex;flex-direction:column;margin-bottom:100px;">
         <div class="w3-container" style="margin-bottom:10px">
             <!-- Page Content -->
@@ -220,7 +277,7 @@
                             <h4><label id="lblTitle" onclick="OpenContact()">@ViewBag.Title</label></h4>
                             <label style="display:none" id="lblModule">@ViewBag.Module</label>
                         </div>
-                        <div style="float:right;text-align:right;">
+                        <div style="float:right;text-align:right;width:30%">
                             <a href="#" onclick="SetLogin()"><label id="lblUserID" style="color:white;font-size:11px">Please Login</label></a><br/>
                             <select id="cboLanguage" onchange="ChangeLanguage($(this).val(),'@ViewBag.Module')" data-width="fit">
                                 <option value="EN">EN</option>
@@ -235,39 +292,10 @@
             </div>
         </div>
     </div>
-    <div id="dvWaiting" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
-        <div class="vertical-alignment-helper">
-            <div class="modal-dialog vertical-align-center">
-                <div class="modal-content">
-                    <div class="modal-body">Please wait...</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="dvLogin" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1">
-        <div class="vertical-alignment-helper">
-            <div class="modal-dialog vertical-align-center">
-                <div class="modal-content">
-                    <div class="modal-header" style="background-color:black">
-                        <div class="modal-title" style="color:white;text-align:center">
-                            Log in
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        Database : <select class="form-control dropdown" id="cboDatabase"></select>
-                        <a id="linkLogout" onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
-                        Password : <input type="password" class="form-control" id="txtUserPassword" />
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" id="btnLogin" onclick="SetVariable()">Log in</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <script type="text/javascript">
     let userID = '@ViewBag.User';
     let dbID = GetDatabaseID();
+    let userType = '@ViewBag.UserGroup';
     let sessionID = '@ViewBag.SESSION_ID';
     let dbMas = '@ViewBag.CONNECTION_MAS';
     let dbJob = '@ViewBag.CONNECTION_JOB';
@@ -281,7 +309,9 @@
     SetEvents();
 
     function ForceLogout() {
-        $.get('/config/setlogout?code=' + $('#txtUserLogin').val()).done(function (r) {
+        userType = $('input[name=optRole]:checked').val();
+
+        $.get(path + 'config/setlogout?group='+ userType +'&code=' + $('#txtUserLogin').val()).done(function (r) {
             if (r == "Y") {
                 ShowMessage('Logout complete!');
             }
@@ -314,13 +344,15 @@
     function SetVariable() {
         userID = $('#txtUserLogin').val();
         dbID = $('#cboDatabase').val();
+        userType = $('input[name=optRole]:checked').val();
+
         let Password = $('#txtUserPassword').val();
-        $.get('/Config/SetLogin?Code=' + userID + '&Pass=' + Password + '&Database=' + dbID)
+        $.get(path + 'Config/SetLogin?Group='+ userType +'&Code=' + userID + '&Pass=' + Password + '&Database=' + dbID)
             .done(function (r) {
                 if (r.user.data.length > 0) {
                     window.location.reload();
                 } else {
-                    ShowMessage(r.user.message);
+                    ShowMessage(r.user.message,true);
                 }
             });
     }
@@ -334,29 +366,42 @@
         if (userID === '') {
             CheckSession(null);
         } else {
-            $('#imgMenu').attr('src','/Resource/@ViewBag.PROFILE_LOGO');
-            $('#imgCompany').attr('src','/Resource/@ViewBag.PROFILE_LOGO');
+            $('#imgMenu').attr('src',path + 'Resource/@ViewBag.PROFILE_LOGO');
+            $('#imgCompany').attr('src',path + 'Resource/@ViewBag.PROFILE_LOGO');
             $('#lblUserID').text('@ViewBag.UserName');
             $('#lblLicenseName').text('@ViewBag.LICENSE_NAME');
             $('#cboLanguage').val('@ViewBag.PROFILE_DEFAULT_LANG');
+            userType = '@ViewBag.UserGroup';
+            if (userType == 'S') {
+                $('#dvCustomerMenu').hide();
+                $('#dvVenderMenu').hide();
+            }
+            if (userType == 'C') {
+                $('#dvShippingMenu').hide();
+                $('#dvVenderMenu').hide();
+            }
+            if (userType == 'V') {
+                $('#dvShippingMenu').hide();
+                $('#dvCustomerMenu').hide();
+            }
         }
     }
     function SetLogout() {
         ShowConfirm('Do you need to log out?', function (c) {
             if (c == true) {
                 ShowWait();
-                $.get('/Config/SetLogOut')
+                $.get(path + 'config/setlogout?group='+ userType +'&code=' + userID)
                     .done(function (r) {
                         CloseWait();
                         if (r == 'Y') {
-                            window.location.href='/';
+                            window.location.href=path;
                         }
                     });
             }
         });
     }
     function OpenContact() {
-        window.open('/Menu/About', '', '');
+        window.open(path + 'Menu/About', '', '');
     }
     function CheckDatabase() {
         ShowMessage('MAS='+dbMas+'\nJOB='+dbJob+'\nSESSION-ID='+sessionID);

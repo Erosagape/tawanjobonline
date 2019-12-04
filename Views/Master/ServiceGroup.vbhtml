@@ -168,7 +168,7 @@ End Code
                 LoadData(r.servicegroup.data[0]);
                 return;
             } else {
-                ShowMessage('Data not found');
+                ShowMessage('Data not found',true);
                 AddData();
             }
         });
@@ -300,11 +300,11 @@ End Code
     function SaveData() {
         var obj = GetDataSave();        
         if (obj.GroupCode == '') {
-            ShowMessage('Please enter code');
+            ShowMessage('Please enter code',true);
             return;
         }
         if (obj.GroupName == '') {
-            ShowMessage('Please enter name');
+            ShowMessage('Please enter name',true);
             return;
         }
         row = obj;
@@ -326,7 +326,7 @@ End Code
                     ShowMessage(response.result.msg);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });        
         });
@@ -359,7 +359,7 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });

@@ -151,7 +151,7 @@ End Code
         $.get(path + 'clr/getclearinggrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.clr.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                if (isAlert==true) ShowMessage('data not found');
+                if (isAlert==true) ShowMessage('data not found',true);
                 return;
             }
             let h = r.clr.data[0].Table;
@@ -234,7 +234,7 @@ End Code
     }
     function ApproveData() {
         if (arr.length < 0) {
-            ShowMessage('no data to approve');
+            ShowMessage('no data to approve',true);
             return;
         }
         let dataApp = [];
@@ -253,7 +253,7 @@ End Code
                 response ? ShowMessage("Approve Completed!") : ShowMessage("Cannot Approve");
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
         return;

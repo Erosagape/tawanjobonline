@@ -72,12 +72,12 @@ End Code
                     contentType: "application/json",
                     data: JSON.stringify({ data: obj }),
                     success: function (response) {
-                        response ? ShowMessage("Save Completed!") : ShowMessage("Cannot Save data");
+                        response ? ShowMessage("Save Completed!") : ShowMessage("Cannot Save data",true);
                     }
                 });
             });
         } else {
-            ShowMessage('Please select Job Type');
+            ShowMessage('Please select Job Type',true);
         }
     });
 </script>

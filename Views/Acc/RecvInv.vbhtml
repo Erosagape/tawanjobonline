@@ -339,7 +339,7 @@ End Code
         $.get(path + 'acc/getinvforreceive?show=OPEN&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                if(isAlert==true) ShowMessage('data not found');
+                if(isAlert==true) ShowMessage('data not found',true);
                 return;
             }
             let h = r.invdetail.data;
@@ -665,7 +665,7 @@ End Code
                     }
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         }
@@ -716,10 +716,10 @@ End Code
                     ShowMessage(response.result.msg+'\n->'+response.result.data);
                     return;
                 }
-                ShowMessage(response.result.msg);
+                ShowMessage(response.result.msg,true);
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
     }
@@ -744,14 +744,14 @@ End Code
                     }
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         }
     }
     function ApproveData() {
         if (arr.length < 0) {
-            ShowMessage('no data to approve');
+            ShowMessage('no data to approve',true);
             return;
         }
         let oHeader = {
@@ -789,7 +789,7 @@ End Code
                 }
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
         return;

@@ -46,17 +46,33 @@ function CheckPassword(db, user, ev) {
                     if (r.user.data.length > 0) {
                         ev();
                     } else {
-                        ShowMessage(r.user.message);
+                        ShowMessage(r.user.message,true);
                     }
                 });
             }
         }
     });
 }
-function ShowMessage(str) {
+function ShowMessage(str, iserr = false) {
     try
     {
-        bootbox.alert(str);
+        if (iserr) {
+            let box = bootbox.alert({
+                title:'<b>Error</b>' ,
+                message: '<i class="glyphicon glyphicon-remove-sign" style="font-size:30px;color:red;padding-right:10px"></i>'+ str
+            });
+            box.find('.modal-header').css({ 'background-color': 'red','color':'white' });
+            box.find('.modal-footer').css({ 'background-color': 'lightyellow' });
+            box.find(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
+        } else {
+            let box =bootbox.alert({
+                title: '<b>Information</b>' ,
+                message: '<i class="glyphicon glyphicon-exclamation-sign" style="font-size:30px;color:blue;padding-right:10px"></i>'+ str
+            });
+            box.find('.modal-header').css({ 'background-color': 'green', 'color': 'white' });
+            box.find('.modal-footer').css({ 'background-color': 'lightyellow' });
+            box.find(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+        }
     }
     catch
     {
@@ -64,7 +80,24 @@ function ShowMessage(str) {
     }
 }
 function ShowConfirm(str,func) {
-    bootbox.confirm(str, func);
+    //bootbox.confirm(str, func);
+    let box=bootbox.confirm({
+        title: "<b>Please confirm!</b>",
+        message: '<span class="glyphicon glyphicon-question-sign" style="font-size:30px;color:blue;padding-right:10px"></span>' + str ,
+        buttons: {
+            cancel: {
+                label: '<i class="fa fa-times"></i> Cancel'
+            },
+            confirm: {
+                label: '<i class="fa fa-check"></i> Confirm'
+            }
+        },
+        callback: func
+    });
+    box.find('.modal-header').css({ 'background-color': 'red', 'color': 'yellow' });
+    box.find('.modal-footer').css({ 'background-color': 'lightyellow' });
+    box.find(".btn-primary").removeClass("btn-primary").addClass("btn-success");
+    box.find(".btn-secondary").removeClass("btn-secondary").addClass("btn-warning");
 }
 function CreateLOV(dv, frm, tb, name, html, c) {
     if (c <= 4) html = html.replace('<th>desc2</th>', '');
@@ -607,7 +640,7 @@ function SetGridCustContact(p, g, t, d, ev) {
                 });
                 BindEvent(g, d, ev);
             } else {
-                ShowMessage('Not Found Contact Of This Company');
+                ShowMessage('Not Found Contact Of This Company',true);
             }
         });
 }
@@ -1256,6 +1289,58 @@ function SetGridTransportRoute(p, g, d, ev) {
             { data: null, title: "#" },
             { data: "LocationID", title: "id" },
             { data: "LocationRoute", title: "Route" }
+        ],
+        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+            {
+                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                "data": null,
+                "render": function (data, type, full, meta) {
+                    let html = "<button class='btn btn-warning'>Select</button>";
+                    return html;
+                }
+            }
+        ],
+        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+    });
+    BindEvent(g, d, ev);
+}
+function SetGridCompanyLogin(p, g, d, ev) {
+    $(g).DataTable({
+        ajax: {
+            url: p + 'Master/GetCompany', //web service ที่จะ call ไปดึงข้อมูลมา
+            dataSrc: 'company.data'
+        },
+        selected: true, //ให้สามารถเลือกแถวได้
+        columns: [ //กำหนด property ของ header column
+            { data: null, title: "#" },
+            { data: "LoginName", title: "รหัส" },
+            { data: "NameThai", title: "คำอธิบาย" }
+        ],
+        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+            {
+                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                "data": null,
+                "render": function (data, type, full, meta) {
+                    let html = "<button class='btn btn-warning'>Select</button>";
+                    return html;
+                }
+            }
+        ],
+        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+    });
+    BindEvent(g, d, ev);
+}
+function SetGridVenderLogin(p, g, d, ev) {
+    $(g).DataTable({
+        ajax: {
+            url: p + 'Master/GetVender', //web service ที่จะ call ไปดึงข้อมูลมา
+            dataSrc: 'vender.data'
+        },
+        selected: true, //ให้สามารถเลือกแถวได้
+        columns: [ //กำหนด property ของ header column
+            { data: null, title: "#" },
+            { data: "LoginName", title: "รหัส" },
+            { data: "TName", title: "ชื่อ" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {

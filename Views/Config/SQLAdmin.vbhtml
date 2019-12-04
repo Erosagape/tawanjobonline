@@ -57,7 +57,7 @@ End Code
                 ShowMessage(response.result.msg);
             },
             error: function (e) {
-                ShowMessage(e);
+                ShowMessage(e,true);
             }
         });
     }

@@ -150,7 +150,7 @@ End Code
         };
         if (obj.CTYCODE != "") {
             if (obj.CTYName == '') {
-                ShowMessage('Please enter country name');
+                ShowMessage('Please enter country name',true);
                 return;
             }
             ShowConfirm("Do you need to Save " + obj.CTYCODE + "/" + obj.CTYName + "?", function (ask) {
@@ -170,12 +170,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function SearchData(type) {

@@ -101,7 +101,7 @@ End Code
         };
         if (obj.UnitType != "") {
             if (obj.UName == '') {
-                ShowMessage('Please enter unit name');
+                ShowMessage('Please enter unit name',true);
                 $('#txtUName').focus();
                 return;
             }
@@ -122,12 +122,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function ClearData() {

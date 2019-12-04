@@ -57,14 +57,21 @@ End Code
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6">
-                Contact Information:<br />Account : <input type="text" id="txtContactAcc" Class="form-control" tabIndex="13">
-                <br />Sales : <input type="text" id="txtContactSale" Class="form-control" tabIndex="14">
+            <div class="col-sm-4" style="display:flex;flex-direction:column">
+                <b>Contact Information:</b><br/>                
+                Account :<input type="text" id="txtContactAcc" Class="form-control" tabIndex="13">
+                Sales : <input type="text" id="txtContactSale" Class="form-control" tabIndex="14">
             </div>
-            <div class="col-sm-6">
-                Customer Service :<br />IMPORT : <input type="text" id="txtContactSupport1" Class="form-control" tabIndex="15">
-                <br />EXPORT :<input type="text" id="txtContactSupport2" Class="form-control" tabIndex="16">
-                <br />DOMESTIC :<input type="text" id="txtContactSupport3" Class="form-control" tabIndex="17">
+            <div class="col-sm-4" style="display:flex;flex-direction:column">
+                <b>Customer Service :</b><br/>
+                IMPORT : <input type="text" id="txtContactSupport1" Class="form-control" tabIndex="15">
+                EXPORT :<input type="text" id="txtContactSupport2" Class="form-control" tabIndex="16">
+                DOMESTIC :<input type="text" id="txtContactSupport3" Class="form-control" tabIndex="17">
+            </div>
+            <div class="col-sm-4" style="display:flex;flex-direction:column">
+                <b>User Login :</b><br />
+                User Name :<input type="text" id="txtLoginName" Class="form-control" tabIndex="18">
+                Password :<input type="password" id="txtLoginPassword" Class="form-control" tabIndex="19">
             </div>
         </div>
         <div id="dvCommand">
@@ -81,8 +88,6 @@ End Code
                 <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
             </a>
         </div>
-        <input type="hidden" id="txtLoginName">
-        <input type="hidden" id="txtLoginPassword">
     </div>
 </div>
 <div id="dvLOVs"></div>
@@ -161,11 +166,11 @@ End Code
     function SaveData() {
         var obj = GetDataSave();
         if (obj.VenCode == '') {
-            ShowMessage('Please enter vender code');
+            ShowMessage('Please enter vender code',true);
             return;
         }
         if (obj.TName == '') {
-            ShowMessage('Please enter vender name');
+            ShowMessage('Please enter vender name',true);
             return;
         }
         ShowConfirm("Do you need to " + (obj.VenCode == "" ? "Add" : "Save") + " this data?", function (ask) {
@@ -185,7 +190,7 @@ End Code
                     ShowMessage(response.result.msg);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });        
         });
@@ -225,7 +230,7 @@ End Code
                 $('#btnDel').attr('disabled', 'disabled');
             }
         } else {
-            ShowMessage('Data Not Found');
+            ShowMessage('Data Not Found',true);
             ClearData();
         }
         //$('#txtVenCode').focus();

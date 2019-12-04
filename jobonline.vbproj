@@ -728,7 +728,6 @@
     <Content Include="Views\Adv\FormCreditAdv.vbhtml" />
     <Content Include="Views\Adv\Index.vbhtml" />
     <Content Include="Views\Adv\Payment.vbhtml" />
-    <Content Include="Views\Adv\_FormAdv.vbhtml" />
     <Content Include="Views\Acc\Billing.vbhtml" />
     <Content Include="Views\Acc\Cheque.vbhtml" />
     <Content Include="Views\Acc\CreditNote.vbhtml" />
@@ -774,58 +773,58 @@
     <Content Include="Resource\Import\Mas_UserRoleDetail.json" />
     <Content Include="Resource\Import\Mas_UserRolePolicy.json" />
     <Content Include="Resource\Export\Resource_Export_25620906170910.json" />
-    <Content Include="App_Data\Web-KWAN.config" />
-    <Content Include="App_Data\Web-KWAN.Debug.config">
-      <DependentUpon>Web-KWAN.config</DependentUpon>
+    <Content Include="App_Data\KWAN\Web.config" />
+    <Content Include="App_Data\KWAN\Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="App_Data\Web-KWAN.Release.config">
-      <DependentUpon>Web-KWAN.config</DependentUpon>
+    <Content Include="App_Data\KWAN\Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="App_Data\Web-APL.config" />
-    <Content Include="App_Data\Web-APL.Debug.config">
-      <DependentUpon>Web-APL.config</DependentUpon>
+    <Content Include="App_Data\APL\Web.config" />
+    <Content Include="App_Data\APL\Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="App_Data\Web-APL.Release.config">
-      <DependentUpon>Web-APL.config</DependentUpon>
+    <Content Include="App_Data\APL\Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="App_Data\Web-SERVER-TAWAN.config" />
-    <Content Include="App_Data\Web-SERVER-TAWAN.Debug.config">
-      <DependentUpon>Web-SERVER-TAWAN.config</DependentUpon>
+    <Content Include="App_Data\DEV-SERVER\Web.config" />
+    <Content Include="App_Data\DEV-SERVER\Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="App_Data\Web-SERVER-TAWAN.Release.config">
-      <DependentUpon>Web-SERVER-TAWAN.config</DependentUpon>
+    <Content Include="App_Data\DEV-SERVER\Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="App_Data\Web-DEMO_TAWAN.config" />
-    <Content Include="App_Data\Web-DEMO_TAWAN.Debug.config">
-      <DependentUpon>Web-DEMO_TAWAN.config</DependentUpon>
+    <Content Include="App_Data\JOBBETA\Web.config" />
+    <Content Include="App_Data\JOBBETA\Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="App_Data\Web-DEMO_TAWAN.Release.config">
-      <DependentUpon>Web-DEMO_TAWAN.config</DependentUpon>
+    <Content Include="App_Data\JOBBETA\Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
-    <Content Include="App_Data\Web-PGM.config" />
-    <Content Include="App_Data\Web-PGM.Debug.config">
-      <DependentUpon>Web-PGM.config</DependentUpon>
+    <Content Include="App_Data\DEV-LOCAL\Web.config" />
+    <Content Include="App_Data\DEV-LOCAL\Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="App_Data\Web-PGM.Release.config">
-      <DependentUpon>Web-PGM.config</DependentUpon>
+    <Content Include="App_Data\DEV-LOCAL\Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\JobOrder\Config.vbhtml" />
-    <Content Include="App_Data\Web-ASAL.config" />
-    <Content Include="App_Data\Web-ASAL.Debug.config">
-      <DependentUpon>Web-ASAL.config</DependentUpon>
+    <Content Include="App_Data\ASAL\Web.config" />
+    <Content Include="App_Data\ASAL\Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="App_Data\Web-ASAL.Release.config">
-      <DependentUpon>Web-ASAL.config</DependentUpon>
+    <Content Include="App_Data\ASAL\Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
+    <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
+    </None>
+    <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
-    </Content>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

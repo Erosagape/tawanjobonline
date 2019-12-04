@@ -95,7 +95,7 @@ End Code
         };
         if (obj.AreaCode != "") {
             if (obj.AreaName == '') {
-                ShowMessage('Please enter area name');
+                ShowMessage('Please enter area name',true);
                 return;
             }
             ShowConfirm("Do you need to Save " + obj.AreaCode + "?", function (ask) {
@@ -115,12 +115,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function ClearData() {

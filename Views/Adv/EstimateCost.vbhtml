@@ -178,12 +178,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
     }
     function ClearData() {
@@ -273,7 +273,7 @@ End Code
 
     function CopyData() {
         if ($('#txtJobCopyFrom').val() == '') {
-            ShowMessage('Please Enter Job To Copy Data From');
+            ShowMessage('Please Enter Job To Copy Data From',true);
             return;
         }
         let w = $('#txtBranchCode').val() + '|' + $('#txtJobCopyFrom').val() + '=' + $('#txtBranchCode').val() + '|' + $('#txtJNo').val();

@@ -230,7 +230,7 @@ End Code
                 LoadData(r.servicecode.data[0]);
                 return;
             } else {
-                ShowMessage('Data not found');
+                ShowMessage('Data not found',true);
                 AddData();
             }
         });
@@ -377,11 +377,11 @@ End Code
         if (row.SICode != undefined) {
             var obj = GetDataSave(row);
             if (obj.GroupCode == null) {
-                ShowMessage('Please enter service type');
+                ShowMessage('Please enter service type',true);
                 return;
             }
             if (obj.NameThai == '') {
-                ShowMessage('Please enter service name');
+                ShowMessage('Please enter service name',true);
                 return;
             }
             ShowConfirm("Do you need to " + (row.SICode == "" ? "Add" : "Save") + " this data?", function (ask) {
@@ -401,12 +401,12 @@ End Code
                         ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        ShowMessage(e);
+                        ShowMessage(e,true);
                     }
                 });
             });
         } else {
-            ShowMessage('No data to save');
+            ShowMessage('No data to save',true);
         }
         //ShowMessage('VAT=' + $('#chkIsTaxCharge').prop('checked') + ' (' + $('input:radio[name=optVAT]:checked').val() + ') TAX=' + $('#chkIs50Tavi').prop('checked') + ' (' + $('input:radio[name=optWHT]:checked').val()+')');
     }
