@@ -61,20 +61,7 @@ function loadConfig(e, code, path, def) {
         }
     });
 }
-function loadDatabase(e) {
-    $(e).empty();
-    $(e).append($('<option>', { value: '' })
-        .text('N/A'));
-    $.get('Config/GetDatabase').done(function (dr) {
-        if (dr.database.length > 0) {
-            for (let i = 0; i < dr.database.length; i++) {
-                $(e).append($('<option>', { value: (i+ 1) })
-                    .text(dr.company + '->' + dr.database[i].trim()));
-            }            
-            $(e).val(1);
-        }
-    });
-}
+
 function loadUnit(e, path, filter) {
     $.get(path + 'Master/GetServUnit' + filter).done(function (r) {
         let dr = r.servunit.data;

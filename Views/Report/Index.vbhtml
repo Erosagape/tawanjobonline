@@ -164,6 +164,7 @@
     let browseWhat = '';
     let cliterias = [];
     let data = {};
+    let path = '@Url.Content("~")';
     ChangeLanguageForm('@ViewBag.Module');
     SetEvents();
     $('#tbReportList tbody').on('click', 'tr', function () {
@@ -188,7 +189,7 @@
         return '?data=' + JSON.stringify(data) + '&cliteria=' + encodeURIComponent(str);
     }
     function SetEvents() {
-        $.get('/Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+        $.get(path +'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
             CreateLOV(dv, '#frmSearchBranch', '#tblBranch', 'Search Branch', response, 2);
             CreateLOV(dv, '#frmSearchCust', '#tblCust', 'Search Customers', response, 3);

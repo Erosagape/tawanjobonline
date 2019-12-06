@@ -62,7 +62,7 @@ function SetLanguage(lang) {
 function ChangeLanguage(code, module) {
     ShowWait();
     mainLanguage = code;
-    $.get('/Config/SetLanguage?data=' + mainLanguage)
+    $.get(path+'Config/SetLanguage?data=' + mainLanguage)
         .done(function () {
             let lang = {
                 mainMkt: 'Marketing Works|แผนกการตลาด',

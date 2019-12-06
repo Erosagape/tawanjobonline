@@ -26,7 +26,7 @@ End Code
     function LoadTables() {
         var ul = $('#lstTables');
         ul.empty();
-        $.get('/Config/GetTable?DB=' + $('#cboDBType').val(),function (r) {
+        $.get(path +'Config/GetTable?DB=' + $('#cboDBType').val(),function (r) {
             let html = '';
             if (r.data.length > 0) {
                 for (let row of r.data[0].Table) {
@@ -66,7 +66,7 @@ End Code
             table.destroy();
             $('#tbResult').empty();
         }
-        $.get('/' + fname,function (r) {
+        $.get(path +  fname,function (r) {
             var tb = r.data[0].Table;
             var cols = [];
             $.each(tb[0], function (key, value) {
@@ -85,7 +85,7 @@ End Code
         });
     }
     function Download(fname) {
-        fetch('/'+ fname)
+        fetch(path + fname)
             .then(resp => resp.blob())
             .then(blob => {
                 const url = window.URL.createObjectURL(blob);

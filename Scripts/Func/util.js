@@ -1,6 +1,6 @@
 ﻿//function for javascripts usage
 function QuickCallback(ev,db) {
-    $.get('/Config/GetLogin')
+    $.get('Config/GetLogin')
         .done(function (r) {
             if (r.user.data.length > 0) {
                 ev();
@@ -10,7 +10,7 @@ function QuickCallback(ev,db) {
         });
 }
 function SetTempLogin(ev,db) {    
-    $.get('/Config/SetLogin?Type=Guest&Database='+ db)
+    $.get('Config/SetLogin?Type=Guest&Database='+ db)
         .done(function (r) {
             if (r.user.data.length > 0) {
                 ev();
@@ -19,7 +19,7 @@ function SetTempLogin(ev,db) {
         });
 }
 function CallLogout() {
-    $.get('/Config/SetLogout')
+    $.get('Config/SetLogout')
         .done(function (r) {
             //alert('Process Complete');
         });

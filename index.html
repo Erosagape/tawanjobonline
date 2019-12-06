@@ -85,7 +85,8 @@
         //});
     function ForceLogout() {
         $('#linkLogout').attr('disabled', 'disabled');
-        $.get('/config/setlogout?code=' + $('#txtUserID').val()).done(function (r) {
+        
+    /config/setlogout?code=' + $('#txtUserID').val()).done(function (r) {
             if (r == "Y") {
                 $('#linkLogout').removeAttr('disabled');
                 ShowMessage('Logout complete!');

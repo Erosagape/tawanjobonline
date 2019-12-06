@@ -24,7 +24,7 @@ End Code
     function ProcessFile() {
         let fname = saveTo+'/'+ $('#selFiles').val();
         if (fname !== null) {
-            $.get('/Config/ImportFromFile?Path=' + fname,function (r) {
+            $.get(path + 'Config/ImportFromFile?Path=' + fname,function (r) {
                 if (r.result !== '') {
                     ShowMessage(r.result);
                 }
@@ -35,7 +35,7 @@ End Code
     function DeleteFile() {
         let fname = saveTo+'/'+ $('#selFiles').val();
         if (fname !== null) {
-            $.get('/Config/RemovePicture?Name=' + fname,function (r) {
+            $.get(path +'Config/RemovePicture?Name=' + fname,function (r) {
                 if (r !== '') {
                     ShowMessage(r);
                     LoadFileList();
@@ -46,7 +46,7 @@ End Code
     function ShowFiles() {
         let fname =saveTo+'/'+  $('#selFiles').val();
         if (fname !== null) {
-            $.get('/' + fname,function (r) {
+            $.get(path + fname,function (r) {
                 if (r !== null) {
                     let str = JSON.stringify(r, undefined, 4);
                     $('#txtContents').text(str);
@@ -56,7 +56,7 @@ End Code
     }
     function LoadFileList() {
         $('#selFiles').empty();
-        $.get('/Config/GetFileList?path=' + saveTo + '&ext=json',
+        $.get(path + 'Config/GetFileList?path=' + saveTo + '&ext=json',
             function (r) {
                 let i = 0;
                 if (r.length > 0) {
@@ -77,7 +77,7 @@ End Code
             let data = new FormData();
             data.append(file.name, file);
             var xhr = new XMLHttpRequest();
-            xhr.open('POST','/Config/UploadJson?Path=' + saveTo);
+            xhr.open('POST',path + 'Config/UploadJson?Path=' + saveTo);
             xhr.send(data);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {

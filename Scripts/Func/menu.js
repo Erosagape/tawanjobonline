@@ -1,6 +1,5 @@
 ﻿function OpenMenu(mnuID) {
     let mnuPath = '';
-    let path = '/';
     switch (mnuID) {
         case 'AccountCode':
             mnuPath = path + 'Master/AccountCode';

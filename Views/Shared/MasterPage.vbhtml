@@ -300,6 +300,7 @@
     let dbMas = '@ViewBag.CONNECTION_MAS';
     let dbJob = '@ViewBag.CONNECTION_JOB';
     let userLang = '@ViewBag.PROFILE_DEFAULT_LANG';
+    let base = '@Url.Content("~")';
     if (userLang !== 'EN' && userLang !== '') {
         $('#cboLanguage').val(userLang);
         ChangeLanguage(userLang, $('#lblModule').text());
@@ -311,7 +312,7 @@
     function ForceLogout() {
         userType = $('input[name=optRole]:checked').val();
 
-        $.get(path + 'config/setlogout?group='+ userType +'&code=' + $('#txtUserLogin').val()).done(function (r) {
+        $.get(base + 'config/setlogout?group='+ userType +'&code=' + $('#txtUserLogin').val()).done(function (r) {
             if (r == "Y") {
                 ShowMessage('Logout complete!');
             }
@@ -347,7 +348,7 @@
         userType = $('input[name=optRole]:checked').val();
 
         let Password = $('#txtUserPassword').val();
-        $.get(path + 'Config/SetLogin?Group='+ userType +'&Code=' + userID + '&Pass=' + Password + '&Database=' + dbID)
+        $.get(base + 'Config/SetLogin?Group='+ userType +'&Code=' + userID + '&Pass=' + Password + '&Database=' + dbID)
             .done(function (r) {
                 if (r.user.data.length > 0) {
                     window.location.reload();
@@ -390,18 +391,18 @@
         ShowConfirm('Do you need to log out?', function (c) {
             if (c == true) {
                 ShowWait();
-                $.get(path + 'config/setlogout?group='+ userType +'&code=' + userID)
+                $.get(base + 'config/setlogout?group='+ userType +'&code=' + userID)
                     .done(function (r) {
                         CloseWait();
                         if (r == 'Y') {
-                            window.location.href=path;
+                            window.location.href=base;
                         }
                     });
             }
         });
     }
     function OpenContact() {
-        window.open(path + 'Menu/About', '', '');
+        window.open(base + 'Menu/About', '', '');
     }
     function CheckDatabase() {
         ShowMessage('MAS='+dbMas+'\nJOB='+dbJob+'\nSESSION-ID='+sessionID);

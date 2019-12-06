@@ -1,11 +1,11 @@
 ﻿//basic function tools for binding
 function CheckSession(ev) {
-    $.get('/Config/GetLogin', function (r) {
+    $.get(path + 'Config/GetLogin', function (r) {
         if (r.user.data.UserID == null) {
             $('#cboDatabase').empty();
             $('#cboDatabase').append($('<option>', { value: '' })
                 .text('N/A'));
-            $.get('/Config/GetDatabase').done(function (dr) {
+            $.get(path + 'Config/GetDatabase').done(function (dr) {
                 if (dr.database.length > 0) {
                     for (let i = 0; i < dr.database.length; i++) {
                         $('#cboDatabase').append($('<option>', { value: (i + 1) })
@@ -42,7 +42,7 @@ function CheckPassword(db, user, ev) {
         },
         callback: function (pass) {
             if (pass !== null) {
-                $.get('/Config/SetLogin?Database=' + db + '&Code=' + user + '&Pass=' + pass, function (r) {
+                $.get(path + 'Config/SetLogin?Database=' + db + '&Code=' + user + '&Pass=' + pass, function (r) {
                     if (r.user.data.length > 0) {
                         ev();
                     } else {
