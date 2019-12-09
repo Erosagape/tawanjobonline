@@ -25,6 +25,9 @@ Namespace Controllers
         End Function
         Function GetSQLCommand(cliteria As String, fldDate As String, fldCust As String, fldJob As String, fldEmp As String, fldVend As String, fldStatus As String, fldBranch As String) As String
             Dim sqlW As String = ""
+            If cliteria Is Nothing Then
+                Return ""
+            End If
             For Each str As String In cliteria.Split(",")
                 If str <> "" Then
                     If sqlW <> "" Then
@@ -158,19 +161,19 @@ Namespace Controllers
                     Case "ADVDAILY"
                         sqlW = GetSQLCommand(cliteria, "a.PaymentDate", "a.CustCode", "d.ForJNo", "a.ReqBy", "d.VenCode", "a.DocStatus", "a.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT ad.AdvNo,ad.PaymentDate,ad.ReqBy,ad.SDescription,ad.ForJNo,ad.AdvPayAmount,ad.Charge50Tavi FROM (" & SQLSelectAdvDetail() & sqlW & ") ad  ORDER BY ad.PaymentDate,ad.AdvNo"
+                        sqlM = "SELECT ad.AdvNo,ad.PaymentDate,ad.EmpCode as ReqBy,ad.SDescription,ad.ForJNo,ad.AdvPayAmount,ad.Charge50Tavi FROM (" & SQLSelectAdvDetail() & sqlW & ") ad  ORDER BY ad.PaymentDate,ad.AdvNo"
                     Case "EXPDAILY"
                         sqlW = GetSQLCommand(cliteria, "h.DocDate", "", "d.ForJNo", "h.EmpCode", "h.VenCode", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
                         sqlM = "SELECT pa.DocNo,pa.DocDate,pa.VenCode,pa.RefNo,pa.SDescription,pa.Total FROM (" & SQLSelectPaymentReport() & sqlW & ") pa ORDER BY pa.DocDate,pa.DocNo"
                     Case "RCPDAILY"
                         sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "ih.RefNo", "rh.EmpCode", "", "", "rh.BranchCode")
-                        If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT=0 AND " & sqlW
-                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo,rc.ClrNo,rc.AdvNo,rc.SDescription,rc.Net,rd.PRVoucher FROM (" & SQLSelectReceiptReport() & sqlW & ") rc ORDER BY rc.ReceiptDate,rc.ReceiptNo"
+                        If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT=0 AND " & sqlW Else sqlW = " WHERE rh.TotalVAT=0 "
+                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo,rc.ClrNo,rc.AdvNo,rc.SDescription,rc.Net,rc.PRVoucher FROM (" & SQLSelectReceiptReport() & sqlW & ") rc ORDER BY rc.ReceiptDate,rc.ReceiptNo"
                     Case "TAXDAILY"
                         sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "ih.RefNo", "rh.EmpCode", "", "", "rh.BranchCode")
-                        If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT>0 AND " & sqlW
-                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo,rc.ClrNo,rc.AdvNo,rc.SDescription,rc.Net,rd.PRVoucher FROM (" & SQLSelectReceiptReport() & sqlW & ") rc ORDER BY rc.ReceiptDate,rc.ReceiptNo"
+                        If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT>0 AND " & sqlW Else sqlW = " WHERE rh.TotalVAT>0 "
+                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo,rc.ClrNo,rc.AdvNo,rc.SDescription,rc.Net,rc.PRVoucher FROM (" & SQLSelectReceiptReport() & sqlW & ") rc ORDER BY rc.ReceiptDate,rc.ReceiptNo"
                     Case "CASHDAILY"
                         sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "r.CmpCode", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE (d.ChqAmount >0 OR d.CashAmount>0) AND " & sqlW
@@ -182,45 +185,132 @@ Namespace Controllers
                     Case "INVDAILY"
                         sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "", "ih.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.TotalNet,inv.CreditNet,inv.ReceivedNet FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.DocDate,inv.DocNo"
+                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.TotalInv,inv.CreditNet,inv.ReceivedNet FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.DocDate,inv.DocNo"
                     Case "BILLDAILY"
                         sqlW = GetSQLCommand(cliteria, "h.BillDate", "h.CustCode", "", "h.EmpCode", "", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
                         sqlM = "SELECT bl.BillAcceptNo,bl.BillDate,bl.CustCode,bl.InvNo,bl.AmtAdvance,bl.AmtChargeNonVAT,bl.AmtChargeVAT,bl.AmtVAT,bl.AmtWH,bl.AmtTotal FROM (" & SQLSelectBillReport() & ") bl ORDER BY bl.BillDate,bl.BillAcceptNo"
                     Case "JOBCOST"
-                        sqlW = GetSQLCommand(cliteria, "h.ClrDate", "j.CustCode", "j.JNo", "h.EmpCode", "d.VenCode", "h.DocStatus", "h.BranchCode")
-                        If sqlW <> "" Then sqlW = " WHERE h.DocStatus<>99 AND d.BCost>0 AND " & sqlW
-                        sqlM = "SELECT cl.ClrNo,cl.ClrDate,cl.SDescription,cl.AdvNO,cl.JobNo,cl.AdvNet,cl.ClrNet,cl.Tax50Tavi,cl.SlipNo FROM (" & SQLSelectClrDetail() & sqlW & ") cl ORDER BY cl.ClrDate,cl.ClrNo"
+                        sqlW = GetSQLCommand(cliteria, "ch.ClrDate", "j.CustCode", "j.JNo", "j.CSCode", "j.ForwarderCode", "j.JobStatus", "j.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT CustCode,JNo,DeclareNumber,InvNo,DutyDate,SumAdvance,SumCost,SumCharge,Profit FROM (
+SELECT j.BranchCode, j.JNo, j.CustCode, j.CustBranch, j.InvNo, j.DutyDate, j.DeclareNumber,j.CSCode,j.ManagerCode,
+SUM(CASE WHEN ch.ClearType=1 THEN cd.BNet ELSE 0 END) AS SumAdvance,
+SUM(CASE WHEN ch.ClearType=2 THEN cd.BNet+cd.Tax50Tavi ELSE 0 END) AS SumCost,
+SUM(CASE WHEN ch.ClearType=3 THEN cd.BNet+cd.Tax50Tavi ELSE 0 END) AS SumCharge,
+SUM(CASE WHEN ch.ClearType=3 THEN cd.BNet+cd.Tax50Tavi ELSE 0 END)-SUM(CASE WHEN ch.ClearType=2 THEN cd.BNet+cd.Tax50Tavi ELSE 0 END) as Profit
+FROM            dbo.Job_ClearHeader AS ch INNER JOIN
+                         dbo.Job_ClearDetail AS cd ON ch.BranchCode = cd.BranchCode 
+						 AND ch.ClrNo=cd.ClrNo
+						 INNER JOIN
+                         dbo.Job_Order AS j ON cd.BranchCode = j.BranchCode AND cd.JobNo = j.JNo
+WHERE        (ch.DocStatus <> 99) AND (j.JobStatus < 99) {0}
+GROUP BY j.BranchCode, j.JNo, j.CustCode, j.CustBranch, j.InvNo, j.DutyDate, j.DeclareNumber,j.CSCode,j.ManagerCode
+) as t ORDER BY CustCode,DutyDate,InvNo"
+                        sqlM = String.Format(sqlM, sqlW)
                     Case "BOOKBAL"
                         sqlW = GetSQLCommand(cliteria, "a.VoucherDate", "", "", "b.RecUser", "", "", "b.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT bk.BookCode,bk.LimitBalance,bk.SumCashOnhand,bk.SumChqClear,bk.SumChqOnhand,bk.SumCredit+bk.SumChkReturn as SumCreditable FROM (" & String.Format(SQLSelectBookAccBalance(), sqlW) & ") bk ORDER BY "
+                        sqlM = "SELECT bk.BookCode,bk.LimitBalance,bk.SumCashOnhand,bk.SumChqClear,bk.SumChqOnhand,bk.SumCredit+bk.SumChqReturn as SumCreditable FROM (" & String.Format(SQLSelectBookAccBalance(), sqlW) & ") bk ORDER BY BookCode"
                     Case "VATSALES"
-
+                        sqlW = GetSQLCommand(cliteria, "t.ReceiptDate", "t.CustCode", "", "", "", "", "")
+                        If sqlW <> "" Then sqlW = " WHERE " & sqlW
+                        sqlM = String.Format(SQLSelectVATSales(), sqlW)
                     Case "VATBUY"
-
+                        sqlW = GetSQLCommand(cliteria, "t.ExpenseDate", "t.CustCode", "t.JobNo", "", "t.VenCode", "", "")
+                        If sqlW <> "" Then sqlW = " WHERE " & sqlW
+                        sqlM = String.Format(SQLSelectVATBuy(), sqlW)
                     Case "WHTAX"
-
+                        sqlW = GetSQLCommand(cliteria, "cd.Date50Tavi", "c.CustCode", "cd.JobNo", "ch.EmpCode", "cd.VenderCode", "", "ch.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT Date50Tavi,NO50Tavi,VenTaxNumber,VenTaxBranch,VenderName,CustCode,CustTaxBranch,CustTaxNumber,CustName,
+(CASE WHEN Tax50TaviRate =1 THEN 'ค่าขนส่ง' ELSE (CASE WHEN Tax50TaviRate =3 THEN 'ค่าบริการ' ELSE (CASE WHEN Tax50TaviRate =5 THEN 'ค่าเช่า' ELSE (CASE WHEN Tax50TaviRate =2 THEN 'ค่าโฆษณา' ELSE (CASE WHEN Tax50TaviRate =10 THEN 'ออกให้มูลนิธิ/สมาคม' ELSE 'เงินเดือน' END) END) END) END) END) as TaxType,
+(CASE WHEN CustName Like '%จำกัด%' THEN '53' ELSE '3' END) as TaxForm,
+(CASE WHEN IsLtdAdv50Tavi=1 THEN Tax50Tavi ELSE 0 END) as Tax3Tres,
+(CASE WHEN IsLtdAdv50Tavi=0 THEN Tax50Tavi ELSE 0 END) as TaxNot3Tres,
+SlipNO,UsedAmount,Tax50TaviRate
+FROM (" & String.Format(SQLSelectTax50TaviReport(), sqlW) & ") as t ORDER BY Date50Tavi,NO50Tavi"
                     Case "ACCEXP"
-
+                        sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "", "", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT PRVoucher,VoucherDate,TRemark,ChqNo,ChqDate,TotalNet,ControlNo FROM (" & String.Format(SQLSelectCashFlow(), sqlW) & ") as t WHERE PRType='P' ORDER BY PRVoucher"
                     Case "ACCINC"
-
-                    Case "ARBAL"
-
-                    Case "APBAL"
-
-                    Case "CNDN"
-
-                    Case "TRIALBAL"
-
-                    Case "BALANCS"
-
-                    Case "PROFITLOSS"
-
+                        sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "", "", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT PRVoucher,VoucherDate,TRemark,ChqNo,ChqDate,TotalNet,ControlNo FROM (" & String.Format(SQLSelectCashFlow(), sqlW) & ") as t WHERE PRType='R' ORDER BY PRVoucher"
                     Case "CASHFLOW"
-
+                        sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "", "", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT PRVoucher,VoucherDate,TRemark,ChqNo,ChqDate,TotalNet,ControlNo FROM (" & String.Format(SQLSelectCashFlow(), sqlW) & ") as t ORDER BY PRType DESC,PRVoucher"
+                    Case "STATEMENT"
+                        sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "", "", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT BookCode,VoucherDate,TRemark,PRVoucher,ChqNo,ChqDate,(CASE WHEN PRType='P' THEN TotalNet*-1 ELSE TotalNet END) as TotalNet,ControlNo FROM (" & String.Format(SQLSelectCashFlow(), sqlW) & ") as t WHERE BookCode<>'' ORDER BY BookCode,VoucherDate,PRVoucher "
+                    Case "ARBAL"
+                        sqlW = GetSQLCommand(cliteria, "DocDate", "CustCode", "RefNo", "EmpCode", "", "", "BranchCode")
+                        If sqlW <> "" Then sqlW = " WHERE " & sqlW
+                        sqlM = "
+SELECT CustCode,DocNo,DocDate,RefNo,
+Sum(AmtAdvance) as TotalAdv,Sum(AmtCharge) as TotalCharge,Sum(AmtVAT) as TotalVat,Sum(Amt50Tavi) as Total50Tavi,
+Sum(TotalAmt) as TotalNet,Sum(TotalReceiveAmt) as TotalReceived,Sum(TotalCreditAmt) as TotalCredit,Sum(TotalBal) as TotalBal
+FROM (
+SELECT ih.*,id.SICode,id.SDescription,id.AmtCharge,id.AmtVat,id.Amt50Tavi,id.AmtAdvance,
+id.TotalAmt,ISNULL(c.TotalCredit,0) as TotalCreditAmt,ISNULL(r.RecvNet,0) as TotalReceiveAmt
+,id.TotalAmt-ISNULL(c.TotalCredit,0)-ISNULL(r.RecvNet,0) as TotalBal
+,r.FromReceiptNo,r.VoucherNo,r.ReceiptDate
+FROM dbo.Job_InvoiceHeader AS ih INNER JOIN dbo.Job_InvoiceDetail AS id 
+ON ih.BranchCode = id.BranchCode AND ih.DocNo=id.DocNo
+LEFT JOIN (SELECT    cd.BranchCode, cd.BillingNo, cd.BillItemNo, SUM(cd.TotalNet) AS TotalCredit
+FROM dbo.Job_CNDNHeader AS ch INNER JOIN dbo.Job_CNDNDetail AS cd 
+ON ch.BranchCode = cd.BranchCode AND ch.DocNo = cd.DocNo
+WHERE (ch.DocStatus <> 99)
+GROUP BY cd.BranchCode, cd.BillingNo, cd.BillItemNo) as c
+ON id.BranchCode=c.BranchCode AND id.DocNo=c.BillingNo AND id.ItemNo=c.BillItemNo
+LEFT JOIN (SELECT    rd.BranchCode, rd.InvoiceNo, rd.InvoiceItemNo, 
+SUM((CASE WHEN rd.VoucherNo<>'' THEN rd.Net ELSE 0 END)) AS RecvNet,
+(SELECT STUFF((
+SELECT DISTINCT ',' + ReceiptNo
+FROM Job_ReceiptDetail WHERE BranchCode=rd.BranchCode
+AND InvoiceNo=rd.InvoiceNo AND InvoiceItemNo=rd.InvoiceItemNo
+  FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+  )) as FromReceiptNo,
+(SELECT STUFF((
+SELECT DISTINCT ',' + VoucherNo
+FROM Job_ReceiptDetail WHERE BranchCode=rd.BranchCode
+AND InvoiceNo=rd.InvoiceNo AND InvoiceItemNo=rd.InvoiceItemNo
+  FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+  )) as VoucherNo,
+MAX(rh.ReceiptDate) as ReceiptDate
+FROM      dbo.Job_ReceiptHeader AS rh INNER JOIN
+             dbo.Job_ReceiptDetail AS rd ON rh.BranchCode = rd.BranchCode AND rh.ReceiptNo = rd.ReceiptNo
+WHERE    (NOT (ISNULL(rh.CancelProve, '') <> ''))
+GROUP BY rd.InvoiceNo, rd.InvoiceItemNo, rd.BranchCode) as r
+ON id.BranchCode=r.BranchCode AND id.DocNo=r.InvoiceNo AND id.ItemNo=r.InvoiceItemNo
+WHERE    (NOT (ISNULL(ih.CancelProve, '') <> ''))
+) t {0} GROUP BY CustCode,DocNo,DocDate,RefNo
+"
+                        sqlM = String.Format(sqlM, sqlW)
+                    Case "APBAL"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "", "", "h.EmpCode", "h.VenCode", "", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT h.DocNo, h.DocDate, v.TName, h.PoNo, h.RefNo, 
+CASE WHEN h.PaymentRef<>'' THEN h.TotalNet ELSE 0 END as PaidAmount,
+CASE WHEN NOT h.PaymentRef<>'' THEN h.TotalNet ELSE 0 END as UnPaidAmount,
+h.PaymentRef
+FROM dbo.Job_PaymentHeader AS h INNER JOIN dbo.Mas_Vender AS v ON h.VenCode = v.VenCode
+WHERE (h.ApproveBy <> '') AND NOT (ISNULL(h.CancelProve,'')<>'') {0}
+"
+                        sqlM = String.Format(sqlM, sqlW)
+                    Case "CNDN"
+                        sqlW = GetSQLCommand(cliteria, "a.DocDate", "a.CustCode", "", "a.EmpCode", "", "", "a.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = SQLSelectCNDNSummary() & " WHERE a.DocStatus<>99 AND ISNULL(a.ApproveBy,'')<>'' {0} "
+                        sqlM = "SELECT CustCode,DocDate,DocNo,InvoiceNo,TotalAmt,TotalVAT,TotalWHT,TotalNet FROM (" & String.Format(sqlM, sqlW) & ") t ORDER BY CustCode,DocDate,DocNo "
+                    Case "TRIALBAL"
+                    Case "BALANCS"
+                    Case "PROFITLOSS"
                     Case "JOURNAL"
-
                 End Select
                 Dim oData = New CUtil(jobWebConn).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)

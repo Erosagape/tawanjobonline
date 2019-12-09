@@ -575,6 +575,22 @@ End Code
         $('#txtCustCode').focus();
     }
     function SaveData() {
+        if ($('#txtCustCode').val().trim().indexOf(' ') >= 0) {
+            ShowMessage('Code must not have space', true);
+            return;
+        }
+        if ($('#txtCustCode').val().trim().length > 10) {
+            ShowMessage('Code must not have length over 10', true);
+            return;
+        }
+        if ($('#txtCustCode').val().trim().length < 3) {
+            ShowMessage('Code must not have length less than 3', true);
+            return;
+        }
+        if ($('#txtBranch').val().trim().length > 4) {
+            ShowMessage('Branch must not have length over 4', true);
+            return;
+        }
         var obj = {
             CustCode: $('#txtCustCode').val().trim(),
             Branch: $('#txtBranch').val().trim(),

@@ -177,8 +177,8 @@
     function GetCliteria() {
         let obj = {
             branch: '[BRANCH]=' + $('#txtBranchCode').val(),
-            dateFrom: '[DATE]>=' + $('#txtDateFrom').val(),
-            dateTo: '[DATE]<=' + $('#txtDateTo').val(),
+            dateFrom: ($('#txtDateFrom').val()==''?'': '[DATE]>=' + $('#txtDateFrom').val()),
+            dateTo: ($('#txtDateTo').val()==''?'': '[DATE]<=' + $('#txtDateTo').val()),
             custWhere: $('#txtCustCliteria').val(),
             jobWhere: $('#txtJobCliteria').val(),
             empWhere: $('#txtEmpCliteria').val(),

@@ -1672,20 +1672,7 @@ Namespace Controllers
                     tSqlw &= " AND ReceiptDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
                 If Not IsNothing(Request.QueryString("Type")) Then
-                    Select Case Request.QueryString("Type").ToString()
-                        Case "RCV"
-                            tSqlw &= " AND ReceiptNo like 'RC%' "
-                        Case "TAX"
-                            tSqlw &= " AND ReceiptNo like 'TX%' "
-                        Case "SRV"
-                            tSqlw &= " AND ReceiptNo like 'SV%' "
-                        Case "REC"
-                            tSqlw &= " AND ReceiptNo like 'RV%' "
-                        Case "ADV"
-                            tSqlw &= " AND ReceiptNo like 'AV%' "
-                        Case Else
-                            Return Content("{""result"":{""data"":null,""msg"":""Please Enter Receipt Type""}}", jsonContent)
-                    End Select
+                    tSqlw &= " AND ReceiptType = '" & Request.QueryString("Type").ToString() & "' "
                 End If
                 If Not IsNothing(Request.QueryString("Show")) Then
                     If Request.QueryString("Show").ToString() = "ACTIVE" Then

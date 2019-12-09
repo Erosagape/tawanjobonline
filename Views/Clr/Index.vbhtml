@@ -310,16 +310,19 @@ End Code
                             <br />
                             Slip No :
                             <input type="text" id="txtSlipNo" style="width:150px" tabindex="26" />
+                            <input type="date" id="txtDate50Tavi" tabindex="27" />
                             WH-Tax No :
-                            <input type="text" id="txt50Tavi" style="width:150px" tabindex="27" />
+                            <input type="text" id="txt50Tavi" style="width:150px" tabindex="28" />
+                            <input type="checkbox" id="chkIsLtdAdv50Tavi" />
+                            <label for="chkIsLtdAdv50Tavi">**หักตามมาตรา 60,69,70</label>
                             <br />
                             Pay To Vender :
-                            <input type="text" id="txtVenCode" style="width:50px" tabindex="28" />
+                            <input type="text" id="txtVenCode" style="width:50px" tabindex="29" />
                             <input type="button" id="btnBrowseVen" onclick="SearchData('vender')" value="..." />
-                            <input type="text" id="txtPayChqTo" style="width:200px" tabindex="29" />
+                            <input type="text" id="txtPayChqTo" style="width:200px" tabindex="30" />
                             <br />
                             Remark :
-                            <textarea id="txtRemark" style="width:100%;height:80px" tabindex="30"></textarea>
+                            <textarea id="txtRemark" style="width:100%;height:80px" tabindex="31"></textarea>
                             <br />
                             <input type="checkbox" id="chkIsCost" disabled />
                             <label for="chkIscost">Is Company Cost (Cannot Charge)</label>
@@ -1285,10 +1288,10 @@ End Code
             IsQuoItem: dtl.IsQuoItem,
             SlipNO: $('#txtSlipNo').val(),
             Remark: $('#txtRemark').val(),
-            IsLtdAdv50Tavi: dtl.IsLtdAdv50Tavi,
+            IsLtdAdv50Tavi:  ($('#chkIsLtdAdv50Tavi').prop('checked') == true ? 1 : 0),
             Pay50TaviTo: $('#txtPayChqTo').val(),
             NO50Tavi: $('#txt50Tavi').val(),
-            Date50Tavi: dtl.Date50Tavi,
+            Date50Tavi: CDateEN($('#txtDate50Tavi').val()),
             VenderBillingNo: dtl.VenderBillingNo,
             AirQtyStep: dtl.AirQtyStep,
             StepSub: dtl.StepSub,
@@ -1328,6 +1331,7 @@ End Code
             $('#txtRemark').val(dt.Remark);
             $('#txtSlipNo').val(dt.SlipNO);
             $('#txt50Tavi').val(dt.NO50Tavi);
+            $('#txtDate50Tavi').val(CDateEN(dt.Date50Tavi));
             $('#txtPayChqTo').val(dt.Pay50TaviTo);
             $('#txtSDescription').val(dt.SDescription);
             $('#txtVatType').val(dt.VATType);
@@ -1338,6 +1342,7 @@ End Code
             $('#txtWHT').val(CDbl(dt.Tax50Tavi,2));
             $('#txtNET').val(CDbl(dt.BNet,2));
             $('#txtVenCode').val(dt.VenderCode);
+            $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
             $('#txtCurrencyCode').val(dt.CurrencyCode);
             $('#txtAdvNo').val(dt.AdvNO);
@@ -1370,6 +1375,7 @@ End Code
             $('#txtRemark').val(dt.Remark);
             $('#txtSlipNo').val(dt.SlipNO);
             $('#txt50Tavi').val(dt.NO50Tavi);
+            $('#txtDate50Tavi').val(CDateEN(dt.Date50Tavi));
             $('#txtPayChqTo').val(dt.Pay50TaviTo);
             $('#txtSDescription').val(dt.SDescription);
             $('#txtVatType').val(dt.VATType);
@@ -1380,6 +1386,7 @@ End Code
             $('#txtWHT').val(CDbl(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01),2));
             $('#txtNET').val(CDbl(CNum($('#txtAMT').val()) + (CNum($('#txtAMT').val()) * (dt.VATRate * 0.01)) - (CNum($('#txtAMT').val()) * (dt.Tax50TaviRate * 0.01)),2));
             $('#txtVenCode').val(dt.VenderCode);
+            $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
             $('#txtCurrencyCode').val(dt.CurrencyCode);
             $('#chkIsCost').prop('checked', dt.IsExpense == 1 ? true : false);
@@ -1413,6 +1420,7 @@ End Code
             $('#txtRemark').val(dt.Remark);
             $('#txtSlipNo').val(dt.SlipNO);
             $('#txt50Tavi').val(dt.NO50Tavi);
+            $('#txtDate50Tavi').val(CDateEN(dt.Date50Tavi));
             $('#txtPayChqTo').val(dt.Pay50TaviTo);
             $('#txtSDescription').val(dt.SDescription);
             $('#txtVatType').val(dt.VATType);
@@ -1423,6 +1431,7 @@ End Code
             $('#txtWHT').val(CDbl(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01),2));
             $('#txtNET').val(CDbl(CNum($('#txtAMT').val()) + (CNum($('#txtAMT').val()) * (dt.VATRate * 0.01)) - (CNum($('#txtAMT').val()) * (dt.Tax50TaviRate * 0.01)),2));
             $('#txtVenCode').val(dt.VenderCode);
+            $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
             $('#txtCurrencyCode').val(dt.CurrencyCode);
             $('#chkIsCost').prop('checked', dt.IsExpense == 1 ? true : false);
@@ -1448,6 +1457,7 @@ End Code
         }
         $('#txtRemark').val('');
         $('#txt50Tavi').val('');
+        $('#txtDate50Tavi').val('');
         $('#txtPayChqTo').val('');
         $('#txtSDescription').val('');
         $('#txtVatType').val('1');
@@ -1460,6 +1470,7 @@ End Code
         $('#txtQty').val(1);
         $('#txtCurRate').val(1);
         $('#txtUnitPrice').val(0);
+        $('#chkIsLtdAdv50Tavi').prop('checked', false);
         $('#txtCurrencyCode').val($('#txtSubCurrency').val());
         ShowCurrency(path, $('#txtSubCurrency').val(), '#txtCurrencyName');
         ShowCaption();

@@ -449,7 +449,7 @@ ON a.BranchCode=c.BranchCode AND a.AdvNo=c.AdvNo
     Function SQLSelectAdvDetail() As String
         Return "
 select a.*,d.ForJNo,d.ItemNo,d.SICode,d.SDescription,
-d.IsDuplicate,d.IsChargeVAT,d.Is50Tavi,d.CurrencyCode,d.ExchangeRate,
+d.IsDuplicate,d.IsChargeVAT,d.Is50Tavi,d.CurrencyCode,d.ExchangeRate as DExchangeRate,
 b.TaxNumber,b.NameThai,b.NameEng,d.VenCode,d.TRemark as DRemark,
 d.BaseAmount,d.RateVAT,d.ChargeVAT,d.Rate50Tavi,d.Charge50Tavi,
 d.AdvQty,d.UnitPrice,d.AdvNet,d.AdvPayAmount,
@@ -612,7 +612,7 @@ h.EmpCode,u1.TName as ClrByName,h.ApproveBy,u2.TName as ApproveByName,
 h.ApproveDate,h.ReceiveBy,u3.TName as ReceiveByName, h.ReceiveDate,h.ReceiveRef,
 h.AdvTotal,h.ClearTotal,h.TotalExpense,h.ClearVat,h.ClearWht,h.ClearNet,h.ClearBill,h.ClearCost,
 d.ItemNo,d.AdvNO,d.AdvItemNo,a.IsDuplicate,d.AdvAmount,
-a.AdvNet,a.PaymentDate,a.AdvDate,a.DocStatus,
+a.AdvNet,a.PaymentDate,a.AdvDate,a.DocStatus as AdvStatus,
 d.SICode,d.SDescription,d.SlipNO,d.JobNo,d.VenderCode,v.TName as VenderName,
 d.UsedAmount,d.Tax50Tavi,d.ChargeVAT,d.BNet as ClrNet,
 d.FPrice,d.BPrice,d.FCost,d.BCost,
@@ -1112,7 +1112,7 @@ GROUP BY " & sqlGroup
 select ih.*,id.ItemNo,id.SICode,id.SDescription,id.ExpSlipNO,id.SRemark,
 id.Amt,id.AmtDiscount,id.AmtCredit,
 id.AmtCharge,id.AmtAdvance,id.AmtVat,id.Amt50Tavi,
-id.TotalAmt,id.TotalAmt-id.AmtCredit as TotalNet,
+id.TotalAmt,id.TotalAmt-id.AmtCredit as TotalInv,
 r.ReceivedAmt,r.ReceivedVat,r.ReceivedWht,r.ReceivedNet,
 r.ReceiptNo,
 c.CreditAmt,c.CreditVat,c.CreditWht,c.CreditNet,
@@ -1733,6 +1733,136 @@ d.IsCredit=h.IsCredit,
 d.IsLtdAdv50Tavi=h.IsLtdAdv50Tavi
 FROM Job_SrvGroup h INNER JOIN Job_SrvSingle d
 ON h.GroupCode=d.GroupCode
+"
+    End Function
+    Function SQLSelectInvDetail() As String
+        Return "
+SELECT d.ItemNo, d.SICode, d.SDescription, d.ExpSlipNO, d.SRemark, d.CurrencyCode, d.ExchangeRate, d.Qty, d.QtyUnit, d.UnitPrice, d.FUnitPrice, d.Amt, d.FAmt, 
+    d.DiscountType, d.DiscountPerc, d.AmtDiscount, d.FAmtDiscount, d.Is50Tavi, d.Rate50Tavi, d.Amt50Tavi, d.IsTaxCharge, d.AmtVat, d.TotalAmt, d.FTotalAmt, 
+    d.AmtAdvance, d.AmtCharge, d.CurrencyCodeCredit AS DCurrencyCode, d.ExchangeRateCredit AS DExchangeRate, d.AmtCredit, d.FAmtCredit, d.VATRate, 
+    h.BranchCode, h.DocNo, h.DocDate, h.CustCode, h.CustBranch, h.BillToCustCode, h.BillToCustBranch, h.ContactName, h.EmpCode, h.PrintedBy, h.PrintedDate, 
+    h.PrintedTime, h.RefNo, h.TotalAdvance, h.TotalCharge, h.TotalIsTaxCharge, h.TotalIs50Tavi, h.TotalVAT, h.Total50Tavi, h.TotalCustAdv, h.TotalNet, h.ForeignNet, 
+    h.BillAcceptDate, h.BillIssueDate, h.BillAcceptNo, h.Remark1, h.Remark2, h.Remark3, h.Remark4, h.Remark5, h.Remark6, h.Remark7, h.Remark8, h.Remark9, 
+    h.Remark10, h.CancelReson, h.CancelProve, h.CancelDate, h.CancelTime, h.ShippingRemark, h.SumDiscount, h.DiscountRate, h.DiscountCal, h.TotalDiscount, 
+    h.CurrencyCode AS HCurrencyCode, h.ExchangeRate AS HExchangeRate, c1.TaxNumber AS CustTaxNumber, c1.NameThai AS CustNameThai, 
+    c1.NameEng AS CustNameEng, c1.TAddress1 AS CustTAddress1, c1.TAddress2 AS CustTAddress2, c1.EAddress1 AS CustEAddress1, 
+    c1.EAddress2 AS CustEAddress2, c2.TaxNumber AS BillTaxNumber, c2.NameThai AS BillNameThai, c2.NameEng AS BillNameEng, c2.TAddress1 AS BillTAddress1, 
+    c2.TAddress2 AS BillTAddress2, c2.EAddress1 AS BillEAddress1, c2.EAddress2 AS BillEAddress2, u.TName AS IssueNameThai, u.EName AS IssueNameEng,
+(SELECT STUFF((
+SELECT DISTINCT ',' + JobNo
+FROM Job_ClearDetail WHERE BranchCode=d.BranchCode
+AND LinkBillNo=d.DocNo  AND LinkItem=d.ItemNo
+    FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+    )) as FromJobNo,
+(SELECT STUFF((
+SELECT DISTINCT ',' + ClrNo + '#' + Convert(varchar,ItemNo)
+FROM Job_ClearDetail WHERE BranchCode=d.BranchCode
+AND LinkBillNo=d.DocNo  AND LinkItem=d.ItemNo
+    FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+    )) as FromClrNo
+FROM     dbo.Job_InvoiceDetail AS d INNER JOIN
+    dbo.Job_InvoiceHeader AS h ON d.BranchCode = h.BranchCode AND d.DocNo = h.DocNo INNER JOIN
+    dbo.Mas_Company AS c1 ON h.CustCode = c1.CustCode AND h.CustBranch = c1.Branch INNER JOIN
+    dbo.Mas_Company AS c2 ON h.BillToCustCode = c2.CustCode AND h.BillToCustBranch = c2.Branch INNER JOIN
+    dbo.Mas_User AS u ON h.EmpCode = u.UserID
+"
+    End Function
+    Function SQLSelectVATSales() As String
+        Return "
+SELECT ReceiptDate,ReceiptNo,ServiceType,TaxNumber,Branch,TotalChargeVAT,TotalVAT,TotalChargeNonVAT,CancelReson FROM (
+SELECT h.ReceiptDate,h.ReceiptNo,c.CustCode,c.TaxNumber,c.Branch,
+(CASE WHEN h.TotalVAT>0 THEN 'ค่าบริการของบริษัท' ELSE 'ค่าขนส่งของบริษัท' END) + c.NameThai as ServiceType,
+CASE WHEN h.TotalVAT>0 THEN h.TotalCharge ELSE 0 END as TotalChargeVAT,
+h.TotalVAT,
+CASE WHEN h.TotalVAT=0 THEN h.TotalCharge ELSE 0 END as TotalChargeNonVAT,
+h.TotalCharge+h.TotalVAT as TotalDoc,h.CancelReson
+FROM Job_ReceiptHeader h INNER JOIN Mas_Company c
+ON h.CustCode=c.CustCode AND h.CustBranch=c.Branch
+WHERE h.ReceiptType<>'ADV' AND NOT ISNULL(h.CancelProve,'')<>''
+UNION
+SELECT h.DocDate,h.DocNo,c.CustCode,c.TaxNumber,c.Branch,
+(CASE WHEN d.DiffAmt>0 THEN 'เพิ่มหนี้' ELSE 'ลดหนี้' END)+(CASE WHEN d.VATAmt <>0 THEN 'ค่าบริการของบริษัท' ELSE 'ค่าขนส่งของบริษัท' END)+c.NameThai as ServiceType,
+CASE WHEN d.VATAmt <>0 THEN d.DiffAmt ELSE 0 END as TotalChargeVAT,
+d.VATAmt,
+CASE WHEN d.VATAmt =0 THEN d.DiffAmt ELSE 0 END as TotalChargeNonVAT,
+d.DiffAmt+d.VATAmt as TotalDoc,h.CancelReason
+FROM Job_CNDNHeader h INNER JOIN Job_CNDNDetail d
+ON h.BranchCode=d.BranchCode AND h.DocNo=d.DocNo
+INNER JOIN Mas_Company c ON h.CustCode=c.CustCode AND h.CustBranch=c.Branch
+WHERE NOT h.DocStatus<>99
+UNION
+SELECT h.CancelDate,'*'+h.ReceiptNo,c.CustCode,c.TaxNumber,c.Branch,
+'**ยกเลิก**'+ (CASE WHEN h.TotalVAT>0 THEN 'ค่าบริการของบริษัท' ELSE 'ค่าขนส่งของบริษัท' END) + c.NameThai as ServiceType,
+0 as TotalChargeVAT,
+0 as TotalVat,
+0 as TotalChargeNonVAT,
+0 as TotalDoc,h.CancelReson
+FROM Job_ReceiptHeader h INNER JOIN Mas_Company c
+ON h.CustCode=c.CustCode AND h.CustBranch=c.Branch
+WHERE h.ReceiptType<>'ADV' AND ISNULL(h.CancelProve,'')<>''
+UNION
+SELECT h.CancelDate,'*'+h.DocNo,c.CustCode,c.TaxNumber,c.Branch,
+'**ยกเลิก**'+ (CASE WHEN d.DiffAmt>0 THEN 'เพิ่มหนี้' ELSE 'ลดหนี้' END)+(CASE WHEN d.VATAmt <>0 THEN 'ค่าบริการของบริษัท' ELSE 'ค่าขนส่งของบริษัท' END)+c.NameThai as ServiceType,
+0 as TotalChargeVAT,
+0 as TotalVAT,
+0 as TotalNonVAT,
+0 as TotalDoc,h.CancelReason
+FROM Job_CNDNHeader h INNER JOIN Job_CNDNDetail d
+ON h.BranchCode=d.BranchCode AND h.DocNo=d.DocNo
+INNER JOIN Mas_Company c ON h.CustCode=c.CustCode AND h.CustBranch=c.Branch
+WHERE h.DocStatus<>99
+) AS t {0} ORDER BY ReceiptDate,ReceiptNo
+"
+    End Function
+    Function SQLSelectVATBuy() As String
+        Return "SELECT ExpenseDate,SlipNo,VenderName,TaxNumber,Branch,ExpenseAmt,ExpenseVAT,CancelReson FROM (
+SELECT cd.Date50Tavi as ExpenseDate, cd.SlipNO as SlipNo, v.TName as VenderName, v.TaxNumber, v.BranchCode as Branch, v.VenCode, cd.UsedAmount as ExpenseAmt, cd.ChargeVAT as ExpenseVAT, j.CustCode, j.CustBranch, cd.JobNo, 
+    c.TaxNumber AS CustTaxNumber, h.DocNo, h.DocDate, h.PoNo, h.RefNo, h.AdvRef, d.AdvItemNo, h.PaymentRef, ch.ClrNo, ch.ClrDate, h.PaymentDate, d.SICode, 
+    d.SDescription, d.Amt, d.AmtVAT, d.AmtWHT, d.Total, d.BookingRefNo, d.BookingItemNo, h.CancelReson, h.CancelDate
+FROM     dbo.Job_PaymentDetail AS d INNER JOIN
+    dbo.Job_ClearDetail AS cd ON d.BranchCode = cd.BranchCode AND d.ClrItemNo = cd.ItemNo AND d.ClrRefNo = cd.ClrNo INNER JOIN
+    dbo.Job_ClearHeader AS ch ON cd.BranchCode = ch.BranchCode AND cd.ClrNo = ch.ClrNo INNER JOIN
+    dbo.Job_PaymentHeader AS h ON d.BranchCode = h.BranchCode AND d.DocNo = h.DocNo INNER JOIN
+    dbo.Mas_Vender AS v ON h.VenCode = v.VenCode INNER JOIN
+    dbo.Job_Order AS j ON cd.BranchCode = j.BranchCode AND cd.JobNo = j.JNo INNER JOIN
+    dbo.Mas_Company AS c ON j.CustCode = c.CustCode AND j.CustBranch = c.Branch
+WHERE (ch.DocStatus <> 99) AND (cd.ChargeVAT > 0) AND (h.PaymentDate IS NOT NULL) AND (cd.SlipNO <> '')
+UNION
+SELECT h.CancelDate, '*'+cd.SlipNO, v.TName + '**ยกเลิก**', v.TaxNumber, v.BranchCode, v.VenCode, 0, 0, j.CustCode, j.CustBranch, cd.JobNo, 
+    c.TaxNumber AS CustTaxNumber, h.DocNo, h.DocDate, h.PoNo, h.RefNo, h.AdvRef, d.AdvItemNo, h.PaymentRef, ch.ClrNo, ch.ClrDate, h.PaymentDate, d.SICode, 
+    d.SDescription, d.Amt, d.AmtVAT, d.AmtWHT, d.Total, d.BookingRefNo, d.BookingItemNo, h.CancelReson, h.CancelDate
+FROM     dbo.Job_PaymentDetail AS d INNER JOIN
+    dbo.Job_ClearDetail AS cd ON d.BranchCode = cd.BranchCode AND d.ClrItemNo = cd.ItemNo AND d.ClrRefNo = cd.ClrNo INNER JOIN
+    dbo.Job_ClearHeader AS ch ON cd.BranchCode = ch.BranchCode AND cd.ClrNo = ch.ClrNo INNER JOIN
+    dbo.Job_PaymentHeader AS h ON d.BranchCode = h.BranchCode AND d.DocNo = h.DocNo INNER JOIN
+    dbo.Mas_Vender AS v ON h.VenCode = v.VenCode INNER JOIN
+    dbo.Job_Order AS j ON cd.BranchCode = j.BranchCode AND cd.JobNo = j.JNo INNER JOIN
+    dbo.Mas_Company AS c ON j.CustCode = c.CustCode AND j.CustBranch = c.Branch
+WHERE (ch.DocStatus <> 99) AND (cd.ChargeVAT > 0) AND (h.CancelDate IS NOT NULL) AND (cd.SlipNO <> '')
+) AS t {0} ORDER BY ExpenseDate,SlipNo"
+    End Function
+    Function SQLSelectTax50TaviReport() As String
+        Return "
+SELECT cd.Date50Tavi, cd.NO50Tavi, v.VenCode, v.TaxNumber AS VenTaxNumber, v.BranchCode AS VenTaxBranch, v.TName AS VenderName, c.CustCode, 
+    c.TaxNumber AS CustTaxNumber, c.Branch AS CustTaxBranch, c.NameThai AS CustName, cd.SICode, cd.SDescription, cd.UsedAmount, cd.Tax50TaviRate, 
+    cd.Tax50Tavi, cd.IsLtdAdv50Tavi, cd.SlipNO
+FROM     dbo.Job_ClearDetail AS cd INNER JOIN
+    dbo.Job_ClearHeader AS ch ON cd.BranchCode = ch.BranchCode AND cd.ClrNo = ch.ClrNo INNER JOIN
+    dbo.Job_Order AS j ON cd.BranchCode = j.BranchCode AND cd.JobNo = j.JNo INNER JOIN
+    dbo.Mas_Company AS c ON j.CustCode = c.CustCode AND j.CustBranch = c.Branch INNER JOIN
+    dbo.Mas_Vender AS v ON cd.VenderCode = v.VenCode
+WHERE (cd.Tax50Tavi > 0) AND ch.DocStatus<>99 {0}
+"
+    End Function
+    Function SQLSelectCashFlow() As String
+        Return "
+SELECT h.BranchCode, h.ControlNo, h.VoucherDate, h.TRemark, h.RecUser, h.RecDate, h.RecTime, h.PostedBy, h.PostedDate, h.PostedTime, 
+    h.CancelReson, h.CancelProve, h.CancelDate, h.CancelTime, h.CustCode, h.CustBranch, d.ItemNo, d.PRVoucher, d.PRType, d.ChqNo, d.BookCode, d.BankCode, 
+    d.BankBranch, d.ChqDate, d.CashAmount, d.ChqAmount, d.CreditAmount, d.IsLocal, d.ChqStatus, d.PayChqTo, d.SICode, d.RecvBank, d.RecvBranch, d.acType, 
+    d.SumAmount, d.CurrencyCode, d.ExchangeRate, d.TotalAmount, d.VatInc, d.VatExc, d.WhtInc, d.WhtExc, d.TotalNet, d.ForJNo
+FROM     dbo.Job_CashControl AS h INNER JOIN
+    dbo.Job_CashControlSub AS d ON h.BranchCode = d.BranchCode AND h.ControlNo = d.ControlNo
+WHERE (NOT (ISNULL(h.CancelProve, '') <> '')) {0}
 "
     End Function
 End Module
