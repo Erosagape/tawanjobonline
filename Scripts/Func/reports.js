@@ -543,7 +543,101 @@ function GetColumnHeader(id,langid) {
         consigneecode: 'Consignee|ผู้ซื้อขาย',
         DeliveryNo: 'Delivery|ใบส่งของ',
         DeliveryTo: 'Delivery To|ส่งถึง',
-        DeliveryAddr: 'Delivery Addr|ที่อยู่'
+        DeliveryAddr: 'Delivery Addr|ที่อยู่',
+        PaymentDate: 'Payment Date|วันที่จ่าย',
+        AdvNo: 'Advance No|เลขที่ใบเบิก',
+        JobNo: 'Job No|หมายเลขงาน',
+        ForJNo: 'Job No|หมายเลขงาน',
+        ReqBy: 'Request By|ผู้ขอ',
+        SDescription: 'Expense|ชื่อค่าใช้จ่าย',
+        VenderCode: 'Vender|รหัสผู้ให้บริการ',
+        AdvNet: 'Net|ยอดเบิก',
+        AdvPayAmount: 'Net|ยอดเบิก',
+        ClrNet: 'Used|ยอดปิด',
+        UsedAmount: 'Used|ยอดใช้ไป',
+        AdvBalance: 'Balance|รอเคลียร์',
+        PRVoucher: 'Voucher|เลขที่ใบสำคัญ',
+        VoucherDate: 'Date|วันที่ออก',
+        ChqNo: 'Chq No|เลขที่เช็ค',
+        ChqDate: 'Chq Date|วันที่เช็ค',
+        TotalNet: 'Net|ยอดสุทธิ',
+        ControlNo:'Control No|เลขที่ลงบัญชี',
+        DocNo: 'Doc No|เลขที่เอกสาร',   
+        TName: 'Name|ชื่อภาษาไทย',
+        PoNo: 'PO No|ใบสั่งซื้อ',
+        RefNo: 'Ref No|เลขที่อ้างอิง',
+        PaidAmount: 'Paid|ยอดที่จ่าย',
+        UnPaidAmount: 'UnPaid|ยอดที่ค้าง',
+        PaymentRef: 'Paid.Ref|เลขที่ชำระ',
+        TotalAdv: 'Advance|ทดรองจ่าย',
+        TotalCharge: 'Service|ค่าบริการ',
+        TotalVat: 'VAT|VAT',
+        TotalVAT: 'VAT|VAT',
+        Total50Tavi: 'W-Tax|หัก ณ ที่จ่าย',
+        TotalWHT: 'W-Tax|หัก ณ ที่จ่าย',
+        TotalNet: 'Net|สุทธิ',
+        TotalReceived: 'Received|รับชำระแล้ว',
+        TotalCredit: 'Credit|ลดหนี้/ปรับปรุง',
+        TotalBal: 'Balance|คงเหลือ',
+        BookCode: 'Book No|สมุดบัญชี',
+        LimitBalance: 'Limit|ขั้นต่ำ',
+        SumCashOnhand: 'Cash Onhand|เงินสดในมือ',
+        SumChqClear: 'Chq Clear|เช็คเคลียร์',
+        SumChqOnhand: 'Chq Onhand|เช็คในมือ',
+        SumCreditable: 'Adjust|ปรับปรุง',
+        InvoiceNo: 'Inv No|ใบแจ้งหนี้',
+        SumAdvance: 'Advance|ทดรองจ่าย',
+        SumCharge: 'Charge|ค่าบริการ',
+        SumCost: 'Cost|ต้นทุน',
+        Profit: 'Profit|กำไรชั้นต้น',
+        ExpenseDate: 'Exp.Date|วันที่จ่าย',
+        SlipNo: 'Slip No|เลขที่ใบเสร็จ',
+        SlipNO: 'Slip No|เลขที่ใบเสร็จ',
+        VenderName: 'Name|ชื่อ',
+        TaxNumber: 'Tax No|เลขผู้เสียภาษี',
+        Branch: 'Branch|สาขา',
+        ExpenseAmt: 'Amt|ยอดเงิน',
+        ExpenseVAT: 'VAT|VAt',
+        ReceiptDate: 'Date|วันที่ใบกำกับ',
+        ReceiptNo: 'Receipt No|เลชที่ใบกำกับ',
+        ServiceType: 'Description|รายละเอียด',
+        TotalChargeVAT: 'VAT Base|ฐานภาษีมูลค่าเพิ่ม',
+        TotalChargeNonVAT: 'VAT Except|ยกเว้นภาษี',
+        Date50Tavi: 'Date|วันที่เอกสาร',
+        NO50Tavi: 'Doc No|เลขที่เอกสาร',
+        VenTaxNumber: 'Tax.Issue|เลขผู้เสียภาษีผู้หัก',
+        CustTaxBranch: 'Branch|สาขาผู้ถูกหัก',
+        CustTaxNumber: 'Tax.Receive|เลขผู้เสียภาษีผู้ถูกหัก',
+        CustName: 'Name|ชื่อผู้ถูกหัก',
+        TaxType: 'Tax-type|ประเภท',
+        TaxForm: 'Tax-Form|แบบยื่น',
+        Tax3Tres: '3-Tres|3 เตรส',
+        TaxNot3Tres: 'No 3-Tres|ไม่ใช่ 3 เตรส',
+        Tax50TaviRate: 'Rate|อัตราหัก ณ ที่จ่าย',
+        BillAcceptNo: 'Bill No|ใบวางบิล',
+        BillDate: 'Date|วันที่ออก',
+        AmtAdvance: 'Advance|ทดรองจ่าย',
+        AmtChargeNonVAT: 'VAT Except|ยกเว้นภาษี',
+        AmtChargeVAT: 'VAT Base|ฐานภาษี',
+        Amt:'Amt|ยอดเงิน',
+        AmtVAT: 'VAT|VAT',
+        AmtVat: 'VAT|VAT',
+        AmtCredit: 'Credit|ชำระก่อน',
+        CreditNet: 'Adjust|ปรับปรุง',
+        AmtWH: 'W/H-Tax|W/H-Tax',
+        AmtTotal: 'Net|สุทธิ',
+        ClrNo: 'Clr.No|ใบปิดค่าใช้จ่าย',
+        ClrDate: 'Date|วันที่ปิด',
+        AdvNO: 'Adv.No|ใบเบิก',
+        Tax50Tavi: 'W/H-Tax|W/H-Tax',
+        TotalInv: 'Inv.Total|ยอดรวม',
+        ReceivedNet: 'Received|ชำระแล้ว',
+        Charge50Tavi: 'W/H-Tax|W/H-Tax',
+        RecvBank: 'Bank|ธนาคาร',
+        Total: 'Total|ยอดรวม',
+        DRefNo: 'Ref No|อ้างอิงเอกสาร',
+        SumReceipt: 'Receive|ยอดใบเสร็จ',
+        TotalComm: 'Commission|ค่าคอม'
     }
     let str = id;
     if (lang[id] !== undefined) {
@@ -558,146 +652,3 @@ function GetColumnHeader(id,langid) {
     }
     return str;
 }
-
-/*
-function _LoadReport(reportID) {
-    switch (reportID) {
-        case 'AccruedSum':
-            break;
-        case 'Adjustment':
-            break;
-        case 'AdvBalance':
-            break;
-        case 'AdvBilled':
-            break;
-        case 'AdvCleared':
-            break;
-        case 'AdvDailyPay':
-            break;
-        case 'AdvDailyReq':
-            break;
-        case 'AdvFollow':
-            break;
-        case 'AdvMonthly':
-            break;
-        case 'AdvOnclear':
-            break;
-        case 'AdvOngoing':
-            break;
-        case 'AdvSumClear':
-            break;
-        case 'AdvWeekly':
-            break;
-        case 'APDaily':
-            break;
-        case 'APDetail':
-            break;
-        case 'ARDetail':
-            break;
-        case 'ARSummary':
-            break;
-        case 'BalanceSheet':
-            break;
-        case 'BillDaily':
-            break;
-        case 'BillDue':
-            break;
-        case 'BillOverdue':
-            break;
-        case 'BillSummary':
-            break;
-        case 'BookFlow':
-            break;
-        case 'CashFlow':
-            break;
-        case 'CashPredict':
-            break;
-        case 'ChqPayDaily':
-            break;
-        case 'ChqRcvDaily':
-            break;
-        case 'ClrBilled':
-            break;
-        case 'ClrDaily':
-            break;
-        case 'ClrOngoing':
-            break;
-        case 'CNDNDaily':
-            break;
-        case 'CostingDetail':
-            break;
-        case 'GLBatch':
-            break;
-        case 'InvBilled':
-            break;
-        case 'InvDaily':
-            break;
-        case 'InvOnhold':
-            break;
-        case 'InvStatus':
-            break;
-        case 'InvSummary':
-            break;
-        case 'JobClearing':
-            break;
-        case 'JobCosting':
-            break;
-        case 'JobKPI':
-            break;
-        case 'JobOperComplete':
-            break;
-        case 'JobOperDaily':
-            break;
-        case 'JobOperEmp':
-            break;
-        case 'JobOperMonthly':
-            break;
-        case 'JobOperSum':
-            break;
-        case 'JobOperWeekly':
-            break;
-        case 'JobPending':
-            break;
-        case 'JobProfit':
-            break;
-        case 'JobStatusMonthly':
-            break;
-        case 'JobStatusWeekly':
-            break;
-        case 'JobTracking':
-            break;
-        case 'PayDaily':
-            break;
-        case 'PettyCash':
-            break;
-        case 'PODetail':
-            break;
-        case 'ProfitLoss':
-            break;
-        case 'RcpDaily':
-            break;
-        case 'RcpTaxFollow':
-            break;
-        case 'RcpTaxOngoing':
-            break;
-        case 'RcpTaxPayment':
-            break;
-        case 'RcpTaxSum':
-            break;
-        case 'RcvDaily':
-            break;
-        case 'SalesTax':
-            break;
-        case 'SODetail':
-            break;
-        case 'TaxDaily':
-            break;
-        case 'TrialBalance':
-            break;
-        case 'VATMonthly':
-            break;
-        case 'WHTMonthly':
-            break;
-    }
-}
-*/

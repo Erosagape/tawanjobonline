@@ -373,7 +373,7 @@ Public Class CTransportDetail
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportDetail", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportDetail", "SaveData", ex.Message, True)
                 msg = "[ERROR]:" & ex.Message
             End Try
         End Using
@@ -516,7 +516,7 @@ Public Class CTransportDetail
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportDetail", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportDetail", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using

@@ -316,7 +316,7 @@ WHERE (h.ApproveBy <> '') AND NOT (ISNULL(h.CancelProve,'')<>'') {0}
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 Return Content("{""result"":" & json & ",""msg"":""OK"",""sql"":""" & sqlW & """}")
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetReport", "ERROR", ex.Message)
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetReport", "ERROR", ex.Message, True)
                 Return Content("{""result"":[],""msg"":""" & ex.Message & """,""sql"":""" & sqlW & """}")
             End Try
         End Function

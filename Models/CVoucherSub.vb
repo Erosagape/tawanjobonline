@@ -368,7 +368,7 @@ Public Class CVoucherSub
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVoucherSub", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVoucherSub", "SaveData", ex.Message, True)
                 msg = "[ERROR] " & ex.Message
             End Try
         End Using
@@ -525,7 +525,7 @@ Public Class CVoucherSub
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVoucherSub", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVoucherSub", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using

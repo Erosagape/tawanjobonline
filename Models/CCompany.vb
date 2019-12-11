@@ -661,7 +661,7 @@ Public Class CCompany
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCompany", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCompany", "SaveData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using

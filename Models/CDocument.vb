@@ -116,12 +116,14 @@ Public Class CDocument
                             dr("FilePath") = Me.FilePath
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CDocument", "SaveData", Me)
                             msg = "Save Complete"
                         End Using
                     End Using
                 End Using
             Catch ex As Exception
                 msg = ex.Message
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CDocument", "SaveData", ex.Message, True)
             End Try
         End Using
         Return msg
@@ -183,11 +185,13 @@ Public Class CDocument
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CDocument", "DeleteData", cm.CommandText)
                 End Using
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
                 msg = ex.Message
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CDocument", "DeleteData", ex.Message, True)
             End Try
         End Using
         Return msg

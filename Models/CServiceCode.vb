@@ -222,7 +222,7 @@ Public Class CServiceCode
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceCode", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceCode", "DeleteData", ex.Message, True)
                 msg = "[exception] " + ex.Message
             End Try
         End Using
@@ -272,7 +272,7 @@ Public Class CServiceCode
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceCode", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceCode", "SaveData", ex.Message, True)
                 msg = "[exception] " + ex.Message
             End Try
         End Using

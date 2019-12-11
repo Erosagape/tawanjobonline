@@ -52,7 +52,7 @@ Public Class CProvince
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvince", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvince", "SaveData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -99,7 +99,7 @@ Public Class CProvince
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvince", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvince", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -188,7 +188,7 @@ Public Class CProvinceSub
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvinceSub", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvinceSub", "SaveData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -247,7 +247,7 @@ Public Class CProvinceSub
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvinceSub", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvinceSub", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using

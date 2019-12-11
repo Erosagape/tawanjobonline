@@ -411,7 +411,7 @@ Public Class CWHTaxHeader
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxHeader", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxHeader", "SaveData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -569,7 +569,7 @@ Public Class CWHTaxHeader
                 End Using
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxHeader", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxHeader", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using

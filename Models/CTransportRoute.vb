@@ -176,12 +176,14 @@ Public Class CTransportRoute
                             dr("IsActive") = Me.IsActive
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportRoute", "SaveData", Me)
                             msg = "Save Complete"
                         End Using
                     End Using
                 End Using
             Catch ex As Exception
                 msg = "[ERROR]" & ex.Message
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportRoute", "SaveData", ex.Message, True)
             End Try
         End Using
         Return msg
@@ -261,11 +263,13 @@ Public Class CTransportRoute
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportRoute", "DeleteData", cm.CommandText)
                 End Using
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
                 msg = ex.Message
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportRoute", "DeleteData", ex.Message, True)
             End Try
         End Using
         Return msg

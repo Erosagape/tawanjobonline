@@ -102,7 +102,7 @@ Public Class CQuoDetail
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoDetail", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoDetail", "SaveData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -161,7 +161,7 @@ Public Class CQuoDetail
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoDetail", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoDetail", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using

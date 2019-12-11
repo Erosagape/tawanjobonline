@@ -435,6 +435,7 @@
     <Content Include="Content\DataTables\swf\flashExport.swf" />
     <Content Include="Content\jquery.datatables.min.css" />
     <Content Include="Content\responsive.dataTables.min.css" />
+    <Content Include="Content\sheets-of-paper-a4-landscape.css" />
     <Content Include="Content\sheets-of-paper-a4.css" />
     <Content Include="Content\sheets-of-paper.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -456,6 +457,8 @@
     <Content Include="Content\DataTables\css\semanticui.scss" />
     <Content Include="App_Data\คู่มือ jobonline - การตั้งค่าข้อมูลมาตรฐานเริ่มต้นระบบฃ.pdf" />
     <Content Include="App_Data\คู่มือ jobonline - เปิด job งาน.pdf" />
+    <Content Include="App_Data\ASAL\_Report.vbhtml" />
+    <Content Include="App_Data\ASAL\_ReportLandscape.vbhtml" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

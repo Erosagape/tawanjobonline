@@ -1062,7 +1062,7 @@ Public Class CJobOrder
                 End Using
             End Using
         Catch e As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrder", "SaveData", e.Message)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrder", "SaveData", e.Message, True)
             msg = "[error]" & e.Message
         End Try
         Return msg

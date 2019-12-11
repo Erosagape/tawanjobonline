@@ -192,7 +192,7 @@ Public Class CCNDNHeader
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNHeader", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNHeader", "SaveData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -285,7 +285,7 @@ Public Class CCNDNHeader
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNHeader", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNHeader", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -535,7 +535,7 @@ Public Class CCNDNDetail
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNDetail", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNDetail", "SaveData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -640,7 +640,7 @@ Public Class CCNDNDetail
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNDetail", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNDetail", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using

@@ -33,8 +33,8 @@
                     <div id="divCompany" style="text-align:left;color:darkblue;">
                         <b>@ViewBag.PROFILE_COMPANY_NAME</b>
                         <br />@ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2
-                        <br />Tel @ViewBag.PROFILE_COMPANY_TEL Fax @ViewBag.PROFILE_COMPANY_FAX E-mail/Website @ViewBag.PROFILE_COMPANY_EMAIL
-                        <br />Tax-Reference ID : @ViewBag.PROFILE_TAXNUMBER Branch @ViewBag.PROFILE_TAXBRANCH
+                        <br />Tel @ViewBag.PROFILE_COMPANY_TEL Tax-Reference ID : @ViewBag.PROFILE_TAXNUMBER
+                        <br />E-mail/Website @ViewBag.PROFILE_COMPANY_EMAIL
                     </div>
                 </td>
             </tr>

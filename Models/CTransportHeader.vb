@@ -262,7 +262,7 @@ Public Class CTransportHeader
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportHeader", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportHeader", "SaveData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -398,7 +398,7 @@ Public Class CTransportHeader
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportHeader", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportHeader", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using

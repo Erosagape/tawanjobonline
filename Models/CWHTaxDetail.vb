@@ -155,7 +155,7 @@ Public Class CWHTaxDetail
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxDetail", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxDetail", "SaveData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -232,7 +232,7 @@ Public Class CWHTaxDetail
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxDetail", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxDetail", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using

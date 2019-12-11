@@ -3,10 +3,11 @@ Imports System.Data.SqlClient
 Public Class CLog
     Private m_ConnStr As String
     Public Sub New()
-
+        AddNew()
     End Sub
     Public Sub New(pConnStr As String)
         m_ConnStr = pConnStr
+        AddNew()
     End Sub
     Public Sub SetConnect(pConnStr As String)
         m_ConnStr = pConnStr
@@ -66,6 +67,24 @@ Public Class CLog
             m_Message = value
         End Set
     End Property
+    Private m_LogDateTime As DateTime
+    Public Property LogDateTime As DateTime
+        Get
+            Return m_LogDateTime
+        End Get
+        Set(value As DateTime)
+            m_LogDateTime = value
+        End Set
+    End Property
+    Private m_IsError As Boolean
+    Public Property IsError As Boolean
+        Get
+            Return m_IsError
+        End Get
+        Set(value As Boolean)
+            m_IsError = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -83,6 +102,8 @@ Public Class CLog
                             dr("ModuleName") = Me.ModuleName
                             dr("LogAction") = Me.LogAction
                             dr("Message") = Me.Message
+                            dr("LogDateTime") = Me.LogDateTime
+                            dr("IsError") = Me.IsError
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             msg = "Save Complete"
@@ -101,6 +122,8 @@ Public Class CLog
         m_ModuleName = ""
         m_LogAction = ""
         m_Message = ""
+        m_LogDateTime = DateTime.Now
+        m_IsError = False
     End Sub
     Public Function GetData(pSQLWhere As String) As List(Of CLog)
         Dim lst As New List(Of CLog)
@@ -128,6 +151,12 @@ Public Class CLog
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("Message"))) = False Then
                         row.Message = rd.GetString(rd.GetOrdinal("Message")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("LogDateTime"))) = False Then
+                        row.LogDateTime = rd.GetDateTime(rd.GetOrdinal("LogDateTime")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("IsError"))) = False Then
+                        row.IsError = rd.GetBoolean(rd.GetOrdinal("IsError")).ToString()
                     End If
                     lst.Add(row)
                 End While

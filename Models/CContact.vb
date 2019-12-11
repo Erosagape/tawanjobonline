@@ -113,7 +113,7 @@ Public Class CCompanyContact
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCompanyContact", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCompanyContact", "SaveData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -178,7 +178,7 @@ Public Class CCompanyContact
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCompanyContact", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCompanyContact", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using

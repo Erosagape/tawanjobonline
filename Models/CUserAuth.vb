@@ -72,7 +72,7 @@ Public Class CUserAuth
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserAuth", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserAuth", "SaveData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -127,7 +127,7 @@ Public Class CUserAuth
                 End Using
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserAuth", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserAuth", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using

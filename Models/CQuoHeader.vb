@@ -231,7 +231,7 @@ Public Class CQuoHeader
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoHeader", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoHeader", "SaveData", ex.Message, True)
                 msg = "[ERROR]" & ex.Message
             End Try
         End Using
@@ -336,7 +336,7 @@ Public Class CQuoHeader
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoHeader", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoHeader", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using

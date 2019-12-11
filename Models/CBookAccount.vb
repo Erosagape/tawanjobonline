@@ -182,7 +182,7 @@ Public Class CBookAccount
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBookAccount", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBookAccount", "SaveData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -280,7 +280,7 @@ Public Class CBookAccount
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBookAccount", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBookAccount", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using

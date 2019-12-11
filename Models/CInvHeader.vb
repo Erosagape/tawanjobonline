@@ -515,7 +515,7 @@ Public Class CInvHeader
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "SaveData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -705,7 +705,7 @@ Public Class CInvHeader
 
             msg = "Cancel Complete"
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "CancelData", ex.Message)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "CancelData", ex.Message, True)
             msg = ex.Message
         End Try
         Return msg
@@ -728,7 +728,7 @@ Public Class CInvHeader
                     msg = "Delete Complete"
                 End If
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using

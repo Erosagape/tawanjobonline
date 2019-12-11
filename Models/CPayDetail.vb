@@ -274,7 +274,7 @@ Public Class CPayDetail
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CPayDetail", "SaveData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CPayDetail", "SaveData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -388,7 +388,7 @@ Public Class CPayDetail
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CPayDetail", "DeleteData", ex.Message)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CPayDetail", "DeleteData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using

@@ -243,7 +243,7 @@ End Code
                             <input type="date" id="txtReadyClearDate" style="width:130px" tabindex="44" />
                         </div>
                         <div class="col-md-3">
-                            <label for="txtDutyDate">Duty Date :</label>
+                            <label for="txtDutyDate">Inspection Date :</label>
                             <input type="date" id="txtDutyDate" style="width:130px" tabindex="45" />
                         </div>
                         <div class="col-md-3">

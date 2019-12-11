@@ -96,11 +96,13 @@ Public Class CJobOrderLog
                             dr("TRemark") = Me.TRemark
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrderLog", "SaveData", Me)
                             msg = "Save Complete"
                         End Using
                     End Using
                 End Using
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrderLog", "SaveData", ex.Message, True)
                 msg = ex.Message
             End Try
         End Using
@@ -157,11 +159,13 @@ Public Class CJobOrderLog
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrderLog", "DeleteData", cm.CommandText)
                 End Using
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
                 msg = ex.Message
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrderLog", "DeleteData", ex.Message, True)
             End Try
         End Using
         Return msg

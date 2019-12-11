@@ -41,7 +41,7 @@ Public Class CConfig
 
             End Using
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CConfig", "SaveData", ex.Message)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CConfig", "SaveData", ex.Message, True)
         End Try
         Return bComplete
     End Function
@@ -59,8 +59,8 @@ Public Class CConfig
             End Using
             Return "Delete Data Complete"
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CConfig", "DeleteData", ex.Message)
-            Return String.Format("[exception] {0}", ex.Message)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CConfig", "DeleteData", ex.Message, True)
+            Return String.Format("[exception] {0}", ex.Message, True)
         End Try
     End Function
     Public Function GetData(Optional pSqlWhere As String = "") As List(Of CConfig)
