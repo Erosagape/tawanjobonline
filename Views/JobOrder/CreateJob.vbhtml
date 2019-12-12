@@ -215,7 +215,7 @@ End Code
     }
     function SetLOVs() {
         //3 Fields Show
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+        SetListOfValues(function (response) {
             let dv = document.getElementById("dvLOVs");
             CreateLOV(dv,'#frmSearchQuo','#tbQuo','Quotations',response,3);
             //Customers
@@ -460,7 +460,7 @@ End Code
                     data.HAWB = $('#txtHAWB').val();
                     data.MAWB = $('#txtMAWB').val();
                     data.ManagerCode = $('#txtManagerCode').val();
-                    PostData(data);
+                    SaveData(data);
                 } else {
                     ShowMessage(r.job.result,true);
                 }
@@ -471,21 +471,14 @@ End Code
     function OpenJob() {
         window.location.href='ShowJob?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val();
     }
-    function PostData(obj) {
+    function SaveData(obj) {
         let jsonString = JSON.stringify({ data: obj });
-        //ShowMessage(jsonString);
-        $.ajax({
-            url: "@Url.Action("SetJobData", "JobOrder")",
-            type: "POST",
-            contentType: "application/json",
-            data: jsonString,
-            success: function (r) {
-                //ShowMessage(response);
-                $('#txtJNo').val(obj.JNo);
-                $('#dvResp').html(r.msg);
-                $('#frmShowJob').modal('show');
-                $('#btnCreateJob').removeAttr('disabled');
-            }
+
+        postData("@Url.Action("SetJobData", "JobOrder")", jsonString, function (r) {
+            $('#txtJNo').val(obj.JNo);
+            $('#dvResp').html(r.msg);
+            $('#frmShowJob').modal('show');
+            $('#btnCreateJob').removeAttr('disabled');
         });
     }
 </script>

@@ -18,13 +18,20 @@ Module Main
     Friend jobMasConn As String = ""
     Friend Function GetDBDate(pDate As Date, Optional pTodayAsDefault As Boolean = False) As Object
         If pDate.Year > 2000 Then
+            If pDate.Year > 2500 Then
+                Return pDate.AddYears(-543)
+            Else
+                If pDate.Year > 2200 Then
+                    Return System.DBNull.Value
+                End If
+            End If
             Return pDate
         Else
             If pTodayAsDefault Then
                 Return DateTime.Today
             Else
-                If (pDate.Year + 543) > 1753 Then
-                    Return pDate.AddYears(+543)
+                If pDate.Year > 2500 Then
+                    Return pDate.AddYears(-543)
                 Else
                     Return System.DBNull.Value
                 End If
@@ -1864,6 +1871,27 @@ SELECT h.BranchCode, h.ControlNo, h.VoucherDate, h.TRemark, h.RecUser, h.RecDate
 FROM     dbo.Job_CashControl AS h INNER JOIN
     dbo.Job_CashControlSub AS d ON h.BranchCode = d.BranchCode AND h.ControlNo = d.ControlNo
 WHERE (NOT (ISNULL(h.CancelProve, '') <> '')) {0}
+"
+    End Function
+    Function SQLSelectBooking() As String
+        Return "
+SELECT h.BranchCode, h.JNo, h.BookingNo, h.LoadDate AS BookingDate, h.VenderCode AS ShipperCode, h.ContactName AS ShipperContact, u.TName AS CSName, 
+    u.MobilePhone AS CSTel, u.EMail AS CSEMail, j.InvProduct, j.InvProductQty, j.InvProductUnit, j.TotalContainer, a.English AS ShipperName, 
+    a.EAddress1 AS ShipperAddress1, a.EAddress2 AS ShipperAddress2, c.NameEng AS ConsigneeName, c.EAddress1 AS ConsignAddress1, 
+    c.EAddress2 AS ConsignAddress2, n.NameEng AS NotifyName, n.EAddress1 AS NotifyAddress1, n.EAddress2 AS NotifyAddress2, j.VesselName, j.MVesselName, 
+    j.ProjectName, j.TotalGW, j.GWUnit, j.InvInterPort, j.InvFCountry, j.InvCountry, j.ETDDate, j.ETADate, j.ClearPortNo, j.ClearPort, j.DeliveryTo, j.DeliveryAddr, 
+    j.EstDeliverDate ,h.Remark, h.PackingPlace, h.CYPlace, h.FactoryPlace, h.ReturnPlace, h.PackingDate, h.CYDate, h.FactoryDate, h.ReturnDate, h.PackingTime, h.CYTime, 
+    h.FactoryTime, h.ReturnTime, h.TransMode, h.PaymentCondition, h.PaymentBy, d.CTN_NO, d.SealNumber, d.TruckNO, d.Comment, d.TruckType, d.Driver, d.Location, 
+    d.ShippingMark, d.CTN_SIZE, d.ProductDesc, d.ProductQty, d.ProductUnit, d.GrossWeight, d.Measurement, j.JobType, j.ShipBy ,j.AgentCode, j.ForwarderCode 
+FROM     dbo.Mas_Company AS c INNER JOIN
+    dbo.Job_Order AS j ON c.CustCode = j.CustCode AND c.Branch = j.CustBranch INNER JOIN
+    dbo.Mas_Company AS n INNER JOIN
+    dbo.Mas_Vender AS a INNER JOIN
+    dbo.Job_LoadInfo AS h LEFT OUTER JOIN
+    dbo.Job_LoadInfoDetail AS d ON h.BranchCode = d.BranchCode ON a.VenCode = h.VenderCode ON n.CustCode = h.NotifyCode ON j.BranchCode = h.BranchCode AND 
+    j.JNo = h.JNo INNER JOIN
+    dbo.Mas_User AS u ON j.CSCode = u.UserID
+WHERE j.JobStatus<90
 "
     End Function
 End Module

@@ -889,7 +889,7 @@ End Code
         $('#txtTotalTripC').val(0);
     }
     function PrintBooking() {
-        window.open(path + 'JobOrder/FormDelivery?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+        window.open(path + 'JobOrder/FormTransport?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
     }
     function ClearDetail() {		        
         $('#txtItemNo').val('0');

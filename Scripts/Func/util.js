@@ -87,7 +87,7 @@ function GetTime() {
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
 
-    return [year+543, month, day].join('-') + ' ' + time;
+    return [year, month, day].join('-') + ' ' + time;
 }
 function getQueryString(name, url) {
     if (!url) url = window.location.href;
@@ -614,4 +614,12 @@ function CallOpenJob(p, br, jno) {
 function CallPrintJob(p, br, jno) {
     window.open(p + 'joborder/formjob?BranchCode=' + br + '&JNo=' + jno);
 }
-
+function postData(posturl, json, ev) {
+    $.ajax({
+        url: posturl,
+        type: "POST",
+        contentType: "application/json",
+        data: json,
+        success: ev
+    });
+}

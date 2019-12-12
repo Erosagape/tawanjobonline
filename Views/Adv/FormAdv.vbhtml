@@ -292,7 +292,7 @@ End Code
                 if (c.length > 0) {
                     strDesc = strDesc + (d.SICode + '-' + d.SDescription + '<br/>');
                 } else {
-                    strDesc = strDesc + 'Not Assign Expenses<br/>';
+                    strDesc = strDesc + d.SDescription+ '<br/>';
                 }
             } else {
                 strDesc = strDesc + (d.SICode + '<br/>');

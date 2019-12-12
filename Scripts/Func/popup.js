@@ -1,4 +1,7 @@
 ﻿//basic function tools for binding
+function SetListOfValues(ev) {
+    $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2').done(ev);
+}
 function CheckSession(ev) {
     $.get(path + 'Config/GetLogin', function (r) {
         if (r.user.data.UserID == null) {

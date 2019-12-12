@@ -608,6 +608,43 @@ Namespace Controllers
                 Return Content("{""transport"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
             End Try
         End Function
+        Function GetBooking() As ActionResult
+            Try
+                Dim tSqlw As String = ""
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format(" AND h.BranchCode='{0}'", Request.QueryString("Branch").ToString())
+                End If
+                If Not IsNothing(Request.QueryString("Job")) Then
+                    tSqlw &= String.Format(" AND h.JNo='{0}' ", Request.QueryString("Job").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format(" AND h.BookingNo='{0}' ", Request.QueryString("Code").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Doc")) Then
+                    tSqlw &= String.Format(" AND d.DeliveryNo='{0}' ", Request.QueryString("Doc").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Cust")) Then
+                    tSqlw &= String.Format(" AND j.CustCode='{0}' ", Request.QueryString("Cust").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Vend")) Then
+                    tSqlw &= String.Format(" AND a.VenderCode='{0}' ", Request.QueryString("Vend").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlw &= " AND h.LoadDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlw &= " AND h.LoadDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
+
+                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(SQLSelectBooking() & tSqlw)
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                json = "{""booking"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetBooking", "ERROR", ex.Message, True)
+                Return Content("{""booking"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
+            End Try
+        End Function
         Function GetTransportReport() As ActionResult
             Try
                 Dim tSqlw As String = ""

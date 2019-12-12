@@ -424,6 +424,31 @@ function LoadCliteria(reportID) {
             break;
     }
 }
+function IsNumberColumn(cname) {
+    let colName = 'InvTotal,InvProductQty,InvCurRate,DutyAmount,TotalGW,Commission,TotalNW,TotalQty,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm';
+    if (colName.indexOf(cname) >= 0) {
+        return true;
+    }
+    return false;
+}
+function IsSummaryColumn(cname) {
+    let colName = 'DutyAmount,TotalGW,Commission,TotalNW,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm';
+    if (colName.indexOf(cname) >= 0) {
+        return true;
+    }
+    return false;
+}
+function FormatValue(c, val) {
+    if (c.indexOf('Date') >= 0) {
+        return ShowDate(val);
+    } else {
+        if (IsNumberColumn(c)) {
+            return ShowNumber(val, 2);
+        } else {
+            return val;
+        }
+    }
+}
 function LoadReport(reportID, obj,lang) {
     let str = JSON.stringify(obj);
     $.ajax({
@@ -439,24 +464,45 @@ function LoadReport(reportID, obj,lang) {
             }
             if (r.result.length > 0) {
                 var tb = r.result;
+                let groupField = '';
+                let groupVal = null;
+                let colCount = 0;
+                if (r.group !== '') {
+                    groupField = r.group;
+                }
                 //let html = ' < thead > <tr>';
                 let html = '<tbody><tr>';
                 $.each(tb[0], function (key, value) {
                     //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
-                    html += '<td style="border:1px solid black;text-align:left;">' + GetColumnHeader(key,lang) + '</td>';
+                    html += '<td style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></td>';
+                    colCount++;
                 });
                 //html += '</tr></thead>';
                 html += '</tr>';
+                let groupCount = 0;
                 //html += '<tbody>';
                 for (let r of tb) {
                     html += '<tr>';
-                    for (let c in r) {               
-                        if (c.indexOf('Date') > 0) {
+                    if (groupField !== '') {
+                        if (FormatValue(groupField,r[groupField]) !== groupVal) {
+                            if (groupCount > 0) {
+                                html += '<td colspan=' + colCount + ' style="border:1px solid black;text-align:left;"><b>Count=' + groupCount + '<b/></td></tr><tr>';
+                                groupCount = 0;
+                            }
+                            groupVal = FormatValue(groupField,r[groupField]);
+                            groupCount++;
+                            html += '<td colspan=' + colCount + ' style="border:1px solid black;text-align:left;"><b>' + groupVal + '<b/></td></tr><tr>';
+                        } else {
+                            groupCount++;
+                        }
+                    }
+                    for (let c in r) {        
+                        if (c.indexOf('Date') >= 0) {
                             html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
                         } else {
                             if (r[c] !== null) {
-                                if (Number.isInteger(Math.floor(r[c]))) {
-                                    html += '<td style="border:1px solid black;text-align:right;">' + r[c] + '</td>';
+                                if (IsNumberColumn(c)==true) {
+                                    html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c],2) + '</td>';
                                 } else {
                                     html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
                                 }
@@ -466,6 +512,10 @@ function LoadReport(reportID, obj,lang) {
                         }                        
                     }
                     html += '</tr>';
+                }
+                if (groupCount > 0) {
+                    html += '<td colspan=' + colCount + ' style="border:1px solid black;text-align:left;"><b>Count=' + groupCount + '<b/></td></tr><tr>';
+                    groupCount = 0;
                 }
                 html += '</tbody>';
                 $('#tbResult').html(html);

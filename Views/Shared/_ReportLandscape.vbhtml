@@ -27,7 +27,7 @@
         <table id="tblHeader" width="100%">
             <tr>
                 <td width="20%">
-                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:50%"/>
+                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100px"/>
                 </td>
                 <td width="80%">
                     <div id="divCompany" style="text-align:left;color:darkblue;">
