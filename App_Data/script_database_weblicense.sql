@@ -94,6 +94,8 @@ CREATE TABLE [dbo].[TWTLog](
 	[ModuleName] [varchar](255) NULL,
 	[LogAction] [varchar](255) NULL,
 	[Message] [nvarchar](max) NULL,
+	[LogDateTime] [datetime] NULL,
+	[IsError] [int] NULL,
  CONSTRAINT [PK_TWTLog] PRIMARY KEY CLUSTERED 
 (
 	[LogID] ASC

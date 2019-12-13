@@ -44,17 +44,10 @@ End Code
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <select id="txtTransMode" class="form-control dropdown">
-                            <option value="EXP">EXW (EX Works)</option>
-                            <option value="FCA">FCA (Free Carrier)</option>
-                            <option value="FAS">FAS (Free Alongside Ship)</option>
-                            <option value="FOB">FOB (Free On Board)</option>
-                            <option value="CPT">CPT (Carriage Paid To)</option>
-                            <option value="CFR">CFR (Cost and Freight)</option>
-                            <option value="CIF">CIF (Carriage Paid To)</option>
-                            <option value="CIP">CIP (Carriage and Insurance Paid)</option>
-                            <option value="DAT">DAT (Delivered at Terminal)</option>
-                            <option value="DAP">DAP (Delivered at Place)</option>
-                            <option value="DDP">DDP (Delivered Duty Paid)</option>
+                            <option value="CY-CY">CY/CY</option>
+                            <option value="CY-CFS">CY/CFS</option>
+                            <option value="CFS-CY">CFS/CY</option>
+                            <option value="CFS-CFS">CFS/CFS</option>
                         </select>
                     </div>
                 </div>
@@ -69,7 +62,7 @@ End Code
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    Vender Code :<br />
+                    Agent Code :<br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" id="txtVenderCode" class="form-control" style="width:20%">
                         <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('vender')">...</button>
@@ -99,10 +92,24 @@ End Code
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    Payment Condition :<br /><div style="display:flex;flex-direction:row"><input type="text" id="txtPaymentCondition" class="form-control"></div>
+                    INCO Term :<br /><div style="display:flex;flex-direction:row">
+    <select id="txtPaymentCondition" class="form-control dropdown">
+        <option value="EXW">EXW (EX Works)</option>
+        <option value="FCA">FCA (Free Carrier)</option>
+        <option value="FAS">FAS (Free Alongside Ship)</option>
+        <option value="FOB">FOB (Free On Board)</option>
+        <option value="CPT">CPT (Carriage Paid To)</option>
+        <option value="CFR">CFR (Cost and Freight)</option>
+        <option value="CIF">CIF (Carriage Paid To)</option>
+        <option value="CIP">CIP (Carriage and Insurance Paid)</option>
+        <option value="DAT">DAT (Delivered at Terminal)</option>
+        <option value="DAP">DAP (Delivered at Place)</option>
+        <option value="DDP">DDP (Delivered Duty Paid)</option>
+    </select>
+</div>
                 </div>
                 <div class="col-sm-6">
-                    Payment By :<br /><div style="display:flex;flex-direction:row"><input type="text" id="txtPaymentBy" class="form-control"></div>
+                    Transport By :<br /><div style="display:flex;flex-direction:row"><input type="text" id="txtPaymentBy" class="form-control"></div>
                 </div>
             </div>
             <div class="row">
@@ -122,29 +129,29 @@ End Code
                 </div>
                 <div class="col-sm-3" style="display:flex;flex-direction:row">
                     <div>
-                        Factory Date :<br />
-                        <div style="display:flex;flex-direction:row">
-                            <input type="date" id="txtFactoryDate" class="form-control">
-                        </div>
-                    </div>
-                    <div>
-                        Factory Time :<br />
-                        <div style="display:flex;flex-direction:row">
-                            <input type="text" id="txtFactoryTime" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-3" style="display:flex;flex-direction:row">
-                    <div>
-                        Packing Date :<br />
+                        Departure Date :<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="date" id="txtPackingDate" class="form-control">
                         </div>
                     </div>
                     <div>
-                        Packing Time :<br />
+                        Time :<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtPackingTime" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3" style="display:flex;flex-direction:row">
+                    <div>
+                        Arrival Date :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="date" id="txtFactoryDate" class="form-control">
+                        </div>
+                    </div>
+                    <div>
+                        Time :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="text" id="txtFactoryTime" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -184,7 +191,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        CY Place: <br />
+                        Pick-up Place: <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtCYPlace" class="form-control">
                         </div>
@@ -200,23 +207,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        Factory Place :<br />
-                        <div style="display:flex;flex-direction:row">
-                            <input type="text" id="txtFactoryPlace" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-sm-5">
-                        Address:<br />
-                        <textarea id="txtFactoryAddress" class="form-control"></textarea>
-                    </div>
-                    <div class="col-sm-3">
-                        Contact:<br />
-                        <input type="text" class="form-control" id="txtFactoryContact" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-4">
-                        Packing Place :<br />
+                        Loading Place :<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtPackingPlace" class="form-control">
                         </div>
@@ -230,6 +221,23 @@ End Code
                         <input type="text" class="form-control" id="txtPackingContact" />
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        Delivery Place :<br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="text" id="txtFactoryPlace" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-sm-5">
+                        Address:<br />
+                        <textarea id="txtFactoryAddress" class="form-control"></textarea>
+                    </div>
+                    <div class="col-sm-3">
+                        Contact:<br />
+                        <input type="text" class="form-control" id="txtFactoryContact" />
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-sm-4">
                         Return Place :<br />
@@ -361,7 +369,7 @@ End Code
                         No :<br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control" disabled></div>
                     </div>
                     <div class="col-sm-4">
-                        Container# :<br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
+                        Container :<br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
                     </div>
                     <div class="col-sm-3">
                         Size :<br /><div style="display:flex"><select id="txtCTN_SIZE" class="form-control dropdown"></select></div>
@@ -374,13 +382,13 @@ End Code
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-6">
-                        Product :<br /><div style="display:flex"><input type="text" id="txtProductDesc" class="form-control"></div>
+                        Package Details :<br /><div style="display:flex"><textarea id="txtProductDesc" class="form-control"></textarea></div>
                     </div>
-                    <div class="col-sm-2">
-                        Qty :<br /><div style="display:flex"><input type="number" id="txtProductQty" class="form-control" value="0.00"></div>
+                    <div class="col-sm-3">
+                        Package Qty :<br /><div style="display:flex"><input type="number" id="txtProductQty" class="form-control" value="0.00"></div>
                     </div>
-                    <div class="col-sm-4">
-                        Unit :
+                    <div class="col-sm-3">
+                        Package Unit :
                         <br />
                         <div style="display:flex">
                             <input type="text" id="txtProductUnit" class="form-control" style="width:100%">
@@ -389,14 +397,14 @@ End Code
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         G/W :<br /><div style="display:flex"><input type="number" id="txtGrossWeight" class="form-control" value="0.00"></div>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-3">
                         M3 :<br /><div style="display:flex"><input type="number" id="txtMeasurement" class="form-control" value="0.00"></div>
                     </div>
-                    <div class="col-sm-4">
-                        Days Used :<br /><div style="display:flex"><input type="number" id="txtTimeUsed" class="form-control"></div>
+                    <div class="col-sm-3">
+                        Operation Days :<br /><div style="display:flex"><input type="number" id="txtTimeUsed" class="form-control"></div>
                     </div>
                     <div class="col-sm-3">
                         Job Status:<br />
@@ -428,26 +436,26 @@ End Code
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-sm-3">
+                        Route ID:<br />
+                        <div style="display:flex">
+                            <input type="text" id="txtRouteID" class="form-control" disabled />
+                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('route')" />
+                        </div>
+                    </div>
                     <div class="col-sm-9">
                         Location :<br />
                         <div style="display:flex">
                             <input type="text" id="txtLocation" class="form-control" />
                         </div>
                     </div>
-                    <div class="col-sm-3">
-                        Route ID:<br/>
-                        <div style="display:flex">
-                            <input type="text" id="txtRouteID" class="form-control" disabled />
-                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('route')" />
-                        </div>
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        Remarks :<br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
+                        Commodity :<br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
                     </div>
                     <div class="col-sm-6">
-                        Shipping Comment :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
+                        Shipping Mark :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
                     </div>
                 </div>
                 <div class="row">
@@ -544,6 +552,7 @@ End Code
         $('#dvContainer').modal('show');
     }
     function SetEvents() {
+        ClearBooking();
         let branch = getQueryString("BranchCode");
         let job = getQueryString("JNo");
         if (branch !== '') {
@@ -668,13 +677,18 @@ End Code
     }
     function ReadJobFull(dr) {
         $('#txtJNo').val(dr.JNo);
-        $('#txtVenderCode').val(dr.AgentCode);
-        ShowVender(path, dr.VenderCode, '#txtVenderName');
+        $('#txtBookingNo').val(dr.BookingNo);
+        $('#txtVenderCode').val(dr.ForwarderCode);
+        ShowVender(path, dr.ForwarderCode, '#txtVenderName');
+        ShowVender(path, dr.AgentCode, '#txtPaymentBy');
         $('#txtLoadDate').val(CDateEN(dr.LoadDate));
         $('#txtNotifyCode').val(dr.CustCode);
         ShowCompany(path, dr.CustCode, '#txtNotifyName');
         $('#txtContactName').val(dr.CustContactName);
-
+        $('#txtPackingDate').val(CDateEN(dr.ETDDate));
+        $('#txtFactoryDate').val(CDateEN(dr.ETADate));
+        $('#txtFactoryPlace').val(dr.DeliveryTo);
+        $('#txtFactoryAddress').val(dr.DeliveryAddr);
         $('#txtProductDesc').val(dr.InvProduct);
         $('#txtProductQty').val('0.00');
         $('#txtProductUnit').val(dr.InvProductUnit);
@@ -695,6 +709,14 @@ End Code
         $('#txtCYPlace').val(dr.CYPlace);
         $('#txtFactoryPlace').val(dr.FactoryPlace);
         $('#txtReturnPlace').val(dr.ReturnPlace);
+        $('#txtPackingAddress').val(dr.PackingAddress);
+        $('#txtCYAddress').val(dr.CYAddress);
+        $('#txtFactoryAddress').val(dr.FactoryAddress);
+        $('#txtReturnAddress').val(dr.ReturnAddress);
+        $('#txtPackingContact').val(dr.PackingContact);
+        $('#txtCYContact').val(dr.CYContact);
+        $('#txtFactoryContact').val(dr.FactoryContact);
+        $('#txtReturnContact').val(dr.ReturnContact);
         $('#txtPackingDate').val(CDateEN(dr.PackingDate));
         $('#txtCYDate').val(CDateEN(dr.CYDate));
         $('#txtFactoryDate').val(CDateEN(dr.FactoryDate));
@@ -810,7 +832,15 @@ End Code
             PackingPlace:$('#txtPackingPlace').val(),
             CYPlace:$('#txtCYPlace').val(),
             FactoryPlace:$('#txtFactoryPlace').val(),
-            ReturnPlace:$('#txtReturnPlace').val(),
+            ReturnPlace: $('#txtReturnPlace').val(),
+            PackingAddress:$('#txtPackingAddress').val(),
+            CYAddress:$('#txtCYAddress').val(),
+            FactoryAddress:$('#txtFactoryAddress').val(),
+            ReturnAddress: $('#txtReturnAddress').val(),
+            PackingContact:$('#txtPackingContact').val(),
+            CYContact:$('#txtCYContact').val(),
+            FactoryContact:$('#txtFactoryContact').val(),
+            ReturnContact:$('#txtReturnContact').val(),
             PackingDate:CDateEN($('#txtPackingDate').val()),
             CYDate:CDateEN($('#txtCYDate').val()),
             FactoryDate:CDateEN($('#txtFactoryDate').val()),
@@ -866,10 +896,10 @@ End Code
         $('#txtCYDate').val('');
         $('#txtFactoryDate').val('');
         $('#txtReturnDate').val('');
-        $('#txtPackingTime').val('');
-        $('#txtCYTime').val('');
-        $('#txtFactoryTime').val('');
-        $('#txtReturnTime').val('');
+        $('#txtPackingTime').val('00:00');
+        $('#txtCYTime').val('00:00');
+        $('#txtFactoryTime').val('00:00');
+        $('#txtReturnTime').val('00:00');
         $('#txtPackingAddress').val('');
         $('#txtCYAddress').val('');
         $('#txtFactoryAddress').val('');
@@ -880,8 +910,8 @@ End Code
         $('#txtReturnContact').val('');
         $('#txtNotifyCode').val('');
         $('#txtNotifyName').val('');
-        $('#txtTransMode').val('');
-        $('#txtPaymentCondition').val('');
+        $('#txtTransMode').val('CY-CY');
+        $('#txtPaymentCondition').val('EXW');
         $('#txtPaymentBy').val('');
         $('#tbDetail').DataTable().clear().draw();
         $('#txtTotalTripA').val(0);
@@ -896,26 +926,26 @@ End Code
         $('#txtCTN_NO').val('');
         $('#txtSealNumber').val('');
         $('#txtTruckNO').val('');
-        $('#txtTruckIN').val('');
-        $('#txtStart').val('');
-        $('#txtFinish').val('');
+        $('#txtTruckIN').val($('#txtReturnDate').val());
+        $('#txtStart').val($('#txtReturnTime').val());
+        $('#txtDReturnDate').val('');
+        $('#txtFinish').val('00:00');
         $('#txtTimeUsed').val('');
         $('#txtCauseCode').val('');
         $('#txtComment').val('');
         $('#txtTruckType').val('');
         $('#txtDriver').val('');
-        $('#txtTargetYardDate').val('');
-        $('#txtTargetYardTime').val('');
+        $('#txtTargetYardDate').val($('#txtCYDate').val());
+        $('#txtTargetYardTime').val($('#txtCYTime').val());
         $('#txtActualYardDate').val('');
-        $('#txtActualYardTime').val('');
+        $('#txtActualYardTime').val('00:00');
+        $('#txtUnloadDate').val($('#txtFactoryDate').val());
+        $('#txtUnloadTime').val($('#txtFactoryTime').val());
         $('#txtUnloadFinishDate').val('');
-        $('#txtUnloadFinishTime').val('');
-        $('#txtUnloadDate').val('');
-        $('#txtUnloadTime').val('');
+        $('#txtUnloadFinishTime').val('00:00');
         $('#txtLocation').val('');
         $('#txtRouteID').val('');
         $('#txtDeliveryNo').val('');
-        $('#txtDReturnDate').val('');
         $('#txtShippingMark').val('');
         $('#txtCTN_SIZE').val('');
         if (isjobmode == false) {
@@ -1094,11 +1124,11 @@ End Code
         if ($('#txtCYPlace').val() !== '') {
             w += (w == '' ? '': '->') + $('#txtCYPlace').val();
         }
-        if ($('#txtFactoryPlace').val() !== '') {
-            w += (w == '' ? '': '->') + $('#txtFactoryPlace').val();
-        }
         if ($('#txtPackingPlace').val() !== '') {
             w += (w == '' ? '': '->') + $('#txtPackingPlace').val();
+        }
+        if ($('#txtFactoryPlace').val() !== '') {
+            w += (w == '' ? '': '->') + $('#txtFactoryPlace').val();
         }
         if ($('#txtReturnPlace').val() !== '') {
             w += (w == '' ? '' : '->') + $('#txtReturnPlace').val();

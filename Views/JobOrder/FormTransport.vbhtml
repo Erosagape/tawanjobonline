@@ -20,7 +20,7 @@ End Code
             <div>
                 <b>Consignee</b>
                 <div>
-                    <label id="lblConsignName">APL LOGISTICS SVCS THAILAND</label>
+                    <label id="lblConsigneeName">APL LOGISTICS SVCS THAILAND</label>
                     <br />
                     <label id="lblConsignAddress1">10205 WIBULTHANI BLDG 3rd FLOOR</label>
                     <br />
@@ -95,11 +95,11 @@ End Code
             </div>
             <div>
                 <b>To</b>
-                <label id="lblAgentName">APL LOGISTICS CO.,LTD</label>
+                <label id="lblForwarderName">APL LOGISTICS CO.,LTD</label>
             </div>
             <div>
                 <b>Attn</b>
-                <label id="lblAgentContact">Khun Nid</label>
+                <label id="lblForwarderContact">Khun Nid</label>
             </div>
             <div>
                 <b>From</b>
@@ -129,20 +129,13 @@ End Code
     </div>
 </div>
 <div style="width:100%;border-collapse:collapse;display:flex;flex-direction:row;border-style:solid;border-width:thin">
-    <div style="width:20%;"><b>Marks && No</b></div>
+    <div style="width:20%;"><b>Marks & No</b></div>
     <div style="width:10%;"><b>Quantity</b></div>
     <div style="width:40%;"><b>Description of Goods</b></div>
     <div style="width:15%;"><b>Gross Weight (KGS)</b></div>
     <div style="width:15%;"><b>Measurement (CBM)</b></div>
 </div>
 <div id="dvDetail" style="height:200px;vertical-align:top;display:flex;flex-direction:column;border-style:solid;border-width:thin">
-    <div style="width:100%;display:flex;flex-direction:row">
-        <div style="width:20%;">1</div>
-        <div style="width:10%;">100 C62</div>
-        <div style="width:40%;">TEST PRODUCTS</div>
-        <div style="width:15%;">10000</div>
-        <div style="width:15%;">43.155</div>
-    </div>
 </div>
 <div style="display:flex;">
     <div style="flex-direction:column;width:60%;border-style:solid;border-width:thin">
@@ -163,4 +156,64 @@ End Code
         <b>ON BOARD</b> <label id="lblETADate">11/12/2019</label>
     </div>
 </div>
+<script type="text/javascript">
+    let br = getQueryString("BranchCode");
+    let doc = getQueryString("BookingNo");
+    var path = '@Url.Content("~")';
+    $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function (r) {
+        if (r.booking !== null) {
+            let h = r.booking.data[0];
+            $('#lblBookingNo').text(h.BookingNo);
+            $('#lblBookingDate').text(ShowDate(h.LoadDate));
+            $('#lblForwarderName').text(h.ForwarderName);
+            $('#lblForwarderContact').text(h.ForwarderContact);
+            $('#lblCSName').text(h.CSName);
+            $('#lblCSTel').text(h.CSTel);
+            $('#lblCSEMail').text(h.CSEmail);
+            $('#lblTotalContainer').text(h.TotalContainer);
+            $('#lblShipperName').text(h.ShipperName);
+            $('#lblShipperAddress1').text(h.ShipperAddress1);
+            $('#lblShipperAddress2').text(h.ShipperAddress2);
+            $('#lblConsigneeName').text(h.ConsigneeName);
+            $('#lblConsignAddress1').text(h.ConsignAddress1);
+            $('#lblConsignAddress2').text(h.ConsignAddress2);
+            $('#lblNotifyName').text(h.NotifyName);
+            $('#lblNotifyAddress1').text(h.NotifyAddress1);
+            $('#lblNotifyAddress2').text(h.NotifyAddress2);
+            $('#lblVesselName').text(h.VesselName);
+            $('#lblMVesselName').text(h.MVesselName);
+            $('#lblPackingPlace').text(h.PackingPlace);
+            ShowReleasePort(path, h.ClearPort, '#lblClearPortName');
+            if (h.JobType == '1') {
+                ShowInterPort(path, h.InvFCountry, h.InvInterPort, '#lblInterPortName');
+            } else {
+                ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblInterPortName');
+            }
+            $('#lblFactoryPlace').text(h.FactoryPlace);
+            $('#lblCYDate').text(ShowDate(h.CYDate));
+            $('#lblCYTime').text(ShowTime(h.CYTime));
+            $('#lblCYPlace').text(h.CYPlace);
+            $('#lblReturnDate').text(ShowDate(h.ReturnDate));
+            $('#lblReturnTime').text(ShowTime(h.ReturnTime));
+            $('#lblReturnPlace').text(h.ReturnPlace);
+            $('#lblFactoryDate').text(ShowDate(h.FactoryDate));
+            $('#lblFactoryTime').text(ShowTime(h.FactoryTime));
+            $('#lblETADate').text(ShowDate(h.ETADate));
+            let str = h.Remark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+            $('#dvContainers').html(str);
+            let html = '';
+            for (let i = 0; i < r.booking.data.length; i++){
+                let htmlTemplate = '<div style="width:100%;display:flex;flex-direction:row">';
+                htmlTemplate += '<div style="width:20%;">'+ r.booking.data[i].ShippingMark + '</div>';
+                htmlTemplate += '<div style="width:10%;">'+ r.booking.data[i].ProductDesc +'</div>';
+                htmlTemplate += '<div style="width:40%;">'+ r.booking.data[i].Comment +'</div>';
+                htmlTemplate += '<div style="width:15%;">'+ r.booking.data[i].GrossWeight +'</div>';
+                htmlTemplate += '<div style="width:15%;">'+ r.booking.data[i].Measurement+'</div>';
+                htmlTemplate += '</div>';
 
+                html += htmlTemplate;
+            }            
+            $('#dvDetail').html(html);
+        }
+    });
+</script>

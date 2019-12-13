@@ -1655,6 +1655,8 @@ SELECT dbo.Job_LoadInfo.BranchCode, dbo.Job_LoadInfo.JNo, dbo.Job_LoadInfo.Vende
 dbo.Job_LoadInfo.LoadDate, dbo.Job_LoadInfo.Remark, dbo.Job_LoadInfo.PackingPlace, dbo.Job_LoadInfo.CYPlace, dbo.Job_LoadInfo.FactoryPlace, 
 dbo.Job_LoadInfo.ReturnPlace, dbo.Job_LoadInfo.PackingDate, dbo.Job_LoadInfo.CYDate, dbo.Job_LoadInfo.FactoryDate, dbo.Job_LoadInfo.ReturnDate, 
 dbo.Job_LoadInfo.PackingTime, dbo.Job_LoadInfo.CYTime, dbo.Job_LoadInfo.FactoryTime, dbo.Job_LoadInfo.ReturnTime, dbo.Job_LoadInfo.NotifyCode, 
+dbo.Job_LoadInfo.PackingAddress, dbo.Job_LoadInfo.CYAddress, dbo.Job_LoadInfo.FactoryAddress, dbo.Job_LoadInfo.ReturnAddress, 
+dbo.Job_LoadInfo.PackingContact, dbo.Job_LoadInfo.CYContact, dbo.Job_LoadInfo.FactoryContact, dbo.Job_LoadInfo.ReturnContact, 
 dbo.Job_LoadInfo.TransMode, dbo.Job_LoadInfo.PaymentCondition, dbo.Job_LoadInfo.PaymentBy, dbo.Job_LoadInfoDetail.ItemNo, 
 dbo.Job_LoadInfoDetail.CTN_NO, dbo.Job_LoadInfoDetail.SealNumber, dbo.Job_LoadInfoDetail.TruckNO, dbo.Job_LoadInfoDetail.TruckIN, 
 dbo.Job_LoadInfoDetail.Start, dbo.Job_LoadInfoDetail.Finish, dbo.Job_LoadInfoDetail.TimeUsed, dbo.Job_LoadInfoDetail.CauseCode, 
@@ -1875,23 +1877,25 @@ WHERE (NOT (ISNULL(h.CancelProve, '') <> '')) {0}
     End Function
     Function SQLSelectBooking() As String
         Return "
-SELECT h.BranchCode, h.JNo, h.BookingNo, h.LoadDate AS BookingDate, h.VenderCode AS ShipperCode, h.ContactName AS ShipperContact, u.TName AS CSName, 
-    u.MobilePhone AS CSTel, u.EMail AS CSEMail, j.InvProduct, j.InvProductQty, j.InvProductUnit, j.TotalContainer, a.English AS ShipperName, 
-    a.EAddress1 AS ShipperAddress1, a.EAddress2 AS ShipperAddress2, c.NameEng AS ConsigneeName, c.EAddress1 AS ConsignAddress1, 
-    c.EAddress2 AS ConsignAddress2, n.NameEng AS NotifyName, n.EAddress1 AS NotifyAddress1, n.EAddress2 AS NotifyAddress2, j.VesselName, j.MVesselName, 
-    j.ProjectName, j.TotalGW, j.GWUnit, j.InvInterPort, j.InvFCountry, j.InvCountry, j.ETDDate, j.ETADate, j.ClearPortNo, j.ClearPort, j.DeliveryTo, j.DeliveryAddr, 
-    j.EstDeliverDate ,h.Remark, h.PackingPlace, h.CYPlace, h.FactoryPlace, h.ReturnPlace, h.PackingDate, h.CYDate, h.FactoryDate, h.ReturnDate, h.PackingTime, h.CYTime, 
-    h.FactoryTime, h.ReturnTime, h.TransMode, h.PaymentCondition, h.PaymentBy, d.CTN_NO, d.SealNumber, d.TruckNO, d.Comment, d.TruckType, d.Driver, d.Location, 
-    d.ShippingMark, d.CTN_SIZE, d.ProductDesc, d.ProductQty, d.ProductUnit, d.GrossWeight, d.Measurement, j.JobType, j.ShipBy ,j.AgentCode, j.ForwarderCode 
-FROM     dbo.Mas_Company AS c INNER JOIN
-    dbo.Job_Order AS j ON c.CustCode = j.CustCode AND c.Branch = j.CustBranch INNER JOIN
-    dbo.Mas_Company AS n INNER JOIN
-    dbo.Mas_Vender AS a INNER JOIN
-    dbo.Job_LoadInfo AS h LEFT OUTER JOIN
-    dbo.Job_LoadInfoDetail AS d ON h.BranchCode = d.BranchCode ON a.VenCode = h.VenderCode ON n.CustCode = h.NotifyCode ON j.BranchCode = h.BranchCode AND 
-    j.JNo = h.JNo INNER JOIN
-    dbo.Mas_User AS u ON j.CSCode = u.UserID
-WHERE j.JobStatus<90
+SELECT h.BranchCode, h.JNo, h.BookingNo, h.LoadDate AS BookingDate, h.VenderCode AS ForwarderCode, h.ContactName AS ShipperContact, u.TName AS CSName, 
+u.MobilePhone AS CSTel, u.EMail AS CSEMail, j.InvProduct, j.InvProductQty, j.InvProductUnit, j.TotalContainer, a.English AS ForwarderName, 
+a.EAddress1 AS ForwarderAddress1, a.EAddress2 AS ForwarderAddress2, a.ContactSale AS ForwarderContact, c.NameEng AS ConsigneeName, 
+c.EAddress1 AS ConsignAddress1, c.EAddress2 AS ConsignAddress2, n.NameEng AS NotifyName, n.EAddress1 AS NotifyAddress1, n.EAddress2 AS NotifyAddress2, 
+j.VesselName, j.MVesselName, j.ProjectName, j.TotalGW, j.GWUnit, j.InvInterPort, j.InvFCountry, j.InvCountry, j.ETDDate, j.ETADate, j.ClearPortNo, j.ClearPort, 
+j.DeliveryTo, j.DeliveryAddr, j.EstDeliverDate, h.Remark, h.PackingAddress, h.CYAddress, h.FactoryAddress, h.ReturnAddress, h.PackingContact, h.CYContact, 
+h.FactoryContact, h.ReturnContact, h.PackingPlace, h.CYPlace, h.FactoryPlace, h.ReturnPlace, h.PackingDate, h.CYDate, h.FactoryDate, h.ReturnDate, h.PackingTime,
+h.CYTime, h.FactoryTime, h.ReturnTime, h.TransMode, h.PaymentCondition, h.PaymentBy, d.CTN_NO, d.SealNumber, d.TruckNO, d.Comment, d.TruckType, d.Driver, 
+d.Location, d.ShippingMark, d.CTN_SIZE, d.ProductDesc, d.ProductQty, d.ProductUnit, d.GrossWeight, d.Measurement, j.JobType, j.ShipBy, j.AgentCode, 
+s.NameEng AS ShipperName, s.EAddress1 AS ShipperAddress1, s.EAddress2 AS ShipperAddress2
+FROM dbo.Mas_Company AS n INNER JOIN
+dbo.Mas_Vender AS a INNER JOIN
+dbo.Job_LoadInfo AS h LEFT OUTER JOIN
+dbo.Job_LoadInfoDetail AS d ON h.BranchCode = d.BranchCode ON a.VenCode = h.VenderCode ON n.CustCode = h.NotifyCode INNER JOIN
+dbo.Job_Order AS j ON h.BranchCode = j.BranchCode AND h.JNo = j.JNo INNER JOIN
+dbo.Mas_User AS u ON j.CSCode = u.UserID LEFT OUTER JOIN
+dbo.Mas_Company AS c ON j.consigneecode = c.CustCode LEFT OUTER JOIN
+dbo.Mas_Company AS s ON j.CustCode = s.CustCode AND j.CustBranch = s.Branch
+WHERE (j.JobStatus < 90)
 "
     End Function
 End Module

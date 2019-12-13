@@ -24,23 +24,17 @@
                 <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100px" />
             </div>
         </div>
-        <table id="tblHeader" width="100%">
-            <tr>
-                <td colspan="2" width="100%" style="text-align:center">
-                    <h3>@ViewBag.ReportName</h3>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" width="100%">
-                    @RenderBody()
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" width="100%">
-                    <p style="text-align:right">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
-                </td>
-            </tr>
-        </table>
+        <div style="display:flex;flex-direction:column">
+            <div style="width:100%;text-align:center">
+                <h3>@ViewBag.ReportName</h3>
+            </div>
+            <div style="width:100%">
+                @RenderBody()
+            </div>
+            <div style="width:100%;">
+                <p style="text-align:right">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>

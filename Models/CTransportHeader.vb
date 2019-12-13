@@ -219,6 +219,78 @@ Public Class CTransportHeader
             m_PaymentBy = value
         End Set
     End Property
+    Private m_CYAddress As String
+    Public Property CYAddress As String
+        Get
+            Return m_CYAddress
+        End Get
+        Set(value As String)
+            m_CYAddress = value
+        End Set
+    End Property
+    Private m_PackingAddress As String
+    Public Property PackingAddress As String
+        Get
+            Return m_PackingAddress
+        End Get
+        Set(value As String)
+            m_PackingAddress = value
+        End Set
+    End Property
+    Private m_FactoryAddress As String
+    Public Property FactoryAddress As String
+        Get
+            Return m_FactoryAddress
+        End Get
+        Set(value As String)
+            m_FactoryAddress = value
+        End Set
+    End Property
+    Private m_ReturnAddress As String
+    Public Property ReturnAddress As String
+        Get
+            Return m_ReturnAddress
+        End Get
+        Set(value As String)
+            m_ReturnAddress = value
+        End Set
+    End Property
+    Private m_CYContact As String
+    Public Property CYContact As String
+        Get
+            Return m_CYContact
+        End Get
+        Set(value As String)
+            m_CYContact = value
+        End Set
+    End Property
+    Private m_PackingContact As String
+    Public Property PackingContact As String
+        Get
+            Return m_PackingContact
+        End Get
+        Set(value As String)
+            m_PackingContact = value
+        End Set
+    End Property
+    Private m_FactoryContact As String
+    Public Property FactoryContact As String
+        Get
+            Return m_FactoryContact
+        End Get
+        Set(value As String)
+            m_FactoryContact = value
+        End Set
+    End Property
+    Private m_ReturnContact As String
+    Public Property ReturnContact As String
+        Get
+            Return m_ReturnContact
+        End Get
+        Set(value As String)
+            m_ReturnContact = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -242,6 +314,14 @@ Public Class CTransportHeader
                             dr("CYPlace") = Me.CYPlace
                             dr("FactoryPlace") = Me.FactoryPlace
                             dr("ReturnPlace") = Me.ReturnPlace
+                            dr("PackingAddress") = Me.PackingAddress
+                            dr("CYAddress") = Me.CYAddress
+                            dr("FactoryAddress") = Me.FactoryAddress
+                            dr("ReturnAddress") = Me.ReturnAddress
+                            dr("PackingContact") = Me.PackingContact
+                            dr("CYContact") = Me.CYContact
+                            dr("FactoryContact") = Me.FactoryContact
+                            dr("ReturnContact") = Me.ReturnContact
                             dr("PackingDate") = Main.GetDBDate(Me.PackingDate)
                             dr("CYDate") = Main.GetDBDate(Me.CYDate)
                             dr("FactoryDate") = Main.GetDBDate(Me.FactoryDate)
@@ -281,6 +361,14 @@ Public Class CTransportHeader
         m_CYPlace = ""
         m_FactoryPlace = ""
         m_ReturnPlace = ""
+        m_PackingAddress = ""
+        m_CYAddress = ""
+        m_FactoryAddress = ""
+        m_ReturnAddress = ""
+        m_PackingContact = ""
+        m_CYContact = ""
+        m_FactoryContact = ""
+        m_ReturnContact = ""
         m_PackingDate = DateTime.MinValue
         m_CYDate = DateTime.MinValue
         m_FactoryDate = DateTime.MinValue
@@ -371,6 +459,30 @@ Public Class CTransportHeader
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("PaymentBy"))) = False Then
                         row.PaymentBy = rd.GetString(rd.GetOrdinal("PaymentBy")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CYAddress"))) = False Then
+                        row.CYAddress = rd.GetString(rd.GetOrdinal("CYAddress")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PackingAddress"))) = False Then
+                        row.PackingAddress = rd.GetString(rd.GetOrdinal("PackingAddress")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("FactoryAddress"))) = False Then
+                        row.FactoryAddress = rd.GetString(rd.GetOrdinal("FactoryAddress")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ReturnAddress"))) = False Then
+                        row.ReturnAddress = rd.GetString(rd.GetOrdinal("ReturnAddress")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CYContact"))) = False Then
+                        row.CYContact = rd.GetString(rd.GetOrdinal("CYContact")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PackingContact"))) = False Then
+                        row.PackingContact = rd.GetString(rd.GetOrdinal("PackingContact")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("FactoryContact"))) = False Then
+                        row.FactoryContact = rd.GetString(rd.GetOrdinal("FactoryContact")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ReturnContact"))) = False Then
+                        row.ReturnContact = rd.GetString(rd.GetOrdinal("ReturnContact")).ToString()
                     End If
                     lst.Add(row)
                 End While
