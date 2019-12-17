@@ -103,8 +103,8 @@ End Code
         return;
     }
     function drawChart() {   
-        ShowWait();
-        $.get(path + 'JobOrder/GetDashBoard' + getWhere(), function (r) {
+        //ShowWait();
+        $.get(path + 'JobOrder/GetDashBoard' + getWhere()).done(function (r) {
             if (r.result.length > 0) {
                 var dataVol = google.visualization.arrayToDataTable(getDataTable(r.result[0].data1));
                 var volOptions = {
@@ -138,7 +138,7 @@ End Code
                 var chartCust = new google.visualization.BarChart(document.getElementById('chartCust'));
                 chartCust.draw(custView, custOptions);
             }
-            CloseWait();
+            //CloseWait();
         });
         return true;
     }

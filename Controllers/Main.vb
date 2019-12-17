@@ -16,6 +16,16 @@ Module Main
     Friend Const servPrefix As String = "SRV-"
     Friend jobWebConn As String = ""
     Friend jobMasConn As String = ""
+    Friend Function GetDBString(pValue As String, dc As DataColumn)
+        If pValue Is Nothing Then
+            Return ""
+        End If
+        If dc.MaxLength >= pValue.Length Then
+            Return pValue
+        Else
+            Return pValue.Substring(0, dc.MaxLength)
+        End If
+    End Function
     Friend Function GetDBDate(pDate As Date, Optional pTodayAsDefault As Boolean = False) As Object
         If pDate.Year > 2000 Then
             If pDate.Year > 2500 Then

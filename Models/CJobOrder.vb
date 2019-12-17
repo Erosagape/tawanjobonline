@@ -940,6 +940,7 @@ Public Class CJobOrder
                 Using da As New SqlDataAdapter("SELECT * FROM Job_Order" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
@@ -949,75 +950,75 @@ Public Class CJobOrder
                             dr("ConfirmDate") = Main.GetDBDate(Me.ConfirmDate)
                             dr("CPolicyCode") = Me.CPolicyCode
                             dr("DocDate") = Main.GetDBDate(Me.DocDate, True)
-                            dr("CustCode") = Me.CustCode
-                            dr("CustBranch") = Me.CustBranch
-                            dr("CustContactName") = Me.CustContactName
-                            dr("QNo") = Me.QNo
+                            dr("CustCode") = Main.GetDBString(Me.CustCode, dt.Columns("CustCode"))
+                            dr("CustBranch") = Main.GetDBString(Me.CustBranch, dt.Columns("CustBranch"))
+                            dr("CustContactName") = Main.GetDBString(Me.CustContactName, dt.Columns("CustContactName"))
+                            dr("QNo") = Main.GetDBString(Me.QNo, dt.Columns("QNo"))
                             dr("Revise") = Me.Revise
-                            dr("ManagerCode") = Me.ManagerCode
-                            dr("CSCode") = Me.CSCode
-                            dr("Description") = Me.Description
-                            dr("TRemark") = Me.TRemark
+                            dr("ManagerCode") = Main.GetDBString(Me.ManagerCode, dt.Columns("ManagerCode"))
+                            dr("CSCode") = Main.GetDBString(Me.CSCode, dt.Columns("CSCode"))
+                            dr("Description") = Main.GetDBString(Me.Description, dt.Columns("Description"))
+                            dr("TRemark") = Main.GetDBString(Me.TRemark, dt.Columns("TRemark"))
                             dr("JobStatus") = Me.JobStatus
                             dr("JobType") = Me.JobType
                             dr("ShipBy") = Me.ShipBy
-                            dr("InvNo") = Me.InvNo
+                            dr("InvNo") = Main.GetDBString(Me.InvNo, dt.Columns("InvNo"))
                             dr("InvTotal") = Me.InvTotal
-                            dr("InvProduct") = Me.InvProduct
-                            dr("InvCountry") = Me.InvCountry
-                            dr("InvFCountry") = Me.InvFCountry
-                            dr("InvInterPort") = Me.InvInterPort
+                            dr("InvProduct") = Main.GetDBString(Me.InvProduct, dt.Columns("InvProduct"))
+                            dr("InvCountry") = Main.GetDBString(Me.InvCountry, dt.Columns("InvCountry"))
+                            dr("InvFCountry") = Main.GetDBString(Me.InvFCountry, dt.Columns("InvFCountry"))
+                            dr("InvInterPort") = Main.GetDBString(Me.InvInterPort, dt.Columns("InvInterPort"))
                             dr("InvProductQty") = Me.InvProductQty
-                            dr("InvProductUnit") = Me.InvProductUnit
-                            dr("InvCurUnit") = Me.InvCurUnit
+                            dr("InvProductUnit") = Main.GetDBString(Me.InvProductUnit, dt.Columns("InvProductUnit"))
+                            dr("InvCurUnit") = Main.GetDBString(Me.InvCurUnit, dt.Columns("InvCurUnit"))
                             dr("InvCurRate") = Me.InvCurRate
                             dr("ImExDate") = Main.GetDBDate(Me.ImExDate)
 
-                            dr("BLNo") = Me.BLNo
-                            dr("BookingNo") = Me.BookingNo
-                            dr("ClearPort") = Me.ClearPort
-                            dr("ClearPortNo") = Me.ClearPortNo
+                            dr("BLNo") = Main.GetDBString(Me.BLNo, dt.Columns("BLNo"))
+                            dr("BookingNo") = Main.GetDBString(Me.BookingNo, dt.Columns("BookingNo"))
+                            dr("ClearPort") = Main.GetDBString(Me.ClearPort, dt.Columns("ClearPort"))
+                            dr("ClearPortNo") = Main.GetDBString(Me.ClearPortNo, dt.Columns("ClearPortNo"))
                             dr("ClearDate") = Main.GetDBDate(Me.ClearDate)
                             dr("LoadDate") = Main.GetDBDate(Me.LoadDate)
 
-                            dr("ForwarderCode") = Me.ForwarderCode
-                            dr("AgentCode") = Me.AgentCode
-                            dr("VesselName") = Me.VesselName
+                            dr("ForwarderCode") = Main.GetDBString(Me.ForwarderCode, dt.Columns("ForwarderCode"))
+                            dr("AgentCode") = Main.GetDBString(Me.AgentCode, dt.Columns("AgentCode"))
+                            dr("VesselName") = Main.GetDBString(Me.VesselName, dt.Columns("VesselName"))
                             dr("ETDDate") = Main.GetDBDate(Me.ETDDate)
                             dr("ETADate") = Main.GetDBDate(Me.ETADate)
 
                             dr("ETTime") = Me.ETTime
                             dr("FNetPrice") = Me.FNetPrice
                             dr("BNetPrice") = Me.BNetPrice
-                            dr("CancelReson") = Me.CancelReson
+                            dr("CancelReson") = Main.GetDBString(Me.CancelReson, dt.Columns("CancelReson"))
                             dr("CancelDate") = Main.GetDBDate(Me.CancelDate)
 
-                            dr("CancelProve") = Me.CancelProve
+                            dr("CancelProve") = Main.GetDBString(Me.CancelProve, dt.Columns("CancelProve"))
                             dr("CancelProveDate") = Main.GetDBDate(Me.CancelProveDate)
                             dr("CloseJobDate") = Main.GetDBDate(Me.CloseJobDate)
 
-                            dr("CloseJobBy") = Me.CloseJobBy
-                            dr("DeclareType") = Me.DeclareType
-                            dr("DeclareNumber") = Me.DeclareNumber
-                            dr("DeclareStatus") = Me.DeclareStatus
-                            dr("TyAuthorSp") = Me.TyAuthorSp
-                            dr("Ty19BIS") = Me.Ty19BIS
-                            dr("TyClearTax") = Me.TyClearTax
-                            dr("TyClearTaxReson") = Me.TyClearTaxReson
+                            dr("CloseJobBy") = Main.GetDBString(Me.CloseJobBy, dt.Columns("CloseJobBy"))
+                            dr("DeclareType") = Main.GetDBString(Me.DeclareType, dt.Columns("DeclareType"))
+                            dr("DeclareNumber") = Main.GetDBString(Me.DeclareNumber, dt.Columns("DeclareNumber"))
+                            dr("DeclareStatus") = Main.GetDBString(Me.DeclareStatus, dt.Columns("DeclareStatus"))
+                            dr("TyAuthorSp") = Main.GetDBString(Me.TyAuthorSp, dt.Columns("TyAuthorSp"))
+                            dr("Ty19BIS") = Main.GetDBString(Me.Ty19BIS, dt.Columns("Ty19BIS"))
+                            dr("TyClearTax") = Main.GetDBString(Me.TyClearTax, dt.Columns("TyClearTax"))
+                            dr("TyClearTaxReson") = Main.GetDBString(Me.TyClearTaxReson, dt.Columns("TyClearTaxReson"))
                             dr("EstDeliverDate") = Main.GetDBDate(Me.EstDeliverDate)
 
-                            dr("TotalContainer") = Me.TotalContainer
+                            dr("TotalContainer") = Main.GetDBString(Me.TotalContainer, dt.Columns("TotalContainer"))
                             dr("DutyDate") = Main.GetDBDate(Me.DutyDate)
 
                             dr("DutyAmount") = Me.DutyAmount
-                            dr("DutyCustPayOther") = Me.DutyCustPayOther
+                            dr("DutyCustPayOther") = Main.GetDBString(Me.DutyCustPayOther, dt.Columns("DutyCustPayOther"))
                             dr("DutyCustPayChqAmt") = Me.DutyCustPayChqAmt
                             dr("DutyCustPayBankAmt") = Me.DutyCustPayBankAmt
                             dr("DutyCustPayEPAYAmt") = Me.DutyCustPayEPAYAmt
                             dr("DutyCustPayCardAmt") = Me.DutyCustPayCardAmt
                             dr("DutyCustPayCashAmt") = Me.DutyCustPayCashAmt
                             dr("DutyCustPayOtherAmt") = Me.DutyCustPayOtherAmt
-                            dr("DutyLtdPayOther") = Me.DutyLtdPayOther
+                            dr("DutyLtdPayOther") = Main.GetDBString(Me.DutyLtdPayOther, dt.Columns("DutyLtdPayOther"))
                             dr("DutyLtdPayChqAmt") = Me.DutyLtdPayChqAmt
                             dr("DutyLtdPayEPAYAmt") = Me.DutyLtdPayEPAYAmt
                             dr("DutyLtdPayCashAmt") = Me.DutyLtdPayCashAmt
@@ -1029,29 +1030,29 @@ Public Class CJobOrder
                             dr("CloseJobTime") = Main.GetDBTime(Me.CloseJobTime)
                             dr("ETTime") = Main.GetDBTime(Me.ETTime)
 
-                            dr("ShippingEmp") = Me.ShippingEmp
-                            dr("ShippingCmd") = Me.ShippingCmd
+                            dr("ShippingEmp") = Main.GetDBString(Me.ShippingEmp, dt.Columns("ShippingEmp"))
+                            dr("ShippingCmd") = Main.GetDBString(Me.ShippingCmd, dt.Columns("ShippingCmd"))
                             dr("TotalGW") = Me.TotalGW
-                            dr("GWUnit") = Me.GWUnit
+                            dr("GWUnit") = Main.GetDBString(Me.GWUnit, dt.Columns("GWUnit"))
                             dr("TSRequest") = Me.TSRequest
                             dr("ShipmentType") = Me.ShipmentType
                             dr("ReadyToClearDate") = Main.GetDBDate(Me.ReadyToClearDate)
 
                             dr("Commission") = Me.Commission
-                            dr("CommPayTo") = Me.CommPayTo
-                            dr("ProjectName") = Me.ProjectName
-                            dr("MVesselName") = Me.MVesselName
+                            dr("CommPayTo") = Main.GetDBString(Me.CommPayTo, dt.Columns("CommPayTo"))
+                            dr("ProjectName") = Main.GetDBString(Me.ProjectName, dt.Columns("ProjectName"))
+                            dr("MVesselName") = Main.GetDBString(Me.MVesselName, dt.Columns("MVesselName"))
                             dr("TotalNW") = Me.TotalNW
-                            dr("Measurement") = Me.Measurement
-                            dr("CustRefNO") = Me.CustRefNO
+                            dr("Measurement") = Main.GetDBString(Me.Measurement, dt.Columns("Measurement"))
+                            dr("CustRefNO") = Main.GetDBString(Me.CustRefNO, dt.Columns("CustRefNO"))
                             dr("TotalQty") = Me.TotalQty
-                            dr("HAWB") = Me.HAWB
-                            dr("MAWB") = Me.MAWB
-                            dr("consigneecode") = Me.Consigneecode
-                            dr("privilegests") = Me.Privilegests
-                            dr("DeliveryTo") = Me.DeliveryTo
-                            dr("DeliveryNo") = Me.DeliveryNo
-                            dr("DeliveryAddr") = Me.DeliveryAddr
+                            dr("HAWB") = Main.GetDBString(Me.HAWB, dt.Columns("HAWB"))
+                            dr("MAWB") = Main.GetDBString(Me.MAWB, dt.Columns("MAWB"))
+                            dr("consigneecode") = Main.GetDBString(Me.Consigneecode, dt.Columns("consigneecode"))
+                            dr("privilegests") = Main.GetDBString(Me.Privilegests, dt.Columns("privilegests"))
+                            dr("DeliveryTo") = Main.GetDBString(Me.DeliveryTo, dt.Columns("DeliveryTo"))
+                            dr("DeliveryNo") = Main.GetDBString(Me.DeliveryNo, dt.Columns("DeliveryNo"))
+                            dr("DeliveryAddr") = Main.GetDBString(Me.DeliveryAddr, dt.Columns("DeliveryAddr"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrder", "SaveData", Me)

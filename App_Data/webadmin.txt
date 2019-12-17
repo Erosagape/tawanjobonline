@@ -146,3 +146,21 @@ http://www.hostinglotus.com/hosting/knowledgebase/20/-Email-Account.html
 Incoming Mail Server (POP3) : mail.tawanccs.com
 Outgoing Mail Server (SMTP) : mail.tawanccs.com
 Username (ต้องตามด้วย @tawanccs.com ) และ Password ตามที่สร้างขึ้นผ่านทาง Direct Admin Control Panel
+
+--------------------------------
+CloudBiz VPS 103.255.168.137
+--------------------------------
+Remote Login : Tawantech / Administrator
+Remote Password : 9t;yogm8
+
+FTP Client Login : tawantech
+FTP Client Password : 9t;yogm8
+FTP Client Port : 21
+
+FTP Server Password : 9t;yogm8
+FTP Server Listening Port : 14147
+
+SQL SERVER Login : sa
+Password : 9t;yogm8
+
+File Program อยู่ใน C:\inetpub\wwwroot
