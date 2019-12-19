@@ -147,24 +147,25 @@ Public Class CBudgetPolicy
                 Using da As New SqlDataAdapter("SELECT * FROM Job_BudgetPolicy " & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
                             If Me.ID = 0 Then Me.AddNew()
                             dr("ID") = Me.ID
-                            dr("BranchCode") = Me.BranchCode
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
                             dr("JobType") = Me.JobType
                             dr("ShipBy") = Me.ShipBy
-                            dr("SICode") = Me.SICode
-                            dr("SDescription") = Me.SDescription
-                            dr("TRemark") = Me.TRemark
+                            dr("SICode") = Main.GetDBString(Me.SICode, dt.Columns("SICode"))
+                            dr("SDescription") = Main.GetDBString(Me.SDescription, dt.Columns("SDescription"))
+                            dr("TRemark") = Main.GetDBString(Me.TRemark, dt.Columns("TRemark"))
                             dr("MaxAdvance") = Me.MaxAdvance
                             dr("MaxCost") = Me.MaxCost
                             dr("MinCharge") = Me.MinCharge
                             dr("MinProfit") = Me.MinProfit
                             dr("Active") = Me.Active
-                            dr("LastUpdate") = Today.Date
-                            dr("UpdateBy") = Me.UpdateBy
+                            dr("LastUpdate") = Main.GetDBDate(Me.LastUpdate)
+                            dr("UpdateBy") = Main.GetDBString(Me.UpdateBy, dt.Columns("UpdateBy"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBudgetPolicy", "SaveData", Me)

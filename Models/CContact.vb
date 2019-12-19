@@ -93,18 +93,19 @@ Public Class CCompanyContact
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_CompanyContact" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("CustCode") = Me.CustCode
-                            dr("Branch") = Me.Branch
+                            dr("CustCode") = Main.GetDBString(Me.CustCode, dt.Columns("CustCode"))
+                            dr("Branch") = Main.GetDBString(Me.Branch, dt.Columns("Branch"))
                             If Me.ItemNo = 0 Then Me.AddNew()
                             dr("ItemNo") = Me.ItemNo
-                            dr("Department") = Me.Department
-                            dr("Position") = Me.Position
-                            dr("ContactName") = Me.ContactName
-                            dr("EMail") = Me.EMail
-                            dr("Phone") = Me.Phone
+                            dr("Department") = Main.GetDBString(Me.Department, dt.Columns("Department"))
+                            dr("Position") = Main.GetDBString(Me.Position, dt.Columns("Position"))
+                            dr("ContactName") = Main.GetDBString(Me.ContactName, dt.Columns("ContactName"))
+                            dr("EMail") = Main.GetDBString(Me.EMail, dt.Columns("EMail"))
+                            dr("Phone") = Main.GetDBString(Me.Phone, dt.Columns("Phone"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCompanyContact", "SaveData", Me)

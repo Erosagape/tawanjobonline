@@ -200,29 +200,30 @@ Public Class CQuoHeader
                 Using da As New SqlDataAdapter("SELECT * FROM Job_QuotationHeader" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("QNo") = Me.QNo
-                            dr("ReferQNo") = Me.ReferQNo
-                            dr("CustCode") = Me.CustCode
-                            dr("CustBranch") = Me.CustBranch
-                            dr("BillToCustCode") = Me.BillToCustCode
-                            dr("BillToCustBranch") = Me.BillToCustBranch
-                            dr("ContactName") = Me.ContactName
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("QNo") = Main.GetDBString(Me.QNo, dt.Columns("QNo"))
+                            dr("ReferQNo") = Main.GetDBString(Me.ReferQNo, dt.Columns("ReferQNo"))
+                            dr("CustCode") = Main.GetDBString(Me.CustCode, dt.Columns("CustCode"))
+                            dr("CustBranch") = Main.GetDBString(Me.CustBranch, dt.Columns("CustBranch"))
+                            dr("BillToCustCode") = Main.GetDBString(Me.BillToCustCode, dt.Columns("BillToCustCode"))
+                            dr("BillToCustBranch") = Main.GetDBString(Me.BillToCustBranch, dt.Columns("BillToCustBranch"))
+                            dr("ContactName") = Main.GetDBString(Me.ContactName, dt.Columns("ContactName"))
                             dr("DocDate") = Main.GetDBDate(Me.DocDate)
-                            dr("ManagerCode") = Me.ManagerCode
-                            dr("DescriptionH") = Me.DescriptionH
-                            dr("DescriptionF") = Me.DescriptionF
-                            dr("TRemark") = Me.TRemark
+                            dr("ManagerCode") = Main.GetDBString(Me.ManagerCode, dt.Columns("ManagerCode"))
+                            dr("DescriptionH") = Main.GetDBString(Me.DescriptionH, dt.Columns("DescriptionH"))
+                            dr("DescriptionF") = Main.GetDBString(Me.DescriptionF, dt.Columns("DescriptionF"))
+                            dr("TRemark") = Main.GetDBString(Me.TRemark, dt.Columns("TRemark"))
                             dr("DocStatus") = Me.DocStatus
-                            dr("ApproveBy") = Me.ApproveBy
+                            dr("ApproveBy") = Main.GetDBString(Me.ApproveBy, dt.Columns("ApproveBy"))
                             dr("ApproveDate") = Main.GetDBDate(Me.ApproveDate)
                             dr("ApproveTime") = Main.GetDBTime(Me.ApproveTime)
-                            dr("CancelBy") = Me.CancelBy
+                            dr("CancelBy") = Main.GetDBString(Me.CancelBy, dt.Columns("CancelBy"))
                             dr("CancelDate") = Main.GetDBDate(Me.CancelDate)
-                            dr("CancelReason") = Me.CancelReason
+                            dr("CancelReason") = Main.GetDBString(Me.CancelReason, dt.Columns("CancelReason"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoHeader", "SaveData", Me)

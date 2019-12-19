@@ -13,7 +13,7 @@ End Code
                 </div>
             </div>
             <div class="col-sm-6">
-                <label id="lblCustomer">Customer</label>:<br />
+                <a href="../Master/Customers" target="_blank"><label id="lblCustCode">ลูกค้า</label></a>:
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" class="form-control" style="width:130px" />
                     <input type="text" id="txtCustBranch" class="form-control" style="width:70px" />
@@ -131,7 +131,7 @@ End Code
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                <label id="lblBillingTo">Billing To</label>:<br />
+                                <a href="../Master/Customers" target="_blank"><label id="lblBillingTo">เก็บเงินที่</label></a>:<br />
                                 <div style="display:flex">
                                     <input type="text" id="txtBCustCode" style="width:150px" disabled />
                                     <input type="text" id="txtBCustBranch" style="width:100px" disabled />
@@ -347,7 +347,7 @@ End Code
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                <label id="lblSICode">Service Code</label>
+                                <a href="../Master/ServiceCode" target="_blank"><label id="lblSICode">รหัสค่าบริการ</label></a>
                                 <div style="display:flex">
                                     <input type="text" id="txtSICode" class="form-control" style="width:20%" disabled />
                                     <input type="button" id="btnServ" class="btn btn-default" value="..." onclick="SearchData('service')" />

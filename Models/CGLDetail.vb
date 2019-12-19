@@ -111,20 +111,22 @@ Public Class CGLDetail
                 Using da As New SqlDataAdapter("SELECT * FROM Job_GLDetail" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("GLRefNo") = Me.GLRefNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("GLRefNo") = Main.GetDBString(Me.GLRefNo, dt.Columns("GLRefNo"))
                             If Me.ItemNo = 0 Then Me.AddNew()
-                            dr("ItemNo") = Me.ItemNo
-                            dr("GLAccountCode") = Me.GLAccountCode
-                            dr("GLDescription") = Me.GLDescription
-                            dr("SourceDocument") = Me.SourceDocument
+                            dr("ItemNo") = Main.GetDBString(Me.ItemNo, dt.Columns("ItemNo"))
+                            dr("GLAccountCode") = Main.GetDBString(Me.GLAccountCode, dt.Columns("GLAccountCode"))
+                            dr("GLDescription") = Main.GetDBString(Me.GLDescription, dt.Columns("GLDescription"))
+                            dr("SourceDocument") = Main.GetDBString(Me.SourceDocument, dt.Columns("SourceDocument"))
                             dr("DebitAmt") = Me.DebitAmt
                             dr("CreditAmt") = Me.CreditAmt
                             dr("EntryDate") = Main.GetDBDate(Me.EntryDate)
-                            dr("EntryBy") = Me.EntryBy
+                            dr("EntryBy") = Main.GetDBString(Me.EntryBy, dt.Columns("EntryBy"))
+
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CGLDetail", "SaveData", Me)

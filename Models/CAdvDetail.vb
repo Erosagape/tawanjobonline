@@ -240,17 +240,18 @@ Public Class CAdvDetail
                 Using da As New SqlDataAdapter("SELECT * FROM Job_AdvDetail" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("AdvNo") = Me.AdvNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("AdvNo") = Main.GetDBString(Me.AdvNo, dt.Columns("AdvNo"))
                             If Me.ItemNo = 0 Then Me.AddNew()
                             dr("ItemNo") = Me.ItemNo
-                            dr("ForJNo") = Me.ForJNo
-                            dr("STCode") = Me.STCode
-                            dr("SDescription") = Me.SDescription
-                            dr("SICode") = Me.SICode
+                            dr("ForJNo") = Main.GetDBString(Me.ForJNo, dt.Columns("ForJNo"))
+                            dr("STCode") = Main.GetDBString(Me.STCode, dt.Columns("STCode"))
+                            dr("SICode") = Main.GetDBString(Me.SICode, dt.Columns("SICode"))
+                            dr("SDescription") = Main.GetDBString(Me.SDescription, dt.Columns("SDescription"))
                             dr("AdvAmount") = Me.AdvAmount
                             dr("IsChargeVAT") = Me.IsChargeVAT
                             dr("ChargeVAT") = Me.ChargeVAT
@@ -258,13 +259,13 @@ Public Class CAdvDetail
                             dr("Rate50Tavi") = Me.Rate50Tavi
                             dr("Charge50Tavi") = Me.Charge50Tavi
                             dr("AdvNet") = Me.AdvNet
-                            dr("TRemark") = Me.TRemark
+                            dr("TRemark") = Main.GetDBString(Me.TRemark, dt.Columns("TRemark"))
                             dr("IsDuplicate") = Me.IsDuplicate
                             dr("Is50Tavi") = Me.Is50Tavi
-                            dr("PayChqTo") = Me.PayChqTo
-                            dr("Doc50Tavi") = Me.Doc50Tavi
-                            dr("VenCode") = Me.VenCode
-                            dr("CurrencyCode") = Me.CurrencyCode
+                            dr("PayChqTo") = Main.GetDBString(Me.PayChqTo, dt.Columns("PayChqTo"))
+                            dr("Doc50Tavi") = Main.GetDBString(Me.Doc50Tavi, dt.Columns("Doc50Tavi"))
+                            dr("VenCode") = Main.GetDBString(Me.VenCode, dt.Columns("VenCode"))
+                            dr("CurrencyCode") = Main.GetDBString(Me.CurrencyCode, dt.Columns("CurrencyCode"))
                             dr("ExchangeRate") = Me.ExchangeRate
                             dr("AdvQty") = Me.AdvQty
                             dr("UnitPrice") = Me.UnitPrice

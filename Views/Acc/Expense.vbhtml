@@ -680,7 +680,7 @@ End Code
     function ClearHeader() {
         hdr = {};
         //$('#txtDocNo').val('');
-        $('#txtDocDate').val(CDateTH(GetToday()));
+        $('#txtDocDate').val( CDateEN(GetToday()));
         $('#txtVenCode').val(vend);
         $('#txtVenName').val('');
         $('#txtContactName').val('');

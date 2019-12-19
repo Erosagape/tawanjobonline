@@ -296,18 +296,19 @@ End Code
                                     <input type="checkbox" id="chkDuplicate" />
                                     <label for="chkDuplicate">Can Partial Clear</label>
                                     <br />
-                                    <label for="txtSICode">Code :</label>
+                                    <a href="../Master/ServiceCode" target="_blank"><label id="lblSICode">Service Code</label></a>
                                     <input type="text" id="txtSICode" style="width:80px" tabindex="12" />
                                     <input type="button" id="btnBrowseS" value="..." onclick="SearchData('servicecode')" />
-                                    Description : <input type="text" id="txtSDescription" style="width:230px" tabindex="13" />
+                                    <input type="text" id="txtSDescription" style="width:230px" tabindex="13" />
                                     <br />
                                     <label for="txtForJNo">Job No :</label>
                                     <input type="text" id="txtForJNo" style="width:120px" tabindex="14" />
                                     <input type="button" id="btnBrowseJ" value="..." onclick="SearchData('job')" />
                                     Cust.Inv : <input type="text" id="txtInvNo" style="width:230px" disabled />
                                     <br />
-                                    <a onclick="SearchData('detcurrency')">Currency :</a>
+                                    <a href="../Master/Currency" target="_blank"><label id="lblCurrencyCode">Currency</label></a>
                                     <input type="text" id="txtCurrencyCode" style="width:50px" tabindex="15" />
+                                    <input type="button" id="btnBrowseCur" value="..." onclick="SearchData('detcurrency')" />
                                     <input type="text" id="txtCurrencyName" style="width:200px" disabled />
                                     <label for="txtExcRate">Rate :</label>
                                     <input type="text" id="txtDetCurrency" style="width:50px" disabled />
@@ -315,8 +316,8 @@ End Code
                                     <br />
                                     <label for="txtAdvQty">Qty:</label>
                                     <input type="text" id="txtAdvQty" style="width:100px;text-align:right" tabindex="17" />
-                                    <label id="lblUnitPrice" for="txtUnitPrice">Price :</label>
-                                    <input type="text" id="txtUnitPrice" style="width:100px;text-align:right" tabindex="18" />
+                                    <label id="lblUnitPrice" for="txtUnitPrice" style="color:red">Price :</label>
+                                    <input type="text" id="txtUnitPrice" style="width:100px;text-align:right;background-color:khaki" tabindex="18" />
                                     <label id="lblAMTCal" for="txtAMTCal">Amount :</label>
                                     <input type="text" id="txtAMTCal" style="width:100px;text-align:right" disabled />
                                     <br />
@@ -335,8 +336,8 @@ End Code
                                     <label id="lblWHTRate" for="txtWHTRate">WH-Tax :</label>
                                     <input type="text" id="txtWHTRate" style="width:50px;text-align:right" tabindex="22" />
                                     <input type="text" id="txtWHT" style="width:100px;text-align:right" tabindex="23" />
-                                    <label id="lblNETAmount" for="txtNETAmount">Net Amount :</label>
-                                    <input type="text" id="txtNET" style="width:100px;text-align:right" tabindex="24" />
+                                    <label id="lblNETAmount" for="txtNETAmount" style="color:blue">Net Amount :</label>
+                                    <input type="text" id="txtNET" style="width:100px;text-align:right;background-color:lightskyblue" tabindex="24" />
                                     <br />
                                     WH-Tax No :
                                     <input type="text" id="txt50Tavi" style="width:200px" tabindex="25" />
@@ -534,7 +535,7 @@ End Code
 
                 $('#txtSICode').attr('disabled', 'disabled');
                 //$('#txtSDescription').attr('disabled', 'disabled');
-                $('#chkDuplicate').prop('checked', false);
+                $('#chkDuplicate').prop('checked', true);
                 return;
             }
             $('#chkDuplicate').prop('checked', false);
@@ -818,6 +819,10 @@ End Code
             ShowMessage('No data to save',true);
             return false;
         }
+        if ($('#txtReqBy').val() == '') {
+            ShowMessage('Please Enter Request By',true);
+            return false;
+        }
         if (hdr.AdvNo == '') {
             if (userRights.indexOf('I') < 0) {
                 ShowMessage('you are not authorize to add',true);
@@ -1088,9 +1093,9 @@ End Code
         $.get(path + 'adv/getnewadvancedetail?branchcode=' + $('#txtBranchCode').val() + '&advno=' + $('#txtAdvNo').val(), function (r) {
             let d = r.adv.detail[0];
             LoadDetail(d);
+            $('#chkDuplicate').prop('checked', true);
             $('#txtSICode').attr('disabled', 'disabled');
             //$('#txtSDescription').attr('disabled', 'disabled');
-
             $('#frmDetail').modal('show');
             $('#txtCurrencyCode').val($('#txtSubCurrency').val());
             $('#txtExcRate').val($('#txtExchangeRate').val());
@@ -1615,7 +1620,7 @@ End Code
         }
     }
     function GetParam() {
-        let strParam = '?Status=0,1,2,3,4,5,6';
+        let strParam = '?Status=0,1,2,3,4,5,6,7';
         strParam += '&Branch=' + $('#txtBranchCode').val();
         strParam += '&JType=' + $('#cboJobType').val().substr(0, 2);
         strParam += '&SBy=' + $('#cboShipBy').val().substr(0, 2);

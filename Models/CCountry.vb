@@ -65,14 +65,15 @@ Public Class CCountry
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_CountryFT" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("CTYCODE") = Me.CTYCODE
-                            dr("CTYName") = Me.CTYName
-                            dr("CURCODE") = Me.CURCODE
-                            dr("FTCODE") = Me.FTCODE
-                            dr("CUCODE") = Me.CUCODE
+                            dr("CTYCODE") = Main.GetDBString(Me.CTYCODE, dt.Columns("CTYCODE"))
+                            dr("CTYName") = Main.GetDBString(Me.CTYName, dt.Columns("CTYName"))
+                            dr("CURCODE") = Main.GetDBString(Me.CURCODE, dt.Columns("CURCODE"))
+                            dr("FTCODE") = Main.GetDBString(Me.FTCODE, dt.Columns("FTCODE"))
+                            dr("CUCODE") = Main.GetDBString(Me.CUCODE, dt.Columns("CUCODE"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCountry", "SaveData", Me)

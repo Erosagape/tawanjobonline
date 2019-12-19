@@ -156,24 +156,25 @@ Public Class CTransportRoute
                 Using da As New SqlDataAdapter("SELECT * FROM Job_TransportRoute" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("LocationID") = Me.LocationID
-                            dr("Place1") = Me.Place1
-                            dr("Place2") = Me.Place2
-                            dr("Place3") = Me.Place3
-                            dr("Place4") = Me.Place4
-                            dr("Address1") = Me.Address1
-                            dr("Address2") = Me.Address2
-                            dr("Address3") = Me.Address3
-                            dr("Address4") = Me.Address4
-                            dr("Contact1") = Me.Contact1
-                            dr("Contact2") = Me.Contact2
-                            dr("Contact3") = Me.Contact3
-                            dr("Contact4") = Me.Contact4
-                            dr("LocationRoute") = Me.LocationRoute
+                            dr("LocationID") = Main.GetDBString(Me.LocationID, dt.Columns("LocationID"))
+                            dr("Place1") = Main.GetDBString(Me.Place1, dt.Columns("Place1"))
+                            dr("Place2") = Main.GetDBString(Me.Place2, dt.Columns("Place2"))
+                            dr("Place3") = Main.GetDBString(Me.Place3, dt.Columns("Place3"))
+                            dr("Place4") = Main.GetDBString(Me.Place4, dt.Columns("Place4"))
+                            dr("LocationRoute") = Main.GetDBString(Me.LocationRoute, dt.Columns("LocationRoute"))
                             dr("IsActive") = Me.IsActive
+                            dr("Address1") = Main.GetDBString(Me.Address1, dt.Columns("Address1"))
+                            dr("Contact1") = Main.GetDBString(Me.Contact1, dt.Columns("Contact1"))
+                            dr("Address2") = Main.GetDBString(Me.Address2, dt.Columns("Address2"))
+                            dr("Contact2") = Main.GetDBString(Me.Contact2, dt.Columns("Contact2"))
+                            dr("Address3") = Main.GetDBString(Me.Address3, dt.Columns("Address3"))
+                            dr("Contact3") = Main.GetDBString(Me.Contact3, dt.Columns("Contact3"))
+                            dr("Address4") = Main.GetDBString(Me.Address4, dt.Columns("Address4"))
+                            dr("Contact4") = Main.GetDBString(Me.Contact4, dt.Columns("Contact4"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportRoute", "SaveData", Me)

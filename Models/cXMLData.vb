@@ -30,3 +30,14 @@ Public Class CJsonData
     Public Property source As String
     Public Property data As Object
 End Class
+Public Class CTestDate
+    Private m_DocDate As Date
+    Public Property DocDate As Date
+        Get
+            Return m_DocDate
+        End Get
+        Set(value As Date)
+            m_DocDate = value
+        End Set
+    End Property
+End Class

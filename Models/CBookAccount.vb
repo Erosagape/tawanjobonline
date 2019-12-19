@@ -156,24 +156,25 @@ Public Class CBookAccount
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_BookAccount" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("BookCode") = Me.BookCode
-                            dr("BookName") = Me.BookName
-                            dr("BankCode") = Me.BankCode
-                            dr("BankBranch") = Me.BankBranch
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("BookCode") = Main.GetDBString(Me.BookCode, dt.Columns("BookCode"))
+                            dr("BookName") = Main.GetDBString(Me.BookName, dt.Columns("BookName"))
+                            dr("BankCode") = Main.GetDBString(Me.BankCode, dt.Columns("BankCode"))
+                            dr("BankBranch") = Main.GetDBString(Me.BankBranch, dt.Columns("BankBranch"))
                             dr("IsLocal") = Me.IsLocal
-                            dr("ACType") = Me.ACType
-                            dr("TAddress1") = Me.TAddress1
-                            dr("TAddress2") = Me.TAddress2
-                            dr("EAddress1") = Me.EAddress1
-                            dr("EAddress2") = Me.EAddress2
-                            dr("Phone") = Me.Phone
-                            dr("FaxNumber") = Me.FaxNumber
+                            dr("ACType") = Main.GetDBString(Me.ACType, dt.Columns("ACType"))
+                            dr("TAddress1") = Main.GetDBString(Me.TAddress1, dt.Columns("TAddress1"))
+                            dr("TAddress2") = Main.GetDBString(Me.TAddress2, dt.Columns("TAddress2"))
+                            dr("EAddress1") = Main.GetDBString(Me.EAddress1, dt.Columns("EAddress1"))
+                            dr("EAddress2") = Main.GetDBString(Me.EAddress2, dt.Columns("EAddress2"))
+                            dr("Phone") = Main.GetDBString(Me.Phone, dt.Columns("Phone"))
+                            dr("FaxNumber") = Main.GetDBString(Me.FaxNumber, dt.Columns("FaxNumber"))
                             dr("LimitBalance") = Me.LimitBalance
-                            dr("GLAccountCode") = Me.GLAccountCode
+                            dr("GLAccountCode") = Main.GetDBString(Me.GLAccountCode, dt.Columns("GLAccountCode"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBookAccount", "SaveData", Me)

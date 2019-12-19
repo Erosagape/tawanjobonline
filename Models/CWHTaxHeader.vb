@@ -362,47 +362,49 @@ Public Class CWHTaxHeader
                 Using da As New SqlDataAdapter("SELECT * FROM Job_WHTax" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("DocNo") = Me.DocNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("DocNo") = Main.GetDBString(Me.DocNo, dt.Columns("DocNo"))
                             dr("DocDate") = Main.GetDBDate(Me.DocDate)
-                            dr("TaxNumber1") = Me.TaxNumber1
-                            dr("TName1") = Me.TName1
-                            dr("TAddress1") = Me.TAddress1
-                            dr("TaxNumber2") = Me.TaxNumber2
-                            dr("TName2") = Me.TName2
-                            dr("TAddress2") = Me.TAddress2
-                            dr("TaxNumber3") = Me.TaxNumber3
-                            dr("TName3") = Me.TName3
-                            dr("TAddress3") = Me.TAddress3
-                            dr("IDCard1") = Me.IDCard1
-                            dr("IDCard2") = Me.IDCard2
-                            dr("IDCard3") = Me.IDCard3
-                            dr("Branch1") = Me.Branch1
-                            dr("Branch2") = Me.Branch2
-                            dr("Branch3") = Me.Branch3
-                            dr("SeqInForm") = Me.SeqInForm
-                            dr("FormType") = Me.FormType
-                            dr("TaxLawNo") = Me.TaxLawNo
+                            dr("TaxNumber1") = Main.GetDBString(Me.TaxNumber1, dt.Columns("TaxNumber1"))
+                            dr("TName1") = Main.GetDBString(Me.TName1, dt.Columns("TName1"))
+                            dr("TAddress1") = Main.GetDBString(Me.TAddress1, dt.Columns("TAddress1"))
+                            dr("TaxNumber2") = Main.GetDBString(Me.TaxNumber2, dt.Columns("TaxNumber2"))
+                            dr("TName2") = Main.GetDBString(Me.TName2, dt.Columns("TName2"))
+                            dr("TAddress2") = Main.GetDBString(Me.TAddress2, dt.Columns("TAddress2"))
+                            dr("TaxNumber3") = Main.GetDBString(Me.TaxNumber3, dt.Columns("TaxNumber3"))
+                            dr("TName3") = Main.GetDBString(Me.TName3, dt.Columns("TName3"))
+                            dr("TAddress3") = Main.GetDBString(Me.TAddress3, dt.Columns("TAddress3"))
+                            dr("IDCard1") = Main.GetDBString(Me.IDCard1, dt.Columns("IDCard1"))
+                            dr("IDCard2") = Main.GetDBString(Me.IDCard2, dt.Columns("IDCard2"))
+                            dr("IDCard3") = Main.GetDBString(Me.IDCard3, dt.Columns("IDCard3"))
+                            dr("SeqInForm") = Main.GetDBString(Me.SeqInForm, dt.Columns("SeqInForm"))
+                            dr("FormType") = Main.GetDBString(Me.FormType, dt.Columns("FormType"))
+                            dr("TaxLawNo") = Main.GetDBString(Me.TaxLawNo, dt.Columns("TaxLawNo"))
                             dr("IncRate") = Me.IncRate
-                            dr("IncOther") = Me.IncOther
-                            dr("UpdateBy") = Me.UpdateBy
+                            dr("IncOther") = Main.GetDBString(Me.IncOther, dt.Columns("IncOther"))
+                            dr("UpdateBy") = Main.GetDBString(Me.UpdateBy, dt.Columns("UpdateBy"))
                             dr("TotalPayAmount") = Me.TotalPayAmount
                             dr("TotalPayTax") = Me.TotalPayTax
-                            dr("SoLicenseNo") = Me.SoLicenseNo
+                            dr("SoLicenseNo") = Main.GetDBString(Me.SoLicenseNo, dt.Columns("SoLicenseNo"))
                             dr("SoLicenseAmount") = Me.SoLicenseAmount
                             dr("SoAccAmount") = Me.SoAccAmount
-                            dr("PayeeAccNo") = Me.PayeeAccNo
-                            dr("SoTaxNo") = Me.SoTaxNo
-                            dr("PayTaxType") = Me.PayTaxType
-                            dr("PayTaxOther") = Me.PayTaxOther
-                            dr("CancelProve") = Me.CancelProve
-                            dr("CancelReason") = Me.CancelReason
+                            dr("PayeeAccNo") = Main.GetDBString(Me.PayeeAccNo, dt.Columns("PayeeAccNo"))
+                            dr("SoTaxNo") = Main.GetDBString(Me.SoTaxNo, dt.Columns("SoTaxNo"))
+                            dr("PayTaxType") = Main.GetDBString(Me.PayTaxType, dt.Columns("PayTaxType"))
+                            dr("PayTaxOther") = Main.GetDBString(Me.PayTaxOther, dt.Columns("PayTaxOther"))
+                            dr("CancelProve") = Main.GetDBString(Me.CancelProve, dt.Columns("CancelProve"))
+                            dr("CancelReason") = Main.GetDBString(Me.CancelReason, dt.Columns("CancelReason"))
                             dr("CancelDate") = Main.GetDBDate(Me.CancelDate)
-                            dr("LastUpdate") = DateTime.Now
+                            dr("LastUpdate") = Main.GetDBDate(Me.LastUpdate)
                             dr("TeacherAmt") = Me.TeacherAmt
+                            dr("Branch1") = Main.GetDBString(Me.Branch1, dt.Columns("Branch1"))
+                            dr("Branch2") = Main.GetDBString(Me.Branch2, dt.Columns("Branch2"))
+                            dr("Branch3") = Main.GetDBString(Me.Branch3, dt.Columns("Branch3"))
+
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxHeader", "SaveData", Me)

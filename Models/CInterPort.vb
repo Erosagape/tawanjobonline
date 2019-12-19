@@ -65,14 +65,15 @@ Public Class CInterPort
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_RFIPC" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("PortCode") = Me.PortCode
-                            dr("PortName") = Me.PortName
-                            dr("CountryCode") = Me.CountryCode
-                            dr("StartDate") = Me.StartDate
-                            dr("FinishDate") = Me.FinishDate
+                            dr("PortCode") = Main.GetDBString(Me.PortCode, dt.Columns("PortCode"))
+                            dr("PortName") = Main.GetDBString(Me.PortName, dt.Columns("PortName"))
+                            dr("CountryCode") = Main.GetDBString(Me.CountryCode, dt.Columns("CountryCode"))
+                            dr("StartDate") = Main.GetDBDate(Me.StartDate)
+                            dr("FinishDate") = Main.GetDBDate(Me.FinishDate)
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInterPort", "SaveData", Me)

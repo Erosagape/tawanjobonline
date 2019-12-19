@@ -111,19 +111,20 @@ Public Class CTransportPrice
                 Using da As New SqlDataAdapter("SELECT * FROM Job_TransportPrice" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("LocationID") = Me.LocationID
-                            dr("Location") = Me.Location
-                            dr("VenderCode") = Me.VenderCode
-                            dr("CustCode") = Me.CustCode
-                            dr("SICode") = Me.SICode
-                            dr("SDescription") = Me.SDescription
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("LocationID") = Main.GetDBString(Me.LocationID, dt.Columns("LocationID"))
+                            dr("VenderCode") = Main.GetDBString(Me.VenderCode, dt.Columns("VenderCode"))
+                            dr("CustCode") = Main.GetDBString(Me.CustCode, dt.Columns("CustCode"))
+                            dr("SICode") = Main.GetDBString(Me.SICode, dt.Columns("SICode"))
+                            dr("SDescription") = Main.GetDBString(Me.SDescription, dt.Columns("SDescription"))
                             dr("CostAmount") = Me.CostAmount
                             dr("ChargeAmount") = Me.ChargeAmount
-                            dr("ChargeCode") = Me.ChargeCode
+                            dr("Location") = Main.GetDBString(Me.Location, dt.Columns("Location"))
+                            dr("ChargeCode") = Main.GetDBString(Me.ChargeCode, dt.Columns("ChargeCode"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportPrice", "SaveData", Me)

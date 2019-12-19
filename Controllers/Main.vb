@@ -20,7 +20,7 @@ Module Main
         If pValue Is Nothing Then
             Return ""
         End If
-        If dc.MaxLength >= pValue.Length Then
+        If dc.MaxLength >= pValue.Length Or dc.MaxLength < 0 Then
             Return pValue
         Else
             Return pValue.Substring(0, dc.MaxLength)
@@ -32,7 +32,7 @@ Module Main
                 Return pDate.AddYears(-543)
             Else
                 If pDate.Year > 2200 Then
-                    Return System.DBNull.Value
+                    Return Date.MinValue
                 End If
             End If
             Return pDate
@@ -43,7 +43,7 @@ Module Main
                 If pDate.Year > 2500 Then
                     Return pDate.AddYears(-543)
                 Else
-                    Return System.DBNull.Value
+                    Return Date.MinValue
                 End If
             End If
         End If
@@ -1080,7 +1080,7 @@ GROUP BY rh.BranchCode,rd.InvoiceNo,rd.InvoiceItemNo,id.AmtCredit,id.AmtDiscount
       WHERE h.DocStatus<>99 AND b.BranchCode=a.BranchCode AND b.JobNo=a.JNo 
       AND b.LinkItem>0 AND ISNULL(b.LinkBillNo,'')<>'' 
       GROUP BY b.BranchCode,b.JobNo
-      HAVING SUM(b.BNet-ISNULL(r.TotalRcv,0))<=0
+      HAVING SUM(b.BNet-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0))<=0
 ) AND a.ConfirmDate IS NOT NULL AND a.CloseJobDate IS NOT NULL  
 AND a.JobStatus<>99 AND NOT ISNULL(a.CancelReson,'')<>''
 UNION

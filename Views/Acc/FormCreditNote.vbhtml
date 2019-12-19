@@ -179,7 +179,8 @@ End Code
 
         $('#lblDocNo').text(h.DocNo);
         $('#lblDocType').text(typeEng);
-        $('#lblDocDate').text(ShowDate(CDateTH(h.DocDate)));
+        $('#lblDocDate').text(ShowDate(
+            (h.DocDate)));
         $('#lblRemark').text('เหตุผลที่' + typeThai + ' ' + h.Remark);
 
         let html = '';

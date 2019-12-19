@@ -412,36 +412,37 @@ Public Class CAdvHeader
                 Using da As New SqlDataAdapter("SELECT * FROM Job_AdvHeader" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("AdvNo") = Me.AdvNo
-                            dr("CustCode") = Me.CustCode
-                            dr("CustBranch") = Me.CustBranch
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("AdvNo") = Main.GetDBString(Me.AdvNo, dt.Columns("AdvNo"))
+                            dr("CustCode") = Main.GetDBString(Me.CustCode, dt.Columns("CustCode"))
+                            dr("CustBranch") = Main.GetDBString(Me.CustBranch, dt.Columns("CustBranch"))
                             dr("JobType") = Me.JobType
                             dr("ShipBy") = Me.ShipBy
                             dr("AdvDate") = Main.GetDBDate(Me.AdvDate, True)
-                            dr("AdvType") = Me.AdvType
-                            dr("EmpCode") = Me.EmpCode
-                            dr("AdvBy") = Me.AdvBy
-                            dr("JNo") = Me.JNo
-                            dr("InvNo") = Me.InvNo
+                            dr("AdvType") = Main.GetDBString(Me.AdvType, dt.Columns("AdvType"))
+                            dr("EmpCode") = Main.GetDBString(Me.EmpCode, dt.Columns("EmpCode"))
+                            dr("AdvBy") = Main.GetDBString(Me.AdvBy, dt.Columns("AdvBy"))
+                            dr("JNo") = Main.GetDBString(Me.JNo, dt.Columns("JNo"))
+                            dr("InvNo") = Main.GetDBString(Me.InvNo, dt.Columns("InvNo"))
                             dr("VATRate") = Me.VATRate
                             dr("TotalAdvance") = Me.TotalAdvance
                             dr("TotalVAT") = Me.TotalVAT
                             dr("Total50Tavi") = Me.Total50Tavi
-                            dr("TRemark") = Me.TRemark
-                            dr("ApproveBy") = Me.ApproveBy
+                            dr("TRemark") = Main.GetDBString(Me.TRemark, dt.Columns("TRemark"))
+                            dr("ApproveBy") = Main.GetDBString(Me.ApproveBy, dt.Columns("ApproveBy"))
                             dr("ApproveDate") = Main.GetDBDate(Me.ApproveDate)
                             dr("ApproveTime") = Main.GetDBTime(Me.ApproveTime)
-                            dr("PaymentBy") = Me.PaymentBy
+                            dr("PaymentBy") = Main.GetDBString(Me.PaymentBy, dt.Columns("PaymentBy"))
                             dr("PaymentDate") = Main.GetDBDate(Me.PaymentDate)
                             dr("PaymentTime") = Main.GetDBTime(Me.PaymentTime)
-                            dr("PaymentRef") = Me.PaymentRef
-                            dr("PaymentNo") = Me.PaymentNo
-                            dr("CancelReson") = Me.CancelReson
-                            dr("CancelProve") = Me.CancelProve
+                            dr("PaymentRef") = Main.GetDBString(Me.PaymentRef, dt.Columns("PaymentRef"))
+                            dr("PaymentNo") = Main.GetDBString(Me.PaymentNo, dt.Columns("PaymentNo"))
+                            dr("CancelReson") = Main.GetDBString(Me.CancelReson, dt.Columns("CancelReson"))
+                            dr("CancelProve") = Main.GetDBString(Me.CancelProve, dt.Columns("CancelProve"))
                             dr("CancelDate") = Main.GetDBDate(Me.CancelDate)
                             dr("CancelTime") = Main.GetDBTime(Me.CancelTime)
                             dr("DocStatus") = Me.GetDocStatus
@@ -449,12 +450,12 @@ Public Class CAdvHeader
                             dr("AdvChqCash") = Me.AdvChqCash
                             dr("AdvChq") = Me.AdvChq
                             dr("AdvCred") = Me.AdvCred
-                            dr("PayChqTo") = Me.PayChqTo
+                            dr("PayChqTo") = Main.GetDBString(Me.PayChqTo, dt.Columns("PayChqTo"))
                             dr("PayChqDate") = Main.GetDBDate(Me.PayChqDate)
-                            dr("Doc50Tavi") = Me.Doc50Tavi
-                            dr("MainCurrency") = Me.MainCurrency
+                            dr("Doc50Tavi") = Main.GetDBString(Me.Doc50Tavi, dt.Columns("Doc50Tavi"))
+                            dr("MainCurrency") = Main.GetDBString(Me.MainCurrency, dt.Columns("MainCurrency"))
+                            dr("SubCurrency") = Main.GetDBString(Me.SubCurrency, dt.Columns("SubCurrency"))
                             dr("ExchangeRate") = Me.ExchangeRate
-                            dr("SubCurrency") = Me.SubCurrency
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             If da.Update(dt) > 0 Then
                                 UpdateTotal(cn)

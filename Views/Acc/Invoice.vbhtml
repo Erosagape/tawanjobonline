@@ -873,7 +873,7 @@ End Code
         if ($('#txtCustCode').val() !== '') {
             w += '&custcode=' + $('#txtCustCode').val() + '&custbranch=' + $('#txtCustBranch').val();
         }
-        window.open('/clr/generateinv?branch=' + $('#txtBranchCode').val() + w, '_blank');
+        window.open(path +'clr/generateinv?branch=' + $('#txtBranchCode').val() + w, '_blank');
     }
 </script>
 

@@ -166,25 +166,26 @@ Public Class CVoucher
                 Using da As New SqlDataAdapter("SELECT * FROM Job_CashControl" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("ControlNo") = Me.ControlNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("ControlNo") = Main.GetDBString(Me.ControlNo, dt.Columns("ControlNo"))
                             dr("VoucherDate") = Main.GetDBDate(Me.VoucherDate)
-                            dr("TRemark") = Me.TRemark
-                            dr("RecUser") = Me.RecUser
+                            dr("TRemark") = Main.GetDBString(Me.TRemark, dt.Columns("TRemark"))
+                            dr("RecUser") = Main.GetDBString(Me.RecUser, dt.Columns("RecUser"))
                             dr("RecDate") = Main.GetDBDate(Me.RecDate)
                             dr("RecTime") = Main.GetDBTime(Me.RecTime)
-                            dr("PostedBy") = Me.PostedBy
+                            dr("PostedBy") = Main.GetDBString(Me.PostedBy, dt.Columns("PostedBy"))
                             dr("PostedDate") = Main.GetDBDate(Me.PostedDate)
                             dr("PostedTime") = Main.GetDBTime(Me.PostedTime)
-                            dr("CancelReson") = Me.CancelReson
-                            dr("CancelProve") = Me.CancelProve
+                            dr("CancelReson") = Main.GetDBString(Me.CancelReson, dt.Columns("CancelReson"))
+                            dr("CancelProve") = Main.GetDBString(Me.CancelProve, dt.Columns("CancelProve"))
                             dr("CancelDate") = Main.GetDBDate(Me.CancelDate)
                             dr("CancelTime") = Main.GetDBTime(Me.CancelTime)
-                            dr("CustCode") = Me.CustCode
-                            dr("CustBranch") = Me.CustBranch
+                            dr("CustCode") = Main.GetDBString(Me.CustCode, dt.Columns("CustCode"))
+                            dr("CustBranch") = Main.GetDBString(Me.CustBranch, dt.Columns("CustBranch"))
                             If Me.CancelProve <> "" Then
                                 Me.CancelData()
                             End If

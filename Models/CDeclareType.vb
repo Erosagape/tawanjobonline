@@ -74,15 +74,16 @@ Public Class CDeclareType
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_RFDCT" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("Type") = Me.Type
-                            dr("Description") = Me.Description
-                            dr("Category") = Me.Category
-                            dr("StartDate") = Me.StartDate
-                            dr("FinishDate") = Me.FinishDate
-                            dr("LastUpdate") = Me.LastUpdate
+                            dr("Type") = Main.GetDBString(Me.Type, dt.Columns("Type"))
+                            dr("Description") = Main.GetDBString(Me.Description, dt.Columns("Description"))
+                            dr("Category") = Main.GetDBString(Me.Category, dt.Columns("Category"))
+                            dr("StartDate") = Main.GetDBDate(Me.StartDate)
+                            dr("FinishDate") = Main.GetDBDate(Me.FinishDate)
+                            dr("LastUpdate") = Main.GetDBDate(Me.LastUpdate)
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CDeclareType", "SaveData", Me)

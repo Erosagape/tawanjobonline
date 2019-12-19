@@ -143,7 +143,7 @@ End Code
                     <div class="col-sm-3 table-bordered" id="dvChq">
                         <b>Customer Chq : </b><input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
-                        <a href="/acc/cheque" target="_blank">Chq No:</a><input type="text" id="txtRefNoChq" class="form-control" value="" disabled />
+                        <a href="../acc/cheque" target="_blank">Chq No:</a><input type="text" id="txtRefNoChq" class="form-control" value="" disabled />
                         <input type="button" class="btn" id="btnBrowseChq" value="..." onclick="SearchData('chequecust')" />
                         <br />
                         Chq Date:<input type="date" id="txtChqTranDate" class="form-control" />

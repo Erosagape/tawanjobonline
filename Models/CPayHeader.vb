@@ -308,16 +308,17 @@ Public Class CPayHeader
                 Using da As New SqlDataAdapter("SELECT * FROM Job_PaymentHeader" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("DocNo") = Me.DocNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("DocNo") = Main.GetDBString(Me.DocNo, dt.Columns("DocNo"))
                             dr("DocDate") = Main.GetDBDate(Me.DocDate)
-                            dr("VenCode") = Me.VenCode
-                            dr("ContactName") = Me.ContactName
-                            dr("EmpCode") = Me.EmpCode
-                            dr("PoNo") = Me.PoNo
+                            dr("VenCode") = Main.GetDBString(Me.VenCode, dt.Columns("VenCode"))
+                            dr("ContactName") = Main.GetDBString(Me.ContactName, dt.Columns("ContactName"))
+                            dr("EmpCode") = Main.GetDBString(Me.EmpCode, dt.Columns("EmpCode"))
+                            dr("PoNo") = Main.GetDBString(Me.PoNo, dt.Columns("PoNo"))
                             dr("VATRate") = Me.VATRate
                             dr("TaxRate") = Me.TaxRate
                             dr("TotalExpense") = Me.TotalExpense
@@ -325,24 +326,24 @@ Public Class CPayHeader
                             dr("TotalVAT") = Me.TotalVAT
                             dr("TotalDiscount") = Me.TotalDiscount
                             dr("TotalNet") = Me.TotalNet
-                            dr("Remark") = Me.Remark
-                            dr("CancelReson") = Me.CancelReson
-                            dr("CancelProve") = Me.CancelProve
+                            dr("Remark") = Main.GetDBString(Me.Remark, dt.Columns("Remark"))
+                            dr("CancelReson") = Main.GetDBString(Me.CancelReson, dt.Columns("CancelReson"))
+                            dr("CancelProve") = Main.GetDBString(Me.CancelProve, dt.Columns("CancelProve"))
                             dr("CancelDate") = Main.GetDBDate(Me.CancelDate)
                             dr("CancelTime") = Main.GetDBTime(Me.CancelTime)
-                            dr("CurrencyCode") = Me.CurrencyCode
+                            dr("CurrencyCode") = Main.GetDBString(Me.CurrencyCode, dt.Columns("CurrencyCode"))
                             dr("ExchangeRate") = Me.ExchangeRate
                             dr("ForeignAmt") = Me.ForeignAmt
-                            dr("RefNo") = Me.RefNo
-                            dr("PayType") = Me.PayType
-                            dr("AdvRef") = Me.AdvRef
-                            dr("ApproveBy") = Me.ApproveBy
+                            dr("RefNo") = Main.GetDBString(Me.RefNo, dt.Columns("RefNo"))
+                            dr("PayType") = Main.GetDBString(Me.PayType, dt.Columns("PayType"))
+                            dr("AdvRef") = Main.GetDBString(Me.AdvRef, dt.Columns("AdvRef"))
+                            dr("ApproveBy") = Main.GetDBString(Me.ApproveBy, dt.Columns("ApproveBy"))
                             dr("ApproveDate") = Main.GetDBDate(Me.ApproveDate)
                             dr("ApproveTime") = Main.GetDBTime(Me.ApproveTime)
-                            dr("PaymentBy") = Me.PaymentBy
+                            dr("PaymentBy") = Main.GetDBString(Me.PaymentBy, dt.Columns("PaymentBy"))
                             dr("PaymentDate") = Main.GetDBDate(Me.PaymentDate)
                             dr("PaymentTime") = Main.GetDBTime(Me.PaymentTime)
-                            dr("PaymentRef") = Me.PaymentRef
+                            dr("PaymentRef") = Main.GetDBString(Me.PaymentRef, dt.Columns("PaymentRef"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CPayHeader", "SaveData", Me)

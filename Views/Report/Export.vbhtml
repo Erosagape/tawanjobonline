@@ -81,7 +81,7 @@ End Code
                     data: tb
                 }
             );
-            $('#dvDownload').html('<input type="button" value="Download" onclick="Download(' + "'" + fname + "'" + ')"/><a href="/'+ fname +'" target="_blank">View Contents</a>');
+            $('#dvDownload').html('<input type="button" value="Download" onclick="Download(' + "'" + fname + "'" + ')"/><a href="'+path+'/'+ fname +'" target="_blank">View Contents</a>');
         });
     }
     function Download(fname) {

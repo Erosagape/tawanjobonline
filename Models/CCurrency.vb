@@ -65,14 +65,15 @@ Public Class CCurrency
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_CurrencyCode" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("Code") = Me.Code
-                            dr("TName") = Me.TName
-                            dr("StartDate") = Me.StartDate
-                            dr("FinishDate") = Me.FinishDate
-                            dr("LastUpdate") = Me.LastUpdate
+                            dr("Code") = Main.GetDBString(Me.Code, dt.Columns("Code"))
+                            dr("TName") = Main.GetDBString(Me.TName, dt.Columns("TName"))
+                            dr("StartDate") = Main.GetDBDate(Me.StartDate)
+                            dr("FinishDate") = Main.GetDBDate(Me.FinishDate)
+                            dr("LastUpdate") = Main.GetDBDate(Me.LastUpdate)
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCurrency", "SaveData", Me)

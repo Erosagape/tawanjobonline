@@ -237,20 +237,20 @@ Public Class CServiceCode
                 Using da As New SqlDataAdapter("SELECT * FROM Job_SrvSingle" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("SICode") = Me.SICode
-                            dr("GroupCode") = Me.GroupCode
-                            dr("NameThai") = Me.NameThai
-                            dr("NameEng") = Me.NameEng
+                            dr("SICode") = Main.GetDBString(Me.SICode, dt.Columns("SICode"))
+                            dr("NameThai") = Main.GetDBString(Me.NameThai, dt.Columns("NameThai"))
+                            dr("NameEng") = Main.GetDBString(Me.NameEng, dt.Columns("NameEng"))
                             dr("StdPrice") = Me.StdPrice
-                            dr("UnitCharge") = Me.UnitCharge
-                            dr("CurrencyCode") = Me.CurrencyCode
-                            dr("DefaultVender") = Me.DefaultVender
-                            dr("ProcessDesc") = Me.ProcessDesc
-                            dr("GLAccountCodeSales") = Me.GLAccountCodeSales
-                            dr("GLAccountCodeCost") = Me.GLAccountCodeCost
+                            dr("UnitCharge") = Main.GetDBString(Me.UnitCharge, dt.Columns("UnitCharge"))
+                            dr("CurrencyCode") = Main.GetDBString(Me.CurrencyCode, dt.Columns("CurrencyCode"))
+                            dr("DefaultVender") = Main.GetDBString(Me.DefaultVender, dt.Columns("DefaultVender"))
+                            dr("ProcessDesc") = Main.GetDBString(Me.ProcessDesc, dt.Columns("ProcessDesc"))
+                            dr("GLAccountCodeSales") = Main.GetDBString(Me.GLAccountCodeSales, dt.Columns("GLAccountCodeSales"))
+                            dr("GLAccountCodeCost") = Main.GetDBString(Me.GLAccountCodeCost, dt.Columns("GLAccountCodeCost"))
                             dr("IsTaxCharge") = Me.IsTaxCharge
                             dr("Is50Tavi") = Me.Is50Tavi
                             dr("Rate50Tavi") = Me.Rate50Tavi
@@ -261,6 +261,7 @@ Public Class CServiceCode
                             dr("IsPay50TaviTo") = Me.IsPay50TaviTo
                             dr("IsLtdAdv50Tavi") = Me.IsLtdAdv50Tavi
                             dr("IsUsedCoSlip") = Me.IsUsedCoSlip
+                            dr("GroupCode") = Main.GetDBString(Me.GroupCode, dt.Columns("GroupCode"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             If da.Update(dt) > 0 Then
                                 Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceCode", "SaveData", Me)

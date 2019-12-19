@@ -290,25 +290,26 @@ Public Class CQuoItem
                 Using da As New SqlDataAdapter("SELECT * FROM Job_QuotationItem" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("QNo") = Me.QNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("QNo") = Main.GetDBString(Me.QNo, dt.Columns("QNo"))
                             dr("SeqNo") = Me.SeqNo
                             If Me.ItemNo = 0 Then Me.AddNew()
                             dr("ItemNo") = Me.ItemNo
-                            dr("SICode") = Me.SICode
-                            dr("DescriptionThai") = Me.DescriptionThai
-                            dr("CalculateType") = Me.CalculateType
+                            dr("SICode") = Main.GetDBString(Me.SICode, dt.Columns("SICode"))
+                            dr("DescriptionThai") = Main.GetDBString(Me.DescriptionThai, dt.Columns("DescriptionThai"))
+                            dr("CalculateType") = Main.GetDBString(Me.CalculateType, dt.Columns("CalculateType"))
                             dr("QtyBegin") = Me.QtyBegin
                             dr("QtyEnd") = Me.QtyEnd
-                            dr("UnitCheck") = Me.UnitCheck
-                            dr("CurrencyCode") = Me.CurrencyCode
+                            dr("UnitCheck") = Main.GetDBString(Me.UnitCheck, dt.Columns("UnitCheck"))
+                            dr("CurrencyCode") = Main.GetDBString(Me.CurrencyCode, dt.Columns("CurrencyCode"))
                             dr("CurrencyRate") = Me.CurrencyRate
                             dr("ChargeAmt") = Me.ChargeAmt
                             dr("Isvat") = Me.Isvat
-                            dr("VatRate") = Me.VatRate
+                            dr("VatRate") = Main.GetDBString(Me.VatRate, dt.Columns("VatRate"))
                             dr("VatAmt") = Me.VatAmt
                             dr("IsTax") = Me.IsTax
                             dr("TaxRate") = Me.TaxRate
@@ -317,13 +318,14 @@ Public Class CQuoItem
                             dr("TotalCharge") = Me.TotalCharge
                             dr("UnitDiscntPerc") = Me.UnitDiscntPerc
                             dr("UnitDiscntAmt") = Me.UnitDiscntAmt
-                            dr("VenderCode") = Me.VenderCode
+                            dr("VenderCode") = Main.GetDBString(Me.VenderCode, dt.Columns("VenderCode"))
                             dr("VenderCost") = Me.VenderCost
                             dr("BaseProfit") = Me.BaseProfit
                             dr("CommissionPerc") = Me.CommissionPerc
                             dr("CommissionAmt") = Me.CommissionAmt
                             dr("NetProfit") = Me.NetProfit
                             dr("IsRequired") = Me.IsRequired
+
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoItem", "SaveData", Me)

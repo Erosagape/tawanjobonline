@@ -136,12 +136,13 @@ Public Class CServiceGroup
                 Using da As New SqlDataAdapter("SELECT * FROM Job_SrvGroup" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("GroupCode") = Me.GroupCode
-                            dr("GroupName") = Me.GroupName
-                            dr("GLAccountCode") = Me.GLAccountCode
+                            dr("GroupCode") = Main.GetDBString(Me.GroupCode, dt.Columns("GroupCode"))
+                            dr("GroupName") = Main.GetDBString(Me.GroupName, dt.Columns("GroupName"))
+                            dr("GLAccountCode") = Main.GetDBString(Me.GLAccountCode, dt.Columns("GLAccountCode"))
                             dr("IsApplyPolicy") = Me.IsApplyPolicy
                             dr("IsTaxCharge") = Me.IsTaxCharge
                             dr("Is50Tavi") = Me.Is50Tavi

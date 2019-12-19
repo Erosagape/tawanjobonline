@@ -163,6 +163,7 @@
     <Compile Include="Controllers\AdvController.vb" />
     <Compile Include="Controllers\ClrController.vb" />
     <Compile Include="Controllers\ConfigController.vb" />
+    <Compile Include="Controllers\DefaultController.vb" />
     <Compile Include="Controllers\JobOrderController.vb" />
     <Compile Include="Controllers\Main.vb" />
     <Compile Include="Controllers\MasterController.vb" />
@@ -813,6 +814,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
+    <Content Include="Views\Default\Index.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

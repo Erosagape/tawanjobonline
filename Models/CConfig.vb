@@ -22,14 +22,15 @@ Public Class CConfig
                 Using da As New SqlDataAdapter(String.Format("SELECT * FROM Mas_Config WHERE ConfigCode='{0}' AND ConfigKey='{1}'", Me.ConfigCode, Me.ConfigKey), cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count <> 0 Then
                                 dr = dt.Rows(0)
                             End If
-                            dr(0) = Me.ConfigCode
-                            dr(1) = Me.ConfigKey
-                            dr(2) = Me.ConfigValue
+                            dr(0) = Main.GetDBString(Me.ConfigCode, dt.Columns(0))
+                            dr(1) = Main.GetDBString(Me.ConfigKey, dt.Columns(1))
+                            dr(2) = Main.GetDBString(Me.ConfigValue, dt.Columns(2))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             If da.Update(dt) > 0 Then
                                 Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CConfig", "SaveData", Me)

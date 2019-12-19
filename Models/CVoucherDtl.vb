@@ -129,22 +129,23 @@ Public Class CVoucherDoc
                 Using da As New SqlDataAdapter("SELECT * FROM Job_CashControlDoc" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("ControlNo") = Me.ControlNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("ControlNo") = Main.GetDBString(Me.ControlNo, dt.Columns("ControlNo"))
                             If Me.ItemNo = 0 Then Me.AddNew()
                             dr("ItemNo") = Me.ItemNo
-                            dr("DocType") = Me.DocType
-                            dr("DocNo") = Me.DocNo
-                            dr("DocDate") = If(DocDate.Year >= 1900, DocDate, DBNull.Value)
-                            dr("CmpType") = Me.CmpType
-                            dr("CmpCode") = Me.CmpCode
-                            dr("CmpBranch") = Me.CmpBranch
+                            dr("DocType") = Main.GetDBString(Me.DocType, dt.Columns("DocType"))
+                            dr("DocNo") = Main.GetDBString(Me.DocNo, dt.Columns("DocNo"))
+                            dr("DocDate") = Main.GetDBDate(Me.DocDate)
+                            dr("CmpType") = Main.GetDBString(Me.CmpType, dt.Columns("CmpType"))
+                            dr("CmpCode") = Main.GetDBString(Me.CmpCode, dt.Columns("CmpCode"))
+                            dr("CmpBranch") = Main.GetDBString(Me.CmpBranch, dt.Columns("CmpBranch"))
                             dr("PaidAmount") = Me.PaidAmount
                             dr("TotalAmount") = Me.TotalAmount
-                            dr("acType") = Me.acType
+                            dr("acType") = Main.GetDBString(Me.acType, dt.Columns("acType"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVoucherDoc", "SaveData", Me)

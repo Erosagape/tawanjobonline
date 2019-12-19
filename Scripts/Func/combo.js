@@ -126,6 +126,31 @@ function loadServiceGroup(path,e,foradv) {
         }
     });
 }
+function loadServiceGroupForClear(path, e, clearType) {
+    $(e).empty();
+    $.get(path + 'Master/GetServiceGroup').done(function (r) {
+        let dr = r.servicegroup.data;
+        if (dr.length > 0) {
+            for (let i = 0; i < dr.length; i++) {
+                if (clearType == 1 && dr[i].IsCredit==1) { //Advance
+                    $(e)
+                        .append($('<option>', { value: dr[i].GroupCode })
+                            .text(dr[i].GroupCode + ' / ' + dr[i].GroupName));                    
+                }
+                if (clearType == 2 && dr[i].IsExpense == 1) { //Advance
+                    $(e)
+                        .append($('<option>', { value: dr[i].GroupCode })
+                            .text(dr[i].GroupCode + ' / ' + dr[i].GroupName));
+                }
+                if (clearType == 3 && dr[i].IsCredit == 0 && dr[i].IsExpense == 0) { //Advance
+                    $(e)
+                        .append($('<option>', { value: dr[i].GroupCode })
+                            .text(dr[i].GroupCode + ' / ' + dr[i].GroupName));
+                }
+            }
+        }
+    });
+}
 function loadMonth(e) {
     $(e).empty();
     $(e).append($('<option>', { value: '' })

@@ -327,26 +327,27 @@ Public Class CInvDetail
                 Using da As New SqlDataAdapter("SELECT * FROM Job_InvoiceDetail" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("DocNo") = Me.DocNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("DocNo") = Main.GetDBString(Me.DocNo, dt.Columns("DocNo"))
                             If Me.ItemNo = 0 Then Me.AddNew()
-                            dr("ItemNo") = Me.ItemNo
-                            dr("SICode") = Me.SICode
-                            dr("SDescription") = Me.SDescription
-                            dr("ExpSlipNO") = Me.ExpSlipNO
-                            dr("SRemark") = Me.SRemark
-                            dr("CurrencyCode") = Me.CurrencyCode
+                            dr("ItemNo") = Main.GetDBString(Me.ItemNo, dt.Columns("ItemNo"))
+                            dr("SICode") = Main.GetDBString(Me.SICode, dt.Columns("SICode"))
+                            dr("SDescription") = Main.GetDBString(Me.SDescription, dt.Columns("SDescription"))
+                            dr("ExpSlipNO") = Main.GetDBString(Me.ExpSlipNO, dt.Columns("ExpSlipNO"))
+                            dr("SRemark") = Main.GetDBString(Me.SRemark, dt.Columns("SRemark"))
+                            dr("CurrencyCode") = Main.GetDBString(Me.CurrencyCode, dt.Columns("CurrencyCode"))
                             dr("ExchangeRate") = Me.ExchangeRate
                             dr("Qty") = Me.Qty
-                            dr("QtyUnit") = Me.QtyUnit
+                            dr("QtyUnit") = Main.GetDBString(Me.QtyUnit, dt.Columns("QtyUnit"))
                             dr("UnitPrice") = Me.UnitPrice
                             dr("FUnitPrice") = Me.FUnitPrice
                             dr("Amt") = Me.Amt
                             dr("FAmt") = Me.FAmt
-                            dr("DiscountType") = Me.DiscountType
+                            dr("DiscountType") = Main.GetDBString(Me.DiscountType, dt.Columns("DiscountType"))
                             dr("DiscountPerc") = Me.DiscountPerc
                             dr("AmtDiscount") = Me.AmtDiscount
                             dr("FAmtDiscount") = Me.FAmtDiscount
@@ -359,11 +360,12 @@ Public Class CInvDetail
                             dr("FTotalAmt") = Me.FTotalAmt
                             dr("AmtAdvance") = Me.AmtAdvance
                             dr("AmtCharge") = Me.AmtCharge
-                            dr("VATRate") = Me.VATRate
-                            dr("CurrencyCodeCredit") = Me.CurrencyCodeCredit
+                            dr("CurrencyCodeCredit") = Main.GetDBString(Me.CurrencyCodeCredit, dt.Columns("CurrencyCodeCredit"))
                             dr("ExchangeRateCredit") = Me.ExchangeRateCredit
                             dr("AmtCredit") = Me.AmtCredit
                             dr("FAmtCredit") = Me.FAmtCredit
+                            dr("VATRate") = Me.VATRate
+
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             If da.Update(dt) > 0 Then
                                 UpdateTotal(cn)

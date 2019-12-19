@@ -5,7 +5,7 @@ End Code
     <div id="dvForm" class="container" style="width:100%">
         <div class="form-group row">
             <div class="col-sm-2">
-                Choose Type:
+                <a href="../Master/ServiceGroup" target="_blank"><label id="lblSTCode">Group</label></a>:
                 <select id="cboType" class="form-control dropdown"></select>
             </div>
             <div class="col-sm-2">
@@ -49,7 +49,7 @@ End Code
                 </div>
             </div>
             <div class="col-sm-3">
-                Vender:
+                <a href="../Master/Venders" target="_blank"><label id="lblVender">Vender</label></a>:
                 <div style="display:flex">
                     <div style="flex:1">
                         <input type="text" id="txtDefaultVender" class="form-control" tabindex="6" />
@@ -292,6 +292,8 @@ End Code
         $.get(path + 'master/getnewservicecode',function (r) {
                 if (r.servicecode.data.length>0) {
                     ShowData(r.servicecode.data[0]);
+                    $('#txtUnitCharge').val('SHP');
+                    $('#txtCurrencyCode').val('THB');
                     $("#txtSICode").attr("disabled", "disabled"); 
                     $('#txtNameThai').focus();
                     return;

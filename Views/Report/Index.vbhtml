@@ -311,6 +311,6 @@
         $('#dvCliteria').modal('hide');
     }
     function PrintReport() {
-        window.open('/Report/Preview' + GetCliteria(), '', '');
+        window.open(path +'Report/Preview' + GetCliteria(), '', '');
     }
 </script>

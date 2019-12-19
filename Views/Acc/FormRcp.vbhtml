@@ -125,7 +125,8 @@ End Code
         $('#lblCustTel').text(h.CustPhone);
         $('#lblCustTax').text(h.CustTaxID);
         $('#lblReceiptNo').text(h.ReceiptNo);
-        $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiptDate)));
+        $('#lblReceiptDate').text(ShowDate(
+            (h.ReceiptDate)));
         let html = '';
         let total = 0;
 

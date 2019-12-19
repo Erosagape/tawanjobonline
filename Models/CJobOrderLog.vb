@@ -84,16 +84,17 @@ Public Class CJobOrderLog
                 Using da As New SqlDataAdapter("SELECT * FROM Job_OrderLog" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("JNo") = Me.JNo
-                            dr("ItemNo") = Me.ItemNo
-                            dr("EmpCode") = Me.EmpCode
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("JNo") = Main.GetDBString(Me.JNo, dt.Columns("JNo"))
+                            dr("ItemNo") = Main.GetDBString(Me.ItemNo, dt.Columns("ItemNo"))
+                            dr("EmpCode") = Main.GetDBString(Me.EmpCode, dt.Columns("EmpCode"))
                             dr("LogDate") = Main.GetDBDate(Me.LogDate)
                             dr("LogTime") = Main.GetDBTime(Me.LogTime)
-                            dr("TRemark") = Me.TRemark
+                            dr("TRemark") = Main.GetDBString(Me.TRemark, dt.Columns("TRemark"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrderLog", "SaveData", Me)

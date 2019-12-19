@@ -495,7 +495,7 @@ End Code
         if ($('#txtCustCode').val() !== '') {
             w += '&custcode=' + $('#txtCustCode').val() + '&custbranch=' + $('#txtCustBranch').val();
         }        
-        window.open('/Acc/GenerateBilling' + w, '_blank');
+        window.open(path +'Acc/GenerateBilling' + w, '_blank');
     }
 </script>
 

@@ -1065,10 +1065,10 @@ Namespace Controllers
             End Try
         End Function
         Function TestSetJobData() As ActionResult
-            Dim data = New CJobOrder(jobWebConn).GetData(" WHERE BranchCode='00' AND JNo='IA19090014'")(0)
+            Dim data = New CJobOrder(jobWebConn).GetData(" WHERE BranchCode='00' AND JNo='TS00000000'")(0)
             Try
-                Data.SetConnect(jobWebConn)
-                If Data.BranchCode = "" Then
+                data.SetConnect(jobWebConn)
+                If data.BranchCode = "" Then
                     Return Content("{""msg"":""Please select Branch""}", jsonContent)
                 End If
                 If Data.JNo = "" Then
@@ -1369,8 +1369,12 @@ Namespace Controllers
                     If i = 0 Then
                         json1 = "[""Status"",""Volume""]"
                     End If
-                    Dim status As String = Convert.ToInt16(oData1.Rows(i)("JobStatus")).ToString("00")
-                    json1 &= ",[""" & GetValueConfig("JOB_STATUS", status) & """," & oData1.Rows(i)("TotalJob") & "]"
+                    If oData1.Rows(i)("TotalJob").Equals(System.DBNull.Value) = False Then
+                        Dim status As String = Convert.ToInt16(oData1.Rows(i)("JobStatus")).ToString("00")
+                        json1 &= ",[""" & GetValueConfig("JOB_STATUS", status) & """," & oData1.Rows(i)("TotalJob") & "]"
+                    Else
+                        json1 &= ",[""ALL"",0]"
+                    End If
                 Next
 
                 Dim oData2 = New CUtil(jobWebConn).GetTableFromSQL(SQLDashboard2(tSqlw1))
@@ -1393,8 +1397,12 @@ Namespace Controllers
                             json2 &= ","
                         End If
                         If oData2.Columns(j).ColumnName = "JobType" Then
-                            Dim status As String = Convert.ToInt16(oData2.Rows(i)("JobType")).ToString("00")
-                            json2 &= """" & GetValueConfig("JOB_TYPE", status) & """"
+                            If oData2.Rows(i)("JobType").Equals(System.DBNull.Value) = False Then
+                                Dim status As String = Convert.ToInt16(oData2.Rows(i)("JobType")).ToString("00")
+                                json2 &= """" & GetValueConfig("JOB_TYPE", status) & """"
+                            Else
+                                json2 &= """ALL"""
+                            End If
                         Else
                             json2 &= "" & oData2.Rows(i)(j)
                         End If

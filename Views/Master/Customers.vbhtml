@@ -22,7 +22,15 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-2">
-                Title :<br /><input type="text" id="txtTitle" class="form-control" tabIndex="4">
+                Title :<br />
+                       <select id="txtTitle" class="form-control dropdown" tabIndex="4">
+                           <option value=""></option>
+                           <option value="บริษัท">บริษัท</option>
+                           <option value="ห้างหุ้นส่วน">ห้างหุ้นส่วน</option>
+                           <option value="นาย">นาย</option>
+                           <option value="นาง">นาง</option>
+                           <option value="นางสาว">นางสาว</option>
+                       </select>
             </div>
             <div class="col-sm-5">
                 Name (TH) :<br /><input type="text" id="txtNameThai" class="form-control" tabIndex="5">
@@ -32,12 +40,12 @@ End Code
             </div>
         </div>
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#tabCust1">Information</a></li>
-            <li><a data-toggle="tab" href="#tabCust2">Billing</a></li>
+            <li class="active"><a data-toggle="tab" href="#tabCust2">Billing</a></li>
+            <li><a data-toggle="tab" href="#tabCust1">Addresses</a></li>
             <li><a data-toggle="tab" href="#tabCust3">Configuration</a></li>
         </ul>
         <div class="tab-content">
-            <div id="tabCust1" class="tab-pane fade in active">
+            <div id="tabCust1" class="tab-pane">
                 <div class="row">
                     <div class="col-sm-6">
                         Address (TH) :<br /><input type="text" id="txtTAddress1" class="form-control" tabIndex="7">
@@ -92,7 +100,7 @@ End Code
                     </div>
                 </div>
             </div>
-            <div id="tabCust2" class="tab-pane fade">
+            <div id="tabCust2" class="tab-pane fade in active">
                 <div class="row">
                     <div class="col-sm-6">
                         GL Code :
@@ -104,14 +112,11 @@ End Code
                         </div>
                         Billing To:<br />
                         <div style="display:flex">
-                            <div style="flex:1">
-                                <input type="text" id="txtBillToCustCode" class="form-control" tabIndex="24">
-                            </div>
-                            <div>
-                                <input type="button" value="..." class="btn btn-default" onclick="SearchData('billing')" />
-                            </div>
-                        </div>                        
-                        Billing Branch :<br /><input type="text" id="txtBillToBranch" class="form-control" tabIndex="25">
+                            <input type="text" id="txtBillToCustCode"style="width:40%" class="form-control" tabIndex="24">
+                            <input type="text" id="txtBillToBranch" style="width:20%" class="form-control" tabIndex="25">
+                            <input type="button" value="..." class="btn btn-default" onclick="SearchData('billing')" />
+                            <input type="button" value="Same As Company" class="btn btn-primary" onclick="SetBilling()" />
+                        </div>                                                
                         Billing Name :<input type="text" id="txtBillToCustName" class="form-control" disabled />
                         Billing Address :<textarea id="txtBillToAddress" class="form-control" disabled></textarea>
                     </div>
@@ -132,7 +137,12 @@ End Code
                                       <input type="text" id="txtTProvinceName" class="form-control" style="width:80%" disabled>
                                   </div>
                         PostCode :<br />
-                        <input type="text" id="txtTPostCode" class="form-control" tabIndex="30">
+                                  <div style="display:flex">
+                                      <input type="text" id="txtTPostCode" style="width:20%" class="form-control" tabIndex="30">
+                                      <input type="button" class="btn btn-primary" value="Set Full Address" onclick="SetAddress()" /> &nbsp;
+                                      <input type="button" value="Company Contact" class="btn btn-primary" onclick="AddContact()" />
+                                  </div>
+                        
                     </div>
                 </div>
 
@@ -192,7 +202,6 @@ End Code
                     <div class="col-sm-6">
                         Commercial Level :<br /><input type="text" id="txtCommLevel" class="form-control" disabled />
                         <br /><select id="cboCommLevel" class="form-control"></select>
-                        <br /><input type="button" value="Company Contact" class="btn btn-default" onclick="AddContact()" />
                         <br/>
                         Tracking Authorized : <br/>
                         <div style="display:flex">
@@ -251,10 +260,11 @@ End Code
     let path = '@Url.Content("~")';
     let row = {};
     //$(document).ready(function () {
-        SetLOVs();
-        SetEvents();
-        SetEnterToTab();
-        $('#txtCustCode').focus();
+    SetLOVs();
+    SetEvents();
+    SetEnterToTab();
+    ClearData();
+    $('#txtCustCode').focus();
     //});
     function SetEvents() {
         $('#txtBranch').keydown(function (event) {
@@ -335,8 +345,8 @@ End Code
             CreateLOV(dv, '#frmSearchProvince', '#tbProvince', 'Province/District/Sub District',res, 3);
         });
         //load configuration data
-        var lists = "CUSTOMER_GROUP=#txtCustGroup";
-        lists += ",CUSTOMER_TYPE=#txtCustType";
+        var lists = "CUSTOMER_GROUP=#txtCustGroup|CUSTOMERS";
+        lists += ",CUSTOMER_TYPE=#txtCustType|0";
         lists += ",COMPANY_TYPE=#cboCompanyType";
         lists += ",COMMERCIAL_LEVEL=#cboCommLevel";
 
@@ -503,8 +513,8 @@ End Code
     }
     function ClearData() {
         $('#txtCustCode').val('');
-        $('#txtBranch').val('');
-        $('#txtCustGroup').val('');
+        $('#txtBranch').val('0000');
+        $('#txtCustGroup').val('CUSTOMERS');
         $('#txtTaxNumber').val('');
         $('#txtTitle').val('');
         $('#txtNameThai').val('');
@@ -703,5 +713,16 @@ End Code
     }
     function AddContact() {
         window.open(path + 'master/companycontact?custbranch=' + $('#txtBranch').val() + '&custcode=' + $('#txtCustCode').val(), '', '');
+    }
+
+    function SetAddress() {
+        $('#txtTAddress1').val($('#txtTAddress').val() + ' ' + $('#txtTDistrict').val());
+        $('#txtTAddress2').val('แขวง'+$('#txtTSubProvince').val() +' '+ $('#txtTProvinceName').val()+ ' '+ $('#txtTPostCode').val());
+        }
+    function SetBilling() {
+        $('#txtBillToCustCode').val($('#txtCustCode').val());
+        $('#txtBillToBranch').val($('#txtBranch').val());
+        $('#txtBillToCustName').val($('#txtNameThai').val());
+        $('#txtBillToAddress').val($('#txtTAddress1').val() + ' '+$('#txtTAddress2').val());
     }
 </script>

@@ -273,31 +273,32 @@ Public Class CRcpHeader
                 Using da As New SqlDataAdapter("SELECT * FROM Job_ReceiptHeader" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("ReceiptNo") = Me.ReceiptNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("ReceiptNo") = Main.GetDBString(Me.ReceiptNo, dt.Columns("ReceiptNo"))
                             dr("ReceiptDate") = Main.GetDBDate(Me.ReceiptDate)
-                            dr("ReceiptType") = Me.ReceiptType
-                            dr("CustCode") = Me.CustCode
-                            dr("CustBranch") = Me.CustBranch
-                            dr("BillToCustCode") = Me.BillToCustCode
-                            dr("BillToCustBranch") = Me.BillToCustBranch
-                            dr("TRemark") = Me.TRemark
-                            dr("EmpCode") = Me.EmpCode
-                            dr("PrintedBy") = Me.PrintedBy
+                            dr("ReceiptType") = Main.GetDBString(Me.ReceiptType, dt.Columns("ReceiptType"))
+                            dr("CustCode") = Main.GetDBString(Me.CustCode, dt.Columns("CustCode"))
+                            dr("CustBranch") = Main.GetDBString(Me.CustBranch, dt.Columns("CustBranch"))
+                            dr("BillToCustCode") = Main.GetDBString(Me.BillToCustCode, dt.Columns("BillToCustCode"))
+                            dr("BillToCustBranch") = Main.GetDBString(Me.BillToCustBranch, dt.Columns("BillToCustBranch"))
+                            dr("TRemark") = Main.GetDBString(Me.TRemark, dt.Columns("TRemark"))
+                            dr("EmpCode") = Main.GetDBString(Me.EmpCode, dt.Columns("EmpCode"))
+                            dr("PrintedBy") = Main.GetDBString(Me.PrintedBy, dt.Columns("PrintedBy"))
                             dr("PrintedDate") = Main.GetDBDate(Me.PrintedDate)
                             dr("PrintedTime") = Main.GetDBTime(Me.PrintedTime)
-                            dr("ReceiveBy") = Me.ReceiveBy
+                            dr("ReceiveBy") = Main.GetDBString(Me.ReceiveBy, dt.Columns("ReceiveBy"))
                             dr("ReceiveDate") = Main.GetDBDate(Me.ReceiveDate)
                             dr("ReceiveTime") = Main.GetDBTime(Me.ReceiveTime)
-                            dr("ReceiveRef") = Me.ReceiveRef
-                            dr("CancelReson") = Me.CancelReson
-                            dr("CancelProve") = Me.CancelProve
+                            dr("ReceiveRef") = Main.GetDBString(Me.ReceiveRef, dt.Columns("ReceiveRef"))
+                            dr("CancelReson") = Main.GetDBString(Me.CancelReson, dt.Columns("CancelReson"))
+                            dr("CancelProve") = Main.GetDBString(Me.CancelProve, dt.Columns("CancelProve"))
                             dr("CancelDate") = Main.GetDBDate(Me.CancelDate)
                             dr("CancelTime") = Main.GetDBTime(Me.CancelTime)
-                            dr("CurrencyCode") = Me.CurrencyCode
+                            dr("CurrencyCode") = Main.GetDBString(Me.CurrencyCode, dt.Columns("CurrencyCode"))
                             dr("ExchangeRate") = Me.ExchangeRate
                             dr("TotalCharge") = Me.TotalCharge
                             dr("TotalVAT") = Me.TotalVAT

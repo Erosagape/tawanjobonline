@@ -327,37 +327,38 @@ Public Class CClrHeader
                 Using da As New SqlDataAdapter("SELECT * FROM Job_ClearHeader" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("ClrNo") = Me.ClrNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("ClrNo") = Main.GetDBString(Me.ClrNo, dt.Columns("ClrNo"))
                             dr("ClrDate") = Main.GetDBDate(Me.ClrDate)
                             dr("ClearanceDate") = Main.GetDBDate(Me.ClearanceDate)
-                            dr("EmpCode") = Me.EmpCode
-                            dr("AdvRefNo") = Me.AdvRefNo
+                            dr("EmpCode") = Main.GetDBString(Me.EmpCode, dt.Columns("EmpCode"))
+                            dr("AdvRefNo") = Main.GetDBString(Me.AdvRefNo, dt.Columns("AdvRefNo"))
                             dr("AdvTotal") = Me.AdvTotal
                             dr("JobType") = Me.JobType
-                            dr("JNo") = Me.JNo
-                            dr("InvNo") = Me.InvNo
-                            dr("ClearType") = Me.ClearType
-                            dr("ClearFrom") = Me.ClearFrom
+                            dr("JNo") = Main.GetDBString(Me.JNo, dt.Columns("JNo"))
+                            dr("InvNo") = Main.GetDBString(Me.InvNo, dt.Columns("InvNo"))
+                            dr("ClearType") = Main.GetDBString(Me.ClearType, dt.Columns("ClearType"))
+                            dr("ClearFrom") = Main.GetDBString(Me.ClearFrom, dt.Columns("ClearFrom"))
                             dr("DocStatus") = Me.DocStatus
                             dr("TotalExpense") = Me.TotalExpense
-                            dr("TRemark") = Me.TRemark
-                            dr("ApproveBy") = Me.ApproveBy
+                            dr("TRemark") = Main.GetDBString(Me.TRemark, dt.Columns("TRemark"))
+                            dr("ApproveBy") = Main.GetDBString(Me.ApproveBy, dt.Columns("ApproveBy"))
                             dr("ApproveDate") = Main.GetDBDate(Me.ApproveDate)
                             dr("ApproveTime") = Main.GetDBTime(Me.ApproveTime)
-                            dr("ReceiveBy") = Me.ReceiveBy
+                            dr("ReceiveBy") = Main.GetDBString(Me.ReceiveBy, dt.Columns("ReceiveBy"))
                             dr("ReceiveDate") = Main.GetDBDate(Me.ReceiveDate)
                             dr("ReceiveTime") = Main.GetDBTime(Me.ReceiveTime)
-                            dr("ReceiveRef") = Me.ReceiveRef
-                            dr("CancelReson") = Me.CancelReson
-                            dr("CancelProve") = Me.CancelProve
+                            dr("ReceiveRef") = Main.GetDBString(Me.ReceiveRef, dt.Columns("ReceiveRef"))
+                            dr("CancelReson") = Main.GetDBString(Me.CancelReson, dt.Columns("CancelReson"))
+                            dr("CancelProve") = Main.GetDBString(Me.CancelProve, dt.Columns("CancelProve"))
                             dr("CancelDate") = Main.GetDBDate(Me.CancelDate)
                             dr("CancelTime") = Main.GetDBTime(Me.CancelTime)
-                            dr("CoPersonCode") = Me.CoPersonCode
-                            dr("CTN_NO") = Me.CTN_NO
+                            dr("CoPersonCode") = Main.GetDBString(Me.CoPersonCode, dt.Columns("CoPersonCode"))
+                            dr("CTN_NO") = Main.GetDBString(Me.CTN_NO, dt.Columns("CTN_NO"))
                             dr("ClearTotal") = Me.ClearTotal
                             dr("ClearVat") = Me.ClearVat
                             dr("ClearWht") = Me.ClearWht

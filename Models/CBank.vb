@@ -48,12 +48,13 @@ Public Class CBank
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_BankCode" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("Code") = Me.Code
-                            dr("BName") = Me.BName
-                            dr("CustomsCode") = Me.CustomsCode
+                            dr("Code") = Main.GetDBString(Me.Code, dt.Columns("Code"))
+                            dr("BName") = Main.GetDBString(Me.BName, dt.Columns("BName"))
+                            dr("CustomsCode") = Main.GetDBString(Me.CustomsCode, dt.Columns("CustomsCode"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBank", "SaveData", Me)

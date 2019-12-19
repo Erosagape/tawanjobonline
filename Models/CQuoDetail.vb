@@ -84,16 +84,18 @@ Public Class CQuoDetail
                 Using da As New SqlDataAdapter("SELECT * FROM Job_QuotationDetail" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("QNo") = Me.QNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("QNo") = Main.GetDBString(Me.QNo, dt.Columns("QNo"))
                             If Me.SeqNo = 0 Then Me.AddNew()
-                            dr("SeqNo") = Me.SeqNo
-                            dr("JobType") = Me.JobType
-                            dr("ShipBy") = Me.ShipBy
-                            dr("Description") = Me.Description
+                            dr("SeqNo") = Main.GetDBString(Me.SeqNo, dt.Columns("SeqNo"))
+                            dr("JobType") = Main.GetDBString(Me.JobType, dt.Columns("JobType"))
+                            dr("ShipBy") = Main.GetDBString(Me.ShipBy, dt.Columns("ShipBy"))
+                            dr("Description") = Main.GetDBString(Me.Description, dt.Columns("Description"))
+
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoDetail", "SaveData", Me)

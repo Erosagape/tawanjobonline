@@ -55,12 +55,13 @@ Public Class CServUnit
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_ServUnitType" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
-                            da.fill(dt)
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
+                            da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("UnitType") = Me.UnitType
-                            dr("UName") = Me.UName
-                            dr("EName") = Me.EName
+                            dr("UnitType") = Main.GetDBString(Me.UnitType, dt.Columns("UnitType"))
+                            dr("UName") = Main.GetDBString(Me.UName, dt.Columns("UName"))
+                            dr("EName") = Main.GetDBString(Me.EName, dt.Columns("EName"))
                             dr("IsCTNUnit") = Me.IsCTNUnit
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)

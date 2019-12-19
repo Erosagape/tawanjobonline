@@ -192,7 +192,7 @@ End Code
                     </a>
                 </div>
             </div>
-            <div id="tabDetail" class="tab-pane fade">
+            <div id="tabDetail" class="tab-pane fade" onclick="PrepareData()" >
                 <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddDetail()">
                     <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Detail</b>
                 </a>
@@ -264,7 +264,7 @@ End Code
                             <input type="checkbox" id="chkDuplicate" onchange="ToggleClearBtn()" />
                             <label for="chkDuplicate">Partial Clear</label>
                             <br />
-                            <label for="txtSICode">Code :</label>
+                            <a href="../Master/ServiceCode" target="_blank"><label id="lblSICode">Service Code</label></a>
                             <input type="text" id="txtSICode" style="width:80px" tabindex="12" />
                             <input type="button" id="btnBrowseS" value="..." onclick="SearchData('servicecode')" />
                             Description : <input type="text" id="txtSDescription" style="width:230px" tabindex="13" />
@@ -277,8 +277,9 @@ End Code
                             Quotation No : <input type="text" id="txtQNo" style="width:230px" disabled />
                             <input type="button" id="btnBrowseQ" value="..." onclick="SearchData('quotation')" />
                             <br />
-                            <a onclick="SearchData('detcurrency')">Currency :</a>
+                            <label for="txtCurrencyCode">Currency:</label>
                             <input type="text" id="txtCurrencyCode" style="width:50px" tabindex="15" />
+                            <input type="button" id="btnBrowseCurr" value="..." onclick="SearchData('detcurrency')" />
                             <input type="text" id="txtCurrencyName" style="width:200px" disabled />
                             <label for="txtCurRate">Rate :</label>
                             <input type="text" id="txtCurRate" style="width:80px;text-align:right" tabindex="16" />
@@ -310,7 +311,8 @@ End Code
                             <br />
                             Slip No :
                             <input type="text" id="txtSlipNo" style="width:150px" tabindex="26" />
-                            <input type="date" id="txtDate50Tavi" tabindex="27" />
+                            Slip Date :<input type="date" id="txtDate50Tavi" tabindex="27" />
+                            <br />
                             WH-Tax No :
                             <input type="text" id="txt50Tavi" style="width:150px" tabindex="28" />
                             <input type="checkbox" id="chkIsLtdAdv50Tavi" />
@@ -540,6 +542,12 @@ End Code
             $('#txtInvNo').val(dr.InvNo);
             $('#cboJobType').val(CCode(dr.JobType));
             $('#cboDocStatus').val('01');
+            $('#txtQNo').val(dr.QNo);
+            $('#txtCustCode').val(dr.CustCode);
+            $('#txtCustBranch').val(dr.CustBranch);
+            $('#txtJobType').val(dr.JobType);
+            $('#txtShipBy').val(dr.ShipBy);
+            ShowCustomer(path, dr.CustCode, dr.CustBranch, '#txtCustName');
 
             $('#btnBrowseCust').attr('disabled', 'disabled');
             $('#txtForJNo').attr('disabled', 'disabled');
@@ -573,6 +581,23 @@ End Code
                 }
             });
         });
+    }
+    function CheckService(dt) {
+        if (dt !== undefined) {
+            if ($('#cboClrType').val() == 1 && dt.IsCredit !== 1) {
+                ShowMessage('This Code not allowed to clear in this type of Advance Clearance, you must change to others code');
+                return false;
+            }
+            if ($('#cboClrType').val() == 2 && dt.IsExpense !== 1) {
+                ShowMessage('This Code not allowed to clear in this type of Costing Clearance, you must change to others code');
+                return false;
+            }
+            if ($('#cboClrType').val() == 3 && (dt.IsExpense == 1 || dt.IsCredit ==1)) {
+                ShowMessage('This Code not allowed to clear in this type of Service Clearance, you must change to others code');
+                return false;
+            }
+        }
+        return true;
     }
     function SetEvents() {
         if (userRights.indexOf('I') < 0) $('#btnNew').attr('disabled', 'disabled');
@@ -623,7 +648,10 @@ End Code
 
         $('#txtSICode').keydown(function (event) {
             if (event.which == 13) {
-                let dt = FindService($('#txtSICode').val())
+                let dt = FindService($('#txtSICode').val());               
+                if (CheckService(dt) == false) {
+                    return;
+                }
                 ReadService(dt);
             }
         });
@@ -700,6 +728,10 @@ End Code
                     CalTotal();
                 }
             }
+        });
+
+        $('#cboClrType').click(function (ev) {
+            loadServiceGroupForClear(path, '#cboSTCode', $('#cboClrType').val());
         });
     }
     function SetApprove(b) {
@@ -778,7 +810,6 @@ End Code
         lists += ',CLR_FROM=#cboClrFrom';
 
         loadCombos(path, lists);
-        loadServiceGroup(path, '#cboSTCode',false);
         LoadService();
 
         //3 Fields Show
@@ -1151,13 +1182,21 @@ End Code
             return;
         }
         if ($('#txtUnitCode').val() == '') {
-            ShowMessage('Please select unit',true);
+            ShowMessage('Please select unit', true);
+            $('#txtUnitCode').focus();
             return;
         }
         if ($('#txtSlipNo').val().length<2 && $('#txtSlipNo').prop('disabled')==false) {
-            ShowMessage('Please enter slip number',true);
+            ShowMessage('Please enter slip number', true);
+            $('#txtSlipNo').focus();
             return;
         }
+        if ($('#txtDate50Tavi').val() == '' && $('#txtSlipNo').val() !== '') {
+            ShowMessage('please select Date of Slip',true);
+            $('#txtDate50Tavi').focus();
+            return false;
+        }
+
         if (dtl != undefined) {
             let obj = GetDataDetail();
             if (obj.ItemNo == 0) {
@@ -1180,7 +1219,9 @@ End Code
                 success: function (response) {
                     ShowMessage(response.result.msg);
                     ShowData($('#txtBranchCode').val(), $('#txtClrNo').val());
-                    //$('#frmDetail').modal('hide');
+                    if ($('#txtAdvNo').val() !== '' && $('#chkDuplicate').prop('checked') == false) {
+                        $('#frmDetail').modal('hide');
+                    }
                 }
             });
             return;
@@ -1309,12 +1350,12 @@ End Code
     }
     function LoadDetail(dt) {
         if (dt != undefined) {
+            let r = FindService(dt.SICode);
+            ReadService(r);
             dtl = dt;
             $('#txtItemNo').val(dt.ItemNo);
             $('#txtSICode').val(dt.SICode);
             $('#cboSTCode').val(dt.STCode);
-            let r = FindService($('#txtSICode').val())
-            ReadService(r);
             if (isjobmode == false) {
                 $('#txtForJNo').val(dt.JobNo);
                 $('#txtInvNo').val('');
@@ -1356,11 +1397,14 @@ End Code
     }
     function LoadDetailFromPay(dt) {
         if (dt != undefined) {
+            let r = FindService(dt.SICode);
+            if (CheckService(r) == false) {
+                return;
+            }
             dtl = dt;
             $('#txtItemNo').val(dt.ItemNo);
             $('#txtSICode').val(dt.SICode);
             $('#cboSTCode').val(dt.STCode);
-            let r = FindService($('#txtSICode').val())
             ReadService(r);
             $('#txtForJNo').val(dt.JobNo);
             $('#txtInvNo').val('');
@@ -1401,12 +1445,18 @@ End Code
     }
     function LoadDetailFromAdv(dt) {
         if (dt != undefined) {
+            let r = FindService(dt.SICode);
+            if (CheckService(r) == false) {
+                $('#txtSICode').val('');
+                $('#txtSDescription').val('');
+            } else {
+                $('#txtSICode').val(dt.SICode);
+                $('#cboSTCode').val(dt.STCode);
+                $('#txtSDescription').val(dt.SDescription);
+                ReadService(r);
+            }
             dtl = dt;
             $('#txtItemNo').val(dt.ItemNo);
-            $('#txtSICode').val(dt.SICode);
-            $('#cboSTCode').val(dt.STCode);
-            let r = FindService($('#txtSICode').val())
-            ReadService(r);
             $('#txtForJNo').val(dt.JobNo);
             $('#txtInvNo').val('');
             if ($('#txtForJNo').val() != '') {
@@ -1422,7 +1472,7 @@ End Code
             $('#txt50Tavi').val(dt.NO50Tavi);
             $('#txtDate50Tavi').val(CDateEN(dt.Date50Tavi));
             $('#txtPayChqTo').val(dt.Pay50TaviTo);
-            $('#txtSDescription').val(dt.SDescription);
+            
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Tax50TaviRate);
@@ -1478,8 +1528,8 @@ End Code
         if ($('#chkDuplicate').prop('checked') == false) {
             $('#txtAdvNo').val('');
             $('#txtAdvItemNo').val('0');
+            $('#txtAdvAmount').val('0');
         }
-        $('#txtAdvAmount').val('0');
         $('#txtSlipNo').val('');        
         $('#txtSlipNo').removeAttr('disabled');
         $('#txtAMT').removeAttr('disabled');
@@ -1820,6 +1870,7 @@ End Code
         if (job !== "") {
             jtype += '&jobno=' + job;
         }
+        var advclick = 0;
         //$.get(path + 'Clr / GetAdvForClear ? branchcode = '+branch+' & jtype=' + jtype + GetClrFrom(cfrom), function (r) {
         $.get(path + 'Clr/GetAdvForClear?branchcode=' + branch + '&jtype=' + jtype, function (r) {
             if (r.clr.data.length > 0) {
@@ -1860,19 +1911,22 @@ End Code
                     destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
                 });
                 $('#tbAdvance tbody').on('click', 'tr', function () {
-                    $('#tbAdvance tbody > tr').removeClass('selected');
-                    $(this).addClass('selected');
+                    if (advclick == 0) {
+                        advclick = 1;
+                        $('#tbAdvance tbody > tr').removeClass('selected');
+                        $(this).addClass('selected');
 
-                    let dt = $('#tbAdvance').DataTable().row(this).data(); //read current row selected
+                        let dt = $('#tbAdvance').DataTable().row(this).data(); //read current row selected
 
-                    dt.BranchCode = $('#txtBranchCode').val();
-                    dt.ClrNo = $('#txtClrNo').val();
-                    dtl = dt;
-                    $('#frmAdvance').modal('hide');
-                    ClearDetail();
-                    LoadDetailFromAdv(dt);
-                    $('#frmDetail').modal('show');
+                        dt.BranchCode = $('#txtBranchCode').val();
+                        dt.ClrNo = $('#txtClrNo').val();
+                        dtl = dt;
+                        $('#frmAdvance').modal('hide');
+                        ClearDetail();
+                        LoadDetailFromAdv(dt);
+                        $('#frmDetail').modal('show');
 
+                    }
                 });
                 $('#frmAdvance').modal('show');
             } else {
@@ -1927,6 +1981,7 @@ End Code
                 w = '&type=SERV';
                 break;
         }
+        var payclick = 0;
         $.get(path + 'Clr/GetPaymentForClear?branch=' + branch + w, function (r) {
             if (r.clr.data.length > 0) {
                 let d = r.clr.data[0].Table;
@@ -1966,19 +2021,21 @@ End Code
                     destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
                 });
                 $('#tbPayment tbody').on('click', 'tr', function () {
-                    $('#tbPayment tbody > tr').removeClass('selected');
-                    $(this).addClass('selected');
+                    if (payclick == 0) {
+                        payclick = 1;
+                        $('#tbPayment tbody > tr').removeClass('selected');
+                        $(this).addClass('selected');
 
-                    let dt = $('#tbPayment').DataTable().row(this).data(); //read current row selected
+                        let dt = $('#tbPayment').DataTable().row(this).data(); //read current row selected
 
-                    dt.BranchCode = $('#txtBranchCode').val();
-                    dt.ClrNo = $('#txtClrNo').val();
-                    dtl = dt;
-                    $('#frmPayment').modal('hide');
-                    ClearDetail();
-                    LoadDetailFromPay(dt);
-                    $('#frmDetail').modal('show');
-
+                        dt.BranchCode = $('#txtBranchCode').val();
+                        dt.ClrNo = $('#txtClrNo').val();
+                        dtl = dt;
+                        $('#frmPayment').modal('hide');
+                        ClearDetail();
+                        LoadDetailFromPay(dt);
+                        $('#frmDetail').modal('show');
+                    }
                 });
                 $('#frmPayment').modal('show');
             } else {
@@ -1986,5 +2043,7 @@ End Code
             }
         });
     }
-
+    function PrepareData() {
+        loadServiceGroupForClear(path, '#cboSTCode', $('#cboClrType').val());
+    }
 </script>

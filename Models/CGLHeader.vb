@@ -165,25 +165,28 @@ Public Class CGLHeader
                 Using da As New SqlDataAdapter("SELECT * FROM Job_GLHeader" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("GLRefNo") = Me.GLRefNo
-                            dr("FiscalYear") = Me.FiscalYear
+ 
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("GLRefNo") = Main.GetDBString(Me.GLRefNo, dt.Columns("GLRefNo"))
+                            dr("FiscalYear") = Main.GetDBString(Me.FiscalYear, dt.Columns("FiscalYear"))
                             dr("LastupDate") = Main.GetDBDate(Me.LastupDate)
-                            dr("UpdateBy") = Me.UpdateBy
-                            dr("GLType") = Me.GLType
-                            dr("Remark") = Me.Remark
+                            dr("UpdateBy") = Main.GetDBString(Me.UpdateBy, dt.Columns("UpdateBy"))
+                            dr("GLType") = Main.GetDBString(Me.GLType, dt.Columns("GLType"))
+                            dr("Remark") = Main.GetDBString(Me.Remark, dt.Columns("Remark"))
                             dr("TotalDebit") = Me.TotalDebit
                             dr("TotalCredit") = Me.TotalCredit
                             dr("ApproveDate") = Main.GetDBDate(Me.ApproveDate)
-                            dr("ApproveBy") = Me.ApproveBy
+                            dr("ApproveBy") = Main.GetDBString(Me.ApproveBy, dt.Columns("ApproveBy"))
                             dr("PostDate") = Main.GetDBDate(Me.PostDate)
-                            dr("PostBy") = Me.PostBy
+                            dr("PostBy") = Main.GetDBString(Me.PostBy, dt.Columns("PostBy"))
                             dr("CancelDate") = Main.GetDBDate(Me.CancelDate)
-                            dr("CancelBy") = Me.CancelBy
-                            dr("CancelReason") = Me.CancelReason
+                            dr("CancelBy") = Main.GetDBString(Me.CancelBy, dt.Columns("CancelBy"))
+                            dr("CancelReason") = Main.GetDBString(Me.CancelReason, dt.Columns("CancelReason"))
+
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CGLHeader", "SaveData", Me)

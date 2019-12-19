@@ -309,11 +309,12 @@ Public Class CVoucherSub
                 Using da As New SqlDataAdapter("SELECT * FROM Job_CashControlSub" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("ControlNo") = Me.ControlNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("ControlNo") = Main.GetDBString(Me.ControlNo, dt.Columns("ControlNo"))
                             If Me.ItemNo = 0 Then
                                 Dim retStr = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(ItemNo) as t FROM Job_CashControlSub WHERE BranchCode='{0}' And ControlNo ='{1}' ", m_BranchCode, m_ControlNo), "____")
                                 m_ItemNo = Convert.ToInt32("0" & retStr)
@@ -331,35 +332,35 @@ Public Class CVoucherSub
                                 End If
                             End If
                             dr("ItemNo") = Me.ItemNo
-                            dr("PRVoucher") = Me.PRVoucher
-                            dr("PRType") = Me.PRType
-                            dr("ChqNo") = Me.ChqNo
-                            dr("BookCode") = Me.BookCode
-                            dr("BankCode") = Me.BankCode
-                            dr("BankBranch") = Me.BankBranch
+                            dr("PRVoucher") = Main.GetDBString(Me.PRVoucher, dt.Columns("PRVoucher"))
+                            dr("PRType") = Main.GetDBString(Me.PRType, dt.Columns("PRType"))
+                            dr("ChqNo") = Main.GetDBString(Me.ChqNo, dt.Columns("ChqNo"))
+                            dr("BookCode") = Main.GetDBString(Me.BookCode, dt.Columns("BookCode"))
+                            dr("BankCode") = Main.GetDBString(Me.BankCode, dt.Columns("BankCode"))
+                            dr("BankBranch") = Main.GetDBString(Me.BankBranch, dt.Columns("BankBranch"))
                             dr("ChqDate") = Main.GetDBDate(Me.ChqDate)
                             dr("CashAmount") = Me.CashAmount
                             dr("ChqAmount") = Me.ChqAmount
                             dr("CreditAmount") = Me.CreditAmount
+                            dr("IsLocal") = Me.IsLocal
+                            dr("ChqStatus") = Main.GetDBString(Me.ChqStatus, dt.Columns("ChqStatus"))
+                            dr("TRemark") = Main.GetDBString(Me.TRemark, dt.Columns("TRemark"))
+                            dr("PayChqTo") = Main.GetDBString(Me.PayChqTo, dt.Columns("PayChqTo"))
+                            dr("DocNo") = Main.GetDBString(Me.DocNo, dt.Columns("DocNo"))
+                            dr("SICode") = Main.GetDBString(Me.SICode, dt.Columns("SICode"))
+                            dr("RecvBank") = Main.GetDBString(Me.RecvBank, dt.Columns("RecvBank"))
+                            dr("RecvBranch") = Main.GetDBString(Me.RecvBranch, dt.Columns("RecvBranch"))
+                            dr("acType") = Main.GetDBString(Me.acType, dt.Columns("acType"))
                             dr("SumAmount") = Me.SumAmount
-                            dr("CurrencyCode") = Me.CurrencyCode
+                            dr("CurrencyCode") = Main.GetDBString(Me.CurrencyCode, dt.Columns("CurrencyCode"))
                             dr("ExchangeRate") = Me.ExchangeRate
                             dr("TotalAmount") = Me.TotalAmount
                             dr("VatInc") = Me.VatInc
-                            dr("WhtInc") = Me.WhtInc
                             dr("VatExc") = Me.VatExc
+                            dr("WhtInc") = Me.WhtInc
                             dr("WhtExc") = Me.WhtExc
                             dr("TotalNet") = Me.TotalNet
-                            dr("IsLocal") = Me.IsLocal
-                            dr("ChqStatus") = Me.ChqStatus
-                            dr("TRemark") = Me.TRemark
-                            dr("PayChqTo") = Me.PayChqTo
-                            dr("DocNo") = Me.DocNo
-                            dr("SICode") = Me.SICode
-                            dr("RecvBank") = Me.RecvBank
-                            dr("RecvBranch") = Me.RecvBranch
-                            dr("acType") = Me.acType
-                            dr("ForJNo") = Me.ForJNo
+                            dr("ForJNo") = Main.GetDBString(Me.ForJNo, dt.Columns("ForJNo"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVoucherSub", "SaveData", Me)

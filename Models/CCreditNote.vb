@@ -165,25 +165,27 @@ Public Class CCNDNHeader
                 Using da As New SqlDataAdapter("SELECT * FROM Job_CNDNHeader" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("DocNo") = Me.DocNo
-                            dr("DocType") = Me.DocType
-                            dr("CustCode") = Me.CustCode
-                            dr("CustBranch") = Me.CustBranch
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("DocNo") = Main.GetDBString(Me.DocNo, dt.Columns("DocNo"))
+                            dr("DocType") = Main.GetDBString(Me.DocType, dt.Columns("DocType"))
+                            dr("CustCode") = Main.GetDBString(Me.CustCode, dt.Columns("CustCode"))
+                            dr("CustBranch") = Main.GetDBString(Me.CustBranch, dt.Columns("CustBranch"))
                             dr("DocDate") = Main.GetDBDate(Me.DocDate)
-                            dr("EmpCode") = Me.EmpCode
-                            dr("ApproveBy") = Me.ApproveBy
+                            dr("EmpCode") = Main.GetDBString(Me.EmpCode, dt.Columns("EmpCode"))
+                            dr("ApproveBy") = Main.GetDBString(Me.ApproveBy, dt.Columns("ApproveBy"))
                             dr("ApproveDate") = Main.GetDBDate(Me.ApproveDate)
                             dr("ApproveTime") = Main.GetDBTime(Me.ApproveTime)
-                            dr("UpdateBy") = Me.UpdateBy
+                            dr("UpdateBy") = Main.GetDBString(Me.UpdateBy, dt.Columns("UpdateBy"))
                             dr("LastupDate") = Main.GetDBDate(Me.LastupDate)
-                            dr("DocStatus") = Me.DocStatus
+                            dr("DocStatus") = Main.GetDBString(Me.DocStatus, dt.Columns("DocStatus"))
                             dr("CancelDate") = Main.GetDBDate(Me.CancelDate)
-                            dr("CancelReason") = Me.CancelReason
-                            dr("Remark") = Me.Remark
+                            dr("CancelReason") = Main.GetDBString(Me.CancelReason, dt.Columns("CancelReason"))
+                            dr("Remark") = Main.GetDBString(Me.Remark, dt.Columns("Remark"))
+
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNHeader", "SaveData", Me)
@@ -503,17 +505,18 @@ Public Class CCNDNDetail
                 Using da As New SqlDataAdapter("SELECT * FROM Job_CNDNDetail" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("DocNo") = Me.DocNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("DocNo") = Main.GetDBString(Me.DocNo, dt.Columns("DocNo"))
                             If Me.ItemNo = 0 Then Me.AddNew()
                             dr("ItemNo") = Me.ItemNo
-                            dr("BillingNo") = Me.BillingNo
+                            dr("BillingNo") = Main.GetDBString(Me.BillingNo, dt.Columns("BillingNo"))
                             dr("BillItemNo") = Me.BillItemNo
-                            dr("SICode") = Me.SICode
-                            dr("SDescription") = Me.SDescription
+                            dr("SICode") = Main.GetDBString(Me.SICode, dt.Columns("SICode"))
+                            dr("SDescription") = Main.GetDBString(Me.SDescription, dt.Columns("SDescription"))
                             dr("OriginalAmt") = Me.OriginalAmt
                             dr("CorrectAmt") = Me.CorrectAmt
                             dr("DiffAmt") = Me.DiffAmt
@@ -524,7 +527,7 @@ Public Class CCNDNDetail
                             dr("WHTRate") = Me.WHTRate
                             dr("WHTAmt") = Me.WHTAmt
                             dr("TotalNet") = Me.TotalNet
-                            dr("CurrencyCode") = Me.CurrencyCode
+                            dr("CurrencyCode") = Main.GetDBString(Me.CurrencyCode, dt.Columns("CurrencyCode"))
                             dr("ExchangeRate") = Me.ExchangeRate
                             dr("ForeignNet") = Me.ForeignNet
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)

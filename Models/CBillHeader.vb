@@ -228,23 +228,24 @@ Public Class CBillHeader
                 Using da As New SqlDataAdapter("SELECT * FROM Job_BillAcceptHeader" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("BillAcceptNo") = Me.BillAcceptNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("BillAcceptNo") = Main.GetDBString(Me.BillAcceptNo, dt.Columns("BillAcceptNo"))
                             dr("BillDate") = Main.GetDBDate(Me.BillDate)
-                            dr("CustCode") = Me.CustCode
-                            dr("CustBranch") = Me.CustBranch
-                            dr("BillRecvBy") = Me.BillRecvBy
+                            dr("CustCode") = Main.GetDBString(Me.CustCode, dt.Columns("CustCode"))
+                            dr("CustBranch") = Main.GetDBString(Me.CustBranch, dt.Columns("CustBranch"))
+                            dr("BillRecvBy") = Main.GetDBString(Me.BillRecvBy, dt.Columns("BillRecvBy"))
                             dr("BillRecvDate") = Main.GetDBDate(Me.BillRecvDate)
                             dr("DuePaymentDate") = Main.GetDBDate(Me.DuePaymentDate)
-                            dr("BillRemark") = Me.BillRemark
-                            dr("CancelReson") = Me.CancelReson
-                            dr("CancelProve") = Me.CancelProve
+                            dr("BillRemark") = Main.GetDBString(Me.BillRemark, dt.Columns("BillRemark"))
+                            dr("CancelReson") = Main.GetDBString(Me.CancelReson, dt.Columns("CancelReson"))
+                            dr("CancelProve") = Main.GetDBString(Me.CancelProve, dt.Columns("CancelProve"))
                             dr("CancelDate") = Main.GetDBDate(Me.CancelDate)
                             dr("CancelTime") = Main.GetDBTime(Me.CancelTime)
-                            dr("EmpCode") = Me.EmpCode
+                            dr("EmpCode") = Main.GetDBString(Me.EmpCode, dt.Columns("EmpCode"))
                             dr("RecDateTime") = Main.GetDBDate(Me.RecDateTime)
                             dr("TotalCustAdv") = Me.TotalCustAdv
                             dr("TotalAdvance") = Me.TotalAdvance

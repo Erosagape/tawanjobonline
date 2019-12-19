@@ -209,30 +209,31 @@ Public Class CVender
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_Vender" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("VenCode") = Me.VenCode
-                            dr("BranchCode") = Me.BranchCode
-                            dr("TaxNumber") = Me.TaxNumber
-                            dr("Title") = Me.Title
-                            dr("TName") = Me.TName
-                            dr("English") = Me.English
-                            dr("TAddress1") = Me.TAddress1
-                            dr("TAddress2") = Me.TAddress2
-                            dr("EAddress1") = Me.EAddress1
-                            dr("EAddress2") = Me.EAddress2
-                            dr("Phone") = Me.Phone
-                            dr("FaxNumber") = Me.FaxNumber
-                            dr("LoginName") = Me.LoginName
-                            dr("LoginPassword") = Me.LoginPassword
-                            dr("GLAccountCode") = Me.GLAccountCode
-                            dr("ContactAcc") = Me.ContactAcc
-                            dr("ContactSale") = Me.ContactSale
-                            dr("ContactSupport1") = Me.ContactSupport1
-                            dr("ContactSupport2") = Me.ContactSupport2
-                            dr("ContactSupport3") = Me.ContactSupport3
-                            dr("WEB_SITE") = Me.WEB_SITE
+                            dr("VenCode") = Main.GetDBString(Me.VenCode, dt.Columns("VenCode"))
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("TaxNumber") = Main.GetDBString(Me.TaxNumber, dt.Columns("TaxNumber"))
+                            dr("Title") = Main.GetDBString(Me.Title, dt.Columns("Title"))
+                            dr("TName") = Main.GetDBString(Me.TName, dt.Columns("TName"))
+                            dr("English") = Main.GetDBString(Me.English, dt.Columns("English"))
+                            dr("TAddress1") = Main.GetDBString(Me.TAddress1, dt.Columns("TAddress1"))
+                            dr("TAddress2") = Main.GetDBString(Me.TAddress2, dt.Columns("TAddress2"))
+                            dr("EAddress1") = Main.GetDBString(Me.EAddress1, dt.Columns("EAddress1"))
+                            dr("EAddress2") = Main.GetDBString(Me.EAddress2, dt.Columns("EAddress2"))
+                            dr("Phone") = Main.GetDBString(Me.Phone, dt.Columns("Phone"))
+                            dr("FaxNumber") = Main.GetDBString(Me.FaxNumber, dt.Columns("FaxNumber"))
+                            dr("LoginName") = Main.GetDBString(Me.LoginName, dt.Columns("LoginName"))
+                            dr("LoginPassword") = Main.GetDBString(Me.LoginPassword, dt.Columns("LoginPassword"))
+                            dr("GLAccountCode") = Main.GetDBString(Me.GLAccountCode, dt.Columns("GLAccountCode"))
+                            dr("ContactAcc") = Main.GetDBString(Me.ContactAcc, dt.Columns("ContactAcc"))
+                            dr("ContactSale") = Main.GetDBString(Me.ContactSale, dt.Columns("ContactSale"))
+                            dr("ContactSupport1") = Main.GetDBString(Me.ContactSupport1, dt.Columns("ContactSupport1"))
+                            dr("ContactSupport2") = Main.GetDBString(Me.ContactSupport2, dt.Columns("ContactSupport2"))
+                            dr("ContactSupport3") = Main.GetDBString(Me.ContactSupport3, dt.Columns("ContactSupport3"))
+                            dr("WEB_SITE") = Main.GetDBString(Me.WEB_SITE, dt.Columns("WEB_SITE"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVender", "SaveData", Me)

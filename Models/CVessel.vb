@@ -47,12 +47,14 @@ Public Class CVessel
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_Vessel" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("RegsNumber") = Me.RegsNumber
-                            dr("TName") = Me.TName
-                            dr("VesselType") = Me.VesselType
+                            dr("RegsNumber") = Main.GetDBString(Me.RegsNumber, dt.Columns("RegsNumber"))
+                            dr("TName") = Main.GetDBString(Me.TName, dt.Columns("TName"))
+                            dr("VesselType") = Main.GetDBString(Me.VesselType, dt.Columns("VesselType"))
+
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVessel", "SaveData", Me)

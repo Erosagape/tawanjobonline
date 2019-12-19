@@ -101,19 +101,21 @@ Public Class CDocument
                 Using da As New SqlDataAdapter("SELECT * FROM Job_Document" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("JNo") = Me.JNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("JNo") = Main.GetDBString(Me.JNo, dt.Columns("JNo"))
                             If Me.ItemNo = 0 Then Me.AddNew()
-                            dr("ItemNo") = Me.ItemNo
-                            dr("DocType") = Me.DocType
+                            dr("ItemNo") = Main.GetDBString(Me.ItemNo, dt.Columns("ItemNo"))
+                            dr("DocType") = Main.GetDBString(Me.DocType, dt.Columns("DocType"))
                             dr("DocDate") = Main.GetDBDate(Me.DocDate)
-                            dr("DocNo") = Me.DocNo
-                            dr("Description") = Me.Description
-                            dr("FileType") = Me.FileType
-                            dr("FilePath") = Me.FilePath
+                            dr("DocNo") = Main.GetDBString(Me.DocNo, dt.Columns("DocNo"))
+                            dr("Description") = Main.GetDBString(Me.Description, dt.Columns("Description"))
+                            dr("FileType") = Main.GetDBString(Me.FileType, dt.Columns("FileType"))
+                            dr("FilePath") = Main.GetDBString(Me.FilePath, dt.Columns("FilePath"))
+
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CDocument", "SaveData", Me)

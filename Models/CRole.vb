@@ -48,12 +48,13 @@ Public Class CUserRole
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_UserRole" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("RoleID") = Me.RoleID
-                            dr("RoleDesc") = Me.RoleDesc
-                            dr("RoleGroup") = Me.RoleGroup
+                            dr("RoleID") = Main.GetDBString(Me.RoleID, dt.Columns("RoleID"))
+                            dr("RoleDesc") = Main.GetDBString(Me.RoleDesc, dt.Columns("RoleDesc"))
+                            dr("RoleGroup") = Main.GetDBString(Me.RoleGroup, dt.Columns("RoleGroup"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRole", "SaveData", Me)
@@ -158,11 +159,12 @@ Public Class CUserRoleDetail
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_UserRoleDetail " & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("RoleID") = Me.RoleID
-                            dr("UserID") = Me.UserID
+                            dr("RoleID") = Main.GetDBString(Me.RoleID, dt.Columns("RoleID"))
+                            dr("UserID") = Main.GetDBString(Me.UserID, dt.Columns("UserID"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRoleDetail", "SaveData", Me)
@@ -279,12 +281,13 @@ Public Class CUserRolePolicy
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_UserRolePolicy" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("RoleID") = Me.RoleID
-                            dr("ModuleID") = Me.ModuleID
-                            dr("Author") = Me.Author
+                            dr("RoleID") = Main.GetDBString(Me.RoleID, dt.Columns("RoleID"))
+                            dr("ModuleID") = Main.GetDBString(Me.ModuleID, dt.Columns("ModuleID"))
+                            dr("Author") = Main.GetDBString(Me.Author, dt.Columns("Author"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRolePolicy", "SaveData", Me)

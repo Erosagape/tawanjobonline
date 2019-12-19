@@ -255,35 +255,36 @@ Public Class CUser
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_User" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            stepFld = 1 : dr("UserID") = Me.UserID
-                            stepFld = 2 : dr("UPassword") = Me.UPassword
-                            stepFld = 3 : dr("TName") = Me.TName
-                            stepFld = 4 : dr("EName") = Me.EName
-                            stepFld = 5 : dr("TPosition") = Me.TPosition
-                            stepFld = 6 : dr("LoginDate") = Main.GetDBDate(Me.LoginDate)
-                            stepFld = 7 : dr("LoginTime") = Main.GetDBTime(Me.LoginTime)
-                            stepFld = 8 : dr("LogoutDate") = Main.GetDBDate(Me.LogoutDate)
-                            stepFld = 9 : dr("LogoutTime") = Main.GetDBTime(Me.LogoutTime)
-                            stepFld = 10 : dr("UPosition") = Me.UPosition
-                            stepFld = 11 : dr("MaxRateDisc") = Me.MaxRateDisc
-                            stepFld = 12 : dr("MaxAdvance") = Me.MaxAdvance
-                            stepFld = 13 : dr("JobAuthorize") = Me.JobAuthorize
-                            stepFld = 14 : dr("EMail") = Me.EMail
-                            stepFld = 15 : dr("MobilePhone") = Me.MobilePhone
-                            stepFld = 16 : dr("IsAlertByAgent") = Me.IsAlertByAgent
-                            stepFld = 17 : dr("IsAlertByEMail") = Me.IsAlertByEMail
-                            stepFld = 18 : dr("IsAlertBySMS") = Me.IsAlertBySMS
-                            stepFld = 19 : dr("UserUpline") = Me.UserUpline
-                            stepFld = 20 : dr("GLAccountCode") = Me.GLAccountCode
-                            stepFld = 21 : dr("UsedLanguage") = Me.UsedLanguage
-                            stepFld = 22 : dr("DMailAccount") = Me.DMailAccount
-                            stepFld = 23 : dr("DMailPassword") = Me.DMailPassword
-                            stepFld = 24 : dr("JobPolicy") = Me.JobPolicy
-                            stepFld = 25 : dr("AlertPolicy") = Me.AlertPolicy
-                            stepFld = 26 : dr("DeptID") = Me.DeptID
+                            dr("UserID") = Main.GetDBString(Me.UserID, dt.Columns("UserID"))
+                            dr("UPassword") = Main.GetDBString(Me.UPassword, dt.Columns("UPassword"))
+                            dr("TName") = Main.GetDBString(Me.TName, dt.Columns("TName"))
+                            dr("EName") = Main.GetDBString(Me.EName, dt.Columns("EName"))
+                            dr("TPosition") = Main.GetDBString(Me.TPosition, dt.Columns("TPosition"))
+                            dr("LoginDate") = Main.GetDBDate(Me.LoginDate)
+                            dr("LoginTime") = Main.GetDBTime(Me.LoginTime)
+                            dr("LogoutDate") = Main.GetDBDate(Me.LogoutDate)
+                            dr("LogoutTime") = Main.GetDBTime(Me.LogoutTime)
+                            dr("UPosition") = Main.GetDBString(Me.UPosition, dt.Columns("UPosition"))
+                            dr("MaxRateDisc") = Me.MaxRateDisc
+                            dr("MaxAdvance") = Me.MaxAdvance
+                            dr("JobAuthorize") = Main.GetDBString(Me.JobAuthorize, dt.Columns("JobAuthorize"))
+                            dr("EMail") = Main.GetDBString(Me.EMail, dt.Columns("EMail"))
+                            dr("MobilePhone") = Main.GetDBString(Me.MobilePhone, dt.Columns("MobilePhone"))
+                            dr("IsAlertByAgent") = Me.IsAlertByAgent
+                            dr("IsAlertByEMail") = Me.IsAlertByEMail
+                            dr("IsAlertBySMS") = Me.IsAlertBySMS
+                            dr("UserUpline") = Main.GetDBString(Me.UserUpline, dt.Columns("UserUpline"))
+                            dr("GLAccountCode") = Main.GetDBString(Me.GLAccountCode, dt.Columns("GLAccountCode"))
+                            dr("UsedLanguage") = Main.GetDBString(Me.UsedLanguage, dt.Columns("UsedLanguage"))
+                            dr("DMailAccount") = Main.GetDBString(Me.DMailAccount, dt.Columns("DMailAccount"))
+                            dr("DMailPassword") = Main.GetDBString(Me.DMailPassword, dt.Columns("DMailPassword"))
+                            dr("JobPolicy") = Main.GetDBString(Me.JobPolicy, dt.Columns("JobPolicy"))
+                            dr("AlertPolicy") = Main.GetDBString(Me.AlertPolicy, dt.Columns("AlertPolicy"))
+                            dr("DeptID") = Main.GetDBString(Me.DeptID, dt.Columns("DeptID"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUser", "SaveData", Me)

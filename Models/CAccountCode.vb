@@ -75,15 +75,16 @@ Public Class CAccountCode
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_Account" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("AccCode") = Me.AccCode
-                            dr("AccTName") = Me.AccTName
-                            dr("AccEName") = Me.AccEName
-                            dr("AccType") = Me.AccType
-                            dr("AccMain") = Me.AccMain
-                            dr("AccSide") = Me.AccSide
+                            dr("AccCode") = Main.GetDBString(Me.AccCode, dt.Columns("AccCode"))
+                            dr("AccTName") = Main.GetDBString(Me.AccTName, dt.Columns("AccTName"))
+                            dr("AccEName") = Main.GetDBString(Me.AccEName, dt.Columns("AccEName"))
+                            dr("AccType") = Main.GetDBString(Me.AccType, dt.Columns("AccType"))
+                            dr("AccMain") = Main.GetDBString(Me.AccMain, dt.Columns("AccMain"))
+                            dr("AccSide") = Main.GetDBString(Me.AccSide, dt.Columns("AccSide"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             msg = "Save Complete"

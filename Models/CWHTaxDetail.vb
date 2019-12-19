@@ -129,22 +129,23 @@ Public Class CWHTaxDetail
                 Using da As New SqlDataAdapter("SELECT * FROM Job_WHTaxDetail" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("DocNo") = Me.DocNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("DocNo") = Main.GetDBString(Me.DocNo, dt.Columns("DocNo"))
                             If Me.ItemNo = 0 Then Me.AddNew()
-                            dr("ItemNo") = Me.ItemNo
-                            dr("IncType") = Me.IncType
+                            dr("ItemNo") = Main.GetDBString(Me.ItemNo, dt.Columns("ItemNo"))
+                            dr("IncType") = Main.GetDBString(Me.IncType, dt.Columns("IncType"))
                             dr("PayDate") = Main.GetDBDate(Me.PayDate)
                             dr("PayAmount") = Me.PayAmount
-                            dr("PayRate") = Me.PayRate
                             dr("PayTax") = Me.PayTax
-                            dr("PayTaxDesc") = Me.PayTaxDesc
-                            dr("JNo") = Me.JNo
-                            dr("DocRefType") = Me.DocRefType
-                            dr("DocRefNo") = Me.DocRefNo
+                            dr("PayTaxDesc") = Main.GetDBString(Me.PayTaxDesc, dt.Columns("PayTaxDesc"))
+                            dr("JNo") = Main.GetDBString(Me.JNo, dt.Columns("JNo"))
+                            dr("DocRefType") = Main.GetDBString(Me.DocRefType, dt.Columns("DocRefType"))
+                            dr("DocRefNo") = Main.GetDBString(Me.DocRefNo, dt.Columns("DocRefNo"))
+                            dr("PayRate") = Me.PayRate
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             If da.Update(dt) > 0 Then
                                 UpdateTotal(cn)

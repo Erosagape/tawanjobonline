@@ -164,7 +164,7 @@ End Code
                     <div class="col-sm-3 table-bordered" id="dvChq">
                         <b>Customer Chq : </b><input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
-                        <a href="/acc/cheque" target="_blank">Chq No:</a><input type="text" id="txtRefNoChq" class="form-control" value="" disabled />
+                        <a href="../acc/cheque" target="_blank">Chq No:</a><input type="text" id="txtRefNoChq" class="form-control" value="" disabled />
                         <input type="button" class="btn" id="btnBrowseChq" value="..." onclick="SearchData('chequecust')"/>
                         <br />
                         Chq Date:<input type="date" id="txtChqTranDate" class="form-control" />
@@ -545,7 +545,7 @@ End Code
                     ItemNo: i + 1,
                     DocType: 'ADV',
                     DocNo: o.AdvNo,
-                    DocDate: CDateTH(o.AdvDate),
+                    DocDate:  CDateEN(o.AdvDate),
                     CmpType: 'C',
                     CmpCode: o.CustCode,
                     CmpBranch: o.CustBranch,
@@ -562,7 +562,7 @@ End Code
                     ItemNo: i + 1,
                     DocType: 'ADV',
                     DocNo: o.AdvNo,
-                    DocDate: CDateTH(o.AdvDate),
+                    DocDate:  CDateEN(o.AdvDate),
                     CmpType: 'C',
                     CmpCode: o.CustCode,
                     CmpBranch: o.CustBranch,
@@ -579,7 +579,7 @@ End Code
                     ItemNo: i + 1,
                     DocType: 'ADV',
                     DocNo: o.AdvNo,
-                    DocDate: CDateTH(o.AdvDate),
+                    DocDate:  CDateEN(o.AdvDate),
                     CmpType: 'C',
                     CmpCode: o.CustCode,
                     CmpBranch: o.CustBranch,
@@ -596,7 +596,7 @@ End Code
                     ItemNo: i + 1,
                     DocType: 'ADV',
                     DocNo: o.AdvNo,
-                    DocDate: CDateTH(o.AdvDate),
+                    DocDate:  CDateEN(o.AdvDate),
                     CmpType: 'C',
                     CmpCode: o.CustCode,
                     CmpBranch: o.CustBranch,
@@ -740,7 +740,7 @@ End Code
                 BookCode: '',
                 BankCode: '',
                 BankBranch: '',
-                ChqDate: CDateTH($('#txtChqTranDate').val()),
+                ChqDate:  CDateEN($('#txtChqTranDate').val()),
                 CashAmount: 0,
                 ChqAmount: CNum($('#txtAdvChq').val()),
                 CreditAmount: 0,
@@ -777,7 +777,7 @@ End Code
                 BookCode: $('#txtBookChqCash').val(),
                 BankCode: $('#fldBankCodeChqCash').val(),
                 BankBranch: $('#fldBankBranchChqCash').val(),
-                ChqDate: CDateTH($('#txtChqCashTranDate').val()),
+                ChqDate:  CDateEN($('#txtChqCashTranDate').val()),
                 CashAmount: 0,
                 ChqAmount: CNum($('#txtAdvChqCash').val()),
                 CreditAmount: 0,
@@ -814,7 +814,7 @@ End Code
                 BookCode: '',
                 BankCode: '',
                 BankBranch: '',
-                ChqDate: CDateTH($('#txtCredTranDate').val()),
+                ChqDate:  CDateEN($('#txtCredTranDate').val()),
                 CashAmount: 0,
                 ChqAmount: 0,
                 CreditAmount: CNum($('#txtAdvCred').val()),
@@ -920,11 +920,11 @@ End Code
         let oHeader = {
             BranchCode: $('#txtBranchCode').val(),
             ControlNo: '',
-            VoucherDate: CDateTH($('#txtPaymentDate').val()),
+            VoucherDate:  CDateEN($('#txtPaymentDate').val()),
             TRemark: $('#txtTRemark').val(),
             RecUser: user,
-            RecDate: CDateTH(GetToday()),
-            RecTime: CDateTH(GetTime()),
+            RecDate:  CDateEN(GetToday()),
+            RecTime:  CDateEN(GetTime()),
             PostedBy: '',
             PostedDate: '',
             PostedTime: '',
@@ -1004,7 +1004,7 @@ End Code
             return;
         }
         $('#txtRefNoChq').val(dt.ChqNo);
-        $('#txtChqTranDate').val(CDateTH(dt.ChqDate));
+        $('#txtChqTranDate').val( CDateEN(dt.ChqDate));
         $('#chkIsLocal').prop('checked', dt.IsLocal == 1 ? true : false);
         $('#txtChqPayTo').val(dt.PayChqTo);
         $('#cboBankChq').val(dt.RecvBank);

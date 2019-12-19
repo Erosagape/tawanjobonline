@@ -453,25 +453,25 @@ Public Class CInvHeader
                 Using da As New SqlDataAdapter("SELECT * FROM Job_InvoiceHeader" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("DocNo") = Me.DocNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("DocNo") = Main.GetDBString(Me.DocNo, dt.Columns("DocNo"))
                             dr("DocDate") = Main.GetDBDate(Me.DocDate)
-                            dr("CustCode") = Me.CustCode
-                            dr("CustBranch") = Me.CustBranch
-                            dr("BillToCustCode") = Me.BillToCustCode
-                            dr("BillToCustBranch") = Me.BillToCustBranch
-                            dr("ContactName") = Me.ContactName
-                            dr("EmpCode") = Me.EmpCode
-                            dr("PrintedBy") = Me.PrintedBy
+                            dr("CustCode") = Main.GetDBString(Me.CustCode, dt.Columns("CustCode"))
+                            dr("CustBranch") = Main.GetDBString(Me.CustBranch, dt.Columns("CustBranch"))
+                            dr("BillToCustCode") = Main.GetDBString(Me.BillToCustCode, dt.Columns("BillToCustCode"))
+                            dr("BillToCustBranch") = Main.GetDBString(Me.BillToCustBranch, dt.Columns("BillToCustBranch"))
+                            dr("ContactName") = Main.GetDBString(Me.ContactName, dt.Columns("ContactName"))
+                            dr("EmpCode") = Main.GetDBString(Me.EmpCode, dt.Columns("EmpCode"))
+                            dr("PrintedBy") = Main.GetDBString(Me.PrintedBy, dt.Columns("PrintedBy"))
                             dr("PrintedDate") = Main.GetDBDate(Me.PrintedDate)
                             dr("PrintedTime") = Main.GetDBTime(Me.PrintedTime)
-                            dr("RefNo") = Me.RefNo
+                            dr("RefNo") = Main.GetDBString(Me.RefNo, dt.Columns("RefNo"))
                             dr("VATRate") = Me.VATRate
                             dr("TotalAdvance") = Me.TotalAdvance
-                            dr("TotalDiscount") = Me.TotalDiscount
                             dr("TotalCharge") = Me.TotalCharge
                             dr("TotalIsTaxCharge") = Me.TotalIsTaxCharge
                             dr("TotalIs50Tavi") = Me.TotalIs50Tavi
@@ -479,30 +479,32 @@ Public Class CInvHeader
                             dr("Total50Tavi") = Me.Total50Tavi
                             dr("TotalCustAdv") = Me.TotalCustAdv
                             dr("TotalNet") = Me.TotalNet
-                            dr("CurrencyCode") = Me.CurrencyCode
+                            dr("CurrencyCode") = Main.GetDBString(Me.CurrencyCode, dt.Columns("CurrencyCode"))
                             dr("ExchangeRate") = Me.ExchangeRate
                             dr("ForeignNet") = Me.ForeignNet
                             dr("BillAcceptDate") = Main.GetDBDate(Me.BillAcceptDate)
                             dr("BillIssueDate") = Main.GetDBDate(Me.BillIssueDate)
-                            dr("BillAcceptNo") = Me.BillAcceptNo
-                            dr("Remark1") = Me.Remark1
-                            dr("Remark2") = Me.Remark2
-                            dr("Remark3") = Me.Remark3
-                            dr("Remark4") = Me.Remark4
-                            dr("Remark5") = Me.Remark5
-                            dr("Remark6") = Me.Remark6
-                            dr("Remark7") = Me.Remark7
-                            dr("Remark8") = Me.Remark8
-                            dr("Remark9") = Me.Remark9
-                            dr("Remark10") = Me.Remark10
-                            dr("CancelReson") = Me.CancelReson
-                            dr("CancelProve") = Me.CancelProve
+                            dr("BillAcceptNo") = Main.GetDBString(Me.BillAcceptNo, dt.Columns("BillAcceptNo"))
+                            dr("Remark1") = Main.GetDBString(Me.Remark1, dt.Columns("Remark1"))
+                            dr("Remark2") = Main.GetDBString(Me.Remark2, dt.Columns("Remark2"))
+                            dr("Remark3") = Main.GetDBString(Me.Remark3, dt.Columns("Remark3"))
+                            dr("Remark4") = Main.GetDBString(Me.Remark4, dt.Columns("Remark4"))
+                            dr("Remark5") = Main.GetDBString(Me.Remark5, dt.Columns("Remark5"))
+                            dr("Remark6") = Main.GetDBString(Me.Remark6, dt.Columns("Remark6"))
+                            dr("Remark7") = Main.GetDBString(Me.Remark7, dt.Columns("Remark7"))
+                            dr("Remark8") = Main.GetDBString(Me.Remark8, dt.Columns("Remark8"))
+                            dr("Remark9") = Main.GetDBString(Me.Remark9, dt.Columns("Remark9"))
+                            dr("Remark10") = Main.GetDBString(Me.Remark10, dt.Columns("Remark10"))
+                            dr("CancelReson") = Main.GetDBString(Me.CancelReson, dt.Columns("CancelReson"))
+                            dr("CancelProve") = Main.GetDBString(Me.CancelProve, dt.Columns("CancelProve"))
                             dr("CancelDate") = Main.GetDBDate(Me.CancelDate)
                             dr("CancelTime") = Main.GetDBTime(Me.CancelTime)
-                            dr("ShippingRemark") = Me.ShippingRemark
+                            dr("ShippingRemark") = Main.GetDBString(Me.ShippingRemark, dt.Columns("ShippingRemark"))
                             dr("SumDiscount") = Me.SumDiscount
                             dr("DiscountRate") = Me.DiscountRate
                             dr("DiscountCal") = Me.DiscountCal
+                            dr("TotalDiscount") = Me.TotalDiscount
+
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "SaveData", Me)

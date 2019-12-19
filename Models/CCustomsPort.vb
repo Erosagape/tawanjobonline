@@ -74,15 +74,16 @@ Public Class CCustomsPort
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_RFARS" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("AreaCode") = Me.AreaCode
-                            dr("AreaName") = Me.AreaName
-                            dr("AccNo") = Me.AccNo
-                            dr("Payee") = Me.Payee
-                            dr("BankCode") = Me.BankCode
-                            dr("AcType") = Me.AcType
+                            dr("AreaCode") = Main.GetDBString(Me.AreaCode, dt.Columns("AreaCode"))
+                            dr("AreaName") = Main.GetDBString(Me.AreaName, dt.Columns("AreaName"))
+                            dr("AccNo") = Main.GetDBString(Me.AccNo, dt.Columns("AccNo"))
+                            dr("Payee") = Main.GetDBString(Me.Payee, dt.Columns("Payee"))
+                            dr("BankCode") = Main.GetDBString(Me.BankCode, dt.Columns("BankCode"))
+                            dr("AcType") = Main.GetDBString(Me.AcType, dt.Columns("AcType"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCustomsPort", "SaveData", Me)

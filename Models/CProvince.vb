@@ -39,11 +39,12 @@ Public Class CProvince
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_Province" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("ProvinceCode") = Me.ProvinceCode
-                            dr("ProvinceName") = Me.ProvinceName
+                            dr("ProvinceCode") = Main.GetDBString(Me.ProvinceCode, dt.Columns(0))
+                            dr("ProvinceName") = Main.GetDBString(Me.ProvinceName, dt.Columns(1))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvince", "SaveData", Me)
@@ -172,13 +173,14 @@ Public Class CProvinceSub
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_ProvinceSub" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("ProvinceCode") = Me.ProvinceCode
-                            dr("SubProvince") = Me.SubProvince
-                            dr("District") = Me.District
-                            dr("PostCode") = Me.PostCode
+                            dr("ProvinceCode") = Main.GetDBString(Me.ProvinceCode, dt.Columns("ProvinceCode"))
+                            dr("SubProvince") = Main.GetDBString(Me.SubProvince, dt.Columns("SubProvince"))
+                            dr("District") = Main.GetDBString(Me.District, dt.Columns("District"))
+                            dr("PostCode") = Main.GetDBString(Me.PostCode, dt.Columns("PostCode"))
 
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)

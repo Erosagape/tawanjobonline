@@ -741,22 +741,6 @@ End Code
                     ShowMessage(e,true);
                 }
             });
-        } else {
-            dataApp = [];
-            dataApp.push(user + '|' + docno + '|' + ($('#chkFromClr').prop('checked') ? 'CLR' : 'ADV'));
-            for (let i = 0; i < arr.length; i++) {
-                let o = arr[i];
-                let docApp = '';
-                if ($('#chkFromClr').prop('checked') == true) {
-                    docApp = $('#txtBranchCode').val() + '|' + o.ClrNo;
-                } else {
-                    docApp = $('#txtBranchCode').val() + '|' + o.AdvNo;
-                }
-                if (dataApp.indexOf(docApp) < 0) {
-                    dataApp.push(docApp);
-                }
-            }                    
-            ReceiveClearing(docno);
         }
     }
     function SaveDetail() {
@@ -777,10 +761,26 @@ End Code
 
                             dataApp = [];
                             dataApp.push(user + '|' + response.result.data + '|' + ($('#chkFromClr').prop('checked') ? 'CLR' : 'ADV'));
-        
+
                             dataApp.push($('#txtBranchCode').val() + '|' + $('#txtAdvNo').val());
 
                             ReceiveClearing(response.result.data);
+                        } else {
+                            dataApp = [];
+                            dataApp.push(user + '|' + docno + '|' + ($('#chkFromClr').prop('checked') ? 'CLR' : 'ADV'));
+                            for (let i = 0; i < arr.length; i++) {
+                                let o = arr[i];
+                                let docApp = '';
+                                if ($('#chkFromClr').prop('checked') == true) {
+                                    docApp = $('#txtBranchCode').val() + '|' + o.ClrNo;
+                                } else {
+                                    docApp = $('#txtBranchCode').val() + '|' + o.AdvNo;
+                                }
+                                if (dataApp.indexOf(docApp) < 0) {
+                                    dataApp.push(docApp);
+                                }
+                            }                    
+                            ReceiveClearing(docno);
                         }
                         SetGridAdv(false);
                         ShowMessage(response.result.msg);

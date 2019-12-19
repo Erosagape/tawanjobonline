@@ -327,25 +327,25 @@ Public Class CTransportDetail
                 Using da As New SqlDataAdapter("SELECT * FROM Job_LoadInfoDetail" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("JNo") = Me.JNo
-                            dr("BookingNo") = Me.BookingNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("JNo") = Main.GetDBString(Me.JNo, dt.Columns("JNo"))
+                            dr("BookingNo") = Main.GetDBString(Me.BookingNo, dt.Columns("BookingNo"))
                             If Me.ItemNo = 0 Then Me.AddNew()
                             dr("ItemNo") = Me.ItemNo
-                            dr("CTN_NO") = Me.CTN_NO
-                            dr("SealNumber") = Me.SealNumber
-                            dr("TruckNO") = Me.TruckNO
+                            dr("CTN_NO") = Main.GetDBString(Me.CTN_NO, dt.Columns("CTN_NO"))
+                            dr("SealNumber") = Main.GetDBString(Me.SealNumber, dt.Columns("SealNumber"))
+                            dr("TruckNO") = Main.GetDBString(Me.TruckNO, dt.Columns("TruckNO"))
                             dr("TruckIN") = Main.GetDBDate(Me.TruckIN)
                             dr("Start") = Main.GetDBDate(Me.Start)
                             dr("Finish") = Main.GetDBDate(Me.Finish)
-                            dr("TimeUsed") = Me.TimeUsed
-                            dr("CauseCode") = Me.CauseCode
-                            dr("Comment") = Me.Comment
-                            dr("TruckType") = Me.TruckType
-                            dr("Driver") = Me.Driver
+                            dr("CauseCode") = Main.GetDBString(Me.CauseCode, dt.Columns("CauseCode"))
+                            dr("Comment") = Main.GetDBString(Me.Comment, dt.Columns("Comment"))
+                            dr("TruckType") = Main.GetDBString(Me.TruckType, dt.Columns("TruckType"))
+                            dr("Driver") = Main.GetDBString(Me.Driver, dt.Columns("Driver"))
                             dr("TargetYardDate") = Main.GetDBDate(Me.TargetYardDate)
                             dr("TargetYardTime") = Main.GetDBTime(Me.TargetYardTime)
                             dr("ActualYardDate") = Main.GetDBDate(Me.ActualYardDate)
@@ -354,17 +354,18 @@ Public Class CTransportDetail
                             dr("UnloadFinishTime") = Main.GetDBTime(Me.UnloadFinishTime)
                             dr("UnloadDate") = Main.GetDBDate(Me.UnloadDate)
                             dr("UnloadTime") = Main.GetDBTime(Me.UnloadTime)
-                            dr("Location") = Me.Location
+                            dr("Location") = Main.GetDBString(Me.Location, dt.Columns("Location"))
                             dr("ReturnDate") = Main.GetDBDate(Me.ReturnDate)
-                            dr("ShippingMark") = Me.ShippingMark
-                            dr("ProductDesc") = Me.ProductDesc
-                            dr("CTN_SIZE") = Me.CTN_SIZE
+                            dr("ShippingMark") = Main.GetDBString(Me.ShippingMark, dt.Columns("ShippingMark"))
+                            dr("ProductDesc") = Main.GetDBString(Me.ProductDesc, dt.Columns("ProductDesc"))
+                            dr("CTN_SIZE") = Main.GetDBString(Me.CTN_SIZE, dt.Columns("CTN_SIZE"))
                             dr("ProductQty") = Me.ProductQty
-                            dr("ProductUnit") = Me.ProductUnit
+                            dr("ProductUnit") = Main.GetDBString(Me.ProductUnit, dt.Columns("ProductUnit"))
                             dr("GrossWeight") = Me.GrossWeight
                             dr("Measurement") = Me.Measurement
-                            dr("DeliveryNo") = Me.DeliveryNo
-                            dr("LocationID") = Me.LocationID
+                            dr("TimeUsed") = Me.TimeUsed
+                            dr("DeliveryNo") = Main.GetDBString(Me.DeliveryNo, dt.Columns("DeliveryNo"))
+                            dr("LocationID") = Main.GetDBString(Me.LocationID, dt.Columns("LocationID"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportDetail", "SaveData", Me)

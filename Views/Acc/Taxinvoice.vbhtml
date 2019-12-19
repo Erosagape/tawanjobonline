@@ -813,6 +813,6 @@ End Code
         if ($('#txtCustCode').val() !== '') {
             w += '&custcode=' + $('#txtCustCode').val() + '&custbranch=' + $('#txtCustBranch').val();
         }        
-        window.open('/Acc/GenerateTaxInv' + w, '_blank');
+        window.open(path +'Acc/GenerateTaxInv' + w, '_blank');
     }
 </script>

@@ -237,21 +237,22 @@ Public Class CPayDetail
                 Using da As New SqlDataAdapter("SELECT * FROM Job_PaymentDetail" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("DocNo") = Me.DocNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("DocNo") = Main.GetDBString(Me.DocNo, dt.Columns("DocNo"))
                             If Me.ItemNo = 0 Then Me.AddNew()
-                            dr("ItemNo") = Me.ItemNo
-                            dr("SICode") = Me.SICode
-                            dr("SDescription") = Me.SDescription
-                            dr("SRemark") = Me.SRemark
+                            dr("ItemNo") = Main.GetDBString(Me.ItemNo, dt.Columns("ItemNo"))
+                            dr("SICode") = Main.GetDBString(Me.SICode, dt.Columns("SICode"))
+                            dr("SDescription") = Main.GetDBString(Me.SDescription, dt.Columns("SDescription"))
+                            dr("SRemark") = Main.GetDBString(Me.SRemark, dt.Columns("SRemark"))
                             dr("Qty") = Me.Qty
-                            dr("QtyUnit") = Me.QtyUnit
+                            dr("QtyUnit") = Main.GetDBString(Me.QtyUnit, dt.Columns("QtyUnit"))
                             dr("UnitPrice") = Me.UnitPrice
-                            dr("IsTaxCharge") = Me.IsTaxCharge
-                            dr("Is50Tavi") = Me.Is50Tavi
+                            dr("IsTaxCharge") = Main.GetDBString(Me.IsTaxCharge, dt.Columns("IsTaxCharge"))
+                            dr("Is50Tavi") = Main.GetDBString(Me.Is50Tavi, dt.Columns("Is50Tavi"))
                             dr("DiscountPerc") = Me.DiscountPerc
                             dr("Amt") = Me.Amt
                             dr("AmtDisc") = Me.AmtDisc
@@ -259,9 +260,9 @@ Public Class CPayDetail
                             dr("AmtWHT") = Me.AmtWHT
                             dr("Total") = Me.Total
                             dr("FTotal") = Me.FTotal
-                            dr("ForJNo") = Me.ForJNo
-                            dr("ClrRefNo") = Me.ClrRefNo
-                            dr("BookingRefNo") = Me.BookingRefNo
+                            dr("ForJNo") = Main.GetDBString(Me.ForJNo, dt.Columns("ForJNo"))
+                            dr("ClrRefNo") = Main.GetDBString(Me.ClrRefNo, dt.Columns("ClrRefNo"))
+                            dr("BookingRefNo") = Main.GetDBString(Me.BookingRefNo, dt.Columns("BookingRefNo"))
                             dr("AdvItemNo") = Me.AdvItemNo
                             dr("ClrItemNo") = Me.ClrItemNo
                             dr("BookingItemNo") = Me.BookingItemNo

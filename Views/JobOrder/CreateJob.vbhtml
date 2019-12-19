@@ -45,7 +45,7 @@ End Code
         <div class="row">
             <div class="col-sm-6" style="display:flex">                
                 <div style="width:30%">
-                    <a href="/Master/Customers"><label id="lblCustCode" style="display:block;width:100%;">Customer</label></a>
+                    <a href="../Master/Customers"><label id="lblCustCode" style="display:block;width:100%;">Customer</label></a>
                 </div>
                 <div style="display:flex;width:70%">                    
                     <input type="text" class="form-control" style="width:80px" id="txtCustCode" tabindex="4" />
@@ -310,7 +310,7 @@ End Code
         $('#txtCustInv').focus();
     }
     function ReadCustRelateData() {
-        $('#txtContactPerson').val('');
+        //$('#txtContactPerson').val('');
         $('#txtQNo').val('');
         $('#txtRevise').val('');
         $('#txtManagerCode').val('');

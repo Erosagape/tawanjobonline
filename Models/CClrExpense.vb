@@ -84,16 +84,18 @@ Public Class CClearExp
                 Using da As New SqlDataAdapter("SELECT * FROM Job_ClearExp" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("JNo") = Me.JNo
-                            dr("SICode") = Me.SICode
-                            dr("SDescription") = Me.SDescription
-                            dr("TRemark") = Me.TRemark
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("JNo") = Main.GetDBString(Me.JNo, dt.Columns("JNo"))
+                            dr("SICode") = Main.GetDBString(Me.SICode, dt.Columns("SICode"))
+                            dr("SDescription") = Main.GetDBString(Me.SDescription, dt.Columns("SDescription"))
+                            dr("TRemark") = Main.GetDBString(Me.TRemark, dt.Columns("TRemark"))
                             dr("AmountCharge") = Me.AmountCharge
-                            dr("Status") = Me.Status
+                            dr("Status") = Main.GetDBString(Me.Status, dt.Columns("Status"))
+
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrExpense", "SaveData", Me)

@@ -255,36 +255,38 @@ Public Class CRcpDetail
                 Using da As New SqlDataAdapter("SELECT * FROM Job_ReceiptDetail" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("ReceiptNo") = Me.ReceiptNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("ReceiptNo") = Main.GetDBString(Me.ReceiptNo, dt.Columns("ReceiptNo"))
                             If Me.ItemNo = 0 Then Me.AddNew()
                             dr("ItemNo") = Me.ItemNo
                             dr("CreditAmount") = Me.CreditAmount
                             dr("CashAmount") = Me.CashAmount
                             dr("TransferAmount") = Me.TransferAmount
                             dr("ChequeAmount") = Me.ChequeAmount
-                            dr("ControlNo") = Me.ControlNo
-                            dr("VoucherNo") = Me.VoucherNo
+                            dr("ControlNo") = Main.GetDBString(Me.ControlNo, dt.Columns("ControlNo"))
+                            dr("VoucherNo") = Main.GetDBString(Me.VoucherNo, dt.Columns("VoucherNo"))
                             dr("ControlItemNo") = Me.ControlItemNo
-                            dr("InvoiceNo") = Me.InvoiceNo
+                            dr("InvoiceNo") = Main.GetDBString(Me.InvoiceNo, dt.Columns("InvoiceNo"))
                             dr("InvoiceItemNo") = Me.InvoiceItemNo
-                            dr("SICode") = Me.SICode
-                            dr("SDescription") = Me.SDescription
+                            dr("SICode") = Main.GetDBString(Me.SICode, dt.Columns("SICode"))
+                            dr("SDescription") = Main.GetDBString(Me.SDescription, dt.Columns("SDescription"))
                             dr("VATRate") = Me.VATRate
                             dr("Rate50Tavi") = Me.Rate50Tavi
                             dr("Amt") = Me.Amt
                             dr("AmtVAT") = Me.AmtVAT
                             dr("Amt50Tavi") = Me.Amt50Tavi
                             dr("Net") = Me.Net
-                            dr("DCurrencyCode") = Me.DCurrencyCode
+                            dr("DCurrencyCode") = Main.GetDBString(Me.DCurrencyCode, dt.Columns("DCurrencyCode"))
                             dr("DExchangeRate") = Me.DExchangeRate
                             dr("FAmt") = Me.FAmt
                             dr("FAmtVAT") = Me.FAmtVAT
                             dr("FAmt50Tavi") = Me.FAmt50Tavi
                             dr("FNet") = Me.FNet
+
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             UpdateTotal(cn)

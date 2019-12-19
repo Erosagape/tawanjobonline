@@ -201,16 +201,17 @@ Public Class CBillDetail
                 Using da As New SqlDataAdapter("SELECT * FROM Job_BillAcceptDetail" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("BillAcceptNo") = Me.BillAcceptNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("BillAcceptNo") = Main.GetDBString(Me.BillAcceptNo, dt.Columns("BillAcceptNo"))
                             If Me.ItemNo = 0 Then Me.AddNew()
                             dr("ItemNo") = Me.ItemNo
-                            dr("InvNo") = Me.InvNo
+                            dr("InvNo") = Main.GetDBString(Me.InvNo, dt.Columns("InvNo"))
                             dr("InvDate") = Main.GetDBDate(Me.InvDate)
-                            dr("RefNo") = Me.RefNo
+                            dr("RefNo") = Main.GetDBString(Me.RefNo, dt.Columns("RefNo"))
                             dr("AmtCustAdvance") = Me.AmtCustAdvance
                             dr("AmtAdvance") = Me.AmtAdvance
                             dr("AmtChargeNonVAT") = Me.AmtChargeNonVAT
@@ -222,7 +223,7 @@ Public Class CBillDetail
                             dr("AmtDiscount") = Me.AmtDiscount
                             dr("AmtDiscRate") = Me.AmtDiscRate
                             dr("AmtTotal") = Me.AmtTotal
-                            dr("CurrencyCode") = Me.CurrencyCode
+                            dr("CurrencyCode") = Main.GetDBString(Me.CurrencyCode, dt.Columns("CurrencyCode"))
                             dr("ExchangeRate") = Me.ExchangeRate
                             dr("AmtForeign") = Me.AmtForeign
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)

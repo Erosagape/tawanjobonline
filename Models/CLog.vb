@@ -94,14 +94,15 @@ Public Class CLog
                 Using da As New SqlDataAdapter("SELECT * FROM TWTLog " & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("CustID") = Me.CustID
-                            dr("AppID") = Me.AppID
-                            dr("ModuleName") = Me.ModuleName
-                            dr("LogAction") = Me.LogAction
-                            dr("Message") = Me.Message
+                            dr("CustID") = Main.GetDBString(Me.CustID, dt.Columns("CustID"))
+                            dr("AppID") = Main.GetDBString(Me.AppID, dt.Columns("AppID"))
+                            dr("ModuleName") = Main.GetDBString(Me.ModuleName, dt.Columns("ModuleName"))
+                            dr("LogAction") = Main.GetDBString(Me.LogAction, dt.Columns("LogAction"))
+                            dr("Message") = Main.GetDBString(Me.Message, dt.Columns("Message"))
                             dr("LogDateTime") = Me.LogDateTime
                             dr("IsError") = Me.IsError
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)

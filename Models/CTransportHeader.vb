@@ -300,28 +300,21 @@ Public Class CTransportHeader
                 Using da As New SqlDataAdapter("SELECT * FROM Job_LoadInfo" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("BranchCode") = Me.BranchCode
-                            dr("JNo") = Me.JNo
-                            dr("VenderCode") = Me.VenderCode
-                            dr("ContactName") = Me.ContactName
-                            dr("BookingNo") = Me.BookingNo
+                            dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
+                            dr("JNo") = Main.GetDBString(Me.JNo, dt.Columns("JNo"))
+                            dr("VenderCode") = Main.GetDBString(Me.VenderCode, dt.Columns("VenderCode"))
+                            dr("ContactName") = Main.GetDBString(Me.ContactName, dt.Columns("ContactName"))
+                            dr("BookingNo") = Main.GetDBString(Me.BookingNo, dt.Columns("BookingNo"))
                             dr("LoadDate") = Main.GetDBDate(Me.LoadDate)
-                            dr("Remark") = Me.Remark
-                            dr("PackingPlace") = Me.PackingPlace
-                            dr("CYPlace") = Me.CYPlace
-                            dr("FactoryPlace") = Me.FactoryPlace
-                            dr("ReturnPlace") = Me.ReturnPlace
-                            dr("PackingAddress") = Me.PackingAddress
-                            dr("CYAddress") = Me.CYAddress
-                            dr("FactoryAddress") = Me.FactoryAddress
-                            dr("ReturnAddress") = Me.ReturnAddress
-                            dr("PackingContact") = Me.PackingContact
-                            dr("CYContact") = Me.CYContact
-                            dr("FactoryContact") = Me.FactoryContact
-                            dr("ReturnContact") = Me.ReturnContact
+                            dr("Remark") = Main.GetDBString(Me.Remark, dt.Columns("Remark"))
+                            dr("PackingPlace") = Main.GetDBString(Me.PackingPlace, dt.Columns("PackingPlace"))
+                            dr("CYPlace") = Main.GetDBString(Me.CYPlace, dt.Columns("CYPlace"))
+                            dr("FactoryPlace") = Main.GetDBString(Me.FactoryPlace, dt.Columns("FactoryPlace"))
+                            dr("ReturnPlace") = Main.GetDBString(Me.ReturnPlace, dt.Columns("ReturnPlace"))
                             dr("PackingDate") = Main.GetDBDate(Me.PackingDate)
                             dr("CYDate") = Main.GetDBDate(Me.CYDate)
                             dr("FactoryDate") = Main.GetDBDate(Me.FactoryDate)
@@ -330,10 +323,18 @@ Public Class CTransportHeader
                             dr("CYTime") = Main.GetDBTime(Me.CYTime)
                             dr("FactoryTime") = Main.GetDBTime(Me.FactoryTime)
                             dr("ReturnTime") = Main.GetDBTime(Me.ReturnTime)
-                            dr("NotifyCode") = Me.NotifyCode
-                            dr("TransMode") = Me.TransMode
-                            dr("PaymentCondition") = Me.PaymentCondition
-                            dr("PaymentBy") = Me.PaymentBy
+                            dr("NotifyCode") = Main.GetDBString(Me.NotifyCode, dt.Columns("NotifyCode"))
+                            dr("TransMode") = Main.GetDBString(Me.TransMode, dt.Columns("TransMode"))
+                            dr("PaymentCondition") = Main.GetDBString(Me.PaymentCondition, dt.Columns("PaymentCondition"))
+                            dr("PaymentBy") = Main.GetDBString(Me.PaymentBy, dt.Columns("PaymentBy"))
+                            dr("CYAddress") = Main.GetDBString(Me.CYAddress, dt.Columns("CYAddress"))
+                            dr("PackingAddress") = Main.GetDBString(Me.PackingAddress, dt.Columns("PackingAddress"))
+                            dr("FactoryAddress") = Main.GetDBString(Me.FactoryAddress, dt.Columns("FactoryAddress"))
+                            dr("ReturnAddress") = Main.GetDBString(Me.ReturnAddress, dt.Columns("ReturnAddress"))
+                            dr("CYContact") = Main.GetDBString(Me.CYContact, dt.Columns("CYContact"))
+                            dr("PackingContact") = Main.GetDBString(Me.PackingContact, dt.Columns("PackingContact"))
+                            dr("FactoryContact") = Main.GetDBString(Me.FactoryContact, dt.Columns("FactoryContact"))
+                            dr("ReturnContact") = Main.GetDBString(Me.ReturnContact, dt.Columns("ReturnContact"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportHeader", "SaveData", Me)

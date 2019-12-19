@@ -195,7 +195,7 @@ End Code
     function ReadData(dt) {
         $('#txtItemNo').val(dt.ItemNo);
         $('#txtDocTypeD').val(dt.DocType);
-        $('#txtDocDate').val(CDateTH(dt.DocDate));
+        $('#txtDocDate').val( CDateEN(dt.DocDate));
         $('#txtDocNo').val(dt.DocNo);
         $('#txtDescription').val(dt.Description);
         $('#txtFileType').val(dt.FileType);
@@ -262,7 +262,7 @@ End Code
         $('#dvAddFile').modal('show');
     }
     function SaveData() {
-        row.DocDate = CDateTH($('#txtDocDate').val());
+        row.DocDate = CDateEN($('#txtDocDate').val());
         row.DocType = $('#txtDocTypeD').val();
         row.Description = $('#txtDescription').val();
         if (row.ItemNo != "") {

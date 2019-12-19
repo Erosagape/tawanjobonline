@@ -38,11 +38,12 @@ Public Class CBranch
                 Using da As New SqlDataAdapter("SELECT * FROM Mas_Branch" & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
+                            da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("Code") = Me.Code
-                            dr("BrName") = Me.BrName
+                            dr("Code") = Main.GetDBString(Me.Code, dt.Columns("Code"))
+                            dr("BrName") = Main.GetDBString(Me.BrName, dt.Columns("BrName"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBranch", "SaveData", Me)
