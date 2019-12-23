@@ -2163,7 +2163,7 @@ Namespace Controllers
                     End If
                     If Request.QueryString("Type").ToString.ToUpper = "RCV" Then
                         'have service non vat or advance
-                        tSqlw &= " AND ((ISNULL(id.AmtCharge,0)>0 AND ISNULL(id.AmtVat,0)=0) OR ISNULL(id.AmtAdvance,0)>0)) "
+                        tSqlw &= " AND ((ISNULL(id.AmtCharge,0)>0 AND ISNULL(id.AmtVat,0)=0) OR ISNULL(id.AmtAdvance,0)>0) "
                     End If
                 End If
                 tSqlw &= " ORDER BY ih.DocNo DESC"

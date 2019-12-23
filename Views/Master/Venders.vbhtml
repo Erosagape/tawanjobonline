@@ -94,7 +94,7 @@ End Code
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
-    let row = {};
+
     //$(document).ready(function () {
         SetEvents();
         SetLOVs();
@@ -200,7 +200,7 @@ End Code
     }
     function ReadVender(dr) {
         if (dr.VenCode != undefined) {
-            row = dr;
+
             $('#txtVenCode').val(dr.VenCode);
             $('#txtBranchCode').val(dr.BranchCode);
             $('#txtTaxNumber').val(dr.TaxNumber);

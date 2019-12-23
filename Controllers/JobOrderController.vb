@@ -412,6 +412,12 @@ Namespace Controllers
         Function QuoApprove() As ActionResult
             Return GetView("QuoApprove", "MODULE_SALES")
         End Function
+        Function FormLetter() As ActionResult
+            Return GetView("FormLetter")
+        End Function
+        Function FormBooking() As ActionResult
+            Return GetView("FormBooking")
+        End Function
         Function FormDelivery() As ActionResult
             Return GetView("FormDelivery")
         End Function

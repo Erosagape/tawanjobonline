@@ -258,7 +258,12 @@ End Code
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
-    let row = {};
+    let userGroup = '@ViewBag.UserGroup';
+    let mode = getQueryString("Mode");
+    let user = '@ViewBag.User';
+    if (userGroup !== 'S') {
+        $('#btnSearch').attr('disabled', 'disabled');
+    }
     //$(document).ready(function () {
     SetLOVs();
     SetEvents();
@@ -279,10 +284,12 @@ End Code
         });
         $('#txtCustCode').keydown(function (event) {
             if (event.which == 13) {                
-                let code = $('#txtCustCode').val();
-                ClearData();
-                $('#txtCustCode').val(code);
-                CallBackQueryCustomerSingle(path, $('#txtCustCode').val(), ReadCustomer);
+                if (userGroup == 'S') {
+                    let code = $('#txtCustCode').val();
+                    ClearData();
+                    $('#txtCustCode').val(code);
+                    CallBackQueryCustomerSingle(path, $('#txtCustCode').val(), ReadCustomer); 
+                }
             }
         });
         $('#txtBillToBranch').keydown(function (event) {
@@ -345,7 +352,22 @@ End Code
             CreateLOV(dv, '#frmSearchProvince', '#tbProvince', 'Province/District/Sub District',res, 3);
         });
         //load configuration data
-        var lists = "CUSTOMER_GROUP=#txtCustGroup|CUSTOMERS";
+        if (mode == '') {
+            mode = 'CUSTOMERS';
+            if (userGroup == 'C') {                 
+                $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
+                    if (r.company.data.lenght > 0) {
+                        let dr = r.company.data[0];
+                        $('#txtCustCode').attr('disabled','disabled');
+                        $('#txtBranch').attr('disabled','disabled');
+                        ReadCustomer(dr);
+                    }
+                });
+            }
+        } else {
+            $('#txtCustGroup').attr('disabled', 'disabled');
+        }
+        var lists = "CUSTOMER_GROUP=#txtCustGroup|" + mode;
         lists += ",CUSTOMER_TYPE=#txtCustType|0";
         lists += ",COMPANY_TYPE=#cboCompanyType";
         lists += ",COMMERCIAL_LEVEL=#cboCommLevel";
@@ -397,7 +419,6 @@ End Code
     }
     function ReadCustomer(dr) {
         if (dr.CustCode != undefined) {
-            row = dr;
             $('#txtCustCode').val(dr.CustCode);
             $('#txtBranch').val(dr.Branch);
             $('#txtCustGroup').val(dr.CustGroup);
@@ -512,9 +533,11 @@ End Code
         $('#txtCSCodeOT').focus();
     }
     function ClearData() {
-        $('#txtCustCode').val('');
-        $('#txtBranch').val('0000');
-        $('#txtCustGroup').val('CUSTOMERS');
+        if (userGroup !== 'C') {
+            $('#txtCustCode').val('');
+            $('#txtBranch').val('0000');
+        }
+        $('#txtCustGroup').val(mode);
         $('#txtTaxNumber').val('');
         $('#txtTitle').val('');
         $('#txtNameThai').val('');

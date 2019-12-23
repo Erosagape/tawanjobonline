@@ -815,6 +815,8 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Default\Index.vbhtml" />
+    <Content Include="Views\JobOrder\FormBooking.vbhtml" />
+    <Content Include="Views\JobOrder\FormLetter.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

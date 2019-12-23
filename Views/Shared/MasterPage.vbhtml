@@ -271,7 +271,7 @@
                 <div Class="panel-heading w3-indigo">
                     <div Class="panel-title" style="display:flex">
                         <div>
-                            <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:100px" onclick="w3_open();" />
+                            <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:200px" onclick="w3_open();" />
                         </div>
                         <div style="margin-left:10px;width:100%">
                             <h4><label id="lblTitle" onclick="OpenContact()">@ViewBag.Title</label></h4>

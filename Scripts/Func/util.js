@@ -144,7 +144,8 @@ function CStr(data, length) {
     if (data == null) {
         return '';
     } else {
-        return data.substr(0,length);
+        let str = data.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+        return str.substr(0,length);
     }
 }
 function CDbl(data, dec) {

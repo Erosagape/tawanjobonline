@@ -18,7 +18,18 @@ End Code
 <script type="text/javascript">
     var path = '@Url.Content("~")';
     let user = '@ViewBag.User';
+    let userGroup = '@ViewBag.UserGroup';
     if (user !== '') {
-        window.location.href = path+ 'Menu/Index';
+        switch (userGroup) {
+            case 'S':
+                window.location.href = path + 'Menu/Index';
+                break;
+            case 'V':
+                window.location.href = path + 'Acc/Expense';
+                break;
+            case 'C':
+                window.location.href = path + 'Tracking/Index?Mode=CUST';
+                break;
+        }
     }    
 </script>

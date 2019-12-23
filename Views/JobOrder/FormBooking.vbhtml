@@ -1,8 +1,8 @@
 ﻿
 @Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.ReportName = "BILL OF LADING"
-    ViewBag.Title = "BILL OF LADING"
+    ViewBag.ReportName = "Booking Confirmation"
+    ViewBag.Title = "BOOKING CONFIRMATION"
 End Code
 <div style="display:flex">
     <div style="flex-direction:row;width:70%;border-style:solid;border-width:thin">
@@ -24,7 +24,7 @@ End Code
                     <br />
                     <label id="lblConsignAddress1">10205 WIBULTHANI BLDG 3rd FLOOR</label>
                     <br />
-                    <label id="lblConsignAddress2">KLONGTOEY BANGKOK</label>                   
+                    <label id="lblConsignAddress2">KLONGTOEY BANGKOK</label>
                 </div>
             </div>
             <div>
@@ -48,7 +48,7 @@ End Code
                     <b>Origin Port</b>
                     <div>
                         <label id="lblPackingPlace">ด่านสระแก้ว</label>
-                    </div>                    
+                    </div>
                 </div>
             </div>
             <div style="display:flex;flex-direction:row;">
@@ -95,15 +95,11 @@ End Code
             </div>
             <div>
                 <b>To</b>
-                <label id="lblForwarderName">APL LOGISTICS CO.,LTD</label>
+                <label id="lblForwarderContact">APL LOGISTICS CO.,LTD</label>
             </div>
             <div>
                 <b>Attn</b>
-                <label id="lblForwarderContact">Khun Nid</label>
-            </div>
-            <div>
-                <b>From</b>
-                <label id="lblCSName">Sunisa Klangmueng</label>
+                <label id="lblForwarderName">Khun Nid</label>
             </div>
             <div>
                 <b>Tel</b>
@@ -112,6 +108,10 @@ End Code
             <div>
                 <b>Fax</b>
                 <label id="lblCSEMail">027156665</label>
+            </div>
+            <div>
+                <b>From</b>
+                <label id="lblCSName">Sunisa Klangmueng</label>
             </div>
             <div>
                 <b>Volume</b>
@@ -128,27 +128,18 @@ End Code
 
     </div>
 </div>
-<div style="width:100%;border-collapse:collapse;display:flex;flex-direction:row;border-style:solid;border-width:thin">
-    <div style="width:20%;"><b>Marks & No</b></div>
-    <div style="width:10%;"><b>Quantity</b></div>
-    <div style="width:40%;"><b>Description of Goods</b></div>
-    <div style="width:15%;"><b>Gross Weight (KGS)</b></div>
-    <div style="width:15%;"><b>Measurement (CBM)</b></div>
-</div>
-<div id="dvDetail" style="height:200px;vertical-align:top;display:flex;flex-direction:column;border-style:solid;border-width:thin">
-</div>
 <div style="display:flex;">
     <div style="flex-direction:column;width:60%;border-style:solid;border-width:thin">
         <div>
             <input type="checkbox" /><b>CY EMPTY CONTAINER ON </b><label id="lblCYDate">10/12/2019</label><br />AT <label id="lblCYTime">18.00</label>
-            <br/><label id="lblCYPlace">KM.13 LADKRABANG</label>
+            <br /><label id="lblCYPlace">KM.13 LADKRABANG</label>
         </div>
         <div>
             <input type="checkbox" /><b>RETURN CONTAINER ON </b><label id="lblReturnDate">13/12/2019</label> <br />AT <label id="lblReturnTime">19.00</label>
-            <br/>
+            <br />
             <label id="lblReturnPlace"></label>
         </div>
-        <div> 
+        <div>
             <input type="checkbox" /><b>STUFFING CONTAINER ON </b><label id="lblFactoryDate">20/12/2019</label><br />AT <label id="lblFactoryTime">20.00</label>
         </div>
     </div>
@@ -165,7 +156,7 @@ End Code
             let h = r.booking.data[0];
             $('#lblBookingNo').text(h.BookingNo);
             $('#lblBookingDate').text(ShowDate(h.LoadDate));
-            $('#lblForwarderName').text(h.ForwarderName);
+            $('#lblForwarderName').text(h.ShipperName);
             $('#lblForwarderContact').text(h.ForwarderContact);
             $('#lblCSName').text(h.CSName);
             $('#lblCSTel').text(h.CSTel);
@@ -201,19 +192,7 @@ End Code
             $('#lblETADate').text(ShowDate(h.ETADate));
             //let str = h.Remark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
             $('#dvContainers').html(CStr(h.Remark));
-            let html = '';
-            for (let i = 0; i < r.booking.data.length; i++){
-                let htmlTemplate = '<div style="width:100%;display:flex;flex-direction:row">';
-                htmlTemplate += '<div style="width:20%;">'+ r.booking.data[i].ShippingMark + '</div>';
-                htmlTemplate += '<div style="width:10%;">'+ r.booking.data[i].ProductDesc +'</div>';
-                htmlTemplate += '<div style="width:40%;">'+ r.booking.data[i].Comment +'</div>';
-                htmlTemplate += '<div style="width:15%;">'+ r.booking.data[i].GrossWeight +'</div>';
-                htmlTemplate += '<div style="width:15%;">'+ r.booking.data[i].Measurement+'</div>';
-                htmlTemplate += '</div>';
 
-                html += htmlTemplate;
-            }            
-            $('#dvDetail').html(html);
         }
     });
 </script>

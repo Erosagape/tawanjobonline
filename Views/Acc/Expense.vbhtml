@@ -38,7 +38,7 @@ End Code
                         <table>
                             <tr>
                                 <td>
-                                    Entry By :
+                                    Attn :
                                 </td>
                                 <td>
                                     <input type="text" id="txtEmpCode" style="width:100px" tabindex="2" />
@@ -313,6 +313,7 @@ End Code
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
+    const userGroup = '@ViewBag.UserGroup';
     const userRights = '@ViewBag.UserRights';
     let serv = []; //must be array of object
     let hdr = {}; //simple object
@@ -326,7 +327,20 @@ End Code
     let vend = getQueryString("Vend");
     let cont = getQueryString("Cont");
     let cust = getQueryString("Cust");
-    //$(document).ready(function () {
+        //$(document).ready(function () {
+    if (userGroup == 'V') {
+        $('#btnBrowseCust').attr('disabled', 'disabled');
+        $('#txtVenCode').attr('disabled', 'disabled');
+        $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
+            if (r.vender.data.length > 0) {
+                let dr = r.vender.data[0];
+                vend = dr.VenCode;
+                $('#txtVenCode').val(vend);
+                $('#txtVenName').val(dr.TName);
+            }
+        });
+    }
+
     SetLOVs();
     SetEvents();
     SetEnterToTab();
@@ -682,10 +696,15 @@ End Code
         //$('#txtDocNo').val('');
         $('#txtDocDate').val( CDateEN(GetToday()));
         $('#txtVenCode').val(vend);
-        $('#txtVenName').val('');
+        if (vend == '') {
+            $('#txtVenName').val('');
+            $('#txtEmpCode').val(user);
+            ShowUser(path, user, '#txtEmpName');
+        } else {
+            $('#txtEmpCode').val('');
+            $('#txtEmpName').val('');
+        }
         $('#txtContactName').val('');
-        $('#txtEmpCode').val(user);
-        ShowUser(path, user, '#txtEmpName');
         $('#txtPoNo').val('');
         $('#txtCurrencyCode').val('@ViewBag.PROFILE_CURRENCY');
         $('#txtExchangeRate').val('1');
@@ -913,6 +932,9 @@ End Code
         }
         if ($('#txtEmpCode').val() !== '') {
             w += '&empcode=' + $('#txtEmpCode').val();
+        }
+        if (userGroup == 'V') {
+            w += '&VenCode=' + $('#txtVenCode').val();
         }
         $.get(path + 'acc/getpayment?status=Y&branch=' +  w, function (r) {
             if (r.payment.header.length == 0) {

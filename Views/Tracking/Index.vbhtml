@@ -18,7 +18,7 @@ End Code
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtCustCode" style="width:20%" disabled />
             <input type="text" class="form-control" id="txtCustBranch" style="width:10%" disabled />
-            <input type="button" class="btn btn-default" value="..." onclick="SearchData('customer');" />
+            <input type="button" class="btn btn-default" id="btnBrowseCust" value="..." onclick="SearchData('customer');" />
             <input type="text" class="form-control" id="txtCustName" style="width:60%" disabled />
         </div>
     </div>
@@ -56,11 +56,32 @@ End Code
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
+    let userGroup = '@ViewBag.UserGroup';
+    let user = '@ViewBag.User';
+    if (userGroup == 'C') {
+        $('#btnBrowseCust').attr('disabled', 'disabled');
+        $('#txtCustCode').attr('disabled', 'disabled');
+        $('#txtCustBranch').attr('disabled', 'disabled');
 
-    google.charts.load("current", { packages: ["corechart"] });
-    SetLOVs();
-    window.onresize = () => {
-        drawChart();
+        $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
+            if (r.company.data.lenght > 0) {
+                let dr = r.company.data[0];
+                $('#txtCustCode').val(dr.CustCode);
+                $('#txtCustBranch').val(dr.Branch);
+                $('#txtCustName').val(dr.NameThai);
+                google.charts.load("current", { packages: ["corechart"] });
+                SetLOVs();
+                window.onresize = () => {
+                    drawChart();
+                }
+            }
+        });
+    } else {
+        google.charts.load("current", { packages: ["corechart"] });
+        SetLOVs();
+        window.onresize = () => {
+            drawChart();
+        }
     }
     function getDataTable(dt) {
         if (dt.length > 0) {

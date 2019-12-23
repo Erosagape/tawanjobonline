@@ -987,6 +987,9 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Group")) Then
                     tSqlw &= String.Format(" AND CustGroup IN('{0}')", Request.QueryString("Group").ToString.Replace(",", "','"))
                 End If
+                If Not IsNothing(Request.QueryString("ID")) Then
+                    tSqlw &= String.Format(" AND LoginName='{0}'", Request.QueryString("ID").ToString)
+                End If
                 Dim oData = New CCompany(jobWebConn).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 Dim oContact = New CCompanyContact(jobWebConn).GetData(tSqlw)
@@ -1002,7 +1005,10 @@ AND b.IsApplyPolicy=1
             Try
                 Dim tSqlw As String = " WHERE VenCode<>'' "
                 If Not IsNothing(Request.QueryString("Code")) Then
-                    tSqlw &= String.Format("AND VenCode='{0}'", Request.QueryString("Code").ToString)
+                    tSqlw &= String.Format(" AND VenCode='{0}'", Request.QueryString("Code").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("ID")) Then
+                    tSqlw &= String.Format(" AND LoginName='{0}'", Request.QueryString("ID").ToString)
                 End If
                 Dim oData = New CVender(jobWebConn).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)

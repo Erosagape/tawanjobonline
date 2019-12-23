@@ -15,13 +15,13 @@
             <div style="flex:4;padding:5px;">
                 <div id="divCompany" style="text-align:left;color:darkblue;font-size:14px">
                     <b>@ViewBag.PROFILE_COMPANY_NAME</b>
-                    <br />@ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2
+                    <br />@ViewBag.PROFILE_COMPANY_ADDR1 <br/> @ViewBag.PROFILE_COMPANY_ADDR2
                     <br />Tel @ViewBag.PROFILE_COMPANY_TEL Fax @ViewBag.PROFILE_COMPANY_FAX E-mail/Website @ViewBag.PROFILE_COMPANY_EMAIL
                     <br />Tax-Reference ID : @ViewBag.PROFILE_TAXNUMBER Branch @ViewBag.PROFILE_TAXBRANCH
                 </div>
             </div>
             <div style="flex:1;vertical-align:middle">
-                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100px" />
+                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:200px" />
             </div>
         </div>
         <div style="display:flex;flex-direction:column">

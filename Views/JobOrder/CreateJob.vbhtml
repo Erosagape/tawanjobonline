@@ -50,13 +50,13 @@ End Code
                 <div style="display:flex;width:70%">                    
                     <input type="text" class="form-control" style="width:80px" id="txtCustCode" tabindex="4" />
                     <input type="text" class="form-control" style="width:40px" id="txtCustBranch" tabindex="5" />
-                    <input type="button" class="btn btn-default" id="btnCust" value="..." onclick="SearchData('customer')" />
+                    <input type="button" class="btn btn-default" id="btnBrowseCust" value="..." onclick="SearchData('customer')" />
                     <input type="text" class="form-control" style="width:100%" id="txtCustName" disabled />
                 </div>
             </div>
             <div class="col-sm-6" style="display:flex">                
                 <div style="width:30%">
-                    <label id="lblBillingPlace" style="display:block;width:100%;">Billing Place</label>
+                    <a href="../Master/Customers?Mode=CONSIGNEE"><label id="lblBillingPlace" style="display:block;width:100%;">Consignee</label></a>
                 </div>
                 <div style="display:flex;width:70%">                    
                     <input type="text" class="form-control" id="txtConsignee" style="width:120px" tabindex="6" />
@@ -173,10 +173,42 @@ End Code
     //define letiables
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
+    const userGroup = '@ViewBag.UserGroup';
     let br = getQueryString('Branch');
     let jt = getQueryString('JType');
     let sb = getQueryString('SBy');
     //$(document).ready(function () {
+        if (userGroup == 'C') {
+            $('#btnBrowseCust').attr('disabled', 'disabled');
+            $('#txtCustCode').attr('disabled', 'disabled');
+            $('#txtCustBranch').attr('disabled', 'disabled');
+            $('#txtConsignee').attr('disabled', 'disabled');
+            $('#btnBrowseCons').attr('disabled', 'disabled');
+            
+            $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
+                if (r.company.data.lenght > 0) {
+                    let dr = r.company.data[0];
+                    $('#txtCustCode').val(dr.CustCode);
+                    $('#txtCustBranch').val(dr.Branch);
+                    $('#txtCustName').val(dr.NameThai);
+                    $('#txtConsignee').val(dr.CustCode);
+                    $('#txtConsignName').val(dr.NameEng);
+                    if (jt=='01') {
+                        $('#txtCSCode').val(dr.CSCodeIM);
+                        ShowUser(path, dr.CSCodeIM, '#txtCSName');
+                    }
+                    if (jt=='02') {
+                        $('#txtCSCode').val(dr.CSCodeEX);
+                        ShowUser(path, dr.CSCodeEX, '#txtCSName');
+                    }
+                    if (jt>'02') {
+                        $('#txtCSCode').val(dr.CSCodeOT);
+                        ShowUser(path, dr.CSCodeOT, '#txtCSName');
+                    }
+                }
+            });
+        }
+
         CheckParam();
         SetLOVs();
         SetEvents();
@@ -209,8 +241,10 @@ End Code
 
         $('#cboJobType').val(jt);
         $('#cboShipBy').val(sb);
-        $('#txtCSCode').val(user);
-        ShowUser(path, $('#txtCSCode').val(), '#txtCSName');
+        if (userGroup == 'S') {
+            $('#txtCSCode').val(user);
+            ShowUser(path, $('#txtCSCode').val(), '#txtCSName');
+        }
         $('#txtJobDate').val(GetToday());
     }
     function SetLOVs() {
@@ -301,11 +335,12 @@ End Code
         $('#txtCustCode').val(dt.CustCode);
         $('#txtCustBranch').val(dt.Branch);
         ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
-        if (dt.BillToCustCode !== '') {
-            $('#txtConsignee').val(dt.BillToCustCode);            
-        } else {
-            $('#txtConsignee').val(dt.CustCode);            
-        }
+        //if (dt.BillToCustCode !== '') {
+        //    $('#txtConsignee').val(dt.BillToCustCode);            
+        //} else {
+        $('#txtConsignee').val(dt.CustCode);            
+        //}
+        ShowCompany(path, $('#txtConsignee').val(), '#txtConsignName');  
         ReadCustRelateData();
         $('#txtCustInv').focus();
     }
@@ -313,8 +348,7 @@ End Code
         //$('#txtContactPerson').val('');
         $('#txtQNo').val('');
         $('#txtRevise').val('');
-        $('#txtManagerCode').val('');
-        ShowCompany(path, $('#txtConsignee').val(), '#txtConsignName');        
+        $('#txtManagerCode').val('');      
         GetContact();
         GetQuotation();
     }

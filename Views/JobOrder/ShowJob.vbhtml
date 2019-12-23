@@ -56,7 +56,7 @@ End Code
                             <label for="txtPhoneFax">Contact Info :</label>
                             <input type="text" id="txtPhoneFax" style="width:550px" tabindex="2" />
                             <br />
-                            <label for="txtConsignee">Billing Place :</label>
+                            <label for="txtConsignee">Consignee :</label>
                             <input type="text" id="txtConsignee" style="width:130px" tabindex="7" />
                             <input type="text" id="txtConsBranch" style="width:40px" tabindex="8" />
                             <input type="button" id="btnBrowseCons" value="..." onclick="SearchData('CONSIGNEE')" />
@@ -138,87 +138,87 @@ End Code
                             <input type="text" id="txtInvTotal" style="width:130px" tabindex="15" />
                             <br />
                             <label for="txtInvCurrency" onclick="window.open(path +'Master/Currency');">Currency :</label>
-                            <input type="text" id="txtInvCurrency" style="width:80px" tabindex="17" />
+                            <input type="text" id="txtInvCurrency" style="width:80px" tabindex="16" />
                             <input type="button" id="btnBrowseRate" value="..." onclick="SearchData('CURRENCY')" />
                             <label for="txtInvCurRate">Exchange Rate :</label>
-                            <input type="text" id="txtInvCurRate" style="width:80px" tabindex="18" />
+                            <input type="text" id="txtInvCurRate" style="width:80px" tabindex="17" />
                             <br />
                             <label for="txtBookingNo">Booking No :</label>
-                            <input type="text" id="txtBookingNo" style="width:250px" tabindex="19" />
+                            <input type="text" id="txtBookingNo" style="width:250px" tabindex="18" />
                             <br />
                             <label for="txtBLNo">BL/AWB Status :</label>
-                            <input type="text" id="txtBLNo" style="width:200px" tabindex="20" />
+                            <input type="text" id="txtBLNo" style="width:200px" tabindex="19" />
                             <br />
                             <label for="txtVesselName">Vessel Name :</label>
-                            <input type="text" id="txtVesselName" style="width:200px" tabindex="21" />
+                            <input type="text" id="txtVesselName" style="width:200px" tabindex="20" />
                             <input type="button" id="btnBrowseVsl1" value="..." onclick="SearchData('vessel')" />
                             <br />
                             <label for="txtInterPort" onclick="window.open(path +'Master/InterPort');">Inter Port:</label>
-                            <input type="text" id="txtInterPort" style="width:130px" tabindex="22" />
+                            <input type="text" id="txtInterPort" style="width:130px" tabindex="21" />
                             <input type="button" id="btnBrowseIPort" value="..." onclick="SearchData('interport')" />
                             <input type="text" id="txtInterPortName" style="width:160px" disabled />
                             <br />
                             <label for="txtTotalCTN">Total Containers :</label>
-                            <input type="text" id="txtTotalCTN" style="width:130px" tabindex="23" />
+                            <input type="text" id="txtTotalCTN" style="width:130px" tabindex="22" />
                             <input type="button" id="btnGetCTN" value="..." onclick="SplitData()" />
                             <br />
                             <label for="txtMeasurement">Measurement(M3) :</label>
-                            <input type="text" id="txtMeasurement" style="width:80px" tabindex="16" />
+                            <input type="text" id="txtMeasurement" style="width:80px" tabindex="23" />
                             <br />
                             <label for="txtDeliverNo">Delivery No :</label>
-                            <input type="text" id="txtDeliverNo" style="width:130px" tabindex="41" />
-                            <label for="txtDeliveryDate">Delivery Date :</label><input type="date" style="width:130px" id="txtDeliveryDate" tabindex="42" />
+                            <input type="text" id="txtDeliverNo" style="width:130px" tabindex="24" />
+                            <label for="txtDeliveryDate">Delivery Date :</label><input type="date" style="width:130px" id="txtDeliveryDate" tabindex="25" />
                         </div>
                         <div class="col-md-7">
                             <label for="txtProjectName">Project Name :</label>
-                            <input type="text" id="txtProjectName" style="width:400px" tabindex="24" />
+                            <input type="text" id="txtProjectName" style="width:400px" tabindex="26" />
                             <input type="button" id="btnBrowseProj" value="..." onclick="SearchData('ProjectName')" />
                             <br />
                             <label for="txtInvQty">Qty :</label>
-                            <input type="text" id="txtInvQty" style="width:130px" tabindex="25" />
-                            <input type="text" id="txtInvUnit" style="width:40px" tabindex="26" />
+                            <input type="text" id="txtInvQty" style="width:130px" tabindex="27" />
+                            <input type="text" id="txtInvUnit" style="width:40px" tabindex="28" />
                             <input type="button" id="btnBrowseUnit" value="..." onclick="SearchData('invproductunit')" />
                             <label for="txtInvPackQty">Package.Total :</label>
-                            <input type="text" id="txtInvPackQty" style="width:130px" tabindex="27" />
+                            <input type="text" id="txtInvPackQty" style="width:130px" tabindex="29" />
                             <br />
                             <label for="txtNetWeight">Net Weight :</label>
-                            <input type="text" id="txtNetWeight" style="width:80px" tabindex="28" />
+                            <input type="text" id="txtNetWeight" style="width:80px" tabindex="30" />
                             <label for="txtGrossWeight">Gross Weight :</label>
-                            <input type="text" id="txtGrossWeight" style="width:80px" tabindex="29" />
-                            <input type="text" id="txtWeightUnit" style="width:60px" tabindex="30" />
+                            <input type="text" id="txtGrossWeight" style="width:80px" tabindex="31" />
+                            <input type="text" id="txtWeightUnit" style="width:60px" tabindex="32" />
                             <input type="button" id="btnBrowseMeas" value="..." onclick="SearchData('GWUnit')" />
                             <br />
                             <label for="txtInvFCountry">From Country :</label>
                             <input type="hidden" id="txtInvFCountryCode" />
                             <input type="text" id="txtInvFCountry" style="width:130px" disabled />
-                            <input type="button" id="btnBrowseFCountry" value="..." onclick="SearchData('fcountry')" tabindex="31" />
+                            <input type="button" id="btnBrowseFCountry" value="..." onclick="SearchData('fcountry')" tabindex="33" />
                             <label for="txtInvCountry">To :</label>
                             <input type="hidden" id="txtInvCountryCode" />
                             <input type="text" id="txtInvCountry" style="width:130px" disabled />
-                            <input type="button" id="btnBrowseCountry" value="..." onclick="SearchData('country')" tabindex="32" />
+                            <input type="button" id="btnBrowseCountry" value="..." onclick="SearchData('country')" tabindex="34" />
                             <br />
                             <label for="txtHAWB">House BL/AWB :</label>
-                            <input type="text" id="txtHAWB" style="width:130px" tabindex="33" />
+                            <input type="text" id="txtHAWB" style="width:130px" tabindex="35" />
                             <label for="txtMAWB">Master BL/AWB :</label>
-                            <input type="text" id="txtMAWB" style="width:130px" tabindex="34" />
+                            <input type="text" id="txtMAWB" style="width:130px" tabindex="36" />
                             <br />
                             <a href="../Master/Venders" target="_blank"><label id="lblForwarder">Agent:</label></a>
-                            <input type="text" id="txtForwarder" style="width:130px" tabindex="35" />
+                            <input type="text" id="txtForwarder" style="width:130px" tabindex="37" />
                             <input type="button" id="btnBrowseFwdr" value="..." onclick="SearchData('forwarder')" />
                             <input type="text" id="txtForwarderName" style="width:300px" disabled />
                             <br />
                             <label for="txtMVesselName">Master Vessel Name :</label>
-                            <input type="text" id="txtMVesselName" style="width:200px" tabindex="36" />
+                            <input type="text" id="txtMVesselName" style="width:200px" tabindex="38" />
                             <input type="button" id="btnBrowseVsl2" value="..." onclick="SearchData('mvessel')" />
                             <br />
                             <a href="../Master/Venders" target="_blank"><label id="lblTransporter">Transporter:</label></a>
-                            <input type="text" id="txtTransporter" style="width:130px" tabindex="37" />
+                            <input type="text" id="txtTransporter" style="width:130px" tabindex="39" />
                             <input type="button" id="btnBrowseTrans" value="..." onclick="SearchData('agent')" />
                             <input type="text" id="txtTransporterName" style="width:250px" disabled />
                             <br />
-                            <label for="txtETDDate">ETD Date:</label><input type="date" style="width:130px" id="txtETDDate" tabindex="38" />
-                            <label for="txtETADate">ETA Date:</label><input type="date" style="width:130px" id="txtETADate" tabindex="39" />
-                            <label for="txtLoadDate">Load Date:</label><input type="date" style="width:130px" id="txtLoadDate" tabindex="40" />
+                            <label for="txtETDDate">ETD Date:</label><input type="date" style="width:130px" id="txtETDDate" tabindex="40" />
+                            <label for="txtETADate">ETA Date:</label><input type="date" style="width:130px" id="txtETADate" tabindex="41" />
+                            <label for="txtLoadDate">Load Date:</label><input type="date" style="width:130px" id="txtLoadDate" tabindex="42" />
                             <br />
                             <label for="txtDeliverTo">Delivery To :</label>
                             <input type="text" id="txtDeliverTo" style="width:300px" tabindex="43" />
@@ -236,35 +236,35 @@ End Code
                     <div class="row">
                         <div class="col-md-3">
                             <label for="txtEDIDate">EDI Date :</label>
-                            <input type="date" id="txtEDIDate" style="width:130px" tabindex="43" />
+                            <input type="date" id="txtEDIDate" style="width:130px" tabindex="45" />
                         </div>
                         <div class="col-md-3">
                             <label for="txtReadyClearDate">Ready Clear :</label>
-                            <input type="date" id="txtReadyClearDate" style="width:130px" tabindex="44" />
+                            <input type="date" id="txtReadyClearDate" style="width:130px" tabindex="46" />
                         </div>
                         <div class="col-md-3">
                             <label for="txtDutyDate">Inspection Date :</label>
-                            <input type="date" id="txtDutyDate" style="width:130px" tabindex="45" />
+                            <input type="date" id="txtDutyDate" style="width:130px" tabindex="47" />
                         </div>
                         <div class="col-md-3">
                             <label for="txtClearDate">Clear Date :</label>
-                            <input type="date" id="txtClearDate" style="width:130px" tabindex="46" />
+                            <input type="date" id="txtClearDate" style="width:130px" tabindex="48" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="txtDeclareType" onclick="window.open(path +'Master/DeclareType');">Declare Type :</label>
-                            <input type="text" id="txtDeclareType" style="width:130px" tabindex="47" />
+                            <input type="text" id="txtDeclareType" style="width:130px" tabindex="49" />
                             <input type="button" id="btnBrowseDCType" value="..." onclick="SearchData('RFDCT')" />
                             <input type="text" id="txtDeclareTypeName" style="width:200px" disabled />
                         </div>
                         <div class="col-md-3">
                             <label for="txtDeclareNo">Declare No :</label>
-                            <input type="text" id="txtDeclareNo" style="width:130px" tabindex="48" />
+                            <input type="text" id="txtDeclareNo" style="width:130px" tabindex="50" />
                         </div>
                         <div class="col-md-3">
                             <label for="txtDutyAmt">Duty Amt :</label>
-                            <input type="text" id="txtDutyAmt" style="width:130px" tabindex="49" />
+                            <input type="text" id="txtDutyAmt" style="width:130px" tabindex="51" />
                         </div>
                     </div>
                     <div class="row">
@@ -282,7 +282,7 @@ End Code
                             <input type="checkbox" id="chkTyClearTax" />
                             <label for="chkTyClearTax">Duty Rule</label>
                             <select id="cboTyClearTax" class="dropdown"></select>
-                            <input type="text" id="txtClearTaxReson" tabindex="50" />
+                            <input type="text" id="txtClearTaxReson" tabindex="52" />
                         </div>
                     </div>
                     <div class="row">
@@ -294,23 +294,23 @@ End Code
                         </div>
                         <div class="col-md-7">
                             <label for="txtReleasePort" onclick="window.open('../Master/CustomsPort');">Release Port :</label>
-                            <input type="text" id="txtReleasePort" style="width:50px" tabindex="51" />
+                            <input type="text" id="txtReleasePort" style="width:50px" tabindex="53" />
                             <input type="button" id="btnBrowseLCPort" value="..." onclick="SearchData('RFARS')" />
                             <input type="text" id="txtReleasePortName" style="width:200px" disabled />
                             <label for="txtPortNo">PORT#</label>
-                            <input type="text" id="txtPortNo" style="width:100px" tabindex="52" />
+                            <input type="text" id="txtPortNo" style="width:300px" tabindex="54" />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <label for="txtShipping">Shipping Staff :</label>
-                            <input type="text" id="txtShipping" style="width:130px" tabindex="53" />
+                            <input type="text" id="txtShipping" style="width:130px" tabindex="55" />
                             <input type="button" id="btnBrowseShipping" value="..." onclick="SearchData('user')" />
                             <input type="text" id="txtShippingName" style="width:200px" disabled />
                         </div>
                         <div class="col-md-6">
                             <label for="txtShippingCmd">Shipping Note :</label>
-                            <input type="text" id="txtShippingCmd" style="width:400px" tabindex="54" />
+                            <textarea id="txtShippingCmd" style="width:400px" tabindex="56"></textarea>
                         </div>
                     </div>
                     <br />
@@ -326,7 +326,7 @@ End Code
                                         Cheque:
                                     </td>
                                     <td>
-                                        <input type="text" id="txtComPaidChq" style="width:130px" onchange="CalTotalLtd();" tabindex="55" /><br />
+                                        <input type="text" id="txtComPaidChq" style="width:130px" onchange="CalTotalLtd();" tabindex="57" /><br />
                                     </td>
                                 </tr>
                                 <tr>
@@ -335,7 +335,7 @@ End Code
                                         Cash:
                                     </td>
                                     <td>
-                                        <input type="text" id="txtComPaidCash" style="width:130px" onchange="CalTotalLtd();" tabindex="56" /><br />
+                                        <input type="text" id="txtComPaidCash" style="width:130px" onchange="CalTotalLtd();" tabindex="58" /><br />
                                     </td>
                                 </tr>
                                 <tr>
@@ -344,7 +344,7 @@ End Code
                                         E-Payment:
                                     </td>
                                     <td>
-                                        <input type="text" id="txtComPaidEPay" style="width:130px" onchange="CalTotalLtd();" tabindex="57" /><br />
+                                        <input type="text" id="txtComPaidEPay" style="width:130px" onchange="CalTotalLtd();" tabindex="59" /><br />
                                     </td>
                                 </tr>
                                 <tr>
@@ -353,7 +353,7 @@ End Code
                                         Others:<input type="text" id="txtComOthersPayBy" style="width:130px" tabindex="58" />
                                     </td>
                                     <td>
-                                        <input type="text" id="txtComPaidOthers" style="width:130px" onchange="CalTotalLtd();" tabindex="59" /><br />
+                                        <input type="text" id="txtComPaidOthers" style="width:130px" onchange="CalTotalLtd();" tabindex="60" /><br />
                                     </td>
                                 </tr>
                                 <tr>
@@ -377,7 +377,7 @@ End Code
                                         Cheque:
                                     </td>
                                     <td>
-                                        <input type="text" id="txtCustPaidChq" style="width:130px" onchange="CalTotalCust();" tabindex="60" /><br />
+                                        <input type="text" id="txtCustPaidChq" style="width:130px" onchange="CalTotalCust();" tabindex="61" /><br />
                                     </td>
                                 </tr>
                                 <tr>
@@ -386,7 +386,7 @@ End Code
                                         Cash:
                                     </td>
                                     <td>
-                                        <input type="text" id="txtCustPaidCash" style="width:130px" onchange="CalTotalCust();" tabindex="61" /><br />
+                                        <input type="text" id="txtCustPaidCash" style="width:130px" onchange="CalTotalCust();" tabindex="62" /><br />
                                     </td>
                                 </tr>
                                 <tr>
@@ -395,7 +395,7 @@ End Code
                                         Tax-Card:
                                     </td>
                                     <td>
-                                        <input type="text" id="txtCustPaidCard" style="width:130px" onchange="CalTotalCust();" tabindex="62" /><br />
+                                        <input type="text" id="txtCustPaidCard" style="width:130px" onchange="CalTotalCust();" tabindex="63" /><br />
                                     </td>
                                 </tr>
                                 <tr>
@@ -404,7 +404,7 @@ End Code
                                         E-Payment:
                                     </td>
                                     <td>
-                                        <input type="text" id="txtCustPaidEPay" style="width:130px" onchange="CalTotalCust();" tabindex="63" /><br />
+                                        <input type="text" id="txtCustPaidEPay" style="width:130px" onchange="CalTotalCust();" tabindex="64" /><br />
                                     </td>
                                 </tr>
                                 <tr>
@@ -413,7 +413,7 @@ End Code
                                         Bank Guarantee:
                                     </td>
                                     <td>
-                                        <input type="text" id="txtCustPaidBank" style="width:130px" onchange="CalTotalCust();" tabindex="64" /><br />
+                                        <input type="text" id="txtCustPaidBank" style="width:130px" onchange="CalTotalCust();" tabindex="65" /><br />
                                     </td>
                                 </tr>
                                 <tr>

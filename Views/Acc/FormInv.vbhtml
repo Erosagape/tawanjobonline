@@ -17,23 +17,20 @@ End Code
 </div>
 <div>
     <div style="display:flex;">
-        <div style="flex:2;">
+        <div style="flex:1;">
             <label>CUSTOMER:</label>
-        </div>
-        <div style="flex:1">
-            <label>TAX REFERENCE ID:</label>
-            <label id="lblTaxNumber"></label>
-        </div>
-        <div style="flex:1">
-            <label>BRANCH:</label>
-            <label id="lblTaxBranch"></label>
         </div>
     </div>
     <div style="display:flex;">
         <div style="flex:3;border:1px solid black;border-radius:5px;">
             NAME : <label id="lblCustName"></label><br />
             ADDRESS : <label id="lblCustAddress"></label><br />
-            TEL : <label id="lblCustTel"></label><br />
+            <!--TEL : <label id="lblCustTel"></label><br />-->
+            <label>TAX REFERENCE ID:</label>
+            <label id="lblTaxNumber"></label>
+            <label>BRANCH:</label>
+            <label id="lblTaxBranch"></label>
+
         </div>
         <div style="flex:1;border:1px solid black;border-radius:5px;">
             INV NO. : <label id="lblDocNo"></label><br />
@@ -218,7 +215,7 @@ End Code
                 $('#lblTaxBranch').text(c.Branch);
                 $('#lblCustName').text(c.NameThai);
                 $('#lblCustAddress').text(c.TAddress1 + '\n'+ c.TAddress2);
-                $('#lblCustTel').text(c.Phone);
+                //$('#lblCustTel').text(c.Phone);
             }
 
             let j = dr.job[0][0];

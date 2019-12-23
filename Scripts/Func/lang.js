@@ -234,7 +234,7 @@ function ChangeLanguageForm(fname) {
                 lblBranch: 'Branch|สาขา',
                 lblCSCode: 'Support By|พนักงานผู้รับผิดชอบ',
                 lblCustCode: 'Customer|ลูกค้า',
-                lblBillingPlace: 'Billing To|สถานที่วางบิล',
+                lblBillingPlace: 'Consignee|ผู้ซื้อขาย',
                 lblContactName: 'Contact|ผู้ติดต่อ',
                 lblQuotation: 'Quotation|ใบเสนอราคา',
                 lblCustInv: 'Cust Inv./Booking No.|อินวอยลูกค้า/เลขที่ใบจอง',

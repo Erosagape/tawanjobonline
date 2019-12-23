@@ -269,8 +269,13 @@ End Code
             <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete Booking</b>
         </a>
         <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintBooking()">
-            <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Booking</b>
+            <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Form</b>
         </a>
+        <select id="cboPrintForm">
+            <option value="BC">Booking Confirmation</option>
+            <option value="BL">Bill of Lading/Air way bill</option>
+            <option value="DO">D/O Letter</option>
+        </select>
     </div>
     <div class="tab-pane fade" id="tabContainer">
         <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
@@ -542,9 +547,21 @@ End Code
     //define letiables
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
+    const userGroup ='@ViewBag.UserGroup';
     const userRights = '@ViewBag.UserRights';
     let row = {};
     let isjobmode = false;
+    if (userGroup == 'V') {
+        $('#btnBrowseCust').attr('disabled', 'disabled');
+        $('#txtVenderCode').attr('disabled', 'disabled');
+        $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
+            if (r.vender.data.length > 0) {
+                let dr = r.vender.data[0];
+                $('#txtVenderCode').val(dr.VenCode);
+                $('#txtVenderName').val(dr.TName);
+            }
+        });
+    }
     SetLOVs();
     SetEvents();
     function AddDetail() {
@@ -625,6 +642,9 @@ End Code
                 SetGridBranch(path, '#tbBranch','#frmSearchBranch', ReadBranch);
                 break;
             case 'job':
+                if (userGroup == 'V') {
+                    w += '&Agent=' + $('#txtVenderCode').val();
+                }
                 SetGridJob(path, '#tbJob', '#frmSearchJob', '?branch=' + $('#txtBranchCode').val(), ReadJobFull);
                 break;
             case 'servunit':
@@ -635,6 +655,9 @@ End Code
                 break;
             case 'booking':
                 let w = '?Branch=' + $('#txtBranchCode').val();
+                if (userGroup == 'V') {
+                    w += '&Vend=' + $('#txtVenderCode').val();
+                }
                 SetGridTransport(path, '#tbBook', '#frmSearchBook', w, ReadBooking);
                 break;
             case 'servicecode1':
@@ -882,8 +905,10 @@ End Code
     }
     function ClearBooking() {
         $('#txtJNo').val('');
-        $('#txtVenderCode').val('');
-        $('#txtVenderName').val('');
+        if (userGroup !== 'V') {
+            $('#txtVenderCode').val('');
+            $('#txtVenderName').val('');
+        }
         $('#txtContactName').val('');
         $('#txtBookingNo').val('');
         $('#txtLoadDate').val('');
@@ -919,7 +944,17 @@ End Code
         $('#txtTotalTripC').val(0);
     }
     function PrintBooking() {
-        window.open(path + 'JobOrder/FormTransport?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+        switch ($('#cboPrintForm').val()) {
+            case 'BC':
+                window.open(path + 'JobOrder/FormBooking?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'BL':
+                window.open(path + 'JobOrder/FormTransport?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'DO':
+                window.open(path + 'JobOrder/FormLetter?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+        }
     }
     function ClearDetail() {		        
         $('#txtItemNo').val('0');
