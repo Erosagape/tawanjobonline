@@ -63,7 +63,7 @@ Public Class CVessel
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVessel", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVessel", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -96,6 +96,7 @@ Public Class CVessel
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVessel", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -115,7 +116,7 @@ Public Class CVessel
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVessel", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVessel", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

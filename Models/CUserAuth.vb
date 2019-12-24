@@ -73,7 +73,7 @@ Public Class CUserAuth
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserAuth", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserAuth", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -110,6 +110,7 @@ Public Class CUserAuth
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserAuth", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -128,7 +129,7 @@ Public Class CUserAuth
                 End Using
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserAuth", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserAuth", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

@@ -1377,6 +1377,7 @@ Public Class CJobOrder
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrder", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst

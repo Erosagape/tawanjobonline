@@ -82,7 +82,7 @@ Public Class CCountry
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCountry", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCountry", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -123,6 +123,7 @@ Public Class CCountry
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCountry", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -142,7 +143,7 @@ Public Class CCountry
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCountry", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCountry", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

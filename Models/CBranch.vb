@@ -52,7 +52,7 @@ Public Class CBranch
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBranch", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBranch", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -81,6 +81,7 @@ Public Class CBranch
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBranch", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -100,7 +101,7 @@ Public Class CBranch
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBranch", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBranch", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

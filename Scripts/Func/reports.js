@@ -459,7 +459,7 @@ function LoadReport(reportID, obj,lang) {
         success: function (response) {
             let r = JSON.parse(response);
             if (r.msg !== "OK") {
-                alert(r.msg);
+                //alert(r.msg);
                 return;
             }
             if (r.result.length > 0) {
@@ -490,7 +490,7 @@ function LoadReport(reportID, obj,lang) {
                     if (groupField !== '') {
                         if (FormatValue(groupField,r[groupField]) !== groupVal) {
                             if (groupCount > 0) {
-                                html += '<td style="border:1px solid black;text-align:left;"></td>';
+                                html += '<td style="border:1px solid black;text-align:left;">'+groupVal+'</td>';
                                 for (let i = 1; i < colCount; i++) {
                                     if (sumGroup[i].isSummary == true) {
                                         html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(sumGroup[i].value, 2) + '</td>';
@@ -535,19 +535,29 @@ function LoadReport(reportID, obj,lang) {
                     html += '</tr>';
                 }
                 if (groupCount > 0) {
-                    html += '<td style="border:1px solid black;text-align:left;"><b>TOTAL<b/></td>';
+                    html += '<td style="border:1px solid black;text-align:left;">'+groupVal+'</td>';
                     for (let i = 1; i < colCount; i++) {
                         if (sumGroup[i].isSummary == true) {
-                            html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(sumTotal[i], 2) + '</td>';
+                            html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(sumGroup[i].value, 2) + '</td>';
                         } else {
                             html += '<td style="border:1px solid black;text-align:right;"></td>';
                         }
                     }
-                    html += '</tr><tr>';
+                    html += '</tr>';
                     groupCount = 0;
+                } 
+                html += '<tr><td style="border:1px solid black;text-align:left;"><b>TOTAL<b/></td>';
+                for (let i = 1; i < colCount; i++) {
+                    if (sumGroup[i].isSummary == true) {
+                        html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(sumTotal[i], 2) + '</td>';
+                    } else {
+                        html += '<td style="border:1px solid black;text-align:right;"></td>';
+                    }
                 }
+                html += '</tr>';
+                
                 html += '</tbody>';
-                ShowMessage(html);
+                //ShowMessage(html);
                 $('#tbResult').html(html);
             }
         }

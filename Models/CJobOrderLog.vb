@@ -103,7 +103,7 @@ Public Class CJobOrderLog
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrderLog", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrderLog", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -146,6 +146,7 @@ Public Class CJobOrderLog
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrderLog", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -166,7 +167,7 @@ Public Class CJobOrderLog
                 msg = "Delete Complete"
             Catch ex As Exception
                 msg = ex.Message
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrderLog", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrderLog", "DeleteData", ex.StackTrace, True)
             End Try
         End Using
         Return msg

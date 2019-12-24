@@ -289,7 +289,7 @@ End Code
                             <label for="txtUnitcode"><a onclick="SearchData('servunit')">Unit:</a></label>
                             <input type="text" id="txtUnitCode" style="width:50px" tabindex="18" />
                             <label id="lblUnitPrice" for="txtUnitPrice">Price :</label>
-                            <input type="text" id="txtUnitPrice" style="width:100px;text-align:right" tabindex="19" />
+                            <input type="text" id="txtUnitPrice" style="width:100px;text-align:right;background-color:lightyellow" tabindex="19" />
                             <br />
                             <label id="lblAmount" for="txtAmount">Amount :</label>
                             <input type="text" id="txtAMT" style="width:100px;text-align:right" tabindex="20" />
@@ -307,7 +307,7 @@ End Code
                             <input type="text" id="txtWHTRate" style="width:50px;text-align:right" tabindex="23" />
                             <input type="text" id="txtWHT" style="width:100px;text-align:right" tabindex="24" />
                             <label id="lblNETAmount" for="txtNETAmount">Net Amount :</label>
-                            <input type="text" id="txtNET" style="width:100px;text-align:right" tabindex="25" />
+                            <input type="text" id="txtNET" style="width:100px;text-align:right;background-color:lightgreen" tabindex="25" />
                             <br />
                             Slip No :
                             <input type="text" id="txtSlipNo" style="width:150px" tabindex="26" />
@@ -908,7 +908,7 @@ End Code
                 contentType: "application/json",
                 data: jsonString,
                 success: function (response) {
-                    if (response.result.data !== null) {
+                    if (response.result.data !== '') {
                         $('#txtClrNo').val(response.result.data);
                         ShowData($('#txtBranchCode').val(), $('#txtClrNo').val());
                         ShowMessage(response.result.msg);
@@ -1628,7 +1628,7 @@ End Code
                 break;
             case 'servicecode':
                 let q = GetClrType($('#cboClrType').val());
-                if ($('#cboSTCode').val() !== null) {
+                if ($('#cboSTCode').val() !== '') {
                     q += '&group=' + $('#cboSTCode').val();
                 }
                 SetGridSICodeFilter(path, '#tbServ', q, '#frmSearchSICode', ReadService);

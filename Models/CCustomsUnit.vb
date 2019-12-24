@@ -52,7 +52,7 @@ Public Class CCustomsUnit
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCustomsUnit", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCustomsUnit", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -81,6 +81,7 @@ Public Class CCustomsUnit
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCustomsUnit", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -100,7 +101,7 @@ Public Class CCustomsUnit
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCustomsUnit", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCustomsUnit", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

@@ -334,7 +334,7 @@ Public Class CQuoItem
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoItem", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoItem", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -446,6 +446,7 @@ Public Class CQuoItem
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoItem", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -465,7 +466,7 @@ Public Class CQuoItem
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoItem", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoItem", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

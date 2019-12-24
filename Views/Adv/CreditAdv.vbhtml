@@ -685,7 +685,7 @@ End Code
     }
     function SetGridControl() {
         let code = $('#txtBranchCode').val();
-        if (job !== null) {
+        if (job !== '') {
             code += '&job=' + job;
         }
         $.get(path + 'acc/getvouchergrid?branch=' + code + '&type=TACC', function (r) {
@@ -830,7 +830,7 @@ End Code
             $('#txtRecDate').val(CDateEN(dr.RecDate));
             $('#txtRecTime').val(ShowTime(dr.RecTime));
             $('#txtPostedBy').val(dr.PostedBy);
-            if (dr.PostedBy !== null) {
+            if (dr.PostedBy !== '') {
                 $('#chkPosted').prop('checked', true);
                 DisableSave();
             }
@@ -841,7 +841,7 @@ End Code
             $('#txtPostedTime').val(ShowTime(dr.PostedTime));
             $('#txtCancelReson').val(dr.CancelReson);
             $('#txtCancelProve').val(dr.CancelProve);
-            if (dr.CancelProve !== null) {
+            if (dr.CancelProve !== '') {
                 $('#chkCancel').prop('checked', true);
                 DisableSave();
             }
@@ -888,7 +888,7 @@ End Code
             $('#txtacType').val(dr.acType);
             $('#cboacType').val(dr.acType);
             $('#cboacType').change();
-            if (dr.BankCode !== null) {
+            if (dr.BankCode !== '') {
                 ShowBookAccount(path, dr.BookCode, '#txtBookName');
                 ShowBank(path, dr.BankCode, '#txtBankName');
             } else {

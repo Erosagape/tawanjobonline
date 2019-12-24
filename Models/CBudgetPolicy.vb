@@ -174,7 +174,7 @@ Public Class CBudgetPolicy
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBudgetPolicy", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBudgetPolicy", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -238,6 +238,7 @@ Public Class CBudgetPolicy
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBudgetPolicy", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -257,7 +258,7 @@ Public Class CBudgetPolicy
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBudgetPolicy", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBudgetPolicy", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

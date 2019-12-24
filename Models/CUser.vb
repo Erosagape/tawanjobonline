@@ -293,7 +293,7 @@ Public Class CUser
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUser", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUser", "SaveData", ex.StackTrace, True)
                 msg = "[STEP]=" & stepFld & " :" & ex.Message
             End Try
         End Using
@@ -417,6 +417,7 @@ Public Class CUser
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUser", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -436,7 +437,7 @@ Public Class CUser
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUser", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUser", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

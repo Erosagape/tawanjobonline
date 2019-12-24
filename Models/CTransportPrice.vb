@@ -116,7 +116,7 @@ Public Class CTransportPrice
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
                             dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
-                            dr("LocationID") = Main.GetDBString(Me.LocationID, dt.Columns("LocationID"))
+                            dr("LocationID") = Me.LocationID
                             dr("VenderCode") = Main.GetDBString(Me.VenderCode, dt.Columns("VenderCode"))
                             dr("CustCode") = Main.GetDBString(Me.CustCode, dt.Columns("CustCode"))
                             dr("SICode") = Main.GetDBString(Me.SICode, dt.Columns("SICode"))
@@ -133,8 +133,8 @@ Public Class CTransportPrice
                     End Using
                 End Using
             Catch ex As Exception
-                msg = ex.Message
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportPrice", "SaveData", ex.Message, True)
+                msg = "[ERROR]" & ex.Message
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportPrice", "SaveData", ex.StackTrace, True)
             End Try
         End Using
         Return msg
@@ -194,6 +194,7 @@ Public Class CTransportPrice
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportPrice", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -214,7 +215,7 @@ Public Class CTransportPrice
                 msg = "Delete Complete"
             Catch ex As Exception
                 msg = ex.Message
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportPrice", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportPrice", "DeleteData", ex.StackTrace, True)
             End Try
         End Using
         Return msg

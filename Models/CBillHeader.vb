@@ -272,7 +272,7 @@ Public Class CBillHeader
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillHeader", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillHeader", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -367,6 +367,7 @@ Public Class CBillHeader
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillHeader", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -387,7 +388,7 @@ Public Class CBillHeader
                 End Using
                 msg = "Update Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillHeader", "UpdateBillToInv", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillHeader", "UpdateBillToInv", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -412,7 +413,7 @@ Public Class CBillHeader
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillHeader", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillHeader", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

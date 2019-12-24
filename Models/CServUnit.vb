@@ -71,7 +71,7 @@ Public Class CServUnit
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServUnit", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServUnit", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -89,7 +89,7 @@ Public Class CServUnit
         Using cn As New SqlConnection(m_ConnStr)
             Dim row As CServUnit
             Try
-                cn.Open
+                cn.Open()
                 Dim rd As SqlDataReader = New SqlCommand("SELECT * FROM Mas_ServUnitType" & pSQLWhere, cn).ExecuteReader()
                 While rd.Read()
                     row = New CServUnit(m_ConnStr)
@@ -108,6 +108,7 @@ Public Class CServUnit
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServUnit", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -116,17 +117,18 @@ Public Class CServUnit
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
             Try
-                cn.Open
+                cn.Open()
+
                 Using cm As New SqlCommand("DELETE FROM Mas_ServUnitType" + pSQLWhere, cn)
-                    cm.CommandTimeOut = 0
+                    cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
                     Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServUnit", "DeleteData", cm.CommandText)
                 End Using
-                cn.close
+                cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServUnit", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServUnit", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

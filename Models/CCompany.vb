@@ -662,7 +662,7 @@ Public Class CCompany
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCompany", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCompany", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -935,6 +935,7 @@ Public Class CCompany
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCompany", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -954,6 +955,7 @@ Public Class CCompany
                 msg = "Delete Complete"
             Catch ex As Exception
                 msg = ex.Message
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCompany", "DeleteData", ex.StackTrace, True)
             End Try
         End Using
         Return msg

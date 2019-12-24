@@ -275,7 +275,7 @@ Public Class CPayDetail
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CPayDetail", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CPayDetail", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -369,6 +369,7 @@ Public Class CPayDetail
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CPayDetail", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -389,7 +390,7 @@ Public Class CPayDetail
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CPayDetail", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CPayDetail", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

@@ -53,7 +53,7 @@ Public Class CProvince
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvince", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvince", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -81,6 +81,7 @@ Public Class CProvince
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvince", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -100,7 +101,7 @@ Public Class CProvince
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvince", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvince", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -190,7 +191,7 @@ Public Class CProvinceSub
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvinceSub", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvinceSub", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -230,6 +231,7 @@ Public Class CProvinceSub
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvinceSub", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -249,7 +251,7 @@ Public Class CProvinceSub
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvinceSub", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CProvinceSub", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

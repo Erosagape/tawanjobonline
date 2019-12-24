@@ -136,7 +136,7 @@ Public Class CGLDetail
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CGLDetail", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CGLDetail", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -188,6 +188,7 @@ Public Class CGLDetail
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CGLDetail", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -208,7 +209,7 @@ Public Class CGLDetail
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CGLDetail", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CGLDetail", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

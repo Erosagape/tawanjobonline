@@ -125,7 +125,7 @@ Public Class CDocument
                 End Using
             Catch ex As Exception
                 msg = ex.Message
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CDocument", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CDocument", "SaveData", ex.StackTrace, True)
             End Try
         End Using
         Return msg
@@ -173,6 +173,7 @@ Public Class CDocument
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CDocument", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -193,7 +194,7 @@ Public Class CDocument
                 msg = "Delete Complete"
             Catch ex As Exception
                 msg = ex.Message
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CDocument", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CDocument", "DeleteData", ex.StackTrace, True)
             End Try
         End Using
         Return msg

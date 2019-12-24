@@ -104,7 +104,7 @@ Public Class CQuoDetail
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoDetail", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoDetail", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -144,6 +144,7 @@ Public Class CQuoDetail
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoDetail", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -163,7 +164,7 @@ Public Class CQuoDetail
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoDetail", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoDetail", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

@@ -232,7 +232,7 @@ Public Class CQuoHeader
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoHeader", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoHeader", "SaveData", ex.StackTrace, True)
                 msg = "[ERROR]" & ex.Message
             End Try
         End Using
@@ -318,6 +318,7 @@ Public Class CQuoHeader
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoHeader", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -337,7 +338,7 @@ Public Class CQuoHeader
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoHeader", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CQuoHeader", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

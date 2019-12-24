@@ -43,7 +43,7 @@ Module Main
                 If pDate.Year > 2500 Then
                     Return pDate.AddYears(-543)
                 Else
-                    Return Date.MinValue
+                    Return System.DBNull.Value
                 End If
             End If
         End If
@@ -74,7 +74,7 @@ Module Main
                 End Using
             End Using
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "GetValueSQL", "ERROR", ex.Message & "=>" & sql & " (" & conn & ")")
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "GetValueSQL", ex.Message, ex.StackTrace & "=>" & sql & " (" & conn & ")")
             ret.IsError = True
             ret.Result = ex.Message
         End Try
@@ -93,7 +93,7 @@ Module Main
                 Return sDef
             End If
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "GetValueConfig", "ERROR", ex.Message, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "GetValueConfig", ex.Message, ex.StackTrace, True)
             Return sDef
         End Try
     End Function
@@ -133,7 +133,7 @@ Module Main
 
             End Using
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "GetMaxByMask", "ERROR", ex.Message, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "GetMaxByMask", ex.Message, ex.StackTrace, True)
         End Try
         If retStr = "" Then
             Dim j As Integer = sFormat.Count(Function(c As Char) c = "_")
@@ -179,7 +179,7 @@ Module Main
             Next
             Return msg & iRow & " Processed"
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "SetAuthorizeFromRole", "ERROR", ex.Message, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "SetAuthorizeFromRole", ex.Message, ex.StackTrace, True)
             Return "[ERROR] SetAuthorizeByRole:" + ex.Message
         End Try
     End Function
@@ -209,7 +209,7 @@ Module Main
             Next
             Return msg & iRow & " Processed"
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "SetAuthorizeByRole", "ERROR", ex.Message, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "SetAuthorizeByRole", ex.Message, ex.StackTrace, True)
             Return "[ERROR] SetAuthorizeByRole:" + ex.Message
         End Try
     End Function
@@ -227,7 +227,7 @@ Module Main
             End Using
             Return "OK"
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "DBExecute", "ERROR", ex.Message, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "DBExecute", ex.Message, ex.StackTrace, True)
             Return "[ERROR]" & ex.Message
         End Try
     End Function
@@ -1429,7 +1429,7 @@ dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
             oLog.IsError = IsError
             Return oLog.SaveData(" WHERE LogID=0 ")
         Catch ex As Exception
-            Main.SaveLog(cust, app, modl, "SaveLogFromObject", ex.Message, True)
+            Main.SaveLog(cust, app, modl, "SaveLogFromObject", ex.StackTrace, True)
             Dim str = "[ERROR] : " & ex.Message
             Return str
         End Try
@@ -1900,7 +1900,7 @@ s.NameEng AS ShipperName, s.EAddress1 AS ShipperAddress1, s.EAddress2 AS Shipper
 FROM dbo.Mas_Company AS n INNER JOIN
 dbo.Mas_Vender AS a INNER JOIN
 dbo.Job_LoadInfo AS h LEFT OUTER JOIN
-dbo.Job_LoadInfoDetail AS d ON h.BranchCode = d.BranchCode ON a.VenCode = h.VenderCode ON n.CustCode = h.NotifyCode INNER JOIN
+dbo.Job_LoadInfoDetail AS d ON h.BranchCode = d.BranchCode AND h.BookingNo=d.BookingNo ON a.VenCode = h.VenderCode ON n.CustCode = h.NotifyCode INNER JOIN
 dbo.Job_Order AS j ON h.BranchCode = j.BranchCode AND h.JNo = j.JNo INNER JOIN
 dbo.Mas_User AS u ON j.CSCode = u.UserID LEFT OUTER JOIN
 dbo.Mas_Company AS c ON j.consigneecode = c.CustCode LEFT OUTER JOIN

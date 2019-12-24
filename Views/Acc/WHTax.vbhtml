@@ -135,7 +135,7 @@ End Code
                         <div class="col-sm-3" style="display:flex;flex-direction:column">
                             Tax Code:
                             <select class="form-control dropdown" id="txtTaxLawNo">
-                                <option value="1">3 เตรส</option>
+                                <option value="1" selected>3 เตรส</option>
                                 <option value="2">65 จัดวา</option>
                                 <option value="3">69 ทวิ</option>
                                 <option value="4">48 ทวิ</option>
@@ -445,7 +445,7 @@ End Code
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
-    let docSel = null;
+    let docSel = '';
     //$(document).ready(function () {
         SetEvents();
         SetLOVs();
@@ -750,7 +750,7 @@ End Code
         $('#txtSoTaxNo').val(dr.SoTaxNo);
         $('#txtPayTaxType').val(dr.PayTaxType);
         $('#txtPayTaxOther').val(dr.PayTaxOther);
-        $('#chkCancel').prop('checked', dr.CancelProve == null || dr.CancelProve == '' ? false : true);
+        $('#chkCancel').prop('checked', dr.CancelProve == '' || dr.CancelProve == '' ? false : true);
         $('#txtCancelProve').val(dr.CancelProve);
         $('#txtCancelReason').val(dr.CancelReason);
         $('#txtCancelDate').val(CDateEN(dr.CancelDate));
@@ -909,7 +909,7 @@ End Code
                 contentType: "application/json",
                 data: jsonText,
                 success: function (response) {
-                    if (response.result.data != null) {
+                    if (response.result.data != '') {
                         $('#txtDocNo').val(response.result.data);
                         $('#txtDocNo').focus();
                     }

@@ -14,6 +14,13 @@ End Code
                         <input type="text" class="form-control" id="txtBranchName" style="width:65%" disabled />
                     </div>
                 </div>
+                <div class="col-sm-2">
+                    Cheque Type<br />
+                    <select id="cboPRType" class="form-control dropdown">
+                        <option value="P">Paid</option>
+                        <option value="R">Received</option>
+                    </select>
+                </div>
                 <div class="col-sm-4">
                     <b>Reference No:</b>
                     <br />
@@ -25,13 +32,7 @@ End Code
                 <div class="col-sm-2">
                     Record Date<br /> <input type="date" id="txtVoucherDate" class="form-control" tabIndex="3">
                 </div>
-                <div class="col-sm-2">
-                    Cheque Type<br />
-                    <select id="cboPRType" class="form-control dropdown">
-                        <option value="P">Paid</option>
-                        <option value="R">Received</option>
-                    </select>
-                </div>
+
             </div>
             <div class="row">
                 <div class="col-sm-6">
@@ -647,7 +648,7 @@ End Code
                 contentType: "application/json",
                 data: jsonText,
                 success: function (response) {
-                    if (response.result.data != null) {
+                    if (response.result.data != '') {
                         $('#txtControlNo').val(response.result.data);
                         $('#txtControlNo').focus();
                     }
@@ -772,7 +773,7 @@ End Code
             $('#txtRecDate').val(CDateEN(dr.RecDate));
             $('#txtRecTime').val(ShowTime(dr.RecTime));
             $('#txtPostedBy').val(dr.PostedBy);
-            if (dr.PostedBy !== null) {
+            if (dr.PostedBy !== '') {
                 $('#chkPosted').prop('checked', true);
                 DisableSave();
             }
@@ -783,7 +784,7 @@ End Code
             $('#txtPostedTime').val(ShowTime(dr.PostedTime));
             $('#txtCancelReson').val(dr.CancelReson);
             $('#txtCancelProve').val(dr.CancelProve);
-            if (dr.CancelProve !== null) {
+            if (dr.CancelProve !== '') {
                 $('#chkCancel').prop('checked', true);
                 DisableSave();
             }
@@ -829,7 +830,7 @@ End Code
             $('#txtacType').val(dr.acType);
             $('#cboacType').val(dr.acType);
             $('#cboacType').change();
-            if (dr.BankCode !== null) {
+            if (dr.BankCode !== '') {
                 ShowBookAccount(path, dr.BookCode, '#txtBookName');
                 ShowBank(path, dr.BankCode, '#txtBankName');
             } else {

@@ -1,6 +1,7 @@
 ﻿-----------------------------------------------------
 tawantechonline.com
 -----------------------------------------------------
+Storage 5GB
 Hosting Control Panel : http://tawantechonline.com:8880 หรือ http://ns29.1baht.net:8880/
 User Name : tawantec
 Password : J4@r9q8q
@@ -28,6 +29,7 @@ password: ucrC89I55y
 --------------------------------------
 tawanasp.com
 -------------------------------------
+Storage 10GB
 Primary Name Server 
 Nameserver 1 : w01.metrabyte.cloud
 Nameserver 1 IP : 119.59.96.60
@@ -92,6 +94,7 @@ password : ucrC89I55y
 ------------------------------------------
 tawanccs.com
 ------------------------------------------
+Storage: Unlimited
 
 Primary Name Server
 Nameserver 1 : ns117.hostinglotus.net
@@ -150,6 +153,8 @@ Username (ต้องตามด้วย @tawanccs.com ) และ Password �
 --------------------------------
 CloudBiz VPS 103.255.168.137
 --------------------------------
+Storage 50GB / 26GB Avaiable
+
 Remote Login : Tawantech / Administrator
 Remote Password : 9t;yogm8
 

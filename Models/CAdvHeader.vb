@@ -466,7 +466,7 @@ Public Class CAdvHeader
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvHeader", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvHeader", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -622,6 +622,7 @@ Public Class CAdvHeader
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvHeader", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -639,7 +640,7 @@ Public Class CAdvHeader
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvHeader", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvHeader", "DeleteData", ex.StackTrace, True)
                 msg = "[exception] " + ex.Message
             End Try
         End Using

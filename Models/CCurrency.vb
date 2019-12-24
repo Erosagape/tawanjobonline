@@ -82,7 +82,7 @@ Public Class CCurrency
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCurrency", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCurrency", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -123,6 +123,7 @@ Public Class CCurrency
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCurrency", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -142,7 +143,7 @@ Public Class CCurrency
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCurrency", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCurrency", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

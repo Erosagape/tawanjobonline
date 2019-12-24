@@ -63,7 +63,7 @@ Public Class CBank
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBank", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBank", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -96,6 +96,7 @@ Public Class CBank
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBank", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -115,7 +116,7 @@ Public Class CBank
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBank", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBank", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

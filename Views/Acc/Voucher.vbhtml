@@ -901,7 +901,7 @@ End Code
                 contentType: "application/json",
                 data: jsonText,
                 success: function (response) {
-                    if (response.result.data != null) {
+                    if (response.result.data != '') {
                         $('#txtControlNo').val(response.result.data);
                         $('#txtControlNo').focus();
                     }
@@ -1280,7 +1280,7 @@ End Code
                 contentType: "application/json",
                 data: jsonText,
                 success: function (response) {
-                    if (response.result.data !== null) {
+                    if (response.result.data !== '') {
                         SetGridPayment(response.result.data[0]);
                         ShowSumPayment(response.result.data[0]);
                     }

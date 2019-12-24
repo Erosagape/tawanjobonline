@@ -145,7 +145,7 @@ End Code
                 $('#txtBranchName').val(h.BranchName);
                 $('#txtJNo').val(h.JobNo);
                 $('#txtCloseDate').val(CDateEN(h.CloseJobDate));
-                if (h.CloseJobBy !== null) {
+                if (h.CloseJobBy !== '') {
                     $('#btnGenerateInv').removeAttr('disabled');
                 } else {
                     $('#btnGenerateInv').attr('disabled', 'disabled');
@@ -194,7 +194,7 @@ End Code
 
 
                     html += '<tr>';
-                    if ((d[i].LinkBillNo == null || d[i].LinkBillNo == '') && cost > 0) {
+                    if ((d[i].LinkBillNo == '' || d[i].LinkBillNo == '') && cost > 0) {
                         html += '<td><input type="button" value="Edit" onclick="OpenEditor(' + "'" + d[i].ClrNo + "'" + ',' + d[i].ItemNo + ')"/></td>';
                     } else {
                         html += '<td><input type="button" value="View" onclick="OpenInvoice(' + "'" + d[i].BranchCode + "'" + ',' + "'" + d[i].LinkBillNo + "'" + ')"/></td>';
@@ -202,7 +202,7 @@ End Code
                     html += '<td>' + d[i].ClrNo + '#' + d[i].ItemNo + '</td>';
                     html += '<td>'+d[i].SICode+'</td>';
                     html += '<td>' + d[i].SDescription + '' + slipNo + '</td>';
-                    if (d[i].LinkBillNo == null || d[i].LinkBillNo == '') {
+                    if (d[i].LinkBillNo == '' || d[i].LinkBillNo == '') {
                         html += '<td></td>';
                         amtpending += amt;
                     } else {

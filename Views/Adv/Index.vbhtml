@@ -317,7 +317,7 @@ End Code
                                     <label for="txtAdvQty">Qty:</label>
                                     <input type="text" id="txtAdvQty" style="width:100px;text-align:right" tabindex="17" />
                                     <label id="lblUnitPrice" for="txtUnitPrice" style="color:red">Price :</label>
-                                    <input type="text" id="txtUnitPrice" style="width:100px;text-align:right;background-color:khaki" tabindex="18" />
+                                    <input type="text" id="txtUnitPrice" style="width:100px;text-align:right;background-color:lightyellow" tabindex="18" />
                                     <label id="lblAMTCal" for="txtAMTCal">Amount :</label>
                                     <input type="text" id="txtAMTCal" style="width:100px;text-align:right" disabled />
                                     <br />
@@ -337,7 +337,7 @@ End Code
                                     <input type="text" id="txtWHTRate" style="width:50px;text-align:right" tabindex="22" />
                                     <input type="text" id="txtWHT" style="width:100px;text-align:right" tabindex="23" />
                                     <label id="lblNETAmount" for="txtNETAmount" style="color:blue">Net Amount :</label>
-                                    <input type="text" id="txtNET" style="width:100px;text-align:right;background-color:lightskyblue" tabindex="24" />
+                                    <input type="text" id="txtNET" style="width:100px;text-align:right;background-color:lightgreen" tabindex="24" />
                                     <br />
                                     WH-Tax No :
                                     <input type="text" id="txt50Tavi" style="width:200px" tabindex="25" />
@@ -878,7 +878,7 @@ End Code
                 data: jsonString,
                 success: function (response) {                
                     ShowMessage(response.result.msg);
-                    if (response.result.data !== null) {
+                    if (response.result.data !== '') {
                         $('#txtAdvNo').val(response.result.data);
                         ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val());
                     }
@@ -1854,7 +1854,7 @@ End Code
             contentType: "application/json",
             data: jsonText,
             success: function (response) {
-                if (response.result.data != null) {
+                if (response.result.data != '') {
                     SetWHTaxDetail(response.result.data);
                     ShowMessage(response.result.msg);
                     $('#txtDoc50Tavi').val(response.result.data);
@@ -1905,7 +1905,7 @@ End Code
             contentType: "application/json",
             data: jsonText,
             success: function (response) {
-                if (response.result.data != null) {
+                if (response.result.data != '') {
                     j = response.result.data;
                     return;
                 }                                

@@ -313,7 +313,7 @@ Public Class CRcpHeader
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CRcpHeader", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CRcpHeader", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -423,6 +423,7 @@ Public Class CRcpHeader
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CRcpHeader", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -442,7 +443,7 @@ Public Class CRcpHeader
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CRcpHeader", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CRcpHeader", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

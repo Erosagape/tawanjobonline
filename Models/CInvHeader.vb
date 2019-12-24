@@ -517,7 +517,7 @@ Public Class CInvHeader
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -684,6 +684,7 @@ Public Class CInvHeader
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -707,7 +708,7 @@ Public Class CInvHeader
 
             msg = "Cancel Complete"
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "CancelData", ex.Message, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "CancelData", ex.StackTrace, True)
             msg = ex.Message
         End Try
         Return msg
@@ -730,7 +731,7 @@ Public Class CInvHeader
                     msg = "Delete Complete"
                 End If
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

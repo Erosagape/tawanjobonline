@@ -242,7 +242,7 @@ Public Class CVender
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVender", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVender", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -347,6 +347,7 @@ Public Class CVender
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVender", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -366,7 +367,7 @@ Public Class CVender
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVender", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVender", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

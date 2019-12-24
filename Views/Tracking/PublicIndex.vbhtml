@@ -25,6 +25,7 @@ End Code
         <script src="~/Scripts/Func/lang.js"></script>
         <script src="~/Scripts/bootstrap.min.js"></script>
     </head>
+    <h3>Tracking Your Shipment</h3>
     <div class="row">
         <div class="col-sm-4">
             Branch
@@ -79,8 +80,8 @@ End Code
 <div id="dvLOVs"></div>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-    let path = '@Url.Content("~")';
-    let dbIndex = getQueryString("db") == '' ? '0' : getQueryString("db");
+    var path = '@Url.Content("~")';
+    let dbIndex = getQueryString("db") == '' ? '1' : getQueryString("db");
 
     google.charts.load("current", { packages: ["corechart"] });
     window.onresize = () => {
@@ -123,7 +124,7 @@ End Code
             }
             $('#tbDetail').DataTable({
                 ajax: {
-                    url: '/joborder/gettrackingreport?Branch=' + branch + '&TaxNumber=' + taxno + opt, //web service ที่จะ call ไปดึงข้อมูลมา
+                    url: path+'joborder/gettrackingreport?Branch=' + branch + '&TaxNumber=' + taxno + opt, //web service ที่จะ call ไปดึงข้อมูลมา
                     dataSrc: 'transport.data'
                 },
                 selected: true, //ให้สามารถเลือกแถวได้

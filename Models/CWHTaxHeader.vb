@@ -553,6 +553,7 @@ Public Class CWHTaxHeader
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxHeader", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst

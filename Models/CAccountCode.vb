@@ -93,7 +93,7 @@ Public Class CAccountCode
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAccountCode", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAccountCode", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -138,6 +138,7 @@ Public Class CAccountCode
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAccountCode", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -157,6 +158,7 @@ Public Class CAccountCode
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAccountCode", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

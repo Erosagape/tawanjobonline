@@ -234,7 +234,7 @@ Public Class CBillDetail
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillDetail", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillDetail", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -316,6 +316,7 @@ Public Class CBillDetail
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillDetail", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -338,6 +339,7 @@ Public Class CBillDetail
                 End If
                 msg = "Delete Complete"
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillDetail", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

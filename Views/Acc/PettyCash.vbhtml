@@ -14,6 +14,13 @@ End Code
                         <input type="text" class="form-control" id="txtBranchName" style="width:65%" disabled />
                     </div>
                 </div>
+                <div class="col-sm-2">
+                    Transaction Type<br />
+                    <select id="cboPRType" class="form-control dropdown">
+                        <option value="P">Transfer To</option>
+                        <option value="R">Received From</option>
+                    </select>
+                </div>
                 <div class="col-sm-3">
                     <b>Reference No:</b>
                     <br />
@@ -25,13 +32,7 @@ End Code
                 <div class="col-sm-2">
                     Transaction Date<br /> <input type="date" id="txtVoucherDate" class="form-control" tabIndex="3">
                 </div>
-                <div class="col-sm-2">
-                    Transaction Type<br />
-                    <select id="cboPRType" class="form-control dropdown">
-                        <option value="P">Transfer To</option>
-                        <option value="R">Received From</option>
-                    </select>
-                </div>
+
             </div>
             <div class="row">
                 <div class="col-sm-12">

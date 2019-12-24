@@ -63,7 +63,7 @@ Public Class CUserRole
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRole", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRole", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -96,6 +96,7 @@ Public Class CUserRole
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRole", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -113,7 +114,7 @@ Public Class CUserRole
                 End Using
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRole", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRole", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -173,7 +174,7 @@ Public Class CUserRoleDetail
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRoleDetail", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRoleDetail", "SaveData", ex.StackTrace, True)
                 msg = "[ERROR]:" & ex.Message
             End Try
         End Using
@@ -202,6 +203,7 @@ Public Class CUserRoleDetail
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRoleDetail", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -226,7 +228,7 @@ Public Class CUserRoleDetail
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRoleDetail", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRoleDetail", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -296,7 +298,7 @@ Public Class CUserRolePolicy
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRolePolicy", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRolePolicy", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -329,6 +331,7 @@ Public Class CUserRolePolicy
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRolePolicy", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -348,7 +351,7 @@ Public Class CUserRolePolicy
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRolePolicy", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CUserRolePolicy", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

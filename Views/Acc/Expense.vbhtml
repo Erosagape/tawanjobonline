@@ -563,7 +563,7 @@ End Code
             data: jsonString,
             success: function (response) {
                 ShowMessage(response.result.msg);
-                if (response.result.data !== null) {
+                if (response.result.data !== '') {
                     $('#txtDocNo').val(response.result.data);
                     ShowData($('#txtBranchCode').val(), $('#txtDocNo').val());
                 }

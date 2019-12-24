@@ -194,7 +194,7 @@ Public Class CCNDNHeader
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNHeader", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNHeader", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -268,6 +268,7 @@ Public Class CCNDNHeader
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNHeader", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -287,7 +288,7 @@ Public Class CCNDNHeader
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNHeader", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNHeader", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -538,7 +539,7 @@ Public Class CCNDNDetail
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNDetail", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNDetail", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -624,6 +625,7 @@ Public Class CCNDNDetail
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNDetail", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -643,7 +645,7 @@ Public Class CCNDNDetail
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNDetail", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNDetail", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using

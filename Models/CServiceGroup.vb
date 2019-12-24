@@ -123,7 +123,7 @@ Public Class CServiceGroup
                     Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceGroup", "UpdateData", cm.CommandText)
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceGroup", "UpdateData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceGroup", "UpdateData", ex.StackTrace, True)
             End Try
         End Using
     End Sub
@@ -160,7 +160,7 @@ Public Class CServiceGroup
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceGroup", "SaveData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceGroup", "SaveData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
@@ -224,6 +224,7 @@ Public Class CServiceGroup
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceGroup", "GetData", ex.StackTrace, True)
             End Try
         End Using
         Return lst
@@ -243,7 +244,7 @@ Public Class CServiceGroup
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceGroup", "DeleteData", ex.Message, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceGroup", "DeleteData", ex.StackTrace, True)
                 msg = ex.Message
             End Try
         End Using
