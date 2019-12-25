@@ -29,7 +29,7 @@
     <div class="w3-sidebar w3-bar-block w3-animate-left" style="display:none;z-index:5" id="mySidebar">
         <div class="w3-sidebar w3-bar-block w3-indigo w3-card" style="width:250px;">
             <div style="width:100%;text-align:center;background-color:white">
-                <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:100px;padding:5px 5px 5px 5px;" />
+                <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:100%;padding:5px 5px 5px 5px;" />
             </div>
             <div style="width:100%;text-align:center;background-color:white;color:black;font-size:11px">
                 <label id="lblLicenseName" onclick="CheckDatabase()">@ViewBag.LICENSE_NAME</label>

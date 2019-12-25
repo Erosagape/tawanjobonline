@@ -143,7 +143,8 @@ End Code
 
         $('#txtCustCode').val(custcode);
         $('#txtCustBranch').val(custbranch);
-        ShowCustomer(path, custcode, custbranch, '#txtCustName');
+        //ShowCustomer(path, custcode, custbranch, '#txtCustName');
+        CallBackQueryCustomer(path, custcode, custbranch, ReadCustomer);
     } else {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
@@ -162,7 +163,8 @@ End Code
         $('#txtCustBranch').keydown(function (event) {
             if (event.which == 13) {
                 $('#txtCustName').val('');
-                ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
+                //ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
+                CallBackQueryCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), ReadCustomer);
             }
         });
 
@@ -501,8 +503,11 @@ End Code
         $('#txtCustCode').val(dt.CustCode);
         $('#txtCustBranch').val(dt.Branch);
         $('#txtCustName').val(dt.NameThai);
-
-
+        if (dt.BillToCustCode !== null) {
+            CallBackQueryCustomer(path, dt.BillToCustCode, dt.BillToBranch, ReadBilling);
+        } else {
+            ReadBilling(dt);
+        }
         $('#txtCustCode').focus();
     }
     function ReadBilling(dt) {

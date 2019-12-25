@@ -45,7 +45,7 @@ End Code
                     </div>
                 </div>
                 <div style="flex:1">
-                    <b>Origin Port</b>
+                    <b>Loading Place</b>
                     <div>
                         <label id="lblPackingPlace">ด่านสระแก้ว</label>
                     </div>                    
@@ -117,13 +117,6 @@ End Code
                 <b>Volume</b>
                 <label id="lblTotalContainer">2x40F</label>
             </div>
-            <div>
-                <b>Container / Seal No</b>
-                <div id="dvContainers">
-                    CGAU1204505 / MF1050<br />
-                    CAGU1208066 / CF1405<br />
-                </div>
-            </div>
         </div>
 
     </div>
@@ -140,20 +133,24 @@ End Code
 <div style="display:flex;">
     <div style="flex-direction:column;width:60%;border-style:solid;border-width:thin">
         <div>
-            <input type="checkbox" /><b>CY EMPTY CONTAINER ON </b><label id="lblCYDate">10/12/2019</label><br />AT <label id="lblCYTime">18.00</label>
-            <br/><label id="lblCYPlace">KM.13 LADKRABANG</label>
+            The goods and instructions are accepted and dealth with subject to the standard conditions print overleaf            
+            <br/>
         </div>
         <div>
-            <input type="checkbox" /><b>RETURN CONTAINER ON </b><label id="lblReturnDate">13/12/2019</label> <br />AT <label id="lblReturnTime">19.00</label>
-            <br/>
-            <label id="lblReturnPlace"></label>
+            taken in charge in apparent good order and condition,unless otherwise noted herein,at the place of receipt for transport and delivery as mentioned above.
+            <br />
         </div>
-        <div> 
-            <input type="checkbox" /><b>STUFFING CONTAINER ON </b><label id="lblFactoryDate">20/12/2019</label><br />AT <label id="lblFactoryTime">20.00</label>
+        <div>
+            One of these transport modal multi bills of lading must be surrendered duty endorse in exchange for the goods. in witness wareof the original multi modal transport bill of lading all of this tenor and data have been signed in the number stated below,one of this being accomplished the others to be void
+            <br />
         </div>
     </div>
     <div style="flex-direction:row;width:40%;border-style:solid;border-width:thin">
         <b>ON BOARD</b> <label id="lblETADate">11/12/2019</label>
+        <br/>
+        FREIGHT PAYABLE AT: <br/>
+        Number of original BLs:<br/>
+        Stamp And Signature:<br/>
     </div>
 </div>
 <script type="text/javascript">
@@ -190,23 +187,30 @@ End Code
                 ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblInterPortName');
             }
             $('#lblFactoryPlace').text(h.FactoryPlace);
-            $('#lblCYDate').text(ShowDate(h.CYDate));
-            $('#lblCYTime').text(ShowTime(h.CYTime));
-            $('#lblCYPlace').text(h.CYPlace);
-            $('#lblReturnDate').text(ShowDate(h.ReturnDate));
-            $('#lblReturnTime').text(ShowTime(h.ReturnTime));
-            $('#lblReturnPlace').text(h.ReturnPlace);
-            $('#lblFactoryDate').text(ShowDate(h.FactoryDate));
-            $('#lblFactoryTime').text(ShowTime(h.FactoryTime));
+            //$('#lblCYDate').text(ShowDate(h.CYDate));
+            //$('#lblCYTime').text(ShowTime(h.CYTime));
+            //$('#lblCYPlace').text(h.CYPlace);
+            //$('#lblReturnDate').text(ShowDate(h.ReturnDate));
+            //$('#lblReturnTime').text(ShowTime(h.ReturnTime));
+            //$('#lblReturnPlace').text(h.ReturnPlace);
+            //$('#lblFactoryDate').text(ShowDate(h.FactoryDate));
+            //$('#lblFactoryTime').text(ShowTime(h.FactoryTime));
             $('#lblETADate').text(ShowDate(h.ETADate));
-            //let str = h.Remark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
-            $('#dvContainers').html(CStr(h.Remark));
+
             let html = '';
+            html = '<div style="width:100%;display:flex;flex-direction:row;margin-bottom:5px;">';
+            html += '<div style="width:20%;">'+ h.Remark +'</div>';
+            html += '<div style="width:10%;">'+ h.InvProduct +'</div>';
+            html += '<div style="width:40%;">'+ h.InvProductQty + ' '+ h.InvProductUnit +'</div>';
+            html += '<div style="width:15%;">'+ h.TotalGW +'</div>';
+            html += '<div style="width:15%;">'+ h.GWunit +'</div>';
+            html += '</div>';
+
             for (let i = 0; i < r.booking.data.length; i++){
                 let htmlTemplate = '<div style="width:100%;display:flex;flex-direction:row">';
-                htmlTemplate += '<div style="width:20%;">'+ r.booking.data[i].ShippingMark + '</div>';
-                htmlTemplate += '<div style="width:10%;">'+ r.booking.data[i].ProductDesc +'</div>';
-                htmlTemplate += '<div style="width:40%;">'+ r.booking.data[i].Comment +'</div>';
+                htmlTemplate += '<div style="width:20%;"></div>';
+                htmlTemplate += '<div style="width:10%;">'+ r.booking.data[i].CTN_NO +'/'+ r.booking.data[i].SealNumber +'</div>';
+                htmlTemplate += '<div style="width:40%;">'+ r.booking.data[i].ProductQty + ' '+ r.booking.data[i].ProductUnit +'</div>';
                 htmlTemplate += '<div style="width:15%;">'+ r.booking.data[i].GrossWeight +'</div>';
                 htmlTemplate += '<div style="width:15%;">'+ r.booking.data[i].Measurement+'</div>';
                 htmlTemplate += '</div>';

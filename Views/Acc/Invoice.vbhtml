@@ -93,11 +93,12 @@ End Code
                         </tr>
                     </thead>
                 </table>
-                <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-                    <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print</b>
-                </a>
+
             </div>
         </div>
+        <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
+            <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print</b>
+        </a>
         <div id="frmHeader" class="modal modal-lg fade">
             <div class="modal-dialog-lg">
                 <div class="modal-content">

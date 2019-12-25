@@ -45,7 +45,7 @@ End Code
                     </div>
                 </div>
                 <div style="flex:1">
-                    <b>Origin Port</b>
+                    <b>Packing Place</b>
                     <div>
                         <label id="lblPackingPlace">ด่านสระแก้ว</label>
                     </div>
@@ -73,7 +73,7 @@ End Code
                     </div>
                 </div>
                 <div style="flex:1">
-                    <b>Destination Port</b>
+                    <b>Destination</b>
                     <div>
                         <label id="lblFactoryPlace">SIAMREAP FACTORY</label>
                     </div>

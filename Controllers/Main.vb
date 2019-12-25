@@ -1313,7 +1313,7 @@ GROUP BY dbo.Job_Order.BranchCode, dbo.Job_Order.JNo, dbo.Job_Order.InvNo, dbo.J
     End Function
     Function SQLSelectReceiptReport() As String
         Dim sql As String = "
-SELECT rh.*,
+SELECT rh.*,c1.UsedLanguage,
 c1.NameThai as CustTName,c1.NameEng as CustEName,c1.TAddress1+' '+c1.TAddress2 as CustTAddr,c1.EAddress1+' '+c1.EAddress2 as CustEAddr,c1.Phone as CustPhone,c1.TaxNumber as CustTaxID,
 c2.NameThai as BillTName,c2.NameEng as BillEName,c2.TAddress1+' '+c2.TAddress2 as BillTAddr,c2.EAddress1+' '+c2.EAddress2 as BillEAddr,c2.Phone as BillPhone,c2.TaxNumber as BillTaxID,
 rd.ItemNo,rd.InvoiceNo,rd.InvoiceItemNo,ih.DocDate as InvoiceDate,ih.BillAcceptNo,ih.BillIssueDate,ih.BillAcceptDate,ih.RefNo,

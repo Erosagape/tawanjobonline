@@ -79,16 +79,16 @@ End Code
             </tr>
             <tr>
                 <td>
-                    <b> BOOKING : </b><label id="lblBookingNo"></label>
+                    <b> BOOKING : </b><br/><label id="lblBookingNo"></label>
                 </td>
                 <td>
-                    <b> H.BL/AWB : </b><label id="lblHAWBNo"></label>
+                    <b> H.BL/AWB : </b><br /><label id="lblHAWBNo"></label>
                 </td>
                 <td>
-                    <b> M.BL/AWB : </b><label id="lblMAWBNo"></label>
+                    <b> M.BL/AWB : </b><br /><label id="lblMAWBNo"></label>
                 </td>
                 <td align="right">
-                    <b> DECLARE NO : </b><label id="lblDeclareNo"></label>
+                    <b> DECLARE NO : </b><br /><label id="lblDeclareNo"></label>
                 </td>
             </tr>
             <tr>
@@ -99,12 +99,12 @@ End Code
                     <b> T/X RULES : </b><label id="lblTaxPrivilege"></label>
                 </td>
                 <td colspan="2" align="right">
-                    <b> DECL.TYPE : </b><label id="lblDeclareType"></label>
+                    <b> DECL.TYPE : </b><br /><label id="lblDeclareType"></label>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <b> SHIPPING NOTE : </b><label id="lblShippingCmd"></label>
+                    <b> SHIPPING NOTE : </b><br /><label id="lblShippingCmd"></label>
                 </td>
                 <td colspan="2" align="right">
                     <b> SHIPPING : </b><label id="lblShippingName"></label>
@@ -131,10 +131,10 @@ End Code
             </tr>
             <tr>
                 <td colspan="2">
-                    <b>VESSEL : </b><label id="lblVesselName"></label>
+                    <b>VESSEL/FLIGHT : </b><br /><label id="lblVesselName"></label>
                 </td>
                 <td colspan="2" align="right">
-                    <b>AGENT : </b><label id="lblAgentName"></label>
+                    <b>AGENT : </b><br /><label id="lblAgentName"></label>
                 </td>
             </tr>
             <tr>
@@ -142,7 +142,7 @@ End Code
                     <b>LOADING / CTN : </b><label id="lblTotalContainer"></label>
                 </td>
                 <td colspan="2" align="right">
-                    <b>TRANSPORTER : </b><label id="lblTransportName"></label>
+                    <b>TRANSPORTER : </b><br /><label id="lblTransportName"></label>
                 </td>
             </tr>
             <tr>
@@ -175,7 +175,7 @@ End Code
                     <br />
                     -------------------------------------
                     <br />
-                    <b>(<label id="lblCSName"></label>)</b>
+                    <b><label id="lblCSName"></label></b>
                     <br />
                     <label id="lblPosition"></label>
                 </td>
@@ -339,9 +339,9 @@ End Code
                     if (r.company.data.length > 0) {
                         var c = r.company.data[0];
                         if (isCons == true) {
-                            $('#lblBillToCustName').text(c.NameThai + ' Tax Reference :' + c.TaxNumber);
+                            $('#lblBillToCustName').text(c.NameEng + ' Tax Reference :' + c.TaxNumber);
                             $('#dvBillAddr').html('<b>Address : </b>'
-                                + (c.TAddress1 + ' ' + c.TAddress2).trim());
+                                + (c.EAddress1 + ' ' + c.EAddress2).trim());
                         }
                         if (isCons == false) {
                             $('#lblCustName').text(c.NameThai);
@@ -404,14 +404,13 @@ End Code
         $('#lblBillToCustCode').text(j.Consigneecode);
         ShowCustomer(j.Consigneecode, j.CustBranch, true);
 
+        ShowCountry(path, j.InvFCountry, '#lblFromCountry');
+        ShowCountry(path, j.InvCountry, '#lblToCountry');
         if (j.JobType == '1') {
-            ShowCountry(path,j.InvFCountry, '#lblFromCountry');
-            ShowCountry(path,j.InvCountry, '#lblToCountry');
+
             ShowInterPort(path,j.InvFCountry, j.InvInterPort, '#lblFromPort');
             ShowReleasePort(path,j.ClearPort, '#lblToPort');
         } else {
-            ShowCountry(path,j.InvFCountry, '#lblToCountry');
-            ShowCountry(path,j.InvCountry, '#lblFromCountry');
             ShowInterPort(path,j.InvCountry, j.InvInterPort, '#lblToPort');
             ShowReleasePort(path,j.ClearPort, '#lblFromPort');
         }

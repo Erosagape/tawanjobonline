@@ -313,6 +313,10 @@ End Code
     let code = getQueryString("code");
     let custcode = getQueryString("custcode");
     let custbranch = getQueryString("custbranch");
+    let billtocustcode = '';
+    let billtocustbranch = '';
+    let creditlimit = 0;
+
     if (branch !== '' && code !== '') {
         $('#txtBranchCode').val(branch);
         ShowBranch(path, branch, '#txtBranchName');
@@ -329,7 +333,8 @@ End Code
 
             $('#txtCustCode').val(custcode);
             $('#txtCustBranch').val(custbranch);
-            ShowCustomer(path, custcode, custbranch, '#txtCustName');
+            //ShowCustomer(path, custcode, custbranch, '#txtCustName');
+            CallBackQueryCustomer(path, custcode, custbranch, ReadCustomer);
         } else {
             $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
             $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
@@ -360,7 +365,8 @@ End Code
         $('#txtCustBranch').keydown(function (event) {
             if (event.which == 13) {
                 $('#txtCustName').val('');
-                ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
+                //ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
+                CallBackQueryCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), ReadCustomer);
             }
         });
 
@@ -851,8 +857,8 @@ End Code
             DocDate: CDateEN($('#txtDocDate').val()),
             CustCode:$('#txtCustCode').val(),
             CustBranch:$('#txtCustBranch').val(),
-            BillToCustCode:null,
-            BillToCustBranch: null,
+            BillToCustCode:billtocustcode,
+            BillToCustBranch:BillToBranch,
             ContactName:'',
             EmpCode:user,
             PrintedBy:'',
@@ -892,7 +898,7 @@ End Code
             CancelProve:'',
             CancelDate:null,
             CancelTime:null,
-            ShippingRemark:''
+            ShippingRemark: GetDueDate($('#txtDocDate').val())
         };
         let jsonString = JSON.stringify({ data: dataInv });
         $.ajax({
@@ -976,9 +982,9 @@ End Code
     }
     function DeleteDetail(docno) {
         $.get(path + 'Acc/DelInvDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + docno, function (r) {
-            if (r.invdetail.data !== null) {
+            //if (r.invdetail.data !== null) {
                 SaveDetail(docno);
-            }
+            //}
         });
     }
     function SaveDetail(docno) {
@@ -1036,7 +1042,8 @@ End Code
         $('#txtCustBranch').val(dt.CustBranch);
         $('#cboJobType').val(CCode(dt.JobType));
         $('#cboShipBy').val(CCode(dt.ShipBy));
-        ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
+        //ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
+        CallBackQueryCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), ReadCustomer);
     }
     function ReadCheque(dt) {
         if (dt.AmountRemain > 0) {
@@ -1066,7 +1073,22 @@ End Code
         $('#txtCustBranch').val(dt.Branch);
         //ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
         $('#txtCustName').val(dt.NameThai);
+        billtocustcode = dt.BillToCustCode;
+        billtocustbranch = dt.BillToBranch;
+        creditlimit = dt.CreditLimit;
         $('#txtCustCode').focus();
+    }
+    function GetDueDate(d) {
+        let addDays = CNum(creditlimit);
+        if (addDays > 0) {
+            let dinput = new Date(d);
+            let day = dinput.getDay() + addDays;
+            let month = dinput.getMonth;
+            let year = dinput.getFullYear;
+            let doutput = new Date(year, month, day);
+            return 'DUE DATE:' + CDateEN(doutput);
+        }
+        return '';
     }
     function GetDataDetail(o, no) {
         let data = [];

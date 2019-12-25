@@ -157,7 +157,8 @@ End Code
 
         $('#txtCustCode').val(custcode);
         $('#txtCustBranch').val(custbranch);
-        ShowCustomer(path, custcode, custbranch, '#txtCustName');
+        //ShowCustomer(path, custcode, custbranch, '#txtCustName');
+        CallBackQueryCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), ReadCustomer);
     } else {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
@@ -174,7 +175,8 @@ End Code
         $('#txtCustBranch').keydown(function (event) {
             if (event.which == 13) {
                 $('#txtCustName').val('');
-                ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
+                //ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
+                CallBackQueryCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), ReadCustomer);
             }
         });
 
@@ -415,9 +417,9 @@ End Code
         //ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
         $('#txtBillToCustName').val(dt.NameThai);
         $('#txtCustName').val(dt.NameThai);
-        $('#txtBillToCustCode').val(dt.CustCode);
-        $('#txtBillToCustBranch').val(dt.Branch);
-
+        $('#txtBillToCustCode').val(dt.BillToCustCode);
+        $('#txtBillToCustBranch').val(dt.BillToBranch);
+        ShowCustomer(path, $('#txtBillToCustCode').val(), $('#txtBillToCustBranch').val(), '#txtBillToCustName');
         $('#txtCustCode').focus();
     }
     function ReadBilling(dt) {

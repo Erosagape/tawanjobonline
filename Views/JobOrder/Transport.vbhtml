@@ -971,7 +971,7 @@ End Code
                 window.open(path + 'JobOrder/FormTransport?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'DO':
-                window.open(path + 'JobOrder/FormLetter?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                window.open(path + 'JobOrder/FormLetter?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
                 break;
         }
     }
