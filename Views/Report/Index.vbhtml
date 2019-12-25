@@ -164,7 +164,7 @@
     let browseWhat = '';
     let cliterias = [];
     let data = {};
-    let path = '@Url.Content("~")';
+    var path = '@Url.Content("~")';
     ChangeLanguageForm('@ViewBag.Module');
     SetEvents();
     $('#tbReportList tbody').on('click', 'tr', function () {
@@ -232,24 +232,24 @@
     function SearchData() {        
         switch (browseWhat) {
             case 'branch':
-                SetGridBranch('/', '#tblBranch', '#frmSearchBranch', ReadBranch);
+                SetGridBranch(path, '#tblBranch', '#frmSearchBranch', ReadBranch);
                 break;
             case 'cust':             
-                SetGridCompany('/', '#tblCust', '#frmSearchCust',ReadData);
+                SetGridCompany(path, '#tblCust', '#frmSearchCust',ReadData);
                 break;
             case 'job':
-                SetGridJob('/', '#tblJob', '#frmSearchJob', '', ReadData);
+                SetGridJob(path, '#tblJob', '#frmSearchJob', '', ReadData);
                 break;
             case 'vend':
-                SetGridVender('/', '#tblVend', '#frmSearchVend', ReadData);
+                SetGridVender(path, '#tblVend', '#frmSearchVend', ReadData);
                 break;
             case 'emp':
-                SetGridUser('/', '#tblEmp', '#frmSearchEmp', ReadData);
+                SetGridUser(path, '#tblEmp', '#frmSearchEmp', ReadData);
                 break;
             case 'status':
                 let type = GetReportStatus(reportID);
                 if (type !== '') {
-                    SetGridConfigVal('/', '#tblStatus', type, '#frmSearchStatus', ReadData);
+                    SetGridConfigVal(path, '#tblStatus', type, '#frmSearchStatus', ReadData);
                 }
                 break;
         }

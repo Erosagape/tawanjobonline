@@ -25,7 +25,9 @@ End Code
         <script src="~/Scripts/Func/lang.js"></script>
         <script src="~/Scripts/bootstrap.min.js"></script>
     </head>
-    <h3>Tracking Your Shipment</h3>
+    <div style="width:100%;background-color:indigo;color:white;padding:10px 10px 10px 10px">
+        <h3>Tracking Your Shipment</h3>
+    </div>    
     <div class="row">
         <div class="col-sm-4">
             Branch
@@ -96,6 +98,11 @@ End Code
         },dbIndex);
     });
     function SetLOVs() {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+            let dv = document.getElementById("dvLOVs");
+            //Branch
+            CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response,4);
+        });
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Branch

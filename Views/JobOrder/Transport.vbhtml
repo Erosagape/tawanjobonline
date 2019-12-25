@@ -545,10 +545,11 @@ End Code
 <div id="dvLOVs"></div>
 <script type="text/javascript">
     //define letiables
-    const path = '@Url.Content("~")';
+    var path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     const userGroup ='@ViewBag.UserGroup';
     const userRights = '@ViewBag.UserRights';
+    let cust = '';
     let row = {};
     let isjobmode = false;
     if (userGroup == 'V') {
@@ -559,6 +560,16 @@ End Code
                 let dr = r.vender.data[0];
                 $('#txtVenderCode').val(dr.VenCode);
                 $('#txtVenderName').val(dr.TName);
+            }
+        });
+    }
+    if (userGroup == 'C') {
+        $('#btnBrowseCust').attr('disabled', 'disabled');
+        $('#txtVenderCode').attr('disabled', 'disabled');
+        $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
+            if (r.company.data.length > 0) {
+                let dr = r.company.data[0];
+                cust = dr.CustCode;
             }
         });
     }
@@ -631,6 +642,7 @@ End Code
         });
     }
     function SearchData(type) {
+                let w = '';
         switch (type) {
             case 'vender':
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
@@ -642,8 +654,12 @@ End Code
                 SetGridBranch(path, '#tbBranch','#frmSearchBranch', ReadBranch);
                 break;
             case 'job':
+                w = '';
                 if (userGroup == 'V') {
                     w += '&Agent=' + $('#txtVenderCode').val();
+                }
+                if (userGroup == 'C') {
+                    w += '&CustCode=' + cust;
                 }
                 SetGridJob(path, '#tbJob', '#frmSearchJob', '?branch=' + $('#txtBranchCode').val(), ReadJobFull);
                 break;
@@ -654,9 +670,12 @@ End Code
                 SetGridServUnitFilter(path, '#tbUnitC', '?Type=2', '#frmSearchUnitC', ReadCarUnit);
                 break;
             case 'booking':
-                let w = '?Branch=' + $('#txtBranchCode').val();
+                w = '?Branch=' + $('#txtBranchCode').val();
                 if (userGroup == 'V') {
                     w += '&Vend=' + $('#txtVenderCode').val();
+                }
+                if (userGroup == 'C') {
+                    w += '&Cust=' + cust;
                 }
                 SetGridTransport(path, '#tbBook', '#frmSearchBook', w, ReadBooking);
                 break;

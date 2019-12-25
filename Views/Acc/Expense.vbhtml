@@ -926,17 +926,18 @@ End Code
         return c[0];
     }
     function SetGridAdv() {
-        let w = $('#txtBranchCode').val();
-        if ($('#txtVenCode').val()!=='') {
-            w += '&vencode=' + $('#txtVenCode').val();
-        }
+        let w = '&branch=' + $('#txtBranchCode').val();
         if ($('#txtEmpCode').val() !== '') {
             w += '&empcode=' + $('#txtEmpCode').val();
         }
         if (userGroup == 'V') {
             w += '&VenCode=' + $('#txtVenCode').val();
+        } else {
+            if ($('#txtVenCode').val() !== '') {
+                w += '&vencode=' + $('#txtVenCode').val();
+            }
         }
-        $.get(path + 'acc/getpayment?status=Y&branch=' +  w, function (r) {
+        $.get(path + 'acc/getpayment?status=Y' +  w, function (r) {
             if (r.payment.header.length == 0) {
                 ShowMessage('data not found on this branch',true);
                 return;

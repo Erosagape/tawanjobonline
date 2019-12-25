@@ -449,10 +449,10 @@ function FormatValue(c, val) {
         }
     }
 }
-function LoadReport(reportID, obj,lang) {
+function LoadReport(path,reportID, obj,lang) {
     let str = JSON.stringify(obj);
     $.ajax({
-        url:'/Report/GetReport',
+        url: path+ 'Report/GetReport',
         type: "POST",
         contentType: "application/json",
         data: str,
@@ -488,12 +488,13 @@ function LoadReport(reportID, obj,lang) {
                 for (let r of tb) {
                     html += '<tr>';
                     if (groupField !== '') {
-                        if (FormatValue(groupField,r[groupField]) !== groupVal) {
+                        if (FormatValue(groupField, r[groupField]) !== groupVal) {
+                            //Show Summary
                             if (groupCount > 0) {
-                                html += '<td style="border:1px solid black;text-align:left;">'+groupVal+'</td>';
+                                html += '<td style="border:1px solid black;text-align:left;"><u>'+groupVal+'</u></td>';
                                 for (let i = 1; i < colCount; i++) {
                                     if (sumGroup[i].isSummary == true) {
-                                        html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(sumGroup[i].value, 2) + '</td>';
+                                        html += '<td style="border:1px solid black;text-align:right;"><u>' + ShowNumber(sumGroup[i].value, 2) + '</u></td>';
                                     } else {
                                         html += '<td style="border:1px solid black;text-align:right;"></td>';
                                     }
@@ -534,22 +535,24 @@ function LoadReport(reportID, obj,lang) {
                     }
                     html += '</tr>';
                 }
+                //Last Total
                 if (groupCount > 0) {
-                    html += '<td style="border:1px solid black;text-align:left;">'+groupVal+'</td>';
+                    html += '<td style="border:1px solid black;text-align:left;"><u>'+groupVal+'</u></td>';
                     for (let i = 1; i < colCount; i++) {
                         if (sumGroup[i].isSummary == true) {
-                            html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(sumGroup[i].value, 2) + '</td>';
+                            html += '<td style="border:1px solid black;text-align:right;"><u>' + ShowNumber(sumGroup[i].value, 2) + '</u></td>';
                         } else {
                             html += '<td style="border:1px solid black;text-align:right;"></td>';
                         }
                     }
                     html += '</tr>';
                     groupCount = 0;
-                } 
+                }
+                //Grand Total
                 html += '<tr><td style="border:1px solid black;text-align:left;"><b>TOTAL<b/></td>';
                 for (let i = 1; i < colCount; i++) {
                     if (sumGroup[i].isSummary == true) {
-                        html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(sumTotal[i], 2) + '</td>';
+                        html += '<td style="border:1px solid black;text-align:right;"><b>' + ShowNumber(sumTotal[i], 2) + '</b></td>';
                     } else {
                         html += '<td style="border:1px solid black;text-align:right;"></td>';
                     }

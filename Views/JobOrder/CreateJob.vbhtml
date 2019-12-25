@@ -186,7 +186,7 @@ End Code
             $('#btnBrowseCons').attr('disabled', 'disabled');
             
             $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
-                if (r.company.data.lenght > 0) {
+                if (r.company.data.length > 0) {
                     let dr = r.company.data[0];
                     $('#txtCustCode').val(dr.CustCode);
                     $('#txtCustBranch').val(dr.Branch);

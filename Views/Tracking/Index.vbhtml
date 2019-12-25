@@ -1,6 +1,6 @@
 ﻿
 @Code
-    ViewBag.Title = "Transport Tracking"
+    ViewBag.Title = "Shipment Tracking"
 End Code
 <div class="row">
     <div class="col-sm-4">
@@ -55,22 +55,25 @@ End Code
 <div id="dvLOVs"></div>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
-    let path = '@Url.Content("~")';
+    var path = '@Url.Content("~")';
     let userGroup = '@ViewBag.UserGroup';
     let user = '@ViewBag.User';
     if (userGroup == 'C') {
-        $('#btnBrowseCust').attr('disabled', 'disabled');
-        $('#txtCustCode').attr('disabled', 'disabled');
-        $('#txtCustBranch').attr('disabled', 'disabled');
+
 
         $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
-            if (r.company.data.lenght > 0) {
+            if (r.company.data.length > 0) {
                 let dr = r.company.data[0];
                 $('#txtCustCode').val(dr.CustCode);
                 $('#txtCustBranch').val(dr.Branch);
                 $('#txtCustName').val(dr.NameThai);
+                $('#btnBrowseCust').attr('disabled', 'disabled');
+                $('#txtCustCode').attr('disabled', 'disabled');
+                $('#txtCustBranch').attr('disabled', 'disabled');
+
                 google.charts.load("current", { packages: ["corechart"] });
                 SetLOVs();
+                RefreshGrid();
                 window.onresize = () => {
                     drawChart();
                 }

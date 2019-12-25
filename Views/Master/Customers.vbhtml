@@ -140,7 +140,7 @@ End Code
                                   <div style="display:flex">
                                       <input type="text" id="txtTPostCode" style="width:20%" class="form-control" tabIndex="30">
                                       <input type="button" class="btn btn-primary" value="Set Full Address" onclick="SetAddress()" /> &nbsp;
-                                      <input type="button" value="Company Contact" class="btn btn-primary" onclick="AddContact()" />
+                                      <input type="button" value="Company Contact" class="btn btn-warning" onclick="AddContact()" />
                                   </div>
                         
                     </div>
@@ -356,7 +356,7 @@ End Code
             mode = 'CUSTOMERS';
             if (userGroup == 'C') {                 
                 $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
-                    if (r.company.data.lenght > 0) {
+                    if (r.company.data.length > 0) {
                         let dr = r.company.data[0];
                         $('#txtCustCode').attr('disabled','disabled');
                         $('#txtBranch').attr('disabled','disabled');

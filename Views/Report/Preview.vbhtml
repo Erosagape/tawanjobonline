@@ -44,7 +44,7 @@ End Code
                 ReportCode: row.REPORTCODE,
                 ReportCliteria: $('#rptCliteria').text()
             }
-            LoadReport(row.REPORTCODE,data,lang);
+            LoadReport(path,row.REPORTCODE,data,lang);
         }
 
     }
