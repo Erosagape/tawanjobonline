@@ -148,7 +148,7 @@ Public Class CVoucherDoc
                             dr("acType") = Main.GetDBString(Me.acType, dt.Columns("acType"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
-                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVoucherDoc", "SaveData", Me)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CVoucherDoc", "SaveData", Me, False)
                             If Me.DocType = "PAY" Then
                                 msg = New CUtil(jobWebConn).ExecuteSQL(" UPDATE a SET a.PaymentRef=b.ControlNo,a.PaymentDate=b.VoucherDate,a.PaymentBy=b.RecUser,a.PaymentTime=b.RecTime FROM Job_PaymentHeader a ,Job_CashControl b  WHERE a.BranchCode=b.BranchCode AND a.BranchCode='" & Me.BranchCode & "' AND a.DocNo='" & Me.DocNo & "' AND b.ControlNo='" & Me.ControlNo & "' ")
                             End If
@@ -157,7 +157,7 @@ Public Class CVoucherDoc
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVoucherDoc", "SaveData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CVoucherDoc", "SaveData", ex.Message, True, ex.StackTrace, "")
                 msg = "[ERROR]" & ex.Message
             End Try
         End Using
@@ -215,7 +215,7 @@ Public Class CVoucherDoc
                     lst.Add(row)
                 End While
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVoucherDoc", "GetData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CVoucherDoc", "GetData", ex.Message, True, ex.StackTrace, "")
             End Try
         End Using
         Return lst
@@ -236,14 +236,14 @@ Public Class CVoucherDoc
                         cm.CommandTimeout = 0
                         cm.CommandType = CommandType.Text
                         cm.ExecuteNonQuery()
-                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVoucherDoc", "DeleteData", cm.CommandText)
+                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CVoucherDoc", "DeleteData", cm.CommandText, False)
                     End Using
 
                     msg = "Delete Complete"
                 End If
 
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CVoucherDoc", "DeleteData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CVoucherDoc", "DeleteData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using

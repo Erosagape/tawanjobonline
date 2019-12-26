@@ -696,7 +696,7 @@ End Code
         //$('#txtDocNo').val('');
         $('#txtDocDate').val( CDateEN(GetToday()));
         $('#txtVenCode').val(vend);
-        if (vend == '') {
+        if (userGroup !== 'V') {
             $('#txtVenName').val('');
             $('#txtEmpCode').val(user);
             ShowUser(path, user, '#txtEmpName');

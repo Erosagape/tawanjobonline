@@ -188,13 +188,13 @@ Public Class CCNDNHeader
 
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
-                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNHeader", "SaveData", Me)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CCNDNHeader", "SaveData", Me, False)
                             msg = "Save Complete"
                         End Using
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNHeader", "SaveData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CCNDNHeader", "SaveData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -268,7 +268,7 @@ Public Class CCNDNHeader
                     lst.Add(row)
                 End While
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNHeader", "GetData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CCNDNHeader", "GetData", ex.Message, True, ex.StackTrace, "")
             End Try
         End Using
         Return lst
@@ -283,12 +283,12 @@ Public Class CCNDNHeader
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNHeader", "DeleteData", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CCNDNHeader", "DeleteData", cm.CommandText, False)
                 End Using
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNHeader", "DeleteData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CCNDNHeader", "DeleteData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -533,13 +533,13 @@ Public Class CCNDNDetail
                             dr("ForeignNet") = Me.ForeignNet
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
-                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNDetail", "SaveData", Me)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CCNDNDetail", "SaveData", Me, False)
                             msg = "Save Complete"
                         End Using
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNDetail", "SaveData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CCNDNDetail", "SaveData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -625,7 +625,7 @@ Public Class CCNDNDetail
                     lst.Add(row)
                 End While
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNDetail", "GetData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CCNDNDetail", "GetData", ex.Message, True, ex.StackTrace, "")
             End Try
         End Using
         Return lst
@@ -640,12 +640,12 @@ Public Class CCNDNDetail
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNDetail", "DeleteData", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CCNDNDetail", "DeleteData", cm.CommandText, False)
                 End Using
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CCNDNDetail", "DeleteData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CCNDNDetail", "DeleteData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using

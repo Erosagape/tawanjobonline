@@ -258,7 +258,7 @@ Public Class CBillHeader
 
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
-                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillHeader", "SaveData", Me)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CBillHeader", "SaveData", Me, False)
                             If Me.CancelProve <> "" Then
                                 Dim o As New CBillDetail(jobWebConn)
                                 o.BranchCode = Me.BranchCode
@@ -272,7 +272,7 @@ Public Class CBillHeader
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillHeader", "SaveData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillHeader", "SaveData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -367,7 +367,7 @@ Public Class CBillHeader
                     lst.Add(row)
                 End While
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillHeader", "GetData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillHeader", "GetData", ex.Message, True, ex.StackTrace, "")
             End Try
         End Using
         Return lst
@@ -383,12 +383,12 @@ Public Class CBillHeader
                     If Me.BillAcceptNo <> "" Then
                         cm.CommandText = SQLUpdateBillToInv(Me.BranchCode, Me.BillAcceptNo, False)
                         cm.ExecuteNonQuery()
-                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillHeader", "UpdateBillToInv", cm.CommandText)
+                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillHeader", "UpdateBillToInv", cm.CommandText, True)
                     End If
                 End Using
                 msg = "Update Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillHeader", "UpdateBillToInv", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillHeader", "UpdateBillToInv", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -403,17 +403,17 @@ Public Class CBillHeader
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillHeader", "DeleteData", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillHeader", "DeleteData", cm.CommandText, False)
                     If Me.BillAcceptNo <> "" Then
                         cm.CommandText = SQLUpdateBillToInv(Me.BranchCode, Me.BillAcceptNo, True)
                         cm.ExecuteNonQuery()
-                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillHeader", "UpdateBillToInv", cm.CommandText)
+                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillHeader", "UpdateBillToInv", cm.CommandText, True)
                     End If
                 End Using
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillHeader", "DeleteData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillHeader", "DeleteData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using

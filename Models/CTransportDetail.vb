@@ -368,13 +368,13 @@ Public Class CTransportDetail
                             dr("LocationID") = Main.GetDBString(Me.LocationID, dt.Columns("LocationID"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
-                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportDetail", "SaveData", Me)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CTransportDetail", "SaveData", Me, False)
                             msg = "Save Complete"
                         End Using
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportDetail", "SaveData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CTransportDetail", "SaveData", ex.Message, True, ex.StackTrace, "")
                 msg = "[ERROR]:" & ex.Message
             End Try
         End Using
@@ -498,7 +498,7 @@ Public Class CTransportDetail
                     lst.Add(row)
                 End While
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportDetail", "GetData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CTransportDetail", "GetData", ex.Message, True, ex.StackTrace, "")
             End Try
         End Using
         Return lst
@@ -513,12 +513,12 @@ Public Class CTransportDetail
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportDetail", "DeleteData", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CTransportDetail", "DeleteData", cm.CommandText, False)
                 End Using
                 cn.Close()
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CTransportDetail", "DeleteData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CTransportDetail", "DeleteData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using

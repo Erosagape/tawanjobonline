@@ -507,7 +507,7 @@ Public Class CInvHeader
 
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
-                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "SaveData", Me)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CInvHeader", "SaveData", Me, False)
                             If Me.CancelProve <> "" Then
                                 CancelData(cn)
                             End If
@@ -517,7 +517,7 @@ Public Class CInvHeader
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "SaveData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvHeader", "SaveData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -684,7 +684,7 @@ Public Class CInvHeader
                     lst.Add(row)
                 End While
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "GetData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvHeader", "GetData", ex.Message, True, ex.StackTrace, "")
             End Try
         End Using
         Return lst
@@ -702,13 +702,13 @@ Public Class CInvHeader
                     cm.CommandText = Sql
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "UpdateClrDetail", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvHeader", "UpdateClrDetail", cm.CommandText, True)
                 End If
             End Using
 
             msg = "Cancel Complete"
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "CancelData", ex.StackTrace, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvHeader", "CancelData", ex.Message, True, ex.StackTrace, "")
             msg = ex.Message
         End Try
         Return msg
@@ -723,7 +723,7 @@ Public Class CInvHeader
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "DeleteData", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvHeader", "DeleteData", cm.CommandText, False)
                 End Using
                 If Me.DocNo <> "" Then
                     msg = CancelData(cn)
@@ -731,7 +731,7 @@ Public Class CInvHeader
                     msg = "Delete Complete"
                 End If
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvHeader", "DeleteData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvHeader", "DeleteData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using

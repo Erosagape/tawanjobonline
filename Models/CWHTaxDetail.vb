@@ -150,13 +150,13 @@ Public Class CWHTaxDetail
                             If da.Update(dt) > 0 Then
                                 UpdateTotal(cn)
                             End If
-                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxDetail", "SaveData", Me)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CWHTaxDetail", "SaveData", Me, False)
                             msg = "Save Complete"
                         End Using
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxDetail", "SaveData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CWHTaxDetail", "SaveData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -214,7 +214,7 @@ Public Class CWHTaxDetail
                     lst.Add(row)
                 End While
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxDetail", "GetData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CWHTaxDetail", "GetData", ex.Message, True, ex.StackTrace, "")
             End Try
         End Using
         Return lst
@@ -229,12 +229,12 @@ Public Class CWHTaxDetail
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxDetail", "DeleteData", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CWHTaxDetail", "DeleteData", cm.CommandText, False)
                 End Using
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxDetail", "DeleteData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CWHTaxDetail", "DeleteData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -247,7 +247,7 @@ Public Class CWHTaxDetail
             cm.CommandText = sql + " and h.BranchCode='" + Me.BranchCode + "' and h.DocNo='" + Me.DocNo + "'"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CWHTaxDetail", "UpdateTotal", cm.CommandText)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CWHTaxDetail", "UpdateTotal", cm.CommandText, True)
         End Using
     End Sub
 End Class

@@ -1055,7 +1055,7 @@ Public Class CJobOrder
                             dr("DeliveryAddr") = Main.GetDBString(Me.DeliveryAddr, dt.Columns("DeliveryAddr"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
-                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrder", "SaveData", Me)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CJobOrder", "SaveData", Me, False)
                             msg = "Save " & Me.JNo & " Complete"
                         End Using
                     End Using
@@ -1063,7 +1063,7 @@ Public Class CJobOrder
                 End Using
             End Using
         Catch e As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrder", "SaveData", e.Message, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CJobOrder", "SaveData", e.Message, True)
             msg = "[error]" & e.Message
         End Try
         Return msg
@@ -1377,7 +1377,7 @@ Public Class CJobOrder
                     lst.Add(row)
                 End While
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CJobOrder", "GetData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CJobOrder", "GetData", ex.Message, True, ex.StackTrace, "")
             End Try
         End Using
         Return lst

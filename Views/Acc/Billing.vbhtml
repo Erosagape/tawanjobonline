@@ -36,7 +36,7 @@ End Code
                 </a>
             </div>
         </div>
-        <input type="checkbox" id="chkCancel" />Show Cancel Only
+
         <ul class="nav nav-tabs">
             <li class="active">
                 <a data-toggle="tab" href="#tabHeader">Headers</a>
@@ -47,6 +47,7 @@ End Code
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="tabHeader">
+                <input type="checkbox" id="chkCancel" />Show Cancel Only
                 <table id="tbHeader" class="table table-responsive">
                     <thead>
                         <tr>

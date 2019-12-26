@@ -273,13 +273,13 @@ Public Class CAdvDetail
                             If da.Update(dt) > 0 Then
                                 UpdateTotal(cn)
                             End If
-                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvDetail", "SaveData", Me)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvDetail", "SaveData", Me, False)
                             msg = String.Format("Save '{0}' Item {1} Complete", Me.AdvNo, Me.ItemNo)
                         End Using
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvDetail", "SaveData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvDetail", "SaveData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -292,7 +292,7 @@ Public Class CAdvDetail
             cm.CommandText = sql & " WHERE b.BranchCode='" + Me.BranchCode + "' and b.AdvNo='" + Me.AdvNo + "'"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvDetail", "UpdateTotal", cm.CommandText)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvDetail", "UpdateTotal", cm.CommandText, True)
             If ("" & Me.PayChqTo).ToString().IndexOf("#") > 0 Then
                 If IsDelete Then
                     cm.CommandText = String.Format("UPDATE Job_PaymentDetail SET AdvItemNo=0 WHERE BranchCode='{1}' AND DocNo='{2}' AND ItemNo={3}", Me.ItemNo, Me.BranchCode, Me.PayChqTo.Split("#".ToCharArray())(0), Me.PayChqTo.Split("#".ToCharArray())(1))
@@ -300,7 +300,7 @@ Public Class CAdvDetail
                     cm.CommandText = String.Format("UPDATE Job_PaymentDetail SET AdvItemNo={0} WHERE BranchCode='{1}' AND DocNo='{2}' AND ItemNo={3}", Me.ItemNo, Me.BranchCode, Me.PayChqTo.Split("#".ToCharArray())(0), Me.PayChqTo.Split("#".ToCharArray())(1))
                 End If
                 cm.ExecuteNonQuery()
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvDetail", "UpdatePayInAdvance", cm.CommandText)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvDetail", "UpdatePayInAdvance", cm.CommandText, True)
             End If
         End Using
     End Sub
@@ -388,7 +388,7 @@ Public Class CAdvDetail
                     lst.Add(row)
                 End While
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvDetail", "GetData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvDetail", "GetData", ex.Message, True, ex.StackTrace, "")
             End Try
         End Using
         Return lst
@@ -403,14 +403,14 @@ Public Class CAdvDetail
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
 
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvDetail", "DeleteData", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvDetail", "DeleteData", cm.CommandText, False)
 
                 End Using
                 UpdateTotal(cn, True)
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvDetail", "DeleteData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvDetail", "DeleteData", ex.Message, True, ex.StackTrace, "")
                 msg = "[exception] " + ex.Message
             End Try
         End Using

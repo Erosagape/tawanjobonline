@@ -14,6 +14,7 @@ Module Main
     Friend Const costPrefix As String = "CST-"
     Friend Const expPrefix As String = "ACC-"
     Friend Const servPrefix As String = "SRV-"
+    Friend Const appName As String = "JOBSHIPPING"
     Friend jobWebConn As String = ""
     Friend jobMasConn As String = ""
     Friend Function GetDBString(pValue As String, dc As DataColumn)
@@ -74,7 +75,7 @@ Module Main
                 End Using
             End Using
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "GetValueSQL", ex.Message, ex.StackTrace & "=>" & sql & " (" & conn & ")")
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetValueSQL", ex.Message, ex.StackTrace & "=>" & sql & " (" & conn & ")", True)
             ret.IsError = True
             ret.Result = ex.Message
         End Try
@@ -93,7 +94,7 @@ Module Main
                 Return sDef
             End If
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "GetValueConfig", ex.Message, ex.StackTrace, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetValueConfig", ex.Message, ex.StackTrace, True)
             Return sDef
         End Try
     End Function
@@ -133,7 +134,7 @@ Module Main
 
             End Using
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "GetMaxByMask", ex.Message, ex.StackTrace, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetMaxByMask", ex.Message, ex.StackTrace, True)
         End Try
         If retStr = "" Then
             Dim j As Integer = sFormat.Count(Function(c As Char) c = "_")
@@ -179,7 +180,7 @@ Module Main
             Next
             Return msg & iRow & " Processed"
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "SetAuthorizeFromRole", ex.Message, ex.StackTrace, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetAuthorizeFromRole", ex.Message, ex.StackTrace, True)
             Return "[ERROR] SetAuthorizeByRole:" + ex.Message
         End Try
     End Function
@@ -209,7 +210,7 @@ Module Main
             Next
             Return msg & iRow & " Processed"
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "SetAuthorizeByRole", ex.Message, ex.StackTrace, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetAuthorizeByRole", ex.Message, ex.StackTrace, True)
             Return "[ERROR] SetAuthorizeByRole:" + ex.Message
         End Try
     End Function
@@ -222,12 +223,12 @@ Module Main
                     cm.CommandType = CommandType.Text
                     cm.CommandText = SQL
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "DBExecute", conn, SQL)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DBExecute", conn, SQL, False)
                 End Using
             End Using
             Return "OK"
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "DBExecute", ex.Message, ex.StackTrace, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DBExecute", ex.Message, ex.StackTrace, True)
             Return "[ERROR]" & ex.Message
         End Try
     End Function
@@ -1399,16 +1400,21 @@ dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
         If Customer <> "" Then formatStr = formatStr.Replace("[C]", Customer.Substring(0, 3))
         Return formatStr
     End Function
-    Function SaveLog(cust As String, app As String, modl As String, action As String, msg As String, Optional isError As Boolean = False) As String
+    Function SaveLog(cust As String, app As String, modl As String, action As String, msg As String, isError As Boolean, Optional StackTrace As String = "", Optional JsonData As String = "") As String
         Try
             Dim clientIP = HttpContext.Current.Request.UserHostAddress
+            Dim userLogin = HttpContext.Current.Session("CurrUser").ToString()
+            Dim sessionID = HttpContext.Current.Session.SessionID
             Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
             Dim oLog As New CLog(cnMas)
-            oLog.AppID = app
-            oLog.CustID = cust & "(" & clientIP & ")"
+            oLog.AppID = app & "(" & sessionID & ")"
+            oLog.CustID = cust & "/" & userLogin
+            oLog.FromIP = clientIP
             oLog.ModuleName = modl
             oLog.LogAction = action
             oLog.Message = msg
+            oLog.StackTrace = StackTrace
+            oLog.JsonData = JsonData
             oLog.IsError = isError
             Return oLog.SaveData(" WHERE LogID=0 ")
         Catch ex As Exception
@@ -1416,20 +1422,25 @@ dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
             Return str
         End Try
     End Function
-    Function SaveLogFromObject(cust As String, app As String, modl As String, action As String, obj As Object, Optional IsError As Boolean = False) As String
+    Function SaveLogFromObject(cust As String, app As String, modl As String, action As String, obj As Object, IsError As Boolean, Optional StackTrace As String = "") As String
         Dim clientIP = HttpContext.Current.Request.UserHostAddress
+        Dim userLogin = HttpContext.Current.Session("CurrUser").ToString()
+        Dim sessionID = HttpContext.Current.Session.SessionID
         Try
             Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
             Dim oLog As New CLog(cnMas)
-            oLog.AppID = app
-            oLog.CustID = cust & "(" & clientIP & ")"
+            oLog.AppID = app & "(" & sessionID & ")"
+            oLog.CustID = cust & "/" & userLogin
+            oLog.FromIP = clientIP
             oLog.ModuleName = modl
             oLog.LogAction = action
-            oLog.Message = JsonConvert.SerializeObject(obj)
+            oLog.Message = If(IsError = True, "ERROR", "SUCCESS")
+            oLog.JsonData = JsonConvert.SerializeObject(obj)
+            oLog.StackTrace = StackTrace
             oLog.IsError = IsError
             Return oLog.SaveData(" WHERE LogID=0 ")
         Catch ex As Exception
-            Main.SaveLog(cust, app, modl, "SaveLogFromObject", ex.StackTrace, True)
+            Main.SaveLog(cust, app, modl, "SaveLogFromObject", ex.Message, True, ex.StackTrace, "")
             Dim str = "[ERROR] : " & ex.Message
             Return str
         End Try

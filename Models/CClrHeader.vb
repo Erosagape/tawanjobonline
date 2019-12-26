@@ -368,13 +368,13 @@ Public Class CClrHeader
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             UpdateTotal(cn)
-                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrHeader", "SaveData", Me)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "SaveData", Me, False)
                             msg = "Save Complete"
                         End Using
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrHeader", "SaveData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "SaveData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -502,7 +502,7 @@ Public Class CClrHeader
                     lst.Add(row)
                 End While
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrHeader", "GetData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "GetData", ex.Message, True, ex.StackTrace, "")
             End Try
         End Using
         Return lst
@@ -519,7 +519,7 @@ Public Class CClrHeader
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
 
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrHeader", "DeleteData", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "DeleteData", cm.CommandText, False)
 
                     cm.CommandText = "DELETE FROM Job_ClearDetail" + pSQLWhere
                     cm.ExecuteNonQuery()
@@ -527,7 +527,7 @@ Public Class CClrHeader
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrHeader", "DeleteData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "DeleteData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -539,16 +539,16 @@ Public Class CClrHeader
             cm.CommandText = sql + " WHERE a.BranchCode='" + Me.BranchCode + "' and a.ClrNo='" + Me.ClrNo + "'"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrHeader", "UpdateClrHeader", cm.CommandText)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "UpdateClrHeader", cm.CommandText, True)
             sql = Main.SQLUpdateAdvStatus
             cm.CommandText = sql + " WHERE adv.BranchCode='" + Me.BranchCode + "' and adv.AdvNo IN(SELECT AdvNO FROM Job_ClearDetail WHERE BranchCode='" + Me.BranchCode + "' AND ClrNo='" + Me.ClrNo + "' AND AdvNo IS NOT NULL)"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrHeader", "UpdateAdvStatus", cm.CommandText)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "UpdateAdvStatus", cm.CommandText, True)
             If IsDelete Then
                 cm.CommandText = "UPDATE Job_PaymentDetail SET ClrRefNo=NULL,ClrItemNo=0 WHERE ClrRefNo='" & Me.ClrNo & "'"
                 cm.ExecuteNonQuery()
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrHeader", "ClearPaymentRelated", cm.CommandText)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "ClearPaymentRelated", cm.CommandText, True)
             End If
         End Using
     End Sub

@@ -661,7 +661,7 @@ End Code
                 if (userGroup == 'C') {
                     w += '&CustCode=' + cust;
                 }
-                SetGridJob(path, '#tbJob', '#frmSearchJob', '?branch=' + $('#txtBranchCode').val(), ReadJobFull);
+                SetGridJob(path, '#tbJob', '#frmSearchJob', '?branch=' + $('#txtBranchCode').val() + w, ReadJobFull);
                 break;
             case 'servunit':
                 SetGridServUnitFilter(path, '#tbUnitS', '?Type=0', '#frmSearchUnitS', ReadUnit);

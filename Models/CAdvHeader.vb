@@ -460,13 +460,13 @@ Public Class CAdvHeader
                             If da.Update(dt) > 0 Then
                                 UpdateTotal(cn)
                             End If
-                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvHeader", "SaveData", Me)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvHeader", "SaveData", Me, False)
                             msg = String.Format("Save '{0}' Complete", Me.AdvNo)
                         End Using
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvHeader", "SaveData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvHeader", "SaveData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -479,14 +479,14 @@ Public Class CAdvHeader
             cm.CommandText = sql & " WHERE b.BranchCode='" + Me.BranchCode + "' and b.AdvNo='" + Me.AdvNo + "'"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvHeader", "UpdateTotal", cm.CommandText)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvHeader", "UpdateTotal", cm.CommandText, True)
 
             If Me.DocStatus = 99 Then
                 cm.CommandText = String.Format("UPDATE Job_PaymentDetail SET AdvItemNo=0 WHERE BranchCode='{0}' AND DocNo IN(SELECT DocNo FROM Job_PaymentHeader WHERE AdvRef='{1}') AND AdvItemNo>0 ", Me.BranchCode, Me.AdvNo)
                 cm.ExecuteNonQuery()
                 cm.CommandText = String.Format("UPDATE Job_PaymentHeader SET AdvRef='' WHERE BranchCode='{0}' AND AdvRef='{1}' ", Me.BranchCode, Me.AdvNo)
                 cm.ExecuteNonQuery()
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvHeader", "CancelPayInAdvance", cm.CommandText)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvHeader", "CancelPayInAdvance", cm.CommandText, True)
             End If
         End Using
     End Sub
@@ -622,7 +622,7 @@ Public Class CAdvHeader
                     lst.Add(row)
                 End While
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvHeader", "GetData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvHeader", "GetData", ex.Message, True, ex.StackTrace, "")
             End Try
         End Using
         Return lst
@@ -640,7 +640,7 @@ Public Class CAdvHeader
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CAdvHeader", "DeleteData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvHeader", "DeleteData", ex.Message, True, ex.StackTrace, "")
                 msg = "[exception] " + ex.Message
             End Try
         End Using

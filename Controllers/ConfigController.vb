@@ -26,7 +26,7 @@ Namespace Controllers
         Function GetDatabase() As ActionResult
             Try
                 Dim companyName As String = ""
-                Dim oData = Main.GetDatabaseList(My.MySettings.Default.LicenseTo, "JOBSHIPPING")
+                Dim oData = Main.GetDatabaseList(My.MySettings.Default.LicenseTo, appName)
                 Using tb As DataTable = Main.GetDatabaseProfile(My.MySettings.Default.LicenseTo)
                     If tb.Rows.Count > 0 Then
                         companyName = tb.Rows(0)("CustName").ToString()
@@ -158,7 +158,7 @@ Namespace Controllers
                 json = "{""userauth"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetUserAuth", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetUserAuth", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)
             End Try
         End Function
@@ -183,7 +183,7 @@ Namespace Controllers
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetUserAuth", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetUserAuth", ex.Message, ex.StackTrace, True)
                 Dim json = "{""result"":{""data"":null,""msg"":""" & ex.Message & """}}"
                 Return Content(json, jsonContent)
             End Try
@@ -208,7 +208,7 @@ Namespace Controllers
                 Dim json = "{""userauth"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "DelUserAuth", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DelUserAuth", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)
             End Try
         End Function
@@ -236,7 +236,7 @@ Namespace Controllers
                 json = "{""config"":{""data"":[" & json & "]}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetList", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetList", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)
             End Try
         End Function
@@ -249,7 +249,7 @@ Namespace Controllers
                 Dim json = "{""config"":{""result"":""" & msg & """}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "DelConfig", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DelConfig", ex.Message, ex.StackTrace, True)
                 Dim json = "{""config"":{""result"":""" & ex.Message & """}}"
                 Return Content(json, jsonContent)
             End Try
@@ -308,7 +308,7 @@ Namespace Controllers
                 json = "{""config"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetConfig", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetConfig", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)
             End Try
         End Function
@@ -323,7 +323,7 @@ Namespace Controllers
                 json = "{""branch"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetBranch", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetBranch", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)
             End Try
         End Function
@@ -421,7 +421,7 @@ Namespace Controllers
                 If oLogin.Count > 0 Then
                     Dim oUser = oLogin(0)
                     oUser.DeleteData(String.Format(" WHERE CustID='{0}' AND AppID='JOB" & appID & "' AND UserLogIN='{1}'", My.MySettings.Default.LicenseTo.ToString, userID))
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, Session.SessionID, "LOGOUT_" & appID, userID, DateTime.UtcNow.ToString())
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGOUT_" & appID, userID, DateTime.UtcNow.ToString(), False)
                 End If
             End If
             ClearSession()
@@ -442,7 +442,7 @@ Namespace Controllers
                     dbID = Request.QueryString("Database").ToString
                 End If
                 'Load Connections by Database which selected
-                Dim dbConn As String() = Main.GetDatabaseConnection(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", dbID)
+                Dim dbConn As String() = Main.GetDatabaseConnection(My.MySettings.Default.LicenseTo.ToString, appName, dbID)
                 Main.SetDatabaseMaster(dbConn(1))
                 Main.SetDatabaseJob(dbConn(0))
                 Dim jobResult = "OK"
@@ -488,7 +488,7 @@ Namespace Controllers
                     dbID = Request.QueryString("Database").ToString
                 End If
                 'Load Connections by Database which selected
-                Dim dbConn As String() = Main.GetDatabaseConnection(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", dbID)
+                Dim dbConn As String() = Main.GetDatabaseConnection(My.MySettings.Default.LicenseTo.ToString, appName, dbID)
                 Main.SetDatabaseMaster(dbConn(1))
                 Main.SetDatabaseJob(dbConn(0))
                 'Load License Name
@@ -530,7 +530,7 @@ Namespace Controllers
                                     End If
                                     oOld.LoginDateTime = DateTime.Now
                                     oOld.ExpireDateTime = DateTime.Now.AddMinutes(20)
-                                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, Session.SessionID, "LOGIN_TRACKING", cName, DateTime.UtcNow.ToString())
+                                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_TRACKING", cName, DateTime.UtcNow.ToString(), False)
                                 End If
                                 oOld.SessionID = Session.SessionID
                                 oOld.FromIP = Request.UserHostAddress
@@ -545,7 +545,7 @@ Namespace Controllers
                                 oNew.LoginDateTime = DateTime.Now
                                 oNew.ExpireDateTime = DateTime.Now.AddMinutes(20)
                                 oNew.SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oNew.CustID, oNew.AppID, oNew.UserLogIN))
-                                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, Session.SessionID, "LOGIN_TRACKING", cName, DateTime.UtcNow.ToString())
+                                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_TRACKING", cName, DateTime.UtcNow.ToString(), False)
                             End If
                             Session("CurrUser") = cName
                             Session("UserProfiles") = oUser
@@ -595,7 +595,7 @@ Namespace Controllers
                                     End If
                                     oOld.LoginDateTime = DateTime.Now
                                     oOld.ExpireDateTime = DateTime.Now.AddMinutes(20)
-                                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, Session.SessionID, "LOGIN_VENDER", vName, DateTime.UtcNow.ToString())
+                                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_VENDER", vName, DateTime.UtcNow.ToString(), False)
                                 End If
                                 oOld.SessionID = Session.SessionID
                                 oOld.FromIP = Request.UserHostAddress
@@ -610,7 +610,7 @@ Namespace Controllers
                                 oNew.LoginDateTime = DateTime.Now
                                 oNew.ExpireDateTime = DateTime.Now.AddMinutes(20)
                                 oNew.SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oNew.CustID, oNew.AppID, oNew.UserLogIN))
-                                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, Session.SessionID, "LOGIN_VENDER", vName, DateTime.UtcNow.ToString())
+                                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_VENDER", vName, DateTime.UtcNow.ToString(), False)
                             End If
                             Session("CurrUser") = vName
                             Session("UserProfiles") = oUser
@@ -679,7 +679,7 @@ Namespace Controllers
                                                         End If
                                                         oOld.LoginDateTime = DateTime.Now
                                                         oOld.ExpireDateTime = DateTime.Now.AddMinutes(20)
-                                                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, Session.SessionID, "LOGIN_SHIPPING", oData(0).UserID, DateTime.UtcNow.ToString())
+                                                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_SHIPPING", oData(0).UserID, DateTime.UtcNow.ToString(), False)
                                                     End If
                                                     oOld.SessionID = Session.SessionID
                                                     oOld.FromIP = Request.UserHostAddress
@@ -687,14 +687,14 @@ Namespace Controllers
                                                 Else
                                                     Dim oNew = New CWebLogin(cnMas)
                                                     oNew.CustID = My.MySettings.Default.LicenseTo.ToString
-                                                    oNew.AppID = "JOBSHIPPING"
+                                                    oNew.AppID = appName
                                                     oNew.UserLogIN = oData(0).UserID
                                                     oNew.SessionID = Session.SessionID
                                                     oNew.FromIP = Request.UserHostAddress
                                                     oNew.LoginDateTime = DateTime.Now
                                                     oNew.ExpireDateTime = DateTime.Now.AddMinutes(20)
                                                     oNew.SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oNew.CustID, oNew.AppID, oNew.UserLogIN))
-                                                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, Session.SessionID, "LOGIN_SHIPPING", oData(0).UserID, DateTime.UtcNow.ToString())
+                                                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_SHIPPING", oData(0).UserID, DateTime.UtcNow.ToString(), False)
                                                 End If
                                             End If
                                         End If
@@ -724,7 +724,7 @@ Namespace Controllers
                         End If
                 End Select
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetLogin", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetLogin", ex.Message, ex.StackTrace, True)
                 Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""" & ex.Message & """}}", jsonContent)
             End Try
         End Function
@@ -1083,7 +1083,7 @@ Namespace Controllers
                 msg &= """}"
                 Return Content(msg, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "ImportData", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "ImportData", ex.Message, ex.StackTrace, True)
                 Return Content("{""result"":""" & ex.Message & """}", jsonContent)
             End Try
         End Function
@@ -1440,7 +1440,7 @@ Namespace Controllers
                 msg &= """}"
                 Return Content(msg, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "ImportFromFile", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "ImportFromFile", ex.Message, ex.StackTrace, True)
                 Return Content("{""result"":""" & ex.Message & """}", jsonContent)
             End Try
         End Function
@@ -1545,7 +1545,7 @@ Namespace Controllers
                 json = "{""userrole"":{""data"":" & json & ",""detail"":" + jsonD + "}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetUserRole", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetUserRole", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)
             End Try
         End Function
@@ -1572,7 +1572,7 @@ Namespace Controllers
                 Dim json As String = "{""userrole"":{""policy"":" & jsonD & "}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetUserRolePolicy", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetUserRolePolicy", ex.Message, ex.StackTrace, True)
                 Return Content("{""userrole"":{""policy"":[],""message"":""" & ex.Message & """}}", jsonContent)
             End Try
 
@@ -1611,7 +1611,7 @@ Namespace Controllers
                 Dim json As String = "{""userrole"":{""detail"":" & jsonD & "}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetUserRoleDetail", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetUserRoleDetail", ex.Message, ex.StackTrace, True)
                 Return Content("{""userrole"":{""msg"":" & ex.Message & "}}", jsonContent)
             End Try
         End Function
@@ -1630,7 +1630,7 @@ Namespace Controllers
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetUserRole", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetUserRole", ex.Message, ex.StackTrace, True)
                 Dim json = "{""result"":{""data"":null,""msg"":""" & ex.Message & """}}"
                 Return Content(json, jsonContent)
             End Try
@@ -1657,7 +1657,7 @@ Namespace Controllers
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetUserRoleDetail", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetUserRoleDetail", ex.Message, ex.StackTrace, True)
                 Dim json = "{""result"":{""data"":null,""msg"":""" & ex.Message & """,""log"":null}}"
                 Return Content(json, jsonContent)
             End Try
@@ -1684,7 +1684,7 @@ Namespace Controllers
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "SetUserRolePolicy", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetUserRolePolicy", ex.Message, ex.StackTrace, True)
                 Dim json = "{""result"":{""data"":null,""msg"":""" & ex.Message & """}}"
                 Return Content(json, jsonContent)
             End Try
@@ -1704,7 +1704,7 @@ Namespace Controllers
                 Dim json = "{""userrole"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "DelUserRole", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DelUserRole", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)
             End Try
         End Function
@@ -1731,7 +1731,7 @@ Namespace Controllers
                 Dim json = "{""userrole"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "DelUserRoleDetail", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DelUserRoleDetail", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)
             End Try
         End Function
@@ -1755,7 +1755,7 @@ Namespace Controllers
                 Dim json = "{""userrole"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "DelUserRolePolicy", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DelUserRolePolicy", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)
             End Try
         End Function
@@ -1771,14 +1771,14 @@ Namespace Controllers
                 Dim json = "{""data"":" & JsonConvert.SerializeObject(oData.Rows) & ",""msg"":""""}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetTable", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetTable", ex.Message, ex.StackTrace, True)
                 Return Content("{""data"":[],""msg"":""" & ex.Message & """}", jsonContent)
             End Try
         End Function
         Function SetLog(<FromBody()> data As CLog) As ActionResult
             Try
                 If Not IsNothing(data) Then
-                    Dim msg = Main.SaveLog(data.CustID, data.AppID, data.ModuleName, data.LogAction, data.Message)
+                    Dim msg = Main.SaveLog(data.CustID, data.AppID, data.ModuleName, data.LogAction, data.Message, False)
                     Dim json = "{""result"":{""data"":""" & data.Message & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else

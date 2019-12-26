@@ -332,7 +332,7 @@ WHERE (h.ApproveBy <> '') AND NOT (ISNULL(h.CancelProve,'')<>'') {0} ORDER BY v.
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 Return Content("{""result"":" & json & ",""group"":""" & fldGroup & """,""msg"":""OK"",""sql"":""" & sqlW & """}")
             Catch ex As Exception
-                Main.SaveLog(GetSession("CurrLicense").ToString(), "JOBSHIPPING", "GetReport", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetReport", ex.Message, ex.StackTrace, True)
                 Return Content("{""result"":[],""group"":null,""msg"":""" & ex.Message & """,""sql"":""" & sqlW & """}")
             End Try
         End Function

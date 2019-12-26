@@ -490,13 +490,13 @@ Public Class CClrDetail
                             If da.Update(dt) > 0 Then
                                 UpdateTotal(cn)
                             End If
-                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrDetail", "SaveData", Me)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "SaveData", Me, False)
                             msg = "Save Complete"
                         End Using
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrDetail", "SaveData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "SaveData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -656,7 +656,7 @@ Public Class CClrDetail
                     lst.Add(row)
                 End While
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrDetail", "GetData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "GetData", ex.Message, True, ex.StackTrace, "")
             End Try
         End Using
         Return lst
@@ -671,7 +671,7 @@ Public Class CClrDetail
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrDetail", "DeleteData", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "DeleteData", cm.CommandText, False)
                     If Me.ClrNo <> "" Then
                         UpdateTotal(cn, True)
                     End If
@@ -679,7 +679,7 @@ Public Class CClrDetail
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrDetail", "DeleteData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "DeleteData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -692,14 +692,14 @@ Public Class CClrDetail
             cm.CommandText = sql + " WHERE a.BranchCode='" + Me.BranchCode + "' and a.ClrNo='" + Me.ClrNo + "'"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrDetail", "UpdateClrHeader", cm.CommandText)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "UpdateClrHeader", cm.CommandText, True)
 
             If Me.AdvNO <> "" Then
                 sql = SQLUpdateAdvStatus()
                 cm.CommandText = sql + " WHERE adv.BranchCode='" + Me.BranchCode + "' and adv.AdvNo='" + Me.AdvNO + "'"
                 cm.CommandType = CommandType.Text
                 cm.ExecuteNonQuery()
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrDetail", "UpdateAdvStatus", cm.CommandText)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "UpdateAdvStatus", cm.CommandText, True)
             End If
             If Me.VenderBillingNo <> "" Then
                 If Me.VenderBillingNo.IndexOf("#") > 0 Then
@@ -709,7 +709,7 @@ Public Class CClrDetail
                         cm.CommandText = "UPDATE Job_PaymentDetail SET ClrReFNo='" & Me.ClrNo & "',ClrItemNo=" & Me.ItemNo & " WHERE BranchCode='" & Me.BranchCode & "' AND DocNo='" & Me.VenderBillingNo.Split("#")(0) & "' AND ItemNo=" & Me.VenderBillingNo.Split("#")(1)
                     End If
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CClrDetail", "UpdatePayInClearing", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "UpdatePayInClearing", cm.CommandText, True)
                 End If
             End If
         End Using

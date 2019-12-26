@@ -217,12 +217,12 @@ Public Class CServiceCode
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceCode", "DeleteData", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CServiceCode", "DeleteData", cm.CommandText, False)
                 End Using
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceCode", "DeleteData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CServiceCode", "DeleteData", ex.Message, True, ex.StackTrace, "")
                 msg = "[exception] " + ex.Message
             End Try
         End Using
@@ -264,7 +264,7 @@ Public Class CServiceCode
                             dr("GroupCode") = Main.GetDBString(Me.GroupCode, dt.Columns("GroupCode"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             If da.Update(dt) > 0 Then
-                                Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceCode", "SaveData", Me)
+                                Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CServiceCode", "SaveData", Me, False)
                                 msg = "Save " & Me.SICode & " Complete"
                             Else
                                 msg = "Save Failed"
@@ -273,7 +273,7 @@ Public Class CServiceCode
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceCode", "SaveData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CServiceCode", "SaveData", ex.Message, True, ex.StackTrace, "")
                 msg = "[exception] " + ex.Message
             End Try
         End Using
@@ -354,7 +354,7 @@ Public Class CServiceCode
                     lst.Add(row)
                 End While
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CServiceCode", "GetData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CServiceCode", "GetData", ex.Message, True, ex.StackTrace, "")
             End Try
         End Using
         Return lst

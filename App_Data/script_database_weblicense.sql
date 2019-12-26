@@ -96,6 +96,9 @@ CREATE TABLE [dbo].[TWTLog](
 	[Message] [nvarchar](max) NULL,
 	[LogDateTime] [datetime] NULL,
 	[IsError] [int] NULL,
+	[FromIP] [nvarchar](50) NULL,
+	[StackTrace] [nvarchar](max) NULL,
+	[JsonData] [nvarchar](max) NULL,
  CONSTRAINT [PK_TWTLog] PRIMARY KEY CLUSTERED 
 (
 	[LogID] ASC

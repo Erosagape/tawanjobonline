@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div style="flex:1;vertical-align:middle">
-                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100%" />
+                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:200px" />
             </div>
         </div>
         <div style="display:flex;flex-direction:column">

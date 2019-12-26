@@ -85,6 +85,10 @@ Public Class CLog
             m_IsError = value
         End Set
     End Property
+    Public Property FromIP As String
+    Public Property StackTrace As String
+    Public Property JsonData As String
+
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -105,6 +109,9 @@ Public Class CLog
                             dr("Message") = Main.GetDBString(Me.Message, dt.Columns("Message"))
                             dr("LogDateTime") = Me.LogDateTime
                             dr("IsError") = Me.IsError
+                            dr("FromIP") = Me.FromIP
+                            dr("StackTrace") = Me.StackTrace
+                            dr("JsonData") = Me.JsonData
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             msg = "Save Complete"
@@ -158,6 +165,15 @@ Public Class CLog
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("IsError"))) = False Then
                         row.IsError = rd.GetBoolean(rd.GetOrdinal("IsError")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("FromIP"))) = False Then
+                        row.FromIP = rd.GetString(rd.GetOrdinal("FromIP")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("StackTrace"))) = False Then
+                        row.StackTrace = rd.GetString(rd.GetOrdinal("StackTrace")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("JsonData"))) = False Then
+                        row.JsonData = rd.GetString(rd.GetOrdinal("JsonData")).ToString()
                     End If
                     lst.Add(row)
                 End While

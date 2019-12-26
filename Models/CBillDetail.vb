@@ -229,12 +229,12 @@ Public Class CBillDetail
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             msg = UpdateTotal(cn)
-                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillDetail", "SaveData", Me)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CBillDetail", "SaveData", Me, True)
                         End Using
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillDetail", "SaveData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillDetail", "SaveData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -316,7 +316,7 @@ Public Class CBillDetail
                     lst.Add(row)
                 End While
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillDetail", "GetData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillDetail", "GetData", ex.Message, True, ex.StackTrace, "")
             End Try
         End Using
         Return lst
@@ -331,7 +331,7 @@ Public Class CBillDetail
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillDetail", "DeleteData", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillDetail", "DeleteData", cm.CommandText, False)
                 End Using
                 If Me.BillAcceptNo <> "" Then
                     CancelDocument(cn)
@@ -339,7 +339,7 @@ Public Class CBillDetail
                 End If
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillDetail", "DeleteData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillDetail", "DeleteData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -352,7 +352,7 @@ Public Class CBillDetail
             cm.CommandText = sql & If(Me.InvNo <> "", " AND a.DocNo='" + Me.InvNo + "'", "")
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillDetail", "UpdateBillToInv", cm.CommandText)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillDetail", "UpdateBillToInv", cm.CommandText, True)
         End Using
     End Sub
     Function UpdateTotal(cn As SqlConnection) As String
@@ -362,12 +362,12 @@ Public Class CBillDetail
             cm.CommandText = sql & If(Me.InvNo <> "", " AND a.DocNo='" + Me.InvNo + "'", "")
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillDetail", "UpdateBillToInv", cm.CommandText)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillDetail", "UpdateBillToInv", cm.CommandText, True)
 
             sql = SQLUpdateBillHeader(Me.BranchCode, Me.BillAcceptNo)
             cm.CommandText = sql
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CBillDetail", "UpdateTotal", cm.CommandText)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillDetail", "UpdateTotal", cm.CommandText, True)
         End Using
         Return "Save " & Me.BillAcceptNo & " Complete!"
     End Function

@@ -33,7 +33,7 @@ Public Class CConfig
                             dr(2) = Main.GetDBString(Me.ConfigValue, dt.Columns(2))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             If da.Update(dt) > 0 Then
-                                Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CConfig", "SaveData", Me)
+                                Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CConfig", "SaveData", Me, False)
                                 bComplete = True
                             End If
                         End Using
@@ -42,7 +42,7 @@ Public Class CConfig
 
             End Using
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CConfig", "SaveData", ex.StackTrace, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CConfig", "SaveData", ex.Message, True, ex.StackTrace, "")
         End Try
         Return bComplete
     End Function
@@ -54,14 +54,14 @@ Public Class CConfig
                 Using cm = New SqlCommand("DELETE FROM Mas_Config " & pSqlWhere, cn)
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CConfig", "DeleteData", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CConfig", "DeleteData", cm.CommandText, False)
                 End Using
 
             End Using
             Return "Delete Data Complete"
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CConfig", "DeleteData", ex.StackTrace, True)
-            Return String.Format("[exception] {0}", ex.StackTrace, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CConfig", "DeleteData", ex.Message, True, ex.StackTrace, "")
+            Return String.Format("[exception] {0}", ex.Message, True, ex.StackTrace, "")
         End Try
     End Function
     Public Function GetData(Optional pSqlWhere As String = "") As List(Of CConfig)
@@ -82,7 +82,7 @@ Public Class CConfig
 
             End Using
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CConfig", "GetData", ex.StackTrace, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CConfig", "GetData", ex.Message, True, ex.StackTrace, "")
         End Try
         Return lst
     End Function

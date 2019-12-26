@@ -1057,7 +1057,7 @@ End Code
             $('#txtRecDate').val(CDateEN(dr.RecDate));
             $('#txtRecTime').val(ShowTime(dr.RecTime));
             $('#txtPostedBy').val(dr.PostedBy);
-            if (dr.PostedBy !== '') {
+            if (dr.PostedBy !== '' && dr.PostedBy!==null) {
                 $('#chkPosted').prop('checked', true);
                 DisableSave();
             }
@@ -1065,7 +1065,7 @@ End Code
             $('#txtPostedTime').val(ShowTime(dr.PostedTime));
             $('#txtCancelReson').val(dr.CancelReson);
             $('#txtCancelProve').val(dr.CancelProve);
-            if (dr.CancelProve !=='') {
+            if (dr.CancelProve !=='' && dr.CancelProve!==null) {
                 $('#chkCancel').prop('checked', true);
                 DisableSave();
             }

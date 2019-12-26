@@ -43,52 +43,53 @@ End Code
                 <div id="tabinfo" class="tab-pane fade in active">
                     <div class="row">
                         <div class="col-md-8">
-                            <label for="txtCustCode" onclick="window.open(path +'Master/Customers');">Customer :</label>
-                            <input type="text" id="txtCustCode" style="width:130px" tabindex="0" />
-                            <input type="text" id="txtCustBranch" style="width:40px" tabindex="1" />
-                            <input type="button" id="btnBrowseCust" value="..." onclick="SearchData('CUSTOMER')" />
-                            <input type="text" id="txtCustName" style="width:450px" disabled />
-                            <br />
-                            <label for="txtTAddress">Address   :</label>
-                            <textarea id="txtTAddress" style="width:250px" disabled></textarea>
-                            <textarea id="txtEAddress" style="width:250px" disabled></textarea>
-                            <br />
-                            <label for="txtPhoneFax">Contact Info :</label>
-                            <input type="text" id="txtPhoneFax" style="width:550px" tabindex="2" />
-                            <br />
-                            <label for="txtConsignee">Consignee :</label>
-                            <input type="text" id="txtConsignee" style="width:130px" tabindex="7" />
-                            <input type="text" id="txtConsBranch" style="width:40px" tabindex="8" />
-                            <input type="button" id="btnBrowseCons" value="..." onclick="SearchData('CONSIGNEE')" />
-                            <input type="text" id="txtConsignName" style="width:450px" disabled />
-                            <br />
-                            <label for="txtBillTAddress">Address   :</label>
-                            <textarea id="txtBillTAddress" style="width:200px" disabled></textarea>
-                            <textarea id="txtBillEAddress" style="width:200px" disabled></textarea>
-                            <br />
-                            <input type="checkbox" id="chkTSRequest" />
-                            <label for="chkTSRequest">Use Local Transport</label>
-                            <br />
-                            <label for="txtContactName">Contact Person :</label>
-                            <input type="text" id="txtContactName" style="width:150px" tabindex="3" />
-                            <label for="txtCSName">Support By :</label>
-                            <input type="text" id="txtCSName" style="width:150px" disabled />
-                            <br />
-                            <label for="txtJobType">Job Type : </label>
-                            <input type="text" id="txtJobType" style="width:150px" disabled />
-                            <label for="txtShipBy">Ship By : </label>
-                            <input type="text" id="txtShipBy" style="width:150px" disabled />
-                            <br />
-                            <label for="txtJobCondition">Work Condition :</label>
-                            <input type="text" id="txtJobCondition" style="width:600px" tabindex="4" />
-                            <br />
-                            <label for="txtCustPoNo">Customer PO :</label>
-                            <input type="text" id="txtCustPoNo" style="width:300px" tabindex="5" />
-                            <br />
-                            <label for="txtDescription">Descriptions : </label>
-                            <textarea id="txtDescription" style="width:180px" tabindex="6"></textarea>
+                            <a href="../Master/Customers" target="_blank">
+                                <label>Customer :</label></a>
+                                <input type="text" id="txtCustCode" style="width:130px" tabindex="0" />
+                                <input type="text" id="txtCustBranch" style="width:40px" tabindex="1" />
+                                <input type="button" id="btnBrowseCust" value="..." onclick="SearchData('CUSTOMER')" />
+                                <input type="text" id="txtCustName" style="width:450px" disabled />
+                                <br />
+                                <label for="txtTAddress">Address   :</label>
+                                <textarea id="txtTAddress" style="width:250px" disabled></textarea>
+                                <textarea id="txtEAddress" style="width:250px" disabled></textarea>
+                                <br />
+                                <label for="txtPhoneFax">Contact Info :</label>
+                                <input type="text" id="txtPhoneFax" style="width:550px" tabindex="2" />
+                                <br />
+                                <label for="txtConsignee">Consignee :</label>
+                                <input type="text" id="txtConsignee" style="width:130px" tabindex="7" />
+                                <input type="text" id="txtConsBranch" style="width:40px" tabindex="8" />
+                                <input type="button" id="btnBrowseCons" value="..." onclick="SearchData('CONSIGNEE')" />
+                                <input type="text" id="txtConsignName" style="width:450px" disabled />
+                                <br />
+                                <label for="txtBillTAddress">Address   :</label>
+                                <textarea id="txtBillTAddress" style="width:200px" disabled></textarea>
+                                <textarea id="txtBillEAddress" style="width:200px" disabled></textarea>
+                                <br />
+                                <input type="checkbox" id="chkTSRequest" />
+                                <label for="chkTSRequest">Use Local Transport</label>
+                                <br />
+                                <label for="txtContactName">Contact Person :</label>
+                                <input type="text" id="txtContactName" style="width:150px" tabindex="3" />
+                                <label for="txtCSName">Support By :</label>
+                                <input type="text" id="txtCSName" style="width:150px" disabled />
+                                <br />
+                                <label for="txtJobType">Job Type : </label>
+                                <input type="text" id="txtJobType" style="width:150px" disabled />
+                                <label for="txtShipBy">Ship By : </label>
+                                <input type="text" id="txtShipBy" style="width:150px" disabled />
+                                <br />
+                                <label for="txtJobCondition">Work Condition :</label>
+                                <input type="text" id="txtJobCondition" style="width:600px" tabindex="4" />
+                                <br />
+                                <label for="txtCustPoNo">Customer PO :</label>
+                                <input type="text" id="txtCustPoNo" style="width:300px" tabindex="5" />
+                                <br />
+                                <label for="txtDescription">Descriptions : </label>
+                                <textarea id="txtDescription" style="width:180px" tabindex="6"></textarea>
 
-                        </div>
+</div>
                         <div class="col-md-4">
                             <label for="txtQNo">Quotation : </label>
                             <input type="text" id="txtQNo" style="width:130px" tabindex="9" />
@@ -137,7 +138,9 @@ End Code
                             <label for="txtInvTotal">Inv.Total :</label>
                             <input type="text" id="txtInvTotal" style="width:130px" tabindex="15" />
                             <br />
-                            <label for="txtInvCurrency" onclick="window.open(path +'Master/Currency');">Currency :</label>
+                            <a href="../Master/Currency" target="_blank">
+                                <label>Currency :</label>
+                            </a>
                             <input type="text" id="txtInvCurrency" style="width:80px" tabindex="16" />
                             <input type="button" id="btnBrowseRate" value="..." onclick="SearchData('CURRENCY')" />
                             <label for="txtInvCurRate">Exchange Rate :</label>
@@ -153,21 +156,23 @@ End Code
                             <input type="text" id="txtVesselName" style="width:200px" tabindex="20" />
                             <input type="button" id="btnBrowseVsl1" value="..." onclick="SearchData('vessel')" />
                             <br />
-                            <label for="txtInterPort" onclick="window.open(path +'Master/InterPort');">Inter Port:</label>
-                            <input type="text" id="txtInterPort" style="width:130px" tabindex="21" />
-                            <input type="button" id="btnBrowseIPort" value="..." onclick="SearchData('interport')" />
-                            <input type="text" id="txtInterPortName" style="width:160px" disabled />
-                            <br />
-                            <label for="txtTotalCTN">Total Containers :</label>
-                            <input type="text" id="txtTotalCTN" style="width:130px" tabindex="22" />
-                            <input type="button" id="btnGetCTN" value="..." onclick="SplitData()" />
-                            <br />
-                            <label for="txtMeasurement">Measurement(M3) :</label>
-                            <input type="text" id="txtMeasurement" style="width:80px" tabindex="23" />
-                            <br />
-                            <label for="txtDeliverNo">Delivery No :</label>
-                            <input type="text" id="txtDeliverNo" style="width:130px" tabindex="24" />
-                            <label for="txtDeliveryDate">Delivery Date :</label><input type="date" style="width:130px" id="txtDeliveryDate" tabindex="25" />
+                            <a href="../Master/InterPort" target="_blank">
+                                <label>Inter Port:</label>
+                            </a>                                
+                                <input type="text" id="txtInterPort" style="width:130px" tabindex="21" />
+                                <input type="button" id="btnBrowseIPort" value="..." onclick="SearchData('interport')" />
+                                <input type="text" id="txtInterPortName" style="width:160px" disabled />
+                                <br />
+                                <label for="txtTotalCTN">Total Containers :</label>
+                                <input type="text" id="txtTotalCTN" style="width:130px" tabindex="22" />
+                                <input type="button" id="btnGetCTN" value="..." onclick="SplitData()" />
+                                <br />
+                                <label for="txtMeasurement">Measurement(M3) :</label>
+                                <input type="text" id="txtMeasurement" style="width:80px" tabindex="23" />
+                                <br />
+                                <label for="txtDeliverNo">Delivery No :</label>
+                                <input type="text" id="txtDeliverNo" style="width:130px" tabindex="24" />
+                                <label for="txtDeliveryDate">Delivery Date :</label><input type="date" style="width:130px" id="txtDeliveryDate" tabindex="25" />
                         </div>
                         <div class="col-md-7">
                             <label for="txtProjectName">Project Name :</label>
@@ -253,7 +258,9 @@ End Code
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="txtDeclareType" onclick="window.open(path +'Master/DeclareType');">Declare Type :</label>
+                            <a href="../Master/DeclareType" target="_blank">
+                                <label>Declare Type :</label>
+                            </a>                            
                             <input type="text" id="txtDeclareType" style="width:130px" tabindex="49" />
                             <input type="button" id="btnBrowseDCType" value="..." onclick="SearchData('RFDCT')" />
                             <input type="text" id="txtDeclareTypeName" style="width:200px" disabled />
@@ -293,7 +300,9 @@ End Code
                             <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="M"><label style="color:blue;font:bold">Manual</label></label>
                         </div>
                         <div class="col-md-7">
-                            <label for="txtReleasePort" onclick="window.open('../Master/CustomsPort');">Release Port :</label>
+                            <a href="../Master/CustomsPort" target="_blank">
+                                <label >Release Port :</label>
+                            </a>                            
                             <input type="text" id="txtReleasePort" style="width:50px" tabindex="53" />
                             <input type="button" id="btnBrowseLCPort" value="..." onclick="SearchData('RFARS')" />
                             <input type="text" id="txtReleasePortName" style="width:200px" disabled />
@@ -1199,7 +1208,7 @@ End Code
                 $('#txtCancelDate').val('');
                 $('#txtCancelReason').val('');
                 SaveData();
-                $.get(path + 'joborder/updatejobstatus?branch=' + rec.BranchCode + '&JNo=' + rec.JNo, function (r) {
+                $.get(path + 'joborder/updatejobstatus?NoLog=Y&branch=' + rec.BranchCode + '&JNo=' + rec.JNo, function (r) {
                     ShowJob(rec.BranchCode, rec.JNo);
                     return;
                 });
@@ -1240,7 +1249,7 @@ End Code
                     $('#txtCloseBy').val('');
                     $('#txtCloseDate').val('');
                     SaveData();
-                    $.get(path + 'joborder/updatejobstatus?branch=' + rec.BranchCode + '&JNo=' + rec.JNo, function (r) {
+                    $.get(path + 'joborder/updatejobstatus?NoLog=Y&branch=' + rec.BranchCode + '&JNo=' + rec.JNo, function (r) {
                         ShowJob(rec.BranchCode, rec.JNo);
                         return;
                     });

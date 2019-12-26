@@ -370,13 +370,13 @@ Public Class CInvDetail
                             If da.Update(dt) > 0 Then
                                 UpdateTotal(cn)
                             End If
-                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvDetail", "SaveData", Me)
+                            Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "SaveData", Me, False)
                             msg = "Save Complete"
                         End Using
                     End Using
                 End Using
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvDetail", "SaveData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "SaveData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using
@@ -388,7 +388,7 @@ Public Class CInvDetail
             cm.CommandText = sql + " WHERE h.BranchCode='" + Me.BranchCode + "' and h.DocNo='" + Me.DocNo + "'"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvDetail", "UpdateInvHeader", cm.CommandText)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "UpdateInvHeader", cm.CommandText, True)
             If Me.ClrNoList <> "" Then
                 If Me.DocNo <> "" And Me.ItemNo <> 0 Then
                     sql = String.Format("UPDATE Job_ClearDetail SET LinkBillNo='{0}',LinkItem={1}", Me.DocNo, Me.ItemNo)
@@ -396,7 +396,7 @@ Public Class CInvDetail
                     cm.CommandText = sql
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvDetail", "UpdateClrDetail", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "UpdateClrDetail", cm.CommandText, True)
                 End If
             End If
         End Using
@@ -516,7 +516,7 @@ Public Class CInvDetail
                     lst.Add(row)
                 End While
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CinvDetail", "GetData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CinvDetail", "GetData", ex.Message, True, ex.StackTrace, "")
             End Try
         End Using
         Return lst
@@ -531,7 +531,7 @@ Public Class CInvDetail
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvDetail", "DeleteInvDetail", cm.CommandText)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "DeleteInvDetail", cm.CommandText, True)
                     If Me.DocNo <> "" And Me.ItemNo <> 0 Then
                         Dim Sql = "UPDATE Job_ClearDetail SET LinkBillNo=null,LinkItem=0"
                         Sql &= String.Format(" WHERE BranchCode='{0}' AND LinkBillNo='{1}' And LinkItem={2}", Me.BranchCode, Me.DocNo, Me.ItemNo)
@@ -539,14 +539,14 @@ Public Class CInvDetail
                         cm.CommandText = Sql
                         cm.CommandType = CommandType.Text
                         cm.ExecuteNonQuery()
-                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvDetail", "UpdateClrDetail", cm.CommandText)
+                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "UpdateClrDetail", cm.CommandText, True)
                     End If
                 End Using
                 UpdateTotal(cn)
 
                 msg = "Delete Complete"
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPPING", "CInvDetail", "DeleteData", ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "DeleteData", ex.Message, True, ex.StackTrace, "")
                 msg = ex.Message
             End Try
         End Using

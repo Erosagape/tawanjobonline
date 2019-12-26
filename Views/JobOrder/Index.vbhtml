@@ -239,7 +239,7 @@ End Code
         return '?NoLog=Y&' + str;
     }
     function OpenJob() {
-        $.get(path + 'joborder/updatejobstatus?BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJobNo').val(), function (r) {
+        $.get(path + 'joborder/updatejobstatus?NoLog=YBranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJobNo').val(), function (r) {
             //ShowMessage(r);
             window.open(path + 'joborder/showjob?BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJobNo').val());
         });
