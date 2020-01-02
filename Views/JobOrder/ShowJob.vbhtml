@@ -152,27 +152,23 @@ End Code
                             <label for="txtBLNo">BL/AWB Status :</label>
                             <input type="text" id="txtBLNo" style="width:200px" tabindex="19" />
                             <br />
-                            <label for="txtVesselName">Vessel Name :</label>
-                            <input type="text" id="txtVesselName" style="width:200px" tabindex="20" />
-                            <input type="button" id="btnBrowseVsl1" value="..." onclick="SearchData('vessel')" />
+                            <label for="txtHAWB">House BL/AWB :</label>
+                            <input type="text" id="txtHAWB" style="width:200px" tabindex="20" />
                             <br />
-                            <a href="../Master/InterPort" target="_blank">
-                                <label>Inter Port:</label>
-                            </a>                                
-                                <input type="text" id="txtInterPort" style="width:130px" tabindex="21" />
-                                <input type="button" id="btnBrowseIPort" value="..." onclick="SearchData('interport')" />
-                                <input type="text" id="txtInterPortName" style="width:160px" disabled />
-                                <br />
-                                <label for="txtTotalCTN">Total Containers :</label>
-                                <input type="text" id="txtTotalCTN" style="width:130px" tabindex="22" />
-                                <input type="button" id="btnGetCTN" value="..." onclick="SplitData()" />
-                                <br />
-                                <label for="txtMeasurement">Measurement(M3) :</label>
-                                <input type="text" id="txtMeasurement" style="width:80px" tabindex="23" />
-                                <br />
-                                <label for="txtDeliverNo">Delivery No :</label>
-                                <input type="text" id="txtDeliverNo" style="width:130px" tabindex="24" />
-                                <label for="txtDeliveryDate">Delivery Date :</label><input type="date" style="width:130px" id="txtDeliveryDate" tabindex="25" />
+                            <label for="txtMAWB">Master BL/AWB :</label>
+                            <input type="text" id="txtMAWB" style="width:200px" tabindex="21" />
+                            <br />
+                            <label for="txtTotalCTN">Total Containers :</label>
+                            <input type="text" id="txtTotalCTN" style="width:130px" tabindex="22" />
+                            <input type="button" id="btnGetCTN" value="..." onclick="SplitData()" />
+                            <br />
+                            <label for="txtMeasurement">Meas.(CBM) :</label>
+                            <input type="text" id="txtMeasurement" style="width:80px" tabindex="23" />
+                            <label for="txtDeliverNo">Delivery No :</label>
+                            <input type="text" id="txtDeliverNo" style="width:130px" tabindex="24" />
+                            <br />
+                            <label for="txtDeliverTo">Delivery To :</label>
+                            <input type="text" id="txtDeliverTo" style="width:300px" tabindex="25" />
                         </div>
                         <div class="col-md-7">
                             <label for="txtProjectName">Project Name :</label>
@@ -202,15 +198,21 @@ End Code
                             <input type="text" id="txtInvCountry" style="width:130px" disabled />
                             <input type="button" id="btnBrowseCountry" value="..." onclick="SearchData('country')" tabindex="34" />
                             <br />
-                            <label for="txtHAWB">House BL/AWB :</label>
-                            <input type="text" id="txtHAWB" style="width:130px" tabindex="35" />
-                            <label for="txtMAWB">Master BL/AWB :</label>
-                            <input type="text" id="txtMAWB" style="width:130px" tabindex="36" />
+                            <a href="../Master/InterPort" target="_blank">
+                                <label>Inter Port:</label>
+                            </a>
+                            <input type="text" id="txtInterPort" style="width:130px" tabindex="35" />
+                            <input type="button" id="btnBrowseIPort" value="..." onclick="SearchData('interport')" />
+                            <input type="text" id="txtInterPortName" style="width:160px" disabled />
                             <br />
                             <a href="../Master/Venders" target="_blank"><label id="lblForwarder">Agent:</label></a>
-                            <input type="text" id="txtForwarder" style="width:130px" tabindex="37" />
+                            <input type="text" id="txtForwarder" style="width:130px" tabindex="36" />
                             <input type="button" id="btnBrowseFwdr" value="..." onclick="SearchData('forwarder')" />
                             <input type="text" id="txtForwarderName" style="width:300px" disabled />
+                            <br />
+                            <label for="txtVesselName">Vessel Name :</label>
+                            <input type="text" id="txtVesselName" style="width:200px" tabindex="37" />
+                            <input type="button" id="btnBrowseVsl1" value="..." onclick="SearchData('vessel')" />
                             <br />
                             <label for="txtMVesselName">Master Vessel Name :</label>
                             <input type="text" id="txtMVesselName" style="width:200px" tabindex="38" />
@@ -223,16 +225,16 @@ End Code
                             <br />
                             <label for="txtETDDate">ETD Date:</label><input type="date" style="width:130px" id="txtETDDate" tabindex="40" />
                             <label for="txtETADate">ETA Date:</label><input type="date" style="width:130px" id="txtETADate" tabindex="41" />
-                            <label for="txtLoadDate">Load Date:</label><input type="date" style="width:130px" id="txtLoadDate" tabindex="42" />
                             <br />
-                            <label for="txtDeliverTo">Delivery To :</label>
-                            <input type="text" id="txtDeliverTo" style="width:300px" tabindex="43" />
+                            <label for="txtLoadDate">Load Date:</label><input type="date" style="width:130px" id="txtLoadDate" tabindex="42" />
+                            <label for="txtDeliveryDate">Unload Date :</label><input type="date" style="width:130px" id="txtDeliveryDate" tabindex="43" />
+
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <label for="txtDeliverAddr">Delivery Address :</label>
-                            <input type="text" id="txtDeliverAddr" style="width:400px" tabindex="44" />
+                            <textarea id="txtDeliverAddr" style="width:400px" tabindex="44"></textarea>
                             <input type="button" class="btn btn-info" value="Print Delivery Slip" onclick="PrintDelivery()" />
                         </div>
                     </div>
@@ -289,7 +291,6 @@ End Code
                             <input type="checkbox" id="chkTyClearTax" />
                             <label for="chkTyClearTax">Duty Rule</label>
                             <select id="cboTyClearTax" class="dropdown"></select>
-                            <input type="text" id="txtClearTaxReson" tabindex="52" />
                         </div>
                     </div>
                     <div class="row">
@@ -298,6 +299,9 @@ End Code
                             <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="G"><label style="color:green;font:bold">Green</label></label>
                             <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="R"><label style="color:red;font:bold">Red</label></label>
                             <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="M"><label style="color:blue;font:bold">Manual</label></label>
+                            <br />
+                            <label for="txtClearTaxReson">Certificates# </label>
+                            <input type="text" id="txtClearTaxReson" style="width:300px" tabindex="52" />
                         </div>
                         <div class="col-md-7">
                             <a href="../Master/CustomsPort" target="_blank">
@@ -306,18 +310,19 @@ End Code
                             <input type="text" id="txtReleasePort" style="width:50px" tabindex="53" />
                             <input type="button" id="btnBrowseLCPort" value="..." onclick="SearchData('RFARS')" />
                             <input type="text" id="txtReleasePortName" style="width:200px" disabled />
-                            <label for="txtPortNo">PORT#</label>
+                            <br/>
+                            <label for="txtPortNo">Discharge Port#</label>
                             <input type="text" id="txtPortNo" style="width:300px" tabindex="54" />
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <label for="txtShipping">Shipping Staff :</label>
                             <input type="text" id="txtShipping" style="width:130px" tabindex="55" />
                             <input type="button" id="btnBrowseShipping" value="..." onclick="SearchData('user')" />
                             <input type="text" id="txtShippingName" style="width:200px" disabled />
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-7">
                             <label for="txtShippingCmd">Shipping Note :</label>
                             <textarea id="txtShippingCmd" style="width:400px" tabindex="56"></textarea>
                         </div>

@@ -102,41 +102,51 @@ End Code
         drawChart();
         return;
     }
+    function drawChartVol(dt) {
+        var dataVol = google.visualization.arrayToDataTable(getDataTable(dt));
+        var volOptions = {
+            title: 'Total Job By Status',
+            pieHole: 0.4,
+        };
+        var chartVol = new google.visualization.PieChart(document.getElementById('chartVol'));
+        chartVol.draw(dataVol, volOptions);
+    }
+    function drawChartStatus(dt) {
+        var statusView = getDataView(dt);
+        var statusOptions = {
+            legend: { position: 'top', maxLines: 3 },
+            isStacked: 'percent',
+            hAxis: {
+                minValue: 0,
+                ticks: [0, .25, .5, .75, 1]
+            }
+        };
+        var chartStatus = new google.visualization.ColumnChart(document.getElementById('chartStatus'));
+        chartStatus.draw(statusView, statusOptions);
+    }
+    function drawChartCust(dt) {
+        var custView = getDataView(dt);
+        var custOptions = {
+            legend: { position: 'top', maxLines: 3 },
+            isStacked: 'percent',
+            hAxis: {
+                minValue: 0,
+                ticks: [0, .3, .6, .9, 1]
+            }
+        };
+        var chartCust = new google.visualization.BarChart(document.getElementById('chartCust'));
+        chartCust.draw(custView, custOptions);
+    }
     function drawChart() {   
+        drawChartVol([]);
+        drawChartStatus([]);
+        drawChartCust([]);
         //ShowWait();
         $.get(path + 'JobOrder/GetDashBoard' + getWhere()).done(function (r) {
             if (r.result.length > 0) {
-                var dataVol = google.visualization.arrayToDataTable(getDataTable(r.result[0].data1));
-                var volOptions = {
-                    title: 'Total Job By Status',
-                    pieHole: 0.4,
-                };
-                var chartVol = new google.visualization.PieChart(document.getElementById('chartVol'));
-                chartVol.draw(dataVol, volOptions);
-
-                var statusView = getDataView(r.result[0].data2);
-                var statusOptions = {
-                    legend: { position: 'top', maxLines: 3 },
-                    isStacked: 'percent',
-                    hAxis: {
-                        minValue: 0,
-                        ticks: [0, .25, .5, .75, 1]
-                    }
-                };
-                var chartStatus = new google.visualization.ColumnChart(document.getElementById('chartStatus'));
-                chartStatus.draw(statusView, statusOptions);
-
-                var custView = getDataView(r.result[0].data3);
-                var custOptions = {
-                    legend: { position: 'top', maxLines: 3 },
-                    isStacked: 'percent',
-                    hAxis: {
-                        minValue: 0,
-                        ticks: [0, .3, .6, .9, 1]
-                    }
-                };
-                var chartCust = new google.visualization.BarChart(document.getElementById('chartCust'));
-                chartCust.draw(custView, custOptions);
+                drawChartVol(r.result[0].data1);
+                drawChartStatus(r.result[0].data2);
+                drawChartCust(r.result[0].data3);
             }
             //CloseWait();
         });

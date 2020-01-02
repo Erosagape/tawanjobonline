@@ -415,6 +415,12 @@ Namespace Controllers
         Function FormLetter() As ActionResult
             Return GetView("FormLetter")
         End Function
+        Function FormBookingAir() As ActionResult
+            Return GetView("FormBookingAir")
+        End Function
+        Function FormBookingSea() As ActionResult
+            Return GetView("FormBookingSea")
+        End Function
         Function FormBooking() As ActionResult
             Return GetView("FormBooking")
         End Function
@@ -760,6 +766,29 @@ Namespace Controllers
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetJobReport", ex.Message, ex.StackTrace, True)
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
+        Function GetJobSummary() As ActionResult
+            Try
+                Dim tSqlW As String = ""
+                If Not IsNothing(Request.QueryString("Period")) Then
+                    tSqlW &= " AND j.JNo Like '__" & Request.QueryString("Period") & "%' "
+                End If
+                If Not IsNothing(Request.QueryString("Year")) Then
+                    tSqlW &= " AND Year(j.DocDate) ='" & Request.QueryString("Year") & "' "
+                End If
+                If Not IsNothing(Request.QueryString("JobType")) Then
+                    tSqlW &= " AND j.JobType =" & Request.QueryString("JobType") & " "
+                End If
+                If Not IsNothing(Request.QueryString("ShipBy")) Then
+                    tSqlW &= " AND j.ShipBy =" & Request.QueryString("ShipBy") & " "
+                End If
+                Dim oData As DataTable = New CUtil(jobWebConn).GetTableFromSQL(SQLSelectJobSummary(tSqlW) & " ORDER BY t.Period")
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetJobSummary", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)
             End Try
         End Function
@@ -1346,7 +1375,8 @@ Namespace Controllers
                     If Not Request.QueryString("DateTo") Is Nothing Then
                         If Request.QueryString("DateTo").ToString() <> "" Then
                             bCheck = True
-                            tSqlw1 = " WHERE j.DutyDate<=Convert(datetime,'" & Request.QueryString("DateTo").ToString() & " 23:59:59',102) "
+                            If tSqlw1 <> "" Then tSqlw1 &= " AND " Else tSqlw1 = " WHERE "
+                            tSqlw1 &= " j.DutyDate<=Convert(datetime,'" & Request.QueryString("DateTo").ToString() & " 23:59:59',102) "
                         End If
                     End If
                 End If

@@ -421,13 +421,18 @@ End Code
         let cust = $('#txtCustCode').val();
         let jtype = $('#cboJobType').val();
         let sby = $('#cboShipBy').val();
+        $('#txtQNo').val('');
+        $('#txtRevise').val('');
+        $('#txtManagerCode').val('');
         $.get(path + 'JobOrder/GetQuotationGrid?branch=' + branch + '&cust=' + cust + '&jtype=' + jtype + '&sby=' + sby + '&status=1')
             .done(function (r) {
                 if (r.quotation.data.length > 0) {
-                    $('#txtQNo').val(r.quotation.data[0].QNo);
-                    $('#txtRevise').val(r.quotation.data[0].SeqNo);
-                    $('#txtManagerCode').val(r.quotation.data[0].ManagerCode);
-					$('#txtContactPerson').val(r.quotation.data[0].ContactName);
+                    if (r.quotation.data[0].QNo !== null) {
+                        $('#txtQNo').val(r.quotation.data[0].QNo);
+                        $('#txtRevise').val(r.quotation.data[0].SeqNo);
+                        $('#txtManagerCode').val(r.quotation.data[0].ManagerCode);
+					    $('#txtContactPerson').val(r.quotation.data[0].ContactName);
+                    }
                 }
             });
     }

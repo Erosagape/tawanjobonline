@@ -444,7 +444,7 @@ function ShowJobTypeShipBy(path, jt, sb, js ,ControlJT,ControlSB,ControlST) {
             });
     }
 }
-function loadShipByByType(path, jt, e) {
+function loadShipByByType(path, jt, e, def = '') {
     $.get(path + 'JobOrder/GetShipBy?Type=' + jt).done(function (r) {
         let dr = r.config.data;
         if (dr.length > 0) {
@@ -455,7 +455,9 @@ function loadShipByByType(path, jt, e) {
                 $(e).append($('<option>', { value: dr[i].ConfigKey.trim() })
                     .text(dr[i].ConfigKey.trim() + ' / ' + dr[i].ConfigValue.trim()));
             }
-            $(e).val(def);
+            if (def !== '') {
+                $(e).val(def);
+            }            
         }
     });    
 }

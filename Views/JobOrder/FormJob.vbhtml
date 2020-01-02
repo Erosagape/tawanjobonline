@@ -96,7 +96,7 @@ End Code
                     <b> DUTY.AMT : </b><label id="lblDutyAmt"></label>
                 </td>
                 <td>
-                    <b> T/X RULES : </b><label id="lblTaxPrivilege"></label>
+                    <b> CERTIFICATES : </b><label id="lblTaxPrivilege"></label>
                 </td>
                 <td colspan="2" align="right">
                     <b> DECL.TYPE : </b><br /><label id="lblDeclareType"></label>
@@ -369,13 +369,16 @@ End Code
         $('#lblInvProduct').text(j.InvProduct);
         $('#lblInvTotal').text(j.InvTotal + ' ' + CStr(j.InvCurUnit));
         $('#lblInvQty').text(j.InvProductQty);
-        $('#lblInvUnit').text(CStr(j.InvProductUnit));
+    
+        ShowInvUnit(path, j.InvProductUnit, '#lblInvUnit');
+
         $('#lblPackQty').text(j.TotalQty);
-        $('#lblPackUnit').text('UNIT');
+        $('#lblPackUnit').text('PKGS');
         $('#lblTotalGW').text(j.TotalGW);
-        $('#lblGWUnit').text(j.GWUnit);
         $('#lblTotalNW').text(j.TotalNW);
-        $('#lblNWUnit').text(j.GWUnit);
+
+        ShowInvUnit(path, j.GWUnit, '#lblNWUnit');
+        ShowInvUnit(path, j.GWUnit, '#lblGWUnit');
         $('#lblMeasurement').text(j.Measurement);
         $('#lblBookingNo').text(j.BLNo);
         $('#lblHAWBNo').text(j.HAWB);
@@ -389,7 +392,6 @@ End Code
         $('#lblShippingCmd').text(j.ShippingCmd);
         let str =j.Description.replace(/(?:\r\n|\r|\n)/g, '<br/>');
         $('#lblDescription').html(str);
-        //$('#divRemark').html('<b>REMARKS:</b>' + CStr(j.TRemark));
 
         var jt = j.JobType;
         var sb = j.ShipBy;

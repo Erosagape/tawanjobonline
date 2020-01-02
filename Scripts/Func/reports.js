@@ -1,4 +1,28 @@
 ﻿//this function bind for label using in reports
+function ShowInvUnit(path, unitCode, ControlID) {
+    $(ControlID).text(unitCode);
+    if (unitCode != "") {
+        $.get(path + 'Master/GetCustomsUnit?Code=' + unitCode)
+            .done(function (r) {
+                if (r.customsunit.data.length > 0) {
+                    let b = r.customsunit.data[0];
+                    $(ControlID).text(b.TName);
+                }
+            });
+    }
+}
+function ShowServUnit(path, unitCode, ControlID) {
+    $(ControlID).text(unitCode);
+    if (unitCode != "") {
+        $.get(path + 'Master/GetServUnit?Code=' + unitCode)
+            .done(function (r) {
+                if (r.servunit.data.length > 0) {
+                    let b = r.servunit.data[0];
+                    $(ControlID).text(b.UName);
+                }
+            });
+    }
+}
 function ShowCompany(d) {
     let c = DummyCompanyData();
     $(d).html('<b>' + c.CompanyName + '</b>'

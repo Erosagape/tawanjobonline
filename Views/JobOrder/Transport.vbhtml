@@ -272,7 +272,8 @@ End Code
             <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Form</b>
         </a>
         <select id="cboPrintForm">
-            <option value="BC">Booking Confirmation</option>
+            <option value="BA">Booking Confirmation (AIR) </option>
+            <option value="BS">Booking Confirmation (SEA) </option>
             <option value="BL">Bill of Lading/Air way bill</option>
             <option value="DO">D/O Letter</option>
         </select>
@@ -718,8 +719,11 @@ End Code
         $('#txtBranchName').val(dt.BrName);
     }
     function ReadJobFull(dr) {
+        if (dr.length > 0) {
+            dr = dr[0];
+        }
         $('#txtJNo').val(dr.JNo);
-        $('#txtBookingNo').val(dr.BookingNo);
+        $('#txtBookingNo').val(dr.BookingNo);        
         $('#txtVenderCode').val(dr.ForwarderCode);
         ShowVender(path, dr.ForwarderCode, '#txtVenderName');
         ShowVender(path, dr.AgentCode, '#txtPaymentBy');
@@ -736,6 +740,9 @@ End Code
         $('#txtProductUnit').val(dr.InvProductUnit);
         $('#txtGrossWeight').val(dr.TotalGW);
         $('#txtMeasurement').val(dr.Measurement);
+        if (isjobmode == true) {
+            LoadData();
+        }
     }
     function ReadBooking(dr, loadcont = true) {
         $('#txtBranchCode').val(dr.BranchCode);
@@ -840,7 +847,9 @@ End Code
         let branch = $('#txtBranchCode').val();
         let job = $('#txtJNo').val();
         let code = $('#txtBookingNo').val();
-        ClearBooking();
+        if (isjobmode == false) {
+            ClearBooking();
+        }
         $.get(path + 'joborder/gettransport?Branch='+ branch +'&Code=' + code + '&Job=' + job).done(function (r) {
             let dr = r.transport;
             if (dr.header.length > 0) {
@@ -964,8 +973,11 @@ End Code
     }
     function PrintBooking() {
         switch ($('#cboPrintForm').val()) {
-            case 'BC':
-                window.open(path + 'JobOrder/FormBooking?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+            case 'BA':
+                window.open(path + 'JobOrder/FormBookingAir?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'BS':
+                window.open(path + 'JobOrder/FormBookingSea?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'BL':
                 window.open(path + 'JobOrder/FormTransport?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');

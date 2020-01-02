@@ -467,6 +467,7 @@
     <Content Include="App_Data\DAMON\FormRcp.vbhtml" />
     <Content Include="App_Data\DAMON\FormTaxinv.vbhtml" />
     <Content Include="App_Data\DAMON\_Report.vbhtml" />
+    <Content Include="App_Data\DAMON\FormBooking.vbhtml" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -822,9 +823,12 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Default\Index.vbhtml" />
-    <Content Include="Views\JobOrder\FormBooking.vbhtml" />
+    <Content Include="Views\JobOrder\FormBookingAir.vbhtml" />
     <Content Include="Views\JobOrder\FormLetter.vbhtml" />
     <Content Include="Views\Admin\Index.vbhtml" />
+    <Content Include="App_Data\ASAL\FormBooking.vbhtml" />
+    <Content Include="Views\JobOrder\FormBookingSea.vbhtml" />
+    <Content Include="Views\JobOrder\FormBooking.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

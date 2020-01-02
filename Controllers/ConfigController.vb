@@ -666,7 +666,7 @@ Namespace Controllers
                                         Else
                                             Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
                                             Dim oCount = New CWebLogin(cnMas).GetData(String.Format(" WHERE CustID='{0}' AND AppID='JOBSHIPPING'", My.MySettings.Default.LicenseTo.ToString))
-                                            If oCount.Count > Convert.ToInt32(tbProfiles.Rows(0)("LoginCount").ToString()) Then
+                                            If oCount.Count > Convert.ToInt32(tbProfiles.Rows(0)("LoginCount").ToString()) And Convert.ToInt32(tbProfiles.Rows(0)("LoginCount").ToString())>0 Then
                                                 Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""Login over limit =" & tbProfiles.Rows(0)("LoginCount").ToString & """}}", jsonContent)
                                             Else
                                                 Dim oLogin = New CWebLogin(cnMas).GetData(String.Format(" WHERE CustID='{0}' AND AppID='JOBSHIPPING' AND UserLogIN='{1}'", My.MySettings.Default.LicenseTo.ToString, oData(0).UserID))

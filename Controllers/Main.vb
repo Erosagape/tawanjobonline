@@ -1497,6 +1497,7 @@ dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
             End Using
             Return True
         Catch ex As Exception
+            Main.SaveLog(My.Settings.LicenseTo, "JOBSHIPPING", "SetDataBaseMaster", "OpenConnection", ex.Message, True, ex.StackTrace, pDBName)
             Return False
         End Try
     End Function
@@ -1513,6 +1514,7 @@ dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
             End Using
             Return True
         Catch ex As Exception
+            Main.SaveLog(My.Settings.LicenseTo, "JOBSHIPPING", "SetDataBaseJob", "OpenConnection", ex.Message, True, ex.StackTrace, pDBName)
             Return False
         End Try
     End Function
@@ -1907,7 +1909,7 @@ j.DeliveryTo, j.DeliveryAddr, j.EstDeliverDate, h.Remark, h.PackingAddress, h.CY
 h.FactoryContact, h.ReturnContact, h.PackingPlace, h.CYPlace, h.FactoryPlace, h.ReturnPlace, h.PackingDate, h.CYDate, h.FactoryDate, h.ReturnDate, h.PackingTime,
 h.CYTime, h.FactoryTime, h.ReturnTime, h.TransMode, h.PaymentCondition, h.PaymentBy, d.CTN_NO, d.SealNumber, d.TruckNO, d.Comment, d.TruckType, d.Driver, 
 d.Location, d.ShippingMark, d.CTN_SIZE, d.ProductDesc, d.ProductQty, d.ProductUnit, d.GrossWeight, d.Measurement, j.JobType, j.ShipBy, j.AgentCode, 
-s.NameEng AS ShipperName, s.EAddress1 AS ShipperAddress1, s.EAddress2 AS ShipperAddress2
+s.NameEng AS ShipperName, s.EAddress1 AS ShipperAddress1, s.EAddress2 AS ShipperAddress2,j.CustContactName ,j.Measurement as TotalM3,j.HAWB,j.MAWB
 FROM dbo.Mas_Company AS n INNER JOIN
 dbo.Mas_Vender AS a INNER JOIN
 dbo.Job_LoadInfo AS h LEFT OUTER JOIN
@@ -1918,5 +1920,23 @@ dbo.Mas_Company AS c ON j.consigneecode = c.CustCode LEFT OUTER JOIN
 dbo.Mas_Company AS s ON j.CustCode = s.CustCode AND j.CustBranch = s.Branch
 WHERE (j.JobStatus < 90)
 "
+    End Function
+    Function SQLSelectJobSummary(sqlw As String) As String
+        Dim sql = "SELECT * FROM 
+(SELECT jt.ConfigKey AS JobTypeCode, jt.ConfigValue AS JobTypeName, sb.ConfigKey AS ShipByCode, sb.ConfigValue AS ShipByName, COUNT(j.JNo) AS TotalJob, 
+                         SUBSTRING(j.JNo, 3, 2) + '/' + SUBSTRING(j.JNo, 5, 2) AS Period,SUBSTRING(j.JNo, 3, 2) as FiscalYear
+FROM dbo.Mas_Config AS jt INNER JOIN
+                         dbo.Job_Order AS j ON CONVERT(int, jt.ConfigKey) = j.JobType INNER JOIN
+                         dbo.Mas_Config AS sb ON CONVERT(int, sb.ConfigKey) = j.ShipBy
+WHERE (jt.ConfigCode = N'JOB_TYPE') AND (sb.ConfigCode = N'SHIP_BY') AND (j.JobStatus <> 99) {0}
+GROUP BY jt.ConfigKey, jt.ConfigValue, sb.ConfigKey, sb.ConfigValue, SUBSTRING(j.JNo, 3, 2) + '/' + SUBSTRING(j.JNo, 5, 2),
+SUBSTRING(j.JNo, 3, 2)
+UNION
+SELECT 'ALL','ALL TYPE','ALL','ALL TYPE',COUNT(*),SUBSTRING(j.JNo, 3, 2) +'/ALL',SUBSTRING(j.JNo, 3, 2) as FiscalYear
+FROM dbo.Job_Order j WHERE j.JobStatus<>99 {0}
+GROUP BY SUBSTRING(j.JNo, 3, 2)
+) t
+"
+        Return String.Format(sql, sqlw)
     End Function
 End Module
