@@ -92,24 +92,13 @@ End Code
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    INCO Term :<br /><div style="display:flex;flex-direction:row">
-    <select id="txtPaymentCondition" class="form-control dropdown">
-        <option value="EXW">EXW (EX Works)</option>
-        <option value="FCA">FCA (Free Carrier)</option>
-        <option value="FAS">FAS (Free Alongside Ship)</option>
-        <option value="FOB">FOB (Free On Board)</option>
-        <option value="CPT">CPT (Carriage Paid To)</option>
-        <option value="CFR">CFR (Cost and Freight)</option>
-        <option value="CIF">CIF (Carriage Paid To)</option>
-        <option value="CIP">CIP (Carriage and Insurance Paid)</option>
-        <option value="DAT">DAT (Delivered at Terminal)</option>
-        <option value="DAP">DAP (Delivered at Place)</option>
-        <option value="DDP">DDP (Delivered Duty Paid)</option>
-    </select>
-</div>
+                    Freight Payment Condition :<br />
+                    <div style="display:flex;flex-direction:row">
+                        <input type="text" id="txtPaymentCondition" class="form-control" />
+                    </div>
                 </div>
                 <div class="col-sm-6">
-                    Transport By :<br /><div style="display:flex;flex-direction:row"><input type="text" id="txtPaymentBy" class="form-control"></div>
+                    Freight Paid By :<br /><div style="display:flex;flex-direction:row"><input type="text" id="txtPaymentBy" class="form-control"></div>
                 </div>
             </div>
             <div class="row">

@@ -858,7 +858,7 @@ End Code
             CustCode:$('#txtCustCode').val(),
             CustBranch:$('#txtCustBranch').val(),
             BillToCustCode:billtocustcode,
-            BillToCustBranch:BillToBranch,
+            BillToCustBranch:billtocustbranch,
             ContactName:'',
             EmpCode:user,
             PrintedBy:'',

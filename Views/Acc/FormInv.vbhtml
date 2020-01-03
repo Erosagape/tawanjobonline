@@ -15,6 +15,8 @@ End Code
 <div style="text-align:center;width:100%">
     <h2>INVOICE</h2>
 </div>
+<div id="dvCopy" style="text-align:right;width:100%">    
+</div>
 <div>
     <div style="display:flex;">
         <div style="flex:3;border:1px solid black;border-radius:5px;">
@@ -167,20 +169,20 @@ End Code
             </div>
             <br/>
             <div>
-                PLEASE REMIT TO ACCOUNT NO: 170-279834-5<br />
+                PLEASE REMIT TO ACCOUNT NO:<br/>170-279834-5<br />
                 "DAMON GOOD SERVICES CO.,LTD"<br />
                 SIAM COMMERCIAL BANK PUBLIC LIMITED<br />
                 THE MALL THA-PHRA BRANCH
             </div>
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
-            FOR THE CUSTOMER <br /><br />
+            FOR THE CUSTOMER <br /><br /> <br /><br />
             ......................................................... <br />
             __________/_________/________ <br />
             AUTHORIZED SIGNATURE
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
-            FOR @ViewBag.PROFILE_COMPANY_NAME <br /><br />
+            FOR @ViewBag.PROFILE_COMPANY_NAME <br /><br /> <br /><br />
             ......................................................... <br />
             __________/_________/________ <br />
             AUTHORIZED SIGNATURE
@@ -190,7 +192,12 @@ End Code
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     //$(document).ready(function () {
-
+    let ans = confirm('OK to print Original or Cancel For Copy');
+    if (ans == true) {
+        $('#dvCopy').html('<b>**ORIGINAL**</b>');
+    } else {
+        $('#dvCopy').html('<b>**COPY**</b>');
+    }
     let branch = getQueryString('branch');
     let invno = getQueryString('code');
     $.get(path + 'acc/getinvoice?branch=' + branch + '&code=' + invno, function (r) {
@@ -216,7 +223,7 @@ End Code
                 $('#lblTaxNumber').text(c.TaxNumber);
                 $('#lblTaxBranch').text(c.Branch);
                 if (c.UsedLanguage == 'TH') {
-                    $('#lblCustName').text(c.NameThai);
+                    $('#lblCustName').text(c.Title+' '+c.NameThai);
                     $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
                 } else {
                     $('#lblCustName').text(c.NameEng);

@@ -122,7 +122,7 @@
             mnuPath = path + 'Tracking/Index';
             break;
         case 'Tracking2':
-            mnuPath = path + 'Tracking/PublicIndex';
+            mnuPath = path + 'Tracking/Timeline';
             break;
         case 'Transport':
             mnuPath = path + 'JobOrder/Transport';

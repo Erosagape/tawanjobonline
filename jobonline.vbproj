@@ -829,6 +829,7 @@
     <Content Include="App_Data\ASAL\FormBooking.vbhtml" />
     <Content Include="Views\JobOrder\FormBookingSea.vbhtml" />
     <Content Include="Views\JobOrder\FormBooking.vbhtml" />
+    <Content Include="Views\Tracking\Timeline.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

@@ -62,11 +62,11 @@ End Code
         </div>
     </div>
 </div>
-<br/>
+<br />
 <div style="display:flex">
     <div style="flex:1">
         <label id="lblDescriptionH"></label>
-    </div>    
+    </div>
 </div>
 
 <table style="" border="1" width="100%">
@@ -82,8 +82,7 @@ End Code
             <th width="10%">NET<br />(THB)</th>
         </tr>
     </thead>
-    <tbody id="tbDetail">
-    </tbody>
+    <tbody id="tbDetail"></tbody>
     <tfoot>
         <tr>
             <td colspan="6" class="number">GRAND TOTAL (THB)</td>
@@ -95,17 +94,35 @@ End Code
     <br />
     <div style="display:flex">
         <div style="flex:1">
-            <label id="lblTRemark"></label>
+            REMARKS : <label id="lblTRemark"></label>
         </div>
     </div>
-    <br/>
+    <br />
     <label id="lblDescriptionF"></label>
 </p>
 <p>
     Best Regards,
-    <br/><br /><br /><br />
+    <br /><br /><br /><br />
     <label id="lblManagerName"></label>
 </p>
+<br />
+<div style="display:flex;">
+    <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
+        FOR THE CUSTOMER
+        <br /><br /><br />
+        <p>_____________________</p>
+        _____________________<br />
+        ___/_______/___<br />
+        AUTHORIZED SIGNATURE
+    </div>
+    <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
+        FOR THE COMPANY
+        <br /><br /><br />
+        <p>_____________________</p>
+        _____________________<br />
+        ___/_______/___<br />
+    </div>
+</div>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
@@ -119,7 +136,7 @@ End Code
         $.get(path + 'master/getcompany?code=' + cde + '&branch=' + br, function (r) {
             if (r.company.data.length > 0) {
                 let c = r.company.data[0];
-                $('#lblCustName').text(c.NameThai);
+                $('#lblCustName').text(c.Title + ' ' + c.NameThai);
                 $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
                 $('#lblCustTelFax').text((CStr(c.Phone) == '' ? '' : 'Tel :' + CStr(c.Phone)) + (CStr(c.FaxNumber) == '' ? '' : ' Fax :' + CStr(c.FaxNumber)));
             }
@@ -161,7 +178,7 @@ End Code
                 html += '<td>' + i.UnitCheck + '</td>';
                 html += '<td>' + i.QtyBegin + '-' + i.QtyEnd + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(i.ChargeAmt, 2) + ' ' + i.CurrencyCode + '</td>';
-                html += '<td style="text-align:center">' + i.CurrencyRate + '</td>';                
+                html += '<td style="text-align:center">' + i.CurrencyRate + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(i.TotalAmt,2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(i.TotalCharge,2) + '</td>';
                 html += '<tr></tr>';

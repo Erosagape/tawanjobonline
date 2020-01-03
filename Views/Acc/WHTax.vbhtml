@@ -590,7 +590,7 @@ End Code
         $('#txtBranchName').val(dr.BrName);
     }
     function ReadCustomer(dr) {
-        $('#txtTName1').val(dr.NameThai);
+        $('#txtTName1').val(dr.Title + ' ' +dr.NameThai);
         $('#txtTAddress1').val(dr.TAddress1 + ' ' + dr.TAddress2);
         $('#txtTaxNumber1').val(dr.TaxNumber);
         $('#txtBranch1').val(dr.Branch);

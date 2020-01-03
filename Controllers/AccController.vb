@@ -1684,7 +1684,7 @@ Namespace Controllers
                 End If
 
                 Dim oHead = New CRcpHeader(jobWebConn).GetData(tSqlw & " ORDER BY ReceiptDate DESC")
-                Dim oDet = New CRcpDetail(jobWebConn).GetData(tSqlw)
+                Dim oDet = New CRcpDetail(jobWebConn).GetData(" WHERE ReceiptNo IN(SELECT ReceiptNo FROM Job_ReceiptHeader " & tSqlw & ")")
 
                 Dim jsonH As String = ""
                 Dim jsonD As String = ""

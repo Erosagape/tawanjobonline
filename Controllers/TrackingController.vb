@@ -11,6 +11,9 @@ Namespace Controllers
         Function Document() As ActionResult
             Return GetView("Document")
         End Function
+        Function Timeline() As ActionResult
+            Return GetView("Timeline")
+        End Function
         Function PublicIndex() As ActionResult
             Return View()
         End Function
