@@ -129,7 +129,7 @@ End Code
     }
     function ClearData() {
         $('#txtVenCode').val('');
-        $('#txtBranchCode').val('');
+        $('#txtBranchCode').val('0000');
         $('#txtTaxNumber').val('');
         $('#txtTitle').val('');
         $('#txtTName').val('');

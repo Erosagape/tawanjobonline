@@ -39,6 +39,15 @@ Public Class CGLHeader
             m_FiscalYear = value
         End Set
     End Property
+    Private m_BatchDate As Date
+    Public Property BatchDate As Date
+        Get
+            Return m_BatchDate
+        End Get
+        Set(value As Date)
+            m_BatchDate = value
+        End Set
+    End Property
     Private m_LastupDate As Date
     Public Property LastupDate As Date
         Get
@@ -173,6 +182,7 @@ Public Class CGLHeader
                             dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
                             dr("GLRefNo") = Main.GetDBString(Me.GLRefNo, dt.Columns("GLRefNo"))
                             dr("FiscalYear") = Main.GetDBString(Me.FiscalYear, dt.Columns("FiscalYear"))
+                            dr("BatchDate") = Main.GetDBDate(Me.BatchDate)
                             dr("LastupDate") = Main.GetDBDate(Me.LastupDate)
                             dr("UpdateBy") = Main.GetDBString(Me.UpdateBy, dt.Columns("UpdateBy"))
                             dr("GLType") = Main.GetDBString(Me.GLType, dt.Columns("GLType"))
@@ -225,6 +235,9 @@ Public Class CGLHeader
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("FiscalYear"))) = False Then
                         row.FiscalYear = rd.GetString(rd.GetOrdinal("FiscalYear")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("BatchDate"))) = False Then
+                        row.BatchDate = rd.GetValue(rd.GetOrdinal("BatchDate"))
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("LastupDate"))) = False Then
                         row.LastupDate = rd.GetValue(rd.GetOrdinal("LastupDate"))

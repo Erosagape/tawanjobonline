@@ -877,7 +877,7 @@ End Code
                     $('#txtSeqNo').val(response.result.data);
                     ShowDetail($('#txtBranchCode').val(), $('#txtDocNo').val());
                     $('#txtDocItemNo').val(response.result.data);
-                    ShowItem($('#txtBranchCode').val(), $('#txtDocNo').val(), $('#txtDocItemNo').val());
+                    ShowItem($('#txtBranchCode').val(), $('#txtDocNo').val(), $('#txtSeqNo').val());
                     ShowMessage('Save Section=>'+ response.result.data);
                     //$('#frmDetail').modal('hide');
                     return;
@@ -892,7 +892,7 @@ End Code
     function SaveItem() {
         row_i.BranchCode = $('#txtBranchCode').val();
         row_i.QNo = $('#txtDocNo').val();
-        row_i.SeqNo = $('#txtDocItemNo').val();
+        row_i.SeqNo = $('#txtSeqNo').val();
         row_i.ItemNo = $('#txtItemNo').val();
         row_i.SICode = $('#txtSICode').val();
         row_i.DescriptionThai = $('#txtDescriptionThai').val();
@@ -930,7 +930,7 @@ End Code
             success: function (response) {
                 if (response.result.data !== null) {
                     $('#txtDocItemNo').val(response.result.data);
-                    ShowItem($('#txtBranchCode').val(), $('#txtDocNo').val(), $('#txtDocItemNo').val());
+                    ShowItem($('#txtBranchCode').val(), $('#txtDocNo').val(), $('#txtSeqNo').val());
                     ShowMessage('Save Item=>' +response.result.data);
                     //$('#frmItem').modal('hide');
                     return;

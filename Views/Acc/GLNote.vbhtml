@@ -24,7 +24,7 @@ End Code
             Record By :<br /><div style="display:flex"><input type="text" id="txtUpdateBy" class="form-control" disabled></div>
         </div>
         <div class="col-sm-2">
-            Record Date<br /> <input type="date" id="txtLastupDate" class="form-control" tabIndex="3" disabled>
+            Record Date<br /> <input type="date" id="txtBatchDate" class="form-control" tabIndex="3">
         </div>
     </div>
     <div class="row">
@@ -272,7 +272,7 @@ End Code
         ShowBranch(path, dr.BranchCode, '#txtBranchName');
         $('#txtGLRefNo').val(dr.GLRefNo);
         $('#txtFiscalYear').val(dr.FiscalYear);
-        $('#txtLastupDate').val(CDateEN(dr.LastupDate));
+        $('#txtBatchDate').val(CDateEN(dr.BatchDate));
         $('#txtUpdateBy').val(dr.UpdateBy);
         $('#txtGLType').val(dr.GLType);
         $('#txtRemark').val(dr.Remark);
@@ -307,7 +307,8 @@ End Code
         let obj = {
             BranchCode:$('#txtBranchCode').val(),
             GLRefNo:$('#txtGLRefNo').val(),
-            FiscalYear:$('#txtFiscalYear').val(),
+            FiscalYear: $('#txtFiscalYear').val(),
+            BatchDate:CDateEN($('#txtBatchDate').val()),
             LastupDate:CDateEN(GetToday()),
             UpdateBy:user,
             GLType:$('#txtGLType').val(),
@@ -387,7 +388,7 @@ End Code
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
         $('#txtGLRefNo').val('');
         $('#txtFiscalYear').val('');
-        $('#txtLastupDate').val(GetToday());
+        $('#txtBatchDate').val(GetToday());
         $('#txtUpdateBy').val(user);
         $('#txtGLType').val('GL');
         $('#txtRemark').val('');

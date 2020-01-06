@@ -689,7 +689,7 @@ Namespace Controllers
                     End If
                     data.SetConnect(jobWebConn)
                     If "" & data.GLRefNo = "" Then
-                        data.AddNew(data.GLType & DateTime.Today.ToString("yyMM") & "____")
+                        data.AddNew(data.GLType & data.BatchDate.ToString("yyMM") & "____")
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND GLRefNo='{1}' ", data.BranchCode, data.GLRefNo))
                     Dim json = "{""result"":{""data"":""" & data.GLRefNo & """,""msg"":""" & msg & """}}"

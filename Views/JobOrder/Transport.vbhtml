@@ -54,7 +54,10 @@ End Code
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    Notify Party :<br />
+                    <a href="../Master/Customers?mode=NOTIFY_PARTY" target="_blank">
+                        <label>Notify Party:</label>
+                    </a>
+                    <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" id="txtNotifyCode" class="form-control" style="width:20%" />
                         <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
@@ -62,7 +65,10 @@ End Code
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    Agent Code :<br />
+                    <a href="../Master/Venders" target="_blank">
+                        <label>Agent:</label>
+                    </a>
+                    <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" id="txtVenderCode" class="form-control" style="width:20%">
                         <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('vender')">...</button>
@@ -104,13 +110,13 @@ End Code
             <div class="row">
                 <div class="col-sm-3" style="display:flex;flex-direction:row">
                     <div>
-                        Closing Date :<br />
+                        CY Closing/Pickup Date :<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="date" id="txtCYDate" class="form-control">
                         </div>
                     </div>
                     <div>
-                        Closing Time :<br />
+                        Time :<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtCYTime" class="form-control">
                         </div>
@@ -118,7 +124,7 @@ End Code
                 </div>
                 <div class="col-sm-3" style="display:flex;flex-direction:row">
                     <div>
-                        Departure Date :<br />
+                        Last Load/Packing Date :<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="date" id="txtPackingDate" class="form-control">
                         </div>
@@ -132,7 +138,7 @@ End Code
                 </div>
                 <div class="col-sm-3" style="display:flex;flex-direction:row">
                     <div>
-                        Arrival Date :<br />
+                        Arrival/Delivery Date :<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="date" id="txtFactoryDate" class="form-control">
                         </div>

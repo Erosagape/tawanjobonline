@@ -213,7 +213,7 @@ Namespace Controllers
                     End If
                     data.SetConnect(jobWebConn)
                     If "" & data.QNo = "" Then
-                        data.AddNew("Q-" & DateTime.Now.ToString("yyMM") & "-____")
+                        data.AddNew("Q-" & data.DocDate.ToString("yyMM") & "-____")
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND QNo='{1}' ", data.BranchCode, data.QNo))
                     Dim json = "{""result"":{""data"":""" & data.QNo & """,""msg"":""" & msg & """}}"
@@ -776,7 +776,7 @@ Namespace Controllers
                     tSqlW &= " AND j.JNo Like '__" & Request.QueryString("Period") & "%' "
                 End If
                 If Not IsNothing(Request.QueryString("Year")) Then
-                    tSqlW &= " AND Year(j.DocDate) ='" & Request.QueryString("Year") & "' "
+                    tSqlW &= " AND Year(j.CreateDate) ='" & Request.QueryString("Year") & "' "
                 End If
                 If Not IsNothing(Request.QueryString("JobType")) Then
                     tSqlW &= " AND j.JobType =" & Request.QueryString("JobType") & " "
@@ -1082,17 +1082,12 @@ Namespace Controllers
                     FindJob = oJob.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", oJob.BranchCode, CopyFrom))
                     If FindJob.Count > 0 Then
                         oJob = FindJob(0)
+                        oJob.AddNew("")
                     End If
                 End If
-                Dim prefix As String = GetJobPrefix(oJob)
-                If Not IsNothing(Request.QueryString("Prefix")) Then
-                    prefix = "" & Request.QueryString("Prefix")
-                End If
-                oJob.AddNew(prefix & DateTime.Now.ToString("yyMM") & "____", IIf(CopyFrom <> "", False, True))
-                Dim result As String = oJob.SaveData(" WHERE BranchCode='" & oJob.BranchCode & "' And JNo='" & oJob.JNo & "'")
 
                 Dim json As String = JsonConvert.SerializeObject(oJob)
-                json = "{""job"":{""data"":" & json & ",""status"":""Y"",""result"":""" + result + """}}"
+                json = "{""job"":{""data"":" & json & ",""status"":""Y"",""result"":""OK""}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetNewJob", ex.Message, ex.StackTrace, True)
@@ -1130,7 +1125,12 @@ Namespace Controllers
                         Return Content("{""msg"":""Please select Branch""}", jsonContent)
                     End If
                     If data.JNo = "" Then
-                        Return Content("{""msg"":""Please select JobNo""}", jsonContent)
+                        'Return Content("{""msg"":""Please select JobNo""}", jsonContent)
+                        Dim prefix As String = GetJobPrefix(data)
+                        If Not IsNothing(Request.QueryString("Prefix")) Then
+                            prefix = "" & Request.QueryString("Prefix")
+                        End If
+                        data.AddNew(prefix & data.DocDate.ToString("yyMM") & "____")
                     End If
                     Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
                     Dim FindJob = New CJobOrder(jobWebConn).GetData(sql)
@@ -1138,24 +1138,16 @@ Namespace Controllers
                         If FindJob(0).JNo <> data.JNo Then
                             Return Content("{""msg"":""invoice '" + data.InvNo + "' has been opened for job '" + FindJob(0).JNo + "' ""}", jsonContent)
                         End If
-                        'Dim log As String = ""
-                        'For Each prop In New CJobOrder().GetType().GetProperties()
-                        'Dim valOld = prop.GetValue(FindJob(0))
-                        'Dim valNew = prop.GetValue(data)
-                        'If valOld.Equals(valNew) = False Then
-                        'log &= prop.Name & "=" & prop.GetValue(FindJob(0)) & vbCrLf
-                        'End If
-                        'Next
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
                     'Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetJobOrder", "Save", JsonConvert.SerializeObject(data), False)
-                    Return Content("{""msg"":""" & msg & """}", jsonContent)
+                    Return Content("{""msg"":""" & msg & """,""result"":""" & data.JNo & """}", jsonContent)
                 Else
-                    Return Content("{""msg"":""No data to save""}", jsonContent)
+                    Return Content("{""msg"":""No data to save"",""result"":""" & data.JNo & """}", jsonContent)
                 End If
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetJobOrder", ex.Message, ex.StackTrace, True)
-                Dim json = "{""msg"":""" & ex.Message & """}"
+                Dim json = "{""msg"":""" & ex.Message & """,""result"":""" & data.JNo & """}"
                 Return Content(json, jsonContent)
             End Try
         End Function

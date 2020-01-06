@@ -1,5 +1,4 @@
-﻿
-@Code
+﻿@Code
     ViewBag.Title = "Estimate Cost"
 End Code
 <!-- HTML CONTROLS -->
@@ -22,6 +21,27 @@ End Code
             </div>
         </div>
         <div class="col-sm-2">
+            <br/>
+            <button id="btnAutoEntry" class="btn btn-primary" onclick="LoadFromQuo()">Load from Quotation</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <label for="txtSICode">Code  :</label>
+            <br />
+            <div style="display:flex">
+                <input type="text" id="txtSICode" class="form-control" style="width:100px" />
+                <input type="button" id="btnBrowseS" class="btn btn-default" value="..." onclick="SearchData('service')" />
+                <input type="text" id="txtSDescription" class="form-control" style="width:100%" />
+            </div>
+        </div>
+        <div class="col-sm-4">
+            Remark :<br />
+            <div style="display:flex">
+                <input type="text" id="txtTRemark" class="form-control">
+            </div>
+        </div>
+        <div class="col-sm-2">
             Status :<br />
             <div style="display:flex">
                 <select id="txtStatus" class="form-control dropdown">
@@ -31,26 +51,85 @@ End Code
             </div>
         </div>
     </div>
-<div class="row">
-    <div class="col-sm-6">
-        <label for="txtSICode">Code  :</label>
-        <br/>
-        <div style="display:flex">
-            <input type="text" id="txtSICode" class="form-control" style="width:100px" />
-            <input type="button" id="btnBrowseS" class="btn btn-default" value="..." onclick="SearchData('service')" />
-            <input type="text" id="txtSDescription" class="form-control" style="width:100%" />
+    <div class="row">
+        <div class="col-sm-2">
+            Amount :<br />
+            <div style="display:flex">
+                <input type="number" id="txtAmountCharge" class="form-control" value="0.00" onchange="CalTotal()">
+            </div>
+        </div>
+        <div class="col-sm-2">
+            Currency:
+            <br />
+            <div style="display:flex">
+                <input type="text" id="txtCurrencyCode" class="form-control" disabled />
+                <input type="button" id="btnBrowseC" class="btn btn-default" value="..." onclick="SearchData('curr')" />
+            </div>
+        </div>
+        <div class="col-sm-2">
+            Exchange Rate:
+            <br />
+            <div style="display:flex">
+                <input type="number" id="txtExchangeRate" class="form-control" value="0.00"  onchange="CalTotal()">
+            </div>
+        </div>
+
+        <div class="col-sm-2">
+            Qty:
+            <br />
+            <div style="display:flex">
+                <input type="number" id="txtQty" class="form-control" value="0.00" onchange="CalTotal()">
+            </div>
+        </div>
+        <div class="col-sm-2">
+            Unit:
+            <br />
+            <div style="display:flex">
+                <input type="text" id="txtQtyUnit" class="form-control" disabled />
+                <input type="button" id="btnBrowseU" class="btn btn-default" value="..." onclick="SearchData('unit')" />
+            </div>
+        </div>
+        <div class="col-sm-2">
+            Total :<br />
+            <div style="display:flex">
+                <input type="number" id="txtAmtCal" class="form-control" value="0.00" disabled>
+            </div>
         </div>
     </div>
-    <div class="col-sm-4">
-        Remark :<br />
+<div class="row">
+    <div class="col-sm-2">
+        Vat Rate:
+        <br />
         <div style="display:flex">
-            <input type="text" id="txtTRemark" class="form-control">
+            <input type="number" id="txtAmtVatRate" class="form-control" value="0.00" onchange="CalTotal()">
         </div>
     </div>
     <div class="col-sm-2">
-        Amount :<br />
+        Vat:
+        <br />
         <div style="display:flex">
-            <input type="number" id="txtAmountCharge" class="form-control" value="0.00">
+            <input type="number" id="txtAmtVat" class="form-control" value="0.00" onchange="SumTotal()">
+        </div>
+    </div>
+    <div class="col-sm-2">
+        Wht Rate:
+        <br />
+        <div style="display:flex">
+            <input type="number" id="txtAmtWhtRate" class="form-control" value="0.00" onchange="CalTotal()">
+        </div>
+    </div>
+    <div class="col-sm-2">
+        Wht:
+        <br />
+        <div style="display:flex">
+            <input type="number" id="txtAmtWht" class="form-control" value="0.00" onchange="SumTotal()">
+        </div>
+    </div>
+    <div class="col-sm-2">
+        Total:
+        <br />
+        <div style="display:flex">
+            <input type="number" id="txtAmtTotal" class="form-control" value="0.00">
         </div>
     </div>
 </div>
@@ -100,6 +179,7 @@ End Code
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
         $('#txtJNo').focus();
     }
+    ClearData();
     SetEvents();
     function SetEvents() {
         $('#txtSICode').keydown(function (event) {
@@ -124,7 +204,11 @@ End Code
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response,4);
             //SICode
-            CreateLOV(dv, '#frmSearchSICode', '#tbServ', 'Service Code', response,4);
+            CreateLOV(dv, '#frmSearchSICode', '#tbServ', 'Service Code', response, 4);
+            //Service Unit
+            CreateLOV(dv, '#frmSearchSUnit', '#tbSUnit', 'Service Unit', response, 4);
+            //Currency
+            CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency', response, 4);
         });
     }
     //CRUD Functions used in HTML Java Scripts
@@ -148,6 +232,17 @@ End Code
         $('#txtTRemark').val(dr.TRemark);
         $('#txtAmountCharge').val(CDbl(dr.AmountCharge,4));
         $('#txtStatus').val(dr.Status);
+        $('#txtCurrencyCode').val(dr.CurrencyCode);
+        $('#txtExchangeRate').val(dr.ExchangeRate);
+        $('#txtQty').val(dr.Qty);
+        CalTotal();
+        $('#txtQtyUnit').val(dr.QtyUnit);
+        $('#txtAmtVatRate').val(dr.AmtVatRate);
+        $('#txtAmtVat').val(dr.AmtVat);
+        $('#txtAmtWhtRate').val(dr.AmtWhtRate);
+        $('#txtAmtWht').val(dr.AmtWht);
+        $('#txtAmtTotal').val(dr.AmtTotal);
+        SumTotal();
     }
     function SaveData() {
         let obj = {
@@ -157,7 +252,16 @@ End Code
             SDescription:$('#txtSDescription').val(),
             TRemark:$('#txtTRemark').val(),
             AmountCharge:CNum($('#txtAmountCharge').val()),
-            Status:$('#txtStatus').val()
+            Status: $('#txtStatus').val(),
+            CurrencyCode: $('#txtCurrencyCode').val(),
+            ExchangeRate: $('#txtExchangeRate').val(),
+            Qty: $('#txtQty').val(),
+            QtyUnit: $('#txtQtyUnit').val(),
+            AmtVatRate: $('#txtAmtVatRate').val(),
+            AmtVat: $('#txtAmtVat').val(),
+            AmtWhtRate: $('#txtAmtWhtRate').val(),
+            AmtWht: $('#txtAmtWht').val(),
+            AmtTotal: $('#txtAmtTotal').val()
         };
         if (obj.SICode != "") {
             ShowConfirm("Do you need to Save " + obj.SICode + "?", function (ask) {
@@ -193,6 +297,16 @@ End Code
         $('#txtTRemark').val('');
         $('#txtAmountCharge').val('0.00');
         $('#txtStatus').val('R');
+        $('#txtCurrencyCode').val('THB');
+        $('#txtExchangeRate').val('1');
+        $('#txtQty').val('1');
+        $('#txtQtyUnit').val('');
+        $('#txtAmtCal').val('0.00');
+        $('#txtAmtVatRate').val('0');
+        $('#txtAmtVat').val('0.00');
+        $('#txtAmtWhtRate').val('0');
+        $('#txtAmtWht').val('0.00');
+        $('#txtAmtTotal').val('0.00');
     }
     function RefreshGrid() {
         let w = '?Branch=' + $('#txtBranchCode').val();
@@ -256,7 +370,19 @@ End Code
             case 'job':
                 SetGridJob(path, '#tbJob', '#frmSearchJob','', ReadJob);
                 break;
+            case 'unit':
+                SetGridServUnit(path, '#tbSUnit', '#frmSearchSUnit', ReadUnit);
+                break;
+            case 'curr':
+                SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
+                break;
         }
+    }
+    function ReadCurrency(dt) {
+        $('#txtCurrencyCode').val(dt.Code);
+    }
+    function ReadUnit(dt) {
+        $('#txtQtyUnit').val(dt.UnitType);
     }
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);
@@ -269,8 +395,40 @@ End Code
     function ReadService(dt) {
         $('#txtSICode').val(dt.SICode);
         $('#txtSDescription').val(dt.NameThai);
+        $('#txtTRemark').val(dt.NameEng);
+        if ($('#txtCurrencyCode').val() == '') {
+            $('#txtCurrencyCode').val(dt.CurrencyCode);
+        }
+        $('#txtQtyUnit').val(dt.UnitCharge);
+        $('#txtAmountCharge').val(CNum(dt.StdPrice));
+        if (dt.IsTaxCharge == 1) {
+            $('#txtAmtVatRate').val(CDbl(CNum('@ViewBag.PROFILE_VATRATE')*100,0));
+        }
+        if (dt.Is50Tavi == 1) {
+            $('#txtAmtWhtRate').val(CNum(dt.Rate50Tavi));
+        }
+        CalTotal();
     }
-
+    function CalTotal() {
+        let amtbase = CNum($('#txtAmountCharge').val());
+        let excrate = CNum($('#txtExchangeRate').val());
+        let qty = CNum($('#txtQty').val());
+        let amtcal = (amtbase * excrate) * qty;
+        $('#txtAmtCal').val(CDbl(amtcal, 2));
+        let vatrate = CNum($('#txtAmtVatRate').val()) * 0.01;
+        let vat = amtcal * vatrate;
+        $('#txtAmtVat').val(CDbl(vat, 2));
+        let whtrate = CNum($('#txtAmtWhtRate').val()) * 0.01;
+        let wht = amtcal * whtrate;
+        $('#txtAmtWht').val(CDbl(wht, 2));        
+        SumTotal();
+    }
+    function SumTotal() {
+        let amtbase = CNum($('#txtAmtCal').val());
+        let amtvat = CNum($('#txtAmtVat').val());
+        let amtwht = CNum($('#txtAmtWht').val());
+        $('#txtAmtTotal').val(CDbl(amtbase + amtvat - amtwht,2));
+    }
     function CopyData() {
         if ($('#txtJobCopyFrom').val() == '') {
             ShowMessage('Please Enter Job To Copy Data From',true);
@@ -281,5 +439,13 @@ End Code
             RefreshGrid();
             ShowMessage(msg);
         });
+    }
+    function LoadFromQuo() {
+        $.get(path + 'Adv/GetClearExpFromQuo?Branch=' + $('#txtBranchCode').val() + '&Job=' + $('#txtJNo').val())
+            .done(function (r) {
+                if (r.estimate.data.length > 0) {
+                    RefreshGrid();
+                }
+            });
     }
 </script>

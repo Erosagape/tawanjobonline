@@ -75,6 +75,87 @@ Public Class CClearExp
             m_Status = value
         End Set
     End Property
+    Private m_CurrencyCode As String
+    Public Property CurrencyCode As String
+        Get
+            Return m_CurrencyCode
+        End Get
+        Set(value As String)
+            m_CurrencyCode = value
+        End Set
+    End Property
+    Private m_ExchangeRate As Double
+    Public Property ExchangeRate As Double
+        Get
+            Return m_ExchangeRate
+        End Get
+        Set(value As Double)
+            m_ExchangeRate = value
+        End Set
+    End Property
+    Private m_Qty As Double
+    Public Property Qty As Double
+        Get
+            Return m_Qty
+        End Get
+        Set(value As Double)
+            m_Qty = value
+        End Set
+    End Property
+    Private m_QtyUnit As String
+    Public Property QtyUnit As String
+        Get
+            Return m_QtyUnit
+        End Get
+        Set(value As String)
+            m_QtyUnit = value
+        End Set
+    End Property
+    Private m_AmtVatRate As Double
+    Public Property AmtVatRate As Double
+        Get
+            Return m_AmtVatRate
+        End Get
+        Set(value As Double)
+            m_AmtVatRate = value
+        End Set
+    End Property
+    Private m_AmtVat As Double
+    Public Property AmtVat As Double
+        Get
+            Return m_AmtVat
+        End Get
+        Set(value As Double)
+            m_AmtVat = value
+        End Set
+    End Property
+    Private m_AmtWhtRate As Double
+    Public Property AmtWhtRate As Double
+        Get
+            Return m_AmtWhtRate
+        End Get
+        Set(value As Double)
+            m_AmtWhtRate = value
+        End Set
+    End Property
+    Private m_AmtWht As Double
+    Public Property AmtWht As Double
+        Get
+            Return m_AmtWht
+        End Get
+        Set(value As Double)
+            m_AmtWht = value
+        End Set
+    End Property
+    Private m_AmtTotal As Double
+    Public Property AmtTotal As Double
+        Get
+            Return m_AmtTotal
+        End Get
+        Set(value As Double)
+            m_AmtTotal = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -95,6 +176,15 @@ Public Class CClearExp
                             dr("TRemark") = Main.GetDBString(Me.TRemark, dt.Columns("TRemark"))
                             dr("AmountCharge") = Me.AmountCharge
                             dr("Status") = Main.GetDBString(Me.Status, dt.Columns("Status"))
+                            dr("CurrencyCode") = Main.GetDBString(Me.CurrencyCode, dt.Columns("CurrencyCode"))
+                            dr("ExchangeRate") = Me.ExchangeRate
+                            dr("Qty") = Me.Qty
+                            dr("QtyUnit") = Main.GetDBString(Me.QtyUnit, dt.Columns("QtyUnit"))
+                            dr("AmtVatRate") = Me.AmtVatRate
+                            dr("AmtVat") = Me.AmtVat
+                            dr("AmtWhtRate") = Me.AmtWhtRate
+                            dr("AmtWht") = Me.AmtWht
+                            dr("AmtTotal") = Me.AmtTotal
 
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
@@ -105,7 +195,7 @@ Public Class CClearExp
                 End Using
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrExpense", "SaveData", ex.Message, True, ex.StackTrace, "")
-                msg = ex.Message
+                msg = "[ERROR]:" & ex.Message
             End Try
         End Using
         Return msg
@@ -149,6 +239,33 @@ Public Class CClearExp
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("Status"))) = False Then
                         row.Status = rd.GetString(rd.GetOrdinal("Status")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CurrencyCode"))) = False Then
+                        row.CurrencyCode = rd.GetString(rd.GetOrdinal("CurrencyCode")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ExchangeRate"))) = False Then
+                        row.ExchangeRate = rd.GetDouble(rd.GetOrdinal("ExchangeRate"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("Qty"))) = False Then
+                        row.Qty = rd.GetDouble(rd.GetOrdinal("Qty"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("QtyUnit"))) = False Then
+                        row.QtyUnit = rd.GetString(rd.GetOrdinal("QtyUnit")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("AmtVatRate"))) = False Then
+                        row.AmtVatRate = rd.GetDouble(rd.GetOrdinal("AmtVatRate"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("AmtVat"))) = False Then
+                        row.AmtVat = rd.GetDouble(rd.GetOrdinal("AmtVat"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("AmtWhtRate"))) = False Then
+                        row.AmtWhtRate = rd.GetDouble(rd.GetOrdinal("AmtWhtRate"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("AmtWht"))) = False Then
+                        row.AmtWht = rd.GetDouble(rd.GetOrdinal("AmtWht"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("AmtTotal"))) = False Then
+                        row.AmtTotal = rd.GetDouble(rd.GetOrdinal("AmtTotal"))
                     End If
                     lst.Add(row)
                 End While

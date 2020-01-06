@@ -23,6 +23,51 @@ Namespace Controllers
         Function EstimateCost() As ActionResult
             Return GetView("EstimateCost", "MODULE_ADV")
         End Function
+        Function GetClearExpFromQuo() As ActionResult
+            Try
+                Dim tSqlW As String = " WHERE j.JNo<>'' "
+                Dim branch As String = ""
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    branch = Request.QueryString("Branch").ToString
+                    tSqlW &= String.Format(" AND j.BranchCode='{0}'", branch)
+                End If
+                Dim job As String = ""
+                If Not IsNothing(Request.QueryString("Job")) Then
+                    job = Request.QueryString("Job").ToString
+                    tSqlW &= String.Format(" AND j.JNo='{0}'", job)
+                End If
+                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(SQLSelectExpenseFromQuo() & tSqlW)
+                If oData.Rows.Count > 0 Then
+                    For Each row As DataRow In oData.Rows
+                        Dim oRow As New CClearExp(jobWebConn)
+                        oRow.BranchCode = row("BranchCode").ToString
+                        oRow.JNo = row("JNo").ToString
+                        oRow.SICode = row("SICode").ToString
+                        oRow.SDescription = row("NameThai").ToString
+                        oRow.TRemark = row("TRemark").ToString
+                        oRow.Status = If(row("IsRequired").ToString = "1", "R", "O")
+                        oRow.CurrencyCode = row("CurrencyCode").ToString
+                        oRow.ExchangeRate = row("CurrencyRate")
+                        oRow.AmountCharge = row("ChargeAmt")
+                        oRow.Qty = row("QtyBegin")
+                        oRow.QtyUnit = row("UnitCheck").ToString
+                        oRow.AmtVatRate = row("VatRate")
+                        oRow.AmtVat = row("VatAmt")
+                        oRow.AmtWhtRate = row("TaxRate")
+                        oRow.AmtWht = row("TaxAmt")
+                        oRow.AmtTotal = row("TotalAmt")
+                        Dim msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode))
+                    Next
+                End If
+                Dim oRows = New CClearExp(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' ", branch, job))
+                Dim json = JsonConvert.SerializeObject(oRows)
+                json = "{""estimate"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearExpFromQuo", ex.Message, ex.StackTrace, True)
+                Return Content("{""estimate"":{""data"":[]}}", jsonContent)
+            End Try
+        End Function
         Function GetClearExpReport() As ActionResult
             Try
                 Dim tSqlw As String = " WHERE a.JNo<>'' "
@@ -86,6 +131,16 @@ Namespace Controllers
                     oRec.AmountCharge = oRow.AmountCharge
                     oRec.TRemark = oRow.TRemark
                     oRec.Status = oRow.Status
+                    oRec.CurrencyCode = oRow.CurrencyCode
+                    oRec.ExchangeRate = oRow.ExchangeRate
+                    oRec.Qty = oRow.Qty
+                    oRec.QtyUnit = oRow.QtyUnit
+                    oRec.AmtVatRate = oRow.AmtVatRate
+                    oRec.AmtVat = oRow.AmtVat
+                    oRec.AmtWhtRate = oRow.AmtWhtRate
+                    oRec.AmtWht = oRow.AmtWht
+                    oRec.AmtTotal = oRow.AmtTotal
+
                     msg &= "<br/>" & oRec.SaveData(String.Format(" WHERE BranchCode+'|'+JNo='{0}' AND SICode='{1}' ", jobDest, oRow.SICode))
                 Next
                 If msg = "" Then msg = "No data to copy"

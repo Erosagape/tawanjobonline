@@ -514,7 +514,7 @@ End Code
         let jsonString = JSON.stringify({ data: obj });
 
         postData("@Url.Action("SetJobData", "JobOrder")", jsonString, function (r) {
-            $('#txtJNo').val(obj.JNo);
+            $('#txtJNo').val(r.result);
             $('#dvResp').html(r.msg);
             $('#frmShowJob').modal('show');
             $('#btnCreateJob').removeAttr('disabled');

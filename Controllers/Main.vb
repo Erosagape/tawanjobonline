@@ -1590,7 +1590,9 @@ GROUP BY j.JobStatus
     End Function
     Public Function SQLSelectClearExp() As String
         Dim sql = "
-SELECT a.BranchCode,a.JNo,a.SICode,a.SDescription,a.TRemark,a.AmountCharge,a.Status,b.ClrNo
+SELECT a.BranchCode,a.JNo,a.SICode,a.SDescription,a.TRemark,a.AmountCharge,a.Status,
+a.CurrencyCode,a.ExchangeRate,a.Qty,a.QtyUnit,a.AmtVatRate,a.AmtVat,a.AmtWhtRate,a.AmtWht,
+a.AmtTotal,b.ClrNo
 FROM dbo.Job_ClearExp a
 LEFT JOIN (
 SELECT BranchCode,JobNo,SICode,Max(ClrNo) as ClrNo
@@ -1924,19 +1926,30 @@ WHERE (j.JobStatus < 90)
     Function SQLSelectJobSummary(sqlw As String) As String
         Dim sql = "SELECT * FROM 
 (SELECT jt.ConfigKey AS JobTypeCode, jt.ConfigValue AS JobTypeName, sb.ConfigKey AS ShipByCode, sb.ConfigValue AS ShipByName, COUNT(j.JNo) AS TotalJob, 
-                         SUBSTRING(j.JNo, 3, 2) + '/' + SUBSTRING(j.JNo, 5, 2) AS Period,SUBSTRING(j.JNo, 3, 2) as FiscalYear
+                         Convert(varchar,Year(j.CreateDate)) + '/' + RIGHT('0'+Convert(varchar,Month(j.CreateDate)),2) AS Period,Year(j.CreateDate) as FiscalYear,Month(j.CreateDate) as JobMonth
 FROM dbo.Mas_Config AS jt INNER JOIN
                          dbo.Job_Order AS j ON CONVERT(int, jt.ConfigKey) = j.JobType INNER JOIN
                          dbo.Mas_Config AS sb ON CONVERT(int, sb.ConfigKey) = j.ShipBy
 WHERE (jt.ConfigCode = N'JOB_TYPE') AND (sb.ConfigCode = N'SHIP_BY') AND (j.JobStatus <> 99) {0}
-GROUP BY jt.ConfigKey, jt.ConfigValue, sb.ConfigKey, sb.ConfigValue, SUBSTRING(j.JNo, 3, 2) + '/' + SUBSTRING(j.JNo, 5, 2),
-SUBSTRING(j.JNo, 3, 2)
+GROUP BY jt.ConfigKey, jt.ConfigValue, sb.ConfigKey, sb.ConfigValue, Year(j.CreateDate),
+Month(j.CreateDate)
 UNION
-SELECT 'ALL','ALL TYPE','ALL','ALL TYPE',COUNT(*),SUBSTRING(j.JNo, 3, 2) +'/ALL',SUBSTRING(j.JNo, 3, 2) as FiscalYear
+SELECT 'ALL','ALL TYPE','ALL','ALL TYPE',COUNT(*),Convert(varchar,Year(j.CreateDate)) +'/ALL',Year(j.CreateDate) as FiscalYear,0 as JobMonth
 FROM dbo.Job_Order j WHERE j.JobStatus<>99 {0}
-GROUP BY SUBSTRING(j.JNo, 3, 2)
+GROUP BY Year(j.CreateDate)
 ) t
 "
         Return String.Format(sql, sqlw)
+    End Function
+    Function SQLSelectExpenseFromQuo() As String
+        Return "
+SELECT j.BranchCode, j.JNo, j.QNo, i.SICode, i.DescriptionThai as TRemark, i.QtyBegin, i.QtyEnd, i.CalculateType, i.UnitCheck, i.CurrencyCode, i.CurrencyRate, i.ChargeAmt, i.Isvat, i.VatRate, i.VatAmt, i.IsTax, 
+i.TaxRate, i.TaxAmt, i.TotalAmt, i.TotalCharge, i.UnitDiscntPerc, i.UnitDiscntAmt, i.VenderCode, i.VenderCost, i.BaseProfit, i.CommissionPerc, i.CommissionAmt, 
+i.NetProfit, i.IsRequired,s.NameThai, s.NameEng
+FROM dbo.Job_QuotationDetail AS d INNER JOIN
+dbo.Job_Order AS j ON d.BranchCode = j.BranchCode AND d.QNo = j.QNo AND d.SeqNo = j.Revise AND d.JobType = j.JobType AND d.ShipBy = j.ShipBy INNER JOIN
+dbo.Job_QuotationItem AS i ON d.BranchCode = i.BranchCode AND d.QNo = i.QNo AND d.SeqNo = i.SeqNo INNER JOIN
+dbo.Job_SrvSingle AS s ON i.SICode = s.SICode
+"
     End Function
 End Module

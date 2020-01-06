@@ -44,59 +44,64 @@ End Code
                     <div class="row">
                         <div class="col-md-8">
                             <a href="../Master/Customers" target="_blank">
-                                <label>Customer :</label></a>
-                                <input type="text" id="txtCustCode" style="width:130px" tabindex="0" />
-                                <input type="text" id="txtCustBranch" style="width:40px" tabindex="1" />
-                                <input type="button" id="btnBrowseCust" value="..." onclick="SearchData('CUSTOMER')" />
-                                <input type="text" id="txtCustName" style="width:450px" disabled />
-                                <br />
-                                <label for="txtTAddress">Address   :</label>
-                                <textarea id="txtTAddress" style="width:250px" disabled></textarea>
-                                <textarea id="txtEAddress" style="width:250px" disabled></textarea>
-                                <br />
-                                <label for="txtPhoneFax">Contact Info :</label>
-                                <input type="text" id="txtPhoneFax" style="width:550px" tabindex="2" />
-                                <br />
-                                <label for="txtConsignee">Consignee :</label>
-                                <input type="text" id="txtConsignee" style="width:130px" tabindex="7" />
-                                <input type="text" id="txtConsBranch" style="width:40px" tabindex="8" />
-                                <input type="button" id="btnBrowseCons" value="..." onclick="SearchData('CONSIGNEE')" />
-                                <input type="text" id="txtConsignName" style="width:450px" disabled />
-                                <br />
-                                <label for="txtBillTAddress">Address   :</label>
-                                <textarea id="txtBillTAddress" style="width:200px" disabled></textarea>
-                                <textarea id="txtBillEAddress" style="width:200px" disabled></textarea>
-                                <br />
-                                <input type="checkbox" id="chkTSRequest" />
-                                <label for="chkTSRequest">Use Local Transport</label>
-                                <br />
-                                <label for="txtContactName">Contact Person :</label>
-                                <input type="text" id="txtContactName" style="width:150px" tabindex="3" />
-                                <label for="txtCSName">Support By :</label>
-                                <input type="text" id="txtCSName" style="width:150px" disabled />
-                                <br />
-                                <label for="txtJobType">Job Type : </label>
-                                <input type="text" id="txtJobType" style="width:150px" disabled />
-                                <label for="txtShipBy">Ship By : </label>
-                                <input type="text" id="txtShipBy" style="width:150px" disabled />
-                                <br />
-                                <label for="txtJobCondition">Work Condition :</label>
-                                <input type="text" id="txtJobCondition" style="width:600px" tabindex="4" />
-                                <br />
-                                <label for="txtCustPoNo">Customer PO :</label>
-                                <input type="text" id="txtCustPoNo" style="width:300px" tabindex="5" />
-                                <br />
-                                <label for="txtDescription">Descriptions : </label>
-                                <textarea id="txtDescription" style="width:180px" tabindex="6"></textarea>
+                                <label>Customer :</label>
+                            </a>
+                            <input type="text" id="txtCustCode" style="width:130px" tabindex="0" />
+                            <input type="text" id="txtCustBranch" style="width:40px" tabindex="1" />
+                            <input type="button" id="btnBrowseCust" value="..." onclick="SearchData('CUSTOMER')" />
+                            <input type="text" id="txtCustName" style="width:450px" disabled />
+                            <br />
+                            <label for="txtTAddress">Address   :</label>
+                            <textarea id="txtTAddress" style="width:250px" disabled></textarea>
+                            <textarea id="txtEAddress" style="width:250px" disabled></textarea>
+                            <br />
+                            <label for="txtPhoneFax">Contact Info :</label>
+                            <input type="text" id="txtPhoneFax" style="width:550px" tabindex="2" />
+                            <br />
+                            <a href="../Master/Customers?mode=CONSIGNEE" target="_blank">
+                                <label>Consignee :</label>
+                            </a>
+                            <input type="text" id="txtConsignee" style="width:130px" tabindex="7" />
+                            <input type="text" id="txtConsBranch" style="width:40px" tabindex="8" />
+                            <input type="button" id="btnBrowseCons" value="..." onclick="SearchData('CONSIGNEE')" />
+                            <input type="text" id="txtConsignName" style="width:450px" disabled />
+                            <br />
+                            <label for="txtBillTAddress">Address   :</label>
+                            <textarea id="txtBillTAddress" style="width:200px" disabled></textarea>
+                            <textarea id="txtBillEAddress" style="width:200px" disabled></textarea>
+                            <br />
+                            <input type="checkbox" id="chkTSRequest" />
+                            <label for="chkTSRequest">Use Local Transport</label>
+                            <br />
+                            <label for="txtContactName">Contact Person :</label>
+                            <input type="text" id="txtContactName" style="width:150px" tabindex="3" />
+                            <label for="txtCSName">Support By :</label>
+                            <input type="text" id="txtCSName" style="width:150px" disabled />
+                            <input type="button" id="btnBrowseCS" value="..." onclick="SearchData('cs')" />
+                            <br />
+                            <label for="txtJobType">Job Type : </label>
+                            <input type="text" id="txtJobType" style="width:150px" disabled />
+                            <label for="txtShipBy">Ship By : </label>
+                            <input type="text" id="txtShipBy" style="width:150px" disabled />
+                            <br />
+                            <label for="txtJobCondition">Work Condition :</label>
+                            <input type="text" id="txtJobCondition" style="width:600px" tabindex="4" />
+                            <br />
+                            <label for="txtCustPoNo">Customer PO :</label>
+                            <input type="text" id="txtCustPoNo" style="width:300px" tabindex="5" />
+                            <br />
+                            <label for="txtDescription">Descriptions : </label>
+                            <textarea id="txtDescription" style="width:180px" tabindex="6"></textarea>
 
-</div>
+                        </div>
                         <div class="col-md-4">
                             <label for="txtQNo">Quotation : </label>
                             <input type="text" id="txtQNo" style="width:130px" tabindex="9" />
                             <input type="text" id="txtQRevise" style="width:40px" tabindex="10" />
                             <br />
-                            <label for="txtManagerCode">Sales By :</label>
-                            <input type="text" id="txtManagerCode" style="width:130px" disabled />
+                            <label for="txtManagerName">Sales By :</label>
+                            <input type="text" id="txtManagerName" style="width:130px" disabled />
+                            <input type="button" id="btnBrowseSales" value="..." onclick="SearchData('sales')" />
                             <br />
                             <label for="txtCommission">Commission :</label>
                             <input type="text" id="txtCommission" style="width:130px" tabindex="11" />
@@ -295,13 +300,13 @@ End Code
                     </div>
                     <div class="row">
                         <div class="col-md-5">
+                            <label for="txtClearTaxReson">Certificates# </label>
+                            <input type="text" id="txtClearTaxReson" style="width:300px" tabindex="52" />
+                            <br />
                             <label for="optDeclareStatus">Declaration Status :</label>
                             <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="G"><label style="color:green;font:bold">Green</label></label>
                             <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="R"><label style="color:red;font:bold">Red</label></label>
                             <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="M"><label style="color:blue;font:bold">Manual</label></label>
-                            <br />
-                            <label for="txtClearTaxReson">Certificates# </label>
-                            <input type="text" id="txtClearTaxReson" style="width:300px" tabindex="52" />
                         </div>
                         <div class="col-md-7">
                             <a href="../Master/CustomsPort" target="_blank">
@@ -317,14 +322,15 @@ End Code
                     </div>
                     <div class="row">
                         <div class="col-md-5">
+                            <label for="txtShippingCmd">Shipping Note :</label>
+                            <textarea id="txtShippingCmd" style="width:400px" tabindex="56"></textarea>
+                        </div>
+
+                        <div class="col-md-7">
                             <label for="txtShipping">Shipping Staff :</label>
                             <input type="text" id="txtShipping" style="width:130px" tabindex="55" />
                             <input type="button" id="btnBrowseShipping" value="..." onclick="SearchData('user')" />
-                            <input type="text" id="txtShippingName" style="width:200px" disabled />
-                        </div>
-                        <div class="col-md-7">
-                            <label for="txtShippingCmd">Shipping Note :</label>
-                            <textarea id="txtShippingCmd" style="width:400px" tabindex="56"></textarea>
+                            <input type="text" id="txtShippingName" style="width:300px" disabled />
                         </div>
                     </div>
                     <br />
@@ -689,7 +695,9 @@ End Code
 
             //2 Fields
             //Users
-            CreateLOV(dv,'#frmSearchUser', '#tbUser','Users',response,2);
+            CreateLOV(dv, '#frmSearchUser1', '#tbUser1', 'Users', response, 2);
+            CreateLOV(dv, '#frmSearchUser2', '#tbUser2', 'Users', response, 2);
+            CreateLOV(dv,'#frmSearchUser3', '#tbUser3','Users',response,2);
             //Declare Type
             CreateLOV(dv,'#frmSearchDType', '#tbDType','Declare Type',response,2);
             //Customs Port
@@ -770,6 +778,14 @@ End Code
         $('#txtShippingName').val(dt.TName);
         $('#txtShipping').focus();
     }
+    function ReadCS(dt) {
+        rec.CSCode =dt.UserID;
+        $('#txtCSName').val(dt.TName);
+    }
+    function ReadSales(dt) {
+        rec.ManagerCode =dt.UserID;
+        $('#txtManagerName').val(dt.TName);
+    }
     function ReadDeclareType(dt) {
         $('#txtDeclareType').val(dt.Type);
         $('#txtDeclareTypeName').val(dt.Description);
@@ -834,8 +850,14 @@ End Code
             case 'vessel':
                 SetGridVessel(path, '#tbVessel', '#frmSearchVessel', '', ReadVessel);
                 break;
+            case 'cs':
+                SetGridUser(path, '#tbUser2', '#frmSearchUser2', ReadCS);
+                break;
+            case 'sales':
+                SetGridUser(path, '#tbUser3', '#frmSearchUser3', ReadSales);
+                break;
             case 'user':
-                SetGridUser(path, '#tbUser', '#frmSearchUser', ReadShipping);
+                SetGridUser(path, '#tbUser1', '#frmSearchUser1', ReadShipping);
                 break;
             case 'RFDCT':
                 SetGridDeclareType(path, '#tbDType', '#frmSearchDType', ReadDeclareType);
@@ -900,7 +922,7 @@ End Code
                 $('#txtQRevise').val(dr.Revise);
                 $('#txtCustInvNo').val(dr.InvNo);
                 $('#txtDeclareNo').val(dr.DeclareNumber);
-                ShowUser(path,dr.ManagerCode, '#txtManagerCode');
+                ShowUser(path,dr.ManagerCode, '#txtManagerName');
                 $('#txtCommission').val(dr.Commission);
                 $('#txtContactName').val(dr.CustContactName);
                 ShowUser(path,dr.CSCode, '#txtCSName');

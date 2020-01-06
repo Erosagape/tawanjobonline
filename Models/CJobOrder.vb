@@ -902,6 +902,15 @@ Public Class CJobOrder
             m_DeliveryAddr = value
         End Set
     End Property
+    Private m_CreateDate As Date
+    Public Property CreateDate As Date
+        Get
+            Return m_CreateDate
+        End Get
+        Set(value As Date)
+            m_CreateDate = value
+        End Set
+    End Property
     Public Sub AddNew(pFormatSQL As String, Optional pClearAll As Boolean = True)
         If pFormatSQL = "" Then
             m_JNo = ""
@@ -912,7 +921,6 @@ Public Class CJobOrder
         If pClearAll Then
             m_CancelDate = SqlTypes.SqlDateTime.MinValue
             m_CancelProveDate = SqlTypes.SqlDateTime.MinValue
-            m_DocDate = SqlTypes.SqlDateTime.MinValue
             m_ClearDate = SqlTypes.SqlDateTime.MinValue
             m_CloseJobDate = SqlTypes.SqlDateTime.MinValue
             m_ConfirmChqDate = SqlTypes.SqlDateTime.MinValue
@@ -925,7 +933,6 @@ Public Class CJobOrder
             m_ImExDate = SqlTypes.SqlDateTime.MinValue
             m_LoadDate = SqlTypes.SqlDateTime.MinValue
             m_ReadyToClearDate = SqlTypes.SqlDateTime.MinValue
-
             m_CancelProveTime = SqlTypes.SqlDateTime.MinValue
             m_CancelTime = SqlTypes.SqlDateTime.MinValue
             m_CloseJobTime = SqlTypes.SqlDateTime.MinValue
@@ -947,6 +954,7 @@ Public Class CJobOrder
                             dr("BranchCode") = Me.BranchCode
                             dr("JNo") = Me.JNo
                             dr("JRevise") = Me.JRevise
+                            dr("CreateDate") = Main.GetDBDate(Me.CreateDate)
                             dr("ConfirmDate") = Main.GetDBDate(Me.ConfirmDate)
                             dr("CPolicyCode") = Me.CPolicyCode
                             dr("DocDate") = Main.GetDBDate(Me.DocDate, True)
@@ -1085,6 +1093,11 @@ Public Class CJobOrder
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("JRevise"))) = False Then
                         row.JRevise = rd.GetByte(rd.GetOrdinal("JRevise"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CreateDate"))) = False Then
+                        row.ConfirmDate = rd.GetValue(rd.GetOrdinal("CreateDate"))
+                    Else
+                        row.CreateDate = row.DocDate
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("ConfirmDate"))) = False Then
                         row.ConfirmDate = rd.GetValue(rd.GetOrdinal("ConfirmDate"))
