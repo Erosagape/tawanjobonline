@@ -456,7 +456,7 @@ AND d.LastControl=c.ControlNo
             cm.CommandText = sql + " and h.BranchCode='" + Me.BranchCode + "' and h.ReceiptNo='" + Me.ReceiptNo + "'"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CRcpDetail", "UpdateRcpHeader", cm.CommandText, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CRcpDetail", "UpdateRcpHeader", cm.CommandText, False)
         End Using
     End Sub
 End Class

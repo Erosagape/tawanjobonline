@@ -618,7 +618,7 @@ Public Class CCNDNDetail
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("ForeignNet"))) = False Then
                         row.ForeignNet = rd.GetDouble(rd.GetOrdinal("ForeignNet"))
                     End If
-                    Dim oInv = New CRcpDetail(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' AND InvoiceNo='{1}' AND InvoiceItemNo='{2}'", row.BranchCode, row.BillingNo, row.BillItemNo))
+                    Dim oInv = New CRcpDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND InvoiceNo='{1}' AND InvoiceItemNo='{2}'", row.BranchCode, row.BillingNo, row.BillItemNo))
                     If oInv.Count > 0 Then
                         row.TaxInvNo = oInv(0).ReceiptNo
                     End If

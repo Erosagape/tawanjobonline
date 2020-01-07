@@ -151,6 +151,7 @@ End Code
     let branch = getQueryString("branch");
     let custcode = getQueryString("custcode");
     let custbranch = getQueryString("custbranch");
+    let creditdays = 0;
     if (custcode !== '') {
         $('#txtBranchCode').val(branch);
         ShowBranch(path, branch, '#txtBranchName');
@@ -340,7 +341,7 @@ End Code
             CustBranch:$('#txtBillToCustBranch').val(),
             BillRecvBy: '',
             BillRecvDate: null,
-            DuePaymentDate:null,
+            DuePaymentDate: null,
             BillRemark:'',
             CancelReson:'',
             CancelProve:'',
@@ -421,11 +422,13 @@ End Code
         $('#txtBillToCustBranch').val(dt.BillToBranch);
         ShowCustomer(path, $('#txtBillToCustCode').val(), $('#txtBillToCustBranch').val(), '#txtBillToCustName');
         $('#txtCustCode').focus();
+        creditdays = CNum(dt.CreditLimit);
     }
     function ReadBilling(dt) {
         $('#txtBillToCustCode').val(dt.CustCode);
         $('#txtBillToCustBranch').val(dt.Branch);
         ShowCustomer(path, dt.CustCode, dt.Branch, '#txtBillToCustName');
+        creditdays = CNum(dt.CreditLimit);
     }
 
     function GetDataDetail(o, no) {

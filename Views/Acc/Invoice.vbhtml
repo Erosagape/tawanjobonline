@@ -126,7 +126,7 @@ End Code
 
                                 Vatable :<input type="text" id="txtTotalIsTaxCharge" style="width:100%" disabled />
                                 <div style="flex-direction:row">
-                                    VAT Rate:<input type="text" id="txtVATRate" style="width:15%" />
+                                    VAT Rate:<input type="text" id="txtVATRate" style="width:15%" /><br/>
                                     VAT:<input type="text" id="txtTotalVAT" style="width:40%" />
                                 </div>
                                 <div style="flex-direction:row">
@@ -152,9 +152,11 @@ End Code
                                     <textarea id="txtBillAddress" style="width:100%" disabled></textarea>
                                 </p>
                                 <p style="flex-direction:row">
-                                    Bill.No:<input type="text" id="txtBillAcceptNo" style="width:15%" disabled />
+                                    Bill.No:<input type="text" id="txtBillAcceptNo" style="width:25%" disabled />
                                     Issue Date:<input type="date" id="txtBillIssueDate" style="width:25%" disabled />
+                                    <br/>
                                     Accept Date:<input type="date" id="txtBillAcceptDate" style="width:25%" />
+                                    Due Date:<input type="date" id="txtDueDate" style="width:25%" />
                                 </p>
                                 <p style="flex-direction:row">
                                     Discount Rate(%) :<input type="text" id="txtDiscountRate" style="width:15%" onchange="SetDiscount()" />
@@ -689,7 +691,8 @@ End Code
             CancelProve:$('#txtCancelProve').val(),
             CancelDate:CDateEN($('#txtCancelDate').val()),
             CancelTime:$('#txtCancelTime').val(),
-            ShippingRemark:$('#txtShippingRemark').val()
+            ShippingRemark: $('#txtShippingRemark').val(),
+            DueDate:CDateEN($('#txtDueDate').val())
         };
         let jsonString = JSON.stringify({ data: dataInv });
         $.ajax({
@@ -740,6 +743,7 @@ End Code
         $('#txtBillAcceptNo').val(row.BillAcceptNo);
         $('#txtBillIssueDate').val(CDateEN(row.BillIssueDate));
         $('#txtBillAcceptDate').val(CDateEN(row.BillAcceptDate));
+        $('#txtDueDate').val(CDateEN(row.DueDate));
         $('#txtDiscountRate').val(row.DiscountRate);
         $('#txtDiscountCal').val(ShowNumber(row.DiscountCal,2));
         $('#txtCurrencyCode').val(row.CurrencyCode);

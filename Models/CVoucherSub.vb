@@ -498,7 +498,7 @@ Public Class CVoucherSub
         Return lst
     End Function
     Public Sub CancelData()
-        Dim oDtl As New CVoucherDoc(jobWebConn)
+        Dim oDtl As New CVoucherDoc(GetSession("ConnJob"))
         Dim oRows = oDtl.GetData(String.Format(" WHERE BranchCode='{0}' AND ControlNo='{1}' AND acType='{2}'", Me.BranchCode, Me.ControlNo, Me.acType))
         If oRows.Count > 1 Then
             For Each row In oRows

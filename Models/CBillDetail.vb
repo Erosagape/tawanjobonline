@@ -352,7 +352,7 @@ Public Class CBillDetail
             cm.CommandText = sql & If(Me.InvNo <> "", " AND a.DocNo='" + Me.InvNo + "'", "")
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillDetail", "UpdateBillToInv", cm.CommandText, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillDetail", "UpdateBillToInv", cm.CommandText, False)
         End Using
     End Sub
     Function UpdateTotal(cn As SqlConnection) As String
@@ -362,12 +362,12 @@ Public Class CBillDetail
             cm.CommandText = sql & If(Me.InvNo <> "", " AND a.DocNo='" + Me.InvNo + "'", "")
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillDetail", "UpdateBillToInv", cm.CommandText, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillDetail", "UpdateBillToInv", cm.CommandText, False)
 
             sql = SQLUpdateBillHeader(Me.BranchCode, Me.BillAcceptNo)
             cm.CommandText = sql
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillDetail", "UpdateTotal", cm.CommandText, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillDetail", "UpdateTotal", cm.CommandText, False)
         End Using
         Return "Save " & Me.BillAcceptNo & " Complete!"
     End Function

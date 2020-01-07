@@ -247,7 +247,7 @@ Public Class CWHTaxDetail
             cm.CommandText = sql + " and h.BranchCode='" + Me.BranchCode + "' and h.DocNo='" + Me.DocNo + "'"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CWHTaxDetail", "UpdateTotal", cm.CommandText, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CWHTaxDetail", "UpdateTotal", cm.CommandText, False)
         End Using
     End Sub
 End Class

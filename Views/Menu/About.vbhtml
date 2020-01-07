@@ -49,6 +49,24 @@ End Code
 
 <div id="News" class="tabcontent">
     <h3>System Variables</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Variable Name</th>
+                <th>Variable Values</th>
+            </tr>
+        </thead>
+        <tbody>
+            @Code
+                For Each vwData In ViewData
+                    @<tr>
+                        <td>@vwData.Key</td>
+                        <td>@vwData.Value</td>
+                    </tr>
+                Next
+            End Code
+        </tbody>
+    </table>
 </div>
 
 <div id="Contact" class="tabcontent">
@@ -96,6 +114,7 @@ End Code
     </table>
 </div>
 <script type="text/javascript">
+    var path = '@Url.Content("~")';
     function openPage(pageName, elmnt, color) {
   // Hide all elements with class="tabcontent" by default */
   var i, tabcontent, tablinks;

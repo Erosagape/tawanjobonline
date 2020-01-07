@@ -204,13 +204,13 @@ Public Class CVoucher
         Return msg
     End Function
     Public Sub CancelData()
-        Dim oSub = New CVoucherSub(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' AND ControlNo='{1}'", Me.BranchCode, Me.ControlNo))
+        Dim oSub = New CVoucherSub(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND ControlNo='{1}'", Me.BranchCode, Me.ControlNo))
         If oSub.Count > 0 Then
             For Each row In oSub
                 row.CancelData()
             Next
         End If
-        Dim oDtl As New CVoucherDoc(jobWebConn)
+        Dim oDtl As New CVoucherDoc(GetSession("ConnJob"))
         Dim oRows = oDtl.GetData(String.Format(" WHERE BranchCode='{0}' AND ControlNo='{1}' ", Me.BranchCode, Me.ControlNo))
         If oRows.Count > 0 Then
             For Each row In oRows

@@ -150,7 +150,7 @@ Public Class CVoucherDoc
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CVoucherDoc", "SaveData", Me, False)
                             If Me.DocType = "PAY" Then
-                                msg = New CUtil(jobWebConn).ExecuteSQL(" UPDATE a SET a.PaymentRef=b.ControlNo,a.PaymentDate=b.VoucherDate,a.PaymentBy=b.RecUser,a.PaymentTime=b.RecTime FROM Job_PaymentHeader a ,Job_CashControl b  WHERE a.BranchCode=b.BranchCode AND a.BranchCode='" & Me.BranchCode & "' AND a.DocNo='" & Me.DocNo & "' AND b.ControlNo='" & Me.ControlNo & "' ")
+                                msg = New CUtil(GetSession("ConnJob")).ExecuteSQL(" UPDATE a SET a.PaymentRef=b.ControlNo,a.PaymentDate=b.VoucherDate,a.PaymentBy=b.RecUser,a.PaymentTime=b.RecTime FROM Job_PaymentHeader a ,Job_CashControl b  WHERE a.BranchCode=b.BranchCode AND a.BranchCode='" & Me.BranchCode & "' AND a.DocNo='" & Me.DocNo & "' AND b.ControlNo='" & Me.ControlNo & "' ")
                             End If
                             msg = "Save Complete"
                         End Using
@@ -253,10 +253,10 @@ Public Class CVoucherDoc
         Dim msg As String = "OK"
         Select Case Me.DocType
             Case "PAY" 'Bill Payments
-                msg = New CUtil(jobWebConn).ExecuteSQL(" UPDATE Job_PaymentHeader SET PaymentRef='',PaymentDate=NULL,PaymentTime=NULL,PaymentBy='' WHERE BranchCode='" & Me.BranchCode & "' AND DocNo='" & Me.DocNo & "' ")
+                msg = New CUtil(GetSession("ConnJob")).ExecuteSQL(" UPDATE Job_PaymentHeader SET PaymentRef='',PaymentDate=NULL,PaymentTime=NULL,PaymentBy='' WHERE BranchCode='" & Me.BranchCode & "' AND DocNo='" & Me.DocNo & "' ")
             Case "ADV" 'Advance Payments
                 Dim sql = String.Format(" WHERE BranchCode='{0}' AND AdvNo='{1}'", Me.BranchCode, Me.DocNo)
-                Dim tb = New CAdvHeader(jobWebConn).GetData(sql)
+                Dim tb = New CAdvHeader(GetSession("ConnJob")).GetData(sql)
                 If tb.Count > 0 Then
                     Dim row = tb(0)
                     If row.DocStatus = 3 Then
@@ -274,7 +274,7 @@ Public Class CVoucherDoc
             Case "CLR"
                 'Cancel Clearing Receival
                 Dim sql = String.Format(" WHERE BranchCode='{0}' AND ClrNo='{1}'", Me.BranchCode, Me.DocNo)
-                Dim tb = New CClrHeader(jobWebConn).GetData(sql)
+                Dim tb = New CClrHeader(GetSession("ConnJob")).GetData(sql)
                 If tb.Count > 0 Then
                     Dim row = tb(0)
                     If row.DocStatus = 3 Then
@@ -286,7 +286,7 @@ Public Class CVoucherDoc
                 End If
             Case "INV"
                 'Cancel Receipt Saved
-                Dim oRcv As New CRcpDetail(jobWebConn)
+                Dim oRcv As New CRcpDetail(GetSession("ConnJob"))
                 Dim oRows = oRcv.GetData(String.Format(" WHERE BranchCode='{0}' AND ControlNo='{1}' AND InvoiceNo+'#'+Convert(varchar,InvoiceItemNo)='{2}' ", Me.BranchCode, Me.ControlNo, Me.DocNo))
                 If oRows.Count > 0 Then
                     For Each row In oRows

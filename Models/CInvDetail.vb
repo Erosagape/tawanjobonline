@@ -388,7 +388,7 @@ Public Class CInvDetail
             cm.CommandText = sql + " WHERE h.BranchCode='" + Me.BranchCode + "' and h.DocNo='" + Me.DocNo + "'"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "UpdateInvHeader", cm.CommandText, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "UpdateInvHeader", cm.CommandText, False)
             If Me.ClrNoList <> "" Then
                 If Me.DocNo <> "" And Me.ItemNo <> 0 Then
                     sql = String.Format("UPDATE Job_ClearDetail SET LinkBillNo='{0}',LinkItem={1}", Me.DocNo, Me.ItemNo)
@@ -396,7 +396,7 @@ Public Class CInvDetail
                     cm.CommandText = sql
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "UpdateClrDetail", cm.CommandText, True)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "UpdateClrDetail", cm.CommandText, False)
                 End If
             End If
         End Using
@@ -531,7 +531,7 @@ Public Class CInvDetail
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "DeleteInvDetail", cm.CommandText, True)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "DeleteInvDetail", cm.CommandText, False)
                     If Me.DocNo <> "" And Me.ItemNo <> 0 Then
                         Dim Sql = "UPDATE Job_ClearDetail SET LinkBillNo=null,LinkItem=0"
                         Sql &= String.Format(" WHERE BranchCode='{0}' AND LinkBillNo='{1}' And LinkItem={2}", Me.BranchCode, Me.DocNo, Me.ItemNo)
@@ -539,7 +539,7 @@ Public Class CInvDetail
                         cm.CommandText = Sql
                         cm.CommandType = CommandType.Text
                         cm.ExecuteNonQuery()
-                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "UpdateClrDetail", cm.CommandText, True)
+                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "UpdateClrDetail", cm.CommandText, False)
                     End If
                 End Using
                 UpdateTotal(cn)

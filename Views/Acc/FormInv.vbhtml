@@ -105,6 +105,7 @@ End Code
                         <div style="text-align:left;flex:1">
                             TOTAL INVOICE (<label id="lblCurrencyCode"></label>)=<label id="lblForeignNet"></label> RATE=<label id="lblExchangeRate"></label>
                             <br/>
+                            <div id="lblShippingRemark"></div>
                             REMARKS :<br />
                             <div id="lblDescription"></div>
                         </div>
@@ -249,6 +250,8 @@ End Code
             let remark = h.Remark1 + '\n' + h.Remark2 + '\n' + h.Remark3 + '\n' + h.Remark4 + '\n' + h.Remark5 + '\n' + h.Remark6 + '\n' + h.Remark7 + '\n' + h.Remark8 + '\n' + h.Remark9 + '\n' + h.Remark10;
             remark=remark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
             $('#lblDescription').html(remark);
+            remark=h.ShippingRemark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
+            $('#lblShippingRemark').html(remark);
             $('#lblSumNonVat').text(ShowNumber(h.TotalCharge,2));
             $('#lblSumDiscount').text(ShowNumber(h.TotalDiscount,2));
             $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv,2));

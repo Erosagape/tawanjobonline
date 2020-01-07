@@ -53,9 +53,9 @@ Namespace Controllers
                     tSqlw &= " AND DocDate<='" & Request.QueryString("DateTo") & " 23:59:00' "
                 End If
 
-                Dim oData = New CPayHeader(jobWebConn).GetData(tSqlw & " AND NOT ISNULL(AdvRef,'')<>''")
+                Dim oData = New CPayHeader(GetSession("ConnJob")).GetData(tSqlw & " AND NOT ISNULL(AdvRef,'')<>''")
                 Dim json As String = JsonConvert.SerializeObject(oData)
-                Dim oDataD = New CPayDetail(jobWebConn).GetData(tSqlw & " AND AdvItemNo=0 ")
+                Dim oDataD = New CPayDetail(GetSession("ConnJob")).GetData(tSqlw & " AND AdvItemNo=0 ")
                 Dim jsonD As String = JsonConvert.SerializeObject(oDataD)
 
                 json = "{""payment"":{""header"":" & json & ",""detail"":" & jsonD & "}}"
@@ -101,9 +101,9 @@ Namespace Controllers
                     End If
                     tSqlH &= " AND NOT ISNULL(CancelProve,'')<>'' "
                 End If
-                Dim oData = New CPayHeader(jobWebConn).GetData(tSqlH)
+                Dim oData = New CPayHeader(GetSession("ConnJob")).GetData(tSqlH)
                 Dim json As String = JsonConvert.SerializeObject(oData)
-                Dim oDataD = New CPayDetail(jobWebConn).GetData(tSqlD & " AND DocNo IN(SELECT DocNo FROM Job_PaymentHeader " & tSqlH & " )")
+                Dim oDataD = New CPayDetail(GetSession("ConnJob")).GetData(tSqlD & " AND DocNo IN(SELECT DocNo FROM Job_PaymentHeader " & tSqlH & " )")
                 Dim jsonD As String = JsonConvert.SerializeObject(oDataD)
 
                 json = "{""payment"":{""header"":" & json & ",""detail"":" & jsonD & "}}"
@@ -152,7 +152,7 @@ Namespace Controllers
                         tSqlw &= " AND ISNULL(h.CancelProve,'')<>'' "
                     End If
                 End If
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(tSqlw)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(tSqlw)
                 Dim json = JsonConvert.SerializeObject(oData)
                 Return Content("{""payment"":{""data"":" & json & ",""msg"":""" & oData.Rows.Count & """}}", jsonContent)
             Catch ex As Exception
@@ -166,7 +166,7 @@ Namespace Controllers
                     If "" & data.BranchCode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     If "" & data.DocNo = "" Then
                         data.AddNew(payPrefix & Now.ToString("yyMM") & "-____")
                     End If
@@ -196,9 +196,9 @@ Namespace Controllers
                 Else
                     Return Content("{""payment"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CPayHeader(jobWebConn)
+                Dim oData As New CPayHeader(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
-                Dim oDataD As New CPayDetail(jobWebConn)
+                Dim oDataD As New CPayDetail(GetSession("ConnJob"))
                 oDataD.DeleteData(tSqlw)
 
                 Dim json = "{""payment"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -220,7 +220,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Item")) Then
                     tSqlw &= String.Format("AND ItemNo={0} ", Request.QueryString("Item").ToString)
                 End If
-                Dim oData = New CPayDetail(jobWebConn).GetData(tSqlw)
+                Dim oData = New CPayDetail(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""payment"":{""detail"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -238,7 +238,7 @@ Namespace Controllers
                     If "" & data.DocNo = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Document""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
 
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' AND ItemNo={2} ", data.BranchCode, data.DocNo, data.ItemNo))
                     Dim json = "{""result"":{""data"":""" & data.ItemNo & """,""msg"":""" & msg & """}}"
@@ -257,7 +257,7 @@ Namespace Controllers
         Function DelPayDetail() As ActionResult
             Try
                 Dim tSqlw As String = " WHERE DocNo<>'' "
-                Dim oData As New CPayDetail(jobWebConn)
+                Dim oData As New CPayDetail(GetSession("ConnJob"))
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
                     oData.BranchCode = Request.QueryString("Branch").ToString
@@ -290,7 +290,7 @@ Namespace Controllers
             Try
                 If Not Request.QueryString("branch") Is Nothing Then
                     If Not Request.QueryString("code") Is Nothing Then
-                        Dim oRec = New CInvHeader(jobWebConn)
+                        Dim oRec = New CInvHeader(GetSession("ConnJob"))
                         Dim sqlw = String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}'", Request.QueryString("branch").ToString, Request.QueryString("code").ToString)
                         Dim oRow = oRec.GetData(sqlw)
                         If oRow.Count > 0 Then
@@ -313,7 +313,7 @@ Namespace Controllers
             Try
                 If Not Request.QueryString("branch") Is Nothing Then
                     If Not Request.QueryString("code") Is Nothing Then
-                        Dim oRec = New CRcpHeader(jobWebConn)
+                        Dim oRec = New CRcpHeader(GetSession("ConnJob"))
                         Dim sqlw = String.Format(" WHERE BranchCode='{0}' AND ReceiptNo='{1}'", Request.QueryString("branch").ToString, Request.QueryString("code").ToString)
                         Dim oRow = oRec.GetData(sqlw)
                         If oRow.Count > 0 Then
@@ -334,7 +334,7 @@ Namespace Controllers
             Try
                 If Not Request.QueryString("branch") Is Nothing Then
                     If Not Request.QueryString("code") Is Nothing Then
-                        Dim oRec = New CRcpHeader(jobWebConn)
+                        Dim oRec = New CRcpHeader(GetSession("ConnJob"))
                         Dim sqlw = String.Format(" WHERE BranchCode='{0}' AND ReceiptNo='{1}'", Request.QueryString("branch").ToString, Request.QueryString("code").ToString)
                         Dim oRow = oRec.GetData(sqlw)
                         If oRow.Count > 0 Then
@@ -406,7 +406,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Item")) Then
                     tSqlw &= String.Format(" AND ItemNo ='{0}'", Request.QueryString("Item").ToString)
                 End If
-                Dim oData = New CCNDNDetail(jobWebConn).GetData(tSqlw)
+                Dim oData = New CCNDNDetail(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""creditnote"":{""detail"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -428,7 +428,7 @@ Namespace Controllers
                     If data.ItemNo = 0 Then
                         data.AddNew()
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' AND ItemNo={2} ", data.BranchCode, data.DocNo, data.ItemNo))
                     Dim json = "{""result"":{""data"":""" & data.DocNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -456,7 +456,7 @@ Namespace Controllers
                 Else
                     Return Content("{""creditnote"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CCNDNDetail(jobWebConn)
+                Dim oData As New CCNDNDetail(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""creditnote"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -494,7 +494,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Cust")) Then
                     tSqlw &= String.Format(" AND a.CustCode='{0}' ", Request.QueryString("Cust").ToString)
                 End If
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(Main.SQLSelectCNDNSummary() & tSqlw)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(Main.SQLSelectCNDNSummary() & tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""creditnote"":{""data"":" & json & ",""msg"":""" & tSqlw & """}}"
                 Return Content(json, jsonContent)
@@ -512,16 +512,16 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format(" AND DocNo ='{0}'", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CCNDNHeader(jobWebConn).GetData(tSqlw)
+                Dim oData = New CCNDNHeader(GetSession("ConnJob")).GetData(tSqlw)
                 Dim strCust As String = "[]"
                 If oData.Count > 0 Then
-                    Dim oCust = New CCompany(jobWebConn).GetData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}'", oData(0).CustCode, oData(0).CustBranch))
+                    Dim oCust = New CCompany(GetSession("ConnJob")).GetData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}'", oData(0).CustCode, oData(0).CustBranch))
                     If oCust.Count > 0 Then
                         strCust = JsonConvert.SerializeObject(oCust(0))
                     End If
                 End If
                 Dim jsonH As String = JsonConvert.SerializeObject(oData)
-                Dim oDataD = New CCNDNDetail(jobWebConn).GetData(tSqlw)
+                Dim oDataD = New CCNDNDetail(GetSession("ConnJob")).GetData(tSqlw)
                 Dim jsonD As String = JsonConvert.SerializeObject(oDataD)
                 Dim json = "{""creditnote"":{""header"":" & jsonH & ",""detail"":" & jsonD & ",""customer"":" & strCust & "}}"
                 Return Content(json, jsonContent)
@@ -533,7 +533,7 @@ Namespace Controllers
         Function SetCNDNHeader(<FromBody()> data As CCNDNHeader) As ActionResult
             Try
                 If Not IsNothing(data) Then
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     If "" & data.DocNo = "" Then
                         If data.DocDate = DateTime.MinValue Then
                             data.DocDate = Today.Date
@@ -556,8 +556,8 @@ Namespace Controllers
         Function DelCreditNote() As ActionResult
             Try
                 Dim tSqlw As String = " WHERE DocNo<>'' "
-                Dim oData As New CCNDNHeader(jobWebConn)
-                Dim oDataD As New CCNDNDetail(jobWebConn)
+                Dim oData As New CCNDNHeader(GetSession("ConnJob"))
+                Dim oDataD As New CCNDNDetail(GetSession("ConnJob"))
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format("AND BranchCode ='{0}'", Request.QueryString("Branch").ToString)
                     oData.BranchCode = Request.QueryString("Branch").ToString
@@ -595,12 +595,12 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND GLRefNo ='{0}' ", Request.QueryString("Code").ToString)
                 End If
-                Dim oDataD = New CGLDetail(jobWebConn).GetData(tSqlw)
+                Dim oDataD = New CGLDetail(GetSession("ConnJob")).GetData(tSqlw)
                 Dim jsonD As String = JsonConvert.SerializeObject(oDataD)
                 If Not IsNothing(Request.QueryString("Year")) Then
                     tSqlw &= String.Format("AND FiscalYear='{0}' ", Request.QueryString("Year").ToString)
                 End If
-                Dim oData = New CGLHeader(jobWebConn).GetData(tSqlw)
+                Dim oData = New CGLHeader(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""journal"":{""header"":" & json & ",""detail"":" & jsonD & "}}"
                 Return Content(json, jsonContent)
@@ -621,7 +621,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Item")) Then
                     tSqlw &= String.Format(" AND ItemNo={0} ", Request.QueryString("Item").ToString)
                 End If
-                Dim oData = New CGLDetail(jobWebConn).GetData(tSqlw)
+                Dim oData = New CGLDetail(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""journal"":{""detail"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -639,7 +639,7 @@ Namespace Controllers
                     If "" & data.GLRefNo = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND GLRefNo='{1}' AND ItemNo={2} ", data.BranchCode, data.GLRefNo, data.ItemNo))
                     Dim json = "{""result"":{""data"":""" & data.ItemNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -671,7 +671,7 @@ Namespace Controllers
                 Else
                     Return Content("{""journal"":{""result"":""Please Select Some Item"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CGLDetail(jobWebConn)
+                Dim oData As New CGLDetail(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""journal"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -687,7 +687,7 @@ Namespace Controllers
                     If "" & data.BranchCode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     If "" & data.GLRefNo = "" Then
                         data.AddNew(data.GLType & data.BatchDate.ToString("yyMM") & "____")
                     End If
@@ -717,9 +717,9 @@ Namespace Controllers
                 Else
                     Return Content("{""journal"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CGLHeader(jobWebConn)
+                Dim oData As New CGLHeader(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
-                Dim oDataD As New CGLDetail(jobWebConn)
+                Dim oDataD As New CGLDetail(GetSession("ConnJob"))
                 Dim msgD = oDataD.DeleteData(tSqlw)
 
                 Dim json = "{""journal"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -797,7 +797,7 @@ Namespace Controllers
                             tSqlw &= " AND d.DocNo Like '" & expPrefix & "%' "
                     End Select
                 End If
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(tSqlw)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(tSqlw)
                 Dim oHead As String = JsonConvert.SerializeObject(oData.AsEnumerable().ToList())
                 Dim json = "{""voucher"":{""data"":" & oHead & ",""msg"":""Complete!""}}"
 
@@ -829,10 +829,10 @@ Namespace Controllers
                     tSqlw &= String.Format(" AND ControlNo ='{0}'", Request.QueryString("Code").ToString)
                 End If
 
-                Dim oData = New CVoucher(jobWebConn).GetData(tSqlw)
+                Dim oData = New CVoucher(GetSession("ConnJob")).GetData(tSqlw)
                 Dim oHead As String = JsonConvert.SerializeObject(oData)
-                Dim oSub As String = JsonConvert.SerializeObject(New CVoucherSub(jobWebConn).GetData(tSqlw))
-                Dim oDoc As String = JsonConvert.SerializeObject(New CVoucherDoc(jobWebConn).GetData(tSqlw))
+                Dim oSub As String = JsonConvert.SerializeObject(New CVoucherSub(GetSession("ConnJob")).GetData(tSqlw))
+                Dim oDoc As String = JsonConvert.SerializeObject(New CVoucherDoc(GetSession("ConnJob")).GetData(tSqlw))
 
                 Dim json = "{""voucher"":{""header"":" & oHead & ",""payment"":" & oSub & ",""document"":" & oDoc & "}}"
                 Return Content(json, jsonContent)
@@ -861,7 +861,7 @@ Namespace Controllers
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
                     End If
 
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
 
                     If "" & data.ControlNo = "" Then
                         AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Voucher")
@@ -943,7 +943,7 @@ Namespace Controllers
                     i += 1
                     branchcode = o.BranchCode
                     docno = o.ControlNo
-                    o.SetConnect(jobWebConn)
+                    o.SetConnect(GetSession("ConnJob"))
                     If o.PRVoucher = "" Then
                         o.AddNew(o.PRType & "V-" & DateTime.Today.ToString("yyMM") & "-____")
                     End If
@@ -955,7 +955,7 @@ Namespace Controllers
                     str &= msg
                 Next
 
-                Dim obj = New CVoucherSub(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' And ControlNo='{1}'", branchcode, docno))
+                Dim obj = New CVoucherSub(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' And ControlNo='{1}'", branchcode, docno))
                 json = "{""result"":{""msg"":""" & str & """,""data"":[" & JsonConvert.SerializeObject(obj) & "]}}"
 
                 Return Content(json, jsonContent)
@@ -1014,13 +1014,13 @@ Namespace Controllers
                     i += 1
                     branchcode = o.BranchCode
                     docno = o.ControlNo
-                    o.SetConnect(jobWebConn)
+                    o.SetConnect(GetSession("ConnJob"))
                     Dim msg = o.SaveData(String.Format(" WHERE BranchCode='{0}' AND  ControlNo='{1}' And ItemNo='{2}' ", o.BranchCode, o.ControlNo, o.ItemNo))
                     If str <> "" Then str &= ","
                     str &= msg
                 Next
 
-                Dim obj = New CVoucherDoc(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' And ControlNo='{1}'", branchcode, docno))
+                Dim obj = New CVoucherDoc(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' And ControlNo='{1}'", branchcode, docno))
                 json = "{""result"":{""msg"":""" & str & """,""data"":""" & docno & """,""document"":[" & JsonConvert.SerializeObject(obj) & "]}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
@@ -1044,7 +1044,7 @@ Namespace Controllers
                 End If
 
                 Dim tSqlw As String = " WHERE ControlNo<>'' "
-                Dim oData As New CVoucherSub(jobWebConn)
+                Dim oData As New CVoucherSub(GetSession("ConnJob"))
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" AND BranchCode='{0}'", Request.QueryString("Branch").ToString)
                     oData.BranchCode = Request.QueryString("Branch").ToString
@@ -1105,7 +1105,7 @@ Namespace Controllers
                     Return Content("{""voucher"":{""result"":""Please Select Some Item"",""data"":[]}}", jsonContent)
                 End If
 
-                Dim oData As New CVoucherDoc(jobWebConn)
+                Dim oData As New CVoucherDoc(GetSession("ConnJob"))
                 Dim oDataDoc = oData.GetData(tSqlw & String.Format(" AND ItemNo='{0}'", Request.QueryString("Item").ToString))
                 Dim msg = ""
                 For Each oRow In oDataDoc
@@ -1132,7 +1132,7 @@ Namespace Controllers
                         End If
                     End If
                 End If
-                Dim oData As New CVoucher(jobWebConn)
+                Dim oData As New CVoucher(GetSession("ConnJob"))
                 Dim tSqlw As String = " WHERE ControlNo<>'' "
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" AND BranchCode='{0}'", Request.QueryString("Branch").ToString)
@@ -1173,10 +1173,10 @@ Namespace Controllers
                     tSqlw &= String.Format("AND DocNo ='{0}' ", Request.QueryString("Code").ToString)
                 End If
 
-                Dim oDatah = New CWHTaxHeader(jobWebConn).GetData(tSqlw)
+                Dim oDatah = New CWHTaxHeader(GetSession("ConnJob")).GetData(tSqlw)
                 Dim jsonh As String = JsonConvert.SerializeObject(oDatah)
 
-                Dim oDatad = New CWHTaxDetail(jobWebConn).GetData(tSqlw)
+                Dim oDatad = New CWHTaxDetail(GetSession("ConnJob")).GetData(tSqlw)
                 Dim jsond As String = JsonConvert.SerializeObject(oDatad)
 
                 Dim jsonAll = "{""whtax"":{""header"":" & jsonh & ",""detail"":" & jsond & "}}"
@@ -1205,7 +1205,7 @@ Namespace Controllers
                     tSqlw &= String.Format(" AND h.DocNo ='{0}'", Request.QueryString("Code").ToString)
                 End If
 
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(tSqlw)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(tSqlw)
                 Dim oHead As String = JsonConvert.SerializeObject(oData.AsEnumerable().ToList())
                 Dim json = "{""whtax"":{""data"":" & oHead & ",""msg"":""Complete!""}}"
 
@@ -1230,7 +1230,7 @@ Namespace Controllers
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
                     End If
 
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
 
                     If "" & data.DocNo = "" Then
                         If AuthorizeStr.IndexOf("I") < 0 Then
@@ -1277,8 +1277,8 @@ Namespace Controllers
                     Return Content("{""whtax"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
 
-                Dim oData As New CWHTaxHeader(jobWebConn)
-                Dim msg = New CWHTaxDetail(jobWebConn).DeleteData(tSqlw)
+                Dim oData As New CWHTaxHeader(GetSession("ConnJob"))
+                Dim msg = New CWHTaxDetail(GetSession("ConnJob")).DeleteData(tSqlw)
                 msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""whtax"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -1305,7 +1305,7 @@ Namespace Controllers
                     tSqlw &= String.Format("AND DocNo='{0}' ", Request.QueryString("Code").ToString)
                 End If
 
-                Dim oData = New CWHTaxDetail(jobWebConn).GetData(tSqlw)
+                Dim oData = New CWHTaxDetail(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""whtax"":{""detail"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -1338,7 +1338,7 @@ Namespace Controllers
                         End If
                     End If
 
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' AND ItemNo={2} ", data.BranchCode, data.DocNo, data.ItemNo))
                     Dim json = "{""result"":{""data"":""" & data.DocNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -1379,7 +1379,7 @@ Namespace Controllers
                     Return Content("{""whtax"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
 
-                Dim oData As New CWHTaxDetail(jobWebConn)
+                Dim oData As New CWHTaxDetail(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""whtax"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -1401,8 +1401,8 @@ Namespace Controllers
                     docNo = Request.QueryString("Code").ToString
                 End If
 
-                Dim oHead = New CInvHeader(jobWebConn).GetData(tSqlw)
-                Dim oDet = New CInvDetail(jobWebConn).GetData(tSqlw)
+                Dim oHead = New CInvHeader(GetSession("ConnJob")).GetData(tSqlw)
+                Dim oDet = New CInvDetail(GetSession("ConnJob")).GetData(tSqlw)
 
                 Dim jsonH As String = ""
                 Dim jsonD As String = ""
@@ -1414,12 +1414,12 @@ Namespace Controllers
                     If oDet.Count > 0 Then
                         jsonD = JsonConvert.SerializeObject(oDet)
                     End If
-                    Dim oCust = New CCompany(jobWebConn).GetData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}'", oHead(0).CustCode, oHead(0).CustBranch))
+                    Dim oCust = New CCompany(GetSession("ConnJob")).GetData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}'", oHead(0).CustCode, oHead(0).CustBranch))
                     jsonC = JsonConvert.SerializeObject(oCust)
                 End If
 
                 If oDet.Count > 0 Then
-                    Dim oJob = New CJobOrder(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo IN(SELECT JobNo FROM Job_ClearDetail WHERE BranchCode='{0}' AND LinkBillNo='{1}')", oDet(0).BranchCode, oDet(0).DocNo))
+                    Dim oJob = New CJobOrder(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo IN(SELECT JobNo FROM Job_ClearDetail WHERE BranchCode='{0}' AND LinkBillNo='{1}')", oDet(0).BranchCode, oDet(0).DocNo))
                     jsonJob = JsonConvert.SerializeObject(oJob)
                 End If
                 Return Content("{""invoice"":{""msg"":""" & docNo & """,""header"":[" & jsonH & "],""detail"":[" & jsonD & "],""customer"":[" & jsonC & "],""job"":[" & jsonJob & "]}}", jsonContent)
@@ -1443,7 +1443,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Cancel")) Then
                     tSqlw &= String.Format("AND ISNULL(CancelProve,''){0}", If(Request.QueryString("Cancel").ToString.ToUpper = "Y", "<>''", "=''"))
                 End If
-                Dim oData = New CInvHeader(jobWebConn).GetData(tSqlw & " ORDER BY DocDate DESC")
+                Dim oData = New CInvHeader(GetSession("ConnJob")).GetData(tSqlw & " ORDER BY DocDate DESC")
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""invheader"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -1458,7 +1458,7 @@ Namespace Controllers
                     If "" & data.BranchCode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     If "" & data.DocNo = "" Then
                         If data.DocType = "" Then
                             data.DocType = invPrefix
@@ -1499,13 +1499,13 @@ Namespace Controllers
                     Return Content("{""invheader"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
 
-                Dim oData As New CInvHeader(jobWebConn) With {
+                Dim oData As New CInvHeader(GetSession("ConnJob")) With {
                     .BranchCode = Branch,
                     .DocNo = DocNo
                 }
                 Dim msg = oData.DeleteData(tSqlw)
 
-                Dim oDet As New CInvDetail(jobWebConn)
+                Dim oDet As New CInvDetail(GetSession("ConnJob"))
                 oDet.DeleteData(tSqlw)
 
                 Dim json = "{""invheader"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -1541,7 +1541,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("DateTo")) Then
                     tSqlw &= " AND BillDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
-                Dim oData = New CBillHeader(jobWebConn).GetData(tSqlw & " ORDER BY BillDate DESC")
+                Dim oData = New CBillHeader(GetSession("ConnJob")).GetData(tSqlw & " ORDER BY BillDate DESC")
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""billheader"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -1556,12 +1556,18 @@ Namespace Controllers
                     If "" & data.BranchCode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     If "" & data.BillAcceptNo = "" Then
                         If data.BillDate = DateTime.MinValue Then
                             data.BillDate = Today.Date
                         End If
                         data.AddNew(billPrefix & data.BillDate.ToString("yyMM") & "____")
+                        'Get Due Date from Customers
+                        Dim oCust = New CCompany(GetSession("ConnJob")).GetData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}'", data.CustCode, data.CustBranch))
+                        If oCust.Count > 0 Then
+                            Dim creditdays = CInt(oCust(0).CreditLimit)
+                            data.DuePaymentDate = data.BillDate.AddDays(creditdays)
+                        End If
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND BillAcceptNo='{1}' ", data.BranchCode, data.BillAcceptNo))
                     Dim json = "{""result"":{""data"":""" & data.BillAcceptNo & """,""msg"":""" & msg & """}}"
@@ -1592,13 +1598,13 @@ Namespace Controllers
                 Dim Branch As String = Request.QueryString("Branch").ToString
                 Dim Code As String = Request.QueryString("Code").ToString
 
-                Dim oData As New CBillHeader(jobWebConn) With {
+                Dim oData As New CBillHeader(GetSession("ConnJob")) With {
                     .BranchCode = Branch,
                     .BillAcceptNo = Code
                 }
                 Dim msg = oData.DeleteData(tSqlw)
 
-                Dim oDet As New CBillDetail(jobWebConn)
+                Dim oDet As New CBillDetail(GetSession("ConnJob"))
                 oDet.DeleteData(tSqlw)
 
                 Dim json = "{""billheader"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -1642,7 +1648,7 @@ Namespace Controllers
                         isSummary = True
                     End If
                 End If
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(SQLSelectReceiptReport() & tSqlw)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectReceiptReport() & tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""receipt"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -1683,8 +1689,8 @@ Namespace Controllers
                     End If
                 End If
 
-                Dim oHead = New CRcpHeader(jobWebConn).GetData(tSqlw & " ORDER BY ReceiptDate DESC")
-                Dim oDet = New CRcpDetail(jobWebConn).GetData(" WHERE ReceiptNo IN(SELECT ReceiptNo FROM Job_ReceiptHeader " & tSqlw & ")")
+                Dim oHead = New CRcpHeader(GetSession("ConnJob")).GetData(tSqlw & " ORDER BY ReceiptDate DESC")
+                Dim oDet = New CRcpDetail(GetSession("ConnJob")).GetData(" WHERE ReceiptNo IN(SELECT ReceiptNo FROM Job_ReceiptHeader " & tSqlw & ")")
 
                 Dim jsonH As String = ""
                 Dim jsonD As String = ""
@@ -1696,7 +1702,7 @@ Namespace Controllers
                         jsonD = JsonConvert.SerializeObject(oDet)
                     End If
 
-                    Dim oCust = New CCompany(jobWebConn).GetData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}'", oHead(0).CustCode, oHead(0).CustBranch))
+                    Dim oCust = New CCompany(GetSession("ConnJob")).GetData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}'", oHead(0).CustCode, oHead(0).CustBranch))
                     If oCust.Count > 0 Then
                         jsonC = JsonConvert.SerializeObject(oCust)
                     End If
@@ -1718,7 +1724,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND ReceiptNo ='{0}' ", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CRcpHeader(jobWebConn).GetData(tSqlw)
+                Dim oData = New CRcpHeader(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""rcpheader"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -1733,7 +1739,7 @@ Namespace Controllers
                     If "" & data.BranchCode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     If "" & data.ReceiptNo = "" Then
                         If data.ReceiptDate = DateTime.MinValue Then
                             data.ReceiptDate = Today.Date
@@ -1780,10 +1786,10 @@ Namespace Controllers
                     Return Content("{""rcpheader"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
 
-                Dim oData As New CRcpHeader(jobWebConn)
+                Dim oData As New CRcpHeader(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
-                Dim oDetail As New CRcpDetail(jobWebConn) With {
+                Dim oDetail As New CRcpDetail(GetSession("ConnJob")) With {
                     .BranchCode = Request.QueryString("Branch").ToString,
                     .ReceiptNo = Request.QueryString("Code").ToString
                 }
@@ -1819,7 +1825,7 @@ Namespace Controllers
                         tSqlw &= " AND ISNULL(b.CancelProve,'')='' "
                     End If
                 End If
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(SQLSelectChequeBalance(chqType) & tSqlw)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectChequeBalance(chqType) & tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""cheque"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -1851,7 +1857,7 @@ Namespace Controllers
                         tSqlw &= " AND ISNULL(b.CancelProve,'')='' "
                     End If
                 End If
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(SQLSelectDocumentBalance(prType) & tSqlw)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectDocumentBalance(prType) & tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""document"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -1879,7 +1885,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Cust")) Then
                     tSqlw &= String.Format(" AND c.CustCode='{0}' ", Request.QueryString("Cust").ToString)
                 End If
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(SQLSelectClrForInvoice() & tSqlw)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectClrForInvoice() & tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""invdetail"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -1897,7 +1903,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND DocNo ='{0}' ", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CInvDetail(jobWebConn).GetData(tSqlw)
+                Dim oData = New CInvDetail(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""invdetail"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -1920,7 +1926,7 @@ Namespace Controllers
                     For Each dt In data
                         'Invoice's Service+Advance
                         If dt.ItemNo > 0 Then
-                            dt.SetConnect(jobWebConn)
+                            dt.SetConnect(GetSession("ConnJob"))
                             Dim result = dt.SaveData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' AND ItemNo={2}", dt.BranchCode, dt.DocNo, dt.ItemNo))
                             If result.Substring(0, 1) = "S" Then
                                 i += 1
@@ -1932,7 +1938,7 @@ Namespace Controllers
                             'Invoice's Cost
                             Dim Sql = String.Format("UPDATE Job_ClearDetail SET LinkBillNo='{0}',LinkItem={1} ", dt.DocNo, dt.ItemNo)
                             Sql &= String.Format(" WHERE ClrNo+'/'+Convert(varchar,ItemNo) IN('{0}')", dt.ClrNoList.Replace(",", "','"))
-                            msg &= "Update " & dt.ClrNoList & "=" & Main.DBExecute(jobWebConn, Sql) & "\n"
+                            msg &= "Update " & dt.ClrNoList & "=" & Main.DBExecute(GetSession("ConnJob"), Sql) & "\n"
                         End If
                     Next
                     Dim json = "{""result"":{""data"":""" & data(0).DocNo & """,""msg"":""" & msg & """}}"
@@ -1957,7 +1963,7 @@ Namespace Controllers
                     If "" & data.DocNo = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' AND ItemNo='{2}'", data.BranchCode, data.DocNo, data.ItemNo))
                     Dim json = "{""result"":{""data"":""" & data.DocNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -1991,7 +1997,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Item")) Then
                     tSqlw &= String.Format("AND ItemNo ='{0}' ", Request.QueryString("Item").ToString)
                 End If
-                Dim oData As New CInvDetail(jobWebConn)
+                Dim oData As New CInvDetail(GetSession("ConnJob"))
                 Dim oRec = oData.GetData(tSqlw)
                 If oRec.Count > 0 Then
                     Dim msg = ""
@@ -2054,7 +2060,7 @@ Namespace Controllers
                         isSummary = True
                     End If
                 End If
-                Dim oData = If(isSummary, New CUtil(jobWebConn).GetTableFromSQL(SQLSelectInvSummary(tSqlw)), New CUtil(jobWebConn).GetTableFromSQL(SQLSelectInvReport(tSqlw)))
+                Dim oData = If(isSummary, New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectInvSummary(tSqlw)), New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectInvReport(tSqlw)))
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""inv"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -2169,13 +2175,13 @@ Namespace Controllers
                 tSqlw &= " ORDER BY ih.DocNo DESC"
                 If byReceipt Then
                     Dim sql As String = SQLSelectInvByReceive(recvNo, bCheckVoucher) & tSqlw
-                    Dim oData = New CUtil(jobWebConn).GetTableFromSQL(sql)
+                    Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
                     Dim json As String = JsonConvert.SerializeObject(oData)
                     json = "{""invdetail"":{""data"":" & json & ",""condition"":""" & tSqlw & """}}"
                     Return Content(json, jsonContent)
                 Else
                     Dim sql As String = SQLSelectInvForReceive(bCheckVoucher) & tSqlw
-                    Dim oData = New CUtil(jobWebConn).GetTableFromSQL(sql)
+                    Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
                     Dim json As String = JsonConvert.SerializeObject(oData)
                     json = "{""invdetail"":{""data"":" & json & ",""condition"":""" & tSqlw & """}}"
                     Return Content(json, jsonContent)
@@ -2213,7 +2219,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Cust")) Then
                     tSqlw &= String.Format(" AND a.CustCode='{0}' ", Request.QueryString("Cust").ToString)
                 End If
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(SQLSelectInvForBilling() & tSqlw & " ORDER BY a.DocDate DESC ")
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectInvForBilling() & tSqlw & " ORDER BY a.DocDate DESC ")
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""invdetail"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -2237,8 +2243,8 @@ Namespace Controllers
                     tSqlw &= String.Format("AND CustCode='{0}' ", Request.QueryString("Cust").ToString)
                 End If
 
-                Dim oHead = New CBillHeader(jobWebConn).GetData(tSqlw)
-                Dim oDet = New CBillDetail(jobWebConn).GetData(tSqlw)
+                Dim oHead = New CBillHeader(GetSession("ConnJob")).GetData(tSqlw)
+                Dim oDet = New CBillDetail(GetSession("ConnJob")).GetData(" WHERE BillAcceptNo IN(SELECT BillAcceptNo FROM Job_BillAcceptHeader " & tSqlw & ")")
 
                 Dim jsonH As String = ""
                 Dim jsonD As String = ""
@@ -2250,7 +2256,7 @@ Namespace Controllers
                         jsonD = JsonConvert.SerializeObject(oDet)
                     End If
 
-                    Dim oCust = New CCompany(jobWebConn).GetData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}'", oHead(0).CustCode, oHead(0).CustBranch))
+                    Dim oCust = New CCompany(GetSession("ConnJob")).GetData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}'", oHead(0).CustCode, oHead(0).CustBranch))
                     If oCust.Count > 0 Then
                         jsonC = JsonConvert.SerializeObject(oCust)
                     End If
@@ -2271,7 +2277,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND BillAcceptNo ='{0}' ", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CBillDetail(jobWebConn).GetData(tSqlw)
+                Dim oData = New CBillDetail(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""billdetail"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -2286,7 +2292,7 @@ Namespace Controllers
                     If "" & data(0).BillAcceptNo = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     Else
-                        Dim o = New CBillDetail(jobWebConn) With {
+                        Dim o = New CBillDetail(GetSession("ConnJob")) With {
                             .BranchCode = data(0).BranchCode,
                             .BillAcceptNo = data(0).BillAcceptNo
                         }
@@ -2294,7 +2300,7 @@ Namespace Controllers
                     End If
                     Dim msg = ""
                     For Each dt In data
-                        dt.SetConnect(jobWebConn)
+                        dt.SetConnect(GetSession("ConnJob"))
                         msg &= "\n" & dt.SaveData(String.Format(" WHERE BranchCode='{0}' AND BillAcceptNo='{1}' AND ItemNo='{2}' ", dt.BranchCode, dt.BillAcceptNo, dt.ItemNo))
                     Next
                     Dim json = "{""result"":{""data"":""" & data(0).BillAcceptNo & """,""msg"":""" & msg & """}}"
@@ -2331,7 +2337,7 @@ Namespace Controllers
                     tSqlw &= String.Format("AND ItemNo ='{0}' ", Request.QueryString("Item").ToString)
                     Item = Request.QueryString("Item").ToString
                 End If
-                Dim oData As New CBillDetail(jobWebConn)
+                Dim oData As New CBillDetail(GetSession("ConnJob"))
                 Dim oRec = oData.GetData(tSqlw)
                 If oRec.Count > 0 Then
                     Dim msg = oRec(0).DeleteData(tSqlw)
@@ -2355,7 +2361,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND ReceiptNo ='{0}' ", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CRcpDetail(jobWebConn).GetData(tSqlw)
+                Dim oData = New CRcpDetail(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""rcpdetail"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -2377,7 +2383,7 @@ Namespace Controllers
                     Dim msg As String = ""
                     For Each dt In data
                         'Invoice's Service+Advance
-                        dt.SetConnect(jobWebConn)
+                        dt.SetConnect(GetSession("ConnJob"))
                         Dim result = dt.SaveData(String.Format(" WHERE BranchCode='{0}' AND ReceiptNo='{1}' AND ItemNo={2}", dt.BranchCode, dt.ReceiptNo, dt.ItemNo))
                         If result.Substring(0, 1) = "S" Then
                             i += 1
@@ -2408,7 +2414,7 @@ Namespace Controllers
                     If "" & data.ReceiptNo = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND ReceiptNo='{1}' AND ItemNo='{2}' ", data.BranchCode, data.ReceiptNo, data.ItemNo))
                     Dim json = "{""result"":{""data"":""" & data.ReceiptNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -2443,7 +2449,7 @@ Namespace Controllers
                     tSqlw &= String.Format("AND ItemNo='{0}' ", Request.QueryString("Item").ToString)
                 End If
 
-                Dim oData As New CRcpDetail(jobWebConn) With {
+                Dim oData As New CRcpDetail(GetSession("ConnJob")) With {
                     .BranchCode = Branch,
                     .ReceiptNo = DocNo
                 }

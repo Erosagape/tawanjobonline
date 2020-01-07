@@ -36,10 +36,10 @@ Namespace Controllers
                     job = Request.QueryString("Job").ToString
                     tSqlW &= String.Format(" AND j.JNo='{0}'", job)
                 End If
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(SQLSelectExpenseFromQuo() & tSqlW)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectExpenseFromQuo() & tSqlW)
                 If oData.Rows.Count > 0 Then
                     For Each row As DataRow In oData.Rows
-                        Dim oRow As New CClearExp(jobWebConn)
+                        Dim oRow As New CClearExp(GetSession("ConnJob"))
                         oRow.BranchCode = row("BranchCode").ToString
                         oRow.JNo = row("JNo").ToString
                         oRow.SICode = row("SICode").ToString
@@ -59,7 +59,7 @@ Namespace Controllers
                         Dim msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode))
                     Next
                 End If
-                Dim oRows = New CClearExp(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' ", branch, job))
+                Dim oRows = New CClearExp(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' ", branch, job))
                 Dim json = JsonConvert.SerializeObject(oRows)
                 json = "{""estimate"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -80,7 +80,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND a.SICode ='{0}' ", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(SQLSelectClearExp() & tSqlw)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectClearExp() & tSqlw)
                 Dim json = JsonConvert.SerializeObject(oData)
                 json = "{""estimate"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -101,7 +101,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND SICode ='{0}' ", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CClearExp(jobWebConn).GetData(tSqlw)
+                Dim oData = New CClearExp(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""estimate"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -116,10 +116,10 @@ Namespace Controllers
                 Dim cliteria = Request.QueryString("cliteria").ToString()
                 Dim jobSource = cliteria.Split("=")(0)
                 Dim jobDest = cliteria.Split("=")(1)
-                Dim oSrc = New CClearExp(jobWebConn).GetData(String.Format(" WHERE BranchCode+'|'+JNo='{0}'", jobSource))
+                Dim oSrc = New CClearExp(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode+'|'+JNo='{0}'", jobSource))
                 For Each oRow In oSrc
-                    Dim oDesc = New CClearExp(jobWebConn).GetData(String.Format(" WHERE BranchCode+'|'+JNo='{0}' AND SICode='{1}' ", jobDest, oRow.SICode))
-                    Dim oRec = New CClearExp(jobWebConn)
+                    Dim oDesc = New CClearExp(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode+'|'+JNo='{0}' AND SICode='{1}' ", jobDest, oRow.SICode))
+                    Dim oRec = New CClearExp(GetSession("ConnJob"))
                     If oDesc.Count > 0 Then
                         oRec = oDesc(0)
                     Else
@@ -160,7 +160,7 @@ Namespace Controllers
                     If "" & data.SICode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Code""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE SICode='{0}' AND BranchCode='{1}' AND JNo='{2}' ", data.SICode, data.BranchCode, data.JNo))
                     Dim json = "{""result"":{""data"":""" & data.SICode & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -191,7 +191,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND SICode = '{0}' ", Request.QueryString("Code").ToString)
                 End If
-                Dim oData As New CClearExp(jobWebConn)
+                Dim oData As New CClearExp(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""estimate"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -258,9 +258,9 @@ Namespace Controllers
                 If lst <> "" Then
                     Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=3,PaymentRef='" & docno & "',PaymentBy='" & user & "',PaymentDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PaymentTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
  WHERE DocStatus=2 AND BranchCode+'|'+AdvNo in({0})", lst)
-                    Dim result = Main.DBExecute(jobWebConn, tSQL)
+                    Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
-                        Main.DBExecute(jobWebConn, String.Format("UPDATE Job_PaymentHeader SET PaymentRef='" & docno & "',PaymentBy='" & user & "',PaymentDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PaymentTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
+                        Main.DBExecute(GetSession("ConnJob"), String.Format("UPDATE Job_PaymentHeader SET PaymentRef='" & docno & "',PaymentBy='" & user & "',PaymentDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PaymentTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
  WHERE NOT ISNULL(CancelProve,'')<>'' AND BranchCode+'|'+AdvRef in({0})", lst))
                         Return New HttpResponseMessage(HttpStatusCode.OK)
                     End If
@@ -298,7 +298,7 @@ Namespace Controllers
                 If lst <> "" Then
                     Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=2,ApproveBy='" & user & "',ApproveDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',ApproveTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
  WHERE DocStatus=1 AND BranchCode+'|'+AdvNo in({0})", lst)
-                    Dim result = Main.DBExecute(jobWebConn, tSQL)
+                    Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Return New HttpResponseMessage(HttpStatusCode.OK)
                     End If
@@ -313,7 +313,7 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If Not IsNothing(data) Then
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim prefix As String = advPrefix
                     If data.AdvNo = "" Then
                         If AuthorizeStr.IndexOf("I") < 0 Then
@@ -348,7 +348,7 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If Not IsNothing(data) Then
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim prefix As String = expPrefix
                     If data.AdvNo = "" Then
                         If AuthorizeStr.IndexOf("I") < 0 Then
@@ -416,10 +416,10 @@ Namespace Controllers
                     i += 1
                     branchcode = o.BranchCode
                     docno = o.AdvNo
-                    o.SetConnect(jobWebConn)
+                    o.SetConnect(GetSession("ConnJob"))
                     If o.STCode = "EXP" And o.PayChqTo.IndexOf("#") > 0 Then
                         If isUpdatePay = False Then
-                            Main.DBExecute(jobWebConn, String.Format("UPDATE Job_PaymentHeader SET AdvRef='{0}' WHERE BranchCode='{1}' AND DocNo='{2}' ", o.AdvNo, o.BranchCode, o.PayChqTo.Split("#".ToCharArray())(0)))
+                            Main.DBExecute(GetSession("ConnJob"), String.Format("UPDATE Job_PaymentHeader SET AdvRef='{0}' WHERE BranchCode='{1}' AND DocNo='{2}' ", o.AdvNo, o.BranchCode, o.PayChqTo.Split("#".ToCharArray())(0)))
                             isUpdatePay = True
                         End If
                     End If
@@ -428,7 +428,7 @@ Namespace Controllers
                     str &= msg
                 Next
 
-                Dim obj = New CAdvDetail(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' And AdvNo='{1}'", branchcode, docno))
+                Dim obj = New CAdvDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' And AdvNo='{1}'", branchcode, docno))
                 json = "{""result"":{""msg"":""" & str & """,""data"":""" & docno & """,""document"":[" & JsonConvert.SerializeObject(obj) & "]}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
@@ -442,7 +442,7 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If Not IsNothing(data) Then
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
 
                     If data.ItemNo = 0 Then
                         If AuthorizeStr.IndexOf("I") < 0 Then
@@ -455,7 +455,7 @@ Namespace Controllers
                     End If
                     Dim msg As String = ""
                     If data.ForJNo <> "" Then
-                        Dim chkDupRows = New CAdvDetail(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' AND ForJNo='{1}' AND SICode='{2}' AND AdvNo<>'{3}' ", data.BranchCode, data.ForJNo, data.SICode, data.AdvNo))
+                        Dim chkDupRows = New CAdvDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND ForJNo='{1}' AND SICode='{2}' AND AdvNo<>'{3}' ", data.BranchCode, data.ForJNo, data.SICode, data.AdvNo))
                         If chkDupRows.Count > 0 Then
                             If data.SDescription.IndexOf("ซ้ำ") < 0 Then
                                 data.SDescription = "**ซ้ำ**" & data.SDescription
@@ -502,7 +502,7 @@ Namespace Controllers
                 End If
                 tSqlW &= " AND ItemNo=" & ItemNo & ""
 
-                Dim oADVD = New CAdvDetail(jobWebConn).GetData(String.Format(" WHERE BranchCode='{0}' And AdvNo='{1}' And ItemNo={2}", Branch, Docno, ItemNo))
+                Dim oADVD = New CAdvDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' And AdvNo='{1}' And ItemNo={2}", Branch, Docno, ItemNo))
                 Dim msg As String = "No Data To Delete"
                 If oADVD.Count > 0 Then
                     msg = oADVD(0).DeleteData(tSqlW)
@@ -533,9 +533,9 @@ Namespace Controllers
                     tSqlW &= " AND AdvNo='" & Request.QueryString("AdvNo") & "'"
                 End If
 
-                Dim oAdvH As New CAdvHeader(jobWebConn)
+                Dim oAdvH As New CAdvHeader(GetSession("ConnJob"))
                 Dim msg As String = oAdvH.DeleteData(tSqlW)
-                Dim oAdvD As New CAdvDetail(jobWebConn)
+                Dim oAdvD As New CAdvDetail(GetSession("ConnJob"))
                 Dim msgD As String = oAdvD.DeleteData(tSqlW)
 
                 Dim json = "{""adv"":{""result"":""" & msg & """}}"
@@ -559,14 +559,14 @@ Namespace Controllers
                     Branch = Request.QueryString("BranchCode")
                 End If
 
-                Dim oAdvH As New CAdvHeader(jobWebConn) With {
+                Dim oAdvH As New CAdvHeader(GetSession("ConnJob")) With {
                     .BranchCode = Branch,
                     .AdvNo = "",
                     .AdvDate = DateTime.Today,
                     .DocStatus = 1
                 }
 
-                Dim oAdvD As New CAdvDetail(jobWebConn) With {
+                Dim oAdvD As New CAdvDetail(GetSession("ConnJob")) With {
                     .BranchCode = Branch,
                     .AdvNo = "",
                     .ItemNo = 0
@@ -599,7 +599,7 @@ Namespace Controllers
                     AdvNo = Request.QueryString("AdvNo")
                 End If
 
-                Dim oAdvD As New CAdvDetail(jobWebConn) With
+                Dim oAdvD As New CAdvDetail(GetSession("ConnJob")) With
                     {
                         .BranchCode = Branch,
                         .AdvNo = AdvNo,
@@ -675,7 +675,7 @@ Namespace Controllers
                     tSqlW &= " AND a.AdvType IN(1,2,3,4) "
                 End If
                 Dim sql As String = SQLSelectAdvDetail()
-                Dim oData As DataTable = New CUtil(jobWebConn).GetTableFromSQL(sql + tSqlW + " ORDER BY a.AdvDate DESC")
+                Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql + tSqlW + " ORDER BY a.AdvDate DESC")
                 Dim json = "{""adv"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
@@ -739,7 +739,7 @@ Namespace Controllers
                     tSqlW &= " AND a.AdvType IN(1,2,3,4) "
                 End If
                 Dim sql As String = SQLSelectAdvHeader()
-                Dim oData As DataTable = New CUtil(jobWebConn).GetTableFromSQL(sql + tSqlW + " ORDER BY a.AdvDate DESC")
+                Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql + tSqlW + " ORDER BY a.AdvDate DESC")
                 Dim json = "{""adv"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
@@ -755,8 +755,8 @@ Namespace Controllers
                     Return Content("{""adv"":{""header"":[],""detail"":[],""msg"":""You Are not authorize to view data""}}", jsonContent)
                 End If
 
-                Dim oAdvH As New CAdvHeader(jobWebConn)
-                Dim oADVD As New CAdvDetail(jobWebConn)
+                Dim oAdvH As New CAdvHeader(GetSession("ConnJob"))
+                Dim oADVD As New CAdvDetail(GetSession("ConnJob"))
                 Dim Branch As String = ""
                 If Not IsNothing(Request.QueryString("BranchCode")) Then
                     Branch = Request.QueryString("BranchCode")
@@ -786,7 +786,7 @@ Namespace Controllers
                     Return Content("{""adv"":{""detail"":[],""msg"":""You Are not authorize to view data""}}", jsonContent)
                 End If
 
-                Dim oADVD As New CAdvDetail(jobWebConn)
+                Dim oADVD As New CAdvDetail(GetSession("ConnJob"))
                 Dim Branch As String = ""
                 If Not IsNothing(Request.QueryString("BranchCode")) Then
                     Branch = Request.QueryString("BranchCode")
@@ -804,7 +804,7 @@ Namespace Controllers
 
                 Dim oDataD = oADVD.GetData(tSqlW)
                 Dim jsond As String = JsonConvert.SerializeObject(oDataD)
-                Dim oDataH = New CAdvHeader(jobWebConn).GetData(tSqlW)
+                Dim oDataH = New CAdvHeader(GetSession("ConnJob")).GetData(tSqlW)
                 Dim jsonh As String = JsonConvert.SerializeObject(oDataH)
 
                 Dim json = "{""adv"":{""detail"":" & jsond & ",""header"":" & jsonh & "}}"

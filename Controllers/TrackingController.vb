@@ -42,7 +42,7 @@ Namespace Controllers
                                 Dim path = System.IO.Path.Combine(saveFolder, filename)
                                 File.SaveAs(path)
 
-                                Dim oFile As New CDocument(jobWebConn)
+                                Dim oFile As New CDocument(GetSession("ConnJob"))
                                 oFile.BranchCode = branch
                                 oFile.JNo = job
                                 oFile.ItemNo = 0

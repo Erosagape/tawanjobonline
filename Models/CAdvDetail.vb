@@ -292,7 +292,7 @@ Public Class CAdvDetail
             cm.CommandText = sql & " WHERE b.BranchCode='" + Me.BranchCode + "' and b.AdvNo='" + Me.AdvNo + "'"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvDetail", "UpdateTotal", cm.CommandText, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvDetail", "UpdateTotal", cm.CommandText, False)
             If ("" & Me.PayChqTo).ToString().IndexOf("#") > 0 Then
                 If IsDelete Then
                     cm.CommandText = String.Format("UPDATE Job_PaymentDetail SET AdvItemNo=0 WHERE BranchCode='{1}' AND DocNo='{2}' AND ItemNo={3}", Me.ItemNo, Me.BranchCode, Me.PayChqTo.Split("#".ToCharArray())(0), Me.PayChqTo.Split("#".ToCharArray())(1))
@@ -300,7 +300,7 @@ Public Class CAdvDetail
                     cm.CommandText = String.Format("UPDATE Job_PaymentDetail SET AdvItemNo={0} WHERE BranchCode='{1}' AND DocNo='{2}' AND ItemNo={3}", Me.ItemNo, Me.BranchCode, Me.PayChqTo.Split("#".ToCharArray())(0), Me.PayChqTo.Split("#".ToCharArray())(1))
                 End If
                 cm.ExecuteNonQuery()
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvDetail", "UpdatePayInAdvance", cm.CommandText, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvDetail", "UpdatePayInAdvance", cm.CommandText, False)
             End If
         End Using
     End Sub

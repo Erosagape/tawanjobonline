@@ -444,6 +444,15 @@ Public Class CInvHeader
             m_DiscountCal = value
         End Set
     End Property
+    Private m_DueDate As Date
+    Public Property DueDate As Date
+        Get
+            Return m_DueDate
+        End Get
+        Set(value As Date)
+            m_DueDate = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -504,7 +513,7 @@ Public Class CInvHeader
                             dr("DiscountRate") = Me.DiscountRate
                             dr("DiscountCal") = Me.DiscountCal
                             dr("TotalDiscount") = Me.TotalDiscount
-
+                            dr("DueDate") = Main.GetDBDate(Me.DueDate)
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CInvHeader", "SaveData", Me, False)
@@ -681,6 +690,9 @@ Public Class CInvHeader
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("DiscountCal"))) = False Then
                         row.DiscountCal = rd.GetDouble(rd.GetOrdinal("DiscountCal"))
                     End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("DueDate"))) = False Then
+                        row.DueDate = rd.GetValue(rd.GetOrdinal("DueDate"))
+                    End If
                     lst.Add(row)
                 End While
             Catch ex As Exception
@@ -702,7 +714,7 @@ Public Class CInvHeader
                     cm.CommandText = Sql
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvHeader", "UpdateClrDetail", cm.CommandText, True)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvHeader", "UpdateClrDetail", cm.CommandText, False)
                 End If
             End Using
 

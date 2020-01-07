@@ -260,7 +260,7 @@ Public Class CBillHeader
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CBillHeader", "SaveData", Me, False)
                             If Me.CancelProve <> "" Then
-                                Dim o As New CBillDetail(jobWebConn)
+                                Dim o As New CBillDetail(GetSession("ConnJob"))
                                 o.BranchCode = Me.BranchCode
                                 o.BillAcceptNo = Me.BillAcceptNo
                                 o.CancelDocument(cn)
@@ -383,7 +383,7 @@ Public Class CBillHeader
                     If Me.BillAcceptNo <> "" Then
                         cm.CommandText = SQLUpdateBillToInv(Me.BranchCode, Me.BillAcceptNo, False)
                         cm.ExecuteNonQuery()
-                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillHeader", "UpdateBillToInv", cm.CommandText, True)
+                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillHeader", "UpdateBillToInv", cm.CommandText, False)
                     End If
                 End Using
                 msg = "Update Complete"
@@ -407,7 +407,7 @@ Public Class CBillHeader
                     If Me.BillAcceptNo <> "" Then
                         cm.CommandText = SQLUpdateBillToInv(Me.BranchCode, Me.BillAcceptNo, True)
                         cm.ExecuteNonQuery()
-                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillHeader", "UpdateBillToInv", cm.CommandText, True)
+                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillHeader", "UpdateBillToInv", cm.CommandText, False)
                     End If
                 End Using
 

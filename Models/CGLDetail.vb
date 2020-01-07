@@ -222,7 +222,7 @@ Public Class CGLDetail
             cm.CommandText = sql & If(Me.GLRefNo <> "", " WHERE a.BranchCode='" + Me.BranchCode + "' and a.GLRefNo='" + Me.GLRefNo + "'", "")
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CGLDetail", "UpdateTotal", cm.CommandText, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CGLDetail", "UpdateTotal", cm.CommandText, False)
         End Using
     End Sub
 End Class

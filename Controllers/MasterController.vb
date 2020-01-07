@@ -71,7 +71,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Group")) Then
                     tSqlw &= String.Format("AND AccMain ='{0}' ", Request.QueryString("Group").ToString)
                 End If
-                Dim oData = New CAccountCode(jobWebConn).GetData(tSqlw)
+                Dim oData = New CAccountCode(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""accountcode"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -86,7 +86,7 @@ Namespace Controllers
                     If "" & data.AccCode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE AccCode='{0}' ", data.AccCode))
                     Dim json = "{""result"":{""data"":""" & data.AccCode & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -108,7 +108,7 @@ Namespace Controllers
                 Else
                     Return Content("{""accountcode"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CAccountCode(jobWebConn)
+                Dim oData As New CAccountCode(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""accountcode"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -130,7 +130,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Item")) Then
                     tSqlw &= String.Format(" AND ItemNo={0}", Request.QueryString("Item").ToString)
                 End If
-                Dim oData = New CCompanyContact(jobWebConn).GetData(tSqlw)
+                Dim oData = New CCompanyContact(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""companycontact"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -148,7 +148,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND ProvinceCode ='{0}'", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CProvince(jobMasConn).GetData(tSqlw)
+                Dim oData = New CProvince(GetSession("ConnMas")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""province"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -163,7 +163,7 @@ Namespace Controllers
                     If "" & data.ProvinceCode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobMasConn)
+                    data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE ProvinceCode='{0}' ", data.ProvinceCode))
                     Dim json = "{""result"":{""data"":""" & data.ProvinceCode & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -185,7 +185,7 @@ Namespace Controllers
                 Else
                     Return Content("{""province"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CProvince(jobMasConn)
+                Dim oData As New CProvince(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""province"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -201,7 +201,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND ProvinceCode='{0}'", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CProvinceSub(jobMasConn).GetData(tSqlw)
+                Dim oData = New CProvinceSub(GetSession("ConnMas")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""province"":{""detail"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -216,7 +216,7 @@ Namespace Controllers
                     If "" & data.id = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobMasConn)
+                    data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE id='{0}' ", data.id))
                     Dim json = "{""result"":{""data"":""" & data.id & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -238,7 +238,7 @@ Namespace Controllers
                 Else
                     Return Content("{""province"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CProvinceSub(jobMasConn)
+                Dim oData As New CProvinceSub(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""province"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -254,7 +254,7 @@ Namespace Controllers
                     If "" & data.CustCode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Customer""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}' AND ItemNo='{2}' ", data.CustCode, data.Branch, data.ItemNo))
                     Dim json = "{""result"":{""data"":""" & data.ItemNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -282,7 +282,7 @@ Namespace Controllers
                 Else
                     Return Content("{""companycontact"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CCompanyContact(jobWebConn)
+                Dim oData As New CCompanyContact(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""companycontact"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -302,7 +302,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND RegsNumber ='{0}'", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CVessel(jobMasConn).GetData(tSqlw)
+                Dim oData = New CVessel(GetSession("ConnMas")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""vessel"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -317,7 +317,7 @@ Namespace Controllers
                     If "" & data.RegsNumber = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobMasConn)
+                    data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE RegsNumber='{0}' ", data.RegsNumber))
                     Dim json = "{""result"":{""data"":""" & data.RegsNumber & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -339,7 +339,7 @@ Namespace Controllers
                 Else
                     Return Content("{""vessel"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CVessel(jobMasConn)
+                Dim oData As New CVessel(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""vessel"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -356,7 +356,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND GroupCode ='{0}'", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CServiceGroup(jobWebConn).GetData(tSqlw)
+                Dim oData = New CServiceGroup(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""servicegroup"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -371,10 +371,10 @@ Namespace Controllers
                     If "" & data.GroupCode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE GroupCode='{0}' ", data.GroupCode))
                     If data.IsApplyPolicy = 1 Then
-                        Dim cmd As New CUtil(jobWebConn)
+                        Dim cmd As New CUtil(GetSession("ConnJob"))
                         Dim sql As String = "
 UPDATE a
 SET a.IsTaxCharge=b.IsTaxCharge,
@@ -412,7 +412,7 @@ AND b.IsApplyPolicy=1
                 Else
                     Return Content("{""servicegroup"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CServiceGroup(jobWebConn)
+                Dim oData As New CServiceGroup(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""servicegroup"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -428,7 +428,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND [Code] ='{0}'", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CBank(jobMasConn).GetData(tSqlw)
+                Dim oData = New CBank(GetSession("ConnMas")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""bank"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -443,7 +443,7 @@ AND b.IsApplyPolicy=1
                     If "" & data.Code = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobMasConn)
+                    data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE [Code]='{0}' ", data.Code))
                     Dim json = "{""result"":{""data"":""" & data.Code & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -465,7 +465,7 @@ AND b.IsApplyPolicy=1
                 Else
                     Return Content("{""bank"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CBank(jobMasConn)
+                Dim oData As New CBank(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""bank"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -484,7 +484,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND BookCode ='{0}' ", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CBookAccount(jobWebConn).GetData(tSqlw)
+                Dim oData = New CBookAccount(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""bookaccount"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -502,7 +502,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND c.BookCode ='{0}' ", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(String.Format(SQLSelectBookAccBalance(), tSqlw))
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(SQLSelectBookAccBalance(), tSqlw))
                 Dim json As String = JsonConvert.SerializeObject(oData.Rows)
                 json = "{""bookaccount"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -517,7 +517,7 @@ AND b.IsApplyPolicy=1
                     If "" & data.BookCode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookCode='{1}' ", data.BranchCode, data.BookCode))
                     Dim json = "{""result"":{""data"":""" & data.BookCode & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -542,7 +542,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format("AND BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
                 End If
-                Dim oData As New CBookAccount(jobWebConn)
+                Dim oData As New CBookAccount(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""bookaccount"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -561,7 +561,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Key")) Then
                     tSqlw &= String.Format(" AND CountryCode ='{0}'", Request.QueryString("Key").ToString)
                 End If
-                Dim oData = New CInterPort(jobMasConn).GetData(tSqlw)
+                Dim oData = New CInterPort(GetSession("ConnMas")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""interport"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -579,7 +579,7 @@ AND b.IsApplyPolicy=1
                     If "" & data.CountryCode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Country Code""}}", jsonContent)
                     End If
-                    data.SetConnect(jobMasConn)
+                    data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE PortCode='{0}' AND CountryCode='{1}' ", data.PortCode, data.CountryCode))
                     Dim json = "{""result"":{""data"":""" & data.PortCode & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -606,7 +606,7 @@ AND b.IsApplyPolicy=1
                 Else
                     Return Content("{""interport"":{""result"":""Please Select Country Code"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CInterPort(jobMasConn)
+                Dim oData As New CInterPort(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""interport"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -624,7 +624,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND AreaCode ='{0}'", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CCustomsPort(jobMasConn).GetData(tSqlw)
+                Dim oData = New CCustomsPort(GetSession("ConnMas")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""RFARS"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -641,7 +641,7 @@ AND b.IsApplyPolicy=1
                     If "" & data.AreaCode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobMasConn)
+                    data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE AreaCode='{0}' ", data.AreaCode))
                     Dim json = "{""result"":{""data"":""" & data.AreaCode & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -666,7 +666,7 @@ AND b.IsApplyPolicy=1
                 Else
                     Return Content("{""RFARS"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CCustomsPort(jobMasConn)
+                Dim oData As New CCustomsPort(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""RFARS"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -684,7 +684,7 @@ AND b.IsApplyPolicy=1
                     If "" & data.Type = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobMasConn)
+                    data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE Type='{0}' ", data.Type))
                     Dim json = "{""result"":{""data"":""" & data.Type & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -709,7 +709,7 @@ AND b.IsApplyPolicy=1
                 Else
                     Return Content("{""RFDCT"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CDeclareType(jobMasConn)
+                Dim oData As New CDeclareType(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""RFDCT"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -730,7 +730,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Type")) Then
                     tSqlw &= String.Format("AND IsCTNUnit={0} ", Request.QueryString("Type").ToString)
                 End If
-                Dim oData = New CServUnit(jobMasConn).GetData(tSqlw)
+                Dim oData = New CServUnit(GetSession("ConnMas")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""servunit"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -747,7 +747,7 @@ AND b.IsApplyPolicy=1
                     If "" & data.UnitType = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobMasConn)
+                    data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE UnitType='{0}' ", data.UnitType))
                     Dim json = "{""result"":{""data"":""" & data.UnitType & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -772,7 +772,7 @@ AND b.IsApplyPolicy=1
                 Else
                     Return Content("{""servunit"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CServUnit(jobMasConn)
+                Dim oData As New CServUnit(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""servunit"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -789,7 +789,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND [Type]='{0}'", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CDeclareType(jobMasConn).GetData(tSqlw)
+                Dim oData = New CDeclareType(GetSession("ConnMas")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""RFDCT"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -806,7 +806,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND [Code]='{0}'", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CCurrency(jobMasConn).GetData(tSqlw)
+                Dim oData = New CCurrency(GetSession("ConnMas")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""currency"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -823,7 +823,7 @@ AND b.IsApplyPolicy=1
                     If "" & data.Code = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobMasConn)
+                    data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE [Code]='{0}' ", data.Code))
                     Dim json = "{""result"":{""data"":""" & data.Code & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -848,7 +848,7 @@ AND b.IsApplyPolicy=1
                 Else
                     Return Content("{""currency"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CCurrency(jobMasConn)
+                Dim oData As New CCurrency(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""currency"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -868,7 +868,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Pass")) Then
                     tSqlw &= String.Format("AND UPassword='{0}'", Request.QueryString("Pass").ToString)
                 End If
-                Dim oData = New CUser(jobWebConn).GetData(tSqlw)
+                Dim oData = New CUser(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""user"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -879,7 +879,7 @@ AND b.IsApplyPolicy=1
         End Function
         Function GetNewCompany() As ActionResult
             Try
-                Dim oData = New CCompany(jobWebConn)
+                Dim oData = New CCompany(GetSession("ConnJob"))
                 oData.AddNew()
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""company"":{""data"":" & json & "}}"
@@ -891,7 +891,7 @@ AND b.IsApplyPolicy=1
         End Function
         Function GetNewUser() As ActionResult
             Try
-                Dim oData = New CUser(jobWebConn)
+                Dim oData = New CUser(GetSession("ConnJob"))
                 oData.AddNew()
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""user"":{""data"":" & json & "}}"
@@ -903,7 +903,7 @@ AND b.IsApplyPolicy=1
         End Function
         Function GetNewVender() As ActionResult
             Try
-                Dim oData = New CVender(jobWebConn)
+                Dim oData = New CVender(GetSession("ConnJob"))
                 oData.AddNew()
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""vender"":{""data"":" & json & "}}"
@@ -919,7 +919,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND CTYCODE ='{0}'", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CCountry(jobMasConn).GetData(tSqlw)
+                Dim oData = New CCountry(GetSession("ConnMas")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""country"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -936,7 +936,7 @@ AND b.IsApplyPolicy=1
                     If "" & data.CTYCODE = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobMasConn)
+                    data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE CTYCODE='{0}' ", data.CTYCODE))
                     Dim json = "{""result"":{""data"":""" & data.CTYCODE & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -961,7 +961,7 @@ AND b.IsApplyPolicy=1
                 Else
                     Return Content("{""country"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CCountry(jobMasConn)
+                Dim oData As New CCountry(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""country"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -993,9 +993,9 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("ID")) Then
                     tSqlw &= String.Format(" AND LoginName='{0}'", Request.QueryString("ID").ToString)
                 End If
-                Dim oData = New CCompany(jobWebConn).GetData(tSqlw)
+                Dim oData = New CCompany(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
-                Dim oContact = New CCompanyContact(jobWebConn).GetData(tSqlC)
+                Dim oContact = New CCompanyContact(GetSession("ConnJob")).GetData(tSqlC)
                 Dim jsonc As String = JsonConvert.SerializeObject(oContact)
                 json = "{""company"":{""data"":" & json & ",""contact"":" & jsonc & "},""sql"":""" & tSqlw & """}"
                 Return Content(json, jsonContent)
@@ -1013,7 +1013,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("ID")) Then
                     tSqlw &= String.Format(" AND LoginName='{0}'", Request.QueryString("ID").ToString)
                 End If
-                Dim oData = New CVender(jobWebConn).GetData(tSqlw)
+                Dim oData = New CVender(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""vender"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -1028,7 +1028,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND SICode Like '{0}'", Request.QueryString("Code").ToString)
                 End If
-                Dim oData As New CServiceCode(jobWebConn)
+                Dim oData As New CServiceCode(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""servicecode"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -1046,7 +1046,7 @@ AND b.IsApplyPolicy=1
                 Else
                     Return Content("{""vender"":{""result"":""Please Select Some Vender"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CVender(jobWebConn)
+                Dim oData As New CVender(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""vender"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -1067,7 +1067,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format("AND Branch = '{0}'", Request.QueryString("Branch").ToString)
                 End If
-                Dim oData As New CCompany(jobWebConn)
+                Dim oData As New CCompany(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""company"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -1086,7 +1086,7 @@ AND b.IsApplyPolicy=1
                 Else
                     Return Content("{""user"":{""result"":""Please Select Some User"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CUser(jobWebConn)
+                Dim oData As New CUser(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""user"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -1116,7 +1116,7 @@ AND b.IsApplyPolicy=1
                             tSqlw &= "AND IsCredit=0 AND IsExpense=0 "
                     End Select
                 End If
-                Dim oData = New CServiceCode(jobWebConn).GetData(tSqlw)
+                Dim oData = New CServiceCode(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""servicecode"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -1127,7 +1127,7 @@ AND b.IsApplyPolicy=1
         End Function
         Function GetNewServiceCode() As ActionResult
             Try
-                Dim oData = New CServiceCode(jobWebConn)
+                Dim oData = New CServiceCode(GetSession("ConnJob"))
                 Dim msg As String = "OK"
                 oData.AddNew("")
                 Dim json As String = JsonConvert.SerializeObject(oData)
@@ -1144,7 +1144,7 @@ AND b.IsApplyPolicy=1
                     If "" & data.CustCode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter CustCode""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE CustCode='{0}' And Branch='{1}' ", data.CustCode, data.Branch))
                     Dim json = "{""result"":{""data"":""" & data.CustCode & """,""msg"":""" & msg & """}}"
                     'Dim msg = JsonConvert.SerializeObject(data)
@@ -1167,7 +1167,7 @@ AND b.IsApplyPolicy=1
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Vender Code""}}", jsonContent)
                     End If
 
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE VenCode='{0}' ", data.VenCode))
                     Dim json = "{""result"":{""data"":""" & data.VenCode & """,""msg"":""" & msg & """}}"
                     'Dim msg = JsonConvert.SerializeObject(data)
@@ -1190,7 +1190,7 @@ AND b.IsApplyPolicy=1
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter User ID""}}", jsonContent)
                     End If
 
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE UserID='{0}' ", data.UserID))
                     Dim json = "{""result"":{""data"":""" & data.UserID & """,""msg"":""" & msg & """}}"
                     'Dim msg = JsonConvert.SerializeObject(data)
@@ -1209,7 +1209,7 @@ AND b.IsApplyPolicy=1
         Function SetServiceCode(<FromBody()> data As CServiceCode) As ActionResult
             Try
                 If Not IsNothing(data) Then
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     If data.SICode.ToString().Substring(data.SICode.ToString().Length - 1, 1) = "-" Then
                         data.AddNew(data.SICode + "___")
                     End If
@@ -1234,7 +1234,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND [Code]='{0}'", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CBranch(jobWebConn).GetData("SELECT * FROM Mas_Branch " & tSqlw)
+                Dim oData = New CBranch(GetSession("ConnJob")).GetData("SELECT * FROM Mas_Branch " & tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""branch"":{""data"":""" & json & """}}"
                 Return Content(json, jsonContent)
@@ -1249,7 +1249,7 @@ AND b.IsApplyPolicy=1
                     If "" & data.Code = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE [Code]='{0}' ", data.Code))
                     Dim json = "{""result"":{""data"":""" & data.Code & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -1274,7 +1274,7 @@ AND b.IsApplyPolicy=1
                 Else
                     Return Content("{""branch"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CBranch(jobWebConn)
+                Dim oData As New CBranch(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""branch"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -1297,7 +1297,7 @@ AND b.IsApplyPolicy=1
                     tSqlW &= String.Format(" AND b.ShipBy={0} ", Request.QueryString("SBy").ToString)
                 End If
 
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(Main.SQLSelectServiceBudget() & tSqlW)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(Main.SQLSelectServiceBudget() & tSqlW)
                 Dim json As String = JsonConvert.SerializeObject(oData.Rows)
                 json = "{""budgetpolicy"":{""data"":" & json & ",""msg"":""OK""}}"
                 Return Content(json, jsonContent)
@@ -1315,7 +1315,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format(" AND ID={0}", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CBudgetPolicy(jobWebConn).GetData(tSqlw)
+                Dim oData = New CBudgetPolicy(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""budgetpolicy"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -1330,7 +1330,7 @@ AND b.IsApplyPolicy=1
                     If "" & data.ID = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobWebConn)
+                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE ID={0} ", data.ID))
                     Dim json = "{""result"":{""data"":""" & data.ID & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -1352,7 +1352,7 @@ AND b.IsApplyPolicy=1
                 Else
                     Return Content("{""budgetpolicy"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CBudgetPolicy(jobWebConn)
+                Dim oData As New CBudgetPolicy(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""budgetpolicy"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
@@ -1368,7 +1368,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND [Code] ='{0}'", Request.QueryString("Code").ToString)
                 End If
-                Dim oData = New CCustomsUnit(jobMasConn).GetData(tSqlw)
+                Dim oData = New CCustomsUnit(GetSession("ConnMas")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""customsunit"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -1383,7 +1383,7 @@ AND b.IsApplyPolicy=1
                     If "" & data.Code = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                     End If
-                    data.SetConnect(jobMasConn)
+                    data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE [Code]='{0}' ", data.Code))
                     Dim json = "{""result"":{""data"":""" & data.Code & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -1405,7 +1405,7 @@ AND b.IsApplyPolicy=1
                 Else
                     Return Content("{""customsunit"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
                 End If
-                Dim oData As New CCustomsUnit(jobMasConn)
+                Dim oData As New CCustomsUnit(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
 
                 Dim json = "{""customsunit"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"

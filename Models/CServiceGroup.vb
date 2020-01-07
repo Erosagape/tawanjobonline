@@ -120,7 +120,7 @@ Public Class CServiceGroup
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CServiceGroup", "UpdateData", cm.CommandText, True)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CServiceGroup", "UpdateData", cm.CommandText, False)
                 End Using
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CServiceGroup", "UpdateData", ex.Message, True, ex.StackTrace, "")

@@ -539,16 +539,16 @@ Public Class CClrHeader
             cm.CommandText = sql + " WHERE a.BranchCode='" + Me.BranchCode + "' and a.ClrNo='" + Me.ClrNo + "'"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "UpdateClrHeader", cm.CommandText, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "UpdateClrHeader", cm.CommandText, False)
             sql = Main.SQLUpdateAdvStatus
             cm.CommandText = sql + " WHERE adv.BranchCode='" + Me.BranchCode + "' and adv.AdvNo IN(SELECT AdvNO FROM Job_ClearDetail WHERE BranchCode='" + Me.BranchCode + "' AND ClrNo='" + Me.ClrNo + "' AND AdvNo IS NOT NULL)"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "UpdateAdvStatus", cm.CommandText, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "UpdateAdvStatus", cm.CommandText, False)
             If IsDelete Then
                 cm.CommandText = "UPDATE Job_PaymentDetail SET ClrRefNo=NULL,ClrItemNo=0 WHERE ClrRefNo='" & Me.ClrNo & "'"
                 cm.ExecuteNonQuery()
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "ClearPaymentRelated", cm.CommandText, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "ClearPaymentRelated", cm.CommandText, False)
             End If
         End Using
     End Sub

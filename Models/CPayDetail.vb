@@ -403,7 +403,7 @@ Public Class CPayDetail
             cm.CommandText = sql & " WHERE b.BranchCode='" + Me.BranchCode + "' and b.DocNo='" + Me.DocNo + "'"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CPayDetail", "UpdatePayHeader", cm.CommandText, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CPayDetail", "UpdatePayHeader", cm.CommandText, False)
         End Using
     End Sub
 End Class

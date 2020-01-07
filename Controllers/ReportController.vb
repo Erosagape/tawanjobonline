@@ -328,7 +328,7 @@ WHERE (h.ApproveBy <> '') AND NOT (ISNULL(h.CancelProve,'')<>'') {0} ORDER BY v.
                     Case "PROFITLOSS"
                     Case "JOURNAL"
                 End Select
-                Dim oData = New CUtil(jobWebConn).GetTableFromSQL(sqlM, True)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 Return Content("{""result"":" & json & ",""group"":""" & fldGroup & """,""msg"":""OK"",""sql"":""" & sqlW & """}")
             Catch ex As Exception

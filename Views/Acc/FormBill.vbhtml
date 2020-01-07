@@ -80,7 +80,7 @@ End Code
         </table>
 
         <div style="margin-top:60px">
-            <p>PAYMENT TERMS... @ViewBag.PROFILE_PAYMENT_CREDIT_DAYS... DAYS (FROM BILLING DATE) ________/________/____________</p>
+            <p>PAYMENT DUE DATE : <label id="lblPaymentDueDate"></label></p>
             <p>PLEASE PAY CHEQUE IN NAME @ViewBag.PROFILE_COMPANY_NAME</p>
             <p>PAYMENT SHOULD BE PAID BY CROSS CHEQUE IN FAVOR OF  @ViewBag.PROFILE_COMPANY_NAME</p>
             <p>SIGN ON RECEIVER AND ASSIGNED PAYMENT DATE AND SEND THIS PAPER TO @ViewBag.PROFILE_COMPANY_NAME FAX. @ViewBag.PROFILE_COMPANY_FAX</p>
@@ -116,6 +116,7 @@ End Code
         if (data.header.length > 0) {
             $('#lblBillAcceptNo').text(data.header[0][0].BillAcceptNo);
             $('#lblBillDate').text(ShowDate(CDateTH(data.header[0][0].BillDate)));
+            $('#lblPaymentDueDate').text(ShowDate(CDateTH(data.header[0][0].DuePaymentDate)));
         }
         if (data.customer.length > 0) {
             $('#lblTaxNumber').text(data.customer[0][0].TaxNumber);

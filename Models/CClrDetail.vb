@@ -692,14 +692,14 @@ Public Class CClrDetail
             cm.CommandText = sql + " WHERE a.BranchCode='" + Me.BranchCode + "' and a.ClrNo='" + Me.ClrNo + "'"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "UpdateClrHeader", cm.CommandText, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "UpdateClrHeader", cm.CommandText, False)
 
             If Me.AdvNO <> "" Then
                 sql = SQLUpdateAdvStatus()
                 cm.CommandText = sql + " WHERE adv.BranchCode='" + Me.BranchCode + "' and adv.AdvNo='" + Me.AdvNO + "'"
                 cm.CommandType = CommandType.Text
                 cm.ExecuteNonQuery()
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "UpdateAdvStatus", cm.CommandText, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "UpdateAdvStatus", cm.CommandText, False)
             End If
             If Me.VenderBillingNo <> "" Then
                 If Me.VenderBillingNo.IndexOf("#") > 0 Then
@@ -709,7 +709,7 @@ Public Class CClrDetail
                         cm.CommandText = "UPDATE Job_PaymentDetail SET ClrReFNo='" & Me.ClrNo & "',ClrItemNo=" & Me.ItemNo & " WHERE BranchCode='" & Me.BranchCode & "' AND DocNo='" & Me.VenderBillingNo.Split("#")(0) & "' AND ItemNo=" & Me.VenderBillingNo.Split("#")(1)
                     End If
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "UpdatePayInClearing", cm.CommandText, True)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "UpdatePayInClearing", cm.CommandText, False)
                 End If
             End If
         End Using

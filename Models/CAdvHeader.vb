@@ -479,14 +479,14 @@ Public Class CAdvHeader
             cm.CommandText = sql & " WHERE b.BranchCode='" + Me.BranchCode + "' and b.AdvNo='" + Me.AdvNo + "'"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvHeader", "UpdateTotal", cm.CommandText, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvHeader", "UpdateTotal", cm.CommandText, False)
 
             If Me.DocStatus = 99 Then
                 cm.CommandText = String.Format("UPDATE Job_PaymentDetail SET AdvItemNo=0 WHERE BranchCode='{0}' AND DocNo IN(SELECT DocNo FROM Job_PaymentHeader WHERE AdvRef='{1}') AND AdvItemNo>0 ", Me.BranchCode, Me.AdvNo)
                 cm.ExecuteNonQuery()
                 cm.CommandText = String.Format("UPDATE Job_PaymentHeader SET AdvRef='' WHERE BranchCode='{0}' AND AdvRef='{1}' ", Me.BranchCode, Me.AdvNo)
                 cm.ExecuteNonQuery()
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvHeader", "CancelPayInAdvance", cm.CommandText, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvHeader", "CancelPayInAdvance", cm.CommandText, False)
             End If
         End Using
     End Sub

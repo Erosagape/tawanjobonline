@@ -48,7 +48,7 @@ Public Class CController
                 Case "CurrBranch"
                     Session(sName) = GetValueConfig("PROFILE", "DEFAULT_BRANCH")
                 Case "CurrBranchName"
-                    Session(sName) = Main.GetValueSQL(jobWebConn, String.Format("SELECT BrName FROM Mas_Branch WHERE [Code]='{0}'", ViewBag.PROFILE_DEFAULT_BRANCH)).Result
+                    Session(sName) = Main.GetValueSQL(GetSession("ConnJob"), String.Format("SELECT BrName FROM Mas_Branch WHERE [Code]='{0}'", ViewBag.PROFILE_DEFAULT_BRANCH)).Result
                 Case "CompanyLogo"
                     Session(sName) = GetValueConfig("PROFILE", "COMPANY_LOGO", "logo-tawan.jpg")
                 Case "CompanyName"
@@ -91,9 +91,6 @@ Public Class CController
     Friend Function LoadCompanyProfile() As Boolean
         Dim bExpired = False
 
-        jobWebConn = GetSession("ConnJob").ToString
-        jobMasConn = GetSession("ConnMas").ToString
-
         ViewBag.User = GetSession("CurrUser").ToString
         ViewBag.UserGroup = GetSession("UserGroup").ToString
         If ViewBag.User = "" Then
@@ -103,11 +100,11 @@ Public Class CController
         If CheckSession("UserProfiles") = False Then
             ViewBag.UserName = DirectCast(Session("UserProfiles"), CUser).TName
         End If
-        ViewBag.CONNECTION_JOB = jobWebConn
-        ViewBag.CONNECTION_MAS = jobMasConn
+        ViewBag.CONNECTION_JOB = GetSession("ConnJob").ToString
+        ViewBag.CONNECTION_MAS = GetSession("ConnMas").ToString
         ViewBag.DATABASE = GetSession("DatabaseID").ToString
         ViewBag.LICENSE_NAME = GetSession("CurrLicense").ToString
-        If jobWebConn <> "" Then
+        If ViewBag.CONNECTION_JOB <> "" Then
             ViewBag.PROFILE_DEFAULT_LANG = GetSession("CurrentLang").ToString()
             ViewBag.PROFILE_DEFAULT_BRANCH = GetSession("CurrBranch").ToString
             ViewBag.PROFILE_DEFAULT_BRANCH_NAME = GetSession("CurrBranchName").ToString

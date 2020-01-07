@@ -15,8 +15,6 @@ Module Main
     Friend Const expPrefix As String = "ACC-"
     Friend Const servPrefix As String = "SRV-"
     Friend Const appName As String = "JOBSHIPPING"
-    Friend jobWebConn As String = ""
-    Friend jobMasConn As String = ""
     Friend Function GetDBString(pValue As String, dc As DataColumn)
         If pValue Is Nothing Then
             Return ""
@@ -87,7 +85,7 @@ Module Main
             Dim tSqlw As String = " WHERE ConfigCode<>'' "
             If sCode <> "" Then tSqlw &= String.Format("AND ConfigCode='{0}'", sCode)
             tSqlw &= String.Format("AND ISNULL(ConfigKey,'')='{0}'", sKey)
-            Dim oData = New CConfig(jobWebConn).GetData(tSqlw)
+            Dim oData = New CConfig(GetSession("ConnJob")).GetData(tSqlw)
             If oData.Count > 0 Then
                 Return oData(0).ConfigValue
             Else
@@ -101,7 +99,7 @@ Module Main
     Friend Function GetDataConfig(sCode As String) As List(Of CConfig)
         Dim tSqlw As String = " WHERE ConfigCode<>'' "
         If sCode <> "" Then tSqlw &= String.Format("AND ConfigCode='{0}'", sCode)
-        Dim oData = New CConfig(jobWebConn).GetData(tSqlw)
+        Dim oData = New CConfig(GetSession("ConnJob")).GetData(tSqlw)
         Return oData
     End Function
     Friend Function GetMaxByMask(sConn As String, sSQL As String, sFormat As String) As String
@@ -151,7 +149,7 @@ Module Main
         'P=Can Print Data
         Dim data = ""
         If uname <> "" Then
-            Dim auth = New CUserAuth(jobWebConn).GetData(" WHERE UserID='" & uname & "' AND AppID='" & app & "' AND MenuID='" & mnu & "'")
+            Dim auth = New CUserAuth(GetSession("ConnJob")).GetData(" WHERE UserID='" & uname & "' AND AppID='" & app & "' AND MenuID='" & mnu & "'")
             data = If(auth.Count > 0, "" & auth(0).Author, "")
         End If
         Return data
@@ -165,11 +163,11 @@ Module Main
             Else
                 SQL = String.Format(SQL, "")
             End If
-            Dim dt As DataTable = New CUtil(jobWebConn).GetTableFromSQL(SQL)
+            Dim dt As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQL)
             Dim iRow As Integer = 0
             For Each dr As DataRow In dt.Rows
 
-                Dim oAuth = New CUserAuth(jobWebConn) With {
+                Dim oAuth = New CUserAuth(GetSession("ConnJob")) With {
     .UserID = If(uname <> "", uname, dr("UserID").ToString()),
     .AppID = dr("ModuleCode").ToString(),
     .MenuID = dr("ModuleFunc").ToString(),
@@ -195,11 +193,11 @@ Module Main
             Else
                 SQL = String.Format(SQL, "")
             End If
-            Dim dt As DataTable = New CUtil(jobWebConn).GetTableFromSQL(SQL)
+            Dim dt As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQL)
             Dim iRow As Integer = 0
             For Each dr As DataRow In dt.Rows
 
-                Dim oAuth = New CUserAuth(jobWebConn) With {
+                Dim oAuth = New CUserAuth(GetSession("ConnJob")) With {
     .UserID = dr("UserID").ToString(),
     .AppID = dr("ModuleCode").ToString(),
     .MenuID = dr("ModuleFunc").ToString(),
@@ -980,7 +978,7 @@ AND a.BillAcceptNo=b.BillAcceptNo
             sql &= " WHERE a.BranchCode='{0}' AND a.BillAcceptNo='{1}' "
         Else
             sql &= " SET a.BillAcceptNo=b.BillAcceptNo,a.BillIssueDate=b.BillDate,a.BillAcceptDate=b.BillRecvDate,"
-            sql &= " a.BillToCustCode=b.CustCode,a.BillToCustBranch=b.CustBranch "
+            sql &= " a.BillToCustCode=b.CustCode,a.BillToCustBranch=b.CustBranch,a.DueDate=b.DuePaymentDate "
             sql &= " FROM Job_InvoiceHeader a INNER JOIN (SELECT h.*,d.InvNo FROM Job_BillAcceptHeader h INNER JOIN Job_BillAcceptDetail d ON h.BranchCode=d.BranchCode AND h.BillAcceptNo=d.BillAcceptNo WHERE NOT ISNULL(h.CancelProve,'')<>'') b "
             sql &= " ON a.BranchCode=b.BranchCode AND a.DocNo=b.InvNo WHERE a.BranchCode='{0}' AND b.BillAcceptNo='{1}' "
         End If
@@ -1471,7 +1469,7 @@ dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
         Return tb
     End Function
     Function GetDatabaseConnection(pCustomer As String, pApp As String, pSeq As String) As String()
-        Dim db = New String() {ConfigurationManager.ConnectionStrings("JobWebConnectionString").ConnectionString.ToString, ConfigurationManager.ConnectionStrings("JobMasConnectionString").ConnectionString.ToString}
+        Dim db = New String() {"", ""}
         Try
             Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
             Using tb As DataTable = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT * FROM TWTCustomerApp WHERE CustID='{0}' AND AppID='{1}' AND Seq='{2}'", pCustomer, pApp, pSeq))
@@ -1490,9 +1488,6 @@ dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
             Using cn As New SqlConnection(pDBName)
                 cn.Open()
                 bChk = (cn.State = ConnectionState.Open)
-                If bChk Then
-                    jobMasConn = pDBName
-                End If
                 Return bChk
             End Using
             Return True
@@ -1507,9 +1502,6 @@ dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
             Using cn As New SqlConnection(pDBName)
                 cn.Open()
                 bChk = (cn.State = ConnectionState.Open)
-                If bChk Then
-                    jobWebConn = pDBName
-                End If
                 Return bChk
             End Using
             Return True
@@ -1570,10 +1562,10 @@ GROUP BY j.CustCode
             sqlCheckStatus = ",COUNT(*) as TotalJob"
         End If
         Dim sql = "
-SELECT j.JobType
+SELECT j.ShipBy
 " & sqlCheckStatus & "
 FROM Job_Order j {0}
-GROUP BY j.JobType
+GROUP BY j.ShipBy
 "
         sql = String.Format(sql, tSqlW)
         Return sql
@@ -1951,5 +1943,8 @@ dbo.Job_Order AS j ON d.BranchCode = j.BranchCode AND d.QNo = j.QNo AND d.SeqNo 
 dbo.Job_QuotationItem AS i ON d.BranchCode = i.BranchCode AND d.QNo = i.QNo AND d.SeqNo = i.SeqNo INNER JOIN
 dbo.Job_SrvSingle AS s ON i.SICode = s.SICode
 "
+    End Function
+    Function GetSession(sName As String) As String
+        Return HttpContext.Current.Session(sName).ToString
     End Function
 End Module
