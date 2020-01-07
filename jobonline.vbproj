@@ -830,6 +830,7 @@
     <Content Include="Views\JobOrder\FormBookingSea.vbhtml" />
     <Content Include="Views\JobOrder\FormBooking.vbhtml" />
     <Content Include="Views\Tracking\Timeline.vbhtml" />
+    <Content Include="Views\Adv\FormEstimate.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

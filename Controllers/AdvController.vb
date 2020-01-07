@@ -217,6 +217,14 @@ Namespace Controllers
             End If
             Return GetView("FormAdv")
         End Function
+        Function FormEstimate() As ActionResult
+            ViewBag.User = Session("CurrUser").ToString()
+            Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "EstimateCost")
+            If AuthorizeStr.IndexOf("P") < 0 Then
+                Return Content("You are not allow to print pre-invoice", textContent)
+            End If
+            Return GetView("FormEstimate")
+        End Function
         Function PaymentAdvance(<FromBody()> ByVal data As String()) As HttpResponseMessage
             Try
                 ViewBag.User = Session("CurrUser").ToString()

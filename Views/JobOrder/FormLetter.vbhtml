@@ -10,7 +10,7 @@ End Code
 </div>
 <br />
 <div style="text-align:left">
-    <label id="subj">เรื่อง  </label>ชอใช้จดหมายรับ D/O เนื่องจาก OB/L SURRENDER
+    <label id="subj">เรื่อง  </label>ขอใช้จดหมายรับ D/O เนื่องจาก OB/L SURRENDER
     <br /><br />
     <label id="to">เรียน </label>เจ้าหน้าที่แผนกขาเข้าทางเรือ
 </div>

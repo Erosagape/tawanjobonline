@@ -2,100 +2,100 @@
     ViewBag.Title = "Estimate Cost"
 End Code
 <!-- HTML CONTROLS -->
-    <div class="row">
-        <div class="col-sm-6">
-            <label id="lblBranch">Branch</label>
-            <br/>
-            <div style="display:flex">
-                <input type="text" class="form-control" style="width:60px" id="txtBranchCode" disabled />
-                <input type="button" class="btn btn-default" id="btnBrowseBranch" value="..." onclick="SearchData('branch')" />
-                <input type="text" class="form-control" style="width:100%" id="txtBranchName" disabled />
-            </div>
-        </div>
-        <div class="col-sm-4">
-            <label id="lblJNo">Job No :</label>
-            <br />
-            <div style="display:flex">
-                <input type="text" id="txtJNo" class="form-control">
-                <input type="button" class="btn btn-default" id="btnBrowseJob" value="..." onclick="SearchData('job')" />
-            </div>
-        </div>
-        <div class="col-sm-2">
-            <br/>
-            <button id="btnAutoEntry" class="btn btn-primary" onclick="LoadFromQuo()">Load from Quotation</button>
+<div class="row">
+    <div class="col-sm-6">
+        <label id="lblBranch">Branch</label>
+        <br />
+        <div style="display:flex">
+            <input type="text" class="form-control" style="width:60px" id="txtBranchCode" disabled />
+            <input type="button" class="btn btn-default" id="btnBrowseBranch" value="..." onclick="SearchData('branch')" />
+            <input type="text" class="form-control" style="width:100%" id="txtBranchName" disabled />
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-6">
-            <label for="txtSICode">Code  :</label>
-            <br />
-            <div style="display:flex">
-                <input type="text" id="txtSICode" class="form-control" style="width:100px" />
-                <input type="button" id="btnBrowseS" class="btn btn-default" value="..." onclick="SearchData('service')" />
-                <input type="text" id="txtSDescription" class="form-control" style="width:100%" />
-            </div>
-        </div>
-        <div class="col-sm-4">
-            Remark :<br />
-            <div style="display:flex">
-                <input type="text" id="txtTRemark" class="form-control">
-            </div>
-        </div>
-        <div class="col-sm-2">
-            Status :<br />
-            <div style="display:flex">
-                <select id="txtStatus" class="form-control dropdown">
-                    <option value="R">Required</option>
-                    <option value="O">Optional</option>
-                </select>
-            </div>
+    <div class="col-sm-4">
+        <label id="lblJNo">Job No :</label>
+        <br />
+        <div style="display:flex">
+            <input type="text" id="txtJNo" class="form-control">
+            <input type="button" class="btn btn-default" id="btnBrowseJob" value="..." onclick="SearchData('job')" />
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-2">
-            Amount :<br />
-            <div style="display:flex">
-                <input type="number" id="txtAmountCharge" class="form-control" value="0.00" onchange="CalTotal()">
-            </div>
+    <div class="col-sm-2">
+        <br />
+        <button id="btnAutoEntry" class="btn btn-primary" onclick="LoadFromQuo()">Load from Quotation</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <label for="txtSICode">Code  :</label>
+        <br />
+        <div style="display:flex">
+            <input type="text" id="txtSICode" class="form-control" style="width:100px" />
+            <input type="button" id="btnBrowseS" class="btn btn-default" value="..." onclick="SearchData('service')" />
+            <input type="text" id="txtSDescription" class="form-control" style="width:100%" />
         </div>
-        <div class="col-sm-2">
-            Currency:
-            <br />
-            <div style="display:flex">
-                <input type="text" id="txtCurrencyCode" class="form-control" disabled />
-                <input type="button" id="btnBrowseC" class="btn btn-default" value="..." onclick="SearchData('curr')" />
-            </div>
+    </div>
+    <div class="col-sm-4">
+        Remark :<br />
+        <div style="display:flex">
+            <input type="text" id="txtTRemark" class="form-control">
         </div>
-        <div class="col-sm-2">
-            Exchange Rate:
-            <br />
-            <div style="display:flex">
-                <input type="number" id="txtExchangeRate" class="form-control" value="0.00"  onchange="CalTotal()">
-            </div>
+    </div>
+    <div class="col-sm-2">
+        Status :<br />
+        <div style="display:flex">
+            <select id="txtStatus" class="form-control dropdown">
+                <option value="R">Required</option>
+                <option value="O">Optional</option>
+            </select>
         </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        Amount :<br />
+        <div style="display:flex">
+            <input type="number" id="txtAmountCharge" class="form-control" value="0.00" onchange="CalTotal()">
+        </div>
+    </div>
+    <div class="col-sm-2">
+        Currency:
+        <br />
+        <div style="display:flex">
+            <input type="text" id="txtCurrencyCode" class="form-control" disabled />
+            <input type="button" id="btnBrowseC" class="btn btn-default" value="..." onclick="SearchData('curr')" />
+        </div>
+    </div>
+    <div class="col-sm-2">
+        Exchange Rate:
+        <br />
+        <div style="display:flex">
+            <input type="number" id="txtExchangeRate" class="form-control" value="0.00" onchange="CalTotal()">
+        </div>
+    </div>
 
-        <div class="col-sm-2">
-            Qty:
-            <br />
-            <div style="display:flex">
-                <input type="number" id="txtQty" class="form-control" value="0.00" onchange="CalTotal()">
-            </div>
-        </div>
-        <div class="col-sm-2">
-            Unit:
-            <br />
-            <div style="display:flex">
-                <input type="text" id="txtQtyUnit" class="form-control" disabled />
-                <input type="button" id="btnBrowseU" class="btn btn-default" value="..." onclick="SearchData('unit')" />
-            </div>
-        </div>
-        <div class="col-sm-2">
-            Total :<br />
-            <div style="display:flex">
-                <input type="number" id="txtAmtCal" class="form-control" value="0.00" disabled>
-            </div>
+    <div class="col-sm-2">
+        Qty:
+        <br />
+        <div style="display:flex">
+            <input type="number" id="txtQty" class="form-control" value="0.00" onchange="CalTotal()">
         </div>
     </div>
+    <div class="col-sm-2">
+        Unit:
+        <br />
+        <div style="display:flex">
+            <input type="text" id="txtQtyUnit" class="form-control" disabled />
+            <input type="button" id="btnBrowseU" class="btn btn-default" value="..." onclick="SearchData('unit')" />
+        </div>
+    </div>
+    <div class="col-sm-2">
+        Total :<br />
+        <div style="display:flex">
+            <input type="number" id="txtAmtCal" class="form-control" value="0.00" disabled>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col-sm-2">
         Vat Rate:
@@ -163,7 +163,9 @@ End Code
         <tbody></tbody>
     </table>
 </p>
-
+<a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
+    <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Pre-invoice</b>
+</a>
 <div id="dvLOVs"></div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -420,7 +422,7 @@ End Code
         $('#txtAmtVat').val(CDbl(vat, 2));
         let whtrate = CNum($('#txtAmtWhtRate').val()) * 0.01;
         let wht = amtcal * whtrate;
-        $('#txtAmtWht').val(CDbl(wht, 2));        
+        $('#txtAmtWht').val(CDbl(wht, 2));
         SumTotal();
     }
     function SumTotal() {
@@ -442,10 +444,13 @@ End Code
     }
     function LoadFromQuo() {
         $.get(path + 'Adv/GetClearExpFromQuo?Branch=' + $('#txtBranchCode').val() + '&Job=' + $('#txtJNo').val())
-            .done(function (r) {
-                if (r.estimate.data.length > 0) {
-                    RefreshGrid();
-                }
-            });
+        .done(function (r) {
+            if (r.estimate.data.length > 0) {
+                RefreshGrid();
+            }
+        });
+    }
+    function PrintData() {
+        window.open(path + 'Adv/FormEstimate?branch=' + $('#txtBranchCode').val() + '&job=' + $('#txtJNo').val());
     }
 </script>
