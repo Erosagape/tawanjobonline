@@ -486,6 +486,7 @@ End Code
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
+    const userPosition = '@ViewBag.UserPosition';
     let serv = []; //must be array of object
     let hdr = {}; //simple object
     let dtl = {}; //simple object
@@ -731,6 +732,11 @@ End Code
         });
 
         $('#cboClrType').click(function (ev) {
+            if ((userPosition == '4' || userPosition == '5') && $('#cboClrType').val()=='3') {
+                ShowMessage('CS/Shipping is not allowed to Clear services');
+                $('#cboClrType').val('1');
+                return;
+            }
             loadServiceGroupForClear(path, '#cboSTCode', $('#cboClrType').val());
         });
     }

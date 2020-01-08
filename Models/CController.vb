@@ -99,6 +99,7 @@ Public Class CController
         End If
         If CheckSession("UserProfiles") = False Then
             ViewBag.UserName = DirectCast(Session("UserProfiles"), CUser).TName
+            ViewBag.UserPosition = DirectCast(Session("UserProfiles"), CUser).UPosition
         End If
         ViewBag.CONNECTION_JOB = GetSession("ConnJob").ToString
         ViewBag.CONNECTION_MAS = GetSession("ConnMas").ToString

@@ -33,11 +33,11 @@ End Code
         </div>               
         <p>
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#tabinfo">Job Descriptions</a></li>
-                <li><a data-toggle="tab" href="#tabinv">Invoice Description</a></li>
-                <li><a data-toggle="tab" href="#tabdeclare">Customs Description</a></li>
-                <li><a data-toggle="tab" href="#tabtracking">Job Document Tracking</a></li>
-                <li><a data-toggle="tab" href="#tabremark">Other Controls</a></li>
+                <li id="tab1" class="active"><a data-toggle="tab" href="#tabinfo">Job Descriptions</a></li>
+                <li id="tab2"><a data-toggle="tab" href="#tabinv">Invoice Description</a></li>
+                <li id="tab3"><a data-toggle="tab" href="#tabdeclare">Customs Description</a></li>
+                <li id="tab4"><a data-toggle="tab" href="#tabtracking">Job Document Tracking</a></li>
+                <li id="tab5"><a data-toggle="tab" href="#tabremark">Other Controls</a></li>
             </ul>
             <div class="tab-content">   
                 <div id="tabinfo" class="tab-pane fade in active">
@@ -592,6 +592,7 @@ End Code
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
+    const userPosition = '@ViewBag.UserPosition';
     let rec = {};
     //main function
     //$(document).ready(function () {
@@ -606,8 +607,13 @@ End Code
         ShowJob(br, jno);
     }
     SetEnterToTab();
+    if (userPosition == '4' || userPosition == '5') {
+        $('#tab4').hide();
+        $('#btnLinkCost').hide();
+    }
     if (userRights.indexOf('E') < 0) $('#btnSave').attr('disabled', 'disabled');
     if (userRights.indexOf('P') < 0) $('#btnPrint').attr('disabled', 'disabled');
+    
     //});
     function SetEnterToTab() {
         //Set enter to tab
