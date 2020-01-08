@@ -692,7 +692,8 @@ End Code
             CancelDate:CDateEN($('#txtCancelDate').val()),
             CancelTime:$('#txtCancelTime').val(),
             ShippingRemark: $('#txtShippingRemark').val(),
-            DueDate:CDateEN($('#txtDueDate').val())
+            DueDate: CDateEN($('#txtDueDate').val()),
+            CreateDate:row.CreateDate
         };
         let jsonString = JSON.stringify({ data: dataInv });
         $.ajax({

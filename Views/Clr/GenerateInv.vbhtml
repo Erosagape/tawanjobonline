@@ -899,7 +899,8 @@ End Code
             CancelDate:null,
             CancelTime:null,
             ShippingRemark: GetDueDate($('#txtDocDate').val()),
-            DueDate:null,
+            DueDate: null,
+            CreateDate:CDateEN(GetToday())
         };
         let jsonString = JSON.stringify({ data: dataInv });
         $.ajax({

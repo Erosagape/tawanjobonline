@@ -453,6 +453,15 @@ Public Class CInvHeader
             m_DueDate = value
         End Set
     End Property
+    Private m_CreateDate As Date
+    Public Property CreateDate As Date
+        Get
+            Return m_CreateDate
+        End Get
+        Set(value As Date)
+            m_CreateDate = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -465,7 +474,11 @@ Public Class CInvHeader
                             da.MissingSchemaAction = MissingSchemaAction.AddWithKey
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
-                            If dt.Rows.Count > 0 Then dr = dt.Rows(0)
+                            If dt.Rows.Count > 0 Then
+                                dr = dt.Rows(0)
+                            Else
+                                dr("CreateDate") = DateTime.Today
+                            End If
                             dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
                             dr("DocNo") = Main.GetDBString(Me.DocNo, dt.Columns("DocNo"))
                             dr("DocDate") = Main.GetDBDate(Me.DocDate)
@@ -692,6 +705,9 @@ Public Class CInvHeader
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("DueDate"))) = False Then
                         row.DueDate = rd.GetValue(rd.GetOrdinal("DueDate"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CreateDate"))) = False Then
+                        row.CreateDate = rd.GetValue(rd.GetOrdinal("CreateDate"))
                     End If
                     lst.Add(row)
                 End While

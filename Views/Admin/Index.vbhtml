@@ -1,9 +1,9 @@
 ﻿@Code
     ViewBag.Title = "Index"
 End Code
-<h2>Summary</h2>
+<h3>Summary Job Usages</h3>
 <div id="dvJobCount">
-    <table id="tbJobCount" style="border:thin;">
+    <table id="tbJobCount" class="table table-bordered" style="border:thin;width:100%">
         <thead>
             <tr>
                 <th>Period</th>
@@ -16,6 +16,7 @@ End Code
         </tbody>
     </table>
 </div>
+<h3>Summary Document Created</h3>
 <script type="text/javascript">
     var path = '@Url.Content("~")';
     $.get(path + 'JobOrder/GetJobSummary')
@@ -23,7 +24,15 @@ End Code
             if (r.length > 0) {
                 let html = '';
                 for (let d of r) {
-                    html += '<tr>';
+                    if (d.JobTypeCode == 'ALL') {
+                        if (d.JobMonth == 0) {
+                            html += '<tr style="background-color:lightgreen;font-weight:bold">';
+                        } else {
+                            html += '<tr style="background-color:yellow;font-weight:bold">';
+                        }
+                    } else {
+                        html += '<tr>';
+                    }
                     html += '<td>' + d.Period + '</td>';
                     html += '<td>' + d.JobTypeName + '</td>';
                     html += '<td>' + d.ShipByName + '</td>';

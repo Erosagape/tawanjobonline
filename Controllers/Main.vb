@@ -1926,9 +1926,13 @@ WHERE (jt.ConfigCode = N'JOB_TYPE') AND (sb.ConfigCode = N'SHIP_BY') AND (j.JobS
 GROUP BY jt.ConfigKey, jt.ConfigValue, sb.ConfigKey, sb.ConfigValue, Year(j.CreateDate),
 Month(j.CreateDate)
 UNION
-SELECT 'ALL','ALL TYPE','ALL','ALL TYPE',COUNT(*),Convert(varchar,Year(j.CreateDate)) +'/ALL',Year(j.CreateDate) as FiscalYear,0 as JobMonth
+SELECT 'ALL','**ALL TYPE**','ALL','**ALL TYPE**',COUNT(*),Convert(varchar,Year(j.CreateDate)) +'/ALL',Year(j.CreateDate) as FiscalYear,0 as JobMonth
 FROM dbo.Job_Order j WHERE j.JobStatus<>99 {0}
 GROUP BY Year(j.CreateDate)
+UNION
+SELECT 'ALL','**ALL TYPE**','ALL','**ALL TYPE**',COUNT(*),Convert(varchar,Year(j.CreateDate)) +'/' + RIGHT('0'+Convert(varchar,Month(j.CreateDate)),2),Year(j.CreateDate) as FiscalYear,Month(j.CreateDate) as JobMonth
+FROM dbo.Job_Order j WHERE j.JobStatus<>99 {0}
+GROUP BY Year(j.CreateDate),Month(j.CreateDate)
 ) t
 "
         Return String.Format(sql, sqlw)
