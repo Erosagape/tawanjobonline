@@ -1948,6 +1948,35 @@ dbo.Job_QuotationItem AS i ON d.BranchCode = i.BranchCode AND d.QNo = i.QNo AND 
 dbo.Job_SrvSingle AS s ON i.SICode = s.SICode
 "
     End Function
+    Function SQLSelectDocSummary() As String
+        Return "
+SELECT * FROM (
+select Convert(varchar,Year(AdvDate))+'/'+RIGHT('0'+Convert(varchar,Month(AdvDate)),2) as Period,'ADV' as DocType,Count(*) as CountDoc 
+from Job_AdvHeader where DocStatus<>99 
+group by Convert(varchar,Year(AdvDate))+'/'+RIGHT('0'+Convert(varchar,Month(AdvDate)),2)
+union
+SELECT Convert(varchar,Year(AdvDate))+'/ALL' as Period,'ADV' as DocType,Count(*) as CountDoc 
+from Job_AdvHeader where DocStatus<>99 
+group by Convert(varchar,Year(AdvDate))
+UNION
+select Convert(varchar,Year(ClrDate))+'/'+RIGHT('0'+Convert(varchar,Month(ClrDate)),2) as Period,'CLR' as DocType,Count(*) as CountDoc 
+from Job_ClearHeader where DocStatus<>99 
+group by Convert(varchar,Year(ClrDate))+'/'+RIGHT('0'+Convert(varchar,Month(ClrDate)),2)
+union
+SELECT Convert(varchar,Year(ClrDate))+'/ALL' as Period,'CLR' as DocType,Count(*) as CountDoc 
+from Job_ClearHeader where DocStatus<>99 
+group by Convert(varchar,Year(ClrDate))
+UNION
+select Convert(varchar,Year(CreateDate))+'/'+RIGHT('0'+Convert(varchar,Month(CreateDate)),2) as Period,'INV' as DocType,Count(*) as CountDoc 
+from Job_InvoiceHeader where NOT ISNULL(CancelProve,'')<>''
+group by Convert(varchar,Year(CreateDate))+'/'+RIGHT('0'+Convert(varchar,Month(CreateDate)),2)
+union
+SELECT Convert(varchar,Year(CreateDate))+'/ALL' as Period,'INV' as DocType,Count(*) as CountDoc 
+from Job_InvoiceHeader where NOT ISNULL(CancelProve,'')<>''
+group by Convert(varchar,Year(CreateDate))
+) t {0} ORDER BY t.DocType,t.Period
+"
+    End Function
     Function GetSession(sName As String) As String
         Return HttpContext.Current.Session(sName).ToString
     End Function

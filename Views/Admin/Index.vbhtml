@@ -17,6 +17,18 @@ End Code
     </table>
 </div>
 <h3>Summary Document Created</h3>
+<div id="dvDocCount">
+    <table id="tbDocCount" class="table table-bordered" style="border:thin;width:100%">
+        <thead>
+            <tr>
+                <th>Period</th>
+                <th>Doc Type</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
 <script type="text/javascript">
     var path = '@Url.Content("~")';
     $.get(path + 'JobOrder/GetJobSummary')
@@ -40,6 +52,24 @@ End Code
                     html += '</tr>';
                 }                
                 $('#tbJobCount tbody').html(html);
+            }
+        });
+    $.get(path + 'JobOrder/GetDocSummary')
+        .done((r) => {
+            if (r.length > 0) {
+                let html = '';
+                for (let d of r) {
+                    if (d.Period.indexOf('ALL')>0) {
+                        html += '<tr style="background-color:lightgreen;font-weight:bold">';
+                    } else {
+                        html += '<tr>';
+                    }
+                    html += '<td>' + d.Period + '</td>';
+                    html += '<td>' + d.DocType + '</td>';
+                    html += '<td>' + d.CountDoc + '</td>';
+                    html += '</tr>';
+                }                
+                $('#tbDocCount tbody').html(html);
             }
         });
 </script>

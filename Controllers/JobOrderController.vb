@@ -706,6 +706,24 @@ Namespace Controllers
         Function CheckAPI() As ActionResult
             Return Content("Hi API is Running")
         End Function
+        Function GetDocSummary() As ActionResult
+            Try
+                Dim tSqlW As String = " WHERE t.Period<>'' "
+
+                If Not IsNothing(Request.QueryString("Year")) Then
+                    tSqlW &= " AND t.Period Like '" & Request.QueryString("Year") & "/%' "
+                End If
+                If Not IsNothing(Request.QueryString("Period")) Then
+                    tSqlW &= " AND t.Period ='" & Request.QueryString("Period") & "' "
+                End If
+                Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(SQLSelectDocSummary(), tSqlW))
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetJobSummary", ex.Message, ex.StackTrace, True)
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
         Function GetJobDocument() As ActionResult
             Try
                 Dim branch As String = ""

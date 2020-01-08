@@ -205,8 +205,8 @@ End Code
                                 Tax Condition:
                                 <select class="form-control dropdown" id="txtPayTaxType">
                                     <option value="1">หัก ณ ที่จ่าย</option>
-                                    <option value="2">ออกภาษีให้ครั้งเดียว</option>
-                                    <option value="3">ออกภาษีให้ตลอดไป</option>
+                                    <option value="2">ออกภาษีให้ตลอดไป</option>
+                                    <option value="3">ออกภาษีให้ครั้งเดียว</option>
                                     <option value="4">อื่นๆ (ระบุ)</option>
                                 </select>
                             </div>
