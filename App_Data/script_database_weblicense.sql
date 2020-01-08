@@ -1,6 +1,6 @@
---USE weblicense
---go
-/****** Object:  Table [dbo].[TWTApp]    Script Date: 15/11/2019 13:19:32 ******/
+--USE [weblicense]
+--GO
+/****** Object:  Table [dbo].[TWTApp]    Script Date: 08/01/2020 17:13:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -21,7 +21,7 @@ CREATE TABLE [dbo].[TWTApp](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[TWTCustomer]    Script Date: 15/11/2019 13:19:32 ******/
+/****** Object:  Table [dbo].[TWTCustomer]    Script Date: 08/01/2020 17:13:08 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -49,7 +49,7 @@ CREATE TABLE [dbo].[TWTCustomer](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[TWTCustomerApp]    Script Date: 15/11/2019 13:19:32 ******/
+/****** Object:  Table [dbo].[TWTCustomerApp]    Script Date: 08/01/2020 17:13:08 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -80,7 +80,7 @@ CREATE TABLE [dbo].[TWTCustomerApp](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[TWTLog]    Script Date: 15/11/2019 13:19:32 ******/
+/****** Object:  Table [dbo].[TWTLog]    Script Date: 08/01/2020 17:13:08 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -108,7 +108,7 @@ CREATE TABLE [dbo].[TWTLog](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[TWTSubscription]    Script Date: 15/11/2019 13:19:32 ******/
+/****** Object:  Table [dbo].[TWTSubscription]    Script Date: 08/01/2020 17:13:08 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -133,7 +133,7 @@ CREATE TABLE [dbo].[TWTSubscription](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[TWTUser]    Script Date: 15/11/2019 13:19:32 ******/
+/****** Object:  Table [dbo].[TWTUser]    Script Date: 08/01/2020 17:13:08 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -153,7 +153,7 @@ CREATE TABLE [dbo].[TWTUser](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[TWTWebLogin]    Script Date: 15/11/2019 13:19:32 ******/
+/****** Object:  Table [dbo].[TWTWebLogin]    Script Date: 08/01/2020 17:13:08 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
