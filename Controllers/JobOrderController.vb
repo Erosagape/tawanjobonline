@@ -1,8 +1,8 @@
-﻿Imports System.Net
+﻿Imports Newtonsoft.Json
+Imports System.Net
 Imports System.Net.Http
 Imports System.Web.Http
 Imports System.Web.Mvc
-Imports Newtonsoft.Json
 Namespace Controllers
     Public Class JobOrderController
         Inherits CController
@@ -1103,7 +1103,7 @@ Namespace Controllers
                         oJob.AddNew("")
                     End If
                 End If
-
+                oJob.CreateDate = DateTime.Today
                 Dim json As String = JsonConvert.SerializeObject(oJob)
                 json = "{""job"":{""data"":" & json & ",""status"":""Y"",""result"":""OK""}}"
                 Return Content(json, jsonContent)

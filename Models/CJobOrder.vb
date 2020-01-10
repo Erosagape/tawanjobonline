@@ -951,6 +951,7 @@ Public Class CJobOrder
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
+                            If dt.Rows.Count = 0 Then dr("CreateDate") = Main.GetDBDate(DateTime.Today)
                             dr("BranchCode") = Me.BranchCode
                             dr("JNo") = Me.JNo
                             dr("JRevise") = Me.JRevise

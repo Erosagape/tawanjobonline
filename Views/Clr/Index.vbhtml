@@ -1187,9 +1187,19 @@ End Code
             ShowMessage('Please save header first',true);
             return;
         }
+        if ($('#txtForJNo').val() == '') {
+            ShowMessage('Please select job', true);
+            $('#txtForJNo').focus();
+            return;
+        }
         if ($('#txtUnitCode').val() == '') {
             ShowMessage('Please select unit', true);
             $('#txtUnitCode').focus();
+            return;
+        }
+        if ($('#txtSICode').val() == '') {
+            ShowMessage('Please select service code', true);
+            $('#txtSICode').focus();
             return;
         }
         if ($('#txtSlipNo').val().length<2 && $('#txtSlipNo').prop('disabled')==false) {
@@ -1749,6 +1759,8 @@ End Code
             $('#txtVATRate').val(dt.IsTaxCharge == "0" ? "0" : CDbl(@ViewBag.PROFILE_VATRATE*100,0));
             $('#txtWHTRate').val(dt.Is50Tavi == "0" ? "0" : dt.Rate50Tavi);
             $('#txtUnitCode').val(dt.UnitCharge);
+            $('#txtCurrencyCode').val(dt.CurrencyCode);
+            ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
             if (dt.IsTaxCharge == "2") {
                 $('#txtAMT').attr('disabled', 'disabled');
                 $('#txtVATRate').attr('disabled', 'disabled');

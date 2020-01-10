@@ -686,7 +686,7 @@ d.SICode,d.SDescription,j.CustCode,j.CustBranch,sum(d.UsedAmount+d.ChargeVAT) as
 ISNULL(a.AdvNet,0)-sum(d.BNet) as ClrBal,
 sum(d.UsedAmount) as ClrAmount,
 SUM(d.Tax50Tavi) as Clr50Tavi,SUM(d.ChargeVAT) as ClrVat,
-SUM(d.BNet) as ClrNet
+SUM(d.BNet) as ClrNet,d.JobNo as ForJNo
 from Job_ClearHeader h
 left join Job_ClearDetail d on h.BranchCode=d.BranchCode and h.ClrNo=d.ClrNo
 left join (
@@ -707,7 +707,7 @@ left join (
 on d.BranchCode=j.BranchCode and d.JobNo=j.JNo
 {0} 
 group by h.ClrDate,h.ReceiveRef,h.ClrNo,d.ItemNo,a.AdvAmount,a.ChargeVAT,a.Charge50Tavi,a.AdvNet,
-d.SICode,d.SDescription,j.CustCode,j.CustBranch
+d.SICode,d.SDescription,j.CustCode,j.CustBranch,d.JobNo
 "
     End Function
     Function SQLSelectClrFromAdvance() As String
@@ -718,13 +718,13 @@ sum(d.UsedAmount+d.ChargeVAT) as ClrTotal,
 ISNULL(a.AdvNet,0)-sum(d.BNet) as ClrBal,
 sum(d.UsedAmount) as ClrAmount,
 SUM(d.Tax50Tavi) as Clr50Tavi,SUM(d.ChargeVAT) as ClrVat,
-SUM(d.BNet) as ClrNet
+SUM(d.BNet) as ClrNet,a.ForJNo
 from Job_ClearHeader h
 left join Job_ClearDetail d on h.BranchCode=d.BranchCode and h.ClrNo=d.ClrNo
 left join (
   select ah.BranchCode,ah.AdvNo,ad.ItemNo,ah.PaymentDate,ah.PaymentRef,ah.JobType,
   ah.EmpCode,ah.AdvDate,ad.SICode,ad.SDescription,ad.AdvAmount,ad.ChargeVAT,ad.Charge50Tavi,ad.AdvNet,
-  ah.CustCode,ah.CustBranch,ah.DocStatus
+  ah.CustCode,ah.CustBranch,ah.DocStatus,ad.ForJNo
   from Job_AdvHeader ah inner join Job_AdvDetail ad
   on ah.BranchCode=ad.BranchCode and ah.AdvNo=ad.AdvNo
   where ah.DocStatus<>99 
@@ -739,7 +739,7 @@ left join (
 on d.BranchCode=j.BranchCode and d.JobNo=j.JNo
 {0} 
 group by a.PaymentDate,a.PaymentRef,a.AdvNo,a.ItemNo,a.AdvAmount,a.ChargeVAT,a.Charge50Tavi,a.AdvNet,
-a.SICode,a.SDescription,a.CustCode,a.CustBranch
+a.SICode,a.SDescription,a.CustCode,a.CustBranch,a.ForJNo
 "
     End Function
     Function SQLSelectBookAccBalance() As String

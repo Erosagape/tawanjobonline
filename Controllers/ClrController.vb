@@ -256,6 +256,14 @@ Namespace Controllers
                     tSqlW &= " AND a.AdvNo='" & Request.QueryString("AdvNo") & "'"
                     bClrDoc = True
                 End If
+                If Not IsNothing(Request.QueryString("JobNo")) Then
+                    If tbPrefix = "a" Then
+                        tSqlW &= " AND a.ForJNo='" & Request.QueryString("JobNo") & "'"
+                    Else
+                        tSqlW &= " AND d.JobNo='" & Request.QueryString("JobNo") & "'"
+                    End If
+                    bClrDoc = True
+                End If
                 If Not IsNothing(Request.QueryString("JType")) Then
                     tSqlW &= " AND " & tbPrefix & ".JobType=" & Request.QueryString("JType") & ""
                 End If
@@ -287,7 +295,7 @@ Namespace Controllers
                     If tbPrefix = "a" Then
                         tSqlW &= " AND a.DocStatus<6 "
                     Else
-                        tSqlW &= " AND h.DocStatus<3 "
+                        tSqlW &= " AND h.DocStatus<3 AND a.AdvNet IS NULL "
                     End If
                 End If
 

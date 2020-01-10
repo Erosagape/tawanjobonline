@@ -99,10 +99,21 @@ function getQueryString(name, url) {
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' ')).toUpperCase();
 }
+function ReverseDate(sqlDateString) {
+    let chk = '1234567890';
+    if (chk.indexOf(sqlDateString.substr(2, 1)) >= 0) {
+        return sqlDateString;
+    } else {
+        let month = sqlDateString.substr(3, 2);
+        let day = sqlDateString.substr(0, 2);
+        let year = sqlDateString.substr(6, 4);
+        return year + '-' + month + '-' + day;
+    }
+}
 //convertion utility function
 function CDateTH(sqlDateString) {
     try {
-        let jsDate = sqlDateString.substr(0, 10);
+        let jsDate = ReverseDate(sqlDateString.substr(0, 10));
         let month = jsDate.substr(5, 2);
         let day = jsDate.substr(8, 2);
         let year = jsDate.substr(0, 4);
@@ -122,7 +133,7 @@ function CDateTH(sqlDateString) {
 }
 function CDateEN(sqldateString) {
     try {
-        let jsDate = sqldateString.substr(0, 10);
+        let jsDate = ReverseDate(sqldateString.substr(0, 10));
         let month = jsDate.substr(5, 2);
         let day = jsDate.substr(8, 2);
         let year = jsDate.substr(0, 4);

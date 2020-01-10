@@ -140,12 +140,13 @@ End Code
                     </div>
                     <div class="col-sm-2">
                         <br />
-                        <input type="checkbox" id="chkFromClr" class="checkbox" />No ADV
+                        <input type="checkbox" id="chkFromClr" class="checkbox" />NON-ADVANCE Clearing
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
                         Clearing Document:<input type="text" id="txtAdvNo" />
+                        Clearing Job No:<input type="text" id="txtJNo" />
                         <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
                             <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
                         </a>
@@ -343,6 +344,9 @@ End Code
             } else {
                 w = w + '&advno=' + $('#txtAdvNo').val();
             }
+        }
+        if ($('#txtJNo').val() !== "") {
+            w = w + '&jobno=' + $('#txtJNo').val();
         }
         if ($('#txtReqBy').val() !== "") {
             w = w + '&advby=' + $('#txtReqBy').val();

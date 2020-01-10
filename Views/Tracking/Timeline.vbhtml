@@ -33,6 +33,19 @@ End Code
     var path = '@Url.Content("~")';
     let userGroup = '@ViewBag.UserGroup';
     let user = '@ViewBag.User';
+    if (userGroup == 'C') {
+        $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
+            if (r.company.data.length > 0) {
+                let dr = r.company.data[0];
+                $('#txtCustCode').val(dr.CustCode);
+                $('#txtCustBranch').val(dr.Branch);
+                $('#txtCustName').val(dr.NameThai);
+                $('#btnBrowseCust').attr('disabled', 'disabled');
+                $('#txtCustCode').attr('disabled', 'disabled');
+                $('#txtCustBranch').attr('disabled', 'disabled');
+            }
+        });
+    }
     SetLOVs();
     function SetLOVs() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');

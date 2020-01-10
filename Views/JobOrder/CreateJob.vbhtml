@@ -91,7 +91,7 @@ End Code
         <div class="row">
             <div class="col-sm-6" style="display:flex">                
                 <div style="width:30%">
-                    <label id="lblCustInv" style="display:block;width:100%;color:red">Commercial Invoice</label>
+                    <label id="lblCustInv" style="display:block;width:100%;color:red">Commercial Invoice/Booking No</label>
                 </div>
                 <div style="display:flex;width:70%">                    
                     <input type="text" class="form-control" id="txtCustInv" style="width:100%" tabindex="10" />

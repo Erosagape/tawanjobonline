@@ -1211,6 +1211,10 @@ End Code
             ShowMessage('Please save header first',true);
             return;
         }
+        if (Number($('#txtNET').val()) == 0) {
+            ShowMessage('Please enter advance amount', true);
+            return;
+        }
         if (dtl != undefined) {
             let obj = GetDataDetail();
             if (obj.ItemNo == 0) {
@@ -1678,6 +1682,8 @@ End Code
             $('#txtVatType').val(dt.IsTaxCharge);
             $('#txtVATRate').val(dt.IsTaxCharge == "0" ? "0" : CDbl(@ViewBag.PROFILE_VATRATE*100,0));
             $('#txtWHTRate').val(dt.Is50Tavi == "0" ? "0" : dt.Rate50Tavi);
+            $('#txtCurrencyCode').val(dt.CurrencyCode);
+            ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
             if (CNum($('#txtUnitPrice').val) == 0) {
                 $('#txtUnitPrice').val(dt.StdPrice);
                 CalAmount();            
