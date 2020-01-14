@@ -49,7 +49,8 @@ End Code
     var path = '@Url.Content("~")';
     var branch = '@ViewBag.PROFILE_DEFAULT_BRANCH';
     var jobtype = '';
-    var shipby = '';
+    var user = '@ViewBag.User';
+    var userGroup = '@ViewBag.UserGroup';
 
     google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawChart);
@@ -89,12 +90,15 @@ End Code
             w += (w !== '' ? '&' : '?');
             w += 'DateTo=' + CDateEN($('#txtDateTo').val());
         }
+        if (userGroup == 'C') {
+            w += (w !== '' ? '&' : '?');
+            w += 'Cust=' + user;
+        }
         return w;
     }
     function checkJobType() {
         if (jobtype !== $('#cboJobType').val()) {
             jobtype = $('#cboJobType').val();
-            shipby = $('#cboShipBy').val();
             loadShipByByType(path, jobtype, '#cboShipBy');
             drawChart();
             return;

@@ -164,7 +164,29 @@ End Code
     let path = '@Url.Content("~")';
     let branchcode = getQueryString("BranchCode");
     let jobno = getQueryString("JNo");
+    let userGroup = '@ViewBag.UserGroup';
+    let user = '@ViewBag.User'; 
+    let cust = '';
+    let vend = '';
     let row = {};
+    if (userGroup == 'V') {
+        $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
+            if (r.vender.data.length > 0) {
+                let dr = r.vender.data[0];
+                vend = dr.VenCode;
+            }
+        });
+        $('#btnDelItem').attr('disabled', 'disabled');
+    }
+    if (userGroup == 'C') {
+        $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
+            if (r.company.data.length > 0) {
+                let dr = r.company.data[0];
+                cust = dr.CustCode;
+            }
+        });
+        $('#btnDelItem').attr('disabled', 'disabled');
+    }
     SetLOVs();
     if (jobno !== '' && branchcode !=='') {
         $('#txtBranchCode').val(branchcode);
@@ -188,7 +210,14 @@ End Code
                 SetGridBranch(path, '#tbBranch', '#frmSearchBranch', ReadBranch);
                 break;
             case 'job':
-                SetGridJob(path, '#tbJob', '#frmSearchJob','', ReadJob);
+                let w = '';
+                if (userGroup == 'V') {
+                    w += '?Agent=' + vend;
+                }
+                if (userGroup == 'C') {
+                    w += '?CustCode=' + cust;
+                }
+                SetGridJob(path, '#tbJob', '#frmSearchJob', w, ReadJob);
                 break;
         }
     }
@@ -213,6 +242,12 @@ End Code
         let w = ($('#txtJNo').val() !== '' ? '&Code=' + $('#txtJNo').val() : '');
         if ($('#txtDocType').val() !== '') {
             w += '&Type=' + $('#txtDocType').val();
+        }
+        if (userGroup == 'C') {
+            w += '&Cust=' + user;
+        }
+        if (userGroup == 'V') {
+            w += '&Vend=' + user;
         }
         $.get(path + 'JobOrder/GetDocument?Branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.document.data !== undefined) {

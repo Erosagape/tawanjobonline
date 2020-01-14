@@ -120,16 +120,7 @@ End Code
         </td>
     </tr>
 </table>
-<div style = "display:flex" >
-    <div style="flex:1">
-        Total Advance : <label id="txtTotalAdv"></label>
-    </div>
-    <div style = "flex:1" >
-        Total Clear : <label id="txtTotalClear"></label>                                                                                    
-    </div>
-    <div style = "flex:1" >
-        Total Return : <label id="txtTotalReturn"></label>                                                                                    
-    </div>
+<div id="dvSummary">
 </div>
 <table border = "1" width="100%" style="margin-top:50px">
     <tr Class="text-center">
@@ -212,8 +203,7 @@ End Code
                     let amtwht = 0;
                     let amtforwht = 0;
                     let amttotal = 0;
-                    let advtotal = 0;
-                    let clrtotal = 0;
+                    let advlist = '';
 
                     let d = r.data[0].Table;
                     for (let i= 0; i < d.length; i++){
@@ -221,15 +211,16 @@ End Code
                             cust = d[i].CustCode;
                             html += '<tr><td colspan="6">'+d[i].CustCode + ' ' + d[i].NameThai+'</td></tr>';
                         }
-
+                        if (d[i].AdvNO !== null) {
+                            if (advlist.indexOf(d[i].AdvNO) < 0) {
+                                advlist += ',' + d[i].AdvNO;
+                            }
+                        }
                         let advref = (d[i].SlipNO !== null ? ' เลขที่#' + d[i].SlipNO : '');
                         advref = advref + (d[i].AdvNO !== null ? '<br/>จากใบเบิก ' + d[i].AdvNO : '');
                         advref = advref + (d[i].AdvAmount > 0 ? ' ยอดเบิก=' + CCurrency(CDbl(d[i].AdvAmount,2)) : '');
 
-                        html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
-
-                        advtotal += d[i].AdvAmount;
-                        clrtotal += d[i].ClrNet;
+                        html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo +'<br/>' + d[i].DeclareNumber + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
 
                         if (d[i].ChargeVAT > 0) {
                             amtforvat += d[i].UsedAmount;
@@ -250,11 +241,24 @@ End Code
                     $('#txtVat').text(CCurrency(CDbl(amtvat,2)));
                     $('#txtAmtWht').text(CCurrency(CDbl(amtforwht,2)));
                     $('#txtWht').text(CCurrency(CDbl(amtwht,2)));
-                    $('#txtTotal').text(CCurrency(CDbl(amttotal,2)));
-
-                    $('#txtTotalAdv').text(CCurrency(CDbl(advtotal,2)));
-                    $('#txtTotalClear').text(CCurrency(CDbl(clrtotal,2)));
-                    $('#txtTotalReturn').text(CCurrency(CDbl(advtotal-clrtotal,2)));
+                    $('#txtTotal').text(CCurrency(CDbl(amttotal, 2)));
+                    if (advlist !== '') {
+                        advlist = advlist.substr(1, advlist.length - 1);
+                        $.get(path + 'Clr/GetAdvForClear?show=ALL&advno=' + advlist).done(function (r) {
+                            if (r.clr.data.length > 0) {
+                                let html = '';
+                                for (let d of r.clr.data[0].Table) {
+                                    let advno = d.AdvNO;
+                                    let advnet = d.AdvNet;
+                                    let advbalance = d.AdvBalance;
+                                    let usedamount = d.UsedAmount;
+                                    html += '<br/>';
+                                    html += '' + advno + ' Total=' + advnet + ' Used=' + usedamount + ' Balance=' + advbalance;
+                                }
+                                $('#dvSummary').html(html);
+                            }
+                        });
+                    }
                 }
             });
         }

@@ -1408,6 +1408,15 @@ Namespace Controllers
                     End If
                     tSqlw1 &= " j.JobType=" & Request.QueryString("JobType").ToString & " "
                 End If
+                If Not Request.QueryString("Cust") Is Nothing Then
+                    If bCheck Then
+                        tSqlw1 &= " AND "
+                    Else
+                        tSqlw1 &= " WHERE "
+                        bCheck = True
+                    End If
+                    tSqlw1 &= " j.CustCode IN(SELECT CustCode FROM Mas_Company WHERE LoginName='" & Request.QueryString("Cust").ToString & "') "
+                End If
                 Dim oData1 = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLDashboard1(tSqlw1))
                 msg = SQLDashboard1(tSqlw1)
                 Dim json1 As String = ""

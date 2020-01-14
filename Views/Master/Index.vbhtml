@@ -28,7 +28,7 @@ End Code
                 window.location.href = path + 'Acc/Expense';
                 break;
             case 'C':
-                window.location.href = path + 'Tracking/Index?Mode=CUST';
+                window.location.href = path + 'Menu/Index';
                 break;
         }
     }    

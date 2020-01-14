@@ -175,6 +175,9 @@
         case 'Province':
             mnuPath = path + 'Master/Province';
             break;
+        case 'Document':
+            mnuPath = path + 'Tracking/Document';
+            break;
         default:
             ShowMessage('Under Development, Coming soon!');
             break;

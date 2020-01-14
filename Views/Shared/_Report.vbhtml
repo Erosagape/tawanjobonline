@@ -8,7 +8,13 @@
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/Func/util.js"></script>
     <script src="~/Scripts/Func/reports.js"></script>
+    <style>
+        * {
+            font-size: 11px;
+        }
+    </style>
 </head>
+
 <body class="document">
     <div class="page" contenteditable="false">
 

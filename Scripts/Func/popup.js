@@ -168,7 +168,7 @@ function SetGridConfigList(p, g, d, ev) {
                 }
             }
         ],
-        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+        destroy: true, pageLength: 25 //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
     });
     BindEvent(g, d, ev);
 }

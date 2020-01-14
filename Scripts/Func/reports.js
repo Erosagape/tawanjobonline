@@ -133,6 +133,7 @@ function GetReportStatus(reportID) {
     switch (reportID) {
         case 'JOBADV':
         case 'ADVDAILY':
+        case 'ADVSUMMARY':
             val = 'ADV_STATUS';
             break;
         case 'CLRDAILY':
@@ -446,18 +447,28 @@ function LoadCliteria(reportID) {
             $('#tbJob').hide();
             $('#tbVend').hide();
             break;
+        case 'ADVSUMMARY':
+            $('#tbDate').show();
+            $('#tbEmp').show();
+            $('#tbCust').show();
+            $('#tbStatus').show();
+            $('#tbJob').hide();
+            $('#tbVend').hide();
+            break;
     }
 }
 function IsNumberColumn(cname) {
-    let colName = 'InvTotal,InvProductQty,InvCurRate,DutyAmount,TotalGW,Commission,TotalNW,TotalQty,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm';
-    if (colName.indexOf(cname) >= 0) {
+    let colname = 'InvTotal,InvProductQty,InvCurRate,DutyAmount,TotalGW,Commission,TotalNW,TotalQty,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm';
+    colname += ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance';
+    if (colname.indexOf(cname) >= 0) {
         return true;
     }
     return false;
 }
 function IsSummaryColumn(cname) {
-    let colName = 'DutyAmount,TotalGW,Commission,TotalNW,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm';
-    if (colName.indexOf(cname) >= 0) {
+    let colname = 'DutyAmount,TotalGW,Commission,TotalNW,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,';
+    colname += ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance';
+    if (colname.indexOf(cname) >= 0) {
         return true;
     }
     return false;
@@ -473,123 +484,6 @@ function FormatValue(c, val) {
         }
     }
 }
-function LoadReport(path,reportID, obj,lang) {
-    let str = JSON.stringify(obj);
-    $.ajax({
-        url: path+ 'Report/GetReport',
-        type: "POST",
-        contentType: "application/json",
-        data: str,
-        success: function (response) {
-            let r = JSON.parse(response);
-            if (r.msg !== "OK") {
-                //alert(r.msg);
-                return;
-            }
-            if (r.result.length > 0) {
-                var tb = r.result;
-                let groupField = '';
-                let groupVal = null;
-                let colCount = 0;
-                let sumGroup = [];
-                let sumTotal = [];
-                if (r.group !== '') {
-                    groupField = r.group;
-                }
-
-                let html = '<tbody><tr>';
-                $.each(tb[0], function (key, value) {
-                    //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
-                    html += '<td style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></td>';
-                    sumGroup.push({ isSummary: IsSummaryColumn(key), value: 0 });
-                    sumTotal.push(0);
-                    colCount++;
-                });
-
-                html += '</tr>';
-                let groupCount = 0;
-
-                for (let r of tb) {
-                    html += '<tr>';
-                    if (groupField !== '') {
-                        if (FormatValue(groupField, r[groupField]) !== groupVal) {
-                            //Show Summary
-                            if (groupCount > 0) {
-                                html += '<td style="border:1px solid black;text-align:left;"><u>'+groupVal+'</u></td>';
-                                for (let i = 1; i < colCount; i++) {
-                                    if (sumGroup[i].isSummary == true) {
-                                        html += '<td style="border:1px solid black;text-align:right;"><u>' + ShowNumber(sumGroup[i].value, 2) + '</u></td>';
-                                    } else {
-                                        html += '<td style="border:1px solid black;text-align:right;"></td>';
-                                    }
-                                    sumGroup[i].value = 0;
-                                }
-                                html += '</tr><tr>';
-                                groupCount = 0;
-                            }
-                            groupVal = FormatValue(groupField,r[groupField]);
-                            groupCount++;
-                            html += '<td colspan="'+ colCount +'" style="border:1px solid black;text-align:left;"><b>' + groupVal + '<b/></td>';
-                            html += '</tr><tr>';
-                        } else {
-                            groupCount++;
-                        }                        
-                    }
-
-                    let col = 0;
-                    for (let c in r) {        
-                        if (c.indexOf('Date') >= 0) {
-                            html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
-                        } else {
-                            if (r[c] !== null) {
-                                if (IsNumberColumn(c) == true) {
-                                    if (sumGroup[col].isSummary == true) {
-                                        sumGroup[col].value += Number(r[c]);
-                                        sumTotal[col] += Number(r[c]);
-                                    }
-                                    html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c],2) + '</td>';
-                                } else {
-                                    html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
-                                }
-                            } else {
-                                html += '<td style="border:1px solid black;text-align:left;"></td>';
-                            }
-                        }                     
-                        col++;
-                    }
-                    html += '</tr>';
-                }
-                //Last Total
-                if (groupCount > 0) {
-                    html += '<td style="border:1px solid black;text-align:left;"><u>'+groupVal+'</u></td>';
-                    for (let i = 1; i < colCount; i++) {
-                        if (sumGroup[i].isSummary == true) {
-                            html += '<td style="border:1px solid black;text-align:right;"><u>' + ShowNumber(sumGroup[i].value, 2) + '</u></td>';
-                        } else {
-                            html += '<td style="border:1px solid black;text-align:right;"></td>';
-                        }
-                    }
-                    html += '</tr>';
-                    groupCount = 0;
-                }
-                //Grand Total
-                html += '<tr><td style="border:1px solid black;text-align:left;"><b>TOTAL<b/></td>';
-                for (let i = 1; i < colCount; i++) {
-                    if (sumGroup[i].isSummary == true) {
-                        html += '<td style="border:1px solid black;text-align:right;"><b>' + ShowNumber(sumTotal[i], 2) + '</b></td>';
-                    } else {
-                        html += '<td style="border:1px solid black;text-align:right;"></td>';
-                    }
-                }
-                html += '</tr>';
-                
-                html += '</tbody>';
-                //ShowMessage(html);
-                $('#tbResult').html(html);
-            }
-        }
-    });   
-}
 function GetColumnHeader(id,langid) {
     let lang = {
         JNo: 'Job#|เลขงาน',
@@ -601,6 +495,7 @@ function GetColumnHeader(id,langid) {
         QNo: 'Quotation#|ใบเสนอราคา',
         ManagerCode: 'Sales|ขายโดย',
         CSCode: 'CS|พนักงาน',
+        EmpCode: 'CS|พนักงาน',
         Description: 'Description|รายละเอียด',
         TRemark: 'Remark|หมายเหตุ',
         JobStatusName: 'Status|สถานะ',
@@ -610,6 +505,7 @@ function GetColumnHeader(id,langid) {
         ShipBy: 'ShipBy|ลักษณะ',
         ShipByName: 'ShipBy|ลักษณะ',
         InvNo: 'Invoice#|อินวอย',
+        InvDate:'Inv.Date|วันที่ออก',
         InvTotal: 'Total Inv.|ยอดอินวอย',
         InvProduct: 'Product|สินค้า',
         InvCountry: 'Origin Cty|ต้นทาง',
@@ -669,6 +565,7 @@ function GetColumnHeader(id,langid) {
         SDescription: 'Expense|ชื่อค่าใช้จ่าย',
         VenderCode: 'Vender|รหัสผู้ให้บริการ',
         AdvNet: 'Net|ยอดเบิก',
+        AdvTotal: 'Advance|ยอดเบิก',
         AdvPayAmount: 'Net|ยอดเบิก',
         ClrNet: 'Used|ยอดปิด',
         UsedAmount: 'Used|ยอดใช้ไป',
@@ -687,11 +584,13 @@ function GetColumnHeader(id,langid) {
         UnPaidAmount: 'UnPaid|ยอดที่ค้าง',
         PaymentRef: 'Paid.Ref|เลขที่ชำระ',
         TotalAdv: 'Advance|ทดรองจ่าย',
+        TotalAdvance: 'Advance|ทดรองจ่าย',
         TotalCharge: 'Service|ค่าบริการ',
         TotalVat: 'VAT|VAT',
         TotalVAT: 'VAT|VAT',
         Total50Tavi: 'W-Tax|หัก ณ ที่จ่าย',
         TotalWHT: 'W-Tax|หัก ณ ที่จ่าย',
+        SumWhTax: 'WH-Tax|หัก ณ ที่จ่าย',
         TotalNet: 'Net|สุทธิ',
         TotalReceived: 'Received|รับชำระแล้ว',
         TotalCredit: 'Credit|ลดหนี้/ปรับปรุง',
@@ -743,12 +642,24 @@ function GetColumnHeader(id,langid) {
         CreditNet: 'Adjust|ปรับปรุง',
         AmtWH: 'W/H-Tax|W/H-Tax',
         AmtTotal: 'Net|สุทธิ',
+        ClrTotal: 'Used|ยอดใช้ไป',
         ClrNo: 'Clr.No|ใบปิดค่าใช้จ่าย',
         ClrDate: 'Date|วันที่ปิด',
         AdvNO: 'Adv.No|ใบเบิก',
         Tax50Tavi: 'W/H-Tax|W/H-Tax',
         TotalInv: 'Inv.Total|ยอดรวม',
+        TotalExpClear: 'Expenses|รวมค่าใช้จ่าย',
+        TotalExpWaitBill: 'Exp Pending|คชจรอวางบิล',
+        TotalCostWaitBill: 'Cost Pending|ต้นทุนรอวางบิล',
+        TotalCost: 'Cost|ต้นทุนรวม',
+        TotalPrepaid: 'Prepaid|รับล่วงหน้า',
+        TotalBalance: 'Balance|ค้างชำระ',
+        TotalProfit: 'Profit|กำไรขั้นต้น',
+        TotalPayback: 'Payback|ยอดจ่ายคืน',
+        TotalReturn: 'Return|ยอดรับคืน',
+        ReceiveRef: 'Ref#|อ้างอิงรับเคลียร์',
         ReceivedNet: 'Received|ชำระแล้ว',
+        ReceiveAmt: 'Cleared|ชำระแล้ว',
         Charge50Tavi: 'W/H-Tax|W/H-Tax',
         RecvBank: 'Bank|ธนาคาร',
         Total: 'Total|ยอดรวม',
@@ -768,4 +679,158 @@ function GetColumnHeader(id,langid) {
         }
     }
     return str;
+}
+function GetGroupCaption(src,fld, val) {
+    let retstr = val;
+    if (src.length > 0) {
+        switch (fld) {
+            case "CustCode":
+                let cust = src[0].filter(function (data) {
+                    return val == data.CustCode;
+                });
+                if (cust.length > 0) {
+                    retstr = cust[0].CustCode + ' / ' + cust[0].NameThai; 
+                }
+                break;
+            case "CSCode":
+            case "EmpCode":
+            case "ShippingEmp":
+            case "ReqBy":
+                let emp = src[0].filter(function (data) {
+                    return val == data.UserID;
+                });
+                if (emp.length > 0) {
+                    retstr = emp[0].UserID + ' / ' + emp[0].TName;
+                }
+                break;
+            case "ClearPort":
+                let ports = src[0].filter(function (data) {
+                    return val == data.AreaCode;
+                });
+                if (ports.length > 0) {
+                    retstr = ports[0].AreaCode +' / '+ ports[0].AreaName;
+                }
+                break;
+        }
+    }
+    return retstr;
+}
+function LoadReport(path, reportID, obj, lang) {
+    let str = JSON.stringify(obj);
+    $.ajax({
+        url: path + 'Report/GetReport',
+        type: "POST",
+        contentType: "application/json",
+        data: str,
+        success: function (response) {
+            let res = JSON.parse(response);
+            if (res.msg !== "OK") {
+                //alert(r.msg);
+                return;
+            }
+            if (res.result.length > 0) {
+                var tb = res.result;
+                let groupField = '';
+                let groupVal = null;
+                let colCount = 0;
+                let sumGroup = [];
+                let sumTotal = [];
+
+                if (res.group !== '') {
+                    groupField = res.group;
+                }
+
+                let html = '<tbody><tr>';
+                $.each(tb[0], function (key, value) {
+                    //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
+                    html += '<td style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></td>';
+                    sumGroup.push({ isSummary: IsSummaryColumn(key), value: 0 });
+                    sumTotal.push(0);
+                    colCount++;
+                });
+
+                html += '</tr>';
+                let groupCount = 0;
+
+                for (let r of tb) {
+                    html += '<tr>';
+                    if (groupField !== '') {
+                        if (FormatValue(groupField, r[groupField]) !== groupVal) {
+                            //Show Summary
+                            if (groupCount > 0) {
+                                html += '<td style="border:1px solid black;text-align:left;"><u>' + groupVal + '</u></td>';
+                                for (let i = 1; i < colCount; i++) {
+                                    if (sumGroup[i].isSummary == true) {
+                                        html += '<td style="border:1px solid black;text-align:right;"><u>' + ShowNumber(sumGroup[i].value, 2) + '</u></td>';
+                                    } else {
+                                        html += '<td style="border:1px solid black;text-align:right;"></td>';
+                                    }
+                                    sumGroup[i].value = 0;
+                                }
+                                html += '</tr><tr>';
+                                groupCount = 0;
+                            }
+                            groupVal = FormatValue(groupField, r[groupField]);
+                            groupCount++;
+
+                            html += '<td colspan="' + colCount + '" style="border:1px solid black;text-align:left;"><b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
+                            html += '</tr><tr>';
+                        } else {
+                            groupCount++;
+                        }
+                    }
+
+                    let col = 0;
+                    for (let c in r) {
+                        if (c.indexOf('Date') >= 0) {
+                            html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
+                        } else {
+                            if (r[c] !== null) {
+                                if (IsNumberColumn(c) == true) {
+                                    if (sumGroup[col].isSummary == true) {
+                                        sumGroup[col].value += Number(r[c]);
+                                        sumTotal[col] += Number(r[c]);
+                                    }
+                                    html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c], 2) + '</td>';
+                                } else {
+                                    html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
+                                }
+                            } else {
+                                html += '<td style="border:1px solid black;text-align:left;"></td>';
+                            }
+                        }
+                        col++;
+                    }
+                    html += '</tr>';
+                }
+                //Last Total
+                if (groupCount > 0) {
+                    html += '<td style="border:1px solid black;text-align:left;"><u>' + groupVal + '</u></td>';
+                    for (let i = 1; i < colCount; i++) {
+                        if (sumGroup[i].isSummary == true) {
+                            html += '<td style="border:1px solid black;text-align:right;"><u>' + ShowNumber(sumGroup[i].value, 2) + '</u></td>';
+                        } else {
+                            html += '<td style="border:1px solid black;text-align:right;"></td>';
+                        }
+                    }
+                    html += '</tr>';
+                    groupCount = 0;
+                }
+                //Grand Total
+                html += '<tr><td style="border:1px solid black;text-align:left;"><b>TOTAL<b/></td>';
+                for (let i = 1; i < colCount; i++) {
+                    if (sumGroup[i].isSummary == true) {
+                        html += '<td style="border:1px solid black;text-align:right;"><b>' + ShowNumber(sumTotal[i], 2) + '</b></td>';
+                    } else {
+                        html += '<td style="border:1px solid black;text-align:right;"></td>';
+                    }
+                }
+                html += '</tr>';
+
+                html += '</tbody>';
+                //ShowMessage(html);
+                $('#tbResult').html(html);
+            }
+        }
+    });
 }

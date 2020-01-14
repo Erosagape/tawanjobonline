@@ -473,6 +473,9 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Status")) Then
                     tSqlW &= " AND c.DocStatus='" & Request.QueryString("Status") & "' "
                 End If
+                If Not IsNothing(Request.QueryString("AdvNo")) Then
+                    tSqlW &= " AND c.AdvNo IN('" & Request.QueryString("AdvNo").ToString().Replace(",", "','") & "') "
+                End If
                 Dim sql As String = SQLSelectAdvForClear() & "{0}"
 
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sql, tSqlW))

@@ -13,6 +13,7 @@ function GetReportLists() {
         { "ReportGroup": "SALES", "ReportCode": "JOBSTATUS", "ReportNameEN": "Job Volume By Status", "ReportNameTH": "รายงานสรุปงานตามสถานะ" },
         { "ReportGroup": "SALES", "ReportCode": "JOBSALES", "ReportNameEN": "Job Sales By Emp", "ReportNameTH": "รายงานสรุปยอดขายตามพนักงาน" },
         { "ReportGroup": "SALES", "ReportCode": "JOBCOMM", "ReportNameEN": "Job Commission By Emp", "ReportNameTH": "รายงานสรุปค่าคอมมิชชั่น" },
+        { "ReportGroup": "FIN", "ReportCode": "ADVSUMMARY", "ReportNameEN": "Advance Summary", "ReportNameTH": "รายงานสรุปใบเบิกค่าใช้จ่าย" },
         { "ReportGroup": "FIN", "ReportCode": "STATEMENT", "ReportNameEN": "Bank Statement", "ReportNameTH": "รายงานการรับจ่ายเงินตามสมุดบัญชี" },
         { "ReportGroup": "FIN", "ReportCode": "ADVDAILY", "ReportNameEN": "Advance Payment", "ReportNameTH": "รายงานการจ่ายเงินเบิกล่วงหน้า" },
         { "ReportGroup": "FIN", "ReportCode": "EXPDAILY", "ReportNameEN": "Expense Payment", "ReportNameTH": "รายงานการจ่ายเงินทดรองจ่าย" },
@@ -22,7 +23,10 @@ function GetReportLists() {
         { "ReportGroup": "BILL", "ReportCode": "CLRDAILY", "ReportNameEN": "Clearing Daily", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายประจำวัน" },
         { "ReportGroup": "BILL", "ReportCode": "INVDAILY", "ReportNameEN": "Invoice Daily", "ReportNameTH": "รายงานใบแจ้งหนี้ประจำวัน" },
         { "ReportGroup": "BILL", "ReportCode": "BILLDAILY", "ReportNameEN": "Billing Daily", "ReportNameTH": "รายงานใบวางบิลประจำวัน" },
-        { "ReportGroup": "ACC", "ReportCode": "JOBCOST", "ReportNameEN": "Job Costing And Profit", "ReportNameTH": "รายงานต้นทุนและกำไรขั้นต้น" },
+        { "ReportGroup": "ACC", "ReportCode": "JOBCOST", "ReportNameEN": "Job Costing And Profit", "ReportNameTH": "รายงานต้นทุนและกำไรขั้นต้นตามจ๊อบ" },
+        { "ReportGroup": "ACC", "ReportCode": "JOBSUMMARY", "ReportNameEN": "Job Costing Summary", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามจ๊อบ" },
+        { "ReportGroup": "ACC", "ReportCode": "CUSTSUMMARY", "ReportNameEN": "Customer Costing Summary", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามลูกค้า" },
+        { "ReportGroup": "ACC", "ReportCode": "INVSUMMARY", "ReportNameEN": "Invoice Costing Summary", "ReportNameTH": "รายงานสรุปต้นทุนตามใบแจ้งหนี้" },
         { "ReportGroup": "ACC", "ReportCode": "BOOKBAL", "ReportNameEN": "Book Accounts Balance", "ReportNameTH": "รายงานการใช้จ่ายเงินตามสมุดบัญชี" },
         { "ReportGroup": "ACC", "ReportCode": "VATSALES", "ReportNameEN": "Output VAT Report", "ReportNameTH": "รายงานภาษีขาย" },
         { "ReportGroup": "ACC", "ReportCode": "VATBUY", "ReportNameEN": "Input VAT Report", "ReportNameTH": "รายงานภาษีซื้อ" },
@@ -253,7 +257,7 @@ function ChangeLanguageForm(fname) {
             let reportLists = GetReportLists();            
             let group = $('#cboReportGroup').val();
             if (group == null) {
-                group = 'CS';
+                group = 'N/A';
                 let reportGroups = [
                     { "ConfigKey": "ACC", "ConfigValue": "Account Reports|รายงานแผนกบัญชี" },
                     { "ConfigKey": "BILL", "ConfigValue": "Finance Reports|รายงานแผนกบิลลิ่ง" },
@@ -261,11 +265,14 @@ function ChangeLanguageForm(fname) {
                     { "ConfigKey": "FIN", "ConfigValue": "Finance Reports|รายงานแผนกการเงิน" },
                     { "ConfigKey": "SALES", "ConfigValue": "Sales Reports|รายงานแผนกการตลาด" }
                 ];
-                loadComboArray('#cboReportGroup', reportGroups, 'CS');
+                loadComboArray('#cboReportGroup', reportGroups, 'N/A');
             }
-            let reports = reportLists.filter(function (data) {
-                return data.ReportGroup == group;
-            });
+            let reports = reportLists;
+            if (group !== 'N/A') {
+                reports = reportLists.filter(function (data) {
+                    return data.ReportGroup == group;
+                });
+            }
             $('#tbReportList').DataTable({
                 data: reports,
                 columns: [
