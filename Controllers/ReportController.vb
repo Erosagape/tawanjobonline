@@ -113,44 +113,44 @@ Namespace Controllers
             Try
                 Select Case data.ReportCode
                     Case "JOBDAILY"
-                        fldGroup = "DutyDate"
-                        sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
+                        fldGroup = "LoadDate"
+                        sqlW = GetSQLCommand(cliteria, "j.LoadDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT j.JNo,j.InvNo,j.DocDate,j.DutyDate,j.ShippingEmp,j.InvProduct,j.InvProductQty,j.TotalGW,j.TotalContainer FROM (" & SQLSelectJobReport() & sqlW & ") j ORDER BY j.DutyDate DESC"
+                        sqlM = "SELECT j.JNo,j.DeclareNumber,j.LoadDate,j.DutyDate,j.ShippingEmp,j.DeclareTypeName,j.InvProductQty,j.TotalGW,j.TotalContainer FROM (" & SQLSelectJobReport() & sqlW & ") j ORDER BY j.LoadDate DESC"
                     Case "JOBCS"
                         fldGroup = "CSCode"
                         groupDatas = JsonConvert.SerializeObject(New CUser(GetSession("ConnJob")).GetData(""))
-                        sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "j.LoadDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT j.JNo,j.InvNo,j.DocDate,j.DutyDate,j.CSCode,j.InvProduct,j.InvProductQty,j.TotalGW,j.TotalContainer FROM (" & SQLSelectJobReport() & sqlW & ") j  ORDER BY j.CSCode DESC"
+                        sqlM = "SELECT j.JNo,j.DeclareNumber,j.LoadDate,j.DutyDate,j.CSCode,j.DeclareTypeName,j.InvProductQty,j.TotalGW,j.TotalContainer FROM (" & SQLSelectJobReport() & sqlW & ") j  ORDER BY j.CSCode DESC"
                     Case "JOBSHP"
                         fldGroup = "ShippingEmp"
                         groupDatas = JsonConvert.SerializeObject(New CUser(GetSession("ConnJob")).GetData(""))
-                        sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "j.LoadDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT j.JNo,j.InvNo,j.DocDate,j.DutyDate,j.ShippingEmp,j.InvProduct,j.InvProductQty,j.TotalGW,j.TotalContainer FROM (" & SQLSelectJobReport() & sqlW & ") j  ORDER BY j.ShippingEmp DESC"
+                        sqlM = "SELECT j.JNo,j.DeclareNumber,j.LoadDate,j.DutyDate,j.ShippingEmp,j.DeclareTypeName,j.InvProductQty,j.TotalGW,j.TotalContainer FROM (" & SQLSelectJobReport() & sqlW & ") j  ORDER BY j.ShippingEmp DESC"
                     Case "JOBTYPE"
                         fldGroup = "JobTypeName"
-                        sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "j.LoadDate", "j.CustCode", "j.JNo", "j.ShippingEmp", "j.AgentCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT j.JNo,j.InvNo,j.JobTypeName,j.ShipByName,j.DutyDate,j.InvProduct,j.InvProductQty,j.TotalGW,j.TotalContainer FROM (" & SQLSelectJobReport() & sqlW & ") j  ORDER BY j.JobType,j.CustCode,j.ShipBy,j.DocDate DESC"
+                        sqlM = "SELECT j.JNo,j.DeclareNumber,j.JobTypeName,j.ShipByName,j.DutyDate,j.ShippingEmp,j.InvProductQty,j.TotalGW,j.TotalContainer,j.DeclareTypeName FROM (" & SQLSelectJobReport() & sqlW & ") j  ORDER BY j.JobType,j.CustCode,j.ShipBy,j.DocDate DESC"
                     Case "JOBSHIPBY"
                         fldGroup = "ShipByName"
-                        sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "j.LoadDate", "j.CustCode", "j.JNo", "j.ShippingEmp", "j.AgentCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT j.JNo,j.InvNo,j.JobTypeName,j.ShipByName,j.DutyDate,j.InvProduct,j.InvProductQty,j.TotalGW,j.TotalContainer FROM (" & SQLSelectJobReport() & sqlW & ") j  ORDER BY j.ShipBy,j.CustCode,j.JobType,j.DocDate DESC"
+                        sqlM = "SELECT j.JNo,j.DeclareNumber,j.JobTypeName,j.ShipByName,j.DutyDate,j.ShippingEmp,j.InvProductQty,j.TotalGW,j.TotalContainer,j.DeclareTypeName FROM (" & SQLSelectJobReport() & sqlW & ") j  ORDER BY j.ShipBy,j.CustCode,j.JobType,j.DocDate DESC"
                     Case "JOBCUST"
                         fldGroup = "CustCode"
                         groupDatas = JsonConvert.SerializeObject(New CCompany(GetSession("ConnJob")).GetData(""))
-                        sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "j.LoadDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT j.JNo,j.InvNo,j.DocDate,j.DutyDate,j.CustCode,j.InvProduct,j.InvProductQty,j.TotalGW,j.TotalContainer FROM (" & SQLSelectJobReport() & sqlW & ") j  ORDER BY j.CustCode,j.DutyDate DESC"
+                        sqlM = "SELECT j.JNo,j.DeclareNumber,j.LoadDate,j.DutyDate,j.CustCode,j.ShippingEmp,j.InvProductQty,j.TotalGW,j.TotalContainer FROM (" & SQLSelectJobReport() & sqlW & ") j  ORDER BY j.CustCode,j.DutyDate DESC"
                     Case "JOBPORT"
                         fldGroup = "ClearPort"
                         groupDatas = JsonConvert.SerializeObject(New CCustomsPort(GetSession("ConnMas")).GetData(""))
                         sqlW = GetSQLCommand(cliteria, "j.LoadDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT j.LoadDate,j.CustCode,j.InvNo,j.DeliveryTo,j.InvProductQty,j.InvProductUnit,j.ClearPort,j.TotalContainer,j.TotalGW,j.ETDDate,j.ETADate,j.CSCode FROM (" & SQLSelectJobReport() & sqlW & ") j  ORDER BY j.ClearPort,j.LoadDate DESC,j.CustCode,j.InvNo"
+                        sqlM = "SELECT j.LoadDate,j.CustCode,j.DeclareNumber,j.DeliveryTo,j.InvProductQty,j.InvProductUnit,j.ClearPort,j.TotalContainer,j.TotalGW,j.ETDDate,j.ETADate,j.ShippingEmp FROM (" & SQLSelectJobReport() & sqlW & ") j  ORDER BY j.ClearPort,j.LoadDate DESC,j.CustCode,j.InvNo"
                     Case "JOBADV"
                         fldGroup = "ReqBy"
                         groupDatas = JsonConvert.SerializeObject(New CUser(GetSession("ConnJob")).GetData(""))
@@ -195,7 +195,8 @@ Namespace Controllers
                     Case "CASHDAILY"
                         sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "r.CmpCode", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE (d.ChqAmount >0 OR d.CashAmount>0) AND " & sqlW
-                        sqlM = "SELECT vc.PRVoucher,vc.VoucherDate,vc.BookCode,vc.ChqNo,vc.ChqDate,vc.RecvBank,vc.CashAmount+vc.ChqAmount as Total,vc.DRefNo FROM (" & SQLSelectVoucher() & sqlW & ") vc ORDER BY vc.VoucherDate,vc.PRVoucher"
+                        sqlM = "SELECT vc.PRVoucher,vc.VoucherDate,vc.BookCode,vc.ChqNo,vc.ChqDate,vc.RecvBank,(CASE WHEN vc.PRType='P' THEN -1 ELSE 1 END)*(vc.CashAmount+vc.ChqAmount) as Total,vc.DRefNo FROM (" & SQLSelectVoucher() & sqlW & ") vc ORDER BY vc.VoucherDate,vc.PRVoucher"
+                        fldGroup = "VoucherDate"
                     Case "CLRDAILY"
                         sqlW = GetSQLCommand(cliteria, "h.ClrDate", "j.CustCode", "j.JNo", "h.EmpCode", "d.VenCode", "h.DocStatus", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE h.DocStatus<>99 " & sqlW
@@ -211,7 +212,7 @@ Namespace Controllers
                     Case "JOBCOST"
                         sqlW = GetSQLCommand(cliteria, "ch.ClrDate", "j.CustCode", "j.JNo", "j.CSCode", "j.ForwarderCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT CustCode,JNo,DeclareNumber,InvNo,DutyDate,SumAdvance,SumCost,SumCharge,SumWhTax,Profit FROM (
+                        sqlM = "SELECT CustCode,JNo,DeclareNumber,DutyDate,SumAdvance,SumCost,SumCharge,SumWhTax,Profit FROM (
 SELECT j.BranchCode, j.JNo, j.CustCode, j.CustBranch, j.InvNo, j.DutyDate, j.DeclareNumber,j.CSCode,j.ManagerCode,
 SUM(CASE WHEN ch.ClearType=1 THEN cd.BNet ELSE 0 END) AS SumAdvance,
 SUM(CASE WHEN ch.ClearType=3 THEN cd.Tax50Tavi ELSE 0 END) AS SumWhTax,
@@ -260,7 +261,8 @@ FROM (" & String.Format(SQLSelectTax50TaviReport(), sqlW) & ") as t ORDER BY Dat
                     Case "CASHFLOW"
                         sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT PRVoucher,VoucherDate,TRemark,ChqNo,ChqDate,(CASE WHEN PRType='P' THEN TotalNet*-1 ELSE TotalNet END) as TotalNet,ControlNo FROM (" & String.Format(SQLSelectCashFlow(), sqlW) & ") as t ORDER BY PRType DESC,PRVoucher"
+                        sqlM = "SELECT PRType,PRVoucher,VoucherDate,TRemark,ChqNo,ChqDate,(CASE WHEN PRType='P' THEN TotalNet*-1 ELSE TotalNet END) as TotalNet,ControlNo FROM (" & String.Format(SQLSelectCashFlow(), sqlW) & ") as t ORDER BY PRType DESC,PRVoucher"
+                        fldGroup = "PRType"
                     Case "STATEMENT"
                         fldGroup = "BookCode"
                         sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "", "", "h.BranchCode")

@@ -408,6 +408,10 @@ End Code
                 return;
             }
             let h = r.invdetail.data;
+            ResetData();
+            for (let row of h) {
+                AddData(row);
+            }
             $('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -461,6 +465,7 @@ End Code
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
+            $('#tbHeader tbody > tr').addClass('selected');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
@@ -914,7 +919,7 @@ End Code
                         SaveCheque(response.result.data);
                     }
                     if ($('#txtDocNo').val() !== '') {
-                        DeleteDetail($('#txtDocNo').val());
+                        DeleteDetail();
                     } else {
                         SaveDetail(response.result.data);
                     }
@@ -982,10 +987,10 @@ End Code
             }
         });
     }
-    function DeleteDetail(docno) {
-        $.get(path + 'Acc/DelInvDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + docno, function (r) {
+    function DeleteDetail() {
+        $.get(path + 'Acc/DelInvDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val(), function (r) {
             //if (r.invdetail.data !== null) {
-                SaveDetail(docno);
+                SaveDetail($('#txtDocNo').val());
             //}
         });
     }

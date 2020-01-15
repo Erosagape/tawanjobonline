@@ -831,6 +831,8 @@
     <Content Include="Views\JobOrder\FormBooking.vbhtml" />
     <Content Include="Views\Tracking\Timeline.vbhtml" />
     <Content Include="Views\Adv\FormEstimate.vbhtml" />
+    <Content Include="Views\JobOrder\TruckOrder.vbhtml" />
+    <Content Include="Views\JobOrder\FormTruckOrder.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

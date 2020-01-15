@@ -12,6 +12,12 @@ Namespace Controllers
         Function Config() As ActionResult
             Return GetView("Config")
         End Function
+        Function TruckOrder() As ActionResult
+            Return GetView("TruckOrder")
+        End Function
+        Function FormTruckOrder() As ActionResult
+            Return GetView("FormTruckOrder")
+        End Function
         Function CreateJob() As ActionResult
             Return GetView("CreateJob", "MODULE_CS")
         End Function

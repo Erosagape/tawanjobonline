@@ -822,7 +822,8 @@ WHERE a.PRType='" & pType & "' AND a.CreditAmount>0 AND ISNULL(a.DocNo,'')<>''
         Return "
 select j.*,c2.JobStatusName,c1.JobTypeName,c3.ShipByName,
 u1.ManagerName,u2.CSName,u3.ShippingName,
-c4.ConsigneeName,v1.AgentName,v2.ForwarderName
+c4.ConsigneeName,v1.AgentName,v2.ForwarderName,
+m1.Description as DeclareTypeName
 from (
   select j.*,
   c.NameThai as CustTName,c.NameEng as CustEName
@@ -844,6 +845,7 @@ left join (select UserID,TName as ShippingName from Mas_User ) u3 on j.ShippingE
 left join (select CustCode,Max(NameThai) as ConsigneeName from Mas_Company group by CustCode) c4 on j.consigneecode=c4.CustCode
 left join (select VenCode,TName as AgentName from Mas_Vender) v1 on j.AgentCode=v1.VenCode
 left join (select VenCode,TName as ForwarderName from Mas_Vender) v2 on j.ForwarderCode=v2.VenCode
+left join (select [Type],Description from jobmaster.dbo.Mas_RFDCT) m1 on j.DeclareType=m1.[Type]
 "
     End Function
     Function SQLUpdateInvoiceHeader() As String
@@ -1745,7 +1747,7 @@ h.CancelProve, h.CancelDate, h.CancelTime, h.EmpCode, h.RecDateTime, h.TotalCust
 h.TotalWH, h.TotalDiscount, h.TotalNet, d.ItemNo, d.InvNo, d.AmtAdvance, d.AmtChargeNonVAT, d.AmtChargeVAT, d.AmtWH, d.AmtVAT, d.AmtTotal, d.CurrencyCode, 
 d.ExchangeRate, d.AmtCustAdvance, d.AmtForeign, d.InvDate, d.RefNo, d.AmtVATRate, d.AmtWHRate, d.AmtDiscount, d.AmtDiscRate
 FROM dbo.Job_BillAcceptHeader AS h INNER JOIN
-dbo.Job_BillAcceptDetail AS d ON h.BranchCode = d.BranchCode
+dbo.Job_BillAcceptDetail AS d ON h.BranchCode = d.BranchCode AND h.BillAcceptNo=d.BillAcceptNo AND ISNULL(h.CancelProve,'')=''
 "
         Return sql
     End Function

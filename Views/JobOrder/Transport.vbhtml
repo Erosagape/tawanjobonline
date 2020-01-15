@@ -66,7 +66,7 @@ End Code
                 </div>
                 <div class="col-sm-6">
                     <a href="../Master/Venders" target="_blank">
-                        <label>Agent:</label>
+                        <label>Vender:</label>
                     </a>
                     <br />
                     <div style="display:flex;flex-direction:row">

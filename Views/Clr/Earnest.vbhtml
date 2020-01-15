@@ -189,6 +189,10 @@ End Code
                                 Net <br /><input type="number" class="form-control" id="txtExpNet" onchange="CalTotal()" />
                             </div>
                         </div>
+                        <select id="cboClrType">
+                            <option value="1">Advance</option>
+                            <option value="2">Cost</option>
+                        </select>
                         <button id="btnAddExpCode" class="btn btn-primary" onclick="AddExpense()">Add</button>
                         <table id="dvExpense" class="table table-bordered" style="width:100%"></table>
                     </div>
@@ -625,7 +629,7 @@ End Code
             JobType: $('#cboJobType').val(),
             JNo: null,
             InvNo: null,
-            ClearType: 2,
+            ClearType: $('#cboClrType').val(),
             ClearFrom: 0,
             DocStatus: 3,
             TotalExpense: 0,
