@@ -233,10 +233,8 @@ End Code
             $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
             $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
         }
-        if (jt == "") jt = "01";
-        if (sb == "") sb = "01";
         //Combos
-        let lists = 'JOB_TYPE=#cboJobType|'+jt+',SHIP_BY=#cboShipBy|' +sb;
+        let lists = 'JOB_TYPE=#cboJobType,SHIP_BY=#cboShipBy';
         loadCombos(path, lists);
 
         $('#cboJobType').val(jt);

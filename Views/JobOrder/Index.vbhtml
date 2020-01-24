@@ -77,7 +77,8 @@ End Code
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
-    let jt = '';
+    let jt = getQueryString("jobtype");
+    let sb = getQueryString("shipby");
     //$(document).ready(function () {
         loadCombo();
         getJobdata();
@@ -102,8 +103,8 @@ End Code
         });
     }
     function loadCombo() {
-        let lists = 'JOB_TYPE=#cboJobType';
-        lists += ',SHIP_BY=#cboShipBy';
+        let lists = 'JOB_TYPE=#cboJobType|'+ jt;
+        lists += ',SHIP_BY=#cboShipBy|'+sb;
         lists += ',JOB_STATUS=#cboStatus';
 
         loadCombos(path, lists);

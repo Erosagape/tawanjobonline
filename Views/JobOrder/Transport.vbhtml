@@ -719,15 +719,15 @@ End Code
         }
         $('#txtJNo').val(dr.JNo);
         $('#txtBookingNo').val(dr.BookingNo);        
-        $('#txtVenderCode').val(dr.ForwarderCode);
-        ShowVender(path, dr.ForwarderCode, '#txtVenderName');
+        $('#txtVenderCode').val(dr.AgentCode);
+        ShowVender(path, dr.AgentCode, '#txtVenderName');
         ShowVender(path, dr.AgentCode, '#txtPaymentBy');
         $('#txtLoadDate').val(CDateEN(dr.LoadDate));
-        $('#txtNotifyCode').val(dr.CustCode);
-        ShowCompany(path, dr.CustCode, '#txtNotifyName');
+        $('#txtNotifyCode').val(dr.Consigneecode);
+        ShowCompany(path, dr.Consigneecode, '#txtNotifyName');
         $('#txtContactName').val(dr.CustContactName);
-        $('#txtPackingDate').val(CDateEN(dr.ETDDate));
-        $('#txtFactoryDate').val(CDateEN(dr.ETADate));
+        $('#txtPackingDate').val(CDateEN(dr.JobType==1? dr.ETADate : dr.ETDDate));
+        $('#txtFactoryDate').val(CDateEN(dr.EstDeliverDate));
         $('#txtFactoryPlace').val(dr.DeliveryTo);
         $('#txtFactoryAddress').val(dr.DeliveryAddr);
         $('#txtProductDesc').val(dr.InvProduct);

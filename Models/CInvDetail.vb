@@ -533,7 +533,7 @@ Public Class CInvDetail
                     cm.ExecuteNonQuery()
                     Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "DeleteInvDetail", cm.CommandText, False)
                     If Me.DocNo <> "" And Me.ItemNo <> 0 Then
-                        Dim Sql = "UPDATE Job_ClearDetail SET LinkBillNo=null,LinkItem=0"
+                        Dim Sql = "UPDATE Job_ClearDetail SET LinkBillNo='',LinkItem=0"
                         Sql &= String.Format(" WHERE BranchCode='{0}' AND LinkBillNo='{1}' And LinkItem={2}", Me.BranchCode, Me.DocNo, Me.ItemNo)
 
                         cm.CommandText = Sql

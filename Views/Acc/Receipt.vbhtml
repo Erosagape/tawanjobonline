@@ -531,6 +531,7 @@ End Code
         });
     }
     function ShowDetail(branch, code) {
+        $('#tbDetail').DataTable().clear().draw();
         $.get(path + 'Acc/GetRcpDetail?Branch=' + branch + '&Code=' + code, function (r) {
             if (r.rcpdetail.data.length > 0) {
                 let d = r.rcpdetail.data;

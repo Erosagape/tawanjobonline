@@ -240,7 +240,7 @@ End Code
                         <div class="col-md-12">
                             <label for="txtDeliverAddr">Delivery Address :</label>
                             <textarea id="txtDeliverAddr" style="width:400px" tabindex="44"></textarea>
-                            <input type="button" class="btn btn-info" value="Print Delivery Slip" onclick="PrintDelivery()" />
+                            <input type="button" class="btn btn-info" value="Truck Order" onclick="OpenTruckOrder()" />
                         </div>
                     </div>
                 </div>
@@ -1115,6 +1115,9 @@ End Code
     }
     function OpenCheque() {
         window.open(path + 'Acc/Cheque?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
+    }    
+    function OpenTruckOrder() {
+        window.open(path + 'JobOrder/TruckOrder?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
     }    
     function GetDataSave(dr) {
         dr.CustCode = $('#txtCustCode').val();

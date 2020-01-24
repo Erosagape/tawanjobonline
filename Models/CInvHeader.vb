@@ -724,7 +724,7 @@ Public Class CInvHeader
                 cm.Connection = cn
                 cm.CommandTimeout = 0
                 If Me.DocNo <> "" Then
-                    Dim Sql = "UPDATE Job_ClearDetail SET LinkBillNo=null,LinkItem=0"
+                    Dim Sql = "UPDATE Job_ClearDetail SET LinkBillNo='',LinkItem=0"
                     Sql &= String.Format(" WHERE BranchCode ='{0}' AND LinkBillNo='{1}' ", Me.BranchCode, Me.DocNo)
 
                     cm.CommandText = Sql

@@ -58,6 +58,9 @@ End Code
             <b>Job Number</b>
         </td>
         <td style="border-style:solid;border-width:thin;font-size:11px">
+            <b>With-holding Tax</b>
+        </td>
+        <td style="border-style:solid;border-width:thin;font-size:11px">
             <b>Amount</b>
         </td>
     </tr>
@@ -69,11 +72,14 @@ End Code
             <div id="divJob" style="font-size:12px"></div>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right">
+            <div id="divWht" style="font-size:12px"></div>
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:right">
             <div id="divAmt" style="font-size:12px"></div>
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px">
+        <td style="text-align:left;font-size:11px" colspan="2">
             <input type="checkbox" id="chkCash" /> CASH/TRANSFER :
             <label id="lblAccNo">______________</label>
             <label id="txtAdvCash"></label>
@@ -84,7 +90,7 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px">
+        <td style="text-align:left;font-size:11px" colspan="2">
             <input type="checkbox" id="chkCustChq" /> CUST.CHQ NO :
             <label id="lblcustChqNo">__________</label> DEP.DATE :
             <label id="lblDepDate">________</label>
@@ -98,7 +104,7 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px">
+        <td style="text-align:left;font-size:11px" colspan="2">
             <input type="checkbox" id="chkCompChq" /> CHQ NO :
             <label id="lblCompChqNo">__________</label> CHQ.DATE :
             <label id="lblChqDate">________</label>
@@ -110,7 +116,7 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px;">
+        <td style="text-align:left;font-size:11px;" colspan="2">
             <input type="checkbox" id="chkCredit" /> ACCOUNT PAYABLES :__________________ <label id="txtAdvCred"></label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Total</td>
@@ -280,6 +286,7 @@ End Code
         let strDesc = '';
         let strJob = '';
         let strAmt = '';
+        let strWht = '';
         let totAmt = 0;
         //let vat = 0;
         //let wht = 0;
@@ -299,12 +306,14 @@ End Code
             }
             strJob = strJob + ((d.ForJNo == null||d.ForJNo=='' ? '' : d.ForJNo) + '<br/>');
             strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(2)) + '<br/>');
+            strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(2)) + '<br/>');
             totAmt += d.AdvAmount;
             //vat += d.ChargeVAT;
             //wht += d.Charge50Tavi;
         }
         $('#divDesc').html(strDesc);
         $('#divJob').html(strJob);
+        $('#divWht').html(strWht);
         $('#divAmt').html(strAmt);
     }
 

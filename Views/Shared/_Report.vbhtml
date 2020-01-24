@@ -10,7 +10,7 @@
     <script src="~/Scripts/Func/reports.js"></script>
     <style>
         * {
-            font-size: 11px;
+            font-size: 14px;
         }
     </style>
 </head>

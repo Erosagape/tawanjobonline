@@ -410,6 +410,7 @@ End Code
         }
     }
     function ShowDetail(branch, code) {
+        $('#tbDetail').DataTable().clear().draw();
         $.get(path + 'Acc/GetBillDetail?Branch=' + branch + '&Code=' + code, function (r) {
             if (r.billdetail.data.length > 0) {
                 let d = r.billdetail.data;

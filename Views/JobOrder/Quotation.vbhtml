@@ -13,7 +13,7 @@ End Code
                 </div>
             </div>
             <div class="col-sm-6">
-                <a href="../Master/Customers" target="_blank"><label id="lblCustCode">ลูกค้า</label></a>:
+                <a href="../Master/Customers" target="_blank"><label id="lblCustomer">ลูกค้า</label></a>:
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" class="form-control" style="width:130px" />
                     <input type="text" id="txtCustBranch" class="form-control" style="width:70px" />

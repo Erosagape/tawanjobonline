@@ -1864,7 +1864,8 @@ End Code
                     SetWHTaxDetail(response.result.data);
                     ShowMessage(response.result.msg);
                     $('#txtDoc50Tavi').val(response.result.data);
-                    $('#txtDoc50Tavi').focus();
+                    //$('#txtDoc50Tavi').focus();
+                    window.open(path + 'Acc/WHTax?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtDoc50Tavi').val());
                     return;
                 }
                 ShowMessage(response.result.msg,true);

@@ -401,17 +401,17 @@ End Code
         if ($('#cboShipBy').val() !== "") {
             w = w + '&sby=' + $('#cboShipBy').val();
         }
+        $('#tbHeader').DataTable().clear().draw();
         $.get(path + 'acc/getclearforinv?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
-                $('#tbHeader').DataTable().clear().draw();
                 if (isAlert==true) ShowMessage('data not found',true);
                 return;
             }
             let h = r.invdetail.data;
-            ResetData();
-            for (let row of h) {
-                AddData(row);
+            if (h[0].ClrNo == null) {
+                return;
             }
+            ClearVariable();
             $('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -465,7 +465,6 @@ End Code
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
-            $('#tbHeader tbody > tr').addClass('selected');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
@@ -482,7 +481,12 @@ End Code
                 //ShowMessage('you click ' + clearno);
                 window.open(path + 'Clr/Index?BranchCode=' + $('#txtBranchCode').val() + '&ClrNo=' + clearno);
             });
+            $('#tbHeader tbody > tr').addClass('selected');
+            for (let row of h) {
+                AddData(row);
+            }
         });
+
     }
     function CalSummary() {
         let totaladv = 0;
@@ -924,9 +928,8 @@ End Code
                         SaveDetail(response.result.data);
                     }
                     ShowMessage(response.result.data);
-                    PrintInvoice();
                     $('#dvCreate').modal('hide');
-                    ResetData();
+
                     return;
                 }
                 ShowMessage(response.result.msg,true);
@@ -1007,7 +1010,8 @@ End Code
                 success: function (response) {
                     if (response.result.data !== null) {
                         ShowMessage(response.result.msg + '\n=>' + response.result.data);
-                        SetGridAdv(false);
+                        PrintInvoice();
+                        ResetData();
                         $('#btnGen').hide();
                         return;
                     }
@@ -1273,11 +1277,14 @@ End Code
         arr = arr_new;
         CalSummary();
     }
-    function ResetData() {
+    function ClearVariable() {
         arr = [];
         arr_split = {};
         arr_clr = [];
         chq = [];
+    }
+    function ResetData() {
+        ClearVariable();
         SetGridAdv(true);
     }
     function AddCheque() {

@@ -471,7 +471,8 @@ End Code
             window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code,'_blank');
         }
     }
-    function ShowDetail(branch,code) {
+    function ShowDetail(branch, code) {
+        $('#tbDetail').DataTable().clear().draw();
         $.get(path + 'Acc/GetInvDetail?branch=' + branch + '&code=' + code, function (r) {
             if (r.invdetail.data.length > 0) {
                 let d = r.invdetail.data;
