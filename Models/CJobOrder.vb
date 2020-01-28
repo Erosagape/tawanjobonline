@@ -1096,7 +1096,7 @@ Public Class CJobOrder
                         row.JRevise = rd.GetByte(rd.GetOrdinal("JRevise"))
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("CreateDate"))) = False Then
-                        row.ConfirmDate = rd.GetValue(rd.GetOrdinal("CreateDate"))
+                        row.CreateDate = rd.GetValue(rd.GetOrdinal("CreateDate"))
                     Else
                         row.CreateDate = row.DocDate
                     End If
