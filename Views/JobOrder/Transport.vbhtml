@@ -66,7 +66,7 @@ End Code
                 </div>
                 <div class="col-sm-6">
                     <a href="../Master/Venders" target="_blank">
-                        <label>Vender:</label>
+                        <label>Transporter:</label>
                     </a>
                     <br />
                     <div style="display:flex;flex-direction:row">
@@ -295,8 +295,12 @@ End Code
             <i class="fa fa-lg fa-save"></i>&nbsp;<b>Entry Expenses</b>
         </a>
         <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-            <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Delivery Slip</b>
+            <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Truck Order</b>
         </a>
+        <select id="cboTypeForm">
+            <option value="0" selected>Full</option>
+            <option value="1">Short</option>
+        </select>
     </div>
 </div>
 <div id="dvExpenses" class="modal fade">
@@ -453,7 +457,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        Commodity :<br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
+                        Comment :<br/><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
                     </div>
                     <div class="col-sm-6">
                         Shipping Mark :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
@@ -834,8 +838,11 @@ End Code
         });
     }
     function PrintData() {
-        if (row.DeliveryNo !== null) {
-            window.open(path + 'JobOrder/FormDelivery?Branch=' + row.BranchCode + '&Doc=' + row.DeliveryNo, '', '');
+        if ($('#cboTypeForm').val()=="0") {
+            window.open(path + 'JobOrder/TruckOrder?BranchCode=' + row.BranchCode + '&BookingNo=' + row.BookingNo + '&ContainerNo=' + row.CTN_NO, '', '');
+        }
+        if ($('#cboTypeForm').val()=="1") {
+            window.open(path + 'JobOrder/FormTruckOrder?BranchCode=' + row.BranchCode + '&BookingNo=' + row.BookingNo + '&ContainerNo=' + row.CTN_NO, '', '');
         }
     }
     function LoadData() {

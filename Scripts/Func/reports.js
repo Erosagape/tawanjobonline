@@ -1,4 +1,14 @@
 ﻿//this function bind for label using in reports
+function ShowBranch(path, Branch, ControlID) {
+    $(ControlID).text('');
+    $.get(path + 'Config/GetBranch?Code=' + Branch)
+        .done(function (r) {
+            if (r.branch.data.length > 0) {
+                let b = r.branch.data[0];
+                $(ControlID).text(b.BrName);
+            }
+        });
+}
 function ShowInvUnit(path, unitCode, ControlID) {
     $(ControlID).text(unitCode);
     if (unitCode != "") {

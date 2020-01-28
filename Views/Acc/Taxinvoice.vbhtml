@@ -28,7 +28,7 @@ End Code
                 Type of Documents:
                 <select id="cboType" class="form-control dropdown">
                     <option value="TAX" selected>Tax-Invoice (Vatable+Advance)</option>
-                    <option value="SRV" selected>Tax-Invoice (Vatable only)</option>
+                    <option value="SRV">Tax-Invoice (Vatable only)</option>
                     <option value="REC">Receipt (Non-Vat only)</option>
                     <option value="RCV">Receipt (Non-Vat+Advance)</option>
                 </select>

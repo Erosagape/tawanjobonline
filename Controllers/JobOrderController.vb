@@ -641,6 +641,9 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Doc")) Then
                     tSqlw &= String.Format(" AND d.DeliveryNo='{0}' ", Request.QueryString("Doc").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("Cont")) Then
+                    tSqlw &= String.Format(" AND d.CTN_NO='{0}' ", Request.QueryString("Cont").ToString)
+                End If
                 If Not IsNothing(Request.QueryString("Cust")) Then
                     tSqlw &= String.Format(" AND j.CustCode='{0}' ", Request.QueryString("Cust").ToString)
                 End If

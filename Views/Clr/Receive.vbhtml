@@ -119,7 +119,7 @@ End Code
                         <select id="cboJobType" class="form-control dropdown"></select>
                     </div>
                     <div class="col-sm-6">
-                        Entry By :
+                        Request By :
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtReqBy" style="width:100px" />

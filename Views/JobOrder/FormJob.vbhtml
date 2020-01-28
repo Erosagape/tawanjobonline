@@ -182,7 +182,7 @@ End Code
             </tr>
         </table>
         <br/>
-        <table id="tbExpenses" style="width:100%;border-collapse:collapse;">
+        <table id="tbExpenses" style="width:100%;border-collapse:collapse;font-size:8px">
             <thead>
                 <tr>
                     <th colspan="5" style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเคลียร์พิธีการศุลกากร</th>
@@ -418,14 +418,14 @@ End Code
         ShowInvUnit(path, j.GWUnit, '#lblNWUnit');
         ShowInvUnit(path, j.GWUnit, '#lblGWUnit');
         $('#lblMeasurement').text(j.Measurement);
-        $('#lblBookingNo').text(j.BLNo);
+        $('#lblBookingNo').text(j.BookingNo);
         $('#lblHAWBNo').text(j.HAWB);
         $('#lblMAWBNo').text(j.MAWB);
         $('#lblVesselName').text(j.VesselName);
         $('#lblTotalContainer').text(j.TotalContainer);
         $('#lblDeclareNo').text(j.DeclareNumber);
         $('#lblContact').text(j.CustContactName);
-        $('#lblDutyAmt').text(j.DutyAmount);
+        $('#lblDutyAmt').text(j.DutyAmount + ' THB');
         $('#lblTaxPrivilege').text(j.TyClearTaxReson);
         $('#lblShippingCmd').text(j.ShippingCmd);
         let str =j.Description.replace(/(?:\r\n|\r|\n)/g, '<br/>');

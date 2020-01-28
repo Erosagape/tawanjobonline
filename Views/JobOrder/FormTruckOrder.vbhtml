@@ -1,12 +1,12 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.ReportName = "Truck Order"
-    ViewBag.Title = "Truck Order"
+    ViewBag.ReportName = "Vessel Declaration"
+    ViewBag.Title = "Vessel Declaration"
 
 End Code
 <style>
     * {
-        font-size: 9px;
+        font-size: 10px;
     }
 
     table {
@@ -21,29 +21,29 @@ End Code
 <table>
     <tr>
         <th>วันที่เอกสาร</th>
-        <th colspan="3">20-DEC-2019 14:48</th>
+        <th colspan="3">@DateTime.Now.ToString("dd/MM/yyyy HH:mm")</th>
     </tr>
     <tr>
-        <td>เลขที่เอกสาร Truck Sheet</td>
-        <td><label id="txtValue1"></label></td>
-        <td>หมายเลข Work Order</td>
-        <td><label id="txtValue2"></label></td>
+        <td>สาขา</td>
+        <td><label id="txtBranchName"></label></td>
+        <td>หมายเลข Job Order</td>
+        <td><label id="txtJNo"></label></td>
     </tr>
     <tr>
         <td>ชื่อเรือ/เที่ยว</td>
-        <td></td>
+        <td><label id="txtVesselName"></label></td>
         <td>ปลายทาง(Port)</td>
-        <td></td>
+        <td><label id="txtDischargePort"></label></td>
     </tr>
     <tr>
         <td>วัน-เวลาปิดรับ</td>
-        <td></td>
+        <td><label id="txtCYDate"></label></td>
         <td>วันเรือออก</td>
-        <td></td>
+        <td><label id="txtETDDate"></label></td>
     </tr>
     <tr>
         <td>คำแนะนำในการส่งสินค้า</td>
-        <td><label id="txtValue23"></label></td>
+        <td><div id="txtSpecialInstruction"></div></td>
         <td></td>
         <td></td>
     </tr>
@@ -53,27 +53,27 @@ End Code
     </tr>
     <tr>
         <td>ชื่อบริษัทลูกค้า</td>
-        <td><label id="txtValue3"></label></td>
+        <td><label id="txtNotifyName"></label></td>
         <td>ชือบริษัทเดินเรือ</td>
-        <td><label id="txtValue11"></label></td>
+        <td><label id="txtCarrierName"></label></td>
     </tr>
     <tr>
         <td>ที่อยู่</td>
-        <td><label id="txtValue5"></label></td>
+        <td><div id="txtNotifyAddress"></div></td>
         <td>ชื่อผู้ติดต่อ/โทรศัพท์</td>
-        <td><label id="txtValue13"></label></td>
+        <td><label id="txtCarrierContact"></label></td>
     </tr>
     <tr>
         <td></td>
         <td></td>
         <td>บุ้คกิ้ง</td>
-        <td><label id="txtValue15"></label></td>
+        <td><label id="txtCarrierBooking"></label></td>
     </tr>
     <tr>
         <td></td>
         <td></td>
         <td>วันที่จอง</td>
-        <td><label id="txtValue17"></label></td>
+        <td><label id="txtBookingDate"></label></td>
     </tr>
     <tr>
         <th colspan="2">ข้อมูลเกี่ยวกับการบริการ</th>
@@ -81,27 +81,27 @@ End Code
     </tr>
     <tr>
         <td>ประเภทการให้บริการ</td>
-        <td><label id="txtValue19"></label></td>
+        <td><label id="txtServiceType"></label></td>
         <td>ทะเบียนรถบรรทุก</td>
-        <td><label id="txtValue20"></label></td>
+        <td><label id="txtTruck"></label></td>
     </tr>
     <tr>
         <td>ขนาดตู้คอนเทนเนอร์</td>
-        <td><label id="txtValue21"></label></td>
+        <td><label id="txtContainerType"></label></td>
         <td>ชื่อคนขับ/โทรศัพท์</td>
-        <td><label id="txtValue22"></label></td>
+        <td><label id="txtDriverName"></label></td>
     </tr>
     <tr>
         <td></td>
         <td></td>
         <td>หมายเลขตู้คอนเทนเนอร์</td>
-        <td><label id="txtValue24"></label></td>
+        <td><label id="txtContainer"></label></td>
     </tr>
     <tr>
         <td>หมายเหตุ</td>
-        <td><label id="txtValue18"></label></td>
+        <td><div id="txtRemark"></div></td>
         <td>หมายเหตุในการส่งตู้ล่าช้า</td>
-        <td><label id="txtValue25"></label></td>
+        <td><div id="txtDiscrepancyReason"></div></td>
     </tr>
     <tr>
         <th></th>
@@ -111,177 +111,91 @@ End Code
     </tr>
     <tr>
         <td>ชื่อสถานที่</td>
-        <td><label id="txtValue32"></label></td>
-        <td><label id="txtValue33"></label></td>
-        <td><label id="txtValue34"></label></td>
+        <td><label id="txtPlace1"></label></td>
+        <td><label id="txtPlace2"></label></td>
+        <td><label id="txtPlace3"></label></td>
     </tr>
     <tr>
         <td>ที่อยู่</td>
-        <td><label id="txtValue35"></label></td>
-        <td><label id="txtValue36"></label></td>
-        <td><label id="txtValue37"></label></td>
+        <td><label id="txtAddress1"></label></td>
+        <td><label id="txtAddress2"></label></td>
+        <td><label id="txtAddress3"></label></td>
     </tr>
     <tr>
         <td>ชื่อผู้ติดต่อ</td>
-        <td><label id="txtValue38"></label></td>
-        <td><label id="txtValue39"></label></td>
-        <td><label id="txtValue40"></label></td>
+        <td><label id="txtContact1"></label></td>
+        <td><label id="txtContact2"></label></td>
+        <td><label id="txtContact3"></label></td>
     </tr>
     <tr>
         <td>วัน/เวลา</td>
-        <td><label id="txtValue41"></label></td>
-        <td><label id="txtValue42"></label></td>
-        <td><label id="txtValue43"></label></td>
+        <td><label id="txtTargetDate1"></label></td>
+        <td><label id="txtTargetDate2"></label></td>
+        <td><label id="txtTargetDate3"></label></td>
     </tr>
     <tr>
         <td>วัน/เวลาจริง</td>
-        <td><label id="txtValue44"></label></td>
-        <td><label id="txtValue45"></label></td>
-        <td><label id="txtValue46"></label></td>
+        <td><label id="txtActualDate1"></label></td>
+        <td><label id="txtActualDate2"></label></td>
+        <td><label id="txtActualDate3"></label></td>
     </tr>
     <tr>
         <td>หมายเหตุ</td>
-        <td><label id="txtValue47"></label></td>
-        <td><label id="txtValue48"></label></td>
-        <td><label id="txtValue49"></label></td>
+        <td><label id="txtRemark1"></label></td>
+        <td><label id="txtRemark2"></label></td>
+        <td><label id="txtRemark3"></label></td>
     </tr>
 </table>
 <script type="text/javascript">
-    var val1 = localStorage.getItem("Value1");
-    var val2 = localStorage.getItem("Value2");
-    var val23 = localStorage.getItem("Value23");
-    var val3 = localStorage.getItem("Value3");
-    var val11 = localStorage.getItem("Value11");
-    var val5 = localStorage.getItem("Value5");
-    var val13 = localStorage.getItem("Value13");
-    var val15 = localStorage.getItem("Value15");
-    var val17 = localStorage.getItem("Value17");
-    var val19 = localStorage.getItem("Value19");
-    var val20 = localStorage.getItem("Value20");
-    var val21 = localStorage.getItem("Value21");
-    var val22 = localStorage.getItem("Value22");
-    var val24 = localStorage.getItem("Value24");
-    var val18 = localStorage.getItem("Value18");
-    var val25 = localStorage.getItem("Value25");
-    var val32 = localStorage.getItem("Value32");
-    var val33 = localStorage.getItem("Value33");
-    var val34 = localStorage.getItem("Value34");
-    var val35 = localStorage.getItem("Value35");
-    var val36 = localStorage.getItem("Value36");
-    var val37 = localStorage.getItem("Value37");
-    var val38 = localStorage.getItem("Value38");
-    var val39 = localStorage.getItem("Value39");
-    var val40 = localStorage.getItem("Value40");
-    var val41 = localStorage.getItem("Value41");
-    var val42 = localStorage.getItem("Value42");
-    var val43 = localStorage.getItem("Value43");
-    var val44 = localStorage.getItem("Value44");
-    var val45 = localStorage.getItem("Value45");
-    var val46 = localStorage.getItem("Value46");
-    var val47 = localStorage.getItem("Value47");
-    var val48 = localStorage.getItem("Value48");
-    var val49 = localStorage.getItem("Value49");
-    if (val1 !== null) {
-        document.getElementById("txtValue1").innerText = val1;
-    }
-    if (val2 !== null) {
-        document.getElementById("txtValue2").innerText = val2;
-    }
-    if (val23 !== null) {
-        document.getElementById("txtValue23").innerText = val23;
-    }
-    if (val3 !== null) {
-        document.getElementById("txtValue3").innerText = val3;
-    }
-    if (val11 !== null) {
-        document.getElementById("txtValue11").innerText = val11;
-    }
-    if (val5 !== null) {
-        document.getElementById("txtValue5").innerText = val5;
-    }
-    if (val13 !== null) {
-        document.getElementById("txtValue13").innerText = val13;
-    }
-    if (val15 !== null) {
-        document.getElementById("txtValue15").innerText = val15;
-    }
-    if (val17 !== null) {
-        document.getElementById("txtValue17").innerText = val17;
-    }
-    if (val18 !== null) {
-        document.getElementById("txtValue18").innerText = val18;
-    }
+    let br = getQueryString("BranchCode");
+    let doc = getQueryString("BookingNo");
+    let cont = getQueryString("ContainerNo");
+    let user = '@ViewBag.User';
+    var path = '@Url.Content("~")';
+    $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc +'&Cont=' +cont).done(function (r) {
+        if (r.booking !== null) {
+            let h = r.booking.data[0];
+            ShowBranch(path, h.BranchCode, '#txtBranchName');
+            $('#txtJNo').text(h.JNo);
+            $('#txtNotifyName').text(h.NotifyName);
+            $('#txtVesselName').text(h.VesselName);
+            if (h.JobType == '1') {
+                ShowInterPort(path, h.InvFCountry, h.InvInterPort, '#txtDischargePort');
+            } else {
+                ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblDischargePort');
+            }
+            $('#txtCYDate').text(ShowDate(h.CYDate));
+            $('#txtETDDate').text(ShowDate(h.ETDDate));
+            $('#txtSpecialInstruction').html(h.Description);
+            $('#txtNotifyName').text(h.NotifyName);
+            $('#txtCarrierName').text(h.CarrierName);
+            $('#txtNotifyAddress').html(CStr(h.NotifyAddress1+'\n'+h.NotifyAddress2));
+            $('#txtCarrierContact').text(h.CarrierContact);
+            $('#txtCarrierBooking').text(h.BookingNo);
+            $('#txtBookingDate').text(ShowDate(h.BookingDate));
+            $('#txtServiceType').text(h.LocationRoute);
+            $('#txtTruck').text(h.TruckNO);
+            $('#txtContainerType').text(h.CTN_SIZE);
+            $('#txtDriverName').text(h.Driver);
+            $('#txtContainer').text(h.CTN_NO);
+            $('#txtDiscrepancyReason').html(h.Comment);
+            $('#txtRemark').html(CStr(h.Remark));
 
-    if (val19 !== null) {
-        document.getElementById("txtValue19").innerText = val19;
-    }
-    if (val20 !== null) {
-        document.getElementById("txtValue20").innerText = val20;
-    }
-    if (val21 !== null) {
-        document.getElementById("txtValue21").innerText = val21;
-    }
-    if (val22 !== null) {
-        document.getElementById("txtValue22").innerText = val22;
-    }
-    if (val24 !== null) {
-        document.getElementById("txtValue24").innerText = val24;
-    }
-    if (val25 !== null) {
-        document.getElementById("txtValue25").innerText = val25;
-    }
-    if (val32 !== null) {
-        document.getElementById("txtValue32").innerText = val32;
-    }
-    if (val33 !== null) {
-        document.getElementById("txtValue33").innerText = val33;
-    }
-    if (val34 !== null) {
-        document.getElementById("txtValue34").innerText = val34;
-    }
-    if (val35 !== null) {
-        document.getElementById("txtValue35").innerText = val35;
-    }
-    if (val36 !== null) {
-        document.getElementById("txtValue36").innerText = val36;
-    }
-    if (val37 !== null) {
-        document.getElementById("txtValue37").innerText = val37;
-    }
-    if (val38 !== null) {
-        document.getElementById("txtValue38").innerText = val38;
-    }
-    if (val39 !== null) {
-        document.getElementById("txtValue39").innerText = val39;
-    }
-    if (val40 !== null) {
-        document.getElementById("txtValue40").innerText = val40;
-    }
-    if (val41 !== null) {
-        document.getElementById("txtValue41").innerText = val41;
-    }
-    if (val42 !== null) {
-        document.getElementById("txtValue42").innerText = val42;
-    }
-    if (val43 !== null) {
-        document.getElementById("txtValue43").innerText = val43;
-    }
-    if (val44 !== null) {
-        document.getElementById("txtValue44").innerText = val44;
-    }
-    if (val45 !== null) {
-        document.getElementById("txtValue45").innerText = val45;
-    }
-    if (val46 !== null) {
-        document.getElementById("txtValue46").innerText = val46;
-    }
-    if (val47 !== null) {
-        document.getElementById("txtValue47").innerText = val47;
-    }
-    if (val48 !== null) {
-        document.getElementById("txtValue48").innerText = val48;
-    }
-    if (val49 !== null) {
-        document.getElementById("txtValue49").innerText = val49;
-    }
+            $('#txtPlace1').text(h.CYPlace);
+            $('#txtPlace2').text(h.FactoryPlace);
+            $('#txtPlace3').text(h.ReturnPlace);
+            $('#txtAddress1').html(CStr(h.CYAddress));
+            $('#txtAddress2').html(CStr(h.FactoryAddress));
+            $('#txtAddress3').html(CStr(h.ReturnAddress));
+            $('#txtTargetDate1').text(ShowDate(h.TargetYardDate));
+            $('#txtTargetDate2').text(ShowDate(h.TargetDeliveryDate));
+            $('#txtTargetDate3').text(ShowDate(h.TargetReturnDate));
+            $('#txtActualDate1').text(ShowDate(h.ActualYardDate));
+            $('#txtActualDate2').text(ShowDate(h.ActualDeliveryDate));
+            $('#txtActualDate3').text(ShowDate(h.ActualReturnDate));
+            $('#txtContact1').text(h.CYContact);
+            $('#txtContact2').text(h.FactoryContact);
+            $('#txtContact3').text(h.ReturnContact);
+        }
+    });
 </script>

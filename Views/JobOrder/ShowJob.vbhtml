@@ -240,7 +240,7 @@ End Code
                         <div class="col-md-12">
                             <label for="txtDeliverAddr">Delivery Address :</label>
                             <textarea id="txtDeliverAddr" style="width:400px" tabindex="44"></textarea>
-                            <input type="button" class="btn btn-info" value="Truck Order" onclick="OpenTruckOrder()" />
+                            <input type="button" class="btn btn-info" value="Delivery Slip" onclick="PrintDelivery()" />
                         </div>
                     </div>
                 </div>
