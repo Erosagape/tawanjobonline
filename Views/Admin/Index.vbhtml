@@ -1,6 +1,8 @@
 ﻿@Code
     ViewBag.Title = "Index"
 End Code
+Period : <input type="text" id="txtPeriod" value="@DateTime.Now.ToString("yyyy/MM")" />
+<input type="button" id="btnShow" class="btn btn-default" value="Show Data" onclick="ShowData()" />
 <h3>Summary User Login</h3>
 <div id="dvLoginCount">
     <table id="tbUser" class="table table-bordered" style="border:thin;width:100%">
@@ -44,7 +46,14 @@ End Code
 </div>
 <script type="text/javascript">
     var path = '@Url.Content("~")';
-    $.get(path + 'JobOrder/GetJobSummary')
+    ShowData();
+    function ShowData() {
+        let period = '';
+        if($('#txtPeriod').val() !== '') {
+            period += '?period=' + $('#txtPeriod').val();
+        }       
+        $('#tbJobCount tbody').html('');
+        $.get(path + 'JobOrder/GetJobSummary' + period)
         .done((r) => {
             if (r.length > 0) {
                 let html = '';
@@ -67,7 +76,8 @@ End Code
                 $('#tbJobCount tbody').html(html);
             }
         });
-    $.get(path + 'JobOrder/GetDocSummary')
+        $('#tbDocCount tbody').html('');
+        $.get(path + 'JobOrder/GetDocSummary' + period)
         .done((r) => {
             if (r.length > 0) {
                 let html = '';
@@ -85,12 +95,13 @@ End Code
                 $('#tbDocCount tbody').html(html);
             }
         });
-    $.get(path + 'Config/GetLoginSummary')
+        $('#tbUser tbody').html('');
+        $.get(path + 'Config/GetLoginSummary' + period)
         .done((r) => {
             if (r.length > 0) {
                 let html = '';
                 for (let d of r) {
-                    if (d.LastLogin.indexOf('ALL')>0) {
+                    if (d.LastLogin.indexOf('ALL')>=0) {
                         html += '<tr style="background-color:lightgreen;font-weight:bold">';
                     } else {
                         html += '<tr>';
@@ -103,4 +114,6 @@ End Code
                 $('#tbUser tbody').html(html);
             }
         });
+    }
+
 </script>

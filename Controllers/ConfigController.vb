@@ -1795,6 +1795,9 @@ Namespace Controllers
         End Function
         Function GetLoginSummary() As ActionResult
             Dim tSql As String = SQLSelectLoginSummary()
+            If Not IsNothing(Request.QueryString("Period")) Then
+                tSql &= " WHERE tb.Period ='" & Request.QueryString("Period") & "' "
+            End If
             Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
             Dim oData = New CUtil(cnMas).GetTableFromSQL(tSql)
             Dim json = JsonConvert.SerializeObject(oData)

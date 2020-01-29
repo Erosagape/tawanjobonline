@@ -723,7 +723,7 @@ Namespace Controllers
                     tSqlW &= " AND t.Period Like '" & Request.QueryString("Year") & "/%' "
                 End If
                 If Not IsNothing(Request.QueryString("Period")) Then
-                    tSqlW &= " AND t.Period ='" & Request.QueryString("Period") & "' "
+                    tSqlW &= " AND t.Period='" & Request.QueryString("Period") & "' "
                 End If
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(SQLSelectDocSummary(), tSqlW))
                 Dim json As String = JsonConvert.SerializeObject(oData)
@@ -799,9 +799,7 @@ Namespace Controllers
         Function GetJobSummary() As ActionResult
             Try
                 Dim tSqlW As String = ""
-                If Not IsNothing(Request.QueryString("Period")) Then
-                    tSqlW &= " AND j.JNo Like '__" & Request.QueryString("Period") & "%' "
-                End If
+
                 If Not IsNothing(Request.QueryString("Year")) Then
                     tSqlW &= " AND Year(j.CreateDate) ='" & Request.QueryString("Year") & "' "
                 End If
@@ -811,7 +809,11 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("ShipBy")) Then
                     tSqlW &= " AND j.ShipBy =" & Request.QueryString("ShipBy") & " "
                 End If
-                Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectJobSummary(tSqlW) & " ORDER BY t.Period")
+                Dim period = ""
+                If Not IsNothing(Request.QueryString("Period")) Then
+                    period &= " WHERE t.Period='" & Request.QueryString("Period") & "' "
+                End If
+                Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectJobSummary(tSqlW) & period & " ORDER BY t.Period")
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 Return Content(json, jsonContent)
             Catch ex As Exception

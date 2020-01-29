@@ -2003,7 +2003,7 @@ group by b.CustID,b.CustName,a.LogAction
 "
     End Function
     Function SQLSelectLoginSummary() As String
-        Return "
+        Return "SELECT tb.* FROM (
 select b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2) as Period,a.LogAction as UserID,Convert(varchar,Max(a.LogDateTime),103) as LastLogin
 from TWTLog a 
 INNER JOIN TWTCustomer b
@@ -2019,7 +2019,7 @@ ON a.CustID=b.CustID+'/'
 where a.ModuleName='LOGIN_SHIPPING' and b.CustID='" & My.MySettings.Default.LicenseTo.ToString & "'
 and a.LogAction Not in('ADMIN','CS','BOAT','pasit')
 group by b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2)
-"
+) tb"
     End Function
     Function GetSession(sName As String) As String
         Return HttpContext.Current.Session(sName).ToString

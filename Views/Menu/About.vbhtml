@@ -155,7 +155,7 @@ End Code
             for (let o of r) {
                 html += '<tr>';
                 html += '<td>' + o.UserID + '</td>';
-                html += '<td>' + o.LastLogin +'</td>';
+                html += '<td>' + ShowDate(o.LastLogin) +'</td>';
                 html += '</tr>';
             }
             $('#tbUser').html(html);
