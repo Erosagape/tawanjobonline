@@ -1786,5 +1786,19 @@ Namespace Controllers
                 Return Content(json, jsonContent)
             End Try
         End Function
+        Function GetLoginHistory() As ActionResult
+            Dim tSql As String = SQLSelectLoginHistory()
+            Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
+            Dim oData = New CUtil(cnMas).GetTableFromSQL(tSql)
+            Dim json = "{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & oData.Rows.Count & """}"
+            Return Content(json, jsonContent)
+        End Function
+        Function GetLoginSummary() As ActionResult
+            Dim tSql As String = SQLSelectLoginSummary()
+            Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
+            Dim oData = New CUtil(cnMas).GetTableFromSQL(tSql)
+            Dim json = "{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & oData.Rows.Count & """}"
+            Return Content(json, jsonContent)
+        End Function
     End Class
 End Namespace

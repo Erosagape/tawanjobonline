@@ -1,6 +1,19 @@
 ﻿@Code
     ViewBag.Title = "Index"
 End Code
+<h3>Summary User Login</h3>
+<div id="dvLoginCount">
+    <table id="tbUser" class="table table-bordered" style="border:thin;width:100%">
+        <thead>
+            <tr>
+                <th>Period</th>
+                <th>User ID</th>
+                <th>Log-in Date</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
 <h3>Summary Job Usages</h3>
 <div id="dvJobCount">
     <table id="tbJobCount" class="table table-bordered" style="border:thin;width:100%">
@@ -70,6 +83,24 @@ End Code
                     html += '</tr>';
                 }                
                 $('#tbDocCount tbody').html(html);
+            }
+        });
+    $.get(path + 'Config/GetLoginSummary')
+        .done((r) => {
+            if (r.data.length > 0) {
+                let html = '';
+                for (let d of r.data) {
+                    if (d.LastLogin.indexOf('ALL')>0) {
+                        html += '<tr style="background-color:lightgreen;font-weight:bold">';
+                    } else {
+                        html += '<tr>';
+                    }
+                    html += '<td>' + d.Period + '</td>';
+                    html += '<td>' + d.UserID + '</td>';
+                    html += '<td>' + d.LastLogin + '</td>';
+                    html += '</tr>';
+                }                
+                $('#tbUser tbody').html(html);
             }
         });
 </script>

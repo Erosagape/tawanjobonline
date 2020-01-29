@@ -1991,6 +1991,36 @@ group by Convert(varchar,Year(CreateDate))
 ) t {0} ORDER BY t.DocType,t.Period
 "
     End Function
+    Function SQLSelectLoginHistory() As String
+        Return "
+select b.CustID,b.CustName,a.LogAction as UserID,Max(a.LogDateTime) as LastLogin
+from TWTLog a 
+INNER JOIN TWTCustomer b
+ON a.CustID=b.CustID+'/'
+where a.ModuleName='LOGIN_SHIPPING' and b.CustID='" & My.MySettings.Default.LicenseTo.ToString & "'
+and a.LogAction Not in('ADMIN','CS','BOAT','pasit')
+group by b.CustID,b.CustName,a.LogAction 
+"
+    End Function
+    Function SQLSelectLoginSummary() As String
+        Return "
+select b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2) as Period,a.LogAction as UserID,Convert(varchar,Max(a.LogDateTime),103) as LastLogin
+from TWTLog a 
+INNER JOIN TWTCustomer b
+ON a.CustID=b.CustID+'/'
+where a.ModuleName='LOGIN_SHIPPING' and b.CustID='" & My.MySettings.Default.LicenseTo.ToString & "'
+and a.LogAction Not in('ADMIN','CS','BOAT','pasit')
+group by b.CustID,b.CustName,a.LogAction ,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2)
+UNION
+select b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2) as Period,Cast(Count(DISTINCT a.LogAction) as varchar)+' Users' as CountUser,'ALL' as LastLogin
+from TWTLog a 
+INNER JOIN TWTCustomer b
+ON a.CustID=b.CustID+'/'
+where a.ModuleName='LOGIN_SHIPPING' and b.CustID='" & My.MySettings.Default.LicenseTo.ToString & "'
+and a.LogAction Not in('ADMIN','CS','BOAT','pasit')
+group by b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2)
+"
+    End Function
     Function GetSession(sName As String) As String
         Return HttpContext.Current.Session(sName).ToString
     End Function

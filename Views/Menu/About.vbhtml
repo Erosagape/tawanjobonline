@@ -38,18 +38,28 @@ End Code
 #Contact {background-color: wheat;}
 #About {background-color: wheat;}
 </style>
-<button class="tablink" onclick="openPage('Home', this, 'wheat')" id="defaultOpen">License</button>
+<button class="tablink" onclick="openPage('Home', this, 'wheat')" id="defaultOpen">Login</button>
 <button class="tablink" onclick="openPage('News', this, 'wheat')">Variables</button>
 <button class="tablink" onclick="openPage('Contact', this, 'wheat')">Contact</button>
 <button class="tablink" onclick="openPage('About', this, 'wheat')">About</button>
 
 <div id="Home" class="tabcontent">
-    <h3>Your License</h3>
+    <h3>User Login</h3>
+    <table class="table table-responsive">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Log in Date</th>
+            </tr>
+        </thead>
+        <tbody id="tbUser">
+        </tbody>
+    </table>
 </div>
 
 <div id="News" class="tabcontent">
     <h3>System Variables</h3>
-    <table>
+    <table class="table table-responsive">
         <thead>
             <tr>
                 <th>Variable Name</th>
@@ -116,27 +126,39 @@ End Code
 <script type="text/javascript">
     var path = '@Url.Content("~")';
     function openPage(pageName, elmnt, color) {
-  // Hide all elements with class="tabcontent" by default */
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
+        // Hide all elements with class="tabcontent" by default */
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+        }
 
-  // Remove the background color of all tablinks/buttons
-  tablinks = document.getElementsByClassName("tablink");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].style.backgroundColor = "";
-  }
+        // Remove the background color of all tablinks/buttons
+        tablinks = document.getElementsByClassName("tablink");
+        for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].style.backgroundColor = "";
+        }
 
-  // Show the specific tab content
-  document.getElementById(pageName).style.display = "block";
+        // Show the specific tab content
+        document.getElementById(pageName).style.display = "block";
 
-  // Add the specific color to the button used to open the tab content
-  elmnt.style.backgroundColor = color;
-}
+        // Add the specific color to the button used to open the tab content
+        elmnt.style.backgroundColor = color;
+    }
 
 // Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
+    document.getElementById("defaultOpen").click();
 
+    $.get(path + 'Config/GetLoginHistory').done(function(r) {
+        if(r.data !== null){
+            let html = '';
+            for (let o of r.data) {
+                html += '<tr>';
+                html += '<td>' + o.UserID + '</td>';
+                html += '<td>' + ShowDate(o.LastLogin) +'</td>';
+                html += '</tr>';
+            }
+            $('#tbUser').html(html);
+        }
+    });
 </script>
