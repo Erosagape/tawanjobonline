@@ -15,6 +15,7 @@ Module Main
     Friend Const expPrefix As String = "ACC-"
     Friend Const servPrefix As String = "SRV-"
     Friend Const appName As String = "JOBSHIPPING"
+    Friend jobmaster As String = "jobmaster"
     Friend Function GetDBString(pValue As String, dc As DataColumn)
         If pValue Is Nothing Then
             Return ""
@@ -845,7 +846,7 @@ left join (select UserID,TName as ShippingName from Mas_User ) u3 on j.ShippingE
 left join (select CustCode,Max(NameThai) as ConsigneeName from Mas_Company group by CustCode) c4 on j.consigneecode=c4.CustCode
 left join (select VenCode,TName as AgentName from Mas_Vender) v1 on j.AgentCode=v1.VenCode
 left join (select VenCode,TName as ForwarderName from Mas_Vender) v2 on j.ForwarderCode=v2.VenCode
-left join (select [Type],Description from jobmaster.dbo.Mas_RFDCT) m1 on j.DeclareType=m1.[Type]
+left join (select [Type],Description from " & jobmaster & ".dbo.Mas_RFDCT) m1 on j.DeclareType=m1.[Type]
 "
     End Function
     Function SQLUpdateInvoiceHeader() As String
@@ -1477,6 +1478,7 @@ dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
             Using tb As DataTable = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT * FROM TWTCustomerApp WHERE CustID='{0}' AND AppID='{1}' AND Seq='{2}'", pCustomer, pApp, pSeq))
                 If tb.Rows.Count > 0 Then
                     db = New String() {tb.Rows(0)("WebTranConnect").ToString, tb.Rows(0)("WebMasConnect").ToString}
+                    jobmaster = tb.Rows(0)("WebMasDB").ToString()
                 End If
             End Using
         Catch ex As Exception
