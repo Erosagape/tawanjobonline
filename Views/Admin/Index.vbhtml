@@ -87,9 +87,9 @@ End Code
         });
     $.get(path + 'Config/GetLoginSummary')
         .done((r) => {
-            if (r.data.length > 0) {
+            if (r.length > 0) {
                 let html = '';
-                for (let d of r.data) {
+                for (let d of r) {
                     if (d.LastLogin.indexOf('ALL')>0) {
                         html += '<tr style="background-color:lightgreen;font-weight:bold">';
                     } else {

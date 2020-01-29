@@ -150,12 +150,12 @@ End Code
     document.getElementById("defaultOpen").click();
 
     $.get(path + 'Config/GetLoginHistory').done(function(r) {
-        if(r.data !== null){
+        if (r.length > 0) {
             let html = '';
-            for (let o of r.data) {
+            for (let o of r) {
                 html += '<tr>';
                 html += '<td>' + o.UserID + '</td>';
-                html += '<td>' + ShowDate(o.LastLogin) +'</td>';
+                html += '<td>' + o.LastLogin +'</td>';
                 html += '</tr>';
             }
             $('#tbUser').html(html);
