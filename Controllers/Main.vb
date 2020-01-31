@@ -586,12 +586,12 @@ and b.UnitCharge=q.UnitCheck and a.AdvQty <=q.QtyEnd and a.AdvQty>=q.QtyBegin an
 left join 
 (
 	SELECT ad.BranchCode,ad.AdvNo,ad.ItemNo,ah.AdvDate,
-    (CASE WHEN ad.IsDuplicate=0 THEN ad.AdvNet ELSE SUM(ISNULL(cd.BNet,0)) END) as TotalCleared    
+    SUM(ISNULL(cd.BNet,0)) as TotalCleared    
 	FROM Job_ClearDetail cd INNER JOIN Job_ClearHeader ch
 	on cd.BranchCode=ch.BranchCode	and cd.ClrNo =ch.ClrNo 	and ch.DocStatus<>99
     INNER JOIN Job_AdvDetail ad on cd.BranchCode=ad.BranchCode and cd.AdvNO=ad.AdvNo and cd.AdvItemNo=ad.ItemNo
     INNER JOIN Job_AdvHeader ah on ad.BranchCode=ah.BranchCode and ad.AdvNo=ah.AdvNo
-    WHERE ah.DocStatus<>99
+    WHERE ah.DocStatus<>99 AND ch.DocStatus<>99 
 	GROUP BY ad.BranchCode,ad.AdvNo,ad.ItemNo,ah.AdvDate,ad.IsDuplicate,ad.AdvNet
 ) d
 ON a.BranchCode=d.BranchCode and a.AdvNo=d.AdvNo and a.ItemNo=d.ItemNo "

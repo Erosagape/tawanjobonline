@@ -284,7 +284,7 @@ Namespace Controllers
                 End If
                 If bClrDoc = False Then
                     If tbPrefix = "a" Then
-                        tSqlW &= " AND a.DocStatus<6 AND a.AdvNo IS NOT NULL"
+                        tSqlW &= " AND a.DocStatus<6 AND a.AdvNo IS NOT NULL  AND h.DocStatus<>99 "
                         tSqlW &= " AND a.AdvNo+'#'+Convert(varchar,a.ItemNo) NOT IN(SELECT c1.DocNo FROM Job_CashControlDoc c1 inner join Job_CashControl c2 on c1.BranchCode=c2.BranchCode and c1.ControlNo=c2.ControlNo where ISNULL(c2.CancelProve,'')='')"
                     Else
                         tSqlW &= " AND h.DocStatus<3 AND a.AdvNo IS NULL AND h.ClearType<>3 "
@@ -293,7 +293,7 @@ Namespace Controllers
                     End If
                 Else
                     If tbPrefix = "a" Then
-                        tSqlW &= " AND a.DocStatus<6 "
+                        tSqlW &= " AND a.DocStatus<6 AND h.DocStatus<>99 "
                     Else
                         tSqlW &= " AND h.DocStatus<3 AND a.AdvNet IS NULL "
                     End If
