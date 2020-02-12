@@ -53,6 +53,11 @@ End Code
                     QUANTITY/GROSSWEIGHT :<label id="lblQtyGross"></label>
                 </p>
             </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    RELEASE PORT :<label id="lblClearPort"></label>
+                </p>
+            </div>
         </div>
         <div style="flex:2">
             <div class="row">
@@ -70,6 +75,11 @@ End Code
                     MEASUREMENT :<label id="lblMeasurement"></label>
                 </p>
             </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    COMMODITY :<label id="lblInvProduct"></label>
+                </p>
+            </div>
         </div>
         <div style="flex:2">
             <div class="row">
@@ -80,6 +90,16 @@ End Code
             <div class="row">
                 <p class="col-sm-12">
                     MBL/MAWB :<label id="lblMAWB"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    CONTAINER :<label id="lblTotalContainer"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    DECLARE TYPE :<label id="lblDeclareType"></label>
                 </p>
             </div>
         </div>
@@ -169,12 +189,6 @@ End Code
                 </div>
             </div>
             <br/>
-            <div>
-                PLEASE REMIT TO ACCOUNT NO:<br/>170-279834-5<br />
-                "DAMON GOOD SERVICES CO.,LTD"<br />
-                SIAM COMMERCIAL BANK PUBLIC LIMITED<br />
-                THE MALL THA-PHRA BRANCH
-            </div>
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
             FOR THE CUSTOMER <br /><br /> <br /><br />
@@ -245,7 +259,11 @@ End Code
                 $('#lblHAWB').text(j.HAWB);
                 $('#lblMeasurement').text(j.Measurement);
                 $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
-                $('#lblMAWB').text(j.MAWB);                
+                $('#lblMAWB').text(j.MAWB);       
+                $('#lblInvProduct').text(j.InvProduct);
+                ShowReleasePort(path, j.ClearPort, '#lblClearPort');
+                $('#lblTotalContainer').text(j.TotalContainer);
+                ShowDeclareType(path, j.DeclareType, '#lblDeclareType');
             }
             let remark = h.Remark1 + '\n' + h.Remark2 + '\n' + h.Remark3 + '\n' + h.Remark4 + '\n' + h.Remark5 + '\n' + h.Remark6 + '\n' + h.Remark7 + '\n' + h.Remark8 + '\n' + h.Remark9 + '\n' + h.Remark10;
             remark=remark.replace(/(?:\r\n|\r|\n)/g, '<br/>');

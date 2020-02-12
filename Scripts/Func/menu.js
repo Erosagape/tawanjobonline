@@ -178,6 +178,9 @@
         case 'Document':
             mnuPath = path + 'Tracking/Document';
             break;
+        case 'TransportRoute':
+            mnuPath = path + 'Master/TransportRoute';
+            break;
         default:
             ShowMessage('Under Development, Coming soon!');
             break;

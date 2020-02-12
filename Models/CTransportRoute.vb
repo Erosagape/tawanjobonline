@@ -160,7 +160,7 @@ Public Class CTransportRoute
                             da.Fill(dt)
                             Dim dr As DataRow = dt.NewRow
                             If dt.Rows.Count > 0 Then dr = dt.Rows(0)
-                            dr("LocationID") = Me.LocationID
+                            'dr("LocationID") = Me.LocationID
                             dr("Place1") = Main.GetDBString(Me.Place1, dt.Columns("Place1"))
                             dr("Place2") = Main.GetDBString(Me.Place2, dt.Columns("Place2"))
                             dr("Place3") = Main.GetDBString(Me.Place3, dt.Columns("Place3"))
@@ -261,7 +261,7 @@ Public Class CTransportRoute
             Try
                 cn.Open()
 
-                Using cm As New SqlCommand("DELETE FROM Job_TransportRoute" + pSQLWhere, cn)
+                Using cm As New SqlCommand("UPDATE Job_TransportRoute SET IsActive=False " + pSQLWhere, cn)
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()

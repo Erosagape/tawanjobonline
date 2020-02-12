@@ -9,15 +9,15 @@ End Code
                 </div>
                 <div style="width:70%">
                     <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()" style="width:100%" tabindex="0"></select>
-                </div>                               
+                </div>
             </div>
             <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
                     <label id="lblShipBy" style="display:block;width:100%;">Ship By</label>
                 </div>
                 <div style="width:70%">
-                    <select id="cboShipBy" class="form-control dropdown" onchange="GetQuotation()"  style="width:100%" tabindex="1"></select>
-                </div>                                
+                    <select id="cboShipBy" class="form-control dropdown" onchange="GetQuotation()" style="width:100%" tabindex="1"></select>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -35,7 +35,7 @@ End Code
                 <div style="width:30%">
                     <label id="lblCSCode" style="display:block;width:100%">CS Code:</label>
                 </div>
-                <div style="display:flex;width:70%">                    
+                <div style="display:flex;width:70%">
                     <input type="text" class="form-control" id="txtCSCode" style="width:120px" tabindex="3" />
                     <input type="button" class="btn btn-default" id="btnBrowseCS" value="..." onclick="SearchData('user')" />
                     <input type="text" class="form-control" id="txtCSName" style="width:100%" disabled />
@@ -43,22 +43,22 @@ End Code
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6" style="display:flex">                
+            <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
                     <a href="../Master/Customers"><label id="lblCustCode" style="display:block;width:100%;">Customer</label></a>
                 </div>
-                <div style="display:flex;width:70%">                    
+                <div style="display:flex;width:70%">
                     <input type="text" class="form-control" style="width:80px" id="txtCustCode" tabindex="4" />
                     <input type="text" class="form-control" style="width:40px" id="txtCustBranch" tabindex="5" />
                     <input type="button" class="btn btn-default" id="btnBrowseCust" value="..." onclick="SearchData('customer')" />
                     <input type="text" class="form-control" style="width:100%" id="txtCustName" disabled />
                 </div>
             </div>
-            <div class="col-sm-6" style="display:flex">                
+            <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
                     <a href="../Master/Customers?Mode=CONSIGNEE"><label id="lblBillingPlace" style="display:block;width:100%;">Consignee</label></a>
                 </div>
-                <div style="display:flex;width:70%">                    
+                <div style="display:flex;width:70%">
                     <input type="text" class="form-control" id="txtConsignee" style="width:120px" tabindex="6" />
                     <input type="button" class="btn btn-default" id="btnBrowseCons" value="..." onclick="SearchData('consignee')" />
                     <input type="text" class="form-control" id="txtConsignName" style="width:100%" disabled />
@@ -67,20 +67,20 @@ End Code
         </div>
 
         <div class="row">
-            <div class="col-sm-6" style="display:flex">                
+            <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
                     <label id="lblContactName" style="display:block;width:100%;">Contact</label>
                 </div>
-                <div style="display:flex;width:70%">                    
+                <div style="display:flex;width:70%">
                     <input type="text" class="form-control" id="txtContactPerson" style="width:100%" tabindex="7" />
                     <input type="button" class="btn btn-default" id="btnBrowseContact" value="..." onclick="SearchData('contact')" />
                 </div>
             </div>
-            <div class="col-sm-6" style="display:flex">                
+            <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
                     <label id="lblQuotation" style="display:block;width:100%;">Quotation</label>
                 </div>
-                <div style="display:flex;width:70%">                    
+                <div style="display:flex;width:70%">
                     <input type="text" class="form-control" style="width:100%" id="txtQNo" tabindex="8" disabled />
                     <input type="text" class="form-control" style="width:50px" id="txtRevise" tabindex="9" disabled />
                     <input type="button" class="btn btn-default" id="btnBrowseQuo" value="..." onclick="SearchData('quotation')" />
@@ -89,15 +89,15 @@ End Code
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6" style="display:flex">                
+            <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
-                    <label id="lblCustInv" style="display:block;width:100%;color:red">Commercial Invoice/Booking No</label>
+                    <label id="lblCustInv" style="display:block;width:100%;color:red">Commercial Invoice</label>
                 </div>
-                <div style="display:flex;width:70%">                    
+                <div style="display:flex;width:70%">
                     <input type="text" class="form-control" id="txtCustInv" style="width:100%" tabindex="10" />
                 </div>
             </div>
-            <div class="col-sm-6" style="display:flex">                
+            <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
                     <label id="lblPoNo" style="display:block;width:100%;">PO/Customer Reference</label>
                 </div>
@@ -107,39 +107,58 @@ End Code
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6" style="display:flex">                
-                <div style="width:30%">
-                    <label id="lblHAWB" style="display:block;width:100%;">House BL/AWB</label>
+            <div class="col-sm-6" style="display:flex">
+                <div style="width:30%;color:red">
+                    <label id="lblBookingNo" style="display:block;width:100%;">Booking.No</label>
                 </div>
-                <div style="display:flex;width:70%">                    
-                    <input type="text" class="form-control" id="txtHAWB" style="width:100%" tabindex="12" />
+                <div style="display:flex;width:70%">
+                    <input type="text" class="form-control" id="txtBookingNo" style="width:100%" tabindex="12" />
                 </div>
             </div>
-            <div class="col-sm-6" style="display:flex">                
+            <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
-                    <label id="lblMAWB" style="display:block;width:100%;">Master BL/AWB</label>
+                    <label id="lblDutyDate" style="display:block;width:100%;">Operation Date</label>
                 </div>
-                <div style="display:flex;width:70%">                    
-                    <input type="text" class="form-control" style="width:100%" id="txtMAWB" tabindex="13" />
+                <div style="display:flex;width:70%">
+                    <input type="date" class="form-control" style="width:100%" id="txtDutyDate" tabindex="13" />
                 </div>
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6" style="display:flex">                
+            <div class="col-sm-6" style="display:flex">
+                <div style="width:30%">
+                    <label id="lblHAWB" style="display:block;width:100%;">House BL/AWB</label>
+                </div>
+                <div style="display:flex;width:70%">
+                    <input type="text" class="form-control" id="txtHAWB" style="width:100%" tabindex="14" />
+                </div>
+            </div>
+            <div class="col-sm-6" style="display:flex">
+                <div style="width:30%">
+                    <label id="lblMAWB" style="display:block;width:100%;">Master BL/AWB</label>
+                </div>
+                <div style="display:flex;width:70%">
+                    <input type="text" class="form-control" style="width:100%" id="txtMAWB" tabindex="15" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
                     <label id="lblCopyFrom" style="display:block;width:100%;">Copy From</label>
                 </div>
-                <div style="display:flex;width:70%">                    
+                <div style="display:flex;width:70%">
                     <input type="text" class="form-control" id="txtCopyFromJob" style="width:100%" disabled />
                     <input type="button" class="btn btn-default" id="btnBrowseJob" value="..." onclick="SearchData('job')" />
                 </div>
             </div>
-            <div class="col-sm-6" style="display:flex">                
+            <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
                     <label id="lblJobDate" style="display:block;width:100%;">Job Date</label>
-                </div> 
-                <div style="display:flex;width:40%">                    
-                    <input type="date" class="form-control" style="width:100%" id="txtJobDate" tabindex="14" />
+                </div>
+                <div style="display:flex;width:40%">
+                    <input type="date" class="form-control" style="width:100%" id="txtJobDate" tabindex="16" />
                 </div>
             </div>
         </div>
@@ -435,7 +454,6 @@ End Code
             });
     }
     function CreateJob() {
-        $('#btnCreateJob').attr('disabled', 'disabled');
         if ($('#txtBranchName').val() === '') {
             ShowMessage('Please select branch before create job',true);
             $('#txtBranchCode').focus();
@@ -461,12 +479,13 @@ End Code
             $('#txtCustCode').focus();
             return;
         }
-        if ($('#txtCustInv').val() === '') {
-            ShowMessage('Please select customer invoice before create job',true);
+        if ($('#txtCustInv').val() === '' && $('#txtBookingNo').val()==='') {
+            ShowMessage('Please select customer invoice/booking before create job',true);
             $('#txtCustInv').focus();
             return;
         }
         //if pass every checked
+        $('#btnCreateJob').attr('disabled', 'disabled');
         let strParam = path + 'JobOrder/GetNewJob?';
         strParam += 'Branch=' + $('#txtBranchCode').val();
         strParam += '&JType=' + $('#cboJobType').val().substr(0,2);
@@ -490,9 +509,11 @@ End Code
                     data.DocDate = CDateEN($('#txtJobDate').val());
                     data.Consigneecode = $('#txtConsignee').val();
                     data.CustContactName = $('#txtContactPerson').val();
+                    data.BookingNo = $('#txtBookingNo').val();
+                    data.DutyDate = CDateEN($('#txtDutyDate').val());
                     data.QNo = $('#txtQNo').val();
                     data.Revise = CNum($('#txtRevise').val());
-                    data.InvNo = $('#txtCustInv').val();
+                    data.InvNo = $('#txtCustInv').val() === '' ? $('#txtBookingNo').val() : $('#txtCustInv').val();
                     data.CustRefNO = $('#txtCustPO').val();
                     data.HAWB = $('#txtHAWB').val();
                     data.MAWB = $('#txtMAWB').val();

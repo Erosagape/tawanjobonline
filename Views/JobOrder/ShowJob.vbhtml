@@ -106,7 +106,7 @@ End Code
                             <label for="txtCommission">Commission :</label>
                             <input type="text" id="txtCommission" style="width:130px" tabindex="11" />
                             <br />
-                            <label for="txtConfirmDate">Confirm Date :</label>
+                            <label for="txtConfirmDate" style="color:red">Confirm Date :</label>
                             <input type="date" id="txtConfirmDate" style="width:130px" tabindex="12" />
                             <br />
                             <label for="txtCloseBy">Close By :</label>
@@ -133,7 +133,7 @@ End Code
                 <div id="tabinv" class="tab-pane fade">
                     <div class="row">
                         <div class="col-md-5">
-                            <label for="txtCustInvNo">Cust.Invoice No :</label>
+                            <label for="txtCustInvNo" style="color:red">Cust.Invoice No :</label>
                             <input type="text" id="txtCustInvNo" style="width:200px" tabindex="13" />
                             <br />
                             <label for="txtInvProduct">Products :</label>
@@ -151,7 +151,7 @@ End Code
                             <label for="txtInvCurRate">Exchange Rate :</label>
                             <input type="text" id="txtInvCurRate" style="width:80px" tabindex="17" />
                             <br />
-                            <label for="txtBookingNo">Booking No :</label>
+                            <label for="txtBookingNo" style="color:red">Booking No :</label>
                             <input type="text" id="txtBookingNo" style="width:250px" tabindex="18" />
                             <br />
                             <label for="txtBLNo">BL/AWB Status :</label>
@@ -210,7 +210,7 @@ End Code
                             <input type="button" id="btnBrowseIPort" value="..." onclick="SearchData('interport')" />
                             <input type="text" id="txtInterPortName" style="width:160px" disabled />
                             <br />
-                            <a href="../Master/Venders" target="_blank"><label id="lblForwarder">Agent:</label></a>
+                            <a href="../Master/Venders" target="_blank"><label  style="color:red" id="lblForwarder">Agent:</label></a>
                             <input type="text" id="txtForwarder" style="width:130px" tabindex="36" />
                             <input type="button" id="btnBrowseFwdr" value="..." onclick="SearchData('forwarder')" />
                             <input type="text" id="txtForwarderName" style="width:300px" disabled />
@@ -223,16 +223,16 @@ End Code
                             <input type="text" id="txtMVesselName" style="width:200px" tabindex="38" />
                             <input type="button" id="btnBrowseVsl2" value="..." onclick="SearchData('mvessel')" />
                             <br />
-                            <a href="../Master/Venders" target="_blank"><label id="lblTransporter">Transporter:</label></a>
+                            <a href="../Master/Venders" target="_blank"><label style="color:red" id="lblTransporter">Transporter:</label></a>
                             <input type="text" id="txtTransporter" style="width:130px" tabindex="39" />
                             <input type="button" id="btnBrowseTrans" value="..." onclick="SearchData('agent')" />
                             <input type="text" id="txtTransporterName" style="width:250px" disabled />
                             <br />
-                            <label for="txtETDDate">ETD Date:</label><input type="date" style="width:130px" id="txtETDDate" tabindex="40" />
-                            <label for="txtETADate">ETA Date:</label><input type="date" style="width:130px" id="txtETADate" tabindex="41" />
+                            <label for="txtETDDate" style="color:red">ETD Date:</label><input type="date" style="width:130px" id="txtETDDate" tabindex="40" />
+                            <label for="txtETADate" style="color:red">ETA Date:</label><input type="date" style="width:130px" id="txtETADate" tabindex="41" />
                             <br />
-                            <label for="txtLoadDate">Load Date:</label><input type="date" style="width:130px" id="txtLoadDate" tabindex="42" />
-                            <label for="txtDeliveryDate">Unload Date :</label><input type="date" style="width:130px" id="txtDeliveryDate" tabindex="43" />
+                            <label for="txtLoadDate" style="color:red">Load Date:</label><input type="date" style="width:130px" id="txtLoadDate" tabindex="42" />
+                            <label for="txtDeliveryDate" style="color:red">Unload Date :</label><input type="date" style="width:130px" id="txtDeliveryDate" tabindex="43" />
 
                         </div>
                     </div>
@@ -255,7 +255,7 @@ End Code
                             <input type="date" id="txtReadyClearDate" style="width:130px" tabindex="46" />
                         </div>
                         <div class="col-md-3">
-                            <label for="txtDutyDate">Inspection Date :</label>
+                            <label for="txtDutyDate" style="color:red">Inspection Date :</label>
                             <input type="date" id="txtDutyDate" style="width:130px" tabindex="47" />
                         </div>
                         <div class="col-md-3">
@@ -273,7 +273,7 @@ End Code
                             <input type="text" id="txtDeclareTypeName" style="width:200px" disabled />
                         </div>
                         <div class="col-md-3">
-                            <label for="txtDeclareNo">Declare No :</label>
+                            <label for="txtDeclareNo" style="color:red">Declare No :</label>
                             <input type="text" id="txtDeclareNo" style="width:130px" tabindex="50" />
                         </div>
                         <div class="col-md-3">
@@ -310,7 +310,7 @@ End Code
                         </div>
                         <div class="col-md-7">
                             <a href="../Master/CustomsPort" target="_blank">
-                                <label >Release Port :</label>
+                                <label style="color:red">Release Port :</label>
                             </a>                            
                             <input type="text" id="txtReleasePort" style="width:50px" tabindex="53" />
                             <input type="button" id="btnBrowseLCPort" value="..." onclick="SearchData('RFARS')" />
@@ -591,6 +591,7 @@ End Code
     //define letiables
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
+    const userGroup = '@ViewBag.UserGroup';
     const userRights = '@ViewBag.UserRights';
     const userPosition = '@ViewBag.UserPosition';
     let rec = {};
@@ -610,6 +611,15 @@ End Code
     if (userPosition == '4' || userPosition == '5') {
         $('#tab4').hide();
         $('#btnLinkCost').hide();
+    } else {
+        if (userGroup == 'C') {
+            $('#tab4').hide();
+            $('#btnLinkExp').hide();
+            $('#btnLinkAdv').hide();
+            $('#btnLinkTAdv').hide();
+            $('#btnLinkClr').hide();
+            $('#btnLinkCost').hide();
+        }
     }
     if (userRights.indexOf('E') < 0) $('#btnSave').attr('disabled', 'disabled');
     if (userRights.indexOf('P') < 0) $('#btnPrint').attr('disabled', 'disabled');

@@ -1022,7 +1022,7 @@ WHERE EXISTS(
       FROM Job_ClearDetail b INNER JOIN Job_ClearHeader h
       ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
       WHERE b.BranchCode=a.BranchCode AND b.JobNo=a.JNo
-      AND h.DocStatus<>99 
+      AND h.DocStatus<>99 AND b.BNet>0
       GROUP BY b.BranchCode,b.JobNo
       HAVING SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)=0
 )
@@ -1036,7 +1036,7 @@ WHERE EXISTS(
       FROM Job_ClearDetail b INNER JOIN Job_ClearHeader h
       ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
       WHERE b.BranchCode=a.BranchCode AND b.JobNo=a.JNo
-      AND h.DocStatus<>99 
+      AND h.DocStatus<>99  AND b.BNet>0 
       GROUP BY b.BranchCode,b.JobNo
       HAVING COUNT(*)>SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
       AND SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)>0
@@ -1051,7 +1051,7 @@ WHERE EXISTS (
       FROM Job_ClearDetail b INNER JOIN Job_ClearHeader h
       ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
       WHERE b.BranchCode=a.BranchCode AND b.JobNo=a.JNo
-      AND h.DocStatus<>99 
+      AND h.DocStatus<>99  AND b.BNet>0 
       GROUP BY b.BranchCode,b.JobNo
       HAVING COUNT(*)=SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
 )
@@ -1060,7 +1060,7 @@ UNION
 SELECT a.BranchCode,a.JNo,7 FROM Job_Order a 
 WHERE EXISTS
 (
-      SELECT b.BranchCode,b.JobNo as JNo,SUM(b.BNet-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0)) as Balance
+      SELECT b.BranchCode,b.JobNo as JNo,SUM(b.BNet-(CASE WHEN b.BPrice=0 AND ISNULL(b.LinkBillNo,'')<>'' THEN b.BNet ELSE 0 END)-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0)) as Balance
       FROM Job_ClearDetail b INNER JOIN Job_ClearHeader h
       ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
       LEFT JOIN (
@@ -1079,10 +1079,9 @@ GROUP BY rh.BranchCode,rd.InvoiceNo,rd.InvoiceItemNo,id.AmtCredit,id.AmtDiscount
 " & SQLSelectCNDNByInvoice() & "
       ) c
       ON b.BranchCode=c.BranchCode AND b.LinkBillNo=c.BillingNo AND b.LinkItem=c.BillItemNo
-      WHERE h.DocStatus<>99 AND b.BranchCode=a.BranchCode AND b.JobNo=a.JNo 
-      AND b.LinkItem>0 AND ISNULL(b.LinkBillNo,'')<>'' 
+      WHERE h.DocStatus<>99 AND b.BranchCode=a.BranchCode AND b.JobNo=a.JNo       
       GROUP BY b.BranchCode,b.JobNo
-      HAVING SUM(b.BNet-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0))<=0
+      HAVING SUM(b.BNet-(CASE WHEN b.BPrice=0 AND ISNULL(b.LinkBillNo,'')<>'' THEN b.BNet ELSE 0 END)-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0))<=0
 ) AND a.ConfirmDate IS NOT NULL AND a.CloseJobDate IS NOT NULL  
 AND a.JobStatus<>99 AND NOT ISNULL(a.CancelReson,'')<>''
 UNION

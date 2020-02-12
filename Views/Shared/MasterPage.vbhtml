@@ -215,6 +215,7 @@
                                 <button id="mnuMasG2" class="btn btn-default btn-block" onclick="OpenMenu('Country')">- Country</button>
                                 <button id="mnuMasG3" class="btn btn-default btn-block" onclick="OpenMenu('InterPort')">- Inter Ports</button>
                                 <button id="mnuMasG4" class="btn btn-default btn-block" onclick="OpenMenu('vessel')">- Vessel/Vehicles/Flight</button>
+                                <button id="mnuMasG9" class="btn btn-default btn-block" onclick="OpenMenu('TransportRoute')">- Transport Route</button>
                             </div>
                             <div class="col-sm-6">
                                 <button id="mnuMasG8" class="btn btn-default btn-block" onclick="OpenMenu('Province')">- Province</button>

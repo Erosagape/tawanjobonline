@@ -227,6 +227,9 @@ End Code
                             <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
                                 <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblNewSection">Add Detail</label></b>
                             </a>
+                            <a href="#" class="btn btn-info" id="btnPrintQ" onclick="PrintData()">
+                                <i class="fa fa-lg fa-print"></i>&nbsp;<b><label>Print Quotation</label></b>
+                            </a>
                         </div>
                         <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                     </div>
@@ -495,6 +498,7 @@ End Code
                             <a href="#" class="btn btn-default w3-purple" id="btnAddItem" onclick="AddItem()">
                                 <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblAddExpense">Add Expenses</label></b>
                             </a>
+                            **Copy Mode <input type="checkbox" id="chkCopy" />
                             <a href="#" class="btn btn-success" id="btnUpdateI" onclick="SaveItem()">
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b><label id="lblUpdExpense">Update Expenses</label></b>
                             </a>
@@ -1114,7 +1118,11 @@ End Code
             return;
         }
         row_i = {};
-        ClearItem();
+        if ($('#chkCopy').prop('checked') == false) {
+            ClearItem();
+        } else {
+            $('#txtItemNo').val('0');
+        }
         $('#frmItem').modal('show');
     }
     function SetLOVs() {

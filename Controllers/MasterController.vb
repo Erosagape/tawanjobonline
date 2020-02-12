@@ -62,6 +62,62 @@ Namespace Controllers
         Function AccountCode() As ActionResult
             Return GetView("AccountCode", "MODULE_ACC")
         End Function
+        Function TransportRoute() As ActionResult
+            Return GetView("TransportRoute", "MODULE_MAS")
+        End Function
+        Function GetTransportPlace() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE PlaceName<>'' "
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format(" AND PlaceName ='{0}'", Request.QueryString("Code").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Type")) Then
+                    tSqlw &= String.Format(" AND PlaceType ={0}", Request.QueryString("Type").ToString)
+                End If
+                Dim oData = New CTransportPlace(GetSession("ConnJob")).GetData(tSqlw)
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                json = "{""transportplace"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
+        Function SetTransportPlace(<FromBody()> data As CTransportPlace) As ActionResult
+            Try
+                If Not IsNothing(data) Then
+                    If "" & data.PlaceName = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                    End If
+                    data.SetConnect(GetSession("ConnJob"))
+                    Dim msg = data.SaveData(String.Format(" WHERE PlaceName='{0}' ", data.PlaceName))
+                    Dim json = "{""result"":{""data"":""" & data.PlaceName & """,""msg"":""" & msg & """}}"
+                    Return Content(json, jsonContent)
+                Else
+                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Return Content(json, jsonContent)
+                End If
+            Catch ex As Exception
+                Dim json = "{""result"":{""data"":null,""msg"":""" & ex.Message & """}}"
+                Return Content(json, jsonContent)
+            End Try
+        End Function
+        Function DelTransportPlace() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE PlaceName<>'' "
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format("AND PlaceName Like '{0}%'", Request.QueryString("Code").ToString)
+                Else
+                    Return Content("{""transportplace"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                End If
+                Dim oData As New CTransportPlace(GetSession("ConnJob"))
+                Dim msg = oData.DeleteData(tSqlw)
+
+                Dim json = "{""transportplace"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
         Function GetAccountCode() As ActionResult
             Try
                 Dim tSqlw As String = " WHERE AccCode<>'' "

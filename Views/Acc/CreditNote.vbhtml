@@ -68,7 +68,7 @@ End Code
                 </table>
             </div>
             <div class="tab-pane fade" id="tabDetail">
-                <a href="#" class="btn btn-warning" id="btnAdd">
+                <a href="#" class="btn w3-purple" id="btnAdd">
                     <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Invoice</b>
                 </a>
                 <table id="tbDetail" class="table table-responsive">
@@ -229,7 +229,7 @@ End Code
                                         <tr>
                                             <td>
                                                 VAT
-                                                <select id="txtIsTaxCharge" style="width:100%" disabled>
+                                                <select id="txtIsTaxCharge" style="width:100%">
                                                     <option value="0">NO</option>
                                                     <option value="1">EX</option>
                                                     <option value="2">IN</option>
@@ -246,7 +246,7 @@ End Code
                                         <tr>
                                             <td>
                                                 WHT
-                                                <select id="txtIs50Tavi" style="width:100%" disabled>
+                                                <select id="txtIs50Tavi" style="width:100%">
                                                     <option value="0">NO</option>
                                                     <option value="1">YES</option>
                                                 </select>
@@ -782,12 +782,16 @@ End Code
     }
     function CalVATWHT(step = 0) {
         let amt = CNum($('#txtDiffAmt').val());
-        if (step == 0) {
-            let vat = amt * CNum($('#txtVATRate').val()) * 0.01;
-            $('#txtVATAmt').val(CDbl(vat,2));
+        if ($('#txtIsTaxCharge').val() == "1") {
+            if (step == 0) {
+                let vat = amt * CNum($('#txtVATRate').val()) * 0.01;
+                $('#txtVATAmt').val(CDbl(vat,2));
+            }
         }
-        let wht = amt * CNum($('#txtWHTRate').val()) * 0.01;
-        $('#txtWHTAmt').val(CDbl(wht, 2));
+        if ($('#txtIs50Tavi').val() == "1") {
+            let wht = amt * CNum($('#txtWHTRate').val()) * 0.01;
+            $('#txtWHTAmt').val(CDbl(wht, 2));
+        }        
         CalNetAmount();
     }
     function CalNetAmount() {

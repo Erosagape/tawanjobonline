@@ -139,22 +139,22 @@ End Code
     </tr>
     <tr Class="text-center">
         <td>
+            <br />
+            <br />
             <label id="txtClrBy"></label>
-                <br />
-            <br />
-            <label id = "txtPrintDate"></label>                                                                                                          
+            <label id="txtPrintDate"></label>
         </td>
         <td>
+            <br />
+            <br />
             <label id="txtApproveBy"></label>
-                <br />
-            <br />
-            <label id="txtApproveDate"></label>                                                                                                            
+            <label id="txtApproveDate"></label>
         </td>
         <td>
-            <label id="txtReceiveBy"></label>
-                <br />
             <br />
-            <label id="txtReceiveDate"></label>                                                                                                            
+            <br />
+            <label id="txtReceiveBy"></label>
+            <label id="txtReceiveDate"></label>
         </td>
         <td>
                 <br />
@@ -253,7 +253,7 @@ End Code
                                     let advbalance = d.AdvBalance;
                                     let usedamount = d.UsedAmount;
                                     html += '<br/>';
-                                    html += '' + advno + ' Total=' + advnet + ' Used=' + usedamount + ' Balance=' + advbalance;
+                                    html += '' + advno + ' Total=' + ShowNumber(advnet,4) + ' Used=' + ShowNumber(usedamount,4) + ' Balance=' + ShowNumber(advbalance,4);
                                 }
                                 $('#dvSummary').html(html);
                             }

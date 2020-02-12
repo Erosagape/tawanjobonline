@@ -189,7 +189,7 @@ End Code
                                 Net <br /><input type="number" class="form-control" id="txtExpNet" onchange="CalTotal()" />
                             </div>
                         </div>
-                        <select id="cboClrType">
+                        <select id="cboClrType" class="form-control dropdown">
                             <option value="1">Advance</option>
                             <option value="2">Cost</option>
                         </select>
@@ -421,7 +421,13 @@ End Code
                 SetGridSICodeByGroup(path,'#tbServ','ERN' ,'#frmSearchServ', ReadService);
                 break;
             case 'serviceexp':
-                SetGridSICode(path,'#tbExp','','#frmSearchExp', ReadExpense);
+                let w = '';
+                if ($('#cboClrType').val() == "1") {
+                    w = '&Type=A';
+                } else {
+                    w = '&Type=C';
+                }
+                SetGridSICode(path,'#tbExp',w,'#frmSearchExp', ReadExpense);
                 break;
             case 'servunit':
                 SetGridServUnit(path, '#tbUnit', '#frmSearchUnit', ReadUnit);
@@ -473,7 +479,7 @@ End Code
     }
     function ShowExpense(dr) {
         RemoveData(dr);
-        $('#txtClrNo').val(dr.AdvNO); 
+        $('#txtClrNo').val(dr.AdvNO == '' ? dr.ClrNo : dr.AdvNO); 
         $('#txtItemNo').val(dr.AdvItemNo);
         $('#txtSlipNo').val(dr.SlipNO);
         $('#txtExpCode').val('');

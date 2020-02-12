@@ -113,6 +113,7 @@ Namespace Controllers
                     oHead(0).CancelBy = ""
                     oHead(0).CancelDate = DateTime.MinValue
                     oHead(0).CancelReason = ""
+                    oHead(0).ReferQNo = Request.QueryString("Code").ToString
                     oHead(0).AddNew("Q-" & DateTime.Now.ToString("yyMM") & "-____")
                     Dim msg = oHead(0).SaveData(String.Format(" WHERE BranchCode='{0}' AND QNo='{1}'", oHead(0).BranchCode, oHead(0).QNo))
                     If msg.Substring(0, 1) = "S" Then
@@ -1705,7 +1706,7 @@ Namespace Controllers
         Function SetTransportRoute(<FromBody()> data As CTransportRoute) As ActionResult
             Try
                 If Not IsNothing(data) Then
-                    If "" & data.Place1 = "" Then
+                    If "" & data.LocationRoute = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please Enter Begin Place""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))

@@ -168,7 +168,7 @@ End Code
             <div class="panel" style="background-color:lightgreen;padding:10px 10px 10px 10px;margin-top:10px">
                 <div class="row">
                     <div class="col-sm-6">
-                        Select Route: <br />
+                        <a href="../Master/TransportRoute">Transport Route</a>: <br />
                         <select id="cboLocation" class="form-control dropdown" onchange="LoadLocation()"></select>
                     </div>
                     <div class="col-sm-2">
@@ -186,7 +186,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        Pick-up Place: <br />
+                        Place 1: <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtCYPlace" class="form-control">
                         </div>
@@ -202,7 +202,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        Loading Place :<br />
+                        Place 2:<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtPackingPlace" class="form-control">
                         </div>
@@ -218,7 +218,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        Delivery Place :<br />
+                        Place 3:<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtFactoryPlace" class="form-control">
                         </div>
@@ -235,7 +235,7 @@ End Code
 
                 <div class="row">
                     <div class="col-sm-4">
-                        Return Place :<br />
+                        Place 4:<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtReturnPlace" class="form-control">
                         </div>

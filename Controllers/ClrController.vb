@@ -295,7 +295,7 @@ Namespace Controllers
                     If tbPrefix = "a" Then
                         tSqlW &= " AND a.DocStatus<6 AND h.DocStatus<>99 "
                     Else
-                        tSqlW &= " AND h.DocStatus<3 AND a.AdvNet IS NULL "
+                        tSqlW &= " AND h.DocStatus<3 AND a.AdvNet IS NULL AND h.ClearType<>3 "
                     End If
                 End If
 

@@ -1761,6 +1761,8 @@ End Code
             $('#txtUnitCode').val(dt.UnitCharge);
             $('#txtCurrencyCode').val(dt.CurrencyCode);
             ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
+            $('#txtVenCode').val(dt.DefaultVender);
+            ShowVender(path, dt.DefaultVender, '#txtPayChqTo');
             if (dt.IsTaxCharge == "2") {
                 $('#txtAMT').attr('disabled', 'disabled');
                 $('#txtVATRate').attr('disabled', 'disabled');
@@ -1781,7 +1783,7 @@ End Code
             CalVATWHT();
             return;
         }
-        $('#txtSDescription').val('');
+        //$('#txtSDescription').val('');
         $('#txtVatType').val(1);
         $('#txtVATRate').val(0);
         $('#txtWHTRate').val(0);
