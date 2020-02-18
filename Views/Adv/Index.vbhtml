@@ -1824,8 +1824,8 @@ End Code
             vat = amt * vatrate * 0.01;
             wht = amt * whtrate * 0.01;
         }
-        $('#txtVAT').val(CDbl(vat,4));
-        $('#txtWHT').val(CDbl(wht,4));
+        $('#txtVAT').val(CDbl(vat.toFixed(2),4));
+        $('#txtWHT').val(CDbl(wht.toFixed(2),4));
         CalTotal();
     } 
     function GetExchangeRate() {

@@ -145,11 +145,12 @@ End Code
             <thead>
                 <tr class="text-center">
                     <th width="10%">CL.NO</th>
-                    <th width="35%">DESCRIPTION</th>
+                    <th width="40%">DESCRIPTION</th>
                     <th width="15%">CHARGEABLE</th>
+                    <th width="10%">VAT</th>
                     <th width="10%">WH-TAX</th>
                     <th width="15%">COST</th>
-                    <th width="15%">PROFIT</th>
+                    <th width="10%">PROFIT</th>
                 </tr>
             </thead>
             <tbody id="dvClear">
@@ -157,14 +158,6 @@ End Code
             <tr>
                 <td colspan="2" height="50PX">
                     <div style="display:flex">
-                        <div style="flex:1">
-                            TOTAL VAT
-                        </div>
-
-                        <div style="flex:1">
-                            <label id="lblTotalVAT"></label>
-                        </div>
-
                         <div style="flex:1;text-align:right">
                             <table>
                                 <tr>
@@ -177,12 +170,13 @@ End Code
                                 </tr>
 
                             </table>
-                            
+
                         </div>
 
                     </div>
                 </td>
                 <td style="text-align:right"><label id="lblSumCharge"></label></td>
+                <td style="text-align:right"><label id="lblTotalVAT"></label></td>
                 <td style="text-align:right"><label id="lblSumTax"></label></td>
                 <td style="text-align:right"><label id="lblSumCost"></label></td>
                 <td style="text-align:right"><label id="lblSumProfit"></label></td>
@@ -362,11 +356,11 @@ End Code
                 for (let i = 0; i < d.length; i++){
                     let html = '';
 
-                    let amt = d[i].UsedAmount + d[i].ChargeVAT;
+                    let amt = d[i].UsedAmount;
                     let adv = (d[i].IsCredit == 1 ? amt : 0);
                     let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? amt : 0);
                     let cost = (d[i].IsExpense == 1 || d[i].IsCredit==1 ? amt : 0);
-                    let profit = (d[i].IsExpense == 1 ? amt*-1 : d[i].IsCredit==1 ? 0 : amt);
+                    let profit = (d[i].IsExpense == 1 ? amt*-1 : d[i].IsCredit==1 ? 0 : d[i].UsedAmount);
 
                     amtadv += adv;
                     amtserv += serv;
@@ -387,6 +381,7 @@ End Code
 
                     html += '</td>';
                     html += '<td style="text-align:right">' + CCurrency(CDbl(adv + serv, 2)) + '</td>';
+                    html += '<td style="text-align:right">' + CCurrency(CDbl(d[i].ChargeVAT, 2)) + '</td>';
                     html += '<td style="text-align:right">' + CCurrency(CDbl(d[i].Tax50Tavi, 2)) + '</td>';
                     html += '<td style="text-align:right">' + CCurrency(CDbl(cost, 2)) + '</td>';
                     html += '<td style="text-align:right">' + CCurrency(CDbl(profit,2)) + '</td>';

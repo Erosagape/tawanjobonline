@@ -262,9 +262,9 @@ End Code
         $('#txtNetAmt').val(CCurrency(h.TotalAdvance.toFixed(2)));
         $('#txtVATAmt').val(CCurrency(h.TotalVAT.toFixed(2)));
         $('#txtWHTAmt').val(CCurrency(h.Total50Tavi.toFixed(2)));
-        $('#txtTotalAmt').val(CCurrency((h.TotalAdvance + h.TotalVAT - h.Total50Tavi).toFixed(2)));
+        $('#txtTotalAmt').val(CCurrency((h.TotalAdvance - h.TotalVAT + h.Total50Tavi).toFixed(2)));
 
-        $('#txtTotalText').val(CNumEng(CCurrency((h.TotalAdvance + h.TotalVAT - h.Total50Tavi).toFixed(2))));
+        $('#txtTotalText').val(CNumEng(CCurrency((h.TotalAdvance - h.TotalVAT + h.Total50Tavi).toFixed(2))));
         //show details
         let d = data.adv.detail;
         LoadServices(d,h);

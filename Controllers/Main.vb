@@ -891,12 +891,12 @@ CASE WHEN a.ClearType='3' AND b.BPrice>0 THEN b.Tax50Tavi ELSE 0 END as Amt50Tav
 b.VATType as IsTaxCharge,
 CASE WHEN a.ClearType='3' AND b.BPrice>0 THEN b.ChargeVAT ELSE 0 END as AmtVat,
 b.BNet as TotalAmt,b.BNet/b.CurRate as FTotalAmt,
-CASE WHEN a.ClearType<>'3' AND b.BPrice>0 THEN b.BNet ELSE 0 END as AmtAdvance,
+CASE WHEN a.ClearType='1' AND b.BPrice>0 THEN b.BNet ELSE 0 END as AmtAdvance,
 CASE WHEN a.ClearType='3' AND b.BPrice>0 THEN b.UsedAmount ELSE 0 END as AmtCharge,
 b.CurrencyCode as CurrencyCodeCredit,b.CurRate as ExchangeRateCredit,0 as AmtCredit,0 as FAmtCredit,b.VATRate,
 c.CustCode,c.CustBranch,
 b.JobNo,b.ClrNo,b.ItemNo as ClrItemNo,b.ClrNo+'/'+Convert(varchar,b.ItemNo) as ClrNoList,
-(CASE WHEN b.BPrice=0 THEN b.BNet ELSE 0 END) as AmtCost,
+(CASE WHEN a.ClearType='2' THEN b.BNet ELSE 0 END) as AmtCost,
 (CASE WHEN b.BPrice=0 THEN 0 ELSE b.BNet END) as AmtNet
 from Job_ClearHeader a INNER JOIN Job_ClearDetail b
 ON a.BranchCode=b.BranchCode
@@ -2020,6 +2020,86 @@ and a.LogAction Not in('ADMIN','CS','BOAT','pasit')
 group by b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2)
 ) tb"
     End Function
+    Function SQLUpdateClrStatusToClear() As String
+        Return "
+UPDATE d SET d.DocStatus=3
+FROM Job_ClearHeader d INNER JOIN
+(
+    SELECT a.BranchCode,a.ClrNo,
+    SUM(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 1 ELSE 0 END) as SumBill,
+    COUNT(*) as CountRow
+    FROM Job_ClearDetail a INNER JOIN Job_ClearHeader b
+    ON a.BranchCode=b.BranchCode AND a.ClrNo=b.ClrNo
+    AND b.DocStatus<99 
+    GROUP BY a.BranchCode,a.ClrNo
+    HAVING COUNT(*)>SUM(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
+    AND SUM(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)>0
+) c 
+ON d.BranchCode=c.BranchCode AND d.ClrNo=c.ClrNo
+WHERE d.DocStatus<>3
+"
+    End Function
+    Function SQLUpdateClrStatusFromAdvance() As String
+        Return "
+UPDATE d SET d.DocStatus=3
+FROM Job_ClearHeader d INNER JOIN
+(
+    SELECT a.BranchCode,a.ClrNo,b.DocStatus,SUM(CASE WHEN ISNULL(c.DocStatus,0)=6 THEN 1 ELSE 0 END) as SumBill
+    ,COUNT(*) as CountRow
+    FROM Job_ClearDetail a INNER JOIN Job_ClearHeader b
+    ON a.BranchCode=b.BranchCode AND a.ClrNo=b.ClrNo
+    AND b.DocStatus<4 AND a.BNet=0 AND a.AdvAmount>0
+	LEFT JOIN Job_AdvHeader c ON a.BranchCode=c.BranchCode
+	AND a.AdvNO=c.AdVNo
+    GROUP BY a.BranchCode,a.ClrNo,b.DocStatus
+    HAVING COUNT(*)=SUM(CASE WHEN ISNULL(c.DocStatus,0)=6 THEN 1 ELSE 0 END)
+) c 
+ON d.BranchCode=c.BranchCode AND d.ClrNo=c.ClrNo
+WHERE d.DocStatus<>3
+"
+    End Function
+    Function SQLUpdateClrStatusToComplete(user As String, docno As String) As String
+        Return "
+UPDATE d SET d.DocStatus=4,d.ReceiveBy='" & user & "',d.ReceiveRef='" & docno & "',d.ReceiveDate=GetDate(),d.ReceiveTime=Convert(varchar(10),GetDate(),108)
+FROM Job_ClearHeader d INNER JOIN
+(
+    SELECT a.BranchCode,a.ClrNo,b.DocStatus,SUM(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 1 ELSE 0 END) as SumBill
+    ,COUNT(*) as CountRow
+    FROM Job_ClearDetail a INNER JOIN Job_ClearHeader b
+    ON a.BranchCode=b.BranchCode AND a.ClrNo=b.ClrNo
+    AND b.DocStatus<4 AND a.BNet>0
+    GROUP BY a.BranchCode,a.ClrNo,b.DocStatus
+    HAVING COUNT(*)=SUM(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
+) c 
+ON d.BranchCode=c.BranchCode AND d.ClrNo=c.ClrNo
+WHERE d.DocStatus<>4
+"
+    End Function
+    Function SQLUpdateClrStatusToInComplete() As String
+        Return "
+UPDATE d SET d.DocStatus=(CASE WHEN ISNULL(d.ApproveBy,'')<>'' THEN 2 ELSE 1 END)
+FROM Job_ClearHeader d INNER JOIN
+(
+    SELECT a.BranchCode,a.ClrNo,b.DocStatus
+    ,SUM(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 1 ELSE 0 END) as SumBill
+    ,COUNT(*) as CountRow
+    FROM Job_ClearDetail a INNER JOIN Job_ClearHeader b
+    ON a.BranchCode=b.BranchCode AND a.ClrNo=b.ClrNo
+    AND b.DocStatus<>99 AND a.BNet>0
+    GROUP BY a.BranchCode,a.ClrNo,b.DocStatus
+    HAVING SUM(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)=0
+) c 
+ON d.BranchCode=c.BranchCode AND d.ClrNo=c.ClrNo
+WHERE d.DocStatus<>99 AND d.DocStatus<>(CASE WHEN ISNULL(d.ApproveBy,'')<>'' THEN 2 ELSE 1 END)
+"
+    End Function
+    Public Sub UpdateClearStatus(user As String, docno As String)
+        Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToInComplete())
+        Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToClear())
+        Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusFromAdvance())
+        Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToComplete(user, docno))
+    End Sub
+
     Function GetSession(sName As String) As String
         Return HttpContext.Current.Session(sName).ToString
     End Function

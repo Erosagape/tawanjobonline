@@ -334,6 +334,11 @@ End Code
                             <label for="txtAdvNo">Adv.No :</label>
                             <input type="text" id="txtAdvNo" style="width:150px" disabled /> Net
                             <input type="text" id="txtAdvAmount" style="width:60px" disabled />
+                            <br/>
+                            Invoice# : <input type="text" id="txtLinkBillNo" style="width:150px" disabled />
+                            <input type="text" id="txtLinkItem" style="width:30px" disabled />
+                            Vender Inv#: <input type="text" id="txtVenderBillingNo" style="width:150px" disabled />
+                            <input type="button" value="View" onclick="ShowVenderBill()" />
                             <input type="hidden" id="txtJobType" />
                             <input type="hidden" id="txtShipBy" />
                         </div>
@@ -1096,6 +1101,10 @@ End Code
                 ShowMessage('you are not authorize to delete',true);
                 return;
             }
+            if (dtl.LinkBillNo !== '') {
+                ShowMessage('this item has been issue invoice (' + dtl.LinkBillNo + '), cannot delete!');
+                return;
+            }
             $.get(path + 'clr/delclrdetail?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtClrNo').val() + '&item=' + dtl.ItemNo, function (r) {
                 ShowMessage(r.clr.result);
                 ShowData($('#txtBranchCode').val(), $('#txtClrNo').val());
@@ -1308,6 +1317,12 @@ End Code
             ClearDetail();
             LoadDetail(data); //callback function from caller
         });
+        $('#tbDetail tbody').on('dblclick', 'tr', function () {
+            let data = $('#tbDetail').DataTable().row(this).data(); //read current row selected
+            if (data.AdvNO !== '') {
+                window.open(path + 'Adv/Index?BranchCode=' + data.BranchCode + '&AdvNo=' + data.AdvNO, '_blank');
+            }
+        });
         $('#tbDetail tbody').on('click', 'button', function () {
             $('#frmDetail').modal('show');
             $('#txtSICode').focus();
@@ -1405,7 +1420,13 @@ End Code
             $('#txtAdvNo').val(dt.AdvNO);
             $('#txtQNo').val(dt.QNo);
             $('#txtAdvItemNo').val(dt.AdvItemNo);
-            $('#txtAdvAmount').val(CDbl(dt.AdvAmount,2));
+            $('#txtAdvAmount').val(CDbl(dt.AdvAmount, 2));
+            $('#txtVenderBillingNo').val(dt.VenderBillingNo);
+            $('#txtLinkBillNo').val(dt.LinkBillNo); 
+            if ($('#txtLinkBillNo').val() !== '') {
+                $('#btnUpdate').attr('disabled', 'disabled');
+            }
+            $('#txtLinkItem').val(dt.LinkItem);
             ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
             ShowCaption();
             return;
@@ -1454,6 +1475,9 @@ End Code
             $('#txtAdvItemNo').val(0);
             $('#txtAdvAmount').val(0);
             $('#txtQNo').val('');
+            $('#txtVenderBillingNo').val(dt.VenderBillingNo);
+            $('#txtLinkBillNo').val(dt.LinkBillNo); 
+            $('#txtLinkItem').val(dt.LinkItem);
             ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
             ShowCaption();
             return;
@@ -1505,6 +1529,9 @@ End Code
             $('#txtAdvItemNo').val(dt.AdvItemNo);
             $('#txtAdvAmount').val(CDbl(dt.AdvBalance,2));
             $('#txtQNo').val(dt.QNo);
+            $('#txtVenderBillingNo').val(dt.VenderBillingNo);
+            $('#txtLinkBillNo').val(dt.LinkBillNo); 
+            $('#txtLinkItem').val(dt.LinkItem);
             ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
             ShowCaption();
             return;
@@ -1538,6 +1565,9 @@ End Code
         $('#txtUnitPrice').val(0);
         $('#chkIsLtdAdv50Tavi').prop('checked', false);
         $('#txtCurrencyCode').val($('#txtSubCurrency').val());
+        $('#txtVenderBillingNo').val('');
+        $('#txtLinkBillNo').val(''); 
+        $('#txtLinkItem').val('');
         ShowCurrency(path, $('#txtSubCurrency').val(), '#txtCurrencyName');
         ShowCaption();
         $('#txtVenCode').val('');
@@ -2065,5 +2095,11 @@ End Code
     }
     function PrepareData() {
         loadServiceGroupForClear(path, '#cboSTCode', $('#cboClrType').val());
+    }
+    function ShowVenderBill() {
+        if ($('#txtVenderBillingNo').val() !== '') {
+            let doc = $('#txtVenderBillingNo').val().split('#')[0];
+            window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&DocNo=' + doc, '_blank');
+        }
     }
 </script>

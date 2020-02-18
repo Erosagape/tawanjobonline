@@ -199,7 +199,7 @@ Namespace Controllers
                         fldGroup = "VoucherDate"
                     Case "CLRDAILY"
                         sqlW = GetSQLCommand(cliteria, "h.ClrDate", "j.CustCode", "j.JNo", "h.EmpCode", "d.VenCode", "h.DocStatus", "h.BranchCode")
-                        If sqlW <> "" Then sqlW = " WHERE h.DocStatus<>99 " & sqlW
+                        If sqlW <> "" Then sqlW = " WHERE h.DocStatus<>99 AND " & sqlW
                         sqlM = "SELECT cl.ClrNo,cl.ClrDate,cl.SDescription,cl.AdvNO,cl.JobNo,cl.AdvNet,cl.ClrNet,cl.Tax50Tavi,cl.SlipNo FROM (" & SQLSelectClrDetail() & sqlW & ") cl ORDER BY cl.ClrDate,cl.ClrNo"
                     Case "INVDAILY"
                         sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "", "ih.BranchCode")
@@ -216,9 +216,9 @@ Namespace Controllers
 SELECT j.BranchCode, j.JNo, j.CustCode, j.CustBranch, j.InvNo, j.DutyDate, j.DeclareNumber,j.CSCode,j.ManagerCode,
 SUM(CASE WHEN ch.ClearType=1 THEN cd.BNet ELSE 0 END) AS SumAdvance,
 SUM(CASE WHEN ch.ClearType=3 THEN cd.Tax50Tavi ELSE 0 END) AS SumWhTax,
-SUM(CASE WHEN ch.ClearType=2 THEN cd.BNet+cd.Tax50Tavi ELSE 0 END) AS SumCost,
-SUM(CASE WHEN ch.ClearType=3 THEN cd.BNet+cd.Tax50Tavi ELSE 0 END) AS SumCharge,
-SUM(CASE WHEN ch.ClearType=3 THEN cd.BNet+cd.Tax50Tavi ELSE 0 END)-SUM(CASE WHEN ch.ClearType=2 THEN cd.BNet+cd.Tax50Tavi ELSE 0 END) as Profit
+SUM(CASE WHEN ch.ClearType=2 THEN cd.UsedAmount ELSE 0 END) AS SumCost,
+SUM(CASE WHEN ch.ClearType=3 THEN cd.UsedAmount ELSE 0 END) AS SumCharge,
+SUM(CASE WHEN ch.ClearType=3 THEN cd.UsedAmount ELSE 0 END)-SUM(CASE WHEN ch.ClearType=2 THEN cd.UsedAmount ELSE 0 END) as Profit
 FROM            dbo.Job_ClearHeader AS ch INNER JOIN
                          dbo.Job_ClearDetail AS cd ON ch.BranchCode = cd.BranchCode 
 						 AND ch.ClrNo=cd.ClrNo

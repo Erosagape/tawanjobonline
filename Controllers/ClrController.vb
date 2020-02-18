@@ -14,6 +14,7 @@ Namespace Controllers
             Return GetView("Approve", "MODULE_CLR")
         End Function
         Function Receive() As ActionResult
+            Main.UpdateClearStatus("system", "auto")
             Return GetView("Receive", "MODULE_CLR")
         End Function
         Function FormClr() As ActionResult
@@ -106,6 +107,7 @@ Namespace Controllers
                 Dim tSQL As String = String.Format("UPDATE Job_ClearDetail SET LinkBillNo='{0}',LinkItem=1,UsedAmount=0,ChargeVAT=0,Tax50Tavi=0,FNet=0,BNet=0 WHERE BranchCode+'|'+ClrNo+'|'+Convert(varchar,ItemNo) in({1})", docno, lst)
                 Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                 If result = "OK" Then
+                    Main.UpdateClearStatus(ViewBag.User, docno)
                     Return New HttpResponseMessage(HttpStatusCode.OK)
                 End If
             End If
@@ -124,11 +126,13 @@ Namespace Controllers
             Dim lst As String = ""
             Dim i As Integer = 0
             Dim doctype As String = "CLR"
+            Dim user As String = ""
+            Dim docno As String = ""
             For Each str As String In data
                 i += 1
                 If i = 1 Then
-                    Dim user As String = str.Split("|")(0)
-                    Dim docno As String = str.Split("|")(1)
+                    User = str.Split("|")(0)
+                    docno = str.Split("|")(1)
                     doctype = str.Split("|")(2)
                 Else
                     If str.IndexOf("|") >= 0 Then
@@ -140,9 +144,10 @@ Namespace Controllers
 
             If lst <> "" Then
                 If doctype = "CLR" Then
-                    Dim tSQL As String = String.Format("UPDATE Job_ClearHeader SET DocStatus=3 WHERE DocStatus<3 AND BranchCode+'|'+ClrNo in({0})", lst)
+                    Dim tSQL As String = String.Format("UPDATE Job_ClearHeader SET DocStatus=3,ReceiveBy='" & user & "',ReceiveRef='" & docno & "',ReceiveDate=GetDate(),ReceiveTime=Convert(varchar(10),GetDate(),108) WHERE DocStatus<3 AND BranchCode+'|'+ClrNo in({0})", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
+                        Main.UpdateClearStatus(user, docno)
                         Return New HttpResponseMessage(HttpStatusCode.OK)
                     End If
                 End If
@@ -150,6 +155,7 @@ Namespace Controllers
                     Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=6 WHERE DocStatus<6 AND BranchCode+'|'+AdvNo in({0})", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
+                        Main.UpdateClearStatus(user, docno)
                         Return New HttpResponseMessage(HttpStatusCode.OK)
                     End If
                 End If
@@ -245,16 +251,13 @@ Namespace Controllers
                     If Request.QueryString("Data").ToString = "CLR" Then
                         tbPrefix = "h"
                     End If
-                    tSqlW &= " And h.DocStatus<3"
                 End If
-                Dim bClrDoc As Boolean = False
+
                 If Not IsNothing(Request.QueryString("ClrNo")) Then
                     tSqlW &= " AND h.ClrNo='" & Request.QueryString("ClrNo") & "'"
-                    bClrDoc = True
                 End If
                 If Not IsNothing(Request.QueryString("AdvNo")) Then
                     tSqlW &= " AND a.AdvNo='" & Request.QueryString("AdvNo") & "'"
-                    bClrDoc = True
                 End If
                 If Not IsNothing(Request.QueryString("JobNo")) Then
                     If tbPrefix = "a" Then
@@ -262,7 +265,6 @@ Namespace Controllers
                     Else
                         tSqlW &= " AND d.JobNo='" & Request.QueryString("JobNo") & "'"
                     End If
-                    bClrDoc = True
                 End If
                 If Not IsNothing(Request.QueryString("JType")) Then
                     tSqlW &= " AND " & tbPrefix & ".JobType=" & Request.QueryString("JType") & ""
@@ -282,21 +284,13 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("DateTo")) Then
                     tSqlW &= " AND " & IIf(tbPrefix = "a", "a.PaymentDate", "h.ClrDate") & "<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
-                If bClrDoc = False Then
-                    If tbPrefix = "a" Then
-                        tSqlW &= " AND a.DocStatus<6 AND a.AdvNo IS NOT NULL  AND h.DocStatus<>99 "
-                        tSqlW &= " AND a.AdvNo+'#'+Convert(varchar,a.ItemNo) NOT IN(SELECT c1.DocNo FROM Job_CashControlDoc c1 inner join Job_CashControl c2 on c1.BranchCode=c2.BranchCode and c1.ControlNo=c2.ControlNo where ISNULL(c2.CancelProve,'')='')"
-                    Else
-                        tSqlW &= " AND h.DocStatus<3 AND a.AdvNo IS NULL AND h.ClearType<>3 "
-                        tSqlW &= " AND h.ClrNo+'#'+Convert(varchar,d.ItemNo) NOT IN(SELECT c1.DocNo FROM Job_CashControlDoc c1 inner join Job_CashControl c2 on c1.BranchCode=c2.BranchCode and c1.ControlNo=c2.ControlNo where ISNULL(c2.CancelProve,'')='')"
-                        tSqlW &= " AND h.ClrNo+'#'+Convert(varchar,d.ItemNo) NOT IN(SELECT p1.ClrRefNo+'#'+Convert(varchar,p1.ClrItemNo) FROM Job_PaymentDetail p1 INNER JOIN Job_PaymentHeader p2 ON p1.BranchCode=p2.BranchCode AND p1.DocNo=p2.DocNo WHERE ISNULL(p2.CancelProve,'')='' AND p1.ClrRefNo=h.ClrNo AND p1.ClrItemNo=d.ItemNo) "
-                    End If
+                If tbPrefix = "a" Then
+                    tSqlW &= " AND a.DocStatus<>99 AND a.AdvNo IS NOT NULL  AND h.DocStatus<>99 "
+                    tSqlW &= " AND a.AdvNo+'#'+Convert(varchar,a.ItemNo) NOT IN(SELECT c1.DocNo FROM Job_CashControlDoc c1 inner join Job_CashControl c2 on c1.BranchCode=c2.BranchCode and c1.ControlNo=c2.ControlNo where ISNULL(c2.CancelProve,'')='')"
                 Else
-                    If tbPrefix = "a" Then
-                        tSqlW &= " AND a.DocStatus<6 AND h.DocStatus<>99 "
-                    Else
-                        tSqlW &= " AND h.DocStatus<3 AND a.AdvNet IS NULL AND h.ClearType<>3 "
-                    End If
+                    tSqlW &= " AND h.DocStatus<>99 AND a.AdvNo IS NULL AND h.ClearType<>3 "
+                    tSqlW &= " AND h.ClrNo+'#'+Convert(varchar,d.ItemNo) NOT IN(SELECT c1.DocNo FROM Job_CashControlDoc c1 inner join Job_CashControl c2 on c1.BranchCode=c2.BranchCode and c1.ControlNo=c2.ControlNo where ISNULL(c2.CancelProve,'')='')"
+                    tSqlW &= " AND h.ClrNo+'#'+Convert(varchar,d.ItemNo) NOT IN(SELECT p1.ClrRefNo+'#'+Convert(varchar,p1.ClrItemNo) FROM Job_PaymentDetail p1 INNER JOIN Job_PaymentHeader p2 ON p1.BranchCode=p2.BranchCode AND p1.DocNo=p2.DocNo WHERE ISNULL(p2.CancelProve,'')='' AND p1.ClrRefNo=h.ClrNo AND p1.ClrItemNo=d.ItemNo) "
                 End If
 
                 Dim sql As String = If(tbPrefix = "a", SQLSelectClrFromAdvance(), SQLSelectClrNoAdvance())
@@ -930,6 +924,10 @@ Namespace Controllers
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetClrByPay", ex.Message, ex.StackTrace, True)
                 Return Content("{""clr"":{""result"":""" & ex.Message & """,""data"":[]}}", jsonContent)
             End Try
+        End Function
+        Function UpdateClearStatus() As ActionResult
+            Main.UpdateClearStatus("system", "auto")
+            Return Content("OK", textContent)
         End Function
     End Class
 End Namespace

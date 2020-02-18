@@ -88,6 +88,8 @@ INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'C
 GO
 INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'CLR_STATUS', N'03', N'CLEARED')
 GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'CLR_STATUS', N'04', N'BILLED')
+GO
 INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'CLR_STATUS', N'99', N'CANCEL')
 GO
 INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'CLR_TYPE', N'1', N'Advance')

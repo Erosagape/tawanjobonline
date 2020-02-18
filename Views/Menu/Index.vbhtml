@@ -129,7 +129,7 @@ End Code
         chartStatus.draw(statusView, statusOptions);
     }
     function drawChartCust(dt) {
-        var chartHeight = dt.length * 30;
+        var chartHeight = dt.length * 60;
         var custView = getDataView(dt);
         var custOptions = {
             legend: { position: 'top' },

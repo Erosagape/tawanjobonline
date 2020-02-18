@@ -991,7 +991,7 @@ End Code
         });
     }
     function DeleteDetail() {
-        $.get(path + 'Acc/DelInvDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val(), function (r) {
+        $.get(path + 'Acc/DelInvDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
             //if (r.invdetail.data !== null) {
                 SaveDetail($('#txtDocNo').val());
             //}
