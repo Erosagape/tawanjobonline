@@ -213,7 +213,6 @@ End Code
             </div>
         </div>
     </div>
-    <div id="dvLOVs"></div>
     <did id="frmSearchChq" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -242,6 +241,7 @@ End Code
         </div>
     </did>
 </div>
+<div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
@@ -490,7 +490,7 @@ End Code
                     acType:o.PayType
                 };
                 list.push(obj);
-            }            
+            }
         }
         //show selected details
         $('#tbDetail').DataTable({

@@ -18,13 +18,13 @@ End Code
 </style>
 <table>
     <tr>
-        <td>สาขา</td>
-        <td>
-            <label id="txtBranchName" style="width:100%"></label>
-        </td>
         <td>หมายเลข Job Order</td>
         <td>
             <label id="txtJNo" style="width:100%"></label>
+        </td>
+        <td>ตู้ที่</td>
+        <td>
+            <label id="txtItemNo" style="width:100%"></label>
         </td>
     </tr>
     <tr>
@@ -196,7 +196,7 @@ End Code
     $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc +'&Cont=' +cont).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
-            ShowBranch(path, h.BranchCode, '#txtBranchName');
+            $('#txtItemNo').text(h.ItemNo);
             $('#txtJNo').text(h.JNo);
             $('#txtNotifyName').text(h.NotifyName);
             $('#txtVenderName').text(h.ForwarderName);

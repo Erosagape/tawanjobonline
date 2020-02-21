@@ -232,7 +232,6 @@ End Code
                         <input type="text" class="form-control" id="txtFactoryContact" />
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-sm-4">
                         Place 4:<br />
@@ -280,11 +279,12 @@ End Code
         <table id="tbDetail" class="table table-responsive">
             <thead>
                 <tr>
+                    <th>No</th>
                     <th>CTN_NO</th>
                     <th class="desktop">CTN_SIZE</th>
                     <th class="desktop">SealNumber</th>
                     <th class="all">TruckNO</th>
-                    <th class="desktop">TruckType</th>
+                    <th class="desktop">Status</th>
                     <th class="desktop">Location</th>
                     <th class="all">UnloadDate</th>
                     <th class="all">DeliveryNo</th>
@@ -310,6 +310,18 @@ End Code
                 <h4>Edit Expenses For Route</h4>
             </div>
             <div class="modal-body">
+                <table id="tbPrice" class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>SICode</th>
+                            <th>SDescription</th>
+                            <th>CostAmount</th>
+                            <th>ChargeCode</th>
+                            <th>ChargeAmount</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
                 <div class="row">
                     <div class="col-sm-1">
                         <input type="text" id="txtLocationID" class="form-control" disabled />
@@ -366,164 +378,197 @@ End Code
     </div>
 </div>
 <div id="dvContainer" class="modal fade">
-    <div class="modal-dialog">
+    <div class="modal-dialog-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <div class="row">
-                    <div class="col-sm-2">
-                        No :<br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control" disabled></div>
-                    </div>
-                    <div class="col-sm-4">
-                        Container :<br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
-                    </div>
-                    <div class="col-sm-3">
-                        Size :<br /><div style="display:flex"><select id="txtCTN_SIZE" class="form-control dropdown"></select></div>
-                    </div>
-                    <div class="col-sm-3">
-                        Seal No.:<br /><div style="display:flex"><input type="text" id="txtSealNumber" class="form-control"></div>
-                    </div>
+            <div class="modal-body">
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-sm-2">
+                No :<br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control" disabled></div>
+            </div>
+            <div class="col-sm-4">
+                Container :<br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
+            </div>
+            <div class="col-sm-3">
+                Size :<br /><div style="display:flex"><select id="txtCTN_SIZE" class="form-control dropdown"></select></div>
+            </div>
+            <div class="col-sm-3">
+                Seal No.:<br /><div style="display:flex"><input type="text" id="txtSealNumber" class="form-control"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                Package Details :<br /><div style="display:flex"><textarea id="txtProductDesc" class="form-control"></textarea></div>
+            </div>
+            <div class="col-sm-3">
+                Package Qty :<br /><div style="display:flex"><input type="number" id="txtProductQty" class="form-control" value="0.00"></div>
+            </div>
+            <div class="col-sm-3">
+                Package Unit :
+                <br />
+                <div style="display:flex">
+                    <input type="text" id="txtProductUnit" class="form-control" style="width:100%">
+                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('servunit')" />
                 </div>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-6">
-                        Package Details :<br /><div style="display:flex"><textarea id="txtProductDesc" class="form-control"></textarea></div>
-                    </div>
-                    <div class="col-sm-3">
-                        Package Qty :<br /><div style="display:flex"><input type="number" id="txtProductQty" class="form-control" value="0.00"></div>
-                    </div>
-                    <div class="col-sm-3">
-                        Package Unit :
-                        <br />
-                        <div style="display:flex">
-                            <input type="text" id="txtProductUnit" class="form-control" style="width:100%">
-                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('servunit')" />
-                        </div>
-                    </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                G/W :<br /><div style="display:flex"><input type="number" id="txtGrossWeight" class="form-control" value="0.00"></div>
+            </div>
+            <div class="col-sm-3">
+                M3 :<br /><div style="display:flex"><input type="number" id="txtMeasurement" class="form-control" value="0.00"></div>
+            </div>
+            <div class="col-sm-3">
+                Operation Days :<br /><div style="display:flex"><input type="number" id="txtTimeUsed" class="form-control"></div>
+            </div>
+            <div class="col-sm-3">
+                Job Status:<br />
+                <div style="display:flex">
+                    <select id="txtCauseCode" class="form-control dropdown">
+                        <option value="">Checking</option>
+                        <option value="1">Approved</option>
+                        <option value="2">Rejected</option>
+                        <option value="3">Finished</option>
+                        <option value="99">Cancelled</option>
+                    </select>
                 </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        G/W :<br /><div style="display:flex"><input type="number" id="txtGrossWeight" class="form-control" value="0.00"></div>
-                    </div>
-                    <div class="col-sm-3">
-                        M3 :<br /><div style="display:flex"><input type="number" id="txtMeasurement" class="form-control" value="0.00"></div>
-                    </div>
-                    <div class="col-sm-3">
-                        Operation Days :<br /><div style="display:flex"><input type="number" id="txtTimeUsed" class="form-control"></div>
-                    </div>
-                    <div class="col-sm-3">
-                        Job Status:<br />
-                        <div style="display:flex">
-                            <select id="txtCauseCode" class="form-control dropdown">
-                                <option value="0">Checking</option>
-                                <option value="1">Approved</option>
-                                <option value="2">Rejected</option>
-                                <option value="3">Finished</option>
-                                <option value="99">Cancelled</option>
-                            </select>
-                        </div>
-                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-5">
+                Driver :<br /><div style="display:flex"><input type="text" id="txtDriver" class="form-control"></div>
+            </div>
+            <div class="col-sm-3">
+                Truck ID :<br /><div style="display:flex"><input type="text" id="txtTruckNO" class="form-control"></div>
+            </div>
+            <div class="col-sm-4">
+                Type :
+                <br />
+                <div style="display:flex">
+                    <input type="text" id="txtTruckType" class="form-control">
+                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('carunit')" />
                 </div>
-                <div class="row">
-                    <div class="col-sm-5">
-                        Driver :<br /><div style="display:flex"><input type="text" id="txtDriver" class="form-control"></div>
-                    </div>
-                    <div class="col-sm-3">
-                        Truck ID :<br /><div style="display:flex"><input type="text" id="txtTruckNO" class="form-control"></div>
-                    </div>
-                    <div class="col-sm-4">
-                        Type :
-                        <br />
-                        <div style="display:flex">
-                            <input type="text" id="txtTruckType" class="form-control">
-                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('carunit')" />
-                        </div>
-                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                Route ID:<br />
+                <div style="display:flex">
+                    <input type="text" id="txtRouteID" class="form-control" disabled />
+                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('route')" />
                 </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        Route ID:<br />
-                        <div style="display:flex">
-                            <input type="text" id="txtRouteID" class="form-control" disabled />
-                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('route')" />
-                        </div>
-                    </div>
-                    <div class="col-sm-9">
-                        Location :<br />
-                        <div style="display:flex">
-                            <input type="text" id="txtLocation" class="form-control" />
-                        </div>
-                    </div>
+            </div>
+            <div class="col-sm-9">
+                Location :<br />
+                <div style="display:flex">
+                    <input type="text" id="txtLocation" class="form-control" />
                 </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        Comment :<br/><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
-                    </div>
-                    <div class="col-sm-6">
-                        Shipping Mark :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
-                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                Comment :<br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
+            </div>
+            <div class="col-sm-6">
+                Shipping Mark :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4" style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
+                <b>Pick-up:</b>
+                <div>
+                    Target Date :<br />
+                    <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control"></div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-4" style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
-                        <b>Pick-up:</b>
-                        <div>
-                            Target Date :<br />
-                            <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control"></div>
-                        </div>
-                        <div>
-                            Target Time:<br />
-                            <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control"></div>
+                <div>
+                    Target Time:<br />
+                    <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control"></div>
 
-                        </div>
-                        <div>
-                            Actual Date :<br />
-                            <div style="display:flex"><input type="date" id="txtActualYardDate" class="form-control"></div>
-                        </div>
-                        <div>
-                            Actual Time :<br />
-                            <div style="display:flex"><input type="text" id="txtActualYardTime" class="form-control"></div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4" style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
-                        <b>Delivery:</b>
-                        <div>
-                            Target Date :<br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control"></div>
-                        </div>
-                        <div>
-                            Target Time :<br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control"></div>
-                        </div>
-                        <div>
-                            Actual Date :<br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
-                        </div>
-                        <div>
-                            Actual Time :<br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4" style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
-                        <b>Return:</b>
-                        <div>
-                            Target Date:<br />
-                            <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control"></div>
-                        </div>
-                        <div>
-                            Target Time :<br />
-                            <div style="display:flex"><input type="text" id="txtStart" class="form-control"></div>
-                        </div>
-                        <div>
-                            Actual Date:<br />
-                            <div style="display:flex"><input type="date" id="txtDReturnDate" class="form-control"></div>
-                        </div>
-                        <div>
-                            Actual Time:<br />
-                            <div style="display:flex"><input type="text" id="txtFinish" class="form-control"></div>
-                        </div>
-                    </div>
                 </div>
-                Delivery No:
-                <div style="display:flex;">
-                    <div style="display:flex"><input type="text" id="txtDeliveryNo" class="form-control" disabled></div>
-                    <input type="button" id="btnGenDeliveryNo" onclick="GenerateDO()" class="btn btn-warning" value="Create" />
+                <div>
+                    Actual Date :<br />
+                    <div style="display:flex"><input type="date" id="txtActualYardDate" class="form-control"></div>
                 </div>
+                <div>
+                    Actual Time :<br />
+                    <div style="display:flex"><input type="text" id="txtActualYardTime" class="form-control"></div>
+                </div>
+            </div>
+            <div class="col-sm-4" style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
+                <b>Delivery:</b>
+                <div>
+                    Target Date :<br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control"></div>
+                </div>
+                <div>
+                    Target Time :<br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control"></div>
+                </div>
+                <div>
+                    Actual Date :<br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
+                </div>
+                <div>
+                    Actual Time :<br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
+                </div>
+            </div>
+            <div class="col-sm-4" style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
+                <b>Return:</b>
+                <div>
+                    Target Date:<br />
+                    <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control"></div>
+                </div>
+                <div>
+                    Target Time :<br />
+                    <div style="display:flex"><input type="text" id="txtStart" class="form-control"></div>
+                </div>
+                <div>
+                    Actual Date:<br />
+                    <div style="display:flex"><input type="date" id="txtDReturnDate" class="form-control"></div>
+                </div>
+                <div>
+                    Actual Time:<br />
+                    <div style="display:flex"><input type="text" id="txtFinish" class="form-control"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        Delivery No:
+        <div style="display:flex;">
+            <div style="display:flex"><input type="text" id="txtDeliveryNo" class="form-control" disabled></div>
+            <input type="button" id="btnGenDeliveryNo" onclick="GenerateDO()" class="btn btn-warning" value="Create" />
+        </div>
+        <br />
+        Expense Can Billing On This Route:<br />
+        <table id="tbExpense" class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>SICode</th>
+                    <th>SDescription</th>
+                    <th>CostAmount</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <a href="#" class="btn btn-primary" id="btnExpense2" onclick="EntryExpenses2()">
+            <i class="fa fa-lg fa-save"></i>&nbsp;<b>Entry Expenses</b>
+        </a><br/>
+        Expense Billed By Vender:<br />
+        <table id="tbPayment" class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>DocNo</th>
+                    <th>DocDate</th>
+                    <th>PoNo</th>
+                    <th>RefNo</th>
+                    <th>TotalNet</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
             </div>
             <div class="modal-footer">
                 <div style="float:left">
@@ -693,6 +738,7 @@ End Code
     function ReadRoute(dt) {
         $('#txtRouteID').val(dt.LocationID);
         $('#txtLocation').val(dt.LocationRoute);
+        ShowExpense();
     }
     function ReadService1(dt) {
         $('#txtSICode').val(dt.SICode);
@@ -810,11 +856,12 @@ End Code
         $('#tbDetail').DataTable({
             data: dr,
             columns: [
+                { data: "ItemNo", title: "#"},
                 { data: "CTN_NO", title: "Container No" },
                 { data: "CTN_SIZE", title: "Container Size" },
                 { data: "SealNumber", title: "Seal" },
                 { data: "TruckNO", title: "Truck No" },
-                { data: "TruckType", title: "Truck.Type" },
+                { data: "CauseCode", title: "Status" },
                 { data: "Location", title: "To Location" },
                 {
                     data: null, title: "Unload Date",
@@ -1011,8 +1058,8 @@ End Code
         $('#txtUnloadTime').val($('#txtFactoryTime').val());
         $('#txtUnloadFinishDate').val('');
         $('#txtUnloadFinishTime').val('00:00');
-        $('#txtLocation').val('');
-        $('#txtRouteID').val('');
+        $('#txtLocation').val($('#cboLocation option:selected').text());
+        $('#txtRouteID').val($('#cboLocation').val());
         $('#txtDeliveryNo').val('');
         $('#txtShippingMark').val('');
         $('#txtCTN_SIZE').val('');
@@ -1023,6 +1070,8 @@ End Code
             $('#txtGrossWeight').val('0.00');
             $('#txtMeasurement').val('0.00');
         }
+        ShowExpense();
+        ShowPayment();
     }
     function SaveDetail() {
         let obj = {			
@@ -1121,6 +1170,8 @@ End Code
         $('#txtProductUnit').val(dr.ProductUnit);
         $('#txtGrossWeight').val(dr.GrossWeight);
         $('#txtMeasurement').val(dr.Measurement);
+        ShowExpense();
+        ShowPayment();
     }
     function DeleteDetail() {
         let branch = $('#txtBranchCode').val();
@@ -1157,6 +1208,9 @@ End Code
         if (row.ItemNo !== undefined) {
             window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&BookNo=' + row.BookingNo + '&Item=' + row.ItemNo + '&Job=' + $('#txtJNo').val() + '&Vend='+$('#txtVenderCode').val() + '&Cont=' + row.CTN_NO + '&Cust=' + $('#txtNotifyCode').val(), '', '');
         }
+    }
+    function EntryExpenses2() {
+        window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&BookNo=' + $('#txtBookingNo').val() + '&Item=' + $('#txtItemNo').val() + '&Job=' + $('#txtJNo').val() + '&Vend='+$('#txtVenderCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust=' + $('#txtNotifyCode').val(), '', '');
     }
     function LoadExpense() {
         $.get(path + 'JobOrder/GetTransportPrice?Branch='+$('#txtBranchCode').val()+'&ID=' + $('#txtLocationID').val() + '&Vend=' + $('#txtVenderCode').val() + '&Cust=' + $('#txtNotifyCode').val() + '&Code=' + $('#txtSICode').val(), function (r) {
@@ -1284,6 +1338,45 @@ End Code
             ShowMessage('Please enter some data',true);
         }
     }
+    function LoadExpense() {
+        let w = '?Branch=' + $('#txtBranchCode').val();
+        if ($('#txtLocationID').val() !== '' && $('#txtLocationID').val() !== null) {
+            w += '&ID=' + $('#txtLocationID').val();
+        }
+        if ($('#txtVenderCode').val() !== '') {
+            w += '&Vend=' + $('#txtVenderCode').val();
+        }
+        if ($('#txtNotifyCode').val() !== '') {
+            w += '&Cust=' + $('#txtNotifyCode').val();
+        }
+        $('#tbPrice').DataTable().clear().draw();
+        $.get(path + 'JobOrder/GetTransportPrice' + w).done((r) => {
+            if (r.transportprice.data.length > 0) {
+                $('#tbPrice').DataTable({
+                    data: r.transportprice.data,
+                    columns: [
+                        { data: "SICode", title: "Cost.Cde" },
+                        { data: "SDescription", title: "Cost.Desc" },
+                        { data: "CostAmount", title: "Cost.Amt" },
+                        { data: "ChargeCode", title: "Charge.Cde" },
+                        { data: "ChargeAmount", title: "Charge.Amt" }
+                    ],
+                    destroy:true
+                });
+                $('#tbPrice tbody').on('click', 'tr', function () {
+                    $('#tbPrice tbody > tr').removeClass('selected');
+                    $(this).addClass('selected');
+
+                    let data = $('#tbPrice').DataTable().row(this).data();
+                    $('#txtSICode').val(data.SICode);
+                    $('#txtSDescription').val(data.SDescription);
+                    $('#txtCostAmount').val(data.CostAmount);
+                    $('#txtChargeCode').val(data.ChargeCode);
+                    $('#txtChargeAmount').val(data.ChargeAmount);
+                });
+            }
+        });
+    }
     function EditExpense() {
         if ($('#txtVenderCode').val() == '') {
             ShowMessage('Please Select Vender First',true);
@@ -1300,10 +1393,50 @@ End Code
         if ($('#cboLocation').val() > 0) {            
             $('#txtLocationID').val($('#cboLocation').val());
             $('#txtLocationRoute').val($('#cboLocation option:selected').text());
-
+            LoadExpense();
             $('#dvExpenses').modal('show');
         } else {
             ShowMessage('Please select route first!',true);
+        }
+    }
+    function ShowExpense() {
+        $('#tbExpense').DataTable().clear().draw();
+        $.get(path + 'JobOrder/GetTransportPrice?ID=' + $('#txtRouteID').val() + '&Vend=' + $('#txtVenderCode').val() + '&Cust=' + $('#txtNotifyCode').val()).done((r) => {
+            if (r.transportprice.data.length > 0) {
+                $('#tbExpense').DataTable({
+                    data: r.transportprice.data,
+                    columns: [
+                        { data: "SICode", title: "Cost.Cde" },
+                        { data: "SDescription", title: "Cost.Desc" },
+                        { data: "CostAmount", title: "Cost.Amt" }
+                    ],
+                    destroy: true
+                });
+            }
+        });
+    }
+    function ShowPayment() {
+        $('#tbPayment').DataTable().clear().draw();
+        if ($('#txtCTN_NO').val() !== '') {
+            $.get(path + 'Acc/GetPayment?VenCode=' + $('#txtVenderCode').val() + '&Ref=' + $('#txtCTN_NO').val()).done((r) => {
+                if (r.payment.header.length > 0) {
+                    $('#tbPayment').DataTable({
+                        data: r.payment.header,
+                        columns: [
+                            { data: "DocNo", title: "Doc.No" },
+                            { data: "DocDate", title: "Date" },
+                            { data: "PoNo", title: "Inv.No" },
+                            { data: "RefNo", title: "Cont.No" },
+                            { data: "TotalNet", title: "Total" }
+                        ],
+                        destroy: true
+                    });
+                    $('#tbPayment tbody').on('dblclick', 'tr', function () {
+                        let d = $('#tbPayment').DataTable().row(this).data();
+                        window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&DocNo=' + d.DocNo, '_blank');
+                    });
+                }
+            });
         }
     }
 </script>

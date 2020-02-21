@@ -835,6 +835,8 @@
     <Content Include="Views\JobOrder\TruckOrder.vbhtml" />
     <Content Include="Views\JobOrder\FormTruckOrder.vbhtml" />
     <Content Include="Views\Master\TransportRoute.vbhtml" />
+    <Content Include="Views\Acc\Approve.vbhtml" />
+    <Content Include="Views\JobOrder\TruckApprove.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

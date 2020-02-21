@@ -85,6 +85,8 @@ function ChangeLanguage(code, module) {
                 mainApp: 'Approving|อนุมัติเอกสาร',
                 mnuApp1: 'Approve Advance|อนุมัติใบเบิก',
                 mnuApp2: 'Approve Clearing|อนุมัติใบปิด',
+                mnuApp3: 'Approve Expense|อนุมัติบิลค่าใช้จ่าย',
+                mnuApp4: 'Approve Transport|อนุมัติงานขนส่ง',
                 mainFin: 'Finance Works|แผนกการเงิน',
                 mnuFin1: 'Payment Advance|จ่ายเงินตามใบเบิก',
                 mnuFin2: 'Payment Bill|จ่ายเงินตามบิลค่าใช้จ่าย',

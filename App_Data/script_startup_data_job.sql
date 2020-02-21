@@ -312,6 +312,8 @@ INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'M
 GO
 INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'MODULE_MAS', N'Vessel', N'ชื่อพาหนะ')
 GO
+INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'MODULE_MAS', N'TransportRoute', N'เส้นทางการขนส่ง')
+GO
 INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'MODULE_REP', N'Export', N'ส่งออกข้อมูล')
 GO
 INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'MODULE_REP', N'Import', N'นำเข้าข้อมูล')
@@ -1050,6 +1052,14 @@ INSERT [dbo].[Mas_UserAuth] ([UserID], [AppID], [MenuID], [Author]) VALUES (N'te
 GO
 INSERT [dbo].[Mas_UserAuth] ([UserID], [AppID], [MenuID], [Author]) VALUES (N'test', N'MODULE_CS', N'Transport', N'MEIRDP')
 GO
+insert into Mas_UserAuth SELECT 'ADMIN','MODULE_MAS','TransportRoute','MEIRDP'
+go
+insert into Mas_UserAuth SELECT 'BOAT','MODULE_MAS','TransportRoute','MEIRDP'
+go
+insert into Mas_UserAuth SELECT 'CS','MODULE_MAS','TransportRoute','MEIRDP'
+go
+insert into Mas_UserAuth SELECT 'pasit','MODULE_MAS','TransportRoute','MEIRDP'
+go
 INSERT [dbo].[Mas_UserRole] ([RoleID], [RoleDesc], [RoleGroup]) VALUES (N'ACC', N'Accounting Staff', 5)
 GO
 INSERT [dbo].[Mas_UserRole] ([RoleID], [RoleDesc], [RoleGroup]) VALUES (N'ACC-MGR', N'Accounting Manager', 5)
@@ -1445,4 +1455,10 @@ GO
 INSERT [dbo].[Mas_UserRolePolicy] ([RoleID], [ModuleID], [Author]) VALUES (N'SP-MGR', N'MODULE_CLR/Index', N'MEIRDP')
 GO
 INSERT [dbo].[Mas_UserRolePolicy] ([RoleID], [ModuleID], [Author]) VALUES (N'SP-MGR', N'MODULE_CS/Transport', N'MEIRDP')
+GO
+insert into dbo.Mas_UserRolePolicy SELECT 'CS','MODULE_MAS/TransportRoute','MIREDP'
+GO
+insert into dbo.Mas_UserRolePolicy SELECT 'SP','MODULE_MAS/TransportRoute','MIREDP'
+GO
+insert into dbo.Mas_UserRolePolicy SELECT 'VEND','MODULE_MAS/TransportRoute','MIREDP'
 GO

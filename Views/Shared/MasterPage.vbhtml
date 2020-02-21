@@ -65,6 +65,8 @@
                     <a href="#" id="mnuMkt2" class="w3-bar-item w3-button" onclick="OpenMenu('AppQuo')">- Approve Quotation</a>
                     <a href="#" id="mnuApp1" class="w3-bar-item w3-button" onclick="OpenMenu('AppAdvance')">- Approve Advance</a>
                     <a href="#" id="mnuApp2" class="w3-bar-item w3-button" onclick="OpenMenu('AppClearing')">- Approve Clearing</a>
+                    <a href="#" id="mnuApp3" class="w3-bar-item w3-button" onclick="OpenMenu('AppExpense')">- Approve Expense</a>
+                    <a href="#" id="mnuApp4" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Approve Transport</a>
                 </div>
                 <div id="mainFin" class="w3-bar-item w3-button" onclick="w3_accordion('mnuFin')">
                     Finance Works

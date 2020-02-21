@@ -181,6 +181,12 @@
         case 'TransportRoute':
             mnuPath = path + 'Master/TransportRoute';
             break;
+        case 'AppExpense':
+            mnuPath = path + 'Acc/Approve';
+            break;
+        case 'AppTransport':
+            mnuPath = path + 'JobOrder/TruckApprove';
+            break;
         default:
             ShowMessage('Under Development, Coming soon!');
             break;

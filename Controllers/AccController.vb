@@ -1,4 +1,6 @@
-﻿Imports System.Web.Http
+﻿Imports System.Net
+Imports System.Net.Http
+Imports System.Web.Http
 Imports System.Web.Mvc
 Imports Newtonsoft.Json
 
@@ -27,6 +29,46 @@ Namespace Controllers
         End Function
         Function FormWTax53D() As ActionResult
             Return GetView("FormWTax53D")
+        End Function
+        Function Approve() As ActionResult
+            Return GetView("Approve", "MODULE_ACC")
+        End Function
+        Function ApproveExpense(<FromBody()> ByVal data As String()) As HttpResponseMessage
+            Try
+                ViewBag.User = Session("CurrUser").ToString()
+                Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
+                If AuthorizeStr.IndexOf("I") < 0 Then
+                    Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+                End If
+
+                If IsNothing(data) Then
+                    Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+                End If
+
+                Dim json As String = ""
+                Dim lst As String = ""
+                Dim user As String = ""
+                For Each str As String In data
+                    If str.IndexOf("|") >= 0 Then
+                        If lst <> "" Then lst &= ","
+                        lst &= "'" & str & "'"
+                    Else
+                        user = str
+                    End If
+                Next
+
+                If lst <> "" Then
+                    Dim tSQL As String = String.Format("UPDATE Job_PaymentHeader SET ApproveBy='" & user & "',ApproveDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',ApproveTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
+ WHERE BranchCode+'|'+DocNo in({0})", lst)
+                    Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
+                    If result = "OK" Then
+                        Return New HttpResponseMessage(HttpStatusCode.OK)
+                    End If
+                End If
+                Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+            Catch ex As Exception
+                Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+            End Try
         End Function
         Function Payment() As ActionResult
             Return GetView("Payment", "MODULE_ACC")
@@ -80,6 +122,12 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("VenCode")) Then
                     tSqlH &= String.Format(" AND VenCode='{0}' ", Request.QueryString("VenCode").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("Ref")) Then
+                    tSqlH &= String.Format(" AND RefNo='{0}' ", Request.QueryString("Ref").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Po")) Then
+                    tSqlH &= String.Format(" AND PoNo='{0}' ", Request.QueryString("Po").ToString)
+                End If
                 If Not IsNothing(Request.QueryString("Currency")) Then
                     tSqlH &= String.Format(" AND CurrencyCode='{0}' ", Request.QueryString("Currency").ToString)
                 End If
@@ -98,6 +146,9 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Status")) Then
                     If Request.QueryString("Status").ToString = "A" Then
                         tSqlH &= " AND ISNULL(ApproveBy,'')<>'' "
+                    End If
+                    If Request.QueryString("Status").ToString = "R" Then
+                        tSqlH &= " AND ISNULL(ApproveBy,'')='' "
                     End If
                     tSqlH &= " AND NOT ISNULL(CancelProve,'')<>'' "
                 End If

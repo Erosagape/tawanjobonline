@@ -172,6 +172,7 @@ End Code
             });
             for (let i of items) {
                 let desc = i.DescriptionThai;
+                let amtTotal = Number(i.TotalCharge) * Number(i.QtyEnd);
                 desc += i.UnitDiscntAmt > 0 ? '<br/>Discount (Rate=' + i.UnitDiscntPerc + '%)=' + i.UnitDiscntAmt : '';
                 html = '<tr><td></td>';
                 html += '<td>' + d.SeqNo + '.' + i.ItemNo + ' ' + desc + '</td>';
@@ -180,11 +181,11 @@ End Code
                 html += '<td style="text-align:right">' + ShowNumber(i.ChargeAmt, 2) + ' ' + i.CurrencyCode + '</td>';
                 html += '<td style="text-align:center">' + i.CurrencyRate + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(i.TotalAmt,2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(i.TotalCharge,2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(amtTotal,2) + '</td>';
                 html += '<tr></tr>';
 
                 $('#tbDetail').append(html);
-                service += Number(i.TotalCharge);
+                service += amtTotal;
             }
         }
         $('#lblTotalCharge').text(ShowNumber(service, 2));

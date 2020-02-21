@@ -72,10 +72,6 @@ End Code
                     </thead>
                 </table>
                 Expenses Total : <input type="text" id="txtSumApprove" class="form-control" value="" />
-                <br />
-                <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Clearing</b>
-                </a>
             </div>
         </div>
     </div>
@@ -287,6 +283,10 @@ End Code
         });
     }
     function SetGridClr(isAlert) {
+        if ($('#txtSICode').val() === "") {
+            ShowMessage('Please Select Expense Code to Clear', true);
+            return;
+        }
         arr = [];
         ShowSummary();
 
@@ -304,9 +304,7 @@ End Code
         if ($('#txtClrDateT').val() !== "") {
             w = w + '&DateTo=' + CDateEN($('#txtClrDateT').val());
         }
-        if ($('#txtSICode').val() !== "") {
-            w = w + '&sicode=' + $('#txtSICode').val();
-        }
+        w = w + '&sicode=' + $('#txtSICode').val();
         w = w + '&Condition=ERN';
         $.get(path + 'clr/getclearingreport?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.data.length == 0) {
@@ -538,6 +536,7 @@ End Code
         dtl.push(GetDataDetail());
     }
     function SaveEarnest() {
+
         let obj = {
             BranchCode:$('#txtBranchCode').val(),
             ControlNo:'',
@@ -578,6 +577,22 @@ End Code
 
     }
     function SaveExpense() {       
+        if ($('#txtRefBook').val() == '') {
+            ShowMessage('Please Select book account', true);
+            return;
+        }
+        if ($('#txtRefBank').val() == '') {
+            ShowMessage('Please Select bank', true);
+            return;
+        }
+        if ($('#txtRefDate').val() == '') {
+            ShowMessage('Please Select Ref.date', true);
+            return;
+        }
+        if ($('#txtRefNo').val() == '') {
+            ShowMessage('Please Select Ref.No', true);
+            return;
+        }
         ShowConfirm("Do you need to Save?", function (ask) {
             if (ask == false) return;
             SaveEarnest();

@@ -24,6 +24,9 @@ Namespace Controllers
         Function ShowJob() As ActionResult
             Return GetView("ShowJob", "MODULE_CS")
         End Function
+        Function TruckApprove() As ActionResult
+            Return GetView("TruckApprove", "MODULE_CS")
+        End Function
         Function FormJob() As ActionResult
             ViewBag.User = Session("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CS", "ShowJob")
@@ -526,7 +529,28 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Job")) Then
                     tSqlw &= String.Format("AND JNo='{0}' ", Request.QueryString("Job").ToString)
                 End If
-                Dim oData = New CTransportDetail(GetSession("ConnJob")).GetData(tSqlw)
+                If Not IsNothing(Request.QueryString("Status")) Then
+                    If Request.QueryString("Status").ToString = "N" Then
+                        tSqlw &= "AND CauseCode NOT IN('2','3','99') "
+                    Else
+                        tSqlw &= "AND CauseCode IN('2','3','99') "
+                    End If
+                End If
+                Dim tSqlH = " AND BookingNo IN(SELECT BookingNo FROM Job_LoadInfo WHERE BookingNo<>'' "
+                If Not IsNothing(Request.QueryString("Cust")) Then
+                    tSqlH &= String.Format(" AND NotifyCode='{0}' ", Request.QueryString("Cust").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Vend")) Then
+                    tSqlH &= String.Format(" AND VenderCode='{0}' ", Request.QueryString("Vend").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlH &= " AND LoadDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlH &= " AND LoadDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
+                tSqlH &= ")"
+                Dim oData = New CTransportDetail(GetSession("ConnJob")).GetData(tSqlw & tSqlH)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""transport"":{""detail"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -1606,6 +1630,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND SICode='{0}' ", Request.QueryString("Code").ToString)
                 End If
+                tSqlw &= String.Format(" AND LocationID IN(SELECT LocationID From Job_TransportRoute WHERE IsActive=1)")
                 Dim oData = New CTransportPrice(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""transportprice"":{""data"":" & json & "}}"
@@ -1673,7 +1698,7 @@ Namespace Controllers
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DelTransportPrice", ex.Message, ex.StackTrace, True)
-                Return Content("[]", jsonContent)
+                Return Content("{""transportprice"":{""result"":""" & ex.Message & """,""data"":[]}}", jsonContent)
             End Try
         End Function
         Function GetTransportRoute() As ActionResult

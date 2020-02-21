@@ -261,7 +261,7 @@ Public Class CTransportRoute
             Try
                 cn.Open()
 
-                Using cm As New SqlCommand("UPDATE Job_TransportRoute SET IsActive=False " + pSQLWhere, cn)
+                Using cm As New SqlCommand("UPDATE Job_TransportRoute SET IsActive=0 " + pSQLWhere, cn)
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
