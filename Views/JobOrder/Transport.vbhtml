@@ -248,9 +248,8 @@ End Code
                         <input type="text" class="form-control" id="txtReturnContact" />
                     </div>
                 </div>
-                <input type="button" id="btnSaveLoc" value="Save Route" class="btn btn-primary" onclick="SaveLocation(true)" />
-                <input type="button" id="btnDelLoc" value="Cancel Route" class="btn btn-danger" onclick="SaveLocation(false)" />
-                <input type="button" id="btnEditExp" value="Edit Expenses" class="btn btn-info" onclick="EditExpense()" />
+                <input type="button" id="btnSaveLoc" value="Update Route Data" class="btn btn-primary" onclick="SaveLocation(true)" />
+                <input type="button" id="btnEditExp" value="Edit Route Expenses" class="btn btn-info" onclick="EditExpense()" />
             </div>
         </div>
         <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearBooking()">
@@ -271,11 +270,29 @@ End Code
             <option value="BL">Bill of Lading/Air way bill</option>
             <option value="DO">D/O Letter</option>
         </select>
+        <a href="#" class="btn btn-primary" id="btnUpdateJob" onclick="UpdateJob()">
+            <i class="fa fa-lg fa-check"></i>&nbsp;<b>Update Total Container To Job</b>
+        </a>
     </div>
     <div class="tab-pane fade" id="tabContainer">
-        <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
-            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Container</b>
-        </a>
+        <div class="row">
+            <div class="col-sm-1">
+                <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
+                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Container</b>
+                </a>
+            </div>
+            <div class="col-sm-2">
+                Auto Create Container =>
+                <select id="cboContainerSize" class="form-control dropdown"></select>
+            </div>
+            <div class="col-sm-1">
+                Total(s): <input type="number" id="txtTotalContainer" class="form-control" />
+            </div>
+            <div class="col-sm-1">
+                <br/>
+                <input type="button" id="btnCreateContainer" class="btn btn-success" value="Create" onclick="GenContainer()" />
+            </div>
+        </div>
         <table id="tbDetail" class="table table-responsive">
             <thead>
                 <tr>
@@ -288,6 +305,9 @@ End Code
                     <th class="desktop">Location</th>
                     <th class="all">UnloadDate</th>
                     <th class="all">DeliveryNo</th>
+                    <th class="desktop">V.Inv</th>
+                    <th class="desktop">Clear</th>
+                    <th class="desktop">Bal</th>
                 </tr>
             </thead>
         </table>
@@ -428,7 +448,7 @@ End Code
                 <div style="display:flex">
                     <select id="txtCauseCode" class="form-control dropdown">
                         <option value="">Checking</option>
-                        <option value="1">Approved</option>
+                        <option value="1">Working</option>
                         <option value="2">Rejected</option>
                         <option value="3">Finished</option>
                         <option value="99">Cancelled</option>
@@ -651,8 +671,6 @@ End Code
             if (r.transportroute.data !== undefined) {
                 let dr = r.transportroute.data;
                 $('#cboLocation').empty();
-                $('#cboLocation').append($('<option>', { value: '0' })
-                    .text('New'));
                 if (dr.length > 0) {
                     for (let i = 0; i < dr.length; i++) {
                         $('#cboLocation').append($('<option>', { value: dr[i].LocationID })
@@ -664,6 +682,7 @@ End Code
     }
     function SetLOVs() {
         loadUnit('#txtCTN_SIZE', path, '?Type=1');
+        loadUnit('#cboContainerSize', path, '?Type=1');
         loadRoute();
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
@@ -749,7 +768,7 @@ End Code
     }
     function ReadService2(dt) {
         $('#txtChargeCode').val(dt.SICode);
-        $('#txtSDescription').val(dt.NameThai);
+        //$('#txtSDescription').val(dt.NameThai);
     }
     function ReadVender(dt) {
         $('#txtVenderCode').val(dt.VenCode);
@@ -861,7 +880,22 @@ End Code
                 { data: "CTN_SIZE", title: "Container Size" },
                 { data: "SealNumber", title: "Seal" },
                 { data: "TruckNO", title: "Truck No" },
-                { data: "CauseCode", title: "Status" },
+                {
+                    data: "CauseCode", title: "Status",
+                    render: function (data) {
+                        switch (data) {
+                            case '1':
+                                return 'Working';
+                            case '2':
+                                return 'Reject';
+                            case '3':
+                                return 'Finished';
+                            case '99':
+                                return 'Cancel';
+                        }
+                        return 'Checking';
+                    }
+                },
                 { data: "Location", title: "To Location" },
                 {
                     data: null, title: "Unload Date",
@@ -869,7 +903,10 @@ End Code
                         return CDateEN(data.UnloadDate);
                     }
                 },
-                { data: "DeliveryNo", title: "Delivery No" }
+                { data: "DeliveryNo", title: "Delivery No" },
+                { data: "CountBill", title: "V.Bill" },
+                { data: "CountClear", title: "S.Clear" },
+                { data: "CountBalance", title: "Balance" }
             ],
             destroy: true,
             responsive:true
@@ -902,8 +939,8 @@ End Code
         $.get(path + 'joborder/gettransport?Branch='+ branch +'&Code=' + code + '&Job=' + job).done(function (r) {
             let dr = r.transport;
             if (dr.header.length > 0) {
-                ReadBooking(dr.header[0],false);
-                ReadContainer(dr.detail);
+                ReadBooking(dr.header[0],true);
+                //ReadContainer(dr.detail);
             }
         });
     }
@@ -1174,17 +1211,19 @@ End Code
         ShowPayment();
     }
     function DeleteDetail() {
-        let branch = $('#txtBranchCode').val();
-        let code = $('#txtBookingNo').val();
-        let item = $('#txtItemNo').val();
-        ShowConfirm("Do you need to Delete " + item + "?", function (ask) {
-            if (ask == false) return;
-            $.get(path + 'joborder/deltransportdetail?branch=' + branch + '&code=' + code + '&item=' + item, function (r) {
-                LoadDetail($('#txtBranchCode').val(), $('#txtBookingNo').val());
-                $('#dvContainer').modal('hide');
-                ShowMessage(r.transport.result);
+        if ($('#txtCauseCode').val() == '99' || $('#txtCauseCode').val() === '') {
+            ShowConfirm("Do you need to Delete " + $('#txtItemNo').val() + "?", function (ask) {
+                if (ask == false) return;
+                let branch = $('#txtBranchCode').val();
+                let code = $('#txtBookingNo').val();
+                let item = $('#txtItemNo').val();
+                $.get(path + 'joborder/deltransportdetail?branch=' + branch + '&code=' + code + '&item=' + item).done(function (r) {
+                    LoadDetail($('#txtBranchCode').val(), $('#txtBookingNo').val());
+                    $('#dvContainer').modal('hide');
+                    ShowMessage(r.transport.result);
+                });
             });
-        });
+        }
     }
     function ReadUnit(dr) {
         $('#txtProductUnit').val(dr.UnitType);
@@ -1206,11 +1245,19 @@ End Code
     }
     function EntryExpenses() {
         if (row.ItemNo !== undefined) {
-            window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&BookNo=' + row.BookingNo + '&Item=' + row.ItemNo + '&Job=' + $('#txtJNo').val() + '&Vend='+$('#txtVenderCode').val() + '&Cont=' + row.CTN_NO + '&Cust=' + $('#txtNotifyCode').val(), '', '');
+            if (row.CauseCode == '2' || row.CauseCode == '3') {
+                window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&BookNo=' + row.BookingNo + '&Item=' + row.ItemNo + '&Job=' + $('#txtJNo').val() + '&Vend=' + $('#txtVenderCode').val() + '&Cont=' + row.CTN_NO + '&Cust=' + $('#txtNotifyCode').val(), '', '');
+            } else {
+                ShowMessage('This Container status not allow to entry Expenses',true);
+            }
         }
     }
     function EntryExpenses2() {
-        window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&BookNo=' + $('#txtBookingNo').val() + '&Item=' + $('#txtItemNo').val() + '&Job=' + $('#txtJNo').val() + '&Vend='+$('#txtVenderCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust=' + $('#txtNotifyCode').val(), '', '');
+        if ($('#txtCauseCode').val() == '2' || $('#txtCauseCode').val() == '3') {
+            window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&BookNo=' + $('#txtBookingNo').val() + '&Item=' + $('#txtItemNo').val() + '&Job=' + $('#txtJNo').val() + '&Vend=' + $('#txtVenderCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust=' + $('#txtNotifyCode').val(), '', '');
+        } else {
+            ShowMessage('This Container status not allow to entry Expenses', true);
+        }
     }
     function LoadExpense() {
         $.get(path + 'JobOrder/GetTransportPrice?Branch='+$('#txtBranchCode').val()+'&ID=' + $('#txtLocationID').val() + '&Vend=' + $('#txtVenderCode').val() + '&Cust=' + $('#txtNotifyCode').val() + '&Code=' + $('#txtSICode').val(), function (r) {
@@ -1432,11 +1479,33 @@ End Code
                         destroy: true
                     });
                     $('#tbPayment tbody').on('dblclick', 'tr', function () {
-                        let d = $('#tbPayment').DataTable().row(this).data();
-                        window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&DocNo=' + d.DocNo, '_blank');
+                        let row = $('#tbPayment').DataTable().row(this).data();
+                        window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&DocNo='+ row.DocNo +'&BookNo=' + $('#txtBookingNo').val() + '&Item=' + $('#txtItemNo').val() + '&Job=' + $('#txtJNo').val() + '&Vend=' + $('#txtVenderCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust=' + $('#txtNotifyCode').val(), '', '');
                     });
                 }
             });
         }
+    }
+    function GenContainer() {
+        ShowConfirm('are you sure to create Container ' + $('#txtTotalContainer').val() + 'x' + $('#cboContainerSize').val(), (ans) => {
+            if (ans == true) {
+                let w ='?Branch='+ $('#txtBranchCode').val() + '&Code='+ $('#txtBookingNo').val() + '&Qty=' +$('#txtTotalContainer').val() + '&Size=' + $('#cboContainerSize').val();
+                $.get(path + 'JobOrder/CreateContainer' + w).done(function (r) {
+                    if (r.result.data !== null) {
+                        LoadDetail($('#txtBranchCode').val(), $('#txtBookingNo').val());
+                    }
+                    ShowMessage(r.result.msg);
+                });
+            }
+        });
+    }
+    function UpdateJob() {
+        ShowConfirm('Are you sure to Update Total Container To Job', (ans) => {
+            if (ans == true) {
+                $.get(path + 'JobOrder/UpdateContainerToJob?Branch=' + $('#txtBranchCode').val()+ '&Job=' + $('#txtJNo').val()).done(function (r) {
+                    ShowMessage(r.result.msg);
+                });
+            }
+        });
     }
 </script>

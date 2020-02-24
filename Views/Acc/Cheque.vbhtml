@@ -995,6 +995,9 @@ End Code
         $('#txtJobType').val(dt[0].JobType);
         $('#txtShipBy').val(dt[0].ShipBy);
         $('#txtInvNo').val(dt[0].InvNo);
+        $('#txtCustCode').val(dt[0].CustCode);
+        $('#txtCustBranch').val(dt[0].CustBranch);
+        ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
         ShowJobTypeShipBy(path, dt[0].JobType, dt[0].ShipBy, '', '#txtJobTypeName', '#txtShipByName', '');
     }
     function CalculateTotal() {

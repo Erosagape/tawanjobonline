@@ -495,7 +495,7 @@ ON a.BranchCode=d.BranchCode AND a.AdvNo=d.AdvNo
     Function SQLSelectPayForCharge() As String
         Return "
  SELECT d.BranchCode, '' AS ClrNo, 0 AS ItemNo, 0 AS LinkItem, 'SRV' AS STCode, p.ChargeCode AS SICode, 
- p.SDescription, h.VenCode AS VenderCode, d.Qty, d.QtyUnit AS UnitCode, 
+ s.NameThai as SDescription, h.VenCode AS VenderCode, d.Qty, d.QtyUnit AS UnitCode, 
  h.CurrencyCode, h.ExchangeRate AS CurRate, p.ChargeAmount as UnitPrice, 
  d.Qty * p.ChargeAmount AS FPrice, 
  (d.Qty * p.ChargeAmount / h.ExchangeRate) AS BPrice, (d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.VATRate*0.01)*d.IsTaxCharge AS ChargeVAT, 
@@ -517,6 +517,7 @@ ON a.BranchCode=d.BranchCode AND a.AdvNo=d.AdvNo
  AND b.VenderCode=p.VenderCode
  AND b.NotifyCode=p.CustCode
  AND d.SICode=p.SICode
+ LEFT JOIN dbo.Job_SrvSingle s ON p.ChargeCode=s.SICode
  WHERE ISNULL(h.ApproveBy,'')<>'' 
 "
     End Function
@@ -887,50 +888,22 @@ b.CurRate as ExchangeRate,b.Qty,b.UnitCode as QtyUnit,b.UnitCost as UnitPrice,b.
 b.UsedAmount/b.CurRate as FAmt,0 as DiscountType,0 as DiscountPerc,0 as AmtDiscount,0 as FAmtDiscount,
 CASE WHEN b.Tax50TaviRate>0 THEN 1 ELSE 0 END as Is50Tavi,
 b.Tax50TaviRate as Rate50Tavi,
-CASE WHEN a.ClearType='3' AND b.BPrice>0 THEN b.Tax50Tavi ELSE 0 END as Amt50Tavi,
+CASE WHEN s.IsExpense=0 AND s.IsCredit=0  THEN b.Tax50Tavi ELSE 0 END as Amt50Tavi,
 b.VATType as IsTaxCharge,
-CASE WHEN a.ClearType='3' AND b.BPrice>0 THEN b.ChargeVAT ELSE 0 END as AmtVat,
+CASE WHEN s.IsCredit=0 AND s.IsExpense=0  THEN b.ChargeVAT ELSE 0 END as AmtVat,
 b.BNet as TotalAmt,b.BNet/b.CurRate as FTotalAmt,
-CASE WHEN a.ClearType='1' AND b.BPrice>0 THEN b.BNet ELSE 0 END as AmtAdvance,
-CASE WHEN a.ClearType='3' AND b.BPrice>0 THEN b.UsedAmount ELSE 0 END as AmtCharge,
+CASE WHEN s.IsCredit=1 AND s.IsExpense=0  THEN b.BNet ELSE 0 END as AmtAdvance,
+CASE WHEN s.IsCredit=0 AND s.IsExpense=0  THEN b.UsedAmount ELSE 0 END as AmtCharge,
 b.CurrencyCode as CurrencyCodeCredit,b.CurRate as ExchangeRateCredit,0 as AmtCredit,0 as FAmtCredit,b.VATRate,
 c.CustCode,c.CustBranch,
 b.JobNo,b.ClrNo,b.ItemNo as ClrItemNo,b.ClrNo+'/'+Convert(varchar,b.ItemNo) as ClrNoList,
-(CASE WHEN a.ClearType='2' THEN b.BNet ELSE 0 END) as AmtCost,
-(CASE WHEN b.BPrice=0 THEN 0 ELSE b.BNet END) as AmtNet
+(CASE WHEN s.IsExpense=1 THEN b.BNet ELSE 0 END) as AmtCost,
+(CASE WHEN s.IsExpense=1 THEN 0 ELSE b.BNet) as AmtNet
 from Job_ClearHeader a INNER JOIN Job_ClearDetail b
 ON a.BranchCode=b.BranchCode
 AND a.ClrNo=b.ClrNo
-INNER JOIN Job_Order c
-ON b.BranchCode=c.BranchCode
-and b.JobNo=c.JNo
-"
-    End Function
-    Function SQLSelectClrSumForInvoice() As String
-        Return "
-select b.BranchCode,
-b.LinkBillNo as DocNo,
-b.LinkItem as ItemNo,
-b.SICode,b.SDescription,
-b.SlipNO as ExpSlipNO,b.Remark as SRemark,
-b.CurrencyCode,b.CurRate as ExchangeRate,
-b.Qty,b.UnitCode as QtyUnit,b.UnitCost as UnitPrice,
-b.UnitCost*b.CurRate as FUnitPrice,b.UsedAmount as Amt,
-b.UsedAmount/b.CurRate as FAmt,0 as DiscountType,0 as DiscountPerc,0 as AmtDiscount,0 as FAmtDiscount,
-CASE WHEN b.Tax50TaviRate>0 THEN 1 ELSE 0 END as Is50Tavi,
-b.Tax50TaviRate as Rate50Tavi,
-CASE WHEN ISNULL(b.SlipNO,'')='' AND b.BPrice>0 THEN b.Tax50Tavi ELSE 0 END as Amt50Tavi,
-b.VATType as IsTaxCharge,
-CASE WHEN ISNULL(b.SlipNO,'')='' AND b.BPrice>0 THEN b.ChargeVAT ELSE 0 END as AmtVat,
-b.BNet as TotalAmt,b.BNet/b.CurRate as FTotalAmt,
-CASE WHEN ISNULL(b.SlipNO,'')<>'' AND b.BPrice>0 THEN b.BNet ELSE 0 END as AmtAdvance,
-CASE WHEN ISNULL(b.SlipNO,'')='' AND b.BPrice>0 THEN b.UsedAmount ELSE 0 END as AmtCharge,
-'' as CurrencyCodeCredit,1 as ExchangeRateCredit,0 as AmtCredit,0 as FAmtCredit,b.VATRate,
-c.CustCode,c.CustBranch,b.JobNo,b.ClrNo,b.ItemNo as ClrItemNo,
-(CASE WHEN b.BPrice=0 THEN b.BNet ELSE 0 END) as AmtCost,(CASE WHEN b.BPrice=0 THEN 0 ELSE b.BNet END) as AmtNet
-from Job_ClearHeader a INNER JOIN Job_ClearDetail b
-ON a.BranchCode=b.BranchCode
-AND a.ClrNo=b.ClrNo
+INNER JOIN Job_SrvSingle s
+ON b.SICode=s.SICode
 INNER JOIN Job_Order c
 ON b.BranchCode=c.BranchCode
 and b.JobNo=c.JNo
@@ -1060,9 +1033,10 @@ UNION
 SELECT a.BranchCode,a.JNo,7 FROM Job_Order a 
 WHERE EXISTS
 (
-      SELECT b.BranchCode,b.JobNo as JNo,SUM(b.BNet-(CASE WHEN b.BPrice=0 AND ISNULL(b.LinkBillNo,'')<>'' THEN b.BNet ELSE 0 END)-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0)) as Balance
+      SELECT b.BranchCode,b.JobNo as JNo,SUM(b.BNet-(CASE WHEN s.IsExpense=1 AND ISNULL(b.LinkBillNo,'')<>'' THEN b.BNet ELSE 0 END)-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0)) as Balance
       FROM Job_ClearDetail b INNER JOIN Job_ClearHeader h
       ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
+      INNER JOIN Job_SrvSingle s ON b.SICode=s.SICode
       LEFT JOIN (
 SELECT rh.BranchCode,rd.InvoiceNo,rd.InvoiceItemNo,Sum(rd.Net) as TotalRcv,id.AmtCredit,id.AmtDiscount
 FROM Job_ReceiptHeader rh INNER JOIN Job_ReceiptDetail rd
@@ -1081,7 +1055,7 @@ GROUP BY rh.BranchCode,rd.InvoiceNo,rd.InvoiceItemNo,id.AmtCredit,id.AmtDiscount
       ON b.BranchCode=c.BranchCode AND b.LinkBillNo=c.BillingNo AND b.LinkItem=c.BillItemNo
       WHERE h.DocStatus<>99 AND b.BranchCode=a.BranchCode AND b.JobNo=a.JNo       
       GROUP BY b.BranchCode,b.JobNo
-      HAVING SUM(b.BNet-(CASE WHEN b.BPrice=0 AND ISNULL(b.LinkBillNo,'')<>'' THEN b.BNet ELSE 0 END)-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0))<=0
+      HAVING SUM(b.BNet-(CASE WHEN s.IsExpense=1 AND ISNULL(b.LinkBillNo,'')<>'' THEN b.BNet ELSE 0 END)-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0))<=0
 ) AND a.ConfirmDate IS NOT NULL AND a.CloseJobDate IS NOT NULL  
 AND a.JobStatus<>99 AND NOT ISNULL(a.CancelReson,'')<>''
 UNION
@@ -2030,7 +2004,7 @@ FROM Job_ClearHeader d INNER JOIN
     COUNT(*) as CountRow
     FROM Job_ClearDetail a INNER JOIN Job_ClearHeader b
     ON a.BranchCode=b.BranchCode AND a.ClrNo=b.ClrNo
-    AND b.DocStatus<99 
+    AND b.DocStatus<>99 
     GROUP BY a.BranchCode,a.ClrNo
     HAVING COUNT(*)>SUM(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
     AND SUM(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)>0
@@ -2048,7 +2022,7 @@ FROM Job_ClearHeader d INNER JOIN
     ,COUNT(*) as CountRow
     FROM Job_ClearDetail a INNER JOIN Job_ClearHeader b
     ON a.BranchCode=b.BranchCode AND a.ClrNo=b.ClrNo
-    AND b.DocStatus<4 AND a.BNet=0 AND a.AdvAmount>0
+    AND b.DocStatus<>99 AND a.BNet=0 AND a.AdvAmount>0
 	LEFT JOIN Job_AdvHeader c ON a.BranchCode=c.BranchCode
 	AND a.AdvNO=c.AdVNo
     GROUP BY a.BranchCode,a.ClrNo,b.DocStatus
@@ -2067,7 +2041,7 @@ FROM Job_ClearHeader d INNER JOIN
     ,COUNT(*) as CountRow
     FROM Job_ClearDetail a INNER JOIN Job_ClearHeader b
     ON a.BranchCode=b.BranchCode AND a.ClrNo=b.ClrNo
-    AND b.DocStatus<4 AND a.BNet>0
+    AND b.DocStatus<>99 AND a.BNet>0
     GROUP BY a.BranchCode,a.ClrNo,b.DocStatus
     HAVING COUNT(*)=SUM(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
 ) c 
@@ -2077,7 +2051,8 @@ WHERE d.DocStatus<>4
     End Function
     Function SQLUpdateClrStatusToInComplete() As String
         Return "
-UPDATE d SET d.DocStatus=(CASE WHEN ISNULL(d.ApproveBy,'')<>'' THEN 2 ELSE 1 END)
+UPDATE d SET d.DocStatus=(CASE WHEN ISNULL(d.ApproveBy,'')<>'' THEN 2 ELSE 1 END),
+ReceiveBy='',ReceiveRef='',ReceiveDate=null,ReceiveTime=null
 FROM Job_ClearHeader d INNER JOIN
 (
     SELECT a.BranchCode,a.ClrNo,b.DocStatus
@@ -2091,6 +2066,42 @@ FROM Job_ClearHeader d INNER JOIN
 ) c 
 ON d.BranchCode=c.BranchCode AND d.ClrNo=c.ClrNo
 WHERE d.DocStatus<>99 AND d.DocStatus<>(CASE WHEN ISNULL(d.ApproveBy,'')<>'' THEN 2 ELSE 1 END)
+AND d.ReceiveBy='system'
+"
+    End Function
+    Function SQLSelectTransportDetail() As String
+        Return "
+SELECT a.*,ISNULL(b.CountBill,0) as CountBill,ISNULL(b.CountClear,0) as CountClear, 
+ISNULL(b.CountBill,0)-ISNULL(b.CountClear,0) as CountBalance
+FROM Job_LoadInfoDetail a LEFT JOIN(
+    SELECT h.BranchCode,d.BookingRefNo,d.BookingItemNo,COUNT(*) as CountBill,
+    SUM(CASE WHEN ISNULL(d.ClrReFNo,'')<>'' THEN 1 ELSE 0 END) as CountClear
+    FROM Job_PaymentDetail d INNER JOIN Job_PaymentHeader h 
+    ON d.BranchCode=h.BranchCode AND d.DocNo=h.DocNo
+    WHERE ISNULL(h.CancelProve,'')='' GROUP BY h.BranchCode,d.BookingRefNo,d.BookingItemNo
+) b ON a.BranchCode=b.BranchCode AND a.BookingNo=b.BookingRefNo AND a.ItemNo=b.BookingItemNo
+"
+    End Function
+    Function SQLUpdateContainer() As String
+        Return "
+update h
+SET h.TotalContainer=d.SumContainer
+FROM (
+	SELECT a.BranchCode,a.JNo,
+	(SELECT STUFF((
+	SELECT ',' + Convert(varchar,Count(*)) + 'x' + CTN_SIZE
+	FROM Job_LoadInfoDetail WHERE BranchCode=a.BranchCode
+	AND BookingNo=a.BookingNo AND ISNULL(CTN_SIZE,'')<>''
+	AND ISNULL(CauseCode,'')<>'99'
+	GROUP BY CTN_SIZE
+	FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+	)) as SumContainer
+	from job_loadinfo a
+) d INNER JOIN job_order h
+ON d.BranchCode=h.BranchCode
+AND d.JNo=h.JNo
+WHERE ISNULL(d.SumContainer,'')<>''
+AND ISNULL(d.SumContainer,'')<>h.TotalContainer
 "
     End Function
     Public Sub UpdateClearStatus(user As String, docno As String)

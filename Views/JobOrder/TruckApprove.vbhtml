@@ -93,7 +93,7 @@ End Code
                         Type :
                         <br />
                         <div style="display:flex">
-                            <input type="text" id="txtTruckType" class="form-control">
+                            <input type="text" id="txtTruckType" class="form-control" disabled>
                             <input type="button" class="btn btn-default" value="..." onclick="SearchData('carunit')" />
                         </div>
                     </div>
@@ -109,7 +109,7 @@ End Code
                     <div class="col-sm-9">
                         Location :<br />
                         <div style="display:flex">
-                            <input type="text" id="txtLocation" class="form-control" />
+                            <input type="text" id="txtLocation" class="form-control" disabled/>
                         </div>
                     </div>
                 </div>
@@ -118,14 +118,14 @@ End Code
                         Comment :<br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
                     </div>
                     <div class="col-sm-3">
-                        Shipping Mark :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
+                        Shipping Mark :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control" disabled></textarea></div>
                     </div>
                     <div class="col-sm-3">
                         Job Status:<br />
                         <div style="display:flex">
                             <select id="txtCauseCode" class="form-control dropdown">
                                 <option value="">Checking</option>
-                                <option value="1">Approved</option>
+                                <option value="1">Working</option>
                                 <option value="2">Rejected</option>
                                 <option value="3">Finished</option>
                                 <option value="99">Cancelled</option>
@@ -138,11 +138,11 @@ End Code
                         <b>Pick-up:</b>
                         <div>
                             Target Date :<br />
-                            <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control"></div>
+                            <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control" disabled></div>
                         </div>
                         <div>
                             Target Time:<br />
-                            <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control"></div>
+                            <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control" disabled></div>
 
                         </div>
                         <div>
@@ -157,10 +157,10 @@ End Code
                     <div class="col-sm-4" style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
                         <b>Delivery:</b>
                         <div>
-                            Target Date :<br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control"></div>
+                            Target Date :<br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control" disabled></div>
                         </div>
                         <div>
-                            Target Time :<br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control"></div>
+                            Target Time :<br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control" disabled></div>
                         </div>
                         <div>
                             Actual Date :<br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
@@ -173,11 +173,11 @@ End Code
                         <b>Return:</b>
                         <div>
                             Target Date:<br />
-                            <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control"></div>
+                            <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control" disabled></div>
                         </div>
                         <div>
                             Target Time :<br />
-                            <div style="display:flex"><input type="text" id="txtStart" class="form-control"></div>
+                            <div style="display:flex"><input type="text" id="txtStart" class="form-control" disabled></div>
                         </div>
                         <div>
                             Actual Date:<br />
@@ -191,6 +191,9 @@ End Code
                 </div>
             </div>
             <div class="modal-footer">
+                <a href="#" class="btn btn-success" id="btnUpdateDetail" onclick="SaveDetail()">
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Container</b>
+                </a>
                 <button class="btn btn-danger" data-dismiss="modal">X</button>
             </div>
         </div>
@@ -206,6 +209,7 @@ End Code
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
 
+        loadUnit('#txtCTN_SIZE', path, '?Type=1');
         //Events
         $('#txtBranchCode').focusout(function (event) {
             if (true) {
@@ -226,6 +230,8 @@ End Code
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response, 3);
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
+            CreateLOV(dv, '#frmSearchRoute', '#tbRoute', 'Transport Route', response, 2);
+            CreateLOV(dv, '#frmSearchUnitC', '#tbUnitC', 'Car Unit', response, 2);
         });
     }
     function SearchData(type) {
@@ -238,6 +244,12 @@ End Code
                 break;
             case 'customer':
                 SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
+                break;
+            case 'carunit':
+                SetGridServUnitFilter(path, '#tbUnitC', '?Type=2', '#frmSearchUnitC', ReadCarUnit);
+                break;
+            case 'route':
+                SetGridTransportRoute(path, '#tbRoute', '#frmSearchRoute', ReadRoute);
                 break;
         }
     }
@@ -253,6 +265,13 @@ End Code
     function ReadVender(dt) {
         $('#txtVenCode').val(dt.VenCode);
         ShowVender(path, dt.VenCode, '#txtVenName');
+    }
+    function ReadCarUnit(dr) {
+        $('#txtTruckType').val(dr.UnitType);
+    }
+    function ReadRoute(dt) {
+        $('#txtRouteID').val(dt.LocationID);
+        $('#txtLocation').val(dt.LocationRoute);
     }
     function RefreshGrid() {
         $('#tbDetail').DataTable().clear().draw();
@@ -285,8 +304,34 @@ End Code
                 { data: "CTN_NO", title: "Container No" },
                 { data: "CTN_SIZE", title: "Container Size" },
                 { data: "SealNumber", title: "Seal" },
-                { data: "TruckNO", title: "Truck No" },
-                { data: "CauseCode", title: "Status" },
+                {
+                    data: null, title: "ProductDesc",
+                    render: function (data) {
+                        return data.ProductDesc + ' G.W =' + data.GrossWeight + ' M3=' + data.Measurement;
+                    }
+                },
+                {
+                    data: "CauseCode", title: "Status",
+                    render: function (data) {
+                        switch (data) {
+                            case '1':
+                                return 'Working';
+                                break;
+                            case '2':
+                                return 'Reject';
+                                break;
+                            case '3':
+                                return 'Finished';
+                                break;
+                            case '99':
+                                return 'Cancel';
+                                break;
+                            default:
+                                return 'Checking';
+                                break;
+                        }
+                    }
+                },
                 { data: "Location", title: "To Location" },
                 {
                     data: null, title: "Unload Date",
@@ -307,7 +352,8 @@ End Code
             $('#dvContainer').modal('show');
         });
     }
-    function ReadDetail(dr) {		
+    function ReadDetail(dr) {	
+        $('#txtItemNo').val(dr.ItemNo);
         $('#txtCTN_NO').val(dr.CTN_NO);
         $('#txtSealNumber').val(dr.SealNumber);
         $('#txtTruckNO').val(dr.TruckNO);
@@ -331,5 +377,70 @@ End Code
         $('#txtDReturnDate').val(CDateEN(dr.ReturnDate));
         $('#txtShippingMark').val(dr.ShippingMark);
         $('#txtCTN_SIZE').val(dr.CTN_SIZE);
+    }
+
+    function SaveDetail() {
+        let obj = {
+            BranchCode: $('#txtBranchCode').val(),
+            BookingNo: row.BookingNo,
+            JNo: row.JNo,
+            ItemNo: $('#txtItemNo').val(),
+            CTN_NO: $('#txtCTN_NO').val(),
+            SealNumber: $('#txtSealNumber').val(),
+            TruckNO: $('#txtTruckNO').val(),
+            TruckIN: CDateEN($('#txtTruckIN').val()),
+            Start: $('#txtStart').val(),
+            Finish: $('#txtFinish').val(),
+            TimeUsed: row.TimeUsed,
+            CauseCode: $('#txtCauseCode').val(),
+            Comment: $('#txtComment').val(),
+            TruckType: $('#txtTruckType').val(),
+            Driver: $('#txtDriver').val(),
+            TargetYardDate: CDateEN($('#txtTargetYardDate').val()),
+            TargetYardTime: $('#txtTargetYardTime').val(),
+            ActualYardDate: CDateEN($('#txtActualYardDate').val()),
+            ActualYardTime: $('#txtActualYardTime').val(),
+            UnloadFinishDate: CDateEN($('#txtUnloadFinishDate').val()),
+            UnloadFinishTime: $('#txtUnloadFinishTime').val(),
+            UnloadDate: CDateEN($('#txtUnloadDate').val()),
+            UnloadTime: $('#txtUnloadTime').val(),
+            Location: $('#txtLocation').val(),
+            LocationID: $('#txtRouteID').val(),
+            ReturnDate: CDateEN($('#txtDReturnDate').val()),
+            ShippingMark: $('#txtShippingMark').val(),
+            ProductDesc: row.ProductDesc,
+            CTN_SIZE: $('#txtCTN_SIZE').val(),
+            ProductQty: row.ProductQty,
+            ProductUnit: row.ProductUnit,
+            GrossWeight: row.GrossWeight,
+            Measurement: row.Measurement,
+            DeliveryNo: row.DeliveryNo
+        };
+        if (obj.ItemNo != "") {
+            ShowConfirm("Do you need to Save " + obj.ItemNo + "?", function (ask) {
+                if (ask == false) return;
+                row = obj;
+                let jsonText = JSON.stringify({ data: obj });
+                //ShowMessage(jsonText);
+                $.ajax({
+                    url: "@Url.Action("SetTransportDetail", "JobOrder")",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: jsonText,
+                    success: function (response) {
+                        if (response.result.data != null) {
+                            RefreshGrid();
+                        }
+                        ShowMessage(response.result.msg);
+                        $('#dvContainer').modal('hide');
+                    },
+                    error: function (e) {
+                        ShowMessage(e,true);
+                    }
+                });
+            });
+        } else {
+            ShowMessage('No data to save',true);
+        }
     }
 </script>

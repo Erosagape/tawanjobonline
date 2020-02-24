@@ -1047,6 +1047,7 @@ End Code
     function ReadPrice(dt) {
         if (dt !== undefined) {
             $('#txtSICode').val(dt.SICode);
+            $('#txtSICode').change();
             $('#txtSDescription').val(dt.SDescription);
             $('#txtSRemark').val(dt.Location);
             $('#txtUnitPrice').val(CDbl(CNum(dt.CostAmount) / CNum($('#txtExchangeRate').val()), 2));

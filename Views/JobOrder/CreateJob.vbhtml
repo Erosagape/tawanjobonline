@@ -253,7 +253,7 @@ End Code
             $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
         }
         //Combos
-        let lists = 'JOB_TYPE=#cboJobType,SHIP_BY=#cboShipBy';
+        let lists = 'JOB_TYPE=#cboJobType|'+jt+',SHIP_BY=#cboShipBy|'+ sb;
         loadCombos(path, lists);
 
         $('#cboJobType').val(jt);

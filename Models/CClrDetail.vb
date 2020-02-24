@@ -704,7 +704,7 @@ Public Class CClrDetail
             If Me.VenderBillingNo <> "" Then
                 If Me.VenderBillingNo.IndexOf("#") > 0 Then
                     If isDelete Then
-                        cm.CommandText = "UPDATE Job_PaymentDetail SET ClrReFNo=NULL,ClrItemNo=0 WHERE BranchCode='" & Me.BranchCode & "' AND ClrRefNo='" & Me.ClrNo & "' AND ClrItemNo=" & Me.ItemNo
+                        cm.CommandText = "UPDATE Job_PaymentDetail SET ClrReFNo='',ClrItemNo=0 WHERE BranchCode='" & Me.BranchCode & "' AND ClrRefNo='" & Me.ClrNo & "' AND ClrItemNo=" & Me.ItemNo
                     Else
                         cm.CommandText = "UPDATE Job_PaymentDetail SET ClrReFNo='" & Me.ClrNo & "',ClrItemNo=" & Me.ItemNo & " WHERE BranchCode='" & Me.BranchCode & "' AND DocNo='" & Me.VenderBillingNo.Split("#")(0) & "' AND ItemNo=" & Me.VenderBillingNo.Split("#")(1)
                     End If

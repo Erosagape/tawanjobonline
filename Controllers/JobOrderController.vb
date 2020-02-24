@@ -41,7 +41,109 @@ Namespace Controllers
         Function FormQuotation() As ActionResult
             Return GetView("FormQuotation")
         End Function
-
+        Function CreateContainer() As ActionResult
+            Try
+                Dim branch = ""
+                If Not Request.QueryString("Branch") Is Nothing Then
+                    branch = Request.QueryString("Branch").ToString
+                Else
+                    Return Content("{""result"":{""data"":[],""msg"":""Please Select Branch""}}", jsonContent)
+                End If
+                Dim book = ""
+                If Not Request.QueryString("Code") Is Nothing Then
+                    book = Request.QueryString("Code").ToString
+                Else
+                    Return Content("{""result"":{""data"":[],""msg"":""Please Select Booking""}}", jsonContent)
+                End If
+                Dim size = ""
+                If Not Request.QueryString("Size") Is Nothing Then
+                    size = Request.QueryString("Size").ToString
+                Else
+                    Return Content("{""result"":{""data"":[],""msg"":""Please Select Unit""}}", jsonContent)
+                End If
+                Dim volume = 0
+                If Not Request.QueryString("Qty") Is Nothing Then
+                    volume = Convert.ToInt16("0" & Request.QueryString("Qty").ToString)
+                Else
+                    Return Content("{""result"":{""data"":[],""msg"":""Please Input Total Container""}}", jsonContent)
+                End If
+                If volume <= 0 Then
+                    Return Content("{""result"":{""data"":[],""msg"":""Please Input Total Container more than zero""}}", jsonContent)
+                Else
+                    Dim oList As New List(Of CTransportDetail)
+                    For i As Integer = 1 To volume
+                        Dim oRec = New CTransportDetail(GetSession("ConnJob"))
+                        oRec.BranchCode = branch
+                        oRec.BookingNo = book
+                        oRec.JNo = GetValueSQL(GetSession("ConnJob"), String.Format("SELECT JNo FROM Job_LoadInfo WHERE BranchCode='{0}' AND BookingNo='{1}'", branch, book)).Result.ToString()
+                        oRec.CTN_NO = ""
+                        oRec.SealNumber = ""
+                        oRec.TruckNO = ""
+                        oRec.CauseCode = ""
+                        oRec.Comment = ""
+                        oRec.TruckType = ""
+                        oRec.Driver = ""
+                        oRec.Location = ""
+                        oRec.ShippingMark = ""
+                        oRec.ProductDesc = GetValueSQL(GetSession("ConnJob"), String.Format("SELECT InvProduct FROM Job_Order WHERE BranchCode='{0}' AND JNo='{1}'", branch, oRec.JNo)).Result.ToString()
+                        oRec.CTN_SIZE = size
+                        oRec.ProductQty = 0
+                        oRec.ProductUnit = ""
+                        oRec.GrossWeight = 0
+                        oRec.Measurement = 0
+                        oRec.DeliveryNo = ""
+                        oRec.AddNew()
+                        Dim msg = oRec.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", oRec.BranchCode, oRec.BookingNo, oRec.ItemNo))
+                        If msg.Substring(0, 1) = "S" Then
+                            oList.Add(oRec)
+                        Else
+                            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CreateContainer", "Save Container No" + i, msg, True, "", JsonConvert.SerializeObject(oRec))
+                        End If
+                    Next
+                    Dim json = JsonConvert.SerializeObject(oList)
+                    Return Content("{""result"":{""data"":" & json & ",""msg"":""Create Complete=" & oList.Count & " Record(s)""}}", jsonContent)
+                End If
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CreateContainer", ex.Message, ex.StackTrace, True)
+                Return Content("{""result"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
+            End Try
+        End Function
+        Function UpdateContainerToJob() As ActionResult
+            Try
+                Dim tSqlW As String = ""
+                Dim branch = ""
+                If Not Request.QueryString("Branch") Is Nothing Then
+                    branch = Request.QueryString("Branch").ToString
+                    tSqlW = tSqlW & String.Format(" AND h.BranchCode='{0}' ", branch)
+                Else
+                    Return Content("{""result"":{""data"":[],""msg"":""Please Select Branch""}}", jsonContent)
+                End If
+                Dim job = ""
+                If Not Request.QueryString("Job") Is Nothing Then
+                    job = Request.QueryString("Job").ToString
+                    tSqlW = tSqlW & String.Format(" AND h.JNo='{0}' ", job)
+                Else
+                    Return Content("{""result"":{""data"":[],""msg"":""Please Select Job""}}", jsonContent)
+                End If
+                Dim sqlCtn = "
+	SELECT (SELECT STUFF((
+	SELECT ',' + Convert(varchar,Count(*)) + 'x' + CTN_SIZE
+	FROM Job_LoadInfoDetail WHERE BranchCode=a.BranchCode
+	AND BookingNo=a.BookingNo AND ISNULL(CTN_SIZE,'')<>''
+	AND ISNULL(CauseCode,'')<>'99'
+	GROUP BY CTN_SIZE
+	FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+	)) as SumContainer
+	from job_loadinfo a WHERE a.BranchCode='" & branch & "' AND a.JNo='" & job & "'
+"
+                Dim ctnTotal = GetValueSQL(GetSession("ConnJob"), sqlCtn).Result.ToString()
+                Dim msg = Main.DBExecute(GetSession("ConnJob"), SQLUpdateContainer() & tSqlW)
+                Return Content("{""result"":{""data"":""" & ctnTotal & """,""msg"":""" & msg & """}}", jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "UpdateContainerToJob", ex.Message, ex.StackTrace, True)
+                Return Content("{""result"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
+            End Try
+        End Function
         Function ApproveQuotation(<FromBody()> ByVal data As String()) As HttpResponseMessage
             Try
                 ViewBag.User = Session("CurrUser").ToString()
@@ -516,27 +618,27 @@ Namespace Controllers
         End Function
         Function GetTransportDetail() As ActionResult
             Try
-                Dim tSqlw As String = " WHERE JNo<>'' "
+                Dim tSqlw As String = " WHERE a.JNo<>'' "
                 If Not IsNothing(Request.QueryString("Branch")) Then
-                    tSqlw &= String.Format("AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+                    tSqlw &= String.Format("AND a.BranchCode='{0}' ", Request.QueryString("Branch").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
-                    tSqlw &= String.Format("AND BookingNo='{0}' ", Request.QueryString("Code").ToString)
+                    tSqlw &= String.Format("AND a.BookingNo='{0}' ", Request.QueryString("Code").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("Item")) Then
-                    tSqlw &= String.Format("AND ItemNo={0} ", Request.QueryString("Item").ToString)
+                    tSqlw &= String.Format("AND a.ItemNo={0} ", Request.QueryString("Item").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("Job")) Then
-                    tSqlw &= String.Format("AND JNo='{0}' ", Request.QueryString("Job").ToString)
+                    tSqlw &= String.Format("AND a.JNo='{0}' ", Request.QueryString("Job").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     If Request.QueryString("Status").ToString = "N" Then
-                        tSqlw &= "AND CauseCode NOT IN('2','3','99') "
+                        tSqlw &= "AND a.CauseCode NOT IN('2','3','99') "
                     Else
-                        tSqlw &= "AND CauseCode IN('2','3','99') "
+                        tSqlw &= "AND a.CauseCode IN('2','3','99') "
                     End If
                 End If
-                Dim tSqlH = " AND BookingNo IN(SELECT BookingNo FROM Job_LoadInfo WHERE BookingNo<>'' "
+                Dim tSqlH = " AND a.BookingNo IN(SELECT BookingNo FROM Job_LoadInfo WHERE BookingNo<>'' "
                 If Not IsNothing(Request.QueryString("Cust")) Then
                     tSqlH &= String.Format(" AND NotifyCode='{0}' ", Request.QueryString("Cust").ToString)
                 End If
@@ -550,7 +652,8 @@ Namespace Controllers
                     tSqlH &= " AND LoadDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
                 tSqlH &= ")"
-                Dim oData = New CTransportDetail(GetSession("ConnJob")).GetData(tSqlw & tSqlH)
+                'Dim oData = New CTransportDetail(GetSession("ConnJob")).GetData(tSqlw & tSqlH)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectTransportDetail() & tSqlw & tSqlH)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""transport"":{""detail"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -601,7 +704,7 @@ Namespace Controllers
                 Dim oData As New CTransportDetail(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
-                Dim json = "{""transport"":{""result"":""" & msg & """]}}"
+                Dim json = "{""transport"":{""result"":""" & msg & """}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DelTransportDetail", ex.Message, ex.StackTrace, True)

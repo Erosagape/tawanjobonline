@@ -2020,6 +2020,7 @@ End Code
         }        
         let branch = $('#txtBranchCode').val();
         let w = '';
+
         switch ($('#cboClrType').val()) {
             case '1':
                 w = '&type=ADV';
@@ -2030,6 +2031,9 @@ End Code
             case '3':
                 w = '&type=SERV';
                 break;
+        }
+        if (job !== "") {
+            w += '&jobno=' + job;
         }
         var payclick = 0;
         $.get(path + 'Clr/GetPaymentForClear?branch=' + branch + w, function (r) {
@@ -2047,8 +2051,12 @@ End Code
                             }
                         },
                         { data: "ItemNo", title: "#" },
-                        { data: "SICode", title: "Code" },
-                        { data: "SDescription", title: "Expense Name" },
+                        {
+                            data: "SICode", title: "Code"
+                        },
+                        {
+                            data: "SDescription", title: "Expense Name"                            
+                        },
                         { data: "JobNo", title: "Job" },
                         { data: "CurrencyCode", title: "Currency" },
                         { data: "CurRate", title: "Rate" },
