@@ -26,7 +26,7 @@ End Code
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtVenCode" style="width:20%" />
-            <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('vender')">...</button>
+            <button id="btnBrowseVend" class="btn btn-default" onclick="SearchData('vender')">...</button>
             <input type="text" class="form-control" id="txtVenName" style="width:100%" disabled />
         </div>
     </div>
@@ -202,13 +202,40 @@ End Code
 <div id="dvLOVs"></div>
 <script type="text/javascript">
     var path = '@Url.Content("~")';
+    var userGroup = '@ViewBag.UserGroup';
+    var user = '@ViewBag.User';
     var arr = [];
     var row = {};
     SetEvents();
     function SetEvents() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
-
+        if (userGroup == 'V') {
+            $('#txtVenCode').attr('disabled', 'disabled');
+            $('#txtVenName').attr('disabled', 'disabled');
+            $('#btnBrowseVend').attr('disabled', 'disabled');            
+            $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
+                if (r.vender.data.length > 0) {
+                    let dr = r.vender.data[0];
+                    $('#txtVenCode').val(dr.VenCode);
+                    $('#txtVenName').val(dr.TName);
+                }
+            });
+        }
+        if (userGroup == 'C') {
+            $('#txtCustCode').attr('disabled', 'disabled');
+            $('#txtCustBranch').attr('disabled', 'disabled');
+            $('#txtCustName').attr('disabled', 'disabled');
+            $('#btnBrowseCust').attr('disabled', 'disabled');        
+            $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
+                if (r.company.data.length > 0) {
+                    let dr = r.company.data[0];
+                    $('#txtCustCode').val(dr.CustCode);
+                    $('#txtCustBranch').val(dr.Branch);
+                    $('#txtCustName').val(dr.NameThai);
+                }
+            });            
+        }
         loadUnit('#txtCTN_SIZE', path, '?Type=1');
         //Events
         $('#txtBranchCode').focusout(function (event) {

@@ -635,6 +635,8 @@ End Code
             if (r.company.data.length > 0) {
                 let dr = r.company.data[0];
                 cust = dr.CustCode;
+                $('#txtNotifyCode').val(dr.CustCode);
+                $('#txtNotifyName').val(dr.NameThai);
             }
         });
     }
