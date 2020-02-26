@@ -1170,6 +1170,8 @@ AND b.IsApplyPolicy=1
                             tSqlw &= "AND IsExpense=1 "
                         Case "S"
                             tSqlw &= "AND IsCredit=0 AND IsExpense=0 "
+                        Case "E"
+                            tSqlw &= "AND NOT (IsCredit=0 AND IsExpense=0) "
                     End Select
                 End If
                 Dim oData = New CServiceCode(GetSession("ConnJob")).GetData(tSqlw)

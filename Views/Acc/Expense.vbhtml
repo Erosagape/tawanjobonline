@@ -903,6 +903,11 @@ End Code
             $('#txtBookingRefNo').val(bookno);
             $('#txtContainerNo').val(cont);
             $('#txtBookingItemNo').val(item);
+
+            $('#txtSICode').removeAttr('disabled');
+            $('#txtSDescription').removeAttr('disabled');
+            $('#txtUnitPrice').removeAttr('disabled');
+            $('#txtSRemark').removeAttr('disabled');
         }
         $('#txtAdvItemNo').val(0);
         $('#txtClrRefNo').val('');
@@ -991,7 +996,7 @@ End Code
                 SetGridUser(path, '#tbEmp', '#frmSearchEmp', ReadUser);
                 break;
             case 'service':
-                SetGridSICodeFilter(path, '#tbServ', '', '#frmSearchSICode', ReadService);
+                SetGridSICodeFilter(path, '#tbServ', 'Type=E', '#frmSearchSICode', ReadService);
                 break;
             case 'currency':
                 SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
@@ -1051,6 +1056,12 @@ End Code
             $('#txtSDescription').val(dt.SDescription);
             $('#txtSRemark').val(dt.Location);
             $('#txtUnitPrice').val(CDbl(CNum(dt.CostAmount) / CNum($('#txtExchangeRate').val()), 2));
+
+            $('#txtSICode').attr('disabled', 'disabled');
+            $('#txtSDescription').attr('disabled', 'disabled');
+            $('#txtUnitPrice').attr('disabled', 'disabled');
+            $('#txtSRemark').attr('disabled', 'disabled');
+
             CalAmount();    
         }
     }

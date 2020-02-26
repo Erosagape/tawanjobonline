@@ -138,6 +138,15 @@ Public Class CTransportRoute
             m_LocationRoute = value
         End Set
     End Property
+    Private m_RouteFormat As String
+    Public Property RouteFormat As String
+        Get
+            Return m_RouteFormat
+        End Get
+        Set(value As String)
+            m_RouteFormat = value
+        End Set
+    End Property
     Private m_IsActive As Boolean
     Public Property IsActive As Boolean
         Get
@@ -175,6 +184,7 @@ Public Class CTransportRoute
                             dr("Contact3") = Main.GetDBString(Me.Contact3, dt.Columns("Contact3"))
                             dr("Address4") = Main.GetDBString(Me.Address4, dt.Columns("Address4"))
                             dr("Contact4") = Main.GetDBString(Me.Contact4, dt.Columns("Contact4"))
+                            dr("RouteFormat") = Main.GetDBString(Me.RouteFormat, dt.Columns("RouteFormat"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CTransportRoute", "SaveData", Me, False)
@@ -243,6 +253,9 @@ Public Class CTransportRoute
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("LocationRoute"))) = False Then
                         row.LocationRoute = rd.GetString(rd.GetOrdinal("LocationRoute")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("RouteFormat"))) = False Then
+                        row.RouteFormat = rd.GetString(rd.GetOrdinal("RouteFormat")).ToString()
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("IsActive"))) = False Then
                         row.IsActive = rd.GetBoolean(rd.GetOrdinal("IsActive")).ToString()

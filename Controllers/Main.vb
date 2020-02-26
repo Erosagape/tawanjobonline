@@ -898,7 +898,7 @@ b.CurrencyCode as CurrencyCodeCredit,b.CurRate as ExchangeRateCredit,0 as AmtCre
 c.CustCode,c.CustBranch,
 b.JobNo,b.ClrNo,b.ItemNo as ClrItemNo,b.ClrNo+'/'+Convert(varchar,b.ItemNo) as ClrNoList,
 (CASE WHEN s.IsExpense=1 THEN b.BNet ELSE 0 END) as AmtCost,
-(CASE WHEN s.IsExpense=1 THEN 0 ELSE b.BNet) as AmtNet
+(CASE WHEN s.IsExpense=1 THEN 0 ELSE b.BNet END) as AmtNet
 from Job_ClearHeader a INNER JOIN Job_ClearDetail b
 ON a.BranchCode=b.BranchCode
 AND a.ClrNo=b.ClrNo

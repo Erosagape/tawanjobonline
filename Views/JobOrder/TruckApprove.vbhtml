@@ -194,6 +194,9 @@ End Code
                 <a href="#" class="btn btn-success" id="btnUpdateDetail" onclick="SaveDetail()">
                     <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Container</b>
                 </a>
+                <a href="#" class="btn btn-primary" id="btnExpense" onclick="EntryExpenses()">
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Entry Expenses</b>
+                </a>
                 <button class="btn btn-danger" data-dismiss="modal">X</button>
             </div>
         </div>
@@ -468,6 +471,13 @@ End Code
             });
         } else {
             ShowMessage('No data to save',true);
+        }
+        }
+    function EntryExpenses() {
+        if ($('#txtCauseCode').val() == '2' || $('#txtCauseCode').val() == '3') {
+            window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&BookNo=' + row.BookingNo + '&Item=' + $('#txtItemNo').val() + '&Job=' + row.JNo + '&Vend=' + $('#txtVenCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust=' + $('#txtCustCode').val(), '', '');
+        } else {
+            ShowMessage('This Container status not allow to entry Expenses', true);
         }
     }
 </script>

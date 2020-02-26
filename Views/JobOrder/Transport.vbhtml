@@ -124,7 +124,7 @@ End Code
                 </div>
                 <div class="col-sm-3" style="display:flex;flex-direction:row">
                     <div>
-                        Last Load/Packing Date :<br />
+                        Last Load/Packing Date:<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="date" id="txtPackingDate" class="form-control">
                         </div>
@@ -186,65 +186,65 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        Place 1: <br />
+                        Place #1: <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtCYPlace" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-5">
-                        Address:<br />
+                        Address #1:<br />
                         <textarea id="txtCYAddress" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
-                        Contact:<br />
+                        Contact #1:<br />
                         <input type="text" class="form-control" id="txtCYContact" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        Place 2:<br />
+                        Place #2:<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtPackingPlace" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-5">
-                        Address:<br />
+                        Address #2:<br />
                         <textarea id="txtPackingAddress" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
-                        Contact:<br />
+                        Contact #2:<br />
                         <input type="text" class="form-control" id="txtPackingContact" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        Place 3:<br />
+                        Place #3:<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtFactoryPlace" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-5">
-                        Address:<br />
+                        Address #3:<br />
                         <textarea id="txtFactoryAddress" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
-                        Contact:<br />
+                        Contact #3:<br />
                         <input type="text" class="form-control" id="txtFactoryContact" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        Place 4:<br />
+                        Place #4:<br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtReturnPlace" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-5">
-                        Address:<br />
+                        Address #4:<br />
                         <textarea id="txtReturnAddress" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
-                        Contact:<br />
+                        Contact #4:<br />
                         <input type="text" class="form-control" id="txtReturnContact" />
                     </div>
                 </div>
@@ -276,19 +276,19 @@ End Code
     </div>
     <div class="tab-pane fade" id="tabContainer">
         <div class="row">
-            <div class="col-sm-1">
+            <div class="col-sm-2">
                 <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
                     <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Container</b>
                 </a>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-4">
                 Auto Create Container =>
                 <select id="cboContainerSize" class="form-control dropdown"></select>
             </div>
             <div class="col-sm-1">
                 Total(s): <input type="number" id="txtTotalContainer" class="form-control" />
             </div>
-            <div class="col-sm-1">
+            <div class="col-sm-2">
                 <br/>
                 <input type="button" id="btnCreateContainer" class="btn btn-success" value="Create" onclick="GenContainer()" />
             </div>
@@ -557,6 +557,7 @@ End Code
         <div style="display:flex;">
             <div style="display:flex"><input type="text" id="txtDeliveryNo" class="form-control" disabled></div>
             <input type="button" id="btnGenDeliveryNo" onclick="GenerateDO()" class="btn btn-warning" value="Create" />
+            <input type="button" class="btn btn-info" value="Delivery Slip" onclick="PrintDelivery()" />
         </div>
         <br />
         Expense Can Billing On This Route:<br />
@@ -1275,18 +1276,24 @@ End Code
         $.get(path + 'JobOrder/GetTransportRoute?ID=' + $('#cboLocation').val(), function (r) {
             if (r.transportroute.data !== undefined) {
                 let dr = r.transportroute.data[0];
+
                 $('#txtCYPlace').val(dr.Place1);
-                $('#txtFactoryPlace').val(dr.Place2);
-                $('#txtPackingPlace').val(dr.Place3);
-                $('#txtReturnPlace').val(dr.Place4);
                 $('#txtCYAddress').val(dr.Address1);
-                $('#txtFactoryAddress').val(dr.Address2);
-                $('#txtPackingAddress').val(dr.Address3);
-                $('#txtReturnAddress').val(dr.Address4);
                 $('#txtCYContact').val(dr.Contact1);
-                $('#txtFactoryContact').val(dr.Contact2);
-                $('#txtPackingContact').val(dr.Contact3);
+
+                $('#txtPackingPlace').val(dr.Place2);
+                $('#txtPackingAddress').val(dr.Address2);
+                $('#txtPackingContact').val(dr.Contact2);
+
+                $('#txtFactoryPlace').val(dr.Place3);
+                $('#txtFactoryAddress').val(dr.Address3);
+                $('#txtFactoryContact').val(dr.Contact3);
+
+                $('#txtReturnPlace').val(dr.Place4);
+                $('#txtReturnAddress').val(dr.Address4);
                 $('#txtReturnContact').val(dr.Contact4);
+
+
             }
         });
     }
@@ -1510,4 +1517,8 @@ End Code
             }
         });
     }
+    function PrintDelivery() {
+        window.open(path + 'JobOrder/FormDelivery?Branch=' + $('#txtBranchCode').val() + '&Doc=' + $('#txtDeliverNo').val(), '', '');
+    }
+
 </script>

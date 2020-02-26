@@ -1435,16 +1435,17 @@ CREATE TABLE [dbo].[Job_TransportRoute](
 	[Place2] [nvarchar](255) NULL,
 	[Place3] [nvarchar](255) NULL,
 	[Place4] [nvarchar](255) NULL,
-	[LocationRoute] [nvarchar](max) NULL,
-	[IsActive] [bit] NULL,
-	[Address1] [nvarchar](max) NULL,
-	[Contact1] [nvarchar](500) NULL,
+	[Address1] [nvarchar](max) NULL,	
 	[Address2] [nvarchar](max) NULL,
-	[Contact2] [nvarchar](500) NULL,
 	[Address3] [nvarchar](max) NULL,
-	[Contact3] [nvarchar](500) NULL,
 	[Address4] [nvarchar](max) NULL,
+	[Contact1] [nvarchar](500) NULL,
+	[Contact2] [nvarchar](500) NULL,
+	[Contact3] [nvarchar](500) NULL,
 	[Contact4] [nvarchar](500) NULL,
+	[LocationRoute] [nvarchar](max) NULL,
+	[RouteFormat] [nvarchar](6) NULL,
+	[IsActive] [bit] NULL,
  CONSTRAINT [PK_Job_TransportRoute] PRIMARY KEY CLUSTERED 
 (
 	[LocationID] ASC

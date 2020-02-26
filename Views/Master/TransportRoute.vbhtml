@@ -44,7 +44,7 @@ End Code
         <p>
             <div class="row">
                 <div class="col-md-3">
-                    Plant<br />
+                    <label id="lblPlace1">Pickup</label><br />
                     <input type="text" class="form-control" id="txtPlace1" onchange="GenRoute()" />
                     Address<br />
                     <textarea class="form-control" id="txtAddress1"></textarea>
@@ -54,7 +54,7 @@ End Code
                     <input type="button" class="btn w3-purple" value="Clear" onclick="ClearPlace(1)" />
                 </div>
                 <div class="col-md-3">
-                    Place<br />
+                    <label id="lblPlace2">Delivery</label><br />
                     <input type="text" class="form-control" id="txtPlace2" onchange="GenRoute()" />
                     Address<br />
                     <textarea class="form-control" id="txtAddress2"></textarea>
@@ -64,7 +64,7 @@ End Code
                     <input type="button" class="btn w3-purple" value="Clear" onclick="ClearPlace(2)" />
                 </div>
                 <div class="col-md-3">
-                    Yard<br />
+                    <label id="lblPlace3">Container Yard</label><br />
                     <input type="text" class="form-control" id="txtPlace3" onchange="GenRoute()" />
                     Address<br />
                     <textarea class="form-control" id="txtAddress3"></textarea>
@@ -74,7 +74,7 @@ End Code
                     <input type="button" class="btn w3-purple" value="Clear" onclick="ClearPlace(3)" />
                 </div>
                 <div class="col-md-3">
-                    Port<br />
+                    <label id="lblPlace4">Port</label><br />
                     <input type="text" class="form-control" id="txtPlace4" onchange="GenRoute()" />
                     Address<br />
                     <textarea class="form-control" id="txtAddress4"></textarea>
@@ -90,7 +90,7 @@ End Code
                 <table id="lstPlace1" class="table table-responsive">
                     <thead>
                         <tr>
-                            <th>Plant</th>
+                            <th>Pickup</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -100,7 +100,7 @@ End Code
                 <table id="lstPlace2" class="table table-responsive">
                     <thead>
                         <tr>
-                            <th>Place</th>
+                            <th>Delivery</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -110,7 +110,7 @@ End Code
                 <table id="lstPlace3" class="table table-responsive">
                     <thead>
                         <tr>
-                            <th>Yard</th>
+                            <th>Container Yard</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -120,7 +120,7 @@ End Code
                 <table id="lstPlace4" class="table table-responsive">
                     <thead>
                         <tr>
-                            <th>Port</th>
+                            <th> Port</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -353,21 +353,26 @@ End Code
                     $(this).addClass('selected');
 
                     let data = $('#tbDetail').DataTable().row(this).data();
+                    let idx1 = data.RouteFormat.substr(0, 1);
+                    let idx2 = data.RouteFormat.substr(1, 1);
+                    let idx3 = data.RouteFormat.substr(2, 1);
+                    let idx4 = data.RouteFormat.substr(3, 1);
+
                     $('#txtLocationID').val(data.LocationID);
                     $('#cboLocationID').val(data.LocationID);
                     $('#txtLocationRoute').val(data.LocationRoute);
-                    $('#txtPlace1').val(data.Place1);
-                    $('#txtAddress1').val(data.Address1);
-                    $('#txtContact1').val(data.Contact1);
-                    $('#txtPlace2').val(data.Place2);
-                    $('#txtAddress2').val(data.Address2);
-                    $('#txtContact2').val(data.Contact2);
-                    $('#txtPlace3').val(data.Place3);
-                    $('#txtAddress3').val(data.Address3);
-                    $('#txtContact3').val(data.Contact3);
-                    $('#txtPlace4').val(data.Place4);
-                    $('#txtAddress4').val(data.Address4);
-                    $('#txtContact4').val(data.Contact4);
+                    $('#txtPlace'+ idx1).val(data.Place1);
+                    $('#txtAddress'+ idx1).val(data.Address1);
+                    $('#txtContact'+ idx1).val(data.Contact1);
+                    $('#txtPlace'+ idx2).val(data.Place2);
+                    $('#txtAddress'+ idx2).val(data.Address2);
+                    $('#txtContact'+ idx2).val(data.Contact2);
+                    $('#txtPlace'+ idx3).val(data.Place3);
+                    $('#txtAddress'+ idx3).val(data.Address3);
+                    $('#txtContact'+ idx3).val(data.Contact3);
+                    $('#txtPlace'+ idx4).val(data.Place4);
+                    $('#txtAddress'+ idx4).val(data.Address4);
+                    $('#txtContact'+ idx4).val(data.Contact4);
                     LoadPrice();
                 });
             }
@@ -425,27 +430,27 @@ End Code
         });
     }
     function SetPlace(id, val) {
-        $.get(path + 'Master/GetTransportPlace?Code=' + val).done(function (r) {
+        $.get(path + 'Master/GetTransportPlace?Type='+ id +'&Code=' + val).done(function (r) {
             if (r.transportplace.data.length > 0) {
                 let d = r.transportplace.data[0];
                 $('#txtAddress'+ d.PlaceType).val(d.PlaceAddress);
                 $('#txtContact' + d.PlaceType).val(d.PlaceContact);
+                $('#txtPlace' + d.PlaceType).val(d.PlaceName).change();
             }
         });
-        $('#txtPlace' + id).val(val).change();
     }
     function GetFormat(id) {
         let str = '';
         for (let i = 0; i < 4;i++) {
             switch (id.substr(i, 1)) {
                 case '1':
-                    str += (str !== '' ? ',' : '') + 'Plant';
+                    str += (str !== '' ? ',' : '') + 'Pickup';
                     break;
                 case '2':
-                    str += (str !== '' ? ',' : '') + 'Place';
+                    str += (str !== '' ? ',' : '') + 'Delivery';
                     break;
                 case '3':
-                    str += (str !== '' ? ',' : '') + 'Yard';
+                    str += (str !== '' ? ',' : '') + 'Container Yard';
                     break;
                 case '4':
                     str += (str !== '' ? ',' : '') + 'Port';
@@ -456,10 +461,11 @@ End Code
     }
     function GenRoute() {
         $('#lblRouteFormat').text(GetFormat($('#cboTemplate').val()));
-        let idx1 = $('#txtPlace' + $('#cboTemplate').val().substr(0, 1)).val();
-        let idx2 = $('#txtPlace' + $('#cboTemplate').val().substr(1, 1)).val();
-        let idx3 = $('#txtPlace' + $('#cboTemplate').val().substr(2, 1)).val();
-        let idx4 = $('#txtPlace' + $('#cboTemplate').val().substr(3, 1)).val();
+        
+        let idx1 = $('#txtPlace'+$('#cboTemplate').val().toString().substr(0, 1)).val();
+        let idx2 = $('#txtPlace'+$('#cboTemplate').val().toString().substr(1, 1)).val();
+        let idx3 = $('#txtPlace'+$('#cboTemplate').val().toString().substr(2, 1)).val();
+        let idx4 = $('#txtPlace'+$('#cboTemplate').val().toString().substr(3, 1)).val();
         let str = '';
         if(idx1!=='') str += (str !== '' ? '=>' : '') + idx1;
         if(idx2!=='') str += (str !== '' ? '=>' : '') + idx2;
@@ -486,21 +492,26 @@ End Code
         });
     }
     function SaveRoute() {
+        let idx1 = $('#cboTemplate').val().toString().substr(0, 1);
+        let idx2 = $('#cboTemplate').val().toString().substr(1, 1);
+        let idx3 = $('#cboTemplate').val().toString().substr(2, 1);
+        let idx4 = $('#cboTemplate').val().toString().substr(3, 1);
         let obj = {
             LocationID: CNum($('#txtLocationID').val()),
-            Place1: $('#txtPlace1').val(),
-            Place2: $('#txtPlace2').val(),
-            Place3: $('#txtPlace3').val(),
-            Place4: $('#txtPlace4').val(),
-            Address1: $('#txtAddress1').val(),
-            Address2: $('#txtAddress2').val(),
-            Address3: $('#txtAddress3').val(),
-            Address4: $('#txtAddress4').val(),
-            Contact1: $('#txtContact1').val(),
-            Contact2: $('#txtContact2').val(),
-            Contact3: $('#txtContact3').val(),
-            Contact4: $('#txtContact4').val(),
+            Place1: $('#txtPlace'+idx1).val(),
+            Place2: $('#txtPlace'+idx2).val(),
+            Place3: $('#txtPlace'+idx3).val(),
+            Place4: $('#txtPlace'+idx4).val(),
+            Address1: $('#txtAddress'+idx1).val(),
+            Address2: $('#txtAddress'+idx2).val(),
+            Address3: $('#txtAddress'+idx3).val(),
+            Address4: $('#txtAddress'+idx4).val(),
+            Contact1: $('#txtContact'+idx1).val(),
+            Contact2: $('#txtContact'+idx2).val(),
+            Contact3: $('#txtContact'+idx3).val(),
+            Contact4: $('#txtContact'+idx4).val(),
             LocationRoute: $('#txtLocationRoute').val(),
+            RouteFormat: $('#cboTemplate').val(),
             IsActive: true
         };
         let json = JSON.stringify({ data: obj });
