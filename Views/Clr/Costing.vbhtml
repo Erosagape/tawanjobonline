@@ -171,9 +171,9 @@ End Code
                     return data.BNet !== 0;
                 });
                 for (let i = 0; i < d.length; i++){
-                    let amt = d[i].UsedAmount + d[i].ChargeVAT - (d[i].IsCredit == 1 ? d[i].Tax50Tavi : 0);
+                    let amt = d[i].UsedAmount + d[i].ChargeVAT;
                     let adv = (d[i].IsCredit == 1 && d[i].IsExpense == 0 ? amt : 0);
-                    let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ?  d[i].UsedAmount : 0);
+                    let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? d[i].UsedAmount : 0);
                     let cost = (d[i].IsExpense == 1 ?  d[i].UsedAmount : 0);
                     let profit = (d[i].IsExpense == 1 ?  d[i].UsedAmount*-1 : d[i].IsCredit==1 ? 0 : d[i].UsedAmount);
                     let slipNo = (d[i].IsHaveSlip == 1 && d[i].IsCredit==1 ? ' #' + d[i].SlipNO : '');

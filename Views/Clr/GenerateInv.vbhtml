@@ -426,13 +426,13 @@ End Code
                         }
                     },
                     {
-                        data: "AmtCost", title: "Cost",
+                        data: "AmtAdvance", title: "Advance",
                         render: function (data) {
                             return ShowNumber(data, 2);
                         }
                     },
                     {
-                        data: "AmtAdvance", title: "Advance",
+                        data: "AmtCost", title: "Cost",
                         render: function (data) {
                             return ShowNumber(data, 2);
                         }
@@ -456,14 +456,18 @@ End Code
                         }
                     },
                     {
-                        data: "AmtNet", title: "NET",
+                        data: "TotalAmt", title: "NET",
                         render: function (data) {
                             return ShowNumber(data, 2);
                         }
                     }
                 ],
-                responsive:true,
-                destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                responsive: true,
+                pageLength: 100,
+                createdRow: function ( row, data, index ) {
+                    $(row).addClass('selected')
+                },
+                destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page,
             });
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
@@ -481,7 +485,6 @@ End Code
                 //ShowMessage('you click ' + clearno);
                 window.open(path + 'Clr/Index?BranchCode=' + $('#txtBranchCode').val() + '&ClrNo=' + clearno);
             });
-            $('#tbHeader tbody > tr').addClass('selected');
             for (let row of h) {
                 AddData(row);
             }
@@ -597,7 +600,7 @@ End Code
                     }
                 },
                 {
-                    data: "TotalAmt", title: "NET",
+                    data: "AmtNet", title: "NET",
                     render: function (data) {
                         return ShowNumber(data, 2);
                     }
@@ -638,7 +641,7 @@ End Code
                 },
                 { data: "ExpSlipNO", title: "Slip No" },
                 {
-                    data: "AmtCost", title: "Advance",
+                    data: "AmtCost", title: "Amount",
                     render: function (data) {
                         return ShowNumber(data, 2);
                     }
@@ -858,8 +861,16 @@ End Code
             ShowMessage('Please select Customer first!',true);
             return;
         }
-
-        let dataInv = {
+        if ($('#txtDocNo').val() !== '') {
+            DeleteDetail();
+        } else {
+            SaveHeader();
+        }
+        
+        return;
+    }
+    function SaveHeader() {
+let dataInv = {
             BranchCode:$('#txtBranchCode').val(),
             DocNo: $('#txtDocNo').val(),
             DocType:$('#cboDocType').val(),
@@ -922,9 +933,7 @@ End Code
                     if (chq.length > 0) {
                         SaveCheque(response.result.data);
                     }
-                    if ($('#txtDocNo').val() !== '') {
-                        DeleteDetail();
-                    } else {
+                    if ($('#txtDocNo').val() == '') {
                         SaveDetail(response.result.data);
                     }
                     ShowMessage(response.result.data);
@@ -938,7 +947,6 @@ End Code
                 ShowMessage(e,true);
             }
         });
-        return;
     }
     function GetRefNo() {
         let joblist = [];
@@ -993,7 +1001,8 @@ End Code
     function DeleteDetail() {
         $.get(path + 'Acc/DelInvDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
             //if (r.invdetail.data !== null) {
-                SaveDetail($('#txtDocNo').val());
+            SaveHeader();
+            SaveDetail($('#txtDocNo').val());
             //}
         });
     }
@@ -1012,7 +1021,7 @@ End Code
                         ShowMessage(response.result.msg + '\n=>' + response.result.data);
                         PrintInvoice();
                         ResetData();
-                        $('#btnGen').hide();
+                        //$('#btnGen').hide();
                         return;
                     }
                     ShowMessage(response.result.msg,true);
@@ -1145,8 +1154,8 @@ End Code
                     Amt50Tavi: CDbl(obj.Amt50Tavi,2),
                     IsTaxCharge: obj.IsTaxCharge,
                     AmtVat: CDbl(obj.AmtVat,2),
-                    TotalAmt: CDbl(obj.TotalAmt,2),
-                    FTotalAmt: CDbl(obj.TotalAmt / CNum($('#txtExchangeRate').val()), 2),
+                    TotalAmt: CDbl(obj.AmtNet,2),
+                    FTotalAmt: CDbl(obj.AmtNet / CNum($('#txtExchangeRate').val()), 2),
                     AmtAdvance: (obj.AmtAdvance > 0 ? CDbl(obj.AmtAdvance  / CNum($('#txtExchangeRate').val()),2) : 0),
                     AmtCharge: (obj.AmtCharge > 0 ? CDbl(obj.AmtCharge  / CNum($('#txtExchangeRate').val()),2) : 0),
                     CurrencyCodeCredit: $('#txtCurrencyCode').val(),

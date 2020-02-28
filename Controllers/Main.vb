@@ -266,28 +266,28 @@ from Job_AdvHeader adv inner join
     ,sum(ClrNet) as ClrNet,Sum(AdvNet) as AdvNet
     from
     (
-select h.BranchCode,d.AdvNo,d.ItemNo,d.IsDuplicate,d.AdvAmount as AdvNet,
-(CASE WHEN d.IsDuplicate=1 THEN ISNULL(c.ClrNet,0) ELSE ISNULL(c.AdvNet,0) END) as ClrNet,
-(CASE WHEN h.PaymentRef<>'' THEN 3 ELSE (CASE WHEN h.ApproveBy<>'' THEN 2 ELSE 1 END) END) as AdvStatus,
-(CASE WHEN c.ClrNo IS NULL THEN 0 ELSE 1 END) as ClrCount
-from Job_AdvHeader h inner join Job_AdvDetail d
-on h.BranchCode=d.BranchCode
-and h.AdvNo=d.AdvNo 
-left join
-(
-    select a.BranchCode,a.AdvNO,a.AdvItemNo
-    ,Max(a.ClrNo) as ClrNo
-    ,Sum(a.BNet) as ClrNet,Sum(a.AdvAmount) as AdvNet 
-    FROM Job_ClearDetail a inner join Job_ClearHeader b
-    on a.BranchCode=b.BranchCode
-    and a.ClrNo=b.ClrNo
-    where b.DocStatus<>99
-    group by a.BranchCode,a.AdvNO,a.AdvItemNo
-) c
-on h.BranchCode=c.BranchCode
-and h.AdvNo=c.AdvNO
-and d.ItemNo=c.AdvItemNo
-where h.DocStatus<>99
+        select h.BranchCode,d.AdvNo,d.ItemNo,d.IsDuplicate,d.AdvAmount as AdvNet,
+        (CASE WHEN d.IsDuplicate=1 THEN ISNULL(c.ClrNet,0) ELSE ISNULL(c.AdvNet,0) END) as ClrNet,
+        (CASE WHEN h.PaymentRef<>'' THEN 3 ELSE (CASE WHEN h.ApproveBy<>'' THEN 2 ELSE 1 END) END) as AdvStatus,
+        (CASE WHEN c.ClrNo IS NULL THEN 0 ELSE 1 END) as ClrCount
+        from Job_AdvHeader h inner join Job_AdvDetail d
+        on h.BranchCode=d.BranchCode
+        and h.AdvNo=d.AdvNo 
+        left join
+        (
+            select a.BranchCode,a.AdvNO,a.AdvItemNo
+            ,Max(a.ClrNo) as ClrNo
+            ,Sum(a.BNet) as ClrNet,Sum(a.AdvAmount) as AdvNet 
+            FROM Job_ClearDetail a inner join Job_ClearHeader b
+            on a.BranchCode=b.BranchCode
+            and a.ClrNo=b.ClrNo
+            where b.DocStatus<>99
+            group by a.BranchCode,a.AdvNO,a.AdvItemNo
+        ) c
+        on h.BranchCode=c.BranchCode
+        and h.AdvNo=c.AdvNO
+        and d.ItemNo=c.AdvItemNo
+        where h.DocStatus<>99
     ) clr
     group by BranchCode,AdvNo
 ) src
@@ -884,21 +884,25 @@ and h.DocNo=d.DocNo
     Function SQLSelectClrForInvoice() As String
         Return "
 select b.BranchCode,b.LinkBillNo as DocNo,b.LinkItem as ItemNo,b.SICode,b.SDescription,b.SlipNO as ExpSlipNO,b.Remark as SRemark,b.CurrencyCode,
-b.CurRate as ExchangeRate,b.Qty,b.UnitCode as QtyUnit,b.UnitCost as UnitPrice,b.UnitCost*b.CurRate as FUnitPrice,b.UsedAmount as Amt,
-b.UsedAmount/b.CurRate as FAmt,0 as DiscountType,0 as DiscountPerc,0 as AmtDiscount,0 as FAmtDiscount,
+b.CurRate as ExchangeRate,b.Qty,b.UnitCode as QtyUnit,
+b.UnitCost as UnitPrice,b.UnitCost*b.CurRate as FUnitPrice,
+(CASE WHEN s.IsCredit=1 THEN b.UsedAmount+b.ChargeVAT ELSE b.UsedAmount END) as Amt,
+(CASE WHEN s.IsCredit=1 THEN b.UsedAmount+b.ChargeVAT ELSE b.UsedAmount END)/b.CurRate as FAmt,
+0 as DiscountType,0 as DiscountPerc,0 as AmtDiscount,0 as FAmtDiscount,
 CASE WHEN b.Tax50TaviRate>0 THEN 1 ELSE 0 END as Is50Tavi,
 b.Tax50TaviRate as Rate50Tavi,
-CASE WHEN s.IsExpense=0 AND s.IsCredit=0  THEN b.Tax50Tavi ELSE 0 END as Amt50Tavi,
+CASE WHEN s.IsCredit=0 THEN b.Tax50Tavi ELSE 0 END as Amt50Tavi,
 b.VATType as IsTaxCharge,
-CASE WHEN s.IsCredit=0 AND s.IsExpense=0  THEN b.ChargeVAT ELSE 0 END as AmtVat,
-b.BNet as TotalAmt,b.BNet/b.CurRate as FTotalAmt,
-CASE WHEN s.IsCredit=1 AND s.IsExpense=0  THEN b.BNet ELSE 0 END as AmtAdvance,
+CASE WHEN s.IsCredit=0 THEN b.ChargeVAT ELSE 0 END as AmtVat,
+(CASE WHEN s.IsCredit=1 THEN b.UsedAmount+b.ChargeVAT ELSE b.BNet END) as TotalAmt,
+(CASE WHEN s.IsCredit=1 THEN b.UsedAmount+b.ChargeVAT ELSE b.BNet END)/b.CurRate as FTotalAmt,
+CASE WHEN s.IsCredit=1 AND s.IsExpense=0  THEN b.UsedAmount+b.ChargeVAT ELSE 0 END as AmtAdvance,
 CASE WHEN s.IsCredit=0 AND s.IsExpense=0  THEN b.UsedAmount ELSE 0 END as AmtCharge,
 b.CurrencyCode as CurrencyCodeCredit,b.CurRate as ExchangeRateCredit,0 as AmtCredit,0 as FAmtCredit,b.VATRate,
 c.CustCode,c.CustBranch,
 b.JobNo,b.ClrNo,b.ItemNo as ClrItemNo,b.ClrNo+'/'+Convert(varchar,b.ItemNo) as ClrNoList,
-(CASE WHEN s.IsExpense=1 THEN b.BNet ELSE 0 END) as AmtCost,
-(CASE WHEN s.IsExpense=1 THEN 0 ELSE b.BNet END) as AmtNet
+(CASE WHEN s.IsExpense=1 THEN b.UsedAmount ELSE 0 END) as AmtCost,
+(CASE WHEN s.IsCredit=1 THEN b.UsedAmount+b.ChargeVAT ELSE b.BNet END) as AmtNet
 from Job_ClearHeader a INNER JOIN Job_ClearDetail b
 ON a.BranchCode=b.BranchCode
 AND a.ClrNo=b.ClrNo
@@ -1038,15 +1042,15 @@ WHERE EXISTS
       ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
       INNER JOIN Job_SrvSingle s ON b.SICode=s.SICode
       LEFT JOIN (
-SELECT rh.BranchCode,rd.InvoiceNo,rd.InvoiceItemNo,Sum(rd.Net) as TotalRcv,id.AmtCredit,id.AmtDiscount
-FROM Job_ReceiptHeader rh INNER JOIN Job_ReceiptDetail rd
-ON rh.BranchCode=rd.BranchCode AND rh.ReceiptNo=rd.ReceiptNo
-INNER JOIN Job_InvoiceHeader ih
-ON rd.BranchCode=ih.BranchCode AND rd.InvoiceNo=ih.DocNo
-INNER JOIN Job_InvoiceDetail id
-ON rd.BranchCode=id.BranchCode AND rd.InvoiceNo=id.DocNo AND rd.InvoiceItemNo=id.ItemNo
-WHERE ISNULL(rh.CancelProve,'')='' AND ISNULL(ih.CancelProve,'')='' 
-GROUP BY rh.BranchCode,rd.InvoiceNo,rd.InvoiceItemNo,id.AmtCredit,id.AmtDiscount
+            SELECT rh.BranchCode,rd.InvoiceNo,rd.InvoiceItemNo,Sum(rd.Net) as TotalRcv,id.AmtCredit,id.AmtDiscount
+            FROM Job_ReceiptHeader rh INNER JOIN Job_ReceiptDetail rd
+            ON rh.BranchCode=rd.BranchCode AND rh.ReceiptNo=rd.ReceiptNo
+            INNER JOIN Job_InvoiceHeader ih
+            ON rd.BranchCode=ih.BranchCode AND rd.InvoiceNo=ih.DocNo
+            INNER JOIN Job_InvoiceDetail id
+            ON rd.BranchCode=id.BranchCode AND rd.InvoiceNo=id.DocNo AND rd.InvoiceItemNo=id.ItemNo
+            WHERE ISNULL(rh.CancelProve,'')='' AND ISNULL(ih.CancelProve,'')='' 
+            GROUP BY rh.BranchCode,rd.InvoiceNo,rd.InvoiceItemNo,id.AmtCredit,id.AmtDiscount
       ) r
       ON b.BranchCode=r.BranchCode AND b.LinkBillNo=r.InvoiceNo AND b.LinkItem=r.InvoiceItemNo
       LEFT JOIN (

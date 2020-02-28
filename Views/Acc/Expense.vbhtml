@@ -996,7 +996,7 @@ End Code
                 SetGridUser(path, '#tbEmp', '#frmSearchEmp', ReadUser);
                 break;
             case 'service':
-                SetGridSICodeFilter(path, '#tbServ', 'Type=E', '#frmSearchSICode', ReadService);
+                SetGridSICodeFilter(path, '#tbServ', '?Type=E', '#frmSearchSICode', ReadService);
                 break;
             case 'currency':
                 SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
