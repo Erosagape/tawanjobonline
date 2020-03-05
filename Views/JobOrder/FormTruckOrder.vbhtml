@@ -1,7 +1,7 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.ReportName = "Vessel Declaration"
-    ViewBag.Title = "Vessel Declaration"
+    ViewBag.ReportName = "Transport Order Confirmation"
+    ViewBag.Title = "Transport Order Confirmation"
 
 End Code
 <style>
@@ -24,10 +24,10 @@ End Code
         <th colspan="3">@DateTime.Now.ToString("dd/MM/yyyy HH:mm")</th>
     </tr>
     <tr>
-        <td>สาขา</td>
-        <td><label id="txtBranchName"></label></td>
         <td>หมายเลข Job Order</td>
         <td><label id="txtJNo"></label></td>
+        <td>เลขที่เอกสาร</td>
+        <td><label id="txtDeliveryNo"></label></td>
     </tr>
     <tr>
         <td>ชื่อเรือ/เที่ยว</td>
@@ -155,8 +155,8 @@ End Code
     $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc +'&Cont=' +cont).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
-            ShowBranch(path, h.BranchCode, '#txtBranchName');
             $('#txtJNo').text(h.JNo);
+            $('#txtDeliveryNo').text(h.DeliveryNo);
             $('#txtNotifyName').text(h.NotifyName);
             $('#txtVesselName').text(h.VesselName);
             if (h.JobType == '1') {

@@ -1,7 +1,7 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.ReportName = "Truck Order"
-    ViewBag.Title = "Truck Order"
+    ViewBag.ReportName = "Transport Order"
+    ViewBag.Title = "Transport Order"
 End Code
 <style>
     * {
@@ -22,9 +22,9 @@ End Code
         <td>
             <label id="txtJNo" style="width:100%"></label>
         </td>
-        <td>ตู้ที่</td>
+        <td>เลขที่เอกสาร</td>
         <td>
-            <label id="txtItemNo" style="width:100%"></label>
+            <label id="txtDeliveryNo" style="width:100%"></label>
         </td>
     </tr>
     <tr>
@@ -196,7 +196,7 @@ End Code
     $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc +'&Cont=' +cont).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
-            $('#txtItemNo').text(h.ItemNo);
+            $('#txtDeliveryNo').text(h.DeliveryNo);
             $('#txtJNo').text(h.JNo);
             $('#txtNotifyName').text(h.NotifyName);
             $('#txtVenderName').text(h.ForwarderName);

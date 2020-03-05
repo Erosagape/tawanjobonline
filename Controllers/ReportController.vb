@@ -370,6 +370,7 @@ ORDER BY a.EmpCode,a.PaymentDate,a.AdvNo
                         groupDatas = JsonConvert.SerializeObject(New CUser(GetSession("ConnJob")).GetData(""))
                     Case "CUSTSUMMARY"
                         sqlW = GetSQLCommand(cliteria, "c.DutyDate", "c.CustCode", "c.JNo", "c.CSCode", "c.AgentCode", "c.JobStatus", "c.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 SELECT CustCode,CustName,
 SUM(AdvCleared+CostCleared) as TotalExpClear,SUM(ExpWaitBill) as TotalExpWaitBill,
@@ -403,6 +404,7 @@ ORDER BY CustName
                         fldGroup = "CustCode"
                         groupDatas = JsonConvert.SerializeObject(New CCompany(GetSession("ConnJob")).GetData(""))
                         sqlW = GetSQLCommand(cliteria, "c.DutyDate", "c.CustCode", "c.JNo", "c.CSCode", "c.AgentCode", "c.JobStatus", "c.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 SELECT JNo,DeclareNumber,InvNo,DutyDate,CloseJobDate,CustCode,
 SUM(AdvCleared+CostCleared) as TotalExpClear,SUM(AdvWaitBill+ChargeWaitBill) as TotalExpWaitBill,
@@ -439,6 +441,7 @@ ORDER BY CustCode,DutyDate,JNo
                         fldGroup = "CustCode"
                         groupDatas = JsonConvert.SerializeObject(New CCompany(GetSession("ConnJob")).GetData(""))
                         sqlW = GetSQLCommand(cliteria, "f.DocDate", "c.CustCode", "c.JNo", "c.CSCode", "c.AgentCode", "c.JobStatus", "c.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 SELECT DocNo,InvDate,CustCode,JNo,DeclareNumber,InvNo,
 ISNULL(AmtCost,0) as TotalCost,

@@ -1883,7 +1883,7 @@ n.NameEng AS NotifyName, n.EAddress1 AS NotifyAddress1, n.EAddress2 AS NotifyAdd
 j.ProjectName, j.TotalGW, j.GWUnit, j.InvInterPort, j.InvFCountry, j.InvCountry, j.ETDDate, j.ETADate, j.ClearPortNo, j.ClearPort, j.DeliveryTo, j.DeliveryAddr, 
 j.EstDeliverDate, h.Remark, h.PackingAddress, h.CYAddress, h.FactoryAddress, h.ReturnAddress, h.PackingContact, h.CYContact, h.FactoryContact, h.ReturnContact, 
 h.PackingPlace, h.CYPlace, h.FactoryPlace, h.ReturnPlace, h.PackingDate, h.CYDate, h.FactoryDate, h.ReturnDate, h.PackingTime, h.CYTime, h.FactoryTime, 
-h.ReturnTime, h.TransMode, h.PaymentCondition, h.PaymentBy, d.CTN_NO, d.SealNumber, d.TruckNO, d.Comment, d.TruckType, d.Driver, d.Location, 
+h.ReturnTime, h.TransMode, h.PaymentCondition, h.PaymentBy, d.CTN_NO, d.SealNumber, d.TruckNO, d.Comment, d.TruckType, d.Driver, d.Location, d.DeliveryNo,
 d.ShippingMark, d.CTN_SIZE, d.ProductDesc, d.ProductQty, d.ProductUnit, d.GrossWeight, d.Measurement, d.TargetYardDate, d.ActualYardDate, 
 d.UnloadDate AS TargetDeliveryDate, d.UnloadFinishDate AS ActualDeliveryDate, d.TruckIN AS TargetReturnDate, d.ReturnDate AS ActualReturnDate, j.JobType, 
 j.ShipBy, j.AgentCode, s.NameEng AS ShipperName, s.EAddress1 AS ShipperAddress1, s.EAddress2 AS ShipperAddress2, s.Phone AS ShipperPhone, 
