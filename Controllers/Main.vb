@@ -1928,6 +1928,18 @@ GROUP BY Year(j.CreateDate),Month(j.CreateDate)
 "
         Return String.Format(sql, sqlw)
     End Function
+    Function SQLSelectJobList(sqlw As String) As String
+        Dim sql = "SELECT * FROM 
+(SELECT jt.ConfigKey AS JobTypeCode, jt.ConfigValue AS JobTypeName, sb.ConfigKey AS ShipByCode, sb.ConfigValue AS ShipByName, JNo AS JobNo, 
+                         Convert(varchar,Year(j.CreateDate)) + '/' + RIGHT('0'+Convert(varchar,Month(j.CreateDate)),2) AS Period,Year(j.CreateDate) as FiscalYear,Month(j.CreateDate) as JobMonth
+FROM dbo.Mas_Config AS jt INNER JOIN
+                         dbo.Job_Order AS j ON CONVERT(int, jt.ConfigKey) = j.JobType INNER JOIN
+                         dbo.Mas_Config AS sb ON CONVERT(int, sb.ConfigKey) = j.ShipBy
+WHERE (jt.ConfigCode = N'JOB_TYPE') AND (sb.ConfigCode = N'SHIP_BY') AND (j.JobStatus <> 99) {0}
+) t
+"
+        Return String.Format(sql, sqlw)
+    End Function
     Function SQLSelectExpenseFromQuo() As String
         Return "
 SELECT j.BranchCode, j.JNo, j.QNo, i.SICode, i.DescriptionThai as TRemark, i.QtyBegin, i.QtyEnd, i.CalculateType, i.UnitCheck, i.CurrencyCode, i.CurrencyRate, i.ChargeAmt, i.Isvat, i.VatRate, i.VatAmt, i.IsTax, 
@@ -1937,6 +1949,20 @@ FROM dbo.Job_QuotationDetail AS d INNER JOIN
 dbo.Job_Order AS j ON d.BranchCode = j.BranchCode AND d.QNo = j.QNo AND d.SeqNo = j.Revise AND d.JobType = j.JobType AND d.ShipBy = j.ShipBy INNER JOIN
 dbo.Job_QuotationItem AS i ON d.BranchCode = i.BranchCode AND d.QNo = i.QNo AND d.SeqNo = i.SeqNo INNER JOIN
 dbo.Job_SrvSingle AS s ON i.SICode = s.SICode
+"
+    End Function
+    Function SQLSelectDocList() As String
+        Return "
+SELECT * FROM (
+select Convert(varchar,Year(AdvDate))+'/'+RIGHT('0'+Convert(varchar,Month(AdvDate)),2) as Period,'ADV' as DocType,AdvNo as DocNo 
+from Job_AdvHeader where DocStatus<>99 
+union
+select Convert(varchar,Year(ClrDate))+'/'+RIGHT('0'+Convert(varchar,Month(ClrDate)),2) as Period,'CLR' as DocType,ClrNo as DocNo 
+from Job_ClearHeader where DocStatus<>99 
+UNION
+select Convert(varchar,Year(CreateDate))+'/'+RIGHT('0'+Convert(varchar,Month(CreateDate)),2) as Period,'INV' as DocType,DocNo 
+from Job_InvoiceHeader where NOT ISNULL(CancelProve,'')<>''
+) t {0} ORDER BY t.DocType,t.Period,t.DocNo
 "
     End Function
     Function SQLSelectDocSummary() As String

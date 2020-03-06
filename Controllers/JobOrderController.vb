@@ -853,7 +853,13 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Period")) Then
                     tSqlW &= " AND t.Period='" & Request.QueryString("Period") & "' "
                 End If
-                Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(SQLSelectDocSummary(), tSqlW))
+                Dim sqlm As String = SQLSelectDocSummary()
+                If Not IsNothing(Request.QueryString("Summary")) Then
+                    If Request.QueryString("Summary").ToString <> "Y" Then
+                        sqlm = SQLSelectDocList()
+                    End If
+                End If
+                Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sqlm, tSqlW))
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 Return Content(json, jsonContent)
             Catch ex As Exception
@@ -941,7 +947,13 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Period")) Then
                     period &= " WHERE t.Period='" & Request.QueryString("Period") & "' "
                 End If
-                Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectJobSummary(tSqlW) & period & " ORDER BY t.Period")
+                Dim sqlm As String = SQLSelectJobSummary(tSqlW)
+                If Not IsNothing(Request.QueryString("Summary")) Then
+                    If Request.QueryString("Summary").ToString <> "Y" Then
+                        sqlm = SQLSelectJobList(tSqlW)
+                    End If
+                End If
+                Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlm & period & " ORDER BY t.Period")
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 Return Content(json, jsonContent)
             Catch ex As Exception

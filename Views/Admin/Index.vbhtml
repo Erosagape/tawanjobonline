@@ -2,10 +2,11 @@
     ViewBag.Title = "Index"
 End Code
 Period : <input type="text" id="txtPeriod" value="@DateTime.Now.ToString("yyyy/MM")" />
-<input type="button" id="btnShow" class="btn btn-default" value="Show Data" onclick="ShowData()" />
-<h3>Summary User Login</h3>
+<input type="button" id="btnShow" class="btn btn-success" value="Show Summary" onclick="ShowData(true)" />
+<input type="button" id="btnShow" class="btn btn-warning" value="Show Detail" onclick="ShowData(false)" />
+<h3>User Login</h3>
 <div id="dvLoginCount">
-    <table id="tbUser" class="table table-bordered" style="border:thin;width:100%">
+    <table id="tbUser" class="table table-responsive" style="border:thin;width:100%">
         <thead>
             <tr>
                 <th>Period</th>
@@ -16,9 +17,9 @@ Period : <input type="text" id="txtPeriod" value="@DateTime.Now.ToString("yyyy/M
         <tbody></tbody>
     </table>
 </div>
-<h3>Summary Job Usages</h3>
+<h3>Job Usages</h3>
 <div id="dvJobCount">
-    <table id="tbJobCount" class="table table-bordered" style="border:thin;width:100%">
+    <table id="tbJobCount" class="table table-responsive" style="border:thin;width:100%">
         <thead>
             <tr>
                 <th>Period</th>
@@ -31,9 +32,9 @@ Period : <input type="text" id="txtPeriod" value="@DateTime.Now.ToString("yyyy/M
         </tbody>
     </table>
 </div>
-<h3>Summary Document Created</h3>
+<h3>Document Created</h3>
 <div id="dvDocCount">
-    <table id="tbDocCount" class="table table-bordered" style="border:thin;width:100%">
+    <table id="tbDocCount" class="table table-responsive" style="border:thin;width:100%">
         <thead>
             <tr>
                 <th>Period</th>
@@ -46,11 +47,13 @@ Period : <input type="text" id="txtPeriod" value="@DateTime.Now.ToString("yyyy/M
 </div>
 <script type="text/javascript">
     var path = '@Url.Content("~")';
-    ShowData();
-    function ShowData() {
-        let period = '';
+    var isSummary = true;
+    ShowData(true);
+    function ShowData(summary) {
+        IsSummary = summary;
+        let period = '?summary=' + (IsSummary == true ? 'Y' : 'N');
         if($('#txtPeriod').val() !== '') {
-            period += '?period=' + $('#txtPeriod').val();
+            period += '&period=' + $('#txtPeriod').val();
         }       
         $('#tbJobCount tbody').html('');
         $.get(path + 'JobOrder/GetJobSummary' + period)
@@ -70,7 +73,11 @@ Period : <input type="text" id="txtPeriod" value="@DateTime.Now.ToString("yyyy/M
                     html += '<td>' + d.Period + '</td>';
                     html += '<td>' + d.JobTypeName + '</td>';
                     html += '<td>' + d.ShipByName + '</td>';
-                    html += '<td>' + d.TotalJob + '</td>';
+                    if (IsSummary == true) {
+                        html += '<td>' + d.TotalJob + '</td>';
+                    } else {
+                        html += '<td>' + d.JobNo + '</td>';
+                    }
                     html += '</tr>';
                 }                
                 $('#tbJobCount tbody').html(html);
@@ -82,14 +89,22 @@ Period : <input type="text" id="txtPeriod" value="@DateTime.Now.ToString("yyyy/M
             if (r.length > 0) {
                 let html = '';
                 for (let d of r) {
-                    if (d.Period.indexOf('ALL')>0) {
-                        html += '<tr style="background-color:lightgreen;font-weight:bold">';
+                    if (IsSummary) {
+                        if (d.Period.indexOf('ALL') > 0) {
+                            html += '<tr style="background-color:lightgreen;font-weight:bold">';
+                        } else {
+                            html += '<tr>';
+                        }
                     } else {
                         html += '<tr>';
                     }
                     html += '<td>' + d.Period + '</td>';
                     html += '<td>' + d.DocType + '</td>';
-                    html += '<td>' + d.CountDoc + '</td>';
+                    if (IsSummary == true) {
+                        html += '<td>' + d.CountDoc + '</td>';
+                    } else {
+                        html += '<td>' + d.DocNo + '</td>';
+                    }
                     html += '</tr>';
                 }                
                 $('#tbDocCount tbody').html(html);
