@@ -27,14 +27,16 @@
         <table id="tblHeader" width="100%">
             <tr>
                 <td width="20%">
-                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100px"/>
+                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:200px"/>
                 </td>
                 <td width="80%">
                     <div id="divCompany" style="text-align:left;color:darkblue;">
-                    <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME</b>
-                    <br />@ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2
-                    <br />Tel @ViewBag.PROFILE_COMPANY_TEL Tax ID : @ViewBag.PROFILE_TAXNUMBER
-                    <br />E-mail: @ViewBag.PROFILE_COMPANY_EMAIL
+		    <div style="font-size:16px;font-weight:bold">
+                    @ViewBag.PROFILE_COMPANY_NAME
+		    </div>
+                        @ViewBag.PROFILE_COMPANY_ADDR1 <br/> @ViewBag.PROFILE_COMPANY_ADDR2
+                        <br />Tel @ViewBag.PROFILE_COMPANY_TEL Fax @ViewBag.PROFILE_COMPANY_FAX E-mail/Website @ViewBag.PROFILE_COMPANY_EMAIL
+                        <br />Tax-Reference ID : @ViewBag.PROFILE_TAXNUMBER Branch @ViewBag.PROFILE_TAXBRANCH
                     </div>
                 </td>
             </tr>

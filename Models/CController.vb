@@ -53,6 +53,8 @@ Public Class CController
                     Session(sName) = GetValueConfig("PROFILE", "COMPANY_LOGO", "logo-tawan.jpg")
                 Case "CompanyName"
                     Session(sName) = GetValueConfig("PROFILE", "COMPANY_NAME")
+                Case "CompanyName_EN"
+                    Session(sName) = GetValueConfig("PROFILE", "COMPANY_NAME_EN")
                 Case "CompanyFax"
                     Session(sName) = GetValueConfig("PROFILE", "COMPANY_FAX")
                 Case "CompanyTel"
@@ -63,6 +65,10 @@ Public Class CController
                     Session(sName) = GetValueConfig("PROFILE", "COMPANY_ADDRESS1")
                 Case "CompanyAddr2"
                     Session(sName) = GetValueConfig("PROFILE", "COMPANY_ADDRESS2")
+                Case "CompanyAddr1_EN"
+                    Session(sName) = GetValueConfig("PROFILE", "COMPANY_ADDRESS1_EN")
+                Case "CompanyAddr2_EN"
+                    Session(sName) = GetValueConfig("PROFILE", "COMPANY_ADDRESS2_EN")
                 Case "Currency"
                     Session(sName) = GetValueConfig("PROFILE", "CURRENCY")
                 Case "CreditDays"
@@ -111,11 +117,14 @@ Public Class CController
             ViewBag.PROFILE_DEFAULT_BRANCH_NAME = GetSession("CurrBranchName").ToString
             ViewBag.PROFILE_LOGO = GetSession("CompanyLogo").ToString
             ViewBag.PROFILE_COMPANY_NAME = GetSession("CompanyName").ToString
+            ViewBag.PROFILE_COMPANY_NAME_EN = GetSession("CompanyName_EN").ToString
             ViewBag.PROFILE_COMPANY_FAX = GetSession("CompanyFax").ToString
             ViewBag.PROFILE_COMPANY_TEL = GetSession("CompanyTel").ToString
             ViewBag.PROFILE_COMPANY_EMAIL = GetSession("CompanyEmail").ToString
             ViewBag.PROFILE_COMPANY_ADDR1 = GetSession("CompanyAddr1").ToString
             ViewBag.PROFILE_COMPANY_ADDR2 = GetSession("CompanyAddr2").ToString
+            ViewBag.PROFILE_COMPANY_ADDR1_EN = GetSession("CompanyAddr1_EN").ToString
+            ViewBag.PROFILE_COMPANY_ADDR2_EN = GetSession("CompanyAddr2_EN").ToString
             ViewBag.PROFILE_CURRENCY = GetSession("Currency").ToString
             ViewBag.PROFILE_VATRATE = GetSession("VatRate").ToString
             ViewBag.PROFILE_PAYMENT_CREDIT_DAYS = GetSession("CreditDays").ToString
@@ -126,11 +135,14 @@ Public Class CController
             ViewBag.PROFILE_DEFAULT_BRANCH_NAME = ""
             ViewBag.PROFILE_LOGO = "tawan.jpg"
             ViewBag.PROFILE_COMPANY_NAME = ""
+            ViewBag.PROFILE_COMPANY_NAME_EN = ""
             ViewBag.PROFILE_COMPANY_FAX = ""
             ViewBag.PROFILE_COMPANY_TEL = ""
             ViewBag.PROFILE_COMPANY_EMAIL = ""
             ViewBag.PROFILE_COMPANY_ADDR1 = ""
             ViewBag.PROFILE_COMPANY_ADDR2 = ""
+            ViewBag.PROFILE_COMPANY_ADDR1_EN = ""
+            ViewBag.PROFILE_COMPANY_ADDR2_EN = ""
             ViewBag.PROFILE_CURRENCY = ""
             ViewBag.PROFILE_VATRATE = "7"
             ViewBag.PROFILE_PAYMENT_CREDIT_DAYS = ""

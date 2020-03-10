@@ -2208,7 +2208,7 @@ Namespace Controllers
                         tSqlw &= " AND ISNULL(id.AmtAdvance,0)>0 "
                     End If
                     If Request.QueryString("Type").ToString.ToUpper = "SRV" Then
-                        tSqlw &= " AND ISNULL(id.AmtCharge,0)>0 AND ISNULL(id.AmtVat,0)>0) "
+                        tSqlw &= " AND ISNULL(id.AmtCharge,0)>0 AND ISNULL(id.AmtVat,0)>0 "
                     End If
                     If Request.QueryString("Type").ToString.ToUpper = "TAX" Then
                         'have advance or have service
@@ -2223,18 +2223,31 @@ Namespace Controllers
                         tSqlw &= " AND ((ISNULL(id.AmtCharge,0)>0 AND ISNULL(id.AmtVat,0)=0) OR ISNULL(id.AmtAdvance,0)>0) "
                     End If
                 End If
-                tSqlw &= " ORDER BY ih.DocNo DESC"
+
+
                 If byReceipt Then
                     Dim sql As String = SQLSelectInvByReceive(recvNo, bCheckVoucher) & tSqlw
+                    Dim sqlSum As String = "SELECT t.InvoiceNo,t.InvoiceDate,t.BillToCustCode,t.RefNo,Sum(t.Amt) as TotalAmt,Sum(t.AmtVAT) as TotalVAT,Sum(t.Amt50Tavi) as Total50Tavi,Sum(t.Net) as TotalNet "
+                    sqlSum &= ",Sum(t.AmtAdvance) as TotalAdvance,Sum(t.AmtCharge) as TotalCharge FROM ({0}) as t GROUP BY t.InvoiceNo,t.InvoiceDate,t.BillToCustCode,t.RefNo"
+                    sqlSum = String.Format(sqlSum, sql)
+                    sql &= " ORDER BY ih.DocNo DESC"
                     Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                    Dim oDataSum = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlSum)
                     Dim json As String = JsonConvert.SerializeObject(oData)
-                    json = "{""invdetail"":{""data"":" & json & ",""condition"":""" & tSqlw & """}}"
+                    Dim jsonSum As String = JsonConvert.SerializeObject(oDataSum)
+                    json = "{""invdetail"":{""data"":" & json & ",""summary"":" & jsonSum & ",""condition"":""" & tSqlw & """}}"
                     Return Content(json, jsonContent)
                 Else
                     Dim sql As String = SQLSelectInvForReceive(bCheckVoucher) & tSqlw
+                    Dim sqlSum As String = "SELECT t.InvoiceNo,t.InvoiceDate,t.BillToCustCode,t.RefNo,Sum(t.Amt) as TotalAmt,Sum(t.AmtVAT) as TotalVAT,Sum(t.Amt50Tavi) as Total50Tavi,Sum(t.Net) as TotalNet "
+                    sqlSum &= " FROM ({0}) as t GROUP BY t.InvoiceNo,t.InvoiceDate,t.BillToCustCode,t.RefNo"
+                    sqlSum = String.Format(sqlSum, sql)
+                    sql &= " ORDER BY ih.DocNo DESC"
                     Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                    Dim oDataSum = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlSum)
                     Dim json As String = JsonConvert.SerializeObject(oData)
-                    json = "{""invdetail"":{""data"":" & json & ",""condition"":""" & tSqlw & """}}"
+                    Dim jsonSum As String = JsonConvert.SerializeObject(oDataSum)
+                    json = "{""invdetail"":{""data"":" & json & ",""summary"":" & jsonSum & ",""condition"":""" & tSqlw & """}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception

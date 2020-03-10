@@ -38,8 +38,24 @@ End Code
             <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
         </a>
         <label for="chkGroupByDoc">Group By Document</label>
-        <input type="checkbox" id="chkGroupByDoc" />
-        <div class="row">
+        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" />
+        <div class="row" id="dvSummary" style="display:none">
+            <div class="col-sm-12">
+                <table id="tbSummary" class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>DocNo</th>
+                            <th class="desktop">DocDate</th>
+                            <th class="desktop">CustCode</th>
+                            <th class="desktop">RefNo</th>
+                            <th class="all">Advance</th>
+                        </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </div>
+        <div class="row" id="dvHeader">
             <div class="col-sm-12">
                 <table id="tbHeader" class="table table-responsive">
                     <thead>
@@ -53,12 +69,13 @@ End Code
                         </tr>
                     </thead>
                 </table>
-                <br />
-                <a href="#" class="btn btn-success" id="btnGen" onclick="ShowSummary()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Create Receipts</b>
-                </a>
+
             </div>
         </div>
+        <br />
+        <a href="#" class="btn btn-success" id="btnGen" onclick="ShowSummary()">
+            <i class="fa fa-lg fa-save"></i>&nbsp;<b>Create Receipts</b>
+        </a>
     </div>
     <div id="dvCreate" class="modal modal-lg fade" role="dialog">
         <div class="modal-dialog-lg">
@@ -132,6 +149,7 @@ End Code
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     let arr = [];
+    let dtl = [];
     let dtl_list = [];
     let resp_count = 0;
     let branch = getQueryString("branch");
@@ -178,9 +196,22 @@ End Code
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
         });
     }
+    function SetVisible() {
+        if ($('#chkGroupByDoc').prop('checked')) {
+            $('#dvSummary').css('display', 'initial');
+            $('#dvHeader').css('display', 'none');
+        } else {
+            $('#dvSummary').css('display', 'none');
+            $('#dvHeader').css('display', 'initial');
+        }
+        $('#tbSummary tbody > tr').removeClass('selected');
+        $('#tbHeader tbody > tr').removeClass('selected');
+        arr = [];
+    }
     function SetGridAdv(isAlert) {
         arr = [];
-
+        dtl = [];
+        dtl_list = [];
         let w = '';
         if ($('#chkBilling').prop('checked') == true) {
             if ($('#txtCustCode').val() !== "") {
@@ -207,10 +238,56 @@ End Code
         $.get(url , function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
+                $('#tbSummary').DataTable().clear().draw();
                 if (isAlert==true) ShowMessage('data not found',true);
                 return;
             }
             let h = r.invdetail.data;
+            dtl = r.invdetail.data;
+            let s = r.invdetail.summary;
+            $('#tbSummary').DataTable({
+                data: s,
+                selected: true, //ให้สามารถเลือกแถวได้
+                columns: [ //กำหนด property ของ header column
+                    { data: "InvoiceNo", title: "Inv No" },
+                    {
+                        data: "InvoiceDate", title: "Inv date ",
+                        render: function (data) {
+                            return CDateEN(data);
+                        }
+                    },
+                    { data: "BillToCustCode", title: "Billing To" },
+                    { data: "RefNo", title: "Reference Number" },
+                    { data: "TotalNet", title: "Advance" }
+                ],
+                responsive:true,
+                destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+            });
+            $('#tbSummary tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected') == true) {
+                    $(this).removeClass('selected');
+
+                    let data = $('#tbSummary').DataTable().row(this).data();
+                    let filter = $.grep(dtl,function (d) {
+                        return d.InvoiceNo == data.InvoiceNo;
+                    });
+                    for (let d of filter) {
+                        RemoveData(d);
+                    }
+                    return;
+                }
+
+                $(this).addClass('selected');
+
+                let data = $('#tbSummary').DataTable().row(this).data();
+                let filter = $.grep(dtl,function (d) {
+                    return d.InvoiceNo == data.InvoiceNo;
+                });
+                for (let d of filter) {
+                    AddData(d);
+                }                      
+            });
+
             $('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้

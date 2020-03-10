@@ -30,11 +30,15 @@
                     <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100px"/>
                 </td>
                 <td width="80%">
-                    <div id="divCompany" style="text-align:left;color:darkblue;">
-                    <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME</b>
-                    <br />@ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2
-                    <br />Tel @ViewBag.PROFILE_COMPANY_TEL Tax ID : @ViewBag.PROFILE_TAXNUMBER
-                    <br />E-mail: @ViewBag.PROFILE_COMPANY_EMAIL
+                    <div id="divCompany" style="text-align:left;color:darkblue;font-size:14px">
+                        <div style="font-weight:bold;font-size:16px">
+                            @ViewBag.PROFILE_COMPANY_NAME (@ViewBag.PROFILE_TAXBRANCH)<br />
+                            @ViewBag.PROFILE_COMPANY_NAME_EN
+                        </div>
+                        @ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2<br />
+                        @ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN<br />
+                        Tel @ViewBag.PROFILE_COMPANY_TEL Fax @ViewBag.PROFILE_COMPANY_FAX E-mail/Website @ViewBag.PROFILE_COMPANY_EMAIL
+                        <br />Tax-Reference ID : @ViewBag.PROFILE_TAXNUMBER
                     </div>
                 </td>
             </tr>

@@ -30,6 +30,8 @@ End Code
     </div>
 </div>
 -->
+<div id="dvCopy" style="text-align:right;width:100%">
+</div>
 <div style="display:flex;">
     <div style="flex:3;border:1px solid black;border-radius:5px;">
         NAME : <label id="lblCustName"></label><br />
@@ -94,7 +96,7 @@ End Code
     <!--
     <div class="text-left" style="border:1px solid black;flex:2">
         PLEASE REMIT TO ACCOUNT NO: 170-279834-5<br />
-        "DAMON GOOD SERVICES CO.,LTD"<br />
+        "DAMON GOOD SERVICE CO.,LTD"<br />
         SIAM COMMERCIAL BANK PUBLIC LIMITED<br />
         THE MALL THA-PHRA BRANCH
     </div>
@@ -121,6 +123,12 @@ End Code
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
     let receiptno = getQueryString('code');
+    let ans = confirm('OK to print Original or Cancel For Copy');
+    if (ans == true) {
+        $('#dvCopy').html('<b>**ORIGINAL**</b>');
+    } else {
+        $('#dvCopy').html('<b>**COPY**</b>');
+    }
     $.get(path + 'acc/getreceivereport?branch=' + branch + '&code=' + receiptno, function (r) {
         if (r.receipt.data.length !== null) {
             ShowData(r.receipt.data);

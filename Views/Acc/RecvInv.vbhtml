@@ -107,7 +107,8 @@ End Code
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <input type="checkbox" id="chkUseDue" /> Select by Payment Due Date
+                        <input type="checkbox" id="chkUseDue" /> Select by Payment Due Date<br/>
+                        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" /> Group Documents
                     </div>
                 </div>
                 <div class="row">
@@ -119,7 +120,7 @@ End Code
                             <input type="text" class="form-control" id="txtCustBranch" style="width:50px" />
                             <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
                             <input type="text" class="form-control" id="txtCustName" style="width:100%" disabled />
-                        </div>                        
+                        </div>
                     </div>
                     <div class="col-sm-2">
                         Date From:<br />
@@ -129,7 +130,8 @@ End Code
                         Date To:<br />
                         <input type="date" class="form-control" id="txtDocDateT" />
                     </div>
-                </div>
+                </div>                
+
                 <div class="row">
                     <div class="col-sm-12">
                         Tax-Invoice:<input type="text" id="txtTaxInvNo" />
@@ -137,6 +139,18 @@ End Code
                             <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
                         </a>
                         <br />
+                        <table id="tbSummary" class="table table-responsive" style="display:none">
+                            <thead>
+                                <tr>
+                                    <th>Inv.No</th>
+                                    <th class="desktop">Advance</th>
+                                    <th class="desktop">Charge</th>
+                                    <th class="desktop">VAT</th>
+                                    <th class="desktop">W-Tax</th>
+                                    <th class="all">Net</th>
+                                </tr>
+                            </thead>
+                        </table>
                         <table id="tbHeader" class="table table-responsive">
                             <thead>
                                 <tr>
@@ -209,6 +223,7 @@ End Code
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     let arr = [];
+    let dtl = [];
     let list = [];
     let docno = '';
     //$(document).ready(function () {
@@ -217,6 +232,20 @@ End Code
 
         SetEvents();
     //});
+    function SetVisible() {
+        if ($('#chkGroupByDoc').prop('checked')) {
+            $('#tbSummary').css('display', 'initial');
+            $('#tbHeader').css('display', 'none');
+        } else {
+            $('#tbSummary').css('display', 'none');
+            $('#tbHeader').css('display', 'initial');
+        }
+        $('#tbSummary tbody > tr').removeClass('selected');
+        $('#tbHeader tbody > tr').removeClass('selected');
+        arr = [];
+        ClearData();
+        ShowSummary();
+    }
     function SetEvents() {
 
         let cbos = ['#cboBankCash', '#cboBankChqCash', '#cboBankChq'];
@@ -339,12 +368,53 @@ End Code
         $.get(path + 'acc/getinvforreceive?show=OPEN&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
+                $('#tbSummary').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('data not found',true);
                 return;
             }
+            let s = r.invdetail.summary;
+            dtl = r.invdetail.data;
+
+            $('#tbSummary').DataTable({
+                data: s,
+                selected: true, //ให้สามารถเลือกแถวได้
+                columns: [ //กำหนด property ของ header column
+                    { data: "InvoiceNo", title: "Inv No" },
+                    { data: "TotalAdvance", title: "Advance" },
+                    { data: "TotalCharge", title: "Charge" },
+                    { data: "TotalVAT", title: "Vat" },
+                    { data: "Total50Tavi", title: "WH-Tax" },
+                    { data: "TotalNet", title: "Net" }
+                ],
+                responsive:true,
+                destroy:true
+            });
+            $('#tbSummary tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected') == true) {
+                    $(this).removeClass('selected');
+
+                    let data = $('#tbSummary').DataTable().row(this).data();
+                    let filter = $.grep(dtl,function (d) {
+                        return d.InvoiceNo == data.InvoiceNo;
+                    });
+                    for (let d of filter) {
+                        RemoveData(d);
+                    }
+                    return;
+                }
+
+                $(this).addClass('selected');
+
+                let data = $('#tbSummary').DataTable().row(this).data();
+                let filter = $.grep(dtl,function (d) {
+                    return d.InvoiceNo == data.InvoiceNo;
+                });
+                for (let d of filter) {
+                    AddData(d);
+                }                      
+            });
+
             let h = r.invdetail.data;
-            $('#tbHeader').DataTable().destroy();
-            $('#tbHeader').empty();
             $('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้

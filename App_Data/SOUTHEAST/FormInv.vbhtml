@@ -34,7 +34,7 @@ End Code
             INV DATE : <label id="lblDocDate"></label><br />
             CUST INV : <label id="lblCustInvNo"></label><br />
             JOB NO : <label id="lblJobNo"></label><br />
-            DECLARE : <label id="lblDeclareNumber"></label>
+            DECLARE : <label id="lblDeclareNumber"></label><br />
         </div>
     </div>
     <div style="display:flex;border:1px solid black;border-radius:5px;">
@@ -205,7 +205,7 @@ End Code
         </div>
     </div>
     <div style="border:1px solid black;border-radius:5px;width:100%;text-align:center;">
-        กรุณาสั่งจ่ายเช็คในนาม "@ViewBag.PROFILE_COMPANY_NAME" แล้วส่งเอกสารการชำระเงินมาที่ Fax : @ViewBag.PROFILE_COMPANY_FAX
+        กรุณาโอนเข้าบัญชีธนาคารไทยพาณิชย์ สาขากรมศุลกากร เลขที่บัญชี 082-2-20024-2 แล้วกรุณาส่งหลักฐานการโอนมาที่ Fax 02-2499060
     </div>
 </div>
 <script type="text/javascript">

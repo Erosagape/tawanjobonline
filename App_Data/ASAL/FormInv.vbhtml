@@ -12,95 +12,88 @@ End Code
         border-collapse:collapse;
     }    
 </style>
-<div style="text-align:center;width:100%">
-    <h2>INVOICE</h2>
+<div style="font-weight:bold;font-size:16px;text-align:center">
+    INVOICE
 </div>
 <div id="dvCopy" style="text-align:right;width:100%">    
 </div>
 <div>
     <div style="display:flex;">
-        <div style="flex:3;border:1px solid black;border-radius:5px;">
-            NAME : <label id="lblCustName"></label><br />
-            ADDRESS : <label id="lblCustAddress"></label><br />
-            <!--TEL : <label id="lblCustTel"></label><br />-->
-            <label>TAX REFERENCE ID:</label>
+        <div style="flex:3;border:1px solid black;border-radius:5px;padding:5px;">
+            <b>NAME</b> : <label id="lblCustName"></label><br />
+            <b>ADDRESS</b> : <br />
+	    <label id="lblCustAddress" style="font-size:10px"></label><br/>
+            <b>TAX ID:</b>
             <label id="lblTaxNumber"></label>
-            <label>BRANCH:</label>
+            <b>BRANCH:</b>
             <label id="lblTaxBranch"></label>
 
         </div>
-        <div style="flex:1;border:1px solid black;border-radius:5px;">
-            INV NO. : <label id="lblDocNo"></label><br />
-            INV DATE : <label id="lblDocDate"></label><br />
-            CUST INV : <label id="lblCustInvNo"></label><br />
-            JOB NO : <label id="lblJobNo"></label><br />
-            DECLARE : <label id="lblDeclareNumber"></label>
+        <div style="flex:1;border:1px solid black;border-radius:5px;padding:5px;">
+            <b>INV NO.</b>: <label id="lblDocNo"></label><br />
+            <b>INV DATE</b>: <label id="lblDocDate"></label><br />
+            <b>JOB NO</b>: <label id="lblJobNo"></label><br />
         </div>
     </div>
-    <div style="display:flex;border:1px solid black;border-radius:5px;">
+    <div style="display:flex;border:1px solid black;border-radius:5px;padding:5px;">
         <div style="flex:2">
+	    <div class="row">
+                <p class="col-sm-12">
+	        <b>CUST INV</b>: <label id="lblCustInvNo"></label>
+		</p>
+            </div>
             <div class="row">
                 <p class="col-sm-12">
-                    FROM :<label id="lblFromCountry"></label>,<label id="lblInterPort"></label>
+                    <b>FROM</b>:<label id="lblFromCountry"></label>
                 </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    FLIGHT/VISSEL :<label id="lblVesselName"></label>
+                    <b>FLIGHT/VISSEL</b>:<label id="lblVesselName"></label>
                 </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    QUANTITY :<label id="lblQtyGross"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    RELEASE PORT :<label id="lblClearPort"></label>
+                    <b>QTY/G.W</b>:<label id="lblQtyGross"></label>
                 </p>
             </div>
         </div>
         <div style="flex:2">
+	    <div class="row">
+                <p class="col-sm-12">
+	        <b>COMMODITY</b>: <label id="lblInvProduct"></label>
+		</p>
+            </div>
             <div class="row">
                 <p class="col-sm-12">
-                    ETD :<label id="lblETDDate"></label>
+                    <b>ETD</b>:<label id="lblETDDate"></label>
                 </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    HBL/HAWB :<label id="lblHAWB"></label>
+                    <b>HBL/HAWB</b>:<label id="lblHAWB"></label>
                 </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    MEASUREMENT :<label id="lblMeasurement"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    COMMODITY :<label id="lblInvProduct"></label>
+                    <b>MEASUREMENT</b>:<label id="lblMeasurement"></label>
                 </p>
             </div>
         </div>
         <div style="flex:2">
+	    <div class="row">
+                <p class="col-sm-12">
+	        <b>TOTAL CONTAINER</b>: <label id="lblTotalContainer"></label>
+		</p>
+            </div>
             <div class="row">
                 <p class="col-sm-12">
-                    ETA :<label id="lblETADate"></label>
+                    <b>ETA</b>: <label id="lblETADate"></label>
                 </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    MBL/MAWB :<label id="lblMAWB"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    CONTAINER :<label id="lblTotalContainer"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    DECLARE TYPE :<label id="lblDeclareType"></label>
+                    <b>MBL/MAWB</b>: <label id="lblMAWB"></label>
                 </p>
             </div>
         </div>
@@ -190,22 +183,25 @@ End Code
                 </div>
             </div>
             <br/>
+            <div>
+กรุณานำฝากเข้าบัญชี <br/>
+"บริษัท แอดวานซ์ เซอร์วิส แอนด์ โลจิสติคส์ จำกัด"<br/>
+ธนาคารไทยพานิชย์ สาขาอ่อนนุช <br/>
+บัญชีกระแสรายวัน เลขที่ 2593002107
+            </div>
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
-            FOR THE CUSTOMER <br /><br /> <br /><br />
+            สำหรับลูกค้า <br /><br /> <br /><br />
             ......................................................... <br />
             __________/_________/________ <br />
             AUTHORIZED SIGNATURE
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
-            FOR @ViewBag.PROFILE_COMPANY_NAME <br /><br /> <br /><br />
+            บริษัท แอดวานซ์ เซอร์วิส แอนด์ โลจิสติคส์ จำกัด <br /><br /> <br /><br />
             ......................................................... <br />
             __________/_________/________ <br />
             AUTHORIZED SIGNATURE
         </div>
-    </div>
-    <div style="border:1px solid black;border-radius:5px;width:100%;text-align:center;">
-        กรุณาสั่งจ่ายเช็คในนาม "@ViewBag.PROFILE_COMPANY_NAME" แล้วส่งเอกสารการชำระเงินมาที่ Fax : @ViewBag.PROFILE_COMPANY_FAX
     </div>
 </div>
 <script type="text/javascript">
@@ -255,25 +251,17 @@ End Code
             if (j !== null) {
                 $('#lblCustInvNo').text(j.InvNo);
                 $('#lblJobNo').text(j.JNo);
-                $('#lblDeclareNumber').text(j.DeclareNumber);
-                if (j.JobType == 1) {                    
-                    ShowCountry(path, j.InvFCountry, '#lblFromCountry');
-                    ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#lblInterPort');
-                } else {
-                    ShowCountry(path, j.InvFCountry, '#lblFromCountry');
-                    ShowInterPort(path, j.InvCountry, j.InvInterPort, '#lblInterPort');
-                }
+
+                $('#lblFromCountry').text(j.DeclareNumber);
                 $('#lblVesselName').text(j.VesselName);
-                $('#lblQtyGross').text(j.InvProductQty + ' ' + j.InvProductUnit + ' G.W ' + j.TotalGW + ' '+ j.GWUnit);
+                $('#lblQtyGross').text(j.InvProductQty + ' ' + j.InvProductUnit + ' GW ' + j.TotalGW + ' '+ j.GWUnit);
                 $('#lblETDDate').text(ShowDate(CDateTH(j.ETDDate)));
                 $('#lblHAWB').text(j.HAWB);
                 $('#lblMeasurement').text(j.Measurement);
                 $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
-                $('#lblMAWB').text(j.MAWB);       
-                $('#lblInvProduct').text(j.InvProduct);
-                ShowReleasePort(path, j.ClearPort, '#lblClearPort');
-                $('#lblTotalContainer').text(j.TotalContainer);
-                ShowDeclareType(path, j.DeclareType, '#lblDeclareType');
+                $('#lblMAWB').text(j.MAWB);
+		$('#lblInvProduct').text(j.InvProduct);                
+		$('#lblTotalContainer').text(j.TotalContainer);
             }
             let remark = h.Remark1 + '\n' + h.Remark2 + '\n' + h.Remark3 + '\n' + h.Remark4 + '\n' + h.Remark5 + '\n' + h.Remark6 + '\n' + h.Remark7 + '\n' + h.Remark8 + '\n' + h.Remark9 + '\n' + h.Remark10;
             remark=remark.replace(/(?:\r\n|\r|\n)/g, '<br/>');

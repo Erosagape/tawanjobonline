@@ -469,6 +469,12 @@
     <Content Include="App_Data\DAMON\_Report.vbhtml" />
     <Content Include="App_Data\DAMON\FormBooking.vbhtml" />
     <Content Include="App_Data\คู่มือ jobonline 1.0.docx" />
+    <Content Include="App_Data\SOUTHEAST\_Report.vbhtml" />
+    <Content Include="App_Data\SOUTHEAST\_ReportLandscape.vbhtml" />
+    <Content Include="App_Data\SOUTHEAST\FormInv.vbhtml" />
+    <Content Include="App_Data\KWAN\_Report.vbhtml" />
+    <Content Include="App_Data\KWAN\_ReportLandscape.vbhtml" />
+    <Content Include="App_Data\ASAL\FormInv.vbhtml" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -749,7 +755,6 @@
     <Content Include="Views\Acc\FormCreditNote.vbhtml" />
     <Content Include="Views\Acc\FormExpense.vbhtml" />
     <Content Include="Views\Acc\FormGL.vbhtml" />
-    <Content Include="Views\Acc\FormInv.vbhtml" />
     <Content Include="Views\Acc\FormRcp.vbhtml" />
     <Content Include="Views\Acc\FormTaxinv.vbhtml" />
     <Content Include="Views\Acc\FormVoucher.vbhtml" />
@@ -837,6 +842,7 @@
     <Content Include="Views\Master\TransportRoute.vbhtml" />
     <Content Include="Views\Acc\Approve.vbhtml" />
     <Content Include="Views\JobOrder\TruckApprove.vbhtml" />
+    <Content Include="Views\Acc\FormInv.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
