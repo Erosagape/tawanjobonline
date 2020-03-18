@@ -92,6 +92,78 @@ Public Class CDocument
             m_FilePath = value
         End Set
     End Property
+    Private m_FileSize As Double
+    Public Property FileSize As Double
+        Get
+            Return m_FileSize
+        End Get
+        Set(value As Double)
+            m_FileSize = value
+        End Set
+    End Property
+    Private m_UploadBy As String
+    Public Property UploadBy As String
+        Get
+            Return m_UploadBy
+        End Get
+        Set(value As String)
+            m_UploadBy = value
+        End Set
+    End Property
+    Private m_UploadDate As DateTime
+    Public Property UploadDate As DateTime
+        Get
+            Return m_UploadDate
+        End Get
+        Set(value As DateTime)
+            m_UploadDate = value
+        End Set
+    End Property
+    Private m_CheckedBy As String
+    Public Property CheckedBy As String
+        Get
+            Return m_CheckedBy
+        End Get
+        Set(value As String)
+            m_CheckedBy = value
+        End Set
+    End Property
+    Private m_CheckedDate As DateTime
+    Public Property CheckedDate As DateTime
+        Get
+            Return m_CheckedDate
+        End Get
+        Set(value As DateTime)
+            m_CheckedDate = value
+        End Set
+    End Property
+    Private m_CheckNote As String
+    Public Property CheckNote As String
+        Get
+            Return m_CheckNote
+        End Get
+        Set(value As String)
+            m_CheckNote = value
+        End Set
+    End Property
+    Private m_ApproveBy As String
+    Public Property ApproveBy As String
+        Get
+            Return m_ApproveBy
+        End Get
+        Set(value As String)
+            m_ApproveBy = value
+        End Set
+    End Property
+    Private m_ApproveDate As DateTime
+    Public Property ApproveDate As DateTime
+        Get
+            Return m_ApproveDate
+        End Get
+        Set(value As DateTime)
+            m_ApproveDate = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -115,6 +187,14 @@ Public Class CDocument
                             dr("Description") = Main.GetDBString(Me.Description, dt.Columns("Description"))
                             dr("FileType") = Main.GetDBString(Me.FileType, dt.Columns("FileType"))
                             dr("FilePath") = Main.GetDBString(Me.FilePath, dt.Columns("FilePath"))
+                            dr("FileSize") = Me.FileSize
+                            dr("UploadBy") = Main.GetDBString(Me.UploadBy, dt.Columns("UploadBy"))
+                            dr("UploadDate") = Main.GetDBDate(Me.UploadDate)
+                            dr("CheckedBy") = Main.GetDBString(Me.CheckedBy, dt.Columns("CheckedBy"))
+                            dr("CheckedDate") = Main.GetDBDate(Me.CheckedDate)
+                            dr("CheckNote") = Main.GetDBString(Me.CheckNote, dt.Columns("CheckNote"))
+                            dr("ApproveBy") = Main.GetDBString(Me.ApproveBy, dt.Columns("ApproveBy"))
+                            dr("ApproveDate") = Main.GetDBDate(Me.ApproveDate)
 
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
@@ -170,6 +250,31 @@ Public Class CDocument
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("FilePath"))) = False Then
                         row.FilePath = rd.GetString(rd.GetOrdinal("FilePath")).ToString()
                     End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("FileSize"))) = False Then
+                        row.FileSize = rd.GetDouble(rd.GetOrdinal("FileSize")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("UploadBy"))) = False Then
+                        row.UploadBy = rd.GetString(rd.GetOrdinal("UploadBy")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("UploadDate"))) = False Then
+                        row.UploadDate = rd.GetValue(rd.GetOrdinal("UploadDate"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CheckedBy"))) = False Then
+                        row.CheckedBy = rd.GetString(rd.GetOrdinal("CheckedBy")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CheckedDate"))) = False Then
+                        row.CheckedDate = rd.GetValue(rd.GetOrdinal("CheckedDate"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CheckNote"))) = False Then
+                        row.CheckNote = rd.GetString(rd.GetOrdinal("CheckNote")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ApproveBy"))) = False Then
+                        row.ApproveBy = rd.GetString(rd.GetOrdinal("ApproveBy")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ApproveDate"))) = False Then
+                        row.ApproveDate = rd.GetValue(rd.GetOrdinal("ApproveDate"))
+                    End If
+
                     lst.Add(row)
                 End While
             Catch ex As Exception

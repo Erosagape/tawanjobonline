@@ -16,20 +16,6 @@ End Code
 <div style="text-align:center;width:100%">
     <h2><label id="lblDocType">TAX-INVOICE</label></h2>
 </div>
-<!--
-<div style="display:flex;">
-    <div style="flex:3;">
-        <label>CUSTOMER:</label>
-        <br />
-        <label id="lblCustCode"></label>
-    </div>
-    <div style="flex:1">
-        BRANCH: <label id="lblBranchName">@ViewBag.PROFILE_DEFAULT_BRANCH_NAME</label>
-        <br />
-        TAX ID: <label id="lblTaxNumer">@ViewBag.PROFILE_TAXNUMBER</label>
-    </div>
-</div>
--->
 <div id="dvCopy" style="text-align:right;width:100%">
 </div>
 <div style="display:flex;">
@@ -48,8 +34,7 @@ End Code
 <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
     <thead>
         <tr style="background-color:lightblue;">
-            <th height="40" width="60">INV.NO.</th>
-            <th width="200">DESCRIPTION</th>
+            <th height="40" width="300">INV.NO.</th>
             <th width="70">JOB</th>
             <th width="60">SERVICE</th>
             <th width="30">VAT</th>
@@ -60,16 +45,15 @@ End Code
     <tbody id="tbDetail"></tbody>
     <tfoot>
         <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="4" style="text-align:center"><label id="lblTotalText"></label></td>
-            <td colspan="2">TOTAL AMOUNT</td>
-            <td colspan="1"><label id="lblTotalBeforeVAT"></label></td>
-        </tr>
-        <tr style="background-color:lightblue;text-align:right;">            
-            <td colspan="6">TOTAL VAT</td>
-            <td colspan="1"><label id="lblTotalVAT"></label></td>
+            <td style="text-align:center"><label id="lblTotalText"></label></td>
+            <td>TOTAL AMOUNT</td>
+            <td><label id="lblTotalBeforeVAT"></label></td>
+            <td><label id="lblTotalVAT"></label></td>
+            <td><label id="lblTotalWHT"></label></td>
+            <td><label id="lblTotalADV"></label></td>
         </tr>
         <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="6">TOTAL RECEIPT</td>
+            <td colspan="5">TOTAL RECEIPT</td>
             <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
         </tr>
     </tfoot>
@@ -129,7 +113,7 @@ End Code
     } else {
         $('#dvCopy').html('<b>**COPY**</b>');
     }
-    $.get(path + 'acc/getreceivereport?branch=' + branch + '&code=' + receiptno, function (r) {
+    $.get(path + 'acc/getreceivereport?type=SUM&branch=' + branch + '&code=' + receiptno, function (r) {
         if (r.receipt.data.length !== null) {
             ShowData(r.receipt.data);
         }
@@ -158,17 +142,16 @@ End Code
         $('#lblCustTel').text(h.CustPhone);
         $('#lblCustTax').text(h.CustTaxID);
         $('#lblReceiptNo').text(h.ReceiptNo);
-        $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiptDate)));
+        $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiveDate)));
         let html = '';
         let service = 0;
         let vat = 0;
         let wht = 0;
         let total = 0;
-
+        let adv = 0;
         for (let d of dt) {
             html = '<tr>';
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
-            html += '<td>' + CStr(d.SDescription) + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvAmt,2):'0.00') + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'0.00') + '</td>';
@@ -182,10 +165,15 @@ End Code
                 vat += Number(d.InvVAT);
                 wht += Number(d.Inv50Tavi);
                 total += Number(d.InvAmt) + Number(d.InvVAT);
+            } else {
+                adv +=Number(d.InvTotal);
             }
+
         }
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
+        $('#lblTotalWHT').text(ShowNumber(wht, 2));
+        $('#lblTotalADV').text(ShowNumber(adv, 2));
         $('#lblTotalAfterVAT').text(ShowNumber(total, 2));
         $('#lblTotalText').text(CNumThai(total));
     }

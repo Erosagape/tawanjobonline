@@ -18,22 +18,34 @@ End Code
             <div style="display:flex;flex-direction:row">
                 <select id="txtDocType" class="form-control dropdown">
                     <option value="">ALL</option>
-                    <option value="CIV">Commercial Invoice</option>
-                    <option value="PKL">Packing List</option>
-                    <option value="JOB">Job Acknowledge</option>
-                    <option value="ADV">Advance</option>
-                    <option value="CLR">Clearing</option>
-                    <option value="EXP">Expense Slip</option>
-                    <option value="BL">Bill of Lading</option>
-                    <option value="AWB">Air Waybill</option>
-                    <option value="CER">Certificates</option>
-                    <option value="DO">Delivery Order</option>
-                    <option value="INV">Invoice</option>
-                    <option value="BIL">Billing</option>
-                    <option value="RCP">Receipts</option>
-                    <option value="TAX">Tax-Invoice</option>
-                    <option value="DEC">Declarations</option>
-                    <option value="IMG">Images</option>
+                    <optgroup label="STEP 1">
+                        <option value="CIV">Commercial Invoice</option>
+                        <option value="PKL">Packing List</option>
+                        <option value="BL">Bill of Lading</option>
+                        <option value="AWB">Air Waybill</option>
+                    </optgroup>
+                    <optgroup label="STEP 2">
+                        <option value="JOB">Job Acknowledge</option>
+                        <option value="CER">Certificates</option>
+                        <option value="DEC">Declarations</option>
+                    </optgroup>
+                    <optgroup label="STEP 3">
+                        <option value="DO">Delivery Order</option>
+                        <option value="ADV">Advance</option>
+                    </optgroup>
+                    <optgroup label="STEP 4">
+                        <option value="CLR">Clearing</option>
+                        <option value="EXP">Expense Slip</option>
+                        <option value="IMG">Images</option>
+                    </optgroup>
+                    <optgroup label="STEP 5">
+                        <option value="INV">Invoice</option>
+                        <option value="BIL">Billing</option>
+                    </optgroup>
+                    <optgroup label="STEP 6">
+                        <option value="RCP">Receipts</option>
+                        <option value="TAX">Tax-Invoice</option>
+                    </optgroup>
                     <option value="OTH">Others</option>
                 </select>
             </div>
@@ -61,7 +73,7 @@ End Code
                     <th>JNo</th>
                     <th>DocNo</th>
                     <th>DocDate</th>
-                    <th>Description</th>
+                    <th>Comment</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -112,7 +124,7 @@ End Code
                 <div class="row">
                     <div class="col-sm-5">
                         <label id="lblDocNo">Doc No</label><br/>
-                        <input type="text" id="txtDocNo" class="form-control" disabled />
+                        <input type="text" id="txtDocNo" class="form-control" />
                     </div>
                     <div class="col-sm-7">
                         <label id="lblDescription">Description</label><br/>
@@ -130,10 +142,53 @@ End Code
                             <option value=".pdf">PDF</option>
                         </select>
                     </div>
-                    <div class="col-sm-9">
+                    <div class="col-sm-6">
                         <label id="lblFilePath">File Path</label>
                         <br/>
                         <input type="text" id="txtFilePath" class="form-control" disabled />
+                    </div>
+                    <div class="col-sm-3">
+                        <label id="lblFileSize">File Size</label><br/>
+                        <input type="text" id="txtFileSize" class="form-control" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <input type="checkbox" id="chkChecked" />
+                        <label id="lblCheckBy">Checked By</label><br />
+                        <input type="text" class="form-control" id="txtCheckedBy" disabled />
+                    </div>
+                    <div class="col-sm-4">
+                        <label id="lblCheckDate">Checked Date</label><br />
+                        <input type="date" class="form-control" id="txtCheckedDate" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label id="lblCheckNote">Check Comment</label><br />
+                        <textarea class="form-control" style="width:100%" id="txtCheckNote"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <input type="checkbox" id="chkApproved" /> 
+                        <label id="lblApproveBy">Approve By</label><br />
+                        <input type="text" class="form-control" id="txtApproveBy" disabled />
+                    </div>
+                    <div class="col-sm-4">
+                        <label id="lblApproveDate">Approve Date</label><br />
+                        <input type="date" class="form-control" id="txtApproveDate" disabled />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label id="lblUploadBy">Upload By</label>
+                        <br />
+                        <input type="text" class="form-control" id="txtUploadBy" disabled />
+                    </div>
+                    <div class="col-sm-8">
+                        <label id="lblUploadDate">Upload Date</label><br />
+                        <input type="date" class="form-control" id="txtUploadDate" disabled />
                     </div>
                 </div>
             </div>
@@ -161,7 +216,7 @@ End Code
 </div>
 <div id="dvLOVs"></div>
 <script type="text/javascript">
-    let path = '@Url.Content("~")';
+    var path = '@Url.Content("~")';
     let branchcode = getQueryString("BranchCode");
     let jobno = getQueryString("JNo");
     let userGroup = '@ViewBag.UserGroup';
@@ -203,6 +258,16 @@ End Code
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response,4);
         });
+        $('#chkApproved').on('click', function () {
+            let chkmode = this.checked;
+            $('#txtApproveBy').val(chkmode ? user : '');
+            $('#txtApproveDate').val(chkmode ? GetToday() : '');
+        });
+        $('#chkChecked').on('click', function () {
+            let chkmode = this.checked;
+            $('#txtCheckedBy').val(chkmode ? user : '');
+            $('#txtCheckedDate').val(chkmode ? GetToday() : '');
+        });
     }
     function SearchData(type) {
         switch (type) {
@@ -224,11 +289,21 @@ End Code
     function ReadData(dt) {
         $('#txtItemNo').val(dt.ItemNo);
         $('#txtDocTypeD').val(dt.DocType);
-        $('#txtDocDate').val( CDateEN(dt.DocDate));
+        $('#txtDocDate').val(CDateEN(dt.DocDate));
         $('#txtDocNo').val(dt.DocNo);
         $('#txtDescription').val(dt.Description);
         $('#txtFileType').val(dt.FileType);
         $('#txtFilePath').val(dt.FilePath);
+        $('#txtFileSize').val(dt.FileSize);        
+        $('#txtUploadBy').val(dt.UploadBy);
+        $('#txtUploadDate').val(CDateEN(dt.UploadDate));
+        $('#chkChecked').prop('checked', (dt.CheckedBy !== '' ? true : false));
+        $('#txtCheckedBy').val(dt.CheckedBy);
+        $('#txtCheckedDate').val(CDateEN(dt.CheckedDate));
+        $('#txtCheckNote').val(dt.CheckNote);
+        $('#chkApproved').prop('checked', (dt.ApproveBy !== '' ? true : false));
+        $('#txtApproveBy').val(dt.ApproveBy);
+        $('#txtApproveDate').val(CDateEN(dt.ApproveDate));
     }
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);
@@ -272,7 +347,7 @@ End Code
                                 return CDateEN(data);
                             }
                         },
-                        { data: "FilePath", title: "FilePath" }
+                        { data: "CheckNote", title: "Comments" }
                     ],
                     responsive:true,
                     destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
@@ -284,7 +359,7 @@ End Code
                 });
                 $('#tbDocument tbody').on('dblclick', 'tr', function () {
                     if (row.ItemNo !== undefined) {
-                        window.open(path + row.FilePath + '/' + row.DocNo, '', '');
+                        window.open(path + row.FilePath, '', '');
                     }
                 });
                 $('#tbDocument tbody').on('click', 'button', function () {
@@ -294,12 +369,27 @@ End Code
         });
     }
     function AddFile() {
-        $('#dvAddFile').modal('show');
+        if ($('#txtJNo').val() !== '') {
+            if ($('#txtDocType').val() !== '') {
+                $('#dvAddFile').modal('show');
+            } else {
+                ShowMessage('Please choose some type of documents', true);
+            }
+        } else {
+            ShowMessage('Please choose some job', true);
+        }
     }
     function SaveData() {
         row.DocDate = CDateEN($('#txtDocDate').val());
         row.DocType = $('#txtDocTypeD').val();
         row.Description = $('#txtDescription').val();
+        row.CheckNote = $('#txtCheckNote').val();
+        row.CheckedBy = $('#txtCheckedBy').val();
+        row.CheckedDate = CDateEN($('#txtCheckedDate').val());
+        row.DocNo = $('#txtDocNo').val();
+        row.ApproveBy = $('#txtApproveBy').val();
+        row.ApproveDate = CDateEN($('#txtApproveDate').val());
+
         if (row.ItemNo != "") {
             ShowConfirm("Do you need to Save " + row.ItemNo + "?", function (ask) {
                 if (ask == false) return;
@@ -369,6 +459,7 @@ End Code
                             $('#objFile').val('');
                         }
                         ShowMessage(fname);
+                        $('#dvAddFile').modal('hide');
                         RefreshGrid();
                         return;
                     }

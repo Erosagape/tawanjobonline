@@ -48,10 +48,18 @@ Namespace Controllers
                                 oFile.ItemNo = 0
                                 oFile.DocType = typ
                                 oFile.FileType = System.IO.Path.GetExtension(filename).ToLower
-                                oFile.FilePath = saveTo + "/" + job + "_" + typ
+                                oFile.FilePath = saveTo + "/" + job + "_" + typ + "/" + filename
                                 oFile.DocNo = filename
                                 oFile.Description = saveFolder + "/" + filename
                                 oFile.DocDate = DateTime.MinValue
+                                oFile.FileSize = File.ContentLength
+                                oFile.UploadBy = GetSession("CurrUser")
+                                oFile.UploadDate = DateTime.Now
+                                oFile.CheckedBy = ""
+                                oFile.CheckedDate = DateTime.MinValue
+                                oFile.ApproveBy = ""
+                                oFile.CheckedDate = DateTime.MinValue
+                                oFile.CheckNote = ""
                                 oFile.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo={2}", branch, job, oFile.ItemNo))
                                 msg = msg + "Upload " + filename + " successfully" + vbCrLf
                             Catch ex As Exception

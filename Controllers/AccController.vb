@@ -1699,7 +1699,13 @@ Namespace Controllers
                         isSummary = True
                     End If
                 End If
-                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectReceiptReport() & tSqlw)
+                Dim tSql As String = ""
+                If isSummary = False Then
+                    tSql = SQLSelectReceiptReport() & tSqlw
+                Else
+                    tSql = SQLSelectReceiptSummaryByInv(tSqlw)
+                End If
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(tSql)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""receipt"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -2121,7 +2127,7 @@ Namespace Controllers
             End Try
         End Function
         Function GetInvForReceive() As ActionResult
-            Dim defaultWhere As String = "(id.TotalAmt-ISNULL(id.AmtCredit,0)-ISNULL(c.CreditNet,0)-ISNULL(r.ReceivedNet,0))"
+            Dim defaultWhere As String = "(id.TotalAmt-ISNULL(c.CreditNet,0)-ISNULL(r.ReceivedNet,0))"
             Dim tSqlw As String = " AND " & defaultWhere & ">0 "
             Try
                 Dim bCheckVoucher As Boolean = False
@@ -2139,7 +2145,7 @@ Namespace Controllers
                         'by receipt document
                         bCheckVoucher = True
                         byReceipt = True
-                        tSqlw = ""
+                        tSqlw = " AND (id.Amt-ISNULL(id.AmtCredit,0))>0 "
                     End If
                     If Request.QueryString("Show").ToString.ToUpper = "FULLPAY" Then
                         tSqlw = " AND " & defaultWhere & "<=0 "

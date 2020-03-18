@@ -200,11 +200,29 @@ Namespace Controllers
                     Case "CLRDAILY"
                         sqlW = GetSQLCommand(cliteria, "h.ClrDate", "j.CustCode", "j.JNo", "h.EmpCode", "d.VenCode", "h.DocStatus", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE h.DocStatus<>99 AND " & sqlW
-                        sqlM = "SELECT cl.ClrNo,cl.ClrDate,cl.SDescription,cl.AdvNO,cl.JobNo,cl.AdvNet,cl.ClrNet,cl.Tax50Tavi,cl.SlipNo FROM (" & SQLSelectClrDetail() & sqlW & ") cl ORDER BY cl.ClrDate,cl.ClrNo"
+                        sqlM = "SELECT cl.ClrNo,cl.ClrDate,cl.SDescription,cl.AdvNO,cl.JobNo,cl.AdvNet,cl.ClrNet,cl.Tax50Tavi,cl.SlipNo,cl.LinkBillNo as InvoiceNo FROM (" & SQLSelectClrDetail() & sqlW & ") cl ORDER BY cl.ClrDate,cl.ClrNo"
+                    Case "CLRSTATUS"
+                        sqlW = GetSQLCommand(cliteria, "h.ClrDate", "j.CustCode", "j.JNo", "h.EmpCode", "d.VenCode", "h.DocStatus", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " WHERE h.DocStatus<>99 AND " & sqlW
+                        sqlM = "SELECT cl.ClrNo,cl.ClrDate,cl.JobNo,SUM(cl.UsedAmount) as UsedAmount,SUM(cl.ChargeVAT) as AmtVat,SUM(cl.Tax50Tavi) as Tax50Tavi,"
+                        sqlM &= "SUM(CASE WHEN cl.IsExpense=0 AND cl.IsCredit=1 THEN cl.ClrNet ELSE 0 END) as SumAdvance,SUM(CASE WHEN cl.IsExpense=1 THEN cl.ClrNet ELSE 0 END) as SumCost,SUM(CASE WHEN cl.IsExpense=0 AND cl.IsCredit=0 THEN cl.ClrNet ELSE 0 END) as SumCharge,cl.LinkBillNo as InvoiceNo FROM (" & SQLSelectClrDetail() & sqlW & ") cl "
+                        sqlM &= "WHERE cl.ClrNet > 0 GROUP BY cl.ClrNo,cl.ClrDate,cl.JobNo,cl.LinkBillNo ORDER BY cl.ClrDate,cl.ClrNo"
                     Case "INVDAILY"
-                        sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "", "ih.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.TotalInv,inv.CreditNet,inv.ReceivedNet FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.DocDate,inv.DocNo"
+                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.TotalInv,inv.CreditNet,inv.ReceivedNet,inv.ReceiptNo FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.DocDate,inv.DocNo"
+                    Case "INVSTATUS"
+                        sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT inv.DocNo,inv.DocDate,inv.RefNo,inv.CustCode,
+sum(inv.Amt) as AmtTotal,sum(inv.AmtVat) as TotalVAT,sum(inv.Amt50Tavi) as Total50Tavi,
+sum(inv.AmtCredit) as TotalPrepaid,sum(inv.TotalInv) as TotalInv,sum(ISNULL(inv.CreditNet,0)) as TotalCredit,
+sum(inv.ReceivedNet) as TotalReceived 
+FROM (" & SQLSelectInvReport(sqlW) & ") inv 
+GROUP BY inv.DocNo,inv.DocDate,inv.RefNo,inv.CustCode
+ORDER BY inv.DocNo
+"
                     Case "BILLDAILY"
                         sqlW = GetSQLCommand(cliteria, "h.BillDate", "h.CustCode", "", "h.EmpCode", "", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
@@ -448,7 +466,7 @@ ISNULL(AmtCost,0) as TotalCost,
 SUM(CASE WHEN IsCredit=1 THEN TotalNet ELSE 0 END) as TotalAdvance,
 SUM(CASE WHEN IsCredit=0 THEN TotalNet ELSE 0 END) as TotalCharge,
 SUM(AmtCredit) as TotalPrepaid,
-SUM(ReceiptNet) as TotalReceive,
+SUM(ReceiptNet) as TotalReceived,
 SUM(Balance) as TotalBalance,
 SUM(ReceiptNet+AmtCredit)- SUM(CASE WHEN IsCredit=1 THEN TotalNet ELSE 0 END)-ISNULL(AmtCost,0) as TotalProfit
 FROM (

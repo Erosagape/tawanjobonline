@@ -853,10 +853,14 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Period")) Then
                     tSqlW &= " AND t.Period='" & Request.QueryString("Period") & "' "
                 End If
-                Dim sqlm As String = SQLSelectDocSummary()
+                Dim cancel As Boolean = False
+                If Not IsNothing(Request.QueryString("Cancel")) Then
+                    cancel = If(Request.QueryString("Cancel").ToString() = "Y", True, False)
+                End If
+                Dim sqlm As String = SQLSelectDocSummary(cancel)
                 If Not IsNothing(Request.QueryString("Summary")) Then
                     If Request.QueryString("Summary").ToString <> "Y" Then
-                        sqlm = SQLSelectDocList()
+                        sqlm = SQLSelectDocList(cancel)
                     End If
                 End If
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sqlm, tSqlW))
@@ -947,10 +951,14 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Period")) Then
                     period &= " WHERE t.Period='" & Request.QueryString("Period") & "' "
                 End If
-                Dim sqlm As String = SQLSelectJobSummary(tSqlW)
+                Dim cancel As Boolean = False
+                If Not IsNothing(Request.QueryString("Cancel")) Then
+                    cancel = If(Request.QueryString("Cancel").ToString() = "Y", True, False)
+                End If
+                Dim sqlm As String = SQLSelectJobSummary(tSqlW, cancel)
                 If Not IsNothing(Request.QueryString("Summary")) Then
                     If Request.QueryString("Summary").ToString <> "Y" Then
-                        sqlm = SQLSelectJobList(tSqlW)
+                        sqlm = SQLSelectJobList(tSqlW, cancel)
                     End If
                 End If
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlm & period & " ORDER BY t.Period")

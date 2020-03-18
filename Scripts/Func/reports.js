@@ -289,6 +289,8 @@ function LoadCliteria(reportID) {
             $('#tbJob').show();
             $('#tbVend').show();
             break;
+        case 'INVDAILY': 
+        case 'INVSTATUS':
         case 'RCPDAILY':
             $('#tbDate').show();
             $('#tbEmp').show();

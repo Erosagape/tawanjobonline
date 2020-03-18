@@ -102,6 +102,7 @@
                     <a href="#" id="mnuRpt2" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
                     <a href="#" id="mnuRpt4" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking2')">- Job Timeline</a>
                     <a href="#" id="mnuRpt3" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard')">-Job Dashboard</a>
+                    <a href="#" id="mnuRpt5" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">-Document Tracking</a>
                 </div>
                 <div id="mainMas" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMas')">
                     Master Files

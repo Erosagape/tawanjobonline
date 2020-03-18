@@ -339,3 +339,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /Resource/Import/IA19100002_JOB
+/Resource/Import

@@ -638,9 +638,9 @@ d.UnitPrice,d.Qty,d.CurrencyCode,d.CurRate,d.UnitCost,d.FNet,d.BNet,d.Tax50TaviR
 d.LinkItem,d.LinkBillNo,s.IsExpense,s.IsCredit,s.IsTaxCharge,s.Is50Tavi,s.IsHaveSlip,s.IsLtdAdv50Tavi,
 d.Remark,j.CustCode,j.CustBranch,j.InvNo,j.NameEng,j.NameThai,j.TotalContainer,j.VesselName,j.Commission,
 j.JobDate,j.JobStatus,c5.JobStatusName,j.CloseJobDate,j.CloseJobBy,j.DeclareNumber,j.InvProduct,j.TotalGW,j.InvProductQty,
-h.CancelProve,h.CancelReson,h.CancelDate
-from Job_ClearHeader h left join Mas_Branch b on h.BranchCode=b.Code 
-left join Job_ClearDetail d on h.BranchCode=d.BranchCode and h.ClrNo=d.ClrNo
+h.CancelProve,h.CancelReson,h.CancelDate,r.LastReceipt,r.ReceiveNet 
+from Job_ClearHeader h inner join Job_ClearDetail d on h.BranchCode=d.BranchCode and h.ClrNo=d.ClrNo
+left join Mas_Branch b on h.BranchCode=b.Code 
 left join (
   select ah.BranchCode,ah.AdvNo,ad.ItemNo,ah.PaymentDate,ah.EmpCode,ad.AdvAmount,ad.ChargeVAT,
   ad.IsDuplicate,ad.AdvNet,ah.AdvDate,ah.DocStatus
@@ -679,6 +679,14 @@ left join Mas_User u2 on h.ApproveBy=u2.UserID
 left join Mas_User u3 on h.ReceiveBy=u3.UserID 
 left join Job_SrvSingle s on d.SICode=s.SICode
 left join Mas_Vender v on d.VenderCode=v.VenCode
+left join (
+    SELECT d.BranchCode,d.InvoiceNo,d.InvoiceItemNo,MAX(d.ReceiptNo) as LastReceipt,
+    SUM(d.Net) as ReceiveNet
+    FROM Job_ReceiptHeader h INNER JOIN Job_ReceiptDetail d
+    ON h.BranchCode=d.BranchCode AND h.ReceiptNo=d.ReceiptNo
+    WHERE NOT ISNULL(h.CancelProve,'')<>''
+    GROUP BY d.BranchCode,d.InvoiceNo,d.InvoiceItemNo
+) r on d.BranchCode=r.BranchCode and d.LinkBillNo=r.InvoiceNo and d.LinkItem=r.InvoiceItemNo
 "
     End Function
     Function SQLSelectClrNoAdvance() As String
@@ -782,11 +790,11 @@ FROM
 ) a INNER JOIN Job_CashControl b
 ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
 LEFT JOIN (
-    SELECT h.BranchCode,h.ChqNo,SUM(d.PaidAmount) as ChqUsed,
+    SELECT h.BranchCode,h.ChqNo,SUM(ISNULL(d.PaidAmount,h.ChqAmount)) as ChqUsed,
     " & If(pType = "CU", "h.RecvBank,h.RecvBranch", "h.BankCode,h.BankBranch") & "
-    FROM Job_CashControlSub h INNER JOIN Job_CashControlDoc d
-    ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
-    WHERE NOT EXISTS(
+    FROM Job_CashControlSub h LEFT JOIN Job_CashControlDoc d
+    ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo 
+    WHERE h.PRType='P' AND NOT EXISTS(
 select ControlNo from Job_CashControl
 where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
     )
@@ -860,9 +868,9 @@ h.TotalIs50Tavi=ROUND(d.TotalIs50Tavi,2),
 h.TotalVAT=ROUND(d.TotalVAT,2),
 h.Total50Tavi=ROUND(d.Total50Tavi,2),
 h.SumDiscount=ROUND(d.SumDiscount,2),
-h.DiscountCal=ROUND((d.TotalNet-h.TotalCustAdv)*(h.DiscountRate*0.01),2),
-h.TotalNet=ROUND((d.TotalNet-h.TotalCustAdv)-((d.TotalNet-h.TotalCustAdv)*(h.DiscountRate*0.01)),2),
-h.ForeignNet=ROUND(((d.TotalNet-h.TotalCustAdv)-((d.TotalNet-h.TotalCustAdv)*(h.DiscountRate*0.01)))/h.ExchangeRate,2)
+h.DiscountCal=ROUND(d.TotalNet*(h.DiscountRate*0.01),2),
+h.TotalNet=ROUND(d.TotalNet-(d.TotalNet*(h.DiscountRate*0.01)),2),
+h.ForeignNet=ROUND((d.TotalNet-(d.TotalNet*(h.DiscountRate*0.01)))/h.ExchangeRate,2)
 from Job_InvoiceHeader h
 inner join (
 	select BranchCode,DocNo,
@@ -873,7 +881,7 @@ inner join (
 	sum(case when AmtCharge>0 then AmtVat else 0 end) as TotalVAT,
 	sum(case when AmtCharge>0 then Amt50Tavi else 0 end) as Total50Tavi,
     sum(AmtDiscount) as SumDiscount,
-	sum(TotalAmt) as TotalNet
+	sum(TotalAmt-AmtCredit) as TotalNet
 	from Job_InvoiceDetail
 	group by BranchCode,DocNo
 ) d
@@ -1146,10 +1154,10 @@ where ISNULL(ih.CancelProve,'')='' {0}
         Return String.Format(sql, psqlW)
     End Function
     Function SQLSelectInvForReceive(bHasVoucher As Boolean) As String
-        Dim amtSQL As String = "(id.Amt-ISNULL(id.AmtDiscount,0)-ISNULL(id.AmtCredit,0)-ISNULL(r.ReceivedAmt,0)-ISNULL(c.CreditAmt,0))"
+        Dim amtSQL As String = "(id.Amt-ISNULL(id.AmtDiscount,0)-ISNULL(r.ReceivedAmt,0)-ISNULL(c.CreditAmt,0))"
         Dim vatSQL As String = "(id.AmtVat-ISNULL(r.ReceivedVat,0)-ISNULL(c.CreditVat,0))"
         Dim whtSQL As String = "(id.Amt50Tavi-ISNULL(r.ReceivedWht,0)-ISNULL(c.CreditWht,0))"
-        Dim netSQL As String = "(id.TotalAmt-ISNULL(id.AmtCredit,0)-ISNULL(c.CreditNet,0)-ISNULL(r.ReceivedNet,0))"
+        Dim netSQL As String = "(id.TotalAmt-ISNULL(c.CreditNet,0)-ISNULL(r.ReceivedNet,0))"
         Return "
 select id.BranchCode,'' as ReceiptNo,
 0 as ItemNo,0 as CreditAmount,
@@ -1206,17 +1214,17 @@ r.TransferAmount,
 r.CashAmount,r.ChequeAmount,r.ControlNo,r.VoucherNo,r.ControlItemNo,
 ih.DocNo as InvoiceNo,ih.DocDate as InvoiceDate,id.ItemNo as InvoiceItemNo,
 id.SICode,id.SDescription,id.VATRate,id.Rate50Tavi,
-ISNULL(r.ReceivedAmt,0) as Amt,
+ISNULL(r.ReceivedAmt,0)-ISNULL(id.AmtCredit,0) as Amt,
 ISNULL(r.ReceivedVat,0) as AmtVAT,
 ISNULL(r.ReceivedWht,0) as Amt50Tavi,
-ISNULL(r.ReceivedNet,0) as Net,
+ISNULL(r.ReceivedNet,0)-ISNULL(id.AmtCredit,0) as Net,
 id.CurrencyCode as DCurrencyCode,id.ExchangeRate as DExchangeRate,
-ISNULL(r.ReceivedAmt,0)/id.ExchangeRate as FAmt,
+(ISNULL(r.ReceivedAmt,0)-ISNULL(id.AmtCredit,0))/id.ExchangeRate as FAmt,
 ISNULL(r.ReceivedVat,0)/id.ExchangeRate as FAmtVAT,
 ISNULL(r.ReceivedWht,0)/id.ExchangeRate as FAmt50Tavi,
-ISNULL(r.ReceivedNet,0)/id.ExchangeRate as FNet,
+(ISNULL(r.ReceivedNet,0)-ISNULL(id.AmtCredit,0))/id.ExchangeRate as FNet,
 ih.CustCode,ih.CustBranch,ih.BillToCustCode,ih.BillToCustBranch,ih.RefNo,
-id.Amt As InvAmt,id.AmtVat as InvVat,id.Amt50Tavi as Inv50Tavi,id.TotalAmt as InvTotal,
+id.Amt-id.AmtCredit As InvAmt,id.AmtVat as InvVat,id.Amt50Tavi as Inv50Tavi,id.TotalAmt-id.AmtCredit as InvTotal,
 id.AmtAdvance,id.AmtCharge,id.AmtDiscount,id.AmtCredit,
 ih.BillAcceptNo,ih.BillIssueDate,ih.BillAcceptDate,r.ReceiptDate,bh.DuePaymentDate
 from Job_InvoiceDetail id inner join Job_InvoiceHeader ih
@@ -1289,6 +1297,48 @@ GROUP BY dbo.Job_Order.BranchCode, dbo.Job_Order.JNo, dbo.Job_Order.InvNo, dbo.J
  dbo.Job_ReceiptDetail.InvoiceNo, dbo.Job_ReceiptDetail.ReceiptNo
 "
         Return String.Format(sql, sqlw)
+    End Function
+    Function SQLSelectReceiptSummaryByInv(sqlW As String) As String
+        Dim sql As String = "
+SELECT ih.BranchCode,ih.DocNo,rh.ReceiptNo,rh.ReceiveDate,rh.ReceiptType,c1.UsedLanguage,
+c1.Title + ' '+ c1.NameThai as CustTName,c1.NameEng as CustEName,c1.TAddress1+' '+c1.TAddress2 as CustTAddr,c1.EAddress1+' '+c1.EAddress2 as CustEAddr,c1.Phone as CustPhone,c1.TaxNumber as CustTaxID,
+c2.Title + ' '+ c2.NameThai as BillTName,c2.NameEng as BillEName,c2.TAddress1+' '+c2.TAddress2 as BillTAddr,c2.EAddress1+' '+c2.EAddress2 as BillEAddr,c2.Phone as BillPhone,c2.TaxNumber as BillTaxID,
+rd.InvoiceNo,ih.DocDate as InvoiceDate,ih.BillAcceptNo,ih.BillIssueDate,ih.BillAcceptDate,ih.RefNo,
+Sum(id.AmtCharge) as AmtCharge,Sum(id.AmtAdvance) as AmtAdvance,Sum(id.Amt-id.AmtDiscount) as InvAmt,Sum(id.AmtVat) as InvVAT,Sum(id.Amt50Tavi) as Inv50Tavi,Sum(id.TotalAmt) as InvTotal,
+(SELECT STUFF((
+    SELECT DISTINCT ',' + JobNo
+    FROM Job_ClearDetail WHERE BranchCode=ih.BranchCode
+    AND LinkBillNo=ih.DocNo 
+FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+)) as JobNo,
+(SELECT STUFF((
+    SELECT DISTINCT ',' + ClrNo
+    FROM Job_ClearDetail WHERE BranchCode=ih.BranchCode
+    AND LinkBillNo=ih.DocNo 
+FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+)) as ClrNo,
+(SELECT STUFF((
+    SELECT DISTINCT ',' + AdvNO
+    FROM Job_ClearDetail WHERE BranchCode=ih.BranchCode
+    AND LinkBillNo=ih.DocNo 
+FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+)) as AdvNo,
+Sum(rd.Amt) as Amt,Sum(rd.FAmt) as FAmt,Sum(rd.AmtVAT) as AmtVAT,Sum(rd.FAmtVAT) as FAmtVAT,
+Sum(rd.Amt50Tavi) as Amt50Tavi,Sum(rd.FAmt50Tavi) as FAmt50Tavi,Sum(rd.Net) as Net,Sum(rd.FNet) as FNet,
+Max(rd.ControlNo) as ControlNo,Max(vd.ChqNo) as ChqNo,Max(vd.ChqDate) as ChqDate,Max(vd.PRVoucher) as PRVoucher
+FROM Job_ReceiptHeader rh INNER JOIN Job_ReceiptDetail rd ON rh.BranchCode=rd.BranchCode AND rh.ReceiptNo=rd.ReceiptNo
+INNER JOIN Job_InvoiceDetail id ON rd.BranchCode=id.BranchCode AND rd.InvoiceNo=id.DocNo AND rd.InvoiceItemNo=id.ItemNo
+LEFT JOIN Mas_Company c1 ON rh.CustCode=c1.CustCode AND rh.CustBranch=c1.Branch
+LEFT JOIN Mas_Company c2 ON rh.BillToCustCode=c2.CustCode AND rh.BillToCustBranch=c2.Branch
+INNER JOIN Job_InvoiceHeader ih ON rd.BranchCode=ih.BranchCode AND rd.InvoiceNo=ih.DocNo 
+LEFT JOIN Job_CashControlSub vd ON rd.BranchCode=vd.BranchCode AND rd.ControlNo=vd.ControlNo AND rd.ControlItemNo=vd.ItemNo
+{0}
+GROUP BY ih.BranchCode,ih.DocNo,rh.ReceiptNo,rh.ReceiveDate,rh.ReceiptType,c1.UsedLanguage,
+c1.Title , c1.NameThai,c1.NameEng,c1.TAddress1,c1.TAddress2,c1.EAddress1,c1.EAddress2,c1.Phone,c1.TaxNumber,
+c2.Title , c2.NameThai,c2.NameEng,c2.TAddress1,c2.TAddress2,c2.EAddress1,c2.EAddress2,c2.Phone,c2.TaxNumber,
+rd.InvoiceNo,ih.DocDate,ih.BillAcceptNo,ih.BillIssueDate,ih.BillAcceptDate,ih.RefNo
+"
+        Return String.Format(sql, sqlW)
     End Function
     Function SQLSelectReceiptReport() As String
         Dim sql As String = "
@@ -1906,36 +1956,36 @@ dbo.Mas_Company AS s ON j.CustCode = s.CustCode AND j.CustBranch = s.Branch
 WHERE (j.JobStatus < 90) 
 "
     End Function
-    Function SQLSelectJobSummary(sqlw As String) As String
+    Function SQLSelectJobSummary(sqlw As String, bCancel As Boolean) As String
         Dim sql = "SELECT * FROM 
 (SELECT jt.ConfigKey AS JobTypeCode, jt.ConfigValue AS JobTypeName, sb.ConfigKey AS ShipByCode, sb.ConfigValue AS ShipByName, COUNT(j.JNo) AS TotalJob, 
                          Convert(varchar,Year(j.CreateDate)) + '/' + RIGHT('0'+Convert(varchar,Month(j.CreateDate)),2) AS Period,Year(j.CreateDate) as FiscalYear,Month(j.CreateDate) as JobMonth
 FROM dbo.Mas_Config AS jt INNER JOIN
                          dbo.Job_Order AS j ON CONVERT(int, jt.ConfigKey) = j.JobType INNER JOIN
                          dbo.Mas_Config AS sb ON CONVERT(int, sb.ConfigKey) = j.ShipBy
-WHERE (jt.ConfigCode = N'JOB_TYPE') AND (sb.ConfigCode = N'SHIP_BY') AND (j.JobStatus <> 99) {0}
+WHERE (jt.ConfigCode = N'JOB_TYPE') AND (sb.ConfigCode = N'SHIP_BY') AND (j.JobStatus " & If(bCancel, "=", "<>") & " 99) {0}
 GROUP BY jt.ConfigKey, jt.ConfigValue, sb.ConfigKey, sb.ConfigValue, Year(j.CreateDate),
 Month(j.CreateDate)
 UNION
 SELECT 'ALL','**ALL TYPE**','ALL','**ALL TYPE**',COUNT(*),Convert(varchar,Year(j.CreateDate)) +'/ALL',Year(j.CreateDate) as FiscalYear,0 as JobMonth
-FROM dbo.Job_Order j WHERE j.JobStatus<>99 {0}
+FROM dbo.Job_Order j WHERE j.JobStatus" & If(bCancel, "=", "<>") & "99 {0}
 GROUP BY Year(j.CreateDate)
 UNION
 SELECT 'ALL','**ALL TYPE**','ALL','**ALL TYPE**',COUNT(*),Convert(varchar,Year(j.CreateDate)) +'/' + RIGHT('0'+Convert(varchar,Month(j.CreateDate)),2),Year(j.CreateDate) as FiscalYear,Month(j.CreateDate) as JobMonth
-FROM dbo.Job_Order j WHERE j.JobStatus<>99 {0}
+FROM dbo.Job_Order j WHERE j.JobStatus" & If(bCancel, "=", "<>") & "99 {0}
 GROUP BY Year(j.CreateDate),Month(j.CreateDate)
 ) t
 "
         Return String.Format(sql, sqlw)
     End Function
-    Function SQLSelectJobList(sqlw As String) As String
+    Function SQLSelectJobList(sqlw As String, bCancel As Boolean) As String
         Dim sql = "SELECT * FROM 
 (SELECT jt.ConfigKey AS JobTypeCode, jt.ConfigValue AS JobTypeName, sb.ConfigKey AS ShipByCode, sb.ConfigValue AS ShipByName, JNo AS JobNo, 
                          Convert(varchar,Year(j.CreateDate)) + '/' + RIGHT('0'+Convert(varchar,Month(j.CreateDate)),2) AS Period,Year(j.CreateDate) as FiscalYear,Month(j.CreateDate) as JobMonth
 FROM dbo.Mas_Config AS jt INNER JOIN
                          dbo.Job_Order AS j ON CONVERT(int, jt.ConfigKey) = j.JobType INNER JOIN
                          dbo.Mas_Config AS sb ON CONVERT(int, sb.ConfigKey) = j.ShipBy
-WHERE (jt.ConfigCode = N'JOB_TYPE') AND (sb.ConfigCode = N'SHIP_BY') AND (j.JobStatus <> 99) {0}
+WHERE (jt.ConfigCode = N'JOB_TYPE') AND (sb.ConfigCode = N'SHIP_BY') AND (j.JobStatus " & If(bCancel = True, "=", "<>") & " 99) {0}
 ) t
 "
         Return String.Format(sql, sqlw)
@@ -1951,45 +2001,45 @@ dbo.Job_QuotationItem AS i ON d.BranchCode = i.BranchCode AND d.QNo = i.QNo AND 
 dbo.Job_SrvSingle AS s ON i.SICode = s.SICode
 "
     End Function
-    Function SQLSelectDocList() As String
+    Function SQLSelectDocList(bCancel As Boolean) As String
         Return "
 SELECT * FROM (
 select Convert(varchar,Year(AdvDate))+'/'+RIGHT('0'+Convert(varchar,Month(AdvDate)),2) as Period,'ADV' as DocType,AdvNo as DocNo 
-from Job_AdvHeader where DocStatus<>99 
+from Job_AdvHeader where DocStatus" & If(bCancel = True, "=", "<>") & "99 
 union
 select Convert(varchar,Year(ClrDate))+'/'+RIGHT('0'+Convert(varchar,Month(ClrDate)),2) as Period,'CLR' as DocType,ClrNo as DocNo 
-from Job_ClearHeader where DocStatus<>99 
+from Job_ClearHeader where DocStatus" & If(bCancel = True, "=", "<>") & "99 
 UNION
 select Convert(varchar,Year(CreateDate))+'/'+RIGHT('0'+Convert(varchar,Month(CreateDate)),2) as Period,'INV' as DocType,DocNo 
-from Job_InvoiceHeader where NOT ISNULL(CancelProve,'')<>''
+from Job_InvoiceHeader where " & If(bCancel = True, "", "NOT") & " ISNULL(CancelProve,'')<>''
 ) t {0} ORDER BY t.DocType,t.Period,t.DocNo
 "
     End Function
-    Function SQLSelectDocSummary() As String
+    Function SQLSelectDocSummary(bCancel As Boolean) As String
         Return "
 SELECT * FROM (
 select Convert(varchar,Year(AdvDate))+'/'+RIGHT('0'+Convert(varchar,Month(AdvDate)),2) as Period,'ADV' as DocType,Count(*) as CountDoc 
-from Job_AdvHeader where DocStatus<>99 
+from Job_AdvHeader where DocStatus" & If(bCancel, "=", "<>") & "99 
 group by Convert(varchar,Year(AdvDate))+'/'+RIGHT('0'+Convert(varchar,Month(AdvDate)),2)
 union
 SELECT Convert(varchar,Year(AdvDate))+'/ALL' as Period,'ADV' as DocType,Count(*) as CountDoc 
-from Job_AdvHeader where DocStatus<>99 
+from Job_AdvHeader where DocStatus" & If(bCancel, "=", "<>") & "99 
 group by Convert(varchar,Year(AdvDate))
 UNION
 select Convert(varchar,Year(ClrDate))+'/'+RIGHT('0'+Convert(varchar,Month(ClrDate)),2) as Period,'CLR' as DocType,Count(*) as CountDoc 
-from Job_ClearHeader where DocStatus<>99 
+from Job_ClearHeader where DocStatus" & If(bCancel, "=", "<>") & "99 
 group by Convert(varchar,Year(ClrDate))+'/'+RIGHT('0'+Convert(varchar,Month(ClrDate)),2)
 union
 SELECT Convert(varchar,Year(ClrDate))+'/ALL' as Period,'CLR' as DocType,Count(*) as CountDoc 
-from Job_ClearHeader where DocStatus<>99 
+from Job_ClearHeader where DocStatus" & If(bCancel, "=", "<>") & "99 
 group by Convert(varchar,Year(ClrDate))
 UNION
 select Convert(varchar,Year(CreateDate))+'/'+RIGHT('0'+Convert(varchar,Month(CreateDate)),2) as Period,'INV' as DocType,Count(*) as CountDoc 
-from Job_InvoiceHeader where NOT ISNULL(CancelProve,'')<>''
+from Job_InvoiceHeader where " & If(bCancel, "", "NOT") & " ISNULL(CancelProve,'')<>''
 group by Convert(varchar,Year(CreateDate))+'/'+RIGHT('0'+Convert(varchar,Month(CreateDate)),2)
 union
 SELECT Convert(varchar,Year(CreateDate))+'/ALL' as Period,'INV' as DocType,Count(*) as CountDoc 
-from Job_InvoiceHeader where NOT ISNULL(CancelProve,'')<>''
+from Job_InvoiceHeader where " & If(bCancel, "", "NOT") & " ISNULL(CancelProve,'')<>''
 group by Convert(varchar,Year(CreateDate))
 ) t {0} ORDER BY t.DocType,t.Period
 "
@@ -2001,7 +2051,7 @@ from TWTLog a
 INNER JOIN TWTCustomer b
 ON a.CustID=b.CustID+'/'
 where a.ModuleName='LOGIN_SHIPPING' and b.CustID='" & My.MySettings.Default.LicenseTo.ToString & "'
-and a.LogAction Not in('ADMIN','CS','BOAT','pasit')
+and a.LogAction Not in('ADMIN','CS','BOAT','pasit','test')
 group by b.CustID,b.CustName,a.LogAction 
 "
     End Function
@@ -2012,7 +2062,7 @@ from TWTLog a
 INNER JOIN TWTCustomer b
 ON a.CustID=b.CustID+'/'
 where a.ModuleName='LOGIN_SHIPPING' and b.CustID='" & My.MySettings.Default.LicenseTo.ToString & "'
-and a.LogAction Not in('ADMIN','CS','BOAT','pasit')
+and a.LogAction Not in('ADMIN','CS','BOAT','pasit','test')
 group by b.CustID,b.CustName,a.LogAction ,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2)
 UNION
 select b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2) as Period,Cast(Count(DISTINCT a.LogAction) as varchar)+' Users' as CountUser,'ALL' as LastLogin
@@ -2020,7 +2070,7 @@ from TWTLog a
 INNER JOIN TWTCustomer b
 ON a.CustID=b.CustID+'/'
 where a.ModuleName='LOGIN_SHIPPING' and b.CustID='" & My.MySettings.Default.LicenseTo.ToString & "'
-and a.LogAction Not in('ADMIN','CS','BOAT','pasit')
+and a.LogAction Not in('ADMIN','CS','BOAT','pasit','test')
 group by b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2)
 ) tb"
     End Function

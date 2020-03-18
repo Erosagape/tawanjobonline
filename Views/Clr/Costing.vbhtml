@@ -206,7 +206,12 @@ End Code
                         html += '<td></td>';
                         amtpending += amt;
                     } else {
-                        html += '<td>' + d[i].LinkBillNo + '-' + d[i].LinkItem + '</td>';
+                        if (d[i].LastReceipt !== null) {
+                            html += '<td>' + d[i].LinkBillNo + '-' + d[i].LinkItem + '<br/>';
+                            html += d[i].LastReceipt + '</td>';
+                        } else {
+                            html += '<td>' + d[i].LinkBillNo + '-' + d[i].LinkItem + '</td>';
+                        }
                         if (cost > 0) {
                             amtclear += amt;
                         } else {

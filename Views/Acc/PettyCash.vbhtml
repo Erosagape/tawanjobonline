@@ -17,8 +17,8 @@ End Code
                 <div class="col-sm-2">
                     Transaction Type<br />
                     <select id="cboPRType" class="form-control dropdown">
-                        <option value="P">Transfer To</option>
                         <option value="R">Received From</option>
+                        <option value="P">Transfer To</option>
                     </select>
                 </div>
                 <div class="col-sm-3">
@@ -145,8 +145,8 @@ End Code
                                 <div class="col-md-3">
                                     Transaction Type<br />
                                     <select id="cboPRTypeD" class="form-control dropdown">
-                                        <option value="P">Withdraw</option>
                                         <option value="R">Deposit</option>
+                                        <option value="P">Withdraw</option>
                                     </select>
                                 </div>
                             </div>

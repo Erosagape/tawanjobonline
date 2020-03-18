@@ -2,27 +2,32 @@
 @Code
     ViewBag.Title = "Transport Tracking"
 End Code
-<div class="row">
-    <div class="col-sm-4">
-        Branch
-        <br />
-        <div style="display:flex;flex-direction:row">
-            <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
-            <input type="button" class="btn btn-default" value="..." onclick="SearchData('branch');" />
-            <input type="text" class="form-control" id="txtBranchName" style="width:65%" disabled />
+    <div class="row">
+        <div class="col-sm-4">
+            Branch
+            <br />
+            <div style="display:flex;flex-direction:row">
+                <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
+                <input type="button" class="btn btn-default" value="..." onclick="SearchData('branch');" />
+                <input type="text" class="form-control" id="txtBranchName" style="width:65%" disabled />
+            </div>
+        </div>
+        <div class="col-sm-4">
+            Customer:
+            <br />
+            <div style="display:flex;flex-direction:row">
+                <input type="text" class="form-control" id="txtCustCode" style="width:20%" disabled />
+                <input type="text" class="form-control" id="txtCustBranch" style="width:10%" disabled />
+                <input type="button" class="btn btn-default" id="btnBrowseCust" value="..." onclick="SearchData('customer');" />
+                <input type="text" class="form-control" id="txtCustName" style="width:60%" disabled />
+            </div>
+        </div>
+        <div class="col-sm-4">
+            Status:
+            <br />
+            <select id="cboStatus" class="form-control dropdown"></select>
         </div>
     </div>
-    <div class="col-sm-6">
-        Customer:
-        <br />
-        <div style="display:flex;flex-direction:row">
-            <input type="text" class="form-control" id="txtCustCode" style="width:20%" disabled />
-            <input type="text" class="form-control" id="txtCustBranch" style="width:10%" disabled />
-            <input type="button" class="btn btn-default" id="btnBrowseCust" value="..." onclick="SearchData('customer');" />
-            <input type="text" class="form-control" id="txtCustName" style="width:60%" disabled />
-        </div>
-    </div>
-</div>
 <a href="#" class="btn btn-primary" id="btnShow" onclick="RefreshGrid()">
     <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Show</b>
 </a>
@@ -126,6 +131,8 @@ End Code
         });
     }
     function SetLOVs() {
+        let lists = 'JOB_STATUS=#cboStatus';
+        loadCombos(path, lists);
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
@@ -152,6 +159,10 @@ End Code
         let w = '';
         if (cust !== '') {
             w += '&Cust=' + cust;
+        }
+        let status = $('#cboStatus').val();
+        if (status !== '') {
+            w += '&Status=' + status;
         }
         $('#tbDetail').DataTable({
             ajax: {
