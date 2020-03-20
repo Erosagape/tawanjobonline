@@ -475,6 +475,10 @@
     <Content Include="App_Data\KWAN\_Report.vbhtml" />
     <Content Include="App_Data\KWAN\_ReportLandscape.vbhtml" />
     <Content Include="App_Data\ASAL\FormInv.vbhtml" />
+    <Content Include="App_Data\APL\FormBookingAir.vbhtml" />
+    <Content Include="App_Data\APL\FormBookingSea.vbhtml" />
+    <Content Include="App_Data\APL\FormTransport.vbhtml" />
+    <Content Include="App_Data\APL\FormTruckOrder.vbhtml" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -886,6 +890,7 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\NINETY\" />
     <Folder Include="Resource\Export\" />
     <Folder Include="Resource\Import\" />
   </ItemGroup>

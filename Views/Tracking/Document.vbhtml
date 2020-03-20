@@ -74,6 +74,8 @@ End Code
                     <th>DocNo</th>
                     <th>DocDate</th>
                     <th>Comment</th>
+                    <th>CheckDate</th>
+                    <th>ApproveDate</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -347,7 +349,19 @@ End Code
                                 return CDateEN(data);
                             }
                         },
-                        { data: "CheckNote", title: "Comments" }
+                        { data: "CheckNote", title: "Comments" },
+                        {
+                            data: "CheckedDate", title: "Check date ",
+                            render: function (data) {
+                                return CDateEN(data);
+                            }
+                        },
+                        {
+                            data: "ApproveDate", title: "Approve date ",
+                            render: function (data) {
+                                return CDateEN(data);
+                            }
+                        }
                     ],
                     responsive:true,
                     destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page

@@ -6,116 +6,91 @@
 End Code
     <div style="display:flex;font-size:14px">
         <div style="text-align:left;flex:1">
-            <b>BOOKING NO:</b> <label id="lblBookingNo"></label>
+            <b>TO :</b><label id="lblShipperName"></label>
+            <br />
+            <b>AN : </b><label id="lblShipperContact"></label>
         </div>
         <div style="text-align:right;flex:1">
-            <b>DATE :</b> <label id="lblBookingDate"></label>            
+            <b>DATE :</b> <label id="lblBookingDate"></label>
             <br />
-            <b>SHIPMENT NO:</b> <label id="lblJNo"></label>
+            <b>TEL : </b><label id="lblShipperTel"></label>
+            <br />
+            <b>FAX : </b><label id="lblShipperFax"></label>
+            <br />
+            <b>EMAIL : </b><label id="lblShipperEMail"></label>
         </div>
     </div>
     <div style="width:100%;font-size:14px">
-        <b>TO :</b><label id="lblForwarderName"></label>
+        <b>SHIPMENT NO:</b> <label id="lblJNo"></label>
         <br />
-        <b>ATTN : </b><label id="lblForwarderContact"></label>
+        <b>BOOKING NO:</b> <label id="lblBookingNo"></label>
         <br />
-        <b>FROM : </b><label id="lblCSName"></label>
+        <b>SHIPPER LOAD:</b> <label id="lblShipperName2"></label>
         <br />
-        <b>SUBJECT : </b><label id="lblProjectName"></label>
+        <b>PORT OF RECEIPT :</b> <label id="lblPackingPlace"></label>
         <br />
-        <div style="display:flex;font-size:14px">
-            <div style="flex:1">
-                <b>FEEDER / VOY :</b>
+        <b>PORT OF LOADING :</b> <label id="lblFactoryPlace"></label>
+        <br />
+        <b>PLACE OF DELIVERY :</b> <label id="lblPortArrival"></label>,<label id="lblCountry"></label>
+        <br />
+        <b>CLOSING DATE :</b><label id="lblClosingDate"></label> <b>AT</b> <label id="lblClosingTime"></label>
+        <br />
+        <b>ETD DATE :</b><label id="lblETDDate"></label>
+        <br />
+        <b>ETA DATE :</b><label id="lblETADate"></label>
+        <br />
+        <b>VOLUME :</b><label id="lblTotalContainer"></label>
+        <br />
+        <b>QUANTITY : </b><label id="lblProductQty"></label> &nbsp; <label id="lblProductUnit"></label>
+        <br />
+        <b>COMMODITY :</b> <label id="lblInvProduct"></label>
+        <br />
+        <b>MOTHER VESSEL / VOY :</b> <label id="lblMVesselName"></label>
+        <br />
+        <b>OCEAN VESSEL / VOY :</b> <label id="lblVesselName"></label>
+        <br />
+        <b>CARRIER :</b> <label id="lblAgentName"></label>
+        <br />
+        <div style="display:flex">
+            <div>
+                <b>CY AT :</b><label id="lblCYDate"></label> <b>AT</b> &nbsp; &nbsp;
             </div>
-            <div style="flex:2">
-                <label id="lblVesselName"></label>
-            </div>
-            <div style="flex:1">
-                <b>ETD DATE :</b><label id="lblETDDate"></label>
-            </div>
-            <div style="flex:2">
-                <b>DEPARTURE PORT :</b><br/><label id="lblPortDeparture"></label>
+            <div>
+                <label id="lblCYPlace"></label>
+                <br />
+                <label id="lblCYContact"></label>
             </div>
         </div>
         <br />
-        <div style="display:flex;font-size:14px">
-            <div style="flex:1">
-                <b>M.VESSEL / VOY :</b>
+        <div style="display:flex">
+            <div>
+                <b>CFS/LOADING AT :</b><label id="lblCFSDate"></label> <b>AT</b> &nbsp; &nbsp;
             </div>
-            <div style="flex:2">
-                <label id="lblMVesselName"></label>
-            </div>
-            <div style="flex:1">
-                <b>ETA DATE :</b><label id="lblETADate"></label>
-            </div>
-            <div style="flex:2">
-                <b>DESTINATION PORT :</b><br/><label id="lblPortArrival"></label>
+            <div>
+                <label id="lblCFSPlace"></label>
+                <br />
+                <label id="lblCFSContact"></label>
             </div>
         </div>
         <br />
-        <div style="display:flex;flex-direction:row">
-            <div style="flex:1;font-size:14px">
-                <b>VOLUME :</b><label id="lblTotalContainer"></label>
-                <br />
-                <b>QUANTITY : </b><label id="lblProductQty"></label> &nbsp; <label id="lblProductUnit"></label>
-                <br />
-                <b>CY DATE :</b> <label id="lblCYDate"></label>
-                <br />
-                <b>CY AT :</b> <label id="lblCYPlace"></label>
-                <br />
-                <b>RETURN DATE :</b> <label id="lblReturnDate"></label>
-                <br />
-                <b>RETURN AT :</b> <label id="lblReturnPlace"></label>
-                <br />
-                <b>CFS/LOADING DATE :</b> <label id="lblCFSDate"></label>
-                <br />
-                <b>CFS/LOADING AT :</b> <label id="lblCFSPlace"></label>
-                <br />
-                <b>LAST LOAD DATE :</b> <label id="lblClosingDate"></label>
-                <br />
-                <b>LAST LOAD AT :</b> <label id="lblClosingTime"></label>
-                <br />
-                <b>LINERS :</b> <label id="lblAgentName"></label>
-                <br />
-                <b>SHIPPER LOAD:</b>
-                <br />
-                <label id="lblShipperName"></label>
-                <br />
-                <label id="lblShipperAddress1"></label>
-                <br />
-                <label id="lblShipperAddress2"></label>
-                <br />
-                <b>REMARK:</b>
-                <br />
-                <div id="dvRemark"></div>
+        <div style="display:flex">
+            <div>
+                <b>RETURN AT :</b><label id="lblReturnDate"></label> <b>AT</b> &nbsp; &nbsp;
             </div>
-            <div style="flex:1">
-                Reminder:<br />
-                <textarea style="height:100%;width:100%">
-1.คืนตู้ได้เริ่มวันแรก 4 วัน ก่อนเรือออก
-2.กรุณาแจ้งยกเลิก booking ได้ก่อนภายใน 5 วันก่อนเรือออก
-แต่หากเป็นตู้ CFS กรุณาแจ้งยกเลิก booking ก่อนภายใน 3 วันก่อนวันบรรจุสินค้า
-3.กรุณา submit VGM ภายใน 3 ชั่วโมง หลังจากการโหลดสินค้า
-4.กรุณาส่ง S/I ภายใน 3 วันก่อนเรือออก
-5.กรุณา confirm B/L ภายใน 7 วันหลังเรือออก
-**หากไม่สามารถปฏิบัติตามได้ อาจมีค่าใช้จ่ายตามอัตราที่สายเรือกำหนด**
-</textarea>
+            <div>
+                <label id="lblReturnPlace"></label>
+                <br />
+                <label id="lblReturnContact"></label>
             </div>
-
         </div>
         <br />
+        <b>PAPERLESS :</b> <label id="lblCustomsCode"></label>
         <br />
-        hope you have been well informed, For further info or inquiry you may require, please feel free to contact us.
-        <br />
-        <br />
-        THANK YOU AND BEST REGARDS,
+        <b>REMARK:</b> <div id="dvRemark"></div>
         <br />
         <br />
         <br />
         <br />
-        (________________________)<br/>
-        ______/___________/_______
-
     </div>
 <script type="text/javascript">
     let br = getQueryString("BranchCode");
@@ -127,21 +102,19 @@ End Code
             $('#lblJNo').text(h.JNo);
             $('#lblBookingNo').text(h.BookingNo);
             $('#lblBookingDate').text(ShowDate(h.BookingDate));
-            $('#lblForwarderName').text(h.ShipperName);
-            $('#lblForwarderContact').text(h.CustContactName);
-            $('#lblCSName').text(h.CSName);
-            $('#lblProjectName').text(h.ProjectName);
+            $('#lblShipperName2').text(h.ShipperName);
             $('#lblAgentName').text(h.ForwarderName);
             $('#lblTotalContainer').text(h.TotalContainer);
 
             if (h.JobType == '1') {
-                ShowInterPort(path, h.InvFCountry, h.InvInterPort, '#lblPortDeparture');
-                ShowReleasePort(path, h.ClearPort, '#lblPortArrival');
+                ShowInterPort(path, h.InvFCountry, h.InvInterPort, '#lblPortArrival');
+                ShowCountry(path, h.InvFCountry, '#lblCountry');
             } else {
-                ShowReleasePort(path, h.ClearPort, '#lblPortDeparture');
                 ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblPortArrival');
+                ShowCountry(path, h.InvCountry, '#lblCountry');
             }
             $('#lblProductQty').text(h.InvProductQty);
+            $('#lblInvProduct').text(h.InvProduct);
             ShowInvUnit(path, h.InvProductUnit, '#lblProductUnit');
             $('#lblTotalGW').text(h.TotalGW);
             ShowInvUnit(path, h.GWUnit, '#lblGWUnit');
@@ -155,24 +128,30 @@ End Code
             if (h.TransMode.substr(0, 2) == 'CY') {
                 $('#lblCYDate').text(ShowDate(h.CYDate));
                 $('#lblCYPlace').text(h.CYPlace);
+                $('#lblCYContact').text(h.CYContact);
                 $('#lblReturnDate').text(ShowDate(h.ReturnDate));
                 $('#lblReturnPlace').text(h.ReturnPlace);
+                $('#lblReturnContact').text(h.ReturnContact);
 
                 $('#lblClosingDate').text(ShowDate(h.PackingDate));
                 $('#lblClosingTime').text(ShowTime(h.PackingTime));
             } else {
                 $('#lblCFSDate').text(ShowDate(h.CYDate));
                 $('#lblCFSPlace').text(h.CYPlace);
+                $('#lblCFSContact').text(h.CYContact);
                 $('#lblClosingDate').text(ShowDate(h.PackingDate));
                 $('#lblClosingTime').text(ShowTime(h.PackingTime));
             }
-            
-            $('#lblShipperName').text(h.ShipperName);
-            $('#lblShipperAddress1').text(h.ShipperAddress1);
-            $('#lblShipperAddress2').text(h.ShipperAddress2);
+            $('#lblFactoryPlace').text(h.FactoryPlace);
+            $('#lblPackingPlace').text(h.PackingPlace);
 
-            let str = h.Remark;
-            str += '\n RELEASE PORT ' + h.ClearPort + ' LOAD PORT ' + h.ClearPortNo;
+            $('#lblShipperName').text(h.ShipperName);
+            $('#lblShipperContact').text(h.ShipperContact);
+            $('#lblShipperTel').text(h.ShipperPhone);
+            $('#lblShipperFax').text(h.ShipperFax);
+            $('#lblShipperEMail').text(h.ShipperEMail);
+            $('#lblCustomsCode').text(h.ClearPort);
+            let str = h.Description;
             $('#dvRemark').html(CStr(str));
         }
     });

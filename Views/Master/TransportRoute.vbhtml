@@ -30,15 +30,15 @@ End Code
             </div>
             <div class="col-sm-1">
                 <br />
-                <input type="button" class="btn btn-primary" style="width:100%" value="Select Route" onclick="$('#dvList').modal('show');" />
+                <input type="button" class="btn btn-primary" style="width:100%" value="Select" onclick="$('#dvList').modal('show');" />
             </div>
             <div class="col-sm-1">
                 <br />
-                <input type="button" class="btn w3-purple" style="width:100%" value="New Route" onclick="ClearRoute()" />
+                <input type="button" class="btn w3-purple" style="width:100%" value="New" onclick="ClearRoute()" />
             </div>
             <div class="col-sm-1">
                 <br />
-                <input type="button" id="btnSaveRoute" style="width:100%" value="Save Route" class="btn btn-success" onclick="SaveRoute()" />
+                <input type="button" id="btnSaveRoute" style="width:100%" value="Save" class="btn btn-success" onclick="SaveRoute()" />
             </div>
         </div>
         <p>

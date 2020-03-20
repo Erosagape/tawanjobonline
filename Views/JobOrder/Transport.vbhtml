@@ -265,9 +265,10 @@ End Code
             <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Form</b>
         </a>
         <select id="cboPrintForm">
-            <option value="BA">Booking Confirmation (AIR) </option>
-            <option value="BS">Booking Confirmation (SEA) </option>
-            <option value="BL">Bill of Lading/Air way bill</option>
+            <option value="BA">Booking Confirmation (AIR)</option>
+            <option value="BS">Booking Confirmation (SEA)</option>
+            <option value="SP">Shipping Particulars</option>
+            <option value="BL">BL/AWB</option>
             <option value="DO">D/O Letter</option>
         </select>
         <a href="#" class="btn btn-primary" id="btnUpdateJob" onclick="UpdateJob()">
@@ -1067,6 +1068,9 @@ End Code
                 break;
             case 'BS':
                 window.open(path + 'JobOrder/FormBookingSea?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'SP':
+                window.open(path + 'JobOrder/FormBooking?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'BL':
                 window.open(path + 'JobOrder/FormTransport?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');

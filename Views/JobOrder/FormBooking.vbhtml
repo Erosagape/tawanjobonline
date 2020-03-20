@@ -1,145 +1,142 @@
 ﻿
 @Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.ReportName = "Booking Confirmation"
-    ViewBag.Title = "BOOKING CONFIRMATION"
+    ViewBag.ReportName = "SHIPPING PARTICULARS"
+    ViewBag.Title = "SHIPPING PARTICULARS"
 End Code
-<div style="display:flex">
-    <div style="flex-direction:row;width:70%;border-style:solid;border-width:thin">
-        <div style="display:flex;flex-direction:column;">
-            <div>
-                <b>Shipper</b>
-                <div>
-                    <label id="lblShipperName">KGM SERVICES CO.,LTD</label>
-                    <br />
-                    <label id="lblShipperAddress1">18 SSP TOWER 2 18 FLOOR</label>
-                    <br />
-                    <label id="lblShipperAddress2">KLONGTOEY BANGKOK</label>
-                </div>
-            </div>
-            <div>
-                <b>Consignee</b>
-                <div>
-                    <label id="lblConsigneeName">APL LOGISTICS SVCS THAILAND</label>
-                    <br />
-                    <label id="lblConsignAddress1">10205 WIBULTHANI BLDG 3rd FLOOR</label>
-                    <br />
-                    <label id="lblConsignAddress2">KLONGTOEY BANGKOK</label>
-                </div>
-            </div>
-            <div>
-                <b>Notify Party</b>
-                <div>
-                    <label id="lblNotifyName">SUMITOMO JAPAN LTD</label>
-                    <br />
-                    <label id="lblNotifyAddress1">1050 KINZA 106-BUILDING 18 FL</label>
-                    <br />
-                    <label id="lblNotifyAddress2">YANAKUSA, GENKI AVENUE</label>
-                </div>
-            </div>
-            <div style="display:flex;flex-direction:row;">
-                <div style="flex:1">
-                    <b>Feeder Vessel</b>
+    <div style="display:flex">
+        <div style="flex-direction:row;width:50%;font-size:12px;">
+            <div style="display:flex;flex-direction:column;">
+                <div style="border-style:solid;border-width:thin;">
+                    <b>Shipper</b>
                     <div>
-                        <label id="lblVesselName">14-2556</label>
+                        <label id="lblShipperName"></label>
+                        <br />
+                        <label id="lblShipperAddress1"></label>
+                        <br />
+                        <label id="lblShipperAddress2"></label>
                     </div>
                 </div>
-                <div style="flex:1">
-                    <b>Packing Place</b>
+                <div style="border-style:solid;border-width:thin;">
+                    <b>Consignee</b>
                     <div>
-                        <label id="lblPackingPlace">ด่านสระแก้ว</label>
+                        <label id="lblConsigneeName"></label>
+                        <br />
+                        <label id="lblConsignAddress1"></label>
+                        <br />
+                        <label id="lblConsignAddress2"></label>
                     </div>
                 </div>
-            </div>
-            <div style="display:flex;flex-direction:row;">
-                <div style="flex:1">
-                    <b>Mother Vessel</b>
+                <div style="border-style:solid;border-width:thin;">
+                    <b>Notify Party</b>
                     <div>
-                        <label id="lblMVesselName">WANHAI 547</label>
+                        <label id="lblNotifyName"></label>
+                        <br />
+                        <label id="lblNotifyAddress1"></label>
+                        <br />
+                        <label id="lblNotifyAddress2"></label>
                     </div>
                 </div>
-                <div style="flex:1">
-                    <b>Loading Port</b>
-                    <div>
-                        <label id="lblClearPortName">สำนักงานสุลกากรท่าเรือแหลมฉบัง</label>
+                <div style="display:flex;flex-direction:row;">
+                    <div style="flex:1;border-style:solid;border-width:thin;">
+                        <b>Feeder Vessel / Voyage No</b>
+                        <div>
+                            <label id="lblMVesselName"></label>
+                        </div>
+                    </div>
+                    <div style="flex:1;border-style:solid;border-width:thin;">
+                        <b>Place of Receipt</b>
+                        <div>
+                            <label id="lblPackingPlace"></label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div style="display:flex;flex-direction:row;">
-                <div style="flex:1">
-                    <b>Discharge Port</b>
-                    <div>
-                        <label id="lblInterPortName">POIPET,CAMBODIA</label>
+                <div style="display:flex;flex-direction:row;">
+                    <div style="flex:1;border-style:solid;border-width:thin;">
+                        <b>Ocean Vessel</b>
+                        <div>
+                            <label id="lblVesselName"></label>
+                        </div>
                     </div>
-                </div>
-                <div style="flex:1">
-                    <b>Destination</b>
-                    <div>
-                        <label id="lblFactoryPlace">SIAMREAP FACTORY</label>
+                    <div style="flex:1;border-style:solid;border-width:thin;">
+                        <b>Port of Loading</b>
+                        <div>
+                            <label id="lblFactoryPlace"></label>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-    </div>
-    <div style="flex-direction:row;width:30%;border-style:solid;border-width:thin">
-        <div style="display:flex;flex-direction:column;">
-            <div>
-                <b>Booking No</b>
-                <br />
-                <label id="lblBookingNo">BKAU12050120</label>
-            </div>
-            <div>
-                <b>Booking Date</b>
-                <label id="lblBookingDate">12/12/2019</label>
-            </div>
-            <div>
-                <b>To</b>
-                <label id="lblForwarderName">Khun Nid</label>                
-            </div>
-            <div>
-                <b>Attn</b>
-                <label id="lblForwarderContact">APL LOGISTICS CO.,LTD</label>
-            </div>
-            <div>
-                <b>From</b>
-                <label id="lblCSName">Sunisa Klangmueng</label>
-            </div>
-            <div>
-                <b>Volume</b>
-                <label id="lblTotalContainer">2x40F</label>
-            </div>
-            <div>
-                <b>Container / Seal No</b>
-                <div id="dvContainers">
-                    CGAU1204505 / MF1050<br />
-                    CAGU1208066 / CF1405<br />
+        <div style="flex-direction:row;width:50%;border-style:solid;border-width:thin;font-size:12px">
+            <div style="display:flex;flex-direction:column;">
+                <div>
+                    <b>ATTN</b> : <label id="lblForwarderName"></label>
+                    <br />
+                </div>
+                <div>
+                    <br />
+                    <b>FROM</b> : <label id="lblCSName"></label><br />
+                    <b>TEL</b> : <label id="lblCSTel"></label><br />
+                    <b>EMAIL</b> : <label id="lblCSEMail"></label><br />
+                </div>
+                <div>
+                    <br />
+                    <b>Actual Shipper :</b><br />
+                    <label id="lblShipperName2"></label>
+                </div>
+                <div>
+                    <br />
+                    <br />
+                    <b>Master-File NO :</b><label id="lblJNo"></label>
+                </div>
+                <div>
+                    <b>BOOKING NO: <label id="lblBookingNo"></label> </b>
                 </div>
             </div>
-        </div>
-
+        </div>        
     </div>
+    <div style="display:flex;">
+        <div style="flex:1;border-style:solid;border-width:thin;">
+            <b>Port of Discharge</b>
+            <div>
+                <label id="lblInterPortName"></label>
+            </div>
+        </div>
+        <div style="flex:1;border-style:solid;border-width:thin;">
+            <b>Port of Delivery</b>
+            <div>
+                <label id="lblInterPortName1"></label>,<label id="lblCountry"></label>
+            </div>
+        </div>
+        <div style="flex:1;border-style:solid;border-width:thin;">
+            <b>Freight and charge payable at</b><br />
+            <label id="lblPaymentCondition"></label>
+        </div>
+        <div style="flex:1;border-style:solid;border-width:thin;">
+            <b>Number of original B/Ls</b><br />
+            <label id="lblBLNo"></label>
+        </div>
+    </div>
+<div style="width:100%;border-collapse:collapse;display:flex;flex-direction:row;border-style:solid;border-width:thin;font-size:12px">
+    <div style="width:20%;padding:1px 1px 1px 1px;"><b>For FCL shipments container marks and Nos,to be stated,marks and Nos</b></div>
+    <div style="width:10%;padding:1px 1px 1px 1px;"><b>Quantity and kind of packages</b></div>
+    <div style="width:40%;padding:1px 1px 1px 1px;"><b>Description of Goods</b></div>
+    <div style="width:15%;padding:1px 1px 1px 1px;"><b>Gross Weight (KGS)</b></div>
+    <div style="width:15%;padding:1px 1px 1px 1px;"><b>Measurement (M3)</b></div>
 </div>
+<div id="dvDetail" style="height:300px;vertical-align:top;display:flex;flex-direction:column;border-style:solid;border-width:thin;font-size:12px">
+</div>
+<div style="width:100%;border-style:solid;border-width:thin;font-size:16px;text-align:center">BL ORIGINAL</div>
 <div style="display:flex;">
-    <div style="flex-direction:column;width:60%;border-style:solid;border-width:thin">
-        <div>
-            <input type="checkbox" /><b>CY EMPTY CONTAINER ON </b><label id="lblCYDate">10/12/2019</label><br />AT <label id="lblCYTime">18.00</label>
-            <br /><label id="lblCYPlace">KM.13 LADKRABANG</label>
-        </div>
-        <div>
-            <input type="checkbox" /><b>RETURN CONTAINER ON </b><label id="lblReturnDate">13/12/2019</label> <br />AT <label id="lblReturnTime">19.00</label>
-            <br />
-            <label id="lblReturnPlace"></label>
-        </div>
-        <div>
-            <input type="checkbox" /><b>STUFFING CONTAINER ON </b><label id="lblFactoryDate">20/12/2019</label><br />AT <label id="lblFactoryTime">20.00</label>
-        </div>
+    <div style="flex-direction:row;width:40%;border-style:solid;border-width:thin;font-size:12px">
+        <b>ON BOARD DATE</b> <label id="lblETADate"></label>
     </div>
-    <div style="flex-direction:row;width:40%;border-style:solid;border-width:thin">
-        <b>ON BOARD</b> <label id="lblETADate">11/12/2019</label>
+    <div style="flex-direction:row;width:60%;border-style:solid;border-width:thin;font-size:12px">
+        <br/>
+        TOTAL : <label id="lblTotalQtyText"></label>
     </div>
 </div>
-<script type="text/javascript">
+    <script type="text/javascript">
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");
     var path = '@Url.Content("~")';
@@ -147,12 +144,12 @@ End Code
         if (r.booking !== null) {
             let h = r.booking.data[0];
             $('#lblBookingNo').text(h.BookingNo);
-            $('#lblBookingDate').text(ShowDate(h.BookingDate));
-            $('#lblForwarderName').text(h.ShipperName);
-            $('#lblForwarderContact').text(h.CustContactName);
-            $('#lblCSName').text(h.CSName);
-            $('#lblTotalContainer').text(h.TotalContainer);
+            $('#lblJNo').text(h.JNo);
+            $('#lblPaymentCondition').text(h.PaymentCondition);
+            $('#lblBookingDate').text('BANGKOK ' + ShowDate(h.BookingDate));
             $('#lblShipperName').text(h.ShipperName);
+            $('#lblShipperName2').text(h.ShipperName);
+            $('#lblForwarderName').text(h.ForwarderName);
             $('#lblShipperAddress1').text(h.ShipperAddress1);
             $('#lblShipperAddress2').text(h.ShipperAddress2);
             $('#lblConsigneeName').text(h.ConsigneeName);
@@ -164,25 +161,46 @@ End Code
             $('#lblVesselName').text(h.VesselName);
             $('#lblMVesselName').text(h.MVesselName);
             $('#lblPackingPlace').text(h.PackingPlace);
-            ShowReleasePort(path, h.ClearPort, '#lblClearPortName');
+            $('#lblFactoryPlace').text(h.FactoryPlace);
+            $('#lblCSName').text(h.CSName);
+            $('#lblCSTel').text(h.CSTel);
+            $('#lblCSEMail').text(h.CSEMail);
+
+            
             if (h.JobType == '1') {
                 ShowInterPort(path, h.InvFCountry, h.InvInterPort, '#lblInterPortName');
+                ShowInterPort(path, h.InvFCountry, h.InvInterPort, '#lblInterPortName1');
+                ShowCountry(path, h.InvFCountry, '#lblCountry');
             } else {
                 ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblInterPortName');
+                ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblInterPortName1');
+                ShowCountry(path, h.InvCountry, '#lblCountry');
             }
-            $('#lblFactoryPlace').text(h.FactoryPlace);
-            $('#lblCYDate').text(ShowDate(h.CYDate));
-            $('#lblCYTime').text(ShowTime(h.CYTime));
-            $('#lblCYPlace').text(h.CYPlace);
-            $('#lblReturnDate').text(ShowDate(h.ReturnDate));
-            $('#lblReturnTime').text(ShowTime(h.ReturnTime));
-            $('#lblReturnPlace').text(h.ReturnPlace);
-            $('#lblFactoryDate').text(ShowDate(h.FactoryDate));
-            $('#lblFactoryTime').text(ShowTime(h.FactoryTime));
+            
+            $('#lblBLNo').text(h.BLNo);
+            $('#lblTotalQtyText').text(CNumEng(h.InvProductQty) + ' ' + h.InvProductUnit + ' ONLY');
             $('#lblETADate').text(ShowDate(h.ETADate));
-            //let str = h.Remark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
-            $('#dvContainers').html(CStr(h.Remark));
 
+            let html = '';
+            html = '<div style="width:100%;display:flex;flex-direction:row;margin-bottom:5px;font-size:12px">';
+            html += '<div style="width:20%;">'+ h.Remark +'</div>';
+            html += '<div style="width:10%;">' + h.InvProductQty + ' ' + h.InvProductUnit + '</div>';
+            html += '<div style="width:40%;">"SAID TO CONTAIN -' + h.TotalContainer + ' (' + h.TransMode + ')"<br/>"SHIPPER LOAD & COUNT"';
+            html += '<br/> H.S.CODE ' + h.ShippingCmd;
+            html += '<br/> ITEM CODE ' + h.InvProduct;
+            let i = 0;
+            for (i = 0; i < r.booking.data.length; i++){
+                html += '<br/>' + r.booking.data[i].GrossWeight + ' KGS ' + r.booking.data[i].ProductDesc + '<br/>';
+            }
+            html += '<br/>L/C NO ' + h.MAWB;
+            html += '<br/>INVOICE NO ' + h.InvNo;
+            html += '</div>';
+            html += '<div style="width:15%;">G.W ' + h.TotalGW + ' ' + h.GWUnit + '';
+            html += '<br/>N.W '+ h.TotalNW + ' ' + h.GWUnit +'</div>';
+            html += '<div style="width:15%;">'+ h.TotalM3 +'</div>';
+            html += '</div>';
+
+            $('#dvDetail').html(html);
         }
     });
-</script>
+    </script>
