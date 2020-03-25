@@ -1939,7 +1939,7 @@ d.UnloadDate AS TargetDeliveryDate, d.UnloadFinishDate AS ActualDeliveryDate, d.
 j.ShipBy, j.AgentCode, s.NameEng AS ShipperName, s.EAddress1 AS ShipperAddress1, s.EAddress2 AS ShipperAddress2, s.Phone AS ShipperPhone, s.FaxNumber as ShipperFax, s.DMailAddress as ShipperEMail,
 j.AgentCode AS TransportCode, j.ForwarderCode AS CarrierCode, v.English AS CarrierName, v.EAddress1 AS CarrierAddress1, v.EAddress2 AS CarrierAddress2, 
 v.ContactSale AS CarrierContact, v.Phone AS CarrierPhone, t.English AS TransportName, t.EAddress1 AS TransportAddress1, t.EAddress2 AS TransportAddress2, 
-t.ContactSale AS TransportContact, t.Phone AS TransportPhone, j.CustContactName, j.Measurement AS TotalM3, j.HAWB, j.MAWB, j.Description, 
+t.ContactSale AS TransportContact, t.Phone AS TransportPhone, j.CustContactName, j.Measurement AS TotalM3, j.HAWB, j.MAWB, j.Description, j.CustRefNO,j.ConfirmDate,
 r.LocationRoute
 FROM     dbo.Mas_Company AS n INNER JOIN
 dbo.Mas_Vender AS a INNER JOIN
