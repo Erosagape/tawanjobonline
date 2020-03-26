@@ -1,6 +1,5 @@
---USE [job_web]
---GO
-/****** Object:  Table [dbo].[Job_AdvDetail]    Script Date: 08/01/2020 17:14:13 ******/
+
+/****** Object:  Table [dbo].[Job_AdvDetail]    Script Date: 3/25/2020 11:44:20 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -29,9 +28,9 @@ CREATE TABLE [dbo].[Job_AdvDetail](
 	[ForJNo] [varchar](15) NULL,
 	[VenCode] [varchar](50) NULL,
 	[CurrencyCode] [varchar](12) NULL,
-	[ExchangeRate] [float] NOT NULL,
-	[AdvQty] [float] NOT NULL,
-	[UnitPrice] [float] NOT NULL,
+	[ExchangeRate] [float] NOT NULL DEFAULT ((1)),
+	[AdvQty] [float] NOT NULL DEFAULT ((1)),
+	[UnitPrice] [float] NOT NULL DEFAULT ((1)),
  CONSTRAINT [pk_adv_d] PRIMARY KEY CLUSTERED 
 (
 	[BranchCode] ASC,
@@ -43,7 +42,7 @@ CREATE TABLE [dbo].[Job_AdvDetail](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_AdvHeader]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_AdvHeader]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -90,7 +89,7 @@ CREATE TABLE [dbo].[Job_AdvHeader](
 	[PaymentNo] [varchar](20) NULL,
 	[MainCurrency] [varchar](12) NULL,
 	[SubCurrency] [varchar](12) NULL,
-	[ExchangeRate] [float] NOT NULL,
+	[ExchangeRate] [float] NOT NULL DEFAULT ((1)),
  CONSTRAINT [pk_adv_h] PRIMARY KEY CLUSTERED 
 (
 	[BranchCode] ASC,
@@ -101,7 +100,7 @@ CREATE TABLE [dbo].[Job_AdvHeader](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_BillAcceptDetail]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_BillAcceptDetail]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -140,7 +139,7 @@ CREATE TABLE [dbo].[Job_BillAcceptDetail](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_BillAcceptHeader]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_BillAcceptHeader]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -181,7 +180,7 @@ CREATE TABLE [dbo].[Job_BillAcceptHeader](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_BudgetPolicy]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_BudgetPolicy]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -212,7 +211,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_CashControl]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_CashControl]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -246,7 +245,7 @@ CREATE TABLE [dbo].[Job_CashControl](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_CashControlDoc]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_CashControlDoc]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -277,7 +276,7 @@ CREATE TABLE [dbo].[Job_CashControlDoc](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_CashControlSub]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_CashControlSub]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -328,7 +327,7 @@ CREATE TABLE [dbo].[Job_CashControlSub](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_ClearDetail]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_ClearDetail]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -393,7 +392,7 @@ CREATE TABLE [dbo].[Job_ClearDetail](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_ClearExp]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_ClearExp]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -428,7 +427,7 @@ CREATE TABLE [dbo].[Job_ClearExp](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_ClearHeader]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_ClearHeader]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -480,7 +479,7 @@ CREATE TABLE [dbo].[Job_ClearHeader](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_CNDNDetail]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_CNDNDetail]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -519,7 +518,7 @@ CREATE TABLE [dbo].[Job_CNDNDetail](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_CNDNHeader]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_CNDNHeader]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -553,7 +552,7 @@ CREATE TABLE [dbo].[Job_CNDNHeader](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_Document]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_Document]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -570,6 +569,14 @@ CREATE TABLE [dbo].[Job_Document](
 	[Description] [varchar](max) NULL,
 	[FileType] [varchar](5) NULL,
 	[FilePath] [varchar](max) NULL,
+	[FileSize] [float] NULL,
+	[UploadBy] [varchar](50) NULL,
+	[UploadDate] [datetime] NULL,
+	[CheckedBy] [varchar](50) NULL,
+	[CheckedDate] [datetime] NULL,
+	[CheckNote] [nvarchar](max) NULL,
+	[ApproveBy] [varchar](50) NULL,
+	[ApproveDate] [datetime] NULL,
  CONSTRAINT [PK_Document] PRIMARY KEY CLUSTERED 
 (
 	[BranchCode] ASC,
@@ -581,7 +588,7 @@ CREATE TABLE [dbo].[Job_Document](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_GLDetail]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_GLDetail]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -610,7 +617,7 @@ CREATE TABLE [dbo].[Job_GLDetail](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_GLHeader]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_GLHeader]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -645,7 +652,7 @@ CREATE TABLE [dbo].[Job_GLHeader](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_InvoiceDetail]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_InvoiceDetail]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -697,7 +704,7 @@ CREATE TABLE [dbo].[Job_InvoiceDetail](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_InvoiceHeader]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_InvoiceHeader]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -764,7 +771,7 @@ CREATE TABLE [dbo].[Job_InvoiceHeader](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_LoadInfo]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_LoadInfo]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -813,7 +820,7 @@ CREATE TABLE [dbo].[Job_LoadInfo](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_LoadInfoDetail]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_LoadInfoDetail]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -853,7 +860,7 @@ CREATE TABLE [dbo].[Job_LoadInfoDetail](
 	[Measurement] [float] NULL,
 	[BookingNo] [varchar](50) NOT NULL,
 	[TimeUsed] [float] NULL,
-	[DeliveryNo] [nvarchar](50) NULL,
+	[DeliveryNo] [nvarchar](50) NULL DEFAULT (''),
 	[LocationID] [int] NULL,
  CONSTRAINT [PK_LoadInfoDetail] PRIMARY KEY CLUSTERED 
 (
@@ -866,7 +873,7 @@ CREATE TABLE [dbo].[Job_LoadInfoDetail](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_Order]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_Order]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -984,7 +991,7 @@ CREATE TABLE [dbo].[Job_Order](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_OrderLog]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_OrderLog]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1010,7 +1017,7 @@ CREATE TABLE [dbo].[Job_OrderLog](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_PaymentDetail]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_PaymentDetail]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1053,7 +1060,7 @@ CREATE TABLE [dbo].[Job_PaymentDetail](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_PaymentHeader]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_PaymentHeader]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1103,7 +1110,7 @@ CREATE TABLE [dbo].[Job_PaymentHeader](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_QuotationDetail]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_QuotationDetail]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1128,7 +1135,7 @@ CREATE TABLE [dbo].[Job_QuotationDetail](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_QuotationHeader]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_QuotationHeader]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1166,7 +1173,7 @@ CREATE TABLE [dbo].[Job_QuotationHeader](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_QuotationItem]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_QuotationItem]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1216,7 +1223,7 @@ CREATE TABLE [dbo].[Job_QuotationItem](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_ReceiptDetail]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_ReceiptDetail]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1261,7 +1268,7 @@ CREATE TABLE [dbo].[Job_ReceiptDetail](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_ReceiptHeader]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_ReceiptHeader]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1307,7 +1314,7 @@ CREATE TABLE [dbo].[Job_ReceiptHeader](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_SrvGroup]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_SrvGroup]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1335,7 +1342,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_SrvSingle]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_SrvSingle]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1353,16 +1360,16 @@ CREATE TABLE [dbo].[Job_SrvSingle](
 	[ProcessDesc] [varchar](250) NULL,
 	[GLAccountCodeSales] [varchar](15) NULL,
 	[GLAccountCodeCost] [varchar](15) NULL,
-	[IsTaxCharge] [tinyint] NOT NULL,
-	[Is50Tavi] [tinyint] NOT NULL,
-	[Rate50Tavi] [float] NOT NULL,
-	[IsCredit] [tinyint] NOT NULL,
-	[IsExpense] [tinyint] NOT NULL,
-	[IsShowPrice] [tinyint] NOT NULL,
-	[IsHaveSlip] [tinyint] NOT NULL,
-	[IsPay50TaviTo] [tinyint] NOT NULL,
-	[IsLtdAdv50Tavi] [tinyint] NOT NULL,
-	[IsUsedCoSlip] [int] NOT NULL,
+	[IsTaxCharge] [tinyint] NOT NULL CONSTRAINT [DF_Job_SrvSingle_IsTaxCharge]  DEFAULT ((0)),
+	[Is50Tavi] [tinyint] NOT NULL CONSTRAINT [DF_Job_SrvSingle_Is50Tavi]  DEFAULT ((0)),
+	[Rate50Tavi] [float] NOT NULL CONSTRAINT [DF_Job_SrvSingle_Rate50Tavi]  DEFAULT ((0)),
+	[IsCredit] [tinyint] NOT NULL CONSTRAINT [DF_Job_SrvSingle_IsCredit]  DEFAULT ((0)),
+	[IsExpense] [tinyint] NOT NULL CONSTRAINT [DF_Job_SrvSingle_IsExpense]  DEFAULT ((0)),
+	[IsShowPrice] [tinyint] NOT NULL CONSTRAINT [DF_Job_SrvSingle_IsShowPrice]  DEFAULT ((0)),
+	[IsHaveSlip] [tinyint] NOT NULL CONSTRAINT [DF_Job_SrvSingle_IsHaveSlip]  DEFAULT ((0)),
+	[IsPay50TaviTo] [tinyint] NOT NULL CONSTRAINT [DF_Job_SrvSingle_IsPay50TaviTo]  DEFAULT ((0)),
+	[IsLtdAdv50Tavi] [tinyint] NOT NULL CONSTRAINT [DF_Job_SrvSingle_IsLtdAdv50Tavi]  DEFAULT ((0)),
+	[IsUsedCoSlip] [int] NOT NULL CONSTRAINT [DF_Job_SrvSingle_IsUsedCoSlip]  DEFAULT ((0)),
 	[GroupCode] [varchar](10) NULL,
  CONSTRAINT [pk_sicode] PRIMARY KEY CLUSTERED 
 (
@@ -1371,13 +1378,13 @@ CREATE TABLE [dbo].[Job_SrvSingle](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Job_TransportPlace]    Script Date: 11/02/2020 13:18:30 ******/
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Job_TransportPlace]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
-
 SET QUOTED_IDENTIFIER ON
 GO
-
 CREATE TABLE [dbo].[Job_TransportPlace](
 	[PlaceType] [int] NOT NULL,
 	[PlaceName] [nvarchar](255) NOT NULL,
@@ -1391,9 +1398,7 @@ CREATE TABLE [dbo].[Job_TransportPlace](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-SET ANSI_PADDING OFF
-GO
-/****** Object:  Table [dbo].[Job_TransportPrice]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_TransportPrice]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1424,7 +1429,7 @@ CREATE TABLE [dbo].[Job_TransportPrice](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_TransportRoute]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_TransportRoute]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1435,17 +1440,17 @@ CREATE TABLE [dbo].[Job_TransportRoute](
 	[Place2] [nvarchar](255) NULL,
 	[Place3] [nvarchar](255) NULL,
 	[Place4] [nvarchar](255) NULL,
-	[Address1] [nvarchar](max) NULL,	
-	[Address2] [nvarchar](max) NULL,
-	[Address3] [nvarchar](max) NULL,
-	[Address4] [nvarchar](max) NULL,
-	[Contact1] [nvarchar](500) NULL,
-	[Contact2] [nvarchar](500) NULL,
-	[Contact3] [nvarchar](500) NULL,
-	[Contact4] [nvarchar](500) NULL,
 	[LocationRoute] [nvarchar](max) NULL,
-	[RouteFormat] [nvarchar](6) NULL,
 	[IsActive] [bit] NULL,
+	[Address1] [nvarchar](max) NULL,
+	[Contact1] [nvarchar](500) NULL,
+	[Address2] [nvarchar](max) NULL,
+	[Contact2] [nvarchar](500) NULL,
+	[Address3] [nvarchar](max) NULL,
+	[Contact3] [nvarchar](500) NULL,
+	[Address4] [nvarchar](max) NULL,
+	[Contact4] [nvarchar](500) NULL,
+	[RouteFormat] [nvarchar](4) NULL,
  CONSTRAINT [PK_Job_TransportRoute] PRIMARY KEY CLUSTERED 
 (
 	[LocationID] ASC
@@ -1453,7 +1458,7 @@ CREATE TABLE [dbo].[Job_TransportRoute](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Job_WHTax]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_WHTax]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1509,7 +1514,7 @@ CREATE TABLE [dbo].[Job_WHTax](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Job_WHTaxDetail]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Job_WHTaxDetail]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1540,7 +1545,7 @@ CREATE TABLE [dbo].[Job_WHTaxDetail](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Mas_Account]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Mas_Account]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1563,7 +1568,27 @@ CREATE TABLE [dbo].[Mas_Account](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Mas_BookAccount]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Mas_BankCode]    Script Date: 3/25/2020 11:44:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Mas_BankCode](
+	[Code] [varchar](5) NOT NULL,
+	[BName] [varchar](50) NULL,
+	[CustomsCode] [varchar](3) NULL,
+ CONSTRAINT [pK_masbankcode] PRIMARY KEY CLUSTERED 
+(
+	[Code] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Mas_BookAccount]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1576,7 +1601,7 @@ CREATE TABLE [dbo].[Mas_BookAccount](
 	[BookName] [varchar](100) NULL,
 	[BankCode] [varchar](10) NULL,
 	[BankBranch] [varchar](50) NULL,
-	[IsLocal] [tinyint] NOT NULL,
+	[IsLocal] [tinyint] NOT NULL CONSTRAINT [DF_Mas_BookAccount_IsLocal]  DEFAULT ((0)),
 	[ACType] [varchar](10) NULL,
 	[TAddress1] [varchar](70) NULL,
 	[TAddress2] [varchar](70) NULL,
@@ -1584,8 +1609,8 @@ CREATE TABLE [dbo].[Mas_BookAccount](
 	[EAddress2] [varchar](70) NULL,
 	[Phone] [varchar](30) NULL,
 	[FaxNumber] [varchar](30) NULL,
-	[LimitBalance] [float] NULL,
-	[GLAccountCode] [varchar](10) NULL,
+	[LimitBalance] [float] NULL DEFAULT ((0)),
+	[GLAccountCode] [varchar](10) NULL DEFAULT (''),
  CONSTRAINT [pk_masbookacc] PRIMARY KEY CLUSTERED 
 (
 	[BranchCode] ASC,
@@ -1596,7 +1621,7 @@ CREATE TABLE [dbo].[Mas_BookAccount](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Mas_Branch]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Mas_Branch]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1615,7 +1640,7 @@ CREATE TABLE [dbo].[Mas_Branch](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Mas_Company]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Mas_Company]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1643,7 +1668,7 @@ CREATE TABLE [dbo].[Mas_Company](
 	[CSCodeEX] [varchar](10) NULL,
 	[CSCodeOT] [varchar](10) NULL,
 	[GLAccountCode] [varchar](15) NULL,
-	[CustType] [tinyint] NOT NULL,
+	[CustType] [tinyint] NOT NULL CONSTRAINT [DF_Mas_Company_CustType]  DEFAULT ((0)),
 	[BillToCustCode] [varchar](15) NULL,
 	[BillToBranch] [varchar](10) NULL,
 	[UsedLanguage] [varchar](2) NULL,
@@ -1656,10 +1681,10 @@ CREATE TABLE [dbo].[Mas_Company](
 	[CmpType] [varchar](1) NULL,
 	[CmpLevelExp] [varchar](1) NULL,
 	[CmpLevelImp] [varchar](1) NULL,
-	[Is19bis] [tinyint] NOT NULL,
-	[MgrSeq] [smallint] NOT NULL,
-	[LevelNoExp] [int] NOT NULL,
-	[LevelNoImp] [int] NOT NULL,
+	[Is19bis] [tinyint] NOT NULL CONSTRAINT [DF_Mas_Company_Is19bis]  DEFAULT ((0)),
+	[MgrSeq] [smallint] NOT NULL CONSTRAINT [DF_Mas_Company_MgrSeq]  DEFAULT ((0)),
+	[LevelNoExp] [int] NOT NULL CONSTRAINT [DF_Mas_Company_LevelNoExp]  DEFAULT ((0)),
+	[LevelNoImp] [int] NOT NULL CONSTRAINT [DF_Mas_Company_LevelNoImp]  DEFAULT ((0)),
 	[LnNO] [varchar](10) NULL,
 	[AdjTaxCode] [varchar](10) NULL,
 	[BkAuthorNo] [varchar](10) NULL,
@@ -1667,8 +1692,8 @@ CREATE TABLE [dbo].[Mas_Company](
 	[LtdPsWkName] [varchar](70) NULL,
 	[ConsStatus] [varchar](255) NULL,
 	[CommLevel] [varchar](2) NULL,
-	[DutyLimit] [float] NOT NULL,
-	[CommRate] [float] NOT NULL,
+	[DutyLimit] [float] NOT NULL CONSTRAINT [DF_Mas_Company_DutyLimit]  DEFAULT ((0)),
+	[CommRate] [float] NOT NULL CONSTRAINT [DF_Mas_Company_CommRate]  DEFAULT ((0)),
 	[TAddress] [nvarchar](max) NULL,
 	[TDistrict] [nvarchar](max) NULL,
 	[TSubProvince] [nvarchar](max) NULL,
@@ -1676,13 +1701,13 @@ CREATE TABLE [dbo].[Mas_Company](
 	[TPostCode] [nvarchar](255) NULL,
 	[DMailAddress] [nvarchar](255) NULL,
 	[PrivilegeOption] [varchar](1) NULL,
-	[GoldCardNO] [smallint] NOT NULL,
-	[CustomsBrokerSeq] [smallint] NOT NULL,
-	[ISCustomerSign] [tinyint] NOT NULL,
-	[ISCustomerSignInv] [tinyint] NOT NULL,
-	[ISCustomerSignDec] [tinyint] NOT NULL,
-	[ISCustomerSignECon] [tinyint] NOT NULL,
-	[IsShippingCannotSign] [tinyint] NOT NULL,
+	[GoldCardNO] [smallint] NOT NULL CONSTRAINT [DF_Mas_Company_GoldCardNO]  DEFAULT ((0)),
+	[CustomsBrokerSeq] [smallint] NOT NULL CONSTRAINT [DF_Mas_Company_CustomsBrokerSeq]  DEFAULT ((0)),
+	[ISCustomerSign] [tinyint] NOT NULL CONSTRAINT [DF_Mas_Company_ISCustomerSign]  DEFAULT ((0)),
+	[ISCustomerSignInv] [tinyint] NOT NULL CONSTRAINT [DF_Mas_Company_ISCustomerSignInv]  DEFAULT ((0)),
+	[ISCustomerSignDec] [tinyint] NOT NULL CONSTRAINT [DF_Mas_Company_ISCustomerSignDec]  DEFAULT ((0)),
+	[ISCustomerSignECon] [tinyint] NOT NULL CONSTRAINT [DF_Mas_Company_ISCustomerSignECon]  DEFAULT ((0)),
+	[IsShippingCannotSign] [tinyint] NOT NULL CONSTRAINT [DF_Mas_Company_IsShippingCannotSign]  DEFAULT ((0)),
 	[ExportCode] [varchar](20) NULL,
 	[Code19BIS] [varchar](15) NULL,
 	[WEB_SITE] [nvarchar](max) NULL,
@@ -1696,7 +1721,7 @@ CREATE TABLE [dbo].[Mas_Company](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Mas_CompanyContact]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Mas_CompanyContact]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1723,7 +1748,7 @@ CREATE TABLE [dbo].[Mas_CompanyContact](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Mas_Config]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Mas_Config]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1740,7 +1765,51 @@ CREATE TABLE [dbo].[Mas_Config](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[MAS_GLACCOUNT]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Mas_CountryFT]    Script Date: 3/25/2020 11:44:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Mas_CountryFT](
+	[CTYCODE] [varchar](3) NOT NULL,
+	[CTYName] [varchar](35) NULL,
+	[CURCODE] [varchar](3) NULL,
+	[FTCODE] [int] NULL,
+	[CUCODE] [int] NULL,
+ CONSTRAINT [pk_country] PRIMARY KEY CLUSTERED 
+(
+	[CTYCODE] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Mas_CurrencyCode]    Script Date: 3/25/2020 11:44:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Mas_CurrencyCode](
+	[Code] [varchar](3) NOT NULL,
+	[TName] [varchar](35) NULL,
+	[StartDate] [datetime] NULL,
+	[FinishDate] [datetime] NULL,
+	[LastUpdate] [datetime] NULL,
+ CONSTRAINT [pk_currency] PRIMARY KEY CLUSTERED 
+(
+	[Code] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[MAS_GLACCOUNT]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1761,7 +1830,159 @@ CREATE TABLE [dbo].[MAS_GLACCOUNT](
 ) ON [PRIMARY]
 
 GO
-/****** Object:  Table [dbo].[Mas_User]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Mas_Province]    Script Date: 3/25/2020 11:44:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Mas_Province](
+	[ProvinceCode] [varchar](3) NOT NULL,
+	[ProvinceName] [varchar](35) NULL,
+ CONSTRAINT [PK_ProvinceCode] PRIMARY KEY CLUSTERED 
+(
+	[ProvinceCode] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Mas_ProvinceSub]    Script Date: 3/25/2020 11:44:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Mas_ProvinceSub](
+	[ProvinceCode] [varchar](3) NULL,
+	[SubProvince] [varchar](35) NULL,
+	[District] [varchar](35) NULL,
+	[PostCode] [varchar](9) NULL,
+	[id] [int] IDENTITY(1,1) NOT NULL,
+ CONSTRAINT [PK_Mas_ProvinceSub] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Mas_RFARS]    Script Date: 3/25/2020 11:44:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Mas_RFARS](
+	[AreaCode] [varchar](5) NOT NULL,
+	[AreaName] [varchar](70) NULL,
+	[AccNo] [varchar](10) NULL,
+	[Payee] [varchar](10) NULL,
+	[BankCode] [varchar](5) NULL,
+	[AcType] [varchar](1) NULL,
+ CONSTRAINT [pk_customsPort] PRIMARY KEY CLUSTERED 
+(
+	[AreaCode] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Mas_RFDCT]    Script Date: 3/25/2020 11:44:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Mas_RFDCT](
+	[Type] [varchar](3) NOT NULL,
+	[Description] [varchar](50) NULL,
+	[Category] [varchar](1) NULL,
+	[StartDate] [datetime] NULL,
+	[FinishDate] [datetime] NULL,
+	[LastUpdate] [datetime] NULL,
+ CONSTRAINT [pk_declareType] PRIMARY KEY CLUSTERED 
+(
+	[Type] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Mas_RFIPC]    Script Date: 3/25/2020 11:44:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Mas_RFIPC](
+	[PortCode] [varchar](3) NOT NULL,
+	[PortName] [varchar](35) NULL,
+	[CountryCode] [varchar](3) NOT NULL,
+	[StartDate] [datetime] NULL,
+	[FinishDate] [datetime] NULL,
+ CONSTRAINT [pk_interport] PRIMARY KEY CLUSTERED 
+(
+	[PortCode] ASC,
+	[CountryCode] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Mas_RFUNT]    Script Date: 3/25/2020 11:44:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Mas_RFUNT](
+	[Code] [varchar](3) NOT NULL,
+	[TName] [varchar](35) NULL,
+	[StartDate] [datetime] NULL,
+	[FinishDate] [datetime] NULL,
+ CONSTRAINT [PK_Unit] PRIMARY KEY CLUSTERED 
+(
+	[Code] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Mas_ServUnitType]    Script Date: 3/25/2020 11:44:21 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[Mas_ServUnitType](
+	[UnitType] [varchar](10) NOT NULL,
+	[UName] [varchar](50) NULL,
+	[EName] [varchar](50) NULL,
+	[IsCTNUnit] [int] NULL,
+ CONSTRAINT [pk_servunit] PRIMARY KEY CLUSTERED 
+(
+	[UnitType] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[Mas_User]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1804,7 +2025,7 @@ CREATE TABLE [dbo].[Mas_User](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Mas_UserAuth]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Mas_UserAuth]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1827,7 +2048,7 @@ CREATE TABLE [dbo].[Mas_UserAuth](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Mas_UserRole]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Mas_UserRole]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1847,7 +2068,7 @@ PRIMARY KEY CLUSTERED
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Mas_UserRoleDetail]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Mas_UserRoleDetail]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1867,7 +2088,7 @@ CREATE TABLE [dbo].[Mas_UserRoleDetail](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Mas_UserRolePolicy]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Mas_UserRolePolicy]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1888,7 +2109,7 @@ CREATE TABLE [dbo].[Mas_UserRolePolicy](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[Mas_Vender]    Script Date: 08/01/2020 17:14:13 ******/
+/****** Object:  Table [dbo].[Mas_Vender]    Script Date: 3/25/2020 11:44:21 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1926,13 +2147,34 @@ CREATE TABLE [dbo].[Mas_Vender](
 GO
 SET ANSI_PADDING OFF
 GO
-ALTER TABLE [dbo].[Job_AdvDetail] ADD  DEFAULT ((1)) FOR [ExchangeRate]
+/****** Object:  Table [dbo].[Mas_Vessel]    Script Date: 3/25/2020 11:44:21 AM ******/
+SET ANSI_NULLS ON
 GO
-ALTER TABLE [dbo].[Job_AdvDetail] ADD  DEFAULT ((1)) FOR [AdvQty]
+SET QUOTED_IDENTIFIER ON
 GO
-ALTER TABLE [dbo].[Job_AdvDetail] ADD  DEFAULT ((1)) FOR [UnitPrice]
+SET ANSI_PADDING ON
 GO
-ALTER TABLE [dbo].[Job_AdvHeader] ADD  DEFAULT ((1)) FOR [ExchangeRate]
+CREATE TABLE [dbo].[Mas_Vessel](
+	[RegsNumber] [varchar](17) NOT NULL,
+	[TName] [varchar](35) NULL,
+	[VesselType] [varchar](1) NULL,
+	[OTNumber] [varchar](10) NULL,
+	[CompanyBranch] [varchar](4) NULL,
+	[NCountry] [varchar](2) NULL,
+	[CargoType] [varchar](50) NULL,
+	[TICount] [varchar](3) NULL,
+	[RiskRating] [varchar](2) NULL,
+	[TareTonnage] [varchar](6) NULL,
+	[StartDate] [datetime] NULL,
+	[FinishDate] [datetime] NULL,
+ CONSTRAINT [PK_Vessel] PRIMARY KEY CLUSTERED 
+(
+	[RegsNumber] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
 GO
 ALTER TABLE [dbo].[Job_ClearExp] ADD  DEFAULT ((1)) FOR [ExchangeRate]
 GO
@@ -1943,62 +2185,6 @@ GO
 ALTER TABLE [dbo].[Job_CNDNDetail] ADD  DEFAULT ((0)) FOR [WHTAmt]
 GO
 ALTER TABLE [dbo].[Job_CNDNDetail] ADD  DEFAULT ((0)) FOR [BillItemNo]
-GO
-ALTER TABLE [dbo].[Job_LoadInfoDetail] ADD  DEFAULT ('') FOR [DeliveryNo]
-GO
-ALTER TABLE [dbo].[Job_SrvSingle] ADD  CONSTRAINT [DF_Job_SrvSingle_IsTaxCharge]  DEFAULT ((0)) FOR [IsTaxCharge]
-GO
-ALTER TABLE [dbo].[Job_SrvSingle] ADD  CONSTRAINT [DF_Job_SrvSingle_Is50Tavi]  DEFAULT ((0)) FOR [Is50Tavi]
-GO
-ALTER TABLE [dbo].[Job_SrvSingle] ADD  CONSTRAINT [DF_Job_SrvSingle_Rate50Tavi]  DEFAULT ((0)) FOR [Rate50Tavi]
-GO
-ALTER TABLE [dbo].[Job_SrvSingle] ADD  CONSTRAINT [DF_Job_SrvSingle_IsCredit]  DEFAULT ((0)) FOR [IsCredit]
-GO
-ALTER TABLE [dbo].[Job_SrvSingle] ADD  CONSTRAINT [DF_Job_SrvSingle_IsExpense]  DEFAULT ((0)) FOR [IsExpense]
-GO
-ALTER TABLE [dbo].[Job_SrvSingle] ADD  CONSTRAINT [DF_Job_SrvSingle_IsShowPrice]  DEFAULT ((0)) FOR [IsShowPrice]
-GO
-ALTER TABLE [dbo].[Job_SrvSingle] ADD  CONSTRAINT [DF_Job_SrvSingle_IsHaveSlip]  DEFAULT ((0)) FOR [IsHaveSlip]
-GO
-ALTER TABLE [dbo].[Job_SrvSingle] ADD  CONSTRAINT [DF_Job_SrvSingle_IsPay50TaviTo]  DEFAULT ((0)) FOR [IsPay50TaviTo]
-GO
-ALTER TABLE [dbo].[Job_SrvSingle] ADD  CONSTRAINT [DF_Job_SrvSingle_IsLtdAdv50Tavi]  DEFAULT ((0)) FOR [IsLtdAdv50Tavi]
-GO
-ALTER TABLE [dbo].[Job_SrvSingle] ADD  CONSTRAINT [DF_Job_SrvSingle_IsUsedCoSlip]  DEFAULT ((0)) FOR [IsUsedCoSlip]
-GO
-ALTER TABLE [dbo].[Mas_BookAccount] ADD  CONSTRAINT [DF_Mas_BookAccount_IsLocal]  DEFAULT ((0)) FOR [IsLocal]
-GO
-ALTER TABLE [dbo].[Mas_BookAccount] ADD  DEFAULT ((0)) FOR [LimitBalance]
-GO
-ALTER TABLE [dbo].[Mas_BookAccount] ADD  DEFAULT ('') FOR [GLAccountCode]
-GO
-ALTER TABLE [dbo].[Mas_Company] ADD  CONSTRAINT [DF_Mas_Company_CustType]  DEFAULT ((0)) FOR [CustType]
-GO
-ALTER TABLE [dbo].[Mas_Company] ADD  CONSTRAINT [DF_Mas_Company_Is19bis]  DEFAULT ((0)) FOR [Is19bis]
-GO
-ALTER TABLE [dbo].[Mas_Company] ADD  CONSTRAINT [DF_Mas_Company_MgrSeq]  DEFAULT ((0)) FOR [MgrSeq]
-GO
-ALTER TABLE [dbo].[Mas_Company] ADD  CONSTRAINT [DF_Mas_Company_LevelNoExp]  DEFAULT ((0)) FOR [LevelNoExp]
-GO
-ALTER TABLE [dbo].[Mas_Company] ADD  CONSTRAINT [DF_Mas_Company_LevelNoImp]  DEFAULT ((0)) FOR [LevelNoImp]
-GO
-ALTER TABLE [dbo].[Mas_Company] ADD  CONSTRAINT [DF_Mas_Company_DutyLimit]  DEFAULT ((0)) FOR [DutyLimit]
-GO
-ALTER TABLE [dbo].[Mas_Company] ADD  CONSTRAINT [DF_Mas_Company_CommRate]  DEFAULT ((0)) FOR [CommRate]
-GO
-ALTER TABLE [dbo].[Mas_Company] ADD  CONSTRAINT [DF_Mas_Company_GoldCardNO]  DEFAULT ((0)) FOR [GoldCardNO]
-GO
-ALTER TABLE [dbo].[Mas_Company] ADD  CONSTRAINT [DF_Mas_Company_CustomsBrokerSeq]  DEFAULT ((0)) FOR [CustomsBrokerSeq]
-GO
-ALTER TABLE [dbo].[Mas_Company] ADD  CONSTRAINT [DF_Mas_Company_ISCustomerSign]  DEFAULT ((0)) FOR [ISCustomerSign]
-GO
-ALTER TABLE [dbo].[Mas_Company] ADD  CONSTRAINT [DF_Mas_Company_ISCustomerSignInv]  DEFAULT ((0)) FOR [ISCustomerSignInv]
-GO
-ALTER TABLE [dbo].[Mas_Company] ADD  CONSTRAINT [DF_Mas_Company_ISCustomerSignDec]  DEFAULT ((0)) FOR [ISCustomerSignDec]
-GO
-ALTER TABLE [dbo].[Mas_Company] ADD  CONSTRAINT [DF_Mas_Company_ISCustomerSignECon]  DEFAULT ((0)) FOR [ISCustomerSignECon]
-GO
-ALTER TABLE [dbo].[Mas_Company] ADD  CONSTRAINT [DF_Mas_Company_IsShippingCannotSign]  DEFAULT ((0)) FOR [IsShippingCannotSign]
 GO
 ALTER TABLE [dbo].[MAS_GLACCOUNT] ADD  CONSTRAINT [DF_MAS_GLACCOUNT_BranchCode]  DEFAULT ((0)) FOR [BranchCode]
 GO
