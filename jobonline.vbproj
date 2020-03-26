@@ -480,6 +480,12 @@
     <Content Include="App_Data\APL\FormTransport.vbhtml" />
     <Content Include="App_Data\APL\FormTruckOrder.vbhtml" />
     <Content Include="App_Data\DAMON\FormTransport.vbhtml" />
+    <Content Include="App_Data\JOBBETA\FormTaxinv.vbhtml" />
+    <Content Include="App_Data\JOBBETA\FormRcp.vbhtml" />
+    <Content Include="App_Data\JOBBETA\FormInv.vbhtml" />
+    <Content Include="App_Data\JOBBETA\FormBill.vbhtml" />
+    <Content Include="App_Data\JOBBETA\FormCreditNote.vbhtml" />
+    <Content Include="App_Data\JOBBETA\FormWHTax.vbhtml" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -848,6 +854,8 @@
     <Content Include="Views\Acc\Approve.vbhtml" />
     <Content Include="Views\JobOrder\TruckApprove.vbhtml" />
     <Content Include="Views\Acc\FormInv.vbhtml" />
+    <Content Include="App_Data\JOBBETA\FormRcp_D.vbhtml" />
+    <Content Include="App_Data\JOBBETA\FormTaxInv_D.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

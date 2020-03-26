@@ -188,6 +188,9 @@ End Code
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
                             </a>
                         </div>
+                        <a href="#" class="btn btn-info" id="btnPrint2" onclick="PrintData()">
+                            <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print</b>
+                        </a>
                         <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                     </div>
                 </div>
