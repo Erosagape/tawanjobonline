@@ -54,9 +54,9 @@ End Code
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>QNo</th>
-                                <th>DocDate</th>
-                                <th class="all">CustCode</th>
+                                <th class="all">QNo</th>
+                                <th class="desktop">DocDate</th>
+                                <th class="desktop">CustCode</th>
                                 <th class="desktop">BillToCustCode</th>
                                 <th class="desktop">TRemark</th>
                                 <th class="desktop">ContactName</th>
@@ -78,9 +78,9 @@ End Code
                                 <tr>
                                     <th>#</th>
                                     <th>SeqNo</th>
-                                    <th>JobType</th>
-                                    <th>ShipBy</th>
-                                    <th class="desktop">Description</th>
+                                    <th class="desktop">JobType</th>
+                                    <th class="desktop">ShipBy</th>
+                                    <th class="all">Description</th>
                                 </tr>
                             </thead>
                         </table>
@@ -290,7 +290,7 @@ End Code
                                     <th class="desktop">QtyBegin-QtyEnd/Unit</th>
                                     <th class="desktop">Total</th>
                                     <th class="desktop">Disc</th>
-                                    <th class="desktop">Net</th>
+                                    <th class="mobile">Net</th>
                                     <th class="desktop">Commission</th>
                                     <th class="desktop">Profit</th>
                                 </tr>

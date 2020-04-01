@@ -147,8 +147,8 @@ End Code
             WITHHOLDING TAX DETAIL
             <div style="display:flex">
                 <div class="text-center" style="flex:2">
-                    1%:<br />
-                    3%:
+                    TRANSPORT:<br />
+                    SERVICE:
                 </div>
                 <div class="text-center" style="flex:1">
                     <label id="lblSumBaseWht1"></label><br />

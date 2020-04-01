@@ -42,7 +42,7 @@ End Code
             <div class="tab-content">   
                 <div id="tabinfo" class="tab-pane fade in active">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-sm-8">
                             <a href="../Master/Customers" target="_blank">
                                 <label>Customer :</label>
                             </a>
@@ -94,7 +94,7 @@ End Code
                             <textarea id="txtDescription" style="width:180px" tabindex="6"></textarea>
 
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-sm-4">
                             <label for="txtQNo">Quotation : </label>
                             <input type="text" id="txtQNo" style="width:130px" tabindex="9" />
                             <input type="text" id="txtQRevise" style="width:40px" tabindex="10" />
@@ -132,7 +132,7 @@ End Code
                 </div>
                 <div id="tabinv" class="tab-pane fade">
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-sm-5">
                             <label for="txtCustInvNo" style="color:red">Cust.Invoice No :</label>
                             <input type="text" id="txtCustInvNo" style="width:200px" tabindex="13" />
                             <br />
@@ -175,7 +175,7 @@ End Code
                             <label for="txtDeliverTo">Delivery To :</label>
                             <input type="text" id="txtDeliverTo" style="width:300px" tabindex="25" />
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-sm-7">
                             <label for="txtProjectName">Project Name :</label>
                             <input type="text" id="txtProjectName" style="width:400px" tabindex="26" />
                             <input type="button" id="btnBrowseProj" value="..." onclick="SearchData('ProjectName')" />
@@ -237,7 +237,7 @@ End Code
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-sm-12">
                             <label for="txtDeliverAddr">Delivery Address :</label>
                             <textarea id="txtDeliverAddr" style="width:400px" tabindex="44"></textarea>
                             <input type="button" class="btn btn-info" value="Delivery Slip" onclick="PrintDelivery()" />
@@ -246,25 +246,25 @@ End Code
                 </div>
                 <div id="tabdeclare" class="tab-pane fade">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-sm-3">
                             <label for="txtEDIDate">EDI Date :</label>
                             <input type="date" id="txtEDIDate" style="width:130px" tabindex="45" />
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-sm-3">
                             <label for="txtReadyClearDate">Ready Clear :</label>
                             <input type="date" id="txtReadyClearDate" style="width:130px" tabindex="46" />
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-sm-3">
                             <label for="txtDutyDate" style="color:red">Inspection Date :</label>
                             <input type="date" id="txtDutyDate" style="width:130px" tabindex="47" />
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-sm-3">
                             <label for="txtClearDate">Clear Date :</label>
                             <input type="date" id="txtClearDate" style="width:130px" tabindex="48" />
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             <a href="../Master/DeclareType" target="_blank">
                                 <label>Declare Type :</label>
                             </a>                            
@@ -272,34 +272,34 @@ End Code
                             <input type="button" id="btnBrowseDCType" value="..." onclick="SearchData('RFDCT')" />
                             <input type="text" id="txtDeclareTypeName" style="width:200px" disabled />
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-sm-3">
                             <label for="txtDeclareNo" style="color:red">Declare No :</label>
                             <input type="text" id="txtDeclareNo" style="width:130px" tabindex="50" />
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-sm-3">
                             <label for="txtDutyAmt">Duty Amt :</label>
                             <input type="text" id="txtDutyAmt" style="width:130px" tabindex="51" />
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-sm-4">
                             <input type="checkbox" id="chkTyAuthorSp" />
                             <label for="chkTyAuthorSp">Special Privilege</label>
                             <select id="cboTyAuthorSp" class="dropdown"></select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-sm-4">
                             <input type="checkbox" id="chkTy19BIS" />
                             <label for="chkTy19BIS">19 BIS Rule</label>
                             <select id="cboTy19BIS" class="dropdown"></select>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-sm-4">
                             <input type="checkbox" id="chkTyClearTax" />
                             <label for="chkTyClearTax">Duty Rule</label>
                             <select id="cboTyClearTax" class="dropdown"></select>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-sm-5">
                             <label for="txtClearTaxReson">Certificates# </label>
                             <input type="text" id="txtClearTaxReson" style="width:300px" tabindex="52" />
                             <br />
@@ -308,7 +308,7 @@ End Code
                             <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="R"><label style="color:red;font:bold">Red</label></label>
                             <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="M"><label style="color:blue;font:bold">Manual</label></label>
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-sm-7">
                             <a href="../Master/CustomsPort" target="_blank">
                                 <label style="color:red">Release Port :</label>
                             </a>                            
@@ -321,12 +321,12 @@ End Code
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-5">
+                        <div class="col-sm-5">
                             <label for="txtShippingCmd">Shipping Note :</label>
                             <textarea id="txtShippingCmd" style="width:400px" tabindex="56"></textarea>
                         </div>
 
-                        <div class="col-md-7">
+                        <div class="col-sm-7">
                             <label for="txtShipping">Shipping Staff :</label>
                             <input type="text" id="txtShipping" style="width:130px" tabindex="55" />
                             <input type="button" id="btnBrowseShipping" value="..." onclick="SearchData('user')" />
@@ -336,7 +336,7 @@ End Code
                     <br />
                     <label>Advances Expenses Information :</label>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             <table>
                                 <tr>
                                     <td>
@@ -387,7 +387,7 @@ End Code
                                 </tr>
                             </table>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             <table>
                                 <tr>
                                     <td>
@@ -458,10 +458,10 @@ End Code
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             <input type="button" id="btnViewTAdv" class="btn btn-default" value="Credit Advances" onclick="OpenCreditAdv()" />
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-sm-6">
                             <input type="button" id="btnViewChq" class="btn btn-default" value="Customer Cheques" onclick="OpenCheque()" />
                         </div>
                     </div>
@@ -471,22 +471,22 @@ End Code
                     <table id="tbTracking" class="table table-responsive">
                         <thead>
                             <tr>
-                                <th>
+                                <th class="desktop">
                                     Date
                                 </th>
                                 <th>
                                     Type
                                 </th>
-                                <th>
+                                <th class="all">
                                     Document No
                                 </th>
-                                <th>
+                                <th class="desktop">
                                     Expenses
                                 </th>
-                                <th>
+                                <th class="desktop">
                                     Amount
                                 </th>
-                                <th>
+                                <th class="desktop">
                                     Status
                                 </th>
                             </tr>
@@ -499,17 +499,17 @@ End Code
                         <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Remark</b>
                     </a>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-sm-12">
                             <table id="tbLog" class="table table-responsive">
                                 <thead>
                                     <tr>
-                                        <th>
+                                        <th class="desktop">
                                             Date
                                         </th>
-                                        <th>
+                                        <th class="all">
                                             Action
                                         </th>
-                                        <th>
+                                        <th class="desktop">
                                             User
                                         </th>
                                     </tr>
@@ -519,7 +519,7 @@ End Code
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-sm-12">
                             <input type="button" class="btn btn-default" id="btnLinkDoc" value="Document Files" onclick="OpenDocument()" />
                             <input type="button" class="btn btn-default" id="btnLinkLoad" value="Transport Info" onclick="OpenTransport()" />
                             <input type="button" class="btn btn-default" id="btnLinkExp" value="Estimate Expenses" onclick="OpenExpense()" />

@@ -276,20 +276,26 @@
             <!-- Page Content -->
             <div Class="panel-primary">
                 <div Class="panel-heading w3-indigo">
-                    <div Class="panel-title" style="display:flex">
-                        <div style="width:10%;text-align:center">
-                            <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:100%;height:50px" onclick="w3_open();" />
-                        </div>
-                        <div style="margin-left:10px;width:80%">
-                            <h4><label id="lblTitle" onclick="OpenContact()">@ViewBag.Title</label></h4>
-                            <label style="display:none" id="lblModule">@ViewBag.Module</label>
-                        </div>
-                        <div style="float:right;text-align:right;">
-                            <a href="#" onclick="SetLogin()"><label id="lblUserID" style="color:white;font-size:11px">Please Login</label></a><br/>
-                            <select id="cboLanguage" onchange="ChangeLanguage($(this).val(),'@ViewBag.Module')" data-width="fit">
-                                <option value="EN">EN</option>
-                                <option value="TH">ไทย</option>
-                            </select>
+                    <div Class="panel-title">
+                        <div class="row">
+                            <div class="col-sm-2" style="text-align:center">
+                                <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:100%;height:50px" onclick="w3_open();" />
+                            </div>
+                            <div class="col-sm-10">
+                                <div style="display:flex;align-items:center;height:50px">
+                                    <div style="text-align:left;flex:1;">
+                                        <label id="lblTitle" onclick="OpenContact()">@ViewBag.Title</label>
+                                        <input type="hidden" id="lblModule" value="@ViewBag.Module" />
+                                    </div>
+                                    <div style="text-align:right;flex:1;">
+                                        <a href="#" onclick="SetLogin()"><label id="lblUserID" style="color:white;font-size:11px">Please Login</label></a>
+                                        <select id="cboLanguage" onchange="ChangeLanguage($(this).val(),'@ViewBag.Module')" data-width="fit">
+                                            <option value="EN">EN</option>
+                                            <option value="TH">ไทย</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -310,7 +316,7 @@
     let base = '@Url.Content("~")';
     if (userLang !== 'EN' && userLang !== '') {
         $('#cboLanguage').val(userLang);
-        ChangeLanguage(userLang, $('#lblModule').text());
+        ChangeLanguage(userLang, $('#lblModule').val());
     } else {
         $('#cboLanguage').val('EN');
     }

@@ -232,14 +232,15 @@ ORDER BY inv.DocNo
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "SELECT CustCode,JNo,DeclareNumber,DutyDate,SumAdvance,SumCost,SumCharge,SumWhTax,Profit FROM (
 SELECT j.BranchCode, j.JNo, j.CustCode, j.CustBranch, j.InvNo, j.DutyDate, j.DeclareNumber,j.CSCode,j.ManagerCode,
-SUM(CASE WHEN ch.ClearType=1 THEN cd.BNet ELSE 0 END) AS SumAdvance,
-SUM(CASE WHEN ch.ClearType=3 THEN cd.Tax50Tavi ELSE 0 END) AS SumWhTax,
-SUM(CASE WHEN ch.ClearType=2 THEN cd.UsedAmount ELSE 0 END) AS SumCost,
-SUM(CASE WHEN ch.ClearType=3 THEN cd.UsedAmount ELSE 0 END) AS SumCharge,
-SUM(CASE WHEN ch.ClearType=3 THEN cd.UsedAmount ELSE 0 END)-SUM(CASE WHEN ch.ClearType=2 THEN cd.UsedAmount ELSE 0 END) as Profit
+SUM(CASE WHEN sv.IsCredit=1 AND sv.IsExpense=0 THEN cd.BNet ELSE 0 END) AS SumAdvance,
+SUM(CASE WHEN sv.IsCredit=0 AND sv.IsExpense=0 THEN cd.Tax50Tavi ELSE 0 END) AS SumWhTax,
+SUM(CASE WHEN sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END) AS SumCost,
+SUM(CASE WHEN sv.IsCredit=0 AND sv.IsExpense=0 THEN cd.UsedAmount ELSE 0 END) AS SumCharge,
+SUM(CASE WHEN sv.IsCredit=0 AND sv.IsExpense=0 THEN cd.UsedAmount ELSE 0 END)-SUM(CASE WHEN sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END) as Profit
 FROM            dbo.Job_ClearHeader AS ch INNER JOIN
                          dbo.Job_ClearDetail AS cd ON ch.BranchCode = cd.BranchCode 
 						 AND ch.ClrNo=cd.ClrNo
+                         INNER JOIN dbo.Job_SrvSingle sv ON cd.SICode=sv.SICode 
 						 INNER JOIN
                          dbo.Job_Order AS j ON cd.BranchCode = j.BranchCode AND cd.JobNo = j.JNo
 WHERE        (ch.DocStatus <> 99) AND (j.JobStatus < 99) {0}
@@ -399,14 +400,14 @@ FROM (
 select c.BranchCode,c.JNo,c.DeclareNumber,c.InvNo,c.DocDate as JobDate,c.DutyDate,c.CloseJobDate,
 c.CustCode,c.CustBranch,e.Title+' '+e.NameThai as CustName,
 a.SICode,a.SDescription,a.UsedAmount,a.ChargeVAT,a.Tax50Tavi,a.BNet,
-(CASE WHEN d.IsExpense=0 THEN a.BNet ELSE 0 END) as ExpenseCleared,
-(CASE WHEN d.IsExpense=0 AND a.LinkBillNo='' THEN a.BNet ELSE 0 END) as ExpWaitBill,
-(CASE WHEN d.IsExpense=0 AND NOT a.LinkBillNo='' THEN a.BNet ELSE 0 END) as ExpBilled,
-(CASE WHEN d.IsExpense=1 AND a.LinkBillNo='' THEN a.BNet ELSE 0 END) as CostWaitBill,
-(CASE WHEN d.IsExpense=1 AND NOT a.LinkBillNo='' THEN a.BNet ELSE 0 END) as CostBilled,
-(CASE WHEN d.IsExpense=1 THEN a.BNet ELSE 0 END) as CostCleared,
-(CASE WHEN d.IsCredit=1 AND d.IsExpense=0 THEN a.BNet ELSE 0 END) as AdvCleared,
-(CASE WHEN d.IsCredit=0 AND d.IsExpense=0 THEN a.BNet ELSE 0 END) as ChargeCleared
+(CASE WHEN d.IsExpense=0 THEN a.UsedAmount ELSE 0 END) as ExpenseCleared,
+(CASE WHEN d.IsExpense=0 AND a.LinkBillNo='' THEN a.UsedAmount ELSE 0 END) as ExpWaitBill,
+(CASE WHEN d.IsExpense=0 AND NOT a.LinkBillNo='' THEN a.UsedAmount ELSE 0 END) as ExpBilled,
+(CASE WHEN d.IsExpense=1 AND a.LinkBillNo='' THEN a.UsedAmount ELSE 0 END) as CostWaitBill,
+(CASE WHEN d.IsExpense=1 AND NOT a.LinkBillNo='' THEN a.UsedAmount ELSE 0 END) as CostBilled,
+(CASE WHEN d.IsExpense=1 THEN a.UsedAmount ELSE 0 END) as CostCleared,
+(CASE WHEN d.IsCredit=1 AND d.IsExpense=0 THEN a.UsedAmount ELSE 0 END) as AdvCleared,
+(CASE WHEN d.IsCredit=0 AND d.IsExpense=0 THEN a.UsedAmount ELSE 0 END) as ChargeCleared
 from Job_ClearDetail a inner join Job_ClearHeader b
 on a.BranchCode=b.BranchCode and a.ClrNo=b.ClrNo
 inner join Job_Order c on a.BranchCode=c.BranchCode and a.JobNo=c.JNo
@@ -434,16 +435,16 @@ FROM (
 	b.ClrNo,b.ClrDate,b.ClearType,b.DocStatus,a.AdvNo,a.AdvItemNo,c.CustCode,c.CustBranch,
 	e.Title+' '+e.NameThai as CustName,a.SICode,a.SDescription,a.SlipNo,a.Date50Tavi as SlipDate,
 	a.UsedAmount,a.ChargeVAT,a.Tax50Tavi,a.BNet,
-	(CASE WHEN d.IsExpense=0 THEN a.BNet ELSE 0 END) as ExpenseCleared,
-	(CASE WHEN d.IsExpense=1 THEN a.BNet ELSE 0 END) as CostCleared,
-	(CASE WHEN d.IsCredit=1 AND d.IsExpense=0 THEN a.BNet ELSE 0 END) as AdvCleared,
-	(CASE WHEN d.IsCredit=0 AND d.IsExpense=0 THEN a.BNet ELSE 0 END) as ChargeCleared,
-	(CASE WHEN d.IsExpense=0 AND d.IsCredit=1 AND a.LinkBillNo='' THEN a.BNet ELSE 0 END) as AdvWaitBill,
-	(CASE WHEN d.IsExpense=0 AND d.IsCredit=0 AND a.LinkBillNo='' THEN a.BNet ELSE 0 END) as ChargeWaitBill,
-	(CASE WHEN d.IsExpense=1 AND a.LinkBillNo='' THEN a.BNet ELSE 0 END) as CostWaitBill,
-	(CASE WHEN d.IsExpense=1 AND NOT a.LinkBillNo='' THEN a.BNet ELSE 0 END) as CostBilled,
-	(CASE WHEN d.IsCredit=1 AND d.IsExpense=0 AND NOT a.LinkBillNo='' THEN a.BNet ELSE 0 END) as AdvBilled,
-	(CASE WHEN d.IsCredit=0 AND d.IsExpense=0 AND NOT a.LinkBillNo=''THEN a.BNet ELSE 0 END) as ChargeBilled
+	(CASE WHEN d.IsExpense=0 THEN a.UsedAmount ELSE 0 END) as ExpenseCleared,
+	(CASE WHEN d.IsExpense=1 THEN a.UsedAmount ELSE 0 END) as CostCleared,
+	(CASE WHEN d.IsCredit=1 AND d.IsExpense=0 THEN a.UsedAmount ELSE 0 END) as AdvCleared,
+	(CASE WHEN d.IsCredit=0 AND d.IsExpense=0 THEN a.UsedAmount ELSE 0 END) as ChargeCleared,
+	(CASE WHEN d.IsExpense=0 AND d.IsCredit=1 AND a.LinkBillNo='' THEN a.UsedAmount ELSE 0 END) as AdvWaitBill,
+	(CASE WHEN d.IsExpense=0 AND d.IsCredit=0 AND a.LinkBillNo='' THEN a.UsedAmount ELSE 0 END) as ChargeWaitBill,
+	(CASE WHEN d.IsExpense=1 AND a.LinkBillNo='' THEN a.UsedAmount ELSE 0 END) as CostWaitBill,
+	(CASE WHEN d.IsExpense=1 AND NOT a.LinkBillNo='' THEN a.UsedAmount ELSE 0 END) as CostBilled,
+	(CASE WHEN d.IsCredit=1 AND d.IsExpense=0 AND NOT a.LinkBillNo='' THEN a.UsedAmount ELSE 0 END) as AdvBilled,
+	(CASE WHEN d.IsCredit=0 AND d.IsExpense=0 AND NOT a.LinkBillNo=''THEN a.UsedAmount ELSE 0 END) as ChargeBilled
 	from Job_ClearDetail a inner join Job_ClearHeader b
 	on a.BranchCode=b.BranchCode and a.ClrNo=b.ClrNo
 	inner join Job_Order c on a.BranchCode=c.BranchCode and a.JobNo=c.JNo
