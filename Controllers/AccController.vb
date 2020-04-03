@@ -858,6 +858,41 @@ Namespace Controllers
                 Return Content("{""voucher"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
             End Try
         End Function
+        Function GetVoucherReport() As ActionResult
+            Try
+                ViewBag.User = Session("CurrUser").ToString()
+                Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Voucher")
+                If AuthorizeStr.IndexOf("R") < 0 Then
+                    AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
+                    If AuthorizeStr.IndexOf("R") < 0 Then
+                        AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Receive")
+                        If AuthorizeStr.IndexOf("R") < 0 Then
+                            Return Content("{""voucher"":{""header"":null,""payment"":null,""document"":null,""msg"":""You are not authorize to read""}}", jsonContent)
+                        End If
+                    End If
+                End If
+
+                Dim tSqlw As String = " WHERE ControlNo<>'' "
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format(" AND BranchCode ='{0}'", Request.QueryString("Branch").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format(" AND ControlNo ='{0}'", Request.QueryString("Code").ToString)
+                End If
+
+                Dim oData = New CVoucher(GetSession("ConnJob")).GetData(tSqlw)
+                Dim oHead As String = JsonConvert.SerializeObject(oData)
+                Dim oSub As String = JsonConvert.SerializeObject(New CVoucherSub(GetSession("ConnJob")).GetData(tSqlw))
+                Dim oDoc As String = JsonConvert.SerializeObject(New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectVoucherDoc(tSqlw)))
+
+                Dim json = "{""voucher"":{""header"":" & oHead & ",""payment"":" & oSub & ",""document"":" & oDoc & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetVoucher", ex.Message, ex.StackTrace, True)
+                Return Content("{""voucher"":{""header"":null,""payment"":null,""document"":null,""msg"":""" & ex.Message & """}}", jsonContent)
+            End Try
+        End Function
+
         Function GetVoucher() As ActionResult
             Try
                 ViewBag.User = Session("CurrUser").ToString()

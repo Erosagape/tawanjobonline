@@ -297,15 +297,15 @@ End Code
         <table id="tbDetail" class="table table-responsive">
             <thead>
                 <tr>
-                    <th>No</th>
+                    <th class="desktop">No</th>
                     <th>CTN_NO</th>
                     <th class="desktop">CTN_SIZE</th>
                     <th class="desktop">SealNumber</th>
                     <th class="all">TruckNO</th>
                     <th class="desktop">Status</th>
                     <th class="desktop">Location</th>
-                    <th class="all">UnloadDate</th>
-                    <th class="all">DeliveryNo</th>
+                    <th class="desktop">UnloadDate</th>
+                    <th class="desktop">DeliveryNo</th>
                     <th class="desktop">V.Inv</th>
                     <th class="desktop">Clear</th>
                     <th class="desktop">Bal</th>

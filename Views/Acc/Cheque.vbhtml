@@ -57,19 +57,19 @@ End Code
             <table id="tbHeader" class="table table-responsive table-bordered">
                 <thead>
                     <tr>
-                        <th>Chq</th>
+                        <th class="all">Chq</th>
                         <th class="desktop">VCNo</th>
                         <th class="desktop">BookAcc</th>
                         <th class="desktop">RefChqNo</th>
-                        <th class="all">RefDate</th>
-                        <th class="all">Bank</th>
+                        <th class="desktop">RefDate</th>
+                        <th class="desktop">Bank</th>
                         <th class="desktop">Branch</th>
                         <th class="desktop">PayChqTo</th>
                     </tr>
                 </thead>
             </table>
             <div class="row">
-                <div class="col-xs-4" style="border-style:solid;border-width:1px;background:white;">
+                <div class="col-sm-4" style="border-style:solid;border-width:1px;background:white;">
                     <label>Issue By</label>
                     <br />
                     <input type="text" id="txtRecUser" style="width:250px" disabled />
@@ -79,7 +79,7 @@ End Code
                     Time:
                     <input type="text" id="txtRecTime" style="width:80px" disabled />
                 </div>
-                <div class="col-xs-4" style="border-style:solid;border-width:1px;background:lightgreen;">
+                <div class="col-sm-4" style="border-style:solid;border-width:1px;background:lightgreen;">
                     <input type="checkbox" id="chkPosted" />
                     <label for="chkPosted">Posted By</label><br />
                     <input type="text" id="txtPostedBy" style="width:250px" disabled />
@@ -89,7 +89,7 @@ End Code
                     Time:
                     <input type="text" id="txtPostedTime" style="width:80px" disabled />
                 </div>
-                <div class="col-xs-4" style="border-style:solid;border-width:1px;color:red;background:lightyellow;">
+                <div class="col-sm-4" style="border-style:solid;border-width:1px;color:red;background:lightyellow;">
                     <input type="checkbox" id="chkCancel" />
                     <label for="chkCancel">Cancel By</label>
                     <input type="text" id="txtCancelProve" style="width:250px" disabled />

@@ -45,19 +45,19 @@ End Code
                     <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Detail</b>
                 </a>
             </div>
-            <table id="tbHeader" class="table table-bordered">
+            <table id="tbHeader" class="table table-responsive">
                 <thead>
                     <tr>
-                        <th>Chq</th>
-                        <th>Cash</th>
-                        <th>Credit</th>
-                        <th class="desktop">VCNo</th>
+                        <th class="desktop">Chq</th>
+                        <th class="desktop">Cash</th>
+                        <th class="desktop">Credit</th>
+                        <th class="all">VCNo</th>
                         <th class="desktop">BookAcc</th>
                         <th class="desktop">RefChqNo</th>
                         <th class="desktop">RefDate</th>
                         <th class="desktop">Bank</th>
                         <th class="desktop">Branch</th>
-                        <th class="all">PayChqTo</th>
+                        <th class="desktop">PayChqTo</th>
                     </tr>
                 </thead>
             </table>

@@ -1893,8 +1893,8 @@ End Code
         if (type == '2') {
             amt = CDbl($('#txtNET').val(),4);
         }
-        let vatrate = CDbl($('#txtVATRate').val(),0);
-        let whtrate = CDbl($('#txtWHTRate').val(),0);
+        let vatrate = CDbl($('#txtVATRate').val(),4);
+        let whtrate = CDbl($('#txtWHTRate').val(),4);
         let vat = 0;
         let wht = 0;
         if (type == "2") {

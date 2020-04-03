@@ -1,4 +1,5 @@
-﻿@Code
+﻿
+@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Voucher Slip"
 End Code
@@ -23,15 +24,6 @@ End Code
 </table>
 <br />
 <table id="tbData" style="border-collapse:collapse;width:100%">
-    <thead style="text-align:center;">
-        <tr>
-            <th style="border-style:solid;border-width:thin;font-size:11px">
-                <b>Description</b>
-            </th>
-            <th style="border-style:solid;border-width:thin;font-size:11px" width="150px"><b>Debit</b></th>
-            <th style="border-style:solid;border-width:thin;font-size:11px" width="100px"><b>Credit</b></th>
-        </tr>
-    </thead>
     <tbody></tbody>
 </table>
 <br />
@@ -75,7 +67,7 @@ End Code
     //$(document).ready(function () {
         let branch = getQueryString('branch');
         let controlno = getQueryString('controlno');
-        $.get(path + 'acc/getvoucher?branch=' + branch + '&code=' + controlno, function (r) {
+        $.get(path + 'acc/getvoucherreport?branch=' + branch + '&code=' + controlno, function (r) {
             if (r.voucher.header !== null) {
                 ShowData(r.voucher);
             }
@@ -89,18 +81,18 @@ End Code
             for(let obj of data.payment) {
                 if(vcType!==obj.PRType){
                     vcType=obj.PRType;
-                }           
+                }
                 vcTypeName = GetVoucherType(vcType);
                 let acType=obj.acType;
                 let acTypeName = GetPaymentType(acType);
                 let payType = '';
                 let desc = '';
+                let desc0 = '';
 
-                
-                appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>','','');
-                desc0 = '<b>TOTAL ' + obj.PRVoucher +'=' + CCurrency(CDbl(Number(obj.SumAmount),2)) + ' ' + obj.CurrencyCode + '</b>';
-                debit = '';
-                credit = '';
+                appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>',obj.PRVoucher,CCurrency(CDbl(Number(obj.SumAmount),2)));
+                //desc0 = '<b>TOTAL ' + obj.PRVoucher +'=' +  + ' ' + obj.CurrencyCode + '</b>';
+                let debit = '';
+                let credit = '';
                 switch (acType) {
                     case 'CA':
                         payType = 'เงินสดย่อย';
@@ -156,8 +148,8 @@ End Code
                         desc += '<tr><td>' + payType + '</td></tr>';
                         desc += '<tr><td>ภาษีขาย</td></tr>';
                         desc += '<tr><td>เจ้าหนี้กรมสรรพากร</td></tr>';
-                        desc += '<tr><td>ภาษีหัก ณ ที่จ่ายค้างจ่าย</td></tr>';                        
-                        desc += '<tr><td>รายได้จากการปฏิบัติงาน</td></tr>';                        
+                        desc += '<tr><td>ภาษีหัก ณ ที่จ่ายค้างจ่าย</td></tr>';
+                        desc += '<tr><td>รายได้จากการปฏิบัติงาน</td></tr>';
                         desc += '</table>';
 
                         debit += '<table style="text-align:right;width:100%">';
@@ -177,7 +169,7 @@ End Code
                         credit += '</table>';
                         break;
                 }
-                appendLine(div, desc, debit, credit);
+                //appendLine(div, desc, debit, credit);
                 appendLine(div, '<b>รายการเอกสาร</b>', '<b>ยอดตามเอกสาร</b>', '<b>ยอดที่ชำระ</b>');
                 if (data.document !== null) {
                     let doc=data.document.filter(function(r){
@@ -188,15 +180,15 @@ End Code
                         for(d of doc) {
                             count++;
                             desc = count + '. ' + d.DocNo +' ('+ d.DocType +' By ' + d.CmpCode + ')';
-
+                            desc += ' JOB# ' + d.JobNo;
                             appendLine(div, desc, CDbl(d.PaidAmount/CNum(obj.ExchangeRate),2) + ' ' + obj.CurrencyCode + ' (Rate='+ obj.ExchangeRate +')', CCurrency(CDbl(d.TotalAmount,2)));
                         }
                     }
-                }                
+                }
                 desc0 += obj.SICode !== null ? '<br/>สำหรับค่าใช้จ่าย ' + obj.SICode : '';
 
                 //summary section
-                desc1 = '<table width="100%">';
+                let desc1 = '<table width="100%">';
                 desc1 += '<tr>';
                 desc1 += '<td style="text-align:right">';
                 desc1 += '<b>AMOUNT</b>';
@@ -219,7 +211,7 @@ End Code
                 desc1 += '</tr>';
                 desc1 += '</table>';
 
-                desc2 = '<table width="100%">';
+                let desc2 = '<table width="100%">';
                 desc2 += '<tr>';
                 desc2 += '<td width="20%" style="text-align:right">';
                 desc2 += CCurrency(CDbl(Number(obj.TotalAmount),2));
@@ -243,7 +235,7 @@ End Code
                 desc2 += '</table>';
 
                 appendLine(div, desc0, desc1, desc2);
-                
+
             }
         }
         if (data.header !== null) {
@@ -252,7 +244,7 @@ End Code
             $('#txtVoucherDate').text(ShowDate(CDateTH(data.header[0].VoucherDate)));
             $('#txtRemark').text(data.header[0].TRemark);
         }
-    }    
+    }
     function appendLine(dv,data,col1,col2) {
         let html = '<tr><td style="border-style:solid;border-width:thin;font-size:11px">';
         html += data;

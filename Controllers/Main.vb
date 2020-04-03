@@ -2184,6 +2184,48 @@ WHERE ISNULL(d.SumContainer,'')<>''
 AND ISNULL(d.SumContainer,'')<>h.TotalContainer
 "
     End Function
+    Public Function SQLSelectVoucherDoc(tSqlw As String) As String
+        Return "
+SELECT src.*,doc.JobNo 
+FROM
+(select *,
+(CASE WHEN CHARINDEX('#',DocNo)>0 THEN SUBSTRING(DocNo,1,CHARINDEX('#',DocNo)-1) ELSE DocNo END) as LinkNo from Job_CashControlDoc
+" & tSqlw & "
+) src
+left join
+(
+	SELECT h.BranchCode,h.AdvNo as DocNo,h.AdvDate as DocDate,
+(SELECT STUFF((
+SELECT DISTINCT ',' + ForJNo
+FROM Job_AdvDetail WHERE BranchCode=h.BranchCode
+AND AdvNo=h.AdvNo
+  FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+  )) as JobNo
+	FROM Job_AdvHeader h 
+	UNION
+	SELECT h.BranchCode,h.ClrNo,h.ClrDate,
+(SELECT STUFF((
+SELECT DISTINCT ',' + JobNo
+FROM Job_ClearDetail WHERE BranchCode=h.BranchCode
+AND ClrNo=h.ClrNo
+  FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+  )) as JobNo
+	FROM Job_ClearHeader h
+	UNION
+	SELECT h.BranchCode,h.DocNo,h.DocDate,
+(SELECT STUFF((
+SELECT DISTINCT ',' + ForJNo
+FROM Job_PaymentDetail WHERE BranchCode=h.BranchCode
+AND DocNo=h.DocNo
+  FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+  )) as JobNo
+	FROM Job_PaymentHeader h
+	UNION
+	SELECT h.BranchCode,h.DocNo,h.DocDate,h.RefNo
+	FROM Job_InvoiceHeader h
+) doc on src.BranchCode=doc.BranchCode AND src.LinkNo=doc.DocNo
+"
+    End Function
     Public Sub UpdateClearStatus(user As String, docno As String)
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToInComplete())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToClear())

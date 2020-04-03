@@ -56,8 +56,8 @@ End Code
                 <tr>
                     <th class="text-center" width="130">REIMBURSEMENT</th>
                     <th class="text-center" width="90">SERVICE</th>
-                    <th class="text-center" width="50">1%</th>
-                    <th class="text-center" width="50">3%</th>
+                    <th class="text-center" width="50">TRN</th>
+                    <th class="text-center" width="50">SRV</th>
                 </tr>
             </thead>
             <tbody id="tbDetail">
