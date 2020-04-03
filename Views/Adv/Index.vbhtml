@@ -243,8 +243,8 @@ End Code
                                             <th>
                                             <th class="desktop">SICode</th>
                                             <th class="all">Description</th>
-                                            <th>Job No</th>
-                                            <th class="all">Currency</th>
+                                            <th class="desktop">Job No</th>
+                                            <th class="desktop">Currency</th>
                                             <th class="desktop">Rate</th>
                                             <th class="desktop">Qty</th>
                                             <th class="desktop">Price</th>
@@ -290,63 +290,132 @@ End Code
                                     <h4 class="modal-title"><label id="lblHeader">Advance Detail</label></h4>
                                 </div>
                                 <div class="modal-body">
-                                    <label for="txtItemNo">No :</label>
-                                    <input type="text" id="txtItemNo" style="width:40px" disabled />
-                                    <select id="cboSTCode" class="dropdown"></select>
-                                    <input type="checkbox" id="chkDuplicate" />
-                                    <label for="chkDuplicate">Can Partial Clear</label>
-                                    <br />
-                                    <a href="../Master/ServiceCode" target="_blank"><label id="lblSICode">Service Code</label></a>
-                                    <input type="text" id="txtSICode" style="width:80px" tabindex="12" />
-                                    <input type="button" id="btnBrowseS" value="..." onclick="SearchData('servicecode')" />
-                                    <input type="text" id="txtSDescription" style="width:230px" tabindex="13" />
-                                    <br />
-                                    <label for="txtForJNo">Job No :</label>
-                                    <input type="text" id="txtForJNo" style="width:120px" tabindex="14" />
-                                    <input type="button" id="btnBrowseJ" value="..." onclick="SearchData('job')" />
-                                    Cust.Inv : <input type="text" id="txtInvNo" style="width:230px" disabled />
-                                    <br />
-                                    <a href="../Master/Currency" target="_blank"><label id="lblCurrencyCode">Currency</label></a>
-                                    <input type="text" id="txtCurrencyCode" style="width:50px" tabindex="15" />
-                                    <input type="button" id="btnBrowseCur" value="..." onclick="SearchData('detcurrency')" />
-                                    <input type="text" id="txtCurrencyName" style="width:200px" disabled />
-                                    <label for="txtExcRate">Rate :</label>
-                                    <input type="text" id="txtDetCurrency" style="width:50px" disabled />
-                                    <input type="text" id="txtExcRate" style="width:80px;text-align:right" tabindex="16" />
-                                    <br />
-                                    <label for="txtAdvQty">Qty:</label>
-                                    <input type="text" id="txtAdvQty" style="width:100px;text-align:right" tabindex="17" />
-                                    <label id="lblUnitPrice" for="txtUnitPrice" style="color:red">Price :</label>
-                                    <input type="text" id="txtUnitPrice" style="width:100px;text-align:right;background-color:lightyellow" tabindex="18" />
-                                    <label id="lblAMTCal" for="txtAMTCal">Amount :</label>
-                                    <input type="text" id="txtAMTCal" style="width:100px;text-align:right" disabled />
-                                    <br />
-                                    <label id="lblAmount" for="txtAmount">Amount :</label>
-                                    <input type="text" id="txtAMT" style="width:100px;text-align:right" tabindex="19" />
-                                    <label id="lblVATRate" for="txtVATRate">VAT :</label>
-                                    <input type="text" id="txtVATRate" style="width:50px;text-align:right" tabindex="20" />
-                                    Type :
-                                    <select id="txtVatType" class="dropdown" disabled>
-                                        <option value="0">NO</option>
-                                        <option value="1">EX</option>
-                                        <option value="2">IN</option>
-                                    </select>
-                                    <input type="text" id="txtVAT" style="width:100px;text-align:right" tabindex="21" />
-                                    <br />
-                                    <label id="lblWHTRate" for="txtWHTRate">WH-Tax :</label>
-                                    <input type="text" id="txtWHTRate" style="width:50px;text-align:right" tabindex="22" />
-                                    <input type="text" id="txtWHT" style="width:100px;text-align:right" tabindex="23" />
-                                    <label id="lblNETAmount" for="txtNETAmount" style="color:blue">Net Amount :</label>
-                                    <input type="text" id="txtNET" style="width:100px;text-align:right;background-color:lightgreen" tabindex="24" />
-                                    <br />
-                                    WH-Tax No :
-                                    <input type="text" id="txt50Tavi" style="width:200px" tabindex="25" />
-                                    <br />
-                                    Pay To Vender :
-                                    <input type="text" id="txtVenCode" style="width:50px" tabindex="26" />
-                                    <input type="button" id="btnBrowseVen" onclick="SearchData('vender')" value="..." />
-                                    <input type="text" id="txtPayChqTo" style="width:200px" tabindex="27" />
-                                    <br />
+                                    <div class="row">
+                                        <div class="col-sm-2">
+                                            <label for="txtItemNo">No :</label>
+                                            <input type="text" id="txtItemNo" class="form-control" disabled />
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <label>Service Type</label>
+                                            <select id="cboSTCode" class="form-control dropdown"></select>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <label for="chkDuplicate">Can Partial Clear</label><br/>
+                                            <input type="checkbox" id="chkDuplicate" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <a href="../Master/ServiceCode" target="_blank"><label id="lblSICode">Service Code</label></a>
+                                            <div style="display:flex">
+                                                <input type="text" id="txtSICode" class="form-control" style="width:100%" tabindex="12" />
+                                                <input type="button" id="btnBrowseS" class="btn btn-default" value="..." onclick="SearchData('servicecode')" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <label>Advance Description</label><br />
+                                            <input type="text" id="txtSDescription" class="form-control" style="width:100%" tabindex="13" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <label for="txtForJNo">Job No :</label>
+                                            <div style="display:flex">
+                                                <input type="text" id="txtForJNo" class="form-control" tabindex="14" />
+                                                <input type="button" id="btnBrowseJ" value="..." onclick="SearchData('job')" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <label>Cust.Inv :</label>
+                                            <div style="display:flex">
+                                                <input type="text" id="txtInvNo" class="form-control" disabled />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <a href="../Master/Currency" target="_blank"><label id="lblCurrencyCode">Currency</label></a>
+                                            <div style="display:flex">
+                                                <input type="text" id="txtCurrencyCode" class="form-control"  style="width:100px" tabindex="15" />
+                                                <input type="button" id="btnBrowseCur" class="btn btn-default" value="..." onclick="SearchData('detcurrency')" />
+                                                <input type="text" id="txtCurrencyName" class="form-control" style="width:100%" disabled />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label for="txtExcRate">Rate :</label>
+                                            <div style="display:flex">
+                                                <input type="text" id="txtDetCurrency" class="form-control" style="width:100px" disabled />
+                                                <input type="text" id="txtExcRate" class="form-control" style="width:100%;text-align:right" tabindex="16" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <label for="txtAdvQty">Qty:</label>
+                                            <br/>
+                                            <input type="text" id="txtAdvQty" class="form-control" style="text-align:right" tabindex="17" />        
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label id="lblUnitPrice" for="txtUnitPrice" style="color:red">Price :</label>
+                                            <br />
+                                            <input type="text" id="txtUnitPrice" class="form-control" style="color:red;font-weight:bold;text-align:right;background-color:lightyellow" tabindex="18" />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label id="lblAMTCal" for="txtAMTCal">Amount :</label>
+                                            <br />
+                                            <input type="text" id="txtAMTCal" class="form-control" style="text-align:right" disabled />
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label id="lblAmount" for="txtAmount">Amount :</label>
+                                            <br/>
+                                            <input type="text" id="txtAMT" class="form-control" style="text-align:right" tabindex="19" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <label id="lblVATRate" for="txtVATRate">VAT Rate:</label>
+                                            <div style="display:flex">
+                                                <input type="text" id="txtVATRate" class="form-control" style="text-align:right" tabindex="20" />
+                                                <select id="txtVatType" class="form-control dropdown" disabled>
+                                                    <option value="0">NO</option>
+                                                    <option value="1">EX</option>
+                                                    <option value="2">IN</option>
+                                                </select>
+                                                <input type="text" id="txtVAT" class="form-control" style="text-align:right" tabindex="21" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <label id="lblWHTRate" for="txtWHTRate">WHT :</label>
+                                            <br/>
+                                            <div style="display:flex">
+                                                <input type="text" id="txtWHTRate" class="form-control" style="text-align:right" tabindex="22" />
+                                                <input type="text" id="txtWHT" class="form-control" style="text-align:right" tabindex="23" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <label id="lblNETAmount" for="txtNETAmount" style="color:blue">Net Amount :</label>
+                                            <br/>
+                                            <input type="text" id="txtNET" class="form-control" style="color:darkblue;font-weight:bold;text-align:right;background-color:lightgreen" tabindex="24" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            WH-Tax No :
+                                            <br/>
+                                            <div style="display:flex">
+                                                <input type="text" id="txt50Tavi" class="form-control" tabindex="25" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            Pay To Vender :
+                                            <br/>
+                                            <div style="display:flex">
+                                                <input type="text" id="txtVenCode" class="form-control" style="width:100px" tabindex="26" />
+                                                <input type="button" id="btnBrowseVen" onclick="SearchData('vender')" value="..." />
+                                                <input type="text" id="txtPayChqTo" class="form-control" tabindex="27" />
+                                            </div>
+                                        </div>
+                                    </div>                                    
                                     Remark :
                                     <textarea id="txtRemark" style="width:100%;height:80px" tabindex="28"></textarea>
                                 </div>
