@@ -59,7 +59,7 @@ End Code
                 </thead>
             </table>
             <div class="row">
-                <div class="col-xs-4" style="border-style:solid;border-width:1px">
+                <div class="col-sm-4" style="border-style:solid;border-width:1px">
                     <label>Issue By</label>
                     <br />
                     <input type="text" id="txtRecUser" style="width:250px" disabled />
@@ -69,7 +69,7 @@ End Code
                     Time:
                     <input type="text" id="txtRecTime" style="width:80px" disabled />
                 </div>
-                <div class="col-xs-4" style="border-style:solid;border-width:1px">
+                <div class="col-sm-4" style="border-style:solid;border-width:1px">
                     <input type="checkbox" id="chkPosted" />
                     <label for="chkPosted">Posted By</label><br />
                     <input type="text" id="txtPostedBy" style="width:250px" disabled />
@@ -79,7 +79,7 @@ End Code
                     Time:
                     <input type="text" id="txtPostedTime" style="width:80px" disabled />
                 </div>
-                <div class="col-xs-4" style="border-style:solid;border-width:1px;color:red">
+                <div class="col-sm-4" style="border-style:solid;border-width:1px;color:red">
                     <input type="checkbox" id="chkCancel" />
                     <label for="chkCancel">Cancel By</label>
                     <input type="text" id="txtCancelProve" style="width:250px" disabled />
@@ -104,7 +104,7 @@ End Code
                         <table id="tbControl" class="table table-responsive">
                             <thead>
                                 <tr>
-                                    <th>ControlNo</th>
+                                    <th class="desktop">ControlNo</th>
                                     <th class="all">VoucherDate</th>
                                     <th class="desktop">CustCode</th>
                                     <th class="desktop">Remark</th>

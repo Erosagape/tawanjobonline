@@ -1,14 +1,31 @@
 ﻿@Code
     ViewBag.Title = "จ่ายเงินตามใบเบิกค่าใช้จ่าย"
 End Code
+<style>
+    @@media only screen and ( max-width:600px )
+    {
+        #myTabs {
+            display:none;
+        }
+        #mySelects {
+            width:100%;
+            display:block !important;
+        }
+    }
+</style>
 <div class="panel-body">
     <div class="container">
         <input type="hidden" id="txtControlNo" />
-        <ul class="nav nav-tabs">
+        <ul id="myTabs" class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#tab1">Select document</a></li>
             <li><a data-toggle="tab" href="#tab2">Payment Info</a></li>
             <li><a data-toggle="tab" href="#tab3">Payment Details</a></li>
         </ul>
+        <select id="mySelects" class="form-control" style="display:none" onchange="ChangeTab(this.value);">
+            <option value="#tab1" selected>STEP 1 - Select Document</option>
+            <option value="#tab2">STEP 2 - Entry Payment</option>
+            <option value="#tab3">STEP 3 - Confirm Payment</option>
+        </select>
         <div class="tab-content">
             <div id="tab1" class="tab-pane fade in active">
                 <div class="row">
@@ -122,7 +139,7 @@ End Code
                         <br />
                         Trans.No:<input type="text" id="txtRefNoCash" class="form-control" value="" />
                         <br />
-                        Trans.Date:<input type="date" id="txtCashTranDate" class="form-control" disabled/>
+                        Trans.Date:<input type="date" id="txtCashTranDate" class="form-control" disabled />
                         Trans.Time:<input type="text" id="txtCashTranTime" class="form-control" value="" />
                         <br />
                         To Bank:<select id="cboBankCash" class="form-control"></select>
@@ -165,7 +182,7 @@ End Code
                         <b>Customer Chq : </b><input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
                         <a href="../acc/cheque" target="_blank">Chq No:</a><input type="text" id="txtRefNoChq" class="form-control" value="" disabled />
-                        <input type="button" class="btn" id="btnBrowseChq" value="..." onclick="SearchData('chequecust')"/>
+                        <input type="button" class="btn" id="btnBrowseChq" value="..." onclick="SearchData('chequecust')" />
                         <br />
                         Chq Date:<input type="date" id="txtChqTranDate" class="form-control" />
                         <br />
@@ -189,8 +206,8 @@ End Code
                         <div style="background-color:greenyellow;padding:10px 10px 10px 10px;margin:10px 10px 10px 10px;">
                             <b>Balance</b>
                             <br />
-                            For Cash/Transfer :<br/> <input type="number" id="txtCashBal" class="form-control" disabled />
-                            For Cheque : <br/> <input type="number" id="txtChqCashBal" class="form-control" disabled />
+                            For Cash/Transfer :<br /> <input type="number" id="txtCashBal" class="form-control" disabled />
+                            For Cheque : <br /> <input type="number" id="txtChqCashBal" class="form-control" disabled />
                         </div>
                     </div>
                 </div>
@@ -274,6 +291,9 @@ End Code
     //$(document).ready(function () {
         SetEvents();
     //});
+    function ChangeTab(id) {
+        $('#myTabs a[href="' + id + '"]').tab('show');
+    }
     function CheckJobType() {
         if (jt !== $('#cboJobType').val()) {
             jt = $('#cboJobType').val();

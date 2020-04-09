@@ -101,8 +101,15 @@ End Code
                 <div class="modal-content">
                     <div class="modal-header">
                         <div style="display:flex">
-                            Billing No: <input type="text" id="txtBillAcceptNo" style="width:150px" disabled /> &nbsp;
-                            Issue Date: <input type="date" id="txtBillDate" style="width:150px" disabled />
+                            <div>
+                                Billing No:<br/>
+                                <input type="text" id="txtBillAcceptNo" class="form-control" style="width:150px" disabled />
+                            </div>
+                            <div>
+                                Issue Date:<br/>
+                                <input type="date" id="txtBillDate" class="form-control" style="width:150px" disabled />
+                            </div>
+                            
                         </div>
                     </div>
                     <div class="modal-body">

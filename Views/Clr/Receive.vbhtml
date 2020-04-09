@@ -1,14 +1,31 @@
 ﻿@Code
     ViewBag.Title = "รับเคลียร์เงินจากใบเบิกค่าใช้จ่าย"
 End Code
+<style>
+    @@media only screen and ( max-width:600px ) {
+        #myTabs {
+            display: none;
+        }
+
+        #mySelects {
+            width: 100%;
+            display: block !important;
+        }
+    }
+</style>
 <div class="panel-body">
     <div class="container">
         <input type="hidden" id="txtControlNo" />
-        <ul class="nav nav-tabs">
+        <ul id="myTabs" class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#tab1">Type of Clear</a></li>
             <li><a data-toggle="tab" href="#tab2">Document Info</a></li>
             <li><a data-toggle="tab" href="#tab3">Clearing Details</a></li>
         </ul>
+        <select id="mySelects" class="form-control" style="display:none" onchange="ChangeTab(this.value);">
+            <option value="#tab1" selected>STEP 1 - Entry Clearing</option>
+            <option value="#tab2">STEP 2 - Select Document</option>
+            <option value="#tab3">STEP 3 - Confirm Clearing</option>
+        </select>
         <div class="tab-content">
             <div id="tab1" class="tab-pane fade in active">
                 <div class="row">
@@ -239,6 +256,9 @@ End Code
 
         SetEvents();
     //});
+    function ChangeTab(id) {
+        $('#myTabs a[href="' + id + '"]').tab('show');
+    }
     function SetEvents() {
         //Combos
         let lists = 'JOB_TYPE=#cboJobType';

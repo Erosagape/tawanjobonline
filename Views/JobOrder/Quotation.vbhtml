@@ -1,6 +1,13 @@
 ﻿@Code
     ViewBag.Title = "Quotation"
 End Code
+<style>
+    @@media only screen and (max-width: 600px) {
+        #btnAdd,#btnCancel,#btnPrint {
+            width:100%;
+        }
+    } 
+</style>
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-4">

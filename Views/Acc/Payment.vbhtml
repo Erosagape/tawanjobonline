@@ -1,14 +1,31 @@
 ﻿@Code
     ViewBag.Title = "จ่ายเงินตามบิลค่าใช้จ่าย"
 End Code
+<style>
+    @@media only screen and ( max-width:600px ) {
+        #myTabs {
+            display: none;
+        }
+
+        #mySelects {
+            width: 100%;
+            display: block !important;
+        }
+    }
+</style>
 <div class="panel-body">
     <div class="container">
         <input type="hidden" id="txtControlNo" />
-        <ul class="nav nav-tabs">
+        <ul id="myTabs" class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#tab1">Select document</a></li>
             <li><a data-toggle="tab" href="#tab2">Payment Info</a></li>
             <li><a data-toggle="tab" href="#tab3">Payment Details</a></li>
         </ul>
+        <select id="mySelects" class="form-control" style="display:none" onchange="ChangeTab(this.value);">
+            <option value="#tab1" selected>STEP 1 - Select Document</option>
+            <option value="#tab2">STEP 2 - Entry Payment</option>
+            <option value="#tab3">STEP 3 - Confirm Payment</option>
+        </select>
         <div class="tab-content">
             <div id="tab1" class="tab-pane fade in active">
                 <div class="row">
@@ -252,6 +269,9 @@ End Code
     //$(document).ready(function () {
     SetEvents();
     //});
+    function ChangeTab(id) {
+        $('#myTabs a[href="' + id + '"]').tab('show');
+    }
     function SetEvents() {
 
         let cbos = ['#cboBankCash', '#cboBankChqCash', '#cboBankChq'];

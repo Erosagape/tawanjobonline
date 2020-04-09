@@ -2,23 +2,43 @@
 @Code
     ViewBag.Title = "With-holding Tax"
 End Code
+<style>
+    @@media only screen and (max-width: 600px) {
+        #btnAdd,#btnPrint,#btnSave,#btnAddDoc,#btnDelDoc,#btnUpdateDoc {
+            width:100%;
+        }
+        #dvTypes .label {
+            width:100% !important;
+        }
+    }
+</style>
 <div class="panel-body">
     <div class="container">
         <div class="row">
-            <div class="col-sm-4" style="display:flex;flex-direction:row;">
-                <label style="display:block;width:20%">Branch:</label>
-                <input type="text" class="form-control" id="txtBranchCode" style="width:15%" />
-                <input type="button" class="btn btn-default" value="..." onclick="SearchData('branch');" />
-                <input type="text" class="form-control" id="txtBranchName" style="width:60%" disabled />
+            <div class="col-sm-4">
+                <label>Branch:</label>
+                <br/>
+                <div style="display:flex;flex-direction:row;">
+                    <input type="text" class="form-control" id="txtBranchCode" style="width:15%" />
+                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('branch');" />
+                    <input type="text" class="form-control" id="txtBranchName" style="width:70%" disabled />
+                </div>
             </div>
-            <div class="col-sm-4" style="display:flex;flex-direction:row;">
-                <label style="display:block;width:20%">Doc No:</label>
-                <input type="text" class="form-control" id="txtDocNo" style="width:75%" />
-                <input type="button" class="btn btn-default" value="..." onclick="SetGridWHTax()"/>
+            <div class="col-sm-4">
+                <label>Doc No:</label>
+                <br />
+                <div style="display:flex;flex-direction:row;">
+                    <input type="text" class="form-control" id="txtDocNo"/>
+                    <input type="button" class="btn btn-default" value="..." onclick="SetGridWHTax()" />
+                </div>
             </div>
-            <div class="col-sm-4" style="display:flex;flex-direction:row;">
-                <label style="display:block;width:20%">Date:</label>
-                <input type="date" class="form-control" id="txtDocDate" style="width:80%" />
+            <div class="col-sm-4">
+                <label>Date:</label>
+                <br/>
+                <div style="display:flex;flex-direction:row;">
+                    <input type="date" class="form-control" id="txtDocDate"/>
+                </div>
+                
             </div>
         </div>
         <ul class="nav nav-tabs">
@@ -33,84 +53,133 @@ End Code
             <div class="tab-pane fade in active" id="tabHeader">
                 <p>
                     <div class="row">
-                        <div class="col-sm-7" style="display:flex;flex-direction:row;">
-                            <label style="display:block;width:20%">Tax Issuer</label>
-                            <input type="text" id="txtTName1" class="form-control" style="width:75%" />
-                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('customer')" />
-                        </div>
-                        <div class="col-sm-5" style="display:flex;flex-direction:row;">
-                            <label style="display:block;width:20%">Tax Number</label>
-                            <input type="text" id="txtTaxNumber1" class="form-control" style="width:60%" />
+                        <div class="col-sm-6">
+                            <label>Tax Issuer</label>                            
+                            <label><input id="chkVender" type="checkbox" /> Venders</label>
                             <br />
-                            <label style="display:block;width:20%">ID Number</label>
-                            <input type="text" id="txtIDCard1" class="form-control" style="width:60%" />
-                            <input type="button" class="btn btn-default" value="DN" onclick="MoveData('1','2')" />
+                            <div style="display:flex;flex-direction:row;">
+                                <input type="text" id="txtTName1" class="form-control" style="width:100%" />
+                                <input type="button" class="btn btn-default" value="..." onclick="SearchData('customer')" />
+                            </div>
+
+                        </div>
+                        <div class="col-sm-3">
+                            <label>Tax Number</label>
+                            <br/>
+                            <div style="display:flex;flex-direction:row;">
+                                <input type="text" id="txtTaxNumber1" class="form-control" style="width:100%" />
+                            </div>                                                                                            
+                        </div>
+                        <div class="col-sm-3">
+                            <label>ID Number</label>
+                            <br/>
+                            <div style="display:flex;flex-direction:row;">
+                                <input type="text" id="txtIDCard1" class="form-control" style="width:100%" />
+                                <input type="button" class="btn btn-default" value="DN" onclick="MoveData('1','2')" />
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-7" style="display:flex;flex-direction:row;">
-                            <label style="display:block;width:20%">Address</label>
-                            <input type="text" id="txtTAddress1" class="form-control" style="width:80%" />
+                        <div class="col-sm-9">
+                            <label>Address</label>
+                            <br/>
+                            <div style="display:flex;flex-direction:row;">
+                                <input type="text" id="txtTAddress1" class="form-control" style="width:100%" />
+                            </div>                            
                         </div>
-                        <div class="col-sm-5" style="display:flex;flex-direction:row;">
-                            <label style="display:block;width:20%">Branch</label>
-                            <input type="text" id="txtBranch1" class="form-control" style="width:60%" />
-                            <label style="display:block;width:20%"><input id="chkVender" type="checkbox" /> Venders</label>
+                        <div class="col-sm-3">
+                            <label>Branch</label>
+                            <br/>
+                            <div style="display:flex;flex-direction:row;">
+                                <input type="text" id="txtBranch1" class="form-control" style="width:100%" />
+                            </div>
                         </div>
                     </div>
                 </p>
                 <p>
                     <div class="row">
-                        <div class="col-sm-7" style="display:flex;flex-direction:row;">
-                            <label style="display:block;width:20%">Tax Agent</label>
-                            <input type="text" id="txtTName2" class="form-control" style="width:75%" />
-                            <input type="button" class="btn btn-default" value="..." onclick="GetDefault()" />
+                        <div class="col-sm-6">
+                            <label>Tax Agent</label>
+                            <br/>
+                            <div style="display:flex;flex-direction:row;">
+                                <input type="text" id="txtTName2" class="form-control" style="width:100%" />
+                                <input type="button" class="btn btn-default" value="..." onclick="GetDefault()" />
+                            </div>
                         </div>
-                        <div class="col-sm-5" style="display:flex;flex-direction:row;">
-                            <label style="display:block;width:20%">Tax Number</label>
-                            <input type="text" id="txtTaxNumber2" class="form-control" style="width:60%" />
-                            <br />
-                            <label style="display:block;width:20%">ID Number</label>
-                            <input type="text" id="txtIDCard2" class="form-control" style="width:60%" />
-                            <input type="button" class="btn btn-default" value="DN" onclick="MoveData('2','3')" />
-                            <input type="button" class="btn btn-default" value="UP" onclick="MoveData('2','1')"/>
+                        <div class="col-sm-3">
+                            <label>Tax Number</label>
+                            <br/>
+                            <div style="display:flex;flex-direction:row;">
+                                <input type="text" id="txtTaxNumber2" class="form-control" style="width:100%" />
+                            </div>                            
+                        </div>
+                        <div class="col-sm-3">
+                            <label>ID Number</label>
+                            <br/>
+                            <div style="display:flex;flex-direction:row;">
+                                <input type="text" id="txtIDCard2" class="form-control" style="width:100%" />
+                                <input type="button" class="btn btn-default" value="DN" onclick="MoveData('2','3')" />
+                                <input type="button" class="btn btn-default" value="UP" onclick="MoveData('2','1')" />
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-7" style="display:flex;flex-direction:row;">
-                            <label style="display:block;width:20%">Address</label>
-                            <input type="text" id="txtTAddress2" class="form-control" style="width:80%" />
+                        <div class="col-sm-9">
+                            <label>Address</label>
+                            <br/>
+                            <div style="display:flex;flex-direction:row;">
+                                <input type="text" id="txtTAddress2" class="form-control" style="width:100%" />
+                            </div>                            
                         </div>
-                        <div class="col-sm-5" style="display:flex;flex-direction:row;">
-                            <label style="display:block;width:20%">Branch</label>
-                            <input type="text" id="txtBranch2" class="form-control" style="width:60%" />
+                        <div class="col-sm-3">
+                            <label>Branch</label>
+                            <br/>
+                            <div style="display:flex;flex-direction:row;">
+                                <input type="text" id="txtBranch2" class="form-control" style="width:100%" />
+                            </div>                            
                         </div>
                     </div>
                 </p>
                 <p>
                     <div class="row">
-                        <div class="col-sm-7" style="display:flex;flex-direction:row;">
-                            <label style="display:block;width:20%">Tax Payer</label>
-                            <input type="text" id="txtTName3" class="form-control" style="width:75%" />
-                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('vender')" />
+                        <div class="col-sm-6">
+                            <label>Tax Payer</label>
+                            <br/>
+                            <div style="display:flex;flex-direction:row;">
+                                <input type="text" id="txtTName3" class="form-control" style="width:100%" />
+                                <input type="button" class="btn btn-default" value="..." onclick="SearchData('vender')" />
+                            </div>
                         </div>
-                        <div class="col-sm-5" style="display:flex;flex-direction:row;">
-                            <label style="display:block;width:20%">Tax Number</label>
-                            <input type="text" id="txtTaxNumber3" class="form-control" style="width:60%" />
-                            <br />
-                            <label style="display:block;width:20%">ID Number</label>
-                            <input type="text" id="txtIDCard3" class="form-control" style="width:60%" />
-                            <input type="button" class="btn btn-default" value="UP" onclick="MoveData('3','2')" />
+                        <div class="col-sm-3">
+                            <label>Tax Number</label>
+                            <br/>
+                            <div style="display:flex;flex-direction:row;">
+                                <input type="text" id="txtTaxNumber3" class="form-control" style="width:100%" />
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <label>ID Number</label>
+                            <br/>
+                            <div style="display:flex;flex-direction:row;">
+                                <input type="text" id="txtIDCard3" class="form-control" style="width:100%" />
+                                <input type="button" class="btn btn-default" value="UP" onclick="MoveData('3','2')" />
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-7" style="display:flex;flex-direction:row;">
-                            <label style="display:block;width:20%">Address</label>
-                            <input type="text" id="txtTAddress3" class="form-control" style="width:80%" />
+                        <div class="col-sm-9">
+                            <label>Address</label>
+                            <br/>
+                            <div style="display:flex;flex-direction:row;">
+                                <input type="text" id="txtTAddress3" class="form-control" style="width:100%" />
+                            </div>                            
                         </div>
-                        <div class="col-sm-5" style="display:flex;flex-direction:row;">
-                            <label style="display:block;width:20%">Branch</label>
-                            <input type="text" id="txtBranch3" class="form-control" style="width:60%" />
+                        <div class="col-sm-3">
+                            <label>Branch</label>
+                            <br/>
+                            <div style="display:flex;flex-direction:row;">
+                                <input type="text" id="txtBranch3" class="form-control" style="width:100%" />
+                            </div>                            
                         </div>
                     </div>
                 </p>
@@ -120,17 +189,15 @@ End Code
                             Number
                             <input type="text" id="txtSeqInForm" class="form-control" />
                         </div>
-                        <div class="col-sm-7" style="display:flex;flex-direction:column">
+                        <div class="col-sm-7">
                             Type of :
-                            <div style="display:flex;flex-direction:row;flex-grow:4">
-                                <label style="display:block;width:20%"><input type="radio" name="FormType" value="1" /> (1) ภ.ง.ด.1ก.</label>
-                                <label style="display:block;width:20%"><input type="radio" name="FormType" value="2" /> (2) ภ.ง.ด.1ก. พิเศษ</label>
-                                <label style="display:block;width:20%"><input type="radio" name="FormType" value="3" /> (3) ภ.ง.ด.2.</label>
-                                <label style="display:block;width:20%"><input type="radio" name="FormType" value="4" /> (4) ภ.ง.ด.3.</label>
-                                <label style="display:block;width:20%"><input type="radio" name="FormType" value="5" /> (5) ภ.ง.ด.2ก.</label>
-                                <label style="display:block;width:20%"><input type="radio" name="FormType" value="6" /> (6) ภ.ง.ด.3ก.</label>
-                                <label style="display:block;width:20%"><input type="radio" name="FormType" value="7" checked /> (7) ภ.ง.ด.53.</label>
-                            </div>
+                            <label><input type="radio" name="FormType" value="1" /> (1) ภ.ง.ด.1ก.</label>
+                            <label><input type="radio" name="FormType" value="2" /> (2) ภ.ง.ด.1ก. พิเศษ</label>
+                            <label><input type="radio" name="FormType" value="3" /> (3) ภ.ง.ด.2.</label>
+                            <label><input type="radio" name="FormType" value="4" /> (4) ภ.ง.ด.3.</label>
+                            <label><input type="radio" name="FormType" value="5" /> (5) ภ.ง.ด.2ก.</label>
+                            <label><input type="radio" name="FormType" value="6" /> (6) ภ.ง.ด.3ก.</label>
+                            <label><input type="radio" name="FormType" value="7" checked /> (7) ภ.ง.ด.53.</label>
                         </div>
                         <div class="col-sm-3" style="display:flex;flex-direction:column">
                             Tax Code:
@@ -159,7 +226,7 @@ End Code
                         </div>
                         <div class="col-sm-3">
                             Cancel Date:<br />
-                            <input type="date" id="txtCancelDate" class="form-control" disabled/>
+                            <input type="date" id="txtCancelDate" class="form-control" disabled />
                         </div>
                     </div>
                 </p>
@@ -185,7 +252,7 @@ End Code
                     <table id="tbDetail" class="table table-bordered">
                         <thead>
                             <tr>
-                                <th>ItemNo</th>
+                                <th class="desktop">ItemNo</th>
                                 <th class="desktop">IncType</th>
                                 <th class="all">PayDate</th>
                                 <th class="all">PayAmount</th>
@@ -199,7 +266,7 @@ End Code
                     </table>
                 </p>
                 <div style="display:flex;flex-direction:row;">
-                    <div style="flex:4;">
+                    <div style="flex:2;">
                         <div class="row">
                             <div class="col-sm-3">
                                 Tax Condition:
@@ -256,10 +323,10 @@ End Code
                     </div>
                     <div style="flex:1;margin-left:10px">
                         Total Amount :
-                        <input type="text" id="txtTotalPayAmount" />
+                        <input type="text" class="form-control" id="txtTotalPayAmount" />
                         <br />
                         Total Tax :
-                        <input type="text" id="txtTotalPayTax" />
+                        <input type="text" class="form-control" id="txtTotalPayTax" />
                     </div>
                 </div>
             </div>
@@ -382,7 +449,7 @@ End Code
                             <div style="flex:1">
                                 Amount :
                                 <br />
-                                <input type="number" id="txtPayAmount" class="form-control" value="0.00"  onchange="CalWHT()">
+                                <input type="number" id="txtPayAmount" class="form-control" value="0.00" onchange="CalWHT()">
                             </div>
                             <div style="flex:1">
                                 Tax :
@@ -462,7 +529,7 @@ End Code
             CallBackQueryWHTax(path, branch, code, ReadData);
         } else {
             $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-            $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
+            $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
         }
     }
     function SetEvents() {
@@ -475,7 +542,7 @@ End Code
                 let branch = $('#txtBranchCode').val();
                 ClearData();
                 $('#txtBranchCode').val(branch);
-                $('#txtDocNo').val(code);                
+                $('#txtDocNo').val(code);
                 CallBackQueryWHTax(path, branch, code, ReadData);
             }
         });
@@ -527,7 +594,7 @@ End Code
             case 'branch':
                 SetGridBranch(path, '#tbBranch', '#frmSearchBranch', ReadBranch);
                 break;
-            case 'customer':                
+            case 'customer':
                 if ($('#chkVender').prop('checked') == true) {
                     SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender1);
                 } else {
@@ -564,7 +631,7 @@ End Code
                     { data: "JNo", title: "Job No" },
                     { data: "InvNo", title: "Inv No" },
                     { data: "DocRefNo", title: "Ref No" },
-                    { data: "PayAmount", title: "Amount" },                    
+                    { data: "PayAmount", title: "Amount" },
                     { data: "PayTax", title: "Tax" }
                 ],
                 responsive:true,
@@ -575,7 +642,7 @@ End Code
                 $(this).addClass('selected');
                 let data = $('#tbControl').DataTable().row(this).data(); //read current row selected
 
-                CallBackQueryWHTax(path, data.BranchCode, data.DocNo, ReadData); //callback function from caller 
+                CallBackQueryWHTax(path, data.BranchCode, data.DocNo, ReadData); //callback function from caller
 
                 $('#frmHeader').modal('hide');
             });
@@ -670,7 +737,7 @@ End Code
                     });
                     $('#tbDoc tbody').on('click', 'button', function () {
                         let dt = GetSelect('#tbDoc', this); //read current row selected
-                        ReadAdv(dt); //callback function from caller 
+                        ReadAdv(dt); //callback function from caller
                         $('#frmSearchDoc').modal('hide');
                     });
                     $('#tbDoc tbody').on('click', 'tr', function () {
@@ -778,7 +845,7 @@ End Code
                 { data: "PayTax", title: "Tax" },
                 { data: "PayTaxDesc", title: "Desc" },
                 { data: "JNo", title: "Job No" },
-                { data: "DocRefNo", title: "Ref No" }                
+                { data: "DocRefNo", title: "Ref No" }
             ],
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
@@ -937,7 +1004,7 @@ End Code
             return;
         }
         //SaveHeader(false);
-        let obj={			
+        let obj={
             BranchCode:$('#txtBranchCode').val(),
             DocNo:$('#txtDocNo').val(),
             ItemNo:$('#txtItemNo').val(),
@@ -962,7 +1029,7 @@ End Code
                 if (response.result.data != null) {
                     $('#txtItemNo').val(response.result.data);
                     $('#txtItemNo').focus();
-                }                                
+                }
                 CallBackQueryWHTax(path, $('#txtBranchCode').val(), $('#txtDocNo').val(), ReadData);
                 ShowMessage(response.result.msg);
             },
@@ -982,7 +1049,7 @@ End Code
             $.get(path + 'acc/delwhtaxdetail?branch='+branch+'&code=' + code + '&itemno='+item, function (r) {
                 CallBackQueryWHTax(path, $('#txtBranchCode').val(), $('#txtDocNo').val(), ReadData);
                 ShowMessage(r.whtax.result);
-                $('#frmDetail').modal('hide');            
+                $('#frmDetail').modal('hide');
             });
         });
     }
@@ -1004,7 +1071,7 @@ End Code
         let branch = $('#txtBranchCode').val();
         let code = $('#txtDocNo').val();
         $.get(path + 'acc/delwhtaxdetail?branch='+branch+'&code=' + code, function (r) {
-            LoadGridDetail(r.whtax.detail);   
+            LoadGridDetail(r.whtax.detail);
         });
     }
     function PrintData() {

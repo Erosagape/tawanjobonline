@@ -50,38 +50,38 @@ End Code
                         <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Detail</b>
                     </a>
 
-                    <div style="display:flex;width:100%">
-                        <div style="text-align:right;margin-right:4px;">
-                            Payment <br />Cash : <input type="text" id="txtPayCash" disabled /><br />
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <b>Payment</b> <br />Cash : <input type="text" id="txtPayCash" disabled /><br />
                             Cheque : <input type="text" id="txtPayChq" disabled /><br />
                             Credit : <input type="text" id="txtPayCred" disabled />
                         </div>
-                        <div style="text-align:right;margin-right:4px;">
-                            Receive <br />Cash : <input type="text" id="txtRcvCash" disabled /><br />
+                        <div class="col-sm-3">
+                            <b>Receive</b><br />Cash : <input type="text" id="txtRcvCash" disabled /><br />
                             Cheque : <input type="text" id="txtRcvChq" disabled /><br />
                             Credit : <input type="text" id="txtRcvCred" disabled />
                         </div>
-                        <div style="text-align:right;margin-right:4px;">
-                            Sum<br />
+                        <div class="col-sm-3">
+                            <b>Sum</b><br />
                             Payment : <input type="text" id="txtPaySum" disabled /><br />
                             Receive : <input type="text" id="txtRcvSum" disabled />
                         </div>
-                        <div style="text-align:right">
-                            Total<br />
+                        <div class="col-sm-3">
+                            <b>Total</b><br />
                             Voucher: <input type="text" id="txtPRSum" disabled /><br />
                             Document : <input type="text" id="txtDocSum" disabled />
                         </div>
                     </div>
 
-                    <table id="tbHeader" class="table table-bordered table-responsive">
+                    <table id="tbHeader" class="table table-responsive">
                         <thead>
                             <tr>
-                                <th>Chq</th>
-                                <th>Cash</th>
-                                <th>Credit</th>
-                                <th class="desktop">VCNo</th>
+                                <th class="desktop">Chq</th>
+                                <th class="desktop">Cash</th>
+                                <th class="desktop">Credit</th>
+                                <th class="all">VCNo</th>
                                 <th class="desktop">BookAcc</th>
-                                <th class="all">RefChqNo</th>
+                                <th class="desktop">RefChqNo</th>
                                 <th class="desktop">RefDate</th>
                                 <th class="desktop">Bank</th>
                                 <th class="desktop">Branch</th>
@@ -96,10 +96,10 @@ End Code
                             <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Document</b>
                         </a>
                     </div>
-                    <table id="tbDetail" class="table table-responsive table-bordered">
+                    <table id="tbDetail" class="table table-responsive">
                         <thead>
                             <tr>
-                                <th>DocNo</th>
+                                <th class="all">DocNo</th>
                                 <th class="desktop">DocType</th>
                                 <th class="desktop">DocDate</th>
                                 <th class="desktop">CmpType</th>
@@ -114,7 +114,7 @@ End Code
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-4" style="border-style:solid;border-width:1px">
+                <div class="col-md-4" style="border-style:solid;border-width:1px">
                     <label>Record By</label>
                     <br />
                     <input type="text" id="txtRecUser" style="width:250px" disabled />
@@ -124,7 +124,7 @@ End Code
                     Time:
                     <input type="text" id="txtRecTime" style="width:80px" disabled />
                 </div>
-                <div class="col-xs-4" style="border-style:solid;border-width:1px">
+                <div class="col-md-4" style="border-style:solid;border-width:1px">
                     <input type="checkbox" id="chkPosted" />
                     <label for="chkPosted">Posted By</label><br />
                     <input type="text" id="txtPostedBy" style="width:250px" disabled />
@@ -134,7 +134,7 @@ End Code
                     Time:
                     <input type="text" id="txtPostedTime" style="width:80px" disabled />
                 </div>
-                <div class="col-xs-4" style="border-style:solid;border-width:1px;color:red">
+                <div class="col-md-4" style="border-style:solid;border-width:1px;color:red">
                     <input type="checkbox" id="chkCancel" />
                     <label for="chkCancel">Cancel By</label>
                     <input type="text" id="txtCancelProve" style="width:250px" disabled />
@@ -159,11 +159,11 @@ End Code
                         <table id="tbControl" class="table table-responsive">
                             <thead>
                                 <tr>
-                                    <th>ControlNo</th>
-                                    <th class="desktop">VoucherDate</th>
+                                    <th class="desktop">ControlNo</th>
+                                    <th class="all">VoucherDate</th>
                                     <th class="desktop">CustCode</th>
-                                    <th class="all">Remark</th>
-                                    <th class="desktop">VoucherNo</th>
+                                    <th class="desktop">Remark</th>
+                                    <th class="all">VoucherNo</th>
                                     <th class="desktop">ChqNo</th>
                                     <th class="desktop">ChqDate</th>
                                     <th class="desktop">ChqAmount</th>

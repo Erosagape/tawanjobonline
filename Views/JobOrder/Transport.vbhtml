@@ -2,6 +2,14 @@
 @Code
     ViewBag.Title = "Transport & Loading Information"
 End Code
+<style>
+    @@media only screen and (max-width: 600px) {
+        #btnAdd,#btnDelete,#btnSave,#btnUpdateJob,
+        #btnAddDetail,#btnDeleteDetail,#btnUpdateDetail {
+            width: 100%;
+        }
+    }
+</style>
 <ul class="nav nav-tabs">
     <li class="active">
         <a data-toggle="tab" href="#tabLoading">Loading Information</a>
@@ -290,7 +298,7 @@ End Code
                 Total(s): <input type="number" id="txtTotalContainer" class="form-control" />
             </div>
             <div class="col-sm-2">
-                <br/>
+                <br />
                 <input type="button" id="btnCreateContainer" class="btn btn-success" value="Create" onclick="GenContainer()" />
             </div>
         </div>
@@ -402,194 +410,194 @@ End Code
     <div class="modal-dialog-lg">
         <div class="modal-content">
             <div class="modal-body">
-<div class="row">
-    <div class="col-md-6">
-        <div class="row">
-            <div class="col-sm-2">
-                No :<br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control" disabled></div>
-            </div>
-            <div class="col-sm-4">
-                Container :<br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
-            </div>
-            <div class="col-sm-3">
-                Size :<br /><div style="display:flex"><select id="txtCTN_SIZE" class="form-control dropdown"></select></div>
-            </div>
-            <div class="col-sm-3">
-                Seal No.:<br /><div style="display:flex"><input type="text" id="txtSealNumber" class="form-control"></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                Package Details :<br /><div style="display:flex"><textarea id="txtProductDesc" class="form-control"></textarea></div>
-            </div>
-            <div class="col-sm-3">
-                Package Qty :<br /><div style="display:flex"><input type="number" id="txtProductQty" class="form-control" value="0.00"></div>
-            </div>
-            <div class="col-sm-3">
-                Package Unit :
-                <br />
-                <div style="display:flex">
-                    <input type="text" id="txtProductUnit" class="form-control" style="width:100%">
-                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('servunit')" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                G/W :<br /><div style="display:flex"><input type="number" id="txtGrossWeight" class="form-control" value="0.00"></div>
-            </div>
-            <div class="col-sm-3">
-                M3 :<br /><div style="display:flex"><input type="number" id="txtMeasurement" class="form-control" value="0.00"></div>
-            </div>
-            <div class="col-sm-3">
-                Operation Days :<br /><div style="display:flex"><input type="number" id="txtTimeUsed" class="form-control"></div>
-            </div>
-            <div class="col-sm-3">
-                Job Status:<br />
-                <div style="display:flex">
-                    <select id="txtCauseCode" class="form-control dropdown">
-                        <option value="">Checking</option>
-                        <option value="1">Working</option>
-                        <option value="2">Rejected</option>
-                        <option value="3">Finished</option>
-                        <option value="99">Cancelled</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-5">
-                Driver :<br /><div style="display:flex"><input type="text" id="txtDriver" class="form-control"></div>
-            </div>
-            <div class="col-sm-3">
-                Truck ID :<br /><div style="display:flex"><input type="text" id="txtTruckNO" class="form-control"></div>
-            </div>
-            <div class="col-sm-4">
-                Type :
-                <br />
-                <div style="display:flex">
-                    <input type="text" id="txtTruckType" class="form-control">
-                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('carunit')" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                Route ID:<br />
-                <div style="display:flex">
-                    <input type="text" id="txtRouteID" class="form-control" disabled />
-                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('route')" />
-                </div>
-            </div>
-            <div class="col-sm-9">
-                Location :<br />
-                <div style="display:flex">
-                    <input type="text" id="txtLocation" class="form-control" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6">
-                Comment :<br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
-            </div>
-            <div class="col-sm-6">
-                Shipping Mark :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-4" style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
-                <b>Pick-up:</b>
-                <div>
-                    Target Date :<br />
-                    <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control"></div>
-                </div>
-                <div>
-                    Target Time:<br />
-                    <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control"></div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                No :<br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control" disabled></div>
+                            </div>
+                            <div class="col-sm-4">
+                                Container :<br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
+                            </div>
+                            <div class="col-sm-3">
+                                Size :<br /><div style="display:flex"><select id="txtCTN_SIZE" class="form-control dropdown"></select></div>
+                            </div>
+                            <div class="col-sm-3">
+                                Seal No.:<br /><div style="display:flex"><input type="text" id="txtSealNumber" class="form-control"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                Package Details :<br /><div style="display:flex"><textarea id="txtProductDesc" class="form-control"></textarea></div>
+                            </div>
+                            <div class="col-sm-3">
+                                Package Qty :<br /><div style="display:flex"><input type="number" id="txtProductQty" class="form-control" value="0.00"></div>
+                            </div>
+                            <div class="col-sm-3">
+                                Package Unit :
+                                <br />
+                                <div style="display:flex">
+                                    <input type="text" id="txtProductUnit" class="form-control" style="width:100%">
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('servunit')" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                G/W :<br /><div style="display:flex"><input type="number" id="txtGrossWeight" class="form-control" value="0.00"></div>
+                            </div>
+                            <div class="col-sm-3">
+                                M3 :<br /><div style="display:flex"><input type="number" id="txtMeasurement" class="form-control" value="0.00"></div>
+                            </div>
+                            <div class="col-sm-3">
+                                Operation Days :<br /><div style="display:flex"><input type="number" id="txtTimeUsed" class="form-control"></div>
+                            </div>
+                            <div class="col-sm-3">
+                                Job Status:<br />
+                                <div style="display:flex">
+                                    <select id="txtCauseCode" class="form-control dropdown">
+                                        <option value="">Checking</option>
+                                        <option value="1">Working</option>
+                                        <option value="2">Rejected</option>
+                                        <option value="3">Finished</option>
+                                        <option value="99">Cancelled</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-5">
+                                Driver :<br /><div style="display:flex"><input type="text" id="txtDriver" class="form-control"></div>
+                            </div>
+                            <div class="col-sm-3">
+                                Truck ID :<br /><div style="display:flex"><input type="text" id="txtTruckNO" class="form-control"></div>
+                            </div>
+                            <div class="col-sm-4">
+                                Type :
+                                <br />
+                                <div style="display:flex">
+                                    <input type="text" id="txtTruckType" class="form-control">
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('carunit')" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                Route ID:<br />
+                                <div style="display:flex">
+                                    <input type="text" id="txtRouteID" class="form-control" disabled />
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('route')" />
+                                </div>
+                            </div>
+                            <div class="col-sm-9">
+                                Location :<br />
+                                <div style="display:flex">
+                                    <input type="text" id="txtLocation" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                Comment :<br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
+                            </div>
+                            <div class="col-sm-6">
+                                Shipping Mark :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4" style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
+                                <b>Pick-up:</b>
+                                <div>
+                                    Target Date :<br />
+                                    <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control"></div>
+                                </div>
+                                <div>
+                                    Target Time:<br />
+                                    <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control"></div>
 
+                                </div>
+                                <div>
+                                    Actual Date :<br />
+                                    <div style="display:flex"><input type="date" id="txtActualYardDate" class="form-control"></div>
+                                </div>
+                                <div>
+                                    Actual Time :<br />
+                                    <div style="display:flex"><input type="text" id="txtActualYardTime" class="form-control"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4" style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
+                                <b>Delivery:</b>
+                                <div>
+                                    Target Date :<br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control"></div>
+                                </div>
+                                <div>
+                                    Target Time :<br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control"></div>
+                                </div>
+                                <div>
+                                    Actual Date :<br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
+                                </div>
+                                <div>
+                                    Actual Time :<br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-4" style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
+                                <b>Return:</b>
+                                <div>
+                                    Target Date:<br />
+                                    <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control"></div>
+                                </div>
+                                <div>
+                                    Target Time :<br />
+                                    <div style="display:flex"><input type="text" id="txtStart" class="form-control"></div>
+                                </div>
+                                <div>
+                                    Actual Date:<br />
+                                    <div style="display:flex"><input type="date" id="txtDReturnDate" class="form-control"></div>
+                                </div>
+                                <div>
+                                    Actual Time:<br />
+                                    <div style="display:flex"><input type="text" id="txtFinish" class="form-control"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        Delivery No:
+                        <div style="display:flex;">
+                            <div style="display:flex"><input type="text" id="txtDeliveryNo" class="form-control" disabled></div>
+                            <input type="button" id="btnGenDeliveryNo" onclick="GenerateDO()" class="btn btn-warning" value="Create" />
+                            <input type="button" class="btn btn-info" value="Delivery Slip" onclick="PrintDelivery()" />
+                        </div>
+                        <br />
+                        Expense Can Billing On This Route:<br />
+                        <table id="tbExpense" class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>SICode</th>
+                                    <th>SDescription</th>
+                                    <th>CostAmount</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <a href="#" class="btn btn-primary" id="btnExpense2" onclick="EntryExpenses2()">
+                            <i class="fa fa-lg fa-save"></i>&nbsp;<b>Entry Expenses</b>
+                        </a><br />
+                        Expense Billed By Vender:<br />
+                        <table id="tbPayment" class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>DocNo</th>
+                                    <th>DocDate</th>
+                                    <th>PoNo</th>
+                                    <th>RefNo</th>
+                                    <th>TotalNet</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
-                <div>
-                    Actual Date :<br />
-                    <div style="display:flex"><input type="date" id="txtActualYardDate" class="form-control"></div>
-                </div>
-                <div>
-                    Actual Time :<br />
-                    <div style="display:flex"><input type="text" id="txtActualYardTime" class="form-control"></div>
-                </div>
-            </div>
-            <div class="col-sm-4" style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
-                <b>Delivery:</b>
-                <div>
-                    Target Date :<br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control"></div>
-                </div>
-                <div>
-                    Target Time :<br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control"></div>
-                </div>
-                <div>
-                    Actual Date :<br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
-                </div>
-                <div>
-                    Actual Time :<br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
-                </div>
-            </div>
-            <div class="col-sm-4" style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
-                <b>Return:</b>
-                <div>
-                    Target Date:<br />
-                    <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control"></div>
-                </div>
-                <div>
-                    Target Time :<br />
-                    <div style="display:flex"><input type="text" id="txtStart" class="form-control"></div>
-                </div>
-                <div>
-                    Actual Date:<br />
-                    <div style="display:flex"><input type="date" id="txtDReturnDate" class="form-control"></div>
-                </div>
-                <div>
-                    Actual Time:<br />
-                    <div style="display:flex"><input type="text" id="txtFinish" class="form-control"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-6">
-        Delivery No:
-        <div style="display:flex;">
-            <div style="display:flex"><input type="text" id="txtDeliveryNo" class="form-control" disabled></div>
-            <input type="button" id="btnGenDeliveryNo" onclick="GenerateDO()" class="btn btn-warning" value="Create" />
-            <input type="button" class="btn btn-info" value="Delivery Slip" onclick="PrintDelivery()" />
-        </div>
-        <br />
-        Expense Can Billing On This Route:<br />
-        <table id="tbExpense" class="table table-responsive">
-            <thead>
-                <tr>
-                    <th>SICode</th>
-                    <th>SDescription</th>
-                    <th>CostAmount</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <a href="#" class="btn btn-primary" id="btnExpense2" onclick="EntryExpenses2()">
-            <i class="fa fa-lg fa-save"></i>&nbsp;<b>Entry Expenses</b>
-        </a><br/>
-        Expense Billed By Vender:<br />
-        <table id="tbPayment" class="table table-responsive">
-            <thead>
-                <tr>
-                    <th>DocNo</th>
-                    <th>DocDate</th>
-                    <th>PoNo</th>
-                    <th>RefNo</th>
-                    <th>TotalNet</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-</div>
 
             </div>
             <div class="modal-footer">
@@ -791,7 +799,7 @@ End Code
             dr = dr[0];
         }
         $('#txtJNo').val(dr.JNo);
-        $('#txtBookingNo').val(dr.BookingNo);        
+        $('#txtBookingNo').val(dr.BookingNo);
         $('#txtVenderCode').val(dr.AgentCode);
         ShowVender(path, dr.AgentCode, '#txtVenderName');
         ShowVender(path, dr.AgentCode, '#txtPaymentBy');
@@ -1080,7 +1088,7 @@ End Code
                 break;
         }
     }
-    function ClearDetail() {		        
+    function ClearDetail() {
         $('#txtItemNo').val('0');
         $('#txtCTN_NO').val('');
         $('#txtSealNumber').val('');
@@ -1118,7 +1126,7 @@ End Code
         ShowPayment();
     }
     function SaveDetail() {
-        let obj = {			
+        let obj = {
             BranchCode:$('#txtBranchCode').val(),
             JNo:$('#txtJNo').val(),
             ItemNo:$('#txtItemNo').val(),
@@ -1182,7 +1190,7 @@ End Code
             ShowMessage('No data to save',true);
         }
     }
-    function ReadDetail(dr){		
+    function ReadDetail(dr){
         $('#txtItemNo').val(dr.ItemNo);
         $('#txtCTN_NO').val(dr.CTN_NO);
         $('#txtSealNumber').val(dr.SealNumber);
@@ -1238,7 +1246,7 @@ End Code
     function ReadCarUnit(dr) {
         $('#txtTruckType').val(dr.UnitType);
     }
-    function GenerateDO() {        
+    function GenerateDO() {
         let branch = $('#txtBranchCode').val();
         let code = $('#txtBookingNo').val();
         let item = $('#txtItemNo').val();
@@ -1450,7 +1458,7 @@ End Code
             ShowMessage('Please Select Branch First',true);
             return;
         }
-        if ($('#cboLocation').val() > 0) {            
+        if ($('#cboLocation').val() > 0) {
             $('#txtLocationID').val($('#cboLocation').val());
             $('#txtLocationRoute').val($('#cboLocation option:selected').text());
             LoadExpense();

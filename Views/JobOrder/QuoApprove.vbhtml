@@ -56,11 +56,11 @@ End Code
                 <table id="tbHeader" class="table table-responsive">
                     <thead>
                         <tr>
-                            <th>QNo</th>
+                            <th class="all">QNo</th>
                             <th class="all">DocDate</th>
-                            <th class="all">ManagerCode</th>
+                            <th class="desktop">ManagerCode</th>
                             <th class="desktop">TRemark</th>
-                            <th class="all">ContactName</th>
+                            <th class="desktop">ContactName</th>
                             <th class="desktop">BillToCustCode</th>
                             <th class="desktop">ReferQNo</th>
                         </tr>

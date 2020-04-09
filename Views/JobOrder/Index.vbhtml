@@ -1,6 +1,13 @@
 ﻿@Code
     ViewBag.Title = "Job List"
 End Code
+    <style>
+        @@media only screen and (max-width: 600px) {
+            #btnRefresh,#btnGenJob {
+                width: 100%;
+            }
+        }
+    </style>
 <div class="panel-body">
     <div class="row">
         <div class="col-sm-2">
@@ -27,17 +34,12 @@ End Code
             <label for="cboMonth" id="lblMonth">Month</label>
             <select id="cboMonth" class="form-control dropdown"></select>
         </div>
-        <div class="col-sm-2">
-            <div class="btn-group-vertical">
-                <br />
-                <a href="#" class="btn btn-primary" id="btnRefresh" onclick="getJobdata()">
-                    <i class="fa fa-lg fa-filter"></i> &nbsp;<b>Search</b>
-                </a>
-            </div>
-        </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
+            <a href="#" class="btn btn-primary" id="btnRefresh" onclick="getJobdata()">
+                <i class="fa fa-lg fa-filter"></i> &nbsp;<b>Search</b>
+            </a>
             <a href="#" class="btn btn-default w3-purple" id="btnGenJob" onclick="CreateNewJob()">
                 <i class="fa fa-lg fa-file-o"></i> &nbsp;<b>Create Job</b>
             </a>

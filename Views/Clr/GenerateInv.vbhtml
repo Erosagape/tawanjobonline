@@ -870,7 +870,7 @@ End Code
         return;
     }
     function SaveHeader() {
-let dataInv = {
+        let dataInv = {
             BranchCode:$('#txtBranchCode').val(),
             DocNo: $('#txtDocNo').val(),
             DocType:$('#cboDocType').val(),
@@ -1161,8 +1161,8 @@ let dataInv = {
                     AmtCharge: (obj.AmtCharge > 0 ? CDbl(obj.AmtCharge  / CNum($('#txtExchangeRate').val()),2) : 0),
                     CurrencyCodeCredit: $('#txtCurrencyCode').val(),
                     ExchangeRateCredit: $('#txtExchangeRate').val(),
-                    AmtCredit: CDbl((creditamt-CNum(obj.Amt50Tavi)),2),
-                    FAmtCredit: CDbl((creditamt-CNum(obj.Amt50Tavi)) / CNum($('#txtExchangeRate').val()), 2),
+                    AmtCredit: (creditamt >0 ? CDbl((creditamt-CNum(obj.Amt50Tavi)),2) : 0),
+                    FAmtCredit: (creditamt > 0 ? CDbl((creditamt - CNum(obj.Amt50Tavi)) / CNum($('#txtExchangeRate').val()), 2) : 0),
                     VATRate: CDbl(obj.VATRate,0)
                 });
             } else {
@@ -1390,6 +1390,7 @@ let dataInv = {
     function CalTotal() {
         let totalnet = CNum($('#txtTotalAdvance').val()) + CNum($('#txtTotalCharge').val()) + CNum($('#txtTotalVat').val()) - CNum($('#txtTotal50Tavi').val()) - CNum($('#txtTotalCustAdv').val()) - CNum($('#txtCalDiscount').val());
         if (CNum($('#txtTotalCustAdv').val()) > 0) {
+            //alert(CNum($('#txtTotalCustAdv').val()));
             totalnet += CNum($('#txtTotal50Tavi').val());
         }
         $('#txtTotalNet').val(ShowNumber(totalnet, 2));

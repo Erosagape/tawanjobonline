@@ -59,7 +59,7 @@ End Code
         <thead>
             <tr>
                 <th class="desktop">ItemNo</th>
-                <th>Account Code</th>
+                <th class="all">Account Code</th>
                 <th class="desktop">Description</th>
                 <th class="desktop">Document</th>
                 <th class="all">Debit</th>

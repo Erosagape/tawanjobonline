@@ -278,10 +278,10 @@
                 <div Class="panel-heading w3-indigo">
                     <div Class="panel-title">
                         <div class="row">
-                            <div class="col-sm-2" style="text-align:center">
+                            <div class="col-xs-5 col-md-2" style="text-align:center">
                                 <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:100%;height:50px" onclick="w3_open();" />
                             </div>
-                            <div class="col-sm-10">
+                            <div class="col-xs-7 col-md-10">
                                 <div style="display:flex;align-items:center;height:50px">
                                     <div style="text-align:left;flex:1;">
                                         <label id="lblTitle" onclick="OpenContact()">@ViewBag.Title</label>

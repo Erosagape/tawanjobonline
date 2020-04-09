@@ -17,8 +17,8 @@ End Code
                 <div class="col-sm-2">
                     Cheque Type<br />
                     <select id="cboPRType" class="form-control dropdown">
-                        <option value="P">Paid</option>
                         <option value="R">Received</option>
+                        <option value="P">Paid</option>
                     </select>
                 </div>
                 <div class="col-sm-4">

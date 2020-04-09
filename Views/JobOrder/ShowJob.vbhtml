@@ -1,10 +1,25 @@
 ﻿@Code
     ViewBag.Title = "Job Information"
 End Code
+<style>
+    @@media only screen and (max-width: 600px) {
+        #btnLinkAdv,#btnLinkClr,#btnLinkCost,#btnLinkDoc,#btnLinkExp,#btnLinkLoad,#btnLinkTAdv,
+        #btnCloseJob,#btnCancelJob,#btnViewChq,#btnViewTAdv {
+            width: 100% !important;
+        }
+        #myTabs {
+            display:none;
+        }
+        #mySelects {
+            width:100%;
+            display:block !important;
+        }
+    }
+</style>
 <div Class="panel-body">
     <div class="container">
         <div class="row">
-            <div class="col-sm-3">                               
+            <div class="col-sm-3">
                 <div style="display:flex;flex-direction:row">
                     <label id="lblBranchCode">Branch Code:</label>
                     <input type="text" class="form-control" style="width:50px" id="txtBranchCode" disabled />
@@ -30,16 +45,23 @@ End Code
                     <input type="text" class="form-control" style="width:100%;background-color:aquamarine;font-weight:bold" id="txtJobStatus" disabled />
                 </div>
             </div>
-        </div>               
+        </div>
         <p>
-            <ul class="nav nav-tabs">
+            <ul id="myTabs"class="nav nav-tabs">
                 <li id="tab1" class="active"><a data-toggle="tab" href="#tabinfo">Job Descriptions</a></li>
                 <li id="tab2"><a data-toggle="tab" href="#tabinv">Invoice Description</a></li>
                 <li id="tab3"><a data-toggle="tab" href="#tabdeclare">Customs Description</a></li>
                 <li id="tab4"><a data-toggle="tab" href="#tabtracking">Job Document Tracking</a></li>
                 <li id="tab5"><a data-toggle="tab" href="#tabremark">Other Controls</a></li>
             </ul>
-            <div class="tab-content">   
+            <select id="mySelects" class="form-control" style="display:none" onchange="ChangeTab(this.value);">
+                <option value="#tabinfo" selected>Description</option>
+                <option value="#tabinv">Invoices</option>
+                <option value="#tabdeclare">Customs</option>
+                <option value="#tabtracking">History</option>
+                <option value="#tabremark">Others</option>
+            </select>
+            <div class="tab-content">
                 <div id="tabinfo" class="tab-pane fade in active">
                     <div class="row">
                         <div class="col-sm-8">
@@ -54,7 +76,7 @@ End Code
                                     <input type="text" id="txtCustName" style="width:100%" disabled />
                                 </div>
                                 <div>
-                                    <label for="txtTAddress">Address   :</label><br/>
+                                    <label for="txtTAddress">Address   :</label><br />
                                     <textarea id="txtTAddress" style="width:250px" disabled></textarea>
                                     <textarea id="txtEAddress" style="width:250px" disabled></textarea>
                                 </div>
@@ -72,7 +94,7 @@ End Code
                                     <input type="text" id="txtConsignName" style="width:100%" disabled />
                                 </div>
                                 <div>
-                                    <label for="txtBillTAddress">Address   :</label><br/>
+                                    <label for="txtBillTAddress">Address   :</label><br />
                                     <textarea id="txtBillTAddress" style="width:250px" disabled></textarea>
                                     <textarea id="txtBillEAddress" style="width:250px" disabled></textarea>
                                 </div>
@@ -321,7 +343,7 @@ End Code
                         <div class="col-sm-6">
                             <a href="../Master/DeclareType" target="_blank">
                                 <label>Declare Type :</label>
-                            </a>                            
+                            </a>
                             <input type="text" id="txtDeclareType" style="width:130px" tabindex="49" />
                             <input type="button" id="btnBrowseDCType" value="..." onclick="SearchData('RFDCT')" />
                             <input type="text" id="txtDeclareTypeName" style="width:200px" disabled />
@@ -405,7 +427,7 @@ End Code
                                 <tr>
                                     <td>
                                         <label style="font:bold">Company Paid By : </label>
-                                        <br/>
+                                        <br />
                                         Cheque:
                                     </td>
                                     <td>
@@ -452,11 +474,11 @@ End Code
                                 <tr>
                                     <td>
                                         <label style="font:bold">Customer Paid By : </label>
-                                        <br/>
+                                        <br />
                                         Cheque:
                                     </td>
                                     <td>
-                                        <br/>
+                                        <br />
                                         <input type="text" id="txtCustPaidChq" style="width:130px" onchange="CalTotalCust();" tabindex="61" /><br />
                                     </td>
                                 </tr>
@@ -649,7 +671,7 @@ End Code
     const userRights = '@ViewBag.UserRights';
     const userPosition = '@ViewBag.UserPosition';
     let rec = {};
-    //main function
+    //main function    
     //$(document).ready(function () {
     SetLOVs();
     SetEvents();
@@ -677,8 +699,11 @@ End Code
     }
     if (userRights.indexOf('E') < 0) $('#btnSave').attr('disabled', 'disabled');
     if (userRights.indexOf('P') < 0) $('#btnPrint').attr('disabled', 'disabled');
-    
+
     //});
+    function ChangeTab(id) {
+        $('#myTabs a[href="' + id + '"]').tab('show');
+    }
     function SetEnterToTab() {
         //Set enter to tab
         $("input[tabindex], select[tabindex], textarea[tabindex]").each(function () {
@@ -1181,10 +1206,10 @@ End Code
     }
     function OpenCheque() {
         window.open(path + 'Acc/Cheque?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
-    }    
+    }
     function OpenTruckOrder() {
         window.open(path + 'JobOrder/TruckOrder?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
-    }    
+    }
     function GetDataSave(dr) {
         dr.CustCode = $('#txtCustCode').val();
         dr.CustBranch = $('#txtCustBranch').val();
@@ -1445,7 +1470,7 @@ End Code
 		if($('#txtQtyAdd').val()==''){
 			ShowMessage('Please Enter Qty',true);
 			return;
-		}		
+		}
         AddNewService($('#txtQtyAdd').val() + 'x' + $('#txtUnitAdd').val());
     }
     function AddNewService(val) {

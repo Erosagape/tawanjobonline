@@ -1,14 +1,31 @@
 ﻿@Code
     ViewBag.Title = "รับชำระจากใบแจ้งหนี้"
 End Code
+<style>
+    @@media only screen and ( max-width:600px ) {
+        #myTabs {
+            display: none;
+        }
+
+        #mySelects {
+            width: 100%;
+            display: block !important;
+        }
+    }
+</style>
 <div class="panel-body">
     <div class="container">
         <input type="hidden" id="txtControlNo" />
-        <ul class="nav nav-tabs">
+        <ul id="myTabs" class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#tab1">Select Payment</a></li>
             <li><a data-toggle="tab" href="#tab2">Document Info</a></li>
             <li><a data-toggle="tab" href="#tab3">Receiving Details</a></li>
         </ul>
+        <select id="mySelects" class="form-control" style="display:none" onchange="ChangeTab(this.value);">
+            <option value="#tab1" selected>STEP 1 - Select Payment</option>
+            <option value="#tab2">STEP 2 - Select Document</option>
+            <option value="#tab3">STEP 3 - Confirm Receive</option>
+        </select>
         <div class="tab-content">
             <div id="tab1" class="tab-pane fade in active">
                 <div class="row">
@@ -107,7 +124,7 @@ End Code
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <input type="checkbox" id="chkUseDue" /> Select by Payment Due Date<br/>
+                        <input type="checkbox" id="chkUseDue" /> Select by Payment Due Date<br />
                         <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" /> Group Documents
                     </div>
                 </div>
@@ -130,7 +147,7 @@ End Code
                         Date To:<br />
                         <input type="date" class="form-control" id="txtDocDateT" />
                     </div>
-                </div>                
+                </div>
 
                 <div class="row">
                     <div class="col-sm-12">
@@ -232,6 +249,9 @@ End Code
 
         SetEvents();
     //});
+    function ChangeTab(id) {
+        $('#myTabs a[href="' + id + '"]').tab('show');
+    }
     function SetVisible() {
         if ($('#chkGroupByDoc').prop('checked')) {
             $('#tbSummary').css('display', 'initial');
