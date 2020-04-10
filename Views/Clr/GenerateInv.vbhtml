@@ -76,42 +76,46 @@ End Code
         <div class="modal-dialog-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <table>
-                        <tr>
-                            <td>
+                    <div class="row">
+                        <div class="col-sm-4" style="display:flex">
+                            <div style="flex:1">
                                 Invoice Date :<br />
-                                <input type="date" id="txtDocDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
-                            </td>
-                            <td>
+                                <input type="date" id="txtDocDate" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                            </div>
+                            <div style="flex:1">
                                 Invoice Type :<br />
-                                <select id="cboDocType">
+                                <select id="cboDocType" class="form-control dropdown">
                                     <option value="IVS-">Service</option>
                                     <option value="IVT-">Transport</option>
                                     <option value="IVF-">Freight</option>
                                 </select>
 
-                            </td>
-                            <td>
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="display:flex">
+                            <div style="flex:1">
                                 Replace Invoice No:<br />
                                 <div style="display:flex;flex-direction:row">
-                                    <input type="text" id="txtDocNo" style="width:100%" disabled />
+                                    <input type="text" id="txtDocNo" class="form-control" disabled />
                                     <input type="button" onclick="SearchData('invoice')" value="..." />
                                 </div>
-                            </td>
-                            <td>
+                            </div>
+                            <div style="flex:1">
                                 <br />
                                 <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintInvoice()">
                                     <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Invoice</b>
                                 </a>
-                            </td>
-                            <td>
-                                Discount Rate:<br /><input type="number" id="txtDiscountRate" onchange="SetDiscount()" />%
-                            </td>
-                            <td>
-                                Discount Amt:<br /><input type="number" id="txtCalDiscount" onchange="SumDiscount()" />
-                            </td>
-                        </tr>
-                    </table>
+                            </div>
+                        </div>
+                        <div class="col-sm-4" style="display:flex">
+                            <div style="flex:1">
+                                Discount Rate(%):<br /><input type="number" id="txtDiscountRate" class="form-control" onchange="SetDiscount()" />
+                            </div>
+                            <div style="flex:1">
+                                Discount Amt:<br /><input type="number" id="txtCalDiscount" class="form-control" onchange="SumDiscount()" />
+                            </div>
+                        </div>
+                    </div>
                     <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                 </div>
                 <div class="modal-body">
@@ -150,9 +154,9 @@ End Code
                                 <tbody></tbody>
                             </table>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
                             <b>Costing of Invoice:</b><br />
-                            <table id="tbCost" style="width:100%;">
+                            <table id="tbCost" class="table table-responsive" style="width:100%;">
                                 <thead>
                                     <tr>
                                         <th>Job No</th>
@@ -173,18 +177,18 @@ End Code
                             <b>Invoice Summary:</b>
                             <br />
                             <table style="width:100%">
-                                <tr><td>Advance </td><td><input type="text" id="txtTotalAdvance" disabled /></td></tr>
-                                <tr><td>Charge</td><td><input type="text" id="txtTotalCharge" disabled /></td></tr>
-                                <tr><td>Line Discount</td><td><input type="text" id="txtSumDiscount" disabled /></td></tr>
-                                <tr><td>Vatable</td><td><input type="text" id="txtTotalIsTaxCharge" disabled /></td></tr>
-                                <tr><td>Taxable</td><td><input type="text" id="txtTotalIs50Tavi" disabled /></td></tr>
-                                <tr><td>VAT</td><td><input type="text" id="txtTotalVat" disabled /></td></tr>
-                                <tr><td>After VAT</td><td><input type="text" id="txtTotalAfter" disabled /></td></tr>
-                                <tr><td>Cust.Advance</td><td><input type="text" id="txtTotalCustAdv" disabled /></td></tr>
-                                <tr><td>WHT</td><td><input type="text" id="txtTotal50Tavi" disabled /></td></tr>
-                                <tr><td>After WHT</td><td><input type="text" id="txtTotalService" disabled /></td></tr>
-                                <tr><td>Sum Discount</td><td><input type="text" id="txtTotalDiscount" disabled /></td></tr>
-                                <tr><td>NET</td><td><input type="text" id="txtTotalNet" disabled /></td></tr>
+                                <tr><td>Advance </td><td><input type="text" id="txtTotalAdvance" class="form-control" disabled /></td></tr>
+                                <tr><td>Charge</td><td><input type="text" id="txtTotalCharge" class="form-control" disabled /></td></tr>
+                                <tr><td>Line Discount</td><td><input type="text" id="txtSumDiscount" class="form-control" disabled /></td></tr>
+                                <tr><td>Vatable</td><td><input type="text" id="txtTotalIsTaxCharge" class="form-control" disabled /></td></tr>
+                                <tr><td>Taxable</td><td><input type="text" id="txtTotalIs50Tavi" class="form-control" disabled /></td></tr>
+                                <tr><td>VAT</td><td><input type="text" id="txtTotalVat" class="form-control" disabled /></td></tr>
+                                <tr><td>After VAT</td><td><input type="text" id="txtTotalAfter" class="form-control" disabled /></td></tr>
+                                <tr><td>Cust.Advance</td><td><input type="text" id="txtTotalCustAdv" class="form-control" disabled /></td></tr>
+                                <tr><td>WHT</td><td><input type="text" id="txtTotal50Tavi" class="form-control" disabled /></td></tr>
+                                <tr><td>After WHT</td><td><input type="text" id="txtTotalService" class="form-control" disabled /></td></tr>
+                                <tr><td>Sum Discount</td><td><input type="text" id="txtTotalDiscount" class="form-control" disabled /></td></tr>
+                                <tr><td>NET</td><td><input type="text" id="txtTotalNet" class="form-control" disabled /></td></tr>
                                 <tr>
                                     <td>Currency</td>
                                     <td>
@@ -192,20 +196,20 @@ End Code
                                         <input type="button" value="..." onclick="SearchData('currency')" />
                                     </td>
                                 </tr>
-                                <tr><td>Exc.Rate</td><td><input type="text" id="txtExchangeRate" onchange="CalForeign()" /></td></tr>
-                                <tr><td>Invoiced</td><td><input type="text" id="txtForeignNet" disabled /></td></tr>
-                                <tr><td>Cost</td><td><input type="text" id="txtTotalCost" disabled /></td></tr>
-                                <tr><td>Profit</td><td><input type="text" id="txtTotalProfit" disabled /></td></tr>
+                                <tr><td>Exc.Rate</td><td><input type="text" id="txtExchangeRate" class="form-control" onchange="CalForeign()" /></td></tr>
+                                <tr><td>Invoiced</td><td><input type="text" id="txtForeignNet" class="form-control" disabled /></td></tr>
+                                <tr><td>Cost</td><td><input type="text" id="txtTotalCost" class="form-control" disabled /></td></tr>
+                                <tr><td>Profit</td><td><input type="text" id="txtTotalProfit" class="form-control" disabled /></td></tr>
                             </table>
                             <a href="#" class="btn btn-success" id="btnGen" onclick="ApproveData()">
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Invoice</b>
                             </a>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
                             <b>Invoice Detail:</b>
                             <button id="btnMerge" class="btn btn-default" onclick="MergeData()">Group Same Expenses</button>
                             <br />
-                            <table id="tbDetail" style="width:100%;">
+                            <table id="tbDetail" class="table table-responsive" style="width:100%;">
                                 <thead>
                                     <tr>
                                         <th>#</th>

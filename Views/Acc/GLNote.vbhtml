@@ -229,8 +229,16 @@ End Code
                 { data: "GLAccountCode", title: "Code" },
                 { data: "GLDescription", title: "Description" },
                 { data: "SourceDocument", title: "Ref.Document" },
-                { data: "DebitAmt", title: "Debit" },
-                { data: "CreditAmt", title: "Credit" }
+                { data: "DebitAmt", title: "Debit",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                    }
+                },
+                { data: "CreditAmt", title: "Credit",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                    }
+                }
             ],
             destroy: true,
             responsive:true

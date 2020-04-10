@@ -185,6 +185,10 @@ function GetReportStatus(reportID) {
         case 'JOURNAL':
             val = '';
             break;
+        case 'CHQISSUE':
+        case 'CHQRECEIVE':
+            val = 'CHQ_STATUS';
+            break;
     }
     return val;
 }
@@ -471,7 +475,7 @@ function LoadCliteria(reportID) {
 }
 function IsNumberColumn(cname) {
     let colname = 'InvTotal,InvProductQty,InvCurRate,DutyAmount,TotalGW,Commission,TotalNW,TotalQty,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm';
-    colname += ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance';
+    colname += ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount';
     if (colname.indexOf(cname) >= 0) {
         return true;
     }
@@ -479,7 +483,7 @@ function IsNumberColumn(cname) {
 }
 function IsSummaryColumn(cname) {
     let colname = 'DutyAmount,TotalGW,Commission,TotalNW,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,';
-    colname += ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance';
+    colname += ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount';
     if (colname.indexOf(cname) >= 0) {
         return true;
     }
@@ -676,8 +680,13 @@ function GetColumnHeader(id,langid) {
         RecvBank: 'Bank|ธนาคาร',
         Total: 'Total|ยอดรวม',
         DRefNo: 'Ref No|อ้างอิงเอกสาร',
+        DocUsed: 'Document|เอกสารอ้างอิง',
+        ChqStatus:'CHK|สถานะ',
         SumReceipt: 'Receive|ยอดใบเสร็จ',
-        TotalComm: 'Commission|ค่าคอม'
+        TotalComm: 'Commission|ค่าคอม',
+        ChqAmount: 'Chq.Amt|ยอดเช็ค',
+        AmountUsed: 'Used.Amt|ยอดใช้ไป',
+        AmountRemain: 'Remain|ยอดคงเหลือ'
     }
     let str = id;
     if (lang[id] !== undefined) {

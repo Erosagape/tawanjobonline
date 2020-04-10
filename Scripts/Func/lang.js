@@ -20,6 +20,8 @@ function GetReportLists() {
         { "ReportGroup": "FIN", "ReportCode": "RCPDAILY", "ReportNameEN": "Receipt Daily", "ReportNameTH": "รายงานใบเสร็จรับเงินประจำวัน" },
         { "ReportGroup": "FIN", "ReportCode": "TAXDAILY", "ReportNameEN": "Tax-invoice Daily", "ReportNameTH": "รายงานใบกำกับภาษีประจำวัน" },
         { "ReportGroup": "FIN", "ReportCode": "CASHDAILY", "ReportNameEN": "Transaction Daily", "ReportNameTH": "รายงานการรับจ่ายเงินประจำวัน" },
+        { "ReportGroup": "FIN", "ReportCode": "CHQRECEIVE", "ReportNameEN": "Cheque Receive", "ReportNameTH": "รายงานการรับเช็คประจำวัน" },
+        { "ReportGroup": "FIN", "ReportCode": "CHQISSUE", "ReportNameEN": "Cheque Issue", "ReportNameTH": "รายงานการจ่ายเช็คประจำวัน" },
         { "ReportGroup": "BILL", "ReportCode": "CLRDAILY", "ReportNameEN": "Clearing Daily", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายประจำวัน" },
         { "ReportGroup": "BILL", "ReportCode": "CLRSTATUS", "ReportNameEN": "Clearing Status", "ReportNameTH": "รายงานสถานะการปิดค่าใช้จ่าย" },
         { "ReportGroup": "BILL", "ReportCode": "INVDAILY", "ReportNameEN": "Invoice Daily", "ReportNameTH": "รายงานใบแจ้งหนี้ประจำวัน" },

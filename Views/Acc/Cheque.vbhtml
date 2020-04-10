@@ -692,7 +692,11 @@ End Code
                             return CDateEN(data);
                         }
                     },
-                    { data: "ChqAmount", title: "Chq Total" },
+                    { data: "ChqAmount", title: "Chq Total",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
                     { data: "CurrencyCode", title: "Currency" },
                     { data: "ControlNo", title: "Control No" }
                 ],
@@ -720,7 +724,11 @@ End Code
             data: list,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
-                { data: "ChqAmount", title: "Cheque" },
+                { data: "ChqAmount", title: "Cheque",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                    }
+                },
                 { data: "CurrencyCode", title: "Currency" },
                 { data: "PRVoucher", title: "Voucher" },
                 { data: "ChqNo", title: "Chq.No" },

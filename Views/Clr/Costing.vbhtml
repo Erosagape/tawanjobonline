@@ -232,21 +232,21 @@ End Code
                 }
                 $('#tbDetail tbody').html(html);
 
-                $('#txtSumBaseVAT').val(CDbl(amtforvat,2));
-                $('#txtSumNonVAT').val(CDbl(amtnonvat,2));
-                $('#txtSumVAT').val(CDbl(amtvat,2));
-                $('#txtSumWHT').val(CDbl(amtwht, 2));
+                $('#txtSumBaseVAT').val(ShowNumber(amtforvat,2));
+                $('#txtSumNonVAT').val(ShowNumber(amtnonvat,2));
+                $('#txtSumVAT').val(ShowNumber(amtvat,2));
+                $('#txtSumWHT').val(ShowNumber(amtwht, 2));
 
-                $('#txtSumService').val(CDbl(amtcharge,2));
-                $('#txtSumAdvance').val(CDbl(amtadvance, 2));
-                $('#txtSumCost').val(CDbl(amtcost, 2));
-                $('#txtSumProfit').val(CDbl(amtprofit, 2));
+                $('#txtSumService').val(ShowNumber(amtcharge,2));
+                $('#txtSumAdvance').val(ShowNumber(amtadvance, 2));
+                $('#txtSumCost').val(ShowNumber(amtcost, 2));
+                $('#txtSumProfit').val(ShowNumber(amtprofit, 2));
 
-                $('#txtSumCharge').val(CDbl(amttotal, 2));
-                $('#txtSumInvoice').val(CDbl(amtinv, 2));
-                $('#txtSumClear').val(CDbl(amtclear, 2));
+                $('#txtSumCharge').val(ShowNumber(amttotal, 2));
+                $('#txtSumInvoice').val(ShowNumber(amtinv, 2));
+                $('#txtSumClear').val(ShowNumber(amtclear, 2));
 
-                $('#txtSumPending').val(CDbl(amtpending, 2));
+                $('#txtSumPending').val(ShowNumber(amtpending, 2));
 
             }
             CloseWait();

@@ -6,10 +6,10 @@ End Code
     <div class="container">
         <div style="display:flex;flex-direction:column;">
             <div style="flex:1">
-                <div style="display:flex;flex-wrap:wrap;flex-direction:row;">
-                    <div style="flex:1">Role ID :<br /><input type="text" id="txtRoleID" class="form-control"></div>
-                    <div style="flex:4">Description :<br /><input type="text" id="txtRoleDesc" class="form-control"></div>
-                    <div style="flex:1">Role Group :<br /><select id="txtRoleGroup" class="form-control dropdown"></select></div>
+                <div class="row">
+                    <div class="col-sm-2">Role ID :<br /><input type="text" id="txtRoleID" class="form-control"></div>
+                    <div class="col-sm-6">Description :<br /><input type="text" id="txtRoleDesc" class="form-control"></div>
+                    <div class="col-sm-4">Role Group :<br /><select id="txtRoleGroup" class="form-control dropdown"></select></div>
                 </div>
                 <div id="dvCommand">
                     <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearHeader()">
@@ -44,24 +44,21 @@ End Code
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade" id="tabUser">
-                                <div style="display:flex;flex-direction:row;">
-                                    <div style="flex:2">
-                                        UserID :<br /><input type="text" id="txtUserID" class="form-control" tabIndex="1" />
-                                    </div>
-                                    <div>
-                                        <br/>
-                                        <input type="button" class="btn btn-default" value="..." onclick="SearchData('user')" />
-                                    </div>
-                                    <div style="flex:5">
-                                        <br /><input type="text" id="txtUserName" class="form-control" disabled>
-                                    </div>
-                                    <div style="flex:1">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        UserID :
                                         <br />
-                                        <a href="#" class="btn btn-success" id="btnSaveUser" onclick="SaveUser()">
-                                            <i class="fa fa-lg fa-save"></i>&nbsp;<b>Apply Role</b>
-                                        </a>
+                                        <div style="display:flex">
+                                            <input type="text" id="txtUserID" class="form-control" style="width:40%" tabIndex="1" />
+                                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('user')" />
+                                            <input type="text" id="txtUserName" class="form-control" style="width:100%" disabled>
+                                        </div>
                                     </div>
                                 </div>
+                                <a href="#" class="btn btn-success" id="btnSaveUser" style="width:100%" onclick="SaveUser()">
+                                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Apply Role</b>
+                                </a>
+
                                 <label>User in this role:</label>
                                 <table id="tbDetail" class="table table-responsive">
                                     <thead>

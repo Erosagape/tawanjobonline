@@ -3,18 +3,24 @@
 End Code
     <div class="panel-body">
         <div class="row">
-            <div class="col-sm-4" style="display:flex;flex-direction:row">
-                <label style="display:block;width:20%">Branch:</label>
-                <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
-                <input type="button" class="btn btn-default" value="..." onclick="SearchData('branch');" />
-                <input type="text" class="form-control" id="txtBranchName" style="width:65%" disabled />
+            <div class="col-sm-4">
+                <label>Branch:</label>
+                <br/>
+                <div style="display:flex">
+                    <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
+                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('branch');" />
+                    <input type="text" class="form-control" id="txtBranchName" style="width:65%" disabled />
+                </div>
             </div>
-            <div class="col-sm-6" style="display:flex;flex-direction:row">
-                <label style="display:block;width:20%">Billing Place:</label>
-                <input type="text" class="form-control" id="txtCustCode" style="width:20%" disabled />
-                <input type="text" class="form-control" id="txtCustBranch" style="width:10%" disabled />
-                <input type="button" class="btn btn-default" value="..." onclick="SearchData('customer');" />
-                <input type="text" class="form-control" id="txtCustName" style="width:60%" disabled />
+            <div class="col-sm-6">
+                <label>Billing Place:</label>
+                <br/>
+                <div style="display:flex">
+                    <input type="text" class="form-control" id="txtCustCode" style="width:20%" disabled />
+                    <input type="text" class="form-control" id="txtCustBranch" style="width:10%" disabled />
+                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('customer');" />
+                    <input type="text" class="form-control" id="txtCustName" style="width:60%" disabled />
+                </div>
             </div>
         </div>
         <div class="row">
@@ -68,7 +74,7 @@ End Code
                 </table>
             </div>
             <div class="tab-pane fade" id="tabDetail">
-                Details of Billing No:<input type="text" id="txtDocNo" style="width:10%" disabled />
+                Details of Billing No:<input type="text" id="txtDocNo" class="form-control" disabled />
                 <table id="tbDetail" class="table table-responsive" style="width:100%">
                     <thead>
                         <tr>
@@ -97,7 +103,7 @@ End Code
             <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print</b>
         </a>
         <div id="frmHeader" class="modal fade">
-            <div class="modal-dialog">
+            <div class="modal-dialog-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <div style="display:flex">
@@ -113,113 +119,126 @@ End Code
                         </div>
                     </div>
                     <div class="modal-body">
-                        <div style="display:flex">
-                            Billing To: <input type="text" id="txtBCustCode" style="width:100px" disabled />
-                            <input type="text" id="txtBCustBranch" style="width:50px" disabled />
-                            <input type="text" id="txtBCustName" style="width:250px" disabled />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                Billing To:
+                                <br />
+                                <div style="display:flex">
+                                    <input type="text" id="txtBCustCode" class="form-control" style="width:30%" disabled />
+                                    <input type="text" id="txtBCustBranch" class="form-control" style="width:10%" disabled />
+                                    <input type="text" id="txtBCustName" class="form-control" style="width:60%" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div style="display:flex">
+                                    <div style="flex:1">
+                                        Received By :
+                                        <br />
+                                        <div style="display:flex">
+                                            <input type="text" id="txtBillRecvBy" class="form-control" /> &nbsp;
+                                        </div>
+                                    </div>
+                                    <div style="flex:1">
+                                        Confirm Date :
+                                        <br />
+                                        <div style="display:flex">
+                                            <input type="date" id="txtBillRecvDate" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div style="display:flex">
-                            Received By : <input type="text" id="txtBillRecvBy" style="width:200px" /> &nbsp;
-                            Confirm Date : <input type="date" id="txtBillRecvDate" style="width:150px" />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div style="display:flex">
+                                    <div style="flex:2">
+                                        Remark:<br /><textarea id="txtBillRemark" class="form-control" style="width:100%"></textarea>
+                                    </div>
+                                    <div style="flex:1">
+                                        Payment Due :<br /> <input type="date" id="txtDuePaymentDate" class="form-control" />
+                                    </div>
+                                </div>
+                                <br />
+                                <div style="display:flex">
+                                    <div style="flex:1">
+                                        Cancel By<br/>
+                                        <input type="text" id="txtCancelProve" class="form-control" disabled />
+                                    </div>
+                                    <div style="flex:3">
+                                        Reason<br/>
+                                        <textarea id="txtCancelReson" class="form-control" style="width:100%"></textarea>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div style="display:flex">
+                                    <div style="flex:1">
+                                        Cancel Date<br/> <input type="date" id="txtCancelDate" class="form-control" disabled /> &nbsp;
+                                    </div>
+                                    <div style="flex:1">
+                                        Cancel Time<br/> <input type="text" id="txtCancelTime" class="form-control" disabled /> &nbsp;
+                                    </div>                                    
+                                    <div style="flex:1">
+                                        <br />
+                                        <input type="button" id="btnCancel" class="btn btn-danger" onclick="CancelData()" value="Cancel" />
+                                    </div>                                    
+                                </div>
+                            </div>     
+                            <div class="col-sm-6">
+                                <div style="display:flex">
+                                    <div style="flex:1">
+                                        Advance
+                                        <br/>
+                                        <div>
+                                            <input type="number" id="txtTotalAdvance" class="form-control" disabled />
+                                        </div>
+                                    </div>
+                                    <div style="flex:1">
+                                        Cust.Adv
+                                        <br/>
+                                        <div>
+                                            <input type="number" id="txtTotalCustAdv" class="form-control" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <div style="display:flex">
+                                    <div style="flex:1">
+                                        Service (NON VAT)<br/>
+                                        <input type="number" id="txtTotalChargeNonVAT" class="form-control" disabled />
+                                    </div>
+                                    <div style="flex:1">
+                                        Service (VAT)<br/>
+                                        <input type="number" id="txtTotalChargeVAT" class="form-control" disabled />
+                                    </div>
+                                </div>
+                                <br/>
+                                <div style="display:flex">
+                                    <div style="flex:1">
+                                        VAT
+                                        <br />
+                                        <input type="number" id="txtTotalVAT" class="form-control" disabled />
+                                    </div>
+                                    <div style="flex:1">
+                                        WH-Tax
+                                        <br />
+                                        <input type="number" id="txtTotalWH" class="form-control" disabled />
+                                    </div>
+                                </div>
+                                <br/>
+                                <div style="display:flex">
+                                    <div style="flex:1">
+                                        Discount
+                                        <br/>
+                                        <input type="number" id="txtTotalDiscount" class="form-control" disabled />
+                                    </div>
+                                    <div style="flex:1">
+                                        Total
+                                        <br />
+                                        <input type="number" id="txtTotalNet" class="form-control" disabled />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div style="display:flex">
-                            <div style="flex:2">
-                                Remark:<textarea id="txtBillRemark" style="width:100%"></textarea>
-                            </div>
-                            <div style="flex:1">
-                                Payment Due : <input type="date" id="txtDuePaymentDate" style="width:150px" />
-                            </div>
-                        </div>
-                        <p>
-                            <div style="display:flex">
-                                <div style="flex:1">
-                                    Cancel By <input type="text" id="txtCancelProve" disabled />
-                                </div>
-                                <div style="flex:3">
-                                    Reason <textarea id="txtCancelReson" style="width:100%"></textarea>
-                                </div>
-                            </div>
-                            <div style="flex-direction:row;">
-                                Cancel Date <input type="date" id="txtCancelDate" disabled /> &nbsp;
-                                Time <input type="text" id="txtCancelTime" disabled /> &nbsp;
-                                <input type="button" id="btnCancel" class="btn btn-danger" onclick="CancelData()" value="Cancel" />
-                            </div>
-                        </p>
-                        <p>
-                            Total Billing :
-                            <div style="display:flex">
-                                <div style="flex:1">
-                                    <table style="width:100%">
-                                        <tr>
-                                            <td>
-                                                Advance
-                                            </td>
-                                            <td>
-                                                <input type="number" id="txtTotalAdvance" style="width:100px" disabled />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Service
-                                            </td>
-                                            <td>
-                                                <input type="number" id="txtTotalChargeNonVAT" style="width:100px" disabled />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Service VAT
-                                            </td>
-                                            <td>
-                                                <input type="number" id="txtTotalChargeVAT" style="width:100px" disabled />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Cust.Adv
-                                            </td>
-                                            <td>
-                                                <input type="number" id="txtTotalCustAdv" style="width:100px" disabled />
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div style="flex:1">
-                                    <table style="width:100%">
-                                        <tr>
-                                            <td>VAT </td>
-                                            <td>
-                                                <input type="number" id="txtTotalVAT" style="width:100px" disabled />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                WH-Tax
-                                            </td>
-                                            <td>
-                                                <input type="number" id="txtTotalWH" style="width:100px" disabled />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Discount
-                                            </td>
-                                            <td>
-                                                <input type="number" id="txtTotalDiscount" style="width:100px" disabled />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Total
-                                            </td>
-                                            <td>
-                                                <input type="number" id="txtTotalNet" style="width:100px" disabled />
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                        </p>
                     </div>
                     <div class="modal-footer">
                         <div style="float:left">
@@ -306,11 +325,36 @@ End Code
                             return CDateEN(data);
                         }
                     },
-                    { data: "TotalAdvance", title: "Advance" },
-                    { data: "TotalChargeVAT", title: "Charge" },
-                    { data: "TotalVAT", title: "VAT" },
-                    { data: "TotalWH", title: "WHT" },
-                    { data: "TotalNet", title: "NET" }
+                    {
+                        data: "TotalAdvance", title: "Advance",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "TotalChargeVAT", title: "Charge",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "TotalVAT", title: "VAT",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "TotalWH", title: "WHT",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }                        
+                    },
+                    {
+                        data: "TotalNet", title: "NET",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    }
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
@@ -432,14 +476,47 @@ End Code
                                 return CDateEN(data.InvDate);
                             }
                         },
-                        { data: "AmtCustAdvance", title: "Cust.Adv" },
-                        { data: "AmtAdvance", title: "Advance" },
-                        { data: "AmtChargeNonVAT", title: "Service" },
-                        { data: "AmtChargeVAT", title: "Service (VAT)" },
-                        { data: "AmtDiscount", title: "Discount" },
-                        { data: "AmtWH", title: "WH-Tax" },
-                        { data: "AmtVAT", title: "VAT" },
-                        { data: "AmtTotal", title: "Total" }
+                        {
+                            data: "AmtCustAdvance", title: "Cust.Adv",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }  
+                        },
+                        { data: "AmtAdvance", title: "Advance",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "AmtChargeNonVAT", title: "Service",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "AmtChargeVAT", title: "Service (VAT)",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "AmtDiscount", title: "Discount",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "AmtWH", title: "WH-Tax",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "AmtVAT", title: "VAT",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "AmtTotal", title: "Total",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        }
                     ],
                     responsive:true,
                     destroy:true

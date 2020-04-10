@@ -945,9 +945,21 @@ End Code
                             return CDateEN(data);
                         }
                     },
-                    { data: "ChqAmount", title: "Chq Total" },
-                    { data: "CashAmount", title: "Cash Total" },
-                    { data: "CreditAmount", title: "Credit Total" },
+                    { data: "ChqAmount", title: "Chq Total",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "CashAmount", title: "Cash Total",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "CreditAmount", title: "Credit Total",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
                     { data: "CurrencyCode", title: "Currency" },
                     { data: "DocNo", title: "Doc No" }
                 ],
@@ -975,9 +987,21 @@ End Code
             data: list,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
-                { data: "ChqAmount", title: "Cheque" },
-                { data: "CashAmount", title: "Cash" },
-                { data: "CreditAmount", title: "Credit" },
+                { data: "ChqAmount", title: "Cheque",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                    }
+                },
+                { data: "CashAmount", title: "Cash",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                    }
+                },
+                { data: "CreditAmount", title: "Credit",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                    }
+                },
                 { data: "CurrencyCode", title: "Currency" },
                 { data: "PRVoucher", title: "Voucher" },
                 { data: "ChqNo", title: "Chq.No" },
@@ -1030,8 +1054,16 @@ End Code
                 { data: "CmpType", title: "For" },
                 { data: "CmpCode", title: "Customer" },
                 { data: "CmpBranch", title: "Branch" },
-                { data: "TotalAmount", title: "Doc.Total" },
-                { data: "PaidAmount", title: "Paid" }
+                { data: "TotalAmount", title: "Doc.Total",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                    }
+                },
+                { data: "PaidAmount", title: "Paid",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                    }
+                }
             ],
             responsive:true,
             destroy: true

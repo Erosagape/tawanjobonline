@@ -777,20 +777,20 @@ WHERE ISNULL(b.CancelProve,'')='' {0}
 group by c.BookCode,c.LimitBalance) q
 "
     End Function
-    Function SQLSelectChequeBalance(pType As String) As String
+    Function SQLSelectChequeBalance(pType As String, chqType As String) As String
         Return "
 SELECT a.*,ISNULL(c.ChqUsed,0) AS AmountUsed,a.ChqAmount-ISNULL(c.ChqUsed,0) as AmountRemain,
-b.CustCode,b.CustBranch,b.VoucherDate
+b.CustCode,b.CustBranch,b.VoucherDate,c.DocUsed,b.TRemark 
 FROM 
 (   
-    SELECT BranchCode,ControlNo,ChqNo,ChqDate,PayChqTo," & If(pType = "CU", "RecvBank,RecvBranch", "BankCode,BankBranch") & ",acType,PRType,
+    SELECT BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo," & If(pType = "CU", "RecvBank,RecvBranch", "BankCode,BankBranch") & ",acType,PRType,
     SUM(ChqAmount) as ChqAmount
     FROM Job_CashControlSub
-    GROUP BY BranchCode,ControlNo,ChqNo,ChqDate,PayChqTo," & If(pType = "CU", "RecvBank,RecvBranch", "BankCode,BankBranch") & ",acType,PRType
+    GROUP BY BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo," & If(pType = "CU", "RecvBank,RecvBranch", "BankCode,BankBranch") & ",acType,PRType
 ) a INNER JOIN Job_CashControl b
 ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
 LEFT JOIN (
-    SELECT h.BranchCode,h.ChqNo,SUM(ISNULL(d.PaidAmount,h.ChqAmount)) as ChqUsed,
+    SELECT h.BranchCode,h.ChqNo,SUM(ISNULL(d.PaidAmount,h.ChqAmount)) as ChqUsed,Max(d.DocNo) as DocUsed,
     " & If(pType = "CU", "h.RecvBank,h.RecvBranch", "h.BankCode,h.BankBranch") & "
     FROM Job_CashControlSub h LEFT JOIN Job_CashControlDoc d
     ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo 
@@ -804,7 +804,7 @@ where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'
 ON a.BranchCode=c.BranchCode
 AND a.ChqNo=c.ChqNo " & If(pType = "CU", "AND a.RecvBank=c.RecvBank AND a.RecvBranch=c.RecvBranch ", "AND a.BankCode=c.BankCode AND a.BankBranch=c.BankBranch ") & "
 WHERE a.acType='" & pType & "'
-AND a.PRType='R' AND a.ChqAmount>0 AND ISNULL(a.ChqNo,'')<>''
+AND a.PRType='" & chqType & "' AND a.ChqAmount>0 AND ISNULL(a.ChqNo,'')<>'' 
 "
     End Function
     Function SQLSelectDocumentBalance(pType As String) As String

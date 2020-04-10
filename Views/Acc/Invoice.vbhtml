@@ -510,13 +510,41 @@ End Code
                     },
                     { data: "CustCode", title: "Customer" },
                     { data: "RefNo", title: "Reference Number" },
-                    { data: "TotalDiscount", title: "Discount" },
-                    { data: "TotalCustAdv", title: "Cust.Adv" },
-                    { data: "TotalAdvance", title: "Advance" },
-                    { data: "TotalCharge", title: "Charge" },
-                    { data: "TotalVAT", title: "VAT" },
-                    { data: "Total50Tavi", title: "WHT" },
-                    { data: "TotalNet", title: "NET" }
+                    { data: "TotalDiscount", title: "Discount",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalCustAdv", title: "Cust.Adv",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalAdvance", title: "Advance",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalCharge", title: "Charge",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalVAT", title: "VAT",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "Total50Tavi", title: "WHT",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalNet", title: "NET",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    }
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page,
@@ -560,18 +588,46 @@ End Code
                         { data: "SICode", title: "Code" },
                         { data: "SDescription", title: "Desc" },
                         { data: "ExpSlipNO", title: "Slip" },
-                        { data: "AmtAdvance", title: "Advance" },
-                        { data: "AmtCharge", title: "Charge" },
+                        { data: "AmtAdvance", title: "Advance",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "AmtCharge", title: "Charge",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
                         {
                             data: null, title: "Currency", render:function(data) {
                                 return data.CurrencyCode + '=' + data.ExchangeRate;
                             }
                         },
-                        { data: "Amt", title: "Amount" },
-                        { data: "AmtDiscount", title: "Discount" },
-                        { data: "AmtVat", title: "VAT" },
-                        { data: "Amt50Tavi", title: "WHT" },
-                        { data: "TotalAmt", title: "NET" }
+                        { data: "Amt", title: "Amount",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "AmtDiscount", title: "Discount",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "AmtVat", title: "VAT",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "Amt50Tavi", title: "WHT",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "TotalAmt", title: "NET",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        }
                     ],
                     responsive:true,
                     destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page

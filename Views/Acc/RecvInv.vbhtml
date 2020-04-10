@@ -400,11 +400,31 @@ End Code
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
                     { data: "InvoiceNo", title: "Inv No" },
-                    { data: "TotalAdvance", title: "Advance" },
-                    { data: "TotalCharge", title: "Charge" },
-                    { data: "TotalVAT", title: "Vat" },
-                    { data: "Total50Tavi", title: "WH-Tax" },
-                    { data: "TotalNet", title: "Net" }
+                    { data: "TotalAdvance", title: "Advance",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalCharge", title: "Charge",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalVAT", title: "Vat" ,
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "Total50Tavi", title: "WH-Tax",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalNet", title: "Net",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    }
                 ],
                 responsive:true,
                 destroy:true
@@ -449,12 +469,36 @@ End Code
                     { data: "ReceiptNo", title: "Receipt No" },
                     { data: "SICode", title: "Code" },
                     { data: "SDescription", title: "Expenses" },
-                    { data: "AmtAdvance", title: "Advance" },
-                    { data: "AmtCharge", title: "Charge" },
-                    { data: "Amt", title: "Amt" },
-                    { data: "AmtVAT", title: "Vat" },
-                    { data: "Amt50Tavi", title: "WH-Tax" },
-                    { data: "Net", title: "Net" }
+                    { data: "AmtAdvance", title: "Advance",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "AmtCharge", title: "Charge",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "Amt", title: "Amt",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "AmtVAT", title: "Vat",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "Amt50Tavi", title: "WH-Tax",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "Net", title: "Net",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    }
                 ],
                 responsive:true,
                 destroy:true
@@ -555,8 +599,16 @@ End Code
                 { data: "CmpType", title: "For" },
                 { data: "CmpCode", title: "Customer" },
                 { data: "CmpBranch", title: "Branch" },
-                { data: "TotalAmount", title: "Doc.Total" },
-                { data: "PaidAmount", title: "Paid" }
+                { data: "TotalAmount", title: "Doc.Total",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                    }
+                },
+                { data: "PaidAmount", title: "Paid",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                    }
+                }
             ],
             responsive:true,
             destroy:true

@@ -28,10 +28,10 @@ End Code
                 Customer:<input type="checkbox" id="chkBilling">Search For Billing Place
                 <br />
                 <div style="display:flex;flex-direction:row">
-                    <input type="text" id="txtCustCode" style="width:120px" />
-                    <input type="text" id="txtCustBranch" style="width:50px" />
+                    <input type="text" id="txtCustCode" class="form-control" style="width:120px" />
+                    <input type="text" id="txtCustBranch" class="form-control" style="width:50px" />
                     <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
-                    <input type="text" id="txtCustName" style="width:100%" disabled />
+                    <input type="text" id="txtCustName" class="form-control" disabled />
                 </div>
             </div>
             <div class="col-sm-2">
@@ -94,43 +94,47 @@ End Code
         <div class="modal-dialog-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <table>
-                        <tr>
-                            <td style="width:10%">
-                                Receipt Date :<br />
-                                <input type="date" id="txtDocDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
-                            </td>
-                            <td style="width:20%">
-                                <a href="#" onclick="SearchData('billing')">Billing Place :</a><br />
-                                <input type="text" id="txtBillToCustCode" style="width:100%" disabled />
-                            </td>
-                            <td style="width:10%">
-                                <br />
-                                <input type="text" id="txtBillToCustBranch" style="width:100%" disabled />
-                            </td>
-                            <td style="width:50%">
-                                <br />
-                                <input type="text" id="txtBillToCustName" style="width:100%" disabled />
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            Receipt Date :<br />
+                            <input type="date" id="txtDocDate" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="#" onclick="SearchData('billing')">Billing Place :</a><br />
+                            <input type="text" id="txtBillToCustCode" class="form-control" disabled />
+                        </div>
+                        <div class="col-sm-2">
+                            <br />
+                            <input type="text" id="txtBillToCustBranch" class="form-control" disabled />
+                        </div>
+                        <div class="col-sm-4">
+                            <br />
+                            <input type="text" id="txtBillToCustName" class="form-control" disabled />
+                        </div>
+                    </div>
+                    <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                 </div>
                 <div class="modal-body">
                     <b>Receipt Summary:</b><br />
-                    Total Advance:<input type="text" id="txtTotalAdvance" disabled />
-                    Total Service:<input type="text" id="txtTotalCharge" disabled />
-                    Total VAT:<input type="text" id="txtTotalVAT" disabled />
-                    Total WH-Tax:<input type="text" id="txtTotal50Tavi" disabled />
-                    Receive Total:<input type="text" id="txtTotalNet" disabled />
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
+                            Total Advance:<br /><input type="text" id="txtTotalAdvance" class="form-control" disabled /><br />
+                            Total Service:<br /><input type="text" id="txtTotalCharge" class="form-control" disabled /><br />
+                            Total VAT:<br /><input type="text" id="txtTotalVAT" class="form-control" disabled /><br />
+                            Total WH-Tax:<br /><input type="text" id="txtTotal50Tavi" class="form-control" disabled /><br />
+                            Receive Total:<br /><input type="text" id="txtTotalNet" class="form-control" disabled /><br />
                             <input type="checkbox" id="chkMerge" checked /> Generate One Tax-Invoice<br />
                             <div id="dvMsg"></div>
                             <a href="#" class="btn btn-success" id="btnGen" onclick="ApproveData()">
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Tax-Invoice</b>
                             </a>
+                            <br />
+                            Tax-Invoice No :<br /> <input type="text" id="txtDocNo" class="form-control" disabled /><br />
+                            <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintReceipt()">
+                                <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Tax-Invoice</b>
+                            </a>
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-sm-10">
                             <b>Invoice Detail:</b><br />
                             <table id="tbDetail" style="width:100%;">
                                 <thead>
@@ -150,14 +154,6 @@ End Code
                             </table>
                         </div>
                     </div>
-                    Tax-Invoice No : <input type="text" id="txtDocNo" disabled /><br />
-                    <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintReceipt()">
-                        <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Tax-Invoice</b>
-                    </a>
-
-                </div>
-                <div class="modal-footer">
-                    <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                 </div>
             </div>
         </div>
@@ -283,10 +279,26 @@ End Code
                     },
                     { data: "BillToCustCode", title: "Billing To" },
                     { data: "RefNo", title: "Reference Number" },
-                    { data: "TotalAmt", title: "Charges" },
-                    { data: "TotalVAT", title: "Vat" },
-                    { data: "Total50Tavi", title: "W-Tax" },
-                    { data: "TotalNet", title: "Net" }
+                    { data: "TotalAmt", title: "Charges",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalVAT", title: "Vat",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "Total50Tavi", title: "W-Tax",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalNet", title: "Net",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    }
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
@@ -331,10 +343,26 @@ End Code
                     { data: "BillToCustCode", title: "Billing To" },
                     { data: "RefNo", title: "Reference Number" },
                     { data: "SDescription", title: "Expenses" },
-                    { data: "Amt", title: "Charges" },
-                    { data: "AmtVAT", title: "Vat" },
-                    { data: "Amt50Tavi", title: "W-Tax" },
-                    { data: "Net", title: "Net" }
+                    { data: "Amt", title: "Charges",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "AmtVAT", title: "Vat",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "Amt50Tavi", title: "W-Tax",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "Net", title: "Net",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    }
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
@@ -401,10 +429,26 @@ End Code
                 { data: "ItemNo", title: "Item No" },
                 { data: "SICode", title: "Code" },
                 { data: "SDescription", title: "Description" },
-                { data: "Amt", title: "Charge" },
-                { data: "AmtVAT", title: "Vat" },
-                { data: "Amt50Tavi", title: "W-Tax" },
-                { data: "Net", title: "NET" }
+                { data: "Amt", title: "Charge",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                    }
+                },
+                { data: "AmtVAT", title: "Vat",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                    }
+                },
+                { data: "Amt50Tavi", title: "W-Tax",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                    }
+                },
+                { data: "Net", title: "NET",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                    }
+                }
             ],
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page

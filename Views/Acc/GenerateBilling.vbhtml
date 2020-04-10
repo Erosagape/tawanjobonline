@@ -69,48 +69,53 @@ End Code
         <div class="modal-dialog-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <table>
-                        <tr>
-                            <td style="width:20%">
-                                Billing Date :<br />
-                                <input type="date" id="txtDocDate" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
-                            </td>
-                            <td style="width:20%">
-                                <a href="#" onclick="SearchData('billing')">Billing Place :</a><br />
-                                <input type="text" id="txtBillToCustCode" style="width:100%" disabled />
-                            </td>
-                            <td style="width:10%">
-                                <br />
-                                <input type="text" id="txtBillToCustBranch" style="width:100%" disabled />
-                            </td>
-                            <td style="width:50%">
-                                <br />
-                                <input type="text" id="txtBillToCustName" style="width:100%" disabled />
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            Billing Date :<br />
+                            <input type="date" id="txtDocDate" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                        </div>
+                        <div class="col-sm-3">
+                            <a href="#" onclick="SearchData('billing')">Billing Place :</a><br />
+                            <input type="text" id="txtBillToCustCode" class="form-control" disabled />
+                        </div>
+                        <div class="col-sm-2">
+                            <br />
+                            <input type="text" id="txtBillToCustBranch"  class="form-control" disabled />
+                        </div>
+                        <div class="col-sm-4">
+                            <br />
+                            <input type="text" id="txtBillToCustName"  class="form-control" disabled />
+                        </div>
+                    </div>
+                    <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                 </div>
                 <div class="modal-body">
                     <b>Billing Summary:</b><br />
                     <div class="row">
                         <div class="col-sm-4">
                             <table style="width:100%">
-                                <tr><td>Advance </td><td><input type="text" id="txtTotalAdvance" disabled /></td></tr>
-                                <tr><td>Charge</td><td><input type="text" id="txtTotalCharge" disabled /></td></tr>
-                                <tr><td>Vatable</td><td><input type="text" id="txtTotalIsTaxCharge" disabled /></td></tr>
-                                <tr><td>Taxable</td><td><input type="text" id="txtTotalIs50Tavi" disabled /></td></tr>
-                                <tr><td>VAT</td><td><input type="text" id="txtTotalVat" disabled /></td></tr>
-                                <tr><td>After VAT</td><td><input type="text" id="txtTotalAfter" disabled /></td></tr>
-                                <tr><td>WHT</td><td><input type="text" id="txtTotal50Tavi" disabled /></td></tr>
-                                <tr><td>After WHT</td><td><input type="text" id="txtTotalService" disabled /></td></tr>
-                                <tr><td>Cust.Advance</td><td><input type="text" id="txtTotalCustAdv" disabled /></td></tr>
-                                <tr><td>NET</td><td><input type="text" id="txtTotalNet" disabled /></td></tr>
+                                <tr><td>Advance </td><td><input type="text" id="txtTotalAdvance" class="form-control" disabled /></td></tr>
+                                <tr><td>Charge</td><td><input type="text" id="txtTotalCharge" class="form-control" disabled /></td></tr>
+                                <tr><td>Vatable</td><td><input type="text" id="txtTotalIsTaxCharge" class="form-control" disabled /></td></tr>
+                                <tr><td>Taxable</td><td><input type="text" id="txtTotalIs50Tavi" class="form-control" disabled /></td></tr>
+                                <tr><td>VAT</td><td><input type="text" id="txtTotalVat" class="form-control" disabled /></td></tr>
+                                <tr><td>After VAT</td><td><input type="text" id="txtTotalAfter" class="form-control" disabled /></td></tr>
+                                <tr><td>WHT</td><td><input type="text" id="txtTotal50Tavi" class="form-control" disabled /></td></tr>
+                                <tr><td>After WHT</td><td><input type="text" id="txtTotalService" class="form-control" disabled /></td></tr>
+                                <tr><td>Cust.Advance</td><td><input type="text" id="txtTotalCustAdv" class="form-control" disabled /></td></tr>
+                                <tr><td>NET</td><td><input type="text" id="txtTotalNet" class="form-control" disabled /></td></tr>
                             </table>
                             <a href="#" class="btn btn-success" id="btnGen" onclick="ApproveData()">
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Billing</b>
                             </a>
+                            <br/>
+                            Billing No :<br/>
+                            <input type="text" id="txtDocNo" disabled />
+                            <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintBilling()">
+                                <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Billing</b>
+                            </a>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-8">
                             <b>Billing Detail:</b><br />
                             <table id="tbDetail" style="width:100%;">
                                 <thead>
@@ -127,14 +132,7 @@ End Code
                                 <tbody></tbody>
                             </table>
                         </div>
-                    </div>
-                    Billing No : <input type="text" id="txtDocNo" disabled />
-                    <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintBilling()">
-                        <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Billing</b>
-                    </a>
-                </div>
-                <div class="modal-footer">
-                    <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
+                    </div>                    
                 </div>
             </div>
         </div>
@@ -224,12 +222,36 @@ End Code
                     },
                     { data: "CustCode", title: "Customer" },
                     { data: "RefNo", title: "Reference Number" },
-                    { data: "TotalCustAdv", title: "Cust.Adv" },
-                    { data: "TotalAdvance", title: "Advance" },
-                    { data: "TotalCharge", title: "Charge" },
-                    { data: "TotalVAT", title: "VAT" },
-                    { data: "Total50Tavi", title: "WHT" },
-                    { data: "TotalNet", title: "NET" }
+                    { data: "TotalCustAdv", title: "Cust.Adv",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalAdvance", title: "Advance",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalCharge", title: "Charge",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalVAT", title: "VAT",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "Total50Tavi", title: "WHT",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalNet", title: "NET",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    }
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
@@ -303,11 +325,31 @@ End Code
                         return CDateEN(data);
                     }
                 },
-                { data: "TotalAdvance", title: "Advance" },
-                { data: "TotalCharge", title: "Charge" },
-                { data: "TotalVAT", title: "VAT" },
-                { data: "Total50Tavi", title: "WHT" },
-                { data: "TotalNet", title: "NET" }
+                { data: "TotalAdvance", title: "Advance",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                    }
+                },
+                { data: "TotalCharge", title: "Charge",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                    }
+                },
+                { data: "TotalVAT", title: "VAT",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                    }
+                },
+                { data: "Total50Tavi", title: "WHT",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                    }
+                },
+                { data: "TotalNet", title: "NET",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                    }
+                }
             ],
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page

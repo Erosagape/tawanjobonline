@@ -21,18 +21,23 @@ End Code
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    Set By :
-                    <select id="cboUserType">
-                        <option value="U" selected>User ID</option>
-                        <option value="C">Customer ID</option>
-                        <option value="V">Vender ID</option>
-                    </select>
-                     :<br />
                     <div style="display:flex">
+                        <div>
+                            Set By :
+                            <br/>
+                            <select id="cboUserType" class="form-control dropdown">
+                                <option value="U" selected>User ID</option>
+                                <option value="C">Customer ID</option>
+                                <option value="V">Vender ID</option>
+                            </select>
+
+                        </div>
                         <div style="flex:1">
+                            <br/>
                             <input type="text" id="txtUserID" class="form-control" tabIndex="1" />
                         </div>
                         <div>
+                            <br/>
                             <input type="button" value="..." class="btn btn-default" onclick="SearchData('user')" />
                         </div>
                     </div>

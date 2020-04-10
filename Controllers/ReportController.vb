@@ -507,6 +507,16 @@ GROUP BY DocNo,InvDate,CustCode,JNo,DeclareNumber,InvNo,AmtCost
 ORDER BY CustCode,InvDate,DocNo
 "
                         sqlM = String.Format(sqlM, sqlW)
+                    Case "CHQRECEIVE"
+                        fldGroup = "CustCode"
+                        sqlW = GetSQLCommand(cliteria, "a.ChqDate", "b.CustCode", "", "b.RecUser", "", "a.ChqStatus", "a.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = " SELECT ChqNo,ChqDate,CustCode,ChqStatus,ChqAmount,AmountRemain,DocUsed,TRemark FROM (" & SQLSelectChequeBalance("CU", "R") & sqlW & ") t ORDER BY CustCode,ChqDate,ChqNo "
+                    Case "CHQISSUE"
+                        fldGroup = "CustCode"
+                        sqlW = GetSQLCommand(cliteria, "a.ChqDate", "b.CustCode", "", "b.RecUser", "", "a.ChqStatus", "a.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = " SELECT ChqNo,ChqDate,CustCode,ChqStatus,ChqAmount,DocUsed,TRemark FROM (" & SQLSelectChequeBalance("CH", "P") & sqlW & ") t ORDER BY CustCode,ChqDate,ChqNo "
                     Case "TRIALBAL"
                     Case "BALANCS"
                     Case "PROFITLOSS"

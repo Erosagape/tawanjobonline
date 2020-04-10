@@ -34,86 +34,88 @@ End Code
         <div class="tab-content">
             <div id="tabHeader" class="tab-pane fade in active">
                 <div class="row">
-                    <div class="col-sm-7">
-                        <table>
-                            <tr>
-                                <td>
-                                    Attn :
-                                </td>
-                                <td>
-                                    <input type="text" id="txtEmpCode" style="width:100px" tabindex="2" />
-                                    <button id="btnBrowseEmp1" onclick="SearchData('user')">...</button>
-                                    <input type="text" id="txtEmpName" style="width:300px" disabled />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Vender :
-                                </td>
-                                <td>
-                                    <input type="text" id="txtVenCode" style="width:170px" tabindex="4" />
-                                    <button id="btnBrowseCust" onclick="SearchData('vender')">...</button>
-                                    <input type="text" id="txtVenName" style="width:300px" tabindex="5" disabled />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Contact  :
-                                </td>
-                                <td>
-                                    <input type="text" id="txtContactName" style="width:400px" />
-                                </td>
-                            </tr>
-                        </table>
+                    <div class="col-sm-7" style="display:flex;flex-direction:column">
+                        <div style="flex:1">
+                            Attn :
+                            <br />
+                            <div style="display:flex">
+                                <input type="text" id="txtEmpCode" style="width:30%" class="form-control" tabindex="2" />
+                                <button id="btnBrowseEmp1" class="btn btn-default" onclick="SearchData('user')">...</button>
+                                <input type="text" id="txtEmpName" class="form-control" style="width:100%" disabled />
+                            </div>
+                        </div>
+                        <div style="flex:1">
+                            Vender:
+                            <br />
+                            <div style="display:flex">
+                                <input type="text" id="txtVenCode" class="form-control" style="width:30%" tabindex="4" />
+                                <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('vender')">...</button>
+                                <input type="text" id="txtVenName" class="form-control" style="width:100%" tabindex="5" disabled />
+                            </div>
+                        </div>
+                        <div style="flex:1">
+                            Contact:
+                            <br />
+                            <div style="display:flex">
+                                <input type="text" id="txtContactName" class="form-control"/>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-sm-5">
-                        <table>
-                            <tr>
-                                <td>
-                                    Ref No.1:
-                                </td>
-                                <td>
-                                    <input type="text" id="txtRefNo" style="width:200px" tabindex="6" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Ref No.2:
-                                </td>
-                                <td>
-                                    <input type="text" id="txtPoNo" style="width:200px" tabindex="7" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Total Document:
-                                </td>
-                                <td>
-                                    <input type="text" id="txtForeignAmt" style="width:100px;text-align:right" />
-                                </td>
-                            </tr>
-                        </table>
+                        <div style="display:flex;flex-direction:column">
+                            <div style="flex:1">
+                                Ref No.1:<br/>
+                                <input type="text" id="txtRefNo" class="form-control" tabindex="6" />
+                            </div>
+                            <div style="flex:1">
+                                Ref No.2:<br/>
+                                <input type="text" id="txtPoNo" class="form-control" tabindex="7" />
+                            </div>
+                            <div style="flex:1">
+                                Total Document:
+                                <br/>
+                                <input type="text" id="txtForeignAmt" class="form-control" style="text-align:right" />
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-7">
                         Remark:
-                        <textarea id="txtRemark" style="width:100%;height:80px" tabindex="8"></textarea>
+                        <textarea id="txtRemark" class="form-control-lg" style="width:100%;height:80px" tabindex="8"></textarea>
                         <br />
-                        Advance Reference:<input type="text" id="txtAdvRef" style="width:200px" disabled />
+                        Advance Reference:<input type="text" id="txtAdvRef" class="form-control" disabled />
                     </div>
                     <div class="col-sm-5">
-                        <a onclick="SearchData('currency')">Currency:</a>
-                        <input type="text" id="txtCurrencyCode" style="width:100px" value="@ViewBag.PROFILE_CURRENCY" disabled />
-                        <br />
-                        Exchange Rate:
-                        <input type="text" id="txtExchangeRate" style="width:50px" value="1" />
-                        <br />
-                        <buttom id="btnGetExcRate" class="btn btn-warning" onclick="GetExchangeRate()">Get Rate</buttom>
-                        <br/>
-                        VAT Rate :<input type="text" id="txtVATRate" style="width:50px" /><br />
-                        TAX Rate :<input type="text" id="txtTaxRate" style="width:50px" /><br />
-                        Pay Type :<select id="txtPayType"></select>
+                        <div style="display:flex">
+                            <div>
+                                <a onclick="SearchData('currency')">Currency:</a><br/>
+                                <input type="text" id="txtCurrencyCode" class="form-control" style="width:150px" value="@ViewBag.PROFILE_CURRENCY" disabled />
+                            </div>
+                            <div>
+                                Exchange Rate:<br/>
+                                <input type="text" id="txtExchangeRate" class="form-control" style="width:100px" value="1" />
+                            </div>
+                            <div>
+                                <br />
+                                <buttom id="btnGetExcRate" class="btn btn-warning" onclick="GetExchangeRate()">Get Rate</buttom>
+                            </div>
+                        </div>
+                        <div style="display:flex">
+                            <div>
+                                VAT Rate :<br />
+                                <input type="text" id="txtVATRate" class="form-control" style="width:100px" />
+                            </div>
+                            <div>
+                                TAX Rate :<br />
+                                <input type="text" id="txtTaxRate" class="form-control" style="width:100px" />
+                            </div>
+                            <div>
+                                Pay Type :<br />
+                                <select id="txtPayType" class="form-control dropdown"></select>
+                            </div>
+
+                        </div>
                     </div>
                 </div>                
                 <div class="row">
@@ -182,7 +184,7 @@ End Code
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-9">
+                    <div class="col-sm-8">
                         <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddDetail()">
                             <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Detail</b>
                         </a>
@@ -190,17 +192,47 @@ End Code
                             <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete Detail</b>
                         </a>
                     </div>
-                    <div class="col-sm-3" style="text-align:right">
-                        Amount :
-                        <input type="text" id="txtTotalExpense" style="width:100px;text-align:right" /><br />
-                        VAT :
-                        <input type="text" id="txtTotalVAT" style="width:100px;text-align:right" /><br />
-                        WHT :
-                        <input type="text" id="txtTotalTax" style="width:100px;text-align:right" /><br />
-                        Discount :
-                        <input type="text" id="txtTotalDiscount" style="width:100px;text-align:right" /><br />
-                        Total :
-                        <input type="text" id="txtTotalNet" style="width:100px;text-align:right" />
+                    <div class="col-sm-4">
+                        <div style="display:flex">
+                            <div style="flex:1">
+                                Amount :
+                            </div>
+                            <div style="flex:1">
+                                <input type="text" id="txtTotalExpense" class="form-control" style="text-align:right;" /><br />
+                            </div>
+                        </div>
+                        <div style="display:flex">
+                            <div style="flex:1">
+                                VAT :
+                            </div>
+                            <div style="flex:1">
+                                <input type="text" id="txtTotalVAT" class="form-control" style="text-align:right;" /><br />
+                            </div>
+                        </div>
+                        <div style="display:flex">
+                            <div style="flex:1">
+                                WHT :
+                            </div>
+                            <div style="flex:1">
+                                <input type="text" id="txtTotalTax" class="form-control" style="text-align:right;" /><br />
+                            </div>
+                        </div>
+                        <div style="display:flex">
+                            <div style="flex:1">
+                                Discount :
+                            </div>
+                            <div style="flex:1">
+                                <input type="text" id="txtTotalDiscount" class="form-control" style="text-align:right;" /><br />
+                            </div>
+                        </div>
+                        <div style="display:flex">
+                            <div style="flex:1">
+                                Total 
+                            </div>
+                            <div style="flex:1">
+                                <input type="text" id="txtTotalNet" class="form-control" style="text-align:right;" />
+                            </div>                            
+                        </div>
                     </div>
                 </div>
 
@@ -213,51 +245,125 @@ End Code
                             <h4 class="modal-title"><label id="lblHeader">Detail</label></h4>
                         </div>
                         <div class="modal-body">
-                            <label for="txtItemNo">No :</label>
-                            <input type="text" id="txtItemNo" style="width:40px" disabled />
-                            <input type="checkbox" id="chkCopy" /> Use Copy Mode
-                            <br />
-                            Job No : <input type="text" id="txtForJNo" style="width:180px" disabled />
-                            <input type="button" onclick="SearchData('job')" value="..." />
-                            For : <input type="text" id="txtCustCode" style="width:150px" disabled />
-                            <br />
-                            Booking No : <input type="text" id="txtBookingRefNo" style="width:200px" disabled />
-                            # <input type="text" id="txtBookingItemNo" style="width:50px" disabled />
-                            <br />
-                            Container No : <input type="text" id="txtContainerNo" style="width:200px" disabled />
-                            <input type="button" value="Select Price" onclick="SearchData('transportprice')" />
-                            <br />
-                            <label for="txtSICode">Code :</label>
-                            <input type="text" id="txtSICode" style="width:80px" tabindex="12" />
-                            <input type="button" id="btnBrowseS" value="..." onclick="SearchData('service')" />
-                            Description : <input type="text" id="txtSDescription" style="width:230px" tabindex="13" />
-                            <br />
-                            <label for="txtQty">Qty:</label>
-                            <input type="text" id="txtQty" style="width:100px;text-align:right" tabindex="14" />
-                            Unit :
-                            <input type="text" id="txtQtyUnit" style="width:100px;text-align:right" tabindex="15" />
-                            <label id="lblUnitPrice" for="txtUnitPrice">Price :</label>
-                            <input type="text" id="txtUnitPrice" style="width:100px;text-align:right" tabindex="16" />
-                            <br />
-                            <label id="lblAmount" for="txtAmt">Amount :</label>
-                            <input type="text" id="txtAmt" style="width:100px;text-align:right" tabindex="17" />
-                            Discount <input type="text" id="txtDiscountPerc" style="width:50px" onchange="CalDiscount()" tabindex="18" />
-                            <input type="text" id="txtAmtDisc" tabindex="19" onchange="CalTotal()" />
-                            <br />
-                            <input type="checkbox" id="txtIsTaxCharge" onclick="CalVATWHT()"> VAT :
-                            <input type="text" id="txtAmtVAT" style="width:100px;text-align:right" tabindex="20" />
-                            <input type="checkbox" id="txtIs50Tavi" onclick="CalVATWHT()">WH-Tax :
-                            <input type="text" id="txtAmtWHT" style="width:100px;text-align:right" tabindex="21" />
-                            <br />
-                            <label id="lblNETAmount" for="txtTotal">Total :</label>
-                            <input type="text" id="txtTotal" style="width:100px;text-align:right" tabindex="22" />
-                            Total(F) :
-                            <input type="text" id="txtFTotal" style="width:100px;text-align:right" disabled />
-                            <br />
-                            Remark : <input type="text" id="txtSRemark" style="width:230px" tabindex="23" />
-                            <br />
-                            Clearing No : <input type="text" id="txtClrRefNo" style="width:200px" disabled />
-                            # <input type="text" id="txtClrItemNo" style="width:50px" disabled />
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <label for="txtItemNo">No :</label><br/>
+                                    <input type="text" id="txtItemNo" class="form-control" disabled />
+                                </div>
+                                <div class="col-sm-10">
+                                    <br />
+                                    <input type="checkbox" id="chkCopy" /> Use Copy Mode
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    Job No :
+                                    <br/>
+                                    <div style="display:flex">
+                                        <input type="text" id="txtForJNo" class="form-control" disabled />
+                                        <input type="button" class="btn btn-default" onclick="SearchData('job')" value="..." />
+                                    </div>                                    
+                                </div>
+                                <div class="col-sm-6">
+                                    For :
+                                    <br/>
+                                    <input type="text" id="txtCustCode" class="form-control" disabled />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    Booking No :
+                                    <br/>
+                                    <input type="text" id="txtBookingRefNo" class="form-control" disabled />
+                                </div>
+                                <div class="col-sm-2">
+                                    #<br/>
+                                    <input type="text" id="txtBookingItemNo" class="form-control" disabled />
+                                </div>
+                                <div class="col-sm-6">
+                                    Container No :
+                                    <br/>
+                                    <div style="display:flex">
+                                        <input type="text" id="txtContainerNo" class="form-control" disabled />
+                                        <input type="button" class="btn btn-default" value="Select Price" onclick="SearchData('transportprice')" />
+                                    </div>                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="txtSICode">Code :</label>
+                                    <br/>
+                                    <div style="display:flex">
+                                        <input type="text" id="txtSICode" class="form-control" tabindex="12" />
+                                        <input type="button" id="btnBrowseS" class="btn btn-default" value="..." onclick="SearchData('service')" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-8">
+                                    Description :<br/>
+                                    <input type="text" class="form-control" id="txtSDescription" tabindex="13" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="txtQty">Qty:</label><br/>
+                                    <input type="text" id="txtQty" class="form-control" tabindex="14" />
+                                </div>
+                                <div class="col-sm-4">
+                                    Unit :<br/>
+                                    <input type="text" id="txtQtyUnit" class="form-control" tabindex="15" />
+
+                                </div>
+                                <div class="col-sm-4">
+                                    <label id="lblUnitPrice" for="txtUnitPrice">Price :</label><br/>
+                                    <input type="text" id="txtUnitPrice" class="form-control" tabindex="16" />
+                                </div>
+                            </div>                            
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label id="lblAmount" for="txtAmt">Amount :</label>
+                                    <br/>
+                                    <input type="text" id="txtAmt" class="form-control" tabindex="17" />
+                                </div>
+                                <div class="col-sm-4">
+                                    Discount(%)<br/>
+                                    <input type="text" class="form-control" id="txtDiscountPerc" onchange="CalDiscount()" tabindex="18" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <br/><input type="text" id="txtAmtDisc" class="form-control" tabindex="19" onchange="CalTotal()" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <input type="checkbox" id="txtIsTaxCharge" onclick="CalVATWHT()"> VAT :<br />
+                                    <input type="text" id="txtAmtVAT" class="form-control" tabindex="20" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="checkbox" id="txtIs50Tavi" onclick="CalVATWHT()">WH-Tax :<br/>
+                                    <input type="text" id="txtAmtWHT" class="form-control" tabindex="21" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label id="lblNETAmount" for="txtTotal">Total :</label><br/>
+                                    <input type="text" id="txtTotal" class="form-control" tabindex="22" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    Remark :<br/><input type="text" id="txtSRemark" class="form-control" tabindex="23" />
+                                </div>
+                                <div class="col-sm-4">
+                                    Total(F) :<br/>
+                                    <input type="text" id="txtFTotal" class="form-control" disabled />
+                                </div>
+                            </div>                            
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    Clearing No :<br/>
+                                    <input type="text" class="form-control" id="txtClrRefNo" disabled />
+                                </div>
+                                <div class="col-sm-2">
+                                    #<br/> <input type="text" class="form-control" id="txtClrItemNo" disabled />
+                                </div>
+                            </div>                                                       
                             <input type="hidden" id="txtAdvItemNo" />
                         </div>
                         <div class="modal-footer">
@@ -789,10 +895,26 @@ End Code
                 { data: "SDescription", title: "Description" },
                 { data: "ForJNo", title: "Job" },
                 { data: "SRemark", title: "Remark" },
-                { data: "Amt", title: "Amount" },
-                { data: "AmtVAT", title: "Vat" },
-                { data: "AmtWHT", title: "WH-Tax" },
-                { data: "Total", title: "Net" }
+                { data: "Amt", title: "Amount",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                    }
+                },
+                { data: "AmtVAT", title: "Vat",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                    }
+                },
+                { data: "AmtWHT", title: "WH-Tax",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                    }
+                },
+                { data: "Total", title: "Net",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                    }
+                }
             ],
             "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
                 {
@@ -963,10 +1085,26 @@ End Code
                     { data: "ContactName", title: "Contact" },
                     { data: "RefNo", title: "Ref.No" },
                     { data: "PoNo", title: "PO.No" },
-                    { data: "TotalExpense", title: "Amount" },
-                    { data: "TotalVAT", title: "VAT" },
-                    { data: "TotalTax", title: "Tax" },
-                    { data: "TotalNet", title: "Net" }
+                    { data: "TotalExpense", title: "Amount",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalVAT", title: "VAT",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalTax", title: "Tax",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalNet", title: "Net",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    }
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page

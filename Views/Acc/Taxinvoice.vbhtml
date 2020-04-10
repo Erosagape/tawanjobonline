@@ -80,14 +80,14 @@ End Code
                 </table>
             </div>
             <div class="tab-pane fade" id="tabDetail">
-                Details of Receipt No:<input type="text" id="txtDocNo" style="width:10%" disabled />
+                Details of Tax Invoice No:<input type="text" id="txtDocNo" class="form-control" disabled />
                 <table id="tbDetail" class="table table-responsive">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th class="all">InvNo</th>
                             <th class="desktop">SICode</th>
-                            <th>SDescription</th>
+                            <th class="desktop">SDescription</th>
                             <th class="desktop">Cash</th>
                             <th class="desktop">Transfer</th>
                             <th class="desktop">Cheque</th>
@@ -109,89 +109,124 @@ End Code
             <div class="modal-dialog-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <div style="display:flex;flex-direction:row">
-                            Receipt No:<input type="text" id="txtReceiptNo" style="width:10%" disabled />
-                            Doc.Date:<input type="date" id="txtReceiptDate" style="width:10%" disabled />
-                            Customer:<input type="text" id="txtHCustCode" style="width:10%" disabled />
-                            <input type="text" id="txtHCustBranch" style="width:5%" disabled />
-                            <input type="text" id="txtHCustName" style="width:30%" disabled />
+                        <div class="row">
+                            <div class="col-sm-3">
+                                Tax Invoice No:<br /><input type="text" id="txtReceiptNo" class="form-control" disabled />
+                            </div>
+                            <div class="col-sm-3">
+                                Doc.Date:<br /><input type="date" id="txtReceiptDate" class="form-control" disabled />
+                            </div>
+                            <div class="col-sm-6">
+                                Customer:
+                                <br />
+                                <div style="display:flex">
+                                    <input type="text" id="txtHCustCode" class="form-control" style="width:20%" disabled />
+                                    <input type="text" id="txtHCustBranch" class="form-control" style="width:10%" disabled />
+                                    <input type="text" id="txtHCustName" class="form-control" style="width:70%" disabled />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-body">
-
                         <div class="row">
                             <div class="col-sm-5" style="display:flex;flex-direction:column">
-
-                                <p style="flex-direction:row">
-                                    Bill To:<input type="text" id="txtBillToCustCode" style="width:20%" disabled />
-                                    <input type="text" id="txtBillToCustBranch" style="width:10%" disabled />
-                                    <input type="text" id="txtBillToCustName" style="width:60%" disabled />
-                                    <textarea id="txtBillAddress" style="width:100%;height:100%" disabled></textarea>
-                                </p>
-                                <p style="flex-direction:row">
+                                <div>
+                                    Bill To:
+                                    <br />
+                                    <div style="display:flex">
+                                        <input type="text" id="txtBillToCustCode" class="form-control" style="width:20%" disabled />
+                                        <input type="text" id="txtBillToCustBranch" class="form-control" style="width:10%" disabled />
+                                        <input type="text" id="txtBillToCustName" class="form-control" style="width:70%" disabled />
+                                    </div>
+                                </div>
+                                <div>
+                                    <textarea id="txtBillAddress" class="form-control-lg" style="width:100%;height:100%" disabled></textarea>
+                                </div>
+                                <div>
                                     Receipt Note:
-                                    <textarea id="txtTRemark" style="width:100%;height:100%"></textarea>
-                                </p>
-                                <p style="flex-direction:row">
-                                    Currency:<input type="text" id="txtCurrencyCode" style="width:15%" disabled />
-                                    <button onclick="SearchData('currency')">...</button>
-                                    <input type="text" id="txtCurrencyName" style="width:60%" disabled />
-                                </p>
+                                    <br />
+                                    <textarea id="txtTRemark" class="form-control-lg" style="width:100%;height:100%"></textarea>
+                                </div>
+                                <div>
+                                    Currency:
+                                    <br />
+                                    <div style="display:flex">
+                                        <input type="text" id="txtCurrencyCode" class="form-control" style="width:15%" disabled />
+                                        <button class="btn btn-default" onclick="SearchData('currency')">...</button>
+                                        <input type="text" id="txtCurrencyName" class="form-control" style="width:100%" disabled />
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-sm-4" style="display:flex;flex-direction:column">
-                                <p style="flex-direction:row">
-                                    Exchange Rate:<input type="text" id="txtExchangeRate" style="width:15%" onchange="CalForeign()" />
-                                    Total Foreign:<input type="text" id="txtFTotalNet" style="width:40%" disabled />
-                                </p>
-                                <p style="flex-direction:row">
-                                    <label style="width:40%">Total Charge:</label><input type="text" id="txtTotalCharge" style="width:40%" disabled /> THB
-                                </p>
-                                <p style="flex-direction:row">
-                                    <label style="width:40%">Total VAT:</label><input type="text" id="txtTotalVAT" style="width:40%" disabled /> THB
-                                </p>
-                                <p style="flex-direction:row">
-                                    <label style="width:40%">Total TAX:</label><input type="text" id="txtTotal50Tavi" style="width:40%" disabled /> THB
-                                </p>
-                                <p style="flex-direction:row">
-                                    <label style="width:40%">Total Net:</label><input type="text" id="txtTotalNet" style="width:40%" disabled /> THB
-                                </p>
+                                <div style="display:flex">
+                                    <div style="flex:1">
+                                        Exchange Rate:
+                                        <br />
+                                        <input type="text" id="txtExchangeRate" class="form-control" onchange="CalForeign()" />
+                                    </div>
+                                    <div style="flex:1">
+                                        Total Foreign:
+                                        <br />
+                                        <input type="text" id="txtFTotalNet" class="form-control" disabled />
+                                    </div>
+                                </div>
+                                <div style="display:flex">
+                                    <label style="width:40%">Total Charge:</label><input type="text" id="txtTotalCharge" class="form-control" style="width:40%" disabled /> THB
+                                </div>
+                                <div style="display:flex">
+                                    <label style="width:40%">Total VAT:</label><input type="text" id="txtTotalVAT" class="form-control" style="width:40%" disabled /> THB
+                                </div>
+                                <div style="display:flex">
+                                    <label style="width:40%">Total TAX:</label><input type="text" id="txtTotal50Tavi" class="form-control" style="width:40%" disabled /> THB
+                                </div>
+                                <div style="display:flex">
+                                    <label style="width:40%">Total Net:</label><input type="text" id="txtTotalNet" class="form-control" style="width:40%" disabled /> THB
+                                </div>
                             </div>
-                            <div class="col-sm-3">
-                                Voucher Ref:<input type="text" id="txtReceiveRef" style="width:100%" disabled />
-                                Receive Date:<input type="date" id="txtReceiveDate" style="width:100%" disabled />
-                                Receive Time:<input type="text" id="txtReceiveTime" style="width:100%" disabled />
-                                Receive By:<input type="text" id="txtReceiveBy" style="width:100%" disabled />
+                            <div class="col-sm-3" style="display:flex;flex-direction:column">
+                                <div>
+                                    Voucher Ref:<br /><input type="text" id="txtReceiveRef" class="form-control" disabled />
+                                </div>
+                                <div>
+                                    Receive Date:<br /><input type="date" id="txtReceiveDate" class="form-control" disabled />
+                                </div>
+                                <div>
+                                    Receive Time:<br /><input type="text" id="txtReceiveTime" class="form-control" disabled />
+                                </div>
+                                <div>
+                                    Receive By:<br /><input type="text" id="txtReceiveBy" class="form-control" disabled />
+                                </div>
                             </div>
                         </div>
                         <p>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    Create By:<br /> <input type="text" id="txtEmpCode" style="width:100%" disabled />
+                                    Create By:<br /> <input type="text" id="txtEmpCode" class="form-control" disabled />
                                 </div>
                                 <div class="col-sm-3">
-                                    Print Date:<br /> <input type="date" id="txtPrintedDate" style="width:100%" disabled />
+                                    Print Date:<br /> <input type="date" id="txtPrintedDate" class="form-control" disabled />
                                 </div>
                                 <div class="col-sm-2">
-                                    Print Time:<br /><input type="text" id="txtPrintedTime" style="width:100%" disabled />
+                                    Print Time:<br /><input type="text" id="txtPrintedTime" class="form-control" disabled />
                                 </div>
                                 <div class="col-sm-3">
-                                    Print By:<br /> <input type="text" id="txtPrintedBy" style="width:100%" disabled />
+                                    Print By:<br /> <input type="text" id="txtPrintedBy" class="form-control" disabled />
                                 </div>
                             </div>
                         </p>
                         <div class="row">
                             <div class="col-sm-4">
-                                Cancel Reason:<br /> <textarea id="txtCancelReson" style="width:80%"></textarea>
+                                Cancel Reason:<br /> <textarea id="txtCancelReson" class="form-control-lg" style="width:80%"></textarea>
                                 <button id="btnCancel" class="btn btn-danger" onclick="CancelData()">Cancel</button>
                             </div>
                             <div class="col-sm-3">
-                                Cancel date:<br /> <input type="date" id="txtCancelDate" style="width:100%" disabled />
+                                Cancel date:<br /> <input type="date" id="txtCancelDate" class="form-control" disabled />
                             </div>
                             <div class="col-sm-2">
-                                Cancel Time:<br /><input type="text" id="txtCancelTime" style="width:100%" disabled />
+                                Cancel Time:<br /><input type="text" id="txtCancelTime" class="form-control" disabled />
                             </div>
                             <div class="col-sm-3">
-                                Cancel By:<br /> <input type="text" id="txtCancelProve" style="width:100%" disabled />
+                                Cancel By:<br /> <input type="text" id="txtCancelProve" class="form-control" disabled />
                             </div>
                         </div>
                     </div>
@@ -200,10 +235,10 @@ End Code
                             <a href="#" class="btn btn-success" id="btnUpdate" onclick="SaveData()">
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
                             </a>
-                            <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-                                <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print</b>
-                            </a>
                         </div>
+                        <a href="#" class="btn btn-info" id="btnPrint2" onclick="PrintData()">
+                            <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print</b>
+                        </a>
                         <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                     </div>
                 </div>
@@ -214,142 +249,201 @@ End Code
                 <div class="modal-content">
                     <div class="modal-header">
                         <div class="row">
-                            <div class="col-sm-12">
-                                Receipt No <input type="text" id="txtDDocNo" style="width:20%" disabled />
-                                Item No. <input type="text" id="txtItemNo" style="width:5%" disabled />
-                                Invoice No <input type="text" id="txtInvoiceNo" style="width:20%" disabled />
-                                No#<input type="text" id="txtInvoiceItemNo" style="width:5%" disabled />
+                            <div class="col-sm-6" style="display:flex">
+                                <div style="flex:3">
+                                    Tax Invoice No
+                                    <br />
+                                    <input type="text" id="txtDDocNo" class="form-control" disabled />
+                                </div>
+                                <div style="flex:1">
+                                    Item No.<br />
+                                    <input type="text" id="txtItemNo" class="form-control" disabled />
+                                </div>
+                            </div>
+                            <div class="col-sm-6" style="display:flex">
+                                <div style="flex:3">
+                                    Invoice No
+                                    <br />
+                                    <input type="text" id="txtInvoiceNo" class="form-control" disabled />
+                                </div>
+                                <div style="flex:1">
+                                    No#
+                                    <br />
+                                    <input type="text" id="txtInvoiceItemNo" class="form-control" disabled />
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-body">
-                        Code <input type="text" id="txtSICode" style="width:15%" disabled />
-                        <input type="text" id="txtSDescription" style="width:75%" />
+                        <div class="row">
+                            <div class="col-sm-3">
+                                Code
+                                <br />
+                                <input type="text" id="txtSICode" class="form-control" disabled />
+                            </div>
+                            <div class="col-sm-9">
+                                <br />
+                                <input type="text" id="txtSDescription" class="form-control" />
+                            </div>
+                        </div>
                         <p>
                             <div class="row">
-                                <div class="col-sm-12">
+                                <div class="col-sm-4">
                                     Payment Type
-                                    <select id="cboacType" onchange="ChangeAmount()">
+                                    <br />
+                                    <select id="cboacType" class="form-control" onchange="ChangeAmount()">
                                         <option value="CA">Cash</option>
                                         <option value="TR">Transfer</option>
                                         <option value="CH">Cheque</option>
                                         <option value="CR">Credit</option>
                                     </select>
-                                    Currency <input type="text" id="txtDCurrencyCode" style="width:10%" disabled />
-                                    Exc.Rate <input type="number" id="txtDExchangeRate" style="width:15%" onchange="CalForeignDetail()" />
+                                </div>
+                                <div class="col-sm-4">
+                                    Currency
+                                    <br />
+                                    <input type="text" id="txtDCurrencyCode" class="form-control" disabled />
+                                </div>
+                                <div class="col-sm-4">
+                                    Exc.Rate
+                                    <br />
+                                    <input type="number" id="txtDExchangeRate" class="form-control" onchange="CalForeignDetail()" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div style="display:flex">
+                                        <div style="flex:1">
+                                            Amount
+                                        </div>
+                                        <div style="flex:2">
+                                            <input type="number" id="txtAmt" class="form-control" onchange="CalVATWHT(0)" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div style="display:flex">
+                                        <div style="flex:1">
+                                            Amount (F)
+                                        </div>
+                                        <div style="flex:2">
+                                            <input type="number" id="txtFAmt" class="form-control" onchange="CalForeignDetail()" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6" style="display:flex">
+                                    <div style="flex:1">
+                                        VAT
+                                        <br />
+                                        <select id="txtIsTaxCharge" class="form-control dropdown" disabled>
+                                            <option value="0">NO</option>
+                                            <option value="1">EX</option>
+                                            <option value="2">IN</option>
+                                        </select>
+                                    </div>
+                                    <div style="flex:2">
+                                        Rate
+                                        <br />
+                                        <input type="number" id="txtVATRate" class="form-control" onchange="CalVATWHT(0)" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" style="display:flex">
+                                    <div style="flex:1">
+                                        VAT
+                                        <br />
+                                        <input type="number" id="txtAmtVAT" class="form-control" onchange="CalNetAmount()" />
+                                    </div>
+                                    <div style="flex:1">
+                                        VAT (F)
+                                        <br />
+                                        <input type="number" id="txtFAmtVAT" class="form-control" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6" style="display:flex">
+                                    <div style="flex:1">
+                                        WH-TAX
+                                        <br />
+                                        <select id="txtIs50Tavi" class="form-control dropdown" disabled>
+                                            <option value="0">NO</option>
+                                            <option value="1">YES</option>
+                                        </select>
+
+                                    </div>
+                                    <div style="flex:2">
+                                        Rate
+                                        <br />
+                                        <input type="number" id="txtRate50Tavi" class="form-control" onchange="CalVATWHT(1)" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" style="display:flex">
+                                    <div style="flex:1">
+                                        WHT
+                                        <br />
+                                        <input type="number" id="txtAmt50Tavi" class="form-control" onchange="CalNetAmount()" />
+                                    </div>
+                                    <div style="flex:1">
+                                        WHT (F)
+                                        <br />
+                                        <input type="number" id="txtFAmt50Tavi" class="form-control" disabled />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div style="display:flex">
+                                        <div style="flex:1">
+                                            Net
+                                        </div>
+                                        <div style="flex:2">
+                                            <input type="number" id="txtNet" class="form-control" onchange="ChangeAmount()" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div style="display:flex">
+                                        <div style="flex:1">
+                                            Net (F)
+                                        </div>
+                                        <div style="flex:2">
+                                            <input type="number" id="txtFNet" class="form-control" disabled />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </p>
                         <p>
                             <div class="row">
-                                <div class="col-sm-6" style="display:flex;">
-                                    <table>
-                                        <tr>
-                                            <td colspan="2">
-                                                Amount
-                                            </td>
-                                            <td>
-                                                <input type="number" id="txtAmt" style="width:100%" onchange="CalVATWHT(0)" disabled />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                VAT
-                                                <select id="txtIsTaxCharge" disabled>
-                                                    <option value="0">NO</option>
-                                                    <option value="1">EX</option>
-                                                    <option value="2">IN</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                Rate
-                                                <input type="number" id="txtVATRate" style="width:50%" onchange="CalVATWHT(0)" />
-                                            </td>
-                                            <td>
-                                                <input type="number" id="txtAmtVAT" style="width:100%" onchange="CalNetAmount()" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                WHT
-                                                <select id="txtIs50Tavi" disabled>
-                                                    <option value="0">NO</option>
-                                                    <option value="1">YES</option>
-                                                </select>
-                                            </td>
-                                            <td>
-                                                Rate
-                                                <input type="number" id="txtRate50Tavi" style="width:50%" onchange="CalVATWHT(1)" />
-                                            </td>
-                                            <td>
-                                                <input type="number" id="txtAmt50Tavi" style="width:100%" onchange="CalNetAmount()" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="2">Net</td>
-                                            <td>
-                                                <input type="number" id="txtNet" style="width:100%" onchange="ChangeAmount()" disabled />
-                                            </td>
-                                        </tr>
-                                    </table>
+                                <div class="col-sm-3">
+                                    Cash<br /><input type="number" id="txtCashAmount" class="form-control" disabled />
                                 </div>
-                                <div class="col-sm-6">
-                                    <table>
-                                        <tr>
-                                            <td>
-                                                Amount (F)
-                                            </td>
-                                            <td>
-                                                <input type="number" id="txtFAmt" onchange="CalForeignDetail()" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                VAT (F)
-                                            </td>
-                                            <td>
-                                                <input type="number" id="txtFAmtVAT" disabled />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                WH-Tax (F)
-                                            </td>
-                                            <td>
-                                                <input type="number" id="txtFAmt50Tavi" disabled />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Net (F)
-                                            </td>
-                                            <td>
-                                                <input type="number" id="txtFNet" disabled />
-                                            </td>
-                                        </tr>
-
-                                    </table>
+                                <div class="col-sm-3">
+                                    Transfer<br /><input type="number" id="txtTransferAmount" class="form-control" disabled />
+                                </div>
+                                <div class="col-sm-3">
+                                    Cheque<br /><input type="number" id="txtChequeAmount" class="form-control" disabled />
+                                </div>
+                                <div class="col-sm-3">
+                                    Credit<br /><input type="number" id="txtCreditAmount" class="form-control" disabled />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    Voucher No:<br />
+                                    <input type="text" id="txtVoucherNo" class="form-control" disabled />
+                                </div>
+                                <div class="col-sm-4">
+                                    Control No:<br />
+                                    <input type="text" id="txtControlNo" class="form-control" disabled />
+                                </div>
+                                <div class="col-sm-4">
+                                    #No:<br />
+                                    <input type="text" id="txtControlItemNo" class="form-control" disabled />
                                 </div>
                             </div>
                         </p>
-                        Voucher No: <input type="text" id="txtVoucherNo" style="width:20%" disabled />
-                        Control No: <input type="text" id="txtControlNo" style="width:20%" disabled />
-                        #No: <input type="text" id="txtControlItemNo" style="width:5%" disabled />
-                        <div class="row">
-                            <div class="col-sm-3">
-                                Cash<br /><input type="number" id="txtCashAmount" class="form-control" disabled />
-                            </div>
-                            <div class="col-sm-3">
-                                Transfer<br /><input type="number" id="txtTransferAmount" class="form-control" disabled />
-                            </div>
-                            <div class="col-sm-3">
-                                Cheque<br /><input type="number" id="txtChequeAmount" class="form-control" disabled />
-                            </div>
-                            <div class="col-sm-3">
-                                Credit<br /><input type="number" id="txtCreditAmount" class="form-control" disabled />
-                            </div>
-                        </div>
-
                     </div>
                     <div class="modal-footer">
                         <div style="float:left">
@@ -511,7 +605,7 @@ End Code
                             return html;
                         }
                     },
-                    { data: "ReceiptNo", title: "Receive No" },
+                    { data: "ReceiptNo", title: "Tax-Invoice No" },
                     {
                         data: "ReceiptDate", title: "Issue date ",
                         render: function (data) {
@@ -521,10 +615,26 @@ End Code
                     { data: "CustCode", title: "Customer" },
                     { data: "ReceiveRef", title: "Reference Number" },
                     { data: "TRemark", title: "Remark" },
-                    { data: "TotalCharge", title: "Amount" },
-                    { data: "TotalVAT", title: "Vat" },
-                    { data: "Total50Tavi", title: "Wh-tax" },
-                    { data: "TotalNet", title: "Net" }
+                    { data: "TotalCharge", title: "Amount",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalVAT", title: "Vat" ,
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "Total50Tavi", title: "Wh-tax" ,
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "TotalNet", title: "Net" ,
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    }
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
@@ -572,14 +682,46 @@ End Code
                         },
                         { data: "SICode", title: "Cpde" },
                         { data: "SDescription", title: "Expenses" },
-                        { data: "CashAmount", title: "Cash" },
-                        { data: "TransferAmount", title: "Transfer" },
-                        { data: "ChequeAmount", title: "Cheque" },
-                        { data: "CreditAmount", title: "Credit" },
-                        { data: "Amt", title: "Amount" },
-                        { data: "AmtVAT", title: "VAT" },
-                        { data: "Amt50Tavi", title: "WH-Tax" },
-                        { data: "Net", title: "Total" }
+                        { data: "CashAmount", title: "Cash" ,
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "TransferAmount", title: "Transfer" ,
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "ChequeAmount", title: "Cheque" ,
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "CreditAmount", title: "Credit" ,
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "Amt", title: "Amount" ,
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "AmtVAT", title: "VAT" ,
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "Amt50Tavi", title: "WH-Tax" ,
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "Net", title: "Total" ,
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        }
                     ],
                     responsive:true,
                     destroy:true

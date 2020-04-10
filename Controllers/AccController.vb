@@ -1917,7 +1917,7 @@ Namespace Controllers
                         tSqlw &= " AND ISNULL(b.CancelProve,'')='' "
                     End If
                 End If
-                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectChequeBalance(chqType) & tSqlw)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectChequeBalance(chqType, "R") & tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""cheque"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
