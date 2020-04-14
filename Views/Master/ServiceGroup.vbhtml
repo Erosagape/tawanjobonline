@@ -4,13 +4,13 @@ End Code
 <div class="panel-body">
     <div id="dvForm" class="container" style="width:100%">
         <div class="form-group row">
-
             <div class="col-sm-3">
-                Group Code :<br />
+                <label id="lblGroupCode">Group Code :</label>
+                <br />
                 <input type="text" id="txtGroupCode" class="form-control" tabIndex="1">
             </div>
-            <div class="col-sm-5">Group Name :<br /><input type="text" id="txtGroupName" class="form-control" tabIndex="2"></div>
-            <div class="col-sm-4">GL Account :
+            <div class="col-sm-5"><label id="lblGroupName">Group Name :</label><br /><input type="text" id="txtGroupName" class="form-control" tabIndex="2"></div>
+            <div class="col-sm-4"><label id="lblGLAccountCode">GL Account :</label>
             <br />
             <div style="display:flex">
                 <input type="text" id="txtGLAccountCode" class="form-control" tabIndex="3">
@@ -21,29 +21,29 @@ End Code
         <div class="form-group row">
             <div class="col-md-6">
                 <input type="checkbox" id="chkIsTaxCharge" />
-                <label for="chkIsTaxCharge">Calculate VAT</label>
+                <label id="lblchkIsTaxCharge" for="chkIsTaxCharge">Calculate VAT</label>
                 <label class="radio-inline"><input type="radio" name="optVAT" value="1">Exclude</label>
                 <label class="radio-inline"><input type="radio" name="optVAT" value="2">Include</label>
                 <br />
                 <input type="checkbox" id="chkIsCredit" />
-                <label for="chkIsCredit">Credit Advance</label>
+                <label id="lblchkIsCredit" for="chkIsCredit">Credit Advance</label>
                 <br />
                 <input type="checkbox" id="chkIsExpense" />
-                <label for="chkIsExpense">Company Expenses</label>
+                <label id="lblchkIsExpense" for="chkIsExpense">Company Expenses</label>
                 <br />
                 <input type="checkbox" id="chkIsHaveSlip" />
-                <label for="chkIsHaveSlip">Must have slip</label>
+                <label id="lblchkIsHaveSlip" for="chkIsHaveSlip">Must have slip</label>
             </div>
             <div class="col-md-6">
                 <input type="checkbox" id="chkIs50Tavi" />
-                <label for="chkIs50Tavi">Calculate 50Tavi</label>
+                <label id="lblchkIs50Tavi" for="chkIs50Tavi">Calculate 50Tavi</label>
                 <input type="text" id="txtRate50Tavi" /><b>%</b>
                 <br />
                 <label class="radio-inline"><input type="radio" name="optWHT" value="1">Paid 50Tavi By Company</label>
                 <label class="radio-inline"><input type="radio" name="optWHT" value="2">Pay 50Tavi by Customer</label>
                 <br />
                 <input type="checkbox" id="chkIsApplyPolicy" />
-                <label for="chkIsApplyPolicy">Apply Policy To all Code</label>
+                <label id="lblchkIsApplyPolicy" for="chkIsApplyPolicy">Apply Policy To all Code</label>
             </div>
         </div>
         <div id="dvCommand">
@@ -81,6 +81,7 @@ End Code
                     Add Service Code
                 </div>
                 <div class="modal-body">
+                    <label id="lblSICode">Service Code</label>
                     <input type="text" id="txtSICode" style="width:100px" />
                     <input type="button" value="..." class="btn btn-default" onclick="SearchService()" />
                     <input type="text" id="txtSDescription" style="width:300px" disabled />

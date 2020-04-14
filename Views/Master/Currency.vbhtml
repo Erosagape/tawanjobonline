@@ -6,22 +6,26 @@ End Code
         <div id="dvForm">
             <div class="row">
                 <div class="col-sm-3">
-                    Currency Code :
+                    <label id="lblCode">Currency Code :</label>
                     <br /><input type="text" id="txtCode" class="form-control" tabIndex="1">
                 </div>
                 <div class="col-sm-9">
-                    Currency Name :<br /><input type="text" id="txtTName" class="form-control" tabIndex="2">
+                    <label id="lblTName">Currency Name :</label>
+                    <br /><input type="text" id="txtTName" class="form-control" tabIndex="2">
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    Begin Date :<br /><input type="date" id="txtStartDate" class="form-control" tabIndex="3">
+                    <label id="lblStartDate">Begin Date :</label>
+                    <br /><input type="date" id="txtStartDate" class="form-control" tabIndex="3">
                 </div>
                 <div class="col-sm-4">
-                    Expire Date :<br /><input type="date" id="txtFinishDate" class="form-control" tabIndex="4">
+                    <label id="lblFinishDate">Expire Date :</label>
+                    <br /><input type="date" id="txtFinishDate" class="form-control" tabIndex="4">
                 </div>
                 <div class="col-sm-4">
-                    Last Update :<br /><input type="date" id="txtLastUpdate" class="form-control" disabled>
+                    <label id="lblLastUpdate">Last Update :</label>
+                    <br /><input type="date" id="txtLastUpdate" class="form-control" disabled>
                 </div>
             </div>
         </div>

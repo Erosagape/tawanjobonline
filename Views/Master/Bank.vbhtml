@@ -5,10 +5,10 @@ End Code
     <div class="container">
         <!-- HTML BOOTSTRAP CONTROLS -->
         <div id="dvForm">
-            Bank Code:
+            <label id="lblBankCode">Bank Code</label>:
             <input type="text" id="txtCode" class="form-control" tabIndex="1">
-            Name :<br /><input type="text" id="txtBName" class="form-control" tabIndex="2">
-            Customs Code :<br /><input type="text" id="txtCustomsCode" class="form-control" tabIndex="3">
+            <label id="lblBankName">Name</label> :<br /><input type="text" id="txtBName" class="form-control" tabIndex="2">
+            <label id="lblCustomsCode">Customs Code</label> :<br /><input type="text" id="txtCustomsCode" class="form-control" tabIndex="3">
         </div>
         <div id="dvCommand">
             <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearData()">

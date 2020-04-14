@@ -3,10 +3,12 @@
 End Code
 <div id="dvHeader" class="row">
     <div class="col-sm-2">
-        Province Code :<br /><div style="display:flex"><input type="text" id="txtProvinceCode" class="form-control"></div>
+        <label id="lblProvinceCode">Province Code :</label>
+        <br /><div style="display:flex"><input type="text" id="txtProvinceCode" class="form-control"></div>
     </div>
     <div class="col-sm-10">
-        Province Name :<br /><div style="display:flex"><input type="text" id="txtProvinceName" class="form-control"></div>
+        <label id="lblProvinceName">Province Name :</label>
+        <br /><div style="display:flex"><input type="text" id="txtProvinceName" class="form-control"></div>
     </div>
 </div>
 <div id="dvCommand">
@@ -35,16 +37,20 @@ End Code
 </table>
 <div id="dvDetail" class="row">
     <div class="col-sm-1">
-        ID :<br /><div style="display:flex"><input type="text" id="txtid" class="form-control" disabled></div>
+        <labei id="lblid">ID :</labei>
+        <br /><div style="display:flex"><input type="text" id="txtid" class="form-control" disabled></div>
     </div>
     <div class="col-sm-4">
-        District :<br /><div style="display:flex"><input type="text" id="txtDistrict" class="form-control"></div>
+        <label id="lblDistrict">District :</label>
+        <br /><div style="display:flex"><input type="text" id="txtDistrict" class="form-control"></div>
     </div>
     <div class="col-sm-4">
-        Sub District :<br /><div style="display:flex"><input type="text" id="txtSubProvince" class="form-control"></div>
+        <label id="lblSubProvince">Sub District :</label>
+        <br /><div style="display:flex"><input type="text" id="txtSubProvince" class="form-control"></div>
     </div>
     <div class="col-sm-3">
-        Post Code :<br /><div style="display:flex"><input type="text" id="txtPostCode" class="form-control"></div>
+        <label id="lblPostCode">Post Code :</label>
+        <br /><div style="display:flex"><input type="text" id="txtPostCode" class="form-control"></div>
     </div>
 </div>
 <div id="dvCommand">

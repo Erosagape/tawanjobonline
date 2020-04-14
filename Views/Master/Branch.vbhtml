@@ -4,8 +4,10 @@ End Code
 <div class="panel-body">
     <div class="container">
         <div id="dvForm">
-            Branch Code :<br /><input type="text" id="txtCode" class="form-control" tabIndex="1">
-            Branch Name :<br /><input type="text" id="txtBrName" class="form-control" tabIndex="2">
+            <label id="lblBranchCode">Branch Code :</label>
+            <br /><input type="text" id="txtCode" class="form-control" tabIndex="1">
+            <label id="lblBranchName">Branch Name :</label>
+            <br /><input type="text" id="txtBrName" class="form-control" tabIndex="2">
         </div>
         <br />
         <div id="dvCommand" class="col-sm-12">

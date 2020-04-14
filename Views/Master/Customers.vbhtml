@@ -6,37 +6,43 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
-                Customer Code:<br /><input type="text" id="txtCustCode" class="form-control" tabIndex="0">
+                <label id="lblCustCode">Customer Code:</label>
+                <br /><input type="text" id="txtCustCode" class="form-control" tabIndex="0">
             </div>
             <div class="col-sm-3">
-                Branch :<br /><input type="text" id="txtBranch" class="form-control" tabIndex="1">
+                <label id="lblBranch">Branch :</label>
+                <br /><input type="text" id="txtBranch" class="form-control" tabIndex="1">
             </div>
             <div class="col-sm-3">
-                Customer Group :
+                <label id="lblCustGroup">Customer Group :</label>
                 <br />
                 <select id="txtCustGroup" class="form-control dropdown" tabIndex="2"></select>
             </div>
             <div class="col-sm-3">
-                Tax-Reference :<br /><input type="text" id="txtTaxNumber" class="form-control" tabIndex="3">
+                <label id="lblTaxNumber">Tax-Reference :</label>
+                <br /><input type="text" id="txtTaxNumber" class="form-control" tabIndex="3">
             </div>
         </div>
         <div class="row">
             <div class="col-sm-2">
-                Title :<br />
-                       <select id="txtTitle" class="form-control dropdown" tabIndex="4">
-                           <option value=""></option>
-                           <option value="บริษัท">บริษัท</option>
-                           <option value="ห้างหุ้นส่วน">ห้างหุ้นส่วน</option>
-                           <option value="นาย">นาย</option>
-                           <option value="นาง">นาง</option>
-                           <option value="นางสาว">นางสาว</option>
-                       </select>
+                <label id="lblCustTitle">Title :</label>
+                <br />
+                <select id="txtTitle" class="form-control dropdown" tabIndex="4">
+                    <option value=""></option>
+                    <option value="บริษัท">บริษัท</option>
+                    <option value="ห้างหุ้นส่วน">ห้างหุ้นส่วน</option>
+                    <option value="นาย">นาย</option>
+                    <option value="นาง">นาง</option>
+                    <option value="นางสาว">นางสาว</option>
+                </select>
             </div>
             <div class="col-sm-5">
-                Name (TH) :<br /><input type="text" id="txtNameThai" class="form-control" tabIndex="5">
+                <label id="lblNameThai">Name (TH) :</label>
+                <br /><input type="text" id="txtNameThai" class="form-control" tabIndex="5">
             </div>
             <div class="col-sm-5">
-                English :<br /><input type="text" id="txtNameEng" class="form-control" tabIndex="6">
+                <label id="lblNameEng">English :</label>
+                <br /><input type="text" id="txtNameEng" class="form-control" tabIndex="6">
             </div>
         </div>
         <ul class="nav nav-tabs">
@@ -48,101 +54,121 @@ End Code
             <div id="tabCust1" class="tab-pane">
                 <div class="row">
                     <div class="col-sm-6">
-                        Address (TH) :<br /><input type="text" id="txtTAddress1" class="form-control" tabIndex="7">
+                        <label id="lblTAddress1">Address (TH) :</label>
+                        <br /><input type="text" id="txtTAddress1" class="form-control" tabIndex="7">
                         <br /><input type="text" id="txtTAddress2" class="form-control" tabIndex="8">
                     </div>
                     <div class="col-sm-6">
-                        Address (EN) :<br /><input type="text" id="txtEAddress1" class="form-control" tabIndex="9">
+                        <label id="lblEAddress1">Address (EN) :</label>
+                        <br /><input type="text" id="txtEAddress1" class="form-control" tabIndex="9">
                         <br /><input type="text" id="txtEAddress2" class="form-control" tabIndex="10">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
-                        Phone :<br /><input type="text" id="txtPhone" class="form-control" tabIndex="11">
+                        <label id="lblPhone">Phone :</label>
+                        <br /><input type="text" id="txtPhone" class="form-control" tabIndex="11">
                     </div>
                     <div class="col-sm-3">
-                        Fax :<br /><input type="text" id="txtFaxNumber" class="form-control" tabIndex="12">
+                        <label id="lblFaxNumber">Fax :</label>
+                        <br /><input type="text" id="txtFaxNumber" class="form-control" tabIndex="12">
                     </div>
                     <div class="col-sm-3">
-                        EMail :<br /><input type="text" id="txtDMailAddress" class="form-control" tabIndex="13">
+                        <label id="lblDMailAddress">EMail :</label>
+                        <br /><input type="text" id="txtDMailAddress" class="form-control" tabIndex="13">
                     </div>
                     <div class="col-sm-3">
-                        WEB :<br /><input type="text" id="txtWEB_SITE" class="form-control" tabIndex="14">
+                        <label id="lblWEB_SITE">WEB :</label>
+                        <br /><input type="text" id="txtWEB_SITE" class="form-control" tabIndex="14">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
-                        Language :<br /><select id="txtUsedLanguage" class="form-control dropdown" tabIndex="15"></select>
+                        <label id="lblUsedLanguage">Language :</label>
+                        <br /><select id="txtUsedLanguage" class="form-control dropdown" tabIndex="15"></select>
                     </div>
                     <div class="col-sm-3">
-                        Customer Type :<br />
+                        <label id="lblCustType">Customer Type :</label>
+                        <br />
                         <select id="txtCustType" class="form-control dropdown" tabIndex="16"></select>
                     </div>
                     <div class="col-sm-3">
-                        Grade/Level :<br /><input type="text" id="txtLevelGrade" class="form-control" tabIndex="17">
+                        <label id="lblLevelGrade">Grade/Level :</label>
+                        <br /><input type="text" id="txtLevelGrade" class="form-control" tabIndex="17">
                     </div>
                     <div class="col-sm-3">
-                        Payment Term :<br /><input type="text" id="txtTermOfPayment" class="form-control" tabIndex="18" value="0">
+                        <label id="lblTermOfPayment">Payment Term :</label>
+                        <br /><input type="text" id="txtTermOfPayment" class="form-control" tabIndex="18" value="0">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
-                        Billing Condition :<br /><input type="text" id="txtBillCondition" class="form-control" tabIndex="19">
+                        <label id="lblBillCondition">Billing Condition :</label>
+                        <br /><input type="text" id="txtBillCondition" class="form-control" tabIndex="19">
                     </div>
                     <div class="col-sm-3">
-                        Credit Limit :<br /><input type="text" id="txtCreditLimit" class="form-control" tabIndex="20" value="0.00">
+                        <label id="lblCreditLimit">Credit Limit :</label>
+                        <br /><input type="text" id="txtCreditLimit" class="form-control" tabIndex="20" value="0.00">
                     </div>
                     <div class="col-sm-3">
-                        Duty Limit :<br /><input type="text" id="txtDutyLimit" class="form-control" tabIndex="21" value="0.00">
+                        <label id="lblDutyLimit">Duty Limit :</label>
+                        <br /><input type="text" id="txtDutyLimit" class="form-control" tabIndex="21" value="0.00">
                     </div>
                     <div class="col-sm-3">
-                        Commission Rate :<br /><input type="text" id="txtCommRate" class="form-control" tabIndex="22" value="0.00">
+                        <label id="lblCommRate">Commission Rate :</label>
+                        <br /><input type="text" id="txtCommRate" class="form-control" tabIndex="22" value="0.00">
                     </div>
                 </div>
             </div>
             <div id="tabCust2" class="tab-pane fade in active">
                 <div class="row">
                     <div class="col-sm-6">
-                        GL Code :
+                        <label id="lblGLAccountCode">GL Code :</label>                        
                         <br />
                         <div style="display:flex">
                             <input type="text" id="txtGLAccountCode" class="form-control" style="width:20%" tabIndex="23">
                             <input type="button" class="btn btn-default" value="..." onclick="SearchData('acccode')" />
                             <input type="text" id="txtGLAccountName" class="form-control" style="width:100%" disabled>
                         </div>
-                        Billing To:<br />
+                        <label id="lblBillToCustCode">Billing To:</label>
+                        <br />
                         <div style="display:flex">
                             <input type="text" id="txtBillToCustCode"style="width:40%" class="form-control" tabIndex="24">
                             <input type="text" id="txtBillToBranch" style="width:20%" class="form-control" tabIndex="25">
                             <input type="button" value="..." class="btn btn-default" onclick="SearchData('billing')" />
                             <input type="button" value="Same As Company" class="btn btn-primary" onclick="SetBilling()" />
-                        </div>                                                
-                        Billing Name :<input type="text" id="txtBillToCustName" class="form-control" disabled />
-                        Billing Address :<textarea id="txtBillToAddress" class="form-control" disabled></textarea>
+                        </div>                                   
+                        <label id="lblBillToCustName">Billing Name :</label>
+                        <input type="text" id="txtBillToCustName" class="form-control" disabled />
+                        <label id="lblBillToAddress">Billing Address :</label>
+                        <textarea id="txtBillToAddress" class="form-control" disabled></textarea>
                     </div>
                     <div class="col-sm-6">
-                        BLDG No/Street :<br />
+                        <label id="lblTAddress">BLDG No/Street :</label>
+                        <br />
                         <input type="text" id="txtTAddress" class="form-control" tabIndex="26">
-                        District :
+                        <label id="lblTDistrict">District :</label>                        
                         <br />
                         <div style="display:flex">
                             <input type="text" id="txtTDistrict" class="form-control" style="width:100%" tabIndex="27">
                             <input type="button" class="btn btn-default" value="..." onclick="SearchData('subdistrict')" />
                         </div>
-                        Sub District :<br />
+                        <label id="lblTSubProvince">Sub District :</label>
+                        <br />
                         <input type="text" id="txtTSubProvince" class="form-control" tabIndex="28">
-                        Province :<br />
-                                  <div style="display:flex">
-                                      <input type="text" id="txtTProvince" class="form-control" style="width:20%" tabIndex="29">
-                                      <input type="text" id="txtTProvinceName" class="form-control" style="width:80%" disabled>
-                                  </div>
-                        PostCode :<br />
-                                  <div style="display:flex">
-                                      <input type="text" id="txtTPostCode" style="width:20%" class="form-control" tabIndex="30">
-                                      <input type="button" class="btn btn-primary" value="Set Full Address" onclick="SetAddress()" /> &nbsp;
-                                      <input type="button" value="Company Contact" class="btn btn-warning" onclick="AddContact()" />
-                                  </div>
-                        
+                        <label id="lblTProvince">Province :</label>
+                        <br />
+                        <div style="display:flex">
+                            <input type="text" id="txtTProvince" class="form-control" style="width:20%" tabIndex="29">
+                            <input type="text" id="txtTProvinceName" class="form-control" style="width:80%" disabled>
+                        </div>
+                        <label id="lblTPostCode">PostCode :</label>
+                        <br />
+                        <div style="display:flex">
+                            <input type="text" id="txtTPostCode" style="width:20%" class="form-control" tabIndex="30">
+                            <input type="button" class="btn btn-primary" value="Set Full Address" onclick="SetAddress()" /> &nbsp;
+                            <input type="button" value="Company Contact" class="btn btn-warning" onclick="AddContact()" />
+                        </div>                        
                     </div>
                 </div>
 
@@ -150,7 +176,8 @@ End Code
             <div id="tabCust3" class="tab-pane fade">
                 <div class="row">
                     <div class="col-sm-3">
-                        Sales:<br />
+                        <label id="lblManagerCode">Sales:</label>
+                        <br />
                         <div style="display:flex">
                             <div style="flex:1">
                                 <input type="text" id="txtManagerCode" class="form-control" tabIndex="31">
@@ -161,7 +188,8 @@ End Code
                         </div>                        
                     </div>
                     <div class="col-sm-3">
-                        CS Import :<br />
+                        <label id="lblCSCodeIM">CS Import :</label>
+                        <br />
                         <div style="display:flex">
                             <div style="flex:1">
                                 <input type="text" id="txtCSCodeIM" class="form-control" tabIndex="32">
@@ -172,7 +200,8 @@ End Code
                         </div>
                     </div>
                     <div class="col-sm-3">
-                        CS Export :<br />
+                        <label id="lblCSCodeEX">CS Export :</label>
+                        <br />
                         <div style="display:flex">
                             <div style="flex:1">
                                 <input type="text" id="txtCSCodeEX" class="form-control" tabIndex="33">
@@ -183,7 +212,8 @@ End Code
                         </div>
                     </div>
                     <div class="col-sm-3">
-                        CS Others :<br />
+                        <label id="lblCSCodeOT">CS Others :</label>
+                        <br />
                         <div style="display:flex">
                             <div style="flex:1">
                                 <input type="text" id="txtCSCodeOT" class="form-control" tabIndex="34">
@@ -196,17 +226,19 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        Consign Status :<br /><input type="text" id="txtConsStatus" class="form-control" disabled />
+                        <label id="lblConsStatus">Consign Status :</label>
+                        <br /><input type="text" id="txtConsStatus" class="form-control" disabled />
                         <br /><select id="cboCompanyType" class="form-control" style="height:300px" multiple></select>
                     </div>
                     <div class="col-sm-6">
-                        Commercial Level :<br /><input type="text" id="txtCommLevel" class="form-control" disabled />
+                        <label id="lblCommLevel">Commercial Level :</label>
+                        <br /><input type="text" id="txtCommLevel" class="form-control" disabled />
                         <br /><select id="cboCommLevel" class="form-control"></select>
                         <br/>
                         Tracking Authorized : <br/>
                         <div style="display:flex">
-                            <label style="display:block;width:250px">Log in : </label><input type="text" id="txtLoginName" class="form-control">                                                                                      
-                            <label style="display:block;width:250px">Password : </label><input type="password" id="txtLoginPassword" class="form-control">
+                            <label id="lblLoginName" style="display:block;width:250px">Log in : </label><input type="text" id="txtLoginName" class="form-control">                                                                                      
+                            <label id="lblLoginPassword" style="display:block;width:250px">Password : </label><input type="password" id="txtLoginPassword" class="form-control">
                         </div>
                     </div>
                 </div>

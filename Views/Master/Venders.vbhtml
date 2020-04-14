@@ -6,49 +6,60 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                Vender Code:<br /><input type="text" id="txtVenCode" Class="form-control" tabIndex="0">
+                <label id="lblVenCode">Vender Code:</label>
+                <br /><input type="text" id="txtVenCode" Class="form-control" tabIndex="0">
             </div>
             <div class="col-sm-4">
-                Branch :<br />
+                <label id="lblBranchCode">Branch :</label>
+                <br />
                 <input type="text" id="txtBranchCode" Class="form-control" tabIndex="1" />
             </div>
             <div class="col-sm-4">
-                Tax Number:<br /><input type="text" id="txtTaxNumber" Class="form-control" tabIndex="2">
+                <label id="lblTaxNumber">Tax Number:</label>
+                <br /><input type="text" id="txtTaxNumber" Class="form-control" tabIndex="2">
             </div>
         </div>
         <div class="row">
             <div class="col-sm-3">
-                Title:<br /><input type="text" id="txtTitle" Class="form-control" tabIndex="3">
+                <label id="lblVenTitle">Title:</label>
+                <br /><input type="text" id="txtTitle" Class="form-control" tabIndex="3">
             </div>
             <div class="col-sm-4">
-                Name:<br /><input type="text" id="txtTName" Class="form-control" tabIndex="4">
+                <label id="lblTName">Name:</label>
+                <br /><input type="text" id="txtTName" Class="form-control" tabIndex="4">
             </div>
             <div class="col-sm-5">
-                English:<br /><input type="text" id="txtEnglish" Class="form-control" tabIndex="5">
+                <label id="lblEnglish">English:</label>
+                <br /><input type="text" id="txtEnglish" Class="form-control" tabIndex="5">
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
-                Address (TH):<br /><input type="text" id="txtTAddress1" Class="form-control" tabIndex="6">
+                <label id="lblTAddress1">Address (TH):</label>
+                <br /><input type="text" id="txtTAddress1" Class="form-control" tabIndex="6">
                 <br /><input type="text" id="txtTAddress2" Class="form-control" tabIndex="7">
             </div>
             <div class="col-sm-6">
-                Address (EN):<br /><input type="text" id="txtEAddress1" Class="form-control" tabIndex="8">
+                <label id="lblEAddress1">Address (EN):</label>
+                <br /><input type="text" id="txtEAddress1" Class="form-control" tabIndex="8">
                 <br /><input type="text" id="txtEAddress2" Class="form-control" tabIndex="9">
             </div>
         </div>
         <div class="row">
             <div class="col-sm-3">
-                Phone:<br /><input type="text" id="txtPhone" Class="form-control" tabIndex="10">
+                <label id="lblPhone">Phone:</label>
+                <br /><input type="text" id="txtPhone" Class="form-control" tabIndex="10">
             </div>
             <div class="col-sm-3">
-                Fax:<br /><input type="text" id="txtFaxNumber" Class="form-control" tabIndex="11">
+                <label id="lblFaxNumber">Fax:</label>
+                <br /><input type="text" id="txtFaxNumber" Class="form-control" tabIndex="11">
             </div>
             <div class="col-sm-4">
-                Web/E-mail:<br /><input type="text" id="txtWEB_SITE" Class="form-control" tabIndex="12">
+                <label id="lblWEB_SITE">Web/E-mail:</label>
+                <br /><input type="text" id="txtWEB_SITE" Class="form-control" tabIndex="12">
             </div>
             <div class="col-sm-2">
-                GL Code:
+                <label id="lblGLAccountCode">GL Code:</label>                
                 <br />
                 <div style="display:flex">
                     <input type="text" id="txtGLAccountCode" Class="form-control" tabIndex="13">
@@ -58,9 +69,11 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-4" style="display:flex;flex-direction:column">
-                <b>Contact Information:</b><br/>                
-                Account :<input type="text" id="txtContactAcc" Class="form-control" tabIndex="13">
-                Sales : <input type="text" id="txtContactSale" Class="form-control" tabIndex="14">
+                <b><label id="lblContact">Contact Information:</label></b>
+                <br/>      
+                <label id="lblContactAcc">Account :</label>
+                <input type="text" id="txtContactAcc" Class="form-control" tabIndex="13">
+                <label id="lblContactSale">Sales :</label><input type="text" id="txtContactSale" Class="form-control" tabIndex="14">
             </div>
             <div class="col-sm-4" style="display:flex;flex-direction:column">
                 <b>Customer Service :</b><br/>

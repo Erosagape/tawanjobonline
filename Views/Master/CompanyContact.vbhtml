@@ -5,7 +5,7 @@ End Code
     <div id="dvForm" class="container">
         <div class="row">
             <div class="col-sm-4">
-                Customer :<br />
+                <label id="lblCustCode"> Customer :</label><br />
                 <table>
                     <tr>
                         <td style="width:60%">
@@ -27,7 +27,7 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-2">
-                No :<br />
+                <label id="lblItemNo"> No :</label><br />
                     <div style="display:flex">
                         <div style="flex:60%">
                             <input type="text" id="txtItemNo" class="form-control" value="0" disabled>
@@ -38,21 +38,21 @@ End Code
                     </div>                                
             </div>
             <div class="col-sm-5">
-                Department :<br /><input type="text" id="txtDepartment" class="form-control">
+                <label id="lblDepartment">Department :</label><br /><input type="text" id="txtDepartment" class="form-control">
             </div>
             <div class="col-sm-5">
-                Position :<br /><input type="text" id="txtPosition" class="form-control">
+                <label id="lblPosition">Position :</label><br /><input type="text" id="txtPosition" class="form-control">
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
-                Name :<br /><input type="text" id="txtContactName" class="form-control">
+                <label id="lblContactName">Name :</label><br /><input type="text" id="txtContactName" class="form-control">
             </div>
             <div class="col-sm-3">
-                E-Mail :<br /><input type="text" id="txtEMail" class="form-control">
+                <label id="lblEMail">E-Mail :</label><br /><input type="text" id="txtEMail" class="form-control">
             </div>
             <div class="col-sm-3">
-                Phone :<br /><input type="text" id="txtPhone" class="form-control">
+                <label id="lblPhone">Phone :</label><br /><input type="text" id="txtPhone" class="form-control">
             </div>
         </div>
         <div id="dvCommand">

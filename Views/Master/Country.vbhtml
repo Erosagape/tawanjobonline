@@ -5,16 +5,16 @@ End Code
     <div id="dvForm">
         <div class="row">
             <div class="col-sm-3">
-                Country Code :<br/>
+                <label id="lblCTYCODE">Country Code :</label><br/>
                 <input type="text" id="txtCTYCODE" class="form-control" tabIndex="1">
             </div>
             <div class="col-sm-9">
-                Country Name :<br /><input type="text" id="txtCTYName" class="form-control" tabIndex="2">
+                <label id="lblCTYName">Country Name :</label><br /><input type="text" id="txtCTYName" class="form-control" tabIndex="2">
             </div>
         </div>
         <div class="row">
             <div class="col-sm-8">
-                Currency Code:
+                <label id="lblCURCODE">Currency Code:</label>
                 <br />
                 <div style="display:flex">
                     <div style="flex:20%">
@@ -29,10 +29,10 @@ End Code
                 </div>
             </div>
             <div class="col-sm-2">
-                FT CODE :<br /><input type="number" id="txtFTCODE" class="form-control" tabIndex="4" value="0">
+                <label id="lblFTCODE">FT CODE :</label><br /><input type="number" id="txtFTCODE" class="form-control" tabIndex="4" value="0">
             </div>
             <div class="col-sm-2">
-                CU CODE :<br /><input type="number" id="txtCUCODE" class="form-control" tabIndex="5" value="0">
+                <label id="lblCUCODE">CU CODE :</label><br /><input type="number" id="txtCUCODE" class="form-control" tabIndex="5" value="0">
             </div>
         </div>
     </div>

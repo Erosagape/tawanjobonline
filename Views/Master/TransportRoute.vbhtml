@@ -9,7 +9,7 @@ End Code
     <div id="tabHeader" class="tab-pane fade in active">
         <div class="row">
             <div class="col-sm-1">
-                Type:
+                <label id="lblTemplate">Type:</label>                
                 <br />
                 <select id="cboTemplate" class="form-control dropdown" onclick="GenRoute()">
                     <option value="3124" selected>
@@ -46,9 +46,9 @@ End Code
                 <div class="col-md-3">
                     <label id="lblPlace1">Pickup</label><br />
                     <input type="text" class="form-control" id="txtPlace1" onchange="GenRoute()" />
-                    Address<br />
+                    <label id="lblAddress1">Address</label><br />
                     <textarea class="form-control" id="txtAddress1"></textarea>
-                    Contact<br />
+                    <label id="lblContact1">Contact</label><br />
                     <input type="text" class="form-control" id="txtContact1" />
                     <input type="button" class="btn btn-success" value="Save" onclick="SavePlace(1)" />
                     <input type="button" class="btn w3-purple" value="Clear" onclick="ClearPlace(1)" />
@@ -56,9 +56,9 @@ End Code
                 <div class="col-md-3">
                     <label id="lblPlace2">Delivery</label><br />
                     <input type="text" class="form-control" id="txtPlace2" onchange="GenRoute()" />
-                    Address<br />
+                    <label id="lblAddress2">Address</label><br />
                     <textarea class="form-control" id="txtAddress2"></textarea>
-                    Contact<br />
+                    <label id="lblContact2">Contact</label><br />
                     <input type="text" class="form-control" id="txtContact2" />
                     <input type="button" class="btn btn-success" value="Save" onclick="SavePlace(2)" />
                     <input type="button" class="btn w3-purple" value="Clear" onclick="ClearPlace(2)" />
@@ -66,9 +66,9 @@ End Code
                 <div class="col-md-3">
                     <label id="lblPlace3">Container Yard</label><br />
                     <input type="text" class="form-control" id="txtPlace3" onchange="GenRoute()" />
-                    Address<br />
+                    <label id="lblAddress3">Address</label><br />
                     <textarea class="form-control" id="txtAddress3"></textarea>
-                    Contact<br />
+                    <label id="lblContact3">Contact</label><br />
                     <input type="text" class="form-control" id="txtContact3" />
                     <input type="button" class="btn btn-success" value="Save" onclick="SavePlace(3)" />
                     <input type="button" class="btn w3-purple" value="Clear" onclick="ClearPlace(3)" />
@@ -76,9 +76,9 @@ End Code
                 <div class="col-md-3">
                     <label id="lblPlace4">Port</label><br />
                     <input type="text" class="form-control" id="txtPlace4" onchange="GenRoute()" />
-                    Address<br />
+                    <label id="lblAddress4">Address</label><br />
                     <textarea class="form-control" id="txtAddress4"></textarea>
-                    Contact<br />
+                    <label id="lblContact4">Contact</label><br />
                     <input type="text" class="form-control" id="txtContact4" />
                     <input type="button" class="btn btn-success" value="Save" onclick="SavePlace(4)" />
                     <input type="button" class="btn w3-purple" value="Clear" onclick="ClearPlace(4)" />
@@ -131,7 +131,8 @@ End Code
     <div id="tabDetail" class="tab-pane fade">
         <div class="row">
             <div class="col-sm-4">
-                Branch:<br />
+                <label id="lblBranchCode">Branch:</label>
+                <br />
                 <div style="display:flex">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
                     <input type="button" class="btn btn-default" value="..." onclick="SearchData('branch');" />
@@ -139,7 +140,8 @@ End Code
                 </div>
             </div>
             <div class="col-md-4">
-                Location:<br />
+                <label id="lblLocation">Location:</label>
+                <br />
                 <select id="cboLocationID" class="form-control dropdown" onchange="LoadPrice()"></select>
             </div>
             <div class="col-md-4">
@@ -151,7 +153,8 @@ End Code
         </div>
         <div class="row">
             <div class="col-md-6">
-                Vender :<br />
+                <label id="lblVender">Vender :</label>
+                <br />
                 <div style="display:flex">
                     <input type="text" id="txtVenderCode" class="form-control" style="width:20%" disabled />
                     <input type="button" id="btnBrowseVend" class="btn btn-default" value="..." onclick="SearchData('vender')" />
@@ -159,7 +162,8 @@ End Code
                 </div>
             </div>
             <div class="col-md-6">
-                Customer :<br />
+                <label id="lblCustomer">Customer :</label>
+                <br />
                 <div style="display:flex">
                     <input type="text" id="txtCustCode" class="form-control" style="width:20%" disabled />
                     <input type="button" id="btnBrowseCust" class="btn btn-default" value="..." onclick="SearchData('cust')" />
@@ -169,7 +173,8 @@ End Code
         </div>
         <div class="row">
             <div class="col-md-4">
-                Expense Code:<br />
+                <label id="lblExpenseCode">Expense Code:</label>
+                <br />
                 <div style="display:flex">
                     <input type="text" id="txtSICode" class="form-control" style="width:20%" disabled />
                     <input type="button" id="btnBrowseCost" class="btn btn-default" value="..." onclick="SearchData('costcode')" />
@@ -177,11 +182,13 @@ End Code
                 </div>
             </div>
             <div class="col-md-2">
-                Amount:<br />
+                <label id="lblAmount">Amount:</label>
+                <br />
                 <input type="text" id="txtCostAmount" class="form-control" />
             </div>
             <div class="col-md-4">
-                Charge Code:<br />
+                <label id="lblChargeCode">Charge Code:</label>
+                <br />
                 <div style="display:flex">
                     <input type="text" id="txtChargeCode" class="form-control" style="width:20%" disabled />
                     <input type="button" id="btnBrowseCharge" class="btn btn-default" value="..." onclick="SearchData('servicecode')" />
@@ -189,7 +196,8 @@ End Code
                 </div>
             </div>
             <div class="col-md-2">
-                Amount:<br />
+                <label id="lblCAmount">Amount:</label>
+                <br />
                 <input type="text" id="txtChargeAmount" class="form-control" />
             </div>
         </div>

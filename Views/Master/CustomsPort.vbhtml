@@ -4,9 +4,10 @@ End Code
 <div class="panel-body">
     <div class="container">
         <div id="dvForm">
-            Area Code :
-            <br /><input type="text" id="txtAreaCode" class="form-control" tabIndex="1">
-            Area Name :<br /><input type="text" id="txtAreaName" class="form-control" tabIndex="2">
+            <label id="lblAreaCode">Area Code :</label>
+            <br />
+            <input type="text" id="txtAreaCode" class="form-control" tabIndex="1">
+            <label id="lblAreaName">Area Name :</label><br /><input type="text" id="txtAreaName" class="form-control" tabIndex="2">
             <input type="hidden" id="txtAccNo" class="form-control">
             <input type="hidden" id="txtPayee" class="form-control">
             <input type="hidden" id="txtBankCode" class="form-control">

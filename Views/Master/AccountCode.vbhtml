@@ -3,21 +3,21 @@
 End Code
 <div class="row">
     <div class="col-sm-2">
-        Code :
+        <label id="lblAccCode">Code :</label>        
         <br />
         <div style="display:flex">
             <input type="text" id="txtAccCode" class="form-control">
         </div>
     </div>
     <div class="col-sm-5">
-        Name (TH) :
+        <label id="lblAccTName">Name (TH) :</label>
         <br />
         <div style="display:flex">
             <input type="text" id="txtAccTName" class="form-control">
         </div>
     </div>
     <div class="col-sm-5">
-        Name (EN) :
+        <label id="lblAccEName">Name (EN) :</label>
         <br />
         <div style="display:flex">
             <input type="text" id="txtAccEName" class="form-control">
@@ -26,7 +26,7 @@ End Code
 </div>
 <div class="row">
     <div class="col-sm-2">
-        Type :
+        <label id="lblAccType">Type :</label>
         <br />
         <div style="display:flex">
             <select id="txtAccType" class="form-control dropdown">
@@ -39,7 +39,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-8">
-        Close Balance To :
+        <label id="lblAccMain">Close Balance To :</label>
         <br />
         <div style="display:flex">
             <input type="text" id="txtAccMain" class="form-control" style="width:15%" disabled>
@@ -48,7 +48,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        Side :
+        <label id="lblAccSide">Side :</label>
         <br />
         <div style="display:flex">
             <select id="txtAccSide" class="form-control dropdown">

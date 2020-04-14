@@ -160,6 +160,18 @@ function ChangeLanguage(code, module) {
 function ChangeLanguageForm(fname) {
     let lang = {};
     switch (fname) {
+        case 'MODULE_ACC/AccountCode':
+            lang = {
+                lblTitle : 'Account Code|รหัสบัญชี',
+                lblAccCode: 'Code|รหัส',
+                lblAccTName: 'Name (TH)|ชื่อ(ไทย)',
+                lblAccEName: 'Name (EN)|ชื่อ(อังกฤษ)',
+                lblAccType: 'Type|ประเภท',
+                lblAccMain: 'Close Balance To|ปิดยอดให้กับ',
+                lblAccSide: 'Side|บันทึกบัญชีด้าน'
+            };
+            SetLanguage(lang);
+            break;
         case 'MODULE_SALES/Quotation':
             lang = {
                 lblTitle:'Quotation|ใบเสนอราคา',
@@ -238,6 +250,18 @@ function ChangeLanguageForm(fname) {
             };
             SetLanguage(lang);
             break;
+        case 'MODULE_CS/Index':
+            lang = {
+                lblBranch: 'Branch|สาขา',
+                lblStatus: 'Status|สถานะ',
+                lblJobType: 'Job Type|ประเภทงาน',
+                lblShipBy: 'Ship By|ลักษณะงาน',
+                lblYear: 'Year|ปี',
+                lblMonth: 'Month|เดือน',
+                lblJob: 'Enter Job >>|คีย์หมายเลขงานที่นี่ >>'
+            };
+            SetLanguage(lang);
+            break;
         case 'MODULE_CS/CreateJob':
             lang = {
                 lblTitle: 'Create Job|สร้างหมายเลขงานใหม่',
@@ -260,6 +284,356 @@ function ChangeLanguageForm(fname) {
                 lblCreateJob: 'Create Job|สร้างหมายเลขงาน',
                 lblSaveComplete: 'Create Job Complete|สร้างหมายเลขงานเรียบร้อย',
                 btnViewJob: 'View/Edit Job|ดู/แก่ไชข้อมูล'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/Bank':
+            lang = {
+                lblTitle: 'Banks|ธนาคาร',
+                lblBankCode: 'Bank Code|รหัสธนาคาร',
+                lblBankName: 'Bank Name|ชื่อธนาคาร',
+                lblCustomsCode: 'Customs Code|รหัสธนาคารกรมศุล'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/BookAccount':
+            lang = {
+                lblTitle: 'Bank Accounts|สมุดบัญชีธนาคาร',
+                lblchkIslocal: 'Is Local Bank?|ธนาคารในพื้นที่',
+                lblBranchCode: 'Branch|รหัสสาขา',
+                lblBookCode: 'Book No|เลขที่สมุดบัญชี',
+                lblBookName: 'Account Name|ชื่อบัญชี',
+                lblACType: 'Account Type|ประเภทบัญชี',
+                lblBankCode: 'Bank Code|รหัสธนาคาร',
+                lblBankName: 'Bank Name|ชื่อธนาคาร',
+                lblBankBranch: 'Bank Branch|สาขาธนาคาร',
+                lblTAddress1: 'Address (TH)|ที่อยู่(ไทย)',
+                lblEAddress1: 'Address (EN)|ที่อยู่(อังกฤษ)',
+                lblGLAccountCode: 'GL Code|บัญชีแยกประเภท',
+                lblPhone: 'Phone|หมายเลขโทรศัพท์',
+                lblFaxNumber: 'Fax|หมายเลขโทรสาร',
+                lblLimitBalance: 'Minimum Balance|ยอดเงินขั้นต่ำ'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/Branch':
+            lang = {
+                lblTitle: 'Branch|สาขา',
+                lblBranchCode: 'Branch Code|สาขา',
+                lblBranchName: 'Branch Name|ชื่อสาขา'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/BudgetPolicy':
+            lang = {
+                lblTitle: 'Budget Control Policy|มาตรฐานควบคุมงบประมาณ',
+                lblBranchCode: 'Branch Code|รหัสสาขา',
+                lblJobType: 'Job Type|ประเภทงาน',
+                lblShipBy: 'Ship By|โดยทาง',
+                lblID: 'Policy ID|รหัส',
+                lblSICode: 'Code|รหัสค่าบริการ',
+                lblSDescription: 'Bank Code|รหัสธนาคาร',
+                lblTRemark: 'lblTRemark|หมายเหตุ',
+                lblMaxAdvance: 'Max Advance|Max Advance',
+                lblMaxCost: 'Max Cost|Max Cost',
+                lblMinCharge: 'Min Charge|Min Charge',
+                lblMinProfit: 'Min Profit|Min Profit',
+                lblActive: 'Active|Active',
+                lblLastUpdate: 'LastUpdate|LastUpdate',
+                lblUpdateBy: 'UpdateBy|UpdateBy'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/Index':
+            lang = {
+                lblTitle: 'System variable|ค่าคงที่ระบบ',
+                lblCode: 'Config Group|กลุ่ม',
+                lblKey: 'Config Key|ชื่อตัวแปร',
+                lblValue: 'Config Value|ค่าของตัวแปร'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/CompanyContact':
+            lang = {
+                lblTitle: 'Contacts|ผู้ติดต่อ',
+                lblCustCode:'Customer|ลูกค้า',
+                lblItemNo: 'Code|รหัส',
+                lblDepartment: 'Department|แผนก',
+                lblPosition: 'Position|ตำแหน่ง',
+                lblContactName: 'ContactName|ชื่อผู้ติดต่อ',
+                lblEMail: 'EMail|EMail',
+                lblPhone: 'Phone|หมายเลขโทรศัพท์'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/Country':
+            lang = {
+                lblTitle: 'Country|ประเทศ',
+                lblCTYCODE: 'Country Code|รหัสประเทศ',
+                lblCTYName: 'Country Name|ชื่อประเทศ',
+                lblCURCODE: 'Currency Code|รหัสเงินตรา',
+                lblFTCODE: 'FT CODE|FT CODE',
+                lblCUCODE: 'CU CODE|CU CODE'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/Currency':
+            lang = {
+                lblTitle:'Currency|สกุลเงิน',
+                lblCode: 'Currency Code|รหัสเงินตรา',
+                lblTName: 'Currency Name|ชื่อประเทศ',
+                lblStartDate: 'Begin Date|วันที่เริ่มต้น',
+                lblFinishDate: 'Expire Date|วันที่หมดอายุ',
+                lblLastUpdate: 'Last Update|เปลี่ยนแปลงล่าสุด'
+
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/Customers':
+            lang = {
+                lblTitle:'Customers|ผู้นำเข้าส่งออก',
+                lblCustCode: 'Customer Code|รหัสลูกค้า',
+                lblBranch: 'Branch|สาขา',
+                lblCustGroup: 'Customer Group|กลุ่มลูกค้า',
+                lblTaxNumber: 'Tax-Reference|Tax-Reference',
+                lblCustTitle: 'Title|Title',
+                lblNameThai: 'Name (TH)|ชื่อ(ไทย)',
+                lblNameEng: 'English|ชื่อ(อังกฤษ)',
+                lblTAddress1: 'Address (TH)|Address (TH)',
+                lblEAddress1: 'Address (EN)|Address (EN)',
+                lblPhone: 'Phone|หมายเลขโทรศัพท์',
+                lblFaxNumber: 'FaxNumber|หมายเลขโทรสาร',
+                lblDMailAddress: 'MailAddress|MailAddress',
+                lblWEB_SITE: 'WEB SITE|WEB SITE',
+                lblUsedLanguage: 'UsedLanguage|ภาษาที่ใช้',
+                lblCustType: 'Customer Type|Customer Type',
+                lblLevelGrade: 'Level|Level',
+                lblTermOfPayment: 'Payment Term|เงื่อนไขการชำระเงิน',
+                lblBillCondition: 'Billing Condition|เงื่อนไขการวางบิล',
+                lblCreditLimit: 'Credit Limit|Credit Limit',
+                lblDutyLimit: ' Duty Limit| Duty Limit',
+                lblCommRate: 'Commission Rate|Commission Rate',
+                lblGLAccountCode: 'GL Code|GL Code',
+                lblBillToCustCode: 'Billing To|รหัสที่วางบิล',
+                lblBillToBranch: 'Billing Branch|สาขาที่วางบิล',
+                lblBillToCustName: 'Billing Name|ชื่อที่วางบิล',
+                lblBillToAddress: 'Billing Address|ที่อยู่ที่วางบิล',
+                lblTAddress: 'BLDG No/Street|ที่อยู่',
+                lblTDistrict: 'District|ตำบล',
+                lblTSubProvince: 'Sub District|อำเภอ',
+                lblTProvince: 'Province|จังหวัด',
+                lblTPostCode: 'PostCode|รหัสไปรษณี',
+                lblManagerCode: 'Sales|เซลส์',
+                lblCSCodeIM: 'CS Import|CS Import',
+                lblCSCodeEX: 'CS Export|CS Export',
+                lblCSCodeOT: ' CS Others| CS Others',
+                lblConsStatus: 'Consign Status|Consign Status',
+                lblCommLevel: 'Commercial Level |Commercial Level ',
+                lblLoginName: 'Log in|Log in',
+                lblLoginPassword: 'Password|Password'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/CustomsPort':
+            lang = {
+                lblTitle: 'Customs Inspection Area|ด่านศุุลกากร',
+                lblAreaCode: 'Area Code|รหัสด่าน',
+                lblAreaName: 'Area Name|ชื่อด่าน'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/CustomsUnit':
+            lang = {
+                lblTitle: 'Customs Unit|หน่วยสินค้าศุลกากร',
+                lblCode: 'Unit Code|รหัสหน่วย',
+                lblTName: 'Unit Name|ชื่อหน่วย'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/DeclareType':
+            lang = {
+                lblTitle: 'Declare Type|ประเภทใบขน',
+                lblType: 'Declare Type|Declare Type',
+                lblDescription: 'Description|รายละเอียด',
+                lblCategory: 'Category|ประเภท',
+                lblStartDate: 'StartDate|วันที่เริ่มต้น',
+                lblFinishDate: 'FinishDate|วันที่สิ้นสุด',
+                lblLastUpdate: 'LastUpdate|วันที่ล่าสุด'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/InterPort':
+            lang = {
+                lblTitle: 'International Port|ท่าเรือต่างประเทศ',
+                lblCountryCode: 'Country Code|รหัสประเทศ',
+                lblPortCode: 'Port Code|รหัสพอร์ท',
+                lblPortName: 'Port Name|ชื่อพอร์ท',
+                lblStartDate: 'StartDate|วันที่เริ่มต้น',
+                lblFinishDate: 'FinishDate|วันที่สิ้นสุด'
+                //txtLastUpdate : 'LastUpdate|LastUpdate'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/Province':
+            lang = {
+                lblTitle: 'Province|อำเภอ/ตำบล/จังหวัด',
+                lblProvinceCode: 'ProvinceCode|รหัสจังหวัด',
+                lblProvinceName: 'ProvinceName|ชื่อจังหวัด',
+                lblid: 'ID|ID',
+                lblDistrict: 'District|ตำบล',
+                lblSubProvince: 'SubProvince|อำเภอ',
+                lblPostCode: 'PostCode|รหัสไปรษณี'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_ADM/Role':
+            lang = {
+                lblTitle: 'User Role|บทบาทของผู้ใช้งาน',
+                lblRoleID: 'Role Id|รหัสบทบาท',
+                lblRoleDesc: 'Role Description|คำอธิบาย',
+                lblRoleGroup: 'Role Level|ระดับผู้่ใช้งาน',
+                lblUser: 'User ID|รหัสพนักงาน',
+                lblUserRole: 'User On this Role|พนักงานในบทบาทนี้',
+                lblFunction: 'Function|ฟังก์ชั่นการทำงาน'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/ServiceCode':
+            lang = {
+                lblTitle: 'Service Code|รหัสค่าบริการ',
+                lblType: 'Type|ประเภท',
+                lblSICode: 'SICode|รหัสค่าบริการ',
+                lblNameThai: 'NameThai|ชื่อ(ไทย)',
+                lblNameEng: 'NameEng|ชื่อ(อังกฤษ)',
+                lblStdPrice: 'Price|ราคา',
+                lblCurrencyCode: 'CurrencyCode|เงินตรา',
+                lblUnitCharge: 'UnitCharge|หน่วยเรียกเก็บ',
+                lblDefaultVender: 'DefaultVender|ผุ้ให้บริการ',
+                lblGLAccountCodeSales: 'GLCodeSales|GLCodeSales',
+                lblGLAccountCodeCost: 'GLCodeCost|GLCodeCost',
+                lblProcessDesc: 'ProcessDesc|ProcessDesc',
+                lblchkIsTaxCharge: 'IsTaxCharge|คิดภาษีมูลค่าเพิ่ม',
+                lblchkIsCredit: 'IsCredit|เป็นค่าบริการแบบเครดิต',
+                lblchkIsExpense: 'IsExpense |เป็นต้นทุน',
+                lblchkIsHaveSlip: 'IsHaveSlip|เป็นค่าบริการมีใบเสร็จในนามลูกค้า',
+                lblchkIs50Tavi: 'Is50Tavi|ต้องหัก ณ ที่จ่าย',
+                lblchkIsShowPrice: 'IsShowPrice |แสดงราคา',
+                lblchkIsUsedCoSlip: 'IsUsedCoSlip|เป็นเงินมัดจำ'
+            };            
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/ServiceGroup':
+            lang = {
+                lblTitle: 'Service Group|กลุ่มค่าบริการ',
+                lblGroupCode: 'GroupCode|รหัสกลุ่มค่าบริการ',
+                lblGroupName: 'GroupName|ชื่อกลุ่มค่าบริการ',
+                lblGLAccountCode: 'GLCode|เลขที่บัญชี',
+                lblchkIsTaxCharge: 'IsTaxCharge |คิดภาษีมูลค่าเพิ่ม',
+                lblchkIsCredit: 'IsCredit|เป็นค่าบริการแบบเครดิต',
+                lblchkIsExpense: 'IsExpense|เป็นต้นทุน',
+                lblchkIsHaveSlip: 'IsHaveSlip|เป็นค่าบริการมีใบเสร็จในนามลูกค้า',
+                lblchkIs50Tavi: 'Is50Tavi|คิดหัก ณ ที่จ่ายไหม',
+                lblchkIsApplyPolicy: 'IsApplyPolicy|บังคับใช้ทุกค่าบริการ',
+                lblSICode: 'SICode|รหัสค่าบริการ'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/ServUnit':
+            lang = {
+                lblTitle:'Service Units|หน่วยสินค้าและบริการ',
+                lblUnitType: 'Unit Type|ประเภท',
+                lblUName: 'NameThai|ชื่อ(ไทย)',
+                lblEName: 'NameEng|ชื่อ(อังกฤษ)',
+                lblIsCTNUnit: 'IsCTNUnit|ประเภทหน่วย'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/TransportRoute':
+            lang = {
+                lblTitle: 'Transport Route|เส้นทางการขนส่ง',
+                lblTemplate: 'Type|ประเภท',
+                lblPlace1: 'Pickup|สถานที่รับสินค้า',
+                lblAddress1: 'Address|ที่อยู่',
+                lblContact1: 'Contact|ผู้ติดต่อ',
+                lblPlace2: 'Delivery|สถานที่ส่งสินค้า',
+                lblAddress2: 'Address|ที่อยู่',
+                lblContact2: 'Contact|ผู้ติดต่อ',
+                lblPlace3: 'Container Yard|ลานตู้สินค้า',
+                lblAddress3: 'Address|ที่อยู่',
+                lblContact3: 'Contact|ผู้ติดต่อ',
+                lblPlace4: 'Port|ท่าตรวจปล่อย',
+                lblAddress4: 'Address|ที่อยู่',
+                lblContact4: 'Contact|ผู้ติดต่อ',
+                lblBranchCode: 'Branch|สาขา',
+                lblLocation: 'Location|สถานที่',
+                lblVender: 'Vender|ผู้ให้บริการ',
+                lblCustomer: 'Customer|ลูกค้า',
+                lblExpenseCode: 'Expense Code|รหัสค่าใช้จ่าย',
+                lblAmount: 'Amount|ยอดค่าใช้จ่าย',
+                lblChargeCode: 'Charge Code|รหัสค่าบริการ',
+                lblCAmount: 'Amount|ยอดค่าบริการ'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/Users':
+            lang = {
+                lblTitle:'Users|พนักงาน',
+                lblUser: 'UserID|รหัสพนักงาน',
+                lblUPassword: 'Password|รหัสผ่าน',
+                lblDeptID: 'DeptID|รหัสแผนก',
+                lblTName: 'NameThai|ชื่อ(ไทย)',
+                lblEName: 'NameEng|ชื่อ(อังกฤษ)',
+                lblTPosition: 'TPosition|ตำแหน่ง',
+                lblUPosition: 'UPosition|ระดับ',
+                lblUserUpline : 'UserUpline|หัวหน้างาน',
+                lblEMail : 'EMail|EMail',
+                lblMobilePhone: 'MobilePhone|หมายเลขโทรศัพท์',
+                lblUsedLanguage : 'UsedLanguage|ภาษาที่ใช้'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/UserAuth':
+            lang = {
+                lblTitle: 'User Authorize|กำหนดสิทธิผู้ใช้งาน',
+                lblAppID: 'Module|กลุ่มงาน',
+                lblFunction: 'Function|เมนูการทำงาน',
+                lblSetBy: 'Set By|กำหนดตาม',
+                lblManage: 'Allow Manage|เข้าใช้งาน',
+                lblInsert: 'Allow Add|เพิ่มได้',
+                lblRead: 'Allow Search|ค้นหาได้',
+                lblEdit: 'Allow Edit|บันทึกข้อมูลได้',
+                lblDelete: 'Allow Delete|ลบ/ยกเลิกได้',
+                lblPrint:'Allow Print|พิมพ์ข้อมูลได้'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/Venders':
+            lang = {
+                lblTitle: 'Venders|ผู่้ให้บริการ',
+                lblVenCode: 'Vender Code|รหัสเวนเดอร์',
+                lblBranchCode: 'Branch|สาขา',
+                lblTaxNumber: 'Tax Number|เลขประจำตัวผู้เสียภาษี',
+                lblVenTitle : 'Title|คำนำหน้า',
+                lblTName: 'Name|ชื่อ(ไทย)',
+                lblEnglish: 'English|ชื่อ(อังกฤษ)',
+                lblTAddress1: 'Address (TH)|ที่อยู่ (ไทย)',
+                lblEAddress1: 'Address (EN)|ที่อยู่ (อังกฤษ)',
+                lblPhone: 'Phone|โทรศัพท์',
+                lblFaxNumber: 'Fax|แฟกซ์',
+                lblWEB_SITE: 'Web/E-mail|Web/E-mail',
+                lblGLAccountCode: 'GL Code|GL Code',
+                lblContact:'Contact Information|ข้อมูลผู้ติดต่อ',
+                lblContactAcc: 'Account|บัญชี',
+                lblContactSale: 'Sales|การตลาด'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_MAS/Vessel':
+            lang = {
+                lblTitle:'Vessel|พาหนะ',
+                lblRegsNumber: 'Register Code|รหัส',
+                lblTName: 'Name|ชื่อ',
+                lblVesselType: 'Type|ประเภท'
             };
             SetLanguage(lang);
             break;

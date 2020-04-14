@@ -6,14 +6,17 @@ End Code
         <div id="dvForm">
             <div class="row">
                 <div class="col-sm-2">
-                    Declare Type :<br />
+                    <label id="lblType">Declare Type :</label>
+                    <br />
                     <input type="text" id="txtType" class="form-control" tabIndex="1">
                 </div>
                 <div class="col-sm-7">
-                    Description :<br /><input type="text" id="txtDescription" class="form-control" tabIndex="2">
+                    <label id="lblDescription">Description :</label>
+                    <br /><input type="text" id="txtDescription" class="form-control" tabIndex="2">
                 </div>
                 <div class="col-sm-3">
-                    Category :<br />
+                    <label id="lblCategory">Category :</label>
+                    <br />
                     <select id="txtCategory" class="form-control dropdown" tabIndex="3">
                         <option value="B">IMPORT&EXPORT</option>
                         <option value="M">IMPORT</option>
@@ -23,13 +26,16 @@ End Code
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    StartDate :<br /><input type="date" id="txtStartDate" class="form-control" tabIndex="4">
+                    <label id="lblStartDate">StartDate :</label>
+                    <br /><input type="date" id="txtStartDate" class="form-control" tabIndex="4">
                 </div>
                 <div class="col-sm-4">
-                    FinishDate :<br /><input type="date" id="txtFinishDate" class="form-control" tabIndex="5">
+                    <label id="lblFinishDate">FinishDate :</label>
+                    <br /><input type="date" id="txtFinishDate" class="form-control" tabIndex="5">
                 </div>
                 <div class="col-sm-4">
-                    LastUpdate :<br /><input type="date" id="txtLastUpdate" class="form-control" disabled>
+                    <label id="lblLastUpdate">LastUpdate :</label>
+                    <br /><input type="date" id="txtLastUpdate" class="form-control" disabled>
                 </div>
             </div>
         </div>

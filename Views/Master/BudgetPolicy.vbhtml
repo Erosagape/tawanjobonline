@@ -6,7 +6,8 @@ End Code
     <div id="dvForm" class="container">
         <div class="row">
             <div class="col-sm-6">
-                Branch Code :<br />
+                <label id="lblBranchCode">Branch Code :</label>
+                <br />
                 <div style="display:flex">
                     <input type="text" id="txtBranchCode" style="width:100px" disabled>
                     <input type="button" class="btn btn-default" style="width:50px" value="..." onclick="SearchData('branch')" />
@@ -16,10 +17,12 @@ End Code
             <div class="col-sm-6">
                 <div style="display:flex">
                     <div style="flex:1">
-                        Job Type :<br /><select id="txtJobType" class="form-control" value="0"></select>
+                        <label id="lblJobType">Job Type :</label>
+                        <br /><select id="txtJobType" class="form-control" value="0"></select>
                     </div>
                     <div style="flex:1">
-                        Ship By :<br /><select id="txtShipBy" class="form-control dropdown" value="0"></select>
+                        <label id="lblShipBy">Ship By :</label>
+                        <br /><select id="txtShipBy" class="form-control dropdown" value="0"></select>
                     </div>
                 </div>
             </div>
@@ -44,34 +47,35 @@ End Code
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        Policy ID : <input type="text" id="txtID" value="0" disabled>
+                        <label id="lblID">Policy ID :</label>
+                        <input type="text" id="txtID" value="0" disabled>
                         &nbsp; For &nbsp; <input type="text" id="txtJobTypeShipBy" value="" disabled>
                     </div>
                     <div class="modal-body">
                         <div style="display:flex;flex-wrap:wrap;">
-                            <div style="flex:1">Code :<br /><input type="text" id="txtSICode" class="form-control" disabled></div>
-                            <div style="flex:5">Description :<br /><input type="text" id="txtSDescription" class="form-control" disabled></div>
+                            <div style="flex:1"><label id="lblSICode">Code :</label><br /><input type="text" id="txtSICode" class="form-control" disabled></div>
+                            <div style="flex:5"><label id="lblSDescription">Description :</label><br /><input type="text" id="txtSDescription" class="form-control" disabled></div>
                         </div>
                         <div style="display:flex">
-                            <div style="flex:1">Remark :<br /><input type="text" id="txtTRemark" class="form-control"></div>
+                            <div style="flex:1"><label id="lblTRemark">Remark :</label><br /><input type="text" id="txtTRemark" class="form-control"></div>
                         </div>
                         <div style="display:flex">
-                            <div style="flex:1">Max Advance :<br /><input type="number" id="txtMaxAdvance" class="form-control" value="0.00"></div>
-                            <div style="flex:1">Max Cost :<br /><input type="number" id="txtMaxCost" class="form-control" value="0.00" onchange="CalProfit()"></div>
-                            <div style="flex:1">Min Charge :<br /><input type="number" id="txtMinCharge" class="form-control" value="0.00" onchange="CalProfit()"></div>
-                            <div style="flex:1">Min Profit :<br /><input type="number" id="txtMinProfit" class="form-control" value="0.00"></div>
+                            <div style="flex:1"><label id="lblMaxAdvance">Max Advance :</label><br /><input type="number" id="txtMaxAdvance" class="form-control" value="0.00"></div>
+                            <div style="flex:1"><label id="lblMaxCost">Max Cost :</label><br /><input type="number" id="txtMaxCost" class="form-control" value="0.00" onchange="CalProfit()"></div>
+                            <div style="flex:1"><label id="lblMinCharge">Min Charge :</label><br /><input type="number" id="txtMinCharge" class="form-control" value="0.00" onchange="CalProfit()"></div>
+                            <div style="flex:1"><label id="lblMinProfit">Min Profit :</label><br /><input type="number" id="txtMinProfit" class="form-control" value="0.00"></div>
                         </div>
                         <div style="display:flex">
                             <div style="flex:1">
-                                Active
+                                <label id="lblActive">Active</label>
                                 <br />
                                 <select id="txtActive" class="form-control">
                                     <option value="1">Yes</option>
                                     <option value="0">No</option>
                                 </select>
                             </div>
-                            <div style="flex:1">LastUpdate :<br /><input type="date" id="txtLastUpdate" class="form-control" data-dismiss=""></div>
-                            <div style="flex:1">UpdateBy :<br /><input type="text" id="txtUpdateBy" class="form-control" disabled></div>
+                            <div style="flex:1"><label id="lblLastUpdate">LastUpdate :</label><br /><input type="date" id="txtLastUpdate" class="form-control" data-dismiss=""></div>
+                            <div style="flex:1"><label id="lblUpdateBy">UpdateBy :</label><br /><input type="text" id="txtUpdateBy" class="form-control" disabled></div>
                         </div>
                     </div>
                     <div class="modal-footer">

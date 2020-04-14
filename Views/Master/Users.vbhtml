@@ -5,32 +5,40 @@ End Code
     <div id="dvForms" class="container">
         <div class="row">
             <div class="col-sm-2">
-                User ID :<br /><input type="text" id="txtUserID" class="form-control" tabIndex="1">
+                <label id="lblUser">User ID :</label>
+                <br /><input type="text" id="txtUserID" class="form-control" tabIndex="1">
             </div>
             <div class="col-sm-4">
-                Password :<br /><input type="password" id="txtUPassword" class="form-control" tabIndex="2">
+                <label id="lblUPassword">Password :</label>
+                <br /><input type="password" id="txtUPassword" class="form-control" tabIndex="2">
             </div>
             <div class="col-sm-2">
-                Department :<br /><select id="txtDeptID" class="form-control dropdown"></select>
+                <label id="lblDeptID">Department :</label>
+                <br /><select id="txtDeptID" class="form-control dropdown"></select>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
-                Name (TH) :<br /><input type="text" id="txtTName" class="form-control" tabIndex="3">
+                <label id="lblTName">Name (TH) :</label>
+                <br /><input type="text" id="txtTName" class="form-control" tabIndex="3">
             </div>
             <div class="col-sm-6">
-                Name (EN) :<br /><input type="text" id="txtEName" class="form-control" tabIndex="4">
+                <label id="lblEName">Name (EN) :</label>
+                <br /><input type="text" id="txtEName" class="form-control" tabIndex="4">
             </div>
         </div>
         <div class="row">
             <div class="col-sm-4">
-                Position :<br /><input type="text" id="txtTPosition" class="form-control" tabIndex="5">
+                <label id="lblTPosition">Position :</label>
+                <br /><input type="text" id="txtTPosition" class="form-control" tabIndex="5">
             </div>
             <div class="col-sm-4">
-                User Level :<br /><select id="txtUPosition" class="form-control dropdown" tabIndex="6"></select>
+                <label id="lblUPosition">User Level :</label>
+                <br /><select id="txtUPosition" class="form-control dropdown" tabIndex="6"></select>
             </div>
             <div class="col-sm-4">
-                Supervisor :<br />
+                <label id="lblUserUpline">Supervisor :</label>
+                <br />
                 <div style="display:flex">
                     <div style="flex:1">
                         <input type="text" id="txtUserUpline" class="form-control" tabIndex="7">
@@ -43,13 +51,16 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-4">
-                E-Mail :<br /><input type="text" id="txtEMail" class="form-control" tabIndex="8">
+                <label id="lblEMail">E-Mail :</label>
+                <br /><input type="text" id="txtEMail" class="form-control" tabIndex="8">
             </div>
             <div class="col-sm-4">
-                Mobile Phone :<br /><input type="text" id="txtMobilePhone" class="form-control" tabIndex="9">
+                <label id="lblMobilePhone">Mobile Phone :</label>
+                <br /><input type="text" id="txtMobilePhone" class="form-control" tabIndex="9">
             </div>
             <div class="col-sm-4">
-                Report Language :<br />
+                <label id="lblUsedLanguage">Report Language :</label>
+                <br />
                 <select id="txtUsedLanguage" class="form-control dropdown" tabindex="10"></select>
             </div>
         </div>

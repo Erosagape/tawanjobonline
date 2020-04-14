@@ -19,7 +19,7 @@ End Code
             <select id="cboStatus" class="form-control dropdown"></select>
         </div>
         <div class="col-sm-2">
-            <label for="cboJobType" id="lblJObType">Job Type</label>
+            <label for="cboJobType" id="lblJobType">Job Type</label>
             <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()"></select>
         </div>
         <div class="col-sm-2">

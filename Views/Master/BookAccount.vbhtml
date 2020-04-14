@@ -5,7 +5,9 @@ End Code
         <div class="container">
             <!-- HTML BOOTSTRAP CONTROLS -->
             <div id="dvForm">
-                Branch:
+                <label id="lblBranchCode">
+                    Branch:
+                </label>
                 <div class="row">
                     <div class="col-sm-4" style="display:flex;flex-direction:row;">
                         <input type="text" class="form-control" id="txtBranchCode" style="width:15%" />
@@ -15,13 +17,22 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
-                        Book No:<br /><input type="text" id="txtBookCode" class="form-control" tabIndex="2">
+                        <label id="lblBookCode">
+                            Book No:
+                        </label>
+                        <br /><input type="text" id="txtBookCode" class="form-control" tabIndex="2">
                     </div>
                     <div class="col-sm-6">
-                        Account Name :<br /><input type="text" id="txtBookName" class="form-control" tabIndex="3">
+                        <label id="lblBookName">
+                            Account Name :
+                        </label>
+                        <br /><input type="text" id="txtBookName" class="form-control" tabIndex="3">
                     </div>
                     <div class="col-sm-3">
-                        Account Type :<br />
+                        <label id="lblACType">
+                            Account Type :
+                        </label>
+                        <br />
                         <select id="txtACType" class="form-control dropdown" tabIndex="4">
                             <option value="C">Current</option>
                             <option value="S">Saving</option>
@@ -30,33 +41,51 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-2">
-                        <a onclick="SearchData('bank')">Bank Code :</a><br />
+                        <label id="lblBankCode">
+                            <a onclick="SearchData('bank')">Bank Code :</a>
+                        </label>
+                        <br />
                         <input type="text" id="txtBankCode" class="form-control" tabIndex="5">
                     </div>
                     <div class="col-sm-4">
-                        Bank Name:<br />
+                        <label id="lblBankName">
+                            Bank Name:
+                        </label>
+                        <br />
                         <input type="text" id="txtBankName" class="form-control" disabled>
                     </div>
                     <div class="col-sm-4">
-                        Bank Branch :<br /><input type="text" id="txtBankBranch" class="form-control" tabIndex="6" />
+                        <label id="lblBankBranch">
+                            Bank Branch :
+                        </label>
+                        <br /><input type="text" id="txtBankBranch" class="form-control" tabIndex="6" />
                     </div>
                     <div class="col-sm-2">
                         <br />
                         <input type="checkbox" id="chkIsLocal" tabIndex="7">
-                        <label for="chkIsLocal">Is Local Bank?</label>
+                        <label id="lblChkIsLocal" for="chkIsLocal">Is Local Bank?</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-5">
-                        Address (TH) :<br /><input type="text" id="txtTAddress1" class="form-control" tabIndex="8">
+                        <label id="lblTAddress1">
+                            Address (TH) :
+                        </label>
+                        <br /><input type="text" id="txtTAddress1" class="form-control" tabIndex="8">
                         <br /><input type="text" id="txtTAddress2" class="form-control" tabIndex="9">
                     </div>
                     <div class="col-sm-5">
-                        Address (EN) :<br /><input type="text" id="txtEAddress1" class="form-control" tabIndex="10">
+                        <label id="lblEAddress1">
+                            Address (EN) :
+                        </label>
+                        <br /><input type="text" id="txtEAddress1" class="form-control" tabIndex="10">
                         <br /><input type="text" id="txtEAddress2" class="form-control" tabIndex="11">
                     </div>
                     <div class="col-sm-2">
-                        GL Code : <br/>
+                        <label id="lblGLAccountCode">
+                            GL Code :
+                        </label>
+                        <br/>
                         <div style="display:flex">
                             <input type="text" id="txtGLAccountCode" class="form-control" />
                             <input type="button" class="btn btn-default" value="..." onclick="SearchData('acccode')" />
@@ -65,13 +94,22 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        Phone :<br /><input type="text" id="txtPhone" class="form-control" tabIndex="12">
+                        <label id="lblPhone">
+                            Phone :
+                        </label>
+                        <br /><input type="text" id="txtPhone" class="form-control" tabIndex="12">
                     </div>
                     <div class="col-sm-4">
-                        Fax :<br /><input type="text" id="txtFaxNumber" class="form-control" tabIndex="13">
+                        <label id="lblFaxNumber">
+                            Fax :
+                        </label>
+                        <br /><input type="text" id="txtFaxNumber" class="form-control" tabIndex="13">
                     </div>
                     <div class="col-sm-4">
-                        Minimum Balance :<br /><input type="number" id="txtLimitBalance" class="form-control" tabIndex="14">
+                        <label id="lblLimitBalance">
+                            Minimum Balance :
+                        </label>
+                        <br /><input type="number" id="txtLimitBalance" class="form-control" tabIndex="14">
                     </div>
                 </div>
             </div>

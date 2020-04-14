@@ -7,9 +7,9 @@ End Code
         <div style="display:flex;flex-direction:column;">
             <div style="flex:1">
                 <div class="row">
-                    <div class="col-sm-2">Role ID :<br /><input type="text" id="txtRoleID" class="form-control"></div>
-                    <div class="col-sm-6">Description :<br /><input type="text" id="txtRoleDesc" class="form-control"></div>
-                    <div class="col-sm-4">Role Group :<br /><select id="txtRoleGroup" class="form-control dropdown"></select></div>
+                    <div class="col-sm-2"><label id="lblRoleID">Role ID :</label><br /><input type="text" id="txtRoleID" class="form-control"></div>
+                    <div class="col-sm-6"><label id="lblRoleDesc">Role Description :</label><br /><input type="text" id="txtRoleDesc" class="form-control"></div>
+                    <div class="col-sm-4"><label id="lblRoleGroup">Role Group :</label><br /><select id="txtRoleGroup" class="form-control dropdown"></select></div>
                 </div>
                 <div id="dvCommand">
                     <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearHeader()">
@@ -46,7 +46,7 @@ End Code
                             <div class="tab-pane fade" id="tabUser">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        UserID :
+                                        <label id="lblUser">UserID :</label>                                        
                                         <br />
                                         <div style="display:flex">
                                             <input type="text" id="txtUserID" class="form-control" style="width:40%" tabIndex="1" />
@@ -59,7 +59,7 @@ End Code
                                     <i class="fa fa-lg fa-save"></i>&nbsp;<b>Apply Role</b>
                                 </a>
 
-                                <label>User in this role:</label>
+                                <label id="lblUserRole">User in this role:</label>
                                 <table id="tbDetail" class="table table-responsive">
                                     <thead>
                                         <tr>
@@ -74,7 +74,7 @@ End Code
                                 </a>
                             </div>
                             <div class="tab-pane fade in active" id="tabPolicy">
-                                Module:                             
+                                <label id="lblFunction">Module:</label>                                            
                                 <input type="checkbox" id="chkAll" onclick="CheckAll()" /> Allow All
                                 <div style="display:flex;flex-direction:column">
                                     <div style="display:flex;">

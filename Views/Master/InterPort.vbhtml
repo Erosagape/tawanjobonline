@@ -6,7 +6,7 @@ End Code
         <div id="dvForm">
             <div class="row">
                 <div class="col-sm-3">
-                    Country :
+                    <label id="lblCountryCode">Country :</label>                    
                     <br />
                     <div style="display:flex">
                         <div style="flex:1">
@@ -18,7 +18,7 @@ End Code
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    Port Code :
+                    <label id="lblPortCode">Port Code :</label>                    
                     <br />
                     <div style="display:flex">
                         <div style="flex:1">
@@ -32,13 +32,16 @@ End Code
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    Name :<br /><input type="text" id="txtPortName" class="form-control" tabIndex="3">
+                    <label id="lblPortName">Name :</label>
+                    <br /><input type="text" id="txtPortName" class="form-control" tabIndex="3">
                 </div>
                 <div class="col-sm-3">
-                    Start Date :<br /><input type="date" id="txtStartDate" class="form-control" tabIndex="4">
+                    <label id="lblStartDate">Start Date :</label>
+                    <br /><input type="date" id="txtStartDate" class="form-control" tabIndex="4">
                 </div>
                 <div class="col-sm-3">
-                    Expire Date :<br /><input type="date" id="txtFinishDate" class="form-control" tabIndex="5">
+                    <label id="lblFinishDate">Expire Date :</label>
+                    <br /><input type="date" id="txtFinishDate" class="form-control" tabIndex="5">
                 </div>
             </div>
         </div>

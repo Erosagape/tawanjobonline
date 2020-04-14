@@ -4,16 +4,21 @@ End Code
 <div class="panel-body">
     <div class="container">
         <div id="dvForm">
-            Code:<br /><input type="text" id="txtUnitType" class="form-control" tabIndex="1">
-            Name (TH) :<br /><input type="text" id="txtUName" class="form-control" tabIndex="2">
-            English :<br /><input type="text" id="txtEName" class="form-control" tabIndex="3">
-            Type :<br />
-                  <select id="txtIsCTNUnit" class="form-control dropdown" tabIndex="4">
-                      <option value="-1">เป็นหน่วยงานบริการ</option>
-                      <option value="0">เป็นหน่วยนับสินค้า</option>
-                      <option value="1">เป็นหน่วยตู้</option>
-                      <option value="2">เป็นหน่วยพาหนะ</option>
-                  </select>
+            <label id="lblUnitType">Code:</label>
+            <br />
+            <input type="text" id="txtUnitType" class="form-control" tabIndex="1">
+            <label id="lblUName">Name (TH) :</label>
+            <br />
+            <input type="text" id="txtUName" class="form-control" tabIndex="2">
+            <label id="lblEName">English :</label><br />
+            <input type="text" id="txtEName" class="form-control" tabIndex="3">
+            <label id="lblIsCTNUnit">Type :</label><br />
+            <select id="txtIsCTNUnit" class="form-control dropdown" tabIndex="4">
+                <option value="-1">เป็นหน่วยงานบริการ</option>
+                <option value="0">เป็นหน่วยนับสินค้า</option>
+                <option value="1">เป็นหน่วยตู้</option>
+                <option value="2">เป็นหน่วยพาหนะ</option>
+            </select>
         </div>
         <div id="dvCommand">
             <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearData()">

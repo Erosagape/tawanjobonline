@@ -5,29 +5,29 @@ End Code
     <div id="dvForm" class="container" style="width:100%">
         <div class="form-group row">
             <div class="col-sm-2">
-                <a href="../Master/ServiceGroup" target="_blank"><label id="lblSTCode">Group</label></a>:
+                <a href="../Master/ServiceGroup" target="_blank"><label id="lblType">Group</label></a>:
                 <select id="cboType" class="form-control dropdown"></select>
             </div>
             <div class="col-sm-2">
-                Service Code:
+                <label id="lblSICode">Service Code:</label>                
                 <input type="text" id="txtSICode" class="form-control" tabindex="0" />
             </div>
             <div class="col-sm-4">
-                Name Thai:
+                <label id="lblNameThai">Name Thai:</label>                
                 <input type="text" id="txtNameThai" class="form-control" tabindex="1" />
             </div>
             <div class="col-sm-4">
-                Name Eng:
+                <label id="lblNameEng">Name Eng:</label>                
                 <input type="text" id="txtNameEng" class="form-control" tabindex="2" />
             </div>
         </div>
         <div class="form-group row">
             <div class="col-sm-3">
-                Price:
+                <label id="lblStdPrice">Price:</label>                
                 <input type="text" id="txtStdPrice" class="form-control" tabindex="3" />
             </div>
             <div class="col-sm-3">
-                Currency:
+                <label id="lblCurrencyCode">Currency:</label>                
                 <div style="display:flex">
                     <div style="flex:1">
                         <input type="text" id="txtCurrencyCode" class="form-control" tabindex="4" />
@@ -38,7 +38,7 @@ End Code
                 </div>
             </div>
             <div class="col-sm-3">
-                Unit:
+                <label id="lblUnitCharge">Unit:</label>                
                 <div style="display:flex">
                     <div style="flex:1">
                         <input type="text" id="txtUnitCharge" class="form-control" tabindex="5" />
@@ -49,7 +49,7 @@ End Code
                 </div>
             </div>
             <div class="col-sm-3">
-                <a href="../Master/Venders" target="_blank"><label id="lblVender">Vender</label></a>:
+                <a href="../Master/Venders" target="_blank"><label id="lblDefaultVender">Vender</label></a>:
                 <div style="display:flex">
                     <div style="flex:1">
                         <input type="text" id="txtDefaultVender" class="form-control" tabindex="6" />
@@ -62,7 +62,7 @@ End Code
         </div>
         <div class="form-group row">
             <div class="col-sm-4">
-                GL-Sales
+                <label id="lblGLAccountCodeSales">GL-Sales</label>                
                 <br />
                 <div style="display:flex">
                     <input type="text" id="txtGLAccountCodeSales" class="form-control" tabindex="7" />
@@ -70,7 +70,7 @@ End Code
                 </div>
             </div>
             <div class="col-sm-4">
-                GL-Cost
+                <label id="lblGLAccountCodeCost">GL-Cost</label>                
                 <br />
                 <div style="display:flex">
                     <input type="text" id="txtGLAccountCodeCost" class="form-control" tabindex="8" />
@@ -78,38 +78,39 @@ End Code
                 </div>
             </div>
             <div class="col-sm-4">
-                Process Desc:<textarea id="txtProcessDesc" class="form-control" tabindex="9"></textarea>
+                <label id="lblProcessDesc">Process Desc:</label>
+                <textarea id="txtProcessDesc" class="form-control" tabindex="9"></textarea>
             </div>
         </div>
         <div class="form-group row">
             <div class="col-md-6">
                 <input type="checkbox" id="chkIsTaxCharge" />
-                <label for="chkIsTaxCharge">Calculate VAT</label>
+                <label for="chkIsTaxCharge" id="lblchkIsTaxCharge" >Calculate VAT</label>
                 <label class="radio-inline"><input type="radio" name="optVAT" value="1">Exclude</label>
                 <label class="radio-inline"><input type="radio" name="optVAT" value="2">Include</label>
                 <br />
                 <input type="checkbox" id="chkIsCredit" />
-                <label for="chkIsCredit">Credit Advance</label>
+                <label id="lblchkIsCredit" for="chkIsCredit">Credit Advance</label>
                 <br />
                 <input type="checkbox" id="chkIsExpense" />
-                <label for="chkIsExpense">Company Expenses</label>
+                <label id="lblchkIsExpense" for="chkIsExpense">Company Expenses</label>
                 <br />
                 <input type="checkbox" id="chkIsHaveSlip" />
-                <label for="chkIsHaveSlip">Must have slip</label>
+                <label id="lblchkIsHaveSlip" for="chkIsHaveSlip">Must have slip</label>
             </div>
             <div class="col-md-6">
                 <input type="checkbox" id="chkIs50Tavi" />
-                <label for="chkIs50Tavi">Calculate 50Tavi</label>
+                <label id="lblchkIs50Tavi" for="chkIs50Tavi">Calculate 50Tavi</label>
                 <input type="text" id="txtRate50Tavi" /><b>%</b>
                 <br />
                 <label class="radio-inline"><input type="radio" name="optWHT" value="1">Paid 50Tavi By Company</label>
                 <label class="radio-inline"><input type="radio" name="optWHT" value="2">Pay 50Tavi by Customer</label>
                 <br />
                 <input type="checkbox" id="chkIsShowPrice" />
-                <label for="chkIsShowPrice">Cannot Change Price</label>
+                <label id="lblchkIsShowPrice" for="chkIsShowPrice">Cannot Change Price</label>
                 <br />
                 <input type="checkbox" id="chkIsUsedCoSlip" />
-                <label for="chkIsUsedCoSlip">Used for Co-operation</label>
+                <label id="lblchkIsUsedCoSlip" for="chkIsUsedCoSlip">Used for Co-operation</label>
             </div>
         </div>
         <input type="checkbox" id="chkCopyMode" /><b>Copy Mode</b>

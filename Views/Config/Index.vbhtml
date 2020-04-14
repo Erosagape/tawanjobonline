@@ -6,7 +6,7 @@ End Code
         <table id="frmConfig">
             <tr>
                 <td>
-                    Config Code :
+                    <label id="lblCode">Config Code :</label>                    
                 </td>
                 <td>
                     <input type="text" class="form-control" id="txtCode" />
@@ -14,7 +14,7 @@ End Code
             </tr>
             <tr>
                 <td>
-                    Config Key :
+                    <label id="lblKey">Config Key :</label>                    
                 </td>
                 <td>
                     <input type="text" class="form-control" id="txtKey" />
@@ -22,7 +22,7 @@ End Code
             </tr>
             <tr>
                 <td>
-                    Config Value :
+                    <label id="lblValue">Config Value :</label>                    
                 </td>
                 <td>
                     <textarea class="form-control" id="txtValue"></textarea>

@@ -4,9 +4,15 @@ End Code
 <div class="panel-body">
     <div class="container">
         <div id="dvForm">
-            Code:<br /><input type="text" id="txtRegsNumber" class="form-control" tabIndex="1">
-            Name:<br /><input type="text" id="txtTName" class="form-control" tabIndex="2">
-            Type:<br /><input type="text" id="txtVesselType" class="form-control" tabIndex="3">
+            <label id="lblRegsNumber">Register Code:</label>
+            <br />
+            <input type="text" id="txtRegsNumber" class="form-control" tabIndex="1">
+            <label id="lblTName">Name:</label>
+            <br />
+            <input type="text" id="txtTName" class="form-control" tabIndex="2">
+            <label id="lblVesselType">Type:</label>
+            <br />
+            <input type="text" id="txtVesselType" class="form-control" tabIndex="3">
         </div>
         <div id="dvCommand">
             <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearData()">

@@ -4,15 +4,17 @@ End Code
 <div class="panel-body">
     <div class="container">
         <div id="dvForm">
-            <div class="row">                
-                Module :<br /><select id="txtAppID" class="form-control dropdown" tabIndex="0" onchange="LoadGrid()"></select>
+            <div class="row"> 
+                <label id="lblAppID">Module :</label>
+                <br /><select id="txtAppID" class="form-control dropdown" tabIndex="0" onchange="LoadGrid()"></select>
             </div>
             <div class="row">
                 <table id="tbMenu" class="table table-responsive"></table>
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    Function :<br/><input type="text" id="txtMenuID" class="form-control" disabled>
+                    <label id="lblFunction">Function :</label>
+                    <br/><input type="text" id="txtMenuID" class="form-control" disabled>
                 </div>                
                 <div class="col-sm-8">
                     <br/>
@@ -23,7 +25,7 @@ End Code
                 <div class="col-sm-4">
                     <div style="display:flex">
                         <div>
-                            Set By :
+                            <label id="lblSetBy">Set By :</label>                            
                             <br/>
                             <select id="cboUserType" class="form-control dropdown">
                                 <option value="U" selected>User ID</option>
@@ -49,17 +51,17 @@ End Code
             <div class="row">
                 <div class="col-sm-12">
                     <input type="checkbox" id="chkManage" onchange="SetAuth()" />
-                    <label for="chkManage">Allow Manage</label>
+                    <label id="lblManage" for="chkManage">Allow Manage</label>
                     <input type="checkbox" id="chkInsert" onchange="SetAuth()" />
-                    <label for="chkInsert">Allow Add</label>
+                    <label id="lblInsert" for="chkInsert">Allow Add</label>
                     <input type="checkbox" id="chkRead" onchange="SetAuth()" />
-                    <label for="chkRead">Allow Search</label>
+                    <label id="lblRead" for="chkRead">Allow Search</label>
                     <input type="checkbox" id="chkEdit" onchange="SetAuth()" />
-                    <label for="chkEdit">Can Edit</label>
+                    <label id="lblEdit" for="chkEdit">Can Edit</label>
                     <input type="checkbox" id="chkDelete" onchange="SetAuth()" />
-                    <label for="chkDelete">Can Delete</label>
+                    <label id="lblDelete" for="chkDelete">Can Delete</label>
                     <input type="checkbox" id="chkPrint" onchange="SetAuth()" />
-                    <label for="chkPrint">Can Print</label>
+                    <label id="lblPrint" for="chkPrint">Can Print</label>
                 </div>
             </div>
             <div class="row">

@@ -6,11 +6,12 @@ End Code
         <div id="dvForm">
             <div class="row">
                 <div class="col-sm-3">
-                    Unit Code :
+                    <label id="lblCode">Unit Code :</label>                    
                     <br /><input type="text" id="txtCode" class="form-control" tabIndex="1">
                 </div>
                 <div class="col-sm-9">
-                    Unit Name :<br /><input type="text" id="txtTName" class="form-control" tabIndex="2">
+                    <label id="lblTName">Unit Name :</label>
+                    <br /><input type="text" id="txtTName" class="form-control" tabIndex="2">
                 </div>
             </div>
         </div>
