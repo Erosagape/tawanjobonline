@@ -296,14 +296,9 @@ function LoadCliteria(reportID) {
         case 'INVDAILY': 
         case 'INVSTATUS':
         case 'RCPDAILY':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').show();
-            $('#tbJob').show();
-            $('#tbVend').hide();
-            break;
+        case 'RCPSUMMARY':
         case 'TAXDAILY':
+        case 'TAXSUMMARY':
             $('#tbDate').show();
             $('#tbEmp').show();
             $('#tbCust').show();
@@ -475,7 +470,7 @@ function LoadCliteria(reportID) {
 }
 function IsNumberColumn(cname) {
     let colname = 'InvTotal,InvProductQty,InvCurRate,DutyAmount,TotalGW,Commission,TotalNW,TotalQty,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm';
-    colname += ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount';
+    colname += ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet';
     if (colname.indexOf(cname) >= 0) {
         return true;
     }
@@ -483,7 +478,7 @@ function IsNumberColumn(cname) {
 }
 function IsSummaryColumn(cname) {
     let colname = 'DutyAmount,TotalGW,Commission,TotalNW,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,';
-    colname += ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount';
+    colname += ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet';
     if (colname.indexOf(cname) >= 0) {
         return true;
     }
@@ -657,7 +652,9 @@ function GetColumnHeader(id,langid) {
         AmtCredit: 'Credit|ชำระก่อน',
         CreditNet: 'Adjust|ปรับปรุง',
         AmtWH: 'W/H-Tax|W/H-Tax',
+        Amt50Tavi: 'W/H-Tax|W/H-Tax',
         AmtTotal: 'Net|สุทธิ',
+        AmtNet: 'Net|สุทธิ',
         ClrTotal: 'Used|ยอดใช้ไป',
         ClrNo: 'Clr.No|ใบปิดค่าใช้จ่าย',
         ClrDate: 'Date|วันที่ปิด',

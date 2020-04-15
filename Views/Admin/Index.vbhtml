@@ -127,11 +127,14 @@ Period : <input type="text" id="txtPeriod" value="@DateTime.Now.ToString("yyyy/M
                             }
                             html += '<tr>';
                         }
-                        html += '<td>' + d.Period + '</td>';
-                        html += '<td>' + d.DocType + '</td>';
+                        
                         if (IsSummary == true) {
+                            html += '<td>' + d.Period + '</td>';                        
+                            html += '<td>' + d.DocType + '</td>';
                             html += '<td>' + d.CountDoc + '</td>';
                         } else {
+                            html += '<td>' + ShowDate(d.DocDate) + '</td>';                        
+                            html += '<td>' + d.DocType + '</td>';
                             html += '<td>' + d.DocNo + '</td>';
                         }
                         html += '</tr>';

@@ -23,7 +23,7 @@ End Code
         <div id="dvForm">
             <div class="row">
                 <div class="col-sm-3">
-                    Branch
+                    <label id="lblBranchCode">Branch</label>
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" class="form-control" id="txtBranchCode" style="width:20%" disabled />
@@ -32,7 +32,7 @@ End Code
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    Booking No
+                    <label id="lblBookingNo">Booking No</label>                    
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" id="txtBookingNo" class="form-control" style="width:100%" />
@@ -40,7 +40,7 @@ End Code
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    Job Number
+                    <label id="lblJNo">Job Number</label>                    
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" id="txtJNo" class="form-control" style="width:100%" />
@@ -48,7 +48,7 @@ End Code
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    Transport Term
+                    <label id="lblTransportTerm">Transport Term</label>                    
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <select id="txtTransMode" class="form-control dropdown">
@@ -63,7 +63,7 @@ End Code
             <div class="row">
                 <div class="col-sm-6">
                     <a href="../Master/Customers?mode=NOTIFY_PARTY" target="_blank">
-                        <label>Notify Party:</label>
+                        <label id="lblNotify">Notify Party:</label>
                     </a>
                     <br />
                     <div style="display:flex;flex-direction:row">
@@ -74,7 +74,7 @@ End Code
                 </div>
                 <div class="col-sm-6">
                     <a href="../Master/Venders" target="_blank">
-                        <label>Transporter:</label>
+                        <label id="lblTransport">Transporter:</label>
                     </a>
                     <br />
                     <div style="display:flex;flex-direction:row">
@@ -86,19 +86,22 @@ End Code
             </div>
             <div class="row">
                 <div class="col-sm-3">
-                    Load Date :<br />
+                    <label id="lblLoadDate">Load Date :</label>
+                    <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="date" id="txtLoadDate" class="form-control">
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    Contact Name :<br />
+                    <label id="lblContact">Contact Name :</label>                    
+                    <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" id="txtContactName" class="form-control">
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    Remark :<br />
+                    <label id="lblRemark">Remark :</label>
+                    <br />
                     <div style="display:flex;flex-direction:row">
                         <textarea id="txtRemark" class="form-control"></textarea>
                     </div>
@@ -106,25 +109,29 @@ End Code
             </div>
             <div class="row">
                 <div class="col-sm-6">
-                    Freight Payment Condition :<br />
+                    <label id="lblPaymentCond">Freight Payment Condition :</label>
+                    <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" id="txtPaymentCondition" class="form-control" />
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    Freight Paid By :<br /><div style="display:flex;flex-direction:row"><input type="text" id="txtPaymentBy" class="form-control"></div>
+                    <label id="lblPaymentBy">Freight Paid By :</label>
+                    <br /><div style="display:flex;flex-direction:row"><input type="text" id="txtPaymentBy" class="form-control"></div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-3" style="display:flex;flex-direction:row">
                     <div>
-                        CY Closing/Pickup Date :<br />
+                        <label id="lblCYDate">CY Closing/Pickup Date :</label>
+                        <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="date" id="txtCYDate" class="form-control">
                         </div>
                     </div>
                     <div>
-                        Time :<br />
+                        <label id="lblCYTime">Time :</label>
+                        <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtCYTime" class="form-control">
                         </div>
@@ -132,13 +139,15 @@ End Code
                 </div>
                 <div class="col-sm-3" style="display:flex;flex-direction:row">
                     <div>
-                        Last Load/Packing Date:<br />
+                        <label id="lblPackingDate">Last Load/Packing Date:</label>
+                        <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="date" id="txtPackingDate" class="form-control">
                         </div>
                     </div>
                     <div>
-                        Time :<br />
+                        <label id="lblPackingTime">Time :</label>
+                        <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtPackingTime" class="form-control">
                         </div>
@@ -146,13 +155,15 @@ End Code
                 </div>
                 <div class="col-sm-3" style="display:flex;flex-direction:row">
                     <div>
-                        Arrival/Delivery Date :<br />
+                        <label id="lblFactoryDate">Arrival/Delivery Date :</label>
+                        <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="date" id="txtFactoryDate" class="form-control">
                         </div>
                     </div>
                     <div>
-                        Time :<br />
+                        <label id="lblFactoryTime">Time :</label>
+                        <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtFactoryTime" class="form-control">
                         </div>
@@ -160,13 +171,15 @@ End Code
                 </div>
                 <div class="col-sm-3" style="display:flex;flex-direction:row">
                     <div>
-                        Return Date :<br />
+                        <label id="lblReturnDate">Return Date :</label>
+                        <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="date" id="txtReturnDate" class="form-control">
                         </div>
                     </div>
                     <div>
-                        Return Time :<br />
+                        <label id="lblReturnTime">Time :</label>
+                        <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtReturnTime" class="form-control">
                         </div>
@@ -176,83 +189,98 @@ End Code
             <div class="panel" style="background-color:lightgreen;padding:10px 10px 10px 10px;margin-top:10px">
                 <div class="row">
                     <div class="col-sm-6">
-                        <a href="../Master/TransportRoute">Transport Route</a>: <br />
+                        <a href="../Master/TransportRoute"><label id="lblRoute">Transport Route</label></a>: <br />
                         <select id="cboLocation" class="form-control dropdown" onchange="LoadLocation()"></select>
                     </div>
                     <div class="col-sm-2">
-                        Active Trip:<br />
+                        <label id="lblActive">Active Trip:</label>
+                        <br />
                         <input type="text" id="txtTotalTripA" class="form-control" disabled />
                     </div>
                     <div class="col-sm-2">
-                        Finished Trip:<br />
+                        <label id="lblFinish">Finished Trip:</label>
+                        <br />
                         <input type="text" id="txtTotalTripF" class="form-control" disabled />
                     </div>
                     <div class="col-sm-2">
-                        Non-active Trip:<br />
+                        <label id="lblNonActive">Non-active Trip:</label>
+                        <br />
                         <input type="text" id="txtTotalTripC" class="form-control" disabled />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        Place #1: <br />
+                        <label id="lblPlace1">Place #1: </label>
+                        <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtCYPlace" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-5">
-                        Address #1:<br />
+                        <label id="lblAddress1">Address #1:</label>
+                        <br />
                         <textarea id="txtCYAddress" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
-                        Contact #1:<br />
+                        <label id="lblContact1">Contact #1:</label>
+                        <br />
                         <input type="text" class="form-control" id="txtCYContact" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        Place #2:<br />
+                        <label id="lblPlace2">Place #2:</label>
+                        <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtPackingPlace" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-5">
-                        Address #2:<br />
+                        <label id="lblAddress2">Address #2:</label>
+                        <br />
                         <textarea id="txtPackingAddress" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
-                        Contact #2:<br />
+                        <label id="lblContact2">Contact #2:</label>
+                        <br />
                         <input type="text" class="form-control" id="txtPackingContact" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        Place #3:<br />
+                        <label id="lblPlace3">Place #3:</label>
+                        <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtFactoryPlace" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-5">
-                        Address #3:<br />
+                        <label id="lblAddress3">Address #3:</label>
+                        <br />
                         <textarea id="txtFactoryAddress" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
-                        Contact #3:<br />
+                        <label id="lblContact3">Contact #3:</label>
+                        <br />
                         <input type="text" class="form-control" id="txtFactoryContact" />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        Place #4:<br />
+                        <label id="lblPlace4">Place #4:</label>
+                        <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" id="txtReturnPlace" class="form-control">
                         </div>
                     </div>
                     <div class="col-sm-5">
-                        Address #4:<br />
+                        <label id="lblAddress4">Address #4:</label>
+                        <br />
                         <textarea id="txtReturnAddress" class="form-control"></textarea>
                     </div>
                     <div class="col-sm-3">
-                        Contact #4:<br />
+                        <label id="lblContact4">Contact #4:</label>
+                        <br />
                         <input type="text" class="form-control" id="txtReturnContact" />
                     </div>
                 </div>
@@ -291,11 +319,13 @@ End Code
                 </a>
             </div>
             <div class="col-sm-4">
-                Auto Create Container =>
+                <label id="lblAutoGenCon">Auto Create Container</label>
+                 =>
                 <select id="cboContainerSize" class="form-control dropdown"></select>
             </div>
             <div class="col-sm-1">
-                Total(s): <input type="number" id="txtTotalContainer" class="form-control" />
+                <label id="lblTotalCon">Total(s)</label>
+                : <input type="number" id="txtTotalContainer" class="form-control" />
             </div>
             <div class="col-sm-2">
                 <br />
@@ -414,27 +444,34 @@ End Code
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-sm-2">
-                                No :<br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control" disabled></div>
+                                <label id="lblNo">No :</label>
+                                <br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control" disabled></div>
                             </div>
                             <div class="col-sm-4">
-                                Container :<br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
+                                <label id="lblContainerNo">Container </label>
+                                :<br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
                             </div>
                             <div class="col-sm-3">
-                                Size :<br /><div style="display:flex"><select id="txtCTN_SIZE" class="form-control dropdown"></select></div>
+                                <label id="lblContainerSize">Size</label>
+                                :<br /><div style="display:flex"><select id="txtCTN_SIZE" class="form-control dropdown"></select></div>
                             </div>
                             <div class="col-sm-3">
-                                Seal No.:<br /><div style="display:flex"><input type="text" id="txtSealNumber" class="form-control"></div>
+                                <label id="lblSealNo">Seal No.</label>
+                                :<br /><div style="display:flex"><input type="text" id="txtSealNumber" class="form-control"></div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                Package Details :<br /><div style="display:flex"><textarea id="txtProductDesc" class="form-control"></textarea></div>
+                                <label id="lblPackDetail">Package Details</label>
+                                :<br /><div style="display:flex"><textarea id="txtProductDesc" class="form-control"></textarea></div>
                             </div>
                             <div class="col-sm-3">
-                                Package Qty :<br /><div style="display:flex"><input type="number" id="txtProductQty" class="form-control" value="0.00"></div>
+                                <label id="lblPackQty">Package Qty </label>
+                                :<br /><div style="display:flex"><input type="number" id="txtProductQty" class="form-control" value="0.00"></div>
                             </div>
                             <div class="col-sm-3">
-                                Package Unit :
+                                <label id="lblPackUnit">Package Unit</label>
+                                :
                                 <br />
                                 <div style="display:flex">
                                     <input type="text" id="txtProductUnit" class="form-control" style="width:100%">
@@ -444,16 +481,20 @@ End Code
                         </div>
                         <div class="row">
                             <div class="col-sm-3">
-                                G/W :<br /><div style="display:flex"><input type="number" id="txtGrossWeight" class="form-control" value="0.00"></div>
+                                <label id="lblGW">G/W</label>
+                                :<br /><div style="display:flex"><input type="number" id="txtGrossWeight" class="form-control" value="0.00"></div>
                             </div>
                             <div class="col-sm-3">
-                                M3 :<br /><div style="display:flex"><input type="number" id="txtMeasurement" class="form-control" value="0.00"></div>
+                                <label id="lblM3">M3</label>
+                                :<br /><div style="display:flex"><input type="number" id="txtMeasurement" class="form-control" value="0.00"></div>
                             </div>
                             <div class="col-sm-3">
-                                Operation Days :<br /><div style="display:flex"><input type="number" id="txtTimeUsed" class="form-control"></div>
+                                <label id="lblOperDay">Operation Days</label>
+                                :<br /><div style="display:flex"><input type="number" id="txtTimeUsed" class="form-control"></div>
                             </div>
                             <div class="col-sm-3">
-                                Job Status:<br />
+                                <label id="lblJobStatus">Job Status</label>
+                                :<br />
                                 <div style="display:flex">
                                     <select id="txtCauseCode" class="form-control dropdown">
                                         <option value="">Checking</option>
@@ -467,13 +508,16 @@ End Code
                         </div>
                         <div class="row">
                             <div class="col-sm-5">
-                                Driver :<br /><div style="display:flex"><input type="text" id="txtDriver" class="form-control"></div>
+                                <label id="lblDriver">Driver</label>
+                                :<br /><div style="display:flex"><input type="text" id="txtDriver" class="form-control"></div>
                             </div>
                             <div class="col-sm-3">
-                                Truck ID :<br /><div style="display:flex"><input type="text" id="txtTruckNO" class="form-control"></div>
+                                <label id="lblTruckNo">Truck ID</label>
+                                :<br /><div style="display:flex"><input type="text" id="txtTruckNO" class="form-control"></div>
                             </div>
                             <div class="col-sm-4">
-                                Type :
+                                <label id="lblTruckType">Type</label>
+                                :
                                 <br />
                                 <div style="display:flex">
                                     <input type="text" id="txtTruckType" class="form-control">
@@ -483,14 +527,16 @@ End Code
                         </div>
                         <div class="row">
                             <div class="col-sm-3">
-                                Route ID:<br />
+                                <label id="lblRouteID">Route ID</label>
+                                :<br />
                                 <div style="display:flex">
                                     <input type="text" id="txtRouteID" class="form-control" disabled />
                                     <input type="button" class="btn btn-default" value="..." onclick="SearchData('route')" />
                                 </div>
                             </div>
                             <div class="col-sm-9">
-                                Location :<br />
+                                <label id="lblLocationD">Location</label>
+                                :<br />
                                 <div style="display:flex">
                                     <input type="text" id="txtLocation" class="form-control" />
                                 </div>
@@ -498,14 +544,16 @@ End Code
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
-                                Comment :<br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
+                                <label id="lblComment">Comment </label>
+                                :<br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
                             </div>
                             <div class="col-sm-6">
-                                Shipping Mark :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
+                                <label id="lblShippingMark">Shipping Mark</label>
+                                :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-4" style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
+                            <div class="col-sm-4" style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">                                
                                 <b>Pick-up:</b>
                                 <div>
                                     Target Date :<br />
@@ -562,14 +610,16 @@ End Code
                         </div>
                     </div>
                     <div class="col-md-6">
-                        Delivery No:
+                        <label id="lblDeliveryNo">Delivery No</label>
+                        :
                         <div style="display:flex;">
                             <div style="display:flex"><input type="text" id="txtDeliveryNo" class="form-control" disabled></div>
                             <input type="button" id="btnGenDeliveryNo" onclick="GenerateDO()" class="btn btn-warning" value="Create" />
                             <input type="button" class="btn btn-info" value="Delivery Slip" onclick="PrintDelivery()" />
                         </div>
                         <br />
-                        Expense Can Billing On This Route:<br />
+                        <label id="lblExpCon">Expense Can Billing On This Route</label>
+                        :<br />
                         <table id="tbExpense" class="table table-responsive">
                             <thead>
                                 <tr>
@@ -583,7 +633,8 @@ End Code
                         <a href="#" class="btn btn-primary" id="btnExpense2" onclick="EntryExpenses2()">
                             <i class="fa fa-lg fa-save"></i>&nbsp;<b>Entry Expenses</b>
                         </a><br />
-                        Expense Billed By Vender:<br />
+                            <label id="lblVenBill">Expense Billed By Vender</label>
+                        :<br />
                         <table id="tbPayment" class="table table-responsive">
                             <thead>
                                 <tr>

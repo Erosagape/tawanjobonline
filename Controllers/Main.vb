@@ -2004,13 +2004,13 @@ dbo.Job_SrvSingle AS s ON i.SICode = s.SICode
     Function SQLSelectDocList(bCancel As Boolean) As String
         Return "
 SELECT * FROM (
-select Convert(varchar,Year(AdvDate))+'/'+RIGHT('0'+Convert(varchar,Month(AdvDate)),2) as Period,'ADV' as DocType,AdvNo as DocNo 
+select Convert(varchar,Year(AdvDate))+'/'+RIGHT('0'+Convert(varchar,Month(AdvDate)),2) as Period,'ADV' as DocType,AdvNo as DocNo,AdvDate as DocDate 
 from Job_AdvHeader where DocStatus" & If(bCancel = True, "=", "<>") & "99 
 union
-select Convert(varchar,Year(ClrDate))+'/'+RIGHT('0'+Convert(varchar,Month(ClrDate)),2) as Period,'CLR' as DocType,ClrNo as DocNo 
+select Convert(varchar,Year(ClrDate))+'/'+RIGHT('0'+Convert(varchar,Month(ClrDate)),2) as Period,'CLR' as DocType,ClrNo as DocNo,ClrDate as DocDate 
 from Job_ClearHeader where DocStatus" & If(bCancel = True, "=", "<>") & "99 
 UNION
-select Convert(varchar,Year(CreateDate))+'/'+RIGHT('0'+Convert(varchar,Month(CreateDate)),2) as Period,'INV' as DocType,DocNo 
+select Convert(varchar,Year(CreateDate))+'/'+RIGHT('0'+Convert(varchar,Month(CreateDate)),2) as Period,'INV' as DocType,DocNo,CreateDate as DocDate 
 from Job_InvoiceHeader where " & If(bCancel = True, "", "NOT") & " ISNULL(CancelProve,'')<>''
 ) t {0} ORDER BY t.DocType,t.Period,t.DocNo
 "
