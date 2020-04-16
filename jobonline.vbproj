@@ -508,6 +508,8 @@
     <Content Include="Resource\jobtawan_bg.jpg" />
     <Content Include="Resource\logo-tawan.jpg" />
     <Content Include="Resource\logo-biz.png" />
+    <Content Include="Resource\pnd53.png" />
+    <Content Include="Resource\pnd3.png" />
     <Content Include="Scripts\bootstrap-select.js.map" />
     <Content Include="Scripts\bootstrap.bundle.js.map" />
     <Content Include="Scripts\bootstrap.bundle.min.js.map" />

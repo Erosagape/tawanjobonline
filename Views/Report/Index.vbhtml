@@ -311,6 +311,23 @@
         $('#dvCliteria').modal('hide');
     }
     function PrintReport() {
+        if (reportID.indexOf('PRD')>=0) {
+            switch (reportID) {
+                case 'PRD3':
+                    window.open(path +'Acc/FormWTax3' + GetCliteria(), '', '');
+                    break;
+                case 'PRD3D':
+                    window.open(path +'Acc/FormWTax3D' + GetCliteria(), '', '');
+                    break;
+                case 'PRD53':
+                    window.open(path +'Acc/FormWTax53' + GetCliteria(), '', '');
+                    break;
+                case 'PRD53D':
+                    window.open(path +'Acc/FormWTax53D' + GetCliteria(), '', '');
+                    break;
+            }
+            return;
+        }
         window.open(path +'Report/Preview' + GetCliteria(), '', '');
     }
 </script>

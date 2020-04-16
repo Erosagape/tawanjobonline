@@ -2249,11 +2249,11 @@ Namespace Controllers
                         tSqlw &= " AND ISNULL(id.AmtAdvance,0)>0 "
                     End If
                     If Request.QueryString("Type").ToString.ToUpper = "SRV" Then
-                        tSqlw &= " AND ISNULL(id.AmtCharge,0)>0 AND ISNULL(id.AmtVat,0)>0 "
+                        tSqlw &= " AND ISNULL(id.AmtCharge,0)>0 "
                     End If
                     If Request.QueryString("Type").ToString.ToUpper = "TAX" Then
                         'have advance or have service
-                        tSqlw &= " AND ((ISNULL(id.AmtCharge,0)>0 AND ISNULL(id.AmtVat,0)>0) OR ISNULL(id.AmtAdvance,0)>0) "
+                        tSqlw &= " AND (ISNULL(id.AmtCharge,0)>0 OR ISNULL(id.AmtAdvance,0)>0) "
                     End If
                     If Request.QueryString("Type").ToString.ToUpper = "REC" Then
                         'have service but no vat

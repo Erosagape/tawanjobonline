@@ -5,246 +5,234 @@
 End Code
 <style>
     * {
-        font-family: Tahoma;
-        font-size: 12px;
-        margin: 0;
-        padding: 0;
+        font-family: AngsanaUPC;
+        font-size: 14px;
     }
-    #circle {
+
+    #pFooter {
+        display: none;
+    }
+
+    .circle {
         width: 100px; /* ความกว้าง */
         height: 100px; /* ความสูง */
         -moz-border-radius: 70px;
         -webkit-border-radius: 70px;
         border: 1px solid #000000;
         border-radius: 50%;
-    }
-
-    p.pd1 {
-        margin: 15px;
-    }
-
-    p.d1 {
-        border: 1px solid black;
-        background-color: lightblue;
-        border-radius: 8px;
-    }
-
-    h4.H4 {
-        border: 1px solid black;
-        background-color: lightblue;
-        border-radius: 8px;
-    }
-
-    h1.H1 {
-        border: 1px solid black;
-        border-radius: 8px;
-    }
-
-    p.d2 {
-        border: 1px solid black;
-        border-radius: 8px;
-    }
-
-    p.d3 {
-        border: 1px solid black;
-        border-radius: 5px;
+        text-align: center;
     }
 </style>
-
-
-
-<div id="report" class="text-center">
-    <table>
-        <tr>
-            <td>
-                แบบยื่นรายการภาษีเงินได้หัก ณ ที่จ่าย<br />
-                ตามมาตรา 59 แห่งประมวลรัษฎากร<br />
-                สำหรับกานหักภาษี ณ ที่จ่ายตามมาตรา 3 เตรส และมาตรา 50 (3)(4)(5)<br />
-                กรณีการจ่ายเงินได้พึงประเมินตามมาตรา 40 (5)(6)(7)(8) และภาษีตามาตรา 48 ทวิ แห่งประมวลรัษฎากร
-            </td>
-
-            <td>
-                ภ.ง.ด.3
-            <td>
-        </tr>
-    </table>
-
-
-
-</div>
-
-<table border="1" style="border-style:solid;width:100%">
-    <tr>
-        <td>
-            <h4><p class="pd1">เลขประจำตัวผู้เสียภาษีอากร  &nbsp;&nbsp;&nbsp;   &#9744;-&#9744;&#9744;&#9744;&#9744;-&#9744;&#9744;&#9744;&#9744;&#9744;-&#9744;&#9744;-&#9744;</p></h4>
-            <p class="pd1">(ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย)</p>
-            <p class="pd1">
-                ชื่อผู้มีหน้าที่หักภาษี ณ ที่จ่าย (หน่วยงาน) :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                สาขาที่ &#9744;&#9744;&#9744;&#9744;&#9744;
-            </p>
-            <p class="pd1">...............................................................................................................................................</p>
-            <p class="pd1">ที่อยู่ : อาคาร .................................... ห้องเลขที่.............ชั้นที่...............หมู่บ้าน.....................................</p>
-            <p class="pd1">เลขที่....................หมู่ที่.................ตรอก/ซอย.....................................แยก...........................................</p>
-            <p class="pd1">ถนน..............................................................ตำบล/แขวง.................................................................</p>
-            <p class="pd1">อำเภอ/เขต..................................................................................จังหวัด.........................................</p>
-            <p class="pd1">รหัสไปรษณีย์ &#9744;&#9744;&#9744;&#9744;&#9744;............................................................................................................</p>
-        </td>
-
-
-        <td rowspan="2" align="left" valign="top">
-            <p class="pd1">เดือนที่จ่ายเงินได้พึงประเมิน</p>
-            <p class="pd1">(ให้ทำเครื่องหมาย "&check;" ลงใน "&#9744;" หน้าชื่อเดือน) พ.ศ.&nbsp; .....................</p>
-            <p class="pd1">
-                &#9744;(1)&nbsp; มกราคม  &nbsp;&nbsp;&nbsp;&nbsp;&#9744;(4)&nbsp; เมษายน &nbsp;&nbsp;&#9744;(7)&nbsp; กรกฎาคม &#9744;(10)&nbsp; ตุลาคม
-            </p>
-            <p class="pd1">
-                &#9744;(2)&nbsp; กุมภาพันธ์ &nbsp;&#9744;(5)&nbsp;พฤษภาคม &#9744;(8)&nbsp; สิงหาคม &nbsp;&#9744;(11)&nbsp; พฤศจิกายน
-            </p>
-            <p class="pd1">
-                &#9744;(3)&nbsp; มีนาคม &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#9744;(6) &nbsp;มิถุนายน &nbsp;&nbsp;&#9744;(9)&nbsp; กันยายน &nbsp;&#9744;(12)&nbsp; ธันวาคม
-            </p>
-        </td>
-    </tr>
-
-
-    <tr>
-        <td class="text-center">
-            <h3><p> &#9744;(1)ยื่นปกติ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  &#9744;(2)ยื่นเพิ่มเติมครั้งที่ &#9744;</p></h3>
-        </td>
-
-    </tr>
-
-    <tr>
-        <td colspan="2">
-            <h3>
-                <p class="pd1">
-                    นำส่งภาษีตาม &nbsp;&nbsp;&nbsp;&#9744;(1) มาตรา 3 เตรส  &nbsp;&nbsp;&nbsp;&#9744;(2) มาตรา 48 ทวิ  &nbsp;&nbsp;&nbsp;&#9744;(3) มาตรา 50 (3) (4) (5)
-                </p>
-            </h3>
-            <h3>
-                <p class="pd1">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                    &#9744; ใบแนบ ภ.ง.ด.3 ที่แนบมาพร้อมนี้ : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;จำนวน..........ราย
-
-
-                </p>
-                <p class="pd1" align="right">จำนวน..........แผ่น</p>
-                <p class="pd1" align="center">หรือ</p>
-            </h3>
-
-            <p class="pd1">มีรายละเอียดการหักเป็นรายผู้มีเงินได้ ปรากฎตาม</p>
-            <p class="pd1">(ให้แสดงรายละเอียดในใบแนบ ภ.ง.ด.3 หรือในสื่อ</p>
-            <p class="pd1">บันทึกในระบบคอมพิวเตอร์อย่างใดอย่างหนึ่งเท่านั้น)</p>
-
-            <h3>
-                <p class="pd1">
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-                    &#9744; สื่อบันทึกในระบบคอมพิวเตอร์ ที่แนบมาพร้อมนี้:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    จำนวน..........ราย
-
-
-                </p>
-                <p class="pd1" align="right">จำนวน..........แผ่น</p>
-            </h3>
-            <p class="pd1" align="right">
-                (ตามหนังสือแสดงความประสงค์ ทะเบียนรับเลขที่................................................
-            </p>
-            <p class="pd1" align="right">
-                หรือตามหนังสือข้อตกลงการใช้งานฯ เลขอ้างอิงการลงทะเบียน...........................)
-            </p>
-
-            <div class="row">
-                <div class="col-md-8 text-center">
-                    <h3>
-                        <p class="d1">
-                            สรุปรายการภาษีที่นำส่ง
-                        </p>
-                    </h3>
-                    <div class="col-md-8 text-left">
-                        <h4>
-                            <p>
-                                1.รวมยอดเงินได้ทั้งสิ้น
-                            </p>
-                            <p>
-                                2.รวมยอดภาษีที่นำส่งทั้งสิ้น
-                            </p>
-                            <p>
-                                3.เงินเพิ่ม(ถ้ามี)
-                            </p>
-                            <p>
-                                4.รวมยอดภาษีที่นำส่งทั้งสิ้น และเงินเพิ่ม (2. + 3.)
-                            </p>
-                        </h4>
+<img src="~/Resource/pnd3.png" style="width:100%" />
+<div style="display:flex">
+    <div style="flex:45%;border-bottom-style:solid;border-bottom-width:1px">
+        <div style="display:flex;flex-direction:column">
+            <div style="flex:1">
+                <div style="display:flex;flex-direction:row">
+                    <div style="flex:2">
+                        เลขที่ประจำตัวประชาชนของผู้มีหน้าที่หัก ณ ที่จ่าย :
                     </div>
-
-
+                    <div style="flex:1">
+                        <label id="lblIDCard1"></label>
+                    </div>
                 </div>
-                <div class="col-md-4 text-center">
-                    <h3>
-                        <p class="d2">
-                            จำนวนเงิน
-                        </p>
-                        <div class="col-md-8">
-                            <h4>
-                                <p class="d3 text-center">&nbsp;</p>
-                                <p class="d3">&nbsp;</p>
-                                <p class="d3">&nbsp;</p>
-                                <p class="d3">&nbsp;</p>
-                            </h4>
-                        </div>
-
-
-
-
-                    </h3>
-                </div>
-
             </div>
+            <div style="flex:1">
+                <div style="display:flex;flex-direction:row">
+                    <div style="flex:2">
+                        เลขที่ประจำตัวผู้เสียภาษีของผู้มีหน้าที่หัก ณ ที่จ่าย<br />
+                        (ที่เป็นผู้ไม่มีเลขประจำตัวบัตรประชาชน) :
+                    </div>
+                    <div style="flex:1">
+                        <label id="lblTaxNumber1"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="flex:1">
+            <div style="display:flex;flex-direction:row">
+                <div style="flex:2">
+                    <b>ชื่อผู้มีหน้าที่หักภาษี ณ ที่จ่าย (หน่วยงาน)</b>
+                </div>
+                <div style="flex:1">
+                    <b>สาขาที่</b>
+                    <label id="lblTaxBranch1"></label>
+                </div>
+            </div>
+        </div>
+        <div style="flex:1">
+            <label id="lblAddress1"></label>
+        </div>
+    </div>
+    <div style="flex:55%;border-left-style:solid;border-left-width:1px;border-bottom-style:solid;border-bottom-width:1px">
+        <div style="display:flex;flex-direction:column">
+            <div>
+                <b>เดือนที่จ่ายเงินได้พึงประเมิน</b> (ให้ทำเครื่องหมาย <input type="checkbox" checked /> ลงใน <input type="checkbox" /> หน้าชื่อเดือน) พ.ศ. <input type="text" style="width:50px" />
+            </div>
+            <div style="display:flex">
+                <div style="flex:1">
+                    <input type="checkbox" /> (1) มกราคม
+                </div>
+                <div style="flex:1">
+                    <input type="checkbox" /> (2) กุมภาพันธ์
+                </div>
+                <div style="flex:1">
+                    <input type="checkbox" /> (3) มีนาคม
+                </div>
+                <div style="flex:1">
+                    <input type="checkbox" /> (4) เมษายม
+                </div>
+            </div>
+            <div style="display:flex">
+                <div style="flex:1">
+                    <input type="checkbox" /> (5) พฤษภาคม
+                </div>
+                <div style="flex:1">
+                    <input type="checkbox" /> (6) มิถุนายน
+                </div>
+                <div style="flex:1">
+                    <input type="checkbox" /> (7) กรกฏาคม
+                </div>
+                <div style="flex:1">
+                    <input type="checkbox" /> (8) สิงหาคม
+                </div>
+            </div>
+            <div style="display:flex">
+                <div style="flex:1">
+                    <input type="checkbox" /> (9) กันยายน
+                </div>
+                <div style="flex:1">
+                    <input type="checkbox" /> (10) ตุลาคม
+                </div>
+                <div style="flex:1">
+                    <input type="checkbox" /> (11) พฤศจิกายน
+                </div>
+                <div style="flex:1">
+                    <input type="checkbox" /> (12) ธันวาคม
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="display:flex">
+    <div style="flex:45%;border-bottom-style:solid;border-bottom-width:1px;padding:5px 5px 5px 5px">
+        <div style="display:flex">
+            <div style="flex:1;padding:5px 5px 5px 5px">
+                <input type="checkbox" /> (1) ยื่นปกติ
+            </div>
+            <div style="flex:2;padding:5px 5px 5px 5px">
+                <input type="checkbox" /> (2) ยื่นเพิ่มเติมครั้งที่ <input type="text" style="width:30px" />
+            </div>
+        </div>
+    </div>
+    <div style="flex:55%;border-left-style:solid;border-left-width:1px;border-bottom-style:solid;border-bottom-width:1px">
 
-
-
-
-        </td>
-
-    </tr>
-
-    <tr>
-        <td colspan="2" class="text-center">
-            <h4>
-                <p>
-                    ข้าพเจ้าขอรับรองว่า รายงายที่ข้าพเจ้าแจ้งไว้ข้างต้นนี้ เป็นรายงานที่ถูกต้องและครบถ้วนทุกประการ
-                </p>
-                <p>
-                    ลงชื่อ.................................................................ผู้จ่ายเงิน
-                </p>
-                <p>
-                    (......................................................................)
-                </p>
-                <p>
-                    ตำแหน่ง........................................................................
-                </p>
-                <p>
-                    ยื่นวันที่...........เดือน.................................พ.ศ............................
-                </p>
-            </h4>
-        </td>
-
-    </tr>
-
-</table>
-<p align="right">(ก่อนกรอกรายงาน ดูคำชี้แจงด้านหลัง)</p>
-
-
-
-
-
-
+    </div>
+</div>
+<div style="width:100%;text-align:center;font-weight:bold;font-size:16px">
+    นำส่งภาษีตาม :
+    <input type="checkbox" /> (1) มาตรา 3 เตรส แห่งประมวลรัษฏากร
+    <input type="checkbox" /> (2) มาตรา 48 ทวิ แห่งประมวลรัษฏากร
+    <input type="checkbox" /> (3) มาตรา 50 (3)(4)(5) แห่งประมวลรัษฏากร
+</div>
+<hr />
+<div style="display:flex">
+    <div style="flex:40%;text-align:center;font-size:16px;">
+        มีรายละเอียดการหักเป็นรายผู้มีเงินได้ ปรากฏตาม
+        <br />
+        (ให้แสดงรายละเอียดใน<b>ใบแนบ ภ.ง.ด. 3</b> หรือใน<b>สื่อบันทึกในระบบคอมพิวเตอร์</b>อย่างใดอย่างหนึ่งเท่านั้น)
+    </div>
+    <div style="flex:60%;">
+        <div style="display:flex;">
+            <div style="flex:2;font-size:16px">
+                <input type="checkbox" /> ใบแนบ <b>ภ.ง.ด. 3</b> ที่แนบมาพร้อมนี้
+            </div>
+            <div style="flex:1;font-size:16px">
+                จำนวน <input type="text" style="width:50px" /> ราย
+                <br />
+                จำนวน <input type="text" style="width:50px" /> แผ่น
+            </div>
+        </div>
+        <div style="display:flex;">
+            <div style="flex:2;font-size:16px">
+                <input type="checkbox" /> สื่อบันทึกในระบบคอมพิวเตอร์ ที่แนบมาพร้อมนี้
+            </div>
+            <div style="flex:1;font-size:16px">
+                จำนวน <input type="text" style="width:50px" /> ราย
+                <br />
+                จำนวน <input type="text" style="width:50px" /> แผ่น
+            </div>
+        </div>
+        <div style="text-align:right;">
+            (ตามหนังสือแสดงความประสงค์ ทะเบียนรับเลขที่......................................)
+            <br />
+            หรือตามหนังสือข้อตกลงการใช้งานฯ เลขอ้างอิงการลงทะเบียน................................................)
+        </div>
+    </div>
+</div>
+<br />
+<div style="display:flex;flex-direction:column;align-items:center">
+    <div style="width:80%;display:flex">
+        <div style="flex:2;text-align:center;background-color:lightgrey;border-style:solid;border-width:1px">
+            <b>สรุปรายการภาษีที่นำส่ง</b>
+        </div>
+        <div style="flex:1;text-align:center;border-style:solid;border-width:1px">
+            จำนวนเงิน
+        </div>
+    </div>
+    <div style="width:80%;display:flex">
+        <div style="flex:2">
+            <b>1. รวมยอดเงินได้ทั้งสิ้น</b>
+        </div>
+        <div style="flex:1">
+            <input type="number" style="width:100%" />
+        </div>
+    </div>
+    <div style="width:80%;display:flex">
+        <div style="flex:2">
+            <b>2. รวมยอดภาษีที่นำส่งทั้งสิ้น</b>
+        </div>
+        <div style="flex:1">
+            <input type="number" style="width:100%" />
+        </div>
+    </div>
+    <div style="width:80%;display:flex">
+        <div style="flex:2">
+            <b>3. เงินเพิ่ม(ถ้ามี)</b>
+        </div>
+        <div style="flex:1">
+            <input type="number" style="width:100%" />
+        </div>
+    </div>
+    <div style="width:80%;display:flex">
+        <div style="flex:2">
+            <b>4. รวมยอดภาษีที่นำส่งทั้งสิ้นและเงินเพิ่ม (2.+3.)</b>
+        </div>
+        <div style="flex:1">
+            <input type="number" style="width:100%" />
+        </div>
+    </div>
+</div>
+<br />
+<hr />
+<br />
+<div>
+    <div style="width:100%;text-align:center;font-size:16px;float:left">
+        <div style="float:right">
+            <br />
+            <div class="circle"><br />ประทับตรา<br />นิติบุคคล<br />(ถ้ามี)</div>
+            <br />
+        </div>
+        ข้าพเจ้าขอรับรองว่า รายการที่แจ้งไว้ข้างต้นนี้ เป็นรายการที่ถูกต้องและครบถ้วนทุกประการ
+        <br />
+        <br />
+        <br />
+        ลงชื่อ..............................................................................................ผู้จ่ายเงิน
+        <br />
+        (..............................................................................................)
+        <br />
+        ตำแหน่ง .....................................................................................
+        <br />
+        ยื่นวันที่............ เดือน..............................................พ.ศ. ...................
+    </div>
+</div>
