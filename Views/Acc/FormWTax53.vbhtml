@@ -53,12 +53,13 @@ End Code
                 </div>
                 <div style="flex:1">
                     <b>สาขาที่</b>
-                    <label id="lblTaxBranch1"></label>
+                    <label id="lblBranch1"></label>
                 </div>
             </div>
         </div>
         <div style="flex:1">
-            <label id="lblAddress1"></label>
+            <label id="lblTName1"></label><br/>
+            <label id="lblTAddress1"></label>
         </div>
     </div>
     <div style="flex:45%;border-left-style:solid;border-left-width:1px;border-bottom-style:solid;border-bottom-width:1px">
@@ -67,9 +68,9 @@ End Code
                 นำส่งภาษีตาม
             </div>
             <div style="font-weight:bold">
-                <input type="checkbox" /> (1) มาตรา 3 เตรส แห่งประมวลรัษฏากร<br />
-                <input type="checkbox" /> (2) มาตรา 65 จัตวา แห่งประมวลรัษฏากร<br />
-                <input type="checkbox" /> (3) มาตรา 69 ทวิ แห่งประมวลรัษฏากร<br />
+                <input type="checkbox" id="chkLaw1" /> (1) มาตรา 3 เตรส แห่งประมวลรัษฏากร<br />
+                <input type="checkbox" id="chkLaw2" /> (2) มาตรา 65 จัตวา แห่งประมวลรัษฏากร<br />
+                <input type="checkbox" id="chkLaw3" /> (3) มาตรา 69 ทวิ แห่งประมวลรัษฏากร<br />
             </div>
             <div style="display:flex;flex-direction:row;border-top-style:solid;border-top-width:1px">
                 <div style="flex:1;padding:5px 5px 5px 5px">
@@ -89,44 +90,44 @@ End Code
         </div>
         <div style="display:flex">
             <div style="flex:1">
-                <input type="checkbox" /> (1) มกราคม
+                <input type="checkbox" id="chkMo1" /> (1) มกราคม
             </div>
             <div style="flex:1">
-                <input type="checkbox" /> (2) กุมภาพันธ์
+                <input type="checkbox" id="chkMo2" /> (2) กุมภาพันธ์
             </div>
             <div style="flex:1">
-                <input type="checkbox" /> (3) มีนาคม
+                <input type="checkbox" id="chkMo3" /> (3) มีนาคม
             </div>
             <div style="flex:1">
-                <input type="checkbox" /> (4) เมษายม
-            </div>
-        </div>
-        <div style="display:flex">
-            <div style="flex:1">
-                <input type="checkbox" /> (5) พฤษภาคม
-            </div>
-            <div style="flex:1">
-                <input type="checkbox" /> (6) มิถุนายน
-            </div>
-            <div style="flex:1">
-                <input type="checkbox" /> (7) กรกฏาคม
-            </div>
-            <div style="flex:1">
-                <input type="checkbox" /> (8) สิงหาคม
+                <input type="checkbox" id="chkMo4" /> (4) เมษายม
             </div>
         </div>
         <div style="display:flex">
             <div style="flex:1">
-                <input type="checkbox" /> (9) กันยายน
+                <input type="checkbox" id="chkMo5" /> (5) พฤษภาคม
             </div>
             <div style="flex:1">
-                <input type="checkbox" /> (10) ตุลาคม
+                <input type="checkbox" id="chkMo6" /> (6) มิถุนายน
             </div>
             <div style="flex:1">
-                <input type="checkbox" /> (11) พฤศจิกายน
+                <input type="checkbox" id="chkMo7" /> (7) กรกฏาคม
             </div>
             <div style="flex:1">
-                <input type="checkbox" /> (12) ธันวาคม
+                <input type="checkbox" id="chkMo8" /> (8) สิงหาคม
+            </div>
+        </div>
+        <div style="display:flex">
+            <div style="flex:1">
+                <input type="checkbox" id="chkMo9" /> (9) กันยายน
+            </div>
+            <div style="flex:1">
+                <input type="checkbox" id="chkMo10" /> (10) ตุลาคม
+            </div>
+            <div style="flex:1">
+                <input type="checkbox" id="chkMo11" /> (11) พฤศจิกายน
+            </div>
+            <div style="flex:1">
+                <input type="checkbox" id="chkMo12" /> (12) ธันวาคม
             </div>
         </div>
     </div>
@@ -184,7 +185,7 @@ End Code
             <b>1. รวมยอดเงินได้ทั้งสิ้น</b>
         </div>
         <div style="flex:1">
-            <input type="number" style="width:100%" />
+            <input type="text" id="txtSumPayAmount" style="width:100%;text-align:right" />
         </div>
     </div>
     <div style="width:80%;display:flex">
@@ -192,7 +193,7 @@ End Code
             <b>2. รวมยอดภาษีที่นำส่งทั้งสิ้น</b>
         </div>
         <div style="flex:1">
-            <input type="number" style="width:100%" />
+            <input type="text" id="txtSumPayTax" style="width:100%;text-align:right" />
         </div>
     </div>
     <div style="width:80%;display:flex">
@@ -200,7 +201,7 @@ End Code
             <b>3. เงินเพิ่ม(ถ้ามี)</b>
         </div>
         <div style="flex:1">
-            <input type="number" style="width:100%" />
+            <input type="text" value="0.00" style="width:100%;text-align:right" />
         </div>
     </div>
     <div style="width:80%;display:flex">
@@ -208,7 +209,7 @@ End Code
             <b>4. รวมยอดภาษีที่นำส่งทั้งสิ้นและเงินเพิ่ม (2.+3.)</b>
         </div>
         <div style="flex:1">
-            <input type="number" style="width:100%" />
+            <input type="text" id="txtSumTax" style="width:100%;text-align:right" />
         </div>
     </div>
 </div>
@@ -235,3 +236,55 @@ End Code
         ยื่นวันที่............ เดือน..............................................พ.ศ. ...................
     </div>
 </div>
+<script type="text/javascript">
+    let path = '@Url.Content("~")';
+    let data = getQueryString("data");
+    let cliteria = getQueryString("cliteria");
+    let user = '@ViewBag.User';
+    let lang = '@ViewBag.PROFILE_DEFAULT_LANG';
+    let row = {};
+    if (data !== '') {
+        row = JSON.parse(data);
+        let obj = JSON.parse(cliteria);
+        html = '';
+        if (obj.DATEFROM !== '') html += obj.DATEFROM + ',';
+        if (obj.DATETO !== '') html += obj.DATETO + ',';
+        if (obj.CUSTWHERE !== '') html += obj.CUSTWHERE + ',';
+        if (obj.JOBWHERE !== '') html += obj.JOBWHERE + ',';
+        if (obj.VENDWHERE !== '') html += obj.VENDWHERE + ',';
+        if (obj.STATUSWHERE !== '') html += obj.STATUSWHERE + ',';
+        if (obj.EMPWHERE !== '') html += obj.EMPWHERE + ',';
+        let params = {
+            ReportCode: row.REPORTCODE,
+            ReportCliteria: html
+        }
+        let str = JSON.stringify(params);
+        $.ajax({
+            url: path + 'Acc/GetWHTaxReport',
+            type: "POST",
+            contentType: "application/json",
+            data: str,
+            success: function (response) {
+                let res = JSON.parse(response);
+                if (res.msg !== "OK") {
+                    //alert(r.msg);
+                    return;
+                }
+                if (res.result.length > 0) {
+                    var tb = res.result[0];
+                    $('#lblIDCard1').text(tb.IDCard1);
+                    $('#lblTaxNumber1').text(tb.TaxNumber1);
+                    $('#lblBranch1').text(tb.Branch1);
+                    $('#lblTName1').text(tb.TName1);
+                    $('#lblTAddress1').text(tb.TAddress1);
+                    $('#txtTaxYear').val(tb.TaxYear + 543);
+                    $('#chkMo' + tb.TaxMonth).prop('checked', true);
+                    $('#chkLaw' + tb.TaxLawNo).prop('checked', true);
+                    $('#txtSumPayAmount').val(ShowNumber(tb.SumPayAmount,2));
+                    $('#txtSumPayTax').val(ShowNumber(tb.SumPayTax,2));
+                    $('#txtSumTax').val(ShowNumber(tb.SumPayTax,2));
+                }
+            }
+        });
+    }
+</script>

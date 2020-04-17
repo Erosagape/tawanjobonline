@@ -469,16 +469,34 @@ function LoadCliteria(reportID) {
     }
 }
 function IsNumberColumn(cname) {
-    let colname = 'InvTotal,InvProductQty,InvCurRate,DutyAmount,TotalGW,Commission,TotalNW,TotalQty,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm';
-    colname += ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet';
+    let colname = 'InvTotal,InvProductQty,InvCurRate,DutyAmount,TotalGW,Commission,TotalNW,TotalQty,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,Tax3Tres,TaxNot3Tres,';
+    if (colname.indexOf(cname) >= 0) {
+        return true;
+    }
+    colname = 'TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm';
+    if (colname.indexOf(cname) >= 0) {
+        return true;
+    }
+    colname = ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService,PayTax';
     if (colname.indexOf(cname) >= 0) {
         return true;
     }
     return false;
 }
 function IsSummaryColumn(cname) {
-    let colname = 'DutyAmount,TotalGW,Commission,TotalNW,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,';
-    colname += ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet';
+    let colname = 'DutyAmount,TotalGW,Commission,TotalNW,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal';
+    if (colname.indexOf(cname) >= 0) {
+        return true;
+    }
+    colname = ',LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit';
+    if (colname.indexOf(cname) >= 0) {
+        return true;
+    }
+    colname = ',CreditNet,AmtWH,AmtTotal,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,PayTax,Tax3Tres,TaxNot3Tres,';
+    if (colname.indexOf(cname) >= 0) {
+        return true;
+    }
+    colname = ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService';
     if (colname.indexOf(cname) >= 0) {
         return true;
     }
@@ -633,9 +651,18 @@ function GetColumnHeader(id,langid) {
         Date50Tavi: 'Date|วันที่เอกสาร',
         NO50Tavi: 'Doc No|เลขที่เอกสาร',
         VenTaxNumber: 'Tax.Issue|เลขผู้เสียภาษีผู้หัก',
+        VenTaxBranch: 'Tax.Branch|สาขาผู้หัก',
+        FormTypeName:'Tax.Form|แบบภาษี',
         CustTaxBranch: 'Branch|สาขาผู้ถูกหัก',
         CustTaxNumber: 'Tax.Receive|เลขผู้เสียภาษีผู้ถูกหัก',
         CustName: 'Name|ชื่อผู้ถูกหัก',
+        TaxBy: 'Tax By|ผู้มีหน้าที่หัก ณ ที่จ่าย',
+        TaxYear: 'Tax Year|ปีภาษี',
+        TaxMonth: 'Tax Mo|เดือน',
+        ServiceAmount: 'Service|ค่าบริการ',
+        TranAmount: 'Transport|ค่าขนส่ง',
+        TaxService: 'Tax (Serv)|ภาษี(ค่าบริการ)',
+        TaxTransport: 'Tax (Tran)|ภาษี(ค่าขนส่ง)',
         TaxType: 'Tax-type|ประเภท',
         TaxForm: 'Tax-Form|แบบยื่น',
         Tax3Tres: '3-Tres|3 เตรส',
@@ -760,23 +787,25 @@ function LoadReport(path, reportID, obj, lang) {
 
                 let html = '<tbody><tr>';
                 $.each(tb[0], function (key, value) {
-                    //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
-                    html += '<td style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></td>';
-                    sumGroup.push({ isSummary: IsSummaryColumn(key), value: 0 });
-                    sumTotal.push(0);
-                    colCount++;
+                    if (key !== groupField) {
+                        //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
+                        html += '<td style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></td>';
+                        sumGroup.push({ isSummary: IsSummaryColumn(key), value: 0 });
+                        sumTotal.push(0);
+                        colCount++;
+                    }
                 });
 
                 html += '</tr>';
                 let groupCount = 0;
-
+                let groupCaption = GetColumnHeader(groupField, lang);
                 for (let r of tb) {
                     html += '<tr>';
                     if (groupField !== '') {
                         if (FormatValue(groupField, r[groupField]) !== groupVal) {
                             //Show Summary
                             if (groupCount > 0) {
-                                html += '<td style="border:1px solid black;text-align:left;"><u>' + groupVal + '</u></td>';
+                                html += '<td style="border:1px solid black;text-align:left;">'+ groupCaption +' <u>' + groupVal + '</u></td>';
                                 for (let i = 1; i < colCount; i++) {
                                     if (sumGroup[i].isSummary == true) {
                                         html += '<td style="border:1px solid black;text-align:right;"><u>' + ShowNumber(sumGroup[i].value, 2) + '</u></td>';
@@ -791,7 +820,7 @@ function LoadReport(path, reportID, obj, lang) {
                             groupVal = FormatValue(groupField, r[groupField]);
                             groupCount++;
 
-                            html += '<td colspan="' + colCount + '" style="border:1px solid black;text-align:left;"><b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
+                            html += '<td colspan="' + colCount + '" style="border:1px solid black;text-align:left;">'+ groupCaption +' <b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
                             html += '</tr><tr>';
                         } else {
                             groupCount++;
@@ -800,24 +829,26 @@ function LoadReport(path, reportID, obj, lang) {
 
                     let col = 0;
                     for (let c in r) {
-                        if (c.indexOf('Date') >= 0) {
-                            html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
-                        } else {
-                            if (r[c] !== null) {
-                                if (IsNumberColumn(c) == true) {
-                                    if (sumGroup[col].isSummary == true) {
-                                        sumGroup[col].value += Number(r[c]);
-                                        sumTotal[col] += Number(r[c]);
-                                    }
-                                    html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c], 2) + '</td>';
-                                } else {
-                                    html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
-                                }
+                        if (c !== groupField) {
+                            if (c.indexOf('Date') >= 0) {
+                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
                             } else {
-                                html += '<td style="border:1px solid black;text-align:left;"></td>';
+                                if (r[c] !== null) {
+                                    if (IsNumberColumn(c) == true) {
+                                        if (sumGroup[col].isSummary == true) {
+                                            sumGroup[col].value += Number(r[c]);
+                                            sumTotal[col] += Number(r[c]);
+                                        }
+                                        html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c], 2) + '</td>';
+                                    } else {
+                                        html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
+                                    }
+                                } else {
+                                    html += '<td style="border:1px solid black;text-align:left;"></td>';
+                                }
                             }
+                            col++;
                         }
-                        col++;
                     }
                     html += '</tr>';
                 }

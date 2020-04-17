@@ -23,87 +23,6 @@ Namespace Controllers
         Function Preview() As ActionResult
             Return GetView("Preview")
         End Function
-        Function GetSQLCommand(cliteria As String, fldDate As String, fldCust As String, fldJob As String, fldEmp As String, fldVend As String, fldStatus As String, fldBranch As String) As String
-            Dim sqlW As String = ""
-            If cliteria Is Nothing Then
-                Return ""
-            End If
-            For Each str As String In cliteria.Split(",")
-                If str <> "" Then
-                    If sqlW <> "" Then
-                        If str.Substring(0, 2) <> "OR" Then
-                            sqlW &= " AND ("
-                        Else
-                            sqlW = "(" & sqlW & ")"
-                            str = str.Replace("OR", " OR ((")
-                        End If
-                    Else
-                        sqlW &= "("
-                    End If
-                    If fldBranch <> "" Then str = ProcessCliteria(str, "[BRANCH]", fldBranch)
-                    If fldDate <> "" Then str = ProcessCliteria(str, "[DATE]", fldDate)
-                    If fldCust <> "" Then str = ProcessCliteria(str, "[CUST]", fldCust)
-                    If fldJob <> "" Then str = ProcessCliteria(str, "[JOB]", fldJob)
-                    If fldEmp <> "" Then str = ProcessCliteria(str, "[EMP]", fldEmp)
-                    If fldStatus <> "" Then str = ProcessCliteria(str, "[STATUS]", fldStatus)
-                    If fldVend <> "" Then str = ProcessCliteria(str, "[VEND]", fldVend)
-                    sqlW &= str
-                    If sqlW <> "" Then
-                        sqlW &= ")"
-                    End If
-                End If
-            Next
-            If sqlW.Substring(0, 2) = "((" Then
-                sqlW &= ")"
-            End If
-            Return sqlW
-        End Function
-        Private Function ProcessCliteria(str As String, key As String, val As String) As String
-            If str.Contains(key) Then
-                Dim fld As String = str.Replace(key, " " & val & " ")
-                fld = FindFieldCliteria(fld) & FindValueCliteria(str)
-                Return fld
-            Else
-                Return str
-            End If
-        End Function
-        Private Function FindFieldCliteria(str As String) As String
-            If str.IndexOf(">=") > 0 Then
-                Return str.Split(">=")(0)
-            End If
-            If str.IndexOf("<=") > 0 Then
-                Return str.Split("<=")(0)
-            End If
-            If str.IndexOf("<>") > 0 Then
-                Return str.Split("<>")(0)
-            End If
-            If str.IndexOf("LIKE%") > 0 Then
-                Return str.Split("LIKE%")(0)
-            End If
-            If str.IndexOf("=") > 0 Then
-                Return str.Split("=")(0)
-            End If
-            Return ""
-        End Function
-
-        Private Function FindValueCliteria(str As String) As String
-            If str.IndexOf(">=") > 0 Then
-                Return ">='" & str.Split(">=")(1).Substring(1) & "'"
-            End If
-            If str.IndexOf("<=") > 0 Then
-                Return "<='" & str.Split("<=")(1).Substring(1) & "'"
-            End If
-            If str.IndexOf("<>") > 0 Then
-                Return "<>'" & str.Split("<>")(1).Substring(1) & "'"
-            End If
-            If str.IndexOf("LIKE%") > 0 Then
-                Return "Like '" & str.Split("LIKE%")(1).Substring(3) & "%'"
-            End If
-            If str.IndexOf("=") > 0 Then
-                Return "='" & str.Split("=")(1) & "'"
-            End If
-            Return "''"
-        End Function
         Function GetReport(<FromBody()> data As CReport) As ActionResult
             Dim sqlM As String = ""
             Dim sqlW As String = ""
@@ -267,16 +186,27 @@ GROUP BY j.BranchCode, j.JNo, j.CustCode, j.CustBranch, j.InvNo, j.DutyDate, j.D
                         sqlW = GetSQLCommand(cliteria, "t.ExpenseDate", "t.CustCode", "t.JobNo", "", "t.VenCode", "", "")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
                         sqlM = String.Format(SQLSelectVATBuy(), sqlW)
-                    Case "WHTAX"
+                    Case "WHTDAILY"
+                        fldGroup = "DocDate"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.FormType", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " WHERE " & sqlW
+                        sqlM = "SELECT a.DocDate,a.DocNo,a.TName1 as TaxBy,a.TName3 as TaxFor,a.FormTypeName,a.TaxLawName,a.PayTaxDesc,a.PayRate,a.PayAmount,a.PayTax FROM (" & String.Format(SQLSelectWHTax() & sqlW) & ") a order by a.DocDate,a.DocNo"
+                    Case "WHTAXCLR"
                         sqlW = GetSQLCommand(cliteria, "cd.Date50Tavi", "c.CustCode", "cd.JobNo", "ch.EmpCode", "cd.VenderCode", "", "ch.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT Date50Tavi,NO50Tavi,VenTaxNumber,VenTaxBranch,VenderName,CustCode,CustTaxBranch,CustTaxNumber,CustName,
-(CASE WHEN Tax50TaviRate =1 THEN 'ค่าขนส่ง' ELSE (CASE WHEN Tax50TaviRate =3 THEN 'ค่าบริการ' ELSE (CASE WHEN Tax50TaviRate =5 THEN 'ค่าเช่า' ELSE (CASE WHEN Tax50TaviRate =2 THEN 'ค่าโฆษณา' ELSE (CASE WHEN Tax50TaviRate =10 THEN 'ออกให้มูลนิธิ/สมาคม' ELSE 'เงินเดือน' END) END) END) END) END) as TaxType,
-(CASE WHEN CustName Like '%จำกัด%' THEN '53' ELSE '3' END) as TaxForm,
+                        sqlM = "SELECT Date50Tavi,NO50Tavi,VenTaxNumber,VenTaxBranch,VenderName,CustTaxNumber,CustName,
+(CASE WHEN Tax50TaviRate =1 THEN 'ค่าขนส่ง' ELSE (CASE WHEN (Tax50TaviRate=1.5 OR Tax50TaviRate=3) THEN 'ค่าบริการ' ELSE (CASE WHEN Tax50TaviRate =5 THEN 'ค่าเช่า' ELSE (CASE WHEN Tax50TaviRate =2 THEN 'ค่าโฆษณา' ELSE (CASE WHEN Tax50TaviRate =10 THEN 'ออกให้มูลนิธิ/สมาคม' ELSE 'เงินเดือน' END) END) END) END) END) as TaxType,
+(CASE WHEN CustName Like '%จำกัด%' THEN 'ภงด53' ELSE 'ภงด3' END) as TaxForm,
 (CASE WHEN IsLtdAdv50Tavi=1 THEN Tax50Tavi ELSE 0 END) as Tax3Tres,
 (CASE WHEN IsLtdAdv50Tavi=0 THEN Tax50Tavi ELSE 0 END) as TaxNot3Tres,
 SlipNO,UsedAmount,Tax50TaviRate
-FROM (" & String.Format(SQLSelectTax50TaviReport(), sqlW) & ") as t ORDER BY Date50Tavi,NO50Tavi"
+FROM (" & String.Format(SQLSelectTax50TaviReport(), sqlW) & ") as t ORDER BY 9,1,2"
+                        fldGroup = "TaxForm"
+                    Case "WHTAXSUM"
+                        fldGroup = "FormTypeName"
+                        sqlW = GetSQLCommand(cliteria, "a.PayDate", "c.CustCode", "a.JNo", "a.UpdateBy", "a.TaxNumber3", "a.FormType", "a.BranchCode")
+                        If sqlW <> "" Then sqlW = " WHERE " & sqlW
+                        sqlM = String.Format(SQLSelectWHTaxSummary(), sqlW)
                     Case "ACCEXP"
                         sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW

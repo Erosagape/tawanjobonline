@@ -43,8 +43,11 @@ End Code
     </div>
     <div style="flex:60%">
         <br/>
-        เลขที่ประจำตัวผู้เสียภาษีอากร (ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย) 
-        สาขา
+        เลขที่ประจำตัวผู้เสียภาษีอากร (ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย) : <label id="lblTaxNumber1"></label>
+        สาขา : <label id="lblBranch1"></label>
+        <br/>
+        ชื่อผู้เสียภาษีอากร : <label id="lblTName1"></label><br/>
+        ที่อยู่ : <label id="lblTAddress1"></label>
     </div>
     <div style="flex:30%;text-align:right">
         <br/>
@@ -53,17 +56,15 @@ End Code
 </div>
 
 <div id="report" class="text-center" style="width:100%">
-    <table border="1" style="border-style:solid;border-width:thin;border-collapse:collapse;">
+    <table id="tbDetail" border="1" style="border-style:solid;border-width:thin;border-collapse:collapse;">
         <thead>
             <tr>
                 <td rowspan="3">
                     <p>ลำดับที่</p>
                 </td>
-
                 <td>
                     <p>เลขประจำตัวผู้เสียภาษีอากร (ของผู้มีเงินได้)</p>
                 </td>
-
                 <td>
                     <p>สาขา</p>
                 </td>
@@ -73,40 +74,31 @@ End Code
                 <td colspan="3">
                     <p>รวมเงินภาษีที่หักและนำส่งในครั้งนี้</p>
                 </td>
-
             </tr>
-
             <tr>
                 <td colspan="2">
                     ชื่อผู้มีเงินได้
                     (ให้ระบุให้ชัดเจนว่าเป็น นาย นาง นางสาวหรือยศ)
                 </td>
-
                 <td rowspan="2">
                     <p>
                         วัน เดือน ปี<br> ที่จ่าย
                     </p>
-
                 </td>
-
                 <td rowspan="2">
                     <p>
                         1 ประเภทเงินได้<br>(ถ้ามากกว่าหนึ่งประเภทให้กรอกเรียงลงไป)
                     </p>
-
                 </td>
-
                 <td rowspan="2">
                     <p>
                         อัตราภาษีร้อยละ
                     </p>
-
                 </td>
                 <td rowspan="2">
                     <p>
                         จำนวนเงินที่จ่ายแต่ละประเภท<br>เฉพาะคนหนึ่งๆ ในครั้งนี้
                     </p>
-
                 </td>
                 <td rowspan="2">
                     <p>
@@ -116,53 +108,22 @@ End Code
                 <td rowspan="2">
                     <p>2 เงื่อนไข</p>
                 </td>
-
             </tr>
-
             <tr>
-
                 <td colspan="2">
                     ที่อยู่ของผู้มีเงินได้ (ให้ระบุเลขที่ ตรอก/ซอย ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด)
                 </td>
-
-
-
-
             </tr>
-
         </thead>
         <tbody>
-            <tr>
-                <td></td>
-                <td colspan="2">
-                    <p class="text-left">
-                        ชื่อ
-                        <br />
-                        ที่อยู่
-                    </p>
-
-                </td>
-
-
-
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-
-
-            </tr>
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="6">
                     <p>รวมยอดเงินได้และภาษีที่นำส่ง (นำไปรวมกับ <b>ใบแนบ ภ.ง.ด.3 </b>แผ่นอื่น(ถ้ามี))</p>
-
                 </td>
-                <td></td>
-                <td></td>
+                <td style="text-align:right"><label id="lblSumPayAmount"></label></td>
+                <td style="text-align:right"><label id="lblSumPayTax"></label></td>
                 <td></td>
             </tr>
             <tr>
@@ -187,13 +148,85 @@ End Code
                 <td colspan="2">
                     <div class="circle"><br />ตราประทับ<br/>นิติบุคคล<br/>(ถ้ามี)</div>
                 </td>
-
             </tr>
         </tfoot>
-
     </table>
 </div>
-
+<script type="text/javascript">
+    let path = '@Url.Content("~")';
+    let data = getQueryString("data");
+    let cliteria = getQueryString("cliteria");
+    let user = '@ViewBag.User';
+    let lang = '@ViewBag.PROFILE_DEFAULT_LANG';
+    let row = {};
+    if (data !== '') {
+        row = JSON.parse(data);
+        let obj = JSON.parse(cliteria);
+        html = '';
+        if (obj.DATEFROM !== '') html += obj.DATEFROM + ',';
+        if (obj.DATETO !== '') html += obj.DATETO + ',';
+        if (obj.CUSTWHERE !== '') html += obj.CUSTWHERE + ',';
+        if (obj.JOBWHERE !== '') html += obj.JOBWHERE + ',';
+        if (obj.VENDWHERE !== '') html += obj.VENDWHERE + ',';
+        if (obj.STATUSWHERE !== '') html += obj.STATUSWHERE + ',';
+        if (obj.EMPWHERE !== '') html += obj.EMPWHERE + ',';
+        let params = {
+            ReportCode: row.REPORTCODE,
+            ReportCliteria: html
+        }
+        let str = JSON.stringify(params);
+        $.ajax({
+            url: path + 'Acc/GetWHTaxReport',
+            type: "POST",
+            contentType: "application/json",
+            data: str,
+            success: function (response) {
+                let res = JSON.parse(response);
+                if (res.msg !== "OK") {
+                    //alert(r.msg);
+                    return;
+                }
+                if (res.result.length > 0) {
+                    var tb = res.result[0];
+                    $('#lblTaxNumber1').text(tb.TaxNumber1);
+                    $('#lblBranch1').text(tb.Branch1);
+                    $('#lblTName1').text(tb.TName1);
+                    $('#lblTAddress1').text(tb.TAddress1);
+                    let n = 0;
+                    let sumamt = 0;
+                    let sumtax = 0;
+                    for (let r of res.result) {
+                        n += 1;
+                        let template = '<tr>';
+                        template += '<td>' + n + '</td>';
+                        template += '<td>';
+                        template += '<p class="text-left">';
+                        template += 'เลขประจำตัวผู้เสียอาษีอากร : ' + r.TaxNumber3;
+                        template += '<br />';
+                        template += 'ชื่อ : ' + r.TName3;
+                        template += '<br />';
+                        template += 'ที่อยู่ : ' + r.TAddress3;
+                        template += '</p>';
+                        template += '</td>';
+                        template += '<td>'+r.Branch3+'</td>';
+                        template += '<td>'+ ShowDate(r.PayDate )+'</td>';
+                        template += '<td>' + r.PayTaxDesc + '<br/>' + r.DocNo + '<br/>' + r.JNo + '</td>';
+                        template += '<td>'+r.PayRate +'</td>';
+                        template += '<td style="text-align:right">'+ ShowNumber(r.PayAmount,2)+'</td>';
+                        template += '<td style="text-align:right">'+ ShowNumber(r.PayTax,2)+'</td>';
+                        template += '<td>'+r.PayTaxType+'</td>';
+                        template += '</tr>';
+                        sumamt += CNum(r.PayAmount);
+                        sumtax += CNum(r.PayTax);
+                        $('#tbDetail tbody').append(template);
+                    }
+                    $('#lblSumPayAmount').text(ShowNumber(sumamt, 2));
+                    $('#lblSumPayTax').text(ShowNumber(sumtax, 2));
+                }
+            }
+        });
+    }
+</script>
 
 
 

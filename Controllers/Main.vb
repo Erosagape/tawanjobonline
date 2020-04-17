@@ -412,12 +412,40 @@ AND d.acType=r.acType AND d.DocNo=r.DocNo
         Return "
 SELECT h.*,d.ItemNo,d.IncType,d.PayDate,d.PayAmount,d.PayTax,d.PayTaxDesc,
 d.JNo,d.DocRefType,d.DocRefNo,d.PayRate,
-j.InvNo,j.CustCode,j.CustBranch,u.TName as UpdateName 
+j.InvNo,j.CustCode,j.CustBranch,u.TName as UpdateName,
+(CASE WHEN h.FormType=1 THEN 'ภงด1ก' ELSE (CASE WHEN h.FormType=2 THEN 'ภงด1ก(พิเศษ)' ELSE (CASE WHEN h.FormType=3 THEN 'ภงด2' ELSE (CASE WHEN h.FormType=4 THEN 'ภงด3' ELSE (CASE WHEN h.FormType=5 THEN 'ภงด2ก' ELSE (CASE WHEN h.FormType=6 THEN 'ภงด3ก' ELSE (CASE WHEN h.FormType=7 THEN 'ภงด53' ELSE 'ไม่ระบุ' END) END) END) END) END) END) END) as FormTypeName,
+(CASE WHEN h.TaxLawNo=1 THEN '3เตรส' ELSE (CASE WHEN h.TaxLawNo=2 THEN '65จัตวา' ELSE (CASE WHEN h.TaxLawNo=3 THEN '69ทวิ' ELSE (CASE WHEN h.TaxLawNo=4 THEN '48ทวิ' ELSE (CASE WHEN h.TaxLawNo=5 THEN '50ทวิ' ELSE 'ไม่ระบุ' END) END) END) END) END) as TaxLawName
 FROM dbo.Job_WHTax h LEFT JOIN dbo.Job_WHTaxDetail d
 ON h.BranchCode=d.BranchCode AND h.DocNo=d.DocNo
 LEFT JOIN dbo.Job_Order j ON d.BranchCode=j.BranchCode
 AND d.JNo=j.JNo 
 LEFT JOIN dbo.Mas_User u ON h.UpdateBy=u.UserID
+"
+    End Function
+    Function SQLSelectWHTaxSummary() As String
+        Return "
+SELECT FormTypeName,TaxLawName,TaxNumber1 as TaxNumber,Branch1 as Branch,NameThai as TaxBy,
+Year(a.PayDate) as TaxYear,Month(a.PayDate)  as TaxMonth,
+SUM(CASE WHEN a.PayRate=1 THEN 0 ELSE a.PayAmount END) as ServiceAmount,
+SUM(CASE WHEN a.PayRate=1 THEN 0 ELSE a.PayTax END) as TaxService, 
+SUM(CASE WHEN a.PayRate<>1 THEN 0 ELSE a.PayAmount END) as TranAmount,
+SUM(CASE WHEN a.PayRate<>1 THEN 0 ELSE a.PayTax END) as TaxTransport
+FROM
+(
+    SELECT h.*,d.ItemNo,d.IncType,d.PayDate,d.PayAmount,d.PayTax,d.PayTaxDesc,
+    d.JNo,d.DocRefType,d.DocRefNo,d.PayRate,
+    j.InvNo,j.CustCode,j.CustBranch,u.TName as UpdateName,
+    (CASE WHEN h.FormType=1 THEN 'ภงด1ก' ELSE (CASE WHEN h.FormType=2 THEN 'ภงด1ก(พิเศษ)' ELSE (CASE WHEN h.FormType=3 THEN 'ภงด2' ELSE (CASE WHEN h.FormType=4 THEN 'ภงด3' ELSE (CASE WHEN h.FormType=5 THEN 'ภงด2ก' ELSE (CASE WHEN h.FormType=6 THEN 'ภงด3ก' ELSE (CASE WHEN h.FormType=7 THEN 'ภงด53' ELSE 'ไม่ระบุ' END) END) END) END) END) END) END) as FormTypeName,
+    (CASE WHEN h.TaxLawNo=1 THEN '3เตรส' ELSE (CASE WHEN h.TaxLawNo=2 THEN '65จัตวา' ELSE (CASE WHEN h.TaxLawNo=3 THEN '69ทวิ' ELSE (CASE WHEN h.TaxLawNo=4 THEN '48ทวิ' ELSE (CASE WHEN h.TaxLawNo=5 THEN '50ทวิ' ELSE 'ไม่ระบุ' END) END) END) END) END) as TaxLawName
+    FROM dbo.Job_WHTax h INNER JOIN dbo.Job_WHTaxDetail d
+    ON h.BranchCode=d.BranchCode AND h.DocNo=d.DocNo
+    LEFT JOIN dbo.Job_Order j ON d.BranchCode=j.BranchCode
+    AND d.JNo=j.JNo 
+    LEFT JOIN dbo.Mas_User u ON h.UpdateBy=u.UserID
+) a LEFT JOIN dbo.Mas_Company c ON a.TaxNumber1=c.TaxNumber 
+{0}
+GROUP BY FormTypeName,TaxLawName,TaxNumber1,Branch1,Year(a.PayDate),Month(a.PayDate),NameThai
+ORDER BY FormTypeName,NameThai,Year(a.PayDate),Month(a.PayDate)
 "
     End Function
     Function SQLSelectAdvHeader() As String
@@ -2232,7 +2260,87 @@ AND DocNo=h.DocNo
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusFromAdvance())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToComplete(user, docno))
     End Sub
+    Function GetSQLCommand(cliteria As String, fldDate As String, fldCust As String, fldJob As String, fldEmp As String, fldVend As String, fldStatus As String, fldBranch As String) As String
+        Dim sqlW As String = ""
+        If cliteria Is Nothing Then
+            Return ""
+        End If
+        For Each str As String In cliteria.Split(",")
+            If str <> "" Then
+                If sqlW <> "" Then
+                    If str.Substring(0, 2) <> "OR" Then
+                        sqlW &= " AND ("
+                    Else
+                        sqlW = "(" & sqlW & ")"
+                        str = str.Replace("OR", " OR ((")
+                    End If
+                Else
+                    sqlW &= "("
+                End If
+                If fldBranch <> "" Then str = ProcessCliteria(str, "[BRANCH]", fldBranch)
+                If fldDate <> "" Then str = ProcessCliteria(str, "[DATE]", fldDate)
+                If fldCust <> "" Then str = ProcessCliteria(str, "[CUST]", fldCust)
+                If fldJob <> "" Then str = ProcessCliteria(str, "[JOB]", fldJob)
+                If fldEmp <> "" Then str = ProcessCliteria(str, "[EMP]", fldEmp)
+                If fldStatus <> "" Then str = ProcessCliteria(str, "[STATUS]", fldStatus)
+                If fldVend <> "" Then str = ProcessCliteria(str, "[VEND]", fldVend)
+                sqlW &= str
+                If sqlW <> "" Then
+                    sqlW &= ")"
+                End If
+            End If
+        Next
+        If sqlW.Substring(0, 2) = "((" Then
+            sqlW &= ")"
+        End If
+        Return sqlW
+    End Function
+    Function ProcessCliteria(str As String, key As String, val As String) As String
+        If str.Contains(key) Then
+            Dim fld As String = str.Replace(key, " " & val & " ")
+            fld = FindFieldCliteria(fld) & FindValueCliteria(str)
+            Return fld
+        Else
+            Return str
+        End If
+    End Function
+    Function FindFieldCliteria(str As String) As String
+        If str.IndexOf(">=") > 0 Then
+            Return str.Split(">=")(0)
+        End If
+        If str.IndexOf("<=") > 0 Then
+            Return str.Split("<=")(0)
+        End If
+        If str.IndexOf("<>") > 0 Then
+            Return str.Split("<>")(0)
+        End If
+        If str.IndexOf("LIKE%") > 0 Then
+            Return str.Split("LIKE%")(0)
+        End If
+        If str.IndexOf("=") > 0 Then
+            Return str.Split("=")(0)
+        End If
+        Return ""
+    End Function
 
+    Function FindValueCliteria(str As String) As String
+        If str.IndexOf(">=") > 0 Then
+            Return ">='" & str.Split(">=")(1).Substring(1) & "'"
+        End If
+        If str.IndexOf("<=") > 0 Then
+            Return "<='" & str.Split("<=")(1).Substring(1) & "'"
+        End If
+        If str.IndexOf("<>") > 0 Then
+            Return "<>'" & str.Split("<>")(1).Substring(1) & "'"
+        End If
+        If str.IndexOf("LIKE%") > 0 Then
+            Return "Like '" & str.Split("LIKE%")(1).Substring(3) & "%'"
+        End If
+        If str.IndexOf("=") > 0 Then
+            Return "='" & str.Split("=")(1) & "'"
+        End If
+        Return "''"
+    End Function
     Function GetSession(sName As String) As String
         Return HttpContext.Current.Session(sName).ToString
     End Function

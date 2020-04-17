@@ -1272,6 +1272,50 @@ Namespace Controllers
                 Return Content("{""whtax"":{""msg"":""" & ex.Message & """,""header"":[],""detail"":[]}}", jsonContent)
             End Try
         End Function
+        Function GetWHTaxReport(<FromBody()> data As CReport) As ActionResult
+            Dim sqlM As String = ""
+            Dim sqlW As String = ""
+            Try
+                Dim cliteria As String = data.ReportCliteria
+                Select Case data.ReportCode
+                    Case "PRD3"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax
+FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 " & sqlW & ") a 
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+ORDER BY a.TName1
+"
+                    Case "PRD53"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax
+FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 " & sqlW & ") a 
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+ORDER BY a.TName1
+"
+                    Case "PRD3D"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                    Case "PRD53D"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                End Select
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                Return Content("{""result"":" & json & ",""msg"":""OK"",""sql"":""" & sqlW & """}")
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetWHTaxReport", ex.Message, ex.StackTrace, True)
+                Return Content("{""result"":[],""msg"":""" & ex.Message & """,""sql"":""" & sqlW & """}")
+
+            End Try
+        End Function
         Function GetWHTaxGrid() As ActionResult
             Try
                 ViewBag.User = Session("CurrUser").ToString()
