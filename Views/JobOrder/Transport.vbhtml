@@ -12,10 +12,10 @@ End Code
 </style>
 <ul class="nav nav-tabs">
     <li class="active">
-        <a data-toggle="tab" href="#tabLoading">Loading Information</a>
+        <a data-toggle="tab" href="#tabLoading" id="linkTab1">Loading Information</a>
     </li>
     <li>
-        <a data-toggle="tab" href="#tabContainer">Container Information</a>
+        <a data-toggle="tab" href="#tabContainer" id="linkTab2">Container Information</a>
     </li>
 </ul>
 <div class="tab-content">
@@ -284,21 +284,21 @@ End Code
                         <input type="text" class="form-control" id="txtReturnContact" />
                     </div>
                 </div>
-                <input type="button" id="btnSaveLoc" value="Update Route Data" class="btn btn-primary" onclick="SaveLocation(true)" />
-                <input type="button" id="btnEditExp" value="Edit Route Expenses" class="btn btn-info" onclick="EditExpense()" />
+                <button id="btnSaveLoc" class="btn btn-primary" onclick="SaveLocation(true)" >Save Route Data</button>
+                <button id="btnEditExp" class="btn btn-info" onclick="EditExpense()" >Edit Route Expense</button>
             </div>
         </div>
         <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearBooking()">
-            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New Booking</b>
+            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkNew">New Booking</b>
         </a>
         <a href="#" class="btn btn-success" id="btnSave" onclick="SaveBooking()">
-            <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Booking</b>
+            <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Booking</b>
         </a>
         <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteBooking()">
-            <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete Booking</b>
+            <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDel">Delete Booking</b>
         </a>
         <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintBooking()">
-            <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Form</b>
+            <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Form</b>
         </a>
         <select id="cboPrintForm">
             <option value="BA">Booking Confirmation (AIR)</option>
@@ -308,14 +308,14 @@ End Code
             <option value="DO">D/O Letter</option>
         </select>
         <a href="#" class="btn btn-primary" id="btnUpdateJob" onclick="UpdateJob()">
-            <i class="fa fa-lg fa-check"></i>&nbsp;<b>Update Total Container To Job</b>
+            <i class="fa fa-lg fa-check"></i>&nbsp;<b id="linkUpCon">Update Total Container To Job</b>
         </a>
     </div>
     <div class="tab-pane fade" id="tabContainer">
         <div class="row">
             <div class="col-sm-2">
                 <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
-                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Container</b>
+                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAddCon">Add Container</b>
                 </a>
             </div>
             <div class="col-sm-4">
@@ -329,7 +329,7 @@ End Code
             </div>
             <div class="col-sm-2">
                 <br />
-                <input type="button" id="btnCreateContainer" class="btn btn-success" value="Create" onclick="GenContainer()" />
+                <button id="btnCreateContainer" class="btn btn-success" value="Create" onclick="GenContainer()">Create</button>
             </div>
         </div>
         <table id="tbDetail" class="table table-responsive">
@@ -351,10 +351,10 @@ End Code
             </thead>
         </table>
         <a href="#" class="btn btn-primary" id="btnExpense" onclick="EntryExpenses()">
-            <i class="fa fa-lg fa-save"></i>&nbsp;<b>Entry Expenses</b>
+            <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkEntryExp">Entry Expenses</b>
         </a>
         <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-            <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Truck Order</b>
+            <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrintTruck">Print Truck Order</b>
         </a>
         <select id="cboTypeForm">
             <option value="0" selected>Full</option>
@@ -365,9 +365,6 @@ End Code
 <div id="dvExpenses" class="modal fade">
     <div class="modal-dialog-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4>Edit Expenses For Route</h4>
-            </div>
             <div class="modal-body">
                 <table id="tbPrice" class="table table-responsive">
                     <thead>
@@ -426,7 +423,7 @@ End Code
                     </div>
                     <div class="col-sm-2">
                         <br />
-                        <input type="button" class="btn btn-success" value="Save Expense" onclick="SaveExpense()" />
+                        <button class="btn btn-success" id="btnSaveExp" onclick="SaveExpense()" >Save Expenses</button>
                     </div>
                 </div>
             </div>
@@ -614,8 +611,8 @@ End Code
                         :
                         <div style="display:flex;">
                             <div style="display:flex"><input type="text" id="txtDeliveryNo" class="form-control" disabled></div>
-                            <input type="button" id="btnGenDeliveryNo" onclick="GenerateDO()" class="btn btn-warning" value="Create" />
-                            <input type="button" class="btn btn-info" value="Delivery Slip" onclick="PrintDelivery()" />
+                            <button id="btnGenDeliveryNo" onclick="GenerateDO()" class="btn btn-warning">Create</button>
+                            <button id="btnPrintSlip" class="btn btn-info" onclick="PrintDelivery()">Delivery Slip</button>
                         </div>
                         <br />
                         <label id="lblExpCon">Expense Can Billing On This Route</label>
@@ -631,7 +628,7 @@ End Code
                             <tbody></tbody>
                         </table>
                         <a href="#" class="btn btn-primary" id="btnExpense2" onclick="EntryExpenses2()">
-                            <i class="fa fa-lg fa-save"></i>&nbsp;<b>Entry Expenses</b>
+                            <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkEntryExp2">Entry Expenses</b>
                         </a><br />
                             <label id="lblVenBill">Expense Billed By Vender</label>
                         :<br />
@@ -654,13 +651,13 @@ End Code
             <div class="modal-footer">
                 <div style="float:left">
                     <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="ClearDetail()">
-                        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New Container</b>
+                        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkNewCont">New Container</b>
                     </a>
                     <a href="#" class="btn btn-success" id="btnUpdateDetail" onclick="SaveDetail()">
-                        <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Container</b>
+                        <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSaveCont">Save Container</b>
                     </a>
                     <a href="#" class="btn btn-danger" id="btnDeleteDetail" onclick="DeleteDetail()">
-                        <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete Container</b>
+                        <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelCont">Delete Container</b>
                     </a>
                 </div>
                 <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>

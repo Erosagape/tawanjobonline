@@ -168,6 +168,33 @@ function ChangeLanguage(code, module) {
 function ChangeLanguageForm(fname) {
     let lang = {};
     switch (fname) {
+        case 'MODULE_ADV/EstimateCost':
+            lang = {
+                lblTitle:'Estimate Cost|ประมาณการค่าใช้จ่าย',
+                lblBranch: 'Branch|สาขา',
+                lblJNo: 'Job No|หมายเลขงาน',
+                btnAutoEntry: 'Load From Quotation|ดึงรายการจากใบเสนอราคา',
+                lblSICode: 'Service Code|รหัสค่าบริการ',
+                lblRemark: 'Remark|หมายเหตุ',
+                lblStatus: 'Status|สถานะ',
+                lblAmount: 'Amount|ยอดเงิน',
+                lblCurrency: 'Currency|สกุลเงิน',
+                lblExchangeRate: 'Exchange Rate|อัตราแลกเปลี่ยน',
+                lblQty: 'Qty|จำนวน',
+                lblUnit: 'Unit|หน่วย',
+                lblTotal:'Total|ยอดรวม',
+                lblVATRate: 'VAT Rate|อัตรา VAT',
+                lblWHTRate: 'WHT Rate|อัตราหัก ณ ที่จ่าย',
+                lblWHT: 'WHT|หัก ณ ที่จ่าย',
+                lblTotal: 'Total|ยอดสุทธิ',
+                linkNew: 'New|เพิ่มข้อมูล',
+                linkSave: 'Save|บันทึกข้อมูล',
+                linkDelete: 'Delete|ลบข้อมูล',
+                linkCopy: 'Copy From Job|Copy ข้อมูลจาก Job',
+                linkPrint:'Print Pre-Invoice|พิมพ์แบบประเมินค่าใช้จ่าย'
+            };
+            SetLanguage(lang);
+            break;
         case 'MODULE_ACC/AccountCode':
             lang = {
                 lblTitle : 'Account Code|รหัสบัญชี',
@@ -180,9 +207,72 @@ function ChangeLanguageForm(fname) {
             };
             SetLanguage(lang);
             break;
+        case 'MODULE_ACC/WHTax':
+            lang = {
+                lblTitle: 'Withholding Tax|หนังสือรับรองหัก ณ ที่จ่าย',
+                lblBranch: 'Branch|สาขา',
+                lblDocNo: 'Doc No|เลขที่เอกสาร',
+                lblDocDate: 'Doc Date|วันที่ออกเอกสาร',
+                linkTab1: 'Headers|ส่วนควบคุม',
+                linkTab2: 'Details|ส่วนรายการ',
+                lblTaxName1: 'Tax Issuer|ผู้มีหน้าที่หัก ณ ที่จ่าย',
+                lblVend: 'Venders|เลือกจากผู้ให้บริการ',
+                lblTaxNumber1: 'Tax Number|เลขประจำตัวผู้เสียภาษี',
+                lblIDCard1: 'ID Number|เลขประจำตัวประชาชน',
+                lblAddress1: 'Address|ที่อยู่',
+                lblBranch1: 'Branch|สาขา',
+                lblTaxName2: 'Tax Agent|กระทำการแทนโดย',
+                lblTaxNumber2: 'Tax Number|เลขประจำตัวผู้เสียภาษี',
+                lblIDCard2: 'ID Number|เลขประจำตัวประชาชน',
+                lblAddress2: 'Address|ที่อยู่',
+                lblBranch2: 'Branch|สาขา',
+                lblTaxName3: 'Tax Payer|ผู้่ถูกหักภาษี ณ ที่จ่าย',
+                lblTaxNumber3: 'Tax Number|เลขประจำตัวผู้เสียภาษี',
+                lblIDCard3: 'ID Number|เลขประจำตัวประชาชน',
+                lblAddress3: 'Address|ที่อยู่',
+                lblBranch3: 'Branch|สาขา',
+                lblSeqInForm: 'Number|ลำดับที่',
+                lblFormType: 'Type Of|สำหรับยื่นแบบภาษี',
+                lblLawNo: 'Tax Code|หักภาษีตามมาตรา',
+                lblCancel: 'Cancel|ยกเลิก',
+                lblCancelBy: 'Cancel By|ผู้ยกเลิก',
+                lblReason: 'Reason|เหตุผลที่ยกเลิก',
+                lblCancelDate: 'Cancel date|วันที่ยกเลิก',
+                linkNew: 'Clear Data|เพิ่มข้อมูล',
+                linkSave: 'Save Data|บันทึกข้อมูล',
+                linkPrint: 'Print Data|พิมพ์ข้อมุล',
+                linkAdd: 'Add Detail|เพิ่มรายการ',
+                lblCondition: 'Tax Condition|รูปแบบการหักภาษี',
+                lblPayTaxOther: 'Condition Note|หมายเหตุ',
+                lblIncRate: 'Control Rate|อัตราภาษีคุม',
+                lblIncOther: 'Description|ประเภทรายได้',
+                lblSoLicNo: 'Social Security No|เลขประจำตัวผู้ประกันตน',
+                lblSoTaxNo: 'Social Payer No|เลขประจำตัวนายจ้างผู้นำส่งปกส',
+                lblSoLicAmt: 'Social Amount|ยอดนำส่งประกันสังคม',
+                lblPayeeAccNo: 'Provident Payer|เลขประจำตัวกองทุนสมทบ',
+                lblProvidentAmt: 'Provident Amt|ยอดเงินนำส่งกองทุนสมทบ',
+                lblTeacherAmt: 'Teacher Amt|ยอดเงินกองทุนสงเคราะห์ครู',
+                lblTotalPayAmt: 'Total Amount|รวมรายได้พึงประเมิน',
+                lblTotalPayTax:'Total Tax|ยอดรวมภาษี',
+                lblItemNo: 'No.|ลำดับที่',
+                lblDocType: 'Doc Type|ประเภทเอกสาร',
+                lblRefNo: 'Ref No|เลขที่เอกสารอ้างอิง',
+                lblJNo: 'Job No|หมายเลขงาน',
+                lblPayDate: 'Pay date|วันที่จ่าย',
+                lblIncType: 'Revenue Type|ประเภทรายได้พึงประเมิน',
+                lblPayTaxDesc: 'Description|กลุ่มรายได้',
+                lblPayRate: 'Rate|อัตราภาษี',
+                lblAmount: 'Tax Base|ฐานภาษี',
+                lblPayTax: 'Tax|ยอดภาษี',
+                linkSaveDet: 'Save Detail|บันทึกรายการ',
+                linkDelDet: 'Delete Detail|ลบรายการ'
+            };
+            SetLanguage(lang);
+            break;
         case 'MODULE_SALES/Quotation':
             lang = {
-                lblTitle:'Quotation|ใบเสนอราคา',
+                lblTitle: 'Quotation|ใบเสนอราคา',
+                lblSearch:'Search|ค้นหา',
                 lblBranch: 'Branch|สาขา',
                 lblCustomer: 'Customer|ลูกค้า',
                 lblDateFrom: 'Date From|วันที่เอกสาร',
@@ -254,7 +344,9 @@ function ChangeLanguageForm(fname) {
                 lblCreateFrom: 'Create Quotation Base From|สร้างใบเสนอราคาจาก',
                 lblCreate: 'Create|สร้างเลย',
                 lblDiscountB: 'Discount (B)|ส่วนลด (บาท)',
-                lblDiscountF: 'Discount (F)|ส่วนลด (ตปท)'
+                lblDiscountF: 'Discount (F)|ส่วนลด (ตปท)',
+                linkHeader: 'Header|ส่วนควบคุม',
+                linkDetail:'Detail|ส่วนรายการ'
             };
             SetLanguage(lang);
             break;
@@ -266,7 +358,10 @@ function ChangeLanguageForm(fname) {
                 lblShipBy: 'Ship By|ลักษณะงาน',
                 lblYear: 'Year|ปี',
                 lblMonth: 'Month|เดือน',
-                lblJob: 'Enter Job >>|คีย์หมายเลขงานที่นี่ >>'
+                lblJob: 'Enter Job >>|คีย์หมายเลขงานที่นี่ >>',
+                btnJobSlip: 'Show|แสดง',
+                linkCreate: 'Create|สร้างงานใหม่',
+                linkSearch:'Search|ค้นหา'
             };
             SetLanguage(lang);
             break;
@@ -335,8 +430,8 @@ function ChangeLanguageForm(fname) {
                 lblMAWB: 'Master BL/AWB|Master BL/AWB',
                 lblTotalCTN: 'Total Containers|จำนวนตู้',
                 lblMeasurement: 'Meas.(M3)|ปริมาตร (M3)',
-                lblDeliveryNo: 'Delivery No|เลขที่ใบส่งของ',
-                lblDeliveryTo: 'Delivery To|สถานที่ส่งสินค้า',
+                lblDeliverNo: 'Delivery No|เลขที่ใบส่งของ',
+                lblDeliverTo: 'Delivery To|สถานที่ส่งสินค้า',
                 lblProjectName: 'Project Name|ชื่อโครงการ/วัตถุประสงค์',
                 lblInvQty: 'Qty|จำนวนสินค้า',
                 lblInvPackQty: 'Pack.Total|รวมหีบห่อ',
@@ -385,7 +480,35 @@ function ChangeLanguageForm(fname) {
                 lblCustOther: 'Others|อื่นๆ',
                 lblCustTotal:'Total Paid|รวมค่าใช้จ่าย',
                 lblQtyAdd: 'Qty|จำนวน',
-                lblUnitAdd:'Unit|หน่วยบริการ'
+                lblUnitAdd: 'Unit|หน่วยบริการ',
+                linkTab1: 'Customer Data|ข้อมูลลูกค้า',
+                linkTab2: 'Invoice Data|ข้อมูลอินวอยลูกค้า',
+                linkTab3: 'Customs Data|ข้อมูลพิธีการ',
+                linkTab4: 'Operation Data|ข้อมูลการทำงาน',
+                linkTab5:'Others Control|ข้อมูลอื่นๆ',
+                optTab1: 'Customers Data|ข้อมูลลูกค้า',
+                optTab2: 'Invoice Data|ข้อมูลอินวอยลูกค้า',
+                optTab3: 'Customs Data|ข้อมูลพิธีการ',
+                optTab4: 'Document Tracking|ข้อมูลการทำงาน',
+                optTab5: 'Others Control|ข้อมูลอื่นๆ',
+                btnCloseJob: 'Close Job|ปิดงาน',
+                btnCancelJob: 'Cancel Job|ยกเลิกงาน',
+                btnDelivery: 'Delivery Slip|พิมพ์ใบส่งของ',
+                lblGreen: 'Green|ไม่เปิดตรวจ',
+                lblRed: 'Red|เปิดตรวจ',
+                lblManual: 'Manual|เดิน Manual',
+                btnViewTAdv: 'Credit Advance|ใบทดรองจ่าย',
+                btnViewChq: 'Customer Cheque|บันทึกรับเช็คจากลูกค้า',
+                linkAddLog: 'Add Remark|เพิ่มหมายเหตุ',
+                btnLinkDoc: 'Document Files|จัดเก็บเอกสาร',
+                btnLinkLoad: 'Transport Info|ข้อมูลการขนส่ง',
+                btnLinkExp: 'Estimate Expenses|ประเมินค่าใช้จ่าย',
+                btnLinkCAdv: 'Credit Advance|ใบทดรองจ่าย',
+                btnLinkAdv: 'Advance Request|ใบเบิกค่าใช้จ่าย',
+                btnLinkClr: 'Advance Clearing|ใบปิดค่าใช้จ่าย',
+                btnLinkCost: 'Cost & Profit|ข้อมูลกำไรขาดทุน',
+                linkSave: 'Save|บันทึกข้อมูล',
+                linkPrint:'Print|พิมพ์ใบสั่งงาน'
             };
             SetLanguage(lang);
             break;
@@ -453,7 +576,27 @@ function ChangeLanguageForm(fname) {
                 lblShippingMark: 'Shipping Mark|ตราส่งหีบห่อ',
                 lblDeliveryNo: 'Delivery No|เลขที่ใบส่งของ',
                 lblExpCon: 'Expense Can Billing On This Route|ค่าใช้จ่ายที่เกิดขึ้นในเส้นทางนี้',
-                lblVenBill:'Expense Billed By Vender|ค่าใช้จ่ายที่ได้รับการวางบิลมาแล้ว'
+                lblVenBill: 'Expense Billed By Vender|ค่าใช้จ่ายที่ได้รับการวางบิลมาแล้ว',
+                linkTab1: 'Loading Information|ข้อมูลใบจอง',
+                linkTab2: 'Container Information|ข้อมูลการรับบรรทุก',
+                btnSaveLoc: 'Update Route Data|ปรับปรุงช้อมูลเส้นทาง',
+                btnEditExp: 'Edit Route Expense|บันทึกประเมินราคา',
+                linkNew: 'New Booking|เพิ่มข้อมูล',
+                linkSave: 'Save Booking|บันทึกข้อมูล',
+                linkDel: 'Delete Booking|ลบข้อมูล',
+                linkPrint: 'Print Form|พิมพ์ฟอร์ม',
+                linkUpCon: 'Update Total Container To Job|ปรับปรุงข้อมูลจำนวนตู้ใน Job',
+                linkAddCon: 'Add Container|เพิ่มตู้สินค้า',
+                btnCreateContainer:'Create|สร้างข้อมูล',
+                linkEntryExp: 'Entry Expenses|บันทึกค่าใช้จ่าย',
+                linkEntryExp2: 'Entry Expenses|ใบค่าใช้จ่าย',
+                linkPrintTruck: 'Print Truck Order|พิมพ์ใบสั่งงานขนส่ง',
+                btnSaveExp: 'Save Price|บันทึกราคา',
+                btnGenDeliveryNo: 'Create|สร้างใบส่งของ',
+                btnPrintSlip: 'Delivery Slip|ใบส่งของ',
+                linkNewCont: 'New Container|เพิ่มตู้ใหม่',
+                linkSaveCont: 'Save Container|บันทึกตู้',
+                linkDelCont:'Delete Container|ลบตู้'
             };
             SetLanguage(lang);
             break;

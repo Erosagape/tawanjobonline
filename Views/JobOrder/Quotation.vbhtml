@@ -49,10 +49,10 @@ End Code
         <div>
             <ul class="nav nav-tabs">
                 <li class="active">
-                    <a data-toggle="tab" href="#tabHeader">Headers</a>
+                    <a data-toggle="tab" id="linkHeader" href="#tabHeader">Headers</a>
                 </li>
                 <li>
-                    <a data-toggle="tab" href="#tabDetail">Details</a>
+                    <a data-toggle="tab" id="linkDetail" href="#tabDetail">Details</a>
                 </li>
             </ul>
             <div class="tab-content">

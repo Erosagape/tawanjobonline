@@ -38,10 +38,10 @@ End Code
     <div class="row">
         <div class="col-sm-12">
             <a href="#" class="btn btn-primary" id="btnRefresh" onclick="getJobdata()">
-                <i class="fa fa-lg fa-filter"></i> &nbsp;<b>Search</b>
+                <i class="fa fa-lg fa-filter"></i> &nbsp;<b id="linkSearch">Search</b>
             </a>
             <a href="#" class="btn btn-default w3-purple" id="btnGenJob" onclick="CreateNewJob()">
-                <i class="fa fa-lg fa-file-o"></i> &nbsp;<b>Create Job</b>
+                <i class="fa fa-lg fa-file-o"></i> &nbsp;<b id="linkCreate">Create Job</b>
             </a>
             <table id="tblJob" class="table table-bordered">
                 <thead>

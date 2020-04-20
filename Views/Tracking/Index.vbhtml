@@ -164,48 +164,47 @@ End Code
         if (status !== '') {
             w += '&Status=' + status;
         }
-        $('#tbDetail').DataTable({
-            ajax: {
-                url: '/joborder/gettransportreport?Branch=' + branch + w, //web service ที่จะ call ไปดึงข้อมูลมา
-                dataSrc: 'transport.data'
-            },
-            selected: true, //ให้สามารถเลือกแถวได้
-            columns: [ //กำหนด property ของ header column
-                { data: "CTN_NO", title: "Container No" },
-                { data: "InvNo", title: "Inv.No" },
-                { data: "DeclareNumber", title: "Declare No" },
-                { data: "TruckNO", title: "Truck" },
-                { data: "Location", title: "Delivery" },
-                { data: "ProductDesc", title: "Product" },
-                { data: "ProductQty", title: "Qty" },
-                {
-                    data: null, title: "Load Date", render: function (data) {
-                        return CDateEN(data.LoadDate);
-                    }
-                },
-                {
-                    data: null, title: "Factory Date", render: function (data) {
-                        return CDateEN(data.FactoryDate);
-                    }
-                },
-                {
-                    data: null, title: "Unload Date", render: function (data) {
-                        return CDateEN(data.UnloadFinishDate);
-                    }
-                },
-                { data: "Comment", title: "Remark" },
-                { data: "DeliveryNo", title: "Delivery No" }
-            ],
-            destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-            responsive:true
+        $.get(path + 'JobOrder/GetTransportReport?Branch=' + branch + w).done(function (r) {
+            if (r.transport.data.length > 0) {
+                $('#tbDetail').DataTable({
+                    data: r.transport.data,
+                    selected: true, //ให้สามารถเลือกแถวได้
+                    columns: [ //กำหนด property ของ header column
+                        { data: "CTN_NO", title: "Container No" },
+                        { data: "InvNo", title: "Inv.No" },
+                        { data: "DeclareNumber", title: "Declare No" },
+                        { data: "TruckNO", title: "Truck" },
+                        { data: "Location", title: "Delivery" },
+                        { data: "ProductDesc", title: "Product" },
+                        { data: "ProductQty", title: "Qty" },
+                        {
+                            data: null, title: "Load Date", render: function (data) {
+                                return CDateEN(data.LoadDate);
+                            }
+                        },
+                        {
+                            data: null, title: "Factory Date", render: function (data) {
+                                return CDateEN(data.FactoryDate);
+                            }
+                        },
+                        {
+                            data: null, title: "Unload Date", render: function (data) {
+                                return CDateEN(data.UnloadFinishDate);
+                            }
+                        },
+                        { data: "Comment", title: "Remark" },
+                        { data: "DeliveryNo", title: "Delivery No" }
+                    ],
+                    destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                    responsive:true
+                });
+                $('#tbDetail tbody').on('dblclick', 'tr', function () {
+                    SetSelect('#tbDetail', this);
+                    let row = $('#tbDetail').DataTable().row(this).data(); //read current row selected
+                    window.open(path + 'JobOrder/ShowJob?BranchCode=' + row.BranchCode + '&JNo=' + row.JNo,'','');
+                });
+            }
         });
-
-        $('#tbDetail tbody').on('dblclick', 'tr', function () {
-            SetSelect('#tbDetail', this);
-            let row = $('#tbDetail').DataTable().row(this).data(); //read current row selected
-            window.open(path + 'JobOrder/ShowJob?BranchCode=' + row.BranchCode + '&JNo=' + row.JNo,'','');
-        });
-
         drawChart();
     }
     function ReadBranch(dt) {

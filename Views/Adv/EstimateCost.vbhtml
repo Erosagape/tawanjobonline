@@ -27,7 +27,7 @@ End Code
 </div>
 <div class="row">
     <div class="col-sm-6">
-        <label for="txtSICode">Code  :</label>
+        <label id="lblSICode" for="txtSICode">Code  :</label>
         <br />
         <div style="display:flex">
             <input type="text" id="txtSICode" class="form-control" style="width:100px" />
@@ -36,13 +36,15 @@ End Code
         </div>
     </div>
     <div class="col-sm-4">
-        Remark :<br />
+        <label id="lblRemark">Remark :</label>
+        <br />
         <div style="display:flex">
             <input type="text" id="txtTRemark" class="form-control">
         </div>
     </div>
     <div class="col-sm-2">
-        Status :<br />
+        <label id="lblStatus">Status :</label>
+        <br />
         <div style="display:flex">
             <select id="txtStatus" class="form-control dropdown">
                 <option value="R">Required</option>
@@ -53,13 +55,14 @@ End Code
 </div>
 <div class="row">
     <div class="col-sm-2">
-        Amount :<br />
+        <label id="lblAmount">Amount :</label>
+        <br />
         <div style="display:flex">
             <input type="number" id="txtAmountCharge" class="form-control" value="0.00" onchange="CalTotal()">
         </div>
     </div>
     <div class="col-sm-2">
-        Currency:
+        <label id="lblCurrency">Currency:</label>        
         <br />
         <div style="display:flex">
             <input type="text" id="txtCurrencyCode" class="form-control" disabled />
@@ -67,7 +70,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        Exchange Rate:
+        <label id="lblExchangeRate">Exchange Rate:</label>        
         <br />
         <div style="display:flex">
             <input type="number" id="txtExchangeRate" class="form-control" value="0.00" onchange="CalTotal()">
@@ -75,14 +78,14 @@ End Code
     </div>
 
     <div class="col-sm-2">
-        Qty:
+        <label id="lblQty">Qty:</label>        
         <br />
         <div style="display:flex">
             <input type="number" id="txtQty" class="form-control" value="0.00" onchange="CalTotal()">
         </div>
     </div>
     <div class="col-sm-2">
-        Unit:
+        <label id="lblUnit">Unit:</label>        
         <br />
         <div style="display:flex">
             <input type="text" id="txtQtyUnit" class="form-control" disabled />
@@ -90,7 +93,8 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        Total :<br />
+        <label id="lblTotal">Total :</label>
+        <br />
         <div style="display:flex">
             <input type="number" id="txtAmtCal" class="form-control" value="0.00" disabled>
         </div>
@@ -98,7 +102,7 @@ End Code
 </div>
 <div class="row">
     <div class="col-sm-2">
-        Vat Rate:
+        <label id="lblVATRate">Vat Rate:</label>        
         <br />
         <div style="display:flex">
             <input type="number" id="txtAmtVatRate" class="form-control" value="0.00" onchange="CalTotal()">
@@ -112,21 +116,21 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        Wht Rate:
+        <label id="lblWHTRate">Wht Rate:</label>        
         <br />
         <div style="display:flex">
             <input type="number" id="txtAmtWhtRate" class="form-control" value="0.00" onchange="CalTotal()">
         </div>
     </div>
     <div class="col-sm-2">
-        Wht:
+        <label id="lblWHT">WHT</label>
         <br />
         <div style="display:flex">
             <input type="number" id="txtAmtWht" class="form-control" value="0.00" onchange="SumTotal()">
         </div>
     </div>
     <div class="col-sm-2">
-        Total:
+        <label id="lblTotal">Total:</label>
         <br />
         <div style="display:flex">
             <input type="number" id="txtAmtTotal" class="form-control" value="0.00">
@@ -135,16 +139,16 @@ End Code
 </div>
 <div id="dvCommand">
     <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearData()">
-        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New</b>
+        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkNew">New</b>
     </a>
     <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
-        <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+        <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
     </a>
     <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteData()">
-        <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete</b>
+        <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete</b>
     </a>
     <a href="#" class="btn btn-warning" id="btnCopy" onclick="CopyData()">
-        <i class="fa fa-lg fa-copy"></i>&nbsp;<b>Copy From Job</b>
+        <i class="fa fa-lg fa-copy"></i>&nbsp;<b id="linkCopy">Copy From Job</b>
     </a>
     <input type="text" id="txtJobCopyFrom" value="" />
 </div>
@@ -164,7 +168,7 @@ End Code
     </table>
 </p>
 <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-    <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Pre-invoice</b>
+    <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Pre-invoice</b>
 </a>
 <div id="dvLOVs"></div>
 <script type="text/javascript">

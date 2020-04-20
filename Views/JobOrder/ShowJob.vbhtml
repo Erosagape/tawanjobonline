@@ -4,7 +4,7 @@ End Code
 <style>
     @@media only screen and (max-width: 600px) {
         #btnLinkAdv,#btnLinkClr,#btnLinkCost,#btnLinkDoc,#btnLinkExp,#btnLinkLoad,#btnLinkTAdv,
-        #btnCloseJob,#btnCancelJob,#btnViewChq,#btnViewTAdv {
+        #btnLinkCAdv,#btnCloseJob,#btnCancelJob,#btnViewChq,#btnViewTAdv {
             width: 100% !important;
         }
         #myTabs {
@@ -48,18 +48,18 @@ End Code
         </div>
         <p>
             <ul id="myTabs"class="nav nav-tabs">
-                <li id="tab1" class="active"><a data-toggle="tab" href="#tabinfo">Job Descriptions</a></li>
-                <li id="tab2"><a data-toggle="tab" href="#tabinv">Invoice Description</a></li>
-                <li id="tab3"><a data-toggle="tab" href="#tabdeclare">Customs Description</a></li>
-                <li id="tab4"><a data-toggle="tab" href="#tabtracking">Job Document Tracking</a></li>
-                <li id="tab5"><a data-toggle="tab" href="#tabremark">Other Controls</a></li>
+                <li id="tab1" class="active"><a data-toggle="tab" id="linkTab1" href="#tabinfo">Job Descriptions</a></li>
+                <li id="tab2"><a data-toggle="tab" href="#tabinv" id="linkTab2">Invoice Description</a></li>
+                <li id="tab3"><a data-toggle="tab" href="#tabdeclare" id="linkTab3">Customs Description</a></li>
+                <li id="tab4"><a data-toggle="tab" href="#tabtracking" id="linkTab4">Job Document Tracking</a></li>
+                <li id="tab5"><a data-toggle="tab" href="#tabremark" id="linkTab5">Other Controls</a></li>
             </ul>
             <select id="mySelects" class="form-control" style="display:none" onchange="ChangeTab(this.value);">
-                <option value="#tabinfo" selected>Description</option>
-                <option value="#tabinv">Invoices</option>
-                <option value="#tabdeclare">Customs</option>
-                <option value="#tabtracking">History</option>
-                <option value="#tabremark">Others</option>
+                <option id="optTab1" value="#tabinfo" selected>Description</option>
+                <option id="optTab2" value="#tabinv">Invoices</option>
+                <option id="optTab3" value="#tabdeclare">Customs</option>
+                <option id="optTab4" value="#tabtracking">History</option>
+                <option id="optTab5" value="#tabremark">Others</option>
             </select>
             <div class="tab-content">
                 <div id="tabinfo" class="tab-pane fade in active">
@@ -159,7 +159,7 @@ End Code
                                 <div>
                                     <label id="lblCloseDate" for="txtCloseDate">Close Date : </label>
                                     <input type="date" id="txtCloseDate" style="width:130px" disabled />
-                                    <input type="button" id="btnCloseJob" class="btn btn-warning" value="Close Job" onclick="CloseJob()" style="width:130px" />
+                                    <button id="btnCloseJob" class="btn btn-warning" onclick="CloseJob()" style="width:130px">Close Job</button>
                                 </div>
                                 <div>
                                     <label id="lblCancelBy" for="txtCancelBy">Cancel By :</label>
@@ -173,7 +173,7 @@ End Code
                                     <label id="lblCancelReason" for="txtCancelReason">Cancel Note : </label>
                                     <textarea id="txtCancelReason" style="width:180px"></textarea>
                                 </div>
-                                <input type="button" id="btnCancelJob" class="btn btn-danger" value="Cancel Job" onclick="CancelJob()" style="width:130px" />
+                                <button id="btnCancelJob" class="btn btn-danger" onclick="CancelJob()" style="width:130px">Cancel Job</button>
 
                             </div>
                         </div>
@@ -316,7 +316,7 @@ End Code
                         <div class="col-sm-12">
                             <label id="lblDeliverAddr" for="txtDeliverAddr">Delivery Address :</label>
                             <textarea id="txtDeliverAddr" style="width:100%" tabindex="44"></textarea>
-                            <input type="button" class="btn btn-info" value="Delivery Slip" onclick="PrintDelivery()" />
+                            <button id="btnDelivery" class="btn btn-info" onclick="PrintDelivery()">Delivery Slip</button>
                         </div>
                     </div>
                 </div>
@@ -383,9 +383,9 @@ End Code
                                 </div>
                                 <div>
                                     <label id="lblDeclareStatus" for="optDeclareStatus">Declaration Status :</label>
-                                    <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="G"><label style="color:green;font:bold">Green</label></label>
-                                    <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="R"><label style="color:red;font:bold">Red</label></label>
-                                    <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="M"><label style="color:blue;font:bold">Manual</label></label>
+                                    <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="G"><label style="color:green;font:bold" id="lblGreen">Green</label></label>
+                                    <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="R"><label style="color:red;font:bold" id="lblRed">Red</label></label>
+                                    <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="M"><label style="color:blue;font:bold" id="lblManual">Manual</label></label>
                                 </div>
                             </div>
                         </div>
@@ -537,10 +537,10 @@ End Code
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <input type="button" id="btnViewTAdv" class="btn btn-default" value="Credit Advances" onclick="OpenCreditAdv()" />
+                            <button id="btnViewTAdv" class="btn btn-default" onclick="OpenCreditAdv()" >Credit Advances</button>
                         </div>
                         <div class="col-sm-6">
-                            <input type="button" id="btnViewChq" class="btn btn-default" value="Customer Cheques" onclick="OpenCheque()" />
+                            <button id="btnViewChq" class="btn btn-default" onclick="OpenCheque()">Customer Cheque</button>
                         </div>
                     </div>
                 </div>
@@ -574,7 +574,7 @@ End Code
                 </div>
                 <div id="tabremark" class="tab-pane fade">
                     <a href="#" class="btn btn-default w3-purple" id="btnAddLog" onclick="AddJobLog()">
-                        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Remark</b>
+                        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAddLog">Add Remark</b>
                     </a>
                     <div class="row">
                         <div class="col-sm-12">
@@ -598,22 +598,22 @@ End Code
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <input type="button" class="btn btn-default" id="btnLinkDoc" value="Document Files" onclick="OpenDocument()" />
-                            <input type="button" class="btn btn-default" id="btnLinkLoad" value="Transport Info" onclick="OpenTransport()" />
-                            <input type="button" class="btn btn-default" id="btnLinkExp" value="Estimate Expenses" onclick="OpenExpense()" />
-                            <input type="button" class="btn btn-default" id="btnLinkTAdv" value="Credit Advance" onclick="OpenCreditAdv()" />
-                            <input type="button" class="btn btn-warning" id="btnLinkAdv" value="Advance Request" onclick="OpenAdvance()" />
-                            <input type="button" class="btn btn-success" id="btnLinkClr" value="Advance Clearing" onclick="OpenClearing()" />
-                            <input type="button" class="btn btn-danger" id="btnLinkCost" value="Cost & Profit" onclick="OpenCosting()" />
+                            <button class="btn btn-default" id="btnLinkDoc" onclick="OpenDocument()">Document Files</button>
+                            <button class="btn btn-default" id="btnLinkLoad" onclick="OpenTransport()">Transport Info</button>
+                            <button class="btn btn-default" id="btnLinkExp" onclick="OpenExpense()">Estimate Expenses</button>
+                            <button class="btn btn-default" id="btnLinkCAdv" onclick="OpenCreditAdv()">Credit Advance</button>
+                            <button class="btn btn-warning" id="btnLinkAdv" onclick="OpenAdvance()">Advance Request</button>
+                            <button class="btn btn-success" id="btnLinkClr" onclick="OpenClearing()">Advance Clearing</button>
+                            <button class="btn btn-danger" id="btnLinkCost" onclick="OpenCosting()">Cost & Profit</button>
                         </div>
                     </div>
                 </div>
             </div>
             <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
-                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
             </a>
             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-                <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print</b>
+                <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print</b>
             </a>
         </p>
         <div id="frmJobOrderLog" class="modal fade" role="dialog">
