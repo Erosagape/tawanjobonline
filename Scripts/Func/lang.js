@@ -168,6 +168,97 @@ function ChangeLanguage(code, module) {
 function ChangeLanguageForm(fname) {
     let lang = {};
     switch (fname) {
+        case 'MODULE_ADV/Approve':
+            lang = {
+                lblTitle: 'Approve Advance Slip|อนุมัติใบเบิกค่าใช้จ่าย',
+                lblBranch: 'Branch|สาขา',
+                lblDateFrom: 'Request Date From|ช่วงวันที่ขอเบิก',
+                lblDateTo: 'Request Date To|ถึงวันที่',
+                lblJobType: 'Job Type|ประเภทงาน',
+                lblShipBy: 'Ship By|ลักษณะงาน',
+                lblReqBy: 'Request By|ขอเบิกโดย',
+                lblAdvFor: 'Advance For|สำหรับลูกค้า',
+                linkSearch: 'Search|ค้นหา',
+                lblDocList: 'Approve Document|เอกสารที่เลือก',
+                lblTotal: 'Approve Total|ยอดรวมที่อนุมัติ',
+                linkApprove:'Approve|อนุมัติเอกสาร'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_ADV/Index':
+            lang = {
+                lblTitle: 'Advance Slip|ใบเบิกค่าใช้จ่าย',
+                lblBranch: 'Branch|สาขา',
+                lblAdvNo: 'Advance No|เลขที่ใบเบิก',
+                lblAdvDate: 'Advance Date|วันที่ขอเบิก',
+                linkHeader: 'Advance Header|ส่วนควบคุม',
+                linkDetail: 'Advance Detail|ส่วนรายการ',
+                lblAdvBy: 'Advance By|ผู้จัดทำ',
+                lblReqBy: 'Request By|ผู้ขอเบิก',
+                lblAdvFor: 'Advance For|สำหรับลูกค้า',
+                lblWHTaxNo: 'WH-Tax No|ใบหัก ณ ที่จ่าย',
+                btnAddWHTax: 'Add|เพิ่ม',
+                lblPaymentNo: 'Bill A/P|บืลค่าใช้จ่าย',
+                lblJobType: 'Job Type|ประเภทงาน',
+                lblShipBy: 'Ship By|ลักษณะงาน',
+                lblStatus: 'Status|สถานะ',
+                lblAdvType: 'Advance Type|ประเภทการเบิก',
+                lblRemark: 'Remark|หมายเหตุ',
+                lblCurrency: 'Currency|สกุลเงิน',
+                lblPayTotal: 'Payment Total|รวมเงินที่ขอเบิก',
+                lblCash: 'Cash|เงินสด',
+                lblChq: 'Cashier Cheque|เช็คบริษัท',
+                lblChqCash: 'Customer Chq|เช็คลูกค้า',
+                lblCred: 'Credit|เครดิตหนี้',
+                lblApproveBy: 'Approve By|อนุมัติโดย',
+                lblApproveDate: 'Approve Date|วันที่อนุมัติ',
+                lblApproveTime:'Approve Time|เวลา',
+                lblPaymentBy: 'Payment By|ทำจ่ายโดย',
+                lblPaymentDate: 'Payment Date|วันที่จ่าย',
+                lblPaymentTime: 'Payment Time|เวลา',
+                lblPaymentRef: 'Payment Ref|เลขที่การลงบัญชี',
+                lblCancelBy: 'Cancel By|ผู้ยกเลิก',
+                lblCancelDate: 'Cancel Date|วันที่ยกเลิก',
+                lblCancelTime: 'Cancel Time|เวลา',
+                lblCancelReson: 'Cancel Reason|เหตุผลที่ยกเลิก',
+                linkNew: 'New Advance|สร้างใบเบิกใหม่',
+                linkSave: 'Save Advance|บันทึกใบเบิก',
+                linkPrint: 'Print Advance|พิมพ์ใบเบิก',
+                linkPrint2: 'Print Advance|พิมพ์ใบเบิก',
+                linkAdd: 'Add Detail|เพิ่มรายการ',
+                linkDel: 'Delete Detail|ลบรายการ',
+                lblMainCurr: 'Main Currency|สกุลเงินหลัก',
+                lblExcRate: 'Exchange Rate|อัตราแลกเปลี่ยน',
+                lblAdvAmount: 'Amount|ยอดรวม',
+                lblVatAmount: 'VAT|ภาษีมูลค่าเพิ่ม',
+                lblWhtAmount: 'WHT|หัก ณ ที่จ่าย',
+                lblTotalAmount: 'Total|ยอดสุทธิ',
+                lblItemNo: 'No|ลำดับที่',
+                lblSTCode: 'Service Group|กลุ่มค่าใช้จ่าย',
+                lblDuplicate: 'Can Partial Clear|สามารถแตกรายการปิดได้',
+                lblSICode: 'Service Code|รหัสค่าใช้จ่าย',
+                lblSDescription: 'Service Description|ชื่อค่าใช้จ่าย',
+                lblForJNo: 'Job No|หมายเลขงาน',
+                lblCustInv: 'Cust.Inv|อินวอยลูกค้า',
+                lblCurrencyCode: 'Currency|สกุลเงิน',
+                lblRate: 'Rate|อัตราแลกเปลี่ยน',
+                lblQty: 'Qty|จำนวน',
+                lblUnitPrice: 'Price|ราคา/หน่วย',
+                lblAMTCal: 'Amount|ราคารวม',
+                lblAmount: 'Conv.Amt|ราคาสุทธิ',
+                lblVATRate: 'VAT Rate|อัตรา VAT',
+                lblWHTRate: 'WHT Rate|อัตราหัก ณ ที่จ่าย',
+                lblNETAmount: 'Net Amount|ยอดสุทธิ',
+                lblWTNo: 'WH-Tax No|เลขที่ใบหัก(ที่ได้รับมา)',
+                lblVenCode: 'Pay to Vender|จ่ายให้กับ',
+                lblDRemark: 'Remark|บันทึกเพิ่มเติม',
+                linkClear: 'New|เพิ่มรายการ',
+                linkUpdate: 'Save|จัดเก็บรายการ',
+                lblFilter: 'Filter By Status|แสดงข้อมูลตามสถานะ',
+                btnGetExcRate:'Get Rate|ดึงอัตราแลกเปลี่ยน'
+            };
+            SetLanguage(lang);
+            break;
         case 'MODULE_ADV/EstimateCost':
             lang = {
                 lblTitle:'Estimate Cost|ประมาณการค่าใช้จ่าย',
@@ -192,6 +283,20 @@ function ChangeLanguageForm(fname) {
                 linkDelete: 'Delete|ลบข้อมูล',
                 linkCopy: 'Copy From Job|Copy ข้อมูลจาก Job',
                 linkPrint:'Print Pre-Invoice|พิมพ์แบบประเมินค่าใช้จ่าย'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_ACC/Approve':
+            lang = {
+                lblTitle: 'Payment Billing Approve|อนุมัติบิลค่าใช้จ่าย',
+                lblBranch: 'Branch|สาขา',
+                lblDateFrom: 'Due Date From|กำหนดชำระวันที่',
+                lblDateTo: 'To|ถึงวันที่',
+                lblCurrency: 'Currency|สกุลเงินที่ต้องจ่าย',
+                lblVenCode: 'Vender|ผู้ให้บริการ',
+                linkSearch: 'Search|ค้นหา',
+                lblListApprove: 'Selected Document|เอกสารที่เลือก',
+                linkApprove:'Approve|อนุมัติเอกสาร'
             };
             SetLanguage(lang);
             break;
@@ -269,84 +374,116 @@ function ChangeLanguageForm(fname) {
             };
             SetLanguage(lang);
             break;
-        case 'MODULE_SALES/Quotation':
+        case 'MODULE_ADM/Role':
             lang = {
-                lblTitle: 'Quotation|ใบเสนอราคา',
-                lblSearch:'Search|ค้นหา',
+                lblTitle: 'User Role|บทบาทของผู้ใช้งาน',
+                lblRoleID: 'Role Id|รหัสบทบาท',
+                lblRoleDesc: 'Role Description|คำอธิบาย',
+                lblRoleGroup: 'Role Level|ระดับผู้่ใช้งาน',
+                lblUser: 'User ID|รหัสพนักงาน',
+                lblUserRole: 'User On this Role|พนักงานในบทบาทนี้',
+                lblFunction: 'Function|ฟังก์ชั่นการทำงาน'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_CLR/Approve':
+            lang = {
+                lblTitle: 'Clearing Approve|อนุมัติใบปิดค่าใช้จ่าย',
                 lblBranch: 'Branch|สาขา',
-                lblCustomer: 'Customer|ลูกค้า',
-                lblDateFrom: 'Date From|วันที่เอกสาร',
-                lblDateTo: 'Date To|ถึงวันที่',
-                lblShowCancel: 'Show Cancel Only|แสดงเอกสารที่ยกเลิก',
-                lblDetail: 'Detail of Quotation|รายการใบเสนอราคา',
-                lblAddSection: 'Add Section|เพิ่มรายการ',
-                lblDelSection: 'Delete Section|ลบรายการ',
-                lblAddQuo: 'Add Quotation|เพิ่มใบเสนอราคา',
-                lblCopyQuo: 'Copy Quotation|ก๊อปปี้ใบเสนอราคา',
-                lblPrintQuo: 'Print Quotation|พิมพ์ใบเสนอราคา',
-                lblQuoHeader: 'Add/Edit Quotation|ข้อมูลใบเสนอราคา',
-                lblQNo: 'Quotation No|เลขที่ใบเสนอราคา',
-                lblDocDate: 'Issue Date|วันที่เอกสาร',
-                lblStatus: 'Status|สถานะ',
-                lblReferQNo: 'Refer Q.No|อ้างถึงใบเสนอราคา',
-                lblBillingTo: 'Billing To|เก็บเงินที่',
-                lblManager: 'Manager|ผู้เสนอราคา',
-                lblContact: 'Contact Name|ผู้ติดต่อ',
-                lblRemark: 'Remark|หมายเหตุ',
-                lblDescriptionH: 'Header|ข้อความส่วนต้น',
-                lblDescriptionF: 'Footer|ข้อความส่วนท้าย',
-                lblApproveBy: 'Approve By|อนุมัติโดย',
-                lblApproveDate: 'Approve Date|วันที่อนุมัติ',
-                lblApproveTime: 'Approve Time|เวลาอนุมัติ',
+                lblDateFrom: 'Clear Date From|จากวันที่เคลียร์',
+                lblDateTo: 'Clear Date To|ถึงวันที่',
+                lblJobType: 'Job Type|ประเภทงาน',
+                lblClrBy: 'Clear By|ปิดบัญชีโดย',
+                lblClrFrom: 'Clear From|จากแผนก',
+                lblClrType: 'Clear Type|ประเภทการปิดบัญชี',
+                linkSearch: 'Search|ค้นหา',
+                lblListApprove: 'Approve Document|เอกสารที่เลือก',
+                lblExpTotal: 'Expenses Total|ยอดรวมอนุมัติ',
+                linkApprove: 'Approve|อนุมัติเอกสาร'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_CLR/Index':
+            lang = {
+                lblTitle: 'Clearance Slip|ใบปิดค่าใช้จ่าย',
+                lblBranch: 'Branch|สาขา',
+                lblClrNo: 'Clearing No|เลขที่ใบปิด',
+                lblClrDate: 'Document Date|วันที่เอกสาร',
+                linkHeader: 'Header|ส่วนควบคุม',
+                linkDetail: 'Detail|ส่วนรายการ',
+                lblClrBy: 'Clear By|ผู้ทำรายการ',
+                lblClrType: 'Clearing Type|ประเภทการปิดบัญชี',
+                lblContNo: 'Container No|เลขที่ตู้คอนเทนเนอร์',
+                lblClearanceDate: 'Clearance Date|วันที่ปฏิบัติงาน',
+                lblJobType: 'Job Type|ประเภทงาน',
+                lblClrFrom: 'Clear From|งานของแผนก',
+                lblClrStatus: 'Status|สถานะ',
+                lblCoPerson: 'Co-person Reference|ชื่อกลุ่มบุคคลอ้างอิง',
+                lblTRemark: 'Remark|บันทึกเพิ่มเติม',
+                lblAdvTotal: 'Advance Total|ยอดเบิกที่จ่ายไป',
+                lblExpTotal: 'Expense Total|ยอดค่าใช้จ่ายจริง',
+                lblClrTotal: 'Clear Total|ยอดคืนเงิน/จ่ายคืน',
+                lblApprBy: 'Approve By|ผู้ตรวจสอบ',
+                lblApprDate: 'Approve Date|วันที่ตรวจสอบ',
+                lblApprTime: 'Approve Time|เวลา',
+                lblRecvBy: 'Receive By|ผู้รับเคลียร์',
+                lblRecvDate: 'Receive Date|วันที่รับเคลียร์',
+                lblRecvTime: 'Receive Time|เวลา',
+                lblRecvRef: 'Receive Ref|เลขที่การลงบัญชี',
                 lblCancelBy: 'Cancel By|ยกเลิกโดย',
                 lblCancelDate: 'Cancel Date|วันที่ยกเลิก',
-                lblCancelReason: 'Cancel Reason|เหตุผลที่ยกเลิก',
-                lblSaveQuo: 'Update Quotation|บันทึกข้อมูล',
-                lblSection: 'Section and Expenses|หัวข้อและรายการ',
-                lblNewSection: 'New Section|เพิ่มหัวข้อ',
-                lblSeqNo: 'Section No|หัวข้อที่',
-                lblJobType: 'Job Type|ประเภทงาน',
-                lblShipBy: 'Ship By|ลักษณะงาน',
-                lblSDescription: 'Description|คำอธิบายหัวข้อ',
-                lblUpdSection: 'Update Section|ปรับปรุงหัวข้อ',
-                lblExpenses: 'Lists of expenses|รายการค่าบริการ',
-                lblNewExpenses: 'New Expense|เพิ่มรายการ',
-                lblDelExpenses: 'Delete Expenses|ลบรายการ',
-                lblItemNo: 'Item No|รายการที่',
-                lblCalType: 'Calculate Type|ประเภทการคำนวณ',
-                lblRequired: 'Required?|จำเป็นต้องเรียกเก็บทุกครั้ง',
-                lblSICode: 'Service Code|รหัสค่าบริการ',
-                lblCurrency: 'Currency|สกุลเงิน',
-                lblExchangeRate: 'Exc.Rate|อัตราแลกเปลี่บน',
-                lblDescriptionTH: 'Service Description|ความหมายค่าบริการ',
-                lblQtyBegin: 'Qty Begin|จำนวนเริ่มต้น',
-                lblQtyEnd: 'Qty End|จำนวนสิ้นสุด',
-                lblUnitCheck: 'Unit|หน่วยบริการ',
-                lblChargeAmt: 'Price|ราคาต่อหน่วย',
-                lblDiscountType: 'Discount Type|ประเภทส่วนลด',
-                lblDiscountRate: 'Discount Rate|อัตราส่วนลด',
-                lblVender: 'Vender|ผู้ให้บริการ',
-                lblCostAmt: 'Cost Amount|ราคาทุน',
-                lblCommType: 'Commission Type|วิธีคิดคอมมิชชั่น',
-                lblCommAmt: 'Commission Amt|ยอดเงินคอมมิชชั่น',
-                lblVAT: 'VAT|ภาษีมูลค่าเพิ่ม',
-                lblVATRate: 'Rate|ร้อยละ',
-                lblVATAmt: 'VAT Amt|ยอดเงิน',
-                lblWHT: 'WHT|ภาษี ณ ที่จ่าย',
-                lblWHTRate: 'Rate|ร้อยละ',
-                lblWHTAmt: 'WHT Amt|ยอดเงิน',
-                lblCharge: 'Charge|ค่าบริการ',
-                lblTotal: 'Total|ยอดสุทธิ',
-                lblBaseProfit: 'Base Profit|กำไรขั้นต้น',
-                lblNetProfit: 'Net Profit|กำไรสุทธิ',
-                lblAddExpense: 'Add Expense|เพิ่มรายการ',
-                lblUpdExpense: 'Update Expense|บันทึกรายการ',
-                lblCreateFrom: 'Create Quotation Base From|สร้างใบเสนอราคาจาก',
-                lblCreate: 'Create|สร้างเลย',
-                lblDiscountB: 'Discount (B)|ส่วนลด (บาท)',
-                lblDiscountF: 'Discount (F)|ส่วนลด (ตปท)',
-                linkHeader: 'Header|ส่วนควบคุม',
-                linkDetail:'Detail|ส่วนรายการ'
+                lblCancelTime: 'Cancel Time|เวลา',
+                lblCancelReson:'Cancel Reason|เหตุผลที่ยกเลิก',
+                linkNew: 'New Clearing|สร้างใบปิดใหม่',
+                linkSave: 'Save Clearing|บันทึกใบปิด',
+                linkPrint: 'Print Clearing|พิมพ์ใบปิด',
+                linkPrint2: 'Print Clearing|พิมพ์ใบปิด',
+                linkAdd: 'Add Detail|เพิ่มรายการ',
+                linkAdv: 'Choose Advance|เลือกรายการใบเบิก',
+                linkPay: 'Choose Payment|เลือกรายการบิลค่าใช้จ่าย',
+                linkDel: 'Delete Detail|ลบรายการ',
+                lblSumCharge: 'Customers Chargable|รวมยอดที่เรียกเก็บได้',
+                lblSumCost: 'Company Cost|รวมยอดที่เรียกเก็บไม่ได้',
+                lblClrAmount: 'Clear Amount|ยอดรวมค่าใช้จ่าย',
+                lblVatAmount: 'VAT|ภาษีมูลค่าเพิ่ม',
+                lblWhtAmount: 'WHT|หัก ณ ที่จ่าย',
+                lblNetAmount: 'Net Amount|ยอดค่าใช้จ่ายสุทธิ',
+                lblItemNo: 'No|ลำดับที่',
+                lblSTCode: 'Service Group|กลุ่มค่าใช้จ่าย',
+                lblDuplicate: 'Partial Clear|เคลียร์ค่าใช้จ่ายใบเบิกแบบต่อเนื่อง',
+                lblSICode: 'Service Code|รหัสค่าใช้จ่าย',
+                lblSDescription: 'Description|คำอธิบาย',
+                lblJobNo: 'Job No|หมายเลขงาน',
+                lblCustInv: 'Cust.Inv|อินวอยลูกค้า',
+                lblQNo: 'Quotation No|ใบเสนอราคา',
+                lblCurrCode: 'Currency|สกุลเงิน',
+                lblCurrRate: 'Rate|อัตราแลกเปลี่ยน',
+                lblQty: 'Qty|จำนวน',
+                lblUnit: 'Unit|หน่วย',
+                lblUnitPrice: 'Price|ราคา',
+                lblAmount: 'Amount|ราคารวม',
+                lblVATRate: 'VAT|ภาษีมูลค่าเพิ่ม',
+                lblWHTRate: 'WH-Tax|หัก ณ ที่จ่าย',
+                lblNETAmount: 'Net|ยอดสุทธิ',
+                lblWTNo: 'WH-Tax No|ใบหัก ณ ที่จ่าย(ที่ได้รับ)',
+                lblSlipNo: 'Slip No|เลขที่ใบเสร็จ',
+                lblSlipDate: 'Slip Date|วันที่ในใบเสร็จ',
+                lblLtdAdv: '**Use Tax Article 60,69,70|**หักตามมาตรา 60,69,70',
+                lblVenCode:'Pay To Vender|จ่ายให้กับ',
+                lblDRemark: 'Remark|บันทึกเพิ่มเติม',
+                lblIsCost: 'Is Company Cost(Cannot charge)|เป็นต้นทุนของบริษัท',
+                lblAdvItemNo: 'Clear From Adv Item.No|ปิดมาจากใบเบิกรายการที่',
+                lblAdvNo: 'Adv.No|เลขที่ใบเบิก',
+                lblAdvAmt:'Advance Net|ยอดเงินที่เบิก',
+                lblInvNo: 'Invoice#|เลขที่ใบแจ้งหนี้',
+                lblPayNo: 'Vender Inv#|เลขที่บิลค่าใช้จ่าย',
+                linkClear: 'New|เพิ่มรายการใหม่',
+                linkUpdate: 'Save|จัดเก็บรายการ',
+                lblHeaderPay: 'Payment Lists|รายการบิลค่าใช้จ่าย',
+                lblHeaderAdv: 'Advance Lists|รายการใบเบิกค่าใช้จ่าย',
+                lblHeaderQuo: 'Quotation Lists|รายการใบเสนอราคา',
+                lblCustCode: 'Customer|ลูกค้า',
+                lblFilter:'Filter By Status|เลือกตามสถานะ'
             };
             SetLanguage(lang);
             break;
@@ -596,7 +733,63 @@ function ChangeLanguageForm(fname) {
                 btnPrintSlip: 'Delivery Slip|ใบส่งของ',
                 linkNewCont: 'New Container|เพิ่มตู้ใหม่',
                 linkSaveCont: 'Save Container|บันทึกตู้',
-                linkDelCont:'Delete Container|ลบตู้'
+                linkDelCont: 'Delete Container|ลบตู้',
+                lblPickup: 'Pick-Up|วันรับตู้/ออกรับของ',
+                lblPickupTarget: 'Target Date|ภายในวันที่',
+                lblPickupTargetTime: 'Target Time|ก่อนเวลา',
+                lblPickupActual: 'Actual Date|วันที่จริง',
+                lblPickupActualTime: 'Actual Time|เวลาจริง',
+                lblDelivery: 'Delivery|วันโหลดของ',
+                lblDeliveryTarget: 'Target Date|ภายในวันที่',
+                lblDeliveryTargetTime: 'Target Time|ก่อนเวลา',
+                lblDeliveryActual: 'Actual Date|วันที่จริง',
+                lblDeliveryActualTime: 'Actual Time|เวลาจริง',
+                lblReturn: 'Return|วันคืนตู้',
+                lblReturnTarget: 'Target Date|ภายในวันที่',
+                lblReturnTargetTime: 'Target Time|ก่อนเวลา',
+                lblReturnActual: 'Actual Date|วันที่จริง',
+                lblReturnActualTime: 'Actual Time|เวลาจริง'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_CS/TruckApprove':
+            lang = {
+                lblTitle: 'Transport Order Approve|อนุมัติสถานะงานขนส่ง',
+                lblBranch: 'Branch|สาขา',
+                lblDateFrom: 'Load Date From|จากวันที่โหลด',
+                lblDateTo: 'To|ถึงวันที่',
+                lblVenCode: 'Vender|ผู้ให้บริการ',
+                lblCustCode: 'Customer|ลูกค้า',
+                linkSearch: 'Search|ค้นหา',
+                lblItemNo: 'No|ลำดับที่',
+                lblContNo: 'Container|เบอร์ตู้',
+                lblContSize: 'Size|ขนาดตู้',
+                lblSealNo: 'Seal.No|เบอร์ซีล',
+                lblDriver: 'Driver|คนขับ',
+                lblTruckNo: 'Truck ID|ทะเบียนรถ',
+                lblTruckType: 'Type|ประเภทรถ',
+                lblRouteID: 'Route ID|รหัสเส้นทาง',
+                lblLocation: 'Location|ชื่อเส้นทาง',
+                lblComment: 'Comment|บันทึกเพิ่มเติม',
+                lblShippingMark: 'Shipping Mark|เครื่องหมายหีบห่อ',
+                lblStatus: 'Job Status|สถานะงานขนส่ง',
+                lblPickup: 'Pick-Up|วันรับตู้/ออกรับของ',
+                lblPickupTarget: 'Target Date|ภายในวันที่',
+                lblPickupTargetTime: 'Target Time|ก่อนเวลา',
+                lblPickupActual: 'Actual Date|วันที่จริง',
+                lblPickupActualTime: 'Actual Time|เวลาจริง',
+                lblDelivery: 'Delivery|วันโหลดของ',
+                lblDeliveryTarget: 'Target Date|ภายในวันที่',
+                lblDeliveryTargetTime: 'Target Time|ก่อนเวลา',
+                lblDeliveryActual: 'Actual Date|วันที่จริง',
+                lblDeliveryActualTime: 'Actual Time|เวลาจริง',
+                lblReturn: 'Return|วันคืนตู้',
+                lblReturnTarget: 'Target Date|ภายในวันที่',
+                lblReturnTargetTime: 'Target Time|ก่อนเวลา',
+                lblReturnActual: 'Actual Date|วันที่จริง',
+                lblReturnActualTime: 'Actual Time|เวลาจริง',
+                linkSave: 'Update Container|ปรับปรุงข้อมูล',
+                linkExp:'Entry Expense|บันทึกค่าใช้จ่าย'
             };
             SetLanguage(lang);
             break;
@@ -799,18 +992,6 @@ function ChangeLanguageForm(fname) {
             };
             SetLanguage(lang);
             break;
-        case 'MODULE_ADM/Role':
-            lang = {
-                lblTitle: 'User Role|บทบาทของผู้ใช้งาน',
-                lblRoleID: 'Role Id|รหัสบทบาท',
-                lblRoleDesc: 'Role Description|คำอธิบาย',
-                lblRoleGroup: 'Role Level|ระดับผู้่ใช้งาน',
-                lblUser: 'User ID|รหัสพนักงาน',
-                lblUserRole: 'User On this Role|พนักงานในบทบาทนี้',
-                lblFunction: 'Function|ฟังก์ชั่นการทำงาน'
-            };
-            SetLanguage(lang);
-            break;
         case 'MODULE_MAS/ServiceCode':
             lang = {
                 lblTitle: 'Service Code|รหัสค่าบริการ',
@@ -831,7 +1012,11 @@ function ChangeLanguageForm(fname) {
                 lblchkIsHaveSlip: 'Must Input Slip|เป็นค่าบริการมีใบเสร็จในนามลูกค้า',
                 lblchkIs50Tavi: 'Calculate 50Tavi|ต้องหัก ณ ที่จ่าย',
                 lblchkIsShowPrice: 'Is Show Price|แสดงราคาให้เห็นได้',
-                lblchkIsUsedCoSlip: 'Is Earnest Expense|เป็นเงินมัดจำ'
+                lblchkIsUsedCoSlip: 'Is Earnest Expense|เป็นเงินมัดจำ',
+                lblExc: 'Exclude|คำนวณจากฐานภาษี',
+                lblInc: 'Include|ราคารวมภาษีแล้ว',
+                lblComp: 'Paid 50Tavi By Company|บริษัทเป็นผู้มีหน้าที่ หัก ณ ที่จ่าย',
+                lblVend: 'Pay 50Tavi by Vender|บริษัทไม่ได้เป็นผู้หัก ณ ที่จ่าย'
             };            
             SetLanguage(lang);
             break;
@@ -847,7 +1032,11 @@ function ChangeLanguageForm(fname) {
                 lblchkIsHaveSlip: 'Must Input Slip|เป็นค่าบริการมีใบเสร็จในนามลูกค้า',
                 lblchkIs50Tavi: 'Calculate 50Tavi|คิดหัก ณ ที่จ่ายไหม',
                 lblchkIsApplyPolicy: 'Apply Policy To All| บังคับใช้ทุกค่าบริการ',
-                lblSICode: 'Service Code|รหัสค่าบริการ'
+                lblSICode: 'Service Code|รหัสค่าบริการ',
+                lblExc: 'Exclude|คำนวณจากฐานภาษี',
+                lblInc: 'Include|ราคารวมภาษีแล้ว',
+                lblComp: 'Paid 50Tavi By Company|บริษัทเป็นผู้มีหน้าที่ หัก ณ ที่จ่าย',
+                lblVend: 'Pay 50Tavi by Vender|บริษัทไม่ได้เป็นผู้หัก ณ ที่จ่าย'
             };
             SetLanguage(lang);
             break;
@@ -950,6 +1139,22 @@ function ChangeLanguageForm(fname) {
             };
             SetLanguage(lang);
             break;
+        case 'Menu/Index':
+            lang = {
+                lblTitle: 'Main Dashboard|ภาพรวมการทำงาน',
+                lblJobType: 'Job Type|ประเภทงาน',
+                lblShipBy: 'Transport By|ลักษณะงานขนส่ง',
+                lblDateFrom: 'Inspect Date From|ช่วงวันที่ตรวจปล่อย',
+                lblDateTo: 'To|ถึงวันที่',
+                lblAutoRefresh: 'Auto Refresh|ปรับปรุงข้อมูลอัตโนมัติ',
+                btnUpdate: 'Update|ปรับปรุงข้อมูล',
+                btnAddJob: 'New|สร้างงานใหม่',
+                lblGrid1: 'Volume By Status|จำนวนงานตามสถานะ',
+                lblGrid2: 'Status By Job Type|จำนวนงานตามประเภทงาน',
+                lblGrid3: 'Status By Customer|จำนวนงานตามลูกค้า'
+            };
+            SetLanguage(lang);
+            break;
         case 'MODULE_REP/Index':
             let reportLists = GetReportLists();            
             let group = $('#cboReportGroup').val();
@@ -979,6 +1184,101 @@ function ChangeLanguageForm(fname) {
                 responsive: true,
                 destroy:true
             });
+            break;
+        case 'MODULE_SALES/QuoApprove':
+            lang = {
+                lblTitle: 'Approve Quotation|อนุมัติใบเสนอราคา',
+                lblBranch: 'Branch|สาขา',
+                lblDateFrom: 'Date From|จากวันที่',
+                lblDateTo: 'Date To|ถึงวันที่',
+                lblReqBy: 'Sales By|เสนอราคาโดย',
+                lblCustCode: 'Customer|ลูกค้า',
+                linkSearch: 'Search|ค้นหา',
+                lblListAppr: 'Approve Document|เอกสารที่เลือก',
+                linkAppr:'Approve|อนุมัติเอกสาร'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_SALES/Quotation':
+            lang = {
+                lblTitle: 'Quotation|ใบเสนอราคา',
+                lblSearch: 'Search|ค้นหา',
+                lblBranch: 'Branch|สาขา',
+                lblCustomer: 'Customer|ลูกค้า',
+                lblDateFrom: 'Date From|วันที่เอกสาร',
+                lblDateTo: 'Date To|ถึงวันที่',
+                lblShowCancel: 'Show Cancel Only|แสดงเอกสารที่ยกเลิก',
+                lblDetail: 'Detail of Quotation|รายการใบเสนอราคา',
+                lblAddSection: 'Add Section|เพิ่มรายการ',
+                lblDelSection: 'Delete Section|ลบรายการ',
+                lblAddQuo: 'Add Quotation|เพิ่มใบเสนอราคา',
+                lblCopyQuo: 'Copy Quotation|ก๊อปปี้ใบเสนอราคา',
+                lblPrintQuo: 'Print Quotation|พิมพ์ใบเสนอราคา',
+                lblQuoHeader: 'Add/Edit Quotation|ข้อมูลใบเสนอราคา',
+                lblQNo: 'Quotation No|เลขที่ใบเสนอราคา',
+                lblDocDate: 'Issue Date|วันที่เอกสาร',
+                lblStatus: 'Status|สถานะ',
+                lblReferQNo: 'Refer Q.No|อ้างถึงใบเสนอราคา',
+                lblBillingTo: 'Billing To|เก็บเงินที่',
+                lblManager: 'Manager|ผู้เสนอราคา',
+                lblContact: 'Contact Name|ผู้ติดต่อ',
+                lblRemark: 'Remark|หมายเหตุ',
+                lblDescriptionH: 'Header|ข้อความส่วนต้น',
+                lblDescriptionF: 'Footer|ข้อความส่วนท้าย',
+                lblApproveBy: 'Approve By|อนุมัติโดย',
+                lblApproveDate: 'Approve Date|วันที่อนุมัติ',
+                lblApproveTime: 'Approve Time|เวลาอนุมัติ',
+                lblCancelBy: 'Cancel By|ยกเลิกโดย',
+                lblCancelDate: 'Cancel Date|วันที่ยกเลิก',
+                lblCancelReason: 'Cancel Reason|เหตุผลที่ยกเลิก',
+                lblSaveQuo: 'Update Quotation|บันทึกข้อมูล',
+                lblSection: 'Section and Expenses|หัวข้อและรายการ',
+                lblNewSection: 'New Section|เพิ่มหัวข้อ',
+                lblSeqNo: 'Section No|หัวข้อที่',
+                lblJobType: 'Job Type|ประเภทงาน',
+                lblShipBy: 'Ship By|ลักษณะงาน',
+                lblSDescription: 'Description|คำอธิบายหัวข้อ',
+                lblUpdSection: 'Update Section|ปรับปรุงหัวข้อ',
+                lblExpenses: 'Lists of expenses|รายการค่าบริการ',
+                lblNewExpenses: 'New Expense|เพิ่มรายการ',
+                lblDelExpenses: 'Delete Expenses|ลบรายการ',
+                lblItemNo: 'Item No|รายการที่',
+                lblCalType: 'Calculate Type|ประเภทการคำนวณ',
+                lblRequired: 'Required?|จำเป็นต้องเรียกเก็บทุกครั้ง',
+                lblSICode: 'Service Code|รหัสค่าบริการ',
+                lblCurrency: 'Currency|สกุลเงิน',
+                lblExchangeRate: 'Exc.Rate|อัตราแลกเปลี่บน',
+                lblDescriptionTH: 'Service Description|ความหมายค่าบริการ',
+                lblQtyBegin: 'Qty Begin|จำนวนเริ่มต้น',
+                lblQtyEnd: 'Qty End|จำนวนสิ้นสุด',
+                lblUnitCheck: 'Unit|หน่วยบริการ',
+                lblChargeAmt: 'Price|ราคาต่อหน่วย',
+                lblDiscountType: 'Discount Type|ประเภทส่วนลด',
+                lblDiscountRate: 'Discount Rate|อัตราส่วนลด',
+                lblVender: 'Vender|ผู้ให้บริการ',
+                lblCostAmt: 'Cost Amount|ราคาทุน',
+                lblCommType: 'Commission Type|วิธีคิดคอมมิชชั่น',
+                lblCommAmt: 'Commission Amt|ยอดเงินคอมมิชชั่น',
+                lblVAT: 'VAT|ภาษีมูลค่าเพิ่ม',
+                lblVATRate: 'Rate|ร้อยละ',
+                lblVATAmt: 'VAT Amt|ยอดเงิน',
+                lblWHT: 'WHT|ภาษี ณ ที่จ่าย',
+                lblWHTRate: 'Rate|ร้อยละ',
+                lblWHTAmt: 'WHT Amt|ยอดเงิน',
+                lblCharge: 'Charge|ค่าบริการ',
+                lblTotal: 'Total|ยอดสุทธิ',
+                lblBaseProfit: 'Base Profit|กำไรขั้นต้น',
+                lblNetProfit: 'Net Profit|กำไรสุทธิ',
+                lblAddExpense: 'Add Expense|เพิ่มรายการ',
+                lblUpdExpense: 'Update Expense|บันทึกรายการ',
+                lblCreateFrom: 'Create Quotation Base From|สร้างใบเสนอราคาจาก',
+                lblCreate: 'Create|สร้างเลย',
+                lblDiscountB: 'Discount (B)|ส่วนลด (บาท)',
+                lblDiscountF: 'Discount (F)|ส่วนลด (ตปท)',
+                linkHeader: 'Header|ส่วนควบคุม',
+                linkDetail: 'Detail|ส่วนรายการ'
+            };
+            SetLanguage(lang);
             break;
     }    
 }

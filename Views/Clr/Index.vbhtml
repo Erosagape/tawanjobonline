@@ -5,7 +5,7 @@ End Code
     <div id="dvHeader" class="container">
         <div class="row">
             <div class="col-sm-5">
-                Branch:
+                *<label id="lblBranch">Branch:</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -15,7 +15,7 @@ End Code
                 <div id="dvJob"></div>
             </div>
             <div class="col-sm-4" style="text-align:left">
-                <b>Clearing No:</b>
+                <label id="lblClrNo">Clearing No:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtClrNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
@@ -23,14 +23,14 @@ End Code
                 </div>
             </div>
             <div class="col-sm-3">
-                Document Date :
+                <label id="lblClrDate">Document Date </label><br/>
                 <input type="date" class="form-control" id="txtClrDate" tabindex="1" disabled />
             </div>
 
         </div>
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#tabHeader">Clearing Header</a></li>
-            <li><a data-toggle="tab" href="#tabDetail">Clearing Detail</a></li>
+            <li class="active"><a id="linkHeader" data-toggle="tab" href="#tabHeader">Clearing Header</a></li>
+            <li><a id="linkDetail" data-toggle="tab" href="#tabDetail">Clearing Detail</a></li>
         </ul>
         <div class="tab-content">
             <div id="tabHeader" class="tab-pane fade in active">
@@ -39,7 +39,7 @@ End Code
                         <table style="width:100%">
                             <tr>
                                 <td>
-                                    Clear By :
+                                    <label id="lblClrBy">Clear By :</label>                                    
                                 </td>
                                 <td style="display:flex;flex-direction:row">
                                     <input type="text" id="txtEmpCode" class="form-control" style="width:100px" disabled />
@@ -49,7 +49,7 @@ End Code
                             </tr>
                             <tr>
                                 <td>
-                                    Clear Type :
+                                    <label id="lblClrType">Clear Type :</label>                                    
                                 </td>
                                 <td>
                                     <select id="cboClrType" style="width:200px;" class="form-control dropdown"></select>
@@ -59,13 +59,13 @@ End Code
                         <table style="width:100%">
                             <tr>
                                 <td>
-                                    Container No:
+                                    <label id="lblContNo">Container No:</label>                                    
                                 </td>
                                 <td style="display:flex;flex-direction:row">
                                     <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" />
                                 </td>
                                 <td>
-                                    Clearance Date :
+                                    <label id="lblClearanceDate">Clearance Date :</label>                                    
                                 </td>
                                 <td style="display:flex;flex-direction:row">
                                     <input type="date" id="txtClearanceDate" class="form-control" />
@@ -77,7 +77,7 @@ End Code
                         <table style="width:100%">
                             <tr>
                                 <td>
-                                    Job Type :
+                                    <label id="lblJobType">Job Type :</label>                                    
                                 </td>
                                 <td style="display:flex;flex-direction:row">
                                     <select id="cboJobType" class="form-control dropdown" tabindex="8"></select>
@@ -85,7 +85,7 @@ End Code
                             </tr>
                             <tr>
                                 <td>
-                                    Clear From :
+                                    <label id="lblClrFrom">Clear From :</label>                                    
                                 </td>
                                 <td style="display:flex;flex-direction:row">
                                     <select id="cboClrFrom" class="form-control dropdown" tabindex="9"></select>
@@ -93,7 +93,7 @@ End Code
                             </tr>
                             <tr>
                                 <td>
-                                    Status :
+                                    <label id="lblClrStatus">Status :</label>                                    
                                 </td>
                                 <td style="display:flex;flex-direction:row">
                                     <select id="cboDocStatus" class="form-control dropdown" disabled></select>
@@ -104,11 +104,12 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-7">
-                        Co-person Reference:<br />
+                        <label id="lblCoPerson">Co-person Reference:</label>
+                        <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtCoPersonCode" />
                         </div>
-                        Remark:
+                        <label id="lblTRemark">Remark:</label>                        
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <textarea id="txtTRemark" class="form-control" tabindex="11"></textarea>
@@ -118,7 +119,7 @@ End Code
                         <table>
                             <tr>
                                 <td>
-                                    <label>Advance Total</label>
+                                    <label id="lblAdvTotal">Advance Total</label>
                                 </td>
                                 <td style="display:flex;flex-direction:row">
                                     <input type="text" id="txtAdvTotal" class="form-control" style="width:100%;text-align:right" disabled />
@@ -126,7 +127,7 @@ End Code
                             </tr>
                             <tr>
                                 <td>
-                                    <label>Expenses Total</label>
+                                    <label id="lblExpTotal">Expenses Total</label>
                                 </td>
                                 <td style="display:flex;flex-direction:row">
                                     <input type="text" id="txtTotalExpense" class="form-control" style="width:100%;text-align:right" disabled />
@@ -134,7 +135,7 @@ End Code
                             </tr>
                             <tr>
                                 <td>
-                                    <label>Clear Total</label>
+                                    <label id="lblClrTotal">Clear Total</label>
                                 </td>
                                 <td style="display:flex;flex-direction:row">
                                     <input type="text" id="txtClearTotal" class="form-control" style="width:100%;text-align:right" disabled />
@@ -146,61 +147,63 @@ End Code
                 <div class="row">
                     <div class="col-sm-4" style="border-style:solid;border-width:1px">
                         <input type="checkbox" id="chkApprove" />
-                        <label for="chkApprove">Approve By</label>
+                        <label id="lblApprBy" for="chkApprove">Approve By</label>
                         <br />
                         <input type="text" id="txtApproveBy" style="width:250px" disabled />
                         <br />
-                        Date:
+                        <label id="lblApprDate">Date:</label>                        
                         <input type="date" id="txtApproveDate" disabled />
-                        Time:
+                        <label id="lblApprTime">Time:</label>                        
                         <input type="text" id="txtApproveTime" style="width:80px" disabled />
                     </div>
                     <div class="col-sm-4" style="border-style:solid;border-width:1px">
                         <input type="checkbox" id="chkReceive" disabled />
-                        <label for="chkReceive">Receive By</label>
+                        <label id="lblRecvBy" for="chkReceive">Receive By</label>
                         <input type="text" id="txtReceiveBy" style="width:250px" disabled />
                         <br />
-                        Date:
+                        <label id="lblRecvDate">Date:</label>                        
                         <input type="date" id="txtReceiveDate" disabled />
-                        Time:
+                        <label id="lblRecvTime">Time:</label>
                         <input type="text" id="txtReceiveTime" style="width:80px" disabled />
                         <br />
-                        R/V Ref:<input type="text" id="txtReceiveRef" style="width:200px" disabled />
+                        <label id="lblRecvRef">R/V Ref:</label>
+                        <input type="text" id="txtReceiveRef" style="width:200px" disabled />
                     </div>
                     <div class="col-sm-4" style="border-style:solid;border-width:1px;color:red">
                         <input type="checkbox" id="chkCancel" />
-                        <label for="chkCancel">Cancel By</label>
+                        <label id="lblCancelBy" for="chkCancel">Cancel By</label>
                         <input type="text" id="txtCancelProve" style="width:250px" disabled />
                         <br />
-                        Date:
+                        <label id="lblCancelDate">Date:</label>                        
                         <input type="date" id="txtCancelDate" disabled />
-                        Time:
+                        <label id="lblCancelTime">Time:</label>                        
                         <input type="text" id="txtCancelTime" style="width:80px" disabled />
                         <br />
-                        Cancel Reason :<input type="text" id="txtCancelReson" style="width:250px" />
+                        <label id="lblCancelReson">Cancel Reason :</label>
+                        <input type="text" id="txtCancelReson" style="width:250px" />
                     </div>
                 </div>
                 <div id="dvCommand">
                     <a href="#" class="btn btn-default w3-purple" id="btnNew" onclick="AddHeader()">
-                        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New Document</b>
+                        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkNew">New Document</b>
                     </a>
                     <a href="#" class="btn btn-success" id="btnSave" onclick="SaveHeader()">
-                        <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Document</b>
+                        <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Document</b>
                     </a>
                     <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-                        <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Document</b>
+                        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Document</b>
                     </a>
                 </div>
             </div>
             <div id="tabDetail" class="tab-pane fade" onclick="PrepareData()" >
                 <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddDetail()">
-                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Detail</b>
+                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">Add Detail</b>
                 </a>
                 <a href="#" class="btn btn-warning" id="btnChooseAdv" onclick="LoadAdvance()">
-                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Choose Advances</b>
+                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkAdv">Choose Advances</b>
                 </a>
                 <a href="#" class="btn btn-primary" id="btnChooseAdv" onclick="LoadPayment()">
-                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Choose Payments</b>
+                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkPay">Choose Payments</b>
                 </a>
                 <div class="row">
                     <div class="col-sm-12">
@@ -227,28 +230,36 @@ End Code
                 <div class="row">
                     <div class="col-sm-9">
                         <a href="#" class="btn btn-danger" id="btnDel" onclick="DeleteDetail()">
-                            <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete Detail</b>
+                            <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDel">Delete Detail</b>
                         </a>
                         <p>
-                            Customers Chargable :
-                            <input type="text" id="txtSumCharge" style="width:100px;text-align:right" /><br />
-                            Company Cost :
+                            <label id="lblSumCharge">Customers Chargable :</label>                            
+                            <input type="text" id="txtSumCharge" style="width:100px;text-align:right" />
+                            <br />                                                                                                        
+                            <label id="lblSumCost">Company Cost :</label>                            
                             <input type="text" id="txtSumCost" style="width:100px;text-align:right" /><br />
                         </p>
                     </div>
                     <div class="col-sm-3" style="text-align:right">
-                        Amount :
-                        <input type="text" id="txtClrAmount" style="width:100px;text-align:right" /><br />
-                        VAT :
-                        <input type="text" id="txtVatAmount" style="width:100px;text-align:right" /><br />
-                        WHT :
-                        <input type="text" id="txtWhtAmount" style="width:100px;text-align:right" /><br />
-                        Total :
+                        <label id="lblClrAmount">Amount</label>
+                         :
+                        <input type="text" id="txtClrAmount" style="width:100px;text-align:right" />
+                        <br />                                                                                                    
+                        <label id="lblVatAmount">VAT</label>
+                         :
+                        <input type="text" id="txtVatAmount" style="width:100px;text-align:right" />
+                        <br />
+                        <label id="lblWhtAmount">WHT</label>
+                         :
+                        <input type="text" id="txtWhtAmount" style="width:100px;text-align:right" />
+                        <br />
+                        <label id="lblNetAmount">Total</label>
+                         :
                         <input type="text" id="txtNetAmount" style="width:100px;text-align:right" />
                     </div>
                 </div>
                 <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-                    <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Document</b>
+                    <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint2">Print Document</b>
                 </a>
             </div>
             <div id="frmDetail" class="modal fade" role="dialog">
@@ -257,24 +268,23 @@ End Code
                         <div class="modal-header">
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <label for="txtItemNo">No :</label><br />
+                                    <label id="lblItemNo" for="txtItemNo">No :</label><br />
                                     <input type="text" id="txtItemNo" class="form-control" disabled />
                                 </div>
                                 <div class="col-sm-6">
-                                    <label>Service Type</label>
+                                    <label id="lblSTCode">Service Type</label>
                                     <br />
                                     <div style="display:flex">
                                         <select id="cboSTCode" class="form-control dropdown"></select>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
-                                    <label for="chkDuplicate">Partial Clear</label><br />
+                                    <label id="lblDuplicate" for="chkDuplicate">Partial Clear</label><br />
                                     <input type="checkbox" id="chkDuplicate" onchange="ToggleClearBtn()" />
                                 </div>
                             </div>
                         </div>
                         <div class="modal-body">
-
                             <div class="row">
                                 <div class="col-sm-4">
                                     <a href="../Master/ServiceCode" target="_blank"><label id="lblSICode">Service Code</label></a>
@@ -285,7 +295,7 @@ End Code
                                     </div>
                                 </div>
                                 <div class="col-sm-8">
-                                    <label>Description : </label>
+                                    <label id="lblSDescription">Description : </label>
                                     <br/>
                                     <div style="display:flex">
                                         <input type="text" id="txtSDescription" class="form-control" tabindex="13" />
@@ -294,14 +304,14 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label for="txtForJNo">Job No :</label>
+                                    <label id="lblJobNo" for="txtForJNo">Job No :</label>
                                     <div style="display:flex">
                                         <input type="text" id="txtForJNo" class="form-control" tabindex="14" />
                                         <input type="button" id="btnBrowseJ" class="btn btn-default" value="..." onclick="SearchData('job')" />
                                     </div>
                                 </div>
                                 <div class="col-sm-8">
-                                    <label>Cust.Inv :</label>
+                                    <label id="lblCustInv">Cust.Inv :</label>
                                     <div style="display:flex">
                                         <input type="text" id="txtInvNo" class="form-control" disabled />
                                     </div>
@@ -309,14 +319,14 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label>Quotation No :</label>
+                                    <label id="lblQNo">Quotation No :</label>
                                     <div style="display:flex">
                                         <input type="text" id="txtQNo" class="form-control" disabled />
                                         <input type="button" id="btnBrowseQ" class="btn btn-default" value="..." onclick="SearchData('quotation')" />
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label for="txtCurrencyCode">Currency:</label>
+                                    <label id="lblCurrCode" for="txtCurrencyCode">Currency:</label>
                                     <div style="display:flex">
                                         <input type="text" id="txtCurrencyCode" class="form-control" style="width:100px" tabindex="15" />
                                         <input type="button" id="btnBrowseCurr" class="btn btn-default" value="..." onclick="SearchData('detcurrency')" />
@@ -324,17 +334,17 @@ End Code
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
-                                    <label for="txtCurRate">Rate :</label><br />
+                                    <label id="lblCurrRate" for="txtCurRate">Rate :</label><br />
                                     <input type="text" id="txtCurRate" class="form-control" style="text-align:right" tabindex="16" />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <label for="txtQty">Qty:</label><br/>
+                                    <label id="lblQty" for="txtQty">Qty:</label><br/>
                                     <input type="text" id="txtQty" class="form-control" style="text-align:right" tabindex="17" />
                                 </div>
                                 <div class="col-sm-3">
-                                    <label for="txtUnitcode"><a onclick="SearchData('servunit')">Unit:</a></label>
+                                    <label id="lblUnit" for="txtUnitcode"><a onclick="SearchData('servunit')">Unit:</a></label>
                                     <br/>
                                     <input type="text" id="txtUnitCode" class="form-control" tabindex="18" />
                                 </div>
@@ -378,27 +388,28 @@ End Code
                             </div>   
                             <div class="row">
                                 <div class="col-sm-4">
-                                    WH-Tax No :
+                                    <label id="lblWTNo">WH-Tax No :</label>                                    
                                     <br />
                                     <input type="text" id="txt50Tavi" class="form-control" tabindex="28" />
                                 </div>
                                 <div class="col-sm-4">
-                                    Slip No :<br />
+                                    <label id="lblSlipNo">Slip No :</label>
+                                    <br />
                                     <input type="text" id="txtSlipNo" class="form-control" tabindex="26" />
                                 </div>
                                 <div class="col-sm-4">
-                                    Slip Date :
+                                    <label id="lblSlipDate">Slip Date :</label>                                    
                                     <br />
                                     <input type="date" class="form-control" id="txtDate50Tavi" tabindex="27" />
                                 </div>
                             </div>                            
                             <div>
                                 <input type="checkbox" id="chkIsLtdAdv50Tavi" />
-                                <label for="chkIsLtdAdv50Tavi">**หักตามมาตรา 60,69,70</label>
+                                <label id="lblLtdAdv" for="chkIsLtdAdv50Tavi">**หักตามมาตรา 60,69,70</label>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <label>Pay To Vender :</label>
+                                    <label id="lblVenCode">Pay To Vender :</label>
                                     <div style="display:flex">
                                         <input type="text" id="txtVenCode" class="form-control" style="width:150px" tabindex="29" />
                                         <input type="button" id="btnBrowseVen" class="btn btn-default" onclick="SearchData('vender')" value="..." />
@@ -408,30 +419,32 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    Remark :<br/>
+                                    <label id="lblDRemark">Remark :</label>
+                                    <br/>
                                     <textarea id="txtRemark" style="width:100%;height:80px" tabindex="31"></textarea>
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="checkbox" id="chkIsCost" disabled />
-                                    <label for="chkIscost">Is Company Cost (Cannot Charge)</label>
+                                    <label id="lblIsCost" for="chkIscost">Is Company Cost (Cannot Charge)</label>
                                     <br />
-                                    <label for="txtAdvItemNo">Clear From Adv Item.No :</label>
+                                    <label id="lblAdvItemNo" for="txtAdvItemNo">Clear From Adv Item.No :</label>
                                     <input type="text" id="txtAdvItemNo" style="width:40px" disabled />
                                     <br/>
-                                    <label for="txtAdvNo">Adv.No :</label>
+                                    <label id="lblAdvNo" for="txtAdvNo">Adv.No :</label>
                                     <input type="text" id="txtAdvNo" style="width:150px" disabled /> 
                                     <br/>
-                                    Advance Net :
+                                    <label id="lblAdvAmt">Advance Net :</label>                                    
                                     <input type="text" id="txtAdvAmount" style="width:60px" disabled />
                                 </div>
                             </div>                            
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <label>Invoice# :</label><input type="text" id="txtLinkBillNo" style="width:150px" disabled />
+                                    <label id="lblInvNo">Invoice# :</label><input type="text" id="txtLinkBillNo" style="width:150px" disabled />
                                     <input type="text" id="txtLinkItem" style="width:30px" disabled />
                                 </div>
                                 <div class="col-sm-6">
-                                    Vender Inv#: <input type="text" id="txtVenderBillingNo" style="width:150px" disabled />
+                                    <label id="lblPayNo">Vender Inv#</label>
+                                    <input type="text" id="txtVenderBillingNo" style="width:150px" disabled />
                                     <input type="button" value="View" onclick="ShowVenderBill()" />
                                 </div>
                             </div>
@@ -441,10 +454,10 @@ End Code
                         <div class="modal-footer">
                             <div style="float:left">
                                 <a href="#" class="btn btn-default w3-purple" id="btnAddD" onclick="ClearDetail()">
-                                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New</b>
+                                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkClear">New</b>
                                 </a>
                                 <a href="#" class="btn btn-success" id="btnUpdate" onclick="SaveDetail()">
-                                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+                                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkUpdate">Save</b>
                                 </a>
                             </div>
                             <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
@@ -455,10 +468,10 @@ End Code
             <div id="frmHeader" class="modal modal-lg fade">
                 <div class="modal-dialog-lg">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title"><label id="lblHeader">Clearing List</label></h4>
-                        </div>
                         <div class="modal-body">
+                            <label id="lblFilter">Filter By Status : </label>
+                            <select id="cboStatus" class="form-control dropdown" onchange="SetGridClr()"></select>
+                            <br/>
                             <table id="tbHeader" class="table table-responsive">
                                 <thead>
                                     <tr>
@@ -520,7 +533,7 @@ End Code
                 <div class="modal-dialog-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title"><label id="lblHeader">Advance List</label></h4>
+                            <h4 class="modal-title"><label id="lblHeaderAdv">Advance List</label></h4>
                         </div>
                         <div class="modal-body">
                             <table id="tbAdvance" class="table table-responsive">
@@ -554,8 +567,10 @@ End Code
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    Select Quotation<br />
-                    Customer :<input type="text" id="txtCustCode" style="width:100px" disabled />
+                    <label id="lblHeaderQuo">Select Quotation</label>
+                    <br />
+                    <label id="lblCustCode">Customer :</label>
+                    <input type="text" id="txtCustCode" style="width:100px" disabled />
                     <input type="text" id="txtCustBranch" style="width:50px" disabled />
                     <input type="text" id="txtCustName" style="width:400px" disabled />
                 </div>
@@ -913,6 +928,7 @@ End Code
         //Combos
         let lists = 'JOB_TYPE=#cboJobType';
         lists += ',CLR_STATUS=#cboDocStatus|01';
+        lists += ',CLR_STATUS=#cboStatus|01';
         lists += ',CLR_TYPE=#cboClrType|1';
         lists += ',CLR_FROM=#cboClrFrom';
 
@@ -1699,12 +1715,18 @@ End Code
         return c[0];
     }
     function SetGridClr() {
-        let w = $('#txtBranchCode').val();
+        let w ='?branchcode='+ $('#txtBranchCode').val();
         if (job.length > 0) {
             w += '&jobno=' + job;
+        } else {
+            if ($('#txtEmpCode').val() !== '') {
+                w += '&clrby='+ $('#txtEmpCode').val();
+            }
         }
-
-        $.get(path + 'clr/getclearinggrid?branchcode=' +  w, function (r) {
+        if ($('#cboStatus').val() !== '') {
+            w += '&status=' + $('#cboStatus').val();
+        }
+        $.get(path + 'clr/getclearinggrid' +  w, function (r) {
             if (r.clr.data.length == 0) {
                 ShowMessage('data not found on this branch',true);
                 return;
@@ -1839,11 +1861,20 @@ End Code
         return strParam;
     }
     function ShowCaption() {
-        $('#lblUnitPrice').text("Price (" + $('#txtCurrencyCode').val() + "):");
-        $('#lblAmount').text("Amount (" + $('#txtCurrencyCode').val() + "):");
-        $('#lblVATRate').text("VAT (" + $('#txtCurrencyCode').val() + "):");
-        $('#lblWHTRate').text("WHT (" + $('#txtCurrencyCode').val() + "):");
-        $('#lblNETAmount').text("Net (" + $('#txtCurrencyCode').val() + "):");
+        if (mainLanguage == 'TH') {
+            $('#lblUnitPrice').text("ราคา (" + $('#txtCurrencyCode').val() + "):");
+            $('#lblAmount').text("ราคารวม (" + $('#txtCurrencyCode').val() + "):");
+            $('#lblVATRate').text("ภาษีมูลค่าเพิ่ม (" + $('#txtCurrencyCode').val() + "):");
+            $('#lblWHTRate').text("หัก ณ ที่จ่าย (" + $('#txtCurrencyCode').val() + "):");
+            $('#lblNETAmount').text("ยอดสุทธิ (" + $('#txtCurrencyCode').val() + "):");
+        }
+        if (mainLanguage == 'EN') {
+            $('#lblUnitPrice').text("Price (" + $('#txtCurrencyCode').val() + "):");
+            $('#lblAmount').text("Amount (" + $('#txtCurrencyCode').val() + "):");
+            $('#lblVATRate').text("VAT (" + $('#txtCurrencyCode').val() + "):");
+            $('#lblWHTRate').text("WHT (" + $('#txtCurrencyCode').val() + "):");
+            $('#lblNETAmount').text("Net (" + $('#txtCurrencyCode').val() + "):");
+        }
     }
     function ReadUnit(dt) {
         $('#txtUnitCode').val(dt.UnitType);

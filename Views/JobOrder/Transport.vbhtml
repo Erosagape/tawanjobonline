@@ -550,57 +550,69 @@ End Code
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-4" style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">                                
-                                <b>Pick-up:</b>
+                            <div class="col-sm-4" style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
+                                <label id="lblPickup">Pick-up:</label>
                                 <div>
-                                    Target Date :<br />
-                                    <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control"></div>
+                                    <label id="lblPickupTarget">Target Date :</label>
+                                    <br />
+                                    <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control" disabled></div>
                                 </div>
                                 <div>
-                                    Target Time:<br />
-                                    <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control"></div>
+                                    <label id="lblPickupTargetTime"></label>
+                                    <br />
+                                    <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control" disabled></div>
 
                                 </div>
                                 <div>
-                                    Actual Date :<br />
+                                    <label id="lblPickupActual">Actual Date :</label>
+                                    <br />
                                     <div style="display:flex"><input type="date" id="txtActualYardDate" class="form-control"></div>
                                 </div>
                                 <div>
-                                    Actual Time :<br />
+                                    <label id="lblPickupActualTime">Actual Time :</label>
+                                    <br />
                                     <div style="display:flex"><input type="text" id="txtActualYardTime" class="form-control"></div>
                                 </div>
                             </div>
                             <div class="col-sm-4" style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
-                                <b>Delivery:</b>
+                                <label id="lblDelivery">Delivery:</label>
                                 <div>
-                                    Target Date :<br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control"></div>
+                                    <label id="lblDeliveryTarget">Target Date :</label>
+                                    <br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control" disabled></div>
                                 </div>
                                 <div>
-                                    Target Time :<br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control"></div>
+                                    <label id="lblDeliveryTargetTime">Target Time :</label>
+                                    <br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control" disabled></div>
                                 </div>
                                 <div>
-                                    Actual Date :<br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
+                                    <label id="lblDeliveryActual">Actual Date :</label>
+                                    <br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
                                 </div>
                                 <div>
-                                    Actual Time :<br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
+                                    <label id="lblDeliveryActualTime">Actual Time :</label>
+                                    <br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
                                 </div>
                             </div>
                             <div class="col-sm-4" style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
-                                <b>Return:</b>
+                                <label id="lblReturn">Return:</label>
                                 <div>
-                                    Target Date:<br />
-                                    <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control"></div>
+                                    <label id="lblReturnTarget">Target Date:</label>
+                                    <br />
+                                    <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control" disabled></div>
                                 </div>
                                 <div>
-                                    Target Time :<br />
-                                    <div style="display:flex"><input type="text" id="txtStart" class="form-control"></div>
+                                    <label id="lblReturnTargetTime">Target Time:</label>
+                                    <br />
+                                    <div style="display:flex"><input type="text" id="txtStart" class="form-control" disabled></div>
                                 </div>
                                 <div>
-                                    Actual Date:<br />
+                                    <label id="lblReturnActual">Actual Date:</label>
+                                    <br />
                                     <div style="display:flex"><input type="date" id="txtDReturnDate" class="form-control"></div>
                                 </div>
                                 <div>
-                                    Actual Time:<br />
+                                    <label id="lblReturnActualTime">Actual Time:</label>
+                                    <br />
                                     <div style="display:flex"><input type="text" id="txtFinish" class="form-control"></div>
                                 </div>
                             </div>

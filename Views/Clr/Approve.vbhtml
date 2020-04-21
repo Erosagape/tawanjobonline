@@ -5,7 +5,7 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                Branch
+                <label id="lblBranch">Branch</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -14,21 +14,25 @@ End Code
                 </div>
             </div>
             <div class="col-sm-2">
-                Clear Date From:<br />
+                <label id="lblDateFrom">Clear Date From:</label>
+                <br />
                 <input type="date" class="form-control" id="txtClrDateF" />
             </div>
             <div class="col-sm-2">
-                Clear Date To:<br />
+                <label id="lblDateTo">Clear Date To:</label>
+                <br />
                 <input type="date" class="form-control" id="txtClrDateT" />
             </div>
             <div class="col-sm-2">
-                Job Type: <br />
+                <label id="lblJobType">Job Type:</label>
+                <br />
                 <select id="cboJobType" class="form-control dropdown"></select>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
-                Clear By :<br />
+                <label id="lblClrBy">Clear By :</label>
+                <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtClrBy" style="width:100px" />
                     <button id="btnBrowseEmp2" class="btn btn-default" onclick="SearchData('reqby')">...</button>
@@ -36,24 +40,27 @@ End Code
                 </div>
             </div>
             <div class="col-sm-2">
-                Clear From:<br />
+                <label id="lblClrFrom">Clear From:</label>
+                <br />
                 <select id="cboClrFrom" class="form-control dropdown"></select>
             </div>
 
             <div class="col-sm-2">
-                Clear Type:<br />
+                <label id="lblClrType">Clear Type:</label>
+                <br />
                 <select id="cboClrType" class="form-control dropdown"></select>
             </div>
             <div class="col-sm-2">
                 <br />
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridClr(true)">
-                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12">
-                Approve Document : <input type="text" id="txtListApprove" class="form-control" value="" disabled />
+                <label id="lblListApprove">Approve Document</label>
+                 : <input type="text" id="txtListApprove" class="form-control" value="" disabled />
             </div>
         </div>
         <div class="row">
@@ -73,10 +80,11 @@ End Code
                         </tr>
                     </thead>
                 </table>
-                Expenses Total : <input type="text" id="txtSumApprove" class="form-control" value="" />
+                <label id="lblExpTotal">Expenses Total</label>
+                 : <input type="text" id="txtSumApprove" class="form-control" value="" />
                 <br />
                 <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Approve</b>
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Approve</b>
                 </a>
             </div>
         </div>

@@ -86,9 +86,10 @@ End Code
             <div class="col-md-6">
                 <input type="checkbox" id="chkIsTaxCharge" />
                 <label for="chkIsTaxCharge" id="lblchkIsTaxCharge" >Calculate VAT</label>
-                <label class="radio-inline"><input type="radio" name="optVAT" value="1">Exclude</label>
-                <label class="radio-inline"><input type="radio" name="optVAT" value="2">Include</label>
-                <br />
+                <div style="display:flex">
+                    <input type="radio" name="optVAT" value="1" id="optExc"><label for="optExc" class="radio-inline" id="lblExc">Exclude</label> &nbsp;&nbsp;
+                    <input type="radio" name="optVAT" value="2" id="optInc"><label for="optInc" class="radio-inline" id="lblInc">Include</label>
+                </div>
                 <input type="checkbox" id="chkIsCredit" />
                 <label id="lblchkIsCredit" for="chkIsCredit">Credit Advance</label>
                 <br />
@@ -102,10 +103,10 @@ End Code
                 <input type="checkbox" id="chkIs50Tavi" />
                 <label id="lblchkIs50Tavi" for="chkIs50Tavi">Calculate 50Tavi</label>
                 <input type="text" id="txtRate50Tavi" /><b>%</b>
-                <br />
-                <label class="radio-inline"><input type="radio" name="optWHT" value="1">Paid 50Tavi By Company</label>
-                <label class="radio-inline"><input type="radio" name="optWHT" value="2">Pay 50Tavi by Customer</label>
-                <br />
+                <div style="display:flex">
+                    <input type="radio" name="optWHT" value="1" id="optWH1"><label for="optWH1" class="radio-inline" id="lblComp">Paid 50Tavi By Company</label> &nbsp;&nbsp;
+                    <input type="radio" name="optWHT" value="2" id="optWH2"><label for="optWH2" class="radio-inline" id="lblVend">Pay 50Tavi by Vender</label>
+                </div>
                 <input type="checkbox" id="chkIsShowPrice" />
                 <label id="lblchkIsShowPrice" for="chkIsShowPrice">Cannot Change Price</label>
                 <br />

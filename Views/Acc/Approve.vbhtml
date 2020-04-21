@@ -3,7 +3,7 @@
 End Code
 <div class="row">
     <div class="col-sm-4">
-        Branch
+        <label id="lblBranch">Branch</label>        
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -12,17 +12,19 @@ End Code
         </div>
     </div>
     <div class="col-sm-4">
-        Due Date From:<br />
+        <label id="lblDateFrom">Due Date From:</label>
+        <br />
         <input type="date" class="form-control" id="txtDocDateF" />
     </div>
     <div class="col-sm-4">
-        Due Date To:<br />
+        <label id="lblDateTo">Due Date To:</label>
+        <br />
         <input type="date" class="form-control" id="txtDocDateT" />
     </div>
 </div>
 <div class="row">
     <div class="col-sm-4">
-        Request Currency :
+        <label id="lblCurrency">Currency :</label>        
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtCurrencyCode" style="width:20%" />
@@ -31,7 +33,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-6">
-        Vender :
+        <label id="lblVenCode">Vender :</label>        
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtVenCode" style="width:20%" />
@@ -42,7 +44,7 @@ End Code
     <div class="col-sm-2">
         <br />
         <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
-            <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+            <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
         </a>
     </div>
 </div>
@@ -68,12 +70,13 @@ End Code
 </div>
 <div class="row">
     <div class="col-sm-12">
-        Selected Document : <br /><input type="text" id="txtListApprove" class="form-control" value="" disabled />
+        <label id="lblListApprove">Selected Document</label>
+         : <br /><input type="text" id="txtListApprove" class="form-control" value="" disabled />
     </div>
 </div>
 <br />
 <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Approve</b>
+    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Approve</b>
 </a>
 <div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>

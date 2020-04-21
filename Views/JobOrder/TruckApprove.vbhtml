@@ -3,7 +3,7 @@
 End Code
 <div class="row">
     <div class="col-sm-4">
-        Branch
+        <label id="lblBranch">Branch</label>        
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -12,17 +12,19 @@ End Code
         </div>
     </div>
     <div class="col-sm-4">
-        Load Date From:<br />
+        <label id="lblDateFrom">Load Date From</label>
+        <br />
         <input type="date" class="form-control" id="txtDocDateF" />
     </div>
     <div class="col-sm-4">
-        Load Date To:<br />
+        <label id="lblDateTo">Load Date To:</label>
+        <br />
         <input type="date" class="form-control" id="txtDocDateT" />
     </div>
 </div>
 <div class="row">
     <div class="col-sm-4">
-        Vender :
+        <label id="lblVenCode">Vender :</label>        
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtVenCode" style="width:20%" />
@@ -31,7 +33,8 @@ End Code
         </div>
     </div>
     <div class="col-sm-6">
-        Customer :<br />
+        <label id="lblCustCode">Customer :</label>
+        <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" id="txtCustCode" class="form-control" style="width:130px" />
             <input type="text" id="txtCustBranch" class="form-control" style="width:70px" />
@@ -42,7 +45,7 @@ End Code
     <div class="col-sm-2">
         <br />
         <a href="#" class="btn btn-primary" id="btnSearch" onclick="RefreshGrid()">
-            <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+            <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
         </a>
     </div>
 </div>
@@ -65,32 +68,37 @@ End Code
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                Edit Container Data
+                <div class="row">
+                    <div class="col-sm-2">
+                        <label id="lblItemNo">No :</label>
+                        <br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control" disabled></div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label id="lblContNo">Container :</label>
+                        <br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
+                    </div>
+                    <div class="col-sm-3">
+                        <label id="lblContSize">Size :</label>
+                        <br /><div style="display:flex"><select id="txtCTN_SIZE" class="form-control dropdown"></select></div>
+                    </div>
+                    <div class="col-sm-3">
+                        <label id="lblSealNo">Seal No.:</label>
+                        <br /><div style="display:flex"><input type="text" id="txtSealNumber" class="form-control"></div>
+                    </div>
+                </div>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-2">
-                        No :<br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control" disabled></div>
-                    </div>
-                    <div class="col-sm-4">
-                        Container :<br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
-                    </div>
-                    <div class="col-sm-3">
-                        Size :<br /><div style="display:flex"><select id="txtCTN_SIZE" class="form-control dropdown"></select></div>
-                    </div>
-                    <div class="col-sm-3">
-                        Seal No.:<br /><div style="display:flex"><input type="text" id="txtSealNumber" class="form-control"></div>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-sm-5">
-                        Driver :<br /><div style="display:flex"><input type="text" id="txtDriver" class="form-control"></div>
+                        <label id="lblDriver">Driver :</label>
+                        <br /><div style="display:flex"><input type="text" id="txtDriver" class="form-control"></div>
                     </div>
                     <div class="col-sm-3">
-                        Truck ID :<br /><div style="display:flex"><input type="text" id="txtTruckNO" class="form-control"></div>
+                        <label id="lblTruckNo">Truck ID :</label>
+                        <br /><div style="display:flex"><input type="text" id="txtTruckNO" class="form-control"></div>
                     </div>
                     <div class="col-sm-4">
-                        Type :
+                        <label id="lblTruckType">Type :</label>                        
                         <br />
                         <div style="display:flex">
                             <input type="text" id="txtTruckType" class="form-control" disabled>
@@ -100,14 +108,16 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
-                        Route ID:<br />
+                        <label id="lblRouteID">Route ID:</label>
+                        <br />
                         <div style="display:flex">
                             <input type="text" id="txtRouteID" class="form-control" disabled />
                             <input type="button" class="btn btn-default" value="..." onclick="SearchData('route')" />
                         </div>
                     </div>
                     <div class="col-sm-9">
-                        Location :<br />
+                        <label id="lblLocation">Location :</label>
+                        <br />
                         <div style="display:flex">
                             <input type="text" id="txtLocation" class="form-control" disabled/>
                         </div>
@@ -115,13 +125,16 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-3">
-                        Comment :<br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
+                        <label id="lblComment">Comment :</label>
+                        <br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
                     </div>
                     <div class="col-sm-3">
-                        Shipping Mark :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control" disabled></textarea></div>
+                        <label id="lblShippingMark">Shipping Mark :</label>
+                        <br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control" disabled></textarea></div>
                     </div>
                     <div class="col-sm-3">
-                        Job Status:<br />
+                        <label id="lblStatus">Job Status:</label>
+                        <br />
                         <div style="display:flex">
                             <select id="txtCauseCode" class="form-control dropdown">
                                 <option value="">Checking</option>
@@ -135,56 +148,68 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-4" style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
-                        <b>Pick-up:</b>
+                        <label id="lblPickup">Pick-up:</label>
                         <div>
-                            Target Date :<br />
+                            <label id="lblPickupTarget">Target Date :</label>
+                            <br />
                             <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control" disabled></div>
                         </div>
                         <div>
-                            Target Time:<br />
+                            <label id="lblPickupTargetTime"></label>
+                            <br />
                             <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control" disabled></div>
 
                         </div>
                         <div>
-                            Actual Date :<br />
+                            <label id="lblPickupActual">Actual Date :</label>
+                            <br />
                             <div style="display:flex"><input type="date" id="txtActualYardDate" class="form-control"></div>
                         </div>
                         <div>
-                            Actual Time :<br />
+                            <label id="lblPickupActualTime">Actual Time :</label>
+                            <br />
                             <div style="display:flex"><input type="text" id="txtActualYardTime" class="form-control"></div>
                         </div>
                     </div>
                     <div class="col-sm-4" style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
-                        <b>Delivery:</b>
+                        <label id="lblDelivery">Delivery:</label>
                         <div>
-                            Target Date :<br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control" disabled></div>
+                            <label id="lblDeliveryTarget">Target Date :</label>
+                            <br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control" disabled></div>
                         </div>
                         <div>
-                            Target Time :<br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control" disabled></div>
+                            <label id="lblDeliveryTargetTime">Target Time :</label>
+                            <br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control" disabled></div>
                         </div>
                         <div>
-                            Actual Date :<br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
+                            <label id="lblDeliveryActual">Actual Date :</label>
+                            <br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
                         </div>
                         <div>
-                            Actual Time :<br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
+                            <label id="lblDeliveryActualTime">Actual Time :</label>
+                            <br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
                         </div>
                     </div>
                     <div class="col-sm-4" style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
-                        <b>Return:</b>
+                        <label id="lblReturn">Return:</label>
                         <div>
-                            Target Date:<br />
+                            <label id="lblReturnTarget">Target Date:</label>
+                            <br />
                             <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control" disabled></div>
                         </div>
                         <div>
-                            Target Time :<br />
+                            <label id="lblReturnTargetTime">Target Time:</label>
+                            <br />
                             <div style="display:flex"><input type="text" id="txtStart" class="form-control" disabled></div>
                         </div>
                         <div>
-                            Actual Date:<br />
+                            <label id="lblReturnActual">Actual Date:</label>
+                            <br />
                             <div style="display:flex"><input type="date" id="txtDReturnDate" class="form-control"></div>
                         </div>
                         <div>
-                            Actual Time:<br />
+                            <label id="lblReturnActualTime">Actual Time:</label>
+                            <br />
                             <div style="display:flex"><input type="text" id="txtFinish" class="form-control"></div>
                         </div>
                     </div>
@@ -192,10 +217,10 @@ End Code
             </div>
             <div class="modal-footer">
                 <a href="#" class="btn btn-success" id="btnUpdateDetail" onclick="SaveDetail()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Container</b>
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Container</b>
                 </a>
                 <a href="#" class="btn btn-primary" id="btnExpense" onclick="EntryExpenses()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Entry Expenses</b>
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkExp">Entry Expenses</b>
                 </a>
                 <button class="btn btn-danger" data-dismiss="modal">X</button>
             </div>

@@ -5,7 +5,7 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                Branch
+                <label id="lblBranch">Branch</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -14,25 +14,29 @@ End Code
                 </div>
             </div>
             <div class="col-sm-2">
-                Request Date From:<br />
+                <label id="lblDateFrom">Request Date From:</label>
+                <br />
                 <input type="date" class="form-control" id="txtAdvDateF" />
             </div>
             <div class="col-sm-2">
-                Request Date To:<br />
+                <label id="lblDateTo">Request Date To:</label>
+                <br />
                 <input type="date" class="form-control" id="txtAdvDateT" />
             </div>
             <div class="col-sm-2">
-                Job Type: <br />
+                <label id="lblJobType">Job Type:</label>
+                <br />
                 <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()"></select>
             </div>
             <div class="col-sm-2">
-                Ship By:<br />
+                <label id="lblShipBy">Ship By:</label>
+                <br />
                 <select id="cboShipBy" class="form-control dropdown"></select>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
-                Request By :
+                <label id="lblReqBy">Request By :</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtReqBy" style="width:100px" />
@@ -41,7 +45,8 @@ End Code
                 </div>
             </div>
             <div class="col-sm-6">
-                Advance For :<br />
+                <label id="lblAdvFor">Advance For :</label>
+                <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" class="form-control" style="width:130px" />
                     <input type="text" id="txtCustBranch" class="form-control" style="width:70px" />
@@ -53,11 +58,12 @@ End Code
         <div class="row">
             <div class="col-sm-2">
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
-                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
             </div>
             <div class="col-sm-10">
-                Approve Document : <input type="text" id="txtListApprove" class="form-control" value="" disabled/>
+                <label id="lblDocList">Approve Document</label>:
+                <input type="text" id="txtListApprove" class="form-control" value="" disabled/>
             </div>
         </div>
         <div class="row">
@@ -76,10 +82,11 @@ End Code
                         </tr>
                     </thead>
                 </table>
-                Approve Total : <input type="text" id="txtSumApprove" class="form-control" value="" />
+                <label id="lblTotal">Approve Total</label>
+                 : <input type="text" id="txtSumApprove" class="form-control" value="" />
                 <br />
                 <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Approve</b>
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Approve</b>
                 </a>
             </div>
         </div>

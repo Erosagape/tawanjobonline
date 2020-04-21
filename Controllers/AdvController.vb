@@ -710,6 +710,9 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("ReqBy")) Then
                     tSqlW &= " AND a.Empcode='" & Request.QueryString("ReqBy") & "'"
                 End If
+                If Not IsNothing(Request.QueryString("AdvBy")) Then
+                    tSqlW &= " AND a.AdvBy='" & Request.QueryString("AdvBy") & "'"
+                End If
                 If Not IsNothing(Request.QueryString("CustCode")) Then
                     tSqlW &= " AND a.CustCode='" & Request.QueryString("CustCode") & "'"
                 End If

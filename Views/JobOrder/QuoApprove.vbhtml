@@ -5,7 +5,7 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
-                Branch
+                <label id="lblBranch">Branch</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -14,17 +14,20 @@ End Code
                 </div>
             </div>
             <div class="col-sm-3">
-                Date From:<br />
+                <label id="lblDateFrom">Date From:</label>
+                <br />
                 <input type="date" class="form-control" id="txtAdvDateF" />
             </div>
             <div class="col-sm-3">
-                Date To:<br />
+                <label id="lblDateTo">Date To:</label>
+                <br />
                 <input type="date" class="form-control" id="txtAdvDateT" />
             </div>            
         </div>
         <div class="row">
             <div class="col-sm-6">
-                Manager By :<br />
+                <label id="lblReqBy">Sales By :</label>
+                <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtReqBy" style="width:100px" />
                     <button id="btnBrowseEmp2" class="btn btn-default" onclick="SearchData('reqby')">...</button>
@@ -32,7 +35,8 @@ End Code
                 </div>
             </div>
             <div class="col-sm-6">
-                Customer :<br />
+                <label id="lblCustCode">Customer :</label>
+                <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" class="form-control" style="width:130px" />
                     <input type="text" id="txtCustBranch" class="form-control" style="width:70px" />
@@ -44,11 +48,12 @@ End Code
         <div class="row">
             <div class="col-sm-2">
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
-                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
             </div>
             <div class="col-sm-10">
-                Approve Document : <input type="text" id="txtListApprove" class="form-control" value="" disabled />
+                <label id="lblListAppr">Approve Document</label>
+                 : <input type="text" id="txtListApprove" class="form-control" value="" disabled />
             </div>
         </div>
         <div class="row">
@@ -68,7 +73,7 @@ End Code
                 </table>
                 <br />
                 <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Approve</b>
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkAppr">Approve</b>
                 </a>
             </div>
         </div>

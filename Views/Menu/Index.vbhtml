@@ -4,41 +4,45 @@ End Code
 <div id="dvCliteria">
     <div class="row">
         <div class="col-sm-3">
-            Job Type : <br /><select id="cboJobType" class="form-control dropdown" onchange="checkJobType()"></select>
+            <label id="lblJobType">Job Type </label>
+            : <br /><select id="cboJobType" class="form-control dropdown" onchange="checkJobType()"></select>
         </div>
         <div class="col-sm-3">
-            Transport By : <br /><select id="cboShipBy" class="form-control dropdown" onchange="drawChart()"></select>
+            <label id="lblShipBy">Transport By</label>
+             : <br /><select id="cboShipBy" class="form-control dropdown" onchange="drawChart()"></select>
         </div>
         <div class="col-sm-2">
-            Duty Date From :<br />
+            <label id="lblDateFrom">Duty Date From</label>
+            :<br />
             <input type="date" id="txtDateFrom" class="form-control" />
         </div>
         <div class="col-sm-2">
-            Duty Date To :<br />
+            <label id="lblDateTo">Duty Date To</label>
+            :<br />
             <input type="date" id="txtDateTo" class="form-control" />
         </div>
         <div class="col-sm-2">
-            <input type="checkbox" id="chkAutoRefresh" checked />Auto Refresh<br />
-            <input type="button" class="btn btn-success" onclick="RefreshGrid()" value="Show" />
-            <input type="button" class="btn w3-indigo" onclick="CreateNewJob()" value="New" />
+            <input type="checkbox" id="chkAutoRefresh" checked /><label id="lblAutoRefresh">Auto Refresh</label><br />
+            <button class="btn btn-success" id="btnUpdate" onclick="RefreshGrid()">Update</button>
+            <button class="btn w3-indigo" id="btnAddJob" onclick="CreateNewJob()">New</button>
         </div>
     </div>
 </div>
 <div id="dvMainDashboard">
     <div class="row">
         <div class="col-md-6">
-            <b>Volume By Status:</b>
+            <b><label id="lblGrid1">Volume By Status</label>:</b>
             <div id="chartVol"></div>
         </div>
         <div class="col-md-6">
-            <b>Status By Shipment Type:</b>
+            <b><label id="lblGrid2">Status By Job Type</label>:</b>
             <div id="chartStatus"></div>
         </div>
     </div>
     <br />
     <div class="row">
         <div class="col-md-12">
-            <b>Status By Customer:</b>
+            <b><label id="lblGrid3">Status By Customer</label>:</b>
             <div id="chartCust"></div>
         </div>
     </div>
@@ -109,7 +113,6 @@ End Code
     function drawChartVol(dt) {
         var dataVol = google.visualization.arrayToDataTable(getDataTable(dt));
         var volOptions = {
-            title: 'Total Job By Status',
             pieHole: 0.4,
         };
         var chartVol = new google.visualization.PieChart(document.getElementById('chartVol'));

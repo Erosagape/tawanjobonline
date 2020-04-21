@@ -6,7 +6,7 @@ End Code
     <div id="dvHeader" class="container">
         <div class="row">
             <div class="col-sm-5">
-                Branch:
+                *<label id="lblBranch">Branch:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -16,7 +16,7 @@ End Code
                 <div id="dvJob"></div>
             </div>
             <div class="col-sm-4" style="text-align:left">
-                <b>Advance No:</b>
+                <label id="lblAdvNo">Advance No:</label> 
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtAdvNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
@@ -24,15 +24,16 @@ End Code
                 </div>
             </div>
             <div class="col-sm-3">
-                Request Date :<br />
+                <label id="lblAdvDate">Request Date :</label>
+                <br />
                 <input type="date" class="form-control" id="txtAdvDate" tabindex="1" disabled />
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12">
                 <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#tabHeader">Advance Header</a></li>
-                    <li><a data-toggle="tab" href="#tabDetail">Advance Detail</a></li>
+                    <li class="active"><a id="linkHeader" data-toggle="tab" href="#tabHeader">Advance Header</a></li>
+                    <li><a id="linkDetail" data-toggle="tab" href="#tabDetail">Advance Detail</a></li>
                 </ul>
                 <div class="tab-content">
                     <div id="tabHeader" class="tab-pane fade in active" style="width:100%">
@@ -41,7 +42,7 @@ End Code
                                 <table>
                                     <tr>
                                         <td>
-                                            Advance By :
+                                            *<label id="lblAdvBy">Advance By :</label>
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtAdvBy" class="form-control" style="width:120px" tabindex="2" />
@@ -51,7 +52,7 @@ End Code
                                     </tr>
                                     <tr>
                                         <td>
-                                            Request By :
+                                            *<label id="lblReqBy">Request By :</label>                                            
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtReqBy" class="form-control" style="width:120px" tabindex="3" />
@@ -61,7 +62,7 @@ End Code
                                     </tr>
                                     <tr>
                                         <td>
-                                            Advance For :
+                                            *<label id="lblAdvFor">Advance For :</label>                                            
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtCustCode" class="form-control" style="width:130px" tabindex="4" />
@@ -74,14 +75,14 @@ End Code
                                 <table>
                                     <tr>
                                         <td>
-                                            WH-Tax No:
+                                            <label id="lblWHTaxNo">WH-Tax No:</label>                                            
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtDoc50Tavi" class="form-control" style="width:100%" tabindex="6" />
-                                            <input type="button" class="btn btn-default" value="Add" onclick="AutoGenWHTax()" />
+                                            <button id="btnAddWHTax" class="btn btn-default" onclick="AutoGenWHTax()">Add</button>
                                         </td>
                                         <td>
-                                            Bill A/P:
+                                            <label id="lblPaymentNo">Bill A/P:</label>                                            
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtPaymentNo" class="form-control" style="width:200px" tabindex="7" disabled />
@@ -94,7 +95,7 @@ End Code
                                 <table>
                                     <tr>
                                         <td>
-                                            Job Type :
+                                            <label id="lblJobType">Job Type :</label>                                            
                                         </td>
                                         <td>
                                             <select id="cboJobType" style="width:200px" class="form-control dropdown" tabindex="8" onchange="CheckJobType()"></select>
@@ -102,7 +103,7 @@ End Code
                                     </tr>
                                     <tr>
                                         <td>
-                                            Ship By :
+                                            <label id="lblShipBy">Ship By :</label>                                            
                                         </td>
                                         <td>
                                             <select id="cboShipBy" style="width:200px" class="form-control dropdown" tabindex="9"></select>
@@ -110,7 +111,7 @@ End Code
                                     </tr>
                                     <tr>
                                         <td>
-                                            Status :
+                                            <label id="lblStatus">Status :</label>                                            
                                         </td>
                                         <td>
                                             <select id="cboDocStatus" style="width:200px;" class="form-control dropdown" disabled></select>
@@ -121,17 +122,17 @@ End Code
                         </div>
                         <div class="row">
                             <div class="col-sm-7">
-                                Advance Type:
+                                <label id="lblAdvType">Advance Type:</label>                                
                                 <select id="cboAdvType" class="form-control dropdown" style="width:100%" tabindex="10"></select>
                                 <br />
-                                Remark:
+                                <label id="lblRemark">Remark:</label>                                
                                 <textarea id="txtTRemark" class="form-control-lg" style="width:100%;height:80px" tabindex="11"></textarea>
                             </div>
                             <div class="col-sm-5">
                                 <table>
                                     <tr>
                                         <td>
-                                            Request Currency:
+                                            <label id="lblCurrency">Request Currency:</label>                                            
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtSubCurrency" style="width:100%" value="@ViewBag.PROFILE_CURRENCY" disabled />
@@ -140,13 +141,13 @@ End Code
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            Payment Total:
+                                            <label id="lblPayTotal">Payment Total:</label>                                            
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <input type="checkbox" id="chkCash" />
-                                            <label for="chkCash">Cash</label>
+                                            <label id="lblCash" for="chkCash">Cash</label>
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtAdvCash" class="form-control" style="width:100%;text-align:right" disabled />
@@ -155,7 +156,7 @@ End Code
                                     <tr>
                                         <td>
                                             <input type="checkbox" id="chkChq" />
-                                            <label for="chkChq">Cashier Chq</label>
+                                            <label id="lblChq" for="chkChq">Cashier Chq</label>
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtAdvChq" class="form-control" style="width:100%;text-align:right" disabled />
@@ -164,7 +165,7 @@ End Code
                                     <tr>
                                         <td>
                                             <input type="checkbox" id="chkChqCash" />
-                                            <label for="chkChqCash">Customer Chq</label>
+                                            <label id="lblChqCash" for="chkChqCash">Customer Chq</label>
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtAdvChqCash" class="form-control" style="width:100%;text-align:right" disabled />
@@ -173,7 +174,7 @@ End Code
                                     <tr>
                                         <td>
                                             <input type="checkbox" id="chkCred" />
-                                            <label for="chkCred">Credit</label>
+                                            <label id="lblCred" for="chkCred">Credit</label>
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtAdvCred" class="form-control" style="width:100%;text-align:right" disabled />
@@ -185,49 +186,51 @@ End Code
                         <div class="row">
                             <div class="col-sm-4" style="border-style:solid;border-width:1px">
                                 <input type="checkbox" id="chkApprove" />
-                                <label for="chkApprove">Approve By</label>
+                                <label id="lblApproveBy" for="chkApprove">Approve By</label>
                                 <br />
                                 <input type="text" id="txtApproveBy" style="width:250px" disabled />
                                 <br />
-                                Date:
+                                <label id="lblApproveDate">Date:</label>                                
                                 <input type="date" id="txtApproveDate" disabled />
-                                Time:
+                                <label id="lblApproveTime">Time:</label>                                
                                 <input type="text" id="txtApproveTime" style="width:80px" disabled />
                             </div>
                             <div class="col-sm-4" style="border-style:solid;border-width:1px">
                                 <input type="checkbox" id="chkPayment" disabled />
-                                <label for="chkPayment">Payment By</label>
+                                <label id="lblPaymentBy" for="chkPayment">Payment By</label>
                                 <input type="text" id="txtPaymentBy" style="width:250px" disabled />
                                 <br />
-                                Date:
+                                <label id="lblPaymentDate">Date:</label>                                
                                 <input type="date" id="txtPaymentDate" disabled />
-                                Time:
+                                <label id="lblPaymentTime">Time:</label>                                
                                 <input type="text" id="txtPaymentTime" style="width:80px" disabled />
                                 <br />
-                                Payment Ref:<input type="text" id="txtPaymentRef" style="width:200px" disabled />
+                                <label id="lblPaymentRef">Payment Ref:</label>
+                                <input type="text" id="txtPaymentRef" style="width:200px" disabled />
                             </div>
                             <div class="col-sm-4" style="border-style:solid;border-width:1px;color:red">
                                 <input type="checkbox" id="chkCancel" />
-                                <label for="chkCancel">Cancel By</label>
+                                <label id="lblCancelBy" for="chkCancel">Cancel By</label>
                                 <input type="text" id="txtCancelProve" style="width:250px" disabled />
                                 <br />
-                                Date:
+                                <label id="lblCancelDate">Date:</label>                                
                                 <input type="date" id="txtCancelDate" disabled />
-                                Time:
+                                <label id="lblCancelTime">Time:</label>                                
                                 <input type="text" id="txtCancelTime" style="width:80px" disabled />
                                 <br />
-                                Cancel Reason :<input type="text" id="txtCancelReson" style="width:250px" />
+                                <label id="lblCancelReson">Cancel Reason :</label>
+                                <input type="text" id="txtCancelReson" style="width:250px" />
                             </div>
                         </div>
                         <div id="dvCommand">
                             <a href="#" class="btn btn-default w3-purple" id="btnNew" onclick="AddHeader()">
-                                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New Document</b>
+                                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkNew">New Document</b>
                             </a>
                             <a href="#" class="btn btn-success" id="btnSave" onclick="SaveHeader()">
-                                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Document</b>
+                                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Document</b>
                             </a>
                             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-                                <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Document</b>
+                                <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Document</b>
                             </a>
                         </div>
                     </div>
@@ -235,7 +238,7 @@ End Code
                         <div class="row">
                             <div class="col-sm-12">
                                 <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddDetail()">
-                                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Detail</b>
+                                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">Add Detail</b>
                                 </a>
                                 <table id="tbDetail" class="table table-responsive">
                                     <thead>
@@ -260,47 +263,49 @@ End Code
                         <div class="row">
                             <div class="col-sm-9">
                                 <a href="#" class="btn btn-danger" id="btnDel" onclick="DeleteDetail()">
-                                    <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete Detail</b>
+                                    <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDel">Delete Detail</b>
                                 </a>
-                                Main Currency:
+                                <label id="lblMainCurr">Main Currency:</label>                                
                                 <input type="text" id="txtMainCurrency" style="width:50px" value="@ViewBag.PROFILE_CURRENCY" disabled />
-                                Exchange Rate:
+                                <label id="lblExcRate">Exchange Rate:</label>                                
                                 <input type="text" id="txtExchangeRate" style="width:50px" value="1" />
-                                <buttom id="btnGetExcRate" class="btn btn-success" onclick="GetExchangeRate()">Get Rate</buttom>
+                                <button id="btnGetExcRate" class="btn btn-success" onclick="GetExchangeRate()">Get Rate</button>
                             </div>
                             <div class="col-sm-3" style="text-align:right">
-                                Amount :
+                                <label id="lblAdvAmount">Amount</label>
+                                :
                                 <input type="text" id="txtAdvAmount" style="width:100px;text-align:right" /><br />
-                                VAT :
+                                <label id="lblVatAmount">VAT</label>
+                                :
                                 <input type="text" id="txtVatAmount" style="width:100px;text-align:right" /><br />
-                                WHT :
-                                <input type="text" id="txtWhtAmount" style="width:100px;text-align:right" /><br />
-                                Total :
+                                <label id="lblWhtAmount">WHT</label>
+                                :
+                                <input type="text" id="txtWhtAmount" style="width:100px;text-align:right" />
+                                <br />                                                                                                            
+                                <label id="lblTotalAmount">Total</label>
+                                :
                                 <input type="text" id="txtTotalAmount" style="width:100px;text-align:right" />
                             </div>
                         </div>
                         <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-                            <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Document</b>
+                            <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint2">Print Document</b>
                         </a>
                     </div>
                     <div id="frmDetail" class="modal fade" role="dialog">
                         <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">                                    
-                                    <h4 class="modal-title"><label id="lblHeader">Advance Detail</label></h4>
-                                </div>
+                            <div class="modal-content">                                
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-sm-2">
-                                            <label for="txtItemNo">No :</label>
+                                            <label id="lblItemNo" for="txtItemNo">No :</label>
                                             <input type="text" id="txtItemNo" class="form-control" disabled />
                                         </div>
                                         <div class="col-sm-5">
-                                            <label>Service Type</label>
+                                            <label id="lblSTCode">Service Type</label>
                                             <select id="cboSTCode" class="form-control dropdown"></select>
                                         </div>
                                         <div class="col-sm-5">
-                                            <label for="chkDuplicate">Can Partial Clear</label><br/>
+                                            <label id="lblDuplicate" for="chkDuplicate">Can Partial Clear</label><br/>
                                             <input type="checkbox" id="chkDuplicate" />
                                         </div>
                                     </div>
@@ -313,20 +318,20 @@ End Code
                                             </div>
                                         </div>
                                         <div class="col-sm-8">
-                                            <label>Advance Description</label><br />
+                                            <label id="lblSDescription">Advance Description</label><br />
                                             <input type="text" id="txtSDescription" class="form-control" style="width:100%" tabindex="13" />
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-5">
-                                            <label for="txtForJNo">Job No :</label>
+                                            <label id="lblForJNo" for="txtForJNo">Job No :</label>
                                             <div style="display:flex">
                                                 <input type="text" id="txtForJNo" class="form-control" tabindex="14" />
                                                 <input type="button" id="btnBrowseJ" value="..." onclick="SearchData('job')" />
                                             </div>
                                         </div>
                                         <div class="col-sm-7">
-                                            <label>Cust.Inv :</label>
+                                            <label id="lblCustInv">Cust.Inv :</label>
                                             <div style="display:flex">
                                                 <input type="text" id="txtInvNo" class="form-control" disabled />
                                             </div>
@@ -342,7 +347,7 @@ End Code
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
-                                            <label for="txtExcRate">Rate :</label>
+                                            <label id="lblRate" for="txtExcRate">Rate :</label>
                                             <div style="display:flex">
                                                 <input type="text" id="txtDetCurrency" class="form-control" style="width:100px" disabled />
                                                 <input type="text" id="txtExcRate" class="form-control" style="width:100%;text-align:right" tabindex="16" />
@@ -351,7 +356,7 @@ End Code
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-3">
-                                            <label for="txtAdvQty">Qty:</label>
+                                            <label id="lblQty" for="txtAdvQty">Qty:</label>
                                             <br/>
                                             <input type="text" id="txtAdvQty" class="form-control" style="text-align:right" tabindex="17" />        
                                         </div>
@@ -400,14 +405,14 @@ End Code
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-4">
-                                            WH-Tax No :
+                                            <label id="lblWTNo">WH-Tax No :</label>                                            
                                             <br/>
                                             <div style="display:flex">
                                                 <input type="text" id="txt50Tavi" class="form-control" tabindex="25" />
                                             </div>
                                         </div>
                                         <div class="col-sm-8">
-                                            Pay To Vender :
+                                            <label id="lblVenCode">Pay To Vender :</label>                                            
                                             <br/>
                                             <div style="display:flex">
                                                 <input type="text" id="txtVenCode" class="form-control" style="width:100px" tabindex="26" />
@@ -415,17 +420,17 @@ End Code
                                                 <input type="text" id="txtPayChqTo" class="form-control" tabindex="27" />
                                             </div>
                                         </div>
-                                    </div>                                    
-                                    Remark :
+                                    </div>    
+                                    <label id="lblDRemark">Remark :</label>                                    
                                     <textarea id="txtRemark" style="width:100%;height:80px" tabindex="28"></textarea>
                                 </div>
                                 <div class="modal-footer">
                                     <div style="float:left">
                                         <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddDetail()">
-                                            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New</b>
+                                            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkClear">New</b>
                                         </a>
                                         <a href="#" class="btn btn-success" id="btnUpdate" onclick="SaveDetail()">
-                                            <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+                                            <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkUpdate">Save</b>
                                         </a>
                                     </div>
                                     <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
@@ -436,11 +441,10 @@ End Code
                     <div id="frmHeader" class="modal modal-lg fade">
                         <div class="modal-dialog-lg">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"></button>
-                                    <h4 class="modal-title"><label id="lblHeader">Advance List</label></h4>
-                                </div>
                                 <div class="modal-body">
+                                    <label id="lblFilter">Filter By Status : </label>
+                                    <select id="cboStatus" class="form-control dropdown" onchange="SetGridAdv()"></select>
+                                    <br/>
                                     <table id="tbHeader" class="table table-responsive">
                                         <thead>
                                             <tr>
@@ -461,6 +465,8 @@ End Code
                                     </table>
                                 </div>
                                 <div class="modal-footer">
+                                    <div id="dvAdvFilter" style="float:left">
+                                    </div>
                                     <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                                 </div>
                             </div>
@@ -827,6 +833,7 @@ End Code
         let lists = 'JOB_TYPE=#cboJobType';
         lists += ',SHIP_BY=#cboShipBy';
         lists += ',ADV_STATUS=#cboDocStatus';
+        lists += ',ADV_STATUS=#cboStatus|01';
         lists += ',ADV_TYPE=#cboAdvType';
 
         loadCombos(path, lists);
@@ -1552,7 +1559,7 @@ End Code
         return c[0];
     }
     function SetGridAdv() {
-        let w = $('#txtBranchCode').val();
+        let w ='?branchcode='+ $('#txtBranchCode').val();
         if (job.length > 0) {
             w += '&jobno=' + job;
         } else {
@@ -1568,11 +1575,18 @@ End Code
             if ($('#cboShipBy').val() !== '') {
                 w += '&sby=' + $('#cboShipBy').val();
             }
+            if ($('#txtAdvBy').val() !== '') {
+                w += '&advby=' + $('#txtAdvBy').val();
+            }
+            if ($('#txtReqBy').val() !== '') {
+                w += '&reqby=' + $('#txtReqBy').val();
+            }
         }
-        if ($('#txtReqBy').val() !== '') {
-            w += '&reqby=' + $('#txtReqBy').val();
+        if ($('#cboStatus').val() !== '') {
+            w += '&status=' + $('#cboStatus').val();
         }
-        $.get(path + 'adv/getadvancegrid?branchcode=' +  w, function (r) {
+        $('#dvAdvFilter').html(w);
+        $.get(path + 'adv/getadvancegrid' +  w, function (r) {
             if (r.adv.data.length == 0) {
                 ShowMessage('data not found on this branch',true);
                 return;
@@ -1700,13 +1714,23 @@ End Code
         strParam += '&CustCode=' + $('#txtCustCode').val();
         return strParam;
     }
-    function ShowCaption() {
-        $('#lblUnitPrice').text("Price (" + $('#txtCurrencyCode').val() + "):");
-        $('#lblAMTCal').text("Amount (" + $('#txtCurrencyCode').val() + "):");
-        $('#lblAmount').text("Amount (" + $('#txtMainCurrency').val() + "):");
-        $('#lblVATRate').text("VAT (" + $('#txtMainCurrency').val() + "):");
-        $('#lblWHTRate').text("WHT (" + $('#txtMainCurrency').val() + "):");
-        $('#lblNETAmount').text("Net (" + $('#txtMainCurrency').val() + "):");
+    function ShowCaption() {        
+        if (mainLanguage == 'EN') {
+            $('#lblUnitPrice').text("Price (" + $('#txtCurrencyCode').val() + "):");
+            $('#lblAMTCal').text("Amount (" + $('#txtCurrencyCode').val() + "):");
+            $('#lblAmount').text("Amount (" + $('#txtMainCurrency').val() + "):");
+            $('#lblVATRate').text("VAT (" + $('#txtMainCurrency').val() + "):");
+            $('#lblWHTRate').text("WHT (" + $('#txtMainCurrency').val() + "):");
+            $('#lblNETAmount').text("Net (" + $('#txtMainCurrency').val() + "):");
+        } 
+        if (mainLanguage == 'TH') {
+            $('#lblUnitPrice').text("ราคา (" + $('#txtCurrencyCode').val() + "):");
+            $('#lblAMTCal').text("ราคารวม (" + $('#txtCurrencyCode').val() + "):");
+            $('#lblAmount').text("ราคาสุทธิ (" + $('#txtMainCurrency').val() + "):");
+            $('#lblVATRate').text("ภาษีมูลค่าเพิ่ม (" + $('#txtMainCurrency').val() + "):");
+            $('#lblWHTRate').text("หัก ณ ที่จ่าย (" + $('#txtMainCurrency').val() + "):");
+            $('#lblNETAmount').text("ยอดสุทธิ (" + $('#txtMainCurrency').val() + "):");
+        } 
     }
     function ReadVender(dt) {
         $('#txtVenCode').val(dt.VenCode);
