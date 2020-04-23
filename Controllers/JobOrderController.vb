@@ -2,7 +2,7 @@
 Imports System.Net
 Imports System.Net.Http
 Imports System.Web.Http
-Imports System.Web.Mvc
+Imports MySql.Data.MySqlClient
 Namespace Controllers
     Public Class JobOrderController
         Inherits CController
@@ -1891,6 +1891,35 @@ Namespace Controllers
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DelTransportRoute", ex.Message, ex.StackTrace, True)
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
+        Function GetPaperless() As ActionResult
+            Try
+                Dim listPaperless = Main.GetValueConfig("PAPERLESS", "DBLINK")
+                Dim hostPaperless = Main.GetValueConfig("PAPERLESS", "DBHOST")
+                Dim job As String = ""
+                Dim type As Integer = 0
+                If Not Request.QueryString("job") Is Nothing Then
+                    job = Request.QueryString("job")
+                End If
+                If Not Request.QueryString("type") Is Nothing Then
+                    type = Convert.ToInt16(Request.QueryString("type").ToString()) - 1
+                End If
+                Dim connStr = hostPaperless & ";database=" & listPaperless.Split(",")(type)
+                Dim dt As New DataTable
+                Using cn As MySqlConnection = New MySqlConnection(connStr)
+                    cn.Open()
+                    Dim sql As String = String.Format("Select decl.*,inv.invoiceno from decl inner join inv On decl.referenceno=inv.referenceno where decl.refnocmn='{0}' and decl.refnocmn<>'' and decl.status<>'C' ", job)
+                    Using da As New MySqlDataAdapter(Sql, cn)
+                        da.Fill(dt)
+                    End Using
+                    cn.Close()
+                    End Using
+                Dim json = JsonConvert.SerializeObject(dt)
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetPaperless", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)
             End Try
         End Function

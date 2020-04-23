@@ -3,16 +3,18 @@
 End Code
 <style>
     @@media only screen and (max-width: 600px) {
-        #btnLinkAdv,#btnLinkClr,#btnLinkCost,#btnLinkDoc,#btnLinkExp,#btnLinkLoad,#btnLinkTAdv,
-        #btnLinkCAdv,#btnCloseJob,#btnCancelJob,#btnViewChq,#btnViewTAdv {
+        #btnLinkAdv, #btnLinkClr, #btnLinkCost, #btnLinkDoc, #btnLinkExp, #btnLinkLoad, #btnLinkTAdv,
+        #btnLinkCAdv, #btnCloseJob, #btnCancelJob, #btnViewChq, #btnViewTAdv {
             width: 100% !important;
         }
+
         #myTabs {
-            display:none;
+            display: none;
         }
+
         #mySelects {
-            width:100%;
-            display:block !important;
+            width: 100%;
+            display: block !important;
         }
     }
 </style>
@@ -47,7 +49,7 @@ End Code
             </div>
         </div>
         <p>
-            <ul id="myTabs"class="nav nav-tabs">
+            <ul id="myTabs" class="nav nav-tabs">
                 <li id="tab1" class="active"><a data-toggle="tab" id="linkTab1" href="#tabinfo">Job Descriptions</a></li>
                 <li id="tab2"><a data-toggle="tab" href="#tabinv" id="linkTab2">Invoice Description</a></li>
                 <li id="tab3"><a data-toggle="tab" href="#tabdeclare" id="linkTab3">Customs Description</a></li>
@@ -417,6 +419,8 @@ End Code
                             <input type="text" id="txtShipping" style="width:130px" tabindex="55" />
                             <input type="button" id="btnBrowseShipping" value="..." onclick="SearchData('user')" />
                             <input type="text" id="txtShippingName" style="width:300px" disabled />
+                            <br />
+                            <button id="btnLinkPaperless" class="btn btn-success" onclick="LoadPaperless()">Load Data From TAWAN Paperless</button>
                         </div>
                     </div>
                     <br />
@@ -428,7 +432,7 @@ End Code
                                     <td>
                                         <label id="lblComPaidBy" style="font:bold">Company Paid By : </label>
                                         <br />
-                                        <label id="lblComChq">Cheque:</label>                                        
+                                        <label id="lblComChq">Cheque:</label>
                                     </td>
                                     <td>
                                         <br />
@@ -437,7 +441,7 @@ End Code
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label id="lblComCash">Cash:</label>                                        
+                                        <label id="lblComCash">Cash:</label>
                                     </td>
                                     <td>
                                         <input type="text" id="txtComPaidCash" style="width:130px" onchange="CalTotalLtd();" tabindex="58" /><br />
@@ -445,7 +449,7 @@ End Code
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label id="lblComEPay">E-Payment:</label>                                        
+                                        <label id="lblComEPay">E-Payment:</label>
                                     </td>
                                     <td>
                                         <input type="text" id="txtComPaidEPay" style="width:130px" onchange="CalTotalLtd();" tabindex="59" /><br />
@@ -462,7 +466,7 @@ End Code
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label id="lblComTotal">Total Paid:</label>                                        
+                                        <label id="lblComTotal">Total Paid:</label>
                                     </td>
                                     <td>
                                         <input type="text" id="txtComPaidTotal" style="width:130px" disabled />
@@ -476,7 +480,7 @@ End Code
                                     <td>
                                         <label id="lblCustPaidBy" style="font:bold">Customer Paid By : </label>
                                         <br />
-                                        <label id="lblCustChq">Cheque:</label>                                        
+                                        <label id="lblCustChq">Cheque:</label>
                                     </td>
                                     <td>
                                         <br />
@@ -485,7 +489,7 @@ End Code
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label id="lblCustCash">Cash:</label>                                        
+                                        <label id="lblCustCash">Cash:</label>
                                     </td>
                                     <td>
                                         <input type="text" id="txtCustPaidCash" style="width:130px" onchange="CalTotalCust();" tabindex="62" /><br />
@@ -493,7 +497,7 @@ End Code
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label id="lblCustTaxCard">Tax-Card:</label>                                        
+                                        <label id="lblCustTaxCard">Tax-Card:</label>
                                     </td>
                                     <td>
                                         <input type="text" id="txtCustPaidCard" style="width:130px" onchange="CalTotalCust();" tabindex="63" /><br />
@@ -501,7 +505,7 @@ End Code
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label id="lblCustEPay">E-Payment:</label>                                        
+                                        <label id="lblCustEPay">E-Payment:</label>
                                     </td>
                                     <td>
                                         <input type="text" id="txtCustPaidEPay" style="width:130px" onchange="CalTotalCust();" tabindex="64" /><br />
@@ -509,7 +513,7 @@ End Code
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label id="lblCustBankGuarantee">Bank Guarantee:</label>                                        
+                                        <label id="lblCustBankGuarantee">Bank Guarantee:</label>
                                     </td>
                                     <td>
                                         <input type="text" id="txtCustPaidBank" style="width:130px" onchange="CalTotalCust();" tabindex="65" /><br />
@@ -526,7 +530,7 @@ End Code
                                 </tr>
                                 <tr>
                                     <td>
-                                        <label id="lblCustTotal">Total Paid:</label>                                        
+                                        <label id="lblCustTotal">Total Paid:</label>
                                     </td>
                                     <td>
                                         <input type="text" id="txtCustPaidTotal" style="width:130px" disabled />
@@ -537,7 +541,7 @@ End Code
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <button id="btnViewTAdv" class="btn btn-default" onclick="OpenCreditAdv()" >Credit Advances</button>
+                            <button id="btnViewTAdv" class="btn btn-default" onclick="OpenCreditAdv()">Credit Advances</button>
                         </div>
                         <div class="col-sm-6">
                             <button id="btnViewChq" class="btn btn-default" onclick="OpenCheque()">Customer Cheque</button>
@@ -675,7 +679,7 @@ End Code
     const userRights = '@ViewBag.UserRights';
     const userPosition = '@ViewBag.UserPosition';
     let rec = {};
-    //main function    
+    //main function
     //$(document).ready(function () {
     SetLOVs();
     SetEvents();
@@ -1543,6 +1547,48 @@ End Code
             },
             error: function (e) {
                 ShowMessage(e,true);
+            }
+        });
+    }
+    function LoadPaperless() {
+        let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
+        $.get(path + 'JobOrder/GetPaperless'+ url).done(function (r) {
+            if (r.length > 0) {
+                $('#txtDeclareNo').val(r[0].DECLNO);
+                $('#txtCustInvNo').val(r[0].invoiceno);
+                if (rec.JobType == 1) {
+                    $('#txtInvFCountry').val(r[0].consignmentCTY);
+                    $('#txtInvCountry').val(r[0].OriginCTY);
+                    $('#txtETADate').val(ReverseDate(r[0].VSLDTE));
+                    $('#txtInvTotal').val(r[0].BAHTVAL);
+                    $('#txtDutyAmt').val(r[0].ALLDUTY);
+                    $('#txtVesselName').val(r[0].VSLNME + (r[0].voy !== '' ? ' V.' + r[0].voy : ''));
+                } else {
+                    $('#txtInvCountry').val(r[0].DestinationCTY);
+                    $('#txtInvFCountry').val(r[0].PurchaseCTY);
+                    $('#txtETDDate').val(ReverseDate(r[0].VSLDTE));
+                    $('#txtInvTotal').val(r[0].FOREVAL);
+                    $('#txtReadyClearDate').val(r[0].CHECKEDTIME.substring(0, 10));
+                    $('#txtClearDate').val(r[0].LOADEDTIME.substring(0, 10));
+                    $('#txtVesselName').val(r[0].VSLNME + (r[0].VOY!==''? ' V.'+ r[0].VOY:''));
+                }
+                $('#txtReleasePort').val(r[0].ReleasedPort);
+                $('#txtPortNo').val(r[0].LoadedPort);
+                $('#txtHAWB').val(r[0].HBL);
+                $('#txtMAWB').val(r[0].MBL);
+                $('#txtNetWeight').val(r[0].Net);
+                $('#txtGrossWeight').val(r[0].Gross);
+                $('#txtWeightUnit').val(r[0].GrossUnit);
+                $('#txtInvQty').val(r[0].PCK);
+                $('#txtInvUnit').val(r[0].PCKUNT);
+                $('#txtInvCurrency').val(r[0].CUCVAL);
+                $('#txtInvCurRate').val(r[0].EHRVAL);
+                $('#txtEDIDate').val(ReverseDate(r[0].DECLDATECAL));
+                $('#txtDutyDate').val(ReverseDate(r[0].DECLDATE));
+
+                ShowMessage('Data Updated, Please Check and Save if correct');
+            } else {
+                ShowMessage('NOT FOUND ON DATABASE', true);
             }
         });
     }

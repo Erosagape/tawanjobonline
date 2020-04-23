@@ -645,7 +645,8 @@ function ChangeLanguageForm(fname) {
                 btnLinkClr: 'Advance Clearing|ใบปิดค่าใช้จ่าย',
                 btnLinkCost: 'Cost & Profit|ข้อมูลกำไรขาดทุน',
                 linkSave: 'Save|บันทึกข้อมูล',
-                linkPrint:'Print|พิมพ์ใบสั่งงาน'
+                linkPrint: 'Print|พิมพ์ใบสั่งงาน',
+                btnLinkPaperless:'Load Data From TAWAN Paperless|ดึงข้อมูลจากระบบ PAPERLESS ตะวัน'
             };
             SetLanguage(lang);
             break;
