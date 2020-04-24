@@ -6,7 +6,7 @@ End Code
         <div id="dvForm">
             <div class="row">
                 <div class="col-sm-5">
-                    Branch:
+                    <label id="lblBranch">Branch:</label>
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -15,14 +15,14 @@ End Code
                     </div>
                 </div>
                 <div class="col-sm-2">
-                    Transaction Type<br />
+                    <label id="lblTranType">Transaction Type</label><br />
                     <select id="cboPRType" class="form-control dropdown">
-                        <option value="R">Received From</option>
-                        <option value="P">Transfer To</option>
+                        <option value="R" id="optRcv">Received From</option>
+                        <option value="P" id="optPay">Transfer To</option>
                     </select>
                 </div>
                 <div class="col-sm-3">
-                    <b>Reference No:</b>
+                    <b id="linkRef">Reference No:</b>
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" class="form-control" id="txtControlNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
@@ -30,18 +30,20 @@ End Code
                     </div>
                 </div>
                 <div class="col-sm-2">
-                    Transaction Date<br /> <input type="date" id="txtVoucherDate" class="form-control" tabIndex="3">
+                    <label id="lblVoucherDate">Record Date</label>
+                    <br /> <input type="date" id="txtVoucherDate" class="form-control" tabIndex="3">
                 </div>
 
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    Note<br /><input type="text" id="txtTRemark" class="form-control" tabIndex="4">
+                    <label id="lblTRemark">Transaction Note</label>
+                    <br /><input type="text" id="txtTRemark" class="form-control" tabIndex="4">
                 </div>
             </div>
             <div>
                 <a href="#" class="btn btn-warning" id="btnAddPay" onclick="AddPayment()">
-                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Detail</b>
+                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">Add Detail</b>
                 </a>
             </div>
             <table id="tbHeader" class="table table-bordered">
@@ -60,46 +62,43 @@ End Code
             </table>
             <div class="row">
                 <div class="col-sm-4" style="border-style:solid;border-width:1px">
-                    <label>Issue By</label>
+                    <label id="lblRecBy">Issue By</label>
                     <br />
                     <input type="text" id="txtRecUser" style="width:250px" disabled />
                     <br />
-                    Date:
+                    <label id="lblRecDate">Date:</label>
                     <input type="date" id="txtRecDate" disabled />
-                    Time:
+                    <label id="lblRecTime">Time:</label>
                     <input type="text" id="txtRecTime" style="width:80px" disabled />
                 </div>
                 <div class="col-sm-4" style="border-style:solid;border-width:1px">
                     <input type="checkbox" id="chkPosted" />
-                    <label for="chkPosted">Posted By</label><br />
+                    <label id="lblPostBy" for="chkPosted">Posted By</label><br />
                     <input type="text" id="txtPostedBy" style="width:250px" disabled />
                     <br />
-                    Date:
+                    <label id="lblPostDate">Date:</label>
                     <input type="date" id="txtPostedDate" disabled />
-                    Time:
+                    <label id="lblPostTime">Time:</label>
                     <input type="text" id="txtPostedTime" style="width:80px" disabled />
                 </div>
                 <div class="col-sm-4" style="border-style:solid;border-width:1px;color:red">
                     <input type="checkbox" id="chkCancel" />
-                    <label for="chkCancel">Cancel By</label>
+                    <label id="lblCancelBy" for="chkCancel">Cancel By</label>
                     <input type="text" id="txtCancelProve" style="width:250px" disabled />
                     <br />
-                    Date:
+                    <label id="lblCancelDate">Date:</label>
                     <input type="date" id="txtCancelDate" disabled />
-                    Time:
+                    <label id="lblCancelTime">Time:</label>
                     <input type="text" id="txtCancelTime" style="width:80px" disabled />
                     <br />
-                    Cancel Reason<input type="text" id="txtCancelReson" style="width:250px" />
+                    <label id="lblCancelReason">Cancel Reason</label>
+                    <input type="text" id="txtCancelReson" style="width:250px" />
                 </div>
             </div>
         </div>
         <div id="frmHeader" class="modal modal-lg fade">
             <div class="modal-dialog-lg">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"></button>
-                        <h4 class="modal-title"><label id="lblHeader">Transaction List</label></h4>
-                    </div>
                     <div class="modal-body">
                         <table id="tbControl" class="table table-responsive">
                             <thead>
@@ -128,93 +127,105 @@ End Code
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"></button>
-                        <h4 class="modal-title"><label id="lblHeader">Voucher Info</label></h4>
-                        <label><input type="radio" id="optShowPay" value="dvPayInfo" name="showInfo" onchange="ShowInfo()" checked /> Cash Info</label>
-                        <label><input type="radio" id="optShowTax" value="dvPayTax" name="showInfo" onchange="ShowInfo()" />Document info</label>
+                        <input type="radio" id="optShowPay" value="dvPayInfo" name="showInfo" onchange="ShowInfo()" checked /><label id="lblTranInfo">Transaction Info</label>
+                        <input type="radio" id="optShowTax" value="dvPayTax" name="showInfo" onchange="ShowInfo()" /><label id="lblVatInfo">Expense info</label>
                     </div>
                     <div class="modal-body">
                         <div id="dvPayInfo">
                             <div class="row">
                                 <div class="col-md-2">
-                                    No<br /><input type="text" id="txtItemNo" class="form-control" disabled>
+                                    <label id="lblItemNo">No</label>
+                                    <br /><input type="text" id="txtItemNo" class="form-control" disabled>
                                 </div>
                                 <div class="col-md-5">
-                                    Voucher No:<br /><input type="text" id="txtPRVoucher" class="form-control" disabled>
+                                    <label id="lblVCNo">Voucher No:</label>
+                                    <br /><input type="text" id="txtPRVoucher" class="form-control" disabled>
                                 </div>
                                 <div class="col-md-3">
-                                    Transaction Type<br />
+                                    <label id="lblTranDType">Transaction Type</label>
+                                    <br />
                                     <select id="cboPRTypeD" class="form-control dropdown">
-                                        <option value="R">Deposit</option>
-                                        <option value="P">Withdraw</option>
+                                        <option id="optDeposit" value="R">Deposit</option>
+                                        <option id="optWithdraw" value="P">Withdraw</option>
                                     </select>
                                 </div>
                             </div>
                             <div id="dvBookInfo">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <a onclick="SearchData('bookacc')">Book A/C</a><br /><input type="text" id="txtBookCode" class="form-control">
+                                        <a id="linkBook" onclick="SearchData('bookacc')">Book A/C</a><br /><input type="text" id="txtBookCode" class="form-control">
                                     </div>
                                     <div class="col-md-9">
-                                        Book Name<br /><input type="text" id="txtBookName" class="form-control" disabled>
+                                        <label id="lblBookName">Book Name</label>
+                                        <br /><input type="text" id="txtBookName" class="form-control" disabled>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-2">
-                                        Bank<br /><input type="text" id="txtBankCode" class="form-control" disabled>
+                                        <label id="lblBankCode">Bank</label>
+                                        <br /><input type="text" id="txtBankCode" class="form-control" disabled>
                                     </div>
                                     <div class="col-md-6">
-                                        Bank Name<br /><input type="text" id="txtBankName" class="form-control" disabled>
+                                        <label id="lblBankName">Bank Name</label>
+                                        <br /><input type="text" id="txtBankName" class="form-control" disabled>
                                     </div>
                                     <div class="col-md-4">
-                                        Branch<br /><input type="text" id="txtBankBranch" class="form-control" disabled>
+                                        <label id="lblBankBranch">Branch</label>
+                                        <br /><input type="text" id="txtBankBranch" class="form-control" disabled>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label id="lblCashAmount">CashAmount</label>
+                                    <label id="lblCashAmount">Amount</label>
                                     <br /><input type="number" id="txtCashAmount" class="form-control" value="0.00" />
                                 </div>
                                 <div class="col-md-9">
-                                    Paid To<br /><input type="text" id="txtPayChqTo" class="form-control">
+                                    <label id="lblPayTo">Paid To</label>
+                                    <br /><input type="text" id="txtPayChqTo" class="form-control">
                                 </div>
                             </div>
                         </div>
                         <div id="dvPayTax">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <a onclick="SearchData('document')">Doc.Type</a><br />
+                                    <a id="linkDocType" onclick="SearchData('document')">Doc.Type</a><br />
                                     <select id="txtDocType" class="form-control dropdown"></select>
                                 </div>
                                 <div class="col-md-4">
-                                    Ref.No<br /><input type="text" id="txtDocNo" class="form-control">
+                                    <label id="linkDocNo">Ref.No</label>
+                                    <br /><input type="text" id="txtDocNo" class="form-control">
                                 </div>
                                 <div class="col-md-5">
-                                    Description<br /><input type="text" id="txtDTRemark" class="form-control">
+                                    <label id="lblNote">Description</label>
+                                    <br /><input type="text" id="txtDTRemark" class="form-control">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label><a href="#" onclick="SearchData('currency');">Currency</a></label><br />
+                                    <label><a id="linkCurr" href="#" onclick="SearchData('currency');">Currency</a></label><br />
                                     <input type="text" id="txtCurrencyCode" class="form-control" />
                                 </div>
                                 <div class="col-md-9">
-                                    Currency Name<br />
+                                    <label id="lblCurrName">Currency Name</label>
+                                    <br />
                                     <input type="text" id="txtCurrencyName" class="form-control" disabled />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
-                                    Amount Base<br />
+                                    <label id="lblAmtBase">Amount Base</label>
+                                    <br />
                                     <input type="text" id="txtSumAmt" class="form-control" onchange="CalculateTotal()" />
                                 </div>
                                 <div class="col-md-3">
-                                    Exchange Rate<br />
+                                    <label id="lblExcRate">Exchange Rate</label>
+                                    <br />
                                     <input type="text" id="txtExchangeRate" class="form-control" onchange="CalculateTotal()" />
                                 </div>
                                 <div class="col-md-4">
-                                    Total Amount<br />
+                                    <label id="lblTotalAmt">Total Amount</label>
+                                    <br />
                                     <input type="text" id="txtTotalAmt" class="form-control" onchange="CalculateTotal()" />
                                 </div>
                             </div>
@@ -238,7 +249,8 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    Total Net<br />
+                                    <label id="lblTotalNet">Total Net</label>
+                                    <br />
                                     <input type="text" id="txtTotalNet" class="form-control" disabled />
                                 </div>
                             </div>
@@ -247,10 +259,10 @@ End Code
                     <div class="modal-footer">
                         <div style="float:left">
                             <a href="#" class="btn btn-success" id="btnUpdatePay" onclick="SavePayment()">
-                                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Detail</b>
+                                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkUpdate">Save Detail</b>
                             </a>
                             <a href="#" class="btn btn-danger" id="btnDelPay" onclick="DeletePayment()">
-                                <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete Detail</b>
+                                <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete Detail</b>
                             </a>
                         </div>
                         <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
@@ -260,13 +272,13 @@ End Code
         </div>
         <div id="dvCommand">
             <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearForm()">
-                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Clear Data</b>
+                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkClear">Clear Entry</b>
             </a>
             <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
-                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Data</b>
+                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Entry</b>
             </a>
             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-                <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Data</b>
+                <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Entry</b>
             </a>
         </div>
     </div>

@@ -1,11 +1,11 @@
 ﻿@Code
-    ViewBag.Title = "เคลียร์เงินมัดจำ"
+    ViewBag.Title = "รับคืนเงินมัดจำ/ทดรองจ่าย"
 End Code
 <div class="panel-body">
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                Branch
+                <label id="lblBranch">Branch</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -14,21 +14,24 @@ End Code
                 </div>
             </div>
             <div class="col-sm-2">
-                Clear Date From:<br />
+                <label id="lblDateFrom">Clear Date From:</label>
+                <br />
                 <input type="date" class="form-control" id="txtClrDateF" />
             </div>
             <div class="col-sm-2">
-                Clear Date To:<br />
+                <label id="lblDateTo">Clear Date To:</label>
+                <br />
                 <input type="date" class="form-control" id="txtClrDateT" />
             </div>
             <div class="col-sm-2">
-                Job Type: <br />
+                <label id="lblJobType">Job Type:</label>
+                <br />
                 <select id="cboJobType" class="form-control dropdown"></select>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
-                Clear By :
+                <label id="lblClrBy">Clear By :</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtClrBy" style="width:100px" />
@@ -37,7 +40,7 @@ End Code
                 </div>
             </div>
             <div class="col-sm-6">
-                Expense Code:
+                <label id="lblExpCode">Expense Code:</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtSICode" class="form-control" style="width:100px" />
@@ -47,11 +50,12 @@ End Code
             </div>
         </div>
         <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridClr(true)">
-            <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+            <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
         </a>
         <div class="row">
             <div class="col-sm-12">
-                Approve Document : <input type="text" id="txtListApprove" class="form-control" value="" disabled />
+                <label id="lblListAppr">Approve Document</label>
+                : <input type="text" id="txtListApprove" class="form-control" value="" disabled />
             </div>
         </div>
         <div class="row">
@@ -71,7 +75,8 @@ End Code
                         </tr>
                     </thead>
                 </table>
-                Expenses Total : <input type="text" id="txtSumApprove" class="form-control" value="" />
+                <label id="lblTotal">Expenses Total</label>
+                 : <input type="text" id="txtSumApprove" class="form-control" value="" />
             </div>
         </div>
     </div>
@@ -79,8 +84,10 @@ End Code
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <label><input type="radio" value="dvInfo" name="showInfo" onchange="ShowInfo()" checked />Earnest Info</label>
-                    <label><input type="radio" value="dvExp" name="showInfo" onchange="ShowInfo()" />Expenses</label>
+                    <input type="radio" value="dvInfo" name="showInfo" onchange="ShowInfo()" checked />
+                    <label id="lblTab1">Earnest Info</label>                                                                                                       
+                    <input type="radio" value="dvExp" name="showInfo" onchange="ShowInfo()" />
+                    <label id="lblTab2">Expenses</label>
                 </div>                    
                 <div class="modal-body">
                     <input type="hidden" id="txtExpVender" />
@@ -92,58 +99,69 @@ End Code
                     <div id="dvInfo">
                         <div class="row">
                             <div class="col-sm-4">
-                                Clearing No : <br /><input type="text" id="txtClrNo" class="form-control" disabled />
+                                <label id="lblClrNo">Clearing No</label>
+                                 : <br /><input type="text" id="txtClrNo" class="form-control" disabled />
                             </div>
                             <div class="col-sm-3">
-                                Earnest No : <br /><input type="text" id="txtSlipNo" class="form-control" disabled />
+                                <label id="lblSlipNo">Earnest No</label>
+                                 : <br /><input type="text" id="txtSlipNo" class="form-control" disabled />
                             </div>
                             <div class="col-sm-4">
-                                Job No: <br /><input type="text" id="txtExpJobNo" class="form-control" disabled />
+                                <label id="lblJNo">Job No</label>
+                                 : <br /><input type="text" id="txtExpJobNo" class="form-control" disabled />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-2">
-                                Item<br /><input type="text" id="txtItemNo" class="form-control" disabled />
+                                <label id="lblItemNo">Item</label>
+                                <br /><input type="text" id="txtItemNo" class="form-control" disabled />
                             </div>
                             <div class="col-sm-10">
-                                Vender:<br />
+                                <label id="lblVend">Vender</label>
+                                :<br />
                                 <input type="text" id="txtVenderName" class="form-control" disabled />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-3">
-                                Earnest : <br /><input type="text" id="txtClrNet" class="form-control" disabled />
+                                <label id="lblAmt">Amount</label>
+                                 : <br /><input type="text" id="txtClrNet" class="form-control" disabled />
                             </div>
                             <div class="col-sm-3">
-                                Expense : <br /><input type="text" id="txtExpSum" class="form-control" disabled />
+                                <label id="lblExp">Expense</label>
+                                 : <br /><input type="text" id="txtExpSum" class="form-control" disabled />
                             </div>
                             <div class="col-sm-3">
-                                Return : <br /><input type="text" id="txtTotalNet" class="form-control" disabled />
+                                <label id="lblRet">Return</label>
+                                 : <br /><input type="text" id="txtTotalNet" class="form-control" disabled />
                             </div>
                             <div class="col-sm-3">
-                                Type<br />
+                                <label id="lblDocType">Type</label>
+                                <br />
                                 <select id="cboRefType" class="form-control dropdown"></select>
                             </div>
                         </div>
                         <br />
                         <div class="row">
                             <div class="col-sm-4">
-                                <a href="#" onclick="SearchData('book')">Book Account</a><br />
+                                <a id="linkBook" href="#" onclick="SearchData('book')">Book Account</a><br />
                                 <input type="text" class="form-control" id="txtRefBook" />
                                 <input type="hidden" id="txtRecvBank" />
                                 <input type="hidden" id="txtRecvBranch" />
                             </div>
                             <div class="col-sm-4">
-                                Ref:<br /> <input type="text" class="form-control" id="txtRefNo" />
+                                <label id="lblRefNo">Ref</label>
+                                :<br /> <input type="text" class="form-control" id="txtRefNo" />
                             </div>
                             <div class="col-sm-4">
-                                Date:<br /><input type="date" class="form-control" id="txtRefDate" />
+                                <label id="lblRefDate">Date</label>
+                                :<br /><input type="date" class="form-control" id="txtRefDate" />
                             </div>
                         </div>
                         <br />
                         <div class="row">
                             <div class="col-sm-2">
-                                <a href="#" onclick="SearchData('bank')">Bank</a><br />
+                                <a id="linkBank" href="#" onclick="SearchData('bank')">Bank</a><br />
                                 <input type="text" id="txtRefBank" class="form-control" />
                             </div>
                             <div class="col-sm-6">
@@ -151,7 +169,8 @@ End Code
                                 <input type="text" id="txtRefBankName" class="form-control" disabled />
                             </div>
                             <div class="col-sm-4">
-                                Branch<br />
+                                <label id="lblRefBranch">Branch</label>
+                                <br />
                                 <input type="text" id="txtRefBranch" class="form-control" />
                             </div>
                         </div>
@@ -159,7 +178,7 @@ End Code
                     <div id="dvExp">
                         <div class="row">
                             <div class="col-sm-3">
-                                <a href="#" onclick="SearchData('serviceexp')">Exp.Code</a><br />
+                                <a id="linkCode" href="#" onclick="SearchData('serviceexp')">Exp.Code</a><br />
                                 <input type="text" id="txtExpCode" class="form-control" />
                             </div>
                             <div class="col-sm-6">
@@ -167,13 +186,15 @@ End Code
                                 <input type="text" id="txtExpName" class="form-control" disabled />
                             </div>
                             <div class="col-sm-3">
-                                Exp.Slip<br />
+                                <label id="lblExpSlipNo">Exp.Slip</label>
+                                <br />
                                 <input type="text" id="txtExpSlip" class="form-control" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-3">
-                                Amount <br /><input type="number" class="form-control" id="txtExpAmount" />
+                                <label id="lblExpAmt">Amount</label>
+                                 <br /><input type="number" class="form-control" id="txtExpAmount" />
                             </div>
                             <div class="col-sm-3">
                                 Vat <br /><input type="number" class="form-control" id="txtExpVat" onchange="CalTotal()" />
@@ -182,7 +203,8 @@ End Code
                                 Wht <br /><input type="number" class="form-control" id="txtExpWht" onchange="CalTotal()" />
                             </div>
                             <div class="col-sm-3">
-                                Net <br /><input type="number" class="form-control" id="txtExpNet" onchange="CalTotal()" />
+                                <label id="lblNet">Net</label>
+                                 <br /><input type="number" class="form-control" id="txtExpNet" onchange="CalTotal()" />
                             </div>
                         </div>
                         <select id="cboClrType" class="form-control dropdown">
@@ -196,17 +218,18 @@ End Code
                 <div class="modal-footer">         
                     <div class="row">
                         <div class="col-sm-4">
-                            Container No:<br />
+                            <label id="lblContNo">Container No</label>
+                            :<br />
                             <input type="text" id="txtCTN_NO" class="form-control" />
                         </div>
                         <div class="col-sm-3">
-                            <a href="#" onclick="SearchData('servunit')">Unit</a><br/>
+                            <a id="linkUnit" href="#" onclick="SearchData('servunit')">Unit</a><br/>
                             <input type="text" id="txtExpUnit" class="form-control" />
                         </div>
                         <div class="col-sm-5">
                             <div style="float:left">
                                 <a href="#" class="btn btn-success" id="btnUpdatePay" onclick="SaveExpense()">
-                                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Expense</b>
+                                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Expense</b>
                                 </a>
                             </div>
                             <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
@@ -541,7 +564,7 @@ End Code
             BranchCode:$('#txtBranchCode').val(),
             ControlNo:'',
             VoucherDate:CDateEN(GetToday()),
-            TRemark:'**Earnest Clearing** ' + $('#txtClrNo').val() + '/' + $('#txtItemNo').val() + ' #'+$('#txtSlipNo').val(),
+            TRemark:'**Refund Clearing** ' + $('#txtClrNo').val() + '/' + $('#txtItemNo').val() + ' #'+$('#txtSlipNo').val(),
             RecUser: user,
             RecDate: CDateEN(GetToday()),
             RecTime: GetTime(),

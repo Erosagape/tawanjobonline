@@ -17,26 +17,27 @@ End Code
     <div class="container">
         <input type="hidden" id="txtControlNo" />
         <ul id="myTabs" class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#tab1">Select Payment</a></li>
-            <li><a data-toggle="tab" href="#tab2">Document Info</a></li>
-            <li><a data-toggle="tab" href="#tab3">Receiving Details</a></li>
+            <li class="active"><a id="linkTab1" data-toggle="tab" href="#tab1">Select Payment</a></li>
+            <li><a id="linkTab2" data-toggle="tab" href="#tab2">Document Info</a></li>
+            <li><a id="linkTab3" data-toggle="tab" href="#tab3">Receiving Details</a></li>
         </ul>
         <select id="mySelects" class="form-control" style="display:none" onchange="ChangeTab(this.value);">
-            <option value="#tab1" selected>STEP 1 - Select Payment</option>
-            <option value="#tab2">STEP 2 - Select Document</option>
-            <option value="#tab3">STEP 3 - Confirm Receive</option>
+            <option id="optTab1" value="#tab1" selected>STEP 1 - Select Payment</option>
+            <option id="optTab1" value="#tab2">STEP 2 - Select Document</option>
+            <option id="optTab1" value="#tab3">STEP 3 - Confirm Receive</option>
         </select>
         <div class="tab-content">
             <div id="tab1" class="tab-pane fade in active">
                 <div class="row">
                     <div class="col-sm-3 table-bordered" id="dvCash">
-                        <label><input type="radio" name="optACType" id="chkCash" value="CA"><b>Cash/Transfer :</b></label>
+                        <label><input type="radio" name="optACType" id="chkCash" value="CA"><b id="linkCash">Cash/Transfer :</b></label>
                         <input type="text" id="txtAdvCash" class="form-control" value="" />
                         <br />
                         <table>
                             <tr>
                                 <td>
-                                    Book A/C:<br /><input type="text" id="txtBookCash" class="form-control" value="" />
+                                    <label id="lblBookCA">Book A/C:</label>
+                                    <br /><input type="text" id="txtBookCash" class="form-control" value="" />
                                 </td>
                                 <td>
                                     <br />
@@ -45,25 +46,33 @@ End Code
                             </tr>
                         </table>
                         <br />
-                        Trans.No:<input type="text" id="txtRefNoCash" class="form-control" value="" />
+                        <label id="lblRefNoCA">Trans.No:</label>
+                        <input type="text" id="txtRefNoCash" class="form-control" value="" />
                         <br />
-                        Trans.Date:<input type="date" id="txtCashTranDate" class="form-control" />
-                        Trans.Time:<input type="text" id="txtCashTranTime" class="form-control" value="" />
+                        <label id="lblTranDateCA">Trans.Date:</label>
+                        <input type="date" id="txtCashTranDate" class="form-control" />
+                        <label id="lblTranTimeCA">Trans.Time:</label>
+                        <input type="text" id="txtCashTranTime" class="form-control" value="" />
                         <br />
-                        To Bank:<select id="cboBankCash" class="form-control"></select>
-                        To Branch:<input type="text" id="txtBankBranchCash" class="form-control" />
-                        Pay To:<input type="text" id="txtCashPayTo" class="form-control" />
+                        <label id="lblBankCA">To Bank:</label>
+                        <select id="cboBankCash" class="form-control"></select>
+                        <label id="lblBranchCA">To Branch:</label>
+                        <input type="text" id="txtBankBranchCash" class="form-control" />                                                                  
+                        <label id="lblPayCA">Pay To:</label>
+                        <input type="text" id="txtCashPayTo" class="form-control" />
                         <br />
                         <input type="hidden" id="fldBankCodeCash" />
                         <input type="hidden" id="fldBankBranchCash" />
                     </div>
                     <div class="col-sm-3 table-bordered" id="dvChqCash">
-                        <label><input type="radio" name="optACType" id="chkChqCash" value="CU"><b>Customer Cheque :</b></label><input type="text" id="txtAdvChqCash" class="form-control" value="" />
+                        <input type="radio" name="optACType" id="chkChqCash" value="CU"><label><b id="linkChqCash">Customer Cheque :</b></label><input type="text" id="txtAdvChqCash" class="form-control" value="" />
                         <br />
                         <table>
                             <tr>
                                 <td>
-                                    Book A/C:<br /><input type="text" id="txtBookChqCash" class="form-control" value="" />
+                                    <label id="lblBookCH">Book A/C:</label>
+                                    <br />
+                                    <input type="text" id="txtBookChqCash" class="form-control" value="" />
                                 </td>
                                 <td>
                                     <br />
@@ -72,42 +81,57 @@ End Code
                             </tr>
                         </table>
                         <br />
-                        Chq No:<input type="text" id="txtRefNoChqCash" class="form-control" value="" />
+                        <label id="lblRefNoCH">Chq No:</label>
+                        <input type="text" id="txtRefNoChqCash" class="form-control" value="" />
                         <br />
-                        Chq Date:<input type="date" id="txtChqCashTranDate" class="form-control" />
+                        <label id="lblTranDateCH">Chq Date:</label>
+                        <input type="date" id="txtChqCashTranDate" class="form-control" />
                         <br />
                         <input type="checkbox" id="chkStatusChq" />
-                        <label for="chkStatusChq">Returned Cheque</label>
+                        <label id="lblStatusCH" for="chkStatusChq">Returned Cheque</label>
                         <br />
-                        Chq Bank:<select id="cboBankChqCash" class="form-control"></select>
-                        Chq Branch:<input type="text" id="txtBankBranchChqCash" class="form-control" />
-                        Pay To:<input type="text" id="txtChqCashPayTo" class="form-control" />
+                        <label id="lblBankCH">Chq Bank:</label>
+                        <select id="cboBankChqCash" class="form-control"></select>
+                        <label id="lblBranchCH">Chq Branch:</label>
+                        <input type="text" id="txtBankBranchChqCash" class="form-control" />
+                        <label id="lblPayCH">Pay To:</label>
+                        <input type="text" id="txtChqCashPayTo" class="form-control" />
                         <br />
                         <input type="hidden" id="fldBankCodeChqCash" />
                         <input type="hidden" id="fldBankBranchChqCash" />
                     </div>
                     <div class="col-sm-3 table-bordered" id="dvChq">
-                        <label><input type="radio" name="optACType" id="chkChq" value="CH"><b>Company Cheque :</b></label><input type="text" id="txtAdvChq" class="form-control" value="" />
+                        <label><input type="radio" name="optACType" id="chkChq" value="CH"><b id="linkChqCust">Company Cheque :</b></label>
+                        <input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
-                        Chq No:<input type="text" id="txtRefNoChq" class="form-control" value="" />
+                        <label id="lblRefNoCU">Chq No:</label>
+                        <input type="text" id="txtRefNoChq" class="form-control" value="" />
                         <br />
-                        Chq Date:<input type="date" id="txtChqTranDate" class="form-control" />
+                        <label id="lblTranDateCU">Chq Date:</label>
+                        <input type="date" id="txtChqTranDate" class="form-control" />
                         <br />
                         <input type="checkbox" id="chkIsLocal" />
-                        <label for="chkIsLocal">Local</label>
+                        <label id="lblStatusCU" for="chkIsLocal">Local</label>
                         <br />
-                        Issue Bank:<select id="cboBankChq" class="form-control"></select>
-                        Issue Branch:<input type="text" id="txtBankBranchChq" class="form-control" />
-                        Pay To:<input type="text" id="txtChqPayTo" class="form-control" />
+                        <label id="lblBankCU">Issue Bank:</label>
+                        <select id="cboBankChq" class="form-control"></select>
+                        <label id="lblBranchCU">Issue Branch:</label>
+                        <input type="text" id="txtBankBranchChq" class="form-control" />
+                        <label id="lblPayCU">Pay To:</label>
+                        <input type="text" id="txtChqPayTo" class="form-control" />
                         <br />
                     </div>
                     <div class="col-sm-3 table-bordered" id="dvCred">
-                        <label><input type="radio" name="optACType" id="optCred" value="CR"><b>Credit :</b></label><input type="text" id="txtAdvCred" class="form-control" value="" />
+                        <label><input type="radio" name="optACType" id="optCred" value="CR"><b id="linkCred">Credit :</b></label>
+                        <input type="text" id="txtAdvCred" class="form-control" value="" />
                         <br />
-                        Ref No:<input type="text" id="txtRefNoCred" class="form-control" value="" />
+                        <label id="lblRefNoCR">Ref No:</label>
+                        <input type="text" id="txtRefNoCred" class="form-control" value="" />
                         <br />
-                        Ref Date:<input type="date" id="txtCredTranDate" class="form-control" />
-                        Pay To:<input type="text" id="txtCredPayTo" class="form-control" />
+                        <label id="lblTranDateCR">Ref Date:</label>
+                        <input type="date" id="txtCredTranDate" class="form-control" />
+                        <label id="lblPayCR">Pay To:</label>
+                        <input type="text" id="txtCredPayTo" class="form-control" />
                         <br />
                     </div>
                 </div>
@@ -115,7 +139,7 @@ End Code
             <div id="tab2" class="tab-pane fade">
                 <div class="row">
                     <div class="col-sm-6">
-                        Branch
+                        <label id="lblBranch">Branch</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -124,13 +148,14 @@ End Code
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <input type="checkbox" id="chkUseDue" /> Select by Payment Due Date<br />
-                        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" /> Group Documents
+                        <input type="checkbox" id="chkUseDue" /><label id="lblSearchByDue">Select by Payment Due Date</label>
+                        <br />
+                        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" /><label id="lblGroupByDoc">Group Documents</label> 
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        Customer :
+                        <label id="lblCustCode">Customer :</label>                        
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtCustCode" style="width:120px" />
@@ -140,20 +165,22 @@ End Code
                         </div>
                     </div>
                     <div class="col-sm-2">
-                        Date From:<br />
+                        <label id="lblDateFrom">Date From:</label>
+                        <br />
                         <input type="date" class="form-control" id="txtDocDateF" />
                     </div>
                     <div class="col-sm-2">
-                        Date To:<br />
+                        <label id="lblDateTo">Date To:</label>
+                        <br />
                         <input type="date" class="form-control" id="txtDocDateT" />
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-sm-12">
-                        Tax-Invoice:<input type="text" id="txtTaxInvNo" />
+                        <label id="lblTaxNo">Tax-Invoice:</label>
+                        <input type="text" id="txtTaxInvNo" />
                         <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
-                            <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+                            <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                         </a>
                         <br />
                         <table id="tbSummary" class="table table-responsive" style="display:none">
@@ -189,7 +216,8 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        Receive Document : <br /><input type="text" id="txtListApprove" class="form-control" value="" disabled />
+                        <label id="lblListAppr">Receive Document : </label>
+                        <br /><input type="text" id="txtListApprove" class="form-control" value="" disabled />
                     </div>
                 </div>
             </div>
@@ -215,20 +243,24 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-2">
-                        Receive Date : <input type="date" id="txtPaymentDate" class="form-control" value="" />
+                        <label id="lblPayDate">Receive Date :</label>
+                        <input type="date" id="txtPaymentDate" class="form-control" value="" />
                     </div>
                     <div class="col-sm-2">
-                        Receive Total : <input type="text" id="txtSumApprove" class="form-control" value="" />
+                        <label id="lblPayTotal">Receive Total : </label>
+                        <input type="text" id="txtSumApprove" class="form-control" value="" />
                     </div>
                     <div class="col-sm-2">
-                        W/T Total : <input type="text" id="txtSumWHTax" class="form-control" value="" />
+                        <label id="lblWTTotal">W/T Total : </label>
+                        <input type="text" id="txtSumWHTax" class="form-control" value="" />
                     </div>
                     <div class="col-sm-6">
-                        Remark : <input type="text" id="txtTRemark" class="form-control" value="" />
+                        <label id="lblRemark">Remark : </label>
+                        <input type="text" id="txtTRemark" class="form-control" value="" />
                     </div>
                 </div>
                 <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Payment</b>
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Payment</b>
                 </a>
             </div>
         </div>
