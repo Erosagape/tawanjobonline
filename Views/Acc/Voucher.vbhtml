@@ -6,7 +6,7 @@ End Code
         <div id="dvForm">
             <div class="row">
                 <div class="col-sm-5">
-                    Branch:
+                    <label id="lblBranch">Branch:</label>                    
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -15,7 +15,7 @@ End Code
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <b>Reference No:</b>
+                    <b id="linkControlNo">Reference No:</b>
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" class="form-control" id="txtControlNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
@@ -23,53 +23,79 @@ End Code
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    Voucher Date<br /> <input type="date" id="txtVoucherDate" class="form-control" tabIndex="3">
+                    <label id="lblVoucherDate">Voucher Date</label>
+                    <br /> <input type="date" id="txtVoucherDate" class="form-control" tabIndex="3">
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-8">
-                    Note<br /><input type="text" id="txtTRemark" class="form-control" tabIndex="4">
+                    <label id="lblTRemark">Note</label>
+                    <br /><input type="text" id="txtTRemark" class="form-control" tabIndex="4">
                 </div>
                 <div class="col-sm-3">
-                    Customer Code<br />
+                    <label id="lblCustCode">Customer Code</label>
+                    <br />
                     <input type="text" id="txtCustCode" class="form-control">
                 </div>
                 <div class="col-sm-1">
-                    Branch<br />
+                    <label id="lblCustBranch">Branch</label>
+                    <br />
                     <input type="text" id="txtCustBranch" class="form-control">
                 </div>
             </div>
 
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#tabHeader">Payment Info</a></li>
-                <li><a data-toggle="tab" href="#tabDetail">Reference Documents</a></li>
+                <li class="active"><a id="linkTab1" data-toggle="tab" href="#tabHeader">Payment Info</a></li>
+                <li><a id="linkTab2" data-toggle="tab" href="#tabDetail">Reference Documents</a></li>
             </ul>
             <div class="tab-content">
                 <div id="tabHeader" class="tab-pane fade in active">
                     <a href="#" class="btn btn-warning" id="btnAddPayment" onclick="AddPayment()">
-                        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Detail</b>
+                        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">Add Detail</b>
                     </a>
 
                     <div class="row">
                         <div class="col-sm-3">
-                            <b>Payment</b> <br />Cash : <input type="text" id="txtPayCash" disabled /><br />
-                            Cheque : <input type="text" id="txtPayChq" disabled /><br />
-                            Credit : <input type="text" id="txtPayCred" disabled />
+                            <b id="linkPay">Payment</b>
+                            <br />
+                            <label id="lblPayCash">Cash</label>
+                             : <input type="text" id="txtPayCash" disabled />
+                            <br />
+                            <label id="lblPayChq">Cheque</label>
+                             : <input type="text" id="txtPayChq" disabled />
+                            <br />
+                            <label id="lblPayCred">Credit</label>
+                             : <input type="text" id="txtPayCred" disabled />
                         </div>
                         <div class="col-sm-3">
-                            <b>Receive</b><br />Cash : <input type="text" id="txtRcvCash" disabled /><br />
-                            Cheque : <input type="text" id="txtRcvChq" disabled /><br />
-                            Credit : <input type="text" id="txtRcvCred" disabled />
+                            <b id="linkRcv">Receive</b>
+                            <br />
+                            <label id="lblRcvCash">Cash</label>
+                             : <input type="text" id="txtRcvCash" disabled />
+                            <br />
+                            <label id="lblRcvChq">Cheque</label>
+                             : <input type="text" id="txtRcvChq" disabled />
+                            <br />
+                            <label id="lblRcvCred">Credit</label>
+                             : <input type="text" id="txtRcvCred" disabled />
                         </div>
                         <div class="col-sm-3">
-                            <b>Sum</b><br />
-                            Payment : <input type="text" id="txtPaySum" disabled /><br />
-                            Receive : <input type="text" id="txtRcvSum" disabled />
+                            <b id="linkSum">Sum</b>
+                            <br />
+                            <label id="lblSumPay">Payment</label>
+                             : <input type="text" id="txtPaySum" disabled />
+                            <br />
+                            <label id="lblSumRcv">Receive</label>
+                             : <input type="text" id="txtRcvSum" disabled />
                         </div>
                         <div class="col-sm-3">
-                            <b>Total</b><br />
-                            Voucher: <input type="text" id="txtPRSum" disabled /><br />
-                            Document : <input type="text" id="txtDocSum" disabled />
+                            <b id="linkTotal">Total</b>
+                            <br />
+                            <label id="lblTotalPR">Voucher</label>
+                            : <input type="text" id="txtPRSum" disabled />
+                            <br />
+                            <label id="lblTotalDoc">Document</label>
+                             : <input type="text" id="txtDocSum" disabled />
                         </div>
                     </div>
 
@@ -93,7 +119,7 @@ End Code
                 <div id="tabDetail" class="tab-pane fade">
                     <div>
                         <a href="#" class="btn btn-warning" id="btnAddDoc" onclick="AddDocument()">
-                            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Document</b>
+                            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAddDoc">Add Document</b>
                         </a>
                     </div>
                     <table id="tbDetail" class="table table-responsive">
@@ -115,36 +141,37 @@ End Code
             </div>
             <div class="row">
                 <div class="col-md-4" style="border-style:solid;border-width:1px">
-                    <label>Record By</label>
+                    <label id="lblRecBy">Record By</label>
                     <br />
                     <input type="text" id="txtRecUser" style="width:250px" disabled />
                     <br />
-                    Date:
+                    <label id="lblRecDate">Date:</label>                    
                     <input type="date" id="txtRecDate" disabled />
-                    Time:
+                    <label id="lblRecTime">Time:</label>                    
                     <input type="text" id="txtRecTime" style="width:80px" disabled />
                 </div>
                 <div class="col-md-4" style="border-style:solid;border-width:1px">
                     <input type="checkbox" id="chkPosted" />
-                    <label for="chkPosted">Posted By</label><br />
+                    <label id="lblPostBy" for="chkPosted">Posted By</label><br />
                     <input type="text" id="txtPostedBy" style="width:250px" disabled />
                     <br />
-                    Date:
+                    <label id="lblPostDate">Date:</label>                    
                     <input type="date" id="txtPostedDate" disabled />
-                    Time:
+                    <label id="lblPostTime">Time:</label>
                     <input type="text" id="txtPostedTime" style="width:80px" disabled />
                 </div>
                 <div class="col-md-4" style="border-style:solid;border-width:1px;color:red">
                     <input type="checkbox" id="chkCancel" />
-                    <label for="chkCancel">Cancel By</label>
+                    <label id="lblCancelBy" for="chkCancel">Cancel By</label>
                     <input type="text" id="txtCancelProve" style="width:250px" disabled />
                     <br />
-                    Date:
+                    <label id="lblCancelDate">Date:</label>                    
                     <input type="date" id="txtCancelDate" disabled />
-                    Time:
+                    <label id="lblCancelTime">Time:</label>                    
                     <input type="text" id="txtCancelTime" style="width:80px" disabled />
                     <br />
-                    Cancel Reason<input type="text" id="txtCancelReson" style="width:250px" />
+                    <label id="lblCancelReason">Cancel Reason</label>
+                    <input type="text" id="txtCancelReson" style="width:250px" />
                 </div>
             </div>
         </div>
@@ -152,8 +179,21 @@ End Code
             <div class="modal-dialog-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"></button>
-                        <h4 class="modal-title"><label id="lblHeader">Voucher List</label></h4>
+                        <h4 class="modal-title"><label id="lblHeaderDet">Filter By Voucher Date</label></h4>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label id="lblDateFrom">From</label>
+                                 : <input type="date" id="txtDateFrom" class="form-control" />
+                            </div>
+                            <div class="col-sm-3">
+                                <label id="lblDateTo">To</label>
+                                 : <input type="date" id="txtDateTo" class="form-control" />
+                            </div>
+                            <div class="col-sm-3">
+                                <br/>
+                                <button id="btnSearch" class="btn btn-primary" onclick="SetGridControl()">Search</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-body">
                         <table id="tbControl" class="table table-responsive">
@@ -185,47 +225,52 @@ End Code
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"></button>
-                        <h4 class="modal-title"><label id="lblHeader">Voucher Info</label></h4>
-                        <label><input type="radio" id="optShowPay" value="dvPayInfo" name="showInfo" onchange="ShowInfo()" checked /> Payment Info</label>
-                        <label><input type="radio" id="optShowTax" value="dvPayTax" name="showInfo" onchange="ShowInfo()" /> VAT/Tax info</label>
+                        <input type="radio" id="optShowPay" value="dvPayInfo" name="showInfo" onchange="ShowInfo()" checked /> <label id="lblShowPay" for="optShowPay">Payment Info</label>
+                        <input type="radio" id="optShowTax" value="dvPayTax" name="showInfo" onchange="ShowInfo()" /><label id="lblShowTax" for="optShowTax">VAT/Tax info</label>
                     </div>
                     <div class="modal-body">
                         <div id="dvPayInfo">
                             <div class="row">
                                 <div class="col-md-2">
-                                    No<br /><input type="text" id="txtItemNo" class="form-control" disabled>
+                                    <label id="lblItemNo">No</label>
+                                    <br /><input type="text" id="txtItemNo" class="form-control" disabled>
                                 </div>
                                 <div class="col-md-3">
                                     P/R<br /><input type="hidden" id="txtPRType" class="form-control">
                                     <select id="cboPRType" class="form-control dropdown" onchange="SetPRType()"></select>
                                 </div>
                                 <div class="col-md-4">
-                                    Voucher No:<br /><input type="text" id="txtPRVoucher" class="form-control">
+                                    <label id="lblVCNo">Voucher No</label>
+                                    :<br /><input type="text" id="txtPRVoucher" class="form-control">
                                 </div>
                                 <div class="col-md-3">
-                                    Type:<br /><input type="hidden" id="txtacType" class="form-control">
+                                    <label id="lblType">Type</label>
+                                    :<br /><input type="hidden" id="txtacType" class="form-control">
                                     <select id="cboacType" class="form-control dropdown" onchange="SetACType('cboacType','txtacType')"></select>
                                 </div>
                             </div>
                             <div id="dvBookInfo">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <a onclick="SearchData('bookacc')">Book A/C</a><br /><input type="text" id="txtBookCode" class="form-control">
+                                        <a id="linkBook" onclick="SearchData('bookacc')">Book A/C</a><br /><input type="text" id="txtBookCode" class="form-control">
                                     </div>
                                     <div class="col-md-9">
-                                        Book Name<br /><input type="text" id="txtBookName" class="form-control" disabled>
+                                        <label id="lblBookName">Book Name</label>
+                                        <br /><input type="text" id="txtBookName" class="form-control" disabled>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-2">
-                                        Bank<br /><input type="text" id="txtBankCode" class="form-control" disabled>
+                                        <label id="lblBank">Bank</label>
+                                        <br /><input type="text" id="txtBankCode" class="form-control" disabled>
                                     </div>
                                     <div class="col-md-6">
-                                        Bank Name<br /><input type="text" id="txtBankName" class="form-control" disabled>
+                                        <label id="lblBankName">Bank Name</label>
+                                        <br /><input type="text" id="txtBankName" class="form-control" disabled>
                                     </div>
                                     <div class="col-md-4">
-                                        Branch<br /><input type="text" id="txtBankBranch" class="form-control" disabled>
+                                        <label id="lblBankBranch">Branch</label>
+                                        <br /><input type="text" id="txtBankBranch" class="form-control" disabled>
                                     </div>
                                 </div>
                             </div>
@@ -233,17 +278,20 @@ End Code
                             <div id="dvChqInfo">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        Cheque No<br /><input type="text" id="txtChqNo" class="form-control">
+                                        <label id="lblChqNo">Cheque No</label>
+                                        <br /><input type="text" id="txtChqNo" class="form-control">
                                     </div>
                                     <div class="col-md-4">
-                                        C.Date<br /><input type="date" id="txtChqDate" class="form-control">
+                                        <label id="lblChqDate">C.Date</label>
+                                        <br /><input type="date" id="txtChqDate" class="form-control">
                                     </div>
                                     <div class="col-md-3">
-                                        CLR<br /><input type="hidden" id="txtChqStatus" class="form-control">
+                                        <label id="lblChqClr">CLR</label>
+                                        <br /><input type="hidden" id="txtChqStatus" class="form-control">
                                         <select id="cboChqStatus" class="form-control dropdown" onchange="SetChqStatus()"></select>
                                     </div>
                                     <div class="col-md-2">
-                                        Local Cheque
+                                        <label id="lblLocalChq">Local Cheque</label>                                        
                                         <br />
                                         <input type="hidden" id="txtIsLocal" class="form-control" value="0">
                                         <input type="checkbox" id="chkIsLocal" onclick="SetIsLocal()" />
@@ -251,59 +299,70 @@ End Code
                                 </div>
                                 <div class="row">
                                     <div class="col-md-2">
-                                        <a onclick="SearchData('bank')">Ref.Bank</a><br /><input type="text" id="txtRecvBank" class="form-control">
+                                        <a id="linkRecvBank" onclick="SearchData('bank')">Ref.Bank</a><br /><input type="text" id="txtRecvBank" class="form-control">
                                     </div>
                                     <div class="col-md-6">
-                                        Ref.Bank Name<br /><input type="text" id="txtRecvBankName" class="form-control" disabled>
+                                        <label id="lblRefBankName">Ref.Bank Name</label>
+                                        <br /><input type="text" id="txtRecvBankName" class="form-control" disabled>
                                     </div>
                                     <div class="col-md-4">
-                                        Ref.Branch<br /><input type="text" id="txtRecvBranch" class="form-control">
+                                        <label id="lblRefBankBranch">Ref.Branch</label>
+                                        <br /><input type="text" id="txtRecvBranch" class="form-control">
                                     </div>
 
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label id="lblCashAmount">CashAmount<br /><input type="number" id="txtCashAmount" class="form-control" value="0.00"></label>
+                                    <label id="lblCashAmount">CashAmount</label>
+                                    <br /><input type="number" id="txtCashAmount" class="form-control" value="0.00">
                                 </div>
                                 <div class="col-md-4">
-                                    <label id="lblChqAmount">ChqAmount<br /><input type="number" id="txtChqAmount" class="form-control" value="0.00"></label>
+                                    <label id="lblChqAmount">ChqAmount</label>
+                                    <br /><input type="number" id="txtChqAmount" class="form-control" value="0.00">
                                 </div>
                                 <div class="col-md-4">
-                                    <label id="lblCreditAmount">CreditAmount<br /><input type="number" id="txtCreditAmount" class="form-control" value="0.00"></label>
+                                    <label id="lblCreditAmount">CreditAmount</label>
+                                    <br /><input type="number" id="txtCreditAmount" class="form-control" value="0.00">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    Ref.No<br /><input type="text" id="txtDocNo" class="form-control">
+                                    <label id="lblRef">Ref.No</label>
+                                    <br /><input type="text" id="txtDocNo" class="form-control">
                                 </div>
                                 <div class="col-md-9">
-                                    Paid To<br /><input type="text" id="txtPayChqTo" class="form-control">
+                                    <label id="lblPayTo">Paid To</label>
+                                    <br /><input type="text" id="txtPayChqTo" class="form-control">
                                 </div>
                             </div>
                         </div>
                         <div id="dvPayTax">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <label><a href="#" onclick="SearchData('currency');">Currency</a></label><br />
+                                    <label><a id="linkCurr" href="#" onclick="SearchData('currency');">Currency</a></label><br />
                                     <input type="text" id="txtCurrencyCode" class="form-control" />
                                 </div>
                                 <div class="col-md-9">
-                                    Currency Name<br />
+                                    <label id="lblCurrName">Currency Name</label>
+                                    <br />
                                     <input type="text" id="txtCurrencyName" class="form-control" disabled />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
-                                    Amount Base<br />
+                                    <label id="lblSumAmt">Amount Base</label>
+                                    <br />
                                     <input type="text" id="txtSumAmt" class="form-control" onchange="CalculateTotal()" />
                                 </div>
                                 <div class="col-md-3">
-                                    Exchange Rate<br />
+                                    <label id="lblExcRate">Exchange Rate</label>
+                                    <br />
                                     <input type="text" id="txtExchangeRate" class="form-control" onchange="CalculateTotal()"/>
                                 </div>
                                 <div class="col-md-4">
-                                    Total Amount<br />
+                                    <label id="lblTotalAmt">Total Amount</label>
+                                    <br />
                                     <input type="text" id="txtTotalAmt" class="form-control" onchange="CalculateTotal()"/>
                                 </div>
                             </div>
@@ -327,11 +386,12 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
-                                    Total Net<br />
+                                    <label id="lblTotalNet">Total Net</label>
+                                    <br />
                                     <input type="text" id="txtTotalNet" class="form-control" disabled/>
                                 </div>
                                 <div class="col-md-3">
-                                    <a onclick="SearchData('servicecode')">Exp.Code</a><br /><input type="text" id="txtSICode" class="form-control">
+                                    <a id="linkExpCode" onclick="SearchData('servicecode')">Exp.Code</a><br /><input type="text" id="txtSICode" class="form-control">
                                 </div>
                                 <div class="col-md-6">
                                     <br />
@@ -340,10 +400,12 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-md-8">
-                                    Note<br /><input type="text" id="txtDTRemark" class="form-control">
+                                    <label id="lblDRemark">Note</label>
+                                    <br /><input type="text" id="txtDTRemark" class="form-control">
                                 </div>
                                 <div class="col-md-4">
-                                    Job No.<br /><input type="text" id="txtForJNo" class="form-control">
+                                    <label id="lblJNo">Job No.</label>
+                                    <br /><input type="text" id="txtForJNo" class="form-control">
                                 </div>
 
                             </div>
@@ -352,10 +414,10 @@ End Code
                     <div class="modal-footer">
                         <div style="float:left">
                             <a href="#" class="btn btn-success" id="btnUpdatePay" onclick="SavePayment()">
-                                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Detail</b>
+                                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSaveDet">Save Detail</b>
                             </a>
                             <a href="#" class="btn btn-danger" id="btnDelPay" onclick="DeletePayment()">
-                                <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete Detail</b>
+                                <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelDet">Delete Detail</b>
                             </a>
                         </div>
                         <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
@@ -367,16 +429,17 @@ End Code
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"></button>
-                        <h4 class="modal-title"><label id="lblHeader">Document Info</label></h4>
+                        <h4 class="modal-title"><label id="lblHeaderDoc">Document Info</label></h4>
                     </div>
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-2">
-                                No<br /><input type="text" id="txtDocItemNo" class="form-control">
+                                <label id="lblDocItemNo">No</label>
+                                <br /><input type="text" id="txtDocItemNo" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                Type<br /><input type="hidden" id="txtCmpType" class="form-control">
+                                <label id="lblCmpType">Type</label>
+                                <br /><input type="hidden" id="txtCmpType" class="form-control">
                                 <select id="cboCmpType" class="form-control dropdown" onchange="SetCmpType()">
                                     <option value="">N/A</option>
                                     <option value="C">Customers</option>
@@ -384,40 +447,48 @@ End Code
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <a onclick="SearchData(GetCmpType())">Company</a><br /><input type="text" id="txtCmpCode" class="form-control">
+                                <a id="linkComp" onclick="SearchData(GetCmpType())">Company</a><br /><input type="text" id="txtCmpCode" class="form-control">
                             </div>
                             <div class="col-md-2">
-                                Branch<br /><input type="text" id="txtCmpBranch" class="form-control">
+                                <label id="lblCmpBranch">Branch</label>
+                                <br /><input type="text" id="txtCmpBranch" class="form-control">
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-7">
-                                Name<br /><input type="text" id="txtCmpName" class="form-control" disabled>
+                                <label id="lblCmpName">Name</label>
+                                <br /><input type="text" id="txtCmpName" class="form-control" disabled>
                             </div>
                             <div class="col-md-5">
-                                Doc.Type<br /><input type="hidden" id="txtDocType" class="form-control">
+                                <label id="lblDocType">Doc.Type</label>
+                                <br /><input type="hidden" id="txtDocType" class="form-control">
                                 <select id="cboDocType" class="form-control dropdown" onchange="SetDocType()"></select>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">
-                                Doc.No<br /><input type="text" id="txtDDocNo" class="form-control">
+                                <label id="lblDDocNo">Doc.No</label>
+                                <br /><input type="text" id="txtDDocNo" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                Doc.Date<br /><input type="date" id="txtDocDate" class="form-control">
+                                <label id="lblDDocDate">Doc.Date</label>
+                                <br /><input type="date" id="txtDocDate" class="form-control">
                             </div>
                             <div class="col-md-4">
-                                Pay.Type<br /><input type="hidden" id="txtDocacType" class="form-control">
+                                <label id="lblPayType">Pay.Type</label>
+                                <br /><input type="hidden" id="txtDocacType" class="form-control">
                                 <select id="cboDocacType" class="form-control dropdown" onchange="SetACType('cboDocacType','txtDocacType')"></select>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-md-5">
-                                Total<br /><input type="number" id="txtTotalAmount" class="form-control" value="0.00">
+                                <label id="lblDocTotal">Total</label>
+                                <br /><input type="number" id="txtTotalAmount" class="form-control" value="0.00">
                             </div>
                             <div class="col-md-5">
-                                Amount<br /><input type="number" id="txtPaidAmount" class="form-control" value="0.00">
+                                <label id="lblPaidTotal">Amount</label>
+                                <br /><input type="number" id="txtPaidAmount" class="form-control" value="0.00">
                             </div>
 
                         </div>
@@ -425,10 +496,10 @@ End Code
                     <div class="modal-footer">
                         <div style="float:left">
                             <a href="#" class="btn btn-success" id="btnUpdateDoc" onclick="SaveDocument()">
-                                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Document</b>
+                                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSaveDoc">Save Document</b>
                             </a>
                             <a href="#" class="btn btn-danger" id="btnDelDoc" onclick="DeleteDocument()">
-                                <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete Document</b>
+                                <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelDoc">Delete Document</b>
                             </a>
                         </div>
                         <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
@@ -438,13 +509,13 @@ End Code
         </div>
         <div id="dvCommand">
             <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearForm()">
-                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Clear Data</b>
+                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkClear">Clear Data</b>
             </a>
             <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
-                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Data</b>
+                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Data</b>
             </a>
             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-                <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Data</b>
+                <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Data</b>
             </a>
         </div>
     </div>
@@ -698,6 +769,7 @@ End Code
                 SetGridBranch(path, '#tbBranch', '#frmSearchBranch', ReadBranch);
                 break;
             case 'controlno':
+                $('#frmHeader').modal('show');
                 SetGridControl();
                 break;
             case 'cust':
@@ -917,8 +989,14 @@ End Code
         //}
     }
     function SetGridControl() {
-        let code = $('#txtBranchCode').val();
-        $.get(path + 'acc/getvouchergrid?branch=' + code, function (r) {
+        let w ='?Branch=' + $('#txtBranchCode').val();
+        if ($('#txtDateFrom').val() !== "") {
+            w = w + '&DateFrom=' + CDateEN($('#txtDateFrom').val());
+        }
+        if ($('#txtDateTo').val() !== "") {
+            w = w + '&DateTo=' + CDateEN($('#txtDateTo').val());
+        }
+        $.get(path + 'acc/getvouchergrid' + w, function (r) {
             if (r.voucher.data.length == 0) {
                 ShowMessage('data not found on this branch',true);
                 return;
@@ -978,7 +1056,6 @@ End Code
             $('#frmHeader').on('shown.bs.modal', function () {
                 $('#tbControl_filter input').focus();
             });
-            $('#frmHeader').modal('show');
         });
     }
     function SetGridPayment(list) {

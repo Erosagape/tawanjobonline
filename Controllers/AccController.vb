@@ -829,6 +829,12 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Job")) Then
                     tSqlw &= String.Format(" AND d.ForJNo ='{0}'", Request.QueryString("Job").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlw &= " AND h.VoucherDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlw &= " AND h.VoucherDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
                 If IsNothing(Request.QueryString("Cancel")) Then
                     tSqlw &= " AND NOT ISNULL(h.CancelProve,'')<>'' "
                 Else
@@ -879,11 +885,18 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format(" AND ControlNo ='{0}'", Request.QueryString("Code").ToString)
                 End If
-
+                Dim tSqlH As String = " AND ControlNo IN(SELECT ControlNo FROM Job_CashControl " & tSqlw & " "
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlH &= " AND VoucherDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlH &= " AND VoucherDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
+                tSqlH &= ")"
                 Dim oData = New CVoucher(GetSession("ConnJob")).GetData(tSqlw)
                 Dim oHead As String = JsonConvert.SerializeObject(oData)
-                Dim oSub As String = JsonConvert.SerializeObject(New CVoucherSub(GetSession("ConnJob")).GetData(tSqlw))
-                Dim oDoc As String = JsonConvert.SerializeObject(New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectVoucherDoc(tSqlw)))
+                Dim oSub As String = JsonConvert.SerializeObject(New CVoucherSub(GetSession("ConnJob")).GetData(tSqlw & tSqlH))
+                Dim oDoc As String = JsonConvert.SerializeObject(New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectVoucherDoc(tSqlw & tSqlH)))
 
                 Dim json = "{""voucher"":{""header"":" & oHead & ",""payment"":" & oSub & ",""document"":" & oDoc & "}}"
                 Return Content(json, jsonContent)
@@ -914,11 +927,18 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format(" AND ControlNo ='{0}'", Request.QueryString("Code").ToString)
                 End If
-
+                Dim tSqlH As String = " AND ControlNo IN(SELECT ControlNo from Job_CashControl " & tSqlw
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlH &= " AND VoucherDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlH &= " AND VoucherDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
+                tSqlH &= ")"
                 Dim oData = New CVoucher(GetSession("ConnJob")).GetData(tSqlw)
                 Dim oHead As String = JsonConvert.SerializeObject(oData)
                 Dim oSub As String = JsonConvert.SerializeObject(New CVoucherSub(GetSession("ConnJob")).GetData(tSqlw))
-                Dim oDoc As String = JsonConvert.SerializeObject(New CVoucherDoc(GetSession("ConnJob")).GetData(tSqlw))
+                Dim oDoc As String = JsonConvert.SerializeObject(New CVoucherDoc(GetSession("ConnJob")).GetData(tSqlw & tsqlH))
 
                 Dim json = "{""voucher"":{""header"":" & oHead & ",""payment"":" & oSub & ",""document"":" & oDoc & "}}"
                 Return Content(json, jsonContent)

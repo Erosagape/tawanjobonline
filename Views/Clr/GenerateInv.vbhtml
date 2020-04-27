@@ -5,7 +5,7 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                Branch:
+                <label id="lblBranch">Branch:</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -14,17 +14,19 @@ End Code
                 </div>
             </div>
             <div class="col-sm-3">
-                Job Type: <br />
+                <label id="lblJobType">Job Type</label>
+                <br />
                 <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()"></select>
             </div>
             <div class="col-sm-3">
-                Ship By:<br />
+                <label id="lblShipBy">Ship By</label>
+                <br />
                 <select id="cboShipBy" class="form-control dropdown"></select>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
-                Customer:
+                <label id="lblCustCode">Customer</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" style="width:120px" />
@@ -34,13 +36,13 @@ End Code
                 </div>
             </div>
             <div class="col-sm-3">
-                <a href="#" onclick="SearchData('job')">Job No :</a><br />
+                <a id="linkJobNo" href="#" onclick="SearchData('job')">Job No :</a><br />
                 <input type="text" id="txtJobNo" class="form-control" disabled />
             </div>
             <div class="col-sm-3">
                 <br />
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
-                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
             </div>
         </div>
@@ -64,10 +66,10 @@ End Code
                 </table>
                 <br />
                 <a href="#" class="btn btn-success" id="btnGen" onclick="ShowSummary()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Create Invoice</b>
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkCreate">Create Invoice</b>
                 </a>
                 <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ResetData()">
-                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Reset Select</b>
+                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkReset">Reset Select</b>
                 </a>
             </div>
         </div>
@@ -79,11 +81,13 @@ End Code
                     <div class="row">
                         <div class="col-sm-4" style="display:flex">
                             <div style="flex:1">
-                                Invoice Date :<br />
+                                <label id="lblInvDate">Invoice Date :</label>
+                                <br />
                                 <input type="date" id="txtDocDate" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
                             </div>
                             <div style="flex:1">
-                                Invoice Type :<br />
+                                <label id="lblInvType">Invoice Type :</label>
+                                <br />
                                 <select id="cboDocType" class="form-control dropdown">
                                     <option value="IVS-">Service</option>
                                     <option value="IVT-">Transport</option>
@@ -94,7 +98,8 @@ End Code
                         </div>
                         <div class="col-sm-4" style="display:flex">
                             <div style="flex:1">
-                                Replace Invoice No:<br />
+                                <label id="lblReplaceInv">Replace Invoice No:</label>
+                                <br />
                                 <div style="display:flex;flex-direction:row">
                                     <input type="text" id="txtDocNo" class="form-control" disabled />
                                     <input type="button" onclick="SearchData('invoice')" value="..." />
@@ -103,16 +108,18 @@ End Code
                             <div style="flex:1">
                                 <br />
                                 <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintInvoice()">
-                                    <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Invoice</b>
+                                    <i class="fa fa-lg fa-print"></i>&nbsp;<b id="lblPrintDoc">Print Invoice</b>
                                 </a>
                             </div>
                         </div>
                         <div class="col-sm-4" style="display:flex">
                             <div style="flex:1">
-                                Discount Rate(%):<br /><input type="number" id="txtDiscountRate" class="form-control" onchange="SetDiscount()" />
+                                <label id="lblDiscountRate">Discount Rate(%):</label>
+                                <br /><input type="number" id="txtDiscountRate" class="form-control" onchange="SetDiscount()" />
                             </div>
                             <div style="flex:1">
-                                Discount Amt:<br /><input type="number" id="txtCalDiscount" class="form-control" onchange="SumDiscount()" />
+                                <label id="lblCalDiscount">Discount Amt</label>
+                                <br /><input type="number" id="txtCalDiscount" class="form-control" onchange="SumDiscount()" />
                             </div>
                         </div>
                     </div>
@@ -124,7 +131,7 @@ End Code
                             <table>
                                 <tr>
                                     <td>
-                                        Use Cheque:
+                                        <label id="lblCheque">Use Cheque:</label>                                        
                                         <br />
                                         <div style="display:flex;flex-direction:row">
                                             <input type="text" id="txtChqNo" class="form-control" disabled />
@@ -132,16 +139,17 @@ End Code
                                         </div>
                                     </td>
                                     <td>
-                                        Cheque Amount<br />
+                                        <label id="lblChqAmount">Cheque Used</label>
+                                        <br />
                                         <input type="number" id="txtChqAmount" class="form-control" />
                                     </td>
                                     <td>
                                         <br />
-                                        <input type="button" id="btnAddCheque" value="Add" class="btn" onclick="AddCheque()" />
+                                        <input type="button" id="btnAddCheque" value="+" class="btn" onclick="AddCheque()" />
                                     </td>
                                 </tr>
                             </table>
-                            <b>Cheque Used</b><br />
+                            <b id="linkChq">Customer Cheques</b><br />
                             <input type="hidden" id="txtControlNo" />
                             <table id="tbCheque" class="table table-responsive">
                                 <thead>
@@ -155,7 +163,7 @@ End Code
                             </table>
                         </div>
                         <div class="col-sm-8">
-                            <b>Costing of Invoice:</b><br />
+                            <b id="linkCost">Costing of Invoice:</b><br />
                             <table id="tbCost" class="table table-responsive" style="width:100%;">
                                 <thead>
                                     <tr>
@@ -174,40 +182,40 @@ End Code
                     </div>
                     <div class="row">
                         <div class="col-sm-4">
-                            <b>Invoice Summary:</b>
+                            <b id="linkInv">Invoice Summary:</b>
                             <br />
                             <table style="width:100%">
-                                <tr><td>Advance </td><td><input type="text" id="txtTotalAdvance" class="form-control" disabled /></td></tr>
-                                <tr><td>Charge</td><td><input type="text" id="txtTotalCharge" class="form-control" disabled /></td></tr>
-                                <tr><td>Line Discount</td><td><input type="text" id="txtSumDiscount" class="form-control" disabled /></td></tr>
-                                <tr><td>Vatable</td><td><input type="text" id="txtTotalIsTaxCharge" class="form-control" disabled /></td></tr>
-                                <tr><td>Taxable</td><td><input type="text" id="txtTotalIs50Tavi" class="form-control" disabled /></td></tr>
-                                <tr><td>VAT</td><td><input type="text" id="txtTotalVat" class="form-control" disabled /></td></tr>
-                                <tr><td>After VAT</td><td><input type="text" id="txtTotalAfter" class="form-control" disabled /></td></tr>
-                                <tr><td>Cust.Advance</td><td><input type="text" id="txtTotalCustAdv" class="form-control" disabled /></td></tr>
-                                <tr><td>WHT</td><td><input type="text" id="txtTotal50Tavi" class="form-control" disabled /></td></tr>
-                                <tr><td>After WHT</td><td><input type="text" id="txtTotalService" class="form-control" disabled /></td></tr>
-                                <tr><td>Sum Discount</td><td><input type="text" id="txtTotalDiscount" class="form-control" disabled /></td></tr>
-                                <tr><td>NET</td><td><input type="text" id="txtTotalNet" class="form-control" disabled /></td></tr>
+                                <tr><td id="colAdv">Advance</td><td><input type="text" id="txtTotalAdvance" class="form-control" disabled /></td></tr>
+                                <tr><td id="colChg">Charge</td><td><input type="text" id="txtTotalCharge" class="form-control" disabled /></td></tr>
+                                <tr><td id="colDis">Line Discount</td><td><input type="text" id="txtSumDiscount" class="form-control" disabled /></td></tr>
+                                <tr><td id="colVatB">Vatable</td><td><input type="text" id="txtTotalIsTaxCharge" class="form-control" disabled /></td></tr>
+                                <tr><td id="colTaxB">Taxable</td><td><input type="text" id="txtTotalIs50Tavi" class="form-control" disabled /></td></tr>
+                                <tr><td id="colVat">VAT</td><td><input type="text" id="txtTotalVat" class="form-control" disabled /></td></tr>
+                                <tr><td id="colSumVat">After VAT</td><td><input type="text" id="txtTotalAfter" class="form-control" disabled /></td></tr>
+                                <tr><td id="colCustAdv">Cust.Advance</td><td><input type="text" id="txtTotalCustAdv" class="form-control" disabled /></td></tr>
+                                <tr><td id="colWH">WHT</td><td><input type="text" id="txtTotal50Tavi" class="form-control" disabled /></td></tr>
+                                <tr><td id="colSumWH">After WHT</td><td><input type="text" id="txtTotalService" class="form-control" disabled /></td></tr>
+                                <tr><td id="colSumDisc">Sum Discount</td><td><input type="text" id="txtTotalDiscount" class="form-control" disabled /></td></tr>
+                                <tr><td id="colNet">NET</td><td><input type="text" id="txtTotalNet" class="form-control" disabled /></td></tr>
                                 <tr>
-                                    <td>Currency</td>
+                                    <td id="colCurr">Currency</td>
                                     <td>
                                         <input type="text" id="txtCurrencyCode" disabled />
                                         <input type="button" value="..." onclick="SearchData('currency')" />
                                     </td>
                                 </tr>
-                                <tr><td>Exc.Rate</td><td><input type="text" id="txtExchangeRate" class="form-control" onchange="CalForeign()" /></td></tr>
-                                <tr><td>Invoiced</td><td><input type="text" id="txtForeignNet" class="form-control" disabled /></td></tr>
-                                <tr><td>Cost</td><td><input type="text" id="txtTotalCost" class="form-control" disabled /></td></tr>
-                                <tr><td>Profit</td><td><input type="text" id="txtTotalProfit" class="form-control" disabled /></td></tr>
+                                <tr><td id="colExc">Exc.Rate</td><td><input type="text" id="txtExchangeRate" class="form-control" onchange="CalForeign()" /></td></tr>
+                                <tr><td id="colInv">Invoiced</td><td><input type="text" id="txtForeignNet" class="form-control" disabled /></td></tr>
+                                <tr><td id="colCost">Cost</td><td><input type="text" id="txtTotalCost" class="form-control" disabled /></td></tr>
+                                <tr><td id="colProfit">Profit</td><td><input type="text" id="txtTotalProfit" class="form-control" disabled /></td></tr>
                             </table>
                             <a href="#" class="btn btn-success" id="btnGen" onclick="ApproveData()">
-                                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Invoice</b>
+                                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Invoice</b>
                             </a>
                         </div>
                         <div class="col-sm-8">
-                            <b>Invoice Detail:</b>
-                            <button id="btnMerge" class="btn btn-default" onclick="MergeData()">Group Same Expenses</button>
+                            <b id="linkDet">Invoice Detail:</b>
+                            <button id="btnMerge" class="btn btn-default" onclick="MergeData()">Group Data</button>
                             <br />
                             <table id="tbDetail" class="table table-responsive" style="width:100%;">
                                 <thead>
@@ -236,57 +244,70 @@ End Code
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        Clearing No : <label id="lblClrNo"></label>
-                        Job No : <label id="lblJobNo"></label>
+                        <label id="lblClearNo">Clearing No</label> : 
+                        <label id="lblClrNo"></label>                                                                     
+                        <label id="lblJNo">Job No</label>: 
+                        <label id="lblJobNo"></label>
                         <br />
-                        Code : <label id="lblSICode"></label>
-                        Description : <label id="lblSDescription"></label>
+                        <label id="lblCode">Code</label>: 
+                        <label id="lblSICode"></label>
+                        <label id="lblDesc">Description</label>:
+                        <label id="lblSDescription"></label>
                     </div>
                     <div class="modal-body">
                         <table>
                             <tr style="width:100%">
                                 <td style="width:20%">
-                                    Advance :<br />
+                                    <label id="lblAdv">Advance :</label>
+                                    <br />
                                     <input type="text" class="form-control" id="txtAmtAdvance" onchange="CalNetAmount()" />
                                 </td>
                                 <td style="width:20%">
-                                    Charges :<br />
+                                    <label id="lblChg">Charges</label>
+                                    <br />
                                     <input type="text" class="form-control" id="txtAmtCharge" onchange="CalVATWHT(0)" />
                                 </td>
                                 <td style="width:10%">
-                                    Disc (%)<br />
+                                    <label id="lblDisc">Disc (%)</label>
+                                    <br />
                                     <input type="number" id="txtAmtDiscountPerc" class="form-control" value="0" onchange="CalDiscount()">
                                 </td>
                                 <td style="width:15%">
-                                    Discount:<br />
+                                    <label id="lblDiscAmt">Discount:</label>
+                                    <br />
                                     <input type="text" id="txtAmtDiscount" value="0" class="form-control" onchange="CalNetAmount()">
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width:5%">
-                                    VAT Rate:<br /><input type="number" id="txtAmtVATRate" class="form-control" value="0" onchange="CalVATWHT(0)">
+                                    <label id="lblVATRate">VAT Rate:</label>
+                                    <br /><input type="number" id="txtAmtVATRate" class="form-control" value="0" onchange="CalVATWHT(0)">
                                 </td>
                                 <td style="width:10%">
-                                    VAT:<br />
+                                    <label id="lblVAT">VAT:</label>
+                                    <br />
                                     <input type="text" class="form-control" id="txtAmtVAT" onchange="CalNetAmount()" />
                                 </td>
                                 <td style="width:5%">
-                                    W/T :<br /><input type="number" id="txtAmtWHTRate" class="form-control" value="0" onchange="CalVATWHT(1)">
+                                    <label id="lblWTRate">W/T :</label>
+                                    <br /><input type="number" id="txtAmtWHTRate" class="form-control" value="0" onchange="CalVATWHT(1)">
                                 </td>
                                 <td style="width:10%">
-                                    WH-Tax:<br />
+                                    <label id="lblWT">WH-Tax:</label>
+                                    <br />
                                     <input type="text" class="form-control" id="txtAmtWHT" onchange="CalNetAmount()" />
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width:20%">
-                                    NET :<br />
+                                    <label id="lblNetAmt">NET :</label>
+                                    <br />
                                     <input type="text" class="form-control" id="txtAmtNET" onchange="CalNetAmount()" />
                                 </td>
                                 <td style="width:10%">
                                     <br />
                                     <a href="#" class="btn btn-success" id="btnSplit" onclick="UpdateData()">
-                                        <i class="fa fa-lg fa-save"></i>&nbsp;<b>Update Data</b>
+                                        <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkUpdate">Update Data</b>
                                     </a>
                                 </td>
                             </tr>
