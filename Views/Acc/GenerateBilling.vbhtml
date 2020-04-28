@@ -5,7 +5,7 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                Branch:
+                <label id="lblBranch">Branch:</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -14,17 +14,19 @@ End Code
                 </div>
             </div>
             <div class="col-sm-2">
-                Invoice Date From:<br />
+                <label id="lblDocDateF">Invoice Date From:</label>
+                <br />
                 <input type="date" class="form-control" id="txtDocDateF" />
             </div>
             <div class="col-sm-2">
-                Invoice Date To:<br />
+                <label id="lblDocDateT">Invoice Date To</label>
+                <br />
                 <input type="date" class="form-control" id="txtDocDateT" />
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
-                Customer:
+                <label id="lblCustCode">Customer</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" style="width:120px" />
@@ -36,7 +38,7 @@ End Code
             <div class="col-sm-3">
                 <br />
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
-                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
             </div>
         </div>
@@ -60,7 +62,7 @@ End Code
                 </table>
                 <br />
                 <a href="#" class="btn btn-success" id="btnGen" onclick="ShowSummary()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Create Billing</b>
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkGen">Create Billing</b>
                 </a>
             </div>
         </div>
@@ -71,11 +73,12 @@ End Code
                 <div class="modal-header">
                     <div class="row">
                         <div class="col-sm-3">
-                            Billing Date :<br />
+                            <label id="lblDocDate">Billing Date</label>
+                            <br />
                             <input type="date" id="txtDocDate" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
                         </div>
                         <div class="col-sm-3">
-                            <a href="#" onclick="SearchData('billing')">Billing Place :</a><br />
+                            <a id="lblBillToCustCode" href="#" onclick="SearchData('billing')">Billing Place :</a><br />
                             <input type="text" id="txtBillToCustCode" class="form-control" disabled />
                         </div>
                         <div class="col-sm-2">
@@ -90,33 +93,34 @@ End Code
                     <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                 </div>
                 <div class="modal-body">
-                    <b>Billing Summary:</b><br />
+                    <b id="lblBillSummary">Billing Summary:</b><br />
                     <div class="row">
                         <div class="col-sm-4">
                             <table style="width:100%">
-                                <tr><td>Advance </td><td><input type="text" id="txtTotalAdvance" class="form-control" disabled /></td></tr>
-                                <tr><td>Charge</td><td><input type="text" id="txtTotalCharge" class="form-control" disabled /></td></tr>
-                                <tr><td>Vatable</td><td><input type="text" id="txtTotalIsTaxCharge" class="form-control" disabled /></td></tr>
-                                <tr><td>Taxable</td><td><input type="text" id="txtTotalIs50Tavi" class="form-control" disabled /></td></tr>
-                                <tr><td>VAT</td><td><input type="text" id="txtTotalVat" class="form-control" disabled /></td></tr>
-                                <tr><td>After VAT</td><td><input type="text" id="txtTotalAfter" class="form-control" disabled /></td></tr>
-                                <tr><td>WHT</td><td><input type="text" id="txtTotal50Tavi" class="form-control" disabled /></td></tr>
-                                <tr><td>After WHT</td><td><input type="text" id="txtTotalService" class="form-control" disabled /></td></tr>
-                                <tr><td>Cust.Advance</td><td><input type="text" id="txtTotalCustAdv" class="form-control" disabled /></td></tr>
-                                <tr><td>NET</td><td><input type="text" id="txtTotalNet" class="form-control" disabled /></td></tr>
+                                <tr><td id="lblTotalAdvance">Advance </td><td><input type="text" id="txtTotalAdvance" class="form-control" disabled /></td></tr>
+                                <tr><td id="lblTotalCharge">Charge</td><td><input type="text" id="txtTotalCharge" class="form-control" disabled /></td></tr>
+                                <tr><td id="lblTotalIsTaxCharge">Vatable</td><td><input type="text" id="txtTotalIsTaxCharge" class="form-control" disabled /></td></tr>
+                                <tr><td id="lblTotalIs50Tavi">Taxable</td><td><input type="text" id="txtTotalIs50Tavi" class="form-control" disabled /></td></tr>
+                                <tr><td id="lblTotalVat">VAT</td><td><input type="text" id="txtTotalVat" class="form-control" disabled /></td></tr>
+                                <tr><td id="lblTotalAfter">After VAT</td><td><input type="text" id="txtTotalAfter" class="form-control" disabled /></td></tr>
+                                <tr><td id="lblTotal50Tavi">WHT</td><td><input type="text" id="txtTotal50Tavi" class="form-control" disabled /></td></tr>
+                                <tr><td id="lblTotalService">After WHT</td><td><input type="text" id="txtTotalService" class="form-control" disabled /></td></tr>
+                                <tr><td id="lblTotalCustAdv">Cust.Advance</td><td><input type="text" id="txtTotalCustAdv" class="form-control" disabled /></td></tr>
+                                <tr><td id="lblTotalNet">NET</td><td><input type="text" id="txtTotalNet" class="form-control" disabled /></td></tr>
                             </table>
                             <a href="#" class="btn btn-success" id="btnGen" onclick="ApproveData()">
-                                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Billing</b>
+                                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Billing</b>
                             </a>
                             <br/>
-                            Billing No :<br/>
+                            <label id="lblDocNo">Billing No :</label>
+                            <br/>
                             <input type="text" id="txtDocNo" disabled />
                             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintBilling()">
-                                <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Billing</b>
+                                <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Billing</b>
                             </a>
                         </div>
                         <div class="col-sm-8">
-                            <b>Billing Detail:</b><br />
+                            <b id="lblDetail">Billing Detail:</b><br />
                             <table id="tbDetail" style="width:100%;">
                                 <thead>
                                     <tr>

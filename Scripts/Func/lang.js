@@ -170,6 +170,35 @@ function ChangeLanguage(code, module) {
 function ChangeLanguageForm(fname) {
     let lang = {};
     switch (fname) {
+        case 'Acc/GenerateBilling':
+            lang = {
+                lblTitle: 'Generate Billing|สร้างใบวางบิล',
+                lblBranch: 'Branch|สาขา',
+                lblDocDateF: 'Invoice Date From|ใบแจ้งหนี้จากวันที่',
+                lblDocDateT: 'Invoice Date To|ถึงวันที่',
+                lblCustCode: 'Customer Code|รหัสลูกค้า',
+                linkSearch: 'Search|ค้นหา',
+                linkGen:'Create Billing|สร้างใบวางบิล',
+                lblDocDate: 'Billing Date|วันที่เอกสาร',
+                lblBillToCustCode: 'Billing Place|สถานที่วางบิล',
+                lblBillSummary:'Billing Summary|สรุปรวมยอด',
+                lblTotalAdvance: 'Advance|ทดรองจ่าย',
+                lblTotalCharge: 'Charge|ค่าบริการ',
+                lblTotalIsTaxCharge: 'Vatable|ฐานภาษีมุลค่าเพิ่ม',
+                lblTotalIs50Tavi: 'Taxable|ฐานภาษี ณ ที่จ่าย',
+                lblTotalVat: 'VAT|ภาษีมูลค่าเพิ่ม',
+                lblTotalAfter: 'After VAT|ยอดรวม VAT',
+                lblTotal50Tavi: 'WHT|หัก ณ ที่จ่าย',
+                lblTotalService: 'After WHT|ยอดรวม WHT',
+                lblTotalCustAdv: 'Cust.Advance|รับล่วงหน้า',
+                lblTotalNet: 'NET|ยอดสุทธิ',
+                linkSave:'Save Billing|บันทึกใบวางบิล',
+                lblDocNo: 'Billing No|เลขที่เอกสาร',
+                linkPrint: 'Print Billing|พิมพ์ใบวางบิล',
+                lblDetail:'Billing Detail|รายการใบวางบิล'
+            };
+            SetLanguage(lang);
+            break;
         case 'MODULE_ADV/Approve':
             lang = {
                 lblTitle: 'Approve Advance Slip|อนุมัติใบเบิกค่าใช้จ่าย',
@@ -429,6 +458,49 @@ function ChangeLanguageForm(fname) {
                 lblAccType: 'Type|ประเภท',
                 lblAccMain: 'Close Balance To|ปิดยอดให้กับ',
                 lblAccSide: 'Side|บันทึกบัญชีด้าน'
+            };
+            SetLanguage(lang);
+            break;
+        case 'MODULE_ACC/Billing':
+            lang = {
+                lblTitle: 'Billing Acknowledgement|ใบวางบิล',
+                lblBranch: 'Branch|สาขา',
+                lblBillingPlace: 'BillingPlace|สถานที่วางบิล',
+                lblDocDateF: 'Bill Date From|จากวันที่วางบิล',
+                lblDocDateT: 'Bill Date to|ถึงวันที่',
+                linkSearch: 'Search|ค้นหา',
+                linkCreate:'New Billing|สร้างใบวางบิลใหม่',
+                lblCancel: 'Show Cancel Only|แสดงที่ยกเลิกเท่านั้น',
+                linkHeader: 'Headers|ส่วนควบคุม',
+                linkDetail:'Details|ส่วนรายการ',
+                lblDocNo: 'Details of Billing No|รายละเอียดใบวางบิล',
+                linkDelete: 'Delete|ลบรายการ',
+                btnCancel:'Cancel|ยกเลิก',
+                linkPrint: 'Print|พิมพ์เอกสาร',
+                linkPrint2: 'Print|พิมพ์เอกสาร',
+                lblBillAcceptNo: 'Billing No|เลขที่ใบวางบิล',
+                lblIssueDate: 'Issue Date|วันที่เอกสาร',
+                lblBCustCode: 'Billing To|สถานที่วางบิล',
+                lblBillRecvBy: 'Received By|รับวางบิลโดย',
+                lblBillRecvDate: 'Confirm Date|วันที่รับวางบิล',
+                lblBillRemark: 'Remark|หมายเหตุ',
+                lblDuePaymentDate: 'Payment Due|กำหนดชำระ',
+                lblCancelProve: 'Cancel By|ยกเลิกโดย',
+                lblCancelReson: 'Reason|สาเหตุที่ยกเลิก',
+                lblCancelDate: 'Cancel Date|วันที่ยกเลิก',
+                lblCancelTime: 'Cancel Time|เวลาที่ยกเลิก',
+                lblTotalAdvance: 'Advance|คชจ.จ่ายแทน',
+                lblTotalChargeNonVAT: 'Service Non-vat|ค่าบริการไม่มี VAT',
+                lblTotalChargeVAT: 'Service vat|ค่าบริการมี VAT',
+                lblTotalCustAdv: 'Customer Adv|เงินรับล่วงหน้า',
+                lblTotalVAT: 'Total VAT|ยอด VAT',
+                lblTotalWH: 'WH Tax|หัก ณ ที่จ่าย',
+                lblTotalDiscount: 'Total Discount|ส่วนลด',
+                lblTotalNet: 'Total Net|ยอดสุทธิ',
+                lblEmpCode: 'Staff|รหัสพนักงาน',
+                lblRecDateTime: 'Record Date|วันทึบันทึก',
+                linkUpdate: 'Update|จัดเก็บข้อมูล',
+                linkPrint:'Print|พิมพ์ใบวางบิล'
             };
             SetLanguage(lang);
             break;
