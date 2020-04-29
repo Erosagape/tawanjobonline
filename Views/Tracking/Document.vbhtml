@@ -60,11 +60,11 @@ End Code
         </div>
         <div class="col-sm-2">
             <br />
-            <input type="button" id="btnShow" class="btn btn-primary" value="Show" onclick="RefreshGrid()" />
+            <button id="btnShow" class="btn btn-primary" onclick="RefreshGrid()">Show</button>
         </div>
     </div>
     <div>
-        <input type="button" id="btnAddFile" class="btn btn-primary" value="Add Files" onclick="AddFile()" />
+        <button id="btnAddFile" class="btn btn-primary" onclick="AddFile()">Add File</button>
         <table id="tbDocument" class="table table-responsive">
             <thead>
                 <tr>

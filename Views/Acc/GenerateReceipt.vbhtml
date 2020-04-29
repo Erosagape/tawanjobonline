@@ -5,7 +5,7 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                Branch:
+                <label id="lblBranch">Branch:</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -14,17 +14,20 @@ End Code
                 </div>
             </div>
             <div class="col-sm-2">
-                Invoice Date From:<br />
+                <label id="lblDocDateF">Invoice Date From:</label>
+                <br />
                 <input type="date" class="form-control" id="txtDocDateF" />
             </div>
             <div class="col-sm-2">
-                Invoice Date To:<br />
+                <label id="lblDocDateT">Invoice Date To:</label>
+                <br />
                 <input type="date" class="form-control" id="txtDocDateT" />
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
-                Customer:<input type="checkbox" id="chkBilling">Search For Billing Place
+                <label id="lblCustCode">Customer:</label>
+                <input type="checkbox" id="chkBilling"><label id="lblBilling">Search For Billing Place</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" style="width:120px" />
@@ -35,9 +38,9 @@ End Code
             </div>
         </div>
         <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
-            <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+            <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
         </a>
-        <label for="chkGroupByDoc">Group By Document</label>
+        <label id="lblGroupDoc" for="chkGroupByDoc">Group By Document</label>
         <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" />
         <div class="row" id="dvSummary" style="display:none">
             <div class="col-sm-12">
@@ -74,7 +77,7 @@ End Code
         </div>
         <br />
         <a href="#" class="btn btn-success" id="btnGen" onclick="ShowSummary()">
-            <i class="fa fa-lg fa-save"></i>&nbsp;<b>Create Receipts</b>
+            <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkGen">Create Receipts</b>
         </a>
     </div>
     <div id="dvCreate" class="modal modal-lg fade" role="dialog">
@@ -83,16 +86,20 @@ End Code
                 <div class="modal-header">
                     <div class="row">
                         <div class="col-sm-3">
-                            Receipt Date :<br />
+                            <label id="lblDocDate">Receipt Date :</label>
+                            <br />
                             <input type="date" id="txtDocDate" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
                         </div>
                         <div class="col-sm-3">
-                            <a href="#" onclick="SearchData('billing')">Billing Place :</a><br />
+                            <label id="lblBillToCustCode">Billing Place :</label><br />
                             <input type="text" id="txtBillToCustCode" class="form-control" disabled />
                         </div>
                         <div class="col-sm-2">
                             <br />
-                            <input type="text" id="txtBillToCustBranch" class="form-control" disabled />
+                            <div style="display:flex">
+                                <input type="text" id="txtBillToCustBranch" class="form-control" disabled />
+                                <button class="btn btn-default" onclick=" SearchData('billing')">...</button>
+                            </div>
                         </div>
                         <div class="col-sm-4">
                             <br />
@@ -102,27 +109,27 @@ End Code
                     <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                 </div>
                 <div class="modal-body">
-                    <b>Receipt Summary:</b><br />
                     <div class="row">
                         <div class="col-sm-2">
-                            Total Advance:
+                            <label id="lblTotalAdvance">Total Advance:</label>                            
                             <br />
                             <input type="text" id="txtTotalAdvance" class="form-control" disabled />
                             <br />
-                            <input type="checkbox" id="chkMerge" checked /> Generate One Receipt<br />
+                            <input type="checkbox" id="chkMerge" checked /><label id="lblMerge">Generate One Receipt</label> <br />
                             <div id="dvMsg"></div>
                             <a href="#" class="btn btn-success" id="btnGen" onclick="ApproveData()">
-                                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Receipts</b>
+                                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Receipts</b>
                             </a>
                             <br />
-                            Receipt No :<br/><input type="text" id="txtDocNo" class="form-control" disabled /><br />
+                            <label id="lblDocNo">Receipt No :</label>
+                            <br/><input type="text" id="txtDocNo" class="form-control" disabled /><br />
                             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintReceipt()">
-                                <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Receipts</b>
+                                <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Receipts</b>
                             </a>
 
                         </div>
                         <div class="col-sm-10">
-                            <b>Invoice Detail:</b><br />
+                            <b id="lblDetail">Invoice Detail:</b><br />
                             <table id="tbDetail" class="table table-responsive" style="width:100%;">
                                 <thead>
                                     <tr>

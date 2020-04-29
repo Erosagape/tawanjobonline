@@ -4,7 +4,7 @@
 End Code
 <div class="row">
     <div class="col-sm-3">
-        Branch
+        <label id="lblBranch">Branch</label>        
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtBranchCode" style="width:60px" disabled />
@@ -12,21 +12,21 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        Job No:
+        <label id="lblJobNo">Job No:</label>        
         <br/>
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtJNo" disabled />
         </div>
     </div>
     <div class="col-sm-3">
-        Close Date :
+        <label id="lblCloseDate">Close Date :</label>        
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="date" id="txtCloseDate" class="form-control" disabled />
         </div>
     </div>
     <div class="col-sm-4">
-        Job Status:
+        <label id="lblJobStatus">Job Status:</label>        
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtJobStatus" style="background-color:lightgoldenrodyellow;color:red;" disabled />
@@ -51,62 +51,75 @@ End Code
 </table>
 <div class="row">
     <div class="col-sm-3">
-        Service : <input type="text" id="txtSumService" class="form-control" disabled />
+        <label id="lblService">Service</label>
+         : <input type="text" id="txtSumService" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
-        Advance :<input type="text" id="txtSumAdvance" class="form-control" disabled />
+        <label id="lblAdvance">Advance</label>
+         :<input type="text" id="txtSumAdvance" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
-        Cost :<input type="text" id="txtSumCost" class="form-control" disabled />
+        <label id="lblCost">Cost</label>
+         :<input type="text" id="txtSumCost" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
-        Profit :<input type="text" id="txtSumProfit" class="form-control" disabled />
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-3">
-        Vatable :<input type="text" id="txtSumBaseVAT" class="form-control" disabled />
-    </div>
-    <div class="col-sm-3">
-        Non-vat :<input type="text" id="txtSumNonVAT" class="form-control" disabled />
-    </div>
-    <div class="col-sm-3">
-        VAT :<input type="text" id="txtSumVAT" class="form-control" disabled />
-    </div>
-    <div class="col-sm-3">
-        W/H-Tax :<input type="text" id="txtSumWHT" class="form-control" disabled />
+        <label id="lblProfit">Profit</label>
+         :<input type="text" id="txtSumProfit" class="form-control" disabled />
     </div>
 </div>
 <div class="row">
     <div class="col-sm-3">
-        Chargeable :<input type="text" id="txtSumCharge" class="form-control" disabled />
+        <label id="lblBaseVat">Vatable</label>
+         :<input type="text" id="txtSumBaseVAT" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
-        Invoiced :<input type="text" id="txtSumInvoice" class="form-control" disabled />
+        <label id="lblNonVat">Non-vat</label>
+         :<input type="text" id="txtSumNonVAT" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
-        Cleared :<input type="text" id="txtSumClear" class="form-control" disabled />
+        <label id="lblVat">VAT</label>
+         :<input type="text" id="txtSumVAT" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
-        Pending :<input type="text" id="txtSumPending" class="form-control" disabled />
+        <label id="lblWhTax">W/H-Tax</label>
+         :<input type="text" id="txtSumWHT" class="form-control" disabled />
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3">
+        <label id="lblSumCharge">Chargeable</label>
+         :<input type="text" id="txtSumCharge" class="form-control" disabled />
+    </div>
+    <div class="col-sm-3">
+        <label id="lblInv">Invoiced</label>
+         :<input type="text" id="txtSumInvoice" class="form-control" disabled />
+    </div>
+    <div class="col-sm-3">
+        <label id="lblSumClear">Cleared</label>
+         :<input type="text" id="txtSumClear" class="form-control" disabled />
+    </div>
+    <div class="col-sm-3">
+        <label id="lblPending">Pending</label>
+         :<input type="text" id="txtSumPending" class="form-control" disabled />
     </div>
 </div>
 <a href="#" class="btn btn-success" id="btnGenerateInv">
-    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Generate Invoice</b>
+    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkGen">Generate Invoice</b>
 </a>
 <a href="#" class="btn btn-info" id="btnPrintJobsum">
-    <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print Summary</b>
+    <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Summary</b>
 </a>
 <div class="modal fade" id="dvEditor" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                Set Invoice To <label id="lblClrNo"></label> # <label id="lblItemNo"></label>
+                <label id="lblSetInv">Set Invoice To</label>
+                 <label id="lblClrNo"></label> # <label id="lblItemNo"></label>
             </div>
             <div class="modal-body">
                 <input type="text" id="txtInvoiceNo" />
                 <a href="#" class="btn btn-success" id="btnUpdateInv" onclick="UpdateInvoice()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Update Invoice</b>
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkUpdate">Update Invoice</b>
                 </a>
             </div>
             <div class="modal-footer">

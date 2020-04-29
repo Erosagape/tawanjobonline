@@ -4,7 +4,7 @@ End Code
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-4">
-                Branch
+                <label id="lblBranch">Branch</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -13,7 +13,7 @@ End Code
                 </div>
             </div>
             <div class="col-sm-6">
-                Customer:
+                <label id="lblCustCode">Customer:</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtCustCode" style="width:20%" disabled />
@@ -25,34 +25,36 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-2">
-                Receipt Date From:<br />
+                <label id="lblDocDateF">Receipt Date From:</label>
+                <br />
                 <input type="date" class="form-control" id="txtDocDateF" />
             </div>
             <div class="col-sm-2">
-                Receipt Date To:<br />
+                <label id="lblDocDateT">Receipt Date To:</label>
+                <br />
                 <input type="date" class="form-control" id="txtDocDateT" />
             </div>
             <div class="col-sm-3">
                 <br />
                 <a href="#" class="btn btn-primary" id="btnShow">
-                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="lblSearch">Search</b>
                 </a>
                 <a href="#" class="btn btn-default w3-purple" id="btnGen" onclick="CreateReceipt()">
-                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Create Receipt</b>
+                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="lblCreate">Create Receipt</b>
                 </a>
             </div>
         </div>
         <ul class="nav nav-tabs">
             <li class="active">
-                <a data-toggle="tab" href="#tabHeader">Headers</a>
+                <a id="linkHeader" data-toggle="tab" href="#tabHeader">Headers</a>
             </li>
             <li>
-                <a data-toggle="tab" href="#tabDetail">Details</a>
+                <a id="linkDetail" data-toggle="tab" href="#tabDetail">Details</a>
             </li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane fade in active" id="tabHeader">
-                <input type="checkbox" id="chkCancel" />Show Cancel Only
+                <input type="checkbox" id="chkCancel" /><label id="lblCancel">Show Cancel Only</label>
                 <table id="tbHeader" class="table table-responsive">
                     <thead>
                         <tr>
@@ -68,7 +70,8 @@ End Code
                 </table>
             </div>
             <div class="tab-pane fade" id="tabDetail">
-                Details of Receipt No:<input type="text" id="txtDocNo" class="form-control" disabled />
+                <label id="lblDocNoDet">Details of Receipt No:</label>
+                <input type="text" id="txtDocNo" class="form-control" disabled />
                 <table id="tbDetail" class="table table-responsive">
                     <thead>
                         <tr>
@@ -90,7 +93,7 @@ End Code
             </div>
         </div>
         <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-            <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print</b>
+            <i class="fa fa-lg fa-print"></i>&nbsp;<b id="lblPrint">Print</b>
         </a>
         <div id="frmHeader" class="modal fade">
             <div class="modal-dialog-lg">
@@ -98,13 +101,15 @@ End Code
                     <div class="modal-header">
                         <div class="row">
                             <div class="col-sm-3">
-                                Receipt No:<br/><input type="text" id="txtReceiptNo" class="form-control" disabled />
+                                <label id="lblReceiptNo">Receipt No:</label>
+                                <br/><input type="text" id="txtReceiptNo" class="form-control" disabled />
                             </div>
                             <div class="col-sm-3">
-                                Doc.Date:<br/><input type="date" id="txtReceiptDate" class="form-control" disabled />
+                                <label id="lblReceiptDate">Doc.Date:</label>
+                                <br/><input type="date" id="txtReceiptDate" class="form-control" disabled />
                             </div>
                             <div class="col-sm-6">
-                                Customer:
+                                <label id="lblHCustCode">Customer:</label>                                
                                 <br/>
                                 <div style="display:flex">
                                     <input type="text" id="txtHCustCode" class="form-control" style="width:20%" disabled />
@@ -118,7 +123,7 @@ End Code
                         <div class="row">
                             <div class="col-sm-5" style="display:flex;flex-direction:column">
                                 <div>
-                                    Bill To:
+                                    <label id="lblBillToCustCode">Bill To:</label>                                    
                                     <br/>
                                     <div style="display:flex">
                                         <input type="text" id="txtBillToCustCode" class="form-control" style="width:20%" disabled />
@@ -130,12 +135,12 @@ End Code
                                     <textarea id="txtBillAddress" class="form-control-lg" style="width:100%;height:100%" disabled></textarea>
                                 </div>
                                 <div>
-                                    Receipt Note:
+                                    <label id="lblTRemark">Receipt Note:</label>                                    
                                     <br/>
                                     <textarea id="txtTRemark" class="form-control-lg" style="width:100%;height:100%"></textarea>
                                 </div>
                                 <div>
-                                    Currency:
+                                    <label id="lblCurrencyCode">Currency:</label>                                    
                                     <br/>
                                     <div style="display:flex">
                                         <input type="text" id="txtCurrencyCode" class="form-control" style="width:15%" disabled />
@@ -147,84 +152,96 @@ End Code
                             <div class="col-sm-4" style="display:flex;flex-direction:column">
                                 <div style="display:flex">
                                     <div style="flex:1">
-                                        Exchange Rate:
+                                        <label id="lblExchangeRate">Exchange Rate:</label>                                        
                                         <br/>
                                         <input type="text" id="txtExchangeRate" class="form-control" onchange="CalForeign()" />
                                     </div>
                                     <div style="flex:1">
-                                        Total Foreign:
+                                        <label id="lblFTotalNet">Total Foreign:</label>                                        
                                         <br/>
                                         <input type="text" id="txtFTotalNet" class="form-control" disabled />
                                     </div>                                                                        
                                 </div>
                                 <div style="display:flex">
-                                    <label style="width:40%">Total Charge:</label><input type="text" id="txtTotalCharge" class="form-control" style="width:40%" disabled /> THB
+                                    <label style="width:40%" id="lblTotalCharge">Total Charge:</label><input type="text" id="txtTotalCharge" class="form-control" style="width:40%" disabled /> THB
                                 </div>
                                 <div style="display:flex">
-                                    <label style="width:40%">Total VAT:</label><input type="text" id="txtTotalVAT" class="form-control" style="width:40%" disabled /> THB
+                                    <label style="width:40%" id="lblTotalVAT">Total VAT:</label><input type="text" id="txtTotalVAT" class="form-control" style="width:40%" disabled /> THB
                                 </div>
                                 <div style="display:flex">
-                                    <label style="width:40%">Total TAX:</label><input type="text" id="txtTotal50Tavi" class="form-control" style="width:40%" disabled /> THB
+                                    <label style="width:40%" id="lblTotal50Tavi">Total TAX:</label><input type="text" id="txtTotal50Tavi" class="form-control" style="width:40%" disabled /> THB
                                 </div>
                                 <div style="display:flex">
-                                    <label style="width:40%">Total Net:</label><input type="text" id="txtTotalNet" class="form-control" style="width:40%" disabled /> THB
+                                    <label style="width:40%" id="lblTotalNet">Total Net:</label><input type="text" id="txtTotalNet" class="form-control" style="width:40%" disabled /> THB
                                 </div>
                             </div>
                             <div class="col-sm-3" style="display:flex;flex-direction:column">
                                 <div>
-                                    Voucher Ref:<br/><input type="text" id="txtReceiveRef" class="form-control" disabled />
+                                    <label id="lblReceiveRef">Voucher Ref:</label>
+                                    <br/><input type="text" id="txtReceiveRef" class="form-control" disabled />
                                 </div>
                                 <div>
-                                    Receive Date:<br/><input type="date" id="txtReceiveDate" class="form-control" disabled />
+                                    <label id="lblReceiveDate">Receive Date:</label>
+                                    <br/><input type="date" id="txtReceiveDate" class="form-control" disabled />
                                 </div>
                                 <div>
-                                    Receive Time:<br/><input type="text" id="txtReceiveTime" class="form-control" disabled />
+                                    <label id="lblReceiveTime">Receive Time:</label>
+                                    <br/><input type="text" id="txtReceiveTime" class="form-control" disabled />
                                 </div>
                                 <div>
-                                    Receive By:<br/><input type="text" id="txtReceiveBy" class="form-control" disabled />
+                                    <label id="lblReceiveBy">Receive By:</label>
+                                    <br/><input type="text" id="txtReceiveBy" class="form-control" disabled />
                                 </div>
                             </div>
                         </div>
                         <p>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    Create By:<br /> <input type="text" id="txtEmpCode" class="form-control" disabled />
+                                    <label id="lblEmpCode">Create By:</label>
+                                    <br /> <input type="text" id="txtEmpCode" class="form-control" disabled />
                                 </div>
                                 <div class="col-sm-3">
-                                    Print Date:<br /> <input type="date" id="txtPrintedDate" class="form-control" disabled />
+                                    <label id="lblPrintedDate">Print Date:</label>
+                                    <br /> <input type="date" id="txtPrintedDate" class="form-control" disabled />
                                 </div>
                                 <div class="col-sm-2">
-                                    Print Time:<br /><input type="text" id="txtPrintedTime" class="form-control" disabled />
+                                    <label id="lblPrintedTime">Print Time:</label>
+                                    <br /><input type="text" id="txtPrintedTime" class="form-control" disabled />
                                 </div>
                                 <div class="col-sm-3">
-                                    Print By:<br /> <input type="text" id="txtPrintedBy" class="form-control" disabled />
+                                    <label id="lblPrintedBy">Print By:</label>
+                                    <br /> <input type="text" id="txtPrintedBy" class="form-control" disabled />
                                 </div>
                             </div>
                         </p>
                         <div class="row">
                             <div class="col-sm-4">
-                                Cancel Reason:<br /> <textarea id="txtCancelReson" class="form-control-lg" style="width:80%"></textarea>
+                                <label id="lblCancelReson">Cancel Reason:</label>
+                                <br /> <textarea id="txtCancelReson" class="form-control-lg" style="width:80%"></textarea>
                                 <button id="btnCancel" class="btn btn-danger" onclick="CancelData()">Cancel</button>
                             </div>
                             <div class="col-sm-3">
-                                Cancel date:<br /> <input type="date" id="txtCancelDate" class="form-control" disabled />
+                                <label id="lblCancelDate">Cancel date:</label>
+                                <br /> <input type="date" id="txtCancelDate" class="form-control" disabled />
                             </div>
                             <div class="col-sm-2">
-                                Cancel Time:<br /><input type="text" id="txtCancelTime" class="form-control" disabled />
+                                <label id="lblCancelTime">Cancel Time:</label>
+                                <br /><input type="text" id="txtCancelTime" class="form-control" disabled />
                             </div>
                             <div class="col-sm-3">
-                                Cancel By:<br /> <input type="text" id="txtCancelProve" class="form-control" disabled />
+                                <label id="lblCancelProve">Cancel By:</label>
+                                <br /> <input type="text" id="txtCancelProve" class="form-control" disabled />
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <div style="float:left">
                             <a href="#" class="btn btn-success" id="btnUpdate" onclick="SaveData()">
-                                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+                                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
                             </a>
                         </div>
                         <a href="#" class="btn btn-info" id="btnPrint2" onclick="PrintData()">
-                            <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print</b>
+                            <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print</b>
                         </a>
                         <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                     </div>
@@ -238,23 +255,24 @@ End Code
                         <div class="row">
                             <div class="col-sm-6" style="display:flex">
                                 <div style="flex:3">
-                                    Receipt No
+                                    <label id="lblDDocNo">Receipt No</label>                                    
                                     <br/>
                                     <input type="text" id="txtDDocNo" class="form-control" disabled />
                                 </div>
                                 <div style="flex:1">
-                                    Item No.<br/>
+                                    <label id="lblItemNo">Item No.</label>
+                                    <br/>
                                     <input type="text" id="txtItemNo" class="form-control" disabled />
                                 </div>                                                                                                
                             </div>
                             <div class="col-sm-6" style="display:flex">
                                 <div style="flex:3">
-                                    Invoice No
+                                    <label id="lblInvoiceNo">Invoice No</label>                                    
                                     <br/>
                                     <input type="text" id="txtInvoiceNo" class="form-control" disabled />
                                 </div>
                                 <div style="flex:1">
-                                    No#
+                                    <label id="lblInvoiceItemNo">No#</label>                                    
                                     <br/>
                                     <input type="text" id="txtInvoiceItemNo" class="form-control" disabled />
                                 </div>
@@ -264,7 +282,7 @@ End Code
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-3">
-                                Code
+                                <label id="lblSICode">Code</label>                                
                                 <br/>
                                 <input type="text" id="txtSICode" class="form-control" disabled />
                             </div>
@@ -276,7 +294,7 @@ End Code
                         <p>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    Payment Type
+                                    <label id="lblPayType">Payment Type</label>                                    
                                     <br/>
                                     <select id="cboacType" class="form-control" onchange="ChangeAmount()">
                                         <option value="CA">Cash</option>
@@ -286,12 +304,12 @@ End Code
                                     </select>
                                 </div>
                                 <div class="col-sm-4">
-                                    Currency
+                                    <label id="lblDCurrencyCode">Currency</label>                                    
                                     <br/>
                                     <input type="text" id="txtDCurrencyCode" class="form-control" disabled />
                                 </div>
                                 <div class="col-sm-4">
-                                    Exc.Rate
+                                    <label id="lblDExchangeRate">Exc.Rate</label>                                    
                                     <br/>
                                     <input type="number" id="txtDExchangeRate" class="form-control" onchange="CalForeignDetail()" />
                                 </div>
@@ -300,7 +318,7 @@ End Code
                                 <div class="col-sm-6">
                                     <div style="display:flex">
                                         <div style="flex:1">
-                                            Amount
+                                            <label id="lblAmt">Amount</label>                                            
                                         </div>
                                         <div style="flex:2">
                                             <input type="number" id="txtAmt" class="form-control" onchange="CalVATWHT(0)" disabled />
@@ -310,7 +328,7 @@ End Code
                                 <div class="col-sm-6">
                                     <div style="display:flex">
                                         <div style="flex:1">
-                                            Amount (F)
+                                            <label id="lblAmtF">Amount (F)</label>                                            
                                         </div>
                                         <div style="flex:2">
                                             <input type="number" id="txtFAmt" class="form-control" onchange="CalForeignDetail()" />
@@ -321,7 +339,7 @@ End Code
                             <div class="row">
                                 <div class="col-sm-6" style="display:flex">
                                     <div style="flex:1">
-                                        VAT
+                                        <label id="lblIsTaxCharge">VAT</label>                                        
                                         <br />
                                         <select id="txtIsTaxCharge" class="form-control dropdown" disabled>
                                             <option value="0">NO</option>
@@ -330,19 +348,19 @@ End Code
                                         </select>
                                     </div>
                                     <div style="flex:2">
-                                        Rate
+                                        <label id="lblVATRate">Rate</label>                                        
                                         <br/>
                                         <input type="number" id="txtVATRate" class="form-control" onchange="CalVATWHT(0)" />
                                     </div>
                                 </div>
                                 <div class="col-sm-6" style="display:flex">
                                     <div style="flex:1">
-                                        VAT
+                                        <label id="lblAmtVAT">VAT</label>                                        
                                         <br/>
                                         <input type="number" id="txtAmtVAT" class="form-control" onchange="CalNetAmount()" />
                                     </div>
                                     <div style="flex:1">
-                                        VAT (F)
+                                        <label id="lblFAmtVAT">VAT (F)</label>                                        
                                         <br />
                                         <input type="number" id="txtFAmtVAT" class="form-control" disabled />
                                     </div>
@@ -351,28 +369,27 @@ End Code
                             <div class="row">
                                 <div class="col-sm-6" style="display:flex">
                                     <div style="flex:1">
-                                        WH-TAX
+                                        <label id="lblIs50Tavi">WH-TAX</label>                                        
                                         <br />
                                         <select id="txtIs50Tavi" class="form-control dropdown" disabled>
                                             <option value="0">NO</option>
                                             <option value="1">YES</option>
                                         </select>
-
                                     </div>
                                     <div style="flex:2">
-                                        Rate
+                                        <label id="lblRate50Tavi">Rate</label>                                        
                                         <br />       
                                         <input type="number" id="txtRate50Tavi" class="form-control" onchange="CalVATWHT(1)" />
                                     </div>
                                 </div>
                                 <div class="col-sm-6" style="display:flex">
                                     <div style="flex:1">
-                                        WHT
+                                        <label id="lblAmt50Tavi">WHT</label>                                        
                                         <br />
                                         <input type="number" id="txtAmt50Tavi" class="form-control" onchange="CalNetAmount()" />
                                     </div>
                                     <div style="flex:1">
-                                        WHT (F)
+                                        <label id="lblFAmt50Tavi">WHT (F)</label>                                        
                                         <br />
                                         <input type="number" id="txtFAmt50Tavi" class="form-control" disabled />
                                     </div>
@@ -382,7 +399,7 @@ End Code
                                 <div class="col-sm-6">
                                     <div style="display:flex">
                                         <div style="flex:1">
-                                            Net
+                                            <label id="lblNet">Net</label>                                            
                                         </div>
                                         <div style="flex:2">
                                             <input type="number" id="txtNet" class="form-control" onchange="ChangeAmount()" disabled />
@@ -392,7 +409,7 @@ End Code
                                 <div class="col-sm-6">
                                     <div style="display:flex">
                                         <div style="flex:1">
-                                            Net (F)
+                                            <label id="lblFNet">Net (F)</label>                                            
                                         </div>
                                         <div style="flex:2">
                                             <input type="number" id="txtFNet" class="form-control" disabled />
@@ -404,29 +421,36 @@ End Code
                         <p>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    Cash<br /><input type="number" id="txtCashAmount" class="form-control" disabled />
+                                    <label id="lblCashAmount">Cash</label>
+                                    <br /><input type="number" id="txtCashAmount" class="form-control" disabled />
                                 </div>
                                 <div class="col-sm-3">
-                                    Transfer<br /><input type="number" id="txtTransferAmount" class="form-control" disabled />
+                                    <label id="lblTransferAmount">Transfer</label>
+                                    <br /><input type="number" id="txtTransferAmount" class="form-control" disabled />
                                 </div>
                                 <div class="col-sm-3">
-                                    Cheque<br /><input type="number" id="txtChequeAmount" class="form-control" disabled />
+                                    <label id="lblChequeAmount">Cheque</label>
+                                    <br /><input type="number" id="txtChequeAmount" class="form-control" disabled />
                                 </div>
                                 <div class="col-sm-3">
-                                    Credit<br /><input type="number" id="txtCreditAmount" class="form-control" disabled />
+                                    <label id="lblCreditAmount">Credit</label>
+                                    <br /><input type="number" id="txtCreditAmount" class="form-control" disabled />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    Voucher No:<br />
+                                    <label id="lblVoucherNo">Voucher No:</label>
+                                    <br />
                                     <input type="text" id="txtVoucherNo" class="form-control" disabled />
                                 </div>
                                 <div class="col-sm-4">
-                                    Control No:<br />
+                                    <label id="lblControlNo">Control No:</label>
+                                    <br />
                                     <input type="text" id="txtControlNo" class="form-control" disabled />
                                 </div>
                                 <div class="col-sm-4">
-                                    #No:<br />
+                                    <label id="lblControlItemNo">#No:</label>
+                                    <br />
                                     <input type="text" id="txtControlItemNo" class="form-control" disabled />
                                 </div>
                             </div>
@@ -435,10 +459,10 @@ End Code
                     <div class="modal-footer">
                         <div style="float:left">
                             <a href="#" class="btn btn-success" id="btnUpd" onclick="SaveDetail()">
-                                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+                                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
                             </a>
                             <a href="#" class="btn btn-danger" id="btnDel" onclick="DeleteDetail()">
-                                <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete</b>
+                                <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDel">Delete</b>
                             </a>
                         </div>
                         <button id="btnHid" class="btn btn-danger" data-dismiss="modal">X</button>

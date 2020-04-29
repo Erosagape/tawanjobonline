@@ -847,8 +847,9 @@ WHERE a.acType='" & pType & "'
 AND a.PRType='" & chqType & "' AND a.ChqAmount>0 AND ISNULL(a.ChqNo,'')<>'' 
 "
     End Function
-    Function SQLSelectDocumentBalance(pType As String) As String
-        Return "
+    Function SQLSelectDocumentBalance(pType As String, docType As String) As String
+        If docType = "Credit" Then
+            Return "
 SELECT a.*,ISNULL(c.CreditUsed,0) AS AmountUsed,a.CreditAmount-ISNULL(c.CreditUsed,0) as AmountRemain,
 b.CustCode,b.CustBranch,b.VoucherDate
 FROM Job_CashControlSub a INNER JOIN Job_CashControl b
@@ -867,6 +868,27 @@ ON a.BranchCode=c.BranchCode
 AND a.DocNo=c.DocNo 
 WHERE a.PRType='" & pType & "' AND a.CreditAmount>0 AND ISNULL(a.DocNo,'')<>'' 
 "
+        Else
+            Return "
+SELECT a.*,ISNULL(c.CreditUsed,0) AS AmountUsed,(a.CashAmount+a.ChqAmount)-ISNULL(c.CreditUsed,0) as AmountRemain,
+b.CustCode,b.CustBranch,b.VoucherDate
+FROM Job_CashControlSub a INNER JOIN Job_CashControl b
+ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
+LEFT JOIN (
+    SELECT h.BranchCode,h.DocNo,SUM(d.PaidAmount) as CreditUsed    
+    FROM Job_CashControlSub h INNER JOIN Job_CashControlDoc d
+    ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
+    WHERE h.PRType='" & If(pType = "R", "P", "R") & "' AND NOT EXISTS(
+select ControlNo from Job_CashControl
+where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
+    )
+    GROUP BY h.BranchCode,h.DocNo
+) c
+ON a.BranchCode=c.BranchCode
+AND a.DocNo=c.DocNo 
+WHERE a.PRType='" & pType & "' AND (a.CashAmount+a.ChqAmount)>0 AND ISNULL(a.DocNo,'')<>'' 
+"
+        End If
     End Function
     Function SQLSelectJobReport() As String
         Return "

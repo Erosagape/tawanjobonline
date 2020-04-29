@@ -506,6 +506,16 @@ ORDER BY CustCode,InvDate,DocNo
                         sqlW = GetSQLCommand(cliteria, "a.ChqDate", "b.CustCode", "", "b.RecUser", "", "a.ChqStatus", "a.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = " SELECT ChqNo,ChqDate,CustCode,ChqStatus,ChqAmount,DocUsed,TRemark FROM (" & SQLSelectChequeBalance("CH", "P") & sqlW & ") t ORDER BY CustCode,ChqDate,ChqNo "
+                    Case "RVDAILY"
+                        fldGroup = "VoucherDate"
+                        sqlW = GetSQLCommand(cliteria, "VoucherDate", "CustCode", "", "RecUser", "", "", "BranchCode")
+                        If sqlW <> "" Then sqlW = " WHERE " & sqlW
+                        sqlM = "SELECT ControlNo,PRVoucher as VoucherNo,VoucherDate,DocNo,CashAmount,ChqAmount,AmountUsed FROM (" & SQLSelectDocumentBalance("R", "") & ") t " & sqlW & " ORDER BY VoucherDate,ControlNo"
+                    Case "PVDAILY"
+                        fldGroup = "VoucherDate"
+                        sqlW = GetSQLCommand(cliteria, "VoucherDate", "CustCode", "", "RecUser", "", "", "BranchCode")
+                        If sqlW <> "" Then sqlW = " WHERE " & sqlW
+                        sqlM = "SELECT ControlNo,PRVoucher as VoucherNo,VoucherDate,DocNo,CashAmount,ChqAmount,AmountUsed FROM (" & SQLSelectDocumentBalance("P", "") & " ) t " & sqlW & " ORDER BY VoucherDate,ControlNo"
                     Case "TRIALBAL"
                     Case "BALANCS"
                     Case "PROFITLOSS"

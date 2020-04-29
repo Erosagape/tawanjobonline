@@ -4,7 +4,7 @@
 End Code
     <div class="row">
         <div class="col-sm-4">
-            Branch
+            <label id="lblBranch">Branch</label>            
             <br />
             <div style="display:flex;flex-direction:row">
                 <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -13,7 +13,7 @@ End Code
             </div>
         </div>
         <div class="col-sm-4">
-            <b>Batch No:</b>
+            <b id="lblBatchNo">Batch No:</b>
             <br />
             <div style="display:flex;flex-direction:row">
                 <input type="text" class="form-control" id="txtGLRefNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
@@ -21,15 +21,17 @@ End Code
             </div>
         </div>
         <div class="col-sm-2">
-            Record By :<br /><div style="display:flex"><input type="text" id="txtUpdateBy" class="form-control" disabled></div>
+            <label id="lblRecBy">Record By :</label>
+            <br /><div style="display:flex"><input type="text" id="txtUpdateBy" class="form-control" disabled></div>
         </div>
         <div class="col-sm-2">
-            Record Date<br /> <input type="date" id="txtBatchDate" class="form-control" tabIndex="3">
+            <label id="lblRecDate">Record Date</label>
+            <br /> <input type="date" id="txtBatchDate" class="form-control" tabIndex="3">
         </div>
     </div>
     <div class="row">
         <div class="col-sm-4">
-            GL Type
+            <label id="lblGLType">GL Type</label>            
             <br />
             <select id="txtGLType" class="form-control dropdown">
                 <option value="OP">Opening Entry</option>
@@ -45,15 +47,17 @@ End Code
             </select>
         </div>
         <div class="col-sm-6">
-            Remark :<br /><div style="display:flex"><textarea id="txtRemark" class="form-control"></textarea></div>
+            <label id="lblRemark">Remark :</label>
+            <br /><div style="display:flex"><textarea id="txtRemark" class="form-control"></textarea></div>
         </div>
         <div class="col-sm-2">
-            Fiscal Year :<br /><div style="display:flex"><input type="text" id="txtFiscalYear" class="form-control"></div>
+            <label id="lblYear">Fiscal Year :</label>
+            <br /><div style="display:flex"><input type="text" id="txtFiscalYear" class="form-control"></div>
         </div>
     </div>
 <div>
     <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
-        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>Add Entry</b>
+        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">Add Entry</b>
     </a>
     <table id="tbDetail" class="table table-responsive">
         <thead>
@@ -71,18 +75,21 @@ End Code
 <div class="row">
     <div class="col-sm-4" style="display:flex;flex-direction:column">
         <div>
-            Total Debit :<br /><div style="display:flex"><input type="number" id="txtTotalDebit" class="form-control" value="0.00" disabled></div>
+            <label id="lblTotalDr">Total Debit :</label>
+            <br /><div style="display:flex"><input type="number" id="txtTotalDebit" class="form-control" value="0.00" disabled></div>
         </div>
         <div>
-            Total Credit :<br /><div style="display:flex"><input type="number" id="txtTotalCredit" class="form-control" value="0.00" disabled></div>
+            <label id="lblTotalCr">Total Credit :</label>
+            <br /><div style="display:flex"><input type="number" id="txtTotalCredit" class="form-control" value="0.00" disabled></div>
         </div>
     </div>
     <div class="col-sm-4" style="display:flex;flex-direction:column">
         <div>
-            Approve Date :<br /><div style="display:flex"><input type="date" id="txtApproveDate" class="form-control" disabled></div>
+            <label id="lblApprDate">Approve Date :</label>
+            <br /><div style="display:flex"><input type="date" id="txtApproveDate" class="form-control" disabled></div>
         </div>
         <div>
-            Approve By :
+            <label id="lblApprBy">Approve By :</label>            
             <br />
             <div style="display:flex">
                 <input type="text" id="txtApproveBy" class="form-control" disabled>
@@ -92,36 +99,41 @@ End Code
     </div>
     <div class="col-sm-4" style="display:flex;flex-direction:column">
         <div>
-            Post Date :<br /><div style="display:flex"><input type="date" id="txtPostDate" class="form-control" disabled></div>
+            <label id="lblPostDate">Post Date :</label>
+            <br /><div style="display:flex"><input type="date" id="txtPostDate" class="form-control" disabled></div>
         </div>
         <div>
-            Post By :<br /><div style="display:flex"><input type="text" id="txtPostBy" class="form-control" disabled></div>
+            <label id="lblPostBy">Post By :</label>
+            <br /><div style="display:flex"><input type="text" id="txtPostBy" class="form-control" disabled></div>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-sm-3">
-        Cancel Date :<br /><div style="display:flex"><input type="date" id="txtCancelDate" class="form-control" disabled></div>
+        <label id="lblCancelDate">Cancel Date :</label>
+        <br /><div style="display:flex"><input type="date" id="txtCancelDate" class="form-control" disabled></div>
     </div>
     <div class="col-sm-3">
-        Cancel By :<br /><div style="display:flex"><input type="text" id="txtCancelBy" class="form-control" disabled></div>
+        <label id="lblCancelBy">Cancel By :</label>
+        <br /><div style="display:flex"><input type="text" id="txtCancelBy" class="form-control" disabled></div>
     </div>
     <div class="col-sm-6">
-        Cancel Reason :<br /><div style="display:flex"><input type="text" id="txtCancelReason" class="form-control"></div>
+        <label id="lblCancelReason">Cancel Reason :</label>
+        <br /><div style="display:flex"><input type="text" id="txtCancelReason" class="form-control"></div>
     </div>
 </div>
 <div id="dvCommands">
     <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearData()">
-        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New</b>
+        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkNew">New</b>
     </a>
     <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
-        <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+        <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
     </a>
     <a href="#" class="btn btn-danger" id="btnDelete" onclick="CancelData()">
-        <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Cancel</b>
+        <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkCancel">Cancel</b>
     </a>
     <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-        <i class="fa fa-lg fa-print"></i>&nbsp;<b>Print</b>
+        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print</b>
     </a>
 </div>
 <div id="dvDetail" class="modal fade">
@@ -129,50 +141,58 @@ End Code
         <div class="modal-content">
             <div class="modal-header" style="display:flex">
                 <div>
-                    Entry No:<br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control"></div>
+                    <label id="lblItemNo">Entry No:</label>
+                    <br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control"></div>
                 </div>
                 <div>
-                    Entry Date :<br /><div style="display:flex"><input type="date" id="txtEntryDate" class="form-control" disabled></div>
+                    <label id="lblEntryDate">Entry Date :</label>
+                    <br /><div style="display:flex"><input type="date" id="txtEntryDate" class="form-control" disabled></div>
                 </div>
                 <div>
-                    Entry By :<br /><div style="display:flex"><input type="text" id="txtEntryBy" class="form-control" disabled></div>
+                    <label id="lblEntryBy">Entry By :</label>
+                    <br /><div style="display:flex"><input type="text" id="txtEntryBy" class="form-control" disabled></div>
                 </div>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-3">
-                        A/C Code :<br />
+                        <label id="lblAcCode">A/C Code :</label>
+                        <br />
                         <div style="display:flex">
                             <input type="text" id="txtGLAccountCode" class="form-control">
                             <input type="button" class="btn btn-default" value="..." onclick="SearchData('acccode')" />
                         </div>
                     </div>
                     <div class="col-sm-8">
-                        A/C Description :<br /><div style="display:flex"><input type="text" id="txtGLDescription" class="form-control"></div>
+                        <label id="lblAcDesc">A/C Description :</label>
+                        <br /><div style="display:flex"><input type="text" id="txtGLDescription" class="form-control"></div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
-                        Debit :<br /><div style="display:flex"><input type="number" id="txtDebitAmt" class="form-control" value="0.00"></div>
+                        <label id="lblDr">Debit</label>
+                         :<br /><div style="display:flex"><input type="number" id="txtDebitAmt" class="form-control" value="0.00"></div>
                     </div>
                     <div class="col-sm-4">
-                        Credit :<br /><div style="display:flex"><input type="number" id="txtCreditAmt" class="form-control" value="0.00"></div>
+                        <label id="lblCr">Credit</label>
+                         :<br /><div style="display:flex"><input type="number" id="txtCreditAmt" class="form-control" value="0.00"></div>
                     </div>
                     <div class="col-sm-4">
-                        Ref.No :<br /><div style="display:flex"><input type="text" id="txtSourceDocument" class="form-control"></div>
+                        <label id="lblRefNo">Ref.No</label>
+                         :<br /><div style="display:flex"><input type="text" id="txtSourceDocument" class="form-control"></div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <div style="float:left">
                     <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="ClearDetail()">
-                        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New Entry</b>
+                        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="lblAdd">New Entry</b>
                     </a>
                     <a href="#" class="btn btn-success" id="btnUpdateDetail" onclick="SaveDetail()">
-                        <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Entry</b>
+                        <i class="fa fa-lg fa-save"></i>&nbsp;<b id="lblUpdate">Save Entry</b>
                     </a>
                     <a href="#" class="btn btn-danger" id="btnDeleteDetail" onclick="DeleteDetail()">
-                        <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete Entry</b>
+                        <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="lblDelete">Delete Entry</b>
                     </a>
                 </div>
                 <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>

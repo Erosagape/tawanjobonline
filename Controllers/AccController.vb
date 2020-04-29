@@ -2013,7 +2013,7 @@ ORDER BY a.TName1
                         tSqlw &= " AND ISNULL(b.CancelProve,'')='' "
                     End If
                 End If
-                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectDocumentBalance(prType) & tSqlw)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectDocumentBalance(prType, "Credit") & tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""document"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
