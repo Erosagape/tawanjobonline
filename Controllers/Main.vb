@@ -807,8 +807,8 @@ group by c.BookCode,c.LimitBalance) q
     End Function
     Function SQLSelectChequeBalance(pType As String, chqType As String) As String
         Return "
-SELECT a.*,ISNULL(c.ChqUsed,0) AS AmountUsed,a.ChqAmount-ISNULL(c.ChqUsed,0) as AmountRemain,
-b.CustCode,b.CustBranch,b.VoucherDate,c.DocUsed,b.TRemark 
+SELECT a.*,ISNULL(c.ChqUsed,0)+ISNULL(d.UsedAmount,0) AS AmountUsed,a.ChqAmount-ISNULL(c.ChqUsed,0)-ISNULL(d.UsedAmount,0) as AmountRemain,
+b.CustCode,b.CustBranch,b.VoucherDate,d.DocUsed,b.TRemark 
 FROM 
 (   
     SELECT BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo," & If(pType = "CU", "RecvBank,RecvBranch", "BankCode,BankBranch") & ",acType,PRType,
@@ -818,7 +818,7 @@ FROM
 ) a INNER JOIN Job_CashControl b
 ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
 LEFT JOIN (
-    SELECT h.BranchCode,h.ChqNo,SUM(ISNULL(d.PaidAmount,h.ChqAmount)) as ChqUsed,Max(d.DocNo) as DocUsed,
+    SELECT h.BranchCode,h.ChqNo,SUM(ISNULL(d.PaidAmount,h.ChqAmount)) as ChqUsed,
     " & If(pType = "CU", "h.RecvBank,h.RecvBranch", "h.BankCode,h.BankBranch") & "
     FROM Job_CashControlSub h LEFT JOIN Job_CashControlDoc d
     ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo 
@@ -831,6 +831,18 @@ where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'
 ) c
 ON a.BranchCode=c.BranchCode
 AND a.ChqNo=c.ChqNo " & If(pType = "CU", "AND a.RecvBank=c.RecvBank AND a.RecvBranch=c.RecvBranch ", "AND a.BankCode=c.BankCode AND a.BankBranch=c.BankBranch ") & "
+left join (
+	SELECT BranchCode,ControlNo,SUM(PaidAmount) as UsedAmount,Max(DocNo) as DocUsed
+	FROM Job_CashControlDoc d
+	WHERE NOT EXISTS(
+		select ControlNo from Job_CashControl
+		where BranchCode=d.BranchCode 
+		AND ControlNo=d.ControlNo 
+		AND ISNULL(CancelProve,'')<>''
+    )
+	GROUP BY BranchCode,ControlNo
+) d
+on a.BranchCode=d.BranchCode AND a.ControlNo=d.ControlNo
 WHERE a.acType='" & pType & "'
 AND a.PRType='" & chqType & "' AND a.ChqAmount>0 AND ISNULL(a.ChqNo,'')<>'' 
 "

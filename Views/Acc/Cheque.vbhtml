@@ -155,7 +155,7 @@ End Code
                                 <div class="col-md-5">
                                     <label id="lblIssuer">Issuer:</label>
                                     <br /><input type="hidden" id="txtacType" class="form-control">
-                                    <select id="cboacType" class="form-control dropdown" onchange="SetACType('cboacType')">
+                                    <select id="cboacType" class="form-control dropdown">
                                         <option value="CH" id="optComp">Company</option>
                                         <option value="CU" id="optCust">Customer</option>
                                     </select>
@@ -190,7 +190,9 @@ End Code
                             <div id="dvChqInfo">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <label id="lblChqNo">Cheque No</label>
+                                        <a onclick="SearchData('cheque')">
+                                            <label id="lblChqNo">Cheque No</label>
+                                        </a>
                                         <br /><input type="text" id="txtChqNo" class="form-control">
                                     </div>
                                     <div class="col-md-4">
@@ -389,22 +391,6 @@ End Code
     function SetIsLocal() {
         $('#txtIsLocal').val($('#chkIsLocal').prop('checked') ? '1' : '0');
     }
-    function SetACType(n) {
-        let typ = $('#' + n).val();
-
-        $('#dvChqInfo').show();
-        $('#dvBookInfo').hide();
-        switch (typ) {
-            case 'CU':
-                break;
-            case 'CH':
-                $('#dvBookInfo').show();
-                break;
-            default:
-                $('#dvChqInfo').hide();
-                break;
-        }
-    }
 
     function SetChqStatus() {
         $('#txtChqStatus').val($('#cboChqStatus').val());
@@ -512,8 +498,10 @@ End Code
 
         loadCombos(path,lists)
 
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
+            //Cheque
+            CreateLOV(dv, '#frmSearchChq', '#tbChq', 'Cheque List', response, 5);
             //Customers
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customer List', response, 3);
             //Venders
@@ -567,6 +555,9 @@ End Code
                 break;
             case 'branch':
                 SetGridBranch(path, '#tbBranch', '#frmSearchBranch', ReadBranch);
+                break;
+            case 'cheque':
+                SetGridCheque(path, '#tbChq', '#frmSearchChq', '?type='+ $('#cboacType').val() +'&Cancel=N&Branch=' + $('#txtBranchCode').val(), ReadCheque);
                 break;
             case 'controlno':
                 SetGridControl();
@@ -1002,6 +993,23 @@ End Code
     function ReadBank(dt) {
         $('#txtRecvBank').val(dt.Code);
         $('#txtRecvBankName').val(dt.BName);
+    }
+    function ReadCheque(dt) {
+        if ($('#cboPRType').val() == 'R') {
+            ShowMessage('You can choose cheque for payment only', true);
+            return;
+        }
+        $('#txtChqNo').val(dt.ChqNo);
+        $('#txtChqAmount').val(dt.AmountRemain);
+        if ($('#cboacType').val() == 'CU') {
+            $('#txtRecvBank').val(dt.RecvBank);
+            $('#txtRecvBranch').val(dt.RecvBranch);
+            ShowBank(path, dt.RecvBank, '#txtRecvBankName');
+        } else {
+            $('#txtBankCode').val(dt.BankCode);
+            $('#txtBankBranch').val(dt.BankBranch);
+            ShowBank(path, dt.BankCode, '#txtBankName');
+        }
     }
     function ReadService(dt) {
         $('#txtSICode').val(dt.SICode);
