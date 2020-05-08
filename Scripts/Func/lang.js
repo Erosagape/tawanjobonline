@@ -1112,7 +1112,7 @@ function ChangeLanguageForm(fname) {
                 lblCancelDate: 'Cancel Date|วันที่ยกเลิก',
                 lblCancelBy: 'Cancel By|ผู้ยกเลิก',
                 lblCancelReason: 'Cancel Reason|เหตุผลที่ยกเลิก',
-                linkNew: 'New|เพิ่ม',
+                linkNew: 'New|เพิ่มเอกสารใหม่',
                 linkSave: 'Save|บันทึก',
                 linkCancel: 'Cancel|ยกเลิก',
                 linkPrint: 'Print|พิมพ์',
@@ -2375,6 +2375,7 @@ function ChangeLanguageForm(fname) {
                 lblSaveQuo: 'Update Quotation|บันทึกข้อมูล',
                 lblSection: 'Section and Expenses|หัวข้อและรายการ',
                 lblNewSection: 'New Section|เพิ่มหัวข้อ',
+                lblNewSectionD: 'New Section|เพิ่มหัวข้อ',
                 lblSeqNo: 'Section No|หัวข้อที่',
                 lblJobType: 'Job Type|ประเภทงาน',
                 lblShipBy: 'Ship By|ลักษณะงาน',
@@ -2417,7 +2418,9 @@ function ChangeLanguageForm(fname) {
                 lblDiscountB: 'Discount (B)|ส่วนลด (บาท)',
                 lblDiscountF: 'Discount (F)|ส่วนลด (ตปท)',
                 linkHeader: 'Header|ส่วนควบคุม',
-                linkDetail: 'Detail|ส่วนรายการ'
+                linkDetail: 'Detail|ส่วนรายการ',
+                btnCancel: 'Cancel|ยกเลิก',
+                btnApprove:'Approve|อนุมัติ'
             };
             SetLanguage(lang);
             break;

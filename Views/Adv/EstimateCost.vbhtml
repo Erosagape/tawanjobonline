@@ -147,7 +147,7 @@ End Code
     <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteData()">
         <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete</b>
     </a>
-    <a href="#" class="btn btn-warning" id="btnCopy" onclick="CopyData()">
+    <a href="#" class="btn btn-primary" id="btnCopy" onclick="CopyData()">
         <i class="fa fa-lg fa-copy"></i>&nbsp;<b id="linkCopy">Copy From Job</b>
     </a>
     <input type="text" id="txtJobCopyFrom" value="" />

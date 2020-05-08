@@ -102,7 +102,7 @@ End Code
             <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddHeader()">
                 <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblAddQuo">New Quotation</label></b>
             </a>
-            <a href="#" class="btn btn-warning" id="btnCancel" onclick="CopyData()">
+            <a href="#" class="btn btn-warning" id="btnCopy" onclick="CopyData()">
                 <i class="fa fa-lg fa-close"></i>&nbsp;<b><label id="lblCopyQuo">Copy Quotation</label></b>
             </a>
             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
@@ -206,7 +206,7 @@ End Code
                                         <br /><input type="text" id="txtApproveTime" disabled /> &nbsp;
                                     </div>
                                 </div>
-                                <input type="button" id="btnApprove" class="btn btn-primary" onclick="ApproveData()" value="Approve" />
+                                <button id="btnApprove" class="btn btn-primary" onclick="ApproveData()">Approve</button>
                             </div>
                             <div class="col-sm-3" style="display:flex">
                                 <div style="flex:1">
@@ -221,7 +221,7 @@ End Code
                             <div class="col-sm-3">
                                 <label id="lblCancelReason">Cancel Reason</label>:<br />
                                 <textarea id="txtCancelReason" style="width:100%"></textarea>
-                                <input type="button" id="btnCancel" class="btn btn-danger" onclick="CancelData()" value="Cancel" />
+                                <button id="btnCancel" class="btn btn-danger" onclick="CancelData()">Cancel</button>
                             </div>
 
                         </div>
@@ -232,7 +232,7 @@ End Code
                                 <i id="lblSaveQuo" class="fa fa-lg fa-save">Update Quotation</i>
                             </button>
                             <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
-                                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblNewSection">Add Detail</label></b>
+                                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblNewSectionD">Add Detail</label></b>
                             </a>
                             <a href="#" class="btn btn-info" id="btnPrintQ" onclick="PrintData()">
                                 <i class="fa fa-lg fa-print"></i>&nbsp;<b><label>Print Quotation</label></b>

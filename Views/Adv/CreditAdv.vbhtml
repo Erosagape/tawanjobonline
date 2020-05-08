@@ -43,7 +43,7 @@ End Code
                 </div>
             </div>
             <div>
-                <a href="#" class="btn btn-warning" id="btnAddPay" onclick="AddPayment()">
+                <a href="#" class="btn btn-default w3-purple" id="btnAddPay" onclick="AddPayment()">
                     <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">Add Detail</b>
                 </a>
             </div>
