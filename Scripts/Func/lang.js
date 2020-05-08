@@ -2451,3 +2451,16 @@ function ChangeLanguageForm(fname) {
             break;
     }    
 }
+function GetLanguage(msg) {
+    if (mainLanguage == "TH") {
+        let lang = {
+            "Do you need to log out?": "คุณต้องการออกจากระบบ?",
+            "Logout complete!": "ออกจากระบบแล้ว!"
+        };
+        let findLang = lang[msg];
+        if (findLang !== undefined) {
+            return findLang;
+        }
+    }
+    return msg;
+}

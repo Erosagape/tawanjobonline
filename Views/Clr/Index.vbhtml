@@ -939,17 +939,17 @@ End Code
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Venders
-            CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response,4);
+            CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response,2);
             //Job
             CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job List', response, 3);
             //Users
-            CreateLOV(dv, '#frmSearchClr', '#tbClr', 'Clear By', response,4);            
+            CreateLOV(dv, '#frmSearchClr', '#tbClr', 'Clear By', response,2);            
             //Branch
-            CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response,4);
+            CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response,2);
             //SICode
-            CreateLOV(dv, '#frmSearchSICode', '#tbServ', 'Service Code', response,4);
+            CreateLOV(dv, '#frmSearchSICode', '#tbServ', 'Service Code', response,2);
             //Currency
-            CreateLOV(dv, '#frmSearchExpCur', '#tbExpCur', 'Currency Code', response, 4);
+            CreateLOV(dv, '#frmSearchExpCur', '#tbExpCur', 'Currency Code', response, 2);
             //Unit
             CreateLOV(dv, '#frmSearchUnit', '#tbUnit', 'Unit Code', response, 2);
         });

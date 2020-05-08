@@ -179,8 +179,8 @@ End Code
                         let count = 0;
                         for(d of doc) {
                             count++;
-                            desc = count + '. ' + d.DocNo +' ('+ d.DocType +' By ' + d.CmpCode + ')';
-                            desc += ' JOB# ' + d.JobNo;
+                            desc = count + '. ' + d.DocNo +' By ' + d.EmpCode + '';
+                            desc += ' JOB# ' + d.JobNo + '('+ d.CmpCode +')';
                             appendLine(div, desc, CDbl(d.PaidAmount/CNum(obj.ExchangeRate),2) + ' ' + obj.CurrencyCode + ' (Rate='+ obj.ExchangeRate +')', CCurrency(CDbl(d.TotalAmount,2)));
                         }
                     }

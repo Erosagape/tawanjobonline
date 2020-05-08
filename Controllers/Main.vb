@@ -2262,7 +2262,7 @@ AND ISNULL(d.SumContainer,'')<>h.TotalContainer
     End Function
     Public Function SQLSelectVoucherDoc(tSqlw As String) As String
         Return "
-SELECT src.*,doc.JobNo 
+SELECT src.*,doc.JobNo,doc.EmpCode
 FROM
 (select *,
 (CASE WHEN CHARINDEX('#',DocNo)>0 THEN SUBSTRING(DocNo,1,CHARINDEX('#',DocNo)-1) ELSE DocNo END) as LinkNo from Job_CashControlDoc
@@ -2276,7 +2276,7 @@ SELECT DISTINCT ',' + ForJNo
 FROM Job_AdvDetail WHERE BranchCode=h.BranchCode
 AND AdvNo=h.AdvNo
   FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
-  )) as JobNo
+  )) as JobNo,h.EmpCode
 	FROM Job_AdvHeader h 
 	UNION
 	SELECT h.BranchCode,h.ClrNo,h.ClrDate,
@@ -2285,7 +2285,7 @@ SELECT DISTINCT ',' + JobNo
 FROM Job_ClearDetail WHERE BranchCode=h.BranchCode
 AND ClrNo=h.ClrNo
   FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
-  )) as JobNo
+  )) as JobNo,h.EmpCode
 	FROM Job_ClearHeader h
 	UNION
 	SELECT h.BranchCode,h.DocNo,h.DocDate,
@@ -2294,10 +2294,10 @@ SELECT DISTINCT ',' + ForJNo
 FROM Job_PaymentDetail WHERE BranchCode=h.BranchCode
 AND DocNo=h.DocNo
   FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
-  )) as JobNo
+  )) as JobNo,h.EmpCode
 	FROM Job_PaymentHeader h
 	UNION
-	SELECT h.BranchCode,h.DocNo,h.DocDate,h.RefNo
+	SELECT h.BranchCode,h.DocNo,h.DocDate,h.RefNo,h.EmpCode
 	FROM Job_InvoiceHeader h
 ) doc on src.BranchCode=doc.BranchCode AND src.LinkNo=doc.DocNo
 "
