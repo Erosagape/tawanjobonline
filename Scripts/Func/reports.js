@@ -222,122 +222,37 @@ function GetVoucherType() {
     }
 }
 function LoadCliteria(reportID) {
+    $('#tbCode').hide();
     switch (reportID) {
         case 'JOBDAILY':
         case 'JOBCS':
+        case 'JOBFOLLOWUP':
         case 'JOBSHP':
         case 'JOBTYPE':
         case 'JOBSHIPBY':
         case 'JOBCUST':
         case 'JOBPORT':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').show();
-            $('#tbJob').show();
-            $('#tbVend').hide();
-            break;
-        case 'JOBADV':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').show();
-            $('#tbJob').show();
-            $('#tbVend').show();
-            break;
-        case 'JOBVOLUME':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').show();
-            $('#tbJob').hide();
-            $('#tbVend').hide();
-            break;
-        case 'JOBSTATUS':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').show();
-            $('#tbJob').hide();
-            $('#tbVend').hide();
-            break;
         case 'JOBSALES':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').show();
-            $('#tbJob').show();
-            $('#tbVend').hide();
-            break;
         case 'JOBCOMM':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').show();
-            $('#tbJob').show();
-            $('#tbVend').hide();
-            break;
-        case 'ADVDAILY':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').show();
-            $('#tbJob').show();
-            $('#tbVend').show();
-            break;
-        case 'EXPDAILY':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').hide();
-            $('#tbStatus').show();
-            $('#tbJob').show();
-            $('#tbVend').show();
-            break;
-        case 'INVDAILY': 
+        case 'INVDAILY':
         case 'INVSTATUS':
         case 'RCPDAILY':
         case 'RCPSUMMARY':
         case 'TAXDAILY':
         case 'TAXSUMMARY':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').show();
-            $('#tbJob').show();
-            $('#tbVend').hide();
-            break;
-        case 'CASHDAILY':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').show();
-            $('#tbJob').show();
-            $('#tbVend').show();
-            break;
-        case 'CLRDAILY':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').show();
-            $('#tbJob').show();
-            $('#tbVend').show();
-            break;
         case 'INVDAILY':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').show();
-            $('#tbJob').show();
-            $('#tbVend').hide();
-            break;
         case 'BILLDAILY':
             $('#tbDate').show();
             $('#tbEmp').show();
             $('#tbCust').show();
             $('#tbStatus').show();
             $('#tbJob').show();
-            $('#tbVend').hide();
+            $('#tbVend').hide(); //hide
             break;
+        case 'JOBADV':
+        case 'ADVDAILY':
+        case 'CASHDAILY':
+        case 'CLRDAILY':
         case 'JOBCOST':
             $('#tbDate').show();
             $('#tbEmp').show();
@@ -346,158 +261,130 @@ function LoadCliteria(reportID) {
             $('#tbJob').show();
             $('#tbVend').show();
             break;
-        case 'BOOKBAL':
-            $('#tbDate').show();
-            $('#tbEmp').hide();
-            $('#tbCust').hide();
-            $('#tbStatus').hide();
-            $('#tbJob').hide();
-            $('#tbVend').hide();
-            break;
-        case 'VATSALES':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').hide();
-            $('#tbJob').show();
-            $('#tbVend').hide();
-            break;
-        case 'VATBUY':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').hide();
-            $('#tbStatus').hide();
-            $('#tbJob').hide();
-            $('#tbVend').show();
-            break;
-        case 'WHTAX':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').hide();
-            $('#tbJob').show();
-            $('#tbVend').show();
-            break;
-        case 'ACCEXP':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').hide();
-            $('#tbStatus').hide();
-            $('#tbJob').hide();
-            $('#tbVend').show();
-            break;
-        case 'ACCINC':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').hide();
-            $('#tbJob').hide();
-            $('#tbVend').hide();
-            break;
-        case 'ARBAL':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').hide();
-            $('#tbJob').hide();
-            $('#tbVend').hide();
-            break;
-        case 'APBAL':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').hide();
-            $('#tbStatus').hide();
-            $('#tbJob').hide();
-            $('#tbVend').show();
-            break;
-        case 'CNDN':
-            $('#tbDate').show();
-            $('#tbEmp').show();
-            $('#tbCust').show();
-            $('#tbStatus').hide();
-            $('#tbJob').hide();
-            $('#tbVend').hide();
-            break;
-        case 'TRIALBAL':
-            $('#tbDate').show();
-            $('#tbEmp').hide();
-            $('#tbCust').hide();
-            $('#tbStatus').hide();
-            $('#tbJob').hide();
-            $('#tbVend').hide();
-            break;
-        case 'BALANCS':
-            $('#tbDate').show();
-            $('#tbEmp').hide();
-            $('#tbCust').hide();
-            $('#tbStatus').hide();
-            $('#tbJob').hide();
-            $('#tbVend').hide();
-            break;
-        case 'PROFITLOSS':
-            $('#tbDate').show();
-            $('#tbEmp').hide();
-            $('#tbCust').hide();
-            $('#tbStatus').hide();
-            $('#tbJob').hide();
-            $('#tbVend').hide();
-            break;
-        case 'CASHFLOW':
-            $('#tbDate').show();
-            $('#tbEmp').hide();
-            $('#tbCust').hide();
-            $('#tbStatus').hide();
-            $('#tbJob').hide();
-            $('#tbVend').hide();
-            break;
-        case 'JOURNAL':
-            $('#tbDate').show();
-            $('#tbEmp').hide();
-            $('#tbCust').hide();
-            $('#tbStatus').hide();
-            $('#tbJob').hide();
-            $('#tbVend').hide();
-            break;
-        case 'ADVSUMMARY':
+        case 'JOBVOLUME':
+        case 'JOBSTATUS':
             $('#tbDate').show();
             $('#tbEmp').show();
             $('#tbCust').show();
             $('#tbStatus').show();
-            $('#tbJob').hide();
+            $('#tbJob').hide(); //hide
+            $('#tbVend').hide(); //hide
+            break;
+        case 'EXPDAILY':
+            $('#tbDate').show();
+            $('#tbEmp').show();
+            $('#tbCust').hide(); //hide
+            $('#tbStatus').show();
+            $('#tbJob').show();
+            $('#tbVend').show();
+            break;
+        case 'BOOKBAL':
+        case 'TRIALBAL':
+        case 'BALANCS':
+        case 'PROFITLOSS':
+        case 'CASHFLOW':
+        case 'JOURNAL':
+        case 'ADVSUMMARY':
+            $('#tbDate').show();
+            $('#tbEmp').hide(); //hide
+            $('#tbCust').hide();  //hide
+            $('#tbStatus').hide(); //hide
+            $('#tbJob').hide(); //hide
+            $('#tbVend').hide(); //hide
+            break;
+        case 'VATSALES':
+        case 'WHTAX':
+            $('#tbDate').show();
+            $('#tbEmp').show();
+            $('#tbCust').show();
+            $('#tbStatus').hide(); //hide
+            $('#tbJob').show();
             $('#tbVend').hide();
+            break;
+        case 'VATBUY':
+        case 'ACCEXP':
+        case 'APBAL':
+            $('#tbDate').show();
+            $('#tbEmp').show();
+            $('#tbCust').hide(); //hide
+            $('#tbStatus').hide(); //hide
+            $('#tbJob').hide(); //hide
+            $('#tbVend').show();
+            break;
+        case 'ACCINC':
+        case 'ARBAL':
+        case 'CNDN':
+            $('#tbDate').show();
+            $('#tbEmp').show();
+            $('#tbCust').show();
+            $('#tbStatus').hide(); //hide
+            $('#tbJob').hide(); //hide
+            $('#tbVend').hide(); //hide
+            break;
+        case 'ADVDETAIL':
+        case 'CLRDETAIL':
+            $('#tbDate').show();
+            $('#tbEmp').show();
+            $('#tbCust').show();
+            $('#tbStatus').show();
+            $('#tbJob').show();
+            $('#tbVend').show();
+            $('#tbCode').show();
+            break;
+        case 'INVDETAIL':
+        case 'RCPDETAIL':
+            $('#tbDate').show();
+            $('#tbEmp').show();
+            $('#tbCust').show();
+            $('#tbStatus').hide(); //hide
+            $('#tbJob').hide();  //hide
+            $('#tbVend').hide();  //hide
+            $('#tbCode').show();
             break;
     }
 }
-function IsNumberColumn(cname) {
-    let colname = 'InvTotal,InvProductQty,InvCurRate,DutyAmount,TotalGW,Commission,TotalNW,TotalQty,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,Tax3Tres,TaxNot3Tres,';
-    if (colname.indexOf(cname) >= 0) {
+function IsNumberColumn(cname) {    
+    let colname = 'InvTotal,InvProductQty,InvCurRate,DutyAmount,TotalGW,Commission,TotalNW,TotalQty,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,Tax3Tres,TaxNot3Tres,TotalJob,';
+    if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
-    colname = 'TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm';
-    if (colname.indexOf(cname) >= 0) {
+    colname = 'TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,';
+    if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
-    colname = ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService,PayTax,CashAmount,AmountUsed,';
-    if (colname.indexOf(cname) >= 0) {
+    colname = 'TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService,PayTax,CashAmount,AmountUsed,';
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+    colname = 'Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,';
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+    colname = "PENDING CONFIRM,WAIT FOR OPERATION,WAIT FOR CLEAR,WORKING FINISHED,EXPENSES CLEARED,BILLING INCOMPLETE,BILLING COMPLETED,JOB COMPLETED,HOLD FOR CHECKING,JOB CANCELLED";
+    if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
     return false;
 }
 function IsSummaryColumn(cname) {
-    let colname = 'DutyAmount,TotalGW,Commission,TotalNW,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal';
-    if (colname.indexOf(cname) >= 0) {
+    let colname = 'DutyAmount,TotalGW,Commission,TotalNW,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,';
+    if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
-    colname = ',LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit';
-    if (colname.indexOf(cname) >= 0) {
+    colname = ',LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,';
+    if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
-    colname = ',CreditNet,AmtWH,AmtTotal,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,PayTax,Tax3Tres,TaxNot3Tres,CashAmount,AmountUsed,';
-    if (colname.indexOf(cname) >= 0) {
+    colname = ',CreditNet,AmtWH,AmtTotal,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,PayTax,Tax3Tres,TaxNot3Tres,CashAmount,AmountUsed,TotalJob,';
+    if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
-    colname = ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService';
-    if (colname.indexOf(cname) >= 0) {
+    colname = ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService,';
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+    colname = "PENDING CONFIRM,WAIT FOR OPERATION,WAIT FOR CLEAR,WORKING FINISHED,EXPENSES CLEARED,BILLING INCOMPLETE,BILLING COMPLETED,JOB COMPLETED,HOLD FOR CHECKING,JOB CANCELLED";
+    if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
     return false;
@@ -729,6 +616,14 @@ function GetGroupCaption(src,fld, val) {
     let retstr = val;
     if (src.length > 0) {
         switch (fld) {
+            case "JobStatus":
+                let status = src[0].filter(function (data) {
+                    return val == data.ConfigKey;
+                });
+                if (status.length > 0) {
+                    retstr = status[0].ConfigValue;
+                }
+                break;
             case "CustCode":
                 let cust = src[0].filter(function (data) {
                     return val == data.CustCode;
@@ -805,12 +700,12 @@ function LoadReport(path, reportID, obj, lang) {
                         if (FormatValue(groupField, r[groupField]) !== groupVal) {
                             //Show Summary
                             if (groupCount > 0) {
-                                html += '<td style="border:1px solid black;text-align:left;">'+ groupCaption +' <u>' + groupVal + '</u></td>';
+                                html += '<td style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '</b></u></td>';
                                 for (let i = 1; i < colCount; i++) {
                                     if (sumGroup[i].isSummary == true) {
-                                        html += '<td style="border:1px solid black;text-align:right;"><u>' + ShowNumber(sumGroup[i].value, 2) + '</u></td>';
+                                        html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"><u><b>' + ShowNumber(sumGroup[i].value, 2) + '</b></u></td>';
                                     } else {
-                                        html += '<td style="border:1px solid black;text-align:right;"></td>';
+                                        html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"></td>';
                                     }
                                     sumGroup[i].value = 0;
                                 }
@@ -820,7 +715,7 @@ function LoadReport(path, reportID, obj, lang) {
                             groupVal = FormatValue(groupField, r[groupField]);
                             groupCount++;
 
-                            html += '<td colspan="' + colCount + '" style="border:1px solid black;text-align:left;">'+ groupCaption +' <b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
+                            html += '<td colspan="' + colCount + '" style="background-color:lightyellow;border:1px solid black;text-align:left;">'+ groupCaption +' <b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
                             html += '</tr><tr>';
                         } else {
                             groupCount++;
@@ -854,19 +749,19 @@ function LoadReport(path, reportID, obj, lang) {
                 }
                 //Last Total
                 if (groupCount > 0) {
-                    html += '<td style="border:1px solid black;text-align:left;"><u>' + groupVal + '</u></td>';
+                    html += '<td style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '</b></u></td>';
                     for (let i = 1; i < colCount; i++) {
                         if (sumGroup[i].isSummary == true) {
-                            html += '<td style="border:1px solid black;text-align:right;"><u>' + ShowNumber(sumGroup[i].value, 2) + '</u></td>';
+                            html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"><u><b>' + ShowNumber(sumGroup[i].value, 2) + '</b></u></td>';
                         } else {
-                            html += '<td style="border:1px solid black;text-align:right;"></td>';
+                            html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"></td>';
                         }
                     }
                     html += '</tr>';
                     groupCount = 0;
                 }
                 //Grand Total
-                html += '<tr><td style="border:1px solid black;text-align:left;"><b>TOTAL<b/></td>';
+                html += '<tr style="font-weight:bold;background-color:lightgreen;"><td style="border:1px solid black;text-align:left;"><b>TOTAL<b/></td>';
                 for (let i = 1; i < colCount; i++) {
                     if (sumGroup[i].isSummary == true) {
                         html += '<td style="border:1px solid black;text-align:right;"><b>' + ShowNumber(sumTotal[i], 2) + '</b></td>';

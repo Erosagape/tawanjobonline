@@ -5,17 +5,18 @@
 End Code
 <style>
     body {
-        font-size:11px;
+        font-size: 11px;
     }
+
     table {
-        border-width:thin;
-        border-collapse:collapse;
-    }    
+        border-width: thin;
+        border-collapse: collapse;
+    }
 </style>
 <div style="text-align:center;width:100%">
     <h2>INVOICE</h2>
 </div>
-<div id="dvCopy" style="text-align:right;width:100%">    
+<div id="dvCopy" style="text-align:right;width:100%">
 </div>
 <div>
     <div style="display:flex;">
@@ -34,13 +35,14 @@ End Code
             INV DATE : <label id="lblDocDate"></label><br />
             CUST INV : <label id="lblCustInvNo"></label><br />
             JOB NO : <label id="lblJobNo"></label><br />
+            DECLARE : <label id="lblDeclareNumber"></label><br />
         </div>
     </div>
     <div style="display:flex;border:1px solid black;border-radius:5px;">
         <div style="flex:2">
             <div class="row">
                 <p class="col-sm-12">
-                    FROM :<label id="lblFromCountry"></label>
+                    FROM :<label id="lblFromCountry"></label>,<label id="lblInterPort"></label>
                 </p>
             </div>
             <div class="row">
@@ -50,7 +52,12 @@ End Code
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    QUANTITY/GROSSWEIGHT :<label id="lblQtyGross"></label>
+                    QUANTITY :<label id="lblQtyGross"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    RELEASE PORT :<label id="lblClearPort"></label>
                 </p>
             </div>
         </div>
@@ -70,6 +77,11 @@ End Code
                     MEASUREMENT :<label id="lblMeasurement"></label>
                 </p>
             </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    COMMODITY :<label id="lblInvProduct"></label>
+                </p>
+            </div>
         </div>
         <div style="flex:2">
             <div class="row">
@@ -82,6 +94,16 @@ End Code
                     MBL/MAWB :<label id="lblMAWB"></label>
                 </p>
             </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    CONTAINER :<label id="lblTotalContainer"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    DECLARE TYPE :<label id="lblDeclareType"></label>
+                </p>
+            </div>
         </div>
     </div>
     <table style="width:100%" border="1" class="text-center">
@@ -91,9 +113,9 @@ End Code
                 <th width="400px">DESCRIPTION</th>
                 <th width="100px">ADVANCE</th>
                 <th width="100px">SERVICE</th>
-                <th width="50px">CURR</th>
-                <th width="100px">AMT</th>
-                <th width="100px">DISC</th>
+                <th width="50px">QTY</th>
+                <th width="100px">VAT</th>
+                <th width="100px">WHT</th>
                 <th width="100px">TOTAL</th>
             </tr>
         </thead>
@@ -104,7 +126,7 @@ End Code
                     <div style="display:flex">
                         <div style="text-align:left;flex:1">
                             TOTAL INVOICE (<label id="lblCurrencyCode"></label>)=<label id="lblForeignNet"></label> RATE=<label id="lblExchangeRate"></label>
-                            <br/>
+                            <br />
                             <div id="lblShippingRemark"></div>
                             REMARKS :<br />
                             <div id="lblDescription"></div>
@@ -112,15 +134,15 @@ End Code
                     </div>
                 </td>
                 <td colspan="3">
-                        TOTAL ADVANCE<br />
-                        TOTAL SERVICE <br />
-                        VATABLE<br />
-                        VAT (RATE=<label id="lblVATRate"></label>%)<br />
-                        SERVICE+VAT<br />
-                        SERVICE+ADVANCE<br />
-                        DISCOUNT (RATE=<label id="lblDiscountRate"></label>%)<br />
-                        CUST. ADV<br />
-                        GRAND TOTAL
+                    TOTAL ADVANCE<br />
+                    TOTAL SERVICE <br />
+                    VATABLE<br />
+                    VAT (RATE=<label id="lblVATRate"></label>%)<br />
+                    SERVICE+VAT<br />
+                    SERVICE+ADVANCE<br />
+                    DISCOUNT (RATE=<label id="lblDiscountRate"></label>%)<br />
+                    CUST. ADV<br />
+                    GRAND TOTAL
                 </td>
                 <td style="background-color :gainsboro;text-align:right;" colspan="2">
                     <label id="lblSumAdvance"></label><br />
@@ -147,8 +169,8 @@ End Code
             WITHHOLDING TAX DETAIL
             <div style="display:flex">
                 <div class="text-center" style="flex:2">
-                    TRANSPORT:<br />
-                    SERVICE:
+                    TRANSPORT CHARGES:<br />
+                    SERVICE CHARGES:
                 </div>
                 <div class="text-center" style="flex:1">
                     <label id="lblSumBaseWht1"></label><br />
@@ -168,10 +190,7 @@ End Code
                     <label id="lblSumNetInvoice"></label>
                 </div>
             </div>
-            <br/>
-            <div>
-
-            </div>
+            <br />
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
             FOR THE CUSTOMER <br /><br /> <br /><br />
@@ -205,7 +224,7 @@ End Code
     });
     //});
     function ShowData(dr) {
-        
+
         if (dr.header[0].length > 0) {
             let h = dr.header[0][0];
             $('#lblDocNo').text(h.DocNo);
@@ -216,7 +235,7 @@ End Code
             $('#lblDiscountRate').text(h.DiscountRate);
             $('#lblVATRate').text(ShowNumber(h.VATRate,1));
 
-            let c = dr.customer[0][0];            
+            let c = dr.customer[0][0];
             if (c !== null) {
                 $('#lblTaxNumber').text(c.TaxNumber);
                 $('#lblTaxBranch').text(c.Branch);
@@ -234,15 +253,25 @@ End Code
             if (j !== null) {
                 $('#lblCustInvNo').text(j.InvNo);
                 $('#lblJobNo').text(j.JNo);
-
-                $('#lblFromCountry').text(j.DeclareNumber);
+                $('#lblDeclareNumber').text(j.DeclareNumber);
+                if (j.JobType == 1) {
+                    ShowCountry(path, j.InvFCountry, '#lblFromCountry');
+                    ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#lblInterPort');
+                } else {
+                    ShowCountry(path, j.InvFCountry, '#lblFromCountry');
+                    ShowInterPort(path, j.InvCountry, j.InvInterPort, '#lblInterPort');
+                }
                 $('#lblVesselName').text(j.VesselName);
-                $('#lblQtyGross').text(j.InvProductQty + ' ' + j.InvProductUnit + ' GW ' + j.TotalGW + ' '+ j.GWUnit);
+                $('#lblQtyGross').text(j.InvProductQty + ' ' + j.InvProductUnit + ' G.W ' + j.TotalGW + ' '+ j.GWUnit);
                 $('#lblETDDate').text(ShowDate(CDateTH(j.ETDDate)));
                 $('#lblHAWB').text(j.HAWB);
                 $('#lblMeasurement').text(j.Measurement);
                 $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
-                $('#lblMAWB').text(j.MAWB);                
+                $('#lblMAWB').text(j.MAWB);
+                $('#lblInvProduct').text(j.InvProduct);
+                ShowReleasePort(path, j.ClearPort, '#lblClearPort');
+                $('#lblTotalContainer').text(j.TotalContainer);
+                ShowDeclareType(path, j.DeclareType, '#lblDeclareType');
             }
             let remark = h.Remark1 + '\n' + h.Remark2 + '\n' + h.Remark3 + '\n' + h.Remark4 + '\n' + h.Remark5 + '\n' + h.Remark6 + '\n' + h.Remark7 + '\n' + h.Remark8 + '\n' + h.Remark9 + '\n' + h.Remark10;
             remark=remark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
@@ -263,15 +292,17 @@ End Code
             $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalNet),2));
         }
         let d = dr.detail[0];
+        sortData(d, 'AmtAdvance', 'asc');
         let sumbase1 = 0;
         let sumbase3 = 0;
         let sumtax1 = 0;
         let sumtax3 = 0;
-
+        let icount = 0;
         if (d.length > 0) {
             for (let o of d) {
+                icount += 1;
                 let html = '<tr>';
-                html += '<td style="text-align:center">' + o.ItemNo + '</td>';
+                html += '<td style="text-align:center">' + icount + '</td>';
                 html += '<td>' + o.SICode + '-' + o.SDescription + '</td>';
                 if (o.AmtAdvance > 0) {
                     html += '<td style="text-align:right">' + ShowNumber(o.AmtAdvance, 2) + '</td>';
@@ -280,10 +311,10 @@ End Code
                     html += '<td style="text-align:right">0.00</td>';
                     html += '<td style="text-align:right">' + ShowNumber(o.AmtCharge, 2) + '</td>';
                 }
-                html += '<td style="text-align:center">' + o.CurrencyCode + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(o.Amt, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(o.AmtDiscount, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(CNum(o.Amt)-CNum(o.AmtDiscount), 2) + '</td>';
+                html += '<td style="text-align:center">' + o.Qty + ' '+ o.QtyUnit + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(o.AmtVat, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(o.Amt50Tavi, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(CNum(o.TotalAmt), 2) + '</td>';
                 html += '</tr>';
 
                 $('#tbDetail').append(html);

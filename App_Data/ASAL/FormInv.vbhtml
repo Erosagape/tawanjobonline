@@ -161,8 +161,8 @@ End Code
             WITHHOLDING TAX DETAIL
             <div style="display:flex">
                 <div class="text-center" style="flex:2">
-                    Transport:<br />
-                    Service:
+                    Transport Charges:<br />
+                    Service Charges:
                 </div>
                 <div class="text-center" style="flex:1">
                     <label id="lblSumBaseWht1"></label><br />

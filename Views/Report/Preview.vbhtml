@@ -36,6 +36,7 @@ End Code
         if (obj.VENDWHERE !== '') html += obj.VENDWHERE + ',';
         if (obj.STATUSWHERE !== '') html += obj.STATUSWHERE + ',';
         if (obj.EMPWHERE !== '') html += obj.EMPWHERE + ',';
+        if (obj.CODEWHERE !== '') html += obj.CODEWHERE + ',';
         $('#rptCliteria').html(html);
         switch (lang) {
             case 'TH':

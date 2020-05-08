@@ -36,6 +36,12 @@ Namespace Controllers
                         sqlW = GetSQLCommand(cliteria, "j.LoadDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
                         sqlM = "SELECT j.JNo,j.DeclareNumber,j.LoadDate,j.DutyDate,j.ShippingEmp,j.DeclareTypeName,j.InvProductQty,j.TotalGW,j.TotalContainer FROM (" & SQLSelectJobReport() & sqlW & ") j ORDER BY j.LoadDate DESC"
+                    Case "JOBFOLLOWUP"
+                        fldGroup = "JobStatus"
+                        groupDatas = JsonConvert.SerializeObject(Main.GetDataConfig("JOB_STATUS"))
+                        sqlW = GetSQLCommand(cliteria, "j.LoadDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
+                        If sqlW <> "" Then sqlW = " WHERE " & sqlW
+                        sqlM = "SELECT j.JNo,j.ConfirmDate,j.ImExDate,j.CloseJobDate,j.JobStatus,j.DeclareNumber,j.LoadDate,j.DutyDate,j.CustCode,j.Consigneecode,j.InvProduct,j.TotalGW,j.TotalContainer FROM (" & SQLSelectJobReport() & sqlW & ") j ORDER BY j.JobStatus,j.JNo DESC"
                     Case "JOBCS"
                         fldGroup = "CSCode"
                         groupDatas = JsonConvert.SerializeObject(New CUser(GetSession("ConnJob")).GetData(""))
@@ -99,6 +105,11 @@ Namespace Controllers
                         sqlW = GetSQLCommand(cliteria, "a.PaymentDate", "a.CustCode", "d.ForJNo", "a.ReqBy", "d.VenCode", "a.DocStatus", "a.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
                         sqlM = "SELECT ad.AdvNo,ad.PaymentDate,ad.EmpCode as ReqBy,ad.SDescription,ad.ForJNo,ad.AdvPayAmount,ad.Charge50Tavi FROM (" & SQLSelectAdvDetail() & sqlW & ") ad  ORDER BY ad.PaymentDate,ad.AdvNo"
+                    Case "ADVDETAIL"
+                        fldGroup = "SDescription"
+                        sqlW = GetSQLCommand(cliteria, "a.PaymentDate", "a.CustCode", "d.ForJNo", "a.ReqBy", "d.VenCode", "a.DocStatus", "a.BranchCode", "d.SICode")
+                        If sqlW <> "" Then sqlW = " WHERE " & sqlW
+                        sqlM = "SELECT ad.AdvNo,ad.PaymentDate,ad.EmpCode as ReqBy,ad.SDescription,ad.ForJNo,ad.AdvPayAmount,ad.Charge50Tavi FROM (" & SQLSelectAdvDetail() & sqlW & ") ad  ORDER BY ad.SDescription,ad.AdvNo"
                     Case "EXPDAILY"
                         sqlW = GetSQLCommand(cliteria, "h.DocDate", "", "d.ForJNo", "h.EmpCode", "h.VenCode", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
@@ -107,6 +118,11 @@ Namespace Controllers
                         sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "ih.RefNo", "rh.EmpCode", "", "", "rh.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT=0 AND " & sqlW Else sqlW = " WHERE rh.TotalVAT=0 "
                         sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo,rc.ClrNo,rc.AdvNo,rc.SDescription,rc.Net,rc.PRVoucher FROM (" & SQLSelectReceiptReport() & sqlW & ") rc ORDER BY rc.ReceiptDate,rc.ReceiptNo"
+                    Case "RCPDETAIL"
+                        fldGroup = "SDescription"
+                        sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "ih.RefNo", "rh.EmpCode", "", "", "rh.BranchCode", "rd.SICode")
+                        If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT=0 AND " & sqlW Else sqlW = " WHERE rh.TotalVAT=0 "
+                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo,rc.ClrNo,rc.AdvNo,rc.SDescription,rc.Net,rc.PRVoucher FROM (" & SQLSelectReceiptReport() & sqlW & ") rc ORDER BY rc.SDescription,rc.ReceiptNo"
                     Case "RCPSUMMARY"
                         sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "ih.RefNo", "rh.EmpCode", "", "", "rh.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT=0 AND " & sqlW Else sqlW = " WHERE rh.TotalVAT=0 "
@@ -128,7 +144,7 @@ Namespace Controllers
                         sqlW = GetSQLCommand(cliteria, "h.ClrDate", "j.CustCode", "j.JNo", "h.EmpCode", "d.VenCode", "h.DocStatus", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE h.DocStatus<>99 AND " & sqlW
                         sqlM = "SELECT cl.ClrNo,cl.ClrDate,cl.SDescription,cl.AdvNO,cl.JobNo,cl.AdvNet,cl.ClrNet,cl.Tax50Tavi,cl.SlipNo,cl.LinkBillNo as InvoiceNo FROM (" & SQLSelectClrDetail() & sqlW & ") cl ORDER BY cl.ClrDate,cl.ClrNo"
-                    Case "CLRSTATUS"
+                    Case "CLRSUMMARY"
                         sqlW = GetSQLCommand(cliteria, "h.ClrDate", "j.CustCode", "j.JNo", "h.EmpCode", "d.VenCode", "h.DocStatus", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE h.DocStatus<>99 AND " & sqlW
                         sqlM = "SELECT cl.ClrNo,cl.ClrDate,cl.JobNo,SUM(cl.UsedAmount) as UsedAmount,SUM(cl.ChargeVAT) as AmtVat,SUM(cl.Tax50Tavi) as Tax50Tavi,"
@@ -138,6 +154,11 @@ Namespace Controllers
                         sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.TotalInv,inv.CreditNet,inv.ReceivedNet,inv.ReceiptNo FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.DocDate,inv.DocNo"
+                    Case "INVDETAIL"
+                        fldGroup = "SDescription"
+                        sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode", "id.SICode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.TotalInv,inv.CreditNet,inv.ReceivedNet,inv.ReceiptNo FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.SDescription,inv.DocNo"
                     Case "INVSTATUS"
                         sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
@@ -359,9 +380,9 @@ ORDER BY a.EmpCode,a.PaymentDate,a.AdvNo
 "
                         sqlM = String.Format(sqlM, sqlW)
                         groupDatas = JsonConvert.SerializeObject(New CUser(GetSession("ConnJob")).GetData(""))
-                    Case "CLRSUMMARY"
+                    Case "CLRDETAIL"
                         fldGroup = "SDescription"
-                        sqlW = GetSQLCommand(cliteria, "b.ClrDate", "c.CustCode", "c.JNo", "c.EmpCode", "a.VenderCode", "b.ClrStatus", "b.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "b.ClrDate", "c.CustCode", "c.JNo", "c.EmpCode", "a.VenderCode", "b.ClrStatus", "b.BranchCode", "a.SICode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 select c.JNo,a.AdvNo,b.ClrNo,b.ClrDate,c.CustCode,a.SICode + ' / ' + d.NameThai as SDescription,a.SlipNo,a.Date50Tavi as SlipDate,

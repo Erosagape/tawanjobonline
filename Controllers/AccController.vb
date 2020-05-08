@@ -2388,6 +2388,9 @@ ORDER BY a.TName1
                 If Not IsNothing(Request.QueryString("Cust")) Then
                     tSqlw &= String.Format(" AND a.CustCode='{0}' ", Request.QueryString("Cust").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("Bill")) Then
+                    tSqlw &= String.Format(" AND a.BillToCustCode='{0}' ", Request.QueryString("Bill").ToString)
+                End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectInvForBilling() & tSqlw & " ORDER BY a.DocDate DESC ")
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""invdetail"":{""data"":" & json & "}}"
@@ -2413,15 +2416,15 @@ ORDER BY a.TName1
                 End If
 
                 Dim oHead = New CBillHeader(GetSession("ConnJob")).GetData(tSqlw)
-                Dim oDet = New CBillDetail(GetSession("ConnJob")).GetData(" WHERE BillAcceptNo IN(SELECT BillAcceptNo FROM Job_BillAcceptHeader " & tSqlw & ")")
-
+                'Dim oDet = New CBillDetail(GetSession("ConnJob")).GetData(" WHERE BillAcceptNo IN(SELECT BillAcceptNo FROM Job_BillAcceptHeader " & tSqlw & ")")
+                Dim oDet = New CUtil(GetSession("ConnJob")).GetTableFromSQL("SELECT * FROM (" & SQLSelectBillDetail() & ") t WHERE BillAcceptNo IN(SELECT BillAcceptNo FROM Job_BillAcceptHeader " & tSqlw & ")")
                 Dim jsonH As String = ""
                 Dim jsonD As String = ""
                 Dim jsonC As String = ""
 
                 If oHead.Count > 0 Then
                     jsonH = JsonConvert.SerializeObject(oHead)
-                    If oDet.Count > 0 Then
+                    If oDet.Rows.Count > 0 Then
                         jsonD = JsonConvert.SerializeObject(oDet)
                     End If
 

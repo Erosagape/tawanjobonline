@@ -327,8 +327,10 @@ End Code
                 <div id="lblDescription"></div>
             </td>
             <td width="40%" style="text-align:right">
-                <b>PREPARED BY:
-                <label id="lblCSName"></label></b> (<label id="lblPosition"></label>)
+                <b>
+                    PREPARED BY:
+                    <label id="lblCSName"></label>
+                </b> (<label id="lblPosition"></label>)
             </td>
         </tr>
     </table>

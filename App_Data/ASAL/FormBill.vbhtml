@@ -57,7 +57,7 @@ End Code
                     <th class="text-center" width="130">REIMBURSEMENT</th>
                     <th class="text-center" width="90">SERVICE</th>
                     <th class="text-center" width="50">TRANSPORT</th>
-                    <th class="text-center" width="50">OTHERS</th>
+                    <th class="text-center" width="50">SERVICE</th>
                 </tr>
             </thead>
             <tbody id="tbDetail">

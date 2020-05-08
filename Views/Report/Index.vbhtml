@@ -29,7 +29,7 @@
                 <input type="button" class="btn btn-default" id="btnBrowseBranch" value="..." onclick="BrowseCliteria('branch')" />
                 <input type="text" class="form-control" style="width:100%" id="txtBranchName" disabled />
             </div>
-            <br/>
+            <br />
             <b>Report Cliteria:</b><br />
             <div style="display:flex;width:100%;flex-direction:column" id="tbDate">
                 <div style="display:flex;">
@@ -104,6 +104,17 @@
                     </div>
                 </div>
             </div>
+            <div style="display:flex;width:100%;flex-direction:column" id="tbCode">
+                <div style="display:flex;">
+                    <div style="flex:1">
+                        Exp.Code:
+                    </div>
+                    <div style="flex:2">
+                        <textarea id="txtCodeCliteria"></textarea>
+                        <input type="button" class="btn btn-default" onclick="BrowseCliteria('code')" value="..." />
+                    </div>
+                </div>
+            </div>
         </div>
         <br/>
         <a href="#" class="btn btn-info" id="btnPrnJob" onclick="PrintReport()">
@@ -167,6 +178,7 @@
     var path = '@Url.Content("~")';
     ChangeLanguageForm('@ViewBag.Module');
     SetEvents();
+    $('#tbCode').hide();
     $('#tbReportList tbody').on('click', 'tr', function () {
         SetSelect('#tbReportList', this);
         data = $('#tbReportList').DataTable().row(this).data();
@@ -184,6 +196,7 @@
             empWhere: $('#txtEmpCliteria').val(),
             vendWhere: $('#txtVendCliteria').val(),
             statusWhere: $('#txtStatusCliteria').val(),
+            codeWhere: $('#txtCodeCliteria').val()
         };
         let str = JSON.stringify(obj);
         return '?data=' + JSON.stringify(data) + '&cliteria=' + encodeURIComponent(str);
@@ -191,12 +204,13 @@
     function SetEvents() {
         $.get(path +'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
-            CreateLOV(dv, '#frmSearchBranch', '#tblBranch', 'Search Branch', response, 2);
+            CreateLOV(dv, '#frmSearchBranch', '#tblBranch', 'Branch', response, 2);
             CreateLOV(dv, '#frmSearchCust', '#tblCust', 'Search Customers', response, 3);
             CreateLOV(dv, '#frmSearchJob', '#tblJob', 'Search Job', response, 3);
             CreateLOV(dv, '#frmSearchVend', '#tblVend', 'Search Venders', response, 2);
             CreateLOV(dv, '#frmSearchEmp', '#tblEmp', 'Search Employee', response, 2);
             CreateLOV(dv, '#frmSearchStatus', '#tblStatus', 'Search Status', response, 3);
+            CreateLOV(dv, '#frmSearchCode', '#tblCode', 'Search Code', response, 2);
         });
     }
     function BrowseCliteria(what) {
@@ -222,6 +236,10 @@
                 if (type !== '') {
                     $('#lblCliteria').text('Filter Data For ' + type);
                 }
+                break;
+            case 'code':
+                $('#lblCliteria').text('Filter Data For Service Code');
+                SearchData();
                 break;
         }
         $('#dvSql').html('');
@@ -252,6 +270,9 @@
                     SetGridConfigVal(path, '#tblStatus', type, '#frmSearchStatus', ReadData);
                 }
                 break;
+            case 'code':
+                SetGridSICode(path, '#tblCode', '', '#frmSearchCode', ReadData);
+                break;
         }
     }
     function ReadBranch(dt) {
@@ -275,6 +296,8 @@
             case 'status':
                 $('#txtValue').val(dr.ConfigKey);
                 break;
+            case 'code':
+                $('#txtValue').val(dr.SICode);
         }
     }
     function SetData() {        
@@ -307,6 +330,8 @@
             case 'status':
                 $('#txtStatusCliteria').val(cliteria);
                 break;
+            case 'code':
+                $('#txtCodeCliteria').val(cliteria);
         }
         $('#dvCliteria').modal('hide');
     }

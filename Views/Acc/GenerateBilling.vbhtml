@@ -26,7 +26,7 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <label id="lblCustCode">Customer</label>                
+                <label id="lblCustCode">Billing Place</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" style="width:120px" />
@@ -198,7 +198,7 @@ End Code
 
         let w = '';
         if ($('#txtCustCode').val() !== "") {
-            w = w + '&Cust=' + $('#txtCustCode').val();
+            w = w + '&Bill=' + $('#txtCustCode').val();
         }
         if ($('#txtDocDateF').val() !== "") {
             w = w + '&DateFrom=' + CDateEN($('#txtDocDateF').val());

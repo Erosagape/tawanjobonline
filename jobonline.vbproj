@@ -510,6 +510,26 @@
     <Content Include="App_Data\JOBBETA\FormBill.vbhtml" />
     <Content Include="App_Data\JOBBETA\FormCreditNote.vbhtml" />
     <Content Include="App_Data\JOBBETA\FormWHTax.vbhtml" />
+    <Content Include="App_Data\ACE\FormBill.vbhtml" />
+    <Content Include="App_Data\ACE\FormInv.vbhtml" />
+    <Content Include="App_Data\ACE\FormJob.vbhtml" />
+    <Content Include="App_Data\ASAL\FormBill.vbhtml" />
+    <Content Include="App_Data\ASAL\FormTaxinv.vbhtml" />
+    <Content Include="App_Data\KWAN\FormBill.vbhtml" />
+    <Content Include="App_Data\KWAN\FormInv.vbhtml" />
+    <Content Include="App_Data\KWAN\FormRcp.vbhtml" />
+    <Content Include="App_Data\KWAN\FormTaxinv.vbhtml" />
+    <Content Include="App_Data\SOUTHEAST\FormBill.vbhtml" />
+    <Content Include="App_Data\SOUTHEAST\FormRcp.vbhtml" />
+    <Content Include="App_Data\SOUTHEAST\FormTaxinv.vbhtml" />
+    <Content Include="App_Data\ACE\FormTaxinv.vbhtml" />
+    <Content Include="App_Data\SOUTHEAST\FormTransport.vbhtml" />
+    <Content Include="App_Data\SOUTHEAST\FormTruckOrder.vbhtml" />
+    <Content Include="App_Data\SOUTHEAST\FormLetter.vbhtml" />
+    <Content Include="App_Data\SOUTHEAST\TruckOrder.vbhtml" />
+    <Content Include="App_Data\SOUTHEAST\FormBookingSea.vbhtml" />
+    <Content Include="App_Data\SOUTHEAST\FormBookingAir.vbhtml" />
+    <Content Include="App_Data\SOUTHEAST\FormBooking.vbhtml" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -925,7 +945,6 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\NINETY\" />
     <Folder Include="Resource\Export\" />
     <Folder Include="Resource\Import\" />
   </ItemGroup>

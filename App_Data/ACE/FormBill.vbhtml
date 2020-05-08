@@ -44,20 +44,13 @@ End Code
         <table border="1" style="border-style:solid;width:100%;margin-top:5px ">
             <thead>
                 <tr>
-                    <th class="text-center" width="100" rowspan="2">ITEMS</th>
-                    <th class="text-center" width="100" rowspan="2">ISSUE DATE</th>
-                    <th class="text-center" width="130" rowspan="2">INVOICE NO.</th>
-                    <th class="text-center" width="130" rowspan="2">JOB NO.</th>
-                    <th class="text-center" colspan="2">AMOUNT</th>
-                    <th class="text-center" width="60" rowspan="2">VAT</th>
-                    <th class="text-center" colspan="2">W/H</th>
-                    <th class="text-center" width="100" rowspan="2">TOTAL</th>
-                </tr>
-                <tr>
-                    <th class="text-center" width="130">REIMBURSEMENT</th>
-                    <th class="text-center" width="90">SERVICE</th>
-                    <th class="text-center" width="50">TRANSPORT</th>
-                    <th class="text-center" width="50">OTHERS</th>
+                    <th class="text-center" width="100">ITEMS</th>
+                    <th class="text-center" width="100">ISSUE DATE</th>
+                    <th class="text-center" width="130">INVOICE NO.</th>
+                    <th class="text-center" width="130">JOB NO.</th>
+                    <th class="text-center">CONSIGNEE</th>
+                    <th class="text-center">DUE DATE</th>
+                    <th class="text-center" width="100">TOTAL</th>
                 </tr>
             </thead>
             <tbody id="tbDetail">
@@ -65,16 +58,11 @@ End Code
             </tbody>
             <tfoot>
                 <tr>
-                    <td style="text-align:right" colspan="4">TOTAL</td>
-                    <td style="text-align:right"><label id="lblSumAdv"></label></td>
-                    <td style="text-align:right"><label id="lblSumService"></label></td>
-                    <td style="text-align:right"><label id="lblSumVat"></label></td>
-                    <td style="text-align:right"><label id="lblSumWh1"></label></td>
-                    <td style="text-align:right"><label id="lblSumWh3"></label></td>
+                    <td style="text-align:right" colspan="6">TOTAL</td>
                     <td style="text-align:right"><label id="lblBillTotal"></label></td>
                 </tr>
                 <tr style="background-color:lightblue">
-                    <th class="text-center" colspan="10"><label id="lblBillTotalEng"></label></th>
+                    <th class="text-center" colspan="7"><label id="lblBillTotalEng"></label></th>
                 </tr>
             </tfoot>
         </table>
@@ -119,7 +107,7 @@ End Code
             $('#lblPaymentDueDate').text(ShowDate(CDateTH(data.header[0][0].DuePaymentDate)));
         }
         if (data.customer.length > 0) {
-            $('#lblTaxNumber').text(data.customer[0][0].TaxNumber);
+            $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : '+ data.customer[0][0].Branch);
             if (data.customer[0][0].UsedLanguage == 'TH') {
                 $('#lblCustName').text(data.customer[0][0].NameThai);
                 $('#lblCustAddress').text(data.customer[0][0].TAddress1 + '\n' + data.customer[0][0].TAddress2);
@@ -144,11 +132,8 @@ End Code
                 html += '<td>' + ShowDate(CDateTH(dr.InvDate)) + '</td>';
                 html += '<td>' + dr.InvNo + '</td>';
                 html += '<td>' + dr.RefNo + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtAdvance, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtChargeNonVAT, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtVAT, 2) + '</td>';
-                html += '<td style="text-align:right">' + (dr.AmtWHRate==1 ? ShowNumber(dr.AmtWH, 2) : 0) + '</td>';
-                html += '<td style="text-align:right">' + (dr.AmtWHRate!==1 ? ShowNumber(dr.AmtWH, 2) : 0) + '</td>';
+                html += '<td style="text-align:left">' + dr.CustTName + '</td>';
+                html += '<td style="text-align:right">' + ShowDate(CDateTH(dr.DueDate)) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtTotal, 2) + '</td>';
                 html += '</tr>';
 
@@ -160,12 +145,7 @@ End Code
                 wh3 += Number(dr.AmtWHRate !== 1 ? ShowNumber(dr.AmtWH, 2) : 0);
             }
             dv.html(html);
-            $('#lblSumAdv').text(ShowNumber(adv, 2));
-            $('#lblSumService').text(ShowNumber(serv, 2));
-            $('#lblSumVat').text(ShowNumber(vat, 2));
-            $('#lblSumWh1').text(ShowNumber(wh1, 2));
-            $('#lblSumWh3').text(ShowNumber(wh3, 2));
-
+            
             $('#lblBillTotal').text(ShowNumber(total,2));
             $('#lblBillTotalEng').text(CNumEng(total));
         }

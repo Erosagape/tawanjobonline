@@ -49,8 +49,7 @@ End Code
 <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
     <thead>
         <tr style="background-color:lightblue;">
-            <th height="40" width="60">INV.NO.</th>
-            <th width="200">DESCRIPTION</th>
+            <th height="40" width="260">INV.NO.</th>
             <th width="70">JOB</th>
             <th width="60">AMOUNT</th>
             <th width="30">CURRENCY</th>
@@ -62,7 +61,7 @@ End Code
     </tbody>
     <tfoot>
         <tr style="background-color:lightblue;text-align:center;">
-            <td colspan="4"><label id="lblTotalText"></label></td>
+            <td colspan="3"><label id="lblTotalText"></label></td>
             <td colspan="2">TOTAL RECEIPT</td>
             <td colspan="1"><label id="lblTotalNum"></label></td>
         </tr>
@@ -115,7 +114,7 @@ End Code
     } else {
         $('#dvCopy').html('<b>**COPY**</b>');
     }
-    $.get(path + 'acc/getreceivereport?branch=' + branch + '&code=' + receiptno, function (r) {
+    $.get(path + 'acc/getreceivereport?type=SUM&branch=' + branch + '&code=' + receiptno, function (r) {
         if (r.receipt.data.length !== null) {
             ShowData(r.receipt.data);
         }
@@ -133,18 +132,17 @@ End Code
         $('#lblCustTel').text(h.CustPhone);
         $('#lblCustTax').text(h.CustTaxID);
         $('#lblReceiptNo').text(h.ReceiptNo);
-        $('#lblReceiptDate').text(ShowDate(CDateEN(h.ReceiptDate)));
+        $('#lblReceiptDate').text(ShowDate(CDateEN(h.ReceiveDate)));
         let html = '';
         let total = 0;
 
         for (let d of dt) {
             html = '<tr>';
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
-            html += '<td>' + d.SICode+ '-'+ d.SDescription + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
             html += '<td style="text-align:right">' + ShowNumber(d.FNet,2) + '</td>';
-            html += '<td style="text-align:center">' + d.DCurrencyCode + '</td>';
-            html += '<td style="text-align:center">' + d.DExchangeRate + '</td>';
+            html += '<td style="text-align:center">' + d.CurrencyCode + '</td>';
+            html += '<td style="text-align:center">' + d.ExchangeRate + '</td>';
             html += '<td style="text-align:right">' + ShowNumber(d.Net,2) + '</td>';
             html += '</tr>';
 

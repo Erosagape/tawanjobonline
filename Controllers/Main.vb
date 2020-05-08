@@ -1831,6 +1831,20 @@ WHERE a.RoleID=b.RoleID {0}
 GROUP BY a.UserID,b.ModuleID
 "
     End Function
+    Function SQLSelectBillDetail() As String
+        Return "
+SELECT a.BranchCode, a.BillAcceptNo, a.ItemNo, a.InvNo, a.AmtAdvance, a.AmtChargeNonVAT, a.AmtChargeVAT, a.AmtWH, a.AmtVAT, a.AmtTotal, a.CurrencyCode, 
+a.ExchangeRate, a.AmtCustAdvance, a.AmtForeign, a.InvDate, a.RefNo, a.AmtVATRate, a.AmtWHRate, a.AmtDiscount, a.AmtDiscRate, b.DocDate, b.CustCode, 
+b.CustBranch, b.BillToCustCode, b.BillToCustBranch, b.ContactName, b.EmpCode, b.PrintedBy, b.PrintedDate, b.PrintedTime, b.VATRate, b.TotalAdvance, 
+b.TotalCharge, b.TotalIsTaxCharge, b.TotalIs50Tavi, b.TotalVAT, b.Total50Tavi, b.TotalCustAdv, b.TotalNet, b.ForeignNet, b.BillAcceptDate, b.BillIssueDate, 
+b.Remark1, b.Remark2, b.Remark3, b.Remark4, b.Remark5, b.Remark6, b.Remark7, b.Remark8, b.Remark9, b.Remark10, b.CancelReson, b.CancelProve, 
+b.CancelDate, b.CancelTime, b.ShippingRemark, b.SumDiscount, b.DiscountRate, b.DiscountCal, b.TotalDiscount, b.DueDate, b.CreateDate, c.TaxNumber, 
+c.Title + '' + c.NameThai AS CustTName, c.NameEng AS CustEName
+FROM dbo.Job_BillAcceptDetail AS a INNER JOIN
+dbo.Job_InvoiceHeader AS b ON a.BranchCode = b.BranchCode AND a.InvNo = b.DocNo INNER JOIN
+dbo.Mas_Company AS c ON b.CustCode = c.CustCode AND b.CustBranch = c.Branch
+"
+    End Function
     Function SQLSelectBillReport() As String
         Dim sql = "
 SELECT h.BranchCode, h.BillAcceptNo, h.BillDate, h.CustCode, h.CustBranch, h.BillRecvBy, h.BillRecvDate, h.DuePaymentDate, h.BillRemark, h.CancelReson, 
@@ -2294,7 +2308,7 @@ AND DocNo=h.DocNo
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusFromAdvance())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToComplete(user, docno))
     End Sub
-    Function GetSQLCommand(cliteria As String, fldDate As String, fldCust As String, fldJob As String, fldEmp As String, fldVend As String, fldStatus As String, fldBranch As String) As String
+    Function GetSQLCommand(cliteria As String, fldDate As String, fldCust As String, fldJob As String, fldEmp As String, fldVend As String, fldStatus As String, fldBranch As String, Optional fldSICode As String = "") As String
         Dim sqlW As String = ""
         If cliteria Is Nothing Then
             Return ""
@@ -2318,6 +2332,7 @@ AND DocNo=h.DocNo
                 If fldEmp <> "" Then str = ProcessCliteria(str, "[EMP]", fldEmp)
                 If fldStatus <> "" Then str = ProcessCliteria(str, "[STATUS]", fldStatus)
                 If fldVend <> "" Then str = ProcessCliteria(str, "[VEND]", fldVend)
+                If fldSICode <> "" Then str = ProcessCliteria(str, "[CODE]", fldSICode)
                 sqlW &= str
                 If sqlW <> "" Then
                     sqlW &= ")"
