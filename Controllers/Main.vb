@@ -822,7 +822,7 @@ LEFT JOIN (
     " & If(pType = "CU", "h.RecvBank,h.RecvBranch", "h.BankCode,h.BankBranch") & "
     FROM Job_CashControlSub h LEFT JOIN Job_CashControlDoc d
     ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo 
-    WHERE h.PRType='P' AND NOT EXISTS(
+    WHERE h.PRType='" & If(chqType="P","R","P") &"' AND NOT EXISTS(
 select ControlNo from Job_CashControl
 where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
     )

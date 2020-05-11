@@ -41,9 +41,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-2">
-                        <label id="lblBankCode">
-                            <a onclick="SearchData('bank')">Bank Code :</a>
-                        </label>
+                        <a onclick="SearchData('bank')"><label id="lblBankCode">Bank Code :</label></a>                            
                         <br />
                         <input type="text" id="txtBankCode" class="form-control" tabIndex="5">
                     </div>

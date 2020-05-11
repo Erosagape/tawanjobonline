@@ -137,12 +137,12 @@ Public Class CQuoItem
             m_Isvat = value
         End Set
     End Property
-    Private m_VatRate As Integer
-    Public Property VatRate As Integer
+    Private m_VatRate As Double
+    Public Property VatRate As Double
         Get
             Return m_VatRate
         End Get
-        Set(value As Integer)
+        Set(value As Double)
             m_VatRate = value
         End Set
     End Property
@@ -164,12 +164,12 @@ Public Class CQuoItem
             m_IsTax = value
         End Set
     End Property
-    Private m_TaxRate As Integer
-    Public Property TaxRate As Integer
+    Private m_TaxRate As Double
+    Public Property TaxRate As Double
         Get
             Return m_TaxRate
         End Get
-        Set(value As Integer)
+        Set(value As Double)
             m_TaxRate = value
         End Set
     End Property
@@ -396,7 +396,7 @@ Public Class CQuoItem
                         row.Isvat = rd.GetInt32(rd.GetOrdinal("Isvat"))
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("VatRate"))) = False Then
-                        row.VatRate = rd.GetInt32(rd.GetOrdinal("VatRate"))
+                        row.VatRate = rd.GetDouble(rd.GetOrdinal("VatRate"))
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("VatAmt"))) = False Then
                         row.VatAmt = rd.GetDouble(rd.GetOrdinal("VatAmt"))
@@ -405,7 +405,7 @@ Public Class CQuoItem
                         row.IsTax = rd.GetInt32(rd.GetOrdinal("IsTax"))
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("TaxRate"))) = False Then
-                        row.TaxRate = rd.GetInt32(rd.GetOrdinal("TaxRate"))
+                        row.TaxRate = rd.GetDouble(rd.GetOrdinal("TaxRate"))
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("TaxAmt"))) = False Then
                         row.TaxAmt = rd.GetDouble(rd.GetOrdinal("TaxAmt"))

@@ -25,8 +25,9 @@ function GetReportLists() {
         { "ReportGroup": "FIN", "ReportCode": "TAXDAILY", "ReportNameEN": "Tax-invoice Daily", "ReportNameTH": "รายงานใบกำกับภาษีประจำวัน" },
         { "ReportGroup": "FIN", "ReportCode": "TAXSUMMARY", "ReportNameEN": "Tax-invoice Summary", "ReportNameTH": "รายงานสรุปใบกำกับภาษี" },
         { "ReportGroup": "FIN", "ReportCode": "CASHDAILY", "ReportNameEN": "Transaction Daily", "ReportNameTH": "รายงานการรับจ่ายเงินประจำวัน" },
-        { "ReportGroup": "FIN", "ReportCode": "CHQRECEIVE", "ReportNameEN": "Cheque Receive", "ReportNameTH": "รายงานการรับเช็คประจำวัน" },
-        { "ReportGroup": "FIN", "ReportCode": "CHQISSUE", "ReportNameEN": "Cheque Issue", "ReportNameTH": "รายงานการจ่ายเช็คประจำวัน" },
+        { "ReportGroup": "FIN", "ReportCode": "CHQRECEIVE", "ReportNameEN": "Cheque Customer Receive", "ReportNameTH": "รายงานการรับเช็คประจำวัน" },
+        { "ReportGroup": "FIN", "ReportCode": "CHQISSUE", "ReportNameEN": "Cashier Cheque Issue", "ReportNameTH": "รายงานการจ่ายเช็คประจำวัน" },
+        { "ReportGroup": "FIN", "ReportCode": "CHQCUSTPAY", "ReportNameEN": "Cheque Customer Payment", "ReportNameTH": "รายงานการจ่ายเช็คของลูกค้า" },
         { "ReportGroup": "FIN", "ReportCode": "CREDITADV", "ReportNameEN": "Credit Advance Summary", "ReportNameTH": "รายงานสรุปใบทดรองจ่าย" },
         { "ReportGroup": "BILL", "ReportCode": "CLRDAILY", "ReportNameEN": "Clearing Daily", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายประจำวัน" },
         { "ReportGroup": "BILL", "ReportCode": "CLRDETAIL", "ReportNameEN": "Clearing Expenses Report", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายตามประเภท" },
@@ -2346,6 +2347,7 @@ function ChangeLanguageForm(fname) {
                 lblSearch: 'Search|ค้นหา',
                 lblBranch: 'Branch|สาขา',
                 lblCustomer: 'Customer|ลูกค้า',
+                lblDCust: 'Customer|ลูกค้า',
                 lblDateFrom: 'Date From|วันที่เอกสาร',
                 lblDateTo: 'Date To|ถึงวันที่',
                 lblShowCancel: 'Show Cancel Only|แสดงเอกสารที่ยกเลิก',
@@ -2396,9 +2398,9 @@ function ChangeLanguageForm(fname) {
                 lblUnitCheck: 'Unit|หน่วยบริการ',
                 lblChargeAmt: 'Price|ราคาต่อหน่วย',
                 lblDiscountType: 'Discount Type|ประเภทส่วนลด',
-                lblDiscountRate: 'Discount Rate|อัตราส่วนลด',
+                lblDiscountRate: 'Discount Rate|อัตราส่วนลด (%)',
                 lblVender: 'Vender|ผู้ให้บริการ',
-                lblCostAmt: 'Cost Amount|ราคาทุน',
+                lblCostAmt: 'Cost Amount(Net)|ราคาทุนสุทธิ',
                 lblCommType: 'Commission Type|วิธีคิดคอมมิชชั่น',
                 lblCommAmt: 'Commission Amt|ยอดเงินคอมมิชชั่น',
                 lblVAT: 'VAT|ภาษีมูลค่าเพิ่ม',
@@ -2458,7 +2460,8 @@ function GetLanguage(msg) {
     if (mainLanguage == "TH") {
         let lang = {
             "Do you need to log out?": "คุณต้องการออกจากระบบ?",
-            "Logout complete!": "ออกจากระบบแล้ว!"
+            "Logout complete!": "ออกจากระบบแล้ว!",
+            "please enter customer":"กรุณาระบุลูกค้าก่อน"
         };
         let findLang = lang[msg];
         if (findLang !== undefined) {

@@ -163,6 +163,16 @@ End Code
                             </table>
                         </div>
                         <div class="col-sm-8">
+                            <div style="width:100%">
+                                <label id="lblBillToCustCode">Billing Place</label>
+                                <br />
+                                <div style="display:flex;flex-direction:row">
+                                    <input type="text" id="txtBillToCustCode" style="width:120px" />
+                                    <input type="text" id="txtBillToCustBranch" style="width:50px" />
+                                    <button id="btnBrowseCust2" class="btn btn-default" onclick="SearchData('billing')">...</button>
+                                    <input type="text" id="txtBillToCustName" style="width:100%" disabled />
+                                </div>
+                            </div>
                             <b id="linkCost">Costing of Invoice:</b><br />
                             <table id="tbCost" class="table table-responsive" style="width:100%;">
                                 <thead>
@@ -400,6 +410,7 @@ End Code
             let dv = document.getElementById("dvLOVs");
             //Customers
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
+            CreateLOV(dv, '#frmSearchBill', '#tbBill', 'Billing Place', response, 3);
 
             CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job', response, 3);
             CreateLOV(dv, '#frmSearchInv', '#tbInv', 'Cancelled Invoice', response, 3);
@@ -1070,6 +1081,9 @@ End Code
             case 'customer':
                 SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
                 break;
+            case 'billing':
+                SetGridCompany(path, '#tbBill', '#frmSearchBill', ReadBilling);
+                break;
             case 'currency':
                 SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
                 break;
@@ -1121,8 +1135,20 @@ End Code
         $('#txtCustName').val(dt.NameThai);
         billtocustcode = dt.BillToCustCode;
         billtocustbranch = dt.BillToBranch;
+        $('#txtBillToCustCode').val(billtocustcode);
+        $('#txtBillToCustBranch').val(billtocustbranch);
+        ShowCustomer(path, billtocustcode, billtocustbranch, '#txtBillToCustName');
         creditlimit = dt.CreditLimit;
         $('#txtCustCode').focus();
+    }
+    function ReadBilling(dt) {
+        $('#txtBillToCustCode').val(dt.CustCode);
+        $('#txtBillToCustBranch').val(dt.Branch);
+        //ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
+        $('#txtBillToCustName').val(dt.NameThai);
+        billtocustcode = dt.BillToCustCode;
+        billtocustbranch = dt.BillToBranch;
+        creditlimit = dt.CreditLimit;
     }
     function GetDueDate(d) {
         let addDays = CNum(creditlimit);

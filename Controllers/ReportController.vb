@@ -137,16 +137,16 @@ Namespace Controllers
                         sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo,SUM(rc.Amt) as Amt,SUM(rc.AmtVAT) as AmtVAT,SUM(rc.Amt50Tavi) as Amt50Tavi,SUM(rc.Net) as AmtNet FROM (" & SQLSelectReceiptReport() & sqlW & ") rc GROUP BY rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo ORDER BY rc.ReceiptDate,rc.ReceiptNo"
                     Case "CASHDAILY"
                         sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "r.CmpCode", "", "h.BranchCode")
-                        If sqlW <> "" Then sqlW = " WHERE (d.ChqAmount >0 OR d.CashAmount>0) AND " & sqlW
+                        If sqlW <> "" Then sqlW = " WHERE (d.ChqAmount >0 OR d.CashAmount>0) AND d.acType<>'CU' AND " & sqlW Else sqlW = " WHERE (d.ChqAmount >0 OR d.CashAmount>0) AND d.acType<>'CU' "
                         sqlM = "SELECT vc.PRVoucher,vc.VoucherDate,vc.BookCode,vc.ChqNo,vc.ChqDate,vc.RecvBank,(CASE WHEN vc.PRType='P' THEN -1 ELSE 1 END)*(vc.CashAmount+vc.ChqAmount) as Total,vc.DRefNo FROM (" & SQLSelectVoucher() & sqlW & ") vc ORDER BY vc.VoucherDate,vc.PRVoucher"
                         fldGroup = "VoucherDate"
                     Case "CLRDAILY"
                         sqlW = GetSQLCommand(cliteria, "h.ClrDate", "j.CustCode", "j.JNo", "h.EmpCode", "d.VenCode", "h.DocStatus", "h.BranchCode")
-                        If sqlW <> "" Then sqlW = " WHERE h.DocStatus<>99 AND " & sqlW
+                        If sqlW <> "" Then sqlW = " WHERE h.DocStatus<>99 AND " & sqlW Else sqlW = " WHERE h.DocStatus<>99 "
                         sqlM = "SELECT cl.ClrNo,cl.ClrDate,cl.SDescription,cl.AdvNO,cl.JobNo,cl.AdvNet,cl.ClrNet,cl.Tax50Tavi,cl.SlipNo,cl.LinkBillNo as InvoiceNo FROM (" & SQLSelectClrDetail() & sqlW & ") cl ORDER BY cl.ClrDate,cl.ClrNo"
                     Case "CLRSUMMARY"
                         sqlW = GetSQLCommand(cliteria, "h.ClrDate", "j.CustCode", "j.JNo", "h.EmpCode", "d.VenCode", "h.DocStatus", "h.BranchCode")
-                        If sqlW <> "" Then sqlW = " WHERE h.DocStatus<>99 AND " & sqlW
+                        If sqlW <> "" Then sqlW = " WHERE h.DocStatus<>99 AND " & sqlW Else sqlW = " WHERE h.DocStatus<>99 "
                         sqlM = "SELECT cl.ClrNo,cl.ClrDate,cl.JobNo,SUM(cl.UsedAmount) as UsedAmount,SUM(cl.ChargeVAT) as AmtVat,SUM(cl.Tax50Tavi) as Tax50Tavi,"
                         sqlM &= "SUM(CASE WHEN cl.IsExpense=0 AND cl.IsCredit=1 THEN cl.ClrNet ELSE 0 END) as SumAdvance,SUM(CASE WHEN cl.IsExpense=1 THEN cl.ClrNet ELSE 0 END) as SumCost,SUM(CASE WHEN cl.IsExpense=0 AND cl.IsCredit=0 THEN cl.ClrNet ELSE 0 END) as SumCharge,cl.LinkBillNo as InvoiceNo FROM (" & SQLSelectClrDetail() & sqlW & ") cl "
                         sqlM &= "WHERE cl.ClrNet > 0 GROUP BY cl.ClrNo,cl.ClrDate,cl.JobNo,cl.LinkBillNo ORDER BY cl.ClrDate,cl.ClrNo"
@@ -191,7 +191,7 @@ FROM            dbo.Job_ClearHeader AS ch INNER JOIN
                          INNER JOIN dbo.Job_SrvSingle sv ON cd.SICode=sv.SICode 
 						 INNER JOIN
                          dbo.Job_Order AS j ON cd.BranchCode = j.BranchCode AND cd.JobNo = j.JNo
-WHERE        (ch.DocStatus <> 99) AND (j.JobStatus < 99) {0}
+WHERE (cd.BNet>0) AND       (ch.DocStatus <> 99) AND (j.JobStatus < 99) {0}
 GROUP BY j.BranchCode, j.JNo, j.CustCode, j.CustBranch, j.InvNo, j.DutyDate, j.DeclareNumber,j.CSCode,j.ManagerCode
 ) as t ORDER BY CustCode,DutyDate,InvNo"
                         sqlM = String.Format(sqlM, sqlW)
@@ -229,9 +229,10 @@ FROM (" & String.Format(SQLSelectTax50TaviReport(), sqlW) & ") as t ORDER BY 9,1
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
                         sqlM = String.Format(SQLSelectWHTaxSummary(), sqlW)
                     Case "ACCEXP"
+                        fldGroup = "acType"
                         sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT PRVoucher,VoucherDate,TRemark,ChqNo,ChqDate,TotalNet,ControlNo FROM (" & String.Format(SQLSelectCashFlow(), sqlW) & ") as t WHERE PRType='P' ORDER BY PRVoucher"
+                        sqlM = "SELECT acType,PRVoucher,VoucherDate,TRemark,ChqNo,ChqDate,TotalNet,ControlNo FROM (" & String.Format(SQLSelectCashFlow(), sqlW) & ") as t WHERE PRType='P' ORDER BY acType,PRVoucher"
                     Case "ACCINC"
                         sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
@@ -321,7 +322,7 @@ select a.AdvNo,a.CustCode,a.PaymentDate,a.EmpCode,
 SUM(b.AdvNet) as AdvTotal,SUM(ISNULL(d.ClrNet,0)) as ClrTotal,
 (CASE WHEN SUM(ISNULL(d.ClrNet,0))>=SUM(b.AdvNet) THEN SUM(ISNULL(d.ClrNet,0))-SUM(b.AdvNet) ELSE 0 END) as TotalPayback,
 (CASE WHEN SUM(ISNULL(d.ClrNet,0))<SUM(b.AdvNet) THEN SUM(b.AdvNet)-SUM(ISNULL(d.ClrNet,0)) ELSE 0 END) as TotalReturn,
-MAX(e.ControlNo) as ReceiveRef,SUM(e.PaidAmount) as ReceiveAmt
+e.ReceiveRef,e.PaidAmount as ReceiveAmt
 FROM Job_AdvHeader a INNER JOIN Job_AdvDetail b 
 ON a.BranchCode=b.BranchCode AND a.AdVNo=b.AdvNo
 LEFT JOIN Mas_Company c
@@ -334,14 +335,15 @@ LEFT JOIN (
 	GROUP BY dt.BranchCode,dt.AdvNo,dt.AdvItemNo
 ) d ON b.BranchCode=d.BranchCode AND b.AdvNo=d.AdvNo AND b.ItemNo=d.AdvItemNo
 left join (
-	SELECT dt.BranchCode,dt.ControlNo,dt.DocNo,dt.PaidAmount 
+SELECT dt.BranchCode,Max(dt.ControlNo) as ReceiveRef,dt.DocNo,SUM(dt.PaidAmount) as PaidAmount
 	FROM Job_CashControlDoc dt INNER JOIN Job_CashControl hd
 	ON dt.BranchCode=hd.BranchCode AND dt.ControlNo=hd.ControlNo
 	WHERE ISNULL(hd.CancelProve,'')='' AND dt.DocType='CLR'
+	GROUP BY dt.BranchCode,dt.DocNo
 ) e ON b.BranchCode=e.BranchCode AND (b.AdvNo+'#'+Convert(varchar,b.ItemNo))=e.DocNo
 WHERE a.DocStatus>2 AND a.AdvType=5 {0}
 GROUP BY
-a.AdvNo,a.CustCode,a.PaymentDate,a.EmpCode
+a.AdvNo,a.CustCode,a.PaymentDate,a.EmpCode,e.ReceiveRef,e.PaidAmount
 ORDER BY a.EmpCode,a.PaymentDate,a.AdvNo
 "
                         sqlM = String.Format(sqlM, sqlW)
@@ -355,7 +357,7 @@ select a.AdvNo,a.CustCode,a.PaymentDate,a.EmpCode,
 SUM(b.AdvNet) as AdvTotal,SUM(ISNULL(d.ClrNet,0)) as ClrTotal,
 (CASE WHEN SUM(ISNULL(d.ClrNet,0))>=SUM(b.AdvNet) THEN SUM(ISNULL(d.ClrNet,0))-SUM(b.AdvNet) ELSE 0 END) as TotalPayback,
 (CASE WHEN SUM(ISNULL(d.ClrNet,0))<SUM(b.AdvNet) THEN SUM(b.AdvNet)-SUM(ISNULL(d.ClrNet,0)) ELSE 0 END) as TotalReturn,
-MAX(e.ControlNo) as ReceiveRef,SUM(e.PaidAmount) as ReceiveAmt
+e.ReceiveRef,e.PaidAmount as ReceiveAmt
 FROM Job_AdvHeader a INNER JOIN Job_AdvDetail b 
 ON a.BranchCode=b.BranchCode AND a.AdVNo=b.AdvNo
 LEFT JOIN Mas_Company c
@@ -368,14 +370,15 @@ LEFT JOIN (
 	GROUP BY dt.BranchCode,dt.AdvNo,dt.AdvItemNo
 ) d ON b.BranchCode=d.BranchCode AND b.AdvNo=d.AdvNo AND b.ItemNo=d.AdvItemNo
 left join (
-	SELECT dt.BranchCode,dt.ControlNo,dt.DocNo,dt.PaidAmount 
+	SELECT dt.BranchCode,Max(dt.ControlNo) as ReceiveRef,dt.DocNo,SUM(dt.PaidAmount) as PaidAmount
 	FROM Job_CashControlDoc dt INNER JOIN Job_CashControl hd
 	ON dt.BranchCode=hd.BranchCode AND dt.ControlNo=hd.ControlNo
 	WHERE ISNULL(hd.CancelProve,'')='' AND dt.DocType='CLR'
+	GROUP BY dt.BranchCode,dt.DocNo
 ) e ON b.BranchCode=e.BranchCode AND (b.AdvNo+'#'+Convert(varchar,b.ItemNo))=e.DocNo
-WHERE a.DocStatus>2 AND a.AdvType<>5 {0}
+WHERE a.DocStatus>2 {0}
 GROUP BY
-a.AdvNo,a.CustCode,a.PaymentDate,a.EmpCode
+a.AdvNo,a.CustCode,a.PaymentDate,a.EmpCode,e.ReceiveRef,e.PaidAmount
 ORDER BY a.EmpCode,a.PaymentDate,a.AdvNo
 "
                         sqlM = String.Format(sqlM, sqlW)
@@ -423,7 +426,7 @@ on a.BranchCode=b.BranchCode and a.ClrNo=b.ClrNo
 inner join Job_Order c on a.BranchCode=c.BranchCode and a.JobNo=c.JNo
 inner join Job_SrvSingle d on a.SICode=d.SICode
 inner join Mas_Company e on c.CustCode=e.CustCode and c.CustBranch=e.Branch
-where ISNULL(b.CancelProve,'')='' {0}
+where ISNULL(b.CancelProve,'')='' AND a.BNet>0 {0}
 ) clr
 GROUP BY CustCode,CustName
 ORDER BY CustName
@@ -460,7 +463,7 @@ FROM (
 	inner join Job_Order c on a.BranchCode=c.BranchCode and a.JobNo=c.JNo
 	inner join Job_SrvSingle d on a.SICode=d.SICode
 	inner join Mas_Company e on c.CustCode=e.CustCode and c.CustBranch=e.Branch
-	where ISNULL(b.CancelProve,'')='' {0}
+	where ISNULL(b.CancelProve,'')='' AND a.BNet>0 {0}
 ) clr
 GROUP BY JNo,DeclareNumber,InvNo,DutyDate,CloseJobDate,CustCode
 ORDER BY CustCode,DutyDate,JNo
@@ -521,12 +524,17 @@ ORDER BY CustCode,InvDate,DocNo
                         fldGroup = "CustCode"
                         sqlW = GetSQLCommand(cliteria, "a.ChqDate", "b.CustCode", "", "b.RecUser", "", "a.ChqStatus", "a.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = " SELECT ChqNo,ChqDate,CustCode,ChqStatus,ChqAmount,AmountRemain,DocUsed,TRemark FROM (" & SQLSelectChequeBalance("CU", "R") & sqlW & ") t ORDER BY CustCode,ChqDate,ChqNo "
+                        sqlM = " SELECT ChqNo,ChqDate,CustCode,ChqStatus,ChqAmount,AmountUsed,AmountRemain,DocUsed,TRemark FROM (" & SQLSelectChequeBalance("CU", "R") & sqlW & ") t ORDER BY CustCode,ChqDate,ChqNo "
                     Case "CHQISSUE"
                         fldGroup = "CustCode"
                         sqlW = GetSQLCommand(cliteria, "a.ChqDate", "b.CustCode", "", "b.RecUser", "", "a.ChqStatus", "a.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = " SELECT ChqNo,ChqDate,CustCode,ChqStatus,ChqAmount,DocUsed,TRemark FROM (" & SQLSelectChequeBalance("CH", "P") & sqlW & ") t ORDER BY CustCode,ChqDate,ChqNo "
+                    Case "CHQCUSTPAY"
+                        fldGroup = "CustCode"
+                        sqlW = GetSQLCommand(cliteria, "a.ChqDate", "b.CustCode", "", "b.RecUser", "", "a.ChqStatus", "a.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = " SELECT ChqNo,ChqDate,CustCode,ChqStatus,ChqAmount,AmountUsed,DocUsed,TRemark FROM (" & SQLSelectChequeBalance("CU", "P") & sqlW & ") t ORDER BY CustCode,ChqDate,ChqNo "
                     Case "RVDAILY"
                         fldGroup = "VoucherDate"
                         sqlW = GetSQLCommand(cliteria, "VoucherDate", "CustCode", "", "RecUser", "", "", "BranchCode")

@@ -104,7 +104,7 @@ Namespace Controllers
             Next
 
             If lst <> "" Then
-                Dim tSQL As String = String.Format("UPDATE Job_ClearDetail SET LinkBillNo='{0}',LinkItem=1,UsedAmount=0,ChargeVAT=0,Tax50Tavi=0,FNet=0,BNet=0 WHERE BranchCode+'|'+ClrNo+'|'+Convert(varchar,ItemNo) in({1})", docno, lst)
+                Dim tSQL As String = String.Format("UPDATE Job_ClearDetail SET LinkBillNo='{0}',LinkItem=1,ChargeVAT=0,Tax50Tavi=0,FNet=0,BNet=0 WHERE BranchCode+'|'+ClrNo+'|'+Convert(varchar,ItemNo) in({1})", docno, lst)
                 Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                 If result = "OK" Then
                     Main.UpdateClearStatus(ViewBag.User, docno)

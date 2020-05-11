@@ -115,13 +115,13 @@ End Code
                     <div class="modal-header">
                         <h4><b><label id="lblQuoHeader">Add/Edit Quotation</label></b></h4>
                         <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <label id="lblQNo">Quotation No</label>:<br /> <input type="text" id="txtQNo" class="form-control" disabled />
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <label id="lblDocDate">Issue Date</label>:<br /> <input type="date" id="txtDocDate" class="form-control" />
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <label id="lblStatus">Status</label> :<br />
                                 <select id="txtDocStatus" class="form-control dropdown" disabled>
                                     <option value="0">REQUEST</option>
@@ -129,9 +129,18 @@ End Code
                                     <option value="99">CANCEL</option>
                                 </select>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-2">
                                 <label id="lblReferQNo">Refer Q.No</label> : <br />
                                 <input type="text" id="txtReferQNo" class="form-control" />
+                            </div>
+                            <div class="col-sm-4">
+                                <label id="lblDCust">Customer:</label>                                
+                                <br/>
+                                <div style="display:flex;flex-direction:row">
+                                    <input type="text" id="txtDCustCode" class="form-control" style="width:130px" disabled />
+                                    <input type="text" id="txtDCustBranch" class="form-control" style="width:70px" disabled />
+                                    <input type="text" id="txtDCustName" class="form-control" style="width:100%" disabled />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -356,7 +365,7 @@ End Code
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <a href="../Master/ServiceCode" target="_blank"><label id="lblSICode">รหัสค่าบริการ</label></a>
                                 <div style="display:flex">
                                     <input type="text" id="txtSICode" class="form-control" style="width:20%" disabled />
@@ -364,31 +373,32 @@ End Code
                                     <input type="text" id="txtSDescription" class="form-control" disabled />
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <label id="lblDescriptionTH">Service Description</label><br/>
+                            <div class="col-sm-4">
+                                <label id="lblDescriptionTH">Service Description</label><br />
                                 <textarea id="txtDescriptionThai" class="form-control"></textarea>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-1">
+                            <div class="col-sm-2">
                                 <label id="lblQtyBegin">Qty Start </label>
                                 <div style="display:flex">
                                     <input type="text" id="txtQtyBegin" class="form-control" />
                                 </div>
                             </div>
-                            <div class="col-sm-1">
+                            <div class="col-sm-2">
                                 <label id="lblQtyEnd">Qty End</label>
                                 <div style="display:flex">
                                     <input type="text" id="txtQtyEnd" class="form-control" />
                                 </div>
                             </div>
-                            <div class="col-sm-1">
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
                                 <label id="lblChargeAmt">Price</label>
                                 <div style="display:flex">
                                     <input type="text" id="txtChargeAmt" class="form-control" onchange="CalAmount()" />
                                 </div>
                             </div>
-                            <div class="col-sm-1">
+                            <div class="col-sm-2">
                                 <label id="lblUnitCheck">Unit </label>
                                 <div style="display:flex">
                                     <input type="text" class="form-control" id="txtUnitCheck" />
@@ -1229,6 +1239,9 @@ End Code
         $('#txtDocNo').val(row.QNo);
         $('#txtReferQNo').val(row.ReferQNo);
         $('#txtDocDate').val(CDateEN(row.DocDate));
+        $('#txtDCustCode').val(row.CustCode);
+        $('#txtDCustBranch').val(row.CustBranch);
+        ShowCustomer(path, row.CustCode, row.CustBranch, '#txtDCustName');
         $('#txtBCustCode').val(row.BillToCustCode);
         $('#txtBCustBranch').val(row.BillToCustBranch);
         ShowCustomer(path, row.BillToCustCode, row.BillToCustBranch, '#txtBCustName');
@@ -1314,12 +1327,16 @@ End Code
     function ReadCustomer(dt) {
         $('#txtCustCode').val(dt.CustCode);
         $('#txtCustBranch').val(dt.Branch);
+        $('#txtCustName').val(dt.Title + ' ' + dt.NameThai);
+        $('#txtDCustCode').val(dt.CustCode);
+        $('#txtDCustBranch').val(dt.Branch);
+        $('#txtDCustName').val(dt.Title + ' ' + dt.NameThai);
         $('#txtBCustCode').val(dt.BillToCustCode);
         $('#txtBCustBranch').val(dt.BillToBranch);
         $('#txtCommissionPerc').val(dt.CommRate);
         GetContact();
         let w = '?Branch=' + $('#txtBCustBranch').val() + '&Code=' + $('#txtBCustCode').val();        
-        ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
+        //ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
         ShowCustomer(path, dt.BillToCustCode, dt.BillToBranch, '#txtBCustName');
     }
     function ReadContactName(dt) {
@@ -1449,7 +1466,7 @@ End Code
     function CalCommission() {
         let type = $('#txtCommissionType').val();
         let rate = CNum($('#txtCommissionPerc').val());
-        let comm = CDbl(GetNetPrice() * (rate * 0.01), 2);
+        let comm = CDbl((GetNetPrice()-CNum($('#txtVenderCost').val())) * (rate * 0.01), 2);
         if (type == 1) {
             comm = CNum($('#txtCommissionAmt').val());
         }
