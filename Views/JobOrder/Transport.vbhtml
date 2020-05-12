@@ -944,7 +944,7 @@ End Code
         $('#txtTotalTripC').val(countC);
     }
     function ReadContainer(dr) {
-        $('#tbDetail').DataTable({
+        let tb=$('#tbDetail').DataTable({
             data: dr,
             columns: [
                 { data: "ItemNo", title: "#"},
@@ -983,6 +983,7 @@ End Code
             destroy: true,
             responsive:true
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {
             SetSelect('#tbDetail', this);
             row = $('#tbDetail').DataTable().row(this).data(); //read current row selected
@@ -1480,7 +1481,7 @@ End Code
         $('#tbPrice').DataTable().clear().draw();
         $.get(path + 'JobOrder/GetTransportPrice' + w).done((r) => {
             if (r.transportprice.data.length > 0) {
-                $('#tbPrice').DataTable({
+                let tb=$('#tbPrice').DataTable({
                     data: r.transportprice.data,
                     columns: [
                         { data: "SICode", title: "Cost.Cde" },
@@ -1491,6 +1492,7 @@ End Code
                     ],
                     destroy:true
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbPrice');
                 $('#tbPrice tbody').on('click', 'tr', function () {
                     $('#tbPrice tbody > tr').removeClass('selected');
                     $(this).addClass('selected');
@@ -1531,7 +1533,7 @@ End Code
         $('#tbExpense').DataTable().clear().draw();
         $.get(path + 'JobOrder/GetTransportPrice?ID=' + $('#txtRouteID').val() + '&Vend=' + $('#txtVenderCode').val() + '&Cust=' + $('#txtNotifyCode').val()).done((r) => {
             if (r.transportprice.data.length > 0) {
-                $('#tbExpense').DataTable({
+                let tb=$('#tbExpense').DataTable({
                     data: r.transportprice.data,
                     columns: [
                         { data: "SICode", title: "Cost.Cde" },
@@ -1540,6 +1542,7 @@ End Code
                     ],
                     destroy: true
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbExpense');
             }
         });
     }
@@ -1548,7 +1551,7 @@ End Code
         if ($('#txtCTN_NO').val() !== '') {
             $.get(path + 'Acc/GetPayment?VenCode=' + $('#txtVenderCode').val() + '&Ref=' + $('#txtCTN_NO').val()).done((r) => {
                 if (r.payment.header.length > 0) {
-                    $('#tbPayment').DataTable({
+                    let tb= $('#tbPayment').DataTable({
                         data: r.payment.header,
                         columns: [
                             { data: "DocNo", title: "Doc.No" },
@@ -1559,6 +1562,7 @@ End Code
                         ],
                         destroy: true
                     });
+                    ChangeLanguageGrid('@ViewBag.Module', '#tbPayment');
                     $('#tbPayment tbody').on('dblclick', 'tr', function () {
                         let row = $('#tbPayment').DataTable().row(this).data();
                         window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&DocNo='+ row.DocNo +'&BookNo=' + $('#txtBookingNo').val() + '&Item=' + $('#txtItemNo').val() + '&Job=' + $('#txtJNo').val() + '&Vend=' + $('#txtVenderCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust=' + $('#txtNotifyCode').val(), '', '');

@@ -718,7 +718,7 @@ End Code
                 return;
             }
             let h = r.voucher.data[0].Table;
-            $('#tbControl').DataTable({
+            let tb=$('#tbControl').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -763,6 +763,7 @@ End Code
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbControl');
             $('#tbControl tbody').on('click', 'tr', function () {
                 $('#tbControl tbody > tr').removeClass('selected');
                 $(this).addClass('selected');
@@ -780,7 +781,7 @@ End Code
     }
     function SetGridPayment(list) {
         //show selected details
-        $('#tbHeader').DataTable({
+        let tb=$('#tbHeader').DataTable({
             data: list,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
@@ -818,6 +819,7 @@ End Code
             responsive:true,
             destroy: true
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
         $('#tbHeader tbody').on('click', 'tr', function () {
             $('#tbHeader tbody > tr').removeClass('selected');
             $(this).addClass('selected');

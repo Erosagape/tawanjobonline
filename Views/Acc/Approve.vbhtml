@@ -174,7 +174,7 @@ End Code
             let h = r.payment.header;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
-            $('#tbHeader').DataTable({
+            let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -217,6 +217,7 @@ End Code
                 responsive: true,
                 destroy:true
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');

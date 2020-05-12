@@ -20,7 +20,7 @@ End Code
                 </div>
             </div>
             <div class="col-sm-6">
-                <a href="../Master/Customers" target="_blank"><label id="lblCustomer">ลูกค้า</label></a>:
+                <a href="../Master/Customers" target="_blank"><label id="lblCustomer">Customer</label></a>:
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" class="form-control" style="width:130px" />
                     <input type="text" id="txtCustBranch" class="form-control" style="width:70px" />
@@ -61,14 +61,14 @@ End Code
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th class="all">QNo</th>
-                                <th class="desktop">DocDate</th>
-                                <th class="desktop">CustCode</th>
-                                <th class="desktop">BillToCustCode</th>
-                                <th class="desktop">TRemark</th>
-                                <th class="desktop">ContactName</th>
-                                <th class="desktop">ManagerCode</th>
-                                <th class="desktop">ApproveDate</th>
+                                <th class="all">Quotation No</th>
+                                <th class="desktop">Doc Date</th>
+                                <th class="desktop">Customer</th>
+                                <th class="desktop">Billing To</th>
+                                <th class="desktop">Remark</th>
+                                <th class="desktop">Contact Name</th>
+                                <th class="desktop">Manager Name</th>
+                                <th class="desktop">Approve Date</th>
                             </tr>
                         </thead>
                     </table>
@@ -84,9 +84,9 @@ End Code
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>SeqNo</th>
-                                    <th class="desktop">JobType</th>
-                                    <th class="desktop">ShipBy</th>
+                                    <th>Seq</th>
+                                    <th class="desktop">Job Type</th>
+                                    <th class="desktop">Ship By</th>
                                     <th class="all">Description</th>
                                 </tr>
                             </thead>
@@ -601,7 +601,7 @@ End Code
             row = {};
             row_d = {};
             row_i = {};
-            $('#tbHeader').DataTable({
+            let tb= $('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -614,7 +614,7 @@ End Code
                     },
                     { data: "QNo", title: "Quotation No" },
                     {
-                        data: "DocDate", title: "Doc date ",
+                        data: "DocDate", title: "Doc Date",
                         render: function (data) {
                             return CDateEN(data);
                         }
@@ -623,9 +623,9 @@ End Code
                     { data: "BillToCustCode", title: "Billing To" },
                     { data: "TRemark", title: "Remark" },
                     { data: "ContactName", title: "Contact Name" },
-                    { data: "ManagerCode", title: "Manager Code" },
+                    { data: "ManagerCode", title: "Manager Name" },
                     {
-                        data: "ApproveDate", title: "Appv.date ",
+                        data: "ApproveDate", title: "Approve Date",
                         render: function (data) {
                             return CDateEN(data);
                         }
@@ -634,6 +634,7 @@ End Code
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 SetSelect('#tbHeader', this);
                 ClearHeader();
@@ -664,7 +665,7 @@ End Code
         $.get(path + 'JobOrder/GetQuoItem?Branch=' + branch + '&Code=' + code + '&Seq=' + seq, function (r) {
             if (r.quotation.items.length > 0) {
                 let d = r.quotation.items;
-                $('#tbItem').DataTable({
+                let tb= $('#tbItem').DataTable({
                     data: d,
                     selected: true,
                     columns: [
@@ -718,6 +719,7 @@ End Code
                     responsive:true,
                     destroy:true
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbItem');
                 $('#tbItem tbody').on('click', 'tr', function () {
                     SetSelect('#tbItem', this);
                     row_i = $('#tbItem').DataTable().row(this).data();
@@ -746,7 +748,7 @@ End Code
         $.get(path + 'JobOrder/GetQuotation?Branch=' + branch + '&Code=' + code, function (r) {
             if (r.quotation.detail.length > 0) {
                 let d = r.quotation.detail;
-                $('#tbDetail').DataTable({
+                let tb= $('#tbDetail').DataTable({
                     data: d,
                     selected: true,
                     columns: [
@@ -765,6 +767,7 @@ End Code
                     responsive:true,
                     destroy:true
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
                 $('#tbDetail tbody').on('click', 'tr', function () {
                     SetSelect('#tbDetail', this);
                     row_d = $('#tbDetail').DataTable().row(this).data();

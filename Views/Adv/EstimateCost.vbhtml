@@ -203,18 +203,18 @@ End Code
                 RefreshGrid();
             }
         });
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Job
             CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job List', response, 3);
             //Branch
-            CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response,4);
+            CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response,2);
             //SICode
-            CreateLOV(dv, '#frmSearchSICode', '#tbServ', 'Service Code', response, 4);
+            CreateLOV(dv, '#frmSearchSICode', '#tbServ', 'Service Code', response, 2);
             //Service Unit
-            CreateLOV(dv, '#frmSearchSUnit', '#tbSUnit', 'Service Unit', response, 4);
+            CreateLOV(dv, '#frmSearchSUnit', '#tbSUnit', 'Service Unit', response, 2);
             //Currency
-            CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency', response, 4);
+            CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency', response, 2);
         });
     }
     //CRUD Functions used in HTML Java Scripts
@@ -324,7 +324,7 @@ End Code
                 $('#tbData').DataTable().clear().draw();
                 return;
             }
-            $('#tbData').dataTable({
+            let tb= $('#tbData').dataTable({
                 data: r.estimate.data,
                 columns: [
                     { data: "SICode", title: "Code" },
@@ -354,6 +354,7 @@ End Code
                 destroy: true,
                 responsive:true
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbData');
             $('#tbData tbody').on('click', 'tr', function () {
                 SetSelect('#tbData', this);
                 row = $('#tbData').DataTable().row(this).data(); //read current row selected

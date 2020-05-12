@@ -1331,7 +1331,7 @@ End Code
         return (filter.length > 0);
     }
     function ReadAdvDetail(dt) {
-        $('#tbDetail').DataTable({
+        let tb=$('#tbDetail').DataTable({
             data:dt,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
@@ -1386,6 +1386,7 @@ End Code
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {
             $('#tbDetail tbody > tr').removeClass('selected');
             $(this).addClass('selected');            
@@ -1592,7 +1593,7 @@ End Code
                 return;
             }
             let h = r.adv.data[0].Table;
-            $('#tbHeader').DataTable({
+            let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -1632,6 +1633,7 @@ End Code
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 $('#tbHeader tbody > tr').removeClass('selected');
                 $(this).addClass('selected');

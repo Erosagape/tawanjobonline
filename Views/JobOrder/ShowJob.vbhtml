@@ -638,15 +638,15 @@ End Code
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"></button>
-                        <h4 class="modal-title"><label id="lblHeader">Services Summary</label></h4>
+                        <h4 class="modal-title"><label id="lblHeaderC">Services Summary</label></h4>
                     </div>
                     <div class="modal-body">
                         <label id="lblQtyAdd">Qty : </label>
                         <input type="text" id="txtQtyAdd" />
                         <label id="lblUnitAdd">Unit : </label>
                         <input type="text" id="txtUnitAdd" disabled />
-                        <input type="button" id="btnBrowseSUnt" value="..." onclick="SearchData('SERVUNIT')" />
-                        <button type="button" class="btn btn-success" id="btnAddCons" onclick="AddService()">Add Service</button>
+                        <button id="btnBrowseSUnt" onclick="SearchData('SERVUNIT')">...</button>
+                        <button class="btn btn-primary" id="btnAddCons" onclick="AddService()">Add Service</button>
                         <div id="frmSearchSUnt">
                             <table id="tbSUnt" class="table table-responsive">
                                 <thead>
@@ -661,9 +661,10 @@ End Code
                         <div id="dvSplit"></div>
                     </div>
                     <div class="modal-footer">
-                        Total Container : <input type="text" id="txtTotalCon" disabled />
-                        <button type="button" class="btn btn-primary" id="btnSaveCons" onclick="ApplyService()">Update Value</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        <label id="lblTotalC">Total Container</label>
+                         : <input type="text" id="txtTotalCon" disabled />
+                        <button class="btn btn-success" id="btnSaveCons" onclick="ApplyService()">Update Value</button>
+                        <button class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>
@@ -1138,7 +1139,7 @@ End Code
         .done(function (r) {
             if (r.job.data.length > 0) {
                 let d = r.job.data;
-                $('#tbTracking').DataTable({
+                let tb=$('#tbTracking').DataTable({
                     data: d,
                     selected: true, //ให้สามารถเลือกแถวได้
                     columns: [ //กำหนด property ของ header column
@@ -1157,6 +1158,7 @@ End Code
                     destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
                     responsive:true
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbTracking');
             }
         });
     }
@@ -1165,7 +1167,7 @@ End Code
             .done(function (r) {
                 if (r.joborderlog.data.length > 0) {
                     let d = r.joborderlog.data;
-                    $('#tbLog').DataTable({
+                    let tb=$('#tbLog').DataTable({
                         data: d,
                         selected: true, //ให้สามารถเลือกแถวได้
                         columns: [ //กำหนด property ของ header column
@@ -1181,6 +1183,7 @@ End Code
                         destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
                         responsive:true
                     });
+                    ChangeLanguageGrid('@ViewBag.Module', '#tbLog');
                 }
             });
     }
@@ -1501,6 +1504,7 @@ End Code
         dv.appendChild(br);
         $('#txtQtyAdd').val('');
         $('#txtUnitAdd').val('');
+        SumService();
     }
     function SumService() {
         let c = document.getElementsByName("txtQtyCon");

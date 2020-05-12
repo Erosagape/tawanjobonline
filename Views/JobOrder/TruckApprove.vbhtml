@@ -351,7 +351,7 @@ End Code
         });
     }
     function ReadContainer(dr) {
-        $('#tbDetail').DataTable({
+        let tb=$('#tbDetail').DataTable({
             data: dr,
             columns: [
                 { data: "BookingNo", title: "Booking"},
@@ -398,6 +398,7 @@ End Code
             destroy: true,
             responsive:true
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {
             SetSelect('#tbDetail', this);        
             row = $('#tbDetail').DataTable().row(this).data();

@@ -181,7 +181,7 @@ End Code
                 return;
             }
             let h = r.adv.data[0].Table;
-            $('#tbHeader').DataTable({
+            let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -212,6 +212,7 @@ End Code
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');

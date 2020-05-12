@@ -2,8 +2,8 @@
     ViewBag.Title = "Transport Route"
 End Code
 <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#tabHeader">Route Lists</a></li>
-    <li><a data-toggle="tab" href="#tabDetail">Price Lists</a></li>
+    <li class="active"><a id="linkTab1" data-toggle="tab" href="#tabHeader">Route Lists</a></li>
+    <li><a id="linkTab2" data-toggle="tab" href="#tabDetail">Price Lists</a></li>
 </ul>
 <div class="tab-content">
     <div id="tabHeader" class="tab-pane fade in active">
@@ -30,15 +30,15 @@ End Code
             </div>
             <div class="col-sm-1">
                 <br />
-                <input type="button" class="btn btn-primary" style="width:100%" value="Select" onclick="$('#dvList').modal('show');" />
+                <button id="btnSelRoute" class="btn btn-primary" style="width:100%" onclick="$('#dvList').modal('show');">Select</button>
             </div>
             <div class="col-sm-1">
                 <br />
-                <input type="button" class="btn w3-purple" style="width:100%" value="New" onclick="ClearRoute()" />
+                <button id="btnNewRoute" class="btn w3-purple" style="width:100%" onclick="ClearRoute()" >New</button>
             </div>
             <div class="col-sm-1">
                 <br />
-                <input type="button" id="btnSaveRoute" style="width:100%" value="Save" class="btn btn-success" onclick="SaveRoute()" />
+                <button id="btnSaveRoute" style="width:100%" class="btn btn-success" onclick="SaveRoute()">Save</button>
             </div>
         </div>
         <p>
@@ -50,8 +50,8 @@ End Code
                     <textarea class="form-control" id="txtAddress1"></textarea>
                     <label id="lblContact1">Contact</label><br />
                     <input type="text" class="form-control" id="txtContact1" />
-                    <input type="button" class="btn btn-success" value="Save" onclick="SavePlace(1)" />
-                    <input type="button" class="btn w3-purple" value="Clear" onclick="ClearPlace(1)" />
+                    <button id="btnSaveP1" class="btn btn-success" onclick="SavePlace(1)" >Save</button>
+                    <button id="btnClearP1" class="btn w3-purple" onclick="ClearPlace(1)">Clear</button>
                 </div>
                 <div class="col-md-3">
                     <label id="lblPlace2">Delivery</label><br />
@@ -60,8 +60,8 @@ End Code
                     <textarea class="form-control" id="txtAddress2"></textarea>
                     <label id="lblContact2">Contact</label><br />
                     <input type="text" class="form-control" id="txtContact2" />
-                    <input type="button" class="btn btn-success" value="Save" onclick="SavePlace(2)" />
-                    <input type="button" class="btn w3-purple" value="Clear" onclick="ClearPlace(2)" />
+                    <button id="btnSaveP2" class="btn btn-success" onclick="SavePlace(2)">Save</button>
+                    <button id="btnClearP2" class="btn w3-purple" onclick="ClearPlace(2)">Clear</button>
                 </div>
                 <div class="col-md-3">
                     <label id="lblPlace3">Container Yard</label><br />
@@ -70,8 +70,8 @@ End Code
                     <textarea class="form-control" id="txtAddress3"></textarea>
                     <label id="lblContact3">Contact</label><br />
                     <input type="text" class="form-control" id="txtContact3" />
-                    <input type="button" class="btn btn-success" value="Save" onclick="SavePlace(3)" />
-                    <input type="button" class="btn w3-purple" value="Clear" onclick="ClearPlace(3)" />
+                    <button id="btnSaveP3" class="btn btn-success" onclick="SavePlace(3)">Save</button>
+                    <button id="btnClearP3" class="btn w3-purple" onclick="ClearPlace(3)">Clear</button>
                 </div>
                 <div class="col-md-3">
                     <label id="lblPlace4">Port</label><br />
@@ -80,8 +80,8 @@ End Code
                     <textarea class="form-control" id="txtAddress4"></textarea>
                     <label id="lblContact4">Contact</label><br />
                     <input type="text" class="form-control" id="txtContact4" />
-                    <input type="button" class="btn btn-success" value="Save" onclick="SavePlace(4)" />
-                    <input type="button" class="btn w3-purple" value="Clear" onclick="ClearPlace(4)" />
+                    <button id="btnSaveP4" class="btn btn-success" onclick="SavePlace(4)">Save</button>
+                    <button id="btnClearP4" class="btn w3-purple" onclick="ClearPlace(4)">Clear</button>
                 </div>
             </div>
         </p>
@@ -146,9 +146,9 @@ End Code
             </div>
             <div class="col-md-4">
                 <br />
-                <input type="button" class="btn w3-purple" id="btnNewPrice" value="New Price" onclick="ClearExpense()" />
-                <input type="button" class="btn btn-success" id="btnSavePrice" value="Save Price" onclick="SaveExpense()" />
-                <input type="button" class="btn btn-danger" id="btnDelPrice" value="Delete Price" onclick="DelExpense()" />
+                <button class="btn w3-purple" id="btnNewPrice" onclick="ClearExpense()">New Price</button>
+                <button class="btn btn-success" id="btnSavePrice" onclick="SaveExpense()">Save Price</button>
+                <button class="btn btn-danger" id="btnDelPrice" onclick="DelExpense()">Delete Price</button>
             </div>
         </div>
         <div class="row">
@@ -299,7 +299,7 @@ End Code
         $('#tbPrice').DataTable().clear().draw();
         $.get(path + 'JobOrder/GetTransportPrice' + w).done((r) => {
             if (r.transportprice.data.length > 0) {
-                $('#tbPrice').DataTable({
+                let tbp=$('#tbPrice').DataTable({
                     data: r.transportprice.data,
                     columns: [
                         { data: "VenderCode", title: "Vender" },
@@ -313,6 +313,7 @@ End Code
                     ],
                     destroy:true
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbPrice');
                 $('#tbPrice tbody').on('click', 'tr', function () {
                     $('#tbPrice tbody > tr').removeClass('selected');
                     $(this).addClass('selected');
@@ -336,7 +337,7 @@ End Code
     function LoadGrid() {
         $.get(path + 'JobOrder/GetTransportRoute').done((r) => {
             if (r.transportroute.data.length > 0) {
-                $('#tbDetail').DataTable({
+                let tbd=$('#tbDetail').DataTable({
                     data: r.transportroute.data,
                     columns: [
                         { data: "LocationID", title: "Route ID"},
@@ -345,14 +346,15 @@ End Code
                             data: null, "title": "Edit",
                             render: function (data) {
                                 let html = '';
-                                html += '<button class="btn btn-danger" onclick="DeleteRoute(' + data.LocationID + ')">Delete</button>';
-                                html += '<button class="btn btn-warning" onclick="ShowPrice(' + data.LocationID + ')">Prices</button>';
+                                html += '<button class="btn btn-danger" onclick="DeleteRoute(' + data.LocationID + ')">'+(mainLanguage=="EN"?"Delete":"ลบเส้นทาง")+'</button>';
+                                html += '<button class="btn btn-warning" onclick="ShowPrice(' + data.LocationID + ')">'+(mainLanguage=="EN"?"Price":"แสดงราคา")+'</button>';
                                 return html;
                             }
                         }
                     ],
                     destroy:true
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
                 $('#tbDetail tbody').on('dblclick', 'tr', function () {
                     $('#dvList').modal('hide');
                 });
@@ -427,6 +429,7 @@ End Code
                     ],
                     destroy:true
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#lstPlace'+ id);
                 $('#lstPlace'+id+' tbody').on('click', 'tr', function () {
                     $('#lstPlace'+id+' tbody > tr').removeClass('selected');
                     $(this).addClass('selected');

@@ -118,7 +118,7 @@ End Code
         ShowWait();
         $.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
             CloseWait();
-            $('#tblJob').DataTable({
+            let tb=$('#tblJob').DataTable({
                 "ajax": {
                     //"url": "joborder/getjobjson" + strParam,
                     "url": path+"joborder/getjobreport" + GetCliteria(),
@@ -152,6 +152,7 @@ End Code
                     { "data": "CustRefNO", "title": "Cust.Ref" }
                 ]
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tblJob');
             $('#tblJob tbody').on('click', 'tr', function () {
                 $('#tblJob tbody > tr').removeClass('selected');
                 $(this).addClass('selected');

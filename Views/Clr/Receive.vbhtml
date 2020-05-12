@@ -447,7 +447,7 @@ End Code
             let h = r.clr.data[0].Table;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
-            $('#tbHeader').DataTable({
+            let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -496,6 +496,7 @@ End Code
                 responsive: true,
                 destroy:true
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
@@ -586,7 +587,7 @@ End Code
             list.push(obj);
         }
         //show selected details
-        $('#tbDetail').DataTable({
+        let tb=$('#tbDetail').DataTable({
             data: list,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
@@ -617,6 +618,7 @@ End Code
             responsive:true,
             destroy:true
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#txtAdvCash').val(CDbl(sum_ca, 2));
         $('#txtAdvChq').val(CDbl(sum_ch, 2));
         $('#txtAdvChqCash').val(CDbl(sum_cu, 2));

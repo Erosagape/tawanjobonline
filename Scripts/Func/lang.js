@@ -272,6 +272,7 @@ function ChangeLanguageForm(fname) {
                 linkApprove:'Approve|อนุมัติเอกสาร'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbHeader');
             break;
         case 'MODULE_ADV/CreditAdv':
             lang = {
@@ -332,6 +333,8 @@ function ChangeLanguageForm(fname) {
                 linkPrint: 'Print Entry|พิมพ์เอกสาร'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbHeader');
+            ChangeLanguageGrid(fname, '#tbControl');
             break;
         case 'MODULE_ADV/Index':
             lang = {
@@ -406,6 +409,8 @@ function ChangeLanguageForm(fname) {
                 btnGetExcRate:'Get Rate|ดึงอัตราแลกเปลี่ยน'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbHeader');
+            ChangeLanguageGrid(fname, '#tbDetail');
             break;
         case 'MODULE_ADV/EstimateCost':
             lang = {
@@ -433,6 +438,7 @@ function ChangeLanguageForm(fname) {
                 linkPrint:'Print Pre-Invoice|พิมพ์แบบประเมินค่าใช้จ่าย'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbData');
             break;
         case 'MODULE_ADV/Payment':
             lang = {
@@ -491,6 +497,8 @@ function ChangeLanguageForm(fname) {
                 lblCaptionChq: 'Select Cheque Onhand|เลือกเช็คที่ต้องการทำรายการ'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbHeader');
+            ChangeLanguageGrid(fname, '#tbDetail');
             break;
         case 'MODULE_ACC/Approve':
             lang = {
@@ -505,6 +513,7 @@ function ChangeLanguageForm(fname) {
                 linkApprove:'Approve|อนุมัติเอกสาร'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbHeader');
             break;
         case 'MODULE_ACC/AccountCode':
             lang = {
@@ -624,6 +633,8 @@ function ChangeLanguageForm(fname) {
                 linkPrint:'Print Entry|พิมพ์เอกสาร'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbControl');
+            ChangeLanguageGrid(fname, '#tbHeader');
             break;
         case 'MODULE_ACC/Costing':
             lang = {
@@ -650,6 +661,7 @@ function ChangeLanguageForm(fname) {
                 linkUpdate:'Update Invoice|จัดเก็บข้อมูล'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbDetail');
             break;
         case 'MODULE_ACC/Expense':
             lang = {
@@ -908,6 +920,8 @@ function ChangeLanguageForm(fname) {
                 lblCaptionChq: 'Select Cheque Onhand|เลือกเช็คที่ต้องการทำรายการ'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbHeader');
+            ChangeLanguageGrid(fname, '#tbDetail');
             break;
         case 'MODULE_ACC/PettyCash':
             lang = {
@@ -960,6 +974,8 @@ function ChangeLanguageForm(fname) {
                 linkPrint: 'Print Entry|พิมพ์เอกสาร'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbControl');
+            ChangeLanguageGrid(fname, '#tbHeader');
             break;
         case 'MODULE_ACC/Receipt':
             lang = {
@@ -1186,6 +1202,9 @@ function ChangeLanguageForm(fname) {
                 linkSave: 'Save Payment|บันทึกการชำระเงิน'
             }
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbHeader');
+            ChangeLanguageGrid(fname, '#tbSummary');
+            ChangeLanguageGrid(fname, '#tbDetail');
             break;
         case 'MODULE_ACC/TaxInvoice':
             lang = {
@@ -1445,6 +1464,7 @@ function ChangeLanguageForm(fname) {
                 linkApprove: 'Approve|อนุมัติเอกสาร'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbHeader');
             break;
         case 'MODULE_CLR/Earnest':
             lang = {
@@ -1484,6 +1504,7 @@ function ChangeLanguageForm(fname) {
                 linkSave:'Save Expense|บันทึกการรับคืน'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbHeader');
             break;
         case 'MODULE_CLR/Index':
             lang = {
@@ -1568,6 +1589,10 @@ function ChangeLanguageForm(fname) {
                 lblFilter:'Filter By Status|เลือกตามสถานะ'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbHeader');
+            ChangeLanguageGrid(fname, '#tbDetail');
+            ChangeLanguageGrid(fname, '#tbAdvance');
+            ChangeLanguageGrid(fname, '#tbPayment');
             break;
         case 'MODULE_CLR/Receive':
             lang = {
@@ -1626,6 +1651,8 @@ function ChangeLanguageForm(fname) {
                 linkSave: 'Save Payment|บันทึกการจ่ายเงิน'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbHeader');
+            ChangeLanguageGrid(fname, '#tbDetail');
             break;
         case 'MODULE_CS/Index':
             lang = {
@@ -1642,6 +1669,7 @@ function ChangeLanguageForm(fname) {
                 linkSearch:'Search|ค้นหา'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tblJob');
             break;
         case 'MODULE_CS/CreateJob':
             lang = {
@@ -1672,6 +1700,7 @@ function ChangeLanguageForm(fname) {
             lang = {
                 lblTitle: 'Job Order|ใบสั่งงาน',
                 lblBranchCode: 'Branch|สาขา',
+                lblHeaderC:'Service Summary|บันทึกจำนวนบริการตู้/รถ',
                 lblJNo: 'Job Number|หมายเลขงาน',
                 lblDocDate: 'Open Date|วันที่เปิดงาน',
                 lblJobStatus: 'Job Status|สถานะงาน',
@@ -1759,6 +1788,9 @@ function ChangeLanguageForm(fname) {
                 lblCustTotal:'Total Paid|รวมค่าใช้จ่าย',
                 lblQtyAdd: 'Qty|จำนวน',
                 lblUnitAdd: 'Unit|หน่วยบริการ',
+                btnAddCons: 'Add Service|เพิ่มข้อมูล',
+                btnSaveCons: 'Update Value|ปรับปรุงข้อมูล',
+                lblTotalC:'Total Service|รวมงานบริการ',
                 linkTab1: 'Customer Data|ข้อมูลลูกค้า',
                 linkTab2: 'Invoice Data|ข้อมูลอินวอยลูกค้า',
                 linkTab3: 'Customs Data|ข้อมูลพิธีการ',
@@ -1790,6 +1822,8 @@ function ChangeLanguageForm(fname) {
                 btnLinkPaperless:'Load Data From TAWAN Paperless|ดึงข้อมูลจากระบบ PAPERLESS ตะวัน'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbTracking');
+            ChangeLanguageGrid(fname, '#tbLog');
             break;
         case 'MODULE_CS/Transport':
             lang = {
@@ -1893,6 +1927,10 @@ function ChangeLanguageForm(fname) {
                 lblReturnActualTime: 'Actual Time|เวลาจริง'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbDetail');
+            ChangeLanguageGrid(fname, '#tbPrice');
+            ChangeLanguageGrid(fname, '#tbExpense');
+            ChangeLanguageGrid(fname, '#tbPayment');
             break;
         case 'MODULE_CS/TruckApprove':
             lang = {
@@ -1934,6 +1972,7 @@ function ChangeLanguageForm(fname) {
                 linkExp:'Entry Expense|บันทึกค่าใช้จ่าย'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbDetail');
             break;
         case 'MODULE_MAS/Bank':
             lang = {
@@ -2195,6 +2234,8 @@ function ChangeLanguageForm(fname) {
         case 'MODULE_MAS/TransportRoute':
             lang = {
                 lblTitle: 'Transport Route|เส้นทางการขนส่ง',
+                linkTab1: 'Route Lists|เส้นทางการขนส่ง',
+                linkTab2:'Price Lists|ค่าใช้จ่าย',
                 lblTemplate: 'Type|ประเภท',
                 lblPlace1: 'Pickup|สถานที่รับสินค้า',
                 lblAddress1: 'Address|ที่อยู่',
@@ -2215,9 +2256,29 @@ function ChangeLanguageForm(fname) {
                 lblExpenseCode: 'Expense Code|รหัสค่าใช้จ่าย',
                 lblAmount: 'Amount|ยอดค่าใช้จ่าย',
                 lblChargeCode: 'Charge Code|รหัสค่าบริการ',
-                lblCAmount: 'Amount|ยอดค่าบริการ'
+                lblCAmount: 'Amount|ยอดค่าบริการ',
+                btnSelRoute: 'Search|ค้นหา',
+                btnNewRoute: 'New|เพิ่ม',
+                btnSaveRoute: 'Save|บันทึก',
+                btnSaveP1: 'Save|จัดเก็บข้อมูล',
+                btnClearP1: 'Clear|ล้างข้อมูล',
+                btnSaveP2: 'Save|จัดเก็บข้อมูล',
+                btnClearP2: 'Clear|ล้างข้อมูล',
+                btnSaveP3: 'Save|จัดเก็บข้อมูล',
+                btnClearP3: 'Clear|ล้างข้อมูล',
+                btnSaveP4: 'Save|จัดเก็บข้อมูล',
+                btnClearP4: 'Clear|ล้างข้อมูล',
+                btnNewPrice: 'New Price|เพิ่มราคา',
+                btnSavePrice: 'Save Price|จัดเก็บราคา',
+                btnDelPrice: 'Delete Price|ลบราคา'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbPrice');
+            ChangeLanguageGrid(fname, '#tbDetail');
+            ChangeLanguageGrid(fname, '#lstPlace1');
+            ChangeLanguageGrid(fname, '#lstPlace2');
+            ChangeLanguageGrid(fname, '#lstPlace3');
+            ChangeLanguageGrid(fname, '#lstPlace4');
             break;
         case 'MODULE_MAS/Users':
             lang = {
@@ -2340,6 +2401,7 @@ function ChangeLanguageForm(fname) {
                 linkAppr:'Approve|อนุมัติเอกสาร'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbHeader');
             break;
         case 'MODULE_SALES/Quotation':
             lang = {
@@ -2425,6 +2487,9 @@ function ChangeLanguageForm(fname) {
                 btnApprove:'Approve|อนุมัติ'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbHeader');
+            ChangeLanguageGrid(fname, '#tbDetail');
+            ChangeLanguageGrid(fname, '#tbItem');
             break;
         case 'Tracking/Document':
             lang = {
@@ -2453,6 +2518,7 @@ function ChangeLanguageForm(fname) {
                 lblSaveData: 'Save Information|บันทึกข้อมูล'
             };
             SetLanguage(lang);
+            ChangeLanguageGrid(fname, '#tbDocument');
             break;
     }    
 }
@@ -2469,4 +2535,630 @@ function GetLanguage(msg) {
         }
     }
     return msg;
+}
+function SetGridLang(id,lang) {
+    let tbcols = $(id + ' thead th').length;    
+    for (let idx = 0; idx < tbcols; idx++) {
+        let findLang = lang[idx];
+        if (findLang !== undefined) {
+            if (mainLanguage == "EN") {
+                $(id + ' thead th:eq('+idx+')').html(findLang.split('|')[0]);
+            }
+            if (mainLanguage == "TH") {
+                $(id + ' thead th:eq(' + idx + ')').html(findLang.split('|')[1]);
+            }
+        }
+    }
+}
+
+function ChangeLanguageGrid(module, id) {
+    let gridLang = [];
+    switch (module) {
+        case 'MODULE_ACC/Approve':
+            if (id == '#tbHeader') {
+                gridLang = [
+                    "Pay.Bill No|เลขที่บิล",
+                    "Due Date|กำหนดชำระ",
+                    "Vender|ผู้ให้บริการ",
+                    "Contact|ผู้ติดต่อ",
+                    "Ref No|เลขที่อ้างอิง",
+                    "Po No|เลขที่ใบสั่งซื้อ",
+                    "Amount|ยอดเงิน",
+                    "VAT|VAT",
+                    "WHT|หัก ณ ที่จ่าย",
+                    "Net|ยอดสุทธิ"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_ACC/Cheque':
+            if (id == '#tbControl') {
+                gridLang = [
+                    "Doc No|เลขที่เอกสาร",
+                    "Voucher Date|วันที่ใบสำคัญ",
+                    "Customer|ลูกค้า",
+                    "Remark|หมายเหตุ",
+                    "Job No|หมายเลขงาน",
+                    "Cheque No|เลขที่เช็ค",
+                    "Chq.Date|วันที่เช็ค",
+                    "Chq.Total|ยอดเช็ค",
+                    "Currency|สกุลเงิน",
+                    "Control No|เลขที่ลงบัญชี"
+                ];
+            }
+            if (id == '#tbHeader') {
+                gridLang = [
+                    "Cheque|ยอดเช็ค",
+                    "Currency|สกุลเงิน",
+                    "Voucher|เลขที่ใบสำคัญ",
+                    "Chq.No|เลขที้่เช็ค",
+                    "Chq.Date|วันที่เช็ค",
+                    "Bank|ธนาคาร",
+                    "Branch|สาขา",
+                    "Pay Form/To|ออกให้กับ"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_ACC/Costing':
+            if (id == '#tbDetail') {
+                gridLang = [
+                    "#|#",
+                    "Clr.No|เลขที่ใบปิด",
+                    "Exp.Code|รหัส",
+                    "Description|รายละเอียด",
+                    "Inv/Tax.No|ใบแจ้งหนี้/ใบเสร็จ",
+                    "Advance|คชจ.จ่ายแทน",
+                    "Charges|ค่าบริการ",
+                    "Cost|ต้นทุน",
+                    "Profit|กำไรขั้นต้น"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_ACC/Payment':
+            if (id == '#tbHeader') {
+                gridLang = [
+                    "Doc.No|เลขที่บิล",
+                    "Due.Date|กำหนดชำระ",
+                    "Vender|ผู่ให้บริการ",
+                    "Contact|ผู้ติดต่อ",
+                    "Ref.No|เลขอ้างอิง",
+                    "Po.No|ใบสั่งซื้อ",
+                    "Expense|ยอดเงิน",
+                    "VAT|VAT",
+                    "WHT|ยอดหัก",
+                    "Net|สุทธิ"
+                ];
+            }
+            if (id == '#tbDetail') {
+                gridLang = [
+                    "Doc.No|เลขที่เอกสาร",
+                    "Type|ประเภท",
+                    "Date|วันที่เอกสาร",
+                    "For|สำหรับ",
+                    "Company|ชื่อบริษัท",
+                    "Branch|สาขา",
+                    "Doc.Total|ยอดเอกสาร",
+                    "Paid|ยอดที่จ่าย"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_ACC/PettyCash':
+            if (id == '#tbControl') {
+                gridLang = [
+                    "Doc No|เลขที่เอกสาร",
+                    "Voucher Date|วันที่ใบสำคัญ",
+                    "Remark|หมายเหตุ",
+                    "Type|ประเภท",
+                    "Book.Code|สมุดบัญชี",
+                    "Trans.No|เลขที่อ้างอิง",
+                    "Trans.Date|วันที่ทำรายการ",
+                    "Trans.Total|ยอดเงิน",
+                    "Currency|สกุลเงิน",
+                    "Control No|เลขที่ลงบัญชี"
+                ];
+            }
+            if (id == '#tbHeader') {
+                gridLang = [
+                    "Cash|ยอดเงินสด/โอน",
+                    "Currency|สกุลเงิน",
+                    "Voucher|เลขที่ใบสำคัญ",
+                    "Doc.No|เลขที้่สลิป",
+                    "Tr.Date|วันที่รายการ",
+                    "Bank|ธนาคาร",
+                    "Branch|สาขา",
+                    "Book Acc|สมุดบัญชี"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_ACC/RecvInv':
+            if (id == '#tbSummary') {
+                gridLang = [
+                    "Inv.No|เลขที่ใบแจ้งหนี้",
+                    "Advance|ทดรองจ่าย",
+                    "Service|ค่าบริการ",
+                    "VAT|VAT",
+                    "WHT|ยอดหัก",
+                    "Net|สุทธิ"
+                ];
+            }
+            if (id == '#tbHeader') {
+                gridLang = [
+                    "Inv.No|เลขที่ใบแจ้งหนี้",
+                    "Inv.Date|วันที่ใบแจ้งหนี้",
+                    "Receipt.No|เลขที่ใบเสร็จ",
+                    "Code|รหัส",
+                    "Description|คำอธิบาย",
+                    "Advance|ทดรองจ่าย",
+                    "Service|ค่าบริการ",
+                    "VAT|VAT",
+                    "WHT|ยอดหัก",
+                    "Net|สุทธิ"
+                ];
+            }
+            if (id == '#tbDetail') {
+                gridLang = [
+                    "Doc.No|เลขที่เอกสาร",
+                    "Type|ประเภท",
+                    "Date|วันที่เอกสาร",
+                    "For|สำหรับ",
+                    "Company|ชื่อบริษัท",
+                    "Branch|สาขา",
+                    "Doc.Total|ยอดเอกสาร",
+                    "Paid|ยอดที่จ่าย"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_ADV/Approve':
+            if (id == '#tbHeader') {
+                gridLang = [
+                    "Advance No|เลขที่ใบเบิก",
+                    "Req.date|วันที่ขอเบิก",
+                    "Job Number|หมายเลขงาน",
+                    "Inv No|อินวอยลูกค้า",
+                    "Customer|ลูกค้า",
+                    "Total|ยอดเบิก",
+                    "WHT|หัก ณ ที่จ่าย",
+                    "Req.By|ผู้่ขอเบิก"
+                ];
+                SetGridLang(id, gridLang);
+            }            
+            break;
+        case 'MODULE_ADV/CreditAdv':
+            if (id == '#tbControl') {
+                gridLang = [
+                    "Doc No|เลขที่เอกสาร",
+                    "Date|วันที่เบิกเงิน",
+                    "Customer|ลูกค้า",
+                    "Remark|หมายเหตุ",
+                    "Job No|หมายเลขงาน",
+                    "Cheque No|เลขที่เช็ค",
+                    "Chq.Date|วันที่เช็ค",
+                    "Chq.Total|ยอดเช็ค",
+                    "Cash.Total|ยอดเงินสด",
+                    "Credit.Total|ยอดเครดิต",
+                    "Currency|สกุลเงิน",
+                    "Control No|เลขที่ลงบัญชี"
+                ];
+            }
+            if (id == '#tbHeader') {
+                gridLang = [
+                    "Chq.Amt|ยอดเช็ค",
+                    "Cash.Amt|ยอดเงินสด",
+                    "Credit.Amt|ยอดเครดิต",
+                    "Currency|สกุลเงิน",
+                    "Voucher|เลขที่ใบสำคัญ",
+                    "Chq.No|เลขที่เช็ค",
+                    "Chq.Date|วันที่เช็ค",
+                    "Bank|ธนาคาร",
+                    "Branch|สาขา",
+                    "Pay Form/To|ผู้ชำระเงิน"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_ADV/Index':
+            if (id == '#tbHeader') {
+                gridLang = [
+                    "Advance No|เลขที่ใบเบิก",
+                    "Date|วันที่เบิก",
+                    "Customer|ลูกค้า",
+                    "Request By|ผู้ขอเบิก",
+                    "Job Number|หมายเลขงาน",
+                    "Cust Inv|อินวอยลูกค้า",
+                    "Status|สถานะ",
+                    "Total|ยอดเงิน",
+                    "W/T|หัก ณ ที่จ่าย",
+                    "W/T No|เลขที่ใบหัก",
+                    "A/P No|เลขที่บิลค่าใช้จ่าย",
+                    "Request Amt|ยอดที่รับเงิน"
+                ];
+            }
+            if (id == '#tbDetail') {
+                gridLang = [
+                    "Edit|Edit",
+                    "Exp.Code|รหัสค่าใช้จ่าย",
+                    "Description|วัตถุประสงค์",
+                    "Job|หมายเลขงาน",
+                    "Currency|สกุลเงิน",
+                    "Rate|อัตราแลกเปลี่ยน",
+                    "Qty|จำนวน",
+                    "Price|ราคา",
+                    "Amount|ยอดเงิน",
+                    "VAT|VAT",
+                    "WHT|หัก ณ ที่จ่าย",
+                    "Net|สุทธิ"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_ADV/Payment':
+            if (id == '#tbHeader') {
+                gridLang = [
+                    "Advance No|เลขที่ใบเบิก",
+                    "Req.Date|วันที่ขอเบิก",
+                    "Job No|หมายเลขงาน",
+                    "Cust.Inv.No|อินวอยลูกค้า",
+                    "Customer|ลูกค้า",
+                    "Cash/Transfer|เงินสด/โอน",
+                    "Cashier Chq|เช็คบริษัท",
+                    "Customer Chq|เช็คลูกค้า",
+                    "Credit|เครดิต",
+                    "Total|ยอดรวม",
+                    "WHT|ยอดหัก",
+                    "Req.By|ผู้ขอเบิก"
+                ];
+            }
+            if (id == '#tbDetail') {
+                gridLang = [
+                    "Doc.No|เลขที่เอกสาร",
+                    "Type|ประเภท",
+                    "Date|วันที่เอกสาร",
+                    "For|สำหรับ",
+                    "Company|ชื่อบริษัท",
+                    "Branch|สาขา",
+                    "Doc.Total|ยอดเอกสาร",
+                    "Paid|ยอดที่จ่าย"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_CLR/Approve':
+            if (id == '#tbHeader') {
+                gridLang = [
+                    "Clearing No|เลขที่ใบปิด",
+                    "Clr.Date|วันที่ปิด",
+                    "Job Number|หมายเลขงาน",
+                    "Cust-Inv No|อินวอยลูกค้่า",
+                    "Customer|ลูกค้า",
+                    "Adv.No|เลขที่ใบเบิก",
+                    "Total.Adv|ยอดเบิก",
+                    "Total.Clr|ยอดปิดบัญชี",
+                    "WHT|ยอดหัก"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_CLR/Earnest':
+            if (id == '#tbHeader') {
+                gridLang = [
+                    "Clear.No|เลขที่ใบปิด",
+                    "Clr.date|วันที่เอกสาร",
+                    "Job No|หมายเลขงาน",
+                    "Inv.No|อินวอยลูกค้า",
+                    "Customer|ลูกค้า",
+                    "Adv.No|ใบเบิก",
+                    "Adv.Total|ยอดเบิก",
+                    "Clr.Total|ยอดปิด",
+                    "SlipNo|เลชที่ใบเสร็จ"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_CLR/Index':
+            if (id == '#tbHeader') {
+                gridLang = [
+                    "Clear No|เลขที่ใบปิด",
+                    "Date|วันที่ทำรายการ",
+                    "Customer|ลูกค้า",
+                    "Request By|ผู้ขอเบิก",
+                    "Job Number|หมายเลขงาน",
+                    "Cust Inv|อินวอยลูกค้า",
+                    "Status|สถานะ",
+                    "Clr.Total|ยอดปิด",
+                    "Currency|สกุลเงิน",
+                    "Adv No|จากใบเบิก",
+                    "Adv.Total|ยอดเบิก",
+                    "Remark|หมายเหตุ"
+                ];
+            }
+            if (id == '#tbDetail') {
+                gridLang = [
+                    "Edit|Edit",
+                    "Job|หมายเลขงาน",
+                    "Code|รหัส",
+                    "Description|คำอธิบาย",
+                    "Adv No|เลขที่ใบเบิก",
+                    "Advance|ยอดเบิก",
+                    "Clear|ยอดปิด",
+                    "VAT|VAT",
+                    "WHT|หัก ณ ที่จ่าย",
+                    "Net|ยอดสุทธิ",
+                    "Currency|สกุลเงิน",
+                    "Slip No|เลขที่ใบเสร็จ"
+                ];
+            }
+            if (id == '#tbAdvance') {
+                gridLang = [
+                    "Adv.No|เลขที่ใบเบิก",
+                    "Adv.Date|วันที่เบิก",
+                    "#|#",
+                    "Code|รหัส",
+                    "Expense|ค่าใช้จ่าย",
+                    "Job|หมายเลขงาน",
+                    "Currency|สกุลเงิน",
+                    "Rate|อัตราแลกเปลี่ยน",
+                    "Qty|จำนวน",
+                    "Unit|หน่วย",
+                    "Balance|คงเหลือ",
+                    "Used|ใช้ไป"
+                ];
+            }
+            if (id == '#tbPayment') {
+                gridLang = [
+                    "Pay.Bill No|เลขที่บิลค่าใช้จ่าย",
+                    "Due Date|กำหนดชำระ",
+                    "#|#",
+                    "Code|รหัส",
+                    "Expense|ค่าใช้จ่าย",
+                    "Job|หมายเลขงาน",
+                    "Currency|สกุลเงิน",
+                    "Rate|อัตราแลกเปลี่ยน",
+                    "Qty|จำนวน",
+                    "Unit|หน่วย",
+                    "Total|ยอดเงิน",
+                    "WHT|หัก ณ ที่จ่าย"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_CLR/Receive':
+            if (id == '#tbHeader') {
+                gridLang = [
+                    "Doc.No|เลขที่เอกสาร",
+                    "Date|วันที่เอกสาร",
+                    "Customer|ลูกค้า",
+                    "#|#",
+                    "Exp.Code|รหัส",
+                    "Description|ค่าใช้จ่าย",
+                    "Adv.Total|ยอดเบิก",
+                    "Clr.Net|ยอดปิด",
+                    "Clr.VAT|VAT",
+                    "Clr.WHT|ยอดหัก",
+                    "Clr.Total|ยอดเคลียร์"
+                ];
+            }
+            if (id == '#tbDetail') {
+                gridLang = [
+                    "Doc.No|เลขที่เอกสาร",
+                    "Type|ประเภท",
+                    "Date|วันที่เอกสาร",
+                    "For|สำหรับ",
+                    "Company|บริษัท",
+                    "Branch|สาขา",
+                    "Total|ยอดเอกสาร",
+                    "Paid|ยอดชำระ" 
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_CS/ShowJob':
+            if (id == "#tbTracking") {
+                gridLang = [
+                    "Doc Date|วันที่เอกสาร",
+                    "Type|ประเภทเอกสาร",
+                    "Doc No|เลขที่เอกสาร",
+                    "Description|รายละเอียด",
+                    "Amount|ยอดเงิน",
+                    "Status|สถานะ"
+                ];
+            }
+            if (id == "#tbLog") {
+                gridLang = [
+                    "Date|วันที่บันทึก",
+                    "Action|บันทึกข้อความ",
+                    "User|ผู้บันทึก"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_CS/Transport':
+            if (id == '#tbDetail') {
+                gridLang = [
+                    "#|#",
+                    "Container No|เบอร์ตู้",
+                    "Container Size|ขนาดตู้",
+                    "Seal|เบอร์ซีล",
+                    "Truck No|ทะเบียนรถ",
+                    "Status|สถานะงาน",
+                    "Route|เส้นทาง",
+                    "Unload Date|วันที่รับส่งของ",
+                    "Delivery No|เลขที่ใบส่งของ",
+                    "V.Bill|วางบิลมาแล้ว",
+                    "S.Clear|เคลียร์แล้ว",
+                    "Balance|คงเหลือ"
+                ];
+            }
+            if (id == '#tbPrice') {
+                gridLang = [
+                    "Cost.Code|รหัสต้นทุน",
+                    "Description|คำอธิบาย",
+                    "Cost Amt|ยอดเงินต้นทุน",
+                    "Charge to|รหัสค่าบริการ",
+                    "Charge Amt|บอดเรียกเก็บ"
+                ];
+            }
+            if (id == '#tbExpense') {
+                gridLang = [
+                    "Cost.Code|รหัสต้นทุน",
+                    "Description|คำอธิบาย",
+                    "Cost Amt|ยอดเงินต้นทุน"
+                ]
+            }
+            if (id == '#tbPayment') {
+                gridLang = [
+                    "Doc.No|เลขที่บิล",
+                    "Date|กำหนดชำระ",
+                    "Inv No|เลขที่ใบแจ้งหนี้",
+                    "Cont.No|เบอร์ตู้",
+                    "Total|รวมเงิน"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_CS/TruckApprove':
+            if (id == '#tbDetail') {
+                gridLang = [
+                    "Booking No|เลขที่บุคกิ้ง",
+                    "#|#",
+                    "Cont.No|หมายเลขตู้",
+                    "Cont.Size|ขนาดตู้",
+                    "Seal|เบอร์ซีล",
+                    "Product|สินค้า",
+                    "Status|สถานะ",
+                    "Route|เส้นทาง"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_CS/Index':
+            gridLang = [
+                "Job Number|หมายเลขงาน",
+                "Open Date|วันที่เปิดงาน",
+                "Job Status|สถานะงาน",
+                "Inspection Date|วันที่ตรวจปล่อย",
+                "Customer Inv|อินวอยลูกค้า",
+                "Customer Name|ชื่อลูกค้า",
+                "Declare No|เลขที่ใบขนสินค้า",
+                "Cust Ref.No|เลขที่อ้างอิงลูกค้า"
+            ];
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_ADV/EstimateCost':
+            gridLang = [
+                "Code|รหัส",
+                "Name|ค่าใช้จ่าย",
+                "Status|ความจำเป็น",
+                "Job No|หมาบเลขงาน",
+                "Charge|ยอดเงิน",
+                "Clearing No|เลขที่ใบปิด"
+            ];
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_MAS/TransportRoute':
+            if (id == "#tbPrice") {
+                gridLang = [
+                    "Vender|ผู้ให้บริการ",
+                    "Cust|ลูกค้า",
+                    "Cost.Code|รหัสต้นทุน",
+                    "Cost.Desc|ความหมายค่าใช้จ่าย",
+                    "Cost.Amt|ยอดจ่ายเงิน",
+                    "Chg.Code|รหัสค่าบริการ",
+                    "Chg.Amt|ยอดเรียกเก็บได้",
+                    "Location|เส้นทาง"
+                ];
+            }
+            if (id == "#tbDetail") {
+                gridLang = [
+                    "Route ID|รหัสเส้นทาง",
+                    "Route Detail|เส้นทาง",
+                    "Edit|แก้ไช"
+                ];
+            }
+            if (id == "#lstPlace1") {
+                gridLang = ["Pickup|รับตู้ที่/โหลดสินค้าที่"];
+            }
+            if (id == "#lstPlace2") {
+                gridLang = ["Delivery|สถานที่ส่งมอบของ"];
+            }
+            if (id == "#lstPlace3") {
+                gridLang = ["Container Yard|ลานตู้"];
+            }
+            if (id == "#lstPlace4") {
+                gridLang = ["Port|ท่านอก"];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_SALES/QuoApprove':
+            if (id == '#tbHeader') {
+                gridLang = [
+                    "Quotation No|เลขที่ใบเสนอราคา",
+                    "Quotation Date|วันที่เสนอราคา",
+                    "Salesman|ผู้เสนอราคา",
+                    "Remark|หมายเหตุ",
+                    "Contact|ผู้ติดต่อ",
+                    "Billing To|เก็บเงินที่",
+                    "Refer Q.No|อ้างถึงใบเสนอราคาเลขที่"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'MODULE_SALES/Quotation':
+            if (id == "#tbHeader") {
+                gridLang = [
+                    "#|#",
+                    "Quotation No|เลขที่ใบเสนอราคา",
+                    "Doc Date|วันที่เอกสาร",
+                    "Customer|ลูกค้า",
+                    "Billing To|เก็บเงินที่",
+                    "Remark|หมายเหตุ",
+                    "Contact Name|ผู้ติดต่อ",
+                    "Manager Name|ผู้เสนอราคา",
+                    "Approve Date|วันที่อนุมัติ"
+                ];
+            }
+            if (id == "#tbDetail") {
+                gridLang = [
+                    "#|#",
+                    "Seq|หัวข้อ",
+                    "Job Type|ประเภทงาน",
+                    "Ship By|ลักษณะงาน",
+                    "Description|คำอธิบาย"
+                ];
+            }
+            if (id == "#tbItem") {
+                gridLang = [
+                    "#|#",
+                    "Seq|ลำดับ",
+                    "Code|รหัสค่าบริการ",
+                    "Description|คำอธิบายค่าบริการ",
+                    "Qty|จำนวน",
+                    "Total|ยอดเงิน",
+                    "Discount|ส่วนลด",
+                    "Net|สุทธิ",
+                    "Commission|คอมมิชชั่น",
+                    "Profit|กำไร"
+                ];
+            }
+            SetGridLang(id, gridLang);
+            break;
+        case 'Tracking/Document':
+            gridLang = [
+                "#|#",
+                "Type|ประเภท",
+                "Job|หมายเลขงาน",
+                "Doc.No|เลขที่เอกสาร",
+                "Doc Date|วันที่เอกสาร",
+                "Comment|บันทึกเพิ่มเติม",
+                "Check Date|วันที่ตรวจสอบ",
+                "Approve Date|วันที่อนุมัติ"
+            ];
+            SetGridLang(id, gridLang);
+            break;
+    }
+
 }

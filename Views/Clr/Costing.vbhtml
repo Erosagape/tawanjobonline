@@ -244,6 +244,7 @@ End Code
                     amtprofit += profit;
                 }
                 $('#tbDetail tbody').html(html);
+                ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
 
                 $('#txtSumBaseVAT').val(ShowNumber(amtforvat,2));
                 $('#txtSumNonVAT').val(ShowNumber(amtnonvat,2));

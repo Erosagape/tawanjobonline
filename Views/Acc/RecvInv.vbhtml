@@ -427,7 +427,7 @@ End Code
             let s = r.invdetail.summary;
             dtl = r.invdetail.data;
 
-            $('#tbSummary').DataTable({
+            let tb=$('#tbSummary').DataTable({
                 data: s,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -461,6 +461,7 @@ End Code
                 responsive:true,
                 destroy:true
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbSummary');
             $('#tbSummary tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
@@ -487,7 +488,7 @@ End Code
             });
 
             let h = r.invdetail.data;
-            $('#tbHeader').DataTable({
+            let tb2=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -535,6 +536,7 @@ End Code
                 responsive:true,
                 destroy:true
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
@@ -615,7 +617,7 @@ End Code
 
         }
         //show selected details
-        $('#tbDetail').DataTable({
+        let tb3=$('#tbDetail').DataTable({
             data: list,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
@@ -645,6 +647,7 @@ End Code
             responsive:true,
             destroy:true
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#txtAdvCash').val(CDbl(sum_ca, 2));
         $('#txtAdvChq').val(CDbl(sum_ch, 2));
         $('#txtAdvChqCash').val(CDbl(sum_cu, 2));
