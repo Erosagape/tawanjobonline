@@ -28,7 +28,7 @@ End Code
             </div>
         </div>
         <a href="#" class="btn btn-primary" id="btnSearch" onclick="ShowData()">
-            <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Show Configuration</b>
+            <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Show Configuration</b>
         </a>
         <table id="tbDetail" class="table table-responsive" style="width:100%">
             <thead>
@@ -81,10 +81,10 @@ End Code
                     <div class="modal-footer">
                         <div style="float:left">
                             <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
-                                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+                                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
                             </a>
                             <a href="#" class="btn btn-danger" id="btnDel" onclick="DeleteData()">
-                                <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete</b>
+                                <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete</b>
                             </a>
                         </div>
                         <button class="btn btn-danger" data-dismiss="modal">X</button>
@@ -140,6 +140,7 @@ End Code
                     responsive: true,
                     destroy:true
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
                 $('#tbDetail tbody').on('click', 'tr', function () {
                     SetSelect('#tbDetail', this);
                     row = $('#tbDetail').DataTable().row(this).data(); //read current row selected

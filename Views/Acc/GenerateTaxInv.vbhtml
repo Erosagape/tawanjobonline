@@ -288,7 +288,7 @@ End Code
             dtl = r.invdetail.data;
 
             let s = r.invdetail.summary;
-            $('#tbSummary').DataTable({
+            let tb1=$('#tbSummary').DataTable({
                 data: s,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -325,7 +325,7 @@ End Code
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
-
+            ChangeLanguageGrid('@ViewBag.Module', '#tbSummary');
             $('#tbSummary tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
@@ -351,7 +351,7 @@ End Code
                 }                      
             });
 
-            $('#tbHeader').DataTable({
+            let tb2=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -389,6 +389,7 @@ End Code
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
@@ -437,7 +438,7 @@ End Code
         $('#dvCreate').modal('show');
     }
     function ShowDetail() {
-        $('#tbDetail').DataTable({
+        let tb=$('#tbDetail').DataTable({
             data: arr,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
@@ -475,6 +476,7 @@ End Code
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
     }
     function AddData(o) {
         arr.push(o);

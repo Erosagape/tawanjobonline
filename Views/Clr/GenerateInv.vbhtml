@@ -448,7 +448,7 @@ End Code
                 return;
             }
             ClearVariable();
-            $('#tbHeader').DataTable({
+            let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -505,6 +505,7 @@ End Code
                 },
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page,
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
@@ -598,7 +599,7 @@ End Code
         let arr_sel = arr.filter(function (d) {
             return d.AmtCharge > 0 || d.AmtAdvance > 0;
         });
-        $('#tbDetail').DataTable({
+        let tb=$('#tbDetail').DataTable({
             data: arr_sel,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
@@ -655,6 +656,7 @@ End Code
             }
             ],
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click','button', function () {
             let data = GetSelect('#tbDetail',this); //read current row selected
             //if (data.ClrNo !== '') {
@@ -664,7 +666,7 @@ End Code
         let arr_cost = arr.filter(function (d) {
             return d.AmtCost > 0;
         });
-        $('#tbCost').DataTable({
+        let tb1=$('#tbCost').DataTable({
             data: arr_cost,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
@@ -704,6 +706,7 @@ End Code
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbCost');
     }
 
     function UpdateData() {
@@ -1376,7 +1379,7 @@ End Code
         ShowSummary();
     }
     function ShowCheque() {
-        $('#tbCheque').DataTable({
+        let tb=$('#tbCheque').DataTable({
             data: chq,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
@@ -1402,6 +1405,7 @@ End Code
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbCheque');
         $('#tbCheque tbody').on('click', 'button', function () {
             let dt = GetSelect('#tbCheque', this); //read current row selected
             if (chq.indexOf(dt) >= 0) {

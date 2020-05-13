@@ -13,16 +13,16 @@ End Code
 </div>
 <div id="dvCommand">
     <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearData()">
-        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New</b>
+        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">New</b>
     </a>
     <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
-        <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+        <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
     </a>
     <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteData()">
-        <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete</b>
+        <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete</b>
     </a>
     <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData('code')">
-        <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+        <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
     </a>
 </div>
 <table id="tbDetail" class="table table-responsive">
@@ -55,13 +55,13 @@ End Code
 </div>
 <div id="dvCommand">
     <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="ClearDetail()">
-        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New Detail</b>
+        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAddD">New Detail</b>
     </a>
     <a href="#" class="btn btn-success" id="btnSaveDetail" onclick="SaveDetail()">
-        <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save Detail</b>
+        <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSaveD">Save Detail</b>
     </a>
     <a href="#" class="btn btn-danger" id="btnDeleteDetail" onclick="DeleteDetail()">
-        <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete Detail</b>
+        <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDeleteD">Delete Detail</b>
     </a>
 </div>
 <div id="dvLOVs"></div>
@@ -87,7 +87,7 @@ End Code
             if (r.province.detail.length == 0) {
                 $('#tbDetail').DataTable().clear().draw();
             }
-            $('#tbDetail').dataTable({
+            let tb=$('#tbDetail').dataTable({
                 data: r.province.detail,
                 columns: [
                     { data: "District", title: "District" },
@@ -97,6 +97,7 @@ End Code
                 destroy: true,
                 responsive:true
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
             $('#tbDetail tbody').on('click', 'tr', function () {
                 SetSelect('#tbDetail', this);
                 row = $('#tbDetail').DataTable().row(this).data(); //read current row selected

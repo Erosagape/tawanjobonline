@@ -57,10 +57,10 @@ End Code
         </div>
         <div id="dvCommand">
             <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
-                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
             </a>
             <a href="#" class="btn btn-danger" id="btnDel" onclick="DeleteData()">
-                <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete</b>
+                <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete</b>
             </a>
         </div>
         <table id="tbHeader" class="table table-responsive">
@@ -101,7 +101,7 @@ End Code
                 return;
             }
             let h = r.companycontact.data;
-            $('#tbHeader').DataTable({
+            let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -114,6 +114,7 @@ End Code
                 ],
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 $('#tbHeader tbody > tr').removeClass('selected');
                 $(this).addClass('selected');  

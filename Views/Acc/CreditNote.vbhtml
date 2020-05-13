@@ -601,7 +601,7 @@ End Code
                 return;
             }
             let h = r.creditnote.data;
-            $('#tbHeader').DataTable({
+            let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -631,6 +631,7 @@ End Code
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 ClearHeader();
                 SetSelect('#tbHeader', this);
@@ -662,7 +663,7 @@ End Code
         });
     }
     function LoadDetail(d) {
-        $('#tbDetail').DataTable({
+        let tb=$('#tbDetail').DataTable({
             data: d,
             selected: true,
             columns: [
@@ -712,6 +713,7 @@ End Code
             responsive:true,
             destroy:true
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {
             SetSelect('#tbDetail', this);
             ClearDetail();
@@ -894,7 +896,7 @@ End Code
                 return;
             }
             let d = r.invdetail.data;
-            $('#tbInvoice').DataTable({
+            let tb=$('#tbInvoice').DataTable({
                 data: d,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -925,6 +927,7 @@ End Code
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbInvoice');
             $('#tbInvoice tbody').on('click', 'tr', function () {
                 let data = $('#tbInvoice').DataTable().row(this).data(); //read current row selected
                 ReadInvoice(data);

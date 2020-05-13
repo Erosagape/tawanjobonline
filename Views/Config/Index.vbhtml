@@ -31,16 +31,16 @@ End Code
         </table>
         <div id="dvCommand">
             <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearData()">
-                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New</b>
+                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">New</b>
             </a>
             <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
-                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
             </a>
             <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteData()">
-                <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete</b>
+                <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete</b>
             </a>
             <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData()">
-                <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+                <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
             </a>
         </div>
     </div>
@@ -179,7 +179,7 @@ End Code
     function ShowData(Code, Key) {
     //function for show grid data
         $('#txtCode').val(Code);
-        $('#tblData').DataTable({
+        let tb=$('#tblData').DataTable({
             ajax: {
                 url: path + "Config/getConfig" + GetParam(Code, Key),
                 dataSrc: "config.data"
@@ -191,6 +191,7 @@ End Code
                 { data: "ConfigValue" },
             ]
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tblData');
         //on click load current row select to form
         $('#tblData tbody').on('click', 'tr', function () {
             $('#tblData tbody > tr').removeClass('selected');

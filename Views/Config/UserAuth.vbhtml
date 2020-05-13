@@ -70,10 +70,10 @@ End Code
                 </div>
                 <div class="col-sm-8">
                     <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
-                        <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+                        <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
                     </a>
                     <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteData()">
-                        <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete</b>
+                        <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete</b>
                     </a>
                 </div>
             </div>
@@ -89,7 +89,7 @@ End Code
     //});
     function LoadGrid() {
         var code = 'MODULE_'+ $('#txtAppID').val();
-        $('#tbMenu').DataTable({
+        var tb=$('#tbMenu').DataTable({
             ajax: {
                 url: path + 'Config/GetConfig?Code='+code, //web service ที่จะ call ไปดึงข้อมูลมา
                 dataSrc: 'config.data'
@@ -101,6 +101,7 @@ End Code
             ],
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbMenu');
         $('#tbMenu tbody').on('click', 'tr', function () {
             $('#tbMenu tbody > tr').removeClass('selected'); //ล้างทุก row ที่มีการ select ก่อน
             $(this).addClass('selected'); //select row ใหม่

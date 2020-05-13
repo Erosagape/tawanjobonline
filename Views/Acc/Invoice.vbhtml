@@ -524,7 +524,7 @@ End Code
                 return;
             }
             let h = r.invdetail.data;
-            $('#tbHeader').DataTable({
+            let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -583,6 +583,7 @@ End Code
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page,
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 SetSelect('#tbHeader', this);
                 row = $('#tbHeader').DataTable().row(this).data(); //read current row selected
@@ -614,7 +615,7 @@ End Code
         $.get(path + 'Acc/GetInvDetail?branch=' + branch + '&code=' + code, function (r) {
             if (r.invdetail.data.length > 0) {
                 let d = r.invdetail.data;
-                $('#tbDetail').DataTable({
+                let tb=$('#tbDetail').DataTable({
                     data: d,
                     selected: true, //ให้สามารถเลือกแถวได้
                     columns: [ //กำหนด property ของ header column
@@ -666,6 +667,7 @@ End Code
                     responsive:true,
                     destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
                 $('#tbDetail tbody').on('click', 'tr', function () {
                     SetSelect('#tbDetail', this);
                     if (userRights.indexOf('E') > 0) {

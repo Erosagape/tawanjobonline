@@ -66,16 +66,16 @@ End Code
         </div>
         <div id="dvCommand">
             <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearData()">
-                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New</b>
+                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">New</b>
             </a>
             <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
-                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
             </a>
             <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteData()">
-                <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete</b>
+                <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete</b>
             </a>
             <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData('user')">
-                <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+                <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
             </a>
         </div>
         <div class="row">
@@ -210,7 +210,7 @@ End Code
             }
 
             $.get(path + 'Config/GetUserRoleDetail?ID=' + dr.UserID, function (r) {
-                $('#tbRole').dataTable({
+                let tb=$('#tbRole').dataTable({
                     data: r.userrole.detail,
                     columns: [
                         { data: "RoleID", title: "Id" },
@@ -218,9 +218,10 @@ End Code
                     ],
                     destroy: true
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbRole');
             });
             $.get(path + 'Config/GetUserAuth?Code=' + dr.UserID, function (r) {
-                $('#tbAuthor').dataTable({
+                let tb=$('#tbAuthor').dataTable({
                     data: r.userauth.data,
                     columns: [
                         { data: "AppID", title: "Module Id" },
@@ -229,6 +230,7 @@ End Code
                     ],
                     destroy: true
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbAuthor');
             });
         } else {
             ShowMessage('Data Not Found',true);

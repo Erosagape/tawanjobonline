@@ -13,13 +13,13 @@ End Code
                 </div>
                 <div id="dvCommand">
                     <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearHeader()">
-                        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New</b>
+                        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">New</b>
                     </a>
                     <a href="#" class="btn btn-success" id="btnSave" onclick="SaveHeader()">
-                        <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+                        <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
                     </a>
                     <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteHeader()">
-                        <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete</b>
+                        <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete</b>
                     </a>
                 </div>
             </div>
@@ -56,7 +56,7 @@ End Code
                                     </div>
                                 </div>
                                 <a href="#" class="btn btn-success" id="btnSaveUser" style="width:100%" onclick="SaveUser()">
-                                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Apply Role</b>
+                                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkAddUser">Apply Role</b>
                                 </a>
 
                                 <label id="lblUserRole">User in this role:</label>
@@ -70,7 +70,7 @@ End Code
                                     <tbody />
                                 </table>
                                 <a href="#" class="btn btn-danger" id="btnDeleteUser" onclick="DeleteUser()">
-                                    <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Remove User</b>
+                                    <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDeleteUser">Remove User</b>
                                 </a>
                             </div>
                             <div class="tab-pane fade in active" id="tabPolicy">
@@ -99,7 +99,7 @@ End Code
                                         </div>
                                     </div>
                                     <a href="#" class="btn btn-success" id="btnSavePolicy" onclick="SavePolicy()">
-                                        <i class="fa fa-lg fa-save"></i>&nbsp;<b>Apply Policy</b>
+                                        <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkAddRole">Apply Policy</b>
                                     </a>
                                     <table id="tbPolicy" class="table table-responsive">
                                         <thead>
@@ -179,6 +179,7 @@ End Code
                     ],
                     destroy: true
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
                 $('#tbDetail tbody').on('click', 'tr', function () {
                     $('#tbDetail tbody > tr').removeClass('selected');
                     $(this).addClass('selected');
@@ -203,6 +204,7 @@ End Code
                     ],
                     destroy: true
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbPolicy');
                 $('#tbPolicy tbody').on('click', 'tr', function () {
                     $('#tbPolicy tbody > tr').removeClass('selected');
                     $(this).addClass('selected');
@@ -232,6 +234,7 @@ End Code
             ],
             destroy:true
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
         $('#tbHeader tbody').on('click', 'tr', function() {
             $('#tbHeader tbody > tr').removeClass('selected');
             $(this).addClass('selected');

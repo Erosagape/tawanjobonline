@@ -611,7 +611,7 @@ End Code
                 return;
             }
             let h = r.whtax.data[0].Table;
-            $('#tbControl').DataTable({
+            let tb=$('#tbControl').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -634,6 +634,7 @@ End Code
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbControl');
             $('#tbControl tbody').on('click', 'tr', function () {
                 $('#tbControl tbody > tr').removeClass('selected');
                 $(this).addClass('selected');
@@ -710,7 +711,7 @@ End Code
                     let c = d.filter(function (chk) {
                         return chk.Rate50Tavi >0
                     });
-                    $('#tbDoc').DataTable({
+                    let tb=$('#tbDoc').DataTable({
                         data: c,
                         selected: true, //ให้สามารถเลือกแถวได้
                         columns: [ //กำหนด property ของ header column
@@ -830,7 +831,7 @@ End Code
     }
     function LoadGridDetail(d) {
         $('#tbDetail').DataTable().clear().draw();
-        $('#tbDetail').DataTable({
+        let tb=$('#tbDetail').DataTable({
             data: d,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
@@ -847,6 +848,7 @@ End Code
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {
             $('#tbDetail tbody > tr').removeClass('selected');
             $(this).addClass('selected');

@@ -56,7 +56,7 @@ End Code
 
                     <div class="row">
                         <div class="col-sm-3">
-                            <b id="linkPay">Payment</b>
+                            <u><b id="linkPay">Payment</b></u>
                             <br />
                             <label id="lblPayCash">Cash</label>
                              : <input type="text" id="txtPayCash" disabled />
@@ -68,7 +68,7 @@ End Code
                              : <input type="text" id="txtPayCred" disabled />
                         </div>
                         <div class="col-sm-3">
-                            <b id="linkRcv">Receive</b>
+                            <u><b id="linkRcv">Receive</b></u>
                             <br />
                             <label id="lblRcvCash">Cash</label>
                              : <input type="text" id="txtRcvCash" disabled />
@@ -80,7 +80,7 @@ End Code
                              : <input type="text" id="txtRcvCred" disabled />
                         </div>
                         <div class="col-sm-3">
-                            <b id="linkSum">Sum</b>
+                            <u><b id="linkSum">Sum</b></u>
                             <br />
                             <label id="lblSumPay">Payment</label>
                              : <input type="text" id="txtPaySum" disabled />
@@ -89,7 +89,7 @@ End Code
                              : <input type="text" id="txtRcvSum" disabled />
                         </div>
                         <div class="col-sm-3">
-                            <b id="linkTotal">Total</b>
+                            <u><b id="linkTotal">Total</b></u>
                             <br />
                             <label id="lblTotalPR">Voucher</label>
                             : <input type="text" id="txtPRSum" disabled />
@@ -1002,7 +1002,7 @@ End Code
                 return;
             }
             let h = r.voucher.data[0].Table;
-            $('#tbControl').DataTable({
+            let tb=$('#tbControl').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -1044,6 +1044,7 @@ End Code
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbControl');
             $('#tbControl tbody').on('click', 'tr', function () {
                 $('#tbControl tbody > tr').removeClass('selected');
                 $(this).addClass('selected');
@@ -1060,7 +1061,7 @@ End Code
     }
     function SetGridPayment(list) {
         //show selected details
-        $('#tbHeader').DataTable({
+        let tb=$('#tbHeader').DataTable({
             data: list,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
@@ -1095,6 +1096,7 @@ End Code
             responsive:true,
             destroy: true
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
         $('#tbHeader tbody').on('click', 'tr', function () {
             $('#tbHeader tbody > tr').removeClass('selected');
             $(this).addClass('selected');
@@ -1121,7 +1123,7 @@ End Code
     }
     function SetGridDocument(list) {
         //show selected details
-        $('#tbDetail').DataTable({
+        let tb=$('#tbDetail').DataTable({
             data: list,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
@@ -1145,6 +1147,7 @@ End Code
             responsive:true,
             destroy: true
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {
             $('#tbDetail tbody > tr').removeClass('selected');
             $(this).addClass('selected');

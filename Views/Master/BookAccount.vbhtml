@@ -114,16 +114,16 @@ End Code
             <br />
             <div id="dvCommand" class="col-sm-12">
                 <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearData()">
-                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New</b>
+                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">New</b>
                 </a>
                 <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
                 </a>
                 <a href="#" class="btn btn-danger" id="btnDel" onclick="DeleteData()">
-                    <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete</b>
+                    <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete</b>
                 </a>
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData('book')">
-                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
             </div>
             <br/>
@@ -271,7 +271,7 @@ End Code
         $.get(path + 'Master/GetBookBalance?code=' + $('#txtBookCode').val(), function (r) {
             if (r.bookaccount.data.length > 0) {
                 let tb = r.bookaccount.data[0].Table;
-                $('#tbBalance').DataTable({
+                let t=$('#tbBalance').DataTable({
                     data: tb,
                     columns: [
                         { data: "SumCash" },
@@ -284,6 +284,7 @@ End Code
                     responsive:true,
                     destroy:true
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbBalance');
             }
         });
     }

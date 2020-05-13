@@ -604,7 +604,7 @@ End Code
                 return;
             }
             let h = r.receipt.header[0];
-            $('#tbHeader').DataTable({
+            let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
@@ -634,6 +634,7 @@ End Code
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 row = $('#tbHeader').DataTable().row(this).data(); //read current row selected
                 SetSelect('#tbHeader', this);
@@ -659,7 +660,7 @@ End Code
         $.get(path + 'Acc/GetRcpDetail?Branch=' + branch + '&Code=' + code, function (r) {
             if (r.rcpdetail.data.length > 0) {
                 let d = r.rcpdetail.data;
-                $('#tbDetail').DataTable({
+                let tb=$('#tbDetail').DataTable({
                     data: d,
                     selected: true,
                     columns: [
@@ -722,6 +723,7 @@ End Code
                     responsive:true,
                     destroy:true
                 });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
                 $('#tbDetail tbody').on('click', 'tr', function () {
                     SetSelect('#tbDetail', this);
                     row_d = $('#tbDetail').DataTable().row(this).data();

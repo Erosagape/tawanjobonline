@@ -242,7 +242,7 @@ End Code
         });
     }
     function RefreshGrid(dr) {
-         $('#tbDetail').DataTable({
+        let tb=$('#tbDetail').DataTable({
             data: dr,
             columns: [
                 { data: "ItemNo", title: "No" },
@@ -263,6 +263,7 @@ End Code
             destroy: true,
             responsive:true
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {
             SetSelect('#tbDetail', this);
             row = $('#tbDetail').DataTable().row(this).data(); //read current row selected

@@ -49,16 +49,16 @@ End Code
         </div>
         <div id="dvCommand">
             <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddData()">
-                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New</b>
+                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">New</b>
             </a>
             <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
-                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
             </a>
             <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteData()">
-                <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete</b>
+                <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete</b>
             </a>
             <a href="#" class="btn btn-primary" id="btnSearch" onclick="RefreshGrid()">
-                <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+                <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
             </a>
         </div>
         <table class="table table-responsive" id="tbDetail">
@@ -256,7 +256,7 @@ End Code
     }
     function ShowDetail() {
         $.get(path + 'Master/GetServiceCode?Group=' + row.GroupCode, function (r) {
-            $('#tbDetail').dataTable({
+            let tb=$('#tbDetail').dataTable({
                 data: r.servicecode.data,
                 columns: [
                     { data: "SICode", title: "Id" },
@@ -266,6 +266,7 @@ End Code
                 select:true,
                 destroy:true
             });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
 			$('#tbDetail tbody').on('click', 'tr', function () {
                 SetSelect('#tbDetail', this);
             });

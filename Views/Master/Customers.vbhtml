@@ -46,9 +46,9 @@ End Code
             </div>
         </div>
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#tabCust2">Billing</a></li>
-            <li><a data-toggle="tab" href="#tabCust1">Addresses</a></li>
-            <li><a data-toggle="tab" href="#tabCust3">Configuration</a></li>
+            <li class="active"><a id="linkTab1" data-toggle="tab" href="#tabCust2">Billing</a></li>
+            <li><a id="linkTab2" data-toggle="tab" href="#tabCust1">Addresses</a></li>
+            <li><a id="linkTab3" data-toggle="tab" href="#tabCust3">Configuration</a></li>
         </ul>
         <div class="tab-content">
             <div id="tabCust1" class="tab-pane">
@@ -136,7 +136,7 @@ End Code
                             <input type="text" id="txtBillToCustCode"style="width:40%" class="form-control" tabIndex="24">
                             <input type="text" id="txtBillToBranch" style="width:20%" class="form-control" tabIndex="25">
                             <input type="button" value="..." class="btn btn-default" onclick="SearchData('billing')" />
-                            <input type="button" value="Same As Company" class="btn btn-primary" onclick="SetBilling()" />
+                            <button id="btnSetBilling" class="btn btn-primary" onclick="SetBilling()">Same as Company</button>
                         </div>                                   
                         <label id="lblBillToCustName">Billing Name :</label>
                         <input type="text" id="txtBillToCustName" class="form-control" disabled />
@@ -166,8 +166,8 @@ End Code
                         <br />
                         <div style="display:flex">
                             <input type="text" id="txtTPostCode" style="width:20%" class="form-control" tabIndex="30">
-                            <input type="button" class="btn btn-primary" value="Set Full Address" onclick="SetAddress()" /> &nbsp;
-                            <input type="button" value="Company Contact" class="btn btn-warning" onclick="AddContact()" />
+                            <button id="btnSetAddress" class="btn btn-primary" onclick="SetAddress()">Set Full Address</button> &nbsp;
+                            <button id="btnSetContact" class="btn btn-warning" onclick="AddContact()">Set Contact Person</button>
                         </div>                        
                     </div>
                 </div>
@@ -246,16 +246,16 @@ End Code
         </div>
         <div id="dvCommand">
             <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearData()">
-                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b>New</b>
+                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">New</b>
             </a>
             <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
-                <i class="fa fa-lg fa-save"></i>&nbsp;<b>Save</b>
+                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
             </a>
             <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteData()">
-                <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete</b>
+                <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete</b>
             </a>
             <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData('customer')">
-                <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
+                <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
             </a>
         </div>
         <div id="dvLOVs"></div>
