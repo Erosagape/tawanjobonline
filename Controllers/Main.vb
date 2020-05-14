@@ -591,7 +591,7 @@ b.IsLtdAdv50Tavi,(CASE WHEN CHARINDEX('#',a.PayChqTo,0)>0 THEN '' ELSE a.PayChqT
 FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
 )) as AirQtyStep,q.CalculateType as StepSub,
 a.ForJNo as JobNo,a.IsChargeVAT as VATType,a.VATRate,a.Rate50Tavi as Tax50TaviRate,q.QNo,
-c.DocStatus,c.AdvBy,c.EmpCode as ReqBy,c.PaymentDate,c.CustCode
+c.DocStatus,c.AdvBy,c.EmpCode as ReqBy,c.PaymentDate,c.CustCode,c.PaymentRef
 FROM Job_AdvDetail a LEFT JOIN Job_SrvSingle b on a.SICode=b.SICode
 INNER JOIN Job_AdvHeader c on a.BranchCode=c.BranchCode and a.AdvNo=c.AdvNo 
 left join Job_Order j on a.BranchCode=j.BranchCode and a.ForJNo=j.JNo
@@ -818,31 +818,35 @@ FROM
 ) a INNER JOIN Job_CashControl b
 ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
 LEFT JOIN (
-    SELECT h.BranchCode,h.ChqNo,SUM(ISNULL(d.PaidAmount,h.ChqAmount)) as ChqUsed,
+    SELECT h.BranchCode,h.ChqNo,SUM(h.ChqAmount) as ChqUsed,
     " & If(pType = "CU", "h.RecvBank,h.RecvBranch", "h.BankCode,h.BankBranch") & "
     FROM Job_CashControlSub h LEFT JOIN Job_CashControlDoc d
-    ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo 
-    WHERE h.PRType='" & If(chqType="P","R","P") &"' AND NOT EXISTS(
+    ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
+    WHERE h.PRType='" & If(chqType = "P", "R", "P") & "' AND NOT EXISTS(
 select ControlNo from Job_CashControl
 where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
-    )
+    ) AND d.ControlNo IS NULL
     GROUP BY h.BranchCode,h.ChqNo
     " & If(pType = "CU", ",h.RecvBank,h.RecvBranch", ",h.BankCode,h.BankBranch") & "
 ) c
 ON a.BranchCode=c.BranchCode
 AND a.ChqNo=c.ChqNo " & If(pType = "CU", "AND a.RecvBank=c.RecvBank AND a.RecvBranch=c.RecvBranch ", "AND a.BankCode=c.BankCode AND a.BankBranch=c.BankBranch ") & "
 left join (
-	SELECT BranchCode,ControlNo,SUM(PaidAmount) as UsedAmount,Max(DocNo) as DocUsed
-	FROM Job_CashControlDoc d
+	SELECT h.BranchCode,h.ChqNo
+" & If(pType = "CU", ",h.RecvBank,h.RecvBranch", ",h.BankCode,h.BankBranch") & "
+    ,SUM(CASE WHEN h.PRType='" & chqType & "' THEN 0 ELSE d.PaidAmount END) as UsedAmount,Max(d.DocNo) as DocUsed
+	FROM Job_CashControlDoc d INNER JOIN Job_CashControlSub h 
+    ON d.BranchCode=h.BranchCode AND d.ControlNo=h.ControlNo
 	WHERE NOT EXISTS(
 		select ControlNo from Job_CashControl
 		where BranchCode=d.BranchCode 
 		AND ControlNo=d.ControlNo 
 		AND ISNULL(CancelProve,'')<>''
     )
-	GROUP BY BranchCode,ControlNo
+	GROUP BY h.BranchCode,h.ChqNo" & If(pType = "CU", ",h.RecvBank,h.RecvBranch", ",h.BankCode,h.BankBranch") & "
 ) d
-on a.BranchCode=d.BranchCode AND a.ControlNo=d.ControlNo
+on a.BranchCode=d.BranchCode
+    AND a.ChqNo=d.ChqNo " & If(pType = "CU", "AND a.RecvBank=d.RecvBank AND a.RecvBranch=d.RecvBranch ", "AND a.BankCode=d.BankCode AND a.BankBranch=d.BankBranch ") & "
 WHERE a.acType='" & pType & "'
 AND a.PRType='" & chqType & "' AND a.ChqAmount>0 AND ISNULL(a.ChqNo,'')<>'' 
 "

@@ -16,6 +16,7 @@ function GetReportLists() {
         { "ReportGroup": "SALES", "ReportCode": "JOBCOMM", "ReportNameEN": "Job Commission By Emp", "ReportNameTH": "รายงานสรุปค่าคอมมิชชั่น" },
         { "ReportGroup": "FIN", "ReportCode": "ADVSUMMARY", "ReportNameEN": "Advance Summary", "ReportNameTH": "รายงานสรุปใบเบิกค่าใช้จ่าย" },
         { "ReportGroup": "FIN", "ReportCode": "STATEMENT", "ReportNameEN": "Bank Statement", "ReportNameTH": "รายงานการรับจ่ายเงินตามสมุดบัญชี" },
+        { "ReportGroup": "FIN", "ReportCode": "CASHBAL", "ReportNameEN": "Financial Balance", "ReportNameTH": "รายงานสรุปการรับจ่ายเงิน" },
         { "ReportGroup": "FIN", "ReportCode": "ADVDAILY", "ReportNameEN": "Advance Payment", "ReportNameTH": "รายงานการจ่ายเงินเบิกล่วงหน้า" },
         { "ReportGroup": "FIN", "ReportCode": "ADVDETAIL", "ReportNameEN": "Advance Expenses Report", "ReportNameTH": "รายงานการเบิกค่าใช้จ่ายแต่ละประเภท" },
         { "ReportGroup": "FIN", "ReportCode": "EXPDAILY", "ReportNameEN": "Expense Payment", "ReportNameTH": "รายงานการจ่ายบิลค่าใช้จ่าย" },

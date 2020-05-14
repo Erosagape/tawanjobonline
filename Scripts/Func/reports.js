@@ -182,6 +182,7 @@ function GetReportStatus(reportID) {
         case 'BALANCS':
         case 'PROFITLOSS':
         case 'CASHFLOW':
+        case 'CASHBAL':
         case 'JOURNAL':
             val = '';
             break;
@@ -614,45 +615,65 @@ function GetColumnHeader(id,langid) {
 }
 function GetGroupCaption(src,fld, val) {
     let retstr = val;
-    if (src.length > 0) {
-        switch (fld) {
-            case "JobStatus":
+    //if (src.length > 0) {
+    switch (fld) {
+        case 'PRType':
+            if (src.length > 0) {
+                let status = src[0];
+                retstr = status[val];
+            }
+            break;
+        case 'acType':
+            if (src.length > 0) {
+                let status = src[0];
+                retstr = status[val];
+            }
+            break;
+        case "JobStatus":
+            if (src.length > 0) {
                 let status = src[0].filter(function (data) {
                     return val == data.ConfigKey;
                 });
                 if (status.length > 0) {
                     retstr = status[0].ConfigValue;
                 }
-                break;
-            case "CustCode":
+            }
+            break;
+        case "CustCode":
+            if (src.length > 0) {
                 let cust = src[0].filter(function (data) {
                     return val == data.CustCode;
                 });
                 if (cust.length > 0) {
-                    retstr = cust[0].CustCode + ' / ' + cust[0].NameThai; 
+                    retstr = cust[0].CustCode + ' / ' + cust[0].NameThai;
                 }
-                break;
-            case "CSCode":
-            case "EmpCode":
-            case "ShippingEmp":
-            case "ReqBy":
+            }
+            break;
+        case "CSCode":
+        case "EmpCode":
+        case "ShippingEmp":
+        case "ReqBy":
+            if (src.length > 0) {
                 let emp = src[0].filter(function (data) {
                     return val == data.UserID;
                 });
                 if (emp.length > 0) {
                     retstr = emp[0].UserID + ' / ' + emp[0].TName;
                 }
-                break;
-            case "ClearPort":
+            }
+            break;
+        case "ClearPort":
+            if (src.length > 0) {
                 let ports = src[0].filter(function (data) {
                     return val == data.AreaCode;
                 });
                 if (ports.length > 0) {
-                    retstr = ports[0].AreaCode +' / '+ ports[0].AreaName;
+                    retstr = ports[0].AreaCode + ' / ' + ports[0].AreaName;
                 }
-                break;
+            }
+            break;
         }
-    }
+    //}
     return retstr;
 }
 function LoadReport(path, reportID, obj, lang) {
