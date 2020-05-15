@@ -122,7 +122,7 @@ End Code
                             </a>
                             <br />
                             <label id="lblDocNo">Receipt No :</label>
-                            <br/><input type="text" id="txtDocNo" class="form-control" disabled /><br />
+                            <br/><input type="text" id="txtDocNo" class="form-control" /><br />
                             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintReceipt()">
                                 <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Receipts</b>
                             </a>

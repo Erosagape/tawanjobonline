@@ -151,7 +151,7 @@ End Code
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Tax-Invoice</b>
                             </a>
                             <br />
-                            <label id="lblDocNo">Tax-Invoice No :</label><br /> <input type="text" id="txtDocNo" class="form-control" disabled /><br />
+                            <label id="lblDocNo">Tax-Invoice No :</label><br /> <input type="text" id="txtDocNo" class="form-control" /><br />
                             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintReceipt()">
                                 <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Tax-Invoice</b>
                             </a>

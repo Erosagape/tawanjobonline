@@ -799,7 +799,7 @@ Sum(Case when a.PRType='P' then -1*(a.CashAmount+a.ChqAmount) else 0 end) as Sum
 Sum(Case when a.PRType='R' then (a.CashAmount+a.ChqAmount) else 0 end) as SumRV
 from Job_CashControlSub a inner join Job_CashControl b
 on a.BranchCode=b.BranchCode and a.ControlNo=b.ControlNo
-inner join Mas_BookAccount c 
+left join Mas_BookAccount c 
 on a.BookCode=c.BookCode
 WHERE ISNULL(b.CancelProve,'')='' {0}
 group by c.BookCode,c.LimitBalance) q
@@ -859,18 +859,18 @@ b.CustCode,b.CustBranch,b.VoucherDate
 FROM Job_CashControlSub a INNER JOIN Job_CashControl b
 ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
 LEFT JOIN (
-    SELECT h.BranchCode,h.DocNo,SUM(d.PaidAmount) as CreditUsed    
+    SELECT h.BranchCode,SUBSTRING(d.DocNo,0,CHARINDEX('#',d.DocNo)) as DocNo,SUM(d.PaidAmount) as CreditUsed    
     FROM Job_CashControlSub h INNER JOIN Job_CashControlDoc d
     ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
     WHERE h.PRType='" & If(pType = "R", "P", "R") & "' AND NOT EXISTS(
 select ControlNo from Job_CashControl
 where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
     )
-    GROUP BY h.BranchCode,h.DocNo
+    GROUP BY h.BranchCode,SUBSTRING(d.DocNo,0,CHARINDEX('#',d.DocNo))
 ) c
 ON a.BranchCode=c.BranchCode
 AND a.DocNo=c.DocNo 
-WHERE a.PRType='" & pType & "' AND a.CreditAmount>0 AND ISNULL(a.DocNo,'')<>'' 
+WHERE a.PRType='" & pType & "' AND a.CreditAmount>0 
 "
         Else
             Return "
@@ -879,18 +879,18 @@ b.CustCode,b.CustBranch,b.VoucherDate
 FROM Job_CashControlSub a INNER JOIN Job_CashControl b
 ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
 LEFT JOIN (
-    SELECT h.BranchCode,h.DocNo,SUM(d.PaidAmount) as CreditUsed    
+    SELECT h.BranchCode,SUBSTRING(d.DocNo,0,CHARINDEX('#',d.DocNo)) as DocNo,SUM(d.PaidAmount) as CreditUsed    
     FROM Job_CashControlSub h INNER JOIN Job_CashControlDoc d
     ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
     WHERE h.PRType='" & If(pType = "R", "P", "R") & "' AND NOT EXISTS(
 select ControlNo from Job_CashControl
 where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
     )
-    GROUP BY h.BranchCode,h.DocNo
+    GROUP BY h.BranchCode,SUBSTRING(d.DocNo,0,CHARINDEX('#',d.DocNo))
 ) c
 ON a.BranchCode=c.BranchCode
 AND a.DocNo=c.DocNo 
-WHERE a.PRType='" & pType & "' AND (a.CashAmount+a.ChqAmount)>0 AND ISNULL(a.DocNo,'')<>'' 
+WHERE a.PRType='" & pType & "' AND (a.CashAmount+a.ChqAmount)>0 
 "
         End If
     End Function

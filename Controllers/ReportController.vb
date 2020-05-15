@@ -276,7 +276,7 @@ FROM (" & String.Format(SQLSelectTax50TaviReport(), sqlW) & ") as t ORDER BY 9,1
                         fldGroup = "BookCode"
                         sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT BookCode,VoucherDate,TRemark,PRVoucher,ChqNo,ChqDate,(CASE WHEN PRType='P' THEN TotalNet*-1 ELSE TotalNet END) as TotalNet,ControlNo FROM (" & String.Format(SQLSelectCashFlow(), sqlW) & ") as t WHERE BookCode<>'' ORDER BY BookCode,VoucherDate,PRVoucher "
+                        sqlM = "SELECT BookCode,VoucherDate,TRemark,PRVoucher,ChqNo,ChqDate,(CASE WHEN PRType='P' THEN TotalNet*-1 ELSE TotalNet END) as TotalNet,ControlNo FROM (" & String.Format(SQLSelectCashFlow(), sqlW) & ") as t ORDER BY BookCode,VoucherDate,PRVoucher "
                     Case "ARBAL"
                         fldGroup = "CustCode"
                         groupDatas = JsonConvert.SerializeObject(New CCompany(GetSession("ConnJob")).GetData(""))

@@ -114,7 +114,7 @@ End Code
                             <br/>
                             <label id="lblDocNo">Billing No :</label>
                             <br/>
-                            <input type="text" id="txtDocNo" disabled />
+                            <input type="text" id="txtDocNo" />
                             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintBilling()">
                                 <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Billing</b>
                             </a>
