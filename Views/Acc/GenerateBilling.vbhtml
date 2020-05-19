@@ -466,9 +466,8 @@ End Code
         //ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
         $('#txtBillToCustName').val(dt.NameThai);
         $('#txtCustName').val(dt.NameThai);
-        $('#txtBillToCustCode').val(dt.BillToCustCode);
-        $('#txtBillToCustBranch').val(dt.BillToBranch);
-        ShowCustomer(path, $('#txtBillToCustCode').val(), $('#txtBillToCustBranch').val(), '#txtBillToCustName');
+        $('#txtBillToCustCode').val(dt.CustCode);
+        $('#txtBillToCustBranch').val(dt.Branch);
         $('#txtCustCode').focus();
         creditdays = CNum(dt.CreditLimit);
     }

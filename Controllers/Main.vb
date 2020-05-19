@@ -1186,7 +1186,7 @@ id.TotalAmt,id.TotalAmt-id.AmtCredit as TotalInv,
 r.ReceivedAmt,r.ReceivedVat,r.ReceivedWht,r.ReceivedNet,
 r.ReceiptNo,
 c.CreditAmt,c.CreditVat,c.CreditWht,c.CreditNet,
-c.CreditNo,
+c.CreditNo,r.LastVoucher,
 r.ControlLink,v.PRVoucher,v.PRType,v.acType,v.ChqNo,v.ChqDate,
 v.RecvBank,v.RecvBranch,v.BookCode,v.BankCode,v.BankBranch,
 c1.NameThai as CustTName,c2.NameThai as BillTName,
@@ -1196,12 +1196,12 @@ on id.BranchCode=ih.BranchCode
 and id.DocNo=ih.DocNo
 left join (
 	select rd.BranchCode,rd.InvoiceNo,rd.InvoiceItemNo,
-    max(rd.ReceiptNo) as ReceiptNo,
+    max(rd.ReceiptNo) as ReceiptNo,max(rd.VoucherNo) as LastVoucher,
     max(rd.ControlNo + '-' +Convert(varchar,rd.ControlItemNo)) as ControlLink,
-	sum(rd.Amt) as ReceivedAmt,
-	sum(rd.AmtVAT) as ReceivedVat,
-	sum(rd.Amt50Tavi) as ReceivedWht,
-	sum(rd.Net) as ReceivedNet
+	sum(CASE WHEN rd.ControlNo<>'' THEN rd.Amt ELSE 0 END) as ReceivedAmt,
+	sum(CASE WHEN rd.ControlNo<>'' THEN rd.AmtVAT ELSE 0 END) as ReceivedVat,
+	sum(CASE WHEN rd.ControlNo<>'' THEN rd.Amt50Tavi ELSE 0 END) as ReceivedWht,
+	sum(CASE WHEN rd.ControlNo<>'' THEN rd.Net ELSE 0 END) as ReceivedNet
 	from Job_ReceiptDetail rd inner join Job_ReceiptHeader rh
 	on rd.BranchCode=rh.BranchCode AND rd.ReceiptNo=rh.ReceiptNo
 	and ISNULL(rh.CancelProve,'')=''

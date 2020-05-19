@@ -364,7 +364,7 @@ End Code
                                     <label id="lblVATRate" for="txtVATRate">VAT :</label>
                                     <div style="display:flex">
                                         <input type="text" id="txtVATRate" class="form-control" style="text-align:right" tabindex="21" />
-                                        <select id="txtVatType" class="form-control dropdown" disabled>
+                                        <select id="txtVatType" class="form-control dropdown">
                                             <option value="0">NO</option>
                                             <option value="1">EX</option>
                                             <option value="2">IN</option>

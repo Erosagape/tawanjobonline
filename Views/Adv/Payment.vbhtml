@@ -697,11 +697,11 @@ End Code
         SetStatusInput('#dvCash', (cash > 0 ? true : false), '#txtAdvCash');
         $('#txtAdvCash').val(CDbl(cash, 4));
 
-        SetStatusInput('#dvChqCash', (chqcust > 0 ? true : false), '#txtAdvChqCash');
-        $('#txtAdvChqCash').val(CDbl(chqcust, 4));
+        SetStatusInput('#dvChqCash', (chq > 0 ? true : false), '#txtAdvChqCash');
+        $('#txtAdvChqCash').val(CDbl(chq, 4));
 
-        SetStatusInput('#dvChq', (chq > 0 ? true : false), '#txtAdvChq');
-        $('#txtAdvChq').val(CDbl(chq, 4));
+        SetStatusInput('#dvChq', (chqcust > 0 ? true : false), '#txtAdvChq');
+        $('#txtAdvChq').val(CDbl(chqcust, 4));
         $('#txtRefNoChq').attr('disabled', 'disabled');
 
         SetStatusInput('#dvCred', (cred > 0 ? true : false), '#txtAdvCred');

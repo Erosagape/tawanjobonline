@@ -115,6 +115,11 @@ Namespace Controllers
                         sqlW = GetSQLCommand(cliteria, "h.DocDate", "", "d.ForJNo", "h.EmpCode", "h.VenCode", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
                         sqlM = "SELECT pa.DocNo,pa.DocDate,pa.VenCode,pa.RefNo,pa.SDescription,pa.Amt,pa.AmtVAT,pa.AmtWHT as Amt50Tavi,pa.Total,pa.PayType FROM (" & SQLSelectPaymentReport() & sqlW & ") pa ORDER BY pa.DocDate,pa.DocNo"
+                    Case "EXPDETAIL"
+                        fldGroup = "SDescription"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "", "d.ForJNo", "h.EmpCode", "h.VenCode", "", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " WHERE " & sqlW
+                        sqlM = "SELECT pa.DocNo,pa.DocDate,pa.VenCode,pa.RefNo,pa.SDescription,pa.Amt,pa.AmtVAT,pa.AmtWHT as Amt50Tavi,pa.Total,pa.PayType FROM (" & SQLSelectPaymentReport() & sqlW & ") pa ORDER BY pa.SDescription,pa.DocDate,pa.DocNo"
                     Case "RCPDAILY"
                         sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "ih.RefNo", "rh.EmpCode", "", "", "rh.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT=0 AND " & sqlW Else sqlW = " WHERE rh.TotalVAT=0 "
@@ -133,9 +138,10 @@ Namespace Controllers
                         If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT>0 AND " & sqlW Else sqlW = " WHERE rh.TotalVAT>0 "
                         sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.Net,rc.PRVoucher FROM (" & SQLSelectReceiptReport() & sqlW & ") rc ORDER BY rc.ReceiptDate,rc.ReceiptNo"
                     Case "TAXSUMMARY"
+                        fldGroup = "NameThai"
                         sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "ih.RefNo", "rh.EmpCode", "", "", "rh.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT>0 AND " & sqlW Else sqlW = " WHERE rh.TotalVAT>0 "
-                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo,SUM(rc.Amt) as Amt,SUM(rc.AmtVAT) as AmtVAT,SUM(rc.Amt50Tavi) as Amt50Tavi,SUM(rc.Net) as AmtNet FROM (" & SQLSelectReceiptReport() & sqlW & ") rc GROUP BY rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo ORDER BY rc.ReceiptDate,rc.ReceiptNo"
+                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.CustTName as NameThai,rc.InvoiceNo,rc.JobNo,SUM(rc.Amt) as Amt,SUM(rc.AmtVAT) as AmtVAT,SUM(rc.Amt50Tavi) as Amt50Tavi,SUM(rc.Net) as AmtNet,SUM(CASE WHEN ISNULL(rc.PRVoucher,'')<>'' THEN 0 ELSE rc.Net END) as TotalReceived FROM (" & SQLSelectReceiptReport() & sqlW & ") rc GROUP BY rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.CustTName,rc.InvoiceNo,rc.JobNo ORDER BY rc.CustTName,rc.ReceiptDate,rc.ReceiptNo"
                     Case "CASHDAILY"
                         sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "r.CmpCode", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE (d.ChqAmount >0 OR d.CashAmount>0) AND d.acType<>'CU' AND " & sqlW Else sqlW = " WHERE (d.ChqAmount >0 OR d.CashAmount>0) AND d.acType<>'CU' "
@@ -154,12 +160,12 @@ Namespace Controllers
                     Case "INVDAILY"
                         sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.TotalInv,inv.CreditNet,inv.ReceivedNet,inv.ReceiptNo FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.DocDate,inv.DocNo"
+                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.TotalInv,inv.CreditNet,inv.ReceivedNet,inv.ReceiptNo,inv.LastVoucher FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.DocDate,inv.DocNo"
                     Case "INVDETAIL"
                         fldGroup = "SDescription"
                         sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode", "id.SICode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.TotalInv,inv.CreditNet,inv.ReceivedNet,inv.ReceiptNo FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.SDescription,inv.DocNo"
+                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.TotalInv,inv.CreditNet,inv.ReceivedNet,inv.ReceiptNo,inv.LastVoucher FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.SDescription,inv.DocNo"
                     Case "INVSTATUS"
                         sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
@@ -167,7 +173,7 @@ Namespace Controllers
 SELECT inv.DocNo,inv.DocDate,inv.RefNo,inv.CustCode,
 sum(inv.Amt) as AmtTotal,sum(inv.AmtVat) as TotalVAT,sum(inv.Amt50Tavi) as Total50Tavi,
 sum(inv.AmtCredit) as TotalPrepaid,sum(inv.TotalInv) as TotalInv,sum(ISNULL(inv.CreditNet,0)) as TotalCredit,
-sum(inv.ReceivedNet) as TotalReceived 
+sum(inv.ReceivedNet) as TotalReceived,max(inv.LastVoucher) as VoucherNo 
 FROM (" & SQLSelectInvReport(sqlW) & ") inv 
 GROUP BY inv.DocNo,inv.DocDate,inv.RefNo,inv.CustCode
 ORDER BY inv.DocNo
@@ -530,7 +536,7 @@ FROM (
 		SELECT dt.BranchCode,dt.InvoiceNo,dt.InvoiceItemNo,Max(dt.ReceiptNo) as ReceiptNo 
 		,sum(dt.Net) as ReceiptNet,Max(dt.VoucherNo) as VoucherNo from
 		Job_ReceiptDetail dt INNER JOIN Job_ReceiptHeader hd ON dt.BranchCode=hd.BranchCode
-		AND dt.ReceiptNo=hd.ReceiptNo WHERE ISNULL(hd.CancelProve,'')='' 
+		AND dt.ReceiptNo=hd.ReceiptNo WHERE ISNULL(hd.CancelProve,'')='' AND dt.VoucherNo<>''
 		GROUP BY dt.BranchCode,dt.InvoiceNo,dt.InvoiceItemNo) g 
 		ON a.BranchCode=g.BranchCode AND a.LinkBillNo=g.InvoiceNo AND a.LinkItem=g.InvoiceItemNo
 	inner join Job_InvoiceDetail h on a.BranchCode=h.BranchCode and a.LinkBillNo=h.DocNo and a.LinkItem=h.ItemNo

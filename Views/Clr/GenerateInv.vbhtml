@@ -278,6 +278,18 @@ End Code
                                     <input type="text" class="form-control" id="txtAmtCharge" onchange="CalVATWHT(0)" />
                                 </td>
                                 <td style="width:10%">
+                                    <label id="lblQtyD">Qty</label>
+                                    <br />
+                                    <input type="number" id="txtAmtQty" class="form-control" value="0" onchange="CalDiscount()">
+                                </td>
+                                <td style="width:15%">
+                                    <label id="lblUnitD">Unit:</label>
+                                    <br />
+                                    <input type="text" id="txtAmtUnit" value="" class="form-control" onchange="CalNetAmount()">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:10%">
                                     <label id="lblDisc">Disc (%)</label>
                                     <br />
                                     <input type="number" id="txtAmtDiscountPerc" class="form-control" value="0" onchange="CalDiscount()">
@@ -287,8 +299,6 @@ End Code
                                     <br />
                                     <input type="text" id="txtAmtDiscount" value="0" class="form-control" onchange="CalNetAmount()">
                                 </td>
-                            </tr>
-                            <tr>
                                 <td style="width:5%">
                                     <label id="lblVATRate">VAT Rate:</label>
                                     <br /><input type="number" id="txtAmtVATRate" class="form-control" value="0" onchange="CalVATWHT(0)">
@@ -730,10 +740,14 @@ End Code
                 arr_new.AmtAdvance = CNum($('#txtAmtAdvance').val())-CNum($('#txtAmtDiscount').val());
             }
             arr_new.TotalAmt = CNum($('#txtAmtNET').val());
+            arr_new.Qty = $('#txtAmtQty').val();
+            arr_new.QtyUnit = $('#txtAmtUnit').val();
             SaveClearDetail(arr_new);
         } else {
             arr_split.AmtDiscount = CNum($('#txtAmtDiscount').val());
             arr_split.DiscountPerc = CNum($('#txtAmtDiscountPerc').val());
+            arr_split.Qty = $('#txtAmtQty').val();
+            arr_split.QtyUnit = $('#txtAmtUnit').val();
             if (arr_split.AmtAdvance > 0) {
                 arr_split.AmtAdvance = CNum($('#txtAmtAdvance').val())-CNum($('#txtAmtDiscount').val());
             }
@@ -798,6 +812,8 @@ End Code
             cl.BNet = CDbl((CNum(dr.AmtCharge) + CNum(dr.AmtVat) - CNum(dr.Amt50Tavi)),4);
             cl.FNet = CDbl((cl.BNet / dr.ExchangeRate),4);
         }
+        cl.Qty = dr.Qty;
+        cl.UnitCode = dr.QtyUnit;
         arr_clr.push(cl);
 
         arr.push(dr);
@@ -825,12 +841,15 @@ End Code
     function LoadClearDetail(dr) {
         arr_split = dr;
         arr_clr = [];
-            $('#lblClrNo').text(dr.ClrNoList);
-            $('#lblJobNo').text(dr.JobNo);
-            $('#lblSICode').text(dr.SICode);
-            $('#lblSDescription').text(dr.SDescription);
-            $('#txtAmtVATRate').val(CNum(dr.VATRate));
-            $('#txtAmtWHTRate').val(CNum(dr.Rate50Tavi));
+        $('#lblClrNo').text(dr.ClrNoList);
+        $('#lblJobNo').text(dr.JobNo);
+        $('#lblSICode').text(dr.SICode);
+        $('#lblSDescription').text(dr.SDescription);
+        $('#txtAmtQty').val(dr.Qty);
+        $('#txtAmtUnit').val(dr.QtyUnit);
+        $('#txtAmtVATRate').val(CNum(dr.VATRate));
+        $('#txtAmtWHTRate').val(CNum(dr.Rate50Tavi));
+
 
         if (dr.AmtAdvance > 0) {
             $('#txtAmtCharge').val(0);

@@ -360,7 +360,7 @@ End Code
                                     </div>
                                     <div style="flex-direction:column;flex:1">
                                         <label id="lblQtyUnit">Unit</label>
-                                         <input type="text" class="form-control" id="txtQtyUnit" disabled />
+                                         <input type="text" class="form-control" id="txtQtyUnit" />
                                     </div>
                                     <div style="flex-direction:column;flex:1">
                                         <label id="lblUnitPrice">Price(B)</label>
@@ -753,7 +753,7 @@ End Code
             row_d.FTotalAmt = CNum($('#txtFTotalAmt').val());
             row_d.AmtAdvance = CNum($('#txtAmtAdvance').val());
             row_d.AmtCharge = CNum($('#txtAmtCharge').val());
-
+            row_d.QtyUnit = $('#txtQtyUnit').val();
             let jsonText = JSON.stringify({ data: row_d });
             //ShowMessage(jsonText);
             $.ajax({

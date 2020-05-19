@@ -338,6 +338,7 @@ End Code
                 AddData(data); //callback function from caller
             });
         });
+        $('#btnGen').removeAttr('disabled');
     }
     function ShowSummary() {
         if ($('#txtCustCode').val() == '') {
@@ -549,9 +550,9 @@ End Code
             data: jsonText,
             success: function (response) {
                 if (response.result.data !== null) {
-                    DisplayMessage(response.result.msg+'\n->'+response.result.data);
+                    DisplayMessage(response.result.msg + '\n->' + response.result.data);
                     SetGridAdv(false);
-                    $('#btnGen').hide();
+                    $('#btnGen').attr('disabled', 'disabled');
                     return;
                 }
                 ShowMessage(response.result.msg,true);
@@ -604,7 +605,7 @@ End Code
         $('#txtCustCode').val(dt.CustCode);
         $('#txtCustBranch').val(dt.Branch);
         $('#txtCustName').val(dt.NameThai);
-        if (dt.BillToCustCode !== null) {
+        if (dt.BillToCustCode !== null && $('#chkBilling').prop('checked')==false) {
             CallBackQueryCustomer(path, dt.BillToCustCode, dt.BillToBranch, ReadBilling);
         } else {
             ReadBilling(dt);

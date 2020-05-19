@@ -252,7 +252,7 @@ End Code
     }
     function SetGridAdv(isAlert) {
         arr = [];
-
+        $('#btnGen').removeAttr('disabled');
         let w = '';
         if ($('#chkBilling').prop('checked') == true) {
             if ($('#txtCustCode').val() !== "") {
@@ -639,7 +639,7 @@ function SaveHeaderByInv(dt,inv) {
                     if (response.result.data !== null) {
                         DisplayMessage(response.result.msg+'\n->'+response.result.data);
                         SetGridAdv(false);
-                        $('#btnGen').hide();
+                        $('#btnGen').attr('disabled', 'disabled');
                         return;
                     }
                     ShowMessage(response.result.msg,true);
@@ -692,7 +692,7 @@ function SaveHeaderByInv(dt,inv) {
         $('#txtCustCode').val(dt.CustCode);
         $('#txtCustBranch').val(dt.Branch);
         $('#txtCustName').val(dt.NameThai);
-        if (dt.BillToCustCode !== null) {
+        if (dt.BillToCustCode !== null && $('#chkBilling').prop('checked')==false) {
             CallBackQueryCustomer(path, dt.BillToCustCode, dt.BillToBranch, ReadBilling);
         } else {
             ReadBilling(dt);

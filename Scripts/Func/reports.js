@@ -272,6 +272,7 @@ function LoadCliteria(reportID) {
             $('#tbVend').hide(); //hide
             break;
         case 'EXPDAILY':
+        case 'EXPDETAIL':
             $('#tbDate').show();
             $('#tbEmp').show();
             $('#tbCust').hide(); //hide

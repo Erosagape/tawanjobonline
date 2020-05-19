@@ -32,15 +32,14 @@ End Code
                     <label id="lblTRemark">Note</label>
                     <br /><input type="text" id="txtTRemark" class="form-control" tabIndex="4">
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-4">
                     <label id="lblCustCode">Customer Code</label>
-                    <br />
-                    <input type="text" id="txtCustCode" class="form-control">
-                </div>
-                <div class="col-sm-1">
-                    <label id="lblCustBranch">Branch</label>
-                    <br />
-                    <input type="text" id="txtCustBranch" class="form-control">
+                    <br/>
+                    <div style="display:flex;flex-direction:row">
+                        <input type="text" id="txtCustCode" style="width:100%" />
+                        <input type="text" id="txtCustBranch" style="width:100px" />
+                        <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
+                    </div>
                 </div>
             </div>
 
@@ -775,6 +774,9 @@ End Code
             case 'cust':
                 SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
                 break;
+            case 'customer':
+                SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCompany);
+                break;
             case 'vender':
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
                 break;
@@ -1452,6 +1454,11 @@ End Code
         $('#txtCmpName').val(dt.TName);
         $('#txtCmpBranch').val('');
         $('#txtCmpCode').focus();
+    }
+    function ReadCompany(dt) {
+        $('#txtCustCode').val(dt.CustCode);
+        $('#txtCustBranch').val(dt.Branch);
+        $('#txtCustCode').focus();
     }
     function ReadCustomer(dt) {
         $('#txtCmpCode').val(dt.CustCode);

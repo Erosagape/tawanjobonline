@@ -156,7 +156,7 @@ End Code
                                     <tr>
                                         <td>
                                             <input type="checkbox" id="chkChq" />
-                                            <label id="lblChq" for="chkChq">Cashier Chq</label>
+                                            <label id="lblChq" for="chkChq">Customer Chq</label>
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtAdvChq" class="form-control" style="width:100%;text-align:right" disabled />
@@ -165,7 +165,7 @@ End Code
                                     <tr>
                                         <td>
                                             <input type="checkbox" id="chkChqCash" />
-                                            <label id="lblChqCash" for="chkChqCash">Customer Chq</label>
+                                            <label id="lblChqCash" for="chkChqCash">Cashier Chq</label>
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtAdvChqCash" class="form-control" style="width:100%;text-align:right" disabled />
@@ -1663,10 +1663,10 @@ End Code
                     pt = '&paytype=CA';
                 }
                 if ($('#chkChqCash').prop('checked') == true) {
-                    pt = '&paytype=CU';
+                    pt = '&paytype=CH';
                 }
                 if ($('#chkChq').prop('checked') == true) {
-                    pt = '&paytype=CH';
+                    pt = '&paytype=CU';
                 }
                 if ($('#chkCred').prop('checked') == true) {
                     pt = '&paytype=CR';
