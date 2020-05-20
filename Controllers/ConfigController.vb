@@ -122,6 +122,26 @@ Namespace Controllers
             End If
             Return Content("{""result"":{""data"":" & json & ",""msg"":""" + msg + """}}", jsonContent)
         End Function
+        Function CopyMenuAuth() As ActionResult
+            Dim userFrom As String = ""
+            If IsNothing(Request.QueryString("From")) = False Then
+                userFrom = Request.QueryString("From").ToString()
+            End If
+            Dim userTo As String = ""
+            If IsNothing(Request.QueryString("To")) = False Then
+                userTo = Request.QueryString("To").ToString()
+            End If
+            Dim oData = New CUserAuth(Session("ConnJob")).GetData(String.Format(" WHERE UserID='{0}'", userFrom))
+            Dim oCount = 0
+            If oData.Count > 0 Then
+                For Each oRow In oData
+                    oRow.UserID = userTo.Trim()
+                    oRow.SaveData(String.Format(" WHERE UserID='{0}' AND AppID='{1}' AND MenuID='{2}'", oRow.UserID, oRow.AppID, oRow.MenuID))
+                    oCount += 1
+                Next
+            End If
+            Return Content(oCount & " Rows Copied", textContent)
+        End Function
         Function CheckMenuAuth() As ActionResult
             Dim user As String = ""
             If IsNothing(Session("CurrUser")) = False Then

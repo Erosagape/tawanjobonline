@@ -160,18 +160,18 @@ Namespace Controllers
                     Case "INVDAILY"
                         sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.TotalInv,inv.CreditNet,inv.ReceivedNet,inv.ReceiptNo,inv.LastVoucher FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.DocDate,inv.DocNo"
+                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.Amt50Tavi,inv.TotalInv,inv.CreditNet,inv.ReceivedNet,inv.ReceiptNo,inv.LastVoucher FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.DocDate,inv.DocNo"
                     Case "INVDETAIL"
                         fldGroup = "SDescription"
                         sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode", "id.SICode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.TotalInv,inv.CreditNet,inv.ReceivedNet,inv.ReceiptNo,inv.LastVoucher FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.SDescription,inv.DocNo"
+                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.Amt50Tavi,inv.TotalInv,inv.CreditNet,inv.ReceivedNet,inv.ReceiptNo,inv.LastVoucher FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.SDescription,inv.DocNo"
                     Case "INVSTATUS"
                         sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 SELECT inv.DocNo,inv.DocDate,inv.RefNo,inv.CustCode,
-sum(inv.Amt) as AmtTotal,sum(inv.AmtVat) as TotalVAT,sum(inv.Amt50Tavi) as Total50Tavi,
+sum(inv.AmtAdvance) as TotalAdvance,sum(inv.AmtCharge) as TotalCharge,sum(inv.AmtVat) as TotalVAT,sum(inv.Amt50Tavi) as Total50Tavi,
 sum(inv.AmtCredit) as TotalPrepaid,sum(inv.TotalInv) as TotalInv,sum(ISNULL(inv.CreditNet,0)) as TotalCredit,
 sum(inv.ReceivedNet) as TotalReceived,max(inv.LastVoucher) as VoucherNo 
 FROM (" & SQLSelectInvReport(sqlW) & ") inv 

@@ -174,16 +174,22 @@
     let reportID = '';
     let browseWhat = '';
     let cliterias = [];
+    let userPosition = '@ViewBag.UserPosition';
     let data = {};
     var path = '@Url.Content("~")';
     ChangeLanguageForm('@ViewBag.Module');
     SetEvents();
     $('#tbCode').hide();
     $('#tbReportList tbody').on('click', 'tr', function () {
-        SetSelect('#tbReportList', this);
         data = $('#tbReportList').DataTable().row(this).data();
-        reportID = data.ReportCode;
-        
+        if (data.ReportAuthor.indexOf(userPosition) < 0) {
+            ShowMessage("Your position are not authorized to view Report", true);
+            $('#btnPrnJob').hide();
+            return;
+        }
+        $('#btnPrnJob').show();
+        SetSelect('#tbReportList', this);
+        reportID = data.ReportCode;        
         LoadCliteria(reportID);
     });
     function GetCliteria() {

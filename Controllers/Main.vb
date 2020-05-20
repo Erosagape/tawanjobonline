@@ -834,7 +834,7 @@ AND a.ChqNo=c.ChqNo " & If(pType = "CU", "AND a.RecvBank=c.RecvBank AND a.RecvBr
 left join (
 	SELECT h.BranchCode,h.ChqNo
 " & If(pType = "CU", ",h.RecvBank,h.RecvBranch", ",h.BankCode,h.BankBranch") & "
-    ,SUM(CASE WHEN h.PRType='" & chqType & "' THEN 0 ELSE d.PaidAmount END) as UsedAmount,Max(d.DocNo) as DocUsed
+    ,SUM(d.PaidAmount) as UsedAmount,Max(d.DocNo) as DocUsed
 	FROM Job_CashControlDoc d INNER JOIN Job_CashControlSub h 
     ON d.BranchCode=h.BranchCode AND d.ControlNo=h.ControlNo
 	WHERE NOT EXISTS(

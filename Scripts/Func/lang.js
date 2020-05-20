@@ -1,71 +1,4 @@
 ﻿let mainLanguage = 'EN';
-function GetReportLists() {
-    return [
-        { "ReportGroup": "CS", "ReportCode": "JOBDAILY", "ReportNameEN": "Job List Daily", "ReportNameTH": "รายงานการตรวจปล่อยตามวันที่" },
-        { "ReportGroup": "CS", "ReportCode": "JOBCS", "ReportNameEN": "Job List By CS", "ReportNameTH": "รายงานการตรวจปล่อยตามพนักงานบริการลูกค้า" },
-        { "ReportGroup": "CS", "ReportCode": "JOBFOLLOWUP", "ReportNameEN": "Job List By Status", "ReportNameTH": "รายงานสถานะงาน" },
-        { "ReportGroup": "CS", "ReportCode": "JOBSHP", "ReportNameEN": "Job List By Shipping", "ReportNameTH": "รายงานการตรวจปล่อยตามชิปปิ้ง" },
-        { "ReportGroup": "CS", "ReportCode": "JOBTYPE", "ReportNameEN": "Job List By Type", "ReportNameTH": "รายงานการตรวจปล่อยตามประเภทงาน" },
-        { "ReportGroup": "CS", "ReportCode": "JOBSHIPBY", "ReportNameEN": "Job List By Transport", "ReportNameTH": "รายงานการตรวจปล่อยตามลักษณะงานขนส่ง" },
-        { "ReportGroup": "CS", "ReportCode": "JOBCUST", "ReportNameEN": "Job List By Customer", "ReportNameTH": "รายงานการตรวจปล่อยตามลูกค้า" },
-        { "ReportGroup": "CS", "ReportCode": "JOBPORT", "ReportNameEN": "Job List By Port", "ReportNameTH": "รายงานการตรวจปล่อยตามสถานที่ตรวจปล่อย" },
-        { "ReportGroup": "CS", "ReportCode": "JOBADV", "ReportNameEN": "Advance By Emp", "ReportNameTH": "รายงานการเบิกเงินตามพนักงาน" },
-        { "ReportGroup": "SALES", "ReportCode": "JOBVOLUME", "ReportNameEN": "Job Volume By Cust", "ReportNameTH": "รายงานสรุปงานตามลูกค้า" },
-        { "ReportGroup": "SALES", "ReportCode": "JOBSTATUS", "ReportNameEN": "Job Volume By Status", "ReportNameTH": "รายงานสรุปงานตามสถานะ" },
-        { "ReportGroup": "SALES", "ReportCode": "JOBSALES", "ReportNameEN": "Job Sales By Emp", "ReportNameTH": "รายงานสรุปยอดขายตามพนักงาน" },
-        { "ReportGroup": "SALES", "ReportCode": "JOBCOMM", "ReportNameEN": "Job Commission By Emp", "ReportNameTH": "รายงานสรุปค่าคอมมิชชั่น" },
-        { "ReportGroup": "FIN", "ReportCode": "ADVSUMMARY", "ReportNameEN": "Advance Summary", "ReportNameTH": "รายงานสรุปใบเบิกค่าใช้จ่าย" },
-        { "ReportGroup": "FIN", "ReportCode": "STATEMENT", "ReportNameEN": "Bank Statement", "ReportNameTH": "รายงานการรับจ่ายเงินตามสมุดบัญชี" },
-        { "ReportGroup": "FIN", "ReportCode": "CASHBAL", "ReportNameEN": "Financial Balance", "ReportNameTH": "รายงานสรุปการรับจ่ายเงิน" },
-        { "ReportGroup": "FIN", "ReportCode": "ADVDAILY", "ReportNameEN": "Advance Payment", "ReportNameTH": "รายงานการจ่ายเงินเบิกล่วงหน้า" },
-        { "ReportGroup": "FIN", "ReportCode": "ADVDETAIL", "ReportNameEN": "Advance Expenses Report", "ReportNameTH": "รายงานการเบิกค่าใช้จ่ายแต่ละประเภท" },
-        { "ReportGroup": "FIN", "ReportCode": "EXPDAILY", "ReportNameEN": "Bill-Expense Report", "ReportNameTH": "รายงานบิลค่าใช้จ่าย" },
-        { "ReportGroup": "FIN", "ReportCode": "EXPDETAIL", "ReportNameEN": "Bill-Expense Detail Report", "ReportNameTH": "รายงานบิลค่าใช้จ่ายแต่ละประเภท" },
-        { "ReportGroup": "FIN", "ReportCode": "RCPDAILY", "ReportNameEN": "Receipt Daily", "ReportNameTH": "รายงานใบเสร็จรับเงินประจำวัน" },
-        { "ReportGroup": "FIN", "ReportCode": "RCPDETAIL", "ReportNameEN": "Receipt Expense Detail", "ReportNameTH": "รายงานใบเสร็จรับเงินตามประเภท" },
-        { "ReportGroup": "FIN", "ReportCode": "RCPSUMMARY", "ReportNameEN": "Receipt Summary", "ReportNameTH": "รายงานสรุปใบเสร็จรับเงิน" },
-        { "ReportGroup": "FIN", "ReportCode": "TAXDAILY", "ReportNameEN": "Tax-invoice Daily", "ReportNameTH": "รายงานใบกำกับภาษีประจำวัน" },
-        { "ReportGroup": "FIN", "ReportCode": "TAXSUMMARY", "ReportNameEN": "Tax-invoice Summary", "ReportNameTH": "รายงานสรุปใบกำกับภาษี" },
-        { "ReportGroup": "FIN", "ReportCode": "CASHDAILY", "ReportNameEN": "Transaction Daily", "ReportNameTH": "รายงานการรับจ่ายเงินประจำวัน" },
-        { "ReportGroup": "FIN", "ReportCode": "CHQRECEIVE", "ReportNameEN": "Cheque Customer Receive", "ReportNameTH": "รายงานการรับเช็คประจำวัน" },
-        { "ReportGroup": "FIN", "ReportCode": "CHQISSUE", "ReportNameEN": "Cashier Cheque Issue", "ReportNameTH": "รายงานการจ่ายเช็คประจำวัน" },
-        { "ReportGroup": "FIN", "ReportCode": "CHQCUSTPAY", "ReportNameEN": "Cheque Customer Payment", "ReportNameTH": "รายงานการจ่ายเช็คของลูกค้า" },
-        { "ReportGroup": "FIN", "ReportCode": "CREDITADV", "ReportNameEN": "Credit Advance Summary", "ReportNameTH": "รายงานสรุปใบทดรองจ่าย" },
-        { "ReportGroup": "BILL", "ReportCode": "CLRDAILY", "ReportNameEN": "Clearing Daily", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายประจำวัน" },
-        { "ReportGroup": "BILL", "ReportCode": "CLRDETAIL", "ReportNameEN": "Clearing Expenses Report", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายตามประเภท" },
-        { "ReportGroup": "BILL", "ReportCode": "CLRSUMMARY", "ReportNameEN": "Clearing Summary Status", "ReportNameTH": "รายงานสรุปสถานะการปิดค่าใช้จ่าย" },
-        { "ReportGroup": "BILL", "ReportCode": "INVDAILY", "ReportNameEN": "Invoice Daily", "ReportNameTH": "รายงานใบแจ้งหนี้ประจำวัน" },
-        { "ReportGroup": "BILL", "ReportCode": "INVDETAIL", "ReportNameEN": "Invoice Expenses Detail", "ReportNameTH": "รายงานใบแจ้งหนี้ตามประเภท" },
-        { "ReportGroup": "BILL", "ReportCode": "INVSTATUS", "ReportNameEN": "Invoice Status", "ReportNameTH": "รายงานสถานะใบแจ้งหนี้" },
-        { "ReportGroup": "BILL", "ReportCode": "BILLDAILY", "ReportNameEN": "Billing Daily", "ReportNameTH": "รายงานใบวางบิลประจำวัน" },
-        { "ReportGroup": "ACC", "ReportCode": "JOBCOST", "ReportNameEN": "Job Costing And Profit", "ReportNameTH": "รายงานต้นทุนและกำไรขั้นต้นตามจ๊อบ" },
-        { "ReportGroup": "ACC", "ReportCode": "JOBSUMMARY", "ReportNameEN": "Job Costing Summary", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามจ๊อบ" },
-        { "ReportGroup": "ACC", "ReportCode": "CUSTSUMMARY", "ReportNameEN": "Customer Costing Summary", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามลูกค้า" },
-        { "ReportGroup": "ACC", "ReportCode": "INVSUMMARY", "ReportNameEN": "Invoice Costing Summary", "ReportNameTH": "รายงานสรุปต้นทุนตามใบแจ้งหนี้" },
-        { "ReportGroup": "ACC", "ReportCode": "BOOKBAL", "ReportNameEN": "Book Accounts Balance", "ReportNameTH": "รายงานการใช้จ่ายเงินตามสมุดบัญชี" },
-        { "ReportGroup": "ACC", "ReportCode": "VATSALES", "ReportNameEN": "Output VAT Report", "ReportNameTH": "รายงานภาษีขาย" },
-        { "ReportGroup": "ACC", "ReportCode": "VATBUY", "ReportNameEN": "Input VAT Report", "ReportNameTH": "รายงานภาษีซื้อ" },
-        { "ReportGroup": "ACC", "ReportCode": "WHTDAILY", "ReportNameEN": "Withholding-Tax Issue Report", "ReportNameTH": "รายงานการออกหนังสือหัก ณ ที่จ่าย" },
-        { "ReportGroup": "ACC", "ReportCode": "WHTAXSUM", "ReportNameEN": "Withholding-Tax Summary Report", "ReportNameTH": "รายงานสรุปการออกหนังสือหัก ณ ที่จ่าย" },
-        { "ReportGroup": "ACC", "ReportCode": "WHTAXCLR", "ReportNameEN": "Withholding-Tax Clearing Report", "ReportNameTH": "รายงานหัก ณ ที่จ่ายจากการปิดค่าใช้จ่าย" },
-        { "ReportGroup": "ACC", "ReportCode": "PRD3", "ReportNameEN": "PRD-3 Cover Report", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.3 (ใบปะหน้า)" },
-        { "ReportGroup": "ACC", "ReportCode": "PRD53", "ReportNameEN": "PRD-53 Cover Report", "ReportNameTH": "รายงานนำส่ง หัก ณ ที่จ่าย ภ.ง.ด.53 (ใบปะหน้า)" },
-        { "ReportGroup": "ACC", "ReportCode": "PRD3D", "ReportNameEN": "PRD-3 Detail Report", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.3 (ใบแนบ)" },
-        { "ReportGroup": "ACC", "ReportCode": "PRD53D", "ReportNameEN": "PRD-53 Detail Report", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.53 (ใบแนบ)" },
-        { "ReportGroup": "ACC", "ReportCode": "ACCEXP", "ReportNameEN": "Account Payable Report", "ReportNameTH": "รายงานค่าใช้จ่าย" },
-        { "ReportGroup": "ACC", "ReportCode": "ACCINC", "ReportNameEN": "Account Receiable Report", "ReportNameTH": "รายงานรายได้" },
-        { "ReportGroup": "ACC", "ReportCode": "ARBAL", "ReportNameEN": "Accrue Income Report", "ReportNameTH": "รายงานลูกหนี้คงเหลือ" },
-        { "ReportGroup": "ACC", "ReportCode": "APBAL", "ReportNameEN": "Accrue Expense Report", "ReportNameTH": "รายงานเจ้าหนี้คงค้าง" },
-        { "ReportGroup": "ACC", "ReportCode": "CNDN", "ReportNameEN": "Credit/Debit Note Report", "ReportNameTH": "รายงานการปรับปรุงหนี้" },
-        { "ReportGroup": "ACC", "ReportCode": "TRIALBAL", "ReportNameEN": "Trial Balance Report", "ReportNameTH": "รายงานงบทดลอง" },
-        { "ReportGroup": "ACC", "ReportCode": "BALANCS", "ReportNameEN": "Balance Sheet", "ReportNameTH": "รายงานงบดุล" },
-        { "ReportGroup": "ACC", "ReportCode": "PROFITLOSS", "ReportNameEN": "Profit And Loss", "ReportNameTH": "รายงานงบกำไรขาดทุน" },
-        { "ReportGroup": "ACC", "ReportCode": "CASHFLOW", "ReportNameEN": "Cash Flow", "ReportNameTH": "รายงานงบกระแสเงินสด" },
-        { "ReportGroup": "ACC", "ReportCode": "PVDAILY", "ReportNameEN": "Payment Voucher Report", "ReportNameTH": "รายงานใบสำคัญจ่ายรายวัน" },
-        { "ReportGroup": "ACC", "ReportCode": "RVDAILY", "ReportNameEN": "Receive Voucher Report", "ReportNameTH": "รายงานใบสำคัญรับรายวัน" },
-        { "ReportGroup": "ACC", "ReportCode": "JOURNAL", "ReportNameEN": "Journal Entry Report", "ReportNameTH": "รายงานสมุดรายวัน" }
-    ];
-}
 function SetLanguage(lang) {
     for (let id in lang) {
         let obj = $('#' + id);
@@ -1488,6 +1421,7 @@ function ChangeLanguageForm(fname) {
                 linkSave: 'Save|บันทึก',
                 linkDelete: 'Delete|ลบ',
                 linkAddUser: 'Add Staff|เพิ่มพนักงาน',
+                linkCopyUser: 'Copy Authorize From User|คัดลอกสิทธิ์จากพนักงาน',
                 linkDeleteUser: 'Remove Staff|ลบพนักงาน',
                 linkAddRole:'Apply Policy|บันทึกสิทธิ์การใช้งาน'
             };
@@ -2506,11 +2440,15 @@ function ChangeLanguageForm(fname) {
             if (group == null) {
                 group = 'N/A';
                 let reportGroups = [
-                    { "ConfigKey": "ACC", "ConfigValue": "Account Reports|รายงานแผนกบัญชี" },
-                    { "ConfigKey": "BILL", "ConfigValue": "Finance Reports|รายงานแผนกบิลลิ่ง" },
-                    { "ConfigKey": "CS", "ConfigValue": "CS Reports|รายงานแผนกบริการลูกค้า" },
-                    { "ConfigKey": "FIN", "ConfigValue": "Finance Reports|รายงานแผนกการเงิน" },
-                    { "ConfigKey": "SALES", "ConfigValue": "Sales Reports|รายงานแผนกการตลาด" }
+                    { "ConfigKey": "ACC", "ConfigValue": "Accounting Reports / รายงานแผนกบัญชี" },
+                    { "ConfigKey": "ADV", "ConfigValue": "Advancing Reports / รายงานการเบิกเงิน" },
+                    { "ConfigKey": "CLR", "ConfigValue": "Clearing Reports / รายงานการปิดบัญชี" },
+                    { "ConfigKey": "JOB", "ConfigValue": "Operation Reports / รายงานการปฏิบัติงาน" },
+                    { "ConfigKey": "INV", "ConfigValue": "Invoicing Reports / รายงานใบแจ้งหนี้" },
+                    { "ConfigKey": "RCV", "ConfigValue": "Receiving Reports / รายงานใบเสร็จ/ใบกำกับภาษี" },
+                    { "ConfigKey": "FIN", "ConfigValue": "Financial Reports / รายงานแผนกการเงิน" },
+                    { "ConfigKey": "MKT", "ConfigValue": "Marketing Reports / รายงานแผนกการตลาด" },
+                    { "ConfigKey": "EXE", "ConfigValue": "Executives Reports / รายงานสำหรับผู้บริหาร" }
                 ];
                 loadComboArray('#cboReportGroup', reportGroups, 'N/A');
             }
@@ -2664,6 +2602,73 @@ function ChangeLanguageForm(fname) {
             break;
     }    
 }
+function GetReportLists() {
+    return [
+        { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBDAILY", "ReportNameEN": "Job List Daily", "ReportNameTH": "รายงานการตรวจปล่อยตามวันที่" },
+        { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBCS", "ReportNameEN": "Job List By CS", "ReportNameTH": "รายงานการตรวจปล่อยตามพนักงานบริการลูกค้า" },
+        { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBFOLLOWUP", "ReportNameEN": "Job List By Status", "ReportNameTH": "รายงานสถานะงาน" },
+        { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBSHP", "ReportNameEN": "Job List By Shipping", "ReportNameTH": "รายงานการตรวจปล่อยตามชิปปิ้ง" },
+        { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBTYPE", "ReportNameEN": "Job List By Type", "ReportNameTH": "รายงานการตรวจปล่อยตามประเภทงาน" },
+        { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBSHIPBY", "ReportNameEN": "Job List By Transport", "ReportNameTH": "รายงานการตรวจปล่อยตามลักษณะงานขนส่ง" },
+        { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBCUST", "ReportNameEN": "Job List By Customer", "ReportNameTH": "รายงานการตรวจปล่อยตามลูกค้า" },
+        { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBPORT", "ReportNameEN": "Job List By Port", "ReportNameTH": "รายงานการตรวจปล่อยตามสถานที่ตรวจปล่อย" },
+        { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBADV", "ReportNameEN": "Advance By Emp", "ReportNameTH": "รายงานการเบิกเงินตามพนักงาน" },
+        { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "ADVSUMMARY", "ReportNameEN": "Advance Summary", "ReportNameTH": "รายงานสรุปใบเบิกค่าใช้จ่าย" },
+        { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "ADVDAILY", "ReportNameEN": "Advance Payment", "ReportNameTH": "รายงานการจ่ายเงินเบิกล่วงหน้า" },
+        { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "ADVDETAIL", "ReportNameEN": "Advance Expenses Report", "ReportNameTH": "รายงานการเบิกค่าใช้จ่ายแต่ละประเภท" },
+        { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "CREDITADV", "ReportNameEN": "Credit Advance Summary", "ReportNameTH": "รายงานสรุปใบทดรองจ่าย" },
+        { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "EXPDAILY", "ReportNameEN": "Bill-Expense Report", "ReportNameTH": "รายงานบิลค่าใช้จ่าย" },
+        { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "EXPDETAIL", "ReportNameEN": "Bill-Expense Detail Report", "ReportNameTH": "รายงานบิลค่าใช้จ่ายแต่ละประเภท" },
+        { "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "CLRDAILY", "ReportNameEN": "Clearing Daily", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายประจำวัน" },
+        { "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "CLRDETAIL", "ReportNameEN": "Clearing Expenses Report", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายตามประเภท" },
+        { "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "CLRSUMMARY", "ReportNameEN": "Clearing Summary Status", "ReportNameTH": "รายงานสรุปสถานะการปิดค่าใช้จ่าย" },
+        { "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "WHTAXCLR", "ReportNameEN": "Withholding-Tax Clearing Report", "ReportNameTH": "รายงานหัก ณ ที่จ่ายจากการปิดค่าใช้จ่าย" },
+        { "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99","ReportCode": "RCPDAILY", "ReportNameEN": "Receipt Daily", "ReportNameTH": "รายงานใบเสร็จรับเงินประจำวัน" },
+        { "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "RCPDETAIL", "ReportNameEN": "Receipt Expense Detail", "ReportNameTH": "รายงานใบเสร็จรับเงินตามประเภท" },
+        { "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "RCPSUMMARY", "ReportNameEN": "Receipt Summary", "ReportNameTH": "รายงานสรุปใบเสร็จรับเงิน" },
+        { "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "TAXDAILY", "ReportNameEN": "Tax-invoice Daily", "ReportNameTH": "รายงานใบกำกับภาษีประจำวัน" },
+        { "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "TAXSUMMARY", "ReportNameEN": "Tax-invoice Summary", "ReportNameTH": "รายงานสรุปใบกำกับภาษี" },
+        { "ReportGroup": "MKT", "ReportAuthor": "1,2,3,6,99", "ReportCode": "JOBVOLUME", "ReportNameEN": "Job Volume By Cust", "ReportNameTH": "รายงานสรุปงานตามลูกค้า" },
+        { "ReportGroup": "MKT", "ReportAuthor": "1,2,3,6,99", "ReportCode": "JOBSTATUS", "ReportNameEN": "Job Volume By Status", "ReportNameTH": "รายงานสรุปงานตามสถานะ" },
+        { "ReportGroup": "MKT", "ReportAuthor": "1,2,3,6,99", "ReportCode": "JOBSALES", "ReportNameEN": "Job Sales By Emp", "ReportNameTH": "รายงานสรุปยอดขายตามพนักงาน" },
+        { "ReportGroup": "MKT", "ReportAuthor": "1,2,3,6,99", "ReportCode": "JOBCOMM", "ReportNameEN": "Job Commission By Emp", "ReportNameTH": "รายงานสรุปค่าคอมมิชชั่น" },
+        { "ReportGroup": "INV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "INVDAILY", "ReportNameEN": "Invoice Daily", "ReportNameTH": "รายงานใบแจ้งหนี้ประจำวัน" },
+        { "ReportGroup": "INV", "ReportAuthor": "1,2,6,98,99","ReportCode": "INVDETAIL", "ReportNameEN": "Invoice Expenses Detail", "ReportNameTH": "รายงานใบแจ้งหนี้ตามประเภท" },
+        { "ReportGroup": "INV", "ReportAuthor": "1,2,6,98,99","ReportCode": "INVSTATUS", "ReportNameEN": "Invoice Status", "ReportNameTH": "รายงานสถานะใบแจ้งหนี้" },
+        { "ReportGroup": "INV", "ReportAuthor": "1,2,6,98,99","ReportCode": "INVSUMMARY", "ReportNameEN": "Invoice Costing Summary", "ReportNameTH": "รายงานสรุปต้นทุนตามใบแจ้งหนี้" },
+        { "ReportGroup": "INV", "ReportAuthor": "1,2,6,98,99","ReportCode": "BILLDAILY", "ReportNameEN": "Billing Daily", "ReportNameTH": "รายงานใบวางบิลประจำวัน" },
+        { "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "STATEMENT", "ReportNameEN": "Bank Statement", "ReportNameTH": "รายงานการรับจ่ายเงินตามสมุดบัญชี" },
+        { "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "CASHBAL", "ReportNameEN": "Financial Balance", "ReportNameTH": "รายงานสรุปการรับจ่ายเงิน" },
+        { "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "BOOKBAL", "ReportNameEN": "Book Accounts Balance", "ReportNameTH": "รายงานการใช้จ่ายเงินตามสมุดบัญชี" },
+        { "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "CASHDAILY", "ReportNameEN": "Transaction Daily", "ReportNameTH": "รายงานการรับจ่ายเงินประจำวัน" },
+        { "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "CHQRECEIVE", "ReportNameEN": "Cheque Customer Receive", "ReportNameTH": "รายงานการรับเช็คประจำวัน" },
+        { "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "CHQISSUE", "ReportNameEN": "Cashier Cheque Issue", "ReportNameTH": "รายงานการจ่ายเช็คประจำวัน" },
+        { "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "CHQCUSTPAY", "ReportNameEN": "Cheque Customer Payment", "ReportNameTH": "รายงานการจ่ายเช็คของลูกค้า" },
+        { "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "WHTDAILY", "ReportNameEN": "Withholding-Tax Issue Report", "ReportNameTH": "รายงานการออกหนังสือหัก ณ ที่จ่าย" },
+        { "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "WHTAXSUM", "ReportNameEN": "Withholding-Tax Summary Report", "ReportNameTH": "รายงานสรุปการออกหนังสือหัก ณ ที่จ่าย" },
+        { "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "PRD3", "ReportNameEN": "PRD-3 Cover Report", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.3 (ใบปะหน้า)" },
+        { "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "PRD53", "ReportNameEN": "PRD-53 Cover Report", "ReportNameTH": "รายงานนำส่ง หัก ณ ที่จ่าย ภ.ง.ด.53 (ใบปะหน้า)" },
+        { "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "PRD3D", "ReportNameEN": "PRD-3 Detail Report", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.3 (ใบแนบ)" },
+        { "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "PRD53D", "ReportNameEN": "PRD-53 Detail Report", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.53 (ใบแนบ)" },
+        { "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "CASHFLOW", "ReportNameEN": "Cash Flow", "ReportNameTH": "รายงานงบกระแสเงินสด" },
+        { "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "JOBCOST", "ReportNameEN": "Job Costing And Profit", "ReportNameTH": "รายงานต้นทุนและกำไรขั้นต้นตามจ๊อบ" },
+        { "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "JOBSUMMARY", "ReportNameEN": "Job Costing Summary", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามจ๊อบ" },
+        { "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "CUSTSUMMARY", "ReportNameEN": "Customer Costing Summary", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามลูกค้า" },
+        { "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "VATSALES", "ReportNameEN": "Output VAT Report", "ReportNameTH": "รายงานภาษีขาย" },
+        { "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "VATBUY", "ReportNameEN": "Input VAT Report", "ReportNameTH": "รายงานภาษีซื้อ" },
+        { "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "ACCEXP", "ReportNameEN": "Account Payable Report", "ReportNameTH": "รายงานค่าใช้จ่าย" },
+        { "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "ACCINC", "ReportNameEN": "Account Receiable Report", "ReportNameTH": "รายงานรายได้" },
+        { "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "ARBAL", "ReportNameEN": "Accrue Income Report", "ReportNameTH": "รายงานลูกหนี้คงเหลือ" },
+        { "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "APBAL", "ReportNameEN": "Accrue Expense Report", "ReportNameTH": "รายงานเจ้าหนี้คงค้าง" },
+        { "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "CNDN", "ReportNameEN": "Credit/Debit Note Report", "ReportNameTH": "รายงานการปรับปรุงหนี้" },
+        { "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "PVDAILY", "ReportNameEN": "Payment Voucher Report", "ReportNameTH": "รายงานใบสำคัญจ่ายรายวัน" },
+        { "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "RVDAILY", "ReportNameEN": "Receive Voucher Report", "ReportNameTH": "รายงานใบสำคัญรับรายวัน" },
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99","ReportCode": "TRIALBAL", "ReportNameEN": "Trial Balance Report", "ReportNameTH": "รายงานงบทดลอง" },
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99","ReportCode": "BALANCS", "ReportNameEN": "Balance Sheet", "ReportNameTH": "รายงานงบดุล" },
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99","ReportCode": "PROFITLOSS", "ReportNameEN": "Profit And Loss", "ReportNameTH": "รายงานงบกำไรขาดทุน" },
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99","ReportCode": "JOURNAL", "ReportNameEN": "Journal Entry Report", "ReportNameTH": "รายงานสมุดรายวัน" }
+    ];
+}
 function GetLanguage(msg) {
     if (mainLanguage == "TH") {
         let lang = {
@@ -2692,7 +2697,6 @@ function SetGridLang(id,lang) {
         }
     }
 }
-
 function ChangeLanguageGrid(module, id) {
     let gridLang = [];
     switch (module) {

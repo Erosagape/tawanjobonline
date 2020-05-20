@@ -46,7 +46,7 @@ End Code
                             <div class="tab-pane fade" id="tabUser">
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <label id="lblUser">UserID :</label>                                        
+                                        <label id="lblUser">UserID :</label>
                                         <br />
                                         <div style="display:flex">
                                             <input type="text" id="txtUserID" class="form-control" style="width:40%" tabIndex="1" />
@@ -72,6 +72,10 @@ End Code
                                 <a href="#" class="btn btn-danger" id="btnDeleteUser" onclick="DeleteUser()">
                                     <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDeleteUser">Remove User</b>
                                 </a>
+                                <a href="#" class="btn btn-primary" id="btnCopyUser" onclick="CopyUser()">
+                                    <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkCopyUser">Copy Authorize From User</b>
+                                </a>
+                                <input type="text" id="txtUserFrom" />
                             </div>
                             <div class="tab-pane fade in active" id="tabPolicy">
                                 <label id="lblFunction">Module:</label>                                            
@@ -344,6 +348,15 @@ End Code
         } else {
             ShowMessage('No data to save',true);
         }
+    }
+    function CopyUser() {
+        let userFrom = $('#txtUserFrom').val();
+        ShowConfirm("Do you need to copy rights from " + userFrom + " to " + $('#txtUserID').val(), (ask) => {
+            if (ask == false) return;
+            $.get(path + 'Config/CopyMenuAuth?From=' + userFrom + '&To=' + $('#txtUserID').val()).done(function (r) {
+                ShowMessage(r);
+            });
+        });
     }
     function SavePolicy() {
         var obj={			
