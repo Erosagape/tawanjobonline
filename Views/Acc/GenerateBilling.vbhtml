@@ -209,7 +209,7 @@ End Code
         $.get(path + 'acc/getinvforbill?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                if (isAlert==true) ShowMessage('data not found',true);
+                if (isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
             let h = r.invdetail.data;
@@ -276,11 +276,11 @@ End Code
     }
     function ShowSummary() {
         if ($('#txtCustCode').val() == '') {
-            ShowMessage('Please select Customer first',true);
+            ShowMessage('Please choose customer first',true);
             return;
         }
         if (arr.length == 0) {
-            ShowMessage('no data to approve',true);
+            ShowMessage('No data to approve',true);
             return;
         }
         let totaladv = 0;
@@ -378,7 +378,7 @@ End Code
     }
     function ApproveData() {
         if ($('#txtBillToCustCode').val() == '') {
-            ShowMessage('Please select billing Place',true);
+            ShowMessage('Please choose billing place',true);
             return;
         }
         let dataInv = {

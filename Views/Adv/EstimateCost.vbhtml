@@ -23,6 +23,7 @@ End Code
     <div class="col-sm-2">
         <br />
         <button id="btnAutoEntry" class="btn btn-primary" onclick="LoadFromQuo()">Load from Quotation</button>
+        <button id="btnAutoEntryC" class="btn btn-warning" onclick="LoadFromClr()">Load from Clearing</button>
     </div>
 </div>
 <div class="row">
@@ -222,7 +223,7 @@ End Code
         let branch = $('#txtBranchCode').val();
         let code = $('#txtSICode').val();
         let job = $('#txtJNo').val();
-        ShowConfirm("Do you need to Delete " + code + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'adv/delclearexp?branch=' + branch + '&code=' + code + '&job=' + job, function (r) {
                 ShowMessage(r.estimate.result);
@@ -270,7 +271,7 @@ End Code
             AmtTotal: $('#txtAmtTotal').val()
         };
         if (obj.SICode != "") {
-            ShowConfirm("Do you need to Save " + obj.SICode + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 let jsonText = JSON.stringify({ data: obj });
                 //alert(jsonText);
@@ -293,7 +294,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function ClearData() {
@@ -438,7 +439,7 @@ End Code
     }
     function CopyData() {
         if ($('#txtJobCopyFrom').val() == '') {
-            ShowMessage('Please Enter Job To Copy Data From',true);
+            ShowMessage('Please enter job to use for copy data',true);
             return;
         }
         let w = $('#txtBranchCode').val() + '|' + $('#txtJobCopyFrom').val() + '=' + $('#txtBranchCode').val() + '|' + $('#txtJNo').val();
@@ -455,6 +456,15 @@ End Code
             }
         });
     }
+    function LoadFromClr() {
+        $.get(path + 'Clr/GetClearExpFromClr?Branch=' + $('#txtBranchCode').val() + '&Job=' + $('#txtJNo').val())
+        .done(function (r) {
+            if (r.estimate.data.length > 0) {
+                RefreshGrid();
+            }
+        });
+    }
+
     function PrintData() {
         window.open(path + 'Adv/FormEstimate?branch=' + $('#txtBranchCode').val() + '&job=' + $('#txtJNo').val());
     }

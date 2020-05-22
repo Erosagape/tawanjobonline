@@ -167,7 +167,7 @@ End Code
     }
     function DeleteData() {
         var code = $('#txtVenCode').val();
-        ShowConfirm("Do you need to Delete " + code + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delvender?code=' + code, function (r) {
                 ShowMessage(r.vender.result);
@@ -179,14 +179,14 @@ End Code
     function SaveData() {
         var obj = GetDataSave();
         if (obj.VenCode == '') {
-            ShowMessage('Please enter vender code',true);
+            ShowMessage('Please input code',true);
             return;
         }
         if (obj.TName == '') {
-            ShowMessage('Please enter vender name',true);
+            ShowMessage('Please input name',true);
             return;
         }
-        ShowConfirm("Do you need to " + (obj.VenCode == "" ? "Add" : "Save") + " this data?", function (ask) {
+        ShowConfirm('Do you need to save this data?', function (ask) {
             if (ask == false) return;
             let jsonText = JSON.stringify({ data: obj });
             //ShowMessage(jsonText);
@@ -243,7 +243,7 @@ End Code
                 $('#btnDel').attr('disabled', 'disabled');
             }
         } else {
-            ShowMessage('Data Not Found',true);
+            ShowMessage('Data not found',true);
             ClearData();
         }
         //$('#txtVenCode').focus();

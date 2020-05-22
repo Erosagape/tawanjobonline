@@ -520,7 +520,7 @@ End Code
         {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                ShowMessage('data not found',true);
+                ShowMessage('Data not found',true);
                 return;
             }
             let h = r.invdetail.data;
@@ -598,7 +598,7 @@ End Code
                 if (userRights.indexOf('E') > 0) {
                     $('#frmHeader').modal('show');
                 } else {
-                    ShowMessage('you are not allow to edit invoice document',true);
+                    ShowMessage('You are not allow to edit',true);
                 }
             });
         });
@@ -674,7 +674,7 @@ End Code
                         let data = $('#tbDetail').DataTable().row(this).data();
                         LoadDetail(data);
                     } else {
-                        ShowMessage('you are not allow to edit invoice',true);
+                        ShowMessage('You are not allow to edit',true);
                     }
                 });
             }
@@ -775,7 +775,7 @@ End Code
                 }
             });
         } else {
-            ShowMessage('no data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function DeleteDetail() {
@@ -788,7 +788,7 @@ End Code
                     ShowMessage(r.invdetail.result);
                 });
         } else {
-            ShowMessage('no data to delete',true);
+            ShowMessage('No data to delete',true);
         }
 
     }
@@ -895,7 +895,7 @@ End Code
             $('#txtCancelTime').val(ShowTime(GetTime()));
             $('#txtCancelProve').val(user);
         } else {
-            ShowMessage('you are not allow to cancel invoice',true);
+            ShowMessage('You are not allow to cancel',true);
         }
     }
     function ReadData() {

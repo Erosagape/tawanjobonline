@@ -307,7 +307,7 @@ End Code
     }
     function SetGridClr(isAlert) {
         if ($('#txtSICode').val() === "") {
-            ShowMessage('Please Select Expense Code to Clear', true);
+            ShowMessage('Please input expense code', true);
             return;
         }
         arr = [];
@@ -332,7 +332,7 @@ End Code
         $.get(path + 'clr/getclearingreport?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                if (isAlert==true) ShowMessage('data not found',true);
+                if (isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
             let h = r.data[0].Table;
@@ -407,7 +407,7 @@ End Code
     }
     function ApproveData(docno) {
         if (arr.length < 0) {
-            ShowMessage('no data to approve',true);
+            ShowMessage('No data to approve',true);
             return;
         }
         let dataApp = [];
@@ -602,22 +602,22 @@ End Code
     }
     function SaveExpense() {       
         if ($('#txtRefBook').val() == '') {
-            ShowMessage('Please Select book account', true);
+            ShowMessage('Please select book account', true);
             return;
         }
         if ($('#txtRefBank').val() == '') {
-            ShowMessage('Please Select bank', true);
+            ShowMessage('Please input bank and branch', true);
             return;
         }
         if ($('#txtRefDate').val() == '') {
-            ShowMessage('Please Select Ref.date', true);
+            ShowMessage('Please input reference date', true);
             return;
         }
         if ($('#txtRefNo').val() == '') {
-            ShowMessage('Please Select Ref.No', true);
+            ShowMessage('Please input reference number', true);
             return;
         }
-        ShowConfirm("Do you need to Save?", function (ask) {
+        ShowConfirm('Do you need to save this data?', function (ask) {
             if (ask == false) return;
             SaveEarnest();
         });

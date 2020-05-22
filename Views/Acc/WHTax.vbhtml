@@ -607,7 +607,7 @@ End Code
         let code = $('#txtBranchCode').val();
         $.get(path + 'acc/getwhtaxgrid?branch=' + code, function (r) {
             if (r.whtax.data.length == 0) {
-                ShowMessage('data not found on this branch',true);
+                ShowMessage('Data not found',true);
                 return;
             }
             let h = r.whtax.data[0].Table;
@@ -964,7 +964,7 @@ End Code
         return obj;
     }
     function SaveHeader(showalert = true) {
-        ShowConfirm("Do you need to Save?", function (ask) {
+        ShowConfirm('Do you need to save this data?', function (ask) {
             if (ask == false) return;
             let obj = GetDataHeader();
             let jsonText = JSON.stringify({ data: obj });
@@ -994,12 +994,12 @@ End Code
             $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'cancel document!' : 'do this!'),true);
+        ShowMessage('You are not allow to do this',true);
         $('#chkCancel').prop('checked', !chkmode);
     }
     function SaveDetail() {
         if ($('#txtDocNo').val() == '') {
-            ShowMessage('Save Header First',true);
+            ShowMessage('Please save document before add detail',true);
             return;
         }
         //SaveHeader(false);
@@ -1038,7 +1038,7 @@ End Code
         });
     }
     function DeleteDetail() {
-        ShowConfirm("Do you need to Delete Item " + $('#txtItemNo').val() + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
 
             let branch = $('#txtBranchCode').val();
@@ -1075,7 +1075,7 @@ End Code
     }
     function PrintData() {
         if (userRights.indexOf('P') < 0) {
-            ShowMessage('you are not authorize to print',true);
+            ShowMessage('You are not allow to print',true);
             return;
         }
         window.open(path + 'Acc/FormWHTax?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtDocNo').val());

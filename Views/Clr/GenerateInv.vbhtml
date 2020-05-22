@@ -450,7 +450,7 @@ End Code
         $('#tbHeader').DataTable().clear().draw();
         $.get(path + 'acc/getclearforinv?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
-                if (isAlert==true) ShowMessage('data not found',true);
+                if (isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
             let h = r.invdetail.data;
@@ -590,11 +590,11 @@ End Code
     }
     function ShowSummary() {
         if ($('#txtCustCode').val() == '') {
-            ShowMessage('Please Select Customer Before',true);
+            ShowMessage('Please choose customer first',true);
             return;
         }
         if (arr.length == 0) {
-            ShowMessage('No data selected',true);
+            ShowMessage('No data to approve',true);
             return;
         }
 
@@ -908,15 +908,15 @@ End Code
     }
     function ApproveData() {
         if (userRights.indexOf('I') < 0) {
-            ShowMessage('you are not authorize to create invoice',true);
+            ShowMessage('You are not allow to add',true);
             return;
         }
         if (arr.length==0) {
-            ShowMessage('no data to approve',true);
+            ShowMessage('No data to approve',true);
             return;
         }
         if ($('#txtCustCode').val() == '') {
-            ShowMessage('Please select Customer first!',true);
+            ShowMessage('Please choose customer first',true);
             return;
         }
         if ($('#txtDocNo').val() !== '') {
@@ -1138,7 +1138,7 @@ End Code
             $('#txtControlNo').val(dt.ControlNo);
             return;
         } else {
-            ShowMessage('Cheque amount is zero',true);
+            ShowMessage('Value must be more than zero',true);
         }
     }
     function ReadBranch(dt) {
@@ -1382,13 +1382,14 @@ End Code
         if (c.ChqAmount <= (CNum($('#txtTotalNet').val()) + CNum($('#txtTotal50Tavi').val()))) {
             $('#txtChqAmount').val(CDbl(c.ChqAmount,2));
         } else {
-            ShowMessage('Cheque Amount is more than total invoices',true);
-            return;
+            //ShowMessage('Cheque Amount is more than total invoices', true);
+            c.ChqAmount = (CNum($('#txtTotalNet').val()) + CNum($('#txtTotal50Tavi').val()));
+            $('#txtChqAmount').val(CDbl((CNum($('#txtTotalNet').val()) + CNum($('#txtTotal50Tavi').val())),2));
         }
         if (chq.indexOf(c) < 0) {
             chq.push(c);
         } else {
-            ShowMessage('This amount has been added',true);
+            ShowMessage('This data is duplicate',true);
             return;
         }
         $('#txtChqNo').val('');

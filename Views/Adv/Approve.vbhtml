@@ -177,7 +177,7 @@ End Code
         $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.adv.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                if (isAlert==true) ShowMessage('data not found',true);
+                if (isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
             let h = r.adv.data[0].Table;
@@ -255,7 +255,7 @@ End Code
     }
     function ApproveData() {
         if (arr.length < 0) {
-            ShowMessage('no data to approve',true);
+            ShowMessage('No data to approve',true);
             return;
         }
         let dataApp = [];

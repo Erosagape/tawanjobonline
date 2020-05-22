@@ -199,7 +199,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.UserID & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -1642,7 +1642,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.RoleID & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -1669,7 +1669,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.UserID & """,""msg"":""" & msg & """,""log"":""" + log + """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save"",""log"":null}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save"",""log"":null}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -1696,7 +1696,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.ModuleID & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -1798,7 +1798,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.Message & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception

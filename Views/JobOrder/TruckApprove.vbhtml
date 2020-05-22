@@ -473,7 +473,7 @@ End Code
             DeliveryNo: row.DeliveryNo
         };
         if (obj.ItemNo != "") {
-            ShowConfirm("Do you need to Save " + obj.ItemNo + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 row = obj;
                 let jsonText = JSON.stringify({ data: obj });
@@ -496,14 +496,14 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
         }
     function EntryExpenses() {
         if ($('#txtCauseCode').val() == '2' || $('#txtCauseCode').val() == '3') {
             window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&BookNo=' + row.BookingNo + '&Item=' + $('#txtItemNo').val() + '&Job=' + row.JNo + '&Vend=' + $('#txtVenCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust=' + $('#txtCustCode').val(), '', '');
         } else {
-            ShowMessage('This Container status not allow to entry Expenses', true);
+            ShowMessage('Current document status is not allow to do this', true);
         }
     }
 </script>

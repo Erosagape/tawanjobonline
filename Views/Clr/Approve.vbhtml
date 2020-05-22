@@ -159,7 +159,7 @@ End Code
         $.get(path + 'clr/getclearinggrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.clr.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                if (isAlert==true) ShowMessage('data not found',true);
+                if (isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
             let h = r.clr.data[0].Table;
@@ -243,7 +243,7 @@ End Code
     }
     function ApproveData() {
         if (arr.length < 0) {
-            ShowMessage('no data to approve',true);
+            ShowMessage('No data to approve',true);
             return;
         }
         let dataApp = [];

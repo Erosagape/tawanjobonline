@@ -1,7 +1,7 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.Title = "Pre-invoice"
-    ViewBag.ReportName = "Pre-invoice"
+    ViewBag.Title = "PRE-INVOICE"
+    ViewBag.ReportName = "PRE-INVOICE"
 End Code
 <div style="float:right">
     <b>Shipment No : </b><label id="lblJNo"></label>
@@ -58,7 +58,7 @@ End Code
 </div>
 <hr style="border-style:solid;" />
 <div style="display:flex;text-align:center;">
-    <div style="width:30%">
+    <div style="width:20%">
         <u><b>DESCRIPTION</b></u>
     </div>
     <div style="width:5%">
@@ -67,25 +67,32 @@ End Code
     <div style="width:15%">
         <u><b>CURRENCY</b></u>
     </div>
-    <div style="width:20%">
+    <div style="width:10%">
         <u><b>QTY</b></u>
     </div>
     <div style="width:10%">
         <u><b>UNIT</b></u>
     </div>
     <div style="width:20%">
-        <u><b>AMOUNT</b></u>
+        <u><b>EXPENSES</b></u>
+    </div>
+    <div style="width:20%">
+        <u><b>CHARGES</b></u>
     </div>
 </div>
 <div style="height:250px" id="dvDetail">
 </div>
 <hr style="border-style:solid;" />
 <div style="width:80%;text-align:right;float:left">
-    <b>Amount:</b><br />
+    <b>Expenses:</b><br />
+    <b>Charges:</b><br />
     <b>Vat:</b><br />
     <b>Total:</b><br />
 </div>
 <div style="width:20%;float:right;text-align:right;">
+    <div style="display:block;width:100%">
+        <label id="lblSumCost"></label>
+    </div>
     <div style="display:block;width:100%">
         <label id="lblSumAmount"></label>
     </div>
@@ -100,7 +107,7 @@ End Code
     let path = '@Url.Content("~")';
     let branch = getQueryString("Branch");
     let job = getQueryString("Job");
-    $.get(path + 'Adv/GetClearExp?Branch=' + branch + '&Job=' + job).done(function (r) {
+    $.get(path + 'Adv/GetClearExpReport?Branch=' + branch + '&Job=' + job).done(function (r) {
         if (r.estimate.data.length > 0) {
             let dr = r.estimate.data;
             CallBackQueryJob(path, branch, job, ReadJob);
@@ -146,22 +153,32 @@ End Code
         let totamt = 0;
         let totvat = 0;
         let total = 0;
+        let totcost = 0;
         for (let r of dt) {
             html += '<div style="display:flex;width:100%">';
-            html += '<div style="width:30%">'+ r.SDescription +'</div>';
+            html += '<div style="width:20%">'+ r.SDescription +'</div>';
             html += '<div style="width:5%">' + r.ExchangeRate + '</div>';
             html += '<div style="width:15%;text-align:center">' + r.CurrencyCode + '</div>';
-            html += '<div style="width:20%;text-align:center">' + r.Qty + '</div>';
+            html += '<div style="width:10%;text-align:center">' + r.Qty + '</div>';
             html += '<div style="width:10%;text-align:center">' + r.QtyUnit + '</div>';
-            html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmountCharge,2)) + '</div>';
+            if (r.ClrNo == null) {
+                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmountCharge, 2)) + '</div>';
+                html += '<div style="width:20%;text-align:right">0.00</div>';
+            } else {
+                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.CostAmount, 2)) + '</div>';
+                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.ChargeAmount,2)) + '</div>';
+            }
             html += '</div>';
-
-            totamt += CNum(r.AmountCharge);
+            if (Number(r.ChargeAmount) > 0) {
+                totamt += CNum(r.AmountCharge);
+            } else {
+                totcost += CNum(r.AmountCharge);
+            }
             totvat += CNum(r.AmtVat);
-            total += CNum(r.AmountCharge)+CNum(r.AmtVat);
+            total += CNum(r.AmountCharge) + CNum(r.AmtVat);
         }
         $('#dvDetail').html(html);
-
+        $('#lblSumCost').text(CCurrency(CDbl(totcost,2)));
         $('#lblSumAmount').text(CCurrency(CDbl(totamt,2)));
         $('#lblSumVat').text(CCurrency(CDbl(totvat,2)));
         $('#lblSumTotal').text(CCurrency(CDbl(total,2)));

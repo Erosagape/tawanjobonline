@@ -233,7 +233,7 @@ End Code
                 ChangeLanguageGrid('@ViewBag.Module', '#tbAuthor');
             });
         } else {
-            ShowMessage('Data Not Found',true);
+            ShowMessage('Data not found',true);
             ClearData();
         }
         //$('#txtUserID').focus();
@@ -282,14 +282,14 @@ End Code
         if (row.UserID != undefined) {
             var obj = GetDataSave();
             if (obj.UserID == '') {
-                ShowMessage('Please enter user ID',true);
+                ShowMessage('Please input code',true);
                 return;
             }
             if (obj.TName == '') {
-                ShowMessage('Please enter user name',true);
+                ShowMessage('Please input name',true);
                 return;
             }
-            ShowConfirm("Do you need to " + (row.UserID == "" ? "Add" : "Save") + " this data?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -311,12 +311,12 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function DeleteData() {
         var code = $('#txtUserID').val();
-        ShowConfirm("Do you need to Delete " + code + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/deluser?code=' + code, function (r) {
                 ShowMessage(r.user.result);

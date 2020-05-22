@@ -64,7 +64,7 @@ End Code
                 ConfigKey: $('#cboJobType').val().trim(),
                 ConfigValue: val
             };
-            ShowConfirm("Do you need to Save " + obj.ConfigCode + "/" + obj.ConfigKey + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 $.ajax({
                     url: "@Url.Action("SetConfig", "Config")",
@@ -72,12 +72,12 @@ End Code
                     contentType: "application/json",
                     data: JSON.stringify({ data: obj }),
                     success: function (response) {
-                        response ? ShowMessage("Save Completed!") : ShowMessage("Cannot Save data",true);
+                        response ? ShowMessage("Save Completed") : ShowMessage("No data to Save",true);
                     }
                 });
             });
         } else {
-            ShowMessage('Please select Job Type',true);
+            ShowMessage('Please select job type',true);
         }
     });
 </script>

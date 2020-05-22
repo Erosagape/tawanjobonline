@@ -275,7 +275,7 @@ End Code
     function DeleteData() {
         let branch = $('#txtBranchCode').val();
         let code = $('#txtGLRefNo').val();
-        ShowConfirm("Do you need to Delete " + code + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'acc/delglheader?branch=' + branch + '&code=' + code, function (r) {
                 ShowMessage(r.journal.result);
@@ -287,7 +287,7 @@ End Code
         let branch = $('#txtBranchCode').val();
         let code = $('#txtGLRefNo').val();
         let item = $('#txtItemNo').val();
-        ShowConfirm("Do you need to Delete " + item + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'acc/delgldetail?branch=' + branch + '&code=' + code + '&item=' + item, function (r) {
                 LoadDetail($('#txtBranchCode').val(), $('#txtGLRefNo').val());
@@ -352,7 +352,7 @@ End Code
             CancelBy:$('#txtCancelBy').val(),
             CancelReason:$('#txtCancelReason').val()
         };
-        ShowConfirm("Do you need to Save " + obj.GLRefNo + "?", function (ask) {
+        ShowConfirm('Do you need to save this data?', function (ask) {
             if (ask == false) return;
             let jsonText = JSON.stringify({ data: obj });
             //ShowMessage(jsonText);
@@ -388,7 +388,7 @@ End Code
             EntryBy: user
         };
         if (obj.ItemNo != "") {
-            ShowConfirm("Do you need to Save " + obj.ItemNo + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 let jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -409,7 +409,7 @@ End Code
                 });
             });            
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function ClearData() {
@@ -488,7 +488,7 @@ End Code
             chkmode = $('#txtApproveBy').val() == '' ? 'I' : 'D';
             CallBackAuthorize(path, 'MODULE_ACC', 'Approve', chkmode, SetApprove);
         } else {
-            ShowMessage('this entry is cancelled',true);
+            ShowMessage('This document is cancelled',true);
         }
     }
     function SetApprove(b) {
@@ -506,7 +506,7 @@ End Code
                 $('#btnDeleteDetail').removeAttr('disabled');
             }
         } else {
-            ShowMessage('you are not allow to approve journal entry',true);
+            ShowMessage('You are not allow to do this',true);
         }
     }
     function CancelData() {
@@ -520,7 +520,7 @@ End Code
             $('#txtCancelBy').val(user);
             SaveData();
         } else {
-            ShowMessage('you are not allow to cancel journal Entry',true);
+            ShowMessage('You are not allow to do this',true);
         }
     }
 

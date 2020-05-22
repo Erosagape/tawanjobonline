@@ -390,7 +390,7 @@ End Code
     }
     function DeleteRoute(id) {
         var pathdel = path + 'JobOrder/DelTransportRoute?ID=' + id;
-        ShowConfirm('are you sure to delete this route?', (ans) => {
+        ShowConfirm('Do you need to delete this data?', (ans) => {
             if (ans == true) {
                 $.get(pathdel).done(function (r) {
                     ShowMessage(r.transportroute.result);
@@ -493,7 +493,7 @@ End Code
             PlaceContact: $('#txtContact' + id).val()
         };
         let json = JSON.stringify({ data: obj });
-        ShowConfirm('are you sure to save ' + pname, function (ask) {
+        ShowConfirm('Do you need to save this data?', function (ask) {
             if (ask == true) {
                 postData(path + 'Master/SetTransportPlace', json, function (r) {
                     ShowData();
@@ -526,7 +526,7 @@ End Code
             IsActive: true
         };
         let json = JSON.stringify({ data: obj });
-        ShowConfirm('are you sure to save ' + $('#txtLocationRoute').val(), function (ask) {
+        ShowConfirm('Do you need to save this data?', function (ask) {
             if (ask == true) {
                 postData(path + 'JobOrder/SetTransportRoute', json, function (r) {
                     ShowMessage(r.result.msg);
@@ -584,23 +584,23 @@ End Code
     }
     function SaveExpense() {
         if ($('#txtBranchCode').val() === '') {
-            ShowMessage('Please select Branch', true);
+            ShowMessage('Please input branch', true);
             return;
         }
         if ($('#txtCustCode').val() === '') {
-            ShowMessage('Please select Customer', true);
+            ShowMessage('Please choose customer first', true);
             return;
         }
         if ($('#txtVenderCode').val() === '') {
-            ShowMessage('Please select Vender', true);
+            ShowMessage('Please choose vender first', true);
             return;
         }
         if ($('#cboLocationID').val() === '') {
-            ShowMessage('Please select Route', true);
+            ShowMessage('Please choose route', true);
             return;
         }
         if ($('#txtSICode').val() !== '') {
-            ShowConfirm('Do you want to save this price?', (ans) => {
+            ShowConfirm('Do you need to save this data?', (ans) => {
                 if (ans == true) {
                     let obj = {
                         BranchCode: $('#txtBranchCode').val(),
@@ -625,7 +625,7 @@ End Code
                                 if (response.result.data >= 0) {
                                     //LoadRoute();
                                     LoadPrice();
-                                    ShowMessage('Save Price Complete');
+                                    ShowMessage('Save Complete');
                                 }
                                 return;
                             }
@@ -638,11 +638,11 @@ End Code
                 }
             });
         } else {
-            ShowMessage('Please select Expense Code',true);
+            ShowMessage('Please input expense code',true);
         }
     }
     function DelExpense() {
-        ShowConfirm('are you sure to delete this price?', (ans) => {
+        ShowConfirm('Do you need to delete this data?', (ans) => {
             if (ans == true) {
                 let w = '';
                 w += '?Branch=' + $('#txtBranchCode').val();

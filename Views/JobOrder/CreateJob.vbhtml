@@ -455,32 +455,32 @@ End Code
     }
     function CreateJob() {
         if ($('#txtBranchName').val() === '') {
-            ShowMessage('Please select branch before create job',true);
+            ShowMessage('Please input branch',true);
             $('#txtBranchCode').focus();
             return;
         }
         if ($('#cboJobType').val() === '') {
-            ShowMessage('Please select job type before create job',true);
+            ShowMessage('Please select job type',true);
             $('#cboJobType').focus();
             return;
         }
         if ($('#cboShipBy').val() === '') {
-            ShowMessage('Please select ship by before create job',true);
+            ShowMessage('Please select ship by',true);
             $('#cboShipBy').focus();
             return;
         }
         if ($('#txtCSName').val() === '') {
-            ShowMessage('Please select CS before create job',true);
+            ShowMessage('Please select staff',true);
             $('#txtCSCode').focus();
             return;
         }
         if ($('#txtCustName').val() === '') {
-            ShowMessage('Please select customer before create job',true);
+            ShowMessage('Please choose customer first',true);
             $('#txtCustCode').focus();
             return;
         }
         if ($('#txtCustInv').val() === '' && $('#txtBookingNo').val()==='') {
-            ShowMessage('Please select customer invoice/booking before create job',true);
+            ShowMessage('Please input invoice/booking',true);
             $('#txtCustInv').focus();
             return;
         }

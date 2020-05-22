@@ -82,7 +82,7 @@ End Code
     }
     function DeleteData() {
         var code = $('#txtTName').val();
-        ShowConfirm("Do you need to Delete " + code + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delvessel?code=' + code, function (r) {
                 ShowMessage(r.vessel.result);
@@ -98,11 +98,11 @@ End Code
         };
         if (obj.RegsNumber != "") {
             if (obj.TName == '') {
-                ShowMessage('Please enter vessel name',true);
+                ShowMessage('Please input name',true);
                 $('#txtTName').focus();
                 return;
             }
-            ShowConfirm("Do you need to Save " + obj.TName + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -124,7 +124,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function ClearData() {

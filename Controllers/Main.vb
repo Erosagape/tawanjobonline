@@ -1681,11 +1681,11 @@ GROUP BY j.JobStatus
         Dim sql = "
 SELECT a.BranchCode,a.JNo,a.SICode,a.SDescription,a.TRemark,a.AmountCharge,a.Status,
 a.CurrencyCode,a.ExchangeRate,a.Qty,a.QtyUnit,a.AmtVatRate,a.AmtVat,a.AmtWhtRate,a.AmtWht,
-a.AmtTotal,b.ClrNo
+a.AmtTotal,b.ClrNo,b.CostAmount,b.ChargeAmount
 FROM dbo.Job_ClearExp a
 LEFT JOIN (
-SELECT BranchCode,JobNo,SICode,Max(ClrNo) as ClrNo
-FROM dbo.Job_ClearDetail
+SELECT BranchCode,JobNo,SICode,SUM(BCost) as CostAmount,SUM(BPrice) as ChargeAmount,Max(ClrNo) as ClrNo
+FROM dbo.Job_ClearDetail WHERE ClrNo NOT IN (SELECT ClrNo FROM Job_ClearHeader WHERE DocStatus=99)
 GROUP BY BranchCode,JobNo,SICode
 ) b
 ON a.BranchCode=b.BranchCode AND a.JNo=b.JobNo AND a.SICode=b.SICode
@@ -2069,6 +2069,18 @@ WHERE (jt.ConfigCode = N'JOB_TYPE') AND (sb.ConfigCode = N'SHIP_BY') AND (j.JobS
 ) t
 "
         Return String.Format(sql, sqlw)
+    End Function
+    Function SQLSelectExpenseFromClr() As String
+        Return "
+SELECT j.BranchCode, j.JNo, d.ClrNo, i.SICode, i.SDescription as TRemark, i.Qty as QtyBegin,  i.UnitCode as UnitCheck
+, i.CurrencyCode, i.CurRate as CurrencyRate, i.UsedAmount as ChargeAmt, i.VATRate as VatRate, i.ChargeVAT as VatAmt, 
+i.Tax50TaviRate as TaxRate, i.Tax50Tavi as TaxAmt, i.BNet as TotalAmt, i.FNet as TotalAmtF,1 as IsRequired,
+s.NameThai, s.NameEng
+FROM dbo.Job_ClearHeader AS d INNER JOIN
+dbo.Job_ClearDetail AS i ON d.BranchCode = i.BranchCode AND d.ClrNo = i.ClrNo INNER JOIN
+dbo.Job_Order AS j ON i.BranchCode = j.BranchCode AND i.JobNo = j.JNo INNER JOIN
+dbo.Job_SrvSingle AS s ON i.SICode = s.SICode
+"
     End Function
     Function SQLSelectExpenseFromQuo() As String
         Return "

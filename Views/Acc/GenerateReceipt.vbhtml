@@ -247,7 +247,7 @@ End Code
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 $('#tbSummary').DataTable().clear().draw();
-                if (isAlert==true) ShowMessage('data not found',true);
+                if (isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
             let h = r.invdetail.data;
@@ -342,12 +342,12 @@ End Code
     }
     function ShowSummary() {
         if ($('#txtCustCode').val() == '') {
-            ShowMessage('Please select Customer first',true);
+            ShowMessage('Please choose customer first',true);
             return;
         }
 
         if (arr.length == 0) {
-            ShowMessage('no data to approve',true);
+            ShowMessage('No data to approve',true);
             return;
         }
         let totaladv = 0;
@@ -404,11 +404,11 @@ End Code
     }
     function ApproveData() {
         if ($('#txtCustCode').val() == '') {
-            ShowMessage('Please select Customer',true);
+            ShowMessage('Please choose customer first',true);
             return;
         }
         if ($('#txtBillToCustCode').val() == '') {
-            ShowMessage('Please select Billing Place first',true);
+            ShowMessage('Please choose billing place',true);
             return;
         }
         if ($('#chkMerge').prop('checked') == true) {

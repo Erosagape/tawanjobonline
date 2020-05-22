@@ -1022,7 +1022,7 @@ End Code
     function DeleteBooking() {
         let code = $('#txtBookingNo').val();
         let branch = $('#txtBranchCode').val();
-        ShowConfirm("Do you need to Delete " + code + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'joborder/deltransportheader?branch=' + branch + '&code=' + code, function (r) {
                 ShowMessage(r.transport.result);
@@ -1065,7 +1065,7 @@ End Code
             PaymentBy:$('#txtPaymentBy').val()
 	    };
         if (obj.BookingNo != "") {
-            ShowConfirm("Do you need to Save " + obj.BookingNo + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 let jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -1087,7 +1087,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function ClearBooking() {
@@ -1224,7 +1224,7 @@ End Code
             DeliveryNo: $('#txtDeliveryNo').val()
         };
         if (obj.ItemNo != "") {
-            ShowConfirm("Do you need to Save " + obj.ItemNo + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 row = obj;
                 let jsonText = JSON.stringify({ data: obj });
@@ -1248,7 +1248,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function ReadDetail(dr){
@@ -1288,7 +1288,7 @@ End Code
     }
     function DeleteDetail() {
         if ($('#txtCauseCode').val() == '99' || $('#txtCauseCode').val() === '') {
-            ShowConfirm("Do you need to Delete " + $('#txtItemNo').val() + "?", function (ask) {
+            ShowConfirm('Do you need to delete this data?', function (ask) {
                 if (ask == false) return;
                 let branch = $('#txtBranchCode').val();
                 let code = $('#txtBookingNo').val();
@@ -1324,7 +1324,7 @@ End Code
             if (row.CauseCode == '2' || row.CauseCode == '3') {
                 window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&BookNo=' + row.BookingNo + '&Item=' + row.ItemNo + '&Job=' + $('#txtJNo').val() + '&Vend=' + $('#txtVenderCode').val() + '&Cont=' + row.CTN_NO + '&Cust=' + $('#txtNotifyCode').val(), '', '');
             } else {
-                ShowMessage('This Container status not allow to entry Expenses',true);
+                ShowMessage('Current document status is not allow to do this',true);
             }
         }
     }
@@ -1332,7 +1332,7 @@ End Code
         if ($('#txtCauseCode').val() == '2' || $('#txtCauseCode').val() == '3') {
             window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&BookNo=' + $('#txtBookingNo').val() + '&Item=' + $('#txtItemNo').val() + '&Job=' + $('#txtJNo').val() + '&Vend=' + $('#txtVenderCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust=' + $('#txtNotifyCode').val(), '', '');
         } else {
-            ShowMessage('This Container status not allow to entry Expenses', true);
+            ShowMessage('Current document status is not allow to do this', true);
         }
     }
     function LoadExpense() {
@@ -1414,7 +1414,7 @@ End Code
                 success: function (response) {
                     if (response.result.data != null) {
                         if (response.result.data >= 0) {
-                            ShowMessage('Save Route Complete');
+                            ShowMessage('Save Complete');
                         }
                         loadRoute();
                         return;
@@ -1452,7 +1452,7 @@ End Code
                 success: function (response) {
                     if (response.result.data != null) {
                         if (response.result.data >= 0) {
-                            ShowMessage('Save Price Complete');
+                            ShowMessage('Save Complete');
                         }
                         loadRoute();
                         return;
@@ -1509,15 +1509,15 @@ End Code
     }
     function EditExpense() {
         if ($('#txtVenderCode').val() == '') {
-            ShowMessage('Please Select Vender First',true);
+            ShowMessage('Please choose vender first',true);
             return;
         }
         if ($('#txtNotifyCode').val() == '') {
-            ShowMessage('Please Select Notift Party First',true);
+            ShowMessage('Please choose notify party',true);
             return;
         }
         if ($('#txtBranchCode').val() == '') {
-            ShowMessage('Please Select Branch First',true);
+            ShowMessage('Please input branch',true);
             return;
         }
         if ($('#cboLocation').val() > 0) {
@@ -1526,7 +1526,7 @@ End Code
             LoadExpense();
             $('#dvExpenses').modal('show');
         } else {
-            ShowMessage('Please select route first!',true);
+            ShowMessage('Please choose route',true);
         }
     }
     function ShowExpense() {
@@ -1572,7 +1572,7 @@ End Code
         }
     }
     function GenContainer() {
-        ShowConfirm('are you sure to create Container ' + $('#txtTotalContainer').val() + 'x' + $('#cboContainerSize').val(), (ans) => {
+        ShowConfirm('Please confirm to generate container', (ans) => {
             if (ans == true) {
                 let w ='?Branch='+ $('#txtBranchCode').val() + '&Code='+ $('#txtBookingNo').val() + '&Qty=' +$('#txtTotalContainer').val() + '&Size=' + $('#cboContainerSize').val();
                 $.get(path + 'JobOrder/CreateContainer' + w).done(function (r) {
@@ -1585,7 +1585,7 @@ End Code
         });
     }
     function UpdateJob() {
-        ShowConfirm('Are you sure to Update Total Container To Job', (ans) => {
+        ShowConfirm('Please confirm to update container total to job', (ans) => {
             if (ans == true) {
                 $.get(path + 'JobOrder/UpdateContainerToJob?Branch=' + $('#txtBranchCode').val()+ '&Job=' + $('#txtJNo').val()).done(function (r) {
                     ShowMessage(r.result.msg);

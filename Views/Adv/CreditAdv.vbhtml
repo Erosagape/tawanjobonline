@@ -565,7 +565,7 @@ End Code
             $('#txtPostedTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'Post voucher!' : 'cancel post!'),true);
+        ShowMessage('You are not allow to do this'),true);
         $('#chkPosted').prop('checked', !chkmode);
     }
     function SetCancel(b) {
@@ -575,7 +575,7 @@ End Code
             $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'cancel voucher!' : 'do this!'),true);
+        ShowMessage('You are not allow to do this'),true);
         $('#chkCancel').prop('checked', !chkmode);
     }
     function LoadData() {
@@ -649,7 +649,7 @@ End Code
     }
     function AddPayment() {
         if (userRights.indexOf('I') < 0) {
-            ShowMessage('you are not authorize to add payment',true);
+            ShowMessage('You are not allow to add',true);
             return;
         }
         ClearPayment();
@@ -665,7 +665,7 @@ End Code
         }
     }
     function SaveData() {
-        ShowConfirm("Do you need to Save " + $('#txtControlNo').val() + "?", function (ask) {
+        ShowConfirm('Do you need to save this data?', function (ask) {
             if (ask == false) return;
 
             let obj = {
@@ -714,7 +714,7 @@ End Code
         }
         $.get(path + 'acc/getvouchergrid?branch=' + code + '&type=TACC', function (r) {
             if (r.voucher.data.length == 0) {
-                ShowMessage('data not found on this branch',true);
+                ShowMessage('Data not found',true);
                 return;
             }
             let h = r.voucher.data[0].Table;
@@ -1041,11 +1041,11 @@ End Code
     }
     function SaveAdvance() {
         if ($('#txtSICode').val() == '') {
-            ShowMessage('Please Enter Expense Code', true);
+            ShowMessage('Please input expense code', true);
             return;
         }
         if ($('#txtTotalNet').val() <= 0) {
-            ShowMessage('Please Enter Tax/Vat Info', true);
+            ShowMessage('Please input VAT info', true);
             return;
         }
         let obj = GetDataHeader();
@@ -1149,7 +1149,7 @@ End Code
                 }
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function SaveDetailAdv() {
@@ -1199,7 +1199,7 @@ End Code
                 }
             });
         } else {
-            ShowMessage('No document to save',true);
+            ShowMessage('No data to save',true);
         }
     }
     function DeleteAdvance() {
@@ -1300,7 +1300,7 @@ End Code
     }
     function PrintData() {
         if (userRights.indexOf('P') < 0) {
-            ShowMessage('you are not authorize to print',true);
+            ShowMessage('You are not allow to print',true);
             return;
         }
         window.open(path + 'Adv/FormCreditAdv?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtControlNo').val());

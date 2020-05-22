@@ -520,7 +520,7 @@ End Code
             $('#txtCancelTime').val(ShowTime(GetTime()));
             $('#txtCancelProve').val(user);
         } else {
-            ShowMessage('you are not allow to cancel receipt',true);
+            ShowMessage('You are not allow to cancel',true);
         }
     }
     function SaveData() {
@@ -600,7 +600,7 @@ End Code
         $.get(path + 'acc/getReceipt?type=ADV&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.receipt.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                ShowMessage('data not found',true);
+                ShowMessage('Data not found',true);
                 return;
             }
             let h = r.receipt.header[0];
@@ -650,7 +650,7 @@ End Code
                 if (userRights.indexOf('E') > 0) {
                     $('#frmHeader').modal('show');
                 } else {
-                    ShowMessage('you are not allow to edit receipt document',true);
+                    ShowMessage('You are not allow to edit',true);
                 }
             });
         });
@@ -733,7 +733,7 @@ End Code
                     if (userRights.indexOf('E') > 0) {
                         $('#frmDetail').modal('show');
                     } else {
-                        ShowMessage('you are not allow to edit receipt document',true);
+                        ShowMessage('You are not allow to edit',true);
                     }
                 });
             }
@@ -878,7 +878,7 @@ End Code
                 }
             });
         } else {
-            ShowMessage('no data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function DeleteDetail() {
@@ -891,7 +891,7 @@ End Code
                     ShowMessage(r.rcpdetail.result);
                 });
         } else {
-            ShowMessage('no data to delete',true);
+            ShowMessage('No data to delete',true);
         }
     }
     function ChangeAmount() {

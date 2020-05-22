@@ -132,7 +132,7 @@ End Code
     }
     function DeleteData() {
         var code = $('#txtCTYCODE').val();
-        ShowConfirm("Do you need to Delete " + code + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delcountry?code=' + code, function (r) {
                 ShowMessage(r.country.result);
@@ -150,10 +150,10 @@ End Code
         };
         if (obj.CTYCODE != "") {
             if (obj.CTYName == '') {
-                ShowMessage('Please enter country name',true);
+                ShowMessage('Please enter some data',true);
                 return;
             }
-            ShowConfirm("Do you need to Save " + obj.CTYCODE + "/" + obj.CTYName + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -175,7 +175,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function SearchData(type) {

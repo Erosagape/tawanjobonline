@@ -594,7 +594,7 @@ End Code
         $.get(path + 'joborder/getquotation?branch=' + $('#txtBranchCode').val() + w, function (r) {
             CloseWait();
             if (r.quotation.header.length == 0) {                
-                //ShowMessage('data not found');
+                //ShowMessage('Data not found');
                 return;
             }
             let h = r.quotation.header;
@@ -654,7 +654,7 @@ End Code
                 if (userRights.indexOf('E') > 0) {
                     $('#frmHeader').modal('show');
                 } else {
-                    ShowMessage('you are not allow to edit quotation',true);
+                    ShowMessage('You are not allow to edit',true);
                 }
             });
         });
@@ -738,7 +738,7 @@ End Code
         if (userRights.indexOf('E') > 0) {
             $('#frmItem').modal('show');
         } else {
-            ShowMessage('you are not allow to edit quotation item',true);
+            ShowMessage('You are not allow to edit',true);
         }
     }
     function ShowDetail(branch, code) {
@@ -787,7 +787,7 @@ End Code
         if (userRights.indexOf('E') > 0) {
             $('#frmDetail').modal('show');
         } else {
-            ShowMessage('you are not allow to edit quotation',true);
+            ShowMessage('You are not allow to edit',true);
         }
     }
     function PrintData() {
@@ -808,7 +808,7 @@ End Code
             $('#txtCancelBy').val(user);
             $('#txtDocStatus').val('99');
         } else {
-            ShowMessage('you are not allow to cancel Quotation',true);
+            ShowMessage('You are not allow to cancel',true);
         }
     }
     function ApproveData() {
@@ -823,16 +823,16 @@ End Code
             if (row.DocStatus !== '99') $('#txtDocStatus').val(chkmode == 'I' ? '1' : '0');
             $('#btnUpdate').removeAttr('disabled');
         } else {
-            ShowMessage('you are not allow to approve quotation',true);
+            ShowMessage('You are not allow to approve',true);
         }
     }
     function SaveData() {
         if ($('#txtBCustCode').val() == '') {
-            ShowMessage('please enter billing place',true);
+            ShowMessage('Please choose billing place',true);
             return;
         }
         if ($('#txtManagerCode').val() == '') {
-            ShowMessage('please enter manager code',true);
+            ShowMessage('Please choose manager code',true);
             return;
         }
         row.BranchCode = $('#txtBranchCode').val();
@@ -968,11 +968,11 @@ End Code
     }
     function DeleteDetail() {
         if (userRights.indexOf('D') < 0) {
-            ShowMessage('you are not allow to delete section',true);
+            ShowMessage('You are not allow to delete',true);
             return;
         }
         if (row_d.SeqNo !== undefined) {
-            ShowConfirm("Are you sure to delete seq " + row_d.SeqNo + ' from ' + row_d.QNo, function (result) {
+            ShowConfirm('Do you need to delete this data?', function (result) {
                 if (result == true) {
                     $.get(path+ 'JobOrder/DelQuoDetail?Branch=' + row_d.BranchCode + '&Code=' + row_d.QNo + '&Seq=' + row_d.SeqNo)
                         .done(function (r) {
@@ -987,16 +987,16 @@ End Code
                 }
             });
         } else {
-            ShowMessage('no selected section to delete',true);
+            ShowMessage('No data to delete',true);
         }
     }
     function DeleteItem() {
         if (userRights.indexOf('D') < 0) {
-            ShowMessage('you are not allow to delete item',true);
+            ShowMessage('You are not allow to delete',true);
             return;
         }
         if (row_i.ItemNo !== undefined) {
-            ShowConfirm("Are you sure to delete item " + row_i.ItemNo + ' from section #' + row_i.SeqNo, function (result) {
+            ShowConfirm('Do you need to delete this data?', function (result) {
                 if (result == true) {
                     $.get(path+ 'JobOrder/DelQuoItem?Branch=' + row_i.BranchCode + '&Code=' + row_i.QNo + '&Seq=' + row_i.SeqNo + '&Item=' + row_i.ItemNo)
                         .done(function (r) {
@@ -1009,20 +1009,20 @@ End Code
                 }
             });
         } else {
-            ShowMessage('no selected item to delete',true);
+            ShowMessage('No data to delete',true);
         }
     }
     function AddHeader() {
         if (userRights.indexOf('I') < 0) {
-            ShowMessage('you are not allow to add quotation',true);
+            ShowMessage('You are not allow to add',true);
             return;
         }
         if ($('#txtBranchCode').val() == '') {
-            ShowMessage('please enter branch',true);
+            ShowMessage('Please input branch',true);
             return;
         }
         if ($('#txtCustCode').val() == '') {
-            ShowMessage('please enter customer',true);
+            ShowMessage('Please choose customer first',true);
             return;
         }
         ShowHeader();
@@ -1117,11 +1117,11 @@ End Code
     }
     function AddDetail() {
         if (userRights.indexOf('I') < 0) {
-            ShowMessage('you are not allow to add section',true);
+            ShowMessage('You are not allow to add',true);
             return;
         }
         if ($('#txtDocNo').val() == '') {
-            ShowMessage('please select quotation first',true);
+            ShowMessage('Please save document before add detail',true);
             return;
         }
         row_d = {};
@@ -1130,11 +1130,11 @@ End Code
     }
     function AddItem() {
         if (userRights.indexOf('I') < 0) {
-            ShowMessage('you are not allow to add item',true);
+            ShowMessage('You are not allow to add',true);
             return;
         }
         if ($('#txtDocItemNo').val() == '') {
-            ShowMessage('please select some from section above first',true);
+            ShowMessage('Please select some item first',true);
             return;
         }
         row_i = {};
@@ -1485,15 +1485,15 @@ End Code
     }
     function CopyData() {
         if (userRights.indexOf('I') < 0) {
-            ShowMessage('you are not allow to add quotation',true);
+            ShowMessage('You are not allow to add',true);
             return;
         }
         if ($('#txtBranchCode').val() == '') {
-            ShowMessage('please enter branch',true);
+            ShowMessage('Please input branch',true);
             return;
         }
         if ($('#txtCustCode').val() == '') {
-            ShowMessage('please enter customer',true);
+            ShowMessage('Please choose customer first',true);
             return;
         }
         $('#frmCopy').modal('show');

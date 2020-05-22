@@ -89,7 +89,7 @@ End Code
     }
     function DeleteData() {
         var code = $('#txtUnitType').val();
-        ShowConfirm("Do you need to Delete " + code + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delservunit?code=' + code, function (r) {
                 ShowMessage(r.servunit.result);
@@ -106,11 +106,11 @@ End Code
         };
         if (obj.UnitType != "") {
             if (obj.UName == '') {
-                ShowMessage('Please enter unit name',true);
+                ShowMessage('Please input name',true);
                 $('#txtUName').focus();
                 return;
             }
-            ShowConfirm("Do you need to Save " + obj.UnitType + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -132,7 +132,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function ClearData() {

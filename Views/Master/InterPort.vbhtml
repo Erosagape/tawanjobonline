@@ -108,7 +108,7 @@ End Code
     function DeleteData() {
         var code = $('#txtPortCode').val();
         var key = $('#txtCountryCode').val();
-        ShowConfirm("Do you need to Delete " + code + " of " + key + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delinterport?code=' + code + '&key='+key, function (r) {
                 ShowMessage(r.interport.result);
@@ -136,14 +136,14 @@ End Code
         };
         if (obj.PortCode !== "") {
             if (obj.CountryCode === "") {
-                ShowMessage('Please enter country code',true);
+                ShowMessage('Please input country code',true);
                 return;
             }
             if (obj.PortName === "") {
-                ShowMessage('Please enter port name',true);
+                ShowMessage('Please input name',true);
                 return;
             }
-            ShowConfirm("Do you need to Save " + obj.PortCode + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -165,7 +165,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function ClearData(){   

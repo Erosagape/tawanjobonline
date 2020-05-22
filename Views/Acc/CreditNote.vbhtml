@@ -529,7 +529,7 @@ End Code
             $('#txtUpdateBy').val(user);
             $('#txtDocStatus').val('99');
         } else {
-            ShowMessage('you are not allow to cancel Document',true);
+            ShowMessage('You are not allow to cancel',true);
         }
     }
     function SaveData() {
@@ -597,7 +597,7 @@ End Code
         $.get(path + 'Acc/GetCNDNGrid?Branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.creditnote.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                ShowMessage('data not found',true);
+                ShowMessage('Data not found',true);
                 return;
             }
             let h = r.creditnote.data;
@@ -648,7 +648,7 @@ End Code
                 if (userRights.indexOf('E') > 0) {
                     $('#frmHeader').modal('show');
                 } else {
-                    ShowMessage('you are not allow to edit this document',true);
+                    ShowMessage('You are not allow to edit',true);
                 }
             });
         });
@@ -724,7 +724,7 @@ End Code
             if (userRights.indexOf('E') > 0) {
                 $('#frmDetail').modal('show');
             } else {
-                ShowMessage('you are not allow to edit this document',true);
+                ShowMessage('You are not allow to edit',true);
             }
         });
     }
@@ -811,11 +811,11 @@ End Code
                 TaxInvNo: row_d.TaxInvNo
             };
             if ($('#txtDocType').val() == '0' && obj.TotalNet < 0) {
-                ShowMessage('Credit Note value must be more than zero',true);
+                ShowMessage('Value must be more than zero',true);
                 return;
             }
             if ($('#txtDocType').val() == '1' && obj.TotalNet > 0) {
-                ShowMessage('Debit Note value must be less than zero',true);
+                ShowMessage('Value must be less than zero',true);
                 return;
             }
             let jsonText = JSON.stringify({ data: obj });
@@ -839,7 +839,7 @@ End Code
                 }
             });
         } else {
-            ShowMessage('no data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function DeleteDetail() {
@@ -852,7 +852,7 @@ End Code
                     ShowMessage(r.creditnote.result);
                 });
         } else {
-            ShowMessage('no data to delete',true);
+            ShowMessage('No data to delete',true);
         }
     }
     function CalDiff() {

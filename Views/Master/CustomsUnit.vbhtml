@@ -88,7 +88,7 @@ End Code
     }
     function DeleteData() {
         var code = $('#txtCode').val();
-        ShowConfirm("Do you need to Delete " + code + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delcustomsunit?code=' + code, function (r) {
                 ShowMessage(r.customsunit.result);
@@ -103,10 +103,10 @@ End Code
         };
         if (obj.Code != "") {
             if (obj.TName == '') {
-                ShowMessage('Please enter unit name',true);
+                ShowMessage('Please input name',true);
                 return;
             }
-            ShowConfirm("Do you need to Save " + obj.Code + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -128,7 +128,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function SearchData(type) {

@@ -86,10 +86,10 @@
     function ForceLogout() {
         $('#linkLogout').attr('disabled', 'disabled');
         
-    /config/setlogout?code=' + $('#txtUserID').val()).done(function (r) {
+        $.get(path + '/config/setlogout?code=' + $('#txtUserID').val()).done(function (r) {
             if (r == "Y") {
                 $('#linkLogout').removeAttr('disabled');
-                ShowMessage('Logout complete!');
+                ShowMessage('Logout Complete');
             }
         });
     }

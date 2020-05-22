@@ -605,10 +605,10 @@ End Code
                 SaveHeader();
                 EnableSave();
             } else {
-                ShowMessage('you are not allow to approve quotation',true);
+                ShowMessage('Cannot approve',true);
             }
         } else {
-            ShowMessage('Cannot change approve status of this document',true);
+            ShowMessage('This document is locked',true);
         }
     }
     function SetCancel(b) {
@@ -624,7 +624,7 @@ End Code
             });
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'cancel payment!' : 'do this!'),true);
+        ShowMessage('You are not allow to do this',true);
         $('#chkCancel').prop('checked', !chkmode);
     }
     function SetLOVs() {
@@ -654,7 +654,7 @@ End Code
     }
     function ShowData(branchcode, docno) {
         if (userRights.indexOf('R') < 0) {
-            ShowMessage('you are not authorize to view data',true);
+            ShowMessage('You are not allow to do this',true);
             return;
         }
         $.get(path + 'acc/getpayment?branch='+branchcode+'&code='+ docno, function (r) {
@@ -668,12 +668,12 @@ End Code
         let obj = GetDataHeader();
         if (obj.DocNo == '') {
             if (userRights.indexOf('I') < 0) {
-                ShowMessage('you are not authorize to add',true);
+                ShowMessage('You are not allow to add',true);
                 return;
             }
         }
         if (userRights.indexOf('E') < 0) {
-            ShowMessage('you are not authorize to save',true);
+            ShowMessage('You are not allow to save',true);
             return;
         }
         let jsonString = JSON.stringify({ data: obj });
@@ -776,7 +776,7 @@ End Code
     }
     function AddHeader() {
         if (userRights.indexOf('I') < 0) {
-            ShowMessage('you are not authorize to add',true);
+            ShowMessage('You are not allow to add',true);
             return;
         }
         $('#txtDocNo').val('');
@@ -793,14 +793,14 @@ End Code
     function DeleteDetail() {
         if (dtl.ItemNo != undefined) {
             if (userRights.indexOf('D') < 0) {
-                ShowMessage('you are not authorize to delete',true);
+                ShowMessage('You are not allow to delete',true);
                 return;
             }
             if (dtl.ClrItemNo > 0 || dtl.AdvItemNo>0) {
-                ShowMessage('This item has been advanced/cleared!,Cannot delete',true);
+                ShowMessage('Cannot delete',true);
                 return;
             }
-            ShowConfirm('are you sure to delete item '+ dtl.ItemNo+'?', function (result) {
+            ShowConfirm('Are you sure to delete this item?', function (result) {
                 if (result == true) {
                     $.get(path + 'acc/delpaydetail?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtDocNo').val() + '&item=' + dtl.ItemNo, function (r) {
                         ShowMessage(r.payment.result);
@@ -823,7 +823,7 @@ End Code
             ShowUser(path, user, '#txtEmpName');
         } else {
             $('#txtEmpCode').val('');
-            $('#txtEmpName').val('');
+            $('#txtEmpName').val('');   
         }
         $('#txtContactName').val('');
         $('#txtPoNo').val('');
@@ -863,27 +863,23 @@ End Code
     }
     function SaveDetail() {
 
-        if (hdr == undefined) {
-            ShowMessage('Please add header before',true);
-            return;
-        }
-        if (hdr.DocNo == '') {
-            ShowMessage('Please save header first',true);
+        if (hdr == undefined||hdr.DocNo == '') {
+            ShowMessage('Please save document before add detail',true);
             return;
         }
         let obj = GetDataDetail();
         if (obj.ItemNo == 0) {
             if (userRights.indexOf('I') < 0) {
-                ShowMessage('you are not authorize to add',true);
+                ShowMessage('You are not allow to add',true);
                 return;
             }
         }
         if (userRights.indexOf('E') < 0) {
-            ShowMessage('you are not authorize to edit',true);
+            ShowMessage('You are not allow to edit',true);
             return;
         }
         if (obj.ClrItemNo > 0 || obj.AdvItemNo>0) {
-            ShowMessage('This item has been advanced/cleared!,Cannot Edit',true);
+            ShowMessage('Cannot Edit',true);
             return;
         }
 
@@ -1082,7 +1078,7 @@ End Code
         }
         $.get(path + 'acc/getpayment?status=Y' +  w, function (r) {
             if (r.payment.header.length == 0) {
-                ShowMessage('data not found on this branch',true);
+                ShowMessage('Data not found',true);
                 return;
             }
             let h = r.payment.header;

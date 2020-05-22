@@ -421,7 +421,7 @@ End Code
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 $('#tbSummary').DataTable().clear().draw();
-                if(isAlert==true) ShowMessage('data not found',true);
+                if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
             let s = r.invdetail.summary;
@@ -713,7 +713,7 @@ End Code
                 acType : 'CA'
             });
         }
-        let sum_chqcash = GetSumPayment('CU');
+        let sum_chqcash = GetSumPayment('CH');
         if (sum_chqcash.sumamount !== 0) {
             i = i + 1;
             oData.push({
@@ -747,10 +747,10 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankChqCash').val(),
                 RecvBranch: $('#txtBankBranchChqCash').val(),
-                acType: 'CU'
+                acType: 'CH'
             });
         }
-        let sum_chq = GetSumPayment('CH');
+        let sum_chq = GetSumPayment('CU');
         if (sum_chq.sumamount !== 0) {
             i = i + 1;
             oData.push({
@@ -784,7 +784,7 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankChq').val(),
                 RecvBranch: $('#txtBankBranchChq').val(),
-                acType: 'CH'
+                acType: 'CU'
             });
         }
         let sum_cr = GetSumPayment('CR');
@@ -928,7 +928,7 @@ End Code
     }
     function ApproveData() {
         if (arr.length < 0) {
-            ShowMessage('no data to approve',true);
+            ShowMessage('No data to approve',true);
             return;
         }
         let oHeader = {

@@ -260,7 +260,7 @@ End Code
     function DeleteHeader() {
         var code = $('#txtRoleID').val();
         if (code !== '') {
-            ShowConfirm("Do you need to Delete " + code + "?", function (ask) {
+            ShowConfirm('Do you need to delete this data?', function (ask) {
                 if (ask == false) return;
                 $.get(path + 'config/deluserrole?code=' + code, function (r) {
                     ShowMessage(r.userrole.result);
@@ -274,7 +274,7 @@ End Code
         var code = $('#txtRoleID').val();
         var id = $('#txtUserID').val();
         if (id !== '') {
-            ShowConfirm("Do you need to Delete " + id + " from role " + code + "?", function (ask) {
+            ShowConfirm('Do you need to delete this data?', function (ask) {
                 if (ask == false) return;
                 $.get(path + 'config/deluserroledetail?code=' + code + '&id=' + id, function (r) {
                     ShowMessage(r.userrole.result);
@@ -289,7 +289,7 @@ End Code
             UserID: $('#txtUserID').val()
 	    };
         if (obj.RoleID != "" && obj.UserID != "") {
-            ShowConfirm("Do you need to Apply " + obj.RoleID + " To " + obj.UserID + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -311,7 +311,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
 	function SaveHeader(){
@@ -322,7 +322,7 @@ End Code
             RoleGroup: $('#txtRoleGroup').val()
 	    };
         if (obj.RoleID != "") {
-            ShowConfirm("Do you need to Save " + obj.RoleID + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -346,12 +346,16 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function CopyUser() {
         let userFrom = $('#txtUserFrom').val();
-        ShowConfirm("Do you need to copy rights from " + userFrom + " to " + $('#txtUserID').val(), (ask) => {
+        let msg = "Do you need to copy rights from " + userFrom + " to " + $('#txtUserID').val();
+        if (mainLanguage == "TH") {
+            msg="กรุณายืนยันการคัดลอกสิทธิ์ของ " + userFrom + " ให้กับ " + $('#txtUserID').val()
+        }
+        ShowConfirm(msg, (ask) => {
             if (ask == false) return;
             $.get(path + 'Config/CopyMenuAuth?From=' + userFrom + '&To=' + $('#txtUserID').val()).done(function (r) {
                 ShowMessage(r);
@@ -365,7 +369,7 @@ End Code
             Author: GetAuthor()
 	    };
         if (obj.RoleID != "" && obj.ModuleID != "") {
-            ShowConfirm("Do you need to Apply " + obj.Author + " To " + obj.ModuleID + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -386,7 +390,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function GetAuthor() {

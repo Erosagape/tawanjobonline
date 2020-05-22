@@ -181,7 +181,7 @@ End Code
         var code = $('#txtUserID').val();
         var key ="MODULE_"+ $('#txtAppID').val();
         var menu = $('#txtMenuID').val();
-        ShowConfirm("Do you need to Delete " + code + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/deluserauth?code=' + code + '&app='+key+'&menu='+menu, function (r) {
                 ShowMessage(r.userauth.result);
@@ -216,15 +216,15 @@ End Code
         };
         if (obj.UserID !== "") {
             if (obj.AppID === "") {
-                ShowMessage('Please select Application',true);
+                ShowMessage('Please select application',true);
                 return;
             }
             obj.AppID = "MODULE_" + $('#txtAppID').val();
             if (obj.MenuID === "") {
-                ShowMessage('Please select Menu',true);
+                ShowMessage('Please select menu',true);
                 return;
             }
-            ShowConfirm("Do you need to Save This Authorize '" + obj.Author + "' for " + obj.UserID + " (" + obj.AppID + "/" + obj.MenuID + ")?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 $.ajax({
@@ -241,7 +241,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function ClearData(){

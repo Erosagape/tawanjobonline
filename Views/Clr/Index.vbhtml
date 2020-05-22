@@ -702,15 +702,15 @@ End Code
     function CheckService(dt) {
         if (dt !== undefined) {
             if ($('#cboClrType').val() == 1 && dt.IsCredit !== 1) {
-                ShowMessage('This Code not allowed to clear in this type of Advance Clearance, you must change to others code');
+                ShowMessage('This expense is not allowed');
                 return false;
             }
             if ($('#cboClrType').val() == 2 && dt.IsExpense !== 1) {
-                ShowMessage('This Code not allowed to clear in this type of Costing Clearance, you must change to others code');
+                ShowMessage('This expense is not allowed');
                 return false;
             }
             if ($('#cboClrType').val() == 3 && (dt.IsExpense == 1 || dt.IsCredit ==1)) {
-                ShowMessage('This Code not allowed to clear in this type of Service Clearance, you must change to others code');
+                ShowMessage('This expense is not allowed');
                 return false;
             }
         }
@@ -849,7 +849,7 @@ End Code
 
         $('#cboClrType').click(function (ev) {
             if ((userPosition == '4' || userPosition == '5') && $('#cboClrType').val()=='3') {
-                ShowMessage('CS/Shipping is not allowed to Clear services');
+                ShowMessage('You are not allow to do this');
                 $('#cboClrType').val('1');
                 return;
             }
@@ -896,7 +896,7 @@ End Code
             }
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'approve Advance!' : 'cancel approve!'),true);
+        ShowMessage('You are not allow to do this',true);
         $('#chkApprove').prop('checked', !chkmode);
     }
 
@@ -907,7 +907,7 @@ End Code
             $('#txtReceiveTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'Clear!' : 'cancel clear!'),true);
+        ShowMessage('You are not allow to do this',true);
         $('#chkReceive').prop('checked', !chkmode);
     }
 
@@ -920,7 +920,7 @@ End Code
             SaveHeader();
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'cancel Advance!' : 'do this!'),true);
+        ShowMessage('You are not allow to do this',true);
         $('#chkCancel').prop('checked', !chkmode);
     }
 
@@ -956,15 +956,15 @@ End Code
     }
     function ShowData(branchcode, clrno) {
         if (branchcode == '') {
-            ShowMessage('Please select branch',true);
+            ShowMessage('Please input branch',true);
             return;
         }
         if (clrno == '') {
-            ShowMessage('Please enter clear no',true);
+            ShowMessage('Please input clear no',true);
             return;
         }
         if (userRights.indexOf('R') < 0) {
-            ShowMessage('you are not authorize to view data',true);
+            ShowMessage('You are not allow to view',true);
             return;
         }
         ClearHeader();
@@ -979,34 +979,34 @@ End Code
     }
     function PrintData() {
         if (userRights.indexOf('P') < 0) {
-            ShowMessage('you are not authorize to print',true);
+            ShowMessage('You are not allow to print',true);
             return;
         }
         window.open(path + 'Clr/FormClr?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtClrNo').val());
     }
     function CheckEntry() {
         if ($('#txtBranchName').val() == '') {
-            ShowMessage('please select branch',true);
+            ShowMessage('Please input branch',true);
             $('#txtBranchCode').focus();
             return false;
         }
         if ($('#cboJobType').val() == 0) {
-            ShowMessage('please select job type',true);
+            ShowMessage('Please select job type',true);
             $('#cboJobType').focus();
             return false;
         }
         if ($('#cboClrType').val() == 0) {
-            ShowMessage('please select clear type',true);
+            ShowMessage('Please select clear type',true);
             $('#cboClrType').focus();
             return false;
         }
         if ($('#cboClrFrom').val() == 0) {
-            ShowMessage('please select clear from',true);
+            ShowMessage('Please select clear from',true);
             $('#cboClrFrom').focus();
             return false;
         }
         if (userRights.indexOf('E') < 0) {
-            ShowMessage('you are not authorize to save',true);
+            ShowMessage('You are not allow to save',true);
             return false;
         }
         return true;
@@ -1019,7 +1019,7 @@ End Code
             let obj = GetDataHeader();
             if (obj.ClrNo == '') {
                 if (userRights.indexOf('I') < 0) {
-                    ShowMessage('you are not authorize to add',true);
+                    ShowMessage('You are not allow to add',true);
                     return;
                 }
             }
@@ -1045,7 +1045,7 @@ End Code
             });
             return;
         }
-        ShowMessage('No data to save',true);
+        ShowMessage('No data to Save',true);
     }
     function GetDataHeader() {
         let dt = {
@@ -1165,7 +1165,7 @@ End Code
     }
     function AddHeader() {
         if (userRights.indexOf('I') < 0) {
-            ShowMessage('you are not authorize to add',true);
+            ShowMessage('You are not allow to add',true);
             return;
         }
         $('#txtClrNo').val('');
@@ -1194,7 +1194,7 @@ End Code
     }
     function AddDetail() {
         if ($('#txtClrNo').val() == '') {
-            ShowMessage('Please Save Before Add Detail',true);
+            ShowMessage('Please save document before add detail',true);
             return;
         }  
         $('#chkDuplicate').prop('checked', false);
@@ -1210,11 +1210,11 @@ End Code
     function DeleteDetail() {
         if (dtl != undefined) {
             if (userRights.indexOf('D') < 0) {
-                ShowMessage('you are not authorize to delete',true);
+                ShowMessage('You are not allow to delete',true);
                 return;
             }
             if (dtl.LinkBillNo !== '') {
-                ShowMessage('this item has been issue invoice (' + dtl.LinkBillNo + '), cannot delete!');
+                ShowMessage('Cannot delete');
                 return;
             }
             $.get(path + 'clr/delclrdetail?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtClrNo').val() + '&item=' + dtl.ItemNo, function (r) {
@@ -1302,15 +1302,15 @@ End Code
     function SaveDetail() {
 
         if (hdr == undefined) {
-            ShowMessage('Please add header before',true);
+            ShowMessage('Please save document before add detail',true);
             return;
         }
         if (hdr.ClrNo == '') {
-            ShowMessage('Please save header first',true);
+            ShowMessage('Please save document before add detail',true);
             return;
         }
         if ($('#txtForJNo').val() == '') {
-            ShowMessage('Please select job', true);
+            ShowMessage('Please select job number', true);
             $('#txtForJNo').focus();
             return;
         }
@@ -1320,7 +1320,7 @@ End Code
             return;
         }
         if ($('#txtSICode').val() == '') {
-            ShowMessage('Please select service code', true);
+            ShowMessage('Please select expense code', true);
             $('#txtSICode').focus();
             return;
         }
@@ -1330,7 +1330,7 @@ End Code
             return;
         }
         if ($('#txtDate50Tavi').val() == '' && $('#txtSlipNo').val() !== '') {
-            ShowMessage('please select Date of Slip',true);
+            ShowMessage('Please enter date of slip',true);
             $('#txtDate50Tavi').focus();
             return false;
         }
@@ -1339,12 +1339,12 @@ End Code
             let obj = GetDataDetail();
             if (obj.ItemNo == 0) {
                 if (userRights.indexOf('I') < 0) {
-                    ShowMessage('you are not authorize to add',true);
+                    ShowMessage('You are not allow to add',true);
                     return;
                 }
             }
             if (userRights.indexOf('E') < 0) {
-                ShowMessage('you are not authorize to edit',true);
+                ShowMessage('You are not allow to edit',true);
                 return;
             }
             let jsonString = JSON.stringify({ data: obj });
@@ -1364,7 +1364,7 @@ End Code
             });
             return;
         }
-        ShowMessage('No data to save',true);
+        ShowMessage('No data to Save',true);
     }
 
     function ReadClrDetail(dt) {
@@ -1729,7 +1729,7 @@ End Code
         }
         $.get(path + 'clr/getclearinggrid' +  w, function (r) {
             if (r.clr.data.length == 0) {
-                ShowMessage('data not found on this branch',true);
+                ShowMessage('Data not found',true);
                 return;
             }
             let h = r.clr.data[0].Table;
@@ -2042,7 +2042,7 @@ End Code
     }
     function LoadAdvance() {
         if ($('#txtClrNo').val() == '') {
-            ShowMessage('Please Save Before Choose Advance',true);
+            ShowMessage('Please save document before add detail',true);
             return;
         }  
         let jtype = $('#cboJobType').val();
@@ -2145,7 +2145,7 @@ End Code
     }
     function LoadPayment() {
         if ($('#txtClrNo').val() == '') {
-            ShowMessage('Please Save Before Choose Payment',true);
+            ShowMessage('Please save document before add detail',true);
             return;
         }        
         let branch = $('#txtBranchCode').val();

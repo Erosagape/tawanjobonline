@@ -120,18 +120,18 @@ End Code
         //post data input to web API
         var obj = GetInput();
         if (obj.ConfigCode == '') {
-            ShowMessage('please enter config code',true);
+            ShowMessage('Please enter config code',true);
             return;
         }
         if (obj.ConfigKey == '') {
-            ShowMessage('please enter config key',true);
+            ShowMessage('Please enter config key',true);
             return;
         }
         if (obj.ConfigValue == '') {
-            ShowMessage('please enter config value',true);
+            ShowMessage('Please enter config value',true);
             return;
         }
-        ShowConfirm("Do you need to Save " + obj.ConfigCode + "/" + obj.ConfigKey + "?", function (ask) {
+        ShowConfirm('Do you need to save this data?', function (ask) {
             if (ask == false) return;
             $.ajax({
                 url: "@Url.Action("SetConfig", "Config")",
@@ -168,7 +168,7 @@ End Code
     function DeleteData() {
         var code = $('#txtCode').val();
         var key = $('#txtKey').val();
-        ShowConfirm("Do you need to Delete " + code + "/" + key + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'config/delconfig' + GetParam(code,key), function (r) {
                 ShowMessage(r.config.result);

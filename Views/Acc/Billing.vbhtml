@@ -300,7 +300,7 @@ End Code
         $.get(path + 'acc/getbillheader?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.billheader.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                if (isAlert==true) ShowMessage('data not found',true);
+                if (isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
             let h = r.billheader.data;
@@ -387,7 +387,7 @@ End Code
                 if (userRights.indexOf('E') > 0) {
                     $('#frmHeader').modal('show');
                 } else {
-                    ShowMessage('you are not allow to edit billing document',true);
+                    ShowMessage('You are not allow to edit',true);
                 }
             });
         });
@@ -437,7 +437,7 @@ End Code
             $('#txtCancelTime').val(ShowTime(GetTime()));
             $('#txtCancelProve').val(user);
         } else {
-            ShowMessage('you are not allow to cancel billing Document',true);
+            ShowMessage('You are not allow to cancel',true);
         }
     }
     function SaveData() {
@@ -545,7 +545,7 @@ End Code
     }
     function DeleteDetail() {
         if (row_d.ItemNo !== undefined) {
-            ShowConfirm("Are you sure to delete inv " + row_d.InvNo + ' from ' + row_d.BillAcceptNo, function (result) {
+            ShowConfirm('Do you need to delete this data?', function (result) {
                 if (result == true) {
                     $.get(path + 'Acc/DelBillDetail?Branch=' + row.BranchCode + '&Code=' + row.BillAcceptNo + '&Item=' + row_d.ItemNo)
                     .done(function (r) {
@@ -557,7 +557,7 @@ End Code
                 }                
             });
         } else {
-            ShowMessage('no data to delete',true);
+            ShowMessage('No data to cancel',true);
         }
 
     }

@@ -93,7 +93,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.PlaceName & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -147,7 +147,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.AccCode & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -224,7 +224,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.ProvinceCode & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -277,7 +277,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.id & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -315,7 +315,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.ItemNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -378,7 +378,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.RegsNumber & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -451,7 +451,7 @@ AND b.IsApplyPolicy=1
                     Dim json = "{""result"":{""data"":""" & data.GroupCode & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -504,7 +504,7 @@ AND b.IsApplyPolicy=1
                     Dim json = "{""result"":{""data"":""" & data.Code & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -578,7 +578,7 @@ AND b.IsApplyPolicy=1
                     Dim json = "{""result"":{""data"":""" & data.BookCode & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -640,7 +640,7 @@ AND b.IsApplyPolicy=1
                     Dim json = "{""result"":{""data"":""" & data.PortCode & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -702,7 +702,7 @@ AND b.IsApplyPolicy=1
                     Dim json = "{""result"":{""data"":""" & data.AreaCode & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
 
@@ -745,7 +745,7 @@ AND b.IsApplyPolicy=1
                     Dim json = "{""result"":{""data"":""" & data.Type & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
 
@@ -808,7 +808,7 @@ AND b.IsApplyPolicy=1
                     Dim json = "{""result"":{""data"":""" & data.UnitType & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
 
@@ -884,7 +884,7 @@ AND b.IsApplyPolicy=1
                     Dim json = "{""result"":{""data"":""" & data.Code & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
 
@@ -997,7 +997,7 @@ AND b.IsApplyPolicy=1
                     Dim json = "{""result"":{""data"":""" & data.CTYCODE & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
 
@@ -1208,7 +1208,7 @@ AND b.IsApplyPolicy=1
                     'Dim msg = JsonConvert.SerializeObject(data)
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
 
@@ -1231,7 +1231,7 @@ AND b.IsApplyPolicy=1
                     'Dim msg = JsonConvert.SerializeObject(data)
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
 
@@ -1254,7 +1254,7 @@ AND b.IsApplyPolicy=1
                     'Dim msg = JsonConvert.SerializeObject(data)
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
 
@@ -1276,7 +1276,7 @@ AND b.IsApplyPolicy=1
                     'Dim msg = JsonConvert.SerializeObject(data)
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
 
@@ -1312,7 +1312,7 @@ AND b.IsApplyPolicy=1
                     Dim json = "{""result"":{""data"":""" & data.Code & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
 
@@ -1393,7 +1393,7 @@ AND b.IsApplyPolicy=1
                     Dim json = "{""result"":{""data"":""" & data.ID & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -1446,7 +1446,7 @@ AND b.IsApplyPolicy=1
                     Dim json = "{""result"":{""data"":""" & data.Code & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception

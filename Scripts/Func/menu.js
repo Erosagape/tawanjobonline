@@ -188,7 +188,7 @@
             mnuPath = path + 'JobOrder/TruckApprove';
             break;
         default:
-            ShowMessage('Under Development, Coming soon!');
+            ShowMessage('Under Development');
             break;
     }
     if (userID !== '') {

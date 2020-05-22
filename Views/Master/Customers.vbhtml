@@ -533,7 +533,7 @@ End Code
                 $('#cboCompanyType').val(cons);
             }
         } else {
-            ShowMessage('Data Not Found',true);
+            ShowMessage('Data not found',true);
             ClearData();
         }
     }
@@ -641,15 +641,15 @@ End Code
     }
     function SaveData() {
         if ($('#txtCustCode').val().trim().indexOf(' ') >= 0) {
-            ShowMessage('Code must not have space', true);
+            ShowMessage('Data must not have space', true);
             return;
         }
         if ($('#txtCustCode').val().trim().length > 10) {
-            ShowMessage('Code must not have length over 10', true);
+            ShowMessage('Data must not have length over 10', true);
             return;
         }
         if ($('#txtCustCode').val().trim().length < 3) {
-            ShowMessage('Code must not have length less than 3', true);
+            ShowMessage('Data must not have length less than 3', true);
             return;
         }
         if ($('#txtBranch').val().trim().length > 4) {
@@ -723,14 +723,14 @@ End Code
         };
         if (obj.CustCode != "") {
             if (obj.Branch == '') {
-                ShowMessage('Please enter branch',true);
+                ShowMessage('Please input branch',true);
                 return;
             }
             if (obj.NameThai == '') {
-                ShowMessage('Please enter customer name',true);
+                ShowMessage('Please input name',true);
                 return;
             }
-            ShowConfirm("Do you need to Save " + obj.CustCode + "/" + obj.Branch + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -752,13 +752,13 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function DeleteData() {
         var code = $('#txtCustCode').val();
         var branch = $('#txtBranch').val();
-        ShowConfirm("Do you need to Delete " + code + "/" + branch + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delcompany?code=' + code + '&branch=' + branch, function (r) {
                 ShowMessage(r.company.result);

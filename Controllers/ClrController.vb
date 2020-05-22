@@ -33,6 +33,51 @@ Namespace Controllers
             End If
             Return GetView("Costing", "MODULE_ACC")
         End Function
+        Function GetClearExpFromClr() As ActionResult
+            Try
+                Dim tSqlW As String = " WHERE j.JNo<>'' "
+                Dim branch As String = ""
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    branch = Request.QueryString("Branch").ToString
+                    tSqlW &= String.Format(" AND j.BranchCode='{0}'", branch)
+                End If
+                Dim job As String = ""
+                If Not IsNothing(Request.QueryString("Job")) Then
+                    job = Request.QueryString("Job").ToString
+                    tSqlW &= String.Format(" AND j.JNo='{0}'", job)
+                End If
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectExpenseFromClr() & tSqlW)
+                If oData.Rows.Count > 0 Then
+                    For Each row As DataRow In oData.Rows
+                        Dim oRow As New CClearExp(GetSession("ConnJob"))
+                        oRow.BranchCode = row("BranchCode").ToString
+                        oRow.JNo = row("JNo").ToString
+                        oRow.SICode = row("SICode").ToString
+                        oRow.SDescription = row("NameThai").ToString
+                        oRow.TRemark = row("TRemark").ToString
+                        oRow.Status = If(row("IsRequired").ToString = "1", "R", "O")
+                        oRow.CurrencyCode = row("CurrencyCode").ToString
+                        oRow.ExchangeRate = row("CurrencyRate")
+                        oRow.AmountCharge = row("ChargeAmt")
+                        oRow.Qty = row("QtyBegin")
+                        oRow.QtyUnit = row("UnitCheck").ToString
+                        oRow.AmtVatRate = row("VatRate")
+                        oRow.AmtVat = row("VatAmt")
+                        oRow.AmtWhtRate = row("TaxRate")
+                        oRow.AmtWht = row("TaxAmt")
+                        oRow.AmtTotal = row("TotalAmt")
+                        Dim msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode))
+                    Next
+                End If
+                Dim oRows = New CClearExp(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' ", branch, job))
+                Dim json = JsonConvert.SerializeObject(oRows)
+                json = "{""estimate"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearExpFromQuo", ex.Message, ex.StackTrace, True)
+                Return Content("{""estimate"":{""data"":[]}}", jsonContent)
+            End Try
+        End Function
         Function GenerateInv() As ActionResult
             Return GetView("GenerateInv", "MODULE_ACC")
         End Function
@@ -601,7 +646,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.ClrNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -718,7 +763,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.ClrNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -918,7 +963,7 @@ Namespace Controllers
                 If clrNoList <> "" Then
                     Return Content("{""clr"":{""result"":""Save To " & clrNoList & """,""data"":[]}}", jsonContent)
                 Else
-                    Return Content("{""clr"":{""result"":""No Data To Save"",""data"":[]}}", jsonContent)
+                    Return Content("{""clr"":{""result"":""No data to Save"",""data"":[]}}", jsonContent)
                 End If
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetClrByPay", ex.Message, ex.StackTrace, True)

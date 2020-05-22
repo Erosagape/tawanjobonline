@@ -643,7 +643,7 @@ function SetGridCustContact(p, g, t, d, ev) {
                 });
                 BindEvent(g, d, ev);
             } else {
-                ShowMessage('Not Found Contact Of This Company',true);
+                ShowMessage('Not Found Contact of This Company',true);
             }
         });
 }

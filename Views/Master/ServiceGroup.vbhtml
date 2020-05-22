@@ -221,7 +221,7 @@ End Code
     }
     function DeleteData() {
         var code = $('#txtGroupCode').val();
-        ShowConfirm("Do you need to Delete " + code + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delservicegroup?code=' + code, function (r) {
                 ShowMessage(r.servicegroup.result);
@@ -303,15 +303,15 @@ End Code
     function SaveData() {
         var obj = GetDataSave();        
         if (obj.GroupCode == '') {
-            ShowMessage('Please enter code',true);
+            ShowMessage('Please input code',true);
             return;
         }
         if (obj.GroupName == '') {
-            ShowMessage('Please enter name',true);
+            ShowMessage('Please input name',true);
             return;
         }
         row = obj;
-        ShowConfirm("Do you need to " + (row.GroupCode == "" ? "Add" : "Save") + " this data?", function (ask) {
+        ShowConfirm('Do you need to save this data?', function (ask) {
             if (ask == false) return;
             var jsonText = JSON.stringify({ data: obj });
             //ShowMessage(jsonText);
@@ -346,7 +346,7 @@ End Code
                 row_d.IsCredit = row.IsCredit;
                 row_d.IsExpense = row.IsExpense;
             }
-            ShowConfirm("Do you need to set " + (row_d.SICode) + " to this group?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: row_d });
                 //ShowMessage(jsonText);

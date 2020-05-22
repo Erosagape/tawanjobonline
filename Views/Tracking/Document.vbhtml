@@ -390,7 +390,7 @@ End Code
                 ShowMessage('Please choose some type of documents', true);
             }
         } else {
-            ShowMessage('Please choose some job', true);
+            ShowMessage('Please select job number', true);
         }
     }
     function SaveData() {
@@ -405,7 +405,7 @@ End Code
         row.ApproveDate = CDateEN($('#txtApproveDate').val());
 
         if (row.ItemNo != "") {
-            ShowConfirm("Do you need to Save " + row.ItemNo + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 let jsonText = JSON.stringify({ data: row });
                 $.ajax({
@@ -425,7 +425,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function DeleteData() {
@@ -449,13 +449,13 @@ End Code
                 });
             }
         } else {
-            ShowMessage('No File To Delete',true);
+            ShowMessage('No data to delete',true);
         }
     }
     function UploadFile() {
         let count = $('#objFile')[0].files.length;
         if (count == 0) {
-            ShowMessage('no file selected',true);
+            ShowMessage('Data not found',true);
             return;
         }
         let saveTo = 'Resource/Import';

@@ -199,7 +199,7 @@ Namespace Controllers
                 custcode = Request.QueryString("Cust").ToString().Split("|")(0)
                 custbranch = Request.QueryString("Cust").ToString().Split("|")(1)
             Else
-                Return Content("{""result"":""Please select customer""}", jsonContent)
+                Return Content("{""result"":""Please choose customer first""}", jsonContent)
             End If
             Try
                 Dim oHead = New CQuoHeader(GetSession("ConnJob")).GetData(tSqlw)
@@ -331,7 +331,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.QNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -403,7 +403,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.SeqNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -482,7 +482,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.ItemNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -581,7 +581,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.BookingNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -676,7 +676,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.ItemNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -1070,7 +1070,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.ItemNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -1181,7 +1181,7 @@ Namespace Controllers
                 End If
                 Dim pFormatSQL As String = "DO" & DateTime.Now().ToString("yyMM") & "_____"
                 Dim data = New CTransportDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", branch, booking, itemno))
-                Dim msg = "[ERROR]:Data Not Found"
+                Dim msg = "[ERROR]:Data not found"
                 If data.Count > 0 Then
                     Dim row = data(0)
                     row.DeliveryNo = Main.GetMaxByMask(GetSession("ConnJob"), String.Format("SELECT MAX(DeliveryNo) as t FROM Job_LoadInfoDetail WHERE BranchCode='{0}' And DeliveryNo Like '%{1}' ", branch, pFormatSQL), pFormatSQL)
@@ -1320,7 +1320,7 @@ Namespace Controllers
                     'Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetJobOrder", "Save", JsonConvert.SerializeObject(data), False)
                     Return Content("{""msg"":""" & msg & """,""result"":""" & data.JNo & """}", jsonContent)
                 Else
-                    Return Content("{""msg"":""No data to save"",""result"":""" & data.JNo & """}", jsonContent)
+                    Return Content("{""msg"":""No data to Save"",""result"":""" & data.JNo & """}", jsonContent)
                 End If
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetJobOrder", ex.Message, ex.StackTrace, True)
@@ -1700,7 +1700,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.JNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -1787,7 +1787,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.LocationID & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -1867,7 +1867,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.LocationID & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception

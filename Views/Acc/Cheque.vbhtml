@@ -525,7 +525,7 @@ End Code
             $('#txtPostedTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'Post voucher!' : 'cancel post!'),true);
+        ShowMessage('You are not allow to do this',true);
         $('#chkPosted').prop('checked', !chkmode);
     }
     function SetCancel(b) {
@@ -535,7 +535,7 @@ End Code
             $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }
-        ShowMessage('You are not allow to ' + (b ? 'cancel voucher!' : 'do this!'),true);
+        ShowMessage('You are not allow to do this',true);
         $('#chkCancel').prop('checked', !chkmode);
     }
     function LoadData() {
@@ -612,7 +612,7 @@ End Code
     }
     function AddPayment() {
         if (userRights.indexOf('I') < 0) {
-            ShowMessage('you are not authorize to add payment',true);
+            ShowMessage('You are not allow to add',true);
             return;
         }
         ClearPayment();
@@ -631,7 +631,7 @@ End Code
         }
     }
     function SaveData() {
-        ShowConfirm("Do you need to Save " + $('#txtControlNo').val() + "?", function (ask) {
+        ShowConfirm('Do you need to save this data?', function (ask) {
             if (ask == false) return;
             let obj = {
                 BranchCode:$('#txtBranchCode').val(),
@@ -678,7 +678,7 @@ End Code
         }
         $.get(path + 'acc/getvouchergrid?branch=' + code + '&type=CHQ' + $('#cboPRType').val(), function (r) {
             if (r.voucher.data.length == 0) {
-                ShowMessage('data not found on this branch',true);
+                ShowMessage('Data not found',true);
                 return;
             }
             let h = r.voucher.data[0].Table;
@@ -998,7 +998,7 @@ End Code
     }
     function ReadCheque(dt) {
         if ($('#cboPRType').val() == 'R') {
-            ShowMessage('You can choose cheque for payment only', true);
+            ShowMessage('You can choose cheque only for payment entry', true);
             return;
         }
         $('#txtChqNo').val(dt.ChqNo);
@@ -1060,7 +1060,7 @@ End Code
     }
     function PrintData() {
         if (userRights.indexOf('P') < 0) {
-            ShowMessage('you are not authorize to print',true);
+            ShowMessage('You are not allow to do this',true);
             return;
         }
         window.open(path + 'Acc/FormVoucher?branch=' + $('#txtBranchCode').val() + '&controlno=' + $('#txtControlNo').val());

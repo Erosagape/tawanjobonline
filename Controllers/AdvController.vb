@@ -165,7 +165,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.SICode & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -333,7 +333,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.AdvNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
 
@@ -368,7 +368,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.AdvNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
 
@@ -387,7 +387,7 @@ Namespace Controllers
                     Return Content("{""result"":{""data"":null,""msg"":""You are not authorize to edit document""}}", jsonContent)
                 End If
 
-                Dim json As String = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                Dim json As String = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                 If IsNothing(data) Then
                     Return Content(json, jsonContent)
                 End If
@@ -468,7 +468,7 @@ Namespace Controllers
                     Dim json = "{""result"":{""data"":""" & data.ItemNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -503,7 +503,7 @@ Namespace Controllers
                 tSqlW &= " AND ItemNo=" & ItemNo & ""
 
                 Dim oADVD = New CAdvDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' And AdvNo='{1}' And ItemNo={2}", Branch, Docno, ItemNo))
-                Dim msg As String = "No Data To Delete"
+                Dim msg As String = "No data to delete"
                 If oADVD.Count > 0 Then
                     msg = oADVD(0).DeleteData(tSqlW)
                 End If

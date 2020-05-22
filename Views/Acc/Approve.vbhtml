@@ -168,7 +168,7 @@ End Code
         $.get(path + 'acc/getpayment?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.payment.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                if(isAlert==true) ShowMessage('data not found',true);
+                if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
             let h = r.payment.header;
@@ -261,7 +261,7 @@ End Code
     }
     function ApproveData() {
         if (arr.length < 0) {
-            ShowMessage('no data to approve',true);
+            ShowMessage('No data to approve',true);
             return;
         }
         let dataApp = [];
@@ -277,7 +277,7 @@ End Code
             data: jsonString,
             success: function (response) {
                 SetGridAdv(false);
-                response ? ShowMessage("Approve Completed!") : ShowMessage("Cannot Approve");
+                response ? ShowMessage("Approve Completed") : ShowMessage("Cannot Approve");
             },
             error: function (e) {
                 ShowMessage(e,true);

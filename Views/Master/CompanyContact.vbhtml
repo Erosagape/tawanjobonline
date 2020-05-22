@@ -97,7 +97,7 @@ End Code
         $.get(path + 'master/getcompanycontact?branch=' + $('#txtBranch').val() + '&code=' + $('#txtCustCode').val(), function (r) {
             if (r.companycontact.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
-                if (isAlert==true) ShowMessage('data not found',true);
+                if (isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
             let h = r.companycontact.data;
@@ -147,7 +147,7 @@ End Code
         var branch = $('#txtBranch').val();
         var code = $('#txtCustCode').val();
         var item = $('#txtItemNo').val();
-        ShowConfirm("Do you need to Delete " + $('#txtItemNo').val() + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delcompanycontact?branch=' + branch + '&code=' + code + '&item=' + item, function (r) {
                 ShowMessage(r.companycontact.result);
@@ -176,11 +176,11 @@ End Code
             Phone:$('#txtPhone').val(),
         };
         if (obj.CustCode == '' || obj.Branch == '') {
-            ShowMessage('Please select customer',true);
+            ShowMessage('Please choose customer first',true);
             return;
         }
         if (obj.ItemNo != "") {
-            ShowConfirm("Do you need to Save " + obj.ItemNo + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 let jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -202,7 +202,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
 	}
 	function ClearData(){		

@@ -238,7 +238,7 @@ End Code
     function DeleteData() {
         var branch = $('#txtBranchCode').val();
         var code = $('#txtBookCode').val();
-        ShowConfirm("Do you need to Delete " + code + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delbookaccount?branch='+branch+'&code=' + code, function (r) {
                 ShowMessage(r.bookaccount.result);
@@ -307,7 +307,7 @@ End Code
             GLAccountCode: $('#txtGLAccountCode').val()
         };
         if (obj.BookCode != "") {
-            ShowConfirm("Do you need to Save " + obj.BookCode + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 $.ajax({
@@ -328,7 +328,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     function ClearData(){

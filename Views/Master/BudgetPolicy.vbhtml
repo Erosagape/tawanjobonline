@@ -156,7 +156,7 @@ End Code
     //CRUD Functions used in HTML Java Scripts
     function DeleteData() {
         var code = $('#txtID').val();
-        ShowConfirm("Do you need to Delete " + code + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delbudgetpolicy?code=' + code, function (r) {
                 ShowMessage(r.budgetpolicy.result);
@@ -196,7 +196,7 @@ End Code
             UpdateBy:user,
         };
         if (obj.ID !== "") {
-            ShowConfirm("Do you need to Save " + obj.ID + "?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -220,7 +220,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
 	}
     function ClearData() {

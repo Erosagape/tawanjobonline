@@ -1332,7 +1332,7 @@ End Code
                 SaveData();
                 return;
             } else {
-                ShowMessage('Please enter reason of canceling',true);
+                ShowMessage('Please enter reason for cancel',true);
                 return;
             }
         } else {
@@ -1353,17 +1353,17 @@ End Code
                 return;
             }
         }
-        ShowMessage('This job already cancelled',true);
+        ShowMessage('This document is cancelled',true);
     }
     function CloseJob() {
         if ($('#txtCloseBy').val() == '') {
             if ($('#txtDutyDate').val()=='') {
-                ShowMessage('Please Entry Duty Date before close job',true);
+                ShowMessage('Please input inspection date',true);
                 $('#txtDutyDate').focus();
                 return;
             }
             if ($('#txtConfirmDate').val()=='') {
-                ShowMessage('Please Entry Confirm Date before close job',true);
+                ShowMessage('Please input confirm date',true);
                 $('#txtConfirmDate').focus();
                 return;
             }
@@ -1395,7 +1395,7 @@ End Code
                 }
             }
         }
-        ShowMessage('job is already closed');
+        ShowMessage('This job has been closed');
     }
     function SaveData() {
         if (rec.JNo != undefined) {
@@ -1416,7 +1416,7 @@ End Code
                 }
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
     }
     //This section is for Total Container Editing
@@ -1475,11 +1475,11 @@ End Code
     }
     function AddService() {
 		if($('#txtUnitAdd').val()==''){
-			ShowMessage('Please Enter Unit',true);
+			ShowMessage('Please select unit',true);
 			return;
 		}
 		if($('#txtQtyAdd').val()==''){
-			ShowMessage('Please Enter Qty',true);
+			ShowMessage('Please input quantity',true);
 			return;
 		}
         AddNewService($('#txtQtyAdd').val() + 'x' + $('#txtUnitAdd').val());
@@ -1590,9 +1590,9 @@ End Code
                 $('#txtEDIDate').val(ReverseDate(r[0].DECLDATECAL));
                 $('#txtDutyDate').val(ReverseDate(r[0].DECLDATE));
 
-                ShowMessage('Data Updated, Please Check and Save if correct');
+                ShowMessage('Save Complete');
             } else {
-                ShowMessage('NOT FOUND ON DATABASE', true);
+                ShowMessage('Data not found', true);
             }
         });
     }

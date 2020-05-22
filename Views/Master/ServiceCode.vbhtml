@@ -304,7 +304,7 @@ End Code
     }
     function DeleteData() {
         var code = $('#txtSICode').val();
-        ShowConfirm("Do you need to Delete " + code + "?", function (ask) {
+        ShowConfirm('Do you need to delete this data?', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delservicecode?code=' + code, function (r) {
                 ShowMessage(r.servicecode.result);
@@ -381,14 +381,14 @@ End Code
         if (row.SICode != undefined) {
             var obj = GetDataSave(row);
             if (obj.GroupCode == null) {
-                ShowMessage('Please enter service type',true);
+                ShowMessage('Please select type of expense',true);
                 return;
             }
             if (obj.NameThai == '') {
-                ShowMessage('Please enter service name',true);
+                ShowMessage('Please input name',true);
                 return;
             }
-            ShowConfirm("Do you need to " + (row.SICode == "" ? "Add" : "Save") + " this data?", function (ask) {
+            ShowConfirm('Do you need to save this data?', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -410,7 +410,7 @@ End Code
                 });
             });
         } else {
-            ShowMessage('No data to save',true);
+            ShowMessage('No data to Save',true);
         }
         //ShowMessage('VAT=' + $('#chkIsTaxCharge').prop('checked') + ' (' + $('input:radio[name=optVAT]:checked').val() + ') TAX=' + $('#chkIs50Tavi').prop('checked') + ' (' + $('input:radio[name=optWHT]:checked').val()+')');
     }
