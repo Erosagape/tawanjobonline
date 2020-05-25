@@ -182,11 +182,11 @@
     $('#tbCode').hide();
     $('#tbReportList tbody').on('click', 'tr', function () {
         data = $('#tbReportList').DataTable().row(this).data();
-        if (data.ReportAuthor.indexOf(userPosition) < 0) {
-            ShowMessage("Your position are not authorized to view Report", true);
-            $('#btnPrnJob').hide();
-            return;
-        }
+        //if (data.ReportAuthor.indexOf(userPosition) < 0) {
+            //ShowMessage("Your position are not authorized to view Report", true);
+            //$('#btnPrnJob').hide();
+            //return;
+        //}
         $('#btnPrnJob').show();
         SetSelect('#tbReportList', this);
         reportID = data.ReportCode;        

@@ -471,7 +471,7 @@ End Code
                         <div class="modal-body">
                             <label id="lblFilter">Filter By Status : </label>
                             <select id="cboStatus" class="form-control dropdown" onchange="SetGridClr()"></select>
-                            <br/>
+                            <br />
                             <table id="tbHeader" class="table table-responsive">
                                 <thead>
                                     <tr>
@@ -490,6 +490,7 @@ End Code
                                     </tr>
                                 </thead>
                             </table>
+                            <div id="dvClrFilter"></div>
                         </div>
                         <div class="modal-footer">
                             <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
@@ -1727,6 +1728,10 @@ End Code
         if ($('#cboStatus').val() !== '') {
             w += '&status=' + $('#cboStatus').val();
         }
+        if ($('#cboClrType').val() > 0) {
+            w += '&ctype=' + $('#cboClrType').val();
+        }
+        $('#dvClrFilter').html(w);
         $.get(path + 'clr/getclearinggrid' +  w, function (r) {
             if (r.clr.data.length == 0) {
                 ShowMessage('Data not found',true);

@@ -972,7 +972,7 @@ End Code
             return;
         }
         if (row_d.SeqNo !== undefined) {
-            ShowConfirm('Do you need to delete this data?', function (result) {
+            ShowConfirm('Please confirm to delete', function (result) {
                 if (result == true) {
                     $.get(path+ 'JobOrder/DelQuoDetail?Branch=' + row_d.BranchCode + '&Code=' + row_d.QNo + '&Seq=' + row_d.SeqNo)
                         .done(function (r) {
@@ -996,7 +996,7 @@ End Code
             return;
         }
         if (row_i.ItemNo !== undefined) {
-            ShowConfirm('Do you need to delete this data?', function (result) {
+            ShowConfirm('Please confirm to delete', function (result) {
                 if (result == true) {
                     $.get(path+ 'JobOrder/DelQuoItem?Branch=' + row_i.BranchCode + '&Code=' + row_i.QNo + '&Seq=' + row_i.SeqNo + '&Item=' + row_i.ItemNo)
                         .done(function (r) {
@@ -1134,7 +1134,7 @@ End Code
             return;
         }
         if ($('#txtDocItemNo').val() == '') {
-            ShowMessage('Please select some item first',true);
+            ShowMessage('Please enter some data first',true);
             return;
         }
         row_i = {};

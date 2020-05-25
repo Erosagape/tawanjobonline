@@ -86,7 +86,7 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.PlaceName = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE PlaceName='{0}' ", data.PlaceName))
@@ -107,7 +107,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND PlaceName Like '{0}%'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""transportplace"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""transportplace"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CTransportPlace(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -140,7 +140,7 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.AccCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE AccCode='{0}' ", data.AccCode))
@@ -162,7 +162,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND AccCode='{0}' ", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""accountcode"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""accountcode"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CAccountCode(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -217,7 +217,7 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.ProvinceCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE ProvinceCode='{0}' ", data.ProvinceCode))
@@ -239,7 +239,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND ProvinceCode='{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""province"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""province"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CProvince(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -270,7 +270,7 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.id = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE id='{0}' ", data.id))
@@ -292,7 +292,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("ID")) Then
                     tSqlw &= String.Format("AND id Like '{0}'", Request.QueryString("ID").ToString)
                 Else
-                    Return Content("{""province"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""province"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CProvinceSub(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -308,7 +308,7 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.CustCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Customer""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please choose customer first""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}' AND ItemNo='{2}' ", data.CustCode, data.Branch, data.ItemNo))
@@ -336,7 +336,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Item")) Then
                     tSqlw &= String.Format(" AND ItemNo={0}", Request.QueryString("Item").ToString)
                 Else
-                    Return Content("{""companycontact"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""companycontact"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CCompanyContact(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -371,7 +371,7 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.RegsNumber = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE RegsNumber='{0}' ", data.RegsNumber))
@@ -393,7 +393,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND RegsNumber Like '{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""vessel"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""vessel"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CVessel(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -425,7 +425,7 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.GroupCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE GroupCode='{0}' ", data.GroupCode))
@@ -466,7 +466,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND GroupCode Like '{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""servicegroup"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""servicegroup"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CServiceGroup(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -497,7 +497,7 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.Code = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE [Code]='{0}' ", data.Code))
@@ -519,7 +519,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND [Code] Like '{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""bank"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""bank"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CBank(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -571,7 +571,7 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.BookCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookCode='{1}' ", data.BranchCode, data.BookCode))
@@ -593,7 +593,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND BookCode = '{0}' ", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""bookaccount"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""bookaccount"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format("AND BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
@@ -630,10 +630,10 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.PortCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Port Code""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please input code""}}", jsonContent)
                     End If
                     If "" & data.CountryCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Country Code""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please input country code""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE PortCode='{0}' AND CountryCode='{1}' ", data.PortCode, data.CountryCode))
@@ -655,12 +655,12 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format(" AND PortCode Like '{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""interport"":{""result"":""Please Select Port Code"",""data"":[]}}", jsonContent)
+                    Return Content("{""interport"":{""result"":""Please input code"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("Key")) Then
                     tSqlw &= String.Format(" AND CountryCode Like '{0}'", Request.QueryString("Key").ToString)
                 Else
-                    Return Content("{""interport"":{""result"":""Please Select Country Code"",""data"":[]}}", jsonContent)
+                    Return Content("{""interport"":{""result"":""Please input country vode"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CInterPort(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -695,7 +695,7 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.AreaCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE AreaCode='{0}' ", data.AreaCode))
@@ -720,7 +720,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND AreaCode Like '{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""RFARS"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""RFARS"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CCustomsPort(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -738,7 +738,7 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.Type = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE Type='{0}' ", data.Type))
@@ -763,7 +763,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND Type Like '{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""RFDCT"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""RFDCT"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CDeclareType(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -801,7 +801,7 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.UnitType = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE UnitType='{0}' ", data.UnitType))
@@ -826,7 +826,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND UnitType Like '{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""servunit"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""servunit"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CServUnit(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -877,7 +877,7 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.Code = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE [Code]='{0}' ", data.Code))
@@ -902,7 +902,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND [Code] ='{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""currency"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""currency"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CCurrency(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -990,7 +990,7 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.CTYCODE = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE CTYCODE='{0}' ", data.CTYCODE))
@@ -1015,7 +1015,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND CTYCODE Like '{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""country"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""country"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CCountry(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -1100,7 +1100,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND VenCode Like '{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""vender"":{""result"":""Please Select Some Vender"",""data"":[]}}", jsonContent)
+                    Return Content("{""vender"":{""result"":""Please choose vender first"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CVender(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -1118,7 +1118,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND CustCode = '{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""company"":{""result"":""Please Select Some Customer"",""data"":[]}}", jsonContent)
+                    Return Content("{""company"":{""result"":""Please choose customer first"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format("AND Branch = '{0}'", Request.QueryString("Branch").ToString)
@@ -1140,7 +1140,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND UserID Like '{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""user"":{""result"":""Please Select Some User"",""data"":[]}}", jsonContent)
+                    Return Content("{""user"":{""result"":""Please select staff"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CUser(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -1200,7 +1200,7 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.CustCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter CustCode""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please choose customer first""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE CustCode='{0}' And Branch='{1}' ", data.CustCode, data.Branch))
@@ -1222,7 +1222,7 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.VenCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Vender Code""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please choose vender first""}}", jsonContent)
                     End If
 
                     data.SetConnect(GetSession("ConnJob"))
@@ -1245,7 +1245,7 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.UserID = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter User ID""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please select staff""}}", jsonContent)
                     End If
 
                     data.SetConnect(GetSession("ConnJob"))
@@ -1305,7 +1305,7 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.Code = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE [Code]='{0}' ", data.Code))
@@ -1330,7 +1330,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND [Code] Like '{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""branch"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""branch"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CBranch(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -1386,7 +1386,7 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.ID = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE ID={0} ", data.ID))
@@ -1408,7 +1408,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND ID Like '{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""budgetpolicy"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""budgetpolicy"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CBudgetPolicy(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -1439,7 +1439,7 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.Code = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnMas"))
                     Dim msg = data.SaveData(String.Format(" WHERE [Code]='{0}' ", data.Code))
@@ -1461,7 +1461,7 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND [Code] Like '{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""customsunit"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""customsunit"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CCustomsUnit(GetSession("ConnMas"))
                 Dim msg = oData.DeleteData(tSqlw)

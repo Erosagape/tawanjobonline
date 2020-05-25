@@ -473,7 +473,7 @@ End Code
         }
     }
     function SaveData() {
-        ShowConfirm('Do you need to save this data?', function (ask) {
+        ShowConfirm('Please confirm to save', function (ask) {
             if (ask == false) return;
             let obj = {
                 BranchCode:$('#txtBranchCode').val(),

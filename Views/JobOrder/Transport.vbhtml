@@ -1022,7 +1022,7 @@ End Code
     function DeleteBooking() {
         let code = $('#txtBookingNo').val();
         let branch = $('#txtBranchCode').val();
-        ShowConfirm('Do you need to delete this data?', function (ask) {
+        ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
             $.get(path + 'joborder/deltransportheader?branch=' + branch + '&code=' + code, function (r) {
                 ShowMessage(r.transport.result);
@@ -1065,7 +1065,7 @@ End Code
             PaymentBy:$('#txtPaymentBy').val()
 	    };
         if (obj.BookingNo != "") {
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 let jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -1224,7 +1224,7 @@ End Code
             DeliveryNo: $('#txtDeliveryNo').val()
         };
         if (obj.ItemNo != "") {
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 row = obj;
                 let jsonText = JSON.stringify({ data: obj });
@@ -1288,7 +1288,7 @@ End Code
     }
     function DeleteDetail() {
         if ($('#txtCauseCode').val() == '99' || $('#txtCauseCode').val() === '') {
-            ShowConfirm('Do you need to delete this data?', function (ask) {
+            ShowConfirm('Please confirm to delete', function (ask) {
                 if (ask == false) return;
                 let branch = $('#txtBranchCode').val();
                 let code = $('#txtBookingNo').val();

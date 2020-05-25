@@ -131,7 +131,7 @@ End Code
             ShowMessage('Please enter config value',true);
             return;
         }
-        ShowConfirm('Do you need to save this data?', function (ask) {
+        ShowConfirm('Please confirm to save', function (ask) {
             if (ask == false) return;
             $.ajax({
                 url: "@Url.Action("SetConfig", "Config")",
@@ -139,7 +139,7 @@ End Code
                 contentType: "application/json",
                 data: JSON.stringify({ data: obj }),
                 success: function (response) {
-                    response ? ShowMessage("Save Completed!") : ShowMessage("Cannot Save data",true);
+                    response ? ShowMessage("Save Complete") : ShowMessage("Cannot Save data",true);
                     ShowData($('#txtCode').val(), "");
                     $("#txtCode").focus();
                 }
@@ -168,7 +168,7 @@ End Code
     function DeleteData() {
         var code = $('#txtCode').val();
         var key = $('#txtKey').val();
-        ShowConfirm('Do you need to delete this data?', function (ask) {
+        ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
             $.get(path + 'config/delconfig' + GetParam(code,key), function (r) {
                 ShowMessage(r.config.result);

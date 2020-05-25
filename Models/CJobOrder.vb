@@ -1065,7 +1065,7 @@ Public Class CJobOrder
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CJobOrder", "SaveData", Me, False)
-                            msg = "Save " & Me.JNo & " Complete"
+                            msg = "Save Complete"
                         End Using
                     End Using
 

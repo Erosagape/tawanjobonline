@@ -1,5 +1,4 @@
-﻿
-@Code
+﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Invoice Slip"
 End Code
@@ -7,8 +6,10 @@ End Code
     body {
         font-size: 11px;
     }
-
-    table {
+#dvFooter {
+	display:none;
+}
+	    table {
         border-width: thin;
         border-collapse: collapse;
     }
@@ -102,6 +103,8 @@ End Code
             <div class="row">
                 <p class="col-sm-12">
                     DECLARE TYPE :<label id="lblDeclareType"></label>
+<br/>
+CUST PO: <label id="lblCustRefNo"></label>
                 </p>
             </div>
         </div>
@@ -235,10 +238,15 @@ End Code
             $('#lblDiscountRate').text(h.DiscountRate);
             $('#lblVATRate').text(ShowNumber(h.VATRate,1));
 
-            let c = dr.customer[0][0];
-            if (c !== null) {
+            $.get(path + 'Master/GetCompany?Code='+ h.BillToCustCode + '&Branch='+ h.BillToCustBranch).done(function(r) {
+                 if(r.company.data.length >0) {
+                      let c=r.company.data[0];
                 $('#lblTaxNumber').text(c.TaxNumber);
-                $('#lblTaxBranch').text(c.Branch);
+	   if(Number(c.Branch)==0){ 
+		$('#lblTaxBranch').text('สำนักงานใหญ่');
+	   } else {
+		$('#lblTaxBranch').text(c.Branch);
+	   }                
                 if (c.UsedLanguage == 'TH') {
                     $('#lblCustName').text(c.Title+' '+c.NameThai);
                     $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
@@ -246,9 +254,8 @@ End Code
                     $('#lblCustName').text(c.NameEng);
                     $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2);
                 }
-                //$('#lblCustTel').text(c.Phone);
-            }
-
+                 }
+            });
             let j = dr.job[0][0];
             if (j !== null) {
                 $('#lblCustInvNo').text(j.InvNo);
@@ -272,6 +279,7 @@ End Code
                 ShowReleasePort(path, j.ClearPort, '#lblClearPort');
                 $('#lblTotalContainer').text(j.TotalContainer);
                 ShowDeclareType(path, j.DeclareType, '#lblDeclareType');
+                $('#lblCustRefNo').text(j.CustRefNO);
             }
             let remark = h.Remark1 + '\n' + h.Remark2 + '\n' + h.Remark3 + '\n' + h.Remark4 + '\n' + h.Remark5 + '\n' + h.Remark6 + '\n' + h.Remark7 + '\n' + h.Remark8 + '\n' + h.Remark9 + '\n' + h.Remark10;
             remark=remark.replace(/(?:\r\n|\r|\n)/g, '<br/>');

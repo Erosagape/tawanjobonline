@@ -47,7 +47,7 @@ Public Class CBranch
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CBranch", "SaveData", Me, False)
-                            msg = "Save Branch " & Me.Code & " Complete"
+                            msg = "Save Complete"
                         End Using
                     End Using
                 End Using

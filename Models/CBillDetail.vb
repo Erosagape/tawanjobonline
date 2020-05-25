@@ -357,7 +357,6 @@ Public Class CBillDetail
     End Sub
     Function UpdateTotal(cn As SqlConnection) As String
         Dim sql As String = SQLUpdateBillToInv(Me.BranchCode, Me.BillAcceptNo, False)
-
         Using cm As New SqlCommand(sql, cn)
             cm.CommandText = sql & If(Me.InvNo <> "", " AND a.DocNo='" + Me.InvNo + "'", "")
             cm.CommandType = CommandType.Text
@@ -369,7 +368,11 @@ Public Class CBillDetail
             cm.ExecuteNonQuery()
             Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillDetail", "UpdateTotal", cm.CommandText, False)
         End Using
-        Return "Save " & Me.BillAcceptNo & " Complete!"
+        If GetSession("CurrentLang") = "TH" Then
+            Return "บันทึก " & Me.BillAcceptNo & " รายการที่ " & Me.ItemNo & " เรียบร้อย"
+        Else
+            Return "Save " & Me.BillAcceptNo & " Item " & Me.ItemNo & " Complete"
+        End If
     End Function
 End Class
 

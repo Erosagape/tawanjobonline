@@ -226,7 +226,7 @@ End Code
             data: jsonString,
             success: function (response) {
                 SetGridAdv(false);
-                response ? ShowMessage("Approve Completed!") : ShowMessage("Cannot Approve",true);
+                response ? ShowMessage("Approve Complete") : ShowMessage("Cannot Approve",true);
             },
             error: function (e) {
                 ShowMessage(e,true);

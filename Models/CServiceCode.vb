@@ -265,9 +265,13 @@ Public Class CServiceCode
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             If da.Update(dt) > 0 Then
                                 Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CServiceCode", "SaveData", Me, False)
-                                msg = "Save " & Me.SICode & " Complete"
+                                If GetSession("CurrentLang") = "TH" Then
+                                    msg = "บันทึก " & Me.SICode & " เรียบร้อย"
+                                Else
+                                    msg = "Save " & Me.SICode & " Complete"
+                                End If
                             Else
-                                msg = "Save Failed"
+                                msg = "No data to Save"
                             End If
                         End Using
                     End Using

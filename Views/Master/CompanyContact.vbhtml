@@ -147,7 +147,7 @@ End Code
         var branch = $('#txtBranch').val();
         var code = $('#txtCustCode').val();
         var item = $('#txtItemNo').val();
-        ShowConfirm('Do you need to delete this data?', function (ask) {
+        ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delcompanycontact?branch=' + branch + '&code=' + code + '&item=' + item, function (r) {
                 ShowMessage(r.companycontact.result);
@@ -180,7 +180,7 @@ End Code
             return;
         }
         if (obj.ItemNo != "") {
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 let jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);

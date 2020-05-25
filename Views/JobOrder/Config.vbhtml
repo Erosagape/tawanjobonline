@@ -64,7 +64,7 @@ End Code
                 ConfigKey: $('#cboJobType').val().trim(),
                 ConfigValue: val
             };
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 $.ajax({
                     url: "@Url.Action("SetConfig", "Config")",

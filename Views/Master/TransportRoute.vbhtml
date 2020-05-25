@@ -390,7 +390,7 @@ End Code
     }
     function DeleteRoute(id) {
         var pathdel = path + 'JobOrder/DelTransportRoute?ID=' + id;
-        ShowConfirm('Do you need to delete this data?', (ans) => {
+        ShowConfirm('Please confirm to delete', (ans) => {
             if (ans == true) {
                 $.get(pathdel).done(function (r) {
                     ShowMessage(r.transportroute.result);
@@ -405,7 +405,7 @@ End Code
     }
     function ClearRoute() {
         $('#txtLocationID').val(0);
-        ShowConfirm('Do you need to clear all data?', (ans) => {
+        ShowConfirm('Please confirm to clear all data', (ans) => {
             if (ans == true) {
                 ClearPlace(1);
                 ClearPlace(2);
@@ -493,7 +493,7 @@ End Code
             PlaceContact: $('#txtContact' + id).val()
         };
         let json = JSON.stringify({ data: obj });
-        ShowConfirm('Do you need to save this data?', function (ask) {
+        ShowConfirm('Please confirm to save', function (ask) {
             if (ask == true) {
                 postData(path + 'Master/SetTransportPlace', json, function (r) {
                     ShowData();
@@ -526,7 +526,7 @@ End Code
             IsActive: true
         };
         let json = JSON.stringify({ data: obj });
-        ShowConfirm('Do you need to save this data?', function (ask) {
+        ShowConfirm('Please confirm to save', function (ask) {
             if (ask == true) {
                 postData(path + 'JobOrder/SetTransportRoute', json, function (r) {
                     ShowMessage(r.result.msg);
@@ -600,7 +600,7 @@ End Code
             return;
         }
         if ($('#txtSICode').val() !== '') {
-            ShowConfirm('Do you need to save this data?', (ans) => {
+            ShowConfirm('Please confirm to save', (ans) => {
                 if (ans == true) {
                     let obj = {
                         BranchCode: $('#txtBranchCode').val(),
@@ -642,7 +642,7 @@ End Code
         }
     }
     function DelExpense() {
-        ShowConfirm('Do you need to delete this data?', (ans) => {
+        ShowConfirm('Please confirm to delete', (ans) => {
             if (ans == true) {
                 let w = '';
                 w += '?Branch=' + $('#txtBranchCode').val();

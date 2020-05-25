@@ -181,7 +181,7 @@ End Code
         var code = $('#txtUserID').val();
         var key ="MODULE_"+ $('#txtAppID').val();
         var menu = $('#txtMenuID').val();
-        ShowConfirm('Do you need to delete this data?', function (ask) {
+        ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/deluserauth?code=' + code + '&app='+key+'&menu='+menu, function (r) {
                 ShowMessage(r.userauth.result);
@@ -224,7 +224,7 @@ End Code
                 ShowMessage('Please select menu',true);
                 return;
             }
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 $.ajax({

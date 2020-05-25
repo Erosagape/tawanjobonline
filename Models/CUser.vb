@@ -288,7 +288,7 @@ Public Class CUser
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CUser", "SaveData", Me, False)
-                            msg = String.Format("Save user {0} Complete", Me.UserID)
+                            msg = "Save Complete"
                         End Using
                     End Using
                 End Using

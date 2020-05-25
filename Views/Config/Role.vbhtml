@@ -260,7 +260,7 @@ End Code
     function DeleteHeader() {
         var code = $('#txtRoleID').val();
         if (code !== '') {
-            ShowConfirm('Do you need to delete this data?', function (ask) {
+            ShowConfirm('Please confirm to delete', function (ask) {
                 if (ask == false) return;
                 $.get(path + 'config/deluserrole?code=' + code, function (r) {
                     ShowMessage(r.userrole.result);
@@ -274,7 +274,7 @@ End Code
         var code = $('#txtRoleID').val();
         var id = $('#txtUserID').val();
         if (id !== '') {
-            ShowConfirm('Do you need to delete this data?', function (ask) {
+            ShowConfirm('Please confirm to delete', function (ask) {
                 if (ask == false) return;
                 $.get(path + 'config/deluserroledetail?code=' + code + '&id=' + id, function (r) {
                     ShowMessage(r.userrole.result);
@@ -289,7 +289,7 @@ End Code
             UserID: $('#txtUserID').val()
 	    };
         if (obj.RoleID != "" && obj.UserID != "") {
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -322,7 +322,7 @@ End Code
             RoleGroup: $('#txtRoleGroup').val()
 	    };
         if (obj.RoleID != "") {
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
@@ -369,7 +369,7 @@ End Code
             Author: GetAuthor()
 	    };
         if (obj.RoleID != "" && obj.ModuleID != "") {
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);

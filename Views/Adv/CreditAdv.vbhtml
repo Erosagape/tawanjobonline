@@ -565,7 +565,7 @@ End Code
             $('#txtPostedTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }
-        ShowMessage('You are not allow to do this'),true);
+        ShowMessage('You are not allow to do this',true);
         $('#chkPosted').prop('checked', !chkmode);
     }
     function SetCancel(b) {
@@ -575,7 +575,7 @@ End Code
             $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }
-        ShowMessage('You are not allow to do this'),true);
+        ShowMessage('You are not allow to do this',true);
         $('#chkCancel').prop('checked', !chkmode);
     }
     function LoadData() {
@@ -665,7 +665,7 @@ End Code
         }
     }
     function SaveData() {
-        ShowConfirm('Do you need to save this data?', function (ask) {
+        ShowConfirm('Please confirm to save', function (ask) {
             if (ask == false) return;
 
             let obj = {

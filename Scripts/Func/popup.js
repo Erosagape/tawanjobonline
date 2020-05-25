@@ -61,7 +61,7 @@ function ShowMessage(str, iserr = false) {
     {
         if (iserr) {
             let box = bootbox.alert({
-                title:'<b>Error</b>' ,
+                title: mainLanguage=='TH'? '<b>พบข้อผิดพลาด</b>': '<b>Error</b>' ,
                 message: '<i class="glyphicon glyphicon-remove-sign" style="font-size:30px;color:red;padding-right:10px"></i>'+ GetLanguage(str)
             });
             box.find('.modal-header').css({ 'background-color': 'red','color':'white' });
@@ -69,7 +69,7 @@ function ShowMessage(str, iserr = false) {
             box.find(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
         } else {
             let box =bootbox.alert({
-                title: '<b>Information</b>' ,
+                title: mainLanguage=='TH' ?'<b>ข้อความจากระบบ</b>': '<b>Information</b>' ,
                 message: '<i class="glyphicon glyphicon-exclamation-sign" style="font-size:30px;color:blue;padding-right:10px"></i>'+ GetLanguage(str)
             });
             box.find('.modal-header').css({ 'background-color': 'green', 'color': 'white' });
@@ -85,7 +85,7 @@ function ShowMessage(str, iserr = false) {
 function ShowConfirm(str,func) {
     //bootbox.confirm(str, func);
     let box=bootbox.confirm({
-        title: mainLanguage == "TH" ? "<b>กรุณายืนยัน<b/>" : "<b>Please confirm this operation!</b>",
+        title: mainLanguage == "TH" ? "<b>กรุณายืนยัน<b/>" : "<b>confirm</b>",
         message: '<span class="glyphicon glyphicon-question-sign" style="font-size:30px;color:blue;padding-right:10px"></span>' + GetLanguage(str),
         buttons: {
             cancel: {

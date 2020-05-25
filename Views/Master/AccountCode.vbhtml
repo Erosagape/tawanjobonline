@@ -94,7 +94,7 @@ End Code
     //CRUD Functions used in HTML Java Scripts
     function DeleteData() {
         let code = $('#txtAccCode').val();
-        ShowConfirm('Do you need to delete this data?',function(ask){
+        ShowConfirm('Please confirm to delete',function(ask){
             if (ask == false) return;
             $.get(path + 'master/delaccountcode?code=' + code, function (r) {
                 ShowMessage(r.accountcode.result);
@@ -121,7 +121,7 @@ End Code
             AccSide:$('#txtAccSide').val()
 	    };
         if (obj.AccCode != "") {
-            ShowConfirm('Do you need to save this data?',function(ask){
+            ShowConfirm('Please confirm to save',function(ask){
                 if (ask == false) return;
                 let jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);

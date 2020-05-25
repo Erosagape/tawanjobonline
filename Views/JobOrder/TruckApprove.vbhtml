@@ -473,7 +473,7 @@ End Code
             DeliveryNo: row.DeliveryNo
         };
         if (obj.ItemNo != "") {
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 row = obj;
                 let jsonText = JSON.stringify({ data: obj });

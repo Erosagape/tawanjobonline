@@ -491,7 +491,11 @@ Public Class CClrDetail
                                 UpdateTotal(cn)
                             End If
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "SaveData", Me, False)
-                            msg = "Save Complete"
+                            If GetSession("CurrentLang") = "TH" Then
+                                msg = "จัดเก็บ " & Me.ClrNo & " รายการ " & Me.ItemNo & " เรียบร้อย"
+                            Else
+                                msg = "Save " & Me.ClrNo & " Item " & Me.ItemNo & " Complete"
+                            End If
                         End Using
                     End Using
                 End Using

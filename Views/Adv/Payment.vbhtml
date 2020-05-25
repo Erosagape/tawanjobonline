@@ -937,7 +937,7 @@ End Code
         }
     }
     function UpdateAdvance(cno) {
-        let msg = "Payment " + cno + " Completed!";
+        let msg = "Payment " + cno + " Complete";
 
         let dataApp = [];
         dataApp.push(user + '|' + cno);

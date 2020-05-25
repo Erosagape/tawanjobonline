@@ -223,7 +223,7 @@ End Code
         let branch = $('#txtBranchCode').val();
         let code = $('#txtSICode').val();
         let job = $('#txtJNo').val();
-        ShowConfirm('Do you need to delete this data?', function (ask) {
+        ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
             $.get(path + 'adv/delclearexp?branch=' + branch + '&code=' + code + '&job=' + job, function (r) {
                 ShowMessage(r.estimate.result);
@@ -271,7 +271,7 @@ End Code
             AmtTotal: $('#txtAmtTotal').val()
         };
         if (obj.SICode != "") {
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 let jsonText = JSON.stringify({ data: obj });
                 //alert(jsonText);

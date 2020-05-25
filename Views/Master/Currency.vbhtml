@@ -108,7 +108,7 @@ End Code
     }
     function DeleteData() {
         var code = $('#txtCode').val();
-        ShowConfirm('Do you need to delete this data?', function (ask) {
+        ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delcurrency?code=' + code, function (r) {
                 ShowMessage(r.currency.result);
@@ -129,7 +129,7 @@ End Code
                 ShowMessage('Please enter some data',true);
                 return;
             }
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);

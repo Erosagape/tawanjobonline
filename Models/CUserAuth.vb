@@ -68,7 +68,11 @@ Public Class CUserAuth
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CUserAuth", "SaveData", Me, False)
-                            msg = "Save Authorize of " & Me.MenuID & " For " & Me.UserID & " As '" & Me.Author & "' Complete"
+                            If GetSession("CurrentLang") = "TH" Then
+                                msg = "บันทึกสิทธิ์ใน " & Me.MenuID & " ให้กับ " & Me.UserID & " เรียบร้อย"
+                            Else
+                                msg = "Save Authorize of " & Me.MenuID & " For " & Me.UserID & " Complete"
+                            End If
                         End Using
                     End Using
                 End Using

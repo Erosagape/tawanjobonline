@@ -798,7 +798,7 @@ End Code
             }
             return;
         }
-        ShowMessage('You are not allow to do this'),true);
+        ShowMessage('You are not allow to do this',true);
         $('#chkApprove').prop('checked', !chkmode);
     }
     function GetStatus() {
@@ -825,7 +825,7 @@ End Code
             });
             return;
         }
-        ShowMessage('You are not allow to do this'),true);
+        ShowMessage('You are not allow to do this',true);
         $('#chkCancel').prop('checked', !chkmode);
     }
     function SetLOVs() {

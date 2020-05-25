@@ -530,6 +530,13 @@
     <Content Include="App_Data\SOUTHEAST\FormBookingSea.vbhtml" />
     <Content Include="App_Data\SOUTHEAST\FormBookingAir.vbhtml" />
     <Content Include="App_Data\SOUTHEAST\FormBooking.vbhtml" />
+    <Content Include="App_Data\ACE\FormBookingAir.vbhtml" />
+    <Content Include="App_Data\ACE\FormBookingSea.vbhtml" />
+    <Content Include="App_Data\ACE\FormJobSum.vbhtml" />
+    <Content Include="App_Data\ACE\FormRcp.vbhtml" />
+    <Content Include="App_Data\ACE\FormTransport.vbhtml" />
+    <Content Include="App_Data\ACE\_Report.vbhtml" />
+    <Content Include="App_Data\ACE\_ReportNoHead.vbhtml" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

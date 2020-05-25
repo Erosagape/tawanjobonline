@@ -275,7 +275,7 @@ End Code
     function DeleteData() {
         let branch = $('#txtBranchCode').val();
         let code = $('#txtGLRefNo').val();
-        ShowConfirm('Do you need to delete this data?', function (ask) {
+        ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
             $.get(path + 'acc/delglheader?branch=' + branch + '&code=' + code, function (r) {
                 ShowMessage(r.journal.result);
@@ -287,7 +287,7 @@ End Code
         let branch = $('#txtBranchCode').val();
         let code = $('#txtGLRefNo').val();
         let item = $('#txtItemNo').val();
-        ShowConfirm('Do you need to delete this data?', function (ask) {
+        ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
             $.get(path + 'acc/delgldetail?branch=' + branch + '&code=' + code + '&item=' + item, function (r) {
                 LoadDetail($('#txtBranchCode').val(), $('#txtGLRefNo').val());
@@ -352,7 +352,7 @@ End Code
             CancelBy:$('#txtCancelBy').val(),
             CancelReason:$('#txtCancelReason').val()
         };
-        ShowConfirm('Do you need to save this data?', function (ask) {
+        ShowConfirm('Please confirm to save', function (ask) {
             if (ask == false) return;
             let jsonText = JSON.stringify({ data: obj });
             //ShowMessage(jsonText);
@@ -388,7 +388,7 @@ End Code
             EntryBy: user
         };
         if (obj.ItemNo != "") {
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 let jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);

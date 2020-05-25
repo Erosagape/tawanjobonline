@@ -545,7 +545,7 @@ End Code
     }
     function DeleteDetail() {
         if (row_d.ItemNo !== undefined) {
-            ShowConfirm('Do you need to delete this data?', function (result) {
+            ShowConfirm('Please confirm to delete', function (result) {
                 if (result == true) {
                     $.get(path + 'Acc/DelBillDetail?Branch=' + row.BranchCode + '&Code=' + row.BillAcceptNo + '&Item=' + row_d.ItemNo)
                     .done(function (r) {

@@ -274,7 +274,11 @@ Public Class CAdvDetail
                                 UpdateTotal(cn)
                             End If
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CAdvDetail", "SaveData", Me, False)
-                            msg = String.Format("Save '{0}' Item {1} Complete", Me.AdvNo, Me.ItemNo)
+                            If GetSession("CurrentLang") = "TH" Then
+                                msg = String.Format("บันทึก '{0}' รายการ {1} เรียบร้อย", Me.AdvNo, Me.ItemNo)
+                            Else
+                                msg = String.Format("Save '{0}' Item {1} Complete", Me.AdvNo, Me.ItemNo)
+                            End If
                         End Using
                     End Using
                 End Using

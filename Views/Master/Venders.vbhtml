@@ -167,7 +167,7 @@ End Code
     }
     function DeleteData() {
         var code = $('#txtVenCode').val();
-        ShowConfirm('Do you need to delete this data?', function (ask) {
+        ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delvender?code=' + code, function (r) {
                 ShowMessage(r.vender.result);
@@ -186,7 +186,7 @@ End Code
             ShowMessage('Please input name',true);
             return;
         }
-        ShowConfirm('Do you need to save this data?', function (ask) {
+        ShowConfirm('Please confirm to save', function (ask) {
             if (ask == false) return;
             let jsonText = JSON.stringify({ data: obj });
             //ShowMessage(jsonText);

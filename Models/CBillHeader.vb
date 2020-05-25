@@ -267,7 +267,11 @@ Public Class CBillHeader
                             Else
                                 Me.UpdateData()
                             End If
-                            msg = "Save Complete"
+                            If GetSession("CurrentLang") = "TH" Then
+                                msg = "บันทึก " & Me.BillAcceptNo & " เรียบร้อย"
+                            Else
+                                msg = "Save " & Me.BillAcceptNo & " Complete"
+                            End If
                         End Using
                     End Using
                 End Using

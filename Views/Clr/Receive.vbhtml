@@ -868,7 +868,7 @@ End Code
         }
     }
     function ReceiveClearing(cno) {
-        let msg = "Clear Document " + cno + " Completed!";
+        let msg = "Clear Document " + cno + " Complete";
 
         let jsonString = JSON.stringify({ data: dataApp });
         $.ajax({

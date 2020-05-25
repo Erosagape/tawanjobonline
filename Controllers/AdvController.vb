@@ -143,7 +143,7 @@ Namespace Controllers
 
                     msg &= "<br/>" & oRec.SaveData(String.Format(" WHERE BranchCode+'|'+JNo='{0}' AND SICode='{1}' ", jobDest, oRow.SICode))
                 Next
-                If msg = "" Then msg = "No data to copy"
+                If msg = "" Then msg = "No data to Save"
                 msg = "Result:<br/>" & msg
                 Return Content(msg, textContent)
             Catch ex As Exception
@@ -155,10 +155,10 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.JNo = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Job""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please input job""}}", jsonContent)
                     End If
                     If "" & data.SICode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Code""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please input code""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE SICode='{0}' AND BranchCode='{1}' AND JNo='{2}' ", data.SICode, data.BranchCode, data.JNo))
@@ -181,12 +181,12 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format("AND BranchCode = '{0}' ", Request.QueryString("Branch").ToString)
                 Else
-                    Return Content("{""estimate"":{""result"":""Please Select Some Branch"",""data"":[]}}", jsonContent)
+                    Return Content("{""estimate"":{""result"":""Please input branch"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("Job")) Then
                     tSqlw &= String.Format("AND JNo = '{0}' ", Request.QueryString("Job").ToString)
                 Else
-                    Return Content("{""estimate"":{""result"":""Please Select Some Job"",""data"":[]}}", jsonContent)
+                    Return Content("{""estimate"":{""result"":""Please input job"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND SICode = '{0}' ", Request.QueryString("Code").ToString)
@@ -205,7 +205,7 @@ Namespace Controllers
             ViewBag.User = Session("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "CreditAdv")
             If AuthorizeStr.IndexOf("P") < 0 Then
-                Return Content("You are not allow to print credit-advance", textContent)
+                Return Content("You are not allow to print", textContent)
             End If
             Return GetView("FormCreditAdv")
         End Function
@@ -213,7 +213,7 @@ Namespace Controllers
             ViewBag.User = Session("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
             If AuthorizeStr.IndexOf("P") < 0 Then
-                Return Content("You are not allow to print advance", textContent)
+                Return Content("You are not allow to print", textContent)
             End If
             Return GetView("FormAdv")
         End Function
@@ -221,7 +221,7 @@ Namespace Controllers
             ViewBag.User = Session("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "EstimateCost")
             If AuthorizeStr.IndexOf("P") < 0 Then
-                Return Content("You are not allow to print pre-invoice", textContent)
+                Return Content("You are not allow to print", textContent)
             End If
             Return GetView("FormEstimate")
         End Function
@@ -317,7 +317,7 @@ Namespace Controllers
                     Dim prefix As String = advPrefix
                     If data.AdvNo = "" Then
                         If AuthorizeStr.IndexOf("I") < 0 Then
-                            Return Content("{""result"":{""data"":null,""msg"":""You are not allow to add advance""}}", jsonContent)
+                            Return Content("{""result"":{""data"":null,""msg"":""You are not allow to add""}}", jsonContent)
                         End If
                         If data.AdvDate = DateTime.MinValue Then
                             data.AdvDate = Today.Date
@@ -326,7 +326,7 @@ Namespace Controllers
                     End If
 
                     If AuthorizeStr.IndexOf("E") < 0 Then
-                        Return Content("{""result"":{""data"":null,""msg"":""You are not allow to edit advance""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""You are not allow to save""}}", jsonContent)
                     End If
 
                     Dim msg As String = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND AdvNo='{1}'", data.BranchCode, data.AdvNo))
@@ -352,7 +352,7 @@ Namespace Controllers
                     Dim prefix As String = expPrefix
                     If data.AdvNo = "" Then
                         If AuthorizeStr.IndexOf("I") < 0 Then
-                            Return Content("{""result"":{""data"":null,""msg"":""You are not allow to add advance""}}", jsonContent)
+                            Return Content("{""result"":{""data"":null,""msg"":""You are not allow to add""}}", jsonContent)
                         End If
                         If data.AdvDate = DateTime.MinValue Then
                             data.AdvDate = Today.Date
@@ -361,7 +361,7 @@ Namespace Controllers
                     End If
 
                     If AuthorizeStr.IndexOf("E") < 0 Then
-                        Return Content("{""result"":{""data"":null,""msg"":""You are not allow to edit advance""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""You are not allow to save""}}", jsonContent)
                     End If
 
                     Dim msg As String = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND AdvNo='{1}'", data.BranchCode, data.AdvNo))
@@ -384,7 +384,7 @@ Namespace Controllers
 
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("E") < 0 Then
-                    Return Content("{""result"":{""data"":null,""msg"":""You are not authorize to edit document""}}", jsonContent)
+                    Return Content("{""result"":{""data"":null,""msg"":""You are not allow to save""}}", jsonContent)
                 End If
 
                 Dim json As String = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
@@ -393,17 +393,17 @@ Namespace Controllers
                 End If
 
                 If "" & data(0).BranchCode = "" Then
-                    Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
+                    Return Content("{""result"":{""data"":null,""msg"":""Please input branch""}}", jsonContent)
                 End If
 
                 If "" & data(0).AdvNo = "" Then
-                    Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                    Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                 End If
 
                 If data(0).ItemNo = 0 Then
                     AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                     If AuthorizeStr.IndexOf("I") < 0 Then
-                        Return Content("{""result"":{""data"":null,""msg"":""You are not authorize to add document""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""You are not allow to add""}}", jsonContent)
                     End If
                 End If
 
@@ -446,12 +446,12 @@ Namespace Controllers
 
                     If data.ItemNo = 0 Then
                         If AuthorizeStr.IndexOf("I") < 0 Then
-                            Return Content("{""result"":{""data"":null,""msg"":""You are not allow to add advance""}}", jsonContent)
+                            Return Content("{""result"":{""data"":null,""msg"":""You are not allow to add""}}", jsonContent)
                         End If
                     End If
 
                     If AuthorizeStr.IndexOf("E") < 0 Then
-                        Return Content("{""result"":{""data"":null,""msg"":""You are not allow to edit advance""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""You are not allow to save""}}", jsonContent)
                     End If
                     Dim msg As String = ""
                     If data.ForJNo <> "" Then
@@ -482,7 +482,7 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("D") < 0 Then
-                    Return Content("{""adv"":{""result"":""You are not allow to Delete item In advance""}}", jsonContent)
+                    Return Content("{""adv"":{""result"":""You are not allow to delete""}}", jsonContent)
                 End If
 
                 Dim Branch As String = ""
@@ -520,7 +520,7 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("D") < 0 Then
-                    Return Content("{""adv"":{""result"":""you are not allow to delete advance""}}", jsonContent)
+                    Return Content("{""adv"":{""result"":""You are not allow to delete""}}", jsonContent)
                 End If
 
                 Dim Branch As String = ""
@@ -621,7 +621,7 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
-                    Return Content("{""adv"":{""data"":[],""msg"":""You Are not authorize to view data""}}", jsonContent)
+                    Return Content("{""adv"":{""data"":[],""msg"":""You are not allow to view""}}", jsonContent)
                 End If
 
                 Dim Branch As String = ""
@@ -688,7 +688,7 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
-                    Return Content("{""adv"":{""data"":[],""msg"":""You Are not authorize to view data""}}", jsonContent)
+                    Return Content("{""adv"":{""data"":[],""msg"":""You are not allow to view""}}", jsonContent)
                 End If
 
                 Dim Branch As String = ""
@@ -755,7 +755,7 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
-                    Return Content("{""adv"":{""header"":[],""detail"":[],""msg"":""You Are not authorize to view data""}}", jsonContent)
+                    Return Content("{""adv"":{""header"":[],""detail"":[],""msg"":""You are not allow to view""}}", jsonContent)
                 End If
 
                 Dim oAdvH As New CAdvHeader(GetSession("ConnJob"))
@@ -786,7 +786,7 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
-                    Return Content("{""adv"":{""detail"":[],""msg"":""You Are not authorize to view data""}}", jsonContent)
+                    Return Content("{""adv"":{""detail"":[],""msg"":""You are not allow to view""}}", jsonContent)
                 End If
 
                 Dim oADVD As New CAdvDetail(GetSession("ConnJob"))
@@ -794,7 +794,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("BranchCode")) Then
                     Branch = Request.QueryString("BranchCode")
                 Else
-                    Return Content("{""adv"":{""detail"":[],""msg"":""Please select Branch""}}", jsonContent)
+                    Return Content("{""adv"":{""detail"":[],""msg"":""Please enter some data""}}", jsonContent)
                 End If
 
                 Dim tSqlW As String = String.Format(" WHERE BranchCode='{0}'", Branch)

@@ -58,7 +58,7 @@ Public Class CConfig
                 End Using
 
             End Using
-            Return "Delete Data Complete"
+            Return "Delete Complete"
         Catch ex As Exception
             Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CConfig", "DeleteData", ex.Message, True, ex.StackTrace, "")
             Return String.Format("[exception] {0}", ex.Message, True, ex.StackTrace, "")

@@ -186,13 +186,13 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.UserID = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter User""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please select staff""}}", jsonContent)
                     End If
                     If "" & data.AppID = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter App""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     If "" & data.MenuID = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Menu""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE UserID='{0}' AND AppID='{1}' AND MenuID='{2}' ", data.UserID, data.AppID, data.MenuID))
@@ -214,7 +214,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND UserID = '{0}' ", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""userauth"":{""result"":""Please Select User"",""data"":[]}}", jsonContent)
+                    Return Content("{""userauth"":{""result"":""Please select staff"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("App")) Then
                     tSqlw &= String.Format("AND AppID = '{0}' ", Request.QueryString("App").ToString)
@@ -1635,7 +1635,7 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.RoleID = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE roleId='{0}' ", data.RoleID))
@@ -1655,10 +1655,10 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.RoleID = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Role""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     If "" & data.UserID = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter User""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please select staff""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE roleId='{0}' AND userId='{1}' ", data.RoleID, data.UserID))
@@ -1683,10 +1683,10 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.RoleID = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Role""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     If "" & data.ModuleID = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Module""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please select menu""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE RoleID='{0}' AND ModuleID='{1}' ", data.RoleID, data.ModuleID))
@@ -1712,7 +1712,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND roleId Like '{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""userrole"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""userrole"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CUserRole(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -1730,12 +1730,12 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND RoleId Like '{0}' ", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""userrole"":{""result"":""Please Select Some Role"",""data"":[]}}", jsonContent)
+                    Return Content("{""userrole"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("ID")) Then
                     tSqlw &= String.Format("AND UserID Like '{0}' ", Request.QueryString("ID").ToString)
                 Else
-                    Return Content("{""userrole"":{""result"":""Please Select Some User"",""data"":[]}}", jsonContent)
+                    Return Content("{""userrole"":{""result"":""Please select staff"",""data"":[]}}", jsonContent)
                 End If
 
                 Dim oData As New CUserRoleDetail(GetSession("ConnJob")) With {
@@ -1757,12 +1757,12 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND RoleID Like '{0}' ", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""userrole"":{""result"":""Please Select Some Role"",""data"":[]}}", jsonContent)
+                    Return Content("{""userrole"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("ID")) Then
                     tSqlw &= String.Format("AND ModuleID Like '{0}' ", Request.QueryString("ID").ToString)
                 Else
-                    Return Content("{""userrole"":{""result"":""Please Select Some Module"",""data"":[]}}", jsonContent)
+                    Return Content("{""userrole"":{""result"":""Please select menu"",""data"":[]}}", jsonContent)
                 End If
 
                 Dim oData As New CUserRolePolicy(GetSession("ConnJob"))

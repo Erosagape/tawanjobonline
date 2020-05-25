@@ -89,7 +89,7 @@ End Code
     }
     function DeleteData() {
         var code = $('#txtUnitType').val();
-        ShowConfirm('Do you need to delete this data?', function (ask) {
+        ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delservunit?code=' + code, function (r) {
                 ShowMessage(r.servunit.result);
@@ -110,7 +110,7 @@ End Code
                 $('#txtUName').focus();
                 return;
             }
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);

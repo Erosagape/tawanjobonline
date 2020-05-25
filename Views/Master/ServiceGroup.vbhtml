@@ -221,7 +221,7 @@ End Code
     }
     function DeleteData() {
         var code = $('#txtGroupCode').val();
-        ShowConfirm('Do you need to delete this data?', function (ask) {
+        ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delservicegroup?code=' + code, function (r) {
                 ShowMessage(r.servicegroup.result);
@@ -311,7 +311,7 @@ End Code
             return;
         }
         row = obj;
-        ShowConfirm('Do you need to save this data?', function (ask) {
+        ShowConfirm('Please confirm to save', function (ask) {
             if (ask == false) return;
             var jsonText = JSON.stringify({ data: obj });
             //ShowMessage(jsonText);
@@ -346,7 +346,7 @@ End Code
                 row_d.IsCredit = row.IsCredit;
                 row_d.IsExpense = row.IsExpense;
             }
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: row_d });
                 //ShowMessage(jsonText);

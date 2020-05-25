@@ -947,7 +947,7 @@ End Code
     }
     function SaveData() {
         //if (obj.ControlNo != "") {
-        ShowConfirm('Do you need to save this data?', function (ask) {
+        ShowConfirm('Please confirm to save', function (ask) {
             let obj = {
                 BranchCode:$('#txtBranchCode').val(),
                 ControlNo:$('#txtControlNo').val(),
@@ -1350,7 +1350,7 @@ End Code
     }
     function SavePayment() {
         //if (obj.PRVoucher != "") {
-        ShowConfirm('Do you need to save this data?', function (ask) {
+        ShowConfirm('Please confirm to save', function (ask) {
             let obj = {
                 BranchCode: $('#txtBranchCode').val(),
                 ControlNo: $('#txtControlNo').val(),
@@ -1411,7 +1411,7 @@ End Code
     }
     function SaveDocument() {       
         if ($('#txtDDocNo').val() !== "") {
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 let obj = {
                     BranchCode:$('#txtBranchCode').val(),
                     ControlNo:$('#txtControlNo').val(),

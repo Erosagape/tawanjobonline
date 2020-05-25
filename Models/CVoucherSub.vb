@@ -364,7 +364,11 @@ Public Class CVoucherSub
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CVoucherSub", "SaveData", Me, False)
-                            msg = Me.PRVoucher
+                            If GetSession("CurrentLang") = "TH" Then
+                                msg = "บันทึก " & Me.PRVoucher & " เรียบร้อย"
+                            Else
+                                msg = "Save " & Me.PRVoucher & " Complete"
+                            End If
                         End Using
                     End Using
                 End Using

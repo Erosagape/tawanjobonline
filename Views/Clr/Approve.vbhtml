@@ -259,7 +259,7 @@ End Code
             data: jsonString,
             success: function (response) {
                 SetGridClr(false);
-                response ? ShowMessage("Approve Completed!") : ShowMessage("Cannot Approve");
+                response ? ShowMessage("Approve Complete") : ShowMessage("Cannot Approve");
             },
             error: function (e) {
                 ShowMessage(e,true);

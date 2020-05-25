@@ -423,7 +423,7 @@ End Code
             data: jsonString,
             success: function (response) {
                 SetGridClr(false);
-                response ? ShowMessage("Clearing Completed!") : ShowMessage("Cannot Approve",true);
+                response ? ShowMessage("Clearing Complete") : ShowMessage("Cannot Approve",true);
             },
             error: function (e) {
                 ShowMessage(e,true);
@@ -617,7 +617,7 @@ End Code
             ShowMessage('Please input reference number', true);
             return;
         }
-        ShowConfirm('Do you need to save this data?', function (ask) {
+        ShowConfirm('Please confirm to save', function (ask) {
             if (ask == false) return;
             SaveEarnest();
         });

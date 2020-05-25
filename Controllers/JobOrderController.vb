@@ -31,7 +31,7 @@ Namespace Controllers
             ViewBag.User = Session("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CS", "ShowJob")
             If AuthorizeStr.IndexOf("P") < 0 Then
-                Return Content("You are not allow to print job", textContent)
+                Return Content("You are not allow to print", textContent)
             End If
             Return GetView("FormJob")
         End Function
@@ -47,28 +47,28 @@ Namespace Controllers
                 If Not Request.QueryString("Branch") Is Nothing Then
                     branch = Request.QueryString("Branch").ToString
                 Else
-                    Return Content("{""result"":{""data"":[],""msg"":""Please Select Branch""}}", jsonContent)
+                    Return Content("{""result"":{""data"":[],""msg"":""Please input branch""}}", jsonContent)
                 End If
                 Dim book = ""
                 If Not Request.QueryString("Code") Is Nothing Then
                     book = Request.QueryString("Code").ToString
                 Else
-                    Return Content("{""result"":{""data"":[],""msg"":""Please Select Booking""}}", jsonContent)
+                    Return Content("{""result"":{""data"":[],""msg"":""Please enter some data""}}", jsonContent)
                 End If
                 Dim size = ""
                 If Not Request.QueryString("Size") Is Nothing Then
                     size = Request.QueryString("Size").ToString
                 Else
-                    Return Content("{""result"":{""data"":[],""msg"":""Please Select Unit""}}", jsonContent)
+                    Return Content("{""result"":{""data"":[],""msg"":""Please select unit""}}", jsonContent)
                 End If
                 Dim volume = 0
                 If Not Request.QueryString("Qty") Is Nothing Then
                     volume = Convert.ToInt16("0" & Request.QueryString("Qty").ToString)
                 Else
-                    Return Content("{""result"":{""data"":[],""msg"":""Please Input Total Container""}}", jsonContent)
+                    Return Content("{""result"":{""data"":[],""msg"":""Value must be more than zero""}}", jsonContent)
                 End If
                 If volume <= 0 Then
-                    Return Content("{""result"":{""data"":[],""msg"":""Please Input Total Container more than zero""}}", jsonContent)
+                    Return Content("{""result"":{""data"":[],""msg"":""Value must be more than zero""}}", jsonContent)
                 Else
                     Dim oList As New List(Of CTransportDetail)
                     For i As Integer = 1 To volume
@@ -101,7 +101,11 @@ Namespace Controllers
                         End If
                     Next
                     Dim json = JsonConvert.SerializeObject(oList)
-                    Return Content("{""result"":{""data"":" & json & ",""msg"":""Create Complete=" & oList.Count & " Record(s)""}}", jsonContent)
+                    If GetSession("CurrentLang") = "TH" Then
+                        Return Content("{""result"":{""data"":" & json & ",""msg"":""สร้างรายการจำนวน " & oList.Count & " เรียบร้อย""}}", jsonContent)
+                    Else
+                        Return Content("{""result"":{""data"":" & json & ",""msg"":""Create Complete=" & oList.Count & " Record(s)""}}", jsonContent)
+                    End If
                 End If
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CreateContainer", ex.Message, ex.StackTrace, True)
@@ -116,14 +120,14 @@ Namespace Controllers
                     branch = Request.QueryString("Branch").ToString
                     tSqlW = tSqlW & String.Format(" AND h.BranchCode='{0}' ", branch)
                 Else
-                    Return Content("{""result"":{""data"":[],""msg"":""Please Select Branch""}}", jsonContent)
+                    Return Content("{""result"":{""data"":[],""msg"":""Please enter some data""}}", jsonContent)
                 End If
                 Dim job = ""
                 If Not Request.QueryString("Job") Is Nothing Then
                     job = Request.QueryString("Job").ToString
                     tSqlW = tSqlW & String.Format(" AND h.JNo='{0}' ", job)
                 Else
-                    Return Content("{""result"":{""data"":[],""msg"":""Please Select Job""}}", jsonContent)
+                    Return Content("{""result"":{""data"":[],""msg"":""Please select job number""}}", jsonContent)
                 End If
                 Dim sqlCtn = "
 	SELECT (SELECT STUFF((
@@ -235,7 +239,11 @@ Namespace Controllers
                         Return Content("{""result"":""" & msg & """}", jsonContent)
                     End If
                 Else
-                    Return Content("{""result"":""Not Found Quotation " & Request.QueryString("Code").ToString & """}", jsonContent)
+                    If GetSession("CurrentLang") = "TH" Then
+                        Return Content("{""result"":""ไม่พบใบเสนอราคาของ " & Request.QueryString("Cust").ToString & """}", jsonContent)
+                    Else
+                        Return Content("{""result"":""Not Found Quotation " & Request.QueryString("Cust").ToString & """}", jsonContent)
+                    End If
                 End If
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CopyQuotation", ex.Message, ex.StackTrace, True)
@@ -321,7 +329,7 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.BranchCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please input branch""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     If "" & data.QNo = "" Then
@@ -346,12 +354,12 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" AND BranchCode='{0}'", Request.QueryString("Branch").ToString)
                 Else
-                    Return Content("{""quoheader"":{""result"":""Please Select Some Branch"",""data"":[]}}", jsonContent)
+                    Return Content("{""quoheader"":{""result"":""Please input branch"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format(" AND QNo='{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""quoheader"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""quoheader"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CQuoHeader(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
@@ -393,10 +401,10 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.BranchCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please input branch""}}", jsonContent)
                     End If
                     If "" & data.QNo = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Q.No""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND QNo='{1}' AND SeqNo={2} ", data.BranchCode, data.QNo, data.SeqNo))
@@ -418,13 +426,13 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
                 Else
-                    Return Content("{""quodetail"":{""result"":""Please Select Some Branch"",""data"":[]}}", jsonContent)
+                    Return Content("{""quodetail"":{""result"":""Please input branch"",""data"":[]}}", jsonContent)
                 End If
 
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format(" AND QNo='{0}' ", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""quodetail"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""quodetail"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("Seq")) Then
                     tSqlw &= String.Format(" AND SeqNo={0} ", Request.QueryString("Seq").ToString)
@@ -469,13 +477,13 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.BranchCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please input branch""}}", jsonContent)
                     End If
                     If "" & data.QNo = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     If "" & data.SeqNo = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Sequence""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND QNo='{1}' And SeqNo={2} And ItemNo={3} ", data.BranchCode, data.QNo, data.SeqNo, data.ItemNo))
@@ -497,12 +505,12 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" AND BranchCode='{0}'", Request.QueryString("Branch").ToString)
                 Else
-                    Return Content("{""quoitem"":{""result"":""Please Select Some Branch"",""data"":[]}}", jsonContent)
+                    Return Content("{""quoitem"":{""result"":""Please input branch"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format(" AND QNo='{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""quoitem"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""quoitem"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("Seq")) Then
                     tSqlw &= String.Format(" AND SeqNo={0} ", Request.QueryString("Seq").ToString)
@@ -570,11 +578,11 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.BranchCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please input branch""}}", jsonContent)
                     End If
 
                     If "" & data.BookingNo = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' ", data.BranchCode, data.BookingNo))
@@ -596,13 +604,13 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" AND BranchCode='{0}'", Request.QueryString("Branch").ToString)
                 Else
-                    Return Content("{""transport"":{""result"":""Please Select Some branch""}}", jsonContent)
+                    Return Content("{""transport"":{""result"":""Please input branch""}}", jsonContent)
                 End If
 
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format(" AND BookingNo='{0}'", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""transport"":{""result"":""Please Select Some Data""}}", jsonContent)
+                    Return Content("{""transport"":{""result"":""Please enter some data""}}", jsonContent)
                 End If
                 Dim oDataH As New CTransportHeader(GetSession("ConnJob"))
                 Dim msg = ""
@@ -666,10 +674,10 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.BranchCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please input branch""}}", jsonContent)
                     End If
                     If "" & data.BookingNo = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo='{2}' ", data.BranchCode, data.BookingNo, data.ItemNo))
@@ -691,12 +699,12 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format("AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
                 Else
-                    Return Content("{""transport"":{""result"":""Please Select Some branch""}}", jsonContent)
+                    Return Content("{""transport"":{""result"":""Please input branch""}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND BookingNo='{0}' ", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""transport"":{""result"":""Please Select Some Job""}}", jsonContent)
+                    Return Content("{""transport"":{""result"":""Please select job number""}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("Item")) Then
                     tSqlw &= String.Format("AND ItemNo={0}", Request.QueryString("Item").ToString)
@@ -922,6 +930,15 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("CustCode")) Then
                     tSqlW &= " AND j.CustCode='" & Request.QueryString("CustCode") & "'"
                 End If
+                If Not IsNothing(Request.QueryString("CSCode")) Then
+                    tSqlW &= " AND j.CSCode='" & Request.QueryString("CSCode") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("ManagerCode")) Then
+                    tSqlW &= " AND j.ManagerCode='" & Request.QueryString("ManagerCode") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("ShippingCode")) Then
+                    tSqlW &= " AND j.ShippingEmp='" & Request.QueryString("ShippingCode") & "'"
+                End If
                 If Not IsNothing(Request.QueryString("TaxNumber")) Then
                     tSqlW &= " AND j.CustCode IN(SELECT CustCode FROM Mas_Company WHERE TaxNumber='" & Request.QueryString("TaxNumber") & "')"
                 End If
@@ -1060,7 +1077,7 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.JNo = "" Or "" & data.BranchCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     If data.ItemNo = 0 Then
@@ -1084,13 +1101,13 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
                 Else
-                    Return Content("{""joborderlog"":{""result"":""Please Select Some Branch"",""data"":[]}}", jsonContent)
+                    Return Content("{""joborderlog"":{""result"":""Please input branch"",""data"":[]}}", jsonContent)
                 End If
 
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format(" AND JNo='{0}' ", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""joborderlog"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""joborderlog"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
 
                 If Not IsNothing(Request.QueryString("Item")) Then
@@ -1167,21 +1184,21 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     branch = Request.QueryString("Branch").ToString
                 Else
-                    Return Content("[ERROR]:Please Select Branch", textContent)
+                    Return Content("Please input branch", textContent)
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
                     booking = Request.QueryString("Code").ToString
                 Else
-                    Return Content("[ERROR]:Please Select Booking", textContent)
+                    Return Content("Please input invoice/booking", textContent)
                 End If
                 If Not IsNothing(Request.QueryString("Item")) Then
                     itemno = Request.QueryString("Item").ToString
                 Else
-                    Return Content("[ERROR]:Please Select item", textContent)
+                    Return Content("Please enter some data", textContent)
                 End If
                 Dim pFormatSQL As String = "DO" & DateTime.Now().ToString("yyMM") & "_____"
                 Dim data = New CTransportDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", branch, booking, itemno))
-                Dim msg = "[ERROR]:Data not found"
+                Dim msg = "Data not found"
                 If data.Count > 0 Then
                     Dim row = data(0)
                     row.DeliveryNo = Main.GetMaxByMask(GetSession("ConnJob"), String.Format("SELECT MAX(DeliveryNo) as t FROM Job_LoadInfoDetail WHERE BranchCode='{0}' And DeliveryNo Like '%{1}' ", branch, pFormatSQL), pFormatSQL)
@@ -1203,10 +1220,10 @@ Namespace Controllers
                                     row.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", branch, booking, itemno))
                                 End If
                             Else
-                                msg = "[ERROR]:Job Not Found"
+                                msg = "Data not found"
                             End If
                         Else
-                            msg = "[ERROR]:Booking Not Found"
+                            msg = "Data not found"
                         End If
                     End If
                 End If
@@ -1242,13 +1259,17 @@ Namespace Controllers
                     If oCust.Count > 0 Then
                         oJob.Commission = oCust(0).CommRate
                     Else
-                        Return Content("{""job"":{""data"":[],""status"":""N"",""result"":""Customer '" + oJob.CustCode + "/" + oJob.CustBranch + "' Not Found!""}}", jsonContent)
+                        Return Content("{""job"":{""data"":[],""status"":""N"",""result"":""Customer not found""}}", jsonContent)
                     End If
                 End If
                 sql &= String.Format(" AND CustCode='{0}' And CustBranch='{1}' And InvNo='{2}' AND JobStatus<>99 ", oJob.CustCode, oJob.CustBranch, oJob.InvNo)
                 Dim FindJob = oJob.GetData(sql)
                 If FindJob.Count > 0 Then
-                    Return Content("{""job"":{""data"":[],""status"":""N"",""result"":""invoice '" + oJob.InvNo + "' has been opened for job '" + FindJob(0).JNo + "' ""}}", jsonContent)
+                    If GetSession("CurrentLang") = "TH" Then
+                        Return Content("{""job"":{""data"":[],""status"":""N"",""result"":""อินวอย '" + oJob.InvNo + "' ถูกเปิดไปแล้วในเลขที่ '" + FindJob(0).JNo + "' ""}}", jsonContent)
+                    Else
+                        Return Content("{""job"":{""data"":[],""status"":""N"",""result"":""invoice '" + oJob.InvNo + "' has been opened for job '" + FindJob(0).JNo + "' ""}}", jsonContent)
+                    End If
                 End If
 
                 Dim CopyFrom As String = ""
@@ -1276,10 +1297,10 @@ Namespace Controllers
             Try
                 data.SetConnect(GetSession("ConnJob"))
                 If data.BranchCode = "" Then
-                    Return Content("{""msg"":""Please select Branch""}", jsonContent)
+                    Return Content("{""msg"":""Please enter some data""}", jsonContent)
                 End If
                 If data.JNo = "" Then
-                    Return Content("{""msg"":""Please select JobNo""}", jsonContent)
+                    Return Content("{""msg"":""Please select job number""}", jsonContent)
                 End If
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetJobOrder", "Save", JsonConvert.SerializeObject(data), False)
                 Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
@@ -1299,7 +1320,7 @@ Namespace Controllers
                 If Not IsNothing(data) Then
                     data.SetConnect(GetSession("ConnJob"))
                     If data.BranchCode = "" Then
-                        Return Content("{""msg"":""Please select Branch""}", jsonContent)
+                        Return Content("{""msg"":""Please enter some data""}", jsonContent)
                     End If
                     If data.JNo = "" Then
                         'Return Content("{""msg"":""Please select JobNo""}", jsonContent)
@@ -1355,8 +1376,17 @@ Namespace Controllers
             If Not IsNothing(Request.QueryString("Month")) Then
                 tSqlW &= " AND Month(j.DocDate)='" & Request.QueryString("Month") & "'"
             End If
+            If Not IsNothing(Request.QueryString("CSCode")) Then
+                tSqlW &= " AND j.CSCode='" & Request.QueryString("CSCode") & "'"
+            End If
             If Not IsNothing(Request.QueryString("CustCode")) Then
                 tSqlW &= " AND j.CustCode='" & Request.QueryString("CustCode") & "'"
+            End If
+            If Not IsNothing(Request.QueryString("ShippingCode")) Then
+                tSqlW &= " AND j.ShippingEmp='" & Request.QueryString("ShippingCode") & "'"
+            End If
+            If Not IsNothing(Request.QueryString("ManagerCode")) Then
+                tSqlW &= " AND j.ManagerCode='" & Request.QueryString("ManagerCode") & "'"
             End If
             If Not IsNothing(Request.QueryString("TaxNumber")) Then
                 tSqlW &= " AND j.CustCode IN(SELECT CustCode FROM Mas_Company WHERE TaxNumber='" & Request.QueryString("TaxNumber") & "')"
@@ -1686,10 +1716,10 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.BranchCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     If "" & data.JNo = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     If data.ItemNo = 0 Then
@@ -1715,12 +1745,12 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format("AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
                 Else
-                    Return Content("{""document"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""document"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND JNo='{0}' ", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""document"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""document"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("Item")) Then
                     tSqlw &= String.Format("AND ItemNo={0} ", Request.QueryString("Item").ToString)
@@ -1767,19 +1797,19 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.BranchCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Branch""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please input branch""}}", jsonContent)
                     End If
                     If "" & data.VenderCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Vender""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please choose vender first""}}", jsonContent)
                     End If
                     If "" & data.CustCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Customer""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please choose customer first""}}", jsonContent)
                     End If
                     If "" & data.SICode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Code""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please input expense code""}}", jsonContent)
                     End If
                     If data.LocationID = 0 Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Location""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND LocationID={1} AND VenderCode='{2}' AND CustCode='{3}' AND SICode='{4}'  ", data.BranchCode, data.LocationID, data.VenderCode, data.CustCode, data.SICode))
@@ -1855,7 +1885,7 @@ Namespace Controllers
             Try
                 If Not IsNothing(data) Then
                     If "" & data.LocationRoute = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Begin Place""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE LocationID={0} ", data.LocationID))
@@ -1882,7 +1912,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("ID")) Then
                     tSqlw &= String.Format("AND LocationID ={0}", Request.QueryString("ID").ToString)
                 Else
-                    Return Content("{""transportroute"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""transportroute"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim oData As New CTransportRoute(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)

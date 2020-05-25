@@ -613,7 +613,7 @@ End Code
     }
     function SetCancel(b) {
         if (b == true) {
-            ShowConfirm("Do you want to " + (chkmode ? 'cancel' : 're-open') + "?", function (result) {
+            ShowConfirm('Please confirm this operation', function (result) {
                 if (result == true) {
                     $('#txtCancelProve').val(chkmode ? user : '');
                     $('#txtCancelDate').val(chkmode ? CDateEN(GetToday()) : '');
@@ -800,7 +800,7 @@ End Code
                 ShowMessage('Cannot delete',true);
                 return;
             }
-            ShowConfirm('Are you sure to delete this item?', function (result) {
+            ShowConfirm('Please confirm to delete', function (result) {
                 if (result == true) {
                     $.get(path + 'acc/delpaydetail?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtDocNo').val() + '&item=' + dtl.ItemNo, function (r) {
                         ShowMessage(r.payment.result);

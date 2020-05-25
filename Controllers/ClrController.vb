@@ -21,7 +21,7 @@ Namespace Controllers
             ViewBag.User = Session("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
             If AuthorizeStr.IndexOf("P") < 0 Then
-                Return Content("You are not allow to print clear", textContent)
+                Return Content("You are not allow to print", textContent)
             End If
             Return GetView("FormClr")
         End Function
@@ -29,7 +29,7 @@ Namespace Controllers
             ViewBag.User = Session("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Costing")
             If AuthorizeStr.IndexOf("M") < 0 Then
-                Return Content("You are not allow to view costing", textContent)
+                Return Content("You are not allow to view", textContent)
             End If
             Return GetView("Costing", "MODULE_ACC")
         End Function
@@ -280,7 +280,7 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
-                    Return Content("{""clr"":{""data"":[],""msg"":""You Are not authorize to view data""}}", jsonContent)
+                    Return Content("{""clr"":{""data"":[],""msg"":""You are not allow to view""}}", jsonContent)
                 End If
 
                 Dim Branch As String = ""
@@ -357,7 +357,7 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
-                    Return Content("{""clr"":{""data"":[],""msg"":""You Are not authorize to view data""}}", jsonContent)
+                    Return Content("{""clr"":{""data"":[],""msg"":""You are not allow to view""}}", jsonContent)
                 End If
 
                 Dim Branch As String = ""
@@ -589,7 +589,7 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
-                    Return Content("{""clr"":{""header"":[],""detail"":[],""msg"":""You are not authorize to read""}}", jsonContent)
+                    Return Content("{""clr"":{""header"":[],""detail"":[],""msg"":""You are not allow to view""}}", jsonContent)
                 End If
 
                 Dim tSqlw As String = " WHERE ClrNo<>'' "
@@ -618,14 +618,14 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("E") < 0 Then
-                    Return Content("{""result"":{""data"":[],""msg"":""You are not authorize to edit""}}", jsonContent)
+                    Return Content("{""result"":{""data"":[],""msg"":""You are not allow to save""}}", jsonContent)
                 End If
 
                 If Not IsNothing(data) Then
                     data.SetConnect(GetSession("ConnJob"))
                     If "" & data.ClrNo = "" Then
                         If AuthorizeStr.IndexOf("I") < 0 Then
-                            Return Content("{""result"":{""data"":[],""msg"":""You are not authorize to add""}}", jsonContent)
+                            Return Content("{""result"":{""data"":[],""msg"":""You are not allow to add""}}", jsonContent)
                         End If
                         If data.ClrDate = DateTime.MinValue Then
                             data.ClrDate = Today.Date
@@ -660,20 +660,20 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("D") < 0 Then
-                    Return Content("{""clr"":{""data"":[],""result"":""You are not authorize to delete""}}", jsonContent)
+                    Return Content("{""clr"":{""data"":[],""result"":""You are not allow to delete""}}", jsonContent)
                 End If
 
                 Dim tSqlw As String = " WHERE ClrNo<>'' "
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format("AND BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
                 Else
-                    Return Content("{""clr"":{""result"":""Please Select Some Branch"",""data"":[]}}", jsonContent)
+                    Return Content("{""clr"":{""result"":""Please input branch"",""data"":[]}}", jsonContent)
                 End If
 
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND ClrNo ='{0}' ", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""clr"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""clr"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
 
                 Dim oDataD As New CClrDetail(GetSession("ConnJob"))
@@ -694,7 +694,7 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
-                    Return Content("{""clr"":{""detail"":[],""msg"":""You are not authorize to read""}}", jsonContent)
+                    Return Content("{""clr"":{""detail"":[],""msg"":""You are not allow to view""}}", jsonContent)
                 End If
 
                 Dim tSqlw As String = " WHERE ClrNo<>'' "
@@ -745,16 +745,16 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("E") < 0 Then
-                    Return Content("{""result"":{""data"":[],""msg"":""You are not authorize to edit""}}", jsonContent)
+                    Return Content("{""result"":{""data"":[],""msg"":""You are not allow to save""}}", jsonContent)
                 End If
 
                 If Not IsNothing(data) Then
                     If "" & data.ClrNo = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     If data.ItemNo = 0 Then
                         If AuthorizeStr.IndexOf("I") < 0 Then
-                            Return Content("{""result"":{""data"":[],""msg"":""You are not authorize to add""}}", jsonContent)
+                            Return Content("{""result"":{""data"":[],""msg"":""You are not allow to add""}}", jsonContent)
                         End If
                     End If
 
@@ -777,24 +777,24 @@ Namespace Controllers
                 ViewBag.User = Session("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("D") < 0 Then
-                    Return Content("{""clr"":{""data"":[],""result"":""You are not authorize to delete""}}", jsonContent)
+                    Return Content("{""clr"":{""data"":[],""result"":""You are not allow to delete""}}", jsonContent)
                 End If
 
                 Dim tSqlw As String = " WHERE ClrNo<>'' "
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format("AND BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
                 Else
-                    Return Content("{""clr"":{""result"":""Please Select Some Branch"",""data"":[]}}", jsonContent)
+                    Return Content("{""clr"":{""result"":""Please input branch"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND ClrNo ='{0}' ", Request.QueryString("Code").ToString)
                 Else
-                    Return Content("{""clr"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""clr"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 If Not IsNothing(Request.QueryString("Item")) Then
                     tSqlw &= String.Format("AND ItemNo ={0} ", Request.QueryString("Item").ToString)
                 Else
-                    Return Content("{""clr"":{""result"":""Please Select Some Item"",""data"":[]}}", jsonContent)
+                    Return Content("{""clr"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
 
                 Dim oData As New CClrDetail(GetSession("ConnJob"))
@@ -817,19 +817,19 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     branchcode = Request.QueryString("Branch").ToString()
                 Else
-                    Return Content("{""clr"":{""result"":""Please Select Some Branch"",""data"":[]}}", jsonContent)
+                    Return Content("{""clr"":{""result"":""Please input branch"",""data"":[]}}", jsonContent)
                 End If
                 Dim docList As String = ""
                 If Not IsNothing(Request.QueryString("Code")) Then
                     docList = Request.QueryString("Code").ToString() & ","
                 Else
-                    Return Content("{""clr"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""clr"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim refno As String = ""
                 If Not IsNothing(Request.QueryString("Ref")) Then
                     refno = Request.QueryString("Ref").ToString()
                 Else
-                    Return Content("{""clr"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                    Return Content("{""clr"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
                 End If
                 Dim bCancel As Boolean = False
                 If Not IsNothing(Request.QueryString("Status")) Then

@@ -405,7 +405,7 @@ End Code
         row.ApproveDate = CDateEN($('#txtApproveDate').val());
 
         if (row.ItemNo != "") {
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 let jsonText = JSON.stringify({ data: row });
                 $.ajax({

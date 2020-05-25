@@ -964,7 +964,7 @@ End Code
         return obj;
     }
     function SaveHeader(showalert = true) {
-        ShowConfirm('Do you need to save this data?', function (ask) {
+        ShowConfirm('Please confirm to save', function (ask) {
             if (ask == false) return;
             let obj = GetDataHeader();
             let jsonText = JSON.stringify({ data: obj });
@@ -1038,7 +1038,7 @@ End Code
         });
     }
     function DeleteDetail() {
-        ShowConfirm('Do you need to delete this data?', function (ask) {
+        ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
 
             let branch = $('#txtBranchCode').val();

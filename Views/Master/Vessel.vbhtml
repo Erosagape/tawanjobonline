@@ -82,7 +82,7 @@ End Code
     }
     function DeleteData() {
         var code = $('#txtTName').val();
-        ShowConfirm('Do you need to delete this data?', function (ask) {
+        ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delvessel?code=' + code, function (r) {
                 ShowMessage(r.vessel.result);
@@ -102,7 +102,7 @@ End Code
                 $('#txtTName').focus();
                 return;
             }
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);

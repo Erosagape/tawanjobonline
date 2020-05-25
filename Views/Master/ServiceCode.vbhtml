@@ -304,7 +304,7 @@ End Code
     }
     function DeleteData() {
         var code = $('#txtSICode').val();
-        ShowConfirm('Do you need to delete this data?', function (ask) {
+        ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
             $.get(path + 'master/delservicecode?code=' + code, function (r) {
                 ShowMessage(r.servicecode.result);
@@ -388,7 +388,7 @@ End Code
                 ShowMessage('Please input name',true);
                 return;
             }
-            ShowConfirm('Do you need to save this data?', function (ask) {
+            ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);

@@ -401,7 +401,7 @@
         }
     }
     function SetLogout() {
-        ShowConfirm('Do you need to log out?', function (c) {
+        ShowConfirm('Please confirm to log out', function (c) {
             if (c == true) {
                 ShowWait();
                 $.get(base + 'config/setlogout?group='+ userType +'&code=' + userID)

@@ -19,16 +19,29 @@ End Code
     var path = '@Url.Content("~")';
     let user = '@ViewBag.User';
     let userGroup = '@ViewBag.UserGroup';
+    let userPosition ='@ViewBag.UserPosition';
     if (user !== '') {
         switch (userGroup) {
             case 'S':
-                window.location.href = path + 'Menu/Index';
+                let csCheck = '3,4,5';
+                switch (userPosition) {
+                    case '3':
+                    case '4':
+                        window.location.href = path + 'Tracking/Timeline';
+                        break;
+                    case '5':
+                        window.location.href = path + 'Tracking/Index';
+                        break;
+                    default:
+                        window.location.href = path + 'Menu/Index';
+                        break;
+                }
                 break;
             case 'V':
-                window.location.href = path + 'Acc/Expense';
+                window.location.href = path + 'Tracking/Index';
                 break;
             case 'C':
-                window.location.href = path + 'Menu/Index';
+                window.location.href = path + 'Tracking/Timeline';
                 break;
         }
     }    
