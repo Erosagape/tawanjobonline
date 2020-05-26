@@ -204,6 +204,9 @@ Public Class CVoucher
         Return msg
     End Function
     Public Sub CancelData()
+        Main.DBExecute(GetSession("ConnJob"), "UPDATE Job_AdvHeader SET PaymentRef='',PaymentDate=NULL,PaymentTime=NULL,PaymentBy='' WHERE PaymentRef='" & Me.ControlNo & "'")
+        Main.DBExecute(GetSession("ConnJob"), "UPDATE Job_ClearHeader SET ReceiveRef='',ReceiveDate=NULL,ReceiveTime=NULL,ReceiveBy='' WHERE ReceiveRef='" & Me.ControlNo & "'")
+        Main.DBExecute(GetSession("ConnJob"), "UPDATE Job_ClearDetail SET LinkBillNo='' WHERE LinkBillNo='" & Me.ControlNo & "'")
         Dim oSub = New CVoucherSub(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND ControlNo='{1}'", Me.BranchCode, Me.ControlNo))
         If oSub.Count > 0 Then
             For Each row In oSub

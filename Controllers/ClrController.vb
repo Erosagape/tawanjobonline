@@ -8,13 +8,14 @@ Namespace Controllers
         Inherits CController
         ' GET: Clr
         Function Index() As ActionResult
+            Me.UpdateClearStatus()
             Return GetView("Index", "MODULE_CLR")
         End Function
         Function Approve() As ActionResult
             Return GetView("Approve", "MODULE_CLR")
         End Function
         Function Receive() As ActionResult
-            Main.UpdateClearStatus("system", "auto")
+            Main.UpdateClearStatus()
             Return GetView("Receive", "MODULE_CLR")
         End Function
         Function FormClr() As ActionResult
@@ -152,7 +153,7 @@ Namespace Controllers
                 Dim tSQL As String = String.Format("UPDATE Job_ClearDetail SET LinkBillNo='{0}',LinkItem=1,ChargeVAT=0,Tax50Tavi=0,FNet=0,BNet=0 WHERE BranchCode+'|'+ClrNo+'|'+Convert(varchar,ItemNo) in({1})", docno, lst)
                 Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                 If result = "OK" Then
-                    Main.UpdateClearStatus(ViewBag.User, docno)
+                    Main.UpdateClearStatus()
                     Return New HttpResponseMessage(HttpStatusCode.OK)
                 End If
             End If
@@ -189,18 +190,18 @@ Namespace Controllers
 
             If lst <> "" Then
                 If doctype = "CLR" Then
-                    Dim tSQL As String = String.Format("UPDATE Job_ClearHeader SET DocStatus=3,ReceiveBy='" & user & "',ReceiveRef='" & docno & "',ReceiveDate=GetDate(),ReceiveTime=Convert(varchar(10),GetDate(),108) WHERE DocStatus<3 AND BranchCode+'|'+ClrNo in({0})", lst)
+                    Dim tSQL As String = String.Format("UPDATE Job_ClearHeader SET DocStatus=3,ReceiveBy='" & user & "',ReceiveRef='" & docno & "',ReceiveDate=GetDate(),ReceiveTime=Convert(varchar(10),GetDate(),108) WHERE BranchCode+'|'+ClrNo in({0})", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
-                        Main.UpdateClearStatus(user, docno)
+                        Main.UpdateClearStatus()
                         Return New HttpResponseMessage(HttpStatusCode.OK)
                     End If
                 End If
                 If doctype = "ADV" Then
-                    Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=6 WHERE DocStatus<6 AND BranchCode+'|'+AdvNo in({0})", lst)
+                    Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=6 WHERE BranchCode+'|'+AdvNo in({0})", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
-                        Main.UpdateClearStatus(user, docno)
+                        result = Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateClrReceiveFromAdvance(user, docno))
                         Return New HttpResponseMessage(HttpStatusCode.OK)
                     End If
                 End If
@@ -971,7 +972,7 @@ Namespace Controllers
             End Try
         End Function
         Function UpdateClearStatus() As ActionResult
-            Main.UpdateClearStatus("system", "auto")
+            Main.UpdateClearStatus()
             Return Content("OK", textContent)
         End Function
     End Class

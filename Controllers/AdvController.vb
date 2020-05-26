@@ -9,6 +9,7 @@ Namespace Controllers
         Inherits CController
         ' GET: Advance
         Function Index() As ActionResult
+            Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateAdvStatus())
             Return GetView("Index", "MODULE_ADV")
         End Function
         Function Approve() As ActionResult
@@ -817,6 +818,10 @@ Namespace Controllers
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetAdvanceDetail", ex.Message, ex.StackTrace, True)
                 Return Content("{""adv"":{""detail"":[],""msg"":""" & ex.Message & """}}", jsonContent)
             End Try
+        End Function
+        Function UpdateAdvStatus() As ActionResult
+            Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateAdvStatus())
+            Return Content("OK", textContent)
         End Function
     End Class
 End Namespace

@@ -1926,6 +1926,7 @@ End Code
             $('#txtUnitCode').val(dt.UnitCharge);
             $('#txtCurrencyCode').val(dt.CurrencyCode);
             ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
+            ShowCaption();
             $('#txtVenCode').val(dt.DefaultVender);
             ShowVender(path, dt.DefaultVender, '#txtPayChqTo');
             if (dt.IsTaxCharge == "2") {

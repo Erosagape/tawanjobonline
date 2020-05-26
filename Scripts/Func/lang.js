@@ -2759,6 +2759,7 @@ function GetLanguage(msg) {
             "This document is locked": "เอกสารนี้ไม่สามารถแก้ไขได้แล้ว",
             "This document is cancelled": "เอกสารนี้ยกเลิกแล้ว",
             "This data is duplicate": "ข้อมูลซ้ำ",
+            "This invoice is already billed,Please cancel billing": "ใบแจ้งหนี้นี้วางบิลแล้ว กรุณายกเลิกใบวางบิลก่อน",
             "This job has been closed": "งานนี้มีการปิดแล้ว",
             "This expense is not allowed": "รหัสนี้ไม่อนุญาตให้ใช้ในเอกสารนี้",
             "Under Development": "อยู่ในระหว่างการพัฒนา",
@@ -2773,7 +2774,7 @@ function GetLanguage(msg) {
             "You are not allow to delete": "คุณไม่ได้รับอนุญาตให้ลบข้อมูล",
             "You are not allow to cancel": "คุณไม่ได้รับอนุญาตให้ยกเลิกข้อมูล",
             "You are not allow to view": "คุณไม่ได้รับอนุญาตให้ดูข้อมูล",
-            "You can choose cheque only for payment entry": "คุณจะสามารถเลือกรายการเช็คได้เมื่อทำการจ่ายเงินเท่านั้น"
+            "You can choose cheque only for payment entry": "คุณจะสามารถเลือกรายการเช็คได้เมื่อทำการจ่ายเงินเท่านั้น"            
         };
         let findLang = lang[msg];
         if (findLang !== undefined) {

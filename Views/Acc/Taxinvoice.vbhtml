@@ -99,6 +99,7 @@ End Code
                             <th class="desktop">VAT</th>
                             <th class="desktop">W-Tax</th>
                             <th class="all">Net</th>
+                            <th class="desktop">Voucher</th>
                         </tr>
                     </thead>
                 </table>
@@ -252,10 +253,10 @@ End Code
                             <a href="#" class="btn btn-success" id="btnUpdate" onclick="SaveData()">
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
                             </a>
+                            <a href="#" class="btn btn-info" id="btnPrint2" onclick="PrintData()">
+                                <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print</b>
+                            </a>
                         </div>
-                        <a href="#" class="btn btn-info" id="btnPrint2" onclick="PrintData()">
-                            <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print</b>
-                        </a>
                         <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                     </div>
                 </div>
@@ -688,6 +689,14 @@ End Code
         $.get(path + 'Acc/GetRcpDetail?Branch=' + branch + '&Code=' + code, function (r) {
             if (r.rcpdetail.data.length > 0) {
                 let d = r.rcpdetail.data;
+                let f = r.rcpdetail.data.filter(function (data) {
+                    return data.VoucherNo !== '';
+                });
+                if (f.length > 0) {
+                    $('#btnCancel').attr('disabled', 'disabled');
+                } else {
+                    $('#btnCancel').removeAttr('disabled');
+                }
                 let tb=$('#tbDetail').DataTable({
                     data: d,
                     selected: true,
@@ -746,7 +755,8 @@ End Code
                             render: function (data) {
                                 return ShowNumber(data, 2);
                             }
-                        }
+                        },
+                        { data:"VoucherNo",title:"Voucher" }
                     ],
                     responsive:true,
                     destroy:true

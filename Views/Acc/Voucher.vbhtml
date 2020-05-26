@@ -1181,7 +1181,7 @@ End Code
             $('#txtCancelProve').val(dr.CancelProve);
             if (dr.CancelProve !=='' && dr.CancelProve!==null) {
                 $('#chkCancel').prop('checked', true);
-                DisableSave();
+                //DisableSave();
             }
             $('#txtCancelDate').val(CDateEN(dr.CancelDate));
             $('#txtCancelTime').val(ShowTime(dr.CancelTime));

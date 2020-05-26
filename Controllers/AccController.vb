@@ -2533,6 +2533,10 @@ ORDER BY a.TName1
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND ReceiptNo ='{0}' ", Request.QueryString("Code").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("InvNo")) Then
+                    tSqlw &= String.Format("AND InvoiceNo ='{0}' ", Request.QueryString("InvNo").ToString)
+                    tSqlw &= "AND ReceiptNo NOT IN(SELECT ReceiptNo FROM Job_ReceiptHeader WHERE ISNULL(CancelProve,'')<>'') "
+                End If
                 Dim oData = New CRcpDetail(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""rcpdetail"":{""data"":" & json & "}}"

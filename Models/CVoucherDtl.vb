@@ -284,6 +284,18 @@ Public Class CVoucherDoc
                         msg = "Cannot Cancel Document Status=" + row.DocStatus
                     End If
                 End If
+                sql = String.Format(" WHERE BranchCode='{0}' AND AdvNo='{1}'", Me.BranchCode, Me.DocNo.Split("#")(0).ToString())
+                Dim tb2 = New CAdvHeader(GetSession("ConnJob")).GetData(sql)
+                If tb2.Count > 0 Then
+                    Dim row = tb2(0)
+                    If row.DocStatus = 6 Then
+                        row.DocStatus = 2
+                        row.SaveData(sql)
+                        msg = Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateAdvStatus())
+                    Else
+                        msg = "Cannot Cancel Document Status=" + row.DocStatus
+                    End If
+                End If
             Case "INV"
                 'Cancel Receipt Saved
                 Dim oRcv As New CRcpDetail(GetSession("ConnJob"))

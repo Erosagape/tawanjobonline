@@ -268,7 +268,7 @@ from Job_AdvHeader adv inner join
     (
         select h.BranchCode,d.AdvNo,d.ItemNo,d.IsDuplicate,d.AdvAmount as AdvNet,
         (CASE WHEN d.IsDuplicate=1 THEN ISNULL(c.ClrNet,0) ELSE ISNULL(c.AdvNet,0) END) as ClrNet,
-        (CASE WHEN h.PaymentRef<>'' THEN 3 ELSE (CASE WHEN h.ApproveBy<>'' THEN 2 ELSE 1 END) END) as AdvStatus,
+        (CASE WHEN ISNULL(h.PaymentRef,'')<>'' THEN 3 ELSE (CASE WHEN ISNULL(h.ApproveBy,'')<>'' THEN 2 ELSE 1 END) END) as AdvStatus,
         (CASE WHEN c.ClrNo IS NULL THEN 0 ELSE 1 END) as ClrCount
         from Job_AdvHeader h inner join Job_AdvDetail d
         on h.BranchCode=d.BranchCode
@@ -404,7 +404,7 @@ FROM Job_CashControl h inner join Job_CashControlSub d
 on h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
 left join Job_CashControlDoc r
 on d.BranchCode=r.BranchCode AND d.ControlNo=r.ControlNo
-AND d.acType=r.acType AND d.DocNo=r.DocNo
+AND d.acType=r.acType 
 "
         Return sql
     End Function
@@ -2167,6 +2167,7 @@ group by b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+
 ) tb"
     End Function
     Function SQLUpdateClrStatusToClear() As String
+        'ใบปิดที่มีใบแจ้งหนี้แต่ยังไม่ครบ
         Return "
 UPDATE d SET d.DocStatus=3
 FROM Job_ClearHeader d INNER JOIN
@@ -2182,10 +2183,11 @@ FROM Job_ClearHeader d INNER JOIN
     AND SUM(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)>0
 ) c 
 ON d.BranchCode=c.BranchCode AND d.ClrNo=c.ClrNo
-WHERE d.DocStatus<>3
+WHERE d.DocStatus<>3 AND d.DocStatus<>99
 "
     End Function
     Function SQLUpdateClrStatusFromAdvance() As String
+        'ใบปิดที่มีใบเบิกที่มีการรับเคลียร์เงินครบแล้ว
         Return "
 UPDATE d SET d.DocStatus=3
 FROM Job_ClearHeader d INNER JOIN
@@ -2194,19 +2196,42 @@ FROM Job_ClearHeader d INNER JOIN
     ,COUNT(*) as CountRow
     FROM Job_ClearDetail a INNER JOIN Job_ClearHeader b
     ON a.BranchCode=b.BranchCode AND a.ClrNo=b.ClrNo
-    AND b.DocStatus<>99 AND a.BNet=0 AND a.AdvAmount>0
+    AND b.DocStatus<>99 AND a.AdvAmount>0
 	LEFT JOIN Job_AdvHeader c ON a.BranchCode=c.BranchCode
-	AND a.AdvNO=c.AdVNo
+	AND a.AdvNO=c.AdVNo 
+    WHERE ISNULL(c.DocStatus,0)<>99
     GROUP BY a.BranchCode,a.ClrNo,b.DocStatus
     HAVING COUNT(*)=SUM(CASE WHEN ISNULL(c.DocStatus,0)=6 THEN 1 ELSE 0 END)
 ) c 
 ON d.BranchCode=c.BranchCode AND d.ClrNo=c.ClrNo
-WHERE d.DocStatus<>3
+WHERE d.DocStatus<>3 AND d.DocStatus<>99
 "
     End Function
-    Function SQLUpdateClrStatusToComplete(user As String, docno As String) As String
+    Function SQLUpdateClrReceiveFromAdvance(user As String, docno As String) As String
         Return "
-UPDATE d SET d.DocStatus=4,d.ReceiveBy='" & user & "',d.ReceiveRef='" & docno & "',d.ReceiveDate=GetDate(),d.ReceiveTime=Convert(varchar(10),GetDate(),108)
+UPDATE d SET d.DocStatus=3,d.ReceiveBy='" & user & "',d.ReceiveRef='" & docno & "',d.ReceiveDate=GetDate(),d.ReceiveTime=Convert(varchar(10),GetDate(),108)
+FROM Job_ClearHeader d INNER JOIN
+(
+    SELECT a.BranchCode,a.ClrNo,b.DocStatus,SUM(CASE WHEN ISNULL(c.DocStatus,0)=6 THEN 1 ELSE 0 END) as SumBill
+    ,COUNT(*) as CountRow
+    FROM Job_ClearDetail a INNER JOIN Job_ClearHeader b
+    ON a.BranchCode=b.BranchCode AND a.ClrNo=b.ClrNo
+    AND b.DocStatus<>99 AND a.AdvAmount>0
+	LEFT JOIN Job_AdvHeader c ON a.BranchCode=c.BranchCode
+	AND a.AdvNO=c.AdVNo
+    WHERE ISNULL(c.DocStatus,0)<>99
+    GROUP BY a.BranchCode,a.ClrNo,b.DocStatus
+    HAVING COUNT(*)=SUM(CASE WHEN ISNULL(c.DocStatus,0)=6 THEN 1 ELSE 0 END)
+) c 
+ON d.BranchCode=c.BranchCode AND d.ClrNo=c.ClrNo
+WHERE d.DocStatus<>3 AND d.DocStatus<>99
+"
+    End Function
+
+    Function SQLUpdateClrStatusToComplete() As String
+        'ใบปิดที่มีการทำใบแจ้งหนี้ครบแล้ว
+        Return "
+UPDATE d SET d.DocStatus=4
 FROM Job_ClearHeader d INNER JOIN
 (
     SELECT a.BranchCode,a.ClrNo,b.DocStatus,SUM(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 1 ELSE 0 END) as SumBill
@@ -2218,13 +2243,13 @@ FROM Job_ClearHeader d INNER JOIN
     HAVING COUNT(*)=SUM(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
 ) c 
 ON d.BranchCode=c.BranchCode AND d.ClrNo=c.ClrNo
-WHERE d.DocStatus<>4
+WHERE d.DocStatus<>4 AND d.DocStatus<>99 
 "
     End Function
     Function SQLUpdateClrStatusToInComplete() As String
+        Dim caseStatus = "(CASE WHEN ISNULL(d.ReceiveRef,'')>'' THEN 3 ELSE (CASE WHEN ISNULL(d.ApproveBy,'')<>'' THEN 2 ELSE 1 END) END)"
         Return "
-UPDATE d SET d.DocStatus=(CASE WHEN ISNULL(d.ApproveBy,'')<>'' THEN 2 ELSE 1 END),
-ReceiveBy='',ReceiveRef='',ReceiveDate=null,ReceiveTime=null
+UPDATE d SET d.DocStatus=" & caseStatus & "
 FROM Job_ClearHeader d INNER JOIN
 (
     SELECT a.BranchCode,a.ClrNo,b.DocStatus
@@ -2232,13 +2257,12 @@ FROM Job_ClearHeader d INNER JOIN
     ,COUNT(*) as CountRow
     FROM Job_ClearDetail a INNER JOIN Job_ClearHeader b
     ON a.BranchCode=b.BranchCode AND a.ClrNo=b.ClrNo
-    AND b.DocStatus<>99 AND a.BNet>0
+    AND b.DocStatus<>99
     GROUP BY a.BranchCode,a.ClrNo,b.DocStatus
     HAVING SUM(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)=0
 ) c 
 ON d.BranchCode=c.BranchCode AND d.ClrNo=c.ClrNo
-WHERE d.DocStatus<>99 AND d.DocStatus<>(CASE WHEN ISNULL(d.ApproveBy,'')<>'' THEN 2 ELSE 1 END)
-AND d.ReceiveBy='system'
+WHERE d.DocStatus<>99 
 "
     End Function
     Function SQLSelectTransportDetail() As String
@@ -2318,11 +2342,11 @@ AND DocNo=h.DocNo
 ) doc on src.BranchCode=doc.BranchCode AND src.LinkNo=doc.DocNo
 "
     End Function
-    Public Sub UpdateClearStatus(user As String, docno As String)
+    Public Sub UpdateClearStatus()
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToInComplete())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToClear())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusFromAdvance())
-        Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToComplete(user, docno))
+        Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToComplete())
     End Sub
     Function GetSQLCommand(cliteria As String, fldDate As String, fldCust As String, fldJob As String, fldEmp As String, fldVend As String, fldStatus As String, fldBranch As String, Optional fldSICode As String = "") As String
         Dim sqlW As String = ""

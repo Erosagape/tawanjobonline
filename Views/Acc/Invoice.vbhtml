@@ -891,9 +891,23 @@ End Code
                 $('#txtCancelReson').focus();
                 return;
             }
-            $('#txtCancelDate').val(GetToday());
-            $('#txtCancelTime').val(ShowTime(GetTime()));
-            $('#txtCancelProve').val(user);
+            if ($('#txtBillAcceptNo').val() !== '') {
+                ShowMessage('This invoice is already billed,Please cancel billing', true);
+                return;
+            }
+            $.get(path + 'Acc/GetRcpDetail?Branch=' + $('#txtBranchCode').val() + '&InvNo=' + $('#txtDocNo').val()).done(function (r) {
+                if (r.rcpdetail.data.length > 0) {
+                    if (mainLanguage == 'TH') {
+                        ShowMessage('ใบแจ้งหนี้นี้ได้ออกใบรับเงิน/ไปแล้วในเลขที่ ' + r.rcpdetail.data[0].ReceiptNo);
+                    } else {
+                        ShowMessage('This invoice has been received in ' + r.rcpdetail.data[0].ReceiptNo);
+                    }
+                } else {
+                    $('#txtCancelDate').val(GetToday());
+                    $('#txtCancelTime').val(ShowTime(GetTime()));
+                    $('#txtCancelProve').val(user);
+                }
+            });
         } else {
             ShowMessage('You are not allow to cancel',true);
         }
