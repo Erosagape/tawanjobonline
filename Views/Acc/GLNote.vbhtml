@@ -475,6 +475,13 @@ End Code
     function ReadAccount(dt) {
         $('#txtGLAccountCode').val(dt.AccCode);
         $('#txtGLDescription').val(dt.AccTName);
+        if (dt.AccSide == 'C') {
+            $('#txtCreditAmt').focus();
+        }
+        if (dt.AccSide == 'D') {
+            $('#txtDebitAmt').focus();
+        }
+
     }
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);

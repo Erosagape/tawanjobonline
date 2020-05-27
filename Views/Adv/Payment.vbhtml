@@ -1076,7 +1076,7 @@ End Code
         $.get(path + 'master/getbookbalance?code='+ dt.BookCode, function (r) {
             if (r.bookaccount.data.length > 0) {
                 let dt = r.bookaccount.data[0].Table[0];
-                $('#txtCashBal').val(ShowNumber(dt.SumCashInBank,2));
+                $('#txtCashBal').val(dt.SumCashInBank);
             }
         });
     }
@@ -1088,7 +1088,7 @@ End Code
         $.get(path + 'master/getbookbalance?code='+ dt.BookCode, function (r) {
             if (r.bookaccount.data.length > 0) {
                 let dt = r.bookaccount.data[0].Table[0];
-                $('#txtChqCashBal').val(ShowNumber(dt.SumCashInBank,2));
+                $('#txtChqCashBal').val(dt.SumCashInBank);
             }
         });
 
