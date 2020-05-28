@@ -555,12 +555,12 @@ End Code
                                 <div>
                                     <label id="lblPickupTarget">Target Date :</label>
                                     <br />
-                                    <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control" disabled></div>
+                                    <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control"></div>
                                 </div>
                                 <div>
                                     <label id="lblPickupTargetTime"></label>
                                     <br />
-                                    <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control" disabled></div>
+                                    <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control"></div>
 
                                 </div>
                                 <div>
@@ -578,11 +578,11 @@ End Code
                                 <label id="lblDelivery">Delivery:</label>
                                 <div>
                                     <label id="lblDeliveryTarget">Target Date :</label>
-                                    <br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control" disabled></div>
+                                    <br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control"></div>
                                 </div>
                                 <div>
                                     <label id="lblDeliveryTargetTime">Target Time :</label>
-                                    <br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control" disabled></div>
+                                    <br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control"></div>
                                 </div>
                                 <div>
                                     <label id="lblDeliveryActual">Actual Date :</label>
@@ -598,12 +598,12 @@ End Code
                                 <div>
                                     <label id="lblReturnTarget">Target Date:</label>
                                     <br />
-                                    <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control" disabled></div>
+                                    <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control"></div>
                                 </div>
                                 <div>
                                     <label id="lblReturnTargetTime">Target Time:</label>
                                     <br />
-                                    <div style="display:flex"><input type="text" id="txtStart" class="form-control" disabled></div>
+                                    <div style="display:flex"><input type="text" id="txtStart" class="form-control"></div>
                                 </div>
                                 <div>
                                     <label id="lblReturnActual">Actual Date:</label>

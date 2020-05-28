@@ -27,6 +27,7 @@ delete from Job_ReceiptDetail
 delete from Job_ReceiptHeader
 delete from Job_WHTax
 delete from Job_WHTaxDetail
+delete from Job_TransportRoute
 --delete from Job_SrvGroup
 --delete from Job_SrvSingle
 --delete from Mas_BookAccount

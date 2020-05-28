@@ -12,7 +12,7 @@ End Code
                 <label id="lblTemplate">Type:</label>                
                 <br />
                 <select id="cboTemplate" class="form-control dropdown" onclick="GenRoute()">
-                    <option value="3124" selected>
+                    <option value="1234" selected>
                         EXPORT
                     </option>
                     <option value="4123">

@@ -50,18 +50,18 @@ End Code
         </div>
         <p>
             <ul id="myTabs" class="nav nav-tabs">
-                <li id="tab1" class="active"><a data-toggle="tab" id="linkTab1" href="#tabinfo">Job Descriptions</a></li>
-                <li id="tab2"><a data-toggle="tab" href="#tabinv" id="linkTab2">Invoice Description</a></li>
-                <li id="tab3"><a data-toggle="tab" href="#tabdeclare" id="linkTab3">Customs Description</a></li>
-                <li id="tab4"><a data-toggle="tab" href="#tabtracking" id="linkTab4">Job Document Tracking</a></li>
+                <li id="tab1" class="active"><a data-toggle="tab" id="linkTab1" href="#tabinfo">Customers Data</a></li>
+                <li id="tab2"><a data-toggle="tab" href="#tabinv" id="linkTab2">Invoice Data</a></li>
+                <li id="tab3"><a data-toggle="tab" href="#tabdeclare" id="linkTab3">Customs Data</a></li>
+                <li id="tab4"><a data-toggle="tab" href="#tabtracking" id="linkTab4">Operation Data</a></li>
                 <li id="tab5"><a data-toggle="tab" href="#tabremark" id="linkTab5">Other Controls</a></li>
             </ul>
             <select id="mySelects" class="form-control" style="display:none" onchange="ChangeTab(this.value);">
-                <option id="optTab1" value="#tabinfo" selected>Description</option>
-                <option id="optTab2" value="#tabinv">Invoices</option>
-                <option id="optTab3" value="#tabdeclare">Customs</option>
-                <option id="optTab4" value="#tabtracking">History</option>
-                <option id="optTab5" value="#tabremark">Others</option>
+                <option id="optTab1" value="#tabinfo" selected>Customers Data</option>
+                <option id="optTab2" value="#tabinv">Invoices Data</option>
+                <option id="optTab3" value="#tabdeclare">Customs Data</option>
+                <option id="optTab4" value="#tabtracking">Operation Data</option>
+                <option id="optTab5" value="#tabremark">Others Controls</option>
             </select>
             <div class="tab-content">
                 <div id="tabinfo" class="tab-pane fade in active">

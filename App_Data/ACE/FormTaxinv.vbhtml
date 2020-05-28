@@ -61,8 +61,7 @@ End Code
     <tbody id="tbDetail"></tbody>
     <tfoot>
         <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="4" style="text-align:center"><label id="lblTotalText"></label></td>
-            <td colspan="2">TOTAL AMOUNT</td>
+            <td colspan="6">TOTAL AMOUNT</td>
             <td colspan="1"><label id="lblTotalBeforeVAT"></label></td>
         </tr>
         <tr style="background-color:lightblue;text-align:right;">            
@@ -72,6 +71,10 @@ End Code
         <tr style="background-color:lightblue;text-align:right;">
             <td colspan="6">TOTAL RECEIPT</td>
             <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
+        </tr>
+        <tr style="background-color:lightblue;text-align:right;">            <td colspan="4" style="text-align:center"><label id="lblTotalText"></label></td>
+            <td colspan="2">TOTAL NET</td>
+            <td colspan="1"><label id="lblTotalNet"></label></td>
         </tr>
     </tfoot>
 </table>
@@ -150,17 +153,17 @@ End Code
         }
         //$('#lblCustCode').text(h.CustCode);
         if (h.UsedLanguage == 'TH') {
-            $('#lblCustName').text(h.CustTName);
-            $('#lblCustAddr').text(h.CustTAddr);
+            $('#lblCustName').text(h.BillTName);
+            $('#lblCustAddr').text(h.BillTAddr);
         } else {
-            $('#lblCustName').text(h.CustEName);
-            $('#lblCustAddr').text(h.CustEAddr);
+            $('#lblCustName').text(h.BillEName);
+            $('#lblCustAddr').text(h.BillEAddr);
         }
         $('#lblCustTel').text(h.CustPhone);
         if(Number(h.BillToCustBranch)==0) {
-        $('#lblCustTax').text(h.CustTaxID + ' BRANCH : สำนักงานใหญ่');
+        $('#lblCustTax').text(h.BillTaxID + ' BRANCH : สำนักงานใหญ่');
         } else {
-        $('#lblCustTax').text(h.CustTaxID + ' BRANCH : '+ h.BillToCustBranch);
+        $('#lblCustTax').text(h.BillTaxID + ' BRANCH : '+ h.BillToCustBranch);
         }		
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiptDate)));
@@ -192,6 +195,7 @@ End Code
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
         $('#lblTotalAfterVAT').text(ShowNumber(total, 2));
-        $('#lblTotalText').text(CNumThai(total));
+        $('#lblTotalNet').text(ShowNumber(total-wht, 2));
+        $('#lblTotalText').text(CNumThai(total-wht));
     }
 </script>
