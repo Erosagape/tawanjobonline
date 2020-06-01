@@ -181,10 +181,10 @@ End Code
             $('#txtDiscrepancyReason').html(h.Comment);
             $('#txtRemark').html(CStr(h.Remark));
 
-            $('#txtPlace1').text(h.CYPlace);
+            $('#txtPlace1').text(h.PackingPlace);
             $('#txtPlace2').text(h.FactoryPlace);
             $('#txtPlace3').text(h.ReturnPlace);
-            $('#txtAddress1').html(CStr(h.CYAddress));
+            $('#txtAddress1').html(CStr(h.PackingAddress));
             $('#txtAddress2').html(CStr(h.FactoryAddress));
             $('#txtAddress3').html(CStr(h.ReturnAddress));
             $('#txtTargetDate1').text(ShowDate(h.TargetYardDate));
