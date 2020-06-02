@@ -1,7 +1,6 @@
 ﻿@Code
-    ViewData("Title") = "User Maintenance"
+    ViewData("Title") = "Web Users"
 End Code
-<h2 style="background-color:greenyellow">Web User</h2>
 <div class="row">
     <div class="col-sm-4">
         User ID :<br/>

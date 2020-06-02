@@ -1,7 +1,6 @@
 ﻿@Code
-    ViewData("Title") = "CustApp"
+    ViewData("Title") = "Customer in Applications"
 End Code
-<h2 style="background-color:greenyellow">Customers Configuration</h2>
 <div class="row">
     <div class="col-sm-3">
         Application<br/>

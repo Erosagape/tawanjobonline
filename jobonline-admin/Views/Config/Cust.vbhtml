@@ -1,7 +1,6 @@
 ﻿@Code
-    ViewData("Title") = "Index"
+    ViewData("Title") = "Customers"
 End Code
-<h2 style="background-color:greenyellow">Customer</h2>
 <input id="btnShow" type="button" value="Show List" onclick="LoadGrid()" />
 <table id="tbCustomer" class="table table-responsive">
     <thead>

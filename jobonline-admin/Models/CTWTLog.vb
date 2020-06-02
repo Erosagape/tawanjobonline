@@ -1,6 +1,6 @@
 ﻿'-----Class Definition-----
 Imports System.Data.SqlClient
-Public Class CLog
+Public Class TWTLog
     Private m_ConnStr As String
     Public Sub New()
         AddNew()
@@ -133,15 +133,15 @@ Public Class CLog
         m_LogDateTime = DateTime.Now
         m_IsError = False
     End Sub
-    Public Function GetData(pSQLWhere As String) As List(Of CLog)
-        Dim lst As New List(Of CLog)
+    Public Function GetData(pSQLWhere As String) As List(Of TWTLog)
+        Dim lst As New List(Of TWTLog)
         Using cn As New SqlConnection(m_ConnStr)
-            Dim row As CLog
+            Dim row As TWTLog
             Try
                 cn.Open()
                 Dim rd As SqlDataReader = New SqlCommand("SELECT * FROM TWTLog" & pSQLWhere, cn).ExecuteReader()
                 While rd.Read()
-                    row = New CLog(m_ConnStr)
+                    row = New TWTLog(m_ConnStr)
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("LogID"))) = False Then
                         row.LogID = rd.GetValue(rd.GetOrdinal("LogID")).ToString()
                     End If

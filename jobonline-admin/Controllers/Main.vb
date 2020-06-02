@@ -133,7 +133,7 @@ Module Main
             Dim userLogin = HttpContext.Current.Session("CurrUser").ToString()
             Dim sessionID = HttpContext.Current.Session.SessionID
             Dim cnMas = My.Settings.weblicenseConnection
-            Dim oLog As New CLog(cnMas)
+            Dim oLog As New TWTLog(cnMas)
             oLog.AppID = app & "(" & sessionID & ")"
             oLog.CustID = cust & "/" & userLogin
             oLog.FromIP = clientIP
@@ -155,7 +155,7 @@ Module Main
         Dim sessionID = HttpContext.Current.Session.SessionID
         Try
             Dim cnMas = My.Settings.weblicenseConnection
-            Dim oLog As New CLog(cnMas)
+            Dim oLog As New TWTLog(cnMas)
             oLog.AppID = app & "(" & sessionID & ")"
             oLog.CustID = cust & "/" & userLogin
             oLog.FromIP = clientIP

@@ -115,21 +115,21 @@ End Code
         if (userGroup == 'S') {
             switch (userPosition) {
                 case '3':
-                    url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val() + '&ManagerCode=' + user
+                    url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val() + '&ManagerCode=' + user;
                     break;
                 case '4':
-                    url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val() + '&CSCode=' + user
+                    url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val() + '&CSCode=' + user;
                     break;
                 case '5':
-                    url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val() + '&ShippingCode=' + user
+                    url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val() + '&ShippingCode=' + user;
                     break;
                 default:
-                    url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val() + '&CustCode=' + cust
+                    url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val();
                     break;
             }
         }
         if (userGroup=='C') {
-            url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val() + '&CustCode=' + cust
+            url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val() + '&CustCode=' + cust;
         }
         $.get(url, function (r) {
             let branch = $('#txtBranchCode').val();

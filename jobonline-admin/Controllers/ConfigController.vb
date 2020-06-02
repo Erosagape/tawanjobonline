@@ -21,6 +21,10 @@ Namespace Controllers
             ViewBag.Cust = New TWTCustomer(My.Settings.weblicenseConnection).GetData("")
             Return GetView("Log")
         End Function
+        Function WebLogin() As ActionResult
+            ViewBag.Cust = New TWTCustomer(My.Settings.weblicenseConnection).GetData("")
+            Return GetView("WebLogin")
+        End Function
         Function CustApp() As ActionResult
             ViewBag.Data = New TWTCustomerApp(My.Settings.weblicenseConnection).GetData("")
             ViewBag.App = New TWTApp(My.Settings.weblicenseConnection).GetData("")
@@ -128,7 +132,16 @@ Namespace Controllers
             If Not IsNothing(Request.QueryString("DateTo")) Then
                 tSqlw &= " AND LogDateTime<='" & Request.QueryString("DateTo") & " 23:59:59'"
             End If
-            Dim oData = New CLog(My.Settings.weblicenseConnection).GetData(tSqlw)
+            Dim oData = New TWTLog(My.Settings.weblicenseConnection).GetData(tSqlw)
+            Dim json = JsonConvert.SerializeObject(oData)
+            Return Content(json, "text/json")
+        End Function
+        Function GetWebLogin() As ActionResult
+            Dim tSqlw As String = " WHERE CustID<>'' "
+            If Not IsNothing(Request.QueryString("Cust")) Then
+                tSqlw &= String.Format(" AND CustID='{0}'", Request.QueryString("Cust").ToString())
+            End If
+            Dim oData = New TWTWebLogin(My.Settings.weblicenseConnection).GetData(tSqlw)
             Dim json = JsonConvert.SerializeObject(oData)
             Return Content(json, "text/json")
         End Function

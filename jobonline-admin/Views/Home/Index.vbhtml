@@ -1,5 +1,10 @@
-﻿<div class="row" style="margin:5px 5px 5px 5px">
-    <div class="col-sm-3" style="background-color:greenyellow">
+﻿<style>
+    a {
+        font-weight:bold;
+    }
+</style>
+<div class="row" style="margin:5px 5px 5px 5px">
+    <div class="col-sm-3">
         <div>
             <a href="/Config/Cust">Add/Edit Customer</a>
         </div>
@@ -16,7 +21,10 @@
             <a href="/Config/Users">Add/Edit Web User</a>
         </div>
         <div>
-            <a href="/Config/Log">Log Viewer</a>
+            <a href="/Config/Log">Action History Log</a>
+        </div>
+        <div>
+            <a href="/Config/WebLogin">Web Log-in History Log</a>
         </div>
     </div>
     <div class="col-sm-9">

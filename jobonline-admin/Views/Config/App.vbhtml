@@ -1,8 +1,6 @@
 ﻿@Code
-    ViewData("Title") = "App"
+    ViewData("Title") = "Applications"
 End Code
-
-<h2 style="background-color:greenyellow">Application</h2>
 <div class="row">
     <div class="col-sm-2">
         App ID

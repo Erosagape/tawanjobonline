@@ -1,7 +1,6 @@
 ﻿@Code
-    ViewData("Title") = "Log"
+    ViewData("Title") = "Action History Log"
 End Code
-<h2 style="background-color:greenyellow">Log Management</h2>
 <div class="row">
     <div class="col-sm-6">
         Customer<br />
