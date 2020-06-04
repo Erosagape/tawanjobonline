@@ -286,10 +286,10 @@ FROM (" & String.Format(SQLSelectTax50TaviReport(), sqlW) & ") as t ORDER BY 9,1
                     Case "ARBAL"
                         fldGroup = "CustCode"
                         groupDatas = JsonConvert.SerializeObject(New CCompany(GetSession("ConnJob")).GetData(""))
-                        sqlW = GetSQLCommand(cliteria, "DocDate", "CustCode", "RefNo", "EmpCode", "", "", "BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "DueDate", "CustCode", "RefNo", "EmpCode", "", "", "BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
                         sqlM = "
-SELECT CustCode,DocNo,DocDate,RefNo,
+SELECT CustCode,DocNo,DocDate,DueDate,RefNo,
 Sum(AmtAdvance) as TotalAdv,Sum(AmtCharge) as TotalCharge,Sum(AmtVAT) as TotalVat,Sum(Amt50Tavi) as Total50Tavi,
 Sum(TotalAmt) as TotalNet,Sum(TotalReceiveAmt) as TotalReceived,Sum(TotalCreditAmt) as TotalCredit,Sum(TotalBal) as TotalBal
 FROM (
@@ -326,7 +326,7 @@ WHERE    (NOT (ISNULL(rh.CancelProve, '') <> ''))
 GROUP BY rd.InvoiceNo, rd.InvoiceItemNo, rd.BranchCode) as r
 ON id.BranchCode=r.BranchCode AND id.DocNo=r.InvoiceNo AND id.ItemNo=r.InvoiceItemNo
 WHERE    (NOT (ISNULL(ih.CancelProve, '') <> ''))
-) t {0} GROUP BY CustCode,DocNo,DocDate,RefNo
+) t {0} GROUP BY CustCode,DocNo,DocDate,DueDate,RefNo
 "
                         sqlM = String.Format(sqlM, sqlW)
                     Case "APBAL"

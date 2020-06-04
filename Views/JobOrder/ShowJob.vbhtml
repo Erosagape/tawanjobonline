@@ -1563,17 +1563,17 @@ End Code
                 if (rec.JobType == 1) {
                     $('#txtInvFCountry').val(r[0].consignmentCTY);
                     $('#txtInvCountry').val(r[0].OriginCTY);
-                    $('#txtETADate').val(ReverseDate(r[0].VSLDTE));
+                    if(r[0].VSLDTE!==null) $('#txtETADate').val(ReverseDate(r[0].VSLDTE));
                     $('#txtInvTotal').val(r[0].BAHTVAL);
                     $('#txtDutyAmt').val(r[0].ALLDUTY);
                     $('#txtVesselName').val(r[0].VSLNME + (r[0].voy !== '' ? ' V.' + r[0].voy : ''));
                 } else {
                     $('#txtInvCountry').val(r[0].DestinationCTY);
                     $('#txtInvFCountry').val(r[0].PurchaseCTY);
-                    $('#txtETDDate').val(ReverseDate(r[0].VSLDTE));
+                    if(r[0].VSLDTE!==null) $('#txtETDDate').val(ReverseDate(r[0].VSLDTE));
                     $('#txtInvTotal').val(r[0].FOREVAL);
                     $('#txtReadyClearDate').val(r[0].CHECKEDTIME.substring(0, 10));
-                    $('#txtClearDate').val(r[0].LOADEDTIME.substring(0, 10));
+                    if(r[0].LOADEDTIME!==null) $('#txtClearDate').val(r[0].LOADEDTIME.substring(0, 10));
                     $('#txtVesselName').val(r[0].VSLNME + (r[0].VOY!==''? ' V.'+ r[0].VOY:''));
                 }
                 $('#txtReleasePort').val(r[0].ReleasedPort);
@@ -1587,10 +1587,10 @@ End Code
                 $('#txtInvUnit').val(r[0].PCKUNT);
                 $('#txtInvCurrency').val(r[0].CUCVAL);
                 $('#txtInvCurRate').val(r[0].EHRVAL);
-                $('#txtEDIDate').val(ReverseDate(r[0].DECLDATECAL));
-                $('#txtDutyDate').val(ReverseDate(r[0].DECLDATE));
+                if(r[0].DECLDATECAL !==null) $('#txtEDIDate').val(ReverseDate(r[0].DECLDATECAL));
+                if(r[0].DECLDATE !==null) $('#txtDutyDate').val(ReverseDate(r[0].DECLDATE));
 
-                ShowMessage('Save Complete');
+                ShowMessage('Update Complete');
             } else {
                 ShowMessage('Data not found', true);
             }

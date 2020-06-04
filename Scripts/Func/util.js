@@ -100,14 +100,18 @@ function getQueryString(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, ' ')).toUpperCase();
 }
 function ReverseDate(sqlDateString) {
-    let chk = '1234567890';
-    if (chk.indexOf(sqlDateString.substr(2, 1)) >= 0) {
-        return sqlDateString;
+    if (sqlDateString !== null) {
+        let chk = '1234567890';
+        if (chk.indexOf(sqlDateString.substr(2, 1)) >= 0) {
+            return sqlDateString;
+        } else {
+            let month = sqlDateString.substr(3, 2);
+            let day = sqlDateString.substr(0, 2);
+            let year = sqlDateString.substr(6, 4);
+            return year + '-' + month + '-' + day;
+        }
     } else {
-        let month = sqlDateString.substr(3, 2);
-        let day = sqlDateString.substr(0, 2);
-        let year = sqlDateString.substr(6, 4);
-        return year + '-' + month + '-' + day;
+        return sqlDateString;
     }
 }
 //convertion utility function
