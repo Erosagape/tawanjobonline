@@ -54,7 +54,7 @@ End Code
         Connection String
         <br />
         <div style="display:flex">
-            <input type="text" id="txtWebTranConnect" class="form-control" />
+            <textarea id="txtWebTranConnect" class="form-control"></textarea>
         </div>
     </div>
 </div>
@@ -129,7 +129,7 @@ End Code
                 $('#txtWebMasDB').val(data[0].WebMasDB);
                 $('#txtWebTranConnect').val(data[0].WebTranConnect);
                 $('#txtWebMasConnect').val(data[0].WebMasConnect);
-                $('#txtActive').val(data[0].Active);
+                $('#txtActive').val(data[0].Active==true?1 :0);
                 $('#txtSubscriptionID').val(data[0].SubscriptionID);
                 $('#txtSeq').val(data[0].Seq);
                 $('#txtDefaultLang').val(data[0].DefaultLang);
@@ -146,7 +146,7 @@ End Code
             WebMasDB: $('#txtWebMasDB').val(),
             WebTranConnect: $('#txtWebTranConnect').val(),
             WebMasConnect: $('#txtWebMasConnect').val(),
-            Active: $('#txtActive').val(),
+            Active: $('#txtActive').val()==1 ? true:false,
             SubscriptionID: $('#txtSubscriptionID').val(),
             Seq: $('#txtSeq').val(),
             DefaultLang: $('#txtDefaultLang').val()
