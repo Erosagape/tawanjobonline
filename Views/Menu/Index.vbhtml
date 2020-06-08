@@ -55,6 +55,7 @@ End Code
     var jobtype = '';
     var user = '@ViewBag.User';
     var userGroup = '@ViewBag.UserGroup';
+    var chartType = getQueryString("Type");
 
     google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawChart);
@@ -151,7 +152,11 @@ End Code
         drawChartStatus([]);
         drawChartCust([]);
         //ShowWait();
-        $.get(path + 'JobOrder/GetDashBoard' + getWhere()).done(function (r) {
+        var url = 'JobOrder/GetDashBoard';
+        if (chartType !== '') {
+            url += '_' + chartType;
+        }
+        $.get(path + url + getWhere()).done(function (r) {
             if (r.result.length > 0) {
                 drawChartVol(r.result[0].data1);
                 drawChartStatus(r.result[0].data2);

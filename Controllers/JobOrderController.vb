@@ -1688,6 +1688,148 @@ Namespace Controllers
                 Return Content("{""result"":[],""msg"":""" & ex.Message & """}", jsonContent)
             End Try
         End Function
+        Function GetDashboard_V2() As ActionResult
+            Try
+                If GetSession("ConnJob") = "" Then
+                    Return Content("{""result"":[],""msg"":""No Connection""}", jsonContent)
+                End If
+                Dim msg As String = New CUtil(GetSession("ConnJob")).ExecuteSQL(SQLUpdateJobStatus(""), False)
+                Dim tSqlw1 As String = ""
+                Dim bCheck As Boolean = False
+                If Not Request.QueryString("Period") Is Nothing Then
+                    bCheck = True
+                    Dim yy = Request.QueryString("Period").ToString().Split("/")(1)
+                    Dim mm = Convert.ToInt16(Request.QueryString("Period").ToString().Split("/")(0))
+                    tSqlw1 = " WHERE Year(j.DocDate)=" & yy & " AND Month(j.DocDate)=" & mm & " "
+                Else
+                    If Not Request.QueryString("DateFrom") Is Nothing Then
+                        If Request.QueryString("DateFrom").ToString() <> "" Then
+                            bCheck = True
+                            tSqlw1 = " WHERE j.DutyDate>=Convert(datetime,'" & Request.QueryString("DateFrom").ToString() & " 00:00:00',102) "
+                        End If
+                    End If
+                    If Not Request.QueryString("DateTo") Is Nothing Then
+                        If Request.QueryString("DateTo").ToString() <> "" Then
+                            bCheck = True
+                            If tSqlw1 <> "" Then tSqlw1 &= " AND " Else tSqlw1 = " WHERE "
+                            tSqlw1 &= " j.DutyDate<=Convert(datetime,'" & Request.QueryString("DateTo").ToString() & " 23:59:59',102) "
+                        End If
+                    End If
+                End If
+                If Not Request.QueryString("ShipBy") Is Nothing Then
+                    If bCheck Then
+                        tSqlw1 &= " AND "
+                    Else
+                        tSqlw1 &= " WHERE "
+                        bCheck = True
+                    End If
+                    tSqlw1 &= " j.ShipBy=" & Request.QueryString("ShipBy").ToString & " "
+                End If
+                If Not Request.QueryString("JobType") Is Nothing Then
+                    If bCheck Then
+                        tSqlw1 &= " AND "
+                    Else
+                        tSqlw1 &= " WHERE "
+                        bCheck = True
+                    End If
+                    tSqlw1 &= " j.JobType=" & Request.QueryString("JobType").ToString & " "
+                End If
+                If Not Request.QueryString("Cust") Is Nothing Then
+                    If bCheck Then
+                        tSqlw1 &= " AND "
+                    Else
+                        tSqlw1 &= " WHERE "
+                        bCheck = True
+                    End If
+                    tSqlw1 &= " j.CustCode IN(SELECT CustCode FROM Mas_Company WHERE LoginName='" & Request.QueryString("Cust").ToString & "') "
+                End If
+                Dim oData1 = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLDashboard1(tSqlw1))
+                msg = SQLDashboard1(tSqlw1)
+                Dim json1 As String = ""
+                For i As Integer = 0 To oData1.Rows.Count - 1
+                    If i = 0 Then
+                        json1 = "[""Status"",""Volume""]"
+                    End If
+                    If oData1.Rows(i)("TotalJob").Equals(System.DBNull.Value) = False Then
+                        Dim status As String = Convert.ToInt16(oData1.Rows(i)("JobStatus")).ToString("00")
+                        json1 &= ",[""" & GetValueConfig("JOB_STATUS", status) & """," & oData1.Rows(i)("TotalJob") & "]"
+                    Else
+                        json1 &= ",[""ALL"",0]"
+                    End If
+                Next
+
+                Dim oData2 = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLDashboard4(tSqlw1))
+                msg = SQLDashboard4(tSqlw1)
+                Dim json2 As String = ""
+                For i As Integer = 0 To oData2.Rows.Count - 1
+                    If i = 0 Then
+                        json2 = "["
+                        For j As Integer = 0 To oData2.Columns.Count - 1
+                            If json2 <> "[" Then
+                                json2 &= ","
+                            End If
+                            json2 &= """" & oData2.Columns(j).ColumnName & """"
+                        Next
+                        json2 &= "]"
+                    End If
+                    json2 &= ",["
+                    For j As Integer = 0 To oData2.Columns.Count - 1
+                        If j > 0 Then
+                            json2 &= ","
+                        End If
+                        If oData2.Columns(j).ColumnName = "JobType" Then
+                            If oData2.Rows(i)("JobType").Equals(System.DBNull.Value) = False Then
+                                Dim status As String = Convert.ToInt16(oData2.Rows(i)("JobType")).ToString("00")
+                                json2 &= """" & GetValueConfig("JOB_TYPE", status) & """"
+                            Else
+                                json2 &= """ALL"""
+                            End If
+                        Else
+                            json2 &= "" & oData2.Rows(i)(j)
+                        End If
+                    Next
+                    json2 &= "]"
+                Next
+
+                Dim oData3 = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLDashboard5(tSqlw1))
+                msg = SQLDashboard3(tSqlw1)
+
+                Dim json3 As String = ""
+                For i As Integer = 0 To oData3.Rows.Count - 1
+                    If i = 0 Then
+                        json3 = "["
+                        For j As Integer = 0 To oData3.Columns.Count - 1
+                            If json3 <> "[" Then
+                                json3 &= ","
+                            End If
+                            json3 &= """" & oData3.Columns(j).ColumnName & """"
+                        Next
+                        json3 &= "]"
+                    End If
+                    json3 &= ",["
+                    For j As Integer = 0 To oData3.Columns.Count - 1
+                        If j > 0 Then
+                            json3 &= ","
+                        End If
+                        If oData3.Columns(j).ColumnName = "CSCode" Then
+                            Dim oUser = New CUser(GetSession("ConnJob")).GetData(String.Format(" WHERE UserID='{0}'", oData3.Rows(i)(j)))
+                            If oUser.Count > 0 Then
+                                json3 &= """" & oUser(0).TName & """"
+                            Else
+                                json3 &= """" & oData3.Rows(i)(j) & """"
+                            End If
+                        Else
+                            json3 &= "" & oData3.Rows(i)(j)
+                        End If
+                    Next
+                    json3 &= "]"
+                Next
+                Return Content("{""result"":[{""data1"":[" & json1 & "],""data2"":[" & json2 & "],""data3"":[" & json3 & "]}]}", jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetDashboard", ex.Message, ex.StackTrace, True)
+                Return Content("{""result"":[],""msg"":""" & ex.Message & """}", jsonContent)
+            End Try
+        End Function
         Function GetDocument() As ActionResult
             Try
                 Dim tSqlw As String = " WHERE JNo<>'' "

@@ -5,7 +5,7 @@
             mnuPath = path + 'Master/AccountCode';
             break;
         case 'Dashboard':
-            mnuPath = path + 'Menu/Index';
+            mnuPath = path + 'Menu/Index?Type=V2';
             break;
         case 'Advance':
             mnuPath = path + 'Adv/Index';

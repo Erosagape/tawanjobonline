@@ -436,9 +436,30 @@ a.BPrice as SumCost,a.ChargeVAT as AmtVat,a.Tax50Tavi as Amt50Tavi,(CASE WHEN IS
     order by a.SICode
 "
                         sqlM = String.Format(sqlM, sqlW)
+                    Case "JOBTRANSPORT"
+                        fldGroup = "VenderCode"
+                        sqlW = GetSQLCommand(cliteria, "c.LoadDate", "c.NotifyCode", "a.JNo", "", "c.VenderCode", "", "c.BranchCode")
+                        If sqlW <> "" Then sqlW = " And " & sqlW
+                        sqlM = "SELECT t.LoadDate,t.NotifyCode,t.VenderCode,t.JNo,t.BookingNo,t.CTN_NO,t.CTN_SIZE,t.TruckNO,t.TruckType,t.Location,
+(CASE WHEN t.CauseCode<>'' THEN (case when t.CauseCode='99' THEN 'Cancel' ELSE (CASE WHEN t.CauseCode='3' THEN 'Finish' ELSE 'Working' END) END) ELSE 'Request' END) as JobStatus,
+t.CountBill,t.CountClear
+FROM (
+SELECT a.*,ISNULL(b.CountBill,0) as CountBill,ISNULL(b.CountClear,0) as CountClear, 
+ISNULL(b.CountBill,0)-ISNULL(b.CountClear,0) as CountBalance,c.LoadDate,c.NotifyCode,c.VenderCode
+FROM Job_LoadInfoDetail a LEFT JOIN(
+    SELECT h.BranchCode,d.BookingRefNo,d.BookingItemNo,COUNT(*) as CountBill,
+    SUM(CASE WHEN ISNULL(d.ClrReFNo,'')<>'' THEN 1 ELSE 0 END) as CountClear
+    FROM Job_PaymentDetail d INNER JOIN Job_PaymentHeader h 
+    ON d.BranchCode=h.BranchCode AND d.DocNo=h.DocNo
+    WHERE ISNULL(h.CancelProve,'')='' GROUP BY h.BranchCode,d.BookingRefNo,d.BookingItemNo
+) b ON a.BranchCode=b.BranchCode AND a.BookingNo=b.BookingRefNo AND a.ItemNo=b.BookingItemNo
+ INNER JOIN Job_LoadInfo c ON a.BranchCode=c.BranchCode AND a.BookingNo=c.BookingNo
+WHERE c.LoadDate IS NOT NULL {0} ) t ORDER BY t.VenderCode,t.LoadDate"
+                        sqlM = String.Format(sqlM, sqlW)
+
                     Case "CUSTSUMMARY"
                         sqlW = GetSQLCommand(cliteria, "c.DutyDate", "c.CustCode", "c.JNo", "c.CSCode", "c.AgentCode", "c.JobStatus", "c.BranchCode")
-                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        If sqlW <> "" Then sqlW = " And " & sqlW
                         sqlM = "
 SELECT CustCode,CustName,
 SUM(AdvCleared+CostCleared) as TotalExpClear,SUM(ExpWaitBill) as TotalExpWaitBill,
@@ -581,10 +602,73 @@ ORDER BY CustCode,InvDate,DocNo
                         sqlW = GetSQLCommand(cliteria, "VoucherDate", "CustCode", "", "RecUser", "", "", "BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
                         sqlM = "SELECT ControlNo,PRVoucher as VoucherNo,VoucherDate,DocNo,CashAmount,ChqAmount,AmountUsed FROM (" & SQLSelectDocumentBalance("P", "") & " ) t " & sqlW & " ORDER BY VoucherDate,ControlNo"
-                    Case "TRIALBAL"
-                    Case "BALANCS"
-                    Case "PROFITLOSS"
-                    Case "JOURNAL"
+                    Case "APBILL"
+                        fldGroup = "VenCode"
+                        sqlW = GetSQLCommand(cliteria, "ph.DocDate", "jd.CustCode", "jd.JNo", "jd.CSCode", "ph.VenCode", "jd.JobStatus", "ph.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT        ph.DocNo,ph.DocDate, ph.VenCode, ph.RefNo, pd.ForJNo, pd.SDescription, ph.PaymentRef, pd.Total, pd.BookingRefNo, pd.ClrRefNo, cd.LinkBillNo, jd.CustCode, 
+                         jd.DeclareNumber, jd.CSCode
+FROM            dbo.Job_PaymentHeader AS ph INNER JOIN
+                         dbo.Job_PaymentDetail AS pd ON ph.BranchCode = pd.BranchCode AND ph.DocNo = pd.DocNo INNER JOIN
+                         dbo.Job_LoadInfoDetail AS ld ON pd.BookingItemNo = ld.ItemNo AND pd.BookingRefNo = ld.BookingNo AND pd.BranchCode = ld.BranchCode LEFT OUTER JOIN
+                         dbo.Job_Order AS jd ON pd.ForJNo = jd.JNo AND pd.BranchCode = jd.BranchCode LEFT OUTER JOIN
+                         dbo.Job_ClearDetail AS cd ON pd.ClrItemNo = cd.ItemNo AND pd.ClrRefNo = cd.ClrNo AND pd.BranchCode = cd.BranchCode
+WHERE        (ISNULL(ph.CancelProve, '') = '') {0} ORDER BY ph.VenCode,ph.RefNo
+"
+                        sqlM = String.Format(sqlM, sqlW)
+                    Case "JOBANALYSIS"
+                        fldGroup = "CustCode"
+                        sqlW = GetSQLCommand(cliteria, "jd.CreateDate", "jd.CustCode", "jd.JNo", "jd.CSCode", "jd.AgentCode", "jd.JobStatus", "jd.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT CustCode,CSCode,AgentCode,JNo, DeclareNumber,DocDate, CreateDate, 
+DATEDIFF(d,CreateDate,DocDate) as OpenDays,
+DutyDate,
+DATEDIFF(d,CreateDate,DutyDate) as DutyDays,
+ LastClearDate,
+ DATEDIFF(d,DutyDate,LastClearDate) as ClearDays,
+  CloseJobDate,
+ DATEDIFF(d,DutyDate,CloseJobDate) as CloseDays,
+ LastInvDate,
+ DATEDIFF(d,LastClearDate,LastInvDate) as InvDays,
+ LastRcvDate,
+ DATEDIFF(d,LastInvDate,LastRcvDate) as RcvDays
+FROM            dbo.Job_Order AS jd LEFT JOIN
+(
+ SELECT ch.BranchCode ,cd.JobNo ,MAX(ch.ClrDate) as LastClearDate
+ FROM Job_ClearHeader ch inner join Job_ClearDetail cd
+ ON ch.BranchCode=cd.BranchCode AND ch.ClrNo=cd.ClrNo
+ WHERE NOT ISNULL(ch.CancelProve,'')<>''
+ GROUP BY ch.BranchCode,cd.JobNo
+) cs
+ON jd.BranchCode=cs.BranchCode AND jd.JNo=cs.JobNo
+LEFT JOIN (
+ SELECT ch.BranchCode ,cd.JobNo ,MAX(ih.DocDate) as LastInvDate
+ FROM Job_ClearHeader ch inner join Job_ClearDetail cd
+ ON ch.BranchCode=cd.BranchCode AND ch.ClrNo=cd.ClrNo
+ INNER JOIN Job_InvoiceHeader ih on cd.BranchCode=ih.BranchCode
+ AND cd.LinkBillNo=ih.DocNo 
+ WHERE NOT ISNULL(ch.CancelProve,'')<>'' AND NOT ISNULL(ih.CancelProve,'')<>'' 
+ GROUP BY ch.BranchCode,cd.JobNo
+) iv
+ON jd.BranchCode=iv.BranchCode AND jd.JNo=iv.JobNo
+LEFT JOIN (
+ SELECT ch.BranchCode ,cd.JobNo ,MAX(rh.ReceiptDate) as LastRcvDate
+ FROM Job_ClearHeader ch inner join Job_ClearDetail cd
+ ON ch.BranchCode=cd.BranchCode AND ch.ClrNo=cd.ClrNo
+ INNER JOIN Job_InvoiceDetail id on cd.BranchCode=id.BranchCode
+ AND cd.LinkBillNo=id.DocNo INNER JOIN Job_ReceiptDetail rd
+ ON id.BranchCode=rd.BranchCode AND id.DocNo=rd.InvoiceNo
+ AND id.ItemNo=rd.InvoiceItemNo INNER JOIN Job_ReceiptHeader rh
+ ON rd.BranchCode=rh.BranchCode AND rd.ReceiptNo=rh.ReceiptNo
+ WHERE NOT ISNULL(ch.CancelProve,'')<>'' AND NOT ISNULL(rh.CancelProve,'')<>'' 
+ GROUP BY ch.BranchCode,cd.JobNo
+) rs
+ON jd.BranchCode=rs.BranchCode AND jd.JNo=rs.JobNo
+WHERE jd.JobStatus<90 {0} ORDER BY jd.CustCode,jd.JNo
+                            "
+                        sqlM = String.Format(sqlM, sqlW)
                 End Select
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)

@@ -1647,6 +1647,27 @@ GROUP BY j.CustCode
         sql = String.Format(sql, tSqlW)
         Return sql
     End Function
+    Public Function SQLDashboard5(tSqlW As String) As String
+        Dim oCfg = Main.GetDataConfig("JOB_STATUS")
+        Dim sqlCheckStatus As String = ""
+        For Each cfg In oCfg
+            sqlCheckStatus &= ",SUM("
+            sqlCheckStatus &= "CASE WHEN j.JobStatus=" & Convert.ToInt16(cfg.ConfigKey) & " THEN 1 ELSE 0 END"
+            sqlCheckStatus &= ") as '" & cfg.ConfigValue & "'"
+        Next
+        If sqlCheckStatus = "" Then
+            sqlCheckStatus = ",COUNT(*) as TotalJob"
+        End If
+        Dim sql = "
+SELECT j.CSCode
+" & sqlCheckStatus & "
+FROM Job_Order j {0}
+GROUP BY j.CSCode
+ORDER BY j.CSCode
+"
+        sql = String.Format(sql, tSqlW)
+        Return sql
+    End Function
     Public Function SQLDashboard2(tSqlW As String) As String
         Dim oCfg = Main.GetDataConfig("JOB_STATUS")
         Dim sqlCheckStatus As String = ""
@@ -1663,6 +1684,26 @@ SELECT j.ShipBy
 " & sqlCheckStatus & "
 FROM Job_Order j {0}
 GROUP BY j.ShipBy
+"
+        sql = String.Format(sql, tSqlW)
+        Return sql
+    End Function
+    Public Function SQLDashboard4(tSqlW As String) As String
+        Dim oCfg = Main.GetDataConfig("JOB_STATUS")
+        Dim sqlCheckStatus As String = ""
+        For Each cfg In oCfg
+            sqlCheckStatus &= ",SUM("
+            sqlCheckStatus &= "CASE WHEN j.JobStatus=" & Convert.ToInt16(cfg.ConfigKey) & " THEN 1 ELSE 0 END"
+            sqlCheckStatus &= ") as '" & cfg.ConfigValue & "'"
+        Next
+        If sqlCheckStatus = "" Then
+            sqlCheckStatus = ",COUNT(*) as TotalJob"
+        End If
+        Dim sql = "
+SELECT j.JobType
+" & sqlCheckStatus & "
+FROM Job_Order j {0}
+GROUP BY j.JobType
 "
         sql = String.Format(sql, tSqlW)
         Return sql
