@@ -678,8 +678,8 @@ sum(CASE WHEN a.DocStatus<=2 THEN a.TotalAdvance ELSE 0 END) as AdvRequest,
 SUM(CASE WHEN a.DocStatus=3 THEN a.TotalAdvance ELSE 0 END) as AdvInProcess,
 SUM(CASE WHEN a.DocStatus IN(4,5,6) THEN a.TotalAdvance ELSE 0 END) as AdvClear
 from Job_AdvHeader a LEFT JOIN Mas_Company b
-WHERE a.DocStatus<>99 {0}
 ON a.CustCode=b.CustCode AND a.CustBranch=b.Branch
+WHERE a.DocStatus<>99 {0}
 group by a.Custcode,a.CustBranch ,b.NameThai,b.CreditLimit,b.DutyLimit
 "
                         sqlM = String.Format(sqlM, sqlW)
@@ -861,6 +861,7 @@ INNER JOIN Job_SrvSingle s ON d.SICode=s.SICode
 LEFT JOIN dbo.Job_Order as j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
 WHERE NOT ISNULL(h.CancelProve,'')<>'' {0}
 "
+                        sqlM = String.Format(sqlM, sqlW)
 
                 End Select
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
