@@ -294,6 +294,7 @@ End Code
             $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalNet),2));
         }
         let d = dr.detail[0];
+	sortData(d,'AmtCharge','desc');
         let sumbase1 = 0;
         let sumbase3 = 0;
         let sumtax1 = 0;
@@ -303,7 +304,7 @@ End Code
             for (let o of d) {
                 let html = '<tr>';
                 html += '<td style="text-align:center">' + o.ItemNo + '</td>';
-                html += '<td>' + o.SICode + '-' + o.SDescription + '</td>';
+                html += '<td>' + o.SDescription + '</td>';
                 if (o.AmtAdvance > 0) {
                     html += '<td style="text-align:right">' + ShowNumber(o.AmtAdvance, 2) + '</td>';
                     html += '<td style="text-align:right">0.00</td>';

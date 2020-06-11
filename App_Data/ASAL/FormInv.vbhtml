@@ -5,24 +5,25 @@
 End Code
 <style>
     body {
-        font-size:11px;
+        font-size: 11px;
     }
+
     table {
-        border-width:thin;
-        border-collapse:collapse;
-    }    
+        border-width: thin;
+        border-collapse: collapse;
+    }
 </style>
 <div style="font-weight:bold;font-size:16px;text-align:center">
     INVOICE
 </div>
-<div id="dvCopy" style="text-align:right;width:100%">    
+<div id="dvCopy" style="text-align:right;width:100%">
 </div>
 <div>
     <div style="display:flex;">
         <div style="flex:3;border:1px solid black;border-radius:5px;padding:5px;">
             <b>NAME</b> : <label id="lblCustName"></label><br />
             <b>ADDRESS</b> : <br />
-	    <label id="lblCustAddress" style="font-size:10px"></label><br/>
+            <label id="lblCustAddress" style="font-size:10px"></label><br />
             <b>TAX ID:</b>
             <label id="lblTaxNumber"></label>
             <b>BRANCH:</b>
@@ -37,10 +38,10 @@ End Code
     </div>
     <div style="display:flex;border:1px solid black;border-radius:5px;padding:5px;">
         <div style="flex:2">
-	    <div class="row">
+            <div class="row">
                 <p class="col-sm-12">
-	        <b>CUST INV</b>: <label id="lblCustInvNo"></label>
-		</p>
+                    <b>CUST INV</b>: <label id="lblCustInvNo"></label>
+                </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
@@ -59,10 +60,10 @@ End Code
             </div>
         </div>
         <div style="flex:2">
-	    <div class="row">
+            <div class="row">
                 <p class="col-sm-12">
-	        <b>COMMODITY</b>: <label id="lblInvProduct"></label>
-		</p>
+                    <b>COMMODITY</b>: <label id="lblInvProduct"></label>
+                </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
@@ -81,10 +82,10 @@ End Code
             </div>
         </div>
         <div style="flex:2">
-	    <div class="row">
+            <div class="row">
                 <p class="col-sm-12">
-	        <b>TOTAL CONTAINER</b>: <label id="lblTotalContainer"></label>
-		</p>
+                    <b>TOTAL CONTAINER</b>: <label id="lblTotalContainer"></label>
+                </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
@@ -118,7 +119,7 @@ End Code
                     <div style="display:flex">
                         <div style="text-align:left;flex:1">
                             TOTAL INVOICE (<label id="lblCurrencyCode"></label>)=<label id="lblForeignNet"></label> RATE=<label id="lblExchangeRate"></label>
-                            <br/>
+                            <br />
                             <div id="lblShippingRemark"></div>
                             REMARKS :<br />
                             <div id="lblDescription"></div>
@@ -126,15 +127,15 @@ End Code
                     </div>
                 </td>
                 <td colspan="3">
-                        TOTAL ADVANCE<br />
-                        TOTAL SERVICE <br />
-                        VATABLE<br />
-                        VAT (RATE=<label id="lblVATRate"></label>%)<br />
-                        SERVICE+VAT<br />
-                        SERVICE+ADVANCE<br />
-                        DISCOUNT (RATE=<label id="lblDiscountRate"></label>%)<br />
-                        CUST. ADV<br />
-                        GRAND TOTAL
+                    TOTAL ADVANCE<br />
+                    TOTAL SERVICE <br />
+                    VATABLE<br />
+                    VAT (RATE=<label id="lblVATRate"></label>%)<br />
+                    SERVICE+VAT<br />
+                    SERVICE+ADVANCE<br />
+                    DISCOUNT (RATE=<label id="lblDiscountRate"></label>%)<br />
+                    CUST. ADV<br />
+                    GRAND TOTAL
                 </td>
                 <td style="background-color :gainsboro;text-align:right;" colspan="2">
                     <label id="lblSumAdvance"></label><br />
@@ -182,12 +183,12 @@ End Code
                     <label id="lblSumNetInvoice"></label>
                 </div>
             </div>
-            <br/>
+            <br />
             <div>
-กรุณานำฝากเข้าบัญชี <br/>
-"บริษัท แอดวานซ์ เซอร์วิส แอนด์ โลจิสติคส์ จำกัด"<br/>
-ธนาคารไทยพานิชย์ สาขาอ่อนนุช <br/>
-บัญชีกระแสรายวัน เลขที่ 2593002107
+                กรุณานำฝากเข้าบัญชี <br />
+                "บริษัท แอดวานซ์ เซอร์วิส แอนด์ โลจิสติคส์ จำกัด"<br />
+                ธนาคารไทยพานิชย์ สาขาอ่อนนุช <br />
+                บัญชีกระแสรายวัน เลขที่ 2593002107
             </div>
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
@@ -222,7 +223,7 @@ End Code
     });
     //});
     function ShowData(dr) {
-        
+
         if (dr.header[0].length > 0) {
             let h = dr.header[0][0];
             $('#lblDocNo').text(h.DocNo);
@@ -233,7 +234,7 @@ End Code
             $('#lblDiscountRate').text(h.DiscountRate);
             $('#lblVATRate').text(ShowNumber(h.VATRate,1));
 
-            let c = dr.customer[0][0];            
+            let c = dr.customer[0][0];
             if (c !== null) {
                 $('#lblTaxNumber').text(c.TaxNumber);
                 $('#lblTaxBranch').text(c.Branch);
@@ -260,7 +261,7 @@ End Code
                 $('#lblMeasurement').text(j.Measurement);
                 $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
                 $('#lblMAWB').text(j.MAWB);
-		$('#lblInvProduct').text(j.InvProduct);                
+		$('#lblInvProduct').text(j.InvProduct);
 		$('#lblTotalContainer').text(j.TotalContainer);
             }
             let remark = h.Remark1 + '\n' + h.Remark2 + '\n' + h.Remark3 + '\n' + h.Remark4 + '\n' + h.Remark5 + '\n' + h.Remark6 + '\n' + h.Remark7 + '\n' + h.Remark8 + '\n' + h.Remark9 + '\n' + h.Remark10;
@@ -291,7 +292,7 @@ End Code
             for (let o of d) {
                 let html = '<tr>';
                 html += '<td style="text-align:center">' + o.ItemNo + '</td>';
-                html += '<td>' + o.SICode + '-' + o.SDescription + '</td>';
+                html += '<td>' + o.SICode+'-'+o.SDescription + '</td>';
                 if (o.AmtAdvance > 0) {
                     html += '<td style="text-align:right">' + ShowNumber(o.AmtAdvance, 2) + '</td>';
                     html += '<td style="text-align:right">0.00</td>';

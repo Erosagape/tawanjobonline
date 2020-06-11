@@ -4,9 +4,6 @@
     ViewBag.Title = "Invoice Slip"
 End Code
 <style>
-    body {
-        font-size:14px;
-    }
     table {
         border-width:thin;
         border-collapse:collapse;
@@ -19,7 +16,7 @@ End Code
     }
 </style>
 <div style="text-align:center;width:100%">
-    <h1>INVOICE</h1>
+    <b>INVOICE</b>
 </div>
 <div id="dvForm">
     <div style="display:flex;">
@@ -216,11 +213,11 @@ TESCO LOTUS RAMA III(BRANCH)
             $('#lblForeignNet').text(ShowNumber(h.ForeignNet, 2));
             $('#lblDiscountRate').text(h.DiscountRate);
             $('#lblVATRate').text(ShowNumber(h.VATRate,1));
-
-            let c = dr.customer[0][0];            
+$.get(path+'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch='+ h.BillToCustBranch,function(r){
+            let c = r.company.data[0];            
             if (c !== null) {
-                $('#lblTaxNumber').text(c.TaxNumber);
-                $('#lblTaxBranch').text(c.Branch);
+		$('#lblTaxBranch').text(c.Branch);		
+                
                 if (c.UsedLanguage == 'TH') {
                     $('#lblCustName').text(c.Title+' '+c.NameThai);
                     $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
@@ -230,7 +227,7 @@ TESCO LOTUS RAMA III(BRANCH)
                 }
                 //$('#lblCustTel').text(c.Phone);
             }
-
+});
             let j = dr.job[0][0];
             if (j !== null) {
                 $('#lblCustInvNo').text(j.InvNo);
@@ -242,7 +239,7 @@ TESCO LOTUS RAMA III(BRANCH)
 		}
                 //$('#lblFromCountry').text(j.DeclareNumber);
                 $('#lblVesselName').text(j.VesselName);
-                $('#lblQtyGross').text(j.InvProductQty + ' ' + j.InvProductUnit + ' GW ' + j.TotalGW + ' '+ j.GWUnit);
+                $('#lblQtyGross').text(j.InvProductQty + ' ' + j.InvProductUnit + ' N/W ' + j.TotalNW + ' '+ j.GWUnit);
                 $('#lblETDDate').text(ShowDate(CDateTH(j.ETDDate)));
                 $('#lblHAWB').text(j.HAWB);
                 $('#lblMeasurement').text(j.Measurement);
@@ -283,9 +280,9 @@ TESCO LOTUS RAMA III(BRANCH)
                     html += '<td style="text-align:right">0.00</td>';
                 } else {
                     html += '<td style="text-align:right">0.00</td>';
-                    html += '<td style="text-align:right">' + (o.AmtVat>0 ?ShowNumber(o.AmtCharge, 2):0) + '</td>';
+                    html += '<td style="text-align:right">' + (o.AmtVat>0 ?ShowNumber(o.AmtCharge, 2):"0.00") + '</td>';
                 }
-                html += '<td style="text-align:right">' + (o.AmtVat==0? ShowNumber(o.AmtCharge, 2):0) + '</td>';
+                html += '<td style="text-align:right">' + (o.AmtVat==0? ShowNumber(o.AmtCharge, 2):"0.00") + '</td>';
                 html += '<td style="text-align:center">' + o.CurrencyCode + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(o.Amt, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(CNum(o.Amt)-CNum(o.AmtDiscount), 2) + '</td>';

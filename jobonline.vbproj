@@ -538,6 +538,27 @@
     <Content Include="App_Data\ACE\_Report.vbhtml" />
     <Content Include="App_Data\ACE\_ReportNoHead.vbhtml" />
     <Content Include="App_Data\APL\TruckOrder.vbhtml" />
+    <Content Include="App_Data\INTERFAIR\FormBill.vbhtml" />
+    <Content Include="App_Data\INTERFAIR\FormCreditNote.vbhtml" />
+    <Content Include="App_Data\INTERFAIR\FormInv.vbhtml" />
+    <Content Include="App_Data\INTERFAIR\FormRcp.vbhtml" />
+    <Content Include="App_Data\INTERFAIR\FormTaxinv.vbhtml" />
+    <Content Include="App_Data\INTERFAIR\FormWHTax.vbhtml" />
+    <Content Include="App_Data\ACE\FormBooking.vbhtml" />
+    <Content Include="App_Data\ACE\FormCreditNote.vbhtml" />
+    <Content Include="App_Data\ACE\FormDelivery.vbhtml" />
+    <Content Include="App_Data\ACE\FormExpense.vbhtml" />
+    <Content Include="App_Data\ACE\FormGL.vbhtml" />
+    <Content Include="App_Data\ACE\FormLetter.vbhtml" />
+    <Content Include="App_Data\ACE\FormQuotation.vbhtml" />
+    <Content Include="App_Data\ACE\FormTruckOrder.vbhtml" />
+    <Content Include="App_Data\ACE\FormVoucher.vbhtml" />
+    <Content Include="App_Data\ACE\FormWHTax.vbhtml" />
+    <Content Include="App_Data\ACE\FormWTax3.vbhtml" />
+    <Content Include="App_Data\ACE\FormWTax3D.vbhtml" />
+    <Content Include="App_Data\ACE\FormWTax53.vbhtml" />
+    <Content Include="App_Data\ACE\FormWTax53D.vbhtml" />
+    <Content Include="App_Data\ACE\TruckOrder.vbhtml" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

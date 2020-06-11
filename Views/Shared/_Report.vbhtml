@@ -40,7 +40,7 @@
                 @RenderBody()
             </div>
         </div>
-        <footer style="width:100%;font-size:8px">
+        <footer id="dvFooter" style="width:100%;font-size:8px">
     <p style="text-align:left">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
     </footer>
     </div>

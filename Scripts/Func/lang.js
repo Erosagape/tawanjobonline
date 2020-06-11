@@ -2438,7 +2438,7 @@ function ChangeLanguageForm(fname) {
         case 'MODULE_REP/Index':
             let reportLists = GetReportLists();            
             let group = $('#cboReportGroup').val();
-            if (group == null) {
+            if (group == null || group == '') {
                 group = 'N/A';
                 let reportGroups = [
                     { "ConfigKey": "ACC", "ConfigValue": "Accounting Reports / รายงานแผนกบัญชี" },
@@ -2607,7 +2607,6 @@ function GetReportLists() {
     return [
         { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBDAILY", "ReportNameEN": "Job List Daily", "ReportNameTH": "รายงานการตรวจปล่อยตามวันที่" },
         { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBCS", "ReportNameEN": "Job List By CS", "ReportNameTH": "รายงานการตรวจปล่อยตามพนักงานบริการลูกค้า" },
-        { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBFOLLOWUP", "ReportNameEN": "Job List By Status", "ReportNameTH": "รายงานสถานะงาน" },
         { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBSHP", "ReportNameEN": "Job List By Shipping", "ReportNameTH": "รายงานการตรวจปล่อยตามชิปปิ้ง" },
         { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBTYPE", "ReportNameEN": "Job List By Type", "ReportNameTH": "รายงานการตรวจปล่อยตามประเภทงาน" },
         { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBSHIPBY", "ReportNameEN": "Job List By Transport", "ReportNameTH": "รายงานการตรวจปล่อยตามลักษณะงานขนส่ง" },
@@ -2618,7 +2617,7 @@ function GetReportLists() {
         { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBADV", "ReportNameEN": "Advance By Emp", "ReportNameTH": "รายงานการเบิกเงินตามพนักงาน" },
         { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "ADVSUMMARY", "ReportNameEN": "Advance Summary", "ReportNameTH": "รายงานสรุปใบเบิกค่าใช้จ่าย" },
         { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "ADVDAILY", "ReportNameEN": "Advance Payment", "ReportNameTH": "รายงานการจ่ายเงินเบิกล่วงหน้า" },
-        { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "ADVDETAIL", "ReportNameEN": "Advance Expenses Report", "ReportNameTH": "รายงานการเบิกค่าใช้จ่ายแต่ละประเภท" },
+        { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVDETAIL", "ReportNameEN": "Advance Expenses Report", "ReportNameTH": "รายงานการเบิกค่าใช้จ่ายแต่ละประเภท" },
         { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "CREDITADV", "ReportNameEN": "Credit Advance Summary", "ReportNameTH": "รายงานสรุปใบทดรองจ่าย" },
         { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "EXPDAILY", "ReportNameEN": "Bill-Expense Report", "ReportNameTH": "รายงานบิลค่าใช้จ่าย" },
         { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "EXPDETAIL", "ReportNameEN": "Bill-Expense Detail Report", "ReportNameTH": "รายงานบิลค่าใช้จ่ายแต่ละประเภท" },
@@ -2667,10 +2666,15 @@ function GetReportLists() {
         { "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "CNDN", "ReportNameEN": "Credit/Debit Note Report", "ReportNameTH": "รายงานการปรับปรุงหนี้" },
         { "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "PVDAILY", "ReportNameEN": "Payment Voucher Report", "ReportNameTH": "รายงานใบสำคัญจ่ายรายวัน" },
         { "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "RVDAILY", "ReportNameEN": "Receive Voucher Report", "ReportNameTH": "รายงานใบสำคัญรับรายวัน" },
-        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99","ReportCode": "TRIALBAL", "ReportNameEN": "Trial Balance Report", "ReportNameTH": "รายงานงบทดลอง" },
-        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99","ReportCode": "BALANCS", "ReportNameEN": "Balance Sheet", "ReportNameTH": "รายงานงบดุล" },
-        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99","ReportCode": "PROFITLOSS", "ReportNameEN": "Profit And Loss", "ReportNameTH": "รายงานงบกำไรขาดทุน" },
-        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99","ReportCode": "JOURNAL", "ReportNameEN": "Journal Entry Report", "ReportNameTH": "รายงานสมุดรายวัน" }
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99","ReportCode": "CUSTSTATUS", "ReportNameEN": "Job Outstanding By Customer", "ReportNameTH": "สรุปจำนวนงานคงค้างตามลูกค้า" },
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "ADVSTATUS", "ReportNameEN": "Advance Outstanding By Customer", "ReportNameTH": "สรุปยอดเงินการเบิกค่าใช้จ่ายตามลูกค้า" },
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "CLRSTATUS", "ReportNameEN": "Billing Outstanding By Customer", "ReportNameTH": "รายงานติดตามการเรียกเก็บเงิน" },
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "JOBFOLLOWUP", "ReportNameEN": "Job List By Status", "ReportNameTH": "รายงานงานเรียงตามสถานะ" },
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "JOBVALUE", "ReportNameEN": "Job Value Summary", "ReportNameTH": "รายงานสรุปผลการดำเนินงานตามจ๊อบ" },
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "ADVFOLLOWUP", "ReportNameEN": "Advance Follow-up Report", "ReportNameTH": "รายงานติดตามใบเบิกค่าใช้จ่าย" },
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "EARNEST", "ReportNameEN": "Earnest Follow-up Report", "ReportNameTH": "รายงานติดตามเงินมัดจำ" },
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "INVFOLLOWUP", "ReportNameEN": "Invoice Follow-up Report", "ReportNameTH": "รายงานติดตามใบแจ้งหนี้" },
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "EXPFOLLOWUP", "ReportNameEN": "Expenses Follow-up Report", "ReportNameTH": "รายงานติดตามบิลค่าใช้จ่าย" },
     ];
 }
 function GetLanguage(msg) {

@@ -358,7 +358,7 @@ function IsNumberColumn(cname) {
     if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
-    colname = 'Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,';
+    colname = 'TotalAdvBilled,TotalCostBilled,TotalChargeBilled,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,';
     if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
@@ -377,11 +377,11 @@ function IsSummaryColumn(cname) {
     if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
-    colname = ',CreditNet,AmtWH,AmtTotal,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,PayTax,Tax3Tres,TaxNot3Tres,CashAmount,AmountUsed,TotalJob,';
+    colname = ',CreditNet,AmtWH,AmtTotal,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,PayTax,Tax3Tres,TaxNot3Tres,CashAmount,AmountUsed,TotalJob,TotalAdvWaitBill,TotalCostWaitBill,TotalChargeWaitBill,';
     if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
-    colname = ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService,';
+    colname = 'TotalAdvBilled,TotalCostBilled,TotalChargeBilled,TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService,';
     if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
