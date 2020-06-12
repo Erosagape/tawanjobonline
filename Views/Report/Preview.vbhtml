@@ -12,7 +12,7 @@ End Code
 </style>
 <div style="display:flex;flex-direction:column">
     <label id="rptTitle" onclick="ExportData()">Report Title</label>
-    <table id="tbResult" width="100%">
+    <table id="tbResult" style="width:100%">
         <thead></thead>
         <tbody></tbody>
         <tfoot></tfoot>

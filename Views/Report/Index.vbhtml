@@ -205,7 +205,7 @@
             codeWhere: $('#txtCodeCliteria').val()
         };
         let str = JSON.stringify(obj);
-        return '?data=' + JSON.stringify(data) + '&cliteria=' + encodeURIComponent(str);
+        return '?data=' + JSON.stringify(data) + '&cliteria=' + encodeURIComponent(str) + '&group=' + $('#cboReportGroup').val();
     }
     function SetEvents() {
         $.get(path +'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {

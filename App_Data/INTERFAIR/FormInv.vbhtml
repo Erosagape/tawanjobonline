@@ -56,7 +56,9 @@ End Code
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    QUANTITY/GROSSWEIGHT :<label id="lblQtyGross"></label>
+                    QUANTITY :<label id="lblQtyGross"></label>
+<br/>
+                    NET WEIGHT :<label id="lblNetWeight"></label>
                 </p>
             </div>
         </div>
@@ -90,7 +92,7 @@ End Code
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    CONSIGNEE :<label id="lblCustTName"></label>
+                    CONSIGNEE :<br/><label id="lblCustTName"></label>
                 </p>
             </div>
         </div>
@@ -256,7 +258,8 @@ TESCO LOTUS RAMA III(BRANCH)
 		}
                 //$('#lblFromCountry').text(j.DeclareNumber);
                 $('#lblVesselName').text(j.VesselName);
-                $('#lblQtyGross').text(j.InvProductQty + ' ' + j.InvProductUnit + ' N/W ' + j.TotalNW + ' '+ j.GWUnit);
+                $('#lblQtyGross').text(j.InvProductQty + ' ' + j.InvProductUnit);
+		$('#lblNetWeight').text(j.TotalNW + ' '+ j.GWUnit);
                 $('#lblETDDate').text(ShowDate(CDateTH(j.ETDDate)));
                 $('#lblHAWB').text(j.HAWB);
                 $('#lblMeasurement').text(j.Measurement);

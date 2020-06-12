@@ -85,16 +85,16 @@ Namespace Controllers
                     Case "JOBVOLUME"
                         sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT j.*,c.NameThai FROM (" & SQLSelectJobCount(sqlW, "j.CustCode") & ") j INNER JOIN Mas_Company c ON j.CustCode=c.CustCode ORDER BY c.NameThai"
+                        sqlM = "SELECT c.NameThai,j.* FROM (" & SQLSelectJobCount(sqlW, "j.CustCode") & ") j INNER JOIN Mas_Company c ON j.CustCode=c.CustCode ORDER BY c.NameThai"
                     Case "JOBSTATUS"
                         sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.ManagerCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT j.*,c.TName FROM (" & SQLSelectJobCount(sqlW, "j.CSCode") & ") j INNER JOIN Mas_User c ON j.CSCode=c.UserID ORDER BY c.TName"
+                        sqlM = "SELECT c.TName,j.* FROM (" & SQLSelectJobCount(sqlW, "j.CSCode") & ") j INNER JOIN Mas_User c ON j.CSCode=c.UserID ORDER BY c.TName"
                     Case "JOBSALES"
                         fldGroup = "TName"
                         sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.ManagerCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT j.*,c.TName FROM (" & SQLSelectJobCount(sqlW, "j.ManagerCode") & ") j INNER JOIN Mas_User c ON j.ManagerCode=c.UserID ORDER BY c.TName"
+                        sqlM = "SELECT c.TName,j.* FROM (" & SQLSelectJobCount(sqlW, "j.ManagerCode") & ") j INNER JOIN Mas_User c ON j.ManagerCode=c.UserID ORDER BY c.TName"
                     Case "JOBCOMM"
                         sqlW = GetSQLCommand(cliteria, "dbo.Job_ReceiptHeader.ReceiptDate", "dbo.Job_Order.CustCode", "dbo.Job_Order.JNo", "dbo.Job_Order.ManagerCode", "dbo.Job_Order.AgentCode", "dbo.Job_Order.JobStatus", "dbo.Job_Order.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
@@ -759,22 +759,22 @@ WHERE j.JobStatus<>99 {0}
                         sqlW = GetSQLCommand(cliteria, "h.PaymentDate", "h.CustCode", "d.ForJNo", "h.EmpCode", "d.VenCode", "h.DocStatus", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
-select h.AdvNo,h.EmpCode,h.CustCode,d.ForJNo,h.PaymentDate,d.SDescription,d.VenCode,d.AdvQty,d.UnitPrice,
-(CASE WHEN h.AdvType=1 THEN d.AdvNet ELSE 0 END) as PreparationAdv,
-(CASE WHEN h.AdvType=2 THEN d.AdvNet ELSE 0 END) as CustomsAdv,
-(CASE WHEN h.AdvType=3 THEN d.AdvNet ELSE 0 END) as ShippingAdv,
-(CASE WHEN h.AdvType=1 THEN d.AdvNet ELSE 0 END) as AdditionAdv,
+select h.AdvNo,h.EmpCode,h.CustCode,d.ForJNo,h.PaymentDate,d.SDescription,d.VenCode,d.UnitPrice,
+(CASE WHEN h.AdvType=1 THEN d.AdvNet ELSE 0 END) as AdvCS,
+(CASE WHEN h.AdvType=2 THEN d.AdvNet ELSE 0 END) as AdvCustoms,
+(CASE WHEN h.AdvType=3 THEN d.AdvNet ELSE 0 END) as AdvShipping,
+(CASE WHEN h.AdvType=1 THEN d.AdvNet ELSE 0 END) as AdvAdd,
 ISNULL(c.ClrNet,0) as AdvUsed,c.LastClrDate,
-ISNULL(d.AdvNet,0)-ISNULL(c.ClrNet,0) as AdvBalance,
-ISNULL(c.ClrBilled,0) as AdvCollected,c.LastInvoiceNo,
-ISNULL(c.ClrNet,0)-ISNULL(c.ClrBilled,0) as ClrBalance
+ISNULL(d.AdvNet,0)-ISNULL(c.ClrNet,0) as AdvBal,
+ISNULL(c.ClrBilled,0) as AdvCollected,c.LastInvNo,
+ISNULL(c.ClrNet,0)-ISNULL(c.ClrBilled,0) as ClrBal
 from Job_AdvHeader h inner join Job_AdvDetail d
 on h.BranchCode=d.BranchCode and h.AdvNo=d.AdvNo
 left join (
 	select a.BranchCode,b.AdvNo,b.AdvItemNo,sum(b.BNet) as ClrNet,
 	Max(a.Clrdate) as LastClrDate,
     sum(CASE WHEN b.LinkItem>0 THEN b.BNet ELSE 0 END) as ClrBilled,
-    MAX(b.LinkBillNo) as LastInvoiceNo
+    MAX(b.LinkBillNo) as LastInvNo
 	FROM Job_ClearHeader a inner join Job_ClearDetail b
 	on a.BranchCode=b.BranchCode and a.ClrNo=b.ClrNo
 	where a.DocStatus<>99 and isnull(b.AdvNo,'')<>'' 
@@ -863,6 +863,33 @@ WHERE NOT ISNULL(h.CancelProve,'')<>'' {0}
 "
                         sqlM = String.Format(sqlM, sqlW)
 
+                    Case "YEARSUMMARY"
+                        sqlW = GetSQLCommand(cliteria, "h.ClrDate", "j.CustCode", "j.JNo", "h.EmpCode", "d.VenderCode", "j.JobStatus", "h.BranchCode", "d.SICode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+select Year(h.ClrDate) as yy,(CASE WHEN h.ClearType=1 THEN 'ADV' ELSE (CASE WHEN h.ClearType=2 THEN 'COST' ELSE 'SERV' END) END) as ClrType
+,c.CustCode,c.Branch,
+Sum(CASE WHEN Month(h.ClrDate)=1 THEN d.BNet ELSE 0 END) as ClrJan,
+Sum(CASE WHEN Month(h.ClrDate)=2 THEN d.BNet ELSE 0 END) as ClrFeb,
+Sum(CASE WHEN Month(h.ClrDate)=3 THEN d.BNet ELSE 0 END) as ClrMar,
+Sum(CASE WHEN Month(h.ClrDate)=4 THEN d.BNet ELSE 0 END) as ClrApr,
+Sum(CASE WHEN Month(h.ClrDate)=5 THEN d.BNet ELSE 0 END) as ClrMay,
+Sum(CASE WHEN Month(h.ClrDate)=6 THEN d.BNet ELSE 0 END) as ClrJun,
+Sum(CASE WHEN Month(h.ClrDate)=7 THEN d.BNet ELSE 0 END) as ClrJul,
+Sum(CASE WHEN Month(h.ClrDate)=8 THEN d.BNet ELSE 0 END) as ClrAug,
+Sum(CASE WHEN Month(h.ClrDate)=9 THEN d.BNet ELSE 0 END) as ClrSep,
+Sum(CASE WHEN Month(h.ClrDate)=10 THEN d.BNet ELSE 0 END) as ClrOct,
+Sum(CASE WHEN Month(h.ClrDate)=11 THEN d.BNet ELSE 0 END) as ClrNov,
+Sum(CASE WHEN Month(h.ClrDate)=12 THEN d.BNet ELSE 0 END) as ClrDec
+from Job_ClearHeader h inner join Job_ClearDetail d ON h.BranchCode=d.BranchCode
+AND h.ClrNo=d.ClrNo
+INNER JOIN Job_Order j ON d.BranchCode=j.BranchCode AND d.JobNo=j.JNo
+INNER JOIN Mas_Company c on j.CustCode=c.CustCode AND j.CustBranch=c.Branch
+WHERE h.DocStatus<>99 {0}
+GROUP BY h.ClearType,c.CustCode,c.Branch,Year(h.ClrDate)
+ORDER BY CustCode,Branch,ClearType
+                            "
+                        sqlM = String.Format(sqlM, sqlW)
                 End Select
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)

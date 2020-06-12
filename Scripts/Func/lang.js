@@ -2675,6 +2675,7 @@ function GetReportLists() {
         { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "EARNEST", "ReportNameEN": "Earnest Follow-up Report", "ReportNameTH": "รายงานติดตามเงินมัดจำ" },
         { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "INVFOLLOWUP", "ReportNameEN": "Invoice Follow-up Report", "ReportNameTH": "รายงานติดตามใบแจ้งหนี้" },
         { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "EXPFOLLOWUP", "ReportNameEN": "Expenses Follow-up Report", "ReportNameTH": "รายงานติดตามบิลค่าใช้จ่าย" },
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "YEARSUMMARY", "ReportNameEN": "Yearly Report", "ReportNameTH": "รายงานสรุปการทำงานรายปี" },
     ];
 }
 function GetLanguage(msg) {
