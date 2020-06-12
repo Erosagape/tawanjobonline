@@ -294,16 +294,17 @@ End Code
             $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalNet),2));
         }
         let d = dr.detail[0];
-	sortData(d,'AmtCharge','desc');
+
         let sumbase1 = 0;
         let sumbase3 = 0;
         let sumtax1 = 0;
         let sumtax3 = 0;
-
+        let rowid = 0;
         if (d.length > 0) {
             for (let o of d) {
+		rowid+=1;
                 let html = '<tr>';
-                html += '<td style="text-align:center">' + o.ItemNo + '</td>';
+                html += '<td style="text-align:center">' + rowid + '</td>';
                 html += '<td>' + o.SDescription + '</td>';
                 if (o.AmtAdvance > 0) {
                     html += '<td style="text-align:right">' + ShowNumber(o.AmtAdvance, 2) + '</td>';

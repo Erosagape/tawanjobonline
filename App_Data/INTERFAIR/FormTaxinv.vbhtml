@@ -4,10 +4,15 @@
     ViewBag.Title = "Tax-Invoice Slip"
 End Code
 <style>
-    td {
-        font-size: 12px;
+    * {
+       font-size: 13px;
     }
-
+    td {
+        font-size: 13px;
+    }
+    th {
+        font-size: 14px;
+    }
     table {
         border-width: thin;
         border-collapse: collapse;
@@ -16,9 +21,10 @@ End Code
 	display:none;
     }  
 </style>
-<div style="text-align:center;width:100%">
-    <h2><label id="lblDocType">TAX-INVOICE</label></h2>
+<div style="text-align:center;width:100%;">
+    <label style="font-size:16px;font-weight:bold;" id="lblDocType">ใบเสร็จรับเงิน/ใบกำกับภาษี (RECEIPT/TAX-INVOICE)</label>
 </div>
+<br/>
 <!--
 <div style="display:flex;">
     <div style="flex:3;">
@@ -34,6 +40,7 @@ End Code
 </div>
 -->
 </div>
+
 <div style="display:flex;">
     <div style="flex:3;border:1px solid black;border-radius:5px;">
         NAME : <label id="lblCustName"></label><br />
@@ -46,7 +53,7 @@ End Code
         ISSUE DATE : <label id="lblReceiptDate"></label><br />
     </div>
 </div>
-
+<br />
 <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
     <thead>
         <tr style="background-color:lightblue;">
@@ -76,9 +83,11 @@ End Code
         </tr>
     </tfoot>
 </table>
+<br/>
 <p>
-    PAY BY
+    PAID BY
 </p>
+<br />
 <div style="display:flex;flex-direction:column">
     <div>
         <label><input type="checkbox" name="vehicle1" value=""> CASH</label>
@@ -94,19 +103,12 @@ End Code
     </div>
 </div>
 <br />
+<br />
 <div style="display:flex;">
-    <!--
-    <div class="text-left" style="border:1px solid black;flex:2">
-        PLEASE REMIT TO ACCOUNT NO: 170-279834-5<br />
-        "DAMON GOOD SERVICES CO.,LTD"<br />
-        SIAM COMMERCIAL BANK PUBLIC LIMITED<br />
-        THE MALL THA-PHRA BRANCH
-    </div>
-        -->
     <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
 
         FOR THE CUSTOMER
-        <br /><br /><br />
+        <br /><br /><br /><br /><br />
         <p>_____________________</p>
         _____________________<br />
         ___/_______/___<br />
@@ -115,7 +117,7 @@ End Code
     <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
 
         FOR THE COMPANY
-        <br /><br /><br />
+        <br /><br /><br /><br /><br />
         <p>_____________________</p>
         _____________________<br />
         ___/_______/___<br />
@@ -133,17 +135,7 @@ End Code
     });
     function ShowData(dt) {
         let h = dt[0];
-        switch (h.ReceiptType) {
-            case 'TAX':
-                $('#lblDocType').text('TAX-INVOICE/RECEIPT');
-                break;
-            case 'SRV':
-                $('#lblDocType').text('TAX-INVOICE');
-                break;
-            default:
-                $('#lblDocType').text('RECEIPT');
-                break;
-        }
+
         //$('#lblCustCode').text(h.CustCode);
         if (h.UsedLanguage == 'TH') {
             $('#lblCustName').text(h.CustTName);

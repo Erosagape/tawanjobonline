@@ -56,7 +56,11 @@ End Code
     var user = '@ViewBag.User';
     var userGroup = '@ViewBag.UserGroup';
     var chartType = getQueryString("Type");
+    var firstDateOfMonth = [new Date().getFullYear(), CCode(new Date().getMonth()+1), '01'].join('-');
+    var lastDateOfMonth = [new Date().getFullYear(), CCode(new Date().getMonth()+1), new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()].join('-');
 
+    $('#txtDateFrom').val(firstDateOfMonth);
+    $('#txtDateTo').val(lastDateOfMonth);
     google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawChart);
 

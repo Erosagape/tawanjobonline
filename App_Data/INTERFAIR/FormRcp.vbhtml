@@ -5,8 +5,8 @@
     ViewBag.ReportName = ""
 End Code
 <style>
-    td {
-        font-size: 12px;
+    * {
+       font-size: 13px;
     }
 
     table {
@@ -17,9 +17,10 @@ End Code
 	display:none;
     }  
 </style>
-<div style="text-align:center;width:100%">
-    <h2>RECEIPTS</h2>
+<div style="text-align:center;width:100%;padding:5px 5px 5px 5px">
+    <label id="lblDocType" style="font-size:16px;font-weight:bold">ใบเสร็จรับเงิน (RECEIPT)</label>
 </div>
+<br/>
 <!--
 <div style="display:flex;">
     <div style="flex:3;">
@@ -35,8 +36,6 @@ End Code
 
 </div>
 -->
-<div id="dvCopy" style="text-align:right;width:100%">
-</div>
 <div style="display:flex;">
     <div style="flex:3;border:1px solid black;border-radius:5px;">
         NAME : <label id="lblCustName"></label><br />
@@ -112,12 +111,7 @@ End Code
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
     let receiptno = getQueryString('code');
-    let ans = confirm('OK to print Original or Cancel For Copy');
-    if (ans == true) {
-        $('#dvCopy').html('<b>**ORIGINAL**</b>');
-    } else {
-        $('#dvCopy').html('<b>**COPY**</b>');
-    }
+
     $.get(path + 'acc/getreceivereport?branch=' + branch + '&code=' + receiptno, function (r) {
         if (r.receipt.data.length !== null) {
             ShowData(r.receipt.data);

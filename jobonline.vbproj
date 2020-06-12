@@ -559,6 +559,7 @@
     <Content Include="App_Data\ACE\FormWTax53.vbhtml" />
     <Content Include="App_Data\ACE\FormWTax53D.vbhtml" />
     <Content Include="App_Data\ACE\TruckOrder.vbhtml" />
+    <Content Include="App_Data\INTERFAIR\_Report.vbhtml" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

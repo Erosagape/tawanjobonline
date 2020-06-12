@@ -2,11 +2,11 @@
 @Code
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Billing Slip"
-    ViewBag.ReportName = "BILLING COVER SHEET"
+    ViewBag.ReportName = "ใบวางบิล (BILLING COVER SHEET)"
 End Code
 <style>
-    td {
-        font-size: 11px;
+    * {
+       font-size: 13px;
     }
 
     table {

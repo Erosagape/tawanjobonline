@@ -269,7 +269,7 @@ End Code
                                     <label id="lblJobNo">Job No :</label>                                    
                                     <br/>
                                     <div style="display:flex">
-                                        <input type="text" id="txtForJNo" class="form-control" disabled />
+                                        <input type="text" id="txtForJNo" class="form-control" />
                                         <input type="button" class="btn btn-default" onclick="SearchData('job')" value="..." />
                                     </div>                                    
                                 </div>

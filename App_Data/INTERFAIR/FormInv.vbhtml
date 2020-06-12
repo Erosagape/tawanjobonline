@@ -4,6 +4,9 @@
     ViewBag.Title = "Invoice Slip"
 End Code
 <style>
+    * {
+       font-size: 13px;
+    }
     table {
         border-width:thin;
         border-collapse:collapse;
@@ -15,9 +18,10 @@ End Code
 	padding-right:5px;
     }
 </style>
-<div style="text-align:center;width:100%">
-    <b>INVOICE</b>
+<div style="text-align:center;width:100%;padding:5px 5px 5px 5px">
+    <label id="lblDocType" style="font-size:16px;font-weight:bold">ใบแจ้งหนี้ (INVOICE)</label>
 </div>
+<br/>
 <div id="dvForm">
     <div style="display:flex;">
         <div style="flex:3;border:1px solid black;border-radius:5px;">
@@ -37,6 +41,7 @@ End Code
             JOB NO : <label id="lblJobNo"></label><br />
         </div>
     </div>
+<br/>
     <div style="display:flex;border:1px solid black;border-radius:5px;">
         <div style="flex:2">
             <div class="row">
@@ -83,8 +88,14 @@ End Code
                     MBL/MAWB :<label id="lblMAWB"></label>
                 </p>
             </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    CONSIGNEE :<label id="lblCustTName"></label>
+                </p>
+            </div>
         </div>
     </div>
+<br/>
     <table style="width:100%" border="1" class="text-center">
         <thead>
             <tr style="background-color :gainsboro;text-align:center;">
@@ -138,11 +149,12 @@ End Code
             <tr>
                 <td>TOTAL (BAHT)</td>
                 <td colspan="7">
-                    <div style="text-align:center"><label id="lblTotalBaht"></label></div>
+                    <div style="text-align:center;"><label id="lblTotalBaht" style="font-size:14px;"></label></div>
                 </td>
             </tr>
         </tfoot>
     </table>
+<br/>
     <div style="display:flex">
         <div class="text-left" style="border:1px solid black;border-radius:5px;flex:1">
             WITHHOLDING TAX DETAIL
@@ -171,20 +183,23 @@ End Code
             </div>
             <br/>
             <div>
-PLEASE REMIT TO ACCOUNT NO:761-221355-5
-INTER FAIR SERVICES CO.,LTD.
-KASIKORN BANK
+PLEASE REMIT TO<br/>
+ACCOUNT NO:761-221355-5<br/>
+"INTER FAIR SERVICES CO.,LTD."<br/>
+KASIKORN BANK<br/>
 TESCO LOTUS RAMA III(BRANCH)
             </div>
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
-            FOR THE CUSTOMER <br /><br /> <br /><br />
+<br/>
+            FOR THE CUSTOMER <br /><br /> <br /><br /><br />
             ......................................................... <br />
             __________/_________/________ <br />
             AUTHORIZED SIGNATURE
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
-            FOR @ViewBag.PROFILE_COMPANY_NAME <br /><br /> <br /><br />
+<br/>
+            FOR @ViewBag.PROFILE_COMPANY_NAME <br /><br /> <br /><br /><br />
             ......................................................... <br />
             __________/_________/________ <br />
             AUTHORIZED SIGNATURE
@@ -213,7 +228,7 @@ TESCO LOTUS RAMA III(BRANCH)
             $('#lblForeignNet').text(ShowNumber(h.ForeignNet, 2));
             $('#lblDiscountRate').text(h.DiscountRate);
             $('#lblVATRate').text(ShowNumber(h.VATRate,1));
-$.get(path+'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch='+ h.BillToCustBranch,function(r){
+	$.get(path+'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch='+ h.BillToCustBranch,function(r){
             let c = r.company.data[0];            
             if (c !== null) {
 		$('#lblTaxBranch').text(c.Branch);		
@@ -221,13 +236,15 @@ $.get(path+'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch='+ h.BillToCu
                 if (c.UsedLanguage == 'TH') {
                     $('#lblCustName').text(c.Title+' '+c.NameThai);
                     $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
+	$('#lblCustTName').text(dr.customer[0][0].NameThai);
                 } else {
                     $('#lblCustName').text(c.NameEng);
                     $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2);
+	$('#lblCustTName').text(dr.customer[0][0].NameEng);
                 }
                 //$('#lblCustTel').text(c.Phone);
             }
-});
+	});
             let j = dr.job[0][0];
             if (j !== null) {
                 $('#lblCustInvNo').text(j.InvNo);
