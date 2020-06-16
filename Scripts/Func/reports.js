@@ -362,7 +362,31 @@ function IsNumberColumn(cname) {
     if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
-    colname = "PENDING CONFIRM,WAIT FOR OPERATION,WAIT FOR CLEAR,WORKING FINISHED,EXPENSES CLEARED,BILLING INCOMPLETE,BILLING COMPLETED,JOB COMPLETED,HOLD FOR CHECKING,JOB CANCELLED";
+    colname = "PENDING CONFIRM,WAIT FOR OPERATION,WAIT FOR CLEAR,WORKING FINISHED,EXPENSES CLEARED,BILLING INCOMPLETE,BILLING COMPLETED,JOB COMPLETED,HOLD FOR CHECKING,JOB CANCELLED,";
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+    colname = "JOB CONFIRMED,JOB IN PROCESS,CLEARANCE COMPLETED,READY FOR BILLING,PARTIAL BILLING,PAYMENT COMPLETED,CANCELLED,";
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+    colname = "Invoice To Customer-Advance,Invoice To Customer-Service,Payment To Vender-Advance,Payment To Vender-Cost,Payment To Vender-Deposit,";
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+    colname = "Customer Billed-Advance,Customer Billed-Service,Customer Unbilled-Advance,Customer Unbilled-Service,Paid,Unpaid,Invoice Billed,Invoice Unbilled,";
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+    colname = "Vender Billed,Vender Unbilled,Vender Paymented,Advance Amount,Actual Spending,Billable Amount,Billing With Tax,Billing Outstanding,";
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+    colname ="Credit Limit,Advance Request,Advance Payment,Cleared Advance,Billed Advance,Unbilled Advance,Advance Cost,Advance Amount,Payment Received,"
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+    colname = "Container Deposit,Addition Expenses,Deposit Return,Clear Amount,Clear VAT,Clear WHT,Clear Net,Adjust Amount,SVC Amount,";
     if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
@@ -385,10 +409,39 @@ function IsSummaryColumn(cname) {
     if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
-    colname = "PENDING CONFIRM,WAIT FOR OPERATION,WAIT FOR CLEAR,WORKING FINISHED,EXPENSES CLEARED,BILLING INCOMPLETE,BILLING COMPLETED,JOB COMPLETED,HOLD FOR CHECKING,JOB CANCELLED";
+    colname = "PENDING CONFIRM,WAIT FOR OPERATION,WAIT FOR CLEAR,WORKING FINISHED,EXPENSES CLEARED,BILLING INCOMPLETE,BILLING COMPLETED,JOB COMPLETED,HOLD FOR CHECKING,JOB CANCELLED,";
     if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
+    colname = "JOB CONFIRMED,JOB IN PROCESS,CLEARANCE COMPLETED,READY FOR BILLING,PARTIAL BILLING,PAYMENT COMPLETED,CANCELLED,";
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+    colname = "JOB CONFIRMED,JOB IN PROCESS,CLEARANCE COMPLETED,READY FOR BILLING,PARTIAL BILLING,PAYMENT COMPLETED,CANCELLED,";
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+    colname = "Invoice To Customer-Advance,Invoice To Customer-Service,Payment To Vender-Advance,Payment To Vender-Cost,Payment To Vender-Deposit,";
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+    colname = "Customer Billed-Advance,Customer Billed-Service,Customer Unbilled-Advance,Customer Unbilled-Service,Paid,Unpaid,Invoice Billed,Invoice Unbilled,";
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+    colname = "Vender Billed,Vender Unbilled,Vender Paymented,Advance Amount,Actual Spending,Billable Amount,Billing With Tax,Billing Outstanding,";
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+    colname = "Credit Limit,Advance Request,Advance Payment,Cleared Advance,Billed Advance,Unbilled Advance,Advance Cost,Advance Amount,Payment Received,"
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+    colname = "Container Deposit,Addition Expenses,Deposit Return,Clear Amount,Clear VAT,Clear WHT,Clear Net,Adjust Amount,SVC Amount,";
+    if (colname.indexOf(cname + ',') >= 0) {
+        return true;
+    }
+
     return false;
 }
 function FormatValue(c, val) {
@@ -783,7 +836,7 @@ function LoadReport(path, reportID, obj, lang) {
                     groupCount = 0;
                 }
                 //Grand Total
-                html += '<tr style="font-weight:bold;background-color:lightgreen;"><td style="border:1px solid black;text-align:left;"><b>TOTAL<b/></td>';
+                html += '<tr style="font-weight:bold;background-color:lightgreen;"><td style="border:1px solid black;text-align:left;"><b>TOTALs #OF JOBS<b/></td>';
                 for (let i = 1; i < colCount; i++) {
                     if (sumGroup[i].isSummary == true) {
                         html += '<td style="border:1px solid black;text-align:right;"><b>' + ShowNumber(sumTotal[i], 2) + '</b></td>';

@@ -239,10 +239,10 @@ End Code
                             <a href="#" class="btn btn-success" id="btnUpdate" onclick="SaveData()">
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
                             </a>
+                            <a href="#" class="btn btn-info" id="btnPrint2" onclick="PrintData()">
+                                <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print</b>
+                            </a>
                         </div>
-                        <a href="#" class="btn btn-info" id="btnPrint2" onclick="PrintData()">
-                            <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print</b>
-                        </a>
                         <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                     </div>
                 </div>

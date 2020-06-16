@@ -6,21 +6,22 @@
 End Code
 <style>
     * {
-       font-size: 13px;
+        font-size: 13px;
     }
 
     table {
         border-width: thin;
         border-collapse: collapse;
     }
+
     #dvFooter {
-	display:none;
-    }  
+        display: none;
+    }
 </style>
 <div style="text-align:center;width:100%;padding:5px 5px 5px 5px">
-    <label id="lblDocType" style="font-size:16px;font-weight:bold">ใบเสร็จรับเงิน (RECEIPT)</label>
+    <label id="lblDocType" style="font-size:16px;font-weight:bold">ใบเสร็จรับเงินทดรองจ่าย (ADVANCE RECEIPT)</label>
 </div>
-<br/>
+<br />
 <!--
 <div style="display:flex;">
     <div style="flex:3;">
@@ -60,8 +61,7 @@ End Code
             <th width="60">THB AMOUNT</th>
         </tr>
     </thead>
-    <tbody id="tbDetail">
-    </tbody>
+    <tbody id="tbDetail"></tbody>
     <tfoot>
         <tr style="background-color:lightblue;text-align:center;">
             <td colspan="4"><label id="lblTotalText"></label></td>
@@ -70,9 +70,11 @@ End Code
         </tr>
     </tfoot>
 </table>
+<br/>
 <p>
     PAY BY
 </p>
+<br/>
 <div style="display:flex;flex-direction:column">
     <div>
         <label><input type="checkbox" name="vehicle1" value=""> CASH</label>
@@ -128,7 +130,7 @@ End Code
             $('#lblCustAddr').text(h.CustEAddr);
         }
         $('#lblCustTel').text(h.CustPhone);
-        $('#lblCustTax').text(h.CustTaxID);
+        $('#lblCustTax').text(h.CustTaxID + ' BRANCH:' + h.BillToCustBranch);
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateEN(h.ReceiptDate)));
         let html = '';

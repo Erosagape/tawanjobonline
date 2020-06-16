@@ -5,18 +5,23 @@
     ViewBag.ReportName = ""
 End Code
 <style>
-    td {
-        font-size: 12px;
+    * {
+        font-size: 13px;
     }
 
     table {
         border-width: thin;
         border-collapse: collapse;
     }
+
+    #dvFooter {
+        display: none;
+    }
 </style>
-<div style="text-align:center;width:100%">
-    <h2>RECEIPTS</h2>
+<div style="text-align:center;width:100%;padding:5px 5px 5px 5px">
+    <label id="lblDocType" style="font-size:16px;font-weight:bold">ใบเสร็จรับเงินทดรองจ่าย (ADVANCE RECEIPT)</label>
 </div>
+<br />
 <!--
 <div style="display:flex;">
     <div style="flex:3;">
@@ -32,8 +37,6 @@ End Code
 
 </div>
 -->
-<div id="dvCopy" style="text-align:right;width:100%">
-</div>
 <div style="display:flex;">
     <div style="flex:3;border:1px solid black;border-radius:5px;">
         NAME : <label id="lblCustName"></label><br />
@@ -49,7 +52,8 @@ End Code
 <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
     <thead>
         <tr style="background-color:lightblue;">
-            <th height="40" width="260">INV.NO.</th>
+            <th height="40" width="60">INV.NO.</th>
+            <th width="200">DESCRIPTION</th>
             <th width="70">JOB</th>
             <th width="60">AMOUNT</th>
             <th width="30">CURRENCY</th>
@@ -57,11 +61,10 @@ End Code
             <th width="60">THB AMOUNT</th>
         </tr>
     </thead>
-    <tbody id="tbDetail">
-    </tbody>
+    <tbody id="tbDetail"></tbody>
     <tfoot>
         <tr style="background-color:lightblue;text-align:center;">
-            <td colspan="3"><label id="lblTotalText"></label></td>
+            <td colspan="4"><label id="lblTotalText"></label></td>
             <td colspan="2">TOTAL RECEIPT</td>
             <td colspan="1"><label id="lblTotalNum"></label></td>
         </tr>
@@ -108,13 +111,8 @@ End Code
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
     let receiptno = getQueryString('code');
-    let ans = confirm('OK to print Original or Cancel For Copy');
-    if (ans == true) {
-        $('#dvCopy').html('<b>**ORIGINAL**</b>');
-    } else {
-        $('#dvCopy').html('<b>**COPY**</b>');
-    }
-    $.get(path + 'acc/getreceivereport?type=SUM&branch=' + branch + '&code=' + receiptno, function (r) {
+
+    $.get(path + 'acc/getreceivereport?branch=' + branch + '&code=' + receiptno, function (r) {
         if (r.receipt.data.length !== null) {
             ShowData(r.receipt.data);
         }
@@ -130,19 +128,20 @@ End Code
             $('#lblCustAddr').text(h.CustEAddr);
         }
         $('#lblCustTel').text(h.CustPhone);
-        $('#lblCustTax').text(h.CustTaxID);
+        $('#lblCustTax').text(h.CustTaxID + ' BRANCH:' + h.BillToCustBranch);
         $('#lblReceiptNo').text(h.ReceiptNo);
-        $('#lblReceiptDate').text(ShowDate(CDateEN(h.ReceiveDate)));
+        $('#lblReceiptDate').text(ShowDate(CDateEN(h.ReceiptDate)));
         let html = '';
         let total = 0;
 
         for (let d of dt) {
             html = '<tr>';
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
+            html += '<td>' + d.SICode+ '-'+ d.SDescription + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
             html += '<td style="text-align:right">' + ShowNumber(d.FNet,2) + '</td>';
-            html += '<td style="text-align:center">' + d.CurrencyCode + '</td>';
-            html += '<td style="text-align:center">' + d.ExchangeRate + '</td>';
+            html += '<td style="text-align:center">' + d.DCurrencyCode + '</td>';
+            html += '<td style="text-align:center">' + d.DExchangeRate + '</td>';
             html += '<td style="text-align:right">' + ShowNumber(d.Net,2) + '</td>';
             html += '</tr>';
 

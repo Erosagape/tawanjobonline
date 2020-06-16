@@ -2288,7 +2288,7 @@ WHERE d.DocStatus<>4 AND d.DocStatus<>99
 "
     End Function
     Function SQLUpdateClrStatusToInComplete() As String
-        Dim caseStatus = "(CASE WHEN ISNULL(d.ReceiveRef,'')>'' THEN 3 ELSE (CASE WHEN ISNULL(d.ApproveBy,'')<>'' THEN 2 ELSE 1 END) END)"
+        Dim caseStatus = "(CASE WHEN ISNULL(d.ReceiveRef,'')<>'' THEN 3 ELSE (CASE WHEN ISNULL(d.ApproveBy,'')<>'' THEN 2 ELSE 1 END) END)"
         Return "
 UPDATE d SET d.DocStatus=" & caseStatus & "
 FROM Job_ClearHeader d INNER JOIN
@@ -2384,10 +2384,10 @@ AND DocNo=h.DocNo
 "
     End Function
     Public Sub UpdateClearStatus()
-        Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToInComplete())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToClear())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusFromAdvance())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToComplete())
+        Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToInComplete())
     End Sub
     Function GetSQLCommand(cliteria As String, fldDate As String, fldCust As String, fldJob As String, fldEmp As String, fldVend As String, fldStatus As String, fldBranch As String, Optional fldSICode As String = "") As String
         Dim sqlW As String = ""

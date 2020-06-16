@@ -1129,7 +1129,7 @@ End Code
             $('#txtSumCharge').val(CDbl(dt.ClearBill, 4));
             $('#txtSumCost').val(CDbl(dt.ClearCost,4));
 
-            $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
+            //$('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
             $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
             $('#chkReceive').prop('checked', $('#txtReceiveBy').val() == '' ? false : true);
             
@@ -1154,12 +1154,12 @@ End Code
         }
     }
     function EnableSave(b) {
-        $('#btnSave').removeAttr('disabled');
+        //$('#btnSave').removeAttr('disabled');
         $('#btnDel').removeAttr('disabled');
         $('#btnUpdate').removeAttr('disabled');
         if (b == false) {
-            $('#chkCancel').attr('disabled', 'disabled');
-            $('#btnSave').attr('disabled', 'disabled');
+            //$('#chkCancel').attr('disabled', 'disabled');
+            //$('#btnSave').attr('disabled', 'disabled');
             $('#btnDel').attr('disabled', 'disabled');
             $('#btnUpdate').attr('disabled', 'disabled');
         }

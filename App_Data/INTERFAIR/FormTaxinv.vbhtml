@@ -5,26 +5,30 @@
 End Code
 <style>
     * {
-       font-size: 13px;
+        font-size: 13px;
     }
+
     td {
         font-size: 13px;
     }
+
     th {
         font-size: 14px;
     }
+
     table {
         border-width: thin;
         border-collapse: collapse;
     }
+
     #dvFooter {
-	display:none;
-    }  
+        display: none;
+    }
 </style>
 <div style="text-align:center;width:100%;">
     <label style="font-size:16px;font-weight:bold;" id="lblDocType">ใบเสร็จรับเงิน/ใบกำกับภาษี (RECEIPT/TAX-INVOICE)</label>
 </div>
-<br/>
+<br />
 <!--
 <div style="display:flex;">
     <div style="flex:3;">
@@ -39,8 +43,6 @@ End Code
     </div>
 </div>
 -->
-</div>
-
 <div style="display:flex;">
     <div style="flex:3;border:1px solid black;border-radius:5px;">
         NAME : <label id="lblCustName"></label><br />
@@ -58,32 +60,31 @@ End Code
     <thead>
         <tr style="background-color:lightblue;">
             <th height="40" width="60">INV.NO.</th>
-            <th width="200">DESCRIPTION</th>
+            <th width="250">DESCRIPTION</th>
             <th width="70">JOB</th>
             <th width="60">SERVICE</th>
             <th width="30">VAT</th>
             <th width="30">WHT</th>
-            <th width="60">ADVANCE</th>
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
     <tfoot>
         <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="4" style="text-align:center"><label id="lblTotalText"></label></td>
+            <td colspan="3" style="text-align:center"><label id="lblTotalText"></label></td>
             <td colspan="2">TOTAL AMOUNT</td>
             <td colspan="1"><label id="lblTotalBeforeVAT"></label></td>
         </tr>
-        <tr style="background-color:lightblue;text-align:right;">            
-            <td colspan="6">TOTAL VAT</td>
+        <tr style="background-color:lightblue;text-align:right;">
+            <td colspan="5">TOTAL VAT</td>
             <td colspan="1"><label id="lblTotalVAT"></label></td>
         </tr>
         <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="6">TOTAL RECEIPT</td>
+            <td colspan="5">TOTAL RECEIPT</td>
             <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
         </tr>
     </tfoot>
 </table>
-<br/>
+<br />
 <p>
     PAID BY
 </p>
@@ -135,6 +136,18 @@ End Code
     });
     function ShowData(dt) {
         let h = dt[0];
+        if (h.ReceiptType == 'TAX') {
+            $('#lblDocType').text('ใบเสร็จรับเงิน/ใบกำกับภาษี (RECEIPT/TAX-INVOICE)');
+        }
+        if (h.ReceiptType == 'SRV') {
+            $('#lblDocType').text('ใบกำกับภาษี (TAX-INVOICE)');
+        }
+        if (h.ReceiptType == 'REC') {
+            $('#lblDocType').text('ใบเสร็จรับเงิน (RECEIPT)');
+        }
+        if (h.ReceiptType == 'RCV') {
+            $('#lblDocType').text('ใบเสร็จรับเงิน (RECEIPT)');
+        }
 
         //$('#lblCustCode').text(h.CustCode);
         if (h.UsedLanguage == 'TH') {
@@ -159,10 +172,9 @@ End Code
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
             html += '<td>' + d.SICode+ '-'+ d.SDescription + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvAmt,2):'0.00') + '</td>';
+            html += '<td style="text-align:right">' + ShowNumber(d.InvAmt,2) + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'0.00') + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.Inv50Tavi,2):'0.00') + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? '0.00':ShowNumber(d.InvTotal,2)) + '</td>';
             html += '</tr>';
 
             $('#tbDetail').append(html);
