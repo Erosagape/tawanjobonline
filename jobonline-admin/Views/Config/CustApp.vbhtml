@@ -63,6 +63,7 @@ End Code
         Web URL
         <br/>
         <input type="text" id="txtWebURL" class="form-control" />
+        <button class="btn btn-primary" onclick="OpenWebURL()">Go</button>
     </div>
     <div class="col-sm-2">
         Language
@@ -91,6 +92,7 @@ End Code
     </div>
 </div>
 <button id="btnSave" class="btn btn-success" onclick="SaveData()">Save Data</button>
+<button id="btnTestConnect" class="btn btn-warning" onclick="TestConnect()">Test Config</button>
 <Table class="table table-responsive">
     <thead>
         <tr>
@@ -155,6 +157,16 @@ End Code
         postData(path + 'Config/SetCustomerApp', json, (msg) => {
             alert(msg);
             location.reload();
+        });
+        }
+    function OpenWebURL() {
+        window.open("http://" + $('#txtWebURL').val(),'','');
+        }
+    function TestConnect() {
+        getData(path + 'home/testconnectapplication?cust=' + $('#txtCustID').val() + '&app=' + $('#txtAppID').val(), function (r) {
+            if (r !== null) {
+                alert(r.result);
+            }
         });
     }
 </script>

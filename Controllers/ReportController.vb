@@ -951,9 +951,9 @@ ISNULL(c.TotalAdvBill,0) as 'Customer Billed-Advance',
 ISNULL(c.TotalServiceBill,0) as 'Customer Billed-Service',
 ISNULL(c.TotalAdvUnBill,0) as 'Customer Unbilled-Advance',
 ISNULL(c.TotalServiceUnBill,0) as 'Customer Unbilled-Service',
-ISNULL(p.TotalVenderBill,0) as 'Vender Billed',
-ISNULL(p.TotalVenderUnBill,0) as 'Vender Unbilled',
-ISNULL(p.TotalVenderPaid,0) as 'Vender Paymented'
+ISNULL(p.TotalVenderBill,0) as 'Exp-Billed',
+ISNULL(p.TotalVenderUnBill,0) as 'Exp-Unbilled',
+ISNULL(p.TotalVenderPaid,0) as 'Exp-Paid'
 from Job_Order j
 left join (
 	select h.BranchCode,d.ForJNo,sum(d.AdvNet) as TotalAdvPay
@@ -996,16 +996,16 @@ WHERE j.JobStatus<>99 {0}
                         sqlM = "
 select d.ForJNo as 'Job Number',h.AdvNo as 'Advance No',c.LastClrNo as 'Clearing No',
 c.LastClrDate as 'Clearing Date',c.LastInvNo as 'Invoice No',c.LastInvDate as 'Invoice Date',
-(CASE WHEN ISNULL(c.LastInvNo,'')='' THEN DATEDIFF(DAY,c.LastClrDate,GetDate()) ELSE 0 END) as 'Unbill Aging',
-(CASE WHEN ISNULL(c.LastInvNo,'')<>'' THEN DATEDIFF(DAY,c.LastClrDate,c.LastInvDate) ELSE 0 END) as 'Aging',
-h.CustCode as 'Customer',c.LastSlipNo as 'Receipt#',c.LastSlipDate as 'Receipt Date',
+(CASE WHEN ISNULL(c.LastInvNo,'')='' THEN DATEDIFF(DAY,c.LastClrDate,GetDate()) ELSE 0 END) as 'Unbill Aging Day',
+(CASE WHEN ISNULL(c.LastInvNo,'')<>'' THEN DATEDIFF(DAY,c.LastClrDate,c.LastInvDate) ELSE 0 END) as 'Bill Aging Day',
+h.CustCode as 'Customer',c.LastReceiptNo as 'Receipt#',c.LastReceiptDate as 'Receipt Date',
 (d.AdvNet) as 'Advance Amount',
 ISNULL(c.ClrNet,0) as 'Actual Spending',
 ISNULL(c.ClrBillAble,0) as 'Billable Amount',
 ISNULL(c.ClrVat,0) as 'VAT',
 ISNULL(c.ClrWht,0) as 'WHT',
-ISNULL(c.ClrBilled,0) as 'Billing With Tax',
-ISNULL(c.ClrUnBilled,0) as 'Billing Outstanding'
+ISNULL(c.ClrBilled,0) as 'Billed Advance',
+ISNULL(c.ClrUnBilled,0) as 'Unbilled Advance'
 from Job_AdvHeader h inner join Job_AdvDetail d
 on h.BranchCode=d.BranchCode and h.AdvNo=d.AdvNo
 left join (
@@ -1014,7 +1014,7 @@ left join (
     sum(CASE WHEN b.LinkItem>0 and a.ClearType<>2 THEN b.BNet+b.Tax50Tavi ELSE 0 END) as ClrBilled,
 	sum(CASE WHEN b.LinkItem=0 and a.ClearType<>2 THEN b.BNet+b.Tax50Tavi ELSE 0 END) as ClrUnBilled,
     MAX(b.LinkBillNo) as LastInvNo,Max(i.DocDate) as LastInvDate,
-	MAX(b.SlipNo) as LastSlipNo,MAX(b.Date50Tavi) as LastSlipDate,
+	MAX(r.ReceiptNo) as LastReceiptNo,MAX(t.ReceiptDate) as LastReceiptDate,
 	sum(CASE WHEN a.ClearType<>2 THEN b.UsedAmount ELSE 0 END) as ClrBillAble,
 	sum(CASE WHEN a.ClearType<>2 THEN b.ChargeVAT ELSE 0 END) as ClrVat,
 	sum(CASE WHEN a.ClearType<>2 THEN b.Tax50Tavi ELSE 0 END) as ClrWht
@@ -1022,7 +1022,11 @@ left join (
 	on a.BranchCode=b.BranchCode and a.ClrNo=b.ClrNo
 	left join Job_InvoiceHeader i on b.BranchCode=i.BranchCode 
 	AND b.LinkBillNo=i.DocNo
-	where a.DocStatus<>99 and isnull(b.AdvNo,'')<>'' 
+    left join Job_ReceiptDetail r on b.BranchCode=r.BranchCode
+    AND b.LinkBillNo=r.InvoiceNo AND b.LinkItem=r.InvoiceItemNo
+    left join Job_ReceiptHeader t on r.BranchCode=t.BranchCode
+    and r.ReceiptNo=t.ReceiptNo
+	where a.DocStatus<>99 and isnull(b.AdvNo,'')<>'' AND ISNULL(t.CancelProve,'')=''
 	group by a.BranchCode,b.AdvNo,b.AdvItemNo
 ) c
 on d.BranchCode=c.BranchCode and d.AdvNo=c.AdvNo and d.ItemNo=c.AdvItemNo
@@ -1035,25 +1039,39 @@ where h.DocStatus>=3 and h.DocStatus<99 {0}
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 select b.NameEng as 'Customer Name',b.CreditLimit as 'Credit Term',b.DutyLimit as 'Credit Limit',
-sum(CASE WHEN a.DocStatus<=2 THEN a.TotalAdvance ELSE 0 END) as 'Advance Request',
-SUM(CASE WHEN a.DocStatus=3 THEN a.TotalAdvance ELSE 0 END) as 'Advance Payment',
-SUM(ISNULL(c.AdvUsed,0)) as 'Cleared Advance',
-SUM(ISNULL(c.AdvBilled,0)) as 'Billed Advance',
+sum(CASE WHEN a.DocStatus<=2 THEN a.TotalAdvance ELSE 0 END) as 'Advance Requested',
+SUM(CASE WHEN a.DocStatus=3 THEN a.TotalAdvance ELSE 0 END) as 'Advance Paid',
+SUM(ISNULL(c.AdvUsed,0)) as 'Paid+Cleared Advance',
+SUM(ISNULL(c.AdvBilled,0)) as 'Billed To Customer',
 SUM(ISNULL(c.AdvUnbill,0)) as 'Unbilled Advance',
 SUM(ISNULL(c.AdvCost,0)) as 'Advance Cost',
-(CASE WHEN b.DutyLimit>0 THEN b.DutyLimit-SUM(CASE WHEN a.DocStatus=3 THEN a.TotalAdvance ELSE 0 END)-sum(CASE WHEN a.DocStatus<=2 THEN a.TotalAdvance ELSE 0 END)+SUM(ISNULL(c.AdvBilled,0)) ELSE 0 END)
-  as 'Balance'
+SUM(ISNULL(c.AdvReceive,0)) as 'Customer Paymented',
+(CASE WHEN b.DutyLimit>0 THEN b.DutyLimit
+-
+SUM(CASE WHEN a.DocStatus=3 THEN a.TotalAdvance ELSE 0 END)
+-
+sum(CASE WHEN a.DocStatus<=2 THEN a.TotalAdvance ELSE 0 END)
+-
+SUM(ISNULL(c.AdvUsed,0)) ELSE 0 END)
++
+SUM(ISNULL(c.AdvReceive,0))
+  as 'Net Avaiable Balance'
 from Job_AdvHeader a LEFT JOIN Mas_Company b
 ON a.CustCode=b.CustCode AND a.CustBranch=b.Branch
 left join (
 	select h.BranchCode,d.AdvNo,SUM(d.BNet) as AdvUsed,
 	SUM(CASE WHEN d.LinkItem>0 AND h.ClearType<>'2' THEN d.BNet ELSE 0 END) as AdvBilled,
 	SUM(CASE WHEN d.LinkItem=0 AND h.ClearType<>'2' THEN d.BNet ELSE 0 END) as AdvUnbill,
-	SUM(CASE WHEN h.ClearType='2' THEN d.BNet ELSE 0 END) as AdvCost
+	SUM(CASE WHEN h.ClearType='2' THEN d.BNet ELSE 0 END) as AdvCost,
+	SUM(CASE WHEN h.ClearType='2' THEN 0 ELSE ISNULL(r.Net,0) END) as AdvReceive
 	from Job_ClearHeader h
 	inner join Job_ClearDetail d ON h.BranchCode=d.BranchCode
 	and h.ClrNo=d.ClrNo
-	where h.DocStatus<>99
+	left join Job_ReceiptDetail r on d.BranchCode=r.BranchCode 
+	and d.LinkBillNo=r.InvoiceNo AND d.LinkItem=r.InvoiceItemNo
+	left join Job_ReceiptHeader t on r.BranchCode=t.BranchCode
+	and r.ReceiptNo=t.ReceiptNo
+	where h.DocStatus<>99 AND ISNULL(t.CancelProve,'')=''
 	group by h.BranchCode,d.AdvNo
 ) c
 ON a.BranchCode=c.BranchCode and a.AdvNo=c.AdvNo
@@ -1071,7 +1089,7 @@ b.CTN_NO as 'Container Number',a.VenderCode as 'Vender',
 a.SlipNO as 'Receipt#',a.Date50Tavi as 'Receipt Date',a.UsedAmount as 'Container Deposit',
 (CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN a.BNet ELSE 0 END) as 'Addition Expenses',
 (CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 0 ELSE a.BNet END) as 'Deposit Return',
-a.LinkBillNo as 'Reference#',v.VoucherDate as 'Reference Date'
+a.LinkBillNo as 'Deposit Receipt/Invoice#',v.VoucherDate as 'Deposit Receive Date'
 	from Job_ClearDetail a inner join Job_ClearHeader b
 	on a.BranchCode=b.BranchCode and a.ClrNo=b.ClrNo
 	inner join Job_Order c on a.BranchCode=c.BranchCode and a.JobNo=c.JNo
@@ -1087,8 +1105,8 @@ a.LinkBillNo as 'Reference#',v.VoucherDate as 'Reference Date'
                         sqlM = "
 select id.DocNo as 'Invoice No',cd.JobNo as 'Job Number',ih.DocDate as 'Inv.Create Date', cd.SDescription as 'Description',
 (CASE WHEN ch.ClearType=1 THEN 'ADV' ELSE (CASE WHEN ch.ClearType=3 THEN 'SERV' ELSE 'COST' END) END) as 'Type',
-id.Amt as 'Clear Amount',id.AmtVat as 'Clear VAT',id.AmtCredit as 'Prepaid' ,id.Amt50Tavi as 'Clear WHT',id.TotalAmt as'Clear Net',
-0 as 'Adjust Amount',id.AmtCharge as 'Advance Amount',id.AmtCharge as 'SVC Amount',ISNULL(rd.ReceiptNet,0) as 'Payment Received',
+id.Amt as 'Amount',id.AmtVat as 'VAT',id.AmtCredit as 'Prepaid' ,id.Amt50Tavi as 'WHT',id.TotalAmt as'Total Amount',
+0 as 'CN,DN Amount',id.AmtCharge as 'Advance Amount',id.AmtCharge as 'SVC Amount',ISNULL(rd.ReceiptNet,0) as 'Payment Received',
 ISNULl(rd.LastRcvNo,'') as 'Receipt#',rd.LastRcvDate as 'Receipt Date'
 from Job_InvoiceDetail id left join Job_ClearDetail cd
 on id.BranchCode=cd.BranchCode and id.DocNo=cd.LinkBillNo
@@ -1112,13 +1130,13 @@ where NOT ISNULL(ih.CancelProve,'')<>'' AND ISNULL(ch.DocStatus,0)<>99 {0}
                         sqlW = GetSQLCommand(cliteria, "h.DocDate", "j.CustCode", "d.ForJNo", "h.EmpCode", "h.VenCode", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
-SELECT h.DocNo as 'Reference#', h.DocDate as 'Due Date',
+SELECT h.DocNo as 'Reference#',d.ForJNo as 'Job Number', h.DocDate as 'Creation Date',
 v.TName as 'Vender',h.RefNo as 'Container No',d.SDescription as 'Expense',
 (CASE WHEN s.IsExpense=1 THEN 'COST' ELSE 'ADV' END) as 'Type',
 d.Amt as 'Amount', d.AmtVAT as 'VAT', d.AmtWHT as 'WHT',
-(CASE WHEN ISNULL(h.PaymentBy,'')<>'' THEN d.Total ELSE 0 END) as 'Paid',
-(CASE WHEN ISNULL(h.PaymentBy,'')='' THEN d.Total ELSE 0 END) as 'Unpaid',
-d.ForJNo as 'Job Number',h.PoNo as 'Vender Inv#',j.CustCode as 'Customer'
+(CASE WHEN ISNULL(h.PaymentBy,'')<>'' THEN d.Total ELSE 0 END) as 'BILLED',
+(CASE WHEN ISNULL(h.PaymentBy,'')='' THEN d.Total ELSE 0 END) as 'UNBILLED',
+h.PoNo as 'Vender Inv#',j.CustCode as 'Customer'
 FROM dbo.Job_PaymentHeader AS h LEFT OUTER JOIN
 dbo.Mas_Vender AS v ON h.VenCode = v.VenCode INNER JOIN
 dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
@@ -1131,7 +1149,7 @@ WHERE NOT ISNULL(h.CancelProve,'')<>'' {0}
                         sqlW = GetSQLCommand(cliteria, "h.DocDate", "j.CustCode", "d.ForJNo", "h.EmpCode", "h.VenCode", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
-SELECT h.DocNo as 'Reference#', h.DocDate as 'Due Date',
+SELECT h.DocNo as 'Reference#', h.DocDate as 'Creation Date',
 v.TName as 'Vender',h.RefNo as 'Container No',d.SDescription as 'Expense',
 (CASE WHEN s.IsExpense=1 THEN 'COST' ELSE 'ADV' END) as 'Type',
 d.Amt as 'Amount', d.AmtVAT as 'VAT', d.AmtWHT as 'WHT',
@@ -1150,7 +1168,7 @@ WHERE NOT ISNULL(h.CancelProve,'')<>'' AND ISNULL(h.PoNo,'')='' {0}
                         sqlM = "
 select c.JNo as 'Job Number',d.NameThai as 'Description',a.AdvNo as 'Advance No',
 b.ClrNo as 'Clearing No',b.ClrDate as 'Clearing date',c.CustCode as 'Customer',a.SlipNo as 'Receipt#',a.Date50Tavi as 'Receipt Date',
-a.UsedAmount as 'Used',a.ChargeVAT as 'VAT',a.Tax50Tavi as 'WHT',(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN a.BNet ELSE 0 END) as 'Invoice Billed',
+a.UsedAmount as 'Amount',a.ChargeVAT as 'VAT Amount',a.Tax50Tavi as 'WHT Amount',(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN a.BNet ELSE 0 END) as 'Invoice Billed',
 (CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 0 ELSE a.BNet END) as 'Invoice Unbilled',a.LinkBillNo as 'Invoice No',
 i.DocDate as 'Invoice Date',
 (CASE WHEN b.ClearType=1 THEN 'ADV' ELSE (CASE WHEN b.ClearType=2 THEN 'COST' ELSE 'SERV' END) END) as 'Type'

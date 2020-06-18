@@ -378,7 +378,7 @@ function IsNumberColumn(cname) {
     if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
-    colname = "Vender Billed,Vender Unbilled,Vender Paymented,Advance Amount,Actual Spending,Billable Amount,Billing With Tax,Billing Outstanding,";
+    colname = "Exp-Billed,Exp-Unbilled,Exp-Paid,Advance Amount,Actual Spending,Billable Amount,Billing With Tax,Billing Outstanding,";
     if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
@@ -429,7 +429,7 @@ function IsSummaryColumn(cname) {
     if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }
-    colname = "Vender Billed,Vender Unbilled,Vender Paymented,Advance Amount,Actual Spending,Billable Amount,Billing With Tax,Billing Outstanding,";
+    colname = "Exp-Billed,Exp-Unbilled,Exp-Paid,Advance Amount,Actual Spending,Billable Amount,Billing With Tax,Billing Outstanding,";
     if (colname.indexOf(cname + ',') >= 0) {
         return true;
     }

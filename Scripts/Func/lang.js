@@ -2674,8 +2674,8 @@ function GetReportLists() {
         { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT05", "ReportNameEN": "Outstanding Advance By Job", "ReportNameTH": "รายงานติดตามการเบิกค่าใช้จ่ายตามจ๊อบ" },
         { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT06", "ReportNameEN": "Advance Activity Summary By Customer", "ReportNameTH": "รายงานติดตามการเบิกค่าใช้จ่ายตามลูกค้า" },
         { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT07", "ReportNameEN": "Outstanding Advance By Activity Based-Deposit", "ReportNameTH": "รายงานติดตามเงินมัดจำ" },
-        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT08", "ReportNameEN": "Billing For Advance By Customer", "ReportNameTH": "รายงานติดตามการออกใบแจ้งหนี้ตามลูกค้า" },
-        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT09", "ReportNameEN": "Payment of Broker by Job Order", "ReportNameTH": "รายงานค่าใช้จ่ายเจ้าหนี้ตามจ๊อบงาน" },
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT08", "ReportNameEN": "Billing Report By Customer", "ReportNameTH": "รายงานติดตามการออกใบแจ้งหนี้ตามลูกค้า" },
+        { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT09", "ReportNameEN": "Payment By Vender by Job Order", "ReportNameTH": "รายงานค่าใช้จ่ายเจ้าหนี้ตามจ๊อบงาน" },
         { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT10", "ReportNameEN": "A/P Accural Report", "ReportNameTH": "รายงานค่าใช้จ่ายรอการจ่าย" },
         { "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT11", "ReportNameEN": "A/R Accural Report", "ReportNameTH": "รายงานรายได้รอการวางบิล" }
     ];

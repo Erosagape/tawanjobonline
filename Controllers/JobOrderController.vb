@@ -2070,6 +2070,8 @@ Namespace Controllers
             Try
                 Dim listPaperless = Main.GetValueConfig("PAPERLESS", "DBLINK")
                 Dim hostPaperless = Main.GetValueConfig("PAPERLESS", "DBHOST")
+                Dim dbPaperless = Main.GetValueConfig("PAPERLESS", "DBTYPE")
+
                 Dim job As String = ""
                 Dim type As Integer = 0
                 If Not Request.QueryString("job") Is Nothing Then
@@ -2078,18 +2080,38 @@ Namespace Controllers
                 If Not Request.QueryString("type") Is Nothing Then
                     type = Convert.ToInt16(Request.QueryString("type").ToString()) - 1
                 End If
-                Dim connStr = hostPaperless & ";database=" & listPaperless.Split(",")(type)
-                Dim dt As New DataTable
-                Using cn As MySqlConnection = New MySqlConnection(connStr)
-                    cn.Open()
-                    Dim sql As String = String.Format("Select decl.*,inv.invoiceno from decl inner join inv On decl.referenceno=inv.referenceno where decl.refnocmn='{0}' and decl.refnocmn<>'' and decl.status<>'C' ", job)
-                    Using da As New MySqlDataAdapter(Sql, cn)
-                        da.Fill(dt)
+                If dbPaperless = "ECS" Then
+                    Dim connStr = hostPaperless & ";Initial Catalog=" & listPaperless.Split(",")(type)
+                    Dim dt As New DataTable
+                    Using cn As SqlClient.SqlConnection = New SqlClient.SqlConnection(connStr)
+                        cn.Open()
+                        Dim sql As String = ""
+                        If type = 0 Then
+                            sql = "SELECT * FROM qDecI_Declare where ECS_JobNO='{0}'"
+                        Else
+                            sql = "SELECT * FROM qDecX_Declare where ECS_JobNO='{0}'"
+                        End If
+                        Using da As New SqlClient.SqlDataAdapter(String.Format(sql, job), cn)
+                            da.Fill(dt)
+                        End Using
+                        cn.Close()
                     End Using
-                    cn.Close()
+                    Dim json = JsonConvert.SerializeObject(dt)
+                    Return Content(json, jsonContent)
+                Else
+                    Dim connStr = hostPaperless & ";database=" & listPaperless.Split(",")(type)
+                    Dim dt As New DataTable
+                    Using cn As MySqlConnection = New MySqlConnection(connStr)
+                        cn.Open()
+                        Dim sql As String = String.Format("Select decl.*,inv.invoiceno from decl inner join inv On decl.referenceno=inv.referenceno where decl.refnocmn='{0}' and decl.refnocmn<>'' and decl.status<>'C' ", job)
+                        Using da As New MySqlDataAdapter(sql, cn)
+                            da.Fill(dt)
+                        End Using
+                        cn.Close()
                     End Using
-                Dim json = JsonConvert.SerializeObject(dt)
-                Return Content(json, jsonContent)
+                    Dim json = JsonConvert.SerializeObject(dt)
+                    Return Content(json, jsonContent)
+                End If
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetPaperless", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)

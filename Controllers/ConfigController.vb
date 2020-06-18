@@ -487,7 +487,7 @@ Namespace Controllers
                     tawanResult = ex.Message
                 End Try
                 Dim msg As String = "DBID=" & dbID & ";CONJOB=" & GetSession("ConnJob") & ";CONMAS=" & GetSession("ConnMas") & ";JOBTEST=" & jobResult & ";MASTEST=" & masResult & ";TAWANTEST=" & tawanResult & ";"
-                Return Content("{""result"":{""session_id"":""" & Session.SessionID & """,""message"":""" & msg & """}}", jsonContent)
+                Return Content("{""result"":{""session_id"":""" & Session.SessionID & """,""message"":""" & msg.Replace("\", "\\") & """}}", jsonContent)
 
             Catch ex As Exception
                 Return Content("{""result"":{""session_id"":""" & Session.SessionID & """,""message"":""" & ex.Message & """}}", jsonContent)
