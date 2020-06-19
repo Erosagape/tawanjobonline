@@ -125,21 +125,31 @@ End Code
         if (h.UsedLanguage == 'TH') {
             $('#lblCustName').text(h.CustTName);
             $('#lblCustAddr').text(h.CustTAddr);
+	if(Number(h.CustBranch)>0) {
+        $('#lblCustTax').text(h.CustTaxID + ' BRANCH :' + h.CustBranch);
+} else {
+        $('#lblCustTax').text(h.CustTaxID + ' BRANCH :สำนักงานใหญ่');
+}
         } else {
             $('#lblCustName').text(h.CustEName);
             $('#lblCustAddr').text(h.CustEAddr);
+	if(Number(h.CustBranch)>0) {
+        $('#lblCustTax').text(h.CustTaxID + ' BRANCH :' + h.CustBranch);
+} else {
+        $('#lblCustTax').text(h.CustTaxID + ' BRANCH :HEAD OFFICE');
+}
         }
         $('#lblCustTel').text(h.CustPhone);
-        $('#lblCustTax').text(h.CustTaxID + ' BRANCH:' + h.BillToCustBranch);
+
         $('#lblReceiptNo').text(h.ReceiptNo);
-        $('#lblReceiptDate').text(ShowDate(CDateEN(h.ReceiptDate)));
+        $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiptDate)));
         let html = '';
         let total = 0;
 
         for (let d of dt) {
             html = '<tr>';
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
-            html += '<td>' + d.SICode+ '-'+ d.SDescription + '</td>';
+            html += '<td>' + d.SDescription + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
             html += '<td style="text-align:right">' + ShowNumber(d.FNet,2) + '</td>';
             html += '<td style="text-align:center">' + d.DCurrencyCode + '</td>';

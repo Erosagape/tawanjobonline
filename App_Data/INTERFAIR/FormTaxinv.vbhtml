@@ -137,7 +137,7 @@ End Code
     function ShowData(dt) {
         let h = dt[0];
         if (h.ReceiptType == 'TAX') {
-            $('#lblDocType').text('ใบเสร็จรับเงิน/ใบกำกับภาษี (RECEIPT/TAX-INVOICE)');
+            $('#lblDocType').text('ใบเสร็จรับเงิน/ใบกำกับภาษี  (TAX-INVOICE/RECEIPT)');
         }
         if (h.ReceiptType == 'SRV') {
             $('#lblDocType').text('ใบกำกับภาษี (TAX-INVOICE)');
@@ -153,12 +153,23 @@ End Code
         if (h.UsedLanguage == 'TH') {
             $('#lblCustName').text(h.CustTName);
             $('#lblCustAddr').text(h.CustTAddr);
+	if(Number(h.CustBranch)>0) {
+        $('#lblCustTax').text(h.CustTaxID + ' BRANCH :' + h.CustBranch);
+} else {
+        $('#lblCustTax').text(h.CustTaxID + ' BRANCH :สำนักงานใหญ่');
+}
         } else {
             $('#lblCustName').text(h.CustEName);
             $('#lblCustAddr').text(h.CustEAddr);
+	if(Number(h.CustBranch)>0) {
+        $('#lblCustTax').text(h.CustTaxID + ' BRANCH :' + h.CustBranch);
+} else {
+        $('#lblCustTax').text(h.CustTaxID + ' BRANCH :HEAD OFFICE');
+}
         }
         $('#lblCustTel').text(h.CustPhone);
-        $('#lblCustTax').text(h.CustTaxID + ' BRANCH ' + h.CustBranch);
+
+
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiptDate)));
         let html = '';
@@ -170,7 +181,7 @@ End Code
         for (let d of dt) {
             html = '<tr>';
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
-            html += '<td>' + d.SICode+ '-'+ d.SDescription + '</td>';
+            html += '<td>' + d.SDescription + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
             html += '<td style="text-align:right">' + ShowNumber(d.InvAmt,2) + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'0.00') + '</td>';

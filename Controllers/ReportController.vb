@@ -1103,7 +1103,7 @@ a.LinkBillNo as 'Deposit Receipt/Invoice#',v.VoucherDate as 'Deposit Receive Dat
                         sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "cd.JobNo", "ih.EmpCode", "cd.VenderCode", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
-select id.DocNo as 'Invoice No',cd.JobNo as 'Job Number',ih.DocDate as 'Inv.Create Date', cd.SDescription as 'Description',
+select ih.CustCode as 'Customer',id.DocNo as 'Invoice No',cd.JobNo as 'Job Number',ih.DocDate as 'Inv.Create Date', cd.SDescription as 'Description',
 (CASE WHEN ch.ClearType=1 THEN 'ADV' ELSE (CASE WHEN ch.ClearType=3 THEN 'SERV' ELSE 'COST' END) END) as 'Type',
 id.Amt as 'Amount',id.AmtVat as 'VAT',id.AmtCredit as 'Prepaid' ,id.Amt50Tavi as 'WHT',id.TotalAmt as'Total Amount',
 0 as 'CN,DN Amount',id.AmtCharge as 'Advance Amount',id.AmtCharge as 'SVC Amount',ISNULL(rd.ReceiptNet,0) as 'Payment Received',

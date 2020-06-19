@@ -24,7 +24,6 @@ End Code
 <div style="text-align:center;width:100%;padding:5px 5px 5px 5px">
     <label id="lblDocType" style="font-size:16px;font-weight:bold">ใบแจ้งหนี้ (INVOICE)</label>
 </div>
-<br />
 <div id="dvForm">
     <div style="display:flex;">
         <div style="flex:3;border:1px solid black;border-radius:5px;">
@@ -109,7 +108,6 @@ End Code
             </div>
         </div>
     </div>
-    <br />
     <table style="width:100%" border="1" class="text-center">
         <thead>
             <tr style="background-color :gainsboro;text-align:center;">
@@ -118,7 +116,7 @@ End Code
                 <th width="100px">ADVANCE</th>
                 <th width="100px">VAT</th>
                 <th width="100px">NON-VAT</th>
-                <th width="50px">CURR</th>
+                <th width="50px">WHT</th>
                 <th width="100px">TOTAL</th>
             </tr>
         </thead>
@@ -136,7 +134,7 @@ End Code
                         </div>
                     </div>
                 </td>
-                <td colspan="3">
+                <td colspan="2">
                     TOTAL ADVANCE<br />
                     TOTAL SERVICE <br />
                     VATABLE<br />
@@ -167,7 +165,6 @@ End Code
             </tr>
         </tfoot>
     </table>
-    <br />
     <div style="display:flex">
         <div class="text-left" style="border:1px solid black;border-radius:5px;flex:1">
             WITHHOLDING TAX DETAIL
@@ -270,9 +267,9 @@ End Code
             if (j !== null) {
                 $('#lblCustInvNo').text(j.InvNo);
                 $('#lblJobNo').text(j.JNo);
-	        if(j.JobType=='1'){
-                ShowCountry(path, j.InvCountry, '#lblFromCountry');
-                ShowCountry(path, j.InvFCountry, '#lblToCountry');
+	        if(Number(j.JobType)==1){
+                ShowCountry(path, j.InvFCountry, '#lblFromCountry');
+                ShowCountry(path, j.InvCountry, '#lblToCountry');
                 ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#lblInterPort');
  	        } else {
                 ShowCountry(path, j.InvFCountry, '#lblFromCountry');
@@ -305,9 +302,10 @@ End Code
             $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
             $('#lblSumTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT),2));
             $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
-            $('#lblTotalBaht').text('(' + CNumThai(CDbl(Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount), 2)) + ')');
+            $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.Total50Tavi)-Number(h.TotalDiscount),2));
 
-            $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalNet),2));
+            $('#lblTotalBaht').text('(' + CNumThai(CDbl(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalDiscount),2)) + ')');
+
         }
         let d = dr.detail[0];
         let sumbase1 = 0;
@@ -319,7 +317,7 @@ End Code
             for (let o of d) {
                 let html = '<tr>';
                 html += '<td style="text-align:center">' + o.ItemNo + '</td>';
-                html += '<td>' + o.SICode + '-' + o.SDescription + '</td>';
+                html += '<td>' + o.SDescription + '</td>';
                 if (o.AmtAdvance > 0) {
                     html += '<td style="text-align:right">' + ShowNumber(o.AmtAdvance, 2) + '</td>';
                     html += '<td style="text-align:right">0.00</td>';
@@ -328,7 +326,7 @@ End Code
                     html += '<td style="text-align:right">' + (o.AmtVat>0 ?ShowNumber(o.AmtCharge, 2):"0.00") + '</td>';
                 }
                 html += '<td style="text-align:right">' + (o.AmtVat==0? ShowNumber(o.AmtCharge, 2):"0.00") + '</td>';
-                html += '<td style="text-align:center">' + o.CurrencyCode + '</td>';
+                html += '<td style="text-align:right">' + (o.AmtVat>0 ?ShowNumber(o.Amt50Tavi, 2):"0.00") + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(CNum(o.Amt)-CNum(o.AmtDiscount), 2) + '</td>';
                 html += '</tr>';
 
