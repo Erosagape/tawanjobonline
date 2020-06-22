@@ -1,18 +1,10 @@
 ﻿
 @Code
-    Layout = "~/Views/Shared/_Report.vbhtml"
+    Layout = "~/Views/Shared/_ReportNoHead.vbhtml"
     ViewBag.Title = "Tax-Invoice Slip"
 End Code
 <style>
     * {
-        font-size: 13px;
-    }
-
-    td {
-        font-size: 13px;
-    }
-
-    th {
         font-size: 14px;
     }
 
@@ -20,15 +12,37 @@ End Code
         border-width: thin;
         border-collapse: collapse;
     }
-
-    #dvFooter {
-        display: none;
+    #pFooter,#dvFooter {
+        display:none;
     }
 </style>
-<div style="text-align:center;width:100%;">
-    <label style="font-size:16px;font-weight:bold;" id="lblDocType">ใบเสร็จรับเงิน/ใบกำกับภาษี (RECEIPT/TAX-INVOICE)</label>
+<div style="display:flex;width:100%">
+    <div id="dvHeadF" style="float:left;flex:2;">
+        <b>ROTJANIN CHANASINPHAWATKUN (DAN PHAK KAD)</b><br />
+        9/10 T.Thachang,A.Mueng <br />
+        Chanthaburi,THAILAND 22000<br />
+        Tel: 084-5399663
+    </div>
+    <div id="dvHeadS" style="float:left;flex:2;">
+        <div style="display:flex">
+            <div style="flex:1;margin:5px 5px 5px 5px;">
+                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:120px" />
+            </div>
+            <div style="flex:4;">
+                <b>ห้างหุ้นสวนจํากัด แดน ผักกาด (สำนักงานใหญ่)</b><br />
+                9/10 หมู่ที 10 ตําบลท่าช้าง<br />
+                อําเภอเมืองจันทบุรี จังหวัดจันทบุรี<br />
+                โทร.039-460383,084-5399663<br />
+                เลขประจำตัวผู้เสียภาษี 0223552000575
+            </div>
+        </div>
+    </div>
+    <div style="float:right;text-align:right;flex:1;">
+        <b><label id="lblDocType">TAX-INVOICE</label></b>
+        <div id="dvCopy">
+        </div>
+    </div>
 </div>
-<br />
 <!--
 <div style="display:flex;">
     <div style="flex:3;">
@@ -43,6 +57,7 @@ End Code
     </div>
 </div>
 -->
+
 <div style="display:flex;">
     <div style="flex:3;border:1px solid black;border-radius:5px;">
         NAME : <label id="lblCustName"></label><br />
@@ -55,40 +70,39 @@ End Code
         ISSUE DATE : <label id="lblReceiptDate"></label><br />
     </div>
 </div>
-<br />
+
 <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
     <thead>
         <tr style="background-color:lightblue;">
             <th height="40" width="60">INV.NO.</th>
-            <th width="250">DESCRIPTION</th>
+            <th width="200">DESCRIPTION</th>
             <th width="70">JOB</th>
             <th width="60">SERVICE</th>
             <th width="30">VAT</th>
             <th width="30">WHT</th>
+            <th width="60">ADVANCE</th>
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
     <tfoot>
         <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="3" style="text-align:center"><label id="lblTotalText"></label></td>
+            <td colspan="4" style="text-align:center"><label id="lblTotalText"></label></td>
             <td colspan="2">TOTAL AMOUNT</td>
             <td colspan="1"><label id="lblTotalBeforeVAT"></label></td>
         </tr>
         <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="5">TOTAL VAT</td>
+            <td colspan="6">TOTAL VAT</td>
             <td colspan="1"><label id="lblTotalVAT"></label></td>
         </tr>
         <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="5">TOTAL RECEIPT</td>
+            <td colspan="6">TOTAL RECEIPT</td>
             <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
         </tr>
     </tfoot>
 </table>
-<br />
 <p>
-    PAID BY
+    PAY BY
 </p>
-<br />
 <div style="display:flex;flex-direction:column">
     <div>
         <label><input type="checkbox" name="vehicle1" value=""> CASH</label>
@@ -104,12 +118,19 @@ End Code
     </div>
 </div>
 <br />
-<br />
 <div style="display:flex;">
+    <!--
+    <div class="text-left" style="border:1px solid black;flex:2">
+        PLEASE REMIT TO ACCOUNT NO: 528-2-38819-9<br />
+        "DAN PHAK KAD LIMITED PARTNERSHIP"<br />
+        KASIKORNTHAI BANK<br />
+        ROBINSON CHANTANABURI BRANCH
+    </div>
+        -->
     <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
 
         FOR THE CUSTOMER
-        <br /><br /><br /><br /><br />
+        <br /><br /><br />
         <p>_____________________</p>
         _____________________<br />
         ___/_______/___<br />
@@ -117,8 +138,8 @@ End Code
     </div>
     <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
 
-        FOR @ViewBag.PROFILE_COMPANY_NAME 
-        <br /><br /><br /><br /><br />
+        FOR THE COMPANY
+        <br /><br /><br />
         <p>_____________________</p>
         _____________________<br />
         ___/_______/___<br />
@@ -128,7 +149,12 @@ End Code
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
     let receiptno = getQueryString('code');
-
+    let ans = confirm('OK to print Original or Cancel For Copy');
+    if (ans == true) {
+        $('#dvCopy').html('<b>**ORIGINAL**</b>');
+    } else {
+        $('#dvCopy').html('<b>**COPY**</b>');
+    }
     $.get(path + 'acc/getreceivereport?branch=' + branch + '&code=' + receiptno, function (r) {
         if (r.receipt.data.length !== null) {
             ShowData(r.receipt.data);
@@ -136,40 +162,34 @@ End Code
     });
     function ShowData(dt) {
         let h = dt[0];
-        if (h.ReceiptType == 'TAX') {
-            $('#lblDocType').text('ใบเสร็จรับเงิน/ใบกำกับภาษี  (RECEIPT/TAX-INVOICE)');
+        switch (h.ReceiptType) {
+            case 'TAX':
+                $('#dvHeadF').hide();
+                $('#lblDocType').text('TAX-INVOICE / ใบกำกับภาษี');
+                break;
+            case 'SRV':
+                $('#dvHeadF').hide();
+                $('#lblDocType').text('TAX-INVOICE / ใบกำกับภาษี');
+                break;
+            case 'REC':
+                $('#dvHeadS').hide();
+                $('#lblDocType').text('RECEIPT / ใบเสร็จรับเงิน');
+                break;
+            default:
+                $('#dvHeadF').hide();
+                $('#lblDocType').text('RECEIPT / ใบเสร็จรับเงิน');
+                break;
         }
-        if (h.ReceiptType == 'SRV') {
-            $('#lblDocType').text('ใบเสร็จรับเงิน/ใบกำกับภาษี  (RECEIPT/TAX-INVOICE)');
-        }
-        if (h.ReceiptType == 'REC') {
-            $('#lblDocType').text('ใบเสร็จรับเงิน (RECEIPT)');
-        }
-        if (h.ReceiptType == 'RCV') {
-            $('#lblDocType').text('ใบเสร็จรับเงิน (RECEIPT)');
-        }
-
         //$('#lblCustCode').text(h.CustCode);
         if (h.UsedLanguage == 'TH') {
             $('#lblCustName').text(h.CustTName);
             $('#lblCustAddr').text(h.CustTAddr);
-	if(Number(h.CustBranch)>0) {
-        $('#lblCustTax').text(h.CustTaxID + ' BRANCH :' + h.CustBranch);
-} else {
-        $('#lblCustTax').text(h.CustTaxID + ' BRANCH :สำนักงานใหญ่');
-}
         } else {
             $('#lblCustName').text(h.CustEName);
             $('#lblCustAddr').text(h.CustEAddr);
-	if(Number(h.CustBranch)>0) {
-        $('#lblCustTax').text(h.CustTaxID + ' BRANCH :' + h.CustBranch);
-} else {
-        $('#lblCustTax').text(h.CustTaxID + ' BRANCH :HEAD OFFICE');
-}
         }
         $('#lblCustTel').text(h.CustPhone);
-
-
+        $('#lblCustTax').text(h.CustTaxID);
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiptDate)));
         let html = '';
@@ -181,11 +201,12 @@ End Code
         for (let d of dt) {
             html = '<tr>';
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
-            html += '<td>' + d.SDescription + '</td>';
+            html += '<td>'+d.SDescription + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
-            html += '<td style="text-align:right">' + ShowNumber(d.InvAmt,2) + '</td>';
+            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvAmt,2):'0.00') + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'0.00') + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.Inv50Tavi,2):'0.00') + '</td>';
+            html += '<td style="text-align:right">' + (d.AmtCharge>0? '0.00':ShowNumber(d.InvTotal,2)) + '</td>';
             html += '</tr>';
 
             $('#tbDetail').append(html);

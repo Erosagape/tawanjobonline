@@ -1819,7 +1819,7 @@ dbo.Job_LoadInfoDetail.Comment, dbo.Job_LoadInfoDetail.TruckType, dbo.Job_LoadIn
 dbo.Job_LoadInfoDetail.TargetYardTime, dbo.Job_LoadInfoDetail.ActualYardDate, dbo.Job_LoadInfoDetail.ActualYardTime, 
 dbo.Job_LoadInfoDetail.UnloadFinishDate, dbo.Job_LoadInfoDetail.UnloadFinishTime, dbo.Job_LoadInfoDetail.UnloadDate, dbo.Job_LoadInfoDetail.UnloadTime, 
 dbo.Job_LoadInfoDetail.Location, dbo.Job_LoadInfoDetail.ReturnDate AS TruckReturnDate, dbo.Job_LoadInfoDetail.ShippingMark, 
-dbo.Job_LoadInfoDetail.ProductDesc, dbo.Job_LoadInfoDetail.CTN_SIZE, dbo.Job_LoadInfoDetail.ProductQty, dbo.Job_LoadInfoDetail.ProductUnit, 
+dbo.Job_LoadInfoDetail.ProductDesc, dbo.Job_LoadInfoDetail.CTN_SIZE, dbo.Job_LoadInfoDetail.ProductQty, dbo.Job_LoadInfoDetail.ProductUnit,dbo.Job_LoadInfoDetail.NetWeight,dbo.Job_LoadInfoDetail.ProductPrice, 
 dbo.Job_LoadInfoDetail.GrossWeight, dbo.Job_LoadInfoDetail.Measurement, dbo.Job_Order.DocDate, dbo.Job_Order.CustCode, dbo.Job_Order.CustBranch, 
 dbo.Job_Order.CustContactName, dbo.Job_Order.QNo, dbo.Job_Order.Revise, dbo.Job_Order.ManagerCode, dbo.Job_Order.CSCode, dbo.Job_Order.Description, 
 dbo.Job_Order.TRemark, dbo.Job_Order.JobStatus, dbo.Job_Order.JobType, dbo.Job_Order.ShipBy, dbo.Job_Order.InvNo, dbo.Job_Order.InvTotal, 
@@ -1828,8 +1828,8 @@ dbo.Job_Order.InvProductUnit, dbo.Job_Order.InvCurUnit, dbo.Job_Order.InvCurRate
 dbo.Job_Order.ClearPortNo, dbo.Job_Order.ClearDate, dbo.Job_Order.ForwarderCode, dbo.Job_Order.AgentCode, dbo.Job_Order.VesselName, 
 dbo.Job_Order.ETDDate, dbo.Job_Order.ETADate, dbo.Job_Order.FNetPrice, dbo.Job_Order.BNetPrice, dbo.Job_Order.CloseJobDate, dbo.Job_Order.CloseJobTime, 
 dbo.Job_Order.CloseJobBy, dbo.Job_Order.DeclareType, dbo.Job_Order.DeclareNumber, dbo.Job_Order.DeclareStatus, dbo.Job_Order.EstDeliverDate, 
-dbo.Job_Order.EstDeliverTime, dbo.Job_Order.DutyDate, dbo.Job_Order.DutyAmount, dbo.Job_Order.ConfirmChqDate, dbo.Job_Order.ShippingEmp, 
-dbo.Job_Order.TotalGW, dbo.Job_Order.GWUnit, dbo.Job_Order.ReadyToClearDate, dbo.Job_Order.Commission, dbo.Job_Order.CommPayTo, 
+dbo.Job_Order.EstDeliverTime, dbo.Job_Order.DutyDate, dbo.Job_Order.DutyAmount, dbo.Job_Order.ConfirmDate, dbo.Job_Order.ShippingEmp, 
+dbo.Job_Order.TotalGW, dbo.Job_Order.GWUnit, dbo.Job_Order.ReadyToClearDate, dbo.Job_Order.Commission, dbo.Job_Order.CommPayTo,
 dbo.Job_Order.MVesselName, dbo.Job_Order.ProjectName, dbo.Job_Order.TotalNW, dbo.Job_Order.CustRefNO, dbo.Job_Order.TotalQty, dbo.Job_Order.HAWB, 
 dbo.Job_Order.MAWB, dbo.Job_Order.consigneecode, dbo.Job_Order.privilegests, dbo.Job_LoadInfoDetail.DeliveryNo, dbo.Job_Order.DeliveryTo, 
 dbo.Job_Order.DeliveryAddr,dbo.Job_Order.ShippingCmd, dbo.Mas_Company.NameThai, dbo.Mas_Company.NameEng, dbo.Mas_Company.TAddress1, dbo.Mas_Company.TAddress2, 
@@ -1841,7 +1841,8 @@ dbo.Job_LoadInfoDetail ON dbo.Job_Order.JNo = dbo.Job_LoadInfoDetail.JNo AND
 dbo.Job_Order.BranchCode = dbo.Job_LoadInfoDetail.BranchCode RIGHT OUTER JOIN
 dbo.Mas_Vender RIGHT OUTER JOIN
 dbo.Job_LoadInfo ON dbo.Mas_Vender.BranchCode = dbo.Job_LoadInfo.BranchCode ON dbo.Job_LoadInfoDetail.BranchCode = dbo.Job_LoadInfo.BranchCode AND 
-dbo.Job_LoadInfoDetail.BookingNo = dbo.Job_LoadInfo.BookingNo ON dbo.Mas_Company.Branch = dbo.Job_Order.CustBranch AND 
+dbo.Job_LoadInfoDetail.BookingNo = dbo.Job_LoadInfo.BookingNo 
+ON dbo.Mas_Company.Branch = dbo.Job_Order.CustBranch AND 
 dbo.Mas_Company.CustCode = dbo.Job_Order.CustCode
 WHERE (dbo.Job_LoadInfo.BookingNo <> '') {0}
 "

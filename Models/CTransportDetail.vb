@@ -318,6 +318,24 @@ Public Class CTransportDetail
             m_LocationID = value
         End Set
     End Property
+    Private m_NetWeight As Double
+    Public Property NetWeight As Double
+        Get
+            Return m_NetWeight
+        End Get
+        Set(value As Double)
+            m_NetWeight = value
+        End Set
+    End Property
+    Private m_ProductPrice As Double
+    Public Property ProductPrice As Double
+        Get
+            Return m_ProductPrice
+        End Get
+        Set(value As Double)
+            m_ProductPrice = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -366,6 +384,8 @@ Public Class CTransportDetail
                             dr("TimeUsed") = Me.TimeUsed
                             dr("DeliveryNo") = Main.GetDBString(Me.DeliveryNo, dt.Columns("DeliveryNo"))
                             dr("LocationID") = Main.GetDBString(Me.LocationID, dt.Columns("LocationID"))
+                            dr("NetWeight") = Me.NetWeight
+                            dr("ProductPrice") = Me.ProductPrice
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CTransportDetail", "SaveData", Me, False)
@@ -494,6 +514,12 @@ Public Class CTransportDetail
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("LocationID"))) = False Then
                         row.LocationID = rd.GetInt32(rd.GetOrdinal("LocationID"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("NetWeight"))) = False Then
+                        row.NetWeight = rd.GetDouble(rd.GetOrdinal("NetWeight"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ProductPrice"))) = False Then
+                        row.ProductPrice = rd.GetDouble(rd.GetOrdinal("ProductPrice"))
                     End If
                     lst.Add(row)
                 End While

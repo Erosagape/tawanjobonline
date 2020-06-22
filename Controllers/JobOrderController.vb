@@ -2117,5 +2117,15 @@ Namespace Controllers
                 Return Content("[]", jsonContent)
             End Try
         End Function
+        Function FormSalesContract() As ActionResult
+            Return GetView("FormSalesContract")
+        End Function
+        Function FormInvoice() As ActionResult
+            Return GetView("FormInvoice")
+        End Function
+        Function FormPackingList() As ActionResult
+            Return GetView("FormPackingList")
+        End Function
+
     End Class
 End Namespace

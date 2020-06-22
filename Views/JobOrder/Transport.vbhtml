@@ -306,6 +306,9 @@ End Code
             <option value="SP">Shipping Particulars</option>
             <option value="BL">BL/AWB</option>
             <option value="DO">D/O Letter</option>
+            <option value="SC">Sales Contract</option>
+            <option value="IV">Commercial Invoice</option>
+            <option value="PL">Packing Lists</option>
         </select>
         <a href="#" class="btn btn-primary" id="btnUpdateJob" onclick="UpdateJob()">
             <i class="fa fa-lg fa-check"></i>&nbsp;<b id="linkUpCon">Update Total Container To Job</b>
@@ -339,9 +342,9 @@ End Code
                     <th>CTN_NO</th>
                     <th class="desktop">CTN_SIZE</th>
                     <th class="desktop">SealNumber</th>
-                    <th class="all">TruckNO</th>
+                    <th class="all">Qty</th>
                     <th class="desktop">Status</th>
-                    <th class="desktop">Location</th>
+                    <th class="desktop">G.W</th>
                     <th class="desktop">UnloadDate</th>
                     <th class="desktop">DeliveryNo</th>
                     <th class="desktop">V.Inv</th>
@@ -477,19 +480,29 @@ End Code
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
+                                <label id="lblPrice">Price/Unit</label>
+                                :<br /><div style="display:flex"><input type="number" id="txtProductPrice" class="form-control" value="0.00"></div>
+                            </div>
+                            <div class="col-sm-4">
+                                <label id="lblNW">N/W</label>
+                                :<br /><div style="display:flex"><input type="number" id="txtNetWeight" class="form-control" value="0.00"></div>
+                            </div>
+                            <div class="col-sm-4">
                                 <label id="lblGW">G/W</label>
                                 :<br /><div style="display:flex"><input type="number" id="txtGrossWeight" class="form-control" value="0.00"></div>
                             </div>
-                            <div class="col-sm-3">
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
                                 <label id="lblM3">M3</label>
                                 :<br /><div style="display:flex"><input type="number" id="txtMeasurement" class="form-control" value="0.00"></div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <label id="lblOperDay">Operation Days</label>
                                 :<br /><div style="display:flex"><input type="number" id="txtTimeUsed" class="form-control"></div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <label id="lblJobStatus">Job Status</label>
                                 :<br />
                                 <div style="display:flex">
@@ -502,6 +515,7 @@ End Code
                                     </select>
                                 </div>
                             </div>
+
                         </div>
                         <div class="row">
                             <div class="col-sm-5">
@@ -875,6 +889,8 @@ End Code
         $('#txtProductQty').val('0.00');
         $('#txtProductUnit').val(dr.InvProductUnit);
         $('#txtGrossWeight').val(dr.TotalGW);
+        $('#txtProductPrice').val(dr.InvTotal);
+        $('#txtNetWeight').val(dr.TotalNW);
         $('#txtMeasurement').val(dr.Measurement);
         if (isjobmode == true) {
             LoadData();
@@ -951,7 +967,7 @@ End Code
                 { data: "CTN_NO", title: "Container No" },
                 { data: "CTN_SIZE", title: "Container Size" },
                 { data: "SealNumber", title: "Seal" },
-                { data: "TruckNO", title: "Truck No" },
+                { data: "ProductQty", title: "Qty" },
                 {
                     data: "CauseCode", title: "Status",
                     render: function (data) {
@@ -968,7 +984,7 @@ End Code
                         return 'Checking';
                     }
                 },
-                { data: "Location", title: "To Location" },
+                { data: "GrossWeight", title: "G.W" },
                 {
                     data: null, title: "Unload Date",
                     render: function (data) {
@@ -1147,6 +1163,15 @@ End Code
             case 'DO':
                 window.open(path + 'JobOrder/FormLetter?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
                 break;
+            case 'SC':
+                window.open(path + 'JobOrder/FormSalesContract?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'IV':
+                window.open(path + 'JobOrder/FormInvoice?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'PL':
+                window.open(path + 'JobOrder/FormPackingList?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
         }
     }
     function ClearDetail() {
@@ -1181,7 +1206,9 @@ End Code
             $('#txtProductQty').val('0.00');
             $('#txtProductUnit').val('');
             $('#txtGrossWeight').val('0.00');
+            $('#txtNetWeight').val('0.00');
             $('#txtMeasurement').val('0.00');
+            $('#txtProductPrice').val('0.00');
         }
         ShowExpense();
         ShowPayment();
@@ -1221,7 +1248,9 @@ End Code
             GrossWeight:CNum($('#txtGrossWeight').val()),
             Measurement:CNum($('#txtMeasurement').val()),
             BookingNo: $('#txtBookingNo').val(),
-            DeliveryNo: $('#txtDeliveryNo').val()
+            DeliveryNo: $('#txtDeliveryNo').val(),
+            ProductPrice: CNum($('#txtProductPrice').val()),
+            NetWeight: CNum($('#txtNetWeight').val())
         };
         if (obj.ItemNo != "") {
             ShowConfirm('Please confirm to save', function (ask) {
@@ -1283,6 +1312,8 @@ End Code
         $('#txtProductUnit').val(dr.ProductUnit);
         $('#txtGrossWeight').val(dr.GrossWeight);
         $('#txtMeasurement').val(dr.Measurement);
+        $('#txtNetWeight').val(dr.NetWeight);
+        $('#txtProductPrice').val(dr.ProductPrice);
         ShowExpense();
         ShowPayment();
     }
@@ -1365,8 +1396,6 @@ End Code
                 $('#txtReturnPlace').val(dr.Place4);
                 $('#txtReturnAddress').val(dr.Address4);
                 $('#txtReturnContact').val(dr.Contact4);
-
-
             }
         });
     }

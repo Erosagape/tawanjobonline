@@ -102,7 +102,7 @@ End Code
     </div>
     <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
 
-        FOR THE COMPANY
+        FOR @ViewBag.PROFILE_COMPANY_NAME 
         <br /><br /><br />
         <p>_____________________</p>
         _____________________<br />

@@ -146,8 +146,8 @@ End Code
                             <input type="text" id="txtTotalNet" class="form-control" disabled />
                             <br />
                             <input type="checkbox" id="chkMerge" checked /><label id="lblMerge">Generate One Tax-Invoice</label><br />
-                            <div id="dvMsg"></div>
-                                                                                                                                                                    <a href="#" class="btn btn-success" id="btnGen" onclick="ApproveData()">
+                            <div id="dvMsg"></div>                                                                                                                                                                   
+                            <a href="#" class="btn btn-success" id="btnGen" onclick="SaveData()">
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Tax-Invoice</b>
                             </a>
                             <br />
@@ -743,7 +743,15 @@ ExchangeRate: 1,
         }
         return data;
     }
-
+    function SaveData() {
+        if ($('#txtDocNo').val() !== '') {
+            $.get(path + 'Acc/DelRcpDetail?Branch' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
+                ApproveData();
+            });
+        } else {
+            ApproveData();
+        }
+    }
     function PrintReceipt() {
         let code = $('#txtDocNo').val();
         if (code !== '') {

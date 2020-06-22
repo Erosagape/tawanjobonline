@@ -108,7 +108,7 @@ End Code
                                 <tr><td id="lblTotalCustAdv">Cust.Advance</td><td><input type="text" id="txtTotalCustAdv" class="form-control" disabled /></td></tr>
                                 <tr><td id="lblTotalNet">NET</td><td><input type="text" id="txtTotalNet" class="form-control" disabled /></td></tr>
                             </table>
-                            <a href="#" class="btn btn-success" id="btnGen" onclick="ApproveData()">
+                            <a href="#" class="btn btn-success" id="btnGen" onclick="SaveData()">
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Billing</b>
                             </a>
                             <br/>
@@ -510,7 +510,15 @@ End Code
         }
         return data;
     }
-
+    function SaveData() {
+        if ($('#txtDocNo').val() !== '') {
+            $.get(path + 'Acc/DelBillDetail?Branch' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
+                ApproveData();
+            });
+        } else {
+            ApproveData();
+        }
+    }
     function PrintBilling() {
         let code = $('#txtDocNo').val();
         if (code !== '') {

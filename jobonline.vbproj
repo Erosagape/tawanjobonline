@@ -560,6 +560,11 @@
     <Content Include="App_Data\ACE\FormWTax53D.vbhtml" />
     <Content Include="App_Data\ACE\TruckOrder.vbhtml" />
     <Content Include="App_Data\INTERFAIR\_Report.vbhtml" />
+    <Content Include="App_Data\DPK\FormInv.vbhtml" />
+    <Content Include="App_Data\DPK\FormRcp.vbhtml" />
+    <Content Include="App_Data\DPK\FormTaxinv.vbhtml" />
+    <Content Include="App_Data\DPK\FormBill.vbhtml" />
+    <Content Include="App_Data\DPK\FormJob.vbhtml" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -932,6 +937,9 @@
     <Content Include="Views\Acc\FormInv.vbhtml" />
     <Content Include="App_Data\JOBBETA\FormRcp_D.vbhtml" />
     <Content Include="App_Data\JOBBETA\FormTaxInv_D.vbhtml" />
+    <Content Include="Views\JobOrder\FormSalesContract.vbhtml" />
+    <Content Include="Views\JobOrder\FormInvoice.vbhtml" />
+    <Content Include="Views\JobOrder\FormPackingList.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

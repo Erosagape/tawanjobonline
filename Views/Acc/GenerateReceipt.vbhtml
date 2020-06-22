@@ -117,7 +117,7 @@ End Code
                             <br />
                             <input type="checkbox" id="chkMerge" checked /><label id="lblMerge">Generate One Receipt</label> <br />
                             <div id="dvMsg"></div>
-                            <a href="#" class="btn btn-success" id="btnGen" onclick="ApproveData()">
+                            <a href="#" class="btn btn-success" id="btnGen" onclick="SaveData()">
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Receipts</b>
                             </a>
                             <br />
@@ -655,6 +655,15 @@ End Code
             }
         }
         return data;
+    }
+    function SaveData() {
+        if ($('#txtDocNo').val() !== '') {
+            $.get(path + 'Acc/DelRcpDetail?Branch' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
+                ApproveData();
+            });
+        } else {
+            ApproveData();
+        }
     }
 
     function PrintReceipt() {
