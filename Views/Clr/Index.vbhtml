@@ -2034,7 +2034,8 @@ End Code
         let vat = 0;
         let wht = 0;
         if (type == "2") {
-            let base = amt * 100 / (100 + (vatrate - whtrate));
+            //let base = amt * 100 / (100 + (vatrate - whtrate));
+            let base = amt * 100 / (100 + vatrate);
             vat = base * vatrate * 0.01;
             wht = base * whtrate * 0.01;
         }

@@ -770,7 +770,7 @@ End Code
         if (dr.AmtAdvance > 0) {
             arr_clr[0].BNet -= CNum(dr.AmtAdvance);
             arr_clr[0].FNet -= CDbl((dr.AmtAdvance / dr.ExchangeRate),4);
-            arr_clr[0].UsedAmount -= CDbl((dr.AmtAdvance * (100 / (100 + dr.VATRate - dr.Rate50Tavi))),4);
+            arr_clr[0].UsedAmount -= CDbl((dr.AmtAdvance * (100 / (100 + dr.VATRate))),4);
             if (dr.IsTaxCharge > 0) {
                 arr_clr[0].ChargeVAT = CDbl((arr_clr[0].UsedAmount * (dr.VATRate*0.01)),4);
             } else {
@@ -794,7 +794,7 @@ End Code
         if (dr.AmtAdvance > 0) {
             cl.BNet = CNum(dr.AmtAdvance);
             cl.FNet = CDbl((dr.AmtAdvance / dr.ExchangeRate),4);
-            cl.UsedAmount = CDbl((cl.BNet * (100 / (100 + CNum(dr.VATRate)-CNum(dr.Rate50Tavi)))),4);
+            cl.UsedAmount = CDbl((cl.BNet * (100 / (100 + CNum(dr.VATRate)))),4);
             if (dr.IsTaxCharge > 0) {
                 cl.ChargeVAT = CDbl((CNum(cl.UsedAmount) * (dr.VATRate*0.01)),4);
             } else {
