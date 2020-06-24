@@ -59,7 +59,7 @@ Tel: 084-5399663
             JOB NO : <label id="lblJobNo"></label><br />
         </div>
     </div>
-    <div style="display:flex;border:1px solid black;border-radius:5px;">
+    <div id="dvJob" style="display:flex;border:1px solid black;border-radius:5px;">
         <div style="flex:2">
             <div class="row">
                 <p class="col-sm-12">
@@ -257,7 +257,9 @@ Tel: 084-5399663
             if(h.DocNo.substr(0,3)=='IVF')  $('#tbPayS').hide(); 
             if(h.DocNo.substr(0,3)=='IVS')  $('#tbPayF').hide(); 
             if(h.DocNo.substr(0,3)=='IVT')  $('#tbPayF').hide(); 
+            if(h.DocNo.substr(0,3)=='IVF')  $('#dvJob').hide(); 
             $('#lblDocNo').text(h.DocNo);
+                $('#lblJobNo').text(h.RefNo);
             $('#lblDocDate').text(ShowDate(CDateTH(h.DocDate)));
             $('#lblCurrencyCode').text(h.CurrencyCode);
             $('#lblExchangeRate').text(h.ExchangeRate);
@@ -295,7 +297,7 @@ $.get(path+'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch='+ h.BillToCu
             let j = dr.job[0][0];
             if (j !== null) {
                 $('#lblCustInvNo').text(j.InvNo);
-                $('#lblJobNo').text(j.JNo);
+
 
                 $('#lblFromCountry').text(j.DeclareNumber);
                 $('#lblVesselName').text(j.VesselName);

@@ -440,7 +440,7 @@ End Code
                 SetGridUser(path, '#tbEmp', '#frmSearchEmp', ReadReqBy);
                 break;
             case 'servicecode':
-                SetGridSICodeByGroup(path,'#tbServ','ERN' ,'#frmSearchServ', ReadService);
+                SetGridSICodeFilter(path,'#tbServ','?Type=E' ,'#frmSearchServ', ReadService);
                 break;
             case 'serviceexp':
                 let w = '';
@@ -630,8 +630,8 @@ End Code
         let type = $('#txtVatType').val();
         if (type == ''||type=='0') type = '1';
         if (type == '2') {
-            $('#txtExpAmount').val(CDbl(CNum(net) - CNum(vat) + CNum(wht),4));
-            $('#txtExpNet').val(CDbl(net,4));
+            //$('#txtExpAmount').val(CDbl(CNum(net) - CNum(vat) ,4));
+            //$('#txtExpNet').val(CDbl(net,4));
         }
         if (type == '1') {
             $('#txtExpNet').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),4));
@@ -643,16 +643,18 @@ End Code
         if (type == ''||type=='0') type = '1';
         let amt = CDbl($('#txtExpAmount').val(),4);
         if (type == '2') {
-            amt = CDbl($('#txtExpNet').val(),4);
+            amt = CDbl(Number($('#txtExpNet').val())+Number($('#txtExpWht').val()),4);
         }
         let vatrate = CDbl($('#txtVatRate').val(),4)*100;
         let whtrate = CDbl($('#txtWhtRate').val(),4);
         let vat = 0;
         let wht = 0;
         if (type == "2") {
-            let base = amt * 100 / (100 + vatrate);
+            let base = amt * 100 / (100 + Number(vatrate));
             vat = base * vatrate * 0.01;
             wht = base * whtrate * 0.01;
+            $('#txtExpAmount').val(CDbl(CNum(base),2));
+            $('#txtExpNet').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 2));
         }
         if (type == "1") {
             vat = amt * vatrate * 0.01;

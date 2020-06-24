@@ -93,7 +93,7 @@ End Code
     function ExportTableToCSV(filename) {
         var csv = [];
         var rows = document.querySelectorAll("#tbResult tr");
-
+        csv.push($('#rptTitle').text());
         for (var i = 0; i < rows.length; i++) {
             var row = [], cols = rows[i].querySelectorAll("td, th");
 
@@ -102,7 +102,7 @@ End Code
 
             csv.push(row.join("\t"));
         }
-
+        csv.push($('#rptCliteria').text());
         // Download CSV file
         DownloadCSV(csv.join("\n"), filename);
     }

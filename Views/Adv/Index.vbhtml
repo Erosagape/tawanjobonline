@@ -714,7 +714,7 @@ End Code
         });
         $('#txtExcRate').change(function (event) {
             if (true) {
-                CalAmount();
+                CalVATWHT();
             }
         });
         $('#txtAMT').change(function (event) {
@@ -1053,15 +1053,15 @@ End Code
             $('#txtApproveDate').val(CDateEN(dt.ApproveDate));
             $('#txtApproveTime').val(ShowTime(dt.ApproveTime));
 
-            $('#txtAdvCash').val(CDbl(dt.AdvCash,4));
-            $('#txtAdvChq').val(CDbl(dt.AdvChq, 4));
-            $('#txtAdvChqCash').val(CDbl(dt.AdvChqCash,4));
-            $('#txtAdvCred').val(CDbl(dt.AdvCred,4));
+            $('#txtAdvCash').val(CDbl(dt.AdvCash,2));
+            $('#txtAdvChq').val(CDbl(dt.AdvChq, 2));
+            $('#txtAdvChqCash').val(CDbl(dt.AdvChqCash,2));
+            $('#txtAdvCred').val(CDbl(dt.AdvCred,2));
 
-            $('#txtAdvAmount').val(CDbl(dt.TotalAdvance-dt.TotalVAT+dt.Total50Tavi,4));
-            $('#txtVatAmount').val(CDbl(dt.TotalVAT,4));
-            $('#txtWhtAmount').val(CDbl(dt.Total50Tavi,4));
-            $('#txtTotalAmount').val(CDbl((dt.TotalAdvance),4));
+            $('#txtAdvAmount').val(CDbl(dt.TotalAdvance-dt.TotalVAT+dt.Total50Tavi,2));
+            $('#txtVatAmount').val(CDbl(dt.TotalVAT,2));
+            $('#txtWhtAmount').val(CDbl(dt.Total50Tavi,2));
+            $('#txtTotalAmount').val(CDbl((dt.TotalAdvance),2));
 
             $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
             $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
@@ -1074,7 +1074,7 @@ End Code
 
             $('#txtMainCurrency').val(dt.MainCurrency);
             $('#txtSubCurrency').val(dt.SubCurrency);
-            $('#txtExchangeRate').val(CDbl(dt.ExchangeRate,4));
+            $('#txtExchangeRate').val(CDbl(dt.ExchangeRate,2));
             //Combos
             $('#cboAdvType').val(CCode(dt.AdvType));
             $('#cboDocStatus').val(CCode(dt.DocStatus));
@@ -1419,9 +1419,9 @@ End Code
                 VATRate: header.VATRate,
                 Is50Tavi: row.Is50Tavi,
                 Rate50Tavi : header.TaxRate,
-                AdvAmount : CDbl(CNum(row.Amt/header.ExchangeRate),4),
-                ChargeVAT : CDbl(CNum(row.AmtVAT/header.ExchangeRate),4),
-                Charge50Tavi : CDbl(CNum(row.AmtWHT/header.ExchangeRate),4),
+                AdvAmount : CDbl(CNum(row.Amt/header.ExchangeRate),2),
+                ChargeVAT : CDbl(CNum(row.AmtVAT/header.ExchangeRate),2),
+                Charge50Tavi : CDbl(CNum(row.AmtWHT/header.ExchangeRate),2),
                 AdvNet: row.FTotal,
                 AdvQty: row.Qty,
                 UnitPrice: row.UnitPrice,
@@ -1483,7 +1483,7 @@ End Code
             }                
             $('#txtAdvQty').val(dt.AdvQty);
             $('#txtExcRate').val(dt.ExchangeRate);
-            $('#txtUnitPrice').val(CDbl(dt.UnitPrice,4));
+            $('#txtUnitPrice').val(CDbl(dt.UnitPrice,2));
             CalAmount();
             $('#txtRemark').val(dt.TRemark);
             $('#txt50Tavi').val(dt.Doc50Tavi);
@@ -1492,10 +1492,10 @@ End Code
             $('#txtVatType').val(dt.IsChargeVAT);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Rate50Tavi);
-            $('#txtAMT').val(CDbl(dt.AdvAmount,4));
-            $('#txtVAT').val(CDbl(dt.ChargeVAT,4));
-            $('#txtWHT').val(CDbl(dt.Charge50Tavi,4));
-            $('#txtNET').val(CDbl(dt.AdvNet,4));
+            $('#txtAMT').val(CDbl(dt.AdvAmount,2));
+            $('#txtVAT').val(CDbl(dt.ChargeVAT,2));
+            $('#txtWHT').val(CDbl(dt.Charge50Tavi,2));
+            $('#txtNET').val(CDbl(dt.AdvNet,2));
             $('#txtVenCode').val(dt.VenCode);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate > 0 ? true : false);
             $('#txtCurrencyCode').val(dt.CurrencyCode);
@@ -1845,56 +1845,46 @@ End Code
         return;
     }
     function SumTotal() {
-        let cash = CDbl($('#txtAdvCash').val(),4);
-        let chq = CDbl($('#txtAdvChq').val(),4);
-        let chqcash = CDbl($('#txtAdvChqCash').val(),4);
-        let cred = CDbl($('#txtAdvCred').val(),4);
-        return CDbl(Number(cash) + Number(chq) + Number(chqcash) + Number(cred),4);
+        let cash = CDbl($('#txtAdvCash').val(),2);
+        let chq = CDbl($('#txtAdvChq').val(),2);
+        let chqcash = CDbl($('#txtAdvChqCash').val(),2);
+        let cred = CDbl($('#txtAdvCred').val(),2);
+        return CDbl(Number(cash) + Number(chq) + Number(chqcash) + Number(cred),2);
     }
     function GetTotal() {
         let total = SumTotal();
         let sum = CNum($('#txtTotalAmount').val());
-        return CDbl(sum / CNum($('#txtExchangeRate').val()) - total,4);
+        return CDbl(sum / CNum($('#txtExchangeRate').val()) - total,2);
     }
     function CalAmount() {
-        let price = CDbl($('#txtUnitPrice').val(),4);
-        let qty = CDbl($('#txtAdvQty').val(),4);
-        let rate = CDbl($('#txtExcRate').val(),4); //rate ของ detail
+        $('#txtAMT').val(0);
+        $('#txtVAT').val(0);
+        $('#txtWHT').val(0);
+        $('#txtNET').val(0);
+        let price = CDbl($('#txtUnitPrice').val(),2);
+        let qty = CDbl($('#txtAdvQty').val(),2);
+        let rate = CDbl($('#txtExcRate').val(),2); //rate ของ detail
         let type = $('#txtVatType').val();
         if (qty > 0) {
             let amt = CNum(qty) * CNum(price);
-            $('#txtAMTCal').val(CDbl(CNum(amt), 4));
+            $('#txtAMTCal').val(CDbl(CNum(amt), 2));
             if (type == '0' || type == '') type = '1';
             if (type == '2') {
-                $('#txtNET').val(CDbl(CNum(amt) * CNum(rate), 4));
+                $('#txtNET').val(CDbl(CNum(amt) * CNum(rate), 2));
             }
             if (type == '1') {
-                $('#txtAMT').val(CDbl(CNum(amt) * CNum(rate),4));
+                $('#txtAMT').val(CDbl(CNum(amt) * CNum(rate),2));
             }
             CalVATWHT();
-        } else {
-            $('#txtUnitPrice').val(0);
-            $('#txtAMT').val(0);
-            $('#txtNET').val(0);
-            $('#txtVAT').val(0);
-            $('#txtWHT').val(0);
         }
     }
     function CalTotal() {
-        let amt = CDbl($('#txtAMT').val(),4);
-        let vat = CDbl($('#txtVAT').val(),4);
-        let wht = CDbl($('#txtWHT').val(),4);
-        let net = CDbl($('#txtNET').val(),4);
-        let type = $('#txtVatType').val();
-        if (type == '0'||type=='') type = '1';
-        if (type == '2') {
-            $('#txtAMT').val(CDbl(CNum(net) - CNum(vat) + CNum(wht),4));
-            $('#txtNET').val(CDbl(net,4));
-        }
-        if (type == '1') {
-            $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),4));
-            $('#txtAMT').val(CDbl(amt,4));
-        }
+        let amt = CDbl($('#txtAMT').val(),2);
+        let vat = CDbl($('#txtVAT').val(),2);
+        let wht = CDbl($('#txtWHT').val(), 2);
+
+        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),2));
+        $('#txtAMT').val(CDbl(amt,2));
     }
     function CalVATWHT() {
         let type = $('#txtVatType').val();
@@ -1902,30 +1892,32 @@ End Code
             type = '1';
             $('#txtVatType').val(type);
         }
-        let amt = CDbl($('#txtAMT').val(),4);
+        let amt = CDbl($('#txtAMT').val(),2);
         if (type == '2') {
-            amt = CDbl($('#txtNET').val(),4);
+            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 2);
         }
-        let vatrate = CDbl($('#txtVATRate').val(),4);
-        let whtrate = CDbl($('#txtWHTRate').val(),4);
+        let vatrate = CDbl($('#txtVATRate').val(),2);
+        let whtrate = CDbl($('#txtWHTRate').val(),2);
         let vat = 0;
         let wht = 0;
         if (type == "2") {
-            let base = amt * 100 / (100 + vatrate);
+            let base = amt * 100 / (100 + Number(vatrate));
             vat = base * vatrate * 0.01;
             wht = base * whtrate * 0.01;
+            $('#txtAMT').val(CDbl(CNum(base),2));
+            $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 2));
         }
         if (type == "1") {
             vat = amt * vatrate * 0.01;
             wht = amt * whtrate * 0.01;
         }
-        $('#txtVAT').val(CDbl(vat.toFixed(2),4));
-        $('#txtWHT').val(CDbl(wht.toFixed(2),4));
+        $('#txtVAT').val(CDbl(vat.toFixed(2),2));
+        $('#txtWHT').val(CDbl(wht.toFixed(2),2));
         CalTotal();
     } 
     function GetExchangeRate() {
         $.get('https://free.currencyconverterapi.com/api/v6/convert?q=' + $('#txtSubCurrency').val() + '_' + $('#txtMainCurrency').val() + '&compact=ultra&apiKey=6210d55b79170a4a7da2', function (r) {
-            let rate = CDbl(r[$('#txtSubCurrency').val() + '_' + $('#txtMainCurrency').val()], 4);
+            let rate = CDbl(r[$('#txtSubCurrency').val() + '_' + $('#txtMainCurrency').val()], 2);
             $('#txtExchangeRate').val(rate);
         });
     }

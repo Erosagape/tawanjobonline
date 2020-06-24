@@ -996,9 +996,9 @@ WHERE j.JobStatus<>99 {0}
                         sqlM = "
 select d.ForJNo as 'Job Number',h.AdvNo as 'Advance No',c.LastClrNo as 'Clearing No',
 c.LastClrDate as 'Clearing Date',c.LastInvNo as 'Invoice No',c.LastInvDate as 'Invoice Date',
-(CASE WHEN ISNULL(c.LastInvNo,'')='' THEN DATEDIFF(DAY,c.LastClrDate,GetDate()) ELSE 0 END) as 'Unbill Aging Day',
-(CASE WHEN ISNULL(c.LastInvNo,'')<>'' THEN DATEDIFF(DAY,c.LastClrDate,c.LastInvDate) ELSE 0 END) as 'Bill Aging Day',
-h.CustCode as 'Customer',c.LastReceiptNo as 'Receipt#',c.LastReceiptDate as 'Receipt Date',
+(CASE WHEN ISNULL(c.LastInvNo,'')='' THEN DATEDIFF(DAY,c.LastClrDate,GetDate()) ELSE 0 END) as 'Unbilled Aging Day',
+(CASE WHEN ISNULL(c.LastInvNo,'')<>'' THEN DATEDIFF(DAY,c.LastClrDate,c.LastInvDate) ELSE 0 END) as 'Billed Aging Day',
+h.CustCode as 'Customer',c.LastReceiptNo as 'Receipt No',c.LastReceiptDate as 'Receipt Date',
 (d.AdvNet) as 'Advance Amount',
 ISNULL(c.ClrNet,0) as 'Actual Spending',
 ISNULL(c.ClrBillAble,0) as 'Billable Amount',
@@ -1038,14 +1038,14 @@ where h.DocStatus>=3 and h.DocStatus<99 {0}
                         sqlW = GetSQLCommand(cliteria, "a.AdvDate", "", "", "a.EmpCode", "", "", "a.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
-select b.NameEng as 'Customer Name',b.CreditLimit as 'Credit Term',b.DutyLimit as 'Credit Limit',
+select b.NameEng as 'Customer Name',b.CreditLimit as 'Advanced Credit Term',b.DutyLimit as 'Advanced Credit Limit',
 sum(CASE WHEN a.DocStatus<=2 THEN a.TotalAdvance ELSE 0 END) as 'Advance Requested',
 SUM(CASE WHEN a.DocStatus=3 THEN a.TotalAdvance ELSE 0 END) as 'Advance Paid',
 SUM(ISNULL(c.AdvUsed,0)) as 'Paid+Cleared Advance',
 SUM(ISNULL(c.AdvBilled,0)) as 'Billed To Customer',
 SUM(ISNULL(c.AdvUnbill,0)) as 'Unbilled Advance',
 SUM(ISNULL(c.AdvCost,0)) as 'Advance Cost',
-SUM(ISNULL(c.AdvReceive,0)) as 'Customer Paymented',
+SUM(ISNULL(c.AdvReceive,0)) as 'Customer Payment',
 (CASE WHEN b.DutyLimit>0 THEN b.DutyLimit
 -
 SUM(CASE WHEN a.DocStatus=3 THEN a.TotalAdvance ELSE 0 END)
@@ -1089,7 +1089,7 @@ b.CTN_NO as 'Container Number',a.VenderCode as 'Vender',
 a.SlipNO as 'Receipt#',a.Date50Tavi as 'Receipt Date',a.UsedAmount as 'Container Deposit',
 (CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN a.BNet ELSE 0 END) as 'Addition Expenses',
 (CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 0 ELSE a.BNet END) as 'Deposit Return',
-a.LinkBillNo as 'Deposit Receipt/Invoice#',v.VoucherDate as 'Deposit Receive Date'
+a.LinkBillNo as 'V/Receipt#, APLL Inv#',v.VoucherDate as 'Deposit Received Date'
 	from Job_ClearDetail a inner join Job_ClearHeader b
 	on a.BranchCode=b.BranchCode and a.ClrNo=b.ClrNo
 	inner join Job_Order c on a.BranchCode=c.BranchCode and a.JobNo=c.JNo

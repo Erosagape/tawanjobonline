@@ -652,7 +652,9 @@ function GetColumnHeader(id,langid) {
         TotalComm: 'Commission|ค่าคอม',
         ChqAmount: 'Chq.Amt|ยอดเช็ค',
         AmountUsed: 'Used.Amt|ยอดใช้ไป',
-        AmountRemain: 'Remain|ยอดคงเหลือ'
+        AmountRemain: 'Remain|ยอดคงเหลือ',
+        'Invoice No': 'APLL Invoice#|ใบแจ้งหนี้',
+        'Invoice Date': 'APLL Invoice Date|วันที่ใบแจ้งหนี้'
     }
     let str = id;
     if (lang[id] !== undefined) {

@@ -807,7 +807,7 @@ group by c.BookCode,c.LimitBalance) q
     End Function
     Function SQLSelectChequeBalance(pType As String, chqType As String) As String
         Return "
-SELECT a.*,ISNULL(c.ChqUsed,0)+ISNULL(d.UsedAmount,0) AS AmountUsed,a.ChqAmount-ISNULL(c.ChqUsed,0)-ISNULL(d.UsedAmount,0) as AmountRemain,
+SELECT a.*,ISNULL(c.ChqUsed,0)+ISNULL(d.UsedAmount,0) AS AmountUsed,a.ChqAmount-(ISNULL(c.ChqUsed,0)+ISNULL(d.UsedAmount,0)) as AmountRemain,
 b.CustCode,b.CustBranch,b.VoucherDate,d.DocUsed,b.TRemark 
 FROM 
 (   
