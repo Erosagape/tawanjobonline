@@ -1434,10 +1434,12 @@ FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
 rd.SICode,rd.SDescription,rd.Amt,rd.FAmt,rd.AmtVAT,rd.FAmtVAT,rd.Amt50Tavi,rd.FAmt50Tavi,rd.Net,rd.FNet,
 rd.DCurrencyCode,rd.DExchangeRate,rd.ControlNo,rd.ControlItemNo,vd.ChqNo,vd.ChqDate,vd.PRVoucher
 FROM Job_ReceiptHeader rh INNER JOIN Job_ReceiptDetail rd ON rh.BranchCode=rd.BranchCode AND rh.ReceiptNo=rd.ReceiptNo
+AND NOT ISNULL(rh.CancelProve,'')<>''
 INNER JOIN Job_InvoiceDetail id ON rd.BranchCode=id.BranchCode AND rd.InvoiceNo=id.DocNo AND rd.InvoiceItemNo=id.ItemNo
 LEFT JOIN Mas_Company c1 ON rh.CustCode=c1.CustCode AND rh.CustBranch=c1.Branch
 LEFT JOIN Mas_Company c2 ON rh.BillToCustCode=c2.CustCode AND rh.BillToCustBranch=c2.Branch
 INNER JOIN Job_InvoiceHeader ih ON rd.BranchCode=ih.BranchCode AND rd.InvoiceNo=ih.DocNo 
+AND NOT ISNULL(ih.CancelProve,'')<>''
 LEFT JOIN Job_CashControlSub vd ON rd.BranchCode=vd.BranchCode AND rd.ControlNo=vd.ControlNo AND rd.ControlItemNo=vd.ItemNo
 "
         Return sql
@@ -2383,6 +2385,80 @@ AND DocNo=h.DocNo
 	FROM Job_InvoiceHeader h
 ) doc on src.BranchCode=doc.BranchCode AND src.LinkNo=doc.DocNo
 "
+    End Function
+    Public Function SQLSelectClearingTotal(sqlW As String) As String
+        Dim hSql As String = "
+select DISTINCT b.SICode,s.IsExpense,s.IsCredit,
+ISNULL(s.NameThai,'(N/A)') as Description 
+from Job_ClearDetail b 
+inner join Job_ClearHeader a ON b.BranchCode=a.BranchCode 
+and b.ClrNo=a.ClrNo and b.BNet>0 
+inner join Job_SrvSingle s
+ON b.SICode=s.SICode
+inner join Job_Order j
+ON b.BranchCode=j.BranchCode AND b.JobNo=j.JNo
+WHERE a.DocStatus<>99 and s.IsCredit=0 {0}
+ORDER BY s.IsExpense
+"
+        Dim tSql As String = ""
+        Dim tb = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(hSql, sqlW))
+        For Each dr As DataRow In tb.Rows
+            If tSql <> "" Then
+                tSql &= ","
+            End If
+            If dr("IsExpense").ToString = "1" Then
+                tSql &= String.Format("SUM(CASE WHEN b.SICode='{0}' THEN b.UsedAmount ELSE 0 END) as 'COST-{1}'", dr("SICode").ToString(), dr("Description").ToString())
+            Else
+                tSql &= String.Format("SUM(CASE WHEN b.SICode='{0}' THEN b.UsedAmount ELSE 0 END) as 'SVC-{1}'", dr("SICode").ToString(), dr("Description").ToString())
+            End If
+        Next
+        tSql = "
+SELECT j.CustCode,b.JobNo as 'Job Number',
+" & tSql & ",
+SUM(CASE WHEN s.IsCredit=1 AND s.IsExpense=0 THEN b.UsedAmount ELSE 0 END) as 'TotalAdvance',
+SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=0 THEN b.UsedAmount ELSE 0 END) as 'TotalCharge',
+SUM(CASE WHEN s.IsExpense=1 THEN b.UsedAmount ELSE 0 END) as 'TotalCost',
+SUM(CASE WHEN s.IsCredit=0 THEN (CASE WHEN s.IsExpense=1 THEN b.UsedAmount*-1 ELSE b.UsedAmount END) ELSE 0 END) as 'Profit'
+FROM Job_ClearDetail b
+INNER JOIN Job_ClearHeader a ON b.BranchCode=a.BranchCode 
+AND b.ClrNo= a.ClrNo
+INNER JOIN Job_SrvSingle s ON b.SICode=s.SICode
+INNER JOIN Job_Order j ON b.BranchCode=j.BranchCode AND b.JobNo=j.JNo
+WHERE a.DocStatus<>99 AND b.BNet>0 {0}
+GROUP BY j.CustCode,b.JobNo
+ORDER BY j.CustCode,b.JobNo
+"
+        Return String.Format(tSql, sqlW)
+    End Function
+    Public Function SQLSelectAdvanceTotal(sqlW As String) As String
+        Dim tSql As String = ""
+        Dim hSql As String = "
+select DISTINCT b.SICode,ISNULL(s.NameThai,'(N/A)') as Description 
+from Job_AdvDetail b 
+inner join Job_AdvHeader a ON b.BranchCode=a.BranchCode 
+and b.AdVNo=a.AdvNo and b.AdvNet>0 
+left join Job_SrvSingle s
+ON b.SICode=s.SICode
+WHERE a.DocStatus<>99 {0}
+        "
+        Dim tb = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(hSql, sqlW))
+        For Each dr As DataRow In tb.Rows
+            If tSql <> "" Then
+                tSql &= ","
+            End If
+            tSql &= String.Format("SUM(CASE WHEN b.SICode='{0}' THEN b.AdvNet ELSE 0 END) as '{1}'", dr("SICode").ToString(), dr("Description").ToString())
+        Next
+        tSql = "
+SELECT a.CustCode,b.ForJNo as 'Job Number'," & tSql & ",
+SUM(b.AdvNet) as 'Advance Paid'
+FROM Job_AdvDetail b
+INNER JOIN Job_AdvHeader a ON b.BranchCode=a.BranchCode 
+AND b.AdvNo= a.AdvNo
+WHERE a.DocStatus<>99 AND b.AdvNet>0 {0}
+GROUP BY a.CustCode,b.ForJNo
+ORDER BY a.CustCode,b.ForJNo
+"
+        Return String.Format(tSql, sqlW)
     End Function
     Public Sub UpdateClearStatus()
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToClear())

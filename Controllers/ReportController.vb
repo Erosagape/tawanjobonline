@@ -488,6 +488,7 @@ ORDER BY CustName
 "
                         sqlM = String.Format(sqlM, sqlW)
                     Case "JOBSUMMARY"
+                        fldGroup = "CustCode"
                         sqlW = GetSQLCommand(cliteria, "c.DutyDate", "c.CustCode", "c.JNo", "c.CSCode", "c.AgentCode", "c.JobStatus", "c.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
@@ -1103,11 +1104,11 @@ a.LinkBillNo as 'V/Receipt#, APLL Inv#',v.VoucherDate as 'Deposit Received Date'
                         sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "cd.JobNo", "ih.EmpCode", "cd.VenderCode", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
-select ih.CustCode as 'Customer',id.DocNo as 'Invoice No',cd.JobNo as 'Job Number',ih.DocDate as 'Inv.Create Date', cd.SDescription as 'Description',
+select ih.CustCode as 'Customer',id.DocNo as 'Invoice No',cd.JobNo as 'Job Number',ih.DocDate as 'Invoice Date', cd.SDescription as 'Description',
 (CASE WHEN ch.ClearType=1 THEN 'ADV' ELSE (CASE WHEN ch.ClearType=3 THEN 'SERV' ELSE 'COST' END) END) as 'Type',
 id.Amt as 'Amount',id.AmtVat as 'VAT',id.AmtCredit as 'Prepaid' ,id.Amt50Tavi as 'WHT',id.TotalAmt as'Total Amount',
 0 as 'CN,DN Amount',id.AmtCharge as 'Advance Amount',id.AmtCharge as 'SVC Amount',ISNULL(rd.ReceiptNet,0) as 'Payment Received',
-ISNULl(rd.LastRcvNo,'') as 'Receipt#',rd.LastRcvDate as 'Receipt Date'
+ISNULl(rd.LastRcvNo,'') as 'Receipt No',rd.LastRcvDate as 'Receipt Date'
 from Job_InvoiceDetail id left join Job_ClearDetail cd
 on id.BranchCode=cd.BranchCode and id.DocNo=cd.LinkBillNo
 and id.ItemNo=cd.LinkItem
@@ -1167,7 +1168,7 @@ WHERE NOT ISNULL(h.CancelProve,'')<>'' AND ISNULL(h.PoNo,'')='' {0}
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 select c.JNo as 'Job Number',d.NameThai as 'Description',a.AdvNo as 'Advance No',
-b.ClrNo as 'Clearing No',b.ClrDate as 'Clearing date',c.CustCode as 'Customer',a.SlipNo as 'Receipt#',a.Date50Tavi as 'Receipt Date',
+b.ClrNo as 'Clearing No',b.ClrDate as 'Clearing date',c.CustCode as 'Customer',r.ReceiptNo as 'Receipt No',r.ReceiptDate as 'Receipt Date',
 a.UsedAmount as 'Amount',a.ChargeVAT as 'VAT Amount',a.Tax50Tavi as 'WHT Amount',(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN a.BNet ELSE 0 END) as 'Invoice Billed',
 (CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 0 ELSE a.BNet END) as 'Invoice Unbilled',a.LinkBillNo as 'Invoice No',
 i.DocDate as 'Invoice Date',
@@ -1178,10 +1179,24 @@ i.DocDate as 'Invoice Date',
 	inner join Job_SrvSingle d on a.SICode=d.SICode
 	inner join Mas_Company e on c.CustCode=e.CustCode and c.CustBranch=e.Branch
 	left join Job_InvoiceHeader i on a.BranchCode=i.BranchCode and a.LinkBillNo=i.DocNo
+	left join (
+		SELECT hd.BranchCode,dt.InvoiceNo,dt.InvoiceItemNo,MAX(hd.ReceiptDate) as ReceiptDate,MAX(hd.ReceiptNo) as ReceiptNo
+		FROM Job_ReceiptHeader hd INNER JOIN Job_ReceiptDetail dt
+		ON hd.BranchCode=dt.BranchCode AND hd.ReceiptNo=dt.ReceiptNo
+		WHERE ISNULL(hd.CancelProve,'')=''
+		GROUP BY hd.BranchCode,dt.InvoiceNo,dt.InvoiceItemNo
+	) r on a.BranchCode=r.BranchCode and a.LinkBillNo=r.InvoiceNo AND a.LinkItem=r.InvoiceItemNo
 	where ISNULL(b.CancelProve,'')='' {0}
 "
                         sqlM = String.Format(sqlM, sqlW)
-
+                    Case "ADVTOTAL"
+                        sqlW = GetSQLCommand(cliteria, "a.PaymentDate", "a.CustCode", "b.ForJNo", "a.EmpCode", "", "a.DocStatus", "a.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = SQLSelectAdvanceTotal(sqlW)
+                    Case "JOBDETAIL"
+                        sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.ForwarderCode", "j.JobStatus", "j.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = SQLSelectClearingTotal(sqlW)
                 End Select
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)

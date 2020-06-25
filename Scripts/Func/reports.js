@@ -346,99 +346,95 @@ function LoadCliteria(reportID) {
     }
 }
 function IsNumberColumn(cname) {    
-    let colname = 'InvTotal,InvProductQty,InvCurRate,DutyAmount,TotalGW,Commission,TotalNW,TotalQty,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,Tax3Tres,TaxNot3Tres,TotalJob,';
-    if (colname.indexOf(cname + ',') >= 0) {
+    let colname = ',InvTotal,InvProductQty,InvCurRate,DutyAmount,TotalGW,Commission,TotalNW,TotalQty,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,Tax3Tres,TaxNot3Tres,TotalJob,';
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = 'TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,';
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ',TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,';
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = 'TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService,PayTax,CashAmount,AmountUsed,';
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService,PayTax,CashAmount,AmountUsed,';
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = 'TotalAdvBilled,TotalCostBilled,TotalChargeBilled,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,';
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ',TotalAdvBilled,TotalCostBilled,TotalChargeBilled,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,VAT,WHT,';
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = "PENDING CONFIRM,WAIT FOR OPERATION,WAIT FOR CLEAR,WORKING FINISHED,EXPENSES CLEARED,BILLING INCOMPLETE,BILLING COMPLETED,JOB COMPLETED,HOLD FOR CHECKING,JOB CANCELLED,";
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ",PENDING CONFIRM,WAIT FOR OPERATION,WAIT FOR CLEAR,WORKING FINISHED,EXPENSES CLEARED,BILLING INCOMPLETE,BILLING COMPLETED,JOB COMPLETED,HOLD FOR CHECKING,JOB CANCELLED,";
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = "JOB CONFIRMED,JOB IN PROCESS,CLEARANCE COMPLETED,READY FOR BILLING,PARTIAL BILLING,PAYMENT COMPLETED,CANCELLED,";
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ",JOB CONFIRMED,JOB IN PROCESS,CLEARANCE COMPLETED,READY FOR BILLING,PARTIAL BILLING,PAYMENT COMPLETED,CANCELLED,BILLED,UNBILLED,";
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = "Invoice To Customer-Advance,Invoice To Customer-Service,Payment To Vender-Advance,Payment To Vender-Cost,Payment To Vender-Deposit,";
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ",Invoice To Customer-Advance,Invoice To Customer-Service,Payment To Vender-Advance,Payment To Vender-Cost,Payment To Vender-Deposit,Amount,Prepaid,Total Amount,CN,DN Amount,";
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = "Customer Billed-Advance,Customer Billed-Service,Customer Unbilled-Advance,Customer Unbilled-Service,Paid,Unpaid,Invoice Billed,Invoice Unbilled,";
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ",Customer Billed-Advance,Customer Billed-Service,Customer Unbilled-Advance,Customer Unbilled-Service,Paid,Unpaid,Invoice Billed,Invoice Unbilled,Payment Received,";
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = "Exp-Billed,Exp-Unbilled,Exp-Paid,Advance Amount,Actual Spending,Billable Amount,Billing With Tax,Billing Outstanding,";
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ",Exp-Billed,Exp-Unbilled,Exp-Paid,Advance Amount,Actual Spending,Billable Amount,Billing With Tax,Billing Outstanding,Net Avaiable Balance,Billed Advance,";
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname ="Credit Limit,Advance Request,Advance Payment,Cleared Advance,Billed Advance,Unbilled Advance,Advance Cost,Advance Amount,Payment Received,"
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname =",Advanced Credit Limit,Advance Requested,Advance Paid,Paid+Cleared Advance,Billed To Customer,Unbilled Advance,Advance Cost,Advance Amount,Customer Payment,"
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = "Container Deposit,Addition Expenses,Deposit Return,Clear Amount,Clear VAT,Clear WHT,Clear Net,Adjust Amount,SVC Amount,";
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ",Container Deposit,Addition Expenses,Deposit Return,Clear Amount,Clear VAT,Clear WHT,Clear Net,Adjust Amount,SVC Amount,VAT Amount,WHT Amount,";
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
     return false;
 }
 function IsSummaryColumn(cname) {
-    let colname = 'DutyAmount,TotalGW,Commission,TotalNW,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,';
-    if (colname.indexOf(cname + ',') >= 0) {
+    let colname = ',DutyAmount,TotalGW,Commission,TotalNW,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,Amount,Prepaid,Total Amount,';
+    if (colname.indexOf(','+cname + ',') >= 0) {
         return true;
     }
-    colname = ',LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,';
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ',LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,VAT,WHT,Payment Received,CN,DN Amount,';
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
     colname = ',CreditNet,AmtWH,AmtTotal,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,PayTax,Tax3Tres,TaxNot3Tres,CashAmount,AmountUsed,TotalJob,TotalAdvWaitBill,TotalCostWaitBill,TotalChargeWaitBill,';
-    if (colname.indexOf(cname + ',') >= 0) {
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = 'TotalAdvBilled,TotalCostBilled,TotalChargeBilled,TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService,';
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ',TotalAdvBilled,TotalCostBilled,TotalChargeBilled,TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService,';
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = "PENDING CONFIRM,WAIT FOR OPERATION,WAIT FOR CLEAR,WORKING FINISHED,EXPENSES CLEARED,BILLING INCOMPLETE,BILLING COMPLETED,JOB COMPLETED,HOLD FOR CHECKING,JOB CANCELLED,";
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ",PENDING CONFIRM,WAIT FOR OPERATION,WAIT FOR CLEAR,WORKING FINISHED,EXPENSES CLEARED,BILLING INCOMPLETE,BILLING COMPLETED,JOB COMPLETED,HOLD FOR CHECKING,JOB CANCELLED,";
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = "JOB CONFIRMED,JOB IN PROCESS,CLEARANCE COMPLETED,READY FOR BILLING,PARTIAL BILLING,PAYMENT COMPLETED,CANCELLED,";
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ",JOB CONFIRMED,JOB IN PROCESS,CLEARANCE COMPLETED,READY FOR BILLING,PARTIAL BILLING,PAYMENT COMPLETED,CANCELLED,UNBILLED,BILLED,";
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = "JOB CONFIRMED,JOB IN PROCESS,CLEARANCE COMPLETED,READY FOR BILLING,PARTIAL BILLING,PAYMENT COMPLETED,CANCELLED,";
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ",Invoice To Customer-Advance,Invoice To Customer-Service,Payment To Vender-Advance,Payment To Vender-Cost,Payment To Vender-Deposit,";
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = "Invoice To Customer-Advance,Invoice To Customer-Service,Payment To Vender-Advance,Payment To Vender-Cost,Payment To Vender-Deposit,";
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ",Customer Billed-Advance,Customer Billed-Service,Customer Unbilled-Advance,Customer Unbilled-Service,Paid,Unpaid,Invoice Billed,Invoice Unbilled,";
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = "Customer Billed-Advance,Customer Billed-Service,Customer Unbilled-Advance,Customer Unbilled-Service,Paid,Unpaid,Invoice Billed,Invoice Unbilled,";
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ",Exp-Billed,Exp-Unbilled,Exp-Paid,Advance Amount,Actual Spending,Billable Amount,Billing With Tax,Billing Outstanding,Billed Advance,";
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = "Exp-Billed,Exp-Unbilled,Exp-Paid,Advance Amount,Actual Spending,Billable Amount,Billing With Tax,Billing Outstanding,";
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ",Net Avaiable Balance,Advance Requested,Advance Paid,Paid+Cleared Advance,Billed To Customer,Unbilled Advance,Advance Cost,Advance Amount,Customer Payment,"
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = "Credit Limit,Advance Request,Advance Payment,Cleared Advance,Billed Advance,Unbilled Advance,Advance Cost,Advance Amount,Payment Received,"
-    if (colname.indexOf(cname + ',') >= 0) {
-        return true;
-    }
-    colname = "Container Deposit,Addition Expenses,Deposit Return,Clear Amount,Clear VAT,Clear WHT,Clear Net,Adjust Amount,SVC Amount,";
-    if (colname.indexOf(cname + ',') >= 0) {
+    colname = ",Container Deposit,Addition Expenses,Deposit Return,Clear Amount,Clear VAT,Clear WHT,Clear Net,Adjust Amount,SVC Amount,VAT Amount,WHT Amount,";
+    if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
 
@@ -654,7 +650,10 @@ function GetColumnHeader(id,langid) {
         AmountUsed: 'Used.Amt|ยอดใช้ไป',
         AmountRemain: 'Remain|ยอดคงเหลือ',
         'Invoice No': 'APLL Invoice#|ใบแจ้งหนี้',
-        'Invoice Date': 'APLL Invoice Date|วันที่ใบแจ้งหนี้'
+        'Invoice Date': 'APLL Invoice Date|วันที่ใบแจ้งหนี้',
+        'Receipt No': 'APLL Receipt#|ใบเสร็จรับเงิน',
+        'Receipt Date': 'APLL Receipt Date|วันที่ใบเสร็จ',
+        'Inv.Create Date':'APLL Inv.Create Date|วันที่ใบแจ้งหนี้'
     }
     let str = id;
     if (lang[id] !== undefined) {

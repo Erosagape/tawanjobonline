@@ -58,7 +58,7 @@ End Code
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    FLIGHT/VISSEL :<label id="lblVesselName"></label>
+                    FLIGHT/VESSEL :<label id="lblVesselName"></label>
                 </p>
             </div>
             <div class="row">

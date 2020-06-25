@@ -661,13 +661,13 @@ End Code
         $('#txtBranch1').val(dr.Branch);
     }
     function ReadVender1(dr) {
-        $('#txtTName1').val(dr.TName);
+        $('#txtTName1').val(dr.Title + ' '+dr.TName);
         $('#txtTAddress1').val(dr.TAddress1 + ' ' + dr.TAddress2);
         $('#txtTaxNumber1').val(dr.TaxNumber);
         $('#txtBranch1').val(dr.BranchCode);
     }
     function ReadVender3(dr) {
-        $('#txtTName3').val(dr.TName);
+        $('#txtTName3').val(dr.Title + ' '+ dr.TName);
         $('#txtTAddress3').val(dr.TAddress1 + ' ' + dr.TAddress2);
         $('#txtTaxNumber3').val(dr.TaxNumber);
         $('#txtBranch3').val(dr.BranchCode);
