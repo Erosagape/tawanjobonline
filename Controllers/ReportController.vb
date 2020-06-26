@@ -100,12 +100,13 @@ Namespace Controllers
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "SELECT j.JNo,j.InvNo,j.ManagerCode,j.CustCode,j.CSCode,j.ReceiptNo,j.SumReceipt,j.TotalComm FROM (" & SQLSelectSumReceipt(sqlW) & ") j ORDER BY j.JNo,j.ReceiptNo"
                     Case "ADVDAILY"
-                        sqlW = GetSQLCommand(cliteria, "a.PaymentDate", "a.CustCode", "d.ForJNo", "a.ReqBy", "d.VenCode", "a.DocStatus", "a.BranchCode")
+                        fldGroup = "AdvDate"
+                        sqlW = GetSQLCommand(cliteria, "a.AdvDate", "a.CustCode", "d.ForJNo", "a.ReqBy", "d.VenCode", "a.DocStatus", "a.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT ad.AdvNo,ad.PaymentDate,ad.PaymentRef,ad.EmpCode as ReqBy,ad.SDescription,ad.CustCode,ad.ForJNo,ad.AdvPayAmount,ad.Charge50Tavi FROM (" & SQLSelectAdvDetail() & sqlW & ") ad  ORDER BY ad.PaymentDate,ad.AdvNo"
+                        sqlM = "SELECT ad.AdvNo,ad.AdvDate,ad.PaymentDate,ad.PaymentRef,ad.EmpCode as ReqBy,ad.SDescription,ad.CustCode,ad.ForJNo,ad.AdvPayAmount,ad.Charge50Tavi FROM (" & SQLSelectAdvDetail() & sqlW & ") ad  ORDER BY ad.AdvDate,ad.AdvNo"
                     Case "ADVDETAIL"
                         fldGroup = "SDescription"
-                        sqlW = GetSQLCommand(cliteria, "a.PaymentDate", "a.CustCode", "d.ForJNo", "a.ReqBy", "d.VenCode", "a.DocStatus", "a.BranchCode", "d.SICode")
+                        sqlW = GetSQLCommand(cliteria, "a.AdvDate", "a.CustCode", "d.ForJNo", "a.ReqBy", "d.VenCode", "a.DocStatus", "a.BranchCode", "d.SICode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
                         sqlM = "SELECT ad.AdvNo,ad.PaymentDate,ad.PaymentRef,ad.EmpCode as ReqBy,ad.SDescription,ad.CustCode,ad.ForJNo,ad.AdvPayAmount,ad.Charge50Tavi FROM (" & SQLSelectAdvDetail() & sqlW & ") ad  ORDER BY ad.SDescription,ad.AdvNo"
                     Case "EXPDAILY"
@@ -1034,7 +1035,6 @@ on d.BranchCode=c.BranchCode and d.AdvNo=c.AdvNo and d.ItemNo=c.AdvItemNo
 where h.DocStatus>=3 and h.DocStatus<99 {0}
 "
                         sqlM = String.Format(sqlM, sqlW)
-
                     Case "MGMT06"
                         sqlW = GetSQLCommand(cliteria, "a.AdvDate", "", "", "a.EmpCode", "", "", "a.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
@@ -1080,7 +1080,6 @@ WHERE a.DocStatus<>99 {0}
 group by b.NameEng,b.CreditLimit,b.DutyLimit
 "
                         sqlM = String.Format(sqlM, sqlW)
-
                     Case "MGMT07"
                         sqlW = GetSQLCommand(cliteria, "b.ClrDate", "c.CustCode", "c.JNo", "b.EmpCode", "a.VenderCode", "b.DocStatus", "b.BranchCode", "a.SICode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
@@ -1187,6 +1186,21 @@ i.DocDate as 'Invoice Date',
 		GROUP BY hd.BranchCode,dt.InvoiceNo,dt.InvoiceItemNo
 	) r on a.BranchCode=r.BranchCode and a.LinkBillNo=r.InvoiceNo AND a.LinkItem=r.InvoiceItemNo
 	where ISNULL(b.CancelProve,'')='' {0}
+"
+                        sqlM = String.Format(sqlM, sqlW)
+                    Case "BUYRATE"
+                        fldGroup = "CostName"
+                        sqlW = GetSQLCommand(cliteria, "", "d.CustCode", "", "", "d.VenderCode", "", "d.BranchCode", "d.SICode")
+                        If sqlW <> "" Then sqlW = " WHERE " & sqlW
+                        sqlM = "
+select h.LocationRoute as WorkType,d.VenderCode,d.CustCode,d.SDescription as CostName,d.CostAmount,s.NameThai as ChargeName ,d.ChargeAmount,
+d.ChargeAmount-d.CostAmount as Profit
+from Job_TransportPrice d inner join Job_TransportRoute h
+ON d.LocationID=h.LocationID
+left join Job_SrvSingle s 
+ON d.ChargeCode=s.SICode
+{0}
+ORDER BY d.SDescription,d.ChargeAmount-d.CostAmount DESC
 "
                         sqlM = String.Format(sqlM, sqlW)
                     Case "ADVTOTAL"

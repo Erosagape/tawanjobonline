@@ -21,7 +21,7 @@ End Code
         border-collapse: collapse;
     }
 
-    #dvFooter {
+    #dvFooter,#pFooter {
         display: none;
     }
 </style>
@@ -244,6 +244,7 @@ End Code
                 let j = d.job.data[0];
                 if (j !== null) {
                     $('#lblCustInvNo').text(j.InvNo);
+                    ShowCustomerEN(path, j.CustCode,j.CustBranch, '#lblCustTName');
                     $('#lblJobNo').text(j.JNo);
                     if(Number(j.JobType)==1){
                         ShowCountry(path, j.InvFCountry, '#lblFromCountry');

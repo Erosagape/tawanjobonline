@@ -138,6 +138,18 @@ function ShowCustomer(path, Code, Branch, ControlID) {
             });
     }
 }
+function ShowCustomerEN(path, Code, Branch, ControlID) {
+    $(ControlID).val('');
+    if ((Code + Branch).length > 0) {
+        $.get(path + 'Master/GetCompany?Code=' + Code + '&Branch=' + Branch)
+            .done(function (r) {
+                if (r.company.data.length > 0) {
+                    let c = r.company.data[0];
+                    $(ControlID).text(c.NameEng);
+                }
+            });
+    }
+}
 function GetReportStatus(reportID) {
     let val = '';
     switch (reportID) {
@@ -358,7 +370,7 @@ function IsNumberColumn(cname) {
     if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = ',TotalAdvBilled,TotalCostBilled,TotalChargeBilled,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,VAT,WHT,';
+    colname = ',TotalAdvBilled,TotalCostBilled,TotalChargeBilled,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,VAT,WHT,CostAmount,ChargeAmount,';
     if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }

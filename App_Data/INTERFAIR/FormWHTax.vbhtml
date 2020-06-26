@@ -31,7 +31,7 @@ End Code
     .amount {
         text-align:right;
     }
-    #dvFooter {
+    #dvFooter,#pFooter {
 	display:none;
     }  
 </style>

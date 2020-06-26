@@ -4,7 +4,7 @@
     ViewBag.Title = "BILL OF LADING"
 End Code
 <style>
-    #dvFooter, #pFooter {
+    #dvFooter,#pFooter {
         display: none;
     }
 </style>
@@ -18,7 +18,7 @@ End Code
                     <br />
                     <label id="lblShipperAddress1"></label>
                     <br />
-                    <label id="lblShipperAddress2"></label>
+                    <div id="lblShipperAddress2"></div>
                 </div>
             </div>
             <div style="height:100px;border-bottom:solid;border-left:solid;border-width:thin;">
@@ -28,7 +28,7 @@ End Code
                     <br />
                     <label id="lblConsignAddress1"></label>
                     <br />
-                    <label id="lblConsignAddress2"></label>
+                    <div id="lblConsignAddress2"></div>
                 </div>
             </div>
             <div style="height:100px;border-bottom:solid;border-left:solid;border-width:thin;">
@@ -162,7 +162,7 @@ End Code
         <div style="font-size:10px;border-top:solid;border-width:thin;">
             <b>For delivery of goods please apply to:</b><br />
             <label id="lblDeliveryTo"></label><br />
-            <label id="lblDeliveryAddr"></label>
+            <div id="lblDeliveryAddr"></div>
         </div>
     </div>
     <div style="width:40%;font-size:10px;border-left:solid;border-right:solid;border-bottom:solid;border-width:thin;">
@@ -197,7 +197,7 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
             $('#lblHAWB').text(h.HAWB);
             $('#lblBLNo').text(h.BLNo);
             $('#lblDeliveryTo').text(h.DeliveryTo);
-            $('#lblDeliveryAddr').text(h.DeliveryAddr);
+            $('#lblDeliveryAddr').html(CStr(h.DeliveryAddr));
             $('#lblTransMode').text(h.TransMode);
             $('#lblPaymentBy').text(h.PaymentBy);
             $('#lblPaymentCondition').text(h.PaymentCondition);
@@ -205,10 +205,10 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
             $('#lblForwarderName').text(h.ForwarderName);
             $('#lblShipperName').text(h.ShipperName);
             $('#lblShipperAddress1').text(h.ShipperAddress1);
-            $('#lblShipperAddress2').text(h.ShipperAddress2);
+            $('#lblShipperAddress2').html(CStr(h.ShipperAddress2));
             $('#lblConsigneeName').text(h.ConsigneeName);
             $('#lblConsignAddress1').text(h.ConsignAddress1);
-            $('#lblConsignAddress2').text(h.ConsignAddress2);
+            $('#lblConsignAddress2').html(CStr(h.ConsignAddress2));
             $('#lblNotifyName').text(h.NotifyName);
             $('#lblNotifyAddress1').text(h.NotifyAddress1);
             $('#lblNotifyAddress2').text(h.NotifyAddress2);
@@ -250,9 +250,9 @@ if(unit.length>0) {
             html += '<br/> DATE ' + ShowDate(h.ConfirmDate);
 	}
             html += '</div>';
-            html += '<div style="width:15%;">G.W ' + ShowNumber(h.TotalGW,2) + ' ' + h.GWUnit + '';
+            html += '<div style="width:15%;">G.W ' + ShowNumber(h.TotalGW,3) + ' ' + h.GWUnit + '';
             if(h.TotalNW>0)  {
-            html += '<br/>N.W '+ ShowNumber(h.TotalNW,2) + ' ' + h.GWUnit
+            html += '<br/>N.W '+ ShowNumber(h.TotalNW,3) + ' ' + h.GWUnit
             }
             html +='</div>';
             html += '<div style="width:15%;text-align:center">'+ h.TotalM3 +' M3</div>';
@@ -277,8 +277,8 @@ if(unit.length>0) {
 } else {
                 htmlTemplate += '<div style="width:25%;">'+ r.booking.data[i].ProductQty + ' '+ r.booking.data[i].ProductUnit +'</div>';
 }
-                htmlTemplate += '<div style="width:15%;">'+ ShowNumber(r.booking.data[i].GrossWeight,2) +'</div>';
-                htmlTemplate += '<div style="width:15%;text-align:center;">' + r.booking.data[i].Measurement + '</div>';
+                htmlTemplate += '<div style="width:15%;">'+ ShowNumber(r.booking.data[i].GrossWeight,3) + ' ' + h.GWUnit +'</div>';
+                htmlTemplate += '<div style="width:15%;text-align:center;">' + CDbl(r.booking.data[i].Measurement,3) + ' M3</div>';
                 htmlTemplate += '</div>';
 
                 html += htmlTemplate;

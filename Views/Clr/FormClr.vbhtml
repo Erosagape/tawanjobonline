@@ -122,49 +122,41 @@ End Code
 </table>
 <div id="dvSummary">
 </div>
-<table border = "1" width="100%" style="margin-top:50px">
-    <tr Class="text-center">
-        <th> CLEARING BY</th>
-        <th> APPROVED BY</th>
-        <th> FINANCIAL</th>
-        <th> ACCOUNTING</th>
-        <th> PAYEE</th>
+<table style="border-collapse:collapse;width:100%">
+    <tr>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+            จัดทำโดย / PREPARED.BY
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+            ตรวจสอบโดย / CHECKED.BY
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+            อนุมัติโดย / APPROVED.BY
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+            ลงบัญชีโดย / POSTED.BY
+        </td>
     </tr>
     <tr>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-    </tr>
-    <tr Class="text-center">
-        <td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
+            <label id="lblReqBy" style="font-size:10px">(__________________)</label>
             <br />
-            <br />
-            <label id="txtClrBy"></label>
-            <label id="txtPrintDate"></label>
+            <label id="lblRequestDate" style="font-size:9px">__/__/____</label>
         </td>
-        <td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+            <label id="lblAppBy" style="font-size:10px">(__________________)</label>
             <br />
-            <br />
-            <label id="txtApproveBy"></label>
-            <label id="txtApproveDate"></label>
+            <label id="lblAppDate" style="font-size:9px">__/__/____</label>
         </td>
-        <td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+            <label id="lblPayBy" style="font-size:10px">(__________________)</label>
             <br />
-            <br />
-            <label id="txtReceiveBy"></label>
-            <label id="txtReceiveDate"></label>
+            <label id="lblPayDate" style="font-size:9px">__/__/____</label>
         </td>
-        <td>
-                <br />
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+            <label id="lblPostBy" style="font-size:9px">(__________________)</label>
             <br />
-            ________/_______/_______
-        </td>
-        <td>
-                <br />
-            <br />
-            ________/_______/_______
+            <label id="lblPostDate" style="font-size:9px">__/__/____</label>
         </td>
     </tr>
 </table>

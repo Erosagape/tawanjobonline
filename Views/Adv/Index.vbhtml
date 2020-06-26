@@ -26,7 +26,7 @@ End Code
             <div class="col-sm-3">
                 <label id="lblAdvDate">Request Date :</label>
                 <br />
-                <input type="date" class="form-control" id="txtAdvDate" tabindex="1" disabled />
+                <input type="date" class="form-control" id="txtAdvDate" tabindex="1" />
             </div>
         </div>
         <div class="row">
