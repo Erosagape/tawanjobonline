@@ -156,7 +156,7 @@ End Code
             dv.html(html);
 
             $('#lblBillTotal').text(ShowNumber(total,2));
-            $('#lblBillTotalEng').text(CNumEng(total));
+            $('#lblBillTotalEng').text(CNumEng(ShowNumber(total,2)));
         }
     }
 </script>

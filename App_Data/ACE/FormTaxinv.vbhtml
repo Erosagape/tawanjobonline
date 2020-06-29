@@ -61,7 +61,8 @@ End Code
     <tbody id="tbDetail"></tbody>
     <tfoot>
         <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="6">TOTAL AMOUNT</td>
+            <td colspan="4" style="text-align:center"><label id="lblTotalText"></label></td>
+            <td colspan="2">TOTAL AMOUNT</td>
             <td colspan="1"><label id="lblTotalBeforeVAT"></label></td>
         </tr>
         <tr style="background-color:lightblue;text-align:right;">            
@@ -71,10 +72,6 @@ End Code
         <tr style="background-color:lightblue;text-align:right;">
             <td colspan="6">TOTAL RECEIPT</td>
             <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
-        </tr>
-        <tr style="background-color:lightblue;text-align:right;">            <td colspan="4" style="text-align:center"><label id="lblTotalText"></label></td>
-            <td colspan="2">TOTAL NET</td>
-            <td colspan="1"><label id="lblTotalNet"></label></td>
         </tr>
     </tfoot>
 </table>
@@ -195,7 +192,6 @@ End Code
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
         $('#lblTotalAfterVAT').text(ShowNumber(total, 2));
-        $('#lblTotalNet').text(ShowNumber(total-wht, 2));
-        $('#lblTotalText').text(CNumThai(total-wht));
+        $('#lblTotalText').text(CNumThai(ShowNumber(total, 2)));
     }
 </script>

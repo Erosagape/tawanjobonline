@@ -2041,7 +2041,7 @@ ORDER BY a.TName1
                 If Not IsNothing(Request.QueryString("Cust")) Then
                     tSqlw &= String.Format(" AND c.CustCode='{0}' ", Request.QueryString("Cust").ToString)
                 End If
-                tSqlw &= " ORDER BY b.LinkBillNo,s.IsCredit DESC,b.SICode"
+                tSqlw &= " ORDER BY b.LinkBillNo,b.JobNo,s.IsCredit DESC,b.SDescription"
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectClrForInvoice() & tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""invdetail"":{""data"":" & json & "}}"

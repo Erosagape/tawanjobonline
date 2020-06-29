@@ -44,6 +44,7 @@ End Code
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
+                <input type="checkbox" id="chkSelectAll" checked /> Select All 
             </div>
         </div>
         <div class="row">
@@ -510,8 +511,10 @@ End Code
                 ],
                 responsive: true,
                 pageLength: 100,
-                createdRow: function ( row, data, index ) {
-                    $(row).addClass('selected')
+                createdRow: function (row, data, index) {
+                    if ($('#chkSelectAll').prop('checked')) {
+                        $(row).addClass('selected')
+                    }
                 },
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page,
             });
@@ -532,8 +535,10 @@ End Code
                 //ShowMessage('you click ' + clearno);
                 window.open(path + 'Clr/Index?BranchCode=' + $('#txtBranchCode').val() + '&ClrNo=' + clearno);
             });
-            for (let row of h) {
-                AddData(row);
+            if ($('#chkSelectAll').prop('checked')) {
+                for (let row of h) {
+                    AddData(row);
+                }
             }
         });
 
