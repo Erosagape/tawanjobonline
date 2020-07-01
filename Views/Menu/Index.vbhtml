@@ -149,8 +149,16 @@ End Code
             }
         };
         var chartCust = new google.visualization.BarChart(document.getElementById('chartCust'));
+        google.visualization.events.addListener(chartCust, 'select', function () {
+            var selectedItem = chartCust.getSelection()[0];
+            if (selectedItem) {
+                var value = dt.getValue(selectedItem.row, 0);
+                alert('The user selected ' + value);
+            }
+        });
         chartCust.draw(custView, custOptions);
     }
+
     function drawChart() {   
         drawChartVol([]);
         drawChartStatus([]);
