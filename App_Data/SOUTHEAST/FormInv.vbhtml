@@ -15,8 +15,6 @@ End Code
 <div style="text-align:center;width:100%">
     <h2>INVOICE</h2>
 </div>
-<div id="dvCopy" style="text-align:right;width:100%">    
-</div>
 <div>
     <div style="display:flex;">
         <div style="flex:3;border:1px solid black;border-radius:5px;">
@@ -211,12 +209,6 @@ End Code
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     //$(document).ready(function () {
-    let ans = confirm('OK to print Original or Cancel For Copy');
-    if (ans == true) {
-        $('#dvCopy').html('<b>**ORIGINAL**</b>');
-    } else {
-        $('#dvCopy').html('<b>**COPY**</b>');
-    }
     let branch = getQueryString('branch');
     let invno = getQueryString('code');
     $.get(path + 'acc/getinvoice?branch=' + branch + '&code=' + invno, function (r) {

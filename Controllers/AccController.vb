@@ -1616,7 +1616,21 @@ ORDER BY a.TName1
                         If data.DocDate = DateTime.MinValue Then
                             data.DocDate = Today
                         End If
-                        data.AddNew(data.DocType & data.DocDate.ToString("yyMM") & "____")
+                        Dim fmt = Main.GetValueConfig("RUNNING", "INV")
+                        If fmt <> "" Then
+                            If fmt.IndexOf("bb") >= 0 Then
+                                fmt = fmt.Replace("bb", data.DocDate.AddYears(543).ToString("yy"))
+                            End If
+                            If fmt.IndexOf("mm") >= 0 Then
+                                fmt = fmt.Replace("mm", data.DocDate.ToString("mm"))
+                            End If
+                            If fmt.IndexOf("yy") >= 0 Then
+                                fmt = fmt.Replace("yy", data.DocDate.ToString("yy"))
+                            End If
+                        Else
+                            fmt = data.DocDate.ToString("yyMM") & "____"
+                        End If
+                        data.AddNew(data.DocType & fmt)
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' ", data.BranchCode, data.DocNo))
                     Dim json = "{""result"":{""data"":""" & data.DocNo & """,""msg"":""" & msg & """}}"
@@ -1711,7 +1725,22 @@ ORDER BY a.TName1
                         If data.BillDate = DateTime.MinValue Then
                             data.BillDate = Today.Date
                         End If
-                        data.AddNew(billPrefix & data.BillDate.ToString("yyMM") & "____")
+                        Dim fmt = Main.GetValueConfig("RUNNING", "BILL")
+                        If fmt <> "" Then
+                            If fmt.IndexOf("bb") >= 0 Then
+                                fmt = fmt.Replace("bb", data.BillDate.AddYears(543).ToString("yy"))
+                            End If
+                            If fmt.IndexOf("mm") >= 0 Then
+                                fmt = fmt.Replace("mm", data.BillDate.ToString("mm"))
+                            End If
+                            If fmt.IndexOf("yy") >= 0 Then
+                                fmt = fmt.Replace("yy", data.BillDate.ToString("yy"))
+                            End If
+                        Else
+                            fmt = data.BillDate.ToString("yyMM") & "____"
+                        End If
+                        data.AddNew(billPrefix & fmt)
+
                         'Get Due Date from Customers
                         Dim oCust = New CCompany(GetSession("ConnJob")).GetData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}'", data.CustCode, data.CustBranch))
                         If oCust.Count > 0 Then
@@ -1900,20 +1929,36 @@ ORDER BY a.TName1
                         If data.ReceiptDate = DateTime.MinValue Then
                             data.ReceiptDate = Today.Date
                         End If
+                        Dim prefix = ""
                         Select Case data.ReceiptType
                             Case "REC"
-                                data.AddNew("RC-" & data.ReceiptDate.ToString("yyMM") & "___")
+                                prefix = "RC-"
                             Case "TAX"
-                                data.AddNew("TX-" & data.ReceiptDate.ToString("yyMM") & "___")
+                                prefix = "TX-"
                             Case "SRV"
-                                data.AddNew("SV-" & data.ReceiptDate.ToString("yyMM") & "___")
+                                prefix = "SV-"
                             Case "RCV"
-                                data.AddNew("RV-" & data.ReceiptDate.ToString("yyMM") & "___")
+                                prefix = "RV-"
                             Case "ADV"
-                                data.AddNew("AV-" & data.ReceiptDate.ToString("yyMM") & "___")
+                                prefix = "AV-"
                             Case Else
                                 Return Content("{""result"":{""data"":null,""msg"":""Please Enter Receipt Type""}}", jsonContent)
                         End Select
+                        Dim fmt = Main.GetValueConfig("RUNNING", "RCP")
+                        If fmt <> "" Then
+                            If fmt.IndexOf("bb") >= 0 Then
+                                fmt = fmt.Replace("bb", data.ReceiptDate.AddYears(543).ToString("yy"))
+                            End If
+                            If fmt.IndexOf("mm") >= 0 Then
+                                fmt = fmt.Replace("mm", data.ReceiptDate.ToString("mm"))
+                            End If
+                            If fmt.IndexOf("yy") >= 0 Then
+                                fmt = fmt.Replace("yy", data.ReceiptDate.ToString("yy"))
+                            End If
+                        Else
+                            fmt = data.ReceiptDate.ToString("yyMM") & "____"
+                        End If
+                        data.AddNew(prefix & fmt)
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND ReceiptNo='{1}' ", data.BranchCode, data.ReceiptNo))
                     Dim json = "{""result"":{""data"":""" & data.ReceiptNo & """,""msg"":""" & msg & """}}"

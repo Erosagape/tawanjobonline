@@ -1954,11 +1954,18 @@ FROM     dbo.Job_InvoiceDetail AS d INNER JOIN
 SELECT ReceiptDate,ReceiptNo,ServiceType,TaxNumber,Branch,TotalChargeVAT,TotalVAT,TotalChargeNonVAT,CancelReson FROM (
 SELECT h.ReceiptDate,h.ReceiptNo,c.CustCode,c.TaxNumber,c.Branch,
 (CASE WHEN h.TotalVAT>0 THEN 'ค่าบริการของบริษัท' ELSE 'ค่าขนส่งของบริษัท' END) + c.NameThai as ServiceType,
-CASE WHEN h.TotalVAT>0 THEN h.TotalCharge ELSE 0 END as TotalChargeVAT,
+CASE WHEN h.TotalVAT>0 THEN d.TotalVATCharge ELSE 0 END as TotalChargeVAT,
 h.TotalVAT,
-CASE WHEN h.TotalVAT=0 THEN h.TotalCharge ELSE 0 END as TotalChargeNonVAT,
+CASE WHEN h.TotalVAT=0 THEN d.TotalNonVAT ELSE 0 END as TotalChargeNonVAT,
 h.TotalCharge+h.TotalVAT as TotalDoc,h.CancelReson
-FROM Job_ReceiptHeader h INNER JOIN Mas_Company c
+FROM Job_ReceiptHeader h inner join (
+	SELECT BranchCode,ReceiptNo,
+	SUM(CASE WHEN VATRate>0 THEN Amt ELSE 0 END) as TotalVATCharge,
+	SUM(CASE WHEN VATRate=0 THEN Amt ELSE 0 END) as TotalNonVAT
+	FROM Job_ReceiptDetail 
+	GROUP BY BranchCode,ReceiptNo
+) d ON h.BranchCode=d.BranchCode AND h.ReceiptNo=d.ReceiptNo
+INNER JOIN Mas_Company c
 ON h.CustCode=c.CustCode AND h.CustBranch=c.Branch
 WHERE h.ReceiptType<>'ADV' AND NOT ISNULL(h.CancelProve,'')<>''
 UNION
