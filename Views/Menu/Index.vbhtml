@@ -121,10 +121,21 @@ End Code
             pieHole: 0.4,
         };
         var chartVol = new google.visualization.PieChart(document.getElementById('chartVol'));
+        google.visualization.events.addListener(chartVol, 'select', function (e) {
+            if (chartVol.getSelection() != null &&  
+                    chartVol.getSelection()[0] != null &&  
+                    chartVol.getSelection()[0]['row'] != null &&  
+                    chartVol.getSelection().length > 0)  
+            {  
+
+                alert(dataVol.getFormattedValue(chartVol.getSelection()[0].row,0) + '='+ dataVol.getFormattedValue(chartVol.getSelection()[0].row,1));
+            }  
+        });
         chartVol.draw(dataVol, volOptions);
     }
     function drawChartStatus(dt) {
         var statusView = getDataView(dt);
+        var statusTable = getChartTable(dt);
         var statusOptions = {
             legend: { position: 'top', maxLines: 3 },
             isStacked: 'percent',
@@ -134,10 +145,24 @@ End Code
             }
         };
         var chartStatus = new google.visualization.ColumnChart(document.getElementById('chartStatus'));
+        google.visualization.events.addListener(chartStatus, 'select', function (e) {
+            if (chartStatus.getSelection() != null &&  
+                    chartStatus.getSelection()[0] != null &&  
+                    chartStatus.getSelection()[0]['row'] != null &&  
+                    chartStatus.getSelection().length > 0)  
+            {  
+
+                let val = statusView.getFormattedValue(chartStatus.getSelection()[0]['row'], chartStatus.getSelection()[0]['column']);
+                let row = statusView.getFormattedValue(chartStatus.getSelection()[0]['row'], 0);
+                let col = statusTable[chartStatus.getSelection()[0]['column']-1];
+                alert(row + '/' + col +'='+ val);
+            }  
+        });
         chartStatus.draw(statusView, statusOptions);
     }
     function drawChartCust(dt) {
         var chartHeight = dt.length * 60;
+        var custTable = getChartTable(dt);
         var custView = getDataView(dt);
         var custOptions = {
             legend: { position: 'top' },
@@ -149,12 +174,18 @@ End Code
             }
         };
         var chartCust = new google.visualization.BarChart(document.getElementById('chartCust'));
-        google.visualization.events.addListener(chartCust, 'select', function () {
-            var selectedItem = chartCust.getSelection()[0];
-            if (selectedItem) {
-                var value = dt.getValue(selectedItem.row, 0);
-                alert('The user selected ' + value);
-            }
+        google.visualization.events.addListener(chartCust, 'select', function (e) {
+            if (chartCust.getSelection() != null &&  
+                    chartCust.getSelection()[0] != null &&  
+                    chartCust.getSelection()[0]['row'] != null &&  
+                    chartCust.getSelection().length > 0)  
+            {  
+
+                let val = custView.getFormattedValue(chartCust.getSelection()[0]['row'], chartCust.getSelection()[0]['column']);
+                let row = custView.getFormattedValue(chartCust.getSelection()[0]['row'], 0);
+                let col = custTable[chartCust.getSelection()[0]['column']-1];
+                alert(row + '/' + col +'='+ val);
+            }  
         });
         chartCust.draw(custView, custOptions);
     }
@@ -177,6 +208,17 @@ End Code
             //CloseWait();
         });
         return true;
+    }
+    function getChartTable(dt) {
+        let cols = [];
+        if (dt.length > 0) {
+            let totalColumns = dt[0].length - 1;
+            for (let i = 1; i <= totalColumns; i++) {
+                cols.push(dt[0][i]);
+                cols.push(i);
+            }
+        }
+        return cols;
     }
     function getDataTable(dt) {
         if (dt.length > 0) {
