@@ -632,6 +632,9 @@ Namespace Controllers
                 End If
 
                 Dim tSqlW As String = String.Format(" WHERE a.BranchCode='{0}'", Branch)
+                If Not IsNothing(Request.QueryString("AdvNo")) Then
+                    tSqlW &= " AND a.AdvNo='" & Request.QueryString("AdvNo") & "'"
+                End If
                 If Not IsNothing(Request.QueryString("JobNo")) Then
                     tSqlW &= " AND d.ForJNo='" & Request.QueryString("JobNo") & "'"
                 End If

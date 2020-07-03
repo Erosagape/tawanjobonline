@@ -500,7 +500,7 @@ d.BaseAmount,d.RateVAT,d.ChargeVAT,d.Rate50Tavi,d.Charge50Tavi,
 d.AdvQty,d.UnitPrice,d.AdvNet,d.AdvPayAmount,
 d.BaseVATExc,d.VATExc,d.BaseVATInc,d.VATInc,
 d.Base50TaviInc,d.WHTExc,d.Base50TaviExc,d.WHTInc,
-d.BaseVATInc+d.BaseVATExc as BaseVAT,d.Base50TaviExc+d.Base50TaviInc as Base50Tavi
+d.BaseVATInc+d.BaseVATExc as BaseVAT,d.Base50TaviExc+d.Base50TaviInc as Base50Tavi,j.*
 FROM Job_AdvHeader as a LEFT JOIN
 Mas_Company b ON a.CustCode=b.CustCode AND a.CustBranch=b.Branch
 LEFT JOIN (
@@ -518,6 +518,7 @@ LEFT JOIN (
     FROM Job_AdvDetail 
 ) d
 ON a.BranchCode=d.BranchCode AND a.AdvNo=d.AdvNo
+LEFT JOIN Job_Order j on d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
 "
     End Function
     Function SQLSelectPayForCharge() As String
