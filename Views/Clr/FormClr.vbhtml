@@ -61,8 +61,8 @@ End Code
     <thead>
         <tr class="text-center">
             <th width="8%">CODE.</th>
-            <th width="50%">DESCRIPTION</th>
-            <th width="12%">JOBNO</th>
+            <th width="45%">DESCRIPTION</th>
+            <th width="17%">JOBNO</th>
             <th width="10%">VAT</th>
             <th width="10%">WHTAK</th>
             <th width="10%">PAID</th>
@@ -208,24 +208,24 @@ End Code
                                 advlist += ',' + d[i].AdvNO;
                             }
                         }
-                        let advref = (d[i].SlipNO !== null ? ' เลขที่#' + d[i].SlipNO : '');
-                        advref = advref + (d[i].AdvNO !== null ? '<br/>จากใบเบิก ' + d[i].AdvNO : '');
+                        let advref = (d[i].SlipNO !== '' ? ' เลขที่#' + d[i].SlipNO : '');
+                        advref = advref + (d[i].AdvNO !=='' ? '<br/>จากใบเบิก ' + d[i].AdvNO : '');
                         advref = advref + (d[i].AdvAmount > 0 ? ' ยอดเบิก=' + CCurrency(CDbl(d[i].AdvAmount, 2)) : '');
                         advref = advref + (d[i].Remark !== '' ? '<br/>' + d[i].Remark : '');
 
                         html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo +'<br/>' + d[i].DeclareNumber + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
 
                         if (d[i].ChargeVAT > 0) {
-                            amtforvat += d[i].UsedAmount;
-                            amtvat += d[i].ChargeVAT;
+                            amtforvat += Number(d[i].UsedAmount);
+                            amtvat += Number(d[i].ChargeVAT);
                         } else {
-                            amtnonvat += d[i].UsedAmount;
+                            amtnonvat += Number(d[i].UsedAmount);
                         }
                         if (d[i].Tax50Tavi > 0) {
-                            amtforwht += d[i].UsedAmount;
-                            amtwht += d[i].Tax50Tavi;
+                            amtforwht += Number(d[i].UsedAmount);
+                            amtwht += Number(d[i].Tax50Tavi);
                         }
-                        amttotal += d[i].BNet;
+                        amttotal += Number(d[i].BNet);
                     }
                     $('#tbDetail tbody').html(html);
 

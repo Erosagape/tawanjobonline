@@ -1458,14 +1458,14 @@ End Code
             CurrencyCode: $('#txtCurrencyCode').val(),
             CurRate: $('#txtCurRate').val(),
             UnitPrice: $('#chkIsCost').prop('checked') == true ? 0 : $('#txtUnitPrice').val(),
-            FPrice: $('#chkIsCost').prop('checked') == true ? 0 : CDbl(Number($('#txtUnitPrice').val()) * Number($('#txtQty').val()),2),
-            BPrice: $('#chkIsCost').prop('checked') == true ? 0 : CDbl(Number($('#txtCurRate').val()) * Number($('#txtUnitPrice').val()) * Number($('#txtQty').val()), 2),
+            FPrice: $('#chkIsCost').prop('checked') == true ? 0 : CDbl(Number($('#txtAMT').val()) / Number($('#txtCurRate').val()),2),
+            BPrice: $('#chkIsCost').prop('checked') == true ? 0 : CDbl(Number($('#txtAMT').val()), 2),
             QUnitPrice: dtl.QUnitPrice,
-            QFPrice: CDbl(CNum(dtl.QUnitPrice) * CNum($('#txtQty').val()), 2),
+            QFPrice: CDbl(CNum(dtl.QUnitPrice) * CNum($('#txtQty').val()), 4),
             QBPrice: CDbl(CNum($('#txtCurRate').val())*CNum(dtl.QUnitPrice) * CNum($('#txtQty').val()), 2),
             UnitCost: $('#txtUnitPrice').val(),
-            FCost: CDbl(Number($('#txtUnitPrice').val()) * Number($('#txtQty').val()), 2),
-            BCost: CDbl(Number($('#txtCurRate').val()) * Number($('#txtUnitPrice').val()) * Number($('#txtQty').val()), 2),
+            FCost: CDbl(Number($('#txtAMT').val()) / Number($('#txtCurRate').val()),2),
+            BCost: CDbl(Number($('#txtAMT').val()),2),
             ChargeVAT: $('#txtVAT').val(),
             Tax50Tavi: $('#txtWHT').val(),
             AdvNO: $('#txtAdvNo').val(),
@@ -1989,21 +1989,21 @@ End Code
         $('#txtVAT').val(0);
         $('#txtWHT').val(0);
 
-        let price = CDbl($('#txtUnitPrice').val(),2);
-        let qty = CDbl($('#txtQty').val(),2);
-        let rate = CDbl($('#txtCurRate').val(),2); //rate ของ detail
+        let price = CDbl($('#txtUnitPrice').val(),4);
+        let qty = CDbl($('#txtQty').val(),4);
+        let rate = CDbl($('#txtCurRate').val(),4); //rate ของ detail
         let type = $('#txtVatType').val();
         if (type == '' || type == '0') type = '1';
         if (qty > 0) {
             let amt = CNum(qty) * CNum(price);
-            //let exc = CDbl($('#txtExchangeRate').val(), 2); //rate ของ header
-            //let total = CDbl(CNum(amt) / CNum(exc),2);
+            //let exc = CDbl($('#txtExchangeRate').val(), 4); //rate ของ header
+            //let total = CDbl(CNum(amt) / CNum(exc),4);
             if (type == '2') {
-                //$('#txtNET').val(CDbl(CNum(total),2));
-                $('#txtNET').val(CDbl(CNum(amt) * CNum(rate), 2));
+                //$('#txtNET').val(CDbl(CNum(total),4));
+                $('#txtNET').val(CDbl(CNum(amt) * CNum(rate), 4));
             }
             if (type == '1') {
-                //$('#txtAMT').val(CDbl(CNum(total),2));
+                //$('#txtAMT').val(CDbl(CNum(total),4));
                 $('#txtAMT').val(CDbl(CNum(amt) * CNum(rate),2));
             }
             CalVATWHT();
@@ -2020,12 +2020,12 @@ End Code
     function CalVATWHT() {
         let type = $('#txtVatType').val();
         if (type == ''||type=='0') type = '1';
-        let amt = CDbl($('#txtAMT').val(),2);
+        let amt = CDbl($('#txtAMT').val(),4);
         if (type == '2') {
-            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 2);
+            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 4);
         }
-        let vatrate = CDbl($('#txtVATRate').val(),2);
-        let whtrate = CDbl($('#txtWHTRate').val(),2);
+        let vatrate = CDbl($('#txtVATRate').val(),4);
+        let whtrate = CDbl($('#txtWHTRate').val(),4);
         let vat = 0;
         let wht = 0;
         if (type == "2") {
