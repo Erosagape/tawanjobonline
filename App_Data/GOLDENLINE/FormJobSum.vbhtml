@@ -43,7 +43,14 @@ End Code
         JOB DATE : <label id="lblJobDate"></label>
     </div>
 </div>
-
+<div style="display:flex">
+    <div style="flex:1">
+        CONSIGNEE : <label id="lblConsName"></label>
+    </div>
+    <div style="flex:1">
+        NOTIFY PARTY : <label id="lblNotifyName"></label>
+    </div>
+</div>
 <div style="display:flex">
     <div style="flex:1">
         INVOICE : <label id="lblInvNo"></label>
@@ -270,6 +277,8 @@ End Code
                 $('#lblJobTypeName').text(h.JobTypeName);
                 $('#lblJobDate').text(ShowDate(CDateTH(h.DocDate)));
                 $('#lblCustName').text(h.CustTName);
+                $('#lblConsName').text(h.ConsigneeName);
+                $('#lblNotifyName').text(h.DeliveryTo);
                 $('#lblShipByName').text(h.ShipByName);
                 $('#lblInvNo').text(h.InvNo);
                 $('#lblDeclareNo').text(h.DeclareNumber);

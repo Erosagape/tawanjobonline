@@ -665,7 +665,7 @@ d.UsedAmount,d.Tax50Tavi,d.ChargeVAT,d.BNet as ClrNet,
 d.FPrice,d.BPrice,d.FCost,d.BCost,
 d.UnitPrice,d.Qty,d.CurrencyCode,d.CurRate,d.UnitCost,d.FNet,d.BNet,d.Tax50TaviRate,d.VATRate,
 d.LinkItem,d.LinkBillNo,s.IsExpense,s.IsCredit,s.IsTaxCharge,s.Is50Tavi,s.IsHaveSlip,s.IsLtdAdv50Tavi,
-d.Remark,j.CustCode,j.CustBranch,j.InvNo,j.NameEng,j.NameThai,j.TotalContainer,j.VesselName,j.Commission,
+d.Remark,j.CustCode,j.CustBranch,j.InvNo,j.NameEng,j.NameThai,j.TotalContainer,j.VesselName,j.Commission,j.consigneecode,j.DeliveryTo,
 j.JobDate,j.JobStatus,c5.JobStatusName,j.CloseJobDate,j.CloseJobBy,j.DeclareNumber,j.InvProduct,j.TotalGW,j.InvProductQty,
 h.CancelProve,h.CancelReson,h.CancelDate,r.LastReceipt,r.ReceiveNet 
 from Job_ClearHeader h inner join Job_ClearDetail d on h.BranchCode=d.BranchCode and h.ClrNo=d.ClrNo
@@ -678,9 +678,7 @@ left join (
 ) a 
 on d.BranchCode=a.BranchCode and d.AdvNO=a.AdvNo and d.AdvItemNo=a.ItemNo
 left join (
-  select j.BranchCode,j.JNo,j.DocDate as JobDate,j.DeclareNumber,j.VesselName,j.InvProduct,j.TotalGW,
-  j.CustCode,j.CustBranch,j.InvNo,j.JobStatus,j.CloseJobDate,j.CloseJobBy,j.TotalContainer,j.InvProductQty,
-  c.NameThai,c.NameEng,j.ShipBy,j.Commission 
+  select j.*,j.DocDate as JobDate,c.NameThai,c.NameEng
   from Job_Order j inner join Mas_Company c
   on j.CustCode=c.CustCode and j.CustBranch=c.Branch
 ) j

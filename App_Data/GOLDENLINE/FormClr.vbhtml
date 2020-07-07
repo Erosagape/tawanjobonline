@@ -203,9 +203,10 @@ End Code
                         advref = advref + (d[i].Remark !== '' ? '<br/>' + d[i].Remark : '');
 
                         let strJob = advref + '<br/>DECL: ' +d[i].DeclareNumber + '<br/>';
-                        strJob = strJob + 'CONTAINER:' + ((d.TotalContainer == null || d.TotalContainer == '' ? '' : d.TotalContainer) + '<br/>');
-                        strJob = strJob + 'BL/AWB:' + ((d.HAWB == null || d.HAWB == '' ? '' : d.HAWB) + '<br/>');
-                        strJob = strJob + 'SHIPPER:' + ((d.ShippingEmp == null || d.ShippingEmp == '' ? '' : d.ShippingEmp) + '<br/>');
+                        strJob = strJob + 'CONTAINER:' + ((d[i].TotalContainer == null || d[i].TotalContainer == '' ? '' : d[i].TotalContainer) + '<br/>');
+                        strJob = strJob + 'BL/AWB:' + ((d[i].HAWB == null || d[i].HAWB == '' ? '' : d[i].HAWB) + '<br/>');
+                        strJob = strJob + 'CONSIGNEE:' + ((d[i].consigneecode == null || d[i].consigneecode == '' ? '' : d[i].consigneecode) + '<br/>');
+                        strJob = strJob + 'NOTIFY PARTY:' + ((d[i].DeliveryTo == null || d[i].DeliveryTo == '' ? '' : d[i].DeliveryTo) + '<br/>');
 
                         html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + strJob + '</td><td>' + d[i].JobNo + '<br/>' + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
 

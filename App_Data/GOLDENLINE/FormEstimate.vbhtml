@@ -20,6 +20,14 @@ End Code
     <b>Address : </b><label id="lblCustAddress1"></label>
     <br /><label id="lblCustAddress2"></label>
 </div>
+<div style="width:100%;display:flex">
+    <div style="flex:1">
+        <b>Consignee : </b><label id="lblConsName"></label>
+    </div>
+    <div style="flex:1">
+        <b>Notify Party : </b><label id="lblNotifyName"></label>
+    </div>
+</div>
 <br/>
 <div style="width:100%;display:flex">
     <div style="flex:1">
@@ -157,7 +165,10 @@ End Code
         $('#lblBLStatus').text(dr.BookingNo);
         $('#lblGrossWeight').text(dr.TotalGW + ' ' + dr.GWUnit);
         $('#lblDeliveryTo').text(dr.ClearPortNo);
-
+        $('#lblNotifyName').text(dr.DeliveryTo);
+        CallBackQueryCustomerSingle(path, dr.Consigneecode, function (data) {
+            $('#lblConsName').text(data.NameThai);
+        });
         CallBackQueryCustomer(path, dr.CustCode, dr.CustBranch, function (data) {
             $('#lblCustName').text(data.NameEng);
             $('#lblCustAddress1').text(data.EAddress1);

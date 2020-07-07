@@ -5,7 +5,7 @@
 End Code
 <style>
     #dvFooter {
-        display:none;
+        display: none;
     }
 </style>
 <table id="tbAdvInfo" style="width:100%">
@@ -24,6 +24,14 @@ End Code
             <label id="lblCustCode" style="text-decoration-line:underline;"></label>
             <br />
             <label id="lblCustName" style="text-decoration-line:underline;"></label>
+            <div style="width:100%;display:flex">
+                <div style="flex:1">
+                    <b>Consignee : </b><label style="text-decoration-line:underline;" id="lblConsName"></label>
+                </div>
+                <div style="flex:1">
+                    <b>Notify Party : </b><label style="text-decoration-line:underline;" id="lblNotifyName"></label>
+                </div>
+            </div>
         </td>
         <td align="right" style="font-size:11px">
             <b>Advance Date : </b>
@@ -147,18 +155,10 @@ End Code
                     </td>
                 </tr>
                 <tr>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-
-                    </td>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-
-                    </td>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-
-                    </td>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-
-                    </td>
+                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px"></td>
+                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom"></td>
+                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom"></td>
+                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom"></td>
                 </tr>
             </table>
             <script type="text/javascript">
@@ -207,6 +207,10 @@ End Code
         $('#lblPayTo').text(h.PayChqTo);
         ShowPendingAmount(h.BranchCode, h.EmpCode);
         ShowCustomer(h.CustCode, h.CustBranch);
+        $('#lblNotifyName').text(h.DeliveryTo);
+        CallBackQueryCustomerSingle(path, h.consigneecode, function (c) {
+            $('#lblConsName').text(c.NameThai);
+        });
 
         let jt = h.JobType;
         let sb = h.ShipBy;
