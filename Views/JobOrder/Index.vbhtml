@@ -34,6 +34,11 @@ End Code
             <label for="cboMonth" id="lblMonth">Month</label>
             <select id="cboMonth" class="form-control dropdown"></select>
         </div>
+        <div class="col-sm-2">
+            <br />
+            <input type="checkbox" id="chkDuty" />
+            <label for="chkDuty" id="lblDutyDate">By Inspection Date</label>
+        </div>
     </div>
     <div class="row">
         <div class="col-sm-12">
@@ -73,12 +78,33 @@ End Code
                 </a>
             </div>
         </div>
+        <div class="col-sm-4">
+            <label id="lblQuickSearch">Quick Search</label>:
+            <br/>
+            <select class="form-control dropdown" id="cboField">
+                <option value="">{Please Select}</option>
+                <option value="CustCode">Customer</option>
+                <option value="CSCode">Customer Service</option>
+                <option value="ManagerCode">Sales Person</option>
+                <option value="ShippingCode">Shipping Staff</option>
+                <option value="DeclareNo">Declaration</option>
+                <option value="HAWB">House BL/AWB</option>
+                <option value="BookingNo">Booking No</option>
+                <option value="InvNo">Commercial Invoice</option>
+            </select>
+        </div>
+        <div class="col-sm-4">
+            <label id="lblCliteria">Cliteria</label>:
+            <br/>
+            <input type="text" id="txtCliteria" class="form-control" />
+        </div>
     </div>
 </div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
+    let dateWhere = 'DocDate';
     let jt = getQueryString("jobtype");
     let sb = getQueryString("shipby");
     //$(document).ready(function () {
@@ -103,6 +129,12 @@ End Code
                 }
             }
         });
+        $('#txtCliteria').keydown(function (e) {
+            if (e.which === 13) {
+                getJobdata();
+            }
+        });
+
     }
     function loadCombo() {
         let lists = 'JOB_TYPE=#cboJobType|'+ jt;
@@ -216,6 +248,9 @@ End Code
     }
     function GetCliteria() {
         let str = '';
+        if ($('#chkDuty').prop('checked')) {
+            dateWhere = 'DutyDate';
+        }
         if ($('#cboJobType').val() > '') {
             if (str.length > 0) str += '&';
             str += 'JType=' + $('#cboJobType').val();
@@ -240,7 +275,11 @@ End Code
             if (str.length > 0) str += '&';
             str += 'Status=' + $('#cboStatus').val();
         }
-        return '?NoLog=Y&' + str;
+        if ($('#cboField').val() > '') {
+            if (str.length > 0) str += '&';
+            str += $('#cboField').val() + '=' + $('#txtCliteria').val();
+        }
+        return '?NoLog=Y&ByDate=' + dateWhere + '&' + str;
     }
     function OpenJob() {
         $.get(path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJobNo').val(), function (r) {

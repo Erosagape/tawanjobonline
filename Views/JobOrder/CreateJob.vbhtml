@@ -162,10 +162,51 @@ End Code
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-6" style="display:flex">
+                <div style="width:30%">
+                    <label id="lblTransport" style="display:block;width:100%;">Transporter</label>
+                </div>
+                <div style="display:flex;width:70%">
+                    <input type="text" class="form-control" id="txtAgentCode" style="width:120px" />
+                    <input type="button" class="btn btn-default" id="btnBrowseAgent" value="..." onclick="SearchData('agent')" />
+                    <input type="text" class="form-control" id="txtAgentName" style="width:100%" disabled />
+                </div>
+            </div>
+            <div class="col-sm-6" style="display:flex">
+                <div style="width:30%">
+                    <label id="lblForwarder" style="display:block;width:100%;">Forwarder/Agent</label>
+                </div>
+                <div style="display:flex;width:70%">
+                    <input type="text" class="form-control" id="txtForwarderCode" style="width:120px" />
+                    <input type="button" class="btn btn-default" id="btnBrowseForw" value="..." onclick="SearchData('forwarder')" />
+                    <input type="text" class="form-control" id="txtForwarderName" style="width:100%" disabled />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <label id="lblLoadDate" style="display:block;width:100%;">Load Date</label>
+                <input type="date" class="form-control" style="width:100%" id="txtLoadDate" />
+            </div>
+            <div class="col-sm-3">
+                <label id="lblETDDate" style="display:block;width:100%;">ETD Date</label>
+                <input type="date" class="form-control" style="width:100%" id="txtETDDate" />
+            </div>
+            <div class="col-sm-3">
+                <label id="lblETADate" style="display:block;width:100%;">ETA Date</label>
+                <input type="date" class="form-control" style="width:100%" id="txtETADate" />
+            </div>
+            <div class="col-sm-3">
+                <label id="lblDeliveryDate" style="display:block;width:100%;">Delivery Date</label>
+                <input type="date" class="form-control" style="width:100%" id="txtEstDeliverDate" />
+            </div>
+        </div>
         <p>
             <a href="#" class="btn btn-success" id="btnCreateJob" onclick="CreateJob()">
                 <i class="fa fa-lg fa-save"></i>&nbsp;<b><label id="lblCreateJob">Create Job</label></b>
             </a>
+            <input type="checkbox" id="chkConfirm" />Confirm Today
         </p>
     </div>
     <div id="frmShowJob" class="modal fade" data-backdrop="static" data-keyboard="false">
@@ -179,7 +220,8 @@ End Code
                         <input id="txtJNo" type="text" style="position:center;font-size:20px;text-align:center;color:red" disabled />
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-primary" id="btnViewJob" onclick="OpenJob()">View</button>
+                        <button class="btn btn-primary" id="btnViewJobS" onclick="OpenJob()">Edit Job Data</button>
+                        <button class="btn btn-warning" id="btnViewJobT" onclick="OpenJobT()">Edit Transport Data</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">X</button>
                     </div>
                 </div>
@@ -279,7 +321,11 @@ End Code
             //Users
             CreateLOV(dv,'#frmSearchUser','#tbUser','Users',response,2);
             //Branch
-            CreateLOV(dv,'#frmSearchBranch','#tbBranch','Branch',response,2);
+            CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
+            //Agent
+            CreateLOV(dv, '#frmSearchAgent', '#tbAgent', 'Agents', response, 3);
+            //Transport
+            CreateLOV(dv,'#frmSearchForw','#tbForw','Transporter',response,3);
             //1 Fields
             //Contact Name
             CreateLOV(dv,'#frmSearchContact','#tbContact','Contact Person',response,3);
@@ -369,6 +415,14 @@ End Code
         GetContact();
         GetQuotation();
     }
+    function ReadAgent(dt) {
+        $('#txtAgentCode').val(dt.VenCode);
+        $('#txtAgentName').val(dt.TName);
+    }
+    function ReadForwarder(dt) {
+        $('#txtForwarderCode').val(dt.VenCode);
+        $('#txtForwarderName').val(dt.TName);
+    }
     function ReadConsignee(dt) {
         $('#txtConsignee').val(dt.CustCode);
         $('#txtConsBranch').val(dt.Branch);
@@ -379,8 +433,27 @@ End Code
         $('#txtContactPerson').val(dt.ContactName);
         $('#txtContactPerson').focus();
     }
-    function ReadJob(dt) {
-        $('#txtCopyFromJob').val(dt.JNo);
+    function ReadJob(dr) {
+        $('#txtCopyFromJob').val(dr.JNo);
+        $('#txtCSCode').val(dr.CSCode);
+        $('#txtJobDate').val(CDateEN(dr.DocDate));
+        $('#txtConsignee').val(dr.Consigneecode);
+        $('#txtContactPerson').val(dr.CustContactName);
+        $('#txtBookingNo').val(dr.BookingNo);
+        $('#txtDutyDate').val(CDateEN(dr.DutyDate));
+        $('#txtQNo').val(dr.QNo);
+        $('#txtRevise').val(dr.Revise);
+        $('#txtCustInv').val(dr.InvNo);
+        $('#txtCustPO').val(dr.CustRefNO);
+        $('#txtHAWB').val(dr.HAWB);
+        $('#txtMAWB').val(dr.MAWB);
+        $('#txtManagerCode').val(dr.ManagerCode);
+        $('#txtAgentCode').val(dr.AgentCode);
+        $('#txtForwarderCode').val(dr.ForwarderCode);
+        $('#txtLoadDate').val(CDateEN(dr.LoadDate));
+        $('#txtETDDate').val(CDateEN(dr.ETDDate));
+        $('#txtETADate').val(CDateEN(dr.ETADate));
+        $('#txtEstDeliverDate').val(CDateEN(dr.EstDeliverDate));
     }
     function ReadQuo(dt) {
         $('#txtQNo').val(dt.QNo);
@@ -388,6 +461,12 @@ End Code
     }
     function SearchData(type) {
         switch (type) {
+            case 'agent':
+                SetGridVender(path, '#tbAgent', '#frmSearchAgent', ReadAgent);
+                break;
+            case 'forwarder':
+                SetGridVender(path, '#tbForw', '#frmSearchForw', ReadForwarder);
+                break;
             case 'branch':
                 SetGridBranch(path, '#tbBranch', '#frmSearchBranch', ReadBranch);
                 break;
@@ -485,7 +564,7 @@ End Code
             return;
         }
         //if pass every checked
-        $('#btnCreateJob').attr('disabled', 'disabled');
+        
         let strParam = path + 'JobOrder/GetNewJob?';
         strParam += 'Branch=' + $('#txtBranchCode').val();
         strParam += '&JType=' + $('#cboJobType').val().substr(0,2);
@@ -501,42 +580,141 @@ End Code
                     ShowMessage(strParam,true);
                     return;
                 }
+                $('#btnCreateJob').attr('disabled', 'disabled');
                 if (r.job.status == "Y") {
-                    let data = r.job.data;
-                    data.CustCode = $('#txtCustCode').val();
-                    data.CustBranch = $('#txtCustBranch').val();
-                    data.CSCode = $('#txtCSCode').val();
-                    data.DocDate = CDateEN($('#txtJobDate').val());
-                    data.Consigneecode = $('#txtConsignee').val();
-                    data.CustContactName = $('#txtContactPerson').val();
-                    data.BookingNo = $('#txtBookingNo').val();
-                    data.DutyDate = CDateEN($('#txtDutyDate').val());
-                    data.QNo = $('#txtQNo').val();
-                    data.Revise = CNum($('#txtRevise').val());
-                    data.InvNo = $('#txtCustInv').val() === '' ? $('#txtBookingNo').val() : $('#txtCustInv').val();
-                    data.CustRefNO = $('#txtCustPO').val();
-                    data.HAWB = $('#txtHAWB').val();
-                    data.MAWB = $('#txtMAWB').val();
-                    data.ManagerCode = $('#txtManagerCode').val();
+                    let data = GetDataSave(r.job.data[0]);
                     SaveData(data);
                 } else {
-                    ShowMessage(r.job.result,true);
+                    ShowMessage(r.job.result, true);
+                    $('#btnCreateJob').removeAttr('disabled');
                 }
                 return;
                 //ShowMessage(r.job.result + '=>' + data.JNo);
             });
     }
+    function GetDataSave(dr) {
+        dr.BranchCode = $('#txtBranchCode').val();
+        dr.JNo = '';
+        dr.CustCode = $('#txtCustCode').val();
+        dr.CustBranch = $('#txtCustBranch').val();
+        dr.CSCode = $('#txtCSCode').val();
+        dr.DocDate = CDateEN($('#txtJobDate').val());
+        dr.Consigneecode = $('#txtConsignee').val();
+        dr.CustContactName = $('#txtContactPerson').val();
+        dr.BookingNo = $('#txtBookingNo').val();
+        dr.DutyDate = CDateEN($('#txtDutyDate').val());
+        dr.QNo = $('#txtQNo').val();
+        dr.JRevise = 1;
+        dr.Revise = CNum($('#txtRevise').val());
+        dr.InvNo = $('#txtCustInv').val() === '' ? $('#txtBookingNo').val() : $('#txtCustInv').val();
+        dr.CustRefNO = $('#txtCustPO').val();
+        dr.HAWB = $('#txtHAWB').val();
+        dr.MAWB = $('#txtMAWB').val();
+        dr.ManagerCode = $('#txtManagerCode').val();
+        dr.AgentCode = $('#txtAgentCode').val();
+        dr.ForwarderCode = $('#txtForwarderCode').val();
+        dr.LoadDate = CDateEN($('#txtLoadDate').val());
+        dr.ETDDate = CDateEN($('#txtETDDate').val());
+        dr.ETADate = CDateEN($('#txtETADate').val());
+        dr.EstDeliverDate = CDateEN($('#txtEstDeliverDate').val());
+        if ($('#chkConfirm').prop('checked')) {
+            dr.ConfirmDate = CDateEN(GetToday());
+        } else {
+            dr.ConfirmDate="0001-01-01T00:00:00"
+        }
+        //--- Default Values 
+        dr.DeclareNumber=CStr(dr.DeclareNumber);
+        dr.Commission=0
+        dr.TRemark = CStr(dr.TRemark);
+        dr.CloseJobDate = CDateEN(dr.CloseJobDate);
+        dr.Description = CStr(dr.Description);
+        dr.CancelDate = "0001-01-01T00:00:00";
+        dr.CancelReson="";
+        dr.ProjectName=CStr(dr.ProjectName);
+        dr.InvProduct=CStr(dr.InvProduct);
+        dr.InvProductQty = CNum(dr.InvProductQty);
+        dr.InvProductUnit=CStr(dr.InvProductUnit);
+        dr.TotalQty = CNum(dr.TotalQty);
+        dr.InvTotal = CNum(dr.InvTotal);
+        dr.Measurement=CStr(dr.Measurement);
+        dr.TotalNW = CNum(dr.TotalNW);
+        dr.TotalGW = CNum(dr.TotalGW);
+        dr.GWUnit=CStr(dr.GWUnit);
+        dr.InvCurUnit=CStr(dr.InvCurUnit);
+        dr.InvCurRate = CNum(dr.InvCurRate);
+        dr.InvCountry=CStr(dr.InvCountry);
+        dr.InvFCountry = CStr(dr.InvFCountry);
+
+        dr.BLNo=CStr(dr.BLNo);
+
+        dr.VesselName=CStr(dr.VesselName);
+        dr.MVesselName=CStr(dr.MVesselName);
+        dr.InvInterPort=CStr(dr.InvInterPort);
+
+        dr.TotalContainer = CStr(dr.TotalContainer);
+
+        dr.ImExDate = "0001-01-01T00:00:00";
+        dr.ReadyToClearDate = "0001-01-01T00:00:00";
+
+
+        dr.ClearDate = "0001-01-01T00:00:00";
+        dr.ClearPort = CStr(dr.ClearPort);
+        dr.ClearPortNo = CStr(dr.ClearPortNo);
+
+        dr.ShippingEmp=CStr(dr.ShippingEmp);
+        dr.ShippingCmd=CStr(dr.ShippingCmd);
+
+        dr.DutyAmount = 0;
+        dr.DutyLtdPayChqAmt = 0;
+        dr.DutyLtdPayCashAmt = 0;
+        dr.DutyLtdPayEPAYAmt = 0;
+        dr.DutyLtdPayOtherAmt = 0;
+        dr.DutyLtdPayOther = 0;
+
+        dr.DutyCustPayChqAmt =0;
+        dr.DutyCustPayCashAmt = 0;
+        dr.DutyCustPayCardAmt = 0;
+        dr.DutyCustPayBankAmt = 0;
+        dr.DutyCustPayEPAYAmt = 0;
+        dr.DutyCustPayOtherAmt = 0;
+        dr.DutyCustPayOther = 0;
+
+        dr.TSRequest = 0;
+        dr.DeclareType = CStr(dr.DeclareType);
+        dr.DeclareStatus = 0;
+        dr.TyAuthorSp = 0;
+        dr.Ty19BIS=0;
+        dr.TyClearTax=0;
+        dr.TyClearTaxReson = '';
+
+        dr.DeliveryNo = '';
+        dr.DeliveryTo = CStr(dr.DeliveryTo);
+        dr.DeliveryAddr = CStr(dr.DeliveryAddr);
+        return dr;
+    }
     function OpenJob() {
         window.location.href='ShowJob?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val();
     }
+    function OpenJobT() {
+        window.location.href = 'Transport?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val();
+    }
     function SaveData(obj) {
-        let jsonString = JSON.stringify({ data: obj });
-
-        postData("@Url.Action("SetJobData", "JobOrder")", jsonString, function (r) {
-            $('#txtJNo').val(r.result);
-            $('#dvResp').html(r.msg);
-            $('#frmShowJob').modal('show');
-            $('#btnCreateJob').removeAttr('disabled');
+        let jsonText = JSON.stringify({ data: obj });
+        //ShowMessage(jsonText);
+        $.ajax({
+            url: "@Url.Action("SetJobData", "JobOrder")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonText,
+            success: function (r) {
+                $('#txtJNo').val(r.result);
+                $('#dvResp').html(r.msg);
+                $('#frmShowJob').modal('show');
+                $('#btnCreateJob').removeAttr('disabled');
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
         });
     }
 </script>

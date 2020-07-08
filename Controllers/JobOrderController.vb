@@ -921,17 +921,33 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("JNo")) Then
                     tSqlW &= " AND j.JNo='" & Request.QueryString("JNo") & "'"
                 End If
+                Dim dField = "j.DocDate"
+                If Not IsNothing(Request.QueryString("ByDate")) Then
+                    dField = "j." & Request.QueryString("ByDate").ToString
+                End If
                 If Not IsNothing(Request.QueryString("Year")) Then
-                    tSqlW &= " AND Year(j.DocDate)='" & Request.QueryString("Year") & "'"
+                    tSqlW &= " AND Year(" & dField & ")='" & Request.QueryString("Year") & "'"
                 End If
                 If Not IsNothing(Request.QueryString("Month")) Then
-                    tSqlW &= " AND Month(j.DocDate)='" & Request.QueryString("Month") & "'"
+                    tSqlW &= " AND Month(" & dField & ")='" & Request.QueryString("Month") & "'"
                 End If
                 If Not IsNothing(Request.QueryString("CustCode")) Then
                     tSqlW &= " AND j.CustCode='" & Request.QueryString("CustCode") & "'"
                 End If
                 If Not IsNothing(Request.QueryString("CSCode")) Then
                     tSqlW &= " AND j.CSCode='" & Request.QueryString("CSCode") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("DeclareNo")) Then
+                    tSqlW &= " AND j.DeclareNumber='" & Request.QueryString("DeclareNo") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("HAWB")) Then
+                    tSqlW &= " AND j.HAWB='" & Request.QueryString("HAWB") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("InvNo")) Then
+                    tSqlW &= " AND j.InvNo='" & Request.QueryString("InvNo") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("BookingNo")) Then
+                    tSqlW &= " AND j.BookingNo='" & Request.QueryString("BookingNo") & "'"
                 End If
                 If Not IsNothing(Request.QueryString("ManagerCode")) Then
                     tSqlW &= " AND j.ManagerCode='" & Request.QueryString("ManagerCode") & "'"
@@ -941,6 +957,12 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("TaxNumber")) Then
                     tSqlW &= " AND j.CustCode IN(SELECT CustCode FROM Mas_Company WHERE TaxNumber='" & Request.QueryString("TaxNumber") & "')"
+                End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlW &= " AND " & dField & ">='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlW &= " AND " & dField & "<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectJobReport() & " WHERE j.JNo<>'' " & tSqlW & " ORDER BY j.BranchCode,j.JNo")
                 Dim json As String = JsonConvert.SerializeObject(oData)
@@ -1280,12 +1302,12 @@ Namespace Controllers
                     FindJob = oJob.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", oJob.BranchCode, CopyFrom))
                     If FindJob.Count > 0 Then
                         oJob = FindJob(0)
-                        oJob.AddNew("")
+                        oJob.JNo = ""
                     End If
                 End If
                 oJob.CreateDate = DateTime.Today
                 Dim json As String = JsonConvert.SerializeObject(oJob)
-                json = "{""job"":{""data"":" & json & ",""status"":""Y"",""result"":""OK""}}"
+                json = "{""job"":{""data"":[" & json & "],""status"":""Y"",""result"":""OK""}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetNewJob", ex.Message, ex.StackTrace, True)
@@ -1328,7 +1350,7 @@ Namespace Controllers
                         If Not IsNothing(Request.QueryString("Prefix")) Then
                             prefix = "" & Request.QueryString("Prefix")
                         End If
-                        data.AddNew(prefix & data.DocDate.ToString("yyMM") & "____")
+                        data.AddNew(prefix & data.DocDate.ToString("yyMM") & "____", False)
                     End If
                     Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
                     Dim FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)

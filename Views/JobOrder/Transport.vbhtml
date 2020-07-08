@@ -189,8 +189,13 @@ End Code
             <div class="panel" style="background-color:lightgreen;padding:10px 10px 10px 10px;margin-top:10px">
                 <div class="row">
                     <div class="col-sm-6">
-                        <a href="../Master/TransportRoute"><label id="lblRoute">Transport Route</label></a>: <br />
-                        <select id="cboLocation" class="form-control dropdown" onchange="LoadLocation()"></select>
+                        <a href="../Master/TransportRoute"><label id="lblRoute">Transport Route</label></a>: 
+                        <br />
+                        <div style="display:flex">
+                            <input type="text" id="txtMainRoute" style="width:10%;" class="form-control" disabled />
+                            <input type="text" id="txtMainLocation" style="width:70%" class="form-control" disabled />
+                            <button id="btnRoute" class="btn btn-default" onclick="SearchData('location');">...</button>
+                        </div>                        
                     </div>
                     <div class="col-sm-2">
                         <label id="lblActive">Active Trip:</label>
@@ -338,7 +343,6 @@ End Code
         <table id="tbDetail" class="table table-responsive">
             <thead>
                 <tr>
-                    <th class="desktop">No</th>
                     <th>CTN_NO</th>
                     <th class="desktop">CTN_SIZE</th>
                     <th class="desktop">SealNumber</th>
@@ -682,7 +686,7 @@ End Code
                     <a href="#" class="btn btn-success" id="btnUpdateDetail" onclick="SaveDetail()">
                         <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSaveCont">Save Container</b>
                     </a>
-                    <a href="#" class="btn btn-danger" id="btnDeleteDetail" onclick="DeleteDetail()">
+                    <a href="#" class="btn btn-danger" id="btnDeleteDetail" onclick="DeleteDetail()" style="display:none">
                         <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelCont">Delete Container</b>
                     </a>
                 </div>
@@ -752,29 +756,17 @@ End Code
             }
         });
     }
-    function loadRoute() {
-        $.get(path + 'JobOrder/GetTransportRoute', function (r) {
-            if (r.transportroute.data !== undefined) {
-                let dr = r.transportroute.data;
-                $('#cboLocation').empty();
-                if (dr.length > 0) {
-                    for (let i = 0; i < dr.length; i++) {
-                        $('#cboLocation').append($('<option>', { value: dr[i].LocationID })
-                            .text(dr[i].LocationRoute));
-                    }
-                }
-            }
-        });
-    }
     function SetLOVs() {
         loadUnit('#txtCTN_SIZE', path, '?Type=1');
         loadUnit('#cboContainerSize', path, '?Type=1');
-        loadRoute();
+
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Customers
-            CreateLOV(dv,'#frmSearchCust', '#tbCust','Customers',response,3);
+            CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
+            //Routes
+            CreateLOV(dv, '#frmSearchMainRoute', '#tbMainRoute', 'Transport Routes', response, 2);
             //Agent
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response, 2);
             //Branch
@@ -835,6 +827,9 @@ End Code
             case 'servicecode2':
                 SetGridSICode(path, '#tbServ2', '', '#frmSearchServ2', ReadService2);
                 break;
+            case 'location':
+                SetGridTransportRoute(path, '#tbMainRoute', '#frmSearchMainRoute', ReadMainRoute);
+                break;
             case 'route':
                 SetGridTransportRoute(path, '#tbRoute', '#frmSearchRoute', ReadRoute);
                 break;
@@ -844,6 +839,26 @@ End Code
         $('#txtRouteID').val(dt.LocationID);
         $('#txtLocation').val(dt.LocationRoute);
         ShowExpense();
+    }
+    function ReadMainRoute(dr) {
+        $('#txtMainRoute').val(dr.LocationID);
+        $('#txtMainLocation').val(dr.LocationRoute);
+
+        $('#txtCYPlace').val(dr.Place1);
+        $('#txtCYAddress').val(dr.Address1);
+        $('#txtCYContact').val(dr.Contact1);
+
+        $('#txtPackingPlace').val(dr.Place2);
+        $('#txtPackingAddress').val(dr.Address2);
+        $('#txtPackingContact').val(dr.Contact2);
+
+        $('#txtFactoryPlace').val(dr.Place3);
+        $('#txtFactoryAddress').val(dr.Address3);
+        $('#txtFactoryContact').val(dr.Contact3);
+
+        $('#txtReturnPlace').val(dr.Place4);
+        $('#txtReturnAddress').val(dr.Address4);
+        $('#txtReturnContact').val(dr.Contact4);
     }
     function ReadService1(dt) {
         $('#txtSICode').val(dt.SICode);
@@ -963,7 +978,6 @@ End Code
         let tb=$('#tbDetail').DataTable({
             data: dr,
             columns: [
-                { data: "ItemNo", title: "#"},
                 { data: "CTN_NO", title: "Container No" },
                 { data: "CTN_SIZE", title: "Container Size" },
                 { data: "SealNumber", title: "Seal" },
@@ -1145,6 +1159,8 @@ End Code
         $('#txtTotalTripA').val(0);
         $('#txtTotalTripF').val(0);
         $('#txtTotalTripC').val(0);
+        $('#txtMainRoute').val('');
+        $('#txtMainLocation').val('');
     }
     function PrintBooking() {
         switch ($('#cboPrintForm').val()) {
@@ -1196,8 +1212,8 @@ End Code
         $('#txtUnloadTime').val($('#txtFactoryTime').val());
         $('#txtUnloadFinishDate').val('');
         $('#txtUnloadFinishTime').val('00:00');
-        $('#txtLocation').val($('#cboLocation option:selected').text());
-        $('#txtRouteID').val($('#cboLocation').val());
+        $('#txtLocation').val($('#txtRoute').val());
+        $('#txtRouteID').val($('#txtMainRoute').val());
         $('#txtDeliveryNo').val('');
         $('#txtShippingMark').val('');
         $('#txtCTN_SIZE').val('');
@@ -1290,6 +1306,11 @@ End Code
         $('#txtFinish').val(ShowTime(dr.Finish));
         $('#txtTimeUsed').val(dr.TimeUsed);
         $('#txtCauseCode').val(dr.CauseCode);
+        if (dr.CauseCode == 99) {
+            $('#btnDeleteDetail').show();
+        } else {
+            $('#btnDeleteDetail').hide();
+        }
         $('#txtComment').val(dr.Comment);
         $('#txtTruckType').val(dr.TruckType);
         $('#txtDriver').val(dr.Driver);
@@ -1303,6 +1324,10 @@ End Code
         $('#txtUnloadTime').val(ShowTime(dr.UnloadTime));
         $('#txtLocation').val(dr.Location);
         $('#txtRouteID').val(dr.LocationID);
+        if (dr.LocationID == 0 && $('#txtMainRoute').val() !== '') {
+            $('#txtRouteID').val($('#txtMainRoute').val());
+            $('#txtLocation').val($('#txtMainLocation').val());
+        }
         $('#txtDeliveryNo').val(dr.DeliveryNo);
         $('#txtDReturnDate').val(CDateEN(dr.ReturnDate));
         $('#txtShippingMark').val(dr.ShippingMark);
@@ -1376,29 +1401,6 @@ End Code
             }
         });
     }
-    function LoadLocation() {
-        $.get(path + 'JobOrder/GetTransportRoute?ID=' + $('#cboLocation').val(), function (r) {
-            if (r.transportroute.data !== undefined) {
-                let dr = r.transportroute.data[0];
-
-                $('#txtCYPlace').val(dr.Place1);
-                $('#txtCYAddress').val(dr.Address1);
-                $('#txtCYContact').val(dr.Contact1);
-
-                $('#txtPackingPlace').val(dr.Place2);
-                $('#txtPackingAddress').val(dr.Address2);
-                $('#txtPackingContact').val(dr.Contact2);
-
-                $('#txtFactoryPlace').val(dr.Place3);
-                $('#txtFactoryAddress').val(dr.Address3);
-                $('#txtFactoryContact').val(dr.Contact3);
-
-                $('#txtReturnPlace').val(dr.Place4);
-                $('#txtReturnAddress').val(dr.Address4);
-                $('#txtReturnContact').val(dr.Contact4);
-            }
-        });
-    }
     function GetRoute() {
         let w = '';
         if ($('#txtCYPlace').val() !== '') {
@@ -1418,7 +1420,7 @@ End Code
     function SaveLocation(active = true) {
         if ($('#txtCYPlace').val() !== '') {
             let obj = {
-                LocationID: $('#cboLocation').val(),
+                LocationID: $('#txtMainRoute').val(),
                 Place1: $('#txtCYPlace').val(),
                 Place2: $('#txtFactoryPlace').val(),
                 Place3: $('#txtPackingPlace').val(),
@@ -1483,7 +1485,7 @@ End Code
                         if (response.result.data >= 0) {
                             ShowMessage('Save Complete');
                         }
-                        loadRoute();
+
                         return;
                     }
                     ShowMessage(response.result.msg,true);
@@ -1549,9 +1551,9 @@ End Code
             ShowMessage('Please input branch',true);
             return;
         }
-        if ($('#cboLocation').val() > 0) {
-            $('#txtLocationID').val($('#cboLocation').val());
-            $('#txtLocationRoute').val($('#cboLocation option:selected').text());
+        if ($('#txtMainRoute').val() !== '') {
+            $('#txtLocationID').val($('#txtMainRoute').val());
+            $('#txtLocationRoute').val($('#txtMainLocation').val());
             LoadExpense();
             $('#dvExpenses').modal('show');
         } else {

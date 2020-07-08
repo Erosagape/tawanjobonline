@@ -1649,7 +1649,10 @@ function ChangeLanguageForm(fname) {
                 lblJob: 'Enter Job >>|คีย์หมายเลขงานที่นี่ >>',
                 btnJobSlip: 'Show|แสดง',
                 linkCreate: 'Create|สร้างงานใหม่',
-                linkSearch:'Search|ค้นหา'
+                linkSearch: 'Search|ค้นหา',
+                lblDutyDate: 'By Inspection Date|ตามวันที่ตรวจปล่อย',
+                lblQuickSearch: 'Quick Search|ค้นหาแบบระบุเงื่อนไข',
+                lblCliteria:'Cliteria|ค่าที่ระบุ'
             };
             SetLanguage(lang);
             ChangeLanguageGrid(fname, '#tblJob');
@@ -1675,7 +1678,14 @@ function ChangeLanguageForm(fname) {
                 lblJobDate: 'Job Date|วันที่เปิดงาน',
                 lblCreateJob: 'Create Job|สร้างหมายเลขงาน',
                 lblSaveComplete: 'Create Job Complete|สร้างหมายเลขงานเรียบร้อย',
-                btnViewJob: 'View/Edit Job|ดู/แก่ไชข้อมูล'
+                btnViewJobS: 'Edit Job Data|แก่ไขข้อมูลงาน',
+                btnViewJobT: 'Edit Transport Data|แก่ไขข้อมูลขนส่ง',
+                lblForwarder: 'Forwarder/Agent|ตัวแทนเรือ/สายการบิน',
+                lblTransport: 'Transporter|ตัวแทนขนส่ง',
+                lblLoadDate: 'Load Date|วันที่รับบรรทุก',
+                lblETDDate: 'ETD Date|วันที่ออกจากท่าต้นทาง',
+                lblETADate: 'ETA Date|วันที่ถึงท่าปลายทาง',
+                lblDeliveryDate:'Delivery Date|วันที่ของถึงปลายทาง'
             };
             SetLanguage(lang);
             break;
@@ -3698,7 +3708,6 @@ function ChangeLanguageGrid(module, id) {
         case 'MODULE_CS/Transport':
             if (id == '#tbDetail') {
                 gridLang = [
-                    "#|#",
                     "Container No|เบอร์ตู้",
                     "Container Size|ขนาดตู้",
                     "Seal|เบอร์ซีล",
