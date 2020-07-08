@@ -1621,8 +1621,8 @@ ORDER BY a.TName1
                             If fmt.IndexOf("bb") >= 0 Then
                                 fmt = fmt.Replace("bb", data.DocDate.AddYears(543).ToString("yy"))
                             End If
-                            If fmt.IndexOf("mm") >= 0 Then
-                                fmt = fmt.Replace("mm", data.DocDate.ToString("mm"))
+                            If fmt.IndexOf("MM") >= 0 Then
+                                fmt = fmt.Replace("MM", data.DocDate.ToString("MM"))
                             End If
                             If fmt.IndexOf("yy") >= 0 Then
                                 fmt = fmt.Replace("yy", data.DocDate.ToString("yy"))
@@ -1730,8 +1730,8 @@ ORDER BY a.TName1
                             If fmt.IndexOf("bb") >= 0 Then
                                 fmt = fmt.Replace("bb", data.BillDate.AddYears(543).ToString("yy"))
                             End If
-                            If fmt.IndexOf("mm") >= 0 Then
-                                fmt = fmt.Replace("mm", data.BillDate.ToString("mm"))
+                            If fmt.IndexOf("MM") >= 0 Then
+                                fmt = fmt.Replace("MM", data.BillDate.ToString("MM"))
                             End If
                             If fmt.IndexOf("yy") >= 0 Then
                                 fmt = fmt.Replace("yy", data.BillDate.ToString("yy"))
@@ -1949,8 +1949,8 @@ ORDER BY a.TName1
                             If fmt.IndexOf("bb") >= 0 Then
                                 fmt = fmt.Replace("bb", data.ReceiptDate.AddYears(543).ToString("yy"))
                             End If
-                            If fmt.IndexOf("mm") >= 0 Then
-                                fmt = fmt.Replace("mm", data.ReceiptDate.ToString("mm"))
+                            If fmt.IndexOf("MM") >= 0 Then
+                                fmt = fmt.Replace("MM", data.ReceiptDate.ToString("MM"))
                             End If
                             If fmt.IndexOf("yy") >= 0 Then
                                 fmt = fmt.Replace("yy", data.ReceiptDate.ToString("yy"))
