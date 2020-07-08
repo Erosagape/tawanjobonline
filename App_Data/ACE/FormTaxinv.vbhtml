@@ -61,8 +61,7 @@ End Code
     <tbody id="tbDetail"></tbody>
     <tfoot>
         <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="4" style="text-align:center"><label id="lblTotalText"></label></td>
-            <td colspan="2">TOTAL AMOUNT</td>
+            <td colspan="6">TOTAL AMOUNT</td>
             <td colspan="1"><label id="lblTotalBeforeVAT"></label></td>
         </tr>
         <tr style="background-color:lightblue;text-align:right;">            
@@ -72,6 +71,10 @@ End Code
         <tr style="background-color:lightblue;text-align:right;">
             <td colspan="6">TOTAL RECEIPT</td>
             <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
+        </tr>
+        <tr style="background-color:lightblue;text-align:right;">            <td colspan="4" style="text-align:center"><label id="lblTotalText"></label></td>
+            <td colspan="2">TOTAL NET</td>
+            <td colspan="1"><label id="lblTotalNet"></label></td>
         </tr>
     </tfoot>
 </table>
@@ -94,14 +97,6 @@ End Code
 </div>
 <br />
 <div style="display:flex;">
-    <!--
-    <div class="text-left" style="border:1px solid black;flex:2">
-        PLEASE REMIT TO ACCOUNT NO: 170-279834-5<br />
-        "DAMON GOOD SERVICES CO.,LTD"<br />
-        SIAM COMMERCIAL BANK PUBLIC LIMITED<br />
-        THE MALL THA-PHRA BRANCH
-    </div>
-        -->
     <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
 
         FOR THE CUSTOMER
@@ -173,7 +168,7 @@ End Code
         for (let d of dt) {
             html = '<tr>';
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
-            html += '<td>' + d.SICode+ '-'+ d.SDescription + '</td>';
+            html += '<td>' + d.SDescription + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvAmt,2):'0.00') + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'0.00') + '</td>';
@@ -192,6 +187,7 @@ End Code
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
         $('#lblTotalAfterVAT').text(ShowNumber(total, 2));
-        $('#lblTotalText').text(CNumThai(ShowNumber(total, 2)));
+        $('#lblTotalNet').text(ShowNumber(total-wht, 2));
+        $('#lblTotalText').text(CNumThai(total-wht));
     }
 </script>

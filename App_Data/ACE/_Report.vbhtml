@@ -24,13 +24,21 @@
                 <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:130px" />
             </div>
             <div style="flex:4;padding:5px;">
-                <div id="divCompany" style="text-align:left;color:darkblue;font-size:12px">
-                    <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME</b>
-                    <br />@ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2
-                    <br />Tel @ViewBag.PROFILE_COMPANY_TEL E-Mail @ViewBag.PROFILE_COMPANY_EMAIL
-<br/>Tax ID : @ViewBag.PROFILE_TAXNUMBER Branch : สำนักงานใหญ่
-		
-                </div>
+                @if ViewBag.PROFILE_DEFAULT_LANG = "EN" Then
+                    @<div id="divCompany" style="text-align:left;color:darkblue;font-size:12px">
+                        <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME_EN</b>
+                        <br />@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN
+                        <br />Tel @ViewBag.PROFILE_COMPANY_TEL E-Mail @ViewBag.PROFILE_COMPANY_EMAIL
+                        <br />Tax ID @ViewBag.PROFILE_TAXNUMBER Branch: HEAD OFFICE
+                    </div>
+                Else
+                    @<div id="divCompany" style="text-align:left;color:darkblue;font-size:12px">
+                        <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME</b>
+                        <br />@ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2
+                        <br />Tel @ViewBag.PROFILE_COMPANY_TEL E-Mail @ViewBag.PROFILE_COMPANY_EMAIL
+                        <br />Tax ID @ViewBag.PROFILE_TAXNUMBER Branch: สำนักงานใหญ่
+                    </div>
+                End If
             </div>
         </div>
         <div style="display:flex;flex-direction:column">

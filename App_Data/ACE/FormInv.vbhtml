@@ -160,7 +160,7 @@ CUST PO: <label id="lblCustRefNo"></label>
                 </td>
             </tr>
             <tr>
-                <td>TOTAL (BAHT)</td>
+                <td>TOTAL</td>
                 <td colspan="7">
                     <div style="text-align:center"><label id="lblTotalBaht"></label></div>
                 </td>
@@ -286,18 +286,21 @@ CUST PO: <label id="lblCustRefNo"></label>
             $('#lblDescription').html(remark);
             remark=h.ShippingRemark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
             $('#lblShippingRemark').html(remark);
-            $('#lblSumNonVat').text(ShowNumber(h.TotalCharge,2));
-            $('#lblSumDiscount').text(ShowNumber(h.TotalDiscount,2));
-            $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv,2));
-            $('#lblSumBeforeVat').text(ShowNumber(h.TotalIsTaxCharge,2));
-            $('#lblSumVat').text(ShowNumber(h.TotalVAT,2));
-            $('#lblSumAfterVat').text(ShowNumber(Number(h.TotalIsTaxCharge)+Number(h.TotalVAT),2));
-            $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
-            $('#lblSumTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT),2));
-            $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
-            $('#lblTotalBaht').text('(' + CNumThai(CDbl(Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount), 2)) + ')');
-
-            $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalNet),2));
+            $('#lblSumNonVat').text(ShowNumber(h.TotalCharge/h.ExchangeRate,2));
+            $('#lblSumDiscount').text(ShowNumber(h.TotalDiscount/h.ExchangeRate,2));
+            $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv/h.ExchangeRate,2));
+            $('#lblSumBeforeVat').text(ShowNumber(h.TotalIsTaxCharge/h.ExchangeRate,2));
+            $('#lblSumVat').text(ShowNumber(h.TotalVAT/h.ExchangeRate,2));
+            $('#lblSumAfterVat').text(ShowNumber((Number(h.TotalIsTaxCharge)+Number(h.TotalVAT))/h.ExchangeRate,2));
+            $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance/h.ExchangeRate,2));
+            $('#lblSumTotal').text(ShowNumber((Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT))/h.ExchangeRate,2));
+            $('#lblSumGrandTotal').text(ShowNumber((Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount))/h.ExchangeRate,2));
+	if(h.DocNo.substr(0,3)=='IVF'){ 
+            $('#lblTotalBaht').text('(' + CNumEng(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount))/h.ExchangeRate, 2)) + ')');
+	} else {
+            $('#lblTotalBaht').text('(' + CNumThai(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount))/h.ExchangeRate, 2)) + ')');
+	}
+            $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalNet)/h.ExchangeRate,2) + ' ' + h.CurrencyCode);
         }
         let d = dr.detail[0];
         sortData(d, 'AmtAdvance', 'asc');
@@ -311,7 +314,7 @@ CUST PO: <label id="lblCustRefNo"></label>
                 icount += 1;
                 let html = '<tr>';
                 html += '<td style="text-align:center">' + icount + '</td>';
-                html += '<td>' + o.SICode + '-' + o.SDescription + '</td>';
+                html += '<td>' + o.SDescription + '</td>';
                 if (o.AmtAdvance > 0) {
                     html += '<td style="text-align:right">' + ShowNumber(o.AmtAdvance, 2) + '</td>';
                     html += '<td style="text-align:right">0.00</td>';
@@ -322,7 +325,7 @@ CUST PO: <label id="lblCustRefNo"></label>
                 html += '<td style="text-align:center">' + o.Qty + ' '+ o.QtyUnit + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(o.AmtVat, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(o.Amt50Tavi, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(CNum(o.TotalAmt), 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(CNum(o.FTotalAmt), 2) + '</td>';
                 html += '</tr>';
 
                 $('#tbDetail').append(html);

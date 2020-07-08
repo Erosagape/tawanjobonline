@@ -142,7 +142,7 @@ End Code
         for (let d of dt) {
             html = '<tr>';
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
-            html += '<td>' + d.SICode+ '-'+ d.SDescription + '</td>';
+            html += '<td>' + d.SDescription + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
             html += '<td style="text-align:right">' + ShowNumber(d.FNet,2) + '</td>';
             html += '<td style="text-align:center">' + d.DCurrencyCode + '</td>';
@@ -155,6 +155,6 @@ End Code
             total += Number(d.Net);
         }
         $('#lblTotalNum').text(ShowNumber(total, 2));
-        $('#lblTotalText').text(CNumThai(ShowNumber(total, 2)));
+        $('#lblTotalText').text(CNumThai(total));
     }
 </script>
