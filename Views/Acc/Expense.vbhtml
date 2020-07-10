@@ -635,7 +635,7 @@ End Code
         LoadService();
 
         //3 Fields Show
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Venders
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response,2);
@@ -649,7 +649,7 @@ End Code
             CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency Code', response, 2);
             //Jobs
             CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Jobs', response, 3);
-            CreateLOV(dv, '#frmSearchPrice', '#tbPrice', 'Price Lists', response, 3);
+            CreateLOV(dv, '#frmSearchPrice', '#tbPrice', 'Price Lists', response, 4);
         });
     }
     function ShowData(branchcode, docno) {

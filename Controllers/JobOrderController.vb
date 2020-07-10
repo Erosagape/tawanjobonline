@@ -61,6 +61,17 @@ Namespace Controllers
                 Else
                     Return Content("{""result"":{""data"":[],""msg"":""Please select unit""}}", jsonContent)
                 End If
+                Dim route = 0
+                Dim routename = ""
+                If Not Request.QueryString("Route") Is Nothing Then
+                    route = Convert.ToInt32("0" & Request.QueryString("Route").ToString())
+                    Dim oRoute = New CTransportRoute(GetSession("ConnJob")).GetData(String.Format(" WHERE LocationID={0}", route))
+                    If oRoute.Count > 0 Then
+                        routename = oRoute(0).LocationRoute
+                    End If
+                Else
+                    Return Content("{""result"":{""data"":[],""msg"":""Please select route""}}", jsonContent)
+                End If
                 Dim volume = 0
                 If Not Request.QueryString("Qty") Is Nothing Then
                     volume = Convert.ToInt16("0" & Request.QueryString("Qty").ToString)
@@ -70,6 +81,11 @@ Namespace Controllers
                 If volume <= 0 Then
                     Return Content("{""result"":{""data"":[],""msg"":""Value must be more than zero""}}", jsonContent)
                 Else
+                    Dim bookData = New CTransportHeader(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", branch, book))
+                    Dim booking = New CTransportHeader()
+                    If bookData.Count > 0 Then
+                        booking = bookData(0)
+                    End If
                     Dim oList As New List(Of CTransportDetail)
                     For i As Integer = 1 To volume
                         Dim oRec = New CTransportDetail(GetSession("ConnJob"))
@@ -83,7 +99,8 @@ Namespace Controllers
                         oRec.Comment = ""
                         oRec.TruckType = ""
                         oRec.Driver = ""
-                        oRec.Location = ""
+                        oRec.LocationID = route
+                        oRec.Location = routename
                         oRec.ShippingMark = ""
                         oRec.ProductDesc = GetValueSQL(GetSession("ConnJob"), String.Format("SELECT InvProduct FROM Job_Order WHERE BranchCode='{0}' AND JNo='{1}'", branch, oRec.JNo)).Result.ToString()
                         oRec.CTN_SIZE = size
@@ -92,6 +109,12 @@ Namespace Controllers
                         oRec.GrossWeight = 0
                         oRec.Measurement = 0
                         oRec.DeliveryNo = ""
+                        oRec.TargetYardDate = booking.CYDate
+                        oRec.TargetYardTime = booking.CYTime
+                        oRec.UnloadDate = booking.FactoryDate
+                        oRec.UnloadTime = booking.FactoryTime
+                        oRec.TruckIN = booking.ReturnDate
+                        oRec.Start = booking.ReturnTime
                         oRec.AddNew()
                         Dim msg = oRec.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", oRec.BranchCode, oRec.BookingNo, oRec.ItemNo))
                         If msg.Substring(0, 1) = "S" Then
@@ -641,9 +664,9 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     If Request.QueryString("Status").ToString = "N" Then
-                        tSqlw &= "AND a.CauseCode NOT IN('2','3','99') "
+                        tSqlw &= "AND ISNULL(a.CauseCode,'0') IN('0','1','') "
                     Else
-                        tSqlw &= "AND a.CauseCode IN('2','3','99') "
+                        tSqlw &= "AND ISNULL(a.CauseCode,'0') IN('2','3','99') "
                     End If
                 End If
                 Dim tSqlH = " AND a.BookingNo IN(SELECT BookingNo FROM Job_LoadInfo WHERE BookingNo<>'' "
@@ -827,7 +850,7 @@ Namespace Controllers
                     tSqlw &= String.Format(" AND Mas_Company.TaxNumber='{0}' ", Request.QueryString("TaxNumber").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("Vend")) Then
-                    tSqlw &= String.Format(" AND Job_LoadInfo.VenderCode='{0}' ", Request.QueryString("Vend").ToString)
+                    tSqlw &= String.Format(" AND Job_Loadinfo.VenderCode='{0}' ", Request.QueryString("Vend").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
                     tSqlw &= " AND Job_LoadInfo.LoadDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
@@ -1444,7 +1467,7 @@ Namespace Controllers
                     tSqlw &= String.Format(" AND JobStatus='{0}' ", Request.QueryString("Status").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("Vend")) Then
-                    tSqlw &= String.Format(" AND AgentCode='{0}' ", Request.QueryString("Vend").ToString)
+                    tSqlw &= String.Format(" AND ForwarderCode='{0}' ", Request.QueryString("Vend").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
                     tSqlw &= " AND DutyDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
@@ -1631,18 +1654,28 @@ Namespace Controllers
                 Dim oData1 = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLDashboard1(tSqlw1))
                 msg = SQLDashboard1(tSqlw1)
                 Dim json1 As String = ""
-                For i As Integer = 0 To oData1.Rows.Count - 1
-                    If i = 0 Then
-                        json1 = "[""Status"",""Volume""]"
-                    End If
-                    If oData1.Rows(i)("TotalJob").Equals(System.DBNull.Value) = False Then
-                        Dim status As String = Convert.ToInt16(oData1.Rows(i)("JobStatus")).ToString("00")
-                        json1 &= ",[""" & GetValueConfig("JOB_STATUS", status) & """," & oData1.Rows(i)("TotalJob") & "]"
-                    Else
-                        json1 &= ",[""ALL"",0]"
-                    End If
-                Next
-
+                json1 = "[""Status"",""Volume""]"
+                Dim oStatus = Main.GetDataConfig("JOB_STATUS")
+                If oData1.Rows.Count = 0 Then
+                    json1 &= ",[""ALL"",0]"
+                Else
+                    Dim bFound As Boolean = False
+                    For Each oRow As CConfig In oStatus
+                        bFound = False
+                        For i As Integer = 0 To oData1.Rows.Count - 1
+                            If oData1.Rows(i)("TotalJob").Equals(System.DBNull.Value) = False Then
+                                If oRow.ConfigKey.Equals(Convert.ToInt16(oData1.Rows(i)("JobStatus")).ToString("00")) Then
+                                    bFound = True
+                                    json1 &= ",[""" & oRow.ConfigValue & """," & oData1.Rows(i)("TotalJob") & "]"
+                                    Exit For
+                                End If
+                            End If
+                        Next
+                        If bFound = False Then
+                            json1 &= ",[""" & oRow.ConfigValue & """,0]"
+                        End If
+                    Next
+                End If
                 Dim oData2 = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLDashboard2(tSqlw1))
                 msg = SQLDashboard2(tSqlw1)
                 Dim json2 As String = ""

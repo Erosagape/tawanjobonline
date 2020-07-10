@@ -5,11 +5,13 @@ End Code
     <div class="row">
         <div class="col-sm-3">
             <label id="lblJobType">Job Type </label>
-            : <br /><select id="cboJobType" class="form-control dropdown" onchange="checkJobType()"></select>
+            : <br />
+            <select id="cboJobType" class="form-control dropdown" onchange="checkJobType()"></select>
         </div>
         <div class="col-sm-3">
             <label id="lblShipBy">Transport By</label>
-             : <br /><select id="cboShipBy" class="form-control dropdown" onchange="drawChart()"></select>
+             : <br />
+            <select id="cboShipBy" class="form-control dropdown" onchange="drawChart()"></select>
         </div>
         <div class="col-sm-2">
             <label id="lblDateFrom">Duty Date From</label>
@@ -44,6 +46,17 @@ End Code
         <div class="col-md-12">
             <b><label id="lblGrid3">Status By Customer</label>:</b>
             <div id="chartCust"></div>
+        </div>
+    </div>
+</div>
+<div id="dvDetail" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="dvHeader" class="modal-header">                
+            </div>
+            <div class="modal-body">
+
+            </div>
         </div>
     </div>
 </div>
@@ -119,6 +132,7 @@ End Code
         var dataVol = google.visualization.arrayToDataTable(getDataTable(dt));
         var volOptions = {
             pieHole: 0.4,
+            colors : GetColorStatus()
         };
         var chartVol = new google.visualization.PieChart(document.getElementById('chartVol'));
         google.visualization.events.addListener(chartVol, 'select', function (e) {
@@ -128,7 +142,9 @@ End Code
                     chartVol.getSelection().length > 0)  
             {  
 
-                alert(dataVol.getFormattedValue(chartVol.getSelection()[0].row,0) + '='+ dataVol.getFormattedValue(chartVol.getSelection()[0].row,1));
+                let cliteria = dataVol.getFormattedValue(chartVol.getSelection()[0].row, 0) + '=' + dataVol.getFormattedValue(chartVol.getSelection()[0].row, 1);
+                $('#dvHeader').html(cliteria);
+                $('#dvDetail').modal('show');
             }  
         });
         chartVol.draw(dataVol, volOptions);
@@ -142,7 +158,8 @@ End Code
             hAxis: {
                 minValue: 0,
                 ticks: [0, .25, .5, .75, 1]
-            }
+            },
+            series: GetColorStatus()
         };
         var chartStatus = new google.visualization.ColumnChart(document.getElementById('chartStatus'));
         google.visualization.events.addListener(chartStatus, 'select', function (e) {
@@ -155,7 +172,9 @@ End Code
                 let val = statusView.getFormattedValue(chartStatus.getSelection()[0]['row'], chartStatus.getSelection()[0]['column']);
                 let row = statusView.getFormattedValue(chartStatus.getSelection()[0]['row'], 0);
                 let col = statusTable[chartStatus.getSelection()[0]['column']-1];
-                alert(row + '/' + col +'='+ val);
+                let cliteria = row + '/' + col + '=' + val;
+                $('#dvHeader').html(cliteria);
+                $('#dvDetail').modal('show');
             }  
         });
         chartStatus.draw(statusView, statusOptions);
@@ -171,7 +190,8 @@ End Code
             hAxis: {
                 minValue: 0,
                 ticks: [0, .3, .6, .9, 1]
-            }
+            },
+            series: GetColorStatus()
         };
         var chartCust = new google.visualization.BarChart(document.getElementById('chartCust'));
         google.visualization.events.addListener(chartCust, 'select', function (e) {
@@ -184,12 +204,27 @@ End Code
                 let val = custView.getFormattedValue(chartCust.getSelection()[0]['row'], chartCust.getSelection()[0]['column']);
                 let row = custView.getFormattedValue(chartCust.getSelection()[0]['row'], 0);
                 let col = custTable[chartCust.getSelection()[0]['column']-1];
-                alert(row + '/' + col +'='+ val);
+                let cliteria = row + '/' + col + '=' + val;
+                $('#dvHeader').html(cliteria);
+                $('#dvDetail').modal('show');
             }  
         });
         chartCust.draw(custView, custOptions);
     }
-
+    function GetColorStatus() {
+        return [
+            { color: 'antiquewhite', visibleInLegend: true },
+            { color: 'aquamarine', visibleInLegend: true },
+            { color: 'coral', visibleInLegend: true },
+            { color: 'cyan', visibleInLegend: true },
+            { color: 'cornsilk', visibleInLegend: true },
+            { color: 'darkgreen', visibleInLegend: true },
+            { color: 'deeppink', visibleInLegend: true },
+            { color: 'greenyellow', visibleInLegend: true },
+            { color: 'lightblue', visibleInLegend: true },
+            { color: 'olive', visibleInLegend: true },
+        ];
+    }
     function drawChart() {   
         drawChartVol([]);
         drawChartStatus([]);

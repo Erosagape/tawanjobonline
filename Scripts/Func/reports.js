@@ -156,6 +156,7 @@ function GetReportStatus(reportID) {
         case 'JOBADV':
         case 'ADVDAILY':
         case 'ADVSUMMARY':
+        case 'ADVCLEARING':
             val = 'ADV_STATUS';
             break;
         case 'CLRDAILY':
@@ -179,6 +180,8 @@ function GetReportStatus(reportID) {
         case 'JOBVOLUME':
         case 'JOBSTATUS':
         case 'ARBAL':
+        case 'PLANLOAD':
+        case 'JOBTRANSPORT':
             val = 'JOB_STATUS';
             break;
         case 'EXPDAILY':

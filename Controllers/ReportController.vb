@@ -435,8 +435,7 @@ a.BPrice as SumCost,a.ChargeVAT as AmtVat,a.Tax50Tavi as Amt50Tavi,(CASE WHEN IS
     order by a.SICode
 "
                         sqlM = String.Format(sqlM, sqlW)
-                    Case "JOBTRANSPORT"
-                        fldGroup = "VenderCode"
+                    Case "JOBTRANSPORT"                        
                         sqlW = GetSQLCommand(cliteria, "c.LoadDate", "c.NotifyCode", "a.JNo", "", "c.VenderCode", "", "c.BranchCode")
                         If sqlW <> "" Then sqlW = " And " & sqlW
                         sqlM = "SELECT t.LoadDate,t.NotifyCode,t.VenderCode,t.JNo,t.BookingNo,t.CTN_NO,t.CTN_SIZE,t.TruckNO,t.TruckType,t.Location,
@@ -1211,6 +1210,14 @@ ORDER BY d.SDescription,d.ChargeAmount-d.CostAmount DESC
                         sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.ForwarderCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = SQLSelectClearingTotal(sqlW)
+                    Case "ADVCLEARING"
+                        sqlW = GetSQLCommand(cliteria, "t.AdvDate", "t.CustCode", "t.ForJNo", "t.AdvBy", "t.ForwarderCode", "t.AdvStatus", "t.BranchCode")
+                        If sqlW <> "" Then sqlW = " WHERE " & sqlW
+                        sqlM = "SELECT t.ForJNo,t.ETDDate,SUBSTRING(t.ForJNo,1,2),t.AdvBy,t.AdvDate,t.AdvStatus,t.AdvNo,t.SDescription,t.AdvNet, t.ClrNo,t.ClrDate,t.ClrSDescription,t.BNet as ClrNet FROM (" & SQLSelectAdvReport() & ") as t " & sqlW & " ORDER BY t.ForJNo,t.AdvDate"
+                    Case "PLANLOAD"
+                        sqlW = GetSQLCommand(cliteria, "t.LoadDate", "t.CustCode", "t.JNo", "t.CSCode", "t.ForwarderCode", "t.JobStatus", "t.BranchCode")
+                        If sqlW <> "" Then sqlW = " WHERE " & sqlW
+                        sqlM = "SELECT t.JNo,t.BookingNo,t.BookingDate,t.TotalContainer,t.TargetYardDate,t.ActualYardDate,(CASE WHEN t.CauseCode<>'' THEN (case when t.CauseCode='99' THEN 'Cancel' ELSE (CASE WHEN t.CauseCode='3' THEN 'Finish' ELSE 'Working' END) END) ELSE 'Request' END) as ContainerStatus,t.CTN_NO,t.EstDeliverDate,t.CtnReturnDate FROM (" & SQLSelectContainerReport() & ") as t " & sqlW & " ORDER BY t.BookingDate,t.JNo"
                 End Select
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)

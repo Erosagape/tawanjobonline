@@ -766,14 +766,14 @@ End Code
             //Customers
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
             //Routes
-            CreateLOV(dv, '#frmSearchMainRoute', '#tbMainRoute', 'Transport Routes', response, 2);
+            CreateLOV(dv, '#frmSearchMainRoute', '#tbMainRoute', 'Transport Routes', response, 4);
             //Agent
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response, 2);
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
             CreateLOV(dv, '#frmSearchServ1', '#tbServ1', 'Service Code', response, 2);
             CreateLOV(dv, '#frmSearchServ2', '#tbServ2', 'Service Code', response, 2);
-            CreateLOV(dv, '#frmSearchRoute', '#tbRoute', 'Transport Route', response, 2);
+            CreateLOV(dv, '#frmSearchRoute', '#tbRoute', 'Transport Route', response, 4);
             //Units
             CreateLOV(dv, '#frmSearchUnitS', '#tbUnitS', 'Commodity Unit', response, 2);
             CreateLOV(dv, '#frmSearchUnitC', '#tbUnitC', 'Car Unit', response, 2);
@@ -828,21 +828,21 @@ End Code
                 SetGridSICode(path, '#tbServ2', '', '#frmSearchServ2', ReadService2);
                 break;
             case 'location':
-                SetGridTransportRoute(path, '#tbMainRoute', '#frmSearchMainRoute', ReadMainRoute);
+                SetGridTransportPrice(path, '#tbMainRoute', '#frmSearchMainRoute','?Vend=' + $('#txtVenderCode').val() + '&Cust='+ $('#txtNotifyCode').val(), ReadMainRoute);
                 break;
             case 'route':
-                SetGridTransportRoute(path, '#tbRoute', '#frmSearchRoute', ReadRoute);
+                SetGridTransportPrice(path, '#tbRoute', '#frmSearchRoute','?Vend=' + $('#txtVenderCode').val() + '&Cust='+ $('#txtNotifyCode').val(), ReadRoute);
                 break;
         }
     }
     function ReadRoute(dt) {
         $('#txtRouteID').val(dt.LocationID);
-        $('#txtLocation').val(dt.LocationRoute);
+        $('#txtLocation').val(dt.Location);
         ShowExpense();
     }
     function ReadMainRoute(dr) {
         $('#txtMainRoute').val(dr.LocationID);
-        $('#txtMainLocation').val(dr.LocationRoute);
+        $('#txtMainLocation').val(dr.Location);
 
         $('#txtCYPlace').val(dr.Place1);
         $('#txtCYAddress').val(dr.Address1);
@@ -891,7 +891,7 @@ End Code
         $('#txtBookingNo').val(dr.BookingNo);
         $('#txtVenderCode').val(dr.AgentCode);
         ShowVender(path, dr.AgentCode, '#txtVenderName');
-        ShowVender(path, dr.AgentCode, '#txtPaymentBy');
+        //ShowVender(path, dr.AgentCode, '#txtPaymentBy');
         $('#txtLoadDate').val(CDateEN(dr.LoadDate));
         $('#txtNotifyCode').val(dr.Consigneecode);
         ShowCompany(path, dr.Consigneecode, '#txtNotifyName');
@@ -1153,7 +1153,7 @@ End Code
         $('#txtNotifyCode').val('');
         $('#txtNotifyName').val('');
         $('#txtTransMode').val('CY-CY');
-        $('#txtPaymentCondition').val('EXW');
+        $('#txtPaymentCondition').val('');
         $('#txtPaymentBy').val('');
         $('#tbDetail').DataTable().clear().draw();
         $('#txtTotalTripA').val(0);
@@ -1605,7 +1605,7 @@ End Code
     function GenContainer() {
         ShowConfirm('Please confirm to generate container', (ans) => {
             if (ans == true) {
-                let w ='?Branch='+ $('#txtBranchCode').val() + '&Code='+ $('#txtBookingNo').val() + '&Qty=' +$('#txtTotalContainer').val() + '&Size=' + $('#cboContainerSize').val();
+                let w ='?Branch='+ $('#txtBranchCode').val() + '&Code='+ $('#txtBookingNo').val() + '&Qty=' +$('#txtTotalContainer').val() + '&Size=' + $('#cboContainerSize').val() +'&Route=' + $('#txtMainRoute').val();
                 $.get(path + 'JobOrder/CreateContainer' + w).done(function (r) {
                     if (r.result.data !== null) {
                         LoadDetail($('#txtBranchCode').val(), $('#txtBookingNo').val());

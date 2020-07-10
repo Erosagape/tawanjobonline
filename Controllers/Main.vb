@@ -518,7 +518,18 @@ LEFT JOIN (
     FROM Job_AdvDetail 
 ) d
 ON a.BranchCode=d.BranchCode AND a.AdvNo=d.AdvNo
-LEFT JOIN Job_Order j on d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
+LEFT JOIN (
+SELECT BranchCode as JobBranch,JNo as JobNo,JRevise, ConfirmDate, CPolicyCode, DocDate, CustContactName, QNo, Revise, ManagerCode, CSCode, JobStatus, 
+                         InvNo as CustInvNo, InvTotal, InvProduct, InvCountry, InvFCountry, InvInterPort, InvProductQty, InvProductUnit, InvCurUnit, InvCurRate, ImExDate, BLNo, 
+                         BookingNo, ClearPort, ClearPortNo, ClearDate, LoadDate, ForwarderCode, AgentCode, VesselName, ETDDate, ETADate, ETTime, FNetPrice, BNetPrice, 
+                          CancelProveTime, CloseJobDate, CloseJobTime, CloseJobBy, DeclareType, DeclareNumber, 
+                         DeclareStatus, TyAuthorSp, Ty19BIS, TyClearTax, TyClearTaxReson, EstDeliverDate, EstDeliverTime, TotalContainer, DutyDate, DutyAmount, DutyCustPayOther, 
+                         DutyCustPayChqAmt, DutyCustPayBankAmt, DutyCustPayEPAYAmt, DutyCustPayCardAmt, DutyCustPayCashAmt, DutyCustPayOtherAmt, DutyLtdPayOther, 
+                         DutyLtdPayChqAmt, DutyLtdPayEPAYAmt, DutyLtdPayCashAmt, DutyLtdPayOtherAmt, ConfirmChqDate, ShippingEmp, ShippingCmd, TotalGW, GWUnit, TSRequest, 
+                         ShipmentType, ReadyToClearDate, Commission, CommPayTo, ProjectName, MVesselName, TotalNW, Measurement, CustRefNO, TotalQty, HAWB, MAWB, 
+                         consigneecode, privilegests, DeliveryNo, DeliveryTo, DeliveryAddr, CreateDate
+FROM dbo.Job_Order
+) j on d.BranchCode=j.JobBranch AND d.ForJNo=j.JobNo
 "
     End Function
     Function SQLSelectPayForCharge() As String
@@ -1835,7 +1846,8 @@ dbo.Job_Order.MVesselName, dbo.Job_Order.ProjectName, dbo.Job_Order.TotalNW, dbo
 dbo.Job_Order.MAWB, dbo.Job_Order.consigneecode, dbo.Job_Order.privilegests, dbo.Job_LoadInfoDetail.DeliveryNo, dbo.Job_Order.DeliveryTo, 
 dbo.Job_Order.DeliveryAddr,dbo.Job_Order.ShippingCmd, dbo.Mas_Company.NameThai, dbo.Mas_Company.NameEng, dbo.Mas_Company.TAddress1, dbo.Mas_Company.TAddress2, 
 dbo.Mas_Company.EAddress1, dbo.Mas_Company.EAddress2, dbo.Mas_Company.Phone, dbo.Mas_Company.FaxNumber, dbo.Mas_Company.GLAccountCode, 
-dbo.Mas_Company.BillToCustCode, dbo.Mas_Company.BillToBranch,dbo.Mas_Company.TaxNumber 
+dbo.Mas_Company.BillToCustCode, dbo.Mas_Company.BillToBranch,dbo.Mas_Company.TaxNumber,
+(CASE WHEN ISNULL(dbo.Job_LoadInfoDetail.CauseCode,'')<>'' THEN (case when dbo.Job_LoadInfoDetail.CauseCode='99' THEN 'Cancel' ELSE (CASE WHEN dbo.Job_LoadInfoDetail.CauseCode='3' THEN 'Finish' ELSE 'Working' END) END) ELSE 'Checking' END) as TruckStatus
 FROM dbo.Mas_Company RIGHT OUTER JOIN
 dbo.Job_Order RIGHT OUTER JOIN
 dbo.Job_LoadInfoDetail ON dbo.Job_Order.JNo = dbo.Job_LoadInfoDetail.JNo AND 
@@ -2466,6 +2478,109 @@ ORDER BY a.CustCode,b.ForJNo
 "
         Return String.Format(tSql, sqlW)
     End Function
+    Function SQLSelectAdvReport() As String
+        Dim tSql = "
+SELECT        dbo.Job_AdvDetail.BranchCode, dbo.Job_AdvDetail.AdvNo, dbo.Job_AdvDetail.ItemNo, dbo.Job_AdvDetail.STCode, dbo.Job_AdvDetail.SICode, 
+dbo.Job_AdvDetail.AdvAmount, dbo.Job_AdvDetail.IsChargeVAT, dbo.Job_AdvDetail.ChargeVAT, dbo.Job_AdvDetail.Rate50Tavi, dbo.Job_AdvDetail.Charge50Tavi, 
+dbo.Job_AdvDetail.TRemark, dbo.Job_AdvDetail.IsDuplicate, dbo.Job_AdvDetail.PayChqTo, dbo.Job_AdvDetail.Doc50Tavi, dbo.Job_AdvDetail.Is50Tavi, 
+dbo.Job_AdvDetail.VATRate, dbo.Job_AdvDetail.AdvNet, dbo.Job_AdvDetail.SDescription, dbo.Job_AdvDetail.ForJNo, dbo.Job_AdvDetail.VenCode, 
+dbo.Job_AdvDetail.CurrencyCode, dbo.Job_AdvDetail.ExchangeRate, dbo.Job_AdvDetail.AdvQty, dbo.Job_AdvDetail.UnitPrice, dbo.Job_AdvHeader.JobType, 
+dbo.Job_AdvHeader.AdvDate, dbo.Job_AdvHeader.AdvType, dbo.Job_AdvHeader.EmpCode, dbo.Job_AdvHeader.JNo, dbo.Job_AdvHeader.InvNo, 
+dbo.Job_AdvHeader.DocStatus as AdvStatus, dbo.Job_AdvHeader.VATRate AS Expr1, dbo.Job_AdvHeader.TotalAdvance, dbo.Job_AdvHeader.TotalVAT, 
+dbo.Job_AdvHeader.Total50Tavi, dbo.Job_AdvHeader.ApproveBy, dbo.Job_AdvHeader.ApproveDate, dbo.Job_AdvHeader.ApproveTime, 
+dbo.Job_AdvHeader.PaymentBy, dbo.Job_AdvHeader.PaymentDate, dbo.Job_AdvHeader.PaymentTime, dbo.Job_AdvHeader.PaymentRef, 
+dbo.Job_AdvHeader.CancelReson, dbo.Job_AdvHeader.CancelProve, dbo.Job_AdvHeader.CancelDate, dbo.Job_AdvHeader.CancelTime, 
+dbo.Job_AdvHeader.AdvCash, dbo.Job_AdvHeader.AdvChqCash, dbo.Job_AdvHeader.AdvChq, dbo.Job_AdvHeader.AdvCred, dbo.Job_AdvHeader.PayChqDate, 
+dbo.Job_AdvHeader.Doc50Tavi AS AdvWhtaxNo, dbo.Job_AdvHeader.AdvBy, dbo.Job_AdvHeader.CustCode, dbo.Job_AdvHeader.CustBranch, 
+dbo.Job_AdvHeader.ShipBy, dbo.Job_AdvHeader.PaymentNo, dbo.Job_AdvHeader.MainCurrency, dbo.Job_AdvHeader.SubCurrency, 
+dbo.Job_AdvHeader.ExchangeRate AS AdvExcRate, dbo.Job_Order.JRevise, dbo.Job_Order.ConfirmDate, dbo.Job_Order.CPolicyCode, dbo.Job_Order.DocDate, 
+dbo.Job_Order.CustContactName, dbo.Job_Order.QNo, dbo.Job_Order.Revise, dbo.Job_Order.ManagerCode, dbo.Job_Order.CSCode, dbo.Job_Order.Description, 
+dbo.Job_Order.JobStatus, dbo.Job_Order.InvNo AS CustInvNo, dbo.Job_Order.InvTotal, dbo.Job_Order.InvProduct, dbo.Job_Order.InvCountry, 
+dbo.Job_Order.InvFCountry, dbo.Job_Order.InvInterPort, dbo.Job_Order.InvProductQty, dbo.Job_Order.InvProductUnit, dbo.Job_Order.InvCurUnit, 
+dbo.Job_Order.InvCurRate, dbo.Job_Order.ImExDate, dbo.Job_Order.BLNo, dbo.Job_Order.BookingNo, dbo.Job_Order.ClearPort, dbo.Job_Order.ClearPortNo, 
+dbo.Job_Order.ClearDate, dbo.Job_Order.LoadDate, dbo.Job_Order.ForwarderCode, dbo.Job_Order.AgentCode, dbo.Job_Order.VesselName, dbo.Job_Order.ETDDate, 
+dbo.Job_Order.ETADate, dbo.Job_Order.ETTime, dbo.Job_Order.FNetPrice, dbo.Job_Order.BNetPrice, dbo.Job_Order.CancelProveDate, 
+dbo.Job_Order.CancelProveTime, dbo.Job_Order.CloseJobDate, dbo.Job_Order.CloseJobTime, dbo.Job_Order.CloseJobBy, dbo.Job_Order.DeclareType, 
+dbo.Job_Order.DeclareNumber, dbo.Job_Order.DeclareStatus, dbo.Job_Order.TyAuthorSp, dbo.Job_Order.Ty19BIS, dbo.Job_Order.TyClearTax, 
+dbo.Job_Order.TyClearTaxReson, dbo.Job_Order.EstDeliverDate, dbo.Job_Order.EstDeliverTime, dbo.Job_Order.TotalContainer, dbo.Job_Order.DutyDate, 
+dbo.Job_Order.DutyAmount, dbo.Job_Order.DutyCustPayOther, dbo.Job_Order.DutyCustPayChqAmt, dbo.Job_Order.DutyCustPayBankAmt, 
+dbo.Job_Order.DutyCustPayEPAYAmt, dbo.Job_Order.DutyCustPayCardAmt, dbo.Job_Order.DutyCustPayCashAmt, dbo.Job_Order.DutyCustPayOtherAmt, 
+dbo.Job_Order.DutyLtdPayOther, dbo.Job_Order.DutyLtdPayChqAmt, dbo.Job_Order.DutyLtdPayEPAYAmt, dbo.Job_Order.DutyLtdPayCashAmt, 
+dbo.Job_Order.DutyLtdPayOtherAmt, dbo.Job_Order.ConfirmChqDate, dbo.Job_Order.ShippingEmp, dbo.Job_Order.ShippingCmd, dbo.Job_Order.TotalGW, 
+dbo.Job_Order.GWUnit, dbo.Job_Order.TSRequest, dbo.Job_Order.ShipmentType, dbo.Job_Order.ReadyToClearDate, dbo.Job_Order.Commission, 
+dbo.Job_Order.CommPayTo, dbo.Job_Order.ProjectName, dbo.Job_Order.MVesselName, dbo.Job_Order.TotalNW, dbo.Job_Order.Measurement, 
+dbo.Job_Order.CustRefNO, dbo.Job_Order.TotalQty, dbo.Job_Order.HAWB, dbo.Job_Order.MAWB, dbo.Job_Order.consigneecode, dbo.Job_Order.privilegests, 
+dbo.Job_Order.DeliveryNo, dbo.Job_Order.DeliveryTo, dbo.Job_Order.DeliveryAddr, dbo.Job_Order.CreateDate,
+dbo.Job_ClearDetail.ClrNo,dbo.Job_ClearDetail.ItemNo AS ClrItemNo, 
+dbo.Job_ClearDetail.LinkItem, dbo.Job_ClearDetail.SICode AS ClrSICode, dbo.Job_ClearDetail.SDescription AS ClrSDescription, dbo.Job_ClearDetail.VenderCode, 
+dbo.Job_ClearDetail.Qty, dbo.Job_ClearDetail.UnitCode, dbo.Job_ClearDetail.CurrencyCode AS DCurrency, dbo.Job_ClearDetail.CurRate, 
+dbo.Job_ClearDetail.UnitPrice AS ClrUnitPrice, dbo.Job_ClearDetail.FPrice, dbo.Job_ClearDetail.BPrice, dbo.Job_ClearDetail.QUnitPrice, 
+dbo.Job_ClearDetail.QFPrice, dbo.Job_ClearDetail.QBPrice, dbo.Job_ClearDetail.UnitCost, dbo.Job_ClearDetail.FCost, dbo.Job_ClearDetail.BCost, 
+dbo.Job_ClearDetail.ChargeVAT AS ClrVat, dbo.Job_ClearDetail.Tax50Tavi AS ClrTax, dbo.Job_ClearDetail.UsedAmount, dbo.Job_ClearDetail.IsQuoItem, 
+dbo.Job_ClearDetail.SlipNO, dbo.Job_ClearDetail.Remark, dbo.Job_ClearDetail.IsLtdAdv50Tavi, dbo.Job_ClearDetail.Pay50TaviTo, dbo.Job_ClearDetail.NO50Tavi, 
+dbo.Job_ClearDetail.Date50Tavi, dbo.Job_ClearDetail.VenderBillingNo, dbo.Job_ClearDetail.AirQtyStep, dbo.Job_ClearDetail.StepSub, dbo.Job_ClearDetail.JobNo, 
+dbo.Job_ClearDetail.AdvItemNo, dbo.Job_ClearDetail.LinkBillNo, dbo.Job_ClearDetail.VATType, dbo.Job_ClearDetail.VATRate AS ClrVatRate, 
+dbo.Job_ClearDetail.Tax50TaviRate, dbo.Job_ClearDetail.FNet, dbo.Job_ClearDetail.BNet, dbo.Job_ClearHeader.ClrDate, dbo.Job_ClearHeader.ClearanceDate, 
+dbo.Job_ClearHeader.EmpCode AS ClrBy, dbo.Job_ClearHeader.AdvRefNo, dbo.Job_ClearHeader.AdvTotal, dbo.Job_ClearHeader.ClearType, 
+dbo.Job_ClearHeader.ClearFrom, dbo.Job_ClearHeader.DocStatus AS ClrStatus, dbo.Job_ClearHeader.TotalExpense, dbo.Job_ClearHeader.ReceiveBy, 
+dbo.Job_ClearHeader.ReceiveDate, dbo.Job_ClearHeader.ReceiveTime, dbo.Job_ClearHeader.ReceiveRef, dbo.Job_ClearHeader.CoPersonCode, 
+dbo.Job_ClearHeader.CTN_NO, dbo.Job_ClearHeader.ClearTotal, dbo.Job_ClearHeader.ClearVat, dbo.Job_ClearHeader.ClearWht, dbo.Job_ClearHeader.ClearNet, 
+dbo.Job_ClearHeader.ClearBill, dbo.Job_ClearHeader.ClearCost
+FROM            dbo.Job_ClearHeader RIGHT OUTER JOIN
+dbo.Job_ClearDetail RIGHT OUTER JOIN
+dbo.Job_AdvDetail INNER JOIN
+dbo.Job_AdvHeader ON dbo.Job_AdvDetail.BranchCode = dbo.Job_AdvHeader.BranchCode AND dbo.Job_AdvDetail.AdvNo = dbo.Job_AdvHeader.AdvNo ON 
+dbo.Job_ClearDetail.AdvItemNo = dbo.Job_AdvDetail.ItemNo AND dbo.Job_ClearDetail.AdvNO = dbo.Job_AdvDetail.AdvNo AND 
+dbo.Job_ClearDetail.BranchCode = dbo.Job_AdvDetail.BranchCode LEFT OUTER JOIN
+dbo.Job_Order ON dbo.Job_AdvDetail.BranchCode = dbo.Job_Order.BranchCode AND dbo.Job_AdvDetail.ForJNo = dbo.Job_Order.JNo ON 
+dbo.Job_ClearHeader.BranchCode = dbo.Job_ClearDetail.BranchCode AND dbo.Job_ClearHeader.ClrNo = dbo.Job_ClearDetail.ClrNo
+WHERE dbo.Job_AdvHeader.DocStatus<>99 AND ISNULL(dbo.Job_ClearHeader.DocStatus,0)<>99 
+"
+        Return tSql
+    End Function
+    Function SQLSelectContainerReport() As String
+        Dim tSql = "
+SELECT dbo.Job_Order.BranchCode, dbo.Job_Order.JNo, dbo.Job_Order.JRevise, dbo.Job_Order.ConfirmDate, dbo.Job_Order.CPolicyCode, dbo.Job_Order.DocDate, 
+dbo.Job_Order.CustCode, dbo.Job_Order.CustBranch, dbo.Job_Order.CustContactName, dbo.Job_Order.QNo, dbo.Job_Order.Revise, dbo.Job_Order.ManagerCode, 
+dbo.Job_Order.CSCode, dbo.Job_Order.Description, dbo.Job_Order.TRemark, dbo.Job_Order.JobStatus, dbo.Job_Order.JobType, dbo.Job_Order.ShipBy, 
+dbo.Job_Order.InvNo, dbo.Job_Order.InvTotal, dbo.Job_Order.InvProduct, dbo.Job_Order.InvCountry, dbo.Job_Order.InvFCountry, dbo.Job_Order.InvInterPort, 
+dbo.Job_Order.InvProductQty, dbo.Job_Order.InvProductUnit, dbo.Job_Order.InvCurUnit, dbo.Job_Order.InvCurRate, dbo.Job_Order.ImExDate, dbo.Job_Order.BLNo, 
+dbo.Job_Order.BookingNo, dbo.Job_Order.ClearPort, dbo.Job_Order.ClearPortNo, dbo.Job_Order.ClearDate, dbo.Job_Order.LoadDate, dbo.Job_Order.ForwarderCode, 
+dbo.Job_Order.AgentCode, dbo.Job_Order.VesselName, dbo.Job_Order.ETDDate, dbo.Job_Order.ETADate, dbo.Job_Order.ETTime, dbo.Job_Order.FNetPrice, 
+dbo.Job_Order.BNetPrice, dbo.Job_Order.CancelReson, dbo.Job_Order.CancelDate, dbo.Job_Order.CancelTime, dbo.Job_Order.CancelProve, 
+dbo.Job_Order.CancelProveDate, dbo.Job_Order.CancelProveTime, dbo.Job_Order.CloseJobDate, dbo.Job_Order.CloseJobTime, dbo.Job_Order.CloseJobBy, 
+dbo.Job_Order.DeclareType, dbo.Job_Order.DeclareNumber, dbo.Job_Order.DeclareStatus, dbo.Job_Order.TyAuthorSp, dbo.Job_Order.Ty19BIS, 
+dbo.Job_Order.TyClearTax, dbo.Job_Order.TyClearTaxReson, dbo.Job_Order.EstDeliverDate, dbo.Job_Order.EstDeliverTime, dbo.Job_Order.TotalContainer, 
+dbo.Job_Order.DutyDate, dbo.Job_Order.DutyAmount, dbo.Job_Order.DutyCustPayOther, dbo.Job_Order.DutyCustPayChqAmt, dbo.Job_Order.DutyCustPayBankAmt, 
+dbo.Job_Order.DutyCustPayEPAYAmt, dbo.Job_Order.DutyCustPayCardAmt, dbo.Job_Order.DutyCustPayCashAmt, dbo.Job_Order.DutyCustPayOtherAmt, 
+dbo.Job_Order.DutyLtdPayOther, dbo.Job_Order.DutyLtdPayChqAmt, dbo.Job_Order.DutyLtdPayEPAYAmt, dbo.Job_Order.DutyLtdPayCashAmt, 
+dbo.Job_Order.DutyLtdPayOtherAmt, dbo.Job_Order.ConfirmChqDate, dbo.Job_Order.ShippingEmp, dbo.Job_Order.ShippingCmd, dbo.Job_Order.TotalGW, 
+dbo.Job_Order.GWUnit, dbo.Job_Order.TSRequest, dbo.Job_Order.ShipmentType, dbo.Job_Order.ReadyToClearDate, dbo.Job_Order.Commission, 
+dbo.Job_Order.CommPayTo, dbo.Job_Order.ProjectName, dbo.Job_Order.MVesselName, dbo.Job_Order.TotalNW, dbo.Job_Order.Measurement, 
+dbo.Job_Order.CustRefNO, dbo.Job_Order.TotalQty, dbo.Job_Order.HAWB, dbo.Job_Order.MAWB, dbo.Job_Order.consigneecode, dbo.Job_Order.privilegests, 
+dbo.Job_Order.DeliveryNo, dbo.Job_Order.DeliveryTo, dbo.Job_Order.DeliveryAddr, dbo.Job_LoadInfo.VenderCode, dbo.Job_LoadInfo.ContactName, 
+dbo.Job_LoadInfo.BookingNo AS BookingRefNo, dbo.Job_LoadInfo.LoadDate AS Bookingdate, dbo.Job_LoadInfo.Remark, dbo.Job_LoadInfo.PackingPlace, 
+dbo.Job_LoadInfo.CYPlace, dbo.Job_LoadInfo.FactoryPlace, dbo.Job_LoadInfo.ReturnPlace, dbo.Job_LoadInfo.PackingDate, dbo.Job_LoadInfo.CYDate, 
+dbo.Job_LoadInfo.FactoryDate, dbo.Job_LoadInfo.ReturnDate, dbo.Job_LoadInfo.PackingTime, dbo.Job_LoadInfo.CYTime, dbo.Job_LoadInfo.FactoryTime, 
+dbo.Job_LoadInfo.ReturnTime, dbo.Job_LoadInfo.NotifyCode, dbo.Job_LoadInfo.TransMode, dbo.Job_LoadInfo.PaymentCondition, dbo.Job_LoadInfo.PaymentBy, 
+dbo.Job_LoadInfo.CYAddress, dbo.Job_LoadInfo.PackingAddress, dbo.Job_LoadInfo.FactoryAddress, dbo.Job_LoadInfo.ReturnAddress, dbo.Job_LoadInfo.CYContact, 
+dbo.Job_LoadInfo.PackingContact, dbo.Job_LoadInfo.FactoryContact, dbo.Job_LoadInfo.ReturnContact, dbo.Job_LoadInfoDetail.ItemNo, 
+dbo.Job_LoadInfoDetail.CTN_NO, dbo.Job_LoadInfoDetail.SealNumber, dbo.Job_LoadInfoDetail.TruckNO, dbo.Job_LoadInfoDetail.TruckIN, 
+dbo.Job_LoadInfoDetail.Start, dbo.Job_LoadInfoDetail.Finish, dbo.Job_LoadInfoDetail.CauseCode, dbo.Job_LoadInfoDetail.Comment, 
+dbo.Job_LoadInfoDetail.TruckType, dbo.Job_LoadInfoDetail.Driver, dbo.Job_LoadInfoDetail.TargetYardDate, dbo.Job_LoadInfoDetail.TargetYardTime, 
+dbo.Job_LoadInfoDetail.ActualYardDate, dbo.Job_LoadInfoDetail.ActualYardTime, dbo.Job_LoadInfoDetail.UnloadFinishDate, 
+dbo.Job_LoadInfoDetail.UnloadFinishTime, dbo.Job_LoadInfoDetail.UnloadDate, dbo.Job_LoadInfoDetail.UnloadTime, dbo.Job_LoadInfoDetail.Location, 
+dbo.Job_LoadInfoDetail.ReturnDate AS CtnReturnDate, dbo.Job_LoadInfoDetail.ShippingMark, dbo.Job_LoadInfoDetail.ProductDesc, 
+dbo.Job_LoadInfoDetail.CTN_SIZE, dbo.Job_LoadInfoDetail.ProductQty, dbo.Job_LoadInfoDetail.ProductUnit, dbo.Job_LoadInfoDetail.GrossWeight, 
+dbo.Job_LoadInfoDetail.Measurement AS DMeasurement, dbo.Job_LoadInfoDetail.TimeUsed, dbo.Job_LoadInfoDetail.DeliveryNo AS DONo, 
+dbo.Job_LoadInfoDetail.LocationID, dbo.Job_LoadInfoDetail.NetWeight, dbo.Job_LoadInfoDetail.ProductPrice
+FROM dbo.Job_LoadInfoDetail INNER JOIN
+dbo.Job_LoadInfo ON dbo.Job_LoadInfoDetail.BranchCode = dbo.Job_LoadInfo.BranchCode AND 
+dbo.Job_LoadInfoDetail.BookingNo = dbo.Job_LoadInfo.BookingNo RIGHT OUTER JOIN
+dbo.Job_Order ON dbo.Job_LoadInfo.BranchCode = dbo.Job_Order.BranchCode AND dbo.Job_LoadInfo.JNo = dbo.Job_Order.JNo
+"
+        Return tSql
+    End Function
     Public Sub UpdateClearStatus()
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToClear())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusFromAdvance())
@@ -2480,11 +2595,11 @@ ORDER BY a.CustCode,b.ForJNo
         For Each str As String In cliteria.Split(",")
             If str <> "" Then
                 If sqlW <> "" Then
-                    If str.Substring(0, 2) <> "OR" Then
-                        sqlW &= " AND ("
+                    If str.Substring(0, 2) <> "Or" Then
+                        sqlW &= " And ("
                     Else
                         sqlW = "(" & sqlW & ")"
-                        str = str.Replace("OR", " OR ((")
+                        str = str.Replace("Or", " Or ((")
                     End If
                 Else
                     sqlW &= "("

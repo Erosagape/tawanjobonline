@@ -1263,8 +1263,9 @@ function SetGridTransportPrice(p, g, d, t, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "SDescription", title: mainLanguage == "TH" ?"ค่าใช้จ่าย": "Expense" },
-            { data: "Location", title: mainLanguage == "TH" ?"เส้นทาง": "Location" },
+            { data: "LocationID", title: mainLanguage == "TH" ? "เส้นทาง" : "Location" },
+            { data: "Location", title: mainLanguage == "TH" ? "เส้นทาง" : "Location" },
+            { data: "SDescription", title: mainLanguage == "TH" ? "ค่าใช้จ่าย" : "Expense" },
             { data: "CostAmount", title: mainLanguage == "TH" ?"ยอดเงิน": "Amount" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
