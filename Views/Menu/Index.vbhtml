@@ -302,7 +302,24 @@ End Code
         return chk;
     }
     function LoadJob(w) {
-        SetGridJob(path, '#tbJob', '#frmSearchJob', w, ReadJob);
+        let wc = '';
+        if ($('#cboJobType').val() > '') {
+            if (w.indexOf('JType') < 0) {
+                wc += '&JType=' + $('#cboJobType').val();
+            }
+        }
+        if ($('#cboShipBy').val() > '') {
+            if (w.indexOf('SBy') < 0) {
+                wc += '&SBy=' + $('#cboShipBy').val();
+            }
+        }
+        if ($('#txtDateFrom').val()!==null) {
+            wc += '&DateFrom=' + CDateEN($('#txtDateFrom').val());
+        }
+        if ($('#txtDateTo').val()!==null) {
+            wc += '&DateTo=' + CDateEN($('#txtDateTo').val());
+        }
+        SetGridJob(path, '#tbJob', '#frmSearchJob', w + wc, ReadJob);
     }
     function ReadJob(dt) {
         window.open(path + 'joborder/showjob?BranchCode=' + dt.BranchCode + '&JNo=' + dt.JNo);

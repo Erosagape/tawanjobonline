@@ -1085,6 +1085,12 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("TaxNumber")) Then
                     tSqlW &= " AND CustCode IN(SELECT CustCode FROM Mas_Company WHERE TaxNumber='" & Request.QueryString("TaxNumber") & "')"
                 End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlW &= " AND DutyDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlW &= " AND DutyDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
                 Dim oData = oJob.GetData(" WHERE JNo<>'' " & tSqlW & " ORDER BY BranchCode,DocDate DESC")
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""job"":{""data"":" & json & "}}"
