@@ -15,7 +15,7 @@ End Code
         <a data-toggle="tab" href="#tabLoading" id="linkTab1">Loading Information</a>
     </li>
     <li>
-        <a data-toggle="tab" href="#tabContainer" id="linkTab2">Container Information</a>
+        <a data-toggle="tab" href="#tabContainer" id="linkTab2">Route Information</a>
     </li>
 </ul>
 <div class="tab-content">
@@ -32,7 +32,7 @@ End Code
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    <label id="lblBookingNo">Booking No</label>                    
+                    <label id="lblBookingNo">Booking No</label>
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" id="txtBookingNo" class="form-control" style="width:100%" />
@@ -40,7 +40,7 @@ End Code
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    <label id="lblJNo">Job Number</label>                    
+                    <label id="lblJNo">Job Number</label>
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" id="txtJNo" class="form-control" style="width:100%" />
@@ -48,7 +48,7 @@ End Code
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    <label id="lblTransportTerm">Transport Term</label>                    
+                    <label id="lblTransportTerm">Transport Term</label>
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <select id="txtTransMode" class="form-control dropdown">
@@ -93,7 +93,7 @@ End Code
                     </div>
                 </div>
                 <div class="col-sm-3">
-                    <label id="lblContact">Contact Name :</label>                    
+                    <label id="lblContact">Contact Name :</label>
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" id="txtContactName" class="form-control">
@@ -123,7 +123,7 @@ End Code
             <div class="row">
                 <div class="col-sm-3" style="display:flex;flex-direction:row">
                     <div>
-                        <label id="lblCYDate">CY Closing/Pickup Date :</label>
+                        <label id="lblCYDate">Pickup Date :</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="date" id="txtCYDate" class="form-control">
@@ -139,7 +139,7 @@ End Code
                 </div>
                 <div class="col-sm-3" style="display:flex;flex-direction:row">
                     <div>
-                        <label id="lblPackingDate">Last Load/Packing Date:</label>
+                        <label id="lblPackingDate">Packing Date:</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="date" id="txtPackingDate" class="form-control">
@@ -155,7 +155,7 @@ End Code
                 </div>
                 <div class="col-sm-3" style="display:flex;flex-direction:row">
                     <div>
-                        <label id="lblFactoryDate">Arrival/Delivery Date :</label>
+                        <label id="lblFactoryDate">Delivery Date :</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="date" id="txtFactoryDate" class="form-control">
@@ -186,149 +186,94 @@ End Code
                     </div>
                 </div>
             </div>
-            <div class="panel" style="background-color:lightgreen;padding:10px 10px 10px 10px;margin-top:10px">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <a href="../Master/TransportRoute"><label id="lblRoute">Transport Route</label></a>: 
-                        <br />
-                        <div style="display:flex">
-                            <input type="text" id="txtMainRoute" style="width:10%;" class="form-control" disabled />
-                            <input type="text" id="txtMainLocation" style="width:70%" class="form-control" disabled />
-                            <button id="btnRoute" class="btn btn-default" onclick="SearchData('location');">...</button>
-                        </div>                        
-                    </div>
-                    <div class="col-sm-2">
-                        <label id="lblActive">Active Trip:</label>
-                        <br />
-                        <input type="text" id="txtTotalTripA" class="form-control" disabled />
-                    </div>
-                    <div class="col-sm-2">
-                        <label id="lblFinish">Finished Trip:</label>
-                        <br />
-                        <input type="text" id="txtTotalTripF" class="form-control" disabled />
-                    </div>
-                    <div class="col-sm-2">
-                        <label id="lblNonActive">Non-active Trip:</label>
-                        <br />
-                        <input type="text" id="txtTotalTripC" class="form-control" disabled />
-                    </div>
+            <br />
+            <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearBooking()">
+                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkNew">New Booking</b>
+            </a>
+            <a href="#" class="btn btn-success" id="btnSave" onclick="SaveBooking()">
+                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Booking</b>
+            </a>
+            <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteBooking()">
+                <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDel">Delete Booking</b>
+            </a>
+            <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintBooking()">
+                <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Form</b>
+            </a>
+            <select id="cboPrintForm">
+                <option value="BA">Booking Confirmation (AIR)</option>
+                <option value="BS">Booking Confirmation (SEA)</option>
+                <option value="SP">Shipping Particulars</option>
+                <option value="BL">BL/AWB</option>
+                <option value="DO">D/O Letter</option>
+                <option value="SC">Sales Contract</option>
+                <option value="IV">Commercial Invoice</option>
+                <option value="PL">Packing Lists</option>
+            </select>
+            <a href="#" class="btn btn-primary" id="btnUpdateJob" onclick="UpdateJob()">
+                <i class="fa fa-lg fa-check"></i>&nbsp;<b id="linkUpCon">Update Total Container To Job</b>
+            </a>
+            <div class="row">
+                <div class="col-sm-4">
+                    <label id="lblActive">Active Trip:</label>
+                    <input type="text" id="txtTotalTripA" class="form-control" disabled />
                 </div>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <label id="lblPlace1">Place #1: </label>
-                        <br />
-                        <div style="display:flex;flex-direction:row">
-                            <input type="text" id="txtCYPlace" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-sm-5">
-                        <label id="lblAddress1">Address #1:</label>
-                        <br />
-                        <textarea id="txtCYAddress" class="form-control"></textarea>
-                    </div>
-                    <div class="col-sm-3">
-                        <label id="lblContact1">Contact #1:</label>
-                        <br />
-                        <input type="text" class="form-control" id="txtCYContact" />
-                    </div>
+                <div class="col-sm-4">
+                    <label id="lblFinish">Finished Trip:</label>
+                    <input type="text" id="txtTotalTripF" class="form-control" disabled />
                 </div>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <label id="lblPlace2">Place #2:</label>
-                        <br />
-                        <div style="display:flex;flex-direction:row">
-                            <input type="text" id="txtPackingPlace" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-sm-5">
-                        <label id="lblAddress2">Address #2:</label>
-                        <br />
-                        <textarea id="txtPackingAddress" class="form-control"></textarea>
-                    </div>
-                    <div class="col-sm-3">
-                        <label id="lblContact2">Contact #2:</label>
-                        <br />
-                        <input type="text" class="form-control" id="txtPackingContact" />
-                    </div>
+                <div class="col-sm-4">
+                    <label id="lblNonActive">Non-active Trip:</label>
+                    <input type="text" id="txtTotalTripC" class="form-control" disabled />
                 </div>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <label id="lblPlace3">Place #3:</label>
-                        <br />
-                        <div style="display:flex;flex-direction:row">
-                            <input type="text" id="txtFactoryPlace" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-sm-5">
-                        <label id="lblAddress3">Address #3:</label>
-                        <br />
-                        <textarea id="txtFactoryAddress" class="form-control"></textarea>
-                    </div>
-                    <div class="col-sm-3">
-                        <label id="lblContact3">Contact #3:</label>
-                        <br />
-                        <input type="text" class="form-control" id="txtFactoryContact" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <label id="lblPlace4">Place #4:</label>
-                        <br />
-                        <div style="display:flex;flex-direction:row">
-                            <input type="text" id="txtReturnPlace" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col-sm-5">
-                        <label id="lblAddress4">Address #4:</label>
-                        <br />
-                        <textarea id="txtReturnAddress" class="form-control"></textarea>
-                    </div>
-                    <div class="col-sm-3">
-                        <label id="lblContact4">Contact #4:</label>
-                        <br />
-                        <input type="text" class="form-control" id="txtReturnContact" />
-                    </div>
-                </div>
-                <button id="btnSaveLoc" class="btn btn-primary" onclick="SaveLocation(true)" >Save Route Data</button>
-                <button id="btnEditExp" class="btn btn-info" onclick="EditExpense()" >Edit Route Expense</button>
             </div>
-        </div>
-        <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearBooking()">
-            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkNew">New Booking</b>
-        </a>
-        <a href="#" class="btn btn-success" id="btnSave" onclick="SaveBooking()">
-            <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Booking</b>
-        </a>
-        <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteBooking()">
-            <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDel">Delete Booking</b>
-        </a>
-        <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintBooking()">
-            <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Form</b>
-        </a>
-        <select id="cboPrintForm">
-            <option value="BA">Booking Confirmation (AIR)</option>
-            <option value="BS">Booking Confirmation (SEA)</option>
-            <option value="SP">Shipping Particulars</option>
-            <option value="BL">BL/AWB</option>
-            <option value="DO">D/O Letter</option>
-            <option value="SC">Sales Contract</option>
-            <option value="IV">Commercial Invoice</option>
-            <option value="PL">Packing Lists</option>
-        </select>
-        <a href="#" class="btn btn-primary" id="btnUpdateJob" onclick="UpdateJob()">
-            <i class="fa fa-lg fa-check"></i>&nbsp;<b id="linkUpCon">Update Total Container To Job</b>
-        </a>
-    </div>
-    <div class="tab-pane fade" id="tabContainer">
-        <div class="row">
-            <div class="col-sm-2">
+            <div class="panel" style="background-color:lightgreen;padding:10px 10px 10px 10px;margin-top:10px">
+                <table id="tbDetail" class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>CTN_NO</th>
+                            <th class="desktop">CTN_SIZE</th>
+                            <th class="desktop">SealNumber</th>
+                            <th class="all">Qty</th>
+                            <th class="desktop">Status</th>
+                            <th class="desktop">G.W</th>
+                            <th class="desktop">UnloadDate</th>
+                            <th class="desktop">DeliveryNo</th>
+                            <th class="desktop">V.Inv</th>
+                            <th class="desktop">Clear</th>
+                            <th class="desktop">Bal</th>
+                        </tr>
+                    </thead>
+                </table>
                 <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
                     <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAddCon">Add Container</b>
                 </a>
+                <a href="#" class="btn btn-primary" id="btnExpense" onclick="EntryExpenses()">
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkEntryExp">Entry Expenses</b>
+                </a>
+                <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
+                    <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrintTruck">Print Truck Order</b>
+                </a>
+                <select id="cboTypeForm">
+                    <option value="0" selected>Full</option>
+                    <option value="1">Short</option>
+                </select>
             </div>
-            <div class="col-sm-4">
+        </div>
+    </div>
+    <div class="tab-pane fade" id="tabContainer">
+        <div class="row">
+            <div class="col-sm-6">
+                <a href="../Master/TransportRoute"><label id="lblRoute">Transport Route</label></a>:
+                <br />
+                <div style="display:flex">
+                    <input type="text" id="txtMainRoute" style="width:10%;" class="form-control" disabled />
+                    <input type="text" id="txtMainLocation" style="width:100%" class="form-control" disabled />
+                    <button id="btnRoute" class="btn btn-default" onclick="SearchData('location');">...</button>
+                </div>
+            </div>
+            <div class="col-sm-3">
                 <label id="lblAutoGenCon">Auto Create Container</label>
-                 =>
+                =>
                 <select id="cboContainerSize" class="form-control dropdown"></select>
             </div>
             <div class="col-sm-1">
@@ -339,34 +284,86 @@ End Code
                 <br />
                 <button id="btnCreateContainer" class="btn btn-success" value="Create" onclick="GenContainer()">Create</button>
             </div>
+
         </div>
-        <table id="tbDetail" class="table table-responsive">
-            <thead>
-                <tr>
-                    <th>CTN_NO</th>
-                    <th class="desktop">CTN_SIZE</th>
-                    <th class="desktop">SealNumber</th>
-                    <th class="all">Qty</th>
-                    <th class="desktop">Status</th>
-                    <th class="desktop">G.W</th>
-                    <th class="desktop">UnloadDate</th>
-                    <th class="desktop">DeliveryNo</th>
-                    <th class="desktop">V.Inv</th>
-                    <th class="desktop">Clear</th>
-                    <th class="desktop">Bal</th>
-                </tr>
-            </thead>
-        </table>
-        <a href="#" class="btn btn-primary" id="btnExpense" onclick="EntryExpenses()">
-            <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkEntryExp">Entry Expenses</b>
-        </a>
-        <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-            <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrintTruck">Print Truck Order</b>
-        </a>
-        <select id="cboTypeForm">
-            <option value="0" selected>Full</option>
-            <option value="1">Short</option>
-        </select>
+        <div class="row">
+            <div class="col-sm-4">
+                <label id="lblPlace1">Place #1: </label>
+                <br />
+                <div style="display:flex;flex-direction:row">
+                    <input type="text" id="txtCYPlace" class="form-control">
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <label id="lblAddress1">Address #1:</label>
+                <br />
+                <textarea id="txtCYAddress" class="form-control"></textarea>
+            </div>
+            <div class="col-sm-3">
+                <label id="lblContact1">Contact #1:</label>
+                <br />
+                <input type="text" class="form-control" id="txtCYContact" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label id="lblPlace2">Place #2:</label>
+                <br />
+                <div style="display:flex;flex-direction:row">
+                    <input type="text" id="txtPackingPlace" class="form-control">
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <label id="lblAddress2">Address #2:</label>
+                <br />
+                <textarea id="txtPackingAddress" class="form-control"></textarea>
+            </div>
+            <div class="col-sm-3">
+                <label id="lblContact2">Contact #2:</label>
+                <br />
+                <input type="text" class="form-control" id="txtPackingContact" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label id="lblPlace3">Place #3:</label>
+                <br />
+                <div style="display:flex;flex-direction:row">
+                    <input type="text" id="txtFactoryPlace" class="form-control">
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <label id="lblAddress3">Address #3:</label>
+                <br />
+                <textarea id="txtFactoryAddress" class="form-control"></textarea>
+            </div>
+            <div class="col-sm-3">
+                <label id="lblContact3">Contact #3:</label>
+                <br />
+                <input type="text" class="form-control" id="txtFactoryContact" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <label id="lblPlace4">Place #4:</label>
+                <br />
+                <div style="display:flex;flex-direction:row">
+                    <input type="text" id="txtReturnPlace" class="form-control">
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <label id="lblAddress4">Address #4:</label>
+                <br />
+                <textarea id="txtReturnAddress" class="form-control"></textarea>
+            </div>
+            <div class="col-sm-3">
+                <label id="lblContact4">Contact #4:</label>
+                <br />
+                <input type="text" class="form-control" id="txtReturnContact" />
+            </div>
+        </div>
+        <button id="btnSaveLoc" class="btn btn-primary" onclick="SaveLocation(true)">Save Route Data</button>
+        <button id="btnEditExp" class="btn btn-info" onclick="EditExpense()">Edit Route Expense</button>
     </div>
 </div>
 <div id="dvExpenses" class="modal fade">
@@ -519,7 +516,6 @@ End Code
                                     </select>
                                 </div>
                             </div>
-
                         </div>
                         <div class="row">
                             <div class="col-sm-5">
@@ -567,84 +563,8 @@ End Code
                                 :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-4" style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
-                                <label id="lblPickup">Pick-up:</label>
-                                <div>
-                                    <label id="lblPickupTarget">Target Date :</label>
-                                    <br />
-                                    <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control"></div>
-                                </div>
-                                <div>
-                                    <label id="lblPickupTargetTime"></label>
-                                    <br />
-                                    <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control"></div>
-
-                                </div>
-                                <div>
-                                    <label id="lblPickupActual">Actual Date :</label>
-                                    <br />
-                                    <div style="display:flex"><input type="date" id="txtActualYardDate" class="form-control"></div>
-                                </div>
-                                <div>
-                                    <label id="lblPickupActualTime">Actual Time :</label>
-                                    <br />
-                                    <div style="display:flex"><input type="text" id="txtActualYardTime" class="form-control"></div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4" style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
-                                <label id="lblDelivery">Delivery:</label>
-                                <div>
-                                    <label id="lblDeliveryTarget">Target Date :</label>
-                                    <br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control"></div>
-                                </div>
-                                <div>
-                                    <label id="lblDeliveryTargetTime">Target Time :</label>
-                                    <br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control"></div>
-                                </div>
-                                <div>
-                                    <label id="lblDeliveryActual">Actual Date :</label>
-                                    <br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
-                                </div>
-                                <div>
-                                    <label id="lblDeliveryActualTime">Actual Time :</label>
-                                    <br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4" style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
-                                <label id="lblReturn">Return:</label>
-                                <div>
-                                    <label id="lblReturnTarget">Target Date:</label>
-                                    <br />
-                                    <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control"></div>
-                                </div>
-                                <div>
-                                    <label id="lblReturnTargetTime">Target Time:</label>
-                                    <br />
-                                    <div style="display:flex"><input type="text" id="txtStart" class="form-control"></div>
-                                </div>
-                                <div>
-                                    <label id="lblReturnActual">Actual Date:</label>
-                                    <br />
-                                    <div style="display:flex"><input type="date" id="txtDReturnDate" class="form-control"></div>
-                                </div>
-                                <div>
-                                    <label id="lblReturnActualTime">Actual Time:</label>
-                                    <br />
-                                    <div style="display:flex"><input type="text" id="txtFinish" class="form-control"></div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label id="lblDeliveryNo">Delivery No</label>
-                        :
-                        <div style="display:flex;">
-                            <div style="display:flex"><input type="text" id="txtDeliveryNo" class="form-control" disabled></div>
-                            <button id="btnGenDeliveryNo" onclick="GenerateDO()" class="btn btn-warning">Create</button>
-                            <button id="btnPrintSlip" class="btn btn-info" onclick="PrintDelivery()">Delivery Slip</button>
-                        </div>
-                        <br />
                         <label id="lblExpCon">Expense Can Billing On This Route</label>
                         :<br />
                         <table id="tbExpense" class="table table-responsive">
@@ -660,7 +580,7 @@ End Code
                         <a href="#" class="btn btn-primary" id="btnExpense2" onclick="EntryExpenses2()">
                             <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkEntryExp2">Entry Expenses</b>
                         </a><br />
-                            <label id="lblVenBill">Expense Billed By Vender</label>
+                        <label id="lblVenBill">Expense Billed By Vender</label>
                         :<br />
                         <table id="tbPayment" class="table table-responsive">
                             <thead>
@@ -676,7 +596,176 @@ End Code
                         </table>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-4" style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
+                        <label id="lblPickup">Pick-up:</label>
+                        <br />
+                        <div style="display:flex;flex-direction:row">
+                            <div style="flex:1">
+                                <div style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
+                                    <div>
+                                        At<br />
+                                        <input type="text" id="txtPlaceName2" />
+                                    </div>
+                                    <div>
+                                        Address
+                                        <textarea id="txtPlaceAddress2"></textarea>
+                                    </div>
+                                    <div>
+                                        Contact
+                                        <input type="text" id="txtPlaceContact2" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="flex:1">
+                                <div style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
+                                    <div>
+                                        <label id="lblPickupTarget">Target Date :</label>
+                                        <br />
+                                        <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblPickupTargetTime"></label>
+                                        <br />
+                                        <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control"></div>
 
+                                    </div>
+                                    <div>
+                                        <label id="lblPickupActual">Actual Date :</label>
+                                        <br />
+                                        <div style="display:flex"><input type="date" id="txtActualYardDate" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblPickupActualTime">Actual Time :</label>
+                                        <br />
+                                        <div style="display:flex"><input type="text" id="txtActualYardTime" class="form-control"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
+                        <label id="lblDelivery">Delivery:</label>
+                        <br/>
+                        <div style="display:flex;flex-direction:row">
+                            <div style="flex:1">
+                                <div style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
+                                    <div>
+                                        At<br />
+                                        <input type="text" id="txtPlaceName3" />
+                                    </div>
+                                    <div>
+                                        Address
+                                        <textarea id="txtPlaceAddress3"></textarea>
+                                    </div>
+                                    <div>
+                                        Contact
+                                        <input type="text" id="txtPlaceContact3" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="flex:1">
+                                <div style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
+                                    <div>
+                                        <label id="lblDeliveryTarget">Target Date :</label>
+                                        <br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblDeliveryTargetTime">Target Time :</label>
+                                        <br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblDeliveryActual">Actual Date :</label>
+                                        <br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblDeliveryActualTime">Actual Time :</label>
+                                        <br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
+                        <label id="lblReturn">Return:</label>
+                        <br/>
+                        <div style="display:flex;flex-direction:row">
+                            <div style="flex:1">
+                                <div style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
+                                    <div>
+                                        At<br />
+                                        <input type="text" id="txtPlaceName4" />
+                                    </div>
+                                    <div>
+                                        Address
+                                        <textarea id="txtPlaceAddress4"></textarea>
+                                    </div>
+                                    <div>
+                                        Contact
+                                        <input type="text" id="txtPlaceContact4" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="flex:1">
+                                <div style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
+                                    <div>
+                                        <label id="lblReturnTarget">Target Date:</label>
+                                        <br />
+                                        <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblReturnTargetTime">Target Time:</label>
+                                        <br />
+                                        <div style="display:flex"><input type="text" id="txtStart" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblReturnActual">Actual Date:</label>
+                                        <br />
+                                        <div style="display:flex"><input type="date" id="txtDReturnDate" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblReturnActualTime">Actual Time:</label>
+                                        <br />
+                                        <div style="display:flex"><input type="text" id="txtFinish" class="form-control"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label id="lblDeliveryNo">Delivery No</label>
+                        :
+                        <div style="display:flex;">
+                            <div style="display:flex"><input type="text" id="txtDeliveryNo" class="form-control" disabled></div>
+                            <button id="btnGenDeliveryNo" onclick="GenerateDO()" class="btn btn-warning">Create</button>
+                            <button id="btnPrintSlip" class="btn btn-info" onclick="PrintDelivery()">Delivery Slip</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div style="display:flex">
+                            <div style="flex:1">
+                                Packing
+                                <br />
+                                <div style="display:flex;flex-direction:row">
+                                    <input type="text" id="txtPlaceName1" class="form-control">
+                                </div>
+                            </div>
+                            <div style="flex:1">
+                                Address
+                                <br />
+                                <textarea id="txtPlaceAddress1" class="form-control"></textarea>
+                            </div>
+                            <div style="flex:1">
+                                Contact
+                                <br />
+                                <input type="text" class="form-control" id="txtPlaceContact1" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <div style="float:left">
@@ -838,27 +927,51 @@ End Code
     function ReadRoute(dt) {
         $('#txtRouteID').val(dt.LocationID);
         $('#txtLocation').val(dt.Location);
+        $.get(path + 'JobOrder/GetTransportRoute?ID=' + dt.LocationID).done(function (dt) {
+            if (dt.transportroute.data.length > 0) {
+                let r = dt.transportroute.data[0];
+                $('#txtPlaceName1').val(r.Place1);
+                $('#txtPlaceAddress1').val(r.Address1);
+                $('#txtPlaceContact1').val(r.Contact1);
+
+                $('#txtPlaceName2').val(r.Place2);
+                $('#txtPlaceAddress2').val(r.Address2);
+                $('#txtPlaceContact2').val(r.Contact2);
+
+                $('#txtPlaceName3').val(r.Place3);
+                $('#txtPlaceAddress3').val(r.Address3);
+                $('#txtPlaceContact3').val(r.Contact3);
+
+                $('#txtPlaceName4').val(r.Place4);
+                $('#txtPlaceAddress4').val(r.Address4);
+                $('#txtPlaceContact4').val(r.Contact4);
+            }
+        });
         ShowExpense();
     }
     function ReadMainRoute(dr) {
         $('#txtMainRoute').val(dr.LocationID);
         $('#txtMainLocation').val(dr.Location);
+        $.get(path + 'JobOrder/GetTransportRoute?ID=' + dr.LocationID).done(function (dt) {
+            if (dt.transportroute.data.length > 0) {
+                let r = dt.transportroute.data[0];
+                $('#txtCYPlace').val(r.Place1);
+                $('#txtCYAddress').val(r.Address1);
+                $('#txtCYContact').val(r.Contact1);
 
-        $('#txtCYPlace').val(dr.Place1);
-        $('#txtCYAddress').val(dr.Address1);
-        $('#txtCYContact').val(dr.Contact1);
+                $('#txtPackingPlace').val(r.Place2);
+                $('#txtPackingAddress').val(r.Address2);
+                $('#txtPackingContact').val(r.Contact2);
 
-        $('#txtPackingPlace').val(dr.Place2);
-        $('#txtPackingAddress').val(dr.Address2);
-        $('#txtPackingContact').val(dr.Contact2);
+                $('#txtFactoryPlace').val(r.Place3);
+                $('#txtFactoryAddress').val(r.Address3);
+                $('#txtFactoryContact').val(r.Contact3);
 
-        $('#txtFactoryPlace').val(dr.Place3);
-        $('#txtFactoryAddress').val(dr.Address3);
-        $('#txtFactoryContact').val(dr.Contact3);
-
-        $('#txtReturnPlace').val(dr.Place4);
-        $('#txtReturnAddress').val(dr.Address4);
-        $('#txtReturnContact').val(dr.Contact4);
+                $('#txtReturnPlace').val(r.Place4);
+                $('#txtReturnAddress').val(r.Address4);
+                $('#txtReturnContact').val(r.Contact4);
+            }
+        });
     }
     function ReadService1(dt) {
         $('#txtSICode').val(dt.SICode);
@@ -1217,6 +1330,18 @@ End Code
         $('#txtDeliveryNo').val('');
         $('#txtShippingMark').val('');
         $('#txtCTN_SIZE').val('');
+        $('#txtPlaceName1').val('');
+        $('#txtPlaceAddress1').val('');
+        $('#txtPlaceContact1').val('');
+        $('#txtPlaceName2').val('');
+        $('#txtPlaceAddress2').val('');
+        $('#txtPlaceContact2').val('');
+        $('#txtPlaceName3').val('');
+        $('#txtPlaceAddress3').val('');
+        $('#txtPlaceContact3').val('');
+        $('#txtPlaceName4').val('');
+        $('#txtPlaceAddress4').val('');
+        $('#txtPlaceContact4').val('');
         if (isjobmode == false) {
             $('#txtProductDesc').val('');
             $('#txtProductQty').val('0.00');
@@ -1266,7 +1391,19 @@ End Code
             BookingNo: $('#txtBookingNo').val(),
             DeliveryNo: $('#txtDeliveryNo').val(),
             ProductPrice: CNum($('#txtProductPrice').val()),
-            NetWeight: CNum($('#txtNetWeight').val())
+            NetWeight: CNum($('#txtNetWeight').val()),
+            PlaceName1: $('#txtPlaceName1').val(),
+            PlaceAddress1: $('#txtPlaceAddress1').val(),
+            PlaceContact1: $('#txtPlaceContact1').val(),
+            PlaceName2: $('#txtPlaceName2').val(),
+            PlaceAddress2: $('#txtPlaceAddress2').val(),
+            PlaceContact2: $('#txtPlaceContact2').val(),
+            PlaceName3: $('#txtPlaceName3').val(),
+            PlaceAddress3: $('#txtPlaceAddress3').val(),
+            PlaceContact3: $('#txtPlaceContact3').val(),
+            PlaceName4: $('#txtPlaceName4').val(),
+            PlaceAddress4: $('#txtPlaceAddress4').val(),
+            PlaceContact4: $('#txtPlaceContact4').val()
         };
         if (obj.ItemNo != "") {
             ShowConfirm('Please confirm to save', function (ask) {
@@ -1339,6 +1476,20 @@ End Code
         $('#txtMeasurement').val(dr.Measurement);
         $('#txtNetWeight').val(dr.NetWeight);
         $('#txtProductPrice').val(dr.ProductPrice);
+        $('#txtPlaceName1').val(dr.PlaceName1);
+        $('#txtPlaceAddress1').val(dr.PlaceAddress1);
+        $('#txtPlaceContact1').val(dr.PlaceContact1);
+        $('#txtPlaceName2').val(dr.PlaceName2);
+        $('#txtPlaceAddress2').val(dr.PlaceAddress2);
+        $('#txtPlaceContact2').val(dr.PlaceContact2);
+        $('#txtPlaceName3').val(dr.PlaceName3);
+        $('#txtPlaceAddress3').val(dr.PlaceAddress3);
+        $('#txtPlaceContact3').val(dr.PlaceContact3);
+        $('#txtPlaceName4').val(dr.PlaceName4);
+        $('#txtPlaceAddress4').val(dr.PlaceAddress4);
+        $('#txtPlaceContact4').val(dr.PlaceContact4);
+
+
         ShowExpense();
         ShowPayment();
     }

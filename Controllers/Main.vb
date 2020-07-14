@@ -1847,7 +1847,7 @@ dbo.Job_Order.MAWB, dbo.Job_Order.consigneecode, dbo.Job_Order.privilegests, dbo
 dbo.Job_Order.DeliveryAddr,dbo.Job_Order.ShippingCmd, dbo.Mas_Company.NameThai, dbo.Mas_Company.NameEng, dbo.Mas_Company.TAddress1, dbo.Mas_Company.TAddress2, 
 dbo.Mas_Company.EAddress1, dbo.Mas_Company.EAddress2, dbo.Mas_Company.Phone, dbo.Mas_Company.FaxNumber, dbo.Mas_Company.GLAccountCode, 
 dbo.Mas_Company.BillToCustCode, dbo.Mas_Company.BillToBranch,dbo.Mas_Company.TaxNumber,
-(CASE WHEN ISNULL(dbo.Job_LoadInfoDetail.CauseCode,'')<>'' THEN (case when dbo.Job_LoadInfoDetail.CauseCode='99' THEN 'Cancel' ELSE (CASE WHEN dbo.Job_LoadInfoDetail.CauseCode='3' THEN 'Finish' ELSE 'Working' END) END) ELSE 'Checking' END) as TruckStatus
+(CASE WHEN ISNULL(dbo.Job_LoadInfoDetail.CauseCode,'')<>'' THEN (case when dbo.Job_LoadInfoDetail.CauseCode='99' THEN 'Cancel' ELSE (CASE WHEN dbo.Job_LoadInfoDetail.CauseCode='3' THEN 'Finish' ELSE (CASE WHEN dbo.Job_LoadInfoDetail.CauseCode='2' THEN 'Reject' ELSE 'Working' END) END) END) ELSE 'Checking' END) as TruckStatus
 FROM dbo.Mas_Company RIGHT OUTER JOIN
 dbo.Job_Order RIGHT OUTER JOIN
 dbo.Job_LoadInfoDetail ON dbo.Job_Order.JNo = dbo.Job_LoadInfoDetail.JNo AND 
@@ -2082,7 +2082,7 @@ j.ShipBy, j.AgentCode, s.NameEng AS ShipperName, s.EAddress1 AS ShipperAddress1,
 s.TaxNumber as ShipperTaxID,s.Branch as ShipperTaxBranch,j.AgentCode AS TransportCode, j.ForwarderCode AS CarrierCode, v.English AS CarrierName, v.EAddress1 AS CarrierAddress1, v.EAddress2 AS CarrierAddress2, 
 v.ContactSale AS CarrierContact, v.Phone AS CarrierPhone,v.TaxNumber as CarrierTaxID, t.English AS TransportName, t.EAddress1 AS TransportAddress1, t.EAddress2 AS TransportAddress2, 
 t.ContactSale AS TransportContact, t.Phone AS TransportPhone,t.TaxNumber as TransportTaxID, j.CustContactName, j.Measurement AS TotalM3, j.HAWB, j.MAWB, j.Description, j.CustRefNO,j.ConfirmDate,
-r.LocationRoute
+r.LocationRoute,d.PlaceName1,d.PlaceAddress1,PlaceContact1,d.PlaceName2,d.PlaceAddress2,PlaceContact2,d.PlaceName3,d.PlaceAddress3,PlaceContact3,d.PlaceName4,d.PlaceAddress4,PlaceContact4
 FROM     dbo.Mas_Company AS n INNER JOIN
 dbo.Mas_Vender AS a INNER JOIN
 dbo.Job_LoadInfo AS h LEFT OUTER JOIN
@@ -2330,7 +2330,7 @@ WHERE d.DocStatus<>99
     Function SQLSelectTransportDetail() As String
         Return "
 SELECT a.*,ISNULL(b.CountBill,0) as CountBill,ISNULL(b.CountClear,0) as CountClear, 
-ISNULL(b.CountBill,0)-ISNULL(b.CountClear,0) as CountBalance
+ISNULL(b.CountBill,0)-ISNULL(b.CountClear,0) as CountBalance,c.VenderCode,c.NotifyCode,c.JNo
 FROM Job_LoadInfoDetail a LEFT JOIN(
     SELECT h.BranchCode,d.BookingRefNo,d.BookingItemNo,COUNT(*) as CountBill,
     SUM(CASE WHEN ISNULL(d.ClrReFNo,'')<>'' THEN 1 ELSE 0 END) as CountClear
@@ -2338,6 +2338,7 @@ FROM Job_LoadInfoDetail a LEFT JOIN(
     ON d.BranchCode=h.BranchCode AND d.DocNo=h.DocNo
     WHERE ISNULL(h.CancelProve,'')='' GROUP BY h.BranchCode,d.BookingRefNo,d.BookingItemNo
 ) b ON a.BranchCode=b.BranchCode AND a.BookingNo=b.BookingRefNo AND a.ItemNo=b.BookingItemNo
+INNER JOIN Job_LoadInfo c ON a.BranchCode=c.BranchCode AND a.BookingNo=c.BookingNo
 "
     End Function
     Function SQLUpdateContainer() As String

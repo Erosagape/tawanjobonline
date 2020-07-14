@@ -23,7 +23,7 @@ End Code
                 </div>
             </div>
             <div class="col-sm-3">
-                <label id="lblDocDate">Due Date :</label>
+                <label id="lblDocDate">Doc Date :</label>
                 <br />
                 <input type="date" class="form-control" id="txtDocDate" tabindex="1" />
             </div>
@@ -65,12 +65,12 @@ End Code
                     <div class="col-sm-5">
                         <div style="display:flex;flex-direction:column">
                             <div style="flex:1">
-                                <label id="lblRefNo">Ref No.1:</label>
+                                <label id="lblRefNo">Container No:</label>
                                 <br/>
                                 <input type="text" id="txtRefNo" class="form-control" tabindex="6" />
                             </div>
                             <div style="flex:1">
-                                <label id="lblPoNo">Ref No.2:</label>
+                                <label id="lblPoNo">Invoice No:</label>
                                 <br/>
                                 <input type="text" id="txtPoNo" class="form-control" tabindex="7" />
                             </div>
@@ -448,6 +448,7 @@ End Code
     let vend = getQueryString("Vend");
     let cont = getQueryString("Cont");
     let cust = getQueryString("Cust");
+    let route = getQueryString("Route");
         //$(document).ready(function () {
     if (userGroup == 'V') {
         $('#btnBrowseCust').attr('disabled', 'disabled');
@@ -487,11 +488,14 @@ End Code
             isjobmode = true;
             $('#txtBookingRefNo').val(bookno);
             $('#txtBookingItemNo').val(item);
-            $('#txtForJNo').val(job);
+            if (cust == '') {
+                CallBackQueryJob(path, br, job, ReadJob);
+            } else {
+                $('#txtCustCode').val(cust);
+            }
             $('#txtVenCode').val(vend);
             $('#txtContainerNo').val(cont);
             $('#txtRefNo').val(cont);
-            $('#txtCustCode').val(cust);
             ShowVender(path, $('#txtVenCode').val(), '#txtVenName');
         } else {
             item = 0;
@@ -629,7 +633,7 @@ End Code
     }
     function SetLOVs() {
         //Combos
-        let lists = 'PAYMENT_TYPE=#txtPayType';
+        let lists = 'PAYMENT_TYPE=#txtPayType|CA';
         loadCombos(path, lists);
 
         LoadService();
@@ -1159,7 +1163,11 @@ End Code
                 SetGridJob(path, '#tbJob', '#frmSearchJob', '?Vend=' + $('#txtVenCode').val(), ReadJob);
                 break;
             case 'transportprice':
-                SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch='+$('#txtBranchCode').val()+'&Vend=' + $('#txtVenCode').val() + '&Cust=' + $('#txtCustCode').val(), ReadPrice);
+                if (route !== '') {
+                    SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&Cust=' + $('#txtCustCode').val() + '&id=' + route, ReadPrice);
+                } else {
+                    SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&Cust=' + $('#txtCustCode').val(), ReadPrice);
+                }
                 break;
         }
     }

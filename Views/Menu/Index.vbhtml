@@ -24,7 +24,7 @@ End Code
             <input type="date" id="txtDateTo" class="form-control" />
         </div>
         <div class="col-sm-2">
-            <input type="checkbox" id="chkAutoRefresh" checked /><label id="lblAutoRefresh">Auto Refresh</label><br />
+            <input type="checkbox" id="chkAutoRefresh" /><label id="lblAutoRefresh">Auto Refresh</label><br />
             <button class="btn btn-success" id="btnUpdate" onclick="RefreshGrid()">Update</button>
             <button class="btn w3-indigo" id="btnAddJob" onclick="CreateNewJob()">New</button>
         </div>
@@ -49,17 +49,9 @@ End Code
         </div>
     </div>
 </div>
-<div id="dvDetail" class="modal" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div id="dvHeader" class="modal-header">                
-            </div>
-            <div class="modal-body">
-
-            </div>
-        </div>
-    </div>
-</div>
+<div id="dvLOVs"></div>
+<select id="listStatus" style="display:none"></select>
+<select id="listShipBy" style="display:none"></select>
 <script type="text/javascript" src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
@@ -74,9 +66,12 @@ End Code
 
     $('#txtDateFrom').val(firstDateOfMonth);
     $('#txtDateTo').val(lastDateOfMonth);
+    $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+        var dv = document.getElementById("dvLOVs");
+        CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job Numbers', response, 3);
+    });
     google.charts.load("current", { packages: ["corechart"] });
-    google.charts.setOnLoadCallback(drawChart);
-
+    google.charts.setOnLoadCallback(drawChart);    
     window.onresize = () => {
         CheckSession(drawChart());
     }
@@ -88,7 +83,7 @@ End Code
     SetLOVs();
 
     function SetLOVs() {
-        loadCombos(path, 'SHIP_BY=#cboShipBy,JOB_TYPE=#cboJobType');
+        loadCombos(path, 'SHIP_BY=#cboShipBy,JOB_TYPE=#cboJobType,JOB_STATUS=#listStatus,SHIP_BY=#listShipBy');
         return;
     }
     function RefreshGrid() {
@@ -141,10 +136,8 @@ End Code
                     chartVol.getSelection()[0]['row'] != null &&  
                     chartVol.getSelection().length > 0)  
             {  
-
-                let cliteria = dataVol.getFormattedValue(chartVol.getSelection()[0].row, 0) + '=' + dataVol.getFormattedValue(chartVol.getSelection()[0].row, 1);
-                $('#dvHeader').html(cliteria);
-                $('#dvDetail').modal('show');
+                let cliteria = '?Status=' + getValueByText('#listStatus', dataVol.getFormattedValue(chartVol.getSelection()[0].row, 0));
+                LoadJob(cliteria);
             }  
         });
         chartVol.draw(dataVol, volOptions);
@@ -171,10 +164,14 @@ End Code
 
                 let val = statusView.getFormattedValue(chartStatus.getSelection()[0]['row'], chartStatus.getSelection()[0]['column']);
                 let row = statusView.getFormattedValue(chartStatus.getSelection()[0]['row'], 0);
-                let col = statusTable[chartStatus.getSelection()[0]['column']-1];
-                let cliteria = row + '/' + col + '=' + val;
-                $('#dvHeader').html(cliteria);
-                $('#dvDetail').modal('show');
+                let col = statusTable[chartStatus.getSelection()[0]['column'] - 1];
+                if (chartType == 'V2') {
+                    let cliteria = '?JType=' + getValueByText('#cboJobType', row) + '&Status=' + getValueByText('#listStatus', col);
+                    LoadJob(cliteria);
+                } else {
+                    let cliteria = '?SBy=' + getValueByText('#listShipBy', row) + '&Status=' + getValueByText('#listStatus', col);
+                    LoadJob(cliteria);
+                }
             }  
         });
         chartStatus.draw(statusView, statusOptions);
@@ -203,10 +200,14 @@ End Code
 
                 let val = custView.getFormattedValue(chartCust.getSelection()[0]['row'], chartCust.getSelection()[0]['column']);
                 let row = custView.getFormattedValue(chartCust.getSelection()[0]['row'], 0);
-                let col = custTable[chartCust.getSelection()[0]['column']-1];
-                let cliteria = row + '/' + col + '=' + val;
-                $('#dvHeader').html(cliteria);
-                $('#dvDetail').modal('show');
+                let col = custTable[chartCust.getSelection()[0]['column'] - 1];
+                if (chartType == 'V2') {
+                    let cliteria = '?CSCode=' + row + '&Status=' + getValueByText('#listStatus', col);
+                    LoadJob(cliteria);
+                } else {
+                    let cliteria = '?CustCode=' + row + '&Status=' + getValueByText('#listStatus', col);
+                    LoadJob(cliteria);
+                }
             }  
         });
         chartCust.draw(custView, custOptions);
@@ -291,5 +292,19 @@ End Code
     function CreateNewJob() {
         window.open(path +'joborder/createjob?JType=' + $('#cboJobType').val() + '&SBy=' + $('#cboShipBy').val() + '&Branch=' + branch);
     }
-
+    function getValueByText(id, value) {
+        let chk = '';
+        $(id + ' > option').each(function () {            
+            if (this.text.split('/')[1].trim()==value.trim()) {
+                chk = this.value;
+            }
+        });
+        return chk;
+    }
+    function LoadJob(w) {
+        SetGridJob(path, '#tbJob', '#frmSearchJob', w, ReadJob);
+    }
+    function ReadJob(dt) {
+        window.open(path + 'joborder/showjob?BranchCode=' + dt.BranchCode + '&JNo=' + dt.JNo);
+    }
 </script>

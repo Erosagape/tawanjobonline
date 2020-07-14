@@ -279,7 +279,7 @@
                     <div Class="panel-title">
                         <div class="row">
                             <div class="col-xs-5 col-md-2" style="text-align:center">
-                                <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:100%;height:50px" onclick="w3_open();" />
+                                <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:80%;height:50px" onclick="w3_open();" />
                             </div>
                             <div class="col-xs-7 col-md-10">
                                 <div style="display:flex;align-items:center;height:50px">
@@ -318,8 +318,10 @@
         $('#cboLanguage').val(userLang);
         ChangeLanguage(userLang, $('#lblModule').val());
     } else {
-        $('#cboLanguage').val('EN');
+        userLang = 'EN';
+        $('#cboLanguage').val(userLang);
     }
+    
     SetEvents();
 
     function ForceLogout() {

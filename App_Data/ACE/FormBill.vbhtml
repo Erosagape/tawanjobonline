@@ -84,7 +84,7 @@ End Code
         _____/______/______
     </div>
     <div style="flex:1;border:1px solid black ;border-radius:5px;text-align:center">
-        FOR @ViewBag.PROFILE_COMPANY_NAME<br />
+        FOR @ViewBag.PROFILE_COMPANY_NAME_EN<br />
         <br /><br /><br /><br />
         __________________________________________<br />
         .........................................<br />
@@ -113,15 +113,20 @@ End Code
             $('#lblPaymentDueDate').text(ShowDate(CDateTH(data.header[0][0].DuePaymentDate)));
         }
         if (data.customer.length > 0) {
-	if(Number(data.customer[0][0].Branch)==0) {
-            $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : สำนักงานใหญ่');
-	} else {
-            $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : '+ data.customer[0][0].Branch);
-	}
             if (data.customer[0][0].UsedLanguage == 'TH') {
+		if(Number(data.customer[0][0].Branch)==0) {
+	            $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : สำนักงานใหญ่');
+		} else {
+	            $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : '+ data.customer[0][0].Branch);
+		}
                 $('#lblCustName').text(data.customer[0][0].NameThai);
                 $('#lblCustAddress').text(data.customer[0][0].TAddress1 + '\n' + data.customer[0][0].TAddress2);
             } else {
+		if(Number(data.customer[0][0].Branch)==0) {
+	            $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : HEAD OFFICE');
+		} else {
+	            $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : '+ data.customer[0][0].Branch);
+		}
                 $('#lblCustName').text(data.customer[0][0].NameEng);
                 $('#lblCustAddress').text(data.customer[0][0].EAddress1 + '\n' + data.customer[0][0].EAddress2);
             }

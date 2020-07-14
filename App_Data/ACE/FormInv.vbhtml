@@ -202,7 +202,7 @@ CUST PO: <label id="lblCustRefNo"></label>
             AUTHORIZED SIGNATURE
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
-            FOR @ViewBag.PROFILE_COMPANY_NAME <br /><br /> <br /><br />
+            FOR @ViewBag.PROFILE_COMPANY_NAME_EN <br /><br /> <br /><br />
             ......................................................... <br />
             __________/_________/________ <br />
             AUTHORIZED SIGNATURE
@@ -241,16 +241,21 @@ CUST PO: <label id="lblCustRefNo"></label>
             $.get(path + 'Master/GetCompany?Code='+ h.BillToCustCode + '&Branch='+ h.BillToCustBranch).done(function(r) {
                  if(r.company.data.length >0) {
                       let c=r.company.data[0];
-                $('#lblTaxNumber').text(c.TaxNumber);
-	   if(Number(c.Branch)==0){ 
-		$('#lblTaxBranch').text('สำนักงานใหญ่');
-	   } else {
-		$('#lblTaxBranch').text(c.Branch);
-	   }                
+                $('#lblTaxNumber').text(c.TaxNumber);               
                 if (c.UsedLanguage == 'TH') {
+		   if(Number(c.Branch)==0){ 
+			$('#lblTaxBranch').text('สำนักงานใหญ่');
+		   } else {
+			$('#lblTaxBranch').text(c.Branch);
+		   }
                     $('#lblCustName').text(c.Title+' '+c.NameThai);
                     $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
                 } else {
+		   if(Number(c.Branch)==0){ 
+			$('#lblTaxBranch').text('HEAD OFFICE');
+		   } else {
+			$('#lblTaxBranch').text(c.Branch);
+		   }
                     $('#lblCustName').text(c.NameEng);
                     $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2);
                 }

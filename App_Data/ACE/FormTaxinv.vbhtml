@@ -37,7 +37,6 @@ End Code
     <div style="flex:3;border:1px solid black;border-radius:5px;">
         NAME : <label id="lblCustName"></label><br />
         ADDRESS : <label id="lblCustAddr"></label><br />
-        TEL : <label id="lblCustTel"></label><br />
         TAX-ID : <lable id="lblCustTax"></lable>
     </div>
     <div style="flex:1;border:1px solid black;border-radius:5px;">
@@ -145,18 +144,24 @@ End Code
         }
         //$('#lblCustCode').text(h.CustCode);
         if (h.UsedLanguage == 'TH') {
+	        if(Number(h.BillToCustBranch)==0) {
+	        $('#lblCustTax').text(h.BillTaxID + ' BRANCH : สำนักงานใหญ่');
+	        } else {
+	        $('#lblCustTax').text(h.BillTaxID + ' BRANCH : '+ h.BillToCustBranch);
+	        }
             $('#lblCustName').text(h.BillTName);
             $('#lblCustAddr').text(h.BillTAddr);
         } else {
+	        if(Number(h.BillToCustBranch)==0) {
+	        $('#lblCustTax').text(h.BillTaxID + ' BRANCH : HEAD OFFICE');
+	        } else {
+	        $('#lblCustTax').text(h.BillTaxID + ' BRANCH : '+ h.BillToCustBranch);
+	        }
             $('#lblCustName').text(h.BillEName);
             $('#lblCustAddr').text(h.BillEAddr);
         }
-        $('#lblCustTel').text(h.CustPhone);
-        if(Number(h.BillToCustBranch)==0) {
-        $('#lblCustTax').text(h.BillTaxID + ' BRANCH : สำนักงานใหญ่');
-        } else {
-        $('#lblCustTax').text(h.BillTaxID + ' BRANCH : '+ h.BillToCustBranch);
-        }		
+        //$('#lblCustTel').text(h.CustPhone);
+		
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiptDate)));
         let html = '';
@@ -187,7 +192,11 @@ End Code
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
         $('#lblTotalAfterVAT').text(ShowNumber(total, 2));
-        $('#lblTotalNet').text(ShowNumber(total-wht, 2));
-        $('#lblTotalText').text(CNumThai(total-wht));
+        $('#lblTotalNet').text(ShowNumber(total - wht, 2));
+        if (h.UsedLanguage == 'TH') {
+            $('#lblTotalText').text(CNumThai(total - wht));
+        } else {
+            $('#lblTotalText').text(CNumEng(total - wht));
+        }
     }
 </script>

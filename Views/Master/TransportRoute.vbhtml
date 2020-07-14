@@ -8,15 +8,18 @@ End Code
 <div class="tab-content">
     <div id="tabHeader" class="tab-pane fade in active">
         <div class="row">
-            <div class="col-sm-1">
+            <div class="col-sm-2">
                 <label id="lblTemplate">Type:</label>                
                 <br />
                 <select id="cboTemplate" class="form-control dropdown" onclick="GenRoute()">
-                    <option value="1234" selected>
+                    <option value="4321" selected>
                         EXPORT
                     </option>
                     <option value="4123">
                         IMPORT
+                    </option>
+                    <option value="412">
+                        DOMESTIC
                     </option>
                 </select>
             </div>
@@ -24,7 +27,7 @@ End Code
                 #<br />
                 <input type="text" id="txtLocationID" class="form-control" value="0" disabled />
             </div>
-            <div class="col-sm-7">
+            <div class="col-sm-6">
                 <label id="lblRouteFormat"></label><br />
                 <input type="text" id="txtLocationRoute" class="form-control" disabled />
             </div>
@@ -74,7 +77,7 @@ End Code
                     <button id="btnClearP3" class="btn w3-purple" onclick="ClearPlace(3)">Clear</button>
                 </div>
                 <div class="col-md-3">
-                    <label id="lblPlace4">Port</label><br />
+                    <label id="lblPlace4">Yard</label><br />
                     <input type="text" class="form-control" id="txtPlace4" onchange="GenRoute()" />
                     <label id="lblAddress4">Address</label><br />
                     <textarea class="form-control" id="txtAddress4"></textarea>
@@ -472,16 +475,23 @@ End Code
     }
     function GenRoute() {
         $('#lblRouteFormat').text(GetFormat($('#cboTemplate').val()));
-        
-        let idx1 = $('#txtPlace'+$('#cboTemplate').val().toString().substr(0, 1)).val();
-        let idx2 = $('#txtPlace'+$('#cboTemplate').val().toString().substr(1, 1)).val();
-        let idx3 = $('#txtPlace'+$('#cboTemplate').val().toString().substr(2, 1)).val();
-        let idx4 = $('#txtPlace'+$('#cboTemplate').val().toString().substr(3, 1)).val();
         let str = '';
-        if(idx1!=='') str += (str !== '' ? '=>' : '') + idx1;
-        if(idx2!=='') str += (str !== '' ? '=>' : '') + idx2;
-        if(idx3!=='') str += (str !== '' ? '=>' : '') + idx3;
-        if(idx4!=='') str += (str !== '' ? '=>' : '') + idx4;
+        if ($('#cboTemplate').val().toString().length >= 1) {
+            let idx1 = $('#txtPlace'+$('#cboTemplate').val().toString().substr(0, 1)).val();
+            if (idx1 !== '') str += (str !== '' ? '->' : '') + idx1;
+        }
+        if ($('#cboTemplate').val().toString().length >= 2) {
+            let idx2 = $('#txtPlace' + $('#cboTemplate').val().toString().substr(1, 1)).val();
+            if (idx2 !== '') str += (str !== '' ? '->' : '') + idx2;
+        }
+        if ($('#cboTemplate').val().toString().length >= 3) {
+            let idx3 = $('#txtPlace' + $('#cboTemplate').val().toString().substr(2, 1)).val();
+            if(idx3!=='') str += (str !== '' ? '->' : '') + idx3;
+        }
+        if ($('#cboTemplate').val().toString().length >= 4) {
+            let idx4 = $('#txtPlace' + $('#cboTemplate').val().toString().substr(3, 1)).val();
+            if(idx4!=='') str += (str !== '' ? '->' : '') + idx4;      
+        }
         $('#txtLocationRoute').val(str);
     }
     function SavePlace(id) {

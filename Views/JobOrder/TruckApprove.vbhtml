@@ -11,15 +11,26 @@ End Code
             <input type="text" class="form-control" id="txtBranchName" style="width:65%" disabled />
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <label id="lblDateFrom">Load Date From</label>
         <br />
         <input type="date" class="form-control" id="txtDocDateF" />
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-3">
         <label id="lblDateTo">Load Date To:</label>
         <br />
         <input type="date" class="form-control" id="txtDocDateT" />
+    </div>
+    <div class="col-sm-2">
+        Status
+        <br/>
+        <select id="cboStatus" class="form-control dropdown">
+            <option value="N">Avaiable</option>
+            <option value="1">Confirm</option>
+            <option value="2">Rejected</option>
+            <option value="3">Finished</option>
+            <option value="99">Cancelled</option>
+        </select>
     </div>
 </div>
 <div class="row">
@@ -65,7 +76,7 @@ End Code
     </thead>
 </table>
 <div class="modal fade" role="dialog" id="dvContainer">
-    <div class="modal-dialog">
+    <div class="modal-dialog-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="row">
@@ -161,7 +172,7 @@ End Code
 
                         </div>
                         <div>
-                            <label id="lblPickupActual">Actual Date :</label>
+                            <input type="checkbox" id="chkPickup" /><label id="lblPickupActual">Actual Date :</label>
                             <br />
                             <div style="display:flex"><input type="date" id="txtActualYardDate" class="form-control"></div>
                         </div>
@@ -182,7 +193,7 @@ End Code
                             <br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control" disabled></div>
                         </div>
                         <div>
-                            <label id="lblDeliveryActual">Actual Date :</label>
+                            <input type="checkbox" id="chkDelivery" /><label id="lblDeliveryActual">Actual Date :</label>
                             <br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
                         </div>
                         <div>
@@ -203,7 +214,7 @@ End Code
                             <div style="display:flex"><input type="text" id="txtStart" class="form-control" disabled></div>
                         </div>
                         <div>
-                            <label id="lblReturnActual">Actual Date:</label>
+                            <input type="checkbox" id="chkReturn" /><label id="lblReturnActual">Actual Date:</label>
                             <br />
                             <div style="display:flex"><input type="date" id="txtDReturnDate" class="form-control"></div>
                         </div>
@@ -278,7 +289,30 @@ End Code
                 ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
             }
         });
-
+        $('#chkPickup').on('click',function () {
+            if (this.checked) {
+                $('#txtCauseCode').val('1');
+                $('#txtActualYardDate').val(GetToday());
+            } else {
+                $('#txtActualYardDate').val('');
+            }
+        });
+        $('#chkDelivery').on('click',function () {
+            if (this.checked) {
+                $('#txtCauseCode').val('3');
+                $('#txtUnloadFinishDate').val(GetToday());
+            } else {
+                $('#txtUnloadFinishDate').val('');
+            }
+        });
+        $('#chkReturn').on('click',function () {
+            if (this.checked) {
+                $('#txtCauseCode').val('3');
+                $('#txtDReturnDate').val(GetToday());
+            } else {
+                $('#txtDReturnDate').val('');
+            }
+        });
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
@@ -330,7 +364,7 @@ End Code
     }
     function RefreshGrid() {
         $('#tbDetail').DataTable().clear().draw();
-        let w = '?Status=N&Branch=' + $('#txtBranchCode').val();
+        let w = '?Status='+ $('#cboStatus').val() +'&Branch=' + $('#txtBranchCode').val();
         if ($('#txtVenCode').val() !== "") {
             w = w + '&Vend=' + $('#txtVenCode').val();
         }
@@ -470,7 +504,21 @@ End Code
             ProductUnit: row.ProductUnit,
             GrossWeight: row.GrossWeight,
             Measurement: row.Measurement,
-            DeliveryNo: row.DeliveryNo
+            DeliveryNo: row.DeliveryNo,
+            NetWeight: row.NetWeight,
+            ProductPrice: row.ProductPrice,
+            PlaceName1: row.PlaceName1,
+            PlaceAddress1: row.PlaceAddress1,
+            PlaceContact1: row.PlaceContact1,
+            PlaceName2: row.PlaceName2,
+            PlaceAddress2: row.PlaceAddress2,
+            PlaceContact2: row.PlaceContact2,
+            PlaceName3: row.PlaceName3,
+            PlaceAddress3: row.PlaceAddress3,
+            PlaceContact3: row.PlaceContact3,
+            PlaceName4: row.PlaceName4,
+            PlaceAddress4: row.PlaceAddress4,
+            PlaceContact4: row.PlaceContact4
         };
         if (obj.ItemNo != "") {
             ShowConfirm('Please confirm to save', function (ask) {
@@ -501,7 +549,7 @@ End Code
         }
     function EntryExpenses() {
         if ($('#txtCauseCode').val() == '2' || $('#txtCauseCode').val() == '3') {
-            window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&BookNo=' + row.BookingNo + '&Item=' + $('#txtItemNo').val() + '&Job=' + row.JNo + '&Vend=' + $('#txtVenCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust=' + $('#txtCustCode').val(), '', '');
+            window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&BookNo=' + row.BookingNo + '&Item=' + $('#txtItemNo').val() + '&Job=' + row.JNo + '&Vend=' + $('#txtVenCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust='+ row.NotifyCode + '&Route=' + row.LocationID, '', '');
         } else {
             ShowMessage('Current document status is not allow to do this', true);
         }

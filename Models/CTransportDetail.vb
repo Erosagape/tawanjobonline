@@ -336,6 +336,114 @@ Public Class CTransportDetail
             m_ProductPrice = value
         End Set
     End Property
+    Private m_PlaceName1 As String
+    Public Property PlaceName1 As String
+        Get
+            Return m_PlaceName1
+        End Get
+        Set(value As String)
+            m_PlaceName1 = value
+        End Set
+    End Property
+    Private m_PlaceAddress1 As String
+    Public Property PlaceAddress1 As String
+        Get
+            Return m_PlaceAddress1
+        End Get
+        Set(value As String)
+            m_PlaceAddress1 = value
+        End Set
+    End Property
+    Private m_PlaceContact1 As String
+    Public Property PlaceContact1 As String
+        Get
+            Return m_PlaceContact1
+        End Get
+        Set(value As String)
+            m_PlaceContact1 = value
+        End Set
+    End Property
+    Private m_PlaceName2 As String
+    Public Property PlaceName2 As String
+        Get
+            Return m_PlaceName2
+        End Get
+        Set(value As String)
+            m_PlaceName2 = value
+        End Set
+    End Property
+    Private m_PlaceAddress2 As String
+    Public Property PlaceAddress2 As String
+        Get
+            Return m_PlaceAddress2
+        End Get
+        Set(value As String)
+            m_PlaceAddress2 = value
+        End Set
+    End Property
+    Private m_PlaceContact2 As String
+    Public Property PlaceContact2 As String
+        Get
+            Return m_PlaceContact2
+        End Get
+        Set(value As String)
+            m_PlaceContact2 = value
+        End Set
+    End Property
+    Private m_PlaceName3 As String
+    Public Property PlaceName3 As String
+        Get
+            Return m_PlaceName3
+        End Get
+        Set(value As String)
+            m_PlaceName3 = value
+        End Set
+    End Property
+    Private m_PlaceAddress3 As String
+    Public Property PlaceAddress3 As String
+        Get
+            Return m_PlaceAddress3
+        End Get
+        Set(value As String)
+            m_PlaceAddress3 = value
+        End Set
+    End Property
+    Private m_PlaceContact3 As String
+    Public Property PlaceContact3 As String
+        Get
+            Return m_PlaceContact3
+        End Get
+        Set(value As String)
+            m_PlaceContact3 = value
+        End Set
+    End Property
+    Private m_PlaceName4 As String
+    Public Property PlaceName4 As String
+        Get
+            Return m_PlaceName4
+        End Get
+        Set(value As String)
+            m_PlaceName4 = value
+        End Set
+    End Property
+    Private m_PlaceAddress4 As String
+    Public Property PlaceAddress4 As String
+        Get
+            Return m_PlaceAddress4
+        End Get
+        Set(value As String)
+            m_PlaceAddress4 = value
+        End Set
+    End Property
+    Private m_PlaceContact4 As String
+    Public Property PlaceContact4 As String
+        Get
+            Return m_PlaceContact4
+        End Get
+        Set(value As String)
+            m_PlaceContact4 = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -386,6 +494,18 @@ Public Class CTransportDetail
                             dr("LocationID") = Main.GetDBString(Me.LocationID, dt.Columns("LocationID"))
                             dr("NetWeight") = Me.NetWeight
                             dr("ProductPrice") = Me.ProductPrice
+                            dr("PlaceName1") = Me.m_PlaceName1
+                            dr("PlaceName2") = Me.m_PlaceName2
+                            dr("PlaceName3") = Me.m_PlaceName3
+                            dr("PlaceName4") = Me.m_PlaceName4
+                            dr("PlaceAddress1") = Me.m_PlaceAddress1
+                            dr("PlaceAddress2") = Me.m_PlaceAddress2
+                            dr("PlaceAddress3") = Me.m_PlaceAddress3
+                            dr("PlaceAddress4") = Me.m_PlaceAddress4
+                            dr("PlaceContact1") = Me.m_PlaceContact1
+                            dr("PlaceContact2") = Me.m_PlaceContact2
+                            dr("PlaceContact3") = Me.m_PlaceContact3
+                            dr("PlaceContact4") = Me.m_PlaceContact4
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CTransportDetail", "SaveData", Me, False)
@@ -520,6 +640,42 @@ Public Class CTransportDetail
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("ProductPrice"))) = False Then
                         row.ProductPrice = rd.GetDouble(rd.GetOrdinal("ProductPrice"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PlaceName1"))) = False Then
+                        row.PlaceName1 = rd.GetString(rd.GetOrdinal("PlaceName1"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PlaceAddress1"))) = False Then
+                        row.PlaceAddress1 = rd.GetString(rd.GetOrdinal("PlaceAddress1"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PlaceContact1"))) = False Then
+                        row.PlaceContact1 = rd.GetString(rd.GetOrdinal("PlaceContact1"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PlaceName2"))) = False Then
+                        row.PlaceName2 = rd.GetString(rd.GetOrdinal("PlaceName2"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PlaceAddress2"))) = False Then
+                        row.PlaceAddress2 = rd.GetString(rd.GetOrdinal("PlaceAddress2"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PlaceContact2"))) = False Then
+                        row.PlaceContact2 = rd.GetString(rd.GetOrdinal("PlaceContact2"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PlaceName3"))) = False Then
+                        row.PlaceName3 = rd.GetString(rd.GetOrdinal("PlaceName3"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PlaceAddress3"))) = False Then
+                        row.PlaceAddress3 = rd.GetString(rd.GetOrdinal("PlaceAddress3"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PlaceContact3"))) = False Then
+                        row.PlaceContact3 = rd.GetString(rd.GetOrdinal("PlaceContact3"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PlaceName4"))) = False Then
+                        row.PlaceName4 = rd.GetString(rd.GetOrdinal("PlaceName4"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PlaceAddress4"))) = False Then
+                        row.PlaceAddress4 = rd.GetString(rd.GetOrdinal("PlaceAddress4"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PlaceContact4"))) = False Then
+                        row.PlaceContact4 = rd.GetString(rd.GetOrdinal("PlaceContact4"))
                     End If
                     lst.Add(row)
                 End While
