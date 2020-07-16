@@ -570,6 +570,8 @@
     <Content Include="App_Data\GOLDENLINE\FormClr.vbhtml" />
     <Content Include="App_Data\GOLDENLINE\FormEstimate.vbhtml" />
     <Content Include="App_Data\DPK\FormJobSum.vbhtml" />
+    <Content Include="App_Data\GOLDENLINE\FormJob.vbhtml" />
+    <Content Include="App_Data\GOLDENLINE\_Report.vbhtml" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

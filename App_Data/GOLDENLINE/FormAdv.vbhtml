@@ -259,17 +259,23 @@ End Code
                 });
         }
     }
-    function ShowDetail(r,h) {
+    function ShowDetail(dr,h) {
         //Dummy Data
         let strDesc = '';
         let strJob = '';
         let strAmt = '';
         let strWht = '';
         let totAmt = 0;
+        let listJob = [];
         //let vat = 0;
         //let wht = 0;
+        let r = JSON.parse(JSON.stringify(dr));
+        sortData(r, 'ForJNo', 'asc');
         for (i = 0; i < r.length; i++) {
             let d = r[i];
+            if (i > 0) {
+                strDesc += '<br/>';
+            }
             if (serv.length > 0) {
                 let c = $.grep(serv, function (data) {
                     return data.SICode === d.SICode;
@@ -282,13 +288,20 @@ End Code
             } else {
                 strDesc = strDesc + (d.SICode + '<br/>');
             }
-            strJob = 'JOB:' + ((d.ForJNo == null || d.ForJNo == '' ? '' : d.ForJNo) + '<br/>');
-            strJob = strJob + 'CONTAINER:' + ((d.TotalContainer == null || d.TotalContainer == '' ? '' : d.TotalContainer) + '<br/>');
-            strJob = strJob + 'BL/AWB:' + ((d.HAWB == null || d.HAWB == '' ? '' : d.HAWB) + '<br/>');
-            strJob = strJob + 'SHIPPER:' + ((d.ShippingEmp == null || d.ShippingEmp == '' ? '' : d.ShippingEmp) + '<br/>');
-            strDesc += strJob +'<br/>';
-            strAmt = strAmt + (CCurrency((d.BaseAmount).toFixed(2)) + '<br/><br/><br/><br/><br/><br/>');
-            strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(2)) + '<br/><br/><br/><br/><br/><br/>');
+            if (d.ForJNo !== '') {
+                if (listJob.indexOf(d.ForJNo) < 0) {
+                    strJob = 'JOB:' + ((d.ForJNo == null || d.ForJNo == '' ? '' : d.ForJNo) + '<br/>');
+                    strJob = strJob + 'CONTAINER:' + ((d.TotalContainer == null || d.TotalContainer == '' ? '' : d.TotalContainer) + '<br/>');
+                    strJob = strJob + 'BL/AWB:' + ((d.HAWB == null || d.HAWB == '' ? '' : d.HAWB) + '<br/>');
+                    strJob = strJob + 'SHIPPER:' + ((d.ShippingEmp == null || d.ShippingEmp == '' ? '' : d.ShippingEmp) + '<br/>');
+                    strDesc = strJob +  strDesc;
+                    listJob.push(d.ForJNo);
+                    strAmt += '<br/><br/><br/><br/>';
+                    strWht += '<br/><br/><br/><br/>';
+                }
+            }
+            strAmt = strAmt + (CCurrency((d.BaseAmount).toFixed(2)))+'<br/>';
+            strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(2)))+'<br/>';
             totAmt += d.BaseAmount;
             //vat += d.ChargeVAT;
             //wht += d.Charge50Tavi;

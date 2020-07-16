@@ -1360,3 +1360,30 @@ function SetGridVenderLogin(p, g, d, ev) {
     });
     BindEvent(g, d, ev);
 }
+function SetGridLocationEntry(p, g, d, t, ev) {
+    $.get(p + 'joborder/getlocationentry' + t).done(function (r) {
+        if (r.data[0].Table.length > 0) {
+            let dr = r.data[0].Table;
+            $(g).DataTable({
+                data: dr, //web service ที่จะ call ไปดึงข้อมูลมา
+                selected: true, //ให้สามารถเลือกแถวได้
+                columns: [ //กำหนด property ของ header column
+                    { data: null, title: "#" },
+                    { data: "Place", title: "Place" }
+                ],
+                "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+                    {
+                        "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                        "data": null,
+                        "render": function (data, type, full, meta) {
+                            let html = "<button class='btn btn-warning'>Select</button>";
+                            return html;
+                        }
+                    }
+                ],
+                destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+            });
+            BindEvent(g, d, ev);
+        }
+    });
+}

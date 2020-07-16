@@ -12,10 +12,10 @@ End Code
                 <label id="lblTemplate">Type:</label>                
                 <br />
                 <select id="cboTemplate" class="form-control dropdown" onclick="GenRoute()">
-                    <option value="4321" selected>
+                    <option value="4123" selected>
                         EXPORT
                     </option>
-                    <option value="4123">
+                    <option value="4312">
                         IMPORT
                     </option>
                     <option value="412">
@@ -67,7 +67,7 @@ End Code
                     <button id="btnClearP2" class="btn w3-purple" onclick="ClearPlace(2)">Clear</button>
                 </div>
                 <div class="col-md-3">
-                    <label id="lblPlace3">Container Yard</label><br />
+                    <label id="lblPlace3">Return</label><br />
                     <input type="text" class="form-control" id="txtPlace3" onchange="GenRoute()" />
                     <label id="lblAddress3">Address</label><br />
                     <textarea class="form-control" id="txtAddress3"></textarea>
@@ -77,7 +77,7 @@ End Code
                     <button id="btnClearP3" class="btn w3-purple" onclick="ClearPlace(3)">Clear</button>
                 </div>
                 <div class="col-md-3">
-                    <label id="lblPlace4">Yard</label><br />
+                    <label id="lblPlace4">Container Size</label><br />
                     <input type="text" class="form-control" id="txtPlace4" onchange="GenRoute()" />
                     <label id="lblAddress4">Address</label><br />
                     <textarea class="form-control" id="txtAddress4"></textarea>
@@ -246,6 +246,20 @@ End Code
 </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
+    let user = '@ViewBag.User';
+    let userGroup = '@ViewBag.UserGroup';
+    if (userGroup == 'V') {
+        $('#btnBrowseVend').attr('disabled', 'disabled');
+        $('#txtVenderCode').attr('disabled', 'disabled');
+        $('#txtVenderName').attr('disabled', 'disabled');
+        $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
+            if (r.vender.data.length > 0) {
+                let dr = r.vender.data[0];
+                $('#txtVenderCode').val(dr.VenCode);
+                $('#txtVenderName').val(dr.TName);
+            }
+        });
+    }
     SetLOVs();
     LoadPrice();
     ShowData();
@@ -366,26 +380,33 @@ End Code
                     $(this).addClass('selected');
 
                     let data = $('#tbDetail').DataTable().row(this).data();
-                    let idx1 = data.RouteFormat.substr(0, 1);
-                    let idx2 = data.RouteFormat.substr(1, 1);
-                    let idx3 = data.RouteFormat.substr(2, 1);
-                    let idx4 = data.RouteFormat.substr(3, 1);
+                    $('#cboTemplate').val(data.RouteFormat);
+                    let idx1 = (data.RouteFormat.length > 0 ? data.RouteFormat.substr(0, 1) : 0);
+                    let idx2 = (data.RouteFormat.length > 1 ? data.RouteFormat.substr(1, 1) : 0);
+                    let idx3 = (data.RouteFormat.length > 2 ? data.RouteFormat.substr(2, 1) : 0);
+                    let idx4 = (data.RouteFormat.length > 3 ? data.RouteFormat.substr(3, 1) : 0);
+
+                    ClearPlace(1);
+                    ClearPlace(2);
+                    ClearPlace(3);
+                    ClearPlace(4);
 
                     $('#txtLocationID').val(data.LocationID);
                     $('#cboLocationID').val(data.LocationID);
                     $('#txtLocationRoute').val(data.LocationRoute);
-                    $('#txtPlace'+ idx1).val(data.Place1);
-                    $('#txtAddress'+ idx1).val(data.Address1);
-                    $('#txtContact'+ idx1).val(data.Contact1);
-                    $('#txtPlace'+ idx2).val(data.Place2);
-                    $('#txtAddress'+ idx2).val(data.Address2);
-                    $('#txtContact'+ idx2).val(data.Contact2);
-                    $('#txtPlace'+ idx3).val(data.Place3);
-                    $('#txtAddress'+ idx3).val(data.Address3);
-                    $('#txtContact'+ idx3).val(data.Contact3);
-                    $('#txtPlace'+ idx4).val(data.Place4);
-                    $('#txtAddress'+ idx4).val(data.Address4);
-                    $('#txtContact'+ idx4).val(data.Contact4);
+
+                    $('#txtPlace' + idx1).val(data.Place1);
+                    $('#txtAddress' + idx1).val(data.Address1);
+                    $('#txtContact' + idx1).val(data.Contact1);
+                    $('#txtPlace' + idx2).val(data.Place2);
+                    $('#txtAddress' + idx2).val(data.Address2);
+                    $('#txtContact' + idx2).val(data.Contact2);
+                    $('#txtPlace' + idx3).val(data.Place3);
+                    $('#txtAddress' + idx3).val(data.Address3);
+                    $('#txtContact' + idx3).val(data.Contact3);
+                    $('#txtPlace' + idx4).val(data.Place4);
+                    $('#txtAddress' + idx4).val(data.Address4);
+                    $('#txtContact' + idx4).val(data.Contact4);
                     LoadPrice();
                 });
             }
@@ -467,7 +488,7 @@ End Code
                     str += (str !== '' ? ',' : '') + 'Container Yard';
                     break;
                 case '4':
-                    str += (str !== '' ? ',' : '') + 'Port';
+                    str += (str !== '' ? ',' : '') + 'Container Size';
                     break;
             }
         }
@@ -513,26 +534,28 @@ End Code
         });
     }
     function SaveRoute() {
-        let idx1 = $('#cboTemplate').val().toString().substr(0, 1);
-        let idx2 = $('#cboTemplate').val().toString().substr(1, 1);
-        let idx3 = $('#cboTemplate').val().toString().substr(2, 1);
-        let idx4 = $('#cboTemplate').val().toString().substr(3, 1);
+        let routeFormat = $('#cboTemplate').val();
+        let idx1 = (routeFormat.length > 0 ? routeFormat.substr(0, 1) : 0);
+        let idx2 = (routeFormat.length > 1 ? routeFormat.substr(1, 1) : 0);
+        let idx3 = (routeFormat.length > 2 ? routeFormat.substr(2, 1) : 0);
+        let idx4 = (routeFormat.length > 3 ? routeFormat.substr(3, 1) : 0);
+        
         let obj = {
             LocationID: CNum($('#txtLocationID').val()),
-            Place1: $('#txtPlace'+idx1).val(),
-            Place2: $('#txtPlace'+idx2).val(),
-            Place3: $('#txtPlace'+idx3).val(),
-            Place4: $('#txtPlace'+idx4).val(),
-            Address1: $('#txtAddress'+idx1).val(),
-            Address2: $('#txtAddress'+idx2).val(),
-            Address3: $('#txtAddress'+idx3).val(),
-            Address4: $('#txtAddress'+idx4).val(),
-            Contact1: $('#txtContact'+idx1).val(),
-            Contact2: $('#txtContact'+idx2).val(),
-            Contact3: $('#txtContact'+idx3).val(),
-            Contact4: $('#txtContact'+idx4).val(),
+            Place1: $('#txtPlace'+ idx1).val(),
+            Place2: $('#txtPlace'+ idx2).val(),
+            Place3: $('#txtPlace'+ idx3).val(),
+            Place4: $('#txtPlace'+ idx4).val(),
+            Address1: $('#txtAddress'+ idx1).val(),
+            Address2: $('#txtAddress'+ idx2).val(),
+            Address3: $('#txtAddress'+ idx3).val(),
+            Address4: $('#txtAddress'+ idx4).val(),
+            Contact1: $('#txtContact'+ idx1).val(),
+            Contact2: $('#txtContact'+ idx2).val(),
+            Contact3: $('#txtContact'+ idx3).val(),
+            Contact4: $('#txtContact'+ idx4).val(),
             LocationRoute: $('#txtLocationRoute').val(),
-            RouteFormat: $('#cboTemplate').val(),
+            RouteFormat: routeFormat,
             IsActive: true
         };
         let json = JSON.stringify({ data: obj });

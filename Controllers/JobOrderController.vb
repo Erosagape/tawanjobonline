@@ -609,6 +609,25 @@ Namespace Controllers
                 Return Content("[]", jsonContent)
             End Try
         End Function
+        Function GetLocationEntry() As ActionResult
+            Try
+                Dim place = "1"
+                If Not IsNothing(Request.QueryString("Place")) Then
+                    place = Request.QueryString("Place").ToString
+                End If
+                Dim sql = "
+SELECT DISTINCT PlaceName" & place & " as Place,PlaceAddress" & place & " as Address,PlaceContact" & place & " as Contact FROM Job_LoadinfoDetail
+WHERE ISNULL(PlaceName" & place & ",'')<>''
+"
+                Dim oDataD = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                Dim jsonD As String = JsonConvert.SerializeObject(oDataD.Rows)
+                Dim json = "{""data"":" & jsonD & "}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetTransportEntry", ex.Message, ex.StackTrace, True)
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
         Function SetTransportHeader(<FromBody()> data As CTransportHeader) As ActionResult
             Try
                 If Not IsNothing(data) Then

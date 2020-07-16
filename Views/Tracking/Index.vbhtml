@@ -229,7 +229,7 @@ End Code
                     if (userGroup !== 'V') {
                         window.open(path + 'JobOrder/ShowJob?BranchCode=' + row.BranchCode + '&JNo=' + row.JNo, '', '');
                     } else {
-                        window.open(path + 'JobOrder/FormTruckOrder?BranchCode=' + row.BranchCode + '&BookingNo=' + row.BookingNo + '&ContainerNo=' + row.CTN_NO, '', '');
+                        window.open(path + 'JobOrder/TruckOrder?BranchCode=' + row.BranchCode + '&BookingNo=' + row.BookingNo + '&ContainerNo=' + row.CTN_NO, '', '');
                     }
                 });
             }

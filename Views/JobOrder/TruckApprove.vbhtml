@@ -64,7 +64,7 @@ End Code
     <thead>
         <tr>
             <th>Booking</th>
-            <th>No</th>
+            <th>Customer</th>
             <th>CTN_NO</th>
             <th class="desktop">CTN_SIZE</th>
             <th class="desktop">SealNumber</th>
@@ -389,7 +389,7 @@ End Code
             data: dr,
             columns: [
                 { data: "BookingNo", title: "Booking"},
-                { data: "ItemNo", title: "#"},
+                { data: "NotifyCode", title: "Customer"},
                 { data: "CTN_NO", title: "Container No" },
                 { data: "CTN_SIZE", title: "Container Size" },
                 { data: "SealNumber", title: "Seal" },

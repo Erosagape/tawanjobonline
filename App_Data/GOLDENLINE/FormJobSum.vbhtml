@@ -161,7 +161,7 @@ End Code
                     <th width="15%">CHARGEABLE</th>
                     <th width="10%">VAT</th>
                     <th width="10%">WH-TAX</th>
-                    <th width="15%">COST</th>
+                    <th width="15%">CLEARING</th>
                     <th width="10%">PROFIT</th>
                 </tr>
             </thead>
@@ -404,7 +404,7 @@ End Code
                     let amt = d[i].UsedAmount;
                     let adv = (d[i].IsCredit == 1 ? amt : 0);
                     let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? amt : 0);
-                    let cost = (d[i].IsExpense == 1 || d[i].IsCredit==1 ? amt : 0);
+                    let cost = (d[i].IsExpense == 1 ? amt : 0);
                     let profit = (d[i].IsExpense == 1 ? amt*-1 : d[i].IsCredit==1 ? 0 : d[i].UsedAmount);
 
                     amtadv += adv;
@@ -420,15 +420,15 @@ End Code
                     }
                     html = '<tr>';
                     html += '<td>' + d[i].ClrNo + '#' + d[i].ItemNo + '</td>';
-                    html += '<td>' + d[i].SICode + '-' + d[i].SDescription;
-                    if (d[i].AdvNO !== null) html +=' จากใบเบิก '+ d[i].AdvNO;
-                    if (d[i].SlipNO !== null) html += ' ใบเสร็จเลขที่ ' + d[i].SlipNO;
+                    html += '<td>' + d[i].SDescription;
+                    if (d[i].AdvNO !== '') html +='<br/>จากใบเบิก '+ d[i].AdvNO;
+                    if (d[i].SlipNO !== '') html += ' ใบเสร็จเลขที่ ' + d[i].SlipNO;
 
                     html += '</td>';
                     html += '<td style="text-align:right">' + CCurrency(CDbl(adv + serv, 2)) + '</td>';
                     html += '<td style="text-align:right">' + CCurrency(CDbl(d[i].ChargeVAT, 2)) + '</td>';
                     html += '<td style="text-align:right">' + CCurrency(CDbl(d[i].Tax50Tavi, 2)) + '</td>';
-                    html += '<td style="text-align:right">' + CCurrency(CDbl(cost, 2)) + '</td>';
+                    html += '<td style="text-align:right">' + CCurrency(CDbl(cost+adv, 2)) + '</td>';
                     html += '<td style="text-align:right">' + CCurrency(CDbl(profit,2)) + '</td>';
                     html += '</tr>';
 

@@ -24,9 +24,6 @@ End Code
     <div style="flex:1">
         <b>Consignee : </b><label id="lblConsName"></label>
     </div>
-    <div style="flex:1">
-        <b>Notify Party : </b><label id="lblNotifyName"></label>
-    </div>
 </div>
 <br/>
 <div style="width:100%;display:flex">
@@ -44,8 +41,11 @@ End Code
     <div style="flex:1">
         <b>VESSEL : </b><label id="lblVesselName"></label>
     </div>
-    <div style="flex:2">
+    <div style="flex:1">
         <b>FEEDER/VOY : </b><label id="lblMVesselName"></label>
+    </div>
+    <div style="flex:1">
+        <b>CONTAINER NO : </b><label id="lblContainerNo"></label>
     </div>
 </div>
 <div style="width:100%;display:flex">
@@ -72,25 +72,25 @@ End Code
 </div>
 <hr style="border-style:solid;" />
 <div style="display:flex;text-align:center;">
-    <div style="width:20%">
+    <div style="width:40%">
         <u><b>DESCRIPTION</b></u>
     </div>
-    <div style="width:5%">
+    <div style="width:10%">
         <u><b>RATE</b></u>
     </div>
-    <div style="width:15%">
+    <div style="width:10%">
         <u><b>CURRENCY</b></u>
     </div>
-    <div style="width:10%">
+    <div style="width:5%">
         <u><b>QTY</b></u>
     </div>
-    <div style="width:10%">
+    <div style="width:5%">
         <u><b>UNIT</b></u>
     </div>
-    <div style="width:20%">
+    <div style="width:15%">
         <u><b>EXPENSES</b></u>
     </div>
-    <div style="width:20%">
+    <div style="width:15%">
         <u><b>CHARGES</b></u>
     </div>
 </div>
@@ -135,6 +135,16 @@ End Code
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom"></td>
     </tr>
 </table>
+<span>
+    กรุณาโอนเข้าบัญชี 请将金额转入 :<br/>
+    ชื่อบัญชี 帐户名称 : GOLDEN LINE SERVICES CO.,LTD<br />
+    เลขที่บัญชี 帐号 : 373-1-016320<br />
+    ธนาคาร 银行 : KASIKORNBANK PUBLIC COMPANY LIMITED.<br />
+    หมายเหตุ : ค่าใช้จ่ายเป็นการประมาณการ จะเคลียร์ตามบิลหลังจากลากตู้ออกจากท่าเรือ<br />
+    估算费用，具体费用需等提柜后根据单据计算<br />
+    โปรดแจ้งโอนพร้อมแนบหลักฐานทุกครั้ง PAY IN<br />
+    请汇钱后提供<br />
+</span>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let branch = getQueryString("Branch");
@@ -163,9 +173,10 @@ End Code
         ShowInvUnit(path, dr.InvProductUnit, '#lblInvQtyUnit');
         $('#lblMeasurement').text(dr.Measurement);
         $('#lblBLStatus').text(dr.BookingNo);
+        $('#lblContainerNo').text(dr.BLNo);
         $('#lblGrossWeight').text(dr.TotalGW + ' ' + dr.GWUnit);
         $('#lblDeliveryTo').text(dr.ClearPortNo);
-        $('#lblNotifyName').text(dr.DeliveryTo);
+        
         CallBackQueryCustomerSingle(path, dr.Consigneecode, function (data) {
             $('#lblConsName').text(data.NameThai);
         });
@@ -192,17 +203,17 @@ End Code
         let totcost = 0;
         for (let r of dt) {
             html += '<div style="display:flex;width:100%">';
-            html += '<div style="width:20%">'+ r.SDescription +'</div>';
-            html += '<div style="width:5%">' + r.ExchangeRate + '</div>';
-            html += '<div style="width:15%;text-align:center">' + r.CurrencyCode + '</div>';
-            html += '<div style="width:10%;text-align:center">' + r.Qty + '</div>';
-            html += '<div style="width:10%;text-align:center">' + r.QtyUnit + '</div>';
+            html += '<div style="width:40%">' + r.SDescription + (r.TRemark !== '' ? '<br/>' + r.TRemark : '') + '</div>';
+            html += '<div style="width:10%;text-align:center">' + r.ExchangeRate + '</div>';
+            html += '<div style="width:10%;text-align:center">' + r.CurrencyCode + '</div>';
+            html += '<div style="width:5%;text-align:center">' + r.Qty + '</div>';
+            html += '<div style="width:5%;text-align:center">' + r.QtyUnit + '</div>';
             if (r.ClrNo == null) {
-                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmountCharge, 2)) + '</div>';
-                html += '<div style="width:20%;text-align:right">0.00</div>';
+                html += '<div style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmountCharge, 2)) + '</div>';
+                html += '<div style="width:15%;text-align:right">0.00</div>';
             } else {
-                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.CostAmount, 2)) + '</div>';
-                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.ChargeAmount,2)) + '</div>';
+                html += '<div style="width:15%;text-align:right">' + CCurrency(CDbl(r.CostAmount, 2)) + '</div>';
+                html += '<div style="width:15%;text-align:right">' + CCurrency(CDbl(r.ChargeAmount,2)) + '</div>';
             }
             html += '</div>';
             if (Number(r.ChargeAmount) > 0) {

@@ -4,12 +4,51 @@
 End Code
 <style>
     @@media only screen and (max-width: 600px) {
-        #btnAdd,#btnDelete,#btnSave,#btnUpdateJob,
-        #btnAddDetail,#btnDeleteDetail,#btnUpdateDetail {
+        #btnAdd, #btnDelete, #btnSave, #btnUpdateJob,
+        #btnAddDetail, #btnDeleteDetail, #btnUpdateDetail {
             width: 100%;
         }
     }
 </style>
+<div class="row">
+    <div class="col-sm-3">
+        <label id="lblBranchCode">Branch</label>
+        <br />
+        <div style="display:flex;flex-direction:row">
+            <input type="text" class="form-control" id="txtBranchCode" style="width:20%" disabled />
+            <input type="button" class="btn btn-default" value="..." onclick="SearchData('branch');" />
+            <input type="text" class="form-control" id="txtBranchName" style="width:100%" disabled />
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <label id="lblBookingNo" style="color:blue;">Booking No</label>
+        <br />
+        <div style="display:flex;flex-direction:row">
+            <input type="text" id="txtBookingNo" class="form-control" style="width:100%" />
+            <input type="button" class="btn btn-default" value="..." onclick="SearchData('booking');" />
+        </div>
+    </div>
+    <div class="col-sm-3">        
+        <label id="lblJNo" style="color:red;" onclick="OpenJob()">Job Number</label>
+        <br />
+        <div style="display:flex;flex-direction:row">
+            <input type="text" id="txtJNo" class="form-control" style="width:100%" />
+            <input type="button" class="btn btn-default" value="..." onclick="SearchData('job');" />
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <label id="lblTransportTerm">Transport Term</label>
+        <br />
+        <div style="display:flex;flex-direction:row">
+            <select id="txtTransMode" class="form-control dropdown">
+                <option value="CY-CY">CY/CY</option>
+                <option value="CY-CFS">CY/CFS</option>
+                <option value="CFS-CY">CFS/CY</option>
+                <option value="CFS-CFS">CFS/CFS</option>
+            </select>
+        </div>
+    </div>
+</div>
 <ul class="nav nav-tabs">
     <li class="active">
         <a data-toggle="tab" href="#tabLoading" id="linkTab1">Loading Information</a>
@@ -21,45 +60,6 @@ End Code
 <div class="tab-content">
     <div class="tab-pane fade in active" id="tabLoading">
         <div id="dvForm">
-            <div class="row">
-                <div class="col-sm-3">
-                    <label id="lblBranchCode">Branch</label>
-                    <br />
-                    <div style="display:flex;flex-direction:row">
-                        <input type="text" class="form-control" id="txtBranchCode" style="width:20%" disabled />
-                        <input type="button" class="btn btn-default" value="..." onclick="SearchData('branch');" />
-                        <input type="text" class="form-control" id="txtBranchName" style="width:100%" disabled />
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <label id="lblBookingNo">Booking No</label>
-                    <br />
-                    <div style="display:flex;flex-direction:row">
-                        <input type="text" id="txtBookingNo" class="form-control" style="width:100%" />
-                        <input type="button" class="btn btn-default" value="..." onclick="SearchData('booking');" />
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <label id="lblJNo">Job Number</label>
-                    <br />
-                    <div style="display:flex;flex-direction:row">
-                        <input type="text" id="txtJNo" class="form-control" style="width:100%" />
-                        <input type="button" class="btn btn-default" value="..." onclick="SearchData('job');" />
-                    </div>
-                </div>
-                <div class="col-sm-3">
-                    <label id="lblTransportTerm">Transport Term</label>
-                    <br />
-                    <div style="display:flex;flex-direction:row">
-                        <select id="txtTransMode" class="form-control dropdown">
-                            <option value="CY-CY">CY/CY</option>
-                            <option value="CY-CFS">CY/CFS</option>
-                            <option value="CFS-CY">CFS/CY</option>
-                            <option value="CFS-CFS">CFS/CFS</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
             <div class="row">
                 <div class="col-sm-6">
                     <a href="../Master/Customers?mode=NOTIFY_PARTY" target="_blank">
@@ -79,7 +79,7 @@ End Code
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" id="txtVenderCode" class="form-control" style="width:20%">
-                        <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('vender')">...</button>
+                        <button id="btnBrowseVend" class="btn btn-default" onclick="SearchData('vender')">...</button>
                         <input type="text" id="txtVenderName" class="form-control" style="width:100%" disabled />
                     </div>
                 </div>
@@ -262,7 +262,21 @@ End Code
     </div>
     <div class="tab-pane fade" id="tabContainer">
         <div class="row">
-            <div class="col-sm-6">
+            <div class="col-sm-2">
+                <br/>
+                <select id="cboTemplate" class="form-control dropdown" onclick="GenRoute()">
+                    <option value="4123" selected>
+                        EXPORT
+                    </option>
+                    <option value="4312">
+                        IMPORT
+                    </option>
+                    <option value="412">
+                        DOMESTIC
+                    </option>
+                </select>
+            </div>
+            <div class="col-sm-5">
                 <a href="../Master/TransportRoute"><label id="lblRoute">Transport Route</label></a>:
                 <br />
                 <div style="display:flex">
@@ -271,7 +285,7 @@ End Code
                     <button id="btnRoute" class="btn btn-default" onclick="SearchData('location');">...</button>
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <label id="lblAutoGenCon">Auto Create Container</label>
                 =>
                 <select id="cboContainerSize" class="form-control dropdown"></select>
@@ -288,78 +302,78 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblPlace1">Place #1: </label>
+                <label id="lblPlace1">Pick up: </label>
                 <br />
                 <div style="display:flex;flex-direction:row">
-                    <input type="text" id="txtCYPlace" class="form-control">
+                    <input type="text" id="txtPlace1" class="form-control">
                 </div>
             </div>
             <div class="col-sm-5">
-                <label id="lblAddress1">Address #1:</label>
+                <label id="lblAddress1">Address:</label>
                 <br />
-                <textarea id="txtCYAddress" class="form-control"></textarea>
+                <textarea id="txtAddress1" class="form-control"></textarea>
             </div>
             <div class="col-sm-3">
-                <label id="lblContact1">Contact #1:</label>
+                <label id="lblContact1">Contact:</label>
                 <br />
-                <input type="text" class="form-control" id="txtCYContact" />
+                <input type="text" class="form-control" id="txtContact1" />
             </div>
         </div>
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblPlace2">Place #2:</label>
+                <label id="lblPlace2">Delivery:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
-                    <input type="text" id="txtPackingPlace" class="form-control">
+                    <input type="text" id="txtPlace2" class="form-control">
                 </div>
             </div>
             <div class="col-sm-5">
-                <label id="lblAddress2">Address #2:</label>
+                <label id="lblAddress2">Address:</label>
                 <br />
-                <textarea id="txtPackingAddress" class="form-control"></textarea>
+                <textarea id="txtAddress2" class="form-control"></textarea>
             </div>
             <div class="col-sm-3">
-                <label id="lblContact2">Contact #2:</label>
+                <label id="lblContact2">Contact:</label>
                 <br />
-                <input type="text" class="form-control" id="txtPackingContact" />
+                <input type="text" class="form-control" id="txtContact2" />
             </div>
         </div>
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblPlace3">Place #3:</label>
+                <label id="lblPlace3">Return:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
-                    <input type="text" id="txtFactoryPlace" class="form-control">
+                    <input type="text" id="txtPlace3" class="form-control">
                 </div>
             </div>
             <div class="col-sm-5">
-                <label id="lblAddress3">Address #3:</label>
+                <label id="lblAddress3">Address:</label>
                 <br />
-                <textarea id="txtFactoryAddress" class="form-control"></textarea>
+                <textarea id="txtAddress3" class="form-control"></textarea>
             </div>
             <div class="col-sm-3">
-                <label id="lblContact3">Contact #3:</label>
+                <label id="lblContact3">Contact:</label>
                 <br />
-                <input type="text" class="form-control" id="txtFactoryContact" />
+                <input type="text" class="form-control" id="txtContact3" />
             </div>
         </div>
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblPlace4">Place #4:</label>
+                <label id="lblPlace4">Size:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
-                    <input type="text" id="txtReturnPlace" class="form-control">
+                    <input type="text" id="txtPlace4" class="form-control">
                 </div>
             </div>
             <div class="col-sm-5">
-                <label id="lblAddress4">Address #4:</label>
+                <label id="lblAddress4">Address:</label>
                 <br />
-                <textarea id="txtReturnAddress" class="form-control"></textarea>
+                <textarea id="txtAddress4" class="form-control"></textarea>
             </div>
             <div class="col-sm-3">
-                <label id="lblContact4">Contact #4:</label>
+                <label id="lblContact4">Contact:</label>
                 <br />
-                <input type="text" class="form-control" id="txtReturnContact" />
+                <input type="text" class="form-control" id="txtContact4" />
             </div>
         </div>
         <button id="btnSaveLoc" class="btn btn-primary" onclick="SaveLocation(true)">Save Route Data</button>
@@ -427,7 +441,7 @@ End Code
                     </div>
                     <div class="col-sm-2">
                         <br />
-                        <button class="btn btn-success" id="btnSaveExp" onclick="SaveExpense()" >Save Expenses</button>
+                        <button class="btn btn-success" id="btnSaveExp" onclick="SaveExpense()">Save Expenses</button>
                     </div>
                 </div>
             </div>
@@ -605,15 +619,18 @@ End Code
                                 <div style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
                                     <div>
                                         At<br />
-                                        <input type="text" id="txtPlaceName2" />
+                                          <div style="display:flex">
+                                              <input type="text" id="txtPlaceName1" />
+                                              <button class="btn btn-default" onclick="SearchData('place1')">...</button>
+                                          </div>
                                     </div>
                                     <div>
                                         Address
-                                        <textarea id="txtPlaceAddress2"></textarea>
+                                        <textarea id="txtPlaceAddress1"></textarea>
                                     </div>
                                     <div>
                                         Contact
-                                        <input type="text" id="txtPlaceContact2" />
+                                        <input type="text" id="txtPlaceContact1" />
                                     </div>
                                 </div>
                             </div>
@@ -646,21 +663,25 @@ End Code
                     </div>
                     <div class="col-sm-4" style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
                         <label id="lblDelivery">Delivery:</label>
-                        <br/>
+                        <br />
                         <div style="display:flex;flex-direction:row">
                             <div style="flex:1">
                                 <div style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
                                     <div>
                                         At<br />
-                                        <input type="text" id="txtPlaceName3" />
+                                        <div style="display:flex">
+                                            <input type="text" id="txtPlaceName2" />
+                                            <button class="btn btn-default" onclick="SearchData('place2')">...</button>
+                                        </div>
+
                                     </div>
                                     <div>
                                         Address
-                                        <textarea id="txtPlaceAddress3"></textarea>
+                                        <textarea id="txtPlaceAddress2"></textarea>
                                     </div>
                                     <div>
                                         Contact
-                                        <input type="text" id="txtPlaceContact3" />
+                                        <input type="text" id="txtPlaceContact2" />
                                     </div>
                                 </div>
                             </div>
@@ -688,21 +709,24 @@ End Code
                     </div>
                     <div class="col-sm-4" style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
                         <label id="lblReturn">Return:</label>
-                        <br/>
+                        <br />
                         <div style="display:flex;flex-direction:row">
                             <div style="flex:1">
                                 <div style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
                                     <div>
                                         At<br />
-                                        <input type="text" id="txtPlaceName4" />
+                                        <div style="display:flex">
+                                            <input type="text" id="txtPlaceName3" />
+                                            <button class="btn btn-default" onclick="SearchData('place3')">...</button>
+                                        </div>
                                     </div>
                                     <div>
                                         Address
-                                        <textarea id="txtPlaceAddress4"></textarea>
+                                        <textarea id="txtPlaceAddress3"></textarea>
                                     </div>
                                     <div>
                                         Contact
-                                        <input type="text" id="txtPlaceContact4" />
+                                        <input type="text" id="txtPlaceContact3" />
                                     </div>
                                 </div>
                             </div>
@@ -749,18 +773,18 @@ End Code
                                 Packing
                                 <br />
                                 <div style="display:flex;flex-direction:row">
-                                    <input type="text" id="txtPlaceName1" class="form-control">
+                                    <input type="text" id="txtPlaceName4" class="form-control">
                                 </div>
                             </div>
                             <div style="flex:1">
                                 Address
                                 <br />
-                                <textarea id="txtPlaceAddress1" class="form-control"></textarea>
+                                <textarea id="txtPlaceAddress4" class="form-control"></textarea>
                             </div>
                             <div style="flex:1">
                                 Contact
                                 <br />
-                                <input type="text" class="form-control" id="txtPlaceContact1" />
+                                <input type="text" class="form-control" id="txtPlaceContact4" />
                             </div>
                         </div>
 
@@ -795,7 +819,7 @@ End Code
     let row = {};
     let isjobmode = false;
     if (userGroup == 'V') {
-        $('#btnBrowseCust').attr('disabled', 'disabled');
+        $('#btnBrowseVend').attr('disabled', 'disabled');
         $('#txtVenderCode').attr('disabled', 'disabled');
         $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
             if (r.vender.data.length > 0) {
@@ -870,6 +894,10 @@ End Code
             CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job', response, 3);
             //Booking
             CreateLOV(dv, '#frmSearchBook', '#tbBook', 'Booking', response, 4);
+            //Places
+            CreateLOV(dv, '#frmSearchPlace1', '#tbPlace1', 'Pick up', response, 1);
+            CreateLOV(dv, '#frmSearchPlace2', '#tbPlace2', 'Delivery', response, 1);
+            CreateLOV(dv, '#frmSearchPlace3', '#tbPlace3', 'Return', response, 1);
         });
     }
     function SearchData(type) {
@@ -887,7 +915,7 @@ End Code
             case 'job':
                 w = '';
                 if (userGroup == 'V') {
-                    w += '&Agent=' + $('#txtVenderCode').val();
+                    w += '&Vend=' + $('#txtVenderCode').val();
                 }
                 if (userGroup == 'C') {
                     w += '&CustCode=' + cust;
@@ -908,6 +936,9 @@ End Code
                 if (userGroup == 'C') {
                     w += '&Cust=' + cust;
                 }
+                if ($('#txtJNo').val() !== '') {
+                    w += '&Job=' + $('#txtJNo').val();
+                }
                 SetGridTransport(path, '#tbBook', '#frmSearchBook', w, ReadBooking);
                 break;
             case 'servicecode1':
@@ -922,6 +953,15 @@ End Code
             case 'route':
                 SetGridTransportPrice(path, '#tbRoute', '#frmSearchRoute','?Vend=' + $('#txtVenderCode').val() + '&Cust='+ $('#txtNotifyCode').val(), ReadRoute);
                 break;
+            case 'place1':
+                SetGridLocationEntry(path, '#tbPlace1', '#frmSearchPlace1', '?Place=1', ReadPickup);
+                break;
+            case 'place2':
+                SetGridLocationEntry(path, '#tbPlace2', '#frmSearchPlace2', '?Place=2', ReadDelivery);
+                break;
+            case 'place3':
+                SetGridLocationEntry(path, '#tbPlace3', '#frmSearchPlace3', '?Place=3', ReadReturn);
+                break;
         }
     }
     function ReadRoute(dt) {
@@ -930,24 +970,96 @@ End Code
         $.get(path + 'JobOrder/GetTransportRoute?ID=' + dt.LocationID).done(function (dt) {
             if (dt.transportroute.data.length > 0) {
                 let r = dt.transportroute.data[0];
-                $('#txtPlaceName1').val(r.Place1);
-                $('#txtPlaceAddress1').val(r.Address1);
-                $('#txtPlaceContact1').val(r.Contact1);
 
-                $('#txtPlaceName2').val(r.Place2);
-                $('#txtPlaceAddress2').val(r.Address2);
-                $('#txtPlaceContact2').val(r.Contact2);
+                let r1 = GetValueRoute(r, 1);
+                let r2 = GetValueRoute(r, 2);
+                let r3 = GetValueRoute(r, 3);
+                let r4 = GetValueRoute(r, 4);
 
-                $('#txtPlaceName3').val(r.Place3);
-                $('#txtPlaceAddress3').val(r.Address3);
-                $('#txtPlaceContact3').val(r.Contact3);
+                $('#txtPlaceName1').val(r1.Place);
+                $('#txtPlaceAddress1').val(r1.Address);
+                $('#txtPlaceContact1').val(r1.Contact);
 
-                $('#txtPlaceName4').val(r.Place4);
-                $('#txtPlaceAddress4').val(r.Address4);
-                $('#txtPlaceContact4').val(r.Contact4);
+                $('#txtPlaceName2').val(r2.Place);
+                $('#txtPlaceAddress2').val(r2.Address);
+                $('#txtPlaceContact2').val(r2.Contact);
+
+                $('#txtPlaceName3').val(r3.Place);
+                $('#txtPlaceAddress3').val(r3.Address);
+                $('#txtPlaceContact3').val(r3.Contact);
+
+                $('#txtPlaceName4').val(r4.Place);
+                $('#txtPlaceAddress4').val(r4.Address);
+                $('#txtPlaceContact4').val(r4.Contact);
+
             }
         });
         ShowExpense();
+    }
+    function ReadPickup(r) {
+        $('#txtPlaceName1').val(r.Place);
+        $('#txtPlaceAddress1').val(r.Address);
+        $('#txtPlaceContact1').val(r.Contact);
+    }
+    function ReadDelivery(r) {
+        $('#txtPlaceName2').val(r.Place);
+        $('#txtPlaceAddress2').val(r.Address);
+        $('#txtPlaceContact2').val(r.Contact);
+    }
+    function ReadReturn(r) {
+        $('#txtPlaceName3').val(r.Place);
+        $('#txtPlaceAddress3').val(r.Address);
+        $('#txtPlaceContact3').val(r.Contact);
+    }
+    function GetValueRoute(r,idx) {
+        let c = r.RouteFormat.indexOf(idx);
+        if (c >=0) {
+            let v = {};
+            switch (c) {
+                case 0:
+                    v= {
+                        Place: r.Place1,
+                        Address: r.Address1,
+                        Contact: r.Contact1,
+                    }
+                    break;
+                case 1:
+                    v= {
+                        Place: r.Place2,
+                        Address: r.Address2,
+                        Contact: r.Contact2,
+                    }
+                    break;
+                case 2:
+                    v= {
+                        Place: r.Place3,
+                        Address: r.Address3,
+                        Contact: r.Contact3,
+                    }
+                    break;
+                case 3:
+                    v= {
+                        Place: r.Place4,
+                        Address: r.Address4,
+                        Contact: r.Contact4,
+                    }
+                    break;
+                default:
+                    v = {
+                        Place: '',
+                        Address: '',
+                        Contact:''
+                    }
+                    break;
+            }
+            return v;
+        } else {
+            return {
+                Place: '',
+                Address: '',
+                Contact:''
+            }
+        }
     }
     function ReadMainRoute(dr) {
         $('#txtMainRoute').val(dr.LocationID);
@@ -955,21 +1067,28 @@ End Code
         $.get(path + 'JobOrder/GetTransportRoute?ID=' + dr.LocationID).done(function (dt) {
             if (dt.transportroute.data.length > 0) {
                 let r = dt.transportroute.data[0];
-                $('#txtCYPlace').val(r.Place1);
-                $('#txtCYAddress').val(r.Address1);
-                $('#txtCYContact').val(r.Contact1);
+                $('#cboTemplate').val(r.RouteFormat);
 
-                $('#txtPackingPlace').val(r.Place2);
-                $('#txtPackingAddress').val(r.Address2);
-                $('#txtPackingContact').val(r.Contact2);
+                let r1 = GetValueRoute(r, 1);
+                let r2 = GetValueRoute(r, 2);
+                let r3 = GetValueRoute(r, 3);
+                let r4 = GetValueRoute(r, 4);
 
-                $('#txtFactoryPlace').val(r.Place3);
-                $('#txtFactoryAddress').val(r.Address3);
-                $('#txtFactoryContact').val(r.Contact3);
+                $('#txtPlace1').val(r1.Place);
+                $('#txtAddress1').val(r1.Address);
+                $('#txtContact1').val(r1.Contact);
 
-                $('#txtReturnPlace').val(r.Place4);
-                $('#txtReturnAddress').val(r.Address4);
-                $('#txtReturnContact').val(r.Contact4);
+                $('#txtPlace2').val(r2.Place);
+                $('#txtAddress2').val(r2.Address);
+                $('#txtContact2').val(r2.Contact);
+
+                $('#txtPlace3').val(r3.Place);
+                $('#txtAddress3').val(r3.Address);
+                $('#txtContact3').val(r3.Contact);
+
+                $('#txtPlace4').val(r4.Place);
+                $('#txtAddress4').val(r4.Address);
+                $('#txtContact4').val(r4.Contact);
             }
         });
     }
@@ -1011,8 +1130,8 @@ End Code
         $('#txtContactName').val(dr.CustContactName);
         $('#txtPackingDate').val(CDateEN(dr.JobType==1? dr.ETADate : dr.ETDDate));
         $('#txtFactoryDate').val(CDateEN(dr.EstDeliverDate));
-        $('#txtFactoryPlace').val(dr.DeliveryTo);
-        $('#txtFactoryAddress').val(dr.DeliveryAddr);
+        $('#txtPlace3').val(dr.DeliveryTo);
+        $('#txtAddress3').val(dr.DeliveryAddr);
         $('#txtProductDesc').val(dr.InvProduct);
         $('#txtProductQty').val('0.00');
         $('#txtProductUnit').val(dr.InvProductUnit);
@@ -1034,18 +1153,18 @@ End Code
         $('#txtContactName').val(dr.ContactName);
         $('#txtLoadDate').val(CDateEN(dr.LoadDate));
         $('#txtRemark').val(dr.Remark);
-        $('#txtPackingPlace').val(dr.PackingPlace);
-        $('#txtCYPlace').val(dr.CYPlace);
-        $('#txtFactoryPlace').val(dr.FactoryPlace);
-        $('#txtReturnPlace').val(dr.ReturnPlace);
-        $('#txtPackingAddress').val(dr.PackingAddress);
-        $('#txtCYAddress').val(dr.CYAddress);
-        $('#txtFactoryAddress').val(dr.FactoryAddress);
-        $('#txtReturnAddress').val(dr.ReturnAddress);
-        $('#txtPackingContact').val(dr.PackingContact);
-        $('#txtCYContact').val(dr.CYContact);
-        $('#txtFactoryContact').val(dr.FactoryContact);
-        $('#txtReturnContact').val(dr.ReturnContact);
+        $('#txtPlace1').val(dr.CYPlace);
+        $('#txtPlace2').val(dr.FactoryPlace);
+        $('#txtPlace3').val(dr.PackingPlace);
+        $('#txtPlace4').val(dr.ReturnPlace);
+        $('#txtAddress1').val(dr.CYAddress);
+        $('#txtAddress2').val(dr.FactoryAddress);
+        $('#txtAddress3').val(dr.PackingAddress);
+        $('#txtAddress4').val(dr.ReturnAddress);
+        $('#txtContact1').val(dr.CYContact);
+        $('#txtContact2').val(dr.FactoryContact);
+        $('#txtContact3').val(dr.PackingContact);
+        $('#txtContact4').val(dr.ReturnContact);
         $('#txtPackingDate').val(CDateEN(dr.PackingDate));
         $('#txtCYDate').val(CDateEN(dr.CYDate));
         $('#txtFactoryDate').val(CDateEN(dr.FactoryDate));
@@ -1182,18 +1301,18 @@ End Code
             BookingNo:$('#txtBookingNo').val(),
             LoadDate:CDateEN($('#txtLoadDate').val()),
             Remark:$('#txtRemark').val(),
-            PackingPlace:$('#txtPackingPlace').val(),
-            CYPlace:$('#txtCYPlace').val(),
-            FactoryPlace:$('#txtFactoryPlace').val(),
-            ReturnPlace: $('#txtReturnPlace').val(),
-            PackingAddress:$('#txtPackingAddress').val(),
-            CYAddress:$('#txtCYAddress').val(),
-            FactoryAddress:$('#txtFactoryAddress').val(),
-            ReturnAddress: $('#txtReturnAddress').val(),
-            PackingContact:$('#txtPackingContact').val(),
-            CYContact:$('#txtCYContact').val(),
-            FactoryContact:$('#txtFactoryContact').val(),
-            ReturnContact:$('#txtReturnContact').val(),
+            CYPlace: $('#txtPlace1').val(),
+            CYAddress:$('#txtAddress1').val(),
+            CYContact:$('#txtContact1').val(),
+            FactoryPlace: $('#txtPlace2').val(),
+            FactoryAddress: $('#txtAddress2').val(),
+            FactoryContact:$('#txtContact2').val(),
+            PackingPlace: $('#txtPlace3').val(),
+            PackingAddress: $('#txtAddress3').val(),
+            PackingContact: $('#txtContact3').val(),
+            ReturnPlace: $('#txtPlace4').val(),
+            ReturnAddress: $('#txtAddress4').val(),            
+            ReturnContact:$('#txtContact4').val(),
             PackingDate:CDateEN($('#txtPackingDate').val()),
             CYDate:CDateEN($('#txtCYDate').val()),
             FactoryDate:CDateEN($('#txtFactoryDate').val()),
@@ -1243,10 +1362,10 @@ End Code
         $('#txtBookingNo').val('');
         $('#txtLoadDate').val('');
         $('#txtRemark').val('');
-        $('#txtPackingPlace').val('');
-        $('#txtCYPlace').val('');
-        $('#txtFactoryPlace').val('');
-        $('#txtReturnPlace').val('');
+        $('#txtPlace2').val('');
+        $('#txtPlace1').val('');
+        $('#txtPlace3').val('');
+        $('#txtPlace4').val('');
         $('#txtPackingDate').val('');
         $('#txtCYDate').val('');
         $('#txtFactoryDate').val('');
@@ -1255,14 +1374,14 @@ End Code
         $('#txtCYTime').val('00:00');
         $('#txtFactoryTime').val('00:00');
         $('#txtReturnTime').val('00:00');
-        $('#txtPackingAddress').val('');
-        $('#txtCYAddress').val('');
-        $('#txtFactoryAddress').val('');
-        $('#txtReturnAddress').val('');
-        $('#txtPackingContact').val('');
-        $('#txtCYContact').val('');
-        $('#txtFactoryContact').val('');
-        $('#txtReturnContact').val('');
+        $('#txtAddress2').val('');
+        $('#txtAddress1').val('');
+        $('#txtAddress3').val('');
+        $('#txtAddress4').val('');
+        $('#txtContact2').val('');
+        $('#txtContact1').val('');
+        $('#txtContact3').val('');
+        $('#txtContact4').val('');
         $('#txtNotifyCode').val('');
         $('#txtNotifyName').val('');
         $('#txtTransMode').val('CY-CY');
@@ -1552,40 +1671,31 @@ End Code
             }
         });
     }
-    function GetRoute() {
-        let w = '';
-        if ($('#txtCYPlace').val() !== '') {
-            w += (w == '' ? '': '->') + $('#txtCYPlace').val();
-        }
-        if ($('#txtPackingPlace').val() !== '') {
-            w += (w == '' ? '': '->') + $('#txtPackingPlace').val();
-        }
-        if ($('#txtFactoryPlace').val() !== '') {
-            w += (w == '' ? '': '->') + $('#txtFactoryPlace').val();
-        }
-        if ($('#txtReturnPlace').val() !== '') {
-            w += (w == '' ? '' : '->') + $('#txtReturnPlace').val();
-        }
-        return w;
-    }
     function SaveLocation(active = true) {
-        if ($('#txtCYPlace').val() !== '') {
+        if ($('#txtPlace1').val() !== '') {
+            let routeFormat = $('#cboTemplate').val();
+            let idx1 = (routeFormat.length > 0 ? routeFormat.substr(0, 1) : 0);
+            let idx2 = (routeFormat.length > 1 ? routeFormat.substr(1, 1) : 0);
+            let idx3 = (routeFormat.length > 2 ? routeFormat.substr(2, 1) : 0);
+            let idx4 = (routeFormat.length > 3 ? routeFormat.substr(3, 1) : 0);
+
             let obj = {
                 LocationID: $('#txtMainRoute').val(),
-                Place1: $('#txtCYPlace').val(),
-                Place2: $('#txtFactoryPlace').val(),
-                Place3: $('#txtPackingPlace').val(),
-                Place4: $('#txtReturnPlace').val(),
-                Address1: $('#txtCYAddress').val(),
-                Address2: $('#txtFactoryAddress').val(),
-                Address3: $('#txtPackingAddress').val(),
-                Address4: $('#txtReturnAddress').val(),
-                Contact1: $('#txtCYContact').val(),
-                Contact2: $('#txtFactoryContact').val(),
-                Contact3: $('#txtPackingContact').val(),
-                Contact4: $('#txtReturnContact').val(),
-                LocationRoute: GetRoute(),
-                IsActive: active
+                Place1: $('#txtPlace' + idx1).val(),
+                Place2: $('#txtPlace' + idx2).val(),
+                Place3: $('#txtPlace' + idx3).val(),
+                Place4: $('#txtPlace' + idx4).val(),
+                Address1: $('#txtAddress' + idx1).val(),
+                Address2: $('#txtAddress' + idx2).val(),
+                Address3: $('#txtAddress' + idx3).val(),
+                Address4: $('#txtAddress' + idx4).val(),
+                Contact1: $('#txtContact' + idx1).val(),
+                Contact2: $('#txtContact' + idx2).val(),
+                Contact3: $('#txtContact' + idx3).val(),
+                Contact4: $('#txtContact' + idx4).val(),
+                LocationRoute: $('#txtMainLocation').val(),
+                IsActive: active,
+                RouteFormat: $('#cboTemplate').val()
             };
             let jsonText = JSON.stringify({ data: obj });
             $.ajax({
@@ -1597,8 +1707,7 @@ End Code
                     if (response.result.data != null) {
                         if (response.result.data >= 0) {
                             ShowMessage('Save Complete');
-                        }
-                        loadRoute();
+                        }                        
                         return;
                     }
                     ShowMessage(response.result.msg,true);
@@ -1778,5 +1887,7 @@ End Code
     function PrintDelivery() {
         window.open(path + 'JobOrder/FormDelivery?Branch=' + $('#txtBranchCode').val() + '&Doc=' + $('#txtDeliverNo').val(), '', '');
     }
-
+    function OpenJob() {
+        window.open(path + 'JobOrder/ShowJob?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(),'','');
+    }
 </script>
