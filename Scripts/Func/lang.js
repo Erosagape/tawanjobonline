@@ -2625,7 +2625,9 @@ function GetReportLists() {
         { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBTRANSPORT", "ReportNameEN": "Job Transport Lists", "ReportNameTH": "รายงานงานขนส่งรายตู้ตามบริษัทขนส่ง" },
         { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBANALYSIS", "ReportNameEN": "Job Analysis", "ReportNameTH": "รายงานประเมินผลการปฏิบัติงาน" },
         { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBFOLLOWUP", "ReportNameEN": "Job List By Status", "ReportNameTH": "รายงานงานเรียงตามสถานะ" },
-        { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOAD", "ReportNameEN": "Container List By Job", "ReportNameTH": "รายงานการขนส่งเรียงตามตู้สินค้า" },
+        { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOAD", "ReportNameEN": "Container Loading By Load Date", "ReportNameTH": "รายงานงานขนส่งตามวันโหลด" },
+        { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOADIM", "ReportNameEN": "Container Loading Import Daily", "ReportNameTH": "รายงานการลากตู้ขนส่งขาเข้า" },
+        { "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOADEX", "ReportNameEN": "Container Loading Export Daily", "ReportNameTH": "รายงานลากตู้ขนส่งขาออก" },
         { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBADV", "ReportNameEN": "Advance By Emp", "ReportNameTH": "รายงานการเบิกเงินตามพนักงาน" },
         { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "ADVSUMMARY", "ReportNameEN": "Advance Summary", "ReportNameTH": "รายงานสรุปใบเบิกค่าใช้จ่าย" },
         { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "ADVDAILY", "ReportNameEN": "Advance Payment", "ReportNameTH": "รายงานการจ่ายเงินเบิกล่วงหน้า" },
@@ -2634,6 +2636,8 @@ function GetReportLists() {
         { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "EXPDAILY", "ReportNameEN": "Bill-Expense Report", "ReportNameTH": "รายงานบิลค่าใช้จ่าย" },
         { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "EXPDETAIL", "ReportNameEN": "Bill-Expense Detail Report", "ReportNameTH": "รายงานบิลค่าใช้จ่ายแต่ละประเภท" },
         { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVCLEARING", "ReportNameEN": "Advance Clearing Detail Report", "ReportNameTH": "รายงานการติดตามใบเบิก" },
+        { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVIMPORT", "ReportNameEN": "Advance Import Detail Report", "ReportNameTH": "รายงานรายละเอียดใบเบิกขาเข้า" },
+        { "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVEXPORT", "ReportNameEN": "Advance Export Detail Report", "ReportNameTH": "รายงานรายละเอียดใบเบิกขาออก" },
         { "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "CLRDAILY", "ReportNameEN": "Clearing Daily", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายประจำวัน" },
         { "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "CLRDETAIL", "ReportNameEN": "Clearing Expenses Report", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายตามประเภท" },
         { "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "CLRSUMMARY", "ReportNameEN": "Clearing Summary Status", "ReportNameTH": "รายงานสรุปสถานะการปิดค่าใช้จ่าย" },
@@ -3753,14 +3757,15 @@ function ChangeLanguageGrid(module, id) {
         case 'MODULE_CS/TruckApprove':
             if (id == '#tbDetail') {
                 gridLang = [
-                    "Booking No|เลขที่บุคกิ้ง",
                     "#|#",
+                    "Booking No|เลขที่บุคกิ้ง",
+                    "Customer|ลูกค้า",
                     "Cont.No|หมายเลขตู้",
                     "Cont.Size|ขนาดตู้",
                     "Seal|เบอร์ซีล",
-                    "Product|สินค้า",
                     "Status|สถานะ",
-                    "Route|เส้นทาง"
+                    "Route|เส้นทาง",
+                    "Pickup|วันที่รับ",
                 ];
             }
             SetGridLang(id, gridLang);

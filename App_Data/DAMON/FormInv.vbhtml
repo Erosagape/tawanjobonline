@@ -13,7 +13,7 @@ End Code
     }    
 </style>
 <div style="text-align:center;width:100%">
-    <h2>INVOICE</h2>
+    <h1 id="lblInvType">INVOICE</h1>
 </div>
 <div id="dvCopy" style="text-align:right;width:100%">    
 </div>
@@ -221,6 +221,9 @@ End Code
 
             let c = dr.customer[0][0];            
             if (c !== null) {
+                if (c.CustType == '1') {
+                    $('#lblInvType').html('DEBIT NOTE');
+                }
                 $('#lblTaxNumber').text(c.TaxNumber);
                 $('#lblTaxBranch').text(c.Branch);
                 if (c.UsedLanguage == 'TH') {

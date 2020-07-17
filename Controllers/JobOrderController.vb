@@ -183,6 +183,40 @@ Namespace Controllers
                 Return Content("{""result"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
             End Try
         End Function
+        Function ApproveTransport(<FromBody()> ByVal data As String()) As HttpResponseMessage
+            Try
+                ViewBag.User = Session("CurrUser").ToString()
+                If IsNothing(data) Then
+                    Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+                End If
+                Dim strStatus = ""
+                Dim json As String = ""
+                Dim lst As String = ""
+                Dim user As String = ""
+                strStatus = Request.QueryString("Status").ToString()
+                For Each str As String In data
+                    If str.IndexOf("|") >= 0 Then
+                        If lst <> "" Then lst &= ","
+                        lst &= "'" & str & "'"
+                    Else
+                        user = str
+                    End If
+                Next
+
+                If lst <> "" Then
+                    Dim tSQL As String = String.Format("UPDATE Job_LoadInfoDetail SET CauseCode='" & strStatus & "'
+ WHERE BookingNo+'|'+CTN_NO in({0})", lst)
+                    Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
+                    If result = "OK" Then
+                        Return New HttpResponseMessage(HttpStatusCode.OK)
+                    End If
+                End If
+                Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "ApproveTransport", ex.Message, ex.StackTrace, True)
+                Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+            End Try
+        End Function
         Function ApproveQuotation(<FromBody()> ByVal data As String()) As HttpResponseMessage
             Try
                 ViewBag.User = Session("CurrUser").ToString()
@@ -221,6 +255,7 @@ Namespace Controllers
                 Return New HttpResponseMessage(HttpStatusCode.BadRequest)
             End Try
         End Function
+
         Function Quotation() As ActionResult
             Return GetView("Quotation", "MODULE_SALES")
         End Function
@@ -884,6 +919,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 End If
                 If Not IsNothing(Request.QueryString("Vend")) Then
                     tSqlw &= String.Format(" AND Job_Loadinfo.VenderCode='{0}' ", Request.QueryString("Vend").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Cont")) Then
+                    tSqlw &= String.Format(" AND Job_LoadinfoDetail.CTN_NO='{0}' ", Request.QueryString("Cont").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
                     tSqlw &= " AND Job_LoadInfo.LoadDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"

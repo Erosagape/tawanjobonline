@@ -41,16 +41,16 @@ End Code
 <table id="tbDetail" class="table table-responsive">
     <thead>
         <tr>
-            <th>CTN_NO</th>
+            <th>Container No</th>
             <th class="desktop">InvNo</th>
             <th class="desktop">Booking No</th>
             <th class="all">Status</th>
             <th class="desktop">Location</th>
-            <th class="desktop">ProductDesc</th>
-            <th class="desktop">ProductQty</th>
-            <th class="desktop">LoadDate</th>
-            <th class="desktop">FactoryDate</th>
-            <th class="all">UnloadFinishDate</th>
+            <th class="desktop">Customer</th>
+            <th class="desktop">Container Size</th>
+            <th class="desktop">Pickup</th>
+            <th class="desktop">DeliveryDate</th>
+            <th class="all">ReturnDate</th>
             <th class="desktop">Truck</th>
             <th class="desktop">Seal</th>
         </tr>
@@ -200,21 +200,21 @@ End Code
                         { data: "BookingNo", title: "Booking No" },
                         { data: "TruckStatus", title: "Status" },
                         { data: "Location", title: "Delivery" },
-                        { data: "ProductDesc", title: "Product" },
-                        { data: "ProductQty", title: "Qty" },
+                        { data: "NotifyCode", title: "Customer" },
+                        { data: "CTN_SIZE", title: "Cont.Size" },
                         {
-                            data: null, title: "Load Date", render: function (data) {
-                                return CDateEN(data.LoadDate);
+                            data: null, title: "Pickup Date", render: function (data) {
+                                return CDateEN(data.TargetYardDate);
                             }
                         },
                         {
-                            data: null, title: "Factory Date", render: function (data) {
-                                return CDateEN(data.FactoryDate);
-                            }
-                        },
-                        {
-                            data: null, title: "Unload Date", render: function (data) {
+                            data: null, title: "Delivery Date", render: function (data) {
                                 return CDateEN(data.UnloadFinishDate);
+                            }
+                        },
+                        {
+                            data: null, title: "Return Date", render: function (data) {
+                                return CDateEN(data.ReturnDate);
                             }
                         },
                         { data: "TruckNO", title: "Truck" },

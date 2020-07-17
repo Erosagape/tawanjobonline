@@ -3,7 +3,7 @@
 End Code
 <div class="row">
     <div class="col-sm-4">
-        <label id="lblBranch">Branch</label>        
+        <label id="lblBranch">Branch</label>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -23,8 +23,8 @@ End Code
     </div>
     <div class="col-sm-2">
         Status
-        <br/>
-        <select id="cboStatus" class="form-control dropdown">
+        <br />
+        <select id="cboCauseCode" class="form-control dropdown">
             <option value="N">Avaiable</option>
             <option value="1">Confirm</option>
             <option value="2">Rejected</option>
@@ -35,7 +35,7 @@ End Code
 </div>
 <div class="row">
     <div class="col-sm-4">
-        <label id="lblVenCode">Vender :</label>        
+        <label id="lblVenCode">Vender :</label>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtVenCode" style="width:20%" />
@@ -63,18 +63,29 @@ End Code
 <table id="tbDetail" class="table table-responsive">
     <thead>
         <tr>
+            <th>#</th>
             <th>Booking</th>
             <th>Customer</th>
             <th>CTN_NO</th>
             <th class="desktop">CTN_SIZE</th>
             <th class="desktop">SealNumber</th>
-            <th class="all">TruckNO</th>
             <th class="desktop">Status</th>
             <th class="desktop">Location</th>
-            <th class="all">UnloadDate</th>
+            <th class="all">Pickup</th>
         </tr>
     </thead>
 </table>
+<b>Set Status Selected Container To >></b>
+<div style="display:flex">
+    <select id="cboStatus" class="form-control dropdown" style="width:10%">
+        <option value="1">Working</option>
+        <option value="2">Rejected</option>
+        <option value="3">Finished</option>
+        <option value="99">Cancelled</option>
+    </select>
+    <input type="text" id="txtListApprove" class="form-control" style="width:70%" />
+    <button id="btnApprove" class="btn btn-success" onclick="ApproveData()">Approve</button>
+</div>
 <div class="modal fade" role="dialog" id="dvContainer">
     <div class="modal-dialog-lg">
         <div class="modal-content">
@@ -100,128 +111,236 @@ End Code
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-sm-5">
-                        <label id="lblDriver">Driver :</label>
-                        <br /><div style="display:flex"><input type="text" id="txtDriver" class="form-control"></div>
-                    </div>
-                    <div class="col-sm-3">
-                        <label id="lblTruckNo">Truck ID :</label>
-                        <br /><div style="display:flex"><input type="text" id="txtTruckNO" class="form-control"></div>
-                    </div>
-                    <div class="col-sm-4">
-                        <label id="lblTruckType">Type :</label>                        
-                        <br />
-                        <div style="display:flex">
-                            <input type="text" id="txtTruckType" class="form-control" disabled>
-                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('carunit')" />
+                    <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label id="lblDriver">Driver :</label>
+                                <br /><div style="display:flex"><input type="text" id="txtDriver" class="form-control"></div>
+                            </div>
+                            <div class="col-sm-3">
+                                <label id="lblTruckNo">Truck ID :</label>
+                                <br /><div style="display:flex"><input type="text" id="txtTruckNO" class="form-control"></div>
+                            </div>
+                            <div class="col-sm-4">
+                                <label id="lblTruckType">Type :</label>
+                                <br />
+                                <div style="display:flex">
+                                    <input type="text" id="txtTruckType" class="form-control" disabled>
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('carunit')" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label id="lblRouteID">Route ID:</label>
+                                <br />
+                                <div style="display:flex">
+                                    <input type="text" id="txtRouteID" class="form-control" disabled />
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('route')" />
+                                </div>
+                            </div>
+                            <div class="col-sm-9">
+                                <label id="lblLocation">Location :</label>
+                                <br />
+                                <div style="display:flex">
+                                    <input type="text" id="txtLocation" class="form-control" disabled />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label id="lblComment">Comment :</label>
+                                <br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
+                            </div>
+                            <div class="col-sm-3">
+                                <label id="lblShippingMark">Shipping Mark :</label>
+                                <br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control" disabled></textarea></div>
+                            </div>
+                            <div class="col-sm-3">
+                                <label id="lblStatus">Job Status:</label>
+                                <br />
+                                <div style="display:flex">
+                                    <select id="txtCauseCode" class="form-control dropdown">
+                                        <option value="">Checking</option>
+                                        <option value="1">Working</option>
+                                        <option value="2">Rejected</option>
+                                        <option value="3">Finished</option>
+                                        <option value="99">Cancelled</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <label id="lblRouteID">Route ID:</label>
-                        <br />
-                        <div style="display:flex">
-                            <input type="text" id="txtRouteID" class="form-control" disabled />
-                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('route')" />
-                        </div>
-                    </div>
-                    <div class="col-sm-9">
-                        <label id="lblLocation">Location :</label>
-                        <br />
-                        <div style="display:flex">
-                            <input type="text" id="txtLocation" class="form-control" disabled/>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <label id="lblComment">Comment :</label>
-                        <br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
-                    </div>
-                    <div class="col-sm-3">
-                        <label id="lblShippingMark">Shipping Mark :</label>
-                        <br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control" disabled></textarea></div>
-                    </div>
-                    <div class="col-sm-3">
-                        <label id="lblStatus">Job Status:</label>
-                        <br />
-                        <div style="display:flex">
-                            <select id="txtCauseCode" class="form-control dropdown">
-                                <option value="">Checking</option>
-                                <option value="1">Working</option>
-                                <option value="2">Rejected</option>
-                                <option value="3">Finished</option>
-                                <option value="99">Cancelled</option>
-                            </select>
-                        </div>
+                    <div class="col-sm-6">
+                        <label id="lblExpCon">Expense Can Billing On This Route</label>
+                        :<br />
+                        <table id="tbExpense" class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>SICode</th>
+                                    <th>SDescription</th>
+                                    <th>CostAmount</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <label id="lblVenBill">Expense Billed By Vender</label>
+                        :<br />
+                        <table id="tbPayment" class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>DocNo</th>
+                                    <th>DocDate</th>
+                                    <th>PoNo</th>
+                                    <th>RefNo</th>
+                                    <th>TotalNet</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-4" style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
+                        <input type="checkbox" id="chkPickup" />
                         <label id="lblPickup">Pick-up:</label>
-                        <div>
-                            <label id="lblPickupTarget">Target Date :</label>
-                            <br />
-                            <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control" disabled></div>
-                        </div>
-                        <div>
-                            <label id="lblPickupTargetTime"></label>
-                            <br />
-                            <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control" disabled></div>
+                        <div style="display:flex;flex-direction:row">
+                            <div style="flex:1">
+                                <div style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
+                                    <div>
+                                        At<br />
+                                        <div style="display:flex">
+                                            <input type="text" id="txtPlaceName1" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        Address
+                                        <textarea id="txtPlaceAddress1"></textarea>
+                                    </div>
+                                    <div>
+                                        Contact
+                                        <input type="text" id="txtPlaceContact1" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="flex:1">
+                                <div style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
+                                    <div>
+                                        <label id="lblPickupTarget">Target Date :</label>
+                                        <br />
+                                        <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblPickupTargetTime"></label>
+                                        <br />
+                                        <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control"></div>
 
-                        </div>
-                        <div>
-                            <input type="checkbox" id="chkPickup" /><label id="lblPickupActual">Actual Date :</label>
-                            <br />
-                            <div style="display:flex"><input type="date" id="txtActualYardDate" class="form-control"></div>
-                        </div>
-                        <div>
-                            <label id="lblPickupActualTime">Actual Time :</label>
-                            <br />
-                            <div style="display:flex"><input type="text" id="txtActualYardTime" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblPickupActual">Actual Date :</label>
+                                        <br />
+                                        <div style="display:flex"><input type="date" id="txtActualYardDate" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblPickupActualTime">Actual Time :</label>
+                                        <br />
+                                        <div style="display:flex"><input type="text" id="txtActualYardTime" class="form-control"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-4" style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
-                        <label id="lblDelivery">Delivery:</label>
-                        <div>
-                            <label id="lblDeliveryTarget">Target Date :</label>
-                            <br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control" disabled></div>
-                        </div>
-                        <div>
-                            <label id="lblDeliveryTargetTime">Target Time :</label>
-                            <br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control" disabled></div>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="chkDelivery" /><label id="lblDeliveryActual">Actual Date :</label>
-                            <br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
-                        </div>
-                        <div>
-                            <label id="lblDeliveryActualTime">Actual Time :</label>
-                            <br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
+                        <input type="checkbox" id="chkDelivery" /><label id="lblDelivery">Delivery:</label>
+                        <br />
+                        <div style="display:flex;flex-direction:row">
+                            <div style="flex:1">
+                                <div style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
+                                    <div>
+                                        At<br />
+                                        <div style="display:flex">
+                                            <input type="text" id="txtPlaceName2" />
+                                        </div>
+
+                                    </div>
+                                    <div>
+                                        Address
+                                        <textarea id="txtPlaceAddress2"></textarea>
+                                    </div>
+                                    <div>
+                                        Contact
+                                        <input type="text" id="txtPlaceContact2" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="flex:1">
+                                <div style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
+                                    <div>
+                                        <label id="lblDeliveryTarget">Target Date :</label>
+                                        <br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblDeliveryTargetTime">Target Time :</label>
+                                        <br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblDeliveryActual">Actual Date :</label>
+                                        <br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblDeliveryActualTime">Actual Time :</label>
+                                        <br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-4" style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
-                        <label id="lblReturn">Return:</label>
-                        <div>
-                            <label id="lblReturnTarget">Target Date:</label>
-                            <br />
-                            <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control" disabled></div>
-                        </div>
-                        <div>
-                            <label id="lblReturnTargetTime">Target Time:</label>
-                            <br />
-                            <div style="display:flex"><input type="text" id="txtStart" class="form-control" disabled></div>
-                        </div>
-                        <div>
-                            <input type="checkbox" id="chkReturn" /><label id="lblReturnActual">Actual Date:</label>
-                            <br />
-                            <div style="display:flex"><input type="date" id="txtDReturnDate" class="form-control"></div>
-                        </div>
-                        <div>
-                            <label id="lblReturnActualTime">Actual Time:</label>
-                            <br />
-                            <div style="display:flex"><input type="text" id="txtFinish" class="form-control"></div>
+                        <input type="checkbox" id="chkReturn" /><label id="lblReturn">Return:</label>
+                        <br />
+                        <div style="display:flex;flex-direction:row">
+                            <div style="flex:1">
+                                <div style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
+                                    <div>
+                                        At<br />
+                                        <div style="display:flex">
+                                            <input type="text" id="txtPlaceName3" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        Address
+                                        <textarea id="txtPlaceAddress3"></textarea>
+                                    </div>
+                                    <div>
+                                        Contact
+                                        <input type="text" id="txtPlaceContact3" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="flex:1">
+                                <div style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
+                                    <div>
+                                        <label id="lblReturnTarget">Target Date:</label>
+                                        <br />
+                                        <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblReturnTargetTime">Target Time:</label>
+                                        <br />
+                                        <div style="display:flex"><input type="text" id="txtStart" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblReturnActual">Actual Date:</label>
+                                        <br />
+                                        <div style="display:flex"><input type="date" id="txtDReturnDate" class="form-control"></div>
+                                    </div>
+                                    <div>
+                                        <label id="lblReturnActualTime">Actual Time:</label>
+                                        <br />
+                                        <div style="display:flex"><input type="text" id="txtFinish" class="form-control"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -252,7 +371,7 @@ End Code
         if (userGroup == 'V') {
             $('#txtVenCode').attr('disabled', 'disabled');
             $('#txtVenName').attr('disabled', 'disabled');
-            $('#btnBrowseVend').attr('disabled', 'disabled');            
+            $('#btnBrowseVend').attr('disabled', 'disabled');
             $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
                 if (r.vender.data.length > 0) {
                     let dr = r.vender.data[0];
@@ -265,7 +384,7 @@ End Code
             $('#txtCustCode').attr('disabled', 'disabled');
             $('#txtCustBranch').attr('disabled', 'disabled');
             $('#txtCustName').attr('disabled', 'disabled');
-            $('#btnBrowseCust').attr('disabled', 'disabled');        
+            $('#btnBrowseCust').attr('disabled', 'disabled');
             $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
                 if (r.company.data.length > 0) {
                     let dr = r.company.data[0];
@@ -273,7 +392,7 @@ End Code
                     $('#txtCustBranch').val(dr.Branch);
                     $('#txtCustName').val(dr.NameThai);
                 }
-            });            
+            });
         }
         loadUnit('#txtCTN_SIZE', path, '?Type=1');
         //Events
@@ -364,7 +483,9 @@ End Code
     }
     function RefreshGrid() {
         $('#tbDetail').DataTable().clear().draw();
-        let w = '?Status='+ $('#cboStatus').val() +'&Branch=' + $('#txtBranchCode').val();
+        arr = [];
+        ShowSummary();
+        let w = '?Status='+ $('#cboCauseCode').val() +'&Branch=' + $('#txtBranchCode').val();
         if ($('#txtVenCode').val() !== "") {
             w = w + '&Vend=' + $('#txtVenCode').val();
         }
@@ -388,17 +509,17 @@ End Code
         let tb=$('#tbDetail').DataTable({
             data: dr,
             columns: [
+                {
+                    data: null, title: "$",
+                    render: function (data) {
+                        return '<button class="btn btn-warning">Edit</button>'
+                    }
+                },
                 { data: "BookingNo", title: "Booking"},
                 { data: "NotifyCode", title: "Customer"},
                 { data: "CTN_NO", title: "Container No" },
                 { data: "CTN_SIZE", title: "Container Size" },
                 { data: "SealNumber", title: "Seal" },
-                {
-                    data: null, title: "ProductDesc",
-                    render: function (data) {
-                        return data.ProductDesc + ' G.W =' + data.GrossWeight + ' M3=' + data.Measurement;
-                    }
-                },
                 {
                     data: "CauseCode", title: "Status",
                     render: function (data) {
@@ -423,9 +544,9 @@ End Code
                 },
                 { data: "Location", title: "To Location" },
                 {
-                    data: null, title: "Unload Date",
+                    data: null, title: "Pickup Date",
                     render: function (data) {
-                        return CDateEN(data.UnloadDate);
+                        return CDateEN(data.ActualYardDate);
                     }
                 }
             ],
@@ -434,15 +555,40 @@ End Code
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {
-            SetSelect('#tbDetail', this);        
             row = $('#tbDetail').DataTable().row(this).data();
-            ReadDetail(row);
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+                let idx = arr.indexOf(row);
+                if (idx < 0) {
+                    return;
+                }
+                arr.splice(idx, 1);
+                ShowSummary();
+            } else {
+                $(this).addClass('selected');
+                if (arr.indexOf(row) < 0) {
+                    arr.push(row);
+                }
+                ShowSummary();
+            }
         });
-        $('#tbDetail tbody').on('dblclick', 'tr', function () {
+        $('#tbDetail tbody').on('click', 'button', function () {
+            row = GetSelect('#tbDetail', this);
+            ReadDetail(row);
+            if ($(this).hasClass('selected')) {
+            } else {
+                $(this).addClass('selected');
+            }
+            if (arr.indexOf(row) < 0) {
+                arr.push(row);
+            }
+            ShowExpense();
+            ShowPayment();
+            ShowSummary();
             $('#dvContainer').modal('show');
         });
     }
-    function ReadDetail(dr) {	
+    function ReadDetail(dr) {
         $('#txtItemNo').val(dr.ItemNo);
         $('#txtCTN_NO').val(dr.CTN_NO);
         $('#txtSealNumber').val(dr.SealNumber);
@@ -467,6 +613,18 @@ End Code
         $('#txtDReturnDate').val(CDateEN(dr.ReturnDate));
         $('#txtShippingMark').val(dr.ShippingMark);
         $('#txtCTN_SIZE').val(dr.CTN_SIZE);
+        $('#txtPlaceName1').val(dr.PlaceName1);
+        $('#txtPlaceAddress1').val(dr.PlaceAddress1);
+        $('#txtPlaceContact1').val(dr.PlaceContact1);
+        $('#txtPlaceName2').val(dr.PlaceName2);
+        $('#txtPlaceAddress2').val(dr.PlaceAddress2);
+        $('#txtPlaceContact2').val(dr.PlaceContact2);
+        $('#txtPlaceName3').val(dr.PlaceName3);
+        $('#txtPlaceAddress3').val(dr.PlaceAddress3);
+        $('#txtPlaceContact3').val(dr.PlaceContact3);
+        $('#txtPlaceName4').val(dr.PlaceName4);
+        $('#txtPlaceAddress4').val(dr.PlaceAddress4);
+        $('#txtPlaceContact4').val(dr.PlaceContact4);
     }
 
     function SaveDetail() {
@@ -507,18 +665,18 @@ End Code
             DeliveryNo: row.DeliveryNo,
             NetWeight: row.NetWeight,
             ProductPrice: row.ProductPrice,
-            PlaceName1: row.PlaceName1,
-            PlaceAddress1: row.PlaceAddress1,
-            PlaceContact1: row.PlaceContact1,
-            PlaceName2: row.PlaceName2,
-            PlaceAddress2: row.PlaceAddress2,
-            PlaceContact2: row.PlaceContact2,
-            PlaceName3: row.PlaceName3,
-            PlaceAddress3: row.PlaceAddress3,
-            PlaceContact3: row.PlaceContact3,
-            PlaceName4: row.PlaceName4,
-            PlaceAddress4: row.PlaceAddress4,
-            PlaceContact4: row.PlaceContact4
+            PlaceName1: $('#txtPlaceName1').val(),
+            PlaceAddress1: $('#txtPlaceAddress1').val(),
+            PlaceContact1: $('#txtPlaceContact1').val(),
+            PlaceName2: $('#txtPlaceName2').val(),
+            PlaceAddress2: $('#txtPlaceAddress2').val(),
+            PlaceContact2: $('#txtPlaceContact2').val(),
+            PlaceName3: $('#txtPlaceName3').val(),
+            PlaceAddress3: $('#txtPlaceAddress3').val(),
+            PlaceContact3: $('#txtPlaceContact3').val(),
+            PlaceName4: $('#txtPlaceName4').val(),
+            PlaceAddress4: $('#txtPlaceAddress4').val(),
+            PlaceContact4: $('#txtPlaceContact4').val()
         };
         if (obj.ItemNo != "") {
             ShowConfirm('Please confirm to save', function (ask) {
@@ -552,6 +710,83 @@ End Code
             window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&BookNo=' + row.BookingNo + '&Item=' + $('#txtItemNo').val() + '&Job=' + row.JNo + '&Vend=' + $('#txtVenCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust='+ row.NotifyCode + '&Route=' + row.LocationID, '', '');
         } else {
             ShowMessage('Current document status is not allow to do this', true);
+        }
+    }
+    function ApproveData() {
+        if (arr.length <= 0) {
+            ShowMessage('No data to approve',true);
+            return;
+        }
+        let dataApp = [];
+        dataApp.push(user);
+        for (let i = 0; i < arr.length; i++) {
+            dataApp.push(arr[i].BookingNo + '|' + arr[i].CTN_NO);
+        }
+        let jsonString = JSON.stringify({ data: dataApp });
+        $.ajax({
+            url: "@Url.Action("ApproveTransport", "JobOrder")" + "?Status=" + $('#cboStatus').val(),
+            type: "POST",
+            contentType: "application/json",
+            data: jsonString,
+            success: function (response) {
+                RefreshGrid();
+                ShowSummary();
+                response ? ShowMessage("Approve Complete") : ShowMessage("Cannot Approve",true);
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
+        return;
+    }
+    function ShowSummary() {
+        let doc = '';
+        for (let i = 0; i < arr.length; i++) {
+            let o = arr[i];
+            doc += (doc != '' ? ',' : '') + o.BookingNo;
+        }
+        $('#txtListApprove').val(doc);
+    }
+    function ShowExpense() {
+        $('#tbExpense').DataTable().clear().draw();
+        $.get(path + 'JobOrder/GetTransportPrice?ID=' + row.LocationID + '&Vend=' + row.VenderCode + '&Cust=' + row.NotifyCode).done((r) => {
+            if (r.transportprice.data.length > 0) {
+                let tb=$('#tbExpense').DataTable({
+                    data: r.transportprice.data,
+                    columns: [
+                        { data: "SICode", title: "Cost.Cde" },
+                        { data: "SDescription", title: "Cost.Desc" },
+                        { data: "CostAmount", title: "Cost.Amt" }
+                    ],
+                    destroy: true
+                });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbExpense');
+            }
+        });
+    }
+    function ShowPayment() {
+        $('#tbPayment').DataTable().clear().draw();
+        if ($('#txtCTN_NO').val() !== '') {
+            $.get(path + 'Acc/GetPayment?VenCode=' + row.VenderCode + '&Ref=' + row.CTN_NO + '&Status=Y').done((r) => {
+                if (r.payment.header.length > 0) {
+                    let tb= $('#tbPayment').DataTable({
+                        data: r.payment.header,
+                        columns: [
+                            { data: "DocNo", title: "Doc.No" },
+                            { data: "DocDate", title: "Date" },
+                            { data: "PoNo", title: "Inv.No" },
+                            { data: "RefNo", title: "Cont.No" },
+                            { data: "TotalNet", title: "Total" }
+                        ],
+                        destroy: true
+                    });
+                    ChangeLanguageGrid('@ViewBag.Module', '#tbPayment');
+                    $('#tbPayment tbody').on('dblclick', 'tr', function () {
+                        let row = $('#tbPayment').DataTable().row(this).data();
+                        window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&DocNo='+ row.DocNo +'&BookNo=' + $('#txtBookingNo').val() + '&Item=' + $('#txtItemNo').val() + '&Job=' + $('#txtJNo').val() + '&Vend=' + $('#txtVenderCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust=' + $('#txtNotifyCode').val(), '', '');
+                    });
+                }
+            });
         }
     }
 </script>

@@ -1593,6 +1593,7 @@ End Code
             $('#txtVenderBillingNo').val(dt.VenderBillingNo);
             $('#txtLinkBillNo').val(dt.LinkBillNo); 
             $('#txtLinkItem').val(dt.LinkItem);
+            $('#txtCTN_NO').val(dt.RefNo);
             ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
             ShowCaption();
             return;

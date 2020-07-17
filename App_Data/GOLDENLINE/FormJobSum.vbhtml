@@ -44,11 +44,11 @@ End Code
     </div>
 </div>
 <div style="display:flex">
-    <div style="flex:1">
+    <div style="flex:2">
         CONSIGNEE : <label id="lblConsName"></label>
     </div>
     <div style="flex:1">
-        NOTIFY PARTY : <label id="lblNotifyName"></label>
+        INSPECTION DATE : <label id="lblDutyDate"></label>
     </div>
 </div>
 <div style="display:flex">
@@ -142,8 +142,20 @@ End Code
             </thead>
             <tbody id="dvCustAdv"></tbody>
             <tr>
-                <th style="text-align:right">TOTAL ADVANCE</th>
+                <th style="text-align:right">CREDIT ADVANCE</th>
                 <td style="text-align:right"><label id="lblTotalCustAdv"></label></td>
+            </tr>
+            <tr>
+                <th style="text-align:right">CUSTOMER CHEQUE</th>
+                <td style="text-align:right"><label id="lblTotalCheque"></label></td>
+            </tr>
+            <tr>
+                <th style="text-align:right">TOTAL EXPENSES</th>
+                <td style="text-align:right"><label id="lblTotalExpense"></label></td>
+            </tr>
+            <tr>
+                <th style="text-align:right">TOTAL BALANCE</th>
+                <td style="text-align:right"><label id="lblTotalBalance"></label></td>
             </tr>
         </table>
     </div>
@@ -278,7 +290,7 @@ End Code
                 $('#lblJobDate').text(ShowDate(CDateTH(h.DocDate)));
                 $('#lblCustName').text(h.CustTName);
                 $('#lblConsName').text(h.ConsigneeName);
-                $('#lblNotifyName').text(h.DeliveryTo);
+                $('#lblDutyDate').text(ShowDate(CDateTH(h.DutyDate)));
                 $('#lblShipByName').text(h.ShipByName);
                 $('#lblInvNo').text(h.InvNo);
                 $('#lblDeclareNo').text(h.DeclareNumber);
@@ -292,10 +304,12 @@ End Code
         });
     }
     function GetChequeInfo(branch, code) {
+        $('#lblTotalCheque').text('0.00');
         $.get(path + 'acc/getvouchergrid?branch=' + branch + '&job=' + code + '&type=CHQR', function (r) {
             if (r.voucher.data.length > 0) {
                 let dv = $('#dvCheque');
                 dv.empty();
+                let totalchq = 0;
                 for (o of r.voucher.data[0].Table) {
                     if (o.ChqNo !== null) {
                         let html = '';
@@ -308,10 +322,11 @@ End Code
                         html += '<td style="text-align:right">'+CCurrency(CDbl(o.SumAmount,2))+'</td>';
                         html += '<td>'+o.DRemark+'</td>';
                         html += '</tr>';
-
+                        totalchq += Number(o.ChqAmount);
                         dv.append(html);
                     }
                 }
+                $('#lblTotalCheque').text(CCurrency(CDbl(totalchq, 2)));
             }
         });
     }
@@ -442,7 +457,8 @@ End Code
             $('#lblSumCost').text(CCurrency(CDbl(amtcost, 2)));
             $('#lblSumAdv').text(CCurrency(CDbl(amtadv, 2)));
             $('#lblSumServ').text(CCurrency(CDbl(amtserv,2)));
-
+            $('#lblTotalExpense').text(CCurrency(CDbl((amtadv+amtserv + amtcost), 2)));
+            $('#lblTotalBalance').text(CCurrency(CDbl(CNum(CNum($('#lblTotalCustAdv').text())+CNum($('#lblTotalCheque').text()))- CNum(amtadv + amtserv + amtcost),2)));
             //$('#lblSumCharge').text(CCurrency(CDbl(amttotal,2)));
             //$('#lblSumTax').text(CCurrency(CDbl(amtwht,2)));
             //$('#lblSumNet').text(CCurrency(CDbl(amtcost+amtserv+amtadv,2)));

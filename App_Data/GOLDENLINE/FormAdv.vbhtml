@@ -34,7 +34,7 @@ End Code
             </div>
         </td>
         <td align="right" style="font-size:11px">
-            <b>Advance Date : </b>
+            <b>Request Date : </b>
             <label id="lblAdvDate" style="text-decoration-line:underline;"></label>
         </td>
     </tr>
@@ -56,8 +56,8 @@ End Code
             <label id="lblRemark" style="text-decoration-line:underline;"></label>
         </td>
         <td align="right" style="font-size:11px">
-            <b>Request Date : </b>
-            <label id="lblReqDate" style="text-decoration-line:underline;"></label>
+            <b>Request By : </b>
+            <label id="lblReqBy" style="text-decoration-line:underline;"></label>
         </td>
     </tr>
 </table>
@@ -205,6 +205,7 @@ End Code
         $('#lblRemark').text(h.TRemark);
         $('#lblAdvDate').text(ShowDate(h.AdvDate));
         $('#lblPayTo').text(h.PayChqTo);
+        $('#lblReqBy').text(h.EmpCode);
         ShowPendingAmount(h.BranchCode, h.EmpCode);
         ShowCustomer(h.CustCode, h.CustBranch);
         $('#lblNotifyName').text(h.DeliveryTo);
@@ -293,7 +294,7 @@ End Code
                     strJob = 'JOB:' + ((d.ForJNo == null || d.ForJNo == '' ? '' : d.ForJNo) + '<br/>');
                     strJob = strJob + 'CONTAINER:' + ((d.TotalContainer == null || d.TotalContainer == '' ? '' : d.TotalContainer) + '<br/>');
                     strJob = strJob + 'BL/AWB:' + ((d.HAWB == null || d.HAWB == '' ? '' : d.HAWB) + '<br/>');
-                    strJob = strJob + 'SHIPPER:' + ((d.ShippingEmp == null || d.ShippingEmp == '' ? '' : d.ShippingEmp) + '<br/>');
+                    strJob = strJob + 'SHIPPER/AGENT:' + ((d.AgentCode == null || d.AgentCode == '' ? '' : d.AgentCode) + '<br/>');
                     strDesc = strJob +  strDesc;
                     listJob.push(d.ForJNo);
                     strAmt += '<br/><br/><br/><br/>';

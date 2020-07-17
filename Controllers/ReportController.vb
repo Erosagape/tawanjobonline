@@ -1213,11 +1213,27 @@ ORDER BY d.SDescription,d.ChargeAmount-d.CostAmount DESC
                     Case "ADVCLEARING"
                         sqlW = GetSQLCommand(cliteria, "t.AdvDate", "t.CustCode", "t.ForJNo", "t.AdvBy", "t.ForwarderCode", "t.AdvStatus", "t.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT t.ForJNo,t.ETDDate,SUBSTRING(t.ForJNo,1,2),t.AdvBy,t.AdvDate,t.AdvStatus,t.AdvNo,t.SDescription,t.AdvNet, t.ClrNo,t.ClrDate,t.ClrSDescription,t.BNet as ClrNet FROM (" & SQLSelectAdvReport() & ") as t " & sqlW & " ORDER BY t.ForJNo,t.AdvDate"
+                        sqlM = "SELECT t.ForJNo,t.ETDDate,SUBSTRING(t.ForJNo,1,2) as JobType,t.AdvBy,t.AdvDate,t.AdvStatus,t.AdvNo,t.SDescription,t.AdvNet, t.ClrNo,t.ClrDate,t.ClrSDescription,t.BNet as ClrNet FROM (" & SQLSelectAdvReport() & ") as t " & sqlW & " ORDER BY t.ForJNo,t.AdvDate"
+                    Case "ADVIMPORT"
+                        sqlW = GetSQLCommand(cliteria, "t.ETADate", "t.CustCode", "t.ForJNo", "t.AdvBy", "t.ForwarderCode", "t.AdvStatus", "t.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT t.ForJNo,t.ETADate,SUBSTRING(t.ForJNo,1,2) as JobType,t.EmpCode,t.AdvDate,t.AdvStatus,t.AdvNo,t.SDescription,t.AdvNet, t.ClrNo,t.ClrDate,t.ClrSDescription,t.BNet as ClrNet FROM (" & SQLSelectAdvReport() & ") as t WHERE t.JobType=1 AND t.JobStatus<>99 " & sqlW & " ORDER BY t.ETADate,t.ForJNo"
+                    Case "ADVEXPORT"
+                        sqlW = GetSQLCommand(cliteria, "t.ETDDate", "t.CustCode", "t.ForJNo", "t.AdvBy", "t.ForwarderCode", "t.AdvStatus", "t.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT t.ForJNo,t.ETDDate,SUBSTRING(t.ForJNo,1,2) as JobType,t.EmpCode,t.AdvDate,t.AdvStatus,t.AdvNo,t.SDescription,t.AdvNet, t.ClrNo,t.ClrDate,t.ClrSDescription,t.BNet as ClrNet FROM (" & SQLSelectAdvReport() & ") as t WHERE t.JobType=2 AND t.JobStatus<>99 " & sqlW & " ORDER BY t.ETDDate,t.ForJNo"
                     Case "PLANLOAD"
-                        sqlW = GetSQLCommand(cliteria, "t.LoadDate", "t.CustCode", "t.JNo", "t.CSCode", "t.ForwarderCode", "t.JobStatus", "t.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "t.BookingDate", "t.CustCode", "t.JNo", "t.CSCode", "t.ForwarderCode", "t.JobStatus", "t.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT t.JNo,t.BookingNo,t.BookingDate,t.TotalContainer,t.TargetYardDate,t.ActualYardDate,(CASE WHEN t.CauseCode<>'' THEN (case when t.CauseCode='99' THEN 'Cancel' ELSE (CASE WHEN t.CauseCode='3' THEN 'Finish' ELSE 'Working' END) END) ELSE 'Request' END) as ContainerStatus,t.CTN_NO,t.EstDeliverDate,t.CtnReturnDate FROM (" & SQLSelectContainerReport() & ") as t " & sqlW & " ORDER BY t.BookingDate,t.JNo"
+                        sqlM = "SELECT t.JNo,t.BookingNo,t.BookingDate,t.TotalContainer,t.TargetYardDate as PickUpTargetDate,t.ActualYardDate as PickupActualDate,(CASE WHEN t.CauseCode<>'' THEN (case when t.CauseCode='99' THEN 'Cancel' ELSE (CASE WHEN t.CauseCode='3' THEN 'Finish' ELSE 'Working' END) END) ELSE 'Request' END) as ContainerStatus,t.CTN_NO,t.UnloadFinishDate as DeliveryDate,t.CtnReturnDate as ReturnDate FROM (" & SQLSelectContainerReport() & ") as t " & sqlW & " ORDER BY t.BookingDate,t.JNo"
+                    Case "PLANLOADIM"
+                        sqlW = GetSQLCommand(cliteria, "t.TargetYardDate", "t.CustCode", "t.JNo", "t.CSCode", "t.ForwarderCode", "t.JobStatus", "t.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT t.JNo,t.BookingNo,t.ETADate,t.TotalContainer,t.TargetYardDate as PickupTargetDate,t.ActualYardDate as PickupActualDate,(CASE WHEN t.CauseCode<>'' THEN (case when t.CauseCode='99' THEN 'Cancel' ELSE (CASE WHEN t.CauseCode='3' THEN 'Finish' ELSE 'Working' END) END) ELSE 'Request' END) as ContainerStatus,t.CTN_NO,t.UnloadFinishDate as DeliveryDate,t.CtnReturnDate as ReturnDate FROM (" & SQLSelectContainerReport() & ") as t WHERE t.JobType=1 AND t.JobStatus<>99 " & sqlW & " ORDER BY t.ETADate,t.JNo"
+                    Case "PLANLOADEX"
+                        sqlW = GetSQLCommand(cliteria, "t.TargetYardDate", "t.CustCode", "t.JNo", "t.CSCode", "t.ForwarderCode", "t.JobStatus", "t.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT t.JNo,t.BookingNo,t.ETDDate,t.TotalContainer,t.TargetYardDate as PickupTargetDate,t.ActualYardDate as PickupActualDate,(CASE WHEN t.CauseCode<>'' THEN (case when t.CauseCode='99' THEN 'Cancel' ELSE (CASE WHEN t.CauseCode='3' THEN 'Finish' ELSE 'Working' END) END) ELSE 'Request' END) as ContainerStatus,t.CTN_NO,t.UnloadFinishDate as DeliveryDate,t.CtnReturnDate as ReturnDate FROM (" & SQLSelectContainerReport() & ") as t WHERE t.JobType=2 AND t.JobStatus<>99 " & sqlW & " ORDER BY t.ETDDate,t.JNo"
                 End Select
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)

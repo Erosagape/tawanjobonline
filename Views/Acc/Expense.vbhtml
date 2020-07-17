@@ -378,6 +378,10 @@ End Code
                                 <div class="col-sm-2">
                                     #<br/> <input type="text" class="form-control" id="txtClrItemNo" disabled />
                                 </div>
+                                <div class="col-sm-3">
+                                    Route ID<br/>
+                                    <input type="text" class="form-control" id="txtRouteID" />
+                                </div>
                             </div>                                                       
                             <input type="hidden" id="txtAdvItemNo" />
                         </div>
@@ -652,7 +656,7 @@ End Code
             //Currency
             CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency Code', response, 2);
             //Jobs
-            CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Jobs', response, 3);
+            CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Jobs', response, 4);
             CreateLOV(dv, '#frmSearchPrice', '#tbPrice', 'Price Lists', response, 4);
         });
     }
@@ -989,6 +993,7 @@ End Code
         if (dt != undefined) {
             ClearDetail();
             dtl = dt;
+            $('#txtRouteID').val(route);
             $('#txtItemNo').val(dt.ItemNo);
             $('#txtSICode').val(dt.SICode);
             $('#txtSDescription').val(dt.SDescription);
@@ -1160,7 +1165,11 @@ End Code
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
                 break;
             case 'job':
-                SetGridJob(path, '#tbJob', '#frmSearchJob', '?Vend=' + $('#txtVenCode').val(), ReadJob);
+                if (userGroup == 'V') {
+                    SetGridTransport(path, '#tbJob', '#frmSearchJob', '?Cont='+ $('#txtRefNo').val() +'&Vend=' + $('#txtVenCode').val(), ReadTransport);
+                } else {
+                    SetGridJob(path, '#tbJob', '#frmSearchJob', '?Vend=' + $('#txtVenCode').val(), ReadJob);
+                }
                 break;
             case 'transportprice':
                 if (route !== '') {
@@ -1176,6 +1185,15 @@ End Code
         strParam += 'Branch=' + $('#txtBranchCode').val();
         strParam += '&VenCode=' + $('#txtVenCode').val();
         return strParam;
+    }
+    function ReadTransport(dt) {
+        route = dt.LocationID;
+        $('#txtRouteID').val(dt.LocationID);
+        $('#txtBookingRefNo').val(dt.BookingNo);
+        $('#txtBookingItemNo').val(dt.ItemNo);
+        $('#txtContainerNo').val(dt.CTN_NO);
+        $('#txtForJNo').val(dt.JNo);
+        $('#txtCustCode').val(dt.NotifyCode);
     }
     function ReadJob(dt) {
         $('#txtForJNo').val(dt.JNo);

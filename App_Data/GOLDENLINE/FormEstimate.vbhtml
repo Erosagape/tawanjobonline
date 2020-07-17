@@ -45,7 +45,7 @@ End Code
         <b>FEEDER/VOY : </b><label id="lblMVesselName"></label>
     </div>
     <div style="flex:1">
-        <b>CONTAINER NO : </b><label id="lblContainerNo"></label>
+        <b>TOTAL CONTAINER : </b><label id="lblTotalContainer"></label>
     </div>
 </div>
 <div style="width:100%;display:flex">
@@ -136,14 +136,14 @@ End Code
     </tr>
 </table>
 <span>
-    กรุณาโอนเข้าบัญชี 请将金额转入 :<br/>
-    ชื่อบัญชี 帐户名称 : GOLDEN LINE SERVICES CO.,LTD<br />
-    เลขที่บัญชี 帐号 : 373-1-016320<br />
-    ธนาคาร 银行 : KASIKORNBANK PUBLIC COMPANY LIMITED.<br />
-    หมายเหตุ : ค่าใช้จ่ายเป็นการประมาณการ จะเคลียร์ตามบิลหลังจากลากตู้ออกจากท่าเรือ<br />
-    估算费用，具体费用需等提柜后根据单据计算<br />
-    โปรดแจ้งโอนพร้อมแนบหลักฐานทุกครั้ง PAY IN<br />
-    请汇钱后提供<br />
+กรุณาโอนเข้าบัญชี 请将金额转入 :<br/>
+ชื่อบัญชี 帐户名称 : GOLDEN LINE SERVICES CO.,LTD<br/>
+เลขที่บัญชี 帐号 : 373-1-016320<br/>
+ธนาคาร 银行 : KASIKORNBANK PUBLIC COMPANY LIMITED.<br/>
+หมายเหตุ : ค่าใช้จ่ายเป็นการประมาณการ จะเคลียร์ตามบิลหลังจากลากตู้ออกจากท่าเรือ<br/>
+估算费用，具体费用需等提柜后根据单据计算<br/>
+โปรดแจ้งโอนพร้อมแนบหลักฐานทุกครั้ง PAY IN<br/>
+请汇钱后提供<br/>
 </span>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -173,7 +173,7 @@ End Code
         ShowInvUnit(path, dr.InvProductUnit, '#lblInvQtyUnit');
         $('#lblMeasurement').text(dr.Measurement);
         $('#lblBLStatus').text(dr.BookingNo);
-        $('#lblContainerNo').text(dr.BLNo);
+        $('#lblTotalContainer').text(dr.TotalContainer);
         $('#lblGrossWeight').text(dr.TotalGW + ' ' + dr.GWUnit);
         $('#lblDeliveryTo').text(dr.ClearPortNo);
         

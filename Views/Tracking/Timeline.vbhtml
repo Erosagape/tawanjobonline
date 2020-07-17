@@ -27,9 +27,24 @@ End Code
             <select id="cboStatus" class="form-control dropdown"></select>
         </div>
     </div>
-<a href="#" class="btn btn-primary" id="btnShow" onclick="RefreshGrid()">
-    <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Show</b>
-</a>
+    <div class="row">
+        <div class="col-sm-4">
+            Inspection Date From:
+            <br/>
+            <input type="date" id="txtDateFrom" class="form-control" />
+        </div>
+        <div class="col-sm-4">
+            Inspection Date To:
+            <br />
+            <input type="date" id="txtDateTo" class="form-control" />
+        </div>
+        <div class="col-sm-4">
+            <br />
+            <a href="#" class="btn btn-primary" id="btnShow" onclick="RefreshGrid()">
+                <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Show</b>
+            </a>
+        </div>
+    </div>
 <br/>
 <div id="dvJobs">
 </div>
@@ -150,6 +165,13 @@ End Code
             }
             if (userGroup == 'S' && userPosition=='5') {
                 w += '&ShippingCode=' + user;
+            }
+            w += '&ByDate=DutyDate';
+            if ($('#txtDateFrom').val()!=='') {
+                w += '&DateFrom=' + CDateEN($('#txtDateFrom').val());
+            }
+            if ($('#txtDateTo').val()!=='') {
+                w += '&DateTo=' + CDateEN($('#txtDateTo').val());
             }
             $('#dvJobs').html('');
             $.get(path + 'JobOrder/GetJobReport?Branch=' + branch + w)

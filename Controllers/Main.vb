@@ -543,7 +543,8 @@ FROM dbo.Job_Order
  '' AS Remark, 0 AS IsDuplicate, 0 AS IsLtdAdv50Tavi, '' AS Pay50TaviTo, '' AS NO50Tavi, NULL AS Date50Tavi,
  d.DocNo + '#0' AS VenderBillingNo,'' AS AirQtyStep, '' AS StepSub, d.ForJNo AS JobNo, 0 AS AdvItemNo, '' AS LinkBillNo, 0 AS VATType, h.VATRate, 
  h.TaxRate AS Tax50TaviRate,'' AS QNo, (d.Qty * p.ChargeAmount / h.ExchangeRate)+((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.VATRate*0.01)*d.IsTaxCharge)-((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.TaxRate*0.01)*d.Is50Tavi) AS BNet, 
- ((d.Qty * p.ChargeAmount / h.ExchangeRate)+((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.VATRate*0.01)*d.IsTaxCharge)-((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.TaxRate*0.01)*d.Is50Tavi)) * h.ExchangeRate AS FNet ,h.DocDate as VenderBillDate
+ ((d.Qty * p.ChargeAmount / h.ExchangeRate)+((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.VATRate*0.01)*d.IsTaxCharge)-((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.TaxRate*0.01)*d.Is50Tavi)) * h.ExchangeRate AS FNet ,h.DocDate as VenderBillDate,
+h.RefNo,h.PoNo
   FROM dbo.Job_PaymentDetail d INNER JOIN
  dbo.Job_PaymentHeader h ON d.BranchCode = h.BranchCode AND 
  d.DocNo = h.DocNo
@@ -572,7 +573,7 @@ FROM dbo.Job_Order
   '' AS Remark, 0 AS IsDuplicate, 0 AS IsLtdAdv50Tavi, '' AS Pay50TaviTo, '' AS NO50Tavi, NULL AS Date50Tavi,
  d.DocNo + '#' + Convert(varchar,d.ItemNo) AS VenderBillingNo,'' AS AirQtyStep, '' AS StepSub, d.ForJNo AS JobNo, 0 AS AdvItemNo, '' AS LinkBillNo, 0 AS VATType, h.VATRate, 
  h.TaxRate AS Tax50TaviRate,'' AS QNo, d.Total AS FNet, 
- d.Total / h.ExchangeRate AS BNet ,h.DocDate as VenderBillDate
+ d.Total / h.ExchangeRate AS BNet ,h.DocDate as VenderBillDate,h.RefNo,h.PoNo
  FROM dbo.Job_PaymentDetail d INNER JOIN
  dbo.Job_PaymentHeader h ON d.BranchCode = h.BranchCode AND 
  d.DocNo = h.DocNo
@@ -1830,7 +1831,7 @@ dbo.Job_LoadInfoDetail.Start, dbo.Job_LoadInfoDetail.Finish, dbo.Job_LoadInfoDet
 dbo.Job_LoadInfoDetail.Comment, dbo.Job_LoadInfoDetail.TruckType, dbo.Job_LoadInfoDetail.Driver, dbo.Job_LoadInfoDetail.TargetYardDate, 
 dbo.Job_LoadInfoDetail.TargetYardTime, dbo.Job_LoadInfoDetail.ActualYardDate, dbo.Job_LoadInfoDetail.ActualYardTime, 
 dbo.Job_LoadInfoDetail.UnloadFinishDate, dbo.Job_LoadInfoDetail.UnloadFinishTime, dbo.Job_LoadInfoDetail.UnloadDate, dbo.Job_LoadInfoDetail.UnloadTime, 
-dbo.Job_LoadInfoDetail.Location, dbo.Job_LoadInfoDetail.ReturnDate AS TruckReturnDate, dbo.Job_LoadInfoDetail.ShippingMark, 
+dbo.Job_LoadInfoDetail.LocationID, dbo.Job_LoadInfoDetail.Location, dbo.Job_LoadInfoDetail.ReturnDate AS TruckReturnDate, dbo.Job_LoadInfoDetail.ShippingMark, 
 dbo.Job_LoadInfoDetail.ProductDesc, dbo.Job_LoadInfoDetail.CTN_SIZE, dbo.Job_LoadInfoDetail.ProductQty, dbo.Job_LoadInfoDetail.ProductUnit,dbo.Job_LoadInfoDetail.NetWeight,dbo.Job_LoadInfoDetail.ProductPrice, 
 dbo.Job_LoadInfoDetail.GrossWeight, dbo.Job_LoadInfoDetail.Measurement, dbo.Job_Order.DocDate, dbo.Job_Order.CustCode, dbo.Job_Order.CustBranch, 
 dbo.Job_Order.CustContactName, dbo.Job_Order.QNo, dbo.Job_Order.Revise, dbo.Job_Order.ManagerCode, dbo.Job_Order.CSCode, dbo.Job_Order.Description, 
@@ -2527,7 +2528,7 @@ dbo.Job_ClearHeader.ClearFrom, dbo.Job_ClearHeader.DocStatus AS ClrStatus, dbo.J
 dbo.Job_ClearHeader.ReceiveDate, dbo.Job_ClearHeader.ReceiveTime, dbo.Job_ClearHeader.ReceiveRef, dbo.Job_ClearHeader.CoPersonCode, 
 dbo.Job_ClearHeader.CTN_NO, dbo.Job_ClearHeader.ClearTotal, dbo.Job_ClearHeader.ClearVat, dbo.Job_ClearHeader.ClearWht, dbo.Job_ClearHeader.ClearNet, 
 dbo.Job_ClearHeader.ClearBill, dbo.Job_ClearHeader.ClearCost
-FROM            dbo.Job_ClearHeader RIGHT OUTER JOIN
+FROM dbo.Job_ClearHeader RIGHT OUTER JOIN
 dbo.Job_ClearDetail RIGHT OUTER JOIN
 dbo.Job_AdvDetail INNER JOIN
 dbo.Job_AdvHeader ON dbo.Job_AdvDetail.BranchCode = dbo.Job_AdvHeader.BranchCode AND dbo.Job_AdvDetail.AdvNo = dbo.Job_AdvHeader.AdvNo ON 
