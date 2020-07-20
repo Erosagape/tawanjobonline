@@ -631,13 +631,16 @@ Namespace Controllers
                         If data.ClrDate = DateTime.MinValue Then
                             data.ClrDate = Today.Date
                         End If
+                        Dim runningFormat = GetValueConfig("RUNNING_FORMAT", "CLR_ADV", clrPrefix)
                         Select Case data.ClearType
                             Case 2
-                                data.AddNew(costPrefix & data.ClrDate.ToString("yyMM") & "_____")
+                                runningFormat = GetValueConfig("RUNNING_FORMAT", "CLR_COST", costPrefix)
+                                data.AddNew(runningFormat & data.ClrDate.ToString("yyMM") & "_____")
                             Case 3
-                                data.AddNew(servPrefix & data.ClrDate.ToString("yyMM") & "_____")
+                                runningFormat = GetValueConfig("RUNNING_FORMAT", "CLR_SERV", servPrefix)
+                                data.AddNew(runningFormat & data.ClrDate.ToString("yyMM") & "_____")
                             Case Else
-                                data.AddNew(clrPrefix & data.ClrDate.ToString("yyMM") & "_____")
+                                data.AddNew(runningFormat & data.ClrDate.ToString("yyMM") & "_____")
                         End Select
 
                     End If
@@ -859,7 +862,7 @@ Namespace Controllers
                                     oClrH = oClr(0)
                                 Else
                                     oClrH.BranchCode = oPayH.BranchCode
-                                    oClrH.AddNew(expPrefix & DateTime.Now.ToString("yyMM") & "-____")
+                                    oClrH.AddNew(GetValueConfig("RUNNING_FORMAT", "EXP", expPrefix) & DateTime.Now.ToString("yyMM") & "-____")
                                     oClrH.ClrDate = DateTime.Today
                                     oClrH.ClearanceDate = DateTime.MinValue
                                     oClrH.ClearType = 0

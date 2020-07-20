@@ -5,8 +5,9 @@ Module Main
     Friend Const xmlContent As String = "application/xml;charset=UTF-8"
     Friend Const textContent As String = "text/html"
     Friend Const jobPrefix As String = "[J][S]"
-    Friend Const advPrefix As String = "ADV"
-    Friend Const clrPrefix As String = "CLR"
+    Friend Const quoPrefix As String = "Q-"
+    Friend Const advPrefix As String = "ADV-"
+    Friend Const clrPrefix As String = "CLR-"
     Friend Const invPrefix As String = "INV-"
     Friend Const billPrefix As String = "BL-"
     Friend Const payPrefix As String = "PAY-"
@@ -1497,8 +1498,7 @@ dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
 "
     End Function
     Function GetJobPrefix(data As CJobOrder) As String
-        Dim formatStr As String = GetValueConfig("RUNNING_FORMAT", "JOBNO")
-        If formatStr = "" Then formatStr = jobPrefix
+        Dim formatStr As String = GetValueConfig("RUNNING_FORMAT", "JOBNO", jobPrefix)
         Dim jobType As String = GetValueConfig("JOB_TYPE", data.JobType.ToString("00"))
         Dim shipBy As String = GetValueConfig("SHIP_BY", data.ShipBy.ToString("00"))
         Dim Customer As String = data.CustCode

@@ -315,7 +315,7 @@ Namespace Controllers
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If Not IsNothing(data) Then
                     data.SetConnect(GetSession("ConnJob"))
-                    Dim prefix As String = advPrefix
+                    Dim prefix As String = GetValueConfig("RUNNING_FORMAT", "ADV", advPrefix)
                     If data.AdvNo = "" Then
                         If AuthorizeStr.IndexOf("I") < 0 Then
                             Return Content("{""result"":{""data"":null,""msg"":""You are not allow to add""}}", jsonContent)
@@ -323,7 +323,7 @@ Namespace Controllers
                         If data.AdvDate = DateTime.MinValue Then
                             data.AdvDate = Today.Date
                         End If
-                        data.AddNew(prefix & "-" & data.AdvDate.ToString("yyMM") & "____")
+                        data.AddNew(prefix & data.AdvDate.ToString("yyMM") & "____")
                     End If
 
                     If AuthorizeStr.IndexOf("E") < 0 Then
@@ -350,7 +350,7 @@ Namespace Controllers
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If Not IsNothing(data) Then
                     data.SetConnect(GetSession("ConnJob"))
-                    Dim prefix As String = expPrefix
+                    Dim prefix As String = GetValueConfig("RUNNING_FORMAT", "EXP", expPrefix)
                     If data.AdvNo = "" Then
                         If AuthorizeStr.IndexOf("I") < 0 Then
                             Return Content("{""result"":{""data"":null,""msg"":""You are not allow to add""}}", jsonContent)

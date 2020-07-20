@@ -19,7 +19,7 @@
     <OptionStrict>Off</OptionStrict>
     <OptionInfer>On</OptionInfer>
     <MvcBuildViews>false</MvcBuildViews>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <Use64BitIISExpress />
     <IISExpressSSLPort>44359</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
@@ -573,16 +573,18 @@
     <Content Include="App_Data\GOLDENLINE\FormJob.vbhtml" />
     <Content Include="App_Data\GOLDENLINE\_Report.vbhtml" />
     <Content Include="App_Data\GOLDENLINE\FormVoucher.vbhtml" />
+    <Content Include="App_Data\APL\GenerateInv.vbhtml" />
+    <Content Include="App_Data\APL\MasterPage.vbhtml" />
+    <Content Include="App_Data\APL\_Report.vbhtml" />
+    <Content Include="App_Data\APL\_ReportLandscape.vbhtml" />
+    <Content Include="App_Data\APL\FormInv.vbhtml" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
     </None>
     <None Include="My Project\PublishProfiles\103.225.168.137.pubxml" />
-    <None Include="My Project\PublishProfiles\jobbeta.pubxml" />
-    <None Include="My Project\PublishProfiles\kwanchai.pubxml" />
     <None Include="My Project\PublishProfiles\localhost.pubxml" />
     <None Include="My Project\PublishProfiles\servertawan.pubxml" />
-    <None Include="My Project\PublishProfiles\tawanonline.pubxml" />
     <None Include="My Project\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <CustomToolNamespace>My</CustomToolNamespace>
@@ -837,7 +839,7 @@
     <Content Include="Views\Clr\Costing.vbhtml" />
     <Content Include="Views\Clr\Earnest.vbhtml" />
     <Content Include="Views\Clr\FormClr.vbhtml" />
-    <Content Include="Views\Clr\GenerateInv.vbhtml" />
+    <Content Include="Views\Clr\GenerateInv_STD.vbhtml" />
     <Content Include="Views\Clr\Index.vbhtml" />
     <Content Include="Views\Clr\Receive.vbhtml" />
     <Content Include="Views\Adv\Approve.vbhtml" />
@@ -948,6 +950,7 @@
     <Content Include="Views\JobOrder\FormSalesContract.vbhtml" />
     <Content Include="Views\JobOrder\FormInvoice.vbhtml" />
     <Content Include="Views\JobOrder\FormPackingList.vbhtml" />
+    <Content Include="Views\Clr\GenerateInv.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -1012,7 +1015,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50235</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44359/</IISUrl>
+          <IISUrl>http://localhost/jobonline</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

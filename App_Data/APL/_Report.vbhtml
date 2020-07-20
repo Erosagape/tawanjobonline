@@ -48,7 +48,7 @@
             </div>
         </div>
         <div style="width:100%;font-size:8px">
-            <p style="text-align:left">Printed By : @ViewBag.User Printed Date : @DateTime.Now </p>
+            <p style="text-align:left">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
         </div>
     </div>
 </body>

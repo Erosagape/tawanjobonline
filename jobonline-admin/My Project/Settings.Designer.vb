@@ -56,8 +56,8 @@ Namespace My
         
         <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=.\SQLEXPRESS;Initial Catalog=weblicense;User id=sa;Password=4780;Pers"& _ 
-            "ist Security Info=False")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=.\DEVTEST;Initial Catalog=weblicense;User id=sa;Password=4780;Persist"& _ 
+            " Security Info=False")>  _
         Public ReadOnly Property weblicenseConnection() As String
             Get
                 Return CType(Me("weblicenseConnection"),String)

@@ -219,7 +219,7 @@ Namespace Controllers
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     If "" & data.DocNo = "" Then
-                        data.AddNew(payPrefix & Now.ToString("yyMM") & "-____")
+                        data.AddNew(GetValueConfig("RUNNING_FORMAT", "PAY", payPrefix) & Now.ToString("yyMM") & "-____")
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' ", data.BranchCode, data.DocNo))
                     Dim json = "{""result"":{""data"":""" & data.DocNo & """,""msg"":""" & msg & """}}"
@@ -851,7 +851,7 @@ Namespace Controllers
                         Case "CASHR"
                             tSqlw &= " AND d.CashAmount>0 AND PRType='R'"
                         Case "TACC"
-                            tSqlw &= " AND d.DocNo Like '" & expPrefix & "%' "
+                            tSqlw &= " AND d.DocNo Like '" & GetValueConfig("RUNNING_FORMAT", "EXP", expPrefix) & "%' "
                     End Select
                 End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(tSqlw)
@@ -1389,7 +1389,7 @@ ORDER BY a.TName1
                         If data.DocDate = DateTime.MinValue Then
                             data.DocDate = Today.Date
                         End If
-                        data.AddNew(whtPrefix & data.DocDate.ToString("yyMM") & "-____")
+                        data.AddNew(GetValueConfig("RUNNING_FORMAT", "WHTAX", whtPrefix) & data.DocDate.ToString("yyMM") & "-____")
                     End If
 
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' ", data.BranchCode, data.DocNo))
@@ -1611,7 +1611,7 @@ ORDER BY a.TName1
                     data.SetConnect(GetSession("ConnJob"))
                     If "" & data.DocNo = "" Then
                         If data.DocType = "" Then
-                            data.DocType = invPrefix
+                            data.DocType = GetValueConfig("RUNNING_FORMAT", "INV", invPrefix)
                         End If
                         If data.DocDate = DateTime.MinValue Then
                             data.DocDate = Today
@@ -1739,7 +1739,7 @@ ORDER BY a.TName1
                         Else
                             fmt = data.BillDate.ToString("yyMM") & "____"
                         End If
-                        data.AddNew(billPrefix & fmt)
+                        data.AddNew(GetValueConfig("RUNNING_FORMAT", "BILL", billPrefix) & fmt)
 
                         'Get Due Date from Customers
                         Dim oCust = New CCompany(GetSession("ConnJob")).GetData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}'", data.CustCode, data.CustBranch))
@@ -1929,21 +1929,23 @@ ORDER BY a.TName1
                         If data.ReceiptDate = DateTime.MinValue Then
                             data.ReceiptDate = Today.Date
                         End If
-                        Dim prefix = ""
-                        Select Case data.ReceiptType
-                            Case "REC"
-                                prefix = "RC-"
-                            Case "TAX"
-                                prefix = "TX-"
-                            Case "SRV"
-                                prefix = "SV-"
-                            Case "RCV"
-                                prefix = "RV-"
-                            Case "ADV"
-                                prefix = "AV-"
-                            Case Else
-                                Return Content("{""result"":{""data"":null,""msg"":""Please Enter Receipt Type""}}", jsonContent)
-                        End Select
+                        Dim prefix = GetValueConfig("RUNNING_FORMAT", "RECEIVE_" & data.ReceiptType, "")
+                        If prefix = "" Then
+                            Select Case data.ReceiptType
+                                Case "REC" 'Cash Receipts
+                                    prefix = "RC-"
+                                Case "TAX" 'Receipt/Tax Invoice
+                                    prefix = "TX-"
+                                Case "SRV" 'Tax Invoice Only
+                                    prefix = "SV-"
+                                Case "RCV" 'Receive Non Vat
+                                    prefix = "RV-"
+                                Case "ADV" 'Receive Reimbursement
+                                    prefix = "AV-"
+                                Case Else
+                                    Return Content("{""result"":{""data"":null,""msg"":""Please Enter Receipt Type""}}", jsonContent)
+                            End Select
+                        End If
                         Dim fmt = Main.GetValueConfig("RUNNING", "RCP")
                         If fmt <> "" Then
                             If fmt.IndexOf("bb") >= 0 Then

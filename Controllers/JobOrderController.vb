@@ -403,7 +403,21 @@ Namespace Controllers
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     If "" & data.QNo = "" Then
-                        data.AddNew("Q-" & data.DocDate.ToString("yyMM") & "-____")
+                        Dim fmt As String = GetValueConfig("RUNNING", "QUO")
+                        If fmt <> "" Then
+                            If fmt.IndexOf("bb") >= 0 Then
+                                fmt = fmt.Replace("bb", data.DocDate.AddYears(543).ToString("yy"))
+                            End If
+                            If fmt.IndexOf("MM") >= 0 Then
+                                fmt = fmt.Replace("MM", data.DocDate.ToString("MM"))
+                            End If
+                            If fmt.IndexOf("yy") >= 0 Then
+                                fmt = fmt.Replace("yy", data.DocDate.ToString("yy"))
+                            End If
+                        Else
+                            fmt = data.DocDate.ToString("yyMM") & "____"
+                        End If
+                        data.AddNew(GetValueConfig("RUNNING_FORMAT", "QUO", quoPrefix) & fmt)
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND QNo='{1}' ", data.BranchCode, data.QNo))
                     Dim json = "{""result"":{""data"":""" & data.QNo & """,""msg"":""" & msg & """}}"
