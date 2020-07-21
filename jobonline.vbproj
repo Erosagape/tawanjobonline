@@ -578,6 +578,8 @@
     <Content Include="App_Data\APL\_Report.vbhtml" />
     <Content Include="App_Data\APL\_ReportLandscape.vbhtml" />
     <Content Include="App_Data\APL\FormInv.vbhtml" />
+    <Content Include="App_Data\APL\FormBill.vbhtml" />
+    <Content Include="App_Data\APL\FormTaxinv.vbhtml" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

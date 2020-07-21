@@ -43,17 +43,15 @@ End Code
 <label id="lblCustTax"></label>
 <label>BRANCH:</label>
 <label id="lblCustBranch"></label>
-<div style="display:flex;">
-    <div style="display:flex;">
-        <div style="flex:3" class="roundbox">
-            NAME : <label id="lblCustName"></label>
-            <br />
-            ADDRESS : <label id="lblCustAddr"></label><br />
-        </div>
-        <div style="flex:1;" class="roundbox">
-            DATE : <label id="lblReceiptDate"></label><br />
-            NO. : <label id="lblReceiptNo"></label><br />
-        </div>
+<div style="display:flex;width:100%">
+    <div style="flex:3" class="roundbox">
+        NAME : <label id="lblCustName"></label>
+        <br />
+        ADDRESS : <label id="lblCustAddr"></label><br />
+    </div>
+    <div style="flex:1;" class="roundbox">
+        DATE : <label id="lblReceiptDate"></label><br />
+        NO. : <label id="lblReceiptNo"></label><br />
     </div>
 </div>
 <br />
@@ -109,7 +107,7 @@ End Code
         </tr>
     </tbody>
     <tfoot>
-        <tr style="background-color:lightblue;text-align:right;">
+        <tr style="text-align:right;">
             <td colspan="2" rowspan="6" style="text-align:left;vertical-align:top;">
                 W/T :<label id="lblTotalWHT"></label>
                 <div id="dvInv"></div>
@@ -117,19 +115,19 @@ End Code
             <td colspan="2">TOTAL VAT</td>
             <td colspan="1"><label id="lblTotalBeforeVAT"></label></td>
         </tr>
-        <tr style="background-color:lightblue;text-align:right;">
+        <tr style="text-align:right;">
             <td colspan="2">TOTAL NON-VAT</td>
             <td colspan="1"><label id="lblTotalNONVAT"></label></td>
         </tr>
-        <tr style="background-color:lightblue;text-align:right;">
+        <tr style="text-align:right;">
             <td colspan="2">VAT</td>
             <td colspan="1"><label id="lblTotalVAT"></label></td>
         </tr>
-        <tr style="background-color:lightblue;text-align:right;">
+        <tr style="text-align:right;">
             <td colspan="2">Advance Reimbursement</td>
             <td colspan="1"><label id="lblTotalADV"></label></td>
         </tr>
-        <tr style="background-color:lightblue;text-align:right;">
+        <tr style="text-align:right;">
             <td colspan="2">GRAND TOTAL</td>
             <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
         </tr>
