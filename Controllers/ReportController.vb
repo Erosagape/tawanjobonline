@@ -535,19 +535,19 @@ ORDER BY CustCode,DutyDate,JNo
                         sqlM = "
 SELECT DocNo,InvDate,CustCode,JNo,DeclareNumber,InvNo,
 ISNULL(AmtCost,0) as TotalCost,
-SUM(CASE WHEN IsCredit=1 THEN TotalNet ELSE 0 END) as TotalAdvance,
-SUM(CASE WHEN IsCredit=0 THEN TotalNet ELSE 0 END) as TotalCharge,
+SUM(CASE WHEN IsCredit=1 THEN BNet ELSE 0 END) as TotalAdvance,
+SUM(CASE WHEN IsCredit=0 THEN BNet ELSE 0 END) as TotalCharge,
 SUM(AmtCredit) as TotalPrepaid,
 SUM(ReceiptNet) as TotalReceived,
 SUM(Balance) as TotalBalance,
-SUM(ReceiptNet+AmtCredit)- SUM(CASE WHEN IsCredit=1 THEN TotalNet ELSE 0 END)-ISNULL(AmtCost,0) as TotalProfit
+SUM(ReceiptNet+AmtCredit)- SUM(CASE WHEN IsCredit=1 THEN BNet ELSE 0 END)-ISNULL(AmtCost,0) as TotalProfit
 FROM (
 	select f.BranchCode,f.DocNo,f.DocDate as InvDate, f.CustCode,f.CustBranch,c.JNo,c.DocDate as JobDate ,b.ClrNo,b.ClrDate,c.DeclareNumber,c.InvNo,
 	c.DutyDate,c.CloseJobDate,c.CSCode,c.ShippingEmp,c.ManagerCode,c.InvProduct,c.VesselName,c.TotalContainer,e.Title+''+e.NameThai as CustName,
 	f.BillAcceptNo,f.BillIssueDate,f.BillAcceptDate,f.DueDate,a.SICode,
 	d.NameThai as SDescription,d.IsExpense,d.IsCredit,a.UsedAmount,a.ChargeVAT,a.Tax50Tavi,a.BNet,
 	h.AmtAdvance,h.AmtCharge,h.AmtVat,h.Amt50Tavi,h.TotalAmt,h.AmtCredit,(h.TotalAmt+h.AmtCredit) as TotalNet,g.ReceiptNet,
-	g.ReceiptNo,g.VoucherNo,i.AdjAmt as AdjustAmt,(h.TotalAmt-h.AmtCredit)-ISNULL(g.ReceiptNet,0) as Balance
+	g.ReceiptNo,g.VoucherNo,i.AdjAmt as AdjustAmt,(a.BNet-h.AmtCredit)-ISNULL(g.ReceiptNet,0) as Balance
 	from Job_ClearDetail a inner join Job_ClearHeader b
 	on a.BranchCode=b.BranchCode and a.ClrNo=b.ClrNo
 	inner join Job_Order c on a.BranchCode=c.BranchCode and a.JobNo=c.JNo
@@ -570,10 +570,10 @@ FROM (
 	where ISNULL(b.CancelProve,'')='' AND ISNULL(f.CancelProve,'')='' {0}
 ) inv 
 left join (
-	SELECT dt.BranchCode,dt.LinkBillNo,SUM(dt.BNet) as AmtCost FROM Job_ClearDetail dt INNER JOIN Job_ClearHeader hd
+	SELECT dt.BranchCode,dt.LinkBillNo,dt.JobNo,SUM(dt.BNet) as AmtCost FROM Job_ClearDetail dt INNER JOIN Job_ClearHeader hd
 	ON dt.BranchCode=hd.BranchCode AND dt.ClrNo=hd.ClrNo WHERE ISNULL(hd.CancelProve,'')=''
-	AND dt.LinkItem=0 AND hd.ClearType=2 GROUP BY dt.BranchCode,dt.LinkBillNo
-) cost ON inv.BranchCode=cost.BranchCode AND inv.DocNo=cost.LinkBillNo
+	AND dt.LinkItem=0 AND hd.ClearType=2 GROUP BY dt.BranchCode,dt.LinkBillNo,dt.JobNo
+) cost ON inv.BranchCode=cost.BranchCode AND inv.DocNo=cost.LinkBillNo AND inv.JNo=cost.JobNo
 GROUP BY DocNo,InvDate,CustCode,JNo,DeclareNumber,InvNo,AmtCost
 ORDER BY CustCode,InvDate,DocNo
 "

@@ -1357,7 +1357,8 @@ End Code
                 data: jsonString,
                 success: function (response) {
                     ShowMessage(response.result.msg);
-                    ShowData($('#txtBranchCode').val(), $('#txtClrNo').val());
+                    SaveHeader();
+                    //ShowData($('#txtBranchCode').val(), $('#txtClrNo').val());
                     if ($('#txtAdvNo').val() !== '' && $('#chkDuplicate').prop('checked') == false) {
                         $('#frmDetail').modal('hide');
                     }
@@ -1578,9 +1579,9 @@ End Code
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Tax50TaviRate);
             $('#txtAMT').val(CDbl(dt.UnitPrice,2));
-            $('#txtVAT').val(CDbl(CNum($('#txtAMT').val())*(dt.VATRate*0.01),2));
-            $('#txtWHT').val(CDbl(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01),2));
-            $('#txtNET').val(CDbl(CNum($('#txtAMT').val()) + (CNum($('#txtAMT').val()) * (dt.VATRate * 0.01)) - (CNum($('#txtAMT').val()) * (dt.Tax50TaviRate * 0.01)),2));
+            $('#txtVAT').val(CDbl(dt.ChargeVAT,2));
+            $('#txtWHT').val(CDbl(dt.Tax50Tavi,2));
+            $('#txtNET').val(CDbl(dt.BNet,2));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);

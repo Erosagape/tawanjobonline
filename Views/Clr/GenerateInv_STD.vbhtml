@@ -1337,7 +1337,8 @@ End Code
                 key.FAmtDiscount+= CNum(key.AmtDiscount) / CNum(obj.ExchangeRate);
                 key.Amt50Tavi += CNum(obj.Amt50Tavi);
                 key.AmtVat+= CNum(obj.AmtVat);
-                key.TotalAmt+= CNum(obj.TotalAmt);
+                key.TotalAmt += CNum(obj.TotalAmt);
+                key.AmtNet += CNum(obj.TotalAmt);
                 key.FTotalAmt= CDbl(CNum(key.TotalAmt) / CNum(obj.ExchangeRate), 2);
                 key.AmtAdvance+= CNum(obj.AmtAdvance);
                 key.AmtCharge+= CNum(obj.AmtCharge);

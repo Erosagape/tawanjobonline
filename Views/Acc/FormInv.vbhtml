@@ -43,23 +43,51 @@ End Code
             NAME : <label id="lblCustName"></label>
             <br />
             ADDRESS : <label id="lblCustAddress"></label><br />
-            <!--TEL : <label id="lblCustTel"></label><br />-->
+            CONTACT : <label id="lblCustContact"></label><br />
+            TEL : <label id="lblCustTel"></label>
         </div>
         <div style="flex:1;" class="roundbox">
             DATE : <label id="lblDocDate"></label><br />
             TICKET NO. : <label id="lblDocNo"></label><br />
-            SERVICE : <label id="lblTotalContainer"></label>
+            SERVICE : <label id="lblTotalContainer"></label><br/>
+            DUE DATE: <label id="lblDueDate"></label>
         </div>
     </div>
     <div style="width:100%" class="roundbox">
         INVOICE : <label id="lblCustInvNo"></label>
     </div>
     <br />
+    <p id="dvLoading">
+        <table id="tbLoading">
+            <thead>
+                <tr>
+                    <th>
+                        Item
+                    </th>
+                    <th>
+                        Booking
+                    </th>
+                    <th>
+                        Unit
+                    </th>
+                    <th>
+                        Container
+                    </th>
+                    <th>
+                        Place
+                    </th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </p>
     <table style="width:100%" border="1" class="text-center">
         <thead>
             <tr style="background-color :gainsboro;text-align:center;">
                 <th width="50px" rowspan="2">Item</th>
-                <th width="350px" rowspan="2">Description</th>
+                <th width="250px" rowspan="2">Description</th>
+                <th width="60px" rowspan="2">Quantity</th>
+                <th width="40px" rowspan="2">Unit Price</th>
                 <th width="325px" colspan="3">Advance Re-Imbursement</th>
                 <th width="275px" colspan="2">Services Charge</th>
             </tr>
@@ -74,7 +102,7 @@ End Code
         <tbody id="tbDetail"></tbody>
         <tfoot>
             <tr>
-                <td colspan="2">
+                <td colspan="4">
                     TOTAL INVOICE (<label id="lblCurrencyCode"></label>)=<label id="lblForeignNet"></label> RATE=<label id="lblExchangeRate"></label>
                 </td>
                 <td style="background-color :gainsboro;text-align:right">
@@ -94,7 +122,7 @@ End Code
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
+                <td colspan="4">
                     <div id="lblShippingRemark"></div>
                     REMARKS :<br />
                     <div id="lblDescription"></div>
@@ -115,7 +143,7 @@ End Code
             </tr>
             <tr>
                 <td>TOTAL (BAHT)</td>
-                <td colspan="7">
+                <td colspan="9">
                     <div style="text-align:center;"><label id="lblTotalBaht" style="font-size:14px;"></label></div>
                 </td>
             </tr>
@@ -167,12 +195,15 @@ End Code
     <div style="float:left">
         Please pay cheque (A/C Payer only) payable to APL Logistics svcs (Thailand) Co.,ltd.<br />
         - Late payment 2% will be charge if paid after due date.<br />
-        - Any incorrect item: please inform within 7 days from the date of invoice, otherwise will be considered correct.
+        - Any incorrect item: please inform within 7 days from the date of invoice, otherwise will be considered correct.<br/>
+        - Transportation charge is non-vat and subject to 1% withholding tax.<br/>
+        - All others charges excluding transportation are vat and subject to 3% withholding tax.
     </div>
     <div style="float:right">
         JOB# <label id="lblJobNo"></label><br />
     </div>
 </div>
+
 <script type="text/javascript">
     const path = '@Url.Content("~")';
 
@@ -190,43 +221,58 @@ End Code
             let h = dr.header[0][0];
             $('#lblDocNo').text(h.DocNo);
             $('#lblDocDate').text(ShowDate(CDateTH(h.DocDate)));
+            $('#lblDueDate').text(ShowDate(CDateTH(h.DueDate)));
             $('#lblCurrencyCode').text(h.CurrencyCode);
             $('#lblExchangeRate').text(h.ExchangeRate);
             $('#lblForeignNet').text(ShowNumber(h.ForeignNet, 2));
 
             $('#lblVATRate').text(ShowNumber(h.VATRate,1));
-	$.get(path+'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch='+ h.BillToCustBranch,function(r){
-            let c = r.company.data[0];
-        if (c !== null) {
-            $('#lblTaxNumber').text(c.TaxNumber);
-            if (c.UsedLanguage == 'TH') {
-            if (Number(c.Branch == 0)) {
-                $('#lblTaxBranch').text('สำนักงานใหญ่');
-            } else {
-                $('#lblTaxBranch').text(c.Branch);
-            }
-                    $('#lblCustName').text(c.Title+' '+c.NameThai);
-                    $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
-	$('#lblCustTName').text(dr.customer[0][0].NameThai);
-            } else {
-            if (Number(c.Branch == 0)) {
-                $('#lblTaxBranch').text('HEAD OFFICE');
-            } else {
-                $('#lblTaxBranch').text(c.Branch);
-            }
-
-                    $('#lblCustName').text(c.NameEng);
-                    $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2);
-	$('#lblCustTName').text(dr.customer[0][0].NameEng);
-                }
-                //$('#lblCustTel').text(c.Phone);
-            }
-	});
+	        $.get(path+'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch='+ h.BillToCustBranch,function(r){
+                    let c = r.company.data[0];
+                    if (c !== null) {
+                        $('#lblTaxNumber').text(c.TaxNumber);
+                        if (Number(c.Branch == 0)) {
+                            $('#lblTaxBranch').text('HEAD OFFICE');
+                        } else {
+                            $('#lblTaxBranch').text(c.Branch);
+                        }
+                        $('#lblCustName').text(c.NameEng);
+                        $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2);
+                        $('#lblCustTel').text(c.Phone);
+                        $('#lblCustTName').text(dr.customer[0][0].NameEng);
+                            //$('#lblCustTel').text(c.Phone);
+                    }
+	        });
             let j = dr.job[0][0];
             if (j !== null) {
                 $('#lblCustInvNo').text(j.InvNo);
+                $('#lblCustContact').text(j.CustContactName);
                 $('#lblJobNo').text(j.JNo);
-                $('#lblTotalContainer').text(j.TotalContainer);
+                $('#lblTotalContainer').text(j.TotalContainer);       
+                $('#tbLoading').hide();
+                $.get(path + 'JobOrder/GetTransportReport?Branch=' + j.BranchCode + '&Job=' + j.JNo).done(function (r) {
+                    if (r.transport.data.length > 0) {
+                        let dr = r.transport.data;
+                        if (dr[0].BookingNo !== null) {
+                            let html = '';
+                            let i = 0;
+                            for (let row of dr) {
+                                
+                                i += 1;
+                                html += '<tr>';
+                                html += '<td>' + i + '</td>';
+                                html += '<td>' + row.BookingNo + '</td>';
+                                html += '<td>' + row.CTN_SIZE + '</td>';
+                                html += '<td>' + row.CTN_NO + '</td>';
+                                html += '<td>'+ row.Location +'</td>';
+                                html += '</tr>';
+                            }
+                            $('#tbLoading tbody').html(html);
+                            $('#tbLoading').show();
+
+                        }
+                    }
+                });
             }
             let remark = h.Remark1;
 	        remark +=(h.Remark2!=='' ? '<br/>':'')+ h.Remark2;
@@ -249,7 +295,7 @@ End Code
             $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
             $('#lblSumTotal').text(ShowNumber(Number(h.TotalAdvance),2));
             $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
-            $('#lblTotalBaht').text('(' + CNumThai(CDbl(Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount), 2)) + ')');
+            $('#lblTotalBaht').text('(' + CNumEng(CDbl(Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount), 2)) + ')');
 
             $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalNet),2));
         }
@@ -268,6 +314,9 @@ End Code
                 let html = '<tr>';
                 html += '<td style="text-align:center">' + irow + '</td>';
                 html += '<td>' + o.SDescription + '</td>';
+                html += '<td style="text-align:center">' + o.Qty + 'x' + o.QtyUnit + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(o.UnitPrice,2) + '</td>';
+
                 sumbaseadv += (o.AmtAdvance > 0 ? o.Amt : 0);
                 sumvatadv += (o.AmtAdvance > 0 ? o.AmtVat : 0);
                 sumnonvat += (o.AmtCharge > 0 && o.AmtVat == 0 ? o.Amt : 0);

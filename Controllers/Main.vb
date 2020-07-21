@@ -539,11 +539,11 @@ FROM dbo.Job_Order
  s.NameThai as SDescription, h.VenCode AS VenderCode, d.Qty, d.QtyUnit AS UnitCode, 
  h.CurrencyCode, h.ExchangeRate AS CurRate, p.ChargeAmount as UnitPrice, 
  d.Qty * p.ChargeAmount AS FPrice, 
- (d.Qty * p.ChargeAmount / h.ExchangeRate) AS BPrice, (d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.VATRate*0.01)*d.IsTaxCharge AS ChargeVAT, 
- (d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.TaxRate*0.01)*d.Is50Tavi AS Tax50Tavi,'' AS AdvNO, 0 AS AdvAmount, (d.Qty * p.ChargeAmount / h.ExchangeRate) AS UsedAmount, 0 AS IsQuoItem, '' AS SlipNO, 
+ (d.Qty * p.ChargeAmount / h.ExchangeRate) AS BPrice, (d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.VATRate*0.01)*s.IsTaxCharge AS ChargeVAT, 
+ (d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.TaxRate*0.01)*s.Is50Tavi AS Tax50Tavi,'' AS AdvNO, 0 AS AdvAmount, (d.Qty * p.ChargeAmount / h.ExchangeRate) AS UsedAmount, 0 AS IsQuoItem, '' AS SlipNO, 
  '' AS Remark, 0 AS IsDuplicate, 0 AS IsLtdAdv50Tavi, '' AS Pay50TaviTo, '' AS NO50Tavi, NULL AS Date50Tavi,
  d.DocNo + '#0' AS VenderBillingNo,'' AS AirQtyStep, '' AS StepSub, d.ForJNo AS JobNo, 0 AS AdvItemNo, '' AS LinkBillNo, 0 AS VATType, h.VATRate, 
- h.TaxRate AS Tax50TaviRate,'' AS QNo, (d.Qty * p.ChargeAmount / h.ExchangeRate)+((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.VATRate*0.01)*d.IsTaxCharge)-((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.TaxRate*0.01)*d.Is50Tavi) AS BNet, 
+ h.TaxRate AS Tax50TaviRate,'' AS QNo, (d.Qty * p.ChargeAmount / h.ExchangeRate)+((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.VATRate*0.01)*s.IsTaxCharge)-((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.TaxRate*0.01)*s.Is50Tavi) AS BNet, 
  ((d.Qty * p.ChargeAmount / h.ExchangeRate)+((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.VATRate*0.01)*d.IsTaxCharge)-((d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.TaxRate*0.01)*d.Is50Tavi)) * h.ExchangeRate AS FNet ,h.DocDate as VenderBillDate,
 h.RefNo,h.PoNo
   FROM dbo.Job_PaymentDetail d INNER JOIN
@@ -560,7 +560,7 @@ h.RefNo,h.PoNo
  AND b.NotifyCode=p.CustCode
  AND d.SICode=p.SICode
  LEFT JOIN dbo.Job_SrvSingle s ON p.ChargeCode=s.SICode
- WHERE ISNULL(h.ApproveBy,'')<>'' 
+ WHERE ISNULL(h.ApproveBy,'')<>'' AND s.IsCredit=0 AND s.IsExpense=0
 "
     End Function
     Function SQLSelectPayForClear() As String
