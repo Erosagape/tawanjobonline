@@ -1685,7 +1685,11 @@ function ChangeLanguageForm(fname) {
                 lblLoadDate: 'Load Date|วันที่รับบรรทุก',
                 lblETDDate: 'ETD Date|วันที่ออกจากท่าต้นทาง',
                 lblETADate: 'ETA Date|วันที่ถึงท่าปลายทาง',
-                lblDeliveryDate:'Delivery Date|วันที่ของถึงปลายทาง'
+                lblDeliveryDate: 'Delivery Date|วันที่ของถึงปลายทาง',
+                lblVesselName: 'Vessel/Flight|ชื่อเรือ/เที่ยวบิน',
+                lblInvFCountry: 'From Country|จากประเทศ',
+                lblInvCountry: 'To Country|ไปประเทศ',
+                lblInterPort:'International Port|ท่าต่างประเทศ'
             };
             SetLanguage(lang);
             break;
@@ -2849,7 +2853,8 @@ function ChangeLanguageGrid(module, id) {
                     "Inv No|เลขที่ใบแจ้งหนี้",
                     "Inv Date|วันที่เอกสาร",
                     "Advance|ทดรองจ่าย",
-                    "Charge|ค่าบริการ",
+                    "Transport|ค่าขนส่ง",
+                    "Service|ค่าบริการ",
                     "VAT|VAT",
                     "WHT|หัก ณ ที่จ่าย",
                     "NET|ยอดสุทธิ"
@@ -2938,7 +2943,7 @@ function ChangeLanguageGrid(module, id) {
                     "Vender|ผู้ให้บริการ",
                     "Contact|ผู้ติดต่อ",
                     "Ref No|เลขที่อ้างอิง",
-                    "Po No|เลขที่ใบสั่งซื้อ",
+                    "Vender Inv|เลขที่ใบแจ้งหนี้",
                     "Amount|ยอดเงิน",
                     "VAT|VAT",
                     "WHT|หัก ณ ที่จ่าย",
@@ -3198,7 +3203,7 @@ function ChangeLanguageGrid(module, id) {
                     "Vender|ผู่ให้บริการ",
                     "Contact|ผู้ติดต่อ",
                     "Ref.No|เลขอ้างอิง",
-                    "Po.No|ใบสั่งซื้อ",
+                    "Inv.No|ใบแจ้งหนี้",
                     "Expense|ยอดเงิน",
                     "VAT|VAT",
                     "WHT|ยอดหัก",

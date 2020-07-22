@@ -40,19 +40,25 @@ End Code
 <table border="1" style="border-style:solid;width:100%;margin-top:5px ">
     <thead>
         <tr>
-            <th class="text-center" width="50">ITEMS</th>
-            <th class="text-center" width="130">BILLING NO.</th>
-            <th class="text-center" width="100">ISSUING DATE</th>
-            <th class="text-center" width="100">BAHT</th>
-            <th class="text-center">REMARK</th>
+            <th class="text-center" rowspan="2" width="50">Items</th>
+            <th class="text-center" rowspan="2" width="130">Billing No.</th>
+            <th class="text-center" rowspan="2" width="100">Issuring Date</th>
+            <th class="text-center" rowspan="2">Re-imbursement</th>
+            <th class="text-center" colspan="2">Service Charges</th>
+            <th class="text-center" rowspan="2">Vat</th>
+            <th class="text-center" rowspan="2">Wht</th>
+            <th class="text-center" rowspan="2">Net</th>
+        </tr>
+        <tr>            
+            <th class="text-center" width="100">NON-VAT</th>
+            <th class="text-center" width="100">VAT</th>
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
     <tfoot>
         <tr>
-            <td style="text-align:right" colspan="3">TOTAL</td>
+            <td style="text-align:right" colspan="8">TOTAL</td>
             <td style="text-align:right"><label id="lblBillTotal"></label></td>
-            <td></td>
         </tr>
     </tfoot>
 </table>
@@ -104,8 +110,12 @@ End Code
                 html += '<td>' + i + '</td>';
                 html += '<td>' + dr.InvNo + '</td>';
                 html += '<td>' + ShowDate(CDateTH(dr.InvDate)) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(dr.AmtAdvance, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(dr.AmtChargeNonVAT, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(dr.AmtChargeVAT, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(dr.AmtVAT, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtTotal, 2) + '</td>';
-                html += '<td>' + dr.Remark1 + '</td>';
                 html += '</tr>';
 
                 total += Number(dr.AmtTotal);

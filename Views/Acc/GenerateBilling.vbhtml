@@ -127,7 +127,8 @@ End Code
                                         <th>InvNo</th>
                                         <th class="desktop">InvDate</th>
                                         <th class="all">Advance</th>
-                                        <th class="all">Charge</th>
+                                        <th class="all">Transport</th>
+                                        <th class="all">Service</th>
                                         <th class="desktop">VAT</th>
                                         <th class="desktop">WH-Tax</th>
                                         <th class="all">Net</th>
@@ -335,7 +336,12 @@ End Code
                             return ShowNumber(data, 2);
                     }
                 },
-                { data: "TotalCharge", title: "Charge",
+                { data: "TotalNonVat", title: "Transport",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                    }
+                },
+                { data: "TotalIsTaxCharge", title: "Service",
                         render: function (data) {
                             return ShowNumber(data, 2);
                     }
@@ -494,7 +500,7 @@ End Code
                     CurrencyCode: obj.CurrencyCode,
                     ExchangeRate: obj.ExchangeRate,
                     AmtAdvance: obj.TotalAdvance,
-                    AmtChargeNonVAT: CNum(obj.TotalCharge)-CNum(obj.TotalIsTaxChange),
+                    AmtChargeNonVAT: obj.TotalNonVat,
                     AmtChargeVAT: obj.TotalIsTaxCharge,
                     AmtVAT: obj.TotalVAT,
                     AmtVATRate:obj.VATRate,

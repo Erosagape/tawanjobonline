@@ -261,10 +261,10 @@ End Code
                                 i += 1;
                                 html += '<tr>';
                                 html += '<td>' + i + '</td>';
-                                html += '<td>' + row.BookingNo + '</td>';
-                                html += '<td>' + row.CTN_SIZE + '</td>';
-                                html += '<td>' + row.CTN_NO + '</td>';
-                                html += '<td>'+ row.Location +'</td>';
+                                html += '<td style="padding-left:5px;padding-right:5px"> ' + row.BookingNo + ' </td>';
+                                html += '<td style="padding-left:5px;padding-right:5px"> ' + row.CTN_SIZE + ' </td>';
+                                html += '<td style="padding-left:5px;padding-right:5px"> ' + row.CTN_NO + ' </td>';
+                                html += '<td style="padding-left:5px;padding-right:5px"> '+ row.Location +' </td>';
                                 html += '</tr>';
                             }
                             $('#tbLoading tbody').html(html);
@@ -314,7 +314,11 @@ End Code
                 let html = '<tr>';
                 html += '<td style="text-align:center">' + irow + '</td>';
                 html += '<td>' + o.SDescription + '</td>';
-                html += '<td style="text-align:center">' + o.Qty + 'x' + o.QtyUnit + '</td>';
+                if (o.QtyUnit !== '') {
+                    html += '<td style="text-align:center">' + o.Qty + 'x' + o.QtyUnit + '</td>';
+                } else {
+                    html += '<td style="text-align:center">' + o.Qty + '</td>';
+                }                
                 html += '<td style="text-align:right">' + ShowNumber(o.UnitPrice,2) + '</td>';
 
                 sumbaseadv += (o.AmtAdvance > 0 ? o.Amt : 0);

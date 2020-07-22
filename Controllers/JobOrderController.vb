@@ -118,12 +118,12 @@ Namespace Controllers
                         oRec.PlaceName1 = booking.CYPlace
                         oRec.PlaceAddress1 = booking.CYAddress
                         oRec.PlaceContact1 = booking.CYContact
-                        oRec.PlaceName2 = booking.PackingPlace
-                        oRec.PlaceAddress2 = booking.PackingAddress
-                        oRec.PlaceContact2 = booking.PackingContact
-                        oRec.PlaceName3 = booking.FactoryPlace
-                        oRec.PlaceAddress3 = booking.FactoryAddress
-                        oRec.PlaceContact3 = booking.FactoryContact
+                        oRec.PlaceName2 = booking.FactoryPlace
+                        oRec.PlaceAddress2 = booking.FactoryAddress
+                        oRec.PlaceContact2 = booking.FactoryContact
+                        oRec.PlaceName3 = booking.PackingPlace
+                        oRec.PlaceAddress3 = booking.PackingAddress
+                        oRec.PlaceContact3 = booking.PackingContact
                         oRec.PlaceName4 = booking.ReturnPlace
                         oRec.PlaceAddress4 = booking.ReturnAddress
                         oRec.PlaceContact4 = booking.ReturnContact
@@ -657,6 +657,26 @@ Namespace Controllers
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetTransport", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)
             End Try
+        End Function
+        Function GetLocation() As ActionResult
+            Try
+                Dim place = "1"
+                If Not IsNothing(Request.QueryString("Place")) Then
+                    place = Request.QueryString("Place").ToString
+                End If
+                Dim sql = "
+SELECT PlaceName as Place,PlaceAddress as Address,PlaceContact as Contact FROM Job_TransportPlace
+WHERE PlaceType=" & place & "
+"
+                Dim oDataD = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                Dim jsonD As String = JsonConvert.SerializeObject(oDataD.Rows)
+                Dim json = "{""data"":" & jsonD & "}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetTransportEntry", ex.Message, ex.StackTrace, True)
+                Return Content("[]", jsonContent)
+            End Try
+
         End Function
         Function GetLocationEntry() As ActionResult
             Try

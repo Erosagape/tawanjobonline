@@ -268,7 +268,7 @@ End Code
                     <option value="4123" selected>
                         EXPORT
                     </option>
-                    <option value="4312">
+                    <option value="4123">
                         IMPORT
                     </option>
                     <option value="412">
@@ -954,13 +954,13 @@ End Code
                 SetGridTransportPrice(path, '#tbRoute', '#frmSearchRoute','?Vend=' + $('#txtVenderCode').val() + '&Cust='+ $('#txtNotifyCode').val(), ReadRoute);
                 break;
             case 'place1':
-                SetGridLocationEntry(path, '#tbPlace1', '#frmSearchPlace1', '?Place=1', ReadPickup);
+                SetGridLocation(path, '#tbPlace1', '#frmSearchPlace1', '?Place=1', ReadPickup);
                 break;
             case 'place2':
-                SetGridLocationEntry(path, '#tbPlace2', '#frmSearchPlace2', '?Place=2', ReadDelivery);
+                SetGridLocation(path, '#tbPlace2', '#frmSearchPlace2', '?Place=2', ReadDelivery);
                 break;
             case 'place3':
-                SetGridLocationEntry(path, '#tbPlace3', '#frmSearchPlace3', '?Place=3', ReadReturn);
+                SetGridLocation(path, '#tbPlace3', '#frmSearchPlace3', '?Place=3', ReadReturn);
                 break;
         }
     }

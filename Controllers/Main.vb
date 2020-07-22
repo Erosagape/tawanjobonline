@@ -1001,7 +1001,7 @@ and b.JobNo=c.JNo
     End Function
     Function SQLSelectInvForBilling() As String
         Return "
-SELECT a.*,b.NameThai,b.NameEng FROM Job_InvoiceHeader a
+SELECT a.*,(CASE WHEN a.TotalIsTaxCharge=0 THEN a.TotalCharge ELSE 0 END) as TotalNonVat,b.NameThai,b.NameEng FROM Job_InvoiceHeader a
 LEFT JOIN Mas_Company b ON a.CustCode=b.CustCode AND a.CustBranch=b.Branch
 "
     End Function
@@ -2074,7 +2074,7 @@ a.English AS ForwarderName, a.EAddress1 AS ForwarderAddress1, a.EAddress2 AS For
 a.Phone AS ForwarderPhone, c.NameEng AS ConsigneeName, c.EAddress1 AS ConsignAddress1, c.EAddress2 AS ConsignAddress2, c.Phone AS ConsignPhone, c.FaxNumber as ConsignFax,c.DMailAddress as ConsignEmail,c.TaxNumber as ConsignTaxID,c.Branch as ConsignTaxBranch,
 n.NameEng AS NotifyName, n.EAddress1 AS NotifyAddress1, n.EAddress2 AS NotifyAddress2, n.Phone AS NotifyPhone, n.FaxNumber as NotifyFax,n.DMailAddress as NotifyEmail, n.TaxNumber as NotifyTaxID,n.Branch as NotifyTaxBranch,
 j.VesselName, j.MVesselName, j.ProjectName, j.TotalGW, j.TotalNW , j.GWUnit, j.InvInterPort, j.InvFCountry, j.InvCountry, j.ETDDate, j.ETADate, j.ClearPortNo, j.ClearPort, j.DeliveryTo, j.DeliveryAddr, 
-j.EstDeliverDate, h.Remark, h.PackingAddress, h.CYAddress, h.FactoryAddress, h.ReturnAddress, h.PackingContact, h.CYContact, h.FactoryContact, h.ReturnContact, 
+j.ShippingEmp,e.TName as ShippingName, j.TRemark, j.EstDeliverDate, h.Remark, h.PackingAddress, h.CYAddress, h.FactoryAddress, h.ReturnAddress, h.PackingContact, h.CYContact, h.FactoryContact, h.ReturnContact, 
 h.PackingPlace, h.CYPlace, h.FactoryPlace, h.ReturnPlace, h.PackingDate, h.CYDate, h.FactoryDate, h.ReturnDate, h.PackingTime, h.CYTime, h.FactoryTime, 
 h.ReturnTime, h.TransMode, h.PaymentCondition, h.PaymentBy, d.CTN_NO, d.SealNumber, d.TruckNO, d.Comment, d.TruckType, d.Driver, d.Location, d.DeliveryNo,
 d.ShippingMark, d.CTN_SIZE, d.ProductDesc, d.ProductQty, d.ProductUnit, d.GrossWeight, d.Measurement, d.TargetYardDate, d.ActualYardDate, 
@@ -2092,6 +2092,7 @@ n.CustCode = h.NotifyCode LEFT OUTER JOIN
 dbo.Job_TransportRoute AS r ON d.LocationID = r.LocationID INNER JOIN
 dbo.Job_Order AS j ON h.BranchCode = j.BranchCode AND h.JNo = j.JNo INNER JOIN
 dbo.Mas_User AS u ON j.CSCode = u.UserID LEFT OUTER JOIN
+dbo.Mas_User AS e ON j.ShippingEmp = e.UserID LEFT OUTER JOIN
 dbo.Mas_Vender AS v ON j.ForwarderCode = v.VenCode LEFT OUTER JOIN
 dbo.Mas_Vender AS t ON j.AgentCode = t.VenCode LEFT OUTER JOIN
 dbo.Mas_Company AS c ON j.consigneecode = c.CustCode LEFT OUTER JOIN

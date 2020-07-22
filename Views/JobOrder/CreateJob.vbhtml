@@ -146,11 +146,10 @@ End Code
         <div class="row">
             <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
-                    <label id="lblCopyFrom" style="display:block;width:100%;">Copy From</label>
+                    <label id="lblVesselName" style="display:block;width:100%;">Vessel Name</label>
                 </div>
                 <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" id="txtCopyFromJob" style="width:100%" disabled />
-                    <input type="button" class="btn btn-default" id="btnBrowseJob" value="..." onclick="SearchData('job')" />
+                    <input type="text" class="form-control" id="txtVesselName" style="width:100%" />
                 </div>
             </div>
             <div class="col-sm-6" style="display:flex">
@@ -185,6 +184,34 @@ End Code
             </div>
         </div>
         <div class="row">
+            <div class="col-sm-6" style="display:flex">
+                <div style="width:50%">
+                    <label id="lblInvFCountry" style="display:block;width:100%;">From Country</label>
+                    <div style="display:flex;">
+                        <input type="text" class="form-control" id="txtInvFCountry" style="width:30%" disabled />
+                        <input type="text" class="form-control" id="txtInvFCountryName" style="width:70%" disabled />
+                        <input type="button" class="btn btn-default" id="btnBrowseFCountry" value="..." onclick="SearchData('country1')" />
+                    </div>
+                </div>
+                <div style="width:50%">
+                    <label id="lblInvCountry" style="display:block;width:100%;">To Country</label>
+                    <div style="display:flex;">
+                        <input type="text" class="form-control" id="txtInvCountry" style="width:30%" disabled />
+                        <input type="text" class="form-control" id="txtInvCountryName" style="width:70%" disabled />
+                        <input type="button" class="btn btn-default" id="btnBrowseCountry" value="..." onclick="SearchData('country2')" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label id="lblInterPort" style="display:block;width:100%;">International Port</label>
+                <div style="display:flex;width:100%">
+                    <input type="text" class="form-control" id="txtInterPort" style="width:120px" disabled />
+                    <input type="text" class="form-control" id="txtInterPortName" style="width:100%" disabled />
+                    <input type="button" class="btn btn-default" id="btnBrowsePort" value="..." onclick="SearchData('interport')" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-sm-3">
                 <label id="lblLoadDate" style="display:block;width:100%;">Load Date</label>
                 <input type="date" class="form-control" style="width:100%" id="txtLoadDate" />
@@ -202,12 +229,24 @@ End Code
                 <input type="date" class="form-control" style="width:100%" id="txtEstDeliverDate" />
             </div>
         </div>
-        <p>
-            <a href="#" class="btn btn-success" id="btnCreateJob" onclick="CreateJob()">
-                <i class="fa fa-lg fa-save"></i>&nbsp;<b><label id="lblCreateJob">Create Job</label></b>
-            </a>
-            <input type="checkbox" id="chkConfirm" />Confirm Today
-        </p>
+        <div class="row">
+            <div class="col-sm-6" style="display:flex">
+                <div style="width:30%">
+                    <label id="lblCopyFrom" style="display:block;width:100%;">Copy From</label>
+                </div>
+                <div style="display:flex;width:70%">
+                    <input type="text" class="form-control" id="txtCopyFromJob" style="width:100%" disabled />
+                    <input type="button" class="btn btn-default" id="btnBrowseJob" value="..." onclick="SearchData('job')" />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <br />
+                <a href="#" class="btn btn-success" id="btnCreateJob" onclick="CreateJob()">
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b><label id="lblCreateJob">Create Job</label></b>
+                </a>
+                <input type="checkbox" id="chkConfirm" />Confirm Today
+            </div>
+        </div>
     </div>
     <div id="frmShowJob" class="modal fade" data-backdrop="static" data-keyboard="false">
         <div class="vertical-alignment-helper">
@@ -316,8 +355,15 @@ End Code
             //Consignee
             CreateLOV(dv,'#frmSearchCons','#tbCons','Consignees',response,3);
             //Job
-            CreateLOV(dv,'#frmSearchJob','#tbJob','Job List',response,3);
+            CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job List', response, 3);
+            //Inter Port
+            CreateLOV(dv,'#frmSearchIPort', '#tbIPort','International Port',response,3);
+
             //2 Fields
+            //Country
+            CreateLOV(dv,'#frmSearchCountry', '#tbCountry', 'Country', response,2);
+            //FCountry
+            CreateLOV(dv,'#frmSearchFCountry', '#tbFCountry','Country',response,2);
             //Users
             CreateLOV(dv,'#frmSearchUser','#tbUser','Users',response,2);
             //Branch
@@ -394,6 +440,19 @@ End Code
         $('#txtCSName').val(dt.TName);
         $('#txtCSCode').focus();
     }
+    function ReadCountry(dt) {
+        $('#txtInvCountryName').val(dt.CTYName);
+        $('#txtInvCountry').val(dt.CTYCODE);
+    }
+    function ReadFCountry(dt) {
+        $('#txtInvFCountryName').val(dt.CTYName);
+        $('#txtInvFCountry').val(dt.CTYCODE);
+    }
+    function ReadInterPort(dt) {
+        $('#txtInterPort').val(dt.PortCode);
+        $('#txtInterPortName').val(dt.PortName);
+    }
+
     function ReadCustomer(dt) {
         $('#txtCustCode').val(dt.CustCode);
         $('#txtCustBranch').val(dt.Branch);
@@ -445,6 +504,7 @@ End Code
         $('#txtRevise').val(dr.Revise);
         $('#txtCustInv').val(dr.InvNo);
         $('#txtCustPO').val(dr.CustRefNO);
+        $('#txtVesselName').val(dr.VesselName);
         $('#txtHAWB').val(dr.HAWB);
         $('#txtMAWB').val(dr.MAWB);
         $('#txtManagerCode').val(dr.ManagerCode);
@@ -482,6 +542,16 @@ End Code
             case 'contact':
                 let w = '?Branch=' + $('#txtCustBranch').val() + '&Code=' + $('#txtCustCode').val();
                 SetGridCustContact(path, '#tbContact', w,'#frmSearchContact', ReadContactName);
+                break;
+            case 'interport':
+                let CountryID = $('#cboJobType').val() == "01" ? $('#txtInvFCountry').val() : $('#txtInvCountry').val();
+                SetGridInterPort(path, '#tbIPort', '#frmSearchIPort', CountryID, ReadInterPort);
+                break;
+            case 'country2':
+                SetGridCountry(path, '#tbCountry', '#frmSearchCountry', ReadCountry);
+                break;
+            case 'country1':
+                SetGridCountry(path, '#tbFCountry', '#frmSearchFCountry', ReadFCountry);
                 break;
             case 'job':
                 SetGridJob(path, '#tbJob', '#frmSearchJob', GetParam() , ReadJob);
@@ -610,6 +680,7 @@ End Code
         dr.CustRefNO = $('#txtCustPO').val();
         dr.HAWB = $('#txtHAWB').val();
         dr.MAWB = $('#txtMAWB').val();
+        dr.VesselName = $('#txtVesselName').val();
         dr.ManagerCode = $('#txtManagerCode').val();
         dr.AgentCode = $('#txtAgentCode').val();
         dr.ForwarderCode = $('#txtForwarderCode').val();
@@ -622,6 +693,10 @@ End Code
         } else {
             dr.ConfirmDate="0001-01-01T00:00:00"
         }
+        dr.InvCountry = CStr($('#txtInvCountry').val());
+        dr.InvFCountry = CStr($('#txtInvFCountry').val());
+        dr.InvInterPort=CStr($('#txtInterPort').val());
+
         //--- Default Values 
         dr.DeclareNumber=CStr(dr.DeclareNumber);
         dr.Commission=0
@@ -642,14 +717,10 @@ End Code
         dr.GWUnit=CStr(dr.GWUnit);
         dr.InvCurUnit=CStr(dr.InvCurUnit);
         dr.InvCurRate = CNum(dr.InvCurRate);
-        dr.InvCountry=CStr(dr.InvCountry);
-        dr.InvFCountry = CStr(dr.InvFCountry);
 
         dr.BLNo=CStr(dr.BLNo);
 
-        dr.VesselName=CStr(dr.VesselName);
-        dr.MVesselName=CStr(dr.MVesselName);
-        dr.InvInterPort=CStr(dr.InvInterPort);
+        dr.MVesselName = CStr(dr.MVesselName);
 
         dr.TotalContainer = CStr(dr.TotalContainer);
 
