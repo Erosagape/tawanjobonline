@@ -1221,6 +1221,13 @@ End Code
             $('#txtSDescription').val(dt.NameThai);
             $('#txtQtyUnit').val(dt.UnitCharge);
             $('#txtUnitPrice').val(CDbl(CNum(dt.StdPrice) / CNum($('#txtExchangeRate').val()), 2));
+            if (dt.IsTaxCharge == 1) {
+                $('#txtIsTaxCharge').prop('checked', true);
+            }
+            if (dt.Is50Tavi == 1) {
+                $('#txtTaxRate').val(dt.Rate50Tavi);
+                $('#txtIs50Tavi').prop('checked', true);
+            }
             CalAmount();    
             return;
         }

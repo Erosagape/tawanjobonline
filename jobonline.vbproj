@@ -584,7 +584,8 @@
     <Content Include="App_Data\SINOTHAI\Acc\FormInv.vbhtml" />
     <Content Include="App_Data\SINOTHAI\Acc\FormRcp.vbhtml" />
     <Content Include="App_Data\SINOTHAI\Acc\FormTaxinv.vbhtml" />
-    <Content Include="App_Data\SINOTHAI\JobOrder\FormBookingAir.vbhtml" />
+    <Content Include="App_Data\SINOTHAI\JobOrder\FormBookingEx.vbhtml" />
+    <Content Include="App_Data\SINOTHAI\JobOrder\FormBookingIm.vbhtml" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -958,6 +959,8 @@
     <Content Include="Views\JobOrder\FormInvoice.vbhtml" />
     <Content Include="Views\JobOrder\FormPackingList.vbhtml" />
     <Content Include="Views\Clr\GenerateInv.vbhtml" />
+    <Content Include="Views\JobOrder\FormBookingEx.vbhtml" />
+    <Content Include="Views\JobOrder\FormBookingIm.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

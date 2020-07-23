@@ -1,11 +1,12 @@
 ﻿
 @Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.ReportName = "Booking Confirmation"
+    ViewBag.ReportName = "Truck Order"
     ViewBag.Title = "ใบสั่งงานรถ (Truck Order)"
 End Code
 <div style="text-align:right;width:100%">
-    <b>DATE :</b> <label id="lblBookingDate"></label>
+    <b>DATE :</b> <label id="lblBookingDate"></label><br/>
+    <b>JOB NUMBER :</b> <label id="lblJNo"></label>
 </div>
 <div style="width:100%">
     <b>BL NUMBER/BOOKING NO:</b> <label id="lblBookingNo"></label>
@@ -19,6 +20,8 @@ End Code
     <b>วันรับสินค้า / PICK UP GOODS DATE : </b><label id="lblPickupDate"></label>
     <br />
     <b>สถานที่รับตู้ / PICK UP DEPOT : </b><label id="lblPickupPlace"></label>
+    <br />
+    <b>หมายเลขตู้ / CONTAINER LISTS : </b> <textarea id="lblContainerList"></textarea>
     <br />
     <b>เจ้าหน้าที่ตรวจปล่อย / SHIPPING OFFICER : </b><label id="lblShippingName"></label>
     <br />
@@ -37,6 +40,12 @@ End Code
     <br />
     <b>น้ำหนักรวมสินค้า / GROSS WEIGHT : </b> <label id="lblGrossWeight"></label>
     <br />
+    <b>สรุปรายละเอียดงาน / JOB DETAILS : </b> <textarea id="lblDescription"></textarea>
+    <br />
+    <b>ที่อยู่ในการวางบิลรถ : </b> <textarea id="lblBillTransportTo"></textarea>
+    <br />
+    <b>ที่อยู่ในการออกใบเสร็จค่าท่า,ค่าตู้ : </b> <textarea id="lblBillTransportAddress"></textarea>
+    <br />
     <b>NOTE:</b>
     <br />
     <div id="dvRemark"></div>
@@ -50,6 +59,7 @@ End Code
             let h = r.booking.data[0];
             $('#lblBookingNo').text(h.BookingNo);
             $('#lblBookingDate').text(ShowDate(h.BookingDate));
+            $('#lblJNo').text(h.JNo);
             $('#lblTRemark').text(h.TRemark);
             $('#lblTotalContainer').text(h.TotalContainer);
             $('#lblForwarderName').text(h.TransportName);
@@ -64,9 +74,21 @@ End Code
             $('#lblCarrierName').text(h.CarrierName);
             $('#lblConsignName').text(h.ConsigneeName);
             $('#lblInvProduct').text(h.InvProduct);
-            $('#lblGrossWeight').text(h.GrossWeight);
-        
+            $('#lblGrossWeight').text(h.GrossWeight + ' '+ h.GWUnit);
+            $('#lblDescription').text(CStr(h.Description));
+            $('#lblBillTransportTo').text(h.ShipperName);
+            $('#lblBillTransportAddress').text(h.ShipperAddress);
+
             $('#dvRemark').html(CStr(h.Remark));
+            let ctnList = '';
+            for (let d of r.booking.data) {
+                if (d.CTN_NO !== '') {
+                    if (ctnList.indexOf(d.CTN_NO) < 0) {
+                        if (ctnList !== '') ctlList += ',';
+                        ctnList += d.CTN_NO;
+                    }
+                }
+            }
         }
     });
 </script>

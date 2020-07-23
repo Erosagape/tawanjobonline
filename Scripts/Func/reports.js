@@ -405,6 +405,10 @@ function IsNumberColumn(cname) {
     if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
+    colname = ",Chq Amt,Cash Amt,WHD Tax,Total Amt,Transport,Service,Vat,Advance,Amt.Baht,";
+    if (colname.indexOf(',' + cname + ',') >= 0) {
+        return true;
+    }
     return false;
 }
 function IsSummaryColumn(cname) {
@@ -452,7 +456,10 @@ function IsSummaryColumn(cname) {
     if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-
+    colname = ",Chq Amt,Cash Amt,WHD Tax,Total Amt,Transport,Service,Vat,Advance,Amt.Baht,";
+    if (colname.indexOf(',' + cname + ',') >= 0) {
+        return true;
+    }
     return false;
 }
 function FormatValue(c, val) {

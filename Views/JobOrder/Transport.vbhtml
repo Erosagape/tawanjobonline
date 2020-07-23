@@ -28,7 +28,7 @@ End Code
             <input type="button" class="btn btn-default" value="..." onclick="SearchData('booking');" />
         </div>
     </div>
-    <div class="col-sm-3">        
+    <div class="col-sm-3">
         <label id="lblJNo" style="color:red;" onclick="OpenJob()">Job Number</label>
         <br />
         <div style="display:flex;flex-direction:row">
@@ -49,6 +49,15 @@ End Code
         </div>
     </div>
 </div>
+<a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearBooking()">
+    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkNew">New Booking</b>
+</a>
+<a href="#" class="btn btn-success" id="btnSave" onclick="SaveBooking()">
+    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Booking</b>
+</a>
+<a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteBooking()">
+    <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDel">Delete Booking</b>
+</a>
 <ul class="nav nav-tabs">
     <li class="active">
         <a data-toggle="tab" href="#tabLoading" id="linkTab1">Loading Information</a>
@@ -112,7 +121,7 @@ End Code
                     <label id="lblPaymentCond">Freight Payment Condition :</label>
                     <br />
                     <div style="display:flex;flex-direction:row">
-                        <input type="text" id="txtPaymentCondition" class="form-control" />
+                        <textarea id="txtPaymentCondition" class="form-control"></textarea>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -187,19 +196,12 @@ End Code
                 </div>
             </div>
             <br />
-            <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearBooking()">
-                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkNew">New Booking</b>
-            </a>
-            <a href="#" class="btn btn-success" id="btnSave" onclick="SaveBooking()">
-                <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Booking</b>
-            </a>
-            <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteBooking()">
-                <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDel">Delete Booking</b>
-            </a>
             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintBooking()">
                 <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Form</b>
             </a>
             <select id="cboPrintForm">
+                <option value="TI">Truck Order (IMPORT)</option>
+                <option value="TE">Truck Order (EXPORT)</option>
                 <option value="BA">Booking Confirmation (AIR)</option>
                 <option value="BS">Booking Confirmation (SEA)</option>
                 <option value="SP">Shipping Particulars</option>
@@ -209,9 +211,7 @@ End Code
                 <option value="IV">Commercial Invoice</option>
                 <option value="PL">Packing Lists</option>
             </select>
-            <a href="#" class="btn btn-primary" id="btnUpdateJob" onclick="UpdateJob()">
-                <i class="fa fa-lg fa-check"></i>&nbsp;<b id="linkUpCon">Update Total Container To Job</b>
-            </a>
+            >
             <div class="row">
                 <div class="col-sm-4">
                     <label id="lblActive">Active Trip:</label>
@@ -226,44 +226,12 @@ End Code
                     <input type="text" id="txtTotalTripC" class="form-control" disabled />
                 </div>
             </div>
-            <div class="panel" style="background-color:lightgreen;padding:10px 10px 10px 10px;margin-top:10px">
-                <table id="tbDetail" class="table table-responsive">
-                    <thead>
-                        <tr>
-                            <th>CTN_NO</th>
-                            <th class="desktop">CTN_SIZE</th>
-                            <th class="desktop">SealNumber</th>
-                            <th class="all">Qty</th>
-                            <th class="desktop">Status</th>
-                            <th class="desktop">G.W</th>
-                            <th class="desktop">UnloadDate</th>
-                            <th class="desktop">DeliveryNo</th>
-                            <th class="desktop">V.Inv</th>
-                            <th class="desktop">Clear</th>
-                            <th class="desktop">Bal</th>
-                        </tr>
-                    </thead>
-                </table>
-                <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
-                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAddCon">Add Container</b>
-                </a>
-                <a href="#" class="btn btn-primary" id="btnExpense" onclick="EntryExpenses()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkEntryExp">Entry Expenses</b>
-                </a>
-                <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-                    <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrintTruck">Print Truck Order</b>
-                </a>
-                <select id="cboTypeForm">
-                    <option value="0" selected>Full</option>
-                    <option value="1">Short</option>
-                </select>
-            </div>
         </div>
     </div>
     <div class="tab-pane fade" id="tabContainer">
         <div class="row">
             <div class="col-sm-2">
-                <br/>
+                <br />
                 <select id="cboTemplate" class="form-control dropdown" onclick="GenRoute()">
                     <option value="4123" selected>
                         EXPORT
@@ -305,7 +273,7 @@ End Code
                 <label id="lblPlace1">Pick up: </label>
                 <br />
                 <div style="display:flex;flex-direction:row">
-                    <input type="text" id="txtPlace1" class="form-control">
+                    <input type="text" id="txtPlace1" class="form-control" />
                 </div>
             </div>
             <div class="col-sm-5">
@@ -324,7 +292,7 @@ End Code
                 <label id="lblPlace2">Delivery:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
-                    <input type="text" id="txtPlace2" class="form-control">
+                    <input type="text" id="txtPlace2" class="form-control" />
                 </div>
             </div>
             <div class="col-sm-5">
@@ -343,7 +311,7 @@ End Code
                 <label id="lblPlace3">Return:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
-                    <input type="text" id="txtPlace3" class="form-control">
+                    <input type="text" id="txtPlace3" class="form-control" />
                 </div>
             </div>
             <div class="col-sm-5">
@@ -618,11 +586,11 @@ End Code
                             <div style="flex:1">
                                 <div style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
                                     <div>
-                                        At<br />
-                                          <div style="display:flex">
-                                              <input type="text" id="txtPlaceName1" />
-                                              <button class="btn btn-default" onclick="SearchData('place1')">...</button>
-                                          </div>
+                                        At <select id="cboPlaceName1"></select><br />
+                                        <div style="display:flex">
+                                            <input type="text" id="txtPlaceName1" class="form-control" />
+                                            <button class="btn btn-default" onclick="SearchData('place1')">...</button>
+                                        </div>
                                     </div>
                                     <div>
                                         Address
@@ -632,6 +600,7 @@ End Code
                                         Contact
                                         <input type="text" id="txtPlaceContact1" />
                                     </div>
+                                    <input type="button" class="btn btn-success" onclick="SavePlace('1')" value="Save" />
                                 </div>
                             </div>
                             <div style="flex:1">
@@ -668,9 +637,9 @@ End Code
                             <div style="flex:1">
                                 <div style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
                                     <div>
-                                        At<br />
+                                        At <select id="cboPlaceName2"></select><br />
                                         <div style="display:flex">
-                                            <input type="text" id="txtPlaceName2" />
+                                            <input type="text" id="txtPlaceName2" class="form-control" />
                                             <button class="btn btn-default" onclick="SearchData('place2')">...</button>
                                         </div>
 
@@ -683,6 +652,7 @@ End Code
                                         Contact
                                         <input type="text" id="txtPlaceContact2" />
                                     </div>
+                                    <input type="button" class="btn btn-success" onclick="SavePlace('2')" value="Save" />
                                 </div>
                             </div>
                             <div style="flex:1">
@@ -714,9 +684,9 @@ End Code
                             <div style="flex:1">
                                 <div style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
                                     <div>
-                                        At<br />
+                                        At <select id="cboPlaceName3"></select><br />
                                         <div style="display:flex">
-                                            <input type="text" id="txtPlaceName3" />
+                                            <input type="text" id="txtPlaceName3" class="form-control" />
                                             <button class="btn btn-default" onclick="SearchData('place3')">...</button>
                                         </div>
                                     </div>
@@ -728,6 +698,7 @@ End Code
                                         Contact
                                         <input type="text" id="txtPlaceContact3" />
                                     </div>
+                                    <input type="button" class="btn btn-success" onclick="SavePlace('3')" value="Save" />
                                 </div>
                             </div>
                             <div style="flex:1">
@@ -808,6 +779,41 @@ End Code
         </div>
     </div>
 </div>
+<div class="panel" style="background-color:lightgreen;padding:10px 10px 10px 10px;margin-top:10px">
+    <table id="tbDetail" class="table table-responsive">
+        <thead>
+            <tr>
+                <th>CTN_NO</th>
+                <th class="desktop">CTN_SIZE</th>
+                <th class="desktop">SealNumber</th>
+                <th class="all">Qty</th>
+                <th class="desktop">Status</th>
+                <th class="desktop">G.W</th>
+                <th class="desktop">UnloadDate</th>
+                <th class="desktop">DeliveryNo</th>
+                <th class="desktop">V.Inv</th>
+                <th class="desktop">Clear</th>
+                <th class="desktop">Bal</th>
+            </tr>
+        </thead>
+    </table>
+    <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
+        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAddCon">Add Container</b>
+    </a>
+    <a href="#" class="btn btn-warning" id="btnUpdateJob" onclick="UpdateJob()">
+        <i class="fa fa-lg fa-check"></i>&nbsp;<b id="linkUpCon">Update Total Container To Job</b>
+    </a>
+    <a href="#" class="btn btn-primary" id="btnExpense" onclick="EntryExpenses()">
+        <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkEntryExp">Entry Expenses</b>
+    </a>
+    <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
+        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrintTruck">Print Truck Order</b>
+    </a>
+    <select id="cboTypeForm">
+        <option value="0" selected>Full</option>
+        <option value="1">Short</option>
+    </select>
+</div>
 <div id="dvLOVs"></div>
 <script type="text/javascript">
     //define letiables
@@ -868,8 +874,35 @@ End Code
                 LoadData();
             }
         });
+        $('#cboPlaceName1').change(function () {
+            let str = $(this).val();
+            if (str !== '') {
+                $('#txtPlaceName1').val($(this).find('option:selected').text());
+                $('#txtPlaceAddress1').val(str.split('|')[0]);
+                $('#txtPlaceContact1').val(str.split('|')[1]);
+            }
+        });
+        $('#cboPlaceName2').change(function () {
+            let str = $(this).val();
+            if (str !== '') {
+                $('#txtPlaceName2').val($(this).find('option:selected').text());
+                $('#txtPlaceAddress2').val(str.split('|')[0]);
+                $('#txtPlaceContact2').val(str.split('|')[1]);
+            }
+        });
+        $('#cboPlaceName3').change(function () {
+            let str = $(this).val();
+            if (str !== '') {
+                $('#txtPlaceName3').val($(this).find('option:selected').text());
+                $('#txtPlaceAddress3').val(str.split('|')[0]);
+                $('#txtPlaceContact3').val(str.split('|')[1]);
+            }
+        });
     }
     function SetLOVs() {
+        loadLocation(path, '#cboPlaceName1', '1');
+        loadLocation(path, '#cboPlaceName2', '2');
+        loadLocation(path, '#cboPlaceName3', '3');
         loadUnit('#txtCTN_SIZE', path, '?Type=1');
         loadUnit('#cboContainerSize', path, '?Type=1');
 
@@ -1176,7 +1209,7 @@ End Code
         $('#txtNotifyCode').val(dr.NotifyCode);
         ShowCompany(path, dr.NotifyCode, '#txtNotifyName');
         $('#txtTransMode').val(dr.TransMode);
-        $('#txtPaymentCondition').val(dr.PaymentCondition);
+        $('#txtPaymentCondition').val(CStr(dr.PaymentCondition));
         $('#txtPaymentBy').val(dr.PaymentBy);
         if (loadcont == true) {
             LoadDetail(dr.BranchCode, dr.BookingNo);
@@ -1311,7 +1344,7 @@ End Code
             PackingAddress: $('#txtAddress3').val(),
             PackingContact: $('#txtContact3').val(),
             ReturnPlace: $('#txtPlace4').val(),
-            ReturnAddress: $('#txtAddress4').val(),            
+            ReturnAddress: $('#txtAddress4').val(),
             ReturnContact:$('#txtContact4').val(),
             PackingDate:CDateEN($('#txtPackingDate').val()),
             CYDate:CDateEN($('#txtCYDate').val()),
@@ -1396,6 +1429,12 @@ End Code
     }
     function PrintBooking() {
         switch ($('#cboPrintForm').val()) {
+            case 'TI':
+                window.open(path + 'JobOrder/FormBookingIm?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'TE':
+                window.open(path + 'JobOrder/FormBookingEx?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
             case 'BA':
                 window.open(path + 'JobOrder/FormBookingAir?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
@@ -1449,6 +1488,9 @@ End Code
         $('#txtDeliveryNo').val('');
         $('#txtShippingMark').val('');
         $('#txtCTN_SIZE').val('');
+        $('#cboPlaceName1').val('');
+        $('#cboPlaceName2').val('');
+        $('#cboPlaceName3').val('');
         $('#txtPlaceName1').val('');
         $('#txtPlaceAddress1').val('');
         $('#txtPlaceContact1').val('');
@@ -1707,7 +1749,7 @@ End Code
                     if (response.result.data != null) {
                         if (response.result.data >= 0) {
                             ShowMessage('Save Complete');
-                        }                        
+                        }
                         return;
                     }
                     ShowMessage(response.result.msg,true);
@@ -1885,9 +1927,27 @@ End Code
         });
     }
     function PrintDelivery() {
-        window.open(path + 'JobOrder/FormDelivery?Branch=' + $('#txtBranchCode').val() + '&Doc=' + $('#txtDeliverNo').val(), '', '');
+        window.open(path + 'JobOrder/FormDelivery?Branch=' + $('#txtBranchCode').val() + '&Doc=' + $('#txtDeliveryNo').val(), '', '');
     }
     function OpenJob() {
         window.open(path + 'JobOrder/ShowJob?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(),'','');
+    }
+    function SavePlace(id) {
+        let pname = $('#txtPlaceName' + id).val();
+        let obj = {
+            PlaceType: id,
+            PlaceName: pname,
+            PlaceAddress: $('#txtPlaceAddress' + id).val(),
+            PlaceContact: $('#txtPlaceContact' + id).val()
+        };
+        let json = JSON.stringify({ data: obj });
+        ShowConfirm('Please confirm to save', function (ask) {
+            if (ask == true) {
+                postData(path + 'Master/SetTransportPlace', json, function (r) {
+                    loadLocation(path, '#cboPlaceName' + id, id);
+                    ShowMessage(r.result.msg);
+                });
+            }
+        });
     }
 </script>

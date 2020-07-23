@@ -1234,6 +1234,38 @@ ORDER BY d.SDescription,d.ChargeAmount-d.CostAmount DESC
                         sqlW = GetSQLCommand(cliteria, "t.TargetYardDate", "t.CustCode", "t.JNo", "t.CSCode", "t.ForwarderCode", "t.JobStatus", "t.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "SELECT t.JNo,t.BookingNo,t.ETDDate,t.TotalContainer,t.TargetYardDate as PickupTargetDate,t.ActualYardDate as PickupActualDate,(CASE WHEN t.CauseCode<>'' THEN (case when t.CauseCode='99' THEN 'Cancel' ELSE (CASE WHEN t.CauseCode='3' THEN 'Finish' ELSE 'Working' END) END) ELSE 'Request' END) as ContainerStatus,t.CTN_NO,t.UnloadFinishDate as DeliveryDate,t.CtnReturnDate as ReturnDate FROM (" & SQLSelectContainerReport() & ") as t WHERE t.JobType=2 AND t.JobStatus<>99 " & sqlW & " ORDER BY t.ETDDate,t.JNo"
+                    Case "DAILYCASH"
+                        sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "", "", "", "", "rh.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT t.ReceiptNo as 'Receipt No',CONCAT(t.CustEName,'<br/>Ref# ',t.PaidRef,' Bank:', t.PaidBank) as 'Shipper/Cheque Details',
+(CASE WHEN t.PaidType='CHQ' THEN Convert(float,t.PaidAmount) ELSE 0 END) as 'Chq Amt',
+(CASE WHEN t.PaidType='CASH' THEN Convert(float,t.PaidAmount) ELSE 0 END) as 'Cash Amt',
+t.TotalWhtax as 'WHD Tax',t.PaidAmount as 'Total Amt',t.InvNo as 'Invoice No'
+FROM (" & SQLSelectReceiptSummary(sqlW) & ") as t 
+ORDER BY t.ReceiptNo
+"
+                    Case "OUTPUTVAT"
+                        sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "", "", "", "", "rh.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT 
+t.CustEName as 'Customer',t.TaxNumber,(CASE WHEN t.Branch=0 THEN 'HEAD OFFICE' ELSE t.Branch END) as Branch,
+t.ReceiptDate as 'Date',t.ReceiptNo,t.TotalTransport as 'Transport',t.TotalService as 'Service',
+t.TotalVat as 'Vat',t.TotalAdvance as 'Advance',t.TotalTransport+t.TotalService+t.TotalVat+t.TotalAdvance as 'Amt.Baht'
+FROM (" & SQLSelectReceiptSummary(sqlW) & ") as t 
+ORDER BY t.ReceiptNo
+"
+                    Case "OUTPUTTAX"
+                        sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "", "", "", "", "rh.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT 
+t.ReceiptDate as 'Date',t.ReceiptNo,t.CustEName as 'Shipper',t.TaxNumber,
+(CASE WHEN t.Branch=0 THEN 'HEAD OFFICE' ELSE t.Branch END) as Branch,t.TotalWhtax as 'WHD Tax'
+FROM (" & SQLSelectReceiptSummary(sqlW) & ") as t 
+ORDER BY t.ReceiptNo
+"
                 End Select
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)

@@ -461,3 +461,19 @@ function loadShipByByType(path, jt, e, def = '') {
         }
     });    
 }
+function loadLocation(path, e, typ) {
+    $(e).empty();
+    $(e)
+        .append($('<option>', { value: "" })
+            .text("N/A"));
+    $.get(path + 'JobOrder/GetLocation?Place=' + typ).done(function (r) {
+        let dr = r.data[0].Table;
+        if (dr.length > 0) {
+            for (let i = 0; i < dr.length; i++) {
+                $(e)
+                    .append($('<option>', { value: dr[i].Address + '|' + dr[i].Contact })
+                        .text(dr[i].Place));
+            }
+        }
+    });
+}

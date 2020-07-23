@@ -619,6 +619,12 @@ Namespace Controllers
         Function FormLetter() As ActionResult
             Return GetView("FormLetter")
         End Function
+        Function FormBookingIm() As ActionResult
+            Return GetView("FormBookingIm")
+        End Function
+        Function FormBookingEx() As ActionResult
+            Return GetView("FormBookingEx")
+        End Function
         Function FormBookingAir() As ActionResult
             Return GetView("FormBookingAir")
         End Function

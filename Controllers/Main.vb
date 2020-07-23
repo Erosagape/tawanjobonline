@@ -1001,8 +1001,8 @@ and b.JobNo=c.JNo
     End Function
     Function SQLSelectInvForBilling() As String
         Return "
-SELECT a.*,(CASE WHEN a.TotalIsTaxCharge=0 THEN a.TotalCharge ELSE 0 END) as TotalNonVat,b.NameThai,b.NameEng FROM Job_InvoiceHeader a
-LEFT JOIN Mas_Company b ON a.CustCode=b.CustCode AND a.CustBranch=b.Branch
+SELECT a.*,(CASE WHEN a.TotalIsTaxCharge>=0 AND a.TotalCharge<>a.TotalIsTaxCharge THEN a.TotalCharge-a.TotalIsTaxCharge ELSE 0 END) as TotalNonVat,b.NameThai,b.NameEng FROM Job_InvoiceHeader a
+LEFT JOIN Mas_Company b ON a.CustCode=b.CustCode AND a.CustBranch=b.Branch 
 "
     End Function
     Function SQLUpdateBillHeader(branch As String, billno As String) As String
@@ -2583,6 +2583,38 @@ dbo.Job_LoadInfoDetail.BookingNo = dbo.Job_LoadInfo.BookingNo RIGHT OUTER JOIN
 dbo.Job_Order ON dbo.Job_LoadInfo.BranchCode = dbo.Job_Order.BranchCode AND dbo.Job_LoadInfo.JNo = dbo.Job_Order.JNo
 "
         Return tSql
+    End Function
+    Function SQLSelectReceiptSummary(sqlW As String) As String
+        Dim tSql = "
+select r.*,
+REPLACE(SUBSTRING(REPLACE(r.PaidDetail,r.PaidType+':' + r.PaidAmount+':',''),1,CHARINDEX(':',REPLACE(r.PaidDetail,r.PaidType+':' + r.PaidAmount+':',''))),':','') as PaidBank,
+REPLACE(SUBSTRING(REPLACE(r.PaidDetail,r.PaidType+':' + r.PaidAmount+':',''),CHARINDEX(':',REPLACE(r.PaidDetail,r.PaidType+':' + r.PaidAmount+':','')),100),':','') as PaidRef
+from (
+select rh.BranchCode,rh.ReceiptNo,rh.Receiptdate,c.CustCode,c.TaxNumber,c.Branch,c.NameEng as CustEName,
+rh.TRemark as PaidDetail,
+REPLACE(SUBSTRING(rh.TRemark,1,CHARINDEX(':',rh.TRemark)),':','')  as PaidType,
+REPLACE(SUBSTRING(REPLACE(rh.TRemark,SUBSTRING(rh.TRemark,1,CHARINDEX(':',rh.TRemark)),''),1,CHARINDEX(':',REPLACE(rh.TRemark,SUBSTRING(rh.TRemark,1,CHARINDEX(':',rh.TRemark)),''))),':','')  as PaidAmount,
+Sum(CASE WHEN id.AmtAdvance >0 THEN rd.Net ELSE 0 END) as TotalAdvance,
+Sum(CASE WHEN id.AmtCharge >0 AND id.AmtVat=0 THEN rd.Amt ELSE 0 END) as TotalTransport,
+Sum(CASE WHEN id.AmtCharge >0 AND id.AmtVat>0 THEN rd.Amt ELSE 0 END) as TotalService,
+Sum(rd.AmtVat) as TotalVat,
+Sum(rd.Amt50Tavi) as TotalWhtax,
+Sum(rd.Net+rd.Amt50Tavi) as TotalReceipt,
+(CASE WHEN ISNULL(rh.CancelProve,'')<>'' THEN 'N' ELSE 'Y' END) as DocStatus,
+(SELECT STUFF((
+SELECT DISTINCT ','+ InvoiceNo FROM Job_ReceiptDetail WHERE BranchCode=rh.BranchCode AND ReceiptNo=rh.ReceiptNo
+FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+)) as InvNo
+from Job_ReceiptHeader rh inner join Job_ReceiptDetail rd
+ON rh.BranchCode=rd.BranchCode and rh.ReceiptNo=rd.ReceiptNo
+inner join Job_InvoiceDetail id on rd.BranchCode=id.BranchCode AND rd.InvoiceNo=id.DocNo AND rd.InvoiceItemNo=id.ItemNo
+inner join Job_InvoiceHeader ih on id.BranchCode=ih.BranchCode and id.DocNo=ih.DocNo
+inner join Mas_Company c on rh.CustCode=c.CustCode and rh.CustBranch=c.Branch
+where ISNULL(ih.CancelProve,'')='' {0}
+group by rh.BranchCode,rh.ReceiptNo,rh.ReceiptDate,c.CustCode,c.TaxNumber,c.Branch,c.NameEng,rh.TRemark,rh.CancelProve
+) r
+"
+        Return String.Format(tSql, sqlW)
     End Function
     Public Sub UpdateClearStatus()
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToClear())
