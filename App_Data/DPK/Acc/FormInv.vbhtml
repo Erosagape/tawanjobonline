@@ -55,10 +55,12 @@ Tel: 084-5399663
         <div style="flex:1;border:1px solid black;border-radius:5px;">
             INV NO. : <label id="lblDocNo"></label><br />
             INV DATE : <label id="lblDocDate"></label><br />
-            CUST INV : <label id="lblCustInvNo"></label><br />
-            JOB NO : <label id="lblJobNo"></label><br />
+            CUST INV : <label id="lblCustInvNo"></label>
         </div>
     </div>
+    <div style="width:100%;border:1px solid black;border-radius:5px;">
+        JOB NO : <span style="word-wrap:break-word" id="lblJobNo"></span>
+    </div>    
     <div id="dvJob" style="display:flex;border:1px solid black;border-radius:5px;">
         <div style="flex:2">
             <div class="row">
@@ -103,6 +105,11 @@ Tel: 084-5399663
             <div class="row">
                 <p class="col-sm-12">
                     MBL/MAWB :<label id="lblMAWB"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    DUE DATE :<label id="lblDueDate"></label>
                 </p>
             </div>
         </div>
@@ -259,8 +266,9 @@ Tel: 084-5399663
             if(h.DocNo.substr(0,3)=='IVT')  $('#tbPayF').hide(); 
             if(h.DocNo.substr(0,3)=='IVF')  $('#dvJob').hide(); 
             $('#lblDocNo').text(h.DocNo);
-                $('#lblJobNo').text(h.RefNo);
+            $('#lblJobNo').html(h.RefNo);
             $('#lblDocDate').text(ShowDate(CDateTH(h.DocDate)));
+            $('#lblDueDate').text(ShowDate(CDateTH(h.DueDate)));
             $('#lblCurrencyCode').text(h.CurrencyCode);
             $('#lblExchangeRate').text(h.ExchangeRate);
             $('#lblForeignNet').text(ShowNumber(h.ForeignNet, 2));

@@ -40,7 +40,7 @@ End Code
         if (obj.STATUSWHERE !== '') html += obj.STATUSWHERE + ',';
         if (obj.EMPWHERE !== '') html += obj.EMPWHERE + ',';
         if (obj.CODEWHERE !== '') html += obj.CODEWHERE + ',';
-        $('#rptCliteria').html(html);
+        $('#rptCliteria').html('REPORT CODE:' + row.REPORTCODE + ', CLITERIA:'+ html);
         switch (lang) {
             case 'TH':
                 $('#rptTitle').text(row.REPORTNAMETH);
@@ -52,7 +52,7 @@ End Code
         if (row.ReportCode !== '') {
             let data = {
                 ReportCode: row.REPORTCODE,
-                ReportCliteria: $('#rptCliteria').text()
+                ReportCliteria: html
             }
             LoadReport(path,row.REPORTCODE,data,lang);
         }

@@ -405,7 +405,7 @@ function IsNumberColumn(cname) {
     if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = ",Chq Amt,Cash Amt,WHD Tax,Total Amt,Transport,Service,Vat,Advance,Amt.Baht,";
+    colname = ",Chq Amt,Cash Amt,WHD Tax,Total Amt,Transport,Service,Vat,Advance,Amt.Baht,Revenue,Cost,Total Job,Profit,TotalEarnest,";
     if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
@@ -456,7 +456,7 @@ function IsSummaryColumn(cname) {
     if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = ",Chq Amt,Cash Amt,WHD Tax,Total Amt,Transport,Service,Vat,Advance,Amt.Baht,";
+    colname = ",Chq Amt,Cash Amt,WHD Tax,Total Amt,Transport,Service,Vat,Advance,Amt.Baht,Revenue,Cost,Total Job,Profit,TotalEarnest,";
     if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
@@ -651,6 +651,7 @@ function GetColumnHeader(id,langid) {
         TotalExpClear: 'Expenses|รวมค่าใช้จ่าย',
         TotalExpWaitBill: 'Exp Pending|คชจรอวางบิล',
         TotalCostWaitBill: 'Cost Pending|ต้นทุนรอวางบิล',
+        TotalEarnest:'Container Earnest|มัดจำตู้',
         TotalCost: 'Cost|ต้นทุนรวม',
         TotalPrepaid: 'Prepaid|รับล่วงหน้า',
         TotalBalance: 'Balance|ค้างชำระ',
@@ -778,7 +779,7 @@ function LoadReport(path, reportID, obj, lang) {
                     groupField = res.group;
                 }
 
-                let html = '<tbody><tr>';
+                let html = '<tbody><tr><td style="border:1px solid black;text-align:left;background-color:lightgrey;">#</td>';
                 $.each(tb[0], function (key, value) {
                     if (key !== groupField) {
                         //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
@@ -792,13 +793,14 @@ function LoadReport(path, reportID, obj, lang) {
                 html += '</tr>';
                 let groupCount = 0;
                 let groupCaption = GetColumnHeader(groupField, lang);
+                let row = 0;
                 for (let r of tb) {
                     html += '<tr>';
                     if (groupField !== '') {
                         if (FormatValue(groupField, r[groupField]) !== groupVal) {
                             //Show Summary
                             if (groupCount > 0) {
-                                html += '<td style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '</b></u></td>';
+                                html += '<td colspan="2" style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>SUB TOTAL</b></u></td>';
                                 for (let i = 1; i < colCount; i++) {
                                     if (sumGroup[i].isSummary == true) {
                                         html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"><u><b>' + ShowNumber(sumGroup[i].value, 2) + '</b></u></td>';
@@ -813,13 +815,14 @@ function LoadReport(path, reportID, obj, lang) {
                             groupVal = FormatValue(groupField, r[groupField]);
                             groupCount++;
 
-                            html += '<td colspan="' + colCount + '" style="background-color:lightyellow;border:1px solid black;text-align:left;">'+ groupCaption +' <b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
+                            html += '<td colspan="' + (colCount+1) + '" style="background-color:lightyellow;border:1px solid black;text-align:left;">'+ groupCaption +' <b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
                             html += '</tr><tr>';
                         } else {
                             groupCount++;
                         }
                     }
-
+                    row++;
+                    html += '<td style="border:1px solid black;text-align:right;">' + row + '</td>';
                     let col = 0;
                     for (let c in r) {
                         if (c !== groupField) {
@@ -847,7 +850,7 @@ function LoadReport(path, reportID, obj, lang) {
                 }
                 //Last Total
                 if (groupCount > 0) {
-                    html += '<td style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '</b></u></td>';
+                    html += '<td colspan="2" style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>SUB TOTAL</b></u></td>';
                     for (let i = 1; i < colCount; i++) {
                         if (sumGroup[i].isSummary == true) {
                             html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"><u><b>' + ShowNumber(sumGroup[i].value, 2) + '</b></u></td>';
@@ -859,7 +862,7 @@ function LoadReport(path, reportID, obj, lang) {
                     groupCount = 0;
                 }
                 //Grand Total
-                html += '<tr style="font-weight:bold;background-color:lightgreen;"><td style="border:1px solid black;text-align:left;"><b>TOTALs #OF JOBS<b/></td>';
+                html += '<tr style="font-weight:bold;background-color:lightgreen;"><td colspan="2" style="border:1px solid black;text-align:left;"><b>GRAND TOTAL<b/></td>';
                 for (let i = 1; i < colCount; i++) {
                     if (sumGroup[i].isSummary == true) {
                         html += '<td style="border:1px solid black;text-align:right;"><b>' + ShowNumber(sumTotal[i], 2) + '</b></td>';

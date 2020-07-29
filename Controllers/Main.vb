@@ -2451,6 +2451,56 @@ ORDER BY j.CustCode,b.JobNo
 "
         Return String.Format(tSql, sqlW)
     End Function
+    Public Function SQLSelectAdvanceTotalJob(sqlW As String) As String
+        Dim tSql As String = ""
+        Dim hSql As String = "
+select DISTINCT b.SICode,ISNULL(s.NameThai,'(N/A)') as Description 
+from Job_AdvDetail b 
+inner join Job_AdvHeader a ON b.BranchCode=a.BranchCode 
+and b.AdVNo=a.AdvNo and b.AdvNet>0 
+left join Job_SrvSingle s
+ON b.SICode=s.SICode
+WHERE a.DocStatus<>99 {0}
+        "
+        Dim tb = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(hSql, sqlW))
+        For Each dr As DataRow In tb.Rows
+            If tSql <> "" Then
+                tSql &= ","
+            End If
+            tSql &= String.Format("SUM(CASE WHEN b.SICode='{0}' THEN b.AdvNet ELSE 0 END) as '{1}'", dr("SICode").ToString(), dr("Description").ToString())
+        Next
+        tSql = "
+SELECT a.CustCode as 'Customer',c.consigneecode as 'Consignee',
+c.InvProduct as 'Products',c.TotalContainer as 'Containers',
+c.BookingNo as 'BL/AWB',c.CSCode as 'CS',c.AgentCode as 'Vender',
+b.ForJNo as 'Job Number',c.DeclareNumber as 'Customs Declare',
+c.DocDate as 'Job Date',
+" & tSql & ",
+SUM(b.AdvNet) as 'Advance Paid',a.EmpCode as 'Request By',
+SUM(d.ClrNet) as 'Clearing',c.CloseJobDate as 'Close Job Date'
+FROM Job_AdvDetail b
+INNER JOIN Job_AdvHeader a ON b.BranchCode=a.BranchCode 
+AND b.AdvNo= a.AdvNo
+INNER JOIN Job_Order c ON b.BranchCode=c.BranchCode
+AND b.ForJNo=c.JNo
+LEFT JOIN (
+    SELECT ch.BranchCode,cd.AdvNo,cd.AdvItemNo,SUM(cd.BNet) as ClrNet
+    FROM Job_ClearHeader ch INNER JOIN Job_ClearDetail cd
+    ON ch.BranchCode=cd.BranchCode AND 
+    ch.ClrNo=cd.ClrNo
+    WHERE ch.DocStatus<>99
+    GROUP BY ch.BranchCode,cd.AdvNo,cd.AdvItemNo
+) d
+ON b.BranchCode=d.BranchCode
+AND b.AdvNo=d.AdvNo
+AND b.ItemNo=d.AdvItemNo
+WHERE a.DocStatus<>99 AND b.AdvNet>0 {0}
+GROUP BY a.CustCode,c.consigneecode,c.InvProduct,c.TotalContainer,c.BookingNo,
+c.CSCode,c.AgentCode,b.ForJNo,c.DeclareNumber,c.DocDate,a.EmpCode,c.CloseJobDate
+ORDER BY a.CustCode,b.ForJNo
+"
+        Return String.Format(tSql, sqlW)
+    End Function
     Public Function SQLSelectAdvanceTotal(sqlW As String) As String
         Dim tSql As String = ""
         Dim hSql As String = "
@@ -2528,7 +2578,7 @@ dbo.Job_ClearHeader.EmpCode AS ClrBy, dbo.Job_ClearHeader.AdvRefNo, dbo.Job_Clea
 dbo.Job_ClearHeader.ClearFrom, dbo.Job_ClearHeader.DocStatus AS ClrStatus, dbo.Job_ClearHeader.TotalExpense, dbo.Job_ClearHeader.ReceiveBy, 
 dbo.Job_ClearHeader.ReceiveDate, dbo.Job_ClearHeader.ReceiveTime, dbo.Job_ClearHeader.ReceiveRef, dbo.Job_ClearHeader.CoPersonCode, 
 dbo.Job_ClearHeader.CTN_NO, dbo.Job_ClearHeader.ClearTotal, dbo.Job_ClearHeader.ClearVat, dbo.Job_ClearHeader.ClearWht, dbo.Job_ClearHeader.ClearNet, 
-dbo.Job_ClearHeader.ClearBill, dbo.Job_ClearHeader.ClearCost
+dbo.Job_ClearHeader.ClearBill, dbo.Job_ClearHeader.ClearCost,jt.JobTypeName,sb.ShipByName
 FROM dbo.Job_ClearHeader RIGHT OUTER JOIN
 dbo.Job_ClearDetail RIGHT OUTER JOIN
 dbo.Job_AdvDetail INNER JOIN
@@ -2537,6 +2587,8 @@ dbo.Job_ClearDetail.AdvItemNo = dbo.Job_AdvDetail.ItemNo AND dbo.Job_ClearDetail
 dbo.Job_ClearDetail.BranchCode = dbo.Job_AdvDetail.BranchCode LEFT OUTER JOIN
 dbo.Job_Order ON dbo.Job_AdvDetail.BranchCode = dbo.Job_Order.BranchCode AND dbo.Job_AdvDetail.ForJNo = dbo.Job_Order.JNo ON 
 dbo.Job_ClearHeader.BranchCode = dbo.Job_ClearDetail.BranchCode AND dbo.Job_ClearHeader.ClrNo = dbo.Job_ClearDetail.ClrNo
+INNER JOIN (SELECT CAST(ConfigKey as Int) as JobType,ConfigValue as JobTypeName FROM dbo.Mas_Config WHERE ConfigCode='JOB_TYPE') jt ON jt.JobType=dbo.Job_Order.JobType
+INNER JOIN (SELECT CAST(ConfigKey as Int) as ShipBy,ConfigValue as ShipByName FROM dbo.Mas_Config WHERE ConfigCode='SHIP_BY') sb ON sb.ShipBy=dbo.Job_Order.ShipBy
 WHERE dbo.Job_AdvHeader.DocStatus<>99 AND ISNULL(dbo.Job_ClearHeader.DocStatus,0)<>99 
 "
         Return tSql
