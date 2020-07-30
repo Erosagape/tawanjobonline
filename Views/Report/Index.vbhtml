@@ -359,6 +359,16 @@
             }
             return;
         }
-        window.open(path +'Report/Preview' + GetCliteria(), '', '');
+        switch (data.ReportType) {
+            case 'STD':
+                window.open(path + 'Report/Preview' + GetCliteria()+ '&Layout=', '', '');
+                break;
+            case 'EXP':
+                window.open(path + 'Report/Preview' + GetCliteria() +'&Layout=1', '', '');
+                break;
+            case 'ADD':
+                window.open(path + 'Report/Preview' + GetCliteria() + '&Layout=2', '', '');
+                break;
+        }
     }
 </script>

@@ -756,8 +756,14 @@ function GetGroupCaption(src,fld, val) {
 }
 function LoadReport(path, reportID, obj, lang) {
     let str = JSON.stringify(obj);
+    let urlReport = '';
+    if (obj.ReportType == 'STD') {
+        urlReport = path + 'Report/GetReport';
+    } else {
+        urlReport = path + 'Report/GetReportByConfig';
+    }
     $.ajax({
-        url: path + 'Report/GetReport',
+        url: urlReport,
         type: "POST",
         contentType: "application/json",
         data: str,
@@ -779,18 +785,19 @@ function LoadReport(path, reportID, obj, lang) {
                     groupField = res.group;
                 }
 
-                let html = '<tbody><tr><td style="border:1px solid black;text-align:left;background-color:lightgrey;">#</td>';
+                let html = '<thead><tr><th style="border:1px solid black;text-align:left;background-color:lightgrey;">#</th>';
                 $.each(tb[0], function (key, value) {
                     if (key !== groupField) {
                         //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
-                        html += '<td style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></td>';
+                        html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></th>';
                         sumGroup.push({ isSummary: IsSummaryColumn(key), value: 0 });
                         sumTotal.push(0);
                         colCount++;
                     }
                 });
 
-                html += '</tr>';
+                html += '</tr></thead><tbody>';
+
                 let groupCount = 0;
                 let groupCaption = GetColumnHeader(groupField, lang);
                 let row = 0;
@@ -861,8 +868,9 @@ function LoadReport(path, reportID, obj, lang) {
                     html += '</tr>';
                     groupCount = 0;
                 }
+                html+='</tbody>'
                 //Grand Total
-                html += '<tr style="font-weight:bold;background-color:lightgreen;"><td colspan="2" style="border:1px solid black;text-align:left;"><b>GRAND TOTAL<b/></td>';
+                html += '<tfoot><tr style="font-weight:bold;background-color:lightgreen;"><td colspan="2" style="border:1px solid black;text-align:left;"><b>GRAND TOTAL<b/></td>';
                 for (let i = 1; i < colCount; i++) {
                     if (sumGroup[i].isSummary == true) {
                         html += '<td style="border:1px solid black;text-align:right;"><b>' + ShowNumber(sumTotal[i], 2) + '</b></td>';
@@ -872,7 +880,7 @@ function LoadReport(path, reportID, obj, lang) {
                 }
                 html += '</tr>';
 
-                html += '</tbody>';
+                html += '</tfoot>';
                 //ShowMessage(html);
                 $('#tbResult').html(html);
             }

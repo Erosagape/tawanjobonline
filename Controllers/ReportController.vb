@@ -21,7 +21,39 @@ Namespace Controllers
             Return GetView("Export", "MODULE_REP")
         End Function
         Function Preview() As ActionResult
-            Return GetView("Preview")
+            If Not Request.QueryString("Layout") Is Nothing Then
+                ViewBag.Layout = Request.QueryString("Layout").ToString()
+            Else
+                ViewBag.Layout = ""
+            End If
+            Return GetView("Preview" & ViewBag.Layout)
+        End Function
+        Function GetReportByConfig(<FromBody()> data As CReport) As ActionResult
+            Dim sqlM As String = ""
+            Dim sqlW As String = ""
+            Dim fldGroup = ""
+            Dim groupDatas = ""
+            Dim cliteria As String = data.ReportCliteria
+            Try
+                Dim fldWhere = (GetValueConfig("REPORT_" & data.ReportCode, "MAIN_CLITERIA") & ",,,,,,,,").Split(",")
+                sqlW = GetSQLCommand(cliteria, fldWhere(1), fldWhere(2), fldWhere(3), fldWhere(4), fldWhere(5), fldWhere(6), fldWhere(7), fldWhere(8))
+                If sqlW <> "" Then
+                    sqlW = fldWhere(0) & " " & sqlW
+                End If
+                sqlM = GetValueConfig("REPORT_" & data.ReportCode, "MAIN_SQL")
+                fldGroup = GetValueConfig("REPORT_" & data.ReportCode, "GROUP_FIELD")
+                Dim dsGroup = GetValueConfig("REPORT_" & data.ReportCode, "GROUP_DATASOURCE")
+                If dsGroup <> "" Then
+                    groupDatas = JsonConvert.SerializeObject(Main.GetDataConfig("GROUP_DATASOURCE"))
+                End If
+                sqlM = String.Format(sqlM, sqlW)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                Return Content("{""result"":" & json & ",""group"":""" & fldGroup & """,""groupdata"":[" & groupDatas & "],""msg"":""OK"",""sql"":""" & sqlW & """}")
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetReportByConfig", ex.Message, ex.StackTrace, True)
+                Return Content("{""result"":[],""group"":null,""msg"":""" & ex.Message & """,""sql"":""" & sqlW & """}")
+            End Try
         End Function
         Function GetReport(<FromBody()> data As CReport) As ActionResult
             Dim sqlM As String = ""
@@ -180,7 +212,7 @@ ORDER BY inv.DocNo
                     Case "BILLDAILY"
                         sqlW = GetSQLCommand(cliteria, "h.BillDate", "h.CustCode", "", "h.EmpCode", "", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT bl.BillAcceptNo,bl.BillDate,bl.CustCode,bl.InvNo,bl.AmtAdvance,bl.AmtChargeNonVAT,bl.AmtChargeVAT,bl.AmtVAT,bl.AmtWH,bl.AmtTotal FROM (" & SQLSelectBillReport() & ") bl ORDER BY bl.BillDate,bl.BillAcceptNo"
+                        sqlM = "SELECT bl.BillAcceptNo,bl.BillDate,bl.CustCode,bl.InvNo,bl.AmtAdvance,bl.AmtChargeNonVAT,bl.AmtChargeVAT,bl.AmtVAT,bl.AmtWH,bl.AmtTotal FROM (" & SQLSelectBillReport() & sqlW & ") bl ORDER BY bl.BillDate,bl.BillAcceptNo"
                     Case "JOBCOST"
                         sqlW = GetSQLCommand(cliteria, "ch.ClrDate", "j.CustCode", "j.JNo", "j.CSCode", "j.ForwarderCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
@@ -202,7 +234,7 @@ GROUP BY j.BranchCode, j.JNo, j.CustCode, j.CustBranch, j.InvNo, j.DutyDate, j.D
 ) as t ORDER BY CustCode,DutyDate,InvNo"
                         sqlM = String.Format(sqlM, sqlW)
                     Case "BOOKBAL"
-                        sqlW = GetSQLCommand(cliteria, "a.VoucherDate", "", "", "b.RecUser", "", "", "b.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "b.VoucherDate", "", "", "b.RecUser", "", "", "b.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "SELECT bk.BookCode,bk.LimitBalance,bk.SumCashOnhand,bk.SumChqClear,bk.SumChqOnhand,bk.SumCredit+bk.SumChqReturn as SumCreditable FROM (" & String.Format(SQLSelectBookAccBalance(), sqlW) & ") bk ORDER BY BookCode"
                     Case "VATSALES"

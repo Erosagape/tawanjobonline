@@ -1,5 +1,5 @@
 ﻿@Code
-    Layout = "~/Views/Shared/_ReportLandscape.vbhtml"
+    Layout = "~/Views/Shared/_ReportNoHeadLandscape.vbhtml"
     ViewBag.FileName = "export" & DateTime.Now.ToString("yyyyMMddHHMMss") & ".csv"
 End Code
 <style>
