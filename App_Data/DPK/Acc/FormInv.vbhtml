@@ -5,12 +5,15 @@
 End Code
 <style>
     * {
-	font-size:14px;
+	font-size:13px;
     }
     table {
         border-width:thin;
         border-collapse:collapse;
     }    
+    tbody td,th {
+        font-size:11px;
+    }
 </style>
 <div style="display:flex">
 <div id="dvHeadF" style="float:left;flex:2;">
@@ -117,8 +120,8 @@ Tel: 084-5399663
     <table style="width:100%" border="1" class="text-center">
         <thead>
             <tr style="background-color :gainsboro;text-align:center;">
-                <th width="50px">CODE</th>
-                <th width="600px">DESCRIPTION</th>
+                <th width="100px">CODE</th>
+                <th width="550px">DESCRIPTION</th>
                 <th width="50px">QTY</th>
                 <th width="100px">UNIT</th>
                 <th width="100px">DISC</th>
@@ -126,39 +129,38 @@ Tel: 084-5399663
             </tr>
         </thead>
         <tbody id="tbDetail"></tbody>
-        <tfoot>
-            <tr>
-                <td>TOTAL (BAHT)</td>
-                <td colspan="5">
-                    <div style="text-align:center"><label id="lblTotalBaht"></label></div>
-                </td>
-            </tr>
-        </tfoot>
+        <tr>
+            <td>TOTAL (BAHT)</td>
+            <td colspan="5">
+                <div style="text-align:center"><label id="lblTotalBaht"></label></div>
+            </td>
+        </tr>
     </table>
     <div style="display:flex">
         <div style="border:1px solid black;border-radius:5px;flex:2">
-            PAYMENT:
+            <u>PAYMENT:</u>
             <table id="tbPayF" style="width:100%">
                 <tr><td>SCB (Robinson Chantaburi)</td><td>#854-206207-9</td></tr>
                 <tr><td>KBANK (Robinson Chantaburi)</td><td>#528-200500-1</td></tr>
                 <tr><td>TMB (Robinson Chantaburi)</td><td>#627-219687-1</td></tr>
                 <tr><td>BBL (Makham)</td><td>#509-018310-3</td></tr>
-
             </table>
             <table id="tbPayS" style="width:100%">
                 <tr><td>กรุณาโอนเงินเข้าบัญชีธนาคารกสิกรไทย สาขาโรบินสันจันทบุรี</td></tr>
                 <tr><td>บัญชีออมทรัพย์ ชื่อบัญชี "หจก แดนผักกาด" เลขที่บัญชี 528-2-38819-9</td></tr>
                 <tr><td>กรุณาหัก ณ ที่จ่าย และนำส่งใบหัก ณ ที่จ่าย มายัง</td></tr>
                 <tr><td>หจก แดนผักกาด เลขที่ 9/10 ม.10 ต.ท่าช้าง อ.เมือง จ.จันทบุรี 22000</td></tr>
-
             </table>
-
+            <div id="lblShippingRemark"></div>
+            <u>REMARKS :</u>
+            <br />
+            <div id="lblDescription"></div>
         </div>
         <div class="text-left" style="border:1px solid black;border-radius:5px;flex:1">
             <table style="width:100%">
                 <tr>
                     <td>
-                        TOTAL
+                        <u>TOTAL</u>
                     </td>
                     <td style="text-align:right;">
                         <label id="lblSumAmount"></label>
@@ -177,8 +179,7 @@ Tel: 084-5399663
                     </td>
                 </tr>
             </table>
-            <br />
-            WITHHOLDING TAX DETAIL
+            <u>WITHHOLDING TAX DETAIL</u>
             <div style="display:flex">
                 <div class="text-center" style="flex:2">
                     1%:<br />
@@ -207,10 +208,6 @@ Tel: 084-5399663
     <div style="display:flex;width:100%;border:1px solid black;border-radius:5px;flex:1;text-align:center;">
         <div style="text-align:left;flex:1">
             TOTAL INVOICE (<label id="lblCurrencyCode"></label>)=<label id="lblForeignNet"></label> RATE=<label id="lblExchangeRate"></label>
-            <br />
-            <div id="lblShippingRemark"></div>
-            REMARKS :<br />
-            <div id="lblDescription"></div>
         </div>
     </div>
     <div style="display:flex;font-size:12px;">

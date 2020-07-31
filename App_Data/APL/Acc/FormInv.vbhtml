@@ -54,7 +54,8 @@ End Code
         </div>
     </div>
     <div style="width:100%" class="roundbox">
-        INVOICE : <label id="lblCustInvNo"></label>
+        INVOICE : <label id="lblCustInvNo"></label><br />
+        CUSTOMER PO : <label id="lblCustPoNo"></label><br />
     </div>
     <br />
     <p id="dvLoading">
@@ -62,19 +63,19 @@ End Code
             <thead>
                 <tr>
                     <th>
-                        Item
+                        ITEM
                     </th>
                     <th>
-                        Booking
+                        BOOKING
                     </th>
                     <th>
-                        Unit
+                        UNIT
                     </th>
                     <th>
-                        Container
+                        CONTAINER
                     </th>
                     <th>
-                        Place
+                        PLACE
                     </th>
                 </tr>
             </thead>
@@ -84,19 +85,19 @@ End Code
     <table style="width:100%" border="1" class="text-center">
         <thead>
             <tr style="background-color :gainsboro;text-align:center;">
-                <th width="50px" rowspan="2">Item</th>
-                <th width="250px" rowspan="2">Description</th>
-                <th width="60px" rowspan="2">Quantity</th>
-                <th width="40px" rowspan="2">Unit Price</th>
-                <th width="325px" colspan="3">Advance Re-Imbursement</th>
-                <th width="275px" colspan="2">Services Charge</th>
+                <th width="50px" rowspan="2">ITEM</th>
+                <th width="250px" rowspan="2">DESCRIPTION</th>
+                <th width="60px" rowspan="2">QUANTITY</th>
+                <th width="40px" rowspan="2">UNIT PRICE</th>
+                <th width="325px" colspan="3">ADVANCE RE-IMBURSEMENT</th>
+                <th width="275px" colspan="2">SERVICE CHARGES</th>
             </tr>
             <tr style="background-color :gainsboro;text-align:center;">
-                <th>Service</th>
-                <th>Vat</th>
-                <th>Amount</th>
+                <th>SERVICE</th>
+                <th>VAT</th>
+                <th>AMOUNT</th>
                 <th>NON-VAT</th>
-                <th>VATABLE</th>
+                <th>VAT</th>
             </tr>
         </thead>
         <tbody id="tbDetail"></tbody>
@@ -129,14 +130,18 @@ End Code
                 </td>
 
                 <td colspan="3">
+                    SUBTOTAL VAT<br/>
                     VAT (<label id="lblVATRate"></label>%)<br />
                     TOTAL<br />
+                    SERVICE NON-VAT<br/>
                     ADVANCE<br />
                     GRAND TOTAL
                 </td>
                 <td style="background-color :gainsboro;text-align:right;" colspan="2">
+                    <label id="lblSumChargeVat"></label><br />
                     <label id="lblSumVat"></label><br />
                     <label id="lblSumAfterVat"></label><br />
+                    <label id="lblSumChargeNonVat"></label><br />
                     <label id="lblSumTotal"></label><br />
                     <label id="lblSumGrandTotal"></label>
                 </td>
@@ -160,7 +165,7 @@ End Code
                     <td style="width:20%;text-align:right"><label id="lblSumWht1"></label></td>
                 </tr>
                 <tr>
-                    <td style="width:55%">SERVICE 1.5%</td>
+                    <td style="width:55%">SERVICE 3%</td>
                     <td style="width:25%;text-align:right"><label id="lblSumBaseWht3"></label></td>
                     <td style="width:20%;text-align:right"><label id="lblSumWht3"></label></td>
                 </tr>
@@ -193,11 +198,11 @@ End Code
 </div>
 <div>
     <div style="float:left">
-        Please pay cheque (A/C Payer only) payable to APL Logistics svcs (Thailand) Co.,ltd.<br />
-        - Late payment 2% will be charge if paid after due date.<br />
-        - Any incorrect item: please inform within 7 days from the date of invoice, otherwise will be considered correct.<br/>
-        - Transportation charge is non-vat and subject to 1% withholding tax.<br/>
-        - All others charges excluding transportation are vat and subject to 3% withholding tax.
+        PLEASE PAY CHEQUE (A/C PAYER ONLY) PAYABLE TO APL LOGISTICS SVCS (THAILAND),LTD.<br/>
+        - LATE PAYMENT 2% WILL BE CHARGED IF PAID AFTER DUE DATE.<br/>
+        - IF ANY INCORRECT ITEM, PLEASE INFORM WITHIN 7 DAYS FROM THE DATE OF INVOICE,OTHERWISE WILL BE CONSIDERED CORRECT.<br/>        
+        - TRANSPORTATION CHARGE IS NON-VAT AND SUBJECT TO 1% WITHHOLDING TAX.<br/>
+        - ALL OTHERS CHARGES EXCLUDING TRANSPORTATION ARE VAT AND SUBJECT TO 3% WITHHOLDING TAX.
     </div>
     <div style="float:right">
         JOB# <label id="lblJobNo"></label><br />
@@ -220,8 +225,8 @@ End Code
         if (dr.header[0].length > 0) {
             let h = dr.header[0][0];
             $('#lblDocNo').text(h.DocNo);
-            $('#lblDocDate').text(ShowDate(CDateTH(h.DocDate)));
-            $('#lblDueDate').text(ShowDate(CDateTH(h.DueDate)));
+            $('#lblDocDate').text(ShowDate(CDateEN(h.DocDate)));
+            $('#lblDueDate').text(ShowDate(CDateEN(h.DueDate)));
             $('#lblCurrencyCode').text(h.CurrencyCode);
             $('#lblExchangeRate').text(h.ExchangeRate);
             $('#lblForeignNet').text(ShowNumber(h.ForeignNet, 2));
@@ -246,6 +251,7 @@ End Code
             let j = dr.job[0][0];
             if (j !== null) {
                 $('#lblCustInvNo').text(j.InvNo);
+                $('#lblCustPoNo').text(j.CustRefNO);
                 $('#lblCustContact').text(j.CustContactName);
                 $('#lblJobNo').text(j.JNo);
                 $('#lblTotalContainer').text(j.TotalContainer);       
@@ -289,7 +295,7 @@ End Code
             $('#lblShippingRemark').html(remark);
 
             $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv,2));
-            $('#lblSumBeforeVat').text(ShowNumber(h.TotalIsTaxCharge,2));
+            $('#lblSumBeforeVat').text(ShowNumber(h.TotalIsTaxCharge, 2));            
             $('#lblSumVat').text(ShowNumber(h.TotalVAT,2));
             $('#lblSumAfterVat').text(ShowNumber(Number(h.TotalIsTaxCharge)+Number(h.TotalVAT),2));
             $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
@@ -300,11 +306,13 @@ End Code
             $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalNet),2));
         }
         let d = dr.detail[0];
+        sortData(d, 'AmtCharge', 'desc');
         let sumbase1 = 0;
         let sumbase3 = 0;
         let sumtax1 = 0;
         let sumtax3 = 0;
         let sumbaseadv = 0;
+        let sumbasevat = 0;
         let sumvatadv = 0;
         let sumnonvat = 0;
         if (d.length > 0) {
@@ -324,6 +332,7 @@ End Code
                 sumbaseadv += (o.AmtAdvance > 0 ? o.Amt : 0);
                 sumvatadv += (o.AmtAdvance > 0 ? o.AmtVat : 0);
                 sumnonvat += (o.AmtCharge > 0 && o.AmtVat == 0 ? o.Amt : 0);
+                sumbasevat += (o.AmtCharge > 0 && o.AmtVat > 0 ? o.Amt : 0);
 
                 html += '<td style="text-align:right">' + (o.AmtAdvance > 0 ? ShowNumber(o.Amt, 2) : '0.00') + '</td>';
                 html += '<td style="text-align:right">' + (o.AmtAdvance > 0 ? ShowNumber(o.AmtVat, 2) : '0.00') + '</td>';
@@ -346,6 +355,8 @@ End Code
             }
         }
         $('#lblSumNonVat').text(ShowNumber(sumnonvat, 2));
+        $('#lblSumChargeVat').text(ShowNumber(sumbasevat, 2));
+        $('#lblSumChargeNonVat').text(ShowNumber(sumnonvat, 2));
         $('#lblSumBaseAdv').text(ShowNumber(sumbaseadv, 2));
         $('#lblSumVatAdv').text(ShowNumber(sumvatadv,2));
         $('#lblSumBaseWht1').text(ShowNumber(sumbase1,2));

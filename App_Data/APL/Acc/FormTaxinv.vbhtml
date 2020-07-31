@@ -71,7 +71,7 @@ End Code
                 1
             </td>
             <td>
-                Service Charge NON VAT
+                SERVICE CHARGES (NON VAT)
             </td>
             <td></td>
             <td style="text-align:right">
@@ -84,7 +84,7 @@ End Code
                 2
             </td>
             <td>
-                Service Charge VAT
+                SERVICE CHARGES (VAT)
             </td>
             <td></td>
             <td></td>
@@ -97,7 +97,7 @@ End Code
                 3
             </td>
             <td>
-                Advance Reimbursement
+                ADVANCE RE-IMBURSEMENT
             </td>
             <td style="text-align:right">
                 <label id="lblSumAdv"></label>
@@ -124,7 +124,7 @@ End Code
             <td colspan="1"><label id="lblTotalVAT"></label></td>
         </tr>
         <tr style="text-align:right;">
-            <td colspan="2">Advance Reimbursement</td>
+            <td colspan="2">ADVANCE RE-IMBURSEMENT</td>
             <td colspan="1"><label id="lblTotalADV"></label></td>
         </tr>
         <tr style="text-align:right;">
@@ -134,7 +134,7 @@ End Code
         <tr>
             <td colspan="3">
                 <div>
-                    Payment Detail
+                    PAYMENT DETAIL:
                 </div>
                 <div>
                     <label><input type="checkbox" name="vehicle1" id="chkCash" value=""> CASH</label>
@@ -145,10 +145,6 @@ End Code
                     BANK / BRANCH <label id="lblChqBank">___________________</label> <br />
                     NO <label id="lblChqNo">___________________</label>  <br/>
                     AMOUNT <label id="lblChqAmount">___________________</label> BAHT
-                </div>
-                <div>                    
-                    ________________________<br/>
-                    ______/_________/_______
                 </div>
             </td>
         </tr>
@@ -192,7 +188,7 @@ End Code
             $('#lblCustBranch').text(h.CustBranch);
         }
         $('#lblReceiptNo').text(h.ReceiptNo);
-        $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiptDate)));
+        $('#lblReceiptDate').text(ShowDate(CDateEN(h.ReceiptDate)));
         if (h.TRemark.indexOf(':') > 0) {
             let vData = h.TRemark.split(':');
             switch (vData.length) {

@@ -367,7 +367,7 @@
                 window.open(path + 'Report/Preview' + GetCliteria() +'&Layout=1', '', '');
                 break;
             case 'ADD':
-                window.open(path + 'Report/Preview' + GetCliteria() + '&Layout=2', '', '');
+                window.open(path + 'Report/Preview' + GetCliteria() + '&Layout=', '', '');
                 break;
         }
     }

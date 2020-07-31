@@ -13,99 +13,100 @@ End Code
         border-width: thin;
         border-collapse: collapse;
     }
+    tbody td,th {
+        font-size:12px;
+    }
 </style>
-        <div style="display:flex;">
-            <div style="flex:1;" class="text-left">
-                <p>
-                  TAX-ID : <label id="lblTaxNumber"></label>
-                </p>
-            </div>
-            <div style="flex:1;" class="text-right">
-                DOC NO : <label id="lblBillAcceptNo"></label>
-                <br />DATE : <label id="lblBillDate"></label>
-            </div>
+<div style="display:flex;flex-direction:column">
+    <div style="display:flex;">
+        <div style="flex:1;" class="text-left">
+            <p>
+                TAX-ID : <label id="lblTaxNumber"></label>
+            </p>
         </div>
-        <div style="display:flex;">
-            <div class="text-left">
-                <p>
-                    NAME : <label id="lblCustName"></label>
-                </p>
-            </div>
+        <div style="flex:1;" class="text-right">
+            DOC NO : <label id="lblBillAcceptNo"></label>
+            <br />DATE : <label id="lblBillDate"></label>
         </div>
-        <div style="display:flex;flex-direction:column">
-            <div style="flex:1" class="text-left">
-                <label id="lblCustAddress"></label>
-            </div>
-            <div style="flex:1"  class="text-left">
-                <br/>
-                PLEASE APPROVE BEFORE PAYMENT             
-            </div>                
+    </div>
+    <div style="display:flex;">
+        <div class="text-left">
+            <p>
+                NAME : <label id="lblCustName"></label>
+            </p>
         </div>
-        <table border="1" style="border-style:solid;width:100%;margin-top:5px ">
-            <thead>
-                <tr>
-                    <th class="text-center" width="100" rowspan="2">ITEMS</th>
-                    <th class="text-center" width="100" rowspan="2">ISSUE DATE</th>
-                    <th class="text-center" width="130" rowspan="2">INVOICE NO.</th>
-                    <th class="text-center" width="130" rowspan="2">JOB NO.</th>
-                    <th class="text-center" colspan="2">AMOUNT</th>
-                    <th class="text-center" width="60" rowspan="2">VAT</th>
-                    <th class="text-center" colspan="2">W/H</th>
-                    <th class="text-center" width="100" rowspan="2">TOTAL</th>
-                </tr>
-                <tr>
-                    <th class="text-center" width="130">REIMBURSEMENT</th>
-                    <th class="text-center" width="90">SERVICE</th>
-                    <th class="text-center" width="50">1%</th>
-                    <th class="text-center" width="50">3%</th>
-                </tr>
-            </thead>
-            <tbody id="tbDetail">
+    </div>
+    <div style="display:flex;flex-direction:column">
+        <div style="flex:1" class="text-left">
+            <label id="lblCustAddress"></label>
+        </div>
+        <div style="flex:1" class="text-left">
+            <br />
+            PLEASE APPROVE BEFORE PAYMENT
+        </div>
+    </div>
+    <table border="1" style="border-style:solid;width:100%;margin-top:5px ">
+        <thead>
+            <tr>
+                <th class="text-center" width="100" rowspan="2">ITEMS</th>
+                <th class="text-center" width="100" rowspan="2">ISSUE DATE</th>
+                <th class="text-center" width="130" rowspan="2">INVOICE NO.</th>
+                <th class="text-center" width="130" rowspan="2">JOB NO.</th>
+                <th class="text-center" colspan="2">AMOUNT</th>
+                <th class="text-center" width="60" rowspan="2">VAT</th>
+                <th class="text-center" colspan="2">W/H</th>
+                <th class="text-center" width="100" rowspan="2">TOTAL</th>
+            </tr>
+            <tr>
+                <th class="text-center" width="130">REIMBURSEMENT</th>
+                <th class="text-center" width="90">SERVICE</th>
+                <th class="text-center" width="50">1%</th>
+                <th class="text-center" width="50">3%</th>
+            </tr>
+        </thead>
+        <tbody id="tbDetail"></tbody>
+        <tr>
+            <td style="text-align:right" colspan="4">TOTAL</td>
+            <td style="text-align:right"><label id="lblSumAdv"></label></td>
+            <td style="text-align:right"><label id="lblSumService"></label></td>
+            <td style="text-align:right"><label id="lblSumVat"></label></td>
+            <td style="text-align:right"><label id="lblSumWh1"></label></td>
+            <td style="text-align:right"><label id="lblSumWh3"></label></td>
+            <td style="text-align:right"><label id="lblBillTotal"></label></td>
+        </tr>
+        <tr style="background-color:lightblue">
+            <th class="text-center" colspan="10"><label id="lblBillTotalEng"></label></th>
+        </tr>
+    </table>
 
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td style="text-align:right" colspan="4">TOTAL</td>
-                    <td style="text-align:right"><label id="lblSumAdv"></label></td>
-                    <td style="text-align:right"><label id="lblSumService"></label></td>
-                    <td style="text-align:right"><label id="lblSumVat"></label></td>
-                    <td style="text-align:right"><label id="lblSumWh1"></label></td>
-                    <td style="text-align:right"><label id="lblSumWh3"></label></td>
-                    <td style="text-align:right"><label id="lblBillTotal"></label></td>
-                </tr>
-                <tr style="background-color:lightblue">
-                    <th class="text-center" colspan="10"><label id="lblBillTotalEng"></label></th>
-                </tr>
-            </tfoot>
+    <div>
+        <p>กำหนดชำระเงิน : <label id="lblPaymentDueDate"></label></p>
+        <p><u>รายการชำระเงิน</u></p>
+        <table id="tbPayS" style="width:100%">
+            <tr><td>กรุณาโอนเงินเข้าบัญชีธนาคารกสิกรไทย สาขาโรบินสันจันทบุรี</td></tr>
+            <tr><td>บัญชีออมทรัพย์ ชื่อบัญชี "หจก แดนผักกาด" เลขที่บัญชี 528-2-38819-9</td></tr>
+            <tr><td>กรุณาหัก ณ ที่จ่าย และนำส่งใบหัก ณ ที่จ่าย มายัง</td></tr>
+            <tr><td>หจก แดนผักกาด เลขที่ 9/10 ม.10 ต.ท่าช้าง อ.เมือง จ.จันทบุรี 22000</td></tr>
         </table>
+    </div>
 
-        <div>            
-            <p>กำหนดชำระเงิน : <label id="lblPaymentDueDate"></label></p>
-            <p><u>รายการชำระเงิน</u></p>
-            <table id="tbPayS" style="width:100%">
-                <tr><td>กรุณาโอนเงินเข้าบัญชีธนาคารกสิกรไทย สาขาโรบินสันจันทบุรี</td></tr>
-                <tr><td>บัญชีออมทรัพย์ ชื่อบัญชี "หจก แดนผักกาด" เลขที่บัญชี 528-2-38819-9</td></tr>
-                <tr><td>กรุณาหัก ณ ที่จ่าย และนำส่งใบหัก ณ ที่จ่าย มายัง</td></tr>
-                <tr><td>หจก แดนผักกาด เลขที่ 9/10 ม.10 ต.ท่าช้าง อ.เมือง จ.จันทบุรี 22000</td></tr>
-            </table>
+    <div style="display:flex">
+        <div style="flex:1;border:1px solid black ;border-radius:5px;text-align:center">
+            FOR THE CUSTOMER<br />
+            <br /><br /><br /><br />
+            __________________________________________<br />
+            .........................................<br />
+            _____/______/______
         </div>
-
-        <div style="display:flex">
-            <div style="flex:1;border:1px solid black ;border-radius:5px;text-align:center">
-                FOR THE CUSTOMER<br/>
-                <br/><br /><br /><br />
-                __________________________________________<br/>
-                .........................................<br />
-                _____/______/______
-            </div>
-            <div style="flex:1;border:1px solid black ;border-radius:5px;text-align:center">
-                FOR @ViewBag.PROFILE_COMPANY_NAME<br />
-                <br /><br /><br /><br />
-                __________________________________________<br />
-                .........................................<br />
-                _____/______/______
-            </div>
+        <div style="flex:1;border:1px solid black ;border-radius:5px;text-align:center">
+            FOR @ViewBag.PROFILE_COMPANY_NAME<br />
+            <br /><br /><br /><br />
+            __________________________________________<br />
+            .........................................<br />
+            _____/______/______
         </div>
+    </div>
+</div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     

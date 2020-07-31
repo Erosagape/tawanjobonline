@@ -5,7 +5,6 @@ Imports Newtonsoft.Json
 Namespace Controllers
     Public Class ReportController
         Inherits CController
-
         ' GET: Report
         Function Index() As ActionResult
             ViewBag.ReportName = "Reports"
@@ -65,7 +64,7 @@ Namespace Controllers
                 Select Case data.ReportCode
                     Case "JOBDAILY"
                         fldGroup = "LoadDate"
-                        sqlW = GetSQLCommand(cliteria, "j.LoadDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "j.DutyDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
                         sqlM = "SELECT j.JNo,j.InvNo,j.DeclareNumber,j.VesselName,j.LoadDate,j.DutyDate,j.ShippingEmp,j.HAWB,j.InvProductQty,j.TotalGW,j.TotalContainer FROM (" & SQLSelectJobReport() & sqlW & ") j ORDER BY j.LoadDate DESC"
                     Case "JOBFOLLOWUP"
@@ -1316,7 +1315,7 @@ t.TotalWhtax as 'WHD Tax',t.PaidAmount as 'Total Amt',t.InvNo as 'Invoice No'
 FROM (" & SQLSelectReceiptSummary(sqlW) & ") as t 
 ORDER BY t.ReceiptNo
 "
-                    Case "OUTPUTVAT"
+                    Case "OUTPUTTAX"
                         sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "", "", "", "", "rh.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
@@ -1327,12 +1326,12 @@ t.TotalVat as 'Vat',t.TotalAdvance as 'Advance',t.TotalTransport+t.TotalService+
 FROM (" & SQLSelectReceiptSummary(sqlW) & ") as t 
 ORDER BY t.ReceiptNo
 "
-                    Case "OUTPUTTAX"
+                    Case "OUTPUTWHT"
                         sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "", "", "", "", "rh.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 SELECT 
-t.ReceiptDate as 'Date',t.ReceiptNo,t.CustEName as 'Shipper',t.TaxNumber,
+t.ReceiptDate as 'Date',t.ReceiptNo,t.CustEName as 'Customer',t.TaxNumber,
 (CASE WHEN t.Branch=0 THEN 'HEAD OFFICE' ELSE t.Branch END) as Branch,t.TotalWhtax as 'WHD Tax'
 FROM (" & SQLSelectReceiptSummary(sqlW) & ") as t 
 ORDER BY t.ReceiptNo

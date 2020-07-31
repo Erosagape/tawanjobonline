@@ -34,44 +34,66 @@ End Code
 </div>
 <p>
     <br/>
-    I have already received billing note and will pay the amount followed.
+    I HAVE ALREADY RECEIVED BILLING NOTE AND WILL PAY THE AMOUNT FOLLOWED:
 </p>
 <br/>
 <table border="1" style="border-style:solid;width:100%;margin-top:5px ">
     <thead>
         <tr>
-            <th class="text-center" rowspan="2" width="50">Items</th>
-            <th class="text-center" rowspan="2" width="130">Billing No.</th>
-            <th class="text-center" rowspan="2" width="100">Issuring Date</th>
-            <th class="text-center" rowspan="2">Re-imbursement</th>
-            <th class="text-center" colspan="2">Service Charges</th>
-            <th class="text-center" rowspan="2">Vat</th>
-            <th class="text-center" rowspan="2">Wht</th>
-            <th class="text-center" rowspan="2">Net</th>
+            <th class="text-center" rowspan="2" width="50">ITEMS</th>
+            <th class="text-center" rowspan="2" width="130">BILLING NO</th>
+            <th class="text-center" rowspan="2" width="100">ISSURING DATE</th>
+            <th class="text-center" rowspan="2">RE-IMBURSEMENT</th>
+            <th class="text-center" colspan="2">SERVICE CHARGES</th>
+            <th class="text-center" rowspan="2">VAT</th>
+            <th class="text-center" colspan="2">WHD TAX</th>
+            <th class="text-center" rowspan="2">NET</th>
         </tr>
-        <tr>            
+        <tr>
             <th class="text-center" width="100">NON-VAT</th>
             <th class="text-center" width="100">VAT</th>
+            <th class="text-center">1%</th>
+            <th class="text-center">3%</th>
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
     <tfoot>
         <tr>
-            <td style="text-align:right" colspan="8">TOTAL</td>
+            <td style="text-align:right" colspan="9">TOTAL</td>
             <td style="text-align:right"><label id="lblBillTotal"></label></td>
         </tr>
     </tfoot>
 </table>
 <p>
     <br/>
-    I have received billing note amount in good order
+    I HAVE RECEIVED BILLING NOTE AMOUNT IN GOOD ORDER
 </p>
 <p>
     <br/>
-    Bill Receiver _______________________________________ 
-    Date of Collection : <label id="lblPaymentDueDate"></label>
+    BILL RECEIVER : _______________________________________ 
+    DATE OF COLLECTION : <label id="lblPaymentDueDate"></label>
 </p>
-
+<div style="display:flex">
+    <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
+        <br />
+        FOR THE CUSTOMER <br /><br /> <br /><br /><br />
+        ......................................................... <br />
+        __________/_________/________ <br />
+        AUTHORIZED SIGNATURE
+    </div>
+    <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
+        <br />
+        FOR THE APL LOGISTICS SVCS (THAILAND) <br /><br /> <br /><br /><br />
+        ......................................................... <br />
+        __________/_________/________ <br />
+        AUTHORIZED SIGNATURE
+    </div>
+</div>
+<p>
+    PLEASE PAY CHEQUE IN NAME OF : APL LOGISTICS SVCS (THAILAND),LTD.<br />
+    PAYMENT SHOULD BE PAID BY CROSS CHEQUE IN FAVOR OF : APL LOGISTICS SVCS (THAILAND),LTD.<br />
+    SIGN ON RECEIVER AND ASSIGNED PAYMENT DATE AND SEND THIS PAPER TO APL LOGISTICS SVCS (THAILAND),LTD<br />
+</p>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
 
@@ -85,8 +107,8 @@ End Code
     function ShowData(data) {
         if (data.header.length > 0) {
             $('#lblBillAcceptNo').text(data.header[0][0].BillAcceptNo);
-            $('#lblBillDate').text(ShowDate(CDateTH(data.header[0][0].BillDate)));
-            $('#lblPaymentDueDate').text(ShowDate(CDateTH(data.header[0][0].DuePaymentDate)));
+            $('#lblBillDate').text(ShowDate(CDateEN(data.header[0][0].BillDate)));
+            $('#lblPaymentDueDate').text(ShowDate(CDateEN(data.header[0][0].DuePaymentDate)));
         }
         if (data.customer.length > 0) {
             //$('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : '+ data.customer[0][0].Branch);
@@ -109,12 +131,13 @@ End Code
                 html += '<tr>';
                 html += '<td>' + i + '</td>';
                 html += '<td>' + dr.InvNo + '</td>';
-                html += '<td>' + ShowDate(CDateTH(dr.InvDate)) + '</td>';
+                html += '<td>' + ShowDate(CDateEN(dr.InvDate)) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtAdvance, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtChargeNonVAT, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtChargeVAT, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtVAT, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH, 2) + '</td>';
+                html += '<td style="text-align:right">' + (dr.AmtWHRate == 1? ShowNumber(dr.AmtWH, 2):'0.00') + '</td>';
+                html += '<td style="text-align:right">' + (dr.AmtWHRate !== 1? ShowNumber(dr.AmtWH, 2):'0.00') + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtTotal, 2) + '</td>';
                 html += '</tr>';
 

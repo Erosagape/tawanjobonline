@@ -27,15 +27,15 @@
                         @<div id="divCompany" style="text-align:left;color:darkblue;font-size:12px">
                             <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME_EN</b>
                             <br />@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN
-                            <br />Tel @ViewBag.PROFILE_COMPANY_TEL E-Mail @ViewBag.PROFILE_COMPANY_EMAIL
-                            <br />Tax ID @ViewBag.PROFILE_TAXNUMBER Branch: HEAD OFFICE
+                            <br />TEL @ViewBag.PROFILE_COMPANY_TEL E-MAIL @ViewBag.PROFILE_COMPANY_EMAIL
+                            <br />TAX REFERENCE ID @ViewBag.PROFILE_TAXNUMBER BRANCH: HEAD OFFICE
                         </div>
                     Else
                         @<div id="divCompany" style="text-align:left;color:darkblue;font-size:12px">
                             <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME</b>
                             <br />@ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2
-                            <br />Tel @ViewBag.PROFILE_COMPANY_TEL E-Mail @ViewBag.PROFILE_COMPANY_EMAIL
-                            <br />Tax ID @ViewBag.PROFILE_TAXNUMBER Branch: สำนักงานใหญ่
+                            <br />โทร @ViewBag.PROFILE_COMPANY_TEL อีเมล์ @ViewBag.PROFILE_COMPANY_EMAIL
+                            <br />เลขประจำตัวผู้เสียภาษี @ViewBag.PROFILE_TAXNUMBER สาขา: สำนักงานใหญ่
                         </div>
                     End If
                 </div>
@@ -47,8 +47,8 @@
                 @RenderBody()
             </div>
         </div>
-        <div style="width:100%;font-size:8px">
-            <p style="text-align:left">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
+        <div id="dvFooter" style="width:100%;font-size:8px">
+            <p style="text-align:left">Printed By : @ViewBag.User Printed Date : @DateTime.Now</p>
         </div>
     </div>
 </body>

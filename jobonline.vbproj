@@ -284,6 +284,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\APL\lang.js" />
     <Content Include="App_Data\howtosetup.txt" />
     <Content Include="App_Data\script_database_job.sql" />
     <Content Include="App_Data\script_database_mas.sql" />
@@ -586,6 +587,8 @@
     <Content Include="App_Data\SINOTHAI\Acc\FormTaxinv.vbhtml" />
     <Content Include="App_Data\SINOTHAI\JobOrder\FormBookingEx.vbhtml" />
     <Content Include="App_Data\SINOTHAI\JobOrder\FormBookingIm.vbhtml" />
+    <Content Include="App_Data\APL\JobOrder\FormJob.vbhtml" />
+    <Content Include="App_Data\APL\Clr\FormClr.vbhtml" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
