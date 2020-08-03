@@ -5,7 +5,7 @@
 End Code
 <style>
     * {
-	font-size:13px;
+	font-size:12px;
     }
     table {
         border-width:thin;
@@ -43,7 +43,7 @@ Tel: 084-5399663
 </div>
 
 </div>
-<div>
+<div style="display:flex;flex-direction:column">
     <div style="display:flex;">
         <div style="flex:3;border:1px solid black;border-radius:5px;">
             NAME : <label id="lblCustName"></label><br />
@@ -117,17 +117,16 @@ Tel: 084-5399663
             </div>
         </div>
     </div>
+    <br/>
     <table style="width:100%" border="1" class="text-center">
-        <thead>
-            <tr style="background-color :gainsboro;text-align:center;">
-                <th width="100px">CODE</th>
-                <th width="550px">DESCRIPTION</th>
-                <th width="50px">QTY</th>
-                <th width="100px">UNIT</th>
-                <th width="100px">DISC</th>
-                <th width="100px">AMOUNT</th>
-            </tr>
-        </thead>
+        <tr style="background-color :gainsboro;text-align:center;">
+            <td width="100px">CODE</td>
+            <td width="550px">DESCRIPTION</td>
+            <td width="50px">QTY</td>
+            <td width="100px">UNIT</td>
+            <td width="100px">DISC</td>
+            <td width="100px">AMOUNT</td>
+        </tr>
         <tbody id="tbDetail"></tbody>
         <tr>
             <td>TOTAL (BAHT)</td>

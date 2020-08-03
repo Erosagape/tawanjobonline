@@ -6,7 +6,7 @@
 End Code
 <style>
     * {
-        font-size: 14px;
+        font-size: 12px;
     }
 
     table {
@@ -45,25 +45,24 @@ End Code
             PLEASE APPROVE BEFORE PAYMENT
         </div>
     </div>
+    <br/>
     <table border="1" style="border-style:solid;width:100%;margin-top:5px ">
-        <thead>
-            <tr>
-                <th class="text-center" width="100" rowspan="2">ITEMS</th>
-                <th class="text-center" width="100" rowspan="2">ISSUE DATE</th>
-                <th class="text-center" width="130" rowspan="2">INVOICE NO.</th>
-                <th class="text-center" width="130" rowspan="2">JOB NO.</th>
-                <th class="text-center" colspan="2">AMOUNT</th>
-                <th class="text-center" width="60" rowspan="2">VAT</th>
-                <th class="text-center" colspan="2">W/H</th>
-                <th class="text-center" width="100" rowspan="2">TOTAL</th>
-            </tr>
-            <tr>
-                <th class="text-center" width="130">REIMBURSEMENT</th>
-                <th class="text-center" width="90">SERVICE</th>
-                <th class="text-center" width="50">1%</th>
-                <th class="text-center" width="50">3%</th>
-            </tr>
-        </thead>
+        <tr>
+            <td class="text-center" width="100" rowspan="2">ITEMS</td>
+            <td class="text-center" width="100" rowspan="2">ISSUE DATE</td>
+            <td class="text-center" width="130" rowspan="2">INVOICE NO.</td>
+            <td class="text-center" width="130" rowspan="2">JOB NO.</td>
+            <td class="text-center" colspan="2">AMOUNT</td>
+            <td class="text-center" width="60" rowspan="2">VAT</td>
+            <td class="text-center" colspan="2">W/H</td>
+            <td class="text-center" width="100" rowspan="2">TOTAL</td>
+        </tr>
+        <tr>
+            <td class="text-center" width="130">REIMBURSEMENT</td>
+            <td class="text-center" width="90">SERVICE</td>
+            <td class="text-center" width="50">1%</td>
+            <td class="text-center" width="50">1.5%</td>
+        </tr>
         <tbody id="tbDetail"></tbody>
         <tr>
             <td style="text-align:right" colspan="4">TOTAL</td>

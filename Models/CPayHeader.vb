@@ -299,6 +299,16 @@ Public Class CPayHeader
             m_PaymentRef = value
         End Set
     End Property
+    Private m_ApproveRef As String
+    Public Property ApproveRef As String
+        Get
+            Return m_ApproveRef
+        End Get
+        Set(value As String)
+            m_ApproveRef = value
+        End Set
+    End Property
+
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -344,6 +354,7 @@ Public Class CPayHeader
                             dr("PaymentDate") = Main.GetDBDate(Me.PaymentDate)
                             dr("PaymentTime") = Main.GetDBTime(Me.PaymentTime)
                             dr("PaymentRef") = Main.GetDBString(Me.PaymentRef, dt.Columns("PaymentRef"))
+                            dr("ApproveRef") = Main.GetDBString(Me.ApproveRef, dt.Columns("ApproveRef"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CPayHeader", "SaveData", Me, False)
@@ -470,6 +481,9 @@ Public Class CPayHeader
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("PaymentRef"))) = False Then
                         row.PaymentRef = rd.GetString(rd.GetOrdinal("PaymentRef")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ApproveRef"))) = False Then
+                        row.ApproveRef = rd.GetString(rd.GetOrdinal("ApproveRef")).ToString()
                     End If
                     lst.Add(row)
                 End While

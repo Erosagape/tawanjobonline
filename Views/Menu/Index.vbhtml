@@ -45,6 +45,7 @@ End Code
     <div class="row">
         <div class="col-md-12">
             <b><label id="lblGrid3">Status By Customer</label>:</b>
+            <b><label id="lblGrid4">Status By Staff</label>:</b>
             <div id="chartCust"></div>
         </div>
     </div>
@@ -63,7 +64,13 @@ End Code
     var chartType = getQueryString("Type");
     var firstDateOfMonth = [new Date().getFullYear(), CCode(new Date().getMonth()+1), '01'].join('-');
     var lastDateOfMonth = [new Date().getFullYear(), CCode(new Date().getMonth()+1), new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()].join('-');
-
+    if (chartType == 'V2') {
+        $('#lblGrid4').show();
+        $('#lblGrid3').hide();
+    } else {
+        $('#lblGrid3').show();
+        $('#lblGrid4').hide();
+    }
     $('#txtDateFrom').val(firstDateOfMonth);
     $('#txtDateTo').val(lastDateOfMonth);
     $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {

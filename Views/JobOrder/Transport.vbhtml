@@ -582,7 +582,7 @@ End Code
                     <div class="col-sm-4" style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
                         <label id="lblPickup">Pick-up:</label>
                         <br />
-                        <div style="display:flex;flex-direction:row">
+                        <div style="display:flex;flex-direction:column">
                             <div style="flex:1">
                                 <div style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
                                     <div>
@@ -633,7 +633,7 @@ End Code
                     <div class="col-sm-4" style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
                         <label id="lblDelivery">Delivery:</label>
                         <br />
-                        <div style="display:flex;flex-direction:row">
+                        <div style="display:flex;flex-direction:column">
                             <div style="flex:1">
                                 <div style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
                                     <div>
@@ -680,7 +680,7 @@ End Code
                     <div class="col-sm-4" style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
                         <label id="lblReturn">Return:</label>
                         <br />
-                        <div style="display:flex;flex-direction:row">
+                        <div style="display:flex;flex-direction:column">
                             <div style="flex:1">
                                 <div style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
                                     <div>
@@ -733,7 +733,7 @@ End Code
                         <label id="lblDeliveryNo">Delivery No</label>
                         :
                         <div style="display:flex;">
-                            <div style="display:flex"><input type="text" id="txtDeliveryNo" class="form-control" disabled></div>
+                            <div style="display:flex"><input type="text" id="txtDeliveryNo" class="form-control"></div>
                             <button id="btnGenDeliveryNo" onclick="GenerateDO()" class="btn btn-warning">Create</button>
                             <button id="btnPrintSlip" class="btn btn-info" onclick="PrintDelivery()">Delivery Slip</button>
                         </div>
@@ -789,7 +789,7 @@ End Code
                 <th class="all">Qty</th>
                 <th class="desktop">Status</th>
                 <th class="desktop">G.W</th>
-                <th class="desktop">UnloadDate</th>
+                <th class="desktop">PickupDate</th>
                 <th class="desktop">DeliveryNo</th>
                 <th class="desktop">V.Inv</th>
                 <th class="desktop">Clear</th>
@@ -1265,9 +1265,9 @@ End Code
                 },
                 { data: "GrossWeight", title: "G.W" },
                 {
-                    data: null, title: "Unload Date",
+                    data: null, title: "Pickup Date",
                     render: function (data) {
-                        return CDateEN(data.UnloadDate);
+                        return CDateEN(data.TargetYardDate);
                     }
                 },
                 { data: "DeliveryNo", title: "Delivery No" },

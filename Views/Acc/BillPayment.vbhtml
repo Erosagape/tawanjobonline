@@ -1,9 +1,9 @@
 ﻿@Code
-    ViewBag.Title = "Approve Billing Payment"
+    ViewBag.Title = "Billing Payment"
 End Code
 <div class="row">
     <div class="col-sm-4">
-        <label id="lblBranch">Branch</label>        
+        <label id="lblBranch">Branch</label>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -24,7 +24,7 @@ End Code
 </div>
 <div class="row">
     <div class="col-sm-4">
-        <label id="lblCurrency">Currency :</label>        
+        <label id="lblCurrency">Currency :</label>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtCurrencyCode" style="width:20%" />
@@ -33,7 +33,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-6">
-        <label id="lblVenCode">Vender :</label>        
+        <label id="lblVenCode">Vender :</label>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtVenCode" style="width:20%" />
@@ -48,6 +48,9 @@ End Code
         </a>
     </div>
 </div>
+<a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="EntryExpense()">
+    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkCreate">Entry Expense</b>
+</a>
 <div class="row">
     <div class="col-sm-12">
         <table id="tbHeader" class="table table-responsive">
@@ -56,8 +59,9 @@ End Code
                     <th>DocNo</th>
                     <th class="desktop">DocDate</th>
                     <th class="desktop">VenCode</th>
-                    <th class="all">Ref</th>
-                    <th class="desktop">PoNo</th>
+                    <th class="all">Approve No</th>
+                    <th class="all">Reference</th>
+                    <th class="desktop">Po.No</th>
                     <th class="desktop">Amount</th>
                     <th class="desktop">WT</th>
                     <th class="desktop">VAT</th>
@@ -67,24 +71,11 @@ End Code
         </table>
     </div>
 </div>
-<div class="row">
-    <div class="col-sm-12">
-        <label id="lblListApprove">Selected Document</label>
-         : <br /><input type="text" id="txtListApprove" class="form-control" value="" disabled />
-    </div>
-</div>
-<br />
-<a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Approve</b>
-</a>
 <div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
-    let arr = [];
-    let list = [];
-    let docno = '';
     //$(document).ready(function () {
     SetEvents();
     //});
@@ -120,7 +111,8 @@ End Code
             CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency', response, 2);
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
         });
-        }
+    }
+
     function SearchData(type) {
         switch (type) {
             case 'branch':
@@ -148,10 +140,6 @@ End Code
         $('#txtCurrencyName').val(dt.TName);
         }
     function SetGridAdv(isAlert) {
-        arr = [];
-        ShowSummary();
-        docno = '';
-
         let w = '';
         if ($('#txtVenCode').val() !== "") {
             w = w + '&vencode=' + $('#txtVenCode').val();
@@ -163,7 +151,6 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
-        w = w + '&Type=NOAPP';
         $.get(path + 'acc/getpayment?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.payment.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
@@ -185,6 +172,7 @@ End Code
                         }
                     },
                     { data: "VenCode", title: "Vender" },
+                    { data: "ApproveRef", title: "Approve.No" },
                     { data: "RefNo", title: "Ref.No" },
                     { data: "PoNo", title: "PO.No" },
                     {
@@ -217,15 +205,7 @@ End Code
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected') == true) {
-                    $(this).removeClass('selected');
-                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                    RemoveData(data); //callback function from caller
-                    return;
-                }
-                $(this).addClass('selected');
-                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                AddData(data); //callback function from caller
+                SetSelect('#tbHeader', this);
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
@@ -233,54 +213,8 @@ End Code
             });
         });
     }
+    function EntryExpense() {
+        window.open(path + 'acc/expense', '', '');
+    }
 
-    function AddData(o) {
-        arr.push(o);
-        ShowSummary();
-    }
-    function RemoveData(o) {
-        let idx = arr.indexOf(o);
-        if (idx < 0) {
-            return;
-        }
-        arr.splice(idx, 1);
-        ShowSummary();
-    }
-    function ShowSummary() {
-        let doc = '';
-        list = [];
-
-        for (let i = 0; i < arr.length; i++) {
-
-            let o = arr[i];
-            doc += (doc != '' ? ',' : '') + o.DocNo;
-        }
-        $('#txtListApprove').val(doc);
-    }
-    function ApproveData() {
-        if (arr.length < 0) {
-            ShowMessage('No data to approve',true);
-            return;
-        }
-        let dataApp = [];
-        dataApp.push(user);
-        for (let i = 0; i < arr.length; i++) {
-            dataApp.push(arr[i].BranchCode + '|' + arr[i].DocNo);
-        }
-        let jsonString = JSON.stringify({ data: dataApp });
-        $.ajax({
-            url: "@Url.Action("ApproveExpense", "Acc")",
-            type: "POST",
-            contentType: "application/json",
-            data: jsonString,
-            success: function (response) {
-                SetGridAdv(false);
-                response ? ShowMessage("Approve Completed") : ShowMessage("Cannot Approve");
-            },
-            error: function (e) {
-                ShowMessage(e,true);
-            }
-        });
-        return;
-    }
 </script>

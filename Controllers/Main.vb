@@ -2077,14 +2077,15 @@ j.VesselName, j.MVesselName, j.ProjectName, j.TotalGW, j.TotalNW , j.GWUnit, j.I
 j.ShippingEmp,e.TName as ShippingName, j.TRemark, j.EstDeliverDate, h.Remark, h.PackingAddress, h.CYAddress, h.FactoryAddress, h.ReturnAddress, h.PackingContact, h.CYContact, h.FactoryContact, h.ReturnContact, 
 h.PackingPlace, h.CYPlace, h.FactoryPlace, h.ReturnPlace, h.PackingDate, h.CYDate, h.FactoryDate, h.ReturnDate, h.PackingTime, h.CYTime, h.FactoryTime, 
 h.ReturnTime, h.TransMode, h.PaymentCondition, h.PaymentBy, d.CTN_NO, d.SealNumber, d.TruckNO, d.Comment, d.TruckType, d.Driver, d.Location, d.DeliveryNo,
-d.ShippingMark, d.CTN_SIZE, d.ProductDesc, d.ProductQty, d.ProductUnit, d.GrossWeight, d.Measurement, d.TargetYardDate, d.ActualYardDate, 
-d.UnloadDate AS TargetDeliveryDate, d.UnloadFinishDate AS ActualDeliveryDate, d.TruckIN AS TargetReturnDate, d.ReturnDate AS ActualReturnDate, j.BLNo, j.JobType, 
+d.ShippingMark, d.CTN_SIZE, d.ProductDesc, d.ProductQty, d.ProductUnit, d.GrossWeight, d.Measurement, d.TargetYardDate, d.TargetYardTime, d.ActualYardDate, d.ActualYardTime, 
+d.UnloadDate AS TargetDeliveryDate, d.UnloadTime as TargetDeliveryTime, d.UnloadFinishDate AS ActualDeliveryDate, d.UnloadFinishTime as ActualDeliveryTime,
+d.TruckIN AS TargetReturnDate, d.Start as TargetReturnTime, d.ReturnDate AS ActualReturnDate, d.Finish as ActualReturnTime, j.BLNo, j.JobType, 
 j.ShipBy, j.AgentCode, s.NameEng AS ShipperName, s.EAddress1 AS ShipperAddress1, s.EAddress2 AS ShipperAddress2, s.Phone AS ShipperPhone, s.FaxNumber as ShipperFax, s.DMailAddress as ShipperEMail,
 s.TaxNumber as ShipperTaxID,s.Branch as ShipperTaxBranch,j.AgentCode AS TransportCode, j.ForwarderCode AS CarrierCode, v.English AS CarrierName, v.EAddress1 AS CarrierAddress1, v.EAddress2 AS CarrierAddress2, 
 v.ContactSale AS CarrierContact, v.Phone AS CarrierPhone,v.TaxNumber as CarrierTaxID, t.English AS TransportName, t.EAddress1 AS TransportAddress1, t.EAddress2 AS TransportAddress2, 
 t.ContactSale AS TransportContact, t.Phone AS TransportPhone,t.TaxNumber as TransportTaxID, j.CustContactName, j.Measurement AS TotalM3, j.HAWB, j.MAWB, j.Description, j.CustRefNO,j.ConfirmDate,
 r.LocationRoute,d.PlaceName1,d.PlaceAddress1,PlaceContact1,d.PlaceName2,d.PlaceAddress2,PlaceContact2,d.PlaceName3,d.PlaceAddress3,PlaceContact3,d.PlaceName4,d.PlaceAddress4,PlaceContact4
-FROM     dbo.Mas_Company AS n INNER JOIN
+FROM dbo.Mas_Company AS n INNER JOIN
 dbo.Mas_Vender AS a INNER JOIN
 dbo.Job_LoadInfo AS h LEFT OUTER JOIN
 dbo.Job_LoadInfoDetail AS d ON h.BranchCode = d.BranchCode AND h.BookingNo = d.BookingNo ON a.VenCode = h.VenderCode ON 

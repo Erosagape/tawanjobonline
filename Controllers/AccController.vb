@@ -35,10 +35,15 @@ Namespace Controllers
         End Function
         Function ApproveExpense(<FromBody()> ByVal data As String()) As HttpResponseMessage
             Try
-                ViewBag.User = Session("CurrUser").ToString()
-                Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
-                If AuthorizeStr.IndexOf("I") < 0 Then
-                    Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+                Dim poNumber = ""
+                If Not Request.QueryString("ID") Is Nothing Then
+                    poNumber = Request.QueryString("ID").ToString()
+                Else
+                    ViewBag.User = Session("CurrUser").ToString()
+                    Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
+                    If AuthorizeStr.IndexOf("I") < 0 Then
+                        Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+                    End If
                 End If
 
                 If IsNothing(data) Then
@@ -58,8 +63,30 @@ Namespace Controllers
                 Next
 
                 If lst <> "" Then
-                    Dim tSQL As String = String.Format("UPDATE Job_PaymentHeader SET ApproveBy='" & user & "',ApproveDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',ApproveTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
+                    Dim tSQL As String = ""
+                    If poNumber <> "" Then
+                        tSQL = String.Format("UPDATE Job_PaymentHeader SET PoNo='" & poNumber & "' WHERE BranchCode+'|'+DocNo in({0})", lst)
+                    Else
+                        Dim fmt = Main.GetValueConfig("RUNNING", "APP_PAY")
+                        If fmt <> "" Then
+                            If fmt.IndexOf("bb") >= 0 Then
+                                fmt = fmt.Replace("bb", DateTime.Today.AddYears(543).ToString("yy"))
+                            End If
+                            If fmt.IndexOf("MM") >= 0 Then
+                                fmt = fmt.Replace("MM", DateTime.Today.ToString("MM"))
+                            End If
+                            If fmt.IndexOf("yy") >= 0 Then
+                                fmt = fmt.Replace("yy", DateTime.Today.ToString("yy"))
+                            End If
+                        Else
+                            fmt = DateTime.Today.ToString("yyMM") & "____"
+                        End If
+                        Dim pFormat = Main.GetValueConfig("RUNNING_FORMAT", "APP_PAY") & fmt
+                        Dim sqlApp = String.Format("SELECT MAX(ApproveRef) as t FROM Job_PaymentHeader WHERE ApproveRef Like '%{0}' ", pFormat)
+                        Dim appRef = Main.GetMaxByMask(GetSession("ConnJob"), sqlApp, pFormat)
+                        tSQL = String.Format("UPDATE Job_PaymentHeader SET ApproveRef='" & appRef & "',ApproveBy='" & user & "',ApproveDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',ApproveTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
  WHERE BranchCode+'|'+DocNo in({0})", lst)
+                    End If
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Return New HttpResponseMessage(HttpStatusCode.OK)
@@ -94,10 +121,19 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("DateTo")) Then
                     tSqlw &= " AND DocDate<='" & Request.QueryString("DateTo") & " 23:59:00' "
                 End If
-
+                If Not IsNothing(Request.QueryString("Status")) Then
+                    Select Case Request.QueryString("Status").ToString
+                        Case "N"
+                            tSqlw &= " AND ISNULL(ApproveRef,'')='' AND ISNULL(PaymentRef,'')='' "
+                        Case "A"
+                            tSqlw &= " AND NOT ISNULL(ApproveRef,'')='' AND ISNULL(PaymentRef,'')='' "
+                        Case "P"
+                            tSqlw &= " AND NOT ISNULL(PaymentRef,'')='' "
+                    End Select
+                End If
                 Dim oData = New CPayHeader(GetSession("ConnJob")).GetData(tSqlw & " AND NOT ISNULL(AdvRef,'')<>''")
                 Dim json As String = JsonConvert.SerializeObject(oData)
-                Dim oDataD = New CPayDetail(GetSession("ConnJob")).GetData(tSqlw & " AND AdvItemNo=0 ")
+                Dim oDataD = New CPayDetail(GetSession("ConnJob")).GetData(" WHERE DocNo IN(SELECT DocNo FROM Job_PaymentHeader " & tSqlw & ") AND AdvItemNo=0 ")
                 Dim jsonD As String = JsonConvert.SerializeObject(oDataD)
 
                 json = "{""payment"":{""header"":" & json & ",""detail"":" & jsonD & "}}"
@@ -141,6 +177,12 @@ Namespace Controllers
                     If Request.QueryString("Type").ToString = "NOPAY" Then
                         tSqlH &= String.Format(" AND NOT (DocNo IN(SELECT p.DocNo FROM (SELECT h.DocNo FROM Job_CashControlDoc h INNER JOIN Job_CashControlSub d ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo AND h.acType=d.acType WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}') p  )", Request.QueryString("Branch").ToString)
                         tSqlH &= String.Format(" OR DocNo IN(SELECT DISTINCT p.PaymentNo FROM (SELECT h.PaymentNo FROM Job_AdvHeader h WHERE h.DocStatus<>99 AND h.BranchCode='{0}') p WHERE p.PaymentNo IS NOT NULL))", Request.QueryString("Branch").ToString)
+                    End If
+                    If Request.QueryString("Type").ToString = "NOPO" Then
+                        tSqlH &= " AND ISNULL(PoNo,'')='' "
+                    End If
+                    If Request.QueryString("Type").ToString = "NOAPP" Then
+                        tSqlH &= " AND ISNULL(ApproveRef,'')='' "
                     End If
                 End If
                 If Not IsNothing(Request.QueryString("Status")) Then
@@ -445,6 +487,13 @@ Namespace Controllers
         Function CreditNote() As ActionResult
             Return GetView("CreditNote", "MODULE_ACC")
         End Function
+        Function VenderInv() As ActionResult
+            Return GetView("VenderInv")
+        End Function
+        Function BillPayment() As ActionResult
+            Return GetView("BillPayment")
+        End Function
+
         Function GetCNDNDetail() As ActionResult
             Try
                 Dim tSqlw As String = " WHERE DocNo<>'' "

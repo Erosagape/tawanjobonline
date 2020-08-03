@@ -187,6 +187,12 @@
         case 'AppTransport':
             mnuPath = path + 'JobOrder/TruckApprove';
             break;
+        case 'VenderInv':
+            mnuPath = path + 'Acc/VenderInv';
+            break;
+        case 'BillPayment':
+            mnuPath = path + 'Acc/BillPayment';
+            break;
         default:
             ShowMessage('Under Development');
             break;

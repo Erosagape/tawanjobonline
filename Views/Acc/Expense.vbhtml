@@ -127,8 +127,7 @@ End Code
                 </div>                
                 <div class="row">
                     <div class="col-sm-4" style="border-style:solid;border-width:1px">
-                        <input type="checkbox" id="chkApprove" />
-                        <label id="lblAppr" for="chkApprove">Approve By</label>
+                        <label id="lblAppr">Approve By</label>
                         <br />
                         <input type="text" id="txtApproveBy" style="width:250px" disabled />
                         <br />
@@ -136,6 +135,8 @@ End Code
                         <input type="date" id="txtApproveDate" disabled />
                         <label id="lblApprTime">Time:</label>                        
                         <input type="text" id="txtApproveTime" style="width:80px" disabled />
+                        <br/>
+                        <label>Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" disabled />
                     </div>
                     <div class="col-sm-4" style="border-style:solid;border-width:1px">
                         <label id="lblPayment">Payment By</label>
@@ -146,7 +147,7 @@ End Code
                         <label id="lblPayTime">Time:</label>                        
                         <input type="text" id="txtPaymentTime" style="width:80px" disabled />
                         <br />
-                        <label id="lblPayRef">Payment Ref:</label>
+                        <label id="lblPayRef">Payment Ref:</label><br/>
                         <input type="text" id="txtPaymentRef" style="width:200px" disabled />
                     </div>
                     <div class="col-sm-4" style="border-style:solid;border-width:1px;color:red">
@@ -536,10 +537,6 @@ End Code
             chkmode = this.checked;
             CallBackAuthorize(path, 'MODULE_ACC', 'Expense', 'D', SetCancel);
         });
-        $('#chkApprove').on('click', function () {
-            chkmode = this.checked;
-            CallBackAuthorize(path, 'MODULE_ADV', 'Approve',(chkmode ? 'I':'D'), SetApprove);
-        });
         $('#txtBranchCode').focusout(function (event) {
             if (true) {
                 ShowBranch(path, $('#txtBranchCode').val(), '#txtBranchName');
@@ -735,7 +732,8 @@ End Code
             ApproveBy : $('#txtApproveBy').val(),
             ApproveDate : CDateEN($('#txtApproveDate').val()),
             ApproveTime : $('#txtApproveTime').val(),
-            AdvRef: $('#txtAdvRef').val()
+            AdvRef: $('#txtAdvRef').val(),
+            ApproveRef: $('#txtApproveRef').val()
         };
         return dt;
     }
@@ -766,6 +764,7 @@ End Code
             $('#txtPaymentTime').val(ShowTime(dt.PaymentTime));
             $('#txtPaymentRef').val(dt.PaymentRef);
             $('#txtApproveBy').val(dt.ApproveBy);
+            $('#txtApproveRef').val(dt.ApproveRef);
             $('#txtApproveDate').val(CDateEN(dt.ApproveDate));
             $('#txtApproveTime').val(ShowTime(dt.ApproveTime));
             $('#txtCancelReson').val(dt.CancelReson);
@@ -776,7 +775,6 @@ End Code
             $('#txtRefNo').val(dt.RefNo);
             $('#txtPayType').val(dt.PayType);
             $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
-            $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
             EnableSave();
             return;
         }
@@ -852,6 +850,7 @@ End Code
         $('#txtPaymentTime').val('');
         $('#txtPaymentRef').val('');
         $('#txtApproveBy').val('');
+        $('#txtApproveRef').val('');
         $('#txtApproveDate').val('');
         $('#txtApproveTime').val('');
         $('#txtCancelReson').val('');
@@ -865,7 +864,6 @@ End Code
         }
         $('#txtPayType').val('CA');
         $('#chkCancel').prop('checked', false);
-        $('#chkApprove').prop('checked', false);
         $('#tbDetail').DataTable().clear().draw();
         EnableSave();
     }

@@ -90,7 +90,7 @@
                     <a href="#" id="mnuAcc3" class="w3-bar-item w3-button" onclick="OpenMenu('Billing')">- Billing</a>
                     <a href="#" id="mnuAcc4" class="w3-bar-item w3-button" onclick="OpenMenu('Receipt')">- Receipts</a>
                     <a href="#" id="mnuAcc5" class="w3-bar-item w3-button" onclick="OpenMenu('TaxInvoice')">- Tax-invoice</a>
-                    <a href="#" id="mnuAcc6" class="w3-bar-item w3-button" onclick="OpenMenu('Expense')">- Payments Bill</a>
+                    <a href="#" id="mnuAcc6" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Payments Bill</a>
                     <a href="#" id="mnuAcc7" class="w3-bar-item w3-button" onclick="OpenMenu('CreditNote')">- Credit/Debit Note</a>
                     <a href="#" id="mnuAcc8" class="w3-bar-item w3-button" onclick="OpenMenu('GLNote')">- Journal Entry</a>
                 </div>
@@ -137,8 +137,8 @@
                 </div>
                 <div id="mnuVend" class="w3-hide w3-pale-red w3-card-4">
                     <a href="#" id="mnuVend0" class="w3-bar-item w3-button" onclick="OpenMenu('Transport')">- Loading Info</a>
-                    <a href="#" id="mnuVend1" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Approve</a>
-                    <a href="#" id="mnuVend2" class="w3-bar-item w3-button" onclick="OpenMenu('Expense')">- Expenses</a>
+                    <a href="#" id="mnuVend2" class="w3-bar-item w3-button" onclick="OpenMenu('Expense')">- Entry Expenses</a>
+                    <a href="#" id="mnuVend1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Create Invoice</a>
                     <a href="#" id="mnuVend3" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">- Documents</a>
                 </div>
             </div>

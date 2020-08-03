@@ -1,9 +1,9 @@
 ﻿@Code
-    ViewBag.Title = "Approve Billing Payment"
+    ViewBag.Title = "Approve Invoice Vender"
 End Code
 <div class="row">
     <div class="col-sm-4">
-        <label id="lblBranch">Branch</label>        
+        <label id="lblBranch">Branch</label>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -24,7 +24,7 @@ End Code
 </div>
 <div class="row">
     <div class="col-sm-4">
-        <label id="lblCurrency">Currency :</label>        
+        <label id="lblCurrency">Currency :</label>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtCurrencyCode" style="width:20%" />
@@ -33,7 +33,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-6">
-        <label id="lblVenCode">Vender :</label>        
+        <label id="lblVenCode">Vender :</label>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtVenCode" style="width:20%" />
@@ -56,6 +56,7 @@ End Code
                     <th>DocNo</th>
                     <th class="desktop">DocDate</th>
                     <th class="desktop">VenCode</th>
+                    <th class="desktop">EmpCode</th>
                     <th class="all">Ref</th>
                     <th class="desktop">PoNo</th>
                     <th class="desktop">Amount</th>
@@ -68,9 +69,14 @@ End Code
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-4">
+        <label id="lblID">Invoice No</label>
+        <br/>
+        <input type="text" id="txtID" class="form-control" />
+    </div>
+    <div class="col-sm-8">
         <label id="lblListApprove">Selected Document</label>
-         : <br /><input type="text" id="txtListApprove" class="form-control" value="" disabled />
+        : <br /><input type="text" id="txtListApprove" class="form-control" value="" disabled />
     </div>
 </div>
 <br />
@@ -82,6 +88,7 @@ End Code
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
+    const userGroup = '@ViewBag.UserGroup';
     let arr = [];
     let list = [];
     let docno = '';
@@ -89,7 +96,18 @@ End Code
     SetEvents();
     //});
     function SetEvents() {
-
+        if (userGroup == 'V') {
+            $('#txtVenCode').attr('disabled', 'disabled');
+            $('#txtVenName').attr('disabled', 'disabled');
+            $('#btnBrowseVend').attr('disabled', 'disabled');
+            $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
+                if (r.vender.data.length > 0) {
+                    let dr = r.vender.data[0];
+                    $('#txtVenCode').val(dr.VenCode);
+                    $('#txtVenName').val(dr.TName);
+                }
+            });
+        }
         //default values
         $('#txtCurrencyCode').val('THB');
         ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
@@ -163,7 +181,7 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
-        w = w + '&Type=NOAPP';
+        w = w + '&Type=NOPO';
         $.get(path + 'acc/getpayment?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.payment.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
@@ -185,6 +203,7 @@ End Code
                         }
                     },
                     { data: "VenCode", title: "Vender" },
+                    { data: "ContactName", title: "Contact" },
                     { data: "RefNo", title: "Ref.No" },
                     { data: "PoNo", title: "PO.No" },
                     {
@@ -268,8 +287,9 @@ End Code
             dataApp.push(arr[i].BranchCode + '|' + arr[i].DocNo);
         }
         let jsonString = JSON.stringify({ data: dataApp });
+        let postUrl = "@Url.Action("ApproveExpense", "Acc")?ID=" + $('#txtID').val();
         $.ajax({
-            url: "@Url.Action("ApproveExpense", "Acc")",
+            url: postUrl,
             type: "POST",
             contentType: "application/json",
             data: jsonString,

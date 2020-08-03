@@ -2445,7 +2445,8 @@ function ChangeLanguageForm(fname) {
                 btnAddJob: 'New|สร้างงานใหม่',
                 lblGrid1: 'Volume By Status|จำนวนงานตามสถานะ',
                 lblGrid2: 'Status By Job Type|จำนวนงานตามประเภทงาน',
-                lblGrid3: 'Status By Customer|จำนวนงานตามลูกค้า'
+                lblGrid3: 'Status By Customer|จำนวนงานตามลูกค้า',
+                lblGrid4: 'Status By Staff|จำนวนงานตามพนักงาน'
             };
             SetLanguage(lang);
             break;
@@ -2948,8 +2949,7 @@ function ChangeLanguageGrid(module, id) {
                     "Pay.Bill No|เลขที่บิล",
                     "Due Date|กำหนดชำระ",
                     "Vender|ผู้ให้บริการ",
-                    "Contact|ผู้ติดต่อ",
-                    "Ref No|เลขที่อ้างอิง",
+                    "Container No|ตู้คอนเทนเนอร์",
                     "Vender Inv|เลขที่ใบแจ้งหนี้",
                     "Amount|ยอดเงิน",
                     "VAT|VAT",
@@ -3732,7 +3732,7 @@ function ChangeLanguageGrid(module, id) {
                     "Qty|จำนวน",
                     "Status|สถานะงาน",
                     "G.W|น้ำหนักรวม",
-                    "Unload Date|วันที่รับส่งของ",
+                    "Pickup Date|วันที่รับตู้",
                     "Delivery No|เลขที่ใบส่งของ",
                     "V.Bill|วางบิลมาแล้ว",
                     "S.Clear|เคลียร์แล้ว",

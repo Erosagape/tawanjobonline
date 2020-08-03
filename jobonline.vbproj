@@ -966,6 +966,8 @@
     <Content Include="Views\JobOrder\FormBookingIm.vbhtml" />
     <Content Include="Views\Report\Preview2.vbhtml" />
     <Content Include="Views\Report\Preview1.vbhtml" />
+    <Content Include="Views\Acc\VenderInv.vbhtml" />
+    <Content Include="Views\Acc\BillPayment.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
