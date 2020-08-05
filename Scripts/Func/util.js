@@ -316,8 +316,9 @@ function CNumEng(s) {
             }
         }
         if (strp == 'point ') strp = '';
-        str += strp + ' only';
+        str += strp;
     }
+    str += ' only';
     return str.replace(/\s+/g, ' ').toUpperCase();
 }
 function CCurrency(data) {

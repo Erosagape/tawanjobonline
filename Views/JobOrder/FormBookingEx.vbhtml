@@ -244,6 +244,7 @@ End Code
                         if (ctnList !== '') ctnList += ',';
                         ctnList += yardDate + '(' + ctnCount + ')';
                         yardDate = chk;
+                        ctnCount = 1;
                     }
                 } else {
                     yardDate = chk;

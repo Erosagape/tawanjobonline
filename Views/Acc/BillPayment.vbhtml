@@ -71,6 +71,18 @@ End Code
         </table>
     </div>
 </div>
+<div class="row">
+    <div class="col-sm-3">
+        Print Approval Form:<br/>
+        <input type="text" class="form-control" id="txtApproveRef" />
+    </div>
+    <div class="col-sm-2">
+        <br/>
+        <a href="#" class="btn btn-info" id="btnPrnBill" onclick="PrintData()">
+            <i class="fa fa-lg fa-print"></i>
+        </a>
+    </div>
+</div>
 <div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
@@ -206,6 +218,8 @@ End Code
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 SetSelect('#tbHeader', this);
+                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                $('#txtApproveRef').val(data.ApproveRef);
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
@@ -216,5 +230,7 @@ End Code
     function EntryExpense() {
         window.open(path + 'acc/expense', '', '');
     }
-
+    function PrintData() {
+        window.open(path + 'acc/formexpense?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtApproveRef').val(), '', '');
+    }
 </script>

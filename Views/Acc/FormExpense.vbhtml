@@ -1,322 +1,200 @@
-﻿
-@Code
-    Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.ReportName = "Payments Note"
-    ViewBag.Title = "Payment Note"
+﻿@Code
+    Layout = "~/Views/Shared/_ReportNoHeadLandscape.vbhtml"
+    ViewBag.Title = "Vender Summary Report"
+    ViewBag.FileName = "export" & DateTime.Now.ToString("yyyyMMddHHMMss") & ".csv"
 End Code
 <style>
     * {
-        font-family: Tahoma;
         font-size: 11px;
     }
 
-    td {
-        font-size: 11px;
-    }
-
-    th {
-        text-align: center;
-    }
-
-    .number {
-        text-align: right;
-    }
-
-    tr {
-        vertical-align: top;
-    }
-
-    table {
-        border-width: thin;
-        border-collapse: collapse;
-    }
-
-    p.normal {
-        border: 2px solid;
-    }
-
-    .round1 {
-        border: 1px solid;
-        border-radius: 5px;
-    }
-
-    .center {
-        text-align: center;
-    }
-
-    .left {
-        text-align: left;
-    }
-
-    .right {
-        text-align: right;
+    label {
+        font-size: 14px;
     }
 </style>
-<table width="100%">
-    <tr>
-        <td width="70%">
-            <div style="display:flex">
-                <div style="flex:1" class="left round1">
-                    <b>เจ้าหน้าที่</b> นางสาว ลาวรรณ สุทา<br>
-                    <b>ที่อยู่</b> 7 หมู่ ตำบลดงดำ อำเภอลี่ จังหวัดลำพูน
-                </div>
-            </div>
+<label id="rptTitle" onclick="ExportData()">Report Title</label>
+<div style="float:right" id="rptCliteria">Report Cliteria</div>
+<div style="display:flex;flex-direction:column;width:100%">
+    <table id="tbResult" style="width:100%">
+        <thead></thead>
+        <tbody></tbody>
+        <tfoot></tfoot>
+    </table>
 
-        </td>
-        <td rowspan="3">
-
-            <div style="display:flex">
-                <div style="flex:1" class="left round1">
-                    <b>AP No. :</b>ZYF19001<br>
-                    <b>Date </b> 01/02/2019<br>
-                    <b>JobNo </b> <br>
-                    <b>วันนัดรับชำระ </b><br>
-                    <b>ADV No. </b> AVD-1902-00034<br>
-                    <b>CLR No.  </b> CLR-1902-00136<br>
-                    <b>เลขที่รับชำระ </b> RV-6202-00370<br>
-                    <b>วันที่ชำระ </b> 07/02/2019<br>
-
-                </div>
-            </div>
-
-
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <div style="display:flex">
-                <div style="flex:1" class="left round1">
-                    <b>สถานที่วางบิล</b> นางสาว ลาวรรณ สุทา<br>
-                    <b>ที่อยู่</b> 7 หมู่ ตำบลดงดำ อำเภอลี่ จังหวัดลำพูน
-                </div>
-            </div>
-
-        </td>
-
-    </tr>
-
-    <tr>
-        <td>
-
-
-            <div style="display:flex">
-                <div style="flex:1" class="left round1">
-                    <b>ลูกค้า</b> นางสาว ลาวรรณ สุทา<br>
-                    <b>ที่อยู่</b> 7 หมู่ ตำบลดงดำ อำเภอลี่ จังหวัดลำพูน
-                </div>
-            </div>
-        </td>
-    </tr>
-
-</table>
-<div class="round1">
-    <div style="display:flex">
-        <div style="flex:1" class="left ">
-            <p><b>Invoice :</b> ZYF19001</p>
-
-        </div>
-
-        <div style="flex:1" class="left ">
-            <p><b>QUANTITY/GROSSWEIGHT:</b></p>
-
-        </div>
-
-        <div style="flex:1" class="left ">
-            <p><b>Measurement[M3]:</b>3.500</p>
-
-        </div>
-    </div>
-
-    <div style="display:flex">
-        <div style="flex:1" class="left">
-            <p><b>Product Name :</b> ZYF19001</p>
-
-        </div>
-    </div>
-
-    <div style="display:flex">
-        <div style="flex:1" class="left ">
-            <p><b>AWB/ B/L No :</b> ZYF19001</p>
-
-        </div>
-
-        <div style="flex:1" class="left">
-            <p><b>Flight/Vessel :</b></p>
-
-        </div>
-    </div>
 </div>
-<table border="1" width="100%">
-    <tr>
-        <td width="10%" class="center">
-            ลำดับที่ (Item)
-        </td>
-        <td width="48%" class="center">
-            รายการสินค้า / รายละเอียด Description
-        </td>
-        <td width="10%" class="center">
-            จำนวนเงินรวม(บาท)Amount(Baht)
-        </td>
-    </tr>
+<script type="text/javascript">
+    let path = '@Url.Content("~")';
+    let branch = getQueryString("Branch");
+    let code = getQueryString("Code");
+    let user = '@ViewBag.User';
+    let lang = '@ViewBag.PROFILE_DEFAULT_LANG';
+    $('#rptTitle').text('@ViewBag.Title');
+    $('#rptCliteria').text('Ref# :' + code);
+    $.ajax({
+        url: path+'Acc/GetVenderReport?Branch=' + branch + '&Code='+ code,
+        type: "GET",
+        contentType: "application/json",
+        success: function (response) {
+            let res = response.payment.data;
+            if (res.length > 0) {
+                var tb = res;
+                let groupField = '';
+                let groupVal = null;
+                let colCount = 0;
+                let sumGroup = [];
+                let sumTotal = [];
+                groupField = 'VenderInvNo';
 
-    <tr>
-        <td class="center">
-            1
-        </td>
-        <td class="left">
-            ค่าคอมมิชชั่น
-        </td>
-        <td class="right">
-            350.00
-        </td>
-    </tr>
-</table>
+                let html = '<thead><tr><th style="border:1px solid black;text-align:left;background-color:lightgrey;">#</th>';
+                $.each(tb[0], function (key, value) {
+                    if (key !== groupField) {
+                        //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
+                        html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></th>';
+                        sumGroup.push({ isSummary: IsSummaryColumn(key), value: 0 });
+                        sumTotal.push(0);
+                        colCount++;
+                    }
+                });
 
-<table width="100%" border="1">
-    <tr>
-        <td width="859px" rowspan="9">
-            <div class="row">
+                html += '</tr></thead><tbody>';
 
-                <div style="display:flex" class="col-sm-8">
-                    <div class="col-sm-8 right round1">
-                        <p class="center"> Withholding Tax Detail</p>
-                        <div style="display:flex">
+                let groupCount = 0;
+                let groupCaption = GetColumnHeader(groupField, lang);
+                let row = 0;
+                for (let r of tb) {
+                    html += '<tr>';
+                    if (groupField !== '') {
+                        if (FormatValue(groupField, r[groupField]) !== groupVal) {
+                            //Show Summary
+                            if (groupCount > 0) {
+                                html += '<td colspan="2" style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>SUB TOTAL</b></u></td>';
+                                for (let i = 1; i < colCount; i++) {
+                                    if (sumGroup[i].isSummary == true) {
+                                        html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"><u><b>' + ShowNumber(sumGroup[i].value, 2) + '</b></u></td>';
+                                    } else {
+                                        html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"></td>';
+                                    }
+                                    sumGroup[i].value = 0;
+                                }
+                                html += '</tr><tr>';
+                                groupCount = 0;
+                            }
+                            groupVal = FormatValue(groupField, r[groupField]);
+                            groupCount++;
 
-                            <div style="flex:2" class="right ">
-                                1% Transportation :
+                            html += '<td colspan="' + (colCount+1) + '" style="background-color:lightyellow;border:1px solid black;text-align:left;">'+ groupCaption +' <b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
+                            html += '</tr><tr>';
+                        } else {
+                            groupCount++;
+                        }
+                    }
+                    row++;
+                    html += '<td style="border:1px solid black;text-align:right;">' + row + '</td>';
+                    let col = 0;
+                    for (let c in r) {
+                        if (c !== groupField) {
+                            if (c.indexOf('Date') >= 0) {
+                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
+                            } else {
+                                if (r[c] !== null) {
+                                    if (IsNumberColumn(c) == true) {
+                                        if (sumGroup[col].isSummary == true) {
+                                            sumGroup[col].value += Number(r[c]);
+                                            sumTotal[col] += Number(r[c]);
+                                        }
+                                        html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c], 2) + '</td>';
+                                    } else {
+                                        html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
+                                    }
+                                } else {
+                                    html += '<td style="border:1px solid black;text-align:left;"></td>';
+                                }
+                            }
+                            col++;
+                        }
+                    }
+                    html += '</tr>';
+                }
+                //Last Total
+                if (groupCount > 0) {
+                    html += '<td colspan="2" style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>SUB TOTAL</b></u></td>';
+                    for (let i = 1; i < colCount; i++) {
+                        if (sumGroup[i].isSummary == true) {
+                            html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"><u><b>' + ShowNumber(sumGroup[i].value, 2) + '</b></u></td>';
+                        } else {
+                            html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"></td>';
+                        }
+                    }
+                    html += '</tr>';
+                    groupCount = 0;
+                }
+                html+='</tbody>'
+                //Grand Total
+                html += '<tfoot><tr style="font-weight:bold;background-color:lightgreen;"><td colspan="2" style="border:1px solid black;text-align:left;"><b>GRAND TOTAL<b/></td>';
+                for (let i = 1; i < colCount; i++) {
+                    if (sumGroup[i].isSummary == true) {
+                        html += '<td style="border:1px solid black;text-align:right;"><b>' + ShowNumber(sumTotal[i], 2) + '</b></td>';
+                    } else {
+                        html += '<td style="border:1px solid black;text-align:right;"></td>';
+                    }
+                }
+                html += '</tr>';
 
-                            </div>
+                html += '</tfoot>';
+                //ShowMessage(html);
+                $('#tbResult').html(html);
+            }
+        }
+    });
 
-                            <div style="flex:1" class="right ">
-                                0.00
+    function ExportData() {
+        var ans = confirm("Download This Data?");
+        if (ans == true) {
+            ExportTableToCSV('@ViewBag.FileName');
+        }
+    }
+    function DownloadCSV(csv, filename) {
+        var csvFile;
+        var downloadLink;
 
-                            </div>
+        // CSV file
+        csvFile = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8" });
 
-                            <div style="flex:1" class="right ">
-                                0.00
+        // Download link
+        downloadLink = document.createElement("a");
 
-                            </div>
-                        </div>
+        // File name
+        downloadLink.download = filename;
 
-                        <div style="display:flex">
+        // Create a link to the file
+        downloadLink.href =window.URL.createObjectURL(csvFile);
 
-                            <div style="flex:2" class="right ">
-                                3 % Service :
+        // Hide download link
+        downloadLink.style.display = "none";
 
-                            </div>
+        // Add the link to DOM
+        document.body.appendChild(downloadLink);
 
-                            <div style="flex:1" class="right ">
-                                0.00
+        // Click download link
+        downloadLink.click();
+    }
 
-                            </div>
+    function ExportTableToCSV(filename) {
+        var csv = [];
+        var rows = document.querySelectorAll("#tbResult tr");
+        csv.push($('#rptTitle').text());
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
 
-                            <div style="flex:1" class="right ">
-                                0.00
+            for (var j = 0; j < cols.length; j++)
+                row.push(cols[j].innerText);
 
-                            </div>
-                        </div>
-
-                        <div style="display:flex">
-
-                            <div style="flex:2" class="right ">
-                                5% :
-
-                            </div>
-
-                            <div style="flex:1" class="right ">
-                                0.00
-
-                            </div>
-
-                            <div style="flex:1" class="right ">
-                                0.00
-
-                            </div>
-                        </div>
-
-                        <div style="display:flex">
-
-                            <div style="flex:2" class="right ">
-                                ยอดสุทธิ :
-
-                            </div>
-
-                            <div style="flex:1" class="right ">
+            csv.push(row.join("\t"));
+        }
+        csv.push($('#rptCliteria').text());
+        // Download CSV file
+        DownloadCSV(csv.join("\n"), filename);
+    }
 
 
-                            </div>
-
-                            <div style="flex:1" class="right ">
-                                0.00
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-
-                </div>
-                <div class="col-sm-4 right">
-                    รวม / Total <br />Vat 7%<br />Total VAT<br />เงินล่วงหน้า<br />ส่วนลด<br />สุทธิ/ Net Total<br />
-                </div>
-            </div>
-        </td>
-        <td width="200px" style="background-color :gainsboro"></td>
-    </tr>
-    <tr style="background-color :gainsboro">
-        <td></td>
-    </tr>
-    <tr style="background-color :gainsboro">
-        <td></td>
-    </tr>
-    <tr style="background-color :gainsboro">
-        <td></td>
-    </tr>
-    <tr style="background-color :gainsboro">
-        <td></td>
-    </tr>
-    <tr style="background-color :gainsboro">
-        <td></td>
-    </tr>
-
-</table>
-<div style="display:flex">
-    <div style="flex:1" class="left ">
-        <p><b>Remark :</b> </p>
-
-    </div>
-
-    <div style="flex:1" class="right ">
-        <p><b>จำนวนตัวอักษร :</b></p>
-
-    </div>
-
-    <div style="flex:2" class="left ">
-        <p class="normal center"><b>(สามร้อยห้าสิบบาทถ้วน) :</b></p>
-
-    </div>
-</div>
-<div style="height:300px"></div>
-
-<div style="display:flex">
-    <div style="flex:1" class=" round1 center">
-        ผู้สั่งซื้อ<br><br>
-        _______________________________
-        <p>Authorized Signature</p>
-
-    </div>
-
-    <div style="flex:1" class=" round1 center">
-        For The Customer<br><br>
-        _______________________________
-        <p>Authorized Signature</p>
-
-    </div>
-
-    <div style="flex:1" class="round1 center">
-        For The C.S &N. SHIPPING Co., Ltd.<br><br>
-        _______________________________
-        <p>Authorized Signature</p>
-
-    </div>
-</div>
+</script>

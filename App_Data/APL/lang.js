@@ -2445,7 +2445,8 @@ function ChangeLanguageForm(fname) {
                 btnAddJob: 'New|สร้างงานใหม่',
                 lblGrid1: 'Volume By Status|จำนวนงานตามสถานะ',
                 lblGrid2: 'Status By Job Type|จำนวนงานตามประเภทงาน',
-                lblGrid3: 'Status By Customer|จำนวนงานตามลูกค้า'
+                lblGrid3: 'Status By Customer|จำนวนงานตามลูกค้า',
+                lblGrid4: 'Status By Staff|จำนวนงานตามพนักงาน'
             };
             SetLanguage(lang);
             break;
@@ -2678,6 +2679,7 @@ function GetReportLists() {
         { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "PRD3D", "ReportNameEN": "PRD-3 Detail Report", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.3 (ใบแนบ)" },
         { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "PRD53D", "ReportNameEN": "PRD-53 Detail Report", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.53 (ใบแนบ)" },
         { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "CASHFLOW", "ReportNameEN": "Cash Flow", "ReportNameTH": "รายงานงบกระแสเงินสด" },
+        { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "VENDSUMMARY", "ReportNameEN": "Vender Summary Report", "ReportNameTH": "รายงานสรุปจ่ายเจ้าหนี้" },
         { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBCOST", "ReportNameEN": "Job Costing Summary", "ReportNameTH": "รายงานสรุปต้นทุนตามจ๊อบ" },
         { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBPROFIT", "ReportNameEN": "Job Costing And Profit", "ReportNameTH": "รายงานกำไรขั้นต้นตามจ๊อบ" },
         { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "VATSALES", "ReportNameEN": "Sales VAT Report", "ReportNameTH": "รายงานภาษีขาย" },
@@ -2948,8 +2950,7 @@ function ChangeLanguageGrid(module, id) {
                     "Pay.Bill No|เลขที่บิล",
                     "Due Date|กำหนดชำระ",
                     "Vender|ผู้ให้บริการ",
-                    "Contact|ผู้ติดต่อ",
-                    "Ref No|เลขที่อ้างอิง",
+                    "Container No|ตู้คอนเทนเนอร์",
                     "Vender Inv|เลขที่ใบแจ้งหนี้",
                     "Amount|ยอดเงิน",
                     "VAT|VAT",
@@ -3732,7 +3733,7 @@ function ChangeLanguageGrid(module, id) {
                     "Qty|จำนวน",
                     "Status|สถานะงาน",
                     "G.W|น้ำหนักรวม",
-                    "Unload Date|วันที่รับส่งของ",
+                    "Pickup Date|วันที่รับตู้",
                     "Delivery No|เลขที่ใบส่งของ",
                     "V.Bill|วางบิลมาแล้ว",
                     "S.Clear|เคลียร์แล้ว",

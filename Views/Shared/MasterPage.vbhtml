@@ -29,10 +29,21 @@
     <div class="w3-sidebar w3-bar-block w3-animate-left" style="display:none;z-index:5" id="mySidebar">
         <div class="w3-sidebar w3-bar-block w3-indigo w3-card" style="width:250px;">
             <div style="width:100%;text-align:center;background-color:white">
-                <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:80%;padding:5px 5px 5px 5px;" />
+                <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:70%;padding:5px 5px 5px 5px;" />
             </div>
             <div style="width:100%;text-align:center;background-color:white;color:black;font-size:11px">
                 <label id="lblLicenseName" onclick="CheckDatabase()">@ViewBag.LICENSE_NAME</label>
+            </div>
+            <div id="dvCustomerMenu">
+                <div id="mainCust" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCust')">
+                    Importer/Exporter
+                </div>
+                <div id="mnuCust" class="w3-hide w3-pale-red w3-card-4">
+                    <a href="#" id="mnuCust1" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
+                    <a href="#" id="mnuCust3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking2')">- Shipment Status</a>
+                    <a href="#" id="mnuCust2" class="w3-bar-item w3-button" onclick="OpenMenu('CreateJob')">- Shipment Order</a>
+                    <a href="#" id="mnuCust4" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">- Documents</a>
+                </div>
             </div>
             <div id="dvShippingMenu">
                 <div id="mainMkt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMkt')">
@@ -94,6 +105,15 @@
                     <a href="#" id="mnuAcc7" class="w3-bar-item w3-button" onclick="OpenMenu('CreditNote')">- Credit/Debit Note</a>
                     <a href="#" id="mnuAcc8" class="w3-bar-item w3-button" onclick="OpenMenu('GLNote')">- Journal Entry</a>
                 </div>
+                <div id="mainVend2" class="w3-bar-item w3-button" onclick="w3_accordion('mnuVen')">
+                    Vender Works
+                </div>
+                <div id="mnuVen" class="w3-hide w3-pale-red w3-card-4">
+                    <a href="#" id="mnuVen0" class="w3-bar-item w3-button" onclick="OpenMenu('Transport')">- Loading Info</a>
+                    <a href="#" id="mnuVen2" class="w3-bar-item w3-button" onclick="OpenMenu('Expense')">- Entry Expenses</a>
+                    <a href="#" id="mnuVen1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Create Invoice</a>
+                    <a href="#" id="mnuVen3" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">- Documents</a>
+                </div>
                 <div id="mainRpt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuRpt')">
                     Report & Tracking
                 </div>
@@ -118,17 +138,6 @@
                 <div id="mnuUtil" class="w3-hide w3-sand w3-card-4">
                     <a href="#" id="mnuUtil1" class="w3-bar-item w3-button" onclick="OpenMenu('Import')">- Import data</a>
                     <a href="#" id="mnuUtil2" class="w3-bar-item w3-button" onclick="OpenMenu('Export')">- Export data</a>
-                </div>
-            </div>
-            <div id="dvCustomerMenu">
-                <div id="mainCust" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCust')">
-                    Importer/Exporter
-                </div>
-                <div id="mnuCust" class="w3-hide w3-pale-red w3-card-4">
-                    <a href="#" id="mnuCust1" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
-                    <a href="#" id="mnuCust3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking2')">- Shipment Status</a>
-                    <a href="#" id="mnuCust2" class="w3-bar-item w3-button" onclick="OpenMenu('CreateJob')">- Shipment Order</a>
-                    <a href="#" id="mnuCust4" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">- Documents</a>
                 </div>
             </div>
             <div id="dvVenderMenu">
@@ -280,7 +289,7 @@
                     <div Class="panel-title">
                         <div class="row">
                             <div class="col-xs-5 col-md-2" style="text-align:center">
-                                <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:80%;height:50px" onclick="w3_open();" />
+                                <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:70%;height:55px" onclick="w3_open();" />
                             </div>
                             <div class="col-xs-7 col-md-10">
                                 <div style="display:flex;align-items:center;height:50px">

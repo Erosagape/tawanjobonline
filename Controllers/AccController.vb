@@ -206,6 +206,70 @@ Namespace Controllers
                 Return Content("[]", jsonContent)
             End Try
         End Function
+        Function GetVenderReport() As ActionResult
+            Try
+                Dim tSqlw As String = ""
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format(" AND h.BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format(" AND h.ApproveRef='{0}' ", Request.QueryString("Code").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("VenCode")) Then
+                    tSqlw &= String.Format(" AND h.VenCode='{0}' ", Request.QueryString("VenCode").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("PayType")) Then
+                    tSqlw &= String.Format(" AND h.PayType='{0}' ", Request.QueryString("PayType").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Currency")) Then
+                    tSqlw &= String.Format(" AND h.CurrencyCode='{0}' ", Request.QueryString("Currency").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlw &= " AND h.DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00' "
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlw &= " AND h.DocDate<='" & Request.QueryString("DateTo") & " 23:59:00' "
+                End If
+                If Not IsNothing(Request.QueryString("Type")) Then
+                    If Request.QueryString("Type").ToString = "NOPAY" Then
+                        tSqlw &= String.Format(" AND NOT (h.DocNo IN(SELECT p.DocNo FROM (SELECT hd.DocNo FROM Job_CashControlDoc hd INNER JOIN Job_CashControlSub dt ON hd.BranchCode=dt.BranchCode AND hd.ControlNo=dt.ControlNo AND hd.acType=dt.acType WHERE hd.DocType='PAY' AND dt.PRType='P' AND hd.BranchCode='{0}') p  )", Request.QueryString("Branch").ToString)
+                        tSqlw &= " OR ISNULL(h.AdvRef,'')<>'')"
+                        tSqlw &= " AND ISNULL(h.ApproveBy,'')<>'' "
+                    End If
+                End If
+                If Not IsNothing(Request.QueryString("Show")) Then
+                    If Request.QueryString("Show").ToString = "ACTIVE" Then
+                        tSqlw &= " AND NOT ISNULL(h.CancelProve,'')<>'' "
+                    End If
+                    If Request.QueryString("Show").ToString = "CANCEL" Then
+                        tSqlw &= " AND ISNULL(h.CancelProve,'')<>'' "
+                    End If
+                End If
+                Dim sqlSub = "
+SELECT d.SICode,s.IsExpense,Max(d.SDescription) as Description 
+FROM Job_PaymentHeader h INNER JOIN Job_PaymentDetail d 
+ON h.BranchCode=d.BranchCode AND h.DocNo=d.DocNo 
+INNER JOIN Job_SrvSingle s ON d.SICode=s.SICode 
+WHERE NOT ISNULL(h.CancelProve,'')<>'' 
+"
+                sqlSub &= tSqlw & " GROUP BY d.SICode,s.IsExpense ORDER BY s.IsExpense DESC,d.SICode"
+                Dim fldSub = ""
+                Dim oSub = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlSub)
+                If oSub.Rows.Count > 0 Then
+                    For Each dr As DataRow In oSub.Rows
+                        fldSub &= ","
+                        fldSub &= "SUM(CASE WHEN d.SICode='" & dr("SICode").ToString & "' THEN d.Amt ELSE 0 END) as '" & dr("Description").ToString & "'"
+                    Next
+                End If
+                Dim sqlM = SQLSelectVenderReport(tSqlw, fldSub)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM)
+                Dim json = JsonConvert.SerializeObject(oData)
+                Return Content("{""payment"":{""data"":" & json & ",""msg"":""" & oData.Rows.Count & """}}", jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetPaymentGrid", ex.Message, ex.StackTrace, True)
+                Return Content("{""payment"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
+            End Try
+        End Function
         Function GetPaymentGrid() As ActionResult
             Try
                 Dim tSqlw As String = SQLSelectPaymentReport() & " WHERE h.DocNo<>'' "

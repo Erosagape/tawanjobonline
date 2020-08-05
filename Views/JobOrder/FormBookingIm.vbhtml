@@ -177,9 +177,9 @@ End Code
             $('#lblTruckType').text(h.TRemark);
             $('#lblTotalContainer').text(h.TotalContainer);
             $('#lblForwarderName').text(h.ForwarderName);
-            $('#lblPickupDate').text(ShowDate(h.CYDate));
+            $('#lblPickupDate').text(ShowDate(h.CYDate) + ' / '+ ShowTime(h.CYTime));
             $('#lblPickupPlace').text(h.CYPlace);
-            $('#lblShippingName').text(h.ShippingName); 
+            $('#lblShippingName').text(h.ShippingName + ' ' + h.ShippingTel); 
             $('#lblFactoryDate').text(ShowDate(h.FactoryDate));
             $('#lblFactoryTime').text(ShowTime(h.FactoryTime));
             $('#lblFactoryPlace').text(h.FactoryPlace);
@@ -188,7 +188,7 @@ End Code
             $('#lblCarrierName').text(h.CarrierName);
             $('#lblConsignName').text(h.ConsigneeName);
             $('#lblInvProduct').text(h.InvProduct);
-            $('#lblGrossWeight').text(h.GrossWeight + ' '+ h.GWUnit);
+            $('#lblGrossWeight').text(h.TotalGW + ' '+ h.GWUnit);
             $('#lblDescription').html(CStr(h.Description));
             $('#lblBillToName').text(h.PaymentBy);
             $('#lblBillToAddress').html(CStr(h.PaymentCondition));

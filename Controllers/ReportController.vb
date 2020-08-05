@@ -1431,6 +1431,27 @@ WHERE j.JobStatus<>99 {0}
 ORDER BY j.ETADate
 "
                         sqlM = String.Format(sqlM, sqlW)
+                    Case "VENDSUMMARY"
+                        sqlW = GetSQLCommand(cliteria, "h.ApproveDate", "j.CustCode", "j.JNo", "j.CSCode", "h.VenCode", "j.JobStatus", "j.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        Dim sqlSub = "
+SELECT d.SICode,s.IsExpense,Max(d.SDescription) as Description 
+FROM Job_PaymentHeader h INNER JOIN Job_PaymentDetail d 
+ON h.BranchCode=d.BranchCode AND h.DocNo=d.DocNo 
+INNER JOIN Job_SrvSingle s ON d.SICode=s.SICode 
+LEFT JOIN Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
+WHERE NOT ISNULL(h.CancelProve,'')<>'' 
+"
+                        sqlSub &= sqlW & " GROUP BY d.SICode,s.IsExpense ORDER BY s.IsExpense DESC,d.SICode"
+                        Dim fldSub = ""
+                        Dim oSub = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlSub)
+                        If oSub.Rows.Count > 0 Then
+                            For Each dr As DataRow In oSub.Rows
+                                fldSub &= ","
+                                fldSub &= "SUM(CASE WHEN d.SICode='" & dr("SICode").ToString & "' THEN d.Amt ELSE 0 END) as '" & dr("Description").ToString & "'"
+                            Next
+                        End If
+                        sqlM = SQLSelectVenderReport(sqlW, fldSub)
                 End Select
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)

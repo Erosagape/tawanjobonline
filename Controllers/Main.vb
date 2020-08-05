@@ -2074,7 +2074,7 @@ a.English AS ForwarderName, a.EAddress1 AS ForwarderAddress1, a.EAddress2 AS For
 a.Phone AS ForwarderPhone, c.NameEng AS ConsigneeName, c.EAddress1 AS ConsignAddress1, c.EAddress2 AS ConsignAddress2, c.Phone AS ConsignPhone, c.FaxNumber as ConsignFax,c.DMailAddress as ConsignEmail,c.TaxNumber as ConsignTaxID,c.Branch as ConsignTaxBranch,
 n.NameEng AS NotifyName, n.EAddress1 AS NotifyAddress1, n.EAddress2 AS NotifyAddress2, n.Phone AS NotifyPhone, n.FaxNumber as NotifyFax,n.DMailAddress as NotifyEmail, n.TaxNumber as NotifyTaxID,n.Branch as NotifyTaxBranch,
 j.VesselName, j.MVesselName, j.ProjectName, j.TotalGW, j.TotalNW , j.GWUnit, j.InvInterPort, j.InvFCountry, j.InvCountry, j.ETDDate, j.ETADate, j.ClearPortNo, j.ClearPort, j.DeliveryTo, j.DeliveryAddr, 
-j.ShippingEmp,e.TName as ShippingName, j.TRemark, j.EstDeliverDate, h.Remark, h.PackingAddress, h.CYAddress, h.FactoryAddress, h.ReturnAddress, h.PackingContact, h.CYContact, h.FactoryContact, h.ReturnContact, 
+j.ShippingEmp,e.TName as ShippingName, e.MobilePhone as ShippingTel,j.TRemark, j.EstDeliverDate, h.Remark, h.PackingAddress, h.CYAddress, h.FactoryAddress, h.ReturnAddress, h.PackingContact, h.CYContact, h.FactoryContact, h.ReturnContact, 
 h.PackingPlace, h.CYPlace, h.FactoryPlace, h.ReturnPlace, h.PackingDate, h.CYDate, h.FactoryDate, h.ReturnDate, h.PackingTime, h.CYTime, h.FactoryTime, 
 h.ReturnTime, h.TransMode, h.PaymentCondition, h.PaymentBy, d.CTN_NO, d.SealNumber, d.TruckNO, d.Comment, d.TruckType, d.Driver, d.Location, d.DeliveryNo,
 d.ShippingMark, d.CTN_SIZE, d.ProductDesc, d.ProductQty, d.ProductUnit, d.GrossWeight, d.Measurement, d.TargetYardDate, d.TargetYardTime, d.ActualYardDate, d.ActualYardTime, 
@@ -2666,6 +2666,37 @@ inner join Mas_Company c on rh.CustCode=c.CustCode and rh.CustBranch=c.Branch
 where ISNULL(ih.CancelProve,'')='' {0}
 group by rh.BranchCode,rh.ReceiptNo,rh.ReceiptDate,c.CustCode,c.TaxNumber,c.Branch,c.NameEng,rh.TRemark,rh.CancelProve
 ) r
+"
+        Return String.Format(tSql, sqlW)
+    End Function
+    Function SQLSelectVenderReport(sqlW As String, sqlAdd As String) As String
+        Dim tSql As String = "
+SELECT h.ApproveRef as 'Approve Ref#',h.PoNo as 'VenderInvNo',h.DocNo,d.ForJNo as JNo,c.NameEng as CustEName,b.Location as LocationRoute,
+b.ActualYardDate as PickupDate,b.UnloadFinishDate as DeliveryDate,b.ReturnDate,
+b.BookingNo,b.CTN_NO,b.CTN_SIZE
+" & sqlAdd & ",
+SUM(d.Amt) as TotalAmt,
+SUM(CASE WHEN s.IsCredit=1 AND s.IsExpense=0 THEN d.Amt ELSE 0 END) as TotalAdvance,
+SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=1 THEN d.Amt ELSE 0 END) as TotalCost,
+SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=1 AND d.AmtVat>0 THEN d.Amt ELSE 0 END) as 'Claim Vat Amt',
+SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=1 AND d.AmtVat>0 THEN d.AmtVat ELSE 0 END) as 'Claim Vat',
+h.Remark
+FROM dbo.Job_PaymentHeader AS h LEFT OUTER JOIN
+dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
+LEFT OUTER JOIN dbo.Mas_Vender AS v ON h.VenCode = v.VenCode
+LEFT OUTER JOIN Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
+LEFT OUTER JOIN Mas_Company c ON j.CustCode=c.CustCode AND j.CustBranch=c.Branch
+LEFT OUTER JOIN Job_LoadInfoDetail b ON d.BranchCode=b.BranchCode AND d.BookingRefNo=b.BookingNo AND d.BookingItemNo=b.ItemNo
+LEFT OUTER JOIN Job_LoadInfo t ON b.BranchCode=t.BranchCode AND b.BookingNo=t.BookingNo
+LEFT OUTER JOIN Job_SrvSingle  s ON d.SICode=s.SICode
+LEFT OUTER JOIN Job_TransportPrice p ON h.BranchCode=p.BranchCode
+AND b.LocationID=p.LocationID AND h.VenCode=p.VenderCode AND t.NotifyCode=p.CustCode
+AND d.SICode=p.SICode
+WHERE NOT ISNULL(h.CancelProve,'')<>'' {0}
+GROUP BY h.ApproveRef,h.PoNo,h.DocNo,d.ForJNo,c.NameEng,j.VesselName,b.Location,
+b.ActualYardDate,b.UnloadFinishDate,b.ReturnDate,
+b.BookingNo,b.CTN_NO,b.CTN_SIZE,h.Remark
+ORDER BY h.PoNo,h.DocNo
 "
         Return String.Format(tSql, sqlW)
     End Function
