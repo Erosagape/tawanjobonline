@@ -113,7 +113,7 @@ End Code
         if (data.customer.length > 0) {
             //$('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : '+ data.customer[0][0].Branch);
             $('#lblCustName').text(data.customer[0][0].NameEng);
-            $('#lblCustAddress').text(data.customer[0][0].EAddress1 + '\n' + data.customer[0][0].EAddress2);
+            $('#lblCustAddress').text(data.customer[0][0].EAddress1 + '\n' + data.customer[0][0].EAddress2 + ' '+data.customer[0][0].TProvince+ ' ' + data.customer[0][0].TPostCode);
         }
         if (data.detail.length > 0) {
             let total = 0;

@@ -28,7 +28,7 @@
                             <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME_EN</b>
                             <br />@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN
                             <br />TEL @ViewBag.PROFILE_COMPANY_TEL E-MAIL @ViewBag.PROFILE_COMPANY_EMAIL
-                            <br />TAX REFERENCE ID @ViewBag.PROFILE_TAXNUMBER BRANCH: HEAD OFFICE
+                            <br />TAX ID @ViewBag.PROFILE_TAXNUMBER BRANCH: HEAD OFFICE
                         </div>
                     Else
                         @<div id="divCompany" style="text-align:left;color:darkblue;font-size:12px">

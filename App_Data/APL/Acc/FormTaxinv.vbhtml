@@ -39,7 +39,7 @@ End Code
 </div>
 <br />
 <span class="roundbox">CUSTOMER :</span>
-<label>TAX REFERENCE-ID:</label>
+<label>TAX ID:</label>
 <label id="lblCustTax"></label>
 <label>BRANCH:</label>
 <label id="lblCustBranch"></label>
@@ -55,7 +55,7 @@ End Code
     </div>
 </div>
 <br />
-<table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
+<table border="1" style="border-style:solid;width:100%; margin:5px 5px 5px 5px" class="text-center">
     <thead>
         <tr style="background-color:lightblue;">
             <th height="40" width="60">NO.</th>
@@ -179,8 +179,7 @@ End Code
     function ShowData(dt) {
         let h = dt[0];
         $('#lblCustName').text(h.CustEName);
-        $('#lblCustAddr').text(h.CustEAddr);
-        $('#lblCustTel').text(h.CustPhone);
+        $('#lblCustAddr').text(h.CustEAddr + ' ' +h.CustProvince + ' '+h.CustPostCode);
         $('#lblCustTax').text(h.CustTaxID);
         if (Number(h.CustBranch) == 0) {
             $('#lblCustBranch').text('HEAD OFFICE');

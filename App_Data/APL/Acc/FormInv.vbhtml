@@ -33,7 +33,7 @@ End Code
 </div>
 <br />
 <span class="roundbox">CUSTOMER :</span>
-<label>TAX REFERENCE-ID:</label>
+<label>TAX ID:</label>
 <label id="lblTaxNumber"></label>
 <label>BRANCH:</label>
 <label id="lblTaxBranch"></label>
@@ -48,7 +48,7 @@ End Code
         </div>
         <div style="flex:1;" class="roundbox">
             DATE : <label id="lblDocDate"></label><br />
-            TICKET NO. : <label id="lblDocNo"></label><br />
+            INVOICE NO. : <label id="lblDocNo"></label><br />
             SERVICE : <label id="lblTotalContainer"></label><br/>
             DUE DATE: <label id="lblDueDate"></label>
         </div>
@@ -103,8 +103,8 @@ End Code
         <tbody id="tbDetail"></tbody>
         <tfoot>
             <tr>
-                <td colspan="4">
-                    TOTAL INVOICE (<label id="lblCurrencyCode"></label>)=<label id="lblForeignNet"></label> RATE=<label id="lblExchangeRate"></label>
+                <td colspan="4" style="text-align:right">
+                    TOTAL INVOICE 
                 </td>
                 <td style="background-color :gainsboro;text-align:right">
                     <label id="lblSumBaseAdv"></label>
@@ -227,8 +227,6 @@ End Code
             $('#lblDocNo').text(h.DocNo);
             $('#lblDocDate').text(ShowDate(CDateEN(h.DocDate)));
             $('#lblDueDate').text(ShowDate(CDateEN(h.DueDate)));
-            $('#lblCurrencyCode').text(h.CurrencyCode);
-            $('#lblExchangeRate').text(h.ExchangeRate);
             $('#lblForeignNet').text(ShowNumber(h.ForeignNet, 2));
 
             $('#lblVATRate').text(ShowNumber(h.VATRate,1));
@@ -242,7 +240,7 @@ End Code
                             $('#lblTaxBranch').text(c.Branch);
                         }
                         $('#lblCustName').text(c.NameEng);
-                        $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2);
+                        $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2 + ' ' + c.TProvince + ' ' + c.TPostCode);
                         $('#lblCustTel').text(c.Phone);
                         $('#lblCustTName').text(dr.customer[0][0].NameEng);
                             //$('#lblCustTel').text(c.Phone);
@@ -294,10 +292,9 @@ End Code
             remark=h.ShippingRemark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
             $('#lblShippingRemark').html(remark);
 
-            $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv,2));
-            $('#lblSumBeforeVat').text(ShowNumber(h.TotalIsTaxCharge, 2));            
+            $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv,2));            
             $('#lblSumVat').text(ShowNumber(h.TotalVAT,2));
-            $('#lblSumAfterVat').text(ShowNumber(Number(h.TotalIsTaxCharge)+Number(h.TotalVAT),2));
+            
             $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
             $('#lblSumTotal').text(ShowNumber(Number(h.TotalAdvance),2));
             $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
@@ -311,6 +308,7 @@ End Code
         let sumbase3 = 0;
         let sumtax1 = 0;
         let sumtax3 = 0;
+        let sumvat = 0;
         let sumbaseadv = 0;
         let sumbasevat = 0;
         let sumvatadv = 0;
@@ -333,6 +331,7 @@ End Code
                 sumvatadv += (o.AmtAdvance > 0 ? o.AmtVat : 0);
                 sumnonvat += (o.AmtCharge > 0 && o.AmtVat == 0 ? o.Amt : 0);
                 sumbasevat += (o.AmtCharge > 0 && o.AmtVat > 0 ? o.Amt : 0);
+                sumvat += (o.AmtCharge > 0 && o.AmtVat > 0 ? o.AmtVat : 0);
 
                 html += '<td style="text-align:right">' + (o.AmtAdvance > 0 ? ShowNumber(o.Amt, 2) : '0.00') + '</td>';
                 html += '<td style="text-align:right">' + (o.AmtAdvance > 0 ? ShowNumber(o.AmtVat, 2) : '0.00') + '</td>';
@@ -355,7 +354,9 @@ End Code
             }
         }
         $('#lblSumNonVat').text(ShowNumber(sumnonvat, 2));
+        $('#lblSumBeforeVat').text(ShowNumber(sumbasevat, 2));            
         $('#lblSumChargeVat').text(ShowNumber(sumbasevat, 2));
+        $('#lblSumAfterVat').text(ShowNumber(sumbasevat + sumvat, 2));
         $('#lblSumChargeNonVat').text(ShowNumber(sumnonvat, 2));
         $('#lblSumBaseAdv').text(ShowNumber(sumbaseadv, 2));
         $('#lblSumVatAdv').text(ShowNumber(sumvatadv,2));

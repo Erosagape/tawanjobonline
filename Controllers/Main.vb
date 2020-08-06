@@ -954,8 +954,8 @@ inner join (
 	select BranchCode,DocNo,
 	sum((CASE WHEN AmtCharge>0 THEN Amt-AmtDiscount ELSE 0 END)) as TotalCharge,
 	sum((CASE WHEN AmtAdvance>0 THEN TotalAmt ELSE 0 END)) as TotalAdvance,
-	sum(case when IsTaxCharge=1 And AmtCharge>0 then Amt-AmtDiscount else 0 end) as TotalIsTaxCharge, 
-	sum(case when Is50Tavi=1 And AmtCharge>0 then Amt-AmtDiscount else 0 end) as TotalIs50Tavi,
+	sum(case when AmtVat>0 And AmtCharge>0 then Amt-AmtDiscount else 0 end) as TotalIsTaxCharge, 
+	sum(case when Amt50Tavi>0 And AmtCharge>0 then Amt-AmtDiscount else 0 end) as TotalIs50Tavi,
 	sum(case when AmtCharge>0 then AmtVat else 0 end) as TotalVAT,
 	sum(case when AmtCharge>0 then Amt50Tavi else 0 end) as Total50Tavi,
     sum(AmtDiscount) as SumDiscount,
@@ -1001,7 +1001,10 @@ and b.JobNo=c.JNo
     End Function
     Function SQLSelectInvForBilling() As String
         Return "
-SELECT a.*,(CASE WHEN a.TotalIsTaxCharge>=0 AND a.TotalCharge<>a.TotalIsTaxCharge THEN a.TotalCharge-a.TotalIsTaxCharge ELSE 0 END) as TotalNonVat,b.NameThai,b.NameEng FROM Job_InvoiceHeader a
+SELECT a.*,
+(CASE WHEN a.TotalIsTaxCharge>0 AND a.TotalCharge>a.TotalIsTaxCharge THEN a.TotalCharge-a.TotalIsTaxCharge ELSE 0 END) as TotalNonVat
+,b.NameThai,b.NameEng 
+FROM Job_InvoiceHeader a
 LEFT JOIN Mas_Company b ON a.CustCode=b.CustCode AND a.CustBranch=b.Branch 
 "
     End Function
@@ -1423,6 +1426,7 @@ rd.InvoiceNo,ih.DocDate,ih.BillAcceptNo,ih.BillIssueDate,ih.BillAcceptDate,ih.Re
 SELECT rh.*,c1.UsedLanguage,
 c1.Title + ' '+ c1.NameThai as CustTName,c1.NameEng as CustEName,c1.TAddress1+' '+c1.TAddress2 as CustTAddr,c1.EAddress1+' '+c1.EAddress2 as CustEAddr,c1.Phone as CustPhone,c1.TaxNumber as CustTaxID,
 c2.Title + ' '+ c2.NameThai as BillTName,c2.NameEng as BillEName,c2.TAddress1+' '+c2.TAddress2 as BillTAddr,c2.EAddress1+' '+c2.EAddress2 as BillEAddr,c2.Phone as BillPhone,c2.TaxNumber as BillTaxID,
+c1.TProvince as CustProvince,c2.TProvince as BillProvince,c1.TPostCode as CustPostCode,c2.TPostCode as BillPostCode,
 rd.ItemNo,rd.InvoiceNo,rd.InvoiceItemNo,ih.DocDate as InvoiceDate,ih.BillAcceptNo,ih.BillIssueDate,ih.BillAcceptDate,ih.RefNo,
 id.ExpSlipNO,id.AmtCharge,id.AmtAdvance,id.Amt-id.AmtDiscount as InvAmt,id.AmtVat as InvVAT,id.Amt50Tavi as Inv50Tavi,id.TotalAmt as InvTotal,
 (SELECT STUFF((
@@ -2368,7 +2372,7 @@ AND ISNULL(d.SumContainer,'')<>h.TotalContainer
     End Function
     Public Function SQLSelectVoucherDoc(tSqlw As String) As String
         Return "
-SELECT src.*,doc.JobNo,doc.EmpCode
+SELECT src.*,doc.JobNo,doc.EmpCode,doc.TRemark
 FROM
 (select *,
 (CASE WHEN CHARINDEX('#',DocNo)>0 THEN SUBSTRING(DocNo,1,CHARINDEX('#',DocNo)-1) ELSE DocNo END) as LinkNo from Job_CashControlDoc
@@ -2376,13 +2380,13 @@ FROM
 ) src
 left join
 (
-	SELECT h.BranchCode,h.AdvNo as DocNo,h.AdvDate as DocDate,
+SELECT h.BranchCode,h.AdvNo as DocNo,h.AdvDate as DocDate,
 (SELECT STUFF((
 SELECT DISTINCT ',' + ForJNo
 FROM Job_AdvDetail WHERE BranchCode=h.BranchCode
 AND AdvNo=h.AdvNo
   FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
-  )) as JobNo,h.EmpCode
+  )) as JobNo,h.EmpCode,h.TRemark
 	FROM Job_AdvHeader h 
 	UNION
 	SELECT h.BranchCode,h.ClrNo,h.ClrDate,
@@ -2391,7 +2395,7 @@ SELECT DISTINCT ',' + JobNo
 FROM Job_ClearDetail WHERE BranchCode=h.BranchCode
 AND ClrNo=h.ClrNo
   FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
-  )) as JobNo,h.EmpCode
+  )) as JobNo,h.EmpCode,h.TRemark
 	FROM Job_ClearHeader h
 	UNION
 	SELECT h.BranchCode,h.DocNo,h.DocDate,
@@ -2400,10 +2404,10 @@ SELECT DISTINCT ',' + ForJNo
 FROM Job_PaymentDetail WHERE BranchCode=h.BranchCode
 AND DocNo=h.DocNo
   FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
-  )) as JobNo,h.EmpCode
+  )) as JobNo,h.EmpCode,h.Remark
 	FROM Job_PaymentHeader h
 	UNION
-	SELECT h.BranchCode,h.DocNo,h.DocDate,h.RefNo,h.EmpCode
+	SELECT h.BranchCode,h.DocNo,h.DocDate,h.RefNo,h.EmpCode,h.ShippingRemark
 	FROM Job_InvoiceHeader h
 ) doc on src.BranchCode=doc.BranchCode AND src.LinkNo=doc.DocNo
 "

@@ -611,6 +611,8 @@ End Code
         $('#txtDocType').val($('#cboDocType').val());
     }
     function SetEvents() {
+        $('#txtDateFrom').val(GetToday());
+        $('#txtDateTo').val(GetToday());
         $('#txtControlNo').keydown(function (event) {
             if (event.which == 13) {
                 LoadData();

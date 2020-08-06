@@ -239,27 +239,29 @@ CUST PO: <label id="lblCustRefNo"></label>
             $('#lblVATRate').text(ShowNumber(h.VATRate,1));
 
             $.get(path + 'Master/GetCompany?Code='+ h.BillToCustCode + '&Branch='+ h.BillToCustBranch).done(function(r) {
-                 if(r.company.data.length >0) {
-                      let c=r.company.data[0];
-                $('#lblTaxNumber').text(c.TaxNumber);               
-                if (c.UsedLanguage == 'TH') {
-		   if(Number(c.Branch)==0){ 
-			$('#lblTaxBranch').text('สำนักงานใหญ่');
-		   } else {
-			$('#lblTaxBranch').text(c.Branch);
-		   }
-                    $('#lblCustName').text(c.Title+' '+c.NameThai);
-                    $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
-                } else {
-		   if(Number(c.Branch)==0){ 
-			$('#lblTaxBranch').text('HEAD OFFICE');
-		   } else {
-			$('#lblTaxBranch').text(c.Branch);
-		   }
-                    $('#lblCustName').text(c.NameEng);
-                    $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2);
+                if (r.company.data.length > 0) {
+                     let c = r.company.data[0];
+                     $('#lblTaxNumber').text(c.TaxNumber);               
+                     if (c.UsedLanguage == 'TH') {
+                        $('#lblTotalBaht').text('(' + CNumThai(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)) / h.ExchangeRate, 2)) + ')');
+                        if (Number(c.Branch) == 0) { 
+                            $('#lblTaxBranch').text('สำนักงานใหญ่');
+                        } else {
+                            $('#lblTaxBranch').text(c.Branch);
+                        }
+                        $('#lblCustName').text(c.Title+' '+c.NameThai);
+                        $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
+                     } else {                
+                        $('#lblTotalBaht').text('(' + CNumEng(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)) / h.ExchangeRate, 2)) + ')');
+                        if (Number(c.Branch) == 0) { 
+                            $('#lblTaxBranch').text('HEAD OFFICE');
+                        } else {
+                            $('#lblTaxBranch').text(c.Branch);
+                        }
+                        $('#lblCustName').text(c.NameEng);
+                        $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2);
+                     }
                 }
-                 }
             });
             let j = dr.job[0][0];
             if (j !== null) {
@@ -300,11 +302,9 @@ CUST PO: <label id="lblCustRefNo"></label>
             $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance/h.ExchangeRate,2));
             $('#lblSumTotal').text(ShowNumber((Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT))/h.ExchangeRate,2));
             $('#lblSumGrandTotal').text(ShowNumber((Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount))/h.ExchangeRate,2));
-	if(h.DocNo.substr(0,3)=='IVF'){ 
-            $('#lblTotalBaht').text('(' + CNumEng(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount))/h.ExchangeRate, 2)) + ')');
-	} else {
-            $('#lblTotalBaht').text('(' + CNumThai(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount))/h.ExchangeRate, 2)) + ')');
-	}
+	        if(h.DocNo.substr(0,3)=='IVF'){ 
+                $('#lblTotalBaht').text('(' + CNumEng(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)) / h.ExchangeRate, 2)) + ')');
+	        }
             $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalNet)/h.ExchangeRate,2) + ' ' + h.CurrencyCode);
         }
         let d = dr.detail[0];
