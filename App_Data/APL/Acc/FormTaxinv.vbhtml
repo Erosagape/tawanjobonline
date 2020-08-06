@@ -139,11 +139,14 @@ End Code
                 <div>
                     <label><input type="checkbox" name="vehicle1" id="chkCash" value=""> CASH</label>
                     AMOUNT <label id="lblCashAmount">___________________</label> BAHT
+                    <br />
+                    BANK CHARGES  <label id="lblBankChg">___________________</label>
                 </div>
                 <div>
                     <label><input type="checkbox" name="vehicle2" id="chkCheque" value=""> CHEQUE</label>
+                    <br />
                     BANK / BRANCH <label id="lblChqBank">___________________</label> <br />
-                    NO <label id="lblChqNo">___________________</label>  <br/>
+                    NO <label id="lblChqNo">___________________</label>
                     AMOUNT <label id="lblChqAmount">___________________</label> BAHT
                 </div>
             </td>
@@ -188,58 +191,66 @@ End Code
         }
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateEN(h.ReceiptDate)));
-        if (h.TRemark.indexOf(':') > 0) {
-            let vData = h.TRemark.split(':');
-            switch (vData.length) {
-                case 1:
-                    if (vData[0] == 'CHQ') {
-                        $('#chkCheque').prop('checked',true);
-                    } else {
-                        $('#chkCash').prop('checked', true);
-                    }
-                    break;
-                case 2:
-                    if (vData[0] == 'CHQ') {
-                        $('#chkCheque').prop('checked', true);
-                        $('#lblChqAmount').text(ShowNumber(vData[1], 2));
+        let vRemark = h.TRemark.split(';');
+        for (let t of vRemark) {
+            if (t.indexOf(':') > 0) {
+                let vData = t.split(':');
+                switch (vData.length) {
+                    case 1:
+                        if (vData[0] == 'CHQ') {
+                            $('#chkCheque').prop('checked',true);
+                        } else {
+                            $('#chkCash').prop('checked', true);
+                        }
+                        break;
+                    case 2:
+                        if (vData[0] == 'CHQ') {
+                            $('#chkCheque').prop('checked', true);
+                            $('#lblChqAmount').text(ShowNumber(vData[1], 2));
 
-                        $('#lblChqAmount').css('text-decoration', 'underline');
-                    } else {
-                        $('#chkCash').prop('checked', true);
-                        $('#lblCashAmount').text(ShowNumber(vData[1], 2));
-                        $('#lblCashAmount').css('text-decoration', 'underline');
-                    }
-                    break;
-                case 3:
-                    if (vData[0] == 'CHQ') {
-                        $('#chkCheque').prop('checked', true);
-                        $('#lblChqAmount').text(ShowNumber(vData[1], 2));
-                        $('#lblChqBank').text(vData[2]);
+                            $('#lblChqAmount').css('text-decoration', 'underline');
+                        } else {
+                            if (vData[0] == 'CHG') {
+                                $('#lblBankChg').text(ShowNumber(vData[1], 2));
+                                $('#lblBankChg').css('text-decoration', 'underline');
+                            } else {
+                                $('#chkCash').prop('checked', true);
+                                $('#lblCashAmount').text(ShowNumber(vData[1], 2));
+                                $('#lblCashAmount').css('text-decoration', 'underline');
+                            }
+                        }
+                        break;
+                    case 3:
+                        if (vData[0] == 'CHQ') {
+                            $('#chkCheque').prop('checked', true);
+                            $('#lblChqAmount').text(ShowNumber(vData[1], 2));
+                            $('#lblChqBank').text(vData[2]);
 
-                        $('#lblChqAmount').css('text-decoration', 'underline');
-                        $('#lblChqBank').css('text-decoration', 'underline');
-                    } else {
-                        $('#chkCash').prop('checked', true);
-                        $('#lblCashAmount').text(ShowNumber(vData[1], 2));
-                        $('#lblCashAmount').css('text-decoration', 'underline');
-                    }
-                    break;
-                case 4:
-                    if (vData[0] == 'CHQ') {
-                        $('#chkCheque').prop('checked', true);
-                        $('#lblChqAmount').text(ShowNumber(vData[1], 2));
-                        $('#lblChqBank').text(vData[2]);
-                        $('#lblChqNo').text(vData[3]);
+                            $('#lblChqAmount').css('text-decoration', 'underline');
+                            $('#lblChqBank').css('text-decoration', 'underline');
+                        } else {
+                            $('#chkCash').prop('checked', true);
+                            $('#lblCashAmount').text(ShowNumber(vData[1], 2));
+                            $('#lblCashAmount').css('text-decoration', 'underline');
+                        }
+                        break;
+                    case 4:
+                        if (vData[0] == 'CHQ') {
+                            $('#chkCheque').prop('checked', true);
+                            $('#lblChqAmount').text(ShowNumber(vData[1], 2));
+                            $('#lblChqBank').text(vData[2]);
+                            $('#lblChqNo').text(vData[3]);
 
-                        $('#lblChqAmount').css('text-decoration', 'underline');
-                        $('#lblChqBank').css('text-decoration', 'underline');
-                        $('#lblChqNo').css('text-decoration', 'underline');
-                    } else {
-                        $('#chkCash').prop('checked', true);
-                        $('#lblCashAmount').text(ShowNumber(vData[1], 2));
-                        $('#lblCashAmount').css('text-decoration', 'underline');
-                    }
-                    break;
+                            $('#lblChqAmount').css('text-decoration', 'underline');
+                            $('#lblChqBank').css('text-decoration', 'underline');
+                            $('#lblChqNo').css('text-decoration', 'underline');
+                        } else {
+                            $('#chkCash').prop('checked', true);
+                            $('#lblCashAmount').text(ShowNumber(vData[1], 2));
+                            $('#lblCashAmount').css('text-decoration', 'underline');
+                        }
+                        break;
+                }
             }
         }
         let service = 0;

@@ -25,11 +25,24 @@ End Code
 <br/>
 <div style="display:flex;">
     <div class="text-left">
-        <p>
-            <b>NAME :</b> <label id="lblCustName"></label>
-            <br />
-            <b>ADDRESS :</b> <label id="lblCustAddress"></label>
-        </p>
+        <table>
+            <tr>
+                <td><b>NAME :</b></td>
+                <td><label id="lblCustName"></label></td>
+            </tr>
+            <tr>
+                <td><b>ADDRESS :</b></td>
+                <td><label id="lblCustAddress"></label></td>
+            </tr>
+            <tr>
+                <td><b>CONTACT :</b></td>
+                <td><label id="lblCustContact"></label></td>
+            </tr>
+            <tr>
+                <td><b>TEL :</b></td>
+                <td><label id="lblCustTel"></label></td>
+            </tr>
+        </table>
     </div>
 </div>
 <p>
@@ -40,20 +53,20 @@ End Code
 <table border="1" style="border-style:solid;width:100%;margin-top:5px ">
     <thead>
         <tr>
-            <th class="text-center" rowspan="2" width="50">ITEMS</th>
-            <th class="text-center" rowspan="2" width="130">BILLING NO</th>
-            <th class="text-center" rowspan="2" width="100">ISSURING DATE</th>
-            <th class="text-center" rowspan="2">RE-IMBURSEMENT</th>
+            <th class="text-center" rowspan="2" width="40">ITEMS</th>
+            <th class="text-center" rowspan="2" width="100">BILLING NO</th>
+            <th class="text-center" rowspan="2" width="80">INVOICE DATE</th>
+            <th class="text-center" rowspan="2" width="90">RE-IMBURSEMENT</th>
             <th class="text-center" colspan="2">SERVICE CHARGES</th>
-            <th class="text-center" rowspan="2">VAT</th>
+            <th class="text-center" rowspan="2" width="70">VAT</th>
             <th class="text-center" colspan="2">WHD TAX</th>
-            <th class="text-center" rowspan="2">NET</th>
+            <th class="text-center" rowspan="2" width="80">NET</th>
         </tr>
         <tr>
-            <th class="text-center" width="100">NON-VAT</th>
-            <th class="text-center" width="100">VAT</th>
-            <th class="text-center">1%</th>
-            <th class="text-center">3%</th>
+            <th class="text-center" width="80">NON-VAT</th>
+            <th class="text-center" width="80">VAT</th>
+            <th class="text-center" width="70">1%</th>
+            <th class="text-center" width="70">3%</th>
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
@@ -113,6 +126,8 @@ End Code
         if (data.customer.length > 0) {
             //$('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : '+ data.customer[0][0].Branch);
             $('#lblCustName').text(data.customer[0][0].NameEng);
+            $('#lblCustContact').text(data.customer[0][0].DMailAddress);
+            $('#lblCustTel').text(data.customer[0][0].Phone);
             $('#lblCustAddress').text(data.customer[0][0].EAddress1 + '\n' + data.customer[0][0].EAddress2 + ' '+data.customer[0][0].TProvince+ ' ' + data.customer[0][0].TPostCode);
         }
         if (data.detail.length > 0) {

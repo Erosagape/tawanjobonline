@@ -13,10 +13,6 @@ End Code
         border-collapse: collapse;
     }
 
-    #dvFooter {
-        display: none;
-    }
-
     #dvForm {
         padding-right: 5px;
     }
@@ -85,19 +81,19 @@ End Code
     <table style="width:100%" border="1" class="text-center">
         <thead>
             <tr style="background-color :gainsboro;text-align:center;">
-                <th width="50px" rowspan="2">ITEM</th>
-                <th width="250px" rowspan="2">DESCRIPTION</th>
-                <th width="60px" rowspan="2">QUANTITY</th>
-                <th width="40px" rowspan="2">UNIT PRICE</th>
-                <th width="325px" colspan="3">ADVANCE RE-IMBURSEMENT</th>
-                <th width="275px" colspan="2">SERVICE CHARGES</th>
+                <th width="40" rowspan="2">ITEM</th>
+                <th width="220" rowspan="2">DESCRIPTION</th>
+                <th width="50" rowspan="2">QTY</th>
+                <th width="60" rowspan="2">UNIT PRICE</th>
+                <th width="230" colspan="3">ADVANCE RE-IMBURSEMENT</th>
+                <th width="160" colspan="2">SERVICE CHARGES</th>
             </tr>
             <tr style="background-color :gainsboro;text-align:center;">
-                <th>SERVICE</th>
-                <th>VAT</th>
-                <th>AMOUNT</th>
-                <th>NON-VAT</th>
-                <th>VAT</th>
+                <th width="80">SERVICE</th>
+                <th width="70">VAT</th>
+                <th width="80">AMOUNT</th>
+                <th width="80">NON-VAT</th>
+                <th width="80">VAT</th>
             </tr>
         </thead>
         <tbody id="tbDetail"></tbody>
@@ -123,13 +119,13 @@ End Code
                 </td>
             </tr>
             <tr>
-                <td colspan="4">
+                <td colspan="5">
                     <div id="lblShippingRemark"></div>
                     REMARKS :<br />
                     <div id="lblDescription"></div>
                 </td>
 
-                <td colspan="3">
+                <td colspan="2">
                     SUBTOTAL VAT<br/>
                     VAT (<label id="lblVATRate"></label>%)<br />
                     TOTAL<br />

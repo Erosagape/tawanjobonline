@@ -137,7 +137,7 @@ End Code
                     <div class="row">
                         <div class="col-sm-5" style="display:flex;flex-direction:column">
                             <div>
-                                <label id="lblBillToCustCode">Bill To</label>                                    
+                                <label id="lblBillToCustCode">Bill To</label>
                                 <br />
                                 <div style="display:flex">
                                     <input type="text" id="txtBillToCustCode" class="form-control" style="width:20%" disabled />
@@ -149,12 +149,12 @@ End Code
                                 <textarea id="txtBillAddress" class="form-control-lg" style="width:100%;height:100%" disabled></textarea>
                             </div>
                             <div>
-                                <label id="lblTRemark">Receipt Note</label>                                    
+                                <label id="lblTRemark">Receipt Note</label>
                                 <br />
                                 <textarea id="txtTRemark" class="form-control-lg" style="width:100%;height:100%"></textarea>
                             </div>
                             <div>
-                                <label id="lblCurrencyCode">Currency</label>                                    
+                                <label id="lblCurrencyCode">Currency</label>
                                 <br />
                                 <div style="display:flex">
                                     <input type="text" id="txtCurrencyCode" class="form-control" style="width:15%" disabled />
@@ -166,12 +166,12 @@ End Code
                         <div class="col-sm-4" style="display:flex;flex-direction:column">
                             <div style="display:flex">
                                 <div style="flex:1">
-                                    <label id="lblExchangeRate">Exchange Rate</label>                                        
+                                    <label id="lblExchangeRate">Exchange Rate</label>
                                     <br />
                                     <input type="text" id="txtExchangeRate" class="form-control" onchange="CalForeign()" />
                                 </div>
                                 <div style="flex:1">
-                                    <label id="lblFTotalNet">Total Foreign</label>                                        
+                                    <label id="lblFTotalNet">Total Foreign</label>
                                     <br />
                                     <input type="text" id="txtFTotalNet" class="form-control" disabled />
                                 </div>
@@ -247,35 +247,59 @@ End Code
                             <br /> <input type="text" id="txtCancelProve" class="form-control" disabled />
                         </div>
                     </div>
+                    <b>Receive Remarks:</b>
                     <div class="row">
-                        <div class="col-sm-2">
-                            Receive Remarks:
-                            <br/>
-                            <select id="cboReceiptType" class="form-control dropdown">
-                                <option value="CASH">CASH/TRANSFER</option>
-                                <option value="CHQ">CHEQUE</option>
-                            </select>
-                        </div>
                         <div class="col-sm-3">
-                            Amount:
-                            <br/>
+                            CASH/TRANSFER:
+                            <br />
                             <div style="display:flex">
-                                <input type="number" id="txtReceiptAmt" class="form-control" />
-                                <button id="btnGetAmount" class="btn btn-warning" onclick="SetAmount()">Auto</button>
+                                <input type="number" id="txtCashAmt" class="form-control" />
+                                <button id="btnGetAmount" class="btn btn-warning" onclick="SetAmount('Cash')">Auto</button>
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            Bank/Branch:
-                            <br/>
-                            <input type="text" id="txtReceiptBank" class="form-control" />
+                            BANK/BRANCH:
+                            <br />
+                            <input type="text" id="txtCashBank" class="form-control" />
                         </div>
                         <div class="col-sm-4">
-                            Ref.No/Cheque No:
-                            <br/>
+                            REF#:
+                            <br />
                             <div style="display:flex">
-                                <input type="text" id="txtReceiptRef" class="form-control" />
-                                <button class="btn btn-primary" onclick="SetRemark()">Set Remark</button>
+                                <input type="text" id="txtCashRef" class="form-control" />
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            CHEQUE:
+                            <br />
+                            <div style="display:flex">
+                                <input type="number" id="txtChqAmt" class="form-control" />
+                                <button id="btnGetAmount" class="btn btn-warning" onclick="SetAmount('Chq')">Auto</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            BANK/BRANCH:
+                            <br />
+                            <input type="text" id="txtChqBank" class="form-control" />
+                        </div>
+                        <div class="col-sm-4">
+                            CHEQUE NO:
+                            <br />
+                            <div style="display:flex">
+                                <input type="text" id="txtChqRef" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            BANK CHARGES<br/>
+                            <input type="number" id="txtBankChg" class="form-control" />
+                        </div>
+                        <div class="col-sm-4">
+                            <br/>
+                            <button class="btn btn-primary" onclick="SetRemark()">Set Remark</button>
                         </div>
                     </div>
                 </div>
@@ -819,7 +843,6 @@ End Code
         $('#txtBillToCustCode').val(row.BillToCustCode);
         $('#txtBillToCustBranch').val(row.BillToCustBranch);
         ShowCustomerAddress(path, row.BillToCustCode, row.BillToCustBranch, '#txtBillToCustName', '#txtBillAddress');
-        $('#txtTRemark').val(row.TRemark);
         $('#txtEmpCode').val(row.EmpCode);
         $('#txtPrintedBy').val(row.PrintedBy);
         $('#txtPrintedDate').val(CDateEN(row.PrintedDate));
@@ -840,6 +863,43 @@ End Code
         $('#txtTotal50Tavi').val(row.Total50Tavi);
         $('#txtTotalNet').val(row.TotalNet);
         $('#txtFTotalNet').val(row.FTotalNet);
+        $('#txtTRemark').val(row.TRemark);
+
+        $('#txtCashAmt').val(0);
+        $('#txtChqAmt').val(0);
+        $('#txtBankChg').val(0);
+        $('#txtCashBank').val('');
+        $('#txtChqBank').val('');
+        $('#txtCashRef').val('');
+        $('#txtChqRef').val('');
+        
+        if (row.TRemark.indexOf(':') > 0) {
+            let vRemark = row.TRemark;
+            if (vRemark.indexOf(';') < 0) vRemark += ';';
+            let vData = vRemark.split(';');
+            if (vData.length > 0) {
+                for (let vRow of vData) {
+                    if (vRow.indexOf(':')>0) {
+                        let r = vRow.split(':');
+                        switch (r[0]) {
+                            case 'CASH':
+                                $('#txtCashAmt').val(Number(r[1]));
+                                $('#txtCashBank').val(r[2]);
+                                $('#txtCashRef').val(r[3]);
+                                break;
+                            case 'CHQ':
+                                $('#txtChqAmt').val(Number(r[1]));
+                                $('#txtChqBank').val(r[2]);
+                                $('#txtChqRef').val(r[3]);
+                                break;
+                            case 'CHG':
+                                $('#txtBankChg').val(Number(r[1]));
+                                break;
+                        }
+                    }
+                }
+            }
+        }
     }
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);
@@ -1025,14 +1085,20 @@ End Code
         }        
         window.open(path +'Acc/GenerateTaxInv' + w, '_blank');
     }
-    function SetAmount() {
-        $('#txtReceiptAmt').val($('#txtTotalNet').val());
+    function SetAmount(id) {
+        $('#txt'+id+'Amt').val($('#txtTotalNet').val());
     }
     function SetRemark() {
-        let str = $('#cboReceiptType').val();
-        str += ':' + $('#txtReceiptAmt').val();
-        str += ':' + $('#txtReceiptBank').val();
-        str += ':' + $('#txtReceiptRef').val();
+        let str = 'CASH';
+        str += ':' + $('#txtCashAmt').val();
+        str += ':' + $('#txtCashBank').val();
+        str += ':' + $('#txtCashRef').val();
+        str += ';CHQ';
+        str += ':' + $('#txtChqAmt').val();
+        str += ':' + $('#txtChqBank').val();
+        str += ':' + $('#txtChqRef').val();
+        str += ';CHG';
+        str += ':' + $('#txtBankChg').val();
         $('#txtTRemark').val(str);
     }
 </script>
