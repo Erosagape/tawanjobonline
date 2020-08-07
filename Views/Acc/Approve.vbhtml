@@ -3,7 +3,7 @@
 End Code
 <div class="row">
     <div class="col-sm-4">
-        <label id="lblBranch">Branch</label>        
+        <label id="lblBranch">Branch</label>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -24,7 +24,7 @@ End Code
 </div>
 <div class="row">
     <div class="col-sm-4">
-        <label id="lblCurrency">Currency :</label>        
+        <label id="lblCurrency">Currency :</label>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtCurrencyCode" style="width:20%" />
@@ -33,7 +33,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-6">
-        <label id="lblVenCode">Vender :</label>        
+        <label id="lblVenCode">Vender :</label>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtVenCode" style="width:20%" />
@@ -70,13 +70,44 @@ End Code
 <div class="row">
     <div class="col-sm-12">
         <label id="lblListApprove">Selected Document</label>
-         : <br /><input type="text" id="txtListApprove" class="form-control" value="" disabled />
+        : <br /><input type="text" id="txtListApprove" class="form-control" value="" disabled />
     </div>
 </div>
 <br />
 <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
     <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Approve</b>
 </a>
+<a href="#" class="btn btn-primary" id="btnHistory" onclick="ShowApprove()">
+    <i class="fa fa-lg fa-search"></i>&nbsp;<b id="linkSearchApprove">Approve History</b>
+</a>
+<div id="dvApprove" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <b>List of Approved Documents</b>
+            </div>
+            <div class="modal-body">
+                <table id="tbApprove" class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Approve Ref#</th>
+                            <th>Approve Date</th>
+                            <th>Payment Ref#</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <div style="float:left">
+                    Set Payment Ref# <input type="text" id="txtPaymentRef" />
+                    <input type="hidden" id="txtRefNo" />
+                    <button class="btn btn-success" onclick="SetPayRef()">Save</button>
+                </div>
+                <button class="btn btn-danger" data-dismiss="modal">X</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
@@ -146,7 +177,57 @@ End Code
     function ReadCurrency(dt) {
         $('#txtCurrencyCode').val(dt.Code);
         $('#txtCurrencyName').val(dt.TName);
+    }
+    function SetGridApprove() {
+        let w = '';
+        if ($('#txtVenCode').val() !== "") {
+            w = w + '&vencode=' + $('#txtVenCode').val();
         }
+        if ($('#txtDocDateF').val() !== "") {
+            w = w + '&DateFrom=' + CDateEN($('#txtDocDateF').val());
+        }
+        if ($('#txtDocDateT').val() !== "") {
+            w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
+        }
+        w = w + '&currency=' + $('#txtCurrencyCode').val();
+        w = w + '&Type=APP&Status=Y';
+        $.get(path + 'acc/getpaymentapprove?branch=' + $('#txtBranchCode').val() + w, function (r) {
+            if (r.payment.header.length == 0) {
+                $('#tbApprove').DataTable().clear().draw();
+                if(isAlert==true) ShowMessage('Data not found',true);
+                return;
+            }
+            let h = r.payment.header;
+            $('#tbApprove').DataTable().destroy();
+            $('#tbApprove').empty();
+            let tb=$('#tbApprove').DataTable({
+                data: h,
+                selected: true, //ให้สามารถเลือกแถวได้
+                columns: [ //กำหนด property ของ header column
+                    { data: "ApproveRef", title: "Approve.Ref#" },
+                    {
+                        data: "ApproveDate", title: "Appr.Date",
+                        render: function (data) {
+                            return CDateEN(data);
+                        }
+                    },
+                    { data: "PaymentRef", title: "Payment Ref#" }
+                ],
+                responsive: true,
+                destroy:true
+            });
+            $('#tbApprove tbody').on('click', 'tr', function () {
+                SetSelect('#tbApprove', this);
+                let data = $('#tbApprove').DataTable().row(this).data(); //read current row selected                
+                $('#txtRefNo').val(data.ApproveRef);
+                $('#txtPaymentRef').val(data.PaymentRef);
+            });
+            $('#tbApprove tbody').on('dblclick', 'tr', function () {
+                let data = $('#tbApprove').DataTable().row(this).data(); //read current row selected
+                window.open(path + 'acc/formexpense?Branch=' + $('#txtBranchCode').val() + '&Code=' + data.ApproveRef,'','');
+            });
+        });
+    }
     function SetGridAdv(isAlert) {
         arr = [];
         ShowSummary();
@@ -282,5 +363,14 @@ End Code
             }
         });
         return;
+    }
+    function ShowApprove() {
+        $('#dvApprove').modal('show');
+        SetGridApprove();
+    }
+    function SetPayRef() {
+        $.get(path + 'Acc/SetPaymentRef?AppRef=' + $('#txtRefNo').val() + '&PayRef=' + $('#txtPaymentRef').val()).done(function (r) {
+            ShowMessage(r);
+        });
     }
 </script>

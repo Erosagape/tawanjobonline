@@ -143,6 +143,76 @@ Namespace Controllers
                 Return Content("[]", jsonContent)
             End Try
         End Function
+        Function GetPaymentApprove() As ActionResult
+            Try
+                Dim tSqlH As String = " WHERE DocNo<>'' "
+                Dim tSqlD As String = tSqlH
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlH &= String.Format(" AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+                    tSqlD = tSqlH
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlH &= String.Format(" AND DocNo='{0}' ", Request.QueryString("Code").ToString)
+                    tSqlD = tSqlH
+                End If
+                If Not IsNothing(Request.QueryString("VenCode")) Then
+                    tSqlH &= String.Format(" AND VenCode='{0}' ", Request.QueryString("VenCode").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Ref")) Then
+                    tSqlH &= String.Format(" AND RefNo='{0}' ", Request.QueryString("Ref").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Po")) Then
+                    tSqlH &= String.Format(" AND PoNo='{0}' ", Request.QueryString("Po").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Currency")) Then
+                    tSqlH &= String.Format(" AND CurrencyCode='{0}' ", Request.QueryString("Currency").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlH &= " AND DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00' "
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlH &= " AND DocDate<='" & Request.QueryString("DateTo") & " 23:59:00' "
+                End If
+                If Not IsNothing(Request.QueryString("Type")) Then
+                    If Request.QueryString("Type").ToString = "NOPAY" Then
+                        tSqlH &= String.Format(" AND NOT (DocNo IN(SELECT p.DocNo FROM (SELECT h.DocNo FROM Job_CashControlDoc h INNER JOIN Job_CashControlSub d ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo AND h.acType=d.acType WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}') p  )", Request.QueryString("Branch").ToString)
+                        tSqlH &= String.Format(" OR DocNo IN(SELECT DISTINCT p.PaymentNo FROM (SELECT h.PaymentNo FROM Job_AdvHeader h WHERE h.DocStatus<>99 AND h.BranchCode='{0}') p WHERE p.PaymentNo IS NOT NULL))", Request.QueryString("Branch").ToString)
+                    End If
+                    If Request.QueryString("Type").ToString = "NOPO" Then
+                        tSqlH &= " AND ISNULL(PoNo,'')='' "
+                    End If
+                    If Request.QueryString("Type").ToString = "NOAPP" Then
+                        tSqlH &= " AND ISNULL(ApproveRef,'')='' "
+                    End If
+                    If Request.QueryString("Type").ToString = "APP" Then
+                        tSqlH &= " AND NOT ISNULL(ApproveRef,'')='' "
+                    End If
+                End If
+                If Not IsNothing(Request.QueryString("Status")) Then
+                    If Request.QueryString("Status").ToString = "A" Then
+                        tSqlH &= " AND ISNULL(ApproveBy,'')<>'' "
+                    End If
+                    If Request.QueryString("Status").ToString = "R" Then
+                        tSqlH &= " AND ISNULL(ApproveBy,'')='' "
+                    End If
+                    If Request.QueryString("Status").ToString = "N" Then
+                        tSqlH &= " AND ISNULL(CancelProve,'')<>'' "
+                    Else
+                        tSqlH &= " AND NOT ISNULL(CancelProve,'')<>'' "
+                    End If
+                End If
+                Dim oData = (From row As CPayHeader In New CPayHeader(GetSession("ConnJob")).GetData(tSqlH)
+                             Select row.ApproveRef, row.ApproveDate, row.PaymentRef).Distinct()
+
+                Dim json As String = JsonConvert.SerializeObject(oData)
+
+                json = "{""payment"":{""header"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetPayment", ex.Message, ex.StackTrace, True)
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
         Function GetPayment() As ActionResult
             Try
                 Dim tSqlH As String = " WHERE DocNo<>'' "
@@ -184,6 +254,9 @@ Namespace Controllers
                     If Request.QueryString("Type").ToString = "NOAPP" Then
                         tSqlH &= " AND ISNULL(ApproveRef,'')='' "
                     End If
+                    If Request.QueryString("Type").ToString = "APP" Then
+                        tSqlH &= " AND NOT ISNULL(ApproveRef,'')='' "
+                    End If
                 End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     If Request.QueryString("Status").ToString = "A" Then
@@ -192,7 +265,11 @@ Namespace Controllers
                     If Request.QueryString("Status").ToString = "R" Then
                         tSqlH &= " AND ISNULL(ApproveBy,'')='' "
                     End If
-                    tSqlH &= " AND NOT ISNULL(CancelProve,'')<>'' "
+                    If Request.QueryString("Status").ToString = "N" Then
+                        tSqlH &= " AND ISNULL(CancelProve,'')<>'' "
+                    Else
+                        tSqlH &= " AND NOT ISNULL(CancelProve,'')<>'' "
+                    End If
                 End If
                 Dim oData = New CPayHeader(GetSession("ConnJob")).GetData(tSqlH)
                 Dim json As String = JsonConvert.SerializeObject(oData)
@@ -205,6 +282,22 @@ Namespace Controllers
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetPayment", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)
             End Try
+        End Function
+        Function SetPaymentRef() As ActionResult
+            Dim appref = ""
+            If Not IsNothing(Request.QueryString("AppRef")) Then
+                appref = Request.QueryString("AppRef").ToString
+            End If
+            Dim payref = ""
+            If Not IsNothing(Request.QueryString("PayRef")) Then
+                payref = Request.QueryString("PayRef").ToString
+            End If
+            If appref = "" Or payref = "" Then
+                Return Content("Cannot approve", textContent)
+            Else
+                Main.DBExecute(GetSession("ConnJob"), String.Format("UPDATE Job_PaymentHeader SET PaymentRef='{1}' WHERE ApproveRef='{0}' ", appref, payref))
+                Return Content("Approve Complete", textContent)
+            End If
         End Function
         Function GetVenderReport() As ActionResult
             Try

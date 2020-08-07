@@ -49,33 +49,47 @@ End Code
     <thead>
         <tr style="background-color:lightblue;">
             <th height="40" width="60">INV.NO.</th>
-            <th width="200">DESCRIPTION</th>
-            <th width="70">JOB</th>
+            <th width="150">DESCRIPTION</th>
+            <th width="60">JOB</th>
+            <th width="20">CURR</th>
+            <th width="50">TOTAL</th>
             <th width="60">SERVICE</th>
             <th width="30">VAT</th>
             <th width="30">WHT</th>
-            <th width="60">ADVANCE</th>
+            <th width="50">ADVANCE</th>
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
-    <tfoot>
-        <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="6">TOTAL AMOUNT</td>
-            <td colspan="1"><label id="lblTotalBeforeVAT"></label></td>
+        <tr>
+            <td rowspan="3" colspan="5">
+                TOTAL PAYMENT (1 <label id="lblCurrencyCode"></label> = <label id="lblExchangeRate"></label> THB) 
+                <br/>
+                <label id="lblFTotalNet"></label>
+            </td>
+            <td colspan="3" style="text-align:right;">TOTAL AMOUNT (THB)</td>
+            <td style="background-color:lightblue;text-align:right;">
+                <label id="lblTotalBeforeVAT"></label>
+            </td>
         </tr>
-        <tr style="background-color:lightblue;text-align:right;">            
-            <td colspan="6">TOTAL VAT</td>
-            <td colspan="1"><label id="lblTotalVAT"></label></td>
+        <tr>            
+            <td colspan="3" style="text-align:right;">TOTAL VAT (THB)</td>
+            <td style="background-color:lightblue;text-align:right;">
+                <label id="lblTotalVAT"></label>
+            </td>
         </tr>
-        <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="6">TOTAL RECEIPT</td>
-            <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
+        <tr>
+            <td colspan="3" style="text-align:right;">TOTAL RECEIPT (THB)</td>
+            <td style="background-color:lightblue;text-align:right;">
+            <label id="lblTotalAfterVAT"></label>
+            </td>
         </tr>
-        <tr style="background-color:lightblue;text-align:right;">            <td colspan="4" style="text-align:center"><label id="lblTotalText"></label></td>
-            <td colspan="2">TOTAL NET</td>
-            <td colspan="1"><label id="lblTotalNet"></label></td>
+        <tr>            
+            <td colspan="5" style="text-align:center"><label id="lblTotalText"></label></td>
+            <td colspan="3" style="text-align:right;">TOTAL NET (THB)</td>
+            <td style="background-color:lightblue;text-align:right;">
+                <label id="lblTotalNet"></label>
+            </td>
         </tr>
-    </tfoot>
 </table>
 <p>
     PAY BY
@@ -169,16 +183,19 @@ End Code
         let vat = 0;
         let wht = 0;
         let total = 0;
-
+        let totalf = 0;
         for (let d of dt) {
+            let fnet = (Number(d.InvTotal) + Number(d.Inv50Tavi)) / Number(d.ExchangeRate);
             html = '<tr>';
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
             html += '<td>' + d.SDescription + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
+            html += '<td style="text-align:center">' + h.CurrencyCode + '</td>';
+            html += '<td style="text-align:right">' + ShowNumber(fnet,2) +'</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvAmt,2):'0.00') + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'0.00') + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.Inv50Tavi,2):'0.00') + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? '0.00':ShowNumber(d.InvTotal,2)) + '</td>';
+            html += '<td style="text-align:right">' + (d.AmtCharge > 0 ? '0.00' : ShowNumber(d.InvTotal, 2)) + '</td>';
             html += '</tr>';
 
             $('#tbDetail').append(html);
@@ -188,15 +205,20 @@ End Code
                 wht += Number(d.Inv50Tavi);
                 total += Number(d.InvAmt) + Number(d.InvVAT);
             }
+            totalf += fnet;
         }
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
         $('#lblTotalAfterVAT').text(ShowNumber(total, 2));
         $('#lblTotalNet').text(ShowNumber(total - wht, 2));
+        $('#lblCurrencyCode').text(h.CurrencyCode);
+        $('#lblExchangeRate').text(h.ExchangeRate);
+        $('#lblFTotalNet').text(ShowNumber(totalf, 2) + ' ' + h.CurrencyCode);
+
         if (h.UsedLanguage == 'TH') {
             $('#lblTotalText').text(CNumThai(total - wht));
         } else {
-            $('#lblTotalText').text(CNumEng(total - wht));
+            $('#lblTotalText').text(CNumEng(CDbl(totalf,2)));
         }
     }
 </script>

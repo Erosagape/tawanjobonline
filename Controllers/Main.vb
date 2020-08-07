@@ -2684,7 +2684,7 @@ SUM(CASE WHEN s.IsCredit=1 AND s.IsExpense=0 THEN d.Amt ELSE 0 END) as TotalAdva
 SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=1 THEN d.Amt ELSE 0 END) as TotalCost,
 SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=1 AND d.AmtVat>0 THEN d.Amt ELSE 0 END) as 'Claim Vat Amt',
 SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=1 AND d.AmtVat>0 THEN d.AmtVat ELSE 0 END) as 'Claim Vat',
-h.Remark
+h.Remark,h.PaymentRef
 FROM dbo.Job_PaymentHeader AS h LEFT OUTER JOIN
 dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
 LEFT OUTER JOIN dbo.Mas_Vender AS v ON h.VenCode = v.VenCode
@@ -2699,7 +2699,7 @@ AND d.SICode=p.SICode
 WHERE NOT ISNULL(h.CancelProve,'')<>'' {0}
 GROUP BY h.ApproveRef,h.PoNo,h.DocNo,d.ForJNo,c.NameEng,j.VesselName,b.Location,
 b.ActualYardDate,b.UnloadFinishDate,b.ReturnDate,
-b.BookingNo,b.CTN_NO,b.CTN_SIZE,h.Remark
+b.BookingNo,b.CTN_NO,b.CTN_SIZE,h.Remark,h.PaymentRef
 ORDER BY h.PoNo,h.DocNo
 "
         Return String.Format(tSql, sqlW)
