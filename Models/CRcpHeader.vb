@@ -306,7 +306,11 @@ Public Class CRcpHeader
                             dr("TotalNet") = Me.TotalNet
                             dr("FTotalNet") = Me.FTotalNet
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
-                            da.Update(dt)
+                            If da.Update(dt) > 0 Then
+                                If Me.CancelProve <> "" Then
+                                    Main.DBExecute(m_ConnStr, String.Format("DELETE FROM Job_ReceiptDetail WHERE BranchCode='{0} AND ReceiptNo='{1}''", Me.BranchCode, Me.ReceiptNo))
+                                End If
+                            End If
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CRcpHeader", "SaveData", Me, False)
                             msg = "Save Complete"
                         End Using
