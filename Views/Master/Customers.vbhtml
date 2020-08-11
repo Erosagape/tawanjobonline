@@ -240,6 +240,9 @@ End Code
                             <label id="lblLoginName" style="display:block;width:250px">Log in : </label><input type="text" id="txtLoginName" class="form-control">                                                                                      
                             <label id="lblLoginPassword" style="display:block;width:250px">Password : </label><input type="password" id="txtLoginPassword" class="form-control">
                         </div>
+                        <br/>
+                        SAP Customer ID:<br/> 
+                        <input type="text" id="txtLnNO" />
                     </div>
                 </div>
             </div>
@@ -269,7 +272,7 @@ End Code
             <input type="hidden" id="txtMgrSeq" class="form-control" value="0">
             <input type="hidden" id="txtLevelNoExp" class="form-control" value="0">
             <input type="hidden" id="txtLevelNoImp" class="form-control" value="0">
-            <input type="hidden" id="txtLnNO" class="form-control">
+
             <input type="hidden" id="txtAdjTaxCode" class="form-control">
             <input type="hidden" id="txtBkAuthorNo" class="form-control">
             <input type="hidden" id="txtBkAuthorCnn" class="form-control">

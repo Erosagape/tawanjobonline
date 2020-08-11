@@ -1456,7 +1456,16 @@ LEFT JOIN Mas_Company c1 ON rh.CustCode=c1.CustCode AND rh.CustBranch=c1.Branch
 LEFT JOIN Mas_Company c2 ON rh.BillToCustCode=c2.CustCode AND rh.BillToCustBranch=c2.Branch
 INNER JOIN Job_InvoiceHeader ih ON rd.BranchCode=ih.BranchCode AND rd.InvoiceNo=ih.DocNo 
 AND NOT ISNULL(ih.CancelProve,'')<>''
-LEFT JOIN Job_CashControlSub vd ON rd.BranchCode=vd.BranchCode AND rd.ControlNo=vd.ControlNo AND rd.ControlItemNo=vd.ItemNo
+LEFT JOIN (
+select a.BranchCode,SUBSTRING(a.DocNo,0,CHARINDEX('#',a.DocNo)) as InvoiceNo,
+SUBSTRING(a.DocNo,CHARINDEX('#',a.DocNo)+1,4) as InvoiceItem,
+MAX(b.ChqNo) as ChqNo,MAX(b.ChqDate) as ChqDate,MAX(b.PRVoucher) as PRVoucher
+from Job_CashControlDoc a inner join Job_CashControlSub b
+on a.BranchCode=b.BranchCode and a.ControlNo=b.ControlNo and a.acType=b.acType 
+WHERE a.DocType='INV'
+GROUP BY a.BranchCode,SUBSTRING(a.DocNo,0,CHARINDEX('#',a.DocNo)),
+SUBSTRING(a.DocNo,CHARINDEX('#',a.DocNo)+1,4)
+) vd ON id.BranchCode=vd.BranchCode AND id.DocNo=vd.InvoiceNo AND id.ItemNo=vd.InvoiceItem
 "
         Return sql
     End Function

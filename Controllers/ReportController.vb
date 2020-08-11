@@ -150,28 +150,37 @@ Namespace Controllers
                         sqlW = GetSQLCommand(cliteria, "h.DocDate", "", "d.ForJNo", "h.EmpCode", "h.VenCode", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
                         sqlM = "SELECT pa.DocNo,pa.DocDate,pa.VenCode,pa.RefNo,pa.SDescription,pa.Amt,pa.AmtVAT,pa.AmtWHT as Amt50Tavi,pa.Total,pa.PayType FROM (" & SQLSelectPaymentReport() & sqlW & ") pa ORDER BY pa.SDescription,pa.DocDate,pa.DocNo"
+                    Case "TAXDETAIL"
+                        fldGroup = "SDescription"
+                        sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "ih.RefNo", "rh.EmpCode", "", "", "rh.BranchCode", "rd.SICode")
+                        If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT>0 AND " & sqlW Else sqlW = " WHERE rh.TotalVAT>0 "
+                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo,rc.ClrNo,rc.AdvNo,rc.SDescription,rc.Net as AmtNet,rc.PRVoucher FROM (" & SQLSelectReceiptReport() & sqlW & ") rc ORDER BY rc.SDescription,rc.ReceiptNo"
                     Case "RCPDAILY"
                         sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "ih.RefNo", "rh.EmpCode", "", "", "rh.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT=0 AND " & sqlW Else sqlW = " WHERE rh.TotalVAT=0 "
-                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo,rc.ClrNo,rc.AdvNo,rc.SDescription,rc.Net,rc.PRVoucher FROM (" & SQLSelectReceiptReport() & sqlW & ") rc ORDER BY rc.ReceiptDate,rc.ReceiptNo"
+                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,SUM(rc.Net) as AmtNet FROM (" & SQLSelectReceiptReport() & sqlW & ") rc GROUP BY rc.ReceiptNo,rc.ReceiptDate,rc.CustCode ORDER BY rc.ReceiptDate,rc.ReceiptNo"
                     Case "RCPDETAIL"
                         fldGroup = "SDescription"
                         sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "ih.RefNo", "rh.EmpCode", "", "", "rh.BranchCode", "rd.SICode")
                         If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT=0 AND " & sqlW Else sqlW = " WHERE rh.TotalVAT=0 "
-                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo,rc.ClrNo,rc.AdvNo,rc.SDescription,rc.Net,rc.PRVoucher FROM (" & SQLSelectReceiptReport() & sqlW & ") rc ORDER BY rc.SDescription,rc.ReceiptNo"
+                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo,rc.ClrNo,rc.AdvNo,rc.SDescription,rc.Net as AmtNet,rc.PRVoucher FROM (" & SQLSelectReceiptReport() & sqlW & ") rc ORDER BY rc.SDescription,rc.ReceiptNo"
                     Case "RCPSUMMARY"
                         sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "ih.RefNo", "rh.EmpCode", "", "", "rh.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT=0 AND " & sqlW Else sqlW = " WHERE rh.TotalVAT=0 "
-                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo,SUM(rc.Amt) as Amt,SUM(rc.Amt50Tavi) as Amt50Tavi,SUM(rc.Net) as AmtNet FROM (" & SQLSelectReceiptReport() & sqlW & ") rc GROUP BY rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo ORDER BY rc.ReceiptDate,rc.ReceiptNo"
+                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo,SUM(rc.Amt) as Amt,SUM(rc.Amt50Tavi) as Amt50Tavi,SUM(rc.Net) as AmtNet,SUM(CASE WHEN ISNULL(rc.PRVoucher,'')='' THEN 0 ELSE rc.Net END) as TotalReceived FROM (" & SQLSelectReceiptReport() & sqlW & ") rc GROUP BY rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.JobNo ORDER BY rc.ReceiptDate,rc.ReceiptNo"
                     Case "TAXDAILY"
                         sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "ih.RefNo", "rh.EmpCode", "", "", "rh.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT>0 AND " & sqlW Else sqlW = " WHERE rh.TotalVAT>0 "
-                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.InvoiceNo,rc.Net,rc.PRVoucher FROM (" & SQLSelectReceiptReport() & sqlW & ") rc ORDER BY rc.ReceiptDate,rc.ReceiptNo"
+                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,SUM(rc.Net) as AmtNet FROM (" & SQLSelectReceiptReport() & sqlW & ") rc GROUP BY rc.ReceiptNo,rc.ReceiptDate,rc.CustCode ORDER BY rc.ReceiptDate,rc.ReceiptNo"
                     Case "TAXSUMMARY"
                         fldGroup = "NameThai"
                         sqlW = GetSQLCommand(cliteria, "rh.ReceiptDate", "rh.CustCode", "ih.RefNo", "rh.EmpCode", "", "", "rh.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE rh.TotalVAT>0 AND " & sqlW Else sqlW = " WHERE rh.TotalVAT>0 "
-                        sqlM = "SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.CustTName as NameThai,rc.InvoiceNo,rc.JobNo,SUM(rc.Amt) as Amt,SUM(rc.AmtVAT) as AmtVAT,SUM(rc.Amt50Tavi) as Amt50Tavi,SUM(rc.Net) as AmtNet,SUM(CASE WHEN ISNULL(rc.PRVoucher,'')<>'' THEN 0 ELSE rc.Net END) as TotalReceived FROM (" & SQLSelectReceiptReport() & sqlW & ") rc GROUP BY rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.CustTName,rc.InvoiceNo,rc.JobNo ORDER BY rc.CustTName,rc.ReceiptDate,rc.ReceiptNo"
+                        sqlM = "
+SELECT rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.CustTName as NameThai,rc.InvoiceNo,rc.JobNo,SUM(rc.Amt) as Amt,SUM(rc.AmtVAT) as AmtVAT,SUM(rc.Amt50Tavi) as Amt50Tavi,SUM(rc.Net) as AmtNet,SUM(CASE WHEN ISNULL(rc.PRVoucher,'')='' THEN 0 ELSE rc.Net END) as TotalReceived 
+FROM (" & SQLSelectReceiptReport() & sqlW & ") rc 
+GROUP BY rc.ReceiptNo,rc.ReceiptDate,rc.CustCode,rc.CustTName,rc.InvoiceNo,rc.JobNo 
+ORDER BY rc.CustTName,rc.ReceiptDate,rc.ReceiptNo"
                     Case "CASHDAILY"
                         sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "r.CmpCode", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " WHERE (d.ChqAmount >0 OR d.CashAmount>0) AND d.acType<>'CU' AND " & sqlW Else sqlW = " WHERE (d.ChqAmount >0 OR d.CashAmount>0) AND d.acType<>'CU' "
@@ -195,7 +204,7 @@ Namespace Controllers
                         fldGroup = "SDescription"
                         sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode", "id.SICode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.RefNo,inv.SDescription,inv.AmtAdvance,inv.AmtCharge,inv.AmtCredit,inv.AmtVat,inv.Amt50Tavi,inv.TotalInv,inv.ReceivedNet,inv.ReceiptNo,inv.LastVoucher FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.SDescription,inv.DocNo"
+                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.RefNo,inv.SDescription,inv.AmtAdvance,inv.AmtCharge as TotalCharge,inv.AmtCredit,inv.AmtVat,inv.Amt50Tavi,inv.TotalInv,inv.ReceivedNet,inv.ReceiptNo,inv.LastVoucher FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.SDescription,inv.DocNo"
                     Case "INVSTATUS"
                         sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
@@ -336,7 +345,7 @@ WHERE (ch.DocStatus <> 99)
 GROUP BY cd.BranchCode, cd.BillingNo, cd.BillItemNo) as c
 ON id.BranchCode=c.BranchCode AND id.DocNo=c.BillingNo AND id.ItemNo=c.BillItemNo
 LEFT JOIN (SELECT    rd.BranchCode, rd.InvoiceNo, rd.InvoiceItemNo, 
-SUM((CASE WHEN rd.VoucherNo<>'' THEN rd.Net ELSE 0 END)) AS RecvNet,
+SUM((CASE WHEN ISNULL(rd.VoucherNo,'')<>'' THEN rd.Net ELSE 0 END)) AS RecvNet,
 (SELECT STUFF((
 SELECT DISTINCT ',' + ReceiptNo
 FROM Job_ReceiptDetail WHERE BranchCode=rd.BranchCode
@@ -603,8 +612,9 @@ SELECT DocNo,InvDate,CustCode,JNo,DeclareNumber,InvNo,
 ISNULL(AmtCost,0) as TotalCost,
 SUM(CASE WHEN IsCredit=1 THEN BNet ELSE 0 END) as TotalAdvance,
 SUM(CASE WHEN IsCredit=0 THEN BNet ELSE 0 END) as TotalCharge,
-SUM(AmtCredit) as TotalPrepaid,
-SUM(ReceiptNet) as TotalReceived,
+SUM(CASE WHEN IsCredit=0 THEN ChargeVAT ELSE 0 END) as TotalVat,
+SUM(CASE WHEN IsCredit=0 THEN Tax50Tavi ELSE 0 END) as Total50Tavi,
+SUM(ReceiptNet+AmtCredit) as TotalReceived,
 SUM(Balance) as TotalBalance,
 SUM(ReceiptNet+AmtCredit)- SUM(CASE WHEN IsCredit=1 THEN BNet ELSE 0 END)-ISNULL(AmtCost,0) as TotalProfit
 FROM (

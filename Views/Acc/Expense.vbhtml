@@ -127,15 +127,16 @@ End Code
                 </div>                
                 <div class="row">
                     <div class="col-sm-4" style="border-style:solid;border-width:1px">
+                        <input type="checkbox" id="chkApprove" />
                         <label id="lblAppr">Approve By</label>
                         <br />
                         <input type="text" id="txtApproveBy" style="width:250px" disabled />
                         <br />
-                        <label id="lblApprDate">Date:</label>                        
+                        <label id="lblApprDate">Date:</label>
                         <input type="date" id="txtApproveDate" disabled />
-                        <label id="lblApprTime">Time:</label>                        
+                        <label id="lblApprTime">Time:</label>
                         <input type="text" id="txtApproveTime" style="width:80px" disabled />
-                        <br/>
+                        <br />
                         <label>Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" disabled />
                     </div>
                     <div class="col-sm-4" style="border-style:solid;border-width:1px">
@@ -537,6 +538,10 @@ End Code
             chkmode = this.checked;
             CallBackAuthorize(path, 'MODULE_ACC', 'Expense', 'D', SetCancel);
         });
+        $('#chkApprove').on('click', function () {
+            chkmode = this.checked;
+            CallBackAuthorize(path, 'MODULE_ADV', 'Approve',(chkmode ? 'I':'D'), SetApprove);
+        });
         $('#txtBranchCode').focusout(function (event) {
             if (true) {
                 ShowBranch(path, $('#txtBranchCode').val(), '#txtBranchName');
@@ -774,6 +779,7 @@ End Code
             $('#txtAdvRef').val(dt.AdvRef);
             $('#txtRefNo').val(dt.RefNo);
             $('#txtPayType').val(dt.PayType);
+            $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
             $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
             EnableSave();
             return;
@@ -863,6 +869,7 @@ End Code
             $('#txtRefNo').val(cont);
         }
         $('#txtPayType').val('CA');
+        $('#chkApprove').prop('checked', false);
         $('#chkCancel').prop('checked', false);
         $('#tbDetail').DataTable().clear().draw();
         EnableSave();

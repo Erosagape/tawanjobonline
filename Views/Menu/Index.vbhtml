@@ -51,6 +51,7 @@ End Code
     </div>
 </div>
 <div id="dvLOVs"></div>
+<select id="listUser" style="display:none"></select>
 <select id="listStatus" style="display:none"></select>
 <select id="listShipBy" style="display:none"></select>
 <script type="text/javascript" src="~/Scripts/Func/combo.js"></script>
@@ -90,6 +91,7 @@ End Code
     SetLOVs();
 
     function SetLOVs() {
+        loadUser('#listUser', path);
         loadCombos(path, 'SHIP_BY=#cboShipBy,JOB_TYPE=#cboJobType,JOB_STATUS=#listStatus,SHIP_BY=#listShipBy');
         return;
     }
@@ -209,7 +211,9 @@ End Code
                 let row = custView.getFormattedValue(chartCust.getSelection()[0]['row'], 0);
                 let col = custTable[chartCust.getSelection()[0]['column'] - 1];
                 if (chartType == 'V2') {
-                    let cliteria = '?CSCode=' + row + '&Status=' + getValueByText('#listStatus', col);
+                    let cscode = getValueByText('#listUser', row);
+                    if (cscode == '') cscode = 'N/A';
+                    let cliteria = '?CS=' + cscode + '&Status=' + getValueByText('#listStatus', col);
                     LoadJob(cliteria);
                 } else {
                     let cliteria = '?CustCode=' + row + '&Status=' + getValueByText('#listStatus', col);
