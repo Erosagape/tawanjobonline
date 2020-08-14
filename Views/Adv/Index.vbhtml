@@ -707,7 +707,7 @@ End Code
                 CalAmount();
             }
         });
-        $('#txtUnitPrice').change(function (event) {
+        $('#txtUnitPrice').focusout(function (event) {
             if (true) {
                 CalAmount();
             }
@@ -717,7 +717,7 @@ End Code
                 CalVATWHT();
             }
         });
-        $('#txtAMT').change(function (event) {
+        $('#txtAMT').focusout(function (event) {
             if (true) {
                 CalVATWHT();
             }

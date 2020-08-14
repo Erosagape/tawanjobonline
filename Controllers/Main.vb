@@ -2448,20 +2448,24 @@ ORDER BY s.IsExpense
             End If
         Next
         tSql = "
-SELECT j.CustCode,b.JobNo as 'Job Number',
-" & tSql & ",
-SUM(CASE WHEN s.IsCredit=1 AND s.IsExpense=0 THEN b.UsedAmount ELSE 0 END) as 'TotalAdvance',
-SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=0 THEN b.UsedAmount ELSE 0 END) as 'TotalCharge',
-SUM(CASE WHEN s.IsExpense=1 THEN b.UsedAmount ELSE 0 END) as 'TotalCost',
-SUM(CASE WHEN s.IsCredit=0 THEN (CASE WHEN s.IsExpense=1 THEN b.UsedAmount*-1 ELSE b.UsedAmount END) ELSE 0 END) as 'Profit'
+SELECT j.DocDate,j.DutyDate,b.JobNo as 'Job Number',jt.JobTypeName as JobType,sb.ShipByName as ShipBy,
+e.NameEng as 'Customer',i.NameEng as 'Consignee',j.DeliveryTo as Shipper,t.TName as Agent,j.InvProduct,
+j.InvNo,j.HAWB,j.DeclareNumber,j.ETDDate,j.ETADate,j.LoadDate,j.EstDeliverDate as UnloadDate,j.TotalContainer,
+" & tSql & "
 FROM Job_ClearDetail b
 INNER JOIN Job_ClearHeader a ON b.BranchCode=a.BranchCode 
 AND b.ClrNo= a.ClrNo
 INNER JOIN Job_SrvSingle s ON b.SICode=s.SICode
 INNER JOIN Job_Order j ON b.BranchCode=j.BranchCode AND b.JobNo=j.JNo
+INNER JOIN (SELECT CAST(ConfigKey as int) as JobType,ConfigValue as JobTypeName FROM MAs_Config WHERE ConfigCode='JOB_TYPE') jt ON j.ShipBy=jt.JobType
+INNER JOIN (SELECT CAST(ConfigKey as int) as ShipBy,ConfigValue as ShipByName FROM MAs_Config WHERE ConfigCode='SHIP_BY') sb ON j.ShipBy=sb.ShipBy
+INNER JOIN Mas_Company e ON e.CustCode=j.CustCode AND e.Branch=j.CustBranch
+INNER JOIN (SELECT CustCode,MAX(Branch) as Branch,MAX(NameEng) as NameEng FROM  Mas_Company GROUP BY CustCode) i ON i.CustCode=j.consigneecode
+LEFT JOIN Mas_Vender t ON j.ForwarderCode=t.VenCode
 WHERE a.DocStatus<>99 AND b.BNet>0 {0}
-GROUP BY j.CustCode,b.JobNo
-ORDER BY j.CustCode,b.JobNo
+GROUP BY j.DocDate,j.DutyDate,b.JobNo,jt.JobTypeName,sb.ShipByName,e.NameEng,i.NameEng,j.DeliveryTo,j.InvProduct,t.TName,j.InvNo,j.HAWB,
+j.InvNo,j.HAWB,j.DeclareNumber,j.ETDDate,j.ETADate,j.LoadDate,j.EstDeliverDate,j.TotalContainer 
+ORDER BY j.DocDate,b.JobNo
 "
         Return String.Format(tSql, sqlW)
     End Function
@@ -2484,19 +2488,22 @@ WHERE a.DocStatus<>99 {0}
             tSql &= String.Format("SUM(CASE WHEN b.SICode='{0}' THEN b.AdvNet ELSE 0 END) as '{1}'", dr("SICode").ToString(), dr("Description").ToString())
         Next
         tSql = "
-SELECT a.CustCode as 'Customer',c.consigneecode as 'Consignee',
+SELECT e.NameEng as 'Customer',i.NameEng as 'Consignee',
 c.InvProduct as 'Products',c.TotalContainer as 'Containers',
-c.BookingNo as 'BL/AWB',c.CSCode as 'CS',c.AgentCode as 'Vender',
+c.BookingNo as 'Booking',
+c.HAWB as 'BL/AWB',c.CSCode as 'CS',c.AgentCode as 'Vender',
 b.ForJNo as 'Job Number',c.DeclareNumber as 'Customs Declare',
 c.DocDate as 'Job Date',
 " & tSql & ",
 SUM(b.AdvNet) as 'Advance Paid',a.EmpCode as 'Request By',
-SUM(d.ClrNet) as 'Clearing',c.CloseJobDate as 'Close Job Date'
+SUM(d.ClrNet) as TotalExpClear,c.CloseJobDate as 'Close Job Date'
 FROM Job_AdvDetail b
 INNER JOIN Job_AdvHeader a ON b.BranchCode=a.BranchCode 
 AND b.AdvNo= a.AdvNo
 INNER JOIN Job_Order c ON b.BranchCode=c.BranchCode
 AND b.ForJNo=c.JNo
+INNER JOIN Mas_Company e ON e.CustCode=c.CustCode AND e.Branch=c.CustBranch
+LEFT JOIN (Select CustCode,MAX(Branch) as Branch,MAX(NameEng) as NameEng from Mas_Company Group by CustCode) i ON i.CustCode=c.CustCode 
 LEFT JOIN (
     SELECT ch.BranchCode,cd.AdvNo,cd.AdvItemNo,SUM(cd.BNet) as ClrNet
     FROM Job_ClearHeader ch INNER JOIN Job_ClearDetail cd
@@ -2509,10 +2516,9 @@ ON b.BranchCode=d.BranchCode
 AND b.AdvNo=d.AdvNo
 AND b.ItemNo=d.AdvItemNo
 WHERE a.DocStatus<>99 AND b.AdvNet>0 {0}
-GROUP BY a.CustCode,c.consigneecode,c.InvProduct,c.TotalContainer,c.BookingNo,
+GROUP BY e.NameEng,i.NameEng,c.InvProduct,c.TotalContainer,c.BookingNo,c.HAWB,
 c.CSCode,c.AgentCode,b.ForJNo,c.DeclareNumber,c.DocDate,a.EmpCode,c.CloseJobDate
-ORDER BY a.CustCode,b.ForJNo
-"
+ORDER BY e.NameEng,b.ForJNo"
         Return String.Format(tSql, sqlW)
     End Function
     Public Function SQLSelectAdvanceTotal(sqlW As String) As String

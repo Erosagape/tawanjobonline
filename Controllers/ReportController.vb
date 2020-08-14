@@ -222,7 +222,7 @@ ORDER BY inv.DocNo
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
                         sqlM = "SELECT bl.BillAcceptNo,bl.BillDate,bl.CustCode,bl.InvNo,bl.AmtAdvance,bl.AmtChargeNonVAT,bl.AmtChargeVAT,bl.AmtVAT,bl.AmtWH,bl.AmtTotal FROM (" & SQLSelectBillReport() & sqlW & ") bl ORDER BY bl.BillDate,bl.BillAcceptNo"
                     Case "JOBCOST"
-                        sqlW = GetSQLCommand(cliteria, "ch.ClrDate", "j.CustCode", "j.JNo", "j.CSCode", "j.ForwarderCode", "j.JobStatus", "j.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.ForwarderCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "SELECT CustCode,JNo,DeclareNumber,DutyDate,SumAdvance,SumCost,SumCharge,SumWhTax,Profit FROM (
 SELECT j.BranchCode, j.JNo, j.CustCode, j.CustBranch, j.InvNo, j.DutyDate, j.DeclareNumber,j.CSCode,j.ManagerCode,
@@ -499,7 +499,7 @@ WHERE c.LoadDate IS NOT NULL {0} ) t ORDER BY t.VenderCode,t.LoadDate"
                         sqlM = String.Format(sqlM, sqlW)
 
                     Case "CUSTSUMMARY"
-                        sqlW = GetSQLCommand(cliteria, "c.DutyDate", "c.CustCode", "c.JNo", "c.CSCode", "c.AgentCode", "c.JobStatus", "c.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "c.DocDate", "c.CustCode", "c.JNo", "c.CSCode", "c.AgentCode", "c.JobStatus", "c.BranchCode")
                         If sqlW <> "" Then sqlW = " And " & sqlW
                         sqlM = "
 SELECT CustCode,CustName,
@@ -562,7 +562,7 @@ ORDER BY CustCode
                         sqlM = String.Format(sqlM, sqlW)
                     Case "JOBSUMMARY"
                         fldGroup = "CustCode"
-                        sqlW = GetSQLCommand(cliteria, "c.DutyDate", "c.CustCode", "c.JNo", "c.CSCode", "c.AgentCode", "c.JobStatus", "c.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "c.DocDate", "c.CustCode", "c.JNo", "c.CSCode", "c.AgentCode", "c.JobStatus", "c.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 SELECT JNo,DeclareNumber,InvNo,DutyDate,CloseJobDate,CustCode,
@@ -1368,7 +1368,7 @@ a.LinkBillNo as 'V/Receipt#',v.VoucherDate as 'Received Date'
 "
                         sqlM = String.Format(sqlM, sqlW)
                     Case "GROSSPROFIT"
-                        sqlW = GetSQLCommand(cliteria, "c.DutyDate", "c.CustCode", "c.JNo", "c.CSCode", "c.AgentCode", "c.JobStatus", "c.BranchCode", "a.SICode")
+                        sqlW = GetSQLCommand(cliteria, "c.DocDate", "c.CustCode", "c.JNo", "c.CSCode", "c.AgentCode", "c.JobStatus", "c.BranchCode", "a.SICode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 select jt.JobTypeName as 'JobType',sb.ShipByName as 'ShipBy',
@@ -1405,8 +1405,8 @@ SUM(CASE WHEN sv.IsCredit=1 AND sv.IsExpense=0 THEN cd.BNet ELSE 0 END) AS SumAd
 SUM(CASE WHEN sv.IsCredit=0 AND sv.IsExpense=0 THEN cd.UsedAmount ELSE 0 END) AS SumCharge,
 SUM(CASE WHEN sv.GroupCode='ERN' THEN cd.UsedAmount ELSE 0 END) AS SumDeposit,
 SUM(CASE WHEN sv.IsCredit=0 AND sv.IsExpense=0 THEN cd.UsedAmount ELSE 0 END)-SUM(CASE WHEN sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END) as Profit,
-CAST(100*(SUM(CASE WHEN sv.IsCredit=0 AND sv.IsExpense=0 THEN cd.UsedAmount ELSE 0 END)-SUM(CASE WHEN sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END)
--SUM(CASE WHEN sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END))/(SUM(CASE WHEN sv.IsCredit=0 AND sv.IsExpense=0 THEN cd.UsedAmount ELSE 0 END)-SUM(CASE WHEN sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END)) as numeric(10,2)) as Margin
+(SUM(CASE WHEN sv.IsCredit=0 AND sv.IsExpense=0 THEN cd.UsedAmount ELSE 0 END)-SUM(CASE WHEN sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END)
+-SUM(CASE WHEN sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END))/ABS(SUM(CASE WHEN sv.IsCredit=0 AND sv.IsExpense=0 THEN cd.UsedAmount ELSE 0 END)-SUM(CASE WHEN sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END)) as Margin
 FROM dbo.Job_ClearHeader AS ch INNER JOIN
 dbo.Job_ClearDetail AS cd ON ch.BranchCode = cd.BranchCode 
  AND ch.ClrNo=cd.ClrNo

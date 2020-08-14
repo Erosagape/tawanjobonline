@@ -780,8 +780,8 @@ End Code
             }
         });
 
-        $('#txtUnitPrice').keydown(function (event) {
-            if (event.which == 13) {
+        $('#txtUnitPrice').focusout(function (event) {
+            if (true) {
                 CalAmount();
             }
         });
@@ -792,8 +792,8 @@ End Code
             }
         });
 
-        $('#txtAMT').keydown(function (event) {
-            if (event.which == 13) {
+        $('#txtAMT').focusout(function (event) {
+            if (true) {
                 CalVATWHT();
             }
         });
