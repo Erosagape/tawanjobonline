@@ -982,6 +982,25 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
         Function FormTransport() As ActionResult
             Return GetView("FormTransport")
         End Function
+        Function ChangeBooking() As ActionResult
+            Dim fromBookNo = ""
+            Dim toBookNo = ""
+            If Not IsNothing(Request.QueryString("From")) Then
+                fromBookNo = Request.QueryString("From").ToString()
+            End If
+            If Not IsNothing(Request.QueryString("To")) Then
+                toBookNo = Request.QueryString("To").ToString()
+            End If
+            If fromBookNo = "" Or toBookNo = "" Then
+                Return Content("{""result"":""Data Not Found""}", jsonContent)
+            Else
+                Dim msgJ = Main.DBExecute(GetSession("ConnJob"), String.Format("UPDATE Job_Order SET BookingNo='{0}' WHERE BookingNo='{1}' ", toBookNo, fromBookNo))
+                Dim msgH = Main.DBExecute(GetSession("ConnJob"), String.Format("UPDATE Job_LoadInfo SET BookingNo='{0}' WHERE BookingNo='{1}' ", toBookNo, fromBookNo))
+                Dim msgD = Main.DBExecute(GetSession("ConnJob"), String.Format("UPDATE Job_LoadInfoDetail SET BookingNo='{0}' WHERE BookingNo='{1}' ", toBookNo, fromBookNo))
+                Dim msgP = Main.DBExecute(GetSession("ConnJob"), String.Format("UPDATE Job_PaymentDetail SET BookingRefNo='{0}' WHERE BookingRefNo='{1}' ", toBookNo, fromBookNo))
+                Return Content("{""result"":""Update Job Order=" & msgJ & "\nUpdate Transport Header=" & msgH & "\nUpdate Container=" & msgD & "\nUpdate Vender Billing=" & msgP & """}", jsonContent)
+            End If
+        End Function
         Function CheckAPI() As ActionResult
             Return Content("Hi API is Running")
         End Function

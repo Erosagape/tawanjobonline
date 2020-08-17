@@ -58,6 +58,11 @@ End Code
 <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteBooking()">
     <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDel">Delete Booking</b>
 </a>
+Change Booking Number >> 
+<input type="text" id="txtBookingNew" />
+<a href="#" class="btn btn-warning" id="btnChange" onclick="ChangeBooking()">
+    <i class="fa fa-lg fa-check"></i>&nbsp;<b id="linkChange">Change Booking</b>
+</a>
 <ul class="nav nav-tabs">
     <li class="active">
         <a data-toggle="tab" href="#tabLoading" id="linkTab1">Loading Information</a>
@@ -1949,5 +1954,14 @@ End Code
                 });
             }
         });
+    }
+    function ChangeBooking() {
+        if ($('#txtBookingNew').val() !== '') {
+            $.get(path + 'JobOrder/ChangeBooking?From=' + $('#txtBookingNo').val() + '&To=' + $('#txtBookingNew').val()).done(function (r) {
+                ShowMessage(r.result);
+            });
+        } else {
+            ShowMessage('Please enter some data', true);
+        }
     }
 </script>
