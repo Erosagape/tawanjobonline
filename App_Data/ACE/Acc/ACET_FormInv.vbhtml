@@ -6,10 +6,12 @@ End Code
     body {
         font-size: 11px;
     }
-#dvFooter {
-	display:none;
-}
-	    table {
+
+    #dvFooter {
+        display: none;
+    }
+
+    table {
         border-width: thin;
         border-collapse: collapse;
     }
@@ -103,8 +105,8 @@ End Code
             <div class="row">
                 <p class="col-sm-12">
                     DECLARE TYPE :<label id="lblDeclareType"></label>
-<br/>
-CUST PO: <label id="lblCustRefNo"></label>
+                    <br />
+                    CUST PO: <label id="lblCustRefNo"></label>
                 </p>
             </div>
         </div>
@@ -241,10 +243,10 @@ CUST PO: <label id="lblCustRefNo"></label>
             $.get(path + 'Master/GetCompany?Code='+ h.BillToCustCode + '&Branch='+ h.BillToCustBranch).done(function(r) {
                  if(r.company.data.length >0) {
                       let c=r.company.data[0];
-                $('#lblTaxNumber').text(c.TaxNumber);  
+                $('#lblTaxNumber').text(c.TaxNumber);
                 if (c.UsedLanguage == 'TH') {
             $('#lblTotalBaht').text('(' + CNumThai(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount))/h.ExchangeRate, 2)) + ')');
-		   if(Number(c.Branch)==0){ 
+		   if(Number(c.Branch)==0){
 			$('#lblTaxBranch').text('สำนักงานใหญ่');
 		   } else {
 			$('#lblTaxBranch').text(c.Branch);
@@ -253,7 +255,7 @@ CUST PO: <label id="lblCustRefNo"></label>
                     $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
                 } else {
             $('#lblTotalBaht').text('(' + CNumEng(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount))/h.ExchangeRate, 2)) + ')');
-		   if(Number(c.Branch)==0){ 
+		   if(Number(c.Branch)==0){
 			$('#lblTaxBranch').text('HEAD OFFICE');
 		   } else {
 			$('#lblTaxBranch').text(c.Branch);
