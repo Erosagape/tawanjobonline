@@ -2790,6 +2790,8 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "RVDAILY", "ReportNameEN": "Receive Voucher Report", "ReportNameTH": "รายงานใบสำคัญรับรายวัน" },
         { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "GROSSPROFIT", "ReportNameEN": "Gross Profit Report", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามประเภทงาน" },
         { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUSTPROFIT", "ReportNameEN": "Customer Profit Report", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามลูกค้า" },
+        { "ReportType": "EXP", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "SETAR", "ReportNameEN": "SAP AR Input Report", "ReportNameTH": "รายงานตั้งลูกหนี้ SAP" },
+        { "ReportType": "EXP", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUTAR", "ReportNameEN": "SAP AR Payment Report", "ReportNameTH": "รายงานตัดรับชำระหนี้ SAP" },
         { "ReportType": "STD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "ADVTOTAL", "ReportNameEN": "Details of Advance Payment By Job Order", "ReportNameTH": "รายงานการเบิกค่าใช้จ่ายแยกตามประเภท" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "BUYRATE", "ReportNameEN": "Buy Rates By Broker", "ReportNameTH": "รายงานการเปรียบเทียบราคาต้นทุนแต่ละผู้ให้บริการ" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUSTSUMMARY", "ReportNameEN": "PNL By Customer", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามลูกค้า" },
