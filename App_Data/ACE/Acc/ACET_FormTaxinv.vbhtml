@@ -194,9 +194,9 @@ End Code
         $('#lblTotalAfterVAT').text(ShowNumber(total, 2));
         $('#lblTotalNet').text(ShowNumber(total-wht, 2));
         if (h.UsedLanguage == 'TH') {
-            $('#lblTotalText').text(CNumThai(total - wht));
+            $('#lblTotalText').text(CNumThai(CDbl((total - wht),2)));
         } else {
-            $('#lblTotalText').text(CNumEng(total - wht));
+            $('#lblTotalText').text(CNumEng(CDbl((total - wht),2)));
         }
     }
 </script>

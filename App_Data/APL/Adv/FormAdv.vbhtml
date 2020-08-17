@@ -49,7 +49,7 @@ End Code
     </tr>
 </table>
 <br />
-<table style="border-collapse:collapse;width:100%;margin:5px 5px 5px 5px;">
+<table style="border-collapse:collapse;width:99%;">
     <tr style="text-align:center;">
         <td style="border-style:solid;border-width:thin;font-size:11px">
             <b>Advance Expenses</b>

@@ -216,7 +216,7 @@ End Code
         $('#lblFTotalNet').text(ShowNumber(totalf, 2) + ' ' + h.CurrencyCode);
 
         if (h.UsedLanguage == 'TH') {
-            $('#lblTotalText').text(CNumThai(total - wht));
+            $('#lblTotalText').text(CNumThai(CDbl((total - wht),2)));
         } else {
             $('#lblTotalText').text(CNumEng(CDbl(totalf,2)));
         }

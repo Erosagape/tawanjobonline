@@ -3080,7 +3080,7 @@ function ChangeLanguageGrid(module, id) {
                     "Cust.Adv|รับล่วงหน้า",
                     "Advance|ทดรองจ่าย",
                     "Service (No VAT)|ค่าบริการ(ยกเว้น)",
-                    "Service (VAT||ค่าบริการ",
+                    "Service (VAT)|ค่าบริการ",
                     "Discount|ส่วนลด",
                     "WH-tax|หัก ณ ที่จ่าย",
                     "VAT|ภาษีมูลค่าเพิ่ม",

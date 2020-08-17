@@ -7,9 +7,10 @@ DECLARE @findstr as nvarchar(MAX);
 
 IF (@findidx<=0 )
 BEGIN
-	SET @findstr='';
+	SET @data=@data +@split;
+	SET @findidx= CHARINDEX(@split,@data);
 END
-ELSE
+
 BEGIN
 	IF (@idx=0) 
 	BEGIN

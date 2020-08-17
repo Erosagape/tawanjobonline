@@ -155,6 +155,6 @@ End Code
             total += Number(d.Net);
         }
         $('#lblTotalNum').text(ShowNumber(total, 2));
-        $('#lblTotalText').text(CNumThai(total));
+        $('#lblTotalText').text(CNumThai(CDbl(total,2)));
     }
 </script>

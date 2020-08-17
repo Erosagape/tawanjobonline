@@ -40,7 +40,7 @@
             </div>
         </div>
         <div style="width:100%;font-size:8px">
-            <p style="text-align:left">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
+            <p style="text-align:left">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - @ViewBag.PROFILE_COMPANY_NAME</p>
         </div>
     </div>
 </body>

@@ -284,7 +284,7 @@ if(unit.length>0) {
                 html += htmlTemplate;
             }
             html += '<div style="font-size:9px;"><br/>TOTAL (' + (i) + ') CONTAINER(s)';
-            html += '<br/> TOTAL ' + CNumEng(h.InvProductQty) + ' ' + $('#lblProductUnit').text() + ' ONLY';
+            html += '<br/> TOTAL PACKAGES ' + CNumEng(h.InvProductQty) + ' ' + $('#lblProductUnit').text() + ' ONLY';
             html += '</div>';
             $('#dvDetail').html(html);
         }

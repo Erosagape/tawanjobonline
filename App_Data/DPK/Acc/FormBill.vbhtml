@@ -149,7 +149,7 @@ End Code
                 html += '<td>' + dr.InvNo + '</td>';
                 html += '<td>' + dr.RefNo + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtAdvance, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtChargeNonVAT, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(Number(dr.AmtChargeNonVAT+dr.AmtChargeVAT), 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtVAT, 2) + '</td>';
                 html += '<td style="text-align:right">' + (dr.AmtWHRate==1 ? ShowNumber(dr.AmtWH, 2) : 0) + '</td>';
                 html += '<td style="text-align:right">' + (dr.AmtWHRate!==1 ? ShowNumber(dr.AmtWH, 2) : 0) + '</td>';
@@ -157,7 +157,7 @@ End Code
                 html += '</tr>';
 
                 total += Number(dr.AmtTotal);
-                serv += Number(dr.AmtChargeNonVAT);
+                serv += Number(dr.AmtChargeNonVAT)+Number(dr.AmtChargeVAT);
                 adv += Number(dr.AmtAdvance);
                 vat += Number(dr.AmtVAT);
                 wh1 += Number(dr.AmtWHRate == 1 ? ShowNumber(dr.AmtWH, 2) : 0);

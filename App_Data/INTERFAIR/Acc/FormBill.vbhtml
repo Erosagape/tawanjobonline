@@ -122,11 +122,22 @@ End Code
             $('#lblPaymentDueDate').text(ShowDate(CDateTH(data.header[0][0].DuePaymentDate)));
         }
         if (data.customer.length > 0) {
+	
             $('#lblTaxNumber').text(data.customer[0][0].TaxNumber);
             if (data.customer[0][0].UsedLanguage == 'TH') {
+if(Number(data.customer[0][0].Branch)>0) {
+        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + h.CustBranch);
+} else {
+        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :สำนักงานใหญ่');
+}
                 $('#lblCustName').text(data.customer[0][0].NameThai);
                 $('#lblCustAddress').text(data.customer[0][0].TAddress1 + '\n' + data.customer[0][0].TAddress2);
             } else {
+if(Number(data.customer[0][0].Branch)>0) {
+        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + h.CustBranch);
+} else {
+        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :HEAD OFFICE');
+}
                 $('#lblCustName').text(data.customer[0][0].NameEng);
                 $('#lblCustAddress').text(data.customer[0][0].EAddress1 + '\n' + data.customer[0][0].EAddress2);
             }

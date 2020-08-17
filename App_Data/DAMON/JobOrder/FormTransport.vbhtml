@@ -45,7 +45,7 @@ End Code
                     </div>
                 </div>
                 <div style="flex:1">
-                    <b>Place of Receipt</b>
+                    <b>Place of Receive</b>
                     <div>
                         <label id="lblPackingPlace"></label>
                     </div>
@@ -53,13 +53,13 @@ End Code
             </div>
             <div style="display:flex;flex-direction:row;">
                 <div style="flex:1">
-                    <b>Ocean Vessel</b>
+                    <b>Mother Vessel / Voyage No</b>
                     <div>
                         <label id="lblMVesselName"></label>
                     </div>
                 </div>
                 <div style="flex:1">
-                    <b>Port of Loading</b>
+                    <b>Loading Port</b>
                     <div>
                         <label id="lblClearPortName"></label>
                     </div>
@@ -67,13 +67,13 @@ End Code
             </div>
             <div style="display:flex;flex-direction:row;">
                 <div style="flex:1">
-                    <b>Port of Discharge</b>
+                    <b>Discharge Port</b>
                     <div>
                         <label id="lblInterPortName"></label>
                     </div>
                 </div>
                 <div style="flex:1">
-                    <b>Port of Delivery</b>
+                    <b>Place of Destination</b>
                     <div>
                         <label id="lblFactoryPlace"></label>
                     </div>
@@ -85,7 +85,7 @@ End Code
     <div style="flex-direction:row;width:30%;border-style:solid;border-width:thin;font-size:12px">
         <div style="display:flex;flex-direction:column;">
             <div>
-                <b>House Bill of Lading <label id="lblHAWB"></label> </b>
+                <b>B/L NO : <label id="lblHAWB"></label> </b>
             </div>
             <div>
                 <br />

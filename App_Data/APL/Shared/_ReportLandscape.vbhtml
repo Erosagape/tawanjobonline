@@ -14,6 +14,7 @@
     <script src="~/Scripts/bootstrap-select.js"></script>
     <script src="~/Scripts/Func/Util.js"></script>
     <script src="~/Scripts/Func/popup.js"></script>
+    <script src="~/Scripts/Func/reports.js"></script>
     <style>
         table,
         table tr td,
