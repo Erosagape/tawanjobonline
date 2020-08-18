@@ -352,6 +352,7 @@
     <Content Include="App_Data\SOUTHEAST\Scripts\popup.js" />
     <Content Include="App_Data\SOUTHEAST\Scripts\reports.js" />
     <Content Include="App_Data\SOUTHEAST\Scripts\util.js" />
+    <Content Include="App_Data\SQL_Clear_Data_Cliteria.sql" />
     <Content Include="App_Data\SQL_Delete_Data.sql" />
     <Content Include="App_Data\webadmin.txt" />
     <Content Include="App_Data\_STANDARD\Scripts\combo.js" />

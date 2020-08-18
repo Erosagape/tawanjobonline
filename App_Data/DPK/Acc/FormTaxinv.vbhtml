@@ -5,7 +5,7 @@
 End Code
 <style>
     * {
-        font-size: 14px;
+        font-size: 11px;
     }
 
     table {
@@ -16,75 +16,59 @@ End Code
         display:none;
     }
 </style>
-<div style="display:flex;width:100%">
-    <div id="dvHeadF" style="float:left;flex:2;">
-        <b>ROTJANIN CHANASINPHAWATKUN (DAN PHAK KAD)</b><br />
-        9/10 T.Thachang,A.Mueng <br />
-        Chanthaburi,THAILAND 22000<br />
-        Tel: 084-5399663
-    </div>
-    <div id="dvHeadS" style="float:left;flex:2;">
-        <div style="display:flex">
-            <div style="flex:1;margin:5px 5px 5px 5px;">
-                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:120px" />
+<div style="display:flex;flex-direction:column">
+    <div style="display:flex;width:100%">
+        <div id="dvHeadF" style="float:left;flex:2;">
+            <b>ROTJANIN CHANASINPHAWATKUN (DAN PHAK KAD)</b><br />
+            9/10 T.Thachang,A.Mueng <br />
+            Chanthaburi,THAILAND 22000<br />
+            Tel: 084-5399663
+        </div>
+        <div id="dvHeadS" style="float:left;flex:2;">
+            <div style="display:flex">
+                <div style="flex:1;margin:5px 5px 5px 5px;">
+                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:120px" />
+                </div>
+                <div style="flex:4;">
+                    <b>ห้างหุ้นสวนจํากัด แดน ผักกาด (สำนักงานใหญ่)</b><br />
+                    9/10 หมู่ที 10 ตําบลท่าช้าง<br />
+                    อําเภอเมืองจันทบุรี จังหวัดจันทบุรี<br />
+                    โทร.039-460383,084-5399663<br />
+                    เลขประจำตัวผู้เสียภาษี 0223552000575
+                </div>
             </div>
-            <div style="flex:4;">
-                <b>ห้างหุ้นสวนจํากัด แดน ผักกาด (สำนักงานใหญ่)</b><br />
-                9/10 หมู่ที 10 ตําบลท่าช้าง<br />
-                อําเภอเมืองจันทบุรี จังหวัดจันทบุรี<br />
-                โทร.039-460383,084-5399663<br />
-                เลขประจำตัวผู้เสียภาษี 0223552000575
+        </div>
+        <div style="float:right;text-align:right;flex:1;">
+            <b><label id="lblDocType">TAX-INVOICE</label></b>
+            <div id="dvCopy">
             </div>
         </div>
     </div>
-    <div style="float:right;text-align:right;flex:1;">
-        <b><label id="lblDocType">TAX-INVOICE</label></b>
-        <div id="dvCopy">
+    <br/>
+    <div style="display:flex;">
+        <div style="flex:3;border:1px solid black;border-radius:5px;">
+            NAME : <label id="lblCustName"></label><br />
+            ADDRESS : <label id="lblCustAddr"></label><br />
+            TEL : <label id="lblCustTel"></label><br />
+            TAX-ID : <lable id="lblCustTax"></lable>
+        </div>
+        <div style="flex:1;border:1px solid black;border-radius:5px;">
+            NO. : <label id="lblReceiptNo"></label><br />
+            ISSUE DATE : <label id="lblReceiptDate"></label><br />
         </div>
     </div>
-</div>
-<!--
-<div style="display:flex;">
-    <div style="flex:3;">
-        <label>CUSTOMER:</label>
-        <br />
-        <label id="lblCustCode"></label>
-    </div>
-    <div style="flex:1">
-        BRANCH: <label id="lblBranchName">@ViewBag.PROFILE_DEFAULT_BRANCH_NAME</label>
-        <br />
-        TAX ID: <label id="lblTaxNumer">@ViewBag.PROFILE_TAXNUMBER</label>
-    </div>
-</div>
--->
 
-<div style="display:flex;">
-    <div style="flex:3;border:1px solid black;border-radius:5px;">
-        NAME : <label id="lblCustName"></label><br />
-        ADDRESS : <label id="lblCustAddr"></label><br />
-        TEL : <label id="lblCustTel"></label><br />
-        TAX-ID : <lable id="lblCustTax"></lable>
-    </div>
-    <div style="flex:1;border:1px solid black;border-radius:5px;">
-        NO. : <label id="lblReceiptNo"></label><br />
-        ISSUE DATE : <label id="lblReceiptDate"></label><br />
-    </div>
-</div>
-
-<table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
-    <thead>
+    <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
         <tr style="background-color:lightblue;">
-            <th height="40" width="60">INV.NO.</th>
-            <th width="200">DESCRIPTION</th>
-            <th width="70">JOB</th>
-            <th width="60">SERVICE</th>
-            <th width="30">VAT</th>
-            <th width="30">WHT</th>
-            <th width="60">ADVANCE</th>
+            <td height="40" width="60">INV.NO.</td>
+            <td width="200">DESCRIPTION</td>
+            <td width="70">JOB</td>
+            <td width="60">SERVICE</td>
+            <td width="30">VAT</td>
+            <td width="30">WHT</td>
+            <td width="60">ADVANCE</td>
         </tr>
-    </thead>
-    <tbody id="tbDetail"></tbody>
-    <tfoot>
+        <tbody id="tbDetail"></tbody>
         <tr style="background-color:lightblue;text-align:right;">
             <td colspan="4" style="text-align:center"><label id="lblTotalText"></label></td>
             <td colspan="2">TOTAL AMOUNT</td>
@@ -98,25 +82,26 @@ End Code
             <td colspan="6">TOTAL RECEIPT</td>
             <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
         </tr>
-    </tfoot>
-</table>
-<p>
-    PAY BY
-</p>
-<div style="display:flex;flex-direction:column">
-    <div>
-        <label><input type="checkbox" name="vehicle1" value=""> CASH</label>
-        DATE_____________  AMOUNT______________BAHT
-    </div>
-    <div>
-        <label><input type="checkbox" name="vehicle2" value=""> CHEQUE</label>
-        DATE_____________  NO_______________  BANK_________________  AMOUNT______________BAHT
-    </div>
-    <div>
-        <label><input type="checkbox" name="vehicle3" value=""> TRANSFER</label>
-        DATE_____________  BANK_________________  AMOUNT______________BAHT
+    </table>
+    <p>
+        PAY BY
+    </p>
+    <div style="display:flex;flex-direction:column">
+        <div>
+            <label><input type="checkbox" name="vehicle1" value=""> CASH</label>
+            DATE_____________  AMOUNT______________BAHT
+        </div>
+        <div>
+            <label><input type="checkbox" name="vehicle2" value=""> CHEQUE</label>
+            DATE_____________  NO_______________  BANK_________________  AMOUNT______________BAHT
+        </div>
+        <div>
+            <label><input type="checkbox" name="vehicle3" value=""> TRANSFER</label>
+            DATE_____________  BANK_________________  AMOUNT______________BAHT
+        </div>
     </div>
 </div>
+
 <br />
 <div style="display:flex;">
     <!--

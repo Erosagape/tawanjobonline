@@ -3,64 +3,67 @@
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Voucher Slip"
 End Code
-<table id="tbAdvInfo" width="100%">
-    <tr>
-        <td colspan="3" style="font-size:11px">
-            <b>Voucher No : </b><label id="txtControlNo" style="text-decoration-line:underline"></label>
-        </td>
-        <td align="right" style="font-size:11px">
-            <input type="text" id="txtVoucherType" value="VOUCHER" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3" style="font-size:11px">
-            <b>Remark</b>
-            <label id="txtRemark" style="text-decoration-line:underline;"></label>
-        </td>
-        <td align="right" style="font-size:11px">
-            <b>Voucher Date : </b><label id="txtVoucherDate" style="text-decoration-line:underline;"></label>
-        </td>
-    </tr>
-</table>
-<br />
-<table id="tbData" style="border-collapse:collapse;width:100%">
-    <tbody></tbody>
-</table>
-<br />
-<table width="100%" style="border-collapse:collapse;">
-    <tr>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            CREATED.BY
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            APPROVE.BY
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            PAYER
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            PAYEE
-        </td>
-    </tr>
-    <tr>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-            <label id="txtRecBy" style="font-size:10px">(__________________)</label><br />
-            <label id="txtRecDate" style="font-size:9px">__/__/____</label>
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label id="txtPostedBy" style="font-size:10px">(__________________)</label><br />
-            <label id="txtPostedDate" style="font-size:9px">__/__/____</label>
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label style="font-size:10px">(__________________)</label><br />
-            <label style="font-size:9px">__/__/____</label>
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label style="font-size:9px">(__________________)</label><br />
-            <label style="font-size:9px">__/__/____</label>
-        </td>
-    </tr>
-</table>
+    <div style="display:flex;flex-direction:column">
+        <table id="tbAdvInfo" width="100%">
+            <tr>
+                <td colspan="3" style="font-size:11px">
+                    <b>Voucher No : </b><label id="txtControlNo" style="text-decoration-line:underline"></label>
+                </td>
+                <td align="right" style="font-size:11px">
+                    <input type="text" id="txtVoucherType" value="VOUCHER" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="font-size:11px">
+                    <b>Remark</b>
+                    <label id="txtRemark" style="text-decoration-line:underline;"></label>
+                </td>
+                <td align="right" style="font-size:11px">
+                    <b>Voucher Date : </b><label id="txtVoucherDate" style="text-decoration-line:underline;"></label>
+                </td>
+            </tr>
+        </table>
+        <br/>
+        <table id="tbData" style="border-collapse:collapse;width:100%">
+            <tbody></tbody>
+        </table>
+
+        <table width="100%" style="border-collapse:collapse;">
+            <tr>
+                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+                    CREATED.BY
+                </td>
+                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+                    APPROVE.BY
+                </td>
+                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+                    PAYER
+                </td>
+                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+                    PAYEE
+                </td>
+            </tr>
+            <tr>
+                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
+                    <label id="txtRecBy" style="font-size:10px">(__________________)</label><br />
+                    <label id="txtRecDate" style="font-size:9px">__/__/____</label>
+                </td>
+                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+                    <label id="txtPostedBy" style="font-size:10px">(__________________)</label><br />
+                    <label id="txtPostedDate" style="font-size:9px">__/__/____</label>
+                </td>
+                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+                    <label style="font-size:10px">(__________________)</label><br />
+                    <label style="font-size:9px">__/__/____</label>
+                </td>
+                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+                    <label style="font-size:9px">(__________________)</label><br />
+                    <label style="font-size:9px">__/__/____</label>
+                </td>
+            </tr>
+        </table>
+    </div>
+
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let vcType='P';

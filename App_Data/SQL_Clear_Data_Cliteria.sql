@@ -1,5 +1,3 @@
-use job_stm
-go
 delete from Job_AdvHeader where AdvNo in(select AdvNo from Job_AdvDetail where ForJNo like '%2007%')
 delete from Job_AdvDetail where ForJNo like '%2007%'
 delete from Job_ClearHeader where ClrNo in(select ClrNo from Job_ClearDetail where JobNo like '%2007%')

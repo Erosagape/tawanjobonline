@@ -1641,9 +1641,9 @@ dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
             sqlCheckStatus &= "CASE WHEN j.JobStatus=" & Convert.ToInt16(cfg.ConfigKey) & " THEN 1 ELSE 0 END"
             sqlCheckStatus &= ") as '" & cfg.ConfigValue & "'"
         Next
-        If sqlCheckStatus = "" Then
-            sqlCheckStatus = ",COUNT(*) as TotalJob"
-        End If
+        'If sqlCheckStatus = "" Then
+        sqlCheckStatus &= ",COUNT(*) as TotalJob"
+        'End If
         Dim sql = "
 SELECT " & tGroup & "
 " & sqlCheckStatus & "
@@ -2491,7 +2491,7 @@ WHERE a.DocStatus<>99 {0}
 SELECT e.NameEng as 'Customer',i.NameEng as 'Consignee',
 c.InvProduct as 'Products',c.TotalContainer as 'Containers',
 c.BookingNo as 'Booking',
-c.HAWB as 'BL/AWB',c.CSCode as 'CS',c.AgentCode as 'Vender',
+c.HAWB as 'BL/AWB',c.CSCode as 'CS',v.TName as 'Agent',
 b.ForJNo as 'Job Number',c.DeclareNumber as 'Customs Declare',
 c.DocDate as 'Job Date',
 " & tSql & ",
@@ -2515,9 +2515,10 @@ LEFT JOIN (
 ON b.BranchCode=d.BranchCode
 AND b.AdvNo=d.AdvNo
 AND b.ItemNo=d.AdvItemNo
+LEFT JOIN Mas_Vender v ON c.ForwarderCode=v.VenCode
 WHERE a.DocStatus<>99 AND b.AdvNet>0 {0}
 GROUP BY e.NameEng,i.NameEng,c.InvProduct,c.TotalContainer,c.BookingNo,c.HAWB,
-c.CSCode,c.AgentCode,b.ForJNo,c.DeclareNumber,c.DocDate,a.EmpCode,c.CloseJobDate
+c.CSCode,v.TName,b.ForJNo,c.DeclareNumber,c.DocDate,a.EmpCode,c.CloseJobDate
 ORDER BY e.NameEng,b.ForJNo"
         Return String.Format(tSql, sqlW)
     End Function

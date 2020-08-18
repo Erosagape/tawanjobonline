@@ -2,7 +2,7 @@ insert into Mas_Config SELECT 'RUNNING_FORMAT','APP_PAY','APLL-'
 insert into Mas_Config SELECT 'RUNNING','APP_PAY','yy-____'
 alter table Job_PaymentHeader add ApproveRef varchar(50) NULL
 
-//---------STANDARD-------------
+---------STANDARD-------------
 alter table Job_AdvHeader alter column EmpCode varchar(50) NULL
 alter table Job_AdvHeader alter column ApproveBy varchar(50) NULL
 alter table Job_AdvHeader alter column PaymentBy varchar(50) NULL
