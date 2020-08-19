@@ -2246,4 +2246,5 @@ End Code
             window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&DocNo=' + doc, '_blank');
         }
     }
+    
 </script>

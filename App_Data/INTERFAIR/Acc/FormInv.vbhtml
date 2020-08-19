@@ -137,8 +137,6 @@ End Code
             <td colspan="2">
                 <div style="display:flex">
                     <div style="text-align:left;flex:1">
-                        TOTAL INVOICE (<label id="lblCurrencyCode"></label>)=<label id="lblForeignNet"></label> RATE=<label id="lblExchangeRate"></label>
-                        <br />
                         <div id="lblShippingRemark"></div>
                         REMARKS :<br />
                         <div id="lblDescription"></div>

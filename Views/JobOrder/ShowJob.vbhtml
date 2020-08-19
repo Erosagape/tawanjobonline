@@ -554,6 +554,9 @@ End Code
                     </div>
                 </div>
                 <div id="tabtracking" class="tab-pane fade">
+                    <a href="#" class="btn btn-primary" id="btnPrintClr" onclick="PrintForm()">
+                        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrintClr">Print Form Clear</b>
+                    </a>
                     <input type="checkbox" id="chkCancel" onchange="ShowTracking($('#txtBranchCode').val(), $('#txtJNo').val());">Show Cancelled Document
                     <table id="tbTracking" class="table table-responsive">
                         <thead>
@@ -1685,5 +1688,8 @@ End Code
                 ShowMessage('Data not found', true);
             }
         });
+    }
+    function PrintForm() {
+        window.open(path + 'Clr/FormEntry?branch=' + $('#txtBranchCode').val() + '&job=' + $('#txtJNo').val());
     }
 </script>

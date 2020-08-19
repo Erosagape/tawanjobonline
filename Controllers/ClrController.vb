@@ -14,6 +14,9 @@ Namespace Controllers
         Function Approve() As ActionResult
             Return GetView("Approve", "MODULE_CLR")
         End Function
+        Function FormEntry() As ActionResult
+            Return GetView("FormEntry")
+        End Function
         Function Receive() As ActionResult
             Main.UpdateClearStatus()
             Return GetView("Receive", "MODULE_CLR")

@@ -1375,6 +1375,7 @@
     <Content Include="Views\Report\Preview1.vbhtml" />
     <Content Include="Views\Acc\VenderInv.vbhtml" />
     <Content Include="Views\Acc\BillPayment.vbhtml" />
+    <Content Include="Views\Clr\FormEntry.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

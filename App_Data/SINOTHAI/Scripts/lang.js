@@ -2451,7 +2451,7 @@ function ChangeLanguageForm(fname) {
             SetLanguage(lang);
             break;
         case 'MODULE_REP/Index':
-            let reportLists = GetReportLists();            
+            let reportLists = GetReportLists_V2();            
             let group = $('#cboReportGroup').val();
             if (group == null || group == '') {
                 group = 'N/A';
@@ -2617,6 +2617,105 @@ function ChangeLanguageForm(fname) {
             ChangeLanguageGrid(fname, '#tbDocument');
             break;
     }    
+}
+function GetReportLists_V2() {
+    return [
+        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBDAILY", "ReportNameEN": "Job List Daily", "ReportNameTH": "รายงานการตรวจปล่อยตามวันที่" },
+        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBCS", "ReportNameEN": "Job List By CS", "ReportNameTH": "รายงานการตรวจปล่อยตามพนักงานบริการลูกค้า" },
+        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBSHP", "ReportNameEN": "Job List By Shipping", "ReportNameTH": "รายงานการตรวจปล่อยตามชิปปิ้ง" },
+        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBTYPE", "ReportNameEN": "Job List By Type", "ReportNameTH": "รายงานการตรวจปล่อยตามประเภทงาน" },
+        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBSHIPBY", "ReportNameEN": "Job List By Transport", "ReportNameTH": "รายงานการตรวจปล่อยตามลักษณะงานขนส่ง" },
+        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBCUST", "ReportNameEN": "Job List By Customer", "ReportNameTH": "รายงานการตรวจปล่อยตามลูกค้า" },
+        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBPORT", "ReportNameEN": "Job List By Port", "ReportNameTH": "รายงานการตรวจปล่อยตามสถานที่ตรวจปล่อย" },
+        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBTRANSPORT", "ReportNameEN": "Job Transport Lists", "ReportNameTH": "รายงานงานขนส่งรายตู้ตามบริษัทขนส่ง" },
+        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBANALYSIS", "ReportNameEN": "Job Analysis", "ReportNameTH": "รายงานประเมินผลการปฏิบัติงาน" },
+        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBFOLLOWUP", "ReportNameEN": "Job List By Status", "ReportNameTH": "รายงานงานเรียงตามสถานะ" },
+        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOAD", "ReportNameEN": "Container Loading By Load Date", "ReportNameTH": "รายงานงานขนส่งตามวันโหลด" },
+        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBLOADING", "ReportNameEN": "Job Loading By ETA Date", "ReportNameTH": "รายงานงานขนส่งตามวันเทียบท่า" },
+        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOADIM", "ReportNameEN": "Container Loading Import Daily", "ReportNameTH": "รายงานการลากตู้ขนส่งขาเข้า" },
+        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOADEX", "ReportNameEN": "Container Loading Export Daily", "ReportNameTH": "รายงานลากตู้ขนส่งขาออก" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKPNL", "ReportNameEN": "Trucking PNL Report By Container", "ReportNameTH": "รายงานกำไรขาดทุนตามตู้คอนเทนเนอร์" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKKPI", "ReportNameEN": "Trucking Turn Time Report", "ReportNameTH": "รายงานสรุปการปฏิบัติงานตามตู้คอนเทนเนอร์" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBKPI", "ReportNameEN": "Job Operation On-Time Report", "ReportNameTH": "รายงานสรุปเวลาปฏิบัติงานตามจ๊อบ" },
+        { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBADV", "ReportNameEN": "Advance By Emp", "ReportNameTH": "รายงานการเบิกเงินตามพนักงาน" },
+        { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVSUMMARY", "ReportNameEN": "Advance Summary", "ReportNameTH": "รายงานสรุปใบเบิกค่าใช้จ่าย" },
+        { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVDAILY", "ReportNameEN": "Advance Payment", "ReportNameTH": "รายงานการจ่ายเงินเบิกล่วงหน้า" },
+        { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVDETAIL", "ReportNameEN": "Advance Expenses Report", "ReportNameTH": "รายงานการเบิกค่าใช้จ่ายแต่ละประเภท" },
+        { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "CREDITADV", "ReportNameEN": "Credit Advance Summary", "ReportNameTH": "รายงานสรุปใบทดรองจ่าย" },
+        { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "EXPDAILY", "ReportNameEN": "Bill-Expense Report", "ReportNameTH": "รายงานบิลค่าใช้จ่าย" },
+        { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "EXPDETAIL", "ReportNameEN": "Bill-Expense Detail Report", "ReportNameTH": "รายงานบิลค่าใช้จ่ายแต่ละประเภท" },
+        { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVCLEARING", "ReportNameEN": "Advance Clearing Detail Report", "ReportNameTH": "รายงานการติดตามใบเบิก" },
+        { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVIMPORT", "ReportNameEN": "Advance Import Detail Report", "ReportNameTH": "รายงานรายละเอียดใบเบิกขาเข้า" },
+        { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVEXPORT", "ReportNameEN": "Advance Export Detail Report", "ReportNameTH": "รายงานรายละเอียดใบเบิกขาออก" },
+        { "ReportType": "STD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVEXPENSE", "ReportNameEN": "Advance Total Expense Report", "ReportNameTH": "รายงานสรุปการเบิกแต่ละประเภท" },
+        { "ReportType": "ADD", "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "CLRDAILY", "ReportNameEN": "Clearing Daily", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายประจำวัน" },
+        { "ReportType": "ADD", "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "EARNEST", "ReportNameEN": "Earnest Summary", "ReportNameTH": "รายงานเงินมัดจำ" },
+        { "ReportType": "ADD", "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "CLRDETAIL", "ReportNameEN": "Clearing Expenses Report", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายตามประเภท" },
+        { "ReportType": "ADD", "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "CLRSUMMARY", "ReportNameEN": "Clearing Summary Status", "ReportNameTH": "รายงานสรุปสถานะการปิดค่าใช้จ่าย" },
+        { "ReportType": "ADD", "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "WHTAXCLR", "ReportNameEN": "Withholding-Tax Clearing Report", "ReportNameTH": "รายงานหัก ณ ที่จ่ายจากการปิดค่าใช้จ่าย" },
+        { "ReportType": "ADD", "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "RCPDAILY", "ReportNameEN": "Receipt Daily", "ReportNameTH": "รายงานใบเสร็จรับเงินประจำวัน" },
+        { "ReportType": "ADD", "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "RCPDETAIL", "ReportNameEN": "Receipt Expense Detail", "ReportNameTH": "รายงานใบเสร็จรับเงินตามประเภท" },
+        { "ReportType": "ADD", "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "RCPSUMMARY", "ReportNameEN": "Receipt Summary", "ReportNameTH": "รายงานสรุปใบเสร็จรับเงิน" },
+        { "ReportType": "ADD", "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "TAXDAILY", "ReportNameEN": "Tax-invoice Daily", "ReportNameTH": "รายงานใบกำกับภาษีประจำวัน" },
+        { "ReportType": "ADD", "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "TAXSUMMARY", "ReportNameEN": "Tax-invoice Summary", "ReportNameTH": "รายงานสรุปใบกำกับภาษี" },
+        { "ReportType": "ADD", "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "OUTPUTTAX", "ReportNameEN": "Output TAX Report", "ReportNameTH": "รายงานภาษีมูลค่าเพิ่มตามใบกำกับภาษี" },
+        { "ReportType": "ADD", "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "OUTPUTWHT", "ReportNameEN": "Withholding TAX Report", "ReportNameTH": "รายงานหักภาษี ณ ที่จ่ายตามใบกำกับภาษี" },
+        { "ReportType": "ADD", "ReportGroup": "MKT", "ReportAuthor": "1,2,3,6,99", "ReportCode": "JOBSTATUS", "ReportNameEN": "Job Volume By Status", "ReportNameTH": "รายงานสรุปงานตามสถานะ" },
+        { "ReportType": "ADD", "ReportGroup": "MKT", "ReportAuthor": "1,2,3,6,99", "ReportCode": "JOBSALES", "ReportNameEN": "Job Sales By Emp", "ReportNameTH": "รายงานสรุปยอดขายตามพนักงาน" },
+        { "ReportType": "ADD", "ReportGroup": "MKT", "ReportAuthor": "1,2,3,6,99", "ReportCode": "JOBCOMM", "ReportNameEN": "Job Commission By Emp", "ReportNameTH": "รายงานสรุปค่าคอมมิชชั่น" },
+        { "ReportType": "ADD", "ReportGroup": "INV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "INVDAILY", "ReportNameEN": "Invoice Daily", "ReportNameTH": "รายงานใบแจ้งหนี้ประจำวัน" },
+        { "ReportType": "ADD", "ReportGroup": "INV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "INVDETAIL", "ReportNameEN": "Invoice Expenses Detail", "ReportNameTH": "รายงานใบแจ้งหนี้ตามประเภท" },
+        { "ReportType": "ADD", "ReportGroup": "INV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "INVSTATUS", "ReportNameEN": "Invoice Status", "ReportNameTH": "รายงานสถานะใบแจ้งหนี้" },
+        { "ReportType": "ADD", "ReportGroup": "INV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "INVSUMMARY", "ReportNameEN": "Invoice Costing Summary", "ReportNameTH": "รายงานสรุปต้นทุนตามใบแจ้งหนี้" },
+        { "ReportType": "ADD", "ReportGroup": "INV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "BILLDAILY", "ReportNameEN": "Billing Daily", "ReportNameTH": "รายงานใบวางบิลประจำวัน" },
+        { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "STATEMENT", "ReportNameEN": "Bank Statement", "ReportNameTH": "รายงานการรับจ่ายเงินตามสมุดบัญชี" },
+        { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CASHBAL", "ReportNameEN": "Financial Balance", "ReportNameTH": "รายงานสรุปการรับจ่ายเงิน" },
+        { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "BOOKBAL", "ReportNameEN": "Book Accounts Balance", "ReportNameTH": "รายงานการใช้จ่ายเงินตามสมุดบัญชี" },
+        { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "DAILYCASH", "ReportNameEN": "Daily Cash", "ReportNameTH": "รายงานการรับเงิน" },
+        { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CHQRECEIVE", "ReportNameEN": "Cheque Customer Receive", "ReportNameTH": "รายงานการรับเช็คประจำวัน" },
+        { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CHQISSUE", "ReportNameEN": "Cashier Cheque Issue", "ReportNameTH": "รายงานการจ่ายเช็คประจำวัน" },
+        { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CHQCUSTPAY", "ReportNameEN": "Cheque Customer Payment", "ReportNameTH": "รายงานการจ่ายเช็คของลูกค้า" },
+        { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "WHTDAILY", "ReportNameEN": "Withholding-Tax Issue Report", "ReportNameTH": "รายงานการออกหนังสือหัก ณ ที่จ่าย" },
+        { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "WHTAXSUM", "ReportNameEN": "Withholding-Tax Summary Report", "ReportNameTH": "รายงานสรุปการออกหนังสือหัก ณ ที่จ่าย" },
+        { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "PRD3", "ReportNameEN": "PRD-3 Cover Report", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.3 (ใบปะหน้า)" },
+        { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "PRD53", "ReportNameEN": "PRD-53 Cover Report", "ReportNameTH": "รายงานนำส่ง หัก ณ ที่จ่าย ภ.ง.ด.53 (ใบปะหน้า)" },
+        { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "PRD3D", "ReportNameEN": "PRD-3 Detail Report", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.3 (ใบแนบ)" },
+        { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "PRD53D", "ReportNameEN": "PRD-53 Detail Report", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.53 (ใบแนบ)" },
+        { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CASHFLOW", "ReportNameEN": "Cash Flow", "ReportNameTH": "รายงานงบกระแสเงินสด" },
+        { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "VENDSUMMARY", "ReportNameEN": "Vender Summary Report", "ReportNameTH": "รายงานสรุปจ่ายเจ้าหนี้" },
+        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBCOST", "ReportNameEN": "Job Costing Summary", "ReportNameTH": "รายงานสรุปต้นทุนตามจ๊อบ" },
+        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBPROFIT", "ReportNameEN": "Job Costing And Profit", "ReportNameTH": "รายงานกำไรขั้นต้นตามจ๊อบ" },
+        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "VATSALES", "ReportNameEN": "Sales VAT Report", "ReportNameTH": "รายงานภาษีขาย" },
+        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "VATBUY", "ReportNameEN": "Purchase VAT Report", "ReportNameTH": "รายงานภาษีซื้อ" },
+        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "ACCEXP", "ReportNameEN": "Account Payable Report", "ReportNameTH": "รายงานค่าใช้จ่าย" },
+        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "ACCINC", "ReportNameEN": "Account Receiable Report", "ReportNameTH": "รายงานรายได้" },
+        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "ARBAL", "ReportNameEN": "Accrue Income Report", "ReportNameTH": "รายงานลูกหนี้คงเหลือ" },
+        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "APBAL", "ReportNameEN": "Accrue Expense Report", "ReportNameTH": "รายงานเจ้าหนี้คงค้าง" },
+        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "APBILL", "ReportNameEN": "Billing Expense Report", "ReportNameTH": "รายงานบิลค่าใช้จ่าย" },
+        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CNDN", "ReportNameEN": "Credit/Debit Note Report", "ReportNameTH": "รายงานการปรับปรุงหนี้" },
+        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "PVDAILY", "ReportNameEN": "Payment Voucher Report", "ReportNameTH": "รายงานใบสำคัญจ่ายรายวัน" },
+        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "RVDAILY", "ReportNameEN": "Receive Voucher Report", "ReportNameTH": "รายงานใบสำคัญรับรายวัน" },
+        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "GROSSPROFIT", "ReportNameEN": "Gross Profit Report", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามประเภทงาน" },
+        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUSTPROFIT", "ReportNameEN": "Customer Profit Report", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามลูกค้า" },
+        { "ReportType": "EXP", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "SETAR", "ReportNameEN": "SAP AR Input Report", "ReportNameTH": "รายงานตั้งลูกหนี้ SAP" },
+        { "ReportType": "EXP", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUTAR", "ReportNameEN": "SAP AR Payment Report", "ReportNameTH": "รายงานตัดรับชำระหนี้ SAP" },
+        { "ReportType": "STD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "ADVTOTAL", "ReportNameEN": "Details of Advance Payment By Job Order", "ReportNameTH": "รายงานการเบิกค่าใช้จ่ายแยกตามประเภท" },
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "BUYRATE", "ReportNameEN": "Buy Rates By Broker", "ReportNameTH": "รายงานการเปรียบเทียบราคาต้นทุนแต่ละผู้ให้บริการ" },
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUSTSUMMARY", "ReportNameEN": "PNL By Customer", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามลูกค้า" },
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBSUMMARY", "ReportNameEN": "PNL By Job Order", "ReportNameTH": "รายงานสรุปกำไรขาดทุนตามจ๊อบ" },
+        { "ReportType": "STD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBDETAIL", "ReportNameEN": "Details of PNL By Job Order", "ReportNameTH": "รายงานรายละเอียดกำไรขั้นต้นตามจ๊อบ" },
+        { "ReportType": "STD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT01", "ReportNameEN": "Outstanding Job Order By Customer", "ReportNameTH": "รายงานสรุปงานคงค้างตามลูกค้า" },
+        { "ReportType": "STD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT02", "ReportNameEN": "Outstanding Job Order By Customer Service", "ReportNameTH": "รายงานสรุปงานคงค้างตามพนักงานบริการลูกค้า" },
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT03", "ReportNameEN": "Job Order Status", "ReportNameTH": "รายงานประเมินผลสถานะการปฏิบัติงาน" },
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT04", "ReportNameEN": "Outstanding Job By Customer/Waiting for Billing", "ReportNameTH": "รายงานติดตามผลการดำเนินงาน" },
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT05", "ReportNameEN": "Outstanding Advance By Job", "ReportNameTH": "รายงานติดตามการเบิกค่าใช้จ่ายตามจ๊อบ" },
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT06", "ReportNameEN": "Advance By Activity Summary By Customer", "ReportNameTH": "รายงานติดตามการเบิกค่าใช้จ่ายตามลูกค้า" },
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT07", "ReportNameEN": "Outstanding Advance By Activity Based-Deposit", "ReportNameTH": "รายงานติดตามเงินมัดจำ" },
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT08", "ReportNameEN": "Billing Report By Customer", "ReportNameTH": "รายงานติดตามการออกใบแจ้งหนี้ตามลูกค้า" },
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT09", "ReportNameEN": "Payment By Vender by Job Order", "ReportNameTH": "รายงานค่าใช้จ่ายเจ้าหนี้ตามจ๊อบงาน" },
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT10", "ReportNameEN": "A/P Accural Report", "ReportNameTH": "รายงานค่าใช้จ่ายรอการจ่าย" },
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT11", "ReportNameEN": "A/R Accural Report", "ReportNameTH": "รายงานรายได้รอการวางบิล" }
+    ];
 }
 function GetReportLists() {
     return [
@@ -2949,8 +3048,7 @@ function ChangeLanguageGrid(module, id) {
                     "Pay.Bill No|เลขที่บิล",
                     "Due Date|กำหนดชำระ",
                     "Vender|ผู้ให้บริการ",
-                    "Contact|ผู้ติดต่อ",
-                    "Ref No|เลขที่อ้างอิง",
+                    "Container No|ตู้คอนเทนเนอร์",
                     "Vender Inv|เลขที่ใบแจ้งหนี้",
                     "Amount|ยอดเงิน",
                     "VAT|VAT",
@@ -2984,7 +3082,7 @@ function ChangeLanguageGrid(module, id) {
                     "Cust.Adv|รับล่วงหน้า",
                     "Advance|ทดรองจ่าย",
                     "Service (No VAT)|ค่าบริการ(ยกเว้น)",
-                    "Service (VAT||ค่าบริการ",
+                    "Service (VAT)|ค่าบริการ",
                     "Discount|ส่วนลด",
                     "WH-tax|หัก ณ ที่จ่าย",
                     "VAT|ภาษีมูลค่าเพิ่ม",
@@ -3373,7 +3471,7 @@ function ChangeLanguageGrid(module, id) {
                     "Voucher|เลขที่ใบสำคัญ",
                     "Chq.No|เลขที่เช็ค",
                     "Tr.Date|วันที่ทำรายการ",
-                    "Chq.Total|ยอดเช็ค",                    
+                    "Chq.Total|ยอดเช็ค",
                     "Cash.Total|ยอดเงินสด",
                     "Cred.Total|ยอดเครดิต",
                     "Currency|สกุลเงิน",
@@ -3473,8 +3571,8 @@ function ChangeLanguageGrid(module, id) {
                     "WHT|หัก ณ ที่จ่าย",
                     "Req.By|ผู้่ขอเบิก"
                 ];
-            }     
-            SetGridLang(id, gridLang);            
+            }
+            SetGridLang(id, gridLang);
             break;
         case 'MODULE_ADV/CreditAdv':
             if (id == '#tbControl') {
@@ -3699,7 +3797,7 @@ function ChangeLanguageGrid(module, id) {
                     "Company|บริษัท",
                     "Branch|สาขา",
                     "Total|ยอดเอกสาร",
-                    "Paid|ยอดชำระ" 
+                    "Paid|ยอดชำระ"
                 ];
             }
             SetGridLang(id, gridLang);
@@ -3733,7 +3831,7 @@ function ChangeLanguageGrid(module, id) {
                     "Qty|จำนวน",
                     "Status|สถานะงาน",
                     "G.W|น้ำหนักรวม",
-                    "Pickup date|วันที่รับตู้",
+                    "Pickup Date|วันที่รับตู้",
                     "Delivery No|เลขที่ใบส่งของ",
                     "V.Bill|วางบิลมาแล้ว",
                     "S.Clear|เคลียร์แล้ว",
