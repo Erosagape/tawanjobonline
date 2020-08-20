@@ -104,15 +104,20 @@ Namespace Controllers
         Function DelTransportPlace() As ActionResult
             Try
                 Dim tSqlw As String = " WHERE PlaceName<>'' "
-                If Not IsNothing(Request.QueryString("Code")) Then
-                    tSqlw &= String.Format("AND PlaceName Like '{0}%'", Request.QueryString("Code").ToString)
+                If Not IsNothing(Request.QueryString("Type")) Then
+                    tSqlw &= String.Format(" AND PlaceType ={0}", Request.QueryString("Type").ToString)
                 Else
-                    Return Content("{""transportplace"":{""result"":""Please enter some data"",""data"":[]}}", jsonContent)
+                    Return Content("{""transportplace"":{""result"":""Please enter type""}}", jsonContent)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format(" AND PlaceName ='{0}'", Request.QueryString("Code").ToString)
+                Else
+                    Return Content("{""transportplace"":{""result"":""Please enter some data""}}", jsonContent)
                 End If
                 Dim oData As New CTransportPlace(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 
-                Dim json = "{""transportplace"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
+                Dim json = "{""transportplace"":{""result"":""" & msg & """}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Return Content("[]", jsonContent)

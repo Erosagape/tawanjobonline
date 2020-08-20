@@ -713,7 +713,7 @@ function SetGridJob(p, g, d, t, ev) {
             { data: null, title: "#" },
             { data: "JNo", title: mainLanguage == "TH" ? "หมายเลขงาน":"Job No" },
             { data: "InvNo", title: mainLanguage == "TH" ?"อินวอยลูกค้า": "Cust Inv" },
-            { data: "DeclareNumber", title: mainLanguage == "TH" ? "เลขที่ใบขน" : "Declare" }
+            { data: "BookingNo", title: mainLanguage == "TH" ? "บุคกิ้ง" : "Booking" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {

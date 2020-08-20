@@ -56,8 +56,8 @@ End Code
                     <th>DocNo</th>
                     <th class="desktop">DocDate</th>
                     <th class="desktop">VenCode</th>
-                    <th class="all">Ref</th>
-                    <th class="desktop">PoNo</th>
+                    <th class="all">Container</th>
+                    <th class="desktop">Inv.No</th>
                     <th class="desktop">Amount</th>
                     <th class="desktop">WT</th>
                     <th class="desktop">VAT</th>
@@ -266,8 +266,8 @@ End Code
                         }
                     },
                     { data: "VenCode", title: "Vender" },
-                    { data: "RefNo", title: "Ref.No" },
-                    { data: "PoNo", title: "PO.No" },
+                    { data: "RefNo", title: "Container.No" },
+                    { data: "PoNo", title: "Inv.No" },
                     {
                         data: "TotalExpense", title: "Amount",
                         render: function (data) {
@@ -304,9 +304,13 @@ End Code
                     RemoveData(data); //callback function from caller
                     return;
                 }
-                $(this).addClass('selected');
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                AddData(data); //callback function from caller
+                if (data.PoNo !== '') {
+                    $(this).addClass('selected');
+                    AddData(data); //callback function from caller
+                } else {
+                    ShowMessage('This Data have not yet billed by vender',true);
+                }
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
@@ -339,6 +343,10 @@ End Code
         $('#txtListApprove').val(doc);
     }
     function ApproveData() {
+        if ($('#txtVenCode').val() == '') {
+            ShowMessage('Please Select Vendor', true);
+            return;
+        }
         if (arr.length < 0) {
             ShowMessage('No data to approve',true);
             return;
@@ -346,11 +354,13 @@ End Code
         let dataApp = [];
         dataApp.push(user);
         for (let i = 0; i < arr.length; i++) {
-            dataApp.push(arr[i].BranchCode + '|' + arr[i].DocNo);
+            if (dataApp.indexOf(arr[i].BranchCode + '|' + arr[i].DocNo) < 0) {
+                dataApp.push(arr[i].BranchCode + '|' + arr[i].DocNo);
+            }
         }
         let jsonString = JSON.stringify({ data: dataApp });
         $.ajax({
-            url: "@Url.Action("ApproveExpense", "Acc")",
+            url: "@Url.Action("ApproveExpense", "Acc")?Code=" + $('#txtVenCode').val(),
             type: "POST",
             contentType: "application/json",
             data: jsonString,

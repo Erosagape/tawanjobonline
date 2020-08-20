@@ -58,10 +58,13 @@ End Code
                 <tr>
                     <th>DocNo</th>
                     <th class="desktop">DocDate</th>
-                    <th class="desktop">VenCode</th>
+                    <th class="desktop">Booking</th>
                     <th class="all">Approve No</th>
-                    <th class="all">Reference</th>
-                    <th class="desktop">Po.No</th>
+                    <th class="all">Ref.No</th>
+                    <th class="desktop">Inv.No</th>
+                    <th class="desktop">Payment.No</th>
+                    <th class="desktop">Job.No</th>
+                    <th class="desktop">Desc</th>
                     <th class="desktop">Amount</th>
                     <th class="desktop">WT</th>
                     <th class="desktop">VAT</th>
@@ -162,14 +165,14 @@ End Code
         if ($('#txtDocDateT').val() !== "") {
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
-        w = w + '&currency=' + $('#txtCurrencyCode').val();
-        $.get(path + 'acc/getpayment?branch=' + $('#txtBranchCode').val() + w, function (r) {
-            if (r.payment.header.length == 0) {
+        w = w + '&show=ACTIVE&currency=' + $('#txtCurrencyCode').val();
+        $.get(path + 'acc/getpaymentgrid?branch=' + $('#txtBranchCode').val() + w, function (r) {
+            if (r.payment.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.payment.header;
+            let h = r.payment.data;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
             let tb=$('#tbHeader').DataTable({
@@ -183,10 +186,13 @@ End Code
                             return CDateEN(data);
                         }
                     },
-                    { data: "VenCode", title: "Vender" },
+                    { data: "BookingRefNo", title: "Booking" },
                     { data: "ApproveRef", title: "Approve.No" },
                     { data: "RefNo", title: "Ref.No" },
-                    { data: "PoNo", title: "PO.No" },
+                    { data: "PoNo", title: "Inv.No" },
+                    { data: "PaymentRef", title: "Payment.No" },
+                    { data: "ForJNo", title: "JobNo" },
+                    { data: "SDescription", title: "Desc" },
                     {
                         data: "TotalExpense", title: "Amount",
                         render: function (data) {

@@ -36,6 +36,10 @@ Namespace Controllers
         Function ApproveExpense(<FromBody()> ByVal data As String()) As HttpResponseMessage
             Try
                 Dim poNumber = ""
+                Dim vencode = ""
+                If Not Request.QueryString("Code") Is Nothing Then
+                    vencode = Request.QueryString("Code").ToString()
+                End If
                 If Not Request.QueryString("ID") Is Nothing Then
                     poNumber = Request.QueryString("ID").ToString()
                 Else
@@ -82,6 +86,9 @@ Namespace Controllers
                             fmt = DateTime.Today.ToString("yyMM") & "____"
                         End If
                         Dim pFormat = Main.GetValueConfig("RUNNING_FORMAT", "APP_PAY") & fmt
+                        If pFormat.IndexOf("[VEN]") >= 0 Then
+                            pFormat = pFormat.Replace("[VEN]", vencode)
+                        End If
                         Dim sqlApp = String.Format("SELECT MAX(ApproveRef) as t FROM Job_PaymentHeader WHERE ApproveRef Like '%{0}' ", pFormat)
                         Dim appRef = Main.GetMaxByMask(GetSession("ConnJob"), sqlApp, pFormat)
                         tSQL = String.Format("UPDATE Job_PaymentHeader SET ApproveRef='" & appRef & "',ApproveBy='" & user & "',ApproveDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',ApproveTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
@@ -372,6 +379,9 @@ WHERE NOT ISNULL(h.CancelProve,'')<>''
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format(" AND h.DocNo='{0}' ", Request.QueryString("Code").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("Currency")) Then
+                    tSqlw &= String.Format(" AND h.CurrencyCode='{0}' ", Request.QueryString("Currency").ToString)
+                End If
                 If Not IsNothing(Request.QueryString("VenCode")) Then
                     tSqlw &= String.Format(" AND h.VenCode='{0}' ", Request.QueryString("VenCode").ToString)
                 End If
@@ -392,6 +402,15 @@ WHERE NOT ISNULL(h.CancelProve,'')<>''
                         tSqlw &= String.Format(" AND NOT (h.DocNo IN(SELECT p.DocNo FROM (SELECT hd.DocNo FROM Job_CashControlDoc hd INNER JOIN Job_CashControlSub dt ON hd.BranchCode=dt.BranchCode AND hd.ControlNo=dt.ControlNo AND hd.acType=dt.acType WHERE hd.DocType='PAY' AND dt.PRType='P' AND hd.BranchCode='{0}') p  )", Request.QueryString("Branch").ToString)
                         tSqlw &= " OR ISNULL(h.AdvRef,'')<>'')"
                         tSqlw &= " AND ISNULL(h.ApproveBy,'')<>'' "
+                    End If
+                    If Request.QueryString("Type").ToString = "NOPO" Then
+                        tSqlw &= " AND ISNULL(h.PoNo,'')='' "
+                    End If
+                    If Request.QueryString("Type").ToString = "NOAPP" Then
+                        tSqlw &= " AND ISNULL(h.ApproveRef,'')='' "
+                    End If
+                    If Request.QueryString("Type").ToString = "APP" Then
+                        tSqlw &= " AND NOT ISNULL(h.ApproveRef,'')='' "
                     End If
                 End If
                 If Not IsNothing(Request.QueryString("Show")) Then

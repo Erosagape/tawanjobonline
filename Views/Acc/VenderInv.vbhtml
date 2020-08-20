@@ -56,9 +56,10 @@ End Code
                     <th>DocNo</th>
                     <th class="desktop">DocDate</th>
                     <th class="desktop">VenCode</th>
-                    <th class="desktop">EmpCode</th>
-                    <th class="all">Ref</th>
-                    <th class="desktop">PoNo</th>
+                    <th class="desktop">Booking</th>
+                    <th class="all">Container</th>
+                    <th class="desktop">JobNo</th>
+                    <th class="desktop">Desc</th>
                     <th class="desktop">Amount</th>
                     <th class="desktop">WT</th>
                     <th class="desktop">VAT</th>
@@ -69,10 +70,15 @@ End Code
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-2">
         <label id="lblID">Invoice No</label>
         <br/>
         <input type="text" id="txtID" class="form-control" />
+    </div>
+    <div class="col-sm-2">
+        Total
+        <br />
+        <input type="text" id="txtTotal" class="form-control" />
     </div>
     <div class="col-sm-8">
         <label id="lblListApprove">Selected Document</label>
@@ -181,14 +187,14 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
-        w = w + '&Type=NOPO';
-        $.get(path + 'acc/getpayment?branch=' + $('#txtBranchCode').val() + w, function (r) {
-            if (r.payment.header.length == 0) {
+        w = w + '&Type=NOPO&Show=ACTIVE';
+        $.get(path + 'acc/getpaymentgrid?branch=' + $('#txtBranchCode').val() + w, function (r) {
+            if (r.payment.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.payment.header;
+            let h = r.payment.data;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
             let tb=$('#tbHeader').DataTable({
@@ -203,29 +209,30 @@ End Code
                         }
                     },
                     { data: "VenCode", title: "Vender" },
-                    { data: "ContactName", title: "Contact" },
-                    { data: "RefNo", title: "Ref.No" },
-                    { data: "PoNo", title: "PO.No" },
+                    { data: "BookingRefNo", title: "Booking" },
+                    { data: "RefNo", title: "Container.No" },
+                    { data: "ForJNo", title: "Job.No" },
+                    { data: "SDescription", title: "Desc" },
                     {
-                        data: "TotalExpense", title: "Amount",
+                        data: "Amt", title: "Amount",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalVAT", title: "VAT",
+                        data: "AmtVAT", title: "VAT",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalTax", title: "Tax",
+                        data: "AmtWHT", title: "Tax",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalNet", title: "Net",
+                        data: "Total", title: "Net",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
@@ -242,9 +249,13 @@ End Code
                     RemoveData(data); //callback function from caller
                     return;
                 }
-                $(this).addClass('selected');
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                AddData(data); //callback function from caller
+                if (data.RefNo !== '') {
+                    AddData(data); //callback function from caller
+                    $(this).addClass('selected');
+                } else {
+                    ShowMessage('Please enter container number first',true);
+                }
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
@@ -267,16 +278,25 @@ End Code
     }
     function ShowSummary() {
         let doc = '';
+        let total = 0;
         list = [];
 
         for (let i = 0; i < arr.length; i++) {
 
             let o = arr[i];
-            doc += (doc != '' ? ',' : '') + o.DocNo;
+            if (doc.indexOf(o.DocNo) < 0) {
+                doc += (doc != '' ? ',' : '') + o.DocNo;
+                total += Number(o.TotalNet) + Number(o.TotalTax);
+            }
         }
+        $('#txtTotal').val(ShowNumber(total, 2));
         $('#txtListApprove').val(doc);
     }
     function ApproveData() {
+        if ($('#txtID').val() == '') {
+            ShowMessage('Please Enter Invoice Number', true);
+            return;
+        }
         if (arr.length < 0) {
             ShowMessage('No data to approve',true);
             return;

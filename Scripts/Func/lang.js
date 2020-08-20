@@ -102,7 +102,17 @@ function ChangeLanguage(code, module) {
                 mnuLang2: 'Thai|ภาษาไทย',
                 mainUtil: 'Utility Tools|เครื่องมือต่างๆ',
                 mnuUtil1: 'Import|นำเข้าข้อมูล',
-                mnuUtil2: 'Export|ส่งออกข้อมูล'
+                mnuUtil2: 'Export|ส่งออกข้อมูล',
+                mainVend: 'Vender Works|งานผู้ให้บริการ',
+                mainVend2: 'Vender Works|งานผู้ให้บริการ',
+                mnuVen0: 'Approve Transport|อนุมัติงานขนส่ง',
+                mnuVen1: 'Entry Expenses|บันทึกค่าใช้จ่าย',
+                mnuVen2: 'Billing Invoice|บันทึกแจ้งวางบิล',
+                mnuVen3: 'Documents|เอกสารที่เกี่ยวข้อง',
+                mnuVend0: 'Approve Transport|อนุมัติงานขนส่ง',
+                mnuVend1: 'Entry Expenses|บันทึกค่าใช้จ่าย',
+                mnuVend2: 'Billing Invoice|บันทึกแจ้งวางบิล',
+                mnuVend3: 'Documents|เอกสารที่เกี่ยวข้อง'
             };
             SetLanguage(lang);
             ChangeLanguageForm(module);
@@ -2320,7 +2330,7 @@ function ChangeLanguageForm(fname) {
                 lblPlace3: 'Return|ลานตู้สินค้า',
                 lblAddress3: 'Address|ที่อยู่',
                 lblContact3: 'Contact|ผู้ติดต่อ',
-                lblPlace4: 'Container Size|ประเภทตู้',
+                lblPlace4: 'Condition|เงื่อนไข',
                 lblAddress4: 'Address|ที่อยู่',
                 lblContact4: 'Contact|ผู้ติดต่อ',
                 lblBranchCode: 'Branch|สาขา',
@@ -2336,12 +2346,16 @@ function ChangeLanguageForm(fname) {
                 btnSaveRoute: 'Save|บันทึก',
                 btnSaveP1: 'Save|จัดเก็บข้อมูล',
                 btnClearP1: 'Clear|ล้างข้อมูล',
+                btnDelP1: 'Delete|ลบข้อมูล',
                 btnSaveP2: 'Save|จัดเก็บข้อมูล',
                 btnClearP2: 'Clear|ล้างข้อมูล',
+                btnDelP2: 'Delete|ลบข้อมูล',
                 btnSaveP3: 'Save|จัดเก็บข้อมูล',
                 btnClearP3: 'Clear|ล้างข้อมูล',
+                btnDelP3: 'Delete|ลบข้อมูล',
                 btnSaveP4: 'Save|จัดเก็บข้อมูล',
                 btnClearP4: 'Clear|ล้างข้อมูล',
+                btnDelP4: 'Delete|ลบข้อมูล',
                 btnNewPrice: 'New Price|เพิ่มราคา',
                 btnSavePrice: 'Save Price|จัดเก็บราคา',
                 btnDelPrice: 'Delete Price|ลบราคา'
@@ -3989,10 +4003,10 @@ function ChangeLanguageGrid(module, id) {
                 gridLang = ["Delivery|สถานที่ส่งมอบของ"];
             }
             if (id == "#lstPlace3") {
-                gridLang = ["Container Yard|ลานตู้"];
+                gridLang = ["Return|คืนตู้ที่"];
             }
             if (id == "#lstPlace4") {
-                gridLang = ["Port|ท่านอก"];
+                gridLang = ["Condition|เงื่อนไข"];
             }
             SetGridLang(id, gridLang);
             break;

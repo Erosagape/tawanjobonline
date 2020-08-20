@@ -41,15 +41,31 @@ INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_TAX','TX-'
 INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_SRV','SV-'
 INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_RCV','RV-'
 INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_ADV','AV-'
-
+insert into Mas_Config SELECT 'RUNNING_FORMAT','APP_PAY','[VEN]-'
+GO
 INSERT INTO Mas_Config SELECT 'RUNNING','INV','yyMM____'
 INSERT INTO Mas_Config SELECT 'RUNNING','BILL','yyMM____'
 INSERT INTO Mas_Config SELECT 'RUNNING','RCP','yyMM____'
 INSERT INTO Mas_Config SELECT 'RUNNING','QUO','-yyMM-___'
-
-insert into Mas_Config SELECT 'RUNNING_FORMAT','APP_PAY','[VEN]-'
 insert into Mas_Config SELECT 'RUNNING','APP_PAY','yy-____'
+GO
 --------------------------------------------------------------------------
+alter table Job_LoadinfoDetail add PlaceName1 nvarchar(MAX)
+alter table Job_LoadinfoDetail add PlaceAddress1 nvarchar(MAX)
+alter table Job_LoadinfoDetail add PlaceContact1 nvarchar(MAX)
+alter table Job_LoadinfoDetail add PlaceName2 nvarchar(MAX)
+alter table Job_LoadinfoDetail add PlaceAddress2 nvarchar(MAX)
+alter table Job_LoadinfoDetail add PlaceContact2 nvarchar(MAX)
+alter table Job_LoadinfoDetail add PlaceName3 nvarchar(MAX)
+alter table Job_LoadinfoDetail add PlaceAddress3 nvarchar(MAX)
+alter table Job_LoadinfoDetail add PlaceContact3 nvarchar(MAX)
+alter table Job_LoadinfoDetail add PlaceName4 nvarchar(MAX)
+alter table Job_LoadinfoDetail add PlaceAddress4 nvarchar(MAX)
+alter table Job_LoadinfoDetail add PlaceContact4 nvarchar(MAX)
+GO
+---------------------------------------------------------------------
+alter table Job_PaymentHeader add ApproveRef nvarchar(50) NULL
+alter table Mas_BookAccount add ControlBalance float NULL
 GO
 alter table Job_AdvDetail alter column TRemark nvarchar(MAX)
 alter table Job_AdvDetail alter column PayChqTo nvarchar(MAX)
@@ -187,7 +203,6 @@ alter table Job_PaymentHeader alter column EmpCode varchar(50) NULL
 alter table Job_PaymentHeader alter column PaymentBy varchar(50) NULL
 alter table Job_PaymentHeader alter column ApproveBy varchar(50) NULL
 alter table Job_PaymentHeader alter column CancelProve varchar(50) NULL
-alter table Job_PaymentHeader add ApproveRef nvarchar(50) NULL
 
 alter table Job_QuotationDetail alter column [Description] nvarchar(MAX)
 alter table Job_QuotationHeader alter column ContactName nvarchar(MAX)
@@ -230,7 +245,6 @@ alter table Mas_BookAccount alter column TAddress1 nvarchar(MAX)
 alter table Mas_BookAccount alter column TAddress2 nvarchar(MAX)
 alter table Mas_BookAccount alter column EAddress1 nvarchar(MAX)
 alter table Mas_BookAccount alter column EAddress2 nvarchar(MAX)
-alter table Mas_BookAccount add ControlBalance float NULL
 
 alter table Mas_Branch alter column BrName nvarchar(MAX)
 
@@ -265,3 +279,4 @@ alter table Mas_Vender alter column ContactSupport1 nvarchar(max)
 alter table Mas_Vender alter column ContactSupport2 nvarchar(max)
 alter table Mas_Vender alter column ContactSupport3 nvarchar(max)
 alter table Mas_Vender alter column WEB_SITE nvarchar(max)
+GO

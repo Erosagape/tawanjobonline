@@ -54,10 +54,12 @@ End Code
     let userGroup = '@ViewBag.UserGroup';
     let userPosition = '@ViewBag.UserPosition';
     let user = '@ViewBag.User';
+    let cust = '';
     if (userGroup == 'C') {
         $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
             if (r.company.data.length > 0) {
                 let dr = r.company.data[0];
+                cust = dr.CustCode;
                 $('#txtCustCode').val(dr.CustCode);
                 $('#txtCustBranch').val(dr.Branch);
                 $('#txtCustName').val(dr.NameThai);
@@ -148,7 +150,7 @@ End Code
         }
         $.get(url, function (r) {
             let branch = $('#txtBranchCode').val();
-            let cust = $('#txtCustCode').val();
+            cust = $('#txtCustCode').val();
             let w = '';
             if (cust !== '') {
                 w += '&CustCode=' + cust;

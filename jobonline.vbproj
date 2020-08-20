@@ -337,6 +337,7 @@
     <Content Include="App_Data\KWAN\Scripts\popup.js" />
     <Content Include="App_Data\KWAN\Scripts\reports.js" />
     <Content Include="App_Data\KWAN\Scripts\util.js" />
+    <Content Include="App_Data\patch_database_v20200721.sql" />
     <Content Include="App_Data\script_database_job.sql" />
     <Content Include="App_Data\script_database_mas.sql" />
     <Content Include="App_Data\script_database_weblicense.sql" />
@@ -1023,6 +1024,7 @@
     <Content Include="App_Data\_STANDARD\Tracking\PublicIndex.vbhtml" />
     <Content Include="App_Data\_STANDARD\Tracking\Timeline.vbhtml" />
     <Content Include="App_Data\DPK\Menu\Index.vbhtml" />
+    <Content Include="App_Data\ACE\JobOrder\Transport.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

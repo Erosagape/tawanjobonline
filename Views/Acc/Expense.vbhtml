@@ -492,6 +492,8 @@ End Code
         }
         if ((br + bookno + item).trim() !== '') {
             isjobmode = true;
+            $('#txtPoNo').attr('disabled', 'disabled');
+            $('#txtRefNo').attr('disabled', 'disabled');
             $('#txtBookingRefNo').val(bookno);
             $('#txtBookingItemNo').val(item);
             if (cust == '') {
@@ -612,6 +614,9 @@ End Code
                 $('#txtApproveBy').val(chkmode ? user : '');
                 $('#txtApproveDate').val(chkmode ? GetToday() : '');
                 $('#txtApproveTime').val(chkmode ? ShowTime(GetTime()) : '');
+                if (!chkmode) {
+                    $('#txtApproveRef').val('');
+                }
                 SaveHeader();
                 EnableSave();
             } else {
@@ -628,6 +633,7 @@ End Code
                     $('#txtCancelProve').val(chkmode ? user : '');
                     $('#txtCancelDate').val(chkmode ? CDateEN(GetToday()) : '');
                     $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
+                    SaveHeader();
                     return;
                 }
                 $('#chkCancel').prop('checked', !chkmode);
@@ -838,7 +844,6 @@ End Code
             $('#txtEmpName').val('');   
         }
         $('#txtContactName').val('');
-        $('#txtPoNo').val('');
         $('#txtCurrencyCode').val('@ViewBag.PROFILE_CURRENCY');
         $('#txtExchangeRate').val('1');
         $('#txtVATRate').val(CDbl(CNum('@ViewBag.PROFILE_VATRATE')*100,0));
@@ -865,8 +870,7 @@ End Code
         $('#txtCancelTime').val('');
         if (isjobmode == false) {
             $('#txtRefNo').val('');
-        } else {
-            $('#txtRefNo').val(cont);
+            $('#txtPoNo').val('');
         }
         $('#txtPayType').val('CA');
         $('#chkApprove').prop('checked', false);
@@ -1083,6 +1087,9 @@ End Code
         if ($('#txtEmpCode').val() !== '') {
             w += '&empcode=' + $('#txtEmpCode').val();
         }
+        if ($('#txtRefNo').val() !== '') {
+            w += '&ref=' + $('#txtRefNo').val();
+        }        
         if (userGroup == 'V') {
             w += '&VenCode=' + $('#txtVenCode').val();
         } else {
