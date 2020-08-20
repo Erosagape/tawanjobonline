@@ -309,6 +309,8 @@
     <Content Include="App_Data\DAMON\Scripts\popup.js" />
     <Content Include="App_Data\DAMON\Scripts\reports.js" />
     <Content Include="App_Data\DAMON\Scripts\util.js" />
+    <Content Include="App_Data\DB_Ver1.0.sql" />
+    <Content Include="App_Data\DB_Ver2.0.sql" />
     <Content Include="App_Data\DPK\Scripts\combo.js" />
     <Content Include="App_Data\DPK\Scripts\lang.js" />
     <Content Include="App_Data\DPK\Scripts\menu.js" />
