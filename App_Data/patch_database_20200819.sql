@@ -1,3 +1,56 @@
+---FOR DLL Version As 2020-07-21
+CREATE FUNCTION [dbo].[GetDataSplit](@data nvarchar(MAX),@split nvarchar(max),@idx integer)
+RETURNS  nvarchar(MAX)
+AS
+BEGIN
+DECLARE @findidx as integer= CHARINDEX(@split,@data);
+DECLARE @findstr as nvarchar(MAX);
+
+IF (@findidx<=0 )
+BEGIN
+	SET @data=@data +@split;
+	SET @findidx= CHARINDEX(@split,@data);
+END
+
+BEGIN
+	IF (@idx=0) 
+	BEGIN
+		SET @findstr=SUBSTRING(@data,1,@findidx-1);
+	END
+	ELSE
+	BEGIN
+		SET @findstr=SUBSTRING(@data,@findidx+1,LEN(@data));
+	END
+END
+RETURN @findstr;
+END
+GO
+---------------------------------------------------
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','ADV','ADV-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','CLR_ADV','CLR-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','CLR_COST','CST-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','CLR_SERV','SRV-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','INV','IVS-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','BILL','BL-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','PAY','PAY-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','WHTAX','WT-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','EXP','ACC-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','QUO','Q-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_REC','RC-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_TAX','TX-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_SRV','SV-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_RCV','RV-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_ADV','AV-'
+
+INSERT INTO Mas_Config SELECT 'RUNNING','INV','yyMM____'
+INSERT INTO Mas_Config SELECT 'RUNNING','BILL','yyMM____'
+INSERT INTO Mas_Config SELECT 'RUNNING','RCP','yyMM____'
+INSERT INTO Mas_Config SELECT 'RUNNING','QUO','-yyMM-___'
+
+insert into Mas_Config SELECT 'RUNNING_FORMAT','APP_PAY','[VEN]-'
+insert into Mas_Config SELECT 'RUNNING','APP_PAY','yy-____'
+--------------------------------------------------------------------------
+GO
 alter table Job_AdvDetail alter column TRemark nvarchar(MAX)
 alter table Job_AdvDetail alter column PayChqTo nvarchar(MAX)
 alter table Job_AdvDetail alter column SDescription nvarchar(MAX)
@@ -31,6 +84,7 @@ alter table Job_CashControlSub alter column PayChqTo nvarchar(max)
 
 alter table Job_ClearDetail alter column SDescription nvarchar(max)
 alter table Job_ClearDetail alter column Remark nvarchar(max)
+alter table Job_ClearDetail alter column VenderCode nvarchar(50)
 
 alter table Job_ClearExp alter column SDescription nvarchar(max)
 alter table Job_ClearExp alter column TRemark nvarchar(max)
@@ -176,6 +230,7 @@ alter table Mas_BookAccount alter column TAddress1 nvarchar(MAX)
 alter table Mas_BookAccount alter column TAddress2 nvarchar(MAX)
 alter table Mas_BookAccount alter column EAddress1 nvarchar(MAX)
 alter table Mas_BookAccount alter column EAddress2 nvarchar(MAX)
+alter table Mas_BookAccount add ControlBalance float NULL
 
 alter table Mas_Branch alter column BrName nvarchar(MAX)
 
@@ -187,10 +242,15 @@ alter table Mas_Company alter column TAddress2 nvarchar(MAX)
 alter table Mas_Company alter column EAddress1 nvarchar(MAX)
 alter table Mas_Company alter column EAddress2 nvarchar(MAX)
 alter table Mas_Company alter column BillCondition nvarchar(MAX)
+alter table Mas_Company alter column CSCodeIM nvarchar(20)
+alter table Mas_Company alter column CSCodeEX nvarchar(20)
+alter table Mas_Company alter column CSCodeOT nvarchar(20)
+alter table Mas_Company alter column CommLevel nvarchar(5)
 
 alter table Mas_User alter column TName nvarchar(MAX)
 alter table Mas_User alter column EName nvarchar(MAX)
 alter table Mas_User alter column TPosition nvarchar(MAX)
+alter table Mas_User alter column UserUpline nvarchar(20)
 
 alter table Mas_Vender alter column Title nvarchar(15)
 alter table Mas_Vender alter column TName nvarchar(max)

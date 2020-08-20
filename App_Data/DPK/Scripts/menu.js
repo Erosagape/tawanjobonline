@@ -5,7 +5,7 @@
             mnuPath = path + 'Master/AccountCode';
             break;
         case 'Dashboard':
-            mnuPath = path + 'Menu/Index';
+            mnuPath = path + 'Menu/Index?Type=V2';
             break;
         case 'Advance':
             mnuPath = path + 'Adv/Index';
@@ -187,6 +187,12 @@
         case 'AppTransport':
             mnuPath = path + 'JobOrder/TruckApprove';
             break;
+        case 'VenderInv':
+            mnuPath = path + 'Acc/VenderInv';
+            break;
+        case 'BillPayment':
+            mnuPath = path + 'Acc/BillPayment';
+            break;
         default:
             ShowMessage('Under Development');
             break;
@@ -197,6 +203,6 @@
             window.open(mnuPath, '', '');
         }
     } else {
-        ShowMessage('Please login first',true);
+        ShowMessage('Please login first', true);
     }
 }
