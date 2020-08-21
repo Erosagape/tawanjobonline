@@ -770,7 +770,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     If Request.QueryString("Status").ToString = "N" Then
-                        tSqlw &= "AND ISNULL(a.CauseCode,'0') IN('0','1','') "
+                        tSqlw &= "AND ISNULL(a.CauseCode,'0') IN('0','') "
                     ElseIf Request.QueryString("Status").ToString = "Y" Then
                         tSqlw &= "AND ISNULL(a.CauseCode,'0') IN('2','3') "
                     Else

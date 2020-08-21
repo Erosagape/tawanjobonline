@@ -196,7 +196,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-8">
-                        <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddDetail()">
+                        <a href="#" class="btn btn-default w3-purple" id="btnAddD" onclick="AddDetail()">
                             <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">Add Detail</b>
                         </a>
                         <a href="#" class="btn btn-danger" id="btnDel" onclick="DeleteDetail()">
@@ -267,7 +267,7 @@ End Code
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <label id="lblJobNo">Job No :</label>                                    
                                     <br/>
                                     <div style="display:flex">
@@ -275,7 +275,7 @@ End Code
                                         <input type="button" class="btn btn-default" onclick="SearchData('job')" value="..." />
                                     </div>                                    
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-8">
                                     <label id="lblCustCode">For :</label>                                    
                                     <br/>
                                     <input type="text" id="txtCustCode" class="form-control" disabled />
@@ -415,7 +415,7 @@ End Code
                                         <th>DocNo</th>
                                         <th class="desktop">DocDate</th>
                                         <th class="desktop">VenCode</th>
-                                        <th class="desktop">EmpCode</th>
+                                        <th class="desktop">Approve</th>
                                         <th class="all">Ref</th>
                                         <th class="desktop">PoNo</th>
                                         <th class="desktop">Amount</th>
@@ -457,6 +457,7 @@ End Code
     let route = getQueryString("Route");
         //$(document).ready(function () {
     if (userGroup == 'V') {
+        $('#btnAdd').hide();
         $('#btnBrowseCust').attr('disabled', 'disabled');
         $('#txtVenCode').attr('disabled', 'disabled');
         $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
@@ -468,7 +469,6 @@ End Code
             }
         });
     }
-
     SetLOVs();
     SetEvents();
     SetEnterToTab();
@@ -494,6 +494,7 @@ End Code
             isjobmode = true;
             $('#txtPoNo').attr('disabled', 'disabled');
             $('#txtRefNo').attr('disabled', 'disabled');
+            $('#btnAdd').hide();
             $('#txtBookingRefNo').val(bookno);
             $('#txtBookingItemNo').val(item);
             if (cust == '') {
@@ -606,6 +607,13 @@ End Code
                 }
             }
         });
+        $('#txtForJNo').keydown(function (event) {
+            if (event.which == 13) {
+                if ($('#txtForJNo').val() !== '') {
+                    CallBackQueryJob(path, $('#txtBranchCode').val(), $('#txtForJNo').val(), ReadJob);
+                }
+            }
+        });
         EnableSave();
     }
     function SetApprove(b) {
@@ -673,10 +681,10 @@ End Code
             ShowMessage('You are not allow to do this',true);
             return;
         }
-        $.get(path + 'acc/getpayment?branch='+branchcode+'&code='+ docno, function (r) {
-            let h = r.payment.header[0];
+        $.get(path + 'acc/getpaymentgrid?branch='+branchcode+'&code='+ docno, function (r) {
+            let h = r.payment.data[0];
             ReadPaymentHeader(h);
-            let d = r.payment.detail;
+            let d = r.payment.data;
             ReadPaymentDetail(d);
         });
     }
@@ -1020,12 +1028,13 @@ End Code
             $('#txtTotal').val(dt.Total);
             $('#txtFTotal').val(dt.FTotal);
             $('#txtForJNo').val(dt.ForJNo);
+            $('#txtCustCode').val(dt.CustCode);
             $('#txtBookingRefNo').val(dt.BookingRefNo);
             $('#txtBookingItemNo').val(dt.BookingItemNo);
             $('#txtClrRefNo').val(dt.ClrRefNo);
             $('#txtClrItemNo').val(dt.ClrItemNo);
             $('#txtAdvItemNo').val(dt.AdvItemNo);
-            if (dr.ClrItemNo > 0 || dr.AdvItemNo > 0) {
+            if (dt.ClrItemNo > 0 || dt.AdvItemNo > 0) {
                 $('#btnUpdate').attr('disabled', 'disabled');
             }
             return;
@@ -1052,6 +1061,7 @@ End Code
             $('#txtTotal').val('0');
             $('#txtFTotal').val('0');
             $('#txtForJNo').val(job);
+            $('#txtCustCode').val(cust);
             $('#txtBookingRefNo').val(bookno);
             $('#txtContainerNo').val(cont);
             $('#txtBookingItemNo').val(item);
@@ -1115,7 +1125,7 @@ End Code
                         }
                     },
                     { data: "VenCode", title: "Vender" },
-                    { data: "ContactName", title: "Contact" },
+                    { data: "ApproveRef", title: "Approve" },
                     { data: "RefNo", title: "Ref.No" },
                     { data: "PoNo", title: "PO.No" },
                     { data: "TotalExpense", title: "Amount",
@@ -1207,7 +1217,11 @@ End Code
         $('#txtForJNo').val(dt.JNo);
         $('#txtCustCode').val(dt.NotifyCode);
     }
-    function ReadJob(dt) {
+    function ReadJob(data) {        
+        dt = data;
+        if (data.length > 0) {
+            dt = data[0];
+        }
         $('#txtForJNo').val(dt.JNo);
         $('#txtCustCode').val(dt.CustCode);
     }

@@ -55,7 +55,7 @@ End Code
                 <tr>
                     <th>DocNo</th>
                     <th class="desktop">DocDate</th>
-                    <th class="desktop">VenCode</th>
+                    <th class="desktop">Customer</th>
                     <th class="desktop">Booking</th>
                     <th class="all">Container</th>
                     <th class="desktop">JobNo</th>
@@ -208,7 +208,7 @@ End Code
                             return CDateEN(data);
                         }
                     },
-                    { data: "VenCode", title: "Vender" },
+                    { data: "CustCode", title: "Customer" },
                     { data: "BookingRefNo", title: "Booking" },
                     { data: "RefNo", title: "Container.No" },
                     { data: "ForJNo", title: "Job.No" },

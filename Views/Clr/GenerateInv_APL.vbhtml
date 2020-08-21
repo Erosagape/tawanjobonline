@@ -90,9 +90,8 @@ End Code
                                 <label id="lblInvType">Invoice Type :</label>
                                 <br />
                                 <select id="cboDocType" class="form-control dropdown">
-                                    <option value="IVS-">Service</option>
-                                    <option value="IVT-">Transport</option>
-                                    <option value="IVF-">Freight</option>
+                                    <option value="BKK">Service</option>
+                                    <option value="RGM">Advance</option>
                                 </select>
 
                             </div>

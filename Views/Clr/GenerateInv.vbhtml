@@ -5,7 +5,7 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblBranch">Branch:</label>                
+                <label id="lblBranch">Branch:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -26,7 +26,7 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <label id="lblCustCode">Customer</label>                
+                <label id="lblCustCode">Customer</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" style="width:120px" />
@@ -44,7 +44,7 @@ End Code
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
-                <input type="checkbox" id="chkSelectAll" checked /> Select All 
+                <input type="checkbox" id="chkSelectAll" checked /> Select All
             </div>
         </div>
         <div class="row">
@@ -90,8 +90,9 @@ End Code
                                 <label id="lblInvType">Invoice Type :</label>
                                 <br />
                                 <select id="cboDocType" class="form-control dropdown">
-                                    <option value="BKK">Service</option>
-                                    <option value="RGM">Advance</option>
+                                    <option value="IVS-">Service</option>
+                                    <option value="IVT-">Transport</option>
+                                    <option value="IVF-">Freight</option>
                                 </select>
 
                             </div>
@@ -131,7 +132,7 @@ End Code
                             <table>
                                 <tr>
                                     <td>
-                                        <label id="lblCheque">Use Cheque:</label>                                        
+                                        <label id="lblCheque">Use Cheque:</label>
                                         <br />
                                         <div style="display:flex;flex-direction:row">
                                             <input type="text" id="txtChqNo" class="form-control" disabled />
@@ -254,12 +255,12 @@ End Code
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <label id="lblClearNo">Clearing No</label> : 
-                        <label id="lblClrNo"></label>                                                                     
-                        <label id="lblJNo">Job No</label>: 
+                        <label id="lblClearNo">Clearing No</label> :
+                        <label id="lblClrNo"></label>
+                        <label id="lblJNo">Job No</label>:
                         <label id="lblJobNo"></label>
                         <br />
-                        <label id="lblCode">Code</label>: 
+                        <label id="lblCode">Code</label>:
                         <label id="lblSICode"></label>
                         <label id="lblDesc">Description</label>:
                         <label id="lblSDescription"></label>
@@ -928,7 +929,7 @@ End Code
         } else {
             SaveHeader();
         }
-        
+
         return;
     }
     function SaveHeader() {

@@ -208,8 +208,9 @@ Namespace Controllers
                         tSqlH &= " AND NOT ISNULL(CancelProve,'')<>'' "
                     End If
                 End If
-                Dim oData = (From row As CPayHeader In New CPayHeader(GetSession("ConnJob")).GetData(tSqlH)
-                             Select row.ApproveRef, row.ApproveDate, row.PaymentRef).Distinct()
+                Dim oData = (From row As CPayHeader
+                                 In New CPayHeader(GetSession("ConnJob")).GetData(tSqlH)
+                             Select row.ApproveRef, row.ApproveDate, row.PoNo, row.PaymentRef).Distinct()
 
                 Dim json As String = JsonConvert.SerializeObject(oData)
 

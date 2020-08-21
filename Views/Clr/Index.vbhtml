@@ -483,7 +483,7 @@ End Code
                                         <th class="desktop">Inv No</th>
                                         <th class="desktop">Status</th>
                                         <th class="all">ClrAmount</th>
-                                        <th class="desktop">Currency</th>
+                                        <th class="desktop">Container</th>
                                         <th class="desktop">AdvNo</th>
                                         <th class="all">AdvAmount</th>
                                         <th class="desktop">Remark</th>
@@ -1762,7 +1762,7 @@ End Code
                             return ShowNumber(data, 2);
                         }
                     },
-                    { data: "CurrencyCode", title: "Currency" },
+                    { data: "CTN_NO", title: "Container" },
                     { data: "AdvNO", title: "Adv No" },
                     {
                         data: "AdvNet", title: "Adv.Total",

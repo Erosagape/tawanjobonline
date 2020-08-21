@@ -3730,7 +3730,7 @@ function ChangeLanguageGrid(module, id) {
                     "Cust Inv|อินวอยลูกค้า",
                     "Status|สถานะ",
                     "Clr.Total|ยอดปิด",
-                    "Currency|สกุลเงิน",
+                    "Container|เบอร์ตู้",
                     "Adv No|จากใบเบิก",
                     "Adv.Total|ยอดเบิก",
                     "Remark|หมายเหตุ"
@@ -3884,6 +3884,7 @@ function ChangeLanguageGrid(module, id) {
                 gridLang = [
                     "#|#",
                     "Booking No|เลขที่บุคกิ้ง",
+                    "Job|เลขงาน",
                     "Customer|ลูกค้า",
                     "Cont.No|หมายเลขตู้",
                     "Cont.Size|ขนาดตู้",
@@ -3891,6 +3892,8 @@ function ChangeLanguageGrid(module, id) {
                     "Status|สถานะ",
                     "Route|เส้นทาง",
                     "Pickup|วันที่รับ",
+                    "Delivery|วันที่ส่ง",
+                    "Return|วันที่คืน"
                 ];
             }
             SetGridLang(id, gridLang);

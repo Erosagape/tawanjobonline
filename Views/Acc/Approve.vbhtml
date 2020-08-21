@@ -92,6 +92,7 @@ End Code
                         <tr>
                             <th>Approve Ref#</th>
                             <th>Approve Date</th>
+                            <th>Vender Ref#</th>
                             <th>Payment Ref#</th>
                         </tr>
                     </thead>
@@ -211,6 +212,7 @@ End Code
                             return CDateEN(data);
                         }
                     },
+                    { data: "PoNo", title: "Vender Ref#" },
                     { data: "PaymentRef", title: "Payment Ref#" }
                 ],
                 responsive: true,

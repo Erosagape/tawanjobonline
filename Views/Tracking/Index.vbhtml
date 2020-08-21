@@ -53,6 +53,7 @@ End Code
             <th class="all">ReturnDate</th>
             <th class="desktop">Truck</th>
             <th class="desktop">Seal</th>
+            <th class="desktop">JobNo</th>
         </tr>
     </thead>
     <tbody></tbody>
@@ -218,7 +219,8 @@ End Code
                             }
                         },
                         { data: "TruckNO", title: "Truck" },
-                        { data: "SealNumber", title: "Seal" }
+                        { data: "SealNumber", title: "Seal" },
+                        { data: "JNo", title: "Job No" }
                     ],
                     destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
                     responsive:true

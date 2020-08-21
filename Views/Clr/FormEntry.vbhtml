@@ -142,16 +142,14 @@ End Code
             <td>DESCRIPTION</td>
             <td>WEIGHT</td>
             <td>CBM(M3)</td>
-            <td>20'</td>
-            <td>40'</td>
+            <td>CONTAINER</td>
         </tr>
         <tbody>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td id="dvProduct"></td>
+                <td id="dvGrossWeight"></td>
+                <td id="dvMeasurement"></td>
+                <td id="dvTotalContainer"></td>
             </tr>
         </tbody>
     </table>
@@ -459,6 +457,10 @@ End Code
                 $('#dvETADate').html(ShowDate(dr.ETADate));
                 $('#dvEstDeliverDate').html(ShowDate(dr.EstDeliverDate));
                 $('#dvVesselName').html(CStr(dr.VesselName));
+                $('#dvProduct').html(CStr(dr.InvProduct));
+                $('#dvGrossWeight').html(CStr(dr.TotalGW + ' ' + dr.GWUnit));
+                $('#dvMeasurement').html(CStr(dr.Measurement));
+                $('#dvTotalContainer').html(CStr(dr.TotalContainer));
                 let intercountry = dr.InvFCountry;
                 if (dr.JobType !== 1) {
                     intercountry = dr.InvCountry;

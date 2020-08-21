@@ -1290,7 +1290,7 @@
     <Content Include="Views\Clr\Costing.vbhtml" />
     <Content Include="Views\Clr\Earnest.vbhtml" />
     <Content Include="Views\Clr\FormClr.vbhtml" />
-    <Content Include="Views\Clr\GenerateInv_STD.vbhtml" />
+    <Content Include="Views\Clr\GenerateInv.vbhtml" />
     <Content Include="Views\Clr\Index.vbhtml" />
     <Content Include="Views\Clr\Receive.vbhtml" />
     <Content Include="Views\Adv\Approve.vbhtml" />
@@ -1378,7 +1378,7 @@
     <Content Include="Views\JobOrder\FormSalesContract.vbhtml" />
     <Content Include="Views\JobOrder\FormInvoice.vbhtml" />
     <Content Include="Views\JobOrder\FormPackingList.vbhtml" />
-    <Content Include="Views\Clr\GenerateInv.vbhtml" />
+    <Content Include="Views\Clr\GenerateInv_APL.vbhtml" />
     <Content Include="Views\JobOrder\FormBookingEx.vbhtml" />
     <Content Include="Views\JobOrder\FormBookingIm.vbhtml" />
     <Content Include="Views\Report\Preview2.vbhtml" />

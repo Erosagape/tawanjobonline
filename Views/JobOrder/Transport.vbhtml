@@ -833,6 +833,12 @@ End Code
     if (userGroup == 'V') {
         $('#btnBrowseVend').attr('disabled', 'disabled');
         $('#txtVenderCode').attr('disabled', 'disabled');
+        $('#txtTargetYardDate').attr('disabled', 'disabled');
+        $('#txtTargetYardTime').attr('disabled', 'disabled');
+        $('#txtUnloadDate').attr('disabled', 'disabled');
+        $('#txtUnloadTime').attr('disabled', 'disabled');
+        $('#txtTruckIN').attr('disabled', 'disabled');
+        $('#txtStart').attr('disabled', 'disabled');
         $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
             if (r.vender.data.length > 0) {
                 let dr = r.vender.data[0];
@@ -844,6 +850,12 @@ End Code
     if (userGroup == 'C') {
         $('#btnBrowseCust').attr('disabled', 'disabled');
         $('#txtVenderCode').attr('disabled', 'disabled');
+        $('#txtTargetYardDate').attr('disabled', 'disabled');
+        $('#txtTargetYardTime').attr('disabled', 'disabled');
+        $('#txtUnloadDate').attr('disabled', 'disabled');
+        $('#txtUnloadTime').attr('disabled', 'disabled');
+        $('#txtTruckIN').attr('disabled', 'disabled');
+        $('#txtStart').attr('disabled', 'disabled');
         $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
             if (r.company.data.length > 0) {
                 let dr = r.company.data[0];
@@ -1167,8 +1179,8 @@ End Code
         $('#txtNotifyCode').val(dr.Consigneecode);
         ShowCompany(path, dr.Consigneecode, '#txtNotifyName');
         $('#txtContactName').val(dr.CustContactName);
-        $('#txtPackingDate').val(CDateEN(dr.JobType==1? dr.ETADate : dr.ETDDate));
-        $('#txtFactoryDate').val(CDateEN(dr.EstDeliverDate));
+        //$('#txtPackingDate').val(CDateEN(dr.JobType==1? dr.ETADate : dr.ETDDate));
+        //$('#txtFactoryDate').val(CDateEN(dr.EstDeliverDate));
         $('#txtPlace3').val(dr.DeliveryTo);
         $('#txtAddress3').val(dr.DeliveryAddr);
         $('#txtProductDesc').val(dr.InvProduct);

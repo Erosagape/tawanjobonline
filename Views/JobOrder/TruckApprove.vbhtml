@@ -25,8 +25,9 @@ End Code
         Status
         <br />
         <select id="cboCauseCode" class="form-control dropdown">
-            <option value="N">Avaiable</option>
-            <option value="1">Confirm</option>
+            <option value="">ALL</option>
+            <option value="N">Checking</option>
+            <option value="1">Working</option>
             <option value="2">Rejected</option>
             <option value="3">Finished</option>
             <option value="99">Cancelled</option>
@@ -54,17 +55,20 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
+        Job No
         <br />
-        <a href="#" class="btn btn-primary" id="btnSearch" onclick="RefreshGrid()">
-            <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
-        </a>
+        <input type="text" class="form-control" id="txtJNo" />
     </div>
 </div>
+<a href="#" class="btn btn-primary" id="btnSearch" onclick="RefreshGrid()">
+    <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
+</a>
 <table id="tbDetail" class="table table-responsive">
     <thead>
         <tr>
             <th>#</th>
             <th>Booking</th>
+            <th>JobNo</th>
             <th>Customer</th>
             <th>CTN_NO</th>
             <th class="desktop">CTN_SIZE</th>
@@ -72,6 +76,8 @@ End Code
             <th class="desktop">Status</th>
             <th class="desktop">Location</th>
             <th class="all">Pickup</th>
+            <th class="all">Delivery</th>
+            <th class="all">Return</th>
         </tr>
     </thead>
 </table>
@@ -192,7 +198,7 @@ End Code
                                     <th>DocNo</th>
                                     <th>DocDate</th>
                                     <th>PoNo</th>
-                                    <th>RefNo</th>
+                                    <th>WND Tax</th>
                                     <th>TotalNet</th>
                                 </tr>
                             </thead>
@@ -228,12 +234,12 @@ End Code
                                     <div>
                                         <label id="lblPickupTarget">Target Date :</label>
                                         <br />
-                                        <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control"></div>
+                                        <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control" disabled></div>
                                     </div>
                                     <div>
                                         <label id="lblPickupTargetTime"></label>
                                         <br />
-                                        <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control"></div>
+                                        <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control" disabled></div>
 
                                     </div>
                                     <div>
@@ -277,11 +283,11 @@ End Code
                                 <div style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
                                     <div>
                                         <label id="lblDeliveryTarget">Target Date :</label>
-                                        <br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control"></div>
+                                        <br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control" disabled></div>
                                     </div>
                                     <div>
                                         <label id="lblDeliveryTargetTime">Target Time :</label>
-                                        <br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control"></div>
+                                        <br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control" disabled></div>
                                     </div>
                                     <div>
                                         <label id="lblDeliveryActual">Actual Date :</label>
@@ -322,12 +328,12 @@ End Code
                                     <div>
                                         <label id="lblReturnTarget">Target Date:</label>
                                         <br />
-                                        <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control"></div>
+                                        <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control" disabled></div>
                                     </div>
                                     <div>
                                         <label id="lblReturnTargetTime">Target Time:</label>
                                         <br />
-                                        <div style="display:flex"><input type="text" id="txtStart" class="form-control"></div>
+                                        <div style="display:flex"><input type="text" id="txtStart" class="form-control" disabled></div>
                                     </div>
                                     <div>
                                         <label id="lblReturnActual">Actual Date:</label>
@@ -368,6 +374,14 @@ End Code
     function SetEvents() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        if (userGroup == 'S') {
+            $('#txtTargetYardDate').removeAttr('disabled');
+            $('#txtTargetYardTime').removeAttr('disabled');
+            $('#txtUnloadDate').removeAttr('disabled');
+            $('#txtUnloadTime').removeAttr('disabled');
+            $('#txtTruckIN').removeAttr('disabled');
+            $('#txtStart').removeAttr('disabled');
+        }
         if (userGroup == 'V') {
             $('#txtVenCode').attr('disabled', 'disabled');
             $('#txtVenName').attr('disabled', 'disabled');
@@ -482,10 +496,16 @@ End Code
         $('#txtLocation').val(dt.LocationRoute);
     }
     function RefreshGrid() {
-        $('#tbDetail').DataTable().clear().draw();
+        $('#tbDetail').hide();
         arr = [];
         ShowSummary();
-        let w = '?Status='+ $('#cboCauseCode').val() +'&Branch=' + $('#txtBranchCode').val();
+        let w = '?Branch=' + $('#txtBranchCode').val();
+        if ($('#txtJNo').val() !== '') {
+            w = w + '&Job=' + $('#txtJNo').val();
+        }
+        if ($('#cboCauseCode').val() !== "") {
+            w = w + '&Status=' + $('#cboCauseCode').val();
+        }
         if ($('#txtVenCode').val() !== "") {
             w = w + '&Vend=' + $('#txtVenCode').val();
         }
@@ -506,7 +526,7 @@ End Code
         });
     }
     function ReadContainer(dr) {
-        let tb=$('#tbDetail').DataTable({
+        $('#tbDetail').DataTable({
             data: dr,
             columns: [
                 {
@@ -515,7 +535,8 @@ End Code
                         return '<button class="btn btn-warning">Edit</button>'
                     }
                 },
-                { data: "BookingNo", title: "Booking"},
+                { data: "BookingNo", title: "Booking" },
+                { data: "JNo", title: "Booking"},
                 { data: "NotifyCode", title: "Customer"},
                 { data: "CTN_NO", title: "Container No" },
                 { data: "CTN_SIZE", title: "Container Size" },
@@ -546,14 +567,25 @@ End Code
                 {
                     data: null, title: "Pickup Date",
                     render: function (data) {
-                        return CDateEN(data.ActualYardDate);
+                        return CDateEN(data.TargetYardDate);
+                    }
+                },
+                {
+                    data: null, title: "Delivery Date",
+                    render: function (data) {
+                        return CDateEN(data.UnloadDate);
+                    }
+                },
+                {
+                    data: null, title: "Return Date",
+                    render: function (data) {
+                        return CDateEN(data.TruckIN);
                     }
                 }
             ],
             destroy: true,
             responsive:true
         });
-        ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {
             row = $('#tbDetail').DataTable().row(this).data();
             if ($(this).hasClass('selected')) {
@@ -587,6 +619,8 @@ End Code
             ShowSummary();
             $('#dvContainer').modal('show');
         });
+        ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
+        $('#tbDetail').show();
     }
     function ReadDetail(dr) {
         $('#txtItemNo').val(dr.ItemNo);
@@ -694,7 +728,7 @@ End Code
                             RefreshGrid();
                         }
                         ShowMessage(response.result.msg);
-                        $('#dvContainer').modal('hide');
+                        //$('#dvContainer').modal('hide');
                     },
                     error: function (e) {
                         ShowMessage(e,true);
@@ -707,7 +741,8 @@ End Code
         }
     function EntryExpenses() {
         if ($('#txtCauseCode').val() == '2' || $('#txtCauseCode').val() == '3') {
-            window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&BookNo=' + row.BookingNo + '&Item=' + $('#txtItemNo').val() + '&Job=' + row.JNo + '&Vend=' + $('#txtVenCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust='+ row.NotifyCode + '&Route=' + row.LocationID, '', '');
+            SaveDetail();
+            window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&BookNo=' + row.BookingNo + '&Item=' + $('#txtItemNo').val() + '&Vend=' + row.VenCode + '&Cont=' + $('#txtCTN_NO').val() + '&Cust='+ row.NotifyCode + '&Route=' + row.LocationID, '', '');
         } else {
             ShowMessage('Current document status is not allow to do this', true);
         }
@@ -769,13 +804,13 @@ End Code
         if ($('#txtCTN_NO').val() !== '') {
             $.get(path + 'Acc/GetPayment?VenCode=' + row.VenderCode + '&Ref=' + row.CTN_NO + '&Status=Y').done((r) => {
                 if (r.payment.header.length > 0) {
-                    let tb= $('#tbPayment').DataTable({
+                    let tb = $('#tbPayment').DataTable({
                         data: r.payment.header,
                         columns: [
                             { data: "DocNo", title: "Doc.No" },
                             { data: "DocDate", title: "Date" },
                             { data: "PoNo", title: "Inv.No" },
-                            { data: "RefNo", title: "Cont.No" },
+                            { data: "TotalTax", title: "WHD Tax" },
                             { data: "TotalNet", title: "Total" }
                         ],
                         destroy: true
@@ -783,8 +818,11 @@ End Code
                     ChangeLanguageGrid('@ViewBag.Module', '#tbPayment');
                     $('#tbPayment tbody').on('dblclick', 'tr', function () {
                         let row = $('#tbPayment').DataTable().row(this).data();
-                        window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&DocNo='+ row.DocNo +'&BookNo=' + $('#txtBookingNo').val() + '&Item=' + $('#txtItemNo').val() + '&Job=' + $('#txtJNo').val() + '&Vend=' + $('#txtVenderCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust=' + $('#txtNotifyCode').val(), '', '');
+                        window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&DocNo=' + row.DocNo + '&Route=' + $('#txtRouteID').val(), '', '');
                     });
+                    $('#btnExpense').attr('disabled', 'disabled');
+                } else {
+                    $('#btnExpense').removeAttr('disabled');
                 }
             });
         }
