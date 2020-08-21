@@ -147,6 +147,15 @@ Public Class CBookAccount
             m_GLAccountCode = value
         End Set
     End Property
+    Private m_ControlBalance As Double
+    Public Property ControlBalance As Double
+        Get
+            Return m_ControlBalance
+        End Get
+        Set(value As Double)
+            m_ControlBalance = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -175,6 +184,7 @@ Public Class CBookAccount
                             dr("FaxNumber") = Main.GetDBString(Me.FaxNumber, dt.Columns("FaxNumber"))
                             dr("LimitBalance") = Me.LimitBalance
                             dr("GLAccountCode") = Main.GetDBString(Me.GLAccountCode, dt.Columns("GLAccountCode"))
+                            dr("ControlBalance") = Me.ControlBalance
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CBookAccount", "SaveData", Me, False)
@@ -258,6 +268,9 @@ Public Class CBookAccount
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("GLAccountCode"))) = False Then
                         row.GLAccountCode = rd.GetString(rd.GetOrdinal("GLAccountCode")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ControlBalance"))) = False Then
+                        row.ControlBalance = rd.GetDouble(rd.GetOrdinal("ControlBalance")).ToString()
                     End If
                     lst.Add(row)
                 End While

@@ -606,7 +606,10 @@ End Code
                                         Contact
                                         <input type="text" id="txtPlaceContact1" />
                                     </div>
-                                    <input type="button" class="btn btn-success" onclick="SavePlace('1')" value="Save" />
+                                    <div>
+                                        <input type="button" class="btn btn-success" onclick="SavePlace('1')" value="Save" />
+                                        <input type="button" class="btn btn-danger" onclick="DeletePlace('1')" value="Delete" />
+                                    </div>                                    
                                 </div>
                             </div>
                             <div style="flex:1">
@@ -658,7 +661,10 @@ End Code
                                         Contact
                                         <input type="text" id="txtPlaceContact2" />
                                     </div>
-                                    <input type="button" class="btn btn-success" onclick="SavePlace('2')" value="Save" />
+                                    <div>
+                                        <input type="button" class="btn btn-success" onclick="SavePlace('2')" value="Save" />
+                                        <input type="button" class="btn btn-danger" onclick="DeletePlace('2')" value="Delete" />
+                                    </div>
                                 </div>
                             </div>
                             <div style="flex:1">
@@ -704,7 +710,11 @@ End Code
                                         Contact
                                         <input type="text" id="txtPlaceContact3" />
                                     </div>
-                                    <input type="button" class="btn btn-success" onclick="SavePlace('3')" value="Save" />
+                                    <div>
+                                        <input type="button" class="btn btn-success" onclick="SavePlace('3')" value="Save" />
+                                        <input type="button" class="btn btn-danger" onclick="DeletePlace('3')" value="Delete" />
+                                    </div>
+
                                 </div>
                             </div>
                             <div style="flex:1">
@@ -1973,6 +1983,17 @@ End Code
                 postData(path + 'Master/SetTransportPlace', json, function (r) {
                     loadLocation(path, '#cboPlaceName' + id, id);
                     ShowMessage(r.result.msg);
+                });
+            }
+        });
+    }
+    function DeletePlace(id) {
+        let pname = $('#txtPlaceName' + id).val();
+        ShowConfirm('Please confirm to delete', function (ask) {
+            if (ask == true) {
+                $.get(path + 'Master/DelTransportPlace?Type=' + id + '&Code=' + pname).done(function (r) {
+                    loadLocation(path, '#cboPlaceName' + id, id);
+                    ShowMessage(r.transportplace.result);
                 });
             }
         });
