@@ -259,7 +259,7 @@ End Code
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo,'','');
+                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo + '&Job=' + data.ForJNo +'&BookNo='+ data.BookingRefNo +'&Item=' + data.BookingItemNo,'','');
             });
         });
     }

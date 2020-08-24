@@ -97,25 +97,39 @@ End Code
         <div class="modal-content">
             <div class="modal-header">
                 <div class="row">
+                    <div class="col-sm-4">
+                        Booking
+                        <br /><div style="display:flex"><input type="text" id="txtBookingNo" class="form-control" disabled></div>
+                    </div>
                     <div class="col-sm-2">
                         <label id="lblItemNo">No :</label>
                         <br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control" disabled></div>
                     </div>
-                    <div class="col-sm-4">
-                        <label id="lblContNo">Container :</label>
-                        <br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
+                    <div class="col-sm-3">
+                        Vender
+                        <br /><div style="display:flex"><input type="text" id="txtVenderCode" class="form-control" disabled></div>
                     </div>
                     <div class="col-sm-3">
-                        <label id="lblContSize">Size :</label>
-                        <br /><div style="display:flex"><select id="txtCTN_SIZE" class="form-control dropdown"></select></div>
-                    </div>
-                    <div class="col-sm-3">
-                        <label id="lblSealNo">Seal No.:</label>
-                        <br /><div style="display:flex"><input type="text" id="txtSealNumber" class="form-control"></div>
+                        Customer
+                        <br /><div style="display:flex"><input type="text" id="txtNotifyCode" class="form-control" disabled></div>
                     </div>
                 </div>
             </div>
             <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <label id="lblContNo">Container :</label>
+                        <br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label id="lblContSize">Size :</label>
+                        <br /><div style="display:flex"><select id="txtCTN_SIZE" class="form-control dropdown"></select></div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label id="lblSealNo">Seal No.:</label>
+                        <br /><div style="display:flex"><input type="text" id="txtSealNumber" class="form-control"></div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="row">
@@ -175,6 +189,11 @@ End Code
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-sm-3">
+                                Job No:
+                                <br/>
+                                <input type="text" id="txtJobNo" class="form-control" disabled />
+                            </div>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -190,7 +209,7 @@ End Code
                             </thead>
                             <tbody></tbody>
                         </table>
-                        <label id="lblVenBill">Expense Billed By Vender</label>
+                        <label id="lblVenBill" onclick="ShowPayment()">Expense Billed By Vender</label>
                         :<br />
                         <table id="tbPayment" class="table table-responsive">
                             <thead>
@@ -623,7 +642,11 @@ End Code
         $('#tbDetail').show();
     }
     function ReadDetail(dr) {
+        $('#txtBookingNo').val(dr.BookingNo);
         $('#txtItemNo').val(dr.ItemNo);
+        $('#txtJobNo').val(dr.JNo);
+        $('#txtNotifyCode').val(dr.NotifyCode);
+        $('#txtVenderCode').val(dr.VenderCode);
         $('#txtCTN_NO').val(dr.CTN_NO);
         $('#txtSealNumber').val(dr.SealNumber);
         $('#txtTruckNO').val(dr.TruckNO);
@@ -726,6 +749,7 @@ End Code
                     success: function (response) {
                         if (response.result.data != null) {
                             RefreshGrid();
+                            row = obj;
                         }
                         ShowMessage(response.result.msg);
                         //$('#dvContainer').modal('hide');
@@ -738,14 +762,37 @@ End Code
         } else {
             ShowMessage('No data to Save',true);
         }
-        }
+    }
     function EntryExpenses() {
-        if ($('#txtCauseCode').val() == '2' || $('#txtCauseCode').val() == '3') {
-            SaveDetail();
-            window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&BookNo=' + row.BookingNo + '&Item=' + $('#txtItemNo').val() + '&Vend=' + row.VenCode + '&Cont=' + $('#txtCTN_NO').val() + '&Cust='+ row.NotifyCode + '&Route=' + row.LocationID, '', '');
+        if (row == null) {
+            ShowMessage('Please Reload This Data', true);
+            return;
+        }
+        if (row.CTN_NO == '') {
+            ShowMessage('Please input container Number', true);
+            return;
+        }
+        if (row.CauseCode == '2' || row.CauseCode == '3') {
+            if (row.CauseCode == '3') {
+                if (CStr(row.ActualYardDate) == '') {
+                    ShowMessage('Please input Pickup Actual Date', true);
+                    return;
+                }
+                if (CStr(row.UnloadFinishDate) == '') {
+                    ShowMessage('Please input Delivery Actual Date', true);
+                    return;
+                }
+                if (CStr(row.ReturnDate) == '') {
+                    ShowMessage('Please input Return Actual Date', true);
+                    return;
+                }
+            }
+            //SaveDetail();
+            window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&BookNo=' + $('#txtBookingNo').val() + '&Item=' + $('#txtItemNo').val() + '&Vend=' + $('#txtVenderCode').val() +'&Job='+ $('#txtJobNo').val() + '&Cont=' + row.CTN_NO + '&Cust='+ $('#txtNotifyCode').val() + '&Route=' + row.LocationID, '', '');
         } else {
             ShowMessage('Current document status is not allow to do this', true);
         }
+        return;
     }
     function ApproveData() {
         if (arr.length <= 0) {
@@ -817,8 +864,8 @@ End Code
                     });
                     ChangeLanguageGrid('@ViewBag.Module', '#tbPayment');
                     $('#tbPayment tbody').on('dblclick', 'tr', function () {
-                        let row = $('#tbPayment').DataTable().row(this).data();
-                        window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&DocNo=' + row.DocNo + '&Route=' + $('#txtRouteID').val(), '', '');
+                        let rowd = $('#tbPayment').DataTable().row(this).data();
+                        window.open(path + 'Acc/Expense?BranchCode=' + rowd.BranchCode + '&DocNo=' + rowd.DocNo + '&BookNo='+row.BookingNo+'&Item='+row.ItemNo+'&Route=' + $('#txtRouteID').val()+ '&Job='+ row.JNo, '', '');
                     });
                     $('#btnExpense').attr('disabled', 'disabled');
                 } else {

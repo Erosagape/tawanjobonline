@@ -1122,7 +1122,8 @@ WHERE NOT ISNULL(h.CancelProve,'')<>''
                 Dim oData = New CVoucher(GetSession("ConnJob")).GetData(tSqlw)
                 Dim oHead As String = JsonConvert.SerializeObject(oData)
                 Dim oSub As String = JsonConvert.SerializeObject(New CVoucherSub(GetSession("ConnJob")).GetData(tSqlw & tSqlH))
-                Dim oDoc As String = JsonConvert.SerializeObject(New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectVoucherDoc(tSqlw & tSqlH)))
+                'Dim oDoc As String = JsonConvert.SerializeObject(New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectVoucherDoc(tSqlw & tSqlH)))
+                Dim oDoc As String = JsonConvert.SerializeObject(New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectVoucherDetail(tSqlw & tSqlH)))
 
                 Dim json = "{""voucher"":{""header"":" & oHead & ",""payment"":" & oSub & ",""document"":" & oDoc & "}}"
                 Return Content(json, jsonContent)

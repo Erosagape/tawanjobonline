@@ -137,7 +137,7 @@ End Code
                         <label id="lblApprTime">Time:</label>
                         <input type="text" id="txtApproveTime" style="width:80px" disabled />
                         <br />
-                        <label>Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" disabled />
+                        <label>Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" />
                     </div>
                     <div class="col-sm-4" style="border-style:solid;border-width:1px">
                         <label id="lblPayment">Payment By</label>
@@ -285,11 +285,11 @@ End Code
                                 <div class="col-sm-4">
                                     <label id="lblBookingNo">Booking No :</label>                                    
                                     <br/>
-                                    <input type="text" id="txtBookingRefNo" class="form-control" disabled />
+                                    <input type="text" id="txtBookingRefNo" class="form-control" />
                                 </div>
                                 <div class="col-sm-2">
                                     #<br/>
-                                    <input type="text" id="txtBookingItemNo" class="form-control" disabled />
+                                    <input type="text" id="txtBookingItemNo" class="form-control" />
                                 </div>
                                 <div class="col-sm-6">
                                     <label id="lblContNo">Container No :</label>                                    
@@ -492,7 +492,6 @@ End Code
         }
         if ((br + bookno + item).trim() !== '') {
             isjobmode = true;
-            $('#txtPoNo').attr('disabled', 'disabled');
             $('#txtRefNo').attr('disabled', 'disabled');
             $('#btnAdd').hide();
             $('#txtBookingRefNo').val(bookno);
@@ -508,6 +507,9 @@ End Code
             ShowVender(path, $('#txtVenCode').val(), '#txtVenName');
         } else {
             item = 0;
+        }
+        if (job !== '') {
+            CallBackQueryJob(path, br, job, ReadJob);
         }
     }
     function SetEnterToTab() {
@@ -782,6 +784,8 @@ End Code
             $('#txtPaymentDate').val(CDateEN(dt.PaymentDate));
             $('#txtPaymentTime').val(ShowTime(dt.PaymentTime));
             $('#txtPaymentRef').val(dt.PaymentRef);
+            $('#chkApprove').prop('checked', dt.ApproveBy == '' ? false : true);
+            $('#chkCancel').prop('checked', dt.CancelProve == '' ? false : true);
             $('#txtApproveBy').val(dt.ApproveBy);
             $('#txtApproveRef').val(dt.ApproveRef);
             $('#txtApproveDate').val(CDateEN(dt.ApproveDate));
@@ -793,8 +797,7 @@ End Code
             $('#txtAdvRef').val(dt.AdvRef);
             $('#txtRefNo').val(dt.RefNo);
             $('#txtPayType').val(dt.PayType);
-            $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
-            $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
+
             EnableSave();
             return;
         }
@@ -1060,6 +1063,7 @@ End Code
             $('#txtAmtWHT').val('0');
             $('#txtTotal').val('0');
             $('#txtFTotal').val('0');
+
             $('#txtForJNo').val(job);
             $('#txtCustCode').val(cust);
             $('#txtBookingRefNo').val(bookno);
@@ -1223,6 +1227,7 @@ End Code
             dt = data[0];
         }
         $('#txtForJNo').val(dt.JNo);
+        cust = dt.CustCode;
         $('#txtCustCode').val(dt.CustCode);
     }
     function ReadVender(dt) {

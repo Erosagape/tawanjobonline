@@ -37,7 +37,7 @@ End Code
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtVenCode" style="width:20%" />
-            <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('vender')">...</button>
+            <button id="btnBrowseVend" class="btn btn-default" onclick="SearchData('vender')">...</button>
             <input type="text" class="form-control" id="txtVenName" style="width:100%" disabled />
         </div>
     </div>
@@ -76,11 +76,11 @@ End Code
 </div>
 <div class="row">
     <div class="col-sm-3">
-        Print Approval Form:<br/>
+        Print Approval Form:<br />
         <input type="text" class="form-control" id="txtApproveRef" />
     </div>
     <div class="col-sm-2">
-        <br/>
+        <br />
         <a href="#" class="btn btn-info" id="btnPrnBill" onclick="PrintData()">
             <i class="fa fa-lg fa-print"></i>
         </a>
@@ -91,11 +91,23 @@ End Code
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
+    const userGroup = '@ViewBag.UserGroup';
     //$(document).ready(function () {
     SetEvents();
     //});
     function SetEvents() {
-
+        if (userGroup == 'V') {
+            $('#txtVenCode').attr('disabled', 'disabled');
+            $('#txtVenName').attr('disabled', 'disabled');
+            $('#btnBrowseVend').attr('disabled', 'disabled');
+            $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
+                if (r.vender.data.length > 0) {
+                    let dr = r.vender.data[0];
+                    $('#txtVenCode').val(dr.VenCode);
+                    $('#txtVenName').val(dr.TName);
+                }
+            });
+        }
         //default values
         $('#txtCurrencyCode').val('THB');
         ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
@@ -229,7 +241,7 @@ End Code
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo,'','');
+                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo + '&Job=' + data.ForJNo +'&BookNo='+ data.BookingRefNo +'&Item=' + data.BookingItemNo,'','');
             });
         });
     }

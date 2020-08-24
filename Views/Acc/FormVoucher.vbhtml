@@ -96,28 +96,28 @@ End Code
                 switch (acType) {
                     case 'CA':
                         payType = 'เงินสดย่อย';
-                        if (obj.RecvBank !== null) {
+                        if (obj.RecvBank !== '') {
                             payType = 'เงินฝากธนาคารหมุนเวียน';
                         }
-                        desc0 += obj.PayChqTo !== null ? '<br/>ออกให้กับ ' + obj.PayChqTo : '';
-                        desc0 += obj.RecvBank != null ? '<br/>โอนไปยังบัญชีธนาคาร ' + obj.RecvBank + ' สาขา ' + obj.RecvBranch : '';
-                        desc0 += obj.BookCode != null ? '<br/>จากเลขที่บัญชี ' + obj.BookCode + ' เลขที่อ้างอิง ' + obj.DocNo : '';
-                        desc0 += obj.TRemark != null ? '<br/>วันเวลาที่ทำรายการ : ' + obj.TRemark : '';
+                        desc0 += obj.PayChqTo !== '' ? '<br/>ออกให้กับ ' + obj.PayChqTo : '';
+                        desc0 += obj.RecvBank != '' ? '<br/>โอนไปยังบัญชีธนาคาร ' + obj.RecvBank + ' สาขา ' + obj.RecvBranch : '';
+                        desc0 += obj.BookCode != '' ? '<br/>จากเลขที่บัญชี ' + obj.BookCode + ' เลขที่อ้างอิง ' + obj.DocNo : '';
+                        desc0 += obj.TRemark != '' ? '<br/>วันเวลาที่ทำรายการ : ' + obj.TRemark : '';
                         break;
                     case 'CH':
                         payType = 'เช็คเงินสด';
                     case 'CU':
                         payType = 'เช็ครับล่วงหน้า';
-                        desc0 += obj.ChqNo !== null ? '<br/>เช็คเลขที่ ' + obj.ChqNo + ' ลงวันที่ ' + ShowDate(CDateTH(obj.ChqDate)) : '';
-                        desc0 += obj.BankCode != null ? '<br/>เช็คธนาคาร ' + obj.BankCode + ' สาขา ' + obj.BankBranch : '';
-                        desc0 += obj.PayChqTo !== null ? '<br/>ออกให้กับ ' + obj.PayChqTo : '';
-                        desc0 += obj.TRemark != null ? '<br/>หมายเหตุ : ' + obj.TRemark : '';
-                        desc0 += obj.RecvBank != null ? '<br/>นำฝากไปยังบัญชีธนาคาร ' + obj.RecvBank + ' สาขา ' + obj.RecvBranch : '';
+                        desc0 += obj.ChqNo !== '' ? '<br/>เช็คเลขที่ ' + obj.ChqNo + ' ลงวันที่ ' + ShowDate(CDateTH(obj.ChqDate)) : '';
+                        desc0 += obj.BankCode != '' ? '<br/>เช็คธนาคาร ' + obj.BankCode + ' สาขา ' + obj.BankBranch : '';
+                        desc0 += obj.PayChqTo !== '' ? '<br/>ออกให้กับ ' + obj.PayChqTo : '';
+                        desc0 += obj.TRemark != '' ? '<br/>หมายเหตุ : ' + obj.TRemark : '';
+                        desc0 += obj.RecvBank != '' ? '<br/>นำฝากไปยังบัญชีธนาคาร ' + obj.RecvBank + ' สาขา ' + obj.RecvBranch : '';
                         break;
                     case 'CR':
                         payType = 'ลูกหนี้';
-                        desc0 += obj.DocNo !== null ? '<br/>ตามเอกสารเลขที่ ' + obj.DocNo + ' ลงวันที่ ' + ShowDate(CDateTH(obj.ChqDate)) : '';
-                        desc0 += obj.PayChqTo !== null ? '<br/>ออกให้กับ ' + obj.PayChqTo : '';
+                        desc0 += obj.DocNo !== '' ? '<br/>ตามเอกสารเลขที่ ' + obj.DocNo + ' ลงวันที่ ' + ShowDate(CDateTH(obj.ChqDate)) : '';
+                        desc0 += obj.PayChqTo !== '' ? '<br/>ออกให้กับ ' + obj.PayChqTo : '';
                         break;
                 }
                 switch (vcType) {
@@ -179,13 +179,15 @@ End Code
                         let count = 0;
                         for(d of doc) {
                             count++;
-                            desc = count + '. ' + d.DocNo +' By ' + d.EmpCode + '';
+                            desc = d.DocRefNo + ' : ' + d.SDescription;
                             desc += ' JOB# ' + d.JobNo + '('+ d.CmpCode +')';
-                            appendLine(div, desc, CDbl(d.PaidAmount/CNum(obj.ExchangeRate),2) + ' ' + obj.CurrencyCode + ' (Rate='+ obj.ExchangeRate +')', CCurrency(CDbl(d.TotalAmount,2)));
+                            appendLine(div, desc, CDbl(d.PaidAmount/CNum(obj.ExchangeRate),2) + ' ' + obj.CurrencyCode + ' (Rate='+ obj.ExchangeRate +')', CCurrency(CDbl(d.PaidAmount,2)));
                         }
                     }
                 }
-                desc0 += obj.SICode !== null ? '<br/>สำหรับค่าใช้จ่าย ' + obj.SICode : '';
+                if (obj.SICode !== '') {
+                    desc0 += obj.SICode !== null ? '<br/>สำหรับค่าใช้จ่าย ' + obj.SICode : '';
+                }
 
                 //summary section
                 let desc1 = '<table width="100%">';

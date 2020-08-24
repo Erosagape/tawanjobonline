@@ -1501,10 +1501,10 @@ FROM dbo.Job_QuotationHeader INNER JOIN
     Function SQLSelectPaymentReport() As String
         Return "
 SELECT h.BranchCode, h.DocNo, h.DocDate, h.VenCode, v.TaxNumber, v.TName, v.English, v.TAddress1, v.TAddress2, v.EAddress1, v.EAddress2, v.Phone, v.FaxNumber, 
-v.GLAccountCode, v.ContactAcc, v.ContactSale, v.ContactSupport1, v.ContactSupport2, v.ContactSupport3, v.WEB_SITE, h.ContactName, h.EmpCode, h.PoNo, 
-h.VATRate, h.TaxRate, h.TotalExpense, h.TotalTax, h.TotalVAT, h.TotalDiscount, h.TotalNet, h.Remark, h.CancelReson, h.CancelProve, h.CancelDate, h.CancelTime, 
+v.GLAccountCode, v.ContactAcc, v.ContactSale, v.ContactSupport1, v.ContactSupport2, v.ContactSupport3, v.WEB_SITE, h.ContactName, h.EmpCode, h.PoNo, h.ApproveBy ,h.ApproveDate,
+h.ApproveTime, h.VATRate, h.TaxRate, h.TotalExpense, h.TotalTax, h.TotalVAT, h.TotalDiscount, h.TotalNet, h.Remark, h.CancelReson, h.CancelProve, h.CancelDate, h.CancelTime, 
 h.CurrencyCode, h.ExchangeRate, h.ForeignAmt, h.RefNo, h.PayType, h.ApproveRef,h.PaymentRef, d.ItemNo, d.SICode, d.SDescription, d.SRemark, d.Qty, d.QtyUnit, d.UnitPrice, d.IsTaxCharge, 
-d.Is50Tavi, d.DiscountPerc, d.Amt, d.AmtDisc, d.AmtVAT, d.AmtWHT, d.Total, d.FTotal, d.ForJNo, d.BookingRefNo,j.CustCode,j.CustBranch
+d.Is50Tavi, d.DiscountPerc, d.Amt, d.AmtDisc, d.AmtVAT, d.AmtWHT, d.Total, d.FTotal, d.ForJNo, d.BookingRefNo, d.BookingItemNo , h.AdvRef , j.CustCode,j.CustBranch
 FROM dbo.Job_PaymentHeader AS h LEFT OUTER JOIN
 dbo.Mas_Vender AS v ON h.VenCode = v.VenCode LEFT OUTER JOIN
 dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
@@ -2380,6 +2380,57 @@ WHERE ISNULL(d.SumContainer,'')<>''
 AND ISNULL(d.SumContainer,'')<>h.TotalContainer
 "
     End Function
+    Public Function SQLSelectVoucherDetail(tSqlw As String) As String
+        Dim sql = "
+SELECT * FROM (
+select d.*,h.VoucherDate,ah.CustCode as CmpCode,ah.CustBranch as CmpBranch,
+ad.ForJNo as JobNo,ah.EmpCode, ah.AdvNo as DocRefNo,ah.AdvDate as DocDate,ad.SDescription,ad.AdvAmount as Amount,ad.ChargeVAT as VAT,ad.Charge50Tavi as WHT,ad.AdvNet as PaidAmount
+from Job_CashControlSub d
+inner join Job_CashControl h ON d.BranchCode=h.BranchCode
+and d.ControlNo=h.ControlNo
+inner join Job_AdvHeader ah ON h.BranchCode=ah.BranchCode
+AND h.ControlNo=ah.PaymentRef
+inner join Job_AdvDetail ad ON ah.BranchCode=ad.BranchCode
+AND ah.AdvNo=ad.AdvNo
+union
+select d.*,h.VoucherDate,j.CustCode,j.CustBranch,
+ad.JobNo,ah.EmpCode,ah.ClrNo,ah.ClrDate,ad.SDescription,ad.UsedAmount,ad.ChargeVAT,ad.Tax50Tavi,ad.BNet
+from Job_CashControlSub d
+inner join Job_CashControl h ON d.BranchCode=h.BranchCode
+and d.ControlNo=h.ControlNo
+inner join Job_ClearHeader ah ON h.BranchCode=ah.BranchCode
+AND h.ControlNo=ah.ReceiveRef
+inner join Job_ClearDetail ad ON ah.BranchCode=ad.BranchCode
+AND ah.ClrNo=ad.ClrNo
+left join Job_Order j ON ad.BranchCode=j.BranchCode AND ad.JobNo=j.JNo
+union
+select d.*,h.VoucherDate,j.CustCode,j.CustBranch,
+c.JobNo ,ah.EmpCode, ad.InvoiceNo,ah.ReceiptDate,ad.SDescription,ad.Amt,ad.AmtVAT,ad.Amt50Tavi,ad.Net
+from Job_CashControlSub d
+inner join Job_CashControl h ON d.BranchCode=h.BranchCode
+and d.ControlNo=h.ControlNo
+inner join Job_ReceiptDetail ad ON h.BranchCode=ad.BranchCode
+AND h.ControlNo=ad.ControlNo
+inner join Job_ReceiptHeader ah ON ad.BranchCode=ah.BranchCode
+AND ad.ReceiptNo=ah.ReceiptNo
+left join Job_ClearDetail c ON ad.BranchCode=c.BranchCode 
+AND ad.InvoiceNo=c.LinkBillNo AND ad.InvoiceItemNo=c.LinkItem
+left join Job_Order j ON c.BranchCode=j.BranchCode AND c.JobNo=j.JNo
+union
+select d.*,h.VoucherDate,h.CustCode,h.CustBranch,
+ad.ForJNo,ah.EmpCode,ad.DocNo,ah.PaymentDate,ad.SDescription,ad.Amt,ad.AmtVAT,ad.AmtWHT,ad.Total
+from Job_CashControlSub d
+inner join Job_CashControl h ON d.BranchCode=h.BranchCode
+and d.ControlNo=h.ControlNo
+inner join Job_PaymentHeader ah ON h.BranchCode=ah.BranchCode
+AND h.ControlNo=ah.PaymentRef
+inner join Job_PaymentDetail ad ON ad.BranchCode=ah.BranchCode
+AND ad.DocNo=ah.DocNo
+left join Job_Order j ON ad.BranchCode=j.BranchCode AND ad.ForJNo=j.JNo
+) pr {0}
+"
+        Return String.Format(sql, tSqlw)
+    End Function
     Public Function SQLSelectVoucherDoc(tSqlw As String) As String
         Return "
 SELECT src.*,doc.JobNo,doc.EmpCode,doc.TRemark
@@ -2707,7 +2758,8 @@ dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
 LEFT OUTER JOIN dbo.Mas_Vender AS v ON h.VenCode = v.VenCode
 LEFT OUTER JOIN Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
 LEFT OUTER JOIN Mas_Company c ON j.CustCode=c.CustCode AND j.CustBranch=c.Branch
-LEFT OUTER JOIN Job_LoadInfoDetail b ON d.BranchCode=b.BranchCode AND d.BookingRefNo=b.BookingNo AND d.BookingItemNo=b.ItemNo
+LEFT OUTER JOIN Job_LoadInfoDetail b ON h.BranchCode=b.BranchCode 
+AND h.RefNo=b.CTN_NO
 LEFT OUTER JOIN Job_LoadInfo t ON b.BranchCode=t.BranchCode AND b.BookingNo=t.BookingNo
 LEFT OUTER JOIN Job_SrvSingle  s ON d.SICode=s.SICode
 LEFT OUTER JOIN Job_TransportPrice p ON h.BranchCode=p.BranchCode
