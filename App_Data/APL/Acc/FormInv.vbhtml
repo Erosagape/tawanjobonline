@@ -321,7 +321,11 @@ End Code
                 } else {
                     html += '<td style="text-align:center">' + o.Qty + '</td>';
                 }                
-                html += '<td style="text-align:right">' + ShowNumber(o.UnitPrice,2) + '</td>';
+                if (o.AmtCharge > 0) {
+                    html += '<td style="text-align:right">' + ShowNumber(o.UnitPrice, 2) + '</td>';
+                } else {
+                    html += '<td style="text-align:right">'+ShowNumber(o.TotalAmt, 2)+'</td>';
+                }
 
                 sumbaseadv += (o.AmtAdvance > 0 ? o.Amt : 0);
                 sumvatadv += (o.AmtAdvance > 0 ? o.AmtVat : 0);

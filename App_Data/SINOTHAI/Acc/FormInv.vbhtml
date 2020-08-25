@@ -28,20 +28,34 @@ End Code
 <div id="dvForm">
     <div style="display:flex;">
         <div style="flex:3;border:1px solid black;border-radius:5px;">
-            NAME : <label id="lblCustName"></label><br />
-            ADDRESS : <label id="lblCustAddress"></label><br />
+            NAME :
+            <label id="lblCustName"></label>
+            <br />
+            ADDRESS :
+            <label id="lblCustAddress"></label>
+            <br />
             <!--TEL : <label id="lblCustTel"></label><br />-->
             <label>TAX-ID:</label>
             <label id="lblTaxNumber"></label>
             <label>BRANCH:</label>
             <label id="lblTaxBranch"></label>
-
+            <br />
+            AGENT :
+            <label id="lblAgentName"></label>
         </div>
         <div style="flex:1;border:1px solid black;border-radius:5px;">
-            INV NO. : <label id="lblDocNo"></label><br />
-            INV DATE : <label id="lblDocDate"></label><br />
-            CUST INV : <label id="lblCustInvNo"></label><br />
-            JOB NO : <label id="lblJobNo"></label><br />
+            INV NO. :
+            <label id="lblDocNo"></label>
+            <br />
+            INV DATE :
+            <label id="lblDocDate"></label>
+            <br />
+            CUST INV :
+            <label id="lblCustInvNo"></label>
+            <br />
+            JOB NO :
+            <label id="lblJobNo"></label>
+            <br />
         </div>
     </div>
     <br />
@@ -49,22 +63,28 @@ End Code
         <div style="flex:2">
             <div class="row">
                 <p class="col-sm-12">
-                    FROM :<label id="lblFromCountry"></label> TO :<label id="lblToCountry"></label>
+                    FROM :
+                    <label id="lblFromCountry"></label> TO :
+                    <label id="lblToCountry"></label>
                 </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    PORT :<label id="lblInterPort"></label>
+                    PORT :
+                    <label id="lblInterPort"></label>
                 </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    FLIGHT/VESSEL :<label id="lblVesselName"></label>
+                    FLIGHT/VESSEL :
+                    <label id="lblVesselName"></label>
                 </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    QUANTITY :<label id="lblQtyGross"></label> <label id="lblQtyUnit"></label>
+                    QUANTITY :
+                    <label id="lblQtyGross"></label>
+                    <label id="lblQtyUnit"></label>
                     <br />
                 </p>
             </div>
@@ -72,39 +92,48 @@ End Code
         <div style="flex:2">
             <div class="row">
                 <p class="col-sm-12">
-                    ETD :<label id="lblETDDate"></label>
+                    ETD :
+                    <label id="lblETDDate"></label>
                 </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    HBL/HAWB :<label id="lblHAWB"></label>
+                    HBL/HAWB :
+                    <label id="lblHAWB"></label>
                 </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    MEASUREMENT :<label id="lblMeasurement"></label>
+                    MEASUREMENT :
+                    <label id="lblMeasurement"></label>
                 </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    NET WEIGHT :<label id="lblNetWeight"></label> <label id="lblWeightUnit"></label>
+                    NET WEIGHT :
+                    <label id="lblNetWeight"></label>
+                    <label id="lblWeightUnit"></label>
                 </p>
             </div>
         </div>
         <div style="flex:2">
             <div class="row">
                 <p class="col-sm-12">
-                    ETA :<label id="lblETADate"></label>
+                    ETA :
+                    <label id="lblETADate"></label>
                 </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    MBL/MAWB :<label id="lblMAWB"></label>
+                    MBL/MAWB :
+                    <label id="lblMAWB"></label>
                 </p>
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    CUSTOMER :<br /><label id="lblCustTName"></label>
+                    CUSTOMER :
+                    <br />
+                    <label id="lblCustTName"></label>
                 </p>
             </div>
         </div>
@@ -127,41 +156,65 @@ End Code
                 <td colspan="3">
                     <div style="display:flex">
                         <div style="text-align:left;flex:1">
-                            TOTAL INVOICE (<label id="lblCurrencyCode"></label>)=<label id="lblForeignNet"></label> RATE=<label id="lblExchangeRate"></label>
+                            TOTAL INVOICE (
+                            <label id="lblCurrencyCode"></label>)=
+                            <label id="lblForeignNet"></label> RATE=
+                            <label id="lblExchangeRate"></label>
                             <br />
                             <div id="lblShippingRemark"></div>
-                            REMARKS :<br />
+                            REMARKS :
+                            <br />
                             <div id="lblDescription"></div>
                         </div>
                     </div>
                 </td>
                 <td colspan="2">
-                    TOTAL ADVANCE<br />
-                    TOTAL SERVICE <br />
-                    VATABLE<br />
-                    VAT (RATE=<label id="lblVATRate"></label>%)<br />
-                    SERVICE+VAT<br />
-                    SERVICE+ADVANCE<br />
-                    DISCOUNT (RATE=<label id="lblDiscountRate"></label>%)<br />
-                    CUST. ADV<br />
+                    TOTAL ADVANCE
+                    <br />
+                    TOTAL SERVICE
+                    <br />
+                    VATABLE
+                    <br />
+                    VAT (RATE=
+                    <label id="lblVATRate"></label>%)
+                    <br />
+                    SERVICE+VAT
+                    <br />
+                    SERVICE+ADVANCE
+                    <br />
+                    DISCOUNT (RATE=
+                    <label id="lblDiscountRate"></label>%)
+                    <br />
+                    CUST. ADV
+                    <br />
                     GRAND TOTAL
                 </td>
                 <td style="background-color :gainsboro;text-align:right;" colspan="2">
-                    <label id="lblSumAdvance"></label><br />
-                    <label id="lblSumNonVat"></label><br />
-                    <label id="lblSumBeforeVat"></label><br />
-                    <label id="lblSumVat"></label><br />
-                    <label id="lblSumAfterVat"></label><br />
-                    <label id="lblSumTotal"></label><br />
-                    <label id="lblSumDiscount"></label><br />
-                    <label id="lblSumCustAdv"></label><br />
+                    <label id="lblSumAdvance"></label>
+                    <br />
+                    <label id="lblSumNonVat"></label>
+                    <br />
+                    <label id="lblSumBeforeVat"></label>
+                    <br />
+                    <label id="lblSumVat"></label>
+                    <br />
+                    <label id="lblSumAfterVat"></label>
+                    <br />
+                    <label id="lblSumTotal"></label>
+                    <br />
+                    <label id="lblSumDiscount"></label>
+                    <br />
+                    <label id="lblSumCustAdv"></label>
+                    <br />
                     <label id="lblSumGrandTotal"></label>
                 </td>
             </tr>
             <tr>
                 <td>TOTAL (BAHT)</td>
                 <td colspan="7">
-                    <div style="text-align:center;"><label id="lblTotalBaht" style="font-size:14px;"></label></div>
+                    <div style="text-align:center;">
+                        <label id="lblTotalBaht" style="font-size:14px;"></label>
+                    </div>
                 </td>
             </tr>
         </tfoot>
@@ -172,13 +225,22 @@ End Code
             <table style="width:100%">
                 <tr>
                     <td style="width:55%">TRANSPORT 1%</td>
-                    <td style="width:25%;text-align:right"><label id="lblSumBaseWht1"></label><br /></td>
-                    <td style="width:20%;text-align:right"><label id="lblSumWht1"></label></td>
+                    <td style="width:25%;text-align:right">
+                        <label id="lblSumBaseWht1"></label>
+                        <br />
+                    </td>
+                    <td style="width:20%;text-align:right">
+                        <label id="lblSumWht1"></label>
+                    </td>
                 </tr>
                 <tr>
                     <td style="width:55%">SERVICE 1.5%</td>
-                    <td style="width:25%;text-align:right"><label id="lblSumBaseWht3"></label></td>
-                    <td style="width:20%;text-align:right"><label id="lblSumWht3"></label></td>
+                    <td style="width:25%;text-align:right">
+                        <label id="lblSumBaseWht3"></label>
+                    </td>
+                    <td style="width:20%;text-align:right">
+                        <label id="lblSumWht3"></label>
+                    </td>
                 </tr>
                 <tr>
                     <td colspan="2" style="width:80%">
@@ -197,16 +259,30 @@ End Code
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
             <br />
-            FOR THE CUSTOMER <br /><br /> <br /><br /><br />
-            ......................................................... <br />
-            __________/_________/________ <br />
+            FOR THE CUSTOMER
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            .........................................................
+            <br />
+            __________/_________/________
+            <br />
             AUTHORIZED SIGNATURE
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
             <br />
-            FOR @ViewBag.PROFILE_COMPANY_NAME_EN <br /><br /> <br /><br /><br />
-            ......................................................... <br />
-            __________/_________/________ <br />
+            FOR @ViewBag.PROFILE_COMPANY_NAME_EN
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            .........................................................
+            <br />
+            __________/_________/________
+            <br />
             AUTHORIZED SIGNATURE
         </div>
     </div>
@@ -291,6 +367,7 @@ End Code
                 $('#lblMeasurement').text(j.Measurement);
                 $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
                 $('#lblMAWB').text(j.MAWB);
+                ShowVender(path, j.ForwarderCode, '#lblAgentName');
             }
             let remark = h.Remark1 + '\n' + h.Remark2 + '\n' + h.Remark3 + '\n' + h.Remark4 + '\n' + h.Remark5 + '\n' + h.Remark6 + '\n' + h.Remark7 + '\n' + h.Remark8 + '\n' + h.Remark9 + '\n' + h.Remark10;
             remark=remark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
@@ -320,11 +397,12 @@ End Code
         let sumbase3 = 0;
         let sumtax1 = 0;
         let sumtax3 = 0;
-
+        let irow = 0;
         if (d.length > 0) {
             for (let o of d) {
+                irow += 1;
                 let html = '<tr>';
-                html += '<td style="text-align:center">' + o.ItemNo + '</td>';
+                html += '<td style="text-align:center">' + irow + '</td>';
                 if (o.AmtAdvance > 0) {
                     html += '<td>' + o.SDescription + (o.ExpSlipNO !== null ? ' #' + o.ExpSlipNO : '') + '</td>';
                     html += '<td style="text-align:right">' + ShowNumber(o.AmtAdvance, 2) + '</td>';

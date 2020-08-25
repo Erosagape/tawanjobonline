@@ -56,6 +56,8 @@ End Code
                     <th>DocNo</th>
                     <th class="desktop">DocDate</th>
                     <th class="desktop">VenCode</th>
+                    <th class="desktop">Customer</th>
+                    <th class="desktop">Job</th>
                     <th class="all">Container</th>
                     <th class="desktop">Inv.No</th>
                     <th class="desktop">Amount</th>
@@ -247,13 +249,13 @@ End Code
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
         w = w + '&Type=NOAPP';
-        $.get(path + 'acc/getpayment?branch=' + $('#txtBranchCode').val() + w, function (r) {
-            if (r.payment.header.length == 0) {
+        $.get(path + 'acc/getpaymentsummary?branch=' + $('#txtBranchCode').val() + w, function (r) {
+            if (r.payment.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.payment.header;
+            let h = r.payment.data;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
             let tb=$('#tbHeader').DataTable({
@@ -268,28 +270,30 @@ End Code
                         }
                     },
                     { data: "VenCode", title: "Vender" },
+                    { data: "CustCode", title: "Customer" },
+                    { data: "JobNo", title: "Job Number" },
                     { data: "RefNo", title: "Container.No" },
                     { data: "PoNo", title: "Inv.No" },
                     {
-                        data: "TotalExpense", title: "Amount",
+                        data: "Amt", title: "Amount",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalVAT", title: "VAT",
+                        data: "AmtVat", title: "VAT",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalTax", title: "Tax",
+                        data: "AmtTax50Tavi", title: "Tax",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalNet", title: "Net",
+                        data: "Total", title: "Net",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
@@ -298,7 +302,7 @@ End Code
                 responsive: true,
                 destroy:true
             });
-            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
+            //ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');

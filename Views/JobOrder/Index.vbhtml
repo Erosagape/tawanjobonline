@@ -89,6 +89,7 @@ End Code
                 <option value="ShippingCode">Shipping Staff</option>
                 <option value="DeclareNo">Declaration</option>
                 <option value="HAWB">House BL/AWB</option>
+                <option value="MAWB">Master BL/AWB</option>
                 <option value="BookingNo">Booking No</option>
                 <option value="InvNo">Commercial Invoice</option>
             </select>

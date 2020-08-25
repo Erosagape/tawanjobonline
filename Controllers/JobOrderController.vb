@@ -1096,6 +1096,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("HAWB")) Then
                     tSqlW &= " AND j.HAWB='" & Request.QueryString("HAWB") & "'"
                 End If
+                If Not IsNothing(Request.QueryString("MAWB")) Then
+                    tSqlW &= " AND j.MAWB='" & Request.QueryString("MAWB") & "'"
+                End If
                 If Not IsNothing(Request.QueryString("InvNo")) Then
                     tSqlW &= " AND j.InvNo='" & Request.QueryString("InvNo") & "'"
                 End If

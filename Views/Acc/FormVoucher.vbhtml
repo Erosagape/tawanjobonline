@@ -22,6 +22,97 @@ End Code
         </td>
     </tr>
 </table>
+<div style="display:flex;border:1px solid black;border-radius:5px;">
+    <div style="flex:2">
+        <div class="row">
+            <p class="col-sm-12">
+                FROM :
+                <label id="lblFromCountry"></label> TO :
+                <label id="lblToCountry"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                PORT :
+                <label id="lblInterPort"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                FLIGHT/VESSEL :
+                <label id="lblVesselName"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                QUANTITY :
+                <label id="lblQtyGross"></label>
+                <label id="lblQtyUnit"></label>
+                <br />
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                JOB NO :
+                <label id="lblJobNo"></label>
+            </p>
+        </div>
+    </div>
+    <div style="flex:2">
+        <div class="row">
+            <p class="col-sm-12">
+                ETD :
+                <label id="lblETDDate"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                HBL/HAWB :
+                <label id="lblHAWB"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                MEASUREMENT :
+                <label id="lblMeasurement"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                NET WEIGHT :
+                <label id="lblNetWeight"></label>
+                <label id="lblWeightUnit"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                CUSTOMER INV :
+                <label id="lblCustInvNo"></label>
+            </p>
+        </div>
+    </div>
+    <div style="flex:2">
+        <div class="row">
+            <p class="col-sm-12">
+                ETA :
+                <label id="lblETADate"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                MBL/MAWB :
+                <label id="lblMAWB"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                CUSTOMER :
+                <br />
+                <label id="lblCustName"></label>
+            </p>
+        </div>
+    </div>
+</div>
 <br />
 <table id="tbData" style="border-collapse:collapse;width:100%">
     <tbody></tbody>
@@ -95,29 +186,29 @@ End Code
                 let credit = '';
                 switch (acType) {
                     case 'CA':
-                        payType = 'เงินสดย่อย';
+                        payType = 'CASH';
                         if (obj.RecvBank !== '') {
-                            payType = 'เงินฝากธนาคารหมุนเวียน';
+                            payType = 'TRANSFER';
                         }
-                        desc0 += obj.PayChqTo !== '' ? '<br/>ออกให้กับ ' + obj.PayChqTo : '';
-                        desc0 += obj.RecvBank != '' ? '<br/>โอนไปยังบัญชีธนาคาร ' + obj.RecvBank + ' สาขา ' + obj.RecvBranch : '';
-                        desc0 += obj.BookCode != '' ? '<br/>จากเลขที่บัญชี ' + obj.BookCode + ' เลขที่อ้างอิง ' + obj.DocNo : '';
-                        desc0 += obj.TRemark != '' ? '<br/>วันเวลาที่ทำรายการ : ' + obj.TRemark : '';
+                        desc0 += obj.PayChqTo !== '' ? '<br/>PAY TO ' + obj.PayChqTo : '';
+                        desc0 += obj.RecvBank != '' ? '<br/>BANK ' + obj.RecvBank + ' BRANCH ' + obj.RecvBranch : '';
+                        desc0 += obj.BookCode != '' ? '<br/>ACCOUNT ' + obj.BookCode + ' REF# ' + obj.DocNo : '';
+                        desc0 += obj.TRemark != '' ? '<br/>DATE : ' + obj.TRemark : '';
                         break;
                     case 'CH':
-                        payType = 'เช็คเงินสด';
+                        payType = 'CASHIER CHEQUE';
                     case 'CU':
-                        payType = 'เช็ครับล่วงหน้า';
-                        desc0 += obj.ChqNo !== '' ? '<br/>เช็คเลขที่ ' + obj.ChqNo + ' ลงวันที่ ' + ShowDate(CDateTH(obj.ChqDate)) : '';
-                        desc0 += obj.BankCode != '' ? '<br/>เช็คธนาคาร ' + obj.BankCode + ' สาขา ' + obj.BankBranch : '';
-                        desc0 += obj.PayChqTo !== '' ? '<br/>ออกให้กับ ' + obj.PayChqTo : '';
-                        desc0 += obj.TRemark != '' ? '<br/>หมายเหตุ : ' + obj.TRemark : '';
-                        desc0 += obj.RecvBank != '' ? '<br/>นำฝากไปยังบัญชีธนาคาร ' + obj.RecvBank + ' สาขา ' + obj.RecvBranch : '';
+                        payType = 'CUSTOMER CHEQUE';
+                        desc0 += obj.ChqNo !== '' ? '<br/>NO ' + obj.ChqNo + ' DATE ' + ShowDate(CDateTH(obj.ChqDate)) : '';
+                        desc0 += obj.BankCode != '' ? '<br/>BANK ' + obj.BankCode + ' BRANCH ' + obj.BankBranch : '';
+                        desc0 += obj.PayChqTo !== '' ? '<br/>TO ' + obj.PayChqTo : '';
+                        desc0 += obj.TRemark != '' ? '<br/>NOTE : ' + obj.TRemark : '';
+                        desc0 += obj.RecvBank != '' ? '<br/>DEP.BANK ' + obj.RecvBank + ' BRANCH ' + obj.RecvBranch : '';
                         break;
                     case 'CR':
-                        payType = 'ลูกหนี้';
-                        desc0 += obj.DocNo !== '' ? '<br/>ตามเอกสารเลขที่ ' + obj.DocNo + ' ลงวันที่ ' + ShowDate(CDateTH(obj.ChqDate)) : '';
-                        desc0 += obj.PayChqTo !== '' ? '<br/>ออกให้กับ ' + obj.PayChqTo : '';
+                        payType = 'CREDIT';
+                        desc0 += obj.DocNo !== '' ? '<br/>REF ' + obj.DocNo + ' DATE ' + ShowDate(CDateTH(obj.ChqDate)) : '';
+                        desc0 += obj.PayChqTo !== '' ? '<br/>TO ' + obj.PayChqTo : '';
                         break;
                 }
                 switch (vcType) {
@@ -170,45 +261,94 @@ End Code
                         break;
                 }
                 //appendLine(div, desc, debit, credit);
-                appendLine(div, '<b>รายการเอกสาร</b>', '<b>ยอดตามเอกสาร</b>', '<b>ยอดที่ชำระ</b>');
+                appendLine(div, '<b>DETAILS</b>', '<b>FOREIGN PAID</b>', '<b>PAID (THB)</b>');
                 if (data.document !== null) {
+                    let jobno = '';
                     let doc=data.document.filter(function(r){
-                        return r.acType==acType;
+                        return r.acType == acType;
                     });
+                    sortData(doc, 'VenderName', 'asc');
+                    sortData(doc, 'DocRefNo', 'asc');
                     if (doc !== undefined) {
-                        let count = 0;
-                        for(d of doc) {
-                            count++;
+                        let sum = 0;
+                        let strDoc = '';
+                        let lastvender = '';
+                        for (d of doc) {
+                            if (d.JobNo !== '') {
+                                jobno = d.JobNo;
+                            }
+                            if (strDoc.indexOf(d.VenderName) < 0) {
+                                if (lastvender !== '') {
+                                    appendLine(div,'','<b>TOTAL</b>','<b>'+ShowNumber(sum,2)+'</b>');
+                                    sum = 0;
+                                }
+                                strDoc += '|' + d.VenderName;
+                                lastvender = d.VenderName;
+                                appendLine(div,'<b>'+ d.VenderName +'</b>','','');
+                            }
+                            sum += Number(CDbl(d.PaidAmount, 2));
                             desc = d.DocRefNo + ' : ' + d.SDescription;
-                            desc += ' JOB# ' + d.JobNo + '('+ d.CmpCode +')';
-                            appendLine(div, desc, CDbl(d.PaidAmount/CNum(obj.ExchangeRate),2) + ' ' + obj.CurrencyCode + ' (Rate='+ obj.ExchangeRate +')', CCurrency(CDbl(d.PaidAmount,2)));
+                            if (d.Remark !== '') desc += '<br/>' + d.Remark;
+                            appendLine(div, desc, CDbl(d.PaidAmount / CNum(obj.ExchangeRate), 2) + ' ' + obj.CurrencyCode + ' (Rate=' + obj.ExchangeRate + ')', CCurrency(CDbl(d.PaidAmount, 2)));
                         }
+                        appendLine(div,'','<b>TOTAL</b>','<b>'+ShowNumber(sum,2)+'</b>');
+                    }
+                    if (jobno !== '') {
+                        $.get(path + 'JobOrder/GetJobSQL?Branch='+ obj.BranchCode +'&JNo='+ jobno).done(function (r) {
+                            let j = r.job.data[0];
+                            if (j !== null) {
+                                ShowCustomer(path, j.CustCode, j.CustBranch, '#lblCustName');
+                                $('#lblCustInvNo').text(j.InvNo);
+                                $('#lblJobNo').text(j.JNo);
+	                            if(Number(j.JobType)==1){
+                                    ShowCountry(path, j.InvFCountry, '#lblFromCountry');
+                                    ShowCountry(path, j.InvCountry, '#lblToCountry');
+                                    ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#lblInterPort');
+ 	                            } else {
+                                    ShowCountry(path, j.InvFCountry, '#lblFromCountry');
+                                    ShowCountry(path, j.InvCountry, '#lblToCountry');
+                                    ShowInterPort(path, j.InvCountry, j.InvInterPort, '#lblInterPort');
+                                }
+                                //$('#lblFromCountry').text(j.DeclareNumber);
+                                $('#lblVesselName').text(j.VesselName);
+                                $('#lblQtyGross').text(j.InvProductQty);
+                                ShowInvUnit(path, j.InvProductUnit, '#lblQtyUnit');
+                                $('#lblNetWeight').text(j.TotalNW);
+                                ShowInvUnit(path, j.GWUnit, '#lblWeightUnit');
+                                $('#lblETDDate').text(ShowDate(CDateTH(j.ETDDate)));
+                                $('#lblHAWB').text(j.HAWB);
+                                $('#lblMeasurement').text(j.Measurement);
+                                $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
+                                $('#lblMAWB').text(j.MAWB);
+                                ShowVender(path, j.ForwarderCode, '#lblAgentName');
+                            }
+                        });
                     }
                 }
                 if (obj.SICode !== '') {
-                    desc0 += obj.SICode !== null ? '<br/>สำหรับค่าใช้จ่าย ' + obj.SICode : '';
+                    desc0 += obj.SICode !== null ? '<br/>FOR ' + obj.SICode : '';
                 }
 
                 //summary section
                 let desc1 = '<table width="100%">';
                 desc1 += '<tr>';
                 desc1 += '<td style="text-align:right">';
-                desc1 += '<b>AMOUNT</b>';
+                desc1 += '<b>SUM AMOUNT</b>';
                 desc1 += '</td>';
                 desc1 += '</tr>';
                 desc1 += '<tr>';
                 desc1 += '<td style="text-align:right">';
-                desc1 += '<b>VAT' + (obj.VatInc > 0 ? ' Incl=' + CCurrency(CDbl(Number(obj.VatInc),2)) + '' : '') + '</b>';
+                desc1 += '<b>SUM VAT' + (obj.VatInc > 0 ? ' Incl=' + CCurrency(CDbl(Number(obj.VatInc),2)) + '' : '') + '</b>';
                 desc1 += '</td>';
                 desc1 += '</tr>';
                 desc1 += '<tr>';
                 desc1 += '<td width="80%" style="text-align:right">';
-                desc1 += '<b>Tax' + (obj.WhtInc > 0 ? ' Incl=' + CCurrency(CDbl(Number(obj.WhtInc),2)) + '' : '') + '</b>';
+                desc1 += '<b>SUM WHT' + (obj.WhtInc > 0 ? ' Incl=' + CCurrency(CDbl(Number(obj.WhtInc),2)) + '' : '') + '</b>';
                 desc1 += '</td>';
                 desc1 += '</tr>';
                 desc1 += '<tr>';
                 desc1 += '<td width="80%" style="text-align:right">';
-                desc1 += '<b>TOTAL</b>';
+                desc1 += '<b>GRAND TOTAL</b>';
                 desc1 += '</td>';
                 desc1 += '</tr>';
                 desc1 += '</table>';

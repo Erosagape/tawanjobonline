@@ -57,14 +57,13 @@ End Code
             <thead>
                 <tr>
                     <th>DocNo</th>
-                    <th class="desktop">DocDate</th>
-                    <th class="desktop">Booking</th>
-                    <th class="all">Approve No</th>
-                    <th class="all">Ref.No</th>
-                    <th class="desktop">Inv.No</th>
-                    <th class="desktop">Payment.No</th>
                     <th class="desktop">Job.No</th>
-                    <th class="desktop">Desc</th>
+                    <th class="desktop">Booking</th>
+                    <th class="desktop">Customer</th>
+                    <th class="all">Container</th>
+                    <th class="desktop">Vender.Inv</th>
+                    <th class="all">Approve No</th>
+                    <th class="desktop">Payment.No</th>
                     <th class="desktop">Amount</th>
                     <th class="desktop">WT</th>
                     <th class="desktop">VAT</th>
@@ -178,7 +177,7 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
         w = w + '&show=ACTIVE&currency=' + $('#txtCurrencyCode').val();
-        $.get(path + 'acc/getpaymentgrid?branch=' + $('#txtBranchCode').val() + w, function (r) {
+        $.get(path + 'acc/getpaymentsummary?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.payment.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);
@@ -192,39 +191,33 @@ End Code
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
                     { data: "DocNo", title: "Pay.No" },
-                    {
-                        data: "DocDate", title: "Due Date",
-                        render: function (data) {
-                            return CDateEN(data);
-                        }
-                    },
+                    { data: "JobNo", title: "JobNo" },
                     { data: "BookingRefNo", title: "Booking" },
-                    { data: "ApproveRef", title: "Approve.No" },
-                    { data: "RefNo", title: "Ref.No" },
-                    { data: "PoNo", title: "Inv.No" },
-                    { data: "PaymentRef", title: "Payment.No" },
-                    { data: "ForJNo", title: "JobNo" },
-                    { data: "SDescription", title: "Desc" },
+                    { data: "CustCode", title: "Customer" },
+                    { data: "RefNo", title: "Container.No" },
+                    { data: "PoNo", title: "Vender.Inv" },
+                    { data: "ApproveRef", title: "Approve.Ref" },
+                    { data: "PaymentRef", title: "Payment.Ref" },
                     {
-                        data: "TotalExpense", title: "Amount",
+                        data: "Amt", title: "Amount",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalVAT", title: "VAT",
+                        data: "AmtVat", title: "VAT",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalTax", title: "Tax",
+                        data: "AmtTax50Tavi", title: "Tax",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalNet", title: "Net",
+                        data: "Total", title: "Net",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
@@ -233,7 +226,7 @@ End Code
                 responsive: true,
                 destroy:true
             });
-            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
+            //ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 SetSelect('#tbHeader', this);
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
@@ -241,7 +234,7 @@ End Code
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo + '&Job=' + data.ForJNo +'&BookNo='+ data.BookingRefNo +'&Item=' + data.BookingItemNo,'','');
+                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo + '&Job=' + data.JobNo +'&BookNo='+ data.BookingRefNo +'&Item=' + data.BookingItemNo,'','');
             });
         });
     }
