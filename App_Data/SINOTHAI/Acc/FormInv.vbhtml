@@ -385,13 +385,13 @@ End Code
             $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
             $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.Total50Tavi)-Number(h.TotalDiscount),2));
 
-            $('#lblTotalBaht').text('(' + CNumEng(CDbl(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalDiscount),2)) + ')');
+            $('#lblTotalBaht').text('(' + CNumEng(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount)-Number(h.Total50Tavi),2)) + ')'); 
 
         }
         let d = dr.detail[0];
         sortData(d, 'AmtAdvance', 'asc');
-        sortData(d, 'AmtCharge', 'asc');
         sortData(d, 'AmtVat', 'asc');
+        sortData(d, 'AmtCharge', 'asc');
 
         let sumbase1 = 0;
         let sumbase3 = 0;
@@ -407,19 +407,22 @@ End Code
                     html += '<td>' + o.SDescription + (o.ExpSlipNO !== null ? ' #' + o.ExpSlipNO : '') + '</td>';
                     html += '<td style="text-align:right">' + ShowNumber(o.AmtAdvance, 2) + '</td>';
                     html += '<td style="text-align:right">0.00</td>';
+                    html += '<td style="text-align:right">' + "0.00" + '</td>';
+                    html += '<td style="text-align:right">' + "0.00" + '</td>';
+                    html += '<td style="text-align:right">' + ShowNumber(CNum(o.AmtAdvance)-CNum(o.AmtDiscount), 2) + '</td>';
                 } else {
                     html += '<td>' + o.SDescription + '</td>';
                     html += '<td style="text-align:right">0.00</td>';
-                    html += '<td style="text-align:right">' + (o.AmtVat>0 ?ShowNumber(o.AmtCharge, 2):"0.00") + '</td>';
+                    html += '<td style="text-align:right">' + (o.AmtVat > 0 ? ShowNumber(o.AmtCharge, 2) : "0.00") + '</td>';
+                    html += '<td style="text-align:right">' + (o.AmtVat==0? ShowNumber(o.AmtCharge, 2):"0.00") + '</td>';
+                    html += '<td style="text-align:right">' + (o.Amt50Tavi >0 ?ShowNumber(o.Amt50Tavi, 2):"0.00") + '</td>';
+                    html += '<td style="text-align:right">' + ShowNumber(CNum(o.Amt)-CNum(o.AmtDiscount), 2) + '</td>';
                 }
-                html += '<td style="text-align:right">' + (o.AmtVat==0? ShowNumber(o.AmtCharge, 2):"0.00") + '</td>';
-                html += '<td style="text-align:right">' + (o.Amt50Tavi >0 ?ShowNumber(o.Amt50Tavi, 2):"0.00") + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(CNum(o.Amt)-CNum(o.AmtDiscount), 2) + '</td>';
                 html += '</tr>';
 
                 $('#tbDetail').append(html);
 
-                if (o.Amt50Tavi > 0) {
+                if (o.Amt50Tavi > 0 && o.AmtCharge>0) {
                     if (o.Rate50Tavi == 1) {
                         sumbase1 += (o.Amt-o.AmtDiscount);
                         sumtax1 += o.Amt50Tavi;

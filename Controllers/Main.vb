@@ -2525,16 +2525,19 @@ ORDER BY s.IsExpense
 SELECT j.DocDate,j.DutyDate,b.JobNo as 'Job Number',jt.JobTypeName as JobType,sb.ShipByName as ShipBy,
 e.NameEng as 'Customer',i.NameEng as 'Consignee',j.DeliveryTo as Shipper,t.TName as Agent,j.InvProduct,
 j.InvNo,j.HAWB,j.DeclareNumber,j.ETDDate,j.ETADate,j.LoadDate,j.EstDeliverDate as UnloadDate,j.TotalContainer,
+SUM(CASE WHEN s.IsCredit=1 AND s.IsExpense=0 THEN b.UsedAmount ELSE 0 END) as SumAdvance,
+SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=0 THEN b.UsedAmount ELSE 0 END) as SumCharge,
+SUM(CASE WHEN s.IsExpense=1 THEN b.UsedAmount ELSE 0 END) as SumCost,
 " & tSql & "
 FROM Job_ClearDetail b
 INNER JOIN Job_ClearHeader a ON b.BranchCode=a.BranchCode 
 AND b.ClrNo= a.ClrNo
 INNER JOIN Job_SrvSingle s ON b.SICode=s.SICode
 INNER JOIN Job_Order j ON b.BranchCode=j.BranchCode AND b.JobNo=j.JNo
-INNER JOIN (SELECT CAST(ConfigKey as int) as JobType,ConfigValue as JobTypeName FROM MAs_Config WHERE ConfigCode='JOB_TYPE') jt ON j.ShipBy=jt.JobType
-INNER JOIN (SELECT CAST(ConfigKey as int) as ShipBy,ConfigValue as ShipByName FROM MAs_Config WHERE ConfigCode='SHIP_BY') sb ON j.ShipBy=sb.ShipBy
-INNER JOIN Mas_Company e ON e.CustCode=j.CustCode AND e.Branch=j.CustBranch
-INNER JOIN (SELECT CustCode,MAX(Branch) as Branch,MAX(NameEng) as NameEng FROM  Mas_Company GROUP BY CustCode) i ON i.CustCode=j.consigneecode
+LEFT JOIN (SELECT CAST(ConfigKey as int) as JobType,ConfigValue as JobTypeName FROM MAs_Config WHERE ConfigCode='JOB_TYPE') jt ON j.ShipBy=jt.JobType
+LEFT JOIN (SELECT CAST(ConfigKey as int) as ShipBy,ConfigValue as ShipByName FROM MAs_Config WHERE ConfigCode='SHIP_BY') sb ON j.ShipBy=sb.ShipBy
+LEFT JOIN Mas_Company e ON e.CustCode=j.CustCode AND e.Branch=j.CustBranch
+LEFT JOIN (SELECT CustCode,MAX(Branch) as Branch,MAX(NameEng) as NameEng FROM  Mas_Company GROUP BY CustCode) i ON i.CustCode=j.consigneecode
 LEFT JOIN Mas_Vender t ON j.ForwarderCode=t.VenCode
 WHERE a.DocStatus<>99 AND b.BNet>0 {0}
 GROUP BY j.DocDate,j.DutyDate,b.JobNo,jt.JobTypeName,sb.ShipByName,e.NameEng,i.NameEng,j.DeliveryTo,j.InvProduct,t.TName,j.InvNo,j.HAWB,
@@ -2766,14 +2769,14 @@ group by rh.BranchCode,rh.ReceiptNo,rh.ReceiptDate,c.CustCode,c.TaxNumber,c.Bran
     Function SQLSelectVenderReport(sqlW As String, sqlAdd As String) As String
         Dim tSql As String = "
 SELECT h.ApproveRef as 'Approve Ref#',h.PoNo as 'VenderInvNo',h.DocNo,d.ForJNo as JNo,c.NameEng as CustEName,b.Location as LocationRoute,
-b.ActualYardDate as PickupDate,b.UnloadFinishDate as DeliveryDate,b.ReturnDate,
+b.UnloadFinishDate as DeliveryDate,
 b.BookingNo,b.CTN_NO,b.CTN_SIZE
 " & sqlAdd & ",
-SUM(d.Amt) as TotalAmt,
-SUM(CASE WHEN s.IsCredit=1 AND s.IsExpense=0 THEN d.Amt ELSE 0 END) as TotalAdvance,
-SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=1 THEN d.Amt ELSE 0 END) as TotalCost,
-SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=1 AND d.AmtVat>0 THEN d.Amt ELSE 0 END) as 'Claim Vat Amt',
-SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=1 AND d.AmtVat>0 THEN d.AmtVat ELSE 0 END) as 'Claim Vat',
+SUM(d.Amt+d.AmtVAT) as TotalAmt,
+SUM(CASE WHEN s.IsCredit=1 AND s.IsExpense=0 THEN d.Amt+d.AmtVAT ELSE 0 END) as TotalAdvance,
+SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=1 THEN d.Amt+d.AmtVAT ELSE 0 END) as TotalCost,
+SUM(CASE WHEN s.IsCredit=1 AND s.IsExpense=1 AND d.AmtVat>0 THEN d.Amt ELSE 0 END) as 'Claim Vat Amt',
+SUM(CASE WHEN s.IsCredit=1 AND s.IsExpense=1 AND d.AmtVat>0 THEN d.AmtVat ELSE 0 END) as 'Claim Vat',
 h.Remark,h.PaymentRef
 FROM dbo.Job_PaymentHeader AS h LEFT OUTER JOIN
 dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo

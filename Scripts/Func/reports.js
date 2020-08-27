@@ -369,11 +369,11 @@ function IsNumberColumn(cname) {
     if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService,PayTax,CashAmount,AmountUsed,';
+    colname = ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService,PayTax,CashAmount,AmountUsed,AmtCostSlip,AmtCostNoSlip,';
     if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = ',TotalAdvBilled,TotalCostBilled,TotalChargeBilled,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,VAT,WHT,CostAmount,ChargeAmount,';
+    colname = ',TotalAdvBilled,TotalCostBilled,TotalChargeBilled,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,Amt, Tax50Tavi, TotalInv, ReceivedNet, Charge50Tavi, Total, SumReceipt, TotalComm, VAT, WHT, CostAmount, ChargeAmount, ';
     if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
@@ -401,7 +401,7 @@ function IsNumberColumn(cname) {
     if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = ",Container Deposit,Addition Expenses,Deposit Return,Clear Amount,Clear VAT,Clear WHT,Clear Net,Adjust Amount,SVC Amount,VAT Amount,WHT Amount,";
+    colname = ",Container Deposit,Addition Expenses,Deposit Return,Clear Amount,Clear VAT,Clear WHT,Clear Net,Adjust Amount,SVC Amount,VAT Amount,WHT Amount,TotalChargeWaitBill,TotalAdvWaitBill,";
     if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
@@ -428,7 +428,7 @@ function IsSummaryColumn(cname) {
     if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = ",PENDING CONFIRM,WAIT FOR OPERATION,WAIT FOR CLEAR,WORKING FINISHED,EXPENSES CLEARED,BILLING INCOMPLETE,BILLING COMPLETED,JOB COMPLETED,HOLD FOR CHECKING,JOB CANCELLED,";
+    colname = ",PENDING CONFIRM,WAIT FOR OPERATION,WAIT FOR CLEAR,WORKING FINISHED,EXPENSES CLEARED,BILLING INCOMPLETE,BILLING COMPLETED,JOB COMPLETED,HOLD FOR CHECKING,JOB CANCELLED,TotalAdvWaitBill,TotalChargeWaitBill,";
     if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
@@ -456,7 +456,7 @@ function IsSummaryColumn(cname) {
     if (colname.indexOf(',' +cname + ',') >= 0) {
         return true;
     }
-    colname = ",Chq Amt,Cash Amt,WHD Tax,Total Amt,Transport,Service,Vat,Advance,Amt.Baht,Revenue,Cost,Total Job,Profit,TotalEarnest,";
+    colname = ",Chq Amt,Cash Amt,WHD Tax,Total Amt,Transport,Service,Vat,Advance,Amt.Baht,Revenue,Cost,Total Job,Profit,TotalEarnest,AmtCostSlip,AmtCostNoSlip,";
     if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
@@ -672,6 +672,8 @@ function GetColumnHeader(id,langid) {
         ChqAmount: 'Chq.Amt|ยอดเช็ค',
         AmountUsed: 'Used.Amt|ยอดใช้ไป',
         AmountRemain: 'Remain|ยอดคงเหลือ',
+        AmtCostSlip: 'Cost Slip|ต้นทุนมีใบเสร็จ',
+        AmtCostNoSlip: 'Cost No-Slip|ต้นทุนไม่มีใบเสร็จ',
         'Invoice No': 'APLL Invoice#|ใบแจ้งหนี้',
         'Invoice Date': 'APLL Invoice Date|วันที่ใบแจ้งหนี้',
         'Receipt No': 'APLL Receipt#|ใบเสร็จรับเงิน',

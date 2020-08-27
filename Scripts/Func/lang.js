@@ -2754,6 +2754,7 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVCLEARING", "ReportNameEN": "Advance Clearing Detail Report", "ReportNameTH": "รายงานการติดตามใบเบิก" },
         { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVIMPORT", "ReportNameEN": "Advance Import Detail Report", "ReportNameTH": "รายงานรายละเอียดใบเบิกขาเข้า" },
         { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVEXPORT", "ReportNameEN": "Advance Export Detail Report", "ReportNameTH": "รายงานรายละเอียดใบเบิกขาออก" },
+        { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVOTHER", "ReportNameEN": "Advance Local Detail Report", "ReportNameTH": "รายงานรายละเอียดใบเบิกอื่นๆ" },
         { "ReportType": "STD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVEXPENSE", "ReportNameEN": "Advance Total Expense Report", "ReportNameTH": "รายงานสรุปการเบิกแต่ละประเภท" },
         { "ReportType": "ADD", "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "CLRDAILY", "ReportNameEN": "Clearing Daily", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายประจำวัน" },
         { "ReportType": "ADD", "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "EARNEST", "ReportNameEN": "Earnest Summary", "ReportNameTH": "รายงานเงินมัดจำ" },

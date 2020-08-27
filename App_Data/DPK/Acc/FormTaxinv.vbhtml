@@ -59,10 +59,10 @@ End Code
     </div>
 
     <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
-        <tr style="background-color:lightblue;">
+        <tr style="background-color:lightblue;text-align:center">
             <td height="40" width="60">INV.NO.</td>
-            <td width="200">DESCRIPTION</td>
-            <td width="70">JOB</td>
+            <td width="210">DESCRIPTION</td>
+            <td width="60">JOB</td>
             <td width="60">SERVICE</td>
             <td width="30">VAT</td>
             <td width="30">WHT</td>
@@ -166,15 +166,29 @@ End Code
                 break;
         }
         //$('#lblCustCode').text(h.CustCode);
+        let tax = h.CustTaxID;
         if (h.UsedLanguage == 'TH') {
+            if (Number(h.CustBranch) == 0) {
+                tax += ' BRANCH : สำนักงานใหญ่';
+            } else {
+                tax += ' BRANCH : '+ h.CustBranch;
+            }
+
             $('#lblCustName').text(h.CustTName);
             $('#lblCustAddr').text(h.CustTAddr);
         } else {
+            if (Number(h.CustBranch) == 0) {
+                tax += ' BRANCH : HEAD OFFICE';
+            } else {
+                tax += ' BRANCH : '+ h.CustBranch;
+            }
+
             $('#lblCustName').text(h.CustEName);
             $('#lblCustAddr').text(h.CustEAddr);
         }
         $('#lblCustTel').text(h.CustPhone);
-        $('#lblCustTax').text(h.CustTaxID);
+
+        $('#lblCustTax').text(tax);
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiptDate)));
         let html = '';

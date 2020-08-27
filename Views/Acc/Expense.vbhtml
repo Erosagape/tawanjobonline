@@ -691,6 +691,10 @@ End Code
         });
     }
     function SaveHeader() {
+        if ($('#txtRefNo').val() == '') {
+            ShowMessage('Please input container reference', true);
+            return;
+        }
         let obj = GetDataHeader();
         if (obj.DocNo == '') {
             if (userRights.indexOf('I') < 0) {
@@ -796,6 +800,9 @@ End Code
             $('#txtCancelTime').val(ShowTime(dt.CancelTime));
             $('#txtAdvRef').val(dt.AdvRef);
             $('#txtRefNo').val(dt.RefNo);
+            if ($('#txtRefNo').val() == '') {
+                $('#txtRefNo').removeAttr('disabled');
+            }
             $('#txtPayType').val(dt.PayType);
 
             EnableSave();

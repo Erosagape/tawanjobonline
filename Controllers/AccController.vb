@@ -182,7 +182,12 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("Type")) Then
                     If Request.QueryString("Type").ToString = "NOPAY" Then
-                        tSqlH &= String.Format(" AND NOT (DocNo IN(SELECT p.DocNo FROM (SELECT h.DocNo FROM Job_CashControlDoc h INNER JOIN Job_CashControlSub d ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo AND h.acType=d.acType WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}') p  )", Request.QueryString("Branch").ToString)
+                        tSqlH &= String.Format(" AND NOT (DocNo IN(SELECT p.DocNo FROM (
+SELECT h.DocNo FROM 
+Job_CashControlDoc h INNER JOIN Job_CashControlSub d ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo AND h.acType=d.acType 
+INNER JOIN Job_CashControl m ON h.BranchCode=m.BranchCode AND h.ControlNo=m.ControlNo 
+WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.CancelProve,'')=''
+) p)", Request.QueryString("Branch").ToString)
                         tSqlH &= String.Format(" OR DocNo IN(SELECT DISTINCT p.PaymentNo FROM (SELECT h.PaymentNo FROM Job_AdvHeader h WHERE h.DocStatus<>99 AND h.BranchCode='{0}') p WHERE p.PaymentNo IS NOT NULL))", Request.QueryString("Branch").ToString)
                     End If
                     If Request.QueryString("Type").ToString = "NOPO" Then
@@ -253,7 +258,12 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("Type")) Then
                     If Request.QueryString("Type").ToString = "NOPAY" Then
-                        tSqlH &= String.Format(" AND NOT (DocNo IN(SELECT p.DocNo FROM (SELECT h.DocNo FROM Job_CashControlDoc h INNER JOIN Job_CashControlSub d ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo AND h.acType=d.acType WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}') p  )", Request.QueryString("Branch").ToString)
+                        tSqlH &= String.Format(" AND NOT (DocNo IN(SELECT p.DocNo FROM (
+SELECT h.DocNo FROM 
+Job_CashControlDoc h INNER JOIN Job_CashControlSub d ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo AND h.acType=d.acType 
+INNER JOIN Job_CashControl m ON h.BranchCode=m.BranchCode AND h.ControlNo=m.ControlNo 
+WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.CancelProve,'')=''
+) p)", Request.QueryString("Branch").ToString)
                         tSqlH &= String.Format(" OR DocNo IN(SELECT DISTINCT p.PaymentNo FROM (SELECT h.PaymentNo FROM Job_AdvHeader h WHERE h.DocStatus<>99 AND h.BranchCode='{0}') p WHERE p.PaymentNo IS NOT NULL))", Request.QueryString("Branch").ToString)
                     End If
                     If Request.QueryString("Type").ToString = "NOPO" Then
@@ -333,7 +343,12 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("Type")) Then
                     If Request.QueryString("Type").ToString = "NOPAY" Then
-                        tSqlw &= String.Format(" AND NOT (h.DocNo IN(SELECT p.DocNo FROM (SELECT hd.DocNo FROM Job_CashControlDoc hd INNER JOIN Job_CashControlSub dt ON hd.BranchCode=dt.BranchCode AND hd.ControlNo=dt.ControlNo AND hd.acType=dt.acType WHERE hd.DocType='PAY' AND dt.PRType='P' AND hd.BranchCode='{0}') p  )", Request.QueryString("Branch").ToString)
+                        tSqlw &= String.Format(" AND NOT (h.DocNo IN(SELECT p.DocNo FROM (
+SELECT h.DocNo FROM 
+Job_CashControlDoc h INNER JOIN Job_CashControlSub d ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo AND h.acType=d.acType 
+INNER JOIN Job_CashControl m ON h.BranchCode=m.BranchCode AND h.ControlNo=m.ControlNo 
+WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.CancelProve,'')=''
+) p)", Request.QueryString("Branch").ToString)
                         tSqlw &= " OR ISNULL(h.AdvRef,'')<>'')"
                         tSqlw &= " AND ISNULL(h.ApproveBy,'')<>'' "
                     End If
@@ -359,7 +374,7 @@ WHERE NOT ISNULL(h.CancelProve,'')<>''
                 If oSub.Rows.Count > 0 Then
                     For Each dr As DataRow In oSub.Rows
                         fldSub &= ","
-                        fldSub &= "SUM(CASE WHEN d.SICode='" & dr("SICode").ToString & "' THEN d.Amt ELSE 0 END) as '" & dr("Description").ToString & "'"
+                        fldSub &= "SUM(CASE WHEN d.SICode='" & dr("SICode").ToString & "' THEN d.Amt+d.AmtVAT ELSE 0 END) as '" & dr("Description").ToString & "'"
                     Next
                 End If
                 Dim sqlM = SQLSelectVenderReport(tSqlw, fldSub)
@@ -400,7 +415,12 @@ WHERE NOT ISNULL(h.CancelProve,'')<>''
                 End If
                 If Not IsNothing(Request.QueryString("Type")) Then
                     If Request.QueryString("Type").ToString = "NOPAY" Then
-                        tSqlw &= String.Format(" AND NOT (h.DocNo IN(SELECT p.DocNo FROM (SELECT hd.DocNo FROM Job_CashControlDoc hd INNER JOIN Job_CashControlSub dt ON hd.BranchCode=dt.BranchCode AND hd.ControlNo=dt.ControlNo AND hd.acType=dt.acType WHERE hd.DocType='PAY' AND dt.PRType='P' AND hd.BranchCode='{0}') p  )", Request.QueryString("Branch").ToString)
+                        tSqlw &= String.Format(" AND NOT (h.DocNo IN(SELECT p.DocNo FROM (
+SELECT h.DocNo FROM 
+Job_CashControlDoc h INNER JOIN Job_CashControlSub d ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo AND h.acType=d.acType 
+INNER JOIN Job_CashControl m ON h.BranchCode=m.BranchCode AND h.ControlNo=m.ControlNo 
+WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.CancelProve,'')=''
+) p)", Request.QueryString("Branch").ToString)
                         tSqlw &= " OR ISNULL(h.AdvRef,'')<>'')"
                         tSqlw &= " AND ISNULL(h.ApproveBy,'')<>'' "
                     End If
@@ -459,7 +479,12 @@ WHERE NOT ISNULL(h.CancelProve,'')<>''
                 End If
                 If Not IsNothing(Request.QueryString("Type")) Then
                     If Request.QueryString("Type").ToString = "NOPAY" Then
-                        tSqlw &= String.Format(" AND NOT (h.DocNo IN(SELECT p.DocNo FROM (SELECT hd.DocNo FROM Job_CashControlDoc hd INNER JOIN Job_CashControlSub dt ON hd.BranchCode=dt.BranchCode AND hd.ControlNo=dt.ControlNo AND hd.acType=dt.acType WHERE hd.DocType='PAY' AND dt.PRType='P' AND hd.BranchCode='{0}') p  )", Request.QueryString("Branch").ToString)
+                        tSqlw &= String.Format(" AND NOT (h.DocNo IN(SELECT p.DocNo FROM (
+SELECT h.DocNo FROM 
+Job_CashControlDoc h INNER JOIN Job_CashControlSub d ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo AND h.acType=d.acType 
+INNER JOIN Job_CashControl m ON h.BranchCode=m.BranchCode AND h.ControlNo=m.ControlNo 
+WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.CancelProve,'')=''
+) p)", Request.QueryString("Branch").ToString)
                         tSqlw &= " OR ISNULL(h.AdvRef,'')<>'')"
                         tSqlw &= " AND ISNULL(h.ApproveBy,'')<>'' "
                     End If
