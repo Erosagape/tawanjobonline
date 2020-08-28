@@ -889,3 +889,124 @@ function LoadReport(path, reportID, obj, lang) {
         }
     });
 }
+function LoadReportNoTotal(path, reportID, obj, lang) {
+    let str = JSON.stringify(obj);
+    let urlReport = '';
+    if (obj.ReportType == 'STD') {
+        urlReport = path + 'Report/GetReport';
+    } else {
+        urlReport = path + 'Report/GetReportByConfig';
+    }
+
+    $.ajax({
+        url: urlReport,
+        type: "POST",
+        contentType: "application/json",
+        data: str,
+        success: function (response) {
+            let res = JSON.parse(response);
+            if (res.msg !== "OK") {
+                //alert(r.msg);
+                return;
+            }
+            if (res.result.length > 0) {
+                var tb = res.result;
+                let groupField = '';
+                let groupVal = null;
+                let colCount = 0;
+                let sumGroup = [];
+                let sumTotal = [];
+
+                if (res.group !== '') {
+                    groupField = res.group;
+                }
+
+                let html = '<thead><tr>';
+                $.each(tb[0], function (key, value) {
+                    if (key !== groupField) {
+                        //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
+                        html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></th>';
+                        sumGroup.push({ isSummary: IsSummaryColumn(key), value: 0 });
+                        sumTotal.push(0);
+                        colCount++;
+                    }
+                });
+
+                html += '</tr></thead><tbody>';
+
+                let groupCount = 0;
+                let groupCaption = GetColumnHeader(groupField, lang);
+                let row = 0;
+                for (let r of tb) {
+                    html += '<tr>';
+                    if (groupField !== '') {
+                        if (FormatValue(groupField, r[groupField]) !== groupVal) {
+                            //Show Summary
+                            if (groupCount > 0) {
+                                html += '<td colspan="2" style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>SUB TOTAL</b></u></td>';
+                                for (let i = 1; i < colCount; i++) {
+                                    if (sumGroup[i].isSummary == true) {
+                                        html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"><u><b>' + ShowNumber(sumGroup[i].value, 2) + '</b></u></td>';
+                                    } else {
+                                        html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"></td>';
+                                    }
+                                    sumGroup[i].value = 0;
+                                }
+                                html += '</tr><tr>';
+                                groupCount = 0;
+                            }
+                            groupVal = FormatValue(groupField, r[groupField]);
+                            groupCount++;
+
+                            html += '<td colspan="' + (colCount) + '" style="background-color:lightyellow;border:1px solid black;text-align:left;">' + groupCaption + ' <b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
+                            html += '</tr><tr>';
+                        } else {
+                            groupCount++;
+                        }
+                    }
+                    row++;                    
+                    let col = 0;
+                    for (let c in r) {
+                        if (c !== groupField) {
+                            if (c.indexOf('Date') >= 0) {
+                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
+                            } else {
+                                if (r[c] !== null) {
+                                    if (IsNumberColumn(c) == true) {
+                                        if (sumGroup[col].isSummary == true) {
+                                            sumGroup[col].value += Number(r[c]);
+                                            sumTotal[col] += Number(r[c]);
+                                        }
+                                        html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c], 2) + '</td>';
+                                    } else {
+                                        html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
+                                    }
+                                } else {
+                                    html += '<td style="border:1px solid black;text-align:left;"></td>';
+                                }
+                            }
+                            col++;
+                        }
+                    }
+                    html += '</tr>';
+                }
+                //Last Total
+                if (groupCount > 0) {
+                    html += '<td style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>SUB TOTAL</b></u></td>';
+                    for (let i = 1; i < colCount; i++) {
+                        if (sumGroup[i].isSummary == true) {
+                            html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"><u><b>' + ShowNumber(sumGroup[i].value, 2) + '</b></u></td>';
+                        } else {
+                            html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"></td>';
+                        }
+                    }
+                    html += '</tr>';
+                    groupCount = 0;
+                }
+                html += '</tbody>'
+                //ShowMessage(html);
+                $('#tbResult').html(html);
+            }
+        }
+    });
+}

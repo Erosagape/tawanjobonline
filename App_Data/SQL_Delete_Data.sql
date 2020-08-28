@@ -37,7 +37,7 @@ delete from Mas_Branch
 delete from Mas_Company
 delete from Mas_CompanyContact
 delete from Mas_CurrencyCode
-delete from MAS_GLACCOUNT
+
 delete from Mas_User --where UserID<>'ADMIN'
 delete from Mas_UserAuth --where UserID<>'ADMIN'
 delete from Mas_UserRoleDetail --where UserID<>'ADMIN'
