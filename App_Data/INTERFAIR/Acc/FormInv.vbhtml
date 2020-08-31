@@ -175,7 +175,7 @@ End Code
                     <td style="width:20%;text-align:right"><label id="lblSumWht1"></label></td>
                 </tr>
                 <tr>
-                    <td style="width:55%">SERVICE 1.5%</td>
+                    <td style="width:55%">SERVICE 3%</td>
                     <td style="width:25%;text-align:right"><label id="lblSumBaseWht3"></label></td>
                     <td style="width:20%;text-align:right"><label id="lblSumWht3"></label></td>
                 </tr>
@@ -352,17 +352,17 @@ End Code
                     } else {
                         sumnonvat += (o.Amt - o.AmtDiscount);
                     }
-
-                }
-                if (o.Amt50Tavi > 0) {
-                    if (o.Rate50Tavi == 1) {
-                        sumbase1 += (o.Amt-o.AmtDiscount);
-                        sumtax1 += o.Amt50Tavi;
-                    } else {
-                        sumbase3 += (o.Amt-o.AmtDiscount);
-                        sumtax3 += o.Amt50Tavi;
+                    if (o.Amt50Tavi > 0) {
+                        if (o.Rate50Tavi == 1) {
+                            sumbase1 += (o.Amt-o.AmtDiscount);
+                            sumtax1 += o.Amt50Tavi;
+                        } else {
+                            sumbase3 += (o.Amt-o.AmtDiscount);
+                            sumtax3 += o.Amt50Tavi;
+                        }
                     }
                 }
+
             }
         }
         $('#lblSumNonVat').text(ShowNumber(sumnonvat,2));
