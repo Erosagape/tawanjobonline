@@ -42,6 +42,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
+        <input type="checkbox" id="chkCancel" /><label id="lblCancel">Show Cancel</label>
         <br />
         <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
             <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
@@ -176,7 +177,7 @@ End Code
         if ($('#txtDocDateT').val() !== "") {
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
-        w = w + '&show=ACTIVE&currency=' + $('#txtCurrencyCode').val();
+        w = w + '&show='+ ($('#chkCancel').prop('checked')?'CANCEL':'ACTIVE') +'&currency=' + $('#txtCurrencyCode').val();
         $.get(path + 'acc/getpaymentsummary?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.payment.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();

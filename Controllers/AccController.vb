@@ -215,7 +215,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                 End If
                 Dim oData = (From row As CPayHeader
                                  In New CPayHeader(GetSession("ConnJob")).GetData(tSqlH)
-                             Select row.ApproveRef, row.ApproveDate, row.PoNo, row.PaymentRef).Distinct()
+                             Select row.ApproveRef, row.PoNo, row.PaymentRef).Distinct()
 
                 Dim json As String = JsonConvert.SerializeObject(oData)
 
@@ -426,6 +426,9 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                     End If
                     If Request.QueryString("Type").ToString = "NOPO" Then
                         tSqlw &= " AND ISNULL(h.PoNo,'')='' "
+                    End If
+                    If Request.QueryString("Type").ToString = "BILL" Then
+                        tSqlw &= " AND ISNULL(h.PoNo,'')<>'' AND ISNULL(h.ApproveRef,'')='' "
                     End If
                     If Request.QueryString("Type").ToString = "NOAPP" Then
                         tSqlw &= " AND ISNULL(h.ApproveRef,'')='' "

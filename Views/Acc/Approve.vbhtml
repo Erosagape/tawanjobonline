@@ -93,7 +93,6 @@ End Code
                     <thead>
                         <tr>
                             <th>Approve Ref#</th>
-                            <th>Approve Date</th>
                             <th>Vender Ref#</th>
                             <th>Payment Ref#</th>
                         </tr>
@@ -208,12 +207,6 @@ End Code
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
                     { data: "ApproveRef", title: "Approve.Ref#" },
-                    {
-                        data: "ApproveDate", title: "Appr.Date",
-                        render: function (data) {
-                            return CDateEN(data);
-                        }
-                    },
                     { data: "PoNo", title: "Vender Ref#" },
                     { data: "PaymentRef", title: "Payment Ref#" }
                 ],
@@ -248,7 +241,7 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
-        w = w + '&Type=NOAPP';
+        w = w + '&Type=NOAPP&Show=ACTIVE';
         $.get(path + 'acc/getpaymentsummary?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.payment.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
