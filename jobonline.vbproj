@@ -359,6 +359,8 @@
     <Content Include="App_Data\SQL_Clear_Data_Cliteria.sql" />
     <Content Include="App_Data\SQL_Delete_Data.sql" />
     <Content Include="App_Data\SQL_Report_V2.1.sql" />
+    <Content Include="App_Data\SQL_Report_V2.2.sql" />
+    <Content Include="App_Data\SQL_Report_V2.3.sql" />
     <Content Include="App_Data\webadmin.txt" />
     <Content Include="App_Data\_STANDARD\Scripts\combo.js" />
     <Content Include="App_Data\_STANDARD\Scripts\lang.js" />
