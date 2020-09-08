@@ -914,7 +914,13 @@ End Code
 
     function SetCancel(b) {
         if (b == true) {
-            if (chkmode) $('#cboDocStatus').val('99');
+            if (chkmode) {
+                $('#cboDocStatus').val('99');
+            } else {
+                $('#cboDocStatus').val('1');
+                $('#txtApproveDate').val('');
+                $('#txtApproveTime').val('');
+            }                
             $('#txtCancelProve').val(chkmode ? user : '');
             $('#txtCancelDate').val(chkmode ? CDateEN(GetToday()) : '');
             $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
@@ -1129,7 +1135,7 @@ End Code
             $('#txtSumCharge').val(CDbl(dt.ClearBill, 2));
             $('#txtSumCost').val(CDbl(dt.ClearCost,2));
 
-            //$('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
+            $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
             $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
             $('#chkReceive').prop('checked', $('#txtReceiveBy').val() == '' ? false : true);
             

@@ -9,9 +9,27 @@ Namespace Controllers
         Inherits CController
         ' GET: Acc
         Function Index() As ActionResult
-            Return View()
+            Return GetView("Index")
         End Function
         '-----Controller-----
+        Function Advance() As ActionResult
+            LoadCompanyProfile()
+            Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
+            If AuthorizeStr.IndexOf("M") < 0 Then
+                ViewBag.Module = "Advance"
+                Return RedirectToAction("AuthError", "Menu")
+            End If
+            Return View()
+        End Function
+        Function Clearing() As ActionResult
+            LoadCompanyProfile()
+            Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
+            If AuthorizeStr.IndexOf("M") < 0 Then
+                ViewBag.Module = "Clearing"
+                Return RedirectToAction("AuthError", "Menu")
+            End If
+            Return View()
+        End Function
         Function Voucher() As ActionResult
             Return GetView("Voucher", "MODULE_ACC")
         End Function
@@ -1618,7 +1636,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                         sqlM = "
 SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
 sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax
-FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 " & sqlW & ") a 
+FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' " & sqlW & ") a 
 GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
 ORDER BY a.TName1
 "
@@ -1628,18 +1646,18 @@ ORDER BY a.TName1
                         sqlM = "
 SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
 sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax
-FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 " & sqlW & ") a 
+FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>'' " & sqlW & ") a 
 GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
 ORDER BY a.TName1
 "
                     Case "PRD3D"
                         sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
                     Case "PRD53D"
                         sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>'' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
                 End Select
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)

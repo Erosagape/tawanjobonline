@@ -288,6 +288,10 @@
     function ReadData(dr) {
         switch (browseWhat) {
             case 'cust':
+                if (reportID.substr(0, 3) == 'PRD') {
+                    $('#txtValue').val(dr.TaxNumber);
+                    break;
+                } 
                 $('#txtValue').val(dr.CustCode);
                 break;
             case 'job':

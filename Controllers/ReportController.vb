@@ -256,8 +256,8 @@ GROUP BY j.BranchCode, j.JNo, j.CustCode, j.CustBranch, j.InvNo, j.DutyDate, j.D
                     Case "WHTDAILY"
                         fldGroup = "DocDate"
                         sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.FormType", "h.BranchCode")
-                        If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT a.DocDate,a.DocNo,a.TName1 as TaxBy,a.TName3 as TaxFor,a.FormTypeName,a.TaxLawName,a.PayTaxDesc,a.PayRate,a.PayAmount,a.PayTax FROM (" & String.Format(SQLSelectWHTax() & sqlW) & ") a order by a.DocDate,a.DocNo"
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT a.DocDate,a.DocNo,a.TName1 as TaxBy,a.TName3 as TaxFor,a.FormTypeName,a.TaxLawName,a.PayTaxDesc,a.PayRate,a.PayAmount,a.PayTax FROM (" & String.Format(SQLSelectWHTax() & " WHERE NOT ISNULL(h.CancelProve,'')<>'' " & sqlW) & ") a order by a.DocDate,a.DocNo"
                     Case "WHTAXCLR"
                         sqlW = GetSQLCommand(cliteria, "cd.Date50Tavi", "c.CustCode", "cd.JobNo", "ch.EmpCode", "cd.VenderCode", "", "ch.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW

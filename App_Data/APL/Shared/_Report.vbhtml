@@ -20,25 +20,19 @@
         <div style="display:flex;flex-direction:column">
             <div style="display:flex">
                 <div style="flex:1;vertical-align:middle">
-                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:200px" />
+                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:150px" />
                 </div>
                 <div style="flex:4;padding:5px;">
-                    @if ViewBag.PROFILE_DEFAULT_LANG = "EN" Then
-                        @<div id="divCompany" style="text-align:left;color:darkblue;font-size:12px">
+                        <div id="divCompany" style="text-align:left;color:darkblue;font-size:12px">
                             <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME_EN</b>
-                            <br />@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN
-                            <br />TEL @ViewBag.PROFILE_COMPANY_TEL E-MAIL @ViewBag.PROFILE_COMPANY_EMAIL
-                            <br />TAX ID @ViewBag.PROFILE_TAXNUMBER BRANCH: HEAD OFFICE
+                            <br/><b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME</b>
                         </div>
-                    Else
-                        @<div id="divCompany" style="text-align:left;color:darkblue;font-size:12px">
-                            <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME</b>
-                            <br />@ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2
-                            <br />โทร @ViewBag.PROFILE_COMPANY_TEL อีเมล์ @ViewBag.PROFILE_COMPANY_EMAIL
-                            <br />เลขประจำตัวผู้เสียภาษี @ViewBag.PROFILE_TAXNUMBER สาขา: สำนักงานใหญ่
-                        </div>
-                    End If
                 </div>
+            </div>
+            <div>
+                @ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2 โทร @ViewBag.PROFILE_COMPANY_TEL แฟกซ์ @ViewBag.PROFILE_COMPANY_FAX
+                <br />@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN TEL @ViewBag.PROFILE_COMPANY_TEL FAX @ViewBag.PROFILE_COMPANY_FAX
+                <br />เลขประจำตัวผู้เสียภาษี @ViewBag.PROFILE_TAXNUMBER สาขา: สำนักงานใหญ่
             </div>
             <div style="width:100%;text-align:center">
                 <h3>@ViewBag.ReportName</h3>

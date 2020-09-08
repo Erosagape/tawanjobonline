@@ -400,8 +400,15 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     tSqlW &= " AND a.DocStatus='" & Request.QueryString("Status") & "' "
-                Else
+                    'Else
                     'tSqlW &= " AND a.DocStatus<>99 "
+                End If
+                If Not IsNothing(Request.QueryString("Show")) Then
+                    If Request.QueryString("Show").ToString() = "ACTIVE" Then
+                        tSqlW &= " AND a.DocStatus<>99 "
+                    Else
+                        tSqlW &= " AND a.DocStatus=99 "
+                    End If
                 End If
                 If Not IsNothing(Request.QueryString("TaxNumber")) Then
                     tSqlW &= " AND b.CustCode IN(Select CustCode from Mas_Company where TaxNumber='" & Request.QueryString("TaxNumber") & "') "

@@ -69,8 +69,8 @@ Namespace Controllers
                     If oRoute.Count > 0 Then
                         routename = oRoute(0).LocationRoute
                     End If
-                Else
-                    Return Content("{""result"":{""data"":[],""msg"":""Please select route""}}", jsonContent)
+                    'Else
+                    'Return Content("{""result"":{""data"":[],""msg"":""Please select route""}}", jsonContent)
                 End If
                 Dim volume = 0
                 If Not Request.QueryString("Qty") Is Nothing Then
@@ -1110,6 +1110,12 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 End If
                 If Not IsNothing(Request.QueryString("ShippingCode")) Then
                     tSqlW &= " AND j.ShippingEmp='" & Request.QueryString("ShippingCode") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("Forwarder")) Then
+                    tSqlW &= " AND j.ForwarderCode='" & Request.QueryString("Forwarder") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("Agent")) Then
+                    tSqlW &= " AND j.AgentCode='" & Request.QueryString("Agent") & "'"
                 End If
                 If Not IsNothing(Request.QueryString("TaxNumber")) Then
                     tSqlW &= " AND j.CustCode IN(SELECT CustCode FROM Mas_Company WHERE TaxNumber='" & Request.QueryString("TaxNumber") & "')"

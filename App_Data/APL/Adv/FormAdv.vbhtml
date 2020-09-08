@@ -110,14 +110,22 @@ End Code
             <label id="lblChqDate">________</label>
             <label id="txtAdvChq"></label>
         </td>
-        <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">WH-Tax</td>
+        <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">WHD-1%</td>
         <td style="border-style:solid;border-width:thin" width="150px">
-            <input type="text" style="border:none;text-align:right;font-size:11px" id="txtWHTAmt" />
+            <input type="text" style="border:none;text-align:right;font-size:11px" id="txtWHT1" />
         </td>
     </tr>
     <tr>
         <td style="text-align:left;font-size:11px;" colspan="2">
             <input type="checkbox" id="chkCredit" /> ACCOUNT PAYABLES :__________________ <label id="txtAdvCred"></label>
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">WHD-1.5/3%</td>
+        <td style="border-style:solid;border-width:thin" width="150px">
+            <input type="text" style="border:none;text-align:right;font-size:11px" id="txtWHT3" />
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:left;font-size:11px;" colspan="2">            
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Total</td>
         <td style="border-style:solid;border-width:thin" width="150px">
@@ -261,7 +269,7 @@ End Code
         }
         $('#txtNetAmt').val(CCurrency(h.TotalAdvance.toFixed(2)));
         $('#txtVATAmt').val(CCurrency(h.TotalVAT.toFixed(2)));
-        $('#txtWHTAmt').val(CCurrency(h.Total50Tavi.toFixed(2)));
+        //$('#txtWHTAmt').val(CCurrency(h.Total50Tavi.toFixed(2)));
         $('#txtTotalAmt').val(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
 
         $('#txtTotalText').val(CNumEng(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2))));
@@ -287,7 +295,8 @@ End Code
         let strJob = '';
         let strAmt = '';
         let strWht = '';
-        let totAmt = 0;
+        let wht1 = 0;        
+        let wht3 = 0;        
         //let vat = 0;
         //let wht = 0;
         for (i = 0; i < r.length; i++) {
@@ -297,20 +306,28 @@ End Code
                     return data.SICode === d.SICode;
                 });
                 if (c.length > 0) {
-                    strDesc = strDesc + (d.SICode + '-' + d.SDescription + '<br/>');
+                    strDesc = strDesc + (d.SICode + ' / ' + d.SDescription);
                 } else {
-                    strDesc = strDesc + d.SDescription+ '<br/>';
+                    strDesc = strDesc + d.SDescription;
                 }
+                strDesc += '<br/>';
             } else {
                 strDesc = strDesc + (d.SICode + '<br/>');
             }
             strJob = strJob + ((d.ForJNo == null||d.ForJNo=='' ? '' : d.ForJNo) + '<br/>');
             strAmt = strAmt + (CCurrency((d.AdvAmount+ d.ChargeVAT).toFixed(2)) + '<br/>');
             strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(2)) + '<br/>');
-            totAmt += d.AdvAmount;
+            if (d.Rate50Tavi == 1) {
+                wht1 += d.Charge50Tavi;
+            } else {
+                wht3 += d.Charge50Tavi;
+            }
+            //totAmt += d.AdvAmount;
             //vat += d.ChargeVAT;
             //wht += d.Charge50Tavi;
         }
+        $('#txtWHT1').val(ShowNumber(wht1, 2));
+        $('#txtWHT3').val(ShowNumber(wht3, 2));
         $('#divDesc').html(strDesc);
         $('#divJob').html(strJob);
         $('#divWht').html(strWht);

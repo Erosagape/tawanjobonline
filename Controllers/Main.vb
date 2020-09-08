@@ -656,7 +656,7 @@ left join
     MAX(VATRate) as RateVAT,MAX(Tax50TaviRate) as Rate50Tavi,
     SUM(d.BNet) as ClrNet
     FROM Job_ClearDetail d
-    inner join Job_Order j on d.JobNo=j.JNo and d.BranchCode=j.BranchCode
+    inner join Job_Order j on d.BranchCode=j.BranchCode and d.JobNo=j.JNo
     GROUP BY d.BranchCode,d.ClrNo,d.JobNo,j.InvNo,j.CustCode,j.CustBranch,
     d.AdvNO,d.CurrencyCode
 ) b
@@ -1525,7 +1525,7 @@ SELECT h.BranchCode, h.DocNo, h.DocDate, h.VenCode, v.TaxNumber, v.TName, v.Engl
 v.GLAccountCode, v.ContactAcc, v.ContactSale, v.ContactSupport1, v.ContactSupport2, v.ContactSupport3, v.WEB_SITE, h.ContactName, h.EmpCode, h.PoNo, h.ApproveBy ,h.ApproveDate,
 h.ApproveTime, h.VATRate, h.TaxRate, h.TotalExpense, h.TotalTax, h.TotalVAT, h.TotalDiscount, h.TotalNet, h.Remark, h.CancelReson, h.CancelProve, h.CancelDate, h.CancelTime, 
 h.CurrencyCode, h.ExchangeRate, h.ForeignAmt, h.RefNo, h.PayType, h.ApproveRef,h.PaymentRef, d.ItemNo, d.SICode, d.SDescription, d.SRemark, d.Qty, d.QtyUnit, d.UnitPrice, d.IsTaxCharge, 
-d.Is50Tavi, d.DiscountPerc, d.Amt, d.AmtDisc, d.AmtVAT, d.AmtWHT, d.Total, d.FTotal, d.ForJNo, d.BookingRefNo, d.BookingItemNo , h.AdvRef , j.CustCode,j.CustBranch
+d.Is50Tavi, d.DiscountPerc, d.Amt, d.AmtDisc, d.AmtVAT, d.AmtWHT, d.Total, d.FTotal, d.ForJNo, d.BookingRefNo, d.BookingItemNo , h.AdvRef , j.CustCode,j.CustBranch,d.ClrRefNo,d.ClrItemNo 
 FROM dbo.Job_PaymentHeader AS h LEFT OUTER JOIN
 dbo.Mas_Vender AS v ON h.VenCode = v.VenCode LEFT OUTER JOIN
 dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo

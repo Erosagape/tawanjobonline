@@ -95,9 +95,9 @@ End Code
                         <br />
                         TOTAL
                         <br />
-                        AMOUNT (WHT)
+                        WHD-1%
                         <br />
-                        WITH-HOLDING TAX
+                        WHD-1.5/3%
                         <br />
                         CLEARING NET
                     </div>
@@ -114,9 +114,9 @@ End Code
                         <br />
                         <label id="txtSumVat"></label>
                         <br />
-                        <label id="txtAmtWht"></label>
+                        <label id="txtWht1"></label>
                         <br />
-                        <label id="txtWht"></label>
+                        <label id="txtWht3"></label>
                         <br />
                         <label id="txtTotal"></label>
                     </div>
@@ -206,8 +206,8 @@ End Code
                     let amtforvat = 0;
                     let amtnonvat = 0;
                     let amtvat = 0;
-                    let amtwht = 0;
-                    let amtforwht = 0;
+                    let amtwht1 = 0;
+                    let amtwht3 = 0;
                     let amttotal = 0;
                     let advlist = '';
 
@@ -227,7 +227,7 @@ End Code
                         advref = advref + (d[i].AdvAmount > 0 ? ' ยอดเบิก=' + CCurrency(CDbl(d[i].AdvAmount, 2)) : '');
                         advref = advref + (d[i].Remark !== '' ? '<br/>' + d[i].Remark : '');
 
-                        html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo +'<br/>' + d[i].DeclareNumber + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
+                        html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo +'<br/>' + d[i].InvNo + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
 
                         if (d[i].ChargeVAT > 0) {
                             amtforvat += d[i].UsedAmount;
@@ -236,8 +236,11 @@ End Code
                             amtnonvat += d[i].UsedAmount;
                         }
                         if (d[i].Tax50Tavi > 0) {
-                            amtforwht += d[i].UsedAmount;
-                            amtwht += d[i].Tax50Tavi;
+                            if (d[i].Rate50Tavi == 1) {
+                                amtwht1 += d[i].Tax50Tavi;
+                            } else {
+                                amtwht3 += d[i].Tax50Tavi;
+                            }
                         }
                         amttotal += d[i].BNet;
                     }
@@ -247,8 +250,8 @@ End Code
                     $('#txtAmtNonVat').text(CCurrency(CDbl(amtnonvat,2)));
                     $('#txtVat').text(CCurrency(CDbl(amtvat, 2)));
                     $('#txtSumVat').text(CCurrency(CDbl(amtvat+amtforvat+amtnonvat,2)));
-                    $('#txtAmtWht').text(CCurrency(CDbl(amtforwht,2)));
-                    $('#txtWht').text(CCurrency(CDbl(amtwht,2)));
+                    $('#txtWht3').text(CCurrency(CDbl(amtwht3,2)));
+                    $('#txtWht1').text(CCurrency(CDbl(amtwht1,2)));
                     $('#txtTotal').text(CCurrency(CDbl(amttotal, 2)));
                     if (advlist !== '') {
                         advlist = advlist.substr(1, advlist.length - 1);
