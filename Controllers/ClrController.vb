@@ -7,6 +7,15 @@ Namespace Controllers
     Public Class ClrController
         Inherits CController
         ' GET: Clr
+        Function Entry() As ActionResult
+            LoadCompanyProfile()
+            Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
+            If AuthorizeStr.IndexOf("M") < 0 Then
+                ViewBag.Module = "Clearing Entry"
+                Return RedirectToAction("AuthError", "Menu")
+            End If
+            Return View()
+        End Function
         Function Index() As ActionResult
             Me.UpdateClearStatus()
             Return GetView("Index", "MODULE_CLR")

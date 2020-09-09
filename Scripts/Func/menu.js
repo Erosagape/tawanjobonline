@@ -8,7 +8,7 @@
             mnuPath = path + 'Menu/Index?Type=V2';
             break;
         case 'Advance':
-            mnuPath = path + 'Adv/Index';
+            mnuPath = path + 'Acc/Advance';
             break;
         case 'AppQuo':
             mnuPath = path + 'JobOrder/QuoApprove';
@@ -29,7 +29,7 @@
             mnuPath = path + 'Master/Branch';
             break;
         case 'Clearing':
-            mnuPath = path + 'Clr/Index';
+            mnuPath = path + 'Acc/Clearing';
             break;
         case 'AppClearing':
             mnuPath = path + 'Clr/Approve';
@@ -89,7 +89,7 @@
             mnuPath = path + 'Acc/GLNote';
             break;
         case 'Voucher':
-            mnuPath = path + 'Acc/Voucher';
+            mnuPath = path + 'Acc/Index';
             break;
         case 'WHTax':
             mnuPath = path + 'Acc/WHTax';

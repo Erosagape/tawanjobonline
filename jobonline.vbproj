@@ -361,6 +361,7 @@
     <Content Include="App_Data\SQL_Report_V2.1.sql" />
     <Content Include="App_Data\SQL_Report_V2.2.sql" />
     <Content Include="App_Data\SQL_Report_V2.3.sql" />
+    <Content Include="App_Data\SQL_Report_V2.4.sql" />
     <Content Include="App_Data\webadmin.txt" />
     <Content Include="App_Data\_STANDARD\Scripts\combo.js" />
     <Content Include="App_Data\_STANDARD\Scripts\lang.js" />
@@ -1391,6 +1392,8 @@
     <Content Include="Views\Clr\FormEntry.vbhtml" />
     <Content Include="Views\Acc\Clearing.vbhtml" />
     <Content Include="Views\Acc\Advance.vbhtml" />
+    <Content Include="Views\Clr\Entry.vbhtml" />
+    <Content Include="Views\Adv\FormClrAdv.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

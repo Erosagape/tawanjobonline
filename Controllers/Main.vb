@@ -2798,6 +2798,57 @@ ORDER BY h.PoNo,h.DocNo
 "
         Return String.Format(tSql, sqlW)
     End Function
+    Function SQLSelectAdvClear(sqlW As String) As String
+        Dim tSql = "
+select a.BranchCode,a.AdvNo,a.AdvBy,a.AdvDate,a.TotalAdvance,a.MainCurrency,c.ClrNo,b.ClrDate,
+c.JobNo,j.DutyDate,j.CSCode,c.SDescription,d.GLAccountCode as CostCenter,
+ISNULL(e.GLAccountCodeCost,e.GLAccountCodeSales) as AccountCode,c.Tax50TaviRate,c.VATRate,
+c.UsedAmount,c.ChargeVAT,c.Tax50Tavi,c.BNet,b.DocStatus
+from Job_AdvHeader a inner join Job_ClearDetail c
+on a.BranchCode=c.BranchCode 
+and a.AdvNo=c.AdvNO
+inner join Job_ClearHeader b
+on c.BranchCode=b.BranchCode 
+and c.ClrNo=b.ClrNo
+inner join Job_Order j
+on c.BranchCode=j.BranchCode 
+and c.JobNo=j.JNo
+inner join Mas_Company d
+on j.CustCode=d.CustCode AND j.CustBranch=d.Branch
+inner join Job_SrvSingle e
+on c.SICode=e.SICode
+where b.DocStatus<>99 {0}
+order by j.DutyDate,j.JNo
+"
+        Return String.Format(tSql, sqlW)
+    End Function
+    Function SQLSelectAdvSumClear(sqlW As String) As String
+        Dim tSql = "
+select a.BranchCode,a.AdvNo,ISNULL(f.AccTName,'') + ' / '+ ISNULL(g.AccTName,'') as GLDesc,
+d.GLAccountCode as CostCenter,
+ISNULL(e.GLAccountCodeCost,e.GLAccountCodeSales) as AccountCode,
+SUM(c.UsedAmount) as Amt,SUM(c.ChargeVAT) as Vat,SUM(c.Tax50Tavi) as Wht,SUM(c.BNet) as Net
+from Job_AdvHeader a inner join Job_ClearDetail c
+on a.BranchCode=c.BranchCode 
+and a.AdvNo=c.AdvNO
+inner join Job_ClearHeader b
+on c.BranchCode=b.BranchCode 
+and c.ClrNo=b.ClrNo
+inner join Job_Order j
+on c.BranchCode=j.BranchCode 
+and c.JobNo=j.JNo
+inner join Mas_Company d
+on j.CustCode=d.CustCode AND j.CustBranch=d.Branch
+inner join Job_SrvSingle e
+on c.SICode=e.SICode
+left join Mas_Account f on f.AccCode=d.GLAccountCode
+left join Mas_Account g on g.AccCode=ISNULL(e.GLAccountCodeCost,e.GLAccountCodeSales)
+where b.DocStatus<>99 {0}
+group by a.BranchCode,a.AdvNo,f.AccTName,g.AccTName,
+d.GLAccountCode,ISNULL(e.GLAccountCodeCost,e.GLAccountCodeSales)
+            "
+        Return String.Format(tSql, sqlW)
+    End Function
     Public Sub UpdateClearStatus()
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToClear())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusFromAdvance())

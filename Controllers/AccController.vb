@@ -9,7 +9,13 @@ Namespace Controllers
         Inherits CController
         ' GET: Acc
         Function Index() As ActionResult
-            Return GetView("Index")
+            LoadCompanyProfile()
+            Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Voucher")
+            If AuthorizeStr.IndexOf("M") < 0 Then
+                ViewBag.Module = "Voucher Lists"
+                Return RedirectToAction("AuthError", "Menu")
+            End If
+            Return View()
         End Function
         '-----Controller-----
         Function Advance() As ActionResult
@@ -1170,6 +1176,20 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                     tSqlw &= " AND NOT ISNULL(h.CancelProve,'')<>'' "
                 Else
                     tSqlw &= String.Format(" AND ISNULL(h.CancelProve,'')='{0}' ", Request.QueryString("Cancel").ToString())
+                End If
+                If Not IsNothing(Request.QueryString("Show")) Then
+                    If Request.QueryString("Show").ToString = "CANCEL" Then
+                        tSqlw &= " AND ISNULL(h.CancelProve,'')<>'' "
+                    End If
+                    If Request.QueryString("Show").ToString = "ACTIVE" Then
+                        tSqlw &= " AND NOT ISNULL(h.CancelProve,'')<>'' "
+                    End If
+                    If Request.QueryString("Show").ToString = "POSTED" Then
+                        tSqlw &= " AND ISNULL(h.PostedBy,'')<>'' "
+                    End If
+                    If Request.QueryString("Show").ToString = "NOTPOST" Then
+                        tSqlw &= " AND NOT ISNULL(h.PostedBy,'')<>'' "
+                    End If
                 End If
                 If Not IsNothing(Request.QueryString("Type")) Then
                     Select Case Request.QueryString("Type").ToString

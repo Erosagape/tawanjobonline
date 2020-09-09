@@ -525,15 +525,20 @@ End Code
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
+    const branch = getQueryString("Branch");
+    const code = getQueryString("Code");
     let chkmode = false;
     //$(document).ready(function () {
     SetEvents();
     SetLOVs();
     SetEnterToTab();
     $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-    $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
-
-    //});
+    $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+    if (branch !== '' && code !== '') {
+        $('#txtControlNo').val(code);
+        LoadData();
+    }
+        //});
     function SetIsLocal() {
         $('#txtIsLocal').val($('#chkIsLocal').prop('checked') ? '1' : '0');
     }

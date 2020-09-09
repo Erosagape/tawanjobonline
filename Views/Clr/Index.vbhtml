@@ -935,7 +935,7 @@ End Code
         //Combos
         let lists = 'JOB_TYPE=#cboJobType';
         lists += ',CLR_STATUS=#cboDocStatus|01';
-        lists += ',CLR_STATUS=#cboStatus|01';
+        lists += ',CLR_STATUS=#cboStatus|';
         lists += ',CLR_TYPE=#cboClrType|1';
         lists += ',CLR_FROM=#cboClrFrom';
 

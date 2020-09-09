@@ -232,6 +232,9 @@ End Code
                             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
                                 <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Document</b>
                             </a>
+                            <a href="#" class="btn btn-warning" id="btnClear" onclick="PrintClear()">
+                                <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkClear">Print Clearing</b>
+                            </a>
                         </div>
                     </div>
                     <div id="tabDetail" class="tab-pane fade">
@@ -833,7 +836,7 @@ End Code
         let lists = 'JOB_TYPE=#cboJobType';
         lists += ',SHIP_BY=#cboShipBy';
         lists += ',ADV_STATUS=#cboDocStatus';
-        lists += ',ADV_STATUS=#cboStatus|01';
+        lists += ',ADV_STATUS=#cboStatus|';
         lists += ',ADV_TYPE=#cboAdvType';
 
         loadCombos(path, lists);
@@ -2053,7 +2056,7 @@ End Code
         };
         return obj;
     }
-
-
-
+    function PrintClear() {
+        window.open(path + 'Adv/FormClrAdv?branch=' + $('#txtBranchCode').val() + '&advno=' + $('#txtAdvNo').val());
+    }
 </script>

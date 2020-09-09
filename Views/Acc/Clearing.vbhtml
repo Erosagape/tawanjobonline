@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Clearing Lists"
+    ViewBag.Title = "Lists Clearing"
 End Code
 <div class="panel-body">
     <div class="container">

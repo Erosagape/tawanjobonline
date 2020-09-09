@@ -15,6 +15,14 @@ Namespace Controllers
         Function Approve() As ActionResult
             Return GetView("Approve", "MODULE_ADV")
         End Function
+        Function FormClrAdv() As ActionResult
+            ViewBag.User = Session("CurrUser").ToString()
+            Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
+            If AuthorizeStr.IndexOf("P") < 0 Then
+                Return Content("You are not allow to print", textContent)
+            End If
+            Return GetView("FormClrAdv")
+        End Function
         Function Payment() As ActionResult
             Return GetView("Payment", "MODULE_ADV")
         End Function
@@ -789,6 +797,33 @@ Namespace Controllers
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetAdvance", ex.Message, ex.StackTrace, True)
+                Return Content("{""adv"":{""header"":[],""detail"":[],""msg"":""" & ex.Message & """}}", jsonContent)
+            End Try
+        End Function
+        Function GetAdvanceClear() As ActionResult
+            ViewBag.User = Session("CurrUser").ToString()
+            Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
+            If AuthorizeStr.IndexOf("R") < 0 Then
+                Return Content("{""adv"":{""header"":[],""detail"":[],""msg"":""You are not allow to view""}}", jsonContent)
+            End If
+            Try
+                Dim Branch As String = ""
+                If Not IsNothing(Request.QueryString("BranchCode")) Then
+                    Branch = Request.QueryString("BranchCode")
+                End If
+                Dim tSqlW As String = String.Format(" AND a.BranchCode='{0}'", Branch)
+                If Not IsNothing(Request.QueryString("AdvNo")) Then
+                    tSqlW &= " AND a.AdvNo='" & Request.QueryString("AdvNo") & "'"
+                End If
+                Dim oDataH = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectAdvSumClear(tSqlW))
+                Dim oDataD = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectAdvClear(tSqlW))
+                Dim jsonh As String = JsonConvert.SerializeObject(oDataH.AsEnumerable().ToList())
+                Dim jsond As String = JsonConvert.SerializeObject(oDataD.AsEnumerable().ToList())
+                Dim json = "{""adv"":{""header"":" & jsonh & ",""detail"":" & jsond & "}}"
+                Return Content(json, jsonContent)
+
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetAdvanceClear", ex.Message, ex.StackTrace, True)
                 Return Content("{""adv"":{""header"":[],""detail"":[],""msg"":""" & ex.Message & """}}", jsonContent)
             End Try
         End Function
