@@ -7,7 +7,7 @@ End Code
         font-size: 13px;
     }
 
-    #pFooter {
+    #pFooter,#dvFooter {
         display: none;
     }
 
@@ -63,9 +63,9 @@ End Code
     </tr>
     <tr>
         <td>
-            <div id="report" class="text-center" style="width:100%">
+            <div id="report" style="width:100%">
                 <table id="tbDetail" border="1" style="border-style:solid;border-width:thin;border-collapse:collapse;">
-                    <thead>
+                    <thead style="text-align:center">
                         <tr>
                             <td rowspan="3">
                                 <p>ลำดับที่</p>
@@ -157,7 +157,9 @@ End Code
                             <td class="text-left" colspan="4">
                                 (ให้กรอกลำดับที่ต่อเนื่องกันไปทุกแผ่น)
                                 <br>
-                                <b>หมายเหตุ</b> 1 ให้ระบุว่าจ่ายเป็นค่าอะไร เช่น ค่านายหน้า ค่าแห่งกู๊ดวิลล์ ดอกเบี้ยเงินฝาก ดอกเบี้ยตั๋วเงิน เงินปันผล เงินส่วนแบ่งกำไร ค่าเช่าอาคาร ค่าสอบบัญชี ค่าออกแบบ ค่าก่อสร้างโรงเรียน ค่าซื้อเครื่องพิมพ์ดีด ค่าซื้อพืชผลทางการเกษตร (ยางพารา มันสำปะหลัง ปอ ข้าว ฯลฯ) ค่าจ้างทำของ ค่าจ้างโฆษณา รางวัล ส่วนลดหรือประโยชน์ใดๆ เนื่องจากการส่งเสริมการขาย รางวัลในการประกวด การแข่งขัน การชิงโชค ค่าขนส่งสินค้า ค่าเบี้ยประกันวินาศภัย
+                                <b>หมายเหตุ</b> 1 ให้ระบุว่าจ่ายเป็นค่าอะไร เช่น ค่านายหน้า ค่าแห่งกู๊ดวิลล์ ดอกเบี้ยเงินฝาก ดอกเบี้ยตั๋วเงิน เงินปันผล เงินส่วนแบ่งกำไร ค่าเช่าอาคาร ค่าสอบบัญชี ค่าออกแบบ ค่าก่อสร้างโรงเรียน ค่าซื้อเครื่องพิมพ์ดีด
+                                <br/>ค่าซื้อพืชผลทางการเกษตร (ยางพารา มันสำปะหลัง ปอ ข้าว ฯลฯ) ค่าจ้างทำของ ค่าจ้างโฆษณา รางวัล ส่วนลดหรือประโยชน์ใดๆ เนื่องจากการส่งเสริมการขาย
+                                <br/> รางวัลในการประกวด การแข่งขัน การชิงโชค ค่าขนส่งสินค้า ค่าเบี้ยประกันวินาศภัย
                                 <br>
                                 2 เงื่อนไขการหักภาษี ณ ที่จ่ายให้กรอกดังนี้<br>
                                 หัก ณ ที่จ่าย กรอก 1<br>
@@ -227,32 +229,78 @@ End Code
                     $('#lblTName1').text(tb.TName1);
                     $('#lblTAddress1').text(tb.TAddress1);
                     let n = 0;
+                    let c = 0;
                     let sumamt = 0;
                     let sumtax = 0;
-                    for (let r of res.result) {
-                        n += 1;
-                        let template = '<tr>';
-                        template += '<td>' + n + '</td>';
-                        template += '<td>';
-                        template += '<p class="text-left">';
-                        template += 'เลขประจำตัวผู้เสียอาษีอากร : ' + r.TaxNumber3;
-                        template += '<br />';
-                        template += 'ชื่อ : ' + r.TName3;
-                        template += '<br />';
-                        template += 'ที่อยู่ : ' + r.TAddress3;
-                        template += '</p>';
-                        template += '</td>';
-                        template += '<td>'+r.Branch3+'</td>';
-                        template += '<td>'+ ShowDate(r.PayDate )+'</td>';
-                        template += '<td>' + r.PayTaxDesc + '<br/>' + r.DocNo + '<br/>' + r.JNo + '</td>';
-                        template += '<td>'+r.PayRate +'</td>';
-                        template += '<td style="text-align:right">'+ ShowNumber(r.PayAmount,2)+'</td>';
-                        template += '<td style="text-align:right">'+ ShowNumber(r.PayTax,2)+'</td>';
-                        template += '<td>'+r.PayTaxType+'</td>';
-                        template += '</tr>';
+                    let template = '';
+                    let field1 = '';
+                    let field2 = '';
+                    let field3 = '';
+                    let field4 = '';
+                    let field5 = '';
+                    let rd = res.result;
+                    sortData(rd, 'DocNo', 'asc');
+                    let docno = '';
+                    for (let r of rd) {
+                        if (docno !== r.DocNo) {
+                            n += 1;
+                            if (docno !== '') {
+                                template += '</tr>';
+                                template = template.replace('{1}', field1);
+                                template = template.replace('{2}', field2);
+                                template = template.replace('{3}', field3);
+                                template = template.replace('{4}', field4);
+                                template = template.replace('{5}', field5);
+
+                                $('#tbDetail tbody').append(template);
+                            }
+                            field1 = '';
+                            field2 = '';
+                            field3 = '';
+                            field4 = '';
+                            field5 = '';
+
+                            template = '';
+                            template += '<tr>';
+                            template += '<td>' + n + '</td>';
+                            template += '<td>';
+                            template += '<p class="text-left">';
+                            template += 'เลขประจำตัวผู้เสียอาษีอากร : ' + r.TaxNumber3;
+                            template += '<br />';
+                            template += 'ชื่อ : ' + r.TName3;
+                            template += '<br />';
+                            template += 'ที่อยู่ : ' + r.TAddress3;
+                            template += '</p>';
+                            template += '</td>';
+                            template += '<td>' + r.Branch3 + '</td>';
+                            template += '<td>{1}</td>';
+                            template += '<td>' + r.DocNo + ' / ' + r.JNo + '{5}</td>';
+                            template += '<td>{2}</td>';
+                            template += '<td style="text-align:right">{3}</td>';
+                            template += '<td style="text-align:right">{4}</td>';
+                            template += '<td>' + r.PayTaxType + '</td>';
+                            docno = r.DocNo;
+   
+                        }
+
+                        field1 += '<br/>' + ShowDate(r.PayDate);
+                        field2 += '<br/>' + r.PayRate;
+                        field3 += '<br/>' + ShowNumber(r.PayAmount, 2);
+                        field4 += '<br/>' + ShowNumber(r.PayTax, 2);
+                        field5 += '<br/>' + r.PayTaxDesc;
+
                         sumamt += CNum(r.PayAmount);
                         sumtax += CNum(r.PayTax);
-                        $('#tbDetail tbody').append(template);
+
+                        c += 1;
+                        if (c == rd.length) {
+                            template += '</tr>';
+                            template = template.replace('{1}', field1);
+                            template = template.replace('{2}', field2);
+                            template = template.replace('{3}', field3);
+                            template = template.replace('{4}', field4);
+                            $('#tbDetail tbody').append(template);
+                        }
                     }
                     $('#lblSumPayAmount').text(ShowNumber(sumamt, 2));
                     $('#lblSumPayTax').text(ShowNumber(sumtax, 2));

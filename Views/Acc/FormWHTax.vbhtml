@@ -387,7 +387,7 @@ End Code
                     }
                     $('#txtSumPayAmount').text(CCurrency(CDbl(totalamt,2)));
                     $('#txtSumPayTax').text(CCurrency(CDbl(totaltax,2)));
-                    $('#txtPayTaxMoney').text(CNumThai(totaltax));
+                    $('#txtPayTaxMoney').text(CNumThai(CDbl(totaltax,2)));
                 }
             });
         }
