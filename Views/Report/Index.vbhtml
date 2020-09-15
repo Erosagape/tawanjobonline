@@ -367,6 +367,9 @@
             case 'STD':
                 window.open(path + 'Report/Preview' + GetCliteria()+ '&Layout=', '', '');
                 break;
+            case 'APL':
+                window.open(path + 'Report/Preview' + GetCliteria() + '&Layout=2', '', '');
+                break;
             case 'EXP':
                 window.open(path + 'Report/Preview' + GetCliteria() +'&Layout=1', '', '');
                 break;

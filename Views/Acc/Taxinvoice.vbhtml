@@ -250,7 +250,7 @@ End Code
                     <b>Receive Remarks:</b>
                     <div class="row">
                         <div class="col-sm-3">
-                            CASH/TRANSFER:
+                            CASH:
                             <br />
                             <div style="display:flex">
                                 <input type="number" id="txtCashAmt" class="form-control" />
@@ -272,7 +272,7 @@ End Code
                     </div>
                     <div class="row">
                         <div class="col-sm-3">
-                            CHEQUE:
+                            CHEQUE/TRANSFER:
                             <br />
                             <div style="display:flex">
                                 <input type="number" id="txtChqAmt" class="form-control" />
@@ -289,7 +289,8 @@ End Code
                             <br />
                             <div style="display:flex">
                                 <input type="text" id="txtChqRef" class="form-control" />
-                            </div>
+                                <input type="checkbox" id="chkTransfer" onclick="SetTransfer()" /><b> TRANSFER</b>
+                            </div>                            
                         </div>
                     </div>
                     <div class="row">
@@ -1100,5 +1101,8 @@ End Code
         str += ';CHG';
         str += ':' + $('#txtBankChg').val();
         $('#txtTRemark').val(str);
+    }
+    function SetTransfer() {
+        $('#txtChqRef').val('TRANSFER');
     }
 </script>

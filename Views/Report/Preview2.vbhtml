@@ -4,21 +4,32 @@
 End Code
 <style>
     * {
-        font-size: 11px;        
+        font-size: 10px;        
     }
     label {
         font-size: 14px;
     }
+    table {
+        width:98%;
+    }    
+    table,
+    table tr td,
+    table tr th {
+        border-width:thin;
+        border-collapse:collapse;
+    }
+    table td {
+        white-space: nowrap; /** added **/
+    }
 </style>
 <label id="rptTitle" onclick="ExportData()">Report Title</label>
-<div style="float:right" id="rptCliteria">Report Cliteria</div>
+<div id="rptCliteria">Report Cliteria</div>
 <div style="display:flex;flex-direction:column;width:100%">
     <table id="tbResult" style="width:100%">
         <thead></thead>
         <tbody></tbody>
         <tfoot></tfoot>
     </table>
-
 </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -39,7 +50,7 @@ End Code
         if (obj.STATUSWHERE !== '') html += obj.STATUSWHERE + ',';
         if (obj.EMPWHERE !== '') html += obj.EMPWHERE + ',';
         if (obj.CODEWHERE !== '') html += obj.CODEWHERE + ',';
-        $('#rptCliteria').html('REPORT CODE:' + row.REPORTCODE + ', CLITERIA:'+ html);
+        $('#rptCliteria').html(html);
         switch (lang) {
             case 'TH':
                 $('#rptTitle').text(row.REPORTNAMETH);

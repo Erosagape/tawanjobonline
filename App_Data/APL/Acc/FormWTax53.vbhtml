@@ -7,7 +7,7 @@ End Code
         font-family:AngsanaUPC;
         font-size:14px;
     }
-    #pFooter {
+    #pFooter,#dvFooter {
         display:none;
     }
     .circle {
@@ -280,9 +280,15 @@ End Code
                     $('#txtTaxYear').val(tb.TaxYear + 543);
                     $('#chkMo' + tb.TaxMonth).prop('checked', true);
                     $('#chkLaw' + tb.TaxLawNo).prop('checked', true);
-                    $('#txtSumPayAmount').val(ShowNumber(tb.SumPayAmount,2));
-                    $('#txtSumPayTax').val(ShowNumber(tb.SumPayTax,2));
-                    $('#txtSumTax').val(ShowNumber(tb.SumPayTax,2));
+                    let amt = 0;
+                    let tax = 0;
+                    for (let d of res.result) {
+                        amt += Number(CDbl(d.SumPayAmount, 2));
+                        tax += Number(CDbl(d.SumPayTax,2));
+                    }
+                    $('#txtSumPayAmount').val(ShowNumber(amt,2));
+                    $('#txtSumPayTax').val(ShowNumber(tax,2));
+                    $('#txtSumTax').val(ShowNumber(tax,2));
                 }
             }
         });
