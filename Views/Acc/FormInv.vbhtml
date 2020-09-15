@@ -1,5 +1,4 @@
-﻿
-@Code
+﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Invoice Slip"
 End Code
@@ -11,10 +10,6 @@ End Code
     table {
         border-width: thin;
         border-collapse: collapse;
-    }
-
-    #dvFooter {
-        display: none;
     }
 
     #dvForm {
@@ -33,7 +28,7 @@ End Code
 </div>
 <br />
 <span class="roundbox">CUSTOMER :</span>
-<label>TAX REFERENCE-ID:</label>
+<label>TAX ID:</label>
 <label id="lblTaxNumber"></label>
 <label>BRANCH:</label>
 <label id="lblTaxBranch"></label>
@@ -48,13 +43,14 @@ End Code
         </div>
         <div style="flex:1;" class="roundbox">
             DATE : <label id="lblDocDate"></label><br />
-            TICKET NO. : <label id="lblDocNo"></label><br />
-            SERVICE : <label id="lblTotalContainer"></label><br/>
+            INVOICE NO. : <label id="lblDocNo"></label><br />
+            SERVICE : <label id="lblTotalContainer"></label><br />
             DUE DATE: <label id="lblDueDate"></label>
         </div>
     </div>
     <div style="width:100%" class="roundbox">
-        INVOICE : <label id="lblCustInvNo"></label>
+        INVOICE : <label id="lblCustInvNo"></label><br />
+        CUSTOMER PO : <label id="lblCustPoNo"></label><br />
     </div>
     <br />
     <p id="dvLoading">
@@ -62,19 +58,19 @@ End Code
             <thead>
                 <tr>
                     <th>
-                        Item
+                        ITEM
                     </th>
                     <th>
-                        Booking
+                        BOOKING
                     </th>
                     <th>
-                        Unit
+                        UNIT
                     </th>
                     <th>
-                        Container
+                        CONTAINER
                     </th>
                     <th>
-                        Place
+                        PLACE
                     </th>
                 </tr>
             </thead>
@@ -84,26 +80,26 @@ End Code
     <table style="width:100%" border="1" class="text-center">
         <thead>
             <tr style="background-color :gainsboro;text-align:center;">
-                <th width="50px" rowspan="2">Item</th>
-                <th width="250px" rowspan="2">Description</th>
-                <th width="60px" rowspan="2">Quantity</th>
-                <th width="40px" rowspan="2">Unit Price</th>
-                <th width="325px" colspan="3">Advance Re-Imbursement</th>
-                <th width="275px" colspan="2">Services Charge</th>
+                <th width="40" rowspan="2">ITEM</th>
+                <th width="220" rowspan="2">DESCRIPTION</th>
+                <th width="50" rowspan="2">QTY</th>
+                <th width="60" rowspan="2">UNIT PRICE</th>
+                <th width="230" colspan="3">ADVANCE RE-IMBURSEMENT</th>
+                <th width="160" colspan="2">SERVICE CHARGES</th>
             </tr>
             <tr style="background-color :gainsboro;text-align:center;">
-                <th>Service</th>
-                <th>Vat</th>
-                <th>Amount</th>
-                <th>NON-VAT</th>
-                <th>VATABLE</th>
+                <th width="80">SERVICE</th>
+                <th width="70">VAT</th>
+                <th width="80">AMOUNT</th>
+                <th width="80">NON-VAT</th>
+                <th width="80">VAT</th>
             </tr>
         </thead>
         <tbody id="tbDetail"></tbody>
         <tfoot>
             <tr>
-                <td colspan="4">
-                    TOTAL INVOICE (<label id="lblCurrencyCode"></label>)=<label id="lblForeignNet"></label> RATE=<label id="lblExchangeRate"></label>
+                <td colspan="4" style="text-align:right">
+                    TOTAL INVOICE
                 </td>
                 <td style="background-color :gainsboro;text-align:right">
                     <label id="lblSumBaseAdv"></label>
@@ -122,21 +118,25 @@ End Code
                 </td>
             </tr>
             <tr>
-                <td colspan="4">
+                <td colspan="5">
                     <div id="lblShippingRemark"></div>
                     REMARKS :<br />
                     <div id="lblDescription"></div>
                 </td>
 
-                <td colspan="3">
+                <td colspan="2">
+                    SUBTOTAL VAT<br />
                     VAT (<label id="lblVATRate"></label>%)<br />
                     TOTAL<br />
+                    SERVICE NON-VAT<br />
                     ADVANCE<br />
                     GRAND TOTAL
                 </td>
                 <td style="background-color :gainsboro;text-align:right;" colspan="2">
+                    <label id="lblSumChargeVat"></label><br />
                     <label id="lblSumVat"></label><br />
                     <label id="lblSumAfterVat"></label><br />
+                    <label id="lblSumChargeNonVat"></label><br />
                     <label id="lblSumTotal"></label><br />
                     <label id="lblSumGrandTotal"></label>
                 </td>
@@ -160,7 +160,7 @@ End Code
                     <td style="width:20%;text-align:right"><label id="lblSumWht1"></label></td>
                 </tr>
                 <tr>
-                    <td style="width:55%">SERVICE 1.5%</td>
+                    <td style="width:55%">SERVICE 3%</td>
                     <td style="width:25%;text-align:right"><label id="lblSumBaseWht3"></label></td>
                     <td style="width:20%;text-align:right"><label id="lblSumWht3"></label></td>
                 </tr>
@@ -193,11 +193,11 @@ End Code
 </div>
 <div>
     <div style="float:left">
-        Please pay cheque (A/C Payer only) payable to APL Logistics svcs (Thailand) Co.,ltd.<br />
-        - Late payment 2% will be charge if paid after due date.<br />
-        - Any incorrect item: please inform within 7 days from the date of invoice, otherwise will be considered correct.<br/>
-        - Transportation charge is non-vat and subject to 1% withholding tax.<br/>
-        - All others charges excluding transportation are vat and subject to 3% withholding tax.
+        PLEASE PAY CHEQUE (A/C PAYER ONLY) PAYABLE TO APL LOGISTICS SVCS (THAILAND),LTD.<br />
+        - LATE PAYMENT 2% WILL BE CHARGED IF PAID AFTER DUE DATE.<br />
+        - IF ANY INCORRECT ITEM, PLEASE INFORM WITHIN 7 DAYS FROM THE DATE OF INVOICE,OTHERWISE WILL BE CONSIDERED CORRECT.<br />
+        - TRANSPORTATION CHARGE IS NON-VAT AND SUBJECT TO 1% WITHHOLDING TAX.<br />
+        - ALL OTHERS CHARGES EXCLUDING TRANSPORTATION ARE VAT AND SUBJECT TO 3% WITHHOLDING TAX.
     </div>
     <div style="float:right">
         JOB# <label id="lblJobNo"></label><br />
@@ -209,21 +209,32 @@ End Code
 
     let branch = getQueryString('branch');
     let invno = getQueryString('code');
-    $.get(path + 'acc/getinvoice?branch=' + branch + '&code=' + invno, function (r) {
-        if (r.invoice.header !== null) {
-            ShowData(r.invoice);
-        }
-    });
-    //});
+    let tempheader = localStorage.getItem('invheader');
+    let tempdetail = localStorage.getItem('invdetail');
+    let tempjob = localStorage.getItem('invjob');
+    if (tempheader !== '' && tempdetail !== '' && invno == '') {
+        let oTemp = {
+            header: [ JSON.parse(tempheader)],
+            detail: [JSON.parse(tempdetail)],
+            job: JSON.parse(tempjob)
+        };        
+        ShowData(oTemp);
+
+    } else {
+        $.get(path + 'acc/getinvoice?branch=' + branch + '&code=' + invno, function (r) {
+            if (r.invoice.header !== null) {
+                ShowData(r.invoice);
+            }
+        });
+    }
+
     function ShowData(dr) {
 
         if (dr.header[0].length > 0) {
             let h = dr.header[0][0];
             $('#lblDocNo').text(h.DocNo);
-            $('#lblDocDate').text(ShowDate(CDateTH(h.DocDate)));
-            $('#lblDueDate').text(ShowDate(CDateTH(h.DueDate)));
-            $('#lblCurrencyCode').text(h.CurrencyCode);
-            $('#lblExchangeRate').text(h.ExchangeRate);
+            $('#lblDocDate').text(ShowDate(CDateEN(h.DocDate)));
+            $('#lblDueDate').text(ShowDate(CDateEN(h.DueDate)));
             $('#lblForeignNet').text(ShowNumber(h.ForeignNet, 2));
 
             $('#lblVATRate').text(ShowNumber(h.VATRate,1));
@@ -237,42 +248,51 @@ End Code
                             $('#lblTaxBranch').text(c.Branch);
                         }
                         $('#lblCustName').text(c.NameEng);
-                        $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2);
-                        $('#lblCustTel').text(c.Phone);
-                        $('#lblCustTName').text(dr.customer[0][0].NameEng);
+                        $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2 + ' ' + c.TProvince + ' ' + c.TPostCode);
+                        $('#lblCustTel').text(c.Phone);                        
+                        //$('#lblCustTName').text(dr.customer[0][0].NameEng);
                             //$('#lblCustTel').text(c.Phone);
                     }
-	        });
-            let j = dr.job[0][0];
-            if (j !== null) {
-                $('#lblCustInvNo').text(j.InvNo);
-                $('#lblCustContact').text(j.CustContactName);
-                $('#lblJobNo').text(j.JNo);
-                $('#lblTotalContainer').text(j.TotalContainer);       
-                $('#tbLoading').hide();
-                $.get(path + 'JobOrder/GetTransportReport?Branch=' + j.BranchCode + '&Job=' + j.JNo).done(function (r) {
-                    if (r.transport.data.length > 0) {
-                        let dr = r.transport.data;
-                        if (dr[0].BookingNo !== null) {
-                            let html = '';
-                            let i = 0;
-                            for (let row of dr) {
-                                
-                                i += 1;
-                                html += '<tr>';
-                                html += '<td>' + i + '</td>';
-                                html += '<td style="padding-left:5px;padding-right:5px"> ' + row.BookingNo + ' </td>';
-                                html += '<td style="padding-left:5px;padding-right:5px"> ' + row.CTN_SIZE + ' </td>';
-                                html += '<td style="padding-left:5px;padding-right:5px"> ' + row.CTN_NO + ' </td>';
-                                html += '<td style="padding-left:5px;padding-right:5px"> '+ row.Location +' </td>';
-                                html += '</tr>';
-                            }
-                            $('#tbLoading tbody').html(html);
-                            $('#tbLoading').show();
+            });
+            $.get(path + 'Master/GetCompany?Code=' + h.CustCode + '&Branch=' + h.CustBranch, function (r) {
+                let c = r.company.data[0];
+                if (c !== null) {
+                    $('#lblCustTName').text(c.NameEng);
+                }
+            });
+            if (dr.job !== undefined) {
+                let j = dr.job[0][0];
+                if (j !== null) {
+                    $('#lblCustInvNo').text(j.InvNo);
+                    $('#lblCustPoNo').text(j.CustRefNO);
+                    $('#lblCustContact').text(j.CustContactName);
+                    $('#lblJobNo').text(j.JNo);
+                    $('#lblTotalContainer').text(j.TotalContainer);
+                    $('#tbLoading').hide();
+                    $.get(path + 'JobOrder/GetTransportReport?Branch=' + j.BranchCode + '&Job=' + j.JNo).done(function (r) {
+                        if (r.transport.data.length > 0) {
+                            let dr = r.transport.data;
+                            if (dr[0].BookingNo !== null) {
+                                let html = '';
+                                let i = 0;
+                                for (let row of dr) {
 
+                                    i += 1;
+                                    html += '<tr>';
+                                    html += '<td>' + i + '</td>';
+                                    html += '<td style="padding-left:5px;padding-right:5px"> ' + row.BookingNo + ' </td>';
+                                    html += '<td style="padding-left:5px;padding-right:5px"> ' + row.CTN_SIZE + ' </td>';
+                                    html += '<td style="padding-left:5px;padding-right:5px"> ' + row.CTN_NO + ' </td>';
+                                    html += '<td style="padding-left:5px;padding-right:5px"> ' + row.Location + ' </td>';
+                                    html += '</tr>';
+                                }
+                                $('#tbLoading tbody').html(html);
+                                $('#tbLoading').show();
+
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
             let remark = h.Remark1;
 	        remark +=(h.Remark2!=='' ? '<br/>':'')+ h.Remark2;
@@ -289,9 +309,8 @@ End Code
             $('#lblShippingRemark').html(remark);
 
             $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv,2));
-            $('#lblSumBeforeVat').text(ShowNumber(h.TotalIsTaxCharge,2));
             $('#lblSumVat').text(ShowNumber(h.TotalVAT,2));
-            $('#lblSumAfterVat').text(ShowNumber(Number(h.TotalIsTaxCharge)+Number(h.TotalVAT),2));
+
             $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
             $('#lblSumTotal').text(ShowNumber(Number(h.TotalAdvance),2));
             $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
@@ -305,7 +324,9 @@ End Code
         let sumbase3 = 0;
         let sumtax1 = 0;
         let sumtax3 = 0;
+        let sumvat = 0;
         let sumbaseadv = 0;
+        let sumbasevat = 0;
         let sumvatadv = 0;
         let sumnonvat = 0;
         if (d.length > 0) {
@@ -319,12 +340,18 @@ End Code
                     html += '<td style="text-align:center">' + o.Qty + 'x' + o.QtyUnit + '</td>';
                 } else {
                     html += '<td style="text-align:center">' + o.Qty + '</td>';
-                }                
-                html += '<td style="text-align:right">' + ShowNumber(o.UnitPrice,2) + '</td>';
+                }
+                if (o.AmtCharge > 0) {
+                    html += '<td style="text-align:right">' + ShowNumber(o.UnitPrice, 2) + '</td>';
+                } else {
+                    html += '<td style="text-align:right">'+ShowNumber(o.TotalAmt, 2)+'</td>';
+                }
 
-                sumbaseadv += (o.AmtAdvance > 0 ? o.Amt : 0);
-                sumvatadv += (o.AmtAdvance > 0 ? o.AmtVat : 0);
-                sumnonvat += (o.AmtCharge > 0 && o.AmtVat == 0 ? o.Amt : 0);
+                sumbaseadv += (o.AmtAdvance > 0 ? Number(o.Amt) : 0);
+                sumvatadv += (o.AmtAdvance > 0 ? Number(o.AmtVat) : 0);
+                sumnonvat += (o.AmtCharge > 0 && o.AmtVat == 0 ? Number(o.Amt) : 0);
+                sumbasevat += (o.AmtCharge > 0 && o.AmtVat > 0 ? Number(o.Amt) : 0);
+                sumvat += (o.AmtCharge > 0 && o.AmtVat > 0 ? Number(o.AmtVat) : 0);
 
                 html += '<td style="text-align:right">' + (o.AmtAdvance > 0 ? ShowNumber(o.Amt, 2) : '0.00') + '</td>';
                 html += '<td style="text-align:right">' + (o.AmtAdvance > 0 ? ShowNumber(o.AmtVat, 2) : '0.00') + '</td>';
@@ -337,16 +364,20 @@ End Code
 
                 if (o.Amt50Tavi > 0) {
                     if (o.Rate50Tavi == 1) {
-                        sumbase1 += (o.Amt-o.AmtDiscount);
-                        sumtax1 += o.Amt50Tavi;
+                        sumbase1 += Number(o.Amt)-Number(o.AmtDiscount);
+                        sumtax1 += Number(o.Amt50Tavi);
                     } else {
-                        sumbase3 += (o.Amt-o.AmtDiscount);
-                        sumtax3 += o.Amt50Tavi;
+                        sumbase3 += Number(o.Amt)-Number(o.AmtDiscount);
+                        sumtax3 += Number(o.Amt50Tavi);
                     }
                 }
             }
         }
         $('#lblSumNonVat').text(ShowNumber(sumnonvat, 2));
+        $('#lblSumBeforeVat').text(ShowNumber(sumbasevat, 2));
+        $('#lblSumChargeVat').text(ShowNumber(sumbasevat, 2));
+        $('#lblSumAfterVat').text(ShowNumber(sumbasevat + sumvat, 2));
+        $('#lblSumChargeNonVat').text(ShowNumber(sumnonvat, 2));
         $('#lblSumBaseAdv').text(ShowNumber(sumbaseadv, 2));
         $('#lblSumVatAdv').text(ShowNumber(sumvatadv,2));
         $('#lblSumBaseWht1').text(ShowNumber(sumbase1,2));

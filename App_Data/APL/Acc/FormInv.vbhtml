@@ -1,5 +1,4 @@
-﻿
-@Code
+﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Invoice Slip"
 End Code
@@ -45,7 +44,7 @@ End Code
         <div style="flex:1;" class="roundbox">
             DATE : <label id="lblDocDate"></label><br />
             INVOICE NO. : <label id="lblDocNo"></label><br />
-            SERVICE : <label id="lblTotalContainer"></label><br/>
+            SERVICE : <label id="lblTotalContainer"></label><br />
             DUE DATE: <label id="lblDueDate"></label>
         </div>
     </div>
@@ -100,7 +99,7 @@ End Code
         <tfoot>
             <tr>
                 <td colspan="4" style="text-align:right">
-                    TOTAL INVOICE 
+                    TOTAL INVOICE
                 </td>
                 <td style="background-color :gainsboro;text-align:right">
                     <label id="lblSumBaseAdv"></label>
@@ -126,10 +125,10 @@ End Code
                 </td>
 
                 <td colspan="2">
-                    SUBTOTAL VAT<br/>
+                    SUBTOTAL VAT<br />
                     VAT (<label id="lblVATRate"></label>%)<br />
                     TOTAL<br />
-                    SERVICE NON-VAT<br/>
+                    SERVICE NON-VAT<br />
                     ADVANCE<br />
                     GRAND TOTAL
                 </td>
@@ -194,10 +193,10 @@ End Code
 </div>
 <div>
     <div style="float:left">
-        PLEASE PAY CHEQUE (A/C PAYER ONLY) PAYABLE TO APL LOGISTICS SVCS (THAILAND),LTD.<br/>
-        - LATE PAYMENT 2% WILL BE CHARGED IF PAID AFTER DUE DATE.<br/>
-        - IF ANY INCORRECT ITEM, PLEASE INFORM WITHIN 7 DAYS FROM THE DATE OF INVOICE,OTHERWISE WILL BE CONSIDERED CORRECT.<br/>        
-        - TRANSPORTATION CHARGE IS NON-VAT AND SUBJECT TO 1% WITHHOLDING TAX.<br/>
+        PLEASE PAY CHEQUE (A/C PAYER ONLY) PAYABLE TO APL LOGISTICS SVCS (THAILAND),LTD.<br />
+        - LATE PAYMENT 2% WILL BE CHARGED IF PAID AFTER DUE DATE.<br />
+        - IF ANY INCORRECT ITEM, PLEASE INFORM WITHIN 7 DAYS FROM THE DATE OF INVOICE,OTHERWISE WILL BE CONSIDERED CORRECT.<br />
+        - TRANSPORTATION CHARGE IS NON-VAT AND SUBJECT TO 1% WITHHOLDING TAX.<br />
         - ALL OTHERS CHARGES EXCLUDING TRANSPORTATION ARE VAT AND SUBJECT TO 3% WITHHOLDING TAX.
     </div>
     <div style="float:right">
@@ -210,12 +209,25 @@ End Code
 
     let branch = getQueryString('branch');
     let invno = getQueryString('code');
-    $.get(path + 'acc/getinvoice?branch=' + branch + '&code=' + invno, function (r) {
-        if (r.invoice.header !== null) {
-            ShowData(r.invoice);
-        }
-    });
-    //});
+    let tempheader = localStorage.getItem('invheader');
+    let tempdetail = localStorage.getItem('invdetail');
+    let tempjob = localStorage.getItem('invjob');
+    if (tempheader !== '' && tempdetail !== '' && invno == '') {
+        let oTemp = {
+            header: [ JSON.parse(tempheader)],
+            detail: [JSON.parse(tempdetail)],
+            job: JSON.parse(tempjob)
+        };
+        ShowData(oTemp);
+
+    } else {
+        $.get(path + 'acc/getinvoice?branch=' + branch + '&code=' + invno, function (r) {
+            if (r.invoice.header !== null) {
+                ShowData(r.invoice);
+            }
+        });
+    }
+
     function ShowData(dr) {
 
         if (dr.header[0].length > 0) {
@@ -238,41 +250,49 @@ End Code
                         $('#lblCustName').text(c.NameEng);
                         $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2 + ' ' + c.TProvince + ' ' + c.TPostCode);
                         $('#lblCustTel').text(c.Phone);
-                        $('#lblCustTName').text(dr.customer[0][0].NameEng);
+                        //$('#lblCustTName').text(dr.customer[0][0].NameEng);
                             //$('#lblCustTel').text(c.Phone);
                     }
-	        });
-            let j = dr.job[0][0];
-            if (j !== null) {
-                $('#lblCustInvNo').text(j.InvNo);
-                $('#lblCustPoNo').text(j.CustRefNO);
-                $('#lblCustContact').text(j.CustContactName);
-                $('#lblJobNo').text(j.JNo);
-                $('#lblTotalContainer').text(j.TotalContainer);       
-                $('#tbLoading').hide();
-                $.get(path + 'JobOrder/GetTransportReport?Branch=' + j.BranchCode + '&Job=' + j.JNo).done(function (r) {
-                    if (r.transport.data.length > 0) {
-                        let dr = r.transport.data;
-                        if (dr[0].BookingNo !== null) {
-                            let html = '';
-                            let i = 0;
-                            for (let row of dr) {
-                                
-                                i += 1;
-                                html += '<tr>';
-                                html += '<td>' + i + '</td>';
-                                html += '<td style="padding-left:5px;padding-right:5px"> ' + row.BookingNo + ' </td>';
-                                html += '<td style="padding-left:5px;padding-right:5px"> ' + row.CTN_SIZE + ' </td>';
-                                html += '<td style="padding-left:5px;padding-right:5px"> ' + row.CTN_NO + ' </td>';
-                                html += '<td style="padding-left:5px;padding-right:5px"> '+ row.Location +' </td>';
-                                html += '</tr>';
-                            }
-                            $('#tbLoading tbody').html(html);
-                            $('#tbLoading').show();
+            });
+            $.get(path + 'Master/GetCompany?Code=' + h.CustCode + '&Branch=' + h.CustBranch, function (r) {
+                let c = r.company.data[0];
+                if (c !== null) {
+                    $('#lblCustTName').text(c.NameEng);
+                }
+            });
+            if (dr.job !== undefined) {
+                let j = dr.job[0][0];
+                if (j !== null) {
+                    $('#lblCustInvNo').text(j.InvNo);
+                    $('#lblCustPoNo').text(j.CustRefNO);
+                    $('#lblCustContact').text(j.CustContactName);
+                    $('#lblJobNo').text(j.JNo);
+                    $('#lblTotalContainer').text(j.TotalContainer);
+                    $('#tbLoading').hide();
+                    $.get(path + 'JobOrder/GetTransportReport?Branch=' + j.BranchCode + '&Job=' + j.JNo).done(function (r) {
+                        if (r.transport.data.length > 0) {
+                            let dr = r.transport.data;
+                            if (dr[0].BookingNo !== null) {
+                                let html = '';
+                                let i = 0;
+                                for (let row of dr) {
 
+                                    i += 1;
+                                    html += '<tr>';
+                                    html += '<td>' + i + '</td>';
+                                    html += '<td style="padding-left:5px;padding-right:5px"> ' + row.BookingNo + ' </td>';
+                                    html += '<td style="padding-left:5px;padding-right:5px"> ' + row.CTN_SIZE + ' </td>';
+                                    html += '<td style="padding-left:5px;padding-right:5px"> ' + row.CTN_NO + ' </td>';
+                                    html += '<td style="padding-left:5px;padding-right:5px"> ' + row.Location + ' </td>';
+                                    html += '</tr>';
+                                }
+                                $('#tbLoading tbody').html(html);
+                                $('#tbLoading').show();
+
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
             let remark = h.Remark1;
 	        remark +=(h.Remark2!=='' ? '<br/>':'')+ h.Remark2;
@@ -288,9 +308,9 @@ End Code
             remark=h.ShippingRemark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
             $('#lblShippingRemark').html(remark);
 
-            $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv,2));            
+            $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv,2));
             $('#lblSumVat').text(ShowNumber(h.TotalVAT,2));
-            
+
             $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
             $('#lblSumTotal').text(ShowNumber(Number(h.TotalAdvance),2));
             $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
@@ -320,18 +340,18 @@ End Code
                     html += '<td style="text-align:center">' + o.Qty + 'x' + o.QtyUnit + '</td>';
                 } else {
                     html += '<td style="text-align:center">' + o.Qty + '</td>';
-                }                
+                }
                 if (o.AmtCharge > 0) {
                     html += '<td style="text-align:right">' + ShowNumber(o.UnitPrice, 2) + '</td>';
                 } else {
                     html += '<td style="text-align:right">'+ShowNumber(o.TotalAmt, 2)+'</td>';
                 }
 
-                sumbaseadv += (o.AmtAdvance > 0 ? o.Amt : 0);
-                sumvatadv += (o.AmtAdvance > 0 ? o.AmtVat : 0);
-                sumnonvat += (o.AmtCharge > 0 && o.AmtVat == 0 ? o.Amt : 0);
-                sumbasevat += (o.AmtCharge > 0 && o.AmtVat > 0 ? o.Amt : 0);
-                sumvat += (o.AmtCharge > 0 && o.AmtVat > 0 ? o.AmtVat : 0);
+                sumbaseadv += (o.AmtAdvance > 0 ? Number(o.Amt) : 0);
+                sumvatadv += (o.AmtAdvance > 0 ? Number(o.AmtVat) : 0);
+                sumnonvat += (o.AmtCharge > 0 && o.AmtVat == 0 ? Number(o.Amt) : 0);
+                sumbasevat += (o.AmtCharge > 0 && o.AmtVat > 0 ? Number(o.Amt) : 0);
+                sumvat += (o.AmtCharge > 0 && o.AmtVat > 0 ? Number(o.AmtVat) : 0);
 
                 html += '<td style="text-align:right">' + (o.AmtAdvance > 0 ? ShowNumber(o.Amt, 2) : '0.00') + '</td>';
                 html += '<td style="text-align:right">' + (o.AmtAdvance > 0 ? ShowNumber(o.AmtVat, 2) : '0.00') + '</td>';
@@ -344,17 +364,17 @@ End Code
 
                 if (o.Amt50Tavi > 0) {
                     if (o.Rate50Tavi == 1) {
-                        sumbase1 += (o.Amt-o.AmtDiscount);
-                        sumtax1 += o.Amt50Tavi;
+                        sumbase1 += Number(o.Amt)-Number(o.AmtDiscount);
+                        sumtax1 += Number(o.Amt50Tavi);
                     } else {
-                        sumbase3 += (o.Amt-o.AmtDiscount);
-                        sumtax3 += o.Amt50Tavi;
+                        sumbase3 += Number(o.Amt)-Number(o.AmtDiscount);
+                        sumtax3 += Number(o.Amt50Tavi);
                     }
                 }
             }
         }
         $('#lblSumNonVat').text(ShowNumber(sumnonvat, 2));
-        $('#lblSumBeforeVat').text(ShowNumber(sumbasevat, 2));            
+        $('#lblSumBeforeVat').text(ShowNumber(sumbasevat, 2));
         $('#lblSumChargeVat').text(ShowNumber(sumbasevat, 2));
         $('#lblSumAfterVat').text(ShowNumber(sumbasevat + sumvat, 2));
         $('#lblSumChargeNonVat').text(ShowNumber(sumnonvat, 2));

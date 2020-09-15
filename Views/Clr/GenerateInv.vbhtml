@@ -5,7 +5,7 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblBranch">Branch:</label>
+                <label id="lblBranch">Branch:</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -26,7 +26,7 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <label id="lblCustCode">Customer</label>
+                <label id="lblCustCode">Customer</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" style="width:120px" />
@@ -44,7 +44,7 @@ End Code
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
-                <input type="checkbox" id="chkSelectAll" checked /> Select All
+                <input type="checkbox" id="chkSelectAll" checked /> Select All 
             </div>
         </div>
         <div class="row">
@@ -69,6 +69,9 @@ End Code
                 <a href="#" class="btn btn-success" id="btnGen" onclick="ShowSummary()">
                     <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkCreate">Create Invoice</b>
                 </a>
+                <a href="#" class="btn btn-warning" id="btnGen" onclick="SetTempInv()">
+                    <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkSave">Preview Invoice</b>
+                </a>
                 <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ResetData()">
                     <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkReset">Reset Select</b>
                 </a>
@@ -90,9 +93,8 @@ End Code
                                 <label id="lblInvType">Invoice Type :</label>
                                 <br />
                                 <select id="cboDocType" class="form-control dropdown">
-                                    <option value="IVS-">Service</option>
-                                    <option value="IVT-">Transport</option>
-                                    <option value="IVF-">Freight</option>
+                                    <option value="BKK">Service</option>
+                                    <option value="RGM">Advance</option>
                                 </select>
 
                             </div>
@@ -132,7 +134,7 @@ End Code
                             <table>
                                 <tr>
                                     <td>
-                                        <label id="lblCheque">Use Cheque:</label>
+                                        <label id="lblCheque">Use Cheque:</label>                                        
                                         <br />
                                         <div style="display:flex;flex-direction:row">
                                             <input type="text" id="txtChqNo" class="form-control" disabled />
@@ -255,12 +257,12 @@ End Code
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <label id="lblClearNo">Clearing No</label> :
-                        <label id="lblClrNo"></label>
-                        <label id="lblJNo">Job No</label>:
+                        <label id="lblClearNo">Clearing No</label> : 
+                        <label id="lblClrNo"></label>                                                                     
+                        <label id="lblJNo">Job No</label>: 
                         <label id="lblJobNo"></label>
                         <br />
-                        <label id="lblCode">Code</label>:
+                        <label id="lblCode">Code</label>: 
                         <label id="lblSICode"></label>
                         <label id="lblDesc">Description</label>:
                         <label id="lblSDescription"></label>
@@ -933,58 +935,7 @@ End Code
         return;
     }
     function SaveHeader() {
-        let dataInv = {
-            BranchCode:$('#txtBranchCode').val(),
-            DocNo: $('#txtDocNo').val(),
-            DocType:$('#cboDocType').val(),
-            DocDate: CDateEN($('#txtDocDate').val()),
-            CustCode:$('#txtCustCode').val(),
-            CustBranch:$('#txtCustBranch').val(),
-            BillToCustCode:billtocustcode,
-            BillToCustBranch:billtocustbranch,
-            ContactName:'',
-            EmpCode:user,
-            PrintedBy:'',
-            PrintedDate:null,
-            PrintedTime:null,
-            RefNo: GetRefNo(),
-            VATRate:CNum(CNum(@ViewBag.PROFILE_VATRATE)*100),
-            TotalAdvance:CNum($('#txtTotalAdvance').val()),
-            TotalCharge:CNum($('#txtTotalCharge').val()),
-            TotalIsTaxCharge:CNum($('#txtTotalIsTaxCharge').val()),
-            TotalIs50Tavi:CNum($('#txtTotalIs50Tavi').val()),
-            TotalVAT:CNum($('#txtTotalVat').val()),
-            Total50Tavi:CNum($('#txtTotal50Tavi').val()),
-            TotalCustAdv:CNum($('#txtTotalCustAdv').val()),
-            TotalNet:CNum($('#txtTotalNet').val()),
-            CurrencyCode:$('#txtCurrencyCode').val(),
-            ExchangeRate:CNum($('#txtExchangeRate').val()),
-            ForeignNet: CNum($('#txtForeignNet').val()),
-            TotalDiscount: CNum($('#txtTotalDiscount').val()),
-            SumDiscount: CNum($('#txtSumDiscount').val()),
-            DiscountRate: CNum($('#txtDiscountRate').val()),
-            CalDiscount:CNum($('#txtCalDiscount').val()),
-            BillAcceptDate:null,
-            BillIssueDate:null,
-            BillAcceptNo:'',
-            Remark1:'',
-            Remark2:'',
-            Remark3:'',
-            Remark4:'',
-            Remark5:'',
-            Remark6:'',
-            Remark7:'',
-            Remark8:'',
-            Remark9:'',
-            Remark10:'',
-            CancelReson:'',
-            CancelProve:'',
-            CancelDate:null,
-            CancelTime:null,
-            ShippingRemark: GetDueDate($('#txtDocDate').val()),
-            DueDate: null,
-            CreateDate:CDateEN(GetToday())
-        };
+        let dataInv =GetDataHeader();
         let jsonString = JSON.stringify({ data: dataInv });
         $.ajax({
             url: "@Url.Action("SetInvHeader", "Acc")",
@@ -1492,5 +1443,82 @@ End Code
         let net = amt-disc+ vat - wht;
 
         $('#txtAmtNET').val(ShowNumber(net,2));
+    }
+    function GetDataHeader() {
+        return {
+            BranchCode: $('#txtBranchCode').val(),
+            DocNo: $('#txtDocNo').val(),
+            DocType: $('#cboDocType').val(),
+            DocDate: CDateEN($('#txtDocDate').val()),
+            CustCode: $('#txtCustCode').val(),
+            CustBranch: $('#txtCustBranch').val(),
+            BillToCustCode: billtocustcode,
+            BillToCustBranch: billtocustbranch,
+            ContactName: '',
+            EmpCode: user,
+            PrintedBy: '',
+            PrintedDate: null,
+            PrintedTime: null,
+            RefNo: GetRefNo(),
+            VATRate: CNum(CNum(@ViewBag.PROFILE_VATRATE) * 100),
+            TotalAdvance: CNum($('#txtTotalAdvance').val()),
+            TotalCharge: CNum($('#txtTotalCharge').val()),
+            TotalIsTaxCharge: CNum($('#txtTotalIsTaxCharge').val()),
+            TotalIs50Tavi: CNum($('#txtTotalIs50Tavi').val()),
+            TotalVAT: CNum($('#txtTotalVat').val()),
+            Total50Tavi: CNum($('#txtTotal50Tavi').val()),
+            TotalCustAdv: CNum($('#txtTotalCustAdv').val()),
+            TotalNet: CNum($('#txtTotalNet').val()),
+            CurrencyCode: $('#txtCurrencyCode').val(),
+            ExchangeRate: CNum($('#txtExchangeRate').val()),
+            ForeignNet: CNum($('#txtForeignNet').val()),
+            TotalDiscount: CNum($('#txtTotalDiscount').val()),
+            SumDiscount: CNum($('#txtSumDiscount').val()),
+            DiscountRate: CNum($('#txtDiscountRate').val()),
+            CalDiscount: CNum($('#txtCalDiscount').val()),
+            BillAcceptDate: null,
+            BillIssueDate: null,
+            BillAcceptNo: '',
+            Remark1: '',
+            Remark2: '',
+            Remark3: '',
+            Remark4: '',
+            Remark5: '',
+            Remark6: '',
+            Remark7: '',
+            Remark8: '',
+            Remark9: '',
+            Remark10: '',
+            CancelReson: '',
+            CancelProve: '',
+            CancelDate: null,
+            CancelTime: null,
+            ShippingRemark: GetDueDate($('#txtDocDate').val()),
+            DueDate: null,
+            CreateDate: CDateEN(GetToday())
+        };
+    }
+    function SetTempInv() {
+        if (arr.length > 0) {
+            let jobno = arr[0].JobNo;
+            let branchjob = arr[0].BranchCode;
+            localStorage.setItem('invjob', '');
+            if (jobno !== '') {
+                $.get(path + 'JobOrder/GetJobSQL?Branch=' + branchjob + '&JNo=' + jobno, function (r) {
+                    if (r.job.data !== undefined) {
+                        localStorage.setItem('invjob', '[' + JSON.stringify(r.job.data) + ']');
+                    }
+                });
+            }
+            let det = GetDataDetail(arr, '').filter(function (d) {
+                return d.ItemNo > 0;
+            });
+            let strHeader = '[' + JSON.stringify(GetDataHeader()) + ']';
+            let strDetail = JSON.stringify(det);
+            localStorage.setItem('invheader', strHeader);
+            localStorage.setItem('invdetail', strDetail);
+
+            window.open(path + 'Acc/FormInv', '_blank');
+        }
     }
 </script>
