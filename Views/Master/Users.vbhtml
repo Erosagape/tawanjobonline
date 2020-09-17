@@ -28,15 +28,15 @@ End Code
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <label id="lblTPosition">Position :</label>
                 <br /><input type="text" id="txtTPosition" class="form-control" tabIndex="5">
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <label id="lblUPosition">User Level :</label>
                 <br /><select id="txtUPosition" class="form-control dropdown" tabIndex="6"></select>
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <label id="lblUserUpline">Supervisor :</label>
                 <br />
                 <div style="display:flex">
@@ -48,20 +48,37 @@ End Code
                     </div>
                 </div>
             </div>
+            <div class="col-sm-3">
+                <label id="lblGLAccountCode">GL Account Code:</label>
+                <br />
+                <div style="display:flex">
+                    <div style="flex:1">
+                        <input type="text" id="txtGLAccountCode" class="form-control">
+                    </div>
+                    <div>
+                        <input type="button" value="..." class="btn btn-default" onclick="SearchData('account')" />
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <label id="lblEMail">E-Mail :</label>
                 <br /><input type="text" id="txtEMail" class="form-control" tabIndex="8">
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <label id="lblMobilePhone">Mobile Phone :</label>
                 <br /><input type="text" id="txtMobilePhone" class="form-control" tabIndex="9">
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <label id="lblUsedLanguage">Report Language :</label>
                 <br />
                 <select id="txtUsedLanguage" class="form-control dropdown" tabindex="10"></select>
+            </div>
+            <div class="col-sm-3">
+                <label id="lblMaxRateDisc">Commission Base :</label>
+                <br/>
+                <input type="number" id="txtMaxRateDisc" class="form-control" />
             </div>
         </div>
         <div id="dvCommand">
@@ -153,6 +170,7 @@ End Code
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             var dv = document.getElementById("dvLOVs");
             //Users
+            CreateLOV(dv, '#frmSearchAccount', '#tbAccount', 'Accounts', response, 2);
             CreateLOV(dv, '#frmSearchSup', '#tbSup', 'Supervisors', response, 2);
             CreateLOV(dv, '#frmSearchUser', '#tbUser', 'Users', response, 2);
         });
@@ -169,12 +187,17 @@ End Code
                 $('#txtMobilePhone').val('');
                 $('#txtUserUpline').val('');
                 $('#txtUsedLanguage').val('');
+                $('#txtMaxRateDisc').val(0);
+                $('#txtGLAccountCode').val('');
                 CallBackQueryUser(path,code , ReadUser);
             }
         });
     }
     function SearchData(type) {
         switch (type) {
+            case 'account':
+                SetGridAccountCode(path, '#tbAccount', '#frmSearchAccount','' ,ReadAccount);
+                break;
             case 'sup':
                 SetGridUser(path, '#tbSup', '#frmSearchSup', ReadSup);
                 break;
@@ -182,6 +205,9 @@ End Code
                 SetGridUser(path, '#tbUser', '#frmSearchUser', ReadUser);
                 break;
         }
+    }
+    function ReadAccount(dt) {
+        $('#txtGLAccountCode').val(dt.AccCode);
     }
     function ReadSup(dt) {
         $('#txtUserUpline').val(dt.UserID);
@@ -201,6 +227,8 @@ End Code
             $('#txtUserUpline').val(dr.UserUpline);
             $('#txtUsedLanguage').val(dr.UsedLanguage);
             $('#txtDeptID').val(dr.DeptID);
+            $('#txtGLAccountCode').val(dr.GLAccountCode);
+            $('#txtMaxRateDisc').val(dr.MaxRateDisc);
 
             $('#btnSave').removeAttr('disabled');
             if (dr.UserID != "") {
@@ -259,7 +287,7 @@ End Code
             LogoutDate: row.LogoutDate,
             LogoutTime: row.LogoutTime,
             UPosition: $('#txtUPosition').val(),
-            MaxRateDisc: row.MaxRateDisc,
+            MaxRateDisc: $('#txtMaxRateDisc').val(),
             MaxAdvance: row.MaxAdvance,
             JobAuthorize: row.JobAuthorize,
             EMail: $('#txtEMail').val(),
@@ -268,7 +296,7 @@ End Code
             IsAlertByEMail: row.IsAlertByEMail,
             IsAlertBySMS: row.IsAlertBySMS,
             UserUpline: $('#txtUserUpline').val(),
-            GLAccountCode: row.GLAccountCode,
+            GLAccountCode: $('#txtGLAccountCode').val(),
             UsedLanguage: $('#txtUsedLanguage').val(),
             DMailAccount: row.DMailAccount,
             DMailPassword: row.DMailPassword,

@@ -518,6 +518,9 @@ End Code
     function ReadQuo(dt) {
         $('#txtQNo').val(dt.QNo);
         $('#txtRevise').val(dt.SeqNo);
+        $('#txtManagerCode').val(dt.ManagerCode);
+        $('#txtContactPerson').val(dt.ContactName);
+
     }
     function SearchData(type) {
         switch (type) {

@@ -2744,6 +2744,8 @@ function GetReportLists_V2() {
         { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKPNL", "ReportNameEN": "Trucking PNL Report By Container", "ReportNameTH": "รายงานกำไรขาดทุนตามตู้คอนเทนเนอร์" },
         { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKKPI", "ReportNameEN": "Trucking Turn Time Report", "ReportNameTH": "รายงานสรุปการปฏิบัติงานตามตู้คอนเทนเนอร์" },
         { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBKPI", "ReportNameEN": "Job Operation On-Time Report", "ReportNameTH": "รายงานสรุปเวลาปฏิบัติงานตามจ๊อบ" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "APLIMPORT", "ReportNameEN": "Job Import Summary", "ReportNameTH": "รายงานสรุปการทำงานขาเข้า" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "APLEXPORT", "ReportNameEN": "Job Export Summary", "ReportNameTH": "รายงานสรุปการทำงานขาออก" },
         { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBADV", "ReportNameEN": "Advance By Emp", "ReportNameTH": "รายงานการเบิกเงินตามพนักงาน" },
         { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "ADVSUMMARY", "ReportNameEN": "Advance Summary", "ReportNameTH": "รายงานสรุปใบเบิกค่าใช้จ่าย" },
         { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "ADVDAILY", "ReportNameEN": "Advance Payment", "ReportNameTH": "รายงานการจ่ายเงินเบิกล่วงหน้า" },
