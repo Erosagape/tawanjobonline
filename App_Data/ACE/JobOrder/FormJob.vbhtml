@@ -330,8 +330,15 @@ End Code
                 <div id="lblDescription"></div>
             </td>
             <td width="40%" style="text-align:right">
-                <b>PREPARED BY:
-                <label id="lblCSName"></label></b> (<label id="lblPosition"></label>)
+                <b>
+                    SALES BY:
+                    <label id="lblManagerName"></label>
+                </b>
+                <br/>
+                <b>
+                    PREPARED BY:
+                    <label id="lblCSName"></label>
+                </b> (<label id="lblPosition"></label>)
             </td>
         </tr>
     </table>
@@ -459,7 +466,8 @@ End Code
         ShowVender(path,j.AgentCode, '#lblTransportName');
 
         ShowDeclareType(path,j.DeclareType,'#lblDeclareType');
-        ShowUser(path,j.CSCode, '#lblCSName');
+        ShowUser(path, j.CSCode, '#lblCSName');
+        ShowUser(path, j.ManagerCode, '#lblManagerName');
         ShowUser(path,j.ShippingEmp, '#lblShippingName');
 
         $('#lblPosition').text('Customer Services');
