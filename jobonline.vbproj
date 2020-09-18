@@ -1030,6 +1030,9 @@
     <Content Include="App_Data\_STANDARD\Tracking\Timeline.vbhtml" />
     <Content Include="App_Data\DPK\Menu\Index.vbhtml" />
     <Content Include="App_Data\ACE\JobOrder\Transport.vbhtml" />
+    <Content Include="App_Data\SINOTHAI\Clr\FormEntry.vbhtml" />
+    <Content Include="App_Data\_STANDARD\Clr\FormEntry.vbhtml" />
+    <Content Include="App_Data\INTERFAIR\Clr\FormEntry.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

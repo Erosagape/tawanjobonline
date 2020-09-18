@@ -2424,6 +2424,7 @@ SELECT * FROM (
     inner join Job_ClearDetail ad ON ah.BranchCode=ad.BranchCode
     AND ah.ClrNo=ad.ClrNo
     left join Job_Order j ON ad.BranchCode=j.BranchCode AND ad.JobNo=j.JNo
+    where ISNULL(ad.AdvNo,'')=''
     union
     select d.*,h.VoucherDate,j.CustCode,j.CustBranch,'',ah.TRemark,
     c.JobNo ,ah.EmpCode, ad.InvoiceNo,ah.ReceiptDate,ad.SDescription,ad.Amt,ad.AmtVAT,ad.Amt50Tavi,ad.Net

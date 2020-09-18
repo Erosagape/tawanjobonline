@@ -52,8 +52,8 @@ End Code
                     <b>ชื่อผู้มีหน้าที่หักภาษี ณ ที่จ่าย (หน่วยงาน)</b>
                 </div>
                 <div style="flex:1">
-                    <b>สาขาที่</b>
-                    <label id="lblBranch1"></label>
+                    <b>สาขาที่</b>                    
+                    <input type="text" id="lblBranch1" style="width:50px;height:20px" />
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@ End Code
 <div style="display:flex">
     <div style="flex:55%;border-bottom-style:solid;border-bottom-width:1px;padding:5px 5px 5px 5px">
         <div>
-            <b>เดือนที่จ่ายเงินได้พึงประเมิน</b> (ให้ทำเครื่องหมาย <input type="checkbox" checked /> ลงใน <input type="checkbox" /> หน้าชื่อเดือน) พ.ศ. <input type="text" style="width:50px" />
+            <b>เดือนที่จ่ายเงินได้พึงประเมิน</b> (ให้ทำเครื่องหมาย <input type="checkbox" checked /> ลงใน <input type="checkbox" /> หน้าชื่อเดือน) พ.ศ. <input type="text" style="width:50px;height:20px" />
         </div>
         <div style="display:flex">
             <div style="flex:1">
@@ -274,7 +274,7 @@ End Code
                     var tb = res.result[0];
                     $('#lblIDCard1').text(tb.IDCard1);
                     $('#lblTaxNumber1').text(tb.TaxNumber1);
-                    $('#lblBranch1').text(tb.Branch1);
+                    $('#lblBranch1').val(tb.Branch1);
                     $('#lblTName1').text(tb.TName1);
                     $('#lblTAddress1').text(tb.TAddress1);
                     $('#txtTaxYear').val(tb.TaxYear + 543);

@@ -26,71 +26,88 @@ End Code
     }
 </style>
 <div style="display:flex;flex-direction:column">
-    <div class="block" style="width:100%;display:flex;flex-direction:row">
-        <div style="flex:1">
-            SHIPPER/CONSIGNEE:
+    <div class="block">
+        <div style="float:left">
+            <input type="checkbox" id="chkExport" />OUTBOUND
+            <input type="checkbox" id="chkImport" />INBOUND
+            <input type="checkbox" id="chkOther" />SHIPPING
         </div>
-        <div id="dvConsignee" class="underline" style="flex:4">
-
+        <div style="float:right;width:50%;">
+            <div style="width:100%;display:flex">
+                <div style="flex:1;">
+                    O BL/AWB NO:
+                </div>
+                <div id="dvMAWB" class="underline" style="flex:3">
+                    
+                </div>
+            </div>
+            <div style="width:100%;display:flex">
+                <div style="flex:1;">
+                    H BL/AWB NO:
+                </div>
+                <div id="dvHAWB" class="underline" style="flex:3">
+                    
+                </div>
+            </div>
         </div>
+    </div>
+    <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
             JOB NO:
         </div>
-        <div id="dvJNo" class="underline" style="flex:1">
+        <div id="dvJNo" class="underline" style="flex:2">
 
         </div>
-
-    </div>
-    <div class="block" style="display:flex;flex-direction:row">
-        <div style="flex:1;">
-            O BL/AWB NO:
+        <div style="flex:1">
+            CUSTOMER INV.NO:
         </div>
-        <div id="dvMAWB" class="underline" style="flex:2">
-
-        </div>
-        <div style="flex:1;">
-            DECLARE NO:
-        </div>
-        <div id="dvDeclareNumber" class="underline" style="flex:2">
+        <div id="dvInvNo" class="underline" style="flex:2">
 
         </div>
     </div>
     <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
-            ETD DATE:
+            SHIPPER/CONSIGNEE:
+        </div>
+        <div id="dvConsignee" class="underline" style="flex:2">
+
+        </div>
+        <div style="flex:1">
+            ETD:
         </div>
         <div id="dvETDDate" class="underline" style="flex:2">
 
         </div>
+    </div>
+    <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
-            CLOSE JOB:
+            CONTACT:
         </div>
-        <div id="dvCloseJobDate" class="underline" style="flex:2">
+        <div id="dvContactName" class="underline" style="flex:2">
+
+        </div>
+        <div style="flex:1">
+            ETA:
+        </div>
+        <div id="dvETADate" class="underline" style="flex:2">
 
         </div>
     </div>
     <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
-            CONTAINER SIZE:
+            FEEDER:
         </div>
-        <div id="dvTotalContainer" class="underline" style="flex:2">
+        <div id="dvVesselName" class="underline" style="flex:2">
 
         </div>
         <div style="flex:1">
-            DESTINATION:
+            D/O DATE:
         </div>
-        <div class="underline" style="flex:2">
-            <span id="dvToPort"></span>
-            <span id="dvToCountry"></span>
+        <div id="dvEstDeliverDate" class="underline" style="flex:2">
+
         </div>
     </div>
     <div class="block" style="display:flex;flex-direction:row">
-        <div style="flex:1">
-            PRODUCT:
-        </div>
-        <div id="dvProduct" class="underline" style="flex:2">
-
-        </div>
         <div style="flex:1">
             FROM PORT:
         </div>
@@ -98,21 +115,44 @@ End Code
             <span id="dvFromPort"></span>
             <span id="dvFromCountry"></span>
         </div>
-    </div>
-    <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
-            DELIVERY PLACE:
-        </div>
-        <div id="dvDelivery" class="underline" style="flex:2">
-
-        </div>
-        <div style="flex:1">
-            TRANSPORT BY:
+            AGENT:
         </div>
         <div id="dvAgentName" class="underline" style="flex:2">
 
         </div>
     </div>
+    <div class="block" style="display:flex;flex-direction:row">
+        <div style="flex:1">
+            TO PORT:
+        </div>
+        <div class="underline" style="flex:2">
+            <span id="dvToPort"></span>
+            <span id="dvToCountry"></span>
+        </div>
+        <div style="flex:1">
+            CONTAINER.DEPOSIT:
+        </div>
+        <div id="dvDeposit" class="underline" style="flex:2">
+
+        </div>
+    </div>
+    <table class="block" border="1">
+        <tr>
+            <td>DESCRIPTION</td>
+            <td>WEIGHT</td>
+            <td>CBM(M3)</td>
+            <td>CONTAINER</td>
+        </tr>
+        <tbody>
+            <tr>
+                <td id="dvProduct"></td>
+                <td id="dvGrossWeight"></td>
+                <td id="dvMeasurement"></td>
+                <td id="dvTotalContainer"></td>
+            </tr>
+        </tbody>
+    </table>
     <table class="block" border="1">
         <tr>
             <td rowspan="2">
@@ -140,7 +180,7 @@ End Code
         </tr>
         <tbody>
             <tr>
-                <td class="textleft">CUSTOMS TAX</td>
+                <td class="textleft">FREIGHT CHARGE</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -148,7 +188,7 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
-                <td class="textleft">D/O CHARGE</td>
+                <td class="textleft">CFS CHARGE</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -156,7 +196,7 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
-                <td class="textleft">DEPOSIT</td>
+                <td class="textleft">THC CHARGE</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -164,7 +204,7 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
-                <td class="textleft">CUSTOMS SERVICE</td>
+                <td class="textleft">B/L FEE</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -172,7 +212,7 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
-                <td class="textleft">OT CUSTOMS</td>
+                <td class="textleft">D/O FEE</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -180,7 +220,7 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
-                <td class="textleft">RENT</td>
+                <td class="textleft">SEAL FEE</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -188,7 +228,7 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
-                <td class="textleft">Department of Agriculture</td>
+                <td class="textleft">STATUS</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -196,7 +236,7 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
-                <td class="textleft">Royal forest Department</td>
+                <td class="textleft">FACILITIES</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -204,7 +244,7 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
-                <td class="textleft">OTHER CHARGES</td>
+                <td class="textleft">HANDLING</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -212,7 +252,7 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
-                <td class="textleft">RETURN CONTAINER</td>
+                <td class="textleft">CUSTOMS FORMAILTY</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -220,7 +260,7 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
-                <td class="textleft">TRANSPORT CHARGE</td>
+                <td class="textleft">SERVICE CHARGES</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -228,7 +268,7 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
-                <td class="textleft">SHIPPING CHARGE</td>
+                <td class="textleft">TRANSPORTATION CHARGES</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -236,7 +276,7 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
-                <td class="textleft">SHIPPING BANGPU</td>
+                <td class="textleft">LABOUR CHARGES</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -244,7 +284,7 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
-                <td class="textleft">OT SHIPPING BANGPU</td>
+                <td class="textleft">CUSTOMS FEE</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -252,7 +292,7 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
-                <td class="textleft">INSPECTION</td>
+                <td class="textleft">CASHIER CHEQUE</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -260,7 +300,119 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
-                <td class="textright">TOTAL</td>
+                <td class="textleft">OVERTIME AGENT</td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft">OVERTIME PORT</td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft">CLEANING CONTAINER/FLOOR</td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft">TRUCKING PLANT</td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft">PROCURATION</td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft">PLANT CERFICATE</td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft">PAPERLESS FEE</td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft">PORT CHARGES</td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft">STORAGE CHARGES</td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft">DEMURRAGE/DETENTION CHARGES</td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft">RETURN EMPTY CONTAINER</td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft">KB TO CUSTOMER</td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft">REFUND FROM CARRIER</td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft">AGENT FEE</td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft">OPERATION COSTS</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -270,53 +422,19 @@ End Code
             <tr>
                 <td class="textleft" colspan="6">REMARK</td>
             </tr>
+            <tr>
+                <td class="textright" colspan="5">NET PROFIT</td>
+                <td class="textright"></td>
+            </tr>
         </tbody>
     </table>
     <div class="block" style="display:flex;width:50%">
         <div style="flex:1">
             HANDLE BY:
         </div>
-        <div id="dvCSName" class="underline" style="flex:2">
+        <div class="underline" style="flex:2">
 
         </div>
-    </div>
-    <div class="block">
-        <table style="border-collapse:collapse;width:100%">
-            <tr>
-                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                    Requested By
-                </td>
-                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                    Checked By
-                </td>
-                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                    Approved By
-                </td>
-            </tr>
-            <tr>
-                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-                    <label id="lblReqBy" style="font-size:10px">(__________________)</label>
-                    <br />
-                    Import Manager
-                    <br/>
-                    <label id="lblRequestDate" style="font-size:9px">__/__/____</label>
-                </td>
-                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-                    <label id="lblCheckBy" style="font-size:9px">( Paruhas Boonpamorn )</label>
-                    <br />
-                    General Manager
-                    <br/>
-                    <label id="lblCheckDate" style="font-size:9px">__/__/____</label>
-                </td>
-                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-                    <label id="lblAppBy" style="font-size:10px">( Yingqing Pan )</label>
-                    <br />
-                    Managing Director
-                    <br/>
-                    <label id="lblAppDate" style="font-size:9px">__/__/____</label>
-                </td>
-            </tr>
-        </table>
     </div>
 </div>
 <script type="text/javascript">
@@ -327,21 +445,22 @@ End Code
         $.get(path + 'JobOrder/GetJobSql?Branch=' + branch + '&JNo=' + job).done(function (r) {
             if (r.job.data.length > 0) {
                 let dr = r.job.data[0];
-                $('#dvDeclareNumber').html(CStr(dr.DeclareNumber));
+                $('#chkImport').prop('checked', dr.JobType == 1 ? true : false);
+                $('#chkExport').prop('checked', dr.JobType == 2 ? true : false);
+                $('#chkOther').prop('checked', dr.JobType > 2 ? true : false);
                 $('#dvMAWB').html(CStr(dr.MAWB));
+                $('#dvHAWB').html(CStr(dr.HAWB));
                 $('#dvJNo').html(CStr(dr.JNo));
-                $('#dvCloseJobDate').html(ShowDate(dr.CloseJobDate));
-                $('#dvETDDate').html(ShowDate(dr.ETDDate));                
-                $('#dvDelivery').html(CStr(dr.DeliveryTo));
+                $('#dvInvNo').html(CStr(dr.InvNo));
+                $('#dvContactName').html(CStr(dr.CustContactName));
+                $('#dvETDDate').html(ShowDate(dr.ETDDate));
+                $('#dvETADate').html(ShowDate(dr.ETADate));
+                $('#dvEstDeliverDate').html(ShowDate(dr.EstDeliverDate));
+                $('#dvVesselName').html(CStr(dr.VesselName));
                 $('#dvProduct').html(CStr(dr.InvProduct));
+                $('#dvGrossWeight').html(CStr(dr.TotalGW + ' ' + dr.GWUnit));
+                $('#dvMeasurement').html(CStr(dr.Measurement));
                 $('#dvTotalContainer').html(CStr(dr.TotalContainer));
-
-                $.get(path + 'Master/GetUser?Code=' + dr.CSCode).done((r) => {
-                    if (r.user.data.length > 0) {
-                        let p = r.user.data[0];
-                        $('#dvCSName').html(p.TName);
-                    }
-                });                
                 let intercountry = dr.InvFCountry;
                 if (dr.JobType !== 1) {
                     intercountry = dr.InvCountry;
