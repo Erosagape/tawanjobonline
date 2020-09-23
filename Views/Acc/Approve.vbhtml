@@ -53,16 +53,16 @@ End Code
         <table id="tbHeader" class="table table-responsive">
             <thead>
                 <tr>
-                    <th>DocNo</th>
-                    <th class="desktop">DocDate</th>
+                    <th class="desktop">Job Number</th>
+                    <th>Pay.No</th>
                     <th class="desktop">VenCode</th>
                     <th class="desktop">Customer</th>
-                    <th class="desktop">Job</th>
+                    <th class="desktop">Booking</th>
                     <th class="all">Container</th>
                     <th class="desktop">Inv.No</th>
                     <th class="desktop">Amount</th>
-                    <th class="desktop">WT</th>
                     <th class="desktop">VAT</th>
+                    <th class="desktop">WT</th>
                     <th class="all">NET</th>
                 </tr>
             </thead>
@@ -255,16 +255,11 @@ End Code
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
+                    { data: "JobNo", title: "Job Number" },
                     { data: "DocNo", title: "Pay.No" },
-                    {
-                        data: "DocDate", title: "Due Date",
-                        render: function (data) {
-                            return CDateEN(data);
-                        }
-                    },
                     { data: "VenCode", title: "Vender" },
                     { data: "CustCode", title: "Customer" },
-                    { data: "JobNo", title: "Job Number" },
+                    { data: "BookingRefNo", title: "Booking" },
                     { data: "RefNo", title: "Container.No" },
                     { data: "PoNo", title: "Inv.No" },
                     {

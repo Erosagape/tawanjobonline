@@ -172,7 +172,17 @@ End Code
                         <label id="lblSumNetInvoice"></label>
                     </td>
                 </tr>
-
+                <tr id="rowForeign" style="display:none">
+                    <td style="width:55%">
+                        NET TOTAL<br /> (Rate=<label id="lblExcRate"></label>)
+                    </td>
+                    <td style="width:25%;text-align:right">
+                        <label id="lblSumNetInvoiceF"></label>
+                    </td>
+                    <td style="width:20%;text-align:left">
+                        <label id="lblCurrency"></label>
+                    </td>
+                </tr>
             </table>
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
@@ -217,7 +227,7 @@ End Code
             header: [ JSON.parse(tempheader)],
             detail: [JSON.parse(tempdetail)],
             job: JSON.parse(tempjob)
-        };        
+        };
         ShowData(oTemp);
 
     } else {
@@ -235,7 +245,12 @@ End Code
             $('#lblDocNo').text(h.DocNo);
             $('#lblDocDate').text(ShowDate(CDateEN(h.DocDate)));
             $('#lblDueDate').text(ShowDate(CDateEN(h.DueDate)));
-            $('#lblForeignNet').text(ShowNumber(h.ForeignNet, 2));
+            $('#lblCurrency').text(h.CurrencyCode);
+            if (h.ExchangeRate > 1) {
+                $('#rowForeign').css('display', 'inline');
+            }
+            $('#lblExcRate').text(h.ExchangeRate);
+            $('#lblSumNetInvoiceF').text(ShowNumber(h.ForeignNet, 2));
 
             $('#lblVATRate').text(ShowNumber(h.VATRate,1));
 	        $.get(path+'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch='+ h.BillToCustBranch,function(r){
@@ -249,7 +264,7 @@ End Code
                         }
                         $('#lblCustName').text(c.NameEng);
                         $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2 + ' ' + c.TProvince + ' ' + c.TPostCode);
-                        $('#lblCustTel').text(c.Phone);                        
+                        $('#lblCustTel').text(c.Phone);
                         //$('#lblCustTName').text(dr.customer[0][0].NameEng);
                             //$('#lblCustTel').text(c.Phone);
                     }
@@ -335,7 +350,11 @@ End Code
                 irow += 1;
                 let html = '<tr>';
                 html += '<td style="text-align:center">' + irow + '</td>';
-                html += '<td>' + o.SDescription + '</td>';
+                html += '<td>' + o.SDescription;
+                if (o.CurrencyCode !== 'THB') {
+                    html += ' ('+ ShowNumber(o.FTotalAmt) +' ' + o.CurrencyCode + ')';
+                }
+                html += '</td>';
                 if (o.QtyUnit !== '') {
                     html += '<td style="text-align:center">' + o.Qty + 'x' + o.QtyUnit + '</td>';
                 } else {

@@ -28,18 +28,26 @@ End Code
 <div style="display:flex;flex-direction:column">
     <div class="block" style="width:100%;display:flex;flex-direction:row">
         <div style="flex:1">
-            SHIPPER/CONSIGNEE:
+            COMMERCIAL INVOICE:
         </div>
-        <div id="dvConsignee" class="underline" style="flex:4">
+        <div id="dvInvNo" class="underline" style="flex:2">
 
         </div>
         <div style="flex:1">
             JOB NO:
         </div>
-        <div id="dvJNo" class="underline" style="flex:1">
+        <div id="dvJNo" class="underline" style="flex:2">
 
         </div>
 
+    </div>
+    <div class="block" style="width:100%;display:flex;flex-direction:row">
+        <div style="flex:1">
+            SHIPPER/CONSIGNEE:
+        </div>
+        <div id="dvConsignee" class="underline" style="flex:5">
+
+        </div>
     </div>
     <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1;">
@@ -57,9 +65,9 @@ End Code
     </div>
     <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
-            ETD DATE:
+            ETA DATE:
         </div>
-        <div id="dvETDDate" class="underline" style="flex:2">
+        <div id="dvETADate" class="underline" style="flex:2">
 
         </div>
         <div style="flex:1">
@@ -260,6 +268,38 @@ End Code
                 <td class="textright"></td>
             </tr>
             <tr>
+                <td class="textleft"><br /></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft"><br /></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft"><br /></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
+                <td class="textleft"><br /></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+                <td class="textright"></td>
+            </tr>
+            <tr>
                 <td class="textright">TOTAL</td>
                 <td class="textright"></td>
                 <td class="textright"></td>
@@ -298,21 +338,21 @@ End Code
                     <label id="lblReqBy" style="font-size:10px">(__________________)</label>
                     <br />
                     Import Manager
-                    <br/>
+                    <br />
                     <label id="lblRequestDate" style="font-size:9px">__/__/____</label>
                 </td>
                 <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
                     <label id="lblCheckBy" style="font-size:9px">( Paruhas Boonpamorn )</label>
                     <br />
                     General Manager
-                    <br/>
+                    <br />
                     <label id="lblCheckDate" style="font-size:9px">__/__/____</label>
                 </td>
                 <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
                     <label id="lblAppBy" style="font-size:10px">( Yingqing Pan )</label>
                     <br />
                     Managing Director
-                    <br/>
+                    <br />
                     <label id="lblAppDate" style="font-size:9px">__/__/____</label>
                 </td>
             </tr>
@@ -330,8 +370,9 @@ End Code
                 $('#dvDeclareNumber').html(CStr(dr.DeclareNumber));
                 $('#dvMAWB').html(CStr(dr.MAWB));
                 $('#dvJNo').html(CStr(dr.JNo));
+                $('#dvInvNo').html(CStr(dr.InvNo));
                 $('#dvCloseJobDate').html(ShowDate(dr.CloseJobDate));
-                $('#dvETDDate').html(ShowDate(dr.ETDDate));                
+                $('#dvETADate').html(ShowDate(dr.ETADate));                
                 $('#dvDelivery').html(CStr(dr.DeliveryTo));
                 $('#dvProduct').html(CStr(dr.InvProduct));
                 $('#dvTotalContainer').html(CStr(dr.TotalContainer));

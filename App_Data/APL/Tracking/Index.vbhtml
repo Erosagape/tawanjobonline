@@ -41,18 +41,14 @@ End Code
 <table id="tbDetail" class="table table-responsive">
     <thead>
         <tr>
-            <th>Container No</th>
-            <th class="desktop">InvNo</th>
-            <th class="desktop">Booking No</th>
-            <th class="all">Status</th>
-            <th class="desktop">Location</th>
+            <th>Job Number</th>
             <th class="desktop">Customer</th>
+            <th class="desktop">Booking No</th>
+            <th class="all">Container No</th>
             <th class="desktop">Container Size</th>
-            <th class="desktop">Pickup</th>
+            <th class="desktop">Route</th>
             <th class="desktop">DeliveryDate</th>
-            <th class="all">ReturnDate</th>
-            <th class="desktop">Truck</th>
-            <th class="desktop">Seal</th>
+            <th class="desktop">Status</th>
         </tr>
     </thead>
     <tbody></tbody>
@@ -191,34 +187,24 @@ End Code
         }
         $.get(path + 'JobOrder/GetTransportReport?Branch=' + branch + w).done(function (r) {
             if (r.transport.data.length > 0) {
+                let dr = r.transport.data;
+                sortData(dr, 'JNo', 'asc');
                 $('#tbDetail').DataTable({
-                    data: r.transport.data,
+                    data: dr,
                     selected: true, //ให้สามารถเลือกแถวได้
                     columns: [ //กำหนด property ของ header column
-                        { data: "CTN_NO", title: "Container No" },
-                        { data: "InvNo", title: "Inv.No" },
-                        { data: "BookingNo", title: "Booking No" },
-                        { data: "TruckStatus", title: "Status" },
-                        { data: "Location", title: "Delivery" },
+                        { data: "JNo", title: "Job No" },
                         { data: "NotifyCode", title: "Customer" },
-                        { data: "CTN_SIZE", title: "Cont.Size" },
-                        {
-                            data: null, title: "Pickup Date", render: function (data) {
-                                return CDateEN(data.TargetYardDate);
-                            }
-                        },
+                        { data: "BookingNo", title: "Booking No" },
+                        { data: "CTN_NO", title: "Container No" },
+                        { data: "CTN_SIZE", title: "Container.Size" },
+                        { data: "Location", title: "Route" },                       
                         {
                             data: null, title: "Delivery Date", render: function (data) {
                                 return CDateEN(data.UnloadFinishDate);
                             }
                         },
-                        {
-                            data: null, title: "Return Date", render: function (data) {
-                                return CDateEN(data.ReturnDate);
-                            }
-                        },
-                        { data: "TruckNO", title: "Truck" },
-                        { data: "SealNumber", title: "Seal" }
+                        { data: "TruckStatus", title: "Status" }
                     ],
                     destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
                     responsive:true

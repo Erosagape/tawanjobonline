@@ -3059,6 +3059,7 @@ function ChangeLanguageGrid(module, id) {
             }
             SetGridLang(id, gridLang);
             break;
+/*
         case 'MODULE_ACC/Approve':
             if (id == '#tbHeader') {
                 gridLang = [
@@ -3075,6 +3076,7 @@ function ChangeLanguageGrid(module, id) {
             }
             SetGridLang(id, gridLang);
             break;
+*/
         case 'MODULE_ACC/Billing':
             if (id == '#tbHeader') {
                 gridLang = [
@@ -3882,6 +3884,7 @@ function ChangeLanguageGrid(module, id) {
             }
             SetGridLang(id, gridLang);
             break;
+/*
         case 'MODULE_CS/TruckApprove':
             if (id == '#tbDetail') {
                 gridLang = [
@@ -3901,6 +3904,7 @@ function ChangeLanguageGrid(module, id) {
             }
             SetGridLang(id, gridLang);
             break;
+*/
         case 'MODULE_CS/Index':
             gridLang = [
                 "Job Number|หมายเลขงาน",

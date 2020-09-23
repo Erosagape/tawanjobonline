@@ -67,17 +67,14 @@ End Code
     <thead>
         <tr>
             <th>#</th>
-            <th>Booking</th>
-            <th>JobNo</th>
-            <th>Customer</th>
-            <th>CTN_NO</th>
-            <th class="desktop">CTN_SIZE</th>
-            <th class="desktop">SealNumber</th>
+            <th>Job Number</th>
+            <th class="desktop">Customer</th>
+            <th class="desktop">Booking No</th>
+            <th class="all">Container No</th>
+            <th class="desktop">Container Size</th>
+            <th class="desktop">Route</th>
+            <th class="desktop">DeliveryDate</th>
             <th class="desktop">Status</th>
-            <th class="desktop">Location</th>
-            <th class="all">Pickup</th>
-            <th class="all">Delivery</th>
-            <th class="all">Return</th>
         </tr>
     </thead>
 </table>
@@ -545,8 +542,10 @@ End Code
         });
     }
     function ReadContainer(dr) {
+        let d = dr;
+        sortData(d, 'JNo', 'asc');
         $('#tbDetail').DataTable({
-            data: dr,
+            data: d,
             columns: [
                 {
                     data: null, title: "$",
@@ -554,12 +553,18 @@ End Code
                         return '<button class="btn btn-warning">Edit</button>'
                     }
                 },
+                { data: "JNo", title: "Job Number"},
+                { data: "NotifyCode", title: "Customer" },
                 { data: "BookingNo", title: "Booking" },
-                { data: "JNo", title: "Booking"},
-                { data: "NotifyCode", title: "Customer"},
                 { data: "CTN_NO", title: "Container No" },
                 { data: "CTN_SIZE", title: "Container Size" },
-                { data: "SealNumber", title: "Seal" },
+                { data: "Location", title: "Route" },
+                {
+                    data: null, title: "Delivery",
+                    render: function (data) {
+                        return CDateEN(data.UnloadFinishDate);
+                    }
+                },
                 {
                     data: "CauseCode", title: "Status",
                     render: function (data) {
@@ -580,25 +585,6 @@ End Code
                                 return 'Checking';
                                 break;
                         }
-                    }
-                },
-                { data: "Location", title: "To Location" },
-                {
-                    data: null, title: "Pickup Date",
-                    render: function (data) {
-                        return CDateEN(data.TargetYardDate);
-                    }
-                },
-                {
-                    data: null, title: "Delivery Date",
-                    render: function (data) {
-                        return CDateEN(data.UnloadDate);
-                    }
-                },
-                {
-                    data: null, title: "Return Date",
-                    render: function (data) {
-                        return CDateEN(data.TruckIN);
                     }
                 }
             ],

@@ -148,7 +148,7 @@
                     <a href="#" id="mnuVend0" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Approve Transport</a>
                     <a href="#" id="mnuVend1" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Entry Expenses</a>
                     <a href="#" id="mnuVend2" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Billing Invoice</a>
-                    <a href="#" id="mnuVend3" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">- Documents</a>
+                    <a href="#" id="mnuVend3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
                 </div>
             </div>
         </div>

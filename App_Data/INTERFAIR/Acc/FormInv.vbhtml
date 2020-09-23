@@ -119,7 +119,7 @@ End Code
             </tr>
         </thead>
         <tbody id="tbDetail"></tbody>
-        <tr>
+        <tr style="font-weight:bold;">
             <td colspan="2">
                 TOTAL AMOUNT
             </td>
