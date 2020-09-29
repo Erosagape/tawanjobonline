@@ -300,6 +300,14 @@ function LoadCliteria(reportID) {
         case 'BALANCS':
         case 'PROFITLOSS':
         case 'CASHFLOW':
+        case 'CASHBAL':
+            $('#tbDate').show();
+            $('#tbEmp').hide(); //hide
+            $('#tbCust').hide();  //hide
+            $('#tbStatus').hide(); //hide
+            $('#tbJob').show(); //hide
+            $('#tbVend').hide(); //hide
+            break;
         case 'JOURNAL':
         case 'ADVSUMMARY':
             $('#tbDate').show();

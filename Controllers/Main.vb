@@ -2785,7 +2785,7 @@ LEFT OUTER JOIN dbo.Mas_Vender AS v ON h.VenCode = v.VenCode
 LEFT OUTER JOIN Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
 LEFT OUTER JOIN Mas_Company c ON j.CustCode=c.CustCode AND j.CustBranch=c.Branch
 LEFT OUTER JOIN Job_LoadInfoDetail b ON h.BranchCode=b.BranchCode 
-AND h.RefNo=b.CTN_NO
+AND h.RefNo=b.CTN_NO AND j.BranchCode=b.BranchCode AND j.JNo=b.JNo
 LEFT OUTER JOIN Job_LoadInfo t ON b.BranchCode=t.BranchCode AND b.BookingNo=t.BookingNo
 LEFT OUTER JOIN Job_SrvSingle  s ON d.SICode=s.SICode
 LEFT OUTER JOIN Job_TransportPrice p ON h.BranchCode=p.BranchCode
@@ -2850,6 +2850,17 @@ d.GLAccountCode,ISNULL(e.GLAccountCodeCost,e.GLAccountCodeSales)
             "
         Return String.Format(tSql, sqlW)
     End Function
+    Public Function SQLSelectAdvForWhTax(sqlW As String) As String
+        Dim tSql = "
+select BranchCode,AdvNo,(CASE WHEN Rate50Tavi=1 THEN 'ค่าขนส่ง 1%' ELSE CONCAT('ค่าบริการ ',Rate50Tavi,'%') END) as SDescription,
+SUM(AdvAmount) as AdvAmount,SUM(Charge50Tavi) as Charge50Tavi
+,MAX(ForJNo) as ForJNo,Rate50Tavi 
+from Job_AdvDetail where Rate50Tavi>0 {0}
+group by BranchCode,AdvNo,Rate50Tavi
+        "
+        Return String.Format(tSql, sqlW)
+    End Function
+
     Public Sub UpdateClearStatus()
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToClear())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusFromAdvance())

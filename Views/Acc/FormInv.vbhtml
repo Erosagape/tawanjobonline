@@ -21,6 +21,11 @@ End Code
         border-radius: 5px;
         margin: 2px 2px 2px 2px;
         padding: 2px 2px 2px 2px;
+        word-wrap:break-word;
+    }
+
+    #dvFooter {
+        display:none;
     }
 </style>
 <div style="text-align:right;width:100%;">
@@ -150,7 +155,7 @@ End Code
         </tfoot>
     </table>
     <br />
-    <div style="display:flex">
+    <div style="display:flex;">
         <div class="text-left" style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
             WITHHOLDING TAX DETAIL
             <table style="width:100%;text-align:left">
@@ -202,15 +207,13 @@ End Code
     </div>
 </div>
 <div>
-    <div style="float:left">
+    <div style="width:100%;word-wrap:break-word;">
+        JOB# <label id="lblJobNo"></label><br />
         PLEASE PAY CHEQUE (A/C PAYER ONLY) PAYABLE TO APL LOGISTICS SVCS (THAILAND),LTD.<br />
         - LATE PAYMENT 2% WILL BE CHARGED IF PAID AFTER DUE DATE.<br />
         - IF ANY INCORRECT ITEM, PLEASE INFORM WITHIN 7 DAYS FROM THE DATE OF INVOICE,OTHERWISE WILL BE CONSIDERED CORRECT.<br />
         - TRANSPORTATION CHARGE IS NON-VAT AND SUBJECT TO 1% WITHHOLDING TAX.<br />
         - ALL OTHERS CHARGES EXCLUDING TRANSPORTATION ARE VAT AND SUBJECT TO 3% WITHHOLDING TAX.
-    </div>
-    <div style="float:right">
-        JOB# <label id="lblJobNo"></label><br />
     </div>
 </div>
 
@@ -254,20 +257,20 @@ End Code
 
             $('#lblVATRate').text(ShowNumber(h.VATRate,1));
 	        $.get(path+'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch='+ h.BillToCustBranch,function(r){
-                    let c = r.company.data[0];
-                    if (c !== null) {
-                        $('#lblTaxNumber').text(c.TaxNumber);
-                        if (Number(c.Branch == 0)) {
-                            $('#lblTaxBranch').text('HEAD OFFICE');
-                        } else {
-                            $('#lblTaxBranch').text(c.Branch);
-                        }
-                        $('#lblCustName').text(c.NameEng);
-                        $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2 + ' ' + c.TProvince + ' ' + c.TPostCode);
-                        $('#lblCustTel').text(c.Phone);
-                        //$('#lblCustTName').text(dr.customer[0][0].NameEng);
-                            //$('#lblCustTel').text(c.Phone);
+                let c = r.company.data[0];
+                if (c !== null) {
+                    $('#lblTaxNumber').text(c.TaxNumber);
+                    if (Number(c.Branch == 0)) {
+                        $('#lblTaxBranch').text('HEAD OFFICE');
+                    } else {
+                        $('#lblTaxBranch').text(c.Branch);
                     }
+                    $('#lblCustName').text(c.NameEng);
+                    $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2 + ' ' + c.TProvince + ' ' + c.TPostCode);
+                    $('#lblCustTel').text(c.Phone);
+                    //$('#lblCustTName').text(dr.customer[0][0].NameEng);
+                        //$('#lblCustTel').text(c.Phone);
+                }
             });
             $.get(path + 'Master/GetCompany?Code=' + h.CustCode + '&Branch=' + h.CustBranch, function (r) {
                 let c = r.company.data[0];
@@ -276,38 +279,65 @@ End Code
                 }
             });
             if (dr.job !== undefined) {
-                let j = dr.job[0][0];
-                if (j !== null) {
-                    $('#lblCustInvNo').text(j.InvNo);
-                    $('#lblCustPoNo').text(j.CustRefNO);
-                    $('#lblCustContact').text(j.CustContactName);
-                    $('#lblJobNo').text(j.JNo);
-                    $('#lblTotalContainer').text(j.TotalContainer);
-                    $('#tbLoading').hide();
-                    $.get(path + 'JobOrder/GetTransportReport?Branch=' + j.BranchCode + '&Job=' + j.JNo).done(function (r) {
-                        if (r.transport.data.length > 0) {
-                            let dr = r.transport.data;
-                            if (dr[0].BookingNo !== null) {
-                                let html = '';
-                                let i = 0;
-                                for (let row of dr) {
+                let job = dr.job[0];
+                let invNoList = '';
+                let poNoList = '';
+                let custContactList = '';
+                let jobNoList = '';
+                let containerList = '';
 
-                                    i += 1;
-                                    html += '<tr>';
-                                    html += '<td>' + i + '</td>';
-                                    html += '<td style="padding-left:5px;padding-right:5px"> ' + row.BookingNo + ' </td>';
-                                    html += '<td style="padding-left:5px;padding-right:5px"> ' + row.CTN_SIZE + ' </td>';
-                                    html += '<td style="padding-left:5px;padding-right:5px"> ' + row.CTN_NO + ' </td>';
-                                    html += '<td style="padding-left:5px;padding-right:5px"> ' + row.Location + ' </td>';
-                                    html += '</tr>';
-                                }
-                                $('#tbLoading tbody').html(html);
-                                $('#tbLoading').show();
-
-                            }
-                        }
-                    });
+                for (let j of job) {
+                    if (invNoList.indexOf(j.InvNo) < 0) {
+                        if (invNoList !== '') invNoList += ',';
+                        invNoList += j.InvNo;
+                    }
+                    if (poNoList.indexOf(j.CustRefNO) < 0) {
+                        if (poNoList !== '') poNoList += ',';
+                        poNoList += j.CustRefNO;
+                    }
+                    if (custContactList.indexOf(j.CustContactName) < 0) {
+                        if (custContactList !== '') custContactList += ',';
+                        custContactList += j.CustContactName;
+                    }
+                    if (jobNoList.indexOf(j.JNo) < 0) {
+                        if (jobNoList !== '') jobNoList += ',';
+                        jobNoList += j.JNo;
+                    }
+                    if (containerList.indexOf(j.TotalContainer) < 0) {
+                        if (containerList !== '') containerList += ',';
+                        containerList += j.TotalContainer;
+                    }
                 }
+                $('#lblCustInvNo').text(invNoList);
+                $('#lblCustPoNo').text(poNoList);
+                $('#lblCustContact').text(custContactList);
+                $('#lblJobNo').text(jobNoList);
+                $('#lblTotalContainer').text(containerList);
+
+                $('#tbLoading').hide();
+                $.get(path + 'JobOrder/GetTransportReport?Branch=' + h.BranchCode + '&JobList=' + jobNoList).done(function (r) {
+                    if (r.transport.data.length > 0) {
+                        let dr = r.transport.data;
+                        if (dr[0].BookingNo !== null) {
+                            let html = '';
+                            let i = 0;
+                            for (let row of dr) {
+
+                                i += 1;
+                                html += '<tr>';
+                                html += '<td>' + i + '</td>';
+                                html += '<td style="padding-left:5px;padding-right:5px"> ' + row.BookingNo + ' </td>';
+                                html += '<td style="padding-left:5px;padding-right:5px"> ' + row.CTN_SIZE + ' </td>';
+                                html += '<td style="padding-left:5px;padding-right:5px"> ' + row.CTN_NO + ' </td>';
+                                html += '<td style="padding-left:5px;padding-right:5px"> ' + row.Location + ' </td>';
+                                html += '</tr>';
+                            }
+                            $('#tbLoading tbody').html(html);
+                            $('#tbLoading').show();
+
+                        }
+                    }
+                });
             }
             let remark = h.Remark1;
 	        remark +=(h.Remark2!=='' ? '<br/>':'')+ h.Remark2;
@@ -360,11 +390,7 @@ End Code
                 } else {
                     html += '<td style="text-align:center">' + o.Qty + '</td>';
                 }
-                if (o.AmtCharge > 0) {
-                    html += '<td style="text-align:right">' + ShowNumber(o.UnitPrice, 2) + '</td>';
-                } else {
-                    html += '<td style="text-align:right">'+ShowNumber(o.TotalAmt, 2)+'</td>';
-                }
+                html += '<td style="text-align:right">'+ShowNumber(o.UnitPrice, 2)+'</td>';
 
                 sumbaseadv += (o.AmtAdvance > 0 ? Number(o.Amt) : 0);
                 sumvatadv += (o.AmtAdvance > 0 ? Number(o.AmtVat) : 0);

@@ -35,6 +35,9 @@ Namespace Controllers
             End If
             Return GetView("FormJob")
         End Function
+        Function FormPrepare() As ActionResult
+            Return GetView("FormPrepare")
+        End Function
         Function FormJobSum() As ActionResult
             Return GetView("FormJobSum")
         End Function
@@ -941,6 +944,10 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 End If
                 If Not IsNothing(Request.QueryString("Job")) Then
                     tSqlw &= String.Format(" AND Job_LoadInfoDetail.JNo='{0}' ", Request.QueryString("Job").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("JobList")) Then
+                    Dim JobList = Request.QueryString("JobList").ToString
+                    tSqlw &= String.Format(" AND Job_LoadInfoDetail.JNo IN('{0}') ", JobList.Replace(",", "','"))
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format(" AND Job_LoadInfo.BookingNo='{0}' ", Request.QueryString("Code").ToString)

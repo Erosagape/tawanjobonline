@@ -1255,6 +1255,7 @@ End Code
             return d.AmtCharge > 0 || d.AmtAdvance > 0;
         });
         sortData(arr_sel, 'SICode', 'asc');
+        sortData(arr_sel, 'UnitPrice', 'asc');
 
         let slipList = '';
         let clearList = '';
@@ -1262,9 +1263,11 @@ End Code
         let key = {};
         let itemNo = 0;
         let rowProcess = 0;
+        let checkData = '';
         for (obj of arr_sel) {
-            rowProcess +=1;
-            if (currCode !== obj.SICode) {
+            rowProcess += 1;
+            checkData = obj.SICode + '' + obj.UnitPrice;
+            if (currCode !== checkData) {
                 if (currCode !== '') {
                     key.ClrNo = '';
                     key.ClrItemNo = 0;
@@ -1274,7 +1277,7 @@ End Code
                     key.FUnitPrice = CDbl(CNum(key.UnitPrice) / CNum(obj.ExchangeRate), 2);
                     arr_new.push(key);
                 }
-                currCode = obj.SICode;
+                currCode = obj.SICode + '' + obj.UnitPrice;
                 itemNo += 1;
                 key = obj;
                 key.ItemNo = itemNo;

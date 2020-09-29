@@ -1033,6 +1033,7 @@
     <Content Include="App_Data\SINOTHAI\Clr\FormEntry.vbhtml" />
     <Content Include="App_Data\_STANDARD\Clr\FormEntry.vbhtml" />
     <Content Include="App_Data\INTERFAIR\Clr\FormEntry.vbhtml" />
+    <Content Include="App_Data\ACE\Master\Customers.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -1398,6 +1399,7 @@
     <Content Include="Views\Acc\Advance.vbhtml" />
     <Content Include="Views\Clr\Entry.vbhtml" />
     <Content Include="Views\Adv\FormClrAdv.vbhtml" />
+    <Content Include="Views\JobOrder\FormPrepare.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

@@ -54,7 +54,7 @@ End Code
     <thead>
         <tr>
             <th class="text-center" rowspan="2" width="40">ITEMS</th>
-            <th class="text-center" rowspan="2" width="100">BILLING NO</th>
+            <th class="text-center" rowspan="2" width="100">INVOICE NO</th>
             <th class="text-center" rowspan="2" width="80">INVOICE DATE</th>
             <th class="text-center" rowspan="2" width="90">RE-IMBURSEMENT</th>
             <th class="text-center" colspan="2">SERVICE CHARGES</th>

@@ -827,6 +827,37 @@ Namespace Controllers
                 Return Content("{""adv"":{""header"":[],""detail"":[],""msg"":""" & ex.Message & """}}", jsonContent)
             End Try
         End Function
+        Function GetAdvanceForWht() As ActionResult
+            Try
+                ViewBag.User = Session("CurrUser").ToString()
+                Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
+                If AuthorizeStr.IndexOf("R") < 0 Then
+                    Return Content("{""adv"":{""detail"":[],""msg"":""You are not allow to view""}}", jsonContent)
+                End If
+
+                Dim Branch As String = ""
+                If Not IsNothing(Request.QueryString("BranchCode")) Then
+                    Branch = Request.QueryString("BranchCode")
+                Else
+                    Return Content("{""adv"":{""detail"":[],""msg"":""Please enter some data""}}", jsonContent)
+                End If
+
+                Dim tSqlW As String = String.Format(" AND BranchCode='{0}'", Branch)
+                If Not IsNothing(Request.QueryString("AdvNo")) Then
+                    tSqlW &= " AND AdvNo='" & Request.QueryString("AdvNo") & "'"
+                End If
+
+                Dim oDataD = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectAdvForWhTax(tSqlW))
+                Dim jsond As String = JsonConvert.SerializeObject(oDataD)
+
+                Dim json = "{""adv"":{""detail"":" & jsond & "}}"
+
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetAdvanceDetail", ex.Message, ex.StackTrace, True)
+                Return Content("{""adv"":{""detail"":[],""msg"":""" & ex.Message & """}}", jsonContent)
+            End Try
+        End Function
         Function GetAdvanceDetail() As ActionResult
             Try
                 ViewBag.User = Session("CurrUser").ToString()

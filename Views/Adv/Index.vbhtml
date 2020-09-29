@@ -1967,7 +1967,7 @@ End Code
         });
     }
     function SetWHTaxDetail(docno) {
-        $.get(path + 'adv/getadvancedetail?branchcode=' + $('#txtBranchCode').val() + '&advno=' + $('#txtAdvNo').val(), function (r) {
+        $.get(path + 'adv/getadvanceforwht?branchcode=' + $('#txtBranchCode').val() + '&advno=' + $('#txtAdvNo').val(), function (r) {
             let dt = r.adv.detail.filter(function (data) {
                 return data.Charge50Tavi > 0;
             });
