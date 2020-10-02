@@ -3,17 +3,14 @@
     ViewBag.FileName = "export" & DateTime.Now.ToString("yyyyMMddHHMMss") & ".csv"
 End Code
 <style>
-    * {
-        font-size: 11px;        
-    }
-    label {
-        font-size: 14px;
+    table {
+        font-size: 7px;        
     }
 </style>
-<label id="rptTitle" onclick="ExportData()">Report Title</label>
+<label id="rptTitle" style="font-size:12px" onclick="ExportData()">Report Title</label>
 <div style="float:right" id="rptCliteria">Report Cliteria</div>
 <div style="display:flex;flex-direction:column;width:100%">
-    <table id="tbResult" style="width:100%">
+    <table id="tbResult" style="width:100%;word-break:break-word;">
         <thead></thead>
         <tbody></tbody>
         <tfoot></tfoot>
@@ -39,7 +36,7 @@ End Code
         if (obj.STATUSWHERE !== '') html += obj.STATUSWHERE + ',';
         if (obj.EMPWHERE !== '') html += obj.EMPWHERE + ',';
         if (obj.CODEWHERE !== '') html += obj.CODEWHERE + ',';
-        $('#rptCliteria').html('REPORT CODE:' + row.REPORTCODE + ', CLITERIA:'+ html);
+        $('#rptCliteria').html('REPORT CODE:' + row.REPORTCODE + ', CLITERIA:'+ ProcessCliteria(html));
         switch (lang) {
             case 'TH':
                 $('#rptTitle').text(row.REPORTNAMETH);
@@ -106,6 +103,17 @@ End Code
         // Download CSV file
         DownloadCSV(csv.join("\n"), filename);
     }
-
+    function ProcessCliteria(data) {
+        data = data.replace('[DATE]>=', 'Date From ');
+        data = data.replace('[DATE]<=', 'Date To ');
+        data = data.replace('[CUST]', 'Customer ');
+        data = data.replace('[VEND]', 'Vender ');
+        data = data.replace('[CODE]', 'Code ');
+        data = data.replace('[JOB]', 'Job ');
+        data = data.replace('[STATUS]', 'Status ');
+        data = data.replace('[EMP]', 'Staff ');
+        data = data.replace('[BRANCH]', 'Branch ');
+        return data;
+    }
 
 </script>

@@ -56,7 +56,7 @@ End Code
     <table id="tbInvoiceInfo" width="100%">
         <tr>
             <td colspan="3">
-                <b>INVOICE NO : </b><label id="lblInvNo"></label>
+                <b>COMMERCIAL INV: </b><label id="lblInvNo"></label>
             </td>
             <td>
                 <b>RATE :</b>1 <label id="lblCurrency"></label>=<label id="lblExcRate"></label> THB
@@ -70,7 +70,7 @@ End Code
                 <b>QTY : </b><label id="lblInvQty"></label> <label id="lblInvUnit"></label>
             </td>
             <td>
-                <b>TOTAL : </b><label id="lblInvTotal"></label>
+                <b>AMOUNT : </b><label id="lblInvTotal"></label>
             </td>
         </tr>
         <tr>
@@ -128,7 +128,7 @@ End Code
                 <b>FROM : </b><label id="lblFromCountry"></label>
             </td>
             <td colspan="2">
-                <b>PORT : </b><label id="lblFromPort"></label>
+                <b>PORT OF LOADING: </b><label id="lblFromPort"></label>
             </td>
         </tr>
         <tr>
@@ -136,7 +136,7 @@ End Code
                 <b>TO : </b><label id="lblToCountry"></label>
             </td>
             <td colspan="2">
-                <b>PORT : </b><label id="lblToPort"></label>
+                <b>PORT OF DELIVERY: </b><label id="lblToPort"></label>
             </td>
         </tr>
         <tr>
@@ -144,7 +144,7 @@ End Code
                 <b>VESSEL/FLIGHT : </b><label id="lblVesselName"></label>
             </td>
             <td colspan="2">
-                <b>AGENT : </b><label id="lblAgentName"></label>
+                <b>CARRIER : </b><label id="lblAgentName"></label>
             </td>
         </tr>
         <tr>

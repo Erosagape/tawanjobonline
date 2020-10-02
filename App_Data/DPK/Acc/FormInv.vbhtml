@@ -182,7 +182,7 @@ Tel: 084-5399663
             <div style="display:flex">
                 <div class="text-center" style="flex:2">
                     1%:<br />
-                    1.5%:
+                    3%:
                 </div>
                 <div style="flex:1;text-align:right;">
                     <label id="lblSumBaseWht1"></label><br />

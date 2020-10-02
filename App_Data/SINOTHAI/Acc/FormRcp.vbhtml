@@ -123,17 +123,29 @@ End Code
     function ShowData(dt) {
         let h = dt[0];
         //$('#lblCustCode').text(h.CustCode);
+        let branchText = '';
         if (h.UsedLanguage == 'TH') {
             $('#lblCustName').text(h.CustTName);
             $('#lblCustAddr').text(h.CustTAddr);
+            if (Number(h.CustBranch) == 0) {
+                branchText = ' สาขา: สำนักงานใหญ่';
+            } else {
+                branchText = CCode(Number(h.CustBranch));
+            }
         } else {
             $('#lblCustName').text(h.CustEName);
             $('#lblCustAddr').text(h.CustEAddr);
+            if (Number(h.CustBranch) == 0) {
+                branchText = ' BRANCH: HEAD OFFICE';
+            } else {
+                branchText = CCode(Number(h.CustBranch));
+            }
         }
         $('#lblCustTel').text(h.CustPhone);
-        $('#lblCustTax').text(h.CustTaxID);
+
+        $('#lblCustTax').text(h.CustTaxID + branchText);
         $('#lblReceiptNo').text(h.ReceiptNo);
-        $('#lblReceiptDate').text(ShowDate(CDateEN(h.ReceiveDate)));
+        $('#lblReceiptDate').text(ShowDate(CDateEN(h.ReceiptDate)));
         let html = '';
         let total = 0;
 

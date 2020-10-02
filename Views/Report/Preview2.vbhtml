@@ -4,22 +4,22 @@
 End Code
 <style>
     * {
-        font-size: 10px;        
+        font-size: 9px;        
     }
     label {
         font-size: 14px;
     }
     table {
         width:98%;
-    }    
+    }
     table,
     table tr td,
     table tr th {
-        border-width:thin;
-        border-collapse:collapse;
+        border-width: thin;
+        border-collapse: collapse;
     }
     table td {
-        white-space: nowrap; /** added **/
+        word-break: break-word;
     }
 </style>
 <label id="rptTitle" onclick="ExportData()">Report Title</label>
@@ -50,7 +50,7 @@ End Code
         if (obj.STATUSWHERE !== '') html += obj.STATUSWHERE + ',';
         if (obj.EMPWHERE !== '') html += obj.EMPWHERE + ',';
         if (obj.CODEWHERE !== '') html += obj.CODEWHERE + ',';
-        $('#rptCliteria').html(html);
+        $('#rptCliteria').html(ProcessCliteria(html));
         switch (lang) {
             case 'TH':
                 $('#rptTitle').text(row.REPORTNAMETH);
@@ -100,7 +100,18 @@ End Code
         // Click download link
         downloadLink.click();
     }
-
+    function ProcessCliteria(data) {
+        data = data.replace('[DATE]>=', 'Date From ');
+        data = data.replace('[DATE]<=', 'Date To ');
+        data = data.replace('[CUST]', 'Customer ');
+        data = data.replace('[VEND]', 'Vender ');
+        data = data.replace('[CODE]', 'Code ');
+        data = data.replace('[JOB]', 'Job ');
+        data = data.replace('[STATUS]', 'Status ');
+        data = data.replace('[EMP]', 'Staff ');
+        data = data.replace('[BRANCH]', 'Branch ');
+        return data;
+    }
     function ExportTableToCSV(filename) {
         var csv = [];
         var rows = document.querySelectorAll("#tbResult tr");

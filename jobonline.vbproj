@@ -363,6 +363,7 @@
     <Content Include="App_Data\SQL_Report_V2.3.sql" />
     <Content Include="App_Data\SQL_Report_V2.4.sql" />
     <Content Include="App_Data\SQL_Report_V2.5.sql" />
+    <Content Include="App_Data\SQL_Report_V2.6.sql" />
     <Content Include="App_Data\webadmin.txt" />
     <Content Include="App_Data\_STANDARD\Scripts\combo.js" />
     <Content Include="App_Data\_STANDARD\Scripts\lang.js" />
@@ -1034,6 +1035,7 @@
     <Content Include="App_Data\_STANDARD\Clr\FormEntry.vbhtml" />
     <Content Include="App_Data\INTERFAIR\Clr\FormEntry.vbhtml" />
     <Content Include="App_Data\ACE\Master\Customers.vbhtml" />
+    <Content Include="App_Data\SINOTHAI\Acc\Taxinvoice.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

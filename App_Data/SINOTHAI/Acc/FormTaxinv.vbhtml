@@ -34,8 +34,7 @@ End Code
 <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
     <thead>
         <tr style="background-color:lightblue;">
-            <th height="40" width="60">INV.NO.</th>
-            <th width="240">DESCRIPTION</th>
+            <th height="40" width="300">INV.NO.</th>
             <th width="70">JOB</th>
             <th width="60">SERVICE</th>
             <th width="30">VAT</th>
@@ -46,7 +45,7 @@ End Code
     <tbody id="tbDetail"></tbody>
     <tfoot>
         <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="2" style="text-align:center"><label id="lblTotalText"></label></td>
+            <td style="text-align:center"><label id="lblTotalText"></label></td>
             <td>TOTAL AMOUNT</td>
             <td><label id="lblTotalBeforeVAT"></label></td>
             <td><label id="lblTotalVAT"></label></td>
@@ -54,7 +53,7 @@ End Code
             <td><label id="lblTotalADV"></label></td>
         </tr>
         <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="6">TOTAL RECEIPT</td>
+            <td colspan="5">TOTAL RECEIPT</td>
             <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
         </tr>
     </tfoot>
@@ -78,6 +77,14 @@ End Code
 </div>
 <br />
 <div style="display:flex;">
+    <!--
+    <div class="text-left" style="border:1px solid black;flex:2">
+        PLEASE REMIT TO ACCOUNT NO: 170-279834-5<br />
+        "DAMON GOOD SERVICES CO.,LTD"<br />
+        SIAM COMMERCIAL BANK PUBLIC LIMITED<br />
+        THE MALL THA-PHRA BRANCH
+    </div>
+        -->
     <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
 
         FOR THE CUSTOMER
@@ -106,34 +113,49 @@ End Code
     } else {
         $('#dvCopy').html('<b>**COPY**</b>');
     }
-    $.get(path + 'acc/getreceivereport?branch=' + branch + '&code=' + receiptno, function (r) {
+    $.get(path + 'acc/getreceivereport?type=SUM&branch=' + branch + '&code=' + receiptno, function (r) {
         if (r.receipt.data.length !== null) {
             ShowData(r.receipt.data);
         }
     });
     function ShowData(dt) {
         let h = dt[0];
+        let serviceText = '';
         switch (h.ReceiptType) {
             case 'TAX':
                 $('#lblDocType').text('TAX-INVOICE/RECEIPT');
+                serviceText = 'Service Charges';
                 break;
             case 'SRV':
                 $('#lblDocType').text('TAX-INVOICE');
+                serviceText = 'Service Charges';
                 break;
             default:
                 $('#lblDocType').text('RECEIPT');
+                serviceText = 'Transportation Charges';
                 break;
         }
         //$('#lblCustCode').text(h.CustCode);
+        let branchText = '';
         if (h.UsedLanguage == 'TH') {
             $('#lblCustName').text(h.CustTName);
             $('#lblCustAddr').text(h.CustTAddr);
+            if (Number(h.CustBranch) == 0) {
+                branchText = ' สาขา: สำนักงานใหญ่';
+            } else {
+                branchText = CCode(Number(h.CustBranch));
+            }
         } else {
             $('#lblCustName').text(h.CustEName);
             $('#lblCustAddr').text(h.CustEAddr);
+            if (Number(h.CustBranch) == 0) {
+                branchText = ' BRANCH: HEAD OFFICE';
+            } else {
+                branchText = CCode(Number(h.CustBranch));
+            }
         }
         $('#lblCustTel').text(h.CustPhone);
-        $('#lblCustTax').text(h.CustTaxID);
+        $('#lblCustTax').text(h.CustTaxID + branchText);
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiveDate)));
         let html = '';
@@ -144,12 +166,7 @@ End Code
         let adv = 0;
         for (let d of dt) {
             html = '<tr>';
-            html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
-            if (d.ExpSlipNO !== '') {
-                html += '<td style="text-align:left">' + d.SDescription + ' #' + d.ExpSlipNO + '</td>';
-            } else {
-                html += '<td style="text-align:left">' + d.SDescription + '</td>';
-            }
+            html += '<td style="text-align:center">' + d.InvoiceNo + ' Date :' + ShowDate(d.InvoiceDate) +' '+ serviceText+ '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvAmt,2):'0.00') + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'0.00') + '</td>';

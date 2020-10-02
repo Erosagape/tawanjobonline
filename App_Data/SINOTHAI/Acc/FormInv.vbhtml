@@ -234,7 +234,7 @@ End Code
                     </td>
                 </tr>
                 <tr>
-                    <td style="width:55%">SERVICE 1.5%</td>
+                    <td style="width:55%">SERVICE 3%</td>
                     <td style="width:25%;text-align:right">
                         <label id="lblSumBaseWht3"></label>
                     </td>

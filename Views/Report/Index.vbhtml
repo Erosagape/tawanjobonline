@@ -370,6 +370,7 @@
             case 'APL':
                 window.open(path + 'Report/Preview' + GetCliteria() + '&Layout=2', '', '');
                 break;
+            case 'FIX':
             case 'EXP':
                 window.open(path + 'Report/Preview' + GetCliteria() +'&Layout=1', '', '');
                 break;

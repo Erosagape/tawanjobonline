@@ -61,7 +61,7 @@ End Code
             <td class="text-center" width="130">REIMBURSEMENT</td>
             <td class="text-center" width="90">SERVICE</td>
             <td class="text-center" width="50">1%</td>
-            <td class="text-center" width="50">1.5%</td>
+            <td class="text-center" width="50">3%</td>
         </tr>
         <tbody id="tbDetail"></tbody>
         <tr>

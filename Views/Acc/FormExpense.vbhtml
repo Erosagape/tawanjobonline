@@ -50,7 +50,7 @@ End Code
                     if (key !== groupField) {
                         //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
                         html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></th>';
-                        sumGroup.push({ isSummary: IsSummaryColumn(key), value: 0 });
+                        sumGroup.push({ isSummary: CheckAllIsNumber(tb,key), value: 0 });
                         sumTotal.push(0);
                         colCount++;
                     }
@@ -97,11 +97,9 @@ End Code
                                 html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
                             } else {
                                 if (r[c] !== null) {
-                                    if (IsNumberColumn(c) == true) {
-                                        if (sumGroup[col].isSummary == true) {
-                                            sumGroup[col].value += Number(r[c]);
-                                            sumTotal[col] += Number(r[c]);
-                                        }
+                                    if (sumGroup[col].isSummary == true) {
+                                        sumGroup[col].value += Number(r[c]);
+                                        sumTotal[col] += Number(r[c]);
                                         html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c], 2) + '</td>';
                                     } else {
                                         html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
@@ -195,6 +193,19 @@ End Code
         // Download CSV file
         DownloadCSV(csv.join("\n"), filename);
     }
-
+    function CheckAllIsNumber(arr, colName) {
+        let tb = JSON.parse(JSON.stringify(arr));
+        sortData(tb, colName, 'desc');
+        try {
+            let dbl = Number(tb[0][colName]);
+            if (isNaN(dbl)==false) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch {
+            return false;
+        }
+    }
 
 </script>

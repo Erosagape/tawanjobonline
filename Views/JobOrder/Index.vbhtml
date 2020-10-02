@@ -90,16 +90,19 @@ End Code
             <label for="txtJobNo" id="lblJob">Enter Job >></label>
             <input type="text" id="txtJobNo" class="form-control" />
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-4">
             <br />
             <div class="btn-group">
                 <button id="btnJobSlip" class="btn btn-success" onclick="OpenJob()">Show</button>
                 <a href="#" class="btn btn-info" id="btnPrnJob" onclick="PrintJob()">
-                    <i class="fa fa-lg fa-print"></i>
+                    <i class="fa fa-lg fa-print"></i> Job Order Form
+                </a>
+                <a href="#" class="btn btn-primary" id="btnPrnJob" onclick="PrintPrepareForm()">
+                    Prepare Form
                 </a>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <label id="lblQuickSearch">Quick Search</label>:
             <br/>
             <select class="form-control dropdown" id="cboField">
@@ -115,7 +118,7 @@ End Code
                 <option value="InvNo">Commercial Invoice</option>
             </select>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <label id="lblCliteria">Cliteria</label>:
             <br/>
             <input type="text" id="txtCliteria" class="form-control" />
@@ -324,6 +327,9 @@ End Code
     }
     function PrintJob() {
         window.open(path +'joborder/formjob?BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJobNo').val());
+    }
+    function PrintPrepareForm() {
+        window.open(path + 'joborder/formprepare');
     }
     function CreateNewJob() {
         window.open(path +'joborder/createjob?JType=' + $('#cboJobType').val() + '&SBy=' + $('#cboShipBy').val() + '&Branch=' + $('#cboBranch').val());

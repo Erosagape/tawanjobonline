@@ -767,7 +767,7 @@ function GetGroupCaption(src,fld, val) {
 function LoadReport(path, reportID, obj, lang) {
     let str = JSON.stringify(obj);
     let urlReport = '';
-    if (obj.ReportType == 'STD') {
+    if (obj.ReportType == 'STD' || obj.ReportType == 'FIX') {
         urlReport = path + 'Report/GetReport';
     } else {
         urlReport = path + 'Report/GetReportByConfig';
@@ -800,7 +800,7 @@ function LoadReport(path, reportID, obj, lang) {
                     if (key !== groupField) {
                         //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
                         html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></th>';
-                        sumGroup.push({ isSummary: IsSummaryColumn(key), value: 0 });
+                        sumGroup.push({ isSummary: CheckAllIsNumber(tb,key), value: 0 });
                         sumTotal.push(0);
                         colCount++;
                     }
@@ -847,11 +847,9 @@ function LoadReport(path, reportID, obj, lang) {
                                 html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
                             } else {
                                 if (r[c] !== null) {
-                                    if (IsNumberColumn(c) == true) {
-                                        if (sumGroup[col].isSummary == true) {
-                                            sumGroup[col].value += Number(r[c]);
-                                            sumTotal[col] += Number(r[c]);
-                                        }
+                                    if (sumGroup[col].isSummary == true) {
+                                        sumGroup[col].value += Number(r[c]);
+                                        sumTotal[col] += Number(r[c]);
                                         html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c], 2) + '</td>';
                                     } else {
                                         html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
@@ -900,7 +898,7 @@ function LoadReport(path, reportID, obj, lang) {
 function LoadReportNoTotal(path, reportID, obj, lang) {
     let str = JSON.stringify(obj);
     let urlReport = '';
-    if (obj.ReportType == 'STD') {
+    if (obj.ReportType == 'STD' || obj.ReportType == 'FIX') {
         urlReport = path + 'Report/GetReport';
     } else {
         urlReport = path + 'Report/GetReportByConfig';
@@ -934,7 +932,7 @@ function LoadReportNoTotal(path, reportID, obj, lang) {
                     if (key !== groupField) {
                         //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
                         html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></th>';
-                        sumGroup.push({ isSummary: IsSummaryColumn(key), value: 0 });
+                        sumGroup.push({ isSummary: CheckAllIsNumber(tb,key), value: 0 });
                         sumTotal.push(0);
                         colCount++;
                     }
@@ -980,11 +978,9 @@ function LoadReportNoTotal(path, reportID, obj, lang) {
                                 html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
                             } else {
                                 if (r[c] !== null) {
-                                    if (IsNumberColumn(c) == true) {
-                                        if (sumGroup[col].isSummary == true) {
-                                            sumGroup[col].value += Number(r[c]);
-                                            sumTotal[col] += Number(r[c]);
-                                        }
+                                    if (sumGroup[col].isSummary == true) {
+                                        sumGroup[col].value += Number(r[c]);
+                                        sumTotal[col] += Number(r[c]);
                                         html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c], 2) + '</td>';
                                     } else {
                                         html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
@@ -1017,4 +1013,18 @@ function LoadReportNoTotal(path, reportID, obj, lang) {
             }
         }
     });
+}
+function CheckAllIsNumber(arr, colName) {
+    let tb = JSON.parse(JSON.stringify(arr));
+    sortData(tb, colName, 'desc');
+    try {
+        let dbl = Number(tb[0][colName]);
+        if (isNaN(dbl) == false) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch {
+        return false;
+    }
 }
