@@ -534,6 +534,7 @@ End Code
     SetEnterToTab();
     $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
     $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+
     if (branch !== '' && code !== '') {
         $('#txtControlNo').val(code);
         LoadData();

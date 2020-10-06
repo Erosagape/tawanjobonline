@@ -334,6 +334,10 @@ End Code
         return;
     }
     function SetEvents() {
+        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtAdvDateF').val(GetFirstDayOfMonth());
+        $('#txtAdvDateT').val(GetLastDayOfMonth());
         //Combos
         let lists = 'JOB_TYPE=#cboJobType';
         lists += ',SHIP_BY=#cboShipBy';
@@ -344,9 +348,6 @@ End Code
         //default values
         $('#txtCurrencyCode').val('THB');
         ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
-
-        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
 
         //Events
         $('#txtBranchCode').focusout(function (event) {
@@ -387,7 +388,7 @@ End Code
                 ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
             }
         });
-        
+
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
@@ -548,7 +549,7 @@ End Code
         });
     }
     function SetStatusInput(d, bl, ctl) {
-        if (bl == false) {            
+        if (bl == false) {
             $(d).css("background-color", "darkgrey");
             $(d + ' :input').attr('disabled', true);
         } else {
@@ -709,7 +710,7 @@ End Code
 
         $('#txtSumApprove').val(CDbl(tot, 4));
         $('#txtSumWHTax').val(CDbl(wtax, 4));
-                                
+
         $('#txtListApprove').val(doc);
         $('#txtTRemark').val(doc);
     }
@@ -746,7 +747,7 @@ End Code
         let i = 0;
         if ($('#txtAdvCash').val() > 0) {
             i = i + 1;
-            let sum_cash = GetSumPayment('AdvCash');            
+            let sum_cash = GetSumPayment('AdvCash');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
                 ControlNo: docno,
@@ -955,7 +956,7 @@ End Code
                 response ? ShowMessage(msg) : ShowMessage("Cannot Payment");
                 if (response) {
                     PrintVoucher($('#txtBranchCode').val(), $('#txtControlNo').val());
-                }                
+                }
                 SetGridAdv(false);
             },
             error: function (e) {
@@ -1133,7 +1134,7 @@ End Code
                         return false;
                     }
                 }
-            }   
+            }
         }
         amtChk = Number($('#txtAdvChqCash').val());
         if (amtChk > 0) {
@@ -1156,7 +1157,7 @@ End Code
                             ShowMessage('Please input cheque date',true);
                             $('#txtChqCashTranDate').focus();
                             return false;
-                        } 
+                        }
                     }
                     if ($('#chkStatusChq').prop('checked') == true) {
                         if ($('#cboBankChqCash').val() == '' || $('#txtBankBranchChqCash').val() == '') {

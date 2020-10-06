@@ -291,15 +291,16 @@ End Code
     let dataApp = [];
     let docno = '';
     //$(document).ready(function () {
-        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
-
         SetEvents();
     //});
     function ChangeTab(id) {
         $('#myTabs a[href="' + id + '"]').tab('show');
     }
     function SetEvents() {
+        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtAdvDateF').val(GetFirstDayOfMonth());
+        $('#txtAdvDateT').val(GetLastDayOfMonth());
         //Combos
         let lists = 'JOB_TYPE=#cboJobType';
         loadCombos(path, lists);
@@ -553,7 +554,7 @@ End Code
             let o = arr[i];
             wtax += Number(o.Clr50Tavi);
             tot += Number(o.ClrBal);
-            
+
             let obj = {
                 BranchCode: $('#txtBranchCode').val(),
                 ControlNo: null,
@@ -853,7 +854,7 @@ End Code
                                 if (dataApp.indexOf(docApp) < 0) {
                                     dataApp.push(docApp);
                                 }
-                            }                    
+                            }
                             ReceiveClearing(docno);
                         }
                         SetGridAdv(false);
@@ -923,7 +924,7 @@ End Code
                     if (docno != '') {
                         $('#txtControlNo').val(docno);
                         SavePayment();
-                    } 
+                    }
                 }
             },
             error: function (e) {
@@ -1025,7 +1026,7 @@ End Code
                         return false;
                     }
                 }
-            }   
+            }
         }
         amtChk = Number($('#txtAdvChqCash').val());
         if (amtChk < 0) {
@@ -1048,7 +1049,7 @@ End Code
                             ShowMessage('Please input cheque date',true);
                             $('#txtChqCashTranDate').focus();
                             return false;
-                        } 
+                        }
                     }
                     if ($('#chkStatusChq').prop('checked') == true) {
                         if ($('#cboBankChqCash').val() == '' || $('#txtBankBranchChqCash').val() == '') {

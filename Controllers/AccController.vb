@@ -94,30 +94,30 @@ Namespace Controllers
                     Dim tSQL As String = ""
                     If poNumber <> "" Then
                         tSQL = String.Format("UPDATE Job_PaymentHeader SET PoNo='" & poNumber & "' WHERE BranchCode+'|'+DocNo in({0})", lst)
-                    Else
-                        Dim fmt = Main.GetValueConfig("RUNNING", "APP_PAY")
-                        If fmt <> "" Then
-                            If fmt.IndexOf("bb") >= 0 Then
-                                fmt = fmt.Replace("bb", DateTime.Today.AddYears(543).ToString("yy"))
-                            End If
-                            If fmt.IndexOf("MM") >= 0 Then
-                                fmt = fmt.Replace("MM", DateTime.Today.ToString("MM"))
-                            End If
-                            If fmt.IndexOf("yy") >= 0 Then
-                                fmt = fmt.Replace("yy", DateTime.Today.ToString("yy"))
-                            End If
-                        Else
-                            fmt = DateTime.Today.ToString("yyMM") & "____"
-                        End If
-                        Dim pFormat = Main.GetValueConfig("RUNNING_FORMAT", "APP_PAY") & fmt
-                        If pFormat.IndexOf("[VEN]") >= 0 Then
-                            pFormat = pFormat.Replace("[VEN]", vencode)
-                        End If
-                        Dim sqlApp = String.Format("SELECT MAX(ApproveRef) as t FROM Job_PaymentHeader WHERE ApproveRef Like '%{0}' ", pFormat)
-                        Dim appRef = Main.GetMaxByMask(GetSession("ConnJob"), sqlApp, pFormat)
-                        tSQL = String.Format("UPDATE Job_PaymentHeader SET ApproveRef='" & appRef & "',ApproveBy='" & user & "',ApproveDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',ApproveTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
- WHERE BranchCode+'|'+DocNo in({0})", lst)
+                        Main.DBExecute(GetSession("ConnJob"), tSQL)
                     End If
+                    Dim fmt = Main.GetValueConfig("RUNNING", "APP_PAY")
+                    If fmt <> "" Then
+                        If fmt.IndexOf("bb") >= 0 Then
+                            fmt = fmt.Replace("bb", DateTime.Today.AddYears(543).ToString("yy"))
+                        End If
+                        If fmt.IndexOf("MM") >= 0 Then
+                            fmt = fmt.Replace("MM", DateTime.Today.ToString("MM"))
+                        End If
+                        If fmt.IndexOf("yy") >= 0 Then
+                            fmt = fmt.Replace("yy", DateTime.Today.ToString("yy"))
+                        End If
+                    Else
+                        fmt = DateTime.Today.ToString("yyMM") & "____"
+                    End If
+                    Dim pFormat = Main.GetValueConfig("RUNNING_FORMAT", "APP_PAY") & fmt
+                    If pFormat.IndexOf("[VEN]") >= 0 Then
+                        pFormat = pFormat.Replace("[VEN]", vencode)
+                    End If
+                    Dim sqlApp = String.Format("SELECT MAX(ApproveRef) as t FROM Job_PaymentHeader WHERE ApproveRef Like '%{0}' ", pFormat)
+                    Dim appRef = Main.GetMaxByMask(GetSession("ConnJob"), sqlApp, pFormat)
+                    tSQL = String.Format("UPDATE Job_PaymentHeader SET ApproveRef='" & appRef & "',ApproveBy='" & user & "',ApproveDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',ApproveTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
+ WHERE BranchCode+'|'+DocNo in({0}) AND ISNULL(ApproveRef,'')=''", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Return New HttpResponseMessage(HttpStatusCode.OK)

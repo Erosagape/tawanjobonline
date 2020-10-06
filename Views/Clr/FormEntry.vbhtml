@@ -118,20 +118,20 @@ End Code
             <td rowspan="2">
                 Exchange Rate: <div id="dvInvCurRate"></div>
             </td>
-            <td colspan="3">
+            <td colspan="3" style="width:45%">
                 COST
             </td>
-            <td>SELLING</td>
-            <td rowspan="2">PROFIT</td>
+            <td style="width:15%;">SELLING</td>
+            <td style="width:15%" rowspan="2">PROFIT</td>
         </tr>
         <tr>
-            <td>
+            <td style="width:15%">
                 CUSTOMER-SLIP
             </td>
-            <td>
+            <td style="width:15%">
                 COMPANY-SLIP
             </td>
-            <td>
+            <td style="width:15%">
                 NO-SLIP
             </td>
             <td>

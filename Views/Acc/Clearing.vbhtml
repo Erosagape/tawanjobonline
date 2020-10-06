@@ -92,10 +92,12 @@ End Code
     let arr = [];
     //$(document).ready(function () {
     SetEvents();
-    $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-    $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
     //});
     function SetEvents() {
+        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtClrDateF').val(GetFirstDayOfMonth());
+        $('#txtClrDateT').val(GetLastDayOfMonth());
         //Combos
         let lists = 'JOB_TYPE=#cboJobType';
         lists += ',CLR_TYPE=#cboClrType';

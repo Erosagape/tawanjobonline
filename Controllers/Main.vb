@@ -81,7 +81,6 @@ Module Main
         End Try
         Return ret
     End Function
-
     Friend Function GetValueConfig(sCode As String, sKey As String, Optional sDef As String = "") As String
         Try
             Dim tSqlw As String = " WHERE ConfigCode<>'' "
@@ -1543,49 +1542,57 @@ LEFT JOIN dbo.Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
         Return formatStr
     End Function
     Function SaveLog(cust As String, app As String, modl As String, action As String, msg As String, isError As Boolean, Optional StackTrace As String = "", Optional JsonData As String = "") As String
-        Try
+        If Main.GetValueConfig("PROFILE", "SAVE_LOG", "Y") = "N" Then
+            Return "Save Log Is not activated"
+        Else
+            Try
+                Dim clientIP = HttpContext.Current.Request.UserHostAddress
+                Dim userLogin = HttpContext.Current.Session("CurrUser").ToString()
+                Dim sessionID = HttpContext.Current.Session.SessionID
+                Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
+                Dim oLog As New CLog(cnMas)
+                oLog.AppID = app & "(" & sessionID & ")"
+                oLog.CustID = cust & "/" & userLogin
+                oLog.FromIP = clientIP
+                oLog.ModuleName = modl
+                oLog.LogAction = action
+                oLog.Message = msg
+                oLog.StackTrace = StackTrace
+                oLog.JsonData = JsonData
+                oLog.IsError = isError
+                Return oLog.SaveData(" WHERE LogID=0 ")
+            Catch ex As Exception
+                Dim str = "[ERROR] : " & ex.Message
+                Return str
+            End Try
+        End If
+    End Function
+    Function SaveLogFromObject(cust As String, app As String, modl As String, action As String, obj As Object, IsError As Boolean, Optional StackTrace As String = "") As String
+        If Main.GetValueConfig("PROFILE", "SAVE_LOG", "Y") = "N" Then
+            Return "Save log is Not activated"
+        Else
             Dim clientIP = HttpContext.Current.Request.UserHostAddress
             Dim userLogin = HttpContext.Current.Session("CurrUser").ToString()
             Dim sessionID = HttpContext.Current.Session.SessionID
-            Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
-            Dim oLog As New CLog(cnMas)
-            oLog.AppID = app & "(" & sessionID & ")"
-            oLog.CustID = cust & "/" & userLogin
-            oLog.FromIP = clientIP
-            oLog.ModuleName = modl
-            oLog.LogAction = action
-            oLog.Message = msg
-            oLog.StackTrace = StackTrace
-            oLog.JsonData = JsonData
-            oLog.IsError = isError
-            Return oLog.SaveData(" WHERE LogID=0 ")
-        Catch ex As Exception
-            Dim str = "[ERROR] : " & ex.Message
-            Return str
-        End Try
-    End Function
-    Function SaveLogFromObject(cust As String, app As String, modl As String, action As String, obj As Object, IsError As Boolean, Optional StackTrace As String = "") As String
-        Dim clientIP = HttpContext.Current.Request.UserHostAddress
-        Dim userLogin = HttpContext.Current.Session("CurrUser").ToString()
-        Dim sessionID = HttpContext.Current.Session.SessionID
-        Try
-            Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
-            Dim oLog As New CLog(cnMas)
-            oLog.AppID = app & "(" & sessionID & ")"
-            oLog.CustID = cust & "/" & userLogin
-            oLog.FromIP = clientIP
-            oLog.ModuleName = modl
-            oLog.LogAction = action
-            oLog.Message = If(IsError = True, "ERROR", "SUCCESS")
-            oLog.JsonData = JsonConvert.SerializeObject(obj)
-            oLog.StackTrace = StackTrace
-            oLog.IsError = IsError
-            Return oLog.SaveData(" WHERE LogID=0 ")
-        Catch ex As Exception
-            Main.SaveLog(cust, app, modl, "SaveLogFromObject", ex.Message, True, ex.StackTrace, "")
-            Dim str = "[ERROR] : " & ex.Message
-            Return str
-        End Try
+            Try
+                Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
+                Dim oLog As New CLog(cnMas)
+                oLog.AppID = app & "(" & sessionID & ")"
+                oLog.CustID = cust & "/" & userLogin
+                oLog.FromIP = clientIP
+                oLog.ModuleName = modl
+                oLog.LogAction = action
+                oLog.Message = If(IsError = True, "ERROR", "SUCCESS")
+                oLog.JsonData = JsonConvert.SerializeObject(obj)
+                oLog.StackTrace = StackTrace
+                oLog.IsError = IsError
+                Return oLog.SaveData(" WHERE LogID=0 ")
+            Catch ex As Exception
+                Main.SaveLog(cust, app, modl, "SaveLogFromObject", ex.Message, True, ex.StackTrace, "")
+                Dim str = "[ERROR] : " & ex.Message
+                Return str
+            End Try
+        End If
     End Function
     Function GetDatabaseList(pCustomer As String, pApp As String) As List(Of String)
         Dim db = New List(Of String)

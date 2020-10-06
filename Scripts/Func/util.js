@@ -60,6 +60,30 @@ function SetSelect(tb, that) {
     $(tb+' tbody > tr').removeClass('selected');
     $(that).addClass('selected');
 }
+function GetLastDayOfMonth() {
+    var today = new Date();
+    var lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    let d = lastDayOfMonth,
+        month = '' + (d.getMonth() + 1),
+        day = d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+function GetFirstDayOfMonth() {
+    let d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = ''+1,
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
 function GetToday() {
     let d = new Date(),
         month = '' + (d.getMonth() + 1),

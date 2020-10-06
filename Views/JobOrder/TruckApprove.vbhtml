@@ -390,6 +390,8 @@ End Code
     function SetEvents() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
         if (userGroup == 'S') {
             $('#txtTargetYardDate').removeAttr('disabled');
             $('#txtTargetYardTime').removeAttr('disabled');
