@@ -28,7 +28,7 @@ Namespace Controllers
             Return GetView("TruckApprove", "MODULE_CS")
         End Function
         Function FormJob() As ActionResult
-            ViewBag.User = Session("CurrUser").ToString()
+            ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CS", "ShowJob")
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
@@ -188,7 +188,7 @@ Namespace Controllers
         End Function
         Function ApproveTransport(<FromBody()> ByVal data As String()) As HttpResponseMessage
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 If IsNothing(data) Then
                     Return New HttpResponseMessage(HttpStatusCode.BadRequest)
                 End If
@@ -222,7 +222,7 @@ Namespace Controllers
         End Function
         Function ApproveQuotation(<FromBody()> ByVal data As String()) As HttpResponseMessage
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_SALES", "QuoApprove")
                 If AuthorizeStr.IndexOf("I") < 0 Then
                     Return New HttpResponseMessage(HttpStatusCode.BadRequest)

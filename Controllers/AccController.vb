@@ -67,7 +67,7 @@ Namespace Controllers
                 If Not Request.QueryString("ID") Is Nothing Then
                     poNumber = Request.QueryString("ID").ToString()
                 Else
-                    ViewBag.User = Session("CurrUser").ToString()
+                    ViewBag.User = GetSession("CurrUser").ToString()
                     Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
                     If AuthorizeStr.IndexOf("I") < 0 Then
                         Return New HttpResponseMessage(HttpStatusCode.BadRequest)
@@ -1118,7 +1118,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             End Try
         End Function
         Function FormExpense() As ActionResult
-            ViewBag.User = Session("CurrUser").ToString()
+            ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Expense")
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
@@ -1127,7 +1127,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             Return GetView("FormExpense")
         End Function
         Function FormVoucher() As ActionResult
-            ViewBag.User = Session("CurrUser").ToString()
+            ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Voucher")
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
@@ -1136,7 +1136,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             Return GetView("FormVoucher")
         End Function
         Function FormWHTax() As ActionResult
-            ViewBag.User = Session("CurrUser").ToString()
+            ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "WHTax")
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
@@ -1146,7 +1146,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
         End Function
         Function GetVoucherGrid() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Voucher")
                 If AuthorizeStr.IndexOf("R") < 0 Then
                     AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
@@ -1217,7 +1217,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
         End Function
         Function GetVoucherReport() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Voucher")
                 If AuthorizeStr.IndexOf("R") < 0 Then
                     AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
@@ -1260,7 +1260,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
 
         Function GetVoucher() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Voucher")
                 If AuthorizeStr.IndexOf("R") < 0 Then
                     AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
@@ -1301,7 +1301,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
         End Function
         Function SetVoucherHeader(<FromBody()> data As CVoucher) As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Voucher")
                 If AuthorizeStr.IndexOf("E") < 0 Then
                     AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
@@ -1354,7 +1354,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
         End Function
         Function SetVoucherSub(<FromBody()> data As List(Of CVoucherSub)) As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Voucher")
                 If AuthorizeStr.IndexOf("E") < 0 Then
                     AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
@@ -1425,7 +1425,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
         End Function
         Function SetVoucherDoc(<FromBody()> data As List(Of CVoucherDoc)) As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Voucher")
                 If AuthorizeStr.IndexOf("E") < 0 Then
                     AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
@@ -1489,7 +1489,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
         End Function
         Function DelVoucherSub() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Voucher")
                 If AuthorizeStr.IndexOf("D") < 0 Then
                     AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
@@ -1536,7 +1536,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
         End Function
         Function DelVoucherDoc() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Voucher")
                 If AuthorizeStr.IndexOf("D") < 0 Then
                     AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
@@ -1579,7 +1579,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
         End Function
         Function DelVoucher() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Voucher")
                 If AuthorizeStr.IndexOf("D") < 0 Then
                     AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
@@ -1616,7 +1616,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
         End Function
         Function GetWHTax() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "WHTax")
                 If AuthorizeStr.IndexOf("R") < 0 Then
                     Return Content("{""whtax"":{""header"":null,""detail"":null,""msg"":""You are not allow to view""}}", jsonContent)
@@ -1690,7 +1690,7 @@ ORDER BY a.TName1
         End Function
         Function GetWHTaxGrid() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "WHTax")
                 If AuthorizeStr.IndexOf("R") < 0 Then
                     Return Content("{""whtax"":{""data"":null,""msg"":""You are not allow to view""}}", jsonContent)
@@ -1720,7 +1720,7 @@ ORDER BY a.TName1
 
         Function SetWHTaxHeader(<FromBody()> data As CWHTaxHeader) As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "WHTax")
                 If AuthorizeStr.IndexOf("E") < 0 Then
                     Return Content("{""result"":{""data"":null,""msg"":""You are not allow to save""}}", jsonContent)
@@ -1760,7 +1760,7 @@ ORDER BY a.TName1
         End Function
         Function DelWHTaxHeader() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "WHTax")
                 If AuthorizeStr.IndexOf("D") < 0 Then
                     Return Content("{""whtax"":{""data"":null,""result"":""You are not allow to delete""}}", jsonContent)
@@ -1792,7 +1792,7 @@ ORDER BY a.TName1
         End Function
         Function GetWHTaxDetail() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "WHTax")
                 If AuthorizeStr.IndexOf("R") < 0 Then
                     Return Content("{""whtax"":{""detail"":null,""msg"":""You are not allow to view""}}", jsonContent)
@@ -1818,7 +1818,7 @@ ORDER BY a.TName1
         End Function
         Function SetWHTaxDetail(<FromBody()> data As CWHTaxDetail) As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "WHTax")
                 If AuthorizeStr.IndexOf("E") < 0 Then
                     Return Content("{""result"":{""data"":null,""msg"":""You are not allow to save""}}", jsonContent)
@@ -1856,7 +1856,7 @@ ORDER BY a.TName1
         End Function
         Function DelWHTaxDetail() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "WHTax")
                 If AuthorizeStr.IndexOf("D") < 0 Then
                     Return Content("{""whtax"":{""data"":null,""result"":""You are not allow to delete""}}", jsonContent)

@@ -36,10 +36,10 @@ End Code
         <tr style="background-color:lightblue;">
             <th height="40" width="300">INV.NO.</th>
             <th width="70">JOB</th>
+            <th width="60">ADVANCE</th>
             <th width="60">SERVICE</th>
             <th width="30">VAT</th>
-            <th width="30">WHT</th>
-            <th width="60">ADVANCE</th>
+            <th width="30">TOTAL</th>
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
@@ -47,10 +47,10 @@ End Code
         <tr style="background-color:lightblue;text-align:right;">
             <td style="text-align:center"><label id="lblTotalText"></label></td>
             <td>TOTAL AMOUNT</td>
+            <td><label id="lblTotalADV"></label></td>
             <td><label id="lblTotalBeforeVAT"></label></td>
             <td><label id="lblTotalVAT"></label></td>
-            <td><label id="lblTotalWHT"></label></td>
-            <td><label id="lblTotalADV"></label></td>
+            <td><label id="lblTotalSumVAT"></label></td>
         </tr>
         <tr style="background-color:lightblue;text-align:right;">
             <td colspan="5">TOTAL RECEIPT</td>
@@ -153,14 +153,14 @@ End Code
             html = '<tr>';
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvAmt,2):'0.00') + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'0.00') + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.Inv50Tavi,2):'0.00') + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? '0.00':ShowNumber(d.InvTotal,2)) + '</td>';
+            html += '<td style="text-align:right">' + (CDbl(d.AmtCharge) > 0 ? '0.00' : ShowNumber((d.InvTotal), 2)) + '</td>';
+            html += '<td style="text-align:right">' + (CDbl(d.AmtCharge)>0 ? ShowNumber(d.InvAmt,2):'0.00') + '</td>';
+            html += '<td style="text-align:right">' + (CDbl(d.AmtCharge) > 0 ? ShowNumber(d.InvVAT, 2) : '0.00') + '</td>';
+            html += '<td style="text-align:right">' + (CDbl(d.AmtCharge) == 0 ? '0.00' : ShowNumber((d.InvAmt+d.InvVAT), 2)) + '</td>';
             html += '</tr>';
 
             $('#tbDetail').append(html);
-            if (d.AmtCharge > 0) {
+            if (CDbl(d.AmtCharge) > 0) {
                 service += Number(d.InvAmt);
                 vat += Number(d.InvVAT);
                 wht += Number(d.Inv50Tavi);
@@ -172,8 +172,8 @@ End Code
         }
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
-        $('#lblTotalWHT').text(ShowNumber(wht, 2));
         $('#lblTotalADV').text(ShowNumber(adv, 2));
+        $('#lblTotalSumVAT').text(ShowNumber(service+vat, 2));
         $('#lblTotalAfterVAT').text(ShowNumber(total, 2));
         $('#lblTotalText').text(CNumThai(total));
     }

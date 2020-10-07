@@ -1542,12 +1542,16 @@ LEFT JOIN dbo.Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
         Return formatStr
     End Function
     Function SaveLog(cust As String, app As String, modl As String, action As String, msg As String, isError As Boolean, Optional StackTrace As String = "", Optional JsonData As String = "") As String
-        If Main.GetValueConfig("PROFILE", "SAVE_LOG", "Y") = "N" Then
+        Dim isSaveLog = "Y"
+        If GetSession("ConnJob") <> "" Then
+            isSaveLog = Main.GetValueConfig("PROFILE", "SAVE_LOG", "Y")
+        End If
+        If isSaveLog = "N" Then
             Return "Save Log Is not activated"
         Else
             Try
                 Dim clientIP = HttpContext.Current.Request.UserHostAddress
-                Dim userLogin = HttpContext.Current.Session("CurrUser").ToString()
+                Dim userLogin = GetSession("CurrUser").ToString()
                 Dim sessionID = HttpContext.Current.Session.SessionID
                 Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
                 Dim oLog As New CLog(cnMas)
@@ -1568,16 +1572,20 @@ LEFT JOIN dbo.Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
         End If
     End Function
     Function SaveLogFromObject(cust As String, app As String, modl As String, action As String, obj As Object, IsError As Boolean, Optional StackTrace As String = "") As String
-        If Main.GetValueConfig("PROFILE", "SAVE_LOG", "Y") = "N" Then
+        Dim isSaveLog = "Y"
+        If GetSession("ConnJob") <> "" Then
+            isSaveLog = Main.GetValueConfig("PROFILE", "SAVE_LOG", "Y")
+        End If
+        If isSaveLog = "N" Then
             Return "Save log is Not activated"
         Else
-            Dim clientIP = HttpContext.Current.Request.UserHostAddress
-            Dim userLogin = HttpContext.Current.Session("CurrUser").ToString()
-            Dim sessionID = HttpContext.Current.Session.SessionID
             Try
+                Dim clientIP = HttpContext.Current.Request.UserHostAddress
+                Dim userLogin = GetSession("CurrUser").ToString()
+                Dim sessionID = HttpContext.Current.Session.SessionID
                 Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
                 Dim oLog As New CLog(cnMas)
-                oLog.AppID = app & "(" & sessionID & ")"
+                oLog.AppID = app & "(" & SessionId & ")"
                 oLog.CustID = cust & "/" & userLogin
                 oLog.FromIP = clientIP
                 oLog.ModuleName = modl
@@ -2957,6 +2965,10 @@ group by BranchCode,AdvNo,Rate50Tavi
         Return "''"
     End Function
     Function GetSession(sName As String) As String
-        Return HttpContext.Current.Session(sName).ToString
+        Try
+            Return HttpContext.Current.Session(sName).ToString
+        Catch ex As Exception
+            Return ""
+        End Try
     End Function
 End Module

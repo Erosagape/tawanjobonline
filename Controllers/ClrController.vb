@@ -17,6 +17,7 @@ Namespace Controllers
             Return View()
         End Function
         Function Index() As ActionResult
+            LoadCompanyProfile()
             Me.UpdateClearStatus()
             Return GetView("Index", "MODULE_CLR")
         End Function
@@ -27,11 +28,12 @@ Namespace Controllers
             Return GetView("FormEntry")
         End Function
         Function Receive() As ActionResult
+            LoadCompanyProfile()
             Main.UpdateClearStatus()
             Return GetView("Receive", "MODULE_CLR")
         End Function
         Function FormClr() As ActionResult
-            ViewBag.User = Session("CurrUser").ToString()
+            ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
@@ -39,7 +41,7 @@ Namespace Controllers
             Return GetView("FormClr")
         End Function
         Function Costing() As ActionResult
-            ViewBag.User = Session("CurrUser").ToString()
+            ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Costing")
             If AuthorizeStr.IndexOf("M") < 0 Then
                 Return Content("You are not allow to view", textContent)
@@ -101,7 +103,7 @@ Namespace Controllers
         '-----Controller-----
         Function ApproveClearing(<FromBody()> ByVal data As String()) As HttpResponseMessage
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Approve")
                 If AuthorizeStr.IndexOf("I") < 0 Then
                     Return New HttpResponseMessage(HttpStatusCode.BadRequest)
@@ -137,7 +139,7 @@ Namespace Controllers
             End Try
         End Function
         Function ReceiveEarnest(<FromBody()> data As String()) As HttpResponseMessage
-            ViewBag.User = Session("CurrUser").ToString()
+            ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Earnest")
             If AuthorizeStr.IndexOf("I") < 0 Then
                 Return New HttpResponseMessage(HttpStatusCode.BadRequest)
@@ -172,7 +174,7 @@ Namespace Controllers
             Return New HttpResponseMessage(HttpStatusCode.NoContent)
         End Function
         Function ReceiveClearing(<FromBody()> data As String()) As HttpResponseMessage
-            ViewBag.User = Session("CurrUser").ToString()
+            ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Receive")
             If AuthorizeStr.IndexOf("I") < 0 Then
                 Return New HttpResponseMessage(HttpStatusCode.BadRequest)
@@ -290,7 +292,7 @@ Namespace Controllers
         End Function
         Function GetClearingSum() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
                     Return Content("{""clr"":{""data"":[],""msg"":""You are not allow to view""}}", jsonContent)
@@ -367,7 +369,7 @@ Namespace Controllers
         End Function
         Function GetClearingGrid() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
                     Return Content("{""clr"":{""data"":[],""msg"":""You are not allow to view""}}", jsonContent)
@@ -547,7 +549,7 @@ Namespace Controllers
             End Try
         End Function
         Function GetNewClearHeader() As ActionResult
-            ViewBag.User = Session("CurrUser").ToString()
+            ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
             If AuthorizeStr.IndexOf("I") < 0 Then
                 Return Content("[]", jsonContent)
@@ -577,7 +579,7 @@ Namespace Controllers
             Return Content(json, jsonContent)
         End Function
         Function GetNewClearDetail() As ActionResult
-            ViewBag.User = Session("CurrUser").ToString()
+            ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
             If AuthorizeStr.IndexOf("I") < 0 Then
                 Return Content("[]", jsonContent)
@@ -606,7 +608,7 @@ Namespace Controllers
         End Function
         Function GetClearing() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
                     Return Content("{""clr"":{""header"":[],""detail"":[],""msg"":""You are not allow to view""}}", jsonContent)
@@ -635,7 +637,7 @@ Namespace Controllers
         End Function
         Function SetClrHeader(<FromBody()> data As CClrHeader) As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("E") < 0 Then
                     Return Content("{""result"":{""data"":[],""msg"":""You are not allow to save""}}", jsonContent)
@@ -680,7 +682,7 @@ Namespace Controllers
         End Function
         Function DelClearing() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("D") < 0 Then
                     Return Content("{""clr"":{""data"":[],""result"":""You are not allow to delete""}}", jsonContent)
@@ -714,7 +716,7 @@ Namespace Controllers
         End Function
         Function GetClrDetail() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
                     Return Content("{""clr"":{""detail"":[],""msg"":""You are not allow to view""}}", jsonContent)
@@ -765,7 +767,7 @@ Namespace Controllers
         End Function
         Function SetClrDetail(<FromBody()> data As CClrDetail) As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("E") < 0 Then
                     Return Content("{""result"":{""data"":[],""msg"":""You are not allow to save""}}", jsonContent)
@@ -797,7 +799,7 @@ Namespace Controllers
         End Function
         Function DelClrDetail() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
                 If AuthorizeStr.IndexOf("D") < 0 Then
                     Return Content("{""clr"":{""data"":[],""result"":""You are not allow to delete""}}", jsonContent)

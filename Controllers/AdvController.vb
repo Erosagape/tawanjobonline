@@ -16,7 +16,7 @@ Namespace Controllers
             Return GetView("Approve", "MODULE_ADV")
         End Function
         Function FormClrAdv() As ActionResult
-            ViewBag.User = Session("CurrUser").ToString()
+            ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
@@ -211,7 +211,7 @@ Namespace Controllers
             End Try
         End Function
         Function FormCreditAdv() As ActionResult
-            ViewBag.User = Session("CurrUser").ToString()
+            ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "CreditAdv")
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
@@ -219,7 +219,7 @@ Namespace Controllers
             Return GetView("FormCreditAdv")
         End Function
         Function FormAdv() As ActionResult
-            ViewBag.User = Session("CurrUser").ToString()
+            ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
@@ -227,7 +227,7 @@ Namespace Controllers
             Return GetView("FormAdv")
         End Function
         Function FormEstimate() As ActionResult
-            ViewBag.User = Session("CurrUser").ToString()
+            ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "EstimateCost")
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
@@ -236,7 +236,7 @@ Namespace Controllers
         End Function
         Function PaymentAdvance(<FromBody()> ByVal data As String()) As HttpResponseMessage
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
                 If AuthorizeStr.IndexOf("I") < 0 Then
                     Return New HttpResponseMessage(HttpStatusCode.BadRequest)
@@ -282,7 +282,7 @@ Namespace Controllers
         End Function
         Function ApproveAdvance(<FromBody()> ByVal data As String()) As HttpResponseMessage
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Approve")
                 If AuthorizeStr.IndexOf("I") < 0 Then
                     Return New HttpResponseMessage(HttpStatusCode.BadRequest)
@@ -319,7 +319,7 @@ Namespace Controllers
         End Function
         Function SaveAdvanceHeader(<FromBody()> ByVal data As CAdvHeader) As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If Not IsNothing(data) Then
                     data.SetConnect(GetSession("ConnJob"))
@@ -354,7 +354,7 @@ Namespace Controllers
         End Function
         Function SaveCustAdvance(<FromBody()> ByVal data As CAdvHeader) As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If Not IsNothing(data) Then
                     data.SetConnect(GetSession("ConnJob"))
@@ -389,7 +389,7 @@ Namespace Controllers
         End Function
         Function SetAdvDetail(<FromBody()> ByVal data As List(Of CAdvDetail)) As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
 
                 Dim AuthorizeStr = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("E") < 0 Then
@@ -448,7 +448,7 @@ Namespace Controllers
         End Function
         Function SaveAdvanceDetail(<FromBody()> ByVal data As CAdvDetail) As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If Not IsNothing(data) Then
                     data.SetConnect(GetSession("ConnJob"))
@@ -488,7 +488,7 @@ Namespace Controllers
         End Function
         Function DelAdvanceDetail() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("D") < 0 Then
                     Return Content("{""adv"":{""result"":""You are not allow to delete""}}", jsonContent)
@@ -526,7 +526,7 @@ Namespace Controllers
         End Function
         Function DelAdvanceHeader() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("D") < 0 Then
                     Return Content("{""adv"":{""result"":""You are not allow to delete""}}", jsonContent)
@@ -557,7 +557,7 @@ Namespace Controllers
         End Function
         Function GetNewAdvanceHeader() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("I") < 0 Then
                     Return Content("[]", jsonContent)
@@ -592,7 +592,7 @@ Namespace Controllers
         End Function
         Function GetNewAdvanceDetail() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("I") < 0 Then
                     Return Content("[]", jsonContent)
@@ -627,7 +627,7 @@ Namespace Controllers
         End Function
         Function GetAdvanceReport() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
                     Return Content("{""adv"":{""data"":[],""msg"":""You are not allow to view""}}", jsonContent)
@@ -697,7 +697,7 @@ Namespace Controllers
         End Function
         Function GetAdvanceGrid() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
                     Return Content("{""adv"":{""data"":[],""msg"":""You are not allow to view""}}", jsonContent)
@@ -771,7 +771,7 @@ Namespace Controllers
         End Function
         Function GetAdvance() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
                     Return Content("{""adv"":{""header"":[],""detail"":[],""msg"":""You are not allow to view""}}", jsonContent)
@@ -801,7 +801,7 @@ Namespace Controllers
             End Try
         End Function
         Function GetAdvanceClear() As ActionResult
-            ViewBag.User = Session("CurrUser").ToString()
+            ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
             If AuthorizeStr.IndexOf("R") < 0 Then
                 Return Content("{""adv"":{""header"":[],""detail"":[],""msg"":""You are not allow to view""}}", jsonContent)
@@ -829,7 +829,7 @@ Namespace Controllers
         End Function
         Function GetAdvanceForWht() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
                     Return Content("{""adv"":{""detail"":[],""msg"":""You are not allow to view""}}", jsonContent)
@@ -860,7 +860,7 @@ Namespace Controllers
         End Function
         Function GetAdvanceDetail() As ActionResult
             Try
-                ViewBag.User = Session("CurrUser").ToString()
+                ViewBag.User = GetSession("CurrUser").ToString()
                 Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
                 If AuthorizeStr.IndexOf("R") < 0 Then
                     Return Content("{""adv"":{""detail"":[],""msg"":""You are not allow to view""}}", jsonContent)
