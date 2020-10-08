@@ -355,6 +355,7 @@ End Code
     let arr_clr = [];
     let chq = [];
     let jt = '';
+    let creditlimit = 0;
     //$(document).ready(function () {
     //Load params
     let branch = getQueryString("branch");
@@ -363,7 +364,6 @@ End Code
     let custbranch = getQueryString("custbranch");
     let billtocustcode = '';
     let billtocustbranch = '';
-    let creditlimit = 0;
 
     if (branch !== '' && code !== '') {
         $('#txtBranchCode').val(branch);
@@ -1136,7 +1136,7 @@ End Code
             let month = dinput.getMonth;
             let year = dinput.getFullYear;
             let doutput = new Date(year, month, day);
-            return 'DUE DATE:' + CDateEN(doutput);
+            return CDateEN(doutput);
         }
         return '';
     }
@@ -1448,6 +1448,7 @@ End Code
         $('#txtAmtNET').val(ShowNumber(net,2));
     }
     function GetDataHeader() {
+        let duedate = GetDueDate($('#txtDocDate').val());
         return {
             BranchCode: $('#txtBranchCode').val(),
             DocNo: $('#txtDocNo').val(),
@@ -1496,8 +1497,8 @@ End Code
             CancelProve: '',
             CancelDate: null,
             CancelTime: null,
-            ShippingRemark: GetDueDate($('#txtDocDate').val()),
-            DueDate: null,
+            ShippingRemark: 'DUE DATE:' +  duedate,
+            DueDate: duedate=''? null : duedate,
             CreateDate: CDateEN(GetToday())
         };
     }

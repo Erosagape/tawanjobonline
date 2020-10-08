@@ -4,10 +4,10 @@
 End Code
 <style>
     * {
-        font-size: 9px;        
+        font-size: 8px;        
     }
     label {
-        font-size: 14px;
+        font-size: 10px;
     }
     table {
         width:98%;
