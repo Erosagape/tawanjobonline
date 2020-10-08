@@ -42,6 +42,15 @@ Namespace Controllers
         Function WHTax() As ActionResult
             Return GetView("WHTax", "MODULE_ACC")
         End Function
+        Function Tax50Tavi() As ActionResult
+            LoadCompanyProfile()
+            Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "WHTax")
+            If AuthorizeStr.IndexOf("M") < 0 Then
+                ViewBag.Module = "WH-Tax"
+                Return RedirectToAction("AuthError", "Menu")
+            End If
+            Return View()
+        End Function
         Function FormWTax3() As ActionResult
             Return GetView("FormWTax3")
         End Function
@@ -1701,12 +1710,25 @@ ORDER BY a.TName1
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" WHERE h.BranchCode ='{0}'", Request.QueryString("Branch").ToString)
                 Else
-                    tSqlw &= " WHERE NOT ISNULL(h.CancelProve,'')<>'' "
+                    tSqlw &= " WHERE NOT ISNULL(h.DocNo,'')<>'' "
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format(" AND h.DocNo ='{0}'", Request.QueryString("Code").ToString)
                 End If
-
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlw &= " AND h.DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlw &= " AND h.DocDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
+                If Not IsNothing(Request.QueryString("Show")) Then
+                    If Request.QueryString("Show").ToString = "CANCEL" Then
+                        tSqlw &= " AND ISNULL(h.CancelProve,'')<>'' "
+                    End If
+                    If Request.QueryString("Show").ToString = "ACTIVE" Then
+                        tSqlw &= " AND NOT ISNULL(h.CancelProve,'')<>'' "
+                    End If
+                End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(tSqlw)
                 Dim oHead As String = JsonConvert.SerializeObject(oData.AsEnumerable().ToList())
                 Dim json = "{""whtax"":{""data"":" & oHead & ",""msg"":""Complete!""}}"

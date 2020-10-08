@@ -105,11 +105,11 @@ End Code
             <td></td>
         </tr>
     </tbody>
-    <tfoot>
+    <tfoot style="width:98%;">
         <tr style="text-align:right;">
             <td colspan="2" rowspan="6" style="text-align:left;vertical-align:top;">
                 W/T :<label id="lblTotalWHT"></label>
-                <div id="dvInv"></div>
+                <div id="dvInv" style="white-space:normal;word-break:break-all;"></div>
             </td>
             <td colspan="2">TOTAL VAT</td>
             <td colspan="1"><label id="lblTotalBeforeVAT"></label></td>
@@ -276,7 +276,8 @@ End Code
         if (adv > 0) $('#lblSumAdv').text(ShowNumber(adv, 2));
 
         $('#dvInv').html('REF: ' +invno);
-        $('#lblTotalWHT').text(ShowNumber(wht, 2));
+
+        $('#lblTotalWHT').text(ShowNumber(h.Total50Tavi, 2));
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
         $('#lblTotalNONVAT').text(ShowNumber(transport, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));

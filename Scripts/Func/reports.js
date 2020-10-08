@@ -790,7 +790,14 @@ function LoadReport(path, reportID, obj, lang) {
                 let colCount = 0;
                 let sumGroup = [];
                 let sumTotal = [];
-
+                let lengthFld = '';
+                let colWidth = [];
+                if (res.colwidth !== '') {
+                    lengthFld = res.colwidth;
+                }
+                if (lengthFld.indexOf(',') > 0) {
+                    colWidth = lengthFld.split(',');
+                }
                 if (res.group !== '') {
                     groupField = res.group;
                 }
@@ -798,8 +805,13 @@ function LoadReport(path, reportID, obj, lang) {
                 let html = '<thead><tr><th style="border:1px solid black;text-align:left;background-color:lightgrey;">#</th>';
                 $.each(tb[0], function (key, value) {
                     if (key !== groupField) {
-                        //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
-                        html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></th>';
+                        html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;';
+                        if (colWidth.length > 0) {
+                            if (colWidth.length > colCount) {
+                                html += 'width:' + colWidth[colCount] + '%';
+                            }
+                        }
+                        html += '"><b>' + GetColumnHeader(key, lang) + '</b></th>';
                         sumGroup.push({ isSummary: CheckAllIsNumber(tb,key), value: 0 });
                         sumTotal.push(0);
                         colCount++;

@@ -407,7 +407,7 @@ End Code
 
                 $('#tbDetail').append(html);
 
-                if (o.Amt50Tavi > 0) {
+                if (o.Amt50Tavi > 0 && o.AmtCharge>0) {
                     if (o.Rate50Tavi == 1) {
                         sumbase1 += Number(o.Amt)-Number(o.AmtDiscount);
                         sumtax1 += Number(o.Amt50Tavi);

@@ -32,6 +32,7 @@ Namespace Controllers
             Dim sqlW As String = ""
             Dim fldGroup = ""
             Dim groupDatas = ""
+            Dim fldLength = ""
             Dim cliteria As String = data.ReportCliteria
             Try
                 Dim fldWhere = (GetValueConfig("REPORT_" & data.ReportCode, "MAIN_CLITERIA") & ",,,,,,,,").Split(",")
@@ -41,14 +42,16 @@ Namespace Controllers
                 End If
                 sqlM = GetValueConfig("REPORT_" & data.ReportCode, "MAIN_SQL")
                 fldGroup = GetValueConfig("REPORT_" & data.ReportCode, "GROUP_FIELD")
+                fldLength = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_LENGTH")
                 Dim dsGroup = GetValueConfig("REPORT_" & data.ReportCode, "GROUP_DATASOURCE")
+
                 If dsGroup <> "" Then
                     groupDatas = JsonConvert.SerializeObject(Main.GetDataConfig("GROUP_DATASOURCE"))
                 End If
                 sqlM = String.Format(sqlM, sqlW)
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)
-                Return Content("{""result"":" & json & ",""group"":""" & fldGroup & """,""groupdata"":[" & groupDatas & "],""msg"":""OK"",""sql"":""" & sqlW & """}")
+                Return Content("{""result"":" & json & ",""group"":""" & fldGroup & """,""groupdata"":[" & groupDatas & "],""colwidth"":""" & fldLength & """,""msg"":""OK"",""sql"":""" & sqlW & """}")
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetReportByConfig", ex.Message, ex.StackTrace, True)
                 Return Content("{""result"":[],""group"":null,""msg"":""" & ex.Message & """,""sql"":""" & sqlW & """}")
@@ -59,8 +62,10 @@ Namespace Controllers
             Dim sqlW As String = ""
             Dim fldGroup = ""
             Dim groupDatas = ""
+            Dim fldLength = ""
             Dim cliteria As String = data.ReportCliteria
             Try
+                fldLength = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_LENGTH")
                 Select Case data.ReportCode
                     Case "JOBDAILY"
                         fldGroup = "LoadDate"
@@ -478,7 +483,7 @@ a.BPrice as SumCost,a.ChargeVAT as AmtVat,a.Tax50Tavi as Amt50Tavi,(CASE WHEN IS
     order by a.SICode
 "
                         sqlM = String.Format(sqlM, sqlW)
-                    Case "JOBTRANSPORT"                        
+                    Case "JOBTRANSPORT"
                         sqlW = GetSQLCommand(cliteria, "c.LoadDate", "c.NotifyCode", "a.JNo", "", "c.VenderCode", "", "c.BranchCode")
                         If sqlW <> "" Then sqlW = " And " & sqlW
                         sqlM = "SELECT t.LoadDate,t.NotifyCode,t.VenderCode,t.JNo,t.BookingNo,t.CTN_NO,t.CTN_SIZE,t.TruckNO,t.TruckType,t.Location,
@@ -1465,7 +1470,7 @@ WHERE NOT ISNULL(h.CancelProve,'')<>''
                 End Select
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)
-                Return Content("{""result"":" & json & ",""group"":""" & fldGroup & """,""groupdata"":[" & groupDatas & "],""msg"":""OK"",""sql"":""" & sqlW & """}")
+                Return Content("{""result"":" & json & ",""group"":""" & fldGroup & """,""groupdata"":[" & groupDatas & "],""colwidth"":""" & fldLength & """,""msg"":""OK"",""sql"":""" & sqlW & """}")
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetReport", ex.Message, ex.StackTrace, True)
                 Return Content("{""result"":[],""group"":null,""msg"":""" & ex.Message & """,""sql"":""" & sqlW & """}")

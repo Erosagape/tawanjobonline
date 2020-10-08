@@ -163,16 +163,16 @@ End Code
                                     </div>                                                                        
                                 </div>
                                 <div style="display:flex">
-                                    <label style="width:40%" id="lblTotalCharge">Total Charge:</label><input type="text" id="txtTotalCharge" class="form-control" style="width:40%" disabled /> THB
+                                    <label style="width:40%" id="lblTotalCharge">Total Charge:</label><input type="text" id="txtTotalCharge" class="form-control" style="width:40%" onchange="CalTotal()" /> THB
                                 </div>
                                 <div style="display:flex">
-                                    <label style="width:40%" id="lblTotalVAT">Total VAT:</label><input type="text" id="txtTotalVAT" class="form-control" style="width:40%" disabled /> THB
+                                    <label style="width:40%" id="lblTotalVAT">Total VAT:</label><input type="text" id="txtTotalVAT" class="form-control" style="width:40%"  onchange="CalTotal()" /> THB
                                 </div>
                                 <div style="display:flex">
-                                    <label style="width:40%" id="lblTotal50Tavi">Total TAX:</label><input type="text" id="txtTotal50Tavi" class="form-control" style="width:40%" disabled /> THB
+                                    <label style="width:40%" id="lblTotal50Tavi">Total TAX:</label><input type="text" id="txtTotal50Tavi" class="form-control" style="width:40%"  onchange="CalTotal()" /> THB
                                 </div>
                                 <div style="display:flex">
-                                    <label style="width:40%" id="lblTotalNet">Total Net:</label><input type="text" id="txtTotalNet" class="form-control" style="width:40%" disabled /> THB
+                                    <label style="width:40%" id="lblTotalNet">Total Net:</label><input type="text" id="txtTotalNet" class="form-control" style="width:40%"  onchange="CalTotal()" /> THB
                                 </div>
                             </div>
                             <div class="col-sm-3" style="display:flex;flex-direction:column">
@@ -768,11 +768,11 @@ End Code
         $('#txtCurrencyCode').val(row.CurrencyCode);
         ShowCurrency(path, row.CurrencyCode, '#txtCurrencyName');
         $('#txtExchangeRate').val(row.ExchangeRate);
-        $('#txtTotalCharge').val(row.TotalCharge);
-        $('#txtTotalVAT').val(row.TotalVAT);
-        $('#txtTotal50Tavi').val(row.Total50Tavi);
-        $('#txtTotalNet').val(row.TotalNet);
-        $('#txtFTotalNet').val(row.FTotalNet);
+        $('#txtTotalCharge').val(ShowNumber(row.TotalCharge,2));
+        $('#txtTotalVAT').val(ShowNumber(row.TotalVAT,2));
+        $('#txtTotal50Tavi').val(ShowNumber(row.Total50Tavi,2));
+        $('#txtTotalNet').val(ShowNumber(row.TotalNet,2));
+        $('#txtFTotalNet').val(ShowNumber(row.FTotalNet,2));
     }
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);
@@ -916,6 +916,14 @@ End Code
                 $('#txtCreditAmount').val(amt);
                 break;
         }
+    }
+    function CalTotal() {
+        let amt = CNum($('#txtTotalCharge').val());
+        let vat = CNum($('#txtTotalVAT').val());
+        let wht = CNum($('#txtTotal50Tavi').val());
+        let net = amt + vat - wht;
+        $('#txtTotalNet').val(ShowNumber(net, 2));
+        CalForeign();
     }
     function CalForeign() {
         let totalforeign = CDbl(CNum($('#txtTotalNet').val()) / CNum($('#txtExchangeRate').val()), 2);

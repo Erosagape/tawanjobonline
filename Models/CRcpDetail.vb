@@ -438,12 +438,13 @@ h.ReceiveTime=c.RecTime
 from Job_ReceiptHeader h
 inner join (
 	select BranchCode,ReceiptNo,
-	sum(Amt) as TotalCharge,
-	sum(AmtVAT) as TotalVAT,
-	sum(Amt50Tavi) as Total50Tavi,
+	sum(CASE WHEN b.IsCredit=0 THEN Amt ELSE Net END) as TotalCharge,
+	sum(CASE WHEN b.IsCredit=0 THEN AmtVAT ELSE 0 END) as TotalVAT,
+	sum(CASE WHEN b.IsCredit=0 THEN Amt50Tavi ELSE 0 END) as Total50Tavi,
 	sum(Net) as TotalNet,
     max(ControlNo) as LastControl
-	from Job_ReceiptDetail 
+	from Job_ReceiptDetail a inner join
+    Job_SrvSingle b ON a.SICode=b.SICode
 	group by BranchCode,ReceiptNo
 ) d
 on h.BranchCode=d.BranchCode

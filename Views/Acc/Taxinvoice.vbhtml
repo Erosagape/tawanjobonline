@@ -177,16 +177,16 @@ End Code
                                 </div>
                             </div>
                             <div style="display:flex">
-                                <label id="lblTotalCharge" style="width:40%">Total Charge:</label><input type="text" id="txtTotalCharge" class="form-control" style="width:40%" disabled /> THB
+                                <label id="lblTotalCharge" style="width:40%">Total Charge:</label><input type="text" id="txtTotalCharge" class="form-control" style="width:40%" onchange="CalTotal()" /> THB
                             </div>
                             <div style="display:flex">
-                                <label id="lblTotalVAT" style="width:40%">Total VAT:</label><input type="text" id="txtTotalVAT" class="form-control" style="width:40%" disabled /> THB
+                                <label id="lblTotalVAT" style="width:40%">Total VAT:</label><input type="text" id="txtTotalVAT" class="form-control" style="width:40%" onchange="CalTotal()"/> THB
                             </div>
                             <div style="display:flex">
-                                <label id="lblTotal50Tavi" style="width:40%">Total TAX:</label><input type="text" id="txtTotal50Tavi" class="form-control" style="width:40%" disabled /> THB
+                                <label id="lblTotal50Tavi" style="width:40%">Total TAX:</label><input type="text" id="txtTotal50Tavi" class="form-control" style="width:40%" onchange="CalTotal()"/> THB
                             </div>
                             <div style="display:flex">
-                                <label id="lblTotalNet" style="width:40%">Total Net:</label><input type="text" id="txtTotalNet" class="form-control" style="width:40%" disabled /> THB
+                                <label id="lblTotalNet" style="width:40%">Total Net:</label><input type="text" id="txtTotalNet" class="form-control" style="width:40%" onchange="CalTotal()" /> THB
                             </div>
                         </div>
                         <div class="col-sm-3" style="display:flex;flex-direction:column">
@@ -861,11 +861,11 @@ End Code
         $('#txtCurrencyCode').val(row.CurrencyCode);
         ShowCurrency(path, row.CurrencyCode, '#txtCurrencyName');
         $('#txtExchangeRate').val(row.ExchangeRate);
-        $('#txtTotalCharge').val(row.TotalCharge);
-        $('#txtTotalVAT').val(row.TotalVAT);
-        $('#txtTotal50Tavi').val(row.Total50Tavi);
-        $('#txtTotalNet').val(row.TotalNet);
-        $('#txtFTotalNet').val(row.FTotalNet);
+        $('#txtTotalCharge').val(ShowNumber(row.TotalCharge,2));
+        $('#txtTotalVAT').val(ShowNumber(row.TotalVAT,2));
+        $('#txtTotal50Tavi').val(ShowNumber(row.Total50Tavi,2));
+        $('#txtTotalNet').val(ShowNumber(row.TotalNet,2));
+        $('#txtFTotalNet').val(ShowNumber(row.FTotalNet,2));
         $('#txtTRemark').val(row.TRemark);
 
         $('#txtCashAmt').val(0);
@@ -1047,6 +1047,14 @@ End Code
                 break;
         }
     }
+    function CalTotal() {
+        let amt = CNum($('#txtTotalCharge').val());
+        let vat = CNum($('#txtTotalVAT').val());
+        let wht = CNum($('#txtTotal50Tavi').val());
+        let net = amt + vat - wht;
+        $('#txtTotalNet').val(ShowNumber(net, 2));
+        CalForeign();
+    }
     function CalForeign() {
         let totalforeign = CDbl(CNum($('#txtTotalNet').val()) / CNum($('#txtExchangeRate').val()), 2);
         $('#txtFTotalNet').val(ShowNumber(totalforeign,2));
@@ -1067,6 +1075,7 @@ End Code
         $('#txtAmt50Tavi').val(CDbl(wht, 2));
         CalNetAmount();
     }
+
     function CalNetAmount() {
         let amt = CNum($('#txtAmt').val());
         let vat = CNum($('#txtAmtVAT').val());
@@ -1089,7 +1098,7 @@ End Code
         window.open(path +'Acc/GenerateTaxInv' + w, '_blank');
     }
     function SetAmount(id) {
-        $('#txt'+id+'Amt').val($('#txtTotalNet').val());
+        $('#txt'+id+'Amt').val(CDbl($('#txtTotalNet').val(),2));
     }
     function SetRemark() {
         let str = 'CASH';
