@@ -92,7 +92,7 @@
             mnuPath = path + 'Acc/Index';
             break;
         case 'WHTax':
-            mnuPath = path + 'Acc/WHTax';
+            mnuPath = path + 'Acc/Tax50Tavi';
             break;
         case 'Invoice':
             mnuPath = path + 'Acc/Invoice';

@@ -31,7 +31,7 @@ function ChangeLanguage(code, module) {
                 mnuMkt2: 'Approve Quotation|อนุมัติใบเสนอราคา',
                 mnuMkt3: 'Estimate Cost|ประมาณการค่าใช้จ่าย',
                 mainCS: 'CS Works|แผนกบริการลูกค้า',
-                mnuCS1: 'CreateJob|สร้างงานใหม่',
+                mnuCS1: 'Create Job|สร้างงานใหม่',
                 mnuCS2: 'List Job|ค้นหางาน',
                 mnuCS3: 'Loading Info|ข้อมูลรับบรรทุก',
                 mnuCS4: 'Witholding-Tax|ออกหนังสือหักณที่จ่าย',
@@ -60,7 +60,7 @@ function ChangeLanguage(code, module) {
                 mnuAcc5: 'Tax-Invoice|ใบกำกับภาษี',
                 mnuAcc6: 'Payment Bill|บิลค่าใช้จ่าย',
                 mnuAcc7: 'Credit/DebitNote|ใบเพิ่มหนี้/ลดหนี้',
-                mnuAcc8: 'JournalEntry|สมุดรายวัน',
+                mnuAcc8: 'Journal Entry|สมุดรายวัน',
                 mainRpt: 'Reports/Tracking|รายงานและการติดตามงาน',
                 mnuRpt1: 'Reports|รายงานต่างๆ',
                 mnuRpt2: 'Transport Tracking|การติดตามงานขนส่ง',
@@ -106,13 +106,13 @@ function ChangeLanguage(code, module) {
                 mainVend: 'Vender Works|งานผู้ให้บริการ',
                 mainVend2: 'Vender Works|งานผู้ให้บริการ',
                 mnuVen0: 'Approve Transport|อนุมัติงานขนส่ง',
-                mnuVen1: 'Entry Expenses|บันทึกค่าใช้จ่าย',
-                mnuVen2: 'Billing Invoice|บันทึกแจ้งวางบิล',
-                mnuVen3: 'Documents|เอกสารที่เกี่ยวข้อง',
+                mnuVen1: 'Payment Bill|บันทึกบิลค่าใช้จ่าย',
+                mnuVen2: 'Create Invoice|บันทึกแจ้งวางบิล',
+                mnuVen3: 'Transport Tracking|การติดตามงานขนส่ง',
                 mnuVend0: 'Approve Transport|อนุมัติงานขนส่ง',
-                mnuVend1: 'Entry Expenses|บันทึกค่าใช้จ่าย',
-                mnuVend2: 'Billing Invoice|บันทึกแจ้งวางบิล',
-                mnuVend3: 'Documents|เอกสารที่เกี่ยวข้อง'
+                mnuVend1: 'Payment Bill|บันทึกบิลค่าใช้จ่าย',
+                mnuVend2: 'Create Invoice|บันทึกแจ้งวางบิล',
+                mnuVend3: 'Transport Tracking|การติดตามงานขนส่ง'
             };
             SetLanguage(lang);
             ChangeLanguageForm(module);
@@ -456,7 +456,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_ACC/Approve':
             lang = {
-                lblTitle: 'Payment Billing Approve|อนุมัติบิลค่าใช้จ่าย',
+                lblTitle: 'Approve Expense|อนุมัติบิลค่าใช้จ่าย',
                 lblBranch: 'Branch|สาขา',
                 lblDateFrom: 'Due Date From|กำหนดชำระวันที่',
                 lblDateTo: 'To|ถึงวันที่',

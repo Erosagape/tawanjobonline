@@ -163,273 +163,424 @@ End Code
             <td rowspan="2">
                 Exchange Rate: <div id="dvInvCurRate"></div>
             </td>
-            <td colspan="3"  style="width:45%">
+            <td colspan="6"  style="width:45%">
                 COST
             </td>
-            <td style="width:15%">SELLING</td>
-            <td rowspan="2" style="width:15%">PROFIT</td>
+            <td colspan="2" style="width:15%">SELLING</td>
+            <td rowspan="2" colspan="2" style="width:15%">PROFIT</td>
         </tr>
         <tr>
-            <td style="width:15%">
+            <td colspan="2" style="width:15%">
                 CUSTOMER-SLIP
             </td>
-            <td style="width:15%">
+            <td colspan="2"  style="width:15%">
                 COMPANY-SLIP
             </td>
-            <td style="width:15%">
+            <td colspan="2"  style="width:15%">
                 NO-SLIP
             </td>
-            <td>
+            <td colspan="2" >
                 SERVICES
             </td>
         </tr>
         <tbody>
             <tr>
                 <td class="textleft">FREIGHT CHARGE</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">CFS CHARGE</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">THC CHARGE</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">B/L FEE</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">D/O FEE</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">SEAL FEE</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">STATUS</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">FACILITIES</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">HANDLING</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">CUSTOMS FORMAILTY</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">SERVICE CHARGES</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">TRANSPORTATION CHARGES</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">LABOUR CHARGES</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">CUSTOMS FEE</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">CASHIER CHEQUE</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">OVERTIME AGENT</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">OVERTIME PORT</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">CLEANING CONTAINER/FLOOR</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">TRUCKING PLANT</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">PROCURATION</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">PLANT CERFICATE</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">PAPERLESS FEE</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">PORT CHARGES</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">STORAGE CHARGES</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">DEMURRAGE/DETENTION CHARGES</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">RETURN EMPTY CONTAINER</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">KB TO CUSTOMER</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">REFUND FROM CARRIER</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">AGENT FEE</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
                 <td class="textleft">OPERATION COSTS</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
             <tr>
-                <td class="textleft" colspan="6">REMARK</td>
+                <td class="textleft" colspan="11">REMARK</td>
             </tr>
             <tr>
-                <td class="textright" colspan="5">NET PROFIT</td>
-                <td class="textright"></td>
+                <td class="textright" colspan="9">NET PROFIT</td>
+                <td class="textright" style="width:13%"></td>
+                <td class="textright" style="width:2%"></td>
             </tr>
         </tbody>
     </table>

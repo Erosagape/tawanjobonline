@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Approve Billing Payment"
+    ViewBag.Title = "Approve Expense"
 End Code
 <div class="row">
     <div class="col-sm-4">

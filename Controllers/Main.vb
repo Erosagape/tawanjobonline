@@ -2555,7 +2555,7 @@ LEFT JOIN (SELECT CAST(ConfigKey as int) as ShipBy,ConfigValue as ShipByName FRO
 LEFT JOIN Mas_Company e ON e.CustCode=j.CustCode AND e.Branch=j.CustBranch
 LEFT JOIN (SELECT CustCode,MAX(Branch) as Branch,MAX(NameEng) as NameEng FROM  Mas_Company GROUP BY CustCode) i ON i.CustCode=j.consigneecode
 LEFT JOIN Mas_Vender t ON j.ForwarderCode=t.VenCode
-WHERE a.DocStatus<>99 AND b.BNet>0 {0}
+WHERE a.DocStatus<>99 AND b.BNet>0 AND j.JobStatus<>99 {0}
 GROUP BY j.DocDate,j.DutyDate,b.JobNo,jt.JobTypeName,sb.ShipByName,e.NameEng,i.NameEng,j.DeliveryTo,j.InvProduct,t.TName,j.InvNo,j.HAWB,
 j.InvNo,j.HAWB,j.DeclareNumber,j.ETDDate,j.ETADate,j.LoadDate,j.EstDeliverDate,j.TotalContainer 
 ORDER BY j.DocDate,b.JobNo

@@ -1396,7 +1396,7 @@
     <Content Include="Views\Report\Preview1.vbhtml" />
     <Content Include="Views\Acc\VenderInv.vbhtml" />
     <Content Include="Views\Acc\BillPayment.vbhtml" />
-    <Content Include="Views\Clr\FormEntry.vbhtml" />
+    <Content Include="Views\Adv\FormEntry.vbhtml" />
     <Content Include="Views\Acc\Clearing.vbhtml" />
     <Content Include="Views\Acc\Advance.vbhtml" />
     <Content Include="Views\Clr\Entry.vbhtml" />

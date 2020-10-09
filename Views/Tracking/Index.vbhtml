@@ -13,7 +13,7 @@ End Code
             </div>
         </div>
         <div class="col-sm-4">
-            Customer:
+            <span id="lblType">Customer</span>
             <br />
             <div style="display:flex;flex-direction:row">
                 <input type="text" class="form-control" id="txtCustCode" style="width:20%" disabled />
@@ -61,6 +61,7 @@ End Code
     let user = '@ViewBag.User';
     let vencode = '';
     if (userGroup == 'V') {
+        $('#lblType').html('Vender:');
         $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
             if (r.vender.data.length > 0) {
                 let dr = r.vender.data[0];

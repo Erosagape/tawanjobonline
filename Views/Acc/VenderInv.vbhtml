@@ -308,7 +308,7 @@ End Code
             dataApp.push(arr[i].BranchCode + '|' + arr[i].DocNo);
         }
         let jsonString = JSON.stringify({ data: dataApp });
-        let postUrl = "@Url.Action("ApproveExpense", "Acc")?ID=" + $('#txtID').val();
+        let postUrl = "@Url.Action("ApproveExpense", "Acc")?Code='"+ $('#txtVenCode').val() +'&ID=' + $('#txtID').val();
         $.ajax({
             url: postUrl,
             type: "POST",

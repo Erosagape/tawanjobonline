@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Lists Advance"
+    ViewBag.Title = "List Advance"
 End Code
 <div class="panel-body">
     <div class="container">

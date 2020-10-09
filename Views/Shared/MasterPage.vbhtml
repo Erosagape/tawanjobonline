@@ -110,9 +110,9 @@
                 </div>
                 <div id="mnuVen" class="w3-hide w3-pale-red w3-card-4">
                     <a href="#" id="mnuVen0" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Approve Transport</a>
-                    <a href="#" id="mnuVen2" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Entry Expenses</a>
+                    <a href="#" id="mnuVen2" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Payment Bill</a>
                     <a href="#" id="mnuVen1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Create Invoice</a>
-                    <a href="#" id="mnuVen3" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">- Documents</a>
+                    <a href="#" id="mnuVen3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
                 </div>
                 <div id="mainRpt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuRpt')">
                     Report & Tracking
@@ -146,9 +146,9 @@
                 </div>
                 <div id="mnuVend" class="w3-hide w3-pale-red w3-card-4">
                     <a href="#" id="mnuVend0" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Approve Transport</a>
-                    <a href="#" id="mnuVend2" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Entry Expenses</a>
+                    <a href="#" id="mnuVend2" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Payment Bill</a>
                     <a href="#" id="mnuVend1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Create Invoice</a>
-                    <a href="#" id="mnuVend3" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">- Documents</a>
+                    <a href="#" id="mnuVend3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
                 </div>
             </div>
         </div>
