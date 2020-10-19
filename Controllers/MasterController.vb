@@ -1054,6 +1054,9 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("ID")) Then
                     tSqlw &= String.Format(" AND LoginName='{0}'", Request.QueryString("ID").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("Vend")) Then
+                    tSqlw &= String.Format(" AND CustCode IN(SELECT DISTINCT CustCode FROM Job_Order WHERE AgentCode='{0}')", Request.QueryString("Vend").ToString)
+                End If
                 Dim oData = New CCompany(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 Dim oContact = New CCompanyContact(GetSession("ConnJob")).GetData(tSqlC)

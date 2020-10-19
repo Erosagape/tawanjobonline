@@ -934,7 +934,10 @@ function LoadReportNoTotal(path, reportID, obj, lang) {
                 let colCount = 0;
                 let sumGroup = [];
                 let sumTotal = [];
-
+                let sumFields = '';
+                if (res.summary !== '') {
+                    sumFields = res.summary;
+                }
                 if (res.group !== '') {
                     groupField = res.group;
                 }
@@ -944,7 +947,11 @@ function LoadReportNoTotal(path, reportID, obj, lang) {
                     if (key !== groupField) {
                         //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
                         html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></th>';
-                        sumGroup.push({ isSummary: CheckAllIsNumber(tb, key), value: 0 });
+                        if (sumFields.indexOf(key) >= 0 && CheckAllIsNumber(tb, key)) {
+                            sumGroup.push({ isSummary: true, value: 0 });
+                        } else {
+                            sumGroup.push({ isSummary: false, value: 0 });
+                        }
                         sumTotal.push(0);
                         colCount++;
                     }

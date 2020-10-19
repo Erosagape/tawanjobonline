@@ -77,7 +77,7 @@ Namespace Controllers
                     poNumber = Request.QueryString("ID").ToString()
                 Else
                     ViewBag.User = GetSession("CurrUser").ToString()
-                    Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Payment")
+                    Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Payment")
                     If AuthorizeStr.IndexOf("I") < 0 Then
                         Return New HttpResponseMessage(HttpStatusCode.BadRequest)
                     End If

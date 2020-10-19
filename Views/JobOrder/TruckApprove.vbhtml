@@ -153,7 +153,7 @@ End Code
                                 <br />
                                 <div style="display:flex">
                                     <input type="text" id="txtRouteID" class="form-control" disabled />
-                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('route')" />
+                                    <input type="button" class="btn btn-default" value="..." id="btnBrowseLoc" onclick="SearchData('route')" />
                                 </div>
                             </div>
                             <div class="col-sm-9">
@@ -404,6 +404,7 @@ End Code
             $('#txtVenCode').attr('disabled', 'disabled');
             $('#txtVenName').attr('disabled', 'disabled');
             $('#btnBrowseVend').attr('disabled', 'disabled');
+            $('#btnBrowseLoc').attr('disabled', 'disabled');
             $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
                 if (r.vender.data.length > 0) {
                     let dr = r.vender.data[0];
@@ -483,7 +484,11 @@ End Code
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
                 break;
             case 'customer':
-                SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
+                if (userGroup == 'V') {
+                    SetGridCompanyByVender(path, '#tbCust', $('#txtVenCode').val(), '#frmSearchCust', ReadCustomer);
+                } else {
+                    SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
+                }
                 break;
             case 'carunit':
                 SetGridServUnitFilter(path, '#tbUnitC', '?Type=2', '#frmSearchUnitC', ReadCarUnit);

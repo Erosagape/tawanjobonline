@@ -1414,3 +1414,30 @@ function SetGridLocation(p, g, d, t, ev) {
         }
     });
 }
+function SetGridCompanyByVender(p, g, t, d, ev) {
+    $(g).DataTable({
+        ajax: {
+            url: p + 'Master/GetCompany?Vend=' + t, //web service ที่จะ call ไปดึงข้อมูลมา
+            dataSrc: 'company.data'
+        },
+        selected: true, //ให้สามารถเลือกแถวได้
+        columns: [ //กำหนด property ของ header column
+            { data: null, title: "#" },
+            { data: "CustCode", title: mainLanguage == "TH" ? "รหัส" : "Code" },
+            { data: "Branch", title: mainLanguage == "TH" ? "สาขา" : "Branch" },
+            { data: "NameThai", title: mainLanguage == "TH" ? "ชื่อ" : "Name" }
+        ],
+        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+            {
+                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                "data": null,
+                "render": function (data, type, full, meta) {
+                    let html = "<button class='btn btn-warning'>Select</button>";
+                    return html;
+                }
+            }
+        ],
+        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+    });
+    BindEvent(g, d, ev);
+}

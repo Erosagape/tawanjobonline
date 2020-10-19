@@ -469,7 +469,7 @@ End Code
         });
     }
     function SetPlace(id, val) {
-        $.get(path + 'Master/GetTransportPlace?Type='+ id +'&Code=' + val).done(function (r) {
+        $.get(path + 'Master/GetTransportPlace?Type=' + id + '&Code=' + val.toString().replace("'", "''")).done(function (r) {
             if (r.transportplace.data.length > 0) {
                 let d = r.transportplace.data[0];
                 $('#txtAddress'+ d.PlaceType).val(d.PlaceAddress);

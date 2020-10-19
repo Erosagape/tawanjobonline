@@ -1,15 +1,15 @@
 ﻿@Code
-    Layout = "~/Views/Shared/_ReportNoHeadLandscape.vbhtml"
+    Layout = "~/Views/Shared/_ReportLandscape.vbhtml"
     ViewBag.Title = "Vender Summary Report"
     ViewBag.FileName = "export" & DateTime.Now.ToString("yyyyMMddHHMMss") & ".csv"
 End Code
 <style>
     * {
-        font-size: 11px;
+        font-size: 8px;
     }
 
     label {
-        font-size: 14px;
+        font-size: 10px;
     }
 </style>
 <label id="rptTitle" onclick="ExportData()">Report Title</label>
@@ -49,8 +49,8 @@ End Code
                 $.each(tb[0], function (key, value) {
                     if (key !== groupField) {
                         //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
-                        html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></th>';
-                        sumGroup.push({ isSummary: CheckAllIsNumber(tb,key), value: 0 });
+                        html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></th>';                        
+                        sumGroup.push({ isSummary: ((colCount >= 8 && colCount< (Object.keys(tb[0]).length-3))? CheckAllIsNumber(tb, key) : false), value: 0 });
                         sumTotal.push(0);
                         colCount++;
                     }

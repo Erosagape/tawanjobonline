@@ -61,16 +61,11 @@ End Code
     let user = '@ViewBag.User';
     let vencode = '';
     if (userGroup == 'V') {
-        $('#lblType').html('Vender:');
         $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
             if (r.vender.data.length > 0) {
                 let dr = r.vender.data[0];
-                $('#txtCustCode').val(dr.VenCode);
-                $('#txtCustBranch').val(dr.BranchCode);
-                $('#txtCustName').val(dr.TName);
-                $('#btnBrowseCust').attr('disabled', 'disabled');
-                $('#txtCustCode').attr('disabled', 'disabled');
-                $('#txtCustBranch').attr('disabled', 'disabled');
+                vencode = dr.VenCode;
+
             }
         });
 
@@ -110,14 +105,11 @@ End Code
     }
     function drawChart() {
         let w = '?Branch='+ $('#txtBranchCode').val();
-        if (userGroup == 'V') {
-            if ($('#txtCustCode').val() !== '') {
-                w += '&Vend=' + $('#txtCustCode').val();
-            }
-        } else {
-            if ($('#txtCustCode').val() !== '') {
-                w += '&Cust=' + $('#txtCustCode').val();
-            }
+        if (vencode !== '') {
+            w += '&Vend=' + vencode;
+        }
+        if ($('#txtCustCode').val() !== '') {
+            w += '&Cust=' + $('#txtCustCode').val();
         }
         $.get(path + 'JobOrder/GetTimelineReport' + w).done(function (r) {
             var dt = getDataTable(r.tracking.data);
@@ -165,7 +157,11 @@ End Code
                 SetGridBranch(path, '#tbBranch', '#frmSearchBranch', ReadBranch);
                 break;
             case 'customer':
-                SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
+                if (vencode !== '') {
+                    SetGridCompanyByVender(path, '#tbCust',vencode ,'#frmSearchCust', ReadCustomer);
+                } else {
+                    SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
+                }                
                 break;
         }
     }
@@ -173,14 +169,11 @@ End Code
         let branch = $('#txtBranchCode').val();
         let cust = $('#txtCustCode').val();
         let w = '';
-        if (userGroup == 'V') {
-            if (cust !== '') {
-                w += '&Vend=' + cust;
-            }
-        } else {
-            if (cust !== '') {
-                w += '&Cust=' + cust;
-            }
+        if (vencode !== '') {
+            w += '&Vend=' + vencode;
+        }
+        if (cust !== '') {
+            w += '&Cust=' + cust;
         }
         let status = $('#cboStatus').val();
         if (status !== '') {

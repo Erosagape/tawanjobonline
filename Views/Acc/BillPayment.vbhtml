@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Billing Payment"
+    ViewBag.Title = "Bill Payments"
 End Code
 <div class="row">
     <div class="col-sm-4">

@@ -23,6 +23,18 @@ End Code
             </td>
         </tr>
     </table>
+    <div class="row">
+        <p class="col-sm-12">
+            <b>Customer :</b>
+            <label id="lblCustName"></label>
+        </p>
+    </div>
+    <div class="row">
+        <p class="col-sm-12">
+            <b>Address :</b>
+            <label id="lblCustAddr"></label>
+        </p>
+    </div>
     <div style="display:flex;border:1px solid black;border-radius:5px;">
         <div style="flex:2">
             <div class="row">
@@ -103,13 +115,6 @@ End Code
                 <p class="col-sm-12">
                     MBL/MAWB :
                     <label id="lblMAWB"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    CUSTOMER :
-                    <br />
-                    <label id="lblCustName"></label>
                 </p>
             </div>
         </div>
@@ -300,7 +305,7 @@ End Code
                         $.get(path + 'JobOrder/GetJobSQL?Branch='+ obj.BranchCode +'&JNo='+ jobno).done(function (r) {
                             let j = r.job.data[0];
                             if (j !== null) {
-                                ShowCustomer(path, j.CustCode, j.CustBranch, '#lblCustName');
+                                ReadCustomer(j.CustCode, j.CustBranch);
                                 $('#lblCustInvNo').text(j.InvNo);
                                 $('#lblJobNo').text(j.JNo);
 	                            if(Number(j.JobType)==1){
@@ -399,5 +404,15 @@ End Code
         html += '</tr>';
 
         dv.append(html);
+    }
+    function ReadCustomer(Code, Branch) {
+        $.get(path + 'Master/GetCompany?Code=' + Code + '&Branch=' + Branch)
+            .done(function (r) {
+                if (r.company.data.length > 0) {
+                    let c = r.company.data[0];
+                    $('#lblCustName').text(c.NameThai);
+                    $('#lblCustAddr').text(c.TAddress1 + ' ' + c.TAddress2);
+                }
+            });
     }
 </script>
