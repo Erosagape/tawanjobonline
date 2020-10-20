@@ -1450,7 +1450,7 @@ ORDER BY j.ETADate
 "
                         sqlM = String.Format(sqlM, sqlW)
                     Case "VENDSUMMARY"
-                        sqlW = GetSQLCommand(cliteria, "h.ApproveDate", "j.CustCode", "j.JNo", "j.CSCode", "h.VenCode", "j.JobStatus", "j.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "b.UnloadFinishDate", "j.CustCode", "j.JNo", "j.CSCode", "h.VenCode", "j.JobStatus", "j.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         Dim sqlSub = "
 SELECT d.SICode,s.IsExpense,Max(d.SDescription) as Description 
@@ -1458,6 +1458,8 @@ FROM Job_PaymentHeader h INNER JOIN Job_PaymentDetail d
 ON h.BranchCode=d.BranchCode AND h.DocNo=d.DocNo 
 INNER JOIN Job_SrvSingle s ON d.SICode=s.SICode 
 LEFT JOIN Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
+LEFT OUTER JOIN Job_LoadInfoDetail b ON h.BranchCode=b.BranchCode 
+AND h.RefNo=b.CTN_NO AND j.BranchCode=b.BranchCode AND j.JNo=b.JNo
 WHERE NOT ISNULL(h.CancelProve,'')<>'' 
 "
                         sqlSub &= sqlW & " GROUP BY d.SICode,s.IsExpense ORDER BY s.IsExpense DESC,d.SICode"

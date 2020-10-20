@@ -112,6 +112,7 @@
                     <a href="#" id="mnuVen0" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Approve</a>
                     <a href="#" id="mnuVen2" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Bill Payment</a>
                     <a href="#" id="mnuVen1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Create Invoice</a>
+                    <a href="#" id="mnuVen4" class="w3-bar-item w3-button" onclick="OpenMenu('AppExpense')">- Expense Approve</a>
                     <a href="#" id="mnuVen3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
                 </div>
                 <div id="mainRpt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuRpt')">
@@ -148,6 +149,7 @@
                     <a href="#" id="mnuVend0" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Approve</a>
                     <a href="#" id="mnuVend2" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Bill Payment</a>
                     <a href="#" id="mnuVend1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Create Invoice</a>
+                    <a href="#" id="mnuVend4" class="w3-bar-item w3-button" onclick="OpenMenu('AppExpense')">- Expense Approve</a>
                     <a href="#" id="mnuVend3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
                 </div>
             </div>
@@ -331,8 +333,20 @@
         userLang = 'EN';
         $('#cboLanguage').val(userLang);
     }
-    
-    SetEvents();
+    $('#dvLogin').on('shown.bs.modal', function () {
+        $('#txtUserLogin').focus();
+    });
+    $('#txtUserLogin').keydown(function (event) {
+        if (event.which === 13) {
+            $('#txtUserPassword').focus();
+        }
+    });
+    $('#txtUserPassword').keydown(function (event) {
+        if (event.which === 13) {
+            SetVariable();
+        }
+    });
+    CheckLogin();
 
     function ForceLogout() {
         userType = $('input[name=optRole]:checked').val();
@@ -342,22 +356,6 @@
                 ShowMessage('Logout complete!');
             }
         });
-    }
-    function SetEvents() {
-        $('#dvLogin').on('shown.bs.modal', function () {
-            $('#txtUserLogin').focus();
-        });
-        $('#txtUserLogin').keydown(function (event) {
-            if (event.which === 13) {
-                $('#txtUserPassword').focus();
-            }
-        });
-        $('#txtUserPassword').keydown(function (event) {
-            if (event.which === 13) {
-                SetVariable();
-            }
-        });
-        CheckLogin();
     }
     function GetDatabaseID() {
         let dbName = '@ViewBag.LICENSE_NAME';

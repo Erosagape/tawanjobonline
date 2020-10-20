@@ -47,15 +47,26 @@ End Code
             <label id="lblReqDate" style="text-decoration-line:underline;"></label>
         </td>
     </tr>
+    <tr>
+        <td colspan="2">
+            <b>Customer Invoice :</b>
+            <label id="lblInvNo" style="text-decoration-line:underline;"></label>
+        </td>
+        <td>
+            <b>House BL/AWB :</b>
+            <label id="lblHAWBNo" style="text-decoration-line:underline;"></label>
+        </td>
+        <td align="right">
+            <b>Job No :</b>
+            <label id="lblJNo" style="text-decoration-line:underline;"></label>
+        </td>
+    </tr>
 </table>
 <br />
 <table style="border-collapse:collapse;width:100%">
     <tr style="text-align:center;">
         <td style="border-style:solid;border-width:thin;font-size:11px">
             <b>Advance Expenses</b>
-        </td>
-        <td style="border-style:solid;border-width:thin;font-size:11px">
-            <b>Job Number</b>
         </td>
         <td style="border-style:solid;border-width:thin;font-size:11px">
             <b>With-holding Tax</b>
@@ -68,9 +79,6 @@ End Code
         <td style="border-style:solid;border-width:thin;text-align:left">
             <div id="divDesc" style="font-size:12px"></div>
         </td>
-        <td style="border-style:solid;border-width:thin;text-align:left">
-            <div id="divJob" style="font-size:12px"></div>
-        </td>
         <td style="border-style:solid;border-width:thin;text-align:right">
             <div id="divWht" style="font-size:12px"></div>
         </td>
@@ -79,7 +87,7 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px" colspan="2">
+        <td style="text-align:left;font-size:11px">
             <input type="checkbox" id="chkCash" /> CASH/TRANSFER :
             <label id="lblAccNo">______________</label>
             <label id="txtAdvCash"></label>
@@ -90,7 +98,7 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px" colspan="2">
+        <td style="text-align:left;font-size:11px">
             <input type="checkbox" id="chkCustChq" /> CUST.CHQ NO :
             <label id="lblcustChqNo">__________</label> DEP.DATE :
             <label id="lblDepDate">________</label>
@@ -104,7 +112,7 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px" colspan="2">
+        <td style="text-align:left;font-size:11px">
             <input type="checkbox" id="chkCompChq" /> CHQ NO :
             <label id="lblCompChqNo">__________</label> CHQ.DATE :
             <label id="lblChqDate">________</label>
@@ -116,7 +124,7 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px;" colspan="2">
+        <td style="text-align:left;font-size:11px;">
             <input type="checkbox" id="chkCredit" /> ACCOUNT PAYABLES :__________________ <label id="txtAdvCred"></label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Total</td>
@@ -128,23 +136,27 @@ End Code
             **ADVANCE WAIT FOR CLEAR AT @DateTime.Now IS
             <label id="lblPendingAmount">0.00</label>**
             <br />
-            TOTAL : <input type="text" id="txtTotalText" value="ZERO BAHT ONLY" style="font-size:11px;background-color:burlywood;font:bold;text-align:center;width:90%;" disabled />
+            TOTAL :
+            <input type="text" id="txtTotalText" value="ZERO BAHT ONLY" style="font-size:11px;background-color:burlywood;font:bold;text-align:center;width:90%;" disabled />
             <br />
             PAY TO : <label id="lblPayTo" style="font-size:11px">________________________________________________________________________</label>
             <br />
             <table style="border-collapse:collapse;width:100%">
                 <tr>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        จัดทำโดย / PREPARED.BY
+                        REQUEST.BY
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        ตรวจสอบโดย / CHECKED.BY
+                        APPROVE.BY
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        อนุมัติโดย / APPROVED.BY
+                        PAYMENT.BY
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        ลงบัญชีโดย / POSTED.BY
+                        POSTED.BY
+                    </td>
+                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+                        CLEARED.BY
                     </td>
                 </tr>
                 <tr>
@@ -167,6 +179,11 @@ End Code
                         <label id="lblPostBy" style="font-size:9px">(__________________)</label>
                         <br />
                         <label id="lblPostDate" style="font-size:9px">__/__/____</label>
+                    </td>
+                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+                        <label id="lblClrBy" style="font-size:9px">(__________________)</label>
+                        <br />
+                        <label id="lblClrDate" style="font-size:9px">__/__/____</label>
                     </td>
                 </tr>
             </table>
@@ -196,16 +213,16 @@ End Code
                 ShowDetail(d,h);
             });
     }
-                function ShowPendingAmount(branch, reqby) {
-                    $.get(path + 'Clr/GetAdvForClear?show=NOCLR&branchcode=' + branch + '&reqby=' + reqby)
-                        .done(function (r) {
-                            if (r.clr.data.length > 0) {
-                                let d = r.clr.data[0].Table;
-                                let sum = d.map(item => item.AdvBalance).reduce((prev, next) => prev + next);
-                                $('#lblPendingAmount').text(ShowNumber(sum, 2));
-                            }
-                        });
+    function ShowPendingAmount(branch, reqby) {
+        $.get(path + 'Clr/GetAdvForClear?show=NOCLR&branchcode=' + branch + '&reqby=' + reqby)
+            .done(function (r) {
+                if (r.clr.data.length > 0) {
+                    let d = r.clr.data[0].Table;
+                    let sum = d.map(item => item.AdvBalance).reduce((prev, next) => prev + next);
+                    $('#lblPendingAmount').text(ShowNumber(sum, 2));
                 }
+            });
+    }
     function ShowData(data) {
         //show headers
         let h = data.adv.header[0];
@@ -259,6 +276,15 @@ End Code
         $('#txtTotalText').val(CNumEng(CCurrency((h.TotalAdvance - h.TotalVAT + h.Total50Tavi).toFixed(2))));
         //show details
         let d = data.adv.detail;
+        let jobno = d[0].ForJNo;
+        $('#lblJNo').text(jobno);
+        $.get(path + 'JobOrder/GetJobSql?BranchCode=' + h.BranchCode + '&JNo=' + jobno).done(function (r) {
+            if (r.job.data.length > 0) {
+                let j = r.job.data[0];
+                $('#lblInvNo').text(j.InvNo);
+                $('#lblHAWBNo').text(j.HAWB);
+            }
+        });
         LoadServices(d,h);
     }
     function ShowCustomer(Code, Branch) {
@@ -296,7 +322,6 @@ End Code
             } else {
                 strDesc = strDesc + (d.SICode + '<br/>');
             }
-            strJob = strJob + ((d.ForJNo == null||d.ForJNo=='' ? '' : d.ForJNo) + '<br/>');
             strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(2)) + '<br/>');
             strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(2)) + '<br/>');
             totAmt += d.AdvAmount;
@@ -304,7 +329,6 @@ End Code
             //wht += d.Charge50Tavi;
         }
         $('#divDesc').html(strDesc);
-        $('#divJob').html(strJob);
         $('#divWht').html(strWht);
         $('#divAmt').html(strAmt);
     }

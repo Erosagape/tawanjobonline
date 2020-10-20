@@ -1351,7 +1351,7 @@ End Code
         });
     }
     function EnableSave() {
-        let b = (userRights.indexOf('E') > 0 && ($('#txtApproveBy').val()=='' && $('#txtCancelProve').val()=='' && $('#txtAdvRef').val()=='' && $('#txtPaymentRef').val()==''))
+        let b = (userRights.indexOf('E') > 0 && ($('#txtApproveBy').val()=='' && $('#txtCancelProve').val()=='' && $('#txtAdvRef').val()==''))
         if (b == false) {
             $('#btnSave').attr('disabled', 'disabled');
             $('#btnDel').attr('disabled', 'disabled');

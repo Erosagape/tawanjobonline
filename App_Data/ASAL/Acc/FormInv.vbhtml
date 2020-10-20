@@ -20,8 +20,8 @@ End Code
 <div>
     <div style="display:flex;">
         <div style="flex:3;border:1px solid black;border-radius:5px;padding:5px;">
-            <b>NAME</b> : <label id="lblCustName"></label><br />
-            <b>ADDRESS</b> : <br />
+            <b>NAME</b>: <label id="lblCustName"></label><br />
+            <b>ADDRESS</b>: <br />
 	    <label id="lblCustAddress" style="font-size:10px"></label><br/>
             <b>TAX ID:</b>
             <label id="lblTaxNumber"></label>
@@ -260,8 +260,8 @@ End Code
                 $('#lblMeasurement').text(j.Measurement);
                 $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
                 $('#lblMAWB').text(j.MAWB);
-		$('#lblInvProduct').text(j.InvProduct);                
-		$('#lblTotalContainer').text(j.TotalContainer);
+                $('#lblInvProduct').text(j.InvProduct);                    
+                $('#lblTotalContainer').text(j.TotalContainer);
             }
             let remark = h.Remark1 + '\n' + h.Remark2 + '\n' + h.Remark3 + '\n' + h.Remark4 + '\n' + h.Remark5 + '\n' + h.Remark6 + '\n' + h.Remark7 + '\n' + h.Remark8 + '\n' + h.Remark9 + '\n' + h.Remark10;
             remark=remark.replace(/(?:\r\n|\r|\n)/g, '<br/>');

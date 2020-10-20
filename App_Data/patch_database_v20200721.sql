@@ -1,3 +1,30 @@
+alter table Job_LoadInfoDetail alter column CTN_NO nvarchar(50)
+alter table Job_ClearHeader alter column CTN_NO nvarchar(50)
+GO
+CREATE FUNCTION [dbo].[GetCommission](
+@amt float,@emp varchar(50)
+) returns float 
+as
+begin
+declare @comm float;
+
+with data as (
+select
+CommRate,CheckAmt,
+SUM(CheckAmt)  over (order by CheckAmt asc rows between unbounded preceding and current row) as BaseAmt
+from (
+	SELECT (CAST(r.ConfigKey as float)*u.MaxRateDisc) as CheckAmt,CAST(r.ConfigValue as float) as CommRate
+	from Mas_Config r,Mas_User u WHERE r.ConfigCode='COMMISSION_STEP'
+	AND u.UserID=@emp
+) src
+)
+select @comm=SUM(CommAmt) FROM (
+select *,(CASE WHEN @amt>BaseAmt THEN CheckAmt*CommRate ELSE (@amt-(BaseAmt-CheckAmt))*CommRate END) as CommAmt from data
+) comm where CommAmt>0
+
+return @comm;
+end 
+GO
 ---FOR DLL Version As 2020-07-21
 CREATE FUNCTION [dbo].[GetDataSplit](@data nvarchar(MAX),@split nvarchar(max),@idx integer)
 RETURNS  nvarchar(MAX)

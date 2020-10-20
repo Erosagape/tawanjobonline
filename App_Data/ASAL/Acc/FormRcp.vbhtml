@@ -36,14 +36,14 @@ End Code
 </div>
 <div style="display:flex;">
     <div style="flex:3;border:1px solid black;border-radius:5px;">
-        NAME : <label id="lblCustName"></label><br />
-        ADDRESS : <label id="lblCustAddr"></label><br />
-        TEL : <label id="lblCustTel"></label><br />
-        TAX-ID : <lable id="lblCustTax"></lable>
+        <b>NAME : </b><label id="lblCustName"></label><br />
+        <b>ADDRESS : </b><br/><label id="lblCustAddr"></label><br />
+        <b>TAX ID : </b><lable id="lblCustTax"></lable>
+        <b>BRANCH : </b><lable id="lblTaxBranch"></lable>
     </div>
     <div style="flex:1;border:1px solid black;border-radius:5px;">
-        DOC NO. : <label id="lblReceiptNo"></label><br />
-        REC DATE : <label id="lblReceiptDate"></label><br />
+        <b>DOC NO. : </b><label id="lblReceiptNo"></label><br />
+        <b>REC DATE : </b><label id="lblReceiptDate"></label><br />
     </div>
 </div>
 <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
@@ -129,7 +129,13 @@ End Code
             $('#lblCustName').text(h.CustEName);
             $('#lblCustAddr').text(h.CustEAddr);
         }
-        $('#lblCustTel').text(h.CustPhone);
+        //$('#lblCustTel').text(h.CustPhone);
+        $.get(path + 'Master/GetCompany?TaxNumber=' + h.CustTaxID).done(function (r) {
+            if (r.company.data.length > 0) {
+                let c = r.company.data[0];
+                $('#lblTaxBranch').text(c.Branch);
+            }
+        });
         $('#lblCustTax').text(h.CustTaxID);
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateEN(h.ReceiveDate)));

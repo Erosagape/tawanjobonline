@@ -117,7 +117,8 @@ End Code
     </tr>
     <tr>
         <td style="text-align:left;font-size:11px;" colspan="2">
-            <input type="checkbox" id="chkCredit" /> ACCOUNT PAYABLES :__________________ <label id="txtAdvCred"></label>
+            <input type="checkbox" id="chkCredit" /> ACCOUNT PAYABLES :__________________
+            <label id="txtAdvCred"></label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Total</td>
         <td style="border-style:solid;border-width:thin" width="150px">
@@ -128,7 +129,8 @@ End Code
             **ADVANCE WAIT FOR CLEAR AT @DateTime.Now IS
             <label id="lblPendingAmount">0.00</label>**
             <br />
-            TOTAL : <input type="text" id="txtTotalText" value="ZERO BAHT ONLY" style="font-size:11px;background-color:burlywood;font:bold;text-align:center;width:90%;" disabled />
+            TOTAL :
+            <input type="text" id="txtTotalText" value="ZERO BAHT ONLY" style="font-size:11px;background-color:burlywood;font:bold;text-align:center;width:90%;" disabled />
             <br />
             PAY TO : <label id="lblPayTo" style="font-size:11px">________________________________________________________________________</label>
             <br />

@@ -109,10 +109,12 @@ function ChangeLanguage(code, module) {
                 mnuVen1: 'Bill Payment|บันทึกบิลค่าใช้จ่าย',
                 mnuVen2: 'Create Invoice|บันทึกแจ้งวางบิล',
                 mnuVen3: 'Transport Tracking|การติดตามงานขนส่ง',
+                mnuVen4: 'Expense Approve|อนุมัติบิลค่าใช้จ่าย',
                 mnuVend0: 'Transport Approve|อนุมัติงานขนส่ง',
                 mnuVend1: 'Bill Payment|บันทึกบิลค่าใช้จ่าย',
                 mnuVend2: 'Create Invoice|บันทึกแจ้งวางบิล',
-                mnuVend3: 'Transport Tracking|การติดตามงานขนส่ง'
+                mnuVend3: 'Transport Tracking|การติดตามงานขนส่ง',
+                mnuVend4: 'Expense Approve|อนุมัติบิลค่าใช้จ่าย',
             };
             SetLanguage(lang);
             ChangeLanguageForm(module);
@@ -2741,8 +2743,8 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBLOADING", "ReportNameEN": "Job Loading By ETA Date", "ReportNameTH": "รายงานงานขนส่งตามวันเทียบท่า" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOADIM", "ReportNameEN": "Container Loading Import Daily", "ReportNameTH": "รายงานการลากตู้ขนส่งขาเข้า" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOADEX", "ReportNameEN": "Container Loading Export Daily", "ReportNameTH": "รายงานลากตู้ขนส่งขาออก" },
-        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKPNL", "ReportNameEN": "Trucking PNL Report By Container", "ReportNameTH": "รายงานกำไรขาดทุนตามตู้คอนเทนเนอร์" },
-        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKKPI", "ReportNameEN": "Trucking Turn Time Report", "ReportNameTH": "รายงานสรุปการปฏิบัติงานตามตู้คอนเทนเนอร์" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKPNL", "ReportNameEN": "Truck Summary Report By Container", "ReportNameTH": "รายงานกำไรขาดทุนตามตู้คอนเทนเนอร์" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKKPI", "ReportNameEN": "Truck KPI Report", "ReportNameTH": "รายงานสรุปการปฏิบัติงานตามตู้คอนเทนเนอร์" },
         { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBKPI", "ReportNameEN": "Job Operation On-Time Report", "ReportNameTH": "รายงานสรุปเวลาปฏิบัติงานตามจ๊อบ" },
         { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "APLIMPORT", "ReportNameEN": "Job Import Summary", "ReportNameTH": "รายงานสรุปการทำงานขาเข้า" },
         { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "APLEXPORT", "ReportNameEN": "Job Export Summary", "ReportNameTH": "รายงานสรุปการทำงานขาออก" },

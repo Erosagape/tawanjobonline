@@ -1,27 +1,3 @@
-CREATE FUNCTION [dbo].[GetCommission](
-@amt float,@emp varchar(50)
-) returns float 
-as
-begin
-declare @comm float;
-
-with data as (
-select
-CommRate,CheckAmt,
-SUM(CheckAmt)  over (order by CheckAmt asc rows between unbounded preceding and current row) as BaseAmt
-from (
-	SELECT (CAST(r.ConfigKey as float)*u.MaxRateDisc) as CheckAmt,CAST(r.ConfigValue as float) as CommRate
-	from Mas_Config r,Mas_User u WHERE r.ConfigCode='COMMISSION_STEP'
-	AND u.UserID=@emp
-) src
-)
-select @comm=SUM(CommAmt) FROM (
-select *,(CASE WHEN @amt>BaseAmt THEN CheckAmt*CommRate ELSE (@amt-(BaseAmt-CheckAmt))*CommRate END) as CommAmt from data
-) comm where CommAmt>0
-
-return @comm;
-end 
-GO
 DELETE FROM [dbo].[Mas_Config] WHERE [ConfigCode] Like 'REPORT_%'
 GO
 INSERT [dbo].[Mas_Config] ([ConfigCode], [ConfigKey], [ConfigValue]) VALUES (N'REPORT_ACCEXP', N'MAIN_CLITERIA', N'WHERE,c.ClrDate,c.CustCode,j.JNo,,,,,')

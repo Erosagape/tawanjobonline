@@ -151,21 +151,6 @@ End Code
         return;
     }
 
-    function SetEvents() {
-        $('#txtJobNo').keydown(function (e) {
-            if (e.which === 13) {
-                if ($('#txtJobNo').val() !== '') {
-                    OpenJob();
-                }
-            }
-        });
-        $('#txtCliteria').keydown(function (e) {
-            if (e.which === 13) {
-                getJobdata();
-            }
-        });
-
-    }
     function loadCombo() {
         let lists = 'JOB_TYPE=#cboJobType|'+ jt;
         lists += ',SHIP_BY=#cboShipBy|'+sb;
@@ -175,6 +160,19 @@ End Code
         loadBranch(path);
         loadYear(path);
         loadMonth('#cboMonth');
+
+        $('#txtJobNo').keydown(function (e) {
+            if (e.which == 13) {
+                if ($('#txtJobNo').val() !== '') {
+                    OpenJob();
+                }
+            }
+        });
+        $('#txtCliteria').keydown(function (e) {
+            if (e.which == 13) {
+                getJobdata();
+            }
+        });
     }
     function getJobdata() {
         ShowWait();

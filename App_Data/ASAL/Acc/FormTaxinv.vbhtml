@@ -20,14 +20,14 @@ End Code
 </div>
 <div style="display:flex;">
     <div style="flex:3;border:1px solid black;border-radius:5px;">
-        NAME : <label id="lblCustName"></label><br />
-        ADDRESS : <label id="lblCustAddr"></label><br />
-        TEL : <label id="lblCustTel"></label><br />
-        TAX-ID : <lable id="lblCustTax"></lable>
+        <b>NAME : </b><label id="lblCustName"></label><br />
+        <b>ADDRESS : </b><br /><label id="lblCustAddr"></label><br />
+        <b>TAX ID : </b><lable id="lblCustTax"></lable>
+        <b>BRANCH : </b><label id="lblTaxBranch"></label>
     </div>
     <div style="flex:1;border:1px solid black;border-radius:5px;">
-        NO. : <label id="lblReceiptNo"></label><br />
-        ISSUE DATE : <label id="lblReceiptDate"></label><br />
+        <b>NO. : </b><label id="lblReceiptNo"></label><br />
+        <b>ISSUE DATE : </b><label id="lblReceiptDate"></label><br />
     </div>
 </div>
 
@@ -139,7 +139,13 @@ End Code
             $('#lblCustName').text(h.CustEName);
             $('#lblCustAddr').text(h.CustEAddr);
         }
-        $('#lblCustTel').text(h.CustPhone);
+        //$('#lblCustTel').text(h.CustPhone);
+        $.get(path + 'Master/GetCompany?TaxNumber=' + h.CustTaxID).done(function (r) {
+            if (r.company.data.length > 0) {
+                let c = r.company.data[0];
+                $('#lblTaxBranch').text(c.Branch);
+            }
+        });
         $('#lblCustTax').text(h.CustTaxID);
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiveDate)));

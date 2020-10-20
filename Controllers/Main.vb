@@ -1381,6 +1381,7 @@ GROUP BY dbo.Job_Order.BranchCode, dbo.Job_Order.JNo, dbo.Job_Order.InvNo, dbo.J
     Function SQLSelectReceiptSummaryByInv(sqlW As String) As String
         Dim sql As String = "
 SELECT ih.BranchCode,ih.DocNo,rh.ReceiptNo,rh.ReceiptDate as ReceiveDate,rh.ReceiptType,c1.UsedLanguage,ih.CurrencyCode,ih.ExchangeRate,
+rh.CustCode,rh.CustBranch,rh.BillToCustCode,rh.BillToCustBranch,
 c1.Title + ' '+ c1.NameThai as CustTName,c1.NameEng as CustEName,c1.TAddress1+' '+c1.TAddress2 as CustTAddr,c1.EAddress1+' '+c1.EAddress2 as CustEAddr,c1.Phone as CustPhone,c1.TaxNumber as CustTaxID,
 c2.Title + ' '+ c2.NameThai as BillTName,c2.NameEng as BillEName,c2.TAddress1+' '+c2.TAddress2 as BillTAddr,c2.EAddress1+' '+c2.EAddress2 as BillEAddr,c2.Phone as BillPhone,c2.TaxNumber as BillTaxID,
 rd.InvoiceNo,ih.DocDate as InvoiceDate,ih.BillAcceptNo,ih.BillIssueDate,ih.BillAcceptDate,ih.RefNo,
@@ -1416,7 +1417,7 @@ LEFT JOIN Job_CashControlSub vd ON rd.BranchCode=vd.BranchCode AND rd.ControlNo=
 GROUP BY ih.BranchCode,ih.DocNo,rh.ReceiptNo,rh.ReceiptDate,rh.ReceiptType,c1.UsedLanguage,ih.CurrencyCode,ih.ExchangeRate,
 c1.Title , c1.NameThai,c1.NameEng,c1.TAddress1,c1.TAddress2,c1.EAddress1,c1.EAddress2,c1.Phone,c1.TaxNumber,
 c2.Title , c2.NameThai,c2.NameEng,c2.TAddress1,c2.TAddress2,c2.EAddress1,c2.EAddress2,c2.Phone,c2.TaxNumber,
-rd.InvoiceNo,ih.DocDate,ih.BillAcceptNo,ih.BillIssueDate,ih.BillAcceptDate,ih.RefNo
+rd.InvoiceNo,ih.DocDate,ih.BillAcceptNo,ih.BillIssueDate,ih.BillAcceptDate,rh.CustCode,rh.CustBranch,rh.BillToCustCode,rh.BillToCustBranch,ih.RefNo
 "
         Return String.Format(sql, sqlW)
     End Function

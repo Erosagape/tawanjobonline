@@ -238,7 +238,7 @@ End Code
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">Container Earnest</td>
+                <td style="border-style:solid;border-width:thin;">Container Deposit</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">Customs Inspector Fee</td>
@@ -304,7 +304,14 @@ End Code
                 <td style="border-style:solid;border-width:thin;">Commercial C/O Fee</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td style="border-style:solid;border-width:thin;">Flat Bed</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td style="border-style:solid;border-width:thin;">Low Bed</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
