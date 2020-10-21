@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "รับชำระจากใบแจ้งหนี้"
+    ViewBag.Title = "Invoice Receive"
 End Code
 <style>
     @@media only screen and ( max-width:600px ) {

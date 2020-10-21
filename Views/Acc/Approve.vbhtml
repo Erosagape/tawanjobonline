@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Approve Expense"
+    ViewBag.Title = "Expense Confirmation"
 End Code
 <div class="row">
     <div class="col-sm-4">
@@ -77,10 +77,10 @@ End Code
 </div>
 <br />
 <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Approve</b>
+    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Confirm</b>
 </a>
 <a href="#" class="btn btn-primary" id="btnHistory" onclick="ShowApprove()">
-    <i class="fa fa-lg fa-search"></i>&nbsp;<b id="linkSearchApprove">Approve History</b>
+    <i class="fa fa-lg fa-search"></i>&nbsp;<b id="linkSearchApprove">Vender Summary</b>
 </a>
 <div id="dvApprove" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -222,7 +222,7 @@ End Code
             });
             $('#tbApprove tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbApprove').DataTable().row(this).data(); //read current row selected
-                window.open(path + 'acc/formexpense?Branch=' + $('#txtBranchCode').val() + '&Code=' + data.ApproveRef,'','');
+                window.open(path + 'acc/formexpense?Branch=' + $('#txtBranchCode').val() + '&Code=' + data.PoNo,'','');
             });
         });
     }

@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "อนุมัติใบเสนอราคา"
+    ViewBag.Title = "Quotation Confirmation"
 End Code
 <div class="panel-body">
     <div class="container">
@@ -73,7 +73,7 @@ End Code
                 </table>
                 <br />
                 <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkAppr">Approve</b>
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkAppr">Confirm</b>
                 </a>
             </div>
         </div>

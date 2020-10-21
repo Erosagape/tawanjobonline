@@ -17,11 +17,11 @@
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/bootbox.js"></script>
     <script src="~/Scripts/bootstrap-select.js"></script>
-    <script src="~/Scripts/Func/util.js"></script>
-    <script src="~/Scripts/Func/popup.js"></script>
-    <script src="~/Scripts/Func/combo.js"></script>
-    <script src="~/Scripts/Func/menu.js"></script>
-    <script src="~/Scripts/Func/lang.js"></script>
+    <script src="~/Scripts/Func/util.js?@DateTime.Now.Ticks"></script>
+    <script src="~/Scripts/Func/popup.js?@DateTime.Now.Ticks"></script>
+    <script src="~/Scripts/Func/combo.js?@DateTime.Now.Ticks"></script>
+    <script src="~/Scripts/Func/menu.js?@DateTime.Now.Ticks"></script>
+    <script src="~/Scripts/Func/lang.js?@DateTime.Now.Ticks"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 </head>
 <body style="background:#e6e6e6;color:black;">
@@ -73,11 +73,11 @@
                     Approving
                 </div>
                 <div id="mnuApp" class="w3-hide w3-pale-yellow w3-card-4">
-                    <a href="#" id="mnuMkt2" class="w3-bar-item w3-button" onclick="OpenMenu('AppQuo')">- Quotation Approve</a>
-                    <a href="#" id="mnuApp1" class="w3-bar-item w3-button" onclick="OpenMenu('AppAdvance')">- Advance Approve</a>
-                    <a href="#" id="mnuApp2" class="w3-bar-item w3-button" onclick="OpenMenu('AppClearing')">- Clearing Approve</a>
-                    <a href="#" id="mnuApp3" class="w3-bar-item w3-button" onclick="OpenMenu('AppExpense')">- Expense Approve</a>
-                    <a href="#" id="mnuApp4" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Approve</a>
+                    <a href="#" id="mnuMkt2" class="w3-bar-item w3-button" onclick="OpenMenu('AppQuo')">- Quotation Confirm</a>
+                    <a href="#" id="mnuApp1" class="w3-bar-item w3-button" onclick="OpenMenu('AppAdvance')">- Advance Confirm</a>
+                    <a href="#" id="mnuApp2" class="w3-bar-item w3-button" onclick="OpenMenu('AppClearing')">- Clearing Confirm</a>
+                    <a href="#" id="mnuApp3" class="w3-bar-item w3-button" onclick="OpenMenu('AppExpense')">- Expense Confirm</a>
+                    <a href="#" id="mnuApp4" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Confirm</a>
                 </div>
                 <div id="mainFin" class="w3-bar-item w3-button" onclick="w3_accordion('mnuFin')">
                     Finance Works
@@ -109,10 +109,9 @@
                     Vender Works
                 </div>
                 <div id="mnuVen" class="w3-hide w3-pale-red w3-card-4">
-                    <a href="#" id="mnuVen0" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Approve</a>
+                    <a href="#" id="mnuVen0" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Confirm</a>
                     <a href="#" id="mnuVen2" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Bill Payment</a>
-                    <a href="#" id="mnuVen1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Create Invoice</a>
-                    <a href="#" id="mnuVen4" class="w3-bar-item w3-button" onclick="OpenMenu('AppExpense')">- Expense Approve</a>
+                    <a href="#" id="mnuVen1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Vender Summary</a>
                     <a href="#" id="mnuVen3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
                 </div>
                 <div id="mainRpt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuRpt')">
@@ -146,10 +145,9 @@
                     Vender Works
                 </div>
                 <div id="mnuVend" class="w3-hide w3-pale-red w3-card-4">
-                    <a href="#" id="mnuVend0" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Approve</a>
+                    <a href="#" id="mnuVend0" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Confirm</a>
                     <a href="#" id="mnuVend2" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Bill Payment</a>
-                    <a href="#" id="mnuVend1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Create Invoice</a>
-                    <a href="#" id="mnuVend4" class="w3-bar-item w3-button" onclick="OpenMenu('AppExpense')">- Expense Approve</a>
+                    <a href="#" id="mnuVend1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Vender Summary</a>
                     <a href="#" id="mnuVend3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
                 </div>
             </div>

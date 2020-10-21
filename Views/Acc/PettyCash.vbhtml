@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Cash Management"
+    ViewBag.Title = "Petty Cash Management"
 End Code
 <div class="panel-body">
     <div class="container">

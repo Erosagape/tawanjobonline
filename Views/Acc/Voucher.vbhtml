@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "P/R Voucher"
+    ViewBag.Title = "Payment/Receive Voucher"
 End Code
 <div class="panel-body">
     <div class="container">

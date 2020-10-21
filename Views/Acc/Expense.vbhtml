@@ -1,6 +1,6 @@
 ﻿
 @Code
-    ViewBag.Title = "บันทึกบิลค่าใช้จ่าย"
+    ViewBag.Title = "Bill Payment"
 End Code
 <div class="panel-body">
     <div id="dvHeader" class="container">

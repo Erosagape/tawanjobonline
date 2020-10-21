@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "รับเคลียร์เงินจากใบเบิกค่าใช้จ่าย"
+    ViewBag.Title = "Clearing Receive"
 End Code
 <style>
     @@media only screen and ( max-width:600px ) {

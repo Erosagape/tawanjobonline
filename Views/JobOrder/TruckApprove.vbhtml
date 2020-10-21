@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Transport Approve"
+    ViewBag.Title = "Transport Confirmation"
 End Code
 <div class="row">
     <div class="col-sm-4">
@@ -87,7 +87,7 @@ End Code
         <option value="99">Cancelled</option>
     </select>
     <input type="text" id="txtListApprove" class="form-control" style="width:70%" />
-    <button id="btnApprove" class="btn btn-success" onclick="ApproveData()">Approve</button>
+    <button id="btnApprove" class="btn btn-success" onclick="ApproveData()">Confirm</button>
 </div>
 <div class="modal fade" role="dialog" id="dvContainer">
     <div class="modal-dialog-lg">

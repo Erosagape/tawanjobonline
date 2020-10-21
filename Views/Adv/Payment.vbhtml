@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "จ่ายเงินตามใบเบิกค่าใช้จ่าย"
+    ViewBag.Title = "Advance Payment"
 End Code
 <style>
     @@media only screen and ( max-width:600px )

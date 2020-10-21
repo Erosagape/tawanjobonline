@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "อนุมัติใบปิดค่าใช้จ่าย"
+    ViewBag.Title = "Clearing Confirmation"
 End Code
 <div class="panel-body">
     <div class="container">
@@ -84,7 +84,7 @@ End Code
                  : <input type="text" id="txtSumApprove" class="form-control" value="" />
                 <br />
                 <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Approve</b>
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Confirm</b>
                 </a>
             </div>
         </div>

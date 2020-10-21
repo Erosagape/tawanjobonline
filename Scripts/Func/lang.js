@@ -28,7 +28,7 @@ function ChangeLanguage(code, module) {
             let lang = {
                 mainMkt: 'Marketing Works|แผนกการตลาด',
                 mnuMkt1: 'Quotation|ใบเสนอราคา',
-                mnuMkt2: 'Quotation Approve|อนุมัติใบเสนอราคา',
+                mnuMkt2: 'Quotation Confirmation|อนุมัติใบเสนอราคา',
                 mnuMkt3: 'Estimate Cost|ประมาณการค่าใช้จ่าย',
                 mainCS: 'CS Works|แผนกบริการลูกค้า',
                 mnuCS1: 'Create Job|สร้างงานใหม่',
@@ -39,10 +39,10 @@ function ChangeLanguage(code, module) {
                 mnuShp1: 'Advance|ใบเบิกค่าใช้จ่าย',
                 mnuShp2: 'Clearing|ใบปิดค่าใช้จ่าย',
                 mainApp: 'Approving|อนุมัติเอกสาร',
-                mnuApp1: 'Advance Approve|อนุมัติใบเบิก',
-                mnuApp2: 'Clearing Approve|อนุมัติใบปิด',
-                mnuApp3: 'Expense Approve|อนุมัติบิลค่าใช้จ่าย',
-                mnuApp4: 'Transport Approve|อนุมัติงานขนส่ง',
+                mnuApp1: 'Advance Confirm|อนุมัติใบเบิก',
+                mnuApp2: 'Clearing Confirm|อนุมัติใบปิด',
+                mnuApp3: 'Expense Confirm|อนุมัติบิลค่าใช้จ่าย',
+                mnuApp4: 'Transport Confirm|อนุมัติงานขนส่ง',
                 mainFin: 'Finance Works|แผนกการเงิน',
                 mnuFin1: 'Advance Payment|จ่ายเงินตามใบเบิก',
                 mnuFin2: 'Expense Payment|จ่ายเงินตามบิลค่าใช้จ่าย',
@@ -105,16 +105,16 @@ function ChangeLanguage(code, module) {
                 mnuUtil2: 'Export|ส่งออกข้อมูล',
                 mainVend: 'Vender Works|งานผู้ให้บริการ',
                 mainVend2: 'Vender Works|งานผู้ให้บริการ',
-                mnuVen0: 'Transport Approve|อนุมัติงานขนส่ง',
+                mnuVen0: 'Transport Confirm|อนุมัติงานขนส่ง',
                 mnuVen1: 'Bill Payment|บันทึกบิลค่าใช้จ่าย',
-                mnuVen2: 'Create Invoice|บันทึกแจ้งวางบิล',
+                mnuVen2: 'Vender Summary|บันทึกสรุปวางบิล',
                 mnuVen3: 'Transport Tracking|การติดตามงานขนส่ง',
-                mnuVen4: 'Expense Approve|อนุมัติบิลค่าใช้จ่าย',
-                mnuVend0: 'Transport Approve|อนุมัติงานขนส่ง',
+                mnuVen4: 'Expense Confirm|อนุมัติบิลค่าใช้จ่าย',
+                mnuVend0: 'Transport Confirm|อนุมัติงานขนส่ง',
                 mnuVend1: 'Bill Payment|บันทึกบิลค่าใช้จ่าย',
-                mnuVend2: 'Create Invoice|บันทึกแจ้งวางบิล',
+                mnuVend2: 'Vender Summary|บันทึกสรุปวางบิล',
                 mnuVend3: 'Transport Tracking|การติดตามงานขนส่ง',
-                mnuVend4: 'Expense Approve|อนุมัติบิลค่าใช้จ่าย',
+                mnuVend4: 'Expense Confirm|อนุมัติบิลค่าใช้จ่าย',
             };
             SetLanguage(lang);
             ChangeLanguageForm(module);
@@ -213,7 +213,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_ADV/Approve':
             lang = {
-                lblTitle: 'Advance Approve|อนุมัติใบเบิกค่าใช้จ่าย',
+                lblTitle: 'Advance Confirmation|อนุมัติใบเบิกค่าใช้จ่าย',
                 lblBranch: 'Branch|สาขา',
                 lblDateFrom: 'Request Date From|ช่วงวันที่ขอเบิก',
                 lblDateTo: 'Request Date To|ถึงวันที่',
@@ -224,7 +224,7 @@ function ChangeLanguageForm(fname) {
                 linkSearch: 'Search|ค้นหา',
                 lblDocList: 'Approve Document|เอกสารที่เลือก',
                 lblTotal: 'Approve Total|ยอดรวมที่อนุมัติ',
-                linkApprove:'Approve|อนุมัติเอกสาร'
+                linkApprove:'Confirm|อนุมัติเอกสาร'
             };
             SetLanguage(lang);
             ChangeLanguageGrid(fname, '#tbHeader');
@@ -293,7 +293,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_ADV/Index':
             lang = {
-                lblTitle: 'Advance Slip|ใบเบิกค่าใช้จ่าย',
+                lblTitle: 'Advance Information|ใบเบิกค่าใช้จ่าย',
                 lblBranch: 'Branch|สาขา',
                 lblAdvNo: 'Advance No|เลขที่ใบเบิก',
                 lblAdvDate: 'Advance Date|วันที่ขอเบิก',
@@ -458,7 +458,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_ACC/Approve':
             lang = {
-                lblTitle: 'Expense Approve|อนุมัติบิลค่าใช้จ่าย',
+                lblTitle: 'Expense Confirmation|อนุมัติบิลค่าใช้จ่าย',
                 lblBranch: 'Branch|สาขา',
                 lblDateFrom: 'Due Date From|กำหนดชำระวันที่',
                 lblDateTo: 'To|ถึงวันที่',
@@ -466,7 +466,7 @@ function ChangeLanguageForm(fname) {
                 lblVenCode: 'Vender|ผู้ให้บริการ',
                 linkSearch: 'Search|ค้นหา',
                 lblListApprove: 'Selected Document|เอกสารที่เลือก',
-                linkApprove:'Approve|อนุมัติเอกสาร'
+                linkApprove:'Confirm|อนุมัติเอกสาร'
             };
             SetLanguage(lang);
             ChangeLanguageGrid(fname, '#tbHeader');
@@ -1445,7 +1445,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_CLR/Approve':
             lang = {
-                lblTitle: 'Clearing Approve|อนุมัติใบปิดค่าใช้จ่าย',
+                lblTitle: 'Clearing Confirmation|อนุมัติใบปิดค่าใช้จ่าย',
                 lblBranch: 'Branch|สาขา',
                 lblDateFrom: 'Clear Date From|จากวันที่เคลียร์',
                 lblDateTo: 'Clear Date To|ถึงวันที่',
@@ -1456,7 +1456,7 @@ function ChangeLanguageForm(fname) {
                 linkSearch: 'Search|ค้นหา',
                 lblListApprove: 'Approve Document|เอกสารที่เลือก',
                 lblExpTotal: 'Expenses Total|ยอดรวมอนุมัติ',
-                linkApprove: 'Approve|อนุมัติเอกสาร'
+                linkApprove: 'Confirm|อนุมัติเอกสาร'
             };
             SetLanguage(lang);
             ChangeLanguageGrid(fname, '#tbHeader');
@@ -1503,7 +1503,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_CLR/Index':
             lang = {
-                lblTitle: 'Clearance Slip|ใบปิดค่าใช้จ่าย',
+                lblTitle: 'Clearing Information|ใบปิดค่าใช้จ่าย',
                 lblBranch: 'Branch|สาขา',
                 lblClrNo: 'Clearing No|เลขที่ใบปิด',
                 lblClrDate: 'Document Date|วันที่เอกสาร',
@@ -1943,7 +1943,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_CS/TruckApprove':
             lang = {
-                lblTitle: 'Transport Approve|อนุมัติสถานะงานขนส่ง',
+                lblTitle: 'Transport Confirmation|อนุมัติสถานะงานขนส่ง',
                 lblBranch: 'Branch|สาขา',
                 lblDateFrom: 'Load Date From|จากวันที่โหลด',
                 lblDateTo: 'To|ถึงวันที่',
@@ -2502,7 +2502,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_SALES/QuoApprove':
             lang = {
-                lblTitle: 'Quotation Approve|อนุมัติใบเสนอราคา',
+                lblTitle: 'Quotation Confirmation|อนุมัติใบเสนอราคา',
                 lblBranch: 'Branch|สาขา',
                 lblDateFrom: 'Date From|จากวันที่',
                 lblDateTo: 'Date To|ถึงวันที่',
@@ -2510,7 +2510,7 @@ function ChangeLanguageForm(fname) {
                 lblCustCode: 'Customer|ลูกค้า',
                 linkSearch: 'Search|ค้นหา',
                 lblListAppr: 'Approve Document|เอกสารที่เลือก',
-                linkAppr:'Approve|อนุมัติเอกสาร'
+                linkAppr:'Confirm|อนุมัติเอกสาร'
             };
             SetLanguage(lang);
             ChangeLanguageGrid(fname, '#tbHeader');
@@ -2596,7 +2596,7 @@ function ChangeLanguageForm(fname) {
                 linkHeader: 'Header|ส่วนควบคุม',
                 linkDetail: 'Detail|ส่วนรายการ',
                 btnCancel: 'Cancel|ยกเลิก',
-                btnApprove:'Approve|อนุมัติ'
+                btnApprove:'Confirm|อนุมัติ'
             };
             SetLanguage(lang);
             ChangeLanguageGrid(fname, '#tbHeader');

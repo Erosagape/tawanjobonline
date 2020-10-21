@@ -1,6 +1,6 @@
 ﻿
 @Code
-    ViewBag.Title = "Transport & Loading Information"
+    ViewBag.Title = "Transport Information"
 End Code
 <style>
     @@media only screen and (max-width: 600px) {

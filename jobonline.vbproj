@@ -1036,6 +1036,7 @@
     <Content Include="App_Data\INTERFAIR\Clr\FormEntry.vbhtml" />
     <Content Include="App_Data\ACE\Master\Customers.vbhtml" />
     <Content Include="App_Data\SINOTHAI\Acc\Taxinvoice.vbhtml" />
+    <Content Include="App_Data\SINOTHAI\JobOrder\TruckOrder.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

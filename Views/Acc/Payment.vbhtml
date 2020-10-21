@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "จ่ายเงินตามบิลค่าใช้จ่าย"
+    ViewBag.Title = "Expense Payment"
 End Code
 <style>
     @@media only screen and ( max-width:600px ) {

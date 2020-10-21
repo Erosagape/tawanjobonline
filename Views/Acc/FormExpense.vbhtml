@@ -31,7 +31,7 @@ End Code
     $('#rptTitle').text('@ViewBag.Title');
     $('#rptCliteria').text('Ref# :' + code);
     $.ajax({
-        url: path+'Acc/GetVenderReport?Branch=' + branch + '&Code='+ code,
+        url: path+'Acc/GetVenderReport?Branch=' + branch + '&No='+ code,
         type: "GET",
         contentType: "application/json",
         success: function (response) {

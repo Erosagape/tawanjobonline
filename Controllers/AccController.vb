@@ -359,6 +359,9 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format(" AND h.ApproveRef='{0}' ", Request.QueryString("Code").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("No")) Then
+                    tSqlw &= String.Format(" AND h.PoNo='{0}' ", Request.QueryString("No").ToString)
+                End If
                 If Not IsNothing(Request.QueryString("VenCode")) Then
                     tSqlw &= String.Format(" AND h.VenCode='{0}' ", Request.QueryString("VenCode").ToString)
                 End If

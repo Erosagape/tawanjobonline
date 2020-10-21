@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "รับคืนเงินมัดจำ/ทดรองจ่าย"
+    ViewBag.Title = "Earnest/Advance Clearing"
 End Code
 <div class="panel-body">
     <div class="container">
