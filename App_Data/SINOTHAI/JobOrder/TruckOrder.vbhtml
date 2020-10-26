@@ -30,12 +30,12 @@ End Code
         </td>
     </tr>
     <tr>
-        <td>Pickup Date<br />วันรับตู้เปล่า/ตู้หนัก</td>
-        <td>
+        <td style="width:30%">Pickup Date<br />วันรับตู้เปล่า/ตู้หนัก</td>
+        <td style="width:20%">
             <label id="txtExpectedDateTime1" style="width:100%" value=""></label>
         </td>
-        <td>Loading Date<br />วันบรรจุ/ส่งสินค้า</td>
-        <td>
+        <td style="width:30%">Loading Date<br />วันบรรจุ/ส่งสินค้า</td>
+        <td style="width:20%">
             <label id="txtExpectedDateTime2" style="width:100%" value=""></label>
         </td>
     </tr>
@@ -90,34 +90,34 @@ End Code
         </td>
     </tr>
     <tr>
-        <td colspan="4"><u>Expenses Detail</u></td>
+        <td colspan="4" style="text-align:center"><u>Expenses Detail</u></td>
     </tr>
     <tr>
-        <td colspan="2">Transport Charges/Trip</td>
+        <td colspan="2" style="text-align:center">Transport Charges/Trip</td>
         <td colspan="2"></td>
     </tr>
     <tr>
-        <td colspan="2">Transport For Return Container</td>
+        <td colspan="2" style="text-align:center">Transport For Return Container</td>
         <td colspan="2"></td>
     </tr>
     <tr>
-        <td colspan="2">Transport TOTAL</td>
+        <td colspan="2" style="text-align:center">Transport TOTAL</td>
         <td colspan="2"></td>
     </tr>
     <tr>
-        <td colspan="2">Depot Fee</td>
+        <td colspan="2" style="text-align:center">Depot Fee</td>
         <td colspan="2"></td>
     </tr>
     <tr>
-        <td colspan="2">Port Fee</td>
+        <td colspan="2" style="text-align:center">Port Fee</td>
         <td colspan="2"></td>
     </tr>
     <tr>
-        <td colspan="2">X-Ray Fee</td>
+        <td colspan="2" style="text-align:center">X-Ray Fee</td>
         <td colspan="2"></td>
     </tr>
     <tr>
-        <td colspan="2">Others Fee</td>
+        <td colspan="2" style="text-align:center">Others Fee</td>
         <td colspan="2"></td>
     </tr>
     <tr>
@@ -125,7 +125,7 @@ End Code
         <td colspan="2"></td>
     </tr>
     <tr>
-        <td colspan="2">TOTAL</td>
+        <td colspan="2" style="text-align:center">TOTAL</td>
         <td colspan="2"></td>
     </tr>
     <tr>
@@ -157,54 +157,26 @@ End Code
     $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc +'&Cont=' +cont).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
-            $('#txtHAWBNo').text(h.HAWB);
-            $('#txtVesselName').text(h.VesselName);
-            $('#txtDeliveryNo').text(h.DeliveryNo);
-            $('#txtJNo').text(h.JNo);
             $('#txtNotifyName').text(h.NotifyName);
-            $('#txtVenderName').text(h.ForwarderName);
             $('#txtCustomerAddress').html(CStr(h.NotifyAddress1 + '\n' + h.NotifyAddress2));
-            $('#txtVenderAddress').html(CStr(h.ForwarderAddress1 + '\n' + h.ForwarderAddress2));
-            $('#txtCustomerContact').text(h.CustContactName);
-            $('#txtVenderContact').text(h.ForwarderContact);
-            $('#txtCustomerPhone').text(h.NotifyPhone);
-            $('#txtVenderPhone').text(h.ForwarderPhone);
-            $('#txtCarrierName').text(h.CarrierName);
-            $('#txtCarrierContactPhone').html (CStr(h.CarrierContact + '\n' + h.CarrierPhone));
-            $('#txtServiceMode').text(h.TransMode);
-            $('#txtCustomerTariff').text(h.CYPlace + '->' + h.PackingPlace + '->' + h.FactoryPlace + '->' + h.ReturnPlace);
-            $('#txtCarrierBooking').text(h.BookingNo);
-            $('#txtVenderTariff').text(h.Location);
-            $('#txtBookingDate').text(CDateEN(h.BookingDate));
-            $('#txtRemark').html(CStr(h.Remark));
-            $('#txtServiceType').text(h.LocationRoute);
-            $('#txtTruck').text(h.TruckNO);
-            $('#txtContainerType').text(h.CTN_SIZE);
-            $('#txtDriverName').text(h.Driver);
-            $('#txtSpecialInstruction').html(h.Description);
-            $('#txtContainer').text(h.CTN_NO);
-            $('#txtDiscrepancyReason').html(h.Comment);
-            $('#txtCustomerInvoice').text(h.InvNo);
-            $('#txtAssignVender').text(h.CSName);
-            $('#txtVenderInvoice').text('');
-            $('#txtBillingRemark').text('');
-            $('#txtCreatedBy').text(user + ' @DateTime.Now.ToString("yyyy-MM-dd HH:mm")');
-            $('#txtUpdatedBy').text(user + ' @DateTime.Now.ToString("yyyy-MM-dd HH:mm")');
-            $('#txtLocation1').text(h.PlaceName1);
-            $('#txtLocation2').text(h.PlaceName2);
-            $('#txtLocation3').text(h.PlaceName3);
-            $('#txtAddress1').html(CStr(h.PlaceAddress1));
-            $('#txtAddress2').html(CStr(h.PlaceAddress2));
-            $('#txtAddress3').html(CStr(h.PlaceAddress3));
-            $('#txtContact1').text(h.PlaceContact1);
-            $('#txtContact2').text(h.PlaceContact2);
-            $('#txtContact3').text(h.PlaceContact3);
             $('#txtExpectedDateTime1').text(CDateEN(h.TargetYardDate));
             $('#txtExpectedDateTime2').text(CDateEN(h.TargetDeliveryDate));
-            $('#txtExpectedDateTime3').text(CDateEN(h.TargetReturnDate));
-            $('#txtActualDateTime1').text(CDateEN(h.ActualYardDate));
-            $('#txtActualDateTime2').text(CDateEN(h.ActualDeliveryDate));
-            $('#txtActualDateTime3').text(CDateEN(h.ActualReturnDate));
+            $('#txtHAWBNo').text(h.HAWB);
+            $('#txtVesselName').text(h.VesselName);
+            $('#txtLocation2').text(h.PlaceName2);
+            $('#txtLocation3').text(h.PlaceName3);
+            $('#txtVenderName').text(h.ForwarderName);
+            $('#txtTotalContainer').text(h.TotalContainer);
+            $('#txtDeliveryNo').text(h.DeliveryNo);
+            $('#txtJNo').text(h.JNo);
+            $('#txtTruckType').text(h.TruckType);
+            $.get(path + 'Config/GetConfig?Code=JOB_TYPE&Key=' + CCode(h.JobType))
+                .done(function (r) {
+                    let b = r.config.data;
+                    if (b.length > 0) {
+                        $('#txtJobTypeName').text(b[0].ConfigValue);
+                    }
+                });
         }
     });
 </script>

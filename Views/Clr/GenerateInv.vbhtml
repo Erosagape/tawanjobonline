@@ -95,6 +95,7 @@ End Code
                                 <select id="cboDocType" class="form-control dropdown">
                                     <option value="BKK">Service</option>
                                     <option value="RGM">Advance</option>
+                                    <option value="APL">Outside</option>
                                 </select>
 
                             </div>
