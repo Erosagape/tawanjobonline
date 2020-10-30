@@ -112,24 +112,23 @@ CUST PO: <label id="lblCustRefNo"></label>
     <table style="width:100%" border="1" class="text-center">
         <thead>
             <tr style="background-color :gainsboro;text-align:center;">
-                <th width="50px">No</th>
-                <th width="400px">DESCRIPTION</th>
-                <th width="100px">ADVANCE</th>
-                <th width="100px">SERVICE</th>
+                <th width="30px">No</th>
+                <th width="390px">DESCRIPTION</th>
+                <th width="80px">ADVANCE</th>
+                <th width="80px">SERVICE</th>
+                <th width="50px">CURR</th>
                 <th width="50px">QTY</th>
-                <th width="100px">VAT</th>
-                <th width="100px">WHT</th>
-                <th width="100px">TOTAL</th>
+                <th width="80px">VAT</th>
+                <th width="80px">WHT</th>
+                <th width="100px">TOTAL (THB)</th>
             </tr>
         </thead>
         <tbody id="tbDetail"></tbody>
         <tfoot>
             <tr>
-                <td colspan="3">
+                <td colspan="4">
                     <div style="display:flex">
                         <div style="text-align:left;flex:1">
-                            TOTAL INVOICE (<label id="lblCurrencyCode"></label>)=<label id="lblForeignNet"></label> RATE=<label id="lblExchangeRate"></label>
-                            <br />
                             <div id="lblShippingRemark"></div>
                             REMARKS :<br />
                             <div id="lblDescription"></div>
@@ -161,7 +160,7 @@ CUST PO: <label id="lblCustRefNo"></label>
             </tr>
             <tr>
                 <td>TOTAL</td>
-                <td colspan="7">
+                <td colspan="8">
                     <div style="text-align:center"><label id="lblTotalBaht"></label></div>
                 </td>
             </tr>
@@ -187,13 +186,20 @@ CUST PO: <label id="lblCustRefNo"></label>
             </div>
             <div style="display:flex;">
                 <div style="flex:2">
-                    NET AMOUNT
+                    TOTAL INVOICE
                 </div>
                 <div style="flex:1">
-                    <label id="lblSumNetInvoice"></label>
+                    <label id="lblSumNetInvoice"></label> THB
                 </div>
             </div>
-            <br />
+            <div id="dvForeign" style="display:flex">
+                <div style="flex:2">
+                    (1=<label id="lblExchangeRate"></label>)
+                </div>
+                <div style="flex:1">
+                    <label id="lblForeignNet"></label> <label id="lblCurrencyCode"></label>
+                </div>
+            </div>
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
             FOR THE CUSTOMER <br /><br /> <br /><br />
@@ -243,7 +249,7 @@ CUST PO: <label id="lblCustRefNo"></label>
                      let c = r.company.data[0];
                      $('#lblTaxNumber').text(c.TaxNumber);               
                      if (c.UsedLanguage == 'TH') {
-                        $('#lblTotalBaht').text('(' + CNumThai(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)) / h.ExchangeRate, 2)) + ')');
+                        $('#lblTotalBaht').text('(' + CNumThai(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)), 2)) + ')');
                         if (Number(c.Branch) == 0) { 
                             $('#lblTaxBranch').text('สำนักงานใหญ่');
                         } else {
@@ -252,7 +258,7 @@ CUST PO: <label id="lblCustRefNo"></label>
                         $('#lblCustName').text(c.Title+' '+c.NameThai);
                         $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
                      } else {                
-                        $('#lblTotalBaht').text('(' + CNumEng(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)) / h.ExchangeRate, 2)) + ')');
+                        $('#lblTotalBaht').text('(' + CNumEng(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)), 2)) + ')');
                         if (Number(c.Branch) == 0) { 
                             $('#lblTaxBranch').text('HEAD OFFICE');
                         } else {
@@ -293,19 +299,19 @@ CUST PO: <label id="lblCustRefNo"></label>
             $('#lblDescription').html(remark);
             remark=h.ShippingRemark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
             $('#lblShippingRemark').html(remark);
-            $('#lblSumNonVat').text(ShowNumber(h.TotalCharge/h.ExchangeRate,2));
-            $('#lblSumDiscount').text(ShowNumber(h.TotalDiscount/h.ExchangeRate,2));
-            $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv/h.ExchangeRate,2));
-            $('#lblSumBeforeVat').text(ShowNumber(h.TotalIsTaxCharge/h.ExchangeRate,2));
-            $('#lblSumVat').text(ShowNumber(h.TotalVAT/h.ExchangeRate,2));
-            $('#lblSumAfterVat').text(ShowNumber((Number(h.TotalIsTaxCharge)+Number(h.TotalVAT))/h.ExchangeRate,2));
-            $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance/h.ExchangeRate,2));
-            $('#lblSumTotal').text(ShowNumber((Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT))/h.ExchangeRate,2));
-            $('#lblSumGrandTotal').text(ShowNumber((Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount))/h.ExchangeRate,2));
-	        if(h.DocNo.substr(0,3)=='IVF'){ 
-                $('#lblTotalBaht').text('(' + CNumEng(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)) / h.ExchangeRate, 2)) + ')');
-	        }
-            $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalNet)/h.ExchangeRate,2) + ' ' + h.CurrencyCode);
+            $('#lblSumNonVat').text(ShowNumber(h.TotalCharge,2));
+            $('#lblSumDiscount').text(ShowNumber(h.TotalDiscount,2));
+            $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv,2));
+            $('#lblSumBeforeVat').text(ShowNumber(h.TotalIsTaxCharge,2));
+            $('#lblSumVat').text(ShowNumber(h.TotalVAT,2));
+            $('#lblSumAfterVat').text(ShowNumber((Number(h.TotalIsTaxCharge)+Number(h.TotalVAT)),2));
+            $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
+            $('#lblSumTotal').text(ShowNumber((Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)),2));
+            $('#lblSumGrandTotal').text(ShowNumber((Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount)),2));
+            if (h.DocNo.substr(0, 3) == 'IVF') {
+                $('#lblTotalBaht').text('(' + CNumEng(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)), 2)) + ')');
+            }
+            $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalNet), 2));
         }
         let d = dr.detail[0];
         sortData(d, 'AmtAdvance', 'asc');
@@ -319,18 +325,23 @@ CUST PO: <label id="lblCustRefNo"></label>
                 icount += 1;
                 let html = '<tr>';
                 html += '<td style="text-align:center">' + icount + '</td>';
-                html += '<td>' + o.SDescription + '</td>';
+                if (o.ExchangeRate !== 1) {
+                    html += '<td>' + o.SDescription +' (Rate='+ o.ExchangeRate+' THB)' +'</td>';
+                } else {
+                    html += '<td>' + o.SDescription + '</td>';
+                }                
                 if (o.AmtAdvance > 0) {
-                    html += '<td style="text-align:right">' + ShowNumber(o.AmtAdvance, 2) + '</td>';
+                    html += '<td style="text-align:right">' + ShowNumber(CNum(o.AmtAdvance), 2) + '</td>';
                     html += '<td style="text-align:right">0.00</td>';
                 } else {
                     html += '<td style="text-align:right">0.00</td>';
-                    html += '<td style="text-align:right">' + ShowNumber(o.AmtCharge, 2) + '</td>';
+                    html += '<td style="text-align:right">' + ShowNumber(CNum(o.AmtCharge), 2) + '</td>';
                 }
+                html += '<td style="text-align:center">' + o.CurrencyCode + '</td>';
                 html += '<td style="text-align:center">' + o.Qty + ' '+ o.QtyUnit + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(o.AmtVat, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(o.Amt50Tavi, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(CNum(o.FTotalAmt), 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(CNum(o.TotalAmt), 2) + '</td>';
                 html += '</tr>';
 
                 $('#tbDetail').append(html);
@@ -350,6 +361,6 @@ CUST PO: <label id="lblCustRefNo"></label>
         $('#lblSumBaseWht3').text(ShowNumber(sumbase3,2));
 
         $('#lblSumWht1').text(ShowNumber(sumtax1,2));
-        $('#lblSumWht3').text(ShowNumber(sumtax3,2));
+        $('#lblSumWht3').text(ShowNumber(sumtax3, 2));
     }
 </script>

@@ -295,6 +295,7 @@ function LoadCliteria(reportID) {
             $('#tbJob').show();
             $('#tbVend').show();
             break;
+        case 'STATEMENT':
         case 'BOOKBAL':
         case 'TRIALBAL':
         case 'BALANCS':

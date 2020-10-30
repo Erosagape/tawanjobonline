@@ -50,10 +50,10 @@ Module Main
         End If
     End Function
     Friend Function GetDBTime(pDate As Date) As Object
-        If Not (pDate.Minute = 0 And pDate.Second = 0) Then
+        If Not (pDate.Minute = 0 And pDate.Second = 0 And pDate.Hour = 0) Then
             Return pDate
         Else
-            Return System.DBNull.Value
+            Return DateTime.Today.Date
         End If
     End Function
     Friend Function GetValueSQL(conn As String, sql As String) As CResult
