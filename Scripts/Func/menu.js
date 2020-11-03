@@ -10,6 +10,9 @@
         case 'Advance':
             mnuPath = path + 'Acc/Advance';
             break;
+        case 'AppJob':
+            mnuPath = path + 'JobOrder/Approve';
+            break;
         case 'AppQuo':
             mnuPath = path + 'JobOrder/QuoApprove';
             break;

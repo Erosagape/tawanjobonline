@@ -105,7 +105,7 @@ End Code
                                 <label id="lblReplaceInv">Replace Invoice No:</label>
                                 <br />
                                 <div style="display:flex;flex-direction:row">
-                                    <input type="text" id="txtDocNo" class="form-control" disabled />
+                                    <input type="text" id="txtDocNo" class="form-control" />
                                     <input type="button" onclick="SearchData('invoice')" value="..." />
                                 </div>
                             </div>

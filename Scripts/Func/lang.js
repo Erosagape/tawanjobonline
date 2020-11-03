@@ -43,6 +43,7 @@ function ChangeLanguage(code, module) {
                 mnuApp2: 'Clearing Confirm|อนุมัติใบปิด',
                 mnuApp3: 'Expense Confirm|อนุมัติบิลค่าใช้จ่าย',
                 mnuApp4: 'Transport Confirm|อนุมัติงานขนส่ง',
+                mnuApp5: 'Job Confirm|อนุมัติสถานะจ๊อบ',
                 mainFin: 'Finance Works|แผนกการเงิน',
                 mnuFin1: 'Advance Payment|จ่ายเงินตามใบเบิก',
                 mnuFin2: 'Expense Payment|จ่ายเงินตามบิลค่าใช้จ่าย',

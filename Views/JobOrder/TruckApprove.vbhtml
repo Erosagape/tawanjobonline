@@ -842,7 +842,7 @@ End Code
     function ShowPayment() {
         $('#tbPayment').DataTable().clear().draw();
         if ($('#txtCTN_NO').val() !== '') {
-            $.get(path + 'Acc/GetPayment?VenCode=' + row.VenderCode + '&Ref=' + row.CTN_NO + '&Status=Y').done((r) => {
+            $.get(path + 'Acc/GetPayment?VenCode=' + row.VenderCode + '&Ref=' + row.CTN_NO + '&Job=' + row.JNo +'&Status=Y').done((r) => {
                 if (r.payment.header.length > 0) {
                     let tb = $('#tbPayment').DataTable({
                         data: r.payment.header,

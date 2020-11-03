@@ -6,6 +6,9 @@ Imports MySql.Data.MySqlClient
 Namespace Controllers
     Public Class JobOrderController
         Inherits CController
+        Function Approve() As ActionResult
+            Return GetView("Approve")
+        End Function
         Function Index() As ActionResult
             Return GetView("Index", "MODULE_CS")
         End Function
@@ -1514,6 +1517,59 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
         End Function
         Function _SetJobData(<FromBody()> ByVal data As CJobOrder) As ActionResult
             Return Content("{""msg"":" & JsonConvert.SerializeObject(data) & "}", jsonContent)
+        End Function
+        Function SetJobStatus(<FromBody()> ByVal data As String()) As HttpResponseMessage
+            Try
+                ViewBag.User = GetSession("CurrUser").ToString()
+                Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CS", "Approve")
+                If AuthorizeStr.IndexOf("E") < 0 Then
+                    Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+                End If
+
+                If IsNothing(data) Then
+                    Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+                End If
+                If IsNothing(Request.QueryString("Status")) Then
+                    Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+                End If
+                Dim status = Request.QueryString("Status").ToString
+                Dim json As String = ""
+                Dim lst As String = ""
+                Dim user As String = ""
+                For Each str As String In data
+                    If str.IndexOf("|") >= 0 Then
+                        If lst <> "" Then lst &= ","
+                        lst &= "'" & str & "'"
+                    Else
+                        user = str
+                    End If
+                Next
+
+                If lst <> "" Then
+                    Dim tSQL As String = ""
+                    Select Case status
+                        Case "0" 'Reopen Job
+                            tSQL = String.Format("UPDATE Job_Order SET JobStatus=0,CancelProve='',CancelDate=NULL,CancelTime=NULL,CloseJobBy='',CloseJobDate=NULL,CloseJobTime=NULL  WHERE BranchCode+'|'+JNo in({0})", lst)
+                        Case "1" 'Confirm
+                            tSQL = String.Format("UPDATE Job_Order SET JobStatus=1,ConfirmDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "' WHERE BranchCode+'|'+JNo in({0})", lst)
+                        Case "3" 'Close
+                            tSQL = String.Format("UPDATE Job_Order SET JobStatus=3,CloseJobBy='" & user & "',CloseJobDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',CloseJobTime='" & DateTime.Now.ToString("HH:mm:ss") & "' WHERE BranchCode+'|'+JNo in({0})", lst)
+                        Case "6" 'Billing Complete
+                            tSQL = String.Format("UPDATE Job_Order SET JobStatus=6,CloseJobBy='" & user & "',CloseJobDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',CloseJobTime='" & DateTime.Now.ToString("HH:mm:ss") & "' WHERE BranchCode+'|'+JNo in({0})", lst)
+                        Case "7"
+                            tSQL = String.Format("UPDATE Job_Order SET JobStatus=7,CloseJobBy='" & user & "',CloseJobDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',CloseJobTime='" & DateTime.Now.ToString("HH:mm:ss") & "' WHERE BranchCode+'|'+JNo in({0})", lst)
+                        Case "99"
+                            tSQL = String.Format("UPDATE Job_Order SET JobStatus=99,CancelProve='" & user & "',CancelDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',CancelTime='" & DateTime.Now.ToString("HH:mm:ss") & "' WHERE BranchCode+'|'+JNo in({0})", lst)
+                    End Select
+                    Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
+                    If result = "OK" Then
+                        Return New HttpResponseMessage(HttpStatusCode.OK)
+                    End If
+                End If
+                Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+            Catch ex As Exception
+                Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+            End Try
         End Function
         Function SetJobData(<FromBody()> ByVal data As CJobOrder) As ActionResult
             Try

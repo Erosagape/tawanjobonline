@@ -280,6 +280,9 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                 If Not IsNothing(Request.QueryString("Po")) Then
                     tSqlH &= String.Format(" AND PoNo='{0}' ", Request.QueryString("Po").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("Job")) Then
+                    tSqlH &= String.Format(" AND DocNo IN(SELECT DocNo FROM Job_PaymentDetail WHERE ForJNo='{0}') ", Request.QueryString("Job").ToString)
+                End If
                 If Not IsNothing(Request.QueryString("Currency")) Then
                     tSqlH &= String.Format(" AND CurrencyCode='{0}' ", Request.QueryString("Currency").ToString)
                 End If

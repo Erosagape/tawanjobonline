@@ -55,8 +55,7 @@ End Code
                     ที่อยู่ : <label id="lblTAddress1"></label>
                 </div>
                 <div style="flex:30%;text-align:right">
-                    <br />
-                    แผ่นที่...............ในจำนวน..................แผ่น
+                    <br />                    
                 </div>
             </div>
         </td>
@@ -272,7 +271,7 @@ End Code
                             template += 'ที่อยู่ : ' + r.TAddress3;
                             template += '</p>';
                             template += '</td>';
-                            template += '<td>' + r.Branch3 + '</td>';
+                            template += '<td>00' + CCode(r.Branch3) + '</td>';
                             template += '<td>{1}</td>';
                             template += '<td>' + r.DocNo + ' / ' + r.JNo + '{5}</td>';
                             template += '<td>{2}</td>';
@@ -299,6 +298,7 @@ End Code
                             template = template.replace('{2}', field2);
                             template = template.replace('{3}', field3);
                             template = template.replace('{4}', field4);
+                            template = template.replace('{5}', field5);
                             $('#tbDetail tbody').append(template);
                         }
                     }

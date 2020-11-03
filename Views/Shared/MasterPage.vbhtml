@@ -74,6 +74,7 @@
                 </div>
                 <div id="mnuApp" class="w3-hide w3-pale-yellow w3-card-4">
                     <a href="#" id="mnuMkt2" class="w3-bar-item w3-button" onclick="OpenMenu('AppQuo')">- Quotation Confirm</a>
+                    <a href="#" id="mnuApp5" class="w3-bar-item w3-button" onclick="OpenMenu('AppJob')">- Job Confirm</a>
                     <a href="#" id="mnuApp1" class="w3-bar-item w3-button" onclick="OpenMenu('AppAdvance')">- Advance Confirm</a>
                     <a href="#" id="mnuApp2" class="w3-bar-item w3-button" onclick="OpenMenu('AppClearing')">- Clearing Confirm</a>
                     <a href="#" id="mnuApp3" class="w3-bar-item w3-button" onclick="OpenMenu('AppExpense')">- Expense Confirm</a>

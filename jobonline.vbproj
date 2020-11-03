@@ -1405,6 +1405,7 @@
     <Content Include="Views\JobOrder\FormPrepare.vbhtml" />
     <Content Include="Views\Acc\Tax50Tavi.vbhtml" />
     <Content Include="Views\Clr\FormEntry.vbhtml" />
+    <Content Include="Views\JobOrder\Approve.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
