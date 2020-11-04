@@ -36,7 +36,7 @@ Namespace Controllers
             Dim cliteria As String = data.ReportCliteria
             Try
                 Dim fldWhere = (GetValueConfig("REPORT_" & data.ReportCode, "MAIN_CLITERIA") & ",,,,,,,,").Split(",")
-                sqlW = GetSQLCommand(cliteria, fldWhere(1), fldWhere(2), fldWhere(3), fldWhere(4), fldWhere(5), fldWhere(6), fldWhere(7), fldWhere(8))
+                sqlW = GetSQLCommand(cliteria, fldWhere(1), fldWhere(2), fldWhere(3), fldWhere(4), fldWhere(5), fldWhere(6), fldWhere(7), fldWhere(8), fldWhere(9))
                 If sqlW <> "" Then
                     sqlW = fldWhere(0) & " " & sqlW
                 End If
@@ -1287,7 +1287,7 @@ ORDER BY d.SDescription,d.ChargeAmount-d.CostAmount DESC
 "
                         sqlM = String.Format(sqlM, sqlW)
                     Case "ADVTOTAL"
-                        sqlW = GetSQLCommand(cliteria, "a.PaymentDate", "a.CustCode", "b.ForJNo", "a.EmpCode", "", "a.DocStatus", "a.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "a.PaymentDate", "a.CustCode", "b.ForJNo", "a.EmpCode", "", "a.DocStatus", "a.BranchCode",, "c.CommLevel")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = SQLSelectAdvanceTotal(sqlW)
                     Case "ADVEXPENSE"
@@ -1295,7 +1295,7 @@ ORDER BY d.SDescription,d.ChargeAmount-d.CostAmount DESC
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = SQLSelectAdvanceTotalJob(sqlW)
                     Case "JOBDETAIL"
-                        sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.ForwarderCode", "j.JobStatus", "j.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.ForwarderCode", "j.JobStatus", "j.BranchCode",, "c.CommLevel")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = SQLSelectClearingTotal(sqlW)
                     Case "ADVCLEARING"

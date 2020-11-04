@@ -144,7 +144,7 @@ End Code
                         </table>
                         <br />
                         <label id="lblRefNoCA">Trans.No:</label>
-                        <input type="text" id="txtRefNoCash" class="form-control" value="" />
+                        <input type="text" id="txtRefNoCash" class="form-control" value="" ondblclick="AutoGenRef()" />
                         <br />
                         <label id="lblTranDateCA">Trans.Date:</label>
                         <input type="date" id="txtCashTranDate" class="form-control" disabled />
@@ -1207,5 +1207,8 @@ End Code
     }
     function PrintVoucher(br, cno) {
         window.open(path + 'Acc/FormVoucher?branch=' + $('#txtBranchCode').val() + '&controlno=' + $('#txtControlNo').val());
+    }
+    function AutoGenRef() {
+        $('#txtRefNoCash').val('CA'+'@DateTime.Now.ToString("yyyyMMddHHmmss")');
     }
 </script>

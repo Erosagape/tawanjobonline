@@ -131,6 +131,9 @@ End Code
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData('book')">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
+                <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
+                    <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Petty Cash</b>
+                </a>
             </div>
             <br/>
             <table id="tbBalance" class="table table-responsive">
@@ -360,5 +363,8 @@ End Code
         $('#txtControlBalance').val(0);
         $('#txtGLAccountCode').val('');
         $('#tbBalance').DataTable().clear().draw();
+    }
+    function PrintData() {
+        window.open(path + 'Acc/FormPettyCash?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtBookCode').val(), '', '');
     }
 </script>

@@ -1441,3 +1441,30 @@ function SetGridCompanyByVender(p, g, t, d, ev) {
     });
     BindEvent(g, d, ev);
 }
+function SetGridBookBalance(p, g, d, ev) {
+    $(g).DataTable({
+        ajax: {
+            url: p + 'Master/GetBookBalance', //web service ที่จะ call ไปดึงข้อมูลมา
+            dataSrc: 'bookaccount.data[0].Table'
+        },
+        selected: true, //ให้สามารถเลือกแถวได้
+        columns: [ //กำหนด property ของ header column
+            { data: null, title: "#" },
+            { data: "BookCode", title: mainLanguage == "TH" ? "รหัส" : "Book.No" },
+            { data: "BookName", title: mainLanguage == "TH" ? "คำอธิบาย" : "Description" },
+            { data: "SumBal", title: mainLanguage == "TH" ? "คงเหลือ" : "Balance" }
+        ],
+        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+            {
+                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                "data": null,
+                "render": function (data, type, full, meta) {
+                    let html = "<button class='btn btn-warning'>Select</button>";
+                    return html;
+                }
+            }
+        ],
+        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+    });
+    BindEvent(g, d, ev);
+}

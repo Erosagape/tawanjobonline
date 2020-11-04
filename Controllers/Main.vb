@@ -798,7 +798,7 @@ q.SumCashOnhand+q.SumChqClear+q.SumChqOnhand-q.LimitBalance as SumCashInBank,
 q.SumCashOnhand+q.SumChqClear+q.SumChqOnhand+q.SumCredit as SumBal,
 q.SumCredit+q.SumChqReturn as SumCreditable
 FROM (
-select c.BookCode,c.LimitBalance,
+select c.BookCode,c.LimitBalance,c.ControlBalance,
 Sum(Case when a.PRType='P' then -1*(a.CashAmount) else a.CashAmount end) as SumCashOnhand,
 Sum(Case when a.ChqStatus='P' then (CASE WHEN a.PRType='P' THEN -1*a.ChqAmount ELSE a.ChqAmount end) else 0 end) as SumChqClear,
 Sum(Case when a.ChqStatus='R' then (CASE WHEN a.PRType='P' THEN -1*a.ChqAmount ELSE a.ChqAmount end) else 0 end) as SumChqReturn,
@@ -813,7 +813,7 @@ on a.BranchCode=b.BranchCode and a.ControlNo=b.ControlNo
 left join Mas_BookAccount c 
 on a.BookCode=c.BookCode
 WHERE ISNULL(b.CancelProve,'')='' {0}
-group by c.BookCode,c.LimitBalance) q
+group by c.BookCode,c.LimitBalance,c.ControlBalance) q
 "
     End Function
     Function SQLSelectChequeBalance(pType As String, chqType As String) As String
@@ -2566,6 +2566,8 @@ inner join Job_SrvSingle s
 ON b.SICode=s.SICode
 inner join Job_Order j
 ON b.BranchCode=j.BranchCode AND b.JobNo=j.JNo
+inner join Mas_Company c
+ON j.CustCode=c.CustCode AND j.CustBranch=c.Branch
 WHERE a.DocStatus<>99 and s.IsCredit=0 {0}
 ORDER BY s.IsExpense
 "
@@ -2683,6 +2685,7 @@ SUM(b.AdvNet) as 'Advance Paid'
 FROM Job_AdvDetail b
 INNER JOIN Job_AdvHeader a ON b.BranchCode=a.BranchCode 
 AND b.AdvNo= a.AdvNo
+LEFT JOIN Mas_Company c ON a.CustCode=c.CustCode AND a.CustBranch=c.Branch
 WHERE a.DocStatus<>99 AND b.AdvNet>0 {0}
 GROUP BY a.CustCode,b.ForJNo
 ORDER BY a.CustCode,b.ForJNo
@@ -2926,7 +2929,7 @@ group by BranchCode,AdvNo,Rate50Tavi
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToComplete())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToInComplete())
     End Sub
-    Function GetSQLCommand(cliteria As String, fldDate As String, fldCust As String, fldJob As String, fldEmp As String, fldVend As String, fldStatus As String, fldBranch As String, Optional fldSICode As String = "") As String
+    Function GetSQLCommand(cliteria As String, fldDate As String, fldCust As String, fldJob As String, fldEmp As String, fldVend As String, fldStatus As String, fldBranch As String, Optional fldSICode As String = "", Optional fldGroup As String = "") As String
         Dim sqlW As String = ""
         If cliteria Is Nothing Then
             Return ""
@@ -2951,6 +2954,7 @@ group by BranchCode,AdvNo,Rate50Tavi
                 If fldStatus <> "" Then str = ProcessCliteria(str, "[STATUS]", fldStatus)
                 If fldVend <> "" Then str = ProcessCliteria(str, "[VEND]", fldVend)
                 If fldSICode <> "" Then str = ProcessCliteria(str, "[CODE]", fldSICode)
+                If fldGroup <> "" Then str = ProcessCliteria(str, "[GROUP]", fldGroup)
                 sqlW &= str
                 If sqlW <> "" Then
                     sqlW &= ")"

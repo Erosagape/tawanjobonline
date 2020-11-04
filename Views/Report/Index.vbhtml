@@ -115,6 +115,16 @@
                     </div>
                 </div>
             </div>
+            <div style="display:flex;width:100%;flex-direction:column" id="tbGroup">
+                <div style="display:flex;">
+                    <div style="flex:1">
+                        Customer Group:
+                    </div>
+                    <div style="flex:2">
+                        <select id="cboCommLevel" class="form-control"></select>
+                    </div>
+                </div>
+            </div>
         </div>
         <br/>
         <a href="#" class="btn btn-info" id="btnPrnJob" onclick="PrintReport()">
@@ -170,6 +180,7 @@
     </div>
 <div id="dvLOVs"></div>
 <script type="text/javascript" src="~/Scripts/Func/reports.js"></script>
+<script type="text/javascript" src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     let reportID = '';
     let browseWhat = '';
@@ -189,7 +200,8 @@
             empWhere: $('#txtEmpCliteria').val(),
             vendWhere: $('#txtVendCliteria').val(),
             statusWhere: $('#txtStatusCliteria').val(),
-            codeWhere: $('#txtCodeCliteria').val()
+            codeWhere: $('#txtCodeCliteria').val(),
+            groupWhere: $('#cboCommLevel').val()==''?'': '[GROUP]=' + $('#cboCommLevel').val()
         };
         let str = JSON.stringify(obj);
         return '?data=' + JSON.stringify(data) + '&cliteria=' + encodeURIComponent(str) + '&group=' + $('#cboReportGroup').val();
@@ -199,6 +211,9 @@
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
         $('#txtDateFrom').val(GetFirstDayOfMonth());
         $('#txtDateTo').val(GetLastDayOfMonth());
+        var lists = "COMMERCIAL_LEVEL=#cboCommLevel";
+        loadCombos(path, lists);
+
         $('#tbCode').hide();
         $('#tbReportList tbody').on('click', 'tr', function () {
             data = $('#tbReportList').DataTable().row(this).data();

@@ -36,6 +36,7 @@ End Code
         if (obj.STATUSWHERE !== '') html += obj.STATUSWHERE + ',';
         if (obj.EMPWHERE !== '') html += obj.EMPWHERE + ',';
         if (obj.CODEWHERE !== '') html += obj.CODEWHERE + ',';
+        if (obj.GROUPWHERE !== '') html += obj.GROUPWHERE + ',';
         $('#rptCliteria').html('REPORT CODE:' + row.REPORTCODE + ', CLITERIA:'+ ProcessCliteria(html));
         switch (lang) {
             case 'TH':
@@ -113,6 +114,7 @@ End Code
         data = data.replace('[STATUS]', 'Status ');
         data = data.replace('[EMP]', 'Staff ');
         data = data.replace('[BRANCH]', 'Branch ');
+        data = data.replace('[GROUP]', 'Group ');
         return data;
     }
 

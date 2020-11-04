@@ -51,6 +51,9 @@ Namespace Controllers
             End If
             Return View()
         End Function
+        Function FormPettyCash() As ActionResult
+            Return GetView("FormPettyCash")
+        End Function
         Function FormWTax3() As ActionResult
             Return GetView("FormWTax3")
         End Function
@@ -1228,6 +1231,96 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetVoucherGrid", ex.Message, ex.StackTrace, True)
                 Return Content("{""voucher"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
+            End Try
+        End Function
+        Function GetVoucherDetail() As ActionResult
+            Try
+                Dim tSqlw As String = ""
+                If Not IsNothing(Request.QueryString("BranchCode")) Then
+                    tSqlw &= String.Format(" AND a.BranchCode ='{0}'", Request.QueryString("BranchCode").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("BookNo")) Then
+                    tSqlw &= String.Format(" AND a.BookCode='{0}'", Request.QueryString("BookNo").ToString)
+                End If
+                Dim tsqlH = "
+with vc
+as
+(
+select a.ControlNo,a.VoucherDate,a.TRemark,b.BookCode,d.BookName,d.ControlBalance,b.PRType,
+CASE WHEN b.PRType='R' THEN b.CashAmount+b.ChqAmount ELSE (b.CashAmount+b.ChqAmount)*-1 END as TotalVoucher,
+c.DocNo,c.PaidAmount,e.TotalAdvance,e.TotalVAT,e.Total50Tavi,e.AdvDate,e.EmpCode,e.AdvBy,e.SDescription,
+e.CostCenter,ac1.AccTName as CostCenterName,e.AccountCost,ac2.AccTName as AccountName
+from 
+Job_CashControl a inner join Job_CashControlSub b
+ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
+LEFT JOIN Job_CashControlDoc c
+ON b.BranchCode=c.BranchCode AND b.ControlNo=c.ControlNo
+AND b.acType=c.acType 
+left join Mas_BookAccount d on b.BookCode=d.BookCode
+left join (
+ SELECT h.BranchCode,h.AdvNo,h.AdvDate,h.EmpCode,h.AdvBy,d.SDescription,cu.GLAccountCode as CostCenter,
+ sv.GLAccountCodeCost as AccountCost,
+ SUM(d.AdvAmount) as TotalAdvance,
+ SUM(d.ChargeVAT) as TotalVAT,sum(d.Charge50Tavi) as Total50Tavi
+ from Job_AdvHeader h inner join Job_AdvDetail d
+ on h.BranchCode=d.BranchCode and h.AdvNo=d.AdvNo
+ left join Mas_Company cu ON h.CustCode=cu.CustCode AND h.CustBranch=cu.Branch
+ left join Job_SrvSingle sv ON d.SICode=sv.SICode
+ group by h.BranchCode,h.AdvNo,h.AdvDate,h.EmpCode,h.AdvBy,d.SDescription,cu.GLAccountCode,sv.GLAccountCodeCost
+) e on c.BranchCode=e.BranchCode AND c.DocNo=e.AdvNo
+left join Mas_Account ac1 ON e.CostCenter=ac1.AccCode
+left join Mas_Account ac2 ON e.AccountCost=ac1.AccCode
+WHERE NOT ISNULL(a.PostedBy,'')<>'' " & tSqlw.Replace("a.", "b.") & " AND b.PRType<>''
+)
+select CostCenterName + '/'+ISNULL(AccountName,'') as 'GLDesc',CostCenter,AccountCost as AccountCode,
+SUM(TotalAdvance) as Amt,SUM(TotalVAT) as Vat,SUM(Total50Tavi) as Wht,
+SUM(TotalAdvance+TotalVAT-Total50Tavi) as Net
+from vc where PRType='P'
+group by CostCenterName,AccountName,CostCenter,AccountCost
+"
+                Dim tSqlD = "
+with vc
+as
+(
+select a.ControlNo,a.VoucherDate,a.TRemark,b.BookCode,d.BookName,d.ControlBalance,b.PRType,
+CASE WHEN b.PRType='R' THEN b.CashAmount+b.ChqAmount ELSE (b.CashAmount+b.ChqAmount)*-1 END as TotalVoucher,
+c.DocNo,c.PaidAmount,e.TotalAdvance,e.TotalVAT,e.Total50Tavi,e.AdvDate,e.EmpCode,e.AdvBy,e.SDescription,
+e.CostCenter,ac1.AccTName as CostCenterName,e.AccountCost,ac2.AccTName as AccountName,e.Rate50Tavi,e.ForJNo as JobNo
+from 
+Job_CashControl a inner join Job_CashControlSub b
+ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
+LEFT JOIN Job_CashControlDoc c
+ON b.BranchCode=c.BranchCode AND b.ControlNo=c.ControlNo
+AND b.acType=c.acType 
+left join Mas_BookAccount d on b.BookCode=d.BookCode
+left join (
+ SELECT h.BranchCode,h.AdvNo,h.AdvDate,h.EmpCode,h.AdvBy,
+ d.SDescription,cu.GLAccountCode as CostCenter,d.ForJNo,
+ sv.GLAccountCodeCost as AccountCost,d.Rate50Tavi,
+ SUM(d.AdvAmount) as TotalAdvance,
+ SUM(d.ChargeVAT) as TotalVAT,sum(d.Charge50Tavi) as Total50Tavi
+ from Job_AdvHeader h inner join Job_AdvDetail d
+ on h.BranchCode=d.BranchCode and h.AdvNo=d.AdvNo
+ left join Mas_Company cu ON h.CustCode=cu.CustCode AND h.CustBranch=cu.Branch
+ left join Job_SrvSingle sv ON d.SICode=sv.SICode
+ group by h.BranchCode,h.AdvNo,h.AdvDate,h.EmpCode,h.AdvBy,d.SDescription,cu.GLAccountCode,sv.GLAccountCodeCost,
+ d.Rate50Tavi,d.ForJNo
+) e on c.BranchCode=e.BranchCode AND c.DocNo=e.AdvNo
+left join Mas_Account ac1 ON e.CostCenter=ac1.AccCode
+left join Mas_Account ac2 ON e.AccountCost=ac1.AccCode
+WHERE NOT ISNULL(a.PostedBy,'')<>'' " & tSqlw.Replace("a.", "b.") & " AND b.PRType<>''
+)
+select * from vc WHERE PRType='P'  order by PRType DESC,DocNo
+"
+                Dim oDataH As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(tsqlH)
+                Dim jsonH = JsonConvert.SerializeObject(oDataH.AsEnumerable.ToList())
+                Dim oDataD As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(tSqlD)
+                Dim jsonD = JsonConvert.SerializeObject(oDataD.AsEnumerable.ToList())
+
+                Return Content("{""data"":{""header"":[" & jsonH & "],""detail"":[" & jsonD & "],""msg"":""OK""}}", jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetVoucherDetail", ex.Message, ex.StackTrace, True)
+                Return Content("{""data"":{""header"":[],""detail"":[],""msg"":""" & ex.Message & """}}", jsonContent)
             End Try
         End Function
         Function GetVoucherReport() As ActionResult
