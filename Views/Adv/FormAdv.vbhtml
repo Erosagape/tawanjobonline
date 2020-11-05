@@ -150,7 +150,7 @@ End Code
                         APPROVE.BY
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        PAYMENT.BY
+                        RECEIVED.BY
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
                         POSTED.BY
@@ -237,7 +237,7 @@ End Code
 
         ShowUserSign(path,h.EmpCode, '#lblReqBy');
         ShowUserSign(path,h.ApproveBy, '#lblAppBy');
-        ShowUserSign(path,h.PaymentBy, '#lblPayBy');
+        ShowUserSign(path,h.EmpCode, '#lblPayBy');
 
         $('#lblRequestDate').text(ShowDate(h.AdvDate));
         $('#lblAppDate').text(ShowDate(h.ApproveDate));

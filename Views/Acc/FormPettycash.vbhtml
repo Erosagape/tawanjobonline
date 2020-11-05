@@ -1,7 +1,7 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.Title = "Clearing Advance Slip"
-    ViewBag.ReportName = "CLEARING ADVANCE SLIP"
+    ViewBag.Title = "CLEARING ADVANCE SLIP"
+    ViewBag.ReportName = ""
 End Code
 <style>
     * {
@@ -43,11 +43,11 @@ End Code
                 <tr>
                     <td style="width:40%">CUSTODIAN'S NAME</td>
                     <td class="underline" style="width:60%;">
-                        <label id="lblVenderName">RATTANAMANEE</label>
+                        <label id="lblVenderName">NITTAMAPORN RATTANAMANEE</label>
                     </td>
                 </tr>
                 <tr>
-                    <td style="width:40%">DOCUMENT NO</td>
+                    <td style="width:40%">INVOICE NO</td>
                     <td class="underline" style="width:60%;">
                         <label id="lblInvNo"></label>
                     </td>
@@ -138,9 +138,9 @@ End Code
     <br />
     <table border="1">
         <tr>
-            <td>Job.No</td>
+            <td>Document No.</td>
             <td>Date</td>
-            <td>CS</td>
+            <td>Req.By</td>
             <td>Description</td>
             <td>CC</td>
             <td>Acc</td>
@@ -214,6 +214,7 @@ Re-imbursement Request By ___________________________________ Date _____________
                 let dt = r.data.header[0][0].Table;
                 let htmls = '';
                 for (let s of dt) {
+                    if (s.Amt !== null) {
                     htmls = '<tr>';
                     htmls += '<td>' + s.GLDesc + '</td>';
                     htmls += '<td>' + s.CostCenter + '</td>';
@@ -224,11 +225,13 @@ Re-imbursement Request By ___________________________________ Date _____________
                     htmls += '<td style="text-align:right;">' + ShowNumber(s.Net,2) + '</td>';
                     htmls += '</tr>';
                     $('#tbSummary').append(htmls);
+
+                    }
                 }
             }
             if (r.data.detail[0].length > 0) {
                 let dh = r.data.detail[0][0].Table[0];
-                $('#lblVenderName').text(dh.AdvBy);
+                //$('#lblVenderName').text(dh.AdvBy);
                 $('#lblInvNo').text('CTIS' + '@DateTime.Now.ToString("yyMMdd")');
                 $('#lblDate').text('@DateTime.Now.ToString("yyyy-MM-dd")');
                 $('#lblAdv').text(ShowNumber(dh.ControlBalance,2));
@@ -243,33 +246,36 @@ Re-imbursement Request By ___________________________________ Date _____________
                 let sumWht3 = 0;
                 let sumNet = 0;
                 for (let d of dr) {
-                    if (d.TotalVAT > 0) {
-                        sumBaseVat += Number(d.TotalAdvance);
-                    } else {
-                        sumNonVat += Number(d.TotalAdvance);
-                    }
-                    sumWht += Number(d.Total50Tavi);
-                    if (d.Rate50Tavi == 1) {
-                        sumWht1 += Number(d.Total50Tavi);
-                    } else {
-                        sumWht3 += Number(d.Total50Tavi);
-                    }
-                    sumVat += Number(d.TotalVAT);
-                    sumNet += (Number(d.TotalAdvance) + Number(d.TotalVAT) - Number(d.Total50Tavi));
+                    if (d.TotalAdvance>0) {
+                        if (d.TotalVAT > 0) {
+                            sumBaseVat += (Number(d.TotalAdvance) + Number(d.TotalVAT) - Number(d.Total50Tavi));
+                        } else {
+                            sumNonVat += (Number(d.TotalAdvance) + Number(d.TotalVAT) - Number(d.Total50Tavi));
+                        }
+                        sumWht += Number(d.Total50Tavi);
+                        if (d.Rate50Tavi == 1) {
+                            sumWht1 += Number(d.Total50Tavi);
+                        } else {
+                            sumWht3 += Number(d.Total50Tavi);
+                        }
+                        sumVat += Number(d.TotalVAT);
+                        sumNet += (Number(d.TotalAdvance) + Number(d.TotalVAT) - Number(d.Total50Tavi));
 
-                    htmld = '<tr>';
-                    htmld += '<td>' + d.JobNo + '</td>';
-                    htmld += '<td>' + ShowDate(d.AdvDate) + '</td>';
-                    htmld += '<td>' + d.EmpCode + '</td>';
-                    htmld += '<td>' + d.SDescription + '</td>';
-                    htmld += '<td>' + d.CostCenter + '</td>';
-                    htmld += '<td>' + d.AccountCost + '</td>';
-                    htmld += '<td style="text-align:right">' + ShowNumber(d.TotalAdvance, 2) + '</td>';
-                    htmld += '<td style="text-align:right">' + ShowNumber(d.TotalVAT, 2) + '</td>';
-                    htmld += '<td style="text-align:right">' + ShowNumber(d.Total50Tavi, 2) + '</td>';
-                    htmld += '<td>Closed</td>';
-                    htmld += '</tr>';
-                    $('#tbDetail').append(htmld);
+                        htmld = '<tr>';
+                        htmld += '<td>' + d.DocNo + '</td>';
+                        htmld += '<td>' + ShowDate(d.AdvDate) + '</td>';
+                        htmld += '<td>' + d.EmpCode + '</td>';
+                        htmld += '<td>' + d.SDescription + '</td>';
+                        htmld += '<td>' + d.CostCenter + '</td>';
+                        htmld += '<td>' + d.AccountCost + '</td>';
+                        htmld += '<td style="text-align:right">' + ShowNumber(d.TotalAdvance, 2) + '</td>';
+                        htmld += '<td style="text-align:right">' + ShowNumber(d.TotalVAT, 2) + '</td>';
+                        htmld += '<td style="text-align:right">' + ShowNumber(d.Total50Tavi, 2) + '</td>';
+                        htmld += '<td>Closed</td>';
+                        htmld += '</tr>';
+                        $('#tbDetail').append(htmld);
+
+                    }
                 }
                 $('#lblSumBaseVAT').text(ShowNumber(sumBaseVat, 2));
                 $('#lblSumNonVAT').text(ShowNumber(sumNonVat, 2));
