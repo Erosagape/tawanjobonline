@@ -393,6 +393,9 @@ End Code
             $('#txtVoucherType').val(vcTypeName + ' VOUCHER');
             $('#txtVoucherDate').text(ShowDate(CDateTH(data.header[0].VoucherDate)));
             $('#txtRemark').text(data.header[0].TRemark);
+            if (data.header[0].CustCode !== '') {
+                ReadCustomer(data.header[0].CustCode, data.header[0].CustBranch);
+            }
         }
     }
     function appendLine(dv,data,col1,col2) {

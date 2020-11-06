@@ -47,7 +47,7 @@ End Code
                 <table id="tbHeader" class="table table-responsive">
                     <thead>
                         <tr>
-                            <th>DocNo</th>
+                            <th class="all">DocNo</th>
                             <th class="desktop">DocDate</th>
                             <th class="desktop">CustCode</th>
                             <th class="desktop">Remark</th>
