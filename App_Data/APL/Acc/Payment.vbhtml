@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "จ่ายเงินตามบิลค่าใช้จ่าย"
+    ViewBag.Title = "Expense Payment"
 End Code
 <style>
     @@media only screen and ( max-width:600px ) {
@@ -309,7 +309,8 @@ End Code
 
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
-
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
         //Events
         $('#txtBranchCode').focusout(function (event) {
             if (true) {

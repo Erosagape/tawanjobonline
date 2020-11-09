@@ -395,7 +395,7 @@ AND a.DocNo=b.DocNo
     Function SQLSelectVoucher() As String
         Dim sql As String = "
 SELECT h.BranchCode,h.ControlNo,h.VoucherDate,h.TRemark,h.CustCode,h.CustBranch,h.RecUser,h.RecDate,h.RecTime,
-h.PostedBy,h.PostedDate,h.PostedTime,h.CancelReson,h.CancelProve,h.CancelDate,h.CancelTime,
+h.PostedBy,h.PostedDate,h.PostedTime,h.CancelReson,h.CancelProve,h.CancelDate,h.CancelTime,h.PostRefNo,
 d.ItemNo,d.PRVoucher,d.PRType,d.ChqNo,d.BookCode,d.BankCode,d.BankBranch,d.ChqDate,d.CashAmount,d.ChqAmount,d.CreditAmount,
 d.SumAmount,d.CurrencyCode,d.ExchangeRate,d.VatInc+d.VatExc as VatAmount,d.WhtInc+d.WhtExc as WhtAmount,d.TotalAmount,
 d.TotalNet,d.IsLocal,d.ChqStatus,d.TRemark as DRemark,d.PayChqTo,d.DocNo as DRefNo,d.SICode,d.RecvBank,d.RecvBranch,
@@ -970,7 +970,7 @@ and h.DocNo=d.DocNo
         Return "
 select b.BranchCode,b.LinkBillNo as DocNo,b.LinkItem as ItemNo,b.SICode,b.SDescription,b.SlipNO as ExpSlipNO,b.Remark as SRemark,b.CurrencyCode,
 b.CurRate as ExchangeRate,b.Qty,b.UnitCode as QtyUnit,
-b.UnitCost as UnitPrice,b.UnitCost*b.CurRate as FUnitPrice,
+b.UsedAmount/b.Qty as UnitPrice,(b.UsedAmount/b.Qty)*b.CurRate as FUnitPrice,
 b.UsedAmount as Amt,
 b.UsedAmount/b.CurRate as FAmt,
 0 as DiscountType,0 as DiscountPerc,0 as AmtDiscount,0 as FAmtDiscount,

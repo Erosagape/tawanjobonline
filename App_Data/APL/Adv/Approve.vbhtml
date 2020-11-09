@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "อนุมัติใบเบิกค่าใช้จ่าย"
+    ViewBag.Title = "Advance Confirmation"
 End Code
 <div class="panel-body">
     <div class="container">
@@ -86,7 +86,7 @@ End Code
                  : <input type="text" id="txtSumApprove" class="form-control" value="" />
                 <br />
                 <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Approve</b>
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Confirm</b>
                 </a>
             </div>
         </div>
@@ -111,6 +111,11 @@ End Code
         return;
     }
     function SetEvents() {
+        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+
+        $('#txtAdvDateF').val(GetFirstDayOfMonth());
+        $('#txtAdvDateT').val(GetLastDayOfMonth());
         //Combos
         let lists = 'JOB_TYPE=#cboJobType';
         lists += ',SHIP_BY=#cboShipBy';
@@ -144,8 +149,7 @@ End Code
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
         });
-        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
+
     }
     function SetGridAdv(isAlert) {
         arr = [];
@@ -217,18 +221,18 @@ End Code
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
                     let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                    RemoveData(data); //callback function from caller 
+                    RemoveData(data); //callback function from caller
                     return;
                 }
                 $(this).addClass('selected');
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                AddData(data); //callback function from caller 
+                AddData(data); //callback function from caller
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
                 window.open(path + 'adv/index?BranchCode=' + data.BranchCode + '&AdvNo=' + data.AdvNo,'','');
             });
-        });        
+        });
     }
     function AddData(o) {
         arr.push(o);

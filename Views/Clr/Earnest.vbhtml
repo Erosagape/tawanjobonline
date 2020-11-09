@@ -580,7 +580,8 @@ End Code
             CancelDate:null,
             CancelTime: null,
             CustCode: '',
-            CustBranch: ''
+            CustBranch: '',
+            PostRefNo:''
         };
         let jsonText = JSON.stringify({ data: obj });
         //ShowMessage(jsonText);

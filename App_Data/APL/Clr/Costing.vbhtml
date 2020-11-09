@@ -207,7 +207,8 @@ End Code
 
 
                     html += '<tr>';
-                    if ((d[i].LinkBillNo == '' ||d[i].LinkBillNo == null ) && cost >0) {
+                    //if ((d[i].LinkBillNo == '' ||d[i].LinkBillNo == null ) && cost >0) {
+                    if (d[i].LinkBillNo == '' || d[i].LinkBillNo == null) {
                         html += '<td><input type="button" value="Edit" onclick="OpenEditor(' + "'" + d[i].ClrNo + "'" + ',' + d[i].ItemNo + ')"/></td>';
                     } else {
                         html += '<td><input type="button" value="View" onclick="OpenInvoice(' + "'" + d[i].BranchCode + "'" + ',' + "'" + d[i].LinkBillNo + "'" + ')"/></td>';

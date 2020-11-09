@@ -4,12 +4,14 @@
 End Code
 <style>
     * {
-        font-size: 11px;        
+        font-size: 11px;
     }
+
     label {
         font-size: 14px;
     }
 </style>
+<label id="rptTitle" onclick="ExportData()">Report Title</label>
 <div style="display:flex;flex-direction:column;width:100%">
     <table id="tbResult" style="width:100%">
         <thead></thead>
@@ -17,7 +19,6 @@ End Code
         <tfoot></tfoot>
     </table>
 </div>
-<label id="rptTitle" onclick="ExportData()">Report Title</label>
 <div style="float:right" id="rptCliteria">Report Cliteria</div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -38,6 +39,7 @@ End Code
         if (obj.STATUSWHERE !== '') html += obj.STATUSWHERE + ',';
         if (obj.EMPWHERE !== '') html += obj.EMPWHERE + ',';
         if (obj.CODEWHERE !== '') html += obj.CODEWHERE + ',';
+        if (obj.GROUPWHERE !== '') html += obj.GROUPWHERE + ',';
         $('#rptCliteria').html('REPORT CODE:' + row.REPORTCODE + ', CLITERIA:'+ html);
         switch (lang) {
             case 'TH':

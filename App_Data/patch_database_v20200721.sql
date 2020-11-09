@@ -1,81 +1,17 @@
+alter table Job_CashControl add PostRefNo varchar(20)
+-----------------------------------------------------------------------
 alter table Job_LoadInfoDetail alter column CTN_NO nvarchar(50)
 alter table Job_ClearHeader alter column CTN_NO nvarchar(50)
-GO
-CREATE FUNCTION [dbo].[GetCommission](
-@amt float,@emp varchar(50)
-) returns float 
-as
-begin
-declare @comm float;
-
-with data as (
-select
-CommRate,CheckAmt,
-SUM(CheckAmt)  over (order by CheckAmt asc rows between unbounded preceding and current row) as BaseAmt
-from (
-	SELECT (CAST(r.ConfigKey as float)*u.MaxRateDisc) as CheckAmt,CAST(r.ConfigValue as float) as CommRate
-	from Mas_Config r,Mas_User u WHERE r.ConfigCode='COMMISSION_STEP'
-	AND u.UserID=@emp
-) src
-)
-select @comm=SUM(CommAmt) FROM (
-select *,(CASE WHEN @amt>BaseAmt THEN CheckAmt*CommRate ELSE (@amt-(BaseAmt-CheckAmt))*CommRate END) as CommAmt from data
-) comm where CommAmt>0
-
-return @comm;
-end 
-GO
----FOR DLL Version As 2020-07-21
-CREATE FUNCTION [dbo].[GetDataSplit](@data nvarchar(MAX),@split nvarchar(max),@idx integer)
-RETURNS  nvarchar(MAX)
-AS
-BEGIN
-DECLARE @findidx as integer= CHARINDEX(@split,@data);
-DECLARE @findstr as nvarchar(MAX);
-
-IF (@findidx<=0 )
-BEGIN
-	SET @data=@data +@split;
-	SET @findidx= CHARINDEX(@split,@data);
-END
-
-BEGIN
-	IF (@idx=0) 
-	BEGIN
-		SET @findstr=SUBSTRING(@data,1,@findidx-1);
-	END
-	ELSE
-	BEGIN
-		SET @findstr=SUBSTRING(@data,@findidx+1,LEN(@data));
-	END
-END
-RETURN @findstr;
-END
-GO
----------------------------------------------------
-INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','ADV','ADV-'
-INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','CLR_ADV','CLR-'
-INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','CLR_COST','CST-'
-INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','CLR_SERV','SRV-'
-INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','INV','IVS-'
-INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','BILL','BL-'
-INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','PAY','PAY-'
-INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','WHTAX','WT-'
-INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','EXP','ACC-'
-INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','QUO','Q-'
-INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_REC','RC-'
-INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_TAX','TX-'
-INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_SRV','SV-'
-INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_RCV','RV-'
-INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_ADV','AV-'
-insert into Mas_Config SELECT 'RUNNING_FORMAT','APP_PAY','[VEN]-'
-GO
-INSERT INTO Mas_Config SELECT 'RUNNING','INV','yyMM____'
-INSERT INTO Mas_Config SELECT 'RUNNING','BILL','yyMM____'
-INSERT INTO Mas_Config SELECT 'RUNNING','RCP','yyMM____'
-INSERT INTO Mas_Config SELECT 'RUNNING','QUO','-yyMM-___'
-insert into Mas_Config SELECT 'RUNNING','APP_PAY','yy-____'
-GO
+alter table Job_AdvHeader alter column CustBranch varchar(10)
+alter table Job_BillAcceptHeader alter column CustBranch varchar(10)
+alter table Job_CashControl alter column CustBranch varchar(10)
+alter table Job_CNDNHeader alter column CustBranch varchar(10)
+alter table Job_InvoiceHeader alter column CustBranch varchar(10)
+alter table Job_InvoiceHeader alter column BillToCustBranch varchar(10)
+alter table Job_Order alter column CustBranch varchar(10)
+alter table Job_QuotationHeader alter column CustBranch varchar(10)
+alter table Job_ReceiptHeader alter column CustBranch varchar(10)
+alter table Job_ReceiptHeader alter column BillToCustBranch varchar(10)
 --------------------------------------------------------------------------
 alter table Job_LoadinfoDetail add PlaceName1 nvarchar(MAX)
 alter table Job_LoadinfoDetail add PlaceAddress1 nvarchar(MAX)
@@ -306,4 +242,80 @@ alter table Mas_Vender alter column ContactSupport1 nvarchar(max)
 alter table Mas_Vender alter column ContactSupport2 nvarchar(max)
 alter table Mas_Vender alter column ContactSupport3 nvarchar(max)
 alter table Mas_Vender alter column WEB_SITE nvarchar(max)
+
+GO
+CREATE FUNCTION [dbo].[GetCommission](
+@amt float,@emp varchar(50)
+) returns float 
+as
+begin
+declare @comm float;
+
+with data as (
+select
+CommRate,CheckAmt,
+SUM(CheckAmt)  over (order by CheckAmt asc rows between unbounded preceding and current row) as BaseAmt
+from (
+	SELECT (CAST(r.ConfigKey as float)*u.MaxRateDisc) as CheckAmt,CAST(r.ConfigValue as float) as CommRate
+	from Mas_Config r,Mas_User u WHERE r.ConfigCode='COMMISSION_STEP'
+	AND u.UserID=@emp
+) src
+)
+select @comm=SUM(CommAmt) FROM (
+select *,(CASE WHEN @amt>BaseAmt THEN CheckAmt*CommRate ELSE (@amt-(BaseAmt-CheckAmt))*CommRate END) as CommAmt from data
+) comm where CommAmt>0
+
+return @comm;
+end 
+GO
+---FOR DLL Version As 2020-07-21
+CREATE FUNCTION [dbo].[GetDataSplit](@data nvarchar(MAX),@split nvarchar(max),@idx integer)
+RETURNS  nvarchar(MAX)
+AS
+BEGIN
+DECLARE @findidx as integer= CHARINDEX(@split,@data);
+DECLARE @findstr as nvarchar(MAX);
+
+IF (@findidx<=0 )
+BEGIN
+	SET @data=@data +@split;
+	SET @findidx= CHARINDEX(@split,@data);
+END
+
+BEGIN
+	IF (@idx=0) 
+	BEGIN
+		SET @findstr=SUBSTRING(@data,1,@findidx-1);
+	END
+	ELSE
+	BEGIN
+		SET @findstr=SUBSTRING(@data,@findidx+1,LEN(@data));
+	END
+END
+RETURN @findstr;
+END
+GO
+---------------------------------------------------
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','ADV','ADV-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','CLR_ADV','CLR-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','CLR_COST','CST-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','CLR_SERV','SRV-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','INV','IVS-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','BILL','BL-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','PAY','PAY-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','WHTAX','WT-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','EXP','ACC-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','QUO','Q-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_REC','RC-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_TAX','TX-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_SRV','SV-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_RCV','RV-'
+INSERT INTO Mas_Config SELECT 'RUNNING_FORMAT','RECEIVE_ADV','AV-'
+insert into Mas_Config SELECT 'RUNNING_FORMAT','APP_PAY','[VEN]-'
+GO
+INSERT INTO Mas_Config SELECT 'RUNNING','INV','yyMM____'
+INSERT INTO Mas_Config SELECT 'RUNNING','BILL','yyMM____'
+INSERT INTO Mas_Config SELECT 'RUNNING','RCP','yyMM____'
+INSERT INTO Mas_Config SELECT 'RUNNING','QUO','-yyMM-___'
+insert into Mas_Config SELECT 'RUNNING','APP_PAY','yy-____'
 GO

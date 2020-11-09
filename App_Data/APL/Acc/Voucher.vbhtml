@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "P/R Voucher"
+    ViewBag.Title = "Payment/Receive Voucher"
 End Code
 <div class="panel-body">
     <div class="container">
@@ -534,6 +534,7 @@ End Code
     SetEnterToTab();
     $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
     $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+
     if (branch !== '' && code !== '') {
         $('#txtControlNo').val(code);
         LoadData();

@@ -1,6 +1,6 @@
 ﻿
 @Code
-    ViewBag.Title = "บันทึกบิลค่าใช้จ่าย"
+    ViewBag.Title = "Bill Payment"
 End Code
 <div class="panel-body">
     <div id="dvHeader" class="container">
@@ -1351,7 +1351,7 @@ End Code
         });
     }
     function EnableSave() {
-        let b = (userRights.indexOf('E') > 0 && ($('#txtApproveBy').val()=='' && $('#txtCancelProve').val()=='' && $('#txtAdvRef').val()=='' && $('#txtPaymentRef').val()==''))
+        let b = (userRights.indexOf('E') > 0 && ($('#txtApproveBy').val()=='' && $('#txtCancelProve').val()=='' && $('#txtAdvRef').val()==''))
         if (b == false) {
             $('#btnSave').attr('disabled', 'disabled');
             $('#btnDel').attr('disabled', 'disabled');

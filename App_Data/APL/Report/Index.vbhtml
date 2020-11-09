@@ -115,6 +115,16 @@
                     </div>
                 </div>
             </div>
+            <div style="display:flex;width:100%;flex-direction:column" id="tbGroup">
+                <div style="display:flex;">
+                    <div style="flex:1">
+                        Customer Group:
+                    </div>
+                    <div style="flex:2">
+                        <select id="cboCommLevel" class="form-control"></select>
+                    </div>
+                </div>
+            </div>
         </div>
         <br/>
         <a href="#" class="btn btn-info" id="btnPrnJob" onclick="PrintReport()">
@@ -170,6 +180,7 @@
     </div>
 <div id="dvLOVs"></div>
 <script type="text/javascript" src="~/Scripts/Func/reports.js"></script>
+<script type="text/javascript" src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     let reportID = '';
     let browseWhat = '';
@@ -179,19 +190,6 @@
     var path = '@Url.Content("~")';
     ChangeLanguageForm('@ViewBag.Module');
     SetEvents();
-    $('#tbCode').hide();
-    $('#tbReportList tbody').on('click', 'tr', function () {
-        data = $('#tbReportList').DataTable().row(this).data();
-        //if (data.ReportAuthor.indexOf(userPosition) < 0) {
-            //ShowMessage("Your position are not authorized to view Report", true);
-            //$('#btnPrnJob').hide();
-            //return;
-        //}
-        $('#btnPrnJob').show();
-        SetSelect('#tbReportList', this);
-        reportID = data.ReportCode;        
-        LoadCliteria(reportID);
-    });
     function GetCliteria() {
         let obj = {
             branch: '[BRANCH]=' + $('#txtBranchCode').val(),
@@ -202,13 +200,34 @@
             empWhere: $('#txtEmpCliteria').val(),
             vendWhere: $('#txtVendCliteria').val(),
             statusWhere: $('#txtStatusCliteria').val(),
-            codeWhere: $('#txtCodeCliteria').val()
+            codeWhere: $('#txtCodeCliteria').val(),
+            groupWhere: $('#cboCommLevel').val()==''?'': '[GROUP]=' + $('#cboCommLevel').val()
         };
         let str = JSON.stringify(obj);
         return '?data=' + JSON.stringify(data) + '&cliteria=' + encodeURIComponent(str) + '&group=' + $('#cboReportGroup').val();
     }
     function SetEvents() {
-        $.get(path +'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtDateFrom').val(GetFirstDayOfMonth());
+        $('#txtDateTo').val(GetLastDayOfMonth());
+        var lists = "COMMERCIAL_LEVEL=#cboCommLevel";
+        loadCombos(path, lists);
+
+        $('#tbCode').hide();
+        $('#tbReportList tbody').on('click', 'tr', function () {
+            data = $('#tbReportList').DataTable().row(this).data();
+            //if (data.ReportAuthor.indexOf(userPosition) < 0) {
+                //ShowMessage("Your position are not authorized to view Report", true);
+                //$('#btnPrnJob').hide();
+                //return;
+            //}
+            $('#btnPrnJob').show();
+            SetSelect('#tbReportList', this);
+            reportID = data.ReportCode;
+            LoadCliteria(reportID);
+        });
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
             CreateLOV(dv, '#frmSearchBranch', '#tblBranch', 'Branch', response, 2);
             CreateLOV(dv, '#frmSearchCust', '#tblCust', 'Search Customers', response, 3);
@@ -225,7 +244,7 @@
             case 'branch':
                 SearchData();
                 return;
-            case 'cust':             
+            case 'cust':
                 $('#lblCliteria').text('Filter Data For Customer');
                 break;
             case 'job':
@@ -253,12 +272,12 @@
         cliterias = [];
         $('#dvCliteria').modal('show');
     }
-    function SearchData() {        
+    function SearchData() {
         switch (browseWhat) {
             case 'branch':
                 SetGridBranch(path, '#tblBranch', '#frmSearchBranch', ReadBranch);
                 break;
-            case 'cust':             
+            case 'cust':
                 SetGridCompany(path, '#tblCust', '#frmSearchCust',ReadData);
                 break;
             case 'job':
@@ -291,7 +310,7 @@
                 if (reportID.substr(0, 3) == 'PRD') {
                     $('#txtValue').val(dr.TaxNumber);
                     break;
-                } 
+                }
                 $('#txtValue').val(dr.CustCode);
                 break;
             case 'job':
@@ -310,7 +329,7 @@
                 $('#txtValue').val(dr.SICode);
         }
     }
-    function SetData() {        
+    function SetData() {
         let str = '[' + browseWhat + ']';
         if (cliterias.length > 0 && $('#selOption').val() == "OR") {
             str = $('#selOption').val() + str;
@@ -367,6 +386,10 @@
             case 'STD':
                 window.open(path + 'Report/Preview' + GetCliteria()+ '&Layout=', '', '');
                 break;
+            case 'APL':
+                window.open(path + 'Report/Preview' + GetCliteria() + '&Layout=2', '', '');
+                break;
+            case 'FIX':
             case 'EXP':
                 window.open(path + 'Report/Preview' + GetCliteria() +'&Layout=1', '', '');
                 break;

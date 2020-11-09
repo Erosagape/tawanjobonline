@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Transport Approve"
+    ViewBag.Title = "Transport Confirmation"
 End Code
 <div class="row">
     <div class="col-sm-4">
@@ -87,7 +87,7 @@ End Code
         <option value="99">Cancelled</option>
     </select>
     <input type="text" id="txtListApprove" class="form-control" style="width:70%" />
-    <button id="btnApprove" class="btn btn-success" onclick="ApproveData()">Approve</button>
+    <button id="btnApprove" class="btn btn-success" onclick="ApproveData()">Confirm</button>
 </div>
 <div class="modal fade" role="dialog" id="dvContainer">
     <div class="modal-dialog-lg">
@@ -153,7 +153,7 @@ End Code
                                 <br />
                                 <div style="display:flex">
                                     <input type="text" id="txtRouteID" class="form-control" disabled />
-                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('route')" />
+                                    <input type="button" class="btn btn-default" value="..." id="btnBrowseLoc" onclick="SearchData('route')" />
                                 </div>
                             </div>
                             <div class="col-sm-9">
@@ -390,6 +390,8 @@ End Code
     function SetEvents() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
         if (userGroup == 'S') {
             $('#txtTargetYardDate').removeAttr('disabled');
             $('#txtTargetYardTime').removeAttr('disabled');
@@ -402,6 +404,7 @@ End Code
             $('#txtVenCode').attr('disabled', 'disabled');
             $('#txtVenName').attr('disabled', 'disabled');
             $('#btnBrowseVend').attr('disabled', 'disabled');
+            $('#btnBrowseLoc').attr('disabled', 'disabled');
             $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
                 if (r.vender.data.length > 0) {
                     let dr = r.vender.data[0];
@@ -481,7 +484,11 @@ End Code
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
                 break;
             case 'customer':
-                SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
+                if (userGroup == 'V') {
+                    SetGridCompanyByVender(path, '#tbCust', $('#txtVenCode').val(), '#frmSearchCust', ReadCustomer);
+                } else {
+                    SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
+                }
                 break;
             case 'carunit':
                 SetGridServUnitFilter(path, '#tbUnitC', '?Type=2', '#frmSearchUnitC', ReadCarUnit);
@@ -835,7 +842,7 @@ End Code
     function ShowPayment() {
         $('#tbPayment').DataTable().clear().draw();
         if ($('#txtCTN_NO').val() !== '') {
-            $.get(path + 'Acc/GetPayment?VenCode=' + row.VenderCode + '&Ref=' + row.CTN_NO + '&Status=Y').done((r) => {
+            $.get(path + 'Acc/GetPayment?VenCode=' + row.VenderCode + '&Ref=' + row.CTN_NO + '&Job=' + row.JNo +'&Status=Y').done((r) => {
                 if (r.payment.header.length > 0) {
                     let tb = $('#tbPayment').DataTable({
                         data: r.payment.header,

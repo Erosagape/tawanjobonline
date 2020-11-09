@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Job Information"
+    ViewBag.Title = "Job Order"
 End Code
 <style>
     @@media only screen and (max-width: 600px) {

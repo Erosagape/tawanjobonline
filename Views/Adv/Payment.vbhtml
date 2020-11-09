@@ -988,7 +988,8 @@ End Code
             CancelDate: '',
             CancelTime: '',
             CustCode: $('#txtCustCode').val(),
-            CustBranch: $('#txtCustBranch').val()
+            CustBranch: $('#txtCustBranch').val(),
+            PostRefNo: ''
         };
         docno = '';
         let jsonString = JSON.stringify({ data: oHeader });

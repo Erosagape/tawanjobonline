@@ -47,15 +47,26 @@ End Code
             <label id="lblReqDate" style="text-decoration-line:underline;"></label>
         </td>
     </tr>
+    <tr>
+        <td colspan="2">
+            <b>Customer Invoice :</b>
+            <label id="lblInvNo" style="text-decoration-line:underline;"></label>
+        </td>
+        <td>
+            <b>House BL/AWB :</b>
+            <label id="lblHAWBNo" style="text-decoration-line:underline;"></label>
+        </td>
+        <td align="right">
+            <b>Job No :</b>
+            <label id="lblJNo" style="text-decoration-line:underline;"></label>
+        </td>
+    </tr>
 </table>
 <br />
-<table style="border-collapse:collapse;width:99%;">
+<table style="border-collapse:collapse;width:100%">
     <tr style="text-align:center;">
         <td style="border-style:solid;border-width:thin;font-size:11px">
             <b>Advance Expenses</b>
-        </td>
-        <td style="border-style:solid;border-width:thin;font-size:11px">
-            <b>Job Number</b>
         </td>
         <td style="border-style:solid;border-width:thin;font-size:11px">
             <b>With-holding Tax</b>
@@ -68,9 +79,6 @@ End Code
         <td style="border-style:solid;border-width:thin;text-align:left">
             <div id="divDesc" style="font-size:12px"></div>
         </td>
-        <td style="border-style:solid;border-width:thin;text-align:left">
-            <div id="divJob" style="font-size:12px"></div>
-        </td>
         <td style="border-style:solid;border-width:thin;text-align:right">
             <div id="divWht" style="font-size:12px"></div>
         </td>
@@ -79,18 +87,18 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px" colspan="2">
+        <td style="text-align:left;font-size:11px">
             <input type="checkbox" id="chkCash" /> CASH/TRANSFER :
             <label id="lblAccNo">______________</label>
             <label id="txtAdvCash"></label>
         </td>
-        <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Request Amount</td>
+        <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Net Amount</td>
         <td style="border-style:solid;border-width:thin" width="150px">
             <input type="text" style="border:none;text-align:right;font-size:11px" id="txtTotalAmt" />
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px" colspan="2">
+        <td style="text-align:left;font-size:11px">
             <input type="checkbox" id="chkCustChq" /> CUST.CHQ NO :
             <label id="lblcustChqNo">__________</label> DEP.DATE :
             <label id="lblDepDate">________</label>
@@ -104,28 +112,20 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px" colspan="2">
+        <td style="text-align:left;font-size:11px">
             <input type="checkbox" id="chkCompChq" /> CHQ NO :
             <label id="lblCompChqNo">__________</label> CHQ.DATE :
             <label id="lblChqDate">________</label>
             <label id="txtAdvChq"></label>
         </td>
-        <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">WHD-1%</td>
+        <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">WH-Tax</td>
         <td style="border-style:solid;border-width:thin" width="150px">
-            <input type="text" style="border:none;text-align:right;font-size:11px" id="txtWHT1" />
+            <input type="text" style="border:none;text-align:right;font-size:11px" id="txtWHTAmt" />
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px;" colspan="2">
+        <td style="text-align:left;font-size:11px;">
             <input type="checkbox" id="chkCredit" /> ACCOUNT PAYABLES :__________________ <label id="txtAdvCred"></label>
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">WHD-1.5/3%</td>
-        <td style="border-style:solid;border-width:thin" width="150px">
-            <input type="text" style="border:none;text-align:right;font-size:11px" id="txtWHT3" />
-        </td>
-    </tr>
-    <tr>
-        <td style="text-align:left;font-size:11px;" colspan="2">            
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Total</td>
         <td style="border-style:solid;border-width:thin" width="150px">
@@ -136,7 +136,8 @@ End Code
             **ADVANCE WAIT FOR CLEAR AT @DateTime.Now IS
             <label id="lblPendingAmount">0.00</label>**
             <br />
-            TOTAL : <input type="text" id="txtTotalText" value="ZERO BAHT ONLY" style="font-size:11px;background-color:burlywood;font:bold;text-align:center;width:90%;" disabled />
+            TOTAL :
+            <input type="text" id="txtTotalText" value="ZERO BAHT ONLY" style="font-size:11px;background-color:burlywood;font:bold;text-align:center;width:90%;" disabled />
             <br />
             PAY TO : <label id="lblPayTo" style="font-size:11px">________________________________________________________________________</label>
             <br />
@@ -149,7 +150,7 @@ End Code
                         APPROVE.BY
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        PAYMENT.BY
+                        RECEIVED.BY
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
                         POSTED.BY
@@ -212,16 +213,16 @@ End Code
                 ShowDetail(d,h);
             });
     }
-                function ShowPendingAmount(branch, reqby) {
-                    $.get(path + 'Clr/GetAdvForClear?show=NOCLR&branchcode=' + branch + '&reqby=' + reqby)
-                        .done(function (r) {
-                            if (r.clr.data.length > 0) {
-                                let d = r.clr.data[0].Table;
-                                let sum = d.map(item => item.AdvBalance).reduce((prev, next) => prev + next);
-                                $('#lblPendingAmount').text(ShowNumber(sum, 2));
-                            }
-                        });
+    function ShowPendingAmount(branch, reqby) {
+        $.get(path + 'Clr/GetAdvForClear?show=NOCLR&branchcode=' + branch + '&reqby=' + reqby)
+            .done(function (r) {
+                if (r.clr.data.length > 0) {
+                    let d = r.clr.data[0].Table;
+                    let sum = d.map(item => item.AdvBalance).reduce((prev, next) => prev + next);
+                    $('#lblPendingAmount').text(ShowNumber(sum, 2));
                 }
+            });
+    }
     function ShowData(data) {
         //show headers
         let h = data.adv.header[0];
@@ -236,7 +237,7 @@ End Code
 
         ShowUserSign(path,h.EmpCode, '#lblReqBy');
         ShowUserSign(path,h.ApproveBy, '#lblAppBy');
-        ShowUserSign(path,h.PaymentBy, '#lblPayBy');
+        ShowUserSign(path,h.EmpCode, '#lblPayBy');
 
         $('#lblRequestDate').text(ShowDate(h.AdvDate));
         $('#lblAppDate').text(ShowDate(h.ApproveDate));
@@ -269,12 +270,21 @@ End Code
         }
         $('#txtNetAmt').val(CCurrency(h.TotalAdvance.toFixed(2)));
         $('#txtVATAmt').val(CCurrency(h.TotalVAT.toFixed(2)));
-        //$('#txtWHTAmt').val(CCurrency(h.Total50Tavi.toFixed(2)));
-        $('#txtTotalAmt').val(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
+        $('#txtWHTAmt').val(CCurrency(h.Total50Tavi.toFixed(2)));
+        $('#txtTotalAmt').val(CCurrency((h.TotalAdvance - h.TotalVAT + h.Total50Tavi).toFixed(2)));
 
-        $('#txtTotalText').val(CNumEng(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2))));
+        $('#txtTotalText').val(CNumEng(CCurrency((h.TotalAdvance - h.TotalVAT + h.Total50Tavi).toFixed(2))));
         //show details
         let d = data.adv.detail;
+        let jobno = d[0].ForJNo;
+        $('#lblJNo').text(jobno);
+        $.get(path + 'JobOrder/GetJobSql?BranchCode=' + h.BranchCode + '&JNo=' + jobno).done(function (r) {
+            if (r.job.data.length > 0) {
+                let j = r.job.data[0];
+                $('#lblInvNo').text(j.InvNo);
+                $('#lblHAWBNo').text(j.HAWB);
+            }
+        });
         LoadServices(d,h);
     }
     function ShowCustomer(Code, Branch) {
@@ -295,8 +305,7 @@ End Code
         let strJob = '';
         let strAmt = '';
         let strWht = '';
-        let wht1 = 0;        
-        let wht3 = 0;        
+        let totAmt = 0;
         //let vat = 0;
         //let wht = 0;
         for (i = 0; i < r.length; i++) {
@@ -306,30 +315,20 @@ End Code
                     return data.SICode === d.SICode;
                 });
                 if (c.length > 0) {
-                    strDesc = strDesc + (d.SICode + ' / ' + d.SDescription);
+                    strDesc = strDesc + (d.SICode + '-' + d.SDescription + '<br/>');
                 } else {
-                    strDesc = strDesc + d.SDescription;
+                    strDesc = strDesc + d.SDescription+ '<br/>';
                 }
-                strDesc += '<br/>';
             } else {
                 strDesc = strDesc + (d.SICode + '<br/>');
             }
-            strJob = strJob + ((d.ForJNo == null||d.ForJNo=='' ? '' : d.ForJNo) + '<br/>');
-            strAmt = strAmt + (CCurrency((d.AdvAmount+ d.ChargeVAT).toFixed(2)) + '<br/>');
+            strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(2)) + '<br/>');
             strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(2)) + '<br/>');
-            if (d.Rate50Tavi == 1) {
-                wht1 += d.Charge50Tavi;
-            } else {
-                wht3 += d.Charge50Tavi;
-            }
-            //totAmt += d.AdvAmount;
+            totAmt += d.AdvAmount;
             //vat += d.ChargeVAT;
             //wht += d.Charge50Tavi;
         }
-        $('#txtWHT1').val(ShowNumber(wht1, 2));
-        $('#txtWHT3').val(ShowNumber(wht3, 2));
         $('#divDesc').html(strDesc);
-        $('#divJob').html(strJob);
         $('#divWht').html(strWht);
         $('#divAmt').html(strAmt);
     }

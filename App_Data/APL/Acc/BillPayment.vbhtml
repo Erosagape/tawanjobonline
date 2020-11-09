@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Billing Payment"
+    ViewBag.Title = "Bill Payments"
 End Code
 <div class="row">
     <div class="col-sm-4">
@@ -96,6 +96,11 @@ End Code
     SetEvents();
     //});
     function SetEvents() {
+        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
+
         if (userGroup == 'V') {
             $('#txtVenCode').attr('disabled', 'disabled');
             $('#txtVenName').attr('disabled', 'disabled');
@@ -111,9 +116,6 @@ End Code
         //default values
         $('#txtCurrencyCode').val('THB');
         ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
-
-        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
 
         //Events
         $('#txtBranchCode').focusout(function (event) {

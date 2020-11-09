@@ -230,13 +230,17 @@ End Code
                         <div class="col-sm-8">
                             <b id="linkDet">Invoice Detail:</b>
                             <button id="btnMerge" class="btn btn-default" onclick="MergeData()">Group Data</button>
+                            <select id="cboMergeType">
+                                <option value="C">By Code,Price</option>
+                                <option value="S">By Slip,Code</option>
+                            </select>
                             <br />
                             <table id="tbDetail" class="table table-responsive" style="width:100%;">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th class="all">JobNo</th>
-                                        <th>Description</th>
+                                        <th class="all">Description</th>
                                         <th class="desktop">SlipNo</th>
                                         <th class="desktop">Advance</th>
                                         <th class="desktop">Charge</th>
@@ -1172,8 +1176,8 @@ End Code
                     ExchangeRate: $('#txtExchangeRate').val(),
                     Qty: CNum(obj.Qty),
                     QtyUnit: obj.QtyUnit,
-                    UnitPrice: obj.UnitPrice,
-                    FUnitPrice: CDbl(obj.UnitPrice / CNum($('#txtExchangeRate').val()), 2),
+                    UnitPrice: (CNum(obj.Amt)/CNum(obj.Qty)),
+                    FUnitPrice: CDbl((CNum(obj.Amt) / CNum(obj.Qty)) / CNum($('#txtExchangeRate').val()), 2),
                     Amt: CDbl(obj.Amt,2),
                     FAmt: CDbl(obj.Amt / CNum($('#txtExchangeRate').val()), 2),
                     DiscountType: obj.DiscountType,
@@ -1209,8 +1213,8 @@ End Code
                     ExchangeRate: $('#txtExchangeRate').val(),
                     Qty: obj.Qty,
                     QtyUnit: obj.QtyUnit,
-                    UnitPrice: obj.UnitPrice,
-                    FUnitPrice: CDbl(obj.UnitPrice / CNum($('#txtExchangeRate').val()), 2),
+                    UnitPrice: (CNum(obj.Amt) / CNum(obj.Qty)),
+                    FUnitPrice: CDbl((CNum(obj.Amt) / CNum(obj.Qty)) / CNum($('#txtExchangeRate').val()), 2),
                     Amt: obj.Amt,
                     FAmt: CDbl(obj.Amt / CNum($('#txtExchangeRate').val()), 2),
                     DiscountType: obj.DiscountType,
@@ -1255,8 +1259,14 @@ End Code
         let arr_sel = arr.filter(function (d) {
             return d.AmtCharge > 0 || d.AmtAdvance > 0;
         });
-        sortData(arr_sel, 'SICode', 'asc');
-        sortData(arr_sel, 'UnitPrice', 'asc');
+        if ($('#cboMergeType').val() == 'S') {
+            sortData(arr_sel, 'ExpSlipNO', 'desc');
+            sortData(arr_sel, 'SICode', 'asc');
+            sortData(arr_sel, 'Amt', 'asc');
+        } else {
+            sortData(arr_sel, 'SICode', 'asc');
+            sortData(arr_sel, 'Amt', 'asc');
+        }
 
         let slipList = '';
         let clearList = '';
@@ -1267,18 +1277,26 @@ End Code
         let checkData = '';
         for (obj of arr_sel) {
             rowProcess += 1;
-            checkData = obj.SICode + '' + obj.UnitPrice;
+            if ($('#cboMergeType').val() == 'S') {
+                checkData = obj.ExpSlipNO + '' + obj.SICode + '' + CDbl(CNum(obj.Amt) / CNum(obj.Qty), 2);
+            } else {
+                checkData = obj.SICode + '' + CDbl(CNum(obj.Amt) / CNum(obj.Qty), 2);
+            }
             if (currCode !== checkData) {
                 if (currCode !== '') {
                     key.ClrNo = '';
                     key.ClrItemNo = 0;
                     key.ClrNoList = clearList;
                     key.ExpSlipNO = slipList;
-                    key.UnitPrice = CNum(key.Amt) / CNum(key.Qty);
+                    key.UnitPrice = CDbl(CNum(obj.Amt) / CNum(obj.Qty),2);
                     key.FUnitPrice = CDbl(CNum(key.UnitPrice) / CNum(obj.ExchangeRate), 2);
                     arr_new.push(key);
                 }
-                currCode = obj.SICode + '' + obj.UnitPrice;
+                if ($('#cboMergeType').val() == 'S') {
+                    currCode = obj.ExpSlipNO + '' + obj.SICode + '' + CDbl(CNum(obj.Amt) / CNum(obj.Qty), 2);
+                } else {
+                    currCode = obj.SICode + '' + CDbl(CNum(obj.Amt) / CNum(obj.Qty), 2);
+                }
                 itemNo += 1;
                 key = obj;
                 key.ItemNo = itemNo;
@@ -1303,7 +1321,7 @@ End Code
             if (clearList.indexOf((obj.ClrNo + '/' + obj.ClrItemNo)) < 0) {
                 clearList += (clearList !== '' ? ',' : '') + (obj.ClrNo + '/' + obj.ClrItemNo);
             }
-            if (obj.ExpSlipNO !== null) {
+            if (obj.ExpSlipNO !== '' && obj.ExpSlipNO !== null) {
                 if (slipList.indexOf(obj.ExpSlipNO) < 0) {
                     slipList += (slipList !== '' ? ',' : '') + obj.ExpSlipNO;
                 }
@@ -1313,12 +1331,17 @@ End Code
                 key.ClrItemNo = 0;
                 key.ClrNoList = clearList;
                 key.ExpSlipNO = slipList;
-                key.UnitPrice = CNum(key.Amt) / CNum(key.Qty);
+                key.UnitPrice = CDbl(CNum(obj.Amt) / CNum(obj.Qty),2);
                 key.FUnitPrice = CDbl(CNum(key.UnitPrice) / CNum(obj.ExchangeRate), 2);
                 arr_new.push(key);
             }
         }
         arr = arr_new;
+        if ($('#cboMergeType').val() == 'S') {
+            sortData(arr, 'ExpSlipNO', 'desc');
+        } else {
+            sortData(arr, 'SICode', 'asc');
+        }
         CalSummary();
     }
     function ClearVariable() {

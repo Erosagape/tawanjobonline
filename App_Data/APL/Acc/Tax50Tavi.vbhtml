@@ -1,6 +1,5 @@
-﻿
-@Code
-    ViewBag.Title = "Lists Vouchers"
+﻿@Code
+    ViewBag.Title = "Withholding-Tax Lists"
 End Code
 <div class="row">
     <div class="col-sm-4">
@@ -25,13 +24,13 @@ End Code
 </div>
 <div class="row">
     <div class="col-sm-2">
-        <br/>
-        <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddVoucher()">
-            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkCreate">Create Voucher</b>
+        <br />
+        <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddWHTax()">
+            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkCreate">Create New Slip</b>
         </a>
     </div>
     <div class="col-sm-8" style="text-align:right">
-        <br/>
+        <br />
         <input type="checkbox" id="chkCancel" />Show Cancel Only
     </div>
     <div class="col-sm-2">
@@ -46,23 +45,22 @@ End Code
         <table id="tbHeader" class="table table-responsive">
             <thead>
                 <tr>
-                    <th class="desktop">ControlNo</th>
-                    <th class="all">VoucherDate</th>
-                    <th class="desktop">CustCode</th>
-                    <th class="desktop">Remark</th>
-                    <th class="all">VoucherNo</th>
-                    <th class="desktop">ChqNo</th>
-                    <th class="desktop">ChqDate</th>
-                    <th class="desktop">ChqAmount</th>
-                    <th class="desktop">CashAmount</th>
-                    <th class="desktop">CreditAmount</th>
-                    <th class="desktop">Currency</th>
-                    <th class="all">DocNo</th>
+                    <th>DocNo</th>
+                    <th class="desktop">DocDate</th>
+                    <th class="desktop">TName1</th>
+                    <th class="desktop">TName2</th>
+                    <th class="desktop">TName3</th>
+                    <th class="all">JNo</th>
+                    <th class="desktop">InvNo</th>
+                    <th class="desktop">DocRefNo</th>
+                    <th class="all">PayAmount</th>
+                    <th class="all">PayTax</th>
                 </tr>
             </thead>
         </table>
     </div>
 </div>
+
 <div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
@@ -119,62 +117,43 @@ End Code
         } else {
             w = w + '&Show=ACTIVE';
         }
-        $.get(path + 'acc/getvouchergrid?branch=' + $('#txtBranchCode').val() + w, function (r) {
-            if (r.voucher.data.length == 0) {
+        $.get(path + 'acc/getwhtaxgrid?branch=' + $('#txtBranchCode').val() + w, function (r) {
+            if (r.whtax.data.length == 0) {
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.voucher.data[0].Table;
+            let h = r.whtax.data[0].Table;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
-                    { data: "ControlNo", title: "Control No" },
+                    { data: "DocNo", title: "Document.No" },
                     {
-                        data: "VoucherDate", title: "Date",
+                        data: "DocDate", title: "Date",
                         render: function (data) {
                             return CDateEN(data);
                         }
                     },
-                    { data: "CmpCode", title: "Customer" },
-                    { data: "TRemark", title: "Remark" },
-                    { data: "PRVoucher", title: "Voucher" },
-                    { data: "ChqNo", title: "Cheque No" },
-                    {
-                        data: "ChqDate", title: "Chq Date",
-                        render: function (data) {
-                            return CDateEN(data);
-                        }
-                    },
-                    { data: "ChqAmount", title: "Chq Total",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                        }
-                    },
-                    { data: "CashAmount", title: "Cash Total",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                        }
-                    },
-                    { data: "CreditAmount", title: "Credit Total",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                        }
-                    },
-                    { data: "CurrencyCode", title: "Currency" },
-                    { data: "DocNo", title: "Doc No" }
+                    { data: "TName1", title: "Tax Issue" },
+                    { data: "TName2", title: "Tax Owner" },
+                    { data: "TName3", title: "Tax Payer" },
+                    { data: "JNo", title: "Job No" },
+                    { data: "InvNo", title: "Inv No" },
+                    { data: "DocRefNo", title: "Ref No" },
+                    { data: "PayAmount", title: "Amount" },
+                    { data: "PayTax", title: "Tax" }
                 ],
-                responsive:true,
+                responsive: true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                window.open(path + 'acc/voucher?Branch=' + $('#txtBranchCode').val() + '&Code=' + data.ControlNo,'','');
+                window.open(path + 'acc/whtax?Branch=' + $('#txtBranchCode').val() + '&Code=' + data.DocNo,'','');
             });
         });
     }
-    function AddVoucher() {
-        window.open(path + 'acc/voucher','','');
+    function AddWHTax() {
+        window.open(path + 'acc/whtax','','');
     }
-    
+
 </script>

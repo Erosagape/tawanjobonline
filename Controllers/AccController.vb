@@ -69,6 +69,71 @@ Namespace Controllers
         Function Approve() As ActionResult
             Return GetView("Approve", "MODULE_ACC")
         End Function
+        Function ApprovePettyCash(<FromBody()> data As String()) As HttpResponseMessage
+            Try
+                ViewBag.User = GetSession("CurrUser").ToString()
+                Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "PettyCash")
+                If AuthorizeStr.IndexOf("I") < 0 Then
+                    Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+                End If
+
+                Dim poNumber = ""
+                If Not Request.QueryString("ID") Is Nothing Then
+                    poNumber = Request.QueryString("ID").ToString()
+                End If
+
+                If IsNothing(data) Then
+                    Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+                End If
+
+                Dim json As String = ""
+                Dim lst As String = ""
+                Dim user As String = ""
+                For Each str As String In data
+                    If str.IndexOf("|") >= 0 Then
+                        If lst <> "" Then lst &= ","
+                        lst &= "'" & str & "'"
+                    Else
+                        user = str
+                    End If
+                Next
+
+                If lst <> "" Then
+                    Dim tSQL As String = ""
+                    If poNumber <> "" Then
+                        tSQL = String.Format("UPDATE Job_CashControl SET PostRefNo='" & poNumber & "',PostedDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PostedTime='" & DateTime.Now.ToString("HH:mm:ss") & "'  WHERE BranchCode+'|'+ControlNo in({0})", lst)
+                    Else
+                        Dim fmt = Main.GetValueConfig("RUNNING", "APP_PETTYCASH")
+                        If fmt <> "" Then
+                            If fmt.IndexOf("bb") >= 0 Then
+                                fmt = fmt.Replace("bb", DateTime.Today.AddYears(543).ToString("yy"))
+                            End If
+                            If fmt.IndexOf("MM") >= 0 Then
+                                fmt = fmt.Replace("MM", DateTime.Today.ToString("MM"))
+                            End If
+                            If fmt.IndexOf("yy") >= 0 Then
+                                fmt = fmt.Replace("yy", DateTime.Today.ToString("yy"))
+                            End If
+                        Else
+                            fmt = DateTime.Today.ToString("yyMM") & "____"
+                        End If
+                        Dim pFormat = Main.GetValueConfig("RUNNING_FORMAT", "APP_PETTYCASH") & fmt
+                        Dim sqlApp = String.Format("SELECT MAX(PostRefNo) as t FROM Job_CashControl WHERE PostRefNo Like '%{0}' ", pFormat)
+                        Dim appRef = Main.GetMaxByMask(GetSession("ConnJob"), sqlApp, pFormat)
+                        tSQL = String.Format("UPDATE Job_CashControl SET PostRefNo='" & appRef & "',PostedBy='" & user & "',PostedDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PostedTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
+ WHERE BranchCode+'|'+ControlNo in({0}) AND ISNULL(PostRefNo,'')=''", lst)
+
+                    End If
+                    Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
+                    If result = "OK" Then
+                        Return New HttpResponseMessage(HttpStatusCode.OK)
+                    End If
+                End If
+                Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+            Catch ex As Exception
+                Return New HttpResponseMessage(HttpStatusCode.BadRequest)
+            End Try
+        End Function
         Function ApproveExpense(<FromBody()> ByVal data As String()) As HttpResponseMessage
             Try
                 Dim poNumber = ""
@@ -1242,11 +1307,16 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                 If Not IsNothing(Request.QueryString("BookNo")) Then
                     tSqlw &= String.Format(" AND a.BookCode='{0}'", Request.QueryString("BookNo").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("DocNo")) Then
+                    tSqlw &= String.Format(" AND a.PostRefNo='{0}'", Request.QueryString("DocNo").ToString)
+                Else
+                    tSqlw &= " AND NOT ISNULL(a.PostRefNo,'')<>'' "
+                End If
                 Dim tsqlH = "
 with vc
 as
 (
-select a.ControlNo,a.VoucherDate,a.TRemark,b.BookCode,d.BookName,d.ControlBalance,b.PRType,
+select a.ControlNo,a.VoucherDate,a.TRemark,b.BookCode,d.BookName,d.ControlBalance,b.PRType,a.PostRefNo,
 CASE WHEN b.PRType='R' THEN b.CashAmount+b.ChqAmount ELSE (b.CashAmount+b.ChqAmount)*-1 END as TotalVoucher,
 c.DocNo,c.PaidAmount,e.TotalAdvance,e.TotalVAT,e.Total50Tavi,e.AdvDate,e.EmpCode,e.AdvBy,e.SDescription,
 e.CostCenter,ac1.AccTName as CostCenterName,e.AccountCost,ac2.AccTName as AccountName
@@ -1270,7 +1340,7 @@ left join (
 ) e on c.BranchCode=e.BranchCode AND c.DocNo=e.AdvNo
 left join Mas_Account ac1 ON e.CostCenter=ac1.AccCode
 left join Mas_Account ac2 ON e.AccountCost=ac1.AccCode
-WHERE NOT ISNULL(a.PostedBy,'')<>'' " & tSqlw.Replace("a.", "b.") & " AND b.PRType<>''
+WHERE b.PRType<>'' " & tSqlw.Replace("a.", "b.") & " 
 )
 select CostCenterName + '/'+ISNULL(AccountName,'') as 'GLDesc',CostCenter,AccountCost as AccountCode,
 SUM(TotalAdvance) as Amt,SUM(TotalVAT) as Vat,SUM(Total50Tavi) as Wht,
@@ -1282,7 +1352,7 @@ group by CostCenterName,AccountName,CostCenter,AccountCost
 with vc
 as
 (
-select a.ControlNo,a.VoucherDate,a.TRemark,b.BookCode,d.BookName,d.ControlBalance,b.PRType,
+select a.ControlNo,a.VoucherDate,a.TRemark,b.BookCode,d.BookName,d.ControlBalance,b.PRType,a.PostRefNo,
 CASE WHEN b.PRType='R' THEN b.CashAmount+b.ChqAmount ELSE (b.CashAmount+b.ChqAmount)*-1 END as TotalVoucher,
 c.DocNo,c.PaidAmount,e.TotalAdvance,e.TotalVAT,e.Total50Tavi,e.AdvDate,e.EmpCode,e.AdvBy,e.SDescription,
 e.CostCenter,ac1.AccTName as CostCenterName,e.AccountCost,ac2.AccTName as AccountName,e.Rate50Tavi,e.ForJNo as JobNo
@@ -1308,7 +1378,7 @@ left join (
 ) e on c.BranchCode=e.BranchCode AND c.DocNo=e.AdvNo
 left join Mas_Account ac1 ON e.CostCenter=ac1.AccCode
 left join Mas_Account ac2 ON e.AccountCost=ac1.AccCode
-WHERE NOT ISNULL(a.PostedBy,'')<>'' " & tSqlw.Replace("a.", "b.") & " AND b.PRType<>''
+WHERE b.PRType<>'' " & tSqlw.Replace("a.", "b.") & " 
 )
 select * from vc WHERE PRType='P'  order by PRType DESC,DocNo
 "

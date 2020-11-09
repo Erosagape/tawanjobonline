@@ -163,22 +163,26 @@ End Code
     let branch = getQueryString("branch");
     let custcode = getQueryString("custcode");
     let custbranch = getQueryString("custbranch");
-    if (custcode !== '') {
-        $('#txtBranchCode').val(branch);
-        ShowBranch(path, branch, '#txtBranchName');
 
-        $('#txtCustCode').val(custcode);
-        $('#txtCustBranch').val(custbranch);
-        //ShowCustomer(path, custcode, custbranch, '#txtCustName');
-        CallBackQueryCustomer(path, custcode, custbranch, ReadCustomer);
-    } else {
-        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
-    }
     //$(document).ready(function () {
         SetEvents();
     //});
     function SetEvents() {
+        if (custcode !== '') {
+            $('#txtBranchCode').val(branch);
+            ShowBranch(path, branch, '#txtBranchName');
+
+            $('#txtCustCode').val(custcode);
+            $('#txtCustBranch').val(custbranch);
+            //ShowCustomer(path, custcode, custbranch, '#txtCustName');
+            CallBackQueryCustomer(path, custcode, custbranch, ReadCustomer);
+        } else {
+            $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+            $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        }
+
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
         //Events
         $('#txtBranchCode').keydown(function (event) {
             if (event.which == 13) {
@@ -299,7 +303,7 @@ End Code
                 });
                 for (let d of filter) {
                     AddData(d);
-                }                      
+                }
             });
 
             let tb2=$('#tbHeader').DataTable({

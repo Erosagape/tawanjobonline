@@ -1,13 +1,13 @@
 ﻿@Code
-    ViewBag.Title = "List Job"
+    ViewBag.Title = "Job Confirmation"
 End Code
-    <style>
-        @@media only screen and (max-width: 600px) {
-            #btnRefresh,#btnGenJob {
-                width: 100%;
-            }
+<style>
+    @@media only screen and (max-width: 600px) {
+        #btnRefresh, #btnGenJob {
+            width: 100%;
         }
-    </style>
+    }
+</style>
 <div class="panel-body">
     <div class="row">
         <div class="col-sm-2">
@@ -66,10 +66,7 @@ End Code
             <a href="#" class="btn btn-primary" id="btnRefresh" onclick="getJobdata()">
                 <i class="fa fa-lg fa-filter"></i> &nbsp;<b id="linkSearch">Search</b>
             </a>
-            <a href="#" class="btn btn-default w3-purple" id="btnGenJob" onclick="CreateNewJob()">
-                <i class="fa fa-lg fa-file-o"></i> &nbsp;<b id="linkCreate">Create Job</b>
-            </a>
-            <table id="tblJob" class="table table-bordered">
+            <table id="tblJob" class="table table-responsive">
                 <thead>
                     <tr>
                         <th>JobNo</th>
@@ -94,17 +91,22 @@ End Code
             <br />
             <div class="btn-group">
                 <button id="btnJobSlip" class="btn btn-success" onclick="OpenJob()">Show</button>
-                <a href="#" class="btn btn-info" id="btnPrnJob" onclick="PrintJob()">
-                    <i class="fa fa-lg fa-print"></i> Job Order Form
-                </a>
-                <a href="#" class="btn btn-primary" id="btnPrnJob" onclick="PrintPrepareForm()">
-                    Prepare Form
+                <select id="selStatus" class="dropdown">
+                    <option value="1">CONFIRM</option>
+                    <option value="3">CLOSE</option>
+                    <option value="6">BILLING-COMPLETE</option>
+                    <option value="7">PAYMENT-COMPLETE</option>
+                    <option value="0">RE-OPEN</option>
+                    <option value="99">CANCEL</option>
+                </select>
+                <a href="#" class="btn btn-primary" id="btnPrnJob" onclick="ApproveJob()">
+                    Change Status
                 </a>
             </div>
         </div>
         <div class="col-sm-3">
             <label id="lblQuickSearch">Quick Search</label>:
-            <br/>
+            <br />
             <select class="form-control dropdown" id="cboField">
                 <option value="">{Please Select}</option>
                 <option value="CustCode">Customer</option>
@@ -120,7 +122,7 @@ End Code
         </div>
         <div class="col-sm-3">
             <label id="lblCliteria">Cliteria</label>:
-            <br/>
+            <br />
             <input type="text" id="txtCliteria" class="form-control" />
         </div>
     </div>
@@ -133,6 +135,7 @@ End Code
     let dateWhere = 'DocDate';
     let jt = getQueryString("jobtype");
     let sb = getQueryString("shipby");
+    let arr = [];
     //3 Fields Show
     $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
         let dv = document.getElementById("dvLOVs");
@@ -140,7 +143,7 @@ End Code
         CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
         loadCombo();
         getJobdata();
-        SetEvents();
+        //SetEvents();
     });
     function CheckJobType() {
         if (jt !== $('#cboJobType').val()) {
@@ -185,7 +188,8 @@ End Code
                     "dataSrc": "job.data"
                 },
                 "destroy": true,
-                "responsive":true,
+                "responsive": true,
+                "selected":true,
                 "columns": [
                     { "data": "JNo", "title": "Job Number" },
                     {
@@ -214,65 +218,33 @@ End Code
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tblJob');
             $('#tblJob tbody').on('click', 'tr', function () {
-                $('#tblJob tbody > tr').removeClass('selected');
+                if ($(this).hasClass('selected') == true) {
+                    $(this).removeClass('selected');
+                    let data = $('#tblJob').DataTable().row(this).data(); //read current row selected
+                    RemoveData(data); //callback function from caller
+                    return;
+                }
                 $(this).addClass('selected');
+                let data = $('#tblJob').DataTable().row(this).data(); //read current row selected
+                AddData(data); //callback function from caller
 
-                let data = $('#tblJob').DataTable().row(this).data();
                 $('#txtJobNo').val(data.JNo);
             });
             $('#tblJob tbody').on('dblclick', 'tr', function () {
                 OpenJob();
             });
             CloseWait();
-        });            
+        });
     }
-    function getJobdata_1() {
-        $.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
-            $('#tblJob').DataTable({
-                "ajax": {
-                    //"url": "joborder/getjobjson" + strParam,
-                    "url": path+"joborder/getjobreport" + GetCliteria(),
-                    "dataSrc": "job.data"
-                },
-                "destroy": true,
-                "responsive":true,
-                "columns": [
-                    { "data": "JNo", "title": "Job Number" },
-                    {
-                        "data": null, "title": "JobType",
-                        "render": function (data) {
-                            return data.JobTypeName + '/' + data.ShipByName;
-                        }
-                    },
-                    {
-                        "data": null, "title": "Job Status",
-                        "render": function (data) {
-                            return data.JobStatusName;
-                        }
-                    },
-                    {
-                        "data": "DutyDate", "title": "Clearance Date",
-                        "render" : function (data) {
-                            return CDateEN(data);
-                        }
-                    },
-                    { "data": "InvNo", "title": "Customer Inv." },
-                    { "data": "CustCode", "title": "Customer" },
-                    { "data": "DeclareNumber", "title": "Declare No." },
-                    { "data": "InvProduct", "title": "Commodity" }
-                ]
-            });
-            $('#tblJob tbody').on('click', 'tr', function () {
-                $('#tblJob tbody > tr').removeClass('selected');
-                $(this).addClass('selected');
-
-                let data = $('#tblJob').DataTable().row(this).data();
-                $('#txtJobNo').val(data.JNo);
-            });
-            $('#tblJob tbody').on('dblclick', 'tr', function () {
-                OpenJob();
-            });
-        });            
+    function AddData(o) {
+        arr.push(o);
+    }
+    function RemoveData(o) {
+        let idx = arr.indexOf(o);
+        if (idx < 0) {
+            return;
+        }
+        arr.splice(idx, 1);
     }
     function GetCliteria() {
         let str = '';
@@ -350,5 +322,33 @@ End Code
     function ReadVender(dt) {
         $('#txtVenCode').val(dt.VenCode);
         ShowVender(path, dt.VenCode, '#txtVenName');
+    }
+    function ApproveJob() {
+        let status = $('#selStatus').val();
+        if (arr.length < 0) {
+            ShowMessage('No data to approve',true);
+            return;
+        }
+        let dataApp = [];
+        dataApp.push(user);
+        for (let i = 0; i < arr.length; i++) {
+            dataApp.push(arr[i].BranchCode + '|' + arr[i].JNo);
+        }
+        let jsonString = JSON.stringify({ data: dataApp });
+        $.ajax({
+            url: "@Url.Action("SetJobStatus", "JobOrder")?Status=" + status,
+            type: "POST",
+            contentType: "application/json",
+            data: jsonString,
+            success: function (response) {
+                arr = [];
+                getJobdata();
+                response ? ShowMessage("Approve Complete") : ShowMessage("Cannot Approve");
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
+        return;
     }
 </script>

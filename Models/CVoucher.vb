@@ -156,7 +156,15 @@ Public Class CVoucher
             m_CustBranch = value
         End Set
     End Property
-
+    Private m_PostRefNo As String
+    Public Property PostRefNo As String
+        Get
+            Return m_PostRefNo
+        End Get
+        Set(value As String)
+            m_PostRefNo = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -186,6 +194,7 @@ Public Class CVoucher
                             dr("CancelTime") = Main.GetDBTime(Me.CancelTime)
                             dr("CustCode") = Main.GetDBString(Me.CustCode, dt.Columns("CustCode"))
                             dr("CustBranch") = Main.GetDBString(Me.CustBranch, dt.Columns("CustBranch"))
+                            dr("PostRefNo") = Main.GetDBString(Me.PostRefNo, dt.Columns("PostRefNo"))
                             If Me.CancelProve <> "" Then
                                 Me.CancelData()
                             End If
@@ -286,6 +295,9 @@ Public Class CVoucher
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("CustBranch"))) = False Then
                         row.CustBranch = rd.GetString(rd.GetOrdinal("CustBranch")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PostRefNo"))) = False Then
+                        row.PostRefNo = rd.GetString(rd.GetOrdinal("PostRefNo")).ToString()
                     End If
                     lst.Add(row)
                 End While

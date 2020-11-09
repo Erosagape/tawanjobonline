@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "รับคืนเงินมัดจำ/ทดรองจ่าย"
+    ViewBag.Title = "Earnest/Advance Clearing"
 End Code
 <div class="panel-body">
     <div class="container">
@@ -249,11 +249,14 @@ End Code
     let dtl = [];
     let expsum = 0;
     //$(document).ready(function () {
-        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
         SetEvents();
     //});
     function SetEvents() {
+        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtClrDateF').val(GetFirstDayOfMonth());
+        $('#txtClrDateT').val(GetLastDayOfMonth());
+
         //Combos
         let lists = 'JOB_TYPE=#cboJobType';
         lists += ',PAYMENT_TYPE=#cboRefType';
@@ -373,7 +376,7 @@ End Code
                 $('#tbHeader tbody > tr').removeClass('selected');
                 $(this).addClass('selected');
 
-                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected                
+                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
                 ShowExpense(data);
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
@@ -501,7 +504,7 @@ End Code
     }
     function ShowExpense(dr) {
         RemoveData(dr);
-        $('#txtClrNo').val(dr.AdvNO == '' ? dr.ClrNo : dr.AdvNO); 
+        $('#txtClrNo').val(dr.AdvNO == '' ? dr.ClrNo : dr.AdvNO);
         $('#txtItemNo').val(dr.AdvItemNo);
         $('#txtSlipNo').val(dr.SlipNO);
         $('#txtExpCode').val('');
@@ -600,7 +603,7 @@ End Code
         });
 
     }
-    function SaveExpense() {       
+    function SaveExpense() {
         if ($('#txtRefBook').val() == '') {
             ShowMessage('Please select book account', true);
             return;
@@ -800,7 +803,7 @@ End Code
                 contentType: "application/json",
                 data: jsonText,
                 success: function (response) {
-                    if (response.result.data !== null) {                        
+                    if (response.result.data !== null) {
                         return;
                     }
                     ShowMessage(response.result.msg);
@@ -858,7 +861,7 @@ End Code
             data: jsonString,
             success: function (response) {
                 if (response.result.data !== null) {
-                    SaveClearDetail(response.result.data);                    
+                    SaveClearDetail(response.result.data);
                 }
             },
             error: function (e) {
@@ -880,7 +883,7 @@ End Code
             data: jsonString,
             success: function (response) {
                 if (response.result.data !== null) {
-                    ShowMessage(response.result.msg);                    
+                    ShowMessage(response.result.msg);
                 }
             },
             error: function (e) {

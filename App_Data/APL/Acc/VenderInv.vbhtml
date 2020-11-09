@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Approve Invoice Vender"
+    ViewBag.Title = "Vender Summary Invoice"
 End Code
 <div class="row">
     <div class="col-sm-4">
@@ -37,7 +37,7 @@ End Code
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtVenCode" style="width:20%" />
-            <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('vender')">...</button>
+            <button id="btnBrowseVend" class="btn btn-default" onclick="SearchData('vender')">...</button>
             <input type="text" class="form-control" id="txtVenName" style="width:100%" disabled />
         </div>
     </div>
@@ -87,8 +87,34 @@ End Code
 </div>
 <br />
 <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Approve</b>
+    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Confirm</b>
 </a>
+<a href="#" class="btn btn-primary" id="btnHistory" onclick="ShowApprove()">
+    <i class="fa fa-lg fa-search"></i>&nbsp;<b id="linkSearchApprove">Vender Summary</b>
+</a>
+<div id="dvApprove" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <b>List of Approved Documents</b>
+            </div>
+            <div class="modal-body">
+                <table id="tbApprove" class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Approve Ref#</th>
+                            <th>Vender Ref#</th>
+                            <th>Payment Ref#</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" data-dismiss="modal">X</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
@@ -102,6 +128,10 @@ End Code
     SetEvents();
     //});
     function SetEvents() {
+        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
         if (userGroup == 'V') {
             $('#txtVenCode').attr('disabled', 'disabled');
             $('#txtVenName').attr('disabled', 'disabled');
@@ -117,9 +147,6 @@ End Code
         //default values
         $('#txtCurrencyCode').val('THB');
         ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
-
-        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
 
         //Events
         $('#txtBranchCode').focusout(function (event) {
@@ -307,7 +334,7 @@ End Code
             dataApp.push(arr[i].BranchCode + '|' + arr[i].DocNo);
         }
         let jsonString = JSON.stringify({ data: dataApp });
-        let postUrl = "@Url.Action("ApproveExpense", "Acc")?ID=" + $('#txtID').val();
+        let postUrl = "@Url.Action("ApproveExpense", "Acc")?Code='"+ $('#txtVenCode').val() +'&ID=' + $('#txtID').val();
         $.ajax({
             url: postUrl,
             type: "POST",
@@ -322,5 +349,51 @@ End Code
             }
         });
         return;
+    }
+    function ShowApprove() {
+        $('#dvApprove').modal('show');
+        SetGridApprove();
+    }
+    function SetGridApprove() {
+        let w = '';
+        if ($('#txtVenCode').val() !== "") {
+            w = w + '&vencode=' + $('#txtVenCode').val();
+        }
+        if ($('#txtDocDateF').val() !== "") {
+            w = w + '&DateFrom=' + CDateEN($('#txtDocDateF').val());
+        }
+        if ($('#txtDocDateT').val() !== "") {
+            w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
+        }
+        w = w + '&currency=' + $('#txtCurrencyCode').val();
+        w = w + '&Status=Y';
+        $.get(path + 'acc/getpaymentapprove?branch=' + $('#txtBranchCode').val() + w, function (r) {
+            if (r.payment.header.length == 0) {
+                $('#tbApprove').DataTable().clear().draw();
+                if (isAlert == true) ShowMessage('Data not found', true);
+                return;
+            }
+            let h = r.payment.header;
+            $('#tbApprove').DataTable().destroy();
+            $('#tbApprove').empty();
+            let tb = $('#tbApprove').DataTable({
+                data: h,
+                selected: true, //ให้สามารถเลือกแถวได้
+                columns: [ //กำหนด property ของ header column
+                    { data: "ApproveRef", title: "Approve.Ref#" },
+                    { data: "PoNo", title: "Vender Ref#" },
+                    { data: "PaymentRef", title: "Payment Ref#" }
+                ],
+                responsive: true,
+                destroy: true
+            });
+            $('#tbApprove tbody').on('click', 'tr', function () {
+                SetSelect('#tbApprove', this);
+            });
+            $('#tbApprove tbody').on('dblclick', 'tr', function () {
+                let data = $('#tbApprove').DataTable().row(this).data(); //read current row selected
+                window.open(path + 'acc/formexpense?Branch=' + $('#txtBranchCode').val() + '&Code=' + data.PoNo, '', '');
+            });
+        });
     }
 </script>

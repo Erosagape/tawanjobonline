@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Cash Management"
+    ViewBag.Title = "Petty Cash Management"
 End Code
 <div class="panel-body">
     <div class="container">
@@ -180,7 +180,11 @@ End Code
                                     <label id="lblCashAmount">Amount</label>
                                     <br /><input type="number" id="txtCashAmount" class="form-control" value="0.00" />
                                 </div>
-                                <div class="col-md-9">
+                                <div class="col-md-3">
+                                    <br/>
+                                    <button id="btnAutoFill" class="btn btn-primary" onclick="GetBookBalance()">Auto Fill</button>
+                                </div>
+                                <div class="col-md-6">
                                     <label id="lblPayTo">Paid To</label>
                                     <br /><input type="text" id="txtPayChqTo" class="form-control">
                                 </div>
@@ -368,7 +372,7 @@ End Code
 
         loadCombos(path,lists)
 
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
@@ -863,5 +867,13 @@ End Code
         }
         window.open(path + 'Acc/FormVoucher?branch=' + $('#txtBranchCode').val() + '&controlno=' + $('#txtControlNo').val());
     }
-
+    function GetBookBalance() {
+        $.get(path + 'Master/GetBookBalance?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtBookCode').val()).done(function (r) {
+            if (r.bookaccount.data.length > 0) {
+                let d = r.bookaccount.data[0].Table[0];
+                let used = Number(d.ControlBalance) - Number(d.SumBal);
+                $('#txtCashAmount').val(used);
+            }
+        });
+    }
 </script>
