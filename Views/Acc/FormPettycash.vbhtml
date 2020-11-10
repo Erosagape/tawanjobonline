@@ -210,8 +210,8 @@ Re-imbursement Request By ___________________________________ Date _____________
 
     if (branchcode !== '' && bookno !== '') {
         $.get(path + 'Acc/GetVoucherDetail?BranchCode=' + branchcode + '&BookNo=' + bookno, function (r) {
-            if (r.data.header[0].length > 0) {
-                let dt = r.data.header[0][0].Table;
+            if (r.data.header.length > 0) {
+                let dt = r.data.header[0].Table;
                 let htmls = '';
                 for (let s of dt) {
                     if (s.Amt !== null) {
@@ -229,14 +229,14 @@ Re-imbursement Request By ___________________________________ Date _____________
                     }
                 }
             }
-            if (r.data.detail[0].length > 0) {
-                let dh = r.data.detail[0][0].Table[0];
+            if (r.data.detail.length > 0) {
+                let dh = r.data.detail[0].Table[0];
                 //$('#lblVenderName').text(dh.AdvBy);
                 $('#lblInvNo').text('CTIS' + '@DateTime.Now.ToString("yyMMdd")');
                 $('#lblDate').text('@DateTime.Now.ToString("yyyy-MM-dd")');
                 $('#lblAdv').text(ShowNumber(dh.ControlBalance,2));
 
-                let dr = r.data.detail[0][0].Table;
+                let dr = r.data.detail[0].Table;
                 let htmld = '';
                 let sumBaseVat = 0;
                 let sumNonVat = 0;

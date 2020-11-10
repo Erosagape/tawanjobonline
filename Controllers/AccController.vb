@@ -1302,10 +1302,10 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             Try
                 Dim tSqlw As String = ""
                 If Not IsNothing(Request.QueryString("BranchCode")) Then
-                    tSqlw &= String.Format(" AND a.BranchCode ='{0}'", Request.QueryString("BranchCode").ToString)
+                    tSqlw &= String.Format(" AND b.BranchCode ='{0}'", Request.QueryString("BranchCode").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("BookNo")) Then
-                    tSqlw &= String.Format(" AND a.BookCode='{0}'", Request.QueryString("BookNo").ToString)
+                    tSqlw &= String.Format(" AND b.BookCode='{0}'", Request.QueryString("BookNo").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("DocNo")) Then
                     tSqlw &= String.Format(" AND a.PostRefNo='{0}'", Request.QueryString("DocNo").ToString)
@@ -1340,12 +1340,12 @@ left join (
 ) e on c.BranchCode=e.BranchCode AND c.DocNo=e.AdvNo
 left join Mas_Account ac1 ON e.CostCenter=ac1.AccCode
 left join Mas_Account ac2 ON e.AccountCost=ac1.AccCode
-WHERE b.PRType<>'' " & tSqlw.Replace("a.", "b.") & " 
+WHERE ISNULL(a.CancelProve,'')='' AND  b.PRType='P' " & tSqlw & " 
 )
 select CostCenterName + '/'+ISNULL(AccountName,'') as 'GLDesc',CostCenter,AccountCost as AccountCode,
 SUM(TotalAdvance) as Amt,SUM(TotalVAT) as Vat,SUM(Total50Tavi) as Wht,
 SUM(TotalAdvance+TotalVAT-Total50Tavi) as Net
-from vc where PRType='P'
+from vc where PaidAmount>0
 group by CostCenterName,AccountName,CostCenter,AccountCost
 "
                 Dim tSqlD = "
@@ -1378,16 +1378,16 @@ left join (
 ) e on c.BranchCode=e.BranchCode AND c.DocNo=e.AdvNo
 left join Mas_Account ac1 ON e.CostCenter=ac1.AccCode
 left join Mas_Account ac2 ON e.AccountCost=ac1.AccCode
-WHERE b.PRType<>'' " & tSqlw.Replace("a.", "b.") & " 
+WHERE ISNULL(a.CancelProve,'')='' AND b.PRType='P' " & tSqlw & " 
 )
-select * from vc WHERE PRType='P'  order by PRType DESC,DocNo
+select * from vc WHERE PaidAmount>0 order by PRType DESC,DocNo
 "
                 Dim oDataH As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(tsqlH)
                 Dim jsonH = JsonConvert.SerializeObject(oDataH.AsEnumerable.ToList())
                 Dim oDataD As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(tSqlD)
                 Dim jsonD = JsonConvert.SerializeObject(oDataD.AsEnumerable.ToList())
 
-                Return Content("{""data"":{""header"":[" & jsonH & "],""detail"":[" & jsonD & "],""msg"":""OK""}}", jsonContent)
+                Return Content("{""data"":{""header"":" & jsonH & ",""detail"":" & jsonD & ",""msg"":""OK""}}", jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetVoucherDetail", ex.Message, ex.StackTrace, True)
                 Return Content("{""data"":{""header"":[],""detail"":[],""msg"":""" & ex.Message & """}}", jsonContent)
