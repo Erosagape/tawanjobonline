@@ -31,7 +31,7 @@ End Code
 <div style="display:flex;flex-direction:column">
     <b>PETTY CASH FUND</b>
     <b>RECONCILATION AND REIMBURSEMENT FORM</b>
-    <div style="display:flex;width:100%;flex-direction:row">
+    <div style="display:flex;width:100%;flex-direction:column">
         <div style="flex:1">
             <table>
                 <tr>
@@ -91,6 +91,7 @@ End Code
             </table>
         </div>
         <div style="flex:1">
+            <br />
             <table border="1">
                 <tr>
                     <td>No</td>
@@ -151,6 +152,7 @@ End Code
         </tr>
         <tbody id="tbDetail"></tbody>
     </table>
+    <br/>
     Total By Cost Centre:
     <table border="1">
         <tr>
@@ -207,9 +209,17 @@ Re-imbursement Request By ___________________________________ Date _____________
     const path = '@Url.Content("~")';
     const branchcode = getQueryString("Branch");
     const bookno = getQueryString("Code");
+    const id = getQueryString("DocNo");
 
-    if (branchcode !== '' && bookno !== '') {
-        $.get(path + 'Acc/GetVoucherDetail?BranchCode=' + branchcode + '&BookNo=' + bookno, function (r) {
+    if (branchcode !== '' && (bookno !== '' || id !== '')) {
+        let url = 'Acc/GetVoucherDetail?BranchCode=' + branchcode;
+        if (bookno !== '') {
+            url += '&BookNo=' + bookno;
+        }
+        if (id !== '') {
+            url += '&DocNo=' + id;
+        }
+        $.get(path + url, function (r) {
             if (r.data.header.length > 0) {
                 let dt = r.data.header[0].Table;
                 let htmls = '';
@@ -232,7 +242,11 @@ Re-imbursement Request By ___________________________________ Date _____________
             if (r.data.detail.length > 0) {
                 let dh = r.data.detail[0].Table[0];
                 //$('#lblVenderName').text(dh.AdvBy);
-                $('#lblInvNo').text('CTIS' + '@DateTime.Now.ToString("yyMMdd")');
+                if (id !== '') {
+                    $('#lblInvNo').text(id);
+                } else {
+                    $('#lblInvNo').text('CTIS' + '@DateTime.Now.ToString("yyMMdd")');
+                }
                 $('#lblDate').text('@DateTime.Now.ToString("yyyy-MM-dd")');
                 $('#lblAdv').text(ShowNumber(dh.ControlBalance,2));
 

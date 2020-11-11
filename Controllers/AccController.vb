@@ -251,6 +251,29 @@ Namespace Controllers
                 Return Content("[]", jsonContent)
             End Try
         End Function
+        Function GetPettyCashList() As ActionResult
+            Try
+                Dim tSqlH As String = " WHERE ISNULL(PostRefNo,'')<>'' AND ISNULL(CancelProve,'')='' "
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlH &= String.Format(" AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlH &= String.Format(" AND ControlNo IN(SELECT ControlNo FROM Job_CashControlSub WHERE BookCode='{0}')", Request.QueryString("Code").ToString)
+                End If
+
+                Dim oData = (From row As CVoucher
+                                 In New CVoucher(GetSession("ConnJob")).GetData(tSqlH)
+                             Select row.PostRefNo, row.PostedDate).Distinct()
+
+                Dim json As String = JsonConvert.SerializeObject(oData)
+
+                json = "{""pettycash"":{""header"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetPettyCashList", ex.Message, ex.StackTrace, True)
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
         Function GetPaymentApprove() As ActionResult
             Try
                 Dim tSqlH As String = " WHERE DocNo<>'' "
@@ -1312,6 +1335,12 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                 Else
                     tSqlw &= " AND NOT ISNULL(a.PostRefNo,'')<>'' "
                 End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlw &= " AND a.VoucherDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlw &= " AND a.VoucherDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
                 Dim tsqlH = "
 with vc
 as
@@ -1319,7 +1348,9 @@ as
 select a.ControlNo,a.VoucherDate,a.TRemark,b.BookCode,d.BookName,d.ControlBalance,b.PRType,a.PostRefNo,
 CASE WHEN b.PRType='R' THEN b.CashAmount+b.ChqAmount ELSE (b.CashAmount+b.ChqAmount)*-1 END as TotalVoucher,
 c.DocNo,c.PaidAmount,e.TotalAdvance,e.TotalVAT,e.Total50Tavi,e.AdvDate,e.EmpCode,e.AdvBy,e.SDescription,
-e.CostCenter,ac1.AccTName as CostCenterName,e.AccountCost,ac2.AccTName as AccountName
+e.CustName,
+(CASE WHEN SUBSTRING(e.AccountCost,1,1)<='3' THEN '9762999' ELSE  e.CostCenter END) as CostCenter
+,ac1.AccTName as CostCenterName,e.AccountCost,ac2.AccTName as AccountName
 from 
 Job_CashControl a inner join Job_CashControlSub b
 ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
@@ -1329,24 +1360,25 @@ AND b.acType=c.acType
 left join Mas_BookAccount d on b.BookCode=d.BookCode
 left join (
  SELECT h.BranchCode,h.AdvNo,h.AdvDate,h.EmpCode,h.AdvBy,d.SDescription,cu.GLAccountCode as CostCenter,
- sv.GLAccountCodeCost as AccountCost,
+ ISNULL(sv.GLAccountCodeCost,sv.GLAccountCodeSales) as AccountCost,cu.NameEng as CustName,
  SUM(d.AdvAmount) as TotalAdvance,
  SUM(d.ChargeVAT) as TotalVAT,sum(d.Charge50Tavi) as Total50Tavi
  from Job_AdvHeader h inner join Job_AdvDetail d
  on h.BranchCode=d.BranchCode and h.AdvNo=d.AdvNo
  left join Mas_Company cu ON h.CustCode=cu.CustCode AND h.CustBranch=cu.Branch
  left join Job_SrvSingle sv ON d.SICode=sv.SICode
- group by h.BranchCode,h.AdvNo,h.AdvDate,h.EmpCode,h.AdvBy,d.SDescription,cu.GLAccountCode,sv.GLAccountCodeCost
+ group by h.BranchCode,h.AdvNo,h.AdvDate,h.EmpCode,h.AdvBy,d.SDescription,cu.GLAccountCode,
+ cu.NameEng,ISNULL(sv.GLAccountCodeCost,sv.GLAccountCodeSales)
 ) e on c.BranchCode=e.BranchCode AND c.DocNo=e.AdvNo
 left join Mas_Account ac1 ON e.CostCenter=ac1.AccCode
 left join Mas_Account ac2 ON e.AccountCost=ac1.AccCode
 WHERE ISNULL(a.CancelProve,'')='' AND  b.PRType='P' " & tSqlw & " 
 )
-select CostCenterName + '/'+ISNULL(AccountName,'') as 'GLDesc',CostCenter,AccountCost as AccountCode,
+select CustName + '/'+ISNULL(AccountName,'') as 'GLDesc',CostCenter,AccountCost as AccountCode,
 SUM(TotalAdvance) as Amt,SUM(TotalVAT) as Vat,SUM(Total50Tavi) as Wht,
 SUM(TotalAdvance+TotalVAT-Total50Tavi) as Net
 from vc where PaidAmount>0
-group by CostCenterName,AccountName,CostCenter,AccountCost
+group by CustName,AccountName,CostCenter,AccountCost
 "
                 Dim tSqlD = "
 with vc
@@ -1354,8 +1386,10 @@ as
 (
 select a.ControlNo,a.VoucherDate,a.TRemark,b.BookCode,d.BookName,d.ControlBalance,b.PRType,a.PostRefNo,
 CASE WHEN b.PRType='R' THEN b.CashAmount+b.ChqAmount ELSE (b.CashAmount+b.ChqAmount)*-1 END as TotalVoucher,
-c.DocNo,c.PaidAmount,e.TotalAdvance,e.TotalVAT,e.Total50Tavi,e.AdvDate,e.EmpCode,e.AdvBy,e.SDescription,
-e.CostCenter,ac1.AccTName as CostCenterName,e.AccountCost,ac2.AccTName as AccountName,e.Rate50Tavi,e.ForJNo as JobNo
+c.DocNo,c.PaidAmount,e.TotalAdvance+e.TotalVAT-e.Total50Tavi as TotalNet,
+e.TotalAdvance,e.TotalVAT,e.Total50Tavi,e.AdvDate,e.EmpCode,e.AdvBy,e.SDescription,
+(CASE WHEN SUBSTRING(e.AccountCost,1,1)<='3' THEN '9762999' ELSE  e.CostCenter END) as CostCenter,
+ac1.AccTName as CostCenterName,e.AccountCost,ac2.AccTName as AccountName,e.Rate50Tavi,e.ForJNo as JobNo
 from 
 Job_CashControl a inner join Job_CashControlSub b
 ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
@@ -1366,14 +1400,15 @@ left join Mas_BookAccount d on b.BookCode=d.BookCode
 left join (
  SELECT h.BranchCode,h.AdvNo,h.AdvDate,h.EmpCode,h.AdvBy,
  d.SDescription,cu.GLAccountCode as CostCenter,d.ForJNo,
- sv.GLAccountCodeCost as AccountCost,d.Rate50Tavi,
+ ISNULL(sv.GLAccountCodeCost,sv.GLAccountCodeSales) as AccountCost,d.Rate50Tavi,
  SUM(d.AdvAmount) as TotalAdvance,
  SUM(d.ChargeVAT) as TotalVAT,sum(d.Charge50Tavi) as Total50Tavi
  from Job_AdvHeader h inner join Job_AdvDetail d
  on h.BranchCode=d.BranchCode and h.AdvNo=d.AdvNo
  left join Mas_Company cu ON h.CustCode=cu.CustCode AND h.CustBranch=cu.Branch
  left join Job_SrvSingle sv ON d.SICode=sv.SICode
- group by h.BranchCode,h.AdvNo,h.AdvDate,h.EmpCode,h.AdvBy,d.SDescription,cu.GLAccountCode,sv.GLAccountCodeCost,
+ group by h.BranchCode,h.AdvNo,h.AdvDate,h.EmpCode,h.AdvBy,d.SDescription,
+ cu.GLAccountCode,ISNULL(sv.GLAccountCodeCost,sv.GLAccountCodeSales),
  d.Rate50Tavi,d.ForJNo
 ) e on c.BranchCode=e.BranchCode AND c.DocNo=e.AdvNo
 left join Mas_Account ac1 ON e.CostCenter=ac1.AccCode

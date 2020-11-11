@@ -878,7 +878,7 @@ End Code
             if (r.bookaccount.data.length > 0) {
                 let d = r.bookaccount.data[0].Table[0];
                 let used = Number(d.ControlBalance) - Number(d.SumBal);
-                $('#txtCashAmount').val(used);
+                $('#txtCashAmount').val(CDbl(used,2));
             }
         });
     }

@@ -41,7 +41,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-2">
-                        <a onclick="SearchData('bank')"><label id="lblBankCode">Bank Code :</label></a>                            
+                        <a onclick="SearchData('bank')"><label id="lblBankCode">Bank Code :</label></a>
                         <br />
                         <input type="text" id="txtBankCode" class="form-control" tabIndex="5">
                     </div>
@@ -83,7 +83,7 @@ End Code
                         <label id="lblGLAccountCode">
                             GL Code :
                         </label>
-                        <br/>
+                        <br />
                         <div style="display:flex">
                             <input type="text" id="txtGLAccountCode" class="form-control" />
                             <input type="button" class="btn btn-default" value="..." onclick="SearchData('acccode')" />
@@ -135,7 +135,7 @@ End Code
                     <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Petty Cash</b>
                 </a>
             </div>
-            <br/>
+            <br />
             <table id="tbBalance" class="table table-responsive">
                 <thead>
                     <tr>
@@ -149,6 +149,63 @@ End Code
                 </thead>
                 <tbody></tbody>
             </table>
+            <br />
+            <a href="#" class="btn btn-warning" id="btnChange" onclick="ShowPayment()">
+                <i class="fa fa-lg fa-check"></i>&nbsp;<b id="linkChange">Refund Account</b>
+            </a>
+            <a href="#" class="btn btn-primary" id="btnHistory" onclick="ShowApprove()">
+                <i class="fa fa-lg fa-search"></i>&nbsp;<b id="linkSearchApprove">Print Summary</b>
+            </a>
+            <div id="dvApprove" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <b>List of Approved Documents</b>
+                        </div>
+                        <div class="modal-body">
+                            <table id="tbApprove" class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Ref#</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger" data-dismiss="modal">X</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="dvPayment" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            From <input type="date" id="txtDateFrom" /> To <input type="date" id="txtDateTo" />
+                            <input type="button" id="btnRefresh" class="btn btn-primary" value="Show" onclick="SetGridPayment()" />
+                        </div>
+                        <div class="modal-body">
+                            <table id="tbPayment" class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Doc</th>
+                                        <th>Desc</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <div style="float:left">
+                                Balance <input type="number" id="txtBalance" disabled />
+                                <button class="btn btn-success" onclick="SavePettyCash()">Save</button>
+                            </div>
+                            <button class="btn btn-danger" data-dismiss="modal">X</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="dvLOVs"></div>
     </div>
@@ -366,5 +423,85 @@ End Code
     }
     function PrintData() {
         window.open(path + 'Acc/FormPettyCash?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtBookCode').val(), '', '');
+    }
+    function ShowApprove() {
+        $('#dvApprove').modal('show');
+        SetGridApprove();
+    }
+    function SetGridApprove() {
+        let w = '';
+        w = w + '&Code=' + $('#txtBookCode').val();
+
+        $.get(path + 'acc/getpettycashlist?branch=' + $('#txtBranchCode').val() + w, function (r) {
+            if (r.pettycash.header.length == 0) {
+                $('#tbApprove').DataTable().clear().draw();
+                ShowMessage('Data not found', true);
+                return;
+            }
+            let h = r.pettycash.header;
+            $('#tbApprove').DataTable().destroy();
+            $('#tbApprove').empty();
+            let tb = $('#tbApprove').DataTable({
+                data: h,
+                selected: true, //ให้สามารถเลือกแถวได้
+                columns: [ //กำหนด property ของ header column
+                    { data: "PostRefNo", title: "Ref#" },
+                    { data: "PostedDate", title: "Date#" }
+                ],
+                responsive: true,
+                destroy: true
+            });
+            $('#tbApprove tbody').on('dblclick', 'tr', function () {
+                let data = $('#tbApprove').DataTable().row(this).data(); //read current row selected
+                window.open(path + 'acc/formpettycash?Branch=' + $('#txtBranchCode').val() + '&DocNo=' + data.PostRefNo, '', '');
+            });
+        });
+    }
+    function ShowPayment() {
+        $('#txtDateFrom').val('');
+        $('#txtDateTo').val('');
+        SetGridPayment();
+        $('#dvPayment').modal('show');
+    }
+    function SetGridPayment() {
+        let br =  $('#txtBranchCode').val();
+        let bk = $('#txtBookCode').val();
+        let dfrom = CDateEN($('#txtDateFrom').val());
+        let dto = CDateEN($('#txtDateTo').val());
+        let w = '';
+        if (dfrom !== '') {
+            w += '&DateFrom=' + dfrom;
+        }
+        if (dto !== '') {
+            w += '&DateTo=' + dto;
+        }
+        $.get(path + 'Acc/GetVoucherDetail?BranchCode=' + br + '&BookNo=' + bk +w).done(function (r) {
+            if (r.data.detail.length > 0) {
+                let dh = r.data.header[0].Table;
+                let total = 0;
+                for (let r of dh) {
+                    total += Number(r.Net);
+                }
+                $('#txtBalance').val(CDbl(total, 2));
+
+                let dr = r.data.detail[0].Table;
+                $('#tbPayment').DataTable().destroy();
+                $('#tbPayment').empty();
+                $('#tbPayment').DataTable({
+                    data: dr,
+                    selected: true, //ให้สามารถเลือกแถวได้
+                    columns: [ //กำหนด property ของ header column
+                        { data: "DocNo", title: "Doc#" },
+                        { data: "SDescription", title: "Desc" },
+                        { data: "TotalNet", title: "Amount" }
+                    ],
+                    responsive: true,
+                    destroy: true
+                });
+            }
+        });
+    }
+    function SavePettyCash() {
+
     }
 </script>
