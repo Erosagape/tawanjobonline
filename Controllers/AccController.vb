@@ -1346,11 +1346,11 @@ with vc
 as
 (
 select a.ControlNo,a.VoucherDate,a.TRemark,b.BookCode,d.BookName,d.ControlBalance,b.PRType,a.PostRefNo,
-CASE WHEN b.PRType='R' THEN b.CashAmount+b.ChqAmount ELSE (b.CashAmount+b.ChqAmount)*-1 END as TotalVoucher,
+(CASE WHEN b.PRType='R' THEN b.CashAmount+b.ChqAmount ELSE (b.CashAmount+b.ChqAmount)*-1 END) as TotalVoucher,
 c.DocNo,c.PaidAmount,e.TotalAdvance,e.TotalVAT,e.Total50Tavi,e.AdvDate,e.EmpCode,e.AdvBy,e.SDescription,
-e.CustName,
-(CASE WHEN SUBSTRING(e.AccountCost,1,1)<='3' THEN '9762999' ELSE  e.CostCenter END) as CostCenter
-,ac1.AccTName as CostCenterName,e.AccountCost,ac2.AccTName as AccountName
+e.CustName,a.PostedDate,a.PostedBy,
+(CASE WHEN SUBSTRING(e.AccountCost,1,1)<='3' THEN '9762999' ELSE  e.CostCenter END) as CostCenter,
+ac1.AccTName as CostCenterName,e.AccountCost,ac2.AccTName as AccountName
 from 
 Job_CashControl a inner join Job_CashControlSub b
 ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
@@ -1384,9 +1384,9 @@ group by CustName,AccountName,CostCenter,AccountCost
 with vc
 as
 (
-select a.ControlNo,a.VoucherDate,a.TRemark,b.BookCode,d.BookName,d.ControlBalance,b.PRType,a.PostRefNo,
-CASE WHEN b.PRType='R' THEN b.CashAmount+b.ChqAmount ELSE (b.CashAmount+b.ChqAmount)*-1 END as TotalVoucher,
-c.DocNo,c.PaidAmount,e.TotalAdvance+e.TotalVAT-e.Total50Tavi as TotalNet,
+select a.ControlNo,a.VoucherDate,a.TRemark,b.BookCode,d.BookName,d.ControlBalance,b.PRType,
+(CASE WHEN b.PRType='R' THEN b.CashAmount+b.ChqAmount ELSE (b.CashAmount+b.ChqAmount)*-1 END) as TotalVoucher,
+c.DocNo,c.PaidAmount,e.TotalAdvance+e.TotalVAT-e.Total50Tavi as TotalNet,a.PostRefNo,a.PostedDate,a.PostedBy,
 e.TotalAdvance,e.TotalVAT,e.Total50Tavi,e.AdvDate,e.EmpCode,e.AdvBy,e.SDescription,
 (CASE WHEN SUBSTRING(e.AccountCost,1,1)<='3' THEN '9762999' ELSE  e.CostCenter END) as CostCenter,
 ac1.AccTName as CostCenterName,e.AccountCost,ac2.AccTName as AccountName,e.Rate50Tavi,e.ForJNo as JobNo

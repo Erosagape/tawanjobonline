@@ -199,6 +199,7 @@ End Code
                         <div class="modal-footer">
                             <div style="float:left">
                                 Balance <input type="number" id="txtBalance" disabled />
+                                Refund Date <input type="date" id="txtDocDate" />
                                 <button class="btn btn-success" onclick="SavePettyCash()">Save</button>
                             </div>
                             <button class="btn btn-danger" data-dismiss="modal">X</button>
@@ -213,11 +214,10 @@ End Code
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
-    //$(document).ready(function () {
-        SetEvents();
-        SetEnterToTab();
-        ClearData();
-    //});
+    let user = '@ViewBag.User';
+    SetEvents();
+    SetEnterToTab();
+    ClearData();
     function SetEvents() {
         $('#txtBranchCode').keydown(function (event) {
             if (event.which == 13) {
@@ -328,9 +328,9 @@ End Code
         $('#txtEAddress1').val(dr.EAddress1);
         $('#txtEAddress2').val(dr.EAddress2);
         $('#txtPhone').val(dr.Phone);
-        $('#txtFaxNumber').val(dr.FaxNumber);        
-        $('#txtLimitBalance').val(dr.LimitBalance);   
-        $('#txtControlBalance').val(dr.ControlBalance); 
+        $('#txtFaxNumber').val(dr.FaxNumber);
+        $('#txtLimitBalance').val(dr.LimitBalance);
+        $('#txtControlBalance').val(dr.ControlBalance);
         ShowBalance();
     }
     function ShowBalance() {
@@ -341,12 +341,42 @@ End Code
                 let t=$('#tbBalance').DataTable({
                     data: tb,
                     columns: [
-                        { data: "SumCash" },
-                        { data: "SumCashInBank" },
-                        { data: "SumChqOnhand" },
-                        { data: "SumChqReturn" },
-                        { data: "SumCredit" },
-                        { data: "SumBal" }
+                        {
+                            data: "SumCash",
+                            render: function (data) {
+                                return CDbl(data, 2);
+                            }
+                        },
+                        {
+                            data: "SumCashInBank",
+                            render: function (data) {
+                                return CDbl(data, 2);
+                            }
+                        },
+                        {
+                            data: "SumChqOnhand",
+                            render: function (data) {
+                                return CDbl(data, 2);
+                            }
+                        },
+                        {
+                            data: "SumChqReturn",
+                            render: function (data) {
+                                return CDbl(data, 2);
+                            }
+                        },
+                        {
+                            data: "SumCredit",
+                            render: function (data) {
+                                return CDbl(data, 2);
+                            }
+                        },
+                        {
+                            data: "SumBal",
+                            render: function (data) {
+                                return CDbl(data, 2);
+                            }
+                        }
                     ],
                     responsive:true,
                     destroy:true
@@ -416,10 +446,12 @@ End Code
         $('#txtPhone').val('');
         $('#txtFaxNumber').val('');
         $('#txtBookCode').focus();
-        $('#txtLimitBalance').val(0);   
+        $('#txtLimitBalance').val(0);
         $('#txtControlBalance').val(0);
         $('#txtGLAccountCode').val('');
         $('#tbBalance').DataTable().clear().draw();
+        $('#tbApprove').DataTable().clear().draw();
+        $('#tbPayment').DataTable().clear().draw();
     }
     function PrintData() {
         window.open(path + 'Acc/FormPettyCash?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtBookCode').val(), '', '');
@@ -460,10 +492,12 @@ End Code
     function ShowPayment() {
         $('#txtDateFrom').val('');
         $('#txtDateTo').val('');
+        $('#txtDocDate').val(GetToday());
         SetGridPayment();
         $('#dvPayment').modal('show');
     }
     function SetGridPayment() {
+        arr = [];
         let br =  $('#txtBranchCode').val();
         let bk = $('#txtBookCode').val();
         let dfrom = CDateEN($('#txtDateFrom').val());
@@ -485,6 +519,7 @@ End Code
                 $('#txtBalance').val(CDbl(total, 2));
 
                 let dr = r.data.detail[0].Table;
+                arr = dr;
                 $('#tbPayment').DataTable().destroy();
                 $('#tbPayment').empty();
                 $('#tbPayment').DataTable({
@@ -502,6 +537,132 @@ End Code
         });
     }
     function SavePettyCash() {
+
+        let obj = {
+            BranchCode:$('#txtBranchCode').val(),
+            ControlNo:'',
+            VoucherDate:CDateEN($('#txtDocDate').val()),
+            TRemark:'Refund Petty Cash ' + $('#txtBookCode').val() + '#' + CDateEN(GetToday()),
+            RecUser: user,
+            RecDate: CDateEN(GetToday()),
+            RecTime: GetTime(),
+            PostedBy:'',
+            PostedDate:null,
+            PostedTime:null,
+            CancelReson:'',
+            CancelProve:'',
+            CancelDate:null,
+            CancelTime: null,
+            CustCode: '',
+            CustBranch: '',
+            PostRefNo:''
+        };
+        let jsonText = JSON.stringify({ data: obj });
+        //ShowMessage(jsonText);
+        $.ajax({
+            url: "@Url.Action("SetVoucherHeader", "Acc")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonText,
+            success: function (response) {
+                if (response.result.data != null) {
+                    SavePayment(response.result.data);
+                    return;
+                }
+                ShowMessage(response.result.msg);
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
+    }
+    function SavePayment(docno) {
+        let prType = 'R';
+        let amt = CNum(Math.abs($('#txtBalance').val()));
+        let obj = {
+            BranchCode: $('#txtBranchCode').val(),
+            ControlNo: docno,
+            ItemNo: 0,
+            PRVoucher:'',
+            PRType:prType,
+            ChqNo:'',
+            BookCode:$('#txtBookCode').val(),
+            BankCode:$('#txtBankCode').val(),
+            BankBranch:$('#txtBankBranch').val(),
+            ChqDate: CDateEN($('#txtDocDate').val()),
+            CashAmount: amt,
+            ChqAmount: 0,
+            CreditAmount: 0,
+            SumAmount: amt,
+            CurrencyCode: '@ViewBag.PROFILE_CURRENCY',
+            ExchangeRate: 1,
+            TotalAmount: amt,
+            VatExc: 0,
+            VatInc: 0,
+            WhtExc: 0,
+            WhtInc: 0,
+            TotalNet: amt,
+            IsLocal:0,
+            ChqStatus:'C',
+            TRemark:'',
+            PayChqTo:'',
+            DocNo: '',
+            SICode: '',
+            RecvBank: '',
+            RecvBranch: '',
+            acType: 'CA',
+            ForJNo: ''
+        };
+
+        let jsonText = JSON.stringify({ data:[ obj ]});
+        //ShowMessage(jsonText);
+        $.ajax({
+            url: "@Url.Action("SetVoucherSub", "Acc")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonText,
+            success: function (response) {
+                if (response.result.data.length>0) {
+                    ApproveData(response.result.data[0].ControlNo);
+                    return;
+                }
+                ShowMessage(response.result.msg);
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
+    }
+    function ApproveData(docno) {
+        if (arr.length < 0) {
+            ShowMessage('No data to approve',true);
+            return;
+        }
+        let dataApp = [];
+        dataApp.push(user);
+        for (let i = 0; i < arr.length; i++) {
+            if (dataApp.indexOf($('#txtBranchCode').val() + '|' + arr[i].ControlNo) < 0) {
+                dataApp.push($('#txtBranchCode').val() + '|' + arr[i].ControlNo);
+            }
+        }
+        dataApp.push($('#txtBranchCode').val() + '|' + docno);
+
+        let jsonString = JSON.stringify({ data: dataApp });
+        $.ajax({
+            url: "@Url.Action("ApprovePettyCash", "Acc")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonString,
+            success: function (response) {
+                $('#dvPayment').modal('hide');
+                ShowBalance();
+                response ? ShowMessage("Approve Complete") : ShowMessage("Cannot Approve");
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
+        return;
 
     }
 </script>

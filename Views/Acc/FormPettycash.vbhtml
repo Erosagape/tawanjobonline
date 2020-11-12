@@ -152,7 +152,7 @@ End Code
         </tr>
         <tbody id="tbDetail"></tbody>
     </table>
-    <br/>
+    <br />
     Total By Cost Centre:
     <table border="1">
         <tr>
@@ -202,6 +202,9 @@ End Code
         </tr>
     </table>
 </div>
+Group Accounts:<label id="lblBookCode"></label>
+<br />
+<br />
 Re-imbursement Approve By ___________________________________ Date ___________________
 <br />
 Re-imbursement Request By ___________________________________ Date ___________________
@@ -245,9 +248,10 @@ Re-imbursement Request By ___________________________________ Date _____________
                 if (id !== '') {
                     $('#lblInvNo').text(id);
                 } else {
-                    $('#lblInvNo').text('CTIS' + '@DateTime.Now.ToString("yyMMdd")');
+                    $('#lblInvNo').text('{New Document}');
                 }
-                $('#lblDate').text('@DateTime.Now.ToString("yyyy-MM-dd")');
+                $('#lblBookCode').text(dh.BookCode);
+                $('#lblDate').text(ShowDate(dh.PostedDate));
                 $('#lblAdv').text(ShowNumber(dh.ControlBalance,2));
 
                 let dr = r.data.detail[0].Table;
