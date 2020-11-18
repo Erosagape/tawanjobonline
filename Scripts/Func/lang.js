@@ -2481,6 +2481,7 @@ function ChangeLanguageForm(fname) {
                     { "ConfigKey": "RCV", "ConfigValue": "Receiving Reports / รายงานใบเสร็จ/ใบกำกับภาษี" },
                     { "ConfigKey": "FIN", "ConfigValue": "Financial Reports / รายงานแผนกการเงิน" },
                     { "ConfigKey": "MKT", "ConfigValue": "Marketing Reports / รายงานแผนกการตลาด" },
+                    { "ConfigKey": "MAS", "ConfigValue": "Master Files Reports / รายงานข้อมูลมาตรฐาน" },
                     { "ConfigKey": "EXE", "ConfigValue": "Executives Reports / รายงานสำหรับผู้บริหาร" }
                 ];
                 loadComboArray('#cboReportGroup', reportGroups, 'N/A');
@@ -2829,7 +2830,12 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT08", "ReportNameEN": "Billing Report By Customer", "ReportNameTH": "รายงานติดตามการออกใบแจ้งหนี้ตามลูกค้า" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT09", "ReportNameEN": "Payment By Vender by Job Order", "ReportNameTH": "รายงานค่าใช้จ่ายเจ้าหนี้ตามจ๊อบงาน" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT10", "ReportNameEN": "A/P Accural Report", "ReportNameTH": "รายงานค่าใช้จ่ายรอการจ่าย" },
-        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT11", "ReportNameEN": "A/R Accural Report", "ReportNameTH": "รายงานรายได้รอการวางบิล" }
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT11", "ReportNameEN": "A/R Accural Report", "ReportNameTH": "รายงานรายได้รอการวางบิล" },
+        { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "USERS", "ReportNameEN": "User Lists", "ReportNameTH": "รายชื่อผู้ใช้งาน" },
+        { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "CUSTOMERS", "ReportNameEN": "Customer Lists", "ReportNameTH": "รายชื่อลูกค้า" },
+        { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "VENDERS", "ReportNameEN": "Vender Lists", "ReportNameTH": "รายชื่อผู้ให้บริการ" },
+        { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "SERVICES", "ReportNameEN": "Services Lists", "ReportNameTH": "รายการรหัสงานบริการ" },
+        { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "AUTHORIZE", "ReportNameEN": "User Authorized Lists", "ReportNameTH": "รายการสิทธิผู้ใช้งาน" }
     ];
 }
 function GetLanguage(msg) {

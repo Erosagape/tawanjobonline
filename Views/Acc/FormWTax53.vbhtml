@@ -229,12 +229,27 @@ End Code
         <br />
         ลงชื่อ..............................................................................................ผู้จ่ายเงิน
         <br />
-        (..............................................................................................)
+        ( @ViewBag.TaxAuthorize )
         <br />
-        ตำแหน่ง .....................................................................................
+        ตำแหน่ง @ViewBag.TaxPosition
         <br />
-        ยื่นวันที่............ เดือน..............................................พ.ศ. ...................
+        ยื่นวันที่ @ViewBag.TaxIssueDate
     </div>
+</div>
+<div style="page-break-before:always">
+    <p style="text-align:center;font-weight:bolder;font-size:14px">คำชี้แจง</p>
+    <table style="width:100%;">
+        <tr>
+            <td style="width:50%">
+                <img src="~/Resource/prd53_left1.png" style="width:90%" />
+                <img src="~/Resource/prd53_left2.png" style="width:90%" />
+            </td>
+            <td style="width:50%">
+                <img src="~/Resource/prd53_right1.png" style="width:90%" />
+                <img src="~/Resource/prd53_right2.png" style="width:90%" />
+            </td>
+        </tr>
+    </table>
 </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';

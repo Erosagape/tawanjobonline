@@ -55,16 +55,32 @@ Namespace Controllers
             Return GetView("FormPettyCash")
         End Function
         Function FormWTax3() As ActionResult
-            Return GetView("FormWTax3")
+            Dim vw = GetView("FormWTax3")
+            ViewBag.TaxAuthorize = GetValueConfig("PRD", "AUTHOR_NAME", "..............................................................................................")
+            ViewBag.TaxPosition = GetValueConfig("PRD", "AUTHOR_POSITION", ".....................................................................................")
+            ViewBag.TaxIssueDate = DateTime.Today.Day.ToString("00") & "/" & GetMonthThai(DateTime.Today.Month) & "/" & DateTime.Today.Year + 543
+            Return vw
         End Function
         Function FormWTax53() As ActionResult
-            Return GetView("FormWTax53")
+            Dim vw = GetView("FormWTax53")
+            ViewBag.TaxAuthorize = GetValueConfig("PRD", "AUTHOR_NAME", "..............................................................................................")
+            ViewBag.TaxPosition = GetValueConfig("PRD", "AUTHOR_POSITION", ".....................................................................................")
+            ViewBag.TaxIssueDate = DateTime.Today.Day.ToString("00") & "/" & GetMonthThai(DateTime.Today.Month) & "/" & DateTime.Today.Year + 543
+            Return vw
         End Function
         Function FormWTax3D() As ActionResult
-            Return GetView("FormWTax3D")
+            Dim vw = GetView("FormWTax3D")
+            ViewBag.TaxAuthorize = GetValueConfig("PRD", "AUTHOR_NAME", "..............................................................................................")
+            ViewBag.TaxPosition = GetValueConfig("PRD", "AUTHOR_POSITION", ".....................................................................................")
+            ViewBag.TaxIssueDate = DateTime.Today.Day.ToString("00") & "/" & GetMonthThai(DateTime.Today.Month) & "/" & DateTime.Today.Year + 543
+            Return vw
         End Function
         Function FormWTax53D() As ActionResult
-            Return GetView("FormWTax53D")
+            Dim vw = GetView("FormWTax53D")
+            ViewBag.TaxAuthorize = GetValueConfig("PRD", "AUTHOR_NAME", "..............................................................................................")
+            ViewBag.TaxPosition = GetValueConfig("PRD", "AUTHOR_POSITION", ".....................................................................................")
+            ViewBag.TaxIssueDate = DateTime.Today.Day.ToString("00") & "/" & GetMonthThai(DateTime.Today.Month) & "/" & DateTime.Today.Year + 543
+            Return vw
         End Function
         Function Approve() As ActionResult
             Return GetView("Approve", "MODULE_ACC")

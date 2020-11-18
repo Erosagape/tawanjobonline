@@ -3019,4 +3019,34 @@ group by BranchCode,AdvNo,Rate50Tavi
             Return ""
         End Try
     End Function
+    Function GetMonthThai(mn As Integer) As String
+        Select Case mn
+            Case 1
+                Return "มกราคม"
+            Case 2
+                Return "กุมภาพันธ์"
+            Case 3
+                Return "มีนาคม"
+            Case 4
+                Return "เมษายน"
+            Case 5
+                Return "พฤษภาคม"
+            Case 6
+                Return "มิถุนายน"
+            Case 7
+                Return "กรกฏาคม"
+            Case 8
+                Return "สิงหาคม"
+            Case 9
+                Return "กันยายน"
+            Case 10
+                Return "ตุลาคม"
+            Case 11
+                Return "พฤศจิกายน"
+            Case 12
+                Return "ธันวาคม"
+            Case Else
+                Return ""
+        End Select
+    End Function
 End Module
