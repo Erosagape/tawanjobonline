@@ -219,9 +219,9 @@ End Code
 <div>
     <div style="width:100%;text-align:center;font-size:16px;float:left">
         <div style="float:right">
-            <br/>
-            <div class="circle"><br />ประทับตรา<br />นิติบุคคล<br/>(ถ้ามี)</div>
-            <br/>
+            <br />
+            <div class="circle"><br />ประทับตรา<br />นิติบุคคล<br />(ถ้ามี)</div>
+            <br />
         </div>
         ข้าพเจ้าขอรับรองว่า รายการที่แจ้งไว้ข้างต้นนี้ เป็นรายการที่ถูกต้องและครบถ้วนทุกประการ
         <br />
@@ -229,11 +229,10 @@ End Code
         <br />
         ลงชื่อ..............................................................................................ผู้จ่ายเงิน
         <br />
-        ( @ViewBag.TaxAuthorize )
+        (<input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxAuthorize" />)
         <br />
-        ตำแหน่ง @ViewBag.TaxPosition
-        <br />
-        ยื่นวันที่ @ViewBag.TaxIssueDate
+        ตำแหน่ง <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxPosition" /> <br>
+        ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
     </div>
 </div>
 <div style="page-break-before:always">

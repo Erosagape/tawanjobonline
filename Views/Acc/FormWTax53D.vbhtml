@@ -55,7 +55,8 @@ End Code
                     ที่อยู่ : <label id="lblTAddress1"></label>
                 </div>
                 <div style="flex:30%;text-align:right">
-                    <br />                    
+                                        <br />                    
+                    หน้าที่ 1 ใน <span id="dvPages"></span> หน้า
                 </div>
             </div>
         </td>
@@ -63,17 +64,15 @@ End Code
     <tr>
         <td>
             <div id="report" style="width:100%">
-                <table id="tbDetail" border="1" style="border-style:solid;border-width:thin;border-collapse:collapse;">
+                <table id="tbDetail" border="1" style="border-style:solid;border-width:thin;border-collapse:collapse;display:none">
                     <thead style="text-align:center">
                         <tr>
                             <td rowspan="3">
                                 <p>ลำดับที่</p>
                             </td>
-
                             <td>
                                 <p>เลขประจำตัวผู้เสียภาษีอากร (ของผู้มีเงินได้)</p>
                             </td>
-
                             <td>
                                 <p>สาขา</p>
                             </td>
@@ -83,40 +82,32 @@ End Code
                             <td colspan="3">
                                 <p>รวมเงินภาษีที่หักและนำส่งในครั้งนี้</p>
                             </td>
-
                         </tr>
-
                         <tr>
                             <td colspan="2">
                                 ชื่อผู้มีเงินได้
                                 (ให้ระบุให้ชัดเจนว่าเป็น นาย นาง นางสาวหรือยศ)
                             </td>
-
                             <td rowspan="2">
                                 <p>
                                     วัน เดือน ปี<br> ที่จ่าย
                                 </p>
 
                             </td>
-
                             <td rowspan="2">
                                 <p>
                                     1 ประเภทเงินได้<br>(ถ้ามากกว่าหนึ่งประเภทให้กรอกเรียงลงไป)
                                 </p>
-
                             </td>
-
                             <td rowspan="2">
                                 <p>
                                     อัตราภาษีร้อยละ
                                 </p>
-
                             </td>
                             <td rowspan="2">
                                 <p>
                                     จำนวนเงินที่จ่ายแต่ละประเภท<br>เฉพาะคนหนึ่งๆ ในครั้งนี้
                                 </p>
-
                             </td>
                             <td rowspan="2">
                                 <p>
@@ -126,30 +117,21 @@ End Code
                             <td rowspan="2">
                                 <p>2 เงื่อนไข</p>
                             </td>
-
                         </tr>
-
                         <tr>
-
                             <td colspan="2">
                                 ที่อยู่ของผู้มีเงินได้ (ให้ระบุเลขที่ ตรอก/ซอย ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด)
                             </td>
-
-
-
-
                         </tr>
-
                     </thead>
                     <tbody></tbody>
                     <tfoot>
                         <tr>
                             <td colspan="6">
                                 <p>รวมยอดเงินได้และภาษีที่นำส่ง (นำไปรวมกับ <b>ใบแนบ ภ.ง.ด.53 </b>แผ่นอื่น(ถ้ามี))</p>
-
                             </td>
-                            <td style="text-align:right"><label id="lblSumPayAmount"></label></td>
-                            <td style="text-align:right"><label id="lblSumPayTax"></label></td>
+                            <td style="text-align:right">{0}</td>
+                            <td style="text-align:right">{1}</td>
                             <td></td>
                         </tr>
                         <tr>
@@ -167,26 +149,20 @@ End Code
                             <td colspan="3" style="text-align:center">
                                 <br>
                                 ลงชื่อ.....................................................ผู้จ่ายเงิน<br>
-                                ( @ViewBag.TaxAuthorize )<br>
-                                ตำแหน่ง @ViewBag.TaxPosition <br>
-                                ยื่นวันที่ @ViewBag.TaxIssueDate
+                                (<input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxAuthorize"/>) <br>
+                                ตำแหน่ง <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxPosition" /> <br>
+                                ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" /> 
                             </td>
                             <td colspan="2">
                                 <div class="circle"><br />ตราประทับ<br />นิติบุคคล<br />(ถ้ามี)</div>
                             </td>
-
                         </tr>
                     </tfoot>
-
                 </table>
             </div>
         </td>
     </tr>
 </table>
-
-
-
-
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let data = getQueryString("data");
@@ -197,7 +173,7 @@ End Code
     if (data !== '') {
         row = JSON.parse(data);
         let obj = JSON.parse(cliteria);
-        html = '';
+        let html = '';
         if (obj.DATEFROM !== '') html += obj.DATEFROM + ',';
         if (obj.DATETO !== '') html += obj.DATETO + ',';
         if (obj.CUSTWHERE !== '') html += obj.CUSTWHERE + ',';
@@ -229,6 +205,7 @@ End Code
                     $('#lblTAddress1').text(tb.TAddress1);
                     let n = 0;
                     let c = 0;
+                    let p = 1;
                     let sumamt = 0;
                     let sumtax = 0;
                     let template = '';
@@ -237,9 +214,17 @@ End Code
                     let field3 = '';
                     let field4 = '';
                     let field5 = '';
+                    let htmlAll = GetTableHtml();
+                    let htmlHead = $('#tbDetail thead').html();
+                    let htmlFoot = $('#tbDetail tfoot').html();
                     let rd = res.result;
                     sortData(rd, 'DocNo', 'asc');
                     let docno = '';
+                    let t = 1;
+                    if (rd.length > 7) {
+                        t = Math.abs(CDbl(Math.floor((rd.length-7) / 8)+1, 0));
+                    }
+                    $('#dvPages').html(t);
                     for (let r of rd) {
                         if (docno !== r.DocNo) {
                             n += 1;
@@ -251,7 +236,30 @@ End Code
                                 template = template.replace('{4}', field4);
                                 template = template.replace('{5}', field5);
 
-                                $('#tbDetail tbody').append(template);
+                                if ((p == 1 && n == 8) || (((n - 8) % 8) == 0 && p > 1)) {
+                                    htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
+                                    htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
+
+                                    htmlAll = htmlAll.replace('{0}', htmlHead);
+                                    htmlAll = htmlAll.replace('{1}', template);
+                                    htmlAll = htmlAll.replace('{2}', htmlFoot);
+                                    
+                                    if (p > 1) {
+                                        htmlAll = '<div style="width:98%;text-align:right;page-break-before:always"><br/>หน้าที่ ' + p + ' จาก ' + t + ' หน้า </div>' + htmlAll;
+                                    }
+
+                                    $('#report').append(htmlAll);
+
+                                    sumamt = 0;
+                                    sumtax = 0;
+
+                                    htmlAll = GetTableHtml();
+                                    htmlHead = $('#tbDetail thead').html();
+                                    htmlFoot = $('#tbDetail tfoot').html();
+
+                                    template = '';
+                                    p += 1;
+                                }
                             }
                             field1 = '';
                             field2 = '';
@@ -259,7 +267,6 @@ End Code
                             field4 = '';
                             field5 = '';
 
-                            template = '';
                             template += '<tr>';
                             template += '<td>' + n + '</td>';
                             template += '<td>';
@@ -278,8 +285,7 @@ End Code
                             template += '<td style="text-align:right">{3}</td>';
                             template += '<td style="text-align:right">{4}</td>';
                             template += '<td>' + r.PayTaxType + '</td>';
-                            docno = r.DocNo;
-   
+                            docno = r.DocNo;   
                         }
 
                         field1 += '<br/>' + ShowDate(r.PayDate);
@@ -299,14 +305,32 @@ End Code
                             template = template.replace('{3}', field3);
                             template = template.replace('{4}', field4);
                             template = template.replace('{5}', field5);
-                            $('#tbDetail tbody').append(template);
+
+                            htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
+                            htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
+
+                            htmlAll = htmlAll.replace('{0}', htmlHead);
+                            htmlAll = htmlAll.replace('{1}', template);
+                            htmlAll = htmlAll.replace('{2}', htmlFoot);
+
+                            if (p > 1) {
+                                htmlAll = '<div style="width:98%;text-align:right;page-break-before:always;"><br/>หน้าที่ ' + p + ' จาก ' + t + ' หน้า </div>' + htmlAll;
+                            }
+
+                            $('#report').append(htmlAll);
                         }
                     }
-                    $('#lblSumPayAmount').text(ShowNumber(sumamt, 2));
-                    $('#lblSumPayTax').text(ShowNumber(sumtax, 2));
                 }
             }
         });
+    }
+    function GetTableHtml() {
+        let htmlTable = '<table border="1" style="border-style:solid;border-width:thin;border-collapse:collapse;">';
+        htmlTable += '<thead>{0}</thead>';
+        htmlTable += '<tbody>{1}</tbody>';
+        htmlTable += '<tfoot>{2}</tfoot>';
+        htmlTable += '</table>';
+        return htmlTable;
     }
 </script>
 

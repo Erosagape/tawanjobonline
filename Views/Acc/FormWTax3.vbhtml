@@ -230,11 +230,10 @@ End Code
         <br />
         ลงชื่อ..............................................................................................ผู้จ่ายเงิน
         <br />
-        ( @ViewBag.TaxAuthorize )
+        (<input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxAuthorize" />)
         <br />
-        ตำแหน่ง @ViewBag.TaxPosition
-        <br />
-        ยื่นวันที่ @ViewBag.TaxIssueDate
+        ตำแหน่ง <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxPosition" /> <br>
+        ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
     </div>
 </div>
 <div style="page-break-before:always">
