@@ -375,10 +375,10 @@ End Code
                                 <div class="col-sm-4">
                                     <label id="lblClearingNo">Clearing No :</label>
                                     <br/>
-                                    <input type="text" class="form-control" id="txtClrRefNo" disabled />
+                                    <input type="text" class="form-control" id="txtClrRefNo" />
                                 </div>
                                 <div class="col-sm-2">
-                                    #<br/> <input type="text" class="form-control" id="txtClrItemNo" disabled />
+                                    #<br/> <input type="text" class="form-control" id="txtClrItemNo" />
                                 </div>
                                 <div class="col-sm-3">
                                     Route ID<br/>
@@ -655,7 +655,7 @@ End Code
     }
     function SetLOVs() {
         //Combos
-        let lists = 'PAYMENT_TYPE=#txtPayType|CA';
+        let lists = 'PAYMENT_TYPE=#txtPayType|CH';
         loadCombos(path, lists);
 
         LoadService();
@@ -890,7 +890,7 @@ End Code
             $('#txtRefNo').val('');
             $('#txtPoNo').val('');
         }
-        $('#txtPayType').val('CA');
+        $('#txtPayType').val('CH');
         $('#chkApprove').prop('checked', false);
         $('#chkCancel').prop('checked', false);
         $('#tbDetail').DataTable().clear().draw();

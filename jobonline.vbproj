@@ -192,6 +192,7 @@
     <Compile Include="Controllers\ClrController.vb" />
     <Compile Include="Controllers\ConfigController.vb" />
     <Compile Include="Controllers\DefaultController.vb" />
+    <Compile Include="Controllers\ExcelController.vb" />
     <Compile Include="Controllers\JobOrderController.vb" />
     <Compile Include="Controllers\Main.vb" />
     <Compile Include="Controllers\MasterController.vb" />
@@ -1407,6 +1408,8 @@
     <Content Include="Views\Clr\FormEntry.vbhtml" />
     <Content Include="Views\JobOrder\Approve.vbhtml" />
     <Content Include="Views\Acc\FormPettycash.vbhtml" />
+    <Content Include="Views\Excel\Index.vbhtml" />
+    <Content Include="Views\Excel\Import.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -1452,6 +1455,17 @@
   <ItemGroup>
     <Folder Include="Resource\Export\" />
     <Folder Include="Resource\Import\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

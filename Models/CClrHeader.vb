@@ -367,7 +367,7 @@ Public Class CClrHeader
                             dr("ClearCost") = Me.ClearCost
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
-                            UpdateTotal(cn)
+                            UpdateTotal(cn, If(Me.DocStatus = 99, True, False))
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "SaveData", Me, False)
                             msg = "Save Complete"
                         End Using
@@ -546,7 +546,7 @@ Public Class CClrHeader
             cm.ExecuteNonQuery()
             Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "UpdateAdvStatus", cm.CommandText, False)
             If IsDelete Then
-                cm.CommandText = "UPDATE Job_PaymentDetail SET ClrRefNo=NULL,ClrItemNo=0 WHERE ClrRefNo='" & Me.ClrNo & "'"
+                cm.CommandText = "UPDATE Job_PaymentDetail SET ClrRefNo='',ClrItemNo=0 WHERE ClrRefNo='" & Me.ClrNo & "'"
                 cm.ExecuteNonQuery()
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "ClearPaymentRelated", cm.CommandText, False)
             End If

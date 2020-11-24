@@ -444,7 +444,7 @@ End Code
                                 </div>
                                 <div class="col-sm-6">
                                     <label id="lblPayNo">Vender Inv#</label>
-                                    <input type="text" id="txtVenderBillingNo" style="width:150px" disabled />
+                                    <input type="text" id="txtVenderBillingNo" style="width:150px" />
                                     <input type="button" value="View" onclick="ShowVenderBill()" />
                                 </div>
                             </div>
@@ -1486,7 +1486,7 @@ End Code
             Pay50TaviTo: $('#txtPayChqTo').val(),
             NO50Tavi: $('#txt50Tavi').val(),
             Date50Tavi: CDateEN($('#txtDate50Tavi').val()),
-            VenderBillingNo: dtl.VenderBillingNo,
+            VenderBillingNo: $('#txtVenderBillingNo').val(),
             AirQtyStep: dtl.AirQtyStep,
             StepSub: dtl.StepSub,
             LinkBillNo : dtl.LinkBillNo,

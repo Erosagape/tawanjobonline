@@ -384,8 +384,9 @@ Public Class CPayDetail
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
+
                     Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CPayDetail", "DeleteData", cm.CommandText, False)
-                    UpdateTotal(cn)
+                    UpdateTotal(cn, True)
                 End Using
                 cn.Close()
                 msg = "Delete Complete"
@@ -396,13 +397,21 @@ Public Class CPayDetail
         End Using
         Return msg
     End Function
-    Public Sub UpdateTotal(cn As SqlConnection)
+    Public Sub UpdateTotal(cn As SqlConnection, Optional IsDelete As Boolean = False)
         Dim sql As String = SQLUpdatePayHeader()
 
         Using cm As New SqlCommand(sql, cn)
             cm.CommandText = sql & " WHERE b.BranchCode='" + Me.BranchCode + "' and b.DocNo='" + Me.DocNo + "'"
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
+            If Me.ClrRefNo <> "" Then
+                If IsDelete = True Then
+                    cm.CommandText = "UPDATE Job_ClearDetail SET VenderBillingNo='' WHERE ClrNo='" & Me.ClrRefNo & "' AND ItemNo=" & Me.ClrItemNo & ""
+                Else
+                    cm.CommandText = "UPDATE Job_ClearDetail SET VenderBillingNo='" & Me.DocNo & "#" & Me.ItemNo & "' WHERE ClrNo='" & Me.ClrRefNo & "' AND ItemNo=" & Me.ClrItemNo & ""
+                End If
+                cm.ExecuteNonQuery()
+            End If
             Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CPayDetail", "UpdatePayHeader", cm.CommandText, False)
         End Using
     End Sub
