@@ -373,7 +373,7 @@ End Code
                             </div>                            
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label id="lblClearingNo">Clearing No :</label>
+                                    <label id="lblClearingNo" ondblclick="SaveDetail()">Clearing No :</label>
                                     <br/>
                                     <input type="text" class="form-control" id="txtClrRefNo" />
                                 </div>
@@ -913,11 +913,12 @@ End Code
             ShowMessage('You are not allow to edit',true);
             return;
         }
+        /*
         if (obj.ClrItemNo > 0 || obj.AdvItemNo>0) {
             ShowMessage('Cannot Edit',true);
             return;
         }
-
+        */
         let jsonString = JSON.stringify({ data: obj });
         //ShowMessage(jsonString);
         $.ajax({
