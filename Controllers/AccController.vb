@@ -599,6 +599,42 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                 Return Content("{""payment"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
             End Try
         End Function
+        Function GetPaymentReport() As ActionResult
+            Dim tSql = "
+select h.VenCode,h.ApproveRef,h.PaymentRef,h.PoNo,d.BookingRefNo,j.CustCode,j.DutyDate as InspectionDate,
+c.Location,COUNT(*) as QTY,
+AVG(CASE WHEN d.SICode='CST-107' THEN d.UnitPrice ELSE 0 END) as UnitPrice,
+SUM(CASE WHEN d.SICode NOT IN('CST-107','ADV-177') THEN d.UnitPrice ELSE 0 END) as ExtraCharge,
+SUM(CASE WHEN d.SICode='CST-107' THEN d.Amt ELSE 0 END) as Transport,
+SUM(CASE WHEN d.SICode='CST-107' THEN d.Amt*s.Rate50Tavi*0.01 ELSE 0 END) as Tax50Tavi,
+SUM(CASE WHEN d.SICode<>'CST-107' THEN d.Total ELSE 0 END) as Others
+FROM Job_PaymentDetail d inner join Job_PaymentHeader h
+ON d.BranchCode=h.BranchCode AND d.DocNo=h.DocNo
+inner join Job_SrvSingle s ON d.SIcode=s.SICode
+inner join Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
+inner join Job_LoadInfo b ON d.BranchCode=b.BranchCode AND d.BookingRefNo=b.BookingNo
+left join Job_LoadInfoDetail c ON d.BranchCode=c.BranchCode AND d.BookingRefNo=c.BookingNo
+AND h.BranchCode=c.BranchCode AND h.RefNo =c.CTN_NO
+where ISNULL(h.CancelProve,'')='' {0}
+group by h.VenCode,h.ApproveRef,h.PaymentRef,h.PoNo,d.BookingRefNo,j.CustCode,j.DutyDate,
+c.Location
+"
+            Dim tSqlw = ""
+            If Not IsNothing(Request.QueryString("Branch")) Then
+                tSqlw &= String.Format(" AND h.BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Code")) Then
+                tSqlw &= String.Format(" AND h.ApproveRef='{0}' ", Request.QueryString("Code").ToString)
+            End If
+            Try
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(tSql, tSqlw))
+                Dim json = JsonConvert.SerializeObject(oData)
+                Return Content("{""payment"":{""data"":" & json & ",""msg"":""" & oData.Rows.Count & """}}", jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetPaymentReport", ex.Message, ex.StackTrace, True)
+                Return Content("{""payment"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
+            End Try
+        End Function
         Function GetPaymentGrid() As ActionResult
             Try
                 Dim tSqlw As String = SQLSelectPaymentReport() & " WHERE h.DocNo<>'' "

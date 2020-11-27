@@ -222,7 +222,7 @@ End Code
             });
             $('#tbApprove tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbApprove').DataTable().row(this).data(); //read current row selected
-                window.open(path + 'acc/formpettycash?Branch=' + $('#txtBranchCode').val() + '&Code=' + data.ApproveRef,'','');
+                window.open(path + 'acc/formexpense?Branch=' + $('#txtBranchCode').val() + '&Code=' + data.PoNo,'','');
             });
         });
     }

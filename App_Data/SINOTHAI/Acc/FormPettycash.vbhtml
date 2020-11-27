@@ -65,7 +65,7 @@ PAY FOR :
             <td id="TotalNet"></td>
         </tr>
     </table>
-    <table>
+    <table id="tbDetail">
         <tr>
             <td>INV</td>
             <td>B/L</td>
@@ -79,7 +79,7 @@ PAY FOR :
             <td>DEPOT/PORT</td>
             <td>TOTALS</td>
         </tr>
-        <tbody  id="tbDetail"></tbody>
+        <tbody></tbody>
         <tr>
             <td colspan="5">TOTAL</td>
             <td></td>
@@ -119,9 +119,9 @@ PAY FOR :
         if (refno !== '') {
             url += '&Code=' + refno;
         }
-        $.get(path + url).done(function (r) {
+        $.get(path + url, function (r) {
             if (r.payment.data.length > 0) {
-                let th = r.payment.data[0];
+                let th = r.payment.data[0].Table[0];
                 $('#ApproveRef').html(th.ApproveRef);
                 $.get(path + 'Master/GetVender?Code=' + th.VenCode).done(function (r) {
                     if (r.vender.data.length > 0) {
@@ -130,33 +130,32 @@ PAY FOR :
                     }
                 });
 
-                let tb = r.payment.data;
+                let tb = r.payment.data[0].Table;
                 let totalTransport = 0;
                 let totalDocument = 0;
                 let totalWhtax = 0;
-                let html = '';
-
                 for (let dr of tb) {
                     totalTransport += Number(dr.Transport);
                     totalDocument += Number(dr.ExtraCharge);
                     totalDocument += Number(dr.Others);
                     totalWhtax += Number(dr.Tax50Tavi);
 
+                    let html = '';
                     html += '<tr>';
                     html += '<td>' + dr.PoNo + '</td>';
                     html += '<td>' + dr.BookingRefNo + '</td>';
                     html += '<td>' + dr.CustCode + '</td>';
                     html += '<td>' + ShowDate(dr.InspectionDate) + '</td>';
                     html += '<td>' + dr.Location + '</td>';
-                    html += '<td>' + dr.QTY + '</td>';
+                    html += '<td>' + dr.Qty + '</td>';
                     html += '<td>' + ShowNumber(dr.UnitPrice,2) + '</td>';
                     html += '<td>' + ShowNumber(dr.ExtraCharge,2) + '</td>';
                     html += '<td>' + ShowNumber(dr.Transport,2) + '</td>';
                     html += '<td>' + ShowNumber(dr.Others,2) + '</td>';
                     html += '<td>' + ShowNumber(Number(dr.Others) + Number(dr.Transport) + Number(dr.ExtraCharge),2) + '</td>';
                     html += '</tr>';
+                    $('#tbDetail tbody').append(html);
                 }
-                $('#tbDetail').html(html);
 
                 $('#TotalTransport').html(ShowNumber(totalTransport, 2));
                 $('#TotalOthers').html(ShowNumber(totalDocument, 2));
