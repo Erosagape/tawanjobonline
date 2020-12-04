@@ -793,11 +793,15 @@ function LoadReport(path, reportID, obj, lang) {
                 let sumTotal = [];
                 let lengthFld = '';
                 let colWidth = [];
+                let textFields = '';
                 if (res.colwidth !== '') {
                     lengthFld = res.colwidth;
                 }
                 if (lengthFld.indexOf(',') > 0) {
                     colWidth = lengthFld.split(',');
+                }
+                if (res.text_field !== '') {
+                    textFields = res.text_field;
                 }
                 if (res.group !== '') {
                     groupField = res.group;
@@ -813,7 +817,11 @@ function LoadReport(path, reportID, obj, lang) {
                             }
                         }
                         html += '"><b>' + GetColumnHeader(key, lang) + '</b></th>';
-                        sumGroup.push({ isSummary: CheckAllIsNumber(tb, key), value: 0 });
+                        if (textFields.indexOf(key) >= 0) {
+                            sumGroup.push({ isSummary: false, value: 0 });
+                        } else {
+                            sumGroup.push({ isSummary: CheckAllIsNumber(tb, key), value: 0 });
+                        }
                         sumTotal.push(0);
                         colCount++;
                     }

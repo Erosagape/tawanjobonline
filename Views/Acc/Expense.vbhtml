@@ -137,7 +137,7 @@ End Code
                         <label id="lblApprTime">Time:</label>
                         <input type="text" id="txtApproveTime" style="width:80px" disabled />
                         <br />
-                        <label>Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" />
+                        <label ondblclick="SaveHeader()">Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" />
                     </div>
                     <div class="col-sm-4" style="border-style:solid;border-width:1px">
                         <label id="lblPayment">Payment By</label>

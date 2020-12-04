@@ -44,6 +44,7 @@ Namespace Controllers
                 fldGroup = GetValueConfig("REPORT_" & data.ReportCode, "GROUP_FIELD")
                 fldLength = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_LENGTH")
                 Dim fldSum = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_SUM")
+                Dim fldNoSum = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_NOSUM")
                 Dim dsGroup = GetValueConfig("REPORT_" & data.ReportCode, "GROUP_DATASOURCE")
 
                 If dsGroup <> "" Then
@@ -52,7 +53,7 @@ Namespace Controllers
                 sqlM = String.Format(sqlM, sqlW)
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)
-                Return Content("{""result"":" & json & ",""group"":""" & fldGroup & """,""groupdata"":[" & groupDatas & "],""colwidth"":""" & fldLength & """,""summary"":""" & fldSum & """,""msg"":""OK"",""sql"":""" & sqlW & """}")
+                Return Content("{""result"":" & json & ",""group"":""" & fldGroup & """,""groupdata"":[" & groupDatas & "],""colwidth"":""" & fldLength & """,""summary"":""" & fldSum & """,""text_field"":""" & fldNoSum & """,""msg"":""OK"",""sql"":""" & sqlW & """}")
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetReportByConfig", ex.Message, ex.StackTrace, True)
                 Return Content("{""result"":[],""group"":null,""msg"":""" & ex.Message & """,""sql"":""" & sqlW & """}")
@@ -65,10 +66,12 @@ Namespace Controllers
             Dim groupDatas = ""
             Dim fldLength = ""
             Dim fldSum = ""
+            Dim fldNoSum = ""
             Dim cliteria As String = data.ReportCliteria
             Try
                 fldLength = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_LENGTH")
                 fldSum = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_SUM")
+                fldNoSum = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_NOSUM")
                 Select Case data.ReportCode
                     Case "JOBDAILY"
                         fldGroup = "LoadDate"
@@ -1475,7 +1478,7 @@ WHERE NOT ISNULL(h.CancelProve,'')<>''
                 End Select
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)
-                Return Content("{""result"":" & json & ",""group"":""" & fldGroup & """,""groupdata"":[" & groupDatas & "],""colwidth"":""" & fldLength & """,""summary"":""" & fldSum & """,""msg"":""OK"",""sql"":""" & sqlW & """}")
+                Return Content("{""result"":" & json & ",""group"":""" & fldGroup & """,""groupdata"":[" & groupDatas & "],""colwidth"":""" & fldLength & """,""summary"":""" & fldSum & """,""text_field"":""" & fldNoSum & """,""msg"":""OK"",""sql"":""" & sqlW & """}")
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetReport", ex.Message, ex.StackTrace, True)
                 Return Content("{""result"":[],""group"":null,""msg"":""" & ex.Message & """,""sql"":""" & sqlW & """}")

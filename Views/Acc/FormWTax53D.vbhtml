@@ -200,7 +200,7 @@ End Code
                 if (res.result.length > 0) {
                     var tb = res.result[0];
                     $('#lblTaxNumber1').text(tb.TaxNumber1);
-                    $('#lblBranch1').text(tb.Branch1);
+                    $('#lblBranch1').text('00'+CCode(tb.Branch1));
                     $('#lblTName1').text(tb.TName1);
                     $('#lblTAddress1').text(tb.TAddress1);
                     let n = 0;
@@ -278,7 +278,7 @@ End Code
                             template += 'ที่อยู่ : ' + r.TAddress3;
                             template += '</p>';
                             template += '</td>';
-                            template += '<td>' + r.Branch3 + '</td>';
+                            template += '<td>' + '00'+CCode(r.Branch3) + '</td>';
                             template += '<td>{1}</td>';
                             template += '<td>' + r.DocNo + ' / ' + r.JNo + '{5}</td>';
                             template += '<td>{2}</td>';

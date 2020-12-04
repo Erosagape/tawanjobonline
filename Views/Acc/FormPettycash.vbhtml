@@ -34,8 +34,9 @@ PAY FOR :
 <input type="checkbox" /> IMPORT &nbsp;&nbsp;
 <input type="checkbox" /> EXPORT  &nbsp;&nbsp;
 <input type="checkbox" /> OTHER ____________________
-<div style="display:flex;flex-direction:column;align-content:center">
-    <table style="width:50%">
+<div style="display:flex;flex-direction:column;align-items:center">
+    <br/>
+    <table style="width:50%" border="1">
         <tr>
             <td>TRUCK INVOICE NO</td>
             <td id="ApproveRef"></td>
@@ -65,7 +66,8 @@ PAY FOR :
             <td id="TotalNet"></td>
         </tr>
     </table>
-    <table>
+    <br/>
+    <table border="1">
         <tr>
             <td>INV</td>
             <td>B/L</td>
@@ -84,13 +86,14 @@ PAY FOR :
             <td colspan="5">TOTAL</td>
             <td></td>
             <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td id="GTExtraCharge"></td>
+            <td id="GTTotalTrans"></td>
+            <td id="GTDocument"></td>
+            <td id="GTTotalAll"></td>
         </tr>
     </table>
 </div>
+<br/>
 <div style="display:flex;flex-direction:row">
     <div style="flex:1">
         <br />
@@ -132,13 +135,14 @@ PAY FOR :
 
                 let tb = r.payment.data;
                 let totalTransport = 0;
+                let totalExtra = 0;
                 let totalDocument = 0;
                 let totalWhtax = 0;
                 let html = '';
 
                 for (let dr of tb) {
                     totalTransport += Number(dr.Transport);
-                    totalDocument += Number(dr.ExtraCharge);
+                    totalExtra += Number(dr.ExtraCharge);
                     totalDocument += Number(dr.Others);
                     totalWhtax += Number(dr.Tax50Tavi);
 
@@ -159,8 +163,12 @@ PAY FOR :
                 $('#tbDetail').html(html);
 
                 $('#TotalTransport').html(ShowNumber(totalTransport, 2));
-                $('#TotalOthers').html(ShowNumber(totalDocument, 2));
-                $('#TotalAmount').html(ShowNumber(totalTransport + totalDocument, 2));
+                $('#TotalOthers').html(ShowNumber(totalDocument+totalExtra, 2));
+                $('#GTExtraCharge').html(ShowNumber(totalExtra, 2));
+                $('#GTDocument').html(ShowNumber(totalDocument, 2));
+                $('#TotalAmount').html(ShowNumber(totalTransport + totalDocument+totalExtra, 2));
+                $('#GTTotalTrans').html(ShowNumber(totalTransport, 2));
+                $('#GTTotalAll').html(ShowNumber(totalTransport + totalDocument+totalExtra, 2));
                 $('#TotalTax').html(ShowNumber(totalWhtax, 2));
                 $('#TotalNet').html(ShowNumber(totalTransport+totalDocument-totalWhtax, 2));
             }

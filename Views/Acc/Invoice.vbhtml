@@ -113,7 +113,7 @@ End Code
                         <div class="col-sm-3">
                             <label id="lblDocDate">Doc.Date:</label>
                             <br />
-                            <input type="date" id="txtDocDate" class="form-control" disabled />
+                            <input type="date" id="txtDocDate" class="form-control"/>
                         </div>
                         <div class="col-sm-6">
                             <label id="lblDCustCode">Customer:</label>

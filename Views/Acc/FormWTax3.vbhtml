@@ -289,7 +289,7 @@ End Code
                     var tb = res.result[0];
                     $('#lblIDCard1').text(tb.IDCard1);
                     $('#lblTaxNumber1').text(tb.TaxNumber1);
-                    $('#lblBranch1').text(tb.Branch1);
+                    $('#lblBranch1').text('00'+CCode(tb.Branch1));
                     $('#lblTName1').text(tb.TName1);
                     $('#lblTAddress1').text(tb.TAddress1);
                     $('#txtTaxYear').val(tb.TaxYear + 543);

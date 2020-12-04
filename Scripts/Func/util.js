@@ -353,7 +353,7 @@ function ShowNumber(data, dec) {
     return CCurrency(numstr);
 }
 function CCode(data) {
-    let st = data;
+    let st = Number(data);
 
     if (st < 10) st = "0" + st;
     return st;
