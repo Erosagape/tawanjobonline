@@ -2163,7 +2163,7 @@ WHERE (NOT (ISNULL(h.CancelProve, '') <> '')) {0}
     Function SQLSelectBooking() As String
         Return "
 SELECT h.BranchCode, h.JNo, h.BookingNo, h.LoadDate AS BookingDate, h.NotifyCode, h.VenderCode AS ForwarderCode, h.ContactName AS ShipperContact, 
-u.TName AS CSName, u.MobilePhone AS CSTel, u.EMail AS CSEMail, j.InvNo, j.InvProduct, j.InvProductQty, j.InvProductUnit, j.TotalContainer, j.ShippingCmd,
+u.TName AS CSName, u.MobilePhone AS CSTel, u.EMail AS CSEMail, j.InvNo, j.InvProduct, j.InvProductQty, j.InvProductUnit,j.InvCurUnit,j.InvCurRate, j.TotalContainer, j.ShippingCmd,
 a.English AS ForwarderName, a.EAddress1 AS ForwarderAddress1, a.EAddress2 AS ForwarderAddress2, a.ContactSale AS ForwarderContact, a.TaxNumber as ForwarderTaxID,
 a.Phone AS ForwarderPhone, c.NameEng AS ConsigneeName, c.EAddress1 AS ConsignAddress1, c.EAddress2 AS ConsignAddress2, c.Phone AS ConsignPhone, c.FaxNumber as ConsignFax,c.DMailAddress as ConsignEmail,c.TaxNumber as ConsignTaxID,c.Branch as ConsignTaxBranch,
 n.NameEng AS NotifyName, n.EAddress1 AS NotifyAddress1, n.EAddress2 AS NotifyAddress2, n.Phone AS NotifyPhone, n.FaxNumber as NotifyFax,n.DMailAddress as NotifyEmail, n.TaxNumber as NotifyTaxID,n.Branch as NotifyTaxBranch,
