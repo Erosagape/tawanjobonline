@@ -1,6 +1,6 @@
 ﻿Imports System.Xml
 Public Class CXMLData
-    Private dataPath As String
+    Private ReadOnly dataPath As String
     Private msgError As String
     Private oXML As XmlDocument
     Public ReadOnly Property IsError As String
@@ -12,10 +12,14 @@ Public Class CXMLData
         dataPath = ptPath
         msgError = ""
     End Sub
+#Disable Warning IDE1006 ' Naming Styles
     Public Function getData(nodeName As String) As XmlNodeList
+#Enable Warning IDE1006 ' Naming Styles
         Return oXML.SelectNodes(nodeName)
     End Function
+#Disable Warning IDE1006 ' Naming Styles
     Public Function getXML() As XmlDocument
+#Enable Warning IDE1006 ' Naming Styles
         msgError = ""
         Try
             oXML = New XmlDocument
@@ -23,12 +27,16 @@ Public Class CXMLData
         Catch ex As Exception
             msgError = ex.Message
         End Try
-        Return oXml
+        Return oXML
     End Function
 End Class
 Public Class CJsonData
+#Disable Warning IDE1006 ' Naming Styles
     Public Property source As String
+#Enable Warning IDE1006 ' Naming Styles
+#Disable Warning IDE1006 ' Naming Styles
     Public Property data As Object
+#Enable Warning IDE1006 ' Naming Styles
 End Class
 Public Class CTestDate
     Private m_DocDate As Date

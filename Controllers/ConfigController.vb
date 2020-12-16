@@ -418,7 +418,7 @@ Namespace Controllers
         Function SetLogOut() As ActionResult
             Dim userID As String
 
-            If Not Request.QueryString("Code") Is Nothing Then
+            If Request.QueryString("Code") IsNot Nothing Then
                 userID = Request.QueryString("Code").ToString
             Else
                 userID = GetSession("CurrUser")
@@ -536,12 +536,13 @@ Namespace Controllers
                         End If
                         Dim oData = New CCompany(GetSession("ConnJob")).GetData(String.Format(" WHERE LoginName='{0}' AND LoginPassword='{1}' ", cName, cPass))
                         If oData.Count > 0 Then
-                            Dim oUser = New CUser()
-                            oUser.UserID = cName
-                            oUser.TName = oData(0).NameThai
-                            oUser.EName = oData(0).NameEng
-                            oUser.UPassword = cPass
-                            oUser.UsedLanguage = oData(0).UsedLanguage
+                            Dim oUser = New CUser With {
+                                .UserID = cName,
+                                .TName = oData(0).NameThai,
+                                .EName = oData(0).NameEng,
+                                .UPassword = cPass,
+                                .UsedLanguage = oData(0).UsedLanguage
+                            }
 
                             Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
                             Dim oLogin = New CWebLogin(cnMas).GetData(String.Format(" WHERE CustID='{0}' AND AppID='JOBTRACKING' AND UserLogIN='{1}'", My.MySettings.Default.LicenseTo.ToString, cName))
@@ -560,14 +561,15 @@ Namespace Controllers
                                 oOld.FromIP = Request.UserHostAddress
                                 oOld.SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oOld.CustID, oOld.AppID, oOld.UserLogIN))
                             Else
-                                Dim oNew = New CWebLogin(cnMas)
-                                oNew.CustID = My.MySettings.Default.LicenseTo.ToString
-                                oNew.AppID = "JOBTRACKING"
-                                oNew.UserLogIN = cName
-                                oNew.SessionID = Session.SessionID
-                                oNew.FromIP = Request.UserHostAddress
-                                oNew.LoginDateTime = DateTime.Now
-                                oNew.ExpireDateTime = DateTime.Now.AddMinutes(20)
+                                Dim oNew = New CWebLogin(cnMas) With {
+                                    .CustID = My.MySettings.Default.LicenseTo.ToString,
+                                    .AppID = "JOBTRACKING",
+                                    .UserLogIN = cName,
+                                    .SessionID = Session.SessionID,
+                                    .FromIP = Request.UserHostAddress,
+                                    .LoginDateTime = DateTime.Now,
+                                    .ExpireDateTime = DateTime.Now.AddMinutes(20)
+                                }
                                 oNew.SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oNew.CustID, oNew.AppID, oNew.UserLogIN))
                                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_TRACKING", cName, DateTime.UtcNow.ToString(), False)
                             End If
@@ -599,12 +601,13 @@ Namespace Controllers
                         End If
                         Dim oData = New CVender(GetSession("ConnJob")).GetData(String.Format(" WHERE LoginName='{0}' AND LoginPassword='{1}' ", vName, vPass))
                         If oData.Count > 0 Then
-                            Dim oUser = New CUser()
-                            oUser.UserID = vName
-                            oUser.TName = oData(0).TName
-                            oUser.EName = oData(0).English
-                            oUser.UPassword = vPass
-                            oUser.UsedLanguage = GetSession("CurrentLang").ToString
+                            Dim oUser = New CUser With {
+                                .UserID = vName,
+                                .TName = oData(0).TName,
+                                .EName = oData(0).English,
+                                .UPassword = vPass,
+                                .UsedLanguage = GetSession("CurrentLang").ToString
+                            }
 
                             Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
                             Dim oLogin = New CWebLogin(cnMas).GetData(String.Format(" WHERE CustID='{0}' AND AppID='JOBVENDER' AND UserLogIN='{1}'", My.MySettings.Default.LicenseTo.ToString, vName))
@@ -623,14 +626,15 @@ Namespace Controllers
                                 oOld.FromIP = Request.UserHostAddress
                                 oOld.SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oOld.CustID, oOld.AppID, oOld.UserLogIN))
                             Else
-                                Dim oNew = New CWebLogin(cnMas)
-                                oNew.CustID = My.MySettings.Default.LicenseTo.ToString
-                                oNew.AppID = "JOBVENDER"
-                                oNew.UserLogIN = vName
-                                oNew.SessionID = Session.SessionID
-                                oNew.FromIP = Request.UserHostAddress
-                                oNew.LoginDateTime = DateTime.Now
-                                oNew.ExpireDateTime = DateTime.Now.AddMinutes(20)
+                                Dim oNew = New CWebLogin(cnMas) With {
+                                    .CustID = My.MySettings.Default.LicenseTo.ToString,
+                                    .AppID = "JOBVENDER",
+                                    .UserLogIN = vName,
+                                    .SessionID = Session.SessionID,
+                                    .FromIP = Request.UserHostAddress,
+                                    .LoginDateTime = DateTime.Now,
+                                    .ExpireDateTime = DateTime.Now.AddMinutes(20)
+                                }
                                 oNew.SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oNew.CustID, oNew.AppID, oNew.UserLogIN))
                                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_VENDER", vName, DateTime.UtcNow.ToString(), False)
                             End If
@@ -703,14 +707,15 @@ Namespace Controllers
                                                     oOld.FromIP = Request.UserHostAddress
                                                     oOld.SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oOld.CustID, oOld.AppID, oOld.UserLogIN))
                                                 Else
-                                                    Dim oNew = New CWebLogin(cnMas)
-                                                    oNew.CustID = My.MySettings.Default.LicenseTo.ToString
-                                                    oNew.AppID = appName
-                                                    oNew.UserLogIN = oData(0).UserID
-                                                    oNew.SessionID = Session.SessionID
-                                                    oNew.FromIP = Request.UserHostAddress
-                                                    oNew.LoginDateTime = DateTime.Now
-                                                    oNew.ExpireDateTime = DateTime.Now.AddMinutes(20)
+                                                    Dim oNew = New CWebLogin(cnMas) With {
+                                                        .CustID = My.MySettings.Default.LicenseTo.ToString,
+                                                        .AppID = appName,
+                                                        .UserLogIN = oData(0).UserID,
+                                                        .SessionID = Session.SessionID,
+                                                        .FromIP = Request.UserHostAddress,
+                                                        .LoginDateTime = DateTime.Now,
+                                                        .ExpireDateTime = DateTime.Now.AddMinutes(20)
+                                                    }
                                                     oNew.SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oNew.CustID, oNew.AppID, oNew.UserLogIN))
                                                     Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_SHIPPING", oData(0).UserID, DateTime.UtcNow.ToString(), False)
                                                 End If
@@ -746,11 +751,11 @@ Namespace Controllers
         End Function
         Function RemovePicture() As ActionResult
             Dim path As String = ""
-            If Not Request.QueryString("Path") Is Nothing Then
+            If Request.QueryString("Path") IsNot Nothing Then
                 path = Request.QueryString("Path").ToString
             End If
             Dim file As String = ""
-            If Not Request.QueryString("Name") Is Nothing Then
+            If Request.QueryString("Name") IsNot Nothing Then
                 file = Request.QueryString("Name").ToString
             End If
             Dim msg As String = ""
@@ -1105,7 +1110,7 @@ Namespace Controllers
         End Function
         Function ImportFromFile() As ActionResult
             Dim path As String = ""
-            If Not Request.QueryString("Path") Is Nothing Then
+            If Request.QueryString("Path") IsNot Nothing Then
                 path = Request.QueryString("Path").ToString
             End If
 
@@ -1530,11 +1535,11 @@ Namespace Controllers
         End Function
         Function GetFileList() As ActionResult
             Dim path As String = ""
-            If Not Request.QueryString("Path") Is Nothing Then
+            If Request.QueryString("Path") IsNot Nothing Then
                 path = Request.QueryString("Path").ToString
             End If
             Dim ext As String = "*"
-            If Not Request.QueryString("Ext") Is Nothing Then
+            If Request.QueryString("Ext") IsNot Nothing Then
                 ext = Request.QueryString("Ext").ToString
             End If
             Dim data = JsonConvert.SerializeObject(GetUploadFiles(path, ext))

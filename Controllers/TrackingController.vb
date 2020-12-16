@@ -42,22 +42,23 @@ Namespace Controllers
                                 Dim path = System.IO.Path.Combine(saveFolder, filename)
                                 File.SaveAs(path)
 
-                                Dim oFile As New CDocument(GetSession("ConnJob"))
-                                oFile.BranchCode = branch
-                                oFile.JNo = job
-                                oFile.ItemNo = 0
-                                oFile.DocType = typ
-                                oFile.FileType = System.IO.Path.GetExtension(filename).ToLower
-                                oFile.FilePath = saveTo + "/" + job + "_" + typ + "/" + filename
-                                oFile.DocNo = filename
-                                oFile.Description = saveFolder + "/" + filename
-                                oFile.DocDate = DateTime.MinValue
-                                oFile.FileSize = File.ContentLength
-                                oFile.UploadBy = GetSession("CurrUser")
-                                oFile.UploadDate = DateTime.Now
-                                oFile.CheckedBy = ""
-                                oFile.CheckedDate = DateTime.MinValue
-                                oFile.ApproveBy = ""
+                                Dim oFile As New CDocument(GetSession("ConnJob")) With {
+                                    .BranchCode = branch,
+                                    .JNo = job,
+                                    .ItemNo = 0,
+                                    .DocType = typ,
+                                    .FileType = System.IO.Path.GetExtension(filename).ToLower,
+                                    .FilePath = saveTo + "/" + job + "_" + typ + "/" + filename,
+                                    .DocNo = filename,
+                                    .Description = saveFolder + "/" + filename,
+                                    .DocDate = DateTime.MinValue,
+                                    .FileSize = File.ContentLength,
+                                    .UploadBy = GetSession("CurrUser"),
+                                    .UploadDate = DateTime.Now,
+                                    .CheckedBy = "",
+                                    .CheckedDate = DateTime.MinValue,
+                                    .ApproveBy = ""
+                                }
                                 oFile.CheckedDate = DateTime.MinValue
                                 oFile.CheckNote = ""
                                 oFile.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo={2}", branch, job, oFile.ItemNo))

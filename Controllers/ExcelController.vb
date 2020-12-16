@@ -13,7 +13,7 @@ Namespace Controllers
             Return View()
         End Function
         Function ReadExcelFile() As ActionResult
-            If Not Request.QueryString("ID") Is Nothing Then
+            If Request.QueryString("ID") IsNot Nothing Then
                 Dim filename = Request.QueryString("ID").ToString
                 Dim path = System.IO.Path.Combine(Server.MapPath("~/Resource/Import"), filename)
                 If System.IO.File.Exists(path) Then
@@ -70,7 +70,7 @@ Namespace Controllers
         <ActionName("Index")>
         Function Index_Post() As ActionResult
             Dim tbName = "Job_Order"
-            If Not Request.QueryString("ID") Is Nothing Then
+            If Request.QueryString("ID") IsNot Nothing Then
                 tbName = Request.QueryString("ID").ToString()
             End If
             Dim oTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL("SELECT * FROM " + tbName)

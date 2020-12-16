@@ -20,7 +20,7 @@ Namespace Controllers
             Return GetView("Export", "MODULE_REP")
         End Function
         Function Preview() As ActionResult
-            If Not Request.QueryString("Layout") Is Nothing Then
+            If Request.QueryString("Layout") IsNot Nothing Then
                 ViewBag.Layout = Request.QueryString("Layout").ToString()
             Else
                 ViewBag.Layout = ""
@@ -28,11 +28,8 @@ Namespace Controllers
             Return GetView("Preview" & ViewBag.Layout)
         End Function
         Function GetReportByConfig(<FromBody()> data As CReport) As ActionResult
-            Dim sqlM As String = ""
             Dim sqlW As String = ""
-            Dim fldGroup = ""
             Dim groupDatas = ""
-            Dim fldLength = ""
             Dim cliteria As String = data.ReportCliteria
             Try
                 Dim fldWhere = (GetValueConfig("REPORT_" & data.ReportCode, "MAIN_CLITERIA") & ",,,,,,,,").Split(",")
@@ -40,9 +37,9 @@ Namespace Controllers
                 If sqlW <> "" Then
                     sqlW = fldWhere(0) & " " & sqlW
                 End If
-                sqlM = GetValueConfig("REPORT_" & data.ReportCode, "MAIN_SQL")
-                fldGroup = GetValueConfig("REPORT_" & data.ReportCode, "GROUP_FIELD")
-                fldLength = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_LENGTH")
+                Dim sqlM As String = GetValueConfig("REPORT_" & data.ReportCode, "MAIN_SQL")
+                Dim fldGroup As String = GetValueConfig("REPORT_" & data.ReportCode, "GROUP_FIELD")
+                Dim fldLength As String = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_LENGTH")
                 Dim fldSum = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_SUM")
                 Dim fldNoSum = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_NOSUM")
                 Dim dsGroup = GetValueConfig("REPORT_" & data.ReportCode, "GROUP_DATASOURCE")
@@ -64,14 +61,11 @@ Namespace Controllers
             Dim sqlW As String = ""
             Dim fldGroup = ""
             Dim groupDatas = ""
-            Dim fldLength = ""
-            Dim fldSum = ""
-            Dim fldNoSum = ""
             Dim cliteria As String = data.ReportCliteria
             Try
-                fldLength = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_LENGTH")
-                fldSum = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_SUM")
-                fldNoSum = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_NOSUM")
+                Dim fldLength As String = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_LENGTH")
+                Dim fldSum As String = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_SUM")
+                Dim fldNoSum As String = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_NOSUM")
                 Select Case data.ReportCode
                     Case "JOBDAILY"
                         fldGroup = "LoadDate"

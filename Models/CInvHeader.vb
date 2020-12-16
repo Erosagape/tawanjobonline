@@ -718,7 +718,8 @@ Public Class CInvHeader
         Return lst
     End Function
     Public Function CancelData(cn As SqlConnection) As String
-        Dim msg As String = ""
+        Dim msg As String
+
         Try
             Using cm As New SqlCommand()
                 cm.Connection = cn

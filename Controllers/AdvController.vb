@@ -48,23 +48,24 @@ Namespace Controllers
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectExpenseFromQuo() & tSqlW)
                 If oData.Rows.Count > 0 Then
                     For Each row As DataRow In oData.Rows
-                        Dim oRow As New CClearExp(GetSession("ConnJob"))
-                        oRow.BranchCode = row("BranchCode").ToString
-                        oRow.JNo = row("JNo").ToString
-                        oRow.SICode = row("SICode").ToString
-                        oRow.SDescription = row("NameThai").ToString
-                        oRow.TRemark = row("TRemark").ToString
-                        oRow.Status = If(row("IsRequired").ToString = "1", "R", "O")
-                        oRow.CurrencyCode = row("CurrencyCode").ToString
-                        oRow.ExchangeRate = row("CurrencyRate")
-                        oRow.AmountCharge = row("ChargeAmt")
-                        oRow.Qty = row("QtyBegin")
-                        oRow.QtyUnit = row("UnitCheck").ToString
-                        oRow.AmtVatRate = row("VatRate")
-                        oRow.AmtVat = row("VatAmt")
-                        oRow.AmtWhtRate = row("TaxRate")
-                        oRow.AmtWht = row("TaxAmt")
-                        oRow.AmtTotal = row("TotalAmt")
+                        Dim oRow As New CClearExp(GetSession("ConnJob")) With {
+                            .BranchCode = row("BranchCode").ToString,
+                            .JNo = row("JNo").ToString,
+                            .SICode = row("SICode").ToString,
+                            .SDescription = row("NameThai").ToString,
+                            .TRemark = row("TRemark").ToString,
+                            .Status = If(row("IsRequired").ToString = "1", "R", "O"),
+                            .CurrencyCode = row("CurrencyCode").ToString,
+                            .ExchangeRate = row("CurrencyRate"),
+                            .AmountCharge = row("ChargeAmt"),
+                            .Qty = row("QtyBegin"),
+                            .QtyUnit = row("UnitCheck").ToString,
+                            .AmtVatRate = row("VatRate"),
+                            .AmtVat = row("VatAmt"),
+                            .AmtWhtRate = row("TaxRate"),
+                            .AmtWht = row("TaxAmt"),
+                            .AmtTotal = row("TotalAmt")
+                        }
                         Dim msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode))
                     Next
                 End If

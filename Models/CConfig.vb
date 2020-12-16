@@ -72,10 +72,11 @@ Public Class CConfig
 
                 Using rd As SqlDataReader = New SqlCommand("SELECT * FROM Mas_Config " & pSqlWhere, cn).ExecuteReader
                     While rd.Read
-                        Dim data As New CConfig(m_ConnStr)
-                        data.ConfigCode = rd.GetString(0)
-                        data.ConfigKey = rd.GetString(1)
-                        data.ConfigValue = rd.GetString(2)
+                        Dim data As New CConfig(m_ConnStr) With {
+                            .ConfigCode = rd.GetString(0),
+                            .ConfigKey = rd.GetString(1),
+                            .ConfigValue = rd.GetString(2)
+                        }
                         lst.Add(data)
                     End While
                 End Using

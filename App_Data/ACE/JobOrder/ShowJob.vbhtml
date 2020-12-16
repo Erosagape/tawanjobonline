@@ -244,6 +244,7 @@ End Code
                             <div style="display:flex;flex-direction:column">
                                 <div>
                                     <label id="lblProjectName" for="txtProjectName">Project Name :</label>
+                                    <br/>
                                     <textarea id="txtProjectName" style="width:70%" tabindex="26"></textarea>
                                     <input type="button" id="btnBrowseProj" value="..." onclick="SearchData('ProjectName')" />
                                 </div>
@@ -420,7 +421,11 @@ End Code
                             <input type="button" id="btnBrowseShipping" value="..." onclick="SearchData('user')" />
                             <input type="text" id="txtShippingName" style="width:300px" disabled />
                             <br />
-                            <button id="btnLinkPaperless" class="btn btn-success" onclick="LoadPaperless()">Load Data From TAWAN Paperless</button>
+                            <button id="btnLinkPaperless" class="btn btn-success" onclick="LoadPaperless()">Load Data From Paperless</button>
+                            <select id="cboDBType">
+                                <option id="JANDT">TAWAN</option>
+                                <option id="ECS" selected>ECS</option>
+                            </select>
                         </div>
                     </div>
                     <br />
@@ -549,6 +554,9 @@ End Code
                     </div>
                 </div>
                 <div id="tabtracking" class="tab-pane fade">
+                    <a href="#" class="btn btn-primary" id="btnPrintClr" onclick="PrintForm()">
+                        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrintClr">Print Form Clear</b>
+                    </a>
                     <input type="checkbox" id="chkCancel" onchange="ShowTracking($('#txtBranchCode').val(), $('#txtJNo').val());">Show Cancelled Document
                     <table id="tbTracking" class="table table-responsive">
                         <thead>
@@ -1555,6 +1563,91 @@ End Code
         });
     }
     function LoadPaperless() {
+        let db = $('#cboDBType').val();
+        switch (db) {
+            case 'JANDT':
+                LoadPaperlessJANDT();
+                break;
+            case 'ECS':
+                if (rec.JobType == 1) {
+                    LoadPaperlessECSImport();
+                } else {
+                    LoadPaperlessECSExport();
+                }
+                break;
+        }
+    }
+    function LoadPaperlessECSExport() {
+        let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
+        $.get(path + 'JobOrder/GetPaperless'+ url).done(function (r) {
+            if (r.length > 0) {
+                $('#txtDeclareNo').val(r[0].DecNO);
+                $('#txtCustInvNo').val(r[0].InvNOList);
+                $('#txtInvCountry').val(r[0].PurchaseCountry);
+                $('#txtInvFCountry').val(r[0].DestCountry);
+                if (r[0].DepDate !== null) $('#txtETDDate').val(CDateEN(r[0].DepDate));
+                $('#txtInvCurrency').val(r[0].CurCode);
+                $('#txtInvCurRate').val(r[0].CurRate);
+                $('#txtInvTotal').val(r[0].FOBValueF);                
+                $('#txtVesselName').val(r[0].VesselName + (r[0].VoyNumber !== '' ? ' V.' + r[0].VoyNumber : ''));
+                $('#txtReleasePort').val(r[0].ReleasePort);
+                $('#txtPortNo').val(r[0].LoadedPort);
+                $('#txtHAWB').val(r[0].HouseBL);
+                $('#txtMAWB').val(r[0].MasterBL);
+                $('#txtNetWeight').val(r[0].TotalNetW);
+                $('#txtGrossWeight').val(r[0].TotalGrossW);
+                $('#txtWeightUnit').val(r[0].WeightUnit);
+                $('#txtInvQty').val(r[0].TotalPackageAmt);
+                $('#txtInvUnit').val(r[0].TotalPackageUnit);                
+
+                if (r[0].RecDate !== null) $('#txtEDIDate').val(CDateEN(r[0].RecDate));
+                if(r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));
+                if (r[0].UDateRelease !== null) $('#txtDutyDate').val(CDateEN(r[0].UDateRelease));
+                if (r[0].UDateActual !== null) $('#txtClearDate').val(CDateEN(r[0].UDateActual));
+
+                ShowMessage('Update Complete');
+            } else {
+                ShowMessage('Data not found', true);
+            }
+        });
+    }
+    function LoadPaperlessECSImport() {
+        let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
+        $.get(path + 'JobOrder/GetPaperless'+ url).done(function (r) {
+            if (r.length > 0) {
+                $('#txtDeclareNo').val(r[0].DecNO);
+                $('#txtCustInvNo').val(r[0].InvNOList);
+                $('#txtInvFCountry').val(r[0].ConsCountry);
+                $('#txtInvCountry').val(r[0].OriginCountry);
+                if (r[0].ArrivalDate !== null) $('#txtETADate').val(CDateEN(r[0].ArrivalDate));
+                $('#txtInvCurrency').val(r[0].CurCode);
+                $('#txtInvCurRate').val(r[0].CurRate);
+                $('#txtInvTotal').val(r[0].CIFValueF);
+                $('#txtDutyAmt').val(r[0].TotalTax);
+                $('#txtVesselName').val(r[0].VesselName + (r[0].VoyNumber !== '' ? ' V.' + r[0].VoyNumber : ''));
+                $('#txtReleasePort').val(r[0].ReleasePort);
+                $('#txtPortNo').val(r[0].DischargePort);
+                $('#txtHAWB').val(r[0].HouseBL);
+                $('#txtMAWB').val(r[0].MasterBL);
+                $('#txtNetWeight').val(r[0].TotalNetW);
+                $('#txtGrossWeight').val(r[0].TotalGrossW);
+                $('#txtWeightUnit').val(r[0].WeightUnit);
+                $('#txtInvQty').val(r[0].TotalPackageAmt);
+                $('#txtInvUnit').val(r[0].TotalPackageUnit);                
+
+                if (r[0].RecDate !== null) $('#txtEDIDate').val(CDateEN(r[0].RecDate));
+                if(r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));
+                if (r[0].UDateRelease !== null) $('#txtDutyDate').val(CDateEN(r[0].UDateRelease));
+                if(r[0].UDateActual !==null) $('#txtClearDate').val(CDateEN(r[0].UDateActual));
+
+                ShowMessage('Update Complete');
+            } else {
+                ShowMessage('Data not found', true);
+            }
+        });
+
+    }
+    function LoadPaperlessJANDT() {
         let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
         $.get(path + 'JobOrder/GetPaperless'+ url).done(function (r) {
             if (r.length > 0) {
@@ -1595,5 +1688,8 @@ End Code
                 ShowMessage('Data not found', true);
             }
         });
+    }
+    function PrintForm() {
+        window.open(path + 'Clr/FormEntry?branch=' + $('#txtBranchCode').val() + '&job=' + $('#txtJNo').val());
     }
 </script>

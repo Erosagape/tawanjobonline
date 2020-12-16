@@ -283,7 +283,9 @@ Public Class CVoucherSub
         End Set
     End Property
     Private m_acType As String
+#Disable Warning IDE1006 ' Naming Styles
     Public Property acType As String
+#Enable Warning IDE1006 ' Naming Styles
         Get
             Return m_acType
         End Get

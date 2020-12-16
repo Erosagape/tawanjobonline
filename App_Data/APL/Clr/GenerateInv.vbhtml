@@ -442,7 +442,7 @@ End Code
 
     }
     function SetGridAdv(isAlert) {
-        let w = '';
+        let w = '&status=CLOSE';
         if ($('#txtJobNo').val() !== "") {
             w = w + '&job=' + $('#txtJobNo').val();
         }

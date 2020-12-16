@@ -655,8 +655,8 @@ End Code
             ShowMessage('Data must not have length less than 3', true);
             return;
         }
-        if ($('#txtBranch').val().trim().length > 4) {
-            ShowMessage('Branch must not have length over 4', true);
+        if ($('#txtBranch').val().trim().length > 5) {
+            ShowMessage('Branch must not have length over 5', true);
             return;
         }
         var obj = {

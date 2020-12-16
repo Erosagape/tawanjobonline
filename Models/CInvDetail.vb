@@ -367,9 +367,10 @@ Public Class CInvDetail
                             dr("VATRate") = Me.VATRate
 
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
-                            If da.Update(dt) > 0 Then
-                                UpdateTotal(cn)
-                            End If
+                            'If da.Update(dt) > 0 Then
+                            da.Update(dt)
+                            UpdateTotal(cn)
+                            'End If
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "SaveData", Me, False)
                             msg = "Save Complete"
                         End Using
@@ -539,10 +540,10 @@ Public Class CInvDetail
                         cm.CommandText = Sql
                         cm.CommandType = CommandType.Text
                         cm.ExecuteNonQuery()
+                        UpdateTotal(cn)
                         Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvDetail", "UpdateClrDetail", cm.CommandText, False)
                     End If
                 End Using
-                UpdateTotal(cn)
 
                 msg = "Delete Complete"
             Catch ex As Exception

@@ -260,9 +260,10 @@ Public Class CBillHeader
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CBillHeader", "SaveData", Me, False)
                             If Me.CancelProve <> "" Then
-                                Dim o As New CBillDetail(GetSession("ConnJob"))
-                                o.BranchCode = Me.BranchCode
-                                o.BillAcceptNo = Me.BillAcceptNo
+                                Dim o As New CBillDetail(GetSession("ConnJob")) With {
+                                    .BranchCode = Me.BranchCode,
+                                    .BillAcceptNo = Me.BillAcceptNo
+                                }
                                 o.CancelDocument(cn)
                             Else
                                 Me.UpdateData()
@@ -377,8 +378,8 @@ Public Class CBillHeader
         Return lst
     End Function
     Public Sub UpdateData()
-        Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
+            Dim msg As String
             Try
                 cn.Open()
                 Using cm As New SqlCommand()

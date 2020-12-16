@@ -38,7 +38,7 @@ End Code
                     <br />
                     <label id="lblNotifyAddress1"></label>
                     <br />
-                    <label id="lblNotifyAddress2"></label>
+                    <div id="lblNotifyAddress2"></div>
                 </div>
             </div>
             <div style="display:flex;flex-direction:row;">
@@ -211,7 +211,7 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
             $('#lblConsignAddress2').html(CStr(h.ConsignAddress2));
             $('#lblNotifyName').text(h.NotifyName);
             $('#lblNotifyAddress1').text(h.NotifyAddress1);
-            $('#lblNotifyAddress2').text(h.NotifyAddress2);
+            $('#lblNotifyAddress2').html(CStr(h.NotifyAddress2));
             $('#lblVesselName').text(h.VesselName);
             $('#lblMVesselName').text(h.MVesselName);
             $('#lblPackingPlace').text(h.PackingPlace);

@@ -50,26 +50,26 @@ Namespace Controllers
         Function CreateContainer() As ActionResult
             Try
                 Dim branch = ""
-                If Not Request.QueryString("Branch") Is Nothing Then
+                If Request.QueryString("Branch") IsNot Nothing Then
                     branch = Request.QueryString("Branch").ToString
                 Else
                     Return Content("{""result"":{""data"":[],""msg"":""Please input branch""}}", jsonContent)
                 End If
                 Dim book = ""
-                If Not Request.QueryString("Code") Is Nothing Then
+                If Request.QueryString("Code") IsNot Nothing Then
                     book = Request.QueryString("Code").ToString
                 Else
                     Return Content("{""result"":{""data"":[],""msg"":""Please enter some data""}}", jsonContent)
                 End If
                 Dim size = ""
-                If Not Request.QueryString("Size") Is Nothing Then
+                If Request.QueryString("Size") IsNot Nothing Then
                     size = Request.QueryString("Size").ToString
                 Else
                     Return Content("{""result"":{""data"":[],""msg"":""Please select unit""}}", jsonContent)
                 End If
                 Dim route = 0
                 Dim routename = ""
-                If Not Request.QueryString("Route") Is Nothing Then
+                If Request.QueryString("Route") IsNot Nothing Then
                     route = Convert.ToInt32("0" & Request.QueryString("Route").ToString())
                     Dim oRoute = New CTransportRoute(GetSession("ConnJob")).GetData(String.Format(" WHERE LocationID={0}", route))
                     If oRoute.Count > 0 Then
@@ -79,7 +79,7 @@ Namespace Controllers
                     'Return Content("{""result"":{""data"":[],""msg"":""Please select route""}}", jsonContent)
                 End If
                 Dim volume = 0
-                If Not Request.QueryString("Qty") Is Nothing Then
+                If Request.QueryString("Qty") IsNot Nothing Then
                     volume = Convert.ToInt16("0" & Request.QueryString("Qty").ToString)
                 Else
                     Return Content("{""result"":{""data"":[],""msg"":""Value must be more than zero""}}", jsonContent)
@@ -94,20 +94,21 @@ Namespace Controllers
                     End If
                     Dim oList As New List(Of CTransportDetail)
                     For i As Integer = 1 To volume
-                        Dim oRec = New CTransportDetail(GetSession("ConnJob"))
-                        oRec.BranchCode = branch
-                        oRec.BookingNo = book
-                        oRec.JNo = GetValueSQL(GetSession("ConnJob"), String.Format("SELECT JNo FROM Job_LoadInfo WHERE BranchCode='{0}' AND BookingNo='{1}'", branch, book)).Result.ToString()
-                        oRec.CTN_NO = ""
-                        oRec.SealNumber = ""
-                        oRec.TruckNO = ""
-                        oRec.CauseCode = ""
-                        oRec.Comment = ""
-                        oRec.TruckType = ""
-                        oRec.Driver = ""
-                        oRec.LocationID = route
-                        oRec.Location = routename
-                        oRec.ShippingMark = ""
+                        Dim oRec = New CTransportDetail(GetSession("ConnJob")) With {
+                            .BranchCode = branch,
+                            .BookingNo = book,
+                            .JNo = GetValueSQL(GetSession("ConnJob"), String.Format("SELECT JNo FROM Job_LoadInfo WHERE BranchCode='{0}' AND BookingNo='{1}'", branch, book)).Result.ToString(),
+                            .CTN_NO = "",
+                            .SealNumber = "",
+                            .TruckNO = "",
+                            .CauseCode = "",
+                            .Comment = "",
+                            .TruckType = "",
+                            .Driver = "",
+                            .LocationID = route,
+                            .Location = routename,
+                            .ShippingMark = ""
+                        }
                         oRec.ProductDesc = GetValueSQL(GetSession("ConnJob"), String.Format("SELECT InvProduct FROM Job_Order WHERE BranchCode='{0}' AND JNo='{1}'", branch, oRec.JNo)).Result.ToString()
                         oRec.CTN_SIZE = size
                         oRec.ProductQty = 0
@@ -157,16 +158,16 @@ Namespace Controllers
             Try
                 Dim tSqlW As String = ""
                 Dim branch = ""
-                If Not Request.QueryString("Branch") Is Nothing Then
+                If Request.QueryString("Branch") IsNot Nothing Then
                     branch = Request.QueryString("Branch").ToString
-                    tSqlW = tSqlW & String.Format(" AND h.BranchCode='{0}' ", branch)
+                    tSqlW &= String.Format(" AND h.BranchCode='{0}' ", branch)
                 Else
                     Return Content("{""result"":{""data"":[],""msg"":""Please enter some data""}}", jsonContent)
                 End If
                 Dim job = ""
-                If Not Request.QueryString("Job") Is Nothing Then
+                If Request.QueryString("Job") IsNot Nothing Then
                     job = Request.QueryString("Job").ToString
-                    tSqlW = tSqlW & String.Format(" AND h.JNo='{0}' ", job)
+                    tSqlW &= String.Format(" AND h.JNo='{0}' ", job)
                 Else
                     Return Content("{""result"":{""data"":[],""msg"":""Please select job number""}}", jsonContent)
                 End If
@@ -273,8 +274,9 @@ Namespace Controllers
             If Not IsNothing(Request.QueryString("Code")) Then
                 tSqlw &= String.Format(" AND QNo='{0}' ", Request.QueryString("Code").ToString)
             End If
-            Dim custcode As String = ""
-            Dim custbranch As String = ""
+
+            Dim custcode As String
+            Dim custbranch As String
             If Not IsNothing(Request.QueryString("Cust")) Then
                 custcode = Request.QueryString("Cust").ToString().Split("|")(0)
                 custbranch = Request.QueryString("Cust").ToString().Split("|")(1)
@@ -1026,7 +1028,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 End If
                 Dim cancel As Boolean = False
                 If Not IsNothing(Request.QueryString("Cancel")) Then
-                    cancel = If(Request.QueryString("Cancel").ToString() = "Y", True, False)
+                    cancel = Request.QueryString("Cancel").ToString() = "Y"
                 End If
                 Dim sqlm As String = SQLSelectDocSummary(cancel)
                 If Not IsNothing(Request.QueryString("Summary")) Then
@@ -1164,7 +1166,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 End If
                 Dim cancel As Boolean = False
                 If Not IsNothing(Request.QueryString("Cancel")) Then
-                    cancel = If(Request.QueryString("Cancel").ToString() = "Y", True, False)
+                    cancel = Request.QueryString("Cancel").ToString() = "Y"
                 End If
                 Dim sqlm As String = SQLSelectJobSummary(tSqlW, cancel)
                 If Not IsNothing(Request.QueryString("Summary")) Then
@@ -1236,7 +1238,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             End Try
         End Function
         Function GetShipBy() As ActionResult
-            If Not Request.QueryString("Type") Is Nothing Then
+            If Request.QueryString("Type") IsNot Nothing Then
                 Dim tsqlW As String = If(Request.QueryString("Type").ToString = "", "", " AND EXISTS(select b.ConfigValue from Mas_Config b where b.ConfigCode='SHIP_BY_FILTER' and b.ConfigKey='" & Request.QueryString("Type").ToString & "' AND CHARINDEX(a.ConfigKey,b.ConfigValue)>0)")
                 Dim odata = New CConfig(GetSession("ConnJob")).GetData(" a WHERE a.ConfigCode='SHIP_BY' " & tsqlW)
                 Dim json = JsonConvert.SerializeObject(odata)
@@ -1515,9 +1517,6 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 Return Content(json, jsonContent)
             End Try
         End Function
-        Function _SetJobData(<FromBody()> ByVal data As CJobOrder) As ActionResult
-            Return Content("{""msg"":" & JsonConvert.SerializeObject(data) & "}", jsonContent)
-        End Function
         Function SetJobStatus(<FromBody()> ByVal data As String()) As HttpResponseMessage
             Try
                 ViewBag.User = GetSession("CurrUser").ToString()
@@ -1609,7 +1608,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             Dim tSqlW As String = ""
             Dim bLog As Boolean = True
             If Not IsNothing(Request.QueryString("NoLog")) Then
-                bLog = If(Request.QueryString("NoLog").ToString = "Y", False, True)
+                bLog = Request.QueryString("NoLog").ToString IsNot "Y"
             End If
             If Not IsNothing(Request.QueryString("JType")) Then
                 tSqlW &= " AND j.JobType=" & Request.QueryString("JType") & ""
@@ -1815,19 +1814,19 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 Dim msg As String = New CUtil(GetSession("ConnJob")).ExecuteSQL(SQLUpdateJobStatus(""), False)
                 Dim tSqlw1 As String = ""
                 Dim bCheck As Boolean = False
-                If Not Request.QueryString("Period") Is Nothing Then
+                If Request.QueryString("Period") IsNot Nothing Then
                     bCheck = True
                     Dim yy = Request.QueryString("Period").ToString().Split("/")(1)
                     Dim mm = Convert.ToInt16(Request.QueryString("Period").ToString().Split("/")(0))
                     tSqlw1 = " WHERE Year(j.DocDate)=" & yy & " AND Month(j.DocDate)=" & mm & " "
                 Else
-                    If Not Request.QueryString("DateFrom") Is Nothing Then
+                    If Request.QueryString("DateFrom") IsNot Nothing Then
                         If Request.QueryString("DateFrom").ToString() <> "" Then
                             bCheck = True
                             tSqlw1 = " WHERE j.DutyDate>=Convert(datetime,'" & Request.QueryString("DateFrom").ToString() & " 00:00:00',102) "
                         End If
                     End If
-                    If Not Request.QueryString("DateTo") Is Nothing Then
+                    If Request.QueryString("DateTo") IsNot Nothing Then
                         If Request.QueryString("DateTo").ToString() <> "" Then
                             bCheck = True
                             If tSqlw1 <> "" Then tSqlw1 &= " AND " Else tSqlw1 = " WHERE "
@@ -1835,7 +1834,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                         End If
                     End If
                 End If
-                If Not Request.QueryString("ShipBy") Is Nothing Then
+                If Request.QueryString("ShipBy") IsNot Nothing Then
                     If bCheck Then
                         tSqlw1 &= " AND "
                     Else
@@ -1844,7 +1843,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     End If
                     tSqlw1 &= " j.ShipBy=" & Request.QueryString("ShipBy").ToString & " "
                 End If
-                If Not Request.QueryString("JobType") Is Nothing Then
+                If Request.QueryString("JobType") IsNot Nothing Then
                     If bCheck Then
                         tSqlw1 &= " AND "
                     Else
@@ -1853,7 +1852,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     End If
                     tSqlw1 &= " j.JobType=" & Request.QueryString("JobType").ToString & " "
                 End If
-                If Not Request.QueryString("Cust") Is Nothing Then
+                If Request.QueryString("Cust") IsNot Nothing Then
                     If bCheck Then
                         tSqlw1 &= " AND "
                     Else
@@ -1962,19 +1961,19 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 Dim msg As String = New CUtil(GetSession("ConnJob")).ExecuteSQL(SQLUpdateJobStatus(""), False)
                 Dim tSqlw1 As String = ""
                 Dim bCheck As Boolean = False
-                If Not Request.QueryString("Period") Is Nothing Then
+                If Request.QueryString("Period") IsNot Nothing Then
                     bCheck = True
                     Dim yy = Request.QueryString("Period").ToString().Split("/")(1)
                     Dim mm = Convert.ToInt16(Request.QueryString("Period").ToString().Split("/")(0))
                     tSqlw1 = " WHERE Year(j.DocDate)=" & yy & " AND Month(j.DocDate)=" & mm & " "
                 Else
-                    If Not Request.QueryString("DateFrom") Is Nothing Then
+                    If Request.QueryString("DateFrom") IsNot Nothing Then
                         If Request.QueryString("DateFrom").ToString() <> "" Then
                             bCheck = True
                             tSqlw1 = " WHERE j.DutyDate>=Convert(datetime,'" & Request.QueryString("DateFrom").ToString() & " 00:00:00',102) "
                         End If
                     End If
-                    If Not Request.QueryString("DateTo") Is Nothing Then
+                    If Request.QueryString("DateTo") IsNot Nothing Then
                         If Request.QueryString("DateTo").ToString() <> "" Then
                             bCheck = True
                             If tSqlw1 <> "" Then tSqlw1 &= " AND " Else tSqlw1 = " WHERE "
@@ -1982,7 +1981,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                         End If
                     End If
                 End If
-                If Not Request.QueryString("ShipBy") Is Nothing Then
+                If Request.QueryString("ShipBy") IsNot Nothing Then
                     If bCheck Then
                         tSqlw1 &= " AND "
                     Else
@@ -1991,7 +1990,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     End If
                     tSqlw1 &= " j.ShipBy=" & Request.QueryString("ShipBy").ToString & " "
                 End If
-                If Not Request.QueryString("JobType") Is Nothing Then
+                If Request.QueryString("JobType") IsNot Nothing Then
                     If bCheck Then
                         tSqlw1 &= " AND "
                     Else
@@ -2000,7 +1999,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     End If
                     tSqlw1 &= " j.JobType=" & Request.QueryString("JobType").ToString & " "
                 End If
-                If Not Request.QueryString("Cust") Is Nothing Then
+                If Request.QueryString("Cust") IsNot Nothing Then
                     If bCheck Then
                         tSqlw1 &= " AND "
                     Else
@@ -2350,10 +2349,10 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
 
                 Dim job As String = ""
                 Dim type As Integer = 0
-                If Not Request.QueryString("job") Is Nothing Then
+                If Request.QueryString("job") IsNot Nothing Then
                     job = Request.QueryString("job")
                 End If
-                If Not Request.QueryString("type") Is Nothing Then
+                If Request.QueryString("type") IsNot Nothing Then
                     type = Convert.ToInt16(Request.QueryString("type").ToString()) - 1
                 End If
                 If dbPaperless = "ECS" Then

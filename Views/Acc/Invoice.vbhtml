@@ -913,6 +913,7 @@ End Code
                     $('#txtCancelDate').val(GetToday());
                     $('#txtCancelTime').val(ShowTime(GetTime()));
                     $('#txtCancelProve').val(user);
+                    SaveData();
                 }
             });
         } else {

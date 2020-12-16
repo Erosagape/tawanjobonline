@@ -64,23 +64,24 @@ Namespace Controllers
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectExpenseFromClr() & tSqlW)
                 If oData.Rows.Count > 0 Then
                     For Each row As DataRow In oData.Rows
-                        Dim oRow As New CClearExp(GetSession("ConnJob"))
-                        oRow.BranchCode = row("BranchCode").ToString
-                        oRow.JNo = row("JNo").ToString
-                        oRow.SICode = row("SICode").ToString
-                        oRow.SDescription = row("NameThai").ToString
-                        oRow.TRemark = row("TRemark").ToString
-                        oRow.Status = If(row("IsRequired").ToString = "1", "R", "O")
-                        oRow.CurrencyCode = row("CurrencyCode").ToString
-                        oRow.ExchangeRate = row("CurrencyRate")
-                        oRow.AmountCharge = row("ChargeAmt")
-                        oRow.Qty = row("QtyBegin")
-                        oRow.QtyUnit = row("UnitCheck").ToString
-                        oRow.AmtVatRate = row("VatRate")
-                        oRow.AmtVat = row("VatAmt")
-                        oRow.AmtWhtRate = row("TaxRate")
-                        oRow.AmtWht = row("TaxAmt")
-                        oRow.AmtTotal = row("TotalAmt")
+                        Dim oRow As New CClearExp(GetSession("ConnJob")) With {
+                            .BranchCode = row("BranchCode").ToString,
+                            .JNo = row("JNo").ToString,
+                            .SICode = row("SICode").ToString,
+                            .SDescription = row("NameThai").ToString,
+                            .TRemark = row("TRemark").ToString,
+                            .Status = If(row("IsRequired").ToString = "1", "R", "O"),
+                            .CurrencyCode = row("CurrencyCode").ToString,
+                            .ExchangeRate = row("CurrencyRate"),
+                            .AmountCharge = row("ChargeAmt"),
+                            .Qty = row("QtyBegin"),
+                            .QtyUnit = row("UnitCheck").ToString,
+                            .AmtVatRate = row("VatRate"),
+                            .AmtVat = row("VatAmt"),
+                            .AmtWhtRate = row("TaxRate"),
+                            .AmtWht = row("TaxAmt"),
+                            .AmtTotal = row("TotalAmt")
+                        }
                         Dim msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode))
                     Next
                 End If
@@ -215,7 +216,7 @@ Namespace Controllers
                     Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=6 WHERE BranchCode+'|'+AdvNo in({0})", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
-                        result = Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateClrReceiveFromAdvance(user, docno))
+                        Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateClrReceiveFromAdvance(user, docno))
                         Return New HttpResponseMessage(HttpStatusCode.OK)
                     End If
                 End If
@@ -225,16 +226,16 @@ Namespace Controllers
         End Function
         Function GetClearingReport() As ActionResult
             Dim branch As String = ""
-            If Not Request.QueryString("Branch") Is Nothing Then
+            If Request.QueryString("Branch") IsNot Nothing Then
                 branch = Request.QueryString("Branch").ToString
             End If
             Dim sql As String = SQLSelectClrDetail() & String.Format(" WHERE h.BranchCode='{0}' ", branch)
             Try
-                If Not Request.QueryString("Code") Is Nothing Then
+                If Request.QueryString("Code") IsNot Nothing Then
                     sql &= " AND h.ClrNo='" & Request.QueryString("Code").ToString & "' "
                 End If
 
-                If Not Request.QueryString("Job") Is Nothing Then
+                If Request.QueryString("Job") IsNot Nothing Then
                     sql &= " AND d.JobNo='" & Request.QueryString("Job").ToString & "' AND h.DocStatus<>99 "
                 End If
 
@@ -932,7 +933,7 @@ Namespace Controllers
                                 oClrD.CurRate = oPayH.ExchangeRate
                                 Dim isCost As Boolean = False
                                 If oServ.Count > 0 Then
-                                    isCost = If(oServ(0).IsExpense = 1, True, False)
+                                    isCost = oServ(0).IsExpense = 1
                                 End If
                                 If isCost Then
                                     oClrD.UnitPrice = 0

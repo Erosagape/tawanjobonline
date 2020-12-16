@@ -367,7 +367,7 @@ Public Class CClrHeader
                             dr("ClearCost") = Me.ClearCost
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
-                            UpdateTotal(cn, If(Me.DocStatus = 99, True, False))
+                            UpdateTotal(cn, Me.DocStatus = 99)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CClrHeader", "SaveData", Me, False)
                             msg = "Save Complete"
                         End Using

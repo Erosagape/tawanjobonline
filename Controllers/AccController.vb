@@ -94,7 +94,7 @@ Namespace Controllers
                 End If
 
                 Dim poNumber = ""
-                If Not Request.QueryString("ID") Is Nothing Then
+                If Request.QueryString("ID") IsNot Nothing Then
                     poNumber = Request.QueryString("ID").ToString()
                 End If
 
@@ -154,10 +154,10 @@ Namespace Controllers
             Try
                 Dim poNumber = ""
                 Dim vencode = ""
-                If Not Request.QueryString("Code") Is Nothing Then
+                If Request.QueryString("Code") IsNot Nothing Then
                     vencode = Request.QueryString("Code").ToString()
                 End If
-                If Not Request.QueryString("ID") Is Nothing Then
+                If Request.QueryString("ID") IsNot Nothing Then
                     poNumber = Request.QueryString("ID").ToString()
                 Else
                     ViewBag.User = GetSession("CurrUser").ToString()
@@ -809,8 +809,8 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
         End Function
         Function FormInv() As ActionResult
             Try
-                If Not Request.QueryString("branch") Is Nothing Then
-                    If Not Request.QueryString("code") Is Nothing Then
+                If Request.QueryString("branch") IsNot Nothing Then
+                    If Request.QueryString("code") IsNot Nothing Then
                         Dim oRec = New CInvHeader(GetSession("ConnJob"))
                         Dim sqlw = String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}'", Request.QueryString("branch").ToString, Request.QueryString("code").ToString)
                         Dim oRow = oRec.GetData(sqlw)
@@ -832,8 +832,8 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
         End Function
         Function FormRcp() As ActionResult
             Try
-                If Not Request.QueryString("branch") Is Nothing Then
-                    If Not Request.QueryString("code") Is Nothing Then
+                If Request.QueryString("branch") IsNot Nothing Then
+                    If Request.QueryString("code") IsNot Nothing Then
                         Dim oRec = New CRcpHeader(GetSession("ConnJob"))
                         Dim sqlw = String.Format(" WHERE BranchCode='{0}' AND ReceiptNo='{1}'", Request.QueryString("branch").ToString, Request.QueryString("code").ToString)
                         Dim oRow = oRec.GetData(sqlw)
@@ -853,8 +853,8 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
         End Function
         Function FormTaxInv() As ActionResult
             Try
-                If Not Request.QueryString("branch") Is Nothing Then
-                    If Not Request.QueryString("code") Is Nothing Then
+                If Request.QueryString("branch") IsNot Nothing Then
+                    If Request.QueryString("code") IsNot Nothing Then
                         Dim oRec = New CRcpHeader(GetSession("ConnJob"))
                         Dim sqlw = String.Format(" WHERE BranchCode='{0}' AND ReceiptNo='{1}'", Request.QueryString("branch").ToString, Request.QueryString("code").ToString)
                         Dim oRow = oRec.GetData(sqlw)
@@ -2181,7 +2181,7 @@ ORDER BY a.TName1
                 End If
 
                 If oDet.Count > 0 Then
-                    Dim oJob = New CJobOrder(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo IN(SELECT JobNo FROM Job_ClearDetail WHERE BranchCode='{0}' AND LinkBillNo='{1}')", oDet(0).BranchCode, oDet(0).DocNo))
+                    Dim oJob = New CJobOrder(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo IN(SELECT d.JobNo FROM Job_ClearDetail d inner join Job_ClearHeader h on d.branchcode=h.branchcode and d.clrno=h.clrno WHERE d.BranchCode='{0}' AND d.LinkBillNo='{1}' AND d.JobNo<>'' AND h.DocStatus<>99)", oDet(0).BranchCode, oDet(0).DocNo))
                     jsonJob = JsonConvert.SerializeObject(oJob)
                 End If
                 Return Content("{""invoice"":{""msg"":""" & docNo & """,""header"":[" & jsonH & "],""detail"":[" & jsonD & "],""customer"":[" & jsonC & "],""job"":[" & jsonJob & "]}}", jsonContent)
@@ -2699,6 +2699,14 @@ ORDER BY a.TName1
                 End If
                 If Not IsNothing(Request.QueryString("Cust")) Then
                     tSqlw &= String.Format(" AND c.CustCode='{0}' ", Request.QueryString("Cust").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Status")) Then
+                    If Request.QueryString("Status").ToString = "CLOSE" Then
+                        tSqlw &= " AND c.JobStatus>=3 AND c.JobStatus<90 "
+                    End If
+                    If Request.QueryString("Status").ToString = "ACTIVE" Then
+                        tSqlw &= " AND c.JobStatus<90 "
+                    End If
                 End If
                 tSqlw &= " ORDER BY b.LinkBillNo,b.JobNo,s.IsCredit DESC,b.SDescription"
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectClrForInvoice() & tSqlw)
