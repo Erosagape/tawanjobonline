@@ -340,3 +340,7 @@ ASALocalRun/
 healthchecksdb
 /Resource/Import/IA19100002_JOB
 /Resource/Import
+
+# Web.config 
+/My Project
+Web.config
