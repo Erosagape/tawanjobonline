@@ -13,7 +13,6 @@ End Code
         border-width: thin;
         border-collapse: collapse;
     }
-
 </style>
 <div style="display:flex;float:right;">
     <div style="flex:1;" class="text-right">
@@ -22,7 +21,7 @@ End Code
         <b>DATE :</b> <label id="lblBillDate"></label>
     </div>
 </div>
-<br/>
+<br />
 <div style="display:flex;">
     <div class="text-left">
         <table>
@@ -46,10 +45,10 @@ End Code
     </div>
 </div>
 <p>
-    <br/>
+    <br />
     I HAVE ALREADY RECEIVED BILLING NOTE AND WILL PAY THE AMOUNT FOLLOWED:
 </p>
-<br/>
+<br />
 <table border="1" style="border-style:solid;width:100%;margin-top:5px ">
     <thead>
         <tr>
@@ -78,12 +77,12 @@ End Code
     </tfoot>
 </table>
 <p>
-    <br/>
+    <br />
     I HAVE RECEIVED BILLING NOTE AMOUNT IN GOOD ORDER
 </p>
 <p>
-    <br/>
-    BILL RECEIVER : _______________________________________ 
+    <br />
+    BILL RECEIVER : _______________________________________
     DATE OF COLLECTION : <label id="lblPaymentDueDate"></label>
 </p>
 <div style="display:flex">
@@ -151,8 +150,8 @@ End Code
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtChargeNonVAT, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtChargeVAT, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtVAT, 2) + '</td>';
-                html += '<td style="text-align:right">' + (dr.AmtWHRate == 1? ShowNumber(dr.AmtWH, 2):'0.00') + '</td>';
-                html += '<td style="text-align:right">' + (dr.AmtWHRate !== 1? ShowNumber(dr.AmtWH, 2):'0.00') + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH1, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH3, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtTotal, 2) + '</td>';
                 html += '</tr>';
 

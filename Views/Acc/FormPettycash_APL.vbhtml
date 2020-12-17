@@ -137,7 +137,7 @@ End Code
         </div>
     </div>
     <br />
-    <table border="1">
+    <table id="tbDetail1" border="1">
         <tr>
             <td>Document No.</td>
             <td>Date</td>
@@ -150,11 +150,23 @@ End Code
             <td>WHT</td>
             <td>Status</td>
         </tr>
-        <tbody id="tbDetail"></tbody>
+        <tbody></tbody>
+    </table>
+    <table id="tbDetail2" border="1">
+        <tr>
+            <td>Document No.</td>
+            <td>Date</td>
+            <td>Req.By</td>
+            <td>Description</td>
+            <td>CC</td>
+            <td>Acc</td>
+            <td>Amt</td>
+        </tr>
+        <tbody></tbody>
     </table>
     <br />
     Total By Cost Centre:
-    <table border="1">
+    <table id="tbSummary" border="1">
         <tr>
             <td>Description CC/Acc</td>
             <td>CC</td>
@@ -164,7 +176,7 @@ End Code
             <td>WHT</td>
             <td>Total</td>
         </tr>
-        <tbody id="tbSummary"></tbody>
+        <tbody></tbody>
         <tr>
             <td colspan="3">Total Re-imbursement</td>
             <td style="text-align:right"><label id="lblAmt"></label></td>
@@ -172,14 +184,14 @@ End Code
             <td style="text-align:right"><label id="lblWht"></label></td>
             <td style="text-align:right"><label id="lblNet"></label></td>
         </tr>
-        <tr>
+        <tr id="rowWHTSum3">
             <td colspan="3">With-holding Tax (3%,1.5%)</td>
             <td></td>
             <td></td>
             <td></td>
             <td style="text-align:right"><label id="lblSumWHT3"></label></td>
         </tr>
-        <tr>
+        <tr id="rowWHTSum1">
             <td colspan="3">With-holding Tax (1%)</td>
             <td></td>
             <td></td>
@@ -213,7 +225,14 @@ Re-imbursement Request By ___________________________________ Date _____________
     const branchcode = getQueryString("Branch");
     const bookno = getQueryString("Code");
     const id = getQueryString("DocNo");
-
+    let showDetails = confirm("Show Net Amount only");
+    if (showDetails == true) {
+        $('#tbDetail1').css('display', 'none');
+        $('#rowWHTSum3').css('display', 'none');
+        $('#rowWHTSum1').css('display', 'none');
+    } else {
+        $('#tbDetail2').css('display', 'none');
+    }
     if (branchcode !== '' && (bookno !== '' || id !== '')) {
         let url = 'Acc/GetVoucherDetail?BranchCode=' + branchcode;
         if (bookno !== '') {
@@ -228,16 +247,23 @@ Re-imbursement Request By ___________________________________ Date _____________
                 let htmls = '';
                 for (let s of dt) {
                     if (s.Amt !== null) {
-                    htmls = '<tr>';
-                    htmls += '<td>' + s.GLDesc + '</td>';
-                    htmls += '<td>' + s.CostCenter + '</td>';
-                    htmls += '<td>' + s.AccountCode + '</td>';
-                    htmls += '<td style="text-align:right;">' + ShowNumber(s.Amt, 2) + '</td>';
-                    htmls += '<td style="text-align:right;">' + ShowNumber(s.Vat, 2) + '</td>';
-                    htmls += '<td style="text-align:right;">' + ShowNumber(s.Wht, 2) + '</td>';
-                    htmls += '<td style="text-align:right;">' + ShowNumber(s.Net,2) + '</td>';
-                    htmls += '</tr>';
-                    $('#tbSummary').append(htmls);
+                        htmls = '<tr>';
+                        htmls += '<td>' + s.GLDesc + '</td>';
+                        htmls += '<td>' + s.CostCenter + '</td>';
+                        htmls += '<td>' + s.AccountCode + '</td>';
+                        if (showDetails == true) {
+                            htmls += '<td style="text-align:right;">' + ShowNumber(s.Net, 2) + '</td>';
+                            htmls += '<td style="text-align:right;"></td>';
+                            htmls += '<td style="text-align:right;"></td>';
+                            htmls += '<td style="text-align:right;"></td>';
+                        } else {
+                            htmls += '<td style="text-align:right;">' + ShowNumber(s.Amt, 2) + '</td>';
+                            htmls += '<td style="text-align:right;">' + ShowNumber(s.Vat, 2) + '</td>';
+                            htmls += '<td style="text-align:right;">' + ShowNumber(s.Wht, 2) + '</td>';
+                            htmls += '<td style="text-align:right;">' + ShowNumber(s.Net, 2) + '</td>';
+                        }
+                        htmls += '</tr>';
+                        $('#tbSummary').append(htmls);
 
                     }
                 }
@@ -252,7 +278,6 @@ Re-imbursement Request By ___________________________________ Date _____________
                 }
                 $('#lblBookCode').text(dh.BookCode);
                 $('#lblDate').text(ShowDate(dh.PostedDate));
-                $('#lblAdv').text(ShowNumber(dh.ControlBalance,2));
 
                 let dr = r.data.detail[0].Table;
                 let htmld = '';
@@ -286,28 +311,50 @@ Re-imbursement Request By ___________________________________ Date _____________
                         htmld += '<td>' + d.SDescription + '</td>';
                         htmld += '<td>' + d.CostCenter + '</td>';
                         htmld += '<td>' + d.AccountCost + '</td>';
-                        htmld += '<td style="text-align:right">' + ShowNumber(d.TotalAdvance, 2) + '</td>';
-                        htmld += '<td style="text-align:right">' + ShowNumber(d.TotalVAT, 2) + '</td>';
-                        htmld += '<td style="text-align:right">' + ShowNumber(d.Total50Tavi, 2) + '</td>';
-                        htmld += '<td>Closed</td>';
+                        if (showDetails == true) {
+                            htmld += '<td style="text-align:right">' + ShowNumber((Number(d.TotalAdvance) + Number(d.TotalVAT) - Number(d.Total50Tavi)), 2) + '</td>';
+                        } else {
+                            htmld += '<td style="text-align:right">' + ShowNumber(d.TotalAdvance, 2) + '</td>';
+                            htmld += '<td style="text-align:right">' + ShowNumber(d.TotalVAT, 2) + '</td>';
+                            htmld += '<td style="text-align:right">' + ShowNumber(d.Total50Tavi, 2) + '</td>';
+                            htmld += '<td>Closed</td>';
+                        }
                         htmld += '</tr>';
-                        $('#tbDetail').append(htmld);
+                        if (showDetails == true) {
+                            $('#tbDetail2 tbody').append(htmld);
+                        } else {
+                            $('#tbDetail1 tbody').append(htmld);
+                        }
 
                     }
                 }
-                $('#lblSumBaseVAT').text(ShowNumber(sumBaseVat, 2));
-                $('#lblSumNonVAT').text(ShowNumber(sumNonVat, 2));
-                $('#lblSumVAT').text(ShowNumber(sumVat, 2));
+                if (showDetails == true) {
+                    $('#lblSumNonVAT').text(ShowNumber(sumNet, 2));
+                    $('#lblTotalNET').text(ShowNumber(sumNet, 2));
+                } else {
+                    $('#lblSumNonVAT').text(ShowNumber(sumNonVat, 2));
+                    $('#lblSumBaseVAT').text(ShowNumber(sumBaseVat, 2));
+                    $('#lblSumVAT').text(ShowNumber(sumVat, 2));
+                    $('#lblTotalVAT').text(ShowNumber(sumVat, 2));
+                    $('#lblTotalNET').text(ShowNumber(sumBaseVat + sumNonVat, 2));
+
+                    $('#lblAdv').text(ShowNumber(dh.ControlBalance, 2));
+                }
+
                 $('#lblSumWHT1').text(ShowNumber(sumWht1, 2));
                 $('#lblSumWHT3').text(ShowNumber(sumWht3, 2));
-                $('#lblTotalVAT').text(ShowNumber(sumVat, 2));
-                $('#lblTotalNET').text(ShowNumber(sumBaseVat + sumNonVat, 2));
-                $('#lblAmt').text(ShowNumber(sumBaseVat + sumNonVat, 2));
-                $('#lblVat').text(ShowNumber(sumVat, 2));
-                $('#lblWht').text(ShowNumber(sumWht, 2));
-                $('#lblNet').text(ShowNumber(sumNet, 2));
-                $('#lblBal').text(ShowNumber(dh.ControlBalance - sumNet, 2));
-                $('#lblCashOnhand').text(ShowNumber(dh.ControlBalance - sumNet, 2));
+                if (showDetails == true) {
+                    $('#lblAmt').text(ShowNumber(sumNet, 2));
+                } else {
+                    $('#lblAmt').text(ShowNumber(sumBaseVat + sumNonVat, 2));
+                    $('#lblVat').text(ShowNumber(sumVat, 2));
+                    $('#lblWht').text(ShowNumber(sumWht, 2));
+                    $('#lblNet').text(ShowNumber(sumNet, 2));
+
+                    $('#lblBal').text(ShowNumber(dh.ControlBalance - sumNet, 2));
+                    $('#lblCashOnhand').text(ShowNumber(dh.ControlBalance - sumNet, 2));
+
+                }
             }
 
         });

@@ -1995,9 +1995,15 @@ b.CustBranch, b.BillToCustCode, b.BillToCustBranch, b.ContactName, b.EmpCode, b.
 b.TotalCharge, b.TotalIsTaxCharge, b.TotalIs50Tavi, b.TotalVAT, b.Total50Tavi, b.TotalCustAdv, b.TotalNet, b.ForeignNet, b.BillAcceptDate, b.BillIssueDate, 
 b.Remark1, b.Remark2, b.Remark3, b.Remark4, b.Remark5, b.Remark6, b.Remark7, b.Remark8, b.Remark9, b.Remark10, b.CancelReson, b.CancelProve, 
 b.CancelDate, b.CancelTime, b.ShippingRemark, b.SumDiscount, b.DiscountRate, b.DiscountCal, b.TotalDiscount, b.DueDate, b.CreateDate, c.TaxNumber, 
-c.Title + '' + c.NameThai AS CustTName, c.NameEng AS CustEName
+c.Title + '' + c.NameThai AS CustTName, c.NameEng AS CustEName,d.Total50Tavi1 as AmtWH1,d.Total50Tavi3 as AmtWH3
 FROM dbo.Job_BillAcceptDetail AS a INNER JOIN
-dbo.Job_InvoiceHeader AS b ON a.BranchCode = b.BranchCode AND a.InvNo = b.DocNo INNER JOIN
+dbo.Job_InvoiceHeader AS b ON a.BranchCode = b.BranchCode AND a.InvNo = b.DocNo 
+INNER JOIN (SELECT BranchCode,DocNo,
+SUM(CASE WHEN Rate50Tavi=1 THEN Amt50Tavi ELSE 0 END) as Total50Tavi1,
+SUM(CASE WHEN Rate50Tavi=1 THEN 0 ELSE Amt50Tavi END) as Total50Tavi3
+FROM Job_InvoiceDetail GROUP BY BranchCode,DocNo) d
+ON b.BranchCode=d.BranchCode AND b.DocNo=d.DocNo
+INNER JOIN
 dbo.Mas_Company AS c ON b.CustCode = c.CustCode AND b.CustBranch = c.Branch
 "
     End Function
