@@ -1055,9 +1055,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("Job")) Then
                     job = Request.QueryString("Job").ToString
                 End If
-                Dim status = " WHERE DocStatus<>99 "
+                Dim status = " WHERE IsCancel=0 "
                 If Not IsNothing(Request.QueryString("Cancel")) Then
-                    status = " WHERE " & If(Request.QueryString("Cancel").ToString = "Y", "DocStatus=99", "DocStatus<>99")
+                    status = " WHERE " & If(Request.QueryString("Cancel").ToString = "Y", "IsCancel=1", "IsCancel=0")
                 End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL("SELECT * FROM (" & SQLSelectDocumentByJob(branch, job) & ") as t " & status)
                 Dim json As String = JsonConvert.SerializeObject(oData)

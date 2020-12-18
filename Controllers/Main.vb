@@ -1374,28 +1374,36 @@ on id.BranchCode=r.BranchCode AND id.DocNo=r.InvoiceNo AND id.ItemNo=r.InvoiceIt
     End Function
     Function SQLSelectDocumentByJob(branch As String, job As String) As String
         Dim sql As String = "
-SELECT ISNULL(ah.PaymentDate,ah.AdvDate) as DocDate,ah.AdvNo as DocNo,'ADV' as DocType,ad.SDescription as Expense,ad.AdvNet as Amount,ah.DocStatus
+SELECT ISNULL(ah.PaymentDate,ah.AdvDate) as DocDate,ah.AdvNo as DocNo,'ADV' as DocType,ad.SDescription as Expense,ad.AdvNet as Amount,cf.ConfigValue as DocStatus,ad.ItemNo
+,(CASE WHEN ah.DocStatus=99 THEN 1 ELSE 0 END) as IsCancel
 FROM Job_AdvHeader ah INNER JOIN Job_AdvDetail ad ON ah.BranchCode=ad.BranchCode AND ah.AdvNo=ad.AdvNo 
-WHERE ad.BranchCode='{0}' AND ad.ForJNo='{1}'
+INNER JOIN (SELECT * FROM Mas_Config WHERE ConfigCode='ADV_STATUS') cf ON ah.DocStatus=Convert(int,cf.ConfigKey)
+WHERE ad.BranchCode='{0}' AND ad.ForJNo='{1}' 
 UNION 
-SELECT ISNULL(ch.ApproveDate,ch.ClrDate) as DocDate,ch.ClrNo as DocNo,'CLR' as DocType,cd.SDescription as Expense,cd.BNet as Amount,ch.DocStatus
+SELECT ISNULL(ch.ApproveDate,ch.ClrDate) as DocDate,ch.ClrNo as DocNo,'CLR' as DocType,cd.SDescription+ (CASE WHEN cd.SlipNO<>'' THEN ' #'+cd.SlipNo ELSE '' END) as Expense,
+cd.BNet as Amount,cf.ConfigValue as DocStatus,cd.ItemNo
+,(CASE WHEN ch.DocStatus=99 THEN 1 ELSE 0 END) as IsCancel
 FROM Job_ClearHeader ch INNER JOIN Job_ClearDetail cd ON ch.BranchCode=cd.BranchCode AND ch.ClrNo=cd.ClrNo
-WHERE cd.BranchCode='{0}' AND cd.JobNo='{1}'
+INNER JOIN (SELECT * FROM Mas_Config WHERE ConfigCode='CLR_STATUS') cf ON ch.DocStatus=Convert(int,cf.ConfigKey)
+WHERE cd.BranchCode='{0}' AND cd.JobNo='{1}' 
 UNION
-SELECT ih.DocDate,ih.DocNo,'INV' as DocType,id.SDescription,cd.BNet as Amount,(CASE WHEN ih.BillIssueDate IS NULL THEN 0 ELSE 1 END) as DocStatus
+SELECT ih.DocDate,ih.DocNo,'INV' as DocType,id.SDescription,cd.BNet as Amount,(CASE WHEN ISNULL(ih.BillAcceptNo,'')='' THEN 'UNBILL' ELSE 'BILLED' END) as DocStatus,id.ItemNo
+,(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 1 ELSE 0 END) as IsCancel
 FROM Job_InvoiceHeader ih INNER JOIN Job_InvoiceDetail id ON ih.BranchCode=id.BranchCode AND ih.DocNo=id.DocNo
 INNER JOIN Job_ClearDetail cd ON id.BranchCode=cd.BranchCode AND id.DocNo=cd.LinkBillNo AND id.ItemNo=cd.LinkItem
-WHERE cd.BranchCode='{0}' AND cd.JobNo='{1}'
+WHERE cd.BranchCode='{0}' AND cd.JobNo='{1}' 
 UNION
 select ch.ChqDate,ch.ChqNo,'CHQ' as DocType,Convert(varchar,ch.ChqAmount) +' '+ ch.CurrencyCode +' REF# '+ch.PRVoucher as Descr,SUM(ISNULL(cd.PaidAmount,0)) as Amount,
-(CASE WHEN ISNULL(vc.PostedBy,'')<>'' THEN 1 ELSE (CASE WHEN vc.CancelProve<>'' THEN 99 ELSE 0 END) END) as DocStatus
+(CASE WHEN ISNULL(vc.PostedBy,'')<>'' THEN 'POSTED' ELSE (CASE WHEN vc.CancelProve<>'' THEN 'CANCEL' ELSE 'ACTIVE' END) END) as DocStatus,ch.ItemNo
+,(CASE WHEN ISNULL(vc.CancelProve,'')<>'' THEN 1 ELSE 0 END) as IsCancel
 FROM Job_CashControlSub ch INNER JOIN Job_CashControl vc ON ch.BranchCode=vc.BranchCode AND ch.ControlNo=vc.ControlNo
 LEFT JOIN Job_CashControlDoc cd ON ch.BranchCode=cd.BranchCode AND ch.ControlNo=cd.ControlNo AND ch.acType=cd.acType
 WHERE ch.BranchCode='{0}' AND ch.ForJNo='{1}'
-GROUP BY ch.ChqDate,ch.ChqNo,ch.ChqAmount,ch.PRVoucher,vc.PostedBy,vc.CancelProve,ch.CurrencyCode
+GROUP BY ch.ChqDate,ch.ChqNo,ch.ChqAmount,ch.PRVoucher,vc.PostedBy,vc.CancelProve,ch.CurrencyCode,ch.ItemNo
 UNION
 select rh.ReceiptDate,rh.ReceiptNo,'RCV' as DocType,rd.SDescription +' INV#' + rd.InvoiceNo as Descr,cd.BNet as Amount,
-(CASE WHEN rh.CancelProve<>'' THEN 99 ELSE (CASE WHEN ISNULL(rd.ControlNo,'')<>'' THEN 1 ELSE 0 END) END) as DocStatus
+(CASE WHEN rh.CancelProve<>'' THEN 'CANCEL' ELSE (CASE WHEN ISNULL(rd.ControlNo,'')<>'' THEN 'RECEIVED' ELSE 'ACTIVE' END) END) as DocStatus,rd.ItemNo
+,(CASE WHEN ISNULL(rh.CancelProve,'')<>'' THEN 1 ELSE 0 END) as IsCancel
 FROM Job_ReceiptHeader rh INNER JOIN Job_ReceiptDetail rd ON rh.BranchCode=rd.BranchCode AND rh.ReceiptNo=rd.ReceiptNo
 INNER JOIN Job_ClearDetail cd ON rd.InvoiceNo=cd.LinkBillNo AND rd.InvoiceItemNo=cd.LinkItem
 WHERE cd.BranchCode='{0}' AND cd.JobNo='{1}'
@@ -2942,6 +2950,7 @@ group by BranchCode,AdvNo,Rate50Tavi
         If cliteria Is Nothing Then
             Return ""
         End If
+        Dim bFound As Boolean = False
         For Each str As String In cliteria.Split(",")
             If str <> "" Then
                 If sqlW <> "" Then
@@ -2954,16 +2963,48 @@ group by BranchCode,AdvNo,Rate50Tavi
                 Else
                     sqlW &= "("
                 End If
-                If fldBranch <> "" Then str = ProcessCliteria(str, "[BRANCH]", fldBranch)
-                If fldDate <> "" Then str = ProcessCliteria(str, "[DATE]", fldDate)
-                If fldCust <> "" Then str = ProcessCliteria(str, "[CUST]", fldCust)
-                If fldJob <> "" Then str = ProcessCliteria(str, "[JOB]", fldJob)
-                If fldEmp <> "" Then str = ProcessCliteria(str, "[EMP]", fldEmp)
-                If fldStatus <> "" Then str = ProcessCliteria(str, "[STATUS]", fldStatus)
-                If fldVend <> "" Then str = ProcessCliteria(str, "[VEND]", fldVend)
-                If fldSICode <> "" Then str = ProcessCliteria(str, "[CODE]", fldSICode)
-                If fldGroup <> "" Then str = ProcessCliteria(str, "[GROUP]", fldGroup)
-                sqlW &= str
+                bFound = False
+                If fldBranch <> "" And str.IndexOf("[BRANCH]") >= 0 Then
+                    str = ProcessCliteria(str, "[BRANCH]", fldBranch)
+                    bFound = True
+                End If
+                If fldDate <> "" And str.IndexOf("[DATE]") >= 0 Then
+                    str = ProcessCliteria(str, "[DATE]", fldDate)
+                    bFound = True
+                End If
+                If fldCust <> "" And str.IndexOf("[CUST]") >= 0 Then
+                    str = ProcessCliteria(str, "[CUST]", fldCust)
+                    bFound = True
+                End If
+                If fldJob <> "" And str.IndexOf("[JOB]") >= 0 Then
+                    str = ProcessCliteria(str, "[JOB]", fldJob)
+                    bFound = True
+                End If
+                If fldEmp <> "" And str.IndexOf("[EMP]") >= 0 Then
+                    str = ProcessCliteria(str, "[EMP]", fldEmp)
+                    bFound = True
+                End If
+                If fldStatus <> "" And str.IndexOf("[STATUS]") >= 0 Then
+                    str = ProcessCliteria(str, "[STATUS]", fldStatus)
+                    bFound = True
+                End If
+                If fldVend <> "" And str.IndexOf("[VEND]") >= 0 Then
+                    str = ProcessCliteria(str, "[VEND]", fldVend)
+                    bFound = True
+                End If
+                If fldSICode <> "" And str.IndexOf("[CODE]") >= 0 Then
+                    str = ProcessCliteria(str, "[CODE]", fldSICode)
+                    bFound = True
+                End If
+                If fldGroup <> "" And str.IndexOf("[GROUP]") >= 0 Then
+                    str = ProcessCliteria(str, "[GROUP]", fldGroup)
+                    bFound = True
+                End If
+                If bFound = True Then
+                    sqlW &= str
+                Else
+                    sqlW &= "1=1"
+                End If
                 If sqlW <> "" Then
                     sqlW &= ")"
                 End If

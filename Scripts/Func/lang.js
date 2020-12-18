@@ -3838,6 +3838,7 @@ function ChangeLanguageGrid(module, id) {
                     "Doc Date|วันที่เอกสาร",
                     "Type|ประเภทเอกสาร",
                     "Doc No|เลขที่เอกสาร",
+                    "Item|ลำดับที่",
                     "Description|รายละเอียด",
                     "Amount|ยอดเงิน",
                     "Status|สถานะ"

@@ -958,12 +958,16 @@ ORDER BY CustCode,Branch,ClearType
                         sqlM = String.Format(sqlM, sqlW)
                     Case "MGMT01"
                         sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
+                        Dim sqlW2 = GetSQLCommand(cliteria, "", "", "", "", "", "", "", "", "c.CommLevel")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT c.NameEng as 'Customer',j.* FROM (" & SQLSelectJobCount(sqlW, "j.CustCode") & ") j INNER JOIN Mas_Company c ON j.CustCode=c.CustCode ORDER BY c.NameEng"
+                        If sqlW2 <> "" Then sqlW2 = " WHERE " & sqlW2
+                        sqlM = "SELECT c.NameEng as 'Customer',j.* FROM (" & SQLSelectJobCount(sqlW, "j.CustCode") & ") j INNER JOIN Mas_Company c ON j.CustCode=c.CustCode " & sqlW2 & " ORDER BY c.NameEng"
                     Case "MGMT02"
                         sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.ManagerCode", "j.AgentCode", "j.JobStatus", "j.BranchCode")
+                        Dim sqlW2 = GetSQLCommand(cliteria, "", "", "", "", "", "", "", "", "CommLevel")
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = "SELECT c.EName as 'Customer Service',j.* FROM (" & SQLSelectJobCount(sqlW, "j.CSCode") & ") j INNER JOIN Mas_User c ON j.CSCode=c.UserID ORDER BY c.EName"
+                        If sqlW2 <> "" Then sqlW2 = " AND j.CustCode IN(SELECT CustCode FROM Mas_Company WHERE " & sqlW2 & ")"
+                        sqlM = "SELECT c.EName as 'Customer Service',j.* FROM (" & SQLSelectJobCount(sqlW & sqlW2, "j.CSCode") & ") j INNER JOIN Mas_User c ON j.CSCode=c.UserID ORDER BY c.EName"
                     Case "MGMT03"
                         'fldGroup = "CustCode"
                         sqlW = GetSQLCommand(cliteria, "jd.CreateDate", "jd.CustCode", "jd.JNo", "jd.CSCode", "jd.AgentCode", "jd.JobStatus", "jd.BranchCode")

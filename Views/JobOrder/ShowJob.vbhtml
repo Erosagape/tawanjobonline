@@ -570,6 +570,9 @@ End Code
                                 <th class="all">
                                     Document No
                                 </th>
+                                <th class="all">
+                                    Item
+                                </th>
                                 <th class="desktop">
                                     Expenses
                                 </th>
@@ -1159,6 +1162,7 @@ End Code
                         },
                         { data: "DocType", title: "Type" },
                         { data: "DocNo", title: "Doc No" },
+                        { data: "ItemNo", title: "Seq" },
                         { data: "Expense", title: "Description" },
                         { data: "Amount", title: "Amount" },
                         { data: "DocStatus", title: "Status" }
