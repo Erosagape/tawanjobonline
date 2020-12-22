@@ -1,4 +1,5 @@
 ﻿Imports System.Data.SqlClient
+Imports System.Data.OleDb
 Imports Newtonsoft.Json
 Module Main
     Friend Const jsonContent As String = "application/json;charset=UTF-8"
@@ -213,5 +214,26 @@ Module Main
     End Function
     Function GetSession(sName As String) As String
         Return HttpContext.Current.Session(sName).ToString
+    End Function
+    Function ReadExcelFromFile(fname As String, Optional tbName As String = "") As DataTable
+        Dim dt As New DataTable
+        Try
+            Dim connXLS As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 8.0;HDR={1}'"
+            Using cnExcel = New OleDbConnection(String.Format(connXLS, fname, "YES"))
+                cnExcel.Open()
+                Dim cnSchemaTable = cnExcel.GetOleDbSchemaTable(OleDb.OleDbSchemaGuid.Tables, Nothing)
+                If cnSchemaTable.Rows.Count > 0 Then
+                    If tbName = "" Then
+                        tbName = cnSchemaTable.Rows(0)("TABLE_NAME").ToString()
+                    End If
+                    Using da = New OleDb.OleDbDataAdapter("SELECT * FROM [" & tbName & "]", cnExcel)
+                        da.Fill(dt)
+                    End Using
+                End If
+            End Using
+        Catch ex As Exception
+
+        End Try
+        Return dt
     End Function
 End Module

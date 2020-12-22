@@ -192,7 +192,6 @@
     <Compile Include="Controllers\ClrController.vb" />
     <Compile Include="Controllers\ConfigController.vb" />
     <Compile Include="Controllers\DefaultController.vb" />
-    <Compile Include="Controllers\ExcelController.vb" />
     <Compile Include="Controllers\JobOrderController.vb" />
     <Compile Include="Controllers\Main.vb" />
     <Compile Include="Controllers\MasterController.vb" />
@@ -1254,7 +1253,7 @@
     <Content Include="Views\Shared\_ReportNoHead.vbhtml" />
     <Content Include="Views\Shared\_ReportNoHeadLandscape.vbhtml" />
     <Content Include="Views\Report\Export.vbhtml" />
-    <Content Include="Views\Report\Import.vbhtml" />
+    <Content Include="Views\Report\ImportJson.vbhtml" />
     <Content Include="Views\Report\ImportFile.vbhtml" />
     <Content Include="Views\Report\Index.vbhtml" />
     <Content Include="Views\Report\Preview.vbhtml" />
@@ -1410,10 +1409,9 @@
     <Content Include="Views\Clr\FormEntry.vbhtml" />
     <Content Include="Views\JobOrder\Approve.vbhtml" />
     <Content Include="Views\Acc\FormPettycash_APL.vbhtml" />
-    <Content Include="Views\Excel\Index.vbhtml" />
-    <Content Include="Views\Excel\Import.vbhtml" />
     <Content Include="Views\Acc\FormPettycash.vbhtml" />
     <Content Include="Views\Acc\Approve _APL.vbhtml" />
+    <Content Include="Views\Report\Import.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

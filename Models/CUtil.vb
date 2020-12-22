@@ -1,4 +1,5 @@
-﻿Imports System.Data.SqlClient
+﻿Imports System.Data.OleDb
+Imports System.Data.SqlClient
 Public Class CResult
     Public Sub New()
 
@@ -58,6 +59,28 @@ Public Class CUtil
         If saveLog Then
             Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, "JOBSHIPING", "GetTableFromSQL", Message, pSQL, False)
         End If
+        Return dt
+    End Function
+    Public Function ReadExcelFromFile(fname As String, Optional tbName As String = "") As DataTable
+        Message = "OK"
+        Dim dt As New DataTable
+        Try
+            Dim connXLS As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 8.0;HDR={1}'"
+            Using cnExcel = New OleDbConnection(String.Format(connXLS, fname, "YES"))
+                cnExcel.Open()
+                Dim cnSchemaTable = cnExcel.GetOleDbSchemaTable(OleDb.OleDbSchemaGuid.Tables, Nothing)
+                If cnSchemaTable.Rows.Count > 0 Then
+                    If tbName = "" Then
+                        tbName = cnSchemaTable.Rows(0)("TABLE_NAME").ToString()
+                    End If
+                    Using da = New OleDb.OleDbDataAdapter("SELECT * FROM [" & tbName & "]", cnExcel)
+                        da.Fill(dt)
+                    End Using
+                End If
+            End Using
+        Catch ex As Exception
+            Message = "[ERROR] " & ex.Message
+        End Try
         Return dt
     End Function
 End Class

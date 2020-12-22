@@ -157,6 +157,7 @@
     <Compile Include="App_Start\FilterConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="Controllers\ConfigController.vb" />
+    <Compile Include="Controllers\TestController.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -238,6 +239,7 @@
     <Content Include="Views\Config\Subscription.vbhtml" />
     <Content Include="Views\Config\Log.vbhtml" />
     <Content Include="Views\Config\WebLogin.vbhtml" />
+    <Content Include="Views\Test\ExcelReader.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

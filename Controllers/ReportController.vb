@@ -13,10 +13,112 @@ Namespace Controllers
         Function Import() As ActionResult
             Return GetView("Import", "MODULE_REP")
         End Function
+        <Mvc.HttpPost>
+        Function Import(fileUpload As HttpPostedFileBase) As ActionResult
+            Try
+                If fileUpload.ContentLength > 0 Then
+                    If Not System.IO.Directory.Exists(Server.MapPath("~/Resource/Import")) Then
+                        System.IO.Directory.CreateDirectory(Server.MapPath("~/Resource/Import"))
+                    End If
+                    Dim savePath As String = System.IO.Path.Combine(Server.MapPath("~/Resource/Import"), System.IO.Path.GetFileName(fileUpload.FileName))
+                    If System.IO.File.Exists(savePath) Then
+                        System.IO.File.Delete(savePath)
+                    End If
+                    fileUpload.SaveAs(savePath)
+                    Dim dt = New CUtil(GetSession("ConnJob")).ReadExcelFromFile(savePath)
+                    Dim data = dt.Clone()
+                    Dim tbName = "Job_Order"
+                    Dim rowUpdate As Long = 0
+                    Using cn = New SqlClient.SqlConnection(GetSession("ConnJob"))
+                        cn.Open()
+                        For Each dr As DataRow In dt.Rows
+                            Dim sql As String = "SELECT * FROM Job_Order WHERE BranchCode='{0}' AND JNo='{1}'"
+                            Using da As New SqlClient.SqlDataAdapter(String.Format(sql, GetSession("CurrBranch"), dr("JNo").ToString), cn)
+                                Dim cb As New SqlClient.SqlCommandBuilder(da)
+                                Dim tb As New DataTable
+                                da.Fill(tb)
+                                If tb.Rows.Count > 0 Then
+                                    Dim r = tb.Rows(0)
+                                    For Each dc As DataColumn In dt.Columns
+                                        If tb.Columns.IndexOf(dc.ColumnName) >= 0 Then
+                                            Try
+                                                r(dc.ColumnName) = dr(dc.ColumnName)
+                                            Catch ex As Exception
+
+                                            End Try
+                                        End If
+                                    Next
+                                    da.Update(tb)
+                                    data.ImportRow(r)
+                                    rowUpdate += 1
+                                End If
+                            End Using
+                        Next
+                        cn.Close()
+                    End Using
+                    ViewBag.Data = data
+                    ViewBag.Message = "Upload " & fileUpload.FileName & " Complete (" & rowUpdate & " Updated)"
+                Else
+                    ViewBag.Message = "You must select some file"
+                End If
+            Catch ex As Exception
+                ViewBag.Message = ex.Message
+            End Try
+            Return GetView("Import", "MODULE_REP")
+        End Function
         Function ImportFile() As ActionResult
             Return GetView("ImportFile")
         End Function
         Function Export() As ActionResult
+            Return GetView("Export", "MODULE_REP")
+        End Function
+        <Mvc.HttpPost>
+        <Mvc.ActionName("Export")>
+        Function Export_Post() As ActionResult
+            Dim dateFrom = Request.Form("dateFrom")
+            Dim dateTo = Request.Form("dateTo")
+            Dim sqlW = " WHERE JobStatus<>99 "
+            sqlW &= " AND DocDate>='" & dateFrom & "'"
+            sqlW &= " AND DocDate<='" & dateTo & "'"
+            Dim oTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL("SELECT * FROM Job_Order" & sqlW)
+            Dim sb As StringBuilder = New StringBuilder()
+            sb.Append("<table>")
+            'Export Column Header
+            sb.Append("<tr>")
+            Dim c As Integer = 0
+            For Each col As DataColumn In oTable.Columns
+                sb.Append("<td>" + col.ColumnName + "</td>")
+                c += 1
+            Next
+            sb.Append("</tr>")
+            'Export Row Data
+            For Each row As DataRow In oTable.Rows
+                sb.Append("<tr>")
+                For i As Integer = 1 To c
+                    Try
+                        Dim val = row(i - 1).ToString()
+                        If val.Substring(0, 1) = "0" Then
+                            sb.Append("<td>" + val + "</td>")
+                        Else
+                            sb.Append("<td>" + val + "</td>")
+                        End If
+                    Catch ex As Exception
+                        sb.Append("<td></td>")
+                    End Try
+                Next
+                sb.Append("</tr>")
+            Next
+            sb.Append("</table>")
+
+            Response.Clear()
+            Response.ClearContent()
+            Response.ClearHeaders()
+            Response.Charset = "UTF-8"
+            Response.Buffer = True
+            Response.ContentType = "application/vnd.ms-excel"
+            Response.AddHeader("content-disposition", "attachment;filename=Job_Order.xls")
+            Response.Write(sb.ToString())
+            Response.End()
             Return GetView("Export", "MODULE_REP")
         End Function
         Function Preview() As ActionResult
