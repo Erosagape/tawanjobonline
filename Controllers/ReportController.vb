@@ -51,6 +51,22 @@ Namespace Controllers
                                     da.Update(tb)
                                     data.ImportRow(r)
                                     rowUpdate += 1
+                                Else
+                                    Dim r = tb.NewRow
+                                    r("BranchCode") = GetSession("CurrBranch")
+                                    For Each dc As DataColumn In dt.Columns
+                                        If tb.Columns.IndexOf(dc.ColumnName) >= 0 Then
+                                            Try
+                                                r(dc.ColumnName) = dr(dc.ColumnName)
+                                            Catch ex As Exception
+
+                                            End Try
+                                        End If
+                                    Next
+                                    tb.Rows.Add(r)
+                                    da.Update(tb)
+                                    data.ImportRow(r)
+                                    rowUpdate += 1
                                 End If
                             End Using
                         Next
