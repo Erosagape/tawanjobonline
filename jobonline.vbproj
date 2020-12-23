@@ -1408,8 +1408,8 @@
     <Content Include="Views\Acc\Tax50Tavi.vbhtml" />
     <Content Include="Views\Clr\FormEntry.vbhtml" />
     <Content Include="Views\JobOrder\Approve.vbhtml" />
-    <Content Include="Views\Acc\FormPettycash_APL.vbhtml" />
     <Content Include="Views\Acc\FormPettycash.vbhtml" />
+    <Content Include="Views\Acc\FormPettycash_STD.vbhtml" />
     <Content Include="Views\Acc\Approve _APL.vbhtml" />
     <Content Include="Views\Report\Import.vbhtml" />
   </ItemGroup>
