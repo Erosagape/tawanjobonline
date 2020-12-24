@@ -150,7 +150,7 @@ End Code
             <td>WHT</td>
             <td>Status</td>
         </tr>
-        <tbody></tbody>
+        <tbody id="Body1"></tbody>
     </table>
     <table id="tbDetail2" border="1">
         <tr>
@@ -162,7 +162,7 @@ End Code
             <td>Acc</td>
             <td>Amt</td>
         </tr>
-        <tbody></tbody>
+        <tbody id="Body2"></tbody>
     </table>
     <br />
     Total By Cost Centre:
@@ -225,14 +225,7 @@ Re-imbursement Request By ___________________________________ Date _____________
     const branchcode = getQueryString("Branch");
     const bookno = getQueryString("Code");
     const id = getQueryString("DocNo");
-    let showDetails = confirm("Show Net Amount only");
-    if (showDetails == true) {
-        $('#tbDetail1').css('display', 'none');
-        $('#rowWHTSum3').css('display', 'none');
-        $('#rowWHTSum1').css('display', 'none');
-    } else {
-        $('#tbDetail2').css('display', 'none');
-    }
+    var showDetails = confirm("Show Net Amount only");
     if (branchcode !== '' && (bookno !== '' || id !== '')) {
         let url = 'Acc/GetVoucherDetail?BranchCode=' + branchcode;
         if (showDetails == true) {
@@ -244,7 +237,7 @@ Re-imbursement Request By ___________________________________ Date _____________
         if (id !== '') {
             url += '&DocNo=' + id;
         }
-        $.get(path + url, function (r) {
+        $.get(path + url).done(function (r) {
             if (r.data.header.length > 0) {
                 let dt = r.data.header[0].Table;
                 let htmls = '';
@@ -292,6 +285,8 @@ Re-imbursement Request By ___________________________________ Date _____________
                 let sumWht3 = 0;
                 let sumNet = 0;
                 let row = 0;
+                $('#Body2').html('');
+                $('#Body1').html('');
                 for (let d of dr) {
                     row += 1;
                     if (d.TotalAdvance>0) {
@@ -306,7 +301,7 @@ Re-imbursement Request By ___________________________________ Date _____________
                         sumVat += Number(d.TotalVAT);
                         sumNet += (Number(d.TotalAdvance) + Number(d.TotalVAT) - Number(d.Total50Tavi));
 
-                        htmld = '<tr>';
+                        htmld += '<tr>';
                         htmld += '<td>' + d.DocNo + '</td>';
                         htmld += '<td>' + ShowDate(d.AdvDate) + '</td>';
                         htmld += '<td>' + d.EmpCode + '</td>';
@@ -322,12 +317,6 @@ Re-imbursement Request By ___________________________________ Date _____________
                             htmld += '<td>Closed</td>';
                         }
                         htmld += '</tr>';
-                        if (showDetails == true) {
-                            $('#tbDetail2 tbody').append(htmld);
-                        } else {
-                            $('#tbDetail1 tbody').append(htmld);
-                        }
-
                     }
                 }
                 if (showDetails == true) {
@@ -356,8 +345,20 @@ Re-imbursement Request By ___________________________________ Date _____________
                     $('#lblBal').text(ShowNumber(dh.ControlBalance - sumNet, 2));
                     $('#lblCashOnhand').text(ShowNumber(dh.ControlBalance - sumNet, 2));
                 }
+                if (showDetails == true) {
+                    $('#Body2').html(htmld);
+                } else {
+                    $('#Body1').html(htmld);
+                }
             }
 
+            if (showDetails == true) {
+                $('#tbDetail1').css('display', 'none');
+                $('#rowWHTSum3').css('display', 'none');
+                $('#rowWHTSum1').css('display', 'none');
+            } else {
+                $('#tbDetail2').css('display', 'none');
+            }
         });
     }
 </script>
