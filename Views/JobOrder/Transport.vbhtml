@@ -1914,10 +1914,12 @@ End Code
     function ShowPayment() {
         $('#btnExpense').removeAttr('disabled');
         $('#btnExpense2').removeAttr('disabled');
+        $('#txtCTN_NO').removeAttr('disabled');
         $('#tbPayment').DataTable().clear().draw();
-        if ($('#txtCTN_NO').val() !== '') {
+        if ($('#txtCTN_NO').val() !== '') {            
             $.get(path + 'Acc/GetPayment?VenCode=' + $('#txtVenderCode').val() + '&Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
                 if (r.payment.header.length > 0) {
+                    $('#txtCTN_NO').attr('disabled', 'disabled');
                     $('#btnExpense').attr('disabled', 'disabled');
                     $('#btnExpense2').attr('disabled', 'disabled');
                     let tb= $('#tbPayment').DataTable({

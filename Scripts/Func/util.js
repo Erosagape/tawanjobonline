@@ -44,6 +44,10 @@ function compareValues(key, order = 'asc') {
             comparison = 1;
         } else if (varA < varB) {
             comparison = -1;
+        } else if (varA == null && varB !== null) {
+            comparison = -1;
+        } else if (varA !== null && varB == null) {
+            comparison = 1;
         }
         return (
             (order == 'desc') ?

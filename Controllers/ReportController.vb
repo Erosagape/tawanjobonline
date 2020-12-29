@@ -29,51 +29,42 @@ Namespace Controllers
                     Dim data = dt.Clone()
                     Dim tbName = "Job_Order"
                     Dim rowUpdate As Long = 0
+                    Dim msgUpdate As String = ""
                     Using cn = New SqlClient.SqlConnection(GetSession("ConnJob"))
                         cn.Open()
                         For Each dr As DataRow In dt.Rows
-                            Dim sql As String = "SELECT * FROM Job_Order WHERE BranchCode='{0}' AND JNo='{1}'"
-                            Using da As New SqlClient.SqlDataAdapter(String.Format(sql, GetSession("CurrBranch"), dr("JNo").ToString), cn)
-                                Dim cb As New SqlClient.SqlCommandBuilder(da)
-                                Dim tb As New DataTable
-                                da.Fill(tb)
-                                If tb.Rows.Count > 0 Then
-                                    Dim r = tb.Rows(0)
-                                    For Each dc As DataColumn In dt.Columns
-                                        If tb.Columns.IndexOf(dc.ColumnName) >= 0 Then
-                                            Try
-                                                r(dc.ColumnName) = dr(dc.ColumnName)
-                                            Catch ex As Exception
+                            Try
+                                Dim sql As String = "SELECT * FROM Job_Order WHERE BranchCode='{0}' AND JNo='{1}'"
+                                Using da As New SqlClient.SqlDataAdapter(String.Format(sql, GetSession("CurrBranch"), dr("JNo").ToString), cn)
+                                    Dim cb As New SqlClient.SqlCommandBuilder(da)
+                                    Dim tb As New DataTable
+                                    da.Fill(tb)
+                                    If tb.Rows.Count > 0 Then
+                                        Dim r = tb.Rows(0)
+                                        For Each dc As DataColumn In dt.Columns
+                                            If tb.Columns.IndexOf(dc.ColumnName) >= 0 Then
+                                                Try
+                                                    r(dc.ColumnName) = dr(dc.ColumnName)
+                                                Catch ex As Exception
 
-                                            End Try
-                                        End If
-                                    Next
-                                    da.Update(tb)
-                                    data.ImportRow(r)
-                                    rowUpdate += 1
-                                Else
-                                    Dim r = tb.NewRow
-                                    r("BranchCode") = GetSession("CurrBranch")
-                                    For Each dc As DataColumn In dt.Columns
-                                        If tb.Columns.IndexOf(dc.ColumnName) >= 0 Then
-                                            Try
-                                                r(dc.ColumnName) = dr(dc.ColumnName)
-                                            Catch ex As Exception
-
-                                            End Try
-                                        End If
-                                    Next
-                                    tb.Rows.Add(r)
-                                    da.Update(tb)
-                                    data.ImportRow(r)
-                                    rowUpdate += 1
-                                End If
-                            End Using
+                                                End Try
+                                            End If
+                                        Next
+                                        da.Update(tb)
+                                        data.ImportRow(r)
+                                        rowUpdate += 1
+                                    Else
+                                        msgUpdate &= vbCrLf & "[ERROR(" & dr("JNo").ToString & ")] Job Not Found"
+                                    End If
+                                End Using
+                            Catch ex As Exception
+                                msgUpdate &= vbCrLf & "[ERROR(" & dr("JNo").ToString & ")]" & ex.Message
+                            End Try
                         Next
                         cn.Close()
                     End Using
                     ViewBag.Data = data
-                    ViewBag.Message = "Upload " & fileUpload.FileName & " Complete (" & rowUpdate & " Updated)"
+                    ViewBag.Message = "Upload " & fileUpload.FileName & " Complete (" & rowUpdate & " Updated)" & vbCrLf & msgUpdate
                 Else
                     ViewBag.Message = "You must select some file"
                 End If
@@ -132,7 +123,7 @@ Namespace Controllers
             Response.Charset = "UTF-8"
             Response.Buffer = True
             Response.ContentType = "application/vnd.ms-excel"
-            Response.AddHeader("content-disposition", "attachment;filename=Job_Order.xls")
+            Response.AddHeader("content-disposition", "attachment; filename=Job_Order.xls")
             Response.Write(sb.ToString())
             Response.End()
             Return GetView("Export", "MODULE_REP")

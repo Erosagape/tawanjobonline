@@ -820,7 +820,11 @@ function LoadReport(path, reportID, obj, lang) {
                         if (textFields.indexOf(key) >= 0) {
                             sumGroup.push({ isSummary: false, value: 0 });
                         } else {
-                            sumGroup.push({ isSummary: CheckAllIsNumber(tb, key), value: 0 });
+                            if (IsSummaryColumn(key) == true) {
+                                sumGroup.push({ isSummary: true, value: 0 });
+                            } else {
+                                sumGroup.push({ isSummary: CheckAllIsNumber(tb, key), value: 0 });
+                            }
                         }
                         sumTotal.push(0);
                         colCount++;
@@ -1046,9 +1050,13 @@ function CheckAllIsNumber(arr, colName) {
     let tb = JSON.parse(JSON.stringify(arr));
     sortData(tb, colName, 'desc');
     try {
-        let dbl = Number(tb[0][colName]);
-        if (isNaN(dbl) == false) {
-            return true;
+        if (tb[0][colName] !== null) {
+            let dbl = Number(tb[0][colName]);
+            if (isNaN(dbl) == false) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
