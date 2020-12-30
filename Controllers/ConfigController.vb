@@ -551,7 +551,9 @@ Namespace Controllers
                                 If Session.SessionID <> oOld.SessionID Then
                                     If oOld.ExpireDateTime < DateTime.Now Then
                                     Else
-                                        Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""Duplicate Login Session Please wait until " & oOld.ExpireDateTime & """}}", jsonContent)
+                                        If Request.UserHostAddress <> oOld.FromIP Then
+                                            Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""Duplicate Login Session Please wait until " & oOld.ExpireDateTime & """}}", jsonContent)
+                                        End If
                                     End If
                                     oOld.LoginDateTime = DateTime.Now
                                     oOld.ExpireDateTime = DateTime.Now.AddMinutes(20)
@@ -616,7 +618,9 @@ Namespace Controllers
                                 If Session.SessionID <> oOld.SessionID Then
                                     If oOld.ExpireDateTime < DateTime.Now Then
                                     Else
-                                        Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""Duplicate Login Session Please wait until " & oOld.ExpireDateTime & """}}", jsonContent)
+                                        If Request.UserHostAddress <> oOld.FromIP Then
+                                            Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""Duplicate Login Session Please wait until " & oOld.ExpireDateTime & """}}", jsonContent)
+                                        End If
                                     End If
                                     oOld.LoginDateTime = DateTime.Now
                                     oOld.ExpireDateTime = DateTime.Now.AddMinutes(20)
@@ -697,7 +701,9 @@ Namespace Controllers
                                                     If Session.SessionID <> oOld.SessionID Then
                                                         If oOld.ExpireDateTime < DateTime.Now Then
                                                         Else
-                                                            Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""Duplicate Login Session Please wait until " & oOld.ExpireDateTime & """}}", jsonContent)
+                                                            If Request.UserHostAddress <> oOld.FromIP Then
+                                                                Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""Duplicate Login Session Please wait until " & oOld.ExpireDateTime & """}}", jsonContent)
+                                                            End If
                                                         End If
                                                         oOld.LoginDateTime = DateTime.Now
                                                         oOld.ExpireDateTime = DateTime.Now.AddMinutes(20)
