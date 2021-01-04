@@ -134,16 +134,17 @@ Module Main
             Dim userLogin = HttpContext.Current.Session("CurrUser").ToString()
             Dim sessionID = HttpContext.Current.Session.SessionID
             Dim cnMas = My.Settings.weblicenseConnection
-            Dim oLog As New TWTLog(cnMas)
-            oLog.AppID = app & "(" & sessionID & ")"
-            oLog.CustID = cust & "/" & userLogin
-            oLog.FromIP = clientIP
-            oLog.ModuleName = modl
-            oLog.LogAction = action
-            oLog.Message = msg
-            oLog.StackTrace = StackTrace
-            oLog.JsonData = JsonData
-            oLog.IsError = isError
+            Dim oLog As New TWTLog(cnMas) With {
+                .AppID = app & "(" & sessionID & ")",
+                .CustID = cust & "/" & userLogin,
+                .FromIP = clientIP,
+                .ModuleName = modl,
+                .LogAction = action,
+                .Message = msg,
+                .StackTrace = StackTrace,
+                .JsonData = JsonData,
+                .IsError = isError
+            }
             Return oLog.SaveData(" WHERE LogID=0 ")
         Catch ex As Exception
             Dim str = "[ERROR] : " & ex.Message
@@ -156,16 +157,17 @@ Module Main
         Dim sessionID = HttpContext.Current.Session.SessionID
         Try
             Dim cnMas = My.Settings.weblicenseConnection
-            Dim oLog As New TWTLog(cnMas)
-            oLog.AppID = app & "(" & sessionID & ")"
-            oLog.CustID = cust & "/" & userLogin
-            oLog.FromIP = clientIP
-            oLog.ModuleName = modl
-            oLog.LogAction = action
-            oLog.Message = If(IsError = True, "ERROR", "SUCCESS")
-            oLog.JsonData = JsonConvert.SerializeObject(obj)
-            oLog.StackTrace = StackTrace
-            oLog.IsError = IsError
+            Dim oLog As New TWTLog(cnMas) With {
+                .AppID = app & "(" & sessionID & ")",
+                .CustID = cust & "/" & userLogin,
+                .FromIP = clientIP,
+                .ModuleName = modl,
+                .LogAction = action,
+                .Message = If(IsError = True, "ERROR", "SUCCESS"),
+                .JsonData = JsonConvert.SerializeObject(obj),
+                .StackTrace = StackTrace,
+                .IsError = IsError
+            }
             Return oLog.SaveData(" WHERE LogID=0 ")
         Catch ex As Exception
             Main.SaveLog(cust, app, modl, "SaveLogFromObject", ex.Message, True, ex.StackTrace, "")

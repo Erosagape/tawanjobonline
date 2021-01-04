@@ -1377,7 +1377,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                 End If
                 Dim isSummary = False
                 If Not IsNothing(Request.QueryString("Sum")) Then
-                    isSummary = If(Request.QueryString("Sum").ToString = "Y", True, False)
+                    isSummary = Request.QueryString("Sum").ToString = "Y"
                 End If
                 Dim tsqlH = "
 with vc

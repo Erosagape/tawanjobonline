@@ -33,6 +33,13 @@ End Code
     </div>
 </div>
 <div class="row">
+    <div class="col-sm-12">
+        Description
+        <br />
+        <input type="text" id="txtComment" class="form-control" />
+    </div>
+</div>
+<div class="row">
     <div class="col-sm-3">
         Master DB
         <br/>
@@ -135,6 +142,7 @@ End Code
                 $('#txtSubscriptionID').val(data[0].SubscriptionID);
                 $('#txtSeq').val(data[0].Seq);
                 $('#txtDefaultLang').val(data[0].DefaultLang);
+                $('#txtComment').val(data[0].Comment);
             }
         });
     }
@@ -151,7 +159,8 @@ End Code
             Active: $('#txtActive').val()==1 ? true:false,
             SubscriptionID: $('#txtSubscriptionID').val(),
             Seq: $('#txtSeq').val(),
-            DefaultLang: $('#txtDefaultLang').val()
+            DefaultLang: $('#txtDefaultLang').val(),
+            Comment: $('#txtComment').val()
         }
         let json = JSON.stringify({ data: obj });
         postData(path + 'Config/SetCustomerApp', json, (msg) => {

@@ -120,6 +120,16 @@ Public Class TWTCustomerApp
             m_DefaultLang = value
         End Set
     End Property
+    Private m_Comment As String
+    Public Property Comment As String
+        Get
+            Return m_Comment
+        End Get
+        Set(value As String)
+            m_Comment = value
+        End Set
+    End Property
+
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -144,6 +154,7 @@ Public Class TWTCustomerApp
                             dr("SubscriptionID") = Me.SubscriptionID
                             dr("Seq") = Me.Seq
                             dr("DefaultLang") = Me.DefaultLang
+                            dr("Comment") = Me.Comment
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             msg = "Save Complete"
@@ -170,6 +181,7 @@ Public Class TWTCustomerApp
         m_SubscriptionID = ""
         m_Seq = ""
         m_DefaultLang = ""
+        m_Comment = ""
     End Sub
     Public Function GetData(pSQLWhere As String) As List(Of TWTCustomerApp)
         Dim lst As New List(Of TWTCustomerApp)
@@ -215,6 +227,9 @@ Public Class TWTCustomerApp
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("DefaultLang"))) = False Then
                         row.DefaultLang = rd.GetString(rd.GetOrdinal("DefaultLang")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("Comment"))) = False Then
+                        row.Comment = rd.GetString(rd.GetOrdinal("Comment")).ToString()
                     End If
                     lst.Add(row)
                 End While

@@ -27,7 +27,7 @@ Namespace Controllers
             Try
                 Dim companyName As String = ""
                 Dim oData = Main.GetDatabaseList(My.MySettings.Default.LicenseTo, appName)
-                Using tb As DataTable = Main.GetDatabaseProfile(My.MySettings.Default.LicenseTo)
+                Using tb As DataTable = Main.GetDatabaseProfile(My.MySettings.Default.LicenseTo, "")
                     If tb.Rows.Count > 0 Then
                         companyName = tb.Rows(0)("CustName").ToString()
                     End If
@@ -516,9 +516,9 @@ Namespace Controllers
                     Session("ConnJob") = dbConn(0)
                 End If
                 'Load License Name
-                Using tbLicense = Main.GetDatabaseProfile(My.MySettings.Default.LicenseTo.ToString)
+                Using tbLicense = Main.GetDatabaseProfile(My.MySettings.Default.LicenseTo.ToString, dbID)
                     If tbLicense.Rows.Count > 0 Then
-                        Session("CurrLicense") = tbLicense.Rows(0)("CustName").ToString & " / " & dbID
+                        Session("CurrLicense") = tbLicense.Rows(0)("CustName").ToString & " / " & tbLicense.Rows(0)("Comment").ToString
                     Else
                         Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""License " & My.MySettings.Default.LicenseTo.ToString & " Not Found""}}", jsonContent)
                     End If

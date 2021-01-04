@@ -105,9 +105,9 @@ End Code
                 <br /><br />
                 <div id="divCompany" style="text-align:center;color:darkblue;font-size:12px">
                     <div style="font-weight:bold;font-size:12px">
-                        ADVANCE CARGO EXPRESS CO.,LTD
+                        ACE GLOBAL LOGISTICS CO., LTD.
                     </div>
-                    21 ROMKLAO 21/3 KLONGSAMPRAVET<br />LADKRABANG BANGKOK 10320 THAILAND
+                    19/1 ROMKLAO 21/3 KLONGSAMPRAVET<br />LADKRABANG BANGKOK 10320 THAILAND
                     <br />Tel (662) 670 0660 Fax (662) 170 7253
                     <br />E-mail/Website ace@th-ace.com
                 </div>

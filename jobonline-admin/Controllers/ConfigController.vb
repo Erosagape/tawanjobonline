@@ -48,7 +48,7 @@ Namespace Controllers
         End Function
         Function GetSubscription() As ActionResult
             Dim tSql As String = ""
-            If Not Request.QueryString("ID") Is Nothing Then
+            If Request.QueryString("ID") IsNot Nothing Then
                 tSql &= String.Format(" WHERE SubScriptionID={0}", Request.QueryString("ID").ToString)
             End If
             Dim oData = New TWTSubscription(My.Settings.weblicenseConnection).GetData(tSql)
@@ -57,7 +57,7 @@ Namespace Controllers
         End Function
         Function GetUser() As ActionResult
             Dim tSql As String = ""
-            If Not Request.QueryString("Code") Is Nothing Then
+            If Request.QueryString("Code") IsNot Nothing Then
                 tSql &= String.Format(" WHERE TWTUserID='{0}'", Request.QueryString("Code").ToString)
             End If
             Dim oData = New TWTUser(My.Settings.weblicenseConnection).GetData(tSql)
@@ -71,7 +71,7 @@ Namespace Controllers
         End Function
         Function GetApp() As ActionResult
             Dim tSql As String = ""
-            If Not Request.QueryString("Code") Is Nothing Then
+            If Request.QueryString("Code") IsNot Nothing Then
                 tSql &= String.Format(" WHERE AppID='{0}'", Request.QueryString("Code").ToString)
             End If
             Dim oTable = New CUtil(My.Settings.weblicenseConnection).GetTableFromSQL("SELECT * FROM TWTApp " & tSql)
@@ -85,7 +85,7 @@ Namespace Controllers
         End Function
         Function GetCustomer() As ActionResult
             Dim tSql As String = ""
-            If Not Request.QueryString("Code") Is Nothing Then
+            If Request.QueryString("Code") IsNot Nothing Then
                 tSql &= String.Format(" WHERE CustID='{0}'", Request.QueryString("Code").ToString)
             End If
             Dim oTable = New CUtil(My.Settings.weblicenseConnection).GetTableFromSQL("SELECT * FROM TWTCustomer " & tSql)
@@ -99,13 +99,13 @@ Namespace Controllers
         End Function
         Function GetCustomerApp() As ActionResult
             Dim tSql As String = " WHERE Seq>0 "
-            If Not Request.QueryString("App") Is Nothing Then
+            If Request.QueryString("App") IsNot Nothing Then
                 tSql &= String.Format(" AND AppID='{0}'", Request.QueryString("App").ToString)
             End If
-            If Not Request.QueryString("Cust") Is Nothing Then
+            If Request.QueryString("Cust") IsNot Nothing Then
                 tSql &= String.Format(" AND CustID='{0}'", Request.QueryString("Cust").ToString)
             End If
-            If Not Request.QueryString("ID") Is Nothing Then
+            If Request.QueryString("ID") IsNot Nothing Then
                 tSql &= String.Format(" AND Seq={0}", Request.QueryString("ID").ToString)
             End If
             Dim oData = New TWTCustomerApp(My.Settings.weblicenseConnection).GetData(tSql)

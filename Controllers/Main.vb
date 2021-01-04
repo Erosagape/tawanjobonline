@@ -1663,7 +1663,8 @@ LEFT JOIN dbo.Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
             Dim tb = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT * FROM TWTCustomerApp WHERE CustID='{0}' AND AppID='{1}' ", pCustomer, pApp))
             If tb.Rows.Count > 0 Then
                 For Each dr As DataRow In tb.Rows
-                    db.Add(dr("WebTranDB").ToString())
+                    'db.Add(dr("WebTranDB").ToString()) 'Change 2021/01/04 by Phuthipong
+                    db.Add(dr("Comment").ToString())
                 Next
             End If
         Catch ex As Exception
@@ -1671,10 +1672,15 @@ LEFT JOIN dbo.Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
         End Try
         Return db
     End Function
-    Function GetDatabaseProfile(pCustomer As String) As DataTable
+    Function GetDatabaseProfile(pCustomer As String, dbID As String) As DataTable
         Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
-        Dim tb = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT * FROM TWTCustomer WHERE CustID='{0}' ", pCustomer))
-        Return tb
+        If dbID = "" Then
+            Dim tb = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT a.*,b.Comment FROM TWTCustomer a INNER JOIN TWTCustomerApp b ON a.CustID=b.CustID WHERE a.CustID='{0}' ", pCustomer))
+            Return tb
+        Else
+            Dim tb = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT a.*,b.Comment FROM TWTCustomer a INNER JOIN TWTCustomerApp b ON a.CustID=b.CustID WHERE a.CustID='{0}' AND b.Seq={1} ", pCustomer, dbID))
+            Return tb
+        End If
     End Function
     Function GetApplicationProfile(pCustomer As String) As DataTable
         Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
@@ -2950,7 +2956,7 @@ group by BranchCode,AdvNo,Rate50Tavi
         If cliteria Is Nothing Then
             Return ""
         End If
-        Dim bFound As Boolean = False
+
         For Each str As String In cliteria.Split(",")
             If str <> "" Then
                 If sqlW <> "" Then
@@ -2963,7 +2969,7 @@ group by BranchCode,AdvNo,Rate50Tavi
                 Else
                     sqlW &= "("
                 End If
-                bFound = False
+                Dim bFound As Boolean = False
                 If fldBranch <> "" And str.IndexOf("[BRANCH]") >= 0 Then
                     str = ProcessCliteria(str, "[BRANCH]", fldBranch)
                     bFound = True
