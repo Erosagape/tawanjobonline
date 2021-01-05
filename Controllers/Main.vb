@@ -1594,19 +1594,20 @@ LEFT JOIN dbo.Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
         Return formatStr
     End Function
     Function SaveLog(cust As String, app As String, modl As String, action As String, msg As String, isError As Boolean, Optional StackTrace As String = "", Optional JsonData As String = "") As String
-        Dim isSaveLog = "Y"
-        If GetSession("ConnJob") <> "" Then
-            isSaveLog = Main.GetValueConfig("PROFILE", "SAVE_LOG", "Y")
-        End If
-        If isSaveLog = "N" Then
-            Return "Save Log Is not activated"
-        Else
-            Try
+        Try
+            Dim isSaveLog = "Y"
+            If GetSession("ConnJob") <> "" Then
+                isSaveLog = Main.GetValueConfig("PROFILE", "SAVE_LOG", "Y")
+            End If
+            If isSaveLog = "N" Then
+                Return "Save Log Is not activated"
+            Else
                 Dim clientIP = HttpContext.Current.Request.UserHostAddress
                 Dim userLogin = GetSession("CurrUser").ToString()
-                Dim sessionID = HttpContext.Current.Session.SessionID
-                Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
-                Dim oLog As New CLog(cnMas) With {
+                If userLogin <> "" Then
+                    Dim sessionID = HttpContext.Current.Session.SessionID
+                    Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
+                    Dim oLog As New CLog(cnMas) With {
                     .AppID = app & "(" & sessionID & ")",
                     .CustID = cust & "/" & userLogin,
                     .FromIP = clientIP,
@@ -1617,12 +1618,15 @@ LEFT JOIN dbo.Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
                     .JsonData = JsonData,
                     .IsError = isError
                 }
-                Return oLog.SaveData(" WHERE LogID=0 ")
-            Catch ex As Exception
-                Dim str = "[ERROR] : " & ex.Message
-                Return str
-            End Try
-        End If
+                    Return oLog.SaveData(" WHERE LogID=0 ")
+                Else
+                    Return "Save Log Session Expire"
+                End If
+            End If
+        Catch ex As Exception
+            Dim str = "[ERROR] : " & ex.Message
+            Return str
+        End Try
     End Function
     Function SaveLogFromObject(cust As String, app As String, modl As String, action As String, obj As Object, IsError As Boolean, Optional StackTrace As String = "") As String
         Dim isSaveLog = "Y"

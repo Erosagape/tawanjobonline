@@ -2191,21 +2191,21 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             Try
                 Dim tSqlw As String = " WHERE LocationID>0 "
                 If Not IsNothing(Request.QueryString("Branch")) Then
-                    tSqlw &= String.Format("AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+                    tSqlw &= String.Format(" AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("ID")) Then
-                    tSqlw &= String.Format("AND LocationID ={0} ", Request.QueryString("ID").ToString)
+                    tSqlw &= String.Format(" AND LocationID ={0} ", Request.QueryString("ID").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("Vend")) Then
-                    tSqlw &= String.Format("AND VenderCode='{0}' ", Request.QueryString("Vend").ToString)
+                    tSqlw &= String.Format(" AND VenderCode='{0}' ", Request.QueryString("Vend").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("Cust")) Then
-                    tSqlw &= String.Format("AND CustCode='{0}' ", Request.QueryString("Cust").ToString)
+                    tSqlw &= String.Format(" AND CustCode='{0}' ", Request.QueryString("Cust").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
-                    tSqlw &= String.Format("AND SICode='{0}' ", Request.QueryString("Code").ToString)
+                    tSqlw &= String.Format(" AND SICode='{0}' ", Request.QueryString("Code").ToString)
                 End If
-                tSqlw &= String.Format(" AND LocationID IN(SELECT LocationID From Job_TransportRoute WHERE IsActive=1)")
+                tSqlw &= String.Format(" AND LocationID IN(SELECT LocationID From Job_TransportRoute WHERE IsActive=1) ")
                 Dim oData = New CTransportPrice(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""transportprice"":{""data"":" & json & "}}"

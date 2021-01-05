@@ -423,8 +423,8 @@ End Code
                             <br />
                             <button id="btnLinkPaperless" class="btn btn-success" onclick="LoadPaperless()">Load Data From Paperless</button>
                             <select id="cboDBType">
-                                <option id="JANDT">TAWAN</option>
-                                <option id="ECS" selected>ECS</option>
+                                <option value="JANDT">TAWAN</option>
+                                <option value="ECS" selected>ECS</option>
                             </select>
                         </div>
                     </div>

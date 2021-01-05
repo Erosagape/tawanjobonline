@@ -149,9 +149,9 @@ End Code
                 <input type="checkbox" /> ใบแนบ <b>ภ.ง.ด. 3</b> ที่แนบมาพร้อมนี้
             </div>
             <div style="flex:1;font-size:16px">
-                จำนวน <input type="text" style="width:50px" /> ราย
+                จำนวน <input type="text" style="width:50px" id="txtCountDoc"/> ราย
                 <br />
-                จำนวน <input type="text" style="width:50px" /> แผ่น
+                จำนวน <input type="text" style="width:50px" id="txtCountPage"/> แผ่น
             </div>
         </div>
         <div style="display:flex;">
@@ -297,6 +297,16 @@ End Code
                     $('#chkLaw' + tb.TaxLawNo).prop('checked', true);
                     let amt = 0;
                     let tax = 0;
+                    let t = 1;
+                    let d = 0;
+                    for (let r of res.result) {
+                        d += r.CountDoc;
+                    }
+                    if (d > 7) {
+                        t = Math.abs(CDbl(Math.round((d - 7) / 8) + 1, 0));
+                    }
+                    $('#txtCountDoc').val(d);
+                    $('#txtCountPage').val(t);
                     for (let d of res.result) {
                         amt += Number(CDbl(d.SumPayAmount, 2));
                         tax += Number(CDbl(d.SumPayTax,2));

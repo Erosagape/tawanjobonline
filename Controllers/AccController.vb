@@ -1957,7 +1957,7 @@ select * from vc WHERE PaidAmount>0 order by PRType DESC,DocNo
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
-sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax
+sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
 FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' " & sqlW & ") a 
 GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
 ORDER BY a.TName1
@@ -1967,7 +1967,7 @@ ORDER BY a.TName1
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
-sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax
+sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
 FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>'' " & sqlW & ") a 
 GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
 ORDER BY a.TName1

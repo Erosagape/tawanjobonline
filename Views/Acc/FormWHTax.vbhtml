@@ -272,6 +272,7 @@ End Code
     <tr>
         <td colspan="4">
             <b>เงินที่จ่ายเข้า  </b>กองทุนสงเคราะห์ครูโรงเรียนเอกชน <label id="txtTeacherAmt"></label> บาท  กองทุนประกันสังคม <label id="txtSoLicenseAmt"></label> บาท กองทุนสำรองเลี้ยงชีพ <label id="txtSoAccAmount"></label>บาท
+            <br/>เลชที่ประจำตัวนายจ้าง <label id="txtSoTaxNo" style="text-decoration-line:underline"></label>
         </td>
     </tr>
 </table>
@@ -337,7 +338,8 @@ End Code
                     $('#chkFormType' + h.FormType).prop('checked',true);
                     $('#txtTeacherAmt').text(CCurrency(CDbl(h.TeacherAmt,2)));
                     $('#txtSoLicenseAmt').text(CCurrency(CDbl(h.SoLicenseAmount,2)));
-                    $('#txtSoAccAmount').text(CCurrency(CDbl(h.SoAccAmount,2)));
+                    $('#txtSoAccAmount').text(CCurrency(CDbl(h.SoAccAmount, 2)));
+                    $('#txtSoTaxNo').text(h.SoTaxNo);
                     $('#txtPayTaxType').text(h.PayTaxType);
                     $('input:checkbox[name=chkPayTaxType]:checked').prop('checked', false);
                     $('#chkPayTaxType' + h.PayTaxType).prop('checked',true);
