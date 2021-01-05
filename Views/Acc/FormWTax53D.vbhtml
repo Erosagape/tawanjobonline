@@ -150,7 +150,7 @@ End Code
                                 <br>
                                 ลงชื่อ.....................................................ผู้จ่ายเงิน<br>
                                 (<input type="text" style="border-style:none;text-align:center;width:150px" value=" @ViewBag.TaxAuthorize "/>) <br>
-                                ตำแหน่ง <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxPosition" /> <br>
+                                ตำแหน่ง <input type="text" style="border-style:none;text-align:center;width:150px" value="@ViewBag.TaxPosition" /> <br>
                                 ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" /> 
                             </td>
                             <td colspan="2">
