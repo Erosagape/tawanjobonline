@@ -343,8 +343,8 @@ Re-imbursement Request By ___________________________________ Date _____________
                     $('#lblNet').text(ShowNumber(sumNet, 2));
 
                     $('#lblBal').text(ShowNumber(dh.ControlBalance - sumNet, 2));
-                    $('#lblCashOnhand').text(ShowNumber(dh.ControlBalance - sumNet, 2));
                 }
+                $('#lblCashOnhand').text(ShowNumber(dh.ControlBalance - sumNet, 2));
                 if (showDetails == true) {
                     $('#Body2').html(htmld);
                 } else {
