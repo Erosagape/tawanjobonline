@@ -2,11 +2,11 @@
 @Code
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Billing Slip"
-    ViewBag.ReportName = "BILLING COVER SHEET (ใบวางบิล/ใบแจ้งหนี้) "
+    ViewBag.ReportName = "BILLING COVER SHEET"
 End Code
 <style>
-    * {
-        font-size: 14px;
+    td {
+        font-size: 11px;
     }
 
     table {
@@ -56,8 +56,8 @@ End Code
                 <tr>
                     <th class="text-center" width="130">REIMBURSEMENT</th>
                     <th class="text-center" width="90">SERVICE</th>
-                    <th class="text-center" width="50">1%</th>
-                    <th class="text-center" width="50">3%</th>
+                    <th class="text-center" width="50">TRANSPORT</th>
+                    <th class="text-center" width="50">SERVICE</th>
                 </tr>
             </thead>
             <tbody id="tbDetail">
@@ -79,15 +79,11 @@ End Code
             </tfoot>
         </table>
 
-        <div>            
-            <p>กำหนดชำระเงิน : <label id="lblPaymentDueDate"></label></p>
-            <p><u>รายการชำระเงิน</u></p>
-            <table id="tbPayS" style="width:100%">
-                <tr><td>กรุณาโอนเงินเข้าบัญชีธนาคารกสิกรไทย สาขาโรบินสันจันทบุรี</td></tr>
-                <tr><td>บัญชีออมทรัพย์ ชื่อบัญชี "หจก แดนผักกาด" เลขที่บัญชี 528-2-38819-9</td></tr>
-                <tr><td>กรุณาหัก ณ ที่จ่าย และนำส่งใบหัก ณ ที่จ่าย มายัง</td></tr>
-                <tr><td>หจก แดนผักกาด เลขที่ 9/10 ม.10 ต.ท่าช้าง อ.เมือง จ.จันทบุรี 22000</td></tr>
-            </table>
+        <div style="margin-top:60px">
+            <p>PAYMENT DUE DATE : <label id="lblPaymentDueDate"></label></p>
+            <p>PLEASE PAY CHEQUE IN NAME @ViewBag.PROFILE_COMPANY_NAME</p>
+            <p>PAYMENT SHOULD BE PAID BY CROSS CHEQUE IN FAVOR OF  @ViewBag.PROFILE_COMPANY_NAME</p>
+            <p>SIGN ON RECEIVER AND ASSIGNED PAYMENT DATE AND SEND THIS PAPER TO @ViewBag.PROFILE_COMPANY_NAME FAX. @ViewBag.PROFILE_COMPANY_FAX</p>
         </div>
 
         <div style="display:flex">
@@ -148,12 +144,12 @@ End Code
                 html += '<td>' + ShowDate(CDateTH(dr.InvDate)) + '</td>';
                 html += '<td>' + dr.InvNo + '</td>';
                 html += '<td>' + dr.RefNo + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtAdvance, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtChargeNonVAT, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtVAT, 2) + '</td>';
-                html += '<td style="text-align:right">' + (dr.AmtWHRate==1 ? ShowNumber(dr.AmtWH, 2) : 0) + '</td>';
-                html += '<td style="text-align:right">' + (dr.AmtWHRate!==1 ? ShowNumber(dr.AmtWH, 2) : 0) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtTotal, 2) + '</td>';
+                html += '<td style="text-align:right">' + (dr.AmtAdvance > 0 ? ShowNumber(dr.AmtAdvance, 2) : '') + '</td>';
+                html += '<td style="text-align:right">' + (dr.AmtChargeNonVAT > 0 ? ShowNumber(dr.AmtChargeNonVAT, 2) : '') + '</td>';
+                html += '<td style="text-align:right">' + (dr.AmtVAT > 0 ? ShowNumber(dr.AmtVAT, 2) : '') + '</td>';
+                html += '<td style="text-align:right">' + (dr.AmtWHRate==1 ? ShowNumber(dr.AmtWH, 2) : '') + '</td>';
+                html += '<td style="text-align:right">' + (dr.AmtWHRate!==1 ? ShowNumber(dr.AmtWH, 2) : '') + '</td>';
+                html += '<td style="text-align:right">' + (dr.AmtTotal > 0 ? ShowNumber(dr.AmtTotal, 2) : '') + '</td>';
                 html += '</tr>';
 
                 total += Number(dr.AmtTotal);
