@@ -17,6 +17,7 @@ Public Class CController
         Session("CurrBranchName") = Nothing
         Session("CompanyLogo") = Nothing
         Session("CompanyName") = Nothing
+        Session("CompanyName_EN") = Nothing
         Session("CompanyFax") = Nothing
         Session("CompanyTel") = Nothing
         Session("CompanyEmail") = Nothing
