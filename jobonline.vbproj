@@ -350,6 +350,8 @@
     <Content Include="App_Data\SINOTHAI\Scripts\popup.js" />
     <Content Include="App_Data\SINOTHAI\Scripts\reports.js" />
     <Content Include="App_Data\SINOTHAI\Scripts\util.js" />
+    <Content Include="App_Data\SMART\sss-logo.jpg" />
+    <Content Include="App_Data\SMART\sts-logo.jpg" />
     <Content Include="App_Data\SOUTHEAST\Scripts\combo.js" />
     <Content Include="App_Data\SOUTHEAST\Scripts\lang.js" />
     <Content Include="App_Data\SOUTHEAST\Scripts\menu.js" />
@@ -357,6 +359,7 @@
     <Content Include="App_Data\SOUTHEAST\Scripts\reports.js" />
     <Content Include="App_Data\SOUTHEAST\Scripts\util.js" />
     <Content Include="App_Data\SQL_Clear_Data_Cliteria.sql" />
+    <Content Include="App_Data\SQL_Copy_Data.sql" />
     <Content Include="App_Data\SQL_Delete_Data.sql" />
     <Content Include="App_Data\SQL_Report_V2.1.sql" />
     <Content Include="App_Data\SQL_Report_V2.2.sql" />
@@ -1039,6 +1042,9 @@
     <Content Include="App_Data\SINOTHAI\JobOrder\TruckOrder.vbhtml" />
     <Content Include="App_Data\APL\Acc\FormPettycash.vbhtml" />
     <Content Include="App_Data\SINOTHAI\Acc\FormPettycash.vbhtml" />
+    <Content Include="App_Data\SMART\Shared\MasterPage.vbhtml" />
+    <Content Include="App_Data\SMART\Shared\_Report.vbhtml" />
+    <Content Include="App_Data\SMART\Shared\_ReportLandscape.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
