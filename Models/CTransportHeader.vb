@@ -337,6 +337,7 @@ Public Class CTransportHeader
                             dr("ReturnContact") = Main.GetDBString(Me.ReturnContact, dt.Columns("ReturnContact"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
+                            Main.DBExecute(GetSession("ConnJob"), String.Format("UPDATE Job_LoadInfoDetail SET JNo='{0}' WHERE BranchCode='{1}' AND BookingNo='{2}' ", Me.JNo, Me.BranchCode, Me.BookingNo))
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CTransportHeader", "SaveData", Me, False)
                             msg = "Save Complete"
                         End Using
@@ -503,8 +504,8 @@ Public Class CTransportHeader
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
-                    If Me.JNo <> "" Then
-                        cm.CommandText = String.Format("DELETE FROM Job_LoadInfoDetail WHERE BranchCode='{0}' AND JNo='{1}'", Me.BranchCode, Me.JNo)
+                    If Me.BookingNo <> "" Then
+                        cm.CommandText = String.Format("DELETE FROM Job_LoadInfoDetail WHERE BranchCode='{0}' AND BookingNo='{1}'", Me.BranchCode, Me.BookingNo)
                         cm.ExecuteNonQuery()
                         Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CTransportHeader", "DeleteData", cm.CommandText, False)
                     End If

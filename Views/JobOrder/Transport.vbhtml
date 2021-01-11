@@ -205,6 +205,7 @@ End Code
                 <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Form</b>
             </a>
             <select id="cboPrintForm">
+                <option value="BK">Booking Request</option>
                 <option value="TI">Truck Order (IMPORT)</option>
                 <option value="TE">Truck Order (EXPORT)</option>
                 <option value="BA">Booking Confirmation (AIR)</option>
@@ -213,7 +214,6 @@ End Code
                 <option value="BL">BL/AWB</option>
                 <option value="DO">D/O Letter</option>
                 <option value="SC">Sales Contract</option>
-                <option value="IV">Commercial Invoice</option>
                 <option value="PL">Packing Lists</option>
             </select>
             >
@@ -1485,7 +1485,7 @@ End Code
             case 'SC':
                 window.open(path + 'JobOrder/FormSalesContract?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
-            case 'IV':
+            case 'BK':
                 window.open(path + 'JobOrder/FormInvoice?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'PL':
