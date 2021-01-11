@@ -293,6 +293,7 @@
     <Content Include="App_Data\ACE\Scripts\popup.js" />
     <Content Include="App_Data\ACE\Scripts\reports.js" />
     <Content Include="App_Data\ACE\Scripts\util.js" />
+    <Content Include="App_Data\ANT\ant-logo.png" />
     <Content Include="App_Data\APL\lang.js" />
     <Content Include="App_Data\APL\Scripts\combo.js" />
     <Content Include="App_Data\APL\Scripts\lang.js" />
