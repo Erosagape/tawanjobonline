@@ -101,7 +101,7 @@ End Code
             </div>
             <div style="text-align:center">
                 <br />
-                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:60%" />
+                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:60%" ondblclick="ChangeAddress()" />
                 <br /><br />
                 <div id="divCompany" style="text-align:center;color:darkblue;font-size:12px">
                     <div style="font-weight:bold;font-size:12px">
@@ -290,4 +290,17 @@ if(unit.length>0) {
         }
     });
     }
+    function ChangeAddress() {
+        if (confirm('Do you want to change address to old company') == true) {
+            let html = '';
+            html = '<div style="font-weight:bold;font-size:12px">';
+            html += 'ADVANCE CARGO EXPRESS CO.,LTD.';
+            html += '</div>';
+            html += '21 ROMKLAO 21/3 KLONGSAMPRAVET<br />LADKRABANG BANGKOK 10320 THAILAND';
+            html += '<br />Tel (662) 670 0660 Fax (662) 170 7253';
+            html += '<br />E-mail/Website ace@th-ace.com';
+            $('#divCompany').html(html);
+        }
+    }
+
 </script>
