@@ -1046,6 +1046,8 @@
     <Content Include="App_Data\SMART\Shared\MasterPage.vbhtml" />
     <Content Include="App_Data\SMART\Shared\_Report.vbhtml" />
     <Content Include="App_Data\SMART\Shared\_ReportLandscape.vbhtml" />
+    <Content Include="App_Data\ANT\Shared\_Report.vbhtml" />
+    <Content Include="App_Data\ANT\Shared\_ReportLandscape.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

@@ -820,7 +820,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     If "" & data.CTN_NO <> "" Then
-                        If data.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo<>{2}", data.BranchCode, data.JNo, data.ItemNo)).Count > 0 Then
+                        If data.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo<>{2} AND CTN_NO='{3}'", data.BranchCode, data.JNo, data.ItemNo, data.CTN_NO)).Count > 0 Then
                             Return Content("{""result"":{""data"":null,""msg"":""This Container is duplicate""}}", jsonContent)
                         End If
                     End If
@@ -1189,22 +1189,27 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
         End Function
         Function GetJobSQL() As ActionResult
             Try
-                Dim oJob As New CJobOrder(GetSession("ConnJob"))
+                Dim conn As String = GetSession("ConnJob")
+                If Not IsNothing(Request.QueryString("DBID")) Then
+                    Dim dbID = Request.QueryString("DBID")
+                    conn = Main.GetDatabaseConnection(My.MySettings.Default.LicenseTo.ToString, appName, dbID)(0)
+                End If
+                Dim oJob As New CJobOrder(conn)
                 Dim tSqlW As String = ""
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlW &= " AND BranchCode='" & Request.QueryString("Branch") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("JNo")) Then
+                    tSqlW &= " AND JNo='" & Request.QueryString("JNo") & "'"
+                End If
                 If Not IsNothing(Request.QueryString("JType")) Then
                     tSqlW &= " AND JobType=" & Request.QueryString("JType") & ""
                 End If
                 If Not IsNothing(Request.QueryString("SBy")) Then
                     tSqlW &= " AND ShipBy=" & Request.QueryString("SBy") & ""
                 End If
-                If Not IsNothing(Request.QueryString("Branch")) Then
-                    tSqlW &= " AND BranchCode='" & Request.QueryString("Branch") & "'"
-                End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     tSqlW &= " AND JobStatus IN(" & Request.QueryString("Status") & ")"
-                End If
-                If Not IsNothing(Request.QueryString("JNo")) Then
-                    tSqlW &= " AND JNo='" & Request.QueryString("JNo") & "'"
                 End If
                 If Not IsNothing(Request.QueryString("Year")) Then
                     tSqlW &= " AND Year(DocDate)='" & Request.QueryString("Year") & "'"

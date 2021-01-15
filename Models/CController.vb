@@ -23,6 +23,8 @@ Public Class CController
         Session("CompanyEmail") = Nothing
         Session("CompanyAddr1") = Nothing
         Session("CompanyAddr2") = Nothing
+        Session("CompanyAddr1_EN") = Nothing
+        Session("CompanyAddr2_EN") = Nothing
         Session("Currency") = Nothing
         Session("VatRate") = Nothing
         Session("CreditDays") = Nothing
