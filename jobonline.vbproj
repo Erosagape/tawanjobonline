@@ -1049,6 +1049,12 @@
     <Content Include="App_Data\ANT\Shared\_Report.vbhtml" />
     <Content Include="App_Data\ANT\Shared\_ReportLandscape.vbhtml" />
     <Content Include="App_Data\ANT\Shared\MasterPage.vbhtml" />
+    <Content Include="App_Data\SMART\Acc\FormInv.vbhtml" />
+    <Content Include="App_Data\SMART\Acc\FormTaxinv.vbhtml" />
+    <Content Include="App_Data\SMART\JobOrder\ShowJob.vbhtml" />
+    <Content Include="App_Data\ANT\JobOrder\CreateJob.vbhtml" />
+    <Content Include="App_Data\SMART\JobOrder\Index.vbhtml" />
+    <Content Include="App_Data\ANT\JobOrder\ShowJob.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -1465,6 +1471,7 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Data\ANT\Acc\" />
     <Folder Include="Resource\Export\" />
     <Folder Include="Resource\Import\" />
   </ItemGroup>

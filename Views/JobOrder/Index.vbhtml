@@ -78,7 +78,7 @@ End Code
                         <th class="all">InspectDate</th>
                         <th class="all">Inv.Customer</th>
                         <th class="desktop">Customer</th>
-                        <th>DeclareNo</th>
+                        <th>Consignee</th>
                         <th class="desktop">Po/Ref</th>
                     </tr>
                 </thead>
@@ -207,7 +207,7 @@ End Code
                     },
                     { "data": "InvNo", "title": "Customer Inv." },
                     { "data": "CustTName", "title": "Customer" },
-                    { "data": "DeclareNumber", "title": "Declare No." },
+                    { "data": "ConsigneeName", "title": "Consignee" },
                     { "data": "CustRefNO", "title": "Cust.Ref" }
                 ]
             });

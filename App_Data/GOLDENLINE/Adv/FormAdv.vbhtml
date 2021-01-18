@@ -4,9 +4,6 @@
     ViewBag.ReportName = ""
 End Code
 <style>
-    #dvFooter {
-        display: none;
-    }
 </style>
 <table id="tbAdvInfo" style="width:100%">
     <tr>
@@ -152,10 +149,35 @@ End Code
                     </td>
                 </tr>
                 <tr>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px"></td>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom"></td>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom"></td>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom"></td>
+                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
+<br/>
+<br/>
+            <label style="font-size:9px">(__________________)</label>
+            <br />
+            <label style="font-size:9px">__/__/____</label>
+
+</td>
+                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+<br/>
+<br/>
+            <label style="font-size:9px">(__________________)</label>
+            <br />
+            <label style="font-size:9px">__/__/____</label>
+</td>
+                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+<br/>
+<br/>
+            <label style="font-size:9px">(__________________)</label>
+            <br />
+            <label style="font-size:9px">__/__/____</label>
+</td>
+                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+<br/>
+<br/>
+            <label style="font-size:9px">(__________________)</label>
+            <br />
+            <label style="font-size:9px">__/__/____</label>
+</td>
                 </tr>
             </table>
             <script type="text/javascript">

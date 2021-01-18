@@ -23,14 +23,15 @@
 
         <div style="display:flex">
             <div style="flex:5;padding:5px;">
-                <div id="divCompany" style="text-align:left;color:darkblue;font-size:16px">
+                <div id="divCompany" style="text-align:left;font-size:16px">
+                    <span style="font-size:16px;font-weight:bold;">@ViewBag.PROFILE_COMPANY_NAME_EN (HEAD OFFICE)</span><br />
                     <span style="font-size:16px;font-weight:bold;">@ViewBag.PROFILE_COMPANY_NAME (สำนักงานใหญ่)</span><br />
                 </div>
-<p style="font-size:11px">
-        @ViewBag.PROFILE_COMPANY_ADDR1  @ViewBag.PROFILE_COMPANY_ADDR2
-        <br />Tel @ViewBag.PROFILE_COMPANY_TEL E-Mail : @ViewBag.PROFILE_COMPANY_EMAIL
-        <br/> เลขประจำตัวผู้เสียภาษี : @ViewBag.PROFILE_TAXNUMBER 
-</p>
+                <p style="font-size:11px">
+                    @ViewBag.PROFILE_COMPANY_ADDR1_EN  @ViewBag.PROFILE_COMPANY_ADDR2_EN<br/>
+                    @ViewBag.PROFILE_COMPANY_ADDR1  @ViewBag.PROFILE_COMPANY_ADDR2
+                    <br />Tel @ViewBag.PROFILE_COMPANY_TEL E-Mail : @ViewBag.PROFILE_COMPANY_EMAIL TAX REFERENCE : @ViewBag.PROFILE_TAXNUMBER
+                </p>
             </div>
             <div style="flex:1;vertical-align:middle">
                 <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100px" />

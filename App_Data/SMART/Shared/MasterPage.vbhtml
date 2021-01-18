@@ -27,7 +27,7 @@
 <body style="background:#e6e6e6;color:black;">
     <!-- Sidebar -->
     <div class="w3-sidebar w3-bar-block w3-animate-left" style="display:none;z-index:5" id="mySidebar">
-        <div class="w3-sidebar w3-bar-block w3-indigo w3-card" style="width:250px;">
+        <div class="w3-sidebar w3-bar-block w3-indigo w3-card" id="myMenuBar" style="width:250px;">
             <div style="width:100%;text-align:center;background-color:white">
                 <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:40%;padding:5px 5px 5px 5px;" />
             </div>
@@ -276,7 +276,7 @@
         <div class="w3-container" style="margin-bottom:10px">
             <!-- Page Content -->
             <div Class="panel-primary">
-                <div Class="panel-heading w3-indigo">
+                <div id="myTitleBar" class="panel-heading w3-indigo">
                     <div Class="panel-title">
                         <div class="row">
                             <div class="col-xs-3 col-md-1" style="text-align:center">
@@ -322,7 +322,7 @@
         userLang = 'EN';
         $('#cboLanguage').val(userLang);
     }
-    
+
     SetEvents();
 
     function ForceLogout() {
@@ -387,6 +387,12 @@
             $('#imgCompany').attr('src',path + 'Resource/@ViewBag.PROFILE_LOGO');
             $('#lblUserID').text('@ViewBag.UserName');
             $('#lblLicenseName').text('@ViewBag.LICENSE_NAME');
+            if (GetDatabaseID().indexOf('TRANSPORT') >= 0) {
+                $('#myTitleBar').removeClass('w3-indigo');
+                $('#myMenuBar').removeClass('w3-indigo');
+                $('#myTitleBar').addClass('transport_theme');
+                $('#myMenuBar').addClass('transport_theme');
+            }
             $('#cboLanguage').val('@ViewBag.PROFILE_DEFAULT_LANG');
             userType = '@ViewBag.UserGroup';
             if (userType == 'S') {

@@ -33,11 +33,12 @@
         <table id="tblHeader" width="100%">
             <tr>
                 <td width="90%">
-                    <div id="divCompany" style="text-align:left;color:darkblue;font-size:9px;">
+                    <div id="divCompany" style="text-align:left;font-size:9px;">
+                        <b>@ViewBag.PROFILE_COMPANY_NAME_EN (HEAD OFFICE)</b><br />
                         <b>@ViewBag.PROFILE_COMPANY_NAME (สำนักงานใหญ่)</b>
+                        <br />@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN
                         <br />@ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2
-                        <br />Tel @ViewBag.PROFILE_COMPANY_TEL E-Mail @ViewBag.PROFILE_COMPANY_EMAIL
-                        <br />เลขประจำตัวผู้เสียภาษี : @ViewBag.PROFILE_TAXNUMBER 
+                        <br />Tel @ViewBag.PROFILE_COMPANY_TEL E-Mail @ViewBag.PROFILE_COMPANY_EMAIL TAX REFERENCE : @ViewBag.PROFILE_TAXNUMBER
                     </div>
                 </td>
                 <td width="10%" style="text-align:center">

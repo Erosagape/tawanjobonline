@@ -1,4 +1,11 @@
-﻿.panel-body {
+﻿.shipping_theme {
+    background-color:indigo !important;
+}
+.transport_theme {
+    background-color:maroon !important;
+    color:white;
+}
+.panel-body {
     background-color: papayawhip;
 }
 

@@ -125,6 +125,7 @@ End Code
                                 <div>
                                     <label id="lblCustPoNo" for="txtCustPoNo">Customer PO :</label>
                                     <input type="text" id="txtCustPoNo" style="width:300px" tabindex="5" />
+                                    <input type="button" id="btnLinkJob" value="Load From Job Shipping" class="btn btn-primary" onclick="SearchData('job')" />
                                 </div>
                                 <div>
                                     <label id="lblDescription" for="txtDescription">Descriptions : </label>
@@ -244,7 +245,7 @@ End Code
                             <div style="display:flex;flex-direction:column">
                                 <div>
                                     <label id="lblProjectName" for="txtProjectName">Project Name :</label>
-                                    <br/>
+                                    <br />
                                     <textarea id="txtProjectName" style="width:70%" tabindex="26"></textarea>
                                     <input type="button" id="btnBrowseProj" value="..." onclick="SearchData('ProjectName')" />
                                 </div>
@@ -423,8 +424,8 @@ End Code
                             <br />
                             <button id="btnLinkPaperless" class="btn btn-success" onclick="LoadPaperless()">Load Data From Paperless</button>
                             <select id="cboDBType">
-                                <option value="JANDT">TAWAN</option>
-                                <option value="ECS" selected>ECS</option>
+                                <option value="JANDT" selected>TAWAN</option>
+                                <option value="ECS">ECS</option>
                             </select>
                         </div>
                     </div>
@@ -673,7 +674,7 @@ End Code
                     </div>
                     <div class="modal-footer">
                         <label id="lblTotalC">Total Container</label>
-                         : <input type="text" id="txtTotalCon" disabled />
+                        : <input type="text" id="txtTotalCon" disabled />
                         <button class="btn btn-success" id="btnSaveCons" onclick="ApplyService()">Update Value</button>
                         <button class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
@@ -690,9 +691,13 @@ End Code
     const userGroup = '@ViewBag.UserGroup';
     const userRights = '@ViewBag.UserRights';
     const userPosition = '@ViewBag.UserPosition';
+    const license = '@ViewBag.LICENSE_NAME';
     let rec = {};
     //main function
     //$(document).ready(function () {
+    if (license.indexOf('TRANSPORT') < 0) {
+        $('#btnLinkJob').hide();
+    }
     SetLOVs();
     SetEvents();
     //check parameters
@@ -799,8 +804,10 @@ End Code
     }
     function SetLOVs() {
         //3 Fields Show
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("frmLOVs");
+            //Jobs
+            CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job Shipping', response, 4);
             //Customers
             CreateLOV(dv,'#frmSearchCust', '#tbCust','Customers',response,3);
             //Consignee
@@ -998,6 +1005,12 @@ End Code
             case 'SERVUNIT':
                 SetContainerEdit();
                 break;
+            case 'job':
+                SetGridJob(path, '#tbJob', '#frmSearchJob', '?DBID=1&CustCode=' + $('#txtCustCode').val(), function (r) {
+                    $('#txtCustPoNo').val(r.JNo);
+                    ReadJob(r);
+                });
+                break;
         }
     }
     //This section for calculate amount of duty payment
@@ -1029,112 +1042,34 @@ End Code
                 $('#txtJNo').val(dr.JNo);
                 $('#txtCustCode').val(dr.CustCode);
                 $('#txtCustBranch').val(dr.CustBranch);
-                ShowCustomerFull(path,dr.CustCode, dr.CustBranch, '#txtCustName', '#txtTAddress', '#txtEAddress', '#txtPhoneFax');
-                ShowJobTypeShipBy(path,dr.JobType, dr.ShipBy, dr.JobStatus, '#txtJobType', '#txtShipBy', '#txtJobStatus');
                 $('#txtRevised').val(dr.JRevise);
                 $('#txtDocDate').val(CDateEN(dr.DocDate));
-                $('#txtQNo').val(dr.QNo);
-                $('#txtQRevise').val(dr.Revise);
-                $('#txtCustInvNo').val(dr.InvNo);
-                $('#txtDeclareNo').val(dr.DeclareNumber);
-                ShowUser(path,dr.ManagerCode, '#txtManagerName');
-                $('#txtCommission').val(dr.Commission);
-                $('#txtContactName').val(dr.CustContactName);
-                ShowUser(path,dr.CSCode, '#txtCSName');
                 $('#txtConfirmDate').val(CDateEN(dr.ConfirmDate));
-                ShowUser(path,dr.CloseJobBy, '#txtCloseBy');
-                $('#txtJobCondition').val(dr.TRemark);
                 $('#txtCloseDate').val(CDateEN(dr.CloseJobDate));
                 $('#txtCustPoNo').val(dr.CustRefNO);
-                $('#txtDescription').val(dr.Description);
                 $('#txtCancelReason').val(dr.CancelReson);
-                ShowUser(path,dr.CancelProve, '#txtCancelBy');
+                $('#txtCancelDate').val(CDateEN(dr.CancelDate));
                 $('#txtConsignee').val(dr.Consigneecode);
                 $('#txtConsBranch').val(dr.CustBranch);
-                ShowCustomerFull(path,dr.Consigneecode, dr.CustBranch, '#txtConsignName', '#txtBillTAddress', '#txtBillEAddress', '');
-
-                $('#txtCancelDate').val(CDateEN(dr.CancelDate));
-                $('#txtProjectName').val(dr.ProjectName);
-                $('#txtInvProduct').val(dr.InvProduct);
-                $('#txtInvQty').val(dr.InvProductQty);
-                $('#txtInvUnit').val(dr.InvProductUnit);
-                $('#txtInvPackQty').val(dr.TotalQty);
-                $('#txtInvTotal').val(dr.InvTotal);
-                $('#txtMeasurement').val(dr.Measurement);
-                $('#txtNetWeight').val(dr.TotalNW);
-                $('#txtGrossWeight').val(dr.TotalGW);
-                $('#txtWeightUnit').val(dr.GWUnit);
-
-                $('#cboTyAuthorSp').val(dr.TyAuthorSp);
-                $('#cboTy19BIS').val(dr.Ty19BIS);
-                $('#cboTyClearTax').val(dr.TyClearTax);
-                $('#txtClearTaxReson').val(dr.TyClearTaxReson);
-
-                $('#chkTSRequest').prop('checked', dr.TSRequest === 1 ? true : false);
-                $('#chkTyAuthorSp').prop('checked', $('#cboTyAuthorSp').val()==='' ? false : true);
-                $('#chkTy19BIS').prop('checked', $('#cboTy19BIS').val() === '' ? false : true);
-                $('#chkTyClearTax').prop('checked', $('#cboTyClearTax').val() === '' ? false : true);
-
-                $('input:radio[name=optDeclareStatus]:checked').prop('checked', false);
-                $('input:radio[name=optDeclareStatus][value="' + dr.DeclareStatus + '"]').prop('checked', true);
-
-                $('#txtInvCurrency').val(dr.InvCurUnit);
-                $('#txtInvCurRate').val(dr.InvCurRate);
-                $('#txtInvCountryCode').val(dr.InvCountry);
-                $('#txtInvFCountryCode').val(dr.InvFCountry);
-                ShowCountry(path,dr.InvCountry, '#txtInvCountry');
-                ShowCountry(path,dr.InvFCountry, '#txtInvFCountry');
-                $('#txtBookingNo').val(dr.BookingNo);
-                $('#txtBLNo').val(dr.BLNo);
-                $('#txtHAWB').val(dr.HAWB);
-                $('#txtMAWB').val(dr.MAWB);
-                $('#txtForwarder').val(dr.ForwarderCode);
-                ShowVender(path,dr.ForwarderCode, '#txtForwarderName');
-                $('#txtVesselName').val(dr.VesselName);
-                $('#txtMVesselName').val(dr.MVesselName);
-                $('#txtInterPort').val(dr.InvInterPort);
-                ShowInterPort(path, dr.JobType == 1 ? dr.InvFCountry : dr.InvCountry, dr.InvInterPort, '#txtInterPortName');
-                $('#txtTransporter').val(dr.AgentCode);
-                ShowVender(path,dr.AgentCode, '#txtTransporterName');
-                $('#txtTotalCTN').val(dr.TotalContainer);
-                $('#txtETDDate').val(CDateEN(dr.ETDDate));
-                $('#txtETADate').val(CDateEN(dr.ETADate));
-                $('#txtLoadDate').val(CDateEN(dr.LoadDate));
-                $('#txtDeliveryDate').val(CDateEN(dr.EstDeliverDate));
-                $('#txtEDIDate').val(CDateEN(dr.ImExDate));
-                $('#txtReadyClearDate').val(CDateEN(dr.ReadyToClearDate));
-                $('#txtDutyDate').val(CDateEN(dr.DutyDate));
-                $('#txtClearDate').val(CDateEN(dr.ClearDate));
-                $('#txtDeclareType').val(dr.DeclareType);
-                ShowDeclareType(path,dr.DeclareType, '#txtDeclareTypeName');
-                $('#txtReleasePort').val(dr.ClearPort);
-                $('#txtPortNo').val(dr.ClearPortNo);
-                ShowReleasePort(path,dr.ClearPort, '#txtReleasePortName');
-                $('#txtDutyAmt').val(dr.DutyAmount);
                 $('#txtShipping').val(dr.ShippingEmp);
-                ShowUser(path,dr.ShippingEmp, '#txtShippingName');
-                $('#txtShippingCmd').val(dr.ShippingCmd);
+                $('#txtForwarder').val(dr.ForwarderCode);
+                $('#txtTransporter').val(dr.AgentCode);
 
-                $('#txtComPaidChq').val(dr.DutyLtdPayChqAmt);
-                $('#txtComPaidCash').val(dr.DutyLtdPayCashAmt);
-                $('#txtComPaidEPay').val(dr.DutyLtdPayEPAYAmt);
-                $('#txtComPaidOthers').val(dr.DutyLtdPayOtherAmt);
-                $('#txtComOthersPayBy').val(dr.DutyLtdPayOther);
+                ShowCustomerFull(path,dr.CustCode, dr.CustBranch, '#txtCustName', '#txtTAddress', '#txtEAddress', '#txtPhoneFax');
+                ShowJobTypeShipBy(path, dr.JobType, dr.ShipBy, dr.JobStatus, '#txtJobType', '#txtShipBy', '#txtJobStatus');
 
-                $('#txtCustPaidChq').val(dr.DutyCustPayChqAmt);
-                $('#txtCustPaidCash').val(dr.DutyCustPayCashAmt);
-                $('#txtCustPaidCard').val(dr.DutyCustPayCardAmt);
-                $('#txtCustPaidBank').val(dr.DutyCustPayBankAmt);
-                $('#txtCustPaidEPay').val(dr.DutyCustPayEPAYAmt);
-                $('#txtCustPaidOthers').val(dr.DutyCustPayOtherAmt);
-                $('#txtCustOthersPayBy').val(dr.DutyCustPayOther);
+                ShowUser(path, dr.ManagerCode, '#txtManagerName');
+                ShowUser(path, dr.CSCode, '#txtCSName');
+                ShowUser(path, dr.CloseJobBy, '#txtCloseBy');
+                ShowUser(path, dr.CancelProve, '#txtCancelBy');
+                ShowUser(path, dr.ShippingEmp, '#txtShippingName');
 
-                CalTotalLtd();
-                CalTotalCust();
+                ShowVender(path, dr.ForwarderCode, '#txtForwarderName');
+                ShowVender(path, dr.AgentCode, '#txtTransporterName');
 
-                $('#txtDeliverNo').val(dr.DeliveryNo);
-                $('#txtDeliverTo').val(dr.DeliveryTo);
-                $('#txtDeliverAddr').val(dr.DeliveryAddr);
+                ShowCustomerFull(path, dr.Consigneecode, dr.CustBranch, '#txtConsignName', '#txtBillTAddress', '#txtBillEAddress', '');
+
+                ReadJob(dr);
 
                 if (dr.JobStatus >= 7) {
                     $('#btnSave').attr('disabled', 'disabled');
@@ -1143,6 +1078,94 @@ End Code
         });
         ShowLog(Branch, Job);
         ShowTracking(Branch, Job);
+    }
+    function ReadJob(dr) {
+        $('#txtQNo').val(dr.QNo);
+        $('#txtQRevise').val(dr.Revise);
+        $('#txtCustInvNo').val(dr.InvNo);
+        $('#txtDeclareNo').val(dr.DeclareNumber);
+        $('#txtCommission').val(dr.Commission);
+        $('#txtContactName').val(dr.CustContactName);
+        $('#txtJobCondition').val(dr.TRemark);
+        $('#txtDescription').val(dr.Description);
+        $('#txtProjectName').val(dr.ProjectName);
+        $('#txtInvProduct').val(dr.InvProduct);
+        $('#txtInvQty').val(dr.InvProductQty);
+        $('#txtInvUnit').val(dr.InvProductUnit);
+        $('#txtInvPackQty').val(dr.TotalQty);
+        $('#txtInvTotal').val(dr.InvTotal);
+        $('#txtMeasurement').val(dr.Measurement);
+        $('#txtNetWeight').val(dr.TotalNW);
+        $('#txtGrossWeight').val(dr.TotalGW);
+        $('#txtWeightUnit').val(dr.GWUnit);
+
+        $('#cboTyAuthorSp').val(dr.TyAuthorSp);
+        $('#cboTy19BIS').val(dr.Ty19BIS);
+        $('#cboTyClearTax').val(dr.TyClearTax);
+        $('#txtClearTaxReson').val(dr.TyClearTaxReson);
+
+        $('#chkTSRequest').prop('checked', dr.TSRequest === 1 ? true : false);
+        $('#chkTyAuthorSp').prop('checked', $('#cboTyAuthorSp').val() === '' ? false : true);
+        $('#chkTy19BIS').prop('checked', $('#cboTy19BIS').val() === '' ? false : true);
+        $('#chkTyClearTax').prop('checked', $('#cboTyClearTax').val() === '' ? false : true);
+
+        $('input:radio[name=optDeclareStatus]:checked').prop('checked', false);
+        $('input:radio[name=optDeclareStatus][value="' + dr.DeclareStatus + '"]').prop('checked', true);
+
+        $('#txtInvCurrency').val(dr.InvCurUnit);
+        $('#txtInvCurRate').val(dr.InvCurRate);
+        $('#txtInvCountryCode').val(dr.InvCountry);
+        $('#txtInvFCountryCode').val(dr.InvFCountry);
+        $('#txtBookingNo').val(dr.BookingNo);
+        $('#txtBLNo').val(dr.BLNo);
+        $('#txtHAWB').val(dr.HAWB);
+        $('#txtMAWB').val(dr.MAWB);
+        $('#txtVesselName').val(dr.VesselName);
+        $('#txtMVesselName').val(dr.MVesselName);
+        $('#txtInterPort').val(dr.InvInterPort);
+        $('#txtTotalCTN').val(dr.TotalContainer);
+        $('#txtETDDate').val(CDateEN(dr.ETDDate));
+        $('#txtETADate').val(CDateEN(dr.ETADate));
+        $('#txtLoadDate').val(CDateEN(dr.LoadDate));
+        $('#txtDeliveryDate').val(CDateEN(dr.EstDeliverDate));
+        $('#txtEDIDate').val(CDateEN(dr.ImExDate));
+        $('#txtReadyClearDate').val(CDateEN(dr.ReadyToClearDate));
+        $('#txtDutyDate').val(CDateEN(dr.DutyDate));
+
+        $('#txtClearDate').val(CDateEN(dr.ClearDate));
+        $('#txtDeclareType').val(dr.DeclareType);
+        $('#txtReleasePort').val(dr.ClearPort);
+        $('#txtPortNo').val(dr.ClearPortNo);
+        $('#txtDutyAmt').val(dr.DutyAmount);
+
+        $('#txtShippingCmd').val(dr.ShippingCmd);
+
+        $('#txtComPaidChq').val(dr.DutyLtdPayChqAmt);
+        $('#txtComPaidCash').val(dr.DutyLtdPayCashAmt);
+        $('#txtComPaidEPay').val(dr.DutyLtdPayEPAYAmt);
+        $('#txtComPaidOthers').val(dr.DutyLtdPayOtherAmt);
+        $('#txtComOthersPayBy').val(dr.DutyLtdPayOther);
+
+        $('#txtCustPaidChq').val(dr.DutyCustPayChqAmt);
+        $('#txtCustPaidCash').val(dr.DutyCustPayCashAmt);
+        $('#txtCustPaidCard').val(dr.DutyCustPayCardAmt);
+        $('#txtCustPaidBank').val(dr.DutyCustPayBankAmt);
+        $('#txtCustPaidEPay').val(dr.DutyCustPayEPAYAmt);
+        $('#txtCustPaidOthers').val(dr.DutyCustPayOtherAmt);
+        $('#txtCustOthersPayBy').val(dr.DutyCustPayOther);
+        $('#txtDeliverNo').val(dr.DeliveryNo);
+        $('#txtDeliverTo').val(dr.DeliveryTo);
+        $('#txtDeliverAddr').val(dr.DeliveryAddr);
+
+        ShowCountry(path, dr.InvCountry, '#txtInvCountry');
+        ShowCountry(path, dr.InvFCountry, '#txtInvFCountry');
+        ShowInterPort(path, dr.JobType == 1 ? dr.InvFCountry : dr.InvCountry, dr.InvInterPort, '#txtInterPortName');
+
+        ShowDeclareType(path, dr.DeclareType, '#txtDeclareTypeName');
+        ShowReleasePort(path, dr.ClearPort, '#txtReleasePortName');
+
+        CalTotalLtd();
+        CalTotalCust();
     }
     function ShowTracking(Branch, Job) {
         let w = '&cancel=' + ($('#chkCancel').prop('checked') ? 'Y' : 'N');
@@ -1592,7 +1615,7 @@ End Code
                 if (r[0].DepDate !== null) $('#txtETDDate').val(CDateEN(r[0].DepDate));
                 $('#txtInvCurrency').val(r[0].CurCode);
                 $('#txtInvCurRate').val(r[0].CurRate);
-                $('#txtInvTotal').val(r[0].FOBValueF);                
+                $('#txtInvTotal').val(r[0].FOBValueF);
                 $('#txtVesselName').val(r[0].VesselName + (r[0].VoyNumber !== '' ? ' V.' + r[0].VoyNumber : ''));
                 $('#txtReleasePort').val(r[0].ReleasePort);
                 $('#txtPortNo').val(r[0].LoadedPort);
@@ -1602,7 +1625,7 @@ End Code
                 $('#txtGrossWeight').val(r[0].TotalGrossW);
                 $('#txtWeightUnit').val(r[0].WeightUnit);
                 $('#txtInvQty').val(r[0].TotalPackageAmt);
-                $('#txtInvUnit').val(r[0].TotalPackageUnit);                
+                $('#txtInvUnit').val(r[0].TotalPackageUnit);
 
                 if (r[0].RecDate !== null) $('#txtEDIDate').val(CDateEN(r[0].RecDate));
                 if(r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));
@@ -1637,7 +1660,7 @@ End Code
                 $('#txtGrossWeight').val(r[0].TotalGrossW);
                 $('#txtWeightUnit').val(r[0].WeightUnit);
                 $('#txtInvQty').val(r[0].TotalPackageAmt);
-                $('#txtInvUnit').val(r[0].TotalPackageUnit);                
+                $('#txtInvUnit').val(r[0].TotalPackageUnit);
 
                 if (r[0].RecDate !== null) $('#txtEDIDate').val(CDateEN(r[0].RecDate));
                 if(r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));
