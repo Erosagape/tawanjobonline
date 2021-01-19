@@ -1815,6 +1815,10 @@ End Code
             ShowMessage('This job has been closed',true);
             return;
         }
+        if (dt.JobStatus==99) {
+            ShowMessage('This job has been cancelled', true);
+            return;
+        }
         $('#txtForJNo').val(dt.JNo);
         $('#txtInvNo').val(dt.InvNo);
     }

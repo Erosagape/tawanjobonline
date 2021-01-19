@@ -5,7 +5,7 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblBranch">Branch:</label>
+                <label id="lblBranch">Branch:</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -26,7 +26,7 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <label id="lblCustCode">Customer</label>
+                <label id="lblCustCode">Customer</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" style="width:120px" />
@@ -44,7 +44,7 @@ End Code
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
-                <input type="checkbox" id="chkSelectAll" checked /> Select All
+                <input type="checkbox" id="chkSelectAll" checked /> Select All 
             </div>
         </div>
         <div class="row">
@@ -69,6 +69,9 @@ End Code
                 <a href="#" class="btn btn-success" id="btnGen" onclick="ShowSummary()">
                     <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkCreate">Create Invoice</b>
                 </a>
+                <a href="#" class="btn btn-warning" id="btnGen" onclick="SetTempInv()">
+                    <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkSave">Preview Invoice</b>
+                </a>
                 <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ResetData()">
                     <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkReset">Reset Select</b>
                 </a>
@@ -90,9 +93,9 @@ End Code
                                 <label id="lblInvType">Invoice Type :</label>
                                 <br />
                                 <select id="cboDocType" class="form-control dropdown">
-                                    <option value="IVS-">Service</option>
-                                    <option value="IVT-">Transport</option>
-                                    <option value="IVF-">Freight</option>
+                                    <option value="BKK">Service</option>
+                                    <option value="RGM">Advance</option>
+                                    <option value="APL">Outside</option>
                                 </select>
 
                             </div>
@@ -102,7 +105,7 @@ End Code
                                 <label id="lblReplaceInv">Replace Invoice No:</label>
                                 <br />
                                 <div style="display:flex;flex-direction:row">
-                                    <input type="text" id="txtDocNo" class="form-control" disabled />
+                                    <input type="text" id="txtDocNo" class="form-control" />
                                     <input type="button" onclick="SearchData('invoice')" value="..." />
                                 </div>
                             </div>
@@ -132,7 +135,7 @@ End Code
                             <table>
                                 <tr>
                                     <td>
-                                        <label id="lblCheque">Use Cheque:</label>
+                                        <label id="lblCheque">Use Cheque:</label>                                        
                                         <br />
                                         <div style="display:flex;flex-direction:row">
                                             <input type="text" id="txtChqNo" class="form-control" disabled />
@@ -227,13 +230,17 @@ End Code
                         <div class="col-sm-8">
                             <b id="linkDet">Invoice Detail:</b>
                             <button id="btnMerge" class="btn btn-default" onclick="MergeData()">Group Data</button>
+                            <select id="cboMergeType">
+                                <option value="C">By Code,Price</option>
+                                <option value="S">By Slip,Code</option>
+                            </select>
                             <br />
                             <table id="tbDetail" class="table table-responsive" style="width:100%;">
                                 <thead>
                                     <tr>
                                         <th>#</th>
                                         <th class="all">JobNo</th>
-                                        <th>Description</th>
+                                        <th class="all">Description</th>
                                         <th class="desktop">SlipNo</th>
                                         <th class="desktop">Advance</th>
                                         <th class="desktop">Charge</th>
@@ -255,12 +262,12 @@ End Code
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <label id="lblClearNo">Clearing No</label> :
-                        <label id="lblClrNo"></label>
-                        <label id="lblJNo">Job No</label>:
+                        <label id="lblClearNo">Clearing No</label> : 
+                        <label id="lblClrNo"></label>                                                                     
+                        <label id="lblJNo">Job No</label>: 
                         <label id="lblJobNo"></label>
                         <br />
-                        <label id="lblCode">Code</label>:
+                        <label id="lblCode">Code</label>: 
                         <label id="lblSICode"></label>
                         <label id="lblDesc">Description</label>:
                         <label id="lblSDescription"></label>
@@ -353,6 +360,7 @@ End Code
     let arr_clr = [];
     let chq = [];
     let jt = '';
+    let creditlimit = 0;
     //$(document).ready(function () {
     //Load params
     let branch = getQueryString("branch");
@@ -361,7 +369,6 @@ End Code
     let custbranch = getQueryString("custbranch");
     let billtocustcode = '';
     let billtocustbranch = '';
-    let creditlimit = 0;
 
     if (branch !== '' && code !== '') {
         $('#txtBranchCode').val(branch);
@@ -933,58 +940,7 @@ End Code
         return;
     }
     function SaveHeader() {
-        let dataInv = {
-            BranchCode:$('#txtBranchCode').val(),
-            DocNo: $('#txtDocNo').val(),
-            DocType:$('#cboDocType').val(),
-            DocDate: CDateEN($('#txtDocDate').val()),
-            CustCode:$('#txtCustCode').val(),
-            CustBranch:$('#txtCustBranch').val(),
-            BillToCustCode:billtocustcode,
-            BillToCustBranch:billtocustbranch,
-            ContactName:'',
-            EmpCode:user,
-            PrintedBy:'',
-            PrintedDate:null,
-            PrintedTime:null,
-            RefNo: GetRefNo(),
-            VATRate:CNum(CNum(@ViewBag.PROFILE_VATRATE)*100),
-            TotalAdvance:CNum($('#txtTotalAdvance').val()),
-            TotalCharge:CNum($('#txtTotalCharge').val()),
-            TotalIsTaxCharge:CNum($('#txtTotalIsTaxCharge').val()),
-            TotalIs50Tavi:CNum($('#txtTotalIs50Tavi').val()),
-            TotalVAT:CNum($('#txtTotalVat').val()),
-            Total50Tavi:CNum($('#txtTotal50Tavi').val()),
-            TotalCustAdv:CNum($('#txtTotalCustAdv').val()),
-            TotalNet:CNum($('#txtTotalNet').val()),
-            CurrencyCode:$('#txtCurrencyCode').val(),
-            ExchangeRate:CNum($('#txtExchangeRate').val()),
-            ForeignNet: CNum($('#txtForeignNet').val()),
-            TotalDiscount: CNum($('#txtTotalDiscount').val()),
-            SumDiscount: CNum($('#txtSumDiscount').val()),
-            DiscountRate: CNum($('#txtDiscountRate').val()),
-            CalDiscount:CNum($('#txtCalDiscount').val()),
-            BillAcceptDate:null,
-            BillIssueDate:null,
-            BillAcceptNo:'',
-            Remark1:'',
-            Remark2:'',
-            Remark3:'',
-            Remark4:'',
-            Remark5:'',
-            Remark6:'',
-            Remark7:'',
-            Remark8:'',
-            Remark9:'',
-            Remark10:'',
-            CancelReson:'',
-            CancelProve:'',
-            CancelDate:null,
-            CancelTime:null,
-            ShippingRemark: GetDueDate($('#txtDocDate').val()),
-            DueDate: null,
-            CreateDate:CDateEN(GetToday())
-        };
+        let dataInv =GetDataHeader();
         let jsonString = JSON.stringify({ data: dataInv });
         $.ajax({
             url: "@Url.Action("SetInvHeader", "Acc")",
@@ -996,9 +952,9 @@ End Code
                     if (chq.length > 0) {
                         SaveCheque(response.result.data);
                     }
-                    if ($('#txtDocNo').val() == '') {
-                        SaveDetail(response.result.data);
-                    }
+                    //if ($('#txtDocNo').val() == '') {
+                    SaveDetail(response.result.data);
+                    //}
                     ShowMessage(response.result.data);
                     $('#dvCreate').modal('hide');
 
@@ -1065,7 +1021,7 @@ End Code
         $.get(path + 'Acc/DelInvDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
             //if (r.invdetail.data !== null) {
             SaveHeader();
-            SaveDetail($('#txtDocNo').val());
+            //SaveDetail($('#txtDocNo').val());
             //}
         });
     }
@@ -1185,7 +1141,7 @@ End Code
             let month = dinput.getMonth;
             let year = dinput.getFullYear;
             let doutput = new Date(year, month, day);
-            return 'DUE DATE:' + CDateEN(doutput);
+            return CDateEN(doutput);
         }
         return '';
     }
@@ -1220,8 +1176,8 @@ End Code
                     ExchangeRate: $('#txtExchangeRate').val(),
                     Qty: CNum(obj.Qty),
                     QtyUnit: obj.QtyUnit,
-                    UnitPrice: obj.UnitPrice,
-                    FUnitPrice: CDbl(obj.UnitPrice / CNum($('#txtExchangeRate').val()), 2),
+                    UnitPrice: (CNum(obj.Amt)/CNum(obj.Qty)),
+                    FUnitPrice: CDbl((CNum(obj.Amt) / CNum(obj.Qty)) / CNum($('#txtExchangeRate').val()), 2),
                     Amt: CDbl(obj.Amt,2),
                     FAmt: CDbl(obj.Amt / CNum($('#txtExchangeRate').val()), 2),
                     DiscountType: obj.DiscountType,
@@ -1257,8 +1213,8 @@ End Code
                     ExchangeRate: $('#txtExchangeRate').val(),
                     Qty: obj.Qty,
                     QtyUnit: obj.QtyUnit,
-                    UnitPrice: obj.UnitPrice,
-                    FUnitPrice: CDbl(obj.UnitPrice / CNum($('#txtExchangeRate').val()), 2),
+                    UnitPrice: (CNum(obj.Amt) / CNum(obj.Qty)),
+                    FUnitPrice: CDbl((CNum(obj.Amt) / CNum(obj.Qty)) / CNum($('#txtExchangeRate').val()), 2),
                     Amt: obj.Amt,
                     FAmt: CDbl(obj.Amt / CNum($('#txtExchangeRate').val()), 2),
                     DiscountType: obj.DiscountType,
@@ -1303,7 +1259,14 @@ End Code
         let arr_sel = arr.filter(function (d) {
             return d.AmtCharge > 0 || d.AmtAdvance > 0;
         });
-        sortData(arr_sel, 'SICode', 'asc');
+        if ($('#cboMergeType').val() == 'S') {
+            sortData(arr_sel, 'ExpSlipNO', 'desc');
+            sortData(arr_sel, 'SICode', 'asc');
+            sortData(arr_sel, 'Amt', 'asc');
+        } else {
+            sortData(arr_sel, 'SICode', 'asc');
+            sortData(arr_sel, 'Amt', 'asc');
+        }
 
         let slipList = '';
         let clearList = '';
@@ -1311,19 +1274,29 @@ End Code
         let key = {};
         let itemNo = 0;
         let rowProcess = 0;
+        let checkData = '';
         for (obj of arr_sel) {
-            rowProcess +=1;
-            if (currCode !== obj.SICode) {
+            rowProcess += 1;
+            if ($('#cboMergeType').val() == 'S') {
+                checkData = obj.ExpSlipNO + '' + obj.SICode + '' + CDbl(CNum(obj.Amt) / CNum(obj.Qty), 2);
+            } else {
+                checkData = obj.SICode + '' + CDbl(CNum(obj.Amt) / CNum(obj.Qty), 2);
+            }
+            if (currCode !== checkData) {
                 if (currCode !== '') {
                     key.ClrNo = '';
                     key.ClrItemNo = 0;
                     key.ClrNoList = clearList;
                     key.ExpSlipNO = slipList;
-                    key.UnitPrice = CNum(key.Amt) / CNum(key.Qty);
+                    key.UnitPrice = CDbl(CNum(obj.Amt) / CNum(obj.Qty),2);
                     key.FUnitPrice = CDbl(CNum(key.UnitPrice) / CNum(obj.ExchangeRate), 2);
                     arr_new.push(key);
                 }
-                currCode = obj.SICode;
+                if ($('#cboMergeType').val() == 'S') {
+                    currCode = obj.ExpSlipNO + '' + obj.SICode + '' + CDbl(CNum(obj.Amt) / CNum(obj.Qty), 2);
+                } else {
+                    currCode = obj.SICode + '' + CDbl(CNum(obj.Amt) / CNum(obj.Qty), 2);
+                }
                 itemNo += 1;
                 key = obj;
                 key.ItemNo = itemNo;
@@ -1348,7 +1321,7 @@ End Code
             if (clearList.indexOf((obj.ClrNo + '/' + obj.ClrItemNo)) < 0) {
                 clearList += (clearList !== '' ? ',' : '') + (obj.ClrNo + '/' + obj.ClrItemNo);
             }
-            if (obj.ExpSlipNO !== null) {
+            if (obj.ExpSlipNO !== '' && obj.ExpSlipNO !== null) {
                 if (slipList.indexOf(obj.ExpSlipNO) < 0) {
                     slipList += (slipList !== '' ? ',' : '') + obj.ExpSlipNO;
                 }
@@ -1358,12 +1331,17 @@ End Code
                 key.ClrItemNo = 0;
                 key.ClrNoList = clearList;
                 key.ExpSlipNO = slipList;
-                key.UnitPrice = CNum(key.Amt) / CNum(key.Qty);
+                key.UnitPrice = CDbl(CNum(obj.Amt) / CNum(obj.Qty),2);
                 key.FUnitPrice = CDbl(CNum(key.UnitPrice) / CNum(obj.ExchangeRate), 2);
                 arr_new.push(key);
             }
         }
         arr = arr_new;
+        if ($('#cboMergeType').val() == 'S') {
+            sortData(arr, 'ExpSlipNO', 'desc');
+        } else {
+            sortData(arr, 'SICode', 'asc');
+        }
         CalSummary();
     }
     function ClearVariable() {
@@ -1492,5 +1470,83 @@ End Code
         let net = amt-disc+ vat - wht;
 
         $('#txtAmtNET').val(ShowNumber(net,2));
+    }
+    function GetDataHeader() {
+        let duedate = GetDueDate($('#txtDocDate').val());
+        return {
+            BranchCode: $('#txtBranchCode').val(),
+            DocNo: $('#txtDocNo').val(),
+            DocType: $('#cboDocType').val(),
+            DocDate: CDateEN($('#txtDocDate').val()),
+            CustCode: $('#txtCustCode').val(),
+            CustBranch: $('#txtCustBranch').val(),
+            BillToCustCode: billtocustcode,
+            BillToCustBranch: billtocustbranch,
+            ContactName: '',
+            EmpCode: user,
+            PrintedBy: '',
+            PrintedDate: null,
+            PrintedTime: null,
+            RefNo: GetRefNo(),
+            VATRate: CNum(CNum(@ViewBag.PROFILE_VATRATE) * 100),
+            TotalAdvance: CNum($('#txtTotalAdvance').val()),
+            TotalCharge: CNum($('#txtTotalCharge').val()),
+            TotalIsTaxCharge: CNum($('#txtTotalIsTaxCharge').val()),
+            TotalIs50Tavi: CNum($('#txtTotalIs50Tavi').val()),
+            TotalVAT: CNum($('#txtTotalVat').val()),
+            Total50Tavi: CNum($('#txtTotal50Tavi').val()),
+            TotalCustAdv: CNum($('#txtTotalCustAdv').val()),
+            TotalNet: CNum($('#txtTotalNet').val()),
+            CurrencyCode: $('#txtCurrencyCode').val(),
+            ExchangeRate: CNum($('#txtExchangeRate').val()),
+            ForeignNet: CNum($('#txtForeignNet').val()),
+            TotalDiscount: CNum($('#txtTotalDiscount').val()),
+            SumDiscount: CNum($('#txtSumDiscount').val()),
+            DiscountRate: CNum($('#txtDiscountRate').val()),
+            CalDiscount: CNum($('#txtCalDiscount').val()),
+            BillAcceptDate: null,
+            BillIssueDate: null,
+            BillAcceptNo: '',
+            Remark1: '',
+            Remark2: '',
+            Remark3: '',
+            Remark4: '',
+            Remark5: '',
+            Remark6: '',
+            Remark7: '',
+            Remark8: '',
+            Remark9: '',
+            Remark10: '',
+            CancelReson: '',
+            CancelProve: '',
+            CancelDate: null,
+            CancelTime: null,
+            ShippingRemark: 'DUE DATE:' +  duedate,
+            DueDate: duedate=''? null : duedate,
+            CreateDate: CDateEN(GetToday())
+        };
+    }
+    function SetTempInv() {
+        if (arr.length > 0) {
+            let jobno = arr[0].JobNo;
+            let branchjob = arr[0].BranchCode;
+            localStorage.setItem('invjob', '');
+            if (jobno !== '') {
+                $.get(path + 'JobOrder/GetJobSQL?Branch=' + branchjob + '&JNo=' + jobno, function (r) {
+                    if (r.job.data !== undefined) {
+                        localStorage.setItem('invjob', '[' + JSON.stringify(r.job.data) + ']');
+                    }
+                });
+            }
+            let det = GetDataDetail(arr, '').filter(function (d) {
+                return d.ItemNo > 0;
+            });
+            let strHeader = '[' + JSON.stringify(GetDataHeader()) + ']';
+            let strDetail = JSON.stringify(det);
+            localStorage.setItem('invheader', strHeader);
+            localStorage.setItem('invdetail', strDetail);
+
+            window.open(path + 'Acc/FormInv', '_blank');
+        }
     }
 </script>

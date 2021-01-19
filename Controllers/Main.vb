@@ -968,7 +968,8 @@ and h.DocNo=d.DocNo
     End Function
     Function SQLSelectClrForInvoice() As String
         Return "
-select b.BranchCode,b.LinkBillNo as DocNo,b.LinkItem as ItemNo,b.SICode,b.SDescription,b.SlipNO as ExpSlipNO,b.Remark as SRemark,b.CurrencyCode,
+select b.BranchCode,b.LinkBillNo as DocNo,b.LinkItem as ItemNo,b.SICode,b.SDescription,
+b.SlipNO as ExpSlipNO,b.Remark as SRemark,b.CurrencyCode,
 b.CurRate as ExchangeRate,b.Qty,b.UnitCode as QtyUnit,
 b.UsedAmount/b.Qty as UnitPrice,(b.UsedAmount/b.Qty)*b.CurRate as FUnitPrice,
 b.UsedAmount as Amt,
@@ -984,7 +985,7 @@ b.ChargeVAT as AmtVat,
 CASE WHEN s.IsCredit=1 AND s.IsExpense=0  THEN b.UsedAmount+b.ChargeVAT ELSE 0 END as AmtAdvance,
 CASE WHEN s.IsCredit=0 AND s.IsExpense=0  THEN b.UsedAmount ELSE 0 END as AmtCharge,
 b.CurrencyCode as CurrencyCodeCredit,b.CurRate as ExchangeRateCredit,0 as AmtCredit,0 as FAmtCredit,b.VATRate,
-c.CustCode,c.CustBranch,
+a.CTN_NO,c.CustCode,c.CustBranch,
 b.JobNo,b.ClrNo,b.ItemNo as ClrItemNo,b.ClrNo+'/'+Convert(varchar,b.ItemNo) as ClrNoList,
 (CASE WHEN s.IsExpense=1 THEN b.UsedAmount ELSE 0 END) as AmtCost,
 (CASE WHEN s.IsCredit=1 THEN b.UsedAmount+b.ChargeVAT ELSE b.BNet END) as AmtNet
@@ -1075,6 +1076,10 @@ UNION
 SELECT BranchCode,JNo,2 FROM Job_Order 
 WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate<=Convert(datetime,'" & today & "',102)
 AND JobStatus<>2 AND NOT ISNULL(CancelReson,'')<>'' 
+UNION
+SELECT BranchCode,JNo,2 FROM Job_Order 
+WHERE EXISTS(SELECT DISTINCT b.ForJNo FROM Job_AdvHeader a INNER JOIN Job_AdvDetail b ON a.BranchCode=b.BranchCode AND a.AdvNo=b.AdvNo WHERE b.ForJNo=Job_Order.JNo AND a.DocStatus<>99)
+AND JobStatus<2 AND NOT ISNULL(CancelReson,'')<>'' 
 UNION
 SELECT BranchCode,JNo,3 FROM Job_Order 
 WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NOT NULL
@@ -1947,7 +1952,12 @@ dbo.Job_LoadInfoDetail.TargetYardTime, dbo.Job_LoadInfoDetail.ActualYardDate, db
 dbo.Job_LoadInfoDetail.UnloadFinishDate, dbo.Job_LoadInfoDetail.UnloadFinishTime, dbo.Job_LoadInfoDetail.UnloadDate, dbo.Job_LoadInfoDetail.UnloadTime, 
 dbo.Job_LoadInfoDetail.LocationID, dbo.Job_LoadInfoDetail.Location, dbo.Job_LoadInfoDetail.ReturnDate AS TruckReturnDate, dbo.Job_LoadInfoDetail.ShippingMark, 
 dbo.Job_LoadInfoDetail.ProductDesc, dbo.Job_LoadInfoDetail.CTN_SIZE, dbo.Job_LoadInfoDetail.ProductQty, dbo.Job_LoadInfoDetail.ProductUnit,dbo.Job_LoadInfoDetail.NetWeight,dbo.Job_LoadInfoDetail.ProductPrice, 
-dbo.Job_LoadInfoDetail.GrossWeight, dbo.Job_LoadInfoDetail.Measurement, dbo.Job_Order.DocDate, dbo.Job_Order.CustCode, dbo.Job_Order.CustBranch, 
+dbo.Job_LoadInfoDetail.GrossWeight, dbo.Job_LoadInfoDetail.Measurement,
+dbo.Job_LoadInfoDetail.PlaceName1,dbo.Job_LoadInfoDetail.PlaceAddress1,dbo.Job_LoadInfoDetail.PlaceContact1, 
+dbo.Job_LoadInfoDetail.PlaceName2,dbo.Job_LoadInfoDetail.PlaceAddress2,dbo.Job_LoadInfoDetail.PlaceContact2,
+dbo.Job_LoadInfoDetail.PlaceName3,dbo.Job_LoadInfoDetail.PlaceAddress3,dbo.Job_LoadInfoDetail.PlaceContact3,
+dbo.Job_LoadInfoDetail.PlaceName4,dbo.Job_LoadInfoDetail.PlaceAddress4,dbo.Job_LoadInfoDetail.PlaceContact4,
+dbo.Job_Order.DocDate, dbo.Job_Order.CustCode, dbo.Job_Order.CustBranch, 
 dbo.Job_Order.CustContactName, dbo.Job_Order.QNo, dbo.Job_Order.Revise, dbo.Job_Order.ManagerCode, dbo.Job_Order.CSCode, dbo.Job_Order.Description, 
 dbo.Job_Order.TRemark, dbo.Job_Order.JobStatus, dbo.Job_Order.JobType, dbo.Job_Order.ShipBy, dbo.Job_Order.InvNo, dbo.Job_Order.InvTotal, 
 dbo.Job_Order.InvProduct, dbo.Job_Order.InvCountry, dbo.Job_Order.InvFCountry, dbo.Job_Order.InvInterPort, dbo.Job_Order.InvProductQty, 

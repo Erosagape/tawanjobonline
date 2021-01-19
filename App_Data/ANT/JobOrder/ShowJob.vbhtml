@@ -1329,18 +1329,23 @@ End Code
     //This section is For Save Data function
     function CancelJob() {
         if (rec.JobStatus !== 99) {
-            if ($('#txtCancelReason').val() !== '') {
-                rec.JobStatus = 99;
-                rec.CancelProve = user;
-                rec.CancelTime = GetTime();
-                ShowUser(path, rec.CancelProve, '#txtCancelBy');
+            if (rec.JobStatus < 2) {
+                if ($('#txtCancelReason').val() !== '') {
+                    rec.JobStatus = 99;
+                    rec.CancelProve = user;
+                    rec.CancelTime = GetTime();
+                    ShowUser(path, rec.CancelProve, '#txtCancelBy');
 
-                $('#txtCancelDate').val(CDateEN(GetToday()));
-                ShowJobTypeShipBy(path, rec.JobType, rec.ShipBy, rec.JobStatus, '#txtJobType', '#txtShipBy', '#txtJobStatus');
-                SaveData();
-                return;
+                    $('#txtCancelDate').val(CDateEN(GetToday()));
+                    ShowJobTypeShipBy(path, rec.JobType, rec.ShipBy, rec.JobStatus, '#txtJobType', '#txtShipBy', '#txtJobStatus');
+                    SaveData();
+                    return;
+                } else {
+                    ShowMessage('Please enter reason for cancel', true);
+                    return;
+                }
             } else {
-                ShowMessage('Please enter reason for cancel',true);
+                ShowMessage('This job has been cleared,cannot cancel!', true);
                 return;
             }
         } else {
@@ -1361,7 +1366,7 @@ End Code
                 return;
             }
         }
-        ShowMessage('This document is cancelled',true);
+        ShowMessage('This document is cancelled', true);
     }
     function CloseJob() {
         if ($('#txtCloseBy').val() == '') {

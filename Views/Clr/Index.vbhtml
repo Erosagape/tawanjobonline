@@ -1977,14 +1977,18 @@ End Code
         if (r.length > 0) {
             dt = r[0];
         }
-        $('#txtForJNo').val(dt.JNo);
-        $('#txtInvNo').val(dt.InvNo);
-        $('#txtQNo').val(dt.QNo);
-        $('#txtCustCode').val(dt.CustCode);
-        $('#txtCustBranch').val(dt.CustBranch);
-        $('#txtJobType').val(dt.JobType);
-        $('#txtShipBy').val(dt.ShipBy);
-        ShowCustomer(path, dt.CustCode, dt.CustBranch, '#txtCustName');
+        if (dt.JobStatus == 99) {
+            ShowMessage('This job has been cancelled', true);
+        } else {
+            $('#txtForJNo').val(dt.JNo);
+            $('#txtInvNo').val(dt.InvNo);
+            $('#txtQNo').val(dt.QNo);
+            $('#txtCustCode').val(dt.CustCode);
+            $('#txtCustBranch').val(dt.CustBranch);
+            $('#txtJobType').val(dt.JobType);
+            $('#txtShipBy').val(dt.ShipBy);
+            ShowCustomer(path, dt.CustCode, dt.CustBranch, '#txtCustName');
+        }
         $('#txtForJNo').focus();
     }
     
