@@ -953,10 +953,10 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                     If "" & data.DocNo = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
+                    data.SetConnect(GetSession("ConnJob"))
                     If data.ItemNo = 0 Then
                         data.AddNew()
                     End If
-                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' AND ItemNo={2} ", data.BranchCode, data.DocNo, data.ItemNo))
                     Dim json = "{""result"":{""data"":""" & data.DocNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)

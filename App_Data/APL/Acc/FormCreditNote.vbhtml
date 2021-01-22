@@ -192,7 +192,7 @@ End Code
         for (let d of dt.detail) {
 
             html = '<tr>';
-            html = '<td>' + d.SDescription + '</td>';
+            html += '<td>' + d.SDescription + '</td>';
             html += '<td style="text-align:center">' + d.BillingNo + '</td>';
             html += '<td style="text-align:center">' + d.TaxInvNo + '</td>';
             html += '<td style="text-align:right">' + (d.OriginalAmt >0? ShowNumber(d.OriginalAmt,2):'0.00') + '</td>';

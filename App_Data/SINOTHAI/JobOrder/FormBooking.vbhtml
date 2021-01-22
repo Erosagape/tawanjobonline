@@ -8,6 +8,9 @@ End Code
     #dvFooter {
         display:none;
     }
+    * {
+        font-size: 13px;
+    } 
 </style>
     <div style="display:flex">
         <div style="flex-direction:row;width:50%;font-size:12px;">

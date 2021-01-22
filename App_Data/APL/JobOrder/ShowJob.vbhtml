@@ -244,7 +244,7 @@ End Code
                             <div style="display:flex;flex-direction:column">
                                 <div>
                                     <label id="lblProjectName" for="txtProjectName">Project Name :</label>
-                                    <br/>
+                                    <br />
                                     <textarea id="txtProjectName" style="width:70%" tabindex="26"></textarea>
                                     <input type="button" id="btnBrowseProj" value="..." onclick="SearchData('ProjectName')" />
                                 </div>
@@ -570,6 +570,9 @@ End Code
                                 <th class="all">
                                     Document No
                                 </th>
+                                <th class="all">
+                                    Item
+                                </th>
                                 <th class="desktop">
                                     Expenses
                                 </th>
@@ -670,7 +673,7 @@ End Code
                     </div>
                     <div class="modal-footer">
                         <label id="lblTotalC">Total Container</label>
-                         : <input type="text" id="txtTotalCon" disabled />
+                        : <input type="text" id="txtTotalCon" disabled />
                         <button class="btn btn-success" id="btnSaveCons" onclick="ApplyService()">Update Value</button>
                         <button class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
@@ -1159,6 +1162,7 @@ End Code
                         },
                         { data: "DocType", title: "Type" },
                         { data: "DocNo", title: "Doc No" },
+                        { data: "ItemNo", title: "Seq" },
                         { data: "Expense", title: "Description" },
                         { data: "Amount", title: "Amount" },
                         { data: "DocStatus", title: "Status" }
@@ -1406,6 +1410,10 @@ End Code
         ShowMessage('This job has been closed');
     }
     function SaveData() {
+        if ($('#txtCustInvNo').val() == '') {
+            ShowMessage('Commercial Invoice Must not blank', true);
+            return;
+        }
         if (rec.JNo != undefined) {
             let obj = GetDataSave(rec);
 
@@ -1588,7 +1596,7 @@ End Code
                 if (r[0].DepDate !== null) $('#txtETDDate').val(CDateEN(r[0].DepDate));
                 $('#txtInvCurrency').val(r[0].CurCode);
                 $('#txtInvCurRate').val(r[0].CurRate);
-                $('#txtInvTotal').val(r[0].FOBValueF);                
+                $('#txtInvTotal').val(r[0].FOBValueF);
                 $('#txtVesselName').val(r[0].VesselName + (r[0].VoyNumber !== '' ? ' V.' + r[0].VoyNumber : ''));
                 $('#txtReleasePort').val(r[0].ReleasePort);
                 $('#txtPortNo').val(r[0].LoadedPort);
@@ -1598,7 +1606,7 @@ End Code
                 $('#txtGrossWeight').val(r[0].TotalGrossW);
                 $('#txtWeightUnit').val(r[0].WeightUnit);
                 $('#txtInvQty').val(r[0].TotalPackageAmt);
-                $('#txtInvUnit').val(r[0].TotalPackageUnit);                
+                $('#txtInvUnit').val(r[0].TotalPackageUnit);
 
                 if (r[0].RecDate !== null) $('#txtEDIDate').val(CDateEN(r[0].RecDate));
                 if(r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));
@@ -1633,7 +1641,7 @@ End Code
                 $('#txtGrossWeight').val(r[0].TotalGrossW);
                 $('#txtWeightUnit').val(r[0].WeightUnit);
                 $('#txtInvQty').val(r[0].TotalPackageAmt);
-                $('#txtInvUnit').val(r[0].TotalPackageUnit);                
+                $('#txtInvUnit').val(r[0].TotalPackageUnit);
 
                 if (r[0].RecDate !== null) $('#txtEDIDate').val(CDateEN(r[0].RecDate));
                 if(r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));

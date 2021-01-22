@@ -1061,6 +1061,7 @@
     <Content Include="App_Data\ANT\JobOrder\Index.vbhtml" />
     <Content Include="App_Data\ANT\Acc\FormInv.vbhtml" />
     <Content Include="App_Data\ANT\Acc\FormTaxinv.vbhtml" />
+    <Content Include="App_Data\APL\JobOrder\ShowJob.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

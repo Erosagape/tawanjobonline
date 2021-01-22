@@ -3,8 +3,6 @@
     ViewBag.Title = "Advance Slip"
     ViewBag.ReportName = ""
 End Code
-<style>
-</style>
 <table id="tbAdvInfo" style="width:100%">
     <tr>
         <td colspan="3" style="font-size:11px">
@@ -23,7 +21,8 @@ End Code
             <label id="lblCustName" style="text-decoration-line:underline;"></label>
             <div style="width:100%;display:flex">
                 <div style="flex:1">
-                    <b>Consignee : </b><label style="text-decoration-line:underline;" id="lblConsName"></label>
+                    <b>Consignee : </b>
+                    <label style="text-decoration-line:underline;" id="lblConsName"></label>
                 </div>
             </div>
         </td>
@@ -118,7 +117,8 @@ End Code
     </tr>
     <tr>
         <td style="text-align:left;font-size:11px;">
-            <input type="checkbox" id="chkCredit" /> ACCOUNT PAYABLES :__________________ <label id="txtAdvCred"></label>
+            <input type="checkbox" id="chkCredit" /> ACCOUNT PAYABLES :__________________
+            <label id="txtAdvCred"></label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Total</td>
         <td style="border-style:solid;border-width:thin" width="150px">
@@ -126,69 +126,72 @@ End Code
         </td>
     </tr>
 </table>
-            **ADVANCE WAIT FOR CLEAR AT @DateTime.Now IS
-            <label id="lblPendingAmount">0.00</label>**
+**ADVANCE WAIT FOR CLEAR AT @DateTime.Now IS
+<label id="lblPendingAmount">0.00</label>**
+<br />
+TOTAL :
+<input type="text" id="txtTotalText" value="ZERO BAHT ONLY" style="font-size:11px;background-color:burlywood;font:bold;text-align:center;width:90%;" disabled />
+<br />
+PAY TO : <label id="lblPayTo" style="font-size:11px">________________________________________________________________________</label>
+<br />
+<table style="border-collapse:collapse;width:100%">
+    <tr>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+            จัดทำโดย / PREPARED.BY
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+            ตรวจสอบโดย / CHECKED.BY
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+            อนุมัติโดย / APPROVED.BY
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+            ลงบัญชีโดย / POSTED.BY
+        </td>
+    </tr>
+    <tr>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
             <br />
-            TOTAL : <input type="text" id="txtTotalText" value="ZERO BAHT ONLY" style="font-size:11px;background-color:burlywood;font:bold;text-align:center;width:90%;" disabled />
+            <label style="font-size:9px">(________________________________________)</label>
             <br />
-            PAY TO : <label id="lblPayTo" style="font-size:11px">________________________________________________________________________</label>
-            <br />
-            <table style="border-collapse:collapse;width:100%">
-                <tr>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        จัดทำโดย / PREPARED.BY
-                    </td>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        ตรวจสอบโดย / CHECKED.BY
-                    </td>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        อนุมัติโดย / APPROVED.BY
-                    </td>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        ลงบัญชีโดย / POSTED.BY
-                    </td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-<br/>
-<br/>
-            <label style="font-size:9px">(__________________)</label>
-            <br />
-            <label style="font-size:9px">__/__/____</label>
+            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
 
-</td>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-<br/>
-<br/>
-            <label style="font-size:9px">(__________________)</label>
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
             <br />
-            <label style="font-size:9px">__/__/____</label>
-</td>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-<br/>
-<br/>
-            <label style="font-size:9px">(__________________)</label>
+            <label style="font-size:9px">(________________________________________)</label>
             <br />
-            <label style="font-size:9px">__/__/____</label>
-</td>
-                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-<br/>
-<br/>
-            <label style="font-size:9px">(__________________)</label>
+            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
             <br />
-            <label style="font-size:9px">__/__/____</label>
-</td>
-                </tr>
-            </table>
-            <script type="text/javascript">
+            <label style="font-size:9px">(________________________________________)</label>
+            <br />
+            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+            <br />
+            <label style="font-size:9px">(________________________________________)</label>
+            <br />
+            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
+        </td>
+    </tr>
+</table>
+<script type="text/javascript">
     const path = '@Url.Content("~")';
     let serv = [];
+    let venders = [];
     //$(document).ready(function () {
-        let branch = getQueryString('branch');
-        let advno = getQueryString('advno');
-        if (branch != "" && advno != "") {
+    let branch = getQueryString('branch');
+    let advno = getQueryString('advno');
+    if (branch != "" && advno != "") {
+        $.get(path + 'master/getvender').done(function (r) {
+            if (r.vender.data.length > 0) {
+                venders = r.vender.data;
+            }
             GetAdv(branch, advno);
-        }
+        });
+    }
     //});
     function GetAdv(Branch, Doc) {
         $.get(path +'adv/getadvancereport?branchcode=' + Branch + '&advno=' + Doc)
@@ -206,16 +209,16 @@ End Code
                 ShowDetail(d,h);
             });
     }
-                function ShowPendingAmount(branch, reqby) {
-                    $.get(path + 'Clr/GetAdvForClear?show=NOCLR&branchcode=' + branch + '&reqby=' + reqby)
-                        .done(function (r) {
-                            if (r.clr.data.length > 0) {
-                                let d = r.clr.data[0].Table;
-                                let sum = d.map(item => item.AdvBalance).reduce((prev, next) => prev + next);
-                                $('#lblPendingAmount').text(ShowNumber(sum, 2));
-                            }
-                        });
+    function ShowPendingAmount(branch, reqby) {
+        $.get(path + 'Clr/GetAdvForClear?show=NOCLR&branchcode=' + branch + '&reqby=' + reqby)
+            .done(function (r) {
+                if (r.clr.data.length > 0) {
+                    let d = r.clr.data[0].Table;
+                    let sum = d.map(item => item.AdvBalance).reduce((prev, next) => prev + next);
+                    $('#lblPendingAmount').text(ShowNumber(sum, 2));
                 }
+            });
+    }
     function ShowData(data) {
         //show headers
         let h = data.adv.data[0].Table[0];
@@ -294,10 +297,17 @@ End Code
             let d = r[i];
             if (d.ForJNo !== '') {
                 if (listJob.indexOf(d.ForJNo) < 0) {
+                    let v = $.grep(venders, function (data) {
+                        return data.VenCode === d.ForwarderCode;
+                    });
                     strJob = 'JOB:' + ((d.ForJNo == null || d.ForJNo == '' ? '' : d.ForJNo) + '<br/>');
                     strJob = strJob + 'CONTAINER:' + ((d.TotalContainer == null || d.TotalContainer == '' ? '' : d.TotalContainer) + '<br/>');
                     strJob = strJob + 'BL/AWB:' + ((d.HAWB == null || d.HAWB == '' ? '' : d.HAWB) + '<br/>');
-                    strJob = strJob + 'AGENT:' + ((d.AgentCode == null || d.AgentCode == '' ? '' : d.AgentCode) + '<br/>');
+                    if (v.length > 0) {
+                        strJob = strJob + 'AGENT:' + (v[0].TName + '<br/>');
+                    } else {
+                        strJob = strJob + 'AGENT:' + ((d.AgentCode == null || d.AgentCode == '' ? '' : d.AgentCode) + '<br/>');
+                    }
                     listJob.push(d.ForJNo);
                     strAmt += '<br/><br/><br/><br/>';
                     strWht += '<br/><br/><br/><br/>';
@@ -330,5 +340,4 @@ End Code
         $('#divWht').html(strWht);
         $('#divAmt').html(strAmt);
     }
-
-            </script>
+</script>

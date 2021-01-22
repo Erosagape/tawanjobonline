@@ -27,7 +27,7 @@ End Code
     <tbody></tbody>
 </table>
 <br />
-<table width="100%" style="border-collapse:collapse;display:none;">
+<table width="100%" style="border-collapse:collapse;">
     <tr>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
             CREATED.BY
@@ -44,20 +44,20 @@ End Code
     </tr>
     <tr>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-            <label id="txtRecBy" style="font-size:10px">(__________________)</label><br />
-            <label id="txtRecDate" style="font-size:9px">__/__/____</label>
+            <label id="txtRecBy" style="font-size:10px">(____________________________________)</label><br />
+            <label id="txtRecDate" style="font-size:9px">วันที่/Date__________/______________/__________</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label id="txtPostedBy" style="font-size:10px">(__________________)</label><br />
-            <label id="txtPostedDate" style="font-size:9px">__/__/____</label>
+            <label id="txtPostedBy" style="font-size:10px">(____________________________________)</label><br />
+            <label id="txtPostedDate" style="font-size:9px">วันที่/Date__________/______________/__________</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label style="font-size:10px">(__________________)</label><br />
-            <label style="font-size:9px">__/__/____</label>
+            <label style="font-size:10px">(____________________________________)</label><br />
+            <label style="font-size:9px">วันที่/Date__________/______________/__________</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label style="font-size:9px">(__________________)</label><br />
-            <label style="font-size:9px">__/__/____</label>
+            <label style="font-size:9px">(____________________________________)</label><br />
+            <label style="font-size:9px">วันที่/Date__________/______________/__________</label>
         </td>
     </tr>
 </table>

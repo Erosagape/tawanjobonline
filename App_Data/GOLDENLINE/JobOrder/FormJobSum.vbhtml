@@ -261,16 +261,32 @@ End Code
     </tr>
     <tr>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-
+            <br />
+            <br />
+            <label style="font-size:9px">(________________________________________)</label>
+            <br />
+            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-
+            <br />
+            <br />
+            <label style="font-size:9px">(________________________________________)</label>
+            <br />
+            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-
+            <br />
+            <br />
+            <label style="font-size:9px">(________________________________________)</label>
+            <br />
+            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-
+            <br />
+            <br />
+            <label style="font-size:9px">(________________________________________)</label>
+            <br />
+            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
         </td>
     </tr>
 </table>
