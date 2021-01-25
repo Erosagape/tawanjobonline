@@ -1187,7 +1187,7 @@ WHERE NOT EXISTS
       ON b.BranchCode=c.BranchCode AND b.LinkBillNo=c.BillingNo AND b.LinkItem=c.BillItemNo
       WHERE h.DocStatus<>99 AND b.BranchCode=a.BranchCode AND b.JobNo=a.JNo       
       GROUP BY b.BranchCode,b.JobNo
-      HAVING SUM(b.BNet-(CASE WHEN s.IsExpense=1 AND ISNULL(b.LinkBillNo,'')<>'' THEN b.BNet ELSE 0 END)-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0))<=0
+      HAVING SUM(b.BNet-(CASE WHEN s.IsExpense=1 AND ISNULL(b.LinkBillNo,'')<>'' THEN b.BNet ELSE 0 END)-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0))<>0
 ) AND a.ConfirmDate IS NOT NULL AND a.CloseJobDate IS NOT NULL 
 AND a.JobStatus=7 AND NOT ISNULL(a.CancelReson,'')<>''
 UNION
@@ -1201,7 +1201,7 @@ WHERE NOT EXISTS (
       WHERE b.BranchCode=a.BranchCode AND b.JobNo=a.JNo
       AND h.DocStatus<>99  AND b.BNet>0 
       GROUP BY b.BranchCode,b.JobNo
-      HAVING COUNT(*)=SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
+      HAVING COUNT(*)<>SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
 )
 AND a.JobStatus=6 AND NOT ISNULL(a.CancelReson,'')<>''
     ) s
@@ -2520,6 +2520,18 @@ SELECT * FROM (
     AND ah.ClrNo=ad.ClrNo
     left join Job_Order j ON ad.BranchCode=j.BranchCode AND ad.JobNo=j.JNo
     where ISNULL(ad.AdvNo,'')=''
+    union
+    select d.*,h.VoucherDate,j.CustCode,j.CustBranch,ad.Pay50TaviTo as VenderName,ad.Remark,
+    ad.JobNo,ah.EmpCode,ah.ClrNo,ah.ClrDate,ad.SDescription,ad.UsedAmount,ad.ChargeVAT,ad.Tax50Tavi,ad.BNet
+    from Job_CashControlSub d
+    inner join Job_CashControl h ON d.BranchCode=h.BranchCode
+    and d.ControlNo=h.ControlNo
+    inner join Job_ClearHeader ah ON h.BranchCode=ah.BranchCode
+    AND h.ControlNo=ah.ReceiveRef
+    inner join Job_ClearDetail ad ON ah.BranchCode=ad.BranchCode
+    AND ah.ClrNo=ad.ClrNo
+    left join Job_Order j ON ad.BranchCode=j.BranchCode AND ad.JobNo=j.JNo
+    where ISNULL(ad.AdvNo,'')<>''
     union
     select d.*,h.VoucherDate,j.CustCode,j.CustBranch,'',ah.TRemark,
     c.JobNo ,ah.EmpCode, ad.InvoiceNo,ah.ReceiptDate,ad.SDescription,ad.Amt,ad.AmtVAT,ad.Amt50Tavi,ad.Net

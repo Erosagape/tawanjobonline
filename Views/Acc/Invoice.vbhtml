@@ -905,9 +905,9 @@ End Code
             $.get(path + 'Acc/GetRcpDetail?Branch=' + $('#txtBranchCode').val() + '&InvNo=' + $('#txtDocNo').val()).done(function (r) {
                 if (r.rcpdetail.data.length > 0) {
                     if (mainLanguage == 'TH') {
-                        ShowMessage('ใบแจ้งหนี้นี้ได้ออกใบรับเงิน/ไปแล้วในเลขที่ ' + r.rcpdetail.data[0].ReceiptNo);
+                        ShowMessage('ใบแจ้งหนี้นี้ได้ออกใบรับเงิน/ไปแล้วในเลขที่ ' + r.rcpdetail.data[0].ReceiptNo,true);
                     } else {
-                        ShowMessage('This invoice has been received in ' + r.rcpdetail.data[0].ReceiptNo);
+                        ShowMessage('This invoice has been received in ' + r.rcpdetail.data[0].ReceiptNo,true);
                     }
                 } else {
                     $('#txtCancelDate').val(GetToday());

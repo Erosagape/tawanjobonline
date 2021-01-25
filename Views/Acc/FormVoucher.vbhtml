@@ -261,14 +261,14 @@ End Code
                         break;
                 }
                 //appendLine(div, desc, debit, credit);
-                appendLine(div, '<b>DETAILS</b>', '<b>FOREIGN PAID</b>', '<b>PAID (THB)</b>');
+                appendLine(div, '<b>DETAILS OF USAGES</b>', '<b>FOREIGN PAID</b>', '<b>PAID (THB)</b>');
                 if (data.document !== null) {
                     let jobno = '';
                     let doc=data.document.filter(function(r){
                         return r.acType == acType;
                     });
                     sortData(doc, 'VenderName', 'asc');
-                    sortData(doc, 'DocRefNo', 'asc');
+                    //sortData(doc, 'DocRefNo', 'asc');
                     if (doc !== undefined) {
                         let sum = 0;
                         let strDoc = '';
@@ -279,12 +279,12 @@ End Code
                             }
                             if (strDoc.indexOf(d.VenderName) < 0) {
                                 if (lastvender !== '') {
-                                    appendLine(div,'','<b>TOTAL</b>','<b>'+ShowNumber(sum,2)+'</b>');
+                                    appendLine(div,d.VenderName,'<b>TOTAL</b>','<b>'+ShowNumber(sum,2)+'</b>');
                                     sum = 0;
                                 }
                                 strDoc += '|' + d.VenderName;
                                 lastvender = d.VenderName;
-                                appendLine(div,'<b>'+ d.VenderName +'</b>','','');
+                                //appendLine(div,'<b>'+ d.VenderName +'</b>','','');
                             }
                             sum += Number(CDbl(d.PaidAmount, 2));
                             desc = d.DocRefNo + ' : ' + d.SDescription;

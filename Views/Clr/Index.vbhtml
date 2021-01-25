@@ -428,13 +428,13 @@ End Code
                                     <label id="lblIsCost" for="chkIscost">Is Company Cost (Cannot Charge)</label>
                                     <br />
                                     <label id="lblAdvItemNo" for="txtAdvItemNo">Clear From Adv Item.No :</label>
-                                    <input type="text" id="txtAdvItemNo" style="width:40px" disabled />
+                                    <input type="text" id="txtAdvItemNo" style="width:40px"/>
                                     <br/>
                                     <label id="lblAdvNo" for="txtAdvNo">Adv.No :</label>
-                                    <input type="text" id="txtAdvNo" style="width:150px" disabled /> 
+                                    <input type="text" id="txtAdvNo" style="width:150px"/> 
                                     <br/>
                                     <label id="lblAdvAmt">Advance Net :</label>                                    
-                                    <input type="text" id="txtAdvAmount" style="width:60px" disabled />
+                                    <input type="text" id="txtAdvAmount" style="width:60px"/>
                                 </div>
                             </div>                            
                             <div class="row">

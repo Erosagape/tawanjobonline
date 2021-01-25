@@ -3926,7 +3926,7 @@ function ChangeLanguageGrid(module, id) {
                 "Inspection Date|วันที่ตรวจปล่อย",
                 "Customer Inv|อินวอยลูกค้า",
                 "Customer Name|ชื่อลูกค้า",
-                "Consignee Name|ชื่อผู้ซื้อชาย",
+                "Master BL/AWB|Master BL/AWB",
                 "Local Port|ท่าตรวจปล่อย"
             ];
             SetGridLang(id, gridLang);

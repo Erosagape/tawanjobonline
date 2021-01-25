@@ -21,6 +21,7 @@ End Code
         padding-right: 5px;
     }
 </style>
+<div style="float:right" id="dvCopy"></div>
 <div style="text-align:center;width:100%;padding:5px 5px 5px 5px">
     <label id="lblDocType" style="font-size:16px;font-weight:bold">ใบแจ้งหนี้ (INVOICE)</label>
 </div>
@@ -210,6 +211,12 @@ End Code
 
     let branch = getQueryString('branch');
     let invno = getQueryString('code');
+    let ans = confirm('OK to print Original or Cancel For Copy');
+    if (ans == true) {
+        $('#dvCopy').html('<b>**ORIGINAL**</b>');
+    } else {
+        $('#dvCopy').html('<b>**COPY**</b>');
+    }
     $.get(path + 'acc/getinvoice?branch=' + branch + '&code=' + invno, function (r) {
         if (r.invoice.header !== null) {
             ShowData(r.invoice);

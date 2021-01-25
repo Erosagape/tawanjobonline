@@ -1062,6 +1062,9 @@
     <Content Include="App_Data\ANT\Acc\FormInv.vbhtml" />
     <Content Include="App_Data\ANT\Acc\FormTaxinv.vbhtml" />
     <Content Include="App_Data\APL\JobOrder\ShowJob.vbhtml" />
+    <Content Include="App_Data\ANT\JobOrder\FormQuotation.vbhtml" />
+    <Content Include="App_Data\ANT\Acc\FormBill.vbhtml" />
+    <Content Include="App_Data\ANT\Acc\FormRcp.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

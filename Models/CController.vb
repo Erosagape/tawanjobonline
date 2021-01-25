@@ -27,6 +27,8 @@ Public Class CController
         Session("CompanyAddr2_EN") = Nothing
         Session("Currency") = Nothing
         Session("VatRate") = Nothing
+        Session("TaxRate_TRN") = Nothing
+        Session("TaxRate_SRV") = Nothing
         Session("CreditDays") = Nothing
         Session("TaxNumber") = Nothing
         Session("TaxBranch") = Nothing
@@ -82,6 +84,10 @@ Public Class CController
                     Session(sName) = GetValueConfig("PROFILE", "COMPANY_TAXBRANCH")
                 Case "VatRate"
                     Session(sName) = GetValueConfig("PROFILE", "VATRATE")
+                Case "TaxRate_TRN"
+                    Session(sName) = GetValueConfig("PROFILE", "TAXRATE_TRN", "1")
+                Case "TaxRate_SRV"
+                    Session(sName) = GetValueConfig("PROFILE", "TAXRATE_SRV", "3")
                 Case "UserGroup"
                     Session(sName) = "S"
                 Case Else
@@ -130,6 +136,8 @@ Public Class CController
             ViewBag.PROFILE_COMPANY_ADDR2_EN = GetSession("CompanyAddr2_EN").ToString
             ViewBag.PROFILE_CURRENCY = GetSession("Currency").ToString
             ViewBag.PROFILE_VATRATE = GetSession("VatRate").ToString
+            ViewBag.PROFILE_WHTRATE_SRV = GetSession("TaxRate_SRV").ToString
+            ViewBag.PROFILE_WHTRATE_TRN = GetSession("TaxRate_TRN").ToString
             ViewBag.PROFILE_PAYMENT_CREDIT_DAYS = GetSession("CreditDays").ToString
             ViewBag.PROFILE_TAXNUMBER = GetSession("TaxNumber").ToString
             ViewBag.PROFILE_TAXBRANCH = GetSession("TaxBranch").ToString
@@ -148,6 +156,8 @@ Public Class CController
             ViewBag.PROFILE_COMPANY_ADDR2_EN = ""
             ViewBag.PROFILE_CURRENCY = ""
             ViewBag.PROFILE_VATRATE = "7"
+            ViewBag.PROFILE_WHTRATE_SRV = "3"
+            ViewBag.PROFILE_WHTRATE_TRN = "1"
             ViewBag.PROFILE_PAYMENT_CREDIT_DAYS = ""
             ViewBag.PROFILE_TAXNUMBER = ""
             ViewBag.PROFILE_TAXBRANCH = ""
