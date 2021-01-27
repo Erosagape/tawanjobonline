@@ -1206,11 +1206,10 @@ function SetGridQuotation(p, g, t, d, ev) {
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
             { data: "QNo", title: "Quotation No" },
-            { data: "QtyBegin", title: "Qty Begin" },
-            { data: "QtyEnd", title: "Qty End" },
+            { data: "SICode", title: "Code" },
+            { data: "DescriptionThai", title: "Description" },
             { data: "ChargeAmt", title: "Price" },
-            { data: "VenderCode", title: "Vender" },
-            { data: "VenderCost", title: "Cost" }
+            { data: "VenderCode", title: "Vender" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {

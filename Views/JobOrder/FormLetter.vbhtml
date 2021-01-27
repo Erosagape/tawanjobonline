@@ -11,46 +11,52 @@ End Code
     input[type="text"] {
         border: none;
     }
+    * {
+        font-size:12px;
+    }
 </style>
-<div style="text-align:right;width:100%">
-    DATE : <label id="lblPrintDate">@DateTime.Now.ToString("dd/MM/yyyy")</label>
-</div>
-<br />
-<div style="text-align:left">
-    <label id="subj">เรื่อง  </label><span id="lblSubj">ขอใช้จดหมายรับ D/O เนื่องจาก SURRENDER <input type="text" id="txtType" value="OB/L" /></span>
-    <br /><br />
-    <label id="to">เรียน </label><span id="lblTo">เจ้าหน้าที่แผนกขาเข้าทางเรือ</span>
-</div>
-<br />
-<br />
-&emsp; เนื่องด้วยบริษัท <label id="lblNameThai"></label>
-<br />
-มีสินค้าเข้ามากับเรือ <label id="lblVesselName"></label>
-เที่ยววันที่ <label id="lblETADate"></label>
-<br />
-ตาม B/L No: <label id="lblHAWB"></label>
-จำนวน <label id="lblProductQty"></label>  <label id="lblProductUnit"></label>
-<br />
-ซึ่งผู้ขายของบริษัทฯ ได้ทำการ <input type="text" id="txtType2" value="SURRENDER ORIGINAL B/L" /> ทางต้นทางไว้เรียบร้อยแล้ว
-<br />
-<br />
-&emsp; ดังนั้นทางบริษัทฯ จึงขอรับ D/O โดยใช้จดหมายของทางบริษัทฯ เพิ้อไปทำการปล่อยสินค้า ซึ่งในการนี้ หากเกิดความเสียหายใดๆ เกิดขึ้นทุกประการ ทางบริษัทฯ ยินดีจะรับผิดชอบความเสียหายนั้น
-<br />
-<br />
-&emsp; จึงเรียนมาเพื่อทราบและโปรดพิจารณาดำเนินการ
-<br />
-<div style="display:flex">
-    <div style="width:50%">
-
+<div style="padding:30px 30px 30px 30px">
+    <div style="text-align:right;width:100%">
+        DATE : <label id="lblPrintDate">@DateTime.Now.ToString("dd/MM/yyyy")</label>
     </div>
-    <div style="width:50%;text-align:center">
-        ขอแสดงความนับถือ
-        <br />
-        <br />
-        <br />
-        <br />
-        ______________________
-        <br />
+    <br />
+    <div style="text-align:left">
+        <label id="subj">เรื่อง  </label><span id="lblSubj">ขอใช้จดหมายรับ D/O เนื่องจาก <input type="text" id="txtType" style="width:200px" value="SURRENDER OB/L" /></span>
+        <br /><br />
+        <label id="to">เรียน </label><span id="lblTo">เจ้าหน้าที่แผนกขาเข้าทางเรือ</span> <label id="lblForwarderName">บริษัท__________________________________________</label>
+    </div>
+    <br />
+    <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  เนื่องด้วยบริษัท <label id="lblNameThai"></label>
+    มีสินค้าเข้ามากับเรือ <label id="lblVesselName"></label>
+    <br />
+    เที่ยววันที่ <label id="lblETADate"></label> ตาม B/L No: <label id="lblHAWB"></label>
+    จำนวน <label id="lblProductQty"></label>  <label id="lblProductUnit"></label>
+    <br />
+    ซึ่งผู้ขายของบริษัทฯ ได้ทำการ <input type="text" id="txtType2" style="width:200px;" value="SURRENDER ORIGINAL B/L" />
+    <br />ไว้กับทางต้นทางเรียบร้อยแล้ว
+    <br />
+    <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ดังนั้นทางบริษัทฯ จึงขอรับ D/O โดยใช้จดหมายของทางบริษัทฯ เพิ้อไปทำการปล่อยสินค้า
+    <br/>ซึ่งในการนี้ หากเกิดความเสียหายใดๆ เกิดขึ้นทุกประการ ทางบริษัทฯ ยินดีจะรับผิดชอบความเสียหายที่เกิดขึ้นนั้นตามจริง
+    <br />
+    <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  จึงเรียนมาเพื่อทราบและโปรดพิจารณาดำเนินการ
+    <br />
+    <div style="display:flex">
+        <div style="width:50%">
+
+        </div>
+        <div style="width:50%;text-align:center">
+            ขอแสดงความนับถือ
+            <br />
+            <br />
+            <br />
+            <br />
+            ______________________
+            <br />
+            (นายชาณุศักดิ์ ชายภักตร์)
+        </div>
     </div>
 </div>
 <script type="text/javascript">
@@ -73,8 +79,9 @@ End Code
                 strTo += 'ทางเรือ';
             }
             $('#lblTo').html(strTo);
-            $('#lblETADate').text(CDateEN(dr.ETADate));
+            $('#lblETADate').text(ShowDate(dr.ETADate));
             $('#lblVesselName').text(dr.VesselName);
+            $('#lblForwarderName').text(dr.ForwarderName);
             $('#lblNameThai').text(dr.CustTName);
             $('#lblProductQty').text(dr.InvProductQty);
             ShowInvUnit(path, dr.InvProductUnit, '#lblProductUnit');

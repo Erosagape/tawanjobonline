@@ -666,6 +666,10 @@ End Code
         });
         $('#chkCancel').on('click', function () {
             chkmode = this.checked;
+            if (chkmode == true && $('#cboDocStatus').val().substr(0,2) !== '01') {
+                ShowMessage('Cannot cancel on this document status', true);
+                return;
+            }
             CallBackAuthorize(path, 'MODULE_ADV', 'Index', 'D', SetCancel);
         });
         $('#txtCurrencyCode').focusout(function (event) {

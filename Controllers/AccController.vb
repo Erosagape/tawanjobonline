@@ -117,7 +117,7 @@ Namespace Controllers
                 If lst <> "" Then
                     Dim tSQL As String = ""
                     If poNumber <> "" Then
-                        tSQL = String.Format("UPDATE Job_CashControl SET PostRefNo='" & poNumber & "',PostedDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PostedTime='" & DateTime.Now.ToString("HH:mm:ss") & "'  WHERE BranchCode+'|'+ControlNo in({0})", lst)
+                        tSQL = String.Format("UPDATE Job_CashControl SET PostRefNo='" & poNumber & "',PostedDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PostedTime='" & DateTime.Now.ToString("HH:mm:ss") & "'  WHERE BranchCode+'|'+ControlNo in({0}) AND NOT ISNULL(CancelProve,'')<>''", lst)
                     Else
                         Dim fmt = Main.GetValueConfig("RUNNING", "APP_PETTYCASH")
                         If fmt <> "" Then
@@ -137,7 +137,7 @@ Namespace Controllers
                         Dim sqlApp = String.Format("SELECT MAX(PostRefNo) as t FROM Job_CashControl WHERE PostRefNo Like '%{0}' ", pFormat)
                         Dim appRef = Main.GetMaxByMask(GetSession("ConnJob"), sqlApp, pFormat)
                         tSQL = String.Format("UPDATE Job_CashControl SET PostRefNo='" & appRef & "',PostedBy='" & user & "',PostedDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PostedTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
- WHERE BranchCode+'|'+ControlNo in({0}) AND ISNULL(PostRefNo,'')=''", lst)
+ WHERE BranchCode+'|'+ControlNo in({0}) AND ISNULL(PostRefNo,'')='' AND NOT ISNULL(CancelProve,'')<>'' ", lst)
 
                     End If
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
@@ -186,7 +186,7 @@ Namespace Controllers
                 If lst <> "" Then
                     Dim tSQL As String = ""
                     If poNumber <> "" Then
-                        tSQL = String.Format("UPDATE Job_PaymentHeader SET PoNo='" & poNumber & "' WHERE BranchCode+'|'+DocNo in({0})", lst)
+                        tSQL = String.Format("UPDATE Job_PaymentHeader SET PoNo='" & poNumber & "' WHERE BranchCode+'|'+DocNo in({0}) AND NOT ISNULL(CancelProve,'')<>'' ", lst)
                         Main.DBExecute(GetSession("ConnJob"), tSQL)
                     End If
                     Dim fmt = Main.GetValueConfig("RUNNING", "APP_PAY")
@@ -210,7 +210,7 @@ Namespace Controllers
                     Dim sqlApp = String.Format("SELECT MAX(ApproveRef) as t FROM Job_PaymentHeader WHERE ApproveRef Like '%{0}' ", pFormat)
                     Dim appRef = Main.GetMaxByMask(GetSession("ConnJob"), sqlApp, pFormat)
                     tSQL = String.Format("UPDATE Job_PaymentHeader SET ApproveRef='" & appRef & "',ApproveBy='" & user & "',ApproveDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',ApproveTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
- WHERE BranchCode+'|'+DocNo in({0}) AND ISNULL(ApproveRef,'')=''", lst)
+ WHERE BranchCode+'|'+DocNo in({0}) AND ISNULL(ApproveRef,'')='' AND NOT ISNULL(CancelProve,'')<>''", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Return New HttpResponseMessage(HttpStatusCode.OK)

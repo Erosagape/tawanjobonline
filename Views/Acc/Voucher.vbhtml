@@ -763,6 +763,7 @@ End Code
             $('#txtCancelProve').val(chkmode ? user : '');
             $('#txtCancelDate').val(chkmode ? CDateEN(GetToday()) : '');
             $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
+            SaveData();
             return;
         }
         ShowMessage('You are not allow to do this',true);
@@ -993,6 +994,7 @@ End Code
                     if (response.result.data != '') {
                         $('#txtControlNo').val(response.result.data);
                         $('#txtControlNo').focus();
+                        LoadData();
                     }
                     ShowMessage(response.result.msg);
                 },

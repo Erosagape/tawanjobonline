@@ -374,7 +374,8 @@ End Code
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblDescriptionTH">Service Description</label><br />
+                                <a href="#" onclick="SearchData('route')"><label id="lblDescriptionTH">Service Description</label></a>
+                                <br />
                                 <textarea id="txtDescriptionThai" class="form-control"></textarea>
                             </div>
                             <div class="col-sm-2">
@@ -867,6 +868,7 @@ End Code
                 if (response.result.data !== null) {
                     ShowHeader();
                     $('#txtDocNo').val(response.result.data);
+                    $('#txtQNo').val(response.result.data);
                     ShowMessage('Save Quotation=>'+response.result.data);                    
                     return;
                 }
@@ -1152,7 +1154,7 @@ End Code
         let lists = 'JOB_TYPE=#txtJobType|,SHIP_BY=#txtShipBy|';
         loadCombos(path, lists);
 
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Customers
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
@@ -1165,6 +1167,8 @@ End Code
             CreateLOV(dv, '#frmSearchUser', '#tbUser', 'Users', response, 2);
             //Contact
             CreateLOV(dv, '#frmSearchCont', '#tbCont', 'Contact Person', response, 3);
+            //routes
+            CreateLOV(dv, '#frmSearchRoute', '#tbRoute', 'Service Routes', response, 4);
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
             //Service 
@@ -1216,6 +1220,9 @@ End Code
                 break;
             case 'desc':
                 SetGridDataDistinct(path, '#tbDesc', '?Table=Job_QuotationDetail&Field=Description', '#frmSearchDesc', ReadDesc);
+                break;
+            case 'route':
+                SetGridTransportPrice(path, '#tbRoute', '#frmSearchRoute', '?Branch=' + $('#txtBranchCode').val() + '&Cust=' + $('#txtCustCode').val(), ReadPrice);
                 break;
             case 'unit':
                 SetGridServUnit(path, '#tbUnit', '#frmSearchUnit', ReadUnit);
@@ -1283,6 +1290,17 @@ End Code
         $('#txtJobType').val(CCode(row_d.JobType));
         $('#txtShipBy').val(CCode(row_d.ShipBy));
         $('#txtDescription').val(row_d.Description);
+    }
+    function ReadPrice(dt) {
+        if (dt !== undefined) {
+            $('#txtSICode').val(dt.ChargeCode);
+            ShowServiceCode(path, dt.ChargeCode, '#txtSDescription');
+            $('#txtDescriptionThai').val(dt.Location);
+            $('#txtChargeAmt').val(CDbl(dt.ChargeAmount, 2));
+            $('#txtVenderCost').val(CDbl(dt.CostAmount, 2));
+            $('#txtVenderCode').val(dt.VenderCode);
+            CalAmount();
+        }
     }
     function ReadItem() {
         $('#lblHeader').text(row_d.Description);
@@ -1469,7 +1487,7 @@ End Code
     function CalCommission() {
         let type = $('#txtCommissionType').val();
         let rate = CNum($('#txtCommissionPerc').val());
-        let comm = CDbl((GetNetPrice()-CNum($('#txtVenderCost').val())) * (rate * 0.01), 2);
+        let comm = CDbl((GetBasePrice()-CNum($('#txtVenderCost').val())) * (rate * 0.01), 2);
         if (type == 1) {
             comm = CNum($('#txtCommissionAmt').val());
         }
@@ -1479,7 +1497,7 @@ End Code
     function CalProfit() {
         let comm = CNum($('#txtCommissionAmt').val());
         let cost = CNum($('#txtVenderCost').val());
-        let amt = GetNetPrice();
+        let amt = GetBasePrice();
         $('#txtBaseProfit').val(CDbl(amt - cost, 2));
         $('#txtNetProfit').val(CDbl(amt - comm - cost, 2));
     }

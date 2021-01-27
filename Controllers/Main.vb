@@ -1187,7 +1187,7 @@ WHERE NOT EXISTS
       ON b.BranchCode=c.BranchCode AND b.LinkBillNo=c.BillingNo AND b.LinkItem=c.BillItemNo
       WHERE h.DocStatus<>99 AND b.BranchCode=a.BranchCode AND b.JobNo=a.JNo       
       GROUP BY b.BranchCode,b.JobNo
-      HAVING SUM(b.BNet-(CASE WHEN s.IsExpense=1 AND ISNULL(b.LinkBillNo,'')<>'' THEN b.BNet ELSE 0 END)-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0))<>0
+      HAVING SUM(b.BNet-(CASE WHEN s.IsExpense=1 AND ISNULL(b.LinkBillNo,'')<>'' THEN b.BNet ELSE 0 END)-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0))<=0
 ) AND a.ConfirmDate IS NOT NULL AND a.CloseJobDate IS NOT NULL 
 AND a.JobStatus=7 AND NOT ISNULL(a.CancelReson,'')<>''
 UNION
@@ -1201,7 +1201,7 @@ WHERE NOT EXISTS (
       WHERE b.BranchCode=a.BranchCode AND b.JobNo=a.JNo
       AND h.DocStatus<>99  AND b.BNet>0 
       GROUP BY b.BranchCode,b.JobNo
-      HAVING COUNT(*)<>SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
+      HAVING COUNT(*)=SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
 )
 AND a.JobStatus=6 AND NOT ISNULL(a.CancelReson,'')<>''
     ) s
@@ -1214,6 +1214,7 @@ WHERE j.JobStatus<> c.JobStatus
 "
         Return String.Format(sql, sqlwhere)
     End Function
+
     Function SQLSelectInvSummary(pSqlw As String) As String
         Dim sqlGroup As String = "
 h.BranchCode,h.DocNo,h.Docdate,h.CustCode,h.CustBranch,h.CustTName,h.CustEName,

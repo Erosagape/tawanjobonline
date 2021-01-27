@@ -1065,6 +1065,16 @@
     <Content Include="App_Data\ANT\JobOrder\FormQuotation.vbhtml" />
     <Content Include="App_Data\ANT\Acc\FormBill.vbhtml" />
     <Content Include="App_Data\ANT\Acc\FormRcp.vbhtml" />
+    <Content Include="App_Data\SMART\Acc\FormBill.vbhtml" />
+    <Content Include="App_Data\SMART\Acc\FormCreditNote.vbhtml" />
+    <Content Include="App_Data\SMART\Acc\FormExpense.vbhtml" />
+    <Content Include="App_Data\SMART\Acc\FormGL.vbhtml" />
+    <Content Include="App_Data\SMART\Acc\FormPettycash.vbhtml" />
+    <Content Include="App_Data\SMART\Acc\FormRcp.vbhtml" />
+    <Content Include="App_Data\SMART\Acc\FormVoucher.vbhtml" />
+    <Content Include="App_Data\ANT\Acc\FormVoucher.vbhtml" />
+    <Content Include="App_Data\SINOTHAI\JobOrder\Index.vbhtml" />
+    <Content Include="App_Data\SMART\Clr\FormEntry.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

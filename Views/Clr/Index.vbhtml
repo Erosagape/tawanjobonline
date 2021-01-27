@@ -581,11 +581,10 @@ End Code
                             <tr>
                                 <th>#</th>
                                 <th>Q.No</th>
-                                <th>QtyBegin</th>
-                                <th>QtyEnd</th>
+                                <th>Code</th>
+                                <th>Desc</th>
                                 <th>Unit Price</th>
                                 <th class="desktop">Vender</th>
-                                <th class="desktop">Cost</th>
                             </tr>
                         </thead>
                     </table>
@@ -736,6 +735,10 @@ End Code
 
         $('#chkCancel').on('click', function () {
             chkmode = this.checked;
+            if (chkmode == true && $('#cboDocStatus').val().substr(0,2) !== '01') {
+                ShowMessage('Cannot cancel on this document status', true);
+                return;
+            }
             CallBackAuthorize(path, 'MODULE_CLR', 'Index', 'D', SetCancel);
         });
 
@@ -936,7 +939,7 @@ End Code
         let lists = 'JOB_TYPE=#cboJobType';
         lists += ',CLR_STATUS=#cboDocStatus|01';
         lists += ',CLR_STATUS=#cboStatus|';
-        lists += ',CLR_TYPE=#cboClrType|1';
+        lists += ',CLR_TYPE=#cboClrType|';
         lists += ',CLR_FROM=#cboClrFrom';
 
         loadCombos(path, lists);

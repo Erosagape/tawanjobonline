@@ -127,7 +127,7 @@ Namespace Controllers
 
                 If lst <> "" Then
                     Dim tSQL As String = String.Format("UPDATE Job_ClearHeader SET DocStatus=2,ApproveBy='" & user & "',ApproveDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',ApproveTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
- WHERE DocStatus=1 AND BranchCode+'|'+ClrNo in({0})", lst)
+ WHERE DocStatus=1 AND BranchCode+'|'+ClrNo in({0}) AND DocStatus<>99", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Return New HttpResponseMessage(HttpStatusCode.OK)
@@ -205,7 +205,7 @@ Namespace Controllers
 
             If lst <> "" Then
                 If doctype = "CLR" Then
-                    Dim tSQL As String = String.Format("UPDATE Job_ClearHeader SET DocStatus=3,ReceiveBy='" & user & "',ReceiveRef='" & docno & "',ReceiveDate=GetDate(),ReceiveTime=Convert(varchar(10),GetDate(),108) WHERE BranchCode+'|'+ClrNo in({0})", lst)
+                    Dim tSQL As String = String.Format("UPDATE Job_ClearHeader SET DocStatus=3,ReceiveBy='" & user & "',ReceiveRef='" & docno & "',ReceiveDate=GetDate(),ReceiveTime=Convert(varchar(10),GetDate(),108) WHERE BranchCode+'|'+ClrNo in({0}) AND DocStatus<>99 ", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Main.UpdateClearStatus()
@@ -213,7 +213,7 @@ Namespace Controllers
                     End If
                 End If
                 If doctype = "ADV" Then
-                    Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=6 WHERE BranchCode+'|'+AdvNo in({0})", lst)
+                    Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=6 WHERE BranchCode+'|'+AdvNo in({0}) AND DocStatus<>99", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateClrReceiveFromAdvance(user, docno))
