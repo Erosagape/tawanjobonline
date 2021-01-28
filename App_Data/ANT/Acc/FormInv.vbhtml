@@ -314,9 +314,9 @@ End Code
 
         }	
         let d = dr.detail[0];
-	sortData(d,'AmtAdvance','asc');
-	sortData(d,'AmtCharge','asc');
-	sortData(d,'AmtVat','asc');
+        sortData(d, 'AmtCharge', 'asc');
+        sortData(d, 'AmtAdvance', 'asc');
+	    //sortData(d,'AmtVat','asc');
         let sumbase1 = 0;
         let sumbase3 = 0;
         let sumtax1 = 0;

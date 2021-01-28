@@ -2742,7 +2742,7 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBANALYSIS", "ReportNameEN": "Job Analysis", "ReportNameTH": "รายงานประเมินผลการปฏิบัติงาน" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBFOLLOWUP", "ReportNameEN": "Job List By Status", "ReportNameTH": "รายงานงานเรียงตามสถานะ" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOAD", "ReportNameEN": "Container Loading By Load Date", "ReportNameTH": "รายงานงานขนส่งตามวันโหลด" },
-        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBLOADING", "ReportNameEN": "Job Loading By ETA Date", "ReportNameTH": "รายงานงานขนส่งตามวันเทียบท่า" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBLOADING", "ReportNameEN": "Job Loading By ETD Date", "ReportNameTH": "รายงานงานขนส่งตามวัน ETD" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOADIM", "ReportNameEN": "Container Loading Import Daily", "ReportNameTH": "รายงานการลากตู้ขนส่งขาเข้า" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOADEX", "ReportNameEN": "Container Loading Export Daily", "ReportNameTH": "รายงานลากตู้ขนส่งขาออก" },
         { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKPNL", "ReportNameEN": "Truck Summary Profit Report By Container", "ReportNameTH": "รายงานกำไรขาดทุนแต่ละตู้" },

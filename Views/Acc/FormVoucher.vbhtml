@@ -274,7 +274,7 @@ End Code
                         //let strDoc = '';
                         let lastvender = '';
                         for (d of doc) {
-                            if (d.JobNo !== '') {
+                            if (d.JobNo !== '' && jobno=='') {
                                 jobno = d.JobNo;
                             }
                             if (lastvender!==d.VenderName) {
