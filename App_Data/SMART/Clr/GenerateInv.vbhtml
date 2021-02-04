@@ -24,7 +24,7 @@ End Code
                 <select id="cboShipBy" class="form-control dropdown"></select>
             </div>
             <div class="col-sm-2">
-                CLR Date From<br /><input type="date" id="txtClrDateF" class="form-control" />
+                From<br /><input type="date" id="txtClrDateF" class="form-control" />
             </div>
             <div class="col-sm-2">
                 To<br /><input type="date" id="txtClrDateT" class="form-control" />
@@ -467,35 +467,6 @@ End Code
             CreateLOV(dv, '#frmSearchChq', '#tbChq', 'Customer Cheque', response, 5);
         });
 
-        $('#tbDetail tbody').on('click', 'button', function () {
-            let data = GetSelect('#tbDetail', this); //read current row selected
-            //if (data.ClrNo !== '') {
-            LoadClearDetail(data);
-            //}
-        });
-        $('#tbCost tbody').on('click', 'button', function () {
-            let data = GetSelect('#tbCost', this); //read current row selected
-            //if (data.ClrNo !== '') {
-            RemoveCost(data);
-            //}
-        });
-        $('#tbHeader tbody').on('click', 'tr', function () {
-            if ($(this).hasClass('selected') == true) {
-                $(this).removeClass('selected');
-                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                RemoveData(data); //callback function from caller
-                return;
-            }
-            $(this).addClass('selected');
-            let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-            AddData(data); //callback function from caller
-        });
-        $('#tbHeader tbody').on('dblclick', 'tr', function () {
-            let clearno = $(this).find('td:eq(1)').text();
-            //ShowMessage('you click ' + clearno);
-            window.open(path + 'Clr/Index?BranchCode=' + $('#txtBranchCode').val() + '&ClrNo=' + clearno);
-        });
-
     }
     function SetGridAdv(isAlert) {
         let w = '&status=CLOSE';
@@ -593,6 +564,22 @@ End Code
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page,
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
+            $('#tbHeader tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected') == true) {
+                    $(this).removeClass('selected');
+                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                    RemoveData(data); //callback function from caller
+                    return;
+                }
+                $(this).addClass('selected');
+                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                AddData(data); //callback function from caller
+            });
+            $('#tbHeader tbody').on('dblclick', 'tr', function () {
+                let clearno = $(this).find('td:eq(1)').text();
+                //ShowMessage('you click ' + clearno);
+                window.open(path + 'Clr/Index?BranchCode=' + $('#txtBranchCode').val() + '&ClrNo=' + clearno);
+            });
             if ($('#chkSelectAll').prop('checked')) {
                 for (let row of h) {
                     AddData(row);
@@ -670,7 +657,8 @@ End Code
     function ShowDetail() {
         arr_split = {};
         let iRow = 0;
-        let arr_sel = arr.filter(function (d) {
+        let arr_src = JSON.parse(JSON.stringify(arr));
+        let arr_sel = arr_src.filter(function (d) {
             return d.AmtCharge > 0 || d.AmtAdvance > 0;
         });
         for (let o of arr_sel) {
@@ -738,7 +726,14 @@ End Code
             ],
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
-        let arr_cost = arr.filter(function (d) {
+        $('#tbDetail tbody').on('click','button', function () {
+            let data = GetSelect('#tbDetail',this); //read current row selected
+            //if (data.ClrNo !== '') {
+                LoadClearDetail(data);
+            //}
+        });
+        arr_src = JSON.parse(JSON.stringify(arr));
+        let arr_cost = arr_src.filter(function (d) {
             return d.AmtCost > 0;
         });
         let tb1 = $('#tbCost').DataTable({
@@ -792,7 +787,12 @@ End Code
                 ]
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbCost');
-
+        $('#tbCost tbody').on('click', 'button', function () {
+            let data = GetSelect('#tbCost', this); //read current row selected
+            //if (data.ClrNo !== '') {
+            RemoveCost(data);
+            //}
+        });
     }
     function RemoveCost(data) {
         RemoveData(data);

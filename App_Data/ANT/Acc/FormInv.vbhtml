@@ -126,7 +126,7 @@ End Code
             <td style="text-align:right">
                 <label id="lblSumAdvance"></label>
             </td>
-            <td style="text-align:right">                
+            <td style="text-align:right">
                 <label id="lblSumBeforeVat"></label>
             </td>
         </tr>
@@ -140,14 +140,14 @@ End Code
                     </div>
                 </div>
             </td>
-            <td>                                                
+            <td>
                 VAT <label id="lblVATRate"></label>%<br />
                 SERVICE+VAT<br />
                 DISCOUNT <label id="lblDiscountRate"></label>%<br />
                 CUST. ADV<br />
                 GRAND TOTAL
             </td>
-            <td style="background-color :gainsboro;text-align:right;" colspan="2">                                               
+            <td style="background-color :gainsboro;text-align:right;" colspan="2">
                 <label id="lblSumVat"></label><br />
                 <label id="lblSumAfterVat"></label><br />
                 <label id="lblSumDiscount"></label><br />
@@ -178,7 +178,7 @@ End Code
                 </tr>
                 <tr>
                     <td colspan="2" style="width:80%">
-                        NET AMOUNT
+                        NET TOTAL
                     </td>
                     <td style="width:20%;text-align:right">
                         <label id="lblSumNetInvoice"></label>
@@ -191,19 +191,24 @@ End Code
             </div>
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
-            <br />
             FOR THE CUSTOMER <br /><br /> <br /><br /><br />
             ......................................................... <br />
             __________/_________/________ <br />
             AUTHORIZED SIGNATURE
         </div>
         <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
-            <br />
             FOR @ViewBag.PROFILE_COMPANY_NAME <br /><br /> <br /><br /><br />
             ......................................................... <br />
             __________/_________/________ <br />
             AUTHORIZED SIGNATURE
         </div>
+    </div>
+    <div style="border:1px solid black;border-radius:5px;">
+        Payment must be made by crossed cheque to "<span id="lblCompanyName" style="font-weight:bold">ANT GLOBAL LOGISTICS CO., LTD.</span>"<br />
+        or bank transfer to account "<span id="lblAccountName" style="font-weight:bold">ANT GLOBAL LOGISTICS CO., LTD.</span>"<br />
+        สั่งจ่าย : <span id="lblCompanyName2" style="font-weight:bold">บริษัท เอ เอ็น ที โกลบอล โลจิสติกส์ จำกัด</span><br />
+        บัญชีออมทรัพย์ ธนาคารกรุงศรีอยุธยา สาขาคลองประปา เลขบัญชี 053-149654-6<br />
+        บัญชีออมทรัพย์ ธนาคารกรุงเทพ สาขาประดิพัทธิ์ เลขบัญชี 113-496065-5<br />
     </div>
 </div>
 <script type="text/javascript">
@@ -302,20 +307,20 @@ End Code
 
             $('#lblSumDiscount').text(ShowNumber(h.TotalDiscount, 2));
             $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv,2));
-            
+
             $('#lblSumVat').text(ShowNumber(h.TotalVAT,2));
-            
+
             $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
             $('#lblSumTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT),2));
-            $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
-            $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.Total50Tavi)-Number(h.TotalDiscount),2));
+            $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount), 2));
+            $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.Total50Tavi) - Number(h.TotalDiscount), 2));
 
-            $('#lblTotalBaht').text('(' + CNumThai(CDbl(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalDiscount),2)) + ')');
+            $('#lblTotalBaht').text('(' + CNumThai(CDbl(Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.Total50Tavi) - Number(h.TotalDiscount), 2)) + ')');
 
-        }	
+        }
         let d = dr.detail[0];
-        sortData(d, 'AmtCharge', 'asc');
-        sortData(d, 'AmtAdvance', 'asc');
+        sortData(d, 'AmtCharge', 'desc');
+        sortData(d, 'AmtAdvance', 'desc');
 	    //sortData(d,'AmtVat','asc');
         let sumbase1 = 0;
         let sumbase3 = 0;
@@ -334,10 +339,10 @@ End Code
                 if (o.AmtAdvance > 0) {
                     html += '<td style="text-align:right">' + ShowNumber(o.AmtAdvance, 2) + '</td>';
                 } else {
-                    html += '<td style="text-align:right">' + (o.AmtVat == 0 ? ShowNumber(o.AmtCharge, 2) : "0.00") + '</td>';    
+                    html += '<td style="text-align:right">' + (o.AmtVat == 0 ? ShowNumber(o.AmtCharge, 2) : "") + '</td>';
                 }
-                html += '<td style="text-align:right">' + (o.AmtVat>0 ?ShowNumber(o.AmtCharge, 2):"0.00") + '</td>';
-                
+                html += '<td style="text-align:right">' + ((o.AmtVat>0 && o.AmtCharge>0) ?ShowNumber(o.AmtCharge, 2):"") + '</td>';
+
                 html += '</tr>';
 
                 $('#tbDetail').append(html);

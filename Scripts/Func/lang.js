@@ -3275,9 +3275,9 @@ function ChangeLanguageGrid(module, id) {
             }
             if (id == '#tbCost') {
                 gridLang = [
+                    "#|#",
                     "Job No|หมายเลขงาน",
                     "Description|ค่าใช้จ่าย",
-                    "Slip No|เลขที่ใบเสร็จ",
                     "Amount|ยอดเงิน",
                     "VAT|VAT",
                     "WHT|หัก ณ ที่จ่าย",

@@ -2755,12 +2755,21 @@ ORDER BY a.TName1
                 If Not IsNothing(Request.QueryString("Cust")) Then
                     tSqlw &= String.Format(" AND c.CustCode='{0}' ", Request.QueryString("Cust").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlw &= " AND a.ClrDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlw &= " AND a.ClrDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     If Request.QueryString("Status").ToString = "CLOSE" Then
                         tSqlw &= " AND c.JobStatus>=3 AND c.JobStatus<90 "
                     End If
                     If Request.QueryString("Status").ToString = "ACTIVE" Then
                         tSqlw &= " AND c.JobStatus<90 "
+                    End If
+                    If Request.QueryString("Status").ToString = "NOEARNEST" Then
+                        tSqlw &= " AND s.NameThai NOT LIKE '%มัดจำ%' AND c.JobStatus>=3 AND c.JobStatus<90 "
                     End If
                 End If
                 tSqlw &= " ORDER BY b.LinkBillNo,b.JobNo,s.IsCredit DESC,b.SDescription"

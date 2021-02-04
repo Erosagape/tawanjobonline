@@ -1187,7 +1187,12 @@ End Code
                         { data: "DocNo", title: "Doc No" },
                         { data: "ItemNo", title: "Seq" },
                         { data: "Expense", title: "Description" },
-                        { data: "Amount", title: "Amount" },
+                        {
+                            data: "Amount", title: "Amount",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
                         { data: "DocStatus", title: "Status" }
                     ],
                     destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page

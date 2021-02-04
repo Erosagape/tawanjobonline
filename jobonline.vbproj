@@ -1075,6 +1075,10 @@
     <Content Include="App_Data\ANT\Acc\FormVoucher.vbhtml" />
     <Content Include="App_Data\SINOTHAI\JobOrder\Index.vbhtml" />
     <Content Include="App_Data\SMART\Clr\FormEntry.vbhtml" />
+    <Content Include="App_Data\SMART\JobOrder\FormJob.vbhtml" />
+    <Content Include="App_Data\SMART\Clr\GenerateInv.vbhtml" />
+    <Content Include="App_Data\SMART\Acc\FormWHTax.vbhtml" />
+    <Content Include="App_Data\SMART\JobOrder\FormDelivery.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

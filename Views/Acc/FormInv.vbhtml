@@ -365,8 +365,8 @@ End Code
             $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalNet),2));
         }
         let d = dr.detail[0];
-        sortData(d, 'AmtCharge', 'desc');
-        //sortData(d, 'ItemNo', 'asc');
+
+        sortData(d, 'ItemNo', 'asc');
 
         let sumbase1 = 0;
         let sumbase3 = 0;

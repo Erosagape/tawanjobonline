@@ -1442,7 +1442,10 @@ rh.CustCode,rh.CustBranch,rh.BillToCustCode,rh.BillToCustBranch,
 c1.Title + ' '+ c1.NameThai as CustTName,c1.NameEng as CustEName,c1.TAddress1+' '+c1.TAddress2 as CustTAddr,c1.EAddress1+' '+c1.EAddress2 as CustEAddr,c1.Phone as CustPhone,c1.TaxNumber as CustTaxID,
 c2.Title + ' '+ c2.NameThai as BillTName,c2.NameEng as BillEName,c2.TAddress1+' '+c2.TAddress2 as BillTAddr,c2.EAddress1+' '+c2.EAddress2 as BillEAddr,c2.Phone as BillPhone,c2.TaxNumber as BillTaxID,
 rd.InvoiceNo,ih.DocDate as InvoiceDate,ih.BillAcceptNo,ih.BillIssueDate,ih.BillAcceptDate,ih.RefNo,
-Sum(id.AmtCharge) as AmtCharge,Sum(id.AmtAdvance) as AmtAdvance,Sum(id.Amt-id.AmtDiscount) as InvAmt,Sum(id.AmtVat) as InvVAT,Sum(id.Amt50Tavi) as Inv50Tavi,Sum(id.TotalAmt) as InvTotal,
+Sum(id.AmtCharge) as AmtCharge,Sum(id.AmtAdvance) as AmtAdvance,Sum(id.Amt-id.AmtDiscount) as InvAmt,
+Sum(CASE WHEN id.AmtCharge >0 THEN id.AmtVat ELSE 0 END) as InvVAT,
+Sum(CASE WHEN id.AmtCharge >0 THEN id.Amt50Tavi ELSE 0 END) as Inv50Tavi,
+Sum(id.TotalAmt) as InvTotal,
 (SELECT STUFF((
     SELECT DISTINCT ',' + JobNo
     FROM Job_ClearDetail WHERE BranchCode=ih.BranchCode
@@ -1461,8 +1464,11 @@ FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
     AND LinkBillNo=ih.DocNo 
 FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
 )) as AdvNo,
-Sum(rd.Amt) as Amt,Sum(rd.FAmt) as FAmt,Sum(rd.AmtVAT) as AmtVAT,Sum(rd.FAmtVAT) as FAmtVAT,
-Sum(rd.Amt50Tavi) as Amt50Tavi,Sum(rd.FAmt50Tavi) as FAmt50Tavi,Sum(rd.Net) as Net,Sum(rd.FNet) as FNet,
+Sum(rd.Amt) as Amt,Sum(rd.FAmt) as FAmt,Sum(CASE WHEN id.AmtCharge >0 THEN rd.AmtVAT ELSE 0 END) as AmtVAT,
+Sum(CASE WHEN id.AmtCharge>0 THEN rd.FAmtVAT ELSE 0 END) as FAmtVAT,
+Sum(CASE WHEN id.AmtCharge>0 THEN rd.Amt50Tavi ELSE 0 END) as Amt50Tavi,
+Sum(CASE WHEN id.AmtCharge>0 THEN rd.FAmt50Tavi ELSE 0 END) as FAmt50Tavi,
+Sum(rd.Net) as Net,Sum(rd.FNet) as FNet,
 Max(rd.ControlNo) as ControlNo,Max(vd.ChqNo) as ChqNo,Max(vd.ChqDate) as ChqDate,Max(vd.PRVoucher) as PRVoucher
 FROM Job_ReceiptHeader rh INNER JOIN Job_ReceiptDetail rd ON rh.BranchCode=rd.BranchCode AND rh.ReceiptNo=rd.ReceiptNo
 INNER JOIN Job_InvoiceDetail id ON rd.BranchCode=id.BranchCode AND rd.InvoiceNo=id.DocNo AND rd.InvoiceItemNo=id.ItemNo

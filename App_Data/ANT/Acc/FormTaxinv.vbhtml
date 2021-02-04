@@ -4,28 +4,30 @@
     ViewBag.Title = "Tax-Invoice Slip"
 End Code
 <style>
-    #tbDetail td {
-        font-size: 9px !important;
+    td {
+        font-size: 11px !important;
     }
-
+    td label {
+        font-size: 11px !important;
+    }
     table {
         border-width: thin;
         border-collapse: collapse;
     }
 </style>
-<div style="text-align:center;width:100%">
-    <h2><label id="lblDocType">TAX-INVOICE</label></h2>
+<div style="text-align:center;width:100%;">
+    <h2><label id="lblDocType" style="font-size:13px">TAX-INVOICE</label></h2>
 </div>
 <div id="dvCopy" style="text-align:right;width:100%">
 </div>
 <div style="display:flex;">
-    <div style="flex:3;border:1px solid black;border-radius:5px;">
+    <div style="flex:3;border:1px solid black;border-radius:5px;margin-right:5px;padding: 5px 5px 5px 5px">
         <b>NAME : </b><label id="lblCustName"></label><br />
         <b>ADDRESS : </b><br /><label id="lblCustAddr"></label><br />
         <b>TAX ID : </b><lable id="lblCustTax"></lable>
         <b>BRANCH : </b><label id="lblTaxBranch"></label>
     </div>
-    <div style="flex:1;border:1px solid black;border-radius:5px;">
+    <div style="flex:1;border:1px solid black;border-radius:5px;padding: 5px 5px 5px 5px">
         <b>NO. : </b><label id="lblReceiptNo"></label><br />
         <b>ISSUE DATE : </b><label id="lblReceiptDate"></label><br />
     </div>
@@ -33,28 +35,28 @@ End Code
 
 <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
     <thead>
-        <tr style="background-color:lightblue;">
-            <th height="40" width="270">INV.NO.</th>
+        <tr style="background-color:gainsboro;">
+            <th height="40" width="200">INV.NO.</th>
             <th width="70">JOB</th>
-            <th width="60">ADVANCE</th>
+            <th width="80">ADVANCE</th>
             <th width="60">SERVICE</th>
             <th width="30">VAT</th>
             <th width="30">WHT</th>
-            <th width="30">TOTAL</th>
+            <th width="80">TOTAL</th>
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
-    <tfoot>
-        <tr style="background-color:lightblue;text-align:right;">
+    <tfoot style="font-size:12px;">
+        <tr style="background-color:gainsboro;text-align:right;">
             <td style="text-align:center"><label id="lblTotalText"></label></td>
-            <td>TOTAL AMOUNT</td>
+            <td>TOTAL</td>
             <td><label id="lblTotalADV"></label></td>
             <td><label id="lblTotalBeforeVAT"></label></td>
             <td><label id="lblTotalVAT"></label></td>
             <td><label id="lblTotalWHT"></label></td>
             <td><label id="lblTotalSumVAT"></label></td>
         </tr>
-        <tr style="background-color:lightblue;text-align:right;">
+        <tr style="background-color:gainsboro;text-align:right;">
             <td colspan="6">TOTAL RECEIPT</td>
             <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
         </tr>
@@ -63,20 +65,20 @@ End Code
 <p>
     PAY BY
 </p>
-<div style="display:flex;flex-direction:column">
-    <div>
+<span style="display:flex;flex-direction:column">
+    <span>
         <label><input type="checkbox" name="vehicle1" value=""> CASH</label>
         DATE_____________  AMOUNT______________BAHT
-    </div>
-    <div>
+    </span>
+    <span>
         <label><input type="checkbox" name="vehicle2" value=""> CHEQUE</label>
         DATE_____________  NO_______________  BANK_________________  AMOUNT______________BAHT
-    </div>
-    <div>
+    </span>
+    <span>
         <label><input type="checkbox" name="vehicle3" value=""> TRANSFER</label>
         DATE_____________  BANK_________________  AMOUNT______________BAHT
-    </div>
-</div>
+    </span>
+</span>
 <br />
 <div style="display:flex;">
     <!--
@@ -87,7 +89,7 @@ End Code
         THE MALL THA-PHRA BRANCH
     </div>
         -->
-    <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
+    <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;margin-right:5px;padding: 5px 5px 5px 5px">
 
         FOR THE CUSTOMER
         <br /><br /><br />
@@ -96,7 +98,7 @@ End Code
         ___/_______/___<br />
         AUTHORIZED SIGNATURE
     </div>
-    <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
+    <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;padding: 5px 5px 5px 5px">
 
         FOR THE COMPANY
         <br /><br /><br />
@@ -159,24 +161,21 @@ End Code
         let adv = 0;
         for (let d of dt) {
             html = '<tr>';
-            html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
+            html += '<td style="text-align:center">SERVICE CHARGES - ' + d.InvoiceNo + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
-            html += '<td style="text-align:right">' + (CDbl(d.AmtCharge) > 0 ? '0.00' : ShowNumber((d.InvTotal), 2)) + '</td>';
-            html += '<td style="text-align:right">' + (CDbl(d.AmtCharge)>0 ? ShowNumber(d.InvAmt,2):'0.00') + '</td>';
-            html += '<td style="text-align:right">' + (CDbl(d.AmtCharge) > 0 ? ShowNumber(d.InvVAT, 2) : '0.00') + '</td>';
-            html += '<td style="text-align:right">' + (CDbl(d.AmtCharge) > 0 ? ShowNumber(d.Inv50Tavi, 2) : '0.00') + '</td>';
-            html += '<td style="text-align:right">' + (CDbl(d.AmtCharge) == 0 ? '0.00' : ShowNumber((d.InvAmt+d.InvVAT), 2)) + '</td>';
+            html += '<td style="text-align:right">' + (CNum(d.AmtAdvance) > 0 ? ShowNumber((d.AmtAdvance), 2) : '') + '</td>';
+            html += '<td style="text-align:right">' + (CNum(d.AmtCharge) > 0 ? ShowNumber(d.AmtCharge,2):'') + '</td>';
+            html += '<td style="text-align:right">' + (CNum(d.AmtCharge) > 0 ? ShowNumber(d.AmtVAT, 2) : '') + '</td>';
+            html += '<td style="text-align:right">' + (CNum(d.AmtCharge) > 0 ? ShowNumber(d.Amt50Tavi, 2) : '') + '</td>';
+            html += '<td style="text-align:right">' + (CNum(d.AmtCharge) > 0 ? ShowNumber((d.AmtCharge + d.AmtVAT), 2) : '') + '</td>';
             html += '</tr>';
 
             $('#tbDetail').append(html);
-            if (CDbl(d.AmtCharge) > 0) {
-                service += Number(d.InvAmt);
-                vat += Number(d.InvVAT);
-                wht += Number(d.Inv50Tavi);
-                total += Number(d.InvAmt) + Number(d.InvVAT);
-            } else {
-                adv +=Number(d.InvTotal);
-            }
+            service += Number(d.AmtCharge);
+            vat += Number(d.AmtVAT);
+            wht += Number(d.Amt50Tavi);
+            total += Number(d.AmtCharge)+Number(d.AmtAdvance) + Number(d.AmtVAT);
+            adv +=Number(d.AmtAdvance);
 
         }
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));

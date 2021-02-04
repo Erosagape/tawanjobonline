@@ -156,11 +156,6 @@ End Code
                 <td colspan="3">
                     <div style="display:flex">
                         <div style="text-align:left;flex:1">
-                            TOTAL INVOICE (
-                            <label id="lblCurrencyCode"></label>)=
-                            <label id="lblForeignNet"></label> RATE=
-                            <label id="lblExchangeRate"></label>
-                            <br />
                             <div id="lblShippingRemark"></div>
                             REMARKS :
                             <br />
@@ -243,11 +238,11 @@ End Code
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="width:80%">
-                        NET AMOUNT
-                    </td>
-                    <td style="width:20%;text-align:right">
-                        <label id="lblSumNetInvoice"></label>
+                    <td colspan="3" style="width:100%">
+                        TOTAL INVOICE (
+                        <label id="lblCurrencyCode"></label>)=
+                        <label id="lblForeignNet"></label> RATE=
+                        <label id="lblExchangeRate"></label>
                     </td>
                 </tr>
 
@@ -383,7 +378,7 @@ End Code
             $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
             $('#lblSumTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT),2));
             $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
-            $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.Total50Tavi)-Number(h.TotalDiscount),2));
+            //$('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.Total50Tavi)-Number(h.TotalDiscount),2));
 
             $('#lblTotalBaht').text('(' + CNumEng(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount)-Number(h.Total50Tavi),2)) + ')'); 
 

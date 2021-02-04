@@ -42,8 +42,8 @@ End Code
             TAX No: &nbsp; <label style="display:inline-block;width:150px;text-decoration:underline" id="lblTaxNumber">________________________</label><br />
             <label style="display:inline-block;width:300px;text-decoration:underline" id="lblTAddress">________________________</label><br />
             Invoice no.(เลขที่อินวอยซ์) &nbsp; <label id="lblInvNo" style="display:inline-block;width:200px;text-decoration:underline">________________________</label>
-            P.O. no. &nbsp;<label style="display:inline-block;width:300px;text-decoration:underline" id="lblCustRefNo">________________________</label>
-            &nbsp; &nbsp; Job# <label style="display:inline-block;width:200px;text-decoration:underline" id="lblJNo">________________________</label>
+            P.O. no. &nbsp;<label style="display:inline-block;width:100px;text-decoration:underline" id="lblCustRefNo">________________________</label>
+            &nbsp; Job# <label style="display:inline-block;width:100px;text-decoration:underline" id="lblJNo">________________________</label>
             <br />
             Name of Delivery(ชื่อผู้รับสินค้า)  &nbsp; <label style="display:inline-block;width:400px;text-decoration:underline" id="lblDeliveryTo">________________________</label><br />
             Place of Delivery(สถานที่ส่งสินค้า) &nbsp; <label style="display:inline-block;width:400px;text-decoration:underline" id="lblDeliveryAddr">________________________</label><br />
@@ -118,7 +118,7 @@ End Code
             if (r.transport.data.length > 0) {
                 let j = r.transport.data[0];
                 if (j.CTN_NO !== null) $('#lblCTN_NO').text(j.CTN_NO);
-                if (j.JNo !== null) $('#lblCTN_NO').text(j.JNo);
+                if (j.JNo !== null) $('#lblJNo').text(j.JNo);
                 if (j.Driver!==null) $('#lblDriver').text(j.Driver);
                 $('#chkTRK4').prop('checked', (j.TruckType == 'TRK4'));
                 $('#chkTRK6').prop('checked', (j.TruckType == 'TRK6'));
