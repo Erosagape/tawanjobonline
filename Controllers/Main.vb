@@ -2533,11 +2533,17 @@ SELECT * FROM (
     from Job_CashControlSub d
     inner join Job_CashControl h ON d.BranchCode=h.BranchCode
     and d.ControlNo=h.ControlNo
+    inner join Job_CashControlDoc dc ON d.BranchCode=dc.BranchCode AND d.Controlno=dc.ControlNo
+    AND d.acType=dc.acType
     inner join Job_ClearHeader ah ON h.BranchCode=ah.BranchCode
     AND h.ControlNo=ah.ReceiveRef
     inner join Job_ClearDetail ad ON ah.BranchCode=ad.BranchCode
     AND ah.ClrNo=ad.ClrNo
     left join Job_Order j ON ad.BranchCode=j.BranchCode AND ad.JobNo=j.JNo
+    inner join Job_AdvDetail av on dc.BranchCode=av.BranchCode AND
+    dc.DocNo =av.AdvNo+'#'+cast(av.ItemNo as varchar) AND 
+	ad.BranchCode=av.BranchCode AND
+	ad.AdvNo+'#'+cast(ad.AdvItemNo as varchar)=av.AdvNo+'#'+cast(av.ItemNo as varchar)
     where ISNULL(ad.AdvNo,'')<>''
     union
     select d.*,h.VoucherDate,j.CustCode,j.CustBranch,'',ah.TRemark,

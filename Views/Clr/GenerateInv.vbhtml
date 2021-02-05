@@ -1271,10 +1271,10 @@ End Code
             if (obj.AmtCharge > 0 || obj.AmtAdvance > 0) {
                 let creditamt = 0;
                 if (custadv > 0) {
-                    if (custadv - (CNum(obj.AmtNet) + CNum(obj.Amt50Tavi)) < 0) {
+                    if ((custadv - CNum(obj.AmtNet)) < 0) {
                         creditamt = custadv;
                     } else {
-                        creditamt = (CNum(obj.AmtNet) + CNum(obj.Amt50Tavi));
+                        creditamt = CNum(obj.AmtNet);
                     }
                     custadv -= creditamt;
                 } else {
@@ -1313,8 +1313,8 @@ End Code
                     AmtCharge: (obj.AmtCharge > 0 ? CDbl(obj.AmtCharge  / CNum($('#txtExchangeRate').val()),2) : 0),
                     CurrencyCodeCredit: $('#txtCurrencyCode').val(),
                     ExchangeRateCredit: $('#txtExchangeRate').val(),
-                    AmtCredit: (creditamt >0 ? CDbl((creditamt-CNum(obj.Amt50Tavi)),2) : 0),
-                    FAmtCredit: (creditamt > 0 ? CDbl((creditamt - CNum(obj.Amt50Tavi)) / CNum($('#txtExchangeRate').val()), 2) : 0),
+                    AmtCredit: (creditamt >0 ? CDbl(creditamt,2) : 0),
+                    FAmtCredit: (creditamt > 0 ? CDbl(creditamt / CNum($('#txtExchangeRate').val()), 2) : 0),
                     VATRate: CDbl(obj.VATRate,0)
                 });
             } else {

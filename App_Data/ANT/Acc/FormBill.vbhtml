@@ -6,7 +6,7 @@
 End Code
 <style>
     * {
-       font-size: 13px;
+       font-size: 12px;
     }
 
     table {
@@ -24,7 +24,7 @@ End Code
                   TAX-ID : <label id="lblTaxNumber"></label>
                 </p>
             </div>
-            <div style="flex:1;" class="text-right">
+            <div style="flex:1;" style="text-align:right">
                 DOC NO : <label id="lblBillAcceptNo"></label>
                 <br />DATE : <label id="lblBillDate"></label>
             </div>
@@ -48,17 +48,18 @@ End Code
         <table border="1" style="border-style:solid;width:100%;margin-top:5px ">
             <thead>
                 <tr>
-                    <th class="text-center" width="100" rowspan="2">ITEMS</th>
+                    <th class="text-center" width="50" rowspan="2">NO</th>
                     <th class="text-center" width="100" rowspan="2">ISSUE DATE</th>
                     <th class="text-center" width="130" rowspan="2">INVOICE NO.</th>
                     <th class="text-center" width="130" rowspan="2">JOB NO.</th>
                     <th class="text-center" colspan="2">AMOUNT</th>
                     <th class="text-center" width="60" rowspan="2">VAT</th>
                     <th class="text-center" colspan="2">W/H</th>
-                    <th class="text-center" width="100" rowspan="2">TOTAL</th>
+                    <th class="text-center" width="80" rowspan="2">PREPAID</th>
+                    <th class="text-center" width="100" rowspan="2">NET</th>
                 </tr>
                 <tr>
-                    <th class="text-center" width="130">REIMBURSEMENT</th>
+                    <th class="text-center" width="100">ADVANCE</th>
                     <th class="text-center" width="90">SERVICE</th>
                     <th class="text-center" width="50">1%</th>
                     <th class="text-center" width="50">3%</th>
@@ -75,10 +76,11 @@ End Code
                     <td style="text-align:right"><label id="lblSumVat"></label></td>
                     <td style="text-align:right"><label id="lblSumWh1"></label></td>
                     <td style="text-align:right"><label id="lblSumWh3"></label></td>
+                    <td style="text-align:right"><label id="lblSumPrepaid"></label></td>
                     <td style="text-align:right"><label id="lblBillTotal"></label></td>
                 </tr>
                 <tr style="background-color:lightblue">
-                    <th class="text-center" colspan="10"><label id="lblBillTotalEng"></label></th>
+                    <th class="text-center" colspan="11"><label id="lblBillTotalEng"></label></th>
                 </tr>
             </tfoot>
         </table>
@@ -155,7 +157,7 @@ if(Number(data.customer[0][0].Branch)>0) {
             let vat = 0;
             let wh1 = 0;
             let wh3 = 0;
-            
+            let prepaid = 0;
             let dv = $('#tbDetail');
             let html = '';
             for (let dr of data.detail[0]) {
@@ -165,17 +167,19 @@ if(Number(data.customer[0][0].Branch)>0) {
                 html += '<td>' + dr.InvNo + '</td>';
                 html += '<td>' + dr.RefNo + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtAdvance, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtChargeNonVAT, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(Number(dr.AmtChargeNonVAT)+Number(dr.AmtChargeVAT), 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtVAT, 2) + '</td>';
                 html += '<td style="text-align:right">' + (dr.AmtWHRate==1 ? ShowNumber(dr.AmtWH, 2) : 0) + '</td>';
-                html += '<td style="text-align:right">' + (dr.AmtWHRate!==1 ? ShowNumber(dr.AmtWH, 2) : 0) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtTotal, 2) + '</td>';
+                html += '<td style="text-align:right">' + (dr.AmtWHRate !== 1 ? ShowNumber(dr.AmtWH, 2) : 0) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(dr.TotalCustAdv, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet, 2) + '</td>';
                 html += '</tr>';
 
-                total += Number(dr.AmtTotal);
-                serv += Number(dr.AmtChargeNonVAT);
+                total += Number(dr.TotalNet);
+                serv += Number(dr.AmtChargeNonVAT)+Number(dr.AmtChargeVAT);
                 adv += Number(dr.AmtAdvance);
                 vat += Number(dr.AmtVAT);
+                prepaid += Number(dr.TotalCustAdv);
                 wh1 += Number(dr.AmtWHRate == 1 ? ShowNumber(dr.AmtWH, 2) : 0);
                 wh3 += Number(dr.AmtWHRate !== 1 ? ShowNumber(dr.AmtWH, 2) : 0);
             }
@@ -185,7 +189,7 @@ if(Number(data.customer[0][0].Branch)>0) {
             $('#lblSumVat').text(ShowNumber(vat, 2));
             $('#lblSumWh1').text(ShowNumber(wh1, 2));
             $('#lblSumWh3').text(ShowNumber(wh3, 2));
-
+            $('#lblSumPrepaid').text(ShowNumber(prepaid, 2));
             $('#lblBillTotal').text(ShowNumber(total,2));
             $('#lblBillTotalEng').text(CNumEng(total));
         }
