@@ -377,11 +377,6 @@ End Code
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
     const license = '@ViewBag.LICENSE_NAME';
-    if (license.indexOf('TRANSPORT') >= 0) {
-        $('#cboDocType').val('IVT-');
-    } else {
-        $('#cboDocType').val('IVS-');
-    }
     let arr = [];
     let arr_split = {};
     let arr_clr = [];
@@ -1005,7 +1000,7 @@ End Code
         let dataInv = {
             BranchCode:$('#txtBranchCode').val(),
             DocNo: $('#txtDocNo').val(),
-            DocType:$('#cboDocType').val(),
+            DocType: (license.indexOf('STL') >= 0 ? $('#cboDocType').val().replace('V', 'L') : $('#cboDocType').val()),
             DocDate: CDateEN($('#txtDocDate').val()),
             CustCode:$('#txtCustCode').val(),
             CustBranch:$('#txtCustBranch').val(),

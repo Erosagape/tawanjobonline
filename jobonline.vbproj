@@ -1079,6 +1079,9 @@
     <Content Include="App_Data\SMART\Clr\GenerateInv.vbhtml" />
     <Content Include="App_Data\SMART\Acc\FormWHTax.vbhtml" />
     <Content Include="App_Data\SMART\JobOrder\FormDelivery.vbhtml" />
+    <Content Include="App_Data\SMART\JobOrder\FormLetter.vbhtml" />
+    <Content Include="App_Data\SINOTHAI\Clr\GenerateInv.vbhtml" />
+    <Content Include="App_Data\SINOTHAI\Acc\GenerateTaxInv.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

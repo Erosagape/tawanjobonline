@@ -24,7 +24,7 @@ End Code
                 <select id="cboShipBy" class="form-control dropdown"></select>
             </div>
             <div class="col-sm-2">
-                From<br /><input type="date" id="txtClrDateF" class="form-control" />
+                CLR Date From<br /><input type="date" id="txtClrDateF" class="form-control" />
             </div>
             <div class="col-sm-2">
                 To<br /><input type="date" id="txtClrDateT" class="form-control" />
@@ -559,11 +559,11 @@ End Code
                 createdRow: function (row, data, index) {
                     if ($('#chkSelectAll').prop('checked')) {
                         $(row).addClass('selected')
+                        AddData(data);
                     }
                 },
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page,
             });
-            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
@@ -580,11 +580,7 @@ End Code
                 //ShowMessage('you click ' + clearno);
                 window.open(path + 'Clr/Index?BranchCode=' + $('#txtBranchCode').val() + '&ClrNo=' + clearno);
             });
-            if ($('#chkSelectAll').prop('checked')) {
-                for (let row of h) {
-                    AddData(row);
-                }
-            }
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
         });
 
     }
@@ -657,8 +653,7 @@ End Code
     function ShowDetail() {
         arr_split = {};
         let iRow = 0;
-        let arr_src = JSON.parse(JSON.stringify(arr));
-        let arr_sel = arr_src.filter(function (d) {
+        let arr_sel = arr.filter(function (d) {
             return d.AmtCharge > 0 || d.AmtAdvance > 0;
         });
         for (let o of arr_sel) {
@@ -726,14 +721,13 @@ End Code
             ],
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
-        $('#tbDetail tbody').on('click','button', function () {
-            let data = GetSelect('#tbDetail',this); //read current row selected
+        $('#tbDetail tbody').on('click', 'button', function () {
+            let data = GetSelect('#tbDetail', this); //read current row selected
             //if (data.ClrNo !== '') {
-                LoadClearDetail(data);
+            LoadClearDetail(data);
             //}
         });
-        arr_src = JSON.parse(JSON.stringify(arr));
-        let arr_cost = arr_src.filter(function (d) {
+        let arr_cost = arr.filter(function (d) {
             return d.AmtCost > 0;
         });
         let tb1 = $('#tbCost').DataTable({
@@ -793,6 +787,7 @@ End Code
             RemoveCost(data);
             //}
         });
+
     }
     function RemoveCost(data) {
         RemoveData(data);
@@ -1271,10 +1266,10 @@ End Code
             if (obj.AmtCharge > 0 || obj.AmtAdvance > 0) {
                 let creditamt = 0;
                 if (custadv > 0) {
-                    if (custadv - (CNum(obj.AmtNet) + CNum(obj.Amt50Tavi)) < 0) {
+                    if ((custadv - CNum(obj.AmtNet)) < 0) {
                         creditamt = custadv;
                     } else {
-                        creditamt = (CNum(obj.AmtNet) + CNum(obj.Amt50Tavi));
+                        creditamt = CNum(obj.AmtNet);
                     }
                     custadv -= creditamt;
                 } else {
@@ -1313,8 +1308,8 @@ End Code
                     AmtCharge: (obj.AmtCharge > 0 ? CDbl(obj.AmtCharge  / CNum($('#txtExchangeRate').val()),2) : 0),
                     CurrencyCodeCredit: $('#txtCurrencyCode').val(),
                     ExchangeRateCredit: $('#txtExchangeRate').val(),
-                    AmtCredit: (creditamt >0 ? CDbl((creditamt-CNum(obj.Amt50Tavi)),2) : 0),
-                    FAmtCredit: (creditamt > 0 ? CDbl((creditamt - CNum(obj.Amt50Tavi)) / CNum($('#txtExchangeRate').val()), 2) : 0),
+                    AmtCredit: (creditamt >0 ? CDbl(creditamt,2) : 0),
+                    FAmtCredit: (creditamt > 0 ? CDbl(creditamt / CNum($('#txtExchangeRate').val()), 2) : 0),
                     VATRate: CDbl(obj.VATRate,0)
                 });
             } else {

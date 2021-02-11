@@ -127,7 +127,7 @@ End Code
                 CUST. ADV<br />
                 <b>GRAND TOTAL</b>
             </td>
-            <td style="background-color :gainsboro;text-align:right;" colspan="2">
+            <td style="background-color:gainsboro;text-align:right;" colspan="2">
                 <label id="lblSumVat"></label><br />
                 <label id="lblSumAfterVat"></label><br />
                 <label id="lblSumDiscount"></label><br />

@@ -300,7 +300,7 @@ PAY TO : <label id="lblPayTo" style="font-size:11px">___________________________
                     let v = $.grep(venders, function (data) {
                         return data.VenCode === d.ForwarderCode;
                     });
-                    strJob = 'JOB:' + ((d.ForJNo == null || d.ForJNo == '' ? '' : d.ForJNo) + '<br/>');
+                    strJob = 'JOB:' + ((d.ForJNo == null || d.ForJNo == '' ? '' : d.ForJNo) + ((d.CustInvNo==null?'':' INV#:'+ d.CustInvNo)) + '<br/>');
                     strJob = strJob + 'CONTAINER:' + ((d.TotalContainer == null || d.TotalContainer == '' ? '' : d.TotalContainer) + '<br/>');
                     strJob = strJob + 'BL/AWB:' + ((d.HAWB == null || d.HAWB == '' ? '' : d.HAWB) + '<br/>');
                     if (v.length > 0) {
