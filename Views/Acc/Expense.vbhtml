@@ -1286,7 +1286,7 @@ End Code
         if (dt !== undefined) {
             $('#txtSICode').val(dt.SICode);
             $('#txtSICode').change();
-            $('#txtSDescription').val(dt.SDescription);
+            $('#txtSDescription').val(dt.SDescription + ' (' + dt.Location + ')');
             $('#txtSRemark').val(dt.Location);
             $('#txtUnitPrice').val(CDbl(CNum(dt.CostAmount) / CNum($('#txtExchangeRate').val()), 2));
 

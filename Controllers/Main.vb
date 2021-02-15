@@ -535,7 +535,7 @@ FROM dbo.Job_Order
     Function SQLSelectPayForCharge() As String
         Return "
  SELECT d.BranchCode, '' AS ClrNo, 0 AS ItemNo, 0 AS LinkItem, 'SRV' AS STCode, p.ChargeCode AS SICode, 
- s.NameThai as SDescription, h.VenCode AS VenderCode, d.Qty, d.QtyUnit AS UnitCode, 
+ s.NameThai + ' (' + p.Location + ')' as SDescription, h.VenCode AS VenderCode, d.Qty, d.QtyUnit AS UnitCode, 
  h.CurrencyCode, h.ExchangeRate AS CurRate, p.ChargeAmount as UnitPrice, 
  d.Qty * p.ChargeAmount AS FPrice, 
  (d.Qty * p.ChargeAmount / h.ExchangeRate) AS BPrice, (d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.VATRate*0.01)*s.IsTaxCharge AS ChargeVAT, 

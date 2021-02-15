@@ -81,13 +81,6 @@ End Code
                     <label id="lblVesselName"></label>
                 </p>
             </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    TOTAL CTN :
-                    <label id="lblTotalContainer"></label>
-                    <br />
-                </p>
-            </div>
         </div>
         <div style="flex:2">
             <div class="row">
@@ -104,15 +97,8 @@ End Code
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    MEASUREMENT :
-                    <label id="lblMeasurement"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    G.W :
-                    <label id="lblNetWeight"></label>
-                    <label id="lblWeightUnit"></label>
+                    TOTAL CTN :
+                    <label id="lblTotalContainer"></label>
                 </p>
             </div>
         </div>
@@ -131,9 +117,9 @@ End Code
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    CUSTOMER :
-                    <br />
-                    <label id="lblCustTName"></label>
+                    G.W :
+                    <label id="lblNetWeight"></label>
+                    <label id="lblWeightUnit"></label>
                 </p>
             </div>
         </div>
@@ -142,8 +128,7 @@ End Code
         <thead>
             <tr style="background-color:gainsboro;text-align:center;">
                 <th width="50px">No</th>
-                <th width="500px">DESCRIPTION</th>
-                <th width="100px">PRICE</th>
+                <th width="600px">DESCRIPTION</th>
                 <th width="100px">ADVANCE</th>
                 <th width="100px">NON-VAT</th>
                 <th width="50px">WHT</th>
@@ -154,9 +139,6 @@ End Code
         <tfoot style="border-top:inherit;">
             <tr style="font-weight:bold;">
                 <td colspan="2" style="text-align:right">TOTAL</td>
-                <td style="text-align:right">
-                    <label id="lblSumTotal"></label>
-                </td>
                 <td style="text-align:right">
                     <label id="lblSumAdvance"></label>
                 </td>
@@ -194,7 +176,7 @@ End Code
                     <br />
                     GRAND TOTAL
                 </td>
-                <td style="background-color :gainsboro;text-align:right;" colspan="2">
+                <td style="background-color :gainsboro;text-align:right;">
                     <label id="lblSumVat"></label>
                     <br />
                     <label id="lblSumAfterVat"></label>
@@ -208,7 +190,7 @@ End Code
             </tr>
             <tr>
                 <td>TOTAL (BAHT)</td>
-                <td colspan="7">
+                <td colspan="6">
                     <div style="text-align:center;">
                         <label id="lblTotalBaht" style="font-size:12px;"></label>
                     </div>
@@ -317,7 +299,7 @@ End Code
                             }
                             $('#lblCustName').text(c.Title+' '+c.NameThai);
                             $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
-                            $('#lblCustTName').text(dr.customer[0][0].NameThai);
+                            //$('#lblCustTName').text(dr.customer[0][0].NameThai);
                         } else {
                             if (Number(c.Branch == 0)) {
                                 $('#lblTaxBranch').text('HEAD OFFICE');
@@ -327,7 +309,7 @@ End Code
 
                             $('#lblCustName').text(c.NameEng);
                             $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2);
-                            $('#lblCustTName').text(dr.customer[0][0].NameEng);
+                            //$('#lblCustTName').text(dr.customer[0][0].NameEng);
                         }
                         //$('#lblCustTel').text(c.Phone);
                 }
@@ -354,7 +336,7 @@ End Code
                 ShowInvUnit(path, j.GWUnit, '#lblWeightUnit');
                 $('#lblETDDate').text(ShowDate(CDateTH(j.ETDDate)));
                 $('#lblHAWB').text(j.HAWB);
-                $('#lblMeasurement').text(j.Measurement);
+                //$('#lblMeasurement').text(j.Measurement);
                 $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
                 $('#lblMAWB').text(j.MAWB);
                 ShowVender(path, j.ForwarderCode, '#lblAgentName');
@@ -379,7 +361,6 @@ End Code
             $('#lblSumVat').text(ShowNumber(h.TotalVAT,2));
             $('#lblSumAfterVat').text(ShowNumber(Number(h.TotalIsTaxCharge)+Number(h.TotalVAT),2));
             $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
-            $('#lblSumTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT),2));
             $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
             //$('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.Total50Tavi)-Number(h.TotalDiscount),2));
 
@@ -404,14 +385,12 @@ End Code
                 html += '<td style="text-align:center">' + irow + '</td>';
                 if (o.AmtAdvance > 0) {
                     html += '<td>' + o.SDescription + (o.ExpSlipNO !== null ? ' #' + o.ExpSlipNO : '') + '</td>';
-                    html += '<td style="text-align:right;">' + ShowNumber(CNum(o.AmtAdvance) - CNum(o.AmtDiscount), 2) + '</td>';
                     html += '<td style="text-align:right;">' + (o.AmtAdvance > 0 ? ShowNumber(o.AmtAdvance, 2) : '') + '</td>';
                     html += '<td style="text-align:right;"></td>';
                     html += '<td style="text-align:right;"></td>';
                     html += '<td style="text-align:right;"></td>';
                 } else {
                     html += '<td>' + o.SDescription + '</td>';
-                    html += '<td style="text-align:right;">' + ShowNumber(CNum(o.Amt) - CNum(o.AmtDiscount), 2) + '</td>';
                     html += '<td style="text-align:right;"></td>';
                     html += '<td style="text-align:right;">' + (o.AmtVat==0? ShowNumber(o.AmtCharge, 2):'') + '</td>';
                     html += '<td style="text-align:right;">' + (o.Amt50Tavi > 0 ? ShowNumber(o.Amt50Tavi, 2) : '') + '</td>';
