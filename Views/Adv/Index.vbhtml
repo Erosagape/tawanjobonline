@@ -1352,31 +1352,31 @@ End Code
                 {
                     data: "UnitPrice", title: "Price",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "AdvAmount", title: "Amount",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "ChargeVAT", title: "VAT",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "Charge50Tavi", title: "WH-Tax",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "AdvNet", title: "Net",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 }
             ],
@@ -1923,8 +1923,8 @@ End Code
             vat = amt * vatrate * 0.01;
             wht = amt * whtrate * 0.01;
         }
-        $('#txtVAT').val(CDbl(vat.toFixed(2),2));
-        $('#txtWHT').val(CDbl(wht.toFixed(2),2));
+        $('#txtVAT').val(CDbl(vat.toFixed(3),3));
+        $('#txtWHT').val(CDbl(wht.toFixed(3),3));
         CalTotal();
     }
     function GetExchangeRate() {

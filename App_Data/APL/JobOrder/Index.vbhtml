@@ -140,7 +140,6 @@ End Code
         CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
         loadCombo();
         getJobdata();
-        SetEvents();
     });
     function CheckJobType() {
         if (jt !== $('#cboJobType').val()) {

@@ -1,33 +1,27 @@
 ﻿@Code
     ViewData("Title") = "Import"
 End Code
-<div>
-    Import Data Name : <input type="text" id="txtClassName" value="" />
-    <input type="button" id="btnImport" value="Import Data" />
-    <br />
-    <textarea id="txtContents" style="width:100%;height:100%;"></textarea>
-</div>
-<script type="text/javascript">
-    let path = '@Url.Content("~")';
-    $('#btnImport').on('click', ProcessFile);
-    function ProcessFile() {
-        let cname = $('#txtClassName').val();
-        if (cname !== null) {
-            var o= {
-                source: cname,
-                data: JSON.parse($('#txtContents').val())
-            }
-            var obj = JSON.stringify(o);
-            $.ajax({
-                url: "@Url.Action("ImportData", "Config")",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({ data: obj }),
-                success: function (response) {
-                    ShowMessage(response.result);
-                }
-            });
-        }
-    }
 
-</script>
+<h2>Import Job Order From Excel</h2>
+@Using Html.BeginForm("Import", "Report", FormMethod.Post, New With {.enctype = "multipart/form-data"})
+    @<label id="lblMessage">@ViewBag.Message</label>
+    @<input type="file" name="fileUpload" />
+    @<input type="submit" value="Upload" />
+    If Not ViewBag.Data Is Nothing Then
+        @<table>
+            <tr>
+                @For Each col In ViewBag.Data.Columns
+                    @<td>@col.ColumnName</td>
+                Next
+            </tr>
+            @For Each row In ViewBag.Data.Rows
+                @<tr>
+                    @For Each col In ViewBag.Data.Columns
+                        @<td>@row(col.ColumnName).ToString</td>
+                    Next
+                </tr>
+            Next
+        </table>
+    End If
+End Using
+

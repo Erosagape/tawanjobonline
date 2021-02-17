@@ -227,7 +227,7 @@ End Code
                         advref = advref + (d[i].AdvAmount > 0 ? ' ยอดเบิก=' + CCurrency(CDbl(d[i].AdvAmount, 2)) : '');
                         advref = advref + (d[i].Remark !== '' ? '<br/>' + d[i].Remark : '');
 
-                        html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo +'<br/>' + d[i].InvNo + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
+                        html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo +'<br/>' + d[i].InvNo + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 3)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 3)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
 
                         if (d[i].ChargeVAT > 0) {
                             amtforvat += d[i].UsedAmount;

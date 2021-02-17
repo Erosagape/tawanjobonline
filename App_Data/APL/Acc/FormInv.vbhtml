@@ -82,24 +82,22 @@ End Code
             <tbody></tbody>
         </table>
     </p>
-    <table style="width:100%" border="1" class="text-center">
-        <thead>
-            <tr style="background-color :gainsboro;text-align:center;">
-                <th width="40" rowspan="2">ITEM</th>
-                <th width="220" rowspan="2">DESCRIPTION</th>
-                <th width="50" rowspan="2">QTY</th>
-                <th width="60" rowspan="2">UNIT PRICE</th>
-                <th width="230" colspan="3">ADVANCE RE-IMBURSEMENT</th>
-                <th width="160" colspan="2">SERVICE CHARGES</th>
-            </tr>
-            <tr style="background-color :gainsboro;text-align:center;">
-                <th width="80">SERVICE</th>
-                <th width="70">VAT</th>
-                <th width="80">AMOUNT</th>
-                <th width="80">NON-VAT</th>
-                <th width="80">VAT</th>
-            </tr>
-        </thead>
+    <table style="width:100%;" border="1" class="text-center">
+        <tr style="background-color :gainsboro;text-align:center;">
+            <th width="40" rowspan="2">ITEM</th>
+            <th width="220" rowspan="2">DESCRIPTION</th>
+            <th width="50" rowspan="2">QTY</th>
+            <th width="60" rowspan="2">UNIT PRICE</th>
+            <th width="230" colspan="3">ADVANCE RE-IMBURSEMENT</th>
+            <th width="160" colspan="2">SERVICE CHARGES</th>
+        </tr>
+        <tr style="background-color :gainsboro;text-align:center;">
+            <th width="80">SERVICE</th>
+            <th width="70">VAT</th>
+            <th width="80">AMOUNT</th>
+            <th width="80">NON-VAT</th>
+            <th width="80">VAT</th>
+        </tr>
         <tbody id="tbDetail"></tbody>
         <tfoot>
             <tr>
@@ -219,12 +217,15 @@ End Code
 
 <script type="text/javascript">
     const path = '@Url.Content("~")';
-
+    let bShowSlip = false;
     let branch = getQueryString('branch');
     let invno = getQueryString('code');
     let tempheader = localStorage.getItem('invheader');
     let tempdetail = localStorage.getItem('invdetail');
     let tempjob = localStorage.getItem('invjob');
+    if (confirm("Show Slip in Description?") == true) {
+        bShowSlip = true;
+    }
     if (tempheader !== '' && tempdetail !== '' && invno == '') {
         let oTemp = {
             header: [ JSON.parse(tempheader)],
@@ -365,6 +366,8 @@ End Code
         }
         let d = dr.detail[0];
         sortData(d, 'AmtCharge', 'desc');
+        //sortData(d, 'ItemNo', 'asc');
+        
         let sumbase1 = 0;
         let sumbase3 = 0;
         let sumtax1 = 0;
@@ -380,9 +383,14 @@ End Code
                 irow += 1;
                 let html = '<tr>';
                 html += '<td style="text-align:center">' + irow + '</td>';
-                html += '<td>' + o.SDescription;
+                html += '<td style="word-break:break-word">' + o.SDescription;
                 if (o.CurrencyCode !== 'THB') {
                     html += ' ('+ ShowNumber(o.FTotalAmt) +' ' + o.CurrencyCode + ')';
+                }
+                if (bShowSlip == true) {
+                    if (o.ExpSlipNO !== '') {
+                        html += ' <span style="font-size:7px">#' + o.ExpSlipNO + '</span>';
+                    }
                 }
                 html += '</td>';
                 if (o.QtyUnit !== '') {
@@ -407,7 +415,7 @@ End Code
 
                 $('#tbDetail').append(html);
 
-                if (o.Amt50Tavi > 0 && o.AmtCharge>0) {
+                if ((o.Amt50Tavi > 0) && (o.AmtCharge>0)) {
                     if (o.Rate50Tavi == 1) {
                         sumbase1 += Number(o.Amt)-Number(o.AmtDiscount);
                         sumtax1 += Number(o.Amt50Tavi);

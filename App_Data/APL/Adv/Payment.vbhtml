@@ -586,7 +586,7 @@ End Code
 
             let o = arr[i];
             wtax += (o.Total50Tavi > 0 ? o.Total50Tavi : 0);
-            tot += (o.TotalAdvance > 0 ? o.TotalAdvance+o.TotalVAT : 0);
+            tot += (o.TotalAdvance > 0 ? o.TotalAdvance+o.Total50Tavi : 0);
             cash += (o.AdvCash > 0 ? o.AdvCashCal : 0);
             chq += (o.AdvChqCash > 0 ? o.AdvChqCashCal : 0);
             chqcust += (o.AdvChq > 0 ? o.AdvChqCal : 0);
@@ -988,7 +988,8 @@ End Code
             CancelDate: '',
             CancelTime: '',
             CustCode: $('#txtCustCode').val(),
-            CustBranch: $('#txtCustBranch').val()
+            CustBranch: $('#txtCustBranch').val(),
+            PostRefNo: ''
         };
         docno = '';
         let jsonString = JSON.stringify({ data: oHeader });

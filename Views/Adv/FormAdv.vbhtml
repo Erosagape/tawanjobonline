@@ -322,8 +322,8 @@ End Code
             } else {
                 strDesc = strDesc + (d.SICode + '<br/>');
             }
-            strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(2)) + '<br/>');
-            strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(2)) + '<br/>');
+            strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(3)) + '<br/>');
+            strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(3)) + '<br/>');
             totAmt += d.AdvAmount;
             //vat += d.ChargeVAT;
             //wht += d.Charge50Tavi;

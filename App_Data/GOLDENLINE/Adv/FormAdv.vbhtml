@@ -126,7 +126,7 @@ End Code
         </td>
     </tr>
 </table>
-**ADVANCE WAIT FOR CLEAR AT @DateTime.Now IS
+**Accumulated Advance Cash By User Requested at @DateTime.Now is 
 <label id="lblPendingAmount">0.00</label>**
 <br />
 TOTAL :

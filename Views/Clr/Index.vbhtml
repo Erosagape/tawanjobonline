@@ -1391,31 +1391,31 @@ End Code
                 {
                     data: "AdvAmount", title: "Advance",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "UsedAmount", title: "Clear",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "ChargeVAT", title: "VAT",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "Tax50Tavi", title: "WH-Tax",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "BNet", title: "Net",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 { data: "CurrencyCode", title: "Currency" },
@@ -2025,9 +2025,9 @@ End Code
         }           
     }
     function CalTotal() {
-        let amt = CDbl($('#txtAMT').val(),2);
-        let vat = CDbl($('#txtVAT').val(),2);
-        let wht = CDbl($('#txtWHT').val(),2);
+        let amt = CDbl($('#txtAMT').val(),3);
+        let vat = CDbl($('#txtVAT').val(),3);
+        let wht = CDbl($('#txtWHT').val(),3);
 
         $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),2));
         $('#txtAMT').val(CDbl(amt,2));
@@ -2055,8 +2055,8 @@ End Code
             vat = amt * vatrate * 0.01;
             wht = amt * whtrate * 0.01;
         }
-        $('#txtVAT').val(CDbl(vat,2));
-        $('#txtWHT').val(CDbl(wht,2));
+        $('#txtVAT').val(CDbl(vat,3));
+        $('#txtWHT').val(CDbl(wht,3));
         CalTotal();
     }
     function LoadAdvance() {

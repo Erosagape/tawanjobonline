@@ -293,7 +293,7 @@ End Code
             $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
             $('#lblSumTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT),2));
             $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
-            $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.Total50Tavi)-Number(h.TotalDiscount),2));
+            $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.Total50Tavi) - Number(h.TotalDiscount), 2));
 
             $('#lblTotalBaht').text('(' + CNumThai(CDbl($('#lblSumGrandTotal').text(),2)) + ')');
 

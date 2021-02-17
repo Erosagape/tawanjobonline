@@ -16,7 +16,7 @@ End Code
                 <div id="dvJob"></div>
             </div>
             <div class="col-sm-4" style="text-align:left">
-                <label id="lblAdvNo">Advance No:</label> 
+                <label id="lblAdvNo">Advance No:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtAdvNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
@@ -52,7 +52,7 @@ End Code
                                     </tr>
                                     <tr>
                                         <td>
-                                            *<label id="lblReqBy">Request By :</label>                                            
+                                            *<label id="lblReqBy">Request By :</label>
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtReqBy" class="form-control" style="width:120px" tabindex="3" />
@@ -62,7 +62,7 @@ End Code
                                     </tr>
                                     <tr>
                                         <td>
-                                            *<label id="lblAdvFor">Advance For :</label>                                            
+                                            *<label id="lblAdvFor">Advance For :</label>
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtCustCode" class="form-control" style="width:130px" tabindex="4" />
@@ -75,14 +75,14 @@ End Code
                                 <table>
                                     <tr>
                                         <td>
-                                            <label id="lblWHTaxNo">WH-Tax No:</label>                                            
+                                            <label id="lblWHTaxNo">WH-Tax No:</label>
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtDoc50Tavi" class="form-control" style="width:100%" tabindex="6" />
                                             <button id="btnAddWHTax" class="btn btn-default" onclick="AutoGenWHTax()">Add</button>
                                         </td>
                                         <td>
-                                            <label id="lblPaymentNo">Bill A/P:</label>                                            
+                                            <label id="lblPaymentNo">Bill A/P:</label>
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtPaymentNo" class="form-control" style="width:200px" tabindex="7" disabled />
@@ -95,7 +95,7 @@ End Code
                                 <table>
                                     <tr>
                                         <td>
-                                            <label id="lblJobType">Job Type :</label>                                            
+                                            <label id="lblJobType">Job Type :</label>
                                         </td>
                                         <td>
                                             <select id="cboJobType" style="width:200px" class="form-control dropdown" tabindex="8" onchange="CheckJobType()"></select>
@@ -103,7 +103,7 @@ End Code
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label id="lblShipBy">Ship By :</label>                                            
+                                            <label id="lblShipBy">Ship By :</label>
                                         </td>
                                         <td>
                                             <select id="cboShipBy" style="width:200px" class="form-control dropdown" tabindex="9"></select>
@@ -111,7 +111,7 @@ End Code
                                     </tr>
                                     <tr>
                                         <td>
-                                            <label id="lblStatus">Status :</label>                                            
+                                            <label id="lblStatus">Status :</label>
                                         </td>
                                         <td>
                                             <select id="cboDocStatus" style="width:200px;" class="form-control dropdown" disabled></select>
@@ -122,17 +122,17 @@ End Code
                         </div>
                         <div class="row">
                             <div class="col-sm-7">
-                                <label id="lblAdvType">Advance Type:</label>                                
+                                <label id="lblAdvType">Advance Type:</label>
                                 <select id="cboAdvType" class="form-control dropdown" style="width:100%" tabindex="10"></select>
                                 <br />
-                                <label id="lblRemark">Remark:</label>                                
+                                <label id="lblRemark">Remark:</label>
                                 <textarea id="txtTRemark" class="form-control-lg" style="width:100%;height:80px" tabindex="11"></textarea>
                             </div>
                             <div class="col-sm-5">
                                 <table>
                                     <tr>
                                         <td>
-                                            <label id="lblCurrency">Request Currency:</label>                                            
+                                            <label id="lblCurrency">Request Currency:</label>
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtSubCurrency" style="width:100%" value="@ViewBag.PROFILE_CURRENCY" disabled />
@@ -141,7 +141,7 @@ End Code
                                     </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <label id="lblPayTotal">Payment Total:</label>                                            
+                                            <label id="lblPayTotal">Payment Total:</label>
                                         </td>
                                     </tr>
                                     <tr>
@@ -190,9 +190,9 @@ End Code
                                 <br />
                                 <input type="text" id="txtApproveBy" style="width:250px" disabled />
                                 <br />
-                                <label id="lblApproveDate">Date:</label>                                
+                                <label id="lblApproveDate">Date:</label>
                                 <input type="date" id="txtApproveDate" disabled />
-                                <label id="lblApproveTime">Time:</label>                                
+                                <label id="lblApproveTime">Time:</label>
                                 <input type="text" id="txtApproveTime" style="width:80px" disabled />
                             </div>
                             <div class="col-sm-4" style="border-style:solid;border-width:1px">
@@ -200,9 +200,9 @@ End Code
                                 <label id="lblPaymentBy" for="chkPayment">Payment By</label>
                                 <input type="text" id="txtPaymentBy" style="width:250px" disabled />
                                 <br />
-                                <label id="lblPaymentDate">Date:</label>                                
+                                <label id="lblPaymentDate">Date:</label>
                                 <input type="date" id="txtPaymentDate" disabled />
-                                <label id="lblPaymentTime">Time:</label>                                
+                                <label id="lblPaymentTime">Time:</label>
                                 <input type="text" id="txtPaymentTime" style="width:80px" disabled />
                                 <br />
                                 <label id="lblPaymentRef">Payment Ref:</label>
@@ -213,9 +213,9 @@ End Code
                                 <label id="lblCancelBy" for="chkCancel">Cancel By</label>
                                 <input type="text" id="txtCancelProve" style="width:250px" disabled />
                                 <br />
-                                <label id="lblCancelDate">Date:</label>                                
+                                <label id="lblCancelDate">Date:</label>
                                 <input type="date" id="txtCancelDate" disabled />
-                                <label id="lblCancelTime">Time:</label>                                
+                                <label id="lblCancelTime">Time:</label>
                                 <input type="text" id="txtCancelTime" style="width:80px" disabled />
                                 <br />
                                 <label id="lblCancelReson">Cancel Reason :</label>
@@ -268,9 +268,9 @@ End Code
                                 <a href="#" class="btn btn-danger" id="btnDel" onclick="DeleteDetail()">
                                     <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDel">Delete Detail</b>
                                 </a>
-                                <label id="lblMainCurr">Main Currency:</label>                                
+                                <label id="lblMainCurr">Main Currency:</label>
                                 <input type="text" id="txtMainCurrency" style="width:50px" value="@ViewBag.PROFILE_CURRENCY" disabled />
-                                <label id="lblExcRate">Exchange Rate:</label>                                
+                                <label id="lblExcRate">Exchange Rate:</label>
                                 <input type="text" id="txtExchangeRate" style="width:50px" value="1" />
                                 <button id="btnGetExcRate" class="btn btn-success" onclick="GetExchangeRate()">Get Rate</button>
                             </div>
@@ -284,7 +284,7 @@ End Code
                                 <label id="lblWhtAmount">WHT</label>
                                 :
                                 <input type="text" id="txtWhtAmount" style="width:100px;text-align:right" />
-                                <br />                                                                                                            
+                                <br />
                                 <label id="lblTotalAmount">Total</label>
                                 :
                                 <input type="text" id="txtTotalAmount" style="width:100px;text-align:right" />
@@ -296,7 +296,7 @@ End Code
                     </div>
                     <div id="frmDetail" class="modal fade" role="dialog">
                         <div class="modal-dialog">
-                            <div class="modal-content">                                
+                            <div class="modal-content">
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-sm-2">
@@ -308,7 +308,7 @@ End Code
                                             <select id="cboSTCode" class="form-control dropdown"></select>
                                         </div>
                                         <div class="col-sm-5">
-                                            <label id="lblDuplicate" for="chkDuplicate">Can Partial Clear</label><br/>
+                                            <label id="lblDuplicate" for="chkDuplicate">Can Partial Clear</label><br />
                                             <input type="checkbox" id="chkDuplicate" />
                                         </div>
                                     </div>
@@ -344,7 +344,7 @@ End Code
                                         <div class="col-sm-8">
                                             <a href="../Master/Currency" target="_blank"><label id="lblCurrencyCode">Currency</label></a>
                                             <div style="display:flex">
-                                                <input type="text" id="txtCurrencyCode" class="form-control"  style="width:100px" tabindex="15" />
+                                                <input type="text" id="txtCurrencyCode" class="form-control" style="width:100px" tabindex="15" />
                                                 <input type="button" id="btnBrowseCur" class="btn btn-default" value="..." onclick="SearchData('detcurrency')" />
                                                 <input type="text" id="txtCurrencyName" class="form-control" style="width:100%" disabled />
                                             </div>
@@ -360,8 +360,8 @@ End Code
                                     <div class="row">
                                         <div class="col-sm-3">
                                             <label id="lblQty" for="txtAdvQty">Qty:</label>
-                                            <br/>
-                                            <input type="text" id="txtAdvQty" class="form-control" style="text-align:right" tabindex="17" />        
+                                            <br />
+                                            <input type="text" id="txtAdvQty" class="form-control" style="text-align:right" tabindex="17" />
                                         </div>
                                         <div class="col-sm-3">
                                             <label id="lblUnitPrice" for="txtUnitPrice" style="color:red">Price :</label>
@@ -375,7 +375,7 @@ End Code
                                         </div>
                                         <div class="col-sm-3">
                                             <label id="lblAmount" for="txtAmount">Amount :</label>
-                                            <br/>
+                                            <br />
                                             <input type="text" id="txtAMT" class="form-control" style="text-align:right" tabindex="19" />
                                         </div>
                                     </div>
@@ -394,7 +394,7 @@ End Code
                                         </div>
                                         <div class="col-sm-4">
                                             <label id="lblWHTRate" for="txtWHTRate">WHT :</label>
-                                            <br/>
+                                            <br />
                                             <div style="display:flex">
                                                 <input type="text" id="txtWHTRate" class="form-control" style="text-align:right" tabindex="22" />
                                                 <input type="text" id="txtWHT" class="form-control" style="text-align:right" tabindex="23" />
@@ -402,29 +402,29 @@ End Code
                                         </div>
                                         <div class="col-sm-3">
                                             <label id="lblNETAmount" for="txtNETAmount" style="color:blue">Net Amount :</label>
-                                            <br/>
+                                            <br />
                                             <input type="text" id="txtNET" class="form-control" style="color:darkblue;font-weight:bold;text-align:right;background-color:lightgreen" tabindex="24" />
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-4">
-                                            <label id="lblWTNo">WH-Tax No :</label>                                            
-                                            <br/>
+                                            <label id="lblWTNo">WH-Tax No :</label>
+                                            <br />
                                             <div style="display:flex">
                                                 <input type="text" id="txt50Tavi" class="form-control" tabindex="25" />
                                             </div>
                                         </div>
                                         <div class="col-sm-8">
-                                            <label id="lblVenCode">Pay To Vender :</label>                                            
-                                            <br/>
+                                            <label id="lblVenCode">Pay To Vender :</label>
+                                            <br />
                                             <div style="display:flex">
                                                 <input type="text" id="txtVenCode" class="form-control" style="width:100px" tabindex="26" />
                                                 <input type="button" id="btnBrowseVen" onclick="SearchData('vender')" value="..." />
                                                 <input type="text" id="txtPayChqTo" class="form-control" tabindex="27" />
                                             </div>
                                         </div>
-                                    </div>    
-                                    <label id="lblDRemark">Remark :</label>                                    
+                                    </div>
+                                    <label id="lblDRemark">Remark :</label>
                                     <textarea id="txtRemark" style="width:100%;height:80px" tabindex="28"></textarea>
                                 </div>
                                 <div class="modal-footer">
@@ -447,7 +447,7 @@ End Code
                                 <div class="modal-body">
                                     <label id="lblFilter">Filter By Status : </label>
                                     <select id="cboStatus" class="form-control dropdown" onchange="SetGridAdv()"></select>
-                                    <br/>
+                                    <br />
                                     <table id="tbHeader" class="table table-responsive">
                                         <thead>
                                             <tr>
@@ -493,7 +493,7 @@ End Code
     let isjobmode = false;
     let chkmode = false;
     let jt = '';
-    //$(document).ready(function () {       
+    //$(document).ready(function () {
     SetLOVs();
     SetEvents();
     SetEnterToTab();
@@ -546,7 +546,7 @@ End Code
             $('#cboDocStatus').val('01');
 
             ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
-            
+
             $('#txtCustCode').attr('disabled', 'disabled');
             $('#txtCustBranch').attr('disabled', 'disabled');
             $('#btnBrowseCust').attr('disabled', 'disabled');
@@ -576,7 +576,7 @@ End Code
                         } else {
                             idx = idx + 1;
                             nextElement = $('[tabindex="' + idx + '"]');
-                        }                     
+                        }
                     }
                     $('[tabindex="0"]').focus();
                 }
@@ -595,7 +595,7 @@ End Code
         $('#txtAdv' + id.substr(3)).val(val);
         $('#txtAdv' + id.substr(3)).removeAttr('disabled');
     }
-    function SetEvents() {        
+    function SetEvents() {
         if (userRights.indexOf('I') < 0) $('#btnNew').attr('disabled', 'disabled');
         if (userRights.indexOf('I') < 0) $('#btnAdd').attr('disabled', 'disabled');
         if (userRights.indexOf('E') < 0) $('#btnSave').attr('disabled', 'disabled');
@@ -666,11 +666,15 @@ End Code
         });
         $('#chkCancel').on('click', function () {
             chkmode = this.checked;
+            if (chkmode == true && $('#cboDocStatus').val().substr(0,2) !== '01') {
+                ShowMessage('Cannot cancel on this document status', true);
+                return;
+            }
             CallBackAuthorize(path, 'MODULE_ADV', 'Index', 'D', SetCancel);
         });
         $('#txtCurrencyCode').focusout(function (event) {
             if (true) {
-                ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');  
+                ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
                 ShowCaption();
             }
         });
@@ -731,7 +735,7 @@ End Code
             }
         });
         $('#txtWHTRate').change(function (event) {
-            if (true) {                
+            if (true) {
                 CalVATWHT();
             }
         });
@@ -841,7 +845,7 @@ End Code
 
         loadCombos(path, lists);
         loadServiceGroup(path, '#cboSTCode',true);
-        LoadService();        
+        LoadService();
 
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
@@ -920,7 +924,7 @@ End Code
                 } else {
                     ShowMessage('Advance amount is not balance',true);
                     return false;
-                }                    
+                }
             }
         }
         if ($('#txtCustCode').val() == '') {
@@ -946,7 +950,7 @@ End Code
         return true;
     }
     function SaveHeader() {
-        if (CheckEntry()==true) {            
+        if (CheckEntry()==true) {
             let obj = GetDataHeader(hdr);
             let jsonString = JSON.stringify({ data: obj });
             //ShowMessage(jsonString);
@@ -955,7 +959,7 @@ End Code
                 type: "POST",
                 contentType: "application/json",
                 data: jsonString,
-                success: function (response) {                
+                success: function (response) {
                     ShowMessage(response.result.msg);
                     if (response.result.data !== '') {
                         $('#txtAdvNo').val(response.result.data);
@@ -1109,7 +1113,7 @@ End Code
                 $('#btnUpdate').attr('disabled', 'disabled');
                 $('#btnDel').attr('disabled', 'disabled');
             } else {
-                //if document approved by this user or not then check authorized to unlock 
+                //if document approved by this user or not then check authorized to unlock
                 if (dt.DocStatus == 2 && user == dt.ApproveBy && userRights.indexOf('E') >= 0) {
                     $('#txtApproveDate').removeAttr('disabled');
                     $('#txtApproveBy').removeAttr('disabled');
@@ -1129,11 +1133,11 @@ End Code
                         $('#btnSave').attr('disabled', 'disabled');
                         $('#btnUpdate').attr('disabled', 'disabled');
                         $('#btnDel').attr('disabled', 'disabled');
-                    } 
+                    }
                 }
-            }                
+            }
             return;
-        } 
+        }
         ClearHeader();
     }
     function AddHeader() {
@@ -1271,14 +1275,14 @@ End Code
         if (userRights.indexOf('I') >= 0) {
             $('#btnSave').removeAttr('disabled');
             $('#btnUpdate').removeAttr('disabled');
-            $('#btnAdd').removeAttr('disabled');    
+            $('#btnAdd').removeAttr('disabled');
         }
         if (userRights.indexOf('D') >= 0) {
-            $('#btnDel').removeAttr('disabled');    
-        }        
+            $('#btnDel').removeAttr('disabled');
+        }
         if (userRights.indexOf('P') >= 0) {
             $('#btnPrint').removeAttr('disabled');
-        }        
+        }
     }
     function SaveDetail() {
 
@@ -1317,7 +1321,7 @@ End Code
                 type: "POST",
                 contentType: "application/json",
                 data: jsonString,
-                success: function (response) {                
+                success: function (response) {
                     ShowMessage(response.result.msg);
                     ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val());
                 }
@@ -1348,31 +1352,31 @@ End Code
                 {
                     data: "UnitPrice", title: "Price",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "AdvAmount", title: "Amount",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "ChargeVAT", title: "VAT",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "Charge50Tavi", title: "WH-Tax",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "AdvNet", title: "Net",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 }
             ],
@@ -1392,9 +1396,9 @@ End Code
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {
             $('#tbDetail tbody > tr').removeClass('selected');
-            $(this).addClass('selected');            
+            $(this).addClass('selected');
             let data = $('#tbDetail').DataTable().row(this).data(); //read current row selected
-            LoadDetail(data); //callback function from caller 
+            LoadDetail(data); //callback function from caller
         });
         $('#tbDetail tbody').on('click', 'button', function () {
             $('#frmDetail').modal('show');
@@ -1433,7 +1437,7 @@ End Code
                 VenCode: header.VenCode,
                 IsDuplicate: 0
             };
-            rows.push(dt);    
+            rows.push(dt);
         }
         return rows;
     }
@@ -1466,7 +1470,7 @@ End Code
         };
         return dt;
     }
-    function LoadDetail(dt) {        
+    function LoadDetail(dt) {
         if (dt != undefined) {
             ClearDetail();
             dtl = dt;
@@ -1483,7 +1487,7 @@ End Code
                 if ($('#txtForJNo').val()!= '') {
                     ShowInvNo(path, $('#txtBranchCode').val(), $('#txtForJNo').val(), '#txtInvNo');
                 }
-            }                
+            }
             $('#txtAdvQty').val(dt.AdvQty);
             $('#txtExcRate').val(dt.ExchangeRate);
             $('#txtUnitPrice').val(CDbl(dt.UnitPrice,2));
@@ -1517,7 +1521,7 @@ End Code
         if (isjobmode == false) {
             $('#txtForJNo').val('');
             $('#txtInvNo').val('');
-        }            
+        }
         $('#txtRemark').val('');
         $('#txt50Tavi').val('');
         $('#txtPayChqTo').val('');
@@ -1641,7 +1645,7 @@ End Code
                 $('#tbHeader tbody > tr').removeClass('selected');
                 $(this).addClass('selected');
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                ShowData(data.BranchCode, data.AdvNo); //callback function from caller 
+                ShowData(data.BranchCode, data.AdvNo); //callback function from caller
                 $('#frmHeader').modal('hide');
             });
             $('#frmHeader').on('shown.bs.modal', function () {
@@ -1719,7 +1723,7 @@ End Code
         strParam += '&CustCode=' + $('#txtCustCode').val();
         return strParam;
     }
-    function ShowCaption() {        
+    function ShowCaption() {
         if (mainLanguage == 'EN') {
             $('#lblUnitPrice').text("Price (" + $('#txtCurrencyCode').val() + "):");
             $('#lblAMTCal').text("Amount (" + $('#txtCurrencyCode').val() + "):");
@@ -1727,7 +1731,7 @@ End Code
             $('#lblVATRate').text("VAT (" + $('#txtMainCurrency').val() + "):");
             $('#lblWHTRate').text("WHT (" + $('#txtMainCurrency').val() + "):");
             $('#lblNETAmount').text("Net (" + $('#txtMainCurrency').val() + "):");
-        } 
+        }
         if (mainLanguage == 'TH') {
             $('#lblUnitPrice').text("ราคา (" + $('#txtCurrencyCode').val() + "):");
             $('#lblAMTCal').text("ราคารวม (" + $('#txtCurrencyCode').val() + "):");
@@ -1735,7 +1739,7 @@ End Code
             $('#lblVATRate').text("ภาษีมูลค่าเพิ่ม (" + $('#txtMainCurrency').val() + "):");
             $('#lblWHTRate').text("หัก ณ ที่จ่าย (" + $('#txtMainCurrency').val() + "):");
             $('#lblNETAmount').text("ยอดสุทธิ (" + $('#txtMainCurrency').val() + "):");
-        } 
+        }
     }
     function ReadVender(dt) {
         $('#txtVenCode').val(dt.VenCode);
@@ -1785,7 +1789,7 @@ End Code
             ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
             if (CNum($('#txtUnitPrice').val) == 0) {
                 $('#txtUnitPrice').val(dt.StdPrice);
-                CalAmount();            
+                CalAmount();
             }
             if (dt.IsTaxCharge == "2") {
                 $('#txtAMT').attr('disabled', 'disabled');
@@ -1815,6 +1819,10 @@ End Code
             ShowMessage('This job has been closed',true);
             return;
         }
+        if (dt.JobStatus==99) {
+            ShowMessage('This job has been cancelled', true);
+            return;
+        }
         $('#txtForJNo').val(dt.JNo);
         $('#txtInvNo').val(dt.InvNo);
     }
@@ -1825,10 +1833,10 @@ End Code
             $('#txtPaymentNo').val(docno);
             $.get(path + 'acc/getpaymentforadv?branch=' + branch + '&code=' + docno)
                 .done(function (r) {
-                    if (r.payment.detail.length > 0) {                        
+                    if (r.payment.detail.length > 0) {
                         let dt = GetAdvDetail(r.payment);
                         SaveAdvFromPay(dt);
-                    } 
+                    }
                 });
         } else {
             ShowMessage('Please save document before add detail',true);
@@ -1841,7 +1849,7 @@ End Code
             type: "POST",
             contentType: "application/json",
             data: jsonString,
-            success: function (response) {                                
+            success: function (response) {
                 ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val());
                 SaveHeader();
             }
@@ -1915,10 +1923,10 @@ End Code
             vat = amt * vatrate * 0.01;
             wht = amt * whtrate * 0.01;
         }
-        $('#txtVAT').val(CDbl(vat.toFixed(2),2));
-        $('#txtWHT').val(CDbl(wht.toFixed(2),2));
+        $('#txtVAT').val(CDbl(vat.toFixed(3),3));
+        $('#txtWHT').val(CDbl(wht.toFixed(3),3));
         CalTotal();
-    } 
+    }
     function GetExchangeRate() {
         $.get('https://free.currencyconverterapi.com/api/v6/convert?q=' + $('#txtSubCurrency').val() + '_' + $('#txtMainCurrency').val() + '&compact=ultra&apiKey=6210d55b79170a4a7da2', function (r) {
             let rate = CDbl(r[$('#txtSubCurrency').val() + '_' + $('#txtMainCurrency').val()], 2);
@@ -1975,7 +1983,7 @@ End Code
             let j = 0;
             for (let d of dt) {
                 i += 1;
-                let obj={			
+                let obj={
                     BranchCode:$('#txtBranchCode').val(),
                     DocNo:docno,
                     ItemNo:i,
@@ -2006,7 +2014,7 @@ End Code
                 if (response.result.data != '') {
                     j = response.result.data;
                     return;
-                }                                
+                }
             },
             error: function (e) {
                 ShowMessage(e,true);

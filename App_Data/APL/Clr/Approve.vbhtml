@@ -51,6 +51,7 @@ End Code
                 <select id="cboClrType" class="form-control dropdown"></select>
             </div>
             <div class="col-sm-2">
+                <input type="checkbox" id="chkSelectAll" checked /> Select All
                 <br />
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridClr(true)">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
@@ -200,6 +201,11 @@ End Code
                         }
                     }
                 ],
+                createdRow: function (row, data, index) {
+                    if ($('#chkSelectAll').prop('checked')) {
+                        $(row).addClass('selected')
+                    }
+                },
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
@@ -219,6 +225,11 @@ End Code
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
                 window.open(path + 'clr/index?BranchCode=' + data.BranchCode + '&ClrNo=' + data.ClrNo,'','');
             });
+            if ($('#chkSelectAll').prop('checked')) {
+                for (let row of h) {
+                    AddData(row);
+                }
+            }
         });
     }
     function AddData(o) {

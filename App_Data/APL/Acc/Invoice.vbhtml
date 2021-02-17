@@ -113,7 +113,7 @@ End Code
                         <div class="col-sm-3">
                             <label id="lblDocDate">Doc.Date:</label>
                             <br />
-                            <input type="date" id="txtDocDate" class="form-control" disabled />
+                            <input type="date" id="txtDocDate" class="form-control"/>
                         </div>
                         <div class="col-sm-6">
                             <label id="lblDCustCode">Customer:</label>
@@ -905,14 +905,15 @@ End Code
             $.get(path + 'Acc/GetRcpDetail?Branch=' + $('#txtBranchCode').val() + '&InvNo=' + $('#txtDocNo').val()).done(function (r) {
                 if (r.rcpdetail.data.length > 0) {
                     if (mainLanguage == 'TH') {
-                        ShowMessage('ใบแจ้งหนี้นี้ได้ออกใบรับเงิน/ไปแล้วในเลขที่ ' + r.rcpdetail.data[0].ReceiptNo);
+                        ShowMessage('ใบแจ้งหนี้นี้ได้ออกใบรับเงิน/ไปแล้วในเลขที่ ' + r.rcpdetail.data[0].ReceiptNo,true);
                     } else {
-                        ShowMessage('This invoice has been received in ' + r.rcpdetail.data[0].ReceiptNo);
+                        ShowMessage('This invoice has been received in ' + r.rcpdetail.data[0].ReceiptNo,true);
                     }
                 } else {
                     $('#txtCancelDate').val(GetToday());
                     $('#txtCancelTime').val(ShowTime(GetTime()));
                     $('#txtCancelProve').val(user);
+                    SaveData();
                 }
             });
         } else {

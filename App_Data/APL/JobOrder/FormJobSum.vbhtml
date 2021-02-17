@@ -7,6 +7,7 @@ End Code
     td {
         font-size: 11px;
     }
+
     tr {
         vertical-align: top;
     }
@@ -323,7 +324,7 @@ End Code
                     }
                 }
             }
- 
+
             $('#lblTotalCustAdv').text(CCurrency(CDbl(jtotaladv, 2)));
             $('#lblTotalADVVAT').text(CCurrency(CDbl(itotalvat,2)));
             $('#lblTotalADVAfterVAT').text(CCurrency(CDbl(itotalpay,2)));
@@ -347,7 +348,7 @@ End Code
                 dv.empty();
 
                 let h = r.data[0].Table[0];
-                
+
                 commrate = h.Commission;
 
                 let d = r.data[0].Table.filter(function (data) {
@@ -381,8 +382,8 @@ End Code
 
                     html += '</td>';
                     html += '<td style="text-align:right">' + CCurrency(CDbl(adv + serv, 2)) + '</td>';
-                    html += '<td style="text-align:right">' + CCurrency(CDbl(d[i].ChargeVAT, 2)) + '</td>';
-                    html += '<td style="text-align:right">' + CCurrency(CDbl(d[i].Tax50Tavi, 2)) + '</td>';
+                    html += '<td style="text-align:right">' + CCurrency(CDbl(d[i].ChargeVAT, 3)) + '</td>';
+                    html += '<td style="text-align:right">' + CCurrency(CDbl(d[i].Tax50Tavi, 3)) + '</td>';
                     html += '<td style="text-align:right">' + CCurrency(CDbl(cost, 2)) + '</td>';
                     html += '<td style="text-align:right">' + CCurrency(CDbl(profit,2)) + '</td>';
                     html += '</tr>';

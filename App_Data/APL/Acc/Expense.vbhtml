@@ -137,7 +137,7 @@ End Code
                         <label id="lblApprTime">Time:</label>
                         <input type="text" id="txtApproveTime" style="width:80px" disabled />
                         <br />
-                        <label>Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" />
+                        <label ondblclick="SaveHeader()">Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" />
                     </div>
                     <div class="col-sm-4" style="border-style:solid;border-width:1px">
                         <label id="lblPayment">Payment By</label>
@@ -373,12 +373,12 @@ End Code
                             </div>                            
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label id="lblClearingNo">Clearing No :</label>
+                                    <label id="lblClearingNo" ondblclick="SaveDetail()">Clearing No :</label>
                                     <br/>
-                                    <input type="text" class="form-control" id="txtClrRefNo" disabled />
+                                    <input type="text" class="form-control" id="txtClrRefNo" />
                                 </div>
                                 <div class="col-sm-2">
-                                    #<br/> <input type="text" class="form-control" id="txtClrItemNo" disabled />
+                                    #<br/> <input type="text" class="form-control" id="txtClrItemNo" />
                                 </div>
                                 <div class="col-sm-3">
                                     Route ID<br/>
@@ -655,7 +655,7 @@ End Code
     }
     function SetLOVs() {
         //Combos
-        let lists = 'PAYMENT_TYPE=#txtPayType|CA';
+        let lists = 'PAYMENT_TYPE=#txtPayType|CH';
         loadCombos(path, lists);
 
         LoadService();
@@ -865,7 +865,7 @@ End Code
         $('#txtCurrencyCode').val('@ViewBag.PROFILE_CURRENCY');
         $('#txtExchangeRate').val('1');
         $('#txtVATRate').val(CDbl(CNum('@ViewBag.PROFILE_VATRATE')*100,0));
-        $('#txtTaxRate').val('0');
+        $('#txtTaxRate').val('@ViewBag.PROFILE_WHTRATE_TRN');
         $('#txtTotalExpense').val('0');
         $('#txtTotalVAT').val('0');
         $('#txtTotalTax').val('0');
@@ -890,7 +890,7 @@ End Code
             $('#txtRefNo').val('');
             $('#txtPoNo').val('');
         }
-        $('#txtPayType').val('CA');
+        $('#txtPayType').val('CH');
         $('#chkApprove').prop('checked', false);
         $('#chkCancel').prop('checked', false);
         $('#tbDetail').DataTable().clear().draw();
@@ -913,11 +913,12 @@ End Code
             ShowMessage('You are not allow to edit',true);
             return;
         }
+        /*
         if (obj.ClrItemNo > 0 || obj.AdvItemNo>0) {
             ShowMessage('Cannot Edit',true);
             return;
         }
-
+        */
         let jsonString = JSON.stringify({ data: obj });
         //ShowMessage(jsonString);
         $.ajax({
@@ -1081,6 +1082,14 @@ End Code
             $('#txtSDescription').removeAttr('disabled');
             $('#txtUnitPrice').removeAttr('disabled');
             $('#txtSRemark').removeAttr('disabled');
+        } else {
+            if (job !== '') {
+                $('#txtForJNo').val(job);
+                $('#txtCustCode').val(cust);
+                $('#txtBookingRefNo').val(bookno);
+                $('#txtContainerNo').val(cont);
+                $('#txtBookingItemNo').val(item);
+            }
         }
         $('#txtAdvItemNo').val(0);
         $('#txtClrRefNo').val('');
@@ -1206,7 +1215,7 @@ End Code
                 break;
             case 'transportprice':
                 if (route !== '') {
-                    SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&Cust=' + $('#txtCustCode').val() + '&id=' + route, ReadPrice);
+                    SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&Cust=' + cust + '&id=' + route, ReadPrice);
                 } else {
                     SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&Cust=' + $('#txtCustCode').val(), ReadPrice);
                 }
@@ -1234,8 +1243,10 @@ End Code
             dt = data[0];
         }
         $('#txtForJNo').val(dt.JNo);
-        cust = dt.CustCode;
-        $('#txtCustCode').val(dt.CustCode);
+        if (cust == '') {
+            cust = dt.CustCode;
+            $('#txtCustCode').val(dt.CustCode);
+        }
     }
     function ReadVender(dt) {
         $('#txtVenCode').val(dt.VenCode);
@@ -1283,7 +1294,7 @@ End Code
             $('#txtSDescription').attr('disabled', 'disabled');
             $('#txtUnitPrice').attr('disabled', 'disabled');
             $('#txtSRemark').attr('disabled', 'disabled');
-
+            $('#txtRouteID').val(dt.LocationID);
             CalAmount();    
         }
     }

@@ -267,8 +267,8 @@ Re-imbursement Request By ___________________________________ Date _____________
                     htmld += '<td>' + d.CostCenter + '</td>';
                     htmld += '<td>' + d.AccountCode + '</td>';
                     htmld += '<td style="text-align:right">' + ShowNumber(d.UsedAmount, 2) + '</td>';
-                    htmld += '<td style="text-align:right">' + ShowNumber(d.ChargeVAT, 2) + '</td>';
-                    htmld += '<td style="text-align:right">' + ShowNumber(d.Tax50Tavi, 2) + '</td>';
+                    htmld += '<td style="text-align:right">' + ShowNumber(d.ChargeVAT, 3) + '</td>';
+                    htmld += '<td style="text-align:right">' + ShowNumber(d.Tax50Tavi, 3) + '</td>';
                     htmld += '<td>' + (d.DocStatus>2?'Closed':'Open') + '</td>';
                     htmld += '</tr>';
                     $('#tbDetail').append(htmld);
