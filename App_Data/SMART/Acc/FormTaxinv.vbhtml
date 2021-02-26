@@ -16,8 +16,12 @@ End Code
         border-width: thin;
         border-collapse: collapse;
     }
+
     div {
-        margin-bottom:10px;
+        margin-bottom: 10px;
+    }
+    #dvFooter {
+        display: none;
     }
 </style>
 <div style="text-align:center;width:100%">
@@ -132,9 +136,6 @@ End Code
         switch (h.ReceiptType) {
             case 'TAX':
                 $('#lblDocType').text('TAX-INVOICE/RECEIPT');
-                break;
-            case 'SRV':
-                $('#lblDocType').text('TAX-INVOICE');
                 break;
             default:
                 $('#lblDocType').text('RECEIPT');

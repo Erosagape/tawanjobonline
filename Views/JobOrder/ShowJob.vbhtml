@@ -1360,8 +1360,8 @@ End Code
     }
     //This section is For Save Data function
     function CancelJob() {
-        if (rec.JobStatus !== 99) {
-            if (rec.JobStatus < 2) {
+        if (rec.JobStatus < 99) {
+            if (rec.JobStatus < 2||rec.JobStatus==98) {
                 if ($('#txtCancelReason').val() !== '') {
                     rec.JobStatus = 99;
                     rec.CancelProve = user;

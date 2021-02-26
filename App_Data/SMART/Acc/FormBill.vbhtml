@@ -127,7 +127,7 @@ End Code
             $('#lblTaxNumber').text(data.customer[0][0].TaxNumber);
             if (data.customer[0][0].UsedLanguage == 'TH') {
 if(Number(data.customer[0][0].Branch)>0) {
-        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + h.CustBranch);
+    $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + data.header[0][0].CustBranch);
 } else {
         $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :สำนักงานใหญ่');
 }
@@ -135,7 +135,7 @@ if(Number(data.customer[0][0].Branch)>0) {
                 $('#lblCustAddress').text(data.customer[0][0].TAddress1 + '\n' + data.customer[0][0].TAddress2);
             } else {
 if(Number(data.customer[0][0].Branch)>0) {
-        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + h.CustBranch);
+    $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + data.header[0][0].CustBranch);
 } else {
         $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :HEAD OFFICE');
 }
@@ -150,7 +150,7 @@ if(Number(data.customer[0][0].Branch)>0) {
             let vat = 0;
             let wh1 = 0;
             let wh3 = 0;
-            
+            sortData(data.detail[0],'ItemNo','asc');
             let dv = $('#tbDetail');
             let html = '';
             for (let dr of data.detail[0]) {
@@ -160,7 +160,7 @@ if(Number(data.customer[0][0].Branch)>0) {
                 html += '<td>' + dr.InvNo + '</td>';
                 html += '<td>' + dr.RefNo + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtAdvance, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtChargeNonVAT, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(Number(dr.AmtChargeNonVAT)+Number(dr.AmtChargeVAT), 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtVAT, 2) + '</td>';
                 html += '<td style="text-align:right">' + (dr.AmtWHRate==1 ? ShowNumber(dr.AmtWH, 2) : 0) + '</td>';
                 html += '<td style="text-align:right">' + (dr.AmtWHRate!==1 ? ShowNumber(dr.AmtWH, 2) : 0) + '</td>';
@@ -168,7 +168,7 @@ if(Number(data.customer[0][0].Branch)>0) {
                 html += '</tr>';
 
                 total += Number(dr.AmtTotal);
-                serv += Number(dr.AmtChargeNonVAT);
+                serv += Number(dr.AmtChargeNonVAT+dr.AmtChargeVAT);
                 adv += Number(dr.AmtAdvance);
                 vat += Number(dr.AmtVAT);
                 wh1 += Number(dr.AmtWHRate == 1 ? ShowNumber(dr.AmtWH, 2) : 0);

@@ -1085,6 +1085,7 @@
     <Content Include="App_Data\APL\Adv\FormClrAdv.vbhtml" />
     <Content Include="App_Data\APL\Adv\Index.vbhtml" />
     <Content Include="App_Data\APL\Clr\Index.vbhtml" />
+    <Content Include="App_Data\GOLDENLINE\JobOrder\ShowJob.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
