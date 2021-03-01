@@ -143,24 +143,24 @@ End Code
         </tr>
     </table>
     <div style="display:flex;margin-top:5px;">
-        <div class="text-left" style="border:1px solid black;border-radius:5px;flex:1;margin-right:5px;padding:5px 5px 5px 5px;">
+        <div class="text-left" style="border:1px solid black;border-radius:5px;flex:1;margin-right:5px;padding:5px 5px 5px 5px;font-size:10px;">
             WITHHOLDING TAX DETAIL
-            <table style="width:100%">
+            <table style="width:100%;">
                 <tr>
-                    <td style="width:55%">TRANSPORT 1%</td>
-                    <td style="width:25%;text-align:right"><label id="lblSumBaseWht1"></label><br /></td>
-                    <td style="width:20%;text-align:right"><label id="lblSumWht1"></label></td>
+                    <td style="width:55%;font-size:10px;">TRANSPORT 1%</td>
+                    <td style="width:25%;text-align:right;font-size:10px;"><label id="lblSumBaseWht1"></label><br /></td>
+                    <td style="width:20%;text-align:right;font-size:10px;"><label id="lblSumWht1"></label></td>
                 </tr>
                 <tr>
-                    <td style="width:55%">SERVICE 3%</td>
-                    <td style="width:25%;text-align:right"><label id="lblSumBaseWht3"></label></td>
-                    <td style="width:20%;text-align:right"><label id="lblSumWht3"></label></td>
+                    <td style="width:55%;font-size:10px;">SERVICE 3%</td>
+                    <td style="width:25%;text-align:right;font-size:10px;"><label id="lblSumBaseWht3"></label></td>
+                    <td style="width:20%;text-align:right;font-size:10px;"><label id="lblSumWht3"></label></td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="width:80%">
+                    <td colspan="2" style="width:80%;font-size:10px;">
                         <b>NET AMOUNT</b>
                     </td>
-                    <td style="width:20%;text-align:right">
+                    <td style="width:20%;text-align:right;font-size:10px;">
                         <label id="lblSumNetInvoice" style="font-weight:bold"></label>
                     </td>
                 </tr>
@@ -170,13 +170,13 @@ End Code
             <div>
             </div>
         </div>
-        <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;margin-right:5px;padding:5px 5px 5px 5px;">
+        <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;margin-right:5px;padding:5px 5px 5px 5px;font-size:10px;">
             FOR THE CUSTOMER <br /><br /> <br /><br /><br />
             ......................................................... <br />
             __________/_________/________ <br />
             AUTHORIZED SIGNATURE
         </div>
-        <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;padding:5px 5px 5px 5px;">
+        <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;padding:5px 5px 5px 5px;font-size:10px;">
             FOR @ViewBag.PROFILE_COMPANY_NAME <br /><br /> <br /><br /><br />
             ......................................................... <br />
             __________/_________/________ <br />

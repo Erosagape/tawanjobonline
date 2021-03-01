@@ -45,44 +45,58 @@ End Code
     </tr>
     <tr>
         <td colspan="3" style="font-size:11px">
-            <b>Remark</b>
-            <label id="lblRemark" style="text-decoration-line:underline;"></label>
+            <b>Pay To :</b>
+            <label id="lblPayTo" style="text-decoration-line:underline;"></label>
         </td>
         <td align="right" style="font-size:11px">
             <b>Request By : </b>
             <label id="lblReqBy" style="text-decoration-line:underline;"></label>
         </td>
     </tr>
+    <tr>
+        <td colspan="4">
+            <div id="divJob"></div>
+        </td>
+    </tr>
 </table>
-<br />
 <table style="border-collapse:collapse;width:100%">
     <tr style="text-align:center;">
+        <td style="border-style:solid;border-width:thin;font-size:11px">
+            <b>A/C Code</b>
+        </td>
         <td style="border-style:solid;border-width:thin;font-size:11px">
             <b>Advance Expenses</b>
         </td>
         <td style="border-style:solid;border-width:thin;font-size:11px">
-            <b>With-holding Tax</b>
+            <b>Quantity</b>
         </td>
         <td style="border-style:solid;border-width:thin;font-size:11px">
-            <b>Amount</b>
+            <b>Unit Price</b>
+        </td>
+        <td style="border-style:solid;border-width:thin;font-size:11px">
+            <b>Total</b>
         </td>
     </tr>
-    <tr style="height:450px;vertical-align:top">
+    <tr style="height:400px;vertical-align:top">
+        <td style="border-style:solid;border-width:thin;text-align:center">
+            <div id="divCode" style="font-size:12px"></div>
+        </td>
         <td style="border-style:solid;border-width:thin;text-align:left">
             <div id="divDesc" style="font-size:12px"></div>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right">
-            <div id="divWht" style="font-size:12px"></div>
+            <div id="divQty" style="font-size:12px"></div>
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:right">
+            <div id="divPrice" style="font-size:12px"></div>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right">
             <div id="divAmt" style="font-size:12px"></div>
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px">
-            <input type="checkbox" id="chkCash" /> CASH/TRANSFER :
-            <label id="lblAccNo">______________</label>
-            <label id="txtAdvCash"></label>
+        <td colspan="3">
+            CODE - ADV : เก็บเงินลูกค้า / Invoice to Customer
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Net Amount</td>
         <td style="border-style:solid;border-width:thin" width="150px">
@@ -90,11 +104,8 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px">
-            <input type="checkbox" id="chkCustChq" /> CUST.CHQ NO :
-            <label id="lblcustChqNo">__________</label> DEP.DATE :
-            <label id="lblDepDate">________</label>
-            <label id="txtAdvChqCash"></label>
+        <td colspan="3">
+            CODE - CST : ค่าใช้จ่ายบริษัท / Company Expenses
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">
             VAT
@@ -104,11 +115,10 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px">
-            <input type="checkbox" id="chkCompChq" /> CHQ NO :
-            <label id="lblCompChqNo">__________</label> CHQ.DATE :
-            <label id="lblChqDate">________</label>
-            <label id="txtAdvChq"></label>
+        <td style="text-align:left;font-size:11px" colspan="3">
+            <input type="checkbox" id="chkCash" /> CASH/TRANSFER :
+            <label id="lblAccNo">______________</label>
+            <label id="txtAdvCash"></label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">WH-Tax</td>
         <td style="border-style:solid;border-width:thin" width="150px">
@@ -116,24 +126,39 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px;">
-            <input type="checkbox" id="chkCredit" /> ACCOUNT PAYABLES :__________________
-            <label id="txtAdvCred"></label>
+        <td style="text-align:left;font-size:11px" colspan="3">
+            <input type="checkbox" id="chkCustChq" /> CUST.CHQ NO :
+            <label id="lblcustChqNo">__________</label> DEP.DATE :
+            <label id="lblDepDate">________</label>
+            <label id="txtAdvChqCash"></label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Total</td>
         <td style="border-style:solid;border-width:thin" width="150px">
             <input type="text" style="border:none;text-align:right;font-size:11px" id="txtNetAmt" />
         </td>
     </tr>
+    <tr>
+        <td style="text-align:left;font-size:11px" colspan="5">
+            <input type="checkbox" id="chkCompChq" /> CHQ NO :
+            <label id="lblCompChqNo">__________</label> CHQ.DATE :
+            <label id="lblChqDate">________</label>
+            <label id="txtAdvChq"></label>
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align:left;font-size:11px;" colspan="5">
+            <input type="checkbox" id="chkCredit" /> ACCOUNT PAYABLES :__________________
+            <label id="txtAdvCred"></label>
+        </td>
+    </tr>
 </table>
-**Accumulated Advance Cash By User Requested at @DateTime.Now is 
+**Accumulated Advance Cash By User Requested at @DateTime.Now is
 <label id="lblPendingAmount">0.00</label>**
 <br />
 TOTAL :
+<br />
 <input type="text" id="txtTotalText" value="ZERO BAHT ONLY" style="font-size:11px;background-color:burlywood;font:bold;text-align:center;width:90%;" disabled />
-<br />
-PAY TO : <label id="lblPayTo" style="font-size:11px">________________________________________________________________________</label>
-<br />
+
 <table style="border-collapse:collapse;width:100%">
     <tr>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
@@ -224,9 +249,9 @@ PAY TO : <label id="lblPayTo" style="font-size:11px">___________________________
         let h = data.adv.data[0].Table[0];
         $('#lblAdvNo').text(h.AdvNo);
         $('#lblCustCode').text(h.CustCode + '/' + h.CustBranch);
-        $('#lblRemark').text(h.TRemark);
+        //$('#lblRemark').text(h.TRemark);
         $('#lblAdvDate').text(ShowDate(h.AdvDate));
-        $('#lblPayTo').text(h.PayChqTo);
+        //$('#lblPayTo').text(h.PayChqTo);
         $('#lblReqBy').text(h.EmpCode);
         ShowPendingAmount(h.BranchCode, h.EmpCode);
         ShowCustomer(h.CustCode, h.CustBranch);
@@ -283,10 +308,12 @@ PAY TO : <label id="lblPayTo" style="font-size:11px">___________________________
     }
     function ShowDetail(dr,h) {
         //Dummy Data
+        let strCode = '';
         let strDesc = '';
         let strJob = '';
         let strAmt = '';
-        let strWht = '';
+        let strPrice = '';
+        let strQty = '';
         let totAmt = 0;
         let listJob = [];
         //let vat = 0;
@@ -300,44 +327,58 @@ PAY TO : <label id="lblPayTo" style="font-size:11px">___________________________
                     let v = $.grep(venders, function (data) {
                         return data.VenCode === d.ForwarderCode;
                     });
-                    strJob = 'JOB:' + ((d.ForJNo == null || d.ForJNo == '' ? '' : d.ForJNo) + ((d.CustInvNo==null?'':' INV#:'+ d.CustInvNo)) + '<br/>');
-                    strJob = strJob + 'CONTAINER:' + ((d.TotalContainer == null || d.TotalContainer == '' ? '' : d.TotalContainer) + '<br/>');
-                    strJob = strJob + 'BL/AWB:' + ((d.HAWB == null || d.HAWB == '' ? '' : d.HAWB) + '<br/>');
+                    strJob = '<b>Job Number :</b><span style="text-decoration-line:underline;">' + ((d.ForJNo == null || d.ForJNo == '' ? '' : d.ForJNo) + ((d.CustInvNo==null?'':' INV#:'+ d.CustInvNo)) + '</span><br/>');
+                    strJob = strJob + '<b>Container :</b><span style="text-decoration-line:underline;">' + ((d.TotalContainer == null || d.TotalContainer == '' ? '' : d.TotalContainer) + '</span><br/>');
+                    strJob = strJob + '<b>BL/AWB :</b><span style="text-decoration-line:underline;">' + ((d.HAWB == null || d.HAWB == '' ? '' : d.HAWB) + '</span><br/>');
                     if (v.length > 0) {
-                        strJob = strJob + 'AGENT:' + (v[0].TName + '<br/>');
+                        strJob = strJob + '<b>Agent :</b><span style="text-decoration-line:underline;">' + (v[0].TName + '</span><br/>');
                     } else {
-                        strJob = strJob + 'AGENT:' + ((d.AgentCode == null || d.AgentCode == '' ? '' : d.AgentCode) + '<br/>');
+                        strJob = strJob + '<b>Agent :</b><span style="text-decoration-line:underline;">' + ((d.AgentCode == null || d.AgentCode == '' ? '' : d.AgentCode) + '') + '</span>';
                     }
                     listJob.push(d.ForJNo);
-                    strAmt += '<br/><br/><br/><br/>';
-                    strWht += '<br/><br/><br/><br/>';
-                } else {
-                    strJob = '';
+                    //strAmt += '<br/><br/><br/><br/>';
+                    //strPrice += '<br/><br/><br/><br/>';
+                    //strQty += '<br/><br/><br/><br/>';
                 }
             }
-            strDesc = strDesc+strJob;
+            //strDesc = strDesc+strJob;
+            strCode = strCode + d.SICode + '<br/>';
             if (serv.length > 0) {
                 let c = $.grep(serv, function (data) {
                     return data.SICode === d.SICode;
                 });
-                if (c.length > 0) {
-                    strDesc = strDesc + (d.SICode + '-' + d.SDescription + '<br/>');
-                } else {
+                //if (c.length > 0) {
+                    //strDesc = strDesc + (d.SICode + '-' + d.SDescription + '<br/>');
+                //} else {
                     strDesc = strDesc + d.SDescription+ '<br/>';
-                }
+                //}
             } else {
-                strDesc = strDesc + (d.SICode + '<br/>');
+                strDesc = strDesc + d.SICode + '<br/>';
             }
             strAmt = strAmt + (CCurrency((d.BaseAmount).toFixed(2)))+'<br/>';
-            strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(2)))+'<br/>';
+            //strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(2)))+'<br/>';
+            strPrice = strPrice + (CCurrency((d.UnitPrice).toFixed(2))) + '<br/>';
+            strQty = strQty + (CCurrency((d.AdvQty).toFixed(2))) + '<br/>';
+
             totAmt += d.BaseAmount;
             //vat += d.ChargeVAT;
             //wht += d.Charge50Tavi;
+            if (d.VenCode !== '') {
+                $.get(path + 'Master/GetVender?Code=' + d.VenCode).done(function (v) {
+                    if (v.vender.data.length > 0) {
+                        let dv = v.vender.data[0];
+                        $('#lblPayTo').text(dv.TName + (dv.ContactAcc !== '' ? ' A/C ' : '') + dv.ContactAcc);
+                    }
+                });
+            }
         }
-        strDesc += '<br/>CODE - ADV : เก็บเงินลูกค้า / Invoice to Customer';
-        strDesc += '<br/>CODE - CST : ค่าใช้จ่ายบริษัท / Company Expenses';
+        //strDesc += '<br/>CODE - ADV : เก็บเงินลูกค้า / Invoice to Customer';
+        //strDesc += '<br/>CODE - CST : ค่าใช้จ่ายบริษัท / Company Expenses';
+        $('#divJob').html(strJob);
+        $('#divCode').html(strCode);
         $('#divDesc').html(strDesc);
-        $('#divWht').html(strWht);
+        $('#divQty').html(strQty);
+        $('#divPrice').html(strPrice);
         $('#divAmt').html(strAmt);
     }
 </script>
