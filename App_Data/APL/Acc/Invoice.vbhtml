@@ -113,7 +113,7 @@ End Code
                         <div class="col-sm-3">
                             <label id="lblDocDate">Doc.Date:</label>
                             <br />
-                            <input type="date" id="txtDocDate" class="form-control"/>
+                            <input type="date" id="txtDocDate" class="form-control" />
                         </div>
                         <div class="col-sm-6">
                             <label id="lblDCustCode">Customer:</label>
@@ -378,7 +378,7 @@ End Code
                                         <div style="flex:1">
                                             <label id="lblIsTaxCharge">VAT</label>
                                             <br />
-                                            <select id="txtIsTaxCharge" class="form-control dropdown" >
+                                            <select id="txtIsTaxCharge" class="form-control dropdown">
                                                 <option value="0">NO</option>
                                                 <option value="1">EX</option>
                                                 <option value="2">IN</option>

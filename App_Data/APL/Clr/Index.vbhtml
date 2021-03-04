@@ -443,7 +443,7 @@ End Code
                                     <input type="text" id="txtLinkItem" style="width:30px" disabled />
                                 </div>
                                 <div class="col-sm-6">
-                                    <label id="lblPayNo">Vender Inv#</label>
+                                    <label id="lblPayNo" ondblclick="SaveDetail()">Vender Inv#</label>
                                     <input type="text" id="txtVenderBillingNo" style="width:150px" />
                                     <input type="button" value="View" onclick="ShowVenderBill()" />
                                 </div>

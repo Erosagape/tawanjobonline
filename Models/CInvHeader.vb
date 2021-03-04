@@ -532,8 +532,9 @@ Public Class CInvHeader
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CInvHeader", "SaveData", Me, False)
                             If Me.CancelProve <> "" Then
                                 CancelData(cn)
+                            Else
+                                Main.DBExecute(cn.ConnectionString, SQLUpdateInvoiceHeader() & " WHERE h.BranchCode='" + Me.BranchCode + "' and h.DocNo='" + Me.DocNo + "'")
                             End If
-
                             msg = "Save Complete"
                         End Using
                     End Using

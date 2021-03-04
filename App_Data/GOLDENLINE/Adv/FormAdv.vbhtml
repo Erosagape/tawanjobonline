@@ -61,19 +61,19 @@ End Code
 </table>
 <table style="border-collapse:collapse;width:100%">
     <tr style="text-align:center;">
-        <td style="border-style:solid;border-width:thin;font-size:11px">
+        <td style="border-style:solid;border-width:thin;font-size:11px;width:15%">
             <b>A/C Code</b>
         </td>
-        <td style="border-style:solid;border-width:thin;font-size:11px">
+        <td style="border-style:solid;border-width:thin;font-size:11px;width:45%">
             <b>Advance Expenses</b>
         </td>
-        <td style="border-style:solid;border-width:thin;font-size:11px">
+        <td style="border-style:solid;border-width:thin;font-size:11px;width:10%">
             <b>Quantity</b>
         </td>
-        <td style="border-style:solid;border-width:thin;font-size:11px">
+        <td style="border-style:solid;border-width:thin;font-size:11px;width:15%">
             <b>Unit Price</b>
         </td>
-        <td style="border-style:solid;border-width:thin;font-size:11px">
+        <td style="border-style:solid;border-width:thin;font-size:11px;width:15%">
             <b>Total</b>
         </td>
     </tr>

@@ -2983,12 +2983,26 @@ group by BranchCode,AdvNo,Rate50Tavi
         "
         Return String.Format(tSql, sqlW)
     End Function
-
+    Public Function SQLUpdateAPClearLink() As String
+        Dim tSql As String = "
+UPDATE p SET p.ClrRefNo=c.ClrNo ,p.ClrITemNo=c.ItemNo
+FROM Job_PaymentDetail p INNER JOIN (
+SELECT BranchCode,ClrNo,ItemNo,VenderBillingNo
+FROM Job_ClearDetail
+where clrNo not in(select ClrNo from job_ClearHeader where DocStatus=99) AND VenderBillingNo<>''
+) c
+ON p.BranchCode=c.BranchCode AND p.DocNo+'#'+Convert(varchar,p.ItemNo)=c.VenderBillingNo
+where p.ClrRefNo='' AND p.ClrItemNo=0 
+AND p.DocNo NOT IN(SELECT DocNo fROM Job_PaymentHeader where CancelProve<>'')
+"
+        Return tSql
+    End Function
     Public Sub UpdateClearStatus()
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToClear())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusFromAdvance())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToComplete())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToInComplete())
+        Main.DBExecute(GetSession("ConnJob"), SQLUpdateAPClearLink())
     End Sub
     Function GetSQLCommand(cliteria As String, fldDate As String, fldCust As String, fldJob As String, fldEmp As String, fldVend As String, fldStatus As String, fldBranch As String, Optional fldSICode As String = "", Optional fldGroup As String = "") As String
         Dim sqlW As String = ""
