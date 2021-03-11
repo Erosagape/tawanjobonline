@@ -239,46 +239,45 @@ End Code
             $('#lblForeignNet').text(ShowNumber(h.ForeignNet, 2));
             $('#lblDiscountRate').text(h.DiscountRate);
             $('#lblVATRate').text(ShowNumber(h.VATRate,1));
-	$.get(path+'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch='+ h.BillToCustBranch,function(r){
-            let c = r.company.data[0];
-        if (c !== null) {
-            $('#lblTaxNumber').text(c.TaxNumber);
-            if (c.UsedLanguage == 'TH') {
-            if (Number(c.Branch == 0)) {
-                $('#lblTaxBranch').text('สำนักงานใหญ่');
-            } else {
-                $('#lblTaxBranch').text(c.Branch);
-            }
-                    $('#lblCustName').text(c.Title+' '+c.NameThai);
-                    $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
-	$('#lblCustTName').text(dr.customer[0][0].NameThai);
-            } else {
-            if (Number(c.Branch == 0)) {
-                $('#lblTaxBranch').text('HEAD OFFICE');
-            } else {
-                $('#lblTaxBranch').text(c.Branch);
-            }
-
-                    $('#lblCustName').text(c.NameEng);
-                    $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2);
-	$('#lblCustTName').text(dr.customer[0][0].NameEng);
-                }
+            $.get(path + 'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch=' + h.BillToCustBranch, function (r) {
+                let c = r.company.data[0];
+                if (c !== null) {
+                    $('#lblTaxNumber').text(c.TaxNumber);
+                    if (c.UsedLanguage == 'TH') {
+                        if (Number(c.Branch == 0)) {
+                            $('#lblTaxBranch').text('สำนักงานใหญ่');
+                        } else {
+                            $('#lblTaxBranch').text("000" + CCode(CNum(c.Branch)));
+                        }
+                        $('#lblCustName').text(c.Title + ' ' + c.NameThai);
+                        $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
+                        $('#lblCustTName').text(dr.customer[0][0].NameThai);
+                    } else {
+                        if (Number(c.Branch == 0)) {
+                            $('#lblTaxBranch').text('HEAD OFFICE');
+                        } else {
+                            $('#lblTaxBranch').text("000" & CCode(CNum(c.Branch)));
+                        }
+                        $('#lblCustName').text(c.NameEng);
+                        $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2);
+                        $('#lblCustTName').text(dr.customer[0][0].NameEng);
+                    }
                 //$('#lblCustTel').text(c.Phone);
-            }
-	});
+                }
+            });
             let j = dr.job[0][0];
             if (j !== null) {
                 $('#lblCustInvNo').text(j.InvNo);
                 $('#lblJobNo').text(j.JNo);
-	        if(Number(j.JobType)==1){
-                ShowCountry(path, j.InvFCountry, '#lblFromCountry');
-                ShowCountry(path, j.InvCountry, '#lblToCountry');
-                ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#lblInterPort');
- 	        } else {
-                ShowCountry(path, j.InvFCountry, '#lblFromCountry');
-                ShowCountry(path, j.InvCountry, '#lblToCountry');
-                ShowInterPort(path, j.InvCountry, j.InvInterPort, '#lblInterPort');
-            }
+	            if(Number(j.JobType)==1){
+                    ShowCountry(path, j.InvFCountry, '#lblFromCountry');
+                    ShowCountry(path, j.InvCountry, '#lblToCountry');
+                    ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#lblInterPort');
+ 	            } else {
+                    ShowCountry(path, j.InvFCountry, '#lblFromCountry');
+                    ShowCountry(path, j.InvCountry, '#lblToCountry');
+                    ShowInterPort(path, j.InvCountry, j.InvInterPort, '#lblInterPort');
+                }
                 //$('#lblFromCountry').text(j.DeclareNumber);
                 $('#lblVesselName').text(j.VesselName);
                 $('#lblQtyGross').text(j.InvProductQty);

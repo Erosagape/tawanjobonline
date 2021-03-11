@@ -147,7 +147,7 @@ End Code
         $.get(path + 'Master/GetCompany?TaxNumber=' + h.CustTaxID).done(function (r) {
             if (r.company.data.length > 0) {
                 let c = r.company.data[0];
-                $('#lblTaxBranch').text(c.Branch);
+                $('#lblTaxBranch').text("000" + CCode(CNum(c.Branch)));
             }
         });
         $('#lblCustTax').text(h.CustTaxID);

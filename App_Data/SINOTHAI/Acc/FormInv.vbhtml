@@ -364,7 +364,7 @@ End Code
             $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
             //$('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.Total50Tavi)-Number(h.TotalDiscount),2));
 
-            $('#lblTotalBaht').text('(' + CNumEng(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount)-Number(h.Total50Tavi),2)) + ')'); 
+            $('#lblTotalBaht').text('(' + CNumEng(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2)) + ')'); 
 
         }
         let d = dr.detail[0];
@@ -412,6 +412,18 @@ End Code
                     }
                 }
             }
+        }
+        let rowremain = 24 - irow;
+        for (let i = 1; i <= rowremain; i++) {
+            let html = '<tr>';
+            html += '<td style="text-align:center"></td>';
+            html += '<td><br/></td>';
+            html += '<td style="text-align:right;"></td>';
+            html += '<td style="text-align:right;"></td>';
+            html += '<td style="text-align:right;"></td>';
+            html += '<td style="text-align:right;"></td>';
+            html += '</tr>';
+            $('#tbDetail').append(html);
         }
         $('#lblSumNonVat').text(ShowNumber(sumnonvat, 2));
         $('#lblSumBaseWht1').text(ShowNumber(sumbase1,2));

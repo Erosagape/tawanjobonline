@@ -390,22 +390,24 @@ FROM (" & String.Format(SQLSelectTax50TaviReport(), sqlW) & ") as t ORDER BY 9,1
                         sqlM = String.Format(SQLSelectWHTaxSummary(), sqlW)
                     Case "ACCEXP"
                         fldGroup = "acType"
-                        Dim oDic = New Dictionary(Of String, String)
-                        oDic.Add("CA", "Cash/Transfer")
-                        oDic.Add("CH", "Cashier Cheque")
-                        oDic.Add("CU", "Customer Cheque")
-                        oDic.Add("CR", "Credit")
+                        Dim oDic = New Dictionary(Of String, String) From {
+                            {"CA", "Cash/Transfer"},
+                            {"CH", "Cashier Cheque"},
+                            {"CU", "Customer Cheque"},
+                            {"CR", "Credit"}
+                        }
                         groupDatas = JsonConvert.SerializeObject(oDic)
                         sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "SELECT acType,PRVoucher,VoucherDate,TRemark,ChqNo,ChqDate,TotalNet,ControlNo FROM (" & String.Format(SQLSelectCashFlow(), sqlW) & ") as t WHERE PRType='P' ORDER BY acType,PRVoucher"
                     Case "ACCINC"
                         fldGroup = "acType"
-                        Dim oDic = New Dictionary(Of String, String)
-                        oDic.Add("CA", "Cash/Transfer")
-                        oDic.Add("CH", "Cashier Cheque")
-                        oDic.Add("CU", "Customer Cheque")
-                        oDic.Add("CR", "Credit")
+                        Dim oDic = New Dictionary(Of String, String) From {
+                            {"CA", "Cash/Transfer"},
+                            {"CH", "Cashier Cheque"},
+                            {"CU", "Customer Cheque"},
+                            {"CR", "Credit"}
+                        }
                         groupDatas = JsonConvert.SerializeObject(oDic)
                         sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
@@ -416,20 +418,22 @@ FROM (" & String.Format(SQLSelectTax50TaviReport(), sqlW) & ") as t ORDER BY 9,1
                         sqlW &= " AND d.acType<>'CU' "
                         sqlM = "SELECT PRType,PRVoucher,VoucherDate,TRemark,ChqNo,ChqDate,(CASE WHEN PRType='P' THEN TotalNet*-1 ELSE TotalNet END) as TotalNet,ControlNo FROM (" & String.Format(SQLSelectCashFlow(), sqlW) & ") as t ORDER BY PRType DESC,PRVoucher"
                         fldGroup = "PRType"
-                        Dim oDic = New Dictionary(Of String, String)
-                        oDic.Add("R", "Cash-Received")
-                        oDic.Add("P", "Cash-Paymented")
+                        Dim oDic = New Dictionary(Of String, String) From {
+                            {"R", "Cash-Received"},
+                            {"P", "Cash-Paymented"}
+                        }
                         groupDatas = JsonConvert.SerializeObject(oDic)
                     Case "CASHBAL"
                         sqlW = GetSQLCommand(cliteria, "h.VoucherDate", "h.CustCode", "d.ForJNo", "h.RecUser", "", "", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "SELECT acType,PRType,PRVoucher,VoucherDate,TRemark,ChqNo,ChqDate,(CASE WHEN PRType='P' THEN TotalNet*-1 ELSE TotalNet END) as TotalNet,ControlNo FROM (" & String.Format(SQLSelectCashFlow(), sqlW) & ") as t ORDER BY acType,VoucherDate,PRVoucher"
                         fldGroup = "acType"
-                        Dim oDic = New Dictionary(Of String, String)
-                        oDic.Add("CA", "Cash/Transfer")
-                        oDic.Add("CH", "Cashier Cheque")
-                        oDic.Add("CU", "Customer Cheque")
-                        oDic.Add("CR", "Credit")
+                        Dim oDic = New Dictionary(Of String, String) From {
+                            {"CA", "Cash/Transfer"},
+                            {"CH", "Cashier Cheque"},
+                            {"CU", "Customer Cheque"},
+                            {"CR", "Credit"}
+                        }
                         groupDatas = JsonConvert.SerializeObject(oDic)
                     Case "STATEMENT"
                         fldGroup = "BookCode"

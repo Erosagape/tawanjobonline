@@ -77,7 +77,7 @@ End Code
             <b>Total</b>
         </td>
     </tr>
-    <tr style="height:400px;vertical-align:top">
+    <tr style="height:350px;vertical-align:top">
         <td style="border-style:solid;border-width:thin;text-align:center">
             <div id="divCode" style="font-size:12px"></div>
         </td>

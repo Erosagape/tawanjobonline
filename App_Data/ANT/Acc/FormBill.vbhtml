@@ -134,15 +134,15 @@ End Code
             $('#lblTaxNumber').text(data.customer[0][0].TaxNumber);
             if (data.customer[0][0].UsedLanguage == 'TH') {
 if(Number(data.customer[0][0].Branch)>0) {
-        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + h.CustBranch);
+    $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + "000" + CCode(CNum(h.CustBranch)));
 } else {
-        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :สำนักงานใหญ่');
+    $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :สำนักงานใหญ่');
 }
                 $('#lblCustName').text(data.customer[0][0].NameThai);
                 $('#lblCustAddress').text(data.customer[0][0].TAddress1 + '\n' + data.customer[0][0].TAddress2);
             } else {
 if(Number(data.customer[0][0].Branch)>0) {
-        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + h.CustBranch);
+        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + "000" + CCode(CNum(h.CustBranch)));
 } else {
         $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :HEAD OFFICE');
 }

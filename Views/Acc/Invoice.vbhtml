@@ -121,6 +121,7 @@ End Code
                             <div style="display:flex">
                                 <input type="text" id="txtDCustCode" class="form-control" style="width:20%" disabled />
                                 <input type="text" id="txtDCustBranch" class="form-control" style="width:15%" disabled />
+                                <input type="button" class="btn btn-default" value="..." onclick="SearchData('customer2');" />
                                 <input type="text" id="txtDCustName" class="form-control" style="width:65%" disabled />
                             </div>
                         </div>
@@ -689,6 +690,7 @@ End Code
             let dv = document.getElementById("dvLOVs");
             //Customers
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
+            CreateLOV(dv, '#frmSearchCust2', '#tbCust2', 'Customers', response, 3);
             //Customers
             CreateLOV(dv, '#frmSearchBill', '#tbBill', 'Billing Place', response, 3);
 
@@ -806,6 +808,9 @@ End Code
                 break;
             case 'customer':
                 SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
+                break;
+            case 'customer2':
+                SetGridCompany(path, '#tbCust2', '#frmSearchCust2', ReadCustomer2);
                 break;
             case 'billing':
                 SetGridCompany(path, '#tbBill', '#frmSearchBill', ReadBilling);
@@ -974,6 +979,11 @@ End Code
         $('#txtCustCode').val(dt.CustCode);
         $('#txtCustBranch').val(dt.Branch);
         ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
+    }
+    function ReadCustomer2(dt) {
+        $('#txtDCustCode').val(dt.CustCode);
+        $('#txtDCustBranch').val(dt.Branch);
+        ShowCustomer(path, dt.CustCode, dt.Branch, '#txtDCustName');
     }
     function ReadBilling(dt) {
         $('#txtBillToCustCode').val(dt.CustCode);

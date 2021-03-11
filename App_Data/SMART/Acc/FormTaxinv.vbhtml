@@ -20,6 +20,7 @@ End Code
     div {
         margin-bottom: 10px;
     }
+
     #dvFooter {
         display: none;
     }
@@ -169,30 +170,28 @@ End Code
             html = '<tr>';
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
-            html += '<td style="text-align:right">' + (CDbl(d.AmtCharge) > 0 ? '0.00' : ShowNumber((d.InvTotal), 2)) + '</td>';
-            html += '<td style="text-align:right">' + (CDbl(d.AmtCharge)>0 ? ShowNumber(d.InvAmt,2):'0.00') + '</td>';
+            html += '<td style="text-align:right">' + (CDbl(d.AmtAdvance) > 0 ? ShowNumber((d.AmtAdvance), 2) : '0.00') + '</td>';
+            html += '<td style="text-align:right">' + (CDbl(d.AmtCharge)>0 ? ShowNumber(d.AmtCharge,2):'0.00') + '</td>';
             html += '<td style="text-align:right">' + (CDbl(d.AmtCharge) > 0 ? ShowNumber(d.InvVAT, 2) : '0.00') + '</td>';
             html += '<td style="text-align:right">' + (CDbl(d.AmtCharge) > 0 ? ShowNumber(d.Inv50Tavi, 2) : '0.00') + '</td>';
-            html += '<td style="text-align:right">' + (CDbl(d.AmtCharge) == 0 ? '0.00' : ShowNumber((d.InvAmt+d.InvVAT), 2)) + '</td>';
+            html += '<td style="text-align:right">' + (CDbl(d.AmtCharge) > 0 ? ShowNumber((d.AmtCharge + d.InvVAT), 2) : '0.00') + '</td>';
             html += '</tr>';
 
             $('#tbDetail').append(html);
+            service += Number(d.AmtCharge);
+            adv += Number(d.AmtAdvance);
             if (CDbl(d.AmtCharge) > 0) {
-                service += Number(d.InvAmt);
                 vat += Number(d.InvVAT);
                 wht += Number(d.Inv50Tavi);
-                total += Number(d.InvAmt) + Number(d.InvVAT);
-            } else {
-                adv +=Number(d.InvTotal);
             }
-
+            total += Number(d.InvAmt) + Number(d.InvVAT);
         }
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
         $('#lblTotalWHT').text(ShowNumber(wht, 2));
         $('#lblTotalADV').text(ShowNumber(adv, 2));
         $('#lblTotalSumVAT').text(ShowNumber(service+vat, 2));
-        $('#lblTotalAfterVAT').text(ShowNumber(total, 2));
-        $('#lblTotalText').text(CNumThai(total));
+        $('#lblTotalAfterVAT').text(ShowNumber(adv+service+vat, 2));
+        $('#lblTotalText').text(CNumThai(adv+service+vat));
     }
 </script>

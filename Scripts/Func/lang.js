@@ -2734,7 +2734,7 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBDAILY", "ReportNameEN": "Job List Daily", "ReportNameTH": "รายงานการตรวจปล่อยตามวันที่" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBCS", "ReportNameEN": "Job List By CS", "ReportNameTH": "รายงานการตรวจปล่อยตามพนักงานบริการลูกค้า" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBSHP", "ReportNameEN": "Job List By Shipping", "ReportNameTH": "รายงานการตรวจปล่อยตามชิปปิ้ง" },
-        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBTYPE", "ReportNameEN": "Job List By Type", "ReportNameTH": "รายงานการตรวจปล่อยตามประเภทงาน" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBTYPE", "ReportNameEN": "Job List By Type", "ReportNameTH": "รายงานการตรวจปล่อยตามประเภทงาน" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBSHIPBY", "ReportNameEN": "Job List By Transport", "ReportNameTH": "รายงานการตรวจปล่อยตามลักษณะงานขนส่ง" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBCUST", "ReportNameEN": "Job List By Customer", "ReportNameTH": "รายงานการตรวจปล่อยตามลูกค้า" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBPORT", "ReportNameEN": "Job List By Port", "ReportNameTH": "รายงานการตรวจปล่อยตามสถานที่ตรวจปล่อย" },

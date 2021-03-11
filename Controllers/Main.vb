@@ -2351,21 +2351,13 @@ group by b.CustID,b.CustName,a.LogAction
     End Function
     Function SQLSelectLoginSummary() As String
         Return "SELECT tb.* FROM (
-select b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2) as Period,a.LogAction as UserID,Convert(varchar,Max(a.LogDateTime),103) as LastLogin
-from TWTLog a 
-INNER JOIN TWTCustomer b
-ON a.CustID=b.CustID+'/'
-where a.ModuleName='LOGIN_SHIPPING' and b.CustID='" & My.MySettings.Default.LicenseTo.ToString & "'
-and a.LogAction Not in('ADMIN','CS','BOAT','pasit','test')
-group by b.CustID,b.CustName,a.LogAction ,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2)
-UNION
-select b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2) as Period,Cast(Count(DISTINCT a.LogAction) as varchar)+' Users' as CountUser,'ALL' as LastLogin
-from TWTLog a 
-INNER JOIN TWTCustomer b
-ON a.CustID=b.CustID+'/'
-where a.ModuleName='LOGIN_SHIPPING' and b.CustID='" & My.MySettings.Default.LicenseTo.ToString & "'
-and a.LogAction Not in('ADMIN','CS','BOAT','pasit','test')
-group by b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2)
+select b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2) as Period
+,REPLACE(a.CustID,b.CustID+'/','') as UserID
+,Convert(varchar,Max(a.LogDateTime),103) as LastLogin
+from TWTLog a,TWTCustomer b
+where b.CustID='" & My.MySettings.Default.LicenseTo.ToString() & "' AND CHARINDEX(b.CustID,a.CustID)>0
+AND REPLACE(a.CustID,b.CustID+'/','') NOT IN('ADMIN','CS','BOAT','pasit','test')
+group by b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2),REPLACE(a.CustID,b.CustID+'/','')
 ) tb"
     End Function
     Function SQLUpdateClrStatusToClear() As String
