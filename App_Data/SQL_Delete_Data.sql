@@ -29,23 +29,23 @@ delete from Job_ReceiptDetail
 delete from Job_ReceiptHeader
 delete from Job_WHTax
 delete from Job_WHTaxDetail
-delete from Job_TransportRoute
-delete from Job_TransportPlace
+--delete from Job_TransportRoute
+--delete from Job_TransportPlace
 delete from Job_TransportPrice
-delete from Job_SrvGroup
-delete from Job_SrvSingle
+--delete from Job_SrvGroup
+--delete from Job_SrvSingle
 delete from Mas_Account
-delete from Mas_BookAccount
-delete from Mas_Branch
-delete from Mas_Company
-delete from Mas_CompanyContact
-delete from Mas_CurrencyCode
+--delete from Mas_BookAccount
+--delete from Mas_Branch
+delete from Mas_Company where Custcode<>'TAWAN'
+delete from Mas_CompanyContact where Custcode<>'TAWAN'
+--delete from Mas_CurrencyCode
 
-delete from Mas_User --where UserID<>'ADMIN'
-delete from Mas_UserAuth --where UserID<>'ADMIN'
+delete from Mas_User where UserID<>'ADMIN'
+delete from Mas_UserAuth where UserID<>'ADMIN'
 delete from Mas_UserRole
 delete from Mas_UserRolePolicy
-delete from Mas_UserRoleDetail --where UserID<>'ADMIN'
+delete from Mas_UserRoleDetail where UserID<>'ADMIN'
 delete from Mas_Vender
 delete from Mas_Config
 

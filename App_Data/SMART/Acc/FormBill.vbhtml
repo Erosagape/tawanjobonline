@@ -6,7 +6,7 @@
 End Code
 <style>
     * {
-       font-size: 13px;
+       font-size: 12px;
     }
 
     table {

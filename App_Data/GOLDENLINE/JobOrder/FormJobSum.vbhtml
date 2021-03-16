@@ -172,7 +172,7 @@ End Code
                     <th width="40%">DESCRIPTION</th>
                     <th width="15%">SERVICE</th>
                     <th width="10%">VAT</th>
-                    <th width="10%">WH-TAX</th>
+                    <th width="10%">DEPOSIT</th>
                     <th width="15%">ADVANCE</th>
                     <th width="10%">COST</th>
                 </tr>
@@ -188,7 +188,6 @@ End Code
                                     <td>Cost</td>
                                     <td>Service (Net)</td>
                                     <td>Vat</td>
-                                    <td>Wht</td>
                                     <td>Profit</td>
                                 </tr>
                                 <tr>
@@ -196,7 +195,6 @@ End Code
                                     <td><label id="lblSumCost"></label></td>
                                     <td><label id="lblSumServ"></label></td>
                                     <td><label id="lblSumVat"></label></td>
-                                    <td><label id="lblSumWht"></label></td>
                                     <td><label id="lblNetProfit"></label></td>
                                 </tr>
                             </table>
@@ -438,8 +436,8 @@ End Code
 
                     let adv = (d[i].IsCredit == 1 ? d[i].BNet : 0);
                     let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? d[i].BNet : 0);
-                    let cost = (d[i].IsExpense == 1 ? d[i].BNet : 0);
-                    let profit = (d[i].IsExpense == 1 ? d[i].BNet*-1 : d[i].IsCredit==1 ? 0 : d[i].BNet);
+                    let cost = (d[i].IsExpense == 1 && d[i].SICode !== 'ERN-001' ? d[i].BNet : 0);
+                    let profit = (d[i].IsExpense == 1 && d[i].SICode !== 'ERN-001' ? d[i].BNet * -1 : d[i].IsCredit == 1 ? 0 : d[i].BNet);
 
                     amtadv += adv;
                     amtserv += serv;
@@ -461,7 +459,7 @@ End Code
                     html += '</td>';
                     html += '<td style="text-align:right">' + (serv > 0 ? CCurrency(CDbl(d[i].UsedAmount, 2)) : '0.00') + '</td>';
                     html += '<td style="text-align:right">' + (serv > 0 ? CCurrency(CDbl(d[i].ChargeVAT, 2)): '0.00') + '</td>';
-                    html += '<td style="text-align:right">' + (serv > 0 ? CCurrency(CDbl(d[i].Tax50Tavi, 2)): '0.00') + '</td>';
+                    html += '<td style="text-align:right">' + (d[i].SICode=='ERN-001' ? CCurrency(CDbl(d[i].BNet, 2)): '0.00') + '</td>';
                     html += '<td style="text-align:right">' + (adv > 0 ? CCurrency(CDbl(d[i].BNet, 2)): '0.00') + '</td>';
                     html += '<td style="text-align:right">' + (cost > 0 ? CCurrency(CDbl(d[i].BNet, 2)): '0.00') + '</td>';
                     html += '</tr>';
@@ -477,7 +475,7 @@ End Code
             $('#lblSumAdv').text(CCurrency(CDbl(amtadv, 2)));
             $('#lblSumServ').text(CCurrency(CDbl(amtserv, 2)));
             $('#lblSumVat').text(CCurrency(CDbl(amtvat, 2)));
-            $('#lblSumWht').text(CCurrency(CDbl(amtwht,2)));
+            //$('#lblSumWht').text(CCurrency(CDbl(amtwht,2)));
             $('#lblTotalExpense').text(CCurrency(CDbl((amtadv+amtserv), 2)));
             $('#lblTotalBalance').text(CCurrency(CDbl(CNum(CNum($('#lblTotalCustAdv').text())+CNum($('#lblTotalCheque').text()))- CNum(amtadv + amtserv),2)));
             //$('#lblSumCharge').text(CCurrency(CDbl(amttotal,2)));
