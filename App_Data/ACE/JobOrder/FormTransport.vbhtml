@@ -13,7 +13,7 @@ End Code
         <div style="display:flex;flex-direction:column;">
             <div style="height:100px;border-bottom:solid;border-top:solid;border-left:solid;border-width:thin;">
                 <b>Shipper</b>
-                <div style="padding:5px 5px 5px 5px">
+                <div style="padding:3px 3px 3px 3px">
                     <label id="lblShipperName"></label>
                     <br />
                     <label id="lblShipperAddress1"></label>
@@ -23,7 +23,7 @@ End Code
             </div>
             <div style="height:100px;border-bottom:solid;border-left:solid;border-width:thin;">
                 <b>Consignee</b>
-                <div style="padding:5px 5px 5px 5px">
+                <div style="padding:3px 3px 3px 3px">
                     <label id="lblConsigneeName"></label>
                     <br />
                     <label id="lblConsignAddress1"></label>
@@ -33,7 +33,7 @@ End Code
             </div>
             <div style="height:100px;border-bottom:solid;border-left:solid;border-width:thin;">
                 <b>Notify Party</b>
-                <div style="padding:5px 5px 5px 5px">
+                <div style="padding:3px 3px 3px 3px">
                     <label id="lblNotifyName"></label>
                     <br />
                     <label id="lblNotifyAddress1"></label>
@@ -88,7 +88,7 @@ End Code
     </div>
     <div style="flex-direction:row;width:45%;font-size:12px;border-top:solid;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
         <div style="display:flex;flex-direction:column;">
-            <div style="display:flex;flex-direction:row;padding:5px 5px 5px 5px;">
+            <div style="display:flex;flex-direction:row;padding:3px 3px 3px 3px;">
                 <div style="flex:1">
                     <b>BILL OF LADING</b><br />
                     <input type="text" value="ORIGINAL/COPY" style="border:none;">
