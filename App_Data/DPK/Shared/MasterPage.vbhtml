@@ -278,7 +278,7 @@
                 <div Class="panel-heading w3-indigo">
                     <div Class="panel-title" style="display:flex">
                         <div style="width:10%;text-align:center">
-                            <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:50%;height:50px" onclick="w3_open();" />
+                            <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="background-color:white;width:50%;height:50px" onclick="w3_open();" />
                         </div>
                         <div style="margin-left:10px;width:80%">
                             <h4><label id="lblTitle" onclick="OpenContact()">@ViewBag.Title</label></h4>
@@ -432,4 +432,4 @@
     }
     </script>
 </body>
-</html> 
+</html>

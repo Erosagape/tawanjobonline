@@ -1255,7 +1255,7 @@
     <Content Include="Views\Report\Export.vbhtml" />
     <Content Include="Views\Report\ImportJson.vbhtml" />
     <Content Include="Views\Report\ImportFile.vbhtml" />
-    <Content Include="Views\Report\Index.vbhtml" />
+    <Content Include="Views\Report\_Index.vbhtml" />
     <Content Include="Views\Report\Preview.vbhtml" />
     <Content Include="Views\Tracking\Document.vbhtml" />
     <Content Include="Views\Tracking\Index.vbhtml" />
@@ -1412,6 +1412,8 @@
     <Content Include="Views\Acc\FormPettycash_STD.vbhtml" />
     <Content Include="Views\Acc\Approve _APL.vbhtml" />
     <Content Include="Views\Report\Import.vbhtml" />
+    <Content Include="Views\Admin\UpVersion.vbhtml" />
+    <Content Include="Views\Report\Index.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

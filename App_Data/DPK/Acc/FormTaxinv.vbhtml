@@ -27,7 +27,7 @@ End Code
         <div id="dvHeadS" style="float:left;flex:2;">
             <div style="display:flex">
                 <div style="flex:1;margin:5px 5px 5px 5px;">
-                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:120px" />
+                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:90px" />
                 </div>
                 <div style="flex:4;">
                     <b>ห้างหุ้นสวนจํากัด แดน ผักกาด (สำนักงานใหญ่)</b><br />
