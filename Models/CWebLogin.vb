@@ -75,6 +75,16 @@ Public Class CWebLogin
             m_ExpireDateTime = value
         End Set
     End Property
+    Private m_SessionData As String
+    Public Property SessionData As String
+        Get
+            Return m_SessionData
+        End Get
+        Set(value As String)
+            m_SessionData = value
+        End Set
+    End Property
+
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -94,6 +104,7 @@ Public Class CWebLogin
                             dr("SessionID") = Me.SessionID
                             dr("LoginDateTime") = Main.GetDBDate(Me.LoginDateTime)
                             dr("ExpireDateTime") = Main.GetDBDate(Me.ExpireDateTime)
+                            dr("SessionData") = Me.SessionData
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             msg = "Save Complete"
@@ -115,6 +126,7 @@ Public Class CWebLogin
         m_SessionID = ""
         m_LoginDateTime = DateTime.Now
         m_ExpireDateTime = DateTime.Now.AddMinutes(20)
+        m_SessionData = ""
     End Sub
     Public Function GetData(pSQLWhere As String) As List(Of CWebLogin)
         Dim lst As New List(Of CWebLogin)
@@ -145,6 +157,9 @@ Public Class CWebLogin
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("ExpireDateTime"))) = False Then
                         row.ExpireDateTime = rd.GetValue(rd.GetOrdinal("ExpireDateTime"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("SessionData"))) = False Then
+                        row.SessionData = rd.GetString(rd.GetOrdinal("SessionData")).ToString()
                     End If
                     lst.Add(row)
                 End While

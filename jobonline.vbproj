@@ -245,6 +245,7 @@
     <Compile Include="Models\CServiceCode.vb" />
     <Compile Include="Models\CServiceGroup.vb" />
     <Compile Include="Models\CServUnit.vb" />
+    <Compile Include="Models\CSession.vb" />
     <Compile Include="Models\CTransportDetail.vb" />
     <Compile Include="Models\CTransportHeader.vb" />
     <Compile Include="Models\CTransportPlace.vb" />

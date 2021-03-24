@@ -401,12 +401,6 @@ Namespace Controllers
             LoadCompanyProfile()
             Dim oData As Object
             If ViewBag.User <> "" Then
-                'oData = New CUser(GetSession("ConnJob")).GetData(String.Format(" WHERE UserID='{0}'", ViewBag.User))
-                'If oData.Count > 0 Then
-                'oData = oData(0)
-                'Else
-                'oData = New CUser(GetSession("ConnJob"))
-                'End If
                 oData = DirectCast(Session("UserProfiles"), CUser)
             Else
                 oData = New CUser(GetSession("ConnJob"))
@@ -495,6 +489,7 @@ Namespace Controllers
         End Function
         Function SetLogin() As ActionResult
             Try
+                ClearSession()
                 Dim bGuest = False
                 Dim userGroup As String = "S"
                 If Not IsNothing(Request.QueryString("Type")) Then
@@ -557,11 +552,17 @@ Namespace Controllers
                                     End If
                                     oOld.LoginDateTime = DateTime.Now
                                     oOld.ExpireDateTime = DateTime.Now.AddMinutes(20)
-                                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_TRACKING", cName, DateTime.UtcNow.ToString(), False)
                                 End If
                                 oOld.SessionID = Session.SessionID
                                 oOld.FromIP = Request.UserHostAddress
+                                Session("CurrUser") = cName
+                                Session("UserProfiles") = oUser
+                                Session("DatabaseID") = dbID
+                                Session("UserGroup") = "C"
+                                LoadCompanyProfile()
+                                oOld.SessionData = Me.SessionData
                                 oOld.SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oOld.CustID, oOld.AppID, oOld.UserLogIN))
+                                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_TRACKING", cName, DateTime.UtcNow.ToString(), False)
                             Else
                                 Dim oNew = New CWebLogin(cnMas) With {
                                     .CustID = My.MySettings.Default.LicenseTo.ToString,
@@ -572,14 +573,15 @@ Namespace Controllers
                                     .LoginDateTime = DateTime.Now,
                                     .ExpireDateTime = DateTime.Now.AddMinutes(20)
                                 }
+                                Session("CurrUser") = cName
+                                Session("UserProfiles") = oUser
+                                Session("DatabaseID") = dbID
+                                Session("UserGroup") = "C"
+                                LoadCompanyProfile()
+                                oNew.SessionData = Me.SessionData
                                 oNew.SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oNew.CustID, oNew.AppID, oNew.UserLogIN))
                                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_TRACKING", cName, DateTime.UtcNow.ToString(), False)
                             End If
-                            Session("CurrUser") = cName
-                            Session("UserProfiles") = oUser
-                            Session("DatabaseID") = dbID
-                            Session("UserGroup") = "C"
-                            LoadCompanyProfile()
                             Dim jsonC As String = JsonConvert.SerializeObject(oUser)
                             jsonC = "{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[" & jsonC & "],""database_job"":""" & GetSession("ConnJob").Replace("\", "\\") & """,""database_mas"":""" & GetSession("ConnMas").Replace("\", "\\") & """,""database"":""" & ViewBag.DATABASE & """,""license_to"":""" & ViewBag.LICENSE_NAME & """}}"
                             Return Content(jsonC, jsonContent)
@@ -624,11 +626,17 @@ Namespace Controllers
                                     End If
                                     oOld.LoginDateTime = DateTime.Now
                                     oOld.ExpireDateTime = DateTime.Now.AddMinutes(20)
-                                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_VENDER", vName, DateTime.UtcNow.ToString(), False)
                                 End If
                                 oOld.SessionID = Session.SessionID
                                 oOld.FromIP = Request.UserHostAddress
+                                Session("CurrUser") = vName
+                                Session("UserProfiles") = oUser
+                                Session("DatabaseID") = dbID
+                                Session("UserGroup") = "V"
+                                LoadCompanyProfile()
+                                oOld.SessionData = Me.SessionData
                                 oOld.SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oOld.CustID, oOld.AppID, oOld.UserLogIN))
+                                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_VENDER", vName, DateTime.UtcNow.ToString(), False)
                             Else
                                 Dim oNew = New CWebLogin(cnMas) With {
                                     .CustID = My.MySettings.Default.LicenseTo.ToString,
@@ -639,14 +647,15 @@ Namespace Controllers
                                     .LoginDateTime = DateTime.Now,
                                     .ExpireDateTime = DateTime.Now.AddMinutes(20)
                                 }
+                                Session("CurrUser") = vName
+                                Session("UserProfiles") = oUser
+                                Session("DatabaseID") = dbID
+                                Session("UserGroup") = "V"
+                                LoadCompanyProfile()
+                                oNew.SessionData = Me.SessionData
                                 oNew.SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oNew.CustID, oNew.AppID, oNew.UserLogIN))
                                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_VENDER", vName, DateTime.UtcNow.ToString(), False)
                             End If
-                            Session("CurrUser") = vName
-                            Session("UserProfiles") = oUser
-                            Session("DatabaseID") = dbID
-                            Session("UserGroup") = "V"
-                            LoadCompanyProfile()
                             Dim jsonV As String = JsonConvert.SerializeObject(oUser)
                             jsonV = "{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[" & jsonV & "],""database_job"":""" & GetSession("ConnJob").Replace("\", "\\") & """,""database_mas"":""" & GetSession("ConnMas").Replace("\", "\\") & """,""database"":""" & ViewBag.DATABASE & """,""license_to"":""" & ViewBag.LICENSE_NAME & """}}"
                             Return Content(jsonV, jsonContent)
@@ -668,6 +677,7 @@ Namespace Controllers
                             Session("CurrentLang") = "TH"
                             Session("UserGroup") = "S"
                             Dim jsonG = "{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[{ ""user"":""Guest"" }],""database_job"":""" & GetSession("ConnJob").Replace("\", "\\") & """,""database_mas"":""" & GetSession("ConnMas").Replace("\", "\\") & """,""database"":""" & dbID & """,""license_to"":""Guest""}}"
+                            LoadCompanyProfile()
                             Return Content(jsonG, jsonContent)
                         Else
                             'check user
@@ -707,11 +717,17 @@ Namespace Controllers
                                                         End If
                                                         oOld.LoginDateTime = DateTime.Now
                                                         oOld.ExpireDateTime = DateTime.Now.AddMinutes(20)
-                                                        Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_SHIPPING", oData(0).UserID, DateTime.UtcNow.ToString(), False)
                                                     End If
                                                     oOld.SessionID = Session.SessionID
                                                     oOld.FromIP = Request.UserHostAddress
+                                                    Session("CurrUser") = oData(0).UserID
+                                                    Session("UserProfiles") = oData(0)
+                                                    Session("DatabaseID") = dbID
+                                                    Session("UserGroup") = "S"
+                                                    LoadCompanyProfile()
+                                                    oOld.SessionData = Me.SessionData
                                                     oOld.SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oOld.CustID, oOld.AppID, oOld.UserLogIN))
+                                                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_SHIPPING", oData(0).UserID, DateTime.UtcNow.ToString(), False)
                                                 Else
                                                     Dim oNew = New CWebLogin(cnMas) With {
                                                         .CustID = My.MySettings.Default.LicenseTo.ToString,
@@ -722,6 +738,12 @@ Namespace Controllers
                                                         .LoginDateTime = DateTime.Now,
                                                         .ExpireDateTime = DateTime.Now.AddMinutes(20)
                                                     }
+                                                    Session("CurrUser") = oData(0).UserID
+                                                    Session("UserProfiles") = oData(0)
+                                                    Session("DatabaseID") = dbID
+                                                    Session("UserGroup") = "S"
+                                                    LoadCompanyProfile()
+                                                    oNew.SessionData = Me.SessionData
                                                     oNew.SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oNew.CustID, oNew.AppID, oNew.UserLogIN))
                                                     Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_SHIPPING", oData(0).UserID, DateTime.UtcNow.ToString(), False)
                                                 End If
@@ -731,11 +753,6 @@ Namespace Controllers
                                         Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""License " & My.MySettings.Default.LicenseTo.ToString & " Not Found For JOBSHIPPING""}}", jsonContent)
                                     End If
                                 End Using
-                                Session("CurrUser") = oData(0).UserID
-                                Session("UserProfiles") = oData(0)
-                                Session("DatabaseID") = dbID
-                                Session("UserGroup") = "S"
-                                LoadCompanyProfile()
                                 Dim jsonS As String = JsonConvert.SerializeObject(oData)
                                 jsonS = "{""user"":{""session_id"":""" & Session.SessionID & """,""data"":" & jsonS & ",""database_job"":""" & GetSession("ConnJob").Replace("\", "\\") & """,""database_mas"":""" & GetSession("ConnMas").Replace("\", "\\") & """,""database"":""" & ViewBag.DATABASE & """,""license_to"":""" & ViewBag.LICENSE_NAME & """}}"
                                 Return Content(jsonS, jsonContent)

@@ -1,7 +1,76 @@
 ﻿Imports System.Web.Mvc
-
+Imports Newtonsoft.Json
 Public Class CController
     Inherits Controller
+    Friend Sub New()
+        Current = New CSession()
+    End Sub
+    Friend Property Current As CSession
+    Friend Property SessionData As String
+    Friend Sub SaveSession()
+        Current.CurrUser = GetSession("CurrUser")
+        Current.UserGroup = GetSession("UserGroup")
+        Current.UserProfiles = CType(Session("UserProfiles"), CUser)
+        Current.CurrIP = Request.UserHostAddress
+        Current.DatabaseID = GetSession("DatabaseID")
+        Current.CurrLicense = GetSession("CurrLicense")
+        Current.ConnJob = GetSession("ConnJob")
+        Current.ConnMas = GetSession("ConnMas")
+        Current.CurrForm = GetSession("CurrForm")
+        Current.CurrRights = GetSession("CurrRights")
+        Current.CurrBranch = GetSession("CurrBranch")
+        Current.CurrBranchName = GetSession("CurrBranchName")
+        Current.CompanyLogo = GetSession("CompanyLogo")
+        Current.CompanyName = GetSession("CompanyName")
+        Current.CompanyName_EN = GetSession("CompanyName_EN")
+        Current.CompanyFax = GetSession("CompanyFax")
+        Current.CompanyTel = GetSession("CompanyTel")
+        Current.CompanyEMail = GetSession("CompanyEmail")
+        Current.CompanyAddr1 = GetSession("CompanyAddr1")
+        Current.CompanyAddr2 = GetSession("CompanyAddr2")
+        Current.CompanyAddr1_EN = GetSession("CompanyAddr1_EN")
+        Current.CompanyAddr2_EN = GetSession("CompanyAddr2_EN")
+        Current.CurrentLang = GetSession("CurrentLang")
+        Current.Currency = GetSession("Currency")
+        Current.VatRate = GetSession("VatRate")
+        Current.TaxRate_SRV = GetSession("TaxRate_SRV")
+        Current.TaxRate_TRN = GetSession("TaxRate_TRN")
+        Current.TaxNumber = GetSession("TaxNumber")
+        Current.CreditDays = GetSession("CreditDays")
+        Current.TaxBranch = GetSession("TaxBranch")
+        SessionData = JsonConvert.SerializeObject(Current)
+    End Sub
+    Friend Sub LoadSession()
+        Session("CurrUser") = Current.CurrUser
+        Session("UserProfiles") = Current.UserProfiles
+        Session("UserGroup") = Current.UserGroup
+        Session("DatabaseID") = Current.DatabaseID
+        Session("CurrLicense") = Current.CurrLicense
+        Session("ConnJob") = Current.ConnJob
+        Session("ConnMas") = Current.ConnMas
+        Session("CurrForm") = Current.CurrForm
+        Session("CurrRights") = Current.CurrRights
+        Session("CurrentLang") = Current.CurrentLang
+        Session("CurrBranch") = Current.CurrBranch
+        Session("CurrBranchName") = Current.CurrBranchName
+        Session("CompanyLogo") = Current.CompanyLogo
+        Session("CompanyName") = Current.CompanyName
+        Session("CompanyName_EN") = Current.CompanyName_EN
+        Session("CompanyFax") = Current.CompanyFax
+        Session("CompanyTel") = Current.CompanyTel
+        Session("CompanyEmail") = Current.CompanyEMail
+        Session("CompanyAddr1") = Current.CompanyAddr1
+        Session("CompanyAddr2") = Current.CompanyAddr2
+        Session("CompanyAddr1_EN") = Current.CompanyAddr1_EN
+        Session("CompanyAddr2_EN") = Current.CompanyAddr2_EN
+        Session("Currency") = Current.Currency
+        Session("VatRate") = Current.VatRate
+        Session("TaxRate_TRN") = Current.TaxRate_TRN
+        Session("TaxRate_SRV") = Current.TaxRate_SRV
+        Session("CreditDays") = Current.CreditDays
+        Session("TaxNumber") = Current.TaxNumber
+        Session("TaxBranch") = Current.TaxBranch
+    End Sub
     Friend Sub ClearSession()
         Session("CurrUser") = Nothing
         Session("UserProfiles") = Nothing
@@ -32,6 +101,7 @@ Public Class CController
         Session("CreditDays") = Nothing
         Session("TaxNumber") = Nothing
         Session("TaxBranch") = Nothing
+        SessionData = ""
     End Sub
     Friend Function GetSession(sName As String) As String
         If IsNothing(Session(sName)) Then
@@ -96,6 +166,21 @@ Public Class CController
         End If
         Return Session(sName).ToString
     End Function
+    Friend Function FindSessionFromDB(ip As String) As Boolean
+        Dim oData = New CWebLogin(ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString)
+        Dim oFind = oData.GetData(String.Format(" WHERE FromIP='{0}' AND ExpireDateTime>GETDATE()", ip))
+        If oFind.Count = 0 Then
+            Return False
+        Else
+            Dim oJson = oFind(0).SessionData.ToString()
+            If oJson <> "" Then
+                Current = JsonConvert.DeserializeObject(Of CSession)(oJson)
+                Return True
+            Else
+                Return False
+            End If
+        End If
+    End Function
     Friend Function CheckSession(sName As String) As Boolean
         If IsNothing(Session(sName)) Then
             Return True
@@ -104,18 +189,20 @@ Public Class CController
         End If
     End Function
     Friend Function LoadCompanyProfile() As Boolean
-        Dim bExpired = False
-
-        ViewBag.User = GetSession("CurrUser").ToString
-        ViewBag.UserGroup = GetSession("UserGroup").ToString
-        If ViewBag.User = "" Then
-            bExpired = True
-            ViewBag.UserName = "**TIME OUT**"
+        If FindSessionFromDB(Request.UserHostAddress) = True Then
+            LoadSession()
         End If
         If CheckSession("UserProfiles") = False Then
             ViewBag.UserName = DirectCast(Session("UserProfiles"), CUser).TName
             ViewBag.UserPosition = DirectCast(Session("UserProfiles"), CUser).UPosition
         End If
+        Dim bExpired = False
+        ViewBag.User = GetSession("CurrUser").ToString
+        If ViewBag.User = "" Then
+            bExpired = True
+            ViewBag.UserName = "**TIME OUT**"
+        End If
+        ViewBag.UserGroup = GetSession("UserGroup").ToString
         ViewBag.CONNECTION_JOB = GetSession("ConnJob").ToString
         ViewBag.CONNECTION_MAS = GetSession("ConnMas").ToString
         ViewBag.DATABASE = GetSession("DatabaseID").ToString
@@ -164,6 +251,7 @@ Public Class CController
             ViewBag.PROFILE_DEFAULT_LANG = "EN"
         End If
         ViewBag.SESSION_ID = Session.SessionID
+        SaveSession()
         Return Not bExpired
     End Function
     Friend Function GetView(vName As String, Optional modName As String = "") As ActionResult
