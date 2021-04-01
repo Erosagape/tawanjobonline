@@ -153,9 +153,11 @@ if(Number(data.customer[0][0].Branch)>0) {
             sortData(data.detail[0],'ItemNo','asc');
             let dv = $('#tbDetail');
             let html = '';
+            let i = 0;
             for (let dr of data.detail[0]) {
+                i += 1;
                 html += '<tr>';
-                html += '<td>' + dr.ItemNo + '</td>';
+                html += '<td>' + i + '</td>';
                 html += '<td>' + ShowDate(CDateTH(dr.InvDate)) + '</td>';
                 html += '<td>' + dr.InvNo + '</td>';
                 html += '<td>' + dr.RefNo + '</td>';
@@ -182,7 +184,7 @@ if(Number(data.customer[0][0].Branch)>0) {
             $('#lblSumWh3').text(ShowNumber(wh3, 2));
 
             $('#lblBillTotal').text(ShowNumber(total,2));
-            $('#lblBillTotalEng').text(CNumEng(total));
+            $('#lblBillTotalEng').text(CNumEng(ShowNumber(total,2)));
         }
     }
 </script>

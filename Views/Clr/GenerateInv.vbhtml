@@ -1563,25 +1563,52 @@ End Code
         $('#txtAmtNET').val(ShowNumber(net,2));
     }
     function MoveUp() {
-        let idx = arr.indexOf(arr_split);
-        if (idx <= 0 || idx > (arr.length - 1) || arr[idx - 1].ItemNo == 0) {
+        let arr_cost = arr.filter(function (d) {
+            return d.AmtCost > 0;
+        });
+        let arr_sel = arr.filter(function (d) {
+            return d.AmtCharge > 0 || d.AmtAdvance > 0;
+        });
+        //sortData(arr_sel, 'ItemNo', 'asc');
+        let idx = arr_sel.indexOf(arr_split);
+        if (idx <= 0 || idx > (arr_sel.length - 1) || arr_sel[idx - 1].ItemNo == 0) {
             alert('cannot move up');
         } else {
             //swap data
-            [arr[idx - 1], arr[idx]] = [arr[idx], arr[idx - 1]];
+            [arr_sel[idx - 1], arr_sel[idx]] = [arr_sel[idx], arr_sel[idx - 1]];
+
+            for (let v of arr_cost) {
+                arr_sel.push(v);
+            }
+            arr = arr_sel;
+
             $('#dvEditor').modal('hide');
-            ShowDetail();
+            CalSummary();
         }
     }
     function MoveDown() {
-        let idx = arr.indexOf(arr_split);
-        if (idx >= (arr.length - 1) || idx < 0 || arr[idx + 1].itemNo == 0) {
+        let arr_cost = arr.filter(function (d) {
+            return d.AmtCost > 0;
+        });
+        let arr_sel = arr.filter(function (d) {
+            return d.AmtCharge > 0 || d.AmtAdvance > 0;
+        });
+        //sortData(arr_sel, 'ItemNo', 'asc');
+
+        let idx = arr_sel.indexOf(arr_split);
+        if (idx >= (arr_sel.length - 1) || idx < 0 || arr_sel[idx + 1].itemNo == 0) {
             alert('cannot move down');
         } else {
             //swap data
-            [arr[idx], arr[idx + 1]] = [arr[idx + 1], arr[idx]];
+            [arr_sel[idx], arr_sel[idx + 1]] = [arr_sel[idx + 1], arr_sel[idx]];
+
+            for (let v of arr_cost) {
+                arr_sel.push(v);
+            }
+            arr = arr_sel;
+
             $('#dvEditor').modal('hide');
-            ShowDetail();
+            CalSummary();
         }
     }
 </script>

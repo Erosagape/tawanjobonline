@@ -97,7 +97,7 @@ End Code
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    TOTAL CTN :
+                    QUANTITY :
                     <label id="lblTotalContainer"></label>
                 </p>
             </div>
@@ -169,8 +169,7 @@ End Code
                     <br />
                     SERVICE+VAT
                     <br />
-                    DISCOUNT (RATE=
-                    <label id="lblDiscountRate"></label>%)
+                    TOTAL
                     <br />
                     CUST. ADV
                     <br />
@@ -181,7 +180,7 @@ End Code
                     <br />
                     <label id="lblSumAfterVat"></label>
                     <br />
-                    <label id="lblSumDiscount"></label>
+                    <label id="lblSumTotal"></label>
                     <br />
                     <label id="lblSumCustAdv"></label>
                     <br />
@@ -271,20 +270,20 @@ End Code
     });
     //});
     function ShowData(dr) {
-    let ans = confirm('OK to print Original or Cancel For Copy');
-    if (ans == true) {
-        $('#dvCopy').html('<b>**ORIGINAL**</b>');
-    } else {
-        $('#dvCopy').html('<b>**COPY**</b>');
-    }
+        let ans = confirm('OK to print Original or Cancel For Copy');
+        if (ans == true) {
+            $('#dvCopy').html('<b>**ORIGINAL**</b>');
+        } else {
+            $('#dvCopy').html('<b>**COPY**</b>');
+        }
+        let h = dr.header[0][0];
         if (dr.header[0].length > 0) {
-            let h = dr.header[0][0];
             $('#lblDocNo').text(h.DocNo);
             $('#lblDocDate').text(ShowDate(CDateTH(h.DocDate)));
             $('#lblCurrencyCode').text(h.CurrencyCode);
             $('#lblExchangeRate').text(h.ExchangeRate);
             $('#lblForeignNet').text(ShowNumber(h.ForeignNet, 2));
-            $('#lblDiscountRate').text(h.DiscountRate);
+            //$('#lblDiscountRate').text(h.DiscountRate);
             $('#lblVATRate').text(ShowNumber(h.VATRate, 1));
 
 	        $.get(path+'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch='+ h.BillToCustBranch,function(r){
@@ -292,7 +291,7 @@ End Code
                 if (c !== null) {
                     $('#lblTaxNumber').text(c.TaxNumber);
                         if (c.UsedLanguage == 'TH') {
-                            if (Number(c.Branch == 0)) {
+                            if (Number(c.Branch) == 0) {
                                 $('#lblTaxBranch').text('สำนักงานใหญ่');
                             } else {
                                 $('#lblTaxBranch').text(c.Branch);
@@ -301,7 +300,7 @@ End Code
                             $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
                             //$('#lblCustTName').text(dr.customer[0][0].NameThai);
                         } else {
-                            if (Number(c.Branch == 0)) {
+                            if (Number(c.Branch) == 0) {
                                 $('#lblTaxBranch').text('HEAD OFFICE');
                             } else {
                                 $('#lblTaxBranch').text(c.Branch);
@@ -355,8 +354,8 @@ End Code
             remark=h.ShippingRemark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
             $('#lblShippingRemark').html(remark);
 
-            $('#lblSumDiscount').text(ShowNumber(h.TotalDiscount,2));
-            $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv,2));
+            //$('#lblSumDiscount').text(ShowNumber(h.TotalDiscount,2));
+            $('#lblSumCustAdv').text('('+ShowNumber(h.TotalCustAdv,2)+')');
             $('#lblSumBeforeVat').text(ShowNumber(h.TotalIsTaxCharge,2));
             $('#lblSumVat').text(ShowNumber(h.TotalVAT,2));
             $('#lblSumAfterVat').text(ShowNumber(Number(h.TotalIsTaxCharge)+Number(h.TotalVAT),2));
@@ -368,14 +367,13 @@ End Code
 
         }
         let d = dr.detail[0];
-        sortData(d, 'AmtAdvance', 'asc');
-        sortData(d, 'AmtVat', 'asc');
-        sortData(d, 'AmtCharge', 'asc');
+        sortData(d, 'ItemNo', 'asc');
 
         let sumbase1 = 0;
         let sumbase3 = 0;
         let sumtax1 = 0;
         let sumtax3 = 0;
+        let sumadv = 0;
         let sumnonvat = 0;
         let irow = 0;
         if (d.length > 0) {
@@ -384,7 +382,7 @@ End Code
                 let html = '<tr>';
                 html += '<td style="text-align:center">' + irow + '</td>';
                 if (o.AmtAdvance > 0) {
-                    html += '<td>' + o.SDescription + (o.ExpSlipNO !== null ? ' #' + o.ExpSlipNO : '') + '</td>';
+                    html += '<td>' + o.SDescription + (o.ExpSlipNO !== null ? '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #' + o.ExpSlipNO : '') + '</td>';
                     html += '<td style="text-align:right;">' + (o.AmtAdvance > 0 ? ShowNumber(o.AmtAdvance, 2) : '') + '</td>';
                     html += '<td style="text-align:right;"></td>';
                     html += '<td style="text-align:right;"></td>';
@@ -399,6 +397,9 @@ End Code
                 html += '</tr>';
 
                 $('#tbDetail').append(html);
+                if (o.AmtAdvance > 0) {
+                    sumadv += o.AmtAdvance;
+                }
                 if (o.AmtCharge > 0 && o.AmtVat == 0) {
                     sumnonvat += o.AmtCharge;
                 }
@@ -426,7 +427,8 @@ End Code
             $('#tbDetail').append(html);
         }
         $('#lblSumNonVat').text(ShowNumber(sumnonvat, 2));
-        $('#lblSumBaseWht1').text(ShowNumber(sumbase1,2));
+        $('#lblSumTotal').text(ShowNumber(Number(sumnonvat) + Number(sumadv) + Number(h.TotalIsTaxCharge) + Number(h.TotalVAT), 2));
+        $('#lblSumBaseWht1').text(ShowNumber(sumbase1, 2));
         $('#lblSumBaseWht3').text(ShowNumber(sumbase3,2));
         $('#lblSumWht').text(ShowNumber(sumtax1 + sumtax3, 2));
 

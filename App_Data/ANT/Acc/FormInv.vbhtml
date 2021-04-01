@@ -244,7 +244,7 @@ End Code
                 if (c !== null) {
                     $('#lblTaxNumber').text(c.TaxNumber);
                     if (c.UsedLanguage == 'TH') {
-                        if (Number(c.Branch == 0)) {
+                        if (Number(c.Branch) == 0) {
                             $('#lblTaxBranch').text('สำนักงานใหญ่');
                         } else {
                             $('#lblTaxBranch').text("000" + CCode(CNum(c.Branch)));
@@ -253,7 +253,7 @@ End Code
                         $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
                         $('#lblCustTName').text(dr.customer[0][0].NameThai);
                     } else {
-                        if (Number(c.Branch == 0)) {
+                        if (Number(c.Branch) == 0) {
                             $('#lblTaxBranch').text('HEAD OFFICE');
                         } else {
                             $('#lblTaxBranch').text("000" & CCode(CNum(c.Branch)));

@@ -234,11 +234,9 @@ Namespace Controllers
                 If Request.QueryString("Code") IsNot Nothing Then
                     sql &= " AND h.ClrNo='" & Request.QueryString("Code").ToString & "' "
                 End If
-
                 If Request.QueryString("Job") IsNot Nothing Then
                     sql &= " AND d.JobNo='" & Request.QueryString("Job").ToString & "' AND h.DocStatus<>99 "
                 End If
-
                 If Not IsNothing(Request.QueryString("JType")) Then
                     sql &= " AND h.JobType=" & Request.QueryString("JType") & ""
                 End If
@@ -253,6 +251,9 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("CustCode")) Then
                     sql &= " AND j.CustCode='" & Request.QueryString("CustCode") & "'"
+                End If
+                If Request.QueryString("VenCode") IsNot Nothing Then
+                    sql &= " AND d.VenderCode='" & Request.QueryString("VenCode").ToString & "'"
                 End If
                 If Not IsNothing(Request.QueryString("CustBranch")) Then
                     sql &= " AND j.CustBranch='" & Request.QueryString("CustBranch") & "'"
