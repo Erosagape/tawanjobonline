@@ -365,15 +365,18 @@ End Code
                             totalamt += Number(d[i].PayAmount);
                             totaltax += Number(d[i].PayTax);
 
-                            oldData = $('#txtPayAmount' + incType).html();
-                            if (oldData !== '') oldData += '<br/>';
-                            oldData +=''+ ShowNumber(amt,2);
-                            $('#txtPayAmount' + incType).html(oldData);
-
-                            oldData = $('#txtPayTax' + incType).html();
-                            if (oldData !== '') oldData += '<br/>';
-                            oldData += ''+ ShowNumber(tax,2);
-                            $('#txtPayTax' + incType).html(oldData);
+                            if (totalamt > 0) {
+                                oldData = $('#txtPayAmount' + incType).html();
+                                if (oldData !== '') oldData += '<br/>';
+                                oldData += '' + ShowNumber(amt, 2);
+                                $('#txtPayAmount' + incType).html(oldData);
+                            }
+                            if (totaltax > 0) {
+                                oldData = $('#txtPayTax' + incType).html();
+                                if (oldData !== '') oldData += '<br/>';
+                                oldData += '' + ShowNumber(tax, 2);
+                                $('#txtPayTax' + incType).html(oldData);
+                            }
 
                             switch (incType) {
                                 case 8:
@@ -389,9 +392,13 @@ End Code
                             }
                         }
                     }
-                    $('#txtSumPayAmount').text(CCurrency(CDbl(totalamt,2)));
-                    $('#txtSumPayTax').text(CCurrency(CDbl(totaltax,2)));
-                    $('#txtPayTaxMoney').text(CNumThai(totaltax));
+                    if (totalamt > 0) {
+                        $('#txtSumPayAmount').text(CCurrency(CDbl(totalamt, 2)));
+                    }
+                    if (totaltax > 0) {
+                        $('#txtSumPayTax').text(CCurrency(CDbl(totaltax, 2)));
+                        $('#txtPayTaxMoney').text(CNumThai(totaltax));
+                    }
                 }
             });
         }

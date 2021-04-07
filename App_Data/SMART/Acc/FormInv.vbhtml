@@ -77,9 +77,6 @@ End Code
             <div style="flex:1">
                 QUANTITY :<label id="lblQtyGross"></label> <label id="lblQtyUnit"></label>
             </div>
-            <div style="flex:2">
-                NET WEIGHT :<label id="lblNetWeight"></label> <label id="lblWeightUnit"></label>
-            </div>
         </div>
     </div>
     <table style="width:100%;margin-top:5px;" border="1" class="text-center">
@@ -263,8 +260,8 @@ End Code
                 $('#lblVesselName').text(j.VesselName);
                 $('#lblQtyGross').text(j.InvProductQty);
                 ShowInvUnit(path, j.InvProductUnit, '#lblQtyUnit');
-                $('#lblNetWeight').text(j.TotalNW);
-                ShowInvUnit(path, j.GWUnit, '#lblWeightUnit');
+                //$('#lblNetWeight').text(j.TotalNW);
+                //ShowInvUnit(path, j.GWUnit, '#lblWeightUnit');
                 $('#lblETDDate').text(ShowDate(CDateTH(j.ETDDate)));
                 $('#lblHAWB').text(j.HAWB);
                 //$('#lblMeasurement').text(j.Measurement);
