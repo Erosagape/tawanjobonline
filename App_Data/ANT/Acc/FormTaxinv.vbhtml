@@ -144,10 +144,18 @@ End Code
             $('#lblCustAddr').text(h.CustEAddr);
         }
         //$('#lblCustTel').text(h.CustPhone);
-        $.get(path + 'Master/GetCompany?TaxNumber=' + h.CustTaxID).done(function (r) {
+        $.get(path + 'Master/GetCompany?Code=' + h.CustCode + '&Branch=' + h.CustBranch).done(function (r) {
             if (r.company.data.length > 0) {
                 let c = r.company.data[0];
-                $('#lblTaxBranch').text("000" + CCode(CNum(c.Branch)));
+                if (Number(c.Branch) == 0) {
+                    if (c.UsedLanguage == 'TH') {
+                        $('#lblTaxBranch').text("สำนักงานใหญ่");
+                    } else {
+                        $('#lblTaxBranch').text("HEAD OFFICE");
+                    }
+                } else {
+                    $('#lblTaxBranch').text("000" + CCode(CNum(c.Branch)));
+                }
             }
         });
         $('#lblCustTax').text(h.CustTaxID);
