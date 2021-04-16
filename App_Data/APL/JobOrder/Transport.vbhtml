@@ -436,7 +436,7 @@ End Code
                                 <br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control" disabled></div>
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblContainerNo">Container </label>
+                                <label id="lblContainerNo" ondblclick="EnableEdit()">Container </label>
                                 :<br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
                             </div>
                             <div class="col-sm-3">
@@ -1552,7 +1552,7 @@ End Code
             BranchCode:$('#txtBranchCode').val(),
             JNo:$('#txtJNo').val(),
             ItemNo:$('#txtItemNo').val(),
-            CTN_NO:$('#txtCTN_NO').val(),
+            CTN_NO:$('#txtCTN_NO').val().trim(),
             SealNumber:$('#txtSealNumber').val(),
             TruckNO:$('#txtTruckNO').val(),
             TruckIN:CDateEN($('#txtTruckIN').val()),
@@ -2018,5 +2018,8 @@ End Code
         } else {
             ShowMessage('Please enter some data', true);
         }
+    }
+    function EnableEdit() {
+        $('#txtCTN_NO').removeAttr('disabled');
     }
 </script>

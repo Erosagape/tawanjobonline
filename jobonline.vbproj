@@ -1089,6 +1089,9 @@
     <Content Include="App_Data\GOLDENLINE\JobOrder\ShowJob.vbhtml" />
     <Content Include="App_Data\APL\Acc\Invoice.vbhtml" />
     <Content Include="App_Data\APL\Acc\Expense.vbhtml" />
+    <Content Include="App_Data\APL\JobOrder\Transport.vbhtml" />
+    <Content Include="App_Data\BETTER\JobOrder\ShowJob.vbhtml" />
+    <Content Include="App_Data\BETTER\Shared\MasterPage.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -1464,6 +1467,7 @@
     <Content Include="Views\Report\Import.vbhtml" />
     <Content Include="Views\Admin\UpVersion.vbhtml" />
     <Content Include="Views\Report\Index.vbhtml" />
+    <Content Include="Views\Tracking\Dashboard.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

@@ -23,16 +23,26 @@
     <script src="~/Scripts/Func/menu.js?@DateTime.Now.Ticks"></script>
     <script src="~/Scripts/Func/lang.js?@DateTime.Now.Ticks"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <style>
+
+    </style>
 </head>
 <body style="background:#e6e6e6;color:black;">
     <!-- Sidebar -->
     <div class="w3-sidebar w3-bar-block w3-animate-left" style="display:none;z-index:5" id="mySidebar">
         <div class="w3-sidebar w3-bar-block w3-indigo w3-card" style="width:250px;">
+            <div style="background-color:midnightblue;">
+                Select Menu :
+                <select id="cboMenu" onchange="SwitchMenu()">
+                    <option value="D">By Department</option>
+                    <option value="W" selected>By Work Flow</option>
+                </select>
+            </div>
             <div style="width:100%;text-align:center;background-color:white">
                 <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:70%;padding:5px 5px 5px 5px;" />
             </div>
             <div style="width:100%;text-align:center;background-color:white;color:black;font-size:11px">
-                <label id="lblLicenseName" onclick="CheckDatabase()">@ViewBag.LICENSE_NAME</label>
+                <label id="lblLicenseName" ondblclick="CheckDatabase()">@ViewBag.LICENSE_NAME</label>
             </div>
             <div id="dvCustomerMenu">
                 <div id="mainCust" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCust')">
@@ -46,99 +56,185 @@
                 </div>
             </div>
             <div id="dvShippingMenu">
-                <div id="mainMkt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMkt')">
-                    Marketing Works
+                <div id="dvMenuByDept" style="display:none">
+                    <div id="mainMkt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMkt')">
+                        Marketing Works
+                    </div>
+                    <div id="mnuMkt" class="w3-hide w3-pale-green w3-card-4">
+                        <a href="#" id="mnuMkt1" class="w3-bar-item w3-button" onclick="OpenMenu('Quotation')">- Quotation</a>
+                        <a href="#" id="mnuMkt3" class="w3-bar-item w3-button" onclick="OpenMenu('EstimateCost')">- Estimate Costing</a>
+                    </div>
+                    <div id="mainCS" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCS')">
+                        CS Works
+                    </div>
+                    <div id="mnuCS" class="w3-hide w3-light-grey w3-card-4">
+                        <a href="#" id="mnuCS1" class="w3-bar-item w3-button" onclick="OpenMenu('CreateJob')">- Create Job</a>
+                        <a href="#" id="mnuCS2" class="w3-bar-item w3-button" onclick="OpenMenu('SearchJob')">- List Job</a>
+                        <a href="#" id="mnuCS3" class="w3-bar-item w3-button" onclick="OpenMenu('Transport')">- Transport Info</a>
+                        <a href="#" id="mnuCS4" class="w3-bar-item w3-button" onclick="OpenMenu('WHTax')">- Withholding Tax</a>
+                    </div>
+                    <div id="mainShp" class="w3-bar-item w3-button" onclick="w3_accordion('mnuShp')">
+                        Shipping Works
+                    </div>
+                    <div id="mnuShp" class="w3-hide w3-khaki w3-card-4">
+                        <a href="#" id="mnuShp1" class="w3-bar-item w3-button" onclick="OpenMenu('Advance')">- Advance</a>
+                        <a href="#" id="mnuShp2" class="w3-bar-item w3-button" onclick="OpenMenu('Clearing')">- Clearing</a>
+                    </div>
+                    <div id="mainApp" class="w3-bar-item w3-button" onclick="w3_accordion('mnuApp')">
+                        Approving
+                    </div>
+                    <div id="mnuApp" class="w3-hide w3-pale-yellow w3-card-4">
+                        <a href="#" id="mnuMkt2" class="w3-bar-item w3-button" onclick="OpenMenu('AppQuo')">- Quotation Confirm</a>
+                        <a href="#" id="mnuApp5" class="w3-bar-item w3-button" onclick="OpenMenu('AppJob')">- Job Confirm</a>
+                        <a href="#" id="mnuApp1" class="w3-bar-item w3-button" onclick="OpenMenu('AppAdvance')">- Advance Confirm</a>
+                        <a href="#" id="mnuApp2" class="w3-bar-item w3-button" onclick="OpenMenu('AppClearing')">- Clearing Confirm</a>
+                        <a href="#" id="mnuApp3" class="w3-bar-item w3-button" onclick="OpenMenu('AppExpense')">- Expense Confirm</a>
+                        <a href="#" id="mnuApp4" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Confirm</a>
+                    </div>
+                    <div id="mainFin" class="w3-bar-item w3-button" onclick="w3_accordion('mnuFin')">
+                        Finance Works
+                    </div>
+                    <div id="mnuFin" class="w3-hide w3-pale-blue w3-card-4">
+                        <a href="#" id="mnuFin1" class="w3-bar-item w3-button" onclick="OpenMenu('PayAdvance')">- Advance Payment</a>
+                        <a href="#" id="mnuFin3" class="w3-bar-item w3-button" onclick="OpenMenu('RecvClear')">- Clearing Receive</a>
+                        <a href="#" id="mnuFin2" class="w3-bar-item w3-button" onclick="OpenMenu('Payment')">- Expense Payment</a>
+                        <a href="#" id="mnuFin4" class="w3-bar-item w3-button" onclick="OpenMenu('RecvInv')">- Invoice Receive</a>
+                        <a href="#" id="mnuFin5" class="w3-bar-item w3-button" onclick="OpenMenu('Cheque')">- Cheque Management</a>
+                        <a href="#" id="mnuFin7" class="w3-bar-item w3-button" onclick="OpenMenu('PettyCash')">- Petty Cash</a>
+                        <a href="#" id="mnuFin6" class="w3-bar-item w3-button" onclick="OpenMenu('CreditAdv')">- Credit Advance</a>
+                        <a href="#" id="mnuFin8" class="w3-bar-item w3-button" onclick="OpenMenu('Earnest')">- Earnest Clearing</a>
+                    </div>
+                    <div id="mainAcc" class="w3-bar-item w3-button" onclick="w3_accordion('mnuAcc')">
+                        Account Works
+                    </div>
+                    <div id="mnuAcc" class="w3-hide w3-pale-red w3-card-4">
+                        <a href="#" id="mnuAcc1" class="w3-bar-item w3-button" onclick="OpenMenu('Voucher')">- Vouchers</a>
+                        <a href="#" id="mnuAcc2" class="w3-bar-item w3-button" onclick="OpenMenu('Invoice')">- Invoice</a>
+                        <a href="#" id="mnuAcc3" class="w3-bar-item w3-button" onclick="OpenMenu('Billing')">- Billing</a>
+                        <a href="#" id="mnuAcc4" class="w3-bar-item w3-button" onclick="OpenMenu('Receipt')">- Receipts</a>
+                        <a href="#" id="mnuAcc5" class="w3-bar-item w3-button" onclick="OpenMenu('TaxInvoice')">- Tax-invoice</a>
+                        <a href="#" id="mnuAcc6" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Bill Payment</a>
+                        <a href="#" id="mnuAcc7" class="w3-bar-item w3-button" onclick="OpenMenu('CreditNote')">- Credit/Debit Note</a>
+                        <a href="#" id="mnuAcc8" class="w3-bar-item w3-button" onclick="OpenMenu('GLNote')">- Journal Entry</a>
+                    </div>
+                    <div id="mainVend2" class="w3-bar-item w3-button" onclick="w3_accordion('mnuVen')">
+                        Vender Works
+                    </div>
+                    <div id="mnuVen" class="w3-hide w3-pale-red w3-card-4">
+                        <a href="#" id="mnuVen0" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Confirm</a>
+                        <a href="#" id="mnuVen2" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Bill Payment</a>
+                        <a href="#" id="mnuVen1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Vender Summary</a>
+                        <a href="#" id="mnuVen3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
+                    </div>
+                    <div id="mainRpt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuRpt')">
+                        Report & Tracking
+                    </div>
+                    <div id="mnuRpt" class="w3-hide w3-amber w3-card-4">
+                        <a href="#" id="mnuRpt1" class="w3-bar-item w3-button" onclick="OpenMenu('Report')">- Reports</a>
+                        <a href="#" id="mnuRpt2" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
+                        <a href="#" id="mnuRpt4" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking2')">- Job Timeline</a>
+                        <a href="#" id="mnuRpt3" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard')">- Customer Dashboard</a>
+                        <a href="#" id="mnuRpt6" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard2')">- Staff Dashboard</a>
+                        <a href="#" id="mnuRpt5" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">-Document Tracking</a>
+                    </div>
+                    <div id="mainMas" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMas')">
+                        Master Files
+                    </div>
+                    <div id="mnuMas" class="w3-hide w3-sand w3-card-4">
+                        <a href="#" id="mnuMas2" class="w3-bar-item w3-button" onclick="OpenMenu('MasA')">- Accounts File</a>
+                        <a href="#" id="mnuMas1" class="w3-bar-item w3-button" onclick="OpenMenu('MasG')">- Customs File</a>
+                        <a href="#" id="mnuMas3" class="w3-bar-item w3-button" onclick="OpenMenu('MasS')">- System Files</a>
+                    </div>
+                    <div id="mainUtil" class="w3-bar-item w3-button" onclick="w3_accordion('mnuUtil')">
+                        Utility
+                    </div>
+                    <div id="mnuUtil" class="w3-hide w3-sand w3-card-4">
+                        <a href="#" id="mnuUtil1" class="w3-bar-item w3-button" onclick="OpenMenu('Import')">- Import data</a>
+                        <a href="#" id="mnuUtil2" class="w3-bar-item w3-button" onclick="OpenMenu('Export')">- Export data</a>
+                    </div>
                 </div>
-                <div id="mnuMkt" class="w3-hide w3-pale-green w3-card-4">
-                    <a href="#" id="mnuMkt1" class="w3-bar-item w3-button" onclick="OpenMenu('Quotation')">- Quotation</a>
-                    <a href="#" id="mnuMkt3" class="w3-bar-item w3-button" onclick="OpenMenu('EstimateCost')">- Estimate Costing</a>
-                </div>
-                <div id="mainCS" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCS')">
-                    CS Works
-                </div>
-                <div id="mnuCS" class="w3-hide w3-light-grey w3-card-4">
-                    <a href="#" id="mnuCS1" class="w3-bar-item w3-button" onclick="OpenMenu('CreateJob')">- Create Job</a>
-                    <a href="#" id="mnuCS2" class="w3-bar-item w3-button" onclick="OpenMenu('SearchJob')">- List Job</a>
-                    <a href="#" id="mnuCS3" class="w3-bar-item w3-button" onclick="OpenMenu('Transport')">- Transport Info</a>
-                    <a href="#" id="mnuCS4" class="w3-bar-item w3-button" onclick="OpenMenu('WHTax')">- Withholding Tax</a>
-                </div>
-                <div id="mainShp" class="w3-bar-item w3-button" onclick="w3_accordion('mnuShp')">
-                    Shipping Works
-                </div>
-                <div id="mnuShp" class="w3-hide w3-khaki w3-card-4">
-                    <a href="#" id="mnuShp1" class="w3-bar-item w3-button" onclick="OpenMenu('Advance')">- Advance</a>
-                    <a href="#" id="mnuShp2" class="w3-bar-item w3-button" onclick="OpenMenu('Clearing')">- Clearing</a>
-                </div>
-                <div id="mainApp" class="w3-bar-item w3-button" onclick="w3_accordion('mnuApp')">
-                    Approving
-                </div>
-                <div id="mnuApp" class="w3-hide w3-pale-yellow w3-card-4">
-                    <a href="#" id="mnuMkt2" class="w3-bar-item w3-button" onclick="OpenMenu('AppQuo')">- Quotation Confirm</a>
-                    <a href="#" id="mnuApp5" class="w3-bar-item w3-button" onclick="OpenMenu('AppJob')">- Job Confirm</a>
-                    <a href="#" id="mnuApp1" class="w3-bar-item w3-button" onclick="OpenMenu('AppAdvance')">- Advance Confirm</a>
-                    <a href="#" id="mnuApp2" class="w3-bar-item w3-button" onclick="OpenMenu('AppClearing')">- Clearing Confirm</a>
-                    <a href="#" id="mnuApp3" class="w3-bar-item w3-button" onclick="OpenMenu('AppExpense')">- Expense Confirm</a>
-                    <a href="#" id="mnuApp4" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Confirm</a>
-                </div>
-                <div id="mainFin" class="w3-bar-item w3-button" onclick="w3_accordion('mnuFin')">
-                    Finance Works
-                </div>
-                <div id="mnuFin" class="w3-hide w3-pale-blue w3-card-4">
-                    <a href="#" id="mnuFin1" class="w3-bar-item w3-button" onclick="OpenMenu('PayAdvance')">- Advance Payment</a>
-                    <a href="#" id="mnuFin3" class="w3-bar-item w3-button" onclick="OpenMenu('RecvClear')">- Clearing Receive</a>
-                    <a href="#" id="mnuFin2" class="w3-bar-item w3-button" onclick="OpenMenu('Payment')">- Expense Payment</a>
-                    <a href="#" id="mnuFin4" class="w3-bar-item w3-button" onclick="OpenMenu('RecvInv')">- Invoice Receive</a>
-                    <a href="#" id="mnuFin5" class="w3-bar-item w3-button" onclick="OpenMenu('Cheque')">- Cheque Management</a>
-                    <a href="#" id="mnuFin7" class="w3-bar-item w3-button" onclick="OpenMenu('PettyCash')">- Petty Cash</a>
-                    <a href="#" id="mnuFin6" class="w3-bar-item w3-button" onclick="OpenMenu('CreditAdv')">- Credit Advance</a>
-                    <a href="#" id="mnuFin8" class="w3-bar-item w3-button" onclick="OpenMenu('Earnest')">- Earnest Clearing</a>
-                </div>
-                <div id="mainAcc" class="w3-bar-item w3-button" onclick="w3_accordion('mnuAcc')">
-                    Account Works
-                </div>
-                <div id="mnuAcc" class="w3-hide w3-pale-red w3-card-4">
-                    <a href="#" id="mnuAcc1" class="w3-bar-item w3-button" onclick="OpenMenu('Voucher')">- Vouchers</a>
-                    <a href="#" id="mnuAcc2" class="w3-bar-item w3-button" onclick="OpenMenu('Invoice')">- Invoice</a>
-                    <a href="#" id="mnuAcc3" class="w3-bar-item w3-button" onclick="OpenMenu('Billing')">- Billing</a>
-                    <a href="#" id="mnuAcc4" class="w3-bar-item w3-button" onclick="OpenMenu('Receipt')">- Receipts</a>
-                    <a href="#" id="mnuAcc5" class="w3-bar-item w3-button" onclick="OpenMenu('TaxInvoice')">- Tax-invoice</a>
-                    <a href="#" id="mnuAcc6" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Bill Payment</a>
-                    <a href="#" id="mnuAcc7" class="w3-bar-item w3-button" onclick="OpenMenu('CreditNote')">- Credit/Debit Note</a>
-                    <a href="#" id="mnuAcc8" class="w3-bar-item w3-button" onclick="OpenMenu('GLNote')">- Journal Entry</a>
-                </div>
-                <div id="mainVend2" class="w3-bar-item w3-button" onclick="w3_accordion('mnuVen')">
-                    Vender Works
-                </div>
-                <div id="mnuVen" class="w3-hide w3-pale-red w3-card-4">
-                    <a href="#" id="mnuVen0" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Confirm</a>
-                    <a href="#" id="mnuVen2" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Bill Payment</a>
-                    <a href="#" id="mnuVen1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Vender Summary</a>
-                    <a href="#" id="mnuVen3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
-                </div>
-                <div id="mainRpt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuRpt')">
-                    Report & Tracking
-                </div>
-                <div id="mnuRpt" class="w3-hide w3-amber w3-card-4">
-                    <a href="#" id="mnuRpt1" class="w3-bar-item w3-button" onclick="OpenMenu('Report')">- Reports</a>
-                    <a href="#" id="mnuRpt2" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
-                    <a href="#" id="mnuRpt4" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking2')">- Job Timeline</a>
-                    <a href="#" id="mnuRpt3" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard')">-Job Dashboard</a>
-                    <a href="#" id="mnuRpt5" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">-Document Tracking</a>
-                </div>
-                <div id="mainMas" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMas')">
-                    Master Files
-                </div>
-                <div id="mnuMas" class="w3-hide w3-sand w3-card-4">
-                    <a href="#" id="mnuMas2" class="w3-bar-item w3-button" onclick="OpenMenu('MasA')">- Accounts File</a>
-                    <a href="#" id="mnuMas1" class="w3-bar-item w3-button" onclick="OpenMenu('MasG')">- Customs File</a>
-                    <a href="#" id="mnuMas3" class="w3-bar-item w3-button" onclick="OpenMenu('MasS')">- System Files</a>
-                </div>
-                <div id="mainUtil" class="w3-bar-item w3-button" onclick="w3_accordion('mnuUtil')">
-                    Utility
-                </div>
-                <div id="mnuUtil" class="w3-hide w3-sand w3-card-4">
-                    <a href="#" id="mnuUtil1" class="w3-bar-item w3-button" onclick="OpenMenu('Import')">- Import data</a>
-                    <a href="#" id="mnuUtil2" class="w3-bar-item w3-button" onclick="OpenMenu('Export')">- Export data</a>
+                <div id="dvMenuByFlow">
+                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuMasters')">
+                        0.Manage Your Master Data
+                    </div>
+                    <div id="mnuMasters" class="w3-hide w3-card-4 w3-sand">
+                        <a href="#" id="mnuMaster1" class="w3-bar-item w3-button" onclick="OpenMenu('MasS')">0.1 System Data</a>
+                        <a href="#" id="mnuMaster2" class="w3-bar-item w3-button" onclick="OpenMenu('MasG')">0.2 Customs Data</a>
+                        <a href="#" id="mnuMaster3" class="w3-bar-item w3-button" onclick="OpenMenu('MasA')">0.3 Accounts Data</a>
+                    </div>
+                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuOpenJob')">
+                        1.Manage Your Shipment
+                    </div>
+                    <div id="mnuOpenJob" class="w3-hide w3-card-4 w3-light-grey">
+                        <a href="#" id="mnuOpenjob1" class="w3-bar-item w3-button" onclick="OpenMenu('CreateJob')">1.1 New Shipment</a>
+                        <a href="#" id="mnuOpenjob2" class="w3-bar-item w3-button" onclick="OpenMenu('SearchJob')">1.2 Edit Shipment</a>
+                        <a href="#" id="mnuOpenjob3" class="w3-bar-item w3-button" onclick="OpenMenu('Transport')">1.3 Edit Transport</a>
+                    </div>
+                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuExpenses')">
+                        2.Services Planning
+                    </div>
+                    <div id="mnuExpenses" class="w3-hide w3-card-4 w3-pale-yellow">
+                        <a href="#" id="mnuExpenses1" class="w3-bar-item w3-button" onclick="OpenMenu('Quotation')">2.1 New Quotation</a>
+                        <a href="#" id="mnuExpenses2" class="w3-bar-item w3-button" onclick="OpenMenu('TransportRoute')">2.2 New Price Lists</a>
+                        <a href="#" id="mnuExpenses3" class="w3-bar-item w3-button" onclick="OpenMenu('EstimateCost')">2.3 Estimate Costing</a>
+                    </div>
+                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuAdvances')">
+                        3.Manage Your Expenses
+                    </div>
+                    <div id="mnuAdvances" class="w3-hide w3-card-4 w3-khaki">
+                        <a href="#" id="mnuAdvance1" class="w3-bar-item w3-button" onclick="OpenMenu('Advance')">3.1 Advance Requisition</a>
+                        <a href="#" id="mnuAdvance2" class="w3-bar-item w3-button" onclick="OpenMenu('CreditAdv')">3.2 Credit Advances</a>
+                        <a href="#" id="mnuAdvance3" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">3.3 Accrued Expenses</a>
+                    </div>
+                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuClearances')">
+                        4.Shipment Clearance
+                    </div>
+                    <div id="mnuClearances" class="w3-hide w3-card-4 w3-pale-blue">
+                        <a href="#" id="mnuClearance1" class="w3-bar-item w3-button" onclick="OpenMenu('Clearing')">4.1 Expenses Clearing</a>
+                        <a href="#" id="mnuClearance2" class="w3-bar-item w3-button" onclick="OpenMenu('Earnest')">4.2 Adjustment Clearing</a>
+                    </div>
+                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuBillings')">
+                        5.Manage Your Billing
+                    </div>
+                    <div id="mnuBillings" class="w3-hide w3-card-4 w3-pale-green">
+                        <a href="#" id="mnuBilling1" class="w3-bar-item w3-button" onclick="OpenMenu('Invoice')">5.1 Create Invoice</a>
+                        <a href="#" id="mnuBilling2" class="w3-bar-item w3-button" onclick="OpenMenu('Billing')">5.2 Create Billing</a>
+                        <a href="#" id="mnuBilling3" class="w3-bar-item w3-button" onclick="OpenMenu('Receipt')">5.3 Cash-Receipts</a>
+                        <a href="#" id="mnuBilling4" class="w3-bar-item w3-button" onclick="OpenMenu('TaxInvoice')">5.4 Tax-Receipts</a>
+                    </div>
+                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuAuthorized')">
+                        6.Document Control
+                    </div>
+                    <div id="mnuAuthorized" class="w3-hide w3-card-4 w3-pale-red">
+                        <a href="#" id="mnuAuthorize1" class="w3-bar-item w3-button" onclick="OpenMenu('AppQuo')">6.1 Quotation Approving</a>
+                        <a href="#" id="mnuAuthorize2" class="w3-bar-item w3-button" onclick="OpenMenu('AppJob')">6.2 Shipment Approving</a>
+                        <a href="#" id="mnuAuthorize3" class="w3-bar-item w3-button" onclick="OpenMenu('AppAdvance')">6.3 Advance Approving</a>
+                        <a href="#" id="mnuAuthorize4" class="w3-bar-item w3-button" onclick="OpenMenu('AppClearing')">6.4 Clearing Approving</a>
+                        <a href="#" id="mnuAuthorize5" class="w3-bar-item w3-button" onclick="OpenMenu('AppExpense')">6.5 Payables Approving</a>
+                        <a href="#" id="mnuAuthorize6" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">6.6 Transport Approving</a>
+                        <a href="#" id="mnuAuthorize7" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">6.7 Document Files</a>
+                    </div>
+                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuCashManager')">
+                        7.Financial Control
+                    </div>
+                    <div id="mnuCashManager" class="w3-hide w3-card-4 w3-light-blue">
+                        <a href="#" id="mnuCash1" class="w3-bar-item w3-button" onclick="OpenMenu('PettyCash')">7.1 Cash In/Out</a>
+                        <a href="#" id="mnuCash2" class="w3-bar-item w3-button" onclick="OpenMenu('Cheque')">7.2 Cheque In/Out</a>
+                        <a href="#" id="mnuCash3" class="w3-bar-item w3-button" onclick="OpenMenu('PayAdvance')">7.3 Advance Payment</a>
+                        <a href="#" id="mnuCash4" class="w3-bar-item w3-button" onclick="OpenMenu('RecvClear')">7.4 Advance Refund/Return</a>
+                        <a href="#" id="mnuCash5" class="w3-bar-item w3-button" onclick="OpenMenu('Payment')">7.5 A/P Payment</a>
+                        <a href="#" id="mnuCash6" class="w3-bar-item w3-button" onclick="OpenMenu('RecvInv')">7.6 A/R Receive</a>
+                    </div>
+                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuSummary')">
+                        8.Reporting
+                    </div>
+                    <div id="mnuSummary" class="w3-hide w3-card-4 w3-amber">
+                        <a href="#" id="mnuSummary1" class="w3-bar-item w3-button" onclick="OpenMenu('Report')">8.1 Reports</a>
+                        <a href="#" id="mnuSummary2" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">8.2 Tracking</a>
+                        <a href="#" id="mnuSummary3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking2')">8.3 Timeline</a>
+                        <a href="#" id="mnuSummary4" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard')">8.4 Dashboard (Cust)</a>
+                        <a href="#" id="mnuSummary5" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard2')">8.5 Dashboard (Emp)</a>
+                    </div>
                 </div>
             </div>
             <div id="dvVenderMenu">
@@ -317,134 +413,146 @@
         </div>
     </div>
     <script type="text/javascript">
-    let userID = '@ViewBag.User';
-    let dbID = GetDatabaseID();
-    let userType = '@ViewBag.UserGroup';
-    let sessionID = '@ViewBag.SESSION_ID';
-    let dbMas = '@ViewBag.CONNECTION_MAS';
-    let dbJob = '@ViewBag.CONNECTION_JOB';
-    let userLang = '@ViewBag.PROFILE_DEFAULT_LANG';
-    let base = '@Url.Content("~")';
-    if (userLang !== 'EN' && userLang !== '') {
-        $('#cboLanguage').val(userLang);
-        ChangeLanguage(userLang, $('#lblModule').val());
-    } else {
-        userLang = 'EN';
-        $('#cboLanguage').val(userLang);
-    }
-    $('#dvLogin').on('shown.bs.modal', function () {
-        $('#txtUserLogin').focus();
-    });
-    $('#txtUserLogin').keydown(function (event) {
-        if (event.which === 13) {
-            $('#txtUserPassword').focus();
+        let userID = '@ViewBag.User';
+        let dbID = GetDatabaseID();
+        let userType = '@ViewBag.UserGroup';
+        let sessionID = '@ViewBag.SESSION_ID';
+        let dbMas = '@ViewBag.CONNECTION_MAS';
+        let dbJob = '@ViewBag.CONNECTION_JOB';
+        let userLang = '@ViewBag.PROFILE_DEFAULT_LANG';
+        let base = '@Url.Content("~")';
+        if (userLang !== 'EN' && userLang !== '') {
+            $('#cboLanguage').val(userLang);
+            ChangeLanguage(userLang, $('#lblModule').val());
+        } else {
+            userLang = 'EN';
+            $('#cboLanguage').val(userLang);
         }
-    });
-    $('#txtUserPassword').keydown(function (event) {
-        if (event.which === 13) {
-            SetVariable();
-        }
-    });
-    CheckLogin();
-
-    function ForceLogout() {
-        userType = $('input[name=optRole]:checked').val();
-
-        $.get(base + 'config/setlogout?group='+ userType +'&code=' + $('#txtUserLogin').val()).done(function (r) {
-            if (r == "Y") {
-                ShowMessage('Logout complete!');
+        $('#dvLogin').on('shown.bs.modal', function () {
+            $('#txtUserLogin').focus();
+        });
+        $('#txtUserLogin').keydown(function (event) {
+            if (event.which === 13) {
+                $('#txtUserPassword').focus();
             }
         });
-    }
-    function GetDatabaseID() {
-        let dbName = '@ViewBag.LICENSE_NAME';
-        if (dbName.indexOf('/') > 0) {
-            return dbName.split('/')[1].trim();
-        } else {
-            return '1';
-        }
-    }
-    function SetVariable() {
-        userID = $('#txtUserLogin').val();
-        dbID = $('#cboDatabase').val();
-        userType = $('input[name=optRole]:checked').val();
+        $('#txtUserPassword').keydown(function (event) {
+            if (event.which === 13) {
+                SetVariable();
+            }
+        });
+        CheckLogin();
 
-        let Password = $('#txtUserPassword').val();
-        $.get(base + 'Config/SetLogin?Group='+ userType +'&Code=' + userID + '&Pass=' + Password + '&Database=' + dbID)
-            .done(function (r) {
-                if (r.user.data.length > 0) {
-                    window.location.reload();
-                } else {
-                    ShowMessage(r.user.message,true);
+        function ForceLogout() {
+            userType = $('input[name=optRole]:checked').val();
+
+            $.get(base + 'config/setlogout?group='+ userType +'&code=' + $('#txtUserLogin').val()).done(function (r) {
+                if (r == "Y") {
+                    ShowMessage('Logout complete!');
                 }
             });
-    }
-    function SetLogin() {
-        CheckPassword(dbID, userID, function () {
-            ShowMessage('Welcome ' + userID + '!');
-        });
-    }
+        }
+        function GetDatabaseID() {
+            let dbName = '@ViewBag.LICENSE_NAME';
+            if (dbName.indexOf('/') > 0) {
+                return dbName.split('/')[1].trim();
+            } else {
+                return '1';
+            }
+        }
+        function SetVariable() {
+            userID = $('#txtUserLogin').val();
+            dbID = $('#cboDatabase').val();
+            userType = $('input[name=optRole]:checked').val();
 
-    function CheckLogin() {
-        if (userID === '') {
-            CheckSession(null);
-        } else {
-            $('#imgMenu').attr('src',path + 'Resource/@ViewBag.PROFILE_LOGO');
-            $('#imgCompany').attr('src',path + 'Resource/@ViewBag.PROFILE_LOGO');
-            $('#lblUserID').text('@ViewBag.UserName');
-            $('#lblLicenseName').text('@ViewBag.LICENSE_NAME');
-            $('#cboLanguage').val('@ViewBag.PROFILE_DEFAULT_LANG');
-            userType = '@ViewBag.UserGroup';
-            if (userType == 'S') {
-                $('#dvCustomerMenu').hide();
-                $('#dvVenderMenu').hide();
-            }
-            if (userType == 'C') {
-                $('#dvShippingMenu').hide();
-                $('#dvVenderMenu').hide();
-            }
-            if (userType == 'V') {
-                $('#dvShippingMenu').hide();
-                $('#dvCustomerMenu').hide();
+            let Password = $('#txtUserPassword').val();
+            $.get(base + 'Config/SetLogin?Group='+ userType +'&Code=' + userID + '&Pass=' + Password + '&Database=' + dbID)
+                .done(function (r) {
+                    if (r.user.data.length > 0) {
+                        window.location.reload();
+                    } else {
+                        ShowMessage(r.user.message,true);
+                    }
+                });
+        }
+        function SetLogin() {
+            CheckPassword(dbID, userID, function () {
+                ShowMessage('Welcome ' + userID + '!');
+            });
+        }
+
+        function CheckLogin() {
+            if (userID === '') {
+                CheckSession(null);
+            } else {
+                $('#imgMenu').attr('src',path + 'Resource/@ViewBag.PROFILE_LOGO');
+                $('#imgCompany').attr('src',path + 'Resource/@ViewBag.PROFILE_LOGO');
+                $('#lblUserID').text('@ViewBag.UserName');
+                $('#lblLicenseName').text('@ViewBag.LICENSE_NAME');
+                $('#cboLanguage').val('@ViewBag.PROFILE_DEFAULT_LANG');
+                userType = '@ViewBag.UserGroup';
+                if (userType == 'S') {
+                    $('#dvCustomerMenu').hide();
+                    $('#dvVenderMenu').hide();
+                }
+                if (userType == 'C') {
+                    $('#dvShippingMenu').hide();
+                    $('#dvVenderMenu').hide();
+                }
+                if (userType == 'V') {
+                    $('#dvShippingMenu').hide();
+                    $('#dvCustomerMenu').hide();
+                }
             }
         }
-    }
-    function SetLogout() {
-        ShowConfirm('Please confirm to log out', function (c) {
-            if (c == true) {
-                ShowWait();
-                $.get(base + 'config/setlogout?group='+ userType +'&code=' + userID)
-                    .done(function (r) {
-                        CloseWait();
-                        if (r == 'Y') {
-                            window.location.href=base;
-                        }
-                    });
-            }
-        });
-    }
-    function OpenContact() {
-        window.open(base + 'Menu/About', '', '');
-    }
-    function CheckDatabase() {
-        ShowMessage('MAS='+dbMas+'\nJOB='+dbJob+'\nSESSION-ID='+sessionID);
-    }
-    function w3_open() {
-        document.getElementById("mySidebar").style.display = "block";
-        document.getElementById("myOverlay").style.display = "block";
-    }
-    function w3_close() {
-        document.getElementById("mySidebar").style.display = "none";
-        document.getElementById("myOverlay").style.display = "none";
-    }
-    function w3_accordion(id) {
-        var x = document.getElementById(id);
-        if (x.className.indexOf("w3-show") == -1) {
-            x.className += " w3-show";
-        } else {
-            x.className = x.className.replace(" w3-show", "");
+        function SetLogout() {
+            ShowConfirm('Please confirm to log out', function (c) {
+                if (c == true) {
+                    ShowWait();
+                    $.get(base + 'config/setlogout?group='+ userType +'&code=' + userID)
+                        .done(function (r) {
+                            CloseWait();
+                            if (r == 'Y') {
+                                window.location.href=base;
+                            }
+                        });
+                }
+            });
         }
-    }
+        function OpenContact() {
+            window.open(base + 'Menu/About', '', '');
+        }
+        function CheckDatabase() {
+            ShowMessage('MAS=' + dbMas + '\nJOB=' + dbJob + '\nSESSION-ID=' + sessionID);
+        }
+        function SwitchMenu() {
+            switch ($('#cboMenu').val()) {
+                case 'W':
+                    $('#dvMenuByDept').hide();
+                    $('#dvMenuByFlow').show();
+                    break;
+                case 'D':
+                    $('#dvMenuByFlow').hide();
+                    $('#dvMenuByDept').show();
+                    break;
+            }
+        }
+        function w3_open() {
+            document.getElementById("mySidebar").style.display = "block";
+            document.getElementById("myOverlay").style.display = "block";
+        }
+        function w3_close() {
+            document.getElementById("mySidebar").style.display = "none";
+            document.getElementById("myOverlay").style.display = "none";
+        }
+        function w3_accordion(id) {
+            var x = document.getElementById(id);
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+            }
+        }
     </script>
 </body>
 </html> 

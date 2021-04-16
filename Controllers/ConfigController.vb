@@ -457,8 +457,12 @@ Namespace Controllers
                 End If
                 'Load Connections by Database which selected
                 Dim dbConn As String() = Main.GetDatabaseConnection(My.MySettings.Default.LicenseTo.ToString, appName, dbID)
-                Main.SetDatabaseMaster(dbConn(1))
-                Main.SetDatabaseJob(dbConn(0))
+                If Main.SetDatabaseMaster(dbConn(1)) Then
+                    Session("ConnMas") = dbConn(1)
+                End If
+                If Main.SetDatabaseJob(dbConn(0)) Then
+                    Session("ConnJob") = dbConn(0)
+                End If
                 Dim jobResult = "OK"
                 Try
                     Dim cn As SqlClient.SqlConnection = New SqlClient.SqlConnection(GetSession("ConnJob"))
