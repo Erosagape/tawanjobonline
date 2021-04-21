@@ -1,4 +1,4 @@
-﻿function OpenMenu(mnuID) {
+﻿function OpenMenu(mnuID,newpage=true) {
     let mnuPath = '';
     switch (mnuID) {
         case 'AccountCode':
@@ -206,7 +206,11 @@
     if (userID !== '') {
         if (mnuPath !== '') {
             //window.location.href = mnuPath;
-            window.open(mnuPath, '', '');
+            if (newpage == true) {
+                window.open(mnuPath, '', '');
+            } else {
+                window.location.href=mnuPath;
+            }
         }
     } else {
         ShowMessage('Please login first',true);

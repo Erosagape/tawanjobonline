@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Main Work flow"
+    ViewBag.Title = "Work flow"
 End Code
 <style>
     p {
@@ -33,191 +33,209 @@ End Code
     On Branch : <select id="cboBranch" class="form-control dropdown"></select>
     <br />
     <div id="dvShipments">
-        <h3 class="page-header">My Shipments</h3>
-        <div class="row">
-            <div class="col-xs-12">
-                <p class="lead text-center w3-pale-green btn text-info center-block">Is this new shipment?</p>
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <p><span class="glyphicon glyphicon-arrow-down"></span>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <p>
-                            <span class="glyphicon glyphicon-arrow-down"></span>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-6 text-center">
-                <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
-                <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                <p class="text-success">
-                    <a href="~/master/customers">Register New Customer</a> OR
-                </p>
-                <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                <p class="text-success">
-                    <a href="~/joborder/createjob" class="btn btn-primary">Create Shipment</a>
-                </p>
-            </div>
-            <div class="col-xs-6 text-center">
-                <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
-                <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                <p class="bg-info w3-pale-yellow text-info btn">Know your job number?</p>
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <p class="btn"><span class="glyphicon glyphicon-arrow-down"></span>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <p class="btn">
-                            <span class="glyphicon glyphicon-arrow-down"></span>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6">
-                        <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
-                        <p class="center-block">
-                            <span class="glyphicon glyphicon-arrow-down"></span>
-                        </p>
-                        <p class="text-success text-wrap">
-                            <a href="#" class="btn btn-success" onclick="ShowOpenJob()">Enter Job</a>
-                        </p>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="text-danger text-wrap">
-                            <a href="~/joborder/index" class="btn btn-warning">View List</a>
-                        </p>
+        <h3>
+            <span class="glyphicon glyphicon-circle-arrow-right" style="color:lightseagreen">
+            </span>
+            <a href="#dvFlowShipment" onclick="w3_accordion('dvFlowShipment')">My Shipments</a>
+        </h3>
+        <div class="w3-hide w3-border" id="dvFlowShipment" style="background-color:lightcyan;">
+            <div class="row">
+                <div class="col-xs-12">
+                    <p class="lead text-center w3-pale-green btn text-info center-block">Is this new shipment?</p>
+                    <div class="row">
+                        <div class="col-xs-6 text-center">
+                            <p><span class="glyphicon glyphicon-arrow-down"></span>
+                        </div>
+                        <div class="col-xs-6 text-center">
+                            <p>
+                                <span class="glyphicon glyphicon-arrow-down"></span>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-xs-6 text-center">
+                    <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
+                    <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                    <p class="text-success">
+                        <a href="~/master/customers" class="btn btn-warning">Register New Customer</a> OR
+                    </p>
+                    <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                    <p class="text-success">
+                        <a href="~/joborder/createjob" class="btn btn-primary">Create Shipment</a>
+                    </p>
+                </div>
+                <div class="col-xs-6 text-center">
+                    <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
+                    <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                    <p class="bg-info w3-pale-yellow text-info btn">Know your job number?</p>
+                    <div class="row">
+                        <div class="col-xs-6 text-center">
+                            <p class="btn"><span class="glyphicon glyphicon-arrow-down"></span>
+                        </div>
+                        <div class="col-xs-6 text-center">
+                            <p class="btn">
+                                <span class="glyphicon glyphicon-arrow-down"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
+                            <p class="center-block">
+                                <span class="glyphicon glyphicon-arrow-down"></span>
+                            </p>
+                            <p class="text-success text-wrap">
+                                <a href="#" class="btn btn-success" onclick="ShowOpenJob()">Enter Job</a>
+                            </p>
+                        </div>
+                        <div class="col-xs-6 text-center">
+                            <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="text-danger text-wrap">
+                                <a href="~/joborder/index" class="btn btn-warning">Search</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <div id="dvPlaning">
-        <h3 class="page-header">My Services Planning</h3>
-        <div class="row">
-            <div class="col-xs-12">
-                <p class="lead text-center w3-pale-green btn text-info center-block">Is this job charges by route?</p>
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <p><span class="glyphicon glyphicon-arrow-down"></span>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <p>
-                            <span class="glyphicon glyphicon-arrow-down"></span>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="text-success">
-                            <a href="~/master/transportroute">Register New Route</a> OR
-                        </p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="text-success">
-                            <a href="~/joborder/transport" class="btn btn-primary">Create Booking/Truck Order</a>
-                        </p>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="bg-info w3-pale-yellow text-info btn">Use quotation?</p>
-                        <div class="row">
-                            <div class="col-xs-6 text-center">
-                                <p class="btn"><span class="glyphicon glyphicon-arrow-down"></span>
-                            </div>
-                            <div class="col-xs-6 text-center">
-                                <p class="btn">
-                                    <span class="glyphicon glyphicon-arrow-down"></span>
-                                </p>
-                            </div>
+        <h3>
+            <span class="glyphicon glyphicon-circle-arrow-right" style="color:lightseagreen">
+            </span>
+            <a href="#dvFlowPlaning" onclick="w3_accordion('dvFlowPlaning')">My Services Planning</a>
+        </h3>
+        <div id="dvFlowPlaning" class="w3-hide w3-border" style="background-color:lightcyan;">
+            <div class="row">
+                <div class="col-xs-12">
+                    <p class="lead text-center w3-pale-green btn text-info center-block">Is this job charges rate by the route?</p>
+                    <div class="row">
+                        <div class="col-xs-5 text-center">
+                            <p><span class="glyphicon glyphicon-arrow-down"></span>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
-                                <p class="center-block">
-                                    <span class="glyphicon glyphicon-arrow-down"></span>
-                                </p>
-                                <p class="text-success text-wrap">
-                                    <a href="~/joborder/quotation" class="btn btn-success">Quotation</a>
-                                </p>
-                            </div>
-                            <div class="col-xs-6 text-center">
-                                <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
-                                <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                                <p class="text-danger text-wrap">
-                                    <a href="~/adv/estimatecost" class="btn btn-warning">Pre-invoice</a>
-                                </p>
-                            </div>
+                        <div class="col-xs-7 text-center">
+                            <p>
+                                <span class="glyphicon glyphicon-arrow-down"></span>
+                            </p>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-xs-5 text-center">
+                            <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="text-success">
+                                <a href="~/master/transportroute" class="btn btn-warning">Register New Route</a> OR
+                            </p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="text-success">
+                                <a href="~/joborder/transport" class="btn btn-primary">Truck Order</a>
+                            </p>
+                        </div>
+                        <div class="col-xs-7 text-center">
+                            <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="bg-info w3-pale-yellow text-info btn">Use quotation for charges?</p>
+                            <div class="row">
+                                <div class="col-xs-5 text-center">
+                                    <p class="btn"><span class="glyphicon glyphicon-arrow-down"></span>
+                                </div>
+                                <div class="col-xs-7 text-center">
+                                    <p class="btn">
+                                        <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
+                                    <p class="center-block">
+                                        <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </p>
+                                    <p class="text-success text-wrap">
+                                        <a href="~/joborder/quotation" class="btn btn-success">Quotation</a>
+                                    </p>
+                                </div>
+                                <div class="col-xs-7 text-center">
+                                    <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
+                                    <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                                    <p class="text-danger text-wrap">
+                                        <a href="~/adv/estimatecost" class="btn btn-warning">Estimate</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
     <div id="dvExpense">
-        <h3 class="page-header">My Expenses</h3>
-        <div class="row">
-            <div class="col-xs-12">
-                <p class="lead text-center w3-pale-green btn text-info center-block">Can I payment for this?</p>
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <p><span class="glyphicon glyphicon-arrow-down"></span>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <p>
-                            <span class="glyphicon glyphicon-arrow-down"></span>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="text-success">
-                            <a href="~/acc/pettycash">Add Petty Cash</a> OR
-                        </p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="text-success">
-                            <a href="~/adv/creditadv" class="btn btn-primary">New Credit Advance</a>
-                        </p>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="bg-info w3-pale-yellow text-info btn">Is accrued expenses?</p>
-                        <div class="row">
-                            <div class="col-xs-6 text-center">
-                                <p class="btn"><span class="glyphicon glyphicon-arrow-down"></span>
-                            </div>
-                            <div class="col-xs-6 text-center">
-                                <p class="btn">
-                                    <span class="glyphicon glyphicon-arrow-down"></span>
-                                </p>
-                            </div>
+        <h3>
+            <span class="glyphicon glyphicon-circle-arrow-right" style="color:lightseagreen">
+            </span>
+            <a href="#dvFlowExpenses" onclick="w3_accordion('dvFlowExpenses')">My Expenses</a>
+        </h3>
+        <div id="dvFlowExpenses" class="w3-hide w3-border" style="background-color:lightcyan;">
+            <div class="row">
+                <div class="col-xs-12">
+                    <p class="lead text-center w3-pale-green btn text-info center-block">Can I arrange the payments for this?</p>
+                    <div class="row">
+                        <div class="col-xs-5 text-center">
+                            <p><span class="glyphicon glyphicon-arrow-down"></span>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
-                                <p class="center-block">
-                                    <span class="glyphicon glyphicon-arrow-down"></span>
-                                </p>
-                                <p class="text-success text-wrap">
-                                    <a href="~/acc/expense" class="btn btn-success">Pay-in Entry</a>
-                                </p>
+                        <div class="col-xs-7 text-center">
+                            <p>
+                                <span class="glyphicon glyphicon-arrow-down"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5 text-center">
+                            <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="text-success">
+                                <a href="~/acc/pettycash" class="btn btn-warning">Check Cash Onhand</a> OR
+                            </p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="text-success">
+                                <a href="~/adv/creditadv" class="btn btn-primary">New Credit Advance</a>
+                            </p>
+                        </div>
+                        <div class="col-xs-7 text-center">
+                            <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="bg-info w3-pale-yellow text-info btn">Is accrued expenses?</p>
+                            <div class="row">
+                                <div class="col-xs-5 text-center">
+                                    <p class="btn"><span class="glyphicon glyphicon-arrow-down"></span>
+                                </div>
+                                <div class="col-xs-7 text-center">
+                                    <p class="btn">
+                                        <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="col-xs-6 text-center">
-                                <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
-                                <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                                <p class="text-danger text-wrap">
-                                    <a href="~/adv/index" class="btn btn-warning">Advance</a>
-                                </p>
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
+                                    <p class="center-block">
+                                        <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </p>
+                                    <p class="text-success text-wrap">
+                                        <a href="~/acc/expense" class="btn btn-success">Pay-in</a>
+                                    </p>
+                                </div>
+                                <div class="col-xs-7 text-center">
+                                    <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
+                                    <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                                    <p class="text-danger text-wrap">
+                                        <a href="~/adv/index" class="btn btn-warning">Advance</a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -226,62 +244,68 @@ End Code
         </div>
     </div>
     <div id="dvClearing">
-        <h3 class="page-header">My Cost/Services Clearing</h3>
-        <div class="row">
-            <div class="col-xs-12">
-                <p class="lead text-center w3-pale-green btn text-info center-block">Don't need to collect by invoice?</p>
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <p><span class="glyphicon glyphicon-arrow-down"></span>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <p>
-                            <span class="glyphicon glyphicon-arrow-down"></span>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="text-success">
-                            <a href="~/clr/index">Add Clearing</a> OR
-                        </p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="text-success">
-                            <a href="~/clr/earnest" class="btn btn-primary">Close Clearing</a>
-                        </p>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="bg-info w3-pale-yellow text-info btn">Is specific job?</p>
-                        <div class="row">
-                            <div class="col-xs-6 text-center">
-                                <p class="btn"><span class="glyphicon glyphicon-arrow-down"></span>
-                            </div>
-                            <div class="col-xs-6 text-center">
-                                <p class="btn">
-                                    <span class="glyphicon glyphicon-arrow-down"></span>
-                                </p>
-                            </div>
+        <h3>
+            <span class="glyphicon glyphicon-circle-arrow-right" style="color:lightseagreen">
+            </span>
+            <a href="#dvFlowClear" onclick="w3_accordion('dvFlowClear')">My Costing & Service</a>
+        </h3>
+        <div id="dvFlowClear" class="w3-hide w3-border" style="background-color:lightcyan;">
+            <div class="row">
+                <div class="col-xs-12">
+                    <p class="lead text-center w3-pale-green btn text-info center-block">Don't need to collect by invoice?</p>
+                    <div class="row">
+                        <div class="col-xs-5 text-center">
+                            <p><span class="glyphicon glyphicon-arrow-down"></span>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
-                                <p class="center-block">
-                                    <span class="glyphicon glyphicon-arrow-down"></span>
-                                </p>
-                                <p class="text-success text-wrap">
-                                    <a href="#" class="btn btn-success" onclick="ShowOpenJob()">Enter Job</a>
-                                </p>
+                        <div class="col-xs-7 text-center">
+                            <p>
+                                <span class="glyphicon glyphicon-arrow-down"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5 text-center">
+                            <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="text-success">
+                                <a href="~/clr/index" class="btn btn-warning">New Clearing</a> OR
+                            </p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="text-success">
+                                <a href="~/clr/earnest" class="btn btn-primary">Close Clearing</a>
+                            </p>
+                        </div>
+                        <div class="col-xs-7 text-center">
+                            <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="bg-info w3-pale-yellow text-info btn">Is this specific job?</p>
+                            <div class="row">
+                                <div class="col-xs-5 text-center">
+                                    <p class="btn"><span class="glyphicon glyphicon-arrow-down"></span>
+                                </div>
+                                <div class="col-xs-7 text-center">
+                                    <p class="btn">
+                                        <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="col-xs-6 text-center">
-                                <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
-                                <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                                <p class="text-danger text-wrap">
-                                    <a href="~/clr/index" class="btn btn-warning">Clearing</a>
-                                </p>
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
+                                    <p class="center-block">
+                                        <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </p>
+                                    <p class="text-success text-wrap">
+                                        <a href="#" class="btn btn-success" onclick="ShowOpenJob()">Enter Job</a>
+                                    </p>
+                                </div>
+                                <div class="col-xs-7 text-center">
+                                    <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
+                                    <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                                    <p class="text-danger text-wrap">
+                                        <a href="~/clr/index" class="btn btn-warning">Clearing</a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -290,58 +314,64 @@ End Code
         </div>
     </div>
     <div id="dvInvoice">
-        <h3 class="page-header">My Invoice</h3>
-        <div class="row">
-            <div class="col-xs-12">
-                <p class="lead text-center w3-pale-green btn text-info center-block">Have all needed job been closed already?</p>
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <p><span class="glyphicon glyphicon-arrow-down"></span>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <p>
-                            <span class="glyphicon glyphicon-arrow-down"></span>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="text-success">
-                            <a href="~/clr/generateinv" class="btn btn-primary">Create Invoice</a>
-                        </p>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="bg-info w3-pale-yellow text-info btn">Check data before?</p>
-                        <div class="row">
-                            <div class="col-xs-6 text-center">
-                                <p class="btn"><span class="glyphicon glyphicon-arrow-down"></span>
-                            </div>
-                            <div class="col-xs-6 text-center">
-                                <p class="btn">
-                                    <span class="glyphicon glyphicon-arrow-down"></span>
-                                </p>
-                            </div>
+        <h3>
+            <span class="glyphicon glyphicon-circle-arrow-right" style="color:lightseagreen">
+            </span>
+            <a href="#dvFlowInvoice" onclick="w3_accordion('dvFlowInvoice')">My Invoices</a>
+        </h3>
+        <div id="dvFlowInvoice" class="w3-hide w3-border" style="background-color:lightcyan">
+            <div class="row">
+                <div class="col-xs-12">
+                    <p class="lead text-center w3-pale-green btn text-info center-block">Have all needed job been closed already?</p>
+                    <div class="row">
+                        <div class="col-xs-5 text-center">
+                            <p><span class="glyphicon glyphicon-arrow-down"></span>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
-                                <p class="center-block">
-                                    <span class="glyphicon glyphicon-arrow-down"></span>
-                                </p>
-                                <p class="text-success text-wrap">
-                                    <a href="#" class="btn btn-success" onclick="ShowOpenJob()">Enter Job</a>
-                                </p>
+                        <div class="col-xs-7 text-center">
+                            <p>
+                                <span class="glyphicon glyphicon-arrow-down"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5 text-center">
+                            <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="text-success">
+                                <a href="~/clr/generateinv" class="btn btn-primary">New Invoice</a>
+                            </p>
+                        </div>
+                        <div class="col-xs-7 text-center">
+                            <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="bg-info w3-pale-yellow text-info btn">Re-check data before?</p>
+                            <div class="row">
+                                <div class="col-xs-5 text-center">
+                                    <p class="btn"><span class="glyphicon glyphicon-arrow-down"></span>
+                                </div>
+                                <div class="col-xs-7 text-center">
+                                    <p class="btn">
+                                        <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="col-xs-6 text-center">
-                                <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
-                                <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                                <p class="text-danger text-wrap">
-                                    <a href="~/clr/generateinv" class="btn btn-warning">Create Invoice</a>
-                                </p>
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
+                                    <p class="center-block">
+                                        <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </p>
+                                    <p class="text-success text-wrap">
+                                        <a href="#" class="btn btn-success" onclick="ShowOpenJob()">Enter Job</a>
+                                    </p>
+                                </div>
+                                <div class="col-xs-7 text-center">
+                                    <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
+                                    <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                                    <p class="text-danger text-wrap">
+                                        <a href="~/clr/generateinv" class="btn btn-warning">Invoice</a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -350,58 +380,64 @@ End Code
         </div>
     </div>
     <div id="dvBilling">
-        <h3 class="page-header">My Billing</h3>
-        <div class="row">
-            <div class="col-xs-12">
-                <p class="lead text-center w3-pale-green btn text-info center-block">Do you need to input the due for payment?</p>
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <p><span class="glyphicon glyphicon-arrow-down"></span>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <p>
-                            <span class="glyphicon glyphicon-arrow-down"></span>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="text-success">
-                            <a href="~/acc/invoice" class="btn btn-primary">Open Invoice</a>
-                        </p>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="bg-info w3-pale-yellow text-info btn">Is Billing Created?</p>
-                        <div class="row">
-                            <div class="col-xs-6 text-center">
-                                <p class="btn"><span class="glyphicon glyphicon-arrow-down"></span>
-                            </div>
-                            <div class="col-xs-6 text-center">
-                                <p class="btn">
-                                    <span class="glyphicon glyphicon-arrow-down"></span>
-                                </p>
-                            </div>
+        <h3>
+            <span class="glyphicon glyphicon-circle-arrow-right" style="color:lightseagreen">
+            </span>
+            <a href="#dvFlowBilling" onclick="w3_accordion('dvFlowBilling')">My Billing</a>
+        </h3>
+        <div id="dvFlowBilling" class="w3-hide w3-border" style="background-color:lightcyan">
+            <div class="row">
+                <div class="col-xs-12">
+                    <p class="lead text-center w3-pale-green btn text-info center-block">Do you need to input the due date for payment?</p>
+                    <div class="row">
+                        <div class="col-xs-5 text-center">
+                            <p><span class="glyphicon glyphicon-arrow-down"></span>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
-                                <p class="center-block">
-                                    <span class="glyphicon glyphicon-arrow-down"></span>
-                                </p>
-                                <p class="text-success text-wrap">
-                                    <a href="~/acc/billing" class="btn btn-success">Billing</a>
-                                </p>
+                        <div class="col-xs-7 text-center">
+                            <p>
+                                <span class="glyphicon glyphicon-arrow-down"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5 text-center">
+                            <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="text-success">
+                                <a href="~/acc/invoice" class="btn btn-primary">Invoice</a>
+                            </p>
+                        </div>
+                        <div class="col-xs-7 text-center">
+                            <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="bg-info w3-pale-yellow text-info btn">Have yet to create billing?</p>
+                            <div class="row">
+                                <div class="col-xs-5 text-center">
+                                    <p class="btn"><span class="glyphicon glyphicon-arrow-down"></span>
+                                </div>
+                                <div class="col-xs-7 text-center">
+                                    <p class="btn">
+                                        <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="col-xs-6 text-center">
-                                <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
-                                <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                                <p class="text-danger text-wrap">
-                                    <a href="~/acc/generatebilling" class="btn btn-warning">Create Billing</a>
-                                </p>
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
+                                    <p class="center-block">
+                                        <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </p>
+                                    <p class="text-success text-wrap">
+                                        <a href="~/acc/billing" class="btn btn-success">Billing</a>
+                                    </p>
+                                </div>
+                                <div class="col-xs-7 text-center">
+                                    <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
+                                    <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                                    <p class="text-danger text-wrap">
+                                        <a href="~/acc/generatebilling" class="btn btn-warning">New Billing</a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -410,58 +446,64 @@ End Code
         </div>
     </div>
     <div id="dvReceipts">
-        <h3 class="page-header">My Receipts</h3>
-        <div class="row">
-            <div class="col-xs-12">
-                <p class="lead text-center w3-pale-green btn text-info center-block">Is this official tax-receipts?</p>
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <p><span class="glyphicon glyphicon-arrow-down"></span>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <p>
-                            <span class="glyphicon glyphicon-arrow-down"></span>
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-6 text-center">
-                        <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="text-success">
-                            <a href="~/acc/generatetaxinv" class="btn btn-primary">Create TAX-Receipts</a>
-                        </p>
-                    </div>
-                    <div class="col-xs-6 text-center">
-                        <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
-                        <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                        <p class="bg-info w3-pale-yellow text-info btn">Is Cash/Cheque Receipts?</p>
-                        <div class="row">
-                            <div class="col-xs-6 text-center">
-                                <p class="btn"><span class="glyphicon glyphicon-arrow-down"></span>
-                            </div>
-                            <div class="col-xs-6 text-center">
-                                <p class="btn">
-                                    <span class="glyphicon glyphicon-arrow-down"></span>
-                                </p>
-                            </div>
+        <h3>
+            <span class="glyphicon glyphicon-circle-arrow-right" style="color:lightseagreen">
+            </span>
+            <a href="#dvFlowIncome" onclick="w3_accordion('dvFlowIncome')">My Receipts</a>
+        </h3>
+        <div id="dvFlowIncome" class="w3-hide w3-border" style="background-color:lightcyan">
+            <div class="row">
+                <div class="col-xs-12">
+                    <p class="lead text-center w3-pale-green btn text-info center-block">Is this official tax-receipts?</p>
+                    <div class="row">
+                        <div class="col-xs-5 text-center">
+                            <p><span class="glyphicon glyphicon-arrow-down"></span>
                         </div>
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
-                                <p class="center-block">
-                                    <span class="glyphicon glyphicon-arrow-down"></span>
-                                </p>
-                                <p class="text-success text-wrap">
-                                    <a href="~/acc/generatereceipt" class="btn btn-success">Receipts</a>
-                                </p>
+                        <div class="col-xs-7 text-center">
+                            <p>
+                                <span class="glyphicon glyphicon-arrow-down"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5 text-center">
+                            <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="text-success">
+                                <a href="~/acc/generatetaxinv" class="btn btn-primary">New TAX-Receipts</a>
+                            </p>
+                        </div>
+                        <div class="col-xs-7 text-center">
+                            <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
+                            <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                            <p class="bg-info w3-pale-yellow text-info btn">Is Cash/Cheque Receipts?</p>
+                            <div class="row">
+                                <div class="col-xs-5 text-center">
+                                    <p class="btn"><span class="glyphicon glyphicon-arrow-down"></span>
+                                </div>
+                                <div class="col-xs-7 text-center">
+                                    <p class="btn">
+                                        <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </p>
+                                </div>
                             </div>
-                            <div class="col-xs-6 text-center">
-                                <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
-                                <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
-                                <p class="text-danger text-wrap">
-                                    <a href="~/acc/creditnote" class="btn btn-warning">Credit/Debit<br/>Note</a>
-                                </p>
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
+                                    <p class="center-block">
+                                        <span class="glyphicon glyphicon-arrow-down"></span>
+                                    </p>
+                                    <p class="text-success text-wrap">
+                                        <a href="~/acc/generatereceipt" class="btn btn-success">Receipts</a>
+                                    </p>
+                                </div>
+                                <div class="col-xs-7 text-center">
+                                    <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
+                                    <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
+                                    <p class="text-danger text-wrap">
+                                        <a href="~/acc/creditnote" class="btn btn-warning">CN & DN</a>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>

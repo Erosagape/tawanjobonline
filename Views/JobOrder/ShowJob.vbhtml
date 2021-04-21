@@ -571,13 +571,13 @@ End Code
                                 <th class="all">
                                     Document No
                                 </th>
-                                <th class="all">
+                                <th class="desktop">
                                     Item
                                 </th>
                                 <th class="desktop">
                                     Expenses
                                 </th>
-                                <th class="desktop">
+                                <th class="all">
                                     Amount
                                 </th>
                                 <th class="desktop">

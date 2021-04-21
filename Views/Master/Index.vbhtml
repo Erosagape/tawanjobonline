@@ -33,7 +33,11 @@ End Code
                         window.location.href = path + 'Tracking/Index';
                         break;
                     default:
-                        window.location.href = path + 'Menu/Index';
+                        if (IsMobile()) {
+                            window.location.href = path + 'Menu/Index';
+                        } else {
+                            window.location.href = path + 'Tracking/Dashboard';
+                        }
                         break;
                 }
                 break;
@@ -45,4 +49,7 @@ End Code
                 break;
         }
     }    
+    function IsMobile() {
+        return ((window.innerWidth <= 800) && (window.innerHeight <= 600));
+    }
 </script>

@@ -1308,7 +1308,7 @@
     <Content Include="Views\Report\Export.vbhtml" />
     <Content Include="Views\Report\ImportJson.vbhtml" />
     <Content Include="Views\Report\ImportFile.vbhtml" />
-    <Content Include="Views\Report\_Index.vbhtml" />
+    <Content Include="Views\Report\Index_v1.vbhtml" />
     <Content Include="Views\Report\Preview.vbhtml" />
     <Content Include="Views\Tracking\Document.vbhtml" />
     <Content Include="Views\Tracking\Index.vbhtml" />

@@ -447,6 +447,12 @@ Namespace Controllers
         End Function
         Function SetLanguage(data As String) As ActionResult
             Session("CurrentLang") = data
+            SaveSession()
+            Dim oLogin = New CWebLogin(ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString).GetData(String.Format(" WHERE FromIP='{0}' AND ExpireDateTime>GETDATE()", Request.UserHostAddress))
+            If oLogin.Count > 0 Then
+                oLogin(0).SessionData = Me.SessionData
+                oLogin(0).SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oLogin(0).CustID, oLogin(0).AppID, oLogin(0).UserLogIN))
+            End If
             Return Content(data, textContent)
         End Function
         Function TestDatabase() As ActionResult

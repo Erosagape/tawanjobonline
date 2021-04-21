@@ -42,17 +42,17 @@
                 <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:70%;padding:5px 5px 5px 5px;" />
             </div>
             <div style="width:100%;text-align:center;background-color:white;color:black;font-size:11px">
-                <label id="lblLicenseName" ondblclick="CheckDatabase()">@ViewBag.LICENSE_NAME</label>
+                <label id="lblLicenseName" ondblclick="ReturnMain()">@ViewBag.LICENSE_NAME</label>
             </div>
             <div id="dvCustomerMenu">
                 <div id="mainCust" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCust')">
                     Importer/Exporter
                 </div>
                 <div id="mnuCust" class="w3-hide w3-pale-red w3-card-4">
-                    <a href="#" id="mnuCust1" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
-                    <a href="#" id="mnuCust3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking2')">- Shipment Status</a>
-                    <a href="#" id="mnuCust2" class="w3-bar-item w3-button" onclick="OpenMenu('CreateJob')">- Shipment Order</a>
-                    <a href="#" id="mnuCust4" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">- Documents</a>
+                    <a href="#" id="mnuCust1" class="w3-bar-item w3-button" onclick="OpenLink('Tracking1')">- Transport Tracking</a>
+                    <a href="#" id="mnuCust3" class="w3-bar-item w3-button" onclick="OpenLink('Tracking2')">- Shipment Status</a>
+                    <a href="#" id="mnuCust2" class="w3-bar-item w3-button" onclick="OpenLink('CreateJob')">- Shipment Order</a>
+                    <a href="#" id="mnuCust4" class="w3-bar-item w3-button" onclick="OpenLink('Document')">- Documents</a>
                 </div>
             </div>
             <div id="dvShippingMenu">
@@ -61,179 +61,179 @@
                         Marketing Works
                     </div>
                     <div id="mnuMkt" class="w3-hide w3-pale-green w3-card-4">
-                        <a href="#" id="mnuMkt1" class="w3-bar-item w3-button" onclick="OpenMenu('Quotation')">- Quotation</a>
-                        <a href="#" id="mnuMkt3" class="w3-bar-item w3-button" onclick="OpenMenu('EstimateCost')">- Estimate Costing</a>
+                        <a href="#" id="mnuMkt1" class="w3-bar-item w3-button" onclick="OpenLink('Quotation')">- Quotation</a>
+                        <a href="#" id="mnuMkt3" class="w3-bar-item w3-button" onclick="OpenLink('EstimateCost')">- Estimate Costing</a>
                     </div>
                     <div id="mainCS" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCS')">
                         CS Works
                     </div>
                     <div id="mnuCS" class="w3-hide w3-light-grey w3-card-4">
-                        <a href="#" id="mnuCS1" class="w3-bar-item w3-button" onclick="OpenMenu('CreateJob')">- Create Job</a>
-                        <a href="#" id="mnuCS2" class="w3-bar-item w3-button" onclick="OpenMenu('SearchJob')">- List Job</a>
-                        <a href="#" id="mnuCS3" class="w3-bar-item w3-button" onclick="OpenMenu('Transport')">- Transport Info</a>
-                        <a href="#" id="mnuCS4" class="w3-bar-item w3-button" onclick="OpenMenu('WHTax')">- Withholding Tax</a>
+                        <a href="#" id="mnuCS1" class="w3-bar-item w3-button" onclick="OpenLink('CreateJob')">- Create Job</a>
+                        <a href="#" id="mnuCS2" class="w3-bar-item w3-button" onclick="OpenLink('SearchJob')">- List Job</a>
+                        <a href="#" id="mnuCS3" class="w3-bar-item w3-button" onclick="OpenLink('Transport')">- Transport Info</a>
+                        <a href="#" id="mnuCS4" class="w3-bar-item w3-button" onclick="OpenLink('WHTax')">- Withholding Tax</a>
                     </div>
                     <div id="mainShp" class="w3-bar-item w3-button" onclick="w3_accordion('mnuShp')">
                         Shipping Works
                     </div>
                     <div id="mnuShp" class="w3-hide w3-khaki w3-card-4">
-                        <a href="#" id="mnuShp1" class="w3-bar-item w3-button" onclick="OpenMenu('Advance')">- Advance</a>
-                        <a href="#" id="mnuShp2" class="w3-bar-item w3-button" onclick="OpenMenu('Clearing')">- Clearing</a>
+                        <a href="#" id="mnuShp1" class="w3-bar-item w3-button" onclick="OpenLink('Advance')">- Advance</a>
+                        <a href="#" id="mnuShp2" class="w3-bar-item w3-button" onclick="OpenLink('Clearing')">- Clearing</a>
                     </div>
                     <div id="mainApp" class="w3-bar-item w3-button" onclick="w3_accordion('mnuApp')">
                         Approving
                     </div>
                     <div id="mnuApp" class="w3-hide w3-pale-yellow w3-card-4">
-                        <a href="#" id="mnuMkt2" class="w3-bar-item w3-button" onclick="OpenMenu('AppQuo')">- Quotation Confirm</a>
-                        <a href="#" id="mnuApp5" class="w3-bar-item w3-button" onclick="OpenMenu('AppJob')">- Job Confirm</a>
-                        <a href="#" id="mnuApp1" class="w3-bar-item w3-button" onclick="OpenMenu('AppAdvance')">- Advance Confirm</a>
-                        <a href="#" id="mnuApp2" class="w3-bar-item w3-button" onclick="OpenMenu('AppClearing')">- Clearing Confirm</a>
-                        <a href="#" id="mnuApp3" class="w3-bar-item w3-button" onclick="OpenMenu('AppExpense')">- Expense Confirm</a>
-                        <a href="#" id="mnuApp4" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Confirm</a>
+                        <a href="#" id="mnuMkt2" class="w3-bar-item w3-button" onclick="OpenLink('AppQuo')">- Quotation Confirm</a>
+                        <a href="#" id="mnuApp5" class="w3-bar-item w3-button" onclick="OpenLink('AppJob')">- Job Confirm</a>
+                        <a href="#" id="mnuApp1" class="w3-bar-item w3-button" onclick="OpenLink('AppAdvance')">- Advance Confirm</a>
+                        <a href="#" id="mnuApp2" class="w3-bar-item w3-button" onclick="OpenLink('AppClearing')">- Clearing Confirm</a>
+                        <a href="#" id="mnuApp3" class="w3-bar-item w3-button" onclick="OpenLink('AppExpense')">- Expense Confirm</a>
+                        <a href="#" id="mnuApp4" class="w3-bar-item w3-button" onclick="OpenLink('AppTransport')">- Transport Confirm</a>
                     </div>
                     <div id="mainFin" class="w3-bar-item w3-button" onclick="w3_accordion('mnuFin')">
                         Finance Works
                     </div>
                     <div id="mnuFin" class="w3-hide w3-pale-blue w3-card-4">
-                        <a href="#" id="mnuFin1" class="w3-bar-item w3-button" onclick="OpenMenu('PayAdvance')">- Advance Payment</a>
-                        <a href="#" id="mnuFin3" class="w3-bar-item w3-button" onclick="OpenMenu('RecvClear')">- Clearing Receive</a>
-                        <a href="#" id="mnuFin2" class="w3-bar-item w3-button" onclick="OpenMenu('Payment')">- Expense Payment</a>
-                        <a href="#" id="mnuFin4" class="w3-bar-item w3-button" onclick="OpenMenu('RecvInv')">- Invoice Receive</a>
-                        <a href="#" id="mnuFin5" class="w3-bar-item w3-button" onclick="OpenMenu('Cheque')">- Cheque Management</a>
-                        <a href="#" id="mnuFin7" class="w3-bar-item w3-button" onclick="OpenMenu('PettyCash')">- Petty Cash</a>
-                        <a href="#" id="mnuFin6" class="w3-bar-item w3-button" onclick="OpenMenu('CreditAdv')">- Credit Advance</a>
-                        <a href="#" id="mnuFin8" class="w3-bar-item w3-button" onclick="OpenMenu('Earnest')">- Earnest Clearing</a>
+                        <a href="#" id="mnuFin1" class="w3-bar-item w3-button" onclick="OpenLink('PayAdvance')">- Advance Payment</a>
+                        <a href="#" id="mnuFin3" class="w3-bar-item w3-button" onclick="OpenLink('RecvClear')">- Clearing Receive</a>
+                        <a href="#" id="mnuFin2" class="w3-bar-item w3-button" onclick="OpenLink('Payment')">- Expense Payment</a>
+                        <a href="#" id="mnuFin4" class="w3-bar-item w3-button" onclick="OpenLink('RecvInv')">- Invoice Receive</a>
+                        <a href="#" id="mnuFin5" class="w3-bar-item w3-button" onclick="OpenLink('Cheque')">- Cheque Management</a>
+                        <a href="#" id="mnuFin7" class="w3-bar-item w3-button" onclick="OpenLink('PettyCash')">- Petty Cash</a>
+                        <a href="#" id="mnuFin6" class="w3-bar-item w3-button" onclick="OpenLink('CreditAdv')">- Credit Advance</a>
+                        <a href="#" id="mnuFin8" class="w3-bar-item w3-button" onclick="OpenLink('Earnest')">- Earnest Clearing</a>
                     </div>
                     <div id="mainAcc" class="w3-bar-item w3-button" onclick="w3_accordion('mnuAcc')">
                         Account Works
                     </div>
                     <div id="mnuAcc" class="w3-hide w3-pale-red w3-card-4">
-                        <a href="#" id="mnuAcc1" class="w3-bar-item w3-button" onclick="OpenMenu('Voucher')">- Vouchers</a>
-                        <a href="#" id="mnuAcc2" class="w3-bar-item w3-button" onclick="OpenMenu('Invoice')">- Invoice</a>
-                        <a href="#" id="mnuAcc3" class="w3-bar-item w3-button" onclick="OpenMenu('Billing')">- Billing</a>
-                        <a href="#" id="mnuAcc4" class="w3-bar-item w3-button" onclick="OpenMenu('Receipt')">- Receipts</a>
-                        <a href="#" id="mnuAcc5" class="w3-bar-item w3-button" onclick="OpenMenu('TaxInvoice')">- Tax-invoice</a>
-                        <a href="#" id="mnuAcc6" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Bill Payment</a>
-                        <a href="#" id="mnuAcc7" class="w3-bar-item w3-button" onclick="OpenMenu('CreditNote')">- Credit/Debit Note</a>
-                        <a href="#" id="mnuAcc8" class="w3-bar-item w3-button" onclick="OpenMenu('GLNote')">- Journal Entry</a>
+                        <a href="#" id="mnuAcc1" class="w3-bar-item w3-button" onclick="OpenLink('Voucher')">- Vouchers</a>
+                        <a href="#" id="mnuAcc2" class="w3-bar-item w3-button" onclick="OpenLink('Invoice')">- Invoice</a>
+                        <a href="#" id="mnuAcc3" class="w3-bar-item w3-button" onclick="OpenLink('Billing')">- Billing</a>
+                        <a href="#" id="mnuAcc4" class="w3-bar-item w3-button" onclick="OpenLink('Receipt')">- Receipts</a>
+                        <a href="#" id="mnuAcc5" class="w3-bar-item w3-button" onclick="OpenLink('TaxInvoice')">- Tax-invoice</a>
+                        <a href="#" id="mnuAcc6" class="w3-bar-item w3-button" onclick="OpenLink('BillPayment')">- Bill Payment</a>
+                        <a href="#" id="mnuAcc7" class="w3-bar-item w3-button" onclick="OpenLink('CreditNote')">- Credit/Debit Note</a>
+                        <a href="#" id="mnuAcc8" class="w3-bar-item w3-button" onclick="OpenLink('GLNote')">- Journal Entry</a>
                     </div>
                     <div id="mainVend2" class="w3-bar-item w3-button" onclick="w3_accordion('mnuVen')">
                         Vender Works
                     </div>
                     <div id="mnuVen" class="w3-hide w3-pale-red w3-card-4">
-                        <a href="#" id="mnuVen0" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Confirm</a>
-                        <a href="#" id="mnuVen2" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Bill Payment</a>
-                        <a href="#" id="mnuVen1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Vender Summary</a>
-                        <a href="#" id="mnuVen3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
+                        <a href="#" id="mnuVen0" class="w3-bar-item w3-button" onclick="OpenLink('AppTransport')">- Transport Confirm</a>
+                        <a href="#" id="mnuVen2" class="w3-bar-item w3-button" onclick="OpenLink('BillPayment')">- Bill Payment</a>
+                        <a href="#" id="mnuVen1" class="w3-bar-item w3-button" onclick="OpenLink('VenderInv')">- Vender Summary</a>
+                        <a href="#" id="mnuVen3" class="w3-bar-item w3-button" onclick="OpenLink('Tracking1')">- Transport Tracking</a>
                     </div>
                     <div id="mainRpt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuRpt')">
                         Report & Tracking
                     </div>
                     <div id="mnuRpt" class="w3-hide w3-amber w3-card-4">
-                        <a href="#" id="mnuRpt1" class="w3-bar-item w3-button" onclick="OpenMenu('Report')">- Reports</a>
-                        <a href="#" id="mnuRpt2" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
-                        <a href="#" id="mnuRpt4" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking2')">- Job Timeline</a>
-                        <a href="#" id="mnuRpt3" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard')">- Customer Dashboard</a>
-                        <a href="#" id="mnuRpt6" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard2')">- Staff Dashboard</a>
-                        <a href="#" id="mnuRpt5" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">-Document Tracking</a>
+                        <a href="#" id="mnuRpt1" class="w3-bar-item w3-button" onclick="OpenLink('Report')">- Reports</a>
+                        <a href="#" id="mnuRpt2" class="w3-bar-item w3-button" onclick="OpenLink('Tracking1')">- Transport Tracking</a>
+                        <a href="#" id="mnuRpt4" class="w3-bar-item w3-button" onclick="OpenLink('Tracking2')">- Job Timeline</a>
+                        <a href="#" id="mnuRpt3" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard')">- Customer Dashboard</a>
+                        <a href="#" id="mnuRpt6" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard2')">- Staff Dashboard</a>
+                        <a href="#" id="mnuRpt5" class="w3-bar-item w3-button" onclick="OpenLink('Document')">-Document Tracking</a>
                     </div>
                     <div id="mainMas" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMas')">
                         Master Files
                     </div>
                     <div id="mnuMas" class="w3-hide w3-sand w3-card-4">
-                        <a href="#" id="mnuMas2" class="w3-bar-item w3-button" onclick="OpenMenu('MasA')">- Accounts File</a>
-                        <a href="#" id="mnuMas1" class="w3-bar-item w3-button" onclick="OpenMenu('MasG')">- Customs File</a>
-                        <a href="#" id="mnuMas3" class="w3-bar-item w3-button" onclick="OpenMenu('MasS')">- System Files</a>
+                        <a href="#" id="mnuMas2" class="w3-bar-item w3-button" onclick="OpenLink('MasA')">- Accounts File</a>
+                        <a href="#" id="mnuMas1" class="w3-bar-item w3-button" onclick="OpenLink('MasG')">- Customs File</a>
+                        <a href="#" id="mnuMas3" class="w3-bar-item w3-button" onclick="OpenLink('MasS')">- System Files</a>
                     </div>
                     <div id="mainUtil" class="w3-bar-item w3-button" onclick="w3_accordion('mnuUtil')">
                         Utility
                     </div>
                     <div id="mnuUtil" class="w3-hide w3-sand w3-card-4">
-                        <a href="#" id="mnuUtil1" class="w3-bar-item w3-button" onclick="OpenMenu('Import')">- Import data</a>
-                        <a href="#" id="mnuUtil2" class="w3-bar-item w3-button" onclick="OpenMenu('Export')">- Export data</a>
+                        <a href="#" id="mnuUtil1" class="w3-bar-item w3-button" onclick="OpenLink('Import')">- Import data</a>
+                        <a href="#" id="mnuUtil2" class="w3-bar-item w3-button" onclick="OpenLink('Export')">- Export data</a>
                     </div>
                 </div>
                 <div id="dvMenuByFlow">
                     <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuMasters')">
-                        0.Manage Your Master Data
+                        My Master Data
                     </div>
                     <div id="mnuMasters" class="w3-hide w3-card-4 w3-sand">
-                        <a href="#" id="mnuMaster1" class="w3-bar-item w3-button" onclick="OpenMenu('MasS')">0.1 System Data</a>
-                        <a href="#" id="mnuMaster2" class="w3-bar-item w3-button" onclick="OpenMenu('MasG')">0.2 Customs Data</a>
-                        <a href="#" id="mnuMaster3" class="w3-bar-item w3-button" onclick="OpenMenu('MasA')">0.3 Accounts Data</a>
+                        <a href="#" id="mnuMaster1" class="w3-bar-item w3-button" onclick="OpenLink('MasS')">1.System Data</a>
+                        <a href="#" id="mnuMaster2" class="w3-bar-item w3-button" onclick="OpenLink('MasG')">2.Customs Data</a>
+                        <a href="#" id="mnuMaster3" class="w3-bar-item w3-button" onclick="OpenLink('MasA')">3.Accounts Data</a>
                     </div>
                     <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuOpenJob')">
-                        1.Manage Your Shipment
+                        My Shipments
                     </div>
                     <div id="mnuOpenJob" class="w3-hide w3-card-4 w3-light-grey">
-                        <a href="#" id="mnuOpenjob1" class="w3-bar-item w3-button" onclick="OpenMenu('CreateJob')">1.1 New Shipment</a>
-                        <a href="#" id="mnuOpenjob2" class="w3-bar-item w3-button" onclick="OpenMenu('SearchJob')">1.2 Edit Shipment</a>
-                        <a href="#" id="mnuOpenjob3" class="w3-bar-item w3-button" onclick="OpenMenu('Transport')">1.3 Edit Transport</a>
+                        <a href="#" id="mnuOpenjob1" class="w3-bar-item w3-button" onclick="OpenLink('CreateJob')">1.New Shipment</a>
+                        <a href="#" id="mnuOpenjob2" class="w3-bar-item w3-button" onclick="OpenLink('SearchJob')">2.Edit Shipment</a>
+                        <a href="#" id="mnuOpenjob3" class="w3-bar-item w3-button" onclick="OpenLink('Transport')">3.Edit Transport</a>
                     </div>
                     <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuExpenses')">
-                        2.Services Planning
+                        My Services Planning
                     </div>
                     <div id="mnuExpenses" class="w3-hide w3-card-4 w3-pale-yellow">
-                        <a href="#" id="mnuExpenses1" class="w3-bar-item w3-button" onclick="OpenMenu('Quotation')">2.1 New Quotation</a>
-                        <a href="#" id="mnuExpenses2" class="w3-bar-item w3-button" onclick="OpenMenu('TransportRoute')">2.2 New Price Lists</a>
-                        <a href="#" id="mnuExpenses3" class="w3-bar-item w3-button" onclick="OpenMenu('EstimateCost')">2.3 Estimate Costing</a>
+                        <a href="#" id="mnuExpenses1" class="w3-bar-item w3-button" onclick="OpenLink('Quotation')">1.New Quotation</a>
+                        <a href="#" id="mnuExpenses2" class="w3-bar-item w3-button" onclick="OpenLink('TransportRoute')">2.Edit Price Lists</a>
+                        <a href="#" id="mnuExpenses3" class="w3-bar-item w3-button" onclick="OpenLink('EstimateCost')">3.Pre-Invoices</a>
                     </div>
                     <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuAdvances')">
-                        3.Manage Your Expenses
+                        My Expenses
                     </div>
                     <div id="mnuAdvances" class="w3-hide w3-card-4 w3-khaki">
-                        <a href="#" id="mnuAdvance1" class="w3-bar-item w3-button" onclick="OpenMenu('Advance')">3.1 Advance Requisition</a>
-                        <a href="#" id="mnuAdvance2" class="w3-bar-item w3-button" onclick="OpenMenu('CreditAdv')">3.2 Credit Advances</a>
-                        <a href="#" id="mnuAdvance3" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">3.3 Accrued Expenses</a>
+                        <a href="#" id="mnuAdvance1" class="w3-bar-item w3-button" onclick="OpenLink('Advance')">1.Advance Requisition</a>
+                        <a href="#" id="mnuAdvance2" class="w3-bar-item w3-button" onclick="OpenLink('CreditAdv')">2.Credit Advances</a>
+                        <a href="#" id="mnuAdvance3" class="w3-bar-item w3-button" onclick="OpenLink('BillPayment')">3.Accrued Expenses</a>
                     </div>
                     <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuClearances')">
-                        4.Shipment Clearance
+                        My Cost & Services
                     </div>
                     <div id="mnuClearances" class="w3-hide w3-card-4 w3-pale-blue">
-                        <a href="#" id="mnuClearance1" class="w3-bar-item w3-button" onclick="OpenMenu('Clearing')">4.1 Expenses Clearing</a>
-                        <a href="#" id="mnuClearance2" class="w3-bar-item w3-button" onclick="OpenMenu('Earnest')">4.2 Adjustment Clearing</a>
+                        <a href="#" id="mnuClearance1" class="w3-bar-item w3-button" onclick="OpenLink('Clearing')">1.Expenses Clearing</a>
+                        <a href="#" id="mnuClearance2" class="w3-bar-item w3-button" onclick="OpenLink('Earnest')">2.Adjustment Clearing</a>
                     </div>
                     <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuBillings')">
-                        5.Manage Your Billing
+                        My Incomes
                     </div>
                     <div id="mnuBillings" class="w3-hide w3-card-4 w3-pale-green">
-                        <a href="#" id="mnuBilling1" class="w3-bar-item w3-button" onclick="OpenMenu('Invoice')">5.1 Create Invoice</a>
-                        <a href="#" id="mnuBilling2" class="w3-bar-item w3-button" onclick="OpenMenu('Billing')">5.2 Create Billing</a>
-                        <a href="#" id="mnuBilling3" class="w3-bar-item w3-button" onclick="OpenMenu('Receipt')">5.3 Cash-Receipts</a>
-                        <a href="#" id="mnuBilling4" class="w3-bar-item w3-button" onclick="OpenMenu('TaxInvoice')">5.4 Tax-Receipts</a>
+                        <a href="#" id="mnuBilling1" class="w3-bar-item w3-button" onclick="OpenLink('Invoice')">1.Create Invoice</a>
+                        <a href="#" id="mnuBilling2" class="w3-bar-item w3-button" onclick="OpenLink('Billing')">2.Create Billing</a>
+                        <a href="#" id="mnuBilling3" class="w3-bar-item w3-button" onclick="OpenLink('Receipt')">3.Cash-Receipts</a>
+                        <a href="#" id="mnuBilling4" class="w3-bar-item w3-button" onclick="OpenLink('TaxInvoice')">4.Tax-Receipts</a>
                     </div>
                     <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuAuthorized')">
-                        6.Document Control
+                        My Documents
                     </div>
                     <div id="mnuAuthorized" class="w3-hide w3-card-4 w3-pale-red">
-                        <a href="#" id="mnuAuthorize1" class="w3-bar-item w3-button" onclick="OpenMenu('AppQuo')">6.1 Quotation Approving</a>
-                        <a href="#" id="mnuAuthorize2" class="w3-bar-item w3-button" onclick="OpenMenu('AppJob')">6.2 Shipment Approving</a>
-                        <a href="#" id="mnuAuthorize3" class="w3-bar-item w3-button" onclick="OpenMenu('AppAdvance')">6.3 Advance Approving</a>
-                        <a href="#" id="mnuAuthorize4" class="w3-bar-item w3-button" onclick="OpenMenu('AppClearing')">6.4 Clearing Approving</a>
-                        <a href="#" id="mnuAuthorize5" class="w3-bar-item w3-button" onclick="OpenMenu('AppExpense')">6.5 Payables Approving</a>
-                        <a href="#" id="mnuAuthorize6" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">6.6 Transport Approving</a>
-                        <a href="#" id="mnuAuthorize7" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">6.7 Document Files</a>
+                        <a href="#" id="mnuAuthorize1" class="w3-bar-item w3-button" onclick="OpenLink('AppQuo')">1.Quotation Approving</a>
+                        <a href="#" id="mnuAuthorize2" class="w3-bar-item w3-button" onclick="OpenLink('AppJob')">2.Shipment Approving</a>
+                        <a href="#" id="mnuAuthorize3" class="w3-bar-item w3-button" onclick="OpenLink('AppAdvance')">3.Advance Approving</a>
+                        <a href="#" id="mnuAuthorize4" class="w3-bar-item w3-button" onclick="OpenLink('AppClearing')">4.Clearing Approving</a>
+                        <a href="#" id="mnuAuthorize5" class="w3-bar-item w3-button" onclick="OpenLink('AppExpense')">5.Payables Approving</a>
+                        <a href="#" id="mnuAuthorize6" class="w3-bar-item w3-button" onclick="OpenLink('AppTransport')">6.Transport Approving</a>
+                        <a href="#" id="mnuAuthorize7" class="w3-bar-item w3-button" onclick="OpenLink('Document')">7.Document Files</a>
                     </div>
                     <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuCashManager')">
-                        7.Financial Control
+                        My Cash Flow
                     </div>
                     <div id="mnuCashManager" class="w3-hide w3-card-4 w3-light-blue">
-                        <a href="#" id="mnuCash1" class="w3-bar-item w3-button" onclick="OpenMenu('PettyCash')">7.1 Cash In/Out</a>
-                        <a href="#" id="mnuCash2" class="w3-bar-item w3-button" onclick="OpenMenu('Cheque')">7.2 Cheque In/Out</a>
-                        <a href="#" id="mnuCash3" class="w3-bar-item w3-button" onclick="OpenMenu('PayAdvance')">7.3 Advance Payment</a>
-                        <a href="#" id="mnuCash4" class="w3-bar-item w3-button" onclick="OpenMenu('RecvClear')">7.4 Advance Refund/Return</a>
-                        <a href="#" id="mnuCash5" class="w3-bar-item w3-button" onclick="OpenMenu('Payment')">7.5 A/P Payment</a>
-                        <a href="#" id="mnuCash6" class="w3-bar-item w3-button" onclick="OpenMenu('RecvInv')">7.6 A/R Receive</a>
+                        <a href="#" id="mnuCash1" class="w3-bar-item w3-button" onclick="OpenLink('PettyCash')">1.Cash In/Out</a>
+                        <a href="#" id="mnuCash2" class="w3-bar-item w3-button" onclick="OpenLink('Cheque')">2.Cheque In/Out</a>
+                        <a href="#" id="mnuCash3" class="w3-bar-item w3-button" onclick="OpenLink('PayAdvance')">3.Advance Payment</a>
+                        <a href="#" id="mnuCash4" class="w3-bar-item w3-button" onclick="OpenLink('RecvClear')">4.Advance Refund/Return</a>
+                        <a href="#" id="mnuCash5" class="w3-bar-item w3-button" onclick="OpenLink('Payment')">5.A/P Payment</a>
+                        <a href="#" id="mnuCash6" class="w3-bar-item w3-button" onclick="OpenLink('RecvInv')">6.A/R Receive</a>
                     </div>
                     <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuSummary')">
-                        8.Reporting
+                        My Reports
                     </div>
                     <div id="mnuSummary" class="w3-hide w3-card-4 w3-amber">
-                        <a href="#" id="mnuSummary1" class="w3-bar-item w3-button" onclick="OpenMenu('Report')">8.1 Reports</a>
-                        <a href="#" id="mnuSummary2" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">8.2 Tracking</a>
-                        <a href="#" id="mnuSummary3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking2')">8.3 Timeline</a>
-                        <a href="#" id="mnuSummary4" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard')">8.4 Dashboard (Cust)</a>
-                        <a href="#" id="mnuSummary5" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard2')">8.5 Dashboard (Emp)</a>
+                        <a href="#" id="mnuSummary1" class="w3-bar-item w3-button" onclick="OpenLink('Report')">1.Reports</a>
+                        <a href="#" id="mnuSummary2" class="w3-bar-item w3-button" onclick="OpenLink('Tracking1')">2.Status Tracking</a>
+                        <a href="#" id="mnuSummary3" class="w3-bar-item w3-button" onclick="OpenLink('Tracking2')">3.Job Timeline</a>
+                        <a href="#" id="mnuSummary4" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard')">4.Dashboard By Customer</a>
+                        <a href="#" id="mnuSummary5" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard2')">5.Dashboard By Staff</a>
                     </div>
                 </div>
             </div>
@@ -242,10 +242,10 @@
                     Vender Works
                 </div>
                 <div id="mnuVend" class="w3-hide w3-pale-red w3-card-4">
-                    <a href="#" id="mnuVend0" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Confirm</a>
-                    <a href="#" id="mnuVend2" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Bill Payment</a>
-                    <a href="#" id="mnuVend1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Vender Summary</a>
-                    <a href="#" id="mnuVend3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
+                    <a href="#" id="mnuVend0" class="w3-bar-item w3-button" onclick="OpenLink('AppTransport')">- Transport Confirm</a>
+                    <a href="#" id="mnuVend2" class="w3-bar-item w3-button" onclick="OpenLink('BillPayment')">- Bill Payment</a>
+                    <a href="#" id="mnuVend1" class="w3-bar-item w3-button" onclick="OpenLink('VenderInv')">- Vender Summary</a>
+                    <a href="#" id="mnuVend3" class="w3-bar-item w3-button" onclick="OpenLink('Tracking1')">- Transport Tracking</a>
                 </div>
             </div>
         </div>
@@ -262,17 +262,17 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                <button id="mnuMasA1" class="btn btn-default btn-block" onclick="OpenMenu('customers')">- Customers</button>
-                                <button id="mnuMasA2" class="btn btn-default btn-block" onclick="OpenMenu('venders')">- Venders</button>
-                                <button id="mnuMasA3" class="btn btn-default btn-block" onclick="OpenMenu('ServUnit')">- Service Units</button>
-                                <button id="mnuMasA4" class="btn btn-default btn-block" onclick="OpenMenu('Bank')">- Bank</button>
+                                <button id="mnuMasA1" class="btn btn-default btn-block" onclick="OpenLink('customers')">- Customers</button>
+                                <button id="mnuMasA2" class="btn btn-default btn-block" onclick="OpenLink('venders')">- Venders</button>
+                                <button id="mnuMasA3" class="btn btn-default btn-block" onclick="OpenLink('ServUnit')">- Service Units</button>
+                                <button id="mnuMasA4" class="btn btn-default btn-block" onclick="OpenLink('Bank')">- Bank</button>
                             </div>
                             <div class="col-sm-6">
-                                <button id="mnuMasA5" class="btn btn-default btn-block" onclick="OpenMenu('BookAccount')">- Bank Accounts</button>
-                                <button id="mnuMasA6" class="btn btn-default btn-block" onclick="OpenMenu('ServiceGroup')">- Service Groups</button>
-                                <button id="mnuMasA7" class="btn btn-default btn-block" onclick="OpenMenu('ServiceCode')">- Service Code</button>
-                                <button id="mnuMasA8" class="btn btn-default btn-block" onclick="OpenMenu('BudgetPolicy')">- Service Policy</button>
-                                <button id="mnuMasA9" class="btn btn-default btn-block" onclick="OpenMenu('AccountCode')">- Account Code</button>
+                                <button id="mnuMasA5" class="btn btn-default btn-block" onclick="OpenLink('BookAccount')">- Bank Accounts</button>
+                                <button id="mnuMasA6" class="btn btn-default btn-block" onclick="OpenLink('ServiceGroup')">- Service Groups</button>
+                                <button id="mnuMasA7" class="btn btn-default btn-block" onclick="OpenLink('ServiceCode')">- Service Code</button>
+                                <button id="mnuMasA8" class="btn btn-default btn-block" onclick="OpenLink('BudgetPolicy')">- Service Policy</button>
+                                <button id="mnuMasA9" class="btn btn-default btn-block" onclick="OpenLink('AccountCode')">- Account Code</button>
                             </div>
                         </div>
                     </div>
@@ -293,13 +293,13 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                <button id="mnuMasS1" class="btn btn-default btn-block" onclick="OpenMenu('Constant')">- System Variables</button>
-                                <button id="mnuMasS2" class="btn btn-default btn-block" onclick="OpenMenu('users');">- System User</button>
-                                <button id="mnuMasS3" class="btn btn-default btn-block" onclick="OpenMenu('UserAuth');">- User Authorize</button>
+                                <button id="mnuMasS1" class="btn btn-default btn-block" onclick="OpenLink('Constant')">- System Variables</button>
+                                <button id="mnuMasS2" class="btn btn-default btn-block" onclick="OpenLink('users');">- System User</button>
+                                <button id="mnuMasS3" class="btn btn-default btn-block" onclick="OpenLink('UserAuth');">- User Authorize</button>
                             </div>
                             <div class="col-sm-6">
-                                <button id="mnuMasS4" class="btn btn-default btn-block" onclick="OpenMenu('Branch')">- Branch</button>
-                                <button id="mnuMasS5" class="btn btn-default btn-block" onclick="OpenMenu('Role')">- User Role</button>
+                                <button id="mnuMasS4" class="btn btn-default btn-block" onclick="OpenLink('Branch')">- Branch</button>
+                                <button id="mnuMasS5" class="btn btn-default btn-block" onclick="OpenLink('Role')">- User Role</button>
                             </div>
                         </div>
 
@@ -321,17 +321,17 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                <button id="mnuMasG1" class="btn btn-default btn-block" onclick="OpenMenu('Currency')">- Currency</button>
-                                <button id="mnuMasG2" class="btn btn-default btn-block" onclick="OpenMenu('Country')">- Country</button>
-                                <button id="mnuMasG3" class="btn btn-default btn-block" onclick="OpenMenu('InterPort')">- Inter Ports</button>
-                                <button id="mnuMasG4" class="btn btn-default btn-block" onclick="OpenMenu('vessel')">- Vessel/Vehicles/Flight</button>
-                                <button id="mnuMasG9" class="btn btn-default btn-block" onclick="OpenMenu('TransportRoute')">- Transport Route</button>
+                                <button id="mnuMasG1" class="btn btn-default btn-block" onclick="OpenLink('Currency')">- Currency</button>
+                                <button id="mnuMasG2" class="btn btn-default btn-block" onclick="OpenLink('Country')">- Country</button>
+                                <button id="mnuMasG3" class="btn btn-default btn-block" onclick="OpenLink('InterPort')">- Inter Ports</button>
+                                <button id="mnuMasG4" class="btn btn-default btn-block" onclick="OpenLink('vessel')">- Vessel/Vehicles/Flight</button>
+                                <button id="mnuMasG9" class="btn btn-default btn-block" onclick="OpenLink('TransportRoute')">- Transport Route</button>
                             </div>
                             <div class="col-sm-6">
-                                <button id="mnuMasG8" class="btn btn-default btn-block" onclick="OpenMenu('Province')">- Province</button>
-                                <button id="mnuMasG5" class="btn btn-default btn-block" onclick="OpenMenu('DeclareType')">- Declare Type</button>
-                                <button id="mnuMasG6" class="btn btn-default btn-block" onclick="OpenMenu('CustomsPort')">- Customs Port</button>
-                                <button id="mnuMasG7" class="btn btn-default btn-block" onclick="OpenMenu('CustomsUnit')">- Product Units</button>
+                                <button id="mnuMasG8" class="btn btn-default btn-block" onclick="OpenLink('Province')">- Province</button>
+                                <button id="mnuMasG5" class="btn btn-default btn-block" onclick="OpenLink('DeclareType')">- Declare Type</button>
+                                <button id="mnuMasG6" class="btn btn-default btn-block" onclick="OpenLink('CustomsPort')">- Customs Port</button>
+                                <button id="mnuMasG7" class="btn btn-default btn-block" onclick="OpenLink('CustomsUnit')">- Product Units</button>
                             </div>
                         </div>
                     </div>
@@ -519,11 +519,14 @@
                 }
             });
         }
-        function OpenContact() {
-            window.open(base + 'Menu/About', '', '');
+        function OpenLink(mnu) {
+            OpenMenu(mnu, false);
         }
-        function CheckDatabase() {
-            ShowMessage('MAS=' + dbMas + '\nJOB=' + dbJob + '\nSESSION-ID=' + sessionID);
+        function OpenContact() {
+            window.location.href=base + 'Menu/About';
+        }
+        function ReturnMain() {
+            window.location.href=base + 'Master/Index';
         }
         function SwitchMenu() {
             switch ($('#cboMenu').val()) {
