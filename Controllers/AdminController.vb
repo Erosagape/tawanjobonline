@@ -13,6 +13,23 @@ Namespace Controllers
             Return GetView("UpVersion")
         End Function
         <HttpPost()>
+        Function ImportLangMessage(data As List(Of CLangMessage)) As ActionResult
+            Dim i As Integer = 0
+            If data.Count > 0 Then
+                For Each lang In data
+                    Dim oCfg = New CConfig(GetSession("ConnJob")) With {
+                    .ConfigCode = "LANG_MESSAGE_TH",
+                    .ConfigKey = lang.Source,
+                    .ConfigValue = lang.Translate
+                    }
+                    If oCfg.SaveData() Then
+                        i += 1
+                    End If
+                Next
+            End If
+            Return Content(i + " row(s) imported", textContent)
+        End Function
+        <HttpPost()>
         Function ImportReportGroup(data As List(Of CReportGroup)) As ActionResult
             Dim i As Integer = 0
             For Each row In data

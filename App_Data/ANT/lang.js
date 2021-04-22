@@ -1,4 +1,5 @@
 ﻿let mainLanguage = 'EN';
+let langMessage = {};
 function SetLanguage(lang) {
     for (let id in lang) {
         let obj = $('#' + id);
@@ -2840,6 +2841,7 @@ function GetReportLists_V2() {
 }
 function GetLanguage(msg) {
     if (mainLanguage == "TH") {
+        /*
         let lang = {
             "Approve Complete": "อนุมัติเรียบร้อย",
             "Advance amount is not balance": "ยอดไม่ลงตัว",
@@ -2944,7 +2946,8 @@ function GetLanguage(msg) {
             "You are not allow to view": "คุณไม่ได้รับอนุญาตให้ดูข้อมูล",
             "You can choose cheque only for payment entry": "คุณจะสามารถเลือกรายการเช็คได้เมื่อทำการจ่ายเงินเท่านั้น"            
         };
-        let findLang = lang[msg];
+        */
+        let findLang = langMessage[msg];
         if (findLang !== undefined) {
             return findLang;
         }

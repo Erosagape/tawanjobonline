@@ -23,6 +23,23 @@ Namespace Controllers
         Function Role() As ActionResult
             Return GetView("Role", "MODULE_ADM")
         End Function
+        Function GetLangMessage() As ActionResult
+            Try
+                Dim oCfg = New CConfig(GetSession("ConnJob"))
+                Dim oData = oCfg.GetData(" WHERE ConfigCode='LANG_MESSAGE_TH' AND ConfigKey<>'' ")
+                Dim oJson = "{"
+                Dim i As Integer = 0
+                For Each data As CConfig In oData
+                    If i > 0 Then oJson &= ","
+                    oJson &= """" & data.ConfigKey & """:""" & data.ConfigValue & """"
+                    i += 1
+                Next
+                oJson &= "}"
+                Return Content(oJson, jsonContent)
+            Catch ex As Exception
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
         Function GetDatabase() As ActionResult
             Try
                 Dim companyName As String = ""

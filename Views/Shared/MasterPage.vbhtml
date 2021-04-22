@@ -421,6 +421,7 @@
         let dbJob = '@ViewBag.CONNECTION_JOB';
         let userLang = '@ViewBag.PROFILE_DEFAULT_LANG';
         let base = '@Url.Content("~")';
+
         if (userLang !== 'EN' && userLang !== '') {
             $('#cboLanguage').val(userLang);
             ChangeLanguage(userLang, $('#lblModule').val());
@@ -442,7 +443,9 @@
             }
         });
         CheckLogin();
-
+        $.get(base + 'Config/GetLangMessage').done(function (r) {
+            langMessage = r;
+        });
         function ForceLogout() {
             userType = $('input[name=optRole]:checked').val();
 
