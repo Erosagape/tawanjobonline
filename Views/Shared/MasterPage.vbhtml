@@ -23,9 +23,6 @@
     <script src="~/Scripts/Func/menu.js?@DateTime.Now.Ticks"></script>
     <script src="~/Scripts/Func/lang.js?@DateTime.Now.Ticks"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-    <style>
-
-    </style>
 </head>
 <body style="background:#e6e6e6;color:black;">
     <!-- Sidebar -->
@@ -154,7 +151,7 @@
                     </div>
                 </div>
                 <div id="dvMenuByFlow">
-                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuMasters')">
+                    <div id="mnuMaster" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMasters')">
                         My Master Data
                     </div>
                     <div id="mnuMasters" class="w3-hide w3-card-4 w3-sand">
@@ -162,15 +159,15 @@
                         <a href="#" id="mnuMaster2" class="w3-bar-item w3-button" onclick="OpenLink('MasG')">2.Customs Data</a>
                         <a href="#" id="mnuMaster3" class="w3-bar-item w3-button" onclick="OpenLink('MasA')">3.Accounts Data</a>
                     </div>
-                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuOpenJob')">
+                    <div id="mnuShipments" class="w3-bar-item w3-button" onclick="w3_accordion('mnuOpenJob')">
                         My Shipments
                     </div>
                     <div id="mnuOpenJob" class="w3-hide w3-card-4 w3-light-grey">
-                        <a href="#" id="mnuOpenjob1" class="w3-bar-item w3-button" onclick="OpenLink('CreateJob')">1.New Shipment</a>
-                        <a href="#" id="mnuOpenjob2" class="w3-bar-item w3-button" onclick="OpenLink('SearchJob')">2.Edit Shipment</a>
-                        <a href="#" id="mnuOpenjob3" class="w3-bar-item w3-button" onclick="OpenLink('Transport')">3.Edit Transport</a>
+                        <a href="#" id="mnuOpenJob1" class="w3-bar-item w3-button" onclick="OpenLink('CreateJob')">1.New Shipment</a>
+                        <a href="#" id="mnuOpenJob2" class="w3-bar-item w3-button" onclick="OpenLink('SearchJob')">2.Edit Shipment</a>
+                        <a href="#" id="mnuOpenJob3" class="w3-bar-item w3-button" onclick="OpenLink('Transport')">3.Edit Transport</a>
                     </div>
-                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuExpenses')">
+                    <div id="mnuPlaning" class="w3-bar-item w3-button" onclick="w3_accordion('mnuExpenses')">
                         My Services Planning
                     </div>
                     <div id="mnuExpenses" class="w3-hide w3-card-4 w3-pale-yellow">
@@ -178,7 +175,7 @@
                         <a href="#" id="mnuExpenses2" class="w3-bar-item w3-button" onclick="OpenLink('TransportRoute')">2.Edit Price Lists</a>
                         <a href="#" id="mnuExpenses3" class="w3-bar-item w3-button" onclick="OpenLink('EstimateCost')">3.Pre-Invoices</a>
                     </div>
-                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuAdvances')">
+                    <div id="mnuAdvExpenses" class="w3-bar-item w3-button" onclick="w3_accordion('mnuAdvances')">
                         My Expenses
                     </div>
                     <div id="mnuAdvances" class="w3-hide w3-card-4 w3-khaki">
@@ -186,14 +183,14 @@
                         <a href="#" id="mnuAdvance2" class="w3-bar-item w3-button" onclick="OpenLink('CreditAdv')">2.Credit Advances</a>
                         <a href="#" id="mnuAdvance3" class="w3-bar-item w3-button" onclick="OpenLink('BillPayment')">3.Accrued Expenses</a>
                     </div>
-                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuClearances')">
+                    <div id="mnuCosting" class="w3-bar-item w3-button" onclick="w3_accordion('mnuClearances')">
                         My Cost & Services
                     </div>
                     <div id="mnuClearances" class="w3-hide w3-card-4 w3-pale-blue">
                         <a href="#" id="mnuClearance1" class="w3-bar-item w3-button" onclick="OpenLink('Clearing')">1.Expenses Clearing</a>
                         <a href="#" id="mnuClearance2" class="w3-bar-item w3-button" onclick="OpenLink('Earnest')">2.Adjustment Clearing</a>
                     </div>
-                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuBillings')">
+                    <div id="mnuIncome" class="w3-bar-item w3-button" onclick="w3_accordion('mnuBillings')">
                         My Incomes
                     </div>
                     <div id="mnuBillings" class="w3-hide w3-card-4 w3-pale-green">
@@ -202,7 +199,7 @@
                         <a href="#" id="mnuBilling3" class="w3-bar-item w3-button" onclick="OpenLink('Receipt')">3.Cash-Receipts</a>
                         <a href="#" id="mnuBilling4" class="w3-bar-item w3-button" onclick="OpenLink('TaxInvoice')">4.Tax-Receipts</a>
                     </div>
-                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuAuthorized')">
+                    <div id="mnuDocuments" class="w3-bar-item w3-button" onclick="w3_accordion('mnuAuthorized')">
                         My Documents
                     </div>
                     <div id="mnuAuthorized" class="w3-hide w3-card-4 w3-pale-red">
@@ -214,7 +211,7 @@
                         <a href="#" id="mnuAuthorize6" class="w3-bar-item w3-button" onclick="OpenLink('AppTransport')">6.Transport Approving</a>
                         <a href="#" id="mnuAuthorize7" class="w3-bar-item w3-button" onclick="OpenLink('Document')">7.Document Files</a>
                     </div>
-                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuCashManager')">
+                    <div id="mnuCashFlow" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCashManager')">
                         My Cash Flow
                     </div>
                     <div id="mnuCashManager" class="w3-hide w3-card-4 w3-light-blue">
@@ -225,7 +222,7 @@
                         <a href="#" id="mnuCash5" class="w3-bar-item w3-button" onclick="OpenLink('Payment')">5.A/P Payment</a>
                         <a href="#" id="mnuCash6" class="w3-bar-item w3-button" onclick="OpenLink('RecvInv')">6.A/R Receive</a>
                     </div>
-                    <div class="w3-bar-item w3-button" onclick="w3_accordion('mnuSummary')">
+                    <div id="mnuReports" class="w3-bar-item w3-button" onclick="w3_accordion('mnuSummary')">
                         My Reports
                     </div>
                     <div id="mnuSummary" class="w3-hide w3-card-4 w3-amber">
@@ -444,7 +441,14 @@
         });
         CheckLogin();
         $.get(base + 'Config/GetLangMessage').done(function (r) {
-            langMessage = r;
+            if (r !== null) {
+                langMessage = r;
+            }
+        });
+        $.get(base + 'Config/GetLangMenu').done(function (r) {
+            if (r !== null) {
+                langMenu = r;
+            }
         });
         function ForceLogout() {
             userType = $('input[name=optRole]:checked').val();
@@ -509,7 +513,7 @@
             }
         }
         function SetLogout() {
-            ShowConfirm('Please confirm to log out', function (c) {
+            ShowConfirm('Please confirm to log out the application', function (c) {
                 if (c == true) {
                     ShowWait();
                     $.get(base + 'config/setlogout?group='+ userType +'&code=' + userID)
