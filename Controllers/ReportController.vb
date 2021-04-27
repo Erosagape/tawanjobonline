@@ -198,8 +198,12 @@ from Mas_Config s where s.ConfigCode like 'REPORT_%' AND s.ConfigKey='ReportName
                 sql &= String.Format(" and s.ConfigCode in(select ConfigCode from Mas_Config WHERE ConfigKey='ReportGroup' AND ConfigValue='{0}')", groupCode)
             End If
             Dim ds = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
-            Dim json As String = JsonConvert.SerializeObject(ds)
-            Return Content(json, jsonContent)
+            If ds.Rows.Count > 0 Then
+                Dim json As String = JsonConvert.SerializeObject(ds)
+                Return Content(json, jsonContent)
+            Else
+                Return Content("{}", jsonContent)
+            End If
         End Function
         Function GetReport(<FromBody()> data As CReport) As ActionResult
             Dim sqlM As String = ""

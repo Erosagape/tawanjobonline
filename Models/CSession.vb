@@ -29,6 +29,6 @@
     Public Property CreditDays As String
     Public Property TaxNumber As String
     Public Property TaxBranch As String
-
+    Public Property MenuType As String
 
 End Class

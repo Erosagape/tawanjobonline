@@ -196,15 +196,19 @@
             group = '';
         }
         $.get(path + 'Report/GetReportList?group=' + group).done((r) => {
-            $('#tbReportList').DataTable({
-                data: r,
-                columns: [
-                    { data: "ReportCode", title: "Report Code" },
-                    { data: (mainLanguage == 'TH' ? "ReportNameTH" : "ReportNameEN"), title: "ReportName" }
-                ],
-                responsive: true,
-                destroy: true
-            });
+            if ($.isEmptyObject(r) == false && r[0].ReportCode !== null) {
+                $('#tbReportList').DataTable({
+                    data: r,
+                    columns: [
+                        { data: "ReportCode", title: "Report Code" },
+                        { data: (mainLanguage == 'TH' ? "ReportNameTH" : "ReportNameEN"), title: "ReportName" }
+                    ],
+                    responsive: true,
+                    destroy: true
+                });
+            } else {
+                ChangeLanguageForm('@ViewBag.Module');
+            }
         });
     }
     function GetCliteria() {

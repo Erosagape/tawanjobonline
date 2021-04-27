@@ -417,8 +417,11 @@
         let dbMas = '@ViewBag.CONNECTION_MAS';
         let dbJob = '@ViewBag.CONNECTION_JOB';
         let userLang = '@ViewBag.PROFILE_DEFAULT_LANG';
+        let menuType = '@ViewBag.PROFILE_MENU_TYPE';
         let base = '@Url.Content("~")';
-
+        if (menuType !== '') {
+            $('#cboMenu').val(menuType);
+        }
         if (userLang !== 'EN' && userLang !== '') {
             $('#cboLanguage').val(userLang);
             ChangeLanguage(userLang, $('#lblModule').val());
@@ -440,16 +443,19 @@
             }
         });
         CheckLogin();
-        $.get(base + 'Config/GetLangMessage').done(function (r) {
-            if (r !== null) {
-                langMessage = r;
-            }
-        });
-        $.get(base + 'Config/GetLangMenu').done(function (r) {
-            if (r !== null) {
-                langMenu = r;
-            }
-        });
+        CheckLanguage();
+        function CheckLanguage() {
+            $.get(base + 'Config/GetLangMessage').done(function (r) {
+                if ($.isEmptyObject(r)==false) {
+                    langMessage = r;
+                }
+            });
+            $.get(base + 'Config/GetLangMenu').done(function (r) {
+                if ($.isEmptyObject(r) == false) {
+                    langMenu = r;
+                }
+            });
+        }
         function ForceLogout() {
             userType = $('input[name=optRole]:checked').val();
 
@@ -536,16 +542,18 @@
             window.location.href=base + 'Master/Index';
         }
         function SwitchMenu() {
-            switch ($('#cboMenu').val()) {
-                case 'W':
-                    $('#dvMenuByDept').hide();
-                    $('#dvMenuByFlow').show();
-                    break;
-                case 'D':
-                    $('#dvMenuByFlow').hide();
-                    $('#dvMenuByDept').show();
-                    break;
-            }
+            SetMenu($('#cboMenu').val(), function () {
+                switch ($('#cboMenu').val()) {
+                    case 'W':
+                        $('#dvMenuByDept').hide();
+                        $('#dvMenuByFlow').show();
+                        break;
+                    case 'D':
+                        $('#dvMenuByFlow').hide();
+                        $('#dvMenuByDept').show();
+                        break;
+                }
+            });
         }
         function w3_open() {
             document.getElementById("mySidebar").style.display = "block";

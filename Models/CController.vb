@@ -38,6 +38,7 @@ Public Class CController
         Current.TaxNumber = GetSession("TaxNumber")
         Current.CreditDays = GetSession("CreditDays")
         Current.TaxBranch = GetSession("TaxBranch")
+        Current.MenuType = GetSession("MenuType")
         SessionData = JsonConvert.SerializeObject(Current)
     End Sub
     Friend Sub LoadSession()
@@ -70,6 +71,7 @@ Public Class CController
         Session("CreditDays") = Current.CreditDays
         Session("TaxNumber") = Current.TaxNumber
         Session("TaxBranch") = Current.TaxBranch
+        Session("MenuType") = Current.MenuType
     End Sub
     Friend Sub ClearSession()
         Session("CurrUser") = Nothing
@@ -101,6 +103,7 @@ Public Class CController
         Session("CreditDays") = Nothing
         Session("TaxNumber") = Nothing
         Session("TaxBranch") = Nothing
+        Session("MenuType") = Nothing
         SessionData = ""
     End Sub
     Friend Function GetSession(sName As String) As String
@@ -160,6 +163,8 @@ Public Class CController
                     Session(sName) = GetValueConfig("PROFILE", "TAXRATE_SRV", "3")
                 Case "UserGroup"
                     Session(sName) = "S"
+                Case "MenuType"
+                    Session(sName) = GetValueConfig("PROFILE", "MENU_TYPE", "D")
                 Case Else
                     Session(sName) = ""
             End Select
@@ -228,6 +233,7 @@ Public Class CController
             ViewBag.PROFILE_PAYMENT_CREDIT_DAYS = GetSession("CreditDays").ToString
             ViewBag.PROFILE_TAXNUMBER = GetSession("TaxNumber").ToString
             ViewBag.PROFILE_TAXBRANCH = GetSession("TaxBranch").ToString
+            ViewBag.PROFILE_MENU_TYPE = GetSession("MenuType").ToString
         Else
             ViewBag.PROFILE_DEFAULT_BRANCH = ""
             ViewBag.PROFILE_DEFAULT_BRANCH_NAME = ""
@@ -249,11 +255,20 @@ Public Class CController
             ViewBag.PROFILE_TAXNUMBER = ""
             ViewBag.PROFILE_TAXBRANCH = ""
             ViewBag.PROFILE_DEFAULT_LANG = "EN"
+            ViewBag.PROFILE_MENU_TYPE = "D"
         End If
         ViewBag.SESSION_ID = Session.SessionID
         SaveSession()
         Return Not bExpired
     End Function
+    Friend Sub UpdateSessionToDb()
+        SaveSession()
+        Dim oLogin = New CWebLogin(ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString).GetData(String.Format(" WHERE FromIP='{0}' AND ExpireDateTime>GETDATE()", Request.UserHostAddress))
+        If oLogin.Count > 0 Then
+            oLogin(0).SessionData = Me.SessionData
+            oLogin(0).SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oLogin(0).CustID, oLogin(0).AppID, oLogin(0).UserLogIN))
+        End If
+    End Sub
     Friend Function GetView(vName As String, Optional modName As String = "") As ActionResult
         Dim baseURL = Me.ControllerContext.RouteData.Values("Controller").ToString() & "\" & vName
         Try

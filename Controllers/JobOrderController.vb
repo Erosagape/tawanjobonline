@@ -1108,19 +1108,19 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     tSqlW &= " AND j.CSCode='" & Request.QueryString("CSCode") & "'"
                 End If
                 If Not IsNothing(Request.QueryString("DeclareNo")) Then
-                    tSqlW &= " AND j.DeclareNumber='" & Request.QueryString("DeclareNo") & "'"
+                    tSqlW &= " AND j.DeclareNumber Like '%" & Request.QueryString("DeclareNo") & "%'"
                 End If
                 If Not IsNothing(Request.QueryString("HAWB")) Then
-                    tSqlW &= " AND j.HAWB='" & Request.QueryString("HAWB") & "'"
+                    tSqlW &= " AND j.HAWB Like '%" & Request.QueryString("HAWB") & "%'"
                 End If
                 If Not IsNothing(Request.QueryString("MAWB")) Then
-                    tSqlW &= " AND j.MAWB='" & Request.QueryString("MAWB") & "'"
+                    tSqlW &= " AND j.MAWB Like '%" & Request.QueryString("MAWB") & "%'"
                 End If
                 If Not IsNothing(Request.QueryString("InvNo")) Then
-                    tSqlW &= " AND j.InvNo='" & Request.QueryString("InvNo") & "'"
+                    tSqlW &= " AND j.InvNo Like '%" & Request.QueryString("InvNo") & "%'"
                 End If
                 If Not IsNothing(Request.QueryString("BookingNo")) Then
-                    tSqlW &= " AND j.BookingNo='" & Request.QueryString("BookingNo") & "'"
+                    tSqlW &= " AND j.BookingNo Like '%" & Request.QueryString("BookingNo") & "%'"
                 End If
                 If Not IsNothing(Request.QueryString("ManagerCode")) Then
                     tSqlW &= " AND j.ManagerCode='" & Request.QueryString("ManagerCode") & "'"

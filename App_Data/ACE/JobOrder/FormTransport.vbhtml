@@ -111,7 +111,13 @@ End Code
                     <br />Tel (662) 670 0660 Fax (662) 170 7253
                     <br />E-mail/Website ace@th-ace.com
                 </div>
-
+                <div id="dvAgent">
+                    <br/>
+                    <div  style="border-top:solid;border-width:thin;text-align:left;font-size:10px;padding:3px 3px 3px 3px;">
+                        <b>Delivery Agent of Destination</b><br/>
+                        <div id="lblPackingAddress"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -215,6 +221,10 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
             $('#lblVesselName').text(h.VesselName);
             $('#lblMVesselName').text(h.MVesselName);
             $('#lblPackingPlace').text(h.PackingPlace);
+            if(h.PackingAddress==''){
+                $('#dvAgent').hide();
+            }
+            $('#lblPackingAddress').html(CStr(h.PackingAddress));
             ShowReleasePort(path, h.ClearPort, '#lblClearPortName');
 let unit=units.filter(function(data){
    return data.Code==h.InvProductUnit;

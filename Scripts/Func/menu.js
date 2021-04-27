@@ -1,4 +1,12 @@
-﻿function OpenMenu(mnuID,newpage=true) {
+﻿function SetMenu(code,ev) {
+    ShowWait();
+    $.get(path + 'Config/SetMenuType?data=' + code)
+        .done(function () {
+            ev();
+            CloseWait();
+        });
+}
+function OpenMenu(mnuID, newpage = true) {
     let mnuPath = '';
     switch (mnuID) {
         case 'AccountCode':

@@ -19,7 +19,8 @@ End Code
     var path = '@Url.Content("~")';
     let user = '@ViewBag.User';
     let userGroup = '@ViewBag.UserGroup';
-    let userPosition ='@ViewBag.UserPosition';
+    let userPosition = '@ViewBag.UserPosition';
+    let menuStart = '@ViewBag.PROFILE_MENU_TYPE';
     if (user !== '') {
         switch (userGroup) {
             case 'S':
@@ -33,7 +34,7 @@ End Code
                         window.location.href = path + 'Tracking/Index';
                         break;
                     default:
-                        if (IsMobile()) {
+                        if (IsMobile()||menuStart=='W') {
                             window.location.href = path + 'Menu/Index';
                         } else {
                             window.location.href = path + 'Tracking/Dashboard';

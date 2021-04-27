@@ -1530,19 +1530,19 @@ AND JobStatus<>99 AND NOT ISNULL(CancelReson,'')<>''
 UNION
 SELECT BranchCode,JNo,1 FROM Job_Order 
 WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate IS NULL
-AND JobStatus<>1 AND NOT ISNULL(CancelReson,'')<>''
+AND NOT ISNULL(CancelReson,'')<>''
 UNION
 SELECT BranchCode,JNo,1 FROM Job_Order 
-WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND NOT DutyDate<=Convert(datetime,'" & today & "',102)
-AND JobStatus<>1 AND NOT ISNULL(CancelReson,'')<>''
+WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate>Convert(datetime,'" & today & "',102)
+AND NOT ISNULL(CancelReson,'')<>''
 UNION
 SELECT BranchCode,JNo,2 FROM Job_Order 
 WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate<=Convert(datetime,'" & today & "',102)
-AND JobStatus<>2 AND NOT ISNULL(CancelReson,'')<>'' 
+AND NOT ISNULL(CancelReson,'')<>'' 
 UNION
 SELECT BranchCode,JNo,2 FROM Job_Order 
 WHERE EXISTS(SELECT DISTINCT b.ForJNo FROM Job_AdvHeader a INNER JOIN Job_AdvDetail b ON a.BranchCode=b.BranchCode AND a.AdvNo=b.AdvNo WHERE b.ForJNo=Job_Order.JNo AND a.DocStatus<>99)
-AND JobStatus<2 AND NOT ISNULL(CancelReson,'')<>'' 
+AND NOT ISNULL(CancelReson,'')<>'' 
 UNION
 SELECT BranchCode,JNo,3 FROM Job_Order 
 WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NOT NULL
@@ -1661,10 +1661,10 @@ WHERE NOT EXISTS (
       COUNT(*) as TotalDoc
       FROM Job_ClearDetail b INNER JOIN Job_ClearHeader h
       ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
+	  INNER JOIN Job_SrvSingle s ON b.SICode=s.SICode	 
       WHERE b.BranchCode=a.BranchCode AND b.JobNo=a.JNo
-      AND h.DocStatus<>99  AND b.BNet>0 
+      AND h.DocStatus<>99  AND b.BNet>0 AND s.IsExpense=0
       GROUP BY b.BranchCode,b.JobNo
-      HAVING COUNT(*)=SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
 )
 AND a.JobStatus=6 AND NOT ISNULL(a.CancelReson,'')<>''
     ) s

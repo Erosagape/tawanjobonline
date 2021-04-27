@@ -103,6 +103,12 @@ End Code
         <label id="lblSumTotal"></label>
     </div>
 </div>
+<p>
+    PLEASE REMIT TO ACCOUNT NO:<br />999-99999-9<br />
+    "TAWAN TECHNOLOGY CO.,LTD"<br />
+    SIAM COMMERCIAL BANK PUBLIC LIMITED<br />
+    THE MALL RAMKAMHAENG BRANCH
+</p>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let branch = getQueryString("Branch");
@@ -127,6 +133,7 @@ End Code
         $('#lblMVesselName').text(dr.MVesselName);
         $('#lblInvProduct').text(dr.InvProduct);
         $('#lblInvQty').text(dr.InvProductQty);
+        ShowCountry(path, dr.InvCountry, '#lblCountryPort');
         ShowInvUnit(path, dr.InvProductUnit, '#lblInvQtyUnit');
         $('#lblMeasurement').text(dr.Measurement);
         $('#lblBLStatus').text(dr.BookingNo);
