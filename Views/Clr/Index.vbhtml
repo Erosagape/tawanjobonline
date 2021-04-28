@@ -319,7 +319,7 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label id="lblQNo">Quotation No :</label>
+                                    <label id="lblQNo">Quotation No :</label>/<label id="lblEstimate" onclick="SearchData('estimate')" >Estimate</label>
                                     <div style="display:flex">
                                         <input type="text" id="txtQNo" class="form-control" disabled />
                                         <input type="button" id="btnBrowseQ" class="btn btn-default" value="..." onclick="SearchData('quotation')" />
@@ -946,7 +946,7 @@ End Code
         LoadService();
 
         //3 Fields Show
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Venders
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response,2);
@@ -962,6 +962,8 @@ End Code
             CreateLOV(dv, '#frmSearchExpCur', '#tbExpCur', 'Currency Code', response, 2);
             //Unit
             CreateLOV(dv, '#frmSearchUnit', '#tbUnit', 'Unit Code', response, 2);
+            //Estimate
+            CreateLOV(dv, '#frmSearchEstimate', '#tbEstimate', 'Estimate Price', response, 3);
         });
     }
     function ShowData(branchcode, clrno) {
@@ -1828,6 +1830,9 @@ End Code
             case 'servunit':
                 SetGridServUnit(path, '#tbUnit', '#frmSearchUnit', ReadUnit);
                 break;
+            case 'estimate':
+                SetGridEstimateCost(path, '#tbEstimate', '?status=NOCLR&type=' + $('#cboClrType').val() + '&Job=' + $('#txtForJNo').val(), '#frmSearchEstimate', ReadEstimate);
+                break;
             case 'quotation':
                 //let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val() + '&code=' + $('#txtSICode').val() + '&jtype=' + $('#txtJobType').val() + '&sby=' + $('#txtShipBy').val();
                 let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val();
@@ -2132,6 +2137,36 @@ End Code
                 ShowMessage("Not found data for clear",true);
             }
         });
+    }
+    function ReadEstimate(dt) {
+        $('#txtSICode').val(dt.SICode);
+        $('#cboSTCode').val('QUO');
+        $('#txtSDescription').val(dt.SDescription);
+        $('#txtVatType').val(dt.IsTaxCharge);
+        $('#txtVATRate').val(dt.AmtVatRate);
+        $('#txtWHTRate').val(dt.AmtWhtRate == "0" ? "0" : dt.AmtWhtRate);
+        if (dt.IsTaxCharge == "2") {
+            $('#txtAMT').attr('disabled', 'disabled');
+            $('#txtVATRate').attr('disabled', 'disabled');
+            $('#txtWHTRate').attr('disabled', 'disabled');
+            $('#txtVAT').attr('disabled', 'disabled');
+            $('#txtWHT').attr('disabled', 'disabled');
+        } else {
+            $('#txtAMT').removeAttr('disabled');
+            $('#txtVATRate').removeAttr('disabled');
+            $('#txtWHTRate').removeAttr('disabled');
+            $('#txtVAT').removeAttr('disabled');
+            $('#txtWHT').removeAttr('disabled');
+        }
+        $('#txtCurrencyCode').val(dt.CurrencyCode);
+        ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
+        $('#txtCurRate').val(dt.ExchangeRate);
+        $('#txtUnitPrice').val(CDbl(dt.AmountCharge, 2));
+        $('#txtQty').val(CNum(dt.Qty));
+        $('#txtUnitCode').val(dt.QtyUnit);
+        $('#txtVenCode').val(dt.VenderCode);
+        ShowVender(path, dt.VenderCode, '#txtPayChqTo');
+        CalAmount();
     }
     function ReadQuotation(dt) {
         $('#txtSICode').val(dt.SICode);

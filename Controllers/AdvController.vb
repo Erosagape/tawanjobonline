@@ -90,6 +90,19 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND a.SICode ='{0}' ", Request.QueryString("Code").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("Status")) Then
+                    tSqlw &= String.Format("AND (CASE WHEN b.ClrNo IS NOT NULL THEN 'CLR' ELSE 'NOCLR' END)='{0}' ", Request.QueryString("Status").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Type")) Then
+                    Select Case Request.QueryString("Type").ToString
+                        Case "1"
+                            tSqlw &= "AND s.IsExpense=0 AND s.IsCredit=1 "
+                        Case "2"
+                            tSqlw &= "AND s.IsExpense=1 "
+                        Case "3"
+                            tSqlw &= "AND s.IsExpense=0 AND s.IsCredit=0 "
+                    End Select
+                End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectClearExp() & tSqlw)
                 Dim json = JsonConvert.SerializeObject(oData)
                 json = "{""estimate"":{""data"":" & json & "}}"

@@ -421,6 +421,7 @@
         let base = '@Url.Content("~")';
         if (menuType !== '') {
             $('#cboMenu').val(menuType);
+            ChangeMenu();
         }
         if (userLang !== 'EN' && userLang !== '') {
             $('#cboLanguage').val(userLang);
@@ -541,19 +542,20 @@
         function ReturnMain() {
             window.location.href=base + 'Master/Index';
         }
+        function ChangeMenu() {
+            switch ($('#cboMenu').val()) {
+                case 'W':
+                    $('#dvMenuByDept').hide();
+                    $('#dvMenuByFlow').show();
+                    break;
+                case 'D':
+                    $('#dvMenuByFlow').hide();
+                    $('#dvMenuByDept').show();
+                    break;
+            }
+        }
         function SwitchMenu() {
-            SetMenu($('#cboMenu').val(), function () {
-                switch ($('#cboMenu').val()) {
-                    case 'W':
-                        $('#dvMenuByDept').hide();
-                        $('#dvMenuByFlow').show();
-                        break;
-                    case 'D':
-                        $('#dvMenuByFlow').hide();
-                        $('#dvMenuByDept').show();
-                        break;
-                }
-            });
+            SetMenu($('#cboMenu').val(), ChangeMenu);
         }
         function w3_open() {
             document.getElementById("mySidebar").style.display = "block";

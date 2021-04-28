@@ -2237,14 +2237,15 @@ GROUP BY j.JobStatus
         Dim sql = "
 SELECT a.BranchCode,a.JNo,a.SICode,a.SDescription,a.TRemark,a.AmountCharge,a.Status,
 a.CurrencyCode,a.ExchangeRate,a.Qty,a.QtyUnit,a.AmtVatRate,a.AmtVat,a.AmtWhtRate,a.AmtWht,
-a.AmtTotal,b.ClrNo,b.CostAmount,b.ChargeAmount
+a.AmtTotal,b.ClrNo,b.CostAmount,b.ChargeAmount,s.IsCredit,s.IsTaxCharge,s.IsExpense,s.DefaultVender as VenderCode
 FROM dbo.Job_ClearExp a
 LEFT JOIN (
-SELECT BranchCode,JobNo,SICode,SUM(BCost) as CostAmount,SUM(BPrice) as ChargeAmount,Max(ClrNo) as ClrNo
+SELECT BranchCode,JobNo,SICode,SUM(BNet) as CostAmount,SUM(CASE WHEN BPrice>0 THEN BNet ELSE 0 END) as ChargeAmount,Max(ClrNo) as ClrNo
 FROM dbo.Job_ClearDetail WHERE ClrNo NOT IN (SELECT ClrNo FROM Job_ClearHeader WHERE DocStatus=99)
 GROUP BY BranchCode,JobNo,SICode
 ) b
-ON a.BranchCode=b.BranchCode AND a.JNo=b.JobNo AND a.SICode=b.SICode
+ON a.BranchCode=b.BranchCode AND a.JNo=b.JobNo AND a.SICode=b.SICode 
+inner join Job_SrvSingle s ON a.SICode=s.SIcode
 "
         Return sql
     End Function
