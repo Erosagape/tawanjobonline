@@ -1656,7 +1656,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             If Not IsNothing(Request.QueryString("TaxNumber")) Then
                 tSqlW &= " AND j.CustCode IN(SELECT CustCode FROM Mas_Company WHERE TaxNumber='" & Request.QueryString("TaxNumber") & "')"
             End If
-            Dim tResult = New CUtil(GetSession("ConnJob")).ExecuteSQL(SQLUpdateJobStatus(tSqlW), bLog)
+            Dim oCmd = New CUtil(GetSession("ConnJob"))
+            oCmd.ExecuteSQL(SQLUpdateCashFlowToJob() & tSqlW)
+            Dim tResult = oCmd.ExecuteSQL(SQLUpdateJobStatus(tSqlW), bLog)
             Return Content(tResult, textContent)
         End Function
         Function GetDashboardSQL() As ActionResult

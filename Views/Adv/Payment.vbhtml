@@ -199,6 +199,7 @@ End Code
                     <div class="col-sm-3 table-bordered" id="dvChq">
                         <b id="linkChqCust">Customer Chq : </b><input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
+                        <input type="hidden" id="txtBookChq" class="form-control" value=""/>
                         <a id="lblRefNoCU" href="../acc/cheque" target="_blank">Chq No:</a><input type="text" id="txtRefNoChq" class="form-control" value="" disabled />
                         <input type="button" class="btn" id="btnBrowseChq" value="..." onclick="SearchData('chequecust')" />
                         <br />
@@ -413,6 +414,7 @@ End Code
         $('#txtCashPayTo').val('');
         $('#txtAdvChqCash').val('');
         $('#txtBookChqCash').val('');
+        $('#txtBookChq').val('');
         $('#txtRefNoChqCash').val('');
         $('#txtChqCashTranDate').val('');
         $('#chkStatusChq').prop('checked', false);
@@ -779,7 +781,8 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankCash').val(),
                 RecvBranch: $('#txtBankBranchCash').val(),
-                acType : 'CA'
+                acType: 'CA',
+                ForJNo:''
             });
         }
         if ($('#txtAdvChq').val() > 0) {
@@ -792,7 +795,7 @@ End Code
                 PRVoucher: '',
                 PRType: 'P',
                 ChqNo: $('#txtRefNoChq').val(),
-                BookCode: '',
+                BookCode: $('#txtBookChq').val(),
                 BankCode: '',
                 BankBranch: '',
                 ChqDate:  CDateEN($('#txtChqTranDate').val()),
@@ -816,7 +819,8 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankChq').val(),
                 RecvBranch: $('#txtBankBranchChq').val(),
-                acType: 'CU'
+                acType: 'CU',
+                ForJNo:''
             });
         }
         if ($('#txtAdvChqCash').val() > 0) {
@@ -853,7 +857,8 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankChqCash').val(),
                 RecvBranch: $('#txtBankBranchChqCash').val(),
-                acType: 'CH'
+                acType: 'CH',
+                ForJNo:''
             });
         }
         if ($('#txtAdvCred').val() > 0) {
@@ -1059,6 +1064,7 @@ End Code
             ShowMessage('Balance not enough to payment',true);
             return;
         }
+        $('#txtBookChq').val(dt.BookCode);
         $('#txtRefNoChq').val(dt.ChqNo);
         $('#txtChqTranDate').val( CDateEN(dt.ChqDate));
         $('#chkIsLocal').prop('checked', dt.IsLocal == 1 ? true : false);
@@ -1182,8 +1188,8 @@ End Code
                     $('#txtChqTranDate').focus();
                     return false;
                 } else {
-                    if ($('#cboBankChq').val() == '' || $('#txtBankBranchChq').val() == '') {
-                        ShowMessage('Please input bank and branch',true);
+                    if ($('#cboBankChq').val() == '') {
+                        ShowMessage('Please input bank',true);
                         $('#cboBankChq').focus();
                         return false;
                     }

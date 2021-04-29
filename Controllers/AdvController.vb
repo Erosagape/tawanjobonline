@@ -90,6 +90,9 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND a.SICode ='{0}' ", Request.QueryString("Code").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("Group")) Then
+                    tSqlw &= String.Format("AND s.GroupCode ='{0}' ", Request.QueryString("Group").ToString)
+                End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     tSqlw &= String.Format("AND (CASE WHEN b.ClrNo IS NOT NULL THEN 'CLR' ELSE 'NOCLR' END)='{0}' ", Request.QueryString("Status").ToString)
                 End If

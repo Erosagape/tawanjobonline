@@ -433,7 +433,7 @@ End Code
                         <div class="row">
                             <div class="col-sm-2">
                                 <label id="lblNo">No :</label>
-                                <br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control" disabled></div>
+                                <br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control"></div>
                             </div>
                             <div class="col-sm-4">
                                 <label id="lblContainerNo">Container </label>
@@ -1275,7 +1275,12 @@ End Code
         let tb=$('#tbDetail').DataTable({
             data: dr,
             columns: [
-                { data: "CTN_NO", title: "Container No" },
+                {
+                    data: null, title: "Container No",
+                    render: function (data) {
+                        return data.ItemNo + '.' + data.CTN_NO;
+                    }
+                },
                 { data: "CTN_SIZE", title: "Container Size" },
                 { data: "SealNumber", title: "Seal" },
                 { data: "ProductQty", title: "Qty" },

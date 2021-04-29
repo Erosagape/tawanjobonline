@@ -1313,7 +1313,9 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                     tSqlw &= " AND h.VoucherDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
                 If IsNothing(Request.QueryString("Cancel")) Then
-                    tSqlw &= " AND NOT ISNULL(h.CancelProve,'')<>'' "
+                    If IsNothing(Request.QueryString("Show")) Then
+                        tSqlw &= " AND NOT ISNULL(h.CancelProve,'')<>'' "
+                    End If
                 Else
                     tSqlw &= String.Format(" AND ISNULL(h.CancelProve,'')='{0}' ", Request.QueryString("Cancel").ToString())
                 End If

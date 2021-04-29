@@ -331,10 +331,10 @@ End Code
         });
     }
     function SetGridClr(isAlert) {
-        if ($('#txtSICode').val() === "") {
-            ShowMessage('Please input expense code', true);
-            return;
-        }
+        //if ($('#txtSICode').val() === "") {
+        //    ShowMessage('Please input expense code', true);
+        //    return;
+        //}
         arr = [];
         ShowSummary();
 
@@ -360,7 +360,9 @@ End Code
         if ($('#txtClrDateT').val() !== "") {
             w = w + '&DateTo=' + CDateEN($('#txtClrDateT').val());
         }
-        w = w + '&sicode=' + $('#txtSICode').val();
+        if ($('#txtSICode').val() !== "") {
+            w = w + '&sicode=' + $('#txtSICode').val();
+        }
         w = w + '&Condition=ERN';
         $.get(path + 'clr/getclearingreport?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.data.length == 0) {
@@ -655,10 +657,10 @@ End Code
             ShowMessage('Please select book account', true);
             return;
         }
-        if ($('#txtRefBank').val() == '') {
-            ShowMessage('Please input bank and branch', true);
-            return;
-        }
+        //if ($('#txtRefBank').val() == '') {
+        //    ShowMessage('Please input bank and branch', true);
+        //    return;
+        //}
         if ($('#txtRefDate').val() == '') {
             ShowMessage('Please input reference date', true);
             return;

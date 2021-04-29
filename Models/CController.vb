@@ -171,9 +171,9 @@ Public Class CController
         End If
         Return Session(sName).ToString
     End Function
-    Friend Function FindSessionFromDB(ip As String) As Boolean
+    Friend Function FindSessionFromDB(ip As String, userSession As String) As Boolean
         Dim oData = New CWebLogin(ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString)
-        Dim oFind = oData.GetData(String.Format(" WHERE FromIP='{0}' AND ExpireDateTime>GETDATE()", ip))
+        Dim oFind = oData.GetData(String.Format(" WHERE FromIP='{0}' AND SessionID='{1}' AND ExpireDateTime>GETDATE() ", ip, userSession))
         If oFind.Count = 0 Then
             Return False
         Else
@@ -194,18 +194,18 @@ Public Class CController
         End If
     End Function
     Friend Function LoadCompanyProfile() As Boolean
-        If FindSessionFromDB(Request.UserHostAddress) = True Then
-            LoadSession()
-        End If
-        If CheckSession("UserProfiles") = False Then
-            ViewBag.UserName = DirectCast(Session("UserProfiles"), CUser).TName
-            ViewBag.UserPosition = DirectCast(Session("UserProfiles"), CUser).UPosition
-        End If
         Dim bExpired = False
         ViewBag.User = GetSession("CurrUser").ToString
         If ViewBag.User = "" Then
             bExpired = True
             ViewBag.UserName = "**TIME OUT**"
+        End If
+        If FindSessionFromDB(Request.UserHostAddress, Session.SessionID) = True Then
+            LoadSession()
+        End If
+        If CheckSession("UserProfiles") = False Then
+            ViewBag.UserName = DirectCast(Session("UserProfiles"), CUser).TName
+            ViewBag.UserPosition = DirectCast(Session("UserProfiles"), CUser).UPosition
         End If
         ViewBag.UserGroup = GetSession("UserGroup").ToString
         ViewBag.CONNECTION_JOB = GetSession("ConnJob").ToString
@@ -263,7 +263,7 @@ Public Class CController
     End Function
     Friend Sub UpdateSessionToDb()
         SaveSession()
-        Dim oLogin = New CWebLogin(ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString).GetData(String.Format(" WHERE FromIP='{0}' AND ExpireDateTime>GETDATE()", Request.UserHostAddress))
+        Dim oLogin = New CWebLogin(ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString).GetData(String.Format(" WHERE FromIP='{0}' AND SessionID='{1}' AND ExpireDateTime>GETDATE()", Request.UserHostAddress, Session.SessionID))
         If oLogin.Count > 0 Then
             oLogin(0).SessionData = Me.SessionData
             oLogin(0).SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oLogin(0).CustID, oLogin(0).AppID, oLogin(0).UserLogIN))

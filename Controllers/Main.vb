@@ -1063,7 +1063,7 @@ b.CustCode,b.CustBranch,b.VoucherDate,d.DocUsed,b.TRemark
 FROM 
 (   
     SELECT BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,RecvBank,RecvBranch,acType,PRType,
-    SUM(ChqAmount) as ChqAmount
+    SUM(ChqAmount) as ChqAmount,MAX(BookCode) as BookCode
     FROM Job_CashControlSub
     GROUP BY BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,RecvBank,RecvBranch,acType,PRType
 ) a INNER JOIN Job_CashControl b
@@ -1108,7 +1108,7 @@ b.CustCode,b.CustBranch,b.VoucherDate,d.DocUsed,b.TRemark
 FROM 
 (   
     SELECT BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,BankCode,BankBranch,acType,PRType,
-    SUM(ChqAmount) as ChqAmount
+    SUM(ChqAmount) as ChqAmount,MAX(BookCode) as BookCode
     FROM Job_CashControlSub
     GROUP BY BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,BankCode,BankBranch,acType,PRType
 ) a INNER JOIN Job_CashControl b
@@ -1155,7 +1155,7 @@ b.CustCode,b.CustBranch,b.VoucherDate,d.DocUsed,b.TRemark
 FROM 
 (   
     SELECT BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,RecvBank,RecvBranch,acType,PRType,
-    SUM(ChqAmount) as ChqAmount
+    SUM(ChqAmount) as ChqAmount,MAX(BookCode) as BookCode
     FROM Job_CashControlSub
     GROUP BY BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,RecvBank,RecvBranch,acType,PRType
 ) a INNER JOIN Job_CashControl b
@@ -1200,7 +1200,7 @@ b.CustCode,b.CustBranch,b.VoucherDate,d.DocUsed,b.TRemark
 FROM 
 (   
     SELECT BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,BankCode,BankBranch,acType,PRType,
-    SUM(ChqAmount) as ChqAmount
+    SUM(ChqAmount) as ChqAmount,MAX(BookCode) as BookCode
     FROM Job_CashControlSub
     GROUP BY BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,BankCode,BankBranch,acType,PRType
 ) a INNER JOIN Job_CashControl b
@@ -3556,6 +3556,40 @@ AND p.DocNo NOT IN(SELECT DocNo fROM Job_PaymentHeader where CancelProve<>'')
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToInComplete())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateAPClearLink())
     End Sub
+    Public Function SQLUpdateCashFlowToJob() As String
+        Dim val = GetValueConfig("SQL", "UpdateCashFlowToJob")
+        If val.Length > 0 Then
+            Return val
+        End If
+        Return "
+update j
+set j.DutyCustPayChqAmt=a.ChqCustAdv,
+j.DutyLtdPayChqAmt=a.ChqPayment,
+j.DutyCustPayCashAmt=a.ChqReceive,
+j.DutyLtdPayCashAmt=a.CashPayment
+from 
+(
+select d.BranchCode,d.ForJNo as JNo,
+sum(CASE WHEN d.acType='CU' AND d.PRType='R' THEN d.ChqAmount ELSE 0 END) as ChqCustAdv, 
+sum(CASE WHEN d.acType='CH' AND d.PRType='P' THEN d.ChqAmount ELSE 0 END) as ChqPayment,
+sum(CASE WHEN d.acType='CH' AND d.PRType='R' THEN d.ChqAmount ELSE 0 END) as ChqReceive,
+sum(CASE WHEN d.acType='CA' AND d.PRType='R' THEN d.ChqAmount ELSE 0 END) as CashReceive,
+sum(CASE WHEN d.acType='CA' AND d.PRType='P' THEN d.ChqAmount ELSE 0 END) as CashPayment
+from Job_CashControlSub d 
+inner join Job_CashControl h on d.BranchCode=h.BranchCode
+and d.ControlNo =h.ControlNo
+where d.ForJNo<>'' and not h.CancelProve<>''
+group by d.BranchCode,d.ForJNo
+) a inner join Job_Order j 
+on a.BranchCode=j.BranchCode and a.JNo=j.JNo
+where j.JobStatus<>99 and (
+j.DutyCustPayChqAmt<>a.ChqCustAdv OR 
+j.DutyLtdPayChqAmt<>a.ChqPayment OR
+j.DutyCustPayCashAmt<>a.ChqReceive OR
+j.DutyLtdPayCashAmt<>a.CashPayment
+)
+"
+    End Function
     Function GetSQLCommand(cliteria As String, fldDate As String, fldCust As String, fldJob As String, fldEmp As String, fldVend As String, fldStatus As String, fldBranch As String, Optional fldSICode As String = "", Optional fldGroup As String = "") As String
         Dim sqlW As String = ""
         If cliteria Is Nothing Then
