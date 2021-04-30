@@ -959,7 +959,8 @@ function GetLangGrid(module, id) {
                 "Status|ความจำเป็น",
                 "Job No|หมาบเลขงาน",
                 "Charge|ยอดเงิน",
-                "Clearing No|เลขที่ใบปิด"
+                "Clearing No|เลขที่ใบปิด",
+                "Clear.Amt|ยอดใช้จริง",
             ];
             break;
         case 'MODULE_MAS/BookAccount':

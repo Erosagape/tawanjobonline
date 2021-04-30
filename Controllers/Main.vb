@@ -2240,7 +2240,7 @@ a.CurrencyCode,a.ExchangeRate,a.Qty,a.QtyUnit,a.AmtVatRate,a.AmtVat,a.AmtWhtRate
 a.AmtTotal,b.ClrNo,b.CostAmount,b.ChargeAmount,s.IsCredit,s.IsTaxCharge,s.IsExpense,s.DefaultVender as VenderCode
 FROM dbo.Job_ClearExp a
 LEFT JOIN (
-SELECT BranchCode,JobNo,SICode,SUM(BNet) as CostAmount,SUM(CASE WHEN BPrice>0 THEN BNet ELSE 0 END) as ChargeAmount,Max(ClrNo) as ClrNo
+SELECT BranchCode,JobNo,SICode,SUM(UsedAmount+ChargeVAT-Tax50Tavi) as CostAmount,SUM(CASE WHEN BPrice>0 THEN UsedAmount+ChargeVAT-Tax50Tavi ELSE 0 END) as ChargeAmount,Max(ClrNo) as ClrNo
 FROM dbo.Job_ClearDetail WHERE ClrNo NOT IN (SELECT ClrNo FROM Job_ClearHeader WHERE DocStatus=99)
 GROUP BY BranchCode,JobNo,SICode
 ) b

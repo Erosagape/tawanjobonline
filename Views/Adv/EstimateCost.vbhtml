@@ -171,6 +171,7 @@ End Code
                 <th>JNo</th>
                 <th>AmountCharge</th>
                 <th>Clear.No</th>
+                <th>AmountClear</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -369,7 +370,13 @@ End Code
                             return ShowNumber(data, 2);
                         }
                     },
-                    { data: "ClrNo", title: "Clearing No" }
+                    { data: "ClrNo", title: "Clearing No" },
+                    {
+                        data: "CostAmount", title: "Clear.Amt",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    }
                 ],
                 destroy: true,
                 responsive:true
