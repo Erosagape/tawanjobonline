@@ -816,9 +816,9 @@ End Code
             PRVoucher:'',
             PRType:prType,
             ChqNo:$('#txtRefNo').val(),
-            BookCode:$('#txtRefBook').val(),
-            BankCode:$('#txtRefBank').val(),
-            BankBranch:$('#txtRefBranch').val(),
+            BookCode: $('#txtRefBook').val(),
+            BankCode: $('#cboRefType').val() == 'CU' ? '' : $('#txtRefBank').val(),
+            BankBranch: $('#cboRefType').val() == 'CU' ? '' : $('#txtRefBranch').val(),
             ChqDate:CDateEN($('#txtRefDate').val()),
             CashAmount: ($('#cboRefType').val() == "CA" ? amt : 0),
             ChqAmount: ($('#cboRefType').val() == "CH" || $('#cboRefType').val() == "CU" ? amt : 0),
@@ -838,8 +838,8 @@ End Code
             PayChqTo:'',
             DocNo:$('#txtClrNo').val(),
             SICode:$('#txtSICode').val(),
-            RecvBank:$('#txtRecvBank').val(),
-            RecvBranch: $('#txtRecvBranch').val(),
+            RecvBank: $('#cboRefType').val() == 'CU' ? $('#txtRefBank').val() : $('#txtRecvBank').val(),
+            RecvBranch: $('#cboRefType').val() == 'CU' ? $('#txtRefBranch').val() :  $('#txtRecvBranch').val(),
             acType: $('#cboRefType').val(),
             ForJNo: $('#txtExpJobNo').val()
         };

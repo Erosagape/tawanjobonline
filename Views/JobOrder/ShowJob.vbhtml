@@ -239,6 +239,11 @@ End Code
                                     <label id="lblDeliverTo" for="txtDeliverTo">Delivery To :</label>
                                     <input type="text" id="txtDeliverTo" style="width:300px" tabindex="25" />
                                 </div>
+                                <div>
+                                    <label id="lblDeliverAddr" for="txtDeliverAddr">Delivery Address :</label>
+                                    <textarea id="txtDeliverAddr" style="width:100%" tabindex="26"></textarea>
+                                    <button id="btnDelivery" class="btn btn-info" onclick="PrintDelivery()">Delivery Slip</button>
+                                </div>
                             </div>
                         </div>
                         <div class="col-sm-7">
@@ -246,81 +251,74 @@ End Code
                                 <div>
                                     <label id="lblProjectName" for="txtProjectName">Project Name :</label>
                                     <br />
-                                    <textarea id="txtProjectName" style="width:70%" tabindex="26"></textarea>
+                                    <textarea id="txtProjectName" style="width:70%" tabindex="27"></textarea>
                                     <input type="button" id="btnBrowseProj" value="..." onclick="SearchData('ProjectName')" />
                                 </div>
                                 <div>
                                     <label id="lblInvQty" for="txtInvQty">Qty :</label>
-                                    <input type="text" id="txtInvQty" style="width:130px" tabindex="27" />
-                                    <input type="text" id="txtInvUnit" style="width:40px" tabindex="28" />
+                                    <input type="text" id="txtInvQty" style="width:130px" tabindex="28" />
+                                    <input type="text" id="txtInvUnit" style="width:40px" tabindex="29" />
                                     <input type="button" id="btnBrowseUnit" value="..." onclick="SearchData('invproductunit')" />
                                     <label id="lblInvPackQty" for="txtInvPackQty">Package.Total :</label>
-                                    <input type="text" id="txtInvPackQty" style="width:130px" tabindex="29" />
+                                    <input type="text" id="txtInvPackQty" style="width:130px" tabindex="30" />
                                 </div>
                                 <div>
                                     <label id="lblNetWeight" for="txtNetWeight">Net Weight :</label>
-                                    <input type="text" id="txtNetWeight" style="width:80px" tabindex="30" />
+                                    <input type="text" id="txtNetWeight" style="width:80px" tabindex="31" />
                                     <label id="lblGrossWeight" for="txtGrossWeight">Gross Weight :</label>
-                                    <input type="text" id="txtGrossWeight" style="width:80px" tabindex="31" />
-                                    <input type="text" id="txtWeightUnit" style="width:60px" tabindex="32" />
+                                    <input type="text" id="txtGrossWeight" style="width:80px" tabindex="32" />
+                                    <input type="text" id="txtWeightUnit" style="width:60px" tabindex="33" />
                                     <input type="button" id="btnBrowseMeas" value="..." onclick="SearchData('GWUnit')" />
                                 </div>
                                 <div>
                                     <label id="lblInvFCountry" for="txtInvFCountry">From Country :</label>
                                     <input type="hidden" id="txtInvFCountryCode" />
                                     <input type="text" id="txtInvFCountry" style="width:130px" disabled />
-                                    <input type="button" id="btnBrowseFCountry" value="..." onclick="SearchData('fcountry')" tabindex="33" />
+                                    <input type="button" id="btnBrowseFCountry" value="..." onclick="SearchData('fcountry')" tabindex="34" />
                                     <label id="lblInvCountry" for="txtInvCountry">To :</label>
                                     <input type="hidden" id="txtInvCountryCode" />
                                     <input type="text" id="txtInvCountry" style="width:130px" disabled />
-                                    <input type="button" id="btnBrowseCountry" value="..." onclick="SearchData('country')" tabindex="34" />
+                                    <input type="button" id="btnBrowseCountry" value="..." onclick="SearchData('country')" tabindex="35" />
                                 </div>
                                 <div>
                                     <a href="../Master/InterPort" target="_blank">
                                         <label id="lblInvInterPort">Inter Port:</label>
                                     </a>
-                                    <input type="text" id="txtInterPort" style="width:130px" tabindex="35" />
+                                    <input type="text" id="txtInterPort" style="width:130px" tabindex="36" />
                                     <input type="button" id="btnBrowseIPort" value="..." onclick="SearchData('interport')" />
                                     <input type="text" id="txtInterPortName" style="width:160px" disabled />
                                 </div>
                                 <div>
                                     <a href="../Master/Venders" target="_blank"><label style="color:red" id="lblForwarder">Agent:</label></a>
-                                    <input type="text" id="txtForwarder" style="width:130px" tabindex="36" />
+                                    <input type="text" id="txtForwarder" style="width:130px" tabindex="37" />
                                     <input type="button" id="btnBrowseFwdr" value="..." onclick="SearchData('forwarder')" />
                                     <input type="text" id="txtForwarderName" style="width:300px" disabled />
                                 </div>
                                 <div>
                                     <label id="lblVesselName" for="txtVesselName">Vessel Name :</label>
-                                    <input type="text" id="txtVesselName" style="width:200px" tabindex="37" />
+                                    <input type="text" id="txtVesselName" style="width:200px" tabindex="38" />
                                     <input type="button" id="btnBrowseVsl1" value="..." onclick="SearchData('vessel')" />
                                 </div>
                                 <div>
                                     <label id="lblMVesselName" for="txtMVesselName">Master Vessel Name :</label>
-                                    <input type="text" id="txtMVesselName" style="width:200px" tabindex="38" />
+                                    <input type="text" id="txtMVesselName" style="width:200px" tabindex="39" />
                                     <input type="button" id="btnBrowseVsl2" value="..." onclick="SearchData('mvessel')" />
                                 </div>
                                 <div>
                                     <a href="../Master/Venders" target="_blank"><label style="color:red" id="lblTransporter">Transporter:</label></a>
-                                    <input type="text" id="txtTransporter" style="width:130px" tabindex="39" />
+                                    <input type="text" id="txtTransporter" style="width:130px" tabindex="40" />
                                     <input type="button" id="btnBrowseTrans" value="..." onclick="SearchData('agent')" />
                                     <input type="text" id="txtTransporterName" style="width:250px" disabled />
                                 </div>
                                 <div>
-                                    <label id="lblETDDate" for="txtETDDate" style="color:red">ETD Date:</label><input type="date" style="width:130px" id="txtETDDate" tabindex="40" />
-                                    <label id="lblETADate" for="txtETADate" style="color:red">ETA Date:</label><input type="date" style="width:130px" id="txtETADate" tabindex="41" />
+                                    <label id="lblETDDate" for="txtETDDate" style="color:red">ETD Date:</label><input type="date" style="width:130px" id="txtETDDate" tabindex="41" />
+                                    <label id="lblETADate" for="txtETADate" style="color:red">ETA Date:</label><input type="date" style="width:130px" id="txtETADate" tabindex="42" />
                                 </div>
                                 <div>
-                                    <label id="lblLoadDate" for="txtLoadDate" style="color:red">Load Date:</label><input type="date" style="width:130px" id="txtLoadDate" tabindex="42" />
-                                    <label id="lblDeliveryDate" for="txtDeliveryDate" style="color:red">Unload Date :</label><input type="date" style="width:130px" id="txtDeliveryDate" tabindex="43" />
+                                    <label id="lblLoadDate" for="txtLoadDate" style="color:red">Load Date:</label><input type="date" style="width:130px" id="txtLoadDate" tabindex="43" />
+                                    <label id="lblDeliveryDate" for="txtDeliveryDate" style="color:red">Unload Date :</label><input type="date" style="width:130px" id="txtDeliveryDate" tabindex="44" />
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <label id="lblDeliverAddr" for="txtDeliverAddr">Delivery Address :</label>
-                            <textarea id="txtDeliverAddr" style="width:100%" tabindex="44"></textarea>
-                            <button id="btnDelivery" class="btn btn-info" onclick="PrintDelivery()">Delivery Slip</button>
                         </div>
                     </div>
                 </div>
@@ -545,14 +543,6 @@ End Code
                             </table>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <button id="btnViewTAdv" class="btn btn-default" onclick="OpenCreditAdv()">Credit Advances</button>
-                        </div>
-                        <div class="col-sm-6">
-                            <button id="btnViewChq" class="btn btn-default" onclick="OpenCheque()">Customer Cheque</button>
-                        </div>
-                    </div>
                 </div>
                 <div id="tabtracking" class="tab-pane fade">
                     <a href="#" class="btn btn-primary" id="btnPrintClr" onclick="PrintForm()">
@@ -618,6 +608,7 @@ End Code
                             <button class="btn btn-default" id="btnLinkLoad" onclick="OpenTransport()">Transport Info</button>
                             <button class="btn btn-default" id="btnLinkExp" onclick="OpenExpense()">Estimate Expenses</button>
                             <button class="btn btn-default" id="btnLinkCAdv" onclick="OpenCreditAdv()">Credit Advance</button>
+                            <button class="btn btn-default" id="btnViewChq" onclick="OpenCheque()">Customer Cheque</button>
                             <button class="btn btn-warning" id="btnLinkAdv" onclick="OpenAdvance()">Advance Request</button>
                             <button class="btn btn-success" id="btnLinkClr" onclick="OpenClearing()">Advance Clearing</button>
                             <button class="btn btn-danger" id="btnLinkCost" onclick="OpenCosting()">Cost & Profit</button>

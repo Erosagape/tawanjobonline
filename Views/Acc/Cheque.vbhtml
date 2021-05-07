@@ -355,7 +355,7 @@ End Code
             </div>
         </div>
         <div id="dvCommand">
-            <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearForm()">
+            <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearData()">
                 <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkClear">Clear Entry</b>
             </a>
             <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
@@ -515,6 +515,8 @@ End Code
             CreateLOV(dv, '#frmSearchBank', '#tbBank', 'Bank', response, 2);
             //Service Code
             CreateLOV(dv, '#frmSearchExp', '#tbExp', 'Expenses Code', response, 2);
+            //Estimate
+            CreateLOV(dv, '#frmSearchEstimate', '#tbEstimate', 'Estimate Price', response, 3);
             //BookAccount
             CreateLOV(dv, '#frmSearchBookAcc', '#tbBookAcc', 'Book Accounts', response, 2);
             //Currency
@@ -570,14 +572,22 @@ End Code
                 break;
             case 'vender':
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
-                break;
+                break;            
             case 'servicecode':
-                SetGridSICode(path, '#tbExp','','#frmSearchExp', ReadService);
+                if (job !== '') {
+                    SetGridEstimateCost(path, '#tbEstimate', '?status=NOCLR&Job=' + $('#txtForJNo').val(), '#frmSearchEstimate', ReadEstimate);
+                } else {
+                    SetGridSICode(path, '#tbExp', '', '#frmSearchExp', ReadService);
+                }
                 break;
             case 'currency':
                 SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
                 break;
         }
+    }
+    function ClearData() {
+        ClearForm();
+        ClearPayment();
     }
     function ClearForm() {
         //$('#txtBranchCode').val('');
@@ -616,7 +626,7 @@ End Code
         if (userRights.indexOf('E') < 0) {
             $('#btnSave').attr('disabled', 'disabled');
         }
-        ClearPayment();
+        //ClearPayment();
     }
     function AddPayment() {
         if ($('#txtControlNo').val() == '') {
@@ -977,6 +987,7 @@ End Code
             contentType: "application/json",
             data: jsonText,
             success: function (response) {
+                ShowMessage(response.result.msg);
                 LoadData();
             },
             error: function (e) {
@@ -1027,6 +1038,12 @@ End Code
             ShowBank(path, dt.BankCode, '#txtBankName');
         }
     }
+    function ReadEstimate(dt) {
+        $('#txtSICode').val(dt.SICode);
+        $('#txtSDescription').val(dt.SDescription);
+        $('#txtChqAmount').val(CDbl(Number(dt.AmtTotal) + Number(dt.AmtWht), 2));
+        CalculateTotal();
+    }   
     function ReadService(dt) {
         $('#txtSICode').val(dt.SICode);
         $('#txtSDescription').val(dt.NameThai);

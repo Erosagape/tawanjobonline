@@ -39,7 +39,7 @@
                 <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:70%;padding:5px 5px 5px 5px;" />
             </div>
             <div style="width:100%;text-align:center;background-color:white;color:black;font-size:11px">
-                <label id="lblLicenseName" ondblclick="ReturnMain()">@ViewBag.LICENSE_NAME</label>
+                <label id="lblLicenseName" ondblclick="OpenContact()">@ViewBag.LICENSE_NAME</label>
             </div>
             <div id="dvCustomerMenu">
                 <div id="mainCust" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCust')">
@@ -388,7 +388,7 @@
                             <div class="col-xs-7 col-md-10">
                                 <div style="display:flex;align-items:center;height:50px">
                                     <div style="text-align:left;flex:1;">
-                                        <label id="lblTitle" onclick="OpenContact()">@ViewBag.Title</label>
+                                        <label id="lblTitle" onclick="ReturnMain()">@ViewBag.Title</label>
                                         <input type="hidden" id="lblModule" value="@ViewBag.Module" />
                                     </div>
                                     <div style="text-align:right;flex:1;">
