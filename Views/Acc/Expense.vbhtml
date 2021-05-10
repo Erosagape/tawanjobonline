@@ -1215,7 +1215,7 @@ End Code
                 break;
             case 'transportprice':
                 if (route !== '') {
-                    SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&Cust=' + cust + '&id=' + route, ReadPrice);
+                    SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&id=' + route, ReadPrice);
                 } else {
                     SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&Cust=' + $('#txtCustCode').val(), ReadPrice);
                 }

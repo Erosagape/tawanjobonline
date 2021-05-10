@@ -525,7 +525,7 @@ End Code
                         </div>
                         <div class="row">
                             <div class="col-sm-3">
-                                <label id="lblRouteID">Route ID</label>
+                                <label id="lblRouteID">Route ID</label><input type="checkbox" id="chkAllCust" />Show All
                                 :<br />
                                 <div style="display:flex">
                                     <input type="text" id="txtRouteID" class="form-control" disabled />
@@ -926,6 +926,19 @@ End Code
                 $('#txtPlaceContact3').val(str.split('|')[1]);
             }
         });
+        $('#txtItemNo').keydown(function (ev) {
+            if (ev.which == 13) {
+                let rows = $('#tbDetail').DataTable().rows().data(); //read current row selected
+                let rowFind = rows.filter(function (data) {
+                    return data.ItemNo == $('#txtItemNo').val();
+                });
+                ClearDetail();
+                if (rowFind.length > 0) {
+                    row = rowFind[0];
+                    ReadDetail(row);
+                }
+            }
+        });
     }
     function SetLOVs() {
         loadLocation(path, '#cboPlaceName1', '1');
@@ -1009,10 +1022,10 @@ End Code
                 SetGridSICode(path, '#tbServ2', '', '#frmSearchServ2', ReadService2);
                 break;
             case 'location':
-                SetGridTransportPrice(path, '#tbMainRoute', '#frmSearchMainRoute','?Vend=' + $('#txtVenderCode').val() + '&Cust='+ $('#txtNotifyCode').val(), ReadMainRoute);
+                SetGridTransportPrice(path, '#tbMainRoute', '#frmSearchMainRoute','?Vend=' + $('#txtVenderCode').val() + ($('#chkAllCust').prop('checked') ? '':'&Cust='+ $('#txtNotifyCode').val()), ReadMainRoute);
                 break;
             case 'route':
-                SetGridTransportPrice(path, '#tbRoute', '#frmSearchRoute','?Vend=' + $('#txtVenderCode').val() + '&Cust='+ $('#txtNotifyCode').val(), ReadRoute);
+                SetGridTransportPrice(path, '#tbRoute', '#frmSearchRoute', '?Vend=' + $('#txtVenderCode').val() + ($('#chkAllCust').prop('checked') ? '' : '&Cust=' + $('#txtNotifyCode').val()), ReadRoute);
                 break;
             case 'place1':
                 SetGridLocation(path, '#tbPlace1', '#frmSearchPlace1', '?Place=1', ReadPickup);
