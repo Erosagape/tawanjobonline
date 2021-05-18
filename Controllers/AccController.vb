@@ -51,6 +51,10 @@ Namespace Controllers
             End If
             Return View()
         End Function
+        Function FormCheque() As ActionResult
+            Return GetView("FormCheque")
+        End Function
+
         Function FormPettyCash() As ActionResult
             Return GetView("FormPettyCash")
         End Function
@@ -1302,6 +1306,9 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                 tSqlw &= " WHERE h.ControlNo<>'' "
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" AND h.BranchCode ='{0}'", Request.QueryString("Branch").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format(" AND h.ControlNo ='{0}'", Request.QueryString("Code").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("Job")) Then
                     tSqlw &= String.Format(" AND d.ForJNo ='{0}'", Request.QueryString("Job").ToString)

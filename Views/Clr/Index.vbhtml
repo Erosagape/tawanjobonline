@@ -59,7 +59,7 @@ End Code
                         <table style="width:100%">
                             <tr>
                                 <td>
-                                    <label id="lblContNo">Container No:</label>                                    
+                                    <label id="lblContNo" style="color:red" onclick="SearchData('container')">Container No:</label>                                    
                                 </td>
                                 <td style="display:flex;flex-direction:row">
                                     <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" />
@@ -639,17 +639,20 @@ End Code
                 ShowData(br, $('#txtClrNo').val());
             } else {
                 job = getQueryString('JNo');
-                $('#dvJob').html('<h4>***For Job ' + job.toUpperCase() + '***</h4>');
-                if (job.length > 0) {
-                    isjobmode = true;
-                    $('#txtForJNo').val(job);
-                    $('#txtClrNo').attr('disabled', 'disabled');
-                    CallBackQueryJob(path, $('#txtBranchCode').val(), job, LoadJob);
-                }
+                SetJob();
             }
         } else {
             $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
             $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
+        }
+    }
+    function SetJob() {
+        $('#dvJob').html('<h4>***For Job ' + job.toUpperCase() + '***</h4>');
+        if (job.length > 0) {
+            isjobmode = true;
+            $('#txtForJNo').val(job);
+            $('#txtClrNo').attr('disabled', 'disabled');
+            CallBackQueryJob(path, $('#txtBranchCode').val(), job, LoadJob);
         }
     }
     function LoadJob(dt) {
@@ -964,6 +967,8 @@ End Code
             CreateLOV(dv, '#frmSearchUnit', '#tbUnit', 'Unit Code', response, 2);
             //Estimate
             CreateLOV(dv, '#frmSearchEstimate', '#tbEstimate', 'Estimate Price', response, 3);
+            //Containers
+            CreateLOV(dv, '#frmSearchCont', '#tbCont', 'Container Code', response, 4);
         });
     }
     function ShowData(branchcode, clrno) {
@@ -1802,6 +1807,13 @@ End Code
     }
     function SearchData(type) {
         switch (type) {
+            case 'container':
+                w = '?Branch=' + $('#txtBranchCode').val();
+                if (job !== '') {
+                    w += '&Job=' + job;
+                }
+                SetGridTransport(path, '#tbCont', '#frmSearchCont', w, ReadContainer);
+                break;
             case 'clearing':
                 SetGridClr();
                 break;
@@ -1924,6 +1936,11 @@ End Code
         $('#txtEmpName').val(dt.TName);
         $('#cboClrFrom').val(dt.DeptID);
         //$('#txtEmpCode').focus();
+    }
+    function ReadContainer(dt) {
+        job = dt.JNo;
+        SetJob();
+        $('#txtCTN_NO').val(dt.CTN_NO);
     }
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);

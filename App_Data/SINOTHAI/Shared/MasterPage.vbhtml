@@ -27,7 +27,7 @@
 <body style="background:#e6e6e6;color:black;">
     <!-- Sidebar -->
     <div class="w3-sidebar w3-bar-block w3-animate-left" style="display:none;z-index:5" id="mySidebar">
-        <div class="w3-sidebar w3-bar-block w3-indigo w3-card" style="width:250px;">
+        <div id="myMenuBar" class="w3-sidebar w3-bar-block w3-indigo w3-card" style="width:250px;">
             <div style="width:100%;text-align:center;background-color:white">
                 <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:80%;padding:5px 5px 5px 5px;" />
             </div>
@@ -275,9 +275,9 @@
     <div style="display:flex;flex-direction:column;margin-bottom:100px;">
         <div class="w3-container" style="margin-bottom:10px">
             <!-- Page Content -->
-            <div Class="panel-primary">
-                <div Class="panel-heading w3-indigo">
-                    <div Class="panel-title">
+            <div class="panel-primary">
+                <div id="myTitleBar" class="panel-heading w3-indigo">
+                    <div class="panel-title">
                         <div class="row">
                             <div class="col-xs-5 col-md-2" style="text-align:center">
                                 <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:100%;height:50px" onclick="w3_open();" />
@@ -322,7 +322,7 @@
         userLang = 'EN';
         $('#cboLanguage').val(userLang);
     }
-    
+
     SetEvents();
 
     function ForceLogout() {
@@ -383,12 +383,18 @@
         if (userID === '') {
             CheckSession(null);
         } else {
-            $('#imgMenu').attr('src',path + 'Resource/@ViewBag.PROFILE_LOGO');
-            $('#imgCompany').attr('src',path + 'Resource/@ViewBag.PROFILE_LOGO');
+            $('#imgMenu').attr('src', path + 'Resource/@ViewBag.PROFILE_LOGO');
+            $('#imgCompany').attr('src', path + 'Resource/@ViewBag.PROFILE_LOGO');
             $('#lblUserID').text('@ViewBag.UserName');
             $('#lblLicenseName').text('@ViewBag.LICENSE_NAME');
             $('#cboLanguage').val('@ViewBag.PROFILE_DEFAULT_LANG');
             userType = '@ViewBag.UserGroup';
+            if (GetDatabaseID().indexOf('STL') >= 0) {
+                $('#myTitleBar').removeClass('w3-indigo');
+                $('#myMenuBar').removeClass('w3-indigo');
+                $('#myTitleBar').addClass('w3-brown');
+                $('#myMenuBar').addClass('w3-brown');
+            }
             if (userType == 'S') {
                 $('#dvCustomerMenu').hide();
                 $('#dvVenderMenu').hide();

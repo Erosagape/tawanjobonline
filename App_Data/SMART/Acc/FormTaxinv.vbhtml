@@ -25,96 +25,96 @@ End Code
         display: none;
     }
 </style>
-<div style="text-align:center;width:100%">
-    <h2><label id="lblDocType">TAX-INVOICE</label></h2>
-</div>
-<div id="dvCopy" style="text-align:right;width:100%">
-</div>
-<div style="display:flex;">
-    <div style="flex:3;border:1px solid black;border-radius:5px;">
-        <b>NAME : </b><label id="lblCustName"></label><br />
-        <b>ADDRESS : </b><br /><label id="lblCustAddr"></label><br />
-        <b>TAX ID : </b><lable id="lblCustTax"></lable>
-        <b>BRANCH : </b><label id="lblTaxBranch"></label>
-    </div>
-    <div style="flex:1;border:1px solid black;border-radius:5px;">
-        <b>NO. : </b><label id="lblReceiptNo"></label><br />
-        <b>ISSUE DATE : </b><label id="lblReceiptDate"></label><br />
-    </div>
-</div>
-
-<table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
-    <thead>
-        <tr style="background-color:lightblue;">
-            <th height="40" width="270">INV.NO.</th>
-            <th width="70">JOB</th>
-            <th width="60">ADVANCE</th>
-            <th width="60">SERVICE</th>
-            <th width="30">VAT</th>
-            <th width="30">WHT</th>
-            <th width="30">TOTAL</th>
-        </tr>
-    </thead>
-    <tbody id="tbDetail"></tbody>
-    <tfoot>
-        <tr style="background-color:lightblue;text-align:right;">
-            <td style="text-align:center"><label id="lblTotalText"></label></td>
-            <td>TOTAL AMOUNT</td>
-            <td><label id="lblTotalADV"></label></td>
-            <td><label id="lblTotalBeforeVAT"></label></td>
-            <td><label id="lblTotalVAT"></label></td>
-            <td><label id="lblTotalWHT"></label></td>
-            <td><label id="lblTotalSumVAT"></label></td>
-        </tr>
-        <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="6">TOTAL RECEIPT</td>
-            <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
-        </tr>
-    </tfoot>
-</table>
-<p>
-    PAY BY
-</p>
 <div style="display:flex;flex-direction:column">
-    <div>
-        <label><input type="checkbox" name="vehicle1" value=""> CASH</label>
-        DATE_____________  AMOUNT______________BAHT
+    <div style="text-align:center;width:100%">
+        <h2><label id="lblDocType">TAX-INVOICE</label></h2>
     </div>
-    <div>
-        <label><input type="checkbox" name="vehicle2" value=""> CHEQUE</label>
-        DATE_____________  NO_______________  BANK_________________  AMOUNT______________BAHT
+    <div id="dvCopy" style="text-align:right;width:100%">
     </div>
-    <div>
-        <label><input type="checkbox" name="vehicle3" value=""> TRANSFER</label>
-        DATE_____________  BANK_________________  AMOUNT______________BAHT
+    <div style="display:flex;">
+        <div style="flex:3;border:1px solid black;border-radius:5px;">
+            <b>NAME : </b><label id="lblCustName"></label><br />
+            <b>ADDRESS : </b><br /><label id="lblCustAddr"></label><br />
+            <b>TAX ID : </b><lable id="lblCustTax"></lable>
+            <b>BRANCH : </b><label id="lblTaxBranch"></label>
+        </div>
+        <div style="flex:1;border:1px solid black;border-radius:5px;">
+            <b>NO. : </b><label id="lblReceiptNo"></label><br />
+            <b>ISSUE DATE : </b><label id="lblReceiptDate"></label><br />
+        </div>
     </div>
-</div>
-<br />
-<div style="display:flex;">
-    <!--
-    <div class="text-left" style="border:1px solid black;flex:2">
-        PLEASE REMIT TO ACCOUNT NO: 170-279834-5<br />
-        "DAMON GOOD SERVICES CO.,LTD"<br />
-        SIAM COMMERCIAL BANK PUBLIC LIMITED<br />
-        THE MALL THA-PHRA BRANCH
-    </div>
-        -->
-    <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
 
-        FOR THE CUSTOMER
-        <br /><br /><br />
-        <p>_____________________</p>
-        _____________________<br />
-        ___/_______/___<br />
-        AUTHORIZED SIGNATURE
+    <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
+        <thead>
+            <tr style="background-color:lightblue;">
+                <th height="40" width="270">INV.NO.</th>
+                <th width="70">JOB</th>
+                <th width="60">ADVANCE</th>
+                <th width="60">SERVICE</th>
+                <th width="30">VAT</th>
+                <th width="30">WHT</th>
+                <th width="30">TOTAL</th>
+            </tr>
+        </thead>
+        <tbody id="tbDetail"></tbody>
+            <tr style="background-color:lightblue;text-align:right;">
+                <td style="text-align:center"><label id="lblTotalText"></label></td>
+                <td>TOTAL AMOUNT</td>
+                <td><label id="lblTotalADV"></label></td>
+                <td><label id="lblTotalBeforeVAT"></label></td>
+                <td><label id="lblTotalVAT"></label></td>
+                <td><label id="lblTotalWHT"></label></td>
+                <td><label id="lblTotalSumVAT"></label></td>
+            </tr>
+            <tr style="background-color:lightblue;text-align:right;">
+                <td colspan="6">TOTAL RECEIPT</td>
+                <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
+            </tr>
+    </table>
+    <p>
+        PAY BY
+    </p>
+    <div style="display:flex;flex-direction:column">
+        <div>
+            <label><input type="checkbox" name="vehicle1" value=""> CASH</label>
+            DATE_____________  AMOUNT______________BAHT
+        </div>
+        <div>
+            <label><input type="checkbox" name="vehicle2" value=""> CHEQUE</label>
+            DATE_____________  NO_______________  BANK_________________  AMOUNT______________BAHT
+        </div>
+        <div>
+            <label><input type="checkbox" name="vehicle3" value=""> TRANSFER</label>
+            DATE_____________  BANK_________________  AMOUNT______________BAHT
+        </div>
     </div>
-    <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
+    <br />
+    <div style="display:flex;">
+        <!--
+        <div class="text-left" style="border:1px solid black;flex:2">
+            PLEASE REMIT TO ACCOUNT NO: 170-279834-5<br />
+            "DAMON GOOD SERVICES CO.,LTD"<br />
+            SIAM COMMERCIAL BANK PUBLIC LIMITED<br />
+            THE MALL THA-PHRA BRANCH
+        </div>
+            -->
+        <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
 
-        FOR THE COMPANY
-        <br /><br /><br />
-        <p>_____________________</p>
-        _____________________<br />
-        ___/_______/___<br />
+            FOR THE CUSTOMER
+            <br /><br /><br />
+            <p>_____________________</p>
+            _____________________<br />
+            ___/_______/___<br />
+            AUTHORIZED SIGNATURE
+        </div>
+        <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
+
+            FOR THE COMPANY
+            <br /><br /><br />
+            <p>_____________________</p>
+            _____________________<br />
+            ___/_______/___<br />
+        </div>
     </div>
 </div>
 <script type="text/javascript">
@@ -137,6 +137,9 @@ End Code
         switch (h.ReceiptType) {
             case 'TAX':
                 $('#lblDocType').text('TAX-INVOICE/RECEIPT');
+                break;
+            case 'SRV':
+                $('#lblDocType').text('TAX-INVOICE');
                 break;
             default:
                 $('#lblDocType').text('RECEIPT');

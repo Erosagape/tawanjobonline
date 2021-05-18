@@ -1094,7 +1094,7 @@ End Code
             ShowMessage('You are not allow to do this',true);
             return;
         }
-        window.open(path + 'Acc/FormVoucher?branch=' + $('#txtBranchCode').val() + '&controlno=' + $('#txtControlNo').val());
+        window.open(path + 'Acc/FormCheque?branchcode=' + $('#txtBranchCode').val() + '&controlno=' + $('#txtControlNo').val());
     }
 
 </script>

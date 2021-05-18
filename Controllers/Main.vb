@@ -3444,7 +3444,7 @@ LEFT OUTER JOIN dbo.Mas_Vender AS v ON h.VenCode = v.VenCode
 LEFT OUTER JOIN Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
 LEFT OUTER JOIN Mas_Company c ON j.CustCode=c.CustCode AND j.CustBranch=c.Branch
 LEFT OUTER JOIN Job_LoadInfoDetail b ON h.BranchCode=b.BranchCode 
-AND h.RefNo=b.CTN_NO AND j.BranchCode=b.BranchCode AND j.JNo=b.JNo
+AND h.RefNo=b.CTN_NO AND d.BranchCode=b.BranchCode AND d.BookingRefNo=b.BookingNo AND d.BookingItemNo=b.ItemNo
 LEFT OUTER JOIN Job_LoadInfo t ON b.BranchCode=t.BranchCode AND b.BookingNo=t.BookingNo
 LEFT OUTER JOIN Job_SrvSingle  s ON d.SICode=s.SICode
 LEFT OUTER JOIN Job_TransportPrice p ON h.BranchCode=p.BranchCode

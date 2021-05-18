@@ -997,7 +997,11 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             End Try
         End Function
         Function FormTransport() As ActionResult
-            Return GetView("FormTransport")
+            Dim type As String = ""
+            If Not Request.QueryString("Type") Is Nothing Then
+                type = Request.QueryString("Type").ToString
+            End If
+            Return GetView("FormTransport" & type)
         End Function
         Function ChangeBooking() As ActionResult
             Dim fromBookNo = ""
