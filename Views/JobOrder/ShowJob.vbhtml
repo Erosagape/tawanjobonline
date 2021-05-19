@@ -236,8 +236,11 @@ End Code
                                     <input type="text" id="txtDeliverNo" style="width:130px" tabindex="24" />
                                 </div>
                                 <div>
-                                    <label id="lblDeliverTo" for="txtDeliverTo">Delivery To :</label>
+                                    <a href="../Master/Customers?mode=NOTIFY_PARTY" target="_blank">
+                                        <label id="lblDeliverTo">Delivery To :</label>
+                                    </a>
                                     <input type="text" id="txtDeliverTo" style="width:300px" tabindex="25" />
+                                    <input type="button" id="btnBrowseCust3" value="..." onclick="SearchData('NOTIFY')" />
                                 </div>
                                 <div>
                                     <label id="lblDeliverAddr" for="txtDeliverAddr">Delivery Address :</label>
@@ -802,7 +805,9 @@ End Code
             //Customers
             CreateLOV(dv,'#frmSearchCust', '#tbCust','Customers',response,3);
             //Consignee
-            CreateLOV(dv,'#frmSearchCons', '#tbCons','Consignees',response,3);
+            CreateLOV(dv, '#frmSearchCons', '#tbCons', 'Consignees', response, 3);
+            //Notify 
+            CreateLOV(dv, '#frmSearchNotify', '#tbNotify', 'Notify Party', response, 3);
             //Inter Port
             CreateLOV(dv,'#frmSearchIPort', '#tbIPort','International Port',response,3);
 
@@ -925,6 +930,10 @@ End Code
         ShowCustomerFull(path, dt.CustCode, dt.Branch, '#txtConsignName', '#txtBillTAddress', '#txtBillEAddress', '');
         $('#txtConsignee').focus();
     }
+    function ReadNotify(dt) {
+        $('#txtDeliverTo').val(dt.NameEng);
+        $('#txtDeliverAddr').val(dt.EAddress1 + dt.EAddress2);
+    }
     function ReadInvProduct(dt) {
         $('#txtInvProduct').val(dt.val);
         $('#txtInvProduct').focus();
@@ -986,6 +995,9 @@ End Code
                 break;
             case 'CONSIGNEE':
                 SetGridCompanyByGroup(path, '#tbCons','CONSIGNEE', '#frmSearchCons', ReadConsignee);
+                break;
+            case 'NOTIFY':
+                SetGridCompanyByGroup(path, '#tbNotify', 'NOTIFY_PARTY', '#frmSearchNotify', ReadNotify);
                 break;
             case 'ProjectName':
                 SetGridProjectName(path, '#tbProj', '#frmSearchProj', ReadProjectName);
@@ -1719,5 +1731,8 @@ End Code
     }
     function PrintForm() {
         window.open(path + 'Clr/FormEntry?branch=' + $('#txtBranchCode').val() + '&job=' + $('#txtJNo').val());
+    }
+    function OpenNotity() {
+        
     }
 </script>
