@@ -3120,6 +3120,9 @@ ORDER BY a.TName1
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" AND a.BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format(" AND a.DocNo ='{0}' ", Request.QueryString("Code").ToString)
+                End If
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
                     tSqlw &= " AND a.DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
                 End If

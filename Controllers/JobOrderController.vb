@@ -998,7 +998,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
         End Function
         Function FormTransport() As ActionResult
             Dim type As String = ""
-            If Not Request.QueryString("Type") Is Nothing Then
+            If Request.QueryString("Type") IsNot Nothing Then
                 type = Request.QueryString("Type").ToString
             End If
             Return GetView("FormTransport" & type)
@@ -1057,16 +1057,22 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             Try
                 Dim branch As String = ""
                 Dim job As String = ""
-
+                Dim doctype As String = ""
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     branch = Request.QueryString("Branch").ToString()
                 End If
                 If Not IsNothing(Request.QueryString("Job")) Then
                     job = Request.QueryString("Job").ToString
                 End If
+                If Not IsNothing(Request.QueryString("Type")) Then
+                    doctype = Request.QueryString("Type").ToString
+                End If
                 Dim status = " WHERE IsCancel=0 "
                 If Not IsNothing(Request.QueryString("Cancel")) Then
                     status = " WHERE " & If(Request.QueryString("Cancel").ToString = "Y", "IsCancel=1", "IsCancel=0")
+                End If
+                If doctype <> "" Then
+                    status &= String.Format(" AND DocType='{0}' ", doctype)
                 End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL("SELECT * FROM (" & SQLSelectDocumentByJob(branch, job) & ") as t " & status)
                 Dim json As String = JsonConvert.SerializeObject(oData)

@@ -1890,15 +1890,15 @@ FROM Job_InvoiceHeader ih INNER JOIN Job_InvoiceDetail id ON ih.BranchCode=id.Br
 INNER JOIN Job_ClearDetail cd ON id.BranchCode=cd.BranchCode AND id.DocNo=cd.LinkBillNo AND id.ItemNo=cd.LinkItem
 WHERE cd.BranchCode='{0}' AND cd.JobNo='{1}' 
 UNION
-select ch.ChqDate,ch.ChqNo,'CHQ' as DocType,Convert(varchar,ch.ChqAmount) +' '+ ch.CurrencyCode +' REF# '+ch.PRVoucher+' ('+vc.ControlNo+')' as Descr,ch.ChqAmount-SUM(ISNULL(cd.PaidAmount,0)) as Amount,
+select ch.ChqDate,vc.ControlNo,'CHQ' as DocType,ch.PRVoucher+' NO.'+ch.ChqNo as Descr,ch.ChqAmount as Amount,
 (CASE WHEN ISNULL(vc.PostedBy,'')<>'' THEN 'POSTED' ELSE (CASE WHEN vc.CancelProve<>'' THEN 'CANCEL' ELSE 'ACTIVE' END) END) as DocStatus,ch.ItemNo
 ,(CASE WHEN ISNULL(vc.CancelProve,'')<>'' THEN 1 ELSE 0 END) as IsCancel
 FROM Job_CashControlSub ch INNER JOIN Job_CashControl vc ON ch.BranchCode=vc.BranchCode AND ch.ControlNo=vc.ControlNo
 LEFT JOIN Job_CashControlDoc cd ON ch.BranchCode=cd.BranchCode AND ch.ControlNo=cd.ControlNo AND ch.acType=cd.acType
-WHERE ch.BranchCode='{0}' AND ch.ForJNo='{1}'
+WHERE ch.BranchCode='{0}' AND ch.ForJNo='{1}' AND ch.ChqAmount>0 
 GROUP BY ch.ChqDate,ch.ChqNo,ch.ChqAmount,ch.PRVoucher,vc.ControlNo,vc.PostedBy,vc.CancelProve,ch.CurrencyCode,ch.ItemNo
 UNION
-select rh.ReceiptDate,rh.ReceiptNo,'RCV' as DocType,rd.SDescription +' INV#' + rd.InvoiceNo as Descr,cd.BNet as Amount,
+select rh.ReceiptDate,rh.ReceiptNo,(CASE WHEN rh.ReceiptType='TAX' THEN 'TAX' ELSE 'RCV' END) as DocType,rd.SDescription +' INV#' + rd.InvoiceNo as Descr,cd.BNet as Amount,
 (CASE WHEN rh.CancelProve<>'' THEN 'CANCEL' ELSE (CASE WHEN ISNULL(rd.ControlNo,'')<>'' THEN 'RECEIVED' ELSE 'ACTIVE' END) END) as DocStatus,rd.ItemNo
 ,(CASE WHEN ISNULL(rh.CancelProve,'')<>'' THEN 1 ELSE 0 END) as IsCancel
 FROM Job_ReceiptHeader rh INNER JOIN Job_ReceiptDetail rd ON rh.BranchCode=rd.BranchCode AND rh.ReceiptNo=rd.ReceiptNo

@@ -165,7 +165,7 @@ End Code
             <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
                     <a href="../Master/Venders">
-                        <label id="lblTransport" style="display:block;width:100%;color:red">Transporter</label>
+                        <label id="lblTransport" style="display:block;width:100%;">Transporter</label>
                     </a>
                 </div>
                 <div style="display:flex;width:70%">
@@ -205,7 +205,9 @@ End Code
                 </div>
             </div>
             <div class="col-sm-6">
-                <label id="lblInterPort" style="display:block;width:100%;">International Port</label>
+                <a href="../Master/InterPort">
+                    <label id="lblInterPort" style="display:block;width:100%;">International Port</label>
+                </a>
                 <div style="display:flex;width:100%">
                     <input type="text" class="form-control" id="txtInterPort" style="width:120px" disabled />
                     <input type="text" class="form-control" id="txtInterPortName" style="width:100%" disabled />

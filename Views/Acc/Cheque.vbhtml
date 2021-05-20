@@ -376,12 +376,19 @@ End Code
     //$(document).ready(function () {
     let branch = getQueryString("BranchCode");
     let job = getQueryString("JNo");
+    let code = getQueryString("ControlNo");
+    if (branch !== '') {
+        $('#txtBranchCode').val(branch);
+        ShowBranch(path, branch, '#txtBranchName');
+    }
+    if (branch !== '' && code !== '') {
+        $('#txtControlNo').val(code);
+        LoadData();
+    }
     if (branch !== '' && job !== '') {
         $('#txtTRemark').val('CHQ JOB#' + job);
-        $('#txtBranchCode').val(branch);
         $('#txtForJNo').val(job);
         $('#txtForJNo').attr('disabled', 'disabled');
-        ShowBranch(path, branch, '#txtBranchName');
         CallBackQueryJob(path, $('#txtBranchCode').val(), $('#txtForJNo').val(), ReadJob);        
     } else {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
@@ -592,7 +599,7 @@ End Code
     function ClearForm() {
         //$('#txtBranchCode').val('');
         //$('#txtBranchName').val('');
-        $('#txtControlNo').val('');
+        $('#txtControlNo').val(code);
         $('#txtVoucherDate').val(GetToday());
         if (job !== '') {
             $('#txtTRemark').val('CHQ JOB#' + job);
@@ -646,8 +653,9 @@ End Code
             ReadHeader(dt.header[0]);
         }
         if (dt.payment.length > 0) {
+            $('#cboPRType').val(dt.payment[0].PRType);
             let data = dt.payment.filter(function (d) {
-                return d.PRType=$('#cboPRType').val() && d.ChqAmount>0
+                return d.ChqAmount>0
             });
             SetGridPayment(data);
         }

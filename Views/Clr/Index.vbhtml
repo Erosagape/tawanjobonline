@@ -211,8 +211,8 @@ End Code
                             <thead>
                                 <tr>
                                     <th>
-                                    <th class="all">SICode</th>
-                                    <th class="desktop">Description</th>
+                                    <th class="desktop">SICode</th>
+                                    <th class="all">Description</th>
                                     <th class="desktop">Job.No</th>
                                     <th class="desktop">Adv.No</th>
                                     <th class="desktop">Advance</th>

@@ -124,11 +124,12 @@ End Code
 <div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
-    const path = '@Url.Content("~")';
-    const user = '@ViewBag.User';
+    let path = '@Url.Content("~")';
+    let user = '@ViewBag.User';
     let dateWhere = 'DocDate';
     let jt = getQueryString("jobtype");
     let sb = getQueryString("shipby");
+    loadBranch(path);
     //3 Fields Show
     $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
         let dv = document.getElementById("dvLOVs");
@@ -152,7 +153,6 @@ End Code
         lists += ',JOB_STATUS=#cboStatus';
 
         loadCombos(path, lists);
-        loadBranch(path);
         loadYear(path);
         loadMonth('#cboMonth');
 
