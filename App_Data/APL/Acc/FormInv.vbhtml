@@ -56,6 +56,7 @@ End Code
     <div style="width:100%" class="roundbox">
         INVOICE : <label id="lblCustInvNo"></label><br />
         CUSTOMER PO : <label id="lblCustPoNo"></label><br />
+        REFERENCE : <label id="lblRefNo"></label>
     </div>
     <br />
     <p id="dvLoading">
@@ -285,9 +286,16 @@ End Code
                 let poNoList = '';
                 let custContactList = '';
                 let jobNoList = '';
+                let refNoList = '';
                 let containerList = '';
 
                 for (let j of job) {
+                    if (j.TRemark !== '') {
+                        if (refNoList.indexOf(j.TRemark) < 0) {
+                            if (refNoList !== '') refNoList += ',';
+                            refNoList += j.TRemark;
+                        }
+                    }
                     if (invNoList.indexOf(j.InvNo) < 0) {
                         if (invNoList !== '') invNoList += ',';
                         invNoList += j.InvNo;
@@ -311,6 +319,7 @@ End Code
                 }
                 $('#lblCustInvNo').text(invNoList);
                 $('#lblCustPoNo').text(poNoList);
+                $('#lblRefNo').text(refNoList);
                 $('#lblCustContact').text(custContactList);
                 $('#lblJobNo').text(jobNoList);
                 $('#lblTotalContainer').text(containerList);
