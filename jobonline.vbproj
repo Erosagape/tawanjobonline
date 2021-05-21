@@ -1093,6 +1093,10 @@
     <Content Include="App_Data\APL\JobOrder\Transport.vbhtml" />
     <Content Include="App_Data\BETTER\JobOrder\ShowJob.vbhtml" />
     <Content Include="App_Data\BETTER\Shared\MasterPage.vbhtml" />
+    <Content Include="App_Data\EASTRONG\JobOrder\FormTransportEASTRONG.vbhtml" />
+    <Content Include="App_Data\EASTRONG\JobOrder\FormTransportAIR.vbhtml" />
+    <Content Include="App_Data\EASTRONG\JobOrder\Transport.vbhtml" />
+    <Content Include="App_Data\EASTRONG\JobOrder\FormTransportWALMAY.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -1515,7 +1519,6 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\EASTRONG\JobOrder\" />
     <Folder Include="Resource\Export\" />
     <Folder Include="Resource\Import\" />
   </ItemGroup>
