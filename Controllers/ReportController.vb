@@ -152,6 +152,7 @@ Namespace Controllers
                 Dim fldSum = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_SUM")
                 Dim fldNoSum = GetValueConfig("REPORT_" & data.ReportCode, "COLUMN_NOSUM")
                 Dim dsGroup = GetValueConfig("REPORT_" & data.ReportCode, "GROUP_DATASOURCE")
+
                 If dsGroup <> "" Then
                     groupDatas = JsonConvert.SerializeObject(Main.GetDataConfig("GROUP_DATASOURCE"))
                 End If
@@ -163,43 +164,6 @@ Namespace Controllers
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetReportByConfig", ex.Message, ex.StackTrace, True)
                 Return Content("{""result"":[],""group"":null,""msg"":""" & ex.Message & """,""sql"":""" & sqlW & """}")
             End Try
-        End Function
-        Function GetReportGroup() As ActionResult
-            Dim oList = Main.GetDataConfig("REPORT_GROUP")
-            Dim data = New List(Of CReportGroup)
-            For Each row In oList
-                data.Add(New CReportGroup() With {
-                    .ConfigKey = row.ConfigKey,
-                    .ConfigValue = row.ConfigValue
-                         })
-            Next
-            Dim json As String = JsonConvert.SerializeObject(data)
-            Return Content(json, jsonContent)
-        End Function
-        Function GetReportList() As ActionResult
-            Dim groupCode = If(IsNothing(Request.QueryString("Group")), "", Request.QueryString("Group").ToString)
-            Dim sql = "
-select REPLACE(s.ConfigCode,'REPORT_','') as ReportCode, 
-s.ConfigValue as ReportNameTH,
-(SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='ReportNameEN') as ReportNameEN,
-(SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='ReportGroup') as ReportGroup,
-(SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='ReportType') as ReportType,
-(SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='ReportAuthor') as ReportAuthor,
-(SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='MAIN_SQL') as ReportSQL,
-(SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='MAIN_CLITERIA') as ReportCliteria,
-(SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='GROUP_FIELD') as ReportGroupFields,
-(SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='GROUP_DATASOURCE') as ReportGroupSource,
-(SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='COLUMN_SUM') as ReportColSum,
-(SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='COLUMN_NOSUM') as ReportColNoSum,
-(SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='COLUMN_LENGTH') as ReportCollength
-from Mas_Config s where s.ConfigCode like 'REPORT_%' AND s.ConfigKey='ReportNameTH'
-"
-            If groupCode <> "" Then
-                sql &= String.Format(" and s.ConfigCode in(select ConfigCode from Mas_Config WHERE ConfigKey='ReportGroup' AND ConfigValue='{0}')", groupCode)
-            End If
-            Dim ds = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
-            Dim json As String = JsonConvert.SerializeObject(ds)
-            Return Content(json, jsonContent)
         End Function
         Function GetReport(<FromBody()> data As CReport) As ActionResult
             Dim sqlM As String = ""

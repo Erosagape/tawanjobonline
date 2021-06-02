@@ -2472,7 +2472,18 @@ function ChangeLanguageForm(fname) {
             let group = $('#cboReportGroup').val();
             if (group == null || group == '') {
                 group = 'N/A';
-                let reportGroups = GetReportGroups();
+                let reportGroups = [
+                    { "ConfigKey": "ACC", "ConfigValue": "Accounting Reports / รายงานแผนกบัญชี" },
+                    { "ConfigKey": "ADV", "ConfigValue": "Advancing Reports / รายงานการเบิกเงิน" },
+                    { "ConfigKey": "CLR", "ConfigValue": "Clearing Reports / รายงานการปิดบัญชี" },
+                    { "ConfigKey": "JOB", "ConfigValue": "Operation Reports / รายงานการปฏิบัติงาน" },
+                    { "ConfigKey": "INV", "ConfigValue": "Invoicing Reports / รายงานใบแจ้งหนี้" },
+                    { "ConfigKey": "RCV", "ConfigValue": "Receiving Reports / รายงานใบเสร็จ/ใบกำกับภาษี" },
+                    { "ConfigKey": "FIN", "ConfigValue": "Financial Reports / รายงานแผนกการเงิน" },
+                    { "ConfigKey": "MKT", "ConfigValue": "Marketing Reports / รายงานแผนกการตลาด" },
+                    { "ConfigKey": "MAS", "ConfigValue": "Master Files Reports / รายงานข้อมูลมาตรฐาน" },
+                    { "ConfigKey": "EXE", "ConfigValue": "Executives Reports / รายงานสำหรับผู้บริหาร" }
+                ];
                 loadComboArray('#cboReportGroup', reportGroups, 'N/A');
             }
             let reports = reportLists;
@@ -2624,20 +2635,6 @@ function ChangeLanguageForm(fname) {
             ChangeLanguageGrid(fname, '#tbDocument');
             break;
     }    
-}
-function GetReportGroups() {
-    return [
-        { "ConfigKey": "ACC", "ConfigValue": "Accounting Reports / รายงานแผนกบัญชี" },
-        { "ConfigKey": "ADV", "ConfigValue": "Advancing Reports / รายงานการเบิกเงิน" },
-        { "ConfigKey": "CLR", "ConfigValue": "Clearing Reports / รายงานการปิดบัญชี" },
-        { "ConfigKey": "JOB", "ConfigValue": "Operation Reports / รายงานการปฏิบัติงาน" },
-        { "ConfigKey": "INV", "ConfigValue": "Invoicing Reports / รายงานใบแจ้งหนี้" },
-        { "ConfigKey": "RCV", "ConfigValue": "Receiving Reports / รายงานใบเสร็จ/ใบกำกับภาษี" },
-        { "ConfigKey": "FIN", "ConfigValue": "Financial Reports / รายงานแผนกการเงิน" },
-        { "ConfigKey": "MKT", "ConfigValue": "Marketing Reports / รายงานแผนกการตลาด" },
-        { "ConfigKey": "MAS", "ConfigValue": "Master Files Reports / รายงานข้อมูลมาตรฐาน" },
-        { "ConfigKey": "EXE", "ConfigValue": "Executives Reports / รายงานสำหรับผู้บริหาร" }
-    ];
 }
 function GetReportLists() {
     return [
@@ -4125,4 +4122,5 @@ function ChangeLanguageGrid(module, id) {
             SetGridLang(id, gridLang);
             break;
     }
+
 }

@@ -19,9 +19,9 @@
     <div class="page" contenteditable="false">
 
         <div style="display:flex">
-            <div style="flex:1;vertical-align:middle;text-align:center;">
+            <div style="flex:1;vertical-align:middle">
 <br/>
-                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:90px" />
+                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:120px" />
             </div>
             <div style="flex:4;padding:5px;">
                 <div id="divCompany" style="text-align:left;color:darkblue;font-size:14px">
