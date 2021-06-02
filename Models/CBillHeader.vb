@@ -388,6 +388,8 @@ Public Class CBillHeader
                     If Me.BillAcceptNo <> "" Then
                         cm.CommandText = SQLUpdateBillToInv(Me.BranchCode, Me.BillAcceptNo, False)
                         cm.ExecuteNonQuery()
+                        cm.CommandText = SQLUpdateBillHeader(Me.BranchCode, Me.BillAcceptNo)
+                        cm.ExecuteNonQuery()
                         Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CBillHeader", "UpdateBillToInv", cm.CommandText, False)
                     End If
                 End Using

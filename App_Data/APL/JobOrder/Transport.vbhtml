@@ -205,6 +205,7 @@ End Code
                 <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Form</b>
             </a>
             <select id="cboPrintForm">
+                <option value="BK">Booking Request</option>
                 <option value="TI">Truck Order (IMPORT)</option>
                 <option value="TE">Truck Order (EXPORT)</option>
                 <option value="BA">Booking Confirmation (AIR)</option>
@@ -213,7 +214,6 @@ End Code
                 <option value="BL">BL/AWB</option>
                 <option value="DO">D/O Letter</option>
                 <option value="SC">Sales Contract</option>
-                <option value="IV">Commercial Invoice</option>
                 <option value="PL">Packing Lists</option>
             </select>
             >
@@ -436,7 +436,7 @@ End Code
                                 <br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control" disabled></div>
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblContainerNo">Container </label>
+                                <label id="lblContainerNo" ondblclick="EnableEdit()">Container </label>
                                 :<br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
                             </div>
                             <div class="col-sm-3">
@@ -1485,7 +1485,7 @@ End Code
             case 'SC':
                 window.open(path + 'JobOrder/FormSalesContract?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
-            case 'IV':
+            case 'BK':
                 window.open(path + 'JobOrder/FormInvoice?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'PL':
@@ -1552,7 +1552,7 @@ End Code
             BranchCode:$('#txtBranchCode').val(),
             JNo:$('#txtJNo').val(),
             ItemNo:$('#txtItemNo').val(),
-            CTN_NO:$('#txtCTN_NO').val(),
+            CTN_NO:$('#txtCTN_NO').val().trim(),
             SealNumber:$('#txtSealNumber').val(),
             TruckNO:$('#txtTruckNO').val(),
             TruckIN:CDateEN($('#txtTruckIN').val()),
@@ -1613,6 +1613,11 @@ End Code
                         if (response.result.data != null) {
                             $('#txtItemNo').val(response.result.data);
                             $('#txtItemNo').focus();
+                            if (($('#txtCauseCode').val() == '2' || $('#txtCauseCode').val() == '3') && ($('#txtCTN_NO').val() !== '')) {
+                                $('#btnExpense2').removeAttr('disabled');
+                            } else {
+                                $('#btnExpense2').attr('disabled','disabled');
+                            }
                             LoadDetail($('#txtBranchCode').val(), $('#txtBookingNo').val());
                         }
                         ShowMessage(response.result.msg);
@@ -1636,9 +1641,14 @@ End Code
         $('#txtFinish').val(ShowTime(dr.Finish));
         $('#txtTimeUsed').val(dr.TimeUsed);
         $('#txtCauseCode').val(dr.CauseCode);
-        if (dr.CauseCode == 99) {
+        if (dr.CauseCode == '99') {
             $('#btnDeleteDetail').show();
         } else {
+            if ((dr.CauseCode == '2' || dr.CauseCode == '3') && dr.CTN_NO !== '') {
+                $('#btnExpense2').removeAttr('disabled');
+            } else {
+                $('#btnExpense2').attr('disabled', 'disabled');
+            }
             $('#btnDeleteDetail').hide();
         }
         $('#txtComment').val(dr.Comment);
@@ -1681,7 +1691,6 @@ End Code
         $('#txtPlaceName4').val(dr.PlaceName4);
         $('#txtPlaceAddress4').val(dr.PlaceAddress4);
         $('#txtPlaceContact4').val(dr.PlaceContact4);
-
 
         ShowExpense();
         ShowPayment();
@@ -1912,15 +1921,14 @@ End Code
         });
     }
     function ShowPayment() {
-        $('#btnExpense').removeAttr('disabled');
-        $('#btnExpense2').removeAttr('disabled');
+        $('#txtCTN_NO').removeAttr('disabled');
+        $('#btnExpense2').attr('disabled', 'disabled');
         $('#tbPayment').DataTable().clear().draw();
-        if ($('#txtCTN_NO').val() !== '') {
+        if ($('#txtCTN_NO').val() !== '') {            
             $.get(path + 'Acc/GetPayment?VenCode=' + $('#txtVenderCode').val() + '&Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
                 if (r.payment.header.length > 0) {
-                    $('#btnExpense').attr('disabled', 'disabled');
-                    $('#btnExpense2').attr('disabled', 'disabled');
-                    let tb= $('#tbPayment').DataTable({
+                    $('#txtCTN_NO').attr('disabled', 'disabled');
+                    let tb = $('#tbPayment').DataTable({
                         data: r.payment.header,
                         columns: [
                             { data: "DocNo", title: "Doc.No" },
@@ -1935,8 +1943,12 @@ End Code
                     ChangeLanguageGrid('@ViewBag.Module', '#tbPayment');
                     $('#tbPayment tbody').on('dblclick', 'tr', function () {
                         let row = $('#tbPayment').DataTable().row(this).data();
-                        window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&DocNo='+ row.DocNo +'&BookNo=' + $('#txtBookingNo').val() + '&Item=' + $('#txtItemNo').val() + '&Job=' + $('#txtJNo').val() + '&Vend=' + $('#txtVenderCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust=' + $('#txtNotifyCode').val() + '&Route='+ $('#txtRouteID').val(), '', '');
+                        window.open(path + 'Acc/Expense?BranchCode=' + row.BranchCode + '&DocNo=' + row.DocNo + '&BookNo=' + $('#txtBookingNo').val() + '&Item=' + $('#txtItemNo').val() + '&Job=' + $('#txtJNo').val() + '&Vend=' + $('#txtVenderCode').val() + '&Cont=' + $('#txtCTN_NO').val() + '&Cust=' + $('#txtNotifyCode').val() + '&Route=' + $('#txtRouteID').val(), '', '');
                     });
+                } else {
+                    if ($('#txtCauseCode').val() == '2' || $('#txtCauseCode').val() == '3') {
+                        $('#btnExpense2').removeAttr('disabled');
+                    }
                 }
             });
         }
@@ -2006,5 +2018,8 @@ End Code
         } else {
             ShowMessage('Please enter some data', true);
         }
+    }
+    function EnableEdit() {
+        $('#txtCTN_NO').removeAttr('disabled');
     }
 </script>

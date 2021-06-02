@@ -3,6 +3,9 @@
     Layout = "~/Views/Shared/_ReportNoHead.vbhtml"
 End Code
 <style>
+    * {
+        font-size: 13px;
+    }
     #dvFooter, #pFooter {
         display: none;
     }

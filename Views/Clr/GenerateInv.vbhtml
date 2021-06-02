@@ -4,8 +4,8 @@ End Code
 <div class="panel-body">
     <div class="container">
         <div class="row">
-            <div class="col-sm-4">
-                <label id="lblBranch">Branch:</label>                
+            <div class="col-sm-3">
+                <label id="lblBranch">Branch:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -13,20 +13,30 @@ End Code
                     <input type="text" class="form-control" id="txtBranchName" style="width:65%" disabled />
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <label id="lblJobType">Job Type</label>
                 <br />
                 <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()"></select>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <label id="lblShipBy">Ship By</label>
                 <br />
                 <select id="cboShipBy" class="form-control dropdown"></select>
             </div>
+            <div class="col-sm-2">
+                CLR Date From<br /><input type="date" id="txtClrDateF" class="form-control" />
+            </div>
+            <div class="col-sm-2">
+                To<br /><input type="date" id="txtClrDateT" class="form-control" />
+            </div>
+            <div class="col-sm-1">
+                <br />
+                <input type="checkbox" id="chkNoEarnest" checked />&nbsp; NO EARNEST
+            </div>
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <label id="lblCustCode">Customer</label>                
+                <label id="lblCustCode">Customer</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" style="width:120px" />
@@ -44,7 +54,7 @@ End Code
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
-                <input type="checkbox" id="chkSelectAll" checked /> Select All 
+                <input type="checkbox" id="chkSelectAll" checked /> Select All
             </div>
         </div>
         <div class="row">
@@ -54,6 +64,7 @@ End Code
                         <tr>
                             <th>JobNo</th>
                             <th class="desktop">ClrNo</th>
+                            <th class="desktop">Cont/Car No</th>
                             <th class="desktop">CustCode</th>
                             <th>Description</th>
                             <th class="desktop">Cost</th>
@@ -68,9 +79,6 @@ End Code
                 <br />
                 <a href="#" class="btn btn-success" id="btnGen" onclick="ShowSummary()">
                     <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkCreate">Create Invoice</b>
-                </a>
-                <a href="#" class="btn btn-warning" id="btnGen" onclick="SetTempInv()">
-                    <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkSave">Preview Invoice</b>
                 </a>
                 <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ResetData()">
                     <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkReset">Reset Select</b>
@@ -93,9 +101,9 @@ End Code
                                 <label id="lblInvType">Invoice Type :</label>
                                 <br />
                                 <select id="cboDocType" class="form-control dropdown">
-                                    <option value="BKK">Service</option>
-                                    <option value="RGM">Advance</option>
-                                    <option value="APL">Outside</option>
+                                    <option value="IVS-">Service</option>
+                                    <option value="IVT-">Transport</option>
+                                    <option value="IVF-">Freight</option>
                                 </select>
 
                             </div>
@@ -105,7 +113,7 @@ End Code
                                 <label id="lblReplaceInv">Replace Invoice No:</label>
                                 <br />
                                 <div style="display:flex;flex-direction:row">
-                                    <input type="text" id="txtDocNo" class="form-control" />
+                                    <input type="text" id="txtDocNo" class="form-control" disabled />
                                     <input type="button" onclick="SearchData('invoice')" value="..." />
                                 </div>
                             </div>
@@ -131,11 +139,11 @@ End Code
                 </div>
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <table>
                                 <tr>
                                     <td>
-                                        <label id="lblCheque">Use Cheque:</label>                                        
+                                        <label id="lblCheque">Use Cheque:</label>
                                         <br />
                                         <div style="display:flex;flex-direction:row">
                                             <input type="text" id="txtChqNo" class="form-control" disabled />
@@ -166,7 +174,7 @@ End Code
                                 <tbody></tbody>
                             </table>
                         </div>
-                        <div class="col-sm-8">
+                        <div class="col-sm-9">
                             <div style="width:100%">
                                 <label id="lblBillToCustCode">Billing Place</label>
                                 <br />
@@ -181,9 +189,9 @@ End Code
                             <table id="tbCost" class="table table-responsive" style="width:100%;">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th>Job No</th>
                                         <th class="all">Description</th>
-                                        <th class="desktop">SlipNo</th>
                                         <th class="desktop">Expense</th>
                                         <th class="desktop">VAT</th>
                                         <th class="desktop">WH-Tax</th>
@@ -195,7 +203,7 @@ End Code
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <b id="linkInv">Invoice Summary:</b>
                             <br />
                             <table style="width:100%">
@@ -227,19 +235,15 @@ End Code
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Invoice</b>
                             </a>
                         </div>
-                        <div class="col-sm-8">
+                        <div class="col-sm-9">
                             <b id="linkDet">Invoice Detail:</b>
                             <button id="btnMerge" class="btn btn-default" onclick="MergeData()">Group Data</button>
-                            <select id="cboMergeType">
-                                <option value="C">By Code,Price</option>
-                                <option value="S">By Slip,Code</option>
-                            </select>
                             <br />
                             <table id="tbDetail" class="table table-responsive" style="width:100%;">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th class="all">JobNo</th>
+                                        <th class="all">#</th>
+                                        <th class="desktop">JobNo</th>
                                         <th class="all">Description</th>
                                         <th class="desktop">SlipNo</th>
                                         <th class="desktop">Advance</th>
@@ -262,12 +266,12 @@ End Code
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <label id="lblClearNo">Clearing No</label> : 
-                        <label id="lblClrNo"></label>                                                                     
-                        <label id="lblJNo">Job No</label>: 
+                        <label id="lblClearNo">Clearing No</label> :
+                        <label id="lblClrNo"></label>
+                        <label id="lblJNo">Job No</label>:
                         <label id="lblJobNo"></label>
                         <br />
-                        <label id="lblCode">Code</label>: 
+                        <label id="lblCode">Code</label>:
                         <label id="lblSICode"></label>
                         <label id="lblDesc">Description</label>:
                         <label id="lblSDescription"></label>
@@ -338,6 +342,23 @@ End Code
                                         <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkUpdate">Update Data</b>
                                     </a>
                                 </td>
+                                <td style="width:10%">
+                                    Item No:
+                                    <br />
+                                    <input type="text" class="form-control" id="txtItemNo" disabled />
+                                </td>
+                                <td style="width:10%">
+                                    <br />
+                                    <a href="#" class="btn btn-default" id="btnSplit" onclick="MoveUp()">
+                                        <b id="linkUpdate">Move Up</b>
+                                    </a>
+                                </td>
+                                <td style="width:10%">
+                                    <br />
+                                    <a href="#" class="btn btn-default" id="btnSplit" onclick="MoveDown()">
+                                        <b id="linkUpdate">Move Down</b>
+                                    </a>
+                                </td>
                             </tr>
                         </table>
                     </div>
@@ -355,12 +376,17 @@ End Code
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
+    const license = '@ViewBag.LICENSE_NAME';
+    if (license.indexOf('TRANSPORT') >= 0) {
+        $('#cboDocType').val('IVT-');
+    } else {
+        $('#cboDocType').val('IVS-');
+    }
     let arr = [];
     let arr_split = {};
     let arr_clr = [];
     let chq = [];
     let jt = '';
-    let creditlimit = 0;
     //$(document).ready(function () {
     //Load params
     let branch = getQueryString("branch");
@@ -369,6 +395,7 @@ End Code
     let custbranch = getQueryString("custbranch");
     let billtocustcode = '';
     let billtocustbranch = '';
+    let creditlimit = 0;
 
     if (branch !== '' && code !== '') {
         $('#txtBranchCode').val(branch);
@@ -443,6 +470,16 @@ End Code
     }
     function SetGridAdv(isAlert) {
         let w = '&status=CLOSE';
+        if ($('#chkNoEarnest').prop('checked')) {
+            w = '&status=NOEARNEST';
+        }
+        if ($('#txtClrDateF').val() !== "") {
+            w = w + '&DateFrom=' + CDateEN($('#txtClrDateF').val());
+        }
+        if ($('#txtClrDateT').val() !== "") {
+            w = w + '&DateTo=' + CDateEN($('#txtClrDateT').val());
+        }
+
         if ($('#txtJobNo').val() !== "") {
             w = w + '&job=' + $('#txtJobNo').val();
         }
@@ -472,6 +509,7 @@ End Code
                 columns: [ //กำหนด property ของ header column
                     { data: "JobNo", title: "Job No" },
                     { data: "ClrNo", title: "Clr No" },
+                    { data: "CTN_NO", title: "Cont/Car No" },
                     { data: "CustCode", title: "Customer" },
                     {
                         data: null, title: "Description",
@@ -521,11 +559,11 @@ End Code
                 createdRow: function (row, data, index) {
                     if ($('#chkSelectAll').prop('checked')) {
                         $(row).addClass('selected')
+                        AddData(data);
                     }
                 },
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page,
             });
-            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
@@ -542,11 +580,7 @@ End Code
                 //ShowMessage('you click ' + clearno);
                 window.open(path + 'Clr/Index?BranchCode=' + $('#txtBranchCode').val() + '&ClrNo=' + clearno);
             });
-            if ($('#chkSelectAll').prop('checked')) {
-                for (let row of h) {
-                    AddData(row);
-                }
-            }
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
         });
 
     }
@@ -618,14 +652,22 @@ End Code
     }
     function ShowDetail() {
         arr_split = {};
+        let iRow = 0;
         let arr_sel = arr.filter(function (d) {
             return d.AmtCharge > 0 || d.AmtAdvance > 0;
         });
+        for (let o of arr_sel) {
+            iRow += 1;
+            o.ItemNo = iRow;
+        }
+        sortData(arr_sel, 'ItemNo', 'asc');
         let tb=$('#tbDetail').DataTable({
             data: arr_sel,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
-                { data: null, title: "#" },
+                {
+                    data: null, title: "#"
+                },
                 { data: "JobNo", title: "Job No" },
                 {
                     data: null, title: "Description",
@@ -672,34 +714,34 @@ End Code
                 "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
                 "data": null,
                 "render": function (data, type, full, meta) {
-                    let html = "<button class='btn btn-warning'>Edit</button>";
+                    let html = "<button class='btn btn-warning'>"+ data.ItemNo+"</button>";
                     return html;
                 }
             }
             ],
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
-        $('#tbDetail tbody').on('click','button', function () {
-            let data = GetSelect('#tbDetail',this); //read current row selected
+        $('#tbDetail tbody').on('click', 'button', function () {
+            let data = GetSelect('#tbDetail', this); //read current row selected
             //if (data.ClrNo !== '') {
-                LoadClearDetail(data);
+            LoadClearDetail(data);
             //}
         });
         let arr_cost = arr.filter(function (d) {
             return d.AmtCost > 0;
         });
-        let tb1=$('#tbCost').DataTable({
+        let tb1 = $('#tbCost').DataTable({
             data: arr_cost,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
+                { data: null, title: "#" },
                 { data: "JobNo", title: "Job No" },
                 {
                     data: null, title: "Description",
                     render: function (data) {
-                        return data.SICode + '-' + data.SDescription + (data.ExpSlipNO == null ? '' : ' #' + data.ExpSlipNO);
+                        return data.SDescription + (data.ExpSlipNO == null ? '' : ' #' + data.ExpSlipNO);
                     }
                 },
-                { data: "ExpSlipNO", title: "Slip No" },
                 {
                     data: "AmtCost", title: "Amount",
                     render: function (data) {
@@ -725,12 +767,32 @@ End Code
                     }
                 }
             ],
-            responsive:true,
-            destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+            responsive: true,
+            destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+            columnDefs: [ //กำหนด control เพิ่มเติมในแต่ละแถว
+                {
+                    "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                    "data": null,
+                    "render": function (data, type, full, meta) {
+                        let html = "<button class='btn btn-danger'>"+data.SICode+"</button>";
+                        return html;
+                    }
+                }
+                ]
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbCost');
-    }
+        $('#tbCost tbody').on('click', 'button', function () {
+            let data = GetSelect('#tbCost', this); //read current row selected
+            //if (data.ClrNo !== '') {
+            RemoveCost(data);
+            //}
+        });
 
+    }
+    function RemoveCost(data) {
+        RemoveData(data);
+        CalSummary();
+    }
     function UpdateData() {
         let arr_new = JSON.parse(JSON.stringify(arr_split));
         let old_amt = ShowNumber(CNum(arr_new.AmtAdvance) + CNum(arr_new.AmtCharge)+ CNum(arr_new.AmtDiscount), 2);
@@ -853,6 +915,7 @@ End Code
     function LoadClearDetail(dr) {
         arr_split = dr;
         arr_clr = [];
+        $('#txtItemNo').val(dr.ItemNo);
         $('#lblClrNo').text(dr.ClrNoList);
         $('#lblJobNo').text(dr.JobNo);
         $('#lblSICode').text(dr.SICode);
@@ -862,32 +925,31 @@ End Code
         $('#txtAmtVATRate').val(CNum(dr.VATRate));
         $('#txtAmtWHTRate').val(CNum(dr.Rate50Tavi));
 
-
         if (dr.AmtAdvance > 0) {
             $('#txtAmtCharge').val(0);
-                $('#txtAmtCharge').attr('disabled', 'disabled');
-                $('#txtAmtAdvance').removeAttr('disabled');
-                $('#txtAmtVAT').attr('disabled', 'disabled');
-                $('#txtAmtWHT').attr('disabled', 'disabled');
-                $('#txtAmtVATRate').attr('disabled', 'disabled');
-                $('#txtAmtWHTRate').attr('disabled', 'disabled');
-                $('#txtAmtAdvance').val(CDbl((dr.AmtAdvance+dr.AmtDiscount),2));
+            $('#txtAmtCharge').attr('disabled', 'disabled');
+            $('#txtAmtAdvance').removeAttr('disabled');
+            $('#txtAmtVAT').attr('disabled', 'disabled');
+            $('#txtAmtWHT').attr('disabled', 'disabled');
+            $('#txtAmtVATRate').attr('disabled', 'disabled');
+            $('#txtAmtWHTRate').attr('disabled', 'disabled');
+            $('#txtAmtAdvance').val(CDbl((dr.AmtAdvance+dr.AmtDiscount),2));
         } else {
             $('#txtAmtAdvance').val(0);
-                $('#txtAmtAdvance').attr('disabled', 'disabled');
-                $('#txtAmtCharge').removeAttr('disabled');
-                $('#txtAmtVAT').removeAttr('disabled');
-                $('#txtAmtWHT').removeAttr('disabled');
-                $('#txtAmtVATRate').removeAttr('disabled');
-                $('#txtAmtWHTRate').removeAttr('disabled');
-                $('#txtAmtCharge').val(CDbl((dr.AmtCharge+dr.AmtDiscount),2));
-            }
-            $('#txtAmtVAT').val(CDbl(dr.AmtVat,2));
-            $('#txtAmtWHT').val(CDbl(dr.Amt50Tavi,2));
-            $('#txtAmtNET').val(CDbl(dr.TotalAmt,2));
-            $('#txtAmtDiscountPerc').val(dr.DiscountPerc);
-            $('#txtAmtDiscount').val(CDbl(dr.AmtDiscount,2));
-            //CalVATWHT(0);
+            $('#txtAmtAdvance').attr('disabled', 'disabled');
+            $('#txtAmtCharge').removeAttr('disabled');
+            $('#txtAmtVAT').removeAttr('disabled');
+            $('#txtAmtWHT').removeAttr('disabled');
+            $('#txtAmtVATRate').removeAttr('disabled');
+            $('#txtAmtWHTRate').removeAttr('disabled');
+            $('#txtAmtCharge').val(CDbl((dr.AmtCharge+dr.AmtDiscount),2));
+        }
+        $('#txtAmtVAT').val(CDbl(dr.AmtVat,2));
+        $('#txtAmtWHT').val(CDbl(dr.Amt50Tavi,2));
+        $('#txtAmtNET').val(CDbl(dr.TotalAmt,2));
+        $('#txtAmtDiscountPerc').val(dr.DiscountPerc);
+        $('#txtAmtDiscount').val(CDbl(dr.AmtDiscount,2));
+        //CalVATWHT(0);
         if (dr.ClrNo !== '') {
             $('#btnSplit').attr('disabled', 'disabled');
             $.get(path + 'Clr/GetClrDetail?Branch=' + dr.BranchCode + '&Code=' + dr.ClrNo + '&Item=' + dr.ClrItemNo, function (res) {
@@ -940,7 +1002,58 @@ End Code
         return;
     }
     function SaveHeader() {
-        let dataInv =GetDataHeader();
+        let dataInv = {
+            BranchCode:$('#txtBranchCode').val(),
+            DocNo: $('#txtDocNo').val(),
+            DocType:$('#cboDocType').val(),
+            DocDate: CDateEN($('#txtDocDate').val()),
+            CustCode:$('#txtCustCode').val(),
+            CustBranch:$('#txtCustBranch').val(),
+            BillToCustCode:billtocustcode,
+            BillToCustBranch:billtocustbranch,
+            ContactName:'',
+            EmpCode:user,
+            PrintedBy:'',
+            PrintedDate:null,
+            PrintedTime:null,
+            RefNo: GetRefNo(),
+            VATRate:CNum(CNum(@ViewBag.PROFILE_VATRATE)*100),
+            TotalAdvance:CNum($('#txtTotalAdvance').val()),
+            TotalCharge:CNum($('#txtTotalCharge').val()),
+            TotalIsTaxCharge:CNum($('#txtTotalIsTaxCharge').val()),
+            TotalIs50Tavi:CNum($('#txtTotalIs50Tavi').val()),
+            TotalVAT:CNum($('#txtTotalVat').val()),
+            Total50Tavi:CNum($('#txtTotal50Tavi').val()),
+            TotalCustAdv:CNum($('#txtTotalCustAdv').val()),
+            TotalNet:CNum($('#txtTotalNet').val()),
+            CurrencyCode:$('#txtCurrencyCode').val(),
+            ExchangeRate:CNum($('#txtExchangeRate').val()),
+            ForeignNet: CNum($('#txtForeignNet').val()),
+            TotalDiscount: CNum($('#txtTotalDiscount').val()),
+            SumDiscount: CNum($('#txtSumDiscount').val()),
+            DiscountRate: CNum($('#txtDiscountRate').val()),
+            CalDiscount:CNum($('#txtCalDiscount').val()),
+            BillAcceptDate:null,
+            BillIssueDate:null,
+            BillAcceptNo:'',
+            Remark1:'',
+            Remark2:'',
+            Remark3:'',
+            Remark4:'',
+            Remark5:'',
+            Remark6:'',
+            Remark7:'',
+            Remark8:'',
+            Remark9:'',
+            Remark10:'',
+            CancelReson:'',
+            CancelProve:'',
+            CancelDate:null,
+            CancelTime:null,
+            ShippingRemark: GetDueDate($('#txtDocDate').val()),
+            DueDate: null,
+            CreateDate:CDateEN(GetToday())
+        };
         let jsonString = JSON.stringify({ data: dataInv });
         $.ajax({
             url: "@Url.Action("SetInvHeader", "Acc")",
@@ -952,9 +1065,9 @@ End Code
                     if (chq.length > 0) {
                         SaveCheque(response.result.data);
                     }
-                    //if ($('#txtDocNo').val() == '') {
-                    SaveDetail(response.result.data);
-                    //}
+                    if ($('#txtDocNo').val() == '') {
+                        SaveDetail(response.result.data);
+                    }
                     ShowMessage(response.result.data);
                     $('#dvCreate').modal('hide');
 
@@ -1021,7 +1134,7 @@ End Code
         $.get(path + 'Acc/DelInvDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
             //if (r.invdetail.data !== null) {
             SaveHeader();
-            //SaveDetail($('#txtDocNo').val());
+            SaveDetail($('#txtDocNo').val());
             //}
         });
     }
@@ -1141,7 +1254,7 @@ End Code
             let month = dinput.getMonth;
             let year = dinput.getFullYear;
             let doutput = new Date(year, month, day);
-            return CDateEN(doutput);
+            return 'DUE DATE:' + CDateEN(doutput);
         }
         return '';
     }
@@ -1153,10 +1266,10 @@ End Code
             if (obj.AmtCharge > 0 || obj.AmtAdvance > 0) {
                 let creditamt = 0;
                 if (custadv > 0) {
-                    if (custadv - (CNum(obj.AmtNet) + CNum(obj.Amt50Tavi)) < 0) {
+                    if ((custadv - CNum(obj.AmtNet)) < 0) {
                         creditamt = custadv;
                     } else {
-                        creditamt = (CNum(obj.AmtNet) + CNum(obj.Amt50Tavi));
+                        creditamt = CNum(obj.AmtNet);
                     }
                     custadv -= creditamt;
                 } else {
@@ -1167,7 +1280,7 @@ End Code
                     BranchCode: obj.BranchCode,
                     ClrNoList: obj.ClrNoList,
                     DocNo: no,
-                    ItemNo: i,
+                    ItemNo: obj.ItemNo,
                     SICode: obj.SICode,
                     SDescription: obj.SDescription,
                     ExpSlipNO: obj.ExpSlipNO,
@@ -1176,8 +1289,8 @@ End Code
                     ExchangeRate: $('#txtExchangeRate').val(),
                     Qty: CNum(obj.Qty),
                     QtyUnit: obj.QtyUnit,
-                    UnitPrice: (CNum(obj.Amt)/CNum(obj.Qty)),
-                    FUnitPrice: CDbl((CNum(obj.Amt) / CNum(obj.Qty)) / CNum($('#txtExchangeRate').val()), 2),
+                    UnitPrice: obj.UnitPrice,
+                    FUnitPrice: CDbl(obj.UnitPrice / CNum($('#txtExchangeRate').val()), 2),
                     Amt: CDbl(obj.Amt,2),
                     FAmt: CDbl(obj.Amt / CNum($('#txtExchangeRate').val()), 2),
                     DiscountType: obj.DiscountType,
@@ -1195,8 +1308,8 @@ End Code
                     AmtCharge: (obj.AmtCharge > 0 ? CDbl(obj.AmtCharge  / CNum($('#txtExchangeRate').val()),2) : 0),
                     CurrencyCodeCredit: $('#txtCurrencyCode').val(),
                     ExchangeRateCredit: $('#txtExchangeRate').val(),
-                    AmtCredit: (creditamt >0 ? CDbl((creditamt-CNum(obj.Amt50Tavi)),2) : 0),
-                    FAmtCredit: (creditamt > 0 ? CDbl((creditamt - CNum(obj.Amt50Tavi)) / CNum($('#txtExchangeRate').val()), 2) : 0),
+                    AmtCredit: (creditamt >0 ? CDbl(creditamt,2) : 0),
+                    FAmtCredit: (creditamt > 0 ? CDbl(creditamt / CNum($('#txtExchangeRate').val()), 2) : 0),
                     VATRate: CDbl(obj.VATRate,0)
                 });
             } else {
@@ -1213,8 +1326,8 @@ End Code
                     ExchangeRate: $('#txtExchangeRate').val(),
                     Qty: obj.Qty,
                     QtyUnit: obj.QtyUnit,
-                    UnitPrice: (CNum(obj.Amt) / CNum(obj.Qty)),
-                    FUnitPrice: CDbl((CNum(obj.Amt) / CNum(obj.Qty)) / CNum($('#txtExchangeRate').val()), 2),
+                    UnitPrice: obj.UnitPrice,
+                    FUnitPrice: CDbl(obj.UnitPrice / CNum($('#txtExchangeRate').val()), 2),
                     Amt: obj.Amt,
                     FAmt: CDbl(obj.Amt / CNum($('#txtExchangeRate').val()), 2),
                     DiscountType: obj.DiscountType,
@@ -1259,14 +1372,7 @@ End Code
         let arr_sel = arr.filter(function (d) {
             return d.AmtCharge > 0 || d.AmtAdvance > 0;
         });
-        if ($('#cboMergeType').val() == 'S') {
-            sortData(arr_sel, 'ExpSlipNO', 'desc');
-            sortData(arr_sel, 'SICode', 'asc');
-            sortData(arr_sel, 'Amt', 'asc');
-        } else {
-            sortData(arr_sel, 'SICode', 'asc');
-            sortData(arr_sel, 'Amt', 'asc');
-        }
+        sortData(arr_sel, 'SICode', 'asc');
 
         let slipList = '';
         let clearList = '';
@@ -1274,29 +1380,19 @@ End Code
         let key = {};
         let itemNo = 0;
         let rowProcess = 0;
-        let checkData = '';
         for (obj of arr_sel) {
-            rowProcess += 1;
-            if ($('#cboMergeType').val() == 'S') {
-                checkData = obj.ExpSlipNO + '' + obj.SICode + '' + CDbl(CNum(obj.Amt) / CNum(obj.Qty), 2);
-            } else {
-                checkData = obj.SICode + '' + CDbl(CNum(obj.Amt) / CNum(obj.Qty), 2);
-            }
-            if (currCode !== checkData) {
+            rowProcess +=1;
+            if (currCode !== obj.SICode) {
                 if (currCode !== '') {
                     key.ClrNo = '';
                     key.ClrItemNo = 0;
                     key.ClrNoList = clearList;
                     key.ExpSlipNO = slipList;
-                    key.UnitPrice = CDbl(CNum(obj.Amt) / CNum(obj.Qty),2);
+                    key.UnitPrice = CNum(key.Amt) / CNum(key.Qty);
                     key.FUnitPrice = CDbl(CNum(key.UnitPrice) / CNum(obj.ExchangeRate), 2);
                     arr_new.push(key);
                 }
-                if ($('#cboMergeType').val() == 'S') {
-                    currCode = obj.ExpSlipNO + '' + obj.SICode + '' + CDbl(CNum(obj.Amt) / CNum(obj.Qty), 2);
-                } else {
-                    currCode = obj.SICode + '' + CDbl(CNum(obj.Amt) / CNum(obj.Qty), 2);
-                }
+                currCode = obj.SICode;
                 itemNo += 1;
                 key = obj;
                 key.ItemNo = itemNo;
@@ -1321,7 +1417,7 @@ End Code
             if (clearList.indexOf((obj.ClrNo + '/' + obj.ClrItemNo)) < 0) {
                 clearList += (clearList !== '' ? ',' : '') + (obj.ClrNo + '/' + obj.ClrItemNo);
             }
-            if (obj.ExpSlipNO !== '' && obj.ExpSlipNO !== null) {
+            if (obj.ExpSlipNO !== null) {
                 if (slipList.indexOf(obj.ExpSlipNO) < 0) {
                     slipList += (slipList !== '' ? ',' : '') + obj.ExpSlipNO;
                 }
@@ -1331,17 +1427,12 @@ End Code
                 key.ClrItemNo = 0;
                 key.ClrNoList = clearList;
                 key.ExpSlipNO = slipList;
-                key.UnitPrice = CDbl(CNum(obj.Amt) / CNum(obj.Qty),2);
+                key.UnitPrice = CNum(key.Amt) / CNum(key.Qty);
                 key.FUnitPrice = CDbl(CNum(key.UnitPrice) / CNum(obj.ExchangeRate), 2);
                 arr_new.push(key);
             }
         }
         arr = arr_new;
-        if ($('#cboMergeType').val() == 'S') {
-            sortData(arr, 'ExpSlipNO', 'desc');
-        } else {
-            sortData(arr, 'SICode', 'asc');
-        }
         CalSummary();
     }
     function ClearVariable() {
@@ -1471,82 +1562,53 @@ End Code
 
         $('#txtAmtNET').val(ShowNumber(net,2));
     }
-    function GetDataHeader() {
-        let duedate = GetDueDate($('#txtDocDate').val());
-        return {
-            BranchCode: $('#txtBranchCode').val(),
-            DocNo: $('#txtDocNo').val(),
-            DocType: $('#cboDocType').val(),
-            DocDate: CDateEN($('#txtDocDate').val()),
-            CustCode: $('#txtCustCode').val(),
-            CustBranch: $('#txtCustBranch').val(),
-            BillToCustCode: billtocustcode,
-            BillToCustBranch: billtocustbranch,
-            ContactName: '',
-            EmpCode: user,
-            PrintedBy: '',
-            PrintedDate: null,
-            PrintedTime: null,
-            RefNo: GetRefNo(),
-            VATRate: CNum(CNum(@ViewBag.PROFILE_VATRATE) * 100),
-            TotalAdvance: CNum($('#txtTotalAdvance').val()),
-            TotalCharge: CNum($('#txtTotalCharge').val()),
-            TotalIsTaxCharge: CNum($('#txtTotalIsTaxCharge').val()),
-            TotalIs50Tavi: CNum($('#txtTotalIs50Tavi').val()),
-            TotalVAT: CNum($('#txtTotalVat').val()),
-            Total50Tavi: CNum($('#txtTotal50Tavi').val()),
-            TotalCustAdv: CNum($('#txtTotalCustAdv').val()),
-            TotalNet: CNum($('#txtTotalNet').val()),
-            CurrencyCode: $('#txtCurrencyCode').val(),
-            ExchangeRate: CNum($('#txtExchangeRate').val()),
-            ForeignNet: CNum($('#txtForeignNet').val()),
-            TotalDiscount: CNum($('#txtTotalDiscount').val()),
-            SumDiscount: CNum($('#txtSumDiscount').val()),
-            DiscountRate: CNum($('#txtDiscountRate').val()),
-            CalDiscount: CNum($('#txtCalDiscount').val()),
-            BillAcceptDate: null,
-            BillIssueDate: null,
-            BillAcceptNo: '',
-            Remark1: '',
-            Remark2: '',
-            Remark3: '',
-            Remark4: '',
-            Remark5: '',
-            Remark6: '',
-            Remark7: '',
-            Remark8: '',
-            Remark9: '',
-            Remark10: '',
-            CancelReson: '',
-            CancelProve: '',
-            CancelDate: null,
-            CancelTime: null,
-            ShippingRemark: 'DUE DATE:' +  duedate,
-            DueDate: duedate=''? null : duedate,
-            CreateDate: CDateEN(GetToday())
-        };
-    }
-    function SetTempInv() {
-        if (arr.length > 0) {
-            let jobno = arr[0].JobNo;
-            let branchjob = arr[0].BranchCode;
-            localStorage.setItem('invjob', '');
-            if (jobno !== '') {
-                $.get(path + 'JobOrder/GetJobSQL?Branch=' + branchjob + '&JNo=' + jobno, function (r) {
-                    if (r.job.data !== undefined) {
-                        localStorage.setItem('invjob', '[' + JSON.stringify(r.job.data) + ']');
-                    }
-                });
-            }
-            let det = GetDataDetail(arr, '').filter(function (d) {
-                return d.ItemNo > 0;
-            });
-            let strHeader = '[' + JSON.stringify(GetDataHeader()) + ']';
-            let strDetail = JSON.stringify(det);
-            localStorage.setItem('invheader', strHeader);
-            localStorage.setItem('invdetail', strDetail);
+    function MoveUp() {
+        let arr_cost = arr.filter(function (d) {
+            return d.AmtCost > 0;
+        });
+        let arr_sel = arr.filter(function (d) {
+            return d.AmtCharge > 0 || d.AmtAdvance > 0;
+        });
+        //sortData(arr_sel, 'ItemNo', 'asc');
+        let idx = arr_sel.indexOf(arr_split);
+        if (idx <= 0 || idx > (arr_sel.length - 1) || arr_sel[idx - 1].ItemNo == 0) {
+            alert('cannot move up');
+        } else {
+            //swap data
+            [arr_sel[idx - 1], arr_sel[idx]] = [arr_sel[idx], arr_sel[idx - 1]];
 
-            window.open(path + 'Acc/FormInv', '_blank');
+            for (let v of arr_cost) {
+                arr_sel.push(v);
+            }
+            arr = arr_sel;
+
+            $('#dvEditor').modal('hide');
+            CalSummary();
+        }
+    }
+    function MoveDown() {
+        let arr_cost = arr.filter(function (d) {
+            return d.AmtCost > 0;
+        });
+        let arr_sel = arr.filter(function (d) {
+            return d.AmtCharge > 0 || d.AmtAdvance > 0;
+        });
+        //sortData(arr_sel, 'ItemNo', 'asc');
+
+        let idx = arr_sel.indexOf(arr_split);
+        if (idx >= (arr_sel.length - 1) || idx < 0 || arr_sel[idx + 1].itemNo == 0) {
+            alert('cannot move down');
+        } else {
+            //swap data
+            [arr_sel[idx], arr_sel[idx + 1]] = [arr_sel[idx + 1], arr_sel[idx]];
+
+            for (let v of arr_cost) {
+                arr_sel.push(v);
+            }
+            arr = arr_sel;
+
+            $('#dvEditor').modal('hide');
+            CalSummary();
         }
     }
 </script>

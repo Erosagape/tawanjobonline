@@ -56,7 +56,9 @@ End Code
                 ReportCliteria: html
             }
             if (data.ReportType == 'EXP') {
-                $('#rptCliteria').css('display', 'none');
+                if (data.ReportCode == 'SETAR' || data.ReportCode == 'CUTAR') {
+                    $('#rptCliteria').css('display', 'none');
+                }
                 LoadReportNoTotal(path, row.REPORTCODE, data, lang);
             }
             else

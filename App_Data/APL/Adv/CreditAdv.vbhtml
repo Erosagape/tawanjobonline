@@ -83,6 +83,9 @@ End Code
                     <input type="date" id="txtPostedDate" disabled />
                     <label id="lblPostTime">Time:</label>
                     <input type="text" id="txtPostedTime" style="width:80px" disabled />
+                    <br />
+                    <label id="lblPostRefNo" for="txtPostRefNo">Post Ref#</label><br />
+                    <input type="text" id="txtPostRefNo" style="width:250px" disabled />
                 </div>
                 <div class="col-sm-4" style="border-style:solid;border-width:1px;color:red">
                     <input type="checkbox" id="chkCancel" />
@@ -634,6 +637,7 @@ End Code
         $('#txtCancelProve').val('');
         $('#txtCancelDate').val('');
         $('#txtCancelTime').val('');
+        $('#txtPostRefNo').val('');
 
         $('#tbHeader').empty();
 
@@ -684,7 +688,8 @@ End Code
                 CancelDate:CDateEN($('#txtCancelDate').val()),
                 CancelTime: $('#txtCancelTime').val(),
                 CustCode: $('#txtCustCode').val(),
-                CustBranch: $('#txtCustBranch').val()
+                CustBranch: $('#txtCustBranch').val(),
+                PostRefNo: $('#txtPostRefNo').val()
             };
             let jsonText = JSON.stringify({ data: obj });
             //ShowMessage(jsonText);
@@ -856,6 +861,7 @@ End Code
             $('#txtRecDate').val(CDateEN(dr.RecDate));
             $('#txtRecTime').val(ShowTime(dr.RecTime));
             $('#txtPostedBy').val(dr.PostedBy);
+            $('#txtPostRefNo').val(dr.PostRefNo);
             if (dr.PostedBy !== '') {
                 $('#chkPosted').prop('checked', true);
                 DisableSave();

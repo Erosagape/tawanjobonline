@@ -4,6 +4,11 @@
     ViewBag.ReportName = "Truck Order"
     ViewBag.Title = "ใบสั่งงานรถ (Truck Order)"
 End Code
+<style>
+    * {
+        font-size: 13px;
+    } 
+</style>
 <div style="text-align:right;width:100%">
     <b>DATE :</b> <label id="lblBookingDate"></label><br/>
     <b>JOB NUMBER :</b> <label id="lblJNo"></label>

@@ -206,7 +206,10 @@ function CNum(data) {
     if ((''+data).length==0) {
         return 0;
     } else {
-        let num = data.toString().replace(',', '');
+        let num = data.toString().replace(/[^0-9\.]+/g, "");
+        if (data < 0) {
+            num = num * -1;
+        }
         return Number(num);
     }
 }

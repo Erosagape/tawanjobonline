@@ -117,7 +117,10 @@ End Code
                  <label id="lblClrNo"></label> # <label id="lblItemNo"></label>
             </div>
             <div class="modal-body">
+                Invoice Number
                 <input type="text" id="txtInvoiceNo" />
+                #
+                <input type="number" id="txtItemNo" value="0" />
                 <a href="#" class="btn btn-success" id="btnUpdateInv" onclick="UpdateInvoice()">
                     <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkUpdate">Update Invoice</b>
                 </a>
@@ -284,7 +287,7 @@ End Code
                 if (r.clr.detail.length > 0) {
                     let dr = r.clr.detail[0];
                     dr.LinkBillNo = $('#txtInvoiceNo').val();
-                    dr.LinkItem = 0;
+                    dr.LinkItem = $('#txtItemNo').val();
                     SaveClrDetail(dr);
                 }
             });

@@ -66,8 +66,8 @@
         Return View()
     End Function
     Function CheckLogin() As ContentResult
-        If Not Request.QueryString("UID") Is Nothing Then
-            If Not Request.QueryString("UPWD") Is Nothing Then
+        If Request.QueryString("UID") IsNot Nothing Then
+            If Request.QueryString("UPWD") IsNot Nothing Then
                 Dim userID = Request.QueryString("UID").ToString
                 Dim userPassword = Request.QueryString("UPWD").ToString
                 Dim tSql = String.Format("SELECT TWTUserName FROM TWTUser WHERE TWTUserID='{0}' AND TWTUserPassword='{1}'", userID, userPassword)

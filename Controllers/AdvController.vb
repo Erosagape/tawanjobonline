@@ -90,6 +90,22 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND a.SICode ='{0}' ", Request.QueryString("Code").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("Group")) Then
+                    tSqlw &= String.Format("AND s.GroupCode ='{0}' ", Request.QueryString("Group").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Status")) Then
+                    tSqlw &= String.Format("AND (CASE WHEN b.ClrNo IS NOT NULL THEN 'CLR' ELSE 'NOCLR' END)='{0}' ", Request.QueryString("Status").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Type")) Then
+                    Select Case Request.QueryString("Type").ToString
+                        Case "1"
+                            tSqlw &= "AND s.IsExpense=0 AND s.IsCredit=1 "
+                        Case "2"
+                            tSqlw &= "AND s.IsExpense=1 "
+                        Case "3"
+                            tSqlw &= "AND s.IsExpense=0 AND s.IsCredit=0 "
+                    End Select
+                End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectClearExp() & tSqlw)
                 Dim json = JsonConvert.SerializeObject(oData)
                 json = "{""estimate"":{""data"":" & json & "}}"
@@ -267,7 +283,7 @@ Namespace Controllers
 
                 If lst <> "" Then
                     Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=3,PaymentRef='" & docno & "',PaymentBy='" & user & "',PaymentDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PaymentTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
- WHERE DocStatus=2 AND BranchCode+'|'+AdvNo in({0})", lst)
+ WHERE DocStatus=2 AND BranchCode+'|'+AdvNo in({0}) AND DocStatus<>99", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Main.DBExecute(GetSession("ConnJob"), String.Format("UPDATE Job_PaymentHeader SET PaymentRef='" & docno & "',PaymentBy='" & user & "',PaymentDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PaymentTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
@@ -307,7 +323,7 @@ Namespace Controllers
 
                 If lst <> "" Then
                     Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=2,ApproveBy='" & user & "',ApproveDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',ApproveTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
- WHERE DocStatus=1 AND BranchCode+'|'+AdvNo in({0})", lst)
+ WHERE DocStatus=1 AND BranchCode+'|'+AdvNo in({0}) AND DocStatus<>99", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Return New HttpResponseMessage(HttpStatusCode.OK)
@@ -465,7 +481,7 @@ Namespace Controllers
                     End If
                     Dim msg As String = ""
                     If data.ForJNo <> "" Then
-                        Dim chkDupRows = New CAdvDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND ForJNo='{1}' AND SICode='{2}' AND AdvNo<>'{3}' ", data.BranchCode, data.ForJNo, data.SICode, data.AdvNo))
+                        Dim chkDupRows = New CAdvDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND ForJNo='{1}' AND SICode='{2}' AND AdvNo<>'{3}' AND AdvNo NOT IN(SELECT AdvNo FROM Job_AdvHeader WHERE DocStatus=99) ", data.BranchCode, data.ForJNo, data.SICode, data.AdvNo))
                         If chkDupRows.Count > 0 Then
                             If data.SDescription.IndexOf("ซ้ำ") < 0 Then
                                 data.SDescription = "**ซ้ำ**" & data.SDescription

@@ -8,6 +8,9 @@ End Code
 	#dvFooter {
 		display:none;
 	}
+    * {
+        font-size: 13px;
+    } 
 </style>
 <div style="text-align:right;width:100%">
     <b>SHIPMENT NO:</b> <label id="lblBookingNo"></label>

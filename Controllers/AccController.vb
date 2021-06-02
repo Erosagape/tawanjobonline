@@ -51,6 +51,10 @@ Namespace Controllers
             End If
             Return View()
         End Function
+        Function FormCheque() As ActionResult
+            Return GetView("FormCheque")
+        End Function
+
         Function FormPettyCash() As ActionResult
             Return GetView("FormPettyCash")
         End Function
@@ -117,7 +121,7 @@ Namespace Controllers
                 If lst <> "" Then
                     Dim tSQL As String = ""
                     If poNumber <> "" Then
-                        tSQL = String.Format("UPDATE Job_CashControl SET PostRefNo='" & poNumber & "',PostedDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PostedTime='" & DateTime.Now.ToString("HH:mm:ss") & "'  WHERE BranchCode+'|'+ControlNo in({0})", lst)
+                        tSQL = String.Format("UPDATE Job_CashControl SET PostRefNo='" & poNumber & "',PostedDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PostedTime='" & DateTime.Now.ToString("HH:mm:ss") & "'  WHERE BranchCode+'|'+ControlNo in({0}) AND NOT ISNULL(CancelProve,'')<>''", lst)
                     Else
                         Dim fmt = Main.GetValueConfig("RUNNING", "APP_PETTYCASH")
                         If fmt <> "" Then
@@ -137,7 +141,7 @@ Namespace Controllers
                         Dim sqlApp = String.Format("SELECT MAX(PostRefNo) as t FROM Job_CashControl WHERE PostRefNo Like '%{0}' ", pFormat)
                         Dim appRef = Main.GetMaxByMask(GetSession("ConnJob"), sqlApp, pFormat)
                         tSQL = String.Format("UPDATE Job_CashControl SET PostRefNo='" & appRef & "',PostedBy='" & user & "',PostedDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PostedTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
- WHERE BranchCode+'|'+ControlNo in({0}) AND ISNULL(PostRefNo,'')=''", lst)
+ WHERE BranchCode+'|'+ControlNo in({0}) AND ISNULL(PostRefNo,'')='' AND NOT ISNULL(CancelProve,'')<>'' ", lst)
 
                     End If
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
@@ -186,7 +190,7 @@ Namespace Controllers
                 If lst <> "" Then
                     Dim tSQL As String = ""
                     If poNumber <> "" Then
-                        tSQL = String.Format("UPDATE Job_PaymentHeader SET PoNo='" & poNumber & "' WHERE BranchCode+'|'+DocNo in({0})", lst)
+                        tSQL = String.Format("UPDATE Job_PaymentHeader SET PoNo='" & poNumber & "' WHERE BranchCode+'|'+DocNo in({0}) AND NOT ISNULL(CancelProve,'')<>'' ", lst)
                         Main.DBExecute(GetSession("ConnJob"), tSQL)
                     End If
                     Dim fmt = Main.GetValueConfig("RUNNING", "APP_PAY")
@@ -210,7 +214,7 @@ Namespace Controllers
                     Dim sqlApp = String.Format("SELECT MAX(ApproveRef) as t FROM Job_PaymentHeader WHERE ApproveRef Like '%{0}' ", pFormat)
                     Dim appRef = Main.GetMaxByMask(GetSession("ConnJob"), sqlApp, pFormat)
                     tSQL = String.Format("UPDATE Job_PaymentHeader SET ApproveRef='" & appRef & "',ApproveBy='" & user & "',ApproveDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',ApproveTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
- WHERE BranchCode+'|'+DocNo in({0}) AND ISNULL(ApproveRef,'')=''", lst)
+ WHERE BranchCode+'|'+DocNo in({0}) AND ISNULL(ApproveRef,'')='' AND NOT ISNULL(CancelProve,'')<>''", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Return New HttpResponseMessage(HttpStatusCode.OK)
@@ -953,10 +957,10 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                     If "" & data.DocNo = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
+                    data.SetConnect(GetSession("ConnJob"))
                     If data.ItemNo = 0 Then
                         data.AddNew()
                     End If
-                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' AND ItemNo={2} ", data.BranchCode, data.DocNo, data.ItemNo))
                     Dim json = "{""result"":{""data"":""" & data.DocNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -1303,6 +1307,9 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" AND h.BranchCode ='{0}'", Request.QueryString("Branch").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format(" AND h.ControlNo ='{0}'", Request.QueryString("Code").ToString)
+                End If
                 If Not IsNothing(Request.QueryString("Job")) Then
                     tSqlw &= String.Format(" AND d.ForJNo ='{0}'", Request.QueryString("Job").ToString)
                 End If
@@ -1313,7 +1320,9 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                     tSqlw &= " AND h.VoucherDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
                 If IsNothing(Request.QueryString("Cancel")) Then
-                    tSqlw &= " AND NOT ISNULL(h.CancelProve,'')<>'' "
+                    If IsNothing(Request.QueryString("Show")) Then
+                        tSqlw &= " AND NOT ISNULL(h.CancelProve,'')<>'' "
+                    End If
                 Else
                     tSqlw &= String.Format(" AND ISNULL(h.CancelProve,'')='{0}' ", Request.QueryString("Cancel").ToString())
                 End If
@@ -1377,7 +1386,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                 End If
                 Dim isSummary = False
                 If Not IsNothing(Request.QueryString("Sum")) Then
-                    isSummary = If(Request.QueryString("Sum").ToString = "Y", True, False)
+                    isSummary = Request.QueryString("Sum").ToString = "Y"
                 End If
                 Dim tsqlH = "
 with vc
@@ -1957,7 +1966,7 @@ select * from vc WHERE PaidAmount>0 order by PRType DESC,DocNo
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
-sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax
+sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
 FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' " & sqlW & ") a 
 GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
 ORDER BY a.TName1
@@ -1967,7 +1976,7 @@ ORDER BY a.TName1
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
-sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax
+sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
 FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>'' " & sqlW & ") a 
 GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
 ORDER BY a.TName1
@@ -2695,7 +2704,7 @@ ORDER BY a.TName1
                         tSqlw &= " AND ISNULL(b.CancelProve,'')='' "
                     End If
                 End If
-                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectChequeBalance(chqType, "R") & tSqlw)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectChequeBalance(chqType, If(chqType = "CU", "P", "R")) & tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""cheque"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
@@ -2755,12 +2764,21 @@ ORDER BY a.TName1
                 If Not IsNothing(Request.QueryString("Cust")) Then
                     tSqlw &= String.Format(" AND c.CustCode='{0}' ", Request.QueryString("Cust").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlw &= " AND a.ClrDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlw &= " AND a.ClrDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     If Request.QueryString("Status").ToString = "CLOSE" Then
                         tSqlw &= " AND c.JobStatus>=3 AND c.JobStatus<90 "
                     End If
                     If Request.QueryString("Status").ToString = "ACTIVE" Then
                         tSqlw &= " AND c.JobStatus<90 "
+                    End If
+                    If Request.QueryString("Status").ToString = "NOEARNEST" Then
+                        tSqlw &= " AND s.NameThai NOT LIKE '%มัดจำ%' AND c.JobStatus>=3 AND c.JobStatus<90 "
                     End If
                 End If
                 tSqlw &= " ORDER BY b.LinkBillNo,b.JobNo,s.IsCredit DESC,b.SDescription"
@@ -3101,6 +3119,9 @@ ORDER BY a.TName1
                 End If
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" AND a.BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format(" AND a.DocNo ='{0}' ", Request.QueryString("Code").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
                     tSqlw &= " AND a.DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"

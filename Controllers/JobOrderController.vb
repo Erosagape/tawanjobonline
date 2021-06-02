@@ -818,12 +818,12 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     If "" & data.BookingNo = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
+                    data.SetConnect(GetSession("ConnJob"))
                     If "" & data.CTN_NO <> "" Then
-                        If data.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo<>{2}", data.BranchCode, data.JNo, data.ItemNo)).Count > 0 Then
+                        If data.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo<>{2} AND CTN_NO='{3}'", data.BranchCode, data.JNo, data.ItemNo, data.CTN_NO)).Count > 0 Then
                             Return Content("{""result"":{""data"":null,""msg"":""This Container is duplicate""}}", jsonContent)
                         End If
                     End If
-                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo='{2}' ", data.BranchCode, data.BookingNo, data.ItemNo))
                     Dim json = "{""result"":{""data"":""" & data.ItemNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -997,7 +997,11 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             End Try
         End Function
         Function FormTransport() As ActionResult
-            Return GetView("FormTransport")
+            Dim type As String = ""
+            If Request.QueryString("Type") IsNot Nothing Then
+                type = Request.QueryString("Type").ToString
+            End If
+            Return GetView("FormTransport" & type)
         End Function
         Function ChangeBooking() As ActionResult
             Dim fromBookNo = ""
@@ -1053,16 +1057,22 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             Try
                 Dim branch As String = ""
                 Dim job As String = ""
-
+                Dim doctype As String = ""
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     branch = Request.QueryString("Branch").ToString()
                 End If
                 If Not IsNothing(Request.QueryString("Job")) Then
                     job = Request.QueryString("Job").ToString
                 End If
+                If Not IsNothing(Request.QueryString("Type")) Then
+                    doctype = Request.QueryString("Type").ToString
+                End If
                 Dim status = " WHERE IsCancel=0 "
                 If Not IsNothing(Request.QueryString("Cancel")) Then
                     status = " WHERE " & If(Request.QueryString("Cancel").ToString = "Y", "IsCancel=1", "IsCancel=0")
+                End If
+                If doctype <> "" Then
+                    status &= String.Format(" AND DocType='{0}' ", doctype)
                 End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL("SELECT * FROM (" & SQLSelectDocumentByJob(branch, job) & ") as t " & status)
                 Dim json As String = JsonConvert.SerializeObject(oData)
@@ -1108,19 +1118,19 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     tSqlW &= " AND j.CSCode='" & Request.QueryString("CSCode") & "'"
                 End If
                 If Not IsNothing(Request.QueryString("DeclareNo")) Then
-                    tSqlW &= " AND j.DeclareNumber='" & Request.QueryString("DeclareNo") & "'"
+                    tSqlW &= " AND j.DeclareNumber Like '%" & Request.QueryString("DeclareNo") & "%'"
                 End If
                 If Not IsNothing(Request.QueryString("HAWB")) Then
-                    tSqlW &= " AND j.HAWB='" & Request.QueryString("HAWB") & "'"
+                    tSqlW &= " AND j.HAWB Like '%" & Request.QueryString("HAWB") & "%'"
                 End If
                 If Not IsNothing(Request.QueryString("MAWB")) Then
-                    tSqlW &= " AND j.MAWB='" & Request.QueryString("MAWB") & "'"
+                    tSqlW &= " AND j.MAWB Like '%" & Request.QueryString("MAWB") & "%'"
                 End If
                 If Not IsNothing(Request.QueryString("InvNo")) Then
-                    tSqlW &= " AND j.InvNo='" & Request.QueryString("InvNo") & "'"
+                    tSqlW &= " AND j.InvNo Like '%" & Request.QueryString("InvNo") & "%'"
                 End If
                 If Not IsNothing(Request.QueryString("BookingNo")) Then
-                    tSqlW &= " AND j.BookingNo='" & Request.QueryString("BookingNo") & "'"
+                    tSqlW &= " AND j.BookingNo Like '%" & Request.QueryString("BookingNo") & "%'"
                 End If
                 If Not IsNothing(Request.QueryString("ManagerCode")) Then
                     tSqlW &= " AND j.ManagerCode='" & Request.QueryString("ManagerCode") & "'"
@@ -1189,22 +1199,27 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
         End Function
         Function GetJobSQL() As ActionResult
             Try
-                Dim oJob As New CJobOrder(GetSession("ConnJob"))
+                Dim conn As String = GetSession("ConnJob")
+                If Not IsNothing(Request.QueryString("DBID")) Then
+                    Dim dbID = Request.QueryString("DBID")
+                    conn = Main.GetDatabaseConnection(My.MySettings.Default.LicenseTo.ToString, appName, dbID)(0)
+                End If
+                Dim oJob As New CJobOrder(conn)
                 Dim tSqlW As String = ""
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlW &= " AND BranchCode='" & Request.QueryString("Branch") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("JNo")) Then
+                    tSqlW &= " AND JNo='" & Request.QueryString("JNo") & "'"
+                End If
                 If Not IsNothing(Request.QueryString("JType")) Then
                     tSqlW &= " AND JobType=" & Request.QueryString("JType") & ""
                 End If
                 If Not IsNothing(Request.QueryString("SBy")) Then
                     tSqlW &= " AND ShipBy=" & Request.QueryString("SBy") & ""
                 End If
-                If Not IsNothing(Request.QueryString("Branch")) Then
-                    tSqlW &= " AND BranchCode='" & Request.QueryString("Branch") & "'"
-                End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     tSqlW &= " AND JobStatus IN(" & Request.QueryString("Status") & ")"
-                End If
-                If Not IsNothing(Request.QueryString("JNo")) Then
-                    tSqlW &= " AND JNo='" & Request.QueryString("JNo") & "'"
                 End If
                 If Not IsNothing(Request.QueryString("Year")) Then
                     tSqlW &= " AND Year(DocDate)='" & Request.QueryString("Year") & "'"
@@ -1651,7 +1666,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             If Not IsNothing(Request.QueryString("TaxNumber")) Then
                 tSqlW &= " AND j.CustCode IN(SELECT CustCode FROM Mas_Company WHERE TaxNumber='" & Request.QueryString("TaxNumber") & "')"
             End If
-            Dim tResult = New CUtil(GetSession("ConnJob")).ExecuteSQL(SQLUpdateJobStatus(tSqlW), bLog)
+            Dim oCmd = New CUtil(GetSession("ConnJob"))
+            oCmd.ExecuteSQL(SQLUpdateCashFlowToJob() & tSqlW)
+            Dim tResult = oCmd.ExecuteSQL(SQLUpdateJobStatus(tSqlW), bLog)
             Return Content(tResult, textContent)
         End Function
         Function GetDashboardSQL() As ActionResult
@@ -2191,21 +2208,21 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             Try
                 Dim tSqlw As String = " WHERE LocationID>0 "
                 If Not IsNothing(Request.QueryString("Branch")) Then
-                    tSqlw &= String.Format("AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+                    tSqlw &= String.Format(" AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("ID")) Then
-                    tSqlw &= String.Format("AND LocationID ={0} ", Request.QueryString("ID").ToString)
+                    tSqlw &= String.Format(" AND LocationID ={0} ", Request.QueryString("ID").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("Vend")) Then
-                    tSqlw &= String.Format("AND VenderCode='{0}' ", Request.QueryString("Vend").ToString)
+                    tSqlw &= String.Format(" AND VenderCode='{0}' ", Request.QueryString("Vend").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("Cust")) Then
-                    tSqlw &= String.Format("AND CustCode='{0}' ", Request.QueryString("Cust").ToString)
+                    tSqlw &= String.Format(" AND CustCode='{0}' ", Request.QueryString("Cust").ToString)
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
-                    tSqlw &= String.Format("AND SICode='{0}' ", Request.QueryString("Code").ToString)
+                    tSqlw &= String.Format(" AND SICode='{0}' ", Request.QueryString("Code").ToString)
                 End If
-                tSqlw &= String.Format(" AND LocationID IN(SELECT LocationID From Job_TransportRoute WHERE IsActive=1)")
+                tSqlw &= String.Format(" AND LocationID IN(SELECT LocationID From Job_TransportRoute WHERE IsActive=1) ")
                 Dim oData = New CTransportPrice(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""transportprice"":{""data"":" & json & "}}"

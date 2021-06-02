@@ -149,8 +149,8 @@ End Code
                             <td colspan="3" style="text-align:center">
                                 <br>
                                 ลงชื่อ.....................................................ผู้จ่ายเงิน<br>
-                                (<input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxAuthorize"/>) <br>
-                                ตำแหน่ง <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxPosition" /> <br>
+                                (<input type="text" style="border-style:none;text-align:center;width:150px" value=" @ViewBag.TaxAuthorize "/>) <br>
+                                ตำแหน่ง <input type="text" style="border-style:none;text-align:center;width:150px" value="@ViewBag.TaxPosition" /> <br>
                                 ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" /> 
                             </td>
                             <td colspan="2">
@@ -221,9 +221,25 @@ End Code
                     sortData(rd, 'DocNo', 'asc');
                     let docno = '';
                     let t = 1;
-                    if (rd.length > 7) {
-                        t = Math.abs(CDbl(Math.floor((rd.length-7) / 8)+1, 0));
+                    let d = 0;
+                    for (let r of rd) {
+                        if (docno !== r.DocNo) {
+                            docno = r.DocNo;
+                            d += 1;
+                        }
                     }
+                    if (d > 7) {
+                        let r = 1;
+                        for (let i = 8; i <= d; i++) {
+                            if (r == 8||i==d) {
+                                t += 1;
+                                r = 1;
+                            } else {
+                                r += 1;
+                            }
+                        }
+                    }
+                    docno = '';
                     $('#dvPages').html(t);
                     for (let r of rd) {
                         if (docno !== r.DocNo) {

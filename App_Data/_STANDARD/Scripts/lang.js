@@ -4,9 +4,9 @@ function SetLanguage(lang) {
         let obj = $('#' + id);
         if (obj !== null) {
             let str = '';
-            if (id.substr(0, 3) == 'mnu') {
+            //if (id.substr(0, 3) == 'mnu') {
                 str += '- ';
-            }
+            //}
             switch (mainLanguage) {
                 case 'EN':
                     str += lang[id].split('|')[0].trim();

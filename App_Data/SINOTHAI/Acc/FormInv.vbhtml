@@ -5,12 +5,16 @@
 End Code
 <style>
     * {
-        font-size: 13px;
+        font-size: 11px;
     }
 
     table {
         border-width: thin;
         border-collapse: collapse;
+    }
+
+    tbody > tr {
+        border-bottom-color: white !important;
     }
 
     #dvFooter {
@@ -26,8 +30,8 @@ End Code
 </div>
 <div id="dvCopy"></div>
 <div id="dvForm">
-    <div style="display:flex;">
-        <div style="flex:3;border:1px solid black;border-radius:5px;">
+    <div style="display:flex;margin-bottom:5px;">
+        <div style="flex:3;border:1px solid black;border-radius:5px;padding:5px 5px 5px 5px;margin-right:5px">
             NAME :
             <label id="lblCustName"></label>
             <br />
@@ -43,7 +47,7 @@ End Code
             AGENT :
             <label id="lblAgentName"></label>
         </div>
-        <div style="flex:1;border:1px solid black;border-radius:5px;">
+        <div style="flex:1;border:1px solid black;border-radius:5px;padding:5px 5px 5px 5px;">
             INV NO. :
             <label id="lblDocNo"></label>
             <br />
@@ -58,8 +62,7 @@ End Code
             <br />
         </div>
     </div>
-    <br />
-    <div style="display:flex;border:1px solid black;border-radius:5px;">
+    <div style="display:flex;border:1px solid black;border-radius:5px;padding:5px 5px 5px 5px;margin-bottom:5px;">
         <div style="flex:2">
             <div class="row">
                 <p class="col-sm-12">
@@ -80,14 +83,6 @@ End Code
                     <label id="lblVesselName"></label>
                 </p>
             </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    QUANTITY :
-                    <label id="lblQtyGross"></label>
-                    <label id="lblQtyUnit"></label>
-                    <br />
-                </p>
-            </div>
         </div>
         <div style="flex:2">
             <div class="row">
@@ -104,15 +99,8 @@ End Code
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    MEASUREMENT :
-                    <label id="lblMeasurement"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    NET WEIGHT :
-                    <label id="lblNetWeight"></label>
-                    <label id="lblWeightUnit"></label>
+                    QUANTITY :
+                    <label id="lblTotalContainer"></label>
                 </p>
             </div>
         </div>
@@ -131,36 +119,45 @@ End Code
             </div>
             <div class="row">
                 <p class="col-sm-12">
-                    CUSTOMER :
-                    <br />
-                    <label id="lblCustTName"></label>
+                    G.W :
+                    <label id="lblNetWeight"></label>
+                    <label id="lblWeightUnit"></label>
                 </p>
             </div>
         </div>
     </div>
-    <table style="width:100%" border="1" class="text-center">
+    <table style="width:100%;" border="1" class="text-center">
         <thead>
-            <tr style="background-color :gainsboro;text-align:center;">
+            <tr style="background-color:gainsboro;text-align:center;">
                 <th width="50px">No</th>
-                <th width="500px">DESCRIPTION</th>
+                <th width="600px">DESCRIPTION</th>
                 <th width="100px">ADVANCE</th>
-                <th width="100px">VAT</th>
                 <th width="100px">NON-VAT</th>
                 <th width="50px">WHT</th>
-                <th width="100px">TOTAL</th>
+                <th width="100px">SERVICE</th>
             </tr>
         </thead>
         <tbody id="tbDetail"></tbody>
-        <tfoot>
+        <tfoot style="border-top:inherit;">
+            <tr style="font-weight:bold;">
+                <td colspan="2" style="text-align:right">TOTAL</td>
+                <td style="text-align:right">
+                    <label id="lblSumAdvance"></label>
+                </td>
+                <td style="text-align:right">
+                    <label id="lblSumNonVat"></label>
+                </td>
+                <td style="text-align:right">
+                    <label id="lblSumWht"></label>
+                </td>
+                <td style="text-align:right">
+                    <label id="lblSumBeforeVat"></label>
+                </td>
+            </tr>
             <tr>
                 <td colspan="3">
                     <div style="display:flex">
-                        <div style="text-align:left;flex:1">
-                            TOTAL INVOICE (
-                            <label id="lblCurrencyCode"></label>)=
-                            <label id="lblForeignNet"></label> RATE=
-                            <label id="lblExchangeRate"></label>
-                            <br />
+                        <div style="text-align:left;flex:1;vertical-align:top">
                             <div id="lblShippingRemark"></div>
                             REMARKS :
                             <br />
@@ -169,40 +166,23 @@ End Code
                     </div>
                 </td>
                 <td colspan="2">
-                    TOTAL ADVANCE
-                    <br />
-                    TOTAL SERVICE
-                    <br />
-                    VATABLE
-                    <br />
                     VAT (RATE=
                     <label id="lblVATRate"></label>%)
                     <br />
                     SERVICE+VAT
                     <br />
-                    SERVICE+ADVANCE
-                    <br />
-                    DISCOUNT (RATE=
-                    <label id="lblDiscountRate"></label>%)
+                    TOTAL
                     <br />
                     CUST. ADV
                     <br />
                     GRAND TOTAL
                 </td>
-                <td style="background-color :gainsboro;text-align:right;" colspan="2">
-                    <label id="lblSumAdvance"></label>
-                    <br />
-                    <label id="lblSumNonVat"></label>
-                    <br />
-                    <label id="lblSumBeforeVat"></label>
-                    <br />
+                <td style="background-color :gainsboro;text-align:right;">
                     <label id="lblSumVat"></label>
                     <br />
                     <label id="lblSumAfterVat"></label>
                     <br />
                     <label id="lblSumTotal"></label>
-                    <br />
-                    <label id="lblSumDiscount"></label>
                     <br />
                     <label id="lblSumCustAdv"></label>
                     <br />
@@ -211,22 +191,22 @@ End Code
             </tr>
             <tr>
                 <td>TOTAL (BAHT)</td>
-                <td colspan="7">
+                <td colspan="6">
                     <div style="text-align:center;">
-                        <label id="lblTotalBaht" style="font-size:14px;"></label>
+                        <label id="lblTotalBaht" style="font-size:12px;"></label>
                     </div>
                 </td>
             </tr>
         </tfoot>
     </table>
-    <div style="display:flex">
-        <div class="text-left" style="border:1px solid black;border-radius:5px;flex:1">
+    <div style="display:flex;margin-top:5px">
+        <div class="text-left" style="border:1px solid black;border-radius:5px;flex:1;margin-right:5px;padding:5px 5px 5px 5px;">
             WITHHOLDING TAX DETAIL
             <table style="width:100%">
                 <tr>
-                    <td style="width:55%">TRANSPORT 1%</td>
-                    <td style="width:25%;text-align:right">
-                        <label id="lblSumBaseWht1"></label>
+                    <td style="width:45%">TRANSPORT 1%</td>
+                    <td style="width:35%;text-align:right">
+                        (<label id="lblSumBaseWht1"></label>)
                         <br />
                     </td>
                     <td style="width:20%;text-align:right">
@@ -234,31 +214,25 @@ End Code
                     </td>
                 </tr>
                 <tr>
-                    <td style="width:55%">SERVICE 3%</td>
-                    <td style="width:25%;text-align:right">
-                        <label id="lblSumBaseWht3"></label>
+                    <td style="width:45%">SERVICE 3%</td>
+                    <td style="width:35%;text-align:right">
+                        (<label id="lblSumBaseWht3"></label>)
                     </td>
                     <td style="width:20%;text-align:right">
                         <label id="lblSumWht3"></label>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2" style="width:80%">
-                        NET AMOUNT
-                    </td>
-                    <td style="width:20%;text-align:right">
-                        <label id="lblSumNetInvoice"></label>
+                    <td colspan="3" style="width:100%;font-weight:bold">
+                        NET TOTAL (
+                        <label id="lblCurrencyCode"></label>)=
+                        <label id="lblForeignNet"></label> RATE=
+                        <label id="lblExchangeRate"></label>
                     </td>
                 </tr>
-
             </table>
-            <br />
-            <div>
-
-            </div>
         </div>
-        <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
-            <br />
+        <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;padding:5px 5px 5px 5px;margin-right:5px">
             FOR THE CUSTOMER
             <br />
             <br />
@@ -271,8 +245,7 @@ End Code
             <br />
             AUTHORIZED SIGNATURE
         </div>
-        <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
-            <br />
+        <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;padding:5px 5px 5px 5px;margin-right:5px">
             FOR @ViewBag.PROFILE_COMPANY_NAME_EN
             <br />
             <br />
@@ -299,20 +272,20 @@ End Code
     });
     //});
     function ShowData(dr) {
-    let ans = confirm('OK to print Original or Cancel For Copy');
-    if (ans == true) {
-        $('#dvCopy').html('<b>**ORIGINAL**</b>');
-    } else {
-        $('#dvCopy').html('<b>**COPY**</b>');
-    }
+        let ans = confirm('OK to print Original or Cancel For Copy');
+        if (ans == true) {
+            $('#dvCopy').html('<b>**ORIGINAL**</b>');
+        } else {
+            $('#dvCopy').html('<b>**COPY**</b>');
+        }
+        let h = dr.header[0][0];
         if (dr.header[0].length > 0) {
-            let h = dr.header[0][0];
             $('#lblDocNo').text(h.DocNo);
             $('#lblDocDate').text(ShowDate(CDateTH(h.DocDate)));
             $('#lblCurrencyCode').text(h.CurrencyCode);
             $('#lblExchangeRate').text(h.ExchangeRate);
             $('#lblForeignNet').text(ShowNumber(h.ForeignNet, 2));
-            $('#lblDiscountRate').text(h.DiscountRate);
+            //$('#lblDiscountRate').text(h.DiscountRate);
             $('#lblVATRate').text(ShowNumber(h.VATRate, 1));
 
 	        $.get(path+'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch='+ h.BillToCustBranch,function(r){
@@ -320,16 +293,16 @@ End Code
                 if (c !== null) {
                     $('#lblTaxNumber').text(c.TaxNumber);
                         if (c.UsedLanguage == 'TH') {
-                            if (Number(c.Branch == 0)) {
+                            if (Number(c.Branch) == 0) {
                                 $('#lblTaxBranch').text('สำนักงานใหญ่');
                             } else {
                                 $('#lblTaxBranch').text(c.Branch);
                             }
                             $('#lblCustName').text(c.Title+' '+c.NameThai);
                             $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
-                            $('#lblCustTName').text(dr.customer[0][0].NameThai);
+                            //$('#lblCustTName').text(dr.customer[0][0].NameThai);
                         } else {
-                            if (Number(c.Branch == 0)) {
+                            if (Number(c.Branch) == 0) {
                                 $('#lblTaxBranch').text('HEAD OFFICE');
                             } else {
                                 $('#lblTaxBranch').text(c.Branch);
@@ -337,7 +310,7 @@ End Code
 
                             $('#lblCustName').text(c.NameEng);
                             $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2);
-                            $('#lblCustTName').text(dr.customer[0][0].NameEng);
+                            //$('#lblCustTName').text(dr.customer[0][0].NameEng);
                         }
                         //$('#lblCustTel').text(c.Phone);
                 }
@@ -358,45 +331,52 @@ End Code
                 }
                 //$('#lblFromCountry').text(j.DeclareNumber);
                 $('#lblVesselName').text(j.VesselName);
-                $('#lblQtyGross').text(j.InvProductQty);
-                ShowInvUnit(path, j.InvProductUnit, '#lblQtyUnit');
-                $('#lblNetWeight').text(j.TotalNW);
+                $('#lblTotalContainer').text(j.TotalContainer);
+                //ShowInvUnit(path, j.InvProductUnit, '#lblQtyUnit');
+                $('#lblNetWeight').text(j.TotalGW);
                 ShowInvUnit(path, j.GWUnit, '#lblWeightUnit');
                 $('#lblETDDate').text(ShowDate(CDateTH(j.ETDDate)));
                 $('#lblHAWB').text(j.HAWB);
-                $('#lblMeasurement').text(j.Measurement);
+                //$('#lblMeasurement').text(j.Measurement);
                 $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
                 $('#lblMAWB').text(j.MAWB);
                 ShowVender(path, j.ForwarderCode, '#lblAgentName');
             }
-            let remark = h.Remark1 + '\n' + h.Remark2 + '\n' + h.Remark3 + '\n' + h.Remark4 + '\n' + h.Remark5 + '\n' + h.Remark6 + '\n' + h.Remark7 + '\n' + h.Remark8 + '\n' + h.Remark9 + '\n' + h.Remark10;
-            remark=remark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
-            $('#lblDescription').html(remark);
+            let remark = h.Remark1;
+            remark += (h.Remark2 !== '' ? '<br/>' : '') + h.Remark2;
+            remark += (h.Remark3 !== '' ? '<br/>' : '') + h.Remark3;
+            remark += (h.Remark4 !== '' ? '<br/>' : '') + h.Remark4;
+            remark += (h.Remark5 !== '' ? '<br/>' : '') + h.Remark5;
+            remark += (h.Remark6 !== '' ? '<br/>' : '') + h.Remark6;
+            remark += (h.Remark7 !== '' ? '<br/>' : '') + h.Remark7;
+            remark += (h.Remark8 !== '' ? '<br/>' : '') + h.Remark8;
+            remark += (h.Remark9 !== '' ? '<br/>' : '') + h.Remark9;
+            remark += (h.Remark10 !== '' ? '<br/>' : '') + h.Remark10;
+            $('#lblDescription').html(CStr(remark));
             remark=h.ShippingRemark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
             $('#lblShippingRemark').html(remark);
-            $('#lblSumNonVat').text(ShowNumber(h.TotalCharge,2));
-            $('#lblSumDiscount').text(ShowNumber(h.TotalDiscount,2));
-            $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv,2));
+
+            //$('#lblSumDiscount').text(ShowNumber(h.TotalDiscount,2));
+            $('#lblSumCustAdv').text('('+ShowNumber(h.TotalCustAdv,2)+')');
             $('#lblSumBeforeVat').text(ShowNumber(h.TotalIsTaxCharge,2));
             $('#lblSumVat').text(ShowNumber(h.TotalVAT,2));
             $('#lblSumAfterVat').text(ShowNumber(Number(h.TotalIsTaxCharge)+Number(h.TotalVAT),2));
             $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
-            $('#lblSumTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT),2));
             $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
-            $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.Total50Tavi)-Number(h.TotalDiscount),2));
+            //$('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.Total50Tavi)-Number(h.TotalDiscount),2));
 
-            $('#lblTotalBaht').text('(' + CNumEng(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount)-Number(h.Total50Tavi),2)) + ')'); 
+            $('#lblTotalBaht').text('(' + CNumEng(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2)) + ')');
 
         }
         let d = dr.detail[0];
-        sortData(d, 'AmtAdvance', 'asc');
-        sortData(d, 'AmtVat', 'asc');
-        sortData(d, 'AmtCharge', 'asc');
+        sortData(d, 'ItemNo', 'asc');
 
         let sumbase1 = 0;
         let sumbase3 = 0;
         let sumtax1 = 0;
         let sumtax3 = 0;
+        let sumadv = 0;
+        let sumnonvat = 0;
         let irow = 0;
         if (d.length > 0) {
             for (let o of d) {
@@ -404,24 +384,27 @@ End Code
                 let html = '<tr>';
                 html += '<td style="text-align:center">' + irow + '</td>';
                 if (o.AmtAdvance > 0) {
-                    html += '<td>' + o.SDescription + (o.ExpSlipNO !== null ? ' #' + o.ExpSlipNO : '') + '</td>';
-                    html += '<td style="text-align:right">' + ShowNumber(o.AmtAdvance, 2) + '</td>';
-                    html += '<td style="text-align:right">0.00</td>';
-                    html += '<td style="text-align:right">' + "0.00" + '</td>';
-                    html += '<td style="text-align:right">' + "0.00" + '</td>';
-                    html += '<td style="text-align:right">' + ShowNumber(CNum(o.AmtAdvance)-CNum(o.AmtDiscount), 2) + '</td>';
+                    html += '<td>' + o.SDescription + (o.ExpSlipNO !== null ? '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #' + o.ExpSlipNO : '') + '</td>';
+                    html += '<td style="text-align:right;">' + (o.AmtAdvance > 0 ? ShowNumber(o.AmtAdvance, 2): '') +'</td>';
+                    html += '<td style="text-align:right;"></td>';
+                    html += '<td style="text-align:right;"></td>';
+                    html += '<td style="text-align:right;"></td>';
                 } else {
                     html += '<td>' + o.SDescription + '</td>';
-                    html += '<td style="text-align:right">0.00</td>';
-                    html += '<td style="text-align:right">' + (o.AmtVat > 0 ? ShowNumber(o.AmtCharge, 2) : "0.00") + '</td>';
-                    html += '<td style="text-align:right">' + (o.AmtVat==0? ShowNumber(o.AmtCharge, 2):"0.00") + '</td>';
-                    html += '<td style="text-align:right">' + (o.Amt50Tavi >0 ?ShowNumber(o.Amt50Tavi, 2):"0.00") + '</td>';
-                    html += '<td style="text-align:right">' + ShowNumber(CNum(o.Amt)-CNum(o.AmtDiscount), 2) + '</td>';
+                    html += '<td style="text-align:right;"></td>';
+                    html += '<td style="text-align:right;">' + (o.AmtVat == 0 ? ShowNumber(o.AmtCharge, 2):'') + '</td>';
+                    html += '<td style="text-align:right;">' + (o.Amt50Tavi > 0 ? ShowNumber(o.Amt50Tavi, 2) : '') + '</td>';
+                    html += '<td style="text-align:right;">' + (o.AmtVat > 0 ? ShowNumber(o.AmtCharge, 2): '') + '</td>';
                 }
                 html += '</tr>';
 
                 $('#tbDetail').append(html);
-
+                if (o.AmtAdvance > 0) {
+                    sumadv += o.TotalAmt;
+                }
+                if (o.AmtCharge > 0 && o.AmtVat == 0) {
+                    sumnonvat += Number(o.TotalAmt)+Number(o.Amt50Tavi);
+                }
                 if (o.Amt50Tavi > 0 && o.AmtCharge>0) {
                     if (o.Rate50Tavi == 1) {
                         sumbase1 += (o.Amt-o.AmtDiscount);
@@ -433,8 +416,23 @@ End Code
                 }
             }
         }
-        $('#lblSumBaseWht1').text(ShowNumber(sumbase1,2));
+        let rowremain = 24 - irow;
+        for (let i = 1; i <= rowremain; i++) {
+            let html = '<tr>';
+            html += '<td style="text-align:center"></td>';
+            html += '<td><br/></td>';
+            html += '<td style="text-align:right;"></td>';
+            html += '<td style="text-align:right;"></td>';
+            html += '<td style="text-align:right;"></td>';
+            html += '<td style="text-align:right;"></td>';
+            html += '</tr>';
+            $('#tbDetail').append(html);
+        }
+        $('#lblSumNonVat').text(ShowNumber(sumnonvat, 2));
+        $('#lblSumTotal').text(ShowNumber(Number(sumnonvat) + Number(sumadv) + Number(h.TotalIsTaxCharge) + Number(h.TotalVAT), 2));
+        $('#lblSumBaseWht1').text(ShowNumber(sumbase1, 2));
         $('#lblSumBaseWht3').text(ShowNumber(sumbase3,2));
+        $('#lblSumWht').text(ShowNumber(sumtax1 + sumtax3, 2));
 
         $('#lblSumWht1').text(ShowNumber(sumtax1,2));
         $('#lblSumWht3').text(ShowNumber(sumtax3,2));

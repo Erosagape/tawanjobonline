@@ -148,9 +148,9 @@ End Code
                 <input type="checkbox" /> ใบแนบ <b>ภ.ง.ด. 53</b> ที่แนบมาพร้อมนี้
             </div>
             <div style="flex:1;font-size:16px">
-                จำนวน <input type="text" style="width:50px" /> ราย
+                จำนวน <input type="text" style="width:50px" id="txtCountDoc"/> ราย
                 <br />
-                จำนวน <input type="text" style="width:50px" /> แผ่น
+                จำนวน <input type="text" style="width:50px" id="txtCountPage"/> แผ่น
             </div>
         </div>
         <div style="display:flex;">
@@ -219,9 +219,9 @@ End Code
 <div>
     <div style="width:100%;text-align:center;font-size:16px;float:left">
         <div style="float:right">
-            <br/>
-            <div class="circle"><br />ประทับตรา<br />นิติบุคคล<br/>(ถ้ามี)</div>
-            <br/>
+            <br />
+            <div class="circle"><br />ประทับตรา<br />นิติบุคคล<br />(ถ้ามี)</div>
+            <br />
         </div>
         ข้าพเจ้าขอรับรองว่า รายการที่แจ้งไว้ข้างต้นนี้ เป็นรายการที่ถูกต้องและครบถ้วนทุกประการ
         <br />
@@ -229,12 +229,26 @@ End Code
         <br />
         ลงชื่อ..............................................................................................ผู้จ่ายเงิน
         <br />
-        (..............................................................................................)
+        (<input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxAuthorize" />)
         <br />
-        ตำแหน่ง .....................................................................................
-        <br />
-        ยื่นวันที่............ เดือน..............................................พ.ศ. ...................
+        ตำแหน่ง <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxPosition" /> <br>
+        ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
     </div>
+</div>
+<div style="page-break-before:always">
+    <p style="text-align:center;font-weight:bolder;font-size:14px">คำชี้แจง</p>
+    <table style="width:100%;">
+        <tr>
+            <td style="width:50%">
+                <img src="~/Resource/prd53_left1.png" style="width:90%" />
+                <img src="~/Resource/prd53_left2.png" style="width:90%" />
+            </td>
+            <td style="width:50%">
+                <img src="~/Resource/prd53_right1.png" style="width:90%" />
+                <img src="~/Resource/prd53_right2.png" style="width:90%" />
+            </td>
+        </tr>
+    </table>
 </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -274,7 +288,7 @@ End Code
                     var tb = res.result[0];
                     $('#lblIDCard1').text(tb.IDCard1);
                     $('#lblTaxNumber1').text(tb.TaxNumber1);
-                    $('#lblBranch1').val(tb.Branch1);
+                    $('#lblBranch1').val('00'+CCode(tb.Branch1));
                     $('#lblTName1').text(tb.TName1);
                     $('#lblTAddress1').text(tb.TAddress1);
                     $('#txtTaxYear').val(tb.TaxYear + 543);
@@ -282,6 +296,24 @@ End Code
                     $('#chkLaw' + tb.TaxLawNo).prop('checked', true);
                     let amt = 0;
                     let tax = 0;
+                    let t = 1;
+                    let d = 0;
+                    for (let r of res.result) {
+                        d += r.CountDoc;
+                    }
+                    if (d > 7) {
+                        let r = 1;
+                        for (let i = 8; i <= d; i++) {
+                            if (r == 8 || i == d) {
+                                t += 1;
+                                r = 1;
+                            } else {
+                                r += 1;
+                            }
+                        }
+                    }
+                    $('#txtCountDoc').val(d);
+                    $('#txtCountPage').val(t);
                     for (let d of res.result) {
                         amt += Number(CDbl(d.SumPayAmount, 2));
                         tax += Number(CDbl(d.SumPayTax,2));

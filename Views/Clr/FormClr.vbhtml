@@ -56,110 +56,124 @@ End Code
         REMARK : <label id="txtRemark"></label>
     </div>
 </div>
-
-<table id="tbDetail" border="1" width="100%">
-    <thead>
+<div style="display:flex;flex-direction:column;margin:5px 5px 5px 5px;">
+    <table id="tbDetail" border="1" width="100%">
+        <thead>
+            <tr class="text-center">
+                <th width="10%">CODE.</th>
+                <th width="48%">DESCRIPTION</th>
+                <th width="12%">JOBNO</th>
+                <th width="10%">VAT</th>
+                <th width="10%">WHTAK</th>
+                <th width="10%">PAID</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <table border="1" width="100%">
         <tr class="text-center">
-            <th width="8%">CODE.</th>
-            <th width="45%">DESCRIPTION</th>
-            <th width="17%">JOBNO</th>
-            <th width="10%">VAT</th>
-            <th width="10%">WHTAK</th>
-            <th width="10%">PAID</th>
+            <td width="10%"></td>
+            <td width="50%"></td>
+            <td width="20%"></td>
+            <td width="10%"></td>
+            <td width="10%"></td>
         </tr>
-    </thead>
-    <tbody></tbody>
-</table>
-<table border="1" width="100%">
-    <tr class="text-center">
-        <td width="10%"></td>
-        <td width="50%"></td>
-        <td width="20%"></td>
-        <td width="10%"></td>
-        <td width="10%"></td>
-    </tr>
-    <tr>
-        <td colspan="4">
-            <div style="display:flex">
-                <div style="flex:1" class="text-left">
-                    CLEARING TYPE : <label id="txtClrType"></label>
-                    <br />
-                    CLEARING FROM :  <label id="txtClrFrom"></label>
+        <tr>
+            <td colspan="4">
+                <div style="display:flex">
+                    <div style="flex:1" class="text-left">
+                        CLEARING TYPE : <label id="txtClrType"></label>
+                        <br />
+                        CLEARING FROM :  <label id="txtClrFrom"></label>
+                    </div>
+                    <div style="flex:1 ;text-align:right">
+                        AMOUNT (VAT)
+                        <br />
+                        AMOUNT (NON-VAT)
+                        <br />
+                        VAT
+                        <br />
+                        TOTAL
+                        <br />
+                        WHD-1%
+                        <br />
+                        WHD-1.5/3%
+                        <br />
+                        CLEARING NET
+                    </div>
                 </div>
-                <div style="flex:1 ;text-align:right">
-                    AMOUNT (VAT)
-                    <br />
-                    AMOUNT (NON-VAT)
-                    <br />
-                    VAT
-                    <br />
-                    AMOUNT (WHT)
-                    <br />
-                    WITH-HOLDING TAX
-                    <br />
-                    CLEARING NET
+            </td>
+            <td style="text-align:right">
+                <div style="display:flex">
+                    <div style="flex:1">
+                        <label id="txtAmtVat"></label>
+                        <br />
+                        <label id="txtAmtNonVat"></label>
+                        <br />
+                        <label id="txtVat"></label>
+                        <br />
+                        <label id="txtSumVat"></label>
+                        <br />
+                        <label id="txtWht1"></label>
+                        <br />
+                        <label id="txtWht3"></label>
+                        <br />
+                        <label id="txtTotal"></label>
+                    </div>
                 </div>
-            </div>
-        </td>
-        <td style="text-align:right">
-            <div style="display:flex">
-                <div style="flex:1">
-                    <label id="txtAmtVat"></label>
-                    <br />
-                    <label id="txtAmtNonVat"></label>
-                    <br />
-                    <label id="txtVat"></label>
-                    <br />
-                    <label id="txtAmtWht"></label>
-                    <br />
-                    <label id="txtWht"></label>
-                    <br />
-                    <label id="txtTotal"></label>
-                </div>
-            </div>
-        </td>
-    </tr>
-</table>
-<div id="dvSummary">
+            </td>
+        </tr>
+    </table>
+    <div id="dvSummary">
+    </div>
+    <table border="1" width="100%" style="margin-top:50px">
+        <tr Class="text-center">
+            <th> CLEARING BY</th>
+            <th> APPROVED BY</th>
+            <th> FINANCIAL</th>
+            <th> ACCOUNTING</th>
+            <th> PAYEE</th>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr Class="text-center">
+            <td>
+                <br />
+                <br />
+                <label id="txtClrBy"></label>
+                <label id="txtPrintDate"></label>
+            </td>
+            <td>
+                <br />
+                <br />
+                <label id="txtApproveBy"></label>
+                <label id="txtApproveDate"></label>
+            </td>
+            <td>
+                <br />
+                <br />
+                <label id="txtReceiveBy"></label>
+                <label id="txtReceiveDate"></label>
+            </td>
+            <td>
+                <br />
+                <br />
+                ________/_______/_______
+            </td>
+            <td>
+                <br />
+                <br />
+                ________/_______/_______
+            </td>
+        </tr>
+    </table>
 </div>
-<table style="border-collapse:collapse;width:100%">
-    <tr>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            จัดทำโดย / PREPARED.BY
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            ตรวจสอบโดย / CHECKED.BY
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            อนุมัติโดย / APPROVED.BY
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            ลงบัญชีโดย / POSTED.BY
-        </td>
-    </tr>
-    <tr>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-            <label id="lblReqBy" style="font-size:10px">(__________________)</label>
-            <br />
-            <label id="lblRequestDate" style="font-size:9px">__/__/____</label>
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label id="lblAppBy" style="font-size:10px">(__________________)</label>
-            <br />
-            <label id="lblAppDate" style="font-size:9px">__/__/____</label>
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label id="lblPayBy" style="font-size:10px">(__________________)</label>
-            <br />
-            <label id="lblPayDate" style="font-size:9px">__/__/____</label>
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label id="lblPostBy" style="font-size:9px">(__________________)</label>
-            <br />
-            <label id="lblPostDate" style="font-size:9px">__/__/____</label>
-        </td>
-    </tr>
-</table>
+
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     //$(document).ready(function () {
@@ -192,8 +206,8 @@ End Code
                     let amtforvat = 0;
                     let amtnonvat = 0;
                     let amtvat = 0;
-                    let amtwht = 0;
-                    let amtforwht = 0;
+                    let amtwht1 = 0;
+                    let amtwht3 = 0;
                     let amttotal = 0;
                     let advlist = '';
 
@@ -208,32 +222,36 @@ End Code
                                 advlist += ',' + d[i].AdvNO;
                             }
                         }
-                        let advref = (d[i].SlipNO !== '' ? ' เลขที่#' + d[i].SlipNO : '');
-                        advref = advref + (d[i].AdvNO !=='' ? '<br/>จากใบเบิก ' + d[i].AdvNO : '');
+                        let advref = (d[i].SlipNO !== null ? ' เลขที่#' + d[i].SlipNO : '');
+                        advref = advref + (d[i].AdvNO !== null ? '<br/>จากใบเบิก ' + d[i].AdvNO : '');
                         advref = advref + (d[i].AdvAmount > 0 ? ' ยอดเบิก=' + CCurrency(CDbl(d[i].AdvAmount, 2)) : '');
                         advref = advref + (d[i].Remark !== '' ? '<br/>' + d[i].Remark : '');
 
-                        html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo +'<br/>' + d[i].DeclareNumber + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
+                        html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo +'<br/>' + d[i].InvNo + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 3)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 3)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
 
                         if (d[i].ChargeVAT > 0) {
-                            amtforvat += Number(d[i].UsedAmount);
-                            amtvat += Number(d[i].ChargeVAT);
+                            amtforvat += d[i].UsedAmount;
+                            amtvat += d[i].ChargeVAT;
                         } else {
-                            amtnonvat += Number(d[i].UsedAmount);
+                            amtnonvat += d[i].UsedAmount;
                         }
                         if (d[i].Tax50Tavi > 0) {
-                            amtforwht += Number(d[i].UsedAmount);
-                            amtwht += Number(d[i].Tax50Tavi);
+                            if (d[i].Rate50Tavi == 1) {
+                                amtwht1 += d[i].Tax50Tavi;
+                            } else {
+                                amtwht3 += d[i].Tax50Tavi;
+                            }
                         }
-                        amttotal += Number(d[i].BNet);
+                        amttotal += d[i].BNet;
                     }
                     $('#tbDetail tbody').html(html);
 
                     $('#txtAmtVat').text(CCurrency(CDbl(amtforvat,2)));
                     $('#txtAmtNonVat').text(CCurrency(CDbl(amtnonvat,2)));
-                    $('#txtVat').text(CCurrency(CDbl(amtvat,2)));
-                    $('#txtAmtWht').text(CCurrency(CDbl(amtforwht,2)));
-                    $('#txtWht').text(CCurrency(CDbl(amtwht,2)));
+                    $('#txtVat').text(CCurrency(CDbl(amtvat, 2)));
+                    $('#txtSumVat').text(CCurrency(CDbl(amtvat+amtforvat+amtnonvat,2)));
+                    $('#txtWht3').text(CCurrency(CDbl(amtwht3,2)));
+                    $('#txtWht1').text(CCurrency(CDbl(amtwht1,2)));
                     $('#txtTotal').text(CCurrency(CDbl(amttotal, 2)));
                     if (advlist !== '') {
                         advlist = advlist.substr(1, advlist.length - 1);

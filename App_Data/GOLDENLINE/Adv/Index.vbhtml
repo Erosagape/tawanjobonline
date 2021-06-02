@@ -610,9 +610,10 @@ End Code
 
                 $('#txtSICode').attr('disabled', 'disabled');
                 //$('#txtSDescription').attr('disabled', 'disabled');
+                $('#chkDuplicate').prop('checked', true);
                 return;
             }
-            $('#chkDuplicate').prop('checked', true);
+            $('#chkDuplicate').prop('checked', false);
             $('#txtSICode').removeAttr('disabled');
             $('#txtSDescription').removeAttr('disabled');
         });
@@ -706,7 +707,7 @@ End Code
                 CalAmount();
             }
         });
-        $('#txtUnitPrice').change(function (event) {
+        $('#txtUnitPrice').focusout(function (event) {
             if (true) {
                 CalAmount();
             }
@@ -716,7 +717,7 @@ End Code
                 CalVATWHT();
             }
         });
-        $('#txtAMT').change(function (event) {
+        $('#txtAMT').focusout(function (event) {
             if (true) {
                 CalVATWHT();
             }
@@ -1509,7 +1510,7 @@ End Code
         $('#txtItemNo').val('0');
         $('#txtSICode').val('');
         $('#cboSTCode').val('');
-        $('#chkDuplicate').prop('checked', true);
+        $('#chkDuplicate').prop('checked', false);
         if (isjobmode == false) {
             $('#txtForJNo').val('');
             $('#txtInvNo').val('');
@@ -1535,7 +1536,7 @@ End Code
         $('#txtDetCurrency').val($('#txtMainCurrency').val());
         $('#txtVenCode').val('');
 
-        $('#chkDuplicate').prop('checked', true);
+        $('#chkDuplicate').prop('checked', false);
         $('#txtAMT').removeAttr('disabled');
         $('#txtVATRate').removeAttr('disabled');
         $('#txtWHTRate').removeAttr('disabled');

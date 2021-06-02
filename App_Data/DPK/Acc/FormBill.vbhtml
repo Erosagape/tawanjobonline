@@ -83,9 +83,9 @@ End Code
         <p><u>รายการชำระเงิน</u></p>
         <table id="tbPayS" style="width:100%">
             <tr><td>กรุณาโอนเงินเข้าบัญชีธนาคารกสิกรไทย สาขาโรบินสันจันทบุรี</td></tr>
-            <tr><td>บัญชีออมทรัพย์ ชื่อบัญชี "หจก แดนผักกาด" เลขที่บัญชี 528-2-38819-9</td></tr>
+            <tr><td>บัญชีออมทรัพย์ ชื่อบัญชี "บริษัท แดนผักกาด จำกัด" เลขที่บัญชี 528-2-38819-9</td></tr>
             <tr><td>กรุณาหัก ณ ที่จ่าย และนำส่งใบหัก ณ ที่จ่าย มายัง</td></tr>
-            <tr><td>หจก แดนผักกาด เลขที่ 9/10 ม.10 ต.ท่าช้าง อ.เมือง จ.จันทบุรี 22000</td></tr>
+            <tr><td>บริษัท แดนผักกาด จำกัด เลขที่ 9/10 ม.10 ต.ท่าช้าง อ.เมือง จ.จันทบุรี 22000</td></tr>
         </table>
     </div>
 
@@ -139,36 +139,56 @@ End Code
             let vat = 0;
             let wh1 = 0;
             let wh3 = 0;
-            
+            let whsum1 = 0;
+            let whsum3 = 0;
             let dv = $('#tbDetail');
             let html = '';
+            let row = 0;
             for (let dr of data.detail[0]) {
-                html += '<tr>';
-                html += '<td>' + dr.ItemNo + '</td>';
-                html += '<td>' + ShowDate(CDateTH(dr.InvDate)) + '</td>';
-                html += '<td>' + dr.InvNo + '</td>';
-                html += '<td>' + dr.RefNo + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtAdvance, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(Number(dr.AmtChargeNonVAT+dr.AmtChargeVAT), 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtVAT, 2) + '</td>';
-                html += '<td style="text-align:right">' + (dr.AmtWHRate==1 ? ShowNumber(dr.AmtWH, 2) : 0) + '</td>';
-                html += '<td style="text-align:right">' + (dr.AmtWHRate!==1 ? ShowNumber(dr.AmtWH, 2) : 0) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtTotal, 2) + '</td>';
-                html += '</tr>';
+                $.get(path + 'Acc/GetInvoice?Branch=' + dr.BranchCode + '&Code=' + dr.InvNo).done(function (r) {
+                    if (r.invoice.detail.length > 0) {
+                        row += 1;
+                        wh1 = 0;
+                        wh3 = 0;
+                        for (let t of r.invoice.detail[0]) {
+                            if (t.AmtCharge > 0) {
+                                if (t.Rate50Tavi == 1) {
+                                    wh1 += t.Amt50Tavi;
+                                } else {
+                                    wh3 += t.Amt50Tavi;
+                                }
+                            }
+                        }
+                        whsum1 += wh1;
+                        whsum3 += wh3;
+                        html = '<tr>';
+                        html += '<td>' + row + '</td>';
+                        html += '<td>' + ShowDate(CDateTH(dr.InvDate)) + '</td>';
+                        html += '<td>' + dr.InvNo + '</td>';
+                        html += '<td>' + dr.RefNo + '</td>';
+                        html += '<td style="text-align:right">' + ShowNumber(dr.AmtAdvance, 2) + '</td>';
+                        html += '<td style="text-align:right">' + ShowNumber(Number(dr.AmtChargeNonVAT + dr.AmtChargeVAT), 2) + '</td>';
+                        html += '<td style="text-align:right">' + ShowNumber(dr.AmtVAT, 2) + '</td>';
+                        html += '<td style="text-align:right">' + ShowNumber(wh1, 2) + '</td>';
+                        html += '<td style="text-align:right">' + ShowNumber(wh3, 2) + '</td>';
+                        html += '<td style="text-align:right">' + ShowNumber(dr.AmtTotal, 2) + '</td>';
+                        html += '</tr>';
+                        dv.append(html);
+
+                        $('#lblSumWh1').text(ShowNumber(whsum1, 2));
+                        $('#lblSumWh3').text(ShowNumber(whsum3, 2));
+                    }
+                });
 
                 total += Number(dr.AmtTotal);
                 serv += Number(dr.AmtChargeNonVAT)+Number(dr.AmtChargeVAT);
                 adv += Number(dr.AmtAdvance);
                 vat += Number(dr.AmtVAT);
-                wh1 += Number(dr.AmtWHRate == 1 ? ShowNumber(dr.AmtWH, 2) : 0);
-                wh3 += Number(dr.AmtWHRate !== 1 ? ShowNumber(dr.AmtWH, 2) : 0);
+
             }
-            dv.html(html);
             $('#lblSumAdv').text(ShowNumber(adv, 2));
             $('#lblSumService').text(ShowNumber(serv, 2));
             $('#lblSumVat').text(ShowNumber(vat, 2));
-            $('#lblSumWh1').text(ShowNumber(wh1, 2));
-            $('#lblSumWh3').text(ShowNumber(wh3, 2));
 
             $('#lblBillTotal').text(ShowNumber(total,2));
             $('#lblBillTotalEng').text(CNumEng(total));

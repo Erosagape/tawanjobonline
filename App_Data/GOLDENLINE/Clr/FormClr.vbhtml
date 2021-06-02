@@ -62,7 +62,7 @@ End Code
         <tr class="text-center">
             <th width="8%">CODE.</th>
             <th width="45%">DESCRIPTION</th>
-            <th width="17%">JOBNO</th>
+            <th width="17%">JOBNO / INV#</th>
             <th width="10%">VAT</th>
             <th width="10%">WHTAK</th>
             <th width="10%">PAID</th>
@@ -139,24 +139,24 @@ End Code
     </tr>
     <tr>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-            <label id="lblReqBy" style="font-size:10px">(__________________)</label>
+            <label id="lblReqBy" style="font-size:10px">(_______________________________________)</label>
             <br />
-            <label id="lblRequestDate" style="font-size:9px">__/__/____</label>
+            <label id="lblRequestDate" style="font-size:9px">วันที่/Date_______/_______________/___________</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label id="lblAppBy" style="font-size:10px">(__________________)</label>
+            <label id="lblAppBy" style="font-size:10px">(_______________________________________)</label>
             <br />
-            <label id="lblAppDate" style="font-size:9px">__/__/____</label>
+            <label id="lblAppDate" style="font-size:9px">วันที่/Date_______/_______________/___________</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label id="lblPayBy" style="font-size:10px">(__________________)</label>
+            <label id="lblPayBy" style="font-size:10px">(_______________________________________)</label>
             <br />
-            <label id="lblPayDate" style="font-size:9px">__/__/____</label>
+            <label id="lblPayDate" style="font-size:9px">วันที่/Date_______/_______________/___________</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label id="lblPostBy" style="font-size:9px">(__________________)</label>
+            <label id="lblPostBy" style="font-size:9px">(_______________________________________)</label>
             <br />
-            <label id="lblPostDate" style="font-size:9px">__/__/____</label>
+            <label id="lblPostDate" style="font-size:9px">วันที่/Date_______/_______________/___________</label>
         </td>
     </tr>
 </table>
@@ -213,7 +213,7 @@ End Code
                         advref = advref + (d[i].AdvAmount > 0 ? ' ยอดเบิก=' + CCurrency(CDbl(d[i].AdvAmount, 2)) : '');
                         advref = advref + (d[i].Remark !== '' ? '<br/>' + d[i].Remark : '');
 
-                        html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo +'<br/>' + d[i].DeclareNumber + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
+                        html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo +'<br/>' + d[i].InvNo + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 2)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
 
                         if (d[i].ChargeVAT > 0) {
                             amtforvat += Number(d[i].UsedAmount);

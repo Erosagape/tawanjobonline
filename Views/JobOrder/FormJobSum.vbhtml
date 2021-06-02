@@ -83,7 +83,8 @@ End Code
                     <th width="15%">AMOUNT</th>
                 </tr>
             </thead>
-            <tbody id="dvAdv"></tbody>
+            <tbody id="dvAdv">
+            </tbody>
             <tr>
                 <td colspan="4">
                     <div style="display:flex">
@@ -127,7 +128,8 @@ End Code
                     <th>AMOUNT</th>
                 </tr>
             </thead>
-            <tbody id="dvCustAdv"></tbody>
+            <tbody id="dvCustAdv">
+            </tbody>
             <tr>
                 <th style="text-align:right">TOTAL ADVANCE</th>
                 <td style="text-align:right"><label id="lblTotalCustAdv"></label></td>
@@ -152,32 +154,32 @@ End Code
                     <th width="10%">PROFIT</th>
                 </tr>
             </thead>
-            <tbody id="dvClear"></tbody>
+            <tbody id="dvClear">
+            </tbody>
             <tr>
-                <td colspan="2">
+                <td colspan="2" height="50PX">
                     <div style="display:flex">
                         <div style="flex:1;text-align:right">
-                            <table style="width:100%;" border="1">
+                            <table>
                                 <tr>
-                                    <td>Advance</td>
-                                    <td>Cost</td>
-                                    <td>Service</td>
-                                    <td>Profit</td>
-                                </tr>
-                                <tr>
+                                    <td>Advance :</td>
                                     <td><label id="lblSumAdv"></label></td>
-                                    <td><label id="lblSumCost"></label></td>
-                                    <td><label id="lblSumServ"></label></td>
-                                    <td><label id="lblNetProfit"></label></td>
                                 </tr>
+                                <tr>
+                                    <td>Service :</td>
+                                    <td><label id="lblSumServ"></label></td>
+                                </tr>
+
                             </table>
+
                         </div>
+
                     </div>
                 </td>
                 <td style="text-align:right"><label id="lblSumCharge"></label></td>
                 <td style="text-align:right"><label id="lblTotalVAT"></label></td>
                 <td style="text-align:right"><label id="lblSumTax"></label></td>
-                <td style="text-align:right"><label id="lblSumNet"></label></td>
+                <td style="text-align:right"><label id="lblSumCost"></label></td>
                 <td style="text-align:right"><label id="lblSumProfit"></label></td>
             </tr>
         </table>
@@ -193,6 +195,10 @@ End Code
             <tr style="text-align:right">
                 <td width="60%">COMMISSION</td>
                 <td><label id="lblCommRate"></label></td>
+            </tr>
+            <tr style="text-align:right">
+                <td width="40%">NET PROFIT</td>
+                <td><label id="lblNetProfit"></label></td>
             </tr>
         </table>
     </div>
@@ -210,46 +216,8 @@ End Code
             <th>REMARK</th>
         </tr>
     </thead>
-    <tbody id="dvCheque"></tbody>
-</table>
-<br/>
-<table style="border-collapse:collapse;width:100%">
-    <tr>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            จัดทำโดย/PREPARED.BY
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            ตรวจสอบโดย/CHECKED.BY
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            อนุมัติโดย/APPROVED.BY
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            ลงบัญชีโดย/POSTED.BY
-        </td>
-    </tr>
-    <tr>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-            <label id="lblReqBy" style="font-size:10px">(__________________)</label>
-            <br />
-            <label id="lblRequestDate" style="font-size:9px">__/__/____</label>
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label id="lblAppBy" style="font-size:10px">(__________________)</label>
-            <br />
-            <label id="lblAppDate" style="font-size:9px">__/__/____</label>
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label id="lblPayBy" style="font-size:10px">(__________________)</label>
-            <br />
-            <label id="lblPayDate" style="font-size:9px">__/__/____</label>
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label id="lblPostBy" style="font-size:9px">(__________________)</label>
-            <br />
-            <label id="lblPostDate" style="font-size:9px">__/__/____</label>
-        </td>
-    </tr>
+    <tbody id="dvCheque">
+    </tbody>
 </table>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -414,8 +382,8 @@ End Code
 
                     html += '</td>';
                     html += '<td style="text-align:right">' + CCurrency(CDbl(adv + serv, 2)) + '</td>';
-                    html += '<td style="text-align:right">' + CCurrency(CDbl(d[i].ChargeVAT, 2)) + '</td>';
-                    html += '<td style="text-align:right">' + CCurrency(CDbl(d[i].Tax50Tavi, 2)) + '</td>';
+                    html += '<td style="text-align:right">' + CCurrency(CDbl(d[i].ChargeVAT, 3)) + '</td>';
+                    html += '<td style="text-align:right">' + CCurrency(CDbl(d[i].Tax50Tavi, 3)) + '</td>';
                     html += '<td style="text-align:right">' + CCurrency(CDbl(cost, 2)) + '</td>';
                     html += '<td style="text-align:right">' + CCurrency(CDbl(profit,2)) + '</td>';
                     html += '</tr>';
@@ -427,13 +395,12 @@ End Code
                     dv.append(html);
                 }
             }
-            $('#lblSumCost').text(CCurrency(CDbl(amtcost, 2)));
             $('#lblSumAdv').text(CCurrency(CDbl(amtadv, 2)));
             $('#lblSumServ').text(CCurrency(CDbl(amtserv,2)));
 
             $('#lblSumCharge').text(CCurrency(CDbl(amttotal,2)));
             $('#lblSumTax').text(CCurrency(CDbl(amtwht,2)));
-            $('#lblSumNet').text(CCurrency(CDbl(amtcost+amtserv+amtadv,2)));
+            $('#lblSumCost').text(CCurrency(CDbl(amtcost,2)));
             $('#lblSumProfit').text(CCurrency(CDbl(amtprofit,2)));
             $('#lblTotalVAT').text(CCurrency(CDbl(amtvat, 2)));
             if (amtprofit > 0) {

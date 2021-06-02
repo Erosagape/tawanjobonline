@@ -320,7 +320,7 @@ End Code
                     { data: "BillToCustCode", title: "Billing To" },
                     { data: "RefNo", title: "Reference Number" },
                     { data: "SDescription", title: "Expenses" },
-                    { data: "Amt", title: "Advance",
+                    { data: "Net", title: "Advance",
                         render: function (data) {
                             return ShowNumber(data, 2);
                         }
@@ -382,7 +382,7 @@ End Code
                 { data: "ItemNo", title: "Item No" },
                 { data: "SICode", title: "Code" },
                 { data: "SDescription", title: "Description" },
-                { data: "Amt", title: "Advance",
+                { data: "Net", title: "Advance",
                         render: function (data) {
                             return ShowNumber(data, 2);
                     }

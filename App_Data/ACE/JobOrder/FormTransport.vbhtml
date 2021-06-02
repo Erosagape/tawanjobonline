@@ -13,7 +13,7 @@ End Code
         <div style="display:flex;flex-direction:column;">
             <div style="height:100px;border-bottom:solid;border-top:solid;border-left:solid;border-width:thin;">
                 <b>Shipper</b>
-                <div style="padding:5px 5px 5px 5px">
+                <div style="padding:3px 3px 3px 3px">
                     <label id="lblShipperName"></label>
                     <br />
                     <label id="lblShipperAddress1"></label>
@@ -23,7 +23,7 @@ End Code
             </div>
             <div style="height:100px;border-bottom:solid;border-left:solid;border-width:thin;">
                 <b>Consignee</b>
-                <div style="padding:5px 5px 5px 5px">
+                <div style="padding:3px 3px 3px 3px">
                     <label id="lblConsigneeName"></label>
                     <br />
                     <label id="lblConsignAddress1"></label>
@@ -33,7 +33,7 @@ End Code
             </div>
             <div style="height:100px;border-bottom:solid;border-left:solid;border-width:thin;">
                 <b>Notify Party</b>
-                <div style="padding:5px 5px 5px 5px">
+                <div style="padding:3px 3px 3px 3px">
                     <label id="lblNotifyName"></label>
                     <br />
                     <label id="lblNotifyAddress1"></label>
@@ -88,7 +88,7 @@ End Code
     </div>
     <div style="flex-direction:row;width:45%;font-size:12px;border-top:solid;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
         <div style="display:flex;flex-direction:column;">
-            <div style="display:flex;flex-direction:row;padding:5px 5px 5px 5px;">
+            <div style="display:flex;flex-direction:row;padding:3px 3px 3px 3px;">
                 <div style="flex:1">
                     <b>BILL OF LADING</b><br />
                     <input type="text" value="ORIGINAL/COPY" style="border:none;">
@@ -101,17 +101,23 @@ End Code
             </div>
             <div style="text-align:center">
                 <br />
-                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:60%" />
+                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:60%" ondblclick="ChangeAddress()" />
                 <br /><br />
                 <div id="divCompany" style="text-align:center;color:darkblue;font-size:12px">
                     <div style="font-weight:bold;font-size:12px">
-                        ADVANCE CARGO EXPRESS CO.,LTD
+                        ACE GLOBAL LOGISTICS CO., LTD.
                     </div>
-                    21 ROMKLAO 21/3 KLONGSAMPRAVET<br />LADKRABANG BANGKOK 10320 THAILAND
+                    19/1 ROMKLAO 21/3 KLONGSAMPRAVET<br />LADKRABANG BANGKOK 10320 THAILAND
                     <br />Tel (662) 670 0660 Fax (662) 170 7253
                     <br />E-mail/Website ace@th-ace.com
                 </div>
-
+                <div id="dvAgent">
+                    <br/>
+                    <div  style="border-top:solid;border-width:thin;text-align:left;font-size:10px;padding:3px 3px 3px 3px;">
+                        <b>Delivery Agent of Destination</b><br/>
+                        <div id="lblPackingAddress"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -215,6 +221,10 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
             $('#lblVesselName').text(h.VesselName);
             $('#lblMVesselName').text(h.MVesselName);
             $('#lblPackingPlace').text(h.PackingPlace);
+            if(h.PackingAddress==''){
+                $('#dvAgent').hide();
+            }
+            $('#lblPackingAddress').html(CStr(h.PackingAddress));
             ShowReleasePort(path, h.ClearPort, '#lblClearPortName');
 let unit=units.filter(function(data){
    return data.Code==h.InvProductUnit;
@@ -290,4 +300,17 @@ if(unit.length>0) {
         }
     });
     }
+    function ChangeAddress() {
+        if (confirm('Do you want to change address to old company') == true) {
+            let html = '';
+            html = '<div style="font-weight:bold;font-size:12px">';
+            html += 'ADVANCE CARGO EXPRESS CO.,LTD.';
+            html += '</div>';
+            html += '21 ROMKLAO 21/3 KLONGSAMPRAVET<br />LADKRABANG BANGKOK 10320 THAILAND';
+            html += '<br />Tel (662) 670 0660 Fax (662) 170 7253';
+            html += '<br />E-mail/Website ace@th-ace.com';
+            $('#divCompany').html(html);
+        }
+    }
+
 </script>

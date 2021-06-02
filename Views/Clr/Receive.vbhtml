@@ -563,8 +563,8 @@ End Code
                 CmpType: 'C',
                 CmpCode: o.CustCode,
                 CmpBranch: o.CustBranch,
-                PaidAmount: CDbl(o.ClrBal, 2),
-                TotalAmount: CDbl((o.ClrBal), 2),
+                PaidAmount: CDbl(Math.abs(o.ClrBal), 2),
+                TotalAmount: CDbl(Math.abs(o.ClrBal), 2),
                 acType:o.acType
             };
             if ($('#chkFromClr').prop('checked') == true) {

@@ -547,9 +547,15 @@ End Code
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
+    let code = getQueryString("Code");
+    let branch = getQueryString("Branch");
     let row = {};
     let row_d = {};
     SetLOVs();
+    if (branch !== '' && code !== '') {
+        $('#txtBranchCode').val(branch);
+        ShowHeader();
+    }
     $('#btnShow').on('click', function () {
         ShowHeader();
     });
@@ -669,6 +675,9 @@ End Code
             w += '&show=CANCEL';
         } else {
             w += '&show=ACTIVE';
+        }
+        if (code !== '') {
+            w += '&Code=' + code;
         }
         $.get(path + 'acc/getReceipt?type=' + type + '&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.receipt.header.length == 0) {

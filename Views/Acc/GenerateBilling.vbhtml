@@ -498,7 +498,7 @@ End Code
                 data.push({
                     BranchCode: obj.BranchCode,
                     BillAcceptNo: no,
-                    ItemNo: i,
+                    ItemNo: 0,
                     InvNo: obj.DocNo,
                     InvDate: obj.DocDate,
                     RefNo:obj.RefNo,

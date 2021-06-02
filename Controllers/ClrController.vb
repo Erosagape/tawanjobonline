@@ -127,7 +127,7 @@ Namespace Controllers
 
                 If lst <> "" Then
                     Dim tSQL As String = String.Format("UPDATE Job_ClearHeader SET DocStatus=2,ApproveBy='" & user & "',ApproveDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',ApproveTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
- WHERE DocStatus=1 AND BranchCode+'|'+ClrNo in({0})", lst)
+ WHERE DocStatus=1 AND BranchCode+'|'+ClrNo in({0}) AND DocStatus<>99", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Return New HttpResponseMessage(HttpStatusCode.OK)
@@ -205,7 +205,7 @@ Namespace Controllers
 
             If lst <> "" Then
                 If doctype = "CLR" Then
-                    Dim tSQL As String = String.Format("UPDATE Job_ClearHeader SET DocStatus=3,ReceiveBy='" & user & "',ReceiveRef='" & docno & "',ReceiveDate=GetDate(),ReceiveTime=Convert(varchar(10),GetDate(),108) WHERE BranchCode+'|'+ClrNo in({0})", lst)
+                    Dim tSQL As String = String.Format("UPDATE Job_ClearHeader SET DocStatus=3,ReceiveBy='" & user & "',ReceiveRef='" & docno & "',ReceiveDate=GetDate(),ReceiveTime=Convert(varchar(10),GetDate(),108) WHERE BranchCode+'|'+ClrNo in({0}) AND DocStatus<>99 ", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Main.UpdateClearStatus()
@@ -213,7 +213,7 @@ Namespace Controllers
                     End If
                 End If
                 If doctype = "ADV" Then
-                    Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=6 WHERE BranchCode+'|'+AdvNo in({0})", lst)
+                    Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=6 WHERE BranchCode+'|'+AdvNo in({0}) AND DocStatus<>99", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateClrReceiveFromAdvance(user, docno))
@@ -234,11 +234,9 @@ Namespace Controllers
                 If Request.QueryString("Code") IsNot Nothing Then
                     sql &= " AND h.ClrNo='" & Request.QueryString("Code").ToString & "' "
                 End If
-
                 If Request.QueryString("Job") IsNot Nothing Then
                     sql &= " AND d.JobNo='" & Request.QueryString("Job").ToString & "' AND h.DocStatus<>99 "
                 End If
-
                 If Not IsNothing(Request.QueryString("JType")) Then
                     sql &= " AND h.JobType=" & Request.QueryString("JType") & ""
                 End If
@@ -253,6 +251,9 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("CustCode")) Then
                     sql &= " AND j.CustCode='" & Request.QueryString("CustCode") & "'"
+                End If
+                If Request.QueryString("VenCode") IsNot Nothing Then
+                    sql &= " AND d.VenderCode='" & Request.QueryString("VenCode").ToString & "'"
                 End If
                 If Not IsNothing(Request.QueryString("CustBranch")) Then
                     sql &= " AND j.CustBranch='" & Request.QueryString("CustBranch") & "'"

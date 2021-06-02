@@ -121,6 +121,7 @@ End Code
                             <div style="display:flex">
                                 <input type="text" id="txtDCustCode" class="form-control" style="width:20%" disabled />
                                 <input type="text" id="txtDCustBranch" class="form-control" style="width:15%" disabled />
+                                <input type="button" class="btn btn-default" value="..." onclick="SearchData('customer2');" />
                                 <input type="text" id="txtDCustName" class="form-control" style="width:65%" disabled />
                             </div>
                         </div>
@@ -493,9 +494,16 @@ End Code
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
+    let code = getQueryString("Code");
+    let branch = getQueryString("Branch");
+
     let row = {};
     let row_d = {};
     SetLOVs();
+    if (branch !== '' && code !== '') {
+        $('#txtBranchCode').val(branch);
+        ShowHeader();
+    }
     $('#btnShow').on('click', function () {
         ShowHeader();
     });
@@ -514,6 +522,9 @@ End Code
             w += '&show=CANCEL';
         } else {
             w += '&show=ACTIVE';
+        }
+        if (code !== '') {
+            w += '&Code=' + code;
         }
         $.get(path + 'acc/getinvforbill?branch=' + $('#txtBranchCode').val()+ w, function (r)
         {
@@ -689,6 +700,7 @@ End Code
             let dv = document.getElementById("dvLOVs");
             //Customers
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
+            CreateLOV(dv, '#frmSearchCust2', '#tbCust2', 'Customers', response, 3);
             //Customers
             CreateLOV(dv, '#frmSearchBill', '#tbBill', 'Billing Place', response, 3);
 
@@ -807,6 +819,9 @@ End Code
             case 'customer':
                 SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
                 break;
+            case 'customer2':
+                SetGridCompany(path, '#tbCust2', '#frmSearchCust2', ReadCustomer2);
+                break;
             case 'billing':
                 SetGridCompany(path, '#tbBill', '#frmSearchBill', ReadBilling);
                 break;
@@ -905,9 +920,9 @@ End Code
             $.get(path + 'Acc/GetRcpDetail?Branch=' + $('#txtBranchCode').val() + '&InvNo=' + $('#txtDocNo').val()).done(function (r) {
                 if (r.rcpdetail.data.length > 0) {
                     if (mainLanguage == 'TH') {
-                        ShowMessage('ใบแจ้งหนี้นี้ได้ออกใบรับเงิน/ไปแล้วในเลขที่ ' + r.rcpdetail.data[0].ReceiptNo);
+                        ShowMessage('ใบแจ้งหนี้นี้ได้ออกใบรับเงิน/ไปแล้วในเลขที่ ' + r.rcpdetail.data[0].ReceiptNo,true);
                     } else {
-                        ShowMessage('This invoice has been received in ' + r.rcpdetail.data[0].ReceiptNo);
+                        ShowMessage('This invoice has been received in ' + r.rcpdetail.data[0].ReceiptNo,true);
                     }
                 } else {
                     $('#txtCancelDate').val(GetToday());
@@ -974,6 +989,11 @@ End Code
         $('#txtCustCode').val(dt.CustCode);
         $('#txtCustBranch').val(dt.Branch);
         ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
+    }
+    function ReadCustomer2(dt) {
+        $('#txtDCustCode').val(dt.CustCode);
+        $('#txtDCustBranch').val(dt.Branch);
+        ShowCustomer(path, dt.CustCode, dt.Branch, '#txtDCustName');
     }
     function ReadBilling(dt) {
         $('#txtBillToCustCode').val(dt.CustCode);

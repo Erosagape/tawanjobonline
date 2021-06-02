@@ -11,6 +11,9 @@ End Code
     input[type="text"] {
         border: none;
     }
+    * {
+        font-size: 13px;
+    }
 </style>
 <div style="text-align:right;width:100%">
     DATE : <label id="lblPrintDate">@DateTime.Now.ToString("dd/MM/yyyy")</label>

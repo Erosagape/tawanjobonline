@@ -5,7 +5,7 @@
         <div class="col-sm-6">
             <div style="display:flex">
                 <label style="display:block;width:200px">Group Report</label>
-                <select id="cboReportGroup" class="form-control dropdown" onchange="ChangeLanguageForm('@ViewBag.Module');" style="width:100%"></select>
+                <select id="cboReportGroup" class="form-control dropdown" onchange="LoadReportList()" style="width:100%"></select>
             </div>
             <table id="tbReportList" class="table table-responsive">
                 <thead>
@@ -34,7 +34,7 @@
             <div style="display:flex;width:100%;flex-direction:column" id="tbDate">
                 <div style="display:flex;">
                     <div style="flex:1">
-                        Date From
+                        <span id="fromDate">Date</span> From
                     </div>
                     <div style="flex:2">
                         <input type="date" id="txtDateFrom" />
@@ -42,7 +42,7 @@
                 </div>
                 <div style="display:flex;">
                     <div style="flex:1">
-                        Date To
+                        To
                     </div>
                     <div style="flex:2">
                         <input type="date" id="txtDateTo" />
@@ -52,7 +52,7 @@
             <div style="display:flex;width:100%;flex-direction:column" id="tbCust">
                 <div style="display:flex;">
                     <div style="flex:1">
-                        Customer:
+                        Customer :
                     </div>
                     <div style="flex:2">
                         <textarea id="txtCustCliteria"></textarea>
@@ -188,8 +188,29 @@
     let userPosition = '@ViewBag.UserPosition';
     let data = {};
     var path = '@Url.Content("~")';
-    ChangeLanguageForm('@ViewBag.Module');
     SetEvents();
+    LoadReportList();
+    function LoadReportList() {
+        let group = $('#cboReportGroup').val();
+        if (group == null) {
+            group = '';
+        }
+        $.get(path + 'Report/GetReportList?group=' + group).done((r) => {
+            if ($.isEmptyObject(r) == false && r[0].ReportCode !== null) {
+                $('#tbReportList').DataTable({
+                    data: r,
+                    columns: [
+                        { data: "ReportCode", title: "Report Code" },
+                        { data: (mainLanguage == 'TH' ? "ReportNameTH" : "ReportNameEN"), title: "ReportName" }
+                    ],
+                    responsive: true,
+                    destroy: true
+                });
+            } else {
+                ChangeLanguageForm('@ViewBag.Module');
+            }
+        });
+    }
     function GetCliteria() {
         let obj = {
             branch: '[BRANCH]=' + $('#txtBranchCode').val(),
@@ -212,20 +233,28 @@
         $('#txtDateFrom').val(GetFirstDayOfMonth());
         $('#txtDateTo').val(GetLastDayOfMonth());
         var lists = "COMMERCIAL_LEVEL=#cboCommLevel";
+        lists += ",REPORT_GROUP=#cboReportGroup";
         loadCombos(path, lists);
 
         $('#tbCode').hide();
         $('#tbReportList tbody').on('click', 'tr', function () {
-            data = $('#tbReportList').DataTable().row(this).data();
-            //if (data.ReportAuthor.indexOf(userPosition) < 0) {
-                //ShowMessage("Your position are not authorized to view Report", true);
-                //$('#btnPrnJob').hide();
-                //return;
-            //}
+            let src = $('#tbReportList').DataTable().row(this).data();
+            data = {
+                ReportType: src.ReportType,
+                ReportCode: src.ReportCode,
+                ReportGroup: src.ReportGroup,
+                ReportNameTH: src.ReportNameTH,
+                ReportNameEN: src.ReportNameEN,
+                ReportAuthor: src.ReportAuthor
+            }
             $('#btnPrnJob').show();
             SetSelect('#tbReportList', this);
             reportID = data.ReportCode;
-            LoadCliteria(reportID);
+            if (src.ReportCliteria !== null) {
+                ReadCliteria(src.ReportCliteria + ',,,');
+            } else {
+                LoadCliteria(src.ReportCode);
+            }
         });
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
@@ -238,6 +267,52 @@
             CreateLOV(dv, '#frmSearchCode', '#tblCode', 'Search Code', response, 2);
         });
     }
+    function ReadCliteria(str) {
+        let arr = str.split(',');
+        if (arr[1] !== '') {
+            $('#tbDate').show();
+            let vStr = arr[1].indexOf('.') > 0 ? arr[1].split('.')[1] : arr[1];
+            $('#fromDate').text(vStr.toString().replace('Date',' Date'));
+        } else {
+            $('#tbDate').hide();
+        }
+        if (arr[2] !== '') {
+            $('#tbCust').show();
+        } else {
+            $('#tbCust').hide();
+        }
+        if (arr[3] !== '') {
+            $('#tbJob').show();
+        } else {
+            $('#tbJob').hide();
+        }
+        if (arr[4] !== '') {
+            $('#tbEmp').show();
+        } else {
+            $('#tbEmp').hide();
+        }
+        if (arr[5] !== '') {
+            $('#tbVend').show();
+        } else {
+            $('#tbVend').hide();
+        }
+        if (arr[6] !== '') {
+            $('#tbStatus').show();
+        } else {
+            $('#tbStatus').hide();
+        }
+        if (arr[8] !== '') {
+            $('#tbCode').show();
+        } else {
+            $('#tbCode').hide();
+        }
+        if (arr[9] !== '') {
+            $('#tbGroup').show();
+        } else {
+            $('#tbGroup').hide();
+        }
+    }
+
     function BrowseCliteria(what) {
         browseWhat = what;
         switch (browseWhat) {

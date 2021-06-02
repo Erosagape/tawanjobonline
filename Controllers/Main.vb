@@ -17,6 +17,157 @@ Module Main
     Friend Const servPrefix As String = "SRV-"
     Friend Const appName As String = "JOBSHIPPING"
     Friend jobmaster As String = "jobmaster"
+    Function GetJobPrefix(data As CJobOrder) As String
+        Dim formatStr As String = GetValueConfig("RUNNING_FORMAT", "JOBNO", jobPrefix)
+        Dim jobType As String = GetValueConfig("JOB_TYPE", data.JobType.ToString("00"))
+        Dim shipBy As String = GetValueConfig("SHIP_BY", data.ShipBy.ToString("00"))
+        Dim Customer As String = data.CustCode
+        If jobType <> "" Then formatStr = formatStr.Replace("[J]", jobType.Substring(0, 1))
+        If shipBy <> "" Then formatStr = formatStr.Replace("[S]", shipBy.Substring(0, 1))
+        If Customer <> "" Then formatStr = formatStr.Replace("[C]", Customer.Substring(0, 3))
+        Return formatStr
+    End Function
+    Function SaveLog(cust As String, app As String, modl As String, action As String, msg As String, isError As Boolean, Optional StackTrace As String = "", Optional JsonData As String = "") As String
+        Try
+            Dim isSaveLog = "Y"
+            If GetSession("ConnJob") <> "" Then
+                isSaveLog = Main.GetValueConfig("PROFILE", "SAVE_LOG", "Y")
+            End If
+            If isSaveLog = "N" Then
+                Return "Save Log Is not activated"
+            Else
+                Dim clientIP = HttpContext.Current.Request.UserHostAddress
+                Dim userLogin = GetSession("CurrUser").ToString()
+                If userLogin <> "" Then
+                    Dim sessionID = HttpContext.Current.Session.SessionID
+                    Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
+                    Dim oLog As New CLog(cnMas) With {
+                    .AppID = app & "(" & sessionID & ")",
+                    .CustID = cust & "/" & userLogin,
+                    .FromIP = clientIP,
+                    .ModuleName = modl,
+                    .LogAction = action,
+                    .Message = msg,
+                    .StackTrace = StackTrace,
+                    .JsonData = JsonData,
+                    .IsError = isError
+                }
+                    Return oLog.SaveData(" WHERE LogID=0 ")
+                Else
+                    Return "Save Log Session Expire"
+                End If
+            End If
+        Catch ex As Exception
+            Dim str = "[ERROR] : " & ex.Message
+            Return str
+        End Try
+    End Function
+    Function SaveLogFromObject(cust As String, app As String, modl As String, action As String, obj As Object, IsError As Boolean, Optional StackTrace As String = "") As String
+        Dim isSaveLog = "Y"
+        If GetSession("ConnJob") <> "" Then
+            isSaveLog = Main.GetValueConfig("PROFILE", "SAVE_LOG", "Y")
+        End If
+        If isSaveLog = "N" Then
+            Return "Save log is Not activated"
+        Else
+            Try
+                Dim clientIP = HttpContext.Current.Request.UserHostAddress
+                Dim userLogin = GetSession("CurrUser").ToString()
+                Dim sessionID = HttpContext.Current.Session.SessionID
+                Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
+                Dim oLog As New CLog(cnMas) With {
+                    .AppID = app & "(" & sessionID & ")",
+                    .CustID = cust & "/" & userLogin,
+                    .FromIP = clientIP,
+                    .ModuleName = modl,
+                    .LogAction = action,
+                    .Message = If(IsError = True, "ERROR", "SUCCESS"),
+                    .JsonData = JsonConvert.SerializeObject(obj),
+                    .StackTrace = StackTrace,
+                    .IsError = IsError
+                }
+                Return oLog.SaveData(" WHERE LogID=0 ")
+            Catch ex As Exception
+                Main.SaveLog(cust, app, modl, "SaveLogFromObject", ex.Message, True, ex.StackTrace, "")
+                Dim str = "[ERROR] : " & ex.Message
+                Return str
+            End Try
+        End If
+    End Function
+    Function GetDatabaseList(pCustomer As String, pApp As String) As List(Of String)
+        Dim db = New List(Of String)
+        Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
+        Try
+            Dim tb = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT * FROM TWTCustomerApp WHERE CustID='{0}' AND AppID='{1}' ", pCustomer, pApp))
+            If tb.Rows.Count > 0 Then
+                For Each dr As DataRow In tb.Rows
+                    'db.Add(dr("WebTranDB").ToString()) 'Change 2021/01/04 by Phuthipong
+                    db.Add(dr("Comment").ToString())
+                Next
+            End If
+        Catch ex As Exception
+
+        End Try
+        Return db
+    End Function
+    Function GetDatabaseProfile(pCustomer As String, dbID As String) As DataTable
+        Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
+        If dbID = "" Then
+            Dim tb = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT a.*,b.Comment FROM TWTCustomer a INNER JOIN TWTCustomerApp b ON a.CustID=b.CustID WHERE a.CustID='{0}' ", pCustomer))
+            Return tb
+        Else
+            Dim tb = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT a.*,b.Comment FROM TWTCustomer a INNER JOIN TWTCustomerApp b ON a.CustID=b.CustID WHERE a.CustID='{0}' AND b.Seq={1} ", pCustomer, dbID))
+            Return tb
+        End If
+    End Function
+    Function GetApplicationProfile(pCustomer As String) As DataTable
+        Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
+        Dim tb = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT a.*,b.SubscriptionName,b.Edition,b.BeginDate,b.ExpireDate,b.LoginCount FROM TWTCustomerApp a INNER JOIN TWTSubscription b ON a.SubscriptionID=b.SubScriptionID WHERE a.CustID='{0}' AND a.AppID='JOBSHIPPING' ", pCustomer))
+        Return tb
+    End Function
+    Function GetDatabaseConnection(pCustomer As String, pApp As String, pSeq As String) As String()
+        Dim db = New String() {"", ""}
+        Try
+            Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
+            Using tb As DataTable = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT * FROM TWTCustomerApp WHERE CustID='{0}' AND AppID='{1}' AND Seq='{2}'", pCustomer, pApp, pSeq))
+                If tb.Rows.Count > 0 Then
+                    db = New String() {tb.Rows(0)("WebTranConnect").ToString, tb.Rows(0)("WebMasConnect").ToString}
+                    jobmaster = tb.Rows(0)("WebMasDB").ToString()
+                End If
+            End Using
+        Catch ex As Exception
+
+        End Try
+        Return db
+    End Function
+    Function SetDatabaseMaster(pDBName As String) As Boolean
+        Try
+            Dim bChk As Boolean = False
+            Using cn As New SqlConnection(pDBName)
+                cn.Open()
+                bChk = (cn.State = ConnectionState.Open)
+                Return bChk
+            End Using
+            Return True
+        Catch ex As Exception
+            Main.SaveLog(My.Settings.LicenseTo, "JOBSHIPPING", "SetDataBaseMaster", "OpenConnection", ex.Message, True, ex.StackTrace, pDBName)
+            Return False
+        End Try
+    End Function
+    Function SetDatabaseJob(pDBName As String) As Boolean
+        Try
+            Dim bChk As Boolean = False
+            Using cn As New SqlConnection(pDBName)
+                cn.Open()
+                bChk = (cn.State = ConnectionState.Open)
+                Return bChk
+            End Using
+            Return True
+        Catch ex As Exception
+            Main.SaveLog(My.Settings.LicenseTo, "JOBSHIPPING", "SetDataBaseJob", "OpenConnection", ex.Message, True, ex.StackTrace, pDBName)
+            Return False
+        End Try
+    End Function
     Friend Function GetDBString(pValue As String, dc As DataColumn)
         If pValue Is Nothing Then
             Return ""
@@ -232,6 +383,10 @@ Module Main
         End Try
     End Function
     Public Function SQLUpdateClearHeader() As String
+        Dim val = GetValueConfig("SQL", "UpdateClearHeader")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 UPDATE a
 SET a.AdvTotal=ISNULL(b.AdvTotal,0)
@@ -254,6 +409,10 @@ ON a.BranchCode=b.BranchCode AND a.ClrNo=b.ClrNo
 "
     End Function
     Public Function SQLUpdateAdvStatus() As String
+        Dim val = GetValueConfig("SQL", "UpdateAdvStatus")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 update adv
 set adv.DocStatus=src.ClrStatus
@@ -296,6 +455,10 @@ and adv.AdvNo=src.AdvNo
 "
     End Function
     Public Function SQLUpdateAdvHeader() As String
+        Dim val = GetValueConfig("SQL", "UpdateAdvHeader")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 update b 
 set b.TotalAdvance =ISNULL(a.SumAdvance,0)
@@ -314,6 +477,10 @@ and b.AdvNo=a.AdvNo
 "
     End Function
     Public Function SQLUpdatePayHeader() As String
+        Dim val = GetValueConfig("SQL", "UpdatePayHeader")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 update b 
 set b.TotalExpense =ISNULL(a.SumNet,0)
@@ -338,6 +505,10 @@ and b.DocNo=a.DocNo
 "
     End Function
     Function SQLUpdateWHTaxHeader() As String
+        Dim val = GetValueConfig("SQL", "UpdateWhTaxHeader")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 UPDATE h
 SET h.TotalPayAmount=d.TotalAmt,
@@ -352,6 +523,10 @@ AND h.DocNo=d.DocNo
 "
     End Function
     Function SQLSelectCNDNByInvoice() As String
+        Dim val = GetValueConfig("SQL", "SelectCNDNByInvoice")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 select cd.BranchCode,cd.BillingNo,cd.BillItemNo,    
 	sum(cd.DiffAmt) as CreditAmt,
@@ -367,6 +542,10 @@ select cd.BranchCode,cd.BillingNo,cd.BillItemNo,
     End Function
 
     Function SQLSelectCNDNSummary() As String
+        Dim val = GetValueConfig("SQL", "SelectCNDNSummary")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT a.*,b.InvoiceNo,
 b.TotalAmt,b.TotalVAT,b.TotalWHT,b.TotalNet,b.FTotalNet
@@ -393,6 +572,10 @@ AND a.DocNo=b.DocNo
     End Function
 
     Function SQLSelectVoucher() As String
+        Dim val = GetValueConfig("SQL", "SelectVoucher")
+        If val.Length > 0 Then
+            Return val
+        End If
         Dim sql As String = "
 SELECT h.BranchCode,h.ControlNo,h.VoucherDate,h.TRemark,h.CustCode,h.CustBranch,h.RecUser,h.RecDate,h.RecTime,
 h.PostedBy,h.PostedDate,h.PostedTime,h.CancelReson,h.CancelProve,h.CancelDate,h.CancelTime,h.PostRefNo,
@@ -409,6 +592,10 @@ AND d.acType=r.acType
         Return sql
     End Function
     Function SQLSelectWHTax() As String
+        Dim val = GetValueConfig("SQL", "SelectWHTax")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT h.*,d.ItemNo,d.IncType,d.PayDate,d.PayAmount,d.PayTax,d.PayTaxDesc,
 d.JNo,d.DocRefType,d.DocRefNo,d.PayRate,
@@ -423,6 +610,10 @@ LEFT JOIN dbo.Mas_User u ON h.UpdateBy=u.UserID
 "
     End Function
     Function SQLSelectWHTaxSummary() As String
+        Dim val = GetValueConfig("SQL", "SelectWHTaxSummary")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT FormTypeName,TaxLawName,TaxNumber1 as TaxNumber,Branch1 as Branch,NameThai as TaxBy,
 Year(a.PayDate) as TaxYear,Month(a.PayDate)  as TaxMonth,
@@ -449,6 +640,10 @@ ORDER BY FormTypeName,NameThai,Year(a.PayDate),Month(a.PayDate)
 "
     End Function
     Function SQLSelectAdvHeader() As String
+        Dim val = GetValueConfig("SQL", "SelectAdvHeader")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 select a.*,
 (SELECT STUFF((
@@ -492,6 +687,10 @@ ON a.BranchCode=c.BranchCode AND a.AdvNo=c.AdvNo
 "
     End Function
     Function SQLSelectAdvDetail() As String
+        Dim val = GetValueConfig("SQL", "SelectAdvDetail")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 select a.*,d.ForJNo,d.ItemNo,d.SICode,d.SDescription,
 d.IsDuplicate,d.IsChargeVAT,d.Is50Tavi,d.CurrencyCode,d.ExchangeRate as DExchangeRate,
@@ -533,9 +732,13 @@ FROM dbo.Job_Order
 "
     End Function
     Function SQLSelectPayForCharge() As String
+        Dim val = GetValueConfig("SQL", "SelectPayForCharge")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
  SELECT d.BranchCode, '' AS ClrNo, 0 AS ItemNo, 0 AS LinkItem, 'SRV' AS STCode, p.ChargeCode AS SICode, 
- s.NameThai as SDescription, h.VenCode AS VenderCode, d.Qty, d.QtyUnit AS UnitCode, 
+ s.NameThai + ' (' + p.Location + ')' as SDescription, h.VenCode AS VenderCode, d.Qty, d.QtyUnit AS UnitCode, 
  h.CurrencyCode, h.ExchangeRate AS CurRate, p.ChargeAmount as UnitPrice, 
  d.Qty * p.ChargeAmount AS FPrice, 
  (d.Qty * p.ChargeAmount / h.ExchangeRate) AS BPrice, (d.Qty * p.ChargeAmount / h.ExchangeRate)*(h.VATRate*0.01)*s.IsTaxCharge AS ChargeVAT, 
@@ -563,6 +766,10 @@ h.RefNo,h.PoNo
 "
     End Function
     Function SQLSelectPayForClear() As String
+        Dim val = GetValueConfig("SQL", "SelectPayForClear")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
   SELECT d.BranchCode, '' AS ClrNo, 0 AS ItemNo, 0 AS LinkItem, 'EXP' AS STCode, d.SICode, 
   d.SDescription, h.VenCode AS VenderCode, d.Qty, d.QtyUnit AS UnitCode, 
@@ -581,6 +788,10 @@ h.RefNo,h.PoNo
 "
     End Function
     Function SQLSelectAdvForClear() As String
+        Dim val = GetValueConfig("SQL", "SelectAdvForClear")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 Select a.BranchCode,'' as ClrNo,0 as ItemNo,0 as LinkItem,
 a.STCode,a.SICode,a.SDescription,a.VenCode as VenderCode,
@@ -636,9 +847,14 @@ left join
     WHERE ah.DocStatus<>99 AND ch.DocStatus<>99 
 	GROUP BY ad.BranchCode,ad.AdvNo,ad.ItemNo,ah.AdvDate,ad.IsDuplicate,ad.AdvNet
 ) d
-ON a.BranchCode=d.BranchCode and a.AdvNo=d.AdvNo and a.ItemNo=d.ItemNo "
+ON a.BranchCode=d.BranchCode and a.AdvNo=d.AdvNo and a.ItemNo=d.ItemNo 
+"
     End Function
     Function SQLSelectClrHeader() As String
+        Dim val = GetValueConfig("SQL", "SelectClrHeader")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 select a.*,
 b.CustCode,b.CustBranch,b.JobNo,b.InvNo as CustInvNo,b.CurrencyCode,b.AdvNO,b.AdvNet,
@@ -660,10 +876,16 @@ left join
     d.AdvNO,d.CurrencyCode
 ) b
 on b.BranchCode=a.BranchCode
-and b.ClrNo=a.ClrNo"
+and b.ClrNo=a.ClrNo
+"
     End Function
     Function SQLSelectClrDetail() As String
-        Return "select 
+        Dim val = GetValueConfig("SQL", "SelectClrDetail")
+        If val.Length > 0 Then
+            Return val
+        End If
+        Return "
+select 
 h.BranchCode,h.ClrNo,h.ClrDate,h.DocStatus,c1.ClrStatusName,
 h.ClearanceDate,h.JobType,c4.JobTypeName,j.ShipBy,c6.ShipByName,
 b.BrName as BranchName,h.CTN_NO,h.CoPersonCode,h.TRemark,h.ClearType,c2.ClrTypeName,h.ClearFrom,c3.ClrFromName,
@@ -729,6 +951,10 @@ left join (
 "
     End Function
     Function SQLSelectClrNoAdvance() As String
+        Dim val = GetValueConfig("SQL", "SelectClrNoAdvance")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 select h.ClrDate,h.ReceiveRef,h.ClrNo,d.ItemNo,a.AdvAmount,a.ChargeVAT,a.Charge50Tavi,a.AdvNet,
 d.SICode,d.SDescription,j.CustCode,j.CustBranch,sum(d.UsedAmount+d.ChargeVAT) as ClrTotal,
@@ -760,6 +986,10 @@ d.SICode,d.SDescription,j.CustCode,j.CustBranch,d.JobNo
 "
     End Function
     Function SQLSelectClrFromAdvance() As String
+        Dim val = GetValueConfig("SQL", "SelectClrFromAdvance")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 select a.PaymentDate,a.PaymentRef,a.AdvNo,a.ItemNo,a.AdvAmount,a.ChargeVAT,a.Charge50Tavi,a.AdvNet,
 a.SICode,a.SDescription,a.CustCode,a.CustBranch,
@@ -792,6 +1022,10 @@ a.SICode,a.SDescription,a.CustCode,a.CustBranch,a.ForJNo
 "
     End Function
     Function SQLSelectBookAccBalance() As String
+        Dim val = GetValueConfig("SQL", "SelectBookAccBalance")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT q.*,q.SumCashOnhand+q.SumChqClear as SumCash,
 q.SumCashOnhand+q.SumChqClear+q.SumChqOnhand-q.LimitBalance as SumCashInBank,
@@ -817,34 +1051,40 @@ group by c.BookCode,c.LimitBalance,c.ControlBalance) q
 "
     End Function
     Function SQLSelectChequeBalance(pType As String, chqType As String) As String
-        Return "
+        Dim val = GetValueConfig("SQL", "SelectChequeBalance" & chqType & pType)
+        If val.Length > 0 Then
+            Return val
+        End If
+        If chqType = "P" Then
+            If pType = "CU" Then
+                Return "
 SELECT a.*,ISNULL(c.ChqUsed,0)+ISNULL(d.UsedAmount,0) AS AmountUsed,a.ChqAmount-(ISNULL(c.ChqUsed,0)+ISNULL(d.UsedAmount,0)) as AmountRemain,
 b.CustCode,b.CustBranch,b.VoucherDate,d.DocUsed,b.TRemark 
 FROM 
 (   
-    SELECT BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo," & If(pType = "CU", "RecvBank,RecvBranch", "BankCode,BankBranch") & ",acType,PRType,
-    SUM(ChqAmount) as ChqAmount
+    SELECT BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,RecvBank,RecvBranch,acType,PRType,
+    SUM(ChqAmount) as ChqAmount,MAX(BookCode) as BookCode
     FROM Job_CashControlSub
-    GROUP BY BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo," & If(pType = "CU", "RecvBank,RecvBranch", "BankCode,BankBranch") & ",acType,PRType
+    GROUP BY BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,RecvBank,RecvBranch,acType,PRType
 ) a INNER JOIN Job_CashControl b
 ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
 LEFT JOIN (
     SELECT h.BranchCode,h.ChqNo,SUM(h.ChqAmount) as ChqUsed,
-    " & If(pType = "CU", "h.RecvBank,h.RecvBranch", "h.BankCode,h.BankBranch") & "
+    h.RecvBank,h.RecvBranch
     FROM Job_CashControlSub h LEFT JOIN Job_CashControlDoc d
     ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
-    WHERE h.PRType='" & If(chqType = "P", "R", "P") & "' AND NOT EXISTS(
+    WHERE h.PRType='R' AND NOT EXISTS(
 select ControlNo from Job_CashControl
 where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
     ) AND d.ControlNo IS NULL
     GROUP BY h.BranchCode,h.ChqNo
-    " & If(pType = "CU", ",h.RecvBank,h.RecvBranch", ",h.BankCode,h.BankBranch") & "
+    ,h.RecvBank,h.RecvBranch
 ) c
 ON a.BranchCode=c.BranchCode
-AND a.ChqNo=c.ChqNo " & If(pType = "CU", "AND a.RecvBank=c.RecvBank AND a.RecvBranch=c.RecvBranch ", "AND a.BankCode=c.BankCode AND a.BankBranch=c.BankBranch ") & "
+AND a.ChqNo=c.ChqNo AND a.RecvBank=c.RecvBank AND a.RecvBranch=c.RecvBranch
 left join (
 	SELECT h.BranchCode,h.ChqNo
-" & If(pType = "CU", ",h.RecvBank,h.RecvBranch", ",h.BankCode,h.BankBranch") & "
+    ,h.RecvBank,h.RecvBranch
     ,SUM(d.PaidAmount) as UsedAmount,Max(d.DocNo) as DocUsed
 	FROM Job_CashControlDoc d INNER JOIN Job_CashControlSub h 
     ON d.BranchCode=h.BranchCode AND d.ControlNo=h.ControlNo
@@ -854,17 +1094,162 @@ left join (
 		AND ControlNo=d.ControlNo 
 		AND ISNULL(CancelProve,'')<>''
     )
-	GROUP BY h.BranchCode,h.ChqNo" & If(pType = "CU", ",h.RecvBank,h.RecvBranch", ",h.BankCode,h.BankBranch") & "
+	GROUP BY h.BranchCode,h.ChqNo,h.RecvBank,h.RecvBranch
 ) d
 on a.BranchCode=d.BranchCode
-    AND a.ChqNo=d.ChqNo " & If(pType = "CU", "AND a.RecvBank=d.RecvBank AND a.RecvBranch=d.RecvBranch ", "AND a.BankCode=d.BankCode AND a.BankBranch=d.BankBranch ") & "
-WHERE a.acType='" & pType & "'
-AND a.PRType='" & chqType & "' AND a.ChqAmount>0 AND ISNULL(a.ChqNo,'')<>'' 
+    AND a.ChqNo=d.ChqNo AND a.RecvBank=d.RecvBank AND a.RecvBranch=d.RecvBranch
+WHERE a.acType='CU'
+AND a.PRType='P' AND a.ChqAmount>0 AND ISNULL(a.ChqNo,'')<>'' 
 "
+            Else
+                Return "
+SELECT a.*,ISNULL(c.ChqUsed,0)+ISNULL(d.UsedAmount,0) AS AmountUsed,a.ChqAmount-(ISNULL(c.ChqUsed,0)+ISNULL(d.UsedAmount,0)) as AmountRemain,
+b.CustCode,b.CustBranch,b.VoucherDate,d.DocUsed,b.TRemark 
+FROM 
+(   
+    SELECT BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,BankCode,BankBranch,acType,PRType,
+    SUM(ChqAmount) as ChqAmount,MAX(BookCode) as BookCode
+    FROM Job_CashControlSub
+    GROUP BY BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,BankCode,BankBranch,acType,PRType
+) a INNER JOIN Job_CashControl b
+ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
+LEFT JOIN (
+    SELECT h.BranchCode,h.ChqNo,SUM(h.ChqAmount) as ChqUsed,
+    h.BankCode,h.BankBranch
+    FROM Job_CashControlSub h LEFT JOIN Job_CashControlDoc d
+    ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
+    WHERE h.PRType='R' AND NOT EXISTS(
+select ControlNo from Job_CashControl
+where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
+    ) AND d.ControlNo IS NULL
+    GROUP BY h.BranchCode,h.ChqNo
+    ,h.BankCode,h.BankBranch
+) c
+ON a.BranchCode=c.BranchCode
+AND a.ChqNo=c.ChqNo AND a.BankCode=c.BankCode AND a.BankBranch=c.BankBranch 
+left join (
+	SELECT h.BranchCode,h.ChqNo
+    ,h.BankCode,h.BankBranch
+    ,SUM(d.PaidAmount) as UsedAmount,Max(d.DocNo) as DocUsed
+	FROM Job_CashControlDoc d INNER JOIN Job_CashControlSub h 
+    ON d.BranchCode=h.BranchCode AND d.ControlNo=h.ControlNo
+	WHERE NOT EXISTS(
+		select ControlNo from Job_CashControl
+		where BranchCode=d.BranchCode 
+		AND ControlNo=d.ControlNo 
+		AND ISNULL(CancelProve,'')<>''
+    )
+	GROUP BY h.BranchCode,h.ChqNo,h.BankCode,h.BankBranch
+) d
+on a.BranchCode=d.BranchCode
+    AND a.ChqNo=d.ChqNo AND a.BankCode=d.BankCode AND a.BankBranch=d.BankBranch 
+WHERE a.acType='CH'
+AND a.PRType='P' AND a.ChqAmount>0 AND ISNULL(a.ChqNo,'')<>'' 
+"
+            End If
+        Else
+            If pType = "CU" Then
+                Return "
+SELECT a.*,ISNULL(c.ChqUsed,0)+ISNULL(d.UsedAmount,0) AS AmountUsed,a.ChqAmount-(ISNULL(c.ChqUsed,0)+ISNULL(d.UsedAmount,0)) as AmountRemain,
+b.CustCode,b.CustBranch,b.VoucherDate,d.DocUsed,b.TRemark 
+FROM 
+(   
+    SELECT BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,RecvBank,RecvBranch,acType,PRType,
+    SUM(ChqAmount) as ChqAmount,MAX(BookCode) as BookCode
+    FROM Job_CashControlSub
+    GROUP BY BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,RecvBank,RecvBranch,acType,PRType
+) a INNER JOIN Job_CashControl b
+ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
+LEFT JOIN (
+    SELECT h.BranchCode,h.ChqNo,SUM(h.ChqAmount) as ChqUsed,
+    h.RecvBank,h.RecvBranch
+    FROM Job_CashControlSub h LEFT JOIN Job_CashControlDoc d
+    ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
+    WHERE h.PRType='P' AND NOT EXISTS(
+select ControlNo from Job_CashControl
+where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
+    ) AND d.ControlNo IS NULL
+    GROUP BY h.BranchCode,h.ChqNo
+    ,h.RecvBank,h.RecvBranch
+) c
+ON a.BranchCode=c.BranchCode
+AND a.ChqNo=c.ChqNo AND a.RecvBank=c.RecvBank AND a.RecvBranch=c.RecvBranch
+left join (
+	SELECT h.BranchCode,h.ChqNo
+    ,h.RecvBank,h.RecvBranch
+    ,SUM(d.PaidAmount) as UsedAmount,Max(d.DocNo) as DocUsed
+	FROM Job_CashControlDoc d INNER JOIN Job_CashControlSub h 
+    ON d.BranchCode=h.BranchCode AND d.ControlNo=h.ControlNo
+	WHERE NOT EXISTS(
+		select ControlNo from Job_CashControl
+		where BranchCode=d.BranchCode 
+		AND ControlNo=d.ControlNo 
+		AND ISNULL(CancelProve,'')<>''
+    )
+	GROUP BY h.BranchCode,h.ChqNo,h.RecvBank,h.RecvBranch
+) d
+on a.BranchCode=d.BranchCode
+    AND a.ChqNo=d.ChqNo AND a.RecvBank=d.RecvBank AND a.RecvBranch=d.RecvBranch 
+WHERE a.acType='CU'
+AND a.PRType='R' AND a.ChqAmount>0 AND ISNULL(a.ChqNo,'')<>'' 
+"
+            Else
+                Return "
+SELECT a.*,ISNULL(c.ChqUsed,0)+ISNULL(d.UsedAmount,0) AS AmountUsed,a.ChqAmount-(ISNULL(c.ChqUsed,0)+ISNULL(d.UsedAmount,0)) as AmountRemain,
+b.CustCode,b.CustBranch,b.VoucherDate,d.DocUsed,b.TRemark 
+FROM 
+(   
+    SELECT BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,BankCode,BankBranch,acType,PRType,
+    SUM(ChqAmount) as ChqAmount,MAX(BookCode) as BookCode
+    FROM Job_CashControlSub
+    GROUP BY BranchCode,ControlNo,ChqNo,ChqStatus,ChqDate,PayChqTo,BankCode,BankBranch,acType,PRType
+) a INNER JOIN Job_CashControl b
+ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
+LEFT JOIN (
+    SELECT h.BranchCode,h.ChqNo,SUM(h.ChqAmount) as ChqUsed,
+    h.BankCode,h.BankBranch
+    FROM Job_CashControlSub h LEFT JOIN Job_CashControlDoc d
+    ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
+    WHERE h.PRType='P' AND NOT EXISTS(
+select ControlNo from Job_CashControl
+where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
+    ) AND d.ControlNo IS NULL
+    GROUP BY h.BranchCode,h.ChqNo
+    ,h.BankCode,h.BankBranch
+) c
+ON a.BranchCode=c.BranchCode
+AND a.ChqNo=c.ChqNo AND a.BankCode=c.BankCode AND a.BankBranch=c.BankBranch
+left join (
+	SELECT h.BranchCode,h.ChqNo
+    ,h.BankCode,h.BankBranch
+    ,SUM(d.PaidAmount) as UsedAmount,Max(d.DocNo) as DocUsed
+	FROM Job_CashControlDoc d INNER JOIN Job_CashControlSub h 
+    ON d.BranchCode=h.BranchCode AND d.ControlNo=h.ControlNo
+	WHERE NOT EXISTS(
+		select ControlNo from Job_CashControl
+		where BranchCode=d.BranchCode 
+		AND ControlNo=d.ControlNo 
+		AND ISNULL(CancelProve,'')<>''
+    )
+	GROUP BY h.BranchCode,h.ChqNo,h.BankCode,h.BankBranch
+) d
+on a.BranchCode=d.BranchCode
+    AND a.ChqNo=d.ChqNo AND a.BankCode=d.BankCode AND a.BankBranch=d.BankBranch 
+WHERE a.acType='CH'
+AND a.PRType='R' AND a.ChqAmount>0 AND ISNULL(a.ChqNo,'')<>'' 
+"
+            End If
+        End If
     End Function
     Function SQLSelectDocumentBalance(pType As String, docType As String) As String
+        Dim val = GetValueConfig("SQL", "SelectDocumentBalance" & pType & docType)
+        If val.Length > 0 Then
+            Return val
+        End If
+
         If docType = "Credit" Then
-            Return "
+            If pType = "R" Then
+                Return "
 SELECT a.*,ISNULL(c.CreditUsed,0) AS AmountUsed,a.CreditAmount-ISNULL(c.CreditUsed,0) as AmountRemain,
 b.CustCode,b.CustBranch,b.VoucherDate
 FROM Job_CashControlSub a INNER JOIN Job_CashControl b
@@ -873,7 +1258,7 @@ LEFT JOIN (
     SELECT h.BranchCode,SUBSTRING(d.DocNo,0,CHARINDEX('#',d.DocNo)) as DocNo,SUM(d.PaidAmount) as CreditUsed    
     FROM Job_CashControlSub h INNER JOIN Job_CashControlDoc d
     ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
-    WHERE h.PRType='" & If(pType = "R", "P", "R") & "' AND NOT EXISTS(
+    WHERE h.PRType='P' AND NOT EXISTS(
 select ControlNo from Job_CashControl
 where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
     )
@@ -881,10 +1266,32 @@ where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'
 ) c
 ON a.BranchCode=c.BranchCode
 AND a.DocNo=c.DocNo 
-WHERE a.PRType='" & pType & "' AND a.CreditAmount>0 
+WHERE a.PRType='R' AND a.CreditAmount>0 
 "
+            Else
+                Return "
+SELECT a.*,ISNULL(c.CreditUsed,0) AS AmountUsed,a.CreditAmount-ISNULL(c.CreditUsed,0) as AmountRemain,
+b.CustCode,b.CustBranch,b.VoucherDate
+FROM Job_CashControlSub a INNER JOIN Job_CashControl b
+ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
+LEFT JOIN (
+    SELECT h.BranchCode,SUBSTRING(d.DocNo,0,CHARINDEX('#',d.DocNo)) as DocNo,SUM(d.PaidAmount) as CreditUsed    
+    FROM Job_CashControlSub h INNER JOIN Job_CashControlDoc d
+    ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
+    WHERE h.PRType='R' AND NOT EXISTS(
+select ControlNo from Job_CashControl
+where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
+    )
+    GROUP BY h.BranchCode,SUBSTRING(d.DocNo,0,CHARINDEX('#',d.DocNo))
+) c
+ON a.BranchCode=c.BranchCode
+AND a.DocNo=c.DocNo 
+WHERE a.PRType='P' AND a.CreditAmount>0 
+"
+            End If
         Else
-            Return "
+            If pType = "R" Then
+                Return "
 SELECT a.*,ISNULL(c.CreditUsed,0) AS AmountUsed,(a.CashAmount+a.ChqAmount)-ISNULL(c.CreditUsed,0) as AmountRemain,
 b.CustCode,b.CustBranch,b.VoucherDate
 FROM Job_CashControlSub a INNER JOIN Job_CashControl b
@@ -893,7 +1300,7 @@ LEFT JOIN (
     SELECT h.BranchCode,SUBSTRING(d.DocNo,0,CHARINDEX('#',d.DocNo)) as DocNo,SUM(d.PaidAmount) as CreditUsed    
     FROM Job_CashControlSub h INNER JOIN Job_CashControlDoc d
     ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
-    WHERE h.PRType='" & If(pType = "R", "P", "R") & "' AND NOT EXISTS(
+    WHERE h.PRType='P' AND NOT EXISTS(
 select ControlNo from Job_CashControl
 where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
     )
@@ -901,11 +1308,36 @@ where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'
 ) c
 ON a.BranchCode=c.BranchCode
 AND a.DocNo=c.DocNo 
-WHERE a.PRType='" & pType & "' AND (a.CashAmount+a.ChqAmount)>0 
+WHERE a.PRType='R' AND (a.CashAmount+a.ChqAmount)>0 
 "
+            Else
+                Return "
+SELECT a.*,ISNULL(c.CreditUsed,0) AS AmountUsed,(a.CashAmount+a.ChqAmount)-ISNULL(c.CreditUsed,0) as AmountRemain,
+b.CustCode,b.CustBranch,b.VoucherDate
+FROM Job_CashControlSub a INNER JOIN Job_CashControl b
+ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
+LEFT JOIN (
+    SELECT h.BranchCode,SUBSTRING(d.DocNo,0,CHARINDEX('#',d.DocNo)) as DocNo,SUM(d.PaidAmount) as CreditUsed    
+    FROM Job_CashControlSub h INNER JOIN Job_CashControlDoc d
+    ON h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
+    WHERE h.PRType='R' AND NOT EXISTS(
+select ControlNo from Job_CashControl
+where BranchCode=h.BranchCode AND ControlNo=h.ControlNo AND ISNULL(CancelProve,'')<>''
+    )
+    GROUP BY h.BranchCode,SUBSTRING(d.DocNo,0,CHARINDEX('#',d.DocNo))
+) c
+ON a.BranchCode=c.BranchCode
+AND a.DocNo=c.DocNo 
+WHERE a.PRType='P' AND (a.CashAmount+a.ChqAmount)>0 
+"
+            End If
         End If
     End Function
     Function SQLSelectJobReport() As String
+        Dim val = GetValueConfig("SQL", "SelectJobReport")
+        If val.Length > 0 Then
+            Return String.Format(val, jobmaster)
+        End If
         Return "
 select j.*,c2.JobStatusName,c1.JobTypeName,c3.ShipByName,
 u1.ManagerName,u2.CSName,u3.ShippingName,
@@ -936,6 +1368,10 @@ left join (select [Type],Description from " & jobmaster & ".dbo.Mas_RFDCT) m1 on
 "
     End Function
     Function SQLUpdateInvoiceHeader() As String
+        Dim val = GetValueConfig("SQL", "UpdateInvoiceHeader")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 update h
 set h.TotalAdvance=ROUND(d.TotalAdvance,2),
@@ -967,8 +1403,13 @@ and h.DocNo=d.DocNo
 "
     End Function
     Function SQLSelectClrForInvoice() As String
+        Dim val = GetValueConfig("SQL", "SelectClrForInvoice")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
-select b.BranchCode,b.LinkBillNo as DocNo,b.LinkItem as ItemNo,b.SICode,b.SDescription,b.SlipNO as ExpSlipNO,b.Remark as SRemark,b.CurrencyCode,
+select b.BranchCode,b.LinkBillNo as DocNo,b.LinkItem as ItemNo,b.SICode,b.SDescription,
+b.SlipNO as ExpSlipNO,b.Remark as SRemark,b.CurrencyCode,
 b.CurRate as ExchangeRate,b.Qty,b.UnitCode as QtyUnit,
 b.UsedAmount/b.Qty as UnitPrice,(b.UsedAmount/b.Qty)*b.CurRate as FUnitPrice,
 b.UsedAmount as Amt,
@@ -984,7 +1425,7 @@ b.ChargeVAT as AmtVat,
 CASE WHEN s.IsCredit=1 AND s.IsExpense=0  THEN b.UsedAmount+b.ChargeVAT ELSE 0 END as AmtAdvance,
 CASE WHEN s.IsCredit=0 AND s.IsExpense=0  THEN b.UsedAmount ELSE 0 END as AmtCharge,
 b.CurrencyCode as CurrencyCodeCredit,b.CurRate as ExchangeRateCredit,0 as AmtCredit,0 as FAmtCredit,b.VATRate,
-c.CustCode,c.CustBranch,
+a.CTN_NO,c.CustCode,c.CustBranch,
 b.JobNo,b.ClrNo,b.ItemNo as ClrItemNo,b.ClrNo+'/'+Convert(varchar,b.ItemNo) as ClrNoList,
 (CASE WHEN s.IsExpense=1 THEN b.UsedAmount ELSE 0 END) as AmtCost,
 (CASE WHEN s.IsCredit=1 THEN b.UsedAmount+b.ChargeVAT ELSE b.BNet END) as AmtNet
@@ -999,6 +1440,10 @@ and b.JobNo=c.JNo
 "
     End Function
     Function SQLSelectInvForBilling() As String
+        Dim val = GetValueConfig("SQL", "SelectInvForBilling")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT a.*,
 (CASE WHEN a.TotalIsTaxCharge>0 AND a.TotalCharge>a.TotalIsTaxCharge THEN a.TotalCharge-a.TotalIsTaxCharge ELSE (CASE WHEN a.TotalIsTaxCharge=0 THEN TotalCharge ELSE 0 END) END) as TotalNonVat
@@ -1035,13 +1480,28 @@ LEFT JOIN (
 ON a.BranchCode=b.BranchCode
 AND a.BillAcceptNo=b.BillAcceptNo
 "
+        Dim val = GetValueConfig("SQL", "UpdateBillHeader")
+        If val.Length > 0 Then
+            sql = val
+        End If
         Return sql & If(billno <> "" And branch <> "", String.Format(" WHERE a.BranchCode='{0}' AND a.BillAcceptNo='{1}' ", branch, billno), "")
     End Function
     Function SQLUpdateBillToInv(branch As String, billno As String, Optional iscancel As Boolean = False) As String
+        If iscancel Then
+            Dim val = GetValueConfig("SQL", "UpdateBillCancelToInv")
+            If val.Length > 0 Then
+                Return String.Format(val, branch, billno)
+            End If
+        Else
+            Dim val = GetValueConfig("SQL", "UpdateBillToInv")
+            If val.Length > 0 Then
+                Return String.Format(val, branch, billno)
+            End If
+        End If
         Dim sql As String = "UPDATE a"
         If iscancel Then
-            sql &= " SET a.BillAcceptNo=null,a.BillIssueDate=null,a.BillAcceptDate=null,"
-            sql &= " a.BillToCustCode=null,a.BillToCustBranch=null"
+            sql &= " SET a.BillAcceptNo=null,a.BillIssueDate=null,a.BillAcceptDate=null"
+            sql &= " ,a.BillToCustCode=null,a.BillToCustBranch=null"
             sql &= " FROM Job_InvoiceHeader a "
             sql &= " WHERE a.BranchCode='{0}' AND a.BillAcceptNo='{1}' "
         Else
@@ -1054,6 +1514,10 @@ AND a.BillAcceptNo=b.BillAcceptNo
     End Function
     Function SQLUpdateJobStatus(sqlwhere As String) As String
         Dim today = DateTime.Today.ToString("yyyy-MM-dd")
+        Dim val = GetValueConfig("SQL", "UpdateJobStatus")
+        If val.Length > 0 Then
+            Return String.Format(val, today, sqlwhere)
+        End If
         Dim sql As String = "
 UPDATE j
 SET j.JobStatus=c.JobStatus
@@ -1066,15 +1530,19 @@ AND JobStatus<>99 AND NOT ISNULL(CancelReson,'')<>''
 UNION
 SELECT BranchCode,JNo,1 FROM Job_Order 
 WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate IS NULL
-AND JobStatus<>1 AND NOT ISNULL(CancelReson,'')<>''
+AND NOT ISNULL(CancelReson,'')<>''
 UNION
 SELECT BranchCode,JNo,1 FROM Job_Order 
-WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND NOT DutyDate<=Convert(datetime,'" & today & "',102)
-AND JobStatus<>1 AND NOT ISNULL(CancelReson,'')<>''
+WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate>Convert(datetime,'" & today & "',102)
+AND NOT ISNULL(CancelReson,'')<>''
 UNION
 SELECT BranchCode,JNo,2 FROM Job_Order 
 WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate<=Convert(datetime,'" & today & "',102)
-AND JobStatus<>2 AND NOT ISNULL(CancelReson,'')<>'' 
+AND NOT ISNULL(CancelReson,'')<>'' 
+UNION
+SELECT BranchCode,JNo,2 FROM Job_Order 
+WHERE EXISTS(SELECT DISTINCT b.ForJNo FROM Job_AdvHeader a INNER JOIN Job_AdvDetail b ON a.BranchCode=b.BranchCode AND a.AdvNo=b.AdvNo WHERE b.ForJNo=Job_Order.JNo AND a.DocStatus<>99)
+AND NOT ISNULL(CancelReson,'')<>'' 
 UNION
 SELECT BranchCode,JNo,3 FROM Job_Order 
 WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NOT NULL
@@ -1193,10 +1661,10 @@ WHERE NOT EXISTS (
       COUNT(*) as TotalDoc
       FROM Job_ClearDetail b INNER JOIN Job_ClearHeader h
       ON b.BranchCode=h.BranchCode AND b.ClrNo=h.ClrNo
+	  INNER JOIN Job_SrvSingle s ON b.SICode=s.SICode	 
       WHERE b.BranchCode=a.BranchCode AND b.JobNo=a.JNo
-      AND h.DocStatus<>99  AND b.BNet>0 
+      AND h.DocStatus<>99  AND b.BNet>0 AND s.IsExpense=0
       GROUP BY b.BranchCode,b.JobNo
-      HAVING COUNT(*)=SUM(CASE WHEN ISNULL(b.LinkBillNo,'')<>'' THEN 1 ELSE 0 END)
 )
 AND a.JobStatus=6 AND NOT ISNULL(a.CancelReson,'')<>''
     ) s
@@ -1209,7 +1677,13 @@ WHERE j.JobStatus<> c.JobStatus
 "
         Return String.Format(sql, sqlwhere)
     End Function
+
     Function SQLSelectInvSummary(pSqlw As String) As String
+        Dim val = GetValueConfig("SQL", "SelectInvSummary")
+        If val.Length > 0 Then
+            Return String.Format(val, pSqlw)
+        End If
+
         Dim sqlGroup As String = "
 h.BranchCode,h.DocNo,h.Docdate,h.CustCode,h.CustBranch,h.CustTName,h.CustEName,
 h.BillToCustCode,h.BillToCustBranch,h.BillTName,h.BillEName,h.ContactName,h.EmpCode,
@@ -1235,6 +1709,10 @@ GROUP BY " & sqlGroup
         Return sql
     End Function
     Function SQLSelectInvReport(Optional psqlW As String = "") As String
+        Dim val = GetValueConfig("SQL", "SelectInvReport")
+        If val.Length > 0 Then
+            Return String.Format(val, psqlW)
+        End If
         Dim sql As String = "
 select ih.*,id.ItemNo,id.SICode,id.SDescription,id.ExpSlipNO,id.SRemark,
 id.Amt,id.AmtDiscount,id.AmtCredit,
@@ -1277,6 +1755,18 @@ where ISNULL(ih.CancelProve,'')='' {0}
         Return String.Format(sql, psqlW)
     End Function
     Function SQLSelectInvForReceive(bHasVoucher As Boolean) As String
+        If bHasVoucher = True Then
+            Dim val = GetValueConfig("SQL", "SelectInvForReceive")
+            If val.Length > 0 Then
+                Return val
+            End If
+        Else
+            Dim val = GetValueConfig("SQL", "SelectInvForReceiveAll")
+            If val.Length > 0 Then
+                Return val
+            End If
+        End If
+
         Dim amtSQL As String = "(id.Amt-ISNULL(id.AmtDiscount,0)-ISNULL(r.ReceivedAmt,0)-ISNULL(c.CreditAmt,0))"
         Dim vatSQL As String = "(id.AmtVat-ISNULL(r.ReceivedVat,0)-ISNULL(c.CreditVat,0))"
         Dim whtSQL As String = "(id.Amt50Tavi-ISNULL(r.ReceivedWht,0)-ISNULL(c.CreditWht,0))"
@@ -1330,6 +1820,15 @@ on id.BranchCode=c.BranchCode AND id.DocNo=c.BillingNo AND id.ItemNo=c.BillItemN
 
     End Function
     Function SQLSelectInvByReceive(pRcpNo As String, pNoVoucher As Boolean) As String
+        Dim whereC = "
+    " & If(pRcpNo <> "", " AND rh.ReceiptNo='" & pRcpNo & "' ", "") & "
+    " & If(pNoVoucher, " AND ISNULL(rd.ControlNo,'')=''", "") & "
+"
+        Dim val = GetValueConfig("SQL", "SelectInvByReceive")
+        If val.Length > 0 Then
+            Return String.Format(val, whereC)
+        End If
+
         Return "
 select id.BranchCode,r.ReceiptNo,
 r.ReceiptItemNo as ItemNo,r.CreditAmount,
@@ -1365,9 +1864,7 @@ inner join (
     rd.ItemNo as ReceiptItemNo,rd.ControlNo,rd.ControlItemNo,rd.VoucherNo
 	from Job_ReceiptDetail rd inner join Job_ReceiptHeader rh
 	on rd.BranchCode=rh.BranchCode AND rd.ReceiptNo=rh.ReceiptNo
-	WHERE ISNULL(rh.CancelProve,'')='' 
-    " & If(pRcpNo <> "", " AND rh.ReceiptNo='" & pRcpNo & "' ", "") & "
-    " & If(pNoVoucher, " AND ISNULL(rd.ControlNo,'')=''", "") & "
+	WHERE ISNULL(rh.CancelProve,'')='' " & whereC & "
 ) r
 on id.BranchCode=r.BranchCode AND id.DocNo=r.InvoiceNo AND id.ItemNo=r.InvoiceItemNo
 "
@@ -1393,21 +1890,25 @@ FROM Job_InvoiceHeader ih INNER JOIN Job_InvoiceDetail id ON ih.BranchCode=id.Br
 INNER JOIN Job_ClearDetail cd ON id.BranchCode=cd.BranchCode AND id.DocNo=cd.LinkBillNo AND id.ItemNo=cd.LinkItem
 WHERE cd.BranchCode='{0}' AND cd.JobNo='{1}' 
 UNION
-select ch.ChqDate,ch.ChqNo,'CHQ' as DocType,Convert(varchar,ch.ChqAmount) +' '+ ch.CurrencyCode +' REF# '+ch.PRVoucher as Descr,SUM(ISNULL(cd.PaidAmount,0)) as Amount,
+select ch.ChqDate,vc.ControlNo,'CHQ' as DocType,ch.PRVoucher+' NO.'+ch.ChqNo as Descr,ch.ChqAmount as Amount,
 (CASE WHEN ISNULL(vc.PostedBy,'')<>'' THEN 'POSTED' ELSE (CASE WHEN vc.CancelProve<>'' THEN 'CANCEL' ELSE 'ACTIVE' END) END) as DocStatus,ch.ItemNo
 ,(CASE WHEN ISNULL(vc.CancelProve,'')<>'' THEN 1 ELSE 0 END) as IsCancel
 FROM Job_CashControlSub ch INNER JOIN Job_CashControl vc ON ch.BranchCode=vc.BranchCode AND ch.ControlNo=vc.ControlNo
 LEFT JOIN Job_CashControlDoc cd ON ch.BranchCode=cd.BranchCode AND ch.ControlNo=cd.ControlNo AND ch.acType=cd.acType
-WHERE ch.BranchCode='{0}' AND ch.ForJNo='{1}'
-GROUP BY ch.ChqDate,ch.ChqNo,ch.ChqAmount,ch.PRVoucher,vc.PostedBy,vc.CancelProve,ch.CurrencyCode,ch.ItemNo
+WHERE ch.BranchCode='{0}' AND ch.ForJNo='{1}' AND ch.ChqAmount>0 
+GROUP BY ch.ChqDate,ch.ChqNo,ch.ChqAmount,ch.PRVoucher,vc.ControlNo,vc.PostedBy,vc.CancelProve,ch.CurrencyCode,ch.ItemNo
 UNION
-select rh.ReceiptDate,rh.ReceiptNo,'RCV' as DocType,rd.SDescription +' INV#' + rd.InvoiceNo as Descr,cd.BNet as Amount,
+select rh.ReceiptDate,rh.ReceiptNo,(CASE WHEN rh.ReceiptType='TAX' THEN 'TAX' ELSE 'RCV' END) as DocType,rd.SDescription +' INV#' + rd.InvoiceNo as Descr,cd.BNet as Amount,
 (CASE WHEN rh.CancelProve<>'' THEN 'CANCEL' ELSE (CASE WHEN ISNULL(rd.ControlNo,'')<>'' THEN 'RECEIVED' ELSE 'ACTIVE' END) END) as DocStatus,rd.ItemNo
 ,(CASE WHEN ISNULL(rh.CancelProve,'')<>'' THEN 1 ELSE 0 END) as IsCancel
 FROM Job_ReceiptHeader rh INNER JOIN Job_ReceiptDetail rd ON rh.BranchCode=rd.BranchCode AND rh.ReceiptNo=rd.ReceiptNo
 INNER JOIN Job_ClearDetail cd ON rd.InvoiceNo=cd.LinkBillNo AND rd.InvoiceItemNo=cd.LinkItem
 WHERE cd.BranchCode='{0}' AND cd.JobNo='{1}'
 "
+        Dim val = GetValueConfig("SQL", "SelectDocumentByJob")
+        If val.Length > 0 Then
+            sql = val
+        End If
         Return String.Format(sql, branch, job)
     End Function
     Function SQLSelectSumReceipt(sqlw As String) As String
@@ -1427,6 +1928,10 @@ WHERE (ISNULL(dbo.Job_InvoiceHeader.CancelProve, '') = '') AND (ISNULL(dbo.Job_R
 GROUP BY dbo.Job_Order.BranchCode, dbo.Job_Order.JNo, dbo.Job_Order.InvNo, dbo.Job_Order.CustCode, dbo.Job_Order.ManagerCode, dbo.Job_Order.CSCode, dbo.Job_Order.Commission, 
  dbo.Job_ReceiptDetail.InvoiceNo, dbo.Job_ReceiptDetail.ReceiptNo
 "
+        Dim val = GetValueConfig("SQL", "SelectSumReceipt")
+        If val.Length > 0 Then
+            sql = val
+        End If
         Return String.Format(sql, sqlw)
     End Function
     Function SQLSelectReceiptSummaryByInv(sqlW As String) As String
@@ -1436,7 +1941,10 @@ rh.CustCode,rh.CustBranch,rh.BillToCustCode,rh.BillToCustBranch,
 c1.Title + ' '+ c1.NameThai as CustTName,c1.NameEng as CustEName,c1.TAddress1+' '+c1.TAddress2 as CustTAddr,c1.EAddress1+' '+c1.EAddress2 as CustEAddr,c1.Phone as CustPhone,c1.TaxNumber as CustTaxID,
 c2.Title + ' '+ c2.NameThai as BillTName,c2.NameEng as BillEName,c2.TAddress1+' '+c2.TAddress2 as BillTAddr,c2.EAddress1+' '+c2.EAddress2 as BillEAddr,c2.Phone as BillPhone,c2.TaxNumber as BillTaxID,
 rd.InvoiceNo,ih.DocDate as InvoiceDate,ih.BillAcceptNo,ih.BillIssueDate,ih.BillAcceptDate,ih.RefNo,
-Sum(id.AmtCharge) as AmtCharge,Sum(id.AmtAdvance) as AmtAdvance,Sum(id.Amt-id.AmtDiscount) as InvAmt,Sum(id.AmtVat) as InvVAT,Sum(id.Amt50Tavi) as Inv50Tavi,Sum(id.TotalAmt) as InvTotal,
+Sum(id.AmtCharge) as AmtCharge,Sum(id.AmtAdvance) as AmtAdvance,Sum(id.Amt-id.AmtDiscount) as InvAmt,
+Sum(CASE WHEN id.AmtCharge >0 THEN id.AmtVat ELSE 0 END) as InvVAT,
+Sum(CASE WHEN id.AmtCharge >0 THEN id.Amt50Tavi ELSE 0 END) as Inv50Tavi,
+Sum(id.TotalAmt) as InvTotal,
 (SELECT STUFF((
     SELECT DISTINCT ',' + JobNo
     FROM Job_ClearDetail WHERE BranchCode=ih.BranchCode
@@ -1455,8 +1963,11 @@ FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
     AND LinkBillNo=ih.DocNo 
 FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
 )) as AdvNo,
-Sum(rd.Amt) as Amt,Sum(rd.FAmt) as FAmt,Sum(rd.AmtVAT) as AmtVAT,Sum(rd.FAmtVAT) as FAmtVAT,
-Sum(rd.Amt50Tavi) as Amt50Tavi,Sum(rd.FAmt50Tavi) as FAmt50Tavi,Sum(rd.Net) as Net,Sum(rd.FNet) as FNet,
+Sum(rd.Amt) as Amt,Sum(rd.FAmt) as FAmt,Sum(CASE WHEN id.AmtCharge >0 THEN rd.AmtVAT ELSE 0 END) as AmtVAT,
+Sum(CASE WHEN id.AmtCharge>0 THEN rd.FAmtVAT ELSE 0 END) as FAmtVAT,
+Sum(CASE WHEN id.AmtCharge>0 THEN rd.Amt50Tavi ELSE 0 END) as Amt50Tavi,
+Sum(CASE WHEN id.AmtCharge>0 THEN rd.FAmt50Tavi ELSE 0 END) as FAmt50Tavi,
+Sum(rd.Net) as Net,Sum(rd.FNet) as FNet,
 Max(rd.ControlNo) as ControlNo,Max(vd.ChqNo) as ChqNo,Max(vd.ChqDate) as ChqDate,Max(vd.PRVoucher) as PRVoucher
 FROM Job_ReceiptHeader rh INNER JOIN Job_ReceiptDetail rd ON rh.BranchCode=rd.BranchCode AND rh.ReceiptNo=rd.ReceiptNo
 INNER JOIN Job_InvoiceDetail id ON rd.BranchCode=id.BranchCode AND rd.InvoiceNo=id.DocNo AND rd.InvoiceItemNo=id.ItemNo
@@ -1470,9 +1981,17 @@ c1.Title , c1.NameThai,c1.NameEng,c1.TAddress1,c1.TAddress2,c1.EAddress1,c1.EAdd
 c2.Title , c2.NameThai,c2.NameEng,c2.TAddress1,c2.TAddress2,c2.EAddress1,c2.EAddress2,c2.Phone,c2.TaxNumber,
 rd.InvoiceNo,ih.DocDate,ih.BillAcceptNo,ih.BillIssueDate,ih.BillAcceptDate,rh.CustCode,rh.CustBranch,rh.BillToCustCode,rh.BillToCustBranch,ih.RefNo
 "
+        Dim val = GetValueConfig("SQL", "SelectReceiptSummaryByInv")
+        If val.Length > 0 Then
+            sql = val
+        End If
         Return String.Format(sql, sqlW)
     End Function
     Function SQLSelectReceiptReport() As String
+        Dim val = GetValueConfig("SQL", "SelectReceiptReport")
+        If val.Length > 0 Then
+            Return val
+        End If
         Dim sql As String = "
 SELECT rh.*,c1.UsedLanguage,
 c1.Title + ' '+ c1.NameThai as CustTName,c1.NameEng as CustEName,c1.TAddress1+' '+c1.TAddress2 as CustTAddr,c1.EAddress1+' '+c1.EAddress2 as CustEAddr,c1.Phone as CustPhone,c1.TaxNumber as CustTaxID,
@@ -1521,6 +2040,10 @@ SUBSTRING(a.DocNo,CHARINDEX('#',a.DocNo)+1,4)
         Return sql
     End Function
     Function SQLSelectServiceBudget() As String
+        Dim val = GetValueConfig("SQL", "SelectServiceBudget")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT a.*,b.ID,b.TRemark,b.MaxAdvance,b.MaxCost,b.MinCharge,b.MinProfit,b.Active,b.LastUpdate,b.UpdateBy
 FROM Job_SrvSingle a LEFT JOIN Job_BudgetPolicy b
@@ -1528,6 +2051,10 @@ ON a.SICode=b.SICode
 "
     End Function
     Function SQLSelectQuotation() As String
+        Dim val = GetValueConfig("SQL", "SelectQuotation")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT dbo.Job_QuotationHeader.BranchCode, dbo.Job_QuotationHeader.QNo, dbo.Job_QuotationHeader.ReferQNo, dbo.Job_QuotationHeader.CustCode, 
     dbo.Job_QuotationHeader.CustBranch, dbo.Job_QuotationHeader.BillToCustCode, dbo.Job_QuotationHeader.BillToCustBranch, 
@@ -1550,6 +2077,10 @@ FROM dbo.Job_QuotationHeader INNER JOIN
 "
     End Function
     Function SQLSelectPaymentSummary() As String
+        Dim val = GetValueConfig("SQL", "SelectPaymentSummary")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT h.BranchCode, h.DocNo, h.DocDate, h.VenCode, v.TaxNumber, v.TName, v.English, v.TAddress1, v.TAddress2, v.EAddress1, v.EAddress2, v.Phone, v.FaxNumber, 
 v.GLAccountCode, v.ContactAcc, v.ContactSale, v.ContactSupport1, v.ContactSupport2, v.ContactSupport3, v.WEB_SITE, h.ContactName, h.EmpCode, h.PoNo, h.ApproveBy ,h.ApproveDate,
@@ -1571,6 +2102,10 @@ d.ForJNo, d.BookingRefNo, d.BookingItemNo , h.AdvRef , j.CustCode,j.CustBranch
 "
     End Function
     Function SQLSelectPaymentReport() As String
+        Dim val = GetValueConfig("SQL", "SelectPaymentReport")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT h.BranchCode, h.DocNo, h.DocDate, h.VenCode, v.TaxNumber, v.TName, v.English, v.TAddress1, v.TAddress2, v.EAddress1, v.EAddress2, v.Phone, v.FaxNumber, 
 v.GLAccountCode, v.ContactAcc, v.ContactSale, v.ContactSupport1, v.ContactSupport2, v.ContactSupport3, v.WEB_SITE, h.ContactName, h.EmpCode, h.PoNo, h.ApproveBy ,h.ApproveDate,
@@ -1582,147 +2117,6 @@ dbo.Mas_Vender AS v ON h.VenCode = v.VenCode LEFT OUTER JOIN
 dbo.Job_PaymentDetail AS d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
 LEFT JOIN dbo.Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
 "
-    End Function
-    Function GetJobPrefix(data As CJobOrder) As String
-        Dim formatStr As String = GetValueConfig("RUNNING_FORMAT", "JOBNO", jobPrefix)
-        Dim jobType As String = GetValueConfig("JOB_TYPE", data.JobType.ToString("00"))
-        Dim shipBy As String = GetValueConfig("SHIP_BY", data.ShipBy.ToString("00"))
-        Dim Customer As String = data.CustCode
-        If jobType <> "" Then formatStr = formatStr.Replace("[J]", jobType.Substring(0, 1))
-        If shipBy <> "" Then formatStr = formatStr.Replace("[S]", shipBy.Substring(0, 1))
-        If Customer <> "" Then formatStr = formatStr.Replace("[C]", Customer.Substring(0, 3))
-        Return formatStr
-    End Function
-    Function SaveLog(cust As String, app As String, modl As String, action As String, msg As String, isError As Boolean, Optional StackTrace As String = "", Optional JsonData As String = "") As String
-        Dim isSaveLog = "Y"
-        If GetSession("ConnJob") <> "" Then
-            isSaveLog = Main.GetValueConfig("PROFILE", "SAVE_LOG", "Y")
-        End If
-        If isSaveLog = "N" Then
-            Return "Save Log Is not activated"
-        Else
-            Try
-                Dim clientIP = HttpContext.Current.Request.UserHostAddress
-                Dim userLogin = GetSession("CurrUser").ToString()
-                Dim sessionID = HttpContext.Current.Session.SessionID
-                Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
-                Dim oLog As New CLog(cnMas) With {
-                    .AppID = app & "(" & sessionID & ")",
-                    .CustID = cust & "/" & userLogin,
-                    .FromIP = clientIP,
-                    .ModuleName = modl,
-                    .LogAction = action,
-                    .Message = msg,
-                    .StackTrace = StackTrace,
-                    .JsonData = JsonData,
-                    .IsError = isError
-                }
-                Return oLog.SaveData(" WHERE LogID=0 ")
-            Catch ex As Exception
-                Dim str = "[ERROR] : " & ex.Message
-                Return str
-            End Try
-        End If
-    End Function
-    Function SaveLogFromObject(cust As String, app As String, modl As String, action As String, obj As Object, IsError As Boolean, Optional StackTrace As String = "") As String
-        Dim isSaveLog = "Y"
-        If GetSession("ConnJob") <> "" Then
-            isSaveLog = Main.GetValueConfig("PROFILE", "SAVE_LOG", "Y")
-        End If
-        If isSaveLog = "N" Then
-            Return "Save log is Not activated"
-        Else
-            Try
-                Dim clientIP = HttpContext.Current.Request.UserHostAddress
-                Dim userLogin = GetSession("CurrUser").ToString()
-                Dim sessionID = HttpContext.Current.Session.SessionID
-                Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
-                Dim oLog As New CLog(cnMas) With {
-                    .AppID = app & "(" & SessionId & ")",
-                    .CustID = cust & "/" & userLogin,
-                    .FromIP = clientIP,
-                    .ModuleName = modl,
-                    .LogAction = action,
-                    .Message = If(IsError = True, "ERROR", "SUCCESS"),
-                    .JsonData = JsonConvert.SerializeObject(obj),
-                    .StackTrace = StackTrace,
-                    .IsError = IsError
-                }
-                Return oLog.SaveData(" WHERE LogID=0 ")
-            Catch ex As Exception
-                Main.SaveLog(cust, app, modl, "SaveLogFromObject", ex.Message, True, ex.StackTrace, "")
-                Dim str = "[ERROR] : " & ex.Message
-                Return str
-            End Try
-        End If
-    End Function
-    Function GetDatabaseList(pCustomer As String, pApp As String) As List(Of String)
-        Dim db = New List(Of String)
-        Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
-        Try
-            Dim tb = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT * FROM TWTCustomerApp WHERE CustID='{0}' AND AppID='{1}' ", pCustomer, pApp))
-            If tb.Rows.Count > 0 Then
-                For Each dr As DataRow In tb.Rows
-                    db.Add(dr("WebTranDB").ToString())
-                Next
-            End If
-        Catch ex As Exception
-
-        End Try
-        Return db
-    End Function
-    Function GetDatabaseProfile(pCustomer As String) As DataTable
-        Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
-        Dim tb = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT * FROM TWTCustomer WHERE CustID='{0}' ", pCustomer))
-        Return tb
-    End Function
-    Function GetApplicationProfile(pCustomer As String) As DataTable
-        Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
-        Dim tb = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT a.*,b.SubscriptionName,b.Edition,b.BeginDate,b.ExpireDate,b.LoginCount FROM TWTCustomerApp a INNER JOIN TWTSubscription b ON a.SubscriptionID=b.SubScriptionID WHERE a.CustID='{0}' AND a.AppID='JOBSHIPPING' ", pCustomer))
-        Return tb
-    End Function
-    Function GetDatabaseConnection(pCustomer As String, pApp As String, pSeq As String) As String()
-        Dim db = New String() {"", ""}
-        Try
-            Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
-            Using tb As DataTable = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT * FROM TWTCustomerApp WHERE CustID='{0}' AND AppID='{1}' AND Seq='{2}'", pCustomer, pApp, pSeq))
-                If tb.Rows.Count > 0 Then
-                    db = New String() {tb.Rows(0)("WebTranConnect").ToString, tb.Rows(0)("WebMasConnect").ToString}
-                    jobmaster = tb.Rows(0)("WebMasDB").ToString()
-                End If
-            End Using
-        Catch ex As Exception
-
-        End Try
-        Return db
-    End Function
-    Function SetDatabaseMaster(pDBName As String) As Boolean
-        Try
-            Dim bChk As Boolean = False
-            Using cn As New SqlConnection(pDBName)
-                cn.Open()
-                bChk = (cn.State = ConnectionState.Open)
-                Return bChk
-            End Using
-            Return True
-        Catch ex As Exception
-            Main.SaveLog(My.Settings.LicenseTo, "JOBSHIPPING", "SetDataBaseMaster", "OpenConnection", ex.Message, True, ex.StackTrace, pDBName)
-            Return False
-        End Try
-    End Function
-    Function SetDatabaseJob(pDBName As String) As Boolean
-        Try
-            Dim bChk As Boolean = False
-            Using cn As New SqlConnection(pDBName)
-                cn.Open()
-                bChk = (cn.State = ConnectionState.Open)
-                Return bChk
-            End Using
-            Return True
-        Catch ex As Exception
-            Main.SaveLog(My.Settings.LicenseTo, "JOBSHIPPING", "SetDataBaseJob", "OpenConnection", ex.Message, True, ex.StackTrace, pDBName)
-            Return False
-        End Try
     End Function
     Public Function SQLSelectJobCount(tsqlW As String, tGroup As String) As String
         Dim oCfg = Main.GetDataConfig("JOB_STATUS")
@@ -1836,21 +2230,30 @@ GROUP BY j.JobStatus
         Return sql
     End Function
     Public Function SQLSelectClearExp() As String
+        Dim val = GetValueConfig("SQL", "SelectClearExp")
+        If val.Length > 0 Then
+            Return val
+        End If
         Dim sql = "
 SELECT a.BranchCode,a.JNo,a.SICode,a.SDescription,a.TRemark,a.AmountCharge,a.Status,
 a.CurrencyCode,a.ExchangeRate,a.Qty,a.QtyUnit,a.AmtVatRate,a.AmtVat,a.AmtWhtRate,a.AmtWht,
-a.AmtTotal,b.ClrNo,b.CostAmount,b.ChargeAmount
+a.AmtTotal,b.ClrNo,b.CostAmount,b.ChargeAmount,s.IsCredit,s.IsTaxCharge,s.IsExpense,s.DefaultVender as VenderCode
 FROM dbo.Job_ClearExp a
 LEFT JOIN (
-SELECT BranchCode,JobNo,SICode,SUM(BCost) as CostAmount,SUM(BPrice) as ChargeAmount,Max(ClrNo) as ClrNo
+SELECT BranchCode,JobNo,SICode,SUM(UsedAmount+ChargeVAT-Tax50Tavi) as CostAmount,SUM(CASE WHEN BPrice>0 THEN UsedAmount+ChargeVAT-Tax50Tavi ELSE 0 END) as ChargeAmount,Max(ClrNo) as ClrNo
 FROM dbo.Job_ClearDetail WHERE ClrNo NOT IN (SELECT ClrNo FROM Job_ClearHeader WHERE DocStatus=99)
 GROUP BY BranchCode,JobNo,SICode
 ) b
-ON a.BranchCode=b.BranchCode AND a.JNo=b.JobNo AND a.SICode=b.SICode
+ON a.BranchCode=b.BranchCode AND a.JNo=b.JobNo AND a.SICode=b.SICode 
+inner join Job_SrvSingle s ON a.SICode=s.SIcode
 "
         Return sql
     End Function
     Public Function SQLSelectTrackingCount(tSqlW As String) As String
+        Dim val = GetValueConfig("SQL", "SelectTrackingCount")
+        If val.Length > 0 Then
+            Return String.Format(val, tSqlW)
+        End If
         Dim sql As String = "
 SELECT t.JobStatus,COUNT(DISTINCT t.JNo) AS TotalJob FROM (" & SQLSelectTracking(tSqlW) & ") as t GROUP BY t.JobStatus 
 "
@@ -1919,6 +2322,10 @@ dbo.Job_Order.JNo = dbo.Job_LoadInfoDetail.JNo AND dbo.Job_Order.BranchCode = db
 dbo.Mas_Company.Branch = dbo.Job_Order.CustBranch AND dbo.Mas_Company.CustCode = dbo.Job_Order.CustCode
 WHERE (dbo.Job_Order.JobStatus < '90') {0}
 "
+        Dim val = GetValueConfig("SQL", "SelectTracking")
+        If val.Length > 0 Then
+            sql = val
+        End If
         Return String.Format(sql, tsqlW)
     End Function
     Public Function SQLSelectTransport(tsqlW As String) As String
@@ -1937,7 +2344,12 @@ dbo.Job_LoadInfoDetail.TargetYardTime, dbo.Job_LoadInfoDetail.ActualYardDate, db
 dbo.Job_LoadInfoDetail.UnloadFinishDate, dbo.Job_LoadInfoDetail.UnloadFinishTime, dbo.Job_LoadInfoDetail.UnloadDate, dbo.Job_LoadInfoDetail.UnloadTime, 
 dbo.Job_LoadInfoDetail.LocationID, dbo.Job_LoadInfoDetail.Location, dbo.Job_LoadInfoDetail.ReturnDate AS TruckReturnDate, dbo.Job_LoadInfoDetail.ShippingMark, 
 dbo.Job_LoadInfoDetail.ProductDesc, dbo.Job_LoadInfoDetail.CTN_SIZE, dbo.Job_LoadInfoDetail.ProductQty, dbo.Job_LoadInfoDetail.ProductUnit,dbo.Job_LoadInfoDetail.NetWeight,dbo.Job_LoadInfoDetail.ProductPrice, 
-dbo.Job_LoadInfoDetail.GrossWeight, dbo.Job_LoadInfoDetail.Measurement, dbo.Job_Order.DocDate, dbo.Job_Order.CustCode, dbo.Job_Order.CustBranch, 
+dbo.Job_LoadInfoDetail.GrossWeight, dbo.Job_LoadInfoDetail.Measurement,
+dbo.Job_LoadInfoDetail.PlaceName1,dbo.Job_LoadInfoDetail.PlaceAddress1,dbo.Job_LoadInfoDetail.PlaceContact1, 
+dbo.Job_LoadInfoDetail.PlaceName2,dbo.Job_LoadInfoDetail.PlaceAddress2,dbo.Job_LoadInfoDetail.PlaceContact2,
+dbo.Job_LoadInfoDetail.PlaceName3,dbo.Job_LoadInfoDetail.PlaceAddress3,dbo.Job_LoadInfoDetail.PlaceContact3,
+dbo.Job_LoadInfoDetail.PlaceName4,dbo.Job_LoadInfoDetail.PlaceAddress4,dbo.Job_LoadInfoDetail.PlaceContact4,
+dbo.Job_Order.DocDate, dbo.Job_Order.CustCode, dbo.Job_Order.CustBranch, 
 dbo.Job_Order.CustContactName, dbo.Job_Order.QNo, dbo.Job_Order.Revise, dbo.Job_Order.ManagerCode, dbo.Job_Order.CSCode, dbo.Job_Order.Description, 
 dbo.Job_Order.TRemark, dbo.Job_Order.JobStatus, dbo.Job_Order.JobType, dbo.Job_Order.ShipBy, dbo.Job_Order.InvNo, dbo.Job_Order.InvTotal, 
 dbo.Job_Order.InvProduct, dbo.Job_Order.InvCountry, dbo.Job_Order.InvFCountry, dbo.Job_Order.InvInterPort, dbo.Job_Order.InvProductQty, 
@@ -1964,9 +2376,17 @@ ON dbo.Mas_Company.Branch = dbo.Job_Order.CustBranch AND
 dbo.Mas_Company.CustCode = dbo.Job_Order.CustCode
 WHERE (dbo.Job_LoadInfo.BookingNo <> '') {0}
 "
+        Dim val = GetValueConfig("SQL", "SelectTransport")
+        If val.Length > 0 Then
+            sql = val
+        End If
         Return String.Format(sql, tsqlW)
     End Function
     Function SQLUpdateGLHeader() As String
+        Dim val = GetValueConfig("SQL", "UpdateGLHeader")
+        If val.Length > 0 Then
+            Return val
+        End If
         Dim sql As String = "
 UPDATE a
 SET a.TotalDebit=ISNULL(b.SumDebit,0),
@@ -1980,6 +2400,10 @@ ON a.BranchCode=b.BranchCode AND a.GLRefNo=b.GLRefNo
         Return sql
     End Function
     Function SQLSelectRoleAll() As String
+        Dim val = GetValueConfig("SQL", "SelectRoleAll")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT a.UserID,SUBSTRING(b.ModuleID,1,CHARINDEX('/',b.ModuleID)-1) as ModuleCode,
 SUBSTRING(b.ModuleID,CHARINDEX('/',b.ModuleID)+1,50) as ModuleFunc,
@@ -1996,6 +2420,10 @@ GROUP BY a.UserID,b.ModuleID
 "
     End Function
     Function SQLSelectBillDetail() As String
+        Dim val = GetValueConfig("SQL", "SelectBillDetail")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT a.BranchCode, a.BillAcceptNo, a.ItemNo, a.InvNo, a.AmtAdvance, a.AmtChargeNonVAT, a.AmtChargeVAT, a.AmtWH, a.AmtVAT, a.AmtTotal, a.CurrencyCode, 
 a.ExchangeRate, a.AmtCustAdvance, a.AmtForeign, a.InvDate, a.RefNo, a.AmtVATRate, a.AmtWHRate, a.AmtDiscount, a.AmtDiscRate, b.DocDate, b.CustCode, 
@@ -2016,6 +2444,10 @@ dbo.Mas_Company AS c ON b.CustCode = c.CustCode AND b.CustBranch = c.Branch
 "
     End Function
     Function SQLSelectBillReport() As String
+        Dim val = GetValueConfig("SQL", "SelectBillReport")
+        If val.Length > 0 Then
+            Return val
+        End If
         Dim sql = "
 SELECT h.BranchCode, h.BillAcceptNo, h.BillDate, h.CustCode, h.CustBranch, h.BillRecvBy, h.BillRecvDate, h.DuePaymentDate, h.BillRemark, h.CancelReson, 
 h.CancelProve, h.CancelDate, h.CancelTime, h.EmpCode, h.RecDateTime, h.TotalCustAdv, h.TotalAdvance, h.TotalChargeVAT, h.TotalChargeNonVAT, h.TotalVAT, 
@@ -2027,6 +2459,10 @@ dbo.Job_BillAcceptDetail AS d ON h.BranchCode = d.BranchCode AND h.BillAcceptNo=
         Return sql
     End Function
     Function SQLUpdateServiceCode() As String
+        Dim val = GetValueConfig("SQL", "UpdateServiceCode")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 UPDATE d
 SET d.IsTaxCharge=h.IsTaxCharge,
@@ -2040,6 +2476,10 @@ ON h.GroupCode=d.GroupCode
 "
     End Function
     Function SQLSelectInvDetail() As String
+        Dim val = GetValueConfig("SQL", "SelectInvDetail")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT d.ItemNo, d.SICode, d.SDescription, d.ExpSlipNO, d.SRemark, d.CurrencyCode, d.ExchangeRate, d.Qty, d.QtyUnit, d.UnitPrice, d.FUnitPrice, d.Amt, d.FAmt, 
     d.DiscountType, d.DiscountPerc, d.AmtDiscount, d.FAmtDiscount, d.Is50Tavi, d.Rate50Tavi, d.Amt50Tavi, d.IsTaxCharge, d.AmtVat, d.TotalAmt, d.FTotalAmt, 
@@ -2072,6 +2512,10 @@ FROM     dbo.Job_InvoiceDetail AS d INNER JOIN
 "
     End Function
     Function SQLSelectVATSales() As String
+        Dim val = GetValueConfig("SQL", "SelectVATSales")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT ReceiptDate,ReceiptNo,ServiceType,TaxNumber,Branch,TotalChargeVAT,TotalVAT,TotalChargeNonVAT,CancelReson FROM (
 SELECT h.ReceiptDate,h.ReceiptNo,c.CustCode,c.TaxNumber,c.Branch,
@@ -2126,7 +2570,12 @@ WHERE h.DocStatus<>99
 "
     End Function
     Function SQLSelectVATBuy() As String
-        Return "SELECT ExpenseDate,SlipNo,VenderName,TaxNumber,Branch,ExpenseAmt,ExpenseVAT,CancelReson FROM (
+        Dim val = GetValueConfig("SQL", "SelectVATBuy")
+        If val.Length > 0 Then
+            Return val
+        End If
+        Return "
+SELECT ExpenseDate,SlipNo,VenderName,TaxNumber,Branch,ExpenseAmt,ExpenseVAT,CancelReson FROM (
 SELECT cd.Date50Tavi as ExpenseDate, cd.SlipNO as SlipNo, v.TName as VenderName, v.TaxNumber, v.BranchCode as Branch, v.VenCode, cd.UsedAmount as ExpenseAmt, cd.ChargeVAT as ExpenseVAT, j.CustCode, j.CustBranch, cd.JobNo, 
     c.TaxNumber AS CustTaxNumber, h.DocNo, h.DocDate, h.PoNo, h.RefNo, h.AdvRef, d.AdvItemNo, h.PaymentRef, ch.ClrNo, ch.ClrDate, h.PaymentDate, d.SICode, 
     d.SDescription, d.Amt, d.AmtVAT, d.AmtWHT, d.Total, d.BookingRefNo, d.BookingItemNo, h.CancelReson, h.CancelDate
@@ -2150,9 +2599,14 @@ FROM     dbo.Job_PaymentDetail AS d INNER JOIN
     dbo.Job_Order AS j ON cd.BranchCode = j.BranchCode AND cd.JobNo = j.JNo INNER JOIN
     dbo.Mas_Company AS c ON j.CustCode = c.CustCode AND j.CustBranch = c.Branch
 WHERE (ch.DocStatus <> 99) AND (cd.ChargeVAT > 0) AND (h.CancelDate IS NOT NULL) AND (cd.SlipNO <> '')
-) AS t {0} ORDER BY ExpenseDate,SlipNo"
+) AS t {0} ORDER BY ExpenseDate,SlipNo
+"
     End Function
     Function SQLSelectTax50TaviReport() As String
+        Dim val = GetValueConfig("SQL", "SelectTax50TaviReport")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT cd.Date50Tavi, cd.NO50Tavi, v.VenCode, v.TaxNumber AS VenTaxNumber, v.BranchCode AS VenTaxBranch, v.TName AS VenderName, c.CustCode, 
     c.TaxNumber AS CustTaxNumber, c.Branch AS CustTaxBranch, c.NameThai AS CustName, cd.SICode, cd.SDescription, cd.UsedAmount, cd.Tax50TaviRate, 
@@ -2166,6 +2620,10 @@ WHERE (cd.Tax50Tavi > 0) AND ch.DocStatus<>99 {0}
 "
     End Function
     Function SQLSelectCashFlow() As String
+        Dim val = GetValueConfig("SQL", "SelectCashFlow")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT h.BranchCode, h.ControlNo, h.VoucherDate, h.TRemark, h.RecUser, h.RecDate, h.RecTime, h.PostedBy, h.PostedDate, h.PostedTime, 
     h.CancelReson, h.CancelProve, h.CancelDate, h.CancelTime, h.CustCode, h.CustBranch, d.ItemNo, d.PRVoucher, d.PRType, d.ChqNo, d.BookCode, d.BankCode, 
@@ -2177,6 +2635,10 @@ WHERE (NOT (ISNULL(h.CancelProve, '') <> '')) {0}
 "
     End Function
     Function SQLSelectBooking() As String
+        Dim val = GetValueConfig("SQL", "SelectBooking")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT h.BranchCode, h.JNo, h.BookingNo, h.LoadDate AS BookingDate, h.NotifyCode, h.VenderCode AS ForwarderCode, h.ContactName AS ShipperContact, 
 u.TName AS CSName, u.MobilePhone AS CSTel, u.EMail AS CSEMail, j.InvNo, j.InvProduct, j.InvProductQty, j.InvProductUnit,j.InvCurUnit,j.InvCurRate, j.TotalContainer, j.ShippingCmd,
@@ -2212,7 +2674,19 @@ WHERE (j.JobStatus < 90)
 "
     End Function
     Function SQLSelectJobSummary(sqlw As String, bCancel As Boolean) As String
-        Dim sql = "SELECT * FROM 
+        If bCancel = True Then
+            Dim val = GetValueConfig("SQL", "SelectJobSummaryCancel")
+            If val.Length > 0 Then
+                Return String.Format(val, sqlw)
+            End If
+        Else
+            Dim val = GetValueConfig("SQL", "SelectJobSummary")
+            If val.Length > 0 Then
+                Return String.Format(val, sqlw)
+            End If
+        End If
+        Dim sql = "
+SELECT * FROM 
 (SELECT jt.ConfigKey AS JobTypeCode, jt.ConfigValue AS JobTypeName, sb.ConfigKey AS ShipByCode, sb.ConfigValue AS ShipByName, COUNT(j.JNo) AS TotalJob, 
                          Convert(varchar,Year(j.CreateDate)) + '/' + RIGHT('0'+Convert(varchar,Month(j.CreateDate)),2) AS Period,Year(j.CreateDate) as FiscalYear,Month(j.CreateDate) as JobMonth
 FROM dbo.Mas_Config AS jt INNER JOIN
@@ -2234,7 +2708,8 @@ GROUP BY Year(j.CreateDate),Month(j.CreateDate)
         Return String.Format(sql, sqlw)
     End Function
     Function SQLSelectJobList(sqlw As String, bCancel As Boolean) As String
-        Dim sql = "SELECT * FROM 
+        Dim sql = "
+SELECT * FROM 
 (SELECT jt.ConfigKey AS JobTypeCode, jt.ConfigValue AS JobTypeName, sb.ConfigKey AS ShipByCode, sb.ConfigValue AS ShipByName, JNo AS JobNo, 
                          Convert(varchar,Year(j.CreateDate)) + '/' + RIGHT('0'+Convert(varchar,Month(j.CreateDate)),2) AS Period,Year(j.CreateDate) as FiscalYear,Month(j.CreateDate) as JobMonth
 FROM dbo.Mas_Config AS jt INNER JOIN
@@ -2243,9 +2718,17 @@ FROM dbo.Mas_Config AS jt INNER JOIN
 WHERE (jt.ConfigCode = N'JOB_TYPE') AND (sb.ConfigCode = N'SHIP_BY') AND (j.JobStatus " & If(bCancel = True, "=", "<>") & " 99) {0}
 ) t
 "
+        Dim val = GetValueConfig("SQL", "SelectJobList")
+        If val.Length > 0 Then
+            sql = val
+        End If
         Return String.Format(sql, sqlw)
     End Function
     Function SQLSelectExpenseFromClr() As String
+        Dim val = GetValueConfig("SQL", "SelectExpenseFromClr")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT j.BranchCode, j.JNo, d.ClrNo, i.SICode, i.SDescription as TRemark, i.Qty as QtyBegin,  i.UnitCode as UnitCheck
 , i.CurrencyCode, i.CurRate as CurrencyRate, i.UsedAmount as ChargeAmt, i.VATRate as VatRate, i.ChargeVAT as VatAmt, 
@@ -2258,6 +2741,10 @@ dbo.Job_SrvSingle AS s ON i.SICode = s.SICode
 "
     End Function
     Function SQLSelectExpenseFromQuo() As String
+        Dim val = GetValueConfig("SQL", "SelectExpenseFromQuo")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT j.BranchCode, j.JNo, j.QNo, i.SICode, i.DescriptionThai as TRemark, i.QtyBegin, i.QtyEnd, i.CalculateType, i.UnitCheck, i.CurrencyCode, i.CurrencyRate, i.ChargeAmt, i.Isvat, i.VatRate, i.VatAmt, i.IsTax, 
 i.TaxRate, i.TaxAmt, i.TotalAmt, i.TotalCharge, i.UnitDiscntPerc, i.UnitDiscntAmt, i.VenderCode, i.VenderCost, i.BaseProfit, i.CommissionPerc, i.CommissionAmt, 
@@ -2269,6 +2756,17 @@ dbo.Job_SrvSingle AS s ON i.SICode = s.SICode
 "
     End Function
     Function SQLSelectDocList(bCancel As Boolean) As String
+        If bCancel Then
+            Dim val = GetValueConfig("SQL", "SelectDocListCancel")
+            If val.Length > 0 Then
+                Return val
+            End If
+        Else
+            Dim val = GetValueConfig("SQL", "SelectDocList")
+            If val.Length > 0 Then
+                Return val
+            End If
+        End If
         Return "
 SELECT * FROM (
 select Convert(varchar,Year(AdvDate))+'/'+RIGHT('0'+Convert(varchar,Month(AdvDate)),2) as Period,'ADV' as DocType,AdvNo as DocNo,AdvDate as DocDate 
@@ -2283,6 +2781,17 @@ from Job_InvoiceHeader where " & If(bCancel = True, "", "NOT") & " ISNULL(Cancel
 "
     End Function
     Function SQLSelectDocSummary(bCancel As Boolean) As String
+        If bCancel Then
+            Dim val = GetValueConfig("SQL", "SelectDocSummaryCancel")
+            If val.Length > 0 Then
+                Return val
+            End If
+        Else
+            Dim val = GetValueConfig("SQL", "SelectDocSummary")
+            If val.Length > 0 Then
+                Return val
+            End If
+        End If
         Return "
 SELECT * FROM (
 select Convert(varchar,Year(AdvDate))+'/'+RIGHT('0'+Convert(varchar,Month(AdvDate)),2) as Period,'ADV' as DocType,Count(*) as CountDoc 
@@ -2312,6 +2821,11 @@ group by Convert(varchar,Year(CreateDate))
 "
     End Function
     Function SQLSelectLoginHistory() As String
+        Dim val = GetValueConfig("SQL", "SelectLoginHistory")
+        If val.Length > 0 Then
+            Return String.Format(val, My.MySettings.Default.LicenseTo.ToString)
+        End If
+
         Return "
 select b.CustID,b.CustName,a.LogAction as UserID,Max(a.LogDateTime) as LastLogin
 from TWTLog a 
@@ -2323,26 +2837,29 @@ group by b.CustID,b.CustName,a.LogAction
 "
     End Function
     Function SQLSelectLoginSummary() As String
-        Return "SELECT tb.* FROM (
-select b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2) as Period,a.LogAction as UserID,Convert(varchar,Max(a.LogDateTime),103) as LastLogin
-from TWTLog a 
-INNER JOIN TWTCustomer b
-ON a.CustID=b.CustID+'/'
-where a.ModuleName='LOGIN_SHIPPING' and b.CustID='" & My.MySettings.Default.LicenseTo.ToString & "'
-and a.LogAction Not in('ADMIN','CS','BOAT','pasit','test')
-group by b.CustID,b.CustName,a.LogAction ,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2)
-UNION
-select b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2) as Period,Cast(Count(DISTINCT a.LogAction) as varchar)+' Users' as CountUser,'ALL' as LastLogin
-from TWTLog a 
-INNER JOIN TWTCustomer b
-ON a.CustID=b.CustID+'/'
-where a.ModuleName='LOGIN_SHIPPING' and b.CustID='" & My.MySettings.Default.LicenseTo.ToString & "'
-and a.LogAction Not in('ADMIN','CS','BOAT','pasit','test')
-group by b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2)
-) tb"
+        Dim val = GetValueConfig("SQL", "SelectLoginSummary")
+        If val.Length > 0 Then
+            Return String.Format(val, My.MySettings.Default.LicenseTo.ToString)
+        End If
+
+        Return "
+SELECT tb.* FROM (
+select b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2) as Period
+,REPLACE(a.CustID,b.CustID+'/','') as UserID
+,Convert(varchar,Max(a.LogDateTime),103) as LastLogin
+from TWTLog a,TWTCustomer b
+where b.CustID='" & My.MySettings.Default.LicenseTo.ToString() & "' AND CHARINDEX(b.CustID,a.CustID)>0
+AND REPLACE(a.CustID,b.CustID+'/','') NOT IN('ADMIN','CS','BOAT','pasit','test')
+group by b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2),REPLACE(a.CustID,b.CustID+'/','')
+) tb
+"
     End Function
     Function SQLUpdateClrStatusToClear() As String
         'ใบปิดที่มีใบแจ้งหนี้แต่ยังไม่ครบ
+        Dim val = GetValueConfig("SQL", "UpdateClrStatusToClear")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 UPDATE d SET d.DocStatus=3
 FROM Job_ClearHeader d INNER JOIN
@@ -2363,6 +2880,10 @@ WHERE d.DocStatus<>3 AND d.DocStatus<>99
     End Function
     Function SQLUpdateClrStatusFromAdvance() As String
         'ใบปิดที่มีใบเบิกที่มีการรับเคลียร์เงินครบแล้ว
+        Dim val = GetValueConfig("SQL", "UpdateClrStatusFromAdvance")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 UPDATE d SET d.DocStatus=3
 FROM Job_ClearHeader d INNER JOIN
@@ -2383,6 +2904,11 @@ WHERE d.DocStatus<>3 AND d.DocStatus<>99
 "
     End Function
     Function SQLUpdateClrReceiveFromAdvance(user As String, docno As String) As String
+        Dim val = GetValueConfig("SQL", "UpdateClrReceiveFromAdvance")
+        If val.Length > 0 Then
+            Return String.Format(val, user, docno)
+        End If
+
         Return "
 UPDATE d SET d.DocStatus=3,d.ReceiveBy='" & user & "',d.ReceiveRef='" & docno & "',d.ReceiveDate=GetDate(),d.ReceiveTime=Convert(varchar(10),GetDate(),108)
 FROM Job_ClearHeader d INNER JOIN
@@ -2405,6 +2931,10 @@ WHERE d.DocStatus<>3 AND d.DocStatus<>99
 
     Function SQLUpdateClrStatusToComplete() As String
         'ใบปิดที่มีการทำใบแจ้งหนี้ครบแล้ว
+        Dim val = GetValueConfig("SQL", "UpdateClrStatusToComplete")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 UPDATE d SET d.DocStatus=4
 FROM Job_ClearHeader d INNER JOIN
@@ -2422,6 +2952,11 @@ WHERE d.DocStatus<>4 AND d.DocStatus<>99
 "
     End Function
     Function SQLUpdateClrStatusToInComplete() As String
+        Dim val = GetValueConfig("SQL", "UpdateClrStatusToInComplete")
+        If val.Length > 0 Then
+            Return val
+        End If
+
         Dim caseStatus = "(CASE WHEN ISNULL(d.ReceiveRef,'')<>'' THEN 3 ELSE (CASE WHEN ISNULL(d.ApproveBy,'')<>'' THEN 2 ELSE 1 END) END)"
         Return "
 UPDATE d SET d.DocStatus=" & caseStatus & "
@@ -2441,6 +2976,10 @@ WHERE d.DocStatus<>99
 "
     End Function
     Function SQLSelectTransportDetail() As String
+        Dim val = GetValueConfig("SQL", "SelectTransportDetail")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 SELECT a.*,ISNULL(b.CountBill,0) as CountBill,ISNULL(b.CountClear,0) as CountClear, 
 ISNULL(b.CountBill,0)-ISNULL(b.CountClear,0) as CountBalance,c.VenderCode,c.NotifyCode,c.JNo
@@ -2455,6 +2994,10 @@ INNER JOIN Job_LoadInfo c ON a.BranchCode=c.BranchCode AND a.BookingNo=c.Booking
 "
     End Function
     Function SQLUpdateContainer() As String
+        Dim val = GetValueConfig("SQL", "UpdateContainer")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return "
 update h
 SET h.TotalContainer=d.SumContainer
@@ -2501,6 +3044,24 @@ SELECT * FROM (
     left join Job_Order j ON ad.BranchCode=j.BranchCode AND ad.JobNo=j.JNo
     where ISNULL(ad.AdvNo,'')=''
     union
+    select d.*,h.VoucherDate,j.CustCode,j.CustBranch,ad.Pay50TaviTo as VenderName,ad.Remark,
+    ad.JobNo,ah.EmpCode,ah.ClrNo,ah.ClrDate,ad.SDescription,ad.UsedAmount,ad.ChargeVAT,ad.Tax50Tavi,ad.BNet
+    from Job_CashControlSub d
+    inner join Job_CashControl h ON d.BranchCode=h.BranchCode
+    and d.ControlNo=h.ControlNo
+    inner join Job_CashControlDoc dc ON d.BranchCode=dc.BranchCode AND d.Controlno=dc.ControlNo
+    AND d.acType=dc.acType
+    inner join Job_ClearHeader ah ON h.BranchCode=ah.BranchCode
+    AND h.ControlNo=ah.ReceiveRef
+    inner join Job_ClearDetail ad ON ah.BranchCode=ad.BranchCode
+    AND ah.ClrNo=ad.ClrNo
+    left join Job_Order j ON ad.BranchCode=j.BranchCode AND ad.JobNo=j.JNo
+    inner join Job_AdvDetail av on dc.BranchCode=av.BranchCode AND
+    dc.DocNo =av.AdvNo+'#'+cast(av.ItemNo as varchar) AND 
+	ad.BranchCode=av.BranchCode AND
+	ad.AdvNo+'#'+cast(ad.AdvItemNo as varchar)=av.AdvNo+'#'+cast(av.ItemNo as varchar)
+    where ISNULL(ad.AdvNo,'')<>''
+    union
     select d.*,h.VoucherDate,j.CustCode,j.CustBranch,'',ah.TRemark,
     c.JobNo ,ah.EmpCode, ad.InvoiceNo,ah.ReceiptDate,ad.SDescription,ad.Amt,ad.AmtVAT,ad.Amt50Tavi,ad.Net
     from Job_CashControlSub d
@@ -2527,9 +3088,17 @@ SELECT * FROM (
     left join Mas_Vender v ON ah.VenCode=v.VenCode
 ) pr {0}
 "
+        Dim val = GetValueConfig("SQL", "SelectVoucherDetail")
+        If val.Length > 0 Then
+            sql = val
+        End If
         Return String.Format(sql, tSqlw)
     End Function
     Public Function SQLSelectVoucherDoc(tSqlw As String) As String
+        Dim val = GetValueConfig("SQL", "SelectVoucherDoc")
+        If val.Length > 0 Then
+            Return String.Format(val, tSqlw)
+        End If
         Return "
 SELECT src.*,doc.JobNo,doc.EmpCode,doc.TRemark
 FROM
@@ -2709,8 +3278,12 @@ ORDER BY a.CustCode,b.ForJNo
         Return String.Format(tSql, sqlW)
     End Function
     Function SQLSelectAdvReport() As String
+        Dim val = GetValueConfig("SQL", "SelectAdvReport")
+        If val.Length > 0 Then
+            Return val
+        End If
         Dim tSql = "
-SELECT        dbo.Job_AdvDetail.BranchCode, dbo.Job_AdvDetail.AdvNo, dbo.Job_AdvDetail.ItemNo, dbo.Job_AdvDetail.STCode, dbo.Job_AdvDetail.SICode, 
+SELECT dbo.Job_AdvDetail.BranchCode, dbo.Job_AdvDetail.AdvNo, dbo.Job_AdvDetail.ItemNo, dbo.Job_AdvDetail.STCode, dbo.Job_AdvDetail.SICode, 
 dbo.Job_AdvDetail.AdvAmount, dbo.Job_AdvDetail.IsChargeVAT, dbo.Job_AdvDetail.ChargeVAT, dbo.Job_AdvDetail.Rate50Tavi, dbo.Job_AdvDetail.Charge50Tavi, 
 dbo.Job_AdvDetail.TRemark, dbo.Job_AdvDetail.IsDuplicate, dbo.Job_AdvDetail.PayChqTo, dbo.Job_AdvDetail.Doc50Tavi, dbo.Job_AdvDetail.Is50Tavi, 
 dbo.Job_AdvDetail.VATRate, dbo.Job_AdvDetail.AdvNet, dbo.Job_AdvDetail.SDescription, dbo.Job_AdvDetail.ForJNo, dbo.Job_AdvDetail.VenCode, 
@@ -2771,6 +3344,10 @@ WHERE dbo.Job_AdvHeader.DocStatus<>99 AND ISNULL(dbo.Job_ClearHeader.DocStatus,0
         Return tSql
     End Function
     Function SQLSelectContainerReport() As String
+        Dim val = GetValueConfig("SQL", "SelectContainerReport")
+        If val.Length > 0 Then
+            Return val
+        End If
         Dim tSql = "
 SELECT dbo.Job_Order.BranchCode, dbo.Job_Order.JNo, dbo.Job_Order.JRevise, dbo.Job_Order.ConfirmDate, dbo.Job_Order.CPolicyCode, dbo.Job_Order.DocDate, 
 dbo.Job_Order.CustCode, dbo.Job_Order.CustBranch, dbo.Job_Order.CustContactName, dbo.Job_Order.QNo, dbo.Job_Order.Revise, dbo.Job_Order.ManagerCode, 
@@ -2843,6 +3420,10 @@ where ISNULL(ih.CancelProve,'')='' {0}
 group by rh.BranchCode,rh.ReceiptNo,rh.ReceiptDate,c.CustCode,c.TaxNumber,c.Branch,c.NameEng,rh.TRemark,rh.CancelProve
 ) r
 "
+        Dim val = GetValueConfig("SQL", "SelectReceiptSummary")
+        If val.Length > 0 Then
+            tSql = val
+        End If
         Return String.Format(tSql, sqlW)
     End Function
     Function SQLSelectVenderReport(sqlW As String, sqlAdd As String) As String
@@ -2863,7 +3444,7 @@ LEFT OUTER JOIN dbo.Mas_Vender AS v ON h.VenCode = v.VenCode
 LEFT OUTER JOIN Job_Order j ON d.BranchCode=j.BranchCode AND d.ForJNo=j.JNo
 LEFT OUTER JOIN Mas_Company c ON j.CustCode=c.CustCode AND j.CustBranch=c.Branch
 LEFT OUTER JOIN Job_LoadInfoDetail b ON h.BranchCode=b.BranchCode 
-AND h.RefNo=b.CTN_NO AND j.BranchCode=b.BranchCode AND j.JNo=b.JNo
+AND h.RefNo=b.CTN_NO AND d.BranchCode=b.BranchCode AND d.BookingRefNo=b.BookingNo AND d.BookingItemNo=b.ItemNo
 LEFT OUTER JOIN Job_LoadInfo t ON b.BranchCode=t.BranchCode AND b.BookingNo=t.BookingNo
 LEFT OUTER JOIN Job_SrvSingle  s ON d.SICode=s.SICode
 LEFT OUTER JOIN Job_TransportPrice p ON h.BranchCode=p.BranchCode
@@ -2899,6 +3480,10 @@ on c.SICode=e.SICode
 where b.DocStatus<>99 {0}
 order by j.DutyDate,j.JNo
 "
+        Dim val = GetValueConfig("SQL", "SelectAdvClear")
+        If val.Length > 0 Then
+            tSql = val
+        End If
         Return String.Format(tSql, sqlW)
     End Function
     Function SQLSelectAdvSumClear(sqlW As String) As String
@@ -2925,7 +3510,11 @@ left join Mas_Account g on g.AccCode=ISNULL(e.GLAccountCodeCost,e.GLAccountCodeS
 where b.DocStatus<>99 {0}
 group by a.BranchCode,a.AdvNo,f.AccTName,g.AccTName,
 d.GLAccountCode,ISNULL(e.GLAccountCodeCost,e.GLAccountCodeSales)
-            "
+"
+        Dim val = GetValueConfig("SQL", "SelectAdvSumClear")
+        If val.Length > 0 Then
+            Return val
+        End If
         Return String.Format(tSql, sqlW)
     End Function
     Public Function SQLSelectAdvForWhTax(sqlW As String) As String
@@ -2935,22 +3524,78 @@ SUM(AdvAmount) as AdvAmount,SUM(Charge50Tavi) as Charge50Tavi
 ,MAX(ForJNo) as ForJNo,Rate50Tavi 
 from Job_AdvDetail where Rate50Tavi>0 {0}
 group by BranchCode,AdvNo,Rate50Tavi
-        "
+"
+        Dim val = GetValueConfig("SQL", "SelectAdvForWhTax")
+        If val.Length > 0 Then
+            tSql = val
+        End If
         Return String.Format(tSql, sqlW)
     End Function
-
+    Public Function SQLUpdateAPClearLink() As String
+        Dim val = GetValueConfig("SQL", "UpdateAPClearLink")
+        If val.Length > 0 Then
+            Return val
+        End If
+        Dim tSql As String = "
+UPDATE p SET p.ClrRefNo=c.ClrNo ,p.ClrITemNo=c.ItemNo
+FROM Job_PaymentDetail p INNER JOIN (
+SELECT BranchCode,ClrNo,ItemNo,VenderBillingNo
+FROM Job_ClearDetail
+where clrNo not in(select ClrNo from job_ClearHeader where DocStatus=99) AND VenderBillingNo<>''
+) c
+ON p.BranchCode=c.BranchCode AND p.DocNo+'#'+Convert(varchar,p.ItemNo)=c.VenderBillingNo
+where p.ClrRefNo='' AND p.ClrItemNo=0 
+AND p.DocNo NOT IN(SELECT DocNo fROM Job_PaymentHeader where CancelProve<>'')
+"
+        Return tSql
+    End Function
     Public Sub UpdateClearStatus()
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToClear())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusFromAdvance())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToComplete())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToInComplete())
+        Main.DBExecute(GetSession("ConnJob"), SQLUpdateAPClearLink())
     End Sub
+    Public Function SQLUpdateCashFlowToJob() As String
+        Dim val = GetValueConfig("SQL", "UpdateCashFlowToJob")
+        If val.Length > 0 Then
+            Return val
+        End If
+        Return "
+update j
+set j.DutyCustPayChqAmt=a.ChqCustAdv,
+j.DutyLtdPayChqAmt=a.ChqPayment,
+j.DutyCustPayCashAmt=a.ChqReceive,
+j.DutyLtdPayCashAmt=a.CashPayment
+from 
+(
+select d.BranchCode,d.ForJNo as JNo,
+sum(CASE WHEN d.acType='CU' AND d.PRType='R' THEN d.ChqAmount ELSE 0 END) as ChqCustAdv, 
+sum(CASE WHEN d.acType='CH' AND d.PRType='P' THEN d.ChqAmount ELSE 0 END) as ChqPayment,
+sum(CASE WHEN d.acType='CH' AND d.PRType='R' THEN d.ChqAmount ELSE 0 END) as ChqReceive,
+sum(CASE WHEN d.acType='CA' AND d.PRType='R' THEN d.ChqAmount ELSE 0 END) as CashReceive,
+sum(CASE WHEN d.acType='CA' AND d.PRType='P' THEN d.ChqAmount ELSE 0 END) as CashPayment
+from Job_CashControlSub d 
+inner join Job_CashControl h on d.BranchCode=h.BranchCode
+and d.ControlNo =h.ControlNo
+where d.ForJNo<>'' and not h.CancelProve<>''
+group by d.BranchCode,d.ForJNo
+) a inner join Job_Order j 
+on a.BranchCode=j.BranchCode and a.JNo=j.JNo
+where j.JobStatus<>99 and (
+j.DutyCustPayChqAmt<>a.ChqCustAdv OR 
+j.DutyLtdPayChqAmt<>a.ChqPayment OR
+j.DutyCustPayCashAmt<>a.ChqReceive OR
+j.DutyLtdPayCashAmt<>a.CashPayment
+)
+"
+    End Function
     Function GetSQLCommand(cliteria As String, fldDate As String, fldCust As String, fldJob As String, fldEmp As String, fldVend As String, fldStatus As String, fldBranch As String, Optional fldSICode As String = "", Optional fldGroup As String = "") As String
         Dim sqlW As String = ""
         If cliteria Is Nothing Then
             Return ""
         End If
-        Dim bFound As Boolean = False
+
         For Each str As String In cliteria.Split(",")
             If str <> "" Then
                 If sqlW <> "" Then
@@ -2963,7 +3608,7 @@ group by BranchCode,AdvNo,Rate50Tavi
                 Else
                     sqlW &= "("
                 End If
-                bFound = False
+                Dim bFound As Boolean = False
                 If fldBranch <> "" And str.IndexOf("[BRANCH]") >= 0 Then
                     str = ProcessCliteria(str, "[BRANCH]", fldBranch)
                     bFound = True

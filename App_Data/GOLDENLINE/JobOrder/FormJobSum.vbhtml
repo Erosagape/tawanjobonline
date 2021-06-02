@@ -18,9 +18,8 @@ End Code
     }
 
     #dvFooter {
-	display:none;
+        display: none;
     }
-
 </style>
 <div style="text-align:left;width:100%">
     <b>JOB NO: <label id="lblJNo"></label></b><br />
@@ -158,6 +157,26 @@ End Code
                 <td style="text-align:right"><label id="lblTotalBalance"></label></td>
             </tr>
         </table>
+        <br />
+        <table style="width:100%" border="1">
+            <thead>
+                <tr>
+                    <th>
+                        Adv No/Item
+                    </th>
+                    <th>
+                        Amount
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tbSumClr"></tbody>
+            <tr>
+                <td><b>TOTAL NON-CLEAR</b></td>
+                <td style="text-align:right">
+                    <label id="lblTotalClear"></label>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
 
@@ -168,13 +187,13 @@ End Code
         <table id="tbClear" style="width:100%" border="1">
             <thead>
                 <tr class="text-center">
-                    <th width="10%">CL.NO</th>
-                    <th width="40%">DESCRIPTION</th>
-                    <th width="15%">SERVICE</th>
+                    <th width="15%">CL.NO</th>
+                    <th width="28%">DESCRIPTION</th>
+                    <th width="12%">SERVICE</th>
                     <th width="10%">VAT</th>
-                    <th width="10%">WH-TAX</th>
-                    <th width="15%">ADVANCE</th>
-                    <th width="10%">COST</th>
+                    <th width="10%">DEPOSIT</th>
+                    <th width="13%">ADVANCE</th>
+                    <th width="12%">COST</th>
                 </tr>
             </thead>
             <tbody id="dvClear"></tbody>
@@ -188,7 +207,6 @@ End Code
                                     <td>Cost</td>
                                     <td>Service (Net)</td>
                                     <td>Vat</td>
-                                    <td>Wht</td>
                                     <td>Profit</td>
                                 </tr>
                                 <tr>
@@ -196,7 +214,6 @@ End Code
                                     <td><label id="lblSumCost"></label></td>
                                     <td><label id="lblSumServ"></label></td>
                                     <td><label id="lblSumVat"></label></td>
-                                    <td><label id="lblSumWht"></label></td>
                                     <td><label id="lblNetProfit"></label></td>
                                 </tr>
                             </table>
@@ -204,12 +221,12 @@ End Code
                     </div>
                 </td>
                 <!--
-    <td style="text-align:right"><label id="lblSumCharge"></label></td>
-    <td style="text-align:right"><label id="lblTotalVAT"></label></td>
-    <td style="text-align:right"><label id="lblSumTax"></label></td>
-    <td style="text-align:right"><label id="lblSumNet"></label></td>
-    <td style="text-align:right"><label id="lblSumProfit"></label></td>
-        -->
+                <td style="text-align:right"><label id="lblSumCharge"></label></td>
+                <td style="text-align:right"><label id="lblTotalVAT"></label></td>
+                <td style="text-align:right"><label id="lblSumTax"></label></td>
+                <td style="text-align:right"><label id="lblSumNet"></label></td>
+                <td style="text-align:right"><label id="lblSumProfit"></label></td>
+                    -->
             </tr>
         </table>
     </div>
@@ -243,7 +260,7 @@ End Code
     </thead>
     <tbody id="dvCheque"></tbody>
 </table>
-<br/>
+<br />
 <table style="border-collapse:collapse;width:100%">
     <tr>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
@@ -261,16 +278,32 @@ End Code
     </tr>
     <tr>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-
+            <br />
+            <br />
+            <label style="font-size:9px">(________________________________________)</label>
+            <br />
+            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-
+            <br />
+            <br />
+            <label style="font-size:9px">(________________________________________)</label>
+            <br />
+            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-
+            <br />
+            <br />
+            <label style="font-size:9px">(________________________________________)</label>
+            <br />
+            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-
+            <br />
+            <br />
+            <label style="font-size:9px">(________________________________________)</label>
+            <br />
+            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
         </td>
     </tr>
 </table>
@@ -283,6 +316,7 @@ End Code
         GetChequeInfo(br, jno);
         GetClearingInfo(br, jno);
         GetAdvanceInfo(br, jno);
+        GetAdvanceUnclear(br, jno);
     }
     function GetJobInfo(branch, jno) {
         $.get(path+ 'joborder/getjobreport?branch=' + branch + '&jno=' + jno, function (r) {
@@ -331,6 +365,26 @@ End Code
                     }
                 }
                 $('#lblTotalCheque').text(CCurrency(CDbl(totalchq, 2)));
+            }
+        });
+    }
+    function GetAdvanceUnclear(branch, code) {
+        $.get(path + 'clr/getadvforclear?branchcode=' + branch + '&jobno=' + code + '&show=NOCLR', function (r) {
+            if (r.clr.data.length > 0) {
+                let dr = r.clr.data[0].Table;
+                let dv = $('#tbSumClr');
+                dv.empty();
+                let sumunclr = 0;
+                for (let i = 0; i < dr.length; i++) {
+                    let d = dr[i];
+                    let htmlc = '<tr>';
+                    htmlc += '<td>' + d.AdvNO + '#' + d.AdvItemNo + '</td>';
+                    htmlc += '<td style="text-align:right">' + CCurrency(CDbl(d.AdvNet, 2)) + '</td>';
+                    htmlc += '</tr>';
+                    sumunclr += d.AdvNet;
+                    dv.append(htmlc);
+                }
+                $('#lblTotalClear').text(CCurrency(CDbl(sumunclr, 2)));
             }
         });
     }
@@ -387,7 +441,6 @@ End Code
                     }
                 }
             }
-
             $('#lblTotalCustAdv').text(CCurrency(CDbl(jtotaladv, 2)));
             $('#lblTotalADVVAT').text(CCurrency(CDbl(itotalvat,2)));
             $('#lblTotalADVAfterVAT').text(CCurrency(CDbl(itotalpay,2)));
@@ -397,12 +450,13 @@ End Code
         });
     }
     function GetClearingInfo(branch, code) {
-        $.get(path + 'clr/getclearingreport?branch=' + branch + '&job=' + code, function (r) {
+        $.get(path + 'clr/getclearingreport?branch=' + branch + '&job=' + code,function (r) {
             let amtadv = 0;
             let amtserv = 0;
             let amtvat = 0;
             let amtwht = 0;
             let amttotal = 0;
+            let amtclr = 0;
             let amtprofit = 0;
             let amtcost = 0;
             let commrate = 0;
@@ -417,13 +471,14 @@ End Code
                 let d = r.data[0].Table.filter(function (data) {
                     return data.BNet !== 0;
                 });
+                let codeDepo = ',ERN-001,B-DEP-001';
                 for (let i = 0; i < d.length; i++){
                     let html = '';
 
                     let adv = (d[i].IsCredit == 1 ? d[i].BNet : 0);
                     let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? d[i].BNet : 0);
-                    let cost = (d[i].IsExpense == 1 ? d[i].BNet : 0);
-                    let profit = (d[i].IsExpense == 1 ? d[i].BNet*-1 : d[i].IsCredit==1 ? 0 : d[i].BNet);
+                    let cost = (d[i].IsExpense == 1 && codeDepo.indexOf(d[i].SICode) < 0 ? d[i].BNet : 0);
+                    let profit = (d[i].IsExpense == 1 && codeDepo.indexOf(d[i].SICode) < 0 ? d[i].BNet * -1 : d[i].IsCredit == 1 ? 0 : d[i].BNet);
 
                     amtadv += adv;
                     amtserv += serv;
@@ -439,13 +494,15 @@ End Code
                     html = '<tr>';
                     html += '<td>' + d[i].ClrNo + '#' + d[i].ItemNo + '</td>';
                     html += '<td>' + d[i].SDescription;
-                    if (d[i].AdvNO !== '') html +='<br/>จากใบเบิก '+ d[i].AdvNO;
-                    if (d[i].SlipNO !== '') html += ' ใบเสร็จเลขที่ ' + d[i].SlipNO;
+                    if (d[i].AdvNO !== '') {
+                        html += ' (' + d[i].AdvNO + ')';
+                    }
+                    if (d[i].SlipNO !== '') html += ' #' + d[i].SlipNO;
 
                     html += '</td>';
                     html += '<td style="text-align:right">' + (serv > 0 ? CCurrency(CDbl(d[i].UsedAmount, 2)) : '0.00') + '</td>';
                     html += '<td style="text-align:right">' + (serv > 0 ? CCurrency(CDbl(d[i].ChargeVAT, 2)): '0.00') + '</td>';
-                    html += '<td style="text-align:right">' + (serv > 0 ? CCurrency(CDbl(d[i].Tax50Tavi, 2)): '0.00') + '</td>';
+                    html += '<td style="text-align:right">' + (codeDepo.indexOf(d[i].SICode) >= 0 ? CCurrency(CDbl(d[i].BNet, 2)): '0.00') + '</td>';
                     html += '<td style="text-align:right">' + (adv > 0 ? CCurrency(CDbl(d[i].BNet, 2)): '0.00') + '</td>';
                     html += '<td style="text-align:right">' + (cost > 0 ? CCurrency(CDbl(d[i].BNet, 2)): '0.00') + '</td>';
                     html += '</tr>';
@@ -457,11 +514,12 @@ End Code
                     dv.append(html);
                 }
             }
+            //$('#lblTotalClear').text(CCurrency(CDbl(amtclr, 2)));
             $('#lblSumCost').text(CCurrency(CDbl(amtcost, 2)));
             $('#lblSumAdv').text(CCurrency(CDbl(amtadv, 2)));
             $('#lblSumServ').text(CCurrency(CDbl(amtserv, 2)));
             $('#lblSumVat').text(CCurrency(CDbl(amtvat, 2)));
-            $('#lblSumWht').text(CCurrency(CDbl(amtwht,2)));
+            //$('#lblSumWht').text(CCurrency(CDbl(amtwht,2)));
             $('#lblTotalExpense').text(CCurrency(CDbl((amtadv+amtserv), 2)));
             $('#lblTotalBalance').text(CCurrency(CDbl(CNum(CNum($('#lblTotalCustAdv').text())+CNum($('#lblTotalCheque').text()))- CNum(amtadv + amtserv),2)));
             //$('#lblSumCharge').text(CCurrency(CDbl(amttotal,2)));

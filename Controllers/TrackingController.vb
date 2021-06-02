@@ -14,6 +14,9 @@ Namespace Controllers
         Function Timeline() As ActionResult
             Return GetView("Timeline")
         End Function
+        Function Dashboard() As ActionResult
+            Return GetView("Dashboard")
+        End Function
         Function PublicIndex() As ActionResult
             Return View()
         End Function

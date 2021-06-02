@@ -865,7 +865,7 @@ End Code
         $('#txtCurrencyCode').val('@ViewBag.PROFILE_CURRENCY');
         $('#txtExchangeRate').val('1');
         $('#txtVATRate').val(CDbl(CNum('@ViewBag.PROFILE_VATRATE')*100,0));
-        $('#txtTaxRate').val('0');
+        $('#txtTaxRate').val('@ViewBag.PROFILE_WHTRATE_TRN');
         $('#txtTotalExpense').val('0');
         $('#txtTotalVAT').val('0');
         $('#txtTotalTax').val('0');
@@ -1082,6 +1082,14 @@ End Code
             $('#txtSDescription').removeAttr('disabled');
             $('#txtUnitPrice').removeAttr('disabled');
             $('#txtSRemark').removeAttr('disabled');
+        } else {
+            if (job !== '') {
+                $('#txtForJNo').val(job);
+                $('#txtCustCode').val(cust);
+                $('#txtBookingRefNo').val(bookno);
+                $('#txtContainerNo').val(cont);
+                $('#txtBookingItemNo').val(item);
+            }
         }
         $('#txtAdvItemNo').val(0);
         $('#txtClrRefNo').val('');
@@ -1207,7 +1215,7 @@ End Code
                 break;
             case 'transportprice':
                 if (route !== '') {
-                    SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&Cust=' + $('#txtCustCode').val() + '&id=' + route, ReadPrice);
+                    SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&id=' + route, ReadPrice);
                 } else {
                     SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&Cust=' + $('#txtCustCode').val(), ReadPrice);
                 }
@@ -1235,8 +1243,10 @@ End Code
             dt = data[0];
         }
         $('#txtForJNo').val(dt.JNo);
-        cust = dt.CustCode;
-        $('#txtCustCode').val(dt.CustCode);
+        if (cust == '') {
+            cust = dt.CustCode;
+            $('#txtCustCode').val(dt.CustCode);
+        }
     }
     function ReadVender(dt) {
         $('#txtVenCode').val(dt.VenCode);
@@ -1276,7 +1286,7 @@ End Code
         if (dt !== undefined) {
             $('#txtSICode').val(dt.SICode);
             $('#txtSICode').change();
-            $('#txtSDescription').val(dt.SDescription);
+            $('#txtSDescription').val(dt.SDescription + ' (' + dt.Location + ')');
             $('#txtSRemark').val(dt.Location);
             $('#txtUnitPrice').val(CDbl(CNum(dt.CostAmount) / CNum($('#txtExchangeRate').val()), 2));
 
@@ -1284,7 +1294,7 @@ End Code
             $('#txtSDescription').attr('disabled', 'disabled');
             $('#txtUnitPrice').attr('disabled', 'disabled');
             $('#txtSRemark').attr('disabled', 'disabled');
-
+            $('#txtRouteID').val(dt.LocationID);
             CalAmount();    
         }
     }

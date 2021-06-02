@@ -18,27 +18,27 @@ End Code
 </style>
 <div style="display:flex;flex-direction:column">
     <div style="display:flex;width:100%">
-        <div id="dvHeadF" style="float:left;flex:2;">
+        <div id="dvHeadF" style="float:left;flex:55%;">
             <b>ROTJANIN CHANASINPHAWATKUN (DAN PHAK KAD)</b><br />
             9/10 T.Thachang,A.Mueng <br />
             Chanthaburi,THAILAND 22000<br />
             Tel: 084-5399663
         </div>
-        <div id="dvHeadS" style="float:left;flex:2;">
+        <div id="dvHeadS" style="float:left;flex:55%;">
             <div style="display:flex">
                 <div style="flex:1;margin:5px 5px 5px 5px;">
-                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:120px" />
+                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:90px" />
                 </div>
                 <div style="flex:4;">
-                    <b>ห้างหุ้นสวนจํากัด แดน ผักกาด (สำนักงานใหญ่)</b><br />
+                    <b>บริษัท แดน ผักกาด จำกัด (สำนักงานใหญ่)</b><br />
                     9/10 หมู่ที 10 ตําบลท่าช้าง<br />
                     อําเภอเมืองจันทบุรี จังหวัดจันทบุรี<br />
                     โทร.039-460383,084-5399663<br />
-                    เลขประจำตัวผู้เสียภาษี 0223552000575
+                    เลขประจำตัวผู้เสียภาษี 0225564000771
                 </div>
             </div>
         </div>
-        <div style="float:right;text-align:right;flex:1;">
+        <div style="float:right;text-align:right;flex:45%;">
             <b><label id="lblDocType">TAX-INVOICE</label></b>
             <div id="dvCopy">
             </div>
@@ -150,7 +150,7 @@ End Code
         switch (h.ReceiptType) {
             case 'TAX':
                 $('#dvHeadF').hide();
-                $('#lblDocType').text('TAX-INVOICE / ใบกำกับภาษี');
+                $('#lblDocType').text('TAX-INVOICE/RECEIPT - ใบกำกับภาษี/ใบเสร็จรับเงิน');
                 break;
             case 'SRV':
                 $('#dvHeadF').hide();

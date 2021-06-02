@@ -80,6 +80,9 @@ End Code
                     <input type="date" id="txtPostedDate" disabled />
                     <label id="lblPostTime">Time:</label>
                     <input type="text" id="txtPostedTime" style="width:80px" disabled />
+                    <br />
+                    <label id="lblPostRefNo" for="txtPostRefNo">Post Ref#</label><br />
+                    <input type="text" id="txtPostRefNo" style="width:250px" disabled />
                 </div>
                 <div class="col-sm-4" style="border-style:solid;border-width:1px;color:red">
                     <input type="checkbox" id="chkCancel" />
@@ -436,6 +439,7 @@ End Code
         $('#txtRecTime').val(GetTime());
         $('#chkPosted').prop('checked',false);
         $('#txtPostedBy').val('');
+        $('#txtPostRefNo').val('');
         $('#txtPostedDate').val('');
         $('#txtPostedTime').val('');
         $('#chkCancel').prop('checked', false);
@@ -495,7 +499,8 @@ End Code
                 CancelDate:CDateEN($('#txtCancelDate').val()),
                 CancelTime: $('#txtCancelTime').val(),
                 CustCode: '',
-                CustBranch: ''
+                CustBranch: '',
+                PostRefNo: $('#txtPostRefNo').val()
             };
             let jsonText = JSON.stringify({ data: obj });
             //ShowMessage(jsonText);
@@ -638,6 +643,7 @@ End Code
             $('#txtRecDate').val(CDateEN(dr.RecDate));
             $('#txtRecTime').val(ShowTime(dr.RecTime));
             $('#txtPostedBy').val(dr.PostedBy);
+            $('#txtPostRefNo').val(dr.PostRefNo);
             if (dr.PostedBy !== '') {
                 $('#chkPosted').prop('checked', true);
                 DisableSave();
@@ -872,7 +878,7 @@ End Code
             if (r.bookaccount.data.length > 0) {
                 let d = r.bookaccount.data[0].Table[0];
                 let used = Number(d.ControlBalance) - Number(d.SumBal);
-                $('#txtCashAmount').val(used);
+                $('#txtCashAmount').val(CDbl(used,2));
             }
         });
     }
