@@ -1093,10 +1093,16 @@
     <Content Include="App_Data\APL\JobOrder\Transport.vbhtml" />
     <Content Include="App_Data\BETTER\JobOrder\ShowJob.vbhtml" />
     <Content Include="App_Data\BETTER\Shared\MasterPage.vbhtml" />
-    <Content Include="App_Data\EASTRONG\JobOrder\FormTransportEASTRONG.vbhtml" />
-    <Content Include="App_Data\EASTRONG\JobOrder\FormTransportAIR.vbhtml" />
     <Content Include="App_Data\EASTRONG\JobOrder\Transport.vbhtml" />
+    <Content Include="App_Data\SINOTHAI\JobOrder\FormTransportSEA.vbhtml" />
+    <Content Include="App_Data\ACE\Acc\Voucher.vbhtml" />
+    <Content Include="App_Data\EASTRONG\JobOrder\FormTransportAIR.vbhtml" />
+    <Content Include="App_Data\EASTRONG\JobOrder\FormTransportEASTRONG.vbhtml" />
+    <Content Include="App_Data\EASTRONG\JobOrder\FormTransportSEA.vbhtml" />
     <Content Include="App_Data\EASTRONG\JobOrder\FormTransportWALMAY.vbhtml" />
+    <Content Include="App_Data\TOTAL\Shared\MasterPage.vbhtml" />
+    <Content Include="App_Data\TOTAL\JobOrder\FormTransportAIR.vbhtml" />
+    <Content Include="App_Data\TOTAL\JobOrder\FormTransportSEA.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -1476,6 +1482,8 @@
     <Content Include="Views\Acc\FormCheque.vbhtml" />
     <Content Include="Views\JobOrder\FormTransportSEA.vbhtml" />
     <Content Include="Views\JobOrder\FormTransportAIR.vbhtml" />
+    <Content Include="Views\JobOrder\FormTransportWALMAY.vbhtml" />
+    <Content Include="Views\JobOrder\FormTransportEASTRONG.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

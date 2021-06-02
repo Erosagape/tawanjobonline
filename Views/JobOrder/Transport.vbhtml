@@ -211,7 +211,9 @@ End Code
                 <option value="BA">Booking Confirmation (AIR)</option>
                 <option value="BS">Booking Confirmation (SEA)</option>
                 <option value="SP">Shipping Particulars</option>
-                <option value="BL">Bill of Lading</option>
+                <option value="BLW">Bill of Lading - WALMAY</option>
+                <option value="BLE">Bill of Lading - EASTRONG</option>
+                <option value="BLS">Sea Way Bill</option>
                 <option value="AW">Air Way Bill</option>
                 <option value="DO">D/O Letter</option>
                 <option value="SC">Sales Contract</option>
@@ -1495,8 +1497,14 @@ End Code
             case 'SP':
                 window.open(path + 'JobOrder/FormBooking?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
-            case 'BL':
+            case 'BLS':
                 window.open(path + 'JobOrder/FormTransport?Type=SEA&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'BLW':
+                window.open(path + 'JobOrder/FormTransport?Type=WALMAY&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'BLE':
+                window.open(path + 'JobOrder/FormTransport?Type=EASTRONG&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'AW':
                 window.open(path + 'JobOrder/FormTransport?Type=AIR&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
