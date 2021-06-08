@@ -1103,6 +1103,10 @@
     <Content Include="App_Data\TOTAL\Shared\MasterPage.vbhtml" />
     <Content Include="App_Data\TOTAL\JobOrder\FormTransportAIR.vbhtml" />
     <Content Include="App_Data\TOTAL\JobOrder\FormTransportSEA.vbhtml" />
+    <Content Include="App_Data\GOLDENLINE\Reports\Index.vbhtml" />
+    <Content Include="App_Data\GOLDENLINE\Reports\Preview.vbhtml" />
+    <Content Include="App_Data\GOLDENLINE\Reports\Preview1.vbhtml" />
+    <Content Include="App_Data\GOLDENLINE\Reports\Preview2.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
