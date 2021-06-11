@@ -125,23 +125,13 @@ End Code
         if (data.customer.length > 0) {
 	
             $('#lblTaxNumber').text(data.customer[0][0].TaxNumber);
-            if (data.customer[0][0].UsedLanguage == 'TH') {
-if(Number(data.customer[0][0].Branch)>0) {
-    $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + data.header[0][0].CustBranch);
-} else {
-        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :สำนักงานใหญ่');
-}
-                $('#lblCustName').text(data.customer[0][0].NameThai);
-                $('#lblCustAddress').text(data.customer[0][0].TAddress1 + '\n' + data.customer[0][0].TAddress2);
+            if(Number(data.customer[0][0].Branch)>0) {
+                $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + data.header[0][0].CustBranch);
             } else {
-if(Number(data.customer[0][0].Branch)>0) {
-    $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + data.header[0][0].CustBranch);
-} else {
-        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :HEAD OFFICE');
-}
-                $('#lblCustName').text(data.customer[0][0].NameEng);
-                $('#lblCustAddress').text(data.customer[0][0].EAddress1 + '\n' + data.customer[0][0].EAddress2);
+                    $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :HEAD OFFICE');
             }
+            $('#lblCustName').text(data.customer[0][0].NameEng);
+            $('#lblCustAddress').text(data.customer[0][0].EAddress1 + '\n' + data.customer[0][0].EAddress2);
         }
         if (data.detail.length > 0) {
             let total = 0;

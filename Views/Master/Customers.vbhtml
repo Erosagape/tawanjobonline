@@ -40,7 +40,7 @@ End Code
                 <br /><input type="text" id="txtNameThai" class="form-control" tabIndex="5">
             </div>
             <div class="col-sm-5">
-                <label id="lblNameEng">English :</label>
+                <label id="lblNameEng" onclick="CopyName()">English :</label>
                 <br /><input type="text" id="txtNameEng" class="form-control" tabIndex="6">
             </div>
         </div>
@@ -781,5 +781,9 @@ End Code
         $('#txtBillToBranch').val($('#txtBranch').val());
         $('#txtBillToCustName').val($('#txtNameThai').val());
         $('#txtBillToAddress').val($('#txtTAddress1').val() + ' '+$('#txtTAddress2').val());
+    }
+
+    function CopyName() {
+        $('#txtNameEng').val($('#txtNameThai').val());
     }
 </script>

@@ -3,6 +3,8 @@
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Voucher Slip"
 End Code
+<span style="float:right;" id="lblPost"></span>
+<br/>
 <table id="tbAdvInfo" width="100%">
     <tr>
         <td colspan="3" style="font-size:11px">
@@ -243,6 +245,9 @@ End Code
             $('#txtVoucherType').val(vcTypeName + ' VOUCHER');
             $('#txtVoucherDate').text(ShowDate(CDateTH(data.header[0].VoucherDate)));
             $('#txtRemark').text(data.header[0].TRemark);
+            if (data.header[0].PostedBy !== '') {
+                $('#lblPost').html('**POSTED**');
+            }
         }
     }
     function appendLine(dv,data,col1,col2) {
