@@ -197,7 +197,7 @@
         }
         $.get(path + 'Report/GetReportList?group=' + group).done((r) => {
             if ($.isEmptyObject(r) == false && r[0].ReportCode !== null) {
-                $('#tbReportList').DataTable({
+                $('#tbReportList').dataTable({
                     data: r,
                     columns: [
                         { data: "ReportCode", title: "Report Code" },
@@ -205,6 +205,7 @@
                     ],
                     responsive: true,
                     destroy: true
+                    , pageLength: 100
                 });
             } else {
                 ChangeLanguageForm('@ViewBag.Module');
