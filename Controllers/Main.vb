@@ -1530,15 +1530,17 @@ AND JobStatus<>99 AND NOT ISNULL(CancelReson,'')<>''
 UNION
 SELECT BranchCode,JNo,1 FROM Job_Order 
 WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate IS NULL
-AND NOT ISNULL(CancelReson,'')<>''
+AND JobStatus<>1 AND NOT ISNULL(CancelReson,'')<>''
 UNION
 SELECT BranchCode,JNo,1 FROM Job_Order 
-WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate>Convert(datetime,'" & today & "',102)
-AND NOT ISNULL(CancelReson,'')<>''
+WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND NOT DutyDate<=GetDate()
+AND DutyDate IS NOT NULL
+AND JobStatus<>1 AND NOT ISNULL(CancelReson,'')<>''
 UNION
 SELECT BranchCode,JNo,2 FROM Job_Order 
-WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate<=Convert(datetime,'" & today & "',102)
-AND NOT ISNULL(CancelReson,'')<>'' 
+WHERE ConfirmDate IS NOT NULL AND CloseJobDate IS NULL AND DutyDate<=GetDate()
+AND DutyDate IS NOT NULL
+AND JobStatus<>2 AND NOT ISNULL(CancelReson,'')<>'' 
 UNION
 SELECT BranchCode,JNo,2 FROM Job_Order 
 WHERE EXISTS(SELECT DISTINCT b.ForJNo FROM Job_AdvHeader a INNER JOIN Job_AdvDetail b ON a.BranchCode=b.BranchCode AND a.AdvNo=b.AdvNo WHERE b.ForJNo=Job_Order.JNo AND a.DocStatus<>99)
@@ -1673,9 +1675,9 @@ AND a.JobStatus=6 AND NOT ISNULL(a.CancelReson,'')<>''
 ON j.BranchCode=c.BranchCode
 AND j.JNo=c.JNo 
 WHERE j.JobStatus<> c.JobStatus
-{0}
+{1}
 "
-        Return String.Format(sql, sqlwhere)
+        Return String.Format(sql, today, sqlwhere)
     End Function
 
     Function SQLSelectInvSummary(pSqlw As String) As String

@@ -47,7 +47,7 @@ End Code
             </div>
             <div class="col-sm-3">
                 <a id="linkJobNo" href="#" onclick="SearchData('job')">Job No :</a><br />
-                <input type="text" id="txtJobNo" class="form-control" disabled />
+                <input type="text" id="txtJobNo" class="form-control" />
             </div>
             <div class="col-sm-3">
                 <br />
@@ -718,8 +718,7 @@ End Code
                     return html;
                 }
             }
-            ]
-            , pageLength: 100
+            ],
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'button', function () {

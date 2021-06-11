@@ -130,12 +130,12 @@ End Code
     let jt = getQueryString("jobtype");
     let sb = getQueryString("shipby");
     loadBranch(path);
+    loadCombo();
     //3 Fields Show
     $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
         let dv = document.getElementById("dvLOVs");
         CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response, 3);
         CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
-        loadCombo();
         getJobdata();
     });
     function CheckJobType() {

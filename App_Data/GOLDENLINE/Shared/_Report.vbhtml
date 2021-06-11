@@ -26,8 +26,8 @@
                 <div id="divCompany" style="text-align:left;color:darkblue;font-size:14px">
                     <span style="font-size:16px;font-weight:bold;">@ViewBag.PROFILE_COMPANY_NAME</span>
                     <br />@ViewBag.PROFILE_COMPANY_ADDR1 <br /> @ViewBag.PROFILE_COMPANY_ADDR2
-                    <br />Tel @ViewBag.PROFILE_COMPANY_TEL Fax @ViewBag.PROFILE_COMPANY_FAX Website http://www.goldenline-th.com
-                    <br />Tax-ID : @ViewBag.PROFILE_TAXNUMBER Branch HEAD OFFICE
+                    <br />Tel @ViewBag.PROFILE_COMPANY_TEL Fax @ViewBag.PROFILE_COMPANY_FAX E-mail/Website @ViewBag.PROFILE_COMPANY_EMAIL
+                    <br />Tax-Reference ID : @ViewBag.PROFILE_TAXNUMBER Branch @ViewBag.PROFILE_TAXBRANCH
                 </div>
             </div>
         </div>

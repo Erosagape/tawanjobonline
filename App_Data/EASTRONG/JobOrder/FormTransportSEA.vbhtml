@@ -331,62 +331,60 @@ End Code
     </table>
 </p>
 <p>
-    <div style="width:100%;font-size:14px;text-align:center">
+    <div style="width:100%;font-size:14px;">
         <b>APISASI HOLDING CO.,LTD</b>
         <br />
-        <div style="font-size:7px;text-align:left">
-            Definitions 'Merchant' means and includes the Shipper, the Consignor, the Consignee the Holder of tis Bill of Lading, the Receiver and the Owner of the Goods "The Freight forwarder" means the issuer of this bill of Lading as named on the face of it.
-            The headings set forth below are for easy reference only.
-        </div>
+        Definitions 'Merchant' means and includes the Shipper, the Consignor, the Consignee the Holder of tis Bill of Lading, the Receiver and the Owner of the Goods "The Freight forwarder" means the issuer of this bill of Lading as named on the face of it.
+        The headings set forth below are for easy reference only
     </div>
-    <div style="display:flex;font-size:7px;flex-direction:row;">
+    <div style="display:flex;font-size:5px;flex-direction:row;">
         <div class="right" style="flex:1;padding:5px 5px 5px 5px;">
             <div style="width:100%;text-align:center">
                 <b>CONDITIONS</b>
+                <br />
+                <br/>1.  Applicability
+                Not withstanding the heading "Combined Transport Bill of Lading" the Provisions set out and refereed to in this document shall also apply if the transport as described on the face of the bill of Lading is performed by one mode of transport only.
+                <br />2.	Issuance of the "Combined Transport Bill of Lading"
+                <br />2.1	By the issuance of this "Combined Transport Bill of Lading", the Freight Forwarder:
+                <br />a)	undertakes to perform and/of in his own name to procure the performance of the entire transport, from the place at which the goods are taken in charge to the place designated for delivery in this Bill of Lading
+                <br />b)	assumes liability as set out in these Conditions.
+                <br />2.2	For the purposes and subject to the provisions of this Bill of Lading, the Freight Forwarder shall be responsible for the acts and omissions of any person of whose service he makes use for the performance of the contract evidenced by this Bill of Lading.
+                <br />3.	Negotiability and title to the goods
+                <br />3.1	By accepting this bill of Lading the Merchant and his transferees agree with the Freight Forwarder that. unless It is marked, "non negotiable" it shall constitute to the goods and the holder by endorsement of
+                this Bill of Lading shall be entitled to receive or to transfer the Goods herein mentioned.
+                <br />3.2	This Bill of Lading shall be prima fact evidence of the taking charge by the Freight Forwarder of the goods as herein described.  However, proof to the contrary shall not be admissible when this Bill of Lading has been negotiated or transferred for valuable consideration to a third party acting in good faith.
+                <br />4.	Dangerous Goods and Indemnity
+                <br />4.1	The Merchant shall comply with release which are mandatory according to the national law or by reason of international Convention, relating to the carriage of goods of a dangerous nature, and shall in any case inform the Freight Forwarder in writing of the exact nature of the danger before goods of a dangerous nature are taken in charge by the Freight Forwarder and indicate to him, if need be, the precautions to be taken.
+                <br />4.2	lf the Merchant fails to provide such information and the Freight Forwarder is unaware of the dangerous
+                nature of the goods and the necessary precautions to be taken and if, at any time they are deemed go be hazard to life or property, they may at any place be unloaded, destroyed rendered harmless, as circumstances may require, without compensation, and the Merchant shall be liable for all loss. damage, delay or expenses arising out of their being taken in charge, or their carriage, or of any service incidental thereto. The burden of proving the Freight Forwarder knew the exact nature of the danger constituted by the carriage of the said goods shall rest upon the parson entitles to the goods
+                <br />4.3	If any goods shipped with knowledge of the Freight Forwarder as their dangerous nature shall become a danger to the vehicle or cargo, they may in like manner be unloaded or landed at any place or destroyed or rendered innocuous by the Freight Forwarder without liability on the part of the Freight Forwarder, except to General Average, if any
+                <br />5.	Description of goods and Merchant's Packing
+                <br />5.1	The Consignor shall be deemed to have guaranteed to the Freight Forwarded the accuracy at the time that goods were in charge by the Freight Forwarded of the description of the goods, marks, number. quantity, weight and/of volume as furnished by him, and the Consignor shall indemnity the Freight
+                Forwarder against all loss, damage and expenses arising or resulting from inaccuracies in or in adequacy of such particulars, The right of the Freight Forwarder to such indemnity shall in no way
+                Limit this responsibility and liability  under  this  Bill  of  Lading  to  any  person  other  than  the  Consignor.
+                <br />5.2	Without prejudice to clause 6 (A) (2) (c), the Merchant shall be liable for any loss, damage or injury caused by faulty or insufficient packing of goods or by faulty loading or packing within containers and trailers and on flats when such loading or packing has been performed by the Merchant or on behalf of the Merchant by a person other than the Freight Forwarder or by the defect or unsuitability of the containers, trailers of flats. When supplied by the Merchant, and shall indemnify the Freight Forwarder against any additional expenses so caused.
+                <br />6.	Extend of Liability
+                <br />A.	1 ) The Freight Forwarder shall be liable for loss of or damage to the goods occurring between the time when he takes the goods into his charge and the time of delivery
+                <br />2)	The Freight Forwarder shall, however, be relieved of liability for any loss or damage if such loss or damage was caused by
+                <br />a)	an act or omission of the Merchant or from whom the Freight Forwarder took the goods in
+                charge.
+                <br />b)	insufficiency or defective condition of the packaging or marks and/or numbers.
+                <br />c)	handling, loading, stowage or unloading of the goods by the Merchant or any person acting on behalf of the Merchant
+                <br />d)	inherent vice of the goods.
+                <br />e)	strike, lockout, stoppage or restraint of labour, the consequences of which the Freight Forwarder could not avoid by the exercise of reasonable diligence.
+                <br />f)	any cause or event which the Freight Forwarder could not avoid and the consequences
+                whereof he could not prevent by the exercise of reasonable diligence.
+                <br />g)	a nuclar incident lf the operator of a nuclear installation or a person acting for him or liable for this damage under an applicable international Convention of national law governing liability in respect of nuclear energy.
+                <br />3)	The burden of proving that loss or damage was due to one or more of the about causes or events shall rest upon the Freight Forwarder.
+                When the Freight Forwarder, establishes that, in the circumstances of the case, the loss or
+                damage could be attributed to one or more of the causes or events specified In b) to d) about, it shall be presumed that iit was so caused. The claimant shall, however be entitled to prove that the loss or damage was not, on fact, caused wholly or partly by one or more of these causes or events.
+                <br />B.	When in accordance with clause 6, A  1 the Freight Forwarder is liable to pay compensation in
+                respect of loss or damage to the goods and the stage of transport where the loss or damage occurred is known, the liability of the Freight Forwarder in respect of such loss or damage shall be determined by the provisions contained in any international Convention or national law, which provisions,
+                <br />(i)	cannot be departed from by private contract to the detract, of the claimant, and
+                <br />(ii) would have applied of the Claimant had made a separate and direct contract with the Freight Forwarder in respect of the particulate stage of transport where the loss or damage occurred and received as evidence thereof any particulate document which must be issued in order to make such international convention or national law applicable.
+                <br />7.	Paramount Clause
+                The Hague Rules contained in the International Convention for the unification of certain rules relate to Bill of Lading, dated Brussels 25th August 1924, or I those countries where they are already in force Hague Visby Rule contained in the Protocol of Brussels, dated February 23rd 1968, as enacted in the Country of Shipment, shalt apply to all carriage of goods by sea and, where no mandatory international or national law applies to the carriage of foods by inland waterways also, and such provisions shall apply to all goods whether carried on deck or under deck
             </div>
-            <br />1.  Applicability
-            Not withstanding the heading "Combined Transport Bill of Lading" the Provisions set out and refereed to in this document shall also apply if the transport as described on the face of the bill of Lading is performed by one mode of transport only.
-            <br />2.	Issuance of the "Combined Transport Bill of Lading"
-            <br />2.1	By the issuance of this "Combined Transport Bill of Lading", the Freight Forwarder:
-            <br />a)	undertakes to perform and/of in his own name to procure the performance of the entire transport, from the place at which the goods are taken in charge to the place designated for delivery in this Bill of Lading
-            <br />b)	assumes liability as set out in these Conditions.
-            <br />2.2	For the purposes and subject to the provisions of this Bill of Lading, the Freight Forwarder shall be responsible for the acts and omissions of any person of whose service he makes use for the performance of the contract evidenced by this Bill of Lading.
-            <br />3.	Negotiability and title to the goods
-            <br />3.1	By accepting this bill of Lading the Merchant and his transferees agree with the Freight Forwarder that. unless It is marked, "non negotiable" it shall constitute to the goods and the holder by endorsement of
-            this Bill of Lading shall be entitled to receive or to transfer the Goods herein mentioned.
-            <br />3.2	This Bill of Lading shall be prima fact evidence of the taking charge by the Freight Forwarder of the goods as herein described.  However, proof to the contrary shall not be admissible when this Bill of Lading has been negotiated or transferred for valuable consideration to a third party acting in good faith.
-            <br />4.	Dangerous Goods and Indemnity
-            <br />4.1	The Merchant shall comply with release which are mandatory according to the national law or by reason of international Convention, relating to the carriage of goods of a dangerous nature, and shall in any case inform the Freight Forwarder in writing of the exact nature of the danger before goods of a dangerous nature are taken in charge by the Freight Forwarder and indicate to him, if need be, the precautions to be taken.
-            <br />4.2	lf the Merchant fails to provide such information and the Freight Forwarder is unaware of the dangerous
-            nature of the goods and the necessary precautions to be taken and if, at any time they are deemed go be hazard to life or property, they may at any place be unloaded, destroyed rendered harmless, as circumstances may require, without compensation, and the Merchant shall be liable for all loss. damage, delay or expenses arising out of their being taken in charge, or their carriage, or of any service incidental thereto. The burden of proving the Freight Forwarder knew the exact nature of the danger constituted by the carriage of the said goods shall rest upon the parson entitles to the goods
-            <br />4.3	If any goods shipped with knowledge of the Freight Forwarder as their dangerous nature shall become a danger to the vehicle or cargo, they may in like manner be unloaded or landed at any place or destroyed or rendered innocuous by the Freight Forwarder without liability on the part of the Freight Forwarder, except to General Average, if any
-            <br />5.	Description of goods and Merchant's Packing
-            <br />5.1	The Consignor shall be deemed to have guaranteed to the Freight Forwarded the accuracy at the time that goods were in charge by the Freight Forwarded of the description of the goods, marks, number. quantity, weight and/of volume as furnished by him, and the Consignor shall indemnity the Freight
-            Forwarder against all loss, damage and expenses arising or resulting from inaccuracies in or in adequacy of such particulars, The right of the Freight Forwarder to such indemnity shall in no way
-            Limit this responsibility and liability  under  this  Bill  of  Lading  to  any  person  other  than  the  Consignor.
-            <br />5.2	Without prejudice to clause 6 (A) (2) (c), the Merchant shall be liable for any loss, damage or injury caused by faulty or insufficient packing of goods or by faulty loading or packing within containers and trailers and on flats when such loading or packing has been performed by the Merchant or on behalf of the Merchant by a person other than the Freight Forwarder or by the defect or unsuitability of the containers, trailers of flats. When supplied by the Merchant, and shall indemnify the Freight Forwarder against any additional expenses so caused.
-            <br />6.	Extend of Liability
-            <br />A.	1 ) The Freight Forwarder shall be liable for loss of or damage to the goods occurring between the time when he takes the goods into his charge and the time of delivery
-            <br />2)	The Freight Forwarder shall, however, be relieved of liability for any loss or damage if such loss or damage was caused by
-            <br />a)	an act or omission of the Merchant or from whom the Freight Forwarder took the goods in
-            charge.
-            <br />b)	insufficiency or defective condition of the packaging or marks and/or numbers.
-            <br />c)	handling, loading, stowage or unloading of the goods by the Merchant or any person acting on behalf of the Merchant
-            <br />d)	inherent vice of the goods.
-            <br />e)	strike, lockout, stoppage or restraint of labour, the consequences of which the Freight Forwarder could not avoid by the exercise of reasonable diligence.
-            <br />f)	any cause or event which the Freight Forwarder could not avoid and the consequences
-            whereof he could not prevent by the exercise of reasonable diligence.
-            <br />g)	a nuclar incident lf the operator of a nuclear installation or a person acting for him or liable for this damage under an applicable international Convention of national law governing liability in respect of nuclear energy.
-            <br />3)	The burden of proving that loss or damage was due to one or more of the about causes or events shall rest upon the Freight Forwarder.
-            When the Freight Forwarder, establishes that, in the circumstances of the case, the loss or
-            damage could be attributed to one or more of the causes or events specified In b) to d) about, it shall be presumed that iit was so caused. The claimant shall, however be entitled to prove that the loss or damage was not, on fact, caused wholly or partly by one or more of these causes or events.
-            <br />B.	When in accordance with clause 6, A  1 the Freight Forwarder is liable to pay compensation in
-            respect of loss or damage to the goods and the stage of transport where the loss or damage occurred is known, the liability of the Freight Forwarder in respect of such loss or damage shall be determined by the provisions contained in any international Convention or national law, which provisions,
-            <br />(i)	cannot be departed from by private contract to the detract, of the claimant, and
-            <br />(ii) would have applied of the Claimant had made a separate and direct contract with the Freight Forwarder in respect of the particulate stage of transport where the loss or damage occurred and received as evidence thereof any particulate document which must be issued in order to make such international convention or national law applicable.
-            <br />7.	Paramount Clause
-            The Hague Rules contained in the International Convention for the unification of certain rules relate to Bill of Lading, dated Brussels 25th August 1924, or I those countries where they are already in force Hague Visby Rule contained in the Protocol of Brussels, dated February 23rd 1968, as enacted in the Country of Shipment, shalt apply to all carriage of goods by sea and, where no mandatory international or national law applies to the carriage of foods by inland waterways also, and such provisions shall apply to all goods whether carried on deck or under deck
-
         </div>
         <div class="right" style="flex:1;padding:5px 5px 5px 5px;">
             <br/>8. Limitation Amount
