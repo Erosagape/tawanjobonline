@@ -103,7 +103,7 @@ End Code
     //$(document).ready(function () {
     SetEvents();
     //});
-    
+
     function SetEvents() {
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             var dv = document.getElementById("dvLOVs");
@@ -121,36 +121,38 @@ End Code
         $.get(path + 'Master/GetServiceBudget?Branch=' + $('#txtBranchCode').val() + '&JType=' + $('#txtJobType').val() + '&SBy=' + $('#txtShipBy').val())
             .done(function (r) {
                 let dt = r.budgetpolicy.data;
-                var table = $('#tbDetail').dataTable({
-                    data: dt[0].Table,
-                    columns: [
-                        {                        
-                            data: null, title: "SICode",
-                            render: function (data, type, full, meta) {
-                                let html = "<button class='btn btn-default'>" + data.SICode + "</button>";
-                                return html;
-                            }
-                        },
-                        { data: "NameThai", title: "Description" },
-                        { data: "MaxAdvance", title: "Max-Advance" },
-                        { data: "MaxCost", title: "Max-Cost" },
-                        { data: "MinCharge", title: "Min-Charge" },
-                        { data: "MinProfit", title: "Min-Profit" }
-                    ],
-                    responsive: true,
-                    destroy: true
-                    , pageLength: 100
-                });
-                ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
-                $('#tbDetail tbody').on('click', 'tr', function () {
-                    SetSelect('#tbDetail', this);
-                    row = $('#tbDetail').DataTable().row(this).data(); //read current row selected
-                    ClearData();
-                    ReadData(row);
-                });
-                $('#tbDetail tbody').on('click', 'button', function () {
-                    $('#dvEditor').modal('show');
-                });
+                if (dt.length > 0) {
+                    var table = $('#tbDetail').dataTable({
+                        data: dt[0].Table,
+                        columns: [
+                            {
+                                data: null, title: "SICode",
+                                render: function (data, type, full, meta) {
+                                    let html = "<button class='btn btn-default'>" + data.SICode + "</button>";
+                                    return html;
+                                }
+                            },
+                            { data: "NameThai", title: "Description" },
+                            { data: "MaxAdvance", title: "Max-Advance" },
+                            { data: "MaxCost", title: "Max-Cost" },
+                            { data: "MinCharge", title: "Min-Charge" },
+                            { data: "MinProfit", title: "Min-Profit" }
+                        ],
+                        responsive: true,
+                        destroy: true
+                        , pageLength: 100
+                    });
+                    ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
+                    $('#tbDetail tbody').on('click', 'tr', function () {
+                        SetSelect('#tbDetail', this);
+                        row = $('#tbDetail').DataTable().row(this).data(); //read current row selected
+                        ClearData();
+                        ReadData(row);
+                    });
+                    $('#tbDetail tbody').on('click', 'button', function () {
+                        $('#dvEditor').modal('show');
+                    });
+                }
                 CloseWait();
             });
     }
