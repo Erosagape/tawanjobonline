@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="sheets-of-paper-a4.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<style>
+    * {
+        font-size: 11px;
+    }
+    body{
+        line-height: 1;
+    }
+    .center{
+        text-align: center;
+    }
+    .right{
+        text-align: right;
+    }
+    .bold{
+        font-weight: bold;
+    }
+    .table td,.table th{
+        border-top: 0px none;
+        padding: 0.3rem;
+    }
+    .table-bordered td, .table-bordered th {
+        border: 1px solid black;
+    }
+    .table thead th{
+        border-color: black;
+        border-width: 1px;
+        padding: 0.5em;
+    }
+    .table-borderless td, .table-borderless th {
+        border: 0px none;
+    }
+    .underLine{
+        border-bottom: 1px solid black !important;
+    }
+    .noUnderLine{
+        border-bottom: 0px none !important;
+    }
+    .noUpperLine{
+        border-top: 0px none !important;
+    }
+    .sideLine{
+        border-left: 1px solid  black;
+        border-right: 1px solid  black;
+    }
+</style>
+<body>
+    <div class="page" contenteditable="false">
+        <p class="center bold">
+            <label id="companyName" style="font-size:20px">TOTAL SHIPPING SERVICE CO.,LTD.</label>
+        </p>
+        <p class="center bold">
+            <label style="font-size:16px">INBOUND PAYABLE VOUCHER</label>
+        </p>
+        <table class="table">
+            <thead></thead>
+            <tbody>
+                <tr>
+                    <td colspan="2" class="bold">
+                        <label id="billToLbl">BILL TO NAME AND ADDRESS</label>
+                    </td>
+                    <td class="right">
+                        <label id="id"></label>
+                    </td>
+                    <td>
+                        <labe id="voucherLbl" class="bold">VOUCHER NO:</label>
+                    </td>
+                    <td>
+                        <label id="voucherNo"></label>
+                    </td>
+                </tr>
+                <tr> 
+                    <td id="billTo" rowspan="4" colspan="3">ชื่อที่่อยู่บริษัทลูกค้า</td>
+                    <td>
+                        <label id="voucherDateLbl" class="bold">VOUCHER DATE:</label>
+                    </td>
+                    <td>
+                        <label id="voucherDate"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label id="dueDateLbl" class="bold">DUE DATE:</label>
+                    </td>
+                    <td>
+                        <label id="dueDate"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label id="creditTermLbl" class="bold">CREDIT TERM:</label>
+                    </td>
+                    <td>
+                        <label id="creditTerm"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label id="currencyLbl" class="bold">CURRENCY:</label>
+                    </td>
+                    <td>
+                        <label id="currency"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label id="jobNoLbl" class="bold">JOB NO</label>
+                    </td>
+                    <td>:</td>
+                    <td>
+                        <label id="jobNo" class=""></label>
+                    </td>
+                    <td>
+                        <label id="masterBLNoLbl" class="bold">MASTER B/L NO.</label>
+                    </td>
+                    <td>
+                        <label id="masterBLNo">:</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="">
+                        <label id="feederLbl" class="bold">FEEDER/VOYAGE</label>
+                    </td>
+                    <td>:</td>
+                    <td>
+                        <label id="feeder" class=""></label>
+                    </td>
+                    <td>
+                        <label id="houseBLNoLbl" class="bold">HOUSE B/L NO.</label>
+                    </td>
+                    <td>
+                        <label id="houseBLNo"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="">
+                        <label id="vesselLbl" class="bold">VESSEL/VOYAGE</label>
+                    </td>
+                    <td>:</td>
+                    <td>
+                        <label id="vessel" class=""></label>
+                    </td>
+                    <td>
+                        <label id="newHBLNoLbl" class="bold">NEW HB/L NO.</label>
+                    </td>
+                    <td>
+                        <label id="newHBLNo"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="">
+                        <label id="shipperNameLbl" class="bold">SHIPPER NAME</label>
+                    </td>
+                    <td>:</td>
+                    <td>
+                        <label id="shipperName" class=""></label>
+                    </td>
+                    <td>
+                        <label id="etdLbl" class="bold">ETD : </label>
+                        <label id="etd"></label>
+                    </td>
+                    <td>
+                        <label id="etaLbl" class="bold">ETA : </label>
+                        <label id="eta"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="">
+                        <label id="consigneeNameLbl" class="bold">CONSIGNEE NAME</label>
+                    </td>
+                    <td>:</td>
+                    <td>
+                        <label id="consigneeName" class=""></label>
+                    </td>
+                    <td>
+                        <label id="originalLbl" class="bold">ORIGINAL</label>
+                    </td>
+                    <td>
+                        <label id="original"></label>
+                    </td>
+                 </tr>
+                 <tr>
+                     <td class="">
+                         <label id="carrierLbl" class="bold">CARRIER</label>
+                     </td>
+                     <td>:</td>
+                     <td>
+                        <label id="carrier" class=""></label>
+                     </td>
+                  </tr>
+            </tbody>
+        </table>
+        <table class="table table-bordered">
+            <thead>
+                <tr >
+                    <th class="align-top" rowspan="2">DESCRIPTION</th>
+                    <th class="center align-top" rowspan="2">QTYs</th>
+                    <th class="center align-top" rowspan="2">UOM</th>
+                    <th class="center" colspan="4">IN SOURCE CURRENCY</th>
+                    <th class="center" colspan="3">AMOUNT IN THB</th>
+                </tr>
+                <tr">
+                    <th class="center">CURR.</th>
+                    <th class="center">@ UNIT</th> 
+                    <th class="center">AMOUNT</th>
+                    <th class="center">EXC.</th>
+                    <th class="center">ADVANCE</th>
+                    <th class="center">NO VAT</th>
+                    <th class="center">VAT</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="">INSPECTION CHARGE</td>
+                    <td class="right">1.000</td>
+                    <td class="center">SET</td>
+                    <td class="center">THB</td>
+                    <td class="right">1,500.0000</td>
+                    <td class="right">1,500.00</td>
+                    <td class="right">1.0000</td>
+                    <td class="right">-</td>
+                    <td class="right">-</td>
+                    <td class="right">1,500.00</td>
+                </tr>
+                <tr>
+                    <td class="">CUSTOMS CLEARANCE CHARGE</td>
+                    <td class="right">1.000</td>
+                    <td class="center">SET</td>
+                    <td class="center">THB</td>
+                    <td class="right">1,900.0000</td>
+                    <td class="right">1,900.00</td>
+                    <td class="right">1.0000</td>
+                    <td class="right">-</td>
+                    <td class="right">-</td>
+                    <td class="right">1,900.00</td>
+                </tr>
+                <tr>
+                    <td class="">FDA</td>
+                    <td class="right ">1.000</td>
+                    <td class="center ">SET</td>
+                    <td class="center ">THB</td>
+                    <td class="right ">1,500.0000</td>
+                    <td class="right ">1,500.00</td>
+                    <td class="right ">1.0000</td>
+                    <td class="right ">-</td>
+                    <td class="right ">-</td>
+                    <td class="right ">1,500.00</td>
+                </tr>
+                <tr>
+                    <td class="">LPI PERMIT (DFA)</td>
+                    <td class="right">1.000</td>
+                    <td class="center">SET</td>
+                    <td class="center">THB</td>
+                    <td class="right">1,000.0000</td>
+                    <td class="right">1,000.00</td>
+                    <td class="right">1.0000</td>
+                    <td class="right">-</td>
+                    <td class="right">-</td>
+                    <td class="right">1,000.00</td>
+                </tr>
+                <tr>
+                    <td class="">TRANSPORTATION</td>
+                    <td class="right">1.000</td>
+                    <td class="center">SET</td>
+                    <td class="center">THB</td>
+                    <td class="right">8,000.0000</td>
+                    <td class="right">8,000.00</td>
+                    <td class="right">1.0000</td>
+                    <td class="right">-</td>
+                    <td class="right">-</td>
+                    <td class="right">8,000.00</td>
+                </tr>
+                <tr>
+                    <td class="">CUSTOM TAX ( RECEIPT )</td>
+                    <td class="right">1.000</td>
+                    <td class="center">SET</td>
+                    <td class="center">THB</td>
+                    <td class="right">200.000</td>
+                    <td class="right">200.00</td>
+                    <td class="right">1.0000</td>
+                    <td class="right">200.00</td>
+                    <td class="right">-</td>
+                    <td class="right">-</td>
+                </tr>
+                <tr class="underLine">
+                    <td class="">WAREHOUSE RENTAL (RECEIPT)</td>
+                    <td class="right">1.000</td>
+                    <td class="center">SET</td>
+                    <td class="center">THB</td>
+                    <td class="right">676.1300</td>
+                    <td class="right">676.13</td>
+                    <td class="right">1.0000</td>
+                    <td class="right">676.13</td>
+                    <td class="right">-</td>
+                    <td class="right">-</td>
+                </tr>
+                <tr>
+                    <td rowspan="5" colspan="3">
+                        <table class="table table-borderless">
+                            <thead>
+                                <tr class="underLine">
+                                    <th>WHT</th>
+                                    <th class="center">Gross Amt.</th>
+                                    <th class="center">Tax Amt.</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <label id="wht1"></label>
+                                    </td>
+                                    <td class="right">
+                                        <label id="gross1"></label>
+                                    </td>
+                                    <td class="right">
+                                        <label id="taxAmt1"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label id="wht1_5"></label>
+                                    </td>
+                                    <td class="right">
+                                        <label id="gross1_5"></label>
+                                    </td>
+                                    <td class="right">
+                                        <label id="taxAmt1_5"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label id="wht3"></label>
+                                    </td>
+                                    <td class="right">
+                                        <label id="gross3"></label>
+                                    </td>
+                                    <td class="right">
+                                        <label id="taxAmt3"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label id="wht10"></label>
+                                    </td>
+                                    <td class="right">
+                                        <label id="gross10"></label>
+                                    </td>
+                                    <td class="right">
+                                        <label id="taxAmt10"></label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label id="whtOthers"></label>
+                                    </td>
+                                    <td class="right">
+                                        <label id="grossOthers"></label>
+                                    </td>
+                                    <td class="right">
+                                        <label id="taxAmtOthers"></label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td id="totalVatExclusiveAmountLbl" class="bold" colspan="4">TOTAL VAT EXCLUSIVE AMOUNT</td>
+                    <td id="advanceVatExclusiveAmount" class="right bold"></td>
+                    <td id="noVatVatExclusiveAmount" class="right bold"></td>
+                    <td id="vatVatExclusiveAmount" class="right bold"></td>
+                    
+                </tr>
+                <tr>
+                    <td id="totalVatAmountLbl" class="bold" colspan="4">TOTAL VAT AMOUNT</td>
+                    <td class="right"></td>
+                    <td class="right"></td>
+                    <td id="totalVatAmount" class="right bold"></td>
+                </tr>     
+                <tr>
+                    <td id="totalVatInclusiveAmountLbl" class="bold" colspan="4">TOTAL VAT INCLUSIVE AMOUNT</td>
+                    <td id="totalVatInclusiveAmount" class="right bold" colspan="3"></td>
+                </tr>
+                <tr>
+                    <td id="lessWTLbl" class="bold" colspan="4">LESS W/T</td>
+                    <td id="lessWT" class="right bold" colspan="3"></td>
+                </tr>
+                <tr>
+                    <td id="netPaymentLbl" class="bold" colspan="4">NET PAYMENT</td>
+                    <td id="netPayment" class="right bold" colspan="3"></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-bordered">
+            <tr>
+                <td class="center bold">
+                    PREPARED BY:
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="row" style="border-bottom:1px solid black;margin: 5px;"></div>
+                </td>
+                <td class="center bold">
+                    APPROVED BY:
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="row" style="border-bottom:1px solid black;margin: 5px;"></div>
+                </td>
+                <td class="center bold">
+                    RECEIVED BY:
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="row" style="border-bottom:1px solid black;margin: 5px;"></div>
+                </td>
+                <td class="center bold">
+                    ACCOUNTANT:
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="row" style="border-bottom:1px solid black;margin: 5px;"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script>
+    // onload();
+    function onload(){
+        $("#companyName").text("TOTAL SHIPPING SERVICE CO.,LTD.");
+        $("#id").text("(200184)");
+        $("#voucherNo").text("SVI21040144");
+        $("#billTo").text("ชื่อที่่อยู่บริษัทลูกค้า");
+        $("#voucherDate").text("02/04/20214");
+        $("#duedate").text("30/06/2021");
+        $("#creditTerm").text("30 DAYS");
+        $("#currency").text("THB");
+        $("#jobNo").text("SI2104027");
+        $("#masterBLNo").text("PCSINBKK2101157 Q");
+        $("#feeder").text("");
+        $("#houseBLNo").text(":SI2104027");
+        $("#vessel").text("SINAR SOLO ,V. 936N");
+        $("#newHBLNo").text(":PCSINBKK2101157 Q");
+        $("#shipperName").text("PGEO EDIBLE OILS SDN BHD");
+        $("#etd").text("26/03/2021");
+        $("#eta").text("05/04/2021");
+        $("#consigneeName").text("PHARMAMARK NUTRITION (THAILAND) CO., LTD.");
+        $("#original").text(":PASIR GUDANG");
+        $("#carrier").text("GATEWAY CONTAINER LINE CO.,LTD.");
+        $("#advanceVatExclusiveAmount").text("876.13");
+        $("#noVatVatExclusiveAmount").text("0.00");
+        $("#vatVatExclusiveAmount").text("13,900.00");
+        $("#totalVatAmount").text("973.00");
+        $("#totalVatInclusiveAmount").text("15,749.13");
+        $("#lessWT").text("257.00");
+        $("#netPayment").text("15,492.13");
+        
+        $("#wht1").text("1%");
+        $("#wht1_5").text("1.5%");
+        $("#wht3").text("3%"); 
+        $("#wht10").text("10%");
+        $("#whtOthers").text("Others");
+
+        $("#gross1").text("8,000.00");
+        $("#gross1_5").text("-");
+        $("#gross3").text("5,900.00"); 
+        $("#gross10").text("-");
+        $("#grossOthers").text("-");
+
+        $("#taxAmt1").text("80.00");
+        $("#taxAmt1_5").text("0.00");
+        $("#taxAmt3").text("170.00"); 
+        $("#taxAmt10").text("-");
+        $("#taxAmtOthers").text("-");
+
+
+    }
+</script>
+</html>

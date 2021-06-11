@@ -372,6 +372,11 @@
     <Content Include="App_Data\SQL_Report_V2.4.sql" />
     <Content Include="App_Data\SQL_Report_V2.5.sql" />
     <Content Include="App_Data\SQL_Report_V2.6.sql" />
+    <Content Include="App_Data\TOTAL\JobOrder\report2.htm" />
+    <Content Include="App_Data\TOTAL\JobOrder\report3.htm" />
+    <Content Include="App_Data\TOTAL\JobOrder\report4.htm" />
+    <Content Include="App_Data\TOTAL\JobOrder\sheets-of-paper-a4.css" />
+    <Content Include="App_Data\TOTAL\JobOrder\sheets-of-paper.css" />
     <Content Include="App_Data\webadmin.txt" />
     <Content Include="App_Data\_STANDARD\Scripts\combo.js" />
     <Content Include="App_Data\_STANDARD\Scripts\lang.js" />
@@ -1489,6 +1494,7 @@
     <Content Include="Views\JobOrder\FormTransportAIR.vbhtml" />
     <Content Include="Views\JobOrder\FormTransportWALMAY.vbhtml" />
     <Content Include="Views\JobOrder\FormTransportEASTRONG.vbhtml" />
+    <Content Include="Views\Acc\FormInv2.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
