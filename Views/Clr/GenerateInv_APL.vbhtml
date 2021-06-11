@@ -676,7 +676,8 @@ End Code
                     return html;
                 }
             }
-            ],
+            ]
+            , pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click','button', function () {
@@ -727,6 +728,7 @@ End Code
             ],
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+            ,pageLength :100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbCost');
     }
@@ -1408,6 +1410,7 @@ End Code
             ],
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+            , pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbCheque');
         $('#tbCheque tbody').on('click', 'button', function () {

@@ -1444,7 +1444,8 @@ End Code
                         { data: "DocStatus", title: "Status" }
                     ],
                     destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                    responsive:true
+                    responsive: true
+                    , pageLength: 100
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbTracking');
             }
@@ -1469,7 +1470,8 @@ End Code
                             { data: "TRemark", title: "Description" }
                         ],
                         destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                        responsive:true
+                        responsive: true
+                        , pageLength: 100
                     });
                     ChangeLanguageGrid('@ViewBag.Module', '#tbLog');
                 }
@@ -1736,6 +1738,7 @@ End Code
                 }
             ],
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+            , pageLength: 100
         });
         $('#tbSUnt tbody').on('click', 'button', function () {
             let dt = GetSelect('#tbSUnt', this); //read current row selected

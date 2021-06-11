@@ -181,7 +181,8 @@ End Code
                         { data: "UserID", title: "User Id" },
                         { data: "UserName", title: "User Name"}
                     ],
-                    destroy: true
+                    destroy: true,
+                    pageLength:100
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
                 $('#tbDetail tbody').on('click', 'tr', function () {
@@ -206,7 +207,7 @@ End Code
                         { data: "ModuleName", title: "Module Name" },
                         { data: "Author", title: "Authorize" }
                     ],
-                    destroy: true
+                    destroy: true,pageLength:100
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbPolicy');
                 $('#tbPolicy tbody').on('click', 'tr', function () {
@@ -236,7 +237,7 @@ End Code
                 { data: "RoleDesc", title: "Role Description" },
                 { data: "RoleGroup", title: "Group" }
             ],
-            destroy:true
+            destroy:true,pageLength:100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
         $('#tbHeader tbody').on('click', 'tr', function() {

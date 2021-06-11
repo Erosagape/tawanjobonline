@@ -100,6 +100,7 @@ End Code
                 { data: "ConfigValue", title: "คำอธิบาย" }
             ],
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+            ,pageLength:100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbMenu');
         $('#tbMenu tbody').on('click', 'tr', function () {

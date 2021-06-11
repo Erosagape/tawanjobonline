@@ -332,7 +332,8 @@ End Code
                         { data: "ChargeAmount", title: "Sale Rate" },
                         { data: "Location", title: "Location" }
                     ],
-                    destroy:true
+                    destroy: true
+                    , pageLength: 100
                 });
                 //ChangeLanguageGrid('@ViewBag.Module', '#tbPrice');
                 $('#tbPrice tbody').on('click', 'tr', function () {
@@ -373,7 +374,8 @@ End Code
                             }
                         }
                     ],
-                    destroy:true
+                    destroy: true
+                    , pageLength: 100
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
                 $('#tbDetail tbody').on('dblclick', 'tr', function () {
@@ -455,7 +457,8 @@ End Code
                     columns: [
                         { data: "PlaceName" }
                     ],
-                    destroy:true
+                    destroy: true
+                    , pageLength: 100
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#lstPlace'+ id);
                 $('#lstPlace'+id+' tbody').on('click', 'tr', function () {

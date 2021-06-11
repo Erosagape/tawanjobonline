@@ -190,6 +190,7 @@ End Code
                 { data: "ConfigKey" },
                 { data: "ConfigValue" },
             ]
+            ,pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tblData');
         //on click load current row select to form

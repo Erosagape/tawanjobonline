@@ -206,6 +206,7 @@ End Code
                     { "data": "ConsigneeName", "title": "Consignee" },
                     { "data": "ClearPort", "title": "Local Port" }
                 ]
+                , "pageLength": 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tblJob');
             $('#tblJob tbody').on('click', 'tr', function () {
@@ -256,6 +257,7 @@ End Code
                     { "data": "DeclareNumber", "title": "Declare No." },
                     { "data": "InvProduct", "title": "Commodity" }
                 ]
+                , "pageLength": 100
             });
             $('#tblJob tbody').on('click', 'tr', function () {
                 $('#tblJob tbody > tr').removeClass('selected');

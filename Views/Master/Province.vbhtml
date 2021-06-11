@@ -95,7 +95,8 @@ End Code
                     { data: "PostCode", title: "ZIP Code" }
                 ],
                 destroy: true,
-                responsive:true
+                responsive: true
+                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
             $('#tbDetail tbody').on('click', 'tr', function () {

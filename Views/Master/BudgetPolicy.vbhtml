@@ -138,7 +138,8 @@ End Code
                         { data: "MinProfit", title: "Min-Profit" }
                     ],
                     responsive: true,
-                    destroy:true
+                    destroy: true
+                    , pageLength: 100
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
                 $('#tbDetail tbody').on('click', 'tr', function () {

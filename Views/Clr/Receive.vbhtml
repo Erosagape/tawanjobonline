@@ -495,7 +495,8 @@ End Code
                     }
                 ],
                 responsive: true,
-                destroy:true
+                destroy: true
+                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
@@ -617,7 +618,8 @@ End Code
                 }
             ],
             responsive:true,
-            destroy:true
+            destroy: true
+            , pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#txtAdvCash').val(CDbl(sum_ca, 2));

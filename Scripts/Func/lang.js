@@ -3961,6 +3961,7 @@ function ChangeLanguageForm(fname) {
                 ],
                 responsive: true,
                 destroy: true
+                , pageLength: 100
             });
         } else {
             SetLanguage(lang);

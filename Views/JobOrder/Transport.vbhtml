@@ -1327,7 +1327,8 @@ End Code
                 { data: "CountBalance", title: "Balance" }
             ],
             destroy: true,
-            responsive:true
+            responsive: true
+            , pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {
@@ -1886,7 +1887,8 @@ End Code
                         { data: "ChargeCode", title: "Charge.Cde" },
                         { data: "ChargeAmount", title: "Charge.Amt" }
                     ],
-                    destroy:true
+                    destroy: true
+                    , pageLength: 100
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbPrice');
                 $('#tbPrice tbody').on('click', 'tr', function () {
@@ -1937,6 +1939,7 @@ End Code
                         { data: "CostAmount", title: "Cost.Amt" }
                     ],
                     destroy: true
+                    , pageLength: 100
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbExpense');
             }
@@ -1961,6 +1964,7 @@ End Code
                             { data: "TotalNet", title: "Total" }
                         ],
                         destroy: true
+                        , pageLength: 100
                     });
                     ChangeLanguageGrid('@ViewBag.Module', '#tbPayment');
                     $('#tbPayment tbody').on('dblclick', 'tr', function () {

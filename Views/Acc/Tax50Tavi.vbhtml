@@ -145,6 +145,7 @@ End Code
                 ],
                 responsive: true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                , pageLength: 100
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected

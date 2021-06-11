@@ -744,6 +744,7 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                ,pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbControl');
             $('#tbControl tbody').on('click', 'tr', function () {
@@ -787,6 +788,7 @@ End Code
             ],
             responsive:true,
             destroy: true
+            ,pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
         $('#tbHeader tbody').on('click', 'tr', function () {

@@ -2,12 +2,22 @@
     ViewBag.Title = "Work flow"
 End Code
 <style>
+    
     p {
         width:100%;
+        font-size:10px !important;
+    }
+
+    p a {
+        font-size: 10px !important;
     }
 
     .text-wrap {
         white-space:normal;
+    }
+
+    .btn{
+        white-space:normal;  
     }
 </style>
 <header>
@@ -32,7 +42,7 @@ End Code
 <div class="container w3-white">
     On Branch : <select id="cboBranch" class="form-control dropdown"></select>
     <br />
-    <div id="dvShipments">
+    <div id="dvShipments" >
         <h3>
             <span class="glyphicon glyphicon-circle-arrow-right" style="color:lightseagreen">
             </span>
@@ -43,10 +53,10 @@ End Code
                 <div class="col-xs-12">
                     <p class="lead text-center w3-pale-green btn text-info center-block">Is this new shipment?</p>
                     <div class="row">
-                        <div class="col-xs-6 text-center">
+                        <div class="col-xs-5 text-center">
                             <p><span class="glyphicon glyphicon-arrow-down"></span>
                         </div>
-                        <div class="col-xs-6 text-center">
+                        <div class="col-xs-7 text-center">
                             <p>
                                 <span class="glyphicon glyphicon-arrow-down"></span>
                             </p>
@@ -55,7 +65,7 @@ End Code
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-6 text-center">
+                <div class="col-xs-5 text-center">
                     <p class="center-block"><span class="btn btn-lg text-success">Yes</span></p>
                     <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
                     <p class="text-success">
@@ -66,7 +76,7 @@ End Code
                         <a href="~/joborder/createjob" class="btn btn-primary">Create Shipment</a>
                     </p>
                 </div>
-                <div class="col-xs-6 text-center">
+                <div class="col-xs-7 text-center">
                     <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
                     <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
                     <p class="bg-info w3-pale-yellow text-info btn">Know your job number?</p>
@@ -94,7 +104,7 @@ End Code
                             <p class="center-block"><span class="btn btn-lg text-danger">No</span></p>
                             <p class="center-block"><span class="glyphicon glyphicon-arrow-down"></span></p>
                             <p class="text-danger text-wrap">
-                                <a href="~/joborder/index" class="btn btn-warning">Search</a>
+                                <a href="~/joborder/index" class="btn btn-warning">Find</a>
                             </p>
                         </div>
                     </div>

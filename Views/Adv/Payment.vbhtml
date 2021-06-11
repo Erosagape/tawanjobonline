@@ -529,7 +529,8 @@ End Code
                     { data: "EmpCode", title: "Request By" }
                 ],
                 responsive:true,
-                destroy:true
+                destroy: true
+                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
 
@@ -693,7 +694,8 @@ End Code
                 }
             ],
             responsive:true,
-            destroy:true
+            destroy: true
+            , pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
 

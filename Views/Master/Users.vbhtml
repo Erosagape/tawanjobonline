@@ -245,6 +245,7 @@ End Code
                         { data: "RoleDesc", title: "Description" }
                     ],
                     destroy: true
+                    , pageLength: 100
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbRole');
             });
@@ -257,6 +258,7 @@ End Code
                         { data: "Author", title: "Authorize" }
                     ],
                     destroy: true
+                    , pageLength: 100
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbAuthor');
             });

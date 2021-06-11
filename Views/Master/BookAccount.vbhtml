@@ -379,7 +379,8 @@ End Code
                         }
                     ],
                     responsive:true,
-                    destroy:true
+                    destroy: true
+                    , pageLength: 100
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbBalance');
             }
@@ -482,6 +483,7 @@ End Code
                 ],
                 responsive: true,
                 destroy: true
+                , pageLength: 100
             });
             $('#tbApprove tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbApprove').DataTable().row(this).data(); //read current row selected
@@ -532,6 +534,7 @@ End Code
                     ],
                     responsive: true,
                     destroy: true
+                    , pageLength: 100
                 });
             }
         });
