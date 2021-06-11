@@ -372,11 +372,9 @@
     <Content Include="App_Data\SQL_Report_V2.4.sql" />
     <Content Include="App_Data\SQL_Report_V2.5.sql" />
     <Content Include="App_Data\SQL_Report_V2.6.sql" />
-    <Content Include="App_Data\TOTAL\JobOrder\report2.htm" />
-    <Content Include="App_Data\TOTAL\JobOrder\report3.htm" />
-    <Content Include="App_Data\TOTAL\JobOrder\report4.htm" />
-    <Content Include="App_Data\TOTAL\JobOrder\sheets-of-paper-a4.css" />
-    <Content Include="App_Data\TOTAL\JobOrder\sheets-of-paper.css" />
+    <Content Include="App_Data\TOTAL\Draft\report2.htm" />
+    <Content Include="App_Data\TOTAL\Draft\report3.htm" />
+    <Content Include="App_Data\TOTAL\Draft\report4.htm" />
     <Content Include="App_Data\webadmin.txt" />
     <Content Include="App_Data\_STANDARD\Scripts\combo.js" />
     <Content Include="App_Data\_STANDARD\Scripts\lang.js" />
@@ -1113,6 +1111,9 @@
     <Content Include="App_Data\GOLDENLINE\Reports\Preview1.vbhtml" />
     <Content Include="App_Data\GOLDENLINE\Reports\Preview2.vbhtml" />
     <Content Include="App_Data\TOTAL\JobOrder\FormBookingEx.vbhtml" />
+    <Content Include="App_Data\TOTAL\Acc\FormInv.vbhtml" />
+    <Content Include="App_Data\TOTAL\Acc\FormPettycash.vbhtml" />
+    <Content Include="App_Data\TOTAL\Acc\FormJobSum.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
