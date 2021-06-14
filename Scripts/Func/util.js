@@ -365,6 +365,24 @@ function CCode(data) {
     if (st < 10) st = "0" + st;
     return st;
 }
+function ShowDate(day, month, year) {
+    try {
+        if (day <= 9) {
+            day = '0' + day;
+        }
+        if (month <= 9) {
+            month = '0' + month;
+        }
+        if (year < '1901') {
+            return '-';
+        }
+        let date = day + "/" + month + "/" + year;
+        return date;
+    }
+    catch (e) {
+        return '-';
+    }
+}
 function ShowDate(sqlDateString) {
     try {
         let jsDate = sqlDateString.substr(0, 10);
@@ -670,4 +688,12 @@ function postData(posturl, json, ev) {
         data: json,
         success: ev
     });
+}
+function AddDate(dt, n) {
+    let d = new Date(dt);
+    d.setDate(d.getDate() + n);
+    let day = d.getDate() > 9 ? d.getDate() : '0' + d.getDate();
+    let month = Number(d.getMonth()+1) > 9 ? Number(d.getMonth()+1) : '0' + Number(d.getMonth()+1);
+    let year = d.getFullYear();
+    return day + '/' + month + '/' + year;
 }

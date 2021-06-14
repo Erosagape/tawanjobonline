@@ -172,6 +172,9 @@ End Code
                     <a href="#" class="btn btn-success" id="btnSave" onclick="SaveHeader()">
                         <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Data</b>
                     </a>
+                    <button class="btn btn-info" onclick="PrintData()">
+                        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Data</b>
+                    </button>
                 </div>
             </div>
             <div id="tabDetail" class="tab-pane fade">
@@ -1380,5 +1383,8 @@ End Code
         if (userRights.indexOf('E') < 0) $('#btnUpdate').attr('disabled', 'disabled');
         if (userRights.indexOf('D') < 0) $('#btnDel').attr('disabled', 'disabled');
         if (userRights.indexOf('P') < 0) $('#btnPrint').attr('disabled', 'disabled');
+    }
+    function PrintData() {
+        window.open(path + 'Acc/FormExpense?BranchCode=' + $('#txtBranchCode').val() + '&DocNo=' + $('#txtDocNo').val(), '', '');
     }
 </script>
