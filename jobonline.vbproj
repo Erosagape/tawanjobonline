@@ -1112,7 +1112,7 @@
     <Content Include="App_Data\GOLDENLINE\Reports\Preview2.vbhtml" />
     <Content Include="App_Data\TOTAL\JobOrder\FormBookingEx.vbhtml" />
     <Content Include="App_Data\TOTAL\Acc\FormInv.vbhtml" />
-    <Content Include="App_Data\TOTAL\Acc\FormJobSum.vbhtml" />
+    <Content Include="App_Data\TOTAL\JobOrder\FormJobSum.vbhtml" />
     <Content Include="App_Data\TOTAL\Acc\FormExpense.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
