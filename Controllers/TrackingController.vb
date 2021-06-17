@@ -9,7 +9,7 @@ Namespace Controllers
             Return GetView("Index")
         End Function
         Function Document() As ActionResult
-            Return GetView("Document")
+            Return GetView("Document", "MODULE_CS")
         End Function
         Function Timeline() As ActionResult
             Return GetView("Timeline")
