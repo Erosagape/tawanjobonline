@@ -549,11 +549,13 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\font-awesome.css" />
     <Content Include="Content\jquery.datatables.min.css" />
     <Content Include="Content\responsive.dataTables.min.css" />
     <Content Include="Content\sheets-of-paper-a4-landscape.css" />
     <Content Include="Content\sheets-of-paper-a4.css" />
     <Content Include="Content\sheets-of-paper.css" />
+    <Content Include="Content\w3.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -1114,6 +1116,7 @@
     <Content Include="App_Data\TOTAL\Acc\FormInv.vbhtml" />
     <Content Include="App_Data\TOTAL\JobOrder\FormJobSum.vbhtml" />
     <Content Include="App_Data\TOTAL\Acc\FormExpense.vbhtml" />
+    <Content Include="App_Data\EASTRONG\Shared\MasterPage.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
