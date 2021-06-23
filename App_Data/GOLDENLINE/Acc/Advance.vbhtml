@@ -1,11 +1,11 @@
 ﻿@Code
-    ViewBag.Title = "Advance Confirmation"
+    ViewBag.Title = "List Advance"
 End Code
 <div class="panel-body">
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblBranch">Branch</label>                
+                <label id="lblBranch">Branch</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -36,7 +36,7 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <label id="lblReqBy">Request By :</label>                
+                <label id="lblReqBy">Request By :</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtReqBy" style="width:100px" />
@@ -54,16 +54,20 @@ End Code
                     <input type="text" id="txtCustName" class="form-control" style="width:100%" disabled />
                 </div>
             </div>
-            </div>
+        </div>
         <div class="row">
+            <div class="col-sm-2">
+                <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddAdvance()">
+                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkCreate">Create Advance</b>
+                </a>
+            </div>
+            <div class="col-sm-8" style="text-align:right">
+                <input type="checkbox" id="chkCancel" />Show Cancel Only
+            </div>
             <div class="col-sm-2">
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
-            </div>
-            <div class="col-sm-10">
-                <label id="lblDocList">Approve Document</label>:
-                <input type="text" id="txtListApprove" class="form-control" value="" disabled/>
             </div>
         </div>
         <div class="row">
@@ -82,12 +86,6 @@ End Code
                         </tr>
                     </thead>
                 </table>
-                <label id="lblTotal">Approve Total</label>
-                 : <input type="text" id="txtSumApprove" class="form-control" value="" />
-                <br />
-                <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Confirm</b>
-                </a>
             </div>
         </div>
     </div>
@@ -113,7 +111,6 @@ End Code
     function SetEvents() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
-
         $('#txtAdvDateF').val(GetFirstDayOfMonth());
         $('#txtAdvDateT').val(GetLastDayOfMonth());
         //Combos
@@ -153,7 +150,6 @@ End Code
     }
     function SetGridAdv(isAlert) {
         arr = [];
-        ShowSummary();
 
         let w = '';
         if ($('#txtReqBy').val() !== "") {
@@ -177,7 +173,11 @@ End Code
         if ($('#txtAdvDateT').val() !== "") {
             w = w + '&DateTo=' + CDateEN($('#txtAdvDateT').val());
         }
-        w = w + '&Status=1';
+        if ($('#chkCancel').prop('checked')) {
+            w = w + '&Show=CANCEL';
+        } else {
+            w = w + '&Show=ACTIVE';
+        }
         $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.adv.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
@@ -216,72 +216,12 @@ End Code
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
-            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
-            $('#tbHeader tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected') == true) {
-                    $(this).removeClass('selected');
-                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                    RemoveData(data); //callback function from caller
-                    return;
-                }
-                $(this).addClass('selected');
-                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                AddData(data); //callback function from caller
-            });
+
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
                 window.open(path + 'adv/index?BranchCode=' + data.BranchCode + '&AdvNo=' + data.AdvNo,'','');
             });
         });
-    }
-    function AddData(o) {
-        arr.push(o);
-        ShowSummary();
-    }
-    function RemoveData(o) {
-        let idx = arr.indexOf(o);
-        if (idx < 0) {
-            return;
-        }
-        arr.splice(idx, 1);
-        ShowSummary();
-    }
-    function ShowSummary() {
-        let tot = 0;
-        let doc = '';
-        for (let i = 0; i < arr.length; i++) {
-            let o = arr[i];
-            tot += o.TotalAdvance;
-            doc += (doc != '' ? ',' : '') + o.AdvNo;
-        }
-        $('#txtSumApprove').val(CDbl(tot, 4));
-        $('#txtListApprove').val(doc);
-    }
-    function ApproveData() {
-        if (arr.length < 0) {
-            ShowMessage('No data to approve',true);
-            return;
-        }
-        let dataApp = [];
-        dataApp.push(user);
-        for (let i = 0; i < arr.length; i++) {
-            dataApp.push(arr[i].BranchCode + '|' + arr[i].AdvNo);
-        }
-        let jsonString = JSON.stringify({ data: dataApp });
-        $.ajax({
-            url: "@Url.Action("ApproveAdvance", "Adv")",
-            type: "POST",
-            contentType: "application/json",
-            data: jsonString,
-            success: function (response) {
-                SetGridAdv(false);
-                response ? ShowMessage("Approve Complete") : ShowMessage("Cannot Approve");
-            },
-            error: function (e) {
-                ShowMessage(e,true);
-            }
-        });
-        return;
     }
     function SearchData(type) {
         switch (type) {
@@ -311,5 +251,8 @@ End Code
         $('#txtCustBranch').val(dt.Branch);
         ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
         $('#txtCustCode').focus();
+    }
+    function AddAdvance() {
+        window.open(path + 'adv/index', '', '');
     }
 </script>

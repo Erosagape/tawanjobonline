@@ -117,7 +117,10 @@ End Code
                  <label id="lblClrNo"></label> # <label id="lblItemNo"></label>
             </div>
             <div class="modal-body">
+                Invoice Number
                 <input type="text" id="txtInvoiceNo" />
+                #
+                <input type="number" id="txtItemNo" value="0" />
                 <a href="#" class="btn btn-success" id="btnUpdateInv" onclick="UpdateInvoice()">
                     <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkUpdate">Update Invoice</b>
                 </a>
@@ -188,7 +191,7 @@ End Code
                     let adv = (d[i].IsCredit == 1 && d[i].IsExpense == 0 ? amt : 0);
                     let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? d[i].UsedAmount : 0);
                     let cost = (d[i].IsExpense == 1 ?  d[i].UsedAmount : 0);
-                    let profit = (d[i].IsExpense == 1 ?  d[i].UsedAmount*-1 : d[i].IsCredit==1 ? 0 : d[i].UsedAmount);
+                    let profit = (d[i].IsExpense == 1 ?  d[i].UsedAmount*-1 : (d[i].IsCredit==1 ? 0 : d[i].UsedAmount));
                     let slipNo = (d[i].IsHaveSlip == 1 && d[i].IsCredit==1 ? ' #' + d[i].SlipNO : '');
 
                     if (d[i].IsCredit == 0 && d[i].IsExpense == 0) {
@@ -207,8 +210,9 @@ End Code
 
 
                     html += '<tr>';
-                    if ((d[i].LinkBillNo == '' ||d[i].LinkBillNo == null ) && cost >0) {
-                        html += '<td><input type="button" value="Edit" onclick="OpenEditor(' + "'" + d[i].ClrNo + "'" + ',' + d[i].ItemNo + ')"/></td>';
+                    //if ((d[i].LinkBillNo == '' ||d[i].LinkBillNo == null ) && cost >0) {
+                    if (d[i].LinkItem==0) {
+                        html += '<td><input type="button" value="Edit" onclick="OpenEditor(' + "'" + d[i].ClrNo + "'" + ',' + d[i].ItemNo + ',' + "'" + d[i].LinkBillNo + "'" + ',' + d[i].LinkItem + ')"/></td>';
                     } else {
                         html += '<td><input type="button" value="View" onclick="OpenInvoice(' + "'" + d[i].BranchCode + "'" + ',' + "'" + d[i].LinkBillNo + "'" + ')"/></td>';
                     }
@@ -269,10 +273,12 @@ End Code
     function OpenInvoice(branch,code) {
         window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code,'_blank');
     }
-    function OpenEditor(clrno, item) {
+    function OpenEditor(clrno, item,invno,seq) {
         //ShowMessage('you click ' + clrno + '/' + item);
         $('#lblClrNo').text(clrno);
         $('#lblItemNo').text(item);
+        $('#txtInvoiceNo').val(invno);
+        $('#txtItemNo').val(seq);
         $('#dvEditor').modal('show');
     }
     function UpdateInvoice() {
@@ -283,7 +289,7 @@ End Code
                 if (r.clr.detail.length > 0) {
                     let dr = r.clr.detail[0];
                     dr.LinkBillNo = $('#txtInvoiceNo').val();
-                    dr.LinkItem = 0;
+                    dr.LinkItem = $('#txtItemNo').val();
                     SaveClrDetail(dr);
                 }
             });

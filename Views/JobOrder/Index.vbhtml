@@ -204,7 +204,7 @@ End Code
                     { "data": "InvNo", "title": "Customer Inv." },
                     { "data": "CustTName", "title": "Customer" },
                     { "data": "ConsigneeName", "title": "Consignee" },
-                    { "data": "ClearPort", "title": "Local Port" }
+                    { "data": "HAWB", "title": "H.B/L" }
                 ]
                 , "pageLength": 100
             });

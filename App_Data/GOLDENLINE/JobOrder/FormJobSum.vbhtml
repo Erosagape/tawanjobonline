@@ -476,9 +476,9 @@ End Code
                     let html = '';
 
                     let adv = (d[i].IsCredit == 1 ? d[i].BNet : 0);
-                    let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? d[i].BNet : 0);
+                    let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 && codeDepo.indexOf(d[i].SICode) < 0 ? d[i].BNet : 0);
                     let cost = (d[i].IsExpense == 1 && codeDepo.indexOf(d[i].SICode) < 0 ? d[i].BNet : 0);
-                    let profit = (d[i].IsExpense == 1 && codeDepo.indexOf(d[i].SICode) < 0 ? d[i].BNet * -1 : d[i].IsCredit == 1 ? 0 : d[i].BNet);
+                    let profit = (d[i].IsExpense == 1 && codeDepo.indexOf(d[i].SICode) < 0 ? d[i].BNet * -1 : (d[i].IsCredit == 1 && codeDepo.indexOf(d[i].SICode) < 0  ? 0 : d[i].BNet));
 
                     amtadv += adv;
                     amtserv += serv;

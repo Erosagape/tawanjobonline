@@ -1117,6 +1117,7 @@
     <Content Include="App_Data\TOTAL\JobOrder\FormJobSum.vbhtml" />
     <Content Include="App_Data\TOTAL\Acc\FormExpense.vbhtml" />
     <Content Include="App_Data\EASTRONG\Shared\MasterPage.vbhtml" />
+    <Content Include="App_Data\GOLDENLINE\JobOrder\Index.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

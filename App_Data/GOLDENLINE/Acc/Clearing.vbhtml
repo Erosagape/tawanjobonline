@@ -1,11 +1,11 @@
 ﻿@Code
-    ViewBag.Title = "Clearing Confirmation"
+    ViewBag.Title = "Lists Clearing"
 End Code
 <div class="panel-body">
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblBranch">Branch</label>                
+                <label id="lblBranch">Branch</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -27,6 +27,12 @@ End Code
                 <label id="lblJobType">Job Type:</label>
                 <br />
                 <select id="cboJobType" class="form-control dropdown"></select>
+            </div>
+            <div class="col-sm-2">
+                <input type="checkbox" id="chkCancel" />Show Cancel Only<br />
+                <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridClr(true)">
+                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
+                </a>
             </div>
         </div>
         <div class="row">
@@ -51,17 +57,10 @@ End Code
                 <select id="cboClrType" class="form-control dropdown"></select>
             </div>
             <div class="col-sm-2">
-                <input type="checkbox" id="chkSelectAll" checked /> Select All
                 <br />
-                <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridClr(true)">
-                    <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
+                <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddClearing()">
+                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkCreate">Create Clearing</b>
                 </a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <label id="lblListApprove">Approve Document</label>
-                 : <input type="text" id="txtListApprove" class="form-control" value="" disabled />
             </div>
         </div>
         <div class="row">
@@ -81,12 +80,6 @@ End Code
                         </tr>
                     </thead>
                 </table>
-                <label id="lblExpTotal">Expenses Total</label>
-                 : <input type="text" id="txtSumApprove" class="form-control" value="" />
-                <br />
-                <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Confirm</b>
-                </a>
             </div>
         </div>
     </div>
@@ -103,7 +96,6 @@ End Code
     function SetEvents() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
-
         $('#txtClrDateF').val(GetFirstDayOfMonth());
         $('#txtClrDateT').val(GetLastDayOfMonth());
         //Combos
@@ -137,7 +129,7 @@ End Code
     }
     function SetGridClr(isAlert) {
         arr = [];
-        ShowSummary();
+        //ShowSummary();
 
         let w = '';
         if ($('#txtClrBy').val() !== "") {
@@ -159,7 +151,11 @@ End Code
         if ($('#txtClrDateT').val() !== "") {
             w = w + '&DateTo=' + CDateEN($('#txtClrDateT').val());
         }
-        w = w + '&Status=1';
+        if ($('#chkCancel').prop('checked')) {
+            w = w + '&Show=CANCEL';
+        } else {
+            w = w + '&Show=ACTIVE';
+        }
         $.get(path + 'clr/getclearinggrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.clr.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
@@ -201,85 +197,15 @@ End Code
                         }
                     }
                 ],
-                createdRow: function (row, data, index) {
-                    if ($('#chkSelectAll').prop('checked')) {
-                        $(row).addClass('selected')
-                    }
-                },
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
-            $('#tbHeader tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected') == true) {
-                    $(this).removeClass('selected');
-                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                    RemoveData(data); //callback function from caller
-                    return;
-                }
-                $(this).addClass('selected');
-                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                AddData(data); //callback function from caller
-            });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
                 window.open(path + 'clr/index?BranchCode=' + data.BranchCode + '&ClrNo=' + data.ClrNo,'','');
             });
-            if ($('#chkSelectAll').prop('checked')) {
-                for (let row of h) {
-                    AddData(row);
-                }
-            }
         });
-    }
-    function AddData(o) {
-        arr.push(o);
-        ShowSummary();
-    }
-    function RemoveData(o) {
-        let idx = arr.indexOf(o);
-        if (idx < 0) {
-            return;
-        }
-        arr.splice(idx, 1);
-        ShowSummary();
-    }
-    function ShowSummary() {
-        let tot = 0;
-        let doc = '';
-        for (let i = 0; i < arr.length; i++) {
-            let o = arr[i];
-            tot += o.ClrAmt;
-            doc += (doc != '' ? ',' : '') + o.ClrNo;
-        }
-        $('#txtSumApprove').val(CDbl(tot, 2));
-        $('#txtListApprove').val(doc);
-    }
-    function ApproveData() {
-        if (arr.length < 0) {
-            ShowMessage('No data to approve',true);
-            return;
-        }
-        let dataApp = [];
-        dataApp.push(user);
-        for (let i = 0; i < arr.length; i++) {
-            dataApp.push(arr[i].BranchCode + '|' + arr[i].ClrNo);
-        }
-        let jsonString = JSON.stringify({ data: dataApp });
-        $.ajax({
-            url: "@Url.Action("ApproveClearing", "Clr")",
-            type: "POST",
-            contentType: "application/json",
-            data: jsonString,
-            success: function (response) {
-                SetGridClr(false);
-                response ? ShowMessage("Approve Complete") : ShowMessage("Cannot Approve");
-            },
-            error: function (e) {
-                ShowMessage(e,true);
-            }
-        });
-        return;
     }
     function SearchData(type) {
         switch (type) {
@@ -301,4 +227,8 @@ End Code
         $('#txtBranchName').val(dt.BrName);
         $('#txtBranchCode').focus();
     }
+    function AddClearing() {
+        window.open(path + 'clr/index', '', '');
+    }
 </script>
+

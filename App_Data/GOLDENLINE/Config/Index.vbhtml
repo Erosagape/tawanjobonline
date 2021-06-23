@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "ค่าคงที่ต่างๆ (System Variable)"
+    ViewBag.Title = "System Variables"
 End Code
 <div class="panel-body">
     <div id="divInputs">

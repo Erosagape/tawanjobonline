@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Cash Management"
+    ViewBag.Title = "Petty Cash Management"
 End Code
 <div class="panel-body">
     <div class="container">
@@ -36,9 +36,19 @@ End Code
 
             </div>
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-sm-6">
                     <label id="lblTRemark">Transaction Note</label>
                     <br /><input type="text" id="txtTRemark" class="form-control" tabIndex="4">
+                </div>
+                <div class="col-sm-6">
+                    <label id="lblCustCode">Customer:</label>
+                    <br />
+                    <div style="display:flex;flex-direction:row">
+                        <input type="text" id="txtCustCode" style="width:120px" />
+                        <input type="text" id="txtCustBranch" style="width:50px" />
+                        <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
+                        <input type="text" id="txtCustName" style="width:100%" disabled />
+                    </div>
                 </div>
             </div>
             <div>
@@ -80,6 +90,9 @@ End Code
                     <input type="date" id="txtPostedDate" disabled />
                     <label id="lblPostTime">Time:</label>
                     <input type="text" id="txtPostedTime" style="width:80px" disabled />
+                    <br />
+                    <label id="lblPostRefNo" for="txtPostRefNo">Post Ref#</label><br />
+                    <input type="text" id="txtPostRefNo" style="width:250px" disabled />
                 </div>
                 <div class="col-sm-4" style="border-style:solid;border-width:1px;color:red">
                     <input type="checkbox" id="chkCancel" />
@@ -177,10 +190,44 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
+                                    <a onclick="SearchData('cheque')">
+                                        <label id="lblChqNo">Ref.No</label>
+                                    </a>
+                                    <br /><input type="text" id="txtChqNo" class="form-control">
+                                </div>
+                                <div class="col-md-4">
+                                    <a id="linkBank" onclick="SearchData('bank')">Ref.Bank</a>
+                                    <br />
+                                    <input type="text" id="txtRecvBank" class="form-control">
+                                </div>
+                                <div class="col-md-5">
+                                    <label id="lblRefBankBranch">Ref.Branch</label>
+                                    <br /><input type="text" id="txtRecvBranch" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label id="lblJNo">Job No.</label>
+                                    <br /><input type="text" id="txtForJNo" class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <a id="linkCode" onclick="SearchData('estimate')">Exp.Code</a><br /><input type="text" id="txtSICode" class="form-control">
+                                </div>
+                                <div class="col-md-6">
+                                    <br />
+                                    <input type="text" id="txtSDescription" class="form-control" disabled />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
                                     <label id="lblCashAmount">Amount</label>
                                     <br /><input type="number" id="txtCashAmount" class="form-control" value="0.00" />
                                 </div>
-                                <div class="col-md-9">
+                                <div class="col-md-3">
+                                    <br/>
+                                    <button id="btnAutoFill" class="btn btn-primary" onclick="GetBookBalance()">Auto Fill</button>
+                                </div>
+                                <div class="col-md-6">
                                     <label id="lblPayTo">Paid To</label>
                                     <br /><input type="text" id="txtPayChqTo" class="form-control">
                                 </div>
@@ -302,6 +349,12 @@ End Code
                 LoadData();
             }
         });
+        $('#txtSICode').keydown(function (event) {
+            if (event.which == 13) {
+                $('#txtSDescription').val('');
+                CallBackQueryService(path, $('#txtSICode').val(), ReadService);
+            }
+        });
         $('#txtBookCode').keydown(function (event) {
             if (event.which == 13) {
                 $('#txtBookName').val('');
@@ -329,6 +382,14 @@ End Code
                 ShowBranch(path, $('#txtBranchCode').val(), '#txtBranchName');
             }
         });
+        $('#txtCustBranch').keydown(function (event) {
+            if (event.which == 13) {
+                $('#txtCustName').val('');
+                ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
+                return;
+            }
+        });
+
         $('#chkPosted').on('click', function () {
             chkmode = this.checked;
             CallBackAuthorize(path, 'MODULE_ADV', 'CreditAdv',(chkmode ? 'I':'D'), SetApprove);
@@ -368,14 +429,22 @@ End Code
 
         loadCombos(path,lists)
 
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
+            //Bank
+            CreateLOV(dv, '#frmSearchBank', '#tbBank', 'Bank', response, 2);
+            //Customers
+            CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customer List', response, 3);
             //BookAccount
             CreateLOV(dv, '#frmSearchBookAcc', '#tbBookAcc', 'Book Accounts', response, 2);
             //Currency
             CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency', response, 2);
+            //Cheque
+            CreateLOV(dv, '#frmSearchChq', '#tbChq', 'Cheque List', response, 5);
+            //Estimate
+            CreateLOV(dv, '#frmSearchEstimate', '#tbEstimate', 'Estimate Price', response, 3);
         });
     }
     function SetApprove(b) {
@@ -407,8 +476,14 @@ End Code
     }
     function SearchData(type) {
         switch (type) {
+            case 'bank':
+                SetGridBank(path, '#tbBank', '#frmSearchBank', ReadBank);
+                break;
             case 'bookacc':
                 SetGridBookAccount(path, '#tbBookAcc', '#frmSearchBookAcc', ReadBookAccount);
+                break;
+            case 'cheque':
+                SetGridCheque(path, '#tbChq', '#frmSearchChq', '?Cancel=N&Branch=' + $('#txtBranchCode').val(), ReadCheque);
                 break;
             case 'branch':
                 SetGridBranch(path, '#tbBranch', '#frmSearchBranch', ReadBranch);
@@ -418,6 +493,12 @@ End Code
                 break;
             case 'currency':
                 SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
+                break;
+            case 'customer':
+                SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
+                break;
+            case 'estimate':
+                SetGridEstimateCost(path, '#tbEstimate', '?status=NOCLR&Job=' + $('#txtForJNo').val(), '#frmSearchEstimate', ReadEstimate);
                 break;
         }
     }
@@ -432,6 +513,7 @@ End Code
         $('#txtRecTime').val(GetTime());
         $('#chkPosted').prop('checked',false);
         $('#txtPostedBy').val('');
+        $('#txtPostRefNo').val('');
         $('#txtPostedDate').val('');
         $('#txtPostedTime').val('');
         $('#chkCancel').prop('checked', false);
@@ -439,6 +521,9 @@ End Code
         $('#txtCancelProve').val('');
         $('#txtCancelDate').val('');
         $('#txtCancelTime').val('');
+        $('#txtCustCode').val('');
+        $('#txtCustBranch').val('');
+        $('#txtCustName').val('');
 
         $('#tbHeader').empty();
 
@@ -490,8 +575,9 @@ End Code
                 CancelProve:$('#txtCancelProve').val(),
                 CancelDate:CDateEN($('#txtCancelDate').val()),
                 CancelTime: $('#txtCancelTime').val(),
-                CustCode: '',
-                CustBranch: ''
+                CustCode: $('#txtCustCode').val(),
+                CustBranch: $('#txtCustBranch').val(),
+                PostRefNo: $('#txtPostRefNo').val()
             };
             let jsonText = JSON.stringify({ data: obj });
             //ShowMessage(jsonText);
@@ -634,6 +720,10 @@ End Code
             $('#txtRecDate').val(CDateEN(dr.RecDate));
             $('#txtRecTime').val(ShowTime(dr.RecTime));
             $('#txtPostedBy').val(dr.PostedBy);
+            $('#txtPostRefNo').val(dr.PostRefNo);
+            $('#txtCustCode').val(dr.CustCode);
+            $('#txtCustBranch').val(dr.CustBranch);
+            ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
             if (dr.PostedBy !== '') {
                 $('#chkPosted').prop('checked', true);
                 DisableSave();
@@ -657,7 +747,7 @@ End Code
             $('#txtPRVoucher').val(dr.PRVoucher);
             //$('#txtPRType').val(dr.PRType);
             $('#cboPRTypeD').val(dr.PRType);
-            //$('#txtChqNo').val(dr.ChqNo);
+            $('#txtChqNo').val(dr.ChqNo);
             $('#txtBankCode').val(dr.BankCode);
             $('#txtBookCode').val(dr.BookCode);
             $('#txtBankBranch').val(dr.BankBranch);
@@ -680,10 +770,10 @@ End Code
             $('#txtDTRemark').val(dr.TRemark);
             $('#txtPayChqTo').val(dr.PayChqTo);
             $('#txtDocNo').val(dr.DocNo);
-            //$('#txtSICode').val(dr.SICode);
-            $//('#txtRecvBank').val(dr.RecvBank);
-            //$('#txtRecvBranch').val(dr.RecvBranch);
-            //$('#txtForJNo').val(dr.ForJNo);
+            $('#txtSICode').val(dr.SICode);
+            $('#txtRecvBank').val(dr.RecvBank);
+            $('#txtRecvBranch').val(dr.RecvBranch);
+            $('#txtForJNo').val(dr.ForJNo);
             //CallBackQueryJob(path, $('#txtBranchCode').val(), $('#txtForJNo').val(), ReadJob);
             //$('#txtacType').val(dr.acType);
             //$('#cboacType').val(dr.acType);
@@ -694,7 +784,7 @@ End Code
             } else {
                 CallBackQueryBookAccount(path, dr.BranchCode, dr.BookCode, ReadBookAccount);
             }
-            //CallBackQueryService(path, dr.SICode, ReadService);
+            CallBackQueryService(path, dr.SICode, ReadService);
             //ShowBank(path, dr.RecvBank, '#txtRecvBankName');
         }
     }
@@ -707,7 +797,7 @@ End Code
         $('#cboPRTypeD').val($('#cboPRType').val());
         $('#txtPRVoucher').val('');
         $('#txtItemNo').val('0');
-        //$('#txtChqNo').val('');
+        $('#txtChqNo').val('');
         $('#txtBookCode').val('');
         $('#txtBankCode').val('');
         $('#txtBankName').val('');
@@ -729,11 +819,11 @@ End Code
         //$('#cboChqStatus').val('');
         $('#txtDTRemark').val('');
         $('#txtPayChqTo').val('');
-        //$('#txtRecvBank').val('');
+        $('#txtRecvBank').val('');
         //$('#txtRecvBankName').val('');
-        //$('#txtRecvBranch').val('');
-        //$('#txtSICode').val('');
-        //$('#txtSDescription').val('');
+        $('#txtRecvBranch').val('');
+        $('#txtSICode').val('');
+        $('#txtSDescription').val('');
         $('#txtDocType').val('');
         $('#txtDocNo').val('');
         //$('#txtJobType').val('');
@@ -741,7 +831,7 @@ End Code
         //$('#txtJobTypeName').val('');
         //$('#txtShipByName').val('');
         //$('#txtInvNo').val('');
-        //$('#txtForJNo').val('');
+        $('#txtForJNo').val('');
         //$('#txtacType').val('');
         //$('#cboacType').val('CU');
         //$('#cboacType').change();
@@ -763,7 +853,7 @@ End Code
             ItemNo: $('#txtItemNo').val(),
             PRVoucher:$('#txtPRVoucher').val(),
             PRType:$('#cboPRTypeD').val(),
-            ChqNo:'',
+            ChqNo:$('#txtChqNo').val(),
             BookCode:$('#txtBookCode').val(),
             BankCode:$('#txtBankCode').val(),
             BankBranch:$('#txtBankBranch').val(),
@@ -785,11 +875,11 @@ End Code
             TRemark:$('#txtDTRemark').val(),
             PayChqTo:$('#txtPayChqTo').val(),
             DocNo:'',
-            SICode:'',
-            RecvBank:'',
-            RecvBranch:'',
+            SICode:$('#txtSICode').val(),
+            RecvBank:$('#txtRecvBank').val(),
+            RecvBranch:$('#txtRecvBranch').val(),
             acType: 'CA',
-            ForJNo:''
+            ForJNo:$('#txtForJNo').val()
         };
         let jsonText = JSON.stringify({ data:[ obj ]});
         //ShowMessage(jsonText);
@@ -818,8 +908,19 @@ End Code
             ShowMessage(r.voucher.result);
         });
     }
+    function ReadEstimate(dt) {
+        $('#txtSICode').val(dt.SICode);
+        $('#txtSDescription').val(dt.SDescription);
+        $('#txtCashAmount').val(CDbl(Number(dt.AmtTotal) + Number(dt.AmtWht), 2));
+        CalculateTotal();
+    }   
 
-
+    function ReadCustomer(dt) {
+        $('#txtCustCode').val(dt.CustCode);
+        $('#txtCustBranch').val(dt.Branch);
+        $('#txtCustName').val(dt.NameThai);
+        $('#txtCustCode').focus();
+    }
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);
         $('#txtBranchName').val(dt.BrName);
@@ -838,7 +939,19 @@ End Code
         $('#txtCurrencyCode').val(dt.Code);
         $('#txtCurrencyName').val(dt.TName);
     }
-
+    function ReadBank(dt) {
+        $('#txtRecvBank').val(dt.Code);        
+    }
+    function ReadService(dt) {
+        $('#txtSICode').val(dt.SICode);
+        $('#txtSDescription').val(dt.NameThai);
+    }
+    function ReadCheque(dt) {
+        $('#txtChqNo').val(dt.ChqNo);
+        $('#txtCashAmount').val(dt.AmountRemain);
+        $('#txtRecvBank').val(dt.RecvBank);
+        $('#txtRecvBranch').val(dt.RecvBranch);
+    }
     function CalculateTotal() {
         let amtbase = Number($('#txtSumAmt').val());
         let excrate = Number($('#txtExchangeRate').val());
@@ -863,5 +976,13 @@ End Code
         }
         window.open(path + 'Acc/FormVoucher?branch=' + $('#txtBranchCode').val() + '&controlno=' + $('#txtControlNo').val());
     }
-
+    function GetBookBalance() {
+        $.get(path + 'Master/GetBookBalance?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtBookCode').val()).done(function (r) {
+            if (r.bookaccount.data.length > 0) {
+                let d = r.bookaccount.data[0].Table[0];
+                let used = Number(d.ControlBalance) - Number(d.SumBal);
+                $('#txtCashAmount').val(CDbl(used,2));
+            }
+        });
+    }
 </script>

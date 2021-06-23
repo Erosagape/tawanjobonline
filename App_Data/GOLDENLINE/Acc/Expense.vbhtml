@@ -1,6 +1,6 @@
 ﻿
 @Code
-    ViewBag.Title = "บันทึกบิลค่าใช้จ่าย"
+    ViewBag.Title = "Bill Payment"
 End Code
 <div class="panel-body">
     <div id="dvHeader" class="container">
@@ -137,7 +137,7 @@ End Code
                         <label id="lblApprTime">Time:</label>
                         <input type="text" id="txtApproveTime" style="width:80px" disabled />
                         <br />
-                        <label>Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" disabled />
+                        <label ondblclick="SaveHeader()">Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" />
                     </div>
                     <div class="col-sm-4" style="border-style:solid;border-width:1px">
                         <label id="lblPayment">Payment By</label>
@@ -196,7 +196,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-8">
-                        <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddDetail()">
+                        <a href="#" class="btn btn-default w3-purple" id="btnAddD" onclick="AddDetail()">
                             <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">Add Detail</b>
                         </a>
                         <a href="#" class="btn btn-danger" id="btnDel" onclick="DeleteDetail()">
@@ -267,7 +267,7 @@ End Code
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <label id="lblJobNo">Job No :</label>                                    
                                     <br/>
                                     <div style="display:flex">
@@ -275,7 +275,7 @@ End Code
                                         <input type="button" class="btn btn-default" onclick="SearchData('job')" value="..." />
                                     </div>                                    
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-8">
                                     <label id="lblCustCode">For :</label>                                    
                                     <br/>
                                     <input type="text" id="txtCustCode" class="form-control" disabled />
@@ -285,11 +285,11 @@ End Code
                                 <div class="col-sm-4">
                                     <label id="lblBookingNo">Booking No :</label>                                    
                                     <br/>
-                                    <input type="text" id="txtBookingRefNo" class="form-control" disabled />
+                                    <input type="text" id="txtBookingRefNo" class="form-control" />
                                 </div>
                                 <div class="col-sm-2">
                                     #<br/>
-                                    <input type="text" id="txtBookingItemNo" class="form-control" disabled />
+                                    <input type="text" id="txtBookingItemNo" class="form-control" />
                                 </div>
                                 <div class="col-sm-6">
                                     <label id="lblContNo">Container No :</label>                                    
@@ -373,12 +373,12 @@ End Code
                             </div>                            
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label id="lblClearingNo">Clearing No :</label>
+                                    <label id="lblClearingNo" ondblclick="SaveDetail()">Clearing No :</label>
                                     <br/>
-                                    <input type="text" class="form-control" id="txtClrRefNo" disabled />
+                                    <input type="text" class="form-control" id="txtClrRefNo" />
                                 </div>
                                 <div class="col-sm-2">
-                                    #<br/> <input type="text" class="form-control" id="txtClrItemNo" disabled />
+                                    #<br/> <input type="text" class="form-control" id="txtClrItemNo" />
                                 </div>
                                 <div class="col-sm-3">
                                     Route ID<br/>
@@ -415,7 +415,7 @@ End Code
                                         <th>DocNo</th>
                                         <th class="desktop">DocDate</th>
                                         <th class="desktop">VenCode</th>
-                                        <th class="desktop">EmpCode</th>
+                                        <th class="desktop">Approve</th>
                                         <th class="all">Ref</th>
                                         <th class="desktop">PoNo</th>
                                         <th class="desktop">Amount</th>
@@ -457,6 +457,7 @@ End Code
     let route = getQueryString("Route");
         //$(document).ready(function () {
     if (userGroup == 'V') {
+        $('#btnAdd').hide();
         $('#btnBrowseCust').attr('disabled', 'disabled');
         $('#txtVenCode').attr('disabled', 'disabled');
         $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
@@ -468,7 +469,6 @@ End Code
             }
         });
     }
-
     SetLOVs();
     SetEvents();
     SetEnterToTab();
@@ -492,6 +492,8 @@ End Code
         }
         if ((br + bookno + item).trim() !== '') {
             isjobmode = true;
+            $('#txtRefNo').attr('disabled', 'disabled');
+            $('#btnAdd').hide();
             $('#txtBookingRefNo').val(bookno);
             $('#txtBookingItemNo').val(item);
             if (cust == '') {
@@ -505,6 +507,9 @@ End Code
             ShowVender(path, $('#txtVenCode').val(), '#txtVenName');
         } else {
             item = 0;
+        }
+        if (job !== '') {
+            CallBackQueryJob(path, br, job, ReadJob);
         }
     }
     function SetEnterToTab() {
@@ -604,6 +609,13 @@ End Code
                 }
             }
         });
+        $('#txtForJNo').keydown(function (event) {
+            if (event.which == 13) {
+                if ($('#txtForJNo').val() !== '') {
+                    CallBackQueryJob(path, $('#txtBranchCode').val(), $('#txtForJNo').val(), ReadJob);
+                }
+            }
+        });
         EnableSave();
     }
     function SetApprove(b) {
@@ -612,6 +624,9 @@ End Code
                 $('#txtApproveBy').val(chkmode ? user : '');
                 $('#txtApproveDate').val(chkmode ? GetToday() : '');
                 $('#txtApproveTime').val(chkmode ? ShowTime(GetTime()) : '');
+                if (!chkmode) {
+                    $('#txtApproveRef').val('');
+                }
                 SaveHeader();
                 EnableSave();
             } else {
@@ -628,6 +643,7 @@ End Code
                     $('#txtCancelProve').val(chkmode ? user : '');
                     $('#txtCancelDate').val(chkmode ? CDateEN(GetToday()) : '');
                     $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
+                    SaveHeader();
                     return;
                 }
                 $('#chkCancel').prop('checked', !chkmode);
@@ -639,7 +655,7 @@ End Code
     }
     function SetLOVs() {
         //Combos
-        let lists = 'PAYMENT_TYPE=#txtPayType|CA';
+        let lists = 'PAYMENT_TYPE=#txtPayType|CH';
         loadCombos(path, lists);
 
         LoadService();
@@ -667,14 +683,18 @@ End Code
             ShowMessage('You are not allow to do this',true);
             return;
         }
-        $.get(path + 'acc/getpayment?branch='+branchcode+'&code='+ docno, function (r) {
-            let h = r.payment.header[0];
+        $.get(path + 'acc/getpaymentgrid?branch='+branchcode+'&code='+ docno, function (r) {
+            let h = r.payment.data[0];
             ReadPaymentHeader(h);
-            let d = r.payment.detail;
+            let d = r.payment.data;
             ReadPaymentDetail(d);
         });
     }
     function SaveHeader() {
+        if ($('#txtRefNo').val() == '') {
+            ShowMessage('Please input container reference', true);
+            return;
+        }
         let obj = GetDataHeader();
         if (obj.DocNo == '') {
             if (userRights.indexOf('I') < 0) {
@@ -768,6 +788,8 @@ End Code
             $('#txtPaymentDate').val(CDateEN(dt.PaymentDate));
             $('#txtPaymentTime').val(ShowTime(dt.PaymentTime));
             $('#txtPaymentRef').val(dt.PaymentRef);
+            $('#chkApprove').prop('checked', dt.ApproveBy == '' ? false : true);
+            $('#chkCancel').prop('checked', dt.CancelProve == '' ? false : true);
             $('#txtApproveBy').val(dt.ApproveBy);
             $('#txtApproveRef').val(dt.ApproveRef);
             $('#txtApproveDate').val(CDateEN(dt.ApproveDate));
@@ -778,9 +800,11 @@ End Code
             $('#txtCancelTime').val(ShowTime(dt.CancelTime));
             $('#txtAdvRef').val(dt.AdvRef);
             $('#txtRefNo').val(dt.RefNo);
+            if ($('#txtRefNo').val() == '') {
+                $('#txtRefNo').removeAttr('disabled');
+            }
             $('#txtPayType').val(dt.PayType);
-            $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
-            $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
+
             EnableSave();
             return;
         }
@@ -838,11 +862,10 @@ End Code
             $('#txtEmpName').val('');   
         }
         $('#txtContactName').val('');
-        $('#txtPoNo').val('');
         $('#txtCurrencyCode').val('@ViewBag.PROFILE_CURRENCY');
         $('#txtExchangeRate').val('1');
         $('#txtVATRate').val(CDbl(CNum('@ViewBag.PROFILE_VATRATE')*100,0));
-        $('#txtTaxRate').val('0');
+        $('#txtTaxRate').val('@ViewBag.PROFILE_WHTRATE_TRN');
         $('#txtTotalExpense').val('0');
         $('#txtTotalVAT').val('0');
         $('#txtTotalTax').val('0');
@@ -865,10 +888,9 @@ End Code
         $('#txtCancelTime').val('');
         if (isjobmode == false) {
             $('#txtRefNo').val('');
-        } else {
-            $('#txtRefNo').val(cont);
+            $('#txtPoNo').val('');
         }
-        $('#txtPayType').val('CA');
+        $('#txtPayType').val('CH');
         $('#chkApprove').prop('checked', false);
         $('#chkCancel').prop('checked', false);
         $('#tbDetail').DataTable().clear().draw();
@@ -891,11 +913,12 @@ End Code
             ShowMessage('You are not allow to edit',true);
             return;
         }
+        /*
         if (obj.ClrItemNo > 0 || obj.AdvItemNo>0) {
             ShowMessage('Cannot Edit',true);
             return;
         }
-
+        */
         let jsonString = JSON.stringify({ data: obj });
         //ShowMessage(jsonString);
         $.ajax({
@@ -1016,12 +1039,13 @@ End Code
             $('#txtTotal').val(dt.Total);
             $('#txtFTotal').val(dt.FTotal);
             $('#txtForJNo').val(dt.ForJNo);
+            $('#txtCustCode').val(dt.CustCode);
             $('#txtBookingRefNo').val(dt.BookingRefNo);
             $('#txtBookingItemNo').val(dt.BookingItemNo);
             $('#txtClrRefNo').val(dt.ClrRefNo);
             $('#txtClrItemNo').val(dt.ClrItemNo);
             $('#txtAdvItemNo').val(dt.AdvItemNo);
-            if (dr.ClrItemNo > 0 || dr.AdvItemNo > 0) {
+            if (dt.ClrItemNo > 0 || dt.AdvItemNo > 0) {
                 $('#btnUpdate').attr('disabled', 'disabled');
             }
             return;
@@ -1047,7 +1071,9 @@ End Code
             $('#txtAmtWHT').val('0');
             $('#txtTotal').val('0');
             $('#txtFTotal').val('0');
+
             $('#txtForJNo').val(job);
+            $('#txtCustCode').val(cust);
             $('#txtBookingRefNo').val(bookno);
             $('#txtContainerNo').val(cont);
             $('#txtBookingItemNo').val(item);
@@ -1056,6 +1082,14 @@ End Code
             $('#txtSDescription').removeAttr('disabled');
             $('#txtUnitPrice').removeAttr('disabled');
             $('#txtSRemark').removeAttr('disabled');
+        } else {
+            if (job !== '') {
+                $('#txtForJNo').val(job);
+                $('#txtCustCode').val(cust);
+                $('#txtBookingRefNo').val(bookno);
+                $('#txtContainerNo').val(cont);
+                $('#txtBookingItemNo').val(item);
+            }
         }
         $('#txtAdvItemNo').val(0);
         $('#txtClrRefNo').val('');
@@ -1083,6 +1117,9 @@ End Code
         if ($('#txtEmpCode').val() !== '') {
             w += '&empcode=' + $('#txtEmpCode').val();
         }
+        if ($('#txtRefNo').val() !== '') {
+            w += '&ref=' + $('#txtRefNo').val();
+        }        
         if (userGroup == 'V') {
             w += '&VenCode=' + $('#txtVenCode').val();
         } else {
@@ -1108,7 +1145,7 @@ End Code
                         }
                     },
                     { data: "VenCode", title: "Vender" },
-                    { data: "ContactName", title: "Contact" },
+                    { data: "ApproveRef", title: "Approve" },
                     { data: "RefNo", title: "Ref.No" },
                     { data: "PoNo", title: "PO.No" },
                     { data: "TotalExpense", title: "Amount",
@@ -1178,7 +1215,7 @@ End Code
                 break;
             case 'transportprice':
                 if (route !== '') {
-                    SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&Cust=' + $('#txtCustCode').val() + '&id=' + route, ReadPrice);
+                    SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&id=' + route, ReadPrice);
                 } else {
                     SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&Cust=' + $('#txtCustCode').val(), ReadPrice);
                 }
@@ -1200,9 +1237,16 @@ End Code
         $('#txtForJNo').val(dt.JNo);
         $('#txtCustCode').val(dt.NotifyCode);
     }
-    function ReadJob(dt) {
+    function ReadJob(data) {        
+        dt = data;
+        if (data.length > 0) {
+            dt = data[0];
+        }
         $('#txtForJNo').val(dt.JNo);
-        $('#txtCustCode').val(dt.CustCode);
+        if (cust == '') {
+            cust = dt.CustCode;
+            $('#txtCustCode').val(dt.CustCode);
+        }
     }
     function ReadVender(dt) {
         $('#txtVenCode').val(dt.VenCode);
@@ -1242,7 +1286,7 @@ End Code
         if (dt !== undefined) {
             $('#txtSICode').val(dt.SICode);
             $('#txtSICode').change();
-            $('#txtSDescription').val(dt.SDescription);
+            $('#txtSDescription').val(dt.SDescription + ' (' + dt.Location + ')');
             $('#txtSRemark').val(dt.Location);
             $('#txtUnitPrice').val(CDbl(CNum(dt.CostAmount) / CNum($('#txtExchangeRate').val()), 2));
 
@@ -1250,7 +1294,7 @@ End Code
             $('#txtSDescription').attr('disabled', 'disabled');
             $('#txtUnitPrice').attr('disabled', 'disabled');
             $('#txtSRemark').attr('disabled', 'disabled');
-
+            $('#txtRouteID').val(dt.LocationID);
             CalAmount();    
         }
     }
@@ -1318,7 +1362,7 @@ End Code
         });
     }
     function EnableSave() {
-        let b = (userRights.indexOf('E') > 0 && ($('#txtApproveBy').val()=='' && $('#txtCancelProve').val()=='' && $('#txtAdvRef').val()=='' && $('#txtPaymentRef').val()==''))
+        let b = (userRights.indexOf('E') > 0 && ($('#txtApproveBy').val()=='' && $('#txtCancelProve').val()=='' && $('#txtAdvRef').val()==''))
         if (b == false) {
             $('#btnSave').attr('disabled', 'disabled');
             $('#btnDel').attr('disabled', 'disabled');
