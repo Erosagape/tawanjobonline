@@ -443,7 +443,8 @@ End Code
                 </a>
                 <ul class="nav nav-tabs" style="float:right;">
                     <li class="active"><a id="linkHeader" data-toggle="tab" href="#tabHeader">Container/Cargo Info</a></li>
-                    <li><a id="linkDetail" data-toggle="tab" href="#tabDetail">Timeline Info</a></li>
+                    <li><a id="linkDetailTruck" data-toggle="tab" href="#tabDetailTruck">Truck Info</a></li>
+                    <li><a id="linkDetailTime" data-toggle="tab" href="#tabDetailTime">Timeline Info</a></li>
                 </ul>
 
             </div>
@@ -527,42 +528,6 @@ End Code
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-5">
-                                        <label id="lblDriver">Driver</label>
-                                        :<br /><div style="display:flex"><input type="text" id="txtDriver" class="form-control"></div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label id="lblTruckNo">Truck ID</label>
-                                        :<br /><div style="display:flex"><input type="text" id="txtTruckNO" class="form-control"></div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <label id="lblTruckType">Type</label>
-                                        :
-                                        <br />
-                                        <div style="display:flex">
-                                            <input type="text" id="txtTruckType" class="form-control">
-                                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('carunit')" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <label id="lblRouteID">Route ID</label><input type="checkbox" id="chkAllCust" />Show All
-                                        :<br />
-                                        <div style="display:flex">
-                                            <input type="text" id="txtRouteID" class="form-control" disabled />
-                                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('route')" />
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <label id="lblLocationD">Location</label>
-                                        :<br />
-                                        <div style="display:flex">
-                                            <input type="text" id="txtLocation" class="form-control" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
                                     <div class="col-sm-6">
                                         <label id="lblComment">Comment </label>
                                         :<br /><div style="display:flex"><textarea id="txtComment" class="form-control"></textarea></div>
@@ -607,7 +572,7 @@ End Code
                             </div>
                         </div>
                     </div>
-                    <div id="tabDetail" class="tab-pane fade">
+                    <div id="tabDetailTime" class="tab-pane fade">
                         <div class="row">
                             <div class="col-sm-4" style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
                                 <label id="lblPickup">Pick-up:</label>
@@ -797,6 +762,60 @@ End Code
                                         <br />
                                         <input type="text" class="form-control" id="txtPlaceContact4" />
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tabDetailTruck" class="tab-pane fade">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <label id="lblDriver">Driver</label>
+                                :<br /><div style="display:flex"><input type="text" id="txtDriver" class="form-control"></div>
+                            </div>
+                            <div class="col-sm-3">
+                                <label id="lblTruckNo">Truck ID</label>
+                                :<br /><div style="display:flex"><input type="text" id="txtTruckNO" class="form-control"></div>
+                            </div>
+                            <div class="col-sm-4">
+                                <label id="lblTruckType">Type</label>
+                                :
+                                <br />
+                                <div style="display:flex">
+                                    <input type="text" id="txtTruckType" class="form-control">
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('carunit')" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <label id="lblRouteID">Route ID</label><input type="checkbox" id="chkAllCust" />Show All
+                                :<br />
+                                <div style="display:flex">
+                                    <input type="text" id="txtRouteID" class="form-control" disabled />
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('route')" />
+                                </div>
+                            </div>
+                            <div class="col-sm-9">
+                                <label id="lblLocationD">Location</label>
+                                :<br />
+                                <div style="display:flex">
+                                    <input type="text" id="txtLocation" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label id="lblMileBegin">Mile Begin</label>
+                                :<br/>
+                                 <div style="display:flex">
+                                     <input type="number" id="txtMileBegin" class="form-control" />
+                                 </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label id="lblMileBegin">Mile End</label>
+                                :<br />
+                                <div style="display:flex">
+                                    <input type="number" id="txtMileEnd" class="form-control" />
                                 </div>
                             </div>
                         </div>
@@ -1583,6 +1602,8 @@ End Code
             $('#txtMeasurement').val('0.00');
             $('#txtProductPrice').val('0.00');
         }
+        $('#txtMileBegin').val(0);
+        $('#txtMileEnd').val(0);
         ShowExpense();
         ShowPayment();
     }
@@ -1635,7 +1656,9 @@ End Code
             PlaceContact3: $('#txtPlaceContact3').val(),
             PlaceName4: $('#txtPlaceName4').val(),
             PlaceAddress4: $('#txtPlaceAddress4').val(),
-            PlaceContact4: $('#txtPlaceContact4').val()
+            PlaceContact4: $('#txtPlaceContact4').val(),
+            MileBegin: $('#txtMileBegin').val(),
+            MileEnd: $('#txtMileEnd').val()
         };
         if (obj.ItemNo != "") {
             ShowConfirm('Please confirm to save', function (ask) {
@@ -1730,7 +1753,8 @@ End Code
         $('#txtPlaceName4').val(dr.PlaceName4);
         $('#txtPlaceAddress4').val(dr.PlaceAddress4);
         $('#txtPlaceContact4').val(dr.PlaceContact4);
-
+        $('#txtMileBegin').val(dr.MileBegin);
+        $('#txtMileEnd').val(dr.MileEnd);
         ShowExpense();
         ShowPayment();
     }

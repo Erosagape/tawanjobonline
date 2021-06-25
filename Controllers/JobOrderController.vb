@@ -2423,6 +2423,62 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
         Function FormPackingList() As ActionResult
             Return GetView("FormPackingList")
         End Function
+        Function AddFuel() As ActionResult
+            Return GetView("AddFuel")
+        End Function
+        Function GetAddFuel() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE DocNo<>'' "
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format("AND DocNo ='{0}'", Request.QueryString("Code").ToString)
+                End If
+                Dim oData = New CAddFuel(GetSession("ConnJob")).GetData(tSqlw)
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                json = "{""addfuel"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
+        Function SetAddFuel(<FromBody()> data As CAddFuel) As ActionResult
+            Try
+                If Not IsNothing(data) Then
+                    If data.DocDate = DateTime.MinValue Then
+                        data.DocDate = Today.Date
+                    End If
+                    If "" & data.DocNo = "" Then
+                        'Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
+                        data.AddNew("RF" & data.DocDate.ToString("yyMM") & "____")
+                    End If
+                    data.SetConnect(GetSession("ConnJob"))
+                    Dim msg = data.SaveData(String.Format(" WHERE DocNo='{0}' ", data.DocNo))
+                    Dim json = "{""result"":{""data"":""" & data.DocNo & """,""msg"":""" & msg & """}}"
+                    Return Content(json, jsonContent)
+                Else
+                    Dim json = "{""result"":{""data"":null,""msg"":""No Data To Save""}}"
+                    Return Content(json, jsonContent)
+                End If
+            Catch ex As Exception
+                Dim json = "{""result"":{""data"":null,""msg"":""" & ex.Message & """}}"
+                Return Content(json, jsonContent)
+            End Try
+        End Function
+        Function DelAddFuel() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE DocNo<>'' "
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format("AND DocNo Like '{0}'", Request.QueryString("Code").ToString)
+                Else
+                    Return Content("{""addfuel"":{""result"":""Please Select Some Data"",""data"":[]}}", jsonContent)
+                End If
+                Dim oData As New CAddFuel(GetSession("ConnJob"))
+                Dim msg = oData.DeleteData(tSqlw)
 
+                Dim json = "{""addfuel"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
     End Class
 End Namespace

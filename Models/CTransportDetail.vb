@@ -444,6 +444,24 @@ Public Class CTransportDetail
             m_PlaceContact4 = value
         End Set
     End Property
+    Private m_MileBegin As Double
+    Public Property MileBegin As Double
+        Get
+            Return m_MileBegin
+        End Get
+        Set(value As Double)
+            m_MileBegin = value
+        End Set
+    End Property
+    Private m_MileEnd As Double
+    Public Property MileEnd As Double
+        Get
+            Return m_MileEnd
+        End Get
+        Set(value As Double)
+            m_MileEnd = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -506,6 +524,8 @@ Public Class CTransportDetail
                             dr("PlaceContact2") = Me.m_PlaceContact2
                             dr("PlaceContact3") = Me.m_PlaceContact3
                             dr("PlaceContact4") = Me.m_PlaceContact4
+                            dr("MileBegin") = Me.MileBegin
+                            dr("MileEnd") = Me.MileEnd
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CTransportDetail", "SaveData", Me, False)
@@ -676,6 +696,12 @@ Public Class CTransportDetail
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("PlaceContact4"))) = False Then
                         row.PlaceContact4 = rd.GetString(rd.GetOrdinal("PlaceContact4"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("MileBegin"))) = False Then
+                        row.MileBegin = rd.GetValue(rd.GetOrdinal("MileBegin"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("MileEnd"))) = False Then
+                        row.MileEnd = rd.GetValue(rd.GetOrdinal("MileEnd"))
                     End If
                     lst.Add(row)
                 End While
