@@ -2430,8 +2430,27 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             Try
                 Dim tSqlw As String = " WHERE DocNo<>'' "
                 If Not IsNothing(Request.QueryString("Code")) Then
-                    tSqlw &= String.Format("AND DocNo ='{0}'", Request.QueryString("Code").ToString)
+                    tSqlw &= String.Format("AND DocNo ='{0}' ", Request.QueryString("Code").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("Job")) Then
+                    tSqlw &= String.Format("AND JNo ='{0}' ", Request.QueryString("Job").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Station")) Then
+                    tSqlw &= String.Format("AND StationCode ='{0}' ", Request.QueryString("Station").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Booking")) Then
+                    tSqlw &= String.Format("AND BookingNo ='{0}' ", Request.QueryString("Booking").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Item")) Then
+                    tSqlw &= String.Format("AND BookingItemNo ={0} ", Request.QueryString("Item").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlw &= "AND DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00' "
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlw &= "AND DocDate<='" & Request.QueryString("DateTo") & " 23:59:00' "
+                End If
+
                 Dim oData = New CAddFuel(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""addfuel"":{""data"":" & json & "}}"

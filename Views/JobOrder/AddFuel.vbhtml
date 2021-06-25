@@ -41,8 +41,9 @@ End Code
             Doc No
             :
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4" style="display:flex">
             <input type="text" id="txtDocNo" class="form-control">
+            <button class="btn btn-default" onclick="SearchData('addfuel')">...</button>
         </div>
         <div class="col-sm-5">
             <div class="row">
@@ -122,7 +123,7 @@ End Code
             :
         </div>
         <div class="col-sm-4">
-            <input type="number" id="txtMileBegin" class="form-control" value="0.00">
+            <input type="number" id="txtMileBegin" class="form-control" value="0.00" onchange="CalculateMile()">
         </div>
         <div class="col-sm-5">
             <div class="row">
@@ -130,7 +131,7 @@ End Code
                     Mile End
                     :
                 </div>
-                <div class="col-sm-8"><input type="number" id="txtMileEnd" class="form-control" value="0.00"></div>
+                <div class="col-sm-8"><input type="number" id="txtMileEnd" class="form-control" value="0.00" onchange="CalculateMile()"></div>
             </div>
         </div>
     </div>
@@ -166,7 +167,7 @@ End Code
                     Actual Volume
                     :
                 </div>
-                <div class="col-sm-8"><input type="number" id="txtActualVolume" class="form-control" value="0.00"></div>
+                <div class="col-sm-8"><input type="number" id="txtActualVolume" class="form-control" value="0.00" onchange="CalculateTotal()"></div>
             </div>
         </div>
     </div>
@@ -176,7 +177,7 @@ End Code
             :
         </div>
         <div class="col-sm-4">
-            <input type="number" id="txtUnitPrice" class="form-control" value="0.00">
+            <input type="number" id="txtUnitPrice" class="form-control" value="0.00" onchange="CalculateTotal()">
         </div>
         <div class="col-sm-5">
             <div class="row">
@@ -302,8 +303,22 @@ End Code
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let user ='@ViewBag.User';
-    let userRights ='@ViewBag.UserRights';
+    let userRights = '@ViewBag.UserRights';
+    let branch = getQueryString("Branch");
+    let booking = getQueryString("Booking");
+    let item = getQueryString("Item");
+    let job = getQueryString("Job");
+    let code = getQueryString("Code");
     SetEvents();
+    if (branch !== '' && booking !== '' && item !== '' && job!=='') {
+        $('#txtJNo').val(job);
+        $('#txtBookingNo').val(booking);
+        $('#txtBookingItemNo').val(item);
+    }
+    if (branch !== '' && code !== '') {
+        $('#txtDocNo').val(code);
+        CallBackQueryAddFuel(path, code, ReadData);
+    }
     function CallBackQueryAddFuel(p, code, ev) {
         $.get(p + 'JobOrder/getaddfuel?Code=' + code).done(function (r) {
             let dr = r.addfuel.data;
@@ -328,6 +343,8 @@ End Code
         });
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             var dv = document.getElementById("dvLOVs");
+            //Fuel
+            CreateLOV(dv, '#frmSearchFuel', '#tbFuel', 'Refill Fuel', response, 5);
             //Job
             CreateLOV(dv, '#frmSearchBook', '#tbBook', 'Booking', response, 4);
             //Branch
@@ -496,6 +513,9 @@ End Code
                 let w = '?Branch=' + $('#txtBranchCode').val();
                 SetGridTransport(path, '#tbBook', '#frmSearchBook', w, ReadBooking);
                 break;
+            case 'addfuel':
+                SetGridAddFuel(path, '#tbFuel', '?Branch=' + $('#txtBranchCode').val(), '#frmSearchFuel', ReadData);
+                break;
         }
     }
     function ReadBranch(dt) {
@@ -555,5 +575,17 @@ End Code
                 $('#chkApprove').prop('checked', false);
             }
         }
+    }
+    function CalculateMile() {
+        var start = CNum($('#txtMileBegin').val());
+        var end = CNum($('#txtMileEnd').val());
+        var diff = end - start;
+        $('#txtMileTotal').val(diff);
+    }
+    function CalculateTotal() {
+        var volume = CNum($('#txtActualVolume').val());
+        var price = CNum($('#txtUnitPrice').val());
+        var total = volume * price;
+        $('#txtTotalAmount').val(CDbl(total, 2));
     }
 </script>
