@@ -22,7 +22,7 @@ End Code
         <div class="col-sm-4" style="display:flex;">
             <input type="text" id="txtBookingNo" class="form-control" disabled>
             <input type="text" style="width:60px;" id="txtBookingItemNo" class="form-control" disabled>
-            <input type="button" class="btn btn-default" id="btnBrowseJob" value="..." onclick="SearchData('booking')" />
+            <input type="button" class="btn btn-default" id="btnBrowseBook" value="..." onclick="SearchData('booking')" />
         </div>
         <div class="col-sm-5">
             <div class="row">
@@ -43,7 +43,6 @@ End Code
         </div>
         <div class="col-sm-4" style="display:flex">
             <input type="text" id="txtDocNo" class="form-control">
-            <button class="btn btn-default" onclick="SearchData('addfuel')">...</button>
         </div>
         <div class="col-sm-5">
             <div class="row">
@@ -295,7 +294,7 @@ End Code
     <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteData()">
         <i class="fa fa-lg fa-trash"></i>&nbsp;<b>Delete</b>
     </a>
-    <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData('branch')">
+    <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData('addfuel')">
         <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
     </a>
 </div>
@@ -324,6 +323,8 @@ End Code
             let dr = r.addfuel.data;
             if (dr.length > 0) {
                 ev(dr[0]);
+            } else {
+                ShowMessage('Data Not Found',true);
             }
         });
     }
@@ -336,7 +337,6 @@ End Code
         $('#txtDocNo').keydown(function (event) {
             if (event.which == 13) {
                 let code=$('#txtDocNo').val();
-                ClearData();
                 $('#txtDocNo').val(code);
                 CallBackQueryAddFuel(path, code,ReadData);
             }
@@ -362,7 +362,8 @@ End Code
             });
         });
     }
-	function ReadData(dr){
+    function ReadData(dr) {
+        ClearData();
         $('#txtBranchCode').val(dr.BranchCode);
         $('#txtDocNo').val(dr.DocNo);
         $('#txtDocDate').val(CDateEN(dr.DocDate));
