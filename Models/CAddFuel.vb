@@ -321,8 +321,10 @@ Public Class CAddFuel
                             dr("MileTotal") = Me.MileTotal
                             dr("Remark") = Me.Remark
                             dr("TotalWeight") = Me.TotalWeight
-                            dr("CreateBy") = Me.CreateBy
-                            dr("CreateDate") = Main.GetDBDate(Me.CreateDate)
+                            If dr.RowState = DataRowState.Detached Then
+                                dr("CreateBy") = Me.CreateBy
+                                dr("CreateDate") = Main.GetDBDate(Me.CreateDate)
+                            End If
                             dr("UpdateBy") = Me.UpdateBy
                             dr("LastUpdate") = Main.GetDBDate(Me.LastUpdate)
                             dr("ApproveBy") = Me.ApproveBy
