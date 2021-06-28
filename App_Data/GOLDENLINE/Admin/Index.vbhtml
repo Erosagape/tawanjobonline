@@ -49,7 +49,16 @@ Period : <input type="text" id="txtPeriod" value="@DateTime.Now.ToString("yyyy/M
 <script type="text/javascript">
     var path = '@Url.Content("~")';
     var isSummary = true;
-    ShowData(true);
+    var period = getQueryString('period');
+    var type = getQueryString('type');
+    if (period !== '') {
+        $('#txtPeriod').val(period);
+    }
+    if (type == 'D') {
+        ShowData(false);
+    } else {
+        ShowData(true);
+    }
     function ShowData(summary) {
         IsSummary = summary;
         let period = '?summary=' + (IsSummary == true ? 'Y' : 'N');
@@ -156,17 +165,19 @@ Period : <input type="text" id="txtPeriod" value="@DateTime.Now.ToString("yyyy/M
         .done((r) => {
             if (r.length > 0) {
                 let html = '';
-                for (let d of r) {
-                    if (d.LastLogin.indexOf('ALL')>=0) {
-                        html += '<tr style="background-color:lightgreen;font-weight:bold">';
-                    } else {
-                        html += '<tr>';
+                if (r[0].LastLogin !== null) {
+                    for (let d of r) {
+                        if (d.LastLogin.indexOf('ALL') >= 0) {
+                            html += '<tr style="background-color:lightgreen;font-weight:bold">';
+                        } else {
+                            html += '<tr>';
+                        }
+                        html += '<td>' + d.Period + '</td>';
+                        html += '<td>' + d.UserID + '</td>';
+                        html += '<td>' + d.LastLogin + '</td>';
+                        html += '</tr>';
                     }
-                    html += '<td>' + d.Period + '</td>';
-                    html += '<td>' + d.UserID + '</td>';
-                    html += '<td>' + d.LastLogin + '</td>';
-                    html += '</tr>';
-                }                
+                }
                 $('#tbUser tbody').html(html);
             }
         });

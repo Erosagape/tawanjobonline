@@ -1,0 +1,6 @@
+insert into Mas_Config values ('FUEL_PAYMENT','CASH','เงินสด')
+insert into Mas_Config values ('FUEL_PAYMENT','CREDIT','เครดิต')
+insert into Mas_Config values ('FUEL_STATION','OTHERS','ที่อื่น')
+insert into Mas_Config values ('FUEL_STATION','THESO','เดอะโซ')
+insert into Mas_Config values ('FUEL_TYPE','DIESEL','ดีเซล')
+insert into Mas_Config values ('FUEL_TYPE','GAS','แก๊ส')

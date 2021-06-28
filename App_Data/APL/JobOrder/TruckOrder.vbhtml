@@ -112,7 +112,12 @@ End Code
         <td><label id="txtContainer" style="width:100%" value=""></label></td>
     </tr>
     <tr>
-        <td colspan="2"></td>
+        <td>
+            Commodity Info
+            <br/>
+            รายละเอียดสินค้า
+        </td>
+        <td><div id="txtProductInfo" style="width:100%"></div></td>
         <td>Discrepancy Reason <br />หมายเหตุในการส่งสินค้าล่าช้า</td>
         <td><div id="txtDiscrepancyReason" style="width:100%" value=""></div></td>
     </tr>
@@ -196,7 +201,7 @@ End Code
     $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc +'&Cont=' +cont).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
-            $('#txtDeliveryNo').text(h.DeliveryNo);
+            $('#txtDeliveryNo').text(h.CustRefNO);
             $('#txtJNo').text(h.JNo);
             $('#txtNotifyName').text(h.NotifyName);
             $('#txtVenderName').text(h.ForwarderName);
@@ -242,6 +247,7 @@ End Code
             $('#txtActualDateTime1').text(CDateEN(h.ActualYardDate));
             $('#txtActualDateTime2').text(CDateEN(h.ActualDeliveryDate));
             $('#txtActualDateTime3').text(CDateEN(h.ActualReturnDate));
+            $('#txtProductInfo').html(h.ProductQty + ' ' + h.ProductUnit +'<br/>G.W ' + h.GrossWeight + ' KGS<br/>CBM ' + h.Measurement + ' M3');
         }
     });
 </script>

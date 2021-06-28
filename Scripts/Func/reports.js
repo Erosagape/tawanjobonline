@@ -848,7 +848,7 @@ function LoadReport(path, reportID, obj, lang) {
                             }
                         }
                         html += '"><b>' + GetColumnHeader(key, lang) + '</b></th>';
-                        if (textFields.indexOf(key) >= 0 || key.indexOf('CustCode') >= 0) {
+                        if (textFields.indexOf(key) >= 0 || key.indexOf('CustCode') >= 0 || key.indexOf('TaxNumber') >= 0) {
                             sumGroup.push({ isSummary: false, value: 0 });
                         } else {
                             if (IsSummaryColumn(key) == true) {

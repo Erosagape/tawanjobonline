@@ -59,7 +59,7 @@ End Code
                         <table style="width:100%">
                             <tr>
                                 <td>
-                                    <label id="lblContNo">Container No:</label>                                    
+                                    <label id="lblContNo" style="color:red" onclick="SearchData('container')">Container No:</label>                                    
                                 </td>
                                 <td style="display:flex;flex-direction:row">
                                     <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" />
@@ -211,8 +211,8 @@ End Code
                             <thead>
                                 <tr>
                                     <th>
-                                    <th class="all">SICode</th>
-                                    <th class="desktop">Description</th>
+                                    <th class="desktop">SICode</th>
+                                    <th class="all">Description</th>
                                     <th class="desktop">Job.No</th>
                                     <th class="desktop">Adv.No</th>
                                     <th class="desktop">Advance</th>
@@ -319,7 +319,7 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label id="lblQNo">Quotation No :</label>
+                                    <label id="lblQNo">Quotation No :</label>/<label id="lblEstimate" onclick="SearchData('estimate')" >Estimate</label>
                                     <div style="display:flex">
                                         <input type="text" id="txtQNo" class="form-control" disabled />
                                         <input type="button" id="btnBrowseQ" class="btn btn-default" value="..." onclick="SearchData('quotation')" />
@@ -428,13 +428,13 @@ End Code
                                     <label id="lblIsCost" for="chkIscost">Is Company Cost (Cannot Charge)</label>
                                     <br />
                                     <label id="lblAdvItemNo" for="txtAdvItemNo">Clear From Adv Item.No :</label>
-                                    <input type="text" id="txtAdvItemNo" style="width:40px" disabled />
+                                    <input type="text" id="txtAdvItemNo" style="width:40px"/>
                                     <br/>
                                     <label id="lblAdvNo" for="txtAdvNo">Adv.No :</label>
-                                    <input type="text" id="txtAdvNo" style="width:150px" disabled /> 
+                                    <input type="text" id="txtAdvNo" style="width:150px"/> 
                                     <br/>
                                     <label id="lblAdvAmt">Advance Net :</label>                                    
-                                    <input type="text" id="txtAdvAmount" style="width:60px" disabled />
+                                    <input type="text" id="txtAdvAmount" style="width:60px"/>
                                 </div>
                             </div>                            
                             <div class="row">
@@ -444,7 +444,7 @@ End Code
                                 </div>
                                 <div class="col-sm-6">
                                     <label id="lblPayNo">Vender Inv#</label>
-                                    <input type="text" id="txtVenderBillingNo" style="width:150px" disabled />
+                                    <input type="text" id="txtVenderBillingNo" style="width:150px" />
                                     <input type="button" value="View" onclick="ShowVenderBill()" />
                                 </div>
                             </div>
@@ -483,7 +483,7 @@ End Code
                                         <th class="desktop">Inv No</th>
                                         <th class="desktop">Status</th>
                                         <th class="all">ClrAmount</th>
-                                        <th class="desktop">Currency</th>
+                                        <th class="desktop">Container</th>
                                         <th class="desktop">AdvNo</th>
                                         <th class="all">AdvAmount</th>
                                         <th class="desktop">Remark</th>
@@ -581,11 +581,10 @@ End Code
                             <tr>
                                 <th>#</th>
                                 <th>Q.No</th>
-                                <th>QtyBegin</th>
-                                <th>QtyEnd</th>
+                                <th>Code</th>
+                                <th>Desc</th>
                                 <th>Unit Price</th>
                                 <th class="desktop">Vender</th>
-                                <th class="desktop">Cost</th>
                             </tr>
                         </thead>
                     </table>
@@ -640,17 +639,20 @@ End Code
                 ShowData(br, $('#txtClrNo').val());
             } else {
                 job = getQueryString('JNo');
-                $('#dvJob').html('<h4>***For Job ' + job.toUpperCase() + '***</h4>');
-                if (job.length > 0) {
-                    isjobmode = true;
-                    $('#txtForJNo').val(job);
-                    $('#txtClrNo').attr('disabled', 'disabled');
-                    CallBackQueryJob(path, $('#txtBranchCode').val(), job, LoadJob);
-                }
+                SetJob();
             }
         } else {
             $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
             $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
+        }
+    }
+    function SetJob() {
+        $('#dvJob').html('<h4>***For Job ' + job.toUpperCase() + '***</h4>');
+        if (job.length > 0) {
+            isjobmode = true;
+            $('#txtForJNo').val(job);
+            $('#txtClrNo').attr('disabled', 'disabled');
+            CallBackQueryJob(path, $('#txtBranchCode').val(), job, LoadJob);
         }
     }
     function LoadJob(dt) {
@@ -736,6 +738,10 @@ End Code
 
         $('#chkCancel').on('click', function () {
             chkmode = this.checked;
+            if (chkmode == true && $('#cboDocStatus').val().substr(0,2) !== '01') {
+                ShowMessage('Cannot cancel on this document status', true);
+                return;
+            }
             CallBackAuthorize(path, 'MODULE_CLR', 'Index', 'D', SetCancel);
         });
 
@@ -914,7 +920,13 @@ End Code
 
     function SetCancel(b) {
         if (b == true) {
-            if (chkmode) $('#cboDocStatus').val('99');
+            if (chkmode) {
+                $('#cboDocStatus').val('99');
+            } else {
+                $('#cboDocStatus').val('1');
+                $('#txtApproveDate').val('');
+                $('#txtApproveTime').val('');
+            }                
             $('#txtCancelProve').val(chkmode ? user : '');
             $('#txtCancelDate').val(chkmode ? CDateEN(GetToday()) : '');
             $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
@@ -929,15 +941,15 @@ End Code
         //Combos
         let lists = 'JOB_TYPE=#cboJobType';
         lists += ',CLR_STATUS=#cboDocStatus|01';
-        lists += ',CLR_STATUS=#cboStatus|01';
-        lists += ',CLR_TYPE=#cboClrType|1';
+        lists += ',CLR_STATUS=#cboStatus|';
+        lists += ',CLR_TYPE=#cboClrType|';
         lists += ',CLR_FROM=#cboClrFrom';
 
         loadCombos(path, lists);
         LoadService();
 
         //3 Fields Show
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Venders
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response,2);
@@ -953,6 +965,10 @@ End Code
             CreateLOV(dv, '#frmSearchExpCur', '#tbExpCur', 'Currency Code', response, 2);
             //Unit
             CreateLOV(dv, '#frmSearchUnit', '#tbUnit', 'Unit Code', response, 2);
+            //Estimate
+            CreateLOV(dv, '#frmSearchEstimate', '#tbEstimate', 'Estimate Price', response, 3);
+            //Containers
+            CreateLOV(dv, '#frmSearchCont', '#tbCont', 'Container Code', response, 4);
         });
     }
     function ShowData(branchcode, clrno) {
@@ -1129,7 +1145,7 @@ End Code
             $('#txtSumCharge').val(CDbl(dt.ClearBill, 2));
             $('#txtSumCost').val(CDbl(dt.ClearCost,2));
 
-            //$('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
+            $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
             $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
             $('#chkReceive').prop('checked', $('#txtReceiveBy').val() == '' ? false : true);
             
@@ -1382,31 +1398,31 @@ End Code
                 {
                     data: "AdvAmount", title: "Advance",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "UsedAmount", title: "Clear",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "ChargeVAT", title: "VAT",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "Tax50Tavi", title: "WH-Tax",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "BNet", title: "Net",
                     render: function (data) {
-                        return ShowNumber(data, 2);
+                        return ShowNumber(data, 3);
                     }
                 },
                 { data: "CurrencyCode", title: "Currency" },
@@ -1480,7 +1496,7 @@ End Code
             Pay50TaviTo: $('#txtPayChqTo').val(),
             NO50Tavi: $('#txt50Tavi').val(),
             Date50Tavi: CDateEN($('#txtDate50Tavi').val()),
-            VenderBillingNo: dtl.VenderBillingNo,
+            VenderBillingNo: $('#txtVenderBillingNo').val(),
             AirQtyStep: dtl.AirQtyStep,
             StepSub: dtl.StepSub,
             LinkBillNo : dtl.LinkBillNo,
@@ -1762,7 +1778,7 @@ End Code
                             return ShowNumber(data, 2);
                         }
                     },
-                    { data: "CurrencyCode", title: "Currency" },
+                    { data: "CTN_NO", title: "Container" },
                     { data: "AdvNO", title: "Adv No" },
                     {
                         data: "AdvNet", title: "Adv.Total",
@@ -1791,6 +1807,13 @@ End Code
     }
     function SearchData(type) {
         switch (type) {
+            case 'container':
+                w = '?Branch=' + $('#txtBranchCode').val();
+                if (job !== '') {
+                    w += '&Job=' + job;
+                }
+                SetGridTransport(path, '#tbCont', '#frmSearchCont', w, ReadContainer);
+                break;
             case 'clearing':
                 SetGridClr();
                 break;
@@ -1818,6 +1841,9 @@ End Code
                 break;
             case 'servunit':
                 SetGridServUnit(path, '#tbUnit', '#frmSearchUnit', ReadUnit);
+                break;
+            case 'estimate':
+                SetGridEstimateCost(path, '#tbEstimate', '?status=NOCLR&type=' + $('#cboClrType').val() + '&Job=' + $('#txtForJNo').val(), '#frmSearchEstimate', ReadEstimate);
                 break;
             case 'quotation':
                 //let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val() + '&code=' + $('#txtSICode').val() + '&jtype=' + $('#txtJobType').val() + '&sby=' + $('#txtShipBy').val();
@@ -1911,6 +1937,11 @@ End Code
         $('#cboClrFrom').val(dt.DeptID);
         //$('#txtEmpCode').focus();
     }
+    function ReadContainer(dt) {
+        job = dt.JNo;
+        SetJob();
+        $('#txtCTN_NO').val(dt.CTN_NO);
+    }
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);
         $('#txtBranchName').val(dt.BrName);
@@ -1971,14 +2002,18 @@ End Code
         if (r.length > 0) {
             dt = r[0];
         }
-        $('#txtForJNo').val(dt.JNo);
-        $('#txtInvNo').val(dt.InvNo);
-        $('#txtQNo').val(dt.QNo);
-        $('#txtCustCode').val(dt.CustCode);
-        $('#txtCustBranch').val(dt.CustBranch);
-        $('#txtJobType').val(dt.JobType);
-        $('#txtShipBy').val(dt.ShipBy);
-        ShowCustomer(path, dt.CustCode, dt.CustBranch, '#txtCustName');
+        if (dt.JobStatus == 99) {
+            ShowMessage('This job has been cancelled', true);
+        } else {
+            $('#txtForJNo').val(dt.JNo);
+            $('#txtInvNo').val(dt.InvNo);
+            $('#txtQNo').val(dt.QNo);
+            $('#txtCustCode').val(dt.CustCode);
+            $('#txtCustBranch').val(dt.CustBranch);
+            $('#txtJobType').val(dt.JobType);
+            $('#txtShipBy').val(dt.ShipBy);
+            ShowCustomer(path, dt.CustCode, dt.CustBranch, '#txtCustName');
+        }
         $('#txtForJNo').focus();
     }
     
@@ -2012,9 +2047,9 @@ End Code
         }           
     }
     function CalTotal() {
-        let amt = CDbl($('#txtAMT').val(),2);
-        let vat = CDbl($('#txtVAT').val(),2);
-        let wht = CDbl($('#txtWHT').val(),2);
+        let amt = CDbl($('#txtAMT').val(),3);
+        let vat = CDbl($('#txtVAT').val(),3);
+        let wht = CDbl($('#txtWHT').val(),3);
 
         $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),2));
         $('#txtAMT').val(CDbl(amt,2));
@@ -2042,8 +2077,8 @@ End Code
             vat = amt * vatrate * 0.01;
             wht = amt * whtrate * 0.01;
         }
-        $('#txtVAT').val(CDbl(vat,2));
-        $('#txtWHT').val(CDbl(wht,2));
+        $('#txtVAT').val(CDbl(vat,3));
+        $('#txtWHT').val(CDbl(wht,3));
         CalTotal();
     }
     function LoadAdvance() {
@@ -2119,6 +2154,36 @@ End Code
                 ShowMessage("Not found data for clear",true);
             }
         });
+    }
+    function ReadEstimate(dt) {
+        $('#txtSICode').val(dt.SICode);
+        $('#cboSTCode').val('QUO');
+        $('#txtSDescription').val(dt.SDescription);
+        $('#txtVatType').val(dt.IsTaxCharge);
+        $('#txtVATRate').val(dt.AmtVatRate);
+        $('#txtWHTRate').val(dt.AmtWhtRate == "0" ? "0" : dt.AmtWhtRate);
+        if (dt.IsTaxCharge == "2") {
+            $('#txtAMT').attr('disabled', 'disabled');
+            $('#txtVATRate').attr('disabled', 'disabled');
+            $('#txtWHTRate').attr('disabled', 'disabled');
+            $('#txtVAT').attr('disabled', 'disabled');
+            $('#txtWHT').attr('disabled', 'disabled');
+        } else {
+            $('#txtAMT').removeAttr('disabled');
+            $('#txtVATRate').removeAttr('disabled');
+            $('#txtWHTRate').removeAttr('disabled');
+            $('#txtVAT').removeAttr('disabled');
+            $('#txtWHT').removeAttr('disabled');
+        }
+        $('#txtCurrencyCode').val(dt.CurrencyCode);
+        ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
+        $('#txtCurRate').val(dt.ExchangeRate);
+        $('#txtUnitPrice').val(CDbl(dt.AmountCharge, 2));
+        $('#txtQty').val(CNum(dt.Qty));
+        $('#txtUnitCode').val(dt.QtyUnit);
+        $('#txtVenCode').val(dt.VenderCode);
+        ShowVender(path, dt.VenderCode, '#txtPayChqTo');
+        CalAmount();
     }
     function ReadQuotation(dt) {
         $('#txtSICode').val(dt.SICode);
@@ -2246,4 +2311,5 @@ End Code
             window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&DocNo=' + doc, '_blank');
         }
     }
+    
 </script>

@@ -1544,3 +1544,56 @@ function SetGridEstimateCost(p, g, t, d, ev) {
     });
     BindEvent(g, d, ev);
 }
+function SetGridAddFuel(p, g, t, d, ev) {
+    //popup for search data
+    $(g).DataTable({
+        ajax: {
+            url: p + 'JobOrder/GetAddFuel' + t, //web service ที่จะ call ไปดึงข้อมูลมา
+            dataSrc: 'addfuel.data'
+        },
+        selected: true, //ให้สามารถเลือกแถวได้
+        columns: [ //กำหนด property ของ header column
+            { data: null, title: "#" },
+            { data: "DocNo", title: "No" },
+            { data: "JNo", title: "Job" },
+            {
+                data: "DocDate", title: "Date",
+                render: function (data) {
+                    return CDateEN(data);
+                }
+            },
+            {
+                data: "TotalAmount", title: "Total",
+                render: function (data) {
+                    return ShowNumber(data, 2);
+                }
+            },
+            {
+                data: null, title: "Status",
+                render: function (data) {
+                    switch (true) {
+                        case data.CancelBy !== null:
+                            return 'Cancel';
+                        case data.ApproveBy !== null:
+                            return 'Approve';
+                        default:
+                            return 'Request';
+                    }
+                }
+            },
+        ],
+        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+            {
+                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                "data": null,
+                "render": function (data, type, full, meta) {
+                    let html = "<button class='btn btn-warning'>Select</button>";
+                    return html;
+                }
+            }
+        ],
+        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+        , pageLength: 100
+    });
+    BindEvent(g, d, ev);
+}

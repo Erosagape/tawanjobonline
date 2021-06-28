@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "จ่ายเงินตามใบเบิกค่าใช้จ่าย"
+    ViewBag.Title = "Advance Payment"
 End Code
 <style>
     @@media only screen and ( max-width:600px )
@@ -144,7 +144,7 @@ End Code
                         </table>
                         <br />
                         <label id="lblRefNoCA">Trans.No:</label>
-                        <input type="text" id="txtRefNoCash" class="form-control" value="" />
+                        <input type="text" id="txtRefNoCash" class="form-control" value="" ondblclick="AutoGenRef()" />
                         <br />
                         <label id="lblTranDateCA">Trans.Date:</label>
                         <input type="date" id="txtCashTranDate" class="form-control" disabled />
@@ -199,6 +199,7 @@ End Code
                     <div class="col-sm-3 table-bordered" id="dvChq">
                         <b id="linkChqCust">Customer Chq : </b><input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
+                        <input type="hidden" id="txtBookChq" class="form-control" value=""/>
                         <a id="lblRefNoCU" href="../acc/cheque" target="_blank">Chq No:</a><input type="text" id="txtRefNoChq" class="form-control" value="" disabled />
                         <input type="button" class="btn" id="btnBrowseChq" value="..." onclick="SearchData('chequecust')" />
                         <br />
@@ -334,6 +335,10 @@ End Code
         return;
     }
     function SetEvents() {
+        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtAdvDateF').val(GetFirstDayOfMonth());
+        $('#txtAdvDateT').val(GetLastDayOfMonth());
         //Combos
         let lists = 'JOB_TYPE=#cboJobType';
         lists += ',SHIP_BY=#cboShipBy';
@@ -344,9 +349,6 @@ End Code
         //default values
         $('#txtCurrencyCode').val('THB');
         ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
-
-        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
 
         //Events
         $('#txtBranchCode').focusout(function (event) {
@@ -387,7 +389,7 @@ End Code
                 ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
             }
         });
-        
+
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
@@ -412,6 +414,7 @@ End Code
         $('#txtCashPayTo').val('');
         $('#txtAdvChqCash').val('');
         $('#txtBookChqCash').val('');
+        $('#txtBookChq').val('');
         $('#txtRefNoChqCash').val('');
         $('#txtChqCashTranDate').val('');
         $('#chkStatusChq').prop('checked', false);
@@ -548,7 +551,7 @@ End Code
         });
     }
     function SetStatusInput(d, bl, ctl) {
-        if (bl == false) {            
+        if (bl == false) {
             $(d).css("background-color", "darkgrey");
             $(d + ' :input').attr('disabled', true);
         } else {
@@ -585,7 +588,7 @@ End Code
 
             let o = arr[i];
             wtax += (o.Total50Tavi > 0 ? o.Total50Tavi : 0);
-            tot += (o.TotalAdvance > 0 ? o.TotalAdvance+o.TotalVAT : 0);
+            tot += (o.TotalAdvance > 0 ? o.TotalAdvance+o.Total50Tavi : 0);
             cash += (o.AdvCash > 0 ? o.AdvCashCal : 0);
             chq += (o.AdvChqCash > 0 ? o.AdvChqCashCal : 0);
             chqcust += (o.AdvChq > 0 ? o.AdvChqCal : 0);
@@ -709,7 +712,7 @@ End Code
 
         $('#txtSumApprove').val(CDbl(tot, 4));
         $('#txtSumWHTax').val(CDbl(wtax, 4));
-                                
+
         $('#txtListApprove').val(doc);
         $('#txtTRemark').val(doc);
     }
@@ -746,7 +749,7 @@ End Code
         let i = 0;
         if ($('#txtAdvCash').val() > 0) {
             i = i + 1;
-            let sum_cash = GetSumPayment('AdvCash');            
+            let sum_cash = GetSumPayment('AdvCash');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
                 ControlNo: docno,
@@ -778,7 +781,8 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankCash').val(),
                 RecvBranch: $('#txtBankBranchCash').val(),
-                acType : 'CA'
+                acType: 'CA',
+                ForJNo:''
             });
         }
         if ($('#txtAdvChq').val() > 0) {
@@ -791,7 +795,7 @@ End Code
                 PRVoucher: '',
                 PRType: 'P',
                 ChqNo: $('#txtRefNoChq').val(),
-                BookCode: '',
+                BookCode: $('#txtBookChq').val(),
                 BankCode: '',
                 BankBranch: '',
                 ChqDate:  CDateEN($('#txtChqTranDate').val()),
@@ -815,7 +819,8 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankChq').val(),
                 RecvBranch: $('#txtBankBranchChq').val(),
-                acType: 'CU'
+                acType: 'CU',
+                ForJNo:''
             });
         }
         if ($('#txtAdvChqCash').val() > 0) {
@@ -852,7 +857,8 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankChqCash').val(),
                 RecvBranch: $('#txtBankBranchChqCash').val(),
-                acType: 'CH'
+                acType: 'CH',
+                ForJNo:''
             });
         }
         if ($('#txtAdvCred').val() > 0) {
@@ -955,7 +961,7 @@ End Code
                 response ? ShowMessage(msg) : ShowMessage("Cannot Payment");
                 if (response) {
                     PrintVoucher($('#txtBranchCode').val(), $('#txtControlNo').val());
-                }                
+                }
                 SetGridAdv(false);
             },
             error: function (e) {
@@ -987,7 +993,8 @@ End Code
             CancelDate: '',
             CancelTime: '',
             CustCode: $('#txtCustCode').val(),
-            CustBranch: $('#txtCustBranch').val()
+            CustBranch: $('#txtCustBranch').val(),
+            PostRefNo: ''
         };
         docno = '';
         let jsonString = JSON.stringify({ data: oHeader });
@@ -1057,6 +1064,7 @@ End Code
             ShowMessage('Balance not enough to payment',true);
             return;
         }
+        $('#txtBookChq').val(dt.BookCode);
         $('#txtRefNoChq').val(dt.ChqNo);
         $('#txtChqTranDate').val( CDateEN(dt.ChqDate));
         $('#chkIsLocal').prop('checked', dt.IsLocal == 1 ? true : false);
@@ -1133,7 +1141,7 @@ End Code
                         return false;
                     }
                 }
-            }   
+            }
         }
         amtChk = Number($('#txtAdvChqCash').val());
         if (amtChk > 0) {
@@ -1156,7 +1164,7 @@ End Code
                             ShowMessage('Please input cheque date',true);
                             $('#txtChqCashTranDate').focus();
                             return false;
-                        } 
+                        }
                     }
                     if ($('#chkStatusChq').prop('checked') == true) {
                         if ($('#cboBankChqCash').val() == '' || $('#txtBankBranchChqCash').val() == '') {
@@ -1180,8 +1188,8 @@ End Code
                     $('#txtChqTranDate').focus();
                     return false;
                 } else {
-                    if ($('#cboBankChq').val() == '' || $('#txtBankBranchChq').val() == '') {
-                        ShowMessage('Please input bank and branch',true);
+                    if ($('#cboBankChq').val() == '') {
+                        ShowMessage('Please input bank',true);
                         $('#cboBankChq').focus();
                         return false;
                     }
@@ -1206,5 +1214,8 @@ End Code
     }
     function PrintVoucher(br, cno) {
         window.open(path + 'Acc/FormVoucher?branch=' + $('#txtBranchCode').val() + '&controlno=' + $('#txtControlNo').val());
+    }
+    function AutoGenRef() {
+        $('#txtRefNoCash').val('CA'+'@DateTime.Now.ToString("yyyyMMddHHmmss")');
     }
 </script>

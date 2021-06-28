@@ -43,7 +43,7 @@ End Code
             </div>
             <div class="col-sm-3">
                 <div style="display:flex;flex-direction:row">
-                    <label id="lblJobStatus">Job Status:</label>
+                    <label id="lblJobStatus" ondblclick="ReEnableSave()">Job Status:</label>
                     <input type="text" class="form-control" style="width:100%;background-color:aquamarine;font-weight:bold" id="txtJobStatus" disabled />
                 </div>
             </div>
@@ -1699,5 +1699,8 @@ End Code
     }
     function PrintForm() {
         window.open(path + 'Clr/FormEntry?branch=' + $('#txtBranchCode').val() + '&job=' + $('#txtJNo').val());
+    }
+    function ReEnableSave() {
+        $('#btnSave').removeAttr('disabled');
     }
 </script>

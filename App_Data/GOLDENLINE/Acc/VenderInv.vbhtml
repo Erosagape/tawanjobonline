@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Approve Invoice Vender"
+    ViewBag.Title = "Vender Summary Invoice"
 End Code
 <div class="row">
     <div class="col-sm-4">
@@ -37,7 +37,7 @@ End Code
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtVenCode" style="width:20%" />
-            <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('vender')">...</button>
+            <button id="btnBrowseVend" class="btn btn-default" onclick="SearchData('vender')">...</button>
             <input type="text" class="form-control" id="txtVenName" style="width:100%" disabled />
         </div>
     </div>
@@ -55,10 +55,11 @@ End Code
                 <tr>
                     <th>DocNo</th>
                     <th class="desktop">DocDate</th>
-                    <th class="desktop">VenCode</th>
-                    <th class="desktop">EmpCode</th>
-                    <th class="all">Ref</th>
-                    <th class="desktop">PoNo</th>
+                    <th class="desktop">Customer</th>
+                    <th class="desktop">Booking</th>
+                    <th class="all">Container</th>
+                    <th class="desktop">JobNo</th>
+                    <th class="desktop">Desc</th>
                     <th class="desktop">Amount</th>
                     <th class="desktop">WT</th>
                     <th class="desktop">VAT</th>
@@ -69,10 +70,15 @@ End Code
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-2">
         <label id="lblID">Invoice No</label>
         <br/>
         <input type="text" id="txtID" class="form-control" />
+    </div>
+    <div class="col-sm-2">
+        Total
+        <br />
+        <input type="text" id="txtTotal" class="form-control" />
     </div>
     <div class="col-sm-8">
         <label id="lblListApprove">Selected Document</label>
@@ -81,8 +87,34 @@ End Code
 </div>
 <br />
 <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Approve</b>
+    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Confirm</b>
 </a>
+<a href="#" class="btn btn-primary" id="btnHistory" onclick="ShowApprove()">
+    <i class="fa fa-lg fa-search"></i>&nbsp;<b id="linkSearchApprove">Vender Summary</b>
+</a>
+<div id="dvApprove" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <b>List of Approved Documents</b>
+            </div>
+            <div class="modal-body">
+                <table id="tbApprove" class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Approve Ref#</th>
+                            <th>Vender Ref#</th>
+                            <th>Payment Ref#</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" data-dismiss="modal">X</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
@@ -96,6 +128,10 @@ End Code
     SetEvents();
     //});
     function SetEvents() {
+        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
         if (userGroup == 'V') {
             $('#txtVenCode').attr('disabled', 'disabled');
             $('#txtVenName').attr('disabled', 'disabled');
@@ -111,9 +147,6 @@ End Code
         //default values
         $('#txtCurrencyCode').val('THB');
         ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
-
-        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
 
         //Events
         $('#txtBranchCode').focusout(function (event) {
@@ -181,14 +214,14 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
-        w = w + '&Type=NOPO';
-        $.get(path + 'acc/getpayment?branch=' + $('#txtBranchCode').val() + w, function (r) {
-            if (r.payment.header.length == 0) {
+        w = w + '&Type=NOPO&Show=ACTIVE';
+        $.get(path + 'acc/getpaymentgrid?branch=' + $('#txtBranchCode').val() + w, function (r) {
+            if (r.payment.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.payment.header;
+            let h = r.payment.data;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
             let tb=$('#tbHeader').DataTable({
@@ -202,30 +235,31 @@ End Code
                             return CDateEN(data);
                         }
                     },
-                    { data: "VenCode", title: "Vender" },
-                    { data: "ContactName", title: "Contact" },
-                    { data: "RefNo", title: "Ref.No" },
-                    { data: "PoNo", title: "PO.No" },
+                    { data: "CustCode", title: "Customer" },
+                    { data: "BookingRefNo", title: "Booking" },
+                    { data: "RefNo", title: "Container.No" },
+                    { data: "ForJNo", title: "Job.No" },
+                    { data: "SDescription", title: "Desc" },
                     {
-                        data: "TotalExpense", title: "Amount",
+                        data: "Amt", title: "Amount",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalVAT", title: "VAT",
+                        data: "AmtVAT", title: "VAT",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalTax", title: "Tax",
+                        data: "AmtWHT", title: "Tax",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalNet", title: "Net",
+                        data: "Total", title: "Net",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
@@ -242,13 +276,17 @@ End Code
                     RemoveData(data); //callback function from caller
                     return;
                 }
-                $(this).addClass('selected');
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                AddData(data); //callback function from caller
+                if (data.RefNo !== '') {
+                    AddData(data); //callback function from caller
+                    $(this).addClass('selected');
+                } else {
+                    ShowMessage('Please enter container number first',true);
+                }
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo,'','');
+                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo + '&Job=' + data.ForJNo +'&BookNo='+ data.BookingRefNo +'&Item=' + data.BookingItemNo,'','');
             });
         });
     }
@@ -267,16 +305,25 @@ End Code
     }
     function ShowSummary() {
         let doc = '';
+        let total = 0;
         list = [];
 
         for (let i = 0; i < arr.length; i++) {
 
             let o = arr[i];
-            doc += (doc != '' ? ',' : '') + o.DocNo;
+            if (doc.indexOf(o.DocNo) < 0) {
+                doc += (doc != '' ? ',' : '') + o.DocNo;
+                total += Number(o.TotalNet) + Number(o.TotalTax);
+            }
         }
+        $('#txtTotal').val(ShowNumber(total, 2));
         $('#txtListApprove').val(doc);
     }
     function ApproveData() {
+        if ($('#txtID').val() == '') {
+            ShowMessage('Please Enter Invoice Number', true);
+            return;
+        }
         if (arr.length < 0) {
             ShowMessage('No data to approve',true);
             return;
@@ -287,7 +334,7 @@ End Code
             dataApp.push(arr[i].BranchCode + '|' + arr[i].DocNo);
         }
         let jsonString = JSON.stringify({ data: dataApp });
-        let postUrl = "@Url.Action("ApproveExpense", "Acc")?ID=" + $('#txtID').val();
+        let postUrl = "@Url.Action("ApproveExpense", "Acc")?Code='"+ $('#txtVenCode').val() +'&ID=' + $('#txtID').val();
         $.ajax({
             url: postUrl,
             type: "POST",
@@ -302,5 +349,51 @@ End Code
             }
         });
         return;
+    }
+    function ShowApprove() {
+        $('#dvApprove').modal('show');
+        SetGridApprove();
+    }
+    function SetGridApprove() {
+        let w = '';
+        if ($('#txtVenCode').val() !== "") {
+            w = w + '&vencode=' + $('#txtVenCode').val();
+        }
+        if ($('#txtDocDateF').val() !== "") {
+            w = w + '&DateFrom=' + CDateEN($('#txtDocDateF').val());
+        }
+        if ($('#txtDocDateT').val() !== "") {
+            w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
+        }
+        w = w + '&currency=' + $('#txtCurrencyCode').val();
+        w = w + '&Status=Y';
+        $.get(path + 'acc/getpaymentapprove?branch=' + $('#txtBranchCode').val() + w, function (r) {
+            if (r.payment.header.length == 0) {
+                $('#tbApprove').DataTable().clear().draw();
+                if (isAlert == true) ShowMessage('Data not found', true);
+                return;
+            }
+            let h = r.payment.header;
+            $('#tbApprove').DataTable().destroy();
+            $('#tbApprove').empty();
+            let tb = $('#tbApprove').DataTable({
+                data: h,
+                selected: true, //ให้สามารถเลือกแถวได้
+                columns: [ //กำหนด property ของ header column
+                    { data: "ApproveRef", title: "Approve.Ref#" },
+                    { data: "PoNo", title: "Vender Ref#" },
+                    { data: "PaymentRef", title: "Payment Ref#" }
+                ],
+                responsive: true,
+                destroy: true
+            });
+            $('#tbApprove tbody').on('click', 'tr', function () {
+                SetSelect('#tbApprove', this);
+            });
+            $('#tbApprove tbody').on('dblclick', 'tr', function () {
+                let data = $('#tbApprove').DataTable().row(this).data(); //read current row selected
+                window.open(path + 'acc/formexpense?Branch=' + $('#txtBranchCode').val() + '&Code=' + data.PoNo, '', '');
+            });
+        });
     }
 </script>

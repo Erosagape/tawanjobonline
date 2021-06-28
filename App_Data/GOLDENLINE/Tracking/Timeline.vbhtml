@@ -28,17 +28,22 @@ End Code
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             Inspection Date From:
             <br/>
             <input type="date" id="txtDateFrom" class="form-control" />
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             Inspection Date To:
             <br />
             <input type="date" id="txtDateTo" class="form-control" />
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-3">
+            Job Number:
+            <br/>
+            <input type="text" id="txtJNo" class="form-control" />
+        </div>
+        <div class="col-sm-3">
             <br />
             <a href="#" class="btn btn-primary" id="btnShow" onclick="RefreshGrid()">
                 <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Show</b>
@@ -54,10 +59,12 @@ End Code
     let userGroup = '@ViewBag.UserGroup';
     let userPosition = '@ViewBag.UserPosition';
     let user = '@ViewBag.User';
+    let cust = '';
     if (userGroup == 'C') {
         $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
             if (r.company.data.length > 0) {
                 let dr = r.company.data[0];
+                cust = dr.CustCode;
                 $('#txtCustCode').val(dr.CustCode);
                 $('#txtCustBranch').val(dr.Branch);
                 $('#txtCustName').val(dr.NameThai);
@@ -76,6 +83,8 @@ End Code
         loadCombos(path, lists);
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtDateFrom').val(GetFirstDayOfMonth());
+        $('#txtDateTo').val(GetLastDayOfMonth());
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Customers
@@ -144,11 +153,11 @@ End Code
             }
         }
         if (userGroup=='C') {
-            url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val() + '&CustCode=' + cust;
+            url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val() + '&CustCode=' + cust ;
         }
         $.get(url, function (r) {
             let branch = $('#txtBranchCode').val();
-            let cust = $('#txtCustCode').val();
+            cust = $('#txtCustCode').val();
             let w = '';
             if (cust !== '') {
                 w += '&CustCode=' + cust;
@@ -172,6 +181,9 @@ End Code
             }
             if ($('#txtDateTo').val()!=='') {
                 w += '&DateTo=' + CDateEN($('#txtDateTo').val());
+            }
+            if ($('#txtJNo').val() !== '') {
+                w += '&JNo=' + $('#txtJNo').val();
             }
             $('#dvJobs').html('');
             $.get(path + 'JobOrder/GetJobReport?Branch=' + branch + w)

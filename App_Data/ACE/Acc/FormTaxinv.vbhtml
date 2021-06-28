@@ -203,8 +203,8 @@ End Code
                 service += Number(d.InvAmt);
                 vat += Number(d.InvVAT);
                 wht += Number(d.Inv50Tavi);
-                total += Number(d.InvAmt) + Number(d.InvVAT);
             }
+            total += Number(d.InvAmt) + Number(d.InvVAT);
             totalf += fnet;
         }
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
