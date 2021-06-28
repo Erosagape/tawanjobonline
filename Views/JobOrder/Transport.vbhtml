@@ -214,7 +214,8 @@ End Code
                 <option value="BLW">Bill of Lading - WALMAY</option>
                 <option value="BLE">Bill of Lading - EASTRONG</option>
                 <option value="BLS">Sea Way Bill</option>
-                <option value="AW">Air Way Bill</option>
+                <option value="HAW">House Air Way Bill</option>
+                <option value="MAW">Master Air Way Bill</option>
                 <option value="DO">D/O Letter</option>
                 <option value="SC">Sales Contract</option>
                 <option value="PL">Packing Lists</option>
@@ -1555,8 +1556,11 @@ End Code
             case 'BLE':
                 window.open(path + 'JobOrder/FormTransport?Type=EASTRONG&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
-            case 'AW':
-                window.open(path + 'JobOrder/FormTransport?Type=AIR&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+            case 'HAW':
+                window.open(path + 'JobOrder/FormTransport?Type=HAIR&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'MAW':
+                window.open(path + 'JobOrder/FormTransport?Type=MAIR&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'DO':
                 window.open(path + 'JobOrder/FormLetter?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');

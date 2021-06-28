@@ -1508,6 +1508,8 @@
     <Content Include="Views\Default\TestCanvas.vbhtml" />
     <Content Include="Views\Default\TestTracking.vbhtml" />
     <Content Include="Views\JobOrder\AddFuel.vbhtml" />
+    <Content Include="Views\JobOrder\FormTransportMAIR.vbhtml" />
+    <Content Include="Views\JobOrder\FormTransportHAIR.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
