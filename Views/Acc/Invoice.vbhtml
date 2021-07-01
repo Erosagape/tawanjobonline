@@ -388,7 +388,7 @@ End Code
                                         <div style="flex:1">
                                             <label id="lblDVATRate">Rate</label>
                                             <br />
-                                            <input type="text" id="txtDVATRate" class="form-control" />
+                                            <input type="text" id="txtDVATRate" class="form-control"  onchange="CalVATWHT(0)" />
                                         </div>
                                         <div style="flex:1">
                                             <br />
@@ -412,7 +412,7 @@ End Code
                                         <div style="flex:1">
                                             <label id="lblRate50Tavi">Rate</label>
                                             <br />
-                                            <input type="text" id="txtRate50Tavi" class="form-control" />
+                                            <input type="text" id="txtRate50Tavi" class="form-control" onchange="CalVATWHT(0)" />
                                         </div>
                                         <div style="flex:1">
                                             <br />

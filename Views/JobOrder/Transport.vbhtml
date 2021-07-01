@@ -1560,7 +1560,7 @@ End Code
                 window.open(path + 'JobOrder/FormTransport?Type=HAIR&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'MAW':
-                window.open(path + 'JobOrder/FormTransport?Type=MAIR&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                window.open(path + 'JobOrder/FormTransport?Type=MAIR&Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtJNo').val(), '', '');
                 break;
             case 'DO':
                 window.open(path + 'JobOrder/FormLetter?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
