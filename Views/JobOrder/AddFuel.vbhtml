@@ -297,6 +297,9 @@ End Code
     <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData('addfuel')">
         <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Search</b>
     </a>
+    <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
+        <i class="fa fa-lg fa-print"></i>&nbsp;<b><label id="lblPrintQuo">Print</label></b>
+    </a>
 </div>
 <div id="dvLOVs"></div>
 <script type="text/javascript">
@@ -528,6 +531,9 @@ End Code
         $('#txtJNo').val(dr.JNo);
         $('#txtBookingNo').val(dr.BookingNo);
         $('#txtBookingItemNo').val(dr.ItemNo);
+        $('#txtMileBegin').val(dr.MileBegin);
+        $('#txtMileEnd').val(dr.MileEnd);
+        CalculateMile();
     }
     function CancelData() {
         let state = $('#chkCancel').prop('checked');
@@ -588,5 +594,8 @@ End Code
         var price = CNum($('#txtUnitPrice').val());
         var total = volume * price;
         $('#txtTotalAmount').val(CDbl(total, 2));
+    }
+    function PrintData() {
+        window.open(path + 'JobOrder/FormAddFuel?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val(), '', '');
     }
 </script>

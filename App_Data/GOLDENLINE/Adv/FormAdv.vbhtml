@@ -177,7 +177,7 @@ TOTAL :
     <tr>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
             <br />
-            <label style="font-size:9px">(________________________________________)</label>
+            <label id="lblAdvBy" style="font-size:9px">(________________________________________)</label>
             <br />
             <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
 
@@ -252,7 +252,9 @@ TOTAL :
         //$('#lblRemark').text(h.TRemark);
         $('#lblAdvDate').text(ShowDate(h.AdvDate));
         //$('#lblPayTo').text(h.PayChqTo);
-        $('#lblReqBy').text(h.EmpCode);
+        //$('#lblReqBy').text(h.EmpCode);
+        ShowUser(path, h.EmpCode, '#lblReqBy');
+        ShowUser(path, h.AdvBy, '#lblAdvBy');
         ShowPendingAmount(h.BranchCode, h.EmpCode);
         ShowCustomer(h.CustCode, h.CustBranch);
         CallBackQueryCustomerSingle(path, h.consigneecode, function (c) {

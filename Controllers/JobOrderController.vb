@@ -927,6 +927,12 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("Cust")) Then
                     tSqlw &= String.Format(" AND j.CustCode='{0}' ", Request.QueryString("Cust").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("HAWB")) Then
+                    tSqlw &= String.Format(" AND j.HAWB='{0}' ", Request.QueryString("HAWB").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("MAWB")) Then
+                    tSqlw &= String.Format(" AND j.MAWB IN(SELECT MAWB FROM Job_Order where JNo='{0}' AND MAWB<>'') ", Request.QueryString("MAWB").ToString)
+                End If
                 If Not IsNothing(Request.QueryString("Vend")) Then
                     tSqlw &= String.Format(" AND a.VenderCode='{0}' ", Request.QueryString("Vend").ToString)
                 End If
@@ -2429,6 +2435,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
         Function GetAddFuel() As ActionResult
             Try
                 Dim tSqlw As String = " WHERE DocNo<>'' "
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format("AND BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
+                End If
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND DocNo ='{0}' ", Request.QueryString("Code").ToString)
                 End If
@@ -2499,5 +2508,10 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 Return Content("[]", jsonContent)
             End Try
         End Function
+        Function FormAddFuel() As ActionResult
+            Return GetView("FormAddFuel")
+        End Function
+
     End Class
+
 End Namespace

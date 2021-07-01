@@ -198,35 +198,22 @@ End Code
             </thead>
             <tbody id="dvClear"></tbody>
             <tr>
-                <td colspan="7">
-                    <div style="display:flex">
-                        <div style="flex:1;text-align:right">
-                            <table style="width:100%;" border="1">
-                                <tr>
-                                    <td>Advance</td>
-                                    <td>Cost</td>
-                                    <td>Service (Net)</td>
-                                    <td>Vat</td>
-                                    <td>Profit</td>
-                                </tr>
-                                <tr>
-                                    <td><label id="lblSumAdv"></label></td>
-                                    <td><label id="lblSumCost"></label></td>
-                                    <td><label id="lblSumServ"></label></td>
-                                    <td><label id="lblSumVat"></label></td>
-                                    <td><label id="lblNetProfit"></label></td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
+                <td colspan="2">TOTAL</td>
+                <td style="text-align:right">
+                    <label id="lblSumServ"></label>
                 </td>
-                <!--
-                <td style="text-align:right"><label id="lblSumCharge"></label></td>
-                <td style="text-align:right"><label id="lblTotalVAT"></label></td>
-                <td style="text-align:right"><label id="lblSumTax"></label></td>
-                <td style="text-align:right"><label id="lblSumNet"></label></td>
-                <td style="text-align:right"><label id="lblSumProfit"></label></td>
-                    -->
+                <td style="text-align:right">
+                    <label id="lblSumVat"></label>
+                </td>
+                <td style="text-align:right">
+                    <label id="lblSumDeposit"></label>
+                </td>
+                <td style="text-align:right">
+                    <label id="lblSumAdv"></label>
+                </td>
+                <td style="text-align:right">
+                    <label id="lblSumCost"></label>
+                </td>
             </tr>
         </table>
     </div>
@@ -238,6 +225,12 @@ End Code
     </div>
     <div style="flex:1">
         <table style="width:50%" border="1" align="right">
+            <tr style="text-align:right">
+                <td width="60%">PROFIT</td>
+                <td>
+                    <label id="lblNetProfit"></label>
+                </td>
+            </tr>
             <tr style="text-align:right">
                 <td width="60%">COMMISSION</td>
                 <td><label id="lblCommRate"></label></td>
@@ -369,7 +362,7 @@ End Code
         });
     }
     function GetAdvanceUnclear(branch, code) {
-        $.get(path + 'clr/getadvforclear?branchcode=' + branch + '&jobno=' + code + '&show=NOCLR', function (r) {
+        $.get(path + 'clr/getadvforclear?branchcode=' + branch + '&jobno=' + code + '&show=ALL', function (r) {
             if (r.clr.data.length > 0) {
                 let dr = r.clr.data[0].Table;
                 let dv = $('#tbSumClr');
@@ -377,12 +370,16 @@ End Code
                 let sumunclr = 0;
                 for (let i = 0; i < dr.length; i++) {
                     let d = dr[i];
-                    let htmlc = '<tr>';
-                    htmlc += '<td>' + d.AdvNO + '#' + d.AdvItemNo + '</td>';
-                    htmlc += '<td style="text-align:right">' + CCurrency(CDbl(d.AdvNet, 2)) + '</td>';
-                    htmlc += '</tr>';
-                    sumunclr += d.AdvNet;
-                    dv.append(htmlc);
+                    if (d.DocStatus < 6) {
+                        if ((d.AdvBalance > 0 && d.UsedAmount > 0) || d.AdvDate == null) {
+                            let htmlc = '<tr>';
+                            htmlc += '<td>' + d.AdvNO + '#' + d.AdvItemNo + '</td>';
+                            htmlc += '<td style="text-align:right">' + CCurrency(CDbl(d.AdvBalance, 2)) + '</td>';
+                            htmlc += '</tr>';
+                            sumunclr += d.AdvBalance;
+                            dv.append(htmlc);
+                        }
+                    }
                 }
                 $('#lblTotalClear').text(CCurrency(CDbl(sumunclr, 2)));
             }
@@ -454,6 +451,7 @@ End Code
             let amtadv = 0;
             let amtserv = 0;
             let amtvat = 0;
+            let amtdeposit = 0;
             let amtwht = 0;
             let amttotal = 0;
             let amtclr = 0;
@@ -479,7 +477,9 @@ End Code
                     let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 && codeDepo.indexOf(d[i].SICode) < 0 ? d[i].BNet : 0);
                     let cost = (d[i].IsExpense == 1 && codeDepo.indexOf(d[i].SICode) < 0 ? d[i].BNet : 0);
                     let profit = (d[i].IsExpense == 1 && codeDepo.indexOf(d[i].SICode) < 0 ? d[i].BNet * -1 : (d[i].IsCredit == 1 && codeDepo.indexOf(d[i].SICode) < 0  ? 0 : d[i].BNet));
-
+                    if (codeDepo.indexOf(d[i].SICode) >= 0) {
+                        amtdeposit += d[i].BNet;
+                    }
                     amtadv += adv;
                     amtserv += serv;
 
@@ -515,6 +515,7 @@ End Code
                 }
             }
             //$('#lblTotalClear').text(CCurrency(CDbl(amtclr, 2)));
+            $('#lblSumDeposit').text(CCurrency(CDbl(amtdeposit, 2)));
             $('#lblSumCost').text(CCurrency(CDbl(amtcost, 2)));
             $('#lblSumAdv').text(CCurrency(CDbl(amtadv, 2)));
             $('#lblSumServ').text(CCurrency(CDbl(amtserv, 2)));

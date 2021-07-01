@@ -251,7 +251,7 @@
             $('#btnPrnJob').show();
             SetSelect('#tbReportList', this);
             reportID = data.ReportCode;
-            if (src.ReportCliteria !== null) {
+            if (src.ReportCliteria !== undefined) {
                 ReadCliteria(src.ReportCliteria + ',,,');
             } else {
                 LoadCliteria(src.ReportCode);

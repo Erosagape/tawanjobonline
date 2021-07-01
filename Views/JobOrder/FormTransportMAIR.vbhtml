@@ -8,29 +8,16 @@ End Code
         font-size:8px;
     }
     table,td,th {
-        border-width: thin;
-        border-collapse: collapse;
         padding:5px 5px 5px 5px;
         vertical-align:top;
     }
 
     .bottom {
-        border-collapse: collapse;
-        border-bottom: solid;
-        border-width: thin;
     }
     .top-right {
-        border-collapse: collapse;
-        border-top: solid;
-        border-right: solid;
-        border-width: thin;
     }
 
     .top-left {
-        border-collapse: collapse;
-        border-top: solid;
-        border-left: solid;
-        border-width: thin;
     }
     #dvFooter, #pFooter {
         display: none;
@@ -41,13 +28,13 @@ End Code
         <label id="lblMAWB" style="font-weight:bold"></label>
     </div>
     <div style="flex:1;text-align:center">
-        <label id="lblHAWB" style="font-size:12px;"></label>
+        <label id="lblHAWB" style="font-size:12px;display:none"></label>
     </div>
 </div>
-<table border="1" style="width:100%;">
+<table  style="width:100%;">
     <tr>
         <td colspan="7" style="width:45%;height:60px;" rowspan="2">
-            Shipper's name and address
+            <br/>
             <div>
                 <label id="lblShipperName"></label>
                 <br />
@@ -59,11 +46,9 @@ End Code
         <td colspan="7" style="width:55%;">
             <div style="display:flex;width:80%;">
                 <div style="flex:1">
-                    Not Negotiable
                     <br />
-                    <span style="font-size:14px;"><b>Air Waybill</b></span>
-                    <br />
-                    Issue By
+                    <br />                    
+                    <br />                    
                     <br/>
                     <br/>
                 </div>
@@ -75,12 +60,12 @@ End Code
     </tr>
     <tr>
         <td colspan="7" style="font-size:8px">
-            Copied 1,2 and 3 of this Air way bill are originals and have the same validity.
+            <br />
         </td>
     </tr>
     <tr>
         <td colspan="7" style="height:60px;">
-            Consignee's name and address
+            <br />
             <div>
                 <label id="lblConsigneeName"></label>
                 <br />
@@ -90,20 +75,22 @@ End Code
             </div>
         </td>
         <td colspan="7" style="font-size:8px">
-            It is agreed that the Goods described herein are accepted in apparent good order and condition (except as noted) for carriage SUBJECT TO THE CONDITIONS OF CONTRACT ON THE REVERSE HEREOF ALL GOODS MAYBE CARRIED BY ANY OTHER MEANS INCLUDING ROAD OR ANY OTHER CARRIER UNLESS SPECIFIC CONTRARY INSTRUCTION ARE GIVEN HEREON BY THE SHIPPER,
-            AND SHIPPER AGREES THAT THE SHIPMENT MAYBE CARRIED VIA INTERMEDIATED STOPPING PLACES WHICH THE CARRIER DEEM APPROPRIATED. THE SHIPPER'S ATTENTION IS DRAWN TO THE NOTICE CONCERNING CARRIER'S LIMITATION OF LIABILITY. Shipper may increse such limitation of liability by declaring a higher value for carriage and paying a supplemental charge if required.
+            <br />
+            <br />
+            <br />
+            <br />
         </td>
     </tr>
     <tr>
         <td colspan="7" style="height:80px;">
-            Issuring carrier's agent name and city
+            <br />
             <div>
                 <label id="lblDeliveryTo"></label><br />
                 <div id="lblDeliveryAddr"></div>
             </div>
         </td>
         <td colspan="7" rowspan="2">
-            Accounting information
+            <br />
             <div>
                 <label id="lblNotifyName"></label>
                 <br />
@@ -116,24 +103,24 @@ End Code
     </tr>
     <tr>
         <td colspan="3">
-            Agent's IATA Code
+            <br />
             <br />
             <label id="lblFactoryContact"></label>
         </td>
         <td colspan="4">
-            Account No
+            <br />
             <br/>
             <label id="lblPackingContact"></label>
         </td>
     </tr>
     <tr>
         <td colspan="7">
-            Airport of Departure (Addr. Of First Carrier) and requested routing
+            <br />
             <br/>
             <label id="lblPackingPlace"></label>
         </td>
         <td colspan="7">
-            Optional Shipping Information
+            <br />
             <div style="display:flex;width:100%;">
                 <div style="flex:1">
                     <label id="lblPoNo"></label>
@@ -150,96 +137,78 @@ End Code
     </tr>
     <tr>
         <td>
-            To:
             <br/>
             <label id="lblClearPortName"></label>
         </td>
         <td>
-            By First Carrier
             <br/>
             <label id="lblMVesselName"></label>
         </td>
         <td>
-            To
             <br/>
             <label id="lblInvInterPort"></label>
         </td>
         <td>
-            By
             <br/>
             <label id="lblCarrierCode"></label>
         </td>
         <td>
-            To
             <br/>
             <label id="lblCarrierPlace"></label>
         </td>
         <td>
-            By
             <br/>
             <label id="lblCarrierContact"></label>
         </td>
         <td>
-            Currency
             <br/>
             <label id="lblInvCurrency"></label>
         </td>
         <td>
-            CHGS Code
             <br/>
             <label id="lblBLNo"></label>
         </td>
         <td colspan="2">
-            WT/VAL
             <br/>
             <div style="display:flex;width:100%;">
                 <div style="flex:1;text-align:center;">
-                    PPD/
                     <br />
                     <label id="lblWP"></label>
                 </div>
                 <div style="flex:1;text-align:center;">
-                    COLL
                     <br />
                     <label id="lblWC"></label>
                 </div>
             </div>
         </td>
         <td colspan="2">
-            Others
             <br />
             <div style="display:flex;width:100%;">
                 <div style="flex:1;text-align:center;">
-                    PPD/
                     <br />
                     <label id="lblOP"></label>
                 </div>
                 <div style="flex:1;text-align:center;">
-                    COLL
                     <br />
                     <label id="lblOC"></label>
                 </div>
             </div>
         </td>
         <td style="text-align:center">
-            Declare Value For Carriage
             <br/>
             NVD
         </td>
         <td style="text-align:center">
-            Declare value for Customs
             <br/>
             NCV
         </td>
     </tr>
     <tr>
         <td colspan="3">
-            Airport of Destination
             <br/>
             <label id="lblFactoryPlace"></label>
         </td>
         <td colspan="4">
-            Requested Flight/Date
             <br />
             <div style="width:100%;display:flex;">
                 <div style="flex:1">
@@ -251,17 +220,16 @@ End Code
             </div>
         </td>
         <td colspan="4">
-            Amount of Insurance
             <br/>
             <label id="lblPaymentBy"></label>
         </td>
         <td colspan="3" style="font-size:8px;">
-            INSURANCE - If Carrier offers insurance,and such insurance is requested in accordance with the condition thereof,indicate amount to be insured in figures in box marked "Amount of insurance"
+            <br />
+            <br />
         </td>
     </tr>
     <tr>
-        <td colspan="13" style="border-right:none;">
-            Handling Information
+        <td colspan="13" style="border-right:none;">            
             <br />   
             <label id="lblRemark"></label>
         </td>
@@ -269,55 +237,44 @@ End Code
             <label id="lblShippingCmd"></label>
             <br/>
             <div style="border-style:solid;border-collapse:collapse;border-width:thin;text-align:center;border-right:none;border-bottom:none;">
-                SCI
                 <br/>
                 <label id="lblSCI"></label>
             </div>
         </td>
     </tr>
 </table>
-<table border="1" style="width:100%;">
+<table  style="width:100%;">
     <tr>
         <td>
-            No Of 
-            Pieces RCP
         </td>
         <td style="width:10%;">
-            Gross Weight
         </td>
         <td>
-            Kg lb
         </td>
         <td>
 
         </td>
         <td>
-            Rate Class            
         </td>
         <td>
-            Commodity Item No
         </td>
         <td></td>
         <td>
-            Chargeable Weight
         </td>
         <td>
 
         </td>
         <td>
-            Rate/Charges
         </td>
         <td>
 
         </td>
         <td style="width:15%;">
-            Total
         </td>
         <td>
 
         </td>
         <td style="width:40%;">
-            Nature and Quantity of Goods (Incl. Dimension and Volume)
         </td>
     </tr>    
     <tr style="height:200px;">
@@ -339,84 +296,62 @@ End Code
         <td></td>
     </tr>
 </table>
-<table border="1" style="width: 100%;">
+<table  style="width: 100%;">
     <tr style="vertical-align:top;">
         <td style="width:20%;">
-            <b>Weight Charge</b> : Prepaid
             <br />
             <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
         </td>
         <td style="width:20%;">
-            Collect
             <br />
             <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
         </td>
         <td style="width:60%;" colspan="3" rowspan="3">
-            Other Charges
             <br/>            
         </td>
     </tr>
     <tr style="vertical-align:top;">
         <td>
-            <b>Valuable Charge</b> : Prepaid
             <br />
             <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
         </td>
         <td>
-            Collect
-            <br />
-            <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
-        </td>
-    </tr>
-    <tr style="vertical-align:top;">
-        <td>
-            <b>Tax</b> : Prepaid
-            <br />
-            <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
-        </td>
-        <td>
-            Collect
             <br />
             <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
         </td>
     </tr>
     <tr style="vertical-align:top;">
         <td>
-            <b>Other Charge (Agent)</b> : Prepaid
             <br />
             <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
         </td>
         <td>
-            Collect
+            <br />
+            <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
+        </td>
+    </tr>
+    <tr style="vertical-align:top;">
+        <td>
+            <br />
+            <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
+        </td>
+        <td>
             <br />
             <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
         </td>
         <td colspan="3" rowspan="3">
-            Shipper Certifies that the particulars on the face hereof are correct and that insofar as any port of the consignment contain dangerous goods,such part is properly described by name and is in proper condition for carriage by air according to the applicable Dangerous Goods Regulations.
             <br />
             <div style="text-align:center">
                 <br /><br /><br />
                 <label id="lblForwarderName2" style="font-size:10px;"></label>
             </div>
             <div style="width:100%;text-align:center;border-top:solid;border-width:thin;">
-                Signature of shipper or his agent
+                <br />
             </div>
         </td>
     </tr>
     <tr style="vertical-align:top;">
         <td>
-            <b>Other Charge (Carrier)</b> : Prepaid
-            <br />
-            <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
-        </td>
-        <td>
-            Collect
-            <br />
-            <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
-        </td>
-    </tr>
-    <tr style="vertical-align:top;">
-        <td>
             <br />
             <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
         </td>
@@ -427,12 +362,20 @@ End Code
     </tr>
     <tr style="vertical-align:top;">
         <td>
-            <b>Total Prepaid</b>
             <br />
             <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
         </td>
         <td>
-            <b>Total Collect</b>
+            <br />
+            <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
+        </td>
+    </tr>
+    <tr style="vertical-align:top;">
+        <td>
+            <br />
+            <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
+        </td>
+        <td>
             <br />
             <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
         </td>
@@ -442,44 +385,37 @@ End Code
                     <br /><br /><br />
                     <label id="lblBookingDate" style="text-decoration:underline"></label>
                     <br />
-                    Execute On (Date)
                 </div>
                 <div style="flex:2">
                     <br /><br /><br />
                     <label id="lblPackingPlace2" style="text-decoration:underline"></label>
                     <br/>
-                    At (Place)
                 </div>
                 <div style="flex:2">
                     <br /><br /><br />
                     <label id="lblTransportName" style="text-decoration:underline"></label>
                     <br/>
-                    Signature of issuring Carrier or its agent
                 </div>
             </div>
         </td>
     </tr>
     <tr style="vertical-align:top;">
         <td>
-            <b>Currency Conversion Rate</b>
             <br />
             <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
         </td>
         <td>
-            <b>CC Charges In Dest.Currency</b>
             <br />
             <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
         </td>
     </tr>
     <tr style="vertical-align:top;">
-        <td style="text-align:center">For Carrier's Use Only At Destination</td>
+        <td style="text-align:center"></td>
         <td>
-            <b>Charges At Destination</b>
             <br />
             <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
         </td>
         <td style="width:20%;">
-            <b>Total Collect Charges</b>
             <br />
             <input type="text" style="border:none;text-align:right;font-size:9px;" value="" />
         </td>
@@ -489,8 +425,8 @@ End Code
     </tr>
 </table>
 <script type="text/javascript">
-    let br = getQueryString("BranchCode");
-    let doc = getQueryString("BookingNo");
+    let br = getQueryString("Branch");
+    let doc = getQueryString("Code");
     var path = '@Url.Content("~")';
     var units=[];
     $.get(path + 'Master/GetCustomsUnit').done(function(m) {
@@ -498,7 +434,7 @@ End Code
 	LoadData();
     });
     function LoadData() {
-$.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function (r) {
+$.get(path + 'JobOrder/GetBooking?Branch=' + br + '&MAWB=' + doc).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
             $('#lblMAWB').text(h.MAWB);
