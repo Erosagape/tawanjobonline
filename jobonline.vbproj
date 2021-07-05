@@ -1129,6 +1129,7 @@
     <Content Include="App_Data\THESOLUTION\JobOrder\AddFuel.vbhtml" />
     <Content Include="App_Data\THESOLUTION\JobOrder\FormAddFuel.vbhtml" />
     <Content Include="App_Data\THESOLUTION\JobOrder\Transport.vbhtml" />
+    <Content Include="App_Data\TOTAL\Clr\GenerateInv.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

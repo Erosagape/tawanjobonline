@@ -60,36 +60,42 @@ End Code
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
-        <tr>
-            <td rowspan="3" colspan="5">
-                TOTAL PAYMENT (1 <label id="lblCurrencyCode"></label> = <label id="lblExchangeRate"></label> THB) 
-                <br/>
-                <label id="lblFTotalNet"></label>
-            </td>
-            <td colspan="3" style="text-align:right;">TOTAL AMOUNT (THB)</td>
-            <td style="background-color:lightblue;text-align:right;">
-                <label id="lblTotalBeforeVAT"></label>
-            </td>
-        </tr>
-        <tr>            
-            <td colspan="3" style="text-align:right;">TOTAL VAT (THB)</td>
-            <td style="background-color:lightblue;text-align:right;">
-                <label id="lblTotalVAT"></label>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3" style="text-align:right;">TOTAL RECEIPT (THB)</td>
-            <td style="background-color:lightblue;text-align:right;">
+    <tr>
+        <td rowspan="4" colspan="5">
+            TOTAL PAYMENT (1 <label id="lblCurrencyCode"></label> = <label id="lblExchangeRate"></label> THB)
+            <br />
+            <label id="lblFTotalNet"></label>
+        </td>
+        <td colspan="3" style="text-align:right;">TOTAL ADVANCE (THB)</td>
+        <td style="background-color:lightblue;text-align:right;">
+            <label id="lblTotalAdv"></label>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align:right;">TOTAL AMOUNT (THB)</td>
+        <td style="background-color:lightblue;text-align:right;">
+            <label id="lblTotalBeforeVAT"></label>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align:right;">TOTAL VAT (THB)</td>
+        <td style="background-color:lightblue;text-align:right;">
+            <label id="lblTotalVAT"></label>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align:right;">TOTAL RECEIPT (THB)</td>
+        <td style="background-color:lightblue;text-align:right;">
             <label id="lblTotalAfterVAT"></label>
-            </td>
-        </tr>
-        <tr>            
-            <td colspan="5" style="text-align:center"><label id="lblTotalText"></label></td>
-            <td colspan="3" style="text-align:right;">TOTAL NET (THB)</td>
-            <td style="background-color:lightblue;text-align:right;">
-                <label id="lblTotalNet"></label>
-            </td>
-        </tr>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5" style="text-align:center"><label id="lblTotalText"></label></td>
+        <td colspan="3" style="text-align:right;">TOTAL NET (THB)</td>
+        <td style="background-color:lightblue;text-align:right;">
+            <label id="lblTotalNet"></label>
+        </td>
+    </tr>
 </table>
 <p>
     PAY BY
@@ -179,6 +185,7 @@ End Code
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiptDate)));
         let html = '';
+        let adv = 0;
         let service = 0;
         let vat = 0;
         let wht = 0;
@@ -203,22 +210,25 @@ End Code
                 service += Number(d.InvAmt);
                 vat += Number(d.InvVAT);
                 wht += Number(d.Inv50Tavi);
+            } else {
+                adv += Number(d.InvTotal);
             }
             total += Number(d.InvAmt) + Number(d.InvVAT);
             totalf += fnet;
         }
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
-        $('#lblTotalAfterVAT').text(ShowNumber(total, 2));
-        $('#lblTotalNet').text(ShowNumber(total - wht, 2));
+        $('#lblTotalAfterVAT').text(ShowNumber(service+vat, 2));
+        $('#lblTotalAdv').text(ShowNumber(adv, 2));
+        $('#lblTotalNet').text(ShowNumber(service + vat - wht, 2));
         $('#lblCurrencyCode').text(h.CurrencyCode);
         $('#lblExchangeRate').text(h.ExchangeRate);
         $('#lblFTotalNet').text(ShowNumber(totalf, 2) + ' ' + h.CurrencyCode);
 
         if (h.UsedLanguage == 'TH') {
-            $('#lblTotalText').text(CNumThai(CDbl((total - wht),2)));
+            $('#lblTotalText').text(CNumThai(CDbl((service + vat - wht),2)));
         } else {
-            $('#lblTotalText').text(CNumEng(CDbl(totalf,2)));
+            $('#lblTotalText').text(CNumEng(CDbl((totalf),2)));
         }
     }
 </script>

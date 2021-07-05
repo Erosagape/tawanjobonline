@@ -168,7 +168,7 @@ End Code
             <td>:</td>
             <td><label id="quantity"></label></td>
 
-            <td><label id="totpkgLbl">TOTPKG</label></td>
+            <td><label id="totpkgLbl">TOTAL PKG</label></td>
             <td>:</td>
             <td><label id="totpkg"></label></td>
         </tr>
@@ -310,30 +310,69 @@ End Code
 </table>
 <p class="bold">PLEASE ISSUE A CROSSED CHEQUE PAYABLE TO "TOTAL SHIPPING SERVICE CO.,LTD."</p>
 <p class="bold">หมายเหตุ ใบแจ้งหนี้นี้มิใช่ใบกำกับภาษี ใบกำกับภาษีจะออกให้ต่อเมื่อได้รับชำระเงินเรียบร้อยแล้ว</p>
+<p>
+        กรุณาชําระด้วยเช็คขีดคร่อมและสั่งจ่ายในนาม "บริษัท โทเทิ่ล ชิปปิ้ง เซอร์วิส จำกัด"
+       
+</p>
+<p>
+    Please make a crossed cheque payable to " TOTAL SHIPPING SERVICE CO.,LTD."
+</p>
+<p>
+        กรณีโอนเงิน
+   <br>
+        ธนาคารทหารไทยธนชาต
+        บริษัท โทเทิ่ล ชิปปิ้ง เซอร์วิส จำกัด
+        เลขบัญชี : 203-1-01412-5
+  
+        สาขา : ถนนรัชดาภิเษก-นางลิ้นจี่
+</p>    
 
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let bShowSlip = false;
     let branch = getQueryString('branch');
     let code = getQueryString('code');
+    if(confirm("show company header?")==false){
+	    $('#imgLogo').css('display','none');
+	    $('#divCompany').css('display','none');
+	    $('#dvCompAddr').css('display','none');
+	    $('#dvCompLogo').css('height','90px');
+    }
     $.get(path + 'Acc/GetInvoice?Branch=' + branch + '&Code=' + code).done(function (r) {
         if (r.invoice.header.length > 0) {
             let h = r.invoice.header[0][0];
             let c = r.invoice.customer[0][0];
             let j = r.invoice.job[0][0];
+	        $.get(path + 'Master/GetCompany?Code='+h.BillToCustCode+'&Branch='+h.BillToCustBranch).done(function (r) {
+                let b = r.company.data[0];
+                $("#billName").text(b.NameEng);
+
+                let addr = '';
+                addr += b.EAddress1 + '<br/>' + c.EAddress2;
+                addr += '<br/>Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch;
+
+                $("#billAddress").html(addr);
+	        });
             $("#id").text(h.CustCode);
-            $("#billName").text(c.NameEng);
-            $("#billAddress").text(c.EAddress1 + '<br/>' + c.EAddress2);
+            //$("#billName").text(c.NameEng);
+            //$("#billAddress").html(c.EAddress1 + '<br/>' + c.EAddress2);
+            //console.log(c.EAddress1);
             $("#invoiceNo").text(h.DocNo);
+            //let date = new Date();
+            //date.setMonth(date.getMonth()+1);
+            //let tmpInvNo = "inv-"+(date.getFullYear()-2000)+(date.getMonth()<10?"0"+date.getMonth():date.getMonth())+h.DocNo.substring(6,12);
+            //$("#invoiceNo").text(tmpInvNo);
             $("#invoiceDate").text(ShowDate(h.DocDate));
-            $("#crTerm").text(c.BillCondition);
+            $("#crTerm").text(c.CreditLimit);
             $("#dueDate").text(AddDate(h.DocDate, c.CreditLimit));
             $("#currency").text(h.CurrencyCode);
-            $("#destiny").text("PASIR GUDANG-BANGKOK");
+            //$("#destiny").text("PASIR GUDANG-BANGKOK");
             if (j.JobType == 1) {
                 ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#original');
+                ShowCountry(path, j.InvCountry, '#destiny');
             } else {
                 ShowInterPort(path, j.InvCountry, j.InvInterPort, '#original');
+                ShowCountry(path, j.InvFCountry, '#destiny');
             }
             $("#jobNo").text(j.JNo);
             $("#vessel").text(j.VesselName);
@@ -363,20 +402,20 @@ End Code
             let sumWht1 = 0;
             let sumWht1_5 = 0;
             let sumWht3 = 0;
-            let totalRows = 15;
+            let totalRows = 10;
             let blankRows = totalRows - d.length;
             for (let row of d) {
                 html += '        <tr>';
-                html += '            <td class="">' + row.SDescription + '</td>';
-                html += '            <td class="right">' + ShowNumber(row.Amt50Tavi, 2) + '</td>';
+                html += '            <td class="">' + row.SDescription + ' #' + row.ExpSlipNO +  '</td>';
+                html += '            <td class="right">' + row.Rate50Tavi + '</td>';
                 html += '            <td class="center">' + ShowNumber(row.Qty,2) + '</td>';
                 html += '            <td class="right">' + row.QtyUnit+'</td>';
                 html += '            <td class="right">' + row.CurrencyCode + '</td>';
                 html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
                 html += '            <td class="right">' + ShowNumber(row.UnitPrice,2) + '</td>';
-                html += '            <td class="right">' + ShowNumber(row.AmtAdvance, 2) + '</td>';
-                html += '            <td class="right">' + (row.AmtVat==0?  ShowNumber(row.AmtCharge, 2):'') + '</td>';
-                html += '            <td class="right">' + (row.AmtVat >0 ? ShowNumber(row.AmtCharge, 2) : '') + '</td>';
+                html += '            <td class="right">' + (row.AmtAdvance?ShowNumber(row.AmtAdvance, 2):'') + '</td>';
+                html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.AmtCharge, 2):''):'') + '</td>';
+                html += '            <td class="right">' + (row.AmtVat>0?ShowNumber(row.AmtCharge, 2) : '') + '</td>';
                 html += '        </tr>';
                 adv += row.AmtAdvance;
                 if (row.AmtVat > 0) {
@@ -385,7 +424,9 @@ End Code
                     nonVat += row.AmtCharge;
                 }
                 switch (row.Rate50Tavi) {
+
                     case 1:
+			
                         sumWht1 += row.Amt50Tavi;
                         sumbaseWht1 += row.Amt;
                         break;
