@@ -1124,6 +1124,11 @@
     <Content Include="App_Data\TOTAL\Draft\FormInv.vbhtml" />
     <Content Include="App_Data\TOTAL\Draft\FormJobSum.vbhtml" />
     <Content Include="App_Data\TOTAL\Draft\FormVoucher.vbhtml" />
+    <Content Include="App_Data\SUKHOTHAI\JobOrder\FormTransportHAIR.vbhtml" />
+    <Content Include="App_Data\SUKHOTHAI\JobOrder\FormTransportMAIR.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\JobOrder\AddFuel.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\JobOrder\FormAddFuel.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\JobOrder\Transport.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -1558,7 +1563,6 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\THESOLUTION\JobOrder\" />
     <Folder Include="Resource\Export\" />
     <Folder Include="Resource\Import\" />
   </ItemGroup>

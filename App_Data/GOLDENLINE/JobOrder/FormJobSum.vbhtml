@@ -450,6 +450,7 @@ End Code
         $.get(path + 'clr/getclearingreport?branch=' + branch + '&job=' + code,function (r) {
             let amtadv = 0;
             let amtserv = 0;
+            let amtchg = 0;
             let amtvat = 0;
             let amtdeposit = 0;
             let amtwht = 0;
@@ -482,7 +483,9 @@ End Code
                     }
                     amtadv += adv;
                     amtserv += serv;
-
+                    if (serv > 0) {
+                        amtchg += d[i].UsedAmount;
+                    }
                     if (d[i].IsCredit == 0 && d[i].IsExpense == 0) {
                         if (d[i].IsTaxCharge > 0) {
                             amtvat += d[i].ChargeVAT;
@@ -518,7 +521,7 @@ End Code
             $('#lblSumDeposit').text(CCurrency(CDbl(amtdeposit, 2)));
             $('#lblSumCost').text(CCurrency(CDbl(amtcost, 2)));
             $('#lblSumAdv').text(CCurrency(CDbl(amtadv, 2)));
-            $('#lblSumServ').text(CCurrency(CDbl(amtserv, 2)));
+            $('#lblSumServ').text(CCurrency(CDbl(amtchg, 2)));
             $('#lblSumVat').text(CCurrency(CDbl(amtvat, 2)));
             //$('#lblSumWht').text(CCurrency(CDbl(amtwht,2)));
             $('#lblTotalExpense').text(CCurrency(CDbl((amtadv+amtserv), 2)));
@@ -528,6 +531,7 @@ End Code
             //$('#lblSumNet').text(CCurrency(CDbl(amtcost+amtserv+amtadv,2)));
             //$('#lblSumProfit').text(CCurrency(CDbl(amtprofit,2)));
             //$('#lblTotalVAT').text(CCurrency(CDbl(amtvat, 2)));
+            amtprofit = amtchg - (amtvat + amtcost);
             if (amtprofit > 0) {
                 $('#lblCommRate').text(CCurrency(CDbl(amtprofit * (commrate / 100), 2)));
                 $('#lblNetProfit').text(CCurrency(CDbl(amtprofit - (amtprofit * (commrate / 100)), 2)));

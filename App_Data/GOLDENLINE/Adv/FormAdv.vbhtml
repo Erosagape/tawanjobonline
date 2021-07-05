@@ -10,7 +10,7 @@ End Code
             <label id="lblAdvNo" style="text-decoration-line:underline"></label>
         </td>
         <td align="right" style="font-size:11px">
-            <input type="text" value="ADVANCE" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
+            <input type="text" value="Advance Request" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
         </td>
     </tr>
     <tr>
