@@ -1,36 +1,43 @@
-﻿@Code
-    Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.Title = "Fuel Refill Form"
-    ViewBag.ReportName = "ใบสั่งเติมน้ำมัน/เชื้อเพลิง"
-End Code
-<style>
-    table {
-        padding: 10px;
-    }
+<!DOCTYPE html>
+<html lang="en">
 
-    tr td {
-        border-color: white;
-    }
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        table {
+            padding: 10px;
+        }
+        
+        tr td {
+            border-color: white;
+        }
+        
+        .center {
+            text-align: center;
+        }
+        
+        .right {
+            text-align: right;
+        }
+        
+        .box {
+            width: 100%;
+            border: 2px solid black;
+            height: 150px;
+        }
+        
+        .dottedUnderline {
+            border-bottom: 2px dotted black;
+        }
+    </style>
+</head>
 
-    .center {
-        text-align: center;
-    }
-
-    .right {
-        text-align: right;
-    }
-
-    .box {
-        width: 100%;
-        border: 2px solid black;
-        height: 150px;
-    }
-
-    .dottedUnderline {
-        border-bottom: 2px dotted black;
-    }
-</style>
-
+<body>
     <table class="container table">
         <thead>
             <tr>
@@ -111,7 +118,9 @@ End Code
             </tr>
         </tbody>
     </table>
+</body>
 
+</html>
 <script>
     console.log(getScriptFromScratch());
 
@@ -146,29 +155,4 @@ End Code
     $('#baht').text('');
     $('#bahtText').text('');
     $('#weight').text('น้ำหนัก 11559 ตัน');
-</script>
-<script type="text/javascript">
-    let branch = getQueryString("Branch");
-    let code = getQueryString("Code");
-    var path = '@Url.Content("~")';
-    $.get(path + 'JobOrder/GetAddFuel?Branch=' + branch + '&Code=' + code).done(function (r) {
-        if (r.addfuel.data.length > 0) {
-            let d = r.addfuel.data[0];
-            $('#date').text(ShowDate(d.DocDate));
-            $('#time').text('20:50:25');
-            $('#docNo').text(d.DocNo);
-            $('#fillingStation').text(d.StationCode);
-            $('#fillDate').text('15 มิ.ย. 2564');
-            $('#carLicenseNo').text(d.CarLicense);
-            $('#driverName').text(d.Driver);
-            $('#fuelType').text(d.FuelType);
-            $('#mile').text(d.MileEnd);
-            $('#volume').text('520');
-            $('#volumeText').text('ห้าร้อยยี่สิบ');
-            $('#jobNo').text(d.JNo);
-            $('#baht').text(d.BudgetValue);
-            $('#bahtText').text('');
-            $('#weight').text('น้ำหนัก 11559 ตัน');
-        }
-    });
 </script>

@@ -373,6 +373,7 @@
     <Content Include="App_Data\SQL_Report_V2.4.sql" />
     <Content Include="App_Data\SQL_Report_V2.5.sql" />
     <Content Include="App_Data\SQL_Report_V2.6.sql" />
+    <Content Include="App_Data\THESOLUTION\JobOrder\Theso-oil.html" />
     <Content Include="App_Data\TOTAL\Draft\report2.htm" />
     <Content Include="App_Data\TOTAL\Draft\report3.htm" />
     <Content Include="App_Data\TOTAL\Draft\report4.htm" />
@@ -1130,6 +1131,7 @@
     <Content Include="App_Data\THESOLUTION\JobOrder\FormAddFuel.vbhtml" />
     <Content Include="App_Data\THESOLUTION\JobOrder\Transport.vbhtml" />
     <Content Include="App_Data\TOTAL\Clr\GenerateInv.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\JobOrder\FormAddFuel - Copy.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
