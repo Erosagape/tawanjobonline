@@ -263,6 +263,7 @@
                                 <button id="mnuMasA2" class="btn btn-default btn-block" onclick="OpenLink('venders')">- Venders</button>
                                 <button id="mnuMasA3" class="btn btn-default btn-block" onclick="OpenLink('ServUnit')">- Service Units</button>
                                 <button id="mnuMasA4" class="btn btn-default btn-block" onclick="OpenLink('Bank')">- Bank</button>
+                                <button id="mnuMasA10" class="btn btn-default btn-block" onclick="OpenLink('CarLicense')">- Car License</button>
                             </div>
                             <div class="col-sm-6">
                                 <button id="mnuMasA5" class="btn btn-default btn-block" onclick="OpenLink('BookAccount')">- Bank Accounts</button>

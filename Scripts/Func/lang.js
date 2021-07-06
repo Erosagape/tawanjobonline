@@ -1298,6 +1298,7 @@ function GetLangMenu() {
         mnuMasA7: 'Service Code|รหัสค่าบริการ',
         mnuMasA8: 'Service Policy|มาตรฐานค่าบริการ',
         mnuMasA9: 'Account Code|ผังบัญชี',
+        mnuMasA10: 'Car License|ข้อมูลรถ',
         mainMasS: 'System Files|ข้อมูลพื้นฐานระบบ',
         mnuMasS1: 'System Variables|ค่าคงที่ระบบ',
         mnuMasS2: 'System User|ผู้ใช้งานระบบ',
@@ -3705,6 +3706,22 @@ function GetLangForm(fname) {
                 lblUploadBy: 'Upload By|ผู้อัพโหลด',
                 lblUploadDate: 'Upload Date|วันที่อัพโหลด',
                 lblSaveData: 'Save Information|บันทึกข้อมูล'
+            };
+            break;
+        case 'Default/CarLicense':
+            lang = {
+                lblTitle:'Car License|ข้อมูลรถ',
+                lblCarNo: 'Car Code|รหัสรถ',
+                lblCarLicense: 'Car License|ทะเบียนรถ',
+                lblEmpCode: 'Driver|พนักงานขับรถ',
+                lblDateStart: 'Begin Date|วันที่เริ่มใช้งาน',
+                lblCarBrand: 'Car Brand|ยี่ห้อรถ',
+                lblModelyear: 'Model Year|ปีที่ผลิต',
+                lblCarModel: 'Model|รุ่น',
+                lblCarType: 'Car Type|ประเภทรถ',
+                lblCarPic: 'Picture|รูปภาพ',
+                lblStatus: 'Status|สถานะรถ',
+                lblWeight: 'Weight|น้ำหนักรถ'
             };
             break;
     }

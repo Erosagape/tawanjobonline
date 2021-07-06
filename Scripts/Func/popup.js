@@ -1597,3 +1597,30 @@ function SetGridAddFuel(p, g, t, d, ev) {
     });
     BindEvent(g, d, ev);
 }
+function SetGridCar(p, g, d, ev) {
+    $(g).DataTable({
+        ajax: {
+            url: p + 'Default/GetCarLicense', //web service ที่จะ call ไปดึงข้อมูลมา
+            dataSrc: 'carlicense.data'
+        },
+        selected: true, //ให้สามารถเลือกแถวได้
+        columns: [ //กำหนด property ของ header column
+            { data: null, title: "#" },
+            { data: "CarNo", title: mainLanguage == "TH" ? "รหัสรถ" : "Code" },
+            { data: "CarLicense", title: mainLanguage == "TH" ? "เลขทะเบียนรถ" : "License Number" }
+        ],
+        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+            {
+                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                "data": null,
+                "render": function (data, type, full, meta) {
+                    let html = "<button class='btn btn-warning'>Select</button>";
+                    return html;
+                }
+            }
+        ],
+        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+        , pageLength: 100
+    });
+    BindEvent(g, d, ev);
+}
