@@ -11,6 +11,12 @@ Namespace Controllers
         Function Document() As ActionResult
             Return GetView("Document", "MODULE_CS")
         End Function
+        Function Planload() As ActionResult
+            Dim sql As String = GetValueConfig("SQL", "SelectPlanload")
+            Dim dt = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+            ViewBag.DataTable = dt
+            Return GetView("Planload")
+        End Function
         Function Timeline() As ActionResult
             Return GetView("Timeline")
         End Function

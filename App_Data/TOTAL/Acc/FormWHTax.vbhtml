@@ -36,10 +36,10 @@ End Code
     <b>ฉบับที่ 1</b><i>(สำหรับผู้ถูกหักภาษี ณ ที่จ่ายใช้แนบพร้อมกับแบบแสดงรายการภาษี)</i><br />
     <b>ฉบับที่ 2</b><i>(สำหรับผู้ถูกหักภาษี ณ ที่จ่ายเก็บไว้เป็นหลักฐาน)</i>
 </div>
-<div style="float:right;">
+<div style="text-align:right;width:99%;">
     เลขที่ <label id="txtDocNo"></label>
 </div>
-<table border="1" style="border-style:solid;border-width:thin;border-collapse:collapse" width="95%">
+<table border="1" style="border-style:solid;border-width:thin;border-collapse:collapse" width="99%">
     <tr>
         <td colspan="4" style="text-align:center;vertical-align:top">
             <b>หนังสือรับรองการหักภาษี ณ ที่จ่าย</b><br />
@@ -276,7 +276,7 @@ End Code
         </td>
     </tr>
 </table>
-<table border="1" style="border-style:solid;border-collapse:collapse;border-width:thin" width="95%">
+<table border="1" style="border-style:solid;border-collapse:collapse;border-width:thin" width="99%">
 
     <tr>
         <td>
@@ -300,7 +300,7 @@ End Code
     </tr>
 </table>
 
-<div>
+<div style="width:99%;">
     <b>หมายเหตุ</b> ให้สามารถอ้างอิงหรือสอบยันกันได้ระหว่างลำดับที่ตามหนังสือรับรองฯ กับแบบยื่นรายการภาษีหัก ณ ที่จ่าย<br />
     <b>คำเตือน</b> ผู้มีหน้าที่ออกหนังสือรับรองหักภาษี ณ ที่จ่าย ฝ่าฝืนไม่ปฏิบัติตามมาตรา 50 ทวิ แห่งประมวลรัษฏากรต้องรับโทษทางอาญาตามมาตรา 35 แห่งประมวลรัษฏากร
 </div>

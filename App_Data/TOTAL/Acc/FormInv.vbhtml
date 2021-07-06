@@ -54,6 +54,7 @@ End Code
     }
 </style>
 <div class="center bold">
+    <br/>
     <label style="font-size:16px">ใบแจ้งหนี้/INVOICE</label>
 </div>
 

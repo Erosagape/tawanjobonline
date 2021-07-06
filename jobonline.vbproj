@@ -1130,6 +1130,9 @@
     <Content Include="App_Data\THESOLUTION\JobOrder\FormAddFuel.vbhtml" />
     <Content Include="App_Data\THESOLUTION\JobOrder\Transport.vbhtml" />
     <Content Include="App_Data\TOTAL\Clr\GenerateInv.vbhtml" />
+    <Content Include="App_Data\TOTAL\Acc\FormWHTax.vbhtml" />
+    <Content Include="App_Data\TOTAL\Adv\FormClrAdv.vbhtml" />
+    <Content Include="App_Data\TOTAL\Acc\FormVoucher.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -1521,6 +1524,7 @@
     <Content Include="Views\JobOrder\FormTransportMAIR.vbhtml" />
     <Content Include="Views\JobOrder\FormTransportHAIR.vbhtml" />
     <Content Include="Views\JobOrder\FormAddFuel.vbhtml" />
+    <Content Include="Views\Tracking\Planload.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
