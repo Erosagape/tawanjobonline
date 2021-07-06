@@ -207,6 +207,9 @@ function OpenMenu(mnuID, newpage = true) {
         case 'BillPayment':
             mnuPath = path + 'Acc/BillPayment';
             break;
+        case 'CarLicense':
+            mnuPath = path + 'Default/CarLicense';
+            break;
         default:
             ShowMessage('Under Development');
             break;

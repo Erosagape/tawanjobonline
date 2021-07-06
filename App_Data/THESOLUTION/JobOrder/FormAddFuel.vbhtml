@@ -29,22 +29,27 @@ End Code
     .dottedUnderline {
         border-bottom: 2px dotted black;
     }
+    .underline {
+        border-bottom: 2px solid black;
+    }
 </style>
 
     <table class="container table">
         <thead>
             <tr>
                 <td class="center" colspan="5">
-                    <label for="" style="border:2px solid black;padding: 10px;border-radius: 10px;position: relative;top: 2em;">
+                    <label for="" style="border:2px solid black;padding: 10px;border-radius: 10px;position: relative;top: 0em;">
                         ใบสั่งเติมน้ำมัน
                     </label>
                 </td>
             </tr>
             <tr>
-                <td colspan="3"><label id="date">22/06/21</label> <label id="time">20:50:25</label></td>
-                <td colspan="2">เลขที่ใบสั่งเติม <label id="docNo">39990</label></td>
+                <td class="underline" colspan="3"><label id="date"></label> <label id="time"></label></td>
+                <td class="underline" colspan="2">เลขที่ใบสั่งเติม <label id="docNo">39990</label></td>
             </tr>
         </thead>
+
+
         <tbody>
             <tr>
                 <td style="width:20%">ชื่อปั๊มที่เติม</td>
@@ -62,11 +67,11 @@ End Code
                 <td>ชนิดเชื้อเพลิง</td>
                 <td class="dottedUnderline" colspan="2"><label id="fuelType">ดีเซล</label></td>
                 <td>เลขไมล์</td>
-                <td class="dottedUnderline"><label id="mile">372645</label></td>
+                <td class="dottedUnderline center"><label id="mile">372645</label></td>
             </tr>
             <tr>
                 <td>ปริมาตร(ลิตร|กก.)</td>
-                <td class="dottedUnderline"><label id="volume">520</label></td>
+                <td class="dottedUnderline right"><label id="volume">520</label></td>
                 <td class="dottedUnderline" style="display:flex">
                     (
                     <div style="flex: 1;text-align: center;">
@@ -79,7 +84,7 @@ End Code
             </tr>
             <tr>
                 <td>จำนวนเงิน (บาท)</td>
-                <td class="dottedUnderline"><label id="baht"></label></td>
+                <td class="dottedUnderline right"><label id="baht"></label></td>
                 <td class="dottedUnderline" style="display:flex">
                     (
                     <div style="flex: 1;text-align: center;"><label id="bahtText"></label></div>
@@ -112,41 +117,6 @@ End Code
         </tbody>
     </table>
 
-<script>
-    console.log(getScriptFromScratch());
-
-
-    function getScriptFromScratch() {
-        let code = "";
-        let size = 0
-        let labels = document.getElementsByTagName("LABEL");
-        for (let index = 0; index < labels.length; index++) {
-            const element = labels[index];
-            if (element.id !== "") {
-                code += "$('#" + element.id + "').text('" + element.innerText + "');"
-                element.innerText = "";
-                size++;
-            }
-        }
-        console.log(size);
-        return code;
-    }
-    $('#date').text('22/06/21');
-    $('#time').text('20:50:25');
-    $('#docNo').text('39990');
-    $('#fillingStation').text('เดอะโซ');
-    $('#fillDate').text('15 มิ.ย. 2564');
-    $('#carLicenseNo').text('72-5876 สป รถหัวลาก');
-    $('#driverName').text('ประจวบ คำปุย');
-    $('#fuelType').text('ดีเซล');
-    $('#mile').text('372645');
-    $('#volume').text('520');
-    $('#volumeText').text('ห้าร้อยยี่สิบ');
-    $('#jobNo').text('44523');
-    $('#baht').text('');
-    $('#bahtText').text('');
-    $('#weight').text('น้ำหนัก 11559 ตัน');
-</script>
 <script type="text/javascript">
     let branch = getQueryString("Branch");
     let code = getQueryString("Code");
@@ -154,21 +124,21 @@ End Code
     $.get(path + 'JobOrder/GetAddFuel?Branch=' + branch + '&Code=' + code).done(function (r) {
         if (r.addfuel.data.length > 0) {
             let d = r.addfuel.data[0];
-            $('#date').text(ShowDate(d.DocDate));
-            $('#time').text('20:50:25');
+            //$('#date').text(new Date().toString());
+            //$('#time').text(ShowTime(new Date().toString()));
             $('#docNo').text(d.DocNo);
             $('#fillingStation').text(d.StationCode);
-            $('#fillDate').text('15 มิ.ย. 2564');
+            $('#fillDate').text(ShowDate(d.DocDate));
             $('#carLicenseNo').text(d.CarLicense);
             $('#driverName').text(d.Driver);
             $('#fuelType').text(d.FuelType);
             $('#mile').text(d.MileEnd);
-            $('#volume').text('520');
-            $('#volumeText').text('ห้าร้อยยี่สิบ');
+            $('#volume').text(d.ActualVolume);
+            $('#volumeText').text(CNumThai(d.ActualVolume).replace("บาทถ้วน",""));
             $('#jobNo').text(d.JNo);
-            $('#baht').text(d.BudgetValue);
-            $('#bahtText').text('');
-            $('#weight').text('น้ำหนัก 11559 ตัน');
+            $('#baht').text(d.TotalAmount);
+            $('#bahtText').text(CNumThai(d.TotalAmount));
+            $('#weight').text(d.Remark);
         }
     });
 </script>
