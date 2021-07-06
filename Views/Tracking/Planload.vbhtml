@@ -1,4 +1,5 @@
 ﻿@Code
+    Layout = "~/Views/Shared/_ReportNoHeadLandscape.vbhtml"
     ViewData("Title") = "Planing By Inspection Date"
 End Code
 <table border="1" style="border-collapse:collapse">
@@ -32,9 +33,53 @@ End Code
         </tr>
     </thead>
     <tbody>
-        @For Each dr As System.Data.DataRow In ViewBag.DataTable
+        @For Each dr As System.Data.DataRow In ViewBag.DataTable.Rows
+            @<tr>
+    <td rowspan="2">@Convert.ToInt32(ViewBag.DataTable.Rows.IndexOf(dr) + 1)</td>
+    @If IsDate(dr("ConfirmDate")) Then
+        @<td>@String.Format(dr("ConfirmDate"), "dd/MM/yyyy")</td>
+    Else
+        @<td></td>
+    End If
+    <td>@dr("CustTName").ToString()</td>
+    <td>@dr("InvProduct").ToString()</td>
+    <td>@dr("VesselName").ToString()</td>
+    <td>@dr("InvNo").ToString()</td>
+    @If IsDate(dr("ETADate")) Then
+        @<td rowspan="2">@String.Format(dr("ETADate"), "dd/MM/yyyy")</td>
+    Else
+        @<td rowspan="2"></td>
+    End If
+    <td>@dr("InvProductQty").ToString() @dr("InvProductUnit").ToString()</td>
+    <td rowspan="2">@dr("PortName").ToString()</td>
+    <td>@dr("ClearPort").ToString()</td>
+    <td colspan="4">@dr("ForwarderName").ToString()</td>
+    <td rowspan="2">@dr("BLNo").ToString()</td>
+    <td>@dr("TotalEstimate")</td>
+</tr>
+            @<tr>
+    <td>@dr("JNo").ToString()</td>
+    <td>@dr("ConsigneeTName").ToString()</td>
+    <td>@dr("TotalContainer").ToString()</td>
+    <td>@dr("ContainerList").ToString()</td>
+    <td>@dr("MVesselName").ToString()</td>
+    <td>@dr("TotalGW").ToString()</td>
+    <td>@dr("ClearPortNo").ToString()</td>
+    <td>@dr("TotalDO")</td>
+    <td>@dr("TotalERN")</td>
+    <td>@dr("TotalCLEAN")</td>
+    <td>@dr("TotalDEM")</td>
+    @If IsDate(dr("DutyDate")) Then
+        @<td>@String.Format(dr("DutyDate"), "dd/MM/yyyy")</td>
+    Else
+        @<td></td>
+    End If
 
+</tr>
         Next
     </tbody>
 </table>
+<script type="text/javascript">
+    var path = '@Url.Content("~")';
+</script>
 
