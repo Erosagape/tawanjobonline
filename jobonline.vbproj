@@ -205,7 +205,7 @@
     <Compile Include="Models\CAddFuel.vb" />
     <Compile Include="Models\CAdvDetail.vb" />
     <Compile Include="Models\CAdvHeader.vb" />
-    <Compile Include="Models\CarLicense.vb" />
+    <Compile Include="Models\CCarLicense.vb" />
     <Compile Include="Models\CBank.vb" />
     <Compile Include="Models\CBillDetail.vb" />
     <Compile Include="Models\CBillHeader.vb" />
@@ -266,7 +266,7 @@
     <Compile Include="Models\CWHTaxDetail.vb" />
     <Compile Include="Models\CWHTaxHeader.vb" />
     <Compile Include="Models\cXMLData.vb" />
-    <Compile Include="Models\Employee.vb" />
+    <Compile Include="Models\CEmployee.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -1527,8 +1527,9 @@
     <Content Include="Views\JobOrder\FormTransportHAIR.vbhtml" />
     <Content Include="Views\JobOrder\FormAddFuel.vbhtml" />
     <Content Include="Views\Tracking\Planload.vbhtml" />
-    <Content Include="Views\Default\CarLicense.vbhtml" />
+    <Content Include="Views\Master\CarLicense.vbhtml" />
     <Content Include="Views\Tracking\Planing.vbhtml" />
+    <Content Include="Views\Master\Employee.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

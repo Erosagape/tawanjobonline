@@ -663,6 +663,9 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Job")) Then
                     tSqlw &= String.Format("AND JNo='{0}' ", Request.QueryString("Job").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("Item")) Then
+                    tSqlw &= String.Format("AND ItemNo={0} ", Request.QueryString("Item").ToString)
+                End If
                 Dim oDataD = New CTransportDetail(GetSession("ConnJob")).GetData(tSqlw)
                 Dim jsonD As String = JsonConvert.SerializeObject(oDataD)
                 Dim json = "{""transport"":{""header"":" & jsonH & ",""detail"":" & jsonD & "}}"

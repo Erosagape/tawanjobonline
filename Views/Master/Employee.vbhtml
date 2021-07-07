@@ -150,7 +150,7 @@ End Code
                 let jsonText = JSON.stringify({ data: obj });
                 //ShowMessage(jsonText);
                 $.ajax({
-                    url: "@Url.Action("SetEmployee", "Default")",
+                    url: "@Url.Action("SetEmployee", "Master")",
                     type: "POST",
                     contentType: "application/json",
                     data: jsonText,

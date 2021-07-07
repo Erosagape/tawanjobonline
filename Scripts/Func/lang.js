@@ -3727,7 +3727,7 @@ function GetLangForm(fname) {
                 lblBranchCode: 'Branch|สาขา'
             };
             break;
-        case 'Default/CarLicense':
+        case 'Master/CarLicense':
             lang = {
                 lblTitle:'Car License|ข้อมูลรถ',
                 lblCarNo: 'Car Code|รหัสรถ',
@@ -3743,7 +3743,7 @@ function GetLangForm(fname) {
                 lblWeight: 'Weight|น้ำหนักรถ'
             };
             break;
-        case 'Default/Employee':
+        case 'Master/Employee':
             lang = {
                 lblTitle: 'Employee|ข้อมูลพนักงาน',
                 lblEmpCode: 'Code|รหัสพนักงาน',
@@ -3756,6 +3756,41 @@ function GetLangForm(fname) {
                 lblTel: 'Tel No.|เบอร์โทรศัพท์',
                 lblRemark: 'Remark|หมายเหตุ',
                 lblEmail: 'Email|อีเมล'
+            };
+            break;
+        case 'JobOrder/AddFuel':
+            lang = {
+                lblTitle: 'Fuel Refill|ใบสั่งเติมน้ำมัน/เชื้่อเพลิง',
+                lblBranchCode: 'Branch Code|สาขา',
+                lblBookingNo: 'Booking No|เลขบุคกิ้ง',
+                lblJNo: 'Job No|หมายเลขงาน',
+                lblDocNo: 'Doc No|เลขที่เอกสาร',
+                lblDocDate: 'Doc Date|วันที่เอกสาร',
+                lblCarLicense: 'Car License|ทะเบียนรถ',
+                lblDriver: 'Driver|พนักงานขับรถ',
+                lblFuelType: 'Fuel Type|ประเภทเชื้อเพลิง',
+                lblStationCode: 'Station Code|สถานีบริการ',
+                lblPaymentType: 'Payment Type|ประเภทการชำระเงิน',
+                lblStationInvNo: 'Station InvNo|เลขที่ใบวางบิลปั้ม',
+                lblMileBegin: 'Mile Begin|เลขไมล์เริ่มต้น',
+                lblMileEnd: 'Mile End|เลขไมล์สิ้นสุด',
+                lblMileTotal: 'Mile Total|รวมระยะทางไมล์',
+                lblBudgetVolume: 'Budget Volume (LTR)|สั่งเติม (ลิตร)',
+                lblBudgetValue: 'Budget Value (THB)|สั่งเติม (บาท)',
+                lblActualVolume: 'Actual Volume (LTR)|เติมจริง (ลิตร)',
+                lblUnitPrice: 'Unit Price|ลิตรละ (บาท)',
+                lblTotalAmount: 'Total Amount|รวมเป็นเงิน',
+                lblRemark: 'Remark|หมายเหตุ',
+                lblTotalWeight: 'Total Weight|น้ำหนักรวม',
+                lblCreateBy: 'Create By|สร้างเอกสารโดย',
+                lblCreateDate: 'Create Date|วันที่สร้าง',
+                lblUpdateBy: 'Update By|ผู้แก้ไขข้อมูล',
+                lblLastUpdate: 'Last Update|วันที่แก้ไขล่าสุด',
+                lblApproveBy: 'Approve By|ผู้อนุมัติ',
+                lblApproveDate: 'Approve Date|วันที่อนุมัติ',
+                lblCancelBy: 'Cancel By|ผู้ยกเลิก',
+                lblCancelDate: 'Cancel Date|วันที่ยกเลิก',
+                lblCancelReason: 'Cancel Reason|เหตุผลที่ยกเลิก'
             };
             break;
     }

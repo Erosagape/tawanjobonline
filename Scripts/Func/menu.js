@@ -211,10 +211,10 @@ function OpenMenu(mnuID, newpage = true) {
             mnuPath = path + 'Tracking/Planing';
             break;
         case 'CarLicense':
-            mnuPath = path + 'Default/CarLicense';
+            mnuPath = path + 'Master/CarLicense';
             break;
         case 'Employee':
-            mnuPath = path + 'Default/Employee';
+            mnuPath = path + 'Master/Employee';
             break;
         default:
             ShowMessage('Under Development');

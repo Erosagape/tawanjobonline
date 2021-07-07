@@ -1600,7 +1600,7 @@ function SetGridAddFuel(p, g, t, d, ev) {
 function SetGridCar(p, g, d, ev) {
     $(g).DataTable({
         ajax: {
-            url: p + 'Default/GetCarLicense', //web service ที่จะ call ไปดึงข้อมูลมา
+            url: p + 'Master/GetCarLicense', //web service ที่จะ call ไปดึงข้อมูลมา
             dataSrc: 'carlicense.data'
         },
         selected: true, //ให้สามารถเลือกแถวได้
@@ -1627,7 +1627,7 @@ function SetGridCar(p, g, d, ev) {
 function SetGridEmployee(p, g, d, ev) {
     $(g).DataTable({
         ajax: {
-            url: p + 'Default/GetEmployee', //web service ที่จะ call ไปดึงข้อมูลมา
+            url: p + 'Master/GetEmployee', //web service ที่จะ call ไปดึงข้อมูลมา
             dataSrc: 'employee.data'
         },
         selected: true, //ให้สามารถเลือกแถวได้

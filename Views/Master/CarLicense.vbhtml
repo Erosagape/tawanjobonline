@@ -112,7 +112,7 @@ End Code
     let search = {carNos: null }
     SetEvents();
     function CallBackQueryarLicense(p, code, ev) {
-        $.get(p + 'Default/getCarLicense?Code=' + code).done(function (r) {
+        $.get(p + 'Master/getCarLicense?Code=' + code).done(function (r) {
             let dr = r.carlicense.data;
             if (dr.length > 0) {
                 ev(dr[0]);
@@ -178,7 +178,7 @@ End Code
         if (obj.CarNo != "") {
             let jsonText = JSON.stringify({ data: obj });
                 $.ajax({
-                    url: "@Url.Action("SetCarLicense", "Default")",
+                    url: "@Url.Action("SetCarLicense", "Master")",
                     type: "POST",
                     contentType: "application/json",
                     data: jsonText,
