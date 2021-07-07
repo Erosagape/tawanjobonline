@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        table {
+            padding: 10px;
+        }
+        
+        tr td {
+            border-color: white;
+        }
+        
+        .center {
+            text-align: center;
+        }
+        
+        .right {
+            text-align: right;
+        }
+        
+        .box {
+            width: 100%;
+            border: 2px solid black;
+            height: 150px;
+        }
+        
+        .dottedUnderline {
+            border-bottom: 2px dotted black;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="container table">
+        <thead>
+            <tr>
+                <td class="center" colspan="5">
+                    <label for="" style="border:2px solid black;padding: 10px;border-radius: 10px;position: relative;top: 2em;">
+                        ใบสั่งเติมน้ำมัน
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3"><label id="date">22/06/21</label> <label id="time">20:50:25</label></td>
+                <td colspan="2">เลขที่ใบสั่งเติม <label id="docNo">39990</label></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="width:20%">ชื่อปั๊มที่เติม</td>
+                <td class="dottedUnderline" style="width:40%" colspan="2"><label id="fillingStation">เดอะโซ</label></td>
+                <td style="width:10%">วันที่</td>
+                <td class="dottedUnderline" style="width:30%"><label id="fillDate">15 มิ.ย. 2564</label></td>
+            </tr>
+            <tr>
+                <td>ทะเบียนรถที่เติม</td>
+                <td class="dottedUnderline" colspan="2"><label id="carLicenseNo">72-5876 สป รถหัวลาก</label></td>
+                <td>ชื่อ พขร</td>
+                <td class="dottedUnderline"><label id="driverName">ประจวบ คำปุย</label></td>
+            </tr>
+            <tr>
+                <td>ชนิดเชื้อเพลิง</td>
+                <td class="dottedUnderline" colspan="2"><label id="fuelType">ดีเซล</label></td>
+                <td>เลขไมล์</td>
+                <td class="dottedUnderline"><label id="mile">372645</label></td>
+            </tr>
+            <tr>
+                <td>ปริมาตร(ลิตร|กก.)</td>
+                <td class="dottedUnderline"><label id="volume">520</label></td>
+                <td class="dottedUnderline" style="display:flex">
+                    (
+                    <div style="flex: 1;text-align: center;">
+                        <label id="volumeText">ห้าร้อยยี่สิบ</label>
+                    </div>
+                    )
+                </td>
+                <td>Job no. : </td>
+                <td class="dottedUnderline"><label id="jobNo">44523</label></td>
+            </tr>
+            <tr>
+                <td>จำนวนเงิน (บาท)</td>
+                <td class="dottedUnderline"><label id="baht"></label></td>
+                <td class="dottedUnderline" style="display:flex">
+                    (
+                    <div style="flex: 1;text-align: center;"><label id="bahtText"></label></div>
+                    )
+                </td>
+                <td> </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>หมายเหตุ</td>
+                <td class="dottedUnderline" colspan="4"><label id="weight">น้ำหนัก 11559 ตัน</label></td>
+            </tr>
+            <tr>
+                <td colspan="5">ขอให้ทางปั๊มเดิมน้ำมันดังกล่าวข้างต้นด้วย</td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    ลงชื่อ .............................................................................. พนักงานขับรถ
+                </td>
+
+                <td colspan="4">
+                    ลงชื่อ .............................................................................. ผู้สั่งเติม
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    ลงชื่อ .............................................................................. พนักงานปั๊มน้ำมัน
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>
+<script>
+    console.log(getScriptFromScratch());
+
+
+    function getScriptFromScratch() {
+        let code = "";
+        let size = 0
+        let labels = document.getElementsByTagName("LABEL");
+        for (let index = 0; index < labels.length; index++) {
+            const element = labels[index];
+            if (element.id !== "") {
+                code += "$('#" + element.id + "').text('" + element.innerText + "');"
+                element.innerText = "";
+                size++;
+            }
+        }
+        console.log(size);
+        return code;
+    }
+    $('#date').text('22/06/21');
+    $('#time').text('20:50:25');
+    $('#docNo').text('39990');
+    $('#fillingStation').text('เดอะโซ');
+    $('#fillDate').text('15 มิ.ย. 2564');
+    $('#carLicenseNo').text('72-5876 สป รถหัวลาก');
+    $('#driverName').text('ประจวบ คำปุย');
+    $('#fuelType').text('ดีเซล');
+    $('#mile').text('372645');
+    $('#volume').text('520');
+    $('#volumeText').text('ห้าร้อยยี่สิบ');
+    $('#jobNo').text('44523');
+    $('#baht').text('');
+    $('#bahtText').text('');
+    $('#weight').text('น้ำหนัก 11559 ตัน');
+</script>

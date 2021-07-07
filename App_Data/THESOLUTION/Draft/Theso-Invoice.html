@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        table {
+            padding: 10px;
+        }
+        
+        .center {
+            text-align: center;
+        }
+        
+        tr td {
+            border-color: white;
+        }
+        
+        .right {
+            text-align: right;
+        }
+        
+        .box {
+            width: 100%;
+            border: 2px solid grey;
+            border-radius: 20px;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="container table ">
+        <thead>
+
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <table class="table box">
+                        <tbody>
+                            <tr>
+                                <td colspan="6"><label id="companyID"></label></td>
+                            </tr>
+                            <tr>
+                                <td colspan="6"><label id="address1"></label> <label id="address2"></label></td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" style="width:15em">เลขประจำตัวผู้เสียภาษี</td>
+                                <td rowspan="2">:</td>
+                                <td rowspan="2"><label id="taxID"></label></td>
+                                <td rowspan="2"></td>
+                                <td rowspan="2"></td>
+                                <td rowspan="2"><label>[x]สำนักงานใหญ่</label></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+                <td style="width:30%">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td colspan="3"></td>
+                                Invoice/ใบแจ้งหนี้
+                </td>
+                </tr>
+                <tr>
+                    <td style="width:100px">No.</td>
+                    <td>:</td>
+                    <td><label id="invNo"></label></td>
+                </tr>
+                <tr>
+                    <td>Date.</td>
+                    <td>:</td>
+                    <td><label id="date"></label></td>
+                </tr>
+                <tr>
+                    <td>Due date.</td>
+                    <td>:</td>
+                    <td><label id="dueDate"></label></td>
+                </tr>
+                </tbody>
+                </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="container table">
+        <tbody>
+            <tr>
+                <td colspan="6" class="center">Particulars/รายการ</td>
+                <td colspan="3" class="center">Amount/จำนวนเงิน</td>
+            </tr>
+            <tr>
+                <td><label id="containerSize"></label></td>
+                <td><label id="containerNo"></label></td>
+                <td>Delivery :</td>
+                <td><label id="deliveryDate"></label></td>
+                <td>Return :</td>
+                <td><label id="returnDate"></label></td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td>Route</td>
+                <td colspan="6">
+                    : <label id="route"></label>
+                </td>
+                <td colspan="3"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="5">- ค่าขนส่ง</td>
+                <td class="right">26,500.00</td>
+                <td class="right"></td>
+                <td class="right"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="5">- ค่าล่วงเวลา</td>
+                <td class="right"></td>
+                <td class="right"></td>
+                <td class="right">50.00</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="5">- ค่าขนส่ง</td>
+                <td class="right"></td>
+                <td class="right"></td>
+                <td class="right">1070.00</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="5">- ค่าธรรมเนียมในการผ่านแดน</td>
+                <td class="right"></td>
+                <td class="right"></td>
+                <td class="right">500.00</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="5">- ค่า D/O</td>
+                <td class="right"></td>
+                <td class="right"></td>
+                <td class="right">7,083.00</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td colspan="5">- ค่าพิธีการชิปปิ้งแหลม/ด่าน</td>
+                <td class="right">3,500</td>
+                <td class="right"></td>
+                <td class="right"></td>
+            </tr>
+            <tr>
+                <td colspan="9">หมายเหตุ :<label id="remark"></label></td>
+            </tr>
+            <tr>
+                <td colspan="6"></td>
+                <td class="right"><label id="sum1"></label></td>
+                <td class="right"></td>
+                <td class="right"><label id="sum2"></label></td>
+            </tr>
+            <tr>
+                <td colspan="6">(<label id="totalText"></label>)</td>
+                <td class="right">Total</td>
+                <td class="right"></td>
+                <td class="right"><label id="total"></label></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <p>ผู้รับบิล .................................</p>
+                <p>นัดชำระเงิน วันที่...........................</p>
+            </div>
+            <div class="col-4 center">
+                <p>บริษัท เดอะโซลูชั่น โลจิสติกส์ จำกัด</p>
+                <p>.........................................................................</p>
+                <p>Authorized Signature</p>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
+<script>
+    let code = "";
+    $('label').each((index,element)=>{
+        if(element.id){
+            code+="$('#"+element.id+"').text('"+element.innerText+"');\n";
+            element.innerText = "";
+        }
+    });
+    console.log(code);
+
+    $('#companyID').text('บริษัท อี-ฟอร์จูนพืชผล(ประเทศไทย) จำกัด');
+    $('#address1').text('145/26 ซอยคู้บอน 27 แยก 7');
+    $('#address2').text('แขวงท่าแร้ง เขตบางเขน กรุงเทพมหานคร 10220');
+    $('#taxID').text('0105554090451');
+    $('#invNo').text('IV-025990');
+    $('#date').text('17/06/21');
+    $('#dueDate').text('17/06/21');
+    $('#containerSize').text("40'HQ");
+    $('#containerNo').text('TGCU5007347');
+    $('#deliveryDate').text('17/06/21');
+    $('#returnDate').text('18/06/21');
+    $('#route').text('LCB#1B >> แม่สอด >> MON LOGISTIC');
+    $('#remark').text('MEDUU1373122 (KPS21/1436)');
+    $('#sum1').text('30,000.00');
+    $('#sum2').text('8,703.00');
+    $('#totalText').text('THIRTY EIGHT THOUDSAND SEVEN HUNDRED THREE BATH ONLY');
+    $('#total').text('38,703.00');
+
+</script>
