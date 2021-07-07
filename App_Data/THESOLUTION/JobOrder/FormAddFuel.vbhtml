@@ -1,7 +1,7 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Fuel Refill Form"
-    ViewBag.ReportName = "ใบสั่งเติมน้ำมัน/เชื้อเพลิง"
+    ViewBag.ReportName = ""
 End Code
 <style>
     table {
