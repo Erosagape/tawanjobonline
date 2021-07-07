@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <style>
+        table {
+            padding: 10px;
+        }
+        
+        .center {
+            text-align: center;
+        }
+        
+        .right {
+            text-align: right;
+        }
+        
+        .box {
+            width: 100%;
+            height: 150px;
+            border: 2px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="center">ใบสั่งงาน</h1>
+    <table class="container table">
+        <tbody>
+            <tr>
+                <td><label id="orderNoLbl">เลขที่ Order</label></td>
+                <td>:</td>
+                <td colspan="8"><label id="orderNo"></label></td>
+            </tr>
+            <tr>
+                <td><label>เลขที่ใบสั่งงาน</label></td>
+                <td>:</td>
+                <td><label id="docNo"></label></td>
+                <td><label>Ref No.</label></td>
+                <td>:</td>
+                <td><label id="refNo"></label></td>
+                <td><label>วันที่สั่งงาน</label></td>
+                <td>:</td>
+                <td><label id="docDate"></label></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label>ชื่อโรงงาน</label></td>
+                <td>:</td>
+                <td><label id="factory"></label></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><label>ชื่อสินค้า</label></td>
+                <td>:</td>
+                <td><label id="product"></label></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label>เอเยนต์เรือ</label></td>
+                <td>:</td>
+                <td><label id="agent"></label></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><label>ชื่อเรือ</label></td>
+                <td>:</td>
+                <td><label id="vessel"></label></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label>ท่าปลายทาง</label></td>
+                <td>:</td>
+                <td><label id="destPort"></label></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><label>Last Load</label></td>
+                <td>:</td>
+                <td><label id="lastLoad"></label></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label>เบอร์ตู้ (1)</label></td>
+                <td>:</td>
+                <td><label id="containerNo"></label></td>
+                <td><label>เบอร์ซีล</label></td>
+                <td>:</td>
+                <td><label id="sealNo"></label></td>
+                <td><label>เบอร์บุ๊คกิ้ง</label></td>
+                <td>:</td>
+                <td><label id="bookingNo"></label></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label>เบอร์ตู้ (2)</label></td>
+                <td>:</td>
+                <td><label id="containerNo2"></label></td>
+                <td><label>เบอร์ซีล</label></td>
+                <td>:</td>
+                <td><label id="sealNo2"></label></td>
+                <td><label>เบอร์บุ๊คกิ้ง</label></td>
+                <td>:</td>
+                <td><label id="bookingNo2"></label></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label>สถานที่รับตู้</label></td>
+                <td>:</td>
+                <td><label id="getContainerPlace"></label></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><label>วันที่รับตู้</label></td>
+                <td>:</td>
+                <td><label id="getContainerDate"></label></td>
+                <td class="right"><label id="getContainerTime"></label></td>
+            </tr>
+            <tr>
+                <td><label>สถานที่บรรจุ</label></td>
+                <td>:</td>
+                <td><label id="loadPlace"></label></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><label>วันที่บรรจุ</label></td>
+                <td>:</td>
+                <td><label id="loadDate"></label></td>
+                <td class="right"><label id="loadTime"></label></td>
+            </tr>
+            <tr>
+                <td><label>สถานที่คืนตู้</label></td>
+                <td>:</td>
+                <td><label id="returnContainerPlace"></label></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><label>วันที่คืนตู้</label></td>
+                <td>:</td>
+                <td><label id="returnContainerDate"></label></td>
+                <td class="right"><label id="returnContainerTime"></label></td>
+            </tr>
+            <tr>
+                <td class="right"><label>คำสั่งลากตู้</label></td>
+                <td>:</td>
+                <td colspan="8"><label id="route"></label></td>
+            </tr>
+            <tr>
+                <td><label>หมายเหตุ</label></td>
+                <td>:</td>
+                <td colspan="8"><label id="remark"></label></td>
+            </tr>
+            <tr>
+                <td><label>ชื่อ พขร</label></td>
+                <td>:</td>
+                <td><label id="driverName"></label></td>
+                <td><label>เบอร์รถ</label></td>
+                <td>:</td>
+                <td><label id="carID"></label></td>
+                <td><label>ทะเบียนรถ</label></td>
+                <td>:</td>
+                <td><label id="carLicenseNo"></label></td>
+                <td class="right"><label>72-1278 สป</label></td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <div class="center">
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <p>................................................................................................................................................</p>
+                        <p>ลงชื่อ พนักงานขับรถ</p>
+                    </div>
+                    <div>
+                        <br/>
+                        <br/>
+                        <p>ลงชื่อ ...................................................................................................................................</p>
+                        <p>เวลารถเข้าถึงโรงงาน .......................................................................................................</p>
+                        <p class="center">ผู้ว่าจ้างหรือตัวแทนเจ้าของสินค้า</p>
+                    </div>
+                </td>
+                <td></td>
+                <td></td>
+                <td colspan="4">
+                    <div class="center">
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <p>................................................................................................................................................</p>
+                        <p>ลงชื่อ ผู้สั่งงาน</p>
+                    </div>
+                    <div>
+                        <br/>
+                        <br/>
+                        <p>ลงชื่อ .....................................................................................................................................</p>
+                        <p>เวลารถออกจากโรงงาน ......................................................................................................</p>
+                        <p class="center">ผู้ว่าจ้างหรือตัวแทนเจ้าของสินค้า</p>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="container box">
+        ออกใบเสร็จในนาม KHEMPHONE COOLING (อาเจียง)
+    </div>
+</body>
+
+</html>
+<script>
+    $('#orderNo').text("20326");
+    $('#docNo').text("44523");
+    $('#refNo').text("20326");
+    $('#docDate').text("15/06/21");
+    $('#factory').text("KHEMPHONE COOLING (อาเจียง)");
+    $('#product').text("");
+    $('#agent').text("");
+    $('#vessel').text("");
+    $('#destPort').text("");
+    $('#lastLoad').text("");
+    $('#containerNo').text("40'HC  EGHU9467581");
+    $('#sealNo').text("");
+    $('#bookingNo').text("EGLV156100340492");
+    $('#containerNo2').text("");
+    $('#sealNo2').text("");
+    $('#bookingNo2').text("");
+    $('#getContainerPlace').text("เคอรี่");
+    $('#getContainerDate').text("16/06/21");
+    $('#getContainerTime').text("0.00");
+    $('#loadPlace').text("ปากซัน(ข้ามบึงกาฬ)เวียงจันทร์");
+    $('#loadDate').text("17/06/21");
+    $('#loadTime').text("0.00");
+    $('#returnContainerPlace').text("SDS-ACUTECH");
+    $('#returnContainerDate').text("18/06/21");
+    $('#returnContainerTime').text("0.00");
+    $('#route').text("แหลมฉบัง -> เคอรี่ -> ปากซัน(ข้ามบึงกาฬ)เวียงจันทร์ -> SDS-ACUTECH");
+    $('#remark').text("*** DEM 21 วัน/DET 21 วัน***");
+    $('#driverName').text("ประจวบ คำปุย");
+    $('#carID').text("72-5876");
+    $('#carLicenseNo').text("72-5876 สป");
+
+    getScriptFromScratch();
+
+    function getScriptFromScratch() {
+        let size = 0
+        let labels = document.getElementsByTagName("LABEL");
+        for (let index = 0; index < labels.length; index++) {
+            const element = labels[index];
+            if (element.id !== "") {
+
+                console.log("$(#" + element.id + "').text('" + element.innerText + "');");
+                size++;
+            }
+        }
+        console.log(size)
+    }
+</script>
