@@ -1299,6 +1299,7 @@ function GetLangMenu() {
         mnuMasA8: 'Service Policy|มาตรฐานค่าบริการ',
         mnuMasA9: 'Account Code|ผังบัญชี',
         mnuMasA10: 'Car License|ข้อมูลรถ',
+        mnuMasA11: 'Employee|ข้อมูลพนักงาน',
         mainMasS: 'System Files|ข้อมูลพื้นฐานระบบ',
         mnuMasS1: 'System Variables|ค่าคงที่ระบบ',
         mnuMasS2: 'System User|ผู้ใช้งานระบบ',
@@ -3722,6 +3723,21 @@ function GetLangForm(fname) {
                 lblCarPic: 'Picture|รูปภาพ',
                 lblStatus: 'Status|สถานะรถ',
                 lblWeight: 'Weight|น้ำหนักรถ'
+            };
+            break;
+        case 'Default/Employee':
+            lang = {
+                lblTitle: 'Employee|ข้อมูลพนักงาน',
+                lblEmpCode: 'Code|รหัสพนักงาน',
+                lblPreName: 'Title|คำนำหน้าชื่อ',
+                lblName: 'Name|ชื่อ',
+                lblNickName: 'Nickname|ชื่อเล่น',
+                lblAccountNumber: 'Bank Account|บัญชีธนาคาร',
+                lblBranch: 'Branch|สาขา',
+                lblAddress: 'Address|ที่อยู่',
+                lblTel: 'Tel No.|เบอร์โทรศัพท์',
+                lblRemark: 'Remark|หมายเหตุ',
+                lblEmail: 'Email|อีเมล'
             };
             break;
     }
