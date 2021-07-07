@@ -74,6 +74,7 @@
                         Shipping Works
                     </div>
                     <div id="mnuShp" class="w3-hide w3-khaki w3-card-4">
+                        <a href="#" id="mnuShp3" class="w3-bar-item w3-button" onclick="OpenLink('Planing')">- Planing</a>
                         <a href="#" id="mnuShp1" class="w3-bar-item w3-button" onclick="OpenLink('Advance')">- Advance</a>
                         <a href="#" id="mnuShp2" class="w3-bar-item w3-button" onclick="OpenLink('Clearing')">- Clearing</a>
                     </div>

@@ -2474,11 +2474,11 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     If data.DocDate = DateTime.MinValue Then
                         data.DocDate = Today.Date
                     End If
+                    data.SetConnect(GetSession("ConnJob"))
                     If "" & data.DocNo = "" Then
                         'Return Content("{""result"":{""data"":null,""msg"":""Please Enter Data""}}", jsonContent)
                         data.AddNew("RF" & data.DocDate.ToString("yyMM") & "____")
                     End If
-                    data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE DocNo='{0}' ", data.DocNo))
                     Dim json = "{""result"":{""data"":""" & data.DocNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)

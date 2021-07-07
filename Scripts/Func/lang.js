@@ -1254,6 +1254,7 @@ function GetLangMenu() {
         mainShp: 'Shipping Works|แผนกชิปปิ้ง',
         mnuShp1: 'Advance|ใบเบิกค่าใช้จ่าย',
         mnuShp2: 'Clearing|ใบปิดค่าใช้จ่าย',
+        mnuShp3: 'Planing|ข้อมูลการตรวจปล่อย',
         mainApp: 'Approving|อนุมัติเอกสาร',
         mnuApp1: 'Advance Confirm|อนุมัติใบเบิก',
         mnuApp2: 'Clearing Confirm|อนุมัติใบปิด',
@@ -3706,6 +3707,23 @@ function GetLangForm(fname) {
                 lblUploadBy: 'Upload By|ผู้อัพโหลด',
                 lblUploadDate: 'Upload Date|วันที่อัพโหลด',
                 lblSaveData: 'Save Information|บันทึกข้อมูล'
+            };
+            break;
+        case 'Tracking/Planing':
+            lang = {
+                lblTitle: 'Planing|ข้อมูลการตรวจปล่อย',
+                lblStatus: 'Status|สถานะงาน',
+                lblFilter: 'Filter|กรองข้อมูล',
+                lblAgent: 'Agent|สายเรือ/สายการบิน',
+                lblTransport: 'Transport|บริษัทขนส่ง',
+                lblCustCode: 'Cust Code|รหัสผู้นำเข้าส่งออก',
+                lblConsCode: 'Consignee Code|รหัสผู้ซื้อขาย',
+                lblJobType: 'Job Type|ประเภทงาน',
+                lblShipBy: 'Ship By|ลักษณะงานขนส่ง',
+                lblFromDate: 'From Date|จากวันที่',
+                lblToDate: 'To Date|ถึงวันที่',
+                lblDateBy: 'Date By|เลือกจากวันที่',
+                lblBranchCode: 'Branch|สาขา'
             };
             break;
         case 'Default/CarLicense':

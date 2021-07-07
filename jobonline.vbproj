@@ -1528,6 +1528,7 @@
     <Content Include="Views\JobOrder\FormAddFuel.vbhtml" />
     <Content Include="Views\Tracking\Planload.vbhtml" />
     <Content Include="Views\Default\CarLicense.vbhtml" />
+    <Content Include="Views\Tracking\Planing.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
