@@ -15,6 +15,11 @@ Namespace Controllers
         Function CarLicense() As ActionResult
             Return GetView("CarLicense")
         End Function
+
+        Function Employee() As ActionResult
+            Return GetView("Employee")
+        End Function
+
         Function TestDate(<FromBody()> ByVal data As CTestDate) As ActionResult
             data.DocDate = Main.GetDBDate(data.DocDate)
             Dim json = JsonConvert.SerializeObject(data)
@@ -112,10 +117,6 @@ Namespace Controllers
             End Try
         End Function
 
-        '-----Controller-----
-        Function Employee() As ActionResult
-            Return GetView("Employee")
-        End Function
         Function GetEmployee() As ActionResult
             Try
                 Dim tSqlw As String = " WHERE EmpCode<>'' "

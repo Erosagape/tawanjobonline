@@ -1,4 +1,4 @@
-﻿'-----Class Definition-----
+﻿
 Imports System.Data.SqlClient
 Public Class Employee
     Private m_ConnStr As String

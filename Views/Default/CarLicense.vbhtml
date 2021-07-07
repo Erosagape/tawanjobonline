@@ -114,34 +114,21 @@ End Code
     function CallBackQueryarLicense(p, code, ev) {
         $.get(p + 'Default/getCarLicense?Code=' + code).done(function (r) {
             let dr = r.carlicense.data;
-            console.log(JSON.stringify(dr));
             if (dr.length > 0) {
                 ev(dr[0]);
             }
         });
     }
     function SetEvents() {
-
         let lists = 'CAR_STATUS=#txtStatus';
         loadCombos(path, lists);
         $('#txtCarNo').keydown(function (event) {
-            console.log($('#txtCarNo').val());
             if (event.which == 13) {
                 let code=$('#txtCarNo').val();
                 ClearData();
                 $('#txtCarNo').val(code);
                 CallBackQueryarLicense(path, code,ReadData);
             }
-        });
-        $('#txtCarNo').click(function (event) {
-            console.log(path + 'Default/GetCarNos');
-            $.get(path + 'Default/GetCarNos').done(function (r) {
-                console.log("something happen2");
-                //console.log(JSON.stringify(r));
-                //alert(JSON.stringify(r));
-
-            });
-
         });
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             var dv = document.getElementById("dvLOVs");
@@ -150,23 +137,17 @@ End Code
             CreateLOV(dv, '#frmSearchType', '#tbType', 'Car Type', response, 2);
         });
     }
-    //CRUD Functions used in HTML Java Scripts
     function DeleteData() {
         let code = $('#txtCarNo').val();
-        $.get(path + 'Default/delCarlicense?code=' + code, function (r) {
-            ShowMessage(r.carlicense.result);
-            ClearData();
+        ShowConfirm("Do you need to Delete " + code + "?",function(ask){
+            if (ask == false) return;
+            $.get(path + 'Home/delCarlicense?code=' + code, function (r) {
+                ShowMessage(r.carlicense.result);
+                ClearData();
+            });
         });
-        //ShowConfirm("Do you need to Delete " + code + "?",function(ask){
-        //    if (ask == false) return;
-        //    $.get(path + 'Home/delCarlicense?code=' + code, function (r) {
-        //        ShowMessage(r.carlicense.result);
-        //        ClearData();
-        //    });
-        //});
     }
 	function ReadData(dr){
-       // $('#txtCLid').val(dr.CLid);
         $('#txtCarNo').val(dr.CarNo);
         $('#txtCarLicense').val(dr.CarLicense);
         $('#txtEmpCode').val(dr.EmpCode);
@@ -206,10 +187,10 @@ End Code
                             $('#txtCarNo').val(response.result.data);
                             $('#txtCarNo').focus();
                         }
-                        //alert(JSON.stringify(response));
+                        ShowMessage(response.result.msg);
                     },
                     error: function (e) {
-                        alert(JSON.stringify(e));
+                        ShowMessage(e);
                     }
                 });
         } else {
@@ -232,7 +213,7 @@ End Code
     }
 
     function SearchData(type) {
-        //popup step2
+        //popup step2 --> popup.js
         switch (type) {
             case 'car':
                 SetGridCar(path, '#tbCar', '#frmSearchCar', ReadData);
