@@ -87,7 +87,7 @@ End Code
     let userRights ='@ViewBag.UserRights';
     SetEvents();
     function CallBackQuerymployee(p, code, ev) {
-        $.get(p + 'Default/getemployee?Code=' + code).done(function (r) {
+        $.get(p + 'Master/getemployee?Code=' + code).done(function (r) {
             let dr = r.employee.data;
             if (dr.length > 0) {
                 ev(dr[0]);
@@ -113,7 +113,7 @@ End Code
         let code = $('#txtEmpCode').val();
         ShowConfirm("Do you need to Delete " + code + "?",function(ask){
             if (ask == false) return;
-            $.get(path + 'Default/delemployee?code=' + code, function (r) {
+            $.get(path + 'Master/delemployee?code=' + code, function (r) {
                 ShowMessage(r.employee.result);
                 ClearData();
             });
