@@ -65,6 +65,7 @@ Namespace Controllers
         Function TransportRoute() As ActionResult
             Return GetView("TransportRoute", "MODULE_MAS")
         End Function
+
         Function GetTransportPlace() As ActionResult
             Try
                 Dim tSqlw As String = " WHERE PlaceName<>'' "

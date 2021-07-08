@@ -22,7 +22,11 @@ End Code
             <label id="lblEmpCode">Driver</label>
             :
         </div>
-        <div class="col-sm-8"><input type="text" id="txtEmpCode" class="form-control"></div>
+        <div class="col-sm-8" style="display:flex">
+            <input type="text" id="txtEmpCode" class="form-control">
+            <input type="button" class="btn btn-default" id="btnBrowseType" value="..." onclick="SearchData('driver')" />
+        </div>
+
     </div>
     <div class="row">
         <div class="col-sm-4">
@@ -135,6 +139,7 @@ End Code
             //popup step1
             CreateLOV(dv, '#frmSearchCar', '#tbCar', 'Car List', response, 2);
             CreateLOV(dv, '#frmSearchType', '#tbType', 'Car Type', response, 2);
+            CreateLOV(dv, '#frmSearchDriver', '#tbDriver', 'Driver List', response, 2);
         });
     }
     function DeleteData() {
@@ -221,6 +226,8 @@ End Code
             case 'type':
                 SetGridServUnitFilter(path, '#tbType', '?Type=2', '#frmSearchType', ReadType);
                 break;
+            case 'driver':
+                SetGridEmployee(path, '#tbDriver', '#frmSearchDriver', ReadDriver);
         }
     }
 
@@ -229,6 +236,10 @@ End Code
         $('#txtCarType').val(dr.UName);
     }
 
+    function ReadDriver(dr) {
+        //popup step3
+        $('#txtEmpCode').val(dr.Name);
+    }
 </script>
 
 
