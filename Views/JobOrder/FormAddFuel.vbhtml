@@ -132,7 +132,7 @@ End Code
             $('#carLicenseNo').text(d.CarLicense);
             $('#driverName').text(d.Driver);
             $('#fuelType').text(d.FuelType);
-            $('#mile').text(d.MileEnd);
+            $('#mile').text(d.MileBegin);
             $('#volume').text(d.ActualVolume);
             $('#volumeText').text(CNumThai(d.ActualVolume).replace("บาทถ้วน",""));
             $('#jobNo').text(d.JNo);

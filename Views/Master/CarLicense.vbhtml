@@ -141,7 +141,7 @@ End Code
         let code = $('#txtCarNo').val();
         ShowConfirm("Do you need to Delete " + code + "?",function(ask){
             if (ask == false) return;
-            $.get(path + 'Home/delCarlicense?code=' + code, function (r) {
+            $.get(path + 'Master/delCarlicense?code=' + code, function (r) {
                 ShowMessage(r.carlicense.result);
                 ClearData();
             });
