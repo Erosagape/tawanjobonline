@@ -6,6 +6,12 @@ Namespace Controllers
         Inherits CController
         ' GET: Customer
         Function Index() As ActionResult
+            Dim isSync = Main.GetValueConfig("PROFILE", "SYNCMASTER")
+            If isSync = "Y" Then
+                ViewBag.Result = "Syncing..." & Main.DBExecute(GetSession("ConnJob"), "EXEC SyncMasterFile")
+            Else
+                ViewBag.Result = "Please wait..."
+            End If
             Return GetView("Index")
         End Function
         Function Branch() As ActionResult

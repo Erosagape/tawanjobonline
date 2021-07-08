@@ -5,78 +5,95 @@ End Code
 <div id="dvForm">
     <div class="row">
         <div class="col-sm-3">
-            Branch Code
+            <label id="lblBranchCode">Branch Code</label>
             :
         </div>
-        <div class="col-sm-9" style="display:flex">
+        <div class="col-sm-4" style="display:flex">
             <input type="text" class="form-control" style="width:60px" id="txtBranchCode" disabled />
             <input type="button" class="btn btn-default" id="btnBrowseBranch" value="..." onclick="SearchData('branch')" />
             <input type="text" class="form-control" style="width:100%" id="txtBranchName" disabled />
         </div>
+        <div class="col-sm-5">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label id="lblDocNo">Doc No</label>
+                    :
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" id="txtDocNo" class="form-control">
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col-sm-3">
-            Booking No
+            <label id="lblDocDate">Doc Date</label>
             :
         </div>
         <div class="col-sm-4" style="display:flex;">
-            <input type="text" id="txtBookingNo" class="form-control" disabled>
-            <input type="text" style="width:60px;" id="txtBookingItemNo" class="form-control" disabled>
-            <input type="button" class="btn btn-default" id="btnBrowseBook" value="..." onclick="SearchData('booking')" />
+            <input type="date" id="txtDocDate" class="form-control">
         </div>
         <div class="col-sm-5">
             <div class="row">
                 <div class="col-sm-4">
-                    Job No
+                    <label id="lblBookingNo">Booking No</label>
                     :
+
                 </div>
-                <div class="col-sm-8">
-                    <input type="text" id="txtJNo" class="form-control" disabled>
+                <div class="col-sm-8" style="display:flex;">
+                    <input type="text" id="txtBookingNo" class="form-control" disabled>
+                    <input type="text" style="width:60px;" id="txtBookingItemNo" class="form-control" disabled>
+                    <input type="button" class="btn btn-default" id="btnBrowseBook" value="..." onclick="SearchData('booking')" />
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-3">
-            Doc No
+            <label id="lblJNo">Job No</label>
+            :
+
+        </div>
+        <div class="col-sm-4">
+            <input type="text" id="txtJNo" class="form-control" disabled>
+        </div>
+        <div class="col-sm-5">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label id="lblCarLicense">Car License</label>
+                    :
+                </div>
+                <div class="col-sm-8" style="display:flex">
+                    <input type="text" id="txtCarLicense" class="form-control">
+                    <input type="button" class="btn btn-default" id="btnBrowseCar" value="..." onclick="SearchData('carlicense')" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <label id="lblTrailerNo">Trailer No</label>
             :
         </div>
         <div class="col-sm-4" style="display:flex">
-            <input type="text" id="txtDocNo" class="form-control">
+            <input type="text" id="txtTrailerNo" class="form-control">
         </div>
         <div class="col-sm-5">
             <div class="row">
                 <div class="col-sm-4">
-                    Doc Date
+                    <label id="lblDriver">Driver</label>                    
                     :
                 </div>
-                <div class="col-sm-8"><input type="date" id="txtDocDate" class="form-control"></div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-3">
-            Car License
-            :
-        </div>
-        <div class="col-sm-4">
-            <input type="text" id="txtCarLicense" class="form-control">
-        </div>
-        <div class="col-sm-5">
-            <div class="row">
-                <div class="col-sm-4">
-                    Driver
-                    :
-                </div>
-                <div class="col-sm-8">
+                <div class="col-sm-8" style="display:flex;">
                     <input type="text" id="txtDriver" class="form-control">
+                    <input type="button" class="btn btn-default" id="btnBrowseDriver" value="..." onclick="SearchData('driver')" />
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-3">
-            Fuel Type
+            <label id="lblFuelType">Fuel Type</label>            
             :
         </div>
         <div class="col-sm-4">
@@ -85,7 +102,7 @@ End Code
         <div class="col-sm-5">
             <div class="row">
                 <div class="col-sm-4">
-                    Station Code
+                    <label id="lblStationCode">Station Code</label>                    
                     :
                 </div>
                 <div class="col-sm-8">
@@ -97,7 +114,7 @@ End Code
     </div>
     <div class="row">
         <div class="col-sm-3">
-            Payment Type
+            <label id="lblPaymentType">Payment Type</label>            
             :
         </div>
         <div class="col-sm-4">
@@ -107,7 +124,7 @@ End Code
         <div class="col-sm-5">
             <div class="row">
                 <div class="col-sm-4">
-                    Station InvNo
+                    <label id="lblStationInvNo">Station InvNo</label>                    
                     :
                 </div>
                 <div class="col-sm-8">
@@ -118,7 +135,7 @@ End Code
     </div>
     <div class="row">
         <div class="col-sm-3">
-            Mile Begin
+            <label id="lblMileBegin">Mile Begin</label>            
             :
         </div>
         <div class="col-sm-4">
@@ -127,7 +144,7 @@ End Code
         <div class="col-sm-5">
             <div class="row">
                 <div class="col-sm-4">
-                    Mile End
+                    <label id="lblMileEnd">Mile End</label>                    
                     :
                 </div>
                 <div class="col-sm-8"><input type="number" id="txtMileEnd" class="form-control" value="0.00" onchange="CalculateMile()"></div>
@@ -136,7 +153,7 @@ End Code
     </div>
     <div class="row">
         <div class="col-sm-3">
-            Mile Total
+            <label id="lblMileTotal">Mile Total</label>            
             :
         </div>
         <div class="col-sm-4">
@@ -145,7 +162,7 @@ End Code
         <div class="col-sm-5">
             <div class="row">
                 <div class="col-sm-4">
-                    Budget Volume
+                    <label id="lblBudgetVolume">Budget Volume</label>                    
                     :
                 </div>
                 <div class="col-sm-8"><input type="number" id="txtBudgetVolume" class="form-control" value="0.00"></div>
@@ -154,7 +171,7 @@ End Code
     </div>
     <div class="row">
         <div class="col-sm-3">
-            Budget Value
+            <label id="lblBudgetValue">Budget Value</label>            
             :
         </div>
         <div class="col-sm-4">
@@ -163,7 +180,7 @@ End Code
         <div class="col-sm-5">
             <div class="row">
                 <div class="col-sm-4">
-                    Actual Volume
+                    <label id="lblActualVolume">Actual Volume</label>                    
                     :
                 </div>
                 <div class="col-sm-8"><input type="number" id="txtActualVolume" class="form-control" value="0.00" onchange="CalculateTotal()"></div>
@@ -172,7 +189,7 @@ End Code
     </div>
     <div class="row">
         <div class="col-sm-3">
-            Unit Price
+            <label id="lblUnitPrice">Unit Price</label>            
             :
         </div>
         <div class="col-sm-4">
@@ -181,7 +198,7 @@ End Code
         <div class="col-sm-5">
             <div class="row">
                 <div class="col-sm-4">
-                    Total Amount
+                    <label id="lblTotalAmount">Total Amount</label>                    
                     :
                 </div>
                 <div class="col-sm-8"><input type="number" id="txtTotalAmount" class="form-control" value="0.00"></div>
@@ -190,7 +207,7 @@ End Code
     </div>
     <div class="row">
         <div class="col-sm-3">
-            Remark
+            <label id="lblRemark">Remark</label>            
             :
         </div>
         <div class="col-sm-4">
@@ -199,7 +216,7 @@ End Code
         <div class="col-sm-5">
             <div class="row">
                 <div class="col-sm-4">
-                    Total Weight
+                    <label id="lblTotalWeight">Total Weight</label>                    
                     :
                 </div>
                 <div class="col-sm-8"><input type="number" id="txtTotalWeight" class="form-control" value="0.00"></div>
@@ -210,7 +227,7 @@ End Code
         <div class="col-sm-3">
             <div class="row">
                 <div class="col-sm-5">
-                    Create By
+                    <label id="lblCreateBy">Create By</label>                    
                     :
                 </div>
                 <div class="col-sm-7"><input type="text" id="txtCreateBy" class="form-control" disabled></div>
@@ -218,7 +235,7 @@ End Code
 
             <div class="row">
                 <div class="col-sm-5">
-                    Create Date
+                    <label id="lblCreateDate">Create Date</label>                    
                     :
                 </div>
                 <div class="col-sm-7"><input type="date" id="txtCreateDate" class="form-control" disabled></div>
@@ -228,14 +245,14 @@ End Code
         <div class="col-sm-3">
             <div class="row">
                 <div class="col-sm-5">
-                    Update By
+                    <label id="lblUpdateBy">Update By</label>                    
                     :
                 </div>
                 <div class="col-sm-7"><input type="text" id="txtUpdateBy" class="form-control" disabled></div>
             </div>
             <div class="row">
                 <div class="col-sm-5">
-                    Last Update
+                    <label id="lblLastUpdate">Last Update</label>                    
                     :
                 </div>
                 <div class="col-sm-7"><input type="date" id="txtLastUpdate" class="form-control" disabled></div>
@@ -245,14 +262,15 @@ End Code
         <div class="col-sm-3">
             <div class="row">
                 <div class="col-sm-5">
-                    <input type="checkbox" id="chkApprove" onclick="ApproveData()" /> Approve By
+                    <input type="checkbox" id="chkApprove" onclick="ApproveData()" /> 
+                    <label id="lblApproveBy">Approve By</label>
                     :
                 </div>
                 <div class="col-sm-7"><input type="text" id="txtApproveBy" class="form-control" disabled></div>
             </div>
             <div class="row">
                 <div class="col-sm-5">
-                    Approve Date
+                    <label id="lblApproveDate">Approve Date</label>                    
                     :
                 </div>
                 <div class="col-sm-7"><input type="date" id="txtApproveDate" class="form-control" disabled></div>
@@ -262,21 +280,22 @@ End Code
         <div class="col-sm-3">
             <div class="row">
                 <div class="col-sm-5">
-                    <input type="checkbox" id="chkCancel" onclick="CancelData()" /> Cancel By
+                    <input type="checkbox" id="chkCancel" onclick="CancelData()" /> 
+                    <label id="lblCancelBy">Cancel By</label>                    
                     :
                 </div>
                 <div class="col-sm-7"><input type="text" id="txtCancelBy" class="form-control" disabled></div>
             </div>
             <div class="row">
                 <div class="col-sm-5">
-                    Cancel Date
+                    <label id="lblCancelDate">Cancel Date</label>                    
                     :
                 </div>
                 <div class="col-sm-7"><input type="date" id="txtCancelDate" class="form-control" disabled></div>
             </div>
             <div class="row">
                 <div class="col-sm-5">
-                    Cancel Reason
+                    <label id="lblCancelReason">Cancel Reason</label>                    
                     :
                 </div>
                 <div class="col-sm-7"><input type="text" id="txtCancelReason" class="form-control"></div>
@@ -316,6 +335,16 @@ End Code
         $('#txtJNo').val(job);
         $('#txtBookingNo').val(booking);
         $('#txtBookingItemNo').val(item);
+        $.get(path + 'JobOrder/GetTransport?Branch=' + branch + '&Code=' + booking + '&Job=' + job + '&Item=' + item).done(function (r) {
+            if (r.transport.detail.length > 0) {
+                let d = r.transport.detail[0];
+                $('#txtCarLicense').val(d.TruckNO);
+                $('#txtDriver').val(d.Driver);
+                $('#txtMileBegin').val(d.MileBegin);
+                $('#txtMileEnd').val(d.MileEnd);
+                CalculateMile();
+            }
+        });
     }
     if (branch !== '' && code !== '') {
         $('#txtDocNo').val(code);
@@ -352,6 +381,10 @@ End Code
             CreateLOV(dv, '#frmSearchBook', '#tbBook', 'Booking', response, 4);
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
+            //Driver
+            CreateLOV(dv, '#frmSearchDriver', '#tbDriver', 'Driver', response, 2);
+            //CarLicense
+            CreateLOV(dv, '#frmSearchCarLicense', '#tbCarLicense', 'Car License', response, 2);
         });
     }
     //CRUD Functions used in HTML Java Scripts
@@ -371,6 +404,7 @@ End Code
         $('#txtDocNo').val(dr.DocNo);
         $('#txtDocDate').val(CDateEN(dr.DocDate));
         $('#txtCarLicense').val(dr.CarLicense);
+        $('#txtTrailerNo').val(dr.TrailerNo);
         $('#txtDriver').val(dr.Driver);
         $('#txtFuelType').val(dr.FuelType);
         $('#txtBudgetVolume').val(dr.BudgetVolume);
@@ -444,6 +478,7 @@ End Code
             BookingNo:$('#txtBookingNo').val(),
             BookingItemNo:$('#txtBookingItemNo').val(),
             JNo: $('#txtJNo').val(),
+            TrailerNo: $('#txtTrailerNo').val()
         };
         ShowConfirm("Do you need to Save " + obj.DocNo + "?",function(ask){
             if (ask == false) return;
@@ -464,7 +499,7 @@ End Code
                     ShowMessage(response.result.msg);
                 },
                 error: function (e) {
-                    ShowMessage(e);
+                    ShowMessage(e,true);
                 }
             });
         });
@@ -474,8 +509,6 @@ End Code
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
         $('#txtDocNo').val('');
         $('#txtDocDate').val(GetToday());
-        $('#txtCarLicense').val('');
-        $('#txtDriver').val('');
         $('#txtFuelType').val('');
         $('#txtBudgetVolume').val('0.00');
         $('#txtBudgetValue').val('0.00');
@@ -490,6 +523,8 @@ End Code
         $('#txtMileTotal').val('0.00');
         $('#txtRemark').val('');
         $('#txtTotalWeight').val('0.00');
+        $('#txtTrailerNo').val('');
+
         $('#txtCreateBy').val(user);
         $('#txtCreateDate').val(GetToday());
         $('#txtUpdateBy').val(user);
@@ -499,10 +534,13 @@ End Code
         $('#txtCancelBy').val('');
         $('#txtCancelDate').val('');
         $('#txtCancelReason').val('');
-        $('#txtBookingNo').val('');
-        $('#txtBookingItemNo').val('');
-        $('#txtJNo').val('');
-
+        if (booking == '') {
+            $('#txtBookingNo').val('');
+            $('#txtBookingItemNo').val('');
+            $('#txtJNo').val('');
+            $('#txtCarLicense').val('');
+            $('#txtDriver').val('');
+        }
         $('#chkApprove').prop('checked', false);
         $('#chkCancel').prop('checked', false);
         $('#btnSave').removeAttr('disabled');
@@ -520,6 +558,12 @@ End Code
             case 'addfuel':
                 SetGridAddFuel(path, '#tbFuel', '?Branch=' + $('#txtBranchCode').val(), '#frmSearchFuel', ReadData);
                 break;
+            case 'driver':
+                SetGridEmployee(path, '#tbDriver', '#frmSearchDriver', ReadDriver);
+                break;
+            case 'carlicense':
+                SetGridCar(path, '#tbCarLicense', '#frmSearchCarLicense', ReadCarLicense);
+                break;
         }
     }
     function ReadBranch(dt) {
@@ -531,9 +575,17 @@ End Code
         $('#txtJNo').val(dr.JNo);
         $('#txtBookingNo').val(dr.BookingNo);
         $('#txtBookingItemNo').val(dr.ItemNo);
+        $('#txtCarLicense').val(dr.TruckNO);
+        $('#txtDriver').val(dr.Driver);
         $('#txtMileBegin').val(dr.MileBegin);
         $('#txtMileEnd').val(dr.MileEnd);
         CalculateMile();
+    }
+    function ReadDriver(dt) {
+        $('#txtDriver').val(dt.Name);
+    }
+    function ReadCarLicense(dt) {
+        $('#txtCarLicense').val(dt.CarLicense);
     }
     function CancelData() {
         let state = $('#chkCancel').prop('checked');
@@ -544,20 +596,20 @@ End Code
                 $('#txtCancelBy').val('');
                 $('#btnSave').removeAttr('disabled');
             } else {
-                alert("You can't re-open this document");
+                ShowMessage("You can't re-open this document",true);
                 $('#chkCancel').prop('checked', true);
             }
         } else {
             if ($('#txtCancelBy').val() == '' && $('#txtApproveBy').val() == '') {
                 if ($('#txtCancelReason').val() == '') {
-                    alert('You must provide reason of cancelling this document');
+                    ShowMessage('You must provide reason of cancelling this document',true);
                     $('#chkCancel').prop('checked', false);
                     return;
                 }
                 $('#txtCancelDate').val(GetToday());
                 $('#txtCancelBy').val(user);
             } else {
-                alert("You can't cancel this document");
+                ShowMessage("You can't cancel this document",true);
                 $('#chkCancel').prop('checked', false);
             }
         }
@@ -570,7 +622,7 @@ End Code
                 $('#txtApproveBy').val('');
                 $('#btnSave').removeAttr('disabled');
             } else {
-                alert("You can't edit approved document");
+                ShowMessage("You can't edit approved document",true);
                 $('#chkApprove').prop('checked', true);
             }
         } else {
@@ -578,7 +630,7 @@ End Code
                 $('#txtApproveDate').val(GetToday());
                 $('#txtApproveBy').val(user);
             } else {
-                alert("You can't approve this document");
+                ShowMessage("You can't approve this document",true);
                 $('#chkApprove').prop('checked', false);
             }
         }

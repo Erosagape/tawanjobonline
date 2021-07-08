@@ -778,11 +778,21 @@ End Code
                         <div class="row">
                             <div class="col-sm-5">
                                 <label id="lblDriver">Driver</label>
-                                :<br /><div style="display:flex"><input type="text" id="txtDriver" class="form-control"></div>
+                                :
+                                <br />
+                                <div style="display:flex">
+                                    <input type="text" id="txtDriver" class="form-control">
+                                    <button class="btn btn-default" onclick="SearchData('driver')">...</button>
+                                </div>
                             </div>
                             <div class="col-sm-3">
                                 <label id="lblTruckNo">Truck ID</label>
-                                :<br /><div style="display:flex"><input type="text" id="txtTruckNO" class="form-control"></div>
+                                :
+                                <br />
+                                <div style="display:flex">
+                                    <input type="text" id="txtTruckNO" class="form-control">
+                                    <button class="btn btn-default" onclick="SearchData('carlicense')">...</button>
+                                </div>
                             </div>
                             <div class="col-sm-4">
                                 <label id="lblTruckType">Type</label>
@@ -1022,10 +1032,14 @@ End Code
             CreateLOV(dv, '#frmSearchPlace1', '#tbPlace1', 'Pick up', response, 1);
             CreateLOV(dv, '#frmSearchPlace2', '#tbPlace2', 'Delivery', response, 1);
             CreateLOV(dv, '#frmSearchPlace3', '#tbPlace3', 'Return', response, 1);
+            //Car
+            CreateLOV(dv, '#frmSearchCar', '#tbCar', 'Car License', response, 2);
+            //Emp
+            CreateLOV(dv, '#frmSearchEmp', '#tbEmp', 'Driver', response, 2);
         });
     }
     function SearchData(type) {
-                let w = '';
+        let w = '';
         switch (type) {
             case 'vender':
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
@@ -1086,7 +1100,19 @@ End Code
             case 'place3':
                 SetGridLocation(path, '#tbPlace3', '#frmSearchPlace3', '?Place=3', ReadReturn);
                 break;
+            case 'carlicense':
+                SetGridCar(path, '#tbCar', '#frmSearchCar', ReadCar);
+                break;            
+            case 'driver':
+                SetGridEmployee(path, '#tbEmp', '#frmSearchEmp', ReadEmp);
+                break;
         }
+    }
+    function ReadEmp(dt) {
+        $('#txtDriver').val(dt.Name);
+    }
+    function ReadCar(dt) {
+        $('#txtTruckNO').val(dt.CarLicense);
     }
     function ReadRoute(dt) {
         $('#txtRouteID').val(dt.LocationID);

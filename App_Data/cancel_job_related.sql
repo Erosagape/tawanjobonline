@@ -1,9 +1,9 @@
-use job_total
+use job_theso
 go
 update Job_Order
 set JobStatus=99,CancelDate=GetDate(),CancelProve='ADMIN',CancelReson='Training Job'
 from Job_Order 
-where Year(DocDate)=2021 and Month(DocDate)<=6 and JNo <>'IA21060006'
+where Year(DocDate)=2021 and Month(DocDate)=7
 and JobStatus<>99
 go
 Update h
@@ -66,27 +66,27 @@ on d.DocNo=a.ClrNo
 where d.DocType='CLR'
 and a.DocStatus=99 and h.CancelProve<>'ADMIN'
 go
-delete from Job_Order where isnull(CancelProve,'')<>'' and DocDate<'2021-07-01'
-delete from Job_CashControl where isnull(CancelProve,'')<>'' and VoucherDate<'2021-07-01'
+delete from Job_Order where isnull(CancelProve,'')<>'' and DocDate>='2021-07-01'
+delete from Job_CashControl where isnull(CancelProve,'')<>'' and VoucherDate>='2021-07-01'
 delete from Job_CashControlSub where ControlNo not in (SELECT ControlNo from Job_CashControl)
 delete from Job_CashControlDoc where ControlNo not in (SELECT ControlNo from Job_CashControl)
 delete from Job_CashControl where ControlNo not in(SELECT ControlNo from Job_CashControlSub)
 
-delete from Job_AdvHeader where isnull(CancelProve,'')<>'' and AdvDate<'2021-07-01'
+delete from Job_AdvHeader where isnull(CancelProve,'')<>'' and AdvDate>='2021-07-01'
 delete from Job_AdvDetail where AdvNo not in(select AdvNo From job_Advheader)
 delete from Job_AdvHeader where AdvNo not in(select AdvNo From job_AdvDetail)
 delete from Job_ClearHeader where isnull(CancelProve,'')<>'' and ClrDate<'2021-07-01'
 delete from Job_ClearDetail where ClrNo not in(select ClrNo From job_Clearheader)
 delete from Job_ClearHeader where ClrNo not in(select ClrNo From job_ClearDetail)
-delete from Job_InvoiceHeader where isnull(CancelProve,'')<>'' and DocDate<'2021-07-01'
+delete from Job_InvoiceHeader where isnull(CancelProve,'')<>'' and DocDate>='2021-07-01'
 delete from Job_InvoiceDetail where DocNo not in(select DocNo From job_Invoiceheader)
 delete from Job_InvoiceHeader where DocNo not in(select DocNo From job_InvoiceDetail)
-delete from Job_BillAcceptHeader where isnull(CancelProve,'')<>'' and BillDate<'2021-07-01'
+delete from Job_BillAcceptHeader where isnull(CancelProve,'')<>'' and BillDate>='2021-07-01'
 delete from Job_BillAcceptDetail where BillAcceptNo not in(select BillAcceptNo From job_BillAcceptheader)
 delete from Job_BillAcceptHeader where BillAcceptNo not in(select BillAcceptNo From job_BillAcceptDetail)
-delete from Job_ReceiptHeader where isnull(CancelProve,'')<>'' and ReceiptDate<'2021-07-01'
+delete from Job_ReceiptHeader where isnull(CancelProve,'')<>'' and ReceiptDate>='2021-07-01'
 delete from Job_ReceiptDetail where ReceiptNo not in(select ReceiptNo From job_Receiptheader)
 delete from Job_ReceiptHeader where ReceiptNo not in(select ReceiptNo From job_ReceiptDetail)
-delete from Job_PaymentHeader where DocDate<'2021-07-01'
+delete from Job_PaymentHeader where DocDate>='2021-07-01'
 delete from Job_PaymentDetail where DocNo not in(SELECT DocNo from Job_PaymentHeader)
 delete from Job_PaymentHeader where DocNo not in(SELECT DocNo from Job_PaymentDetail)

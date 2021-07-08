@@ -290,6 +290,15 @@ Public Class CAddFuel
             m_JNo = value
         End Set
     End Property
+    Private m_TrailerNo As String
+    Public Property TrailerNo As String
+        Get
+            Return m_TrailerNo
+        End Get
+        Set(value As String)
+            m_TrailerNo = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -335,6 +344,7 @@ Public Class CAddFuel
                             dr("BookingNo") = Me.BookingNo
                             dr("BookingItemNo") = Me.BookingItemNo
                             dr("JNo") = Me.JNo
+                            dr("TrailerNo") = Me.TrailerNo
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             msg = "Save Complete"
@@ -456,6 +466,9 @@ Public Class CAddFuel
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("JNo"))) = False Then
                         row.JNo = rd.GetString(rd.GetOrdinal("JNo")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("TrailerNo"))) = False Then
+                        row.TrailerNo = rd.GetString(rd.GetOrdinal("TrailerNo")).ToString()
                     End If
                     lst.Add(row)
                 End While

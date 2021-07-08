@@ -3,6 +3,8 @@
 End Code
 <div class="row">
     <div class="col-md-12 text-center" >
+        @ViewBag.Result
+        <br/>
         <img src="~/Resource/jobtawan_bg.jpg" style="width:100%"/>
     </div>
 </div>
@@ -10,7 +12,7 @@ End Code
     <div class="modal-dialog-lg">
         <div class="modal-content">
             <div class="modal-body">
-                Syncing Data...
+                Please wait...
             </div>
         </div>
     </div>
