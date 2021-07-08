@@ -24,7 +24,7 @@ End Code
     }
 
     .table td, .table th, .table thead th {
-        padding: 0.5em;
+        padding: 0.3em;
     }
 
     .curveBorder {
@@ -58,7 +58,7 @@ End Code
     <label style="font-size:16px">ใบแจ้งหนี้/INVOICE</label>
 </div>
 
-<div style="display:flex">
+<div style="display:flex;width:98%" >
     <div style="flex:60%" class="curveBorder">
         <table class="table table-borderless">
             <tbody>
@@ -73,15 +73,28 @@ End Code
                 <tr>
                     <td>
                         <label id="billName"></label>
-                        <div id="billAddress"></div>
                     </td>
                 </tr>
+		<tr>
+                    <td>
+                        <label id="billAddress1"></label>
+                    </td>
+                </tr>
+		<tr>
+                    <td>
+                        <label id="billAddress2"></label>
+                    </td>
+                </tr>
+		<tr>
+                    <td>
+                        <label id="billContactInfo"></label>
+                    </td>
+                </tr>
+		
             </tbody>
         </table>
     </div>
-    <div style="flex:2%">
-
-    </div>
+    <div style="flex:2%"></div>
     <div style="flex:38%" class="curveBorder">
         <table class="table table-borderless">
             <tbody>
@@ -213,7 +226,7 @@ End Code
     </tbody>
 </table>
 
-<table class="table" style="border-width:thin;border-collapse:collapse;width:100%" border="1">
+<table class="table" style="border-width:thin;border-collapse:collapse;width:98%" border="1">
     <thead>
         <tr class="upperLine underLine">
             <th class="bold align-top" rowspan="2">DESCRIPTION</th>
@@ -235,7 +248,7 @@ End Code
     <tbody id="details">
     </tbody>
 </table>
-<table class="table">
+<table class="table" style="width:98%">
     <thead></thead>
     <tbody>
         <tr class="upperLine">
@@ -351,8 +364,9 @@ End Code
                 let addr = '';
                 addr += b.EAddress1 + '<br/>' + c.EAddress2;
                 addr += '<br/>Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch;
-
-                $("#billAddress").html(addr);
+		$("#billAddress1").text(b.EAddress1);
+		$("#billAddress2").text(c.EAddress2);
+		$("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch);
 	        });
             $("#id").text(h.CustCode);
             //$("#billName").text(c.NameEng);
