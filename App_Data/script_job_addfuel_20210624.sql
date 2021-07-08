@@ -37,6 +37,7 @@ CREATE TABLE [dbo].[Job_AddFuel](
 	[BookingNo] [nvarchar](50) NULL,
 	[BookingItemNo] [int] NULL,
 	[JNo] [nvarchar](15) NULL,
+	[TrailerNo] [nvarchar](50) NULL,
  CONSTRAINT [PK_Job_AddFuel] PRIMARY KEY CLUSTERED 
 (
 	[BranchCode] ASC,

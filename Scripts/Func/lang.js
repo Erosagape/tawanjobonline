@@ -3790,7 +3790,8 @@ function GetLangForm(fname) {
                 lblApproveDate: 'Approve Date|วันที่อนุมัติ',
                 lblCancelBy: 'Cancel By|ผู้ยกเลิก',
                 lblCancelDate: 'Cancel Date|วันที่ยกเลิก',
-                lblCancelReason: 'Cancel Reason|เหตุผลที่ยกเลิก'
+                lblCancelReason: 'Cancel Reason|เหตุผลที่ยกเลิก',
+                lblTrailerNo:'Trailer No|เลขทะเบียนรถพ่วง'
             };
             break;
     }
