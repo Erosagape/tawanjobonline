@@ -348,7 +348,21 @@ Namespace Controllers
                         If data.AdvDate = DateTime.MinValue Then
                             data.AdvDate = Today.Date
                         End If
-                        data.AddNew(prefix & data.AdvDate.ToString("yyMM") & "____")
+                        Dim fmt = Main.GetValueConfig("RUNNING", "ADV")
+                        If fmt <> "" Then
+                            If fmt.IndexOf("bb") >= 0 Then
+                                fmt = fmt.Replace("bb", data.AdvDate.AddYears(543).ToString("yy"))
+                            End If
+                            If fmt.IndexOf("MM") >= 0 Then
+                                fmt = fmt.Replace("MM", data.AdvDate.ToString("MM"))
+                            End If
+                            If fmt.IndexOf("yy") >= 0 Then
+                                fmt = fmt.Replace("yy", data.AdvDate.ToString("yy"))
+                            End If
+                        Else
+                            fmt = data.AdvDate.ToString("yyMM") & "____"
+                        End If
+                        data.AddNew(prefix & fmt)
                     End If
 
                     If AuthorizeStr.IndexOf("E") < 0 Then

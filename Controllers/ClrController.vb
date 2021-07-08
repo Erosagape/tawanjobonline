@@ -658,14 +658,24 @@ Namespace Controllers
                         Select Case data.ClearType
                             Case 2
                                 runningFormat = GetValueConfig("RUNNING_FORMAT", "CLR_COST", costPrefix)
-                                data.AddNew(runningFormat & data.ClrDate.ToString("yyMM") & "_____")
                             Case 3
                                 runningFormat = GetValueConfig("RUNNING_FORMAT", "CLR_SERV", servPrefix)
-                                data.AddNew(runningFormat & data.ClrDate.ToString("yyMM") & "_____")
-                            Case Else
-                                data.AddNew(runningFormat & data.ClrDate.ToString("yyMM") & "_____")
                         End Select
-
+                        Dim fmt = Main.GetValueConfig("RUNNING", "CLR")
+                        If fmt <> "" Then
+                            If fmt.IndexOf("bb") >= 0 Then
+                                fmt = fmt.Replace("bb", data.ClrDate.AddYears(543).ToString("yy"))
+                            End If
+                            If fmt.IndexOf("MM") >= 0 Then
+                                fmt = fmt.Replace("MM", data.ClrDate.ToString("MM"))
+                            End If
+                            If fmt.IndexOf("yy") >= 0 Then
+                                fmt = fmt.Replace("yy", data.ClrDate.ToString("yy"))
+                            End If
+                        Else
+                            fmt = data.ClrDate.ToString("yyMM") & "____"
+                        End If
+                        data.AddNew(runningFormat & fmt)
                     End If
 
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND ClrNo='{1}' ", data.BranchCode, data.ClrNo))

@@ -3766,7 +3766,7 @@ function GetLangForm(fname) {
                 lblJNo: 'Job No|หมายเลขงาน',
                 lblDocNo: 'Doc No|เลขที่เอกสาร',
                 lblDocDate: 'Doc Date|วันที่เอกสาร',
-                lblCarLicense: 'Car License|ทะเบียนรถ',
+                lblCarLicense: 'Car License|ทะเบียนรถหัวลาก',
                 lblDriver: 'Driver|พนักงานขับรถ',
                 lblFuelType: 'Fuel Type|ประเภทเชื้อเพลิง',
                 lblStationCode: 'Station Code|สถานีบริการ',

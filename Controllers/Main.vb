@@ -2850,7 +2850,7 @@ select b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Co
 ,REPLACE(a.CustID,b.CustID+'/','') as UserID
 ,Convert(varchar,Max(a.LogDateTime),103) as LastLogin
 from TWTLog a,TWTCustomer b
-where b.CustID='" & My.MySettings.Default.LicenseTo.ToString() & "' AND CHARINDEX(b.CustID,a.CustID)>0
+where b.CustID='" & My.MySettings.Default.LicenseTo.ToString() & "' AND CHARINDEX(b.CustID+'/',a.CustID)>0
 AND REPLACE(a.CustID,b.CustID+'/','') NOT IN('ADMIN','CS','BOAT','pasit','test')
 group by b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2),REPLACE(a.CustID,b.CustID+'/','')
 ) tb

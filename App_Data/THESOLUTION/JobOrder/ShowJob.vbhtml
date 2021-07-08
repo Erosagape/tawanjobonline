@@ -1221,7 +1221,7 @@ End Code
                 break;
             case 'job':
                 let dbID = ('@ViewBag.DATABASE' == '1' ? '2' : '1');
-                SetGridJob(path, '#tbJob', '#frmSearchJob', '?DBID='+ dbID +'&CustCode=' + $('#txtCustCode').val(), function (r) {
+                SetGridJob(path, '#tbJob', '#frmSearchJob', '?DBID='+ dbID, function (r) {
                     $('#txtCustPoNo').val(r.JNo);
                     ReadJob(r);
                 });

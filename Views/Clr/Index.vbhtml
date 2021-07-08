@@ -59,10 +59,11 @@ End Code
                         <table style="width:100%">
                             <tr>
                                 <td>
-                                    <label id="lblContNo" style="color:red" onclick="SearchData('container')">Container No:</label>                                    
+                                    <label id="lblContNo" style="color:red">Container No:</label>                                    
                                 </td>
                                 <td style="display:flex;flex-direction:row">
                                     <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" />
+                                    <button class="btn btn-default" onclick="SearchData('container')">...</button>
                                 </td>
                                 <td>
                                     <label id="lblClearanceDate">Clearance Date :</label>                                    
@@ -1943,6 +1944,8 @@ End Code
         job = dt.JNo;
         SetJob();
         $('#txtCTN_NO').val(dt.CTN_NO);
+        $('#txtCoPersonCode').val(dt.Driver);
+        $('#txtTRemark').val(dt.Location);
     }
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);

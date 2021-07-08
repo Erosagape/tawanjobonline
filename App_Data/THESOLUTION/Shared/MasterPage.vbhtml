@@ -27,7 +27,7 @@
 <body style="background:#e6e6e6;color:black;">
     <!-- Sidebar -->
     <div class="w3-sidebar w3-bar-block w3-animate-left" style="display:none;z-index:5" id="mySidebar">
-        <div class="w3-sidebar w3-bar-block w3-indigo w3-card" style="width:250px;">
+        <div id="myMenuBar" class="w3-sidebar w3-bar-block w3-indigo w3-card" style="width:250px;">
             <div style="background-color:midnightblue;">
                 Select Menu :
                 <select id="cboMenu" onchange="SwitchMenu()">
@@ -382,7 +382,7 @@
         <div class="w3-container" style="margin-bottom:10px">
             <!-- Page Content -->
             <div Class="panel-primary">
-                <div Class="panel-heading w3-indigo">
+                <div id="myTitleBar" Class="panel-heading w3-indigo">
                     <div Class="panel-title">
                         <div class="row">
                             <div class="col-xs-5 col-md-2" style="text-align:center">

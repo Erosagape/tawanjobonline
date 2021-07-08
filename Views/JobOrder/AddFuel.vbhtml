@@ -340,6 +340,9 @@ End Code
                 let d = r.transport.detail[0];
                 $('#txtCarLicense').val(d.TruckNO);
                 $('#txtDriver').val(d.Driver);
+                $('#txtMileBegin').val(d.MileBegin);
+                $('#txtMileEnd').val(d.MileEnd);
+                CalculateMile();
             }
         });
     }

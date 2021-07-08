@@ -91,12 +91,14 @@ End Code
                 <div style="flex: 1;text-align: center;"><label id="bahtText"></label></div>
                 )
             </td>
-            <td> </td>
-            <td></td>
+            <td>น้ำหนัก</td>
+            <td class="dottedUnderline">
+                <label id="weight"></label>
+            </td>
         </tr>
         <tr>
             <td>หมายเหตุ</td>
-            <td class="dottedUnderline" colspan="4"><label id="weight">น้ำหนัก 11559 ตัน</label></td>
+            <td class="dottedUnderline" colspan="4"><label id="remark">น้ำหนัก 11559 ตัน</label></td>
         </tr>
         <tr>
             <td colspan="5">ขอให้ทางปั๊มเดิมน้ำมันดังกล่าวข้างต้นด้วย</td>
@@ -139,7 +141,8 @@ End Code
             $('#jobNo').text(d.JNo);
             $('#baht').text(d.TotalAmount);
             $('#bahtText').text(CNumThai(d.TotalAmount));
-            $('#weight').text(d.Remark);
+            $('#remark').text(d.Remark);
+            $('#weight').text(d.TotalWeight);
         }
     });
 </script>

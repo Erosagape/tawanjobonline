@@ -1141,6 +1141,7 @@
     <Content Include="App_Data\TOTAL\Acc\FormVoucher.vbhtml" />
     <Content Include="App_Data\THESOLUTION\JobOrder\ShowJob.vbhtml" />
     <Content Include="App_Data\THESOLUTION\Shared\MasterPage.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\Clr\FormClr.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
