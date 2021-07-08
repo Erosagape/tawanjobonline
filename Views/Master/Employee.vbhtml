@@ -190,9 +190,7 @@ End Code
                 break;
         }
     }
-    function ReadBranch(dr) {
-        $('#txtEmployee').val(dr.Employee);
-    }
+ 
      
     //$('.col-sm-4').each(function (index, value) {
     //    console.log(value);
