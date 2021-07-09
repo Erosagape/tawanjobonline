@@ -18,7 +18,7 @@
         }
         
         tr td {
-            border-color: white;
+            border-style:none;
         }
         
         .right {
@@ -27,9 +27,16 @@
         
         .box {
             width: 100%;
-            border: 2px solid grey;
-            border-radius: 20px;
+            border: 1px solid #D6D3D3;
+            border-radius: 10px;
             height: 200px;
+            padding: 10px;
+        }
+        .upperLine {
+            border-top: 1px solid black;
+        }
+        .underLine {
+            border-bottom: 1px solid black;
         }
     </style>
 </head>
@@ -42,50 +49,54 @@
         <tbody>
             <tr>
                 <td>
-                    <table class="table box">
-                        <tbody>
-                            <tr>
-                                <td colspan="6"><label id="companyID"></label></td>
-                            </tr>
-                            <tr>
-                                <td colspan="6"><label id="address1"></label> <label id="address2"></label></td>
-                            </tr>
-                            <tr>
-                                <td rowspan="2" style="width:15em">เลขประจำตัวผู้เสียภาษี</td>
-                                <td rowspan="2">:</td>
-                                <td rowspan="2"><label id="taxID"></label></td>
-                                <td rowspan="2"></td>
-                                <td rowspan="2"></td>
-                                <td rowspan="2"><label>[x]สำนักงานใหญ่</label></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="box">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td colspan="6"><label id="companyID"></label></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6"><label id="address1"></label> <label id="address2"></label></td>
+                                </tr>
+                                <tr >
+                                    <td><br><br></td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2" colspan="5" style="width:15em">เลขประจำตัวผู้เสียภาษี : <label id="taxID"></label></td>
+                                    <td rowspan="2"><label>[x]สำนักงานใหญ่</label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </td>
-                <td style="width:30%">
-                    <table class="table">
-                        <tbody>
-                            <tr>
-                                <td colspan="3"></td>
-                                Invoice/ใบแจ้งหนี้
-                </td>
-                </tr>
-                <tr>
-                    <td style="width:100px">No.</td>
-                    <td>:</td>
-                    <td><label id="invNo"></label></td>
-                </tr>
-                <tr>
-                    <td>Date.</td>
-                    <td>:</td>
-                    <td><label id="date"></label></td>
-                </tr>
-                <tr>
-                    <td>Due date.</td>
-                    <td>:</td>
-                    <td><label id="dueDate"></label></td>
-                </tr>
-                </tbody>
-                </table>
+                <td style="width:35%">
+                    <div class="box">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="center" colspan="3">
+                                       <h5>INVOICE/ใบแจ้งหนี้</h5> 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:100px">No.</td>
+                                    <td>:</td>
+                                    <td><label id="invNo"></label></td>
+                                </tr>
+                                <tr>
+                                    <td>Date.</td>
+                                    <td>:</td>
+                                    <td><label id="date"></label></td>
+                                </tr>
+                                <tr>
+                                    <td>Due date.</td>
+                                    <td>:</td>
+                                    <td><label id="dueDate"></label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                   
                 </td>
             </tr>
         </tbody>
@@ -94,8 +105,8 @@
     <table class="container table">
         <tbody>
             <tr>
-                <td colspan="6" class="center">Particulars/รายการ</td>
-                <td colspan="3" class="center">Amount/จำนวนเงิน</td>
+                <td colspan="6" class="center upperLine underLine">Particulars/รายการ</td>
+                <td colspan="3" class="center upperLine underLine">Amount/จำนวนเงิน</td>
             </tr>
             <tr>
                 <td><label id="containerSize"></label></td>
@@ -107,7 +118,7 @@
                 <td colspan="3"></td>
             </tr>
             <tr>
-                <td>Route</td>
+                <td><b>Route</b></td>
                 <td colspan="6">
                     : <label id="route"></label>
                 </td>
@@ -158,30 +169,30 @@
             <tr>
                 <td colspan="9">หมายเหตุ :<label id="remark"></label></td>
             </tr>
-            <tr>
-                <td colspan="6"></td>
-                <td class="right"><label id="sum1"></label></td>
-                <td class="right"></td>
-                <td class="right"><label id="sum2"></label></td>
+            <tr >
+                <td class="upperLine underLine" colspan="6"></td>
+                <td class="right upperLine underLine"><label id="sum1"></label></td>
+                <td class="right upperLine underLine"></td>
+                <td class="right upperLine underLine"><label id="sum2"></label></td>
             </tr>
             <tr>
-                <td colspan="6">(<label id="totalText"></label>)</td>
-                <td class="right">Total</td>
-                <td class="right"></td>
-                <td class="right"><label id="total"></label></td>
+                <td class="upperLine underLine"  colspan="6">(<label id="totalText"></label>)</td>
+                <td class="right upperLine underLine">Total</td>
+                <td class="right upperLine underLine"></td>
+                <td class="right upperLine underLine"><label id="total"></label></td>
             </tr>
         </tbody>
     </table>
     <div class="container">
-        <div class="row">
+        <div class="row" style="display: flex;">
             <div class="col-8">
-                <p>ผู้รับบิล .................................</p>
-                <p>นัดชำระเงิน วันที่...........................</p>
+                <p style="white-space: nowrap;">ผู้รับบิล .................................</p>
+                <p style="white-space: nowrap;">นัดชำระเงิน วันที่...........................</p>
             </div>
-            <div class="col-4 center">
-                <p>บริษัท เดอะโซลูชั่น โลจิสติกส์ จำกัด</p>
-                <p>.........................................................................</p>
-                <p>Authorized Signature</p>
+            <div class="col-4 center" >
+                <p style="white-space: nowrap;">บริษัท เดอะโซลูชั่น โลจิสติกส์ จำกัด</p>
+                <p style="white-space: nowrap;">.........................................................................</p>
+                <p style="white-space: nowrap;">Authorized Signature</p>
             </div>
         </div>
 
