@@ -10,7 +10,7 @@ End Code
             <label id="lblAdvNo" style="text-decoration-line:underline"></label>
         </td>
         <td align="right" style="font-size:11px">
-            <input type="text" value="ADVANCE" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
+            <input type="text" value="ADVANCE REQUEST" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
         </td>
     </tr>
     <tr>
@@ -92,13 +92,10 @@ End Code
             <label id="lblAccNo">______________</label>
             <label id="txtAdvCash"></label>
         </td>
-        <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">
-            VAT
-        </td>
+        <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Amount</td>
         <td style="border-style:solid;border-width:thin" width="150px">
-            <input type="text" style="border:none;text-align:right;font-size:11px" id="txtVATAmt" />
+            <input type="text" style="border:none;text-align:right;font-size:11px" id="txtAmt" />
         </td>
-
     </tr>
     <tr>
         <td style="text-align:left;font-size:11px">
@@ -106,23 +103,20 @@ End Code
             <label id="lblcustChqNo">__________</label> DEP.DATE :
             <label id="lblDepDate">________</label>
             <label id="txtAdvChqCash"></label>
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Amount+Vat</td>
+      
+        <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">VAT</td>
         <td style="border-style:solid;border-width:thin" width="150px">
-            <input type="text" style="border:none;text-align:right;font-size:11px" id="txtTotalAmt" />
+            <input type="text" style="border: none; text-align: right; font-size: 11px; width: 100%" id="txtVATAmt" />
         </td>
-
     </tr>
     <tr>
         <td style="text-align:left;font-size:11px">
             <input type="checkbox" id="chkCompChq" /> CHQ NO :
             <label id="lblCompChqNo">__________</label> CHQ.DATE :
-            <label id="lblChqDate">________</label>
-            <label id="txtAdvChq"></label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">WH-Tax</td>
         <td style="border-style:solid;border-width:thin" width="150px">
-            <input type="text" style="border:none;text-align:right;font-size:11px" id="txtWHTAmt" />
+            <input type="text" style="border: none; text-align: right; font-size: 11px; width: 100%" id="txtWHTAmt" />
         </td>
     </tr>
     <tr>
@@ -131,9 +125,18 @@ End Code
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Net Total</td>
         <td style="border-style:solid;border-width:thin" width="150px">
-            <input type="text" style="border:none;text-align:right;font-size:11px" id="txtNetAmt" />
+            <input type="text" style="border: none; text-align: right; font-size: 11px; width: 100%" id="txtNetAmt" />
         </td>
-
+    </tr>
+    <tr>
+        <!--<td style="text-align:left;font-size:11px;">
+            <b> Customer payment : ______________  <label id="txtCustomerPayment"> </label></b>
+        </td>-->
+        <td></td>
+        <td style="border-style: solid; border-width: thin; text-align: right; font-weight: bold;"  width="130px"><label style="color: red;font-size: 14px;">Customer Payment</label></td>
+        <td style="border-style: solid; border-width: thin; font-size: 16px" width="150px">
+            <input type="text" style="border: none; text-align: right; color: red; font-size: 14px; width: 100%; font-weight: bold;" id="txtCustomerPayment2" />
+        </td>
     </tr>
 </table>
             **ADVANCE WAIT FOR CLEAR AT @DateTime.Now IS
@@ -274,9 +277,11 @@ End Code
         $('#txtNetAmt').val(CCurrency(h.TotalAdvance.toFixed(2)));
         $('#txtVATAmt').val(CCurrency(h.TotalVAT.toFixed(2)));
         $('#txtWHTAmt').val(CCurrency(h.Total50Tavi.toFixed(2)));
-        $('#txtTotalAmt').val(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
-
-        $('#txtTotalText').val(CNumEng(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2))));
+     
+        //$('#txtTotalAmt').val(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
+        $('#txtCustomerPayment').text(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
+        $('#txtCustomerPayment2').val(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
+        $('#txtTotalText').val(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
         //show details
         let d = data.adv.detail;
         let jobno = d[0].ForJNo;
@@ -334,6 +339,7 @@ End Code
         $('#divDesc').html(strDesc);
         $('#divWht').html(strWht);
         $('#divAmt').html(strAmt);
+	$('#txtAmt').val(CCurrency(totAmt.toFixed(2)))
     }
 
             </script>
