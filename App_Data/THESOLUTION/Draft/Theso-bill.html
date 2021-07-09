@@ -26,15 +26,28 @@
             margin: 10px;
         }
         tr td{
-            border-color: white;
+            border-style:none
+        }
+        .upperLine {
+            border-top: 1px solid black;
+        }
+        .underLine {
+            border-bottom: 1px solid black;
         }
     </style>
 </head>
 <body>
     <div class="container" >
         <div class="row">
+            <div class="col-7"  style="margin:10px">
+                <label style="position:relative;top:2em;background-color: white;padding: 5px;font-size: 20px;">Customer</label>
+            </div>
+            <div class="col-4 center" style="margin:10px">
+                <label for="" style="position:relative;top:2em;background-color: white;padding: 5px;font-size: 20px;">ใบวางบิล</label>
+            </div>
+        </div>
+        <div class="row">
            <div class="col-7 box" >
-                <label style="position:relative;top:-1.5em;background-color: white;padding: 5px;font-size: 20px;">Customer</label>
                 <table class="table">
                     <tbody>
                         <tr>
@@ -50,20 +63,21 @@
                 </table>
             </div>
             <div class="col-4 box" >
-                <div class="center">
-                    <label for="" style="position:relative;top:-1.5em;background-color: white;padding: 5px;font-size: 20px;">ใบวางบิล</label>
-                </div>
-                <table class="table"> 
+                <table class="table" > 
                     <tbody>
                         <tr>
+                            <td style="width: 20%;"></td>
                             <td>เลขที่</td>
                             <td>:</td>
-                            <td><label id="no"></label></td>
+                            <td class="right"><label id="no"></label></td>
+                            <td style="width: 20%;"></td>
                         </tr>
                         <tr>
+                            <td></td>
                             <td><label>วันที่</label></td>
                             <td>:</td>
-                            <td><label id="date"></label></td>
+                            <td class="right"><label id="date"></label></td>
+                            <td></td>
                         </tr>
                     </tbody>
                 </table>
@@ -72,13 +86,13 @@
         <table class="table">
            <tbody>
                 <tr>
-                    <td class="center">ลำดับ</td>
-                    <td class="">เอกสาร</td>
-                    <td class="center">ลงวันที่</td>
-                    <td class="center">ครบกำหนดชำระ</td>
-                    <td class="center">TaxBase</td>
-                    <td class="center">VAT</td>
-                    <td class="center">จำนวนเงิน</td>
+                    <td class="center upperLine underLine">ลำดับที่</td>
+                    <td class="upperLine underLine">เอกสาร</td>
+                    <td class="center upperLine underLine">ลงวันที่</td>
+                    <td class="center upperLine underLine">ครบกำหนดชำระ</td>
+                    <td class="center upperLine underLine">TaxBase</td>
+                    <td class="center upperLine underLine">VAT</td>
+                    <td class="center upperLine underLine">จำนวนเงิน</td>
                 </tr>
                 <tr>
                     <td class="center">1</td>
@@ -95,13 +109,13 @@
                 <tr>
                     <td colspan="7">
                         <div class="row">
-                            <div class="col-5 box" style="display: flex;height: 150px;">
+                            <div class="col-6 box" style="display: flex;height: 150px;">
                                 <div>ค่าขนส่ง</div>
                                 <div class="right" style="flex:1">
                                     <label id="frieght"></label>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-5">
                                 <br>
                                 <label id="something"></label>
                             </div>
@@ -110,8 +124,8 @@
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="6">รวม (<label id="totalTxt"></label>)</td>
-                    <td><label id="total"></label> </td>
+                    <td class="upperLine underLine" colspan="6">รวม : (<label id="totalTxt"></label>)</td>
+                    <td class="upperLine underLine"><label id="total"></label> </td>
                 </tr>
            </tbody>
         </table>  
@@ -160,6 +174,7 @@
 </body>
 </html>
 <script>
+    
     let code = "";
     $('label').each((index,element)=>{
         if(element.id){
