@@ -1142,6 +1142,10 @@
     <Content Include="App_Data\THESOLUTION\JobOrder\ShowJob.vbhtml" />
     <Content Include="App_Data\THESOLUTION\Shared\MasterPage.vbhtml" />
     <Content Include="App_Data\THESOLUTION\Clr\FormClr.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\JobOrder\FormJobSum.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\Acc\FormInv.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\Acc\FormRcp.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\Acc\FormTaxinv.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

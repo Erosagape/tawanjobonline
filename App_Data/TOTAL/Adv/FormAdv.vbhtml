@@ -76,8 +76,15 @@ End Code
         </td>
     </tr>
     <tr style="height:450px;vertical-align:top">
-        <td style="border-style:solid;border-width:thin;text-align:left">
-            <div id="divDesc" style="font-size:12px"></div>
+        <td style="border-style:solid;border-width:thin;text-align:left;position:relative">
+            <div id="divDesc" style="font-size:12px;padding-left:5px;"></div>
+            <div style="position:absolute;bottom:0;font-weight:bold;font-size:14px;padding:5px 5px 5px 5px;">
+                โอนเข้าบัญชี  :<br />
+                ธนาคารทหารไทยธนชาต<br />
+                บริษัท โทเทิ่ล ชิปปิ้ง เซอร์วิส จำกัด<br />
+                เลขบัญชี : 203-1-01412-5<br />
+                สาขา : ถนนรัชดาภิเษก-นางลิ้นจี่
+            </div>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right">
             <div id="divWht" style="font-size:12px"></div>

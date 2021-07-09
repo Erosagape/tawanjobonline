@@ -367,7 +367,7 @@ End Code
                 desc2 += '</tr>';
                 desc2 += '<tr>';
                 desc2 += '<td width="20%" style="text-align:right">';
-                desc2 += CCurrency(CDbl(Number(obj.TotalAmount) + Number(obj.VatExc) - Number(obj.WhtExc), 2));
+                desc2 += CCurrency(CDbl(Number(CDbl(obj.TotalAmount,2)) + Number(CDbl(obj.VatExc,2)) - Number(CDbl(obj.WhtExc,2)), 2));
                 desc2 += '</td>';
                 desc2 += '</tr>';
                 desc2 += '</table>';

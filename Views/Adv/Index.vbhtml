@@ -1070,7 +1070,7 @@ End Code
             $('#txtAdvChqCash').val(CDbl(dt.AdvChqCash,2));
             $('#txtAdvCred').val(CDbl(dt.AdvCred,2));
 
-            $('#txtAdvAmount').val(CDbl(dt.TotalAdvance-dt.TotalVAT+dt.Total50Tavi,2));
+            $('#txtAdvAmount').val(CDbl(Number(CDbl(dt.TotalAdvance,2))-Number(CDbl(dt.TotalVAT,2))+Number(CDbl(dt.Total50Tavi,2)),2));
             $('#txtVatAmount').val(CDbl(dt.TotalVAT,2));
             $('#txtWhtAmount').val(CDbl(dt.Total50Tavi,2));
             $('#txtTotalAmount').val(CDbl((dt.TotalAdvance),2));
