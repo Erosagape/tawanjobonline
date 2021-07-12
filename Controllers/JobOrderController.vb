@@ -2529,6 +2529,19 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             Return GetView("FormAddFuel")
         End Function
 
+        Function GetOrder() As ActionResult
+            Try
+                Dim sql = ""
+                Dim tSqlw As String = " WHERE DocNo<>'' "
+
+                Dim oData = New CAddFuel(GetSession("ConnJob")).GetData(tSqlw)
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                json = "{""addfuel"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
     End Class
 
 End Namespace

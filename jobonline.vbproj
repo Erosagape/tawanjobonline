@@ -1539,6 +1539,7 @@
     <Content Include="Views\Master\Employee.vbhtml" />
     <Content Include="App_Data\THESOLUTION\Draft\FormBill.vbhtml" />
     <Content Include="Views\Tracking\NewPlan.vbhtml" />
+    <Content Include="Views\JobOrder\FormJob2.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
