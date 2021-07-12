@@ -419,7 +419,7 @@ End Code
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <label id="lblInvFCountry" for="txtInvFCountry">From Country :</label>
-                                        <br/>
+                                        <br />
                                         <div style="display:flex;flex-direction:row">
                                             <input type="hidden" id="txtInvFCountryCode" />
                                             <input type="text" id="txtInvFCountry" class="form-control" style="width:100%" disabled />
@@ -473,7 +473,7 @@ End Code
                                             <input type="button" id="btnBrowseVsl2" class="btn btn-default" value="..." onclick="SearchData('mvessel')" />
                                         </div>
                                     </div>
-                                 </div>
+                                </div>
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <a href="../Master/Venders" target="_blank"><label style="color:red" id="lblTransporter">Transporter:</label></a>
@@ -487,16 +487,16 @@ End Code
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <label id="lblETDDate" for="txtETDDate"  style="color:red">ETD Date:</label><input type="date" style="width:100%" class="form-control" id="txtETDDate" tabindex="41" />
+                                        <label id="lblETDDate" for="txtETDDate" style="color:red">ETD Date:</label><input type="date" style="width:100%" class="form-control" id="txtETDDate" tabindex="41" />
                                     </div>
                                     <div class="col-sm-3">
-                                        <label id="lblETADate" for="txtETADate" style="color:red">ETA Date:</label><input type="date"  style="width:100%" class="form-control" id="txtETADate" tabindex="42" />
+                                        <label id="lblETADate" for="txtETADate" style="color:red">ETA Date:</label><input type="date" style="width:100%" class="form-control" id="txtETADate" tabindex="42" />
                                     </div>
                                     <div class="col-sm-3">
-                                        <label id="lblLoadDate" for="txtLoadDate" style="color:red">Load Date:</label><input type="date"  style="width:100%" class="form-control"  id="txtLoadDate" tabindex="43" />
+                                        <label id="lblLoadDate" for="txtLoadDate" style="color:red">Load Date:</label><input type="date" style="width:100%" class="form-control" id="txtLoadDate" tabindex="43" />
                                     </div>
                                     <div class="col-sm-3">
-                                        <label id="lblDeliveryDate" for="txtDeliveryDate" style="color:red">Unload Date :</label><input type="date" style="width:100%" class="form-control"  id="txtDeliveryDate" tabindex="44" />
+                                        <label id="lblDeliveryDate" for="txtDeliveryDate" style="color:red">Unload Date :</label><input type="date" style="width:100%" class="form-control" id="txtDeliveryDate" tabindex="44" />
                                     </div>
                                 </div>
                             </div>
@@ -511,15 +511,15 @@ End Code
                         </div>
                         <div class="col-sm-3">
                             <label id="lblReadyClearDate" for="txtReadyClearDate">Ready Clear :</label>
-                            <input type="date" id="txtReadyClearDate"  class="form-control" style="width:100%" tabindex="46" />
+                            <input type="date" id="txtReadyClearDate" class="form-control" style="width:100%" tabindex="46" />
                         </div>
                         <div class="col-sm-3">
                             <label id="lblDutyDate" for="txtDutyDate" style="color:red">Inspection Date :</label>
-                            <input type="date" id="txtDutyDate"  class="form-control" style="width:100%" tabindex="47" />
+                            <input type="date" id="txtDutyDate" class="form-control" style="width:100%" tabindex="47" />
                         </div>
                         <div class="col-sm-3">
                             <label id="lblClearDate" for="txtClearDate">Clear Date :</label>
-                            <input type="date" id="txtClearDate"  class="form-control" style="width:100%" tabindex="48" />
+                            <input type="date" id="txtClearDate" class="form-control" style="width:100%" tabindex="48" />
                         </div>
                     </div>
                     <div class="row">
@@ -527,7 +527,7 @@ End Code
                             <a href="../Master/DeclareType" target="_blank">
                                 <label id="lblDeclareType">Declare Type :</label>
                             </a>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row">
                                 <input type="text" id="txtDeclareType" class="form-control" style="width:130px" tabindex="49" />
                                 <input type="button" id="btnBrowseDCType" class="btn btn-default" value="..." onclick="SearchData('RFDCT')" />
@@ -556,7 +556,7 @@ End Code
                             <br />
                             <div style="display:flex;flex-direction:row">
                                 <select id="cboTyAuthorSp" class="form-control dropdown"></select>
-                            </div>                            
+                            </div>
                         </div>
                         <div class="col-sm-4">
                             <input type="checkbox" id="chkTy19BIS" />
@@ -565,7 +565,7 @@ End Code
                             <div style="display:flex;flex-direction:row">
                                 <select id="cboTy19BIS" class="form-control dropdown"></select>
                             </div>
-                                
+
                         </div>
                         <div class="col-sm-4">
                             <input type="checkbox" id="chkTyClearTax" />
@@ -574,7 +574,7 @@ End Code
                             <div style="display:flex;flex-direction:row">
                                 <select id="cboTyClearTax" class="form-control dropdown"></select>
                             </div>
-                                
+
                         </div>
                     </div>
                     <div class="row">
@@ -586,7 +586,7 @@ End Code
                                 </div>
                                 <div class="col-sm-6">
                                     <label id="lblDeclareStatus" for="optDeclareStatus">Declaration Status :</label>
-                                    <br/>
+                                    <br />
                                     <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="G"><label style="color:green;font:bold" id="lblGreen">Green</label></label>
                                     <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="R"><label style="color:red;font:bold" id="lblRed">Red</label></label>
                                     <label class="radio-inline"><input type="radio" name="optDeclareStatus" value="M"><label style="color:blue;font:bold" id="lblManual">Manual</label></label>
@@ -599,7 +599,7 @@ End Code
                                     <a href="../Master/CustomsPort" target="_blank">
                                         <label id="lblReleasePort" style="color:red">Release Port :</label>
                                     </a>
-                                    <br/>
+                                    <br />
                                     <div style="display:flex;flex-direction:row">
                                         <input type="text" id="txtReleasePort" class="form-control" style="width:60px" tabindex="53" />
                                         <input type="button" id="btnBrowseLCPort" class="btn btn-default" value="..." onclick="SearchData('RFARS')" />
@@ -608,7 +608,7 @@ End Code
                                 </div>
                                 <div class="col-sm-6">
                                     <label id="lblPortNo" for="txtPortNo">Discharge Port#</label>
-                                    <br/>
+                                    <br />
                                     <input type="text" id="txtPortNo" class="form-control" style="width:100%" tabindex="54" />
                                 </div>
                             </div>
@@ -617,13 +617,13 @@ End Code
                     <div class="row">
                         <div class="col-sm-5">
                             <label id="lblShippingCmd" for="txtShippingCmd">Shipping Note :</label>
-                            <br/>
+                            <br />
                             <textarea id="txtShippingCmd" class="form-control" style="width:100%" tabindex="56"></textarea>
                         </div>
 
                         <div class="col-sm-7">
                             <label id="lblShipping" for="txtShipping">Shipping Staff :</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row">
                                 <input type="text" id="txtShipping" class="form-control" style="width:130px" tabindex="55" />
                                 <input type="button" id="btnBrowseShipping" class="btn btn-default" value="..." onclick="SearchData('user')" />
@@ -639,7 +639,7 @@ End Code
                                     </select>
                                 </div>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -647,7 +647,7 @@ End Code
                     <a href="#" class="btn btn-primary" id="btnPrintClr" onclick="PrintForm()">
                         <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrintClr">Print Form Clear</b>
                     </a>
-                    <br/>
+                    <br />
                     Filter :
                     <select id="cboDocType" class="dropdown" onclick="ShowTracking($('#txtBranchCode').val(), $('#txtJNo').val());">
                         <option value="">All</option>
@@ -1017,7 +1017,7 @@ End Code
             CreateLOV(dv,'#frmSearchCust', '#tbCust','Customers',response,3);
             //Consignee
             CreateLOV(dv, '#frmSearchCons', '#tbCons', 'Consignees', response, 3);
-            //Notify 
+            //Notify
             CreateLOV(dv, '#frmSearchNotify', '#tbNotify', 'Notify Party', response, 3);
             //Inter Port
             CreateLOV(dv,'#frmSearchIPort', '#tbIPort','International Port',response,3);
@@ -1224,6 +1224,12 @@ End Code
                 SetGridJob(path, '#tbJob', '#frmSearchJob', '?DBID='+ dbID, function (r) {
                     $('#txtCustPoNo').val(r.JNo);
                     ReadJob(r);
+                    ShowConfirm("Import Transport Data too?", function (ans) {
+                        if (ans == true) {
+                            ImportTransport(dbID, r.JNo);
+                        }
+                    });
+
                 });
                 break;
         }
@@ -1976,7 +1982,10 @@ End Code
     function PrintForm() {
         window.open(path + 'Clr/FormEntry?branch=' + $('#txtBranchCode').val() + '&job=' + $('#txtJNo').val());
     }
-    function OpenNotity() {
-        
+    function ImportTransport(db, job) {
+        SaveData();
+        $.get(path + 'JobOrder/CopyTransportData?DBID=' + db + '&FROM=' + job + '&TO=' + $('#txtJNo').val()).done(function (r) {
+            ShowMessage(r);
+        });
     }
 </script>

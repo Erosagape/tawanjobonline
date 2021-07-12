@@ -1,8 +1,8 @@
-﻿Imports Newtonsoft.Json
-Imports System.Net
+﻿Imports System.Net
 Imports System.Net.Http
 Imports System.Web.Http
 Imports MySql.Data.MySqlClient
+Imports Newtonsoft.Json
 Namespace Controllers
     Public Class JobOrderController
         Inherits CController
@@ -2528,19 +2528,90 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
         Function FormAddFuel() As ActionResult
             Return GetView("FormAddFuel")
         End Function
+        Function CopyTransportData() As ActionResult
+            Dim rowsCont = 0
+            Dim bookingCount = 0
+            Dim dbID = ""
+            If Request.QueryString("DBID") Is Nothing Then
+                Return Content("Source Database not found", textContent)
+            Else
+                dbID = Request.QueryString("DBID")
+            End If
+            Dim sourceJob = ""
+            If Request.QueryString("FROM") Is Nothing Then
+                Return Content("Source job not found", textContent)
+            Else
+                sourceJob = Request.QueryString("FROM")
+            End If
+            Dim destJob = ""
+            If Request.QueryString("TO") Is Nothing Then
+                Return Content("Destination job not found", textContent)
+            Else
+                destJob = Request.QueryString("TO")
+            End If
+            Dim conn = Main.GetDatabaseConnection(My.Settings.LicenseTo, "JOBSHIPPING", dbID)(0)
+            If conn = "" Then
+                Return Content("Connection not found", textContent)
+            Else
+                Dim oRowSource = New CTransportHeader(conn).GetData(String.Format(" WHERE JNo='{0}'", sourceJob))
+                For Each row In oRowSource
+                    row.SetConnect(GetSession("ConnJob"))
+                    row.JNo = destJob
+                    Dim result = row.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", row.BranchCode, row.BookingNo))
+                    If result.Substring(0, 1) = "S" Then
+                        bookingCount += 1
+                        Dim oContSource = New CTransportDetail(conn).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", row.BranchCode, row.BookingNo))
+                        For Each cont In oContSource
+                            cont.SetConnect(GetSession("ConnJob"))
+                            cont.JNo = destJob
+                            Dim msg = cont.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", cont.BranchCode, cont.BookingNo, cont.ItemNo))
+                            If msg.Substring(0, 1) = "S" Then
+                                rowsCont += 1
+                            End If
+                        Next
+                    End If
+                Next
+                Return Content("Total " + rowsCont + " row(s) copied! (" & bookingCount & " Booking)", textContent)
+            End If
+        End Function
+        Function CloseFuel() As ActionResult
+            ViewBag.DataForApprove = New CAddFuel(GetSession("ConnJob")).GetData(" WHERE ISNULL(ApproveBy,'')='' AND ISNULL(CancelBy,'')='' ")
+            ViewBag.DataForBill = New CAddFuel(GetSession("ConnJob")).GetData(" WHERE ISNULL(ApproveBy,'')<>'' AND ISNULL(StationInvNo,'')='' AND ISNULL(CancelBy,'')=''")
+            ViewBag.DataBilled = New CAddFuel(GetSession("ConnJob")).GetData(" WHERE ISNULL(ApproveBy,'')<>'' AND ISNULL(StationInvNo,'')<>'' AND ISNULL(CancelBy,'')=''")
+            ViewBag.MessageBill = "Ready"
+            ViewBag.MessageApp = "Ready"
+            Return GetView("CloseFuel")
+        End Function
+        <HttpPost()>
+        Function SetInvoiceFuel() As ActionResult
+            Dim approveList = Request.Form("txtBilling") & ","
+            For Each doc In approveList.Split(",")
+                If doc <> "" Then
+                    Main.DBExecute(GetSession("ConnJob"), String.Format("UPDATE Job_AddFuel SET StationInvNo='{0}' WHERE BranchCode='{1}' AND DocNo='{2}'", Request.Form("txtInvNo"), GetSession("CurrBranch"), doc))
+                End If
+            Next
+            ViewBag.DataForApprove = New CAddFuel(GetSession("ConnJob")).GetData(" WHERE ISNULL(ApproveBy,'')='' AND ISNULL(CancelBy,'')='' ")
+            ViewBag.DataForBill = New CAddFuel(GetSession("ConnJob")).GetData(" WHERE ISNULL(ApproveBy,'')<>'' AND ISNULL(StationInvNo,'')='' AND ISNULL(CancelBy,'')=''")
+            ViewBag.DataBilled = New CAddFuel(GetSession("ConnJob")).GetData(" WHERE ISNULL(ApproveBy,'')<>'' AND ISNULL(StationInvNo,'')<>'' AND ISNULL(CancelBy,'')=''")
+            ViewBag.MessageApp = "Ready"
+            ViewBag.MessageBill = approveList + " Updated"
+            Return GetView("CloseFuel")
+        End Function
 
-        Function GetOrder() As ActionResult
-            Try
-                Dim sql = ""
-                Dim tSqlw As String = " WHERE DocNo<>'' "
-
-                Dim oData = New CAddFuel(GetSession("ConnJob")).GetData(tSqlw)
-                Dim json As String = JsonConvert.SerializeObject(oData)
-                json = "{""addfuel"":{""data"":" & json & "}}"
-                Return Content(json, jsonContent)
-            Catch ex As Exception
-                Return Content("[]", jsonContent)
-            End Try
+        <HttpPost()>
+        Function ApproveFuel() As ActionResult
+            Dim approveList = Request.Form("txtApprove") & ","
+            For Each doc In approveList.Split(",")
+                If doc <> "" Then
+                    Main.DBExecute(GetSession("ConnJob"), String.Format("UPDATE Job_AddFuel SET ApproveBy='{0}',ApproveDate=GetDate() WHERE BranchCode='{1}' AND DocNo='{2}'", GetSession("CurrUser"), GetSession("CurrBranch"), doc))
+                End If
+            Next
+            ViewBag.DataForApprove = New CAddFuel(GetSession("ConnJob")).GetData(" WHERE ISNULL(ApproveBy,'')='' AND ISNULL(CancelBy,'')='' ")
+            ViewBag.DataForBill = New CAddFuel(GetSession("ConnJob")).GetData(" WHERE ISNULL(ApproveBy,'')<>'' AND ISNULL(StationInvNo,'')='' AND ISNULL(CancelBy,'')=''")
+            ViewBag.DataBilled = New CAddFuel(GetSession("ConnJob")).GetData(" WHERE ISNULL(ApproveBy,'')<>'' AND ISNULL(StationInvNo,'')<>'' AND ISNULL(CancelBy,'')=''")
+            ViewBag.MessageApp = approveList + " Approved"
+            ViewBag.MessageBill = "Ready"
+            Return GetView("CloseFuel")
         End Function
     End Class
 

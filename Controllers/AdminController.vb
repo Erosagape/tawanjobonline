@@ -9,6 +9,9 @@ Namespace Controllers
         Function Index() As ActionResult
             Return GetView("Index")
         End Function
+        Function Util() As ActionResult
+            Return GetView("Util")
+        End Function
         Function UpVersion() As ActionResult
             Return GetView("UpVersion")
         End Function

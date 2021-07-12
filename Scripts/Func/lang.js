@@ -1251,6 +1251,7 @@ function GetLangMenu() {
         mnuCS2: 'List Job|ค้นหางาน',
         mnuCS3: 'Transport Info|ข้อมูลรับบรรทุก',
         mnuCS4: 'Witholding-Tax|ออกหนังสือหักณที่จ่าย',
+        mnuCS5: 'Fuel Refill|ใบเติมน้ำมัน',
         mainShp: 'Shipping Works|แผนกชิปปิ้ง',
         mnuShp1: 'Advance|ใบเบิกค่าใช้จ่าย',
         mnuShp2: 'Clearing|ใบปิดค่าใช้จ่าย',

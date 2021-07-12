@@ -1338,7 +1338,7 @@ End Code
     function CheckDuplicate(o) {
         let rows = $('#tbDetail').DataTable().rows().data();
         let filter = rows.filter(function (row) {
-            return CStr(row.ForJNo) == o.ForJNo && row.SICode == o.SICode && Number(row.ItemNo)!==Number(o.ItemNo);
+            return CStr(row.ForJNo) == o.ForJNo && row.SICode == o.SICode && row.SDescription == o.SDescription && Number(row.ItemNo)!==Number(o.ItemNo);
         });
         return (filter.length > 0);
     }
