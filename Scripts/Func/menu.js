@@ -216,6 +216,9 @@ function OpenMenu(mnuID, newpage = true) {
         case 'Employee':
             mnuPath = path + 'Master/Employee';
             break;
+        case 'AddFuel':
+            mnuPath = path + 'JobOrder/CloseFuel';
+            break;
         default:
             ShowMessage('Under Development');
             break;

@@ -69,6 +69,7 @@
                         <a href="#" id="mnuCS2" class="w3-bar-item w3-button" onclick="OpenLink('SearchJob')">- List Job</a>
                         <a href="#" id="mnuCS3" class="w3-bar-item w3-button" onclick="OpenLink('Transport')">- Transport Info</a>
                         <a href="#" id="mnuCS4" class="w3-bar-item w3-button" onclick="OpenLink('WHTax')">- Withholding Tax</a>
+                        <a href="#" id="mnuCS5" class="w3-bar-item w3-button" onclick="OpenLink('AddFuel')">- Fuel Refill</a>
                     </div>
                     <div id="mainShp" class="w3-bar-item w3-button" onclick="w3_accordion('mnuShp')">
                         Shipping Works
@@ -584,4 +585,4 @@
         }
     </script>
 </body>
-</html> 
+</html>

@@ -495,7 +495,7 @@ Namespace Controllers
                     End If
                     Dim msg As String = ""
                     If data.ForJNo <> "" Then
-                        Dim chkDupRows = New CAdvDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND ForJNo='{1}' AND SICode='{2}' AND AdvNo<>'{3}' AND AdvNo NOT IN(SELECT AdvNo FROM Job_AdvHeader WHERE DocStatus=99) ", data.BranchCode, data.ForJNo, data.SICode, data.AdvNo))
+                        Dim chkDupRows = New CAdvDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND ForJNo='{1}' AND SICode='{2}' AND AdvNo<>'{3}' AND SDescription='{4}' AND AdvNo NOT IN(SELECT AdvNo FROM Job_AdvHeader WHERE DocStatus=99) ", data.BranchCode, data.ForJNo, data.SICode, data.AdvNo, data.SDescription))
                         If chkDupRows.Count > 0 Then
                             If data.SDescription.IndexOf("ซ้ำ") < 0 Then
                                 data.SDescription = "**ซ้ำ**" & data.SDescription

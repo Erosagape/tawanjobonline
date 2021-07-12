@@ -1541,6 +1541,8 @@
     <Content Include="Views\Master\CarLicense.vbhtml" />
     <Content Include="Views\Tracking\Planing.vbhtml" />
     <Content Include="Views\Master\Employee.vbhtml" />
+    <Content Include="Views\Admin\Util.vbhtml" />
+    <Content Include="Views\JobOrder\CloseFuel.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
