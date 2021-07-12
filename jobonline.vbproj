@@ -1142,6 +1142,7 @@
     <Content Include="App_Data\THESOLUTION\JobOrder\ShowJob.vbhtml" />
     <Content Include="App_Data\THESOLUTION\Shared\MasterPage.vbhtml" />
     <Content Include="App_Data\THESOLUTION\Clr\FormClr.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\Draft\NewPlan.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -1537,6 +1538,8 @@
     <Content Include="Views\Master\CarLicense.vbhtml" />
     <Content Include="Views\Tracking\Planing.vbhtml" />
     <Content Include="Views\Master\Employee.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\Draft\FormBill.vbhtml" />
+    <Content Include="Views\Tracking\NewPlan.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

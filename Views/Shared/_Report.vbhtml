@@ -4,10 +4,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>@ViewBag.Title</title>
+
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" media="all">
+    <link rel="stylesheet" href="~/Content/bootstrap-select.min.css" media="all">
     <link rel="stylesheet" type="text/css" href="~/Content/sheets-of-paper-a4.css">
+   
+
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootstrap-select.js"></script>
     <script src="~/Scripts/Func/util.js"></script>
     <script src="~/Scripts/Func/reports.js"></script>
+
     <style>
         * {
             font-size: 11px;
