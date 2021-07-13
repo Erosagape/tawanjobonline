@@ -95,7 +95,7 @@ End Code
             :
         </div>
         <div class="col-sm-8">
-            <select id="txtCarRefNo" class="form-control dropdown"></select>
+            <input type="text" id="txtCarRefNo" class="form-control" />
         </div>
     </div>
     <div class="row">
@@ -104,7 +104,7 @@ End Code
             :
         </div>
         <div class="col-sm-8">
-            <select id="txtCarRefType" class="form-control dropdown"></select>
+            <input type="text" id="txtCarRefType" class="form-control" />
         </div>
     </div>
 </div>
