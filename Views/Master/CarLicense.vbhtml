@@ -62,8 +62,7 @@ End Code
             :
         </div>
         <div class="col-sm-8" style="display:flex">
-            <input type="text" id="txtCarType" class="form-control">
-            <input type="button" class="btn btn-default" id="btnBrowseType" value="..." onclick="SearchData('type')" />
+            <select id="txtCarType" class="form-control dropdown"></select>
         </div>
     </div>
     <div class="row">
@@ -104,7 +103,7 @@ End Code
             :
         </div>
         <div class="col-sm-8">
-            <input type="text" id="txtCarRefType" class="form-control" />
+            <select id="txtCarRefType" class="form-control dropdown"></select>
         </div>
     </div>
 </div>
@@ -142,7 +141,7 @@ End Code
         });
     }
     function SetEvents() {
-        let lists = 'CAR_STATUS=#txtStatus';
+        let lists = 'CAR_STATUS=#txtStatus,CAR_MAINTYPE=#txtCarType,CAR_SUBTYPE=#txtCarRefType';
         loadCombos(path, lists);
         $('#txtCarNo').keydown(function (event) {
             if (event.which == 13) {
@@ -247,17 +246,9 @@ End Code
             case 'car':
                 SetGridCar(path, '#tbCar', '#frmSearchCar', ReadData);
                 break;
-            case 'type':
-                SetGridServUnitFilter(path, '#tbType', '?Type=2', '#frmSearchType', ReadType);
-                break;
             case 'driver':
                 SetGridEmployee(path, '#tbDriver', '#frmSearchDriver', ReadDriver);
         }
-    }
-
-    function ReadType(dr) {
-        //popup step3
-        $('#txtCarType').val(dr.UName);
     }
 
     function ReadDriver(dr) {
