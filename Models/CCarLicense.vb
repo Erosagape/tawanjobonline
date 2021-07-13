@@ -120,30 +120,24 @@ Public Class CarLicense
             m_Weight = value
         End Set
     End Property
-
-    Friend Function GetDBDate(pDate As Date, Optional pTodayAsDefault As Boolean = False) As Object
-        If pDate.Year > 2000 Then
-            If pDate.Year > 2500 Then
-                Return pDate.AddYears(-543)
-            Else
-                If pDate.Year > 2200 Then
-                    Return Date.MinValue
-                End If
-            End If
-            Return pDate
-        Else
-            If pTodayAsDefault Then
-                Return DateTime.Today
-            Else
-                If pDate.Year > 2500 Then
-                    Return pDate.AddYears(-543)
-                Else
-                    Return System.DBNull.Value
-                End If
-            End If
-        End If
-    End Function
-
+    Private m_CarRefNo As String
+    Public Property CarRefNo As String
+        Get
+            Return m_CarRefNo
+        End Get
+        Set(value As String)
+            m_CarRefNo = value
+        End Set
+    End Property
+    Private m_CarRefType As String
+    Public Property CarRefType As String
+        Get
+            Return m_CarRefType
+        End Get
+        Set(value As String)
+            m_CarRefType = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -165,6 +159,8 @@ Public Class CarLicense
                             dr("CarModel") = Me.CarModel
                             dr("CarType") = Me.CarType
                             dr("CarPic") = Me.CarPic
+                            dr("CarRefNo") = Me.CarRefNo
+                            dr("CarRefType") = Me.CarRefType
                             dr("Status") = Me.Status
                             dr("Weight") = Me.Weight
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
@@ -190,6 +186,8 @@ Public Class CarLicense
         m_ModelYear = ""
         m_CarModel = ""
         m_CarType = ""
+        m_CarRefNo = ""
+        m_CarRefType = ""
         m_CarPic = ""
         m_Status = ""
         m_Weight = 0
@@ -239,6 +237,13 @@ Public Class CarLicense
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("Weight"))) = False Then
                         row.Weight = rd.GetDouble(rd.GetOrdinal("Weight"))
                     End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CarRefType"))) = False Then
+                        row.CarRefType = rd.GetString(rd.GetOrdinal("CarRefType")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CarRefNo"))) = False Then
+                        row.CarRefNo = rd.GetString(rd.GetOrdinal("CarRefNo")).ToString()
+                    End If
+
                     lst.Add(row)
                 End While
             Catch ex As Exception

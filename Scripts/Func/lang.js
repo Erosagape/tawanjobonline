@@ -3740,6 +3740,8 @@ function GetLangForm(fname) {
                 lblModelyear: 'Model Year|ปีที่ผลิต',
                 lblCarModel: 'Model|รุ่น',
                 lblCarType: 'Car Type|ประเภทรถ',
+                lblCarRefNo: 'Ref#|เลขหางรถ/chassis',
+                lblCarRefType: 'Ref Type|ประเภทหางรถ',
                 lblCarPic: 'Picture|รูปภาพ',
                 lblStatus: 'Status|สถานะรถ',
                 lblWeight: 'Weight|น้ำหนักรถ'

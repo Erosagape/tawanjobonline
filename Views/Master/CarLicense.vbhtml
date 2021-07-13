@@ -89,6 +89,24 @@ End Code
         </div>
         <div class="col-sm-8"><input type="number" id="txtWeight" class="form-control" value="0.00"></div>
     </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label id="lblCarRefNo">Ref#</label>
+            :
+        </div>
+        <div class="col-sm-8">
+            <select id="txtCarRefNo" class="form-control dropdown"></select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">
+            <label id="lblCarRefType">Ref Type</label>
+            :
+        </div>
+        <div class="col-sm-8">
+            <select id="txtCarRefType" class="form-control dropdown"></select>
+        </div>
+    </div>
 </div>
 <div id="dvCommand">
 
@@ -164,6 +182,8 @@ End Code
         $('#txtCarPic').val(dr.CarPic);
         $('#txtStatus').val(dr.Status);
         $('#txtWeight').val(dr.Weight);
+        $('#txtCarRefNo').val(dr.CarRefNo);
+        $('#txtCarRefType').val(dr.CarRefType);
     }
 
    function SaveData() {
@@ -179,6 +199,8 @@ End Code
             CarPic: $('#txtCarPic').val(),
             Status: $('#txtStatus').val(),
             Weight: CNum($('#txtWeight').val()),
+            CarRefNo: $('#txtCarRefNo').val(),
+            CarRefType: $('#txtCarRefType').val()
         };
         if (obj.CarNo != "") {
             let jsonText = JSON.stringify({ data: obj });
@@ -214,6 +236,8 @@ End Code
         $('#txtCarType').val('');
         $('#txtCarPic').val('');
         $('#txtStatus').val('');
+        $('#txtCarRefNo').val('');
+        $('#txtCarRefType').val('');
         $('#txtWeight').val('0.00');
     }
 
