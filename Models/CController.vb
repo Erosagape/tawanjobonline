@@ -173,7 +173,7 @@ Public Class CController
     End Function
     Friend Function FindSessionFromDB(ip As String, userSession As String) As Boolean
         Dim oData = New CWebLogin(ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString)
-        Dim oFind = oData.GetData(String.Format(" WHERE FromIP='{0}' AND SessionID='{1}' AND ExpireDateTime>GETDATE() ", ip, userSession))
+        Dim oFind = oData.GetData(String.Format(" WHERE FromIP='{0}' AND SessionID='{1}' AND ExpireDateTime>GETDATE() AND CustID='{2}' ", ip, userSession, My.Settings.LicenseTo))
         If oFind.Count = 0 Then
             Return False
         Else

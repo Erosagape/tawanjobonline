@@ -117,6 +117,14 @@ End Code
                                             <select id="cboDocStatus" style="width:200px;" class="form-control dropdown" disabled></select>
                                         </td>
                                     </tr>
+                                    <tr>
+                                        <td>
+                                            <label id="lblPayChqDate">Operation Date :</label>
+                                        </td>
+                                        <td>
+                                            <input type="date" class="form-control" id="txtPayChqDate" />
+                                        </td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>
@@ -1022,7 +1030,7 @@ End Code
             InvNo: null,
             VATRate: 0,
             PayChqTo: null,
-            PayChqDate: '',
+            PayChqDate: CDateEN($('#txtPayChqDate').val()),
 
             MainCurrency: $('#txtMainCurrency').val(),
             SubCurrency: $('#txtSubCurrency').val(),
@@ -1086,7 +1094,9 @@ End Code
 
             $('#txtMainCurrency').val(dt.MainCurrency);
             $('#txtSubCurrency').val(dt.SubCurrency);
-            $('#txtExchangeRate').val(CDbl(dt.ExchangeRate,2));
+            $('#txtExchangeRate').val(CDbl(dt.ExchangeRate, 2));
+
+            $('#txtPayChqDate').val(CDateEN(dt.PayChqDate));
             //Combos
             $('#cboAdvType').val(CCode(dt.AdvType));
             $('#cboDocStatus').val(CCode(dt.DocStatus));
@@ -1207,6 +1217,7 @@ End Code
     function ClearHeader() {
         hdr = {};
         $('#txtAdvDate').val(GetToday());
+        $('#txtPayChqDate').val(GetToday());
         $('#txtAdvBy').val(user);
         $('#txtReqBy').val('');
         if (isjobmode == false) {

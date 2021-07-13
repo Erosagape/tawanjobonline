@@ -186,6 +186,7 @@ s.ConfigValue as ReportNameTH,
 (SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='ReportType') as ReportType,
 (SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='ReportAuthor') as ReportAuthor,
 (SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='MAIN_SQL') as ReportSQL,
+(SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='ReportUrl') as ReportUrl,
 (SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='MAIN_CLITERIA') as ReportCliteria,
 (SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='GROUP_FIELD') as ReportGroupFields,
 (SELECT ConfigValue FROM Mas_Config WHERE ConfigCode=s.ConfigCode AND ConfigKey='GROUP_DATASOURCE') as ReportGroupSource,
@@ -1856,6 +1857,63 @@ d.PayRate,d.PayDate,d.PayTaxDesc,d.DocRefType
             Next
 
             Return Content(strAll, textContent)
+        End Function
+        Function TruckProfit() As ActionResult
+            Dim sql As String = GetValueConfig("SQL", "SelectCostByLoading")
+            Dim sqlW As String = " "
+
+            If Not IsNothing(Request.QueryString("Branch")) Then
+                sqlW &= String.Format(" AND j.BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+            End If
+
+            If Not IsNothing(Request.QueryString("HBL")) Then
+                sqlW &= String.Format(" AND j.HAWB='{0}' ", Request.QueryString("HBL").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("MBL")) Then
+                sqlW &= String.Format(" AND j.MAWB='{0}' ", Request.QueryString("MBL").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("JobType")) Then
+                sqlW &= String.Format(" AND j.JobType={0} ", Request.QueryString("JobType").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("ShipBy")) Then
+                sqlW &= String.Format(" AND j.ShipBy={0} ", Request.QueryString("ShipBy").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Agent")) Then
+                sqlW &= String.Format(" AND j.ForwarderCode='{0}' ", Request.QueryString("Agent").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Transport")) Then
+                sqlW &= String.Format(" AND j.AgentCode='{0}' ", Request.QueryString("Transport").ToString)
+            End If
+            Dim dateBy As String = "a.DutyDate"
+            If Not IsNothing(Request.QueryString("DateBy")) Then
+                dateBy = Request.QueryString("DateBy")
+            End If
+            If Not IsNothing(Request.QueryString("DateFrom")) Then
+                sqlW &= " AND " & dateBy & ">='" & Request.QueryString("DateFrom") & " 00:00:00'"
+            End If
+            If Not IsNothing(Request.QueryString("DateTo")) Then
+                sqlW &= " AND " & dateBy & "<='" & Request.QueryString("DateTo") & " 23:59:00'"
+            End If
+            If Not IsNothing(Request.QueryString("Status")) Then
+                sqlW &= String.Format(" AND j.JobStatus={0} ", Request.QueryString("Status").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Cust")) Then
+                sqlW &= String.Format(" AND j.CustCode='{0}' ", Request.QueryString("Cust").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Cons")) Then
+                sqlW &= String.Format(" AND j.consigneecode='{0}' ", Request.QueryString("Cons").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Shipping")) Then
+                sqlW &= String.Format(" AND j.ShippingEmp='{0}' ", Request.QueryString("Shipping").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("CS")) Then
+                sqlW &= String.Format(" AND j.CSCode='{0}' ", Request.QueryString("CS").ToString)
+            End If
+            sql = sql.Replace("{0}", sqlW)
+
+            Dim dt = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+            ViewBag.DataTable = dt
+            Return GetView("TruckProfit")
         End Function
     End Class
 End Namespace

@@ -1607,7 +1607,8 @@ function GetLangForm(fname) {
                 linkClear: 'New|เพิ่มรายการ',
                 linkUpdate: 'Save|จัดเก็บรายการ',
                 lblFilter: 'Filter By Status|แสดงข้อมูลตามสถานะ',
-                btnGetExcRate: 'Get Rate|ดึงอัตราแลกเปลี่ยน'
+                btnGetExcRate: 'Get Rate|ดึงอัตราแลกเปลี่ยน',
+                lblPayChqDate: 'Operation Date|วันที่ใช้เงิน'
             };
             break;
         case 'MODULE_ADV/EstimateCost':

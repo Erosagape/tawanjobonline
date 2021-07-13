@@ -371,7 +371,8 @@ End Code
                 for (let i = 0; i < dr.length; i++) {
                     let d = dr[i];
                     if (d.DocStatus < 6) {
-                        if ((d.AdvBalance > 0 && d.UsedAmount > 0) || d.AdvDate == null) {
+                        //if ((d.AdvBalance > 0 && d.UsedAmount >= 0) || d.AdvDate == null) {
+                        if (d.AdvBalance !== 0) {
                             let htmlc = '<tr>';
                             htmlc += '<td>' + d.AdvNO + '#' + d.AdvItemNo + '</td>';
                             htmlc += '<td style="text-align:right">' + CCurrency(CDbl(d.AdvBalance, 2)) + '</td>';
