@@ -299,6 +299,51 @@ Public Class CAddFuel
             m_TrailerNo = value
         End Set
     End Property
+    Private m_CarNo As String
+    Public Property CarNo As String
+        Get
+            Return m_CarNo
+        End Get
+        Set(value As String)
+            m_CarNo = value
+        End Set
+    End Property
+    Private m_EmpCode As String
+    Public Property EmpCode As String
+        Get
+            Return m_EmpCode
+        End Get
+        Set(value As String)
+            m_EmpCode = value
+        End Set
+    End Property
+    Private m_InvoiceDate As Date
+    Public Property InvoiceDate As Date
+        Get
+            Return m_InvoiceDate
+        End Get
+        Set(value As Date)
+            m_InvoiceDate = value
+        End Set
+    End Property
+    Private m_PaymentDate As Date
+    Public Property PaymentDate As Date
+        Get
+            Return m_PaymentDate
+        End Get
+        Set(value As Date)
+            m_PaymentDate = value
+        End Set
+    End Property
+    Private m_PaymentRef As String
+    Public Property PaymentRef As String
+        Get
+            Return m_PaymentRef
+        End Get
+        Set(value As String)
+            m_PaymentRef = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -329,6 +374,11 @@ Public Class CAddFuel
                             dr("MileEnd") = Me.MileEnd
                             dr("MileTotal") = Me.MileTotal
                             dr("Remark") = Me.Remark
+                            dr("CarNo") = Me.CarNo
+                            dr("EmpCode") = Me.EmpCode
+                            dr("InvoiceDate") = Main.GetDBDate(Me.InvoiceDate)
+                            dr("PaymentDate") = Main.GetDBDate(Me.PaymentDate)
+                            dr("PaymentRef") = Me.PaymentRef
                             dr("TotalWeight") = Me.TotalWeight
                             If dr.RowState = DataRowState.Detached Then
                                 dr("CreateBy") = Me.CreateBy
@@ -470,6 +520,22 @@ Public Class CAddFuel
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("TrailerNo"))) = False Then
                         row.TrailerNo = rd.GetString(rd.GetOrdinal("TrailerNo")).ToString()
                     End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("InvoiceDate"))) = False Then
+                        row.InvoiceDate = rd.GetValue(rd.GetOrdinal("InvoiceDate"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PaymentDate"))) = False Then
+                        row.PaymentDate = rd.GetValue(rd.GetOrdinal("PaymentDate"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("PaymentRef"))) = False Then
+                        row.PaymentRef = rd.GetString(rd.GetOrdinal("PaymentRef")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CarNo"))) = False Then
+                        row.CarNo = rd.GetString(rd.GetOrdinal("CarNo")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("EmpCode"))) = False Then
+                        row.EmpCode = rd.GetString(rd.GetOrdinal("EmpCode")).ToString()
+                    End If
+
                     lst.Add(row)
                 End While
             Catch ex As Exception

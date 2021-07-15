@@ -1109,10 +1109,11 @@ End Code
         }
     }
     function ReadEmp(dt) {
-        $('#txtDriver').val(dt.Name);
+        $('#txtDriver').val(dt.EmpCode);
     }
     function ReadCar(dt) {
-        $('#txtTruckNO').val(dt.CarLicense);
+        $('#txtTruckNO').val(dt.CarNo);
+        $('#txtDriver').val(dt.EmpCode);
     }
     function ReadRoute(dt) {
         $('#txtRouteID').val(dt.LocationID);

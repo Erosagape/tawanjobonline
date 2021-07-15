@@ -120,34 +120,44 @@ End Code
             $('#txtCloseJobDate').text(CDateEN(h.ActualReturnDate));
 
             LoadAdvance(h.BranchCode, h.JNo);
-
-            let rows = r.booking.data;
-            let html = '';
-            let c = 0;
-            let i = 0;
-            for (let d of rows) {
-                if (html == '')
-                    html = '<tr>';
-                i += 1;
-                if (i == 4) {
-                    i = 1;
-                    if (html !== '')
-                        html += '</tr>';
-                    html += '<tr>';
-                }
-                html += '<td>';
-                html += 'No.' + (c + 1) + '<br/>';
-                html += 'ชื่อ พขร:' + d.Driver + '<br/>';
-                html += 'ทะเบียนรถ:' + d.TruckNO + '<br/>';
-                html += 'ประเภทรถ:' + d.TruckType;
-                html += '</td>';
-                c += 1;
-            }
-            if (html !== '')
-                html += '</tr>';
-            $('#tbTruck').html(html);
+            LoadTruck(h.BranchCode, h.JNo);
         }
     });
+    function LoadTruck(branch, job) {
+        $.get(path + 'JobOrder/GetFuelData?Branch=' + branch + '&Job=' + job).done(function (r) {
+            let rows = r.data;
+            if (rows.length > 0) {
+                let html = '';
+                let c = 0;
+                let i = 0;
+                for (let d of rows) {
+                    if (html == '')
+                        html = '<tr>';
+                    i += 1;
+                    if (i == 4) {
+                        i = 1;
+                        if (html !== '')
+                            html += '</tr>';
+                        html += '<tr>';
+                    }
+                    html += '<td>';
+                    html += 'No.' + (c + 1) + '<br/>';
+                    html += 'ชื่อ พขร:' + d.Driver + '<br/>';
+                    html += 'เบอร์โทรไทย:' + d.Tel + '<br/>';
+                    html += 'เบอร์โทรลาว:' + d.EmpRemark + '<br/>';
+                    html += 'ทะเบียนหัว:' + d.CarLicense + '<br/>';
+                    html += 'ทะเบียนหาง:' + d.TrailerNo + '<br/>';
+                    html += 'ยี่ห้อรถ:' + d.CarBrand + '/' + d.CarType;
+                    html += 'จังหวัด:' + d.CarModel;
+                    html += '</td>';
+                    c += 1;
+                }
+                if (html !== '')
+                    html += '</tr>';
+                $('#tbTruck').html(html);
+            }
+        });
+    }
     function LoadAdvance(branch, job) {
         $.get(path + 'adv/getadvancereport?branchcode=' + branch + '&jobno=' + job).done(function (r) {
             if (r.adv.data.length > 0) {

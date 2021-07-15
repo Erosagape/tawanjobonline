@@ -64,6 +64,7 @@ End Code
                     :
                 </div>
                 <div class="col-sm-8" style="display:flex">
+                    <input type="text" id="txtCarNo" class="form-control" style="width:100px;">
                     <input type="text" id="txtCarLicense" class="form-control">
                     <input type="button" class="btn btn-default" id="btnBrowseCar" value="..." onclick="SearchData('carlicense')" />
                 </div>
@@ -72,21 +73,22 @@ End Code
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <label id="lblTrailerNo">Trailer No</label>
+            <label id="lblDriver">Driver</label>
             :
         </div>
         <div class="col-sm-4" style="display:flex">
-            <input type="text" id="txtTrailerNo" class="form-control">
+            <input type="text" id="txtEmpCode" class="form-control" style="width:100px;">
+            <input type="text" id="txtDriver" class="form-control">
+            <input type="button" class="btn btn-default" id="btnBrowseDriver" value="..." onclick="SearchData('driver')" />
         </div>
         <div class="col-sm-5">
             <div class="row">
                 <div class="col-sm-4">
-                    <label id="lblDriver">Driver</label>                    
+                    <label id="lblTrailerNo">Trailer No</label>
                     :
                 </div>
                 <div class="col-sm-8" style="display:flex;">
-                    <input type="text" id="txtDriver" class="form-control">
-                    <input type="button" class="btn btn-default" id="btnBrowseDriver" value="..." onclick="SearchData('driver')" />
+                    <input type="text" id="txtTrailerNo" class="form-control">
                 </div>
             </div>
         </div>
@@ -124,22 +126,22 @@ End Code
         <div class="col-sm-5">
             <div class="row">
                 <div class="col-sm-4">
-                    <label id="lblStationInvNo">Station InvNo</label>                    
+                    <label id="lblMileBegin">Mile Begin</label>                    
                     :
                 </div>
                 <div class="col-sm-8">
-                    <input type="text" id="txtStationInvNo" class="form-control">
+                    <input type="number" id="txtMileBegin" class="form-control" value="0.00" onchange="CalculateMile()">                    
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <label id="lblMileBegin">Mile Begin</label>            
+            <label id="lblStationInvNo">Station InvNo</label>
             :
         </div>
         <div class="col-sm-4">
-            <input type="number" id="txtMileBegin" class="form-control" value="0.00" onchange="CalculateMile()">
+            <input type="text" id="txtStationInvNo" class="form-control">
         </div>
         <div class="col-sm-5">
             <div class="row">
@@ -153,47 +155,71 @@ End Code
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <label id="lblMileTotal">Mile Total</label>            
+            <label id="lblStationInvDate">Station Inv Date</label>
             :
         </div>
         <div class="col-sm-4">
-            <input type="number" id="txtMileTotal" class="form-control" value="0.00">
+            <input type="date" id="txtInvoiceDate" class="form-control">
         </div>
         <div class="col-sm-5">
             <div class="row">
                 <div class="col-sm-4">
-                    <label id="lblBudgetVolume">Budget Volume</label>                    
+                    <label id="lblMileTotal">Mile Total</label>                    
                     :
                 </div>
-                <div class="col-sm-8"><input type="number" id="txtBudgetVolume" class="form-control" value="0.00"></div>
+                <div class="col-sm-8">
+                    <input type="number" id="txtMileTotal" class="form-control" value="0.00">                    
+                </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <label id="lblBudgetValue">Budget Value</label>            
+            <label id="lblBudgetVolume">Budget Volume</label>            
             :
         </div>
         <div class="col-sm-4">
-            <input type="number" id="txtBudgetValue" class="form-control" value="0.00">
+            <input type="number" id="txtBudgetVolume" class="form-control" value="0.00">            
         </div>
         <div class="col-sm-5">
             <div class="row">
                 <div class="col-sm-4">
-                    <label id="lblActualVolume">Actual Volume</label>                    
+                    <label id="lblBudgetValue">Budget Value</label>
                     :
                 </div>
-                <div class="col-sm-8"><input type="number" id="txtActualVolume" class="form-control" value="0.00" onchange="CalculateTotal()"></div>
+                <div class="col-sm-8">
+                    <input type="number" id="txtBudgetValue" class="form-control" value="0.00">
+                </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <label id="lblUnitPrice">Unit Price</label>            
+            <label id="lblActualVolume">Actual Volume</label>            
             :
         </div>
         <div class="col-sm-4">
-            <input type="number" id="txtUnitPrice" class="form-control" value="0.00" onchange="CalculateTotal()">
+            <input type="number" id="txtActualVolume" class="form-control" value="0.00" onchange="CalculateTotal()">            
+        </div>
+        <div class="col-sm-5">
+            <div class="row">
+                <div class="col-sm-4">
+                    <label id="lblUnitPrice">Unit Price</label>                    
+                    :
+                </div>
+                <div class="col-sm-8">
+                    <input type="number" id="txtUnitPrice" class="form-control" value="0.00" onchange="CalculateTotal()">                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <label id="lblTotalWeight">Total Weight</label>
+            :
+        </div>
+        <div class="col-sm-4">
+            <input type="number" id="txtTotalWeight" class="form-control" value="0.00">            
         </div>
         <div class="col-sm-5">
             <div class="row">
@@ -201,33 +227,26 @@ End Code
                     <label id="lblTotalAmount">Total Amount</label>                    
                     :
                 </div>
-                <div class="col-sm-8"><input type="number" id="txtTotalAmount" class="form-control" value="0.00"></div>
+                <div class="col-sm-8">
+                    <input type="number" id="txtTotalAmount" class="form-control" value="0.00">                    
+                </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <label id="lblRemark">Remark</label>            
+            <label id="lblRemark">Remark</label>
             :
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-9">
             <input type="text" id="txtRemark" class="form-control">
-        </div>
-        <div class="col-sm-5">
-            <div class="row">
-                <div class="col-sm-4">
-                    <label id="lblTotalWeight">Total Weight</label>                    
-                    :
-                </div>
-                <div class="col-sm-8"><input type="number" id="txtTotalWeight" class="form-control" value="0.00"></div>
-            </div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-3">
             <div class="row">
                 <div class="col-sm-5">
-                    <label id="lblCreateBy">Create By</label>                    
+                    <label id="lblCreateBy">Create By</label>
                     :
                 </div>
                 <div class="col-sm-7"><input type="text" id="txtCreateBy" class="form-control" disabled></div>
@@ -235,34 +254,50 @@ End Code
 
             <div class="row">
                 <div class="col-sm-5">
-                    <label id="lblCreateDate">Create Date</label>                    
+                    <label id="lblCreateDate">Create Date</label>
                     :
                 </div>
                 <div class="col-sm-7"><input type="date" id="txtCreateDate" class="form-control" disabled></div>
             </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <input type="checkbox" id="chkCancel" onclick="CancelData()" />
+                    <label id="lblCancelBy" style="color:red;" >Cancel By</label>
+                    :
+                </div>
+                <div class="col-sm-7"><input type="text" id="txtCancelBy" class="form-control" disabled></div>
+            </div>
+
         </div>
 
         <div class="col-sm-3">
             <div class="row">
                 <div class="col-sm-5">
-                    <label id="lblUpdateBy">Update By</label>                    
+                    <label id="lblUpdateBy">Update By</label>
                     :
                 </div>
                 <div class="col-sm-7"><input type="text" id="txtUpdateBy" class="form-control" disabled></div>
             </div>
             <div class="row">
                 <div class="col-sm-5">
-                    <label id="lblLastUpdate">Last Update</label>                    
+                    <label id="lblLastUpdate">Last Update</label>
                     :
                 </div>
                 <div class="col-sm-7"><input type="date" id="txtLastUpdate" class="form-control" disabled></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <label id="lblCancelDate" style="color:red">Cancel Date</label>
+                    :
+                </div>
+                <div class="col-sm-7"><input type="date" id="txtCancelDate" class="form-control" disabled></div>
             </div>
 
         </div>
         <div class="col-sm-3">
             <div class="row">
                 <div class="col-sm-5">
-                    <input type="checkbox" id="chkApprove" onclick="ApproveData()" /> 
+                    <input type="checkbox" id="chkApprove" onclick="ApproveData()" />
                     <label id="lblApproveBy">Approve By</label>
                     :
                 </div>
@@ -270,35 +305,43 @@ End Code
             </div>
             <div class="row">
                 <div class="col-sm-5">
-                    <label id="lblApproveDate">Approve Date</label>                    
+                    <label id="lblApproveDate">Approve Date</label>
                     :
                 </div>
                 <div class="col-sm-7"><input type="date" id="txtApproveDate" class="form-control" disabled></div>
             </div>
-
+            <div class="row">
+                <div class="col-sm-5">
+                    <label id="lblCancelReason" style="color:red">Cancel Reason</label>
+                    :
+                </div>
+                <div class="col-sm-7"><input type="text" id="txtCancelReason" class="form-control"></div>
+            </div>
         </div>
         <div class="col-sm-3">
             <div class="row">
                 <div class="col-sm-5">
-                    <input type="checkbox" id="chkCancel" onclick="CancelData()" /> 
-                    <label id="lblCancelBy">Cancel By</label>                    
-                    :
+                    <label id="lblPaymentBy">Payment By</label>
                 </div>
-                <div class="col-sm-7"><input type="text" id="txtCancelBy" class="form-control" disabled></div>
+                <div class="col-sm-7">
+                    <input type="text" id="txtPaymentBy" class="form-control" disabled>
+                </div>
             </div>
             <div class="row">
                 <div class="col-sm-5">
-                    <label id="lblCancelDate">Cancel Date</label>                    
-                    :
+                    <label id="lblPaymentDate">Payment Date</label>
                 </div>
-                <div class="col-sm-7"><input type="date" id="txtCancelDate" class="form-control" disabled></div>
+                <div class="col-sm-7">
+                    <input type="date" id="txtPaymentDate" class="form-control" disabled>
+                </div>
             </div>
             <div class="row">
                 <div class="col-sm-5">
-                    <label id="lblCancelReason">Cancel Reason</label>                    
-                    :
+                    <label id="lblPaymentRef">Payment Ref</label>
                 </div>
-                <div class="col-sm-7"><input type="text" id="txtCancelReason" class="form-control"></div>
+                <div class="col-sm-7">
+                    <input type="text" id="txtPaymentRef" class="form-control" disabled>
+                </div>
             </div>
         </div>
     </div>
@@ -338,8 +381,10 @@ End Code
         $.get(path + 'JobOrder/GetTransport?Branch=' + branch + '&Code=' + booking + '&Job=' + job + '&Item=' + item).done(function (r) {
             if (r.transport.detail.length > 0) {
                 let d = r.transport.detail[0];
-                $('#txtCarLicense').val(d.TruckNO);
-                $('#txtDriver').val(d.Driver);
+                $('#txtCarNo').val(d.TruckNO);
+                ShowCarLicense(d.TruckNO);
+                $('#txtEmpCode').val(d.Driver);
+                ShowEmpName(d.Driver);
                 $('#txtMileBegin').val(d.MileBegin);
                 $('#txtMileEnd').val(d.MileEnd);
                 CalculateMile();
@@ -349,6 +394,24 @@ End Code
     if (branch !== '' && code !== '') {
         $('#txtDocNo').val(code);
         CallBackQueryAddFuel(path, code, ReadData);
+    }
+    function ShowEmpName(emp) {
+        $.get(path + 'Master/GetEmployee?Code=' + emp).done(function (r) {
+            if (r.employee.data.length > 0) {
+                $('#txtEmpCode').val(r.employee.data[0].EmpCode);
+                $('#txtDriver').val(r.employee.data[0].Name);
+            }
+        });
+    }
+    function ShowCarLicense(carNo) {
+        $.get(path + 'Master/GetCarLicense?code=' + carNo).done(function (r) {
+            if (r.carlicense.data.length > 0) {
+                $('#txtCarLicense').val(r.carlicense.data[0].CarLicense);
+                $('#txtTrailerNo').val(r.carlicense.data[0].CarRefNo);
+                $('#txtEmpCode').val(r.carlicense.data[0].EmpCode);
+                ShowEmpName(r.carlicense.data[0].EmpCode);
+            }
+        });
     }
     function CallBackQueryAddFuel(p, code, ev) {
         $.get(p + 'JobOrder/getaddfuel?Code=' + code).done(function (r) {
@@ -432,6 +495,11 @@ End Code
         $('#txtBookingNo').val(dr.BookingNo);
         $('#txtBookingItemNo').val(dr.BookingItemNo);
         $('#txtJNo').val(dr.JNo);
+        $('#txtEmpCode').val(dr.EmpCode);
+        $('#txtCarNo').val(dr.CarNo);
+        $('#txtInvoiceDate').val(CDateEN(dr.InvoiceDate));
+        $('#txtPaymentDate').val(CDateEN(dr.PaymentDate));
+        $('#txtPaymentRef').val(dr.PaymentRef);
 
         if ($('#txtApproveBy').val() !== '') {
             $('#chkApprove').prop('checked', true);
@@ -478,7 +546,12 @@ End Code
             BookingNo:$('#txtBookingNo').val(),
             BookingItemNo:$('#txtBookingItemNo').val(),
             JNo: $('#txtJNo').val(),
-            TrailerNo: $('#txtTrailerNo').val()
+            TrailerNo: $('#txtTrailerNo').val(),
+            CarNo: $('#txtCarNo').val(),
+            EmpCode: $('#txtEmpCode').val(),
+            InvoiceDate: CDateTH($('#txtInvoiceDate').val()),
+            PaymentDate: CDateTH($('#txtPaymentDate').val()),
+            PaymentRef: $('#txtPaymentRef').val()
         };
         ShowConfirm("Do you need to Save " + obj.DocNo + "?",function(ask){
             if (ask == false) return;
@@ -524,13 +597,15 @@ End Code
         $('#txtRemark').val('');
         $('#txtTotalWeight').val('0.00');
         $('#txtTrailerNo').val('');
-
         $('#txtCreateBy').val(user);
         $('#txtCreateDate').val(GetToday());
         $('#txtUpdateBy').val(user);
         $('#txtLastUpdate').val(GetToday());
         $('#txtApproveBy').val('');
         $('#txtApproveDate').val('');
+        $('#txtPaymentDate').val('');
+        $('#txtInvoiceDate').val('');
+        $('#txtPaymentRef').val('');
         $('#txtCancelBy').val('');
         $('#txtCancelDate').val('');
         $('#txtCancelReason').val('');
@@ -540,6 +615,8 @@ End Code
             $('#txtJNo').val('');
             $('#txtCarLicense').val('');
             $('#txtDriver').val('');
+            $('#txtCarNo').val('');
+            $('#txtEmpCode').val('');
         }
         $('#chkApprove').prop('checked', false);
         $('#chkCancel').prop('checked', false);
@@ -582,11 +659,14 @@ End Code
         CalculateMile();
     }
     function ReadDriver(dt) {
+        $('#txtEmpCode').val(dt.EmpCode);
         $('#txtDriver').val(dt.Name);
     }
     function ReadCarLicense(dt) {
+        $('#txtCarNo').val(dt.CarNo);
+        $('#txtEmpCode').val(dt.EmpCode);
         $('#txtCarLicense').val(dt.CarLicense);
-    }
+    }    
     function CancelData() {
         let state = $('#chkCancel').prop('checked');
         if (state == false) {

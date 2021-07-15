@@ -1995,7 +1995,7 @@ rd.InvoiceNo,ih.DocDate,ih.BillAcceptNo,ih.BillIssueDate,ih.BillAcceptDate,rh.Cu
             Return val
         End If
         Dim sql As String = "
-SELECT rh.*,c1.UsedLanguage,
+SELECT rh.*,c1.UsedLanguage,c1.TAddress1 as CustTAddr1,c1.TAddress2 as CustTAddr2,c2.TAddress1 as BillTAddr1,c2.TAddress2 as BillTAddr2,c1.EAddress1 as CustEAddr1,c1.EAddress2 as CustEAddr2,c2.EAddress1 as BillEAddr1,c2.EAddress2 as BillEAddr2,
 c1.Title + ' '+ c1.NameThai as CustTName,c1.NameEng as CustEName,c1.TAddress1+' '+c1.TAddress2 as CustTAddr,c1.EAddress1+' '+c1.EAddress2 as CustEAddr,c1.Phone as CustPhone,c1.TaxNumber as CustTaxID,
 c2.Title + ' '+ c2.NameThai as BillTName,c2.NameEng as BillEName,c2.TAddress1+' '+c2.TAddress2 as BillTAddr,c2.EAddress1+' '+c2.EAddress2 as BillEAddr,c2.Phone as BillPhone,c2.TaxNumber as BillTaxID,
 c1.TProvince as CustProvince,c2.TProvince as BillProvince,c1.TPostCode as CustPostCode,c2.TPostCode as BillPostCode,

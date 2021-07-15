@@ -3795,7 +3795,11 @@ function GetLangForm(fname) {
                 lblCancelBy: 'Cancel By|ผู้ยกเลิก',
                 lblCancelDate: 'Cancel Date|วันที่ยกเลิก',
                 lblCancelReason: 'Cancel Reason|เหตุผลที่ยกเลิก',
-                lblTrailerNo:'Trailer No|เลขทะเบียนรถพ่วง'
+                lblTrailerNo: 'Trailer No|เลขทะเบียนรถพ่วง',
+                lblStationInvDate: 'Station Inv Date|วันที่ใบวางบิลปั้ม',
+                lblPaymentBy: 'Payment By|ชำระเงินโดย',
+                lblPaymentDate: 'Payment Date|วันที่ชำระเงิน',
+                lblPaymentRef:'Payment Ref|เลขที่ชำระเงิน'
             };
             break;
     }

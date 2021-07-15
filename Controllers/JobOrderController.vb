@@ -2613,6 +2613,48 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             ViewBag.MessageBill = "Ready"
             Return GetView("CloseFuel")
         End Function
+        Function GetFuelData() As ActionResult
+            Dim tSqlw As String = " WHERE f.DocNo<>'' "
+            If Not IsNothing(Request.QueryString("Branch")) Then
+                tSqlw &= String.Format("AND f.BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Code")) Then
+                tSqlw &= String.Format("AND f.DocNo ='{0}' ", Request.QueryString("Code").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Job")) Then
+                tSqlw &= String.Format("AND f.JNo ='{0}' ", Request.QueryString("Job").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Station")) Then
+                tSqlw &= String.Format("AND f.StationCode ='{0}' ", Request.QueryString("Station").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Booking")) Then
+                tSqlw &= String.Format("AND f.BookingNo ='{0}' ", Request.QueryString("Booking").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Item")) Then
+                tSqlw &= String.Format("AND f.BookingItemNo ={0} ", Request.QueryString("Item").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("DateFrom")) Then
+                tSqlw &= "AND f.DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00' "
+            End If
+            If Not IsNothing(Request.QueryString("DateTo")) Then
+                tSqlw &= "AND f.DocDate<='" & Request.QueryString("DateTo") & " 23:59:00' "
+            End If
+            Dim sql = GetValueConfig("SQL", "SelectFuelData")
+            If sql = "" Then
+                sql = "
+SELECT f.*,e.Tel,e.Email,e.Remark as EmpRemark,c.CarBrand,c.CarType,c.CarModel 
+FROM Job_AddFuel f
+left join Mas_Employee e
+on f.EmpCode=e.EmpCode
+left join Mas_CarLicense c
+on f.CarNo=c.CarNo
+"
+            End If
+            Dim oDataD = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql & tSqlw)
+            Dim jsonD As String = JsonConvert.SerializeObject(oDataD)
+            Dim json = "{""data"":" & jsonD & "}"
+            Return Content(json, jsonContent)
+        End Function
     End Class
 
 End Namespace

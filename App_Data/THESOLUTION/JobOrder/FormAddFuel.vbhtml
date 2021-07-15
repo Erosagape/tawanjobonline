@@ -229,7 +229,7 @@ End Code
                 <td>ทะเบียนรถที่เติม</td>
                 <td class="dottedUnderline" colspan="2"><label id="carLicenseNo"></label></td>
                 <td>ชื่อ พขร</td>
-                <td class="dottedUnderline"><label id="driverName"></label></td>
+                <td class="dottedUnderline"><label id="driver"></label></td>
             </tr>
             <tr>
                 <td>ชนิดเชื้อเพลิง</td>
@@ -303,7 +303,7 @@ End Code
             $('#fillDate').text(ShowDate(d.DocDate));
             $('#carLicenseNo').text(d.CarLicense + (d.TrailerNo == null ? '' : ' / ' + d.TrailerNo));
 
-            $('#driverName').text(d.Driver);
+            $('#driver').text(d.Driver);
             $('#fuelType').text(d.FuelType);
             $('#mile').text(d.MileBegin);
             $('#volume').text(d.ActualVolume);
@@ -313,6 +313,7 @@ End Code
             $('#bahtText').text(CNumThai(d.TotalAmount));
             $('#fuelremark').text(d.Remark);
             $('#weight').text(d.TotalWeight);
+            $('#carID').text(d.CarNo);
             $('#carNo').text(d.CarLicense);
             $('#carRefNo').text(d.TrailerNo);
 
@@ -356,8 +357,18 @@ End Code
                 $('#returnContainerTime').text(ShowTime(j.ReturnTime));
                 $('#route').text(j.LocationRoute);
                 $('#remark').text(j.Remark);
-                $('#driverName').text(j.Driver);
+                ShowEmpName(j.Driver);
+            }
+        });
+
+    }
+    function ShowEmpName(emp) {
+        $('#driverName').val(emp);
+        $.get(path + 'Master/GetEmployee?Code=' + emp).done(function (r) {
+            if (r.employee.data.length > 0) {
+                $('#driverName').val(r.employee.data[0].Name);
             }
         });
     }
+
 </script>
