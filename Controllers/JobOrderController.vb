@@ -2598,21 +2598,29 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             Return GetView("CloseFuel")
         End Function
 
-        <HttpPost()>
-        Function ApproveFuel() As ActionResult
-            Dim approveList = Request.Form("txtApprove") & ","
-            For Each doc In approveList.Split(",")
-                If doc <> "" Then
-                    Main.DBExecute(GetSession("ConnJob"), String.Format("UPDATE Job_AddFuel SET ApproveBy='{0}',ApproveDate=GetDate() WHERE BranchCode='{1}' AND DocNo='{2}'", GetSession("CurrUser"), GetSession("CurrBranch"), doc))
+        Function GetJobOSQL() As ActionResult
+            Try
+                Dim conn As String = GetSession("ConnJob")
+
+                Dim oJob As New CJobOrderN(conn)
+                Dim tSqlW As String = ""
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlW &= " AND f.BranchCode='" & Request.QueryString("Branch") & "'"
                 End If
-            Next
-            ViewBag.DataForApprove = New CAddFuel(GetSession("ConnJob")).GetData(" WHERE ISNULL(ApproveBy,'')='' AND ISNULL(CancelBy,'')='' ")
-            ViewBag.DataForBill = New CAddFuel(GetSession("ConnJob")).GetData(" WHERE ISNULL(ApproveBy,'')<>'' AND ISNULL(StationInvNo,'')='' AND ISNULL(CancelBy,'')=''")
-            ViewBag.DataBilled = New CAddFuel(GetSession("ConnJob")).GetData(" WHERE ISNULL(ApproveBy,'')<>'' AND ISNULL(StationInvNo,'')<>'' AND ISNULL(CancelBy,'')=''")
-            ViewBag.MessageApp = approveList + " Approved"
-            ViewBag.MessageBill = "Ready"
-            Return GetView("CloseFuel")
+                If Not IsNothing(Request.QueryString("JNo")) Then
+                    tSqlW &= " AND f.JNo='" & Request.QueryString("JNo") & "'"
+                End If
+                Dim oData = oJob.GetData(" WHERE f.JNo<>'' AND f.BranchCode<>''" & tSqlW & " ORDER BY BranchCode,DocDate DESC")
+
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                json = "{""job"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Return Content("[]" + ex.Message, jsonContent)
+            End Try
         End Function
+
+
     End Class
 
 End Namespace

@@ -233,6 +233,7 @@
     <Compile Include="Models\CInvHeader.vb" />
     <Compile Include="Models\CJobOrder.vb" />
     <Compile Include="Models\CJobOrderLog.vb" />
+    <Compile Include="Models\CJobOrderN.vb" />
     <Compile Include="Models\CLang.vb" />
     <Compile Include="Models\CLog.vb" />
     <Compile Include="Models\CPayDetail.vb" />
@@ -1402,7 +1403,7 @@
     <Content Include="Views\Master\Vessel.vbhtml" />
     <Content Include="Views\JobOrder\CreateJob.vbhtml" />
     <Content Include="Views\JobOrder\FormDelivery.vbhtml" />
-    <Content Include="Views\JobOrder\FormJob.vbhtml" />
+    <Content Include="Views\JobOrder\FormJob0.vbhtml" />
     <Content Include="Views\JobOrder\FormJobSum.vbhtml" />
     <Content Include="Views\JobOrder\FormQuotation.vbhtml" />
     <Content Include="Views\JobOrder\FormTransport.vbhtml" />
@@ -1551,6 +1552,7 @@
     <Content Include="Views\Admin\Util.vbhtml" />
     <Content Include="Views\JobOrder\CloseFuel.vbhtml" />
     <Content Include="Views\Report\TruckProfit.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\JobOrder\FormJob.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
