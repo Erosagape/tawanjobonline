@@ -147,7 +147,7 @@ End Code
                     html += 'เบอร์โทรลาว:' + d.EmpRemark + '<br/>';
                     html += 'ทะเบียนหัว:' + d.CarLicense + '<br/>';
                     html += 'ทะเบียนหาง:' + d.TrailerNo + '<br/>';
-                    html += 'ยี่ห้อรถ:' + d.CarBrand + '/' + d.CarType;
+                    html += 'ยี่ห้อรถ:' + d.CarBrand + '/' + d.CarType + '<br/>';
                     html += 'จังหวัด:' + d.CarModel;
                     html += '</td>';
                     c += 1;
