@@ -45,17 +45,15 @@ End Code
     </div>
 
     <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
-        <thead>
             <tr style="background-color:lightblue;">
-                <th height="40" width="270">INV.NO.</th>
-                <th width="70">JOB</th>
-                <th width="60">ADVANCE</th>
-                <th width="60">SERVICE</th>
-                <th width="30">VAT</th>
-                <th width="30">WHT</th>
-                <th width="30">TOTAL</th>
+                <td height="40" width="270">INV.NO.</td>
+                <td width="70">JOB</td>
+                <td width="60">ADVANCE</td>
+                <td width="60">SERVICE</td>
+                <td width="30">VAT</td>
+                <td width="30">WHT</td>
+                <td width="30">TOTAL</td>
             </tr>
-        </thead>
         <tbody id="tbDetail"></tbody>
             <tr style="background-color:lightblue;text-align:right;">
                 <td style="text-align:center"><label id="lblTotalText"></label></td>

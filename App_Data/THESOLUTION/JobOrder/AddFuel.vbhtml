@@ -652,8 +652,10 @@ End Code
         $('#txtJNo').val(dr.JNo);
         $('#txtBookingNo').val(dr.BookingNo);
         $('#txtBookingItemNo').val(dr.ItemNo);
-        $('#txtCarLicense').val(dr.TruckNO);
-        $('#txtDriver').val(dr.Driver);
+        $('#txtCarNo').val(dr.TruckNO);
+        ShowCarLicense(dr.TruckNo);
+        $('#txtEmpCode').val(dr.Driver);
+        ShowEmpName(dr.Driver);
         $('#txtMileBegin').val(dr.MileBegin);
         $('#txtMileEnd').val(dr.MileEnd);
         CalculateMile();

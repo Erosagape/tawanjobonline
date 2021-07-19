@@ -284,7 +284,7 @@ Re-imbursement Request By ___________________________________ Date _____________
                 $('#lblVat').text(ShowNumber(sumVat, 2));
                 $('#lblWht').text(ShowNumber(sumWht, 2));
                 $('#lblNet').text(ShowNumber(sumNet, 2));
-                $('#lblBal').text(ShowNumber(sumAdv-sumNet+sumWht, 2));
+                $('#lblBal').text(ShowNumber(sumAdv-sumNet, 2));
             }
         });
     }

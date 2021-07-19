@@ -189,7 +189,7 @@
         //}
         $('#btnPrnJob').show();
         SetSelect('#tbReportList', this);
-        reportID = data.ReportCode;        
+        reportID = data.ReportCode;
         LoadCliteria(reportID);
     });
     function GetCliteria() {
@@ -208,6 +208,10 @@
         return '?data=' + JSON.stringify(data) + '&cliteria=' + encodeURIComponent(str) + '&group=' + $('#cboReportGroup').val();
     }
     function SetEvents() {
+        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtDateFrom').val(GetFirstDayOfMonth());
+        $('#txtDateTo').val(GetLastDayOfMonth());
         $.get(path +'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
             CreateLOV(dv, '#frmSearchBranch', '#tblBranch', 'Branch', response, 2);
@@ -225,7 +229,7 @@
             case 'branch':
                 SearchData();
                 return;
-            case 'cust':             
+            case 'cust':
                 $('#lblCliteria').text('Filter Data For Customer');
                 break;
             case 'job':
@@ -253,12 +257,12 @@
         cliterias = [];
         $('#dvCliteria').modal('show');
     }
-    function SearchData() {        
+    function SearchData() {
         switch (browseWhat) {
             case 'branch':
                 SetGridBranch(path, '#tblBranch', '#frmSearchBranch', ReadBranch);
                 break;
-            case 'cust':             
+            case 'cust':
                 SetGridCompany(path, '#tblCust', '#frmSearchCust',ReadData);
                 break;
             case 'job':
@@ -306,7 +310,7 @@
                 $('#txtValue').val(dr.SICode);
         }
     }
-    function SetData() {        
+    function SetData() {
         let str = '[' + browseWhat + ']';
         if (cliterias.length > 0 && $('#selOption').val() == "OR") {
             str = $('#selOption').val() + str;

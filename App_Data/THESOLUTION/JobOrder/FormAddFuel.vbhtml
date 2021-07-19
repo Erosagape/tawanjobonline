@@ -120,13 +120,13 @@ End Code
                 <td><label id="getContainerTime"></label></td>
             </tr>
             <tr>
-                <td><label>สถานที่บรรจุ</label></td>
+                <td><label>สถานที่ส่งของ</label></td>
                 <td>:</td>
                 <td><label id="loadPlace"></label></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><label>วันที่บรรจุ</label></td>
+                <td><label>วันที่ส่งของ</label></td>
                 <td>:</td>
                 <td><label id="loadDate"></label></td>
                 <td><label id="loadTime"></label></td>
@@ -169,16 +169,14 @@ End Code
                 <td colspan="4">
                     <div class="center">
                         <br />
-                        <br />
                         <p>.......................................................................................................................</p>
-                        <p>ลงชื่อ พนักงานขับรถ</p>
+                        <div>ลงชื่อ พนักงานขับรถ</div>
                     </div>
                     <div>
                         <br />
-                        <br />
                         <p>ลงชื่อ .................................................................................................................</p>
-                        <p>เวลารถเข้าถึงโรงงาน .......................................................................................................</p>
-                        <p class="center">ผู้ว่าจ้างหรือตัวแทนเจ้าของสินค้า</p>
+                        <p>เวลารถเข้าถึงโรงงาน .....................................................................................</p>
+                        <div class="center">ผู้ว่าจ้างหรือตัวแทนเจ้าของสินค้า</div>
                     </div>
                 </td>
                 <td></td>
@@ -186,21 +184,21 @@ End Code
                 <td colspan="4">
                     <div class="center">
                         <br />
-                        <br />
                         <p>.......................................................................................................................</p>
-                        <p>ลงชื่อ ผู้สั่งงาน</p>
+                        <div>ลงชื่อ ผู้สั่งงาน</div>
                     </div>
                     <div>
                         <br />
-                        <br />
                         <p>ลงชื่อ ..................................................................................................................</p>
-                        <p>เวลารถออกจากโรงงาน ......................................................................................................</p>
-                        <p class="center">ผู้ว่าจ้างหรือตัวแทนเจ้าของสินค้า</p>
+                        <p>เวลารถออกจากโรงงาน ...................................................................................</p>
+                        <div class="center">ผู้ว่าจ้างหรือตัวแทนเจ้าของสินค้า</div>
                     </div>
                 </td>
             </tr>
         </tbody>
     </table>
+    <br />
+    <br />
     <br />
     <table>
         <thead>
@@ -272,16 +270,16 @@ End Code
             </tr>
             <tr>
                 <td colspan="3">
-                    ลงชื่อ .............................................................................. พนักงานขับรถ
+                    ลงชื่อ .................................................................... พนักงานขับรถ
                 </td>
 
                 <td colspan="4">
-                    ลงชื่อ .............................................................................. ผู้สั่งเติม
+                    ลงชื่อ ................................................................... ผู้สั่งเติม
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
-                    ลงชื่อ .............................................................................. พนักงานปั๊มน้ำมัน
+                    ลงชื่อ .....................................................................พนักงานปั๊มน้ำมัน
                 </td>
             </tr>
         </tbody>
@@ -317,17 +315,21 @@ End Code
             $('#carNo').text(d.CarLicense);
             $('#carRefNo').text(d.TrailerNo);
 
-            LoadJob(d.BranchCode, d.JNo);
+            LoadJob(d.BranchCode, d.BookingNo,d.BookingItemNo);
         }
     });
-    function LoadJob(branch, job) {
-        $.get(path + 'JobOrder/GetTransportReport?Branch=' + branch + '&Job=' + job).done(function (r) {
+    function LoadJob(branch, book, item) {
+        $.get(path + 'JobOrder/GetTransportReport?Branch=' + branch + '&Code=' + book).done(function (r) {
             if (r.transport.data.length > 0) {
-                let j = r.transport.data[0];
+                let d = r.transport.data.filter(function (data) {
+                    return data.ItemNo == item;
+                });
+                //let j = r.transport.data[0];
+                let j = d[0];
                 $('#orderNo').text(j.JNo);
                 $('#docNo').text(j.DeliveryNo);
                 $('#refNo').text(j.CustRefNO);
-                $('#docDate').text(j.DocDate);
+                $('#docDate').text(j.DocDate.replaceAll("T"," "));
                 $('#factory').text(j.DeliveryPlace);
                 $('#product').text(j.InvProduct);
                 $('#agent').text(j.ForwarderCode);
@@ -336,7 +338,7 @@ End Code
                 $('#lastLoad').text(j.ClearPortNo);
                 let cont = '';
                 let seal = '';
-                for (let c of r.transport.data) {
+                for (let c of d) {
                     if (cont !== '') cont += '<br/>';
                     cont += c.CTN_SIZE + ' ' + c.CTN_NO;
                     if (seal !== '') seal += '<br/>';
@@ -350,8 +352,8 @@ End Code
                 $('#getContainerDate').text(ShowDate(j.CYDate));
                 $('#getContainerTime').text(ShowTime(j.CYTime));
                 $('#loadPlace').text(j.PlaceName2);
-                $('#loadDate').text(ShowDate(j.PackingDate));
-                $('#loadTime').text(ShowTime(j.PackingTime));
+                $('#loadDate').text(ShowDate(j.UnloadFinishDate));
+                $('#loadTime').text(ShowTime(j.UnloadFinishTime));
                 $('#returnContainerPlace').text(j.PlaceName3);
                 $('#returnContainerDate').text(ShowDate(j.ReturnDate));
                 $('#returnContainerTime').text(ShowTime(j.ReturnTime));
@@ -366,7 +368,7 @@ End Code
         $('#driverName').val(emp);
         $.get(path + 'Master/GetEmployee?Code=' + emp).done(function (r) {
             if (r.employee.data.length > 0) {
-                $('#driverName').val(r.employee.data[0].Name);
+                $('#driverName').text(r.employee.data[0].Name);
             }
         });
     }
