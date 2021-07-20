@@ -216,11 +216,21 @@ End Code
         </p>
     </div>
 </div>
+<div class="row">
+    <div class="col-8"></div>
+    <div class="col-4">
+        <p class="right bold" style="border: 1px solid black; padding:5px">
+            <label id="netProfitLbl"> NET PROFIT</label>
+            <label id="netProfit"></label>
+        </p>
+    </div>
+</div>
 <script src="~/Scripts/Func/reports.js"></script>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let branch = getQueryString('BranchCode');
     let job = getQueryString('JNo');
+    let commissionCode = 'CST-138,CST-147';
     if (branch != "" && job != "") {
         let url = path + 'clr/getclearingreport?branch=' + branch + '&job=' + job;
         $.get(url, (r) => {
@@ -282,6 +292,7 @@ End Code
                 let suma1 = 0;
                 let sumc1 = 0;
                 let sumt1 = 0;
+
                 //alert(dt1.length);
                 for (let i = 0; i < dt1.length; i++) {
                     let tmp = html;
@@ -325,8 +336,13 @@ End Code
                 let suma2 = 0;
                 let sumc2 = 0;
                 let sumt2 = 0;
+                let sumcomm = 0;
+
                 //alert(dt2.length);
                 for (let i = 0; i < dt2.length; i++) {
+                    if (commissionCode.indexOf(dt2[i].SICode) >= 0) {
+                        sumcomm += dt2[i].UsedAmount;
+                    }
                     let tmp = html;
                     tmp = tmp.replace('{0}', dt2[i].SDescription);
                     tmp = tmp.replace('{1}', dt2[i].LinkBillNo);
@@ -335,7 +351,7 @@ End Code
                     tmp = tmp.replace('{4}', dt2[i].UnitCode);
                     tmp = tmp.replace('{5}', dt2[i].CurrencyCode);
                     //tmp = tmp.replace('{6}', dt2[i].CurRate);
-                    tmp = tmp.replace('{7}', ShowNumber(dt2[i].UnitPrice, 2));
+                    tmp = tmp.replace('{7}', ShowNumber(dt2[i].UnitCost, 2));
                     tmp = tmp.replace('{8}', ShowNumber(dt2[i].UsedAmount, 2));
                     tmp = tmp.replace('{9}', dt2[i].IsCredit == 1 ? ShowNumber(dt2[i].UsedAmount, 2) : '');
                     tmp = tmp.replace('{10}', dt2[i].IsExpense == 1 && dt2[i].IsCredit == 0 ? ShowNumber(dt2[i].UsedAmount, 2) : '');
@@ -358,7 +374,7 @@ End Code
                 html2 += tmp;
                 $('#dt2').html(html2);
                 $("#netAmount").text(ShowNumber(sumt1-sumt2,2));
-
+                $("#netProfit").text(ShowNumber(sumt1 - sumt2 + sumcomm, 2));
 
             }
         });
