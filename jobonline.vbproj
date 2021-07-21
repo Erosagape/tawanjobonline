@@ -383,6 +383,7 @@
     <Content Include="App_Data\TOTAL\Draft\report2.htm" />
     <Content Include="App_Data\TOTAL\Draft\report3.htm" />
     <Content Include="App_Data\TOTAL\Draft\report4.htm" />
+    <Content Include="App_Data\TOTAL\lang.js" />
     <Content Include="App_Data\webadmin.txt" />
     <Content Include="App_Data\_STANDARD\Scripts\combo.js" />
     <Content Include="App_Data\_STANDARD\Scripts\lang.js" />
@@ -1157,6 +1158,10 @@
     <Content Include="App_Data\TOTAL\Acc\FormRcp.vbhtml" />
     <Content Include="App_Data\TOTAL\Acc\FormTaxinv.vbhtml" />
     <Content Include="App_Data\TOTAL\Clr\FormClr.vbhtml" />
+    <Content Include="App_Data\TOTAL\Adv\Index.vbhtml" />
+    <Content Include="App_Data\TOTAL\Adv\Payment.vbhtml" />
+    <Content Include="App_Data\TOTAL\Acc\FormCheque.vbhtml" />
+    <Content Include="App_Data\TOTAL\Acc\Cheque.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

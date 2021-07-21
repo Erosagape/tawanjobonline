@@ -893,7 +893,7 @@ End Code
             } else {
                 CallBackQueryBookAccount(path, dr.BranchCode, dr.BookCode, ReadBookAccount);
             }
-            if (dr.SICode !== ''){
+            if (dr.SICode !== ''{
                 CallBackQueryService(path, dr.SICode, ReadService);
             }
             ShowBank(path, dr.RecvBank, '#txtRecvBankName');

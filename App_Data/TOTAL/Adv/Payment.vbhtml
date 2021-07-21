@@ -128,7 +128,7 @@ End Code
             <div id="tab2" class="tab-pane fade">
                 <div class="row">
                     <div class="col-sm-3 table-bordered" id="dvCash">
-                        <b id="linkCash">Cash/Transfer :</b><input type="text" id="txtAdvCash" class="form-control" value="" />
+                        <b id="linkCash">Cash :</b><input type="text" id="txtAdvCash" class="form-control" value="" />
                         <br />
                         <table>
                             <tr>
@@ -197,10 +197,10 @@ End Code
                         <input type="hidden" id="fldBankBranchChqCash" />
                     </div>
                     <div class="col-sm-3 table-bordered" id="dvChq">
-                        <b id="linkChqCust">Customer Chq : </b><input type="text" id="txtAdvChq" class="form-control" value="" />
+                        <b id="linkChqCust">Cheque : </b><input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
                         <input type="hidden" id="txtBookChq" class="form-control" value=""/>
-                        <a id="lblRefNoCU" href="../acc/cheque" target="_blank">Chq No:</a><input type="text" id="txtRefNoChq" class="form-control" value="" disabled />
+                        <a id="lblRefNoCU" href="../acc/cheque" target="_blank">Chq No:</a><input type="text" id="txtRefNoChq" class="form-control" value="" />
                         <input type="button" class="btn" id="btnBrowseChq" value="..." onclick="SearchData('chequecust')" />
                         <br />
                         <label id="lblTranDateCU">Chq Date:</label>
@@ -707,7 +707,6 @@ End Code
 
         SetStatusInput('#dvChq', (chqcust > 0 ? true : false), '#txtAdvChq');
         $('#txtAdvChq').val(CDbl(chqcust, 4));
-        $('#txtRefNoChq').attr('disabled', 'disabled');
 
         SetStatusInput('#dvCred', (cred > 0 ? true : false), '#txtAdvCred');
         $('#txtAdvCred').val(CDbl(cred, 4));

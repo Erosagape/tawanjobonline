@@ -39,39 +39,37 @@ End Code
                     <div id="tabHeader" class="tab-pane fade in active" style="width:100%">
                         <div class="row">
                             <div class="col-sm-7">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            *<label id="lblAdvBy">Advance By :</label>
-                                        </td>
-                                        <td style="display:flex;flex-direction:row">
-                                            <input type="text" id="txtAdvBy" class="form-control" style="width:120px" tabindex="2" />
-                                            <button id="btnBrowseEmp1" class="btn btn-default" onclick="SearchData('advby')">...</button>
-                                            <input type="text" id="txtAdvName" class="form-control" style="width:100%" disabled />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            *<label id="lblReqBy">Request By :</label>
-                                        </td>
-                                        <td style="display:flex;flex-direction:row">
-                                            <input type="text" id="txtReqBy" class="form-control" style="width:120px" tabindex="3" />
-                                            <button id="btnBrowseEmp2" class="btn btn-default" onclick="SearchData('reqby')">...</button>
-                                            <input type="text" id="txtReqName" class="form-control" style="width:100%" disabled />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            *<label id="lblAdvFor">Advance For :</label>
-                                        </td>
-                                        <td style="display:flex;flex-direction:row">
-                                            <input type="text" id="txtCustCode" class="form-control" style="width:130px" tabindex="4" />
-                                            <input type="text" id="txtCustBranch" class="form-control" style="width:70px" tabindex="5" />
-                                            <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
-                                            <input type="text" id="txtCustName" class="form-control" style="width:100%" disabled />
-                                        </td>
-                                    </tr>
-                                </table>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        *<label id="lblAdvBy">Advance By :</label>
+                                    </div>
+                                    <div class="col-sm-9" style="display:flex">
+                                        <input type="text" id="txtAdvBy" class="form-control" style="width:120px" tabindex="2" />
+                                        <button id="btnBrowseEmp1" class="btn btn-default" onclick="SearchData('advby')">...</button>
+                                        <input type="text" id="txtAdvName" class="form-control" style="width:100%" disabled />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        *<label id="lblReqBy">Request By :</label>
+                                    </div>
+                                    <div class="col-sm-9" style="display:flex">
+                                        <input type="text" id="txtReqBy" class="form-control" style="width:120px" tabindex="3" />
+                                        <button id="btnBrowseEmp2" class="btn btn-default" onclick="SearchData('reqby')">...</button>
+                                        <input type="text" id="txtReqName" class="form-control" style="width:100%" disabled />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        *<label id="lblAdvFor">Advance For :</label>
+                                    </div>
+                                    <div class="col-sm-9" style="display:flex">
+                                        <input type="text" id="txtCustCode" class="form-control" style="width:130px" tabindex="4" />
+                                        <input type="text" id="txtCustBranch" class="form-control" style="width:70px" tabindex="5" />
+                                        <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
+                                        <input type="text" id="txtCustName" class="form-control" style="width:100%" disabled />
+                                    </div>
+                                </div>
                                 <table>
                                     <tr>
                                         <td>
@@ -129,24 +127,34 @@ End Code
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-7">
+                            <div class="col-sm-3">
                                 <label id="lblAdvType">Advance Type:</label>
                                 <select id="cboAdvType" class="form-control dropdown" style="width:100%" tabindex="10"></select>
-                                <br />
+                            </div>
+                            <div class="col-sm-4">
+                                <label id="lblJNo">Container No:</label>
+                                <div style="display:flex;">
+                                    <input type="text" id="txtContainerNo" class="form-control" />
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('container')" />
+                                </div>
+                                <input type="hidden" id="txtJNo" />                                
+                            </div>
+                            <div class="col-sm-5">
+                                <label id="lblCurrency">Request Currency:</label>
+                                <div style="display:flex">
+                                    <input type="text" id="txtSubCurrency" style="width:100%" value="@ViewBag.PROFILE_CURRENCY" disabled />
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('subcurrency')" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-7">
                                 <label id="lblRemark">Remark:</label>
-                                <textarea id="txtTRemark" class="form-control-lg" style="width:100%;height:80px" tabindex="11"></textarea>
+                                <textarea id="txtTRemark" class="form-control-lg" style="width:100%;" tabindex="11"></textarea>
+                                <label id="lblPayTo">Payment To:</label><input type="text" id="txtPayTo" class="form-control" />
                             </div>
                             <div class="col-sm-5">
                                 <table>
-                                    <tr>
-                                        <td>
-                                            <label id="lblCurrency">Request Currency:</label>
-                                        </td>
-                                        <td style="display:flex;flex-direction:row">
-                                            <input type="text" id="txtSubCurrency" style="width:100%" value="@ViewBag.PROFILE_CURRENCY" disabled />
-                                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('subcurrency')" />
-                                        </td>
-                                    </tr>
                                     <tr>
                                         <td colspan="2">
                                             <label id="lblPayTotal">Payment Total:</label>
@@ -163,23 +171,22 @@ End Code
                                     </tr>
                                     <tr>
                                         <td>
-                                            <input type="checkbox" id="chkChqCash" />
-                                            <label id="lblChqCash" for="chkChqCash">Transfer</label>
-                                        </td>
-                                        <td style="display:flex;flex-direction:row">
-                                            <input type="text" id="txtAdvChqCash" class="form-control" style="width:100%;text-align:right" disabled />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
                                             <input type="checkbox" id="chkChq" />
-                                            <label id="lblChq" for="chkChq">Cheque</label>
+                                            <label id="lblChq" for="chkChq">Customer Chq</label>
                                         </td>
                                         <td style="display:flex;flex-direction:row">
                                             <input type="text" id="txtAdvChq" class="form-control" style="width:100%;text-align:right" disabled />
                                         </td>
                                     </tr>
-
+                                    <tr>
+                                        <td>
+                                            <input type="checkbox" id="chkChqCash" />
+                                            <label id="lblChqCash" for="chkChqCash">Cashier Chq</label>
+                                        </td>
+                                        <td style="display:flex;flex-direction:row">
+                                            <input type="text" id="txtAdvChqCash" class="form-control" style="width:100%;text-align:right" disabled />
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td>
                                             <input type="checkbox" id="chkCred" />
@@ -882,6 +889,8 @@ End Code
             CreateLOV(dv, '#frmSearchExpCur', '#tbExpCur', 'Currency Code', response, 2);
             //Estimate
             CreateLOV(dv, '#frmSearchEstimate', '#tbEstimate', 'Estimate Price', response, 3);
+            //Containers
+            CreateLOV(dv, '#frmSearchCont', '#tbCont', 'Container Code', response, 4);
         });
     }
     function ShowData(branchcode, advno) {
@@ -1027,10 +1036,10 @@ End Code
             AdvType : $('#cboAdvType').val(),
             DocStatus: $('#cboDocStatus').val(),
 
-            JNo: null,
-            InvNo: null,
+            JNo: $('#txtJNo').val(),
+            InvNo: $('#txtContainerNo').val(),
             VATRate: 0,
-            PayChqTo: null,
+            PayChqTo: $('#txtPayTo').val(),
             PayChqDate: CDateEN($('#txtPayChqDate').val()),
 
             MainCurrency: $('#txtMainCurrency').val(),
@@ -1098,6 +1107,11 @@ End Code
             $('#txtExchangeRate').val(CDbl(dt.ExchangeRate, 2));
 
             $('#txtPayChqDate').val(CDateEN(dt.PayChqDate));
+
+            $('#txtPayTo').val(dt.PayChqTo);
+            $('#txtContainerNo').val(dt.InvNo);
+            $('#txtJNo').val(dt.JNo);
+
             //Combos
             $('#cboAdvType').val(CCode(dt.AdvType));
             $('#cboDocStatus').val(CCode(dt.DocStatus));
@@ -1221,7 +1235,11 @@ End Code
         $('#txtPayChqDate').val(GetToday());
         $('#txtAdvBy').val(user);
         $('#txtReqBy').val('');
-        if (isjobmode == false) {
+        $('#txtJNo').val('');
+        $('#txtContainerNo').val('');
+        $('#txtPayTo').val('');
+
+        if (isjobmode == false) {            
             $('#txtCustCode').val('');
             $('#txtCustBranch').val('');
             $('#cboJobType').val('');
@@ -1735,6 +1753,13 @@ End Code
             case 'vender':
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
                 break;
+            case 'container':
+                w = '?Branch=' + $('#txtBranchCode').val();
+                if (job !== '') {
+                    w += '&Job=' + job;
+                }
+                SetGridTransport(path, '#tbCont', '#frmSearchCont', w, ReadContainer);
+                break;
         }
     }
     function GetParam() {
@@ -1763,6 +1788,14 @@ End Code
             $('#lblNETAmount').text("ยอดสุทธิ (" + $('#txtMainCurrency').val() + "):");
         }
     }
+    function ReadContainer(dt) {
+        job = dt.JNo;
+
+        $('#txtContainerNo').val(dt.CTN_NO);
+        $('#txtJNo').val(dt.JNo);
+        $('#txtPayTo').val(dt.Driver);
+    }
+
     function ReadVender(dt) {
         $('#txtVenCode').val(dt.VenCode);
         $('#txtPayChqTo').val(dt.TName);

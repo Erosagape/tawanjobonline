@@ -1560,7 +1560,7 @@ function GetLangForm(fname) {
                 lblPayTotal: 'Payment Total|รวมเงินที่ขอเบิก',
                 lblCash: 'Cash|เงินสด',
                 lblChqCash: 'Transfer|เงินโอน',
-                lblChq: 'Customer Chq|เช็คลูกค้า',
+                lblChq: 'Cheque|เช็คลูกค้า',
                 lblCred: 'Credit|เครดิตหนี้',
                 lblApproveBy: 'Approve By|อนุมัติโดย',
                 lblApproveDate: 'Approve Date|วันที่อนุมัติ',
