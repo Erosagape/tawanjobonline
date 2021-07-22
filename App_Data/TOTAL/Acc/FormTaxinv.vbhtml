@@ -157,22 +157,22 @@ End Code
     <br />
     <div style="display:flex;flex-direction:column">
         <div>
-            <label><input id="chkCash" type="checkbox" name="vehicle1" value=""> CASH</label>
-            DATE<label id="lblCashDate"> _____________ </label>
+            <label><input id="chkCash" type="checkbox" name="vehicle1" value=""> CASH </label>
+            DATE <label id="lblCashDate"> _____________ </label>
             AMOUNT <label id="lblCashAmount">______________</label> BAHT
         </div>
         <div>
-            <label><input id="chkCheque" type="checkbox" name="vehicle2" value=""> CHEQUE</label>
-            DATE<label id="lblChqDate">_____________ </label>
-            NO<label id="lblChqNo">_______________</label>
-            BANK<label id="lblChqBank">_________________</label>
-            AMOUNT<label id="lblChqAmount">______________</label>BAHT
+            <label><input id="chkCheque" type="checkbox" name="vehicle2" value=""> CHEQUE </label>
+            DATE <label id="lblChqDate">_____________ </label>
+            NO <label id="lblChqNo">_______________</label>
+            BANK <label id="lblChqBank">_________________</label>
+            AMOUNT <label id="lblChqAmount">______________</label> BAHT
         </div>
         <div>
             <label><input id="chkTransfer" type="checkbox" name="vehicle3" value=""> TRANSFER</label>
-            DATE<label id="lblTransferDate">_____________</label>
-            BANK<label id="lblTransferBank"> _________________</label>
-            AMOUNT<label id="lblTransferAmount">______________</label>BAHT
+              DATE  <label id="lblTransferDate">_____________</label>
+            BANK <label id="lblTransferBank"> _________________</label>
+            AMOUNT <label id="lblTransferAmount">______________</label> BAHT
         </div>
     </div>
     <br />
@@ -200,7 +200,12 @@ End Code
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
     let receiptno = getQueryString('code');
-
+    if (confirm("show company header?") == false) {
+        $('#imgLogo').css('display', 'none');
+        $('#divCompany').css('display', 'none');
+        $('#dvCompAddr').css('display', 'none');
+        $('#dvCompLogo').css('height', '90px');
+    }
     $.get(path + 'acc/getreceivereport?branch=' + branch + '&code=' + receiptno, function (r) {
         if (r.receipt.data.length !== null) {
             ShowData(r.receipt.data);
@@ -310,7 +315,7 @@ End Code
                 for (let p of r.voucher.payment) {
                     switch (p.acType) {
                         case 'CA':
-                            if (p.ChqNo !== '') {
+                            if (p.ChqNo == '') {
                                 $('#chkTransfer').prop('checked', true);
                                 $('#lblTransferDate').text(p.TRemark);
                                 $('#lblTransferDate').css('text-decoration', 'underline');

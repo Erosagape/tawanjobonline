@@ -220,15 +220,15 @@ End Code
                                 <tr>
                                     <th>Clr.No</th>
                                     <th class="desktop">Clr.date</th>
-                                    <th class="all">Job No</th>
-                                    <th class="desktop">Inv.No</th>
-                                    <th class="desktop">customer</th>
-                                    <th class="desktop">Adv.No</th>
+                                    <th class="all">Customer</th>
+                                    <th class="desktop">No</th>
+                                    <th class="desktop">Desc</th>
                                     <th class="all">Adv.Total</th>
                                     <th class="all">Used</th>
-                                    <th class="desktop">Balance</th>
+                                    <th class="desktop">Vat</th>
                                     <th class="desktop">W-Tax</th>
-                                    <th class="desktop">Clr.By</th>
+                                    <th class="desktop">Refund</th>
+                                    <th class="desktop">Payback</th>
                                 </tr>
                             </thead>
                         </table>
@@ -461,7 +461,6 @@ End Code
                     },
                     { data: "CustCode", title: "Customer" },
                     { data: "ItemNo", title: "No" },
-                    { data: "SICode", title: "Adv.Code" },
                     { data: "SDescription", title: "Adv.Expenses" },
                     {
                         data: "AdvNet", title: "Adv Total",
@@ -488,9 +487,15 @@ End Code
                         }
                     },
                     {
-                        data: "ClrBal", title: "Balance",
+                        data: "ClrBal", title: "Refund",
                         render: function (data) {
-                            return ShowNumber(data,2);
+                            return data > 0 ? ShowNumber(data, 2) : '0.00';
+                        }
+                    },
+                    {
+                        data: "ClrBal", title: "Payback",
+                        render: function (data) {
+                            return data < 0 ? ShowNumber(Math.abs(data), 2) : '0.00';
                         }
                     }
                 ],

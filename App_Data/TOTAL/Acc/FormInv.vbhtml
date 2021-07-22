@@ -427,10 +427,10 @@ End Code
                 html += '            <td class="right">' + row.QtyUnit+'</td>';
                 html += '            <td class="right">' + row.CurrencyCode + '</td>';
                 html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
-                html += '            <td class="right">' + ShowNumber(row.UnitPrice,2) + '</td>';
-                html += '            <td class="right">' + (row.AmtAdvance?ShowNumber(row.AmtAdvance, 2):'') + '</td>';
-                html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.AmtCharge, 2):''):'') + '</td>';
-                html += '            <td class="right">' + (row.AmtVat>0?ShowNumber(row.AmtCharge, 2) : '') + '</td>';
+                html += '            <td class="right">' + ShowNumber(row.FUnitPrice,2) + '</td>';
+                html += '            <td class="right">' + (row.AmtAdvance?ShowNumber(row.Amt, 2):'') + '</td>';
+                html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt, 2):''):'') + '</td>';
+                html += '            <td class="right">' + (row.AmtVat>0?ShowNumber(row.Amt, 2) : '') + '</td>';
                 html += '        </tr>';
                 adv += row.AmtAdvance;
                 if (row.AmtVat > 0) {

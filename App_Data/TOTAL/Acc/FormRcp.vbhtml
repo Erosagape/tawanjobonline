@@ -182,7 +182,12 @@ End Code
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
     let receiptno = getQueryString('code');
-
+    if (confirm("show company header?") == false) {
+        $('#imgLogo').css('display', 'none');
+        $('#divCompany').css('display', 'none');
+        $('#dvCompAddr').css('display', 'none');
+        $('#dvCompLogo').css('height', '90px');
+    }
     $.get(path + 'acc/getreceivereport?branch=' + branch + '&code=' + receiptno, function (r) {
         if (r.receipt.data.length !== null) {
             ShowData(r.receipt.data);
@@ -219,7 +224,7 @@ End Code
                 for (let p of r.voucher.payment) {
                     switch (p.acType) {
                         case 'CA':
-                            if (p.ChqNo !== '') {
+                            if (p.ChqNo == '') {
                                 $('#chkTransfer').prop('checked', true);
                                 $('#lblTransferDate').text(p.TRemark);
                                 $('#lblTransferDate').css('text-decoration', 'underline');
