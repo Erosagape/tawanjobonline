@@ -1113,7 +1113,7 @@ End Code
     }
     function ReadCar(dt) {
         $('#txtTruckNO').val(dt.CarNo);
-        $('#txtDriver').val(dt.EmpCode);
+        //$('#txtDriver').val(dt.EmpCode);
     }
     function ReadRoute(dt) {
         $('#txtRouteID').val(dt.LocationID);

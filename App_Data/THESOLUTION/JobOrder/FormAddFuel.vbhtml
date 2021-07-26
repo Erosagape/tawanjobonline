@@ -143,15 +143,13 @@ End Code
                 <td><label id="returnContainerDate"></label></td>
                 <td><label id="returnContainerTime"></label></td>
             </tr>
-            <tr class="roundBorder">
-                <td class="right"><label>คำสั่งลากตู้</label></td>
-                <td>:</td>
-                <td colspan="8"><label id="route"></label></td>
-            </tr>
             <tr>
                 <td><label>หมายเหตุ</label></td>
                 <td>:</td>
-                <td colspan="8"><label id="remark"></label></td>
+                <td colspan="4"><label id="remark"></label></td>
+                <td><label>Customer PO</label></td>
+                <td>:</td>
+                <td><label id="custPo1"></label></td>
             </tr>
             <tr>
                 <td><label>ชื่อ พขร</label></td>
@@ -263,7 +261,10 @@ End Code
             </tr>
             <tr>
                 <td>หมายเหตุ</td>
-                <td class="dottedUnderline" colspan="4"><label id="fuelremark"></label></td>
+                <td class="dottedUnderline" colspan="2"><label id="fuelremark"></label></td>
+                <td>Customer PO</td>
+                <td class="dottedUnderline"><label id="custPo2"></label></td>
+
             </tr>
             <tr>
                 <td colspan="5">ขอให้ทางปั๊มเดิมน้ำมันดังกล่าวข้างต้นด้วย</td>
@@ -357,8 +358,10 @@ End Code
                 $('#returnContainerPlace').text(j.PlaceName3);
                 $('#returnContainerDate').text(ShowDate(j.ReturnDate));
                 $('#returnContainerTime').text(ShowTime(j.ReturnTime));
-                $('#route').text(j.LocationRoute);
+                //$('#route').text(j.LocationRoute);
                 $('#remark').text(j.Remark);
+                $('#custPo1').text(j.CustRefNO);
+                $('#custPo2').text(j.CustRefNO);
                 ShowEmpName(j.Driver);
             }
         });

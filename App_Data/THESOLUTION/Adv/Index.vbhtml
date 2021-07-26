@@ -1733,7 +1733,11 @@ End Code
                 SetGridUser(path, '#tbAdv', '#frmSearchAdv', ReadAdvBy);
                 break;
             case 'reqby':
-                SetGridUser(path, '#tbReq', '#frmSearchReq', ReadReqBy);
+                if ($('#cboAdvType').val() == '04') {
+                    SetGridEmployee(path, '#tbReq', '#frmSearchReq', ReadEmp);
+                } else {
+                    SetGridUser(path, '#tbReq', '#frmSearchReq', ReadReqBy);
+                }
                 break;
             case 'customer':
                 SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
@@ -1817,6 +1821,10 @@ End Code
     function ReadAdvBy(dt) {
         $('#txtAdvBy').val(dt.UserID);
         $('#txtAdvName').val(dt.TName);
+    }
+    function ReadEmp(dt) {
+        $('#txtReqBy').val(dt.EmpCode);
+        $('#txtReqName').val(dt.PreName + dt.Name);
     }
     function ReadReqBy(dt) {
         $('#txtReqBy').val(dt.UserID);

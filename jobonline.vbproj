@@ -380,6 +380,7 @@
     <Content Include="App_Data\THESOLUTION\Draft\Theso-Invoice.html" />
     <Content Include="App_Data\THESOLUTION\Draft\Theso-oil.html" />
     <Content Include="App_Data\THESOLUTION\Draft\Theso-order.html" />
+    <Content Include="App_Data\THESOLUTION\JobOrder\FormAddFuel.vbhtml" />
     <Content Include="App_Data\TOTAL\Draft\report2.htm" />
     <Content Include="App_Data\TOTAL\Draft\report3.htm" />
     <Content Include="App_Data\TOTAL\Draft\report4.htm" />
@@ -1135,7 +1136,6 @@
     <Content Include="App_Data\SUKHOTHAI\JobOrder\FormTransportHAIR.vbhtml" />
     <Content Include="App_Data\SUKHOTHAI\JobOrder\FormTransportMAIR.vbhtml" />
     <Content Include="App_Data\THESOLUTION\JobOrder\AddFuel.vbhtml" />
-    <Content Include="App_Data\THESOLUTION\JobOrder\FormAddFuel.vbhtml" />
     <Content Include="App_Data\THESOLUTION\JobOrder\Transport.vbhtml" />
     <Content Include="App_Data\TOTAL\Clr\GenerateInv.vbhtml" />
     <Content Include="App_Data\TOTAL\Acc\FormWHTax.vbhtml" />

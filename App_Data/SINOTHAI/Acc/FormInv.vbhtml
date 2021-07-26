@@ -14,7 +14,7 @@ End Code
     }
 
     tbody > tr {
-        border-bottom-color: white !important;
+        border-bottom:none;
     }
 
     #dvFooter {
