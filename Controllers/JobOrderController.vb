@@ -1094,6 +1094,13 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
         End Function
         Function GetJobReport() As ActionResult
             Try
+                Dim isShowAll As Boolean = True
+                Dim oUser = New CUser(GetSession("Connjob")).GetData(String.Format(" WHERE UserID='{0}'", GetSession("CurrUser")))
+                If oUser.Count > 0 Then
+                    If "5,4".IndexOf(oUser(0).UPosition) > 0 Then
+                        isShowAll = False
+                    End If
+                End If
                 Dim tSqlW As String = ""
                 If Not IsNothing(Request.QueryString("JType")) Then
                     tSqlW &= " AND j.JobType=" & Request.QueryString("JType") & ""
@@ -1125,6 +1132,10 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 End If
                 If Not IsNothing(Request.QueryString("CSCode")) Then
                     tSqlW &= " AND j.CSCode='" & Request.QueryString("CSCode") & "'"
+                Else
+                    If isShowAll = False And oUser(0).UPosition = 4 Then
+                        tSqlW &= " AND (j.CSCode='" & oUser(0).UserID & "')"
+                    End If
                 End If
                 If Not IsNothing(Request.QueryString("DeclareNo")) Then
                     tSqlW &= " AND j.DeclareNumber Like '%" & Request.QueryString("DeclareNo") & "%'"
@@ -1146,6 +1157,10 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 End If
                 If Not IsNothing(Request.QueryString("ShippingCode")) Then
                     tSqlW &= " AND j.ShippingEmp='" & Request.QueryString("ShippingCode") & "'"
+                Else
+                    If isShowAll = False And oUser(0).UPosition = 5 Then
+                        tSqlW &= " AND (j.ShippingEmp='" & oUser(0).UserID & "')"
+                    End If
                 End If
                 If Not IsNothing(Request.QueryString("Forwarder")) Then
                     tSqlW &= " AND j.ForwarderCode='" & Request.QueryString("Forwarder") & "'"
@@ -1220,6 +1235,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 End If
                 If Not IsNothing(Request.QueryString("JNo")) Then
                     tSqlW &= " AND JNo='" & Request.QueryString("JNo") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("InvNo")) Then
+                    tSqlW &= " AND InvNo='" & Request.QueryString("InvNo") & "'"
                 End If
                 If Not IsNothing(Request.QueryString("JType")) Then
                     tSqlW &= " AND JobType=" & Request.QueryString("JType") & ""

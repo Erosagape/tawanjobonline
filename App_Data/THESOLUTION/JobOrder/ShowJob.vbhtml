@@ -1221,7 +1221,10 @@ End Code
                 break;
             case 'job':
                 let dbID = ('@ViewBag.DATABASE' == '1' ? '2' : '1');
-                SetGridJob(path, '#tbJob', '#frmSearchJob', '?DBID='+ dbID, function (r) {
+                let invNo = $('#txtCustInvNo').val();
+                let w = '?DBID=' + dbID;
+                if (invNo !== '') w += '&InvNo=' + invNo;
+                SetGridJob(path, '#tbJob', '#frmSearchJob', w, function (r) {
                     $('#txtCustPoNo').val(r.JNo);
                     ReadJob(r);
                     ShowConfirm("Import Transport Data too?", function (ans) {
