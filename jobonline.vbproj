@@ -381,6 +381,7 @@
     <Content Include="App_Data\THESOLUTION\Draft\Theso-oil.html" />
     <Content Include="App_Data\THESOLUTION\Draft\Theso-order.html" />
     <Content Include="App_Data\THESOLUTION\JobOrder\FormAddFuel.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\lang.js" />
     <Content Include="App_Data\TOTAL\Draft\report2.htm" />
     <Content Include="App_Data\TOTAL\Draft\report3.htm" />
     <Content Include="App_Data\TOTAL\Draft\report4.htm" />
@@ -1165,6 +1166,10 @@
     <Content Include="App_Data\THESOLUTION\Adv\Index.vbhtml" />
     <Content Include="App_Data\THESOLUTION\Adv\Payment.vbhtml" />
     <Content Include="App_Data\THESOLUTION\Clr\Receive.vbhtml" />
+    <Content Include="App_Data\TOTAL\Acc\RecvInv.vbhtml" />
+    <Content Include="App_Data\TOTAL\Clr\Receive.vbhtml" />
+    <Content Include="App_Data\TOTAL\Acc\Payment.vbhtml" />
+    <Content Include="App_Data\TOTAL\Clr\Index.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

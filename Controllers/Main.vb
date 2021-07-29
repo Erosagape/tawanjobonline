@@ -2650,7 +2650,7 @@ n.NameEng AS NotifyName, n.EAddress1 AS NotifyAddress1, n.EAddress2 AS NotifyAdd
 j.VesselName, j.MVesselName, j.ProjectName, j.TotalGW, j.TotalNW , j.GWUnit, j.InvInterPort, j.InvFCountry, j.InvCountry, j.ETDDate, j.ETADate, j.ClearPortNo, j.ClearPort, j.DeliveryTo, j.DeliveryAddr, 
 j.ShippingEmp,e.TName as ShippingName, e.MobilePhone as ShippingTel,j.TRemark, j.EstDeliverDate, h.Remark, h.PackingAddress, h.CYAddress, h.FactoryAddress, h.ReturnAddress, h.PackingContact, h.CYContact, h.FactoryContact, h.ReturnContact, 
 h.PackingPlace, h.CYPlace, h.FactoryPlace, h.ReturnPlace, h.PackingDate, h.CYDate, h.FactoryDate, h.ReturnDate, h.PackingTime, h.CYTime, h.FactoryTime, 
-h.ReturnTime, h.TransMode, h.PaymentCondition, h.PaymentBy, d.CTN_NO, d.SealNumber, d.TruckNO, d.Comment, d.TruckType, d.Driver, d.Location, d.DeliveryNo,
+h.ReturnTime, h.TransMode, h.PaymentCondition, h.PaymentBy,d.ItemNo, d.CTN_NO, d.SealNumber, d.TruckNO, d.Comment, d.TruckType, d.Driver, d.Location, d.DeliveryNo,
 d.ShippingMark, d.CTN_SIZE, d.ProductDesc, d.ProductQty, d.ProductUnit, d.GrossWeight, d.Measurement, d.TargetYardDate, d.TargetYardTime, d.ActualYardDate, d.ActualYardTime, 
 d.UnloadDate AS TargetDeliveryDate, d.UnloadTime as TargetDeliveryTime, d.UnloadFinishDate AS ActualDeliveryDate, d.UnloadFinishTime as ActualDeliveryTime,
 d.TruckIN AS TargetReturnDate, d.Start as TargetReturnTime, d.ReturnDate AS ActualReturnDate, d.Finish as ActualReturnTime, j.BLNo, j.JobType, 

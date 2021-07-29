@@ -362,11 +362,13 @@ End Code
                 $("#billName").text(b.NameEng);
 
                 let addr = '';
-                addr += b.EAddress1 + '<br/>' + c.EAddress2;
+                addr += b.EAddress1 + '<br/>' + b.EAddress2;
                 addr += '<br/>Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch;
-		$("#billAddress1").text(b.EAddress1);
-		$("#billAddress2").text(c.EAddress2);
-		$("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch);
+		        $("#billAddress1").text(b.EAddress1);
+		        $("#billAddress2").text(b.EAddress2);
+                $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch);
+                $("#crTerm").text(b.CreditLimit);
+                $("#dueDate").text(AddDate(h.DocDate, b.CreditLimit));
 	        });
             $("#id").text(h.CustCode);
             //$("#billName").text(c.NameEng);
@@ -378,8 +380,8 @@ End Code
             //let tmpInvNo = "inv-"+(date.getFullYear()-2000)+(date.getMonth()<10?"0"+date.getMonth():date.getMonth())+h.DocNo.substring(6,12);
             //$("#invoiceNo").text(tmpInvNo);
             $("#invoiceDate").text(ShowDate(h.DocDate));
-            $("#crTerm").text(c.CreditLimit);
-            $("#dueDate").text(AddDate(h.DocDate, c.CreditLimit));
+            //$("#crTerm").text(c.CreditLimit);
+            //$("#dueDate").text(AddDate(h.DocDate, c.CreditLimit));
             $("#currency").text(h.CurrencyCode);
             //$("#destiny").text("PASIR GUDANG-BANGKOK");
             if (j.JobType == 1) {

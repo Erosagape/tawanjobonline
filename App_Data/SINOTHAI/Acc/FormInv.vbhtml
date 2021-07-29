@@ -12,9 +12,8 @@ End Code
         border-width: thin;
         border-collapse: collapse;
     }
-
-    tbody > tr {
-        border-bottom:none;
+    #tbDetail tr {
+        border-bottom:hidden;
     }
 
     #dvFooter {
@@ -138,19 +137,22 @@ End Code
             </tr>
         </thead>
         <tbody id="tbDetail"></tbody>
-        <tfoot style="border-top:inherit;">
+        <tr>
+            <td colspan="6" style="border-top:solid;"></td>
+        </tr>
+        <tfoot>
             <tr style="font-weight:bold;">
-                <td colspan="2" style="text-align:right">TOTAL</td>
-                <td style="text-align:right">
+                <td colspan="2" style="text-align:right;">TOTAL</td>
+                <td style="text-align: right;">
                     <label id="lblSumAdvance"></label>
                 </td>
-                <td style="text-align:right">
+                <td style="text-align: right;">
                     <label id="lblSumNonVat"></label>
                 </td>
-                <td style="text-align:right">
+                <td style="text-align: right;">
                     <label id="lblSumWht"></label>
                 </td>
-                <td style="text-align:right">
+                <td style="text-align: right;">
                     <label id="lblSumBeforeVat"></label>
                 </td>
             </tr>

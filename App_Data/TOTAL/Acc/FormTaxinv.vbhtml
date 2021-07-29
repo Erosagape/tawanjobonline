@@ -47,8 +47,9 @@ End Code
     <div style="display:flex;">
         <div style="flex:3;border:1px solid black;border-radius:5px;">
             NAME : <label id="lblCustName"></label><br />
-            ADDRESS : <label id="lblCustAddr"></label><br />
-            TEL : <label id="lblCustTel"></label><br />
+            ADDRESS : <label id="lblCustAddr1"></label><br />
+            <label id="lblCustAddr2"></label><br />
+            @*TEL : <label id="lblCustTel"></label><br />*@
             TAX-ID : <lable id="lblCustTax"></lable>
         </div>
         <div style="flex:1;border:1px solid black;border-radius:5px;">
@@ -296,12 +297,12 @@ End Code
             html += '</tr>';
 
             $('#tbDetail').append(html);
-            if (d.AmtCharge > 0) {
+            //if (d.AmtCharge > 0) {
                 service += Number(d.InvAmt);
                 vat += Number(d.InvVAT);
                 wht += Number(d.Inv50Tavi);
                 total += Number(d.InvAmt) + Number(d.InvVAT);
-            }
+            //}
         }
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
@@ -313,25 +314,27 @@ End Code
         $.get(path + 'Acc/GetVoucher?Branch=' + h.BranchCode + '&Code=' + h.ReceiveRef).done(function (r) {
             if (r.voucher.payment.length > 0) {
                 for (let p of r.voucher.payment) {
+                    let date = p.TRemark.split("-");
                     switch (p.acType) {
                         case 'CA':
-                            if (p.ChqNo == '') {
-                                $('#chkTransfer').prop('checked', true);
-                                $('#lblTransferDate').text(p.TRemark);
-                                $('#lblTransferDate').css('text-decoration', 'underline');
-                                $('#lblTransferBank').text(p.DocNo);
-                                $('#lblTransferBank').css('text-decoration', 'underline');
-                                $('#lblTransferAmount').text(ShowNumber(p.CashAmount, 2));
-                                $('#lblTransferAmount').css('text-decoration', 'underline');
-                            } else {
-                                $('#chkCash').prop('checked', true);
-                                $('#lblCashDate').text(p.TRemark);
-                                $('#lblCashDate').css('text-decoration', 'underline');
-                                $('#lblCashAmount').text(ShowNumber(p.CashAmount, 2));
-                                $('#lblCashAmount').css('text-decoration', 'underline');
-                            }
+                            $('#chkCash').prop('checked', true);
+                            //$('#lblCashDate').text(p.TRemark);
+                            $('#lblCashDate').text(date[2] + "-" + date[1] + "-" + date[0]);
+                            $('#lblCashDate').css('text-decoration', 'underline');
+                            $('#lblCashAmount').text(ShowNumber(p.CashAmount, 2));
+                            $('#lblCashAmount').css('text-decoration', 'underline');
                             break;
                         case 'CH':
+                            $('#chkTransfer').prop('checked', true);
+                            /*  $('#lblTransferDate').text(p.TRemark);        */
+                            $('#lblTransferDate').text(date[2] + "-" + date[1] + "-" + date[0]);
+                            $('#lblTransferDate').css('text-decoration', 'underline');
+                            $('#lblTransferBank').text(p.BookCode);
+                            $('#lblTransferBank').css('text-decoration', 'underline');
+                            $('#lblTransferAmount').text(ShowNumber(p.ChqAmount, 2));
+                            $('#lblTransferAmount').css('text-decoration', 'underline');
+                            break;
+                        case 'CU':
                             $('#chkCheque').prop('checked', true);
                             $('#lblChqDate').text(p.ChqDate);
                             $('#lblChqDate').css('text-decoration', 'underline');

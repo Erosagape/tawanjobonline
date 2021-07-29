@@ -132,7 +132,7 @@ End Code
                                 <select id="cboAdvType" class="form-control dropdown" style="width:100%" tabindex="10"></select>
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblJNo">Container No:</label>
+                                <label id="lblJNo" ondblclick="SaveHeader()">Container No:</label>
                                 <div style="display:flex;">
                                     <input type="text" id="txtContainerNo" class="form-control" />
                                     <input type="button" class="btn btn-default" value="..." onclick="SearchData('container')" />

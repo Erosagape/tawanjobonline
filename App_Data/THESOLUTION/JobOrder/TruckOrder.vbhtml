@@ -26,14 +26,17 @@ End Code
             ข้ามด่าน/ส่งลูกค้าวันที่ :
             <label id="txtDutyDate"></label>
             <br />
-            ท่ารับตู้หนัก :
+            ท่ารับตู้หนัก/ลานรับตู้เปล่า :
             <label id="txtCYPlace"></label>
             <br />
-            สถานที่คืนตู้เปล่า :
+            ท่าคืนตู้หนัก/ลานคืนตู้เปล่า :
             <label id="txtReturnPlace"></label>
             <br />
             จบงานวันที่ :
             <label id="txtCloseJobDate"></label>
+            <br />
+            Customer PO :
+            <label id="txtCustPo"></label>
             <br />
             <table style="width:80%">
                 <thead>
@@ -116,14 +119,15 @@ End Code
             $('#txtCYDate').text(CDateEN(h.CYDate));
             $('#txtDutyDate').text(CDateEN(h.DeliveryDate));
             $('#txtCYPlace').text(h.CYPlace);
-            $('#txtReturnPlace').text(h.ReturnPlace);
+            $('#txtReturnPlace').text(h.PackingPlace);
             $('#txtCloseJobDate').text(CDateEN(h.ActualReturnDate));
-
+            $('#txtCustPo').text(h.CustRefNO);
+            let d = r.booking.data;
             LoadAdvance(h.BranchCode, h.JNo);
-            LoadTruck(h.BranchCode, h.JNo);
+            LoadTruck(h.BranchCode, h.JNo, d);
         }
     });
-    function LoadTruck(branch, job) {
+    function LoadTruck(branch, job,dt) {
         $.get(path + 'JobOrder/GetFuelData?Branch=' + branch + '&Job=' + job).done(function (r) {
             let rows = r.data;
             if (rows.length > 0) {
@@ -131,6 +135,9 @@ End Code
                 let c = 0;
                 let i = 0;
                 for (let d of rows) {
+                    let f = dt.filter(function (data) {
+                        return data.BookingNo == d.BookingNo && data.ItemNo==d.BookingItemNo;
+                    });
                     if (html == '')
                         html = '<tr>';
                     i += 1;
@@ -149,6 +156,9 @@ End Code
                     html += 'ทะเบียนหาง:' + d.TrailerNo + '<br/>';
                     html += 'ยี่ห้อรถ:' + d.CarBrand + '/' + d.CarType + '<br/>';
                     html += 'จังหวัด:' + d.CarModel;
+                    if (f.length > 0) {
+                        html += ' / ' + f[0].CTN_NO + ' / ' + f[0].GrossWeight + ' KGS';
+                    }
                     html += '</td>';
                     c += 1;
                 }

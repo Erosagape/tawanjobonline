@@ -7,7 +7,7 @@ function SetLanguage(lang) {
         if (obj !== null) {
             let str = '';
             //if (id.substr(0, 3) == 'mnu') {
-                //str += '- ';
+            //str += '- ';
             //}
             switch (mainLanguage) {
                 case 'EN':
@@ -731,8 +731,8 @@ function GetLangGrid(module, id) {
                     "Job No|หมายเลขงาน",
                     "Cust.Inv.No|อินวอยลูกค้า",
                     "Customer|ลูกค้า",
-                    "Cash|เงินสด",
-                    "Transfer|เงินโอน",
+                    "Cash/Transfer|เงินสด/โอน",
+                    "Company Chq|เช็คบริษัท",
                     "Customer Chq|เช็คลูกค้า",
                     "Credit|เครดิต",
                     "Total|ยอดรวม",
@@ -856,13 +856,13 @@ function GetLangGrid(module, id) {
                     "Date|วันที่เอกสาร",
                     "Customer|ลูกค้า",
                     "#|#",
-                    "Exp.Code|รหัส",
                     "Description|ค่าใช้จ่าย",
                     "Adv.Total|ยอดเบิก",
                     "Clr.Net|ยอดปิด",
                     "Clr.VAT|VAT",
                     "Clr.WHT|ยอดหัก",
-                    "Clr.Total|ยอดเคลียร์"
+                    "Refund|รับคืน",
+                    "Payback|จ่ายเพิ่ม"
                 ];
             }
             if (id == '#tbDetail') {
@@ -1558,9 +1558,9 @@ function GetLangForm(fname) {
                 lblRemark: 'Remark|หมายเหตุ',
                 lblCurrency: 'Currency|สกุลเงิน',
                 lblPayTotal: 'Payment Total|รวมเงินที่ขอเบิก',
-                lblCash: 'Cash|เงินสด',
-                lblChqCash: 'Transfer|เงินโอน',
-                lblChq: 'Cheque|เช็คลูกค้า',
+                lblCash: 'Cash/Transfer|เงินสด/โอน',
+                lblChqCash: 'Company Chq|เช็คบริษัท',
+                lblChq: 'Customer Chq|เช็คลูกค้า',
                 lblCred: 'Credit|เครดิตหนี้',
                 lblApproveBy: 'Approve By|อนุมัติโดย',
                 lblApproveDate: 'Approve Date|วันที่อนุมัติ',
@@ -1657,7 +1657,7 @@ function GetLangForm(fname) {
                 lblDateTo: 'Request Date To|ถึงวันที่',
                 linkSearch: 'Search|ค้นหา',
                 lblListAppr: 'Payment Document|เอกสารที่เลือก',
-                linkCash: 'Cash|เงินสด',
+                linkCash: 'Cash/Transfer|เงินสด',
                 lblBookCA: 'Book A/C|จากสมุดบัญชี',
                 lblRefNoCA: 'Trans.No|เลขที่สลิปอ้างอิง',
                 lblTranDateCA: 'Trans.Date|วันที่ทำรายการ',
@@ -1665,7 +1665,7 @@ function GetLangForm(fname) {
                 lblBankCA: 'To Bank|ธนาคารที่รับโอน',
                 lblBranchCA: 'To Branch|สาขาที่รับโอน',
                 lblPayCA: 'Pay To|ชื่อบัญชที่โอนเข้า',
-                linkChqCash: 'Transfer|เงินโอน',
+                linkChqCash: 'Company Chq|เช็คบริษัท',
                 lblBookCH: 'Book A/C|จากสมุดบัญชี',
                 lblRefNoCH: 'Slip.No|เลขที่สลิปโอน',
                 lblTranDateCH: 'Slip.Date|วันที่โอน',
@@ -2069,7 +2069,7 @@ function GetLangForm(fname) {
                 lblDateTo: 'Due Date To|ถึงวันที่',
                 linkSearch: 'Search|ค้นหา',
                 lblListAppr: 'Payment Document|เอกสารที่เลือก',
-                linkCash: 'Cash|เงินสด',
+                linkCash: 'Cash/Transfer|เงินสด/เงินโอน',
                 lblBookCA: 'Book A/C|จากสมุดบัญชี',
                 lblRefNoCA: 'Trans.No|เลขที่สลิปอ้างอิง',
                 lblTranDateCA: 'Trans.Date|วันที่ทำรายการ',
@@ -2077,7 +2077,7 @@ function GetLangForm(fname) {
                 lblBankCA: 'To Bank|ธนาคารที่รับโอน',
                 lblBranchCA: 'To Branch|สาขาที่รับโอน',
                 lblPayCA: 'Pay To|ชื่อบัญชที่โอนเข้า',
-                linkChqCash: 'Transfer|เงินโอน',
+                linkChqCash: 'Company Chq|เช็คบริษัทจ่าย',
                 lblBookCH: 'Book A/C|จากสมุดบัญชี',
                 lblRefNoCH: 'Chq.No|เลขที่เช็ค',
                 lblTranDateCH: 'Chq.Date|วันที่เช็ค',
@@ -2085,7 +2085,7 @@ function GetLangForm(fname) {
                 lblBankCH: 'Issue Bank|ธนาคารที่ออกเช็ค',
                 lblBranchCH: 'Issue Branch|สาขาที่ออกเช็ค',
                 lblPayCH: 'Cheque Pay To|ชื่อผู้รับเงิน',
-                linkChqCust: 'Cheque|เช็ค',
+                linkChqCust: 'Customer Cheque|เช็คลูกค้าจ่าย',
                 lblRefNoCU: 'Cheque No|เลขที่เช็ค',
                 lblTranDateCU: 'Chq.Date|วันที่เช็ค',
                 lblStatusCU: 'Local|เช็คข้ามจังหวัด',
@@ -2336,7 +2336,7 @@ function GetLangForm(fname) {
                 optTab1: 'Select Type|ประเภทการรับชำระ',
                 optTab2: 'Document Info|เลือกเอกสาร',
                 optTab3: 'Receiving Summary|สรุปข้อมูลการชำระเงิน',
-                linkCash: 'Cash|เงินสด',
+                linkCash: 'Cash/Transfer|เงินสด/เงินโอน',
                 lblBookCA: 'Book A/C|จากสมุดบัญชี',
                 lblRefNoCA: 'Trans.No|เลขที่สลิปอ้างอิง',
                 lblTranDateCA: 'Trans.Date|วันที่ทำรายการ',
@@ -2344,7 +2344,7 @@ function GetLangForm(fname) {
                 lblBankCA: 'To Bank|ธนาคาร',
                 lblBranchCA: 'To Branch|สาขา',
                 lblPayCA: 'Pay To|ชื่อบัญชี',
-                linkChqCash: 'Transfer|เงินโอน',
+                linkChqCash: 'Company Chq|เช็คบริษัท',
                 lblBookCH: 'Book A/C|จากสมุดบัญชี',
                 lblRefNoCH: 'Chq.No|เลขที่เช็ค',
                 lblTranDateCH: 'Chq.Date|วันที่เช็ค',
@@ -2352,7 +2352,7 @@ function GetLangForm(fname) {
                 lblBankCH: 'Issue Bank|ธนาคารที่ออกเช็ค',
                 lblBranchCH: 'Issue Branch|สาขาที่ออกเช็ค',
                 lblPayCH: 'Cheque Pay To|ชื่อผู้รับเงิน',
-                linkChqCust: 'Cheque|เช็ค',
+                linkChqCust: 'Customer Cheque|เช็คลูกค้า',
                 lblRefNoCU: 'Cheque No|เลขที่เช็ค',
                 lblTranDateCU: 'Chq.Date|วันที่เช็ค',
                 lblStatusCU: 'Local|เช็คข้ามจังหวัด',
@@ -2773,7 +2773,7 @@ function GetLangForm(fname) {
                 optTab1: 'Select Type|ประเภทการรับเคลียร์เงิน',
                 optTab2: 'Document Info|เลือกเอกสาร',
                 optTab3: 'Clearing Summary|สรุปข้อมูลการปิดบัญชี',
-                linkCash: 'Cash|เงินสด',
+                linkCash: 'Cash/Transfer|เงินสด/เงินโอน',
                 lblBookCA: 'Book A/C|จากสมุดบัญชี',
                 lblRefNoCA: 'Trans.No|เลขที่สลิปอ้างอิง',
                 lblTranDateCA: 'Trans.Date|วันที่ทำรายการ',
@@ -2781,7 +2781,7 @@ function GetLangForm(fname) {
                 lblBankCA: 'To Bank|ธนาคาร',
                 lblBranchCA: 'To Branch|สาขา',
                 lblPayCA: 'Pay To|ชื่อบัญชี',
-                linkChqCash: 'Transfer|เงินโอน',
+                linkChqCash: 'Company Chq|เช็คบริษัท',
                 lblBookCH: 'Book A/C|จากสมุดบัญชี',
                 lblRefNoCH: 'Chq.No|เลขที่เช็ค',
                 lblTranDateCH: 'Chq.Date|วันที่เช็ค',
@@ -2789,7 +2789,7 @@ function GetLangForm(fname) {
                 lblBankCH: 'Issue Bank|ธนาคารที่ออกเช็ค',
                 lblBranchCH: 'Issue Branch|สาขาที่ออกเช็ค',
                 lblPayCH: 'Cheque Pay To|ชื่อผู้รับเงิน',
-                linkChqCust: 'Cheque|เช็ค',
+                linkChqCust: 'Customer Cheque|เช็คลูกค้า',
                 lblRefNoCU: 'Cheque No|เลขที่เช็ค',
                 lblTranDateCU: 'Chq.Date|วันที่เช็ค',
                 lblStatusCU: 'Local|เช็คข้ามจังหวัด',
@@ -3731,14 +3731,14 @@ function GetLangForm(fname) {
             break;
         case 'Master/CarLicense':
             lang = {
-                lblTitle:'Car License|ข้อมูลรถ',
+                lblTitle: 'Car License|ข้อมูลรถ',
                 lblCarNo: 'Car Code|รหัสรถ',
                 lblCarLicense: 'Car License|ทะเบียนรถ',
                 lblEmpCode: 'Driver|พนักงานขับรถ',
                 lblDateStart: 'Begin Date|วันที่เริ่มใช้งาน',
                 lblCarBrand: 'Car Brand|ยี่ห้อรถ',
                 lblModelyear: 'Model Year|ปีที่ผลิต',
-                lblCarModel: 'Model|รุ่น',
+                lblCarModel: 'Province|จังหวัด',
                 lblCarType: 'Car Type|ประเภทรถ',
                 lblCarRefNo: 'Ref#|เลขหางรถ/chassis',
                 lblCarRefType: 'Ref Type|ประเภทหางรถ',
@@ -3799,7 +3799,7 @@ function GetLangForm(fname) {
                 lblStationInvDate: 'Station Inv Date|วันที่ใบวางบิลปั้ม',
                 lblPaymentBy: 'Payment By|ชำระเงินโดย',
                 lblPaymentDate: 'Payment Date|วันที่ชำระเงิน',
-                lblPaymentRef:'Payment Ref|เลขที่ชำระเงิน'
+                lblPaymentRef: 'Payment Ref|เลขที่ชำระเงิน'
             };
             break;
     }
