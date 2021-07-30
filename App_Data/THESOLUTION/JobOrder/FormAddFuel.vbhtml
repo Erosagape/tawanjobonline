@@ -45,7 +45,7 @@ End Code
             <tr>
                 <td><label id="orderNoLbl">เลขที่ Order</label></td>
                 <td>:</td>
-                <td colspan="8"><label id="orderNo"></label></td>
+                <td colspan="8"><label id="orderNo" style=" font-weight: bold;"></label></td>
             </tr>
             <tr>
                 <td><label>เลขที่ใบสั่งงาน</label></td>
@@ -66,9 +66,9 @@ End Code
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><label>ชื่อสินค้า</label></td>
+                <td><label style=" font-weight: bold;">ชื่อสินค้า</label></td>
                 <td>:</td>
-                <td><label id="product"></label></td>
+                <td><label id="product" style=" font-weight: bold;"></label></td>
                 <td></td>
             </tr>
             <tr>
@@ -102,15 +102,15 @@ End Code
                 <td><label>เบอร์ซีล</label></td>
                 <td>:</td>
                 <td><div id="sealNo"></div></td>
-                <td><label>เบอร์บุ๊คกิ้ง</label></td>
+                <td><label style=" font-weight: bold;">เบอร์บุ๊คกิ้ง</label></td>
                 <td>:</td>
-                <td><label id="bookingNo"></label></td>
+                <td><label id="bookingNo" style=" font-weight: bold;"></label></td>
                 <td></td>
             </tr>
             <tr>
                 <td><label>สถานที่รับตู้</label></td>
                 <td>:</td>
-                <td><label id="getContainerPlace"></label></td>
+                <td><label id="getContainerPlace" style=" font-weight: bold;"></label></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -122,7 +122,7 @@ End Code
             <tr>
                 <td><label>สถานที่ส่งของ</label></td>
                 <td>:</td>
-                <td><label id="loadPlace"></label></td>
+                <td><label id="loadPlace" style=" font-weight: bold;"></label></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -134,7 +134,7 @@ End Code
             <tr>
                 <td><label>สถานที่คืนตู้</label></td>
                 <td>:</td>
-                <td><label id="returnContainerPlace"></label></td>
+                <td><label id="returnContainerPlace" style=" font-weight: bold;"></label></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -198,6 +198,9 @@ End Code
     <br />
     <br />
     <br />
+    <br />
+    <br />
+    <br />
     <table>
         <thead>
             <tr>
@@ -205,11 +208,12 @@ End Code
                     <label for="" style="border:2px solid black;padding: 10px;border-radius: 10px;position: relative;top: 0em;">
                         ใบสั่งเติมน้ำมัน
                     </label>
+                    <br />
                 </td>
             </tr>
             <tr>
                 <td class="underline" colspan="3"><label id="date"></label> <label id="time"></label></td>
-                <td class="underline" colspan="2">เลขที่ใบสั่งเติม <label id="fueldocNo"></label></td>
+                <td class="underline" style="font-weight:bold" colspan="2">เลขที่ใบสั่งเติม <label style="font-weight:bold" id="fueldocNo"></label></td>
             </tr>
         </thead>
 
@@ -222,10 +226,10 @@ End Code
                 <td class="dottedUnderline" style="width:30%"><label id="fillDate"></label></td>
             </tr>
             <tr>
-                <td>ทะเบียนรถที่เติม</td>
-                <td class="dottedUnderline" colspan="2"><label id="carLicenseNo"></label></td>
-                <td>ชื่อ พขร</td>
-                <td class="dottedUnderline"><label id="driver"></label></td>
+                <td style="font-weight:bold">ทะเบียนรถที่เติม</td>
+                <td class="dottedUnderline" colspan="2"><label id="carLicenseNo" style="font-weight:bold"></label></td>
+                <td style="font-weight:bold">ชื่อ พขร</td>
+                <td class="dottedUnderline"><label style="font-weight:bold" id="driver"></label></td>
             </tr>
             <tr>
                 <td>ชนิดเชื้อเพลิง</td>
@@ -243,8 +247,8 @@ End Code
                     </div>
                     )
                 </td>
-                <td>Job no. : </td>
-                <td class="dottedUnderline"><label id="jobNo"></label></td>
+                <td style="font-weight:bold">Job no. : </td>
+                <td style="font-weight:bold" class="dottedUnderline"><label id="jobNo"></label></td>
             </tr>
             <tr>
                 <td>จำนวนเงิน (บาท)</td>
@@ -271,21 +275,25 @@ End Code
             </tr>
             <tr>
                 <td colspan="3">
+                    <br />
                     ลงชื่อ .................................................................... พนักงานขับรถ
                 </td>
 
                 <td colspan="4">
+                    <br />
                     ลงชื่อ ................................................................... ผู้สั่งเติม
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
+                    <br />
                     ลงชื่อ .....................................................................พนักงานปั๊มน้ำมัน
                 </td>
             </tr>
         </tbody>
     </table>
-
+    <br />
+    <br />
 </p>
 
 <script type="text/javascript">
