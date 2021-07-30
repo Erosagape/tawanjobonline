@@ -543,6 +543,8 @@ End Code
                             Branch : <input type="text" class="form-control" id="txtBankBranchTran" />
                         </div>
                     </div>
+                    <a href="#" onclick="SearchData('emp')"> Payment To : </a>
+                    <input type="text" id="txtPaymentTo" class="form-control" />
                 </div>
                 <div class="modal-footer">
                     <div style="float:left">
@@ -1206,6 +1208,7 @@ End Code
                     $('#txtBankBranchTran').val('');
                     $('#txtTranDate').val('');
                     $('#txtTranTime').val('');
+                    $('#txtPaymentTo').val('');
                     $('#txtCashBal').val(0);
                     $('#dvPayment').modal('show');
                     return;
@@ -1270,6 +1273,8 @@ End Code
             CreateLOV(dv, '#frmSearchEstimate', '#tbEstimate', 'Estimate Price', response, 3);
             //Containers
             CreateLOV(dv, '#frmSearchCont', '#tbCont', 'Container Code', response, 4);
+            //Emp
+            CreateLOV(dv, '#frmSearchEmp', '#tbEmp', 'Employee', response, 2);
             //Bank
             CreateLOV(dv, '#frmSearchBank1', '#tbBank1', 'Bank', response, 2);
             CreateLOV(dv, '#frmSearchBank2', '#tbBank2', 'Bank', response, 2);
@@ -2157,6 +2162,9 @@ End Code
                 }
                 SetGridTransport(path, '#tbCont', '#frmSearchCont', w, ReadContainer);
                 break;
+            case 'emp':
+                SetGridEmployee(path, '#tbEmp', '#frmSearchEmp', ReadEmp2);
+                break;
         }
     }
     function GetParam() {
@@ -2213,9 +2221,13 @@ End Code
             }
         });
     }
+    function ReadEmp2(dt) {
+        $('#txtPayTo').val(dt.Name);
+        $('#txtPaymentTo').val(dt.Name);
+        $('#txtBankBranchTran').val(dt.AccountNumber);
+    }
     function ReadContainer(dt) {
         job = dt.JNo;
-
         $('#txtContainerNo').val(dt.CTN_NO);
         $('#txtJNo').val(dt.JNo);
         $('#txtPayTo').val(dt.Driver);
