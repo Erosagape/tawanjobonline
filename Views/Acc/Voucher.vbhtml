@@ -462,7 +462,7 @@ End Code
                                 <br /><input type="text" id="txtCmpName" class="form-control" disabled>
                             </div>
                             <div class="col-md-5">
-                                <label id="lblDocType">Doc.Type</label>
+                                <label id="lblDocType" ondblclick="RefreshData()">Doc.Type</label>
                                 <br /><input type="hidden" id="txtDocType" class="form-control">
                                 <select id="cboDocType" class="form-control dropdown" onchange="SetDocType()"></select>
                             </div>
@@ -850,7 +850,7 @@ End Code
         $('#btnSave').removeAttr('disabled');
         if (userRights.indexOf('I') < 0) {
             $('#btnAdd').attr('disabled', 'disabled');
-        } 
+        }
         if (userRights.indexOf('E') < 0) {
             $('#btnSave').attr('disabled', 'disabled');
         }
@@ -882,7 +882,7 @@ End Code
             LoadData();
             ShowMessage(r.voucher.result);
             $('#frmPayment').modal('hide');
-            
+
         });
     }
     function DeleteDocument() {
@@ -1070,7 +1070,7 @@ End Code
                 $(this).addClass('selected');
                 let data = $('#tbControl').DataTable().row(this).data(); //read current row selected
 
-                CallBackQueryVoucher(path, data.BranchCode, data.ControlNo, ReadData); //callback function from caller 
+                CallBackQueryVoucher(path, data.BranchCode, data.ControlNo, ReadData); //callback function from caller
 
                 $('#frmHeader').modal('hide');
             });
@@ -1123,10 +1123,10 @@ End Code
             $(this).addClass('selected');
             if (userRights.indexOf('E') > 0) {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                ReadPayment(data); //callback function from caller 
+                ReadPayment(data); //callback function from caller
                 $('#frmPayment').modal('show');
             }
-            
+
         });
     }
     function ShowInfo() {
@@ -1175,7 +1175,7 @@ End Code
             $(this).addClass('selected');
             if (userRights.indexOf('E') > 0) {
                 let data = $('#tbDetail').DataTable().row(this).data(); //read current row selected
-                ReadDocument(data); //callback function from caller 
+                ReadDocument(data); //callback function from caller
                 $('#frmDocument').modal('show');
             }
         });
@@ -1236,7 +1236,7 @@ End Code
             $('#txtCurrencyCode').val(dr.CurrencyCode);
             ShowCurrency(path, dr.CurrencyCode, '#txtCurrencyName');
             $('#txtExchangeRate').val(dr.ExchangeRate);
-            $('#txtTotalAmt').val(dr.TotalAmount);        
+            $('#txtTotalAmt').val(dr.TotalAmount);
             $('#txtVatExc').val(dr.VatExc);
             $('#txtWhtExc').val(dr.WhtExc);
             $('#txtVatInc').val(dr.VatInc);
@@ -1249,7 +1249,7 @@ End Code
             $('#txtDTRemark').val(dr.TRemark);
             $('#txtPayChqTo').val(dr.PayChqTo);
             $('#txtDocNo').val(dr.DocNo);
-            $('#txtSICode').val(dr.SICode);            
+            $('#txtSICode').val(dr.SICode);
             $('#txtRecvBank').val(dr.RecvBank);
             $('#txtRecvBranch').val(dr.RecvBranch);
             $('#txtacType').val(dr.acType);
@@ -1430,7 +1430,7 @@ End Code
         //    ShowMessage('No data to Save');
         //}
     }
-    function SaveDocument() {       
+    function SaveDocument() {
         if ($('#txtDDocNo').val() !== "") {
             ShowConfirm('Please confirm to save', function (ask) {
                 let obj = {
@@ -1449,7 +1449,6 @@ End Code
                 };
                 if (ask == false) return;
                 let jsonText = JSON.stringify({ data: [obj] });
-                            //ShowMessage(jsonText);
                 $.ajax({
                     url: "@Url.Action("SetVoucherDoc", "Acc")",
                     type: "POST",
@@ -1457,6 +1456,7 @@ End Code
                     data: jsonText,
                     success: function (response) {
                         if (response.result.document !== null) {
+                            RefreshData();
                             SetGridDocument(response.result.document[0]);
                         }
                         ShowMessage(response.result.msg);
@@ -1465,10 +1465,37 @@ End Code
                         ShowMessage(e,true);
                     }
                 });
-            });                        
+            });
         } else {
             ShowMessage('No data to Save',true);
         }
+    }
+    function RefreshAdv(branchcode, advno) {
+        $.get(path + 'Adv/GetAdvance?BranchCode=' + branchcode + '&AdvNo=' + advno).done(function (r) {
+            if (r.adv.header.length > 0) {
+                let data = r.adv.header[0];
+                data.PaymentRef = $('#txtControlNo').val();
+                data.PaymentDate = CDateEN($('#txtVoucherDate').val());
+                data.PaymentBy = $('#txtRecUser').val();
+                data.PaymentTime = $('#txtRecTime').val();
+                SaveAdvance(data);
+            }
+        });
+    }
+    function SaveAdvance(dataApp) {
+        let jsonString = JSON.stringify({ data: dataApp });
+        $.ajax({
+            url: "@Url.Action("SaveAdvanceHeader", "Adv")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonString,
+            success: function (response) {
+                response ? ShowMessage(msg) : ShowMessage("Cannot Save");
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
     }
     function ReadVender(dt) {
         $('#txtCmpCode').val(dt.VenCode);
@@ -1541,7 +1568,7 @@ End Code
 
         //calculate base for included vat/wht
         let vatinc = Number($('#txtVatInc').val());
-        let whtinc = Number($('#txtWhtInc').val());        
+        let whtinc = Number($('#txtWhtInc').val());
         totalamt += whtinc;
         totalamt -= vatinc;
         $('#txtTotalAmt').val(CDbl(totalamt, 4));
@@ -1553,5 +1580,9 @@ End Code
         }
         window.open(path + 'Acc/FormVoucher?branch=' + $('#txtBranchCode').val() + '&controlno=' + $('#txtControlNo').val());
     }
-
+    function RefreshData() {
+        if ($('#txtDocType').val() == 'ADV') {
+            RefreshAdv($('#txtBranchCode').val(), $('#txtDDocNo').val());
+        }
+    }
 </script>
