@@ -532,7 +532,8 @@ End Code
             //$('#lblSumNet').text(CCurrency(CDbl(amtcost+amtserv+amtadv,2)));
             //$('#lblSumProfit').text(CCurrency(CDbl(amtprofit,2)));
             //$('#lblTotalVAT').text(CCurrency(CDbl(amtvat, 2)));
-            amtprofit = amtchg - (amtvat + amtcost);
+            //amtprofit = amtchg - (amtvat + amtcost);
+            amtprofit = amtchg - amtcost;
             if (amtprofit > 0) {
                 $('#lblCommRate').text(CCurrency(CDbl(amtprofit * (commrate / 100), 2)));
                 $('#lblNetProfit').text(CCurrency(CDbl(amtprofit - (amtprofit * (commrate / 100)), 2)));

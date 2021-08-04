@@ -120,7 +120,7 @@ CUST PO: <label id="lblCustRefNo"></label>
                 <th width="50px">QTY</th>
                 <th width="80px">VAT</th>
                 <th width="80px">WHT</th>
-                <th width="100px">TOTAL (THB)</th>
+                <th width="100px">TOTAL</th>
             </tr>
         </thead>
         <tbody id="tbDetail"></tbody>
@@ -189,7 +189,7 @@ CUST PO: <label id="lblCustRefNo"></label>
                     TOTAL INVOICE
                 </div>
                 <div style="flex:1">
-                    <label id="lblSumNetInvoice"></label> THB
+                    <label id="lblForeignNet"></label> <label id="lblCurrencyCode"></label>
                 </div>
             </div>
             <div id="dvForeign" style="display:flex">
@@ -197,7 +197,7 @@ CUST PO: <label id="lblCustRefNo"></label>
                     (1=<label id="lblExchangeRate"></label>)
                 </div>
                 <div style="flex:1">
-                    <label id="lblForeignNet"></label> <label id="lblCurrencyCode"></label>
+                    <label id="lblSumNetInvoice"></label>                    
                 </div>
             </div>
         </div>
@@ -299,17 +299,20 @@ CUST PO: <label id="lblCustRefNo"></label>
             $('#lblDescription').html(remark);
             remark=h.ShippingRemark.replace(/(?:\r\n|\r|\n)/g, '<br/>');
             $('#lblShippingRemark').html(remark);
-            $('#lblSumNonVat').text(ShowNumber(h.TotalCharge,2));
-            $('#lblSumDiscount').text(ShowNumber(h.TotalDiscount,2));
-            $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv,2));
-            $('#lblSumBeforeVat').text(ShowNumber(h.TotalIsTaxCharge,2));
-            $('#lblSumVat').text(ShowNumber(h.TotalVAT,2));
-            $('#lblSumAfterVat').text(ShowNumber((Number(h.TotalIsTaxCharge)+Number(h.TotalVAT)),2));
-            $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
-            $('#lblSumTotal').text(ShowNumber((Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)),2));
-            $('#lblSumGrandTotal').text(ShowNumber((Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount)),2));
+            $('#lblSumNonVat').text(ShowNumber(h.TotalCharge/h.ExchangeRate,2));
+            $('#lblSumDiscount').text(ShowNumber(h.TotalDiscount / h.ExchangeRate,2));
+            $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv / h.ExchangeRate,2));
+            $('#lblSumBeforeVat').text(ShowNumber(h.TotalIsTaxCharge / h.ExchangeRate,2));
+            $('#lblSumVat').text(ShowNumber(h.TotalVAT / h.ExchangeRate,2));
+            $('#lblSumAfterVat').text(ShowNumber((Number(h.TotalIsTaxCharge) + Number(h.TotalVAT))/h.ExchangeRate,2));
+            $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance/h.ExchangeRate,2));
+            $('#lblSumTotal').text(ShowNumber((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT)) / h.ExchangeRate,2));
+            $('#lblSumGrandTotal').text(ShowNumber((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)) / h.ExchangeRate,2));
             if (h.DocNo.substr(0, 3) == 'IVF') {
-                $('#lblTotalBaht').text('(' + CNumEng(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)), 2)) + ')');
+                $('#lblTotalBaht').text('(' + CNumEng(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)), 2) / h.ExchangeRate) + ')');
+            }
+            if (h.CurrencyCode !== 'THB') {
+                $('#dvForeign').css('display', 'none');
             }
             $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalNet), 2));
         }
@@ -325,7 +328,7 @@ CUST PO: <label id="lblCustRefNo"></label>
                 icount += 1;
                 let html = '<tr>';
                 html += '<td style="text-align:center">' + icount + '</td>';
-                if (o.ExchangeRate !== 1) {
+                if ((o.ExchangeRate !== 1) && (dr.header[0][0].CurrencyCode=='THB')) {
                     html += '<td>' + o.SDescription +' (Rate='+ o.ExchangeRate+' THB)' +'</td>';
                 } else {
                     html += '<td>' + o.SDescription + '</td>';
@@ -341,18 +344,18 @@ CUST PO: <label id="lblCustRefNo"></label>
                 html += '<td style="text-align:center">' + o.Qty + ' '+ o.QtyUnit + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(o.AmtVat, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(o.Amt50Tavi, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(CNum(o.TotalAmt), 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(CNum(o.FTotalAmt), 2) + '</td>';
                 html += '</tr>';
 
                 $('#tbDetail').append(html);
 
                 if (o.Amt50Tavi > 0) {
                     if (o.Rate50Tavi == 1) {
-                        sumbase1 += (o.Amt-o.AmtDiscount);
-                        sumtax1 += o.Amt50Tavi;
+                        sumbase1 += (o.Amt-o.AmtDiscount) / o.ExchangeRate ;
+                        sumtax1 += o.Amt50Tavi / o.ExchangeRate;
                     } else {
-                        sumbase3 += (o.Amt-o.AmtDiscount);
-                        sumtax3 += o.Amt50Tavi;
+                        sumbase3 += (o.Amt-o.AmtDiscount) / o.ExchangeRate;
+                        sumtax3 += o.Amt50Tavi / o.ExchangeRate;
                     }
                 }
             }

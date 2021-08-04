@@ -866,7 +866,7 @@ End Code
                 <th class="desktop">Status</th>
                 <th class="desktop">G.W</th>
                 <th class="desktop">PickupDate</th>
-                <th class="desktop">DeliveryNo</th>
+                <th class="desktop">Driver</th>
                 <th class="desktop">V.Inv</th>
                 <th class="desktop">Clear</th>
                 <th class="desktop">Bal</th>
@@ -899,6 +899,7 @@ End Code
     const userRights = '@ViewBag.UserRights';
     let cust = '';
     let row = {};
+    let drivers = [];
     let isjobmode = false;
     if (userGroup == 'V') {
         $('#btnBrowseVend').attr('disabled', 'disabled');
@@ -935,8 +936,11 @@ End Code
             }
         });
     }
-    SetLOVs();
-    SetEvents();
+    $.get(path + 'Master/GetEmployee').done(function (r) {
+        drivers = r.employee.data;
+        SetLOVs();
+        SetEvents();
+    });
     function AddDetail() {
         ClearDetail();
         $('#dvContainer').modal('show');
@@ -1399,7 +1403,23 @@ End Code
                         return CDateEN(data.TargetYardDate);
                     }
                 },
-                { data: "DeliveryNo", title: "Delivery No" },
+                {
+                    data: "Driver", title: "Driver",
+                    render: function (data) {
+                        if (drivers.length > 0) {
+                            let filter = drivers.filter(function (d) {
+                                return d.EmpCode == data;
+                            });
+                            if (filter.length > 0) {
+                                return filter[0].Name;
+                            } else {
+                                return data;
+                            }
+                        } else {
+                            return data;
+                        }
+                    }
+                },
                 { data: "CountBill", title: "V.Bill" },
                 { data: "CountClear", title: "S.Clear" },
                 { data: "CountBalance", title: "Balance" }

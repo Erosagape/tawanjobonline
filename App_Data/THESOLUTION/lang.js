@@ -908,7 +908,7 @@ function GetLangGrid(module, id) {
                     "Status|สถานะงาน",
                     "G.W|น้ำหนักรวม",
                     "Pickup Date|วันที่รับตู้",
-                    "Delivery No|เลขที่ใบส่งของ",
+                    "Driver|คนขับ",
                     "V.Bill|วางบิลมาแล้ว",
                     "S.Clear|เคลียร์แล้ว",
                     "Balance|คงเหลือ"
