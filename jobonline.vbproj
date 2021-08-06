@@ -1170,6 +1170,7 @@
     <Content Include="App_Data\TOTAL\Clr\Receive.vbhtml" />
     <Content Include="App_Data\TOTAL\Acc\Payment.vbhtml" />
     <Content Include="App_Data\TOTAL\Clr\Index.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\JobOrder\Index.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

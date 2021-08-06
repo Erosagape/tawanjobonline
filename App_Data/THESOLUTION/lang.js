@@ -883,6 +883,7 @@ function GetLangGrid(module, id) {
                 gridLang = [
                     "Doc Date|วันที่เอกสาร",
                     "Type|ประเภทเอกสาร",
+                    "Container|เลขที่ตู้",
                     "Doc No|เลขที่เอกสาร",
                     "Item|ลำดับที่",
                     "Description|รายละเอียด",

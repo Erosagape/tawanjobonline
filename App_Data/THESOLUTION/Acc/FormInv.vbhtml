@@ -69,32 +69,37 @@ End Code
             <div style="flex:1">
                 FLIGHT/VESSEL :<label id="lblVesselName"></label>
             </div>
-            <div style="flex:2">
+            <div style="flex:1">
                 CUSTOMER :<label id="lblCustTName"></label>
             </div>
+
         </div>
         <div style="display:flex">
             <div style="flex:1">
                 QUANTITY :<label id="lblQtyGross"></label> <label id="lblQtyUnit"></label>
             </div>
+            <div style="flex:1">
+                Customer PO :<label id="lblCustPo"></label>
+            </div>
+            <div style="flex:1">
+            </div>
         </div>
     </div>
     <table style="width:100%;margin-top:5px;" border="1" class="text-center">
-        <thead>
-            <tr style="background-color :gainsboro;text-align:center;">
-                <th width="50px">No</th>
-                <th width="340px">DESCRIPTION</th>
-                <th width="80px">UNIT</th>
-                <th width="80px">PRICE</th>
-                <th width="50px">QTY</th>
-                <th width="100px">ADVANCE</th>
-                <th width="100px">NON-VAT</th>
-                <th width="100px">SERVICE</th>
-            </tr>
-        </thead>
+        <tr style="background-color :gainsboro;text-align:center;font-weight:bold">
+            <td width="50px">No</td>
+            <td width="240px">DESCRIPTION</td>
+            <td width="50px">Currency</td>
+            <td width="80px">UNIT</td>
+            <td width="80px">PRICE</td>
+            <td width="50px">QTY</td>
+            <td width="100px">ADVANCE</td>
+            <td width="100px">NON-VAT</td>
+            <td width="100px">SERVICE</td>
+        </tr>
         <tbody id="tbDetail"></tbody>
         <tr style="font-weight:bold;">
-            <td colspan="5">
+            <td colspan="6">
                 TOTAL AMOUNT
             </td>
             <td style="text-align:right">
@@ -108,7 +113,7 @@ End Code
             </td>
         </tr>
         <tr>
-            <td colspan="5">
+            <td colspan="6">
                 <div style="display:flex">
                     <div style="text-align:left;flex:1;vertical-align:top">
                         <div id="lblShippingRemark"></div>
@@ -133,8 +138,8 @@ End Code
             </td>
         </tr>
         <tr>
-            <td>TOTAL<br />(BAHT)</td>
-            <td colspan="7">
+            <td>TOTAL<br />(<label id="lblCurrency"></label>)</td>
+            <td colspan="6">
                 <div style="text-align:center;"><label id="lblTotalBaht" style="font-size:14px;font-weight:bold"></label></div>
             </td>
         </tr>
@@ -183,7 +188,7 @@ End Code
     @If ViewBag.DATABASE = "2" Then
         @<div style="border:1px solid black;border-radius:5px;margin-top:5px;padding:5px 5px 5px 5px;">
             สั่งจ่าย : <span id="lblCompanyName2" style="font-weight:bold">บจก.เกื้อพสิษฐ์</span> บัญชีออมทรัพย์ ธนาคารกสิกรไทย สาขาถนนศรีนครินทร์ กม.17<br />
-            เลขที่บัญชี <span id="lblAccountName2" style="font-weight:bold">026-8-76046-6</span> <br/>
+            เลขที่บัญชี <span id="lblAccountName2" style="font-weight:bold">026-8-76046-6</span> <br />
             ชำระโดย By <input type="checkbox" />เงินสด/Cash <input type="checkbox" />เงินโอน/Transfer <input type="checkbox" /> เช็ค/Cheque No_______________/D_____________<br />
             ธนาคาร/ Bank ___________________________________ จำนวนเงิน/Amount__________________บาท/Baht
         </div>
@@ -200,7 +205,7 @@ End Code
     End If
 
 </div>
-<script type = "text/javascript" >
+<script type="text/javascript">
     var path = '@Url.Content("~")';
     const license = '@ViewBag.LICENSE_NAME';
     let branch = getQueryString('branch');
@@ -217,6 +222,7 @@ End Code
             $('#lblDocNo').text(h.DocNo);
             $('#lblDocDate').text(ShowDate(CDateTH(h.DocDate)));
             $('#lblCurrencyCode').text(h.CurrencyCode);
+            $('#lblCurrency').text(h.CurrencyCode);
             $('#lblExchangeRate').text(h.ExchangeRate);
             $('#lblForeignNet').text(ShowNumber(h.ForeignNet, 2));
             $('#lblDiscountRate').text(h.DiscountRate);
@@ -272,6 +278,8 @@ End Code
                 //$('#lblMeasurement').text(j.Measurement);
                 $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
                 $('#lblMAWB').text(j.MAWB);
+		$('#lblCustPo').text(j.CustRefNO);
+
             }
             let remark = h.Remark1;
 	        remark += (h.Remark2 !=='' ? '<br/>':'')+ h.Remark2;
@@ -296,9 +304,11 @@ End Code
             $('#lblSumTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT),2));
             $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
             $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.Total50Tavi) - Number(h.TotalDiscount), 2));
-
+if(h.CurrencyCode=='THB'){
             $('#lblTotalBaht').text('(' + CNumThai(CDbl($('#lblSumGrandTotal').text(),2)) + ')');
-
+} else {
+            $('#lblTotalBaht').text('(' + CNumEng(CDbl($('#lblSumGrandTotal').text(),2)) + ')');
+}
         }
         let d = dr.detail[0];
         //sortData(d,'AmtAdvance','asc');
@@ -318,34 +328,36 @@ End Code
                 let Html = '<tr>';
                 Html += '<td style="text-align:center">' + i + '</td>';
                 Html += '<td>' + o.SDescription + '</td>';
+                Html += '<td style="text-align:center">' + o.CurrencyCode + '</td>';
+
                 Html += '<td style="text-align:center">' + o.QtyUnit + '</td>';
-                Html += '<td style="text-align:right">' + ShowNumber(o.UnitPrice,2) + '</td>';
+                Html += '<td style="text-align:right">' + ShowNumber(Number(o.UnitPrice) , 2)  + '</td>';
                 Html += '<td style="text-align:center">' + o.Qty + '</td>';
                 if(o.AmtAdvance > 0) {
-                    Html += '<td style="text-align:right">' + ShowNumber(o.AmtAdvance, 2) + '</td>';
+                    Html += '<td style="text-align:right">' + ShowNumber(Number(o.AmtAdvance) * Number(o.ExchangeRate) , 2) + '</td>';
                     Html += '<td style="text-align:right">0.00</td>';
                 } else {
                     Html += '<td style="text-align:right">0.00</td>';
-                    Html += '<td style="text-align:right">' + (o.AmtVat == 0 ? ShowNumber(o.AmtCharge, 2) : "0.00") + '</td>';
+                    Html += '<td style="text-align:right">' + (o.AmtVat == 0 ? ShowNumber(Number(o.AmtCharge) * Number(o.ExchangeRate) , 2) : "0.00") + '</td>';
                 }
-                Html += '<td style="text-align:right">' + (o.AmtVat>0 ?ShowNumber(o.AmtCharge, 2):"0.00") + '</td>';
+                Html += '<td style="text-align:right">' + (o.AmtVat > 0 ? ShowNumber(Number(o.AmtCharge) * Number(o.ExchangeRate), 2) :"0.00") + '</td>';
 
                 Html += '</tr>';
 
                 $('#tbDetail').append(Html);
                 if (o.AmtCharge > 0) {
                     if (o.AmtVat > 0) {
-                        sumbasevat += (o.Amt - o.AmtDiscount);
+                        sumbasevat += (o.Amt - o.AmtDiscount) ;
                         sumvat += o.AmtVat;
                     } else {
-                        sumnonvat += (o.Amt - o.AmtDiscount);
+                        sumnonvat += (o.Amt - o.AmtDiscount) ;
                     }
                     if (o.Amt50Tavi > 0) {
                         if (o.Rate50Tavi == 1) {
-                            sumbase1 += (o.Amt-o.AmtDiscount);
+                            sumbase1 += (o.Amt - o.AmtDiscount) ;
                             sumtax1 += o.Amt50Tavi;
                         } else {
-                            sumbase3 += (o.Amt-o.AmtDiscount);
+                            sumbase3 += (o.Amt - o.AmtDiscount);
                             sumtax3 += o.Amt50Tavi;
                         }
                     }

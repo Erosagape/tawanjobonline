@@ -1199,10 +1199,11 @@ End Code
             ShowConfirm('Please confirm this operation', function (result) {
                 if (result == true) {
                     $('#txtRefNo').val('');
-                    $('#txtBank').val('');
-                    $('#txtBankName').val('');
-                    $('#txtBook').val('');
-                    $('#txtBankBranch').val('');
+                    $('#txtBank').val('002');
+                    $('#txtBankName').val('ธนาคารกรุงเทพ BKKBTHBK');
+                    $('#txtBook').val('COMPANY_ADV');
+                    ShowBal('COMPANY_ADV');
+                    $('#txtBankBranch').val('0097179501');
                     $('#txtBankTran').val('');
                     $('#txtBankTranName').val('');
                     $('#txtBankBranchTran').val('');
@@ -2207,7 +2208,10 @@ End Code
         ShowBank(path, dt.BankCode, '#txtBankName');
         $('#txtBankBranch').val(dt.BankBranch);
         $('#txtCashBal').val(0);
-        $.get(path + 'master/getbookbalance?code=' + dt.BookCode, function (r) {
+        ShowBal(dt.BookCode);
+    }
+    function ShowBal(book) {
+        $.get(path + 'master/getbookbalance?code=' + book, function (r) {
             if (r.bookaccount.data.length > 0) {
                 let dt = r.bookaccount.data[0].Table[0];
                 $('#txtCashBal').val(dt.SumCashInBank);
@@ -2220,6 +2224,7 @@ End Code
                 }
             }
         });
+
     }
     function ReadEmp2(dt) {
         $('#txtPayTo').val(dt.Name);

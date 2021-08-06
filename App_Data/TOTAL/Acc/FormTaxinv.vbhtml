@@ -21,7 +21,7 @@ End Code
         border-collapse: collapse;
     }
 
-    #dvFooter,#pFooter {
+    #dvFooter, #pFooter {
         display: none;
     }
 </style>
@@ -44,7 +44,7 @@ End Code
         </div>
     </div>
     -->
-    <div style="display:flex;">
+    <div style="display:flex;width:99%">
         <div style="flex:3;border:1px solid black;border-radius:5px;">
             NAME : <label id="lblCustName"></label><br />
             ADDRESS : <label id="lblCustAddr1"></label><br />
@@ -60,7 +60,7 @@ End Code
         </div>
     </div>
     <br />
-    <div style="display:flex;border:1px solid black;border-radius:5px;">
+    <div style="display:flex;width:99%;border:1px solid black;border-radius:5px;">
         <div style="flex:2">
             <div class="row">
                 <p class="col-sm-12">
@@ -124,7 +124,7 @@ End Code
             </div>
         </div>
     </div>
-    <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
+    <table border="1" style="border-style:solid;width:99%; margin-top:5px" class="text-center">
         <thead>
             <tr style="background-color:lightblue;">
                 <th height="40" width="60">INV.NO.</th>
@@ -171,7 +171,7 @@ End Code
         </div>
         <div>
             <label><input id="chkTransfer" type="checkbox" name="vehicle3" value=""> TRANSFER</label>
-              DATE  <label id="lblTransferDate">_____________</label>
+            DATE  <label id="lblTransferDate">_____________</label>
             BANK <label id="lblTransferBank"> _________________</label>
             AMOUNT <label id="lblTransferAmount">______________</label> BAHT
         </div>
@@ -197,7 +197,7 @@ End Code
         </div>
     </div>
 </div>
-    <script type="text/javascript">
+<script type="text/javascript">
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
     let receiptno = getQueryString('code');
@@ -227,11 +227,12 @@ End Code
         if (h.ReceiptType == 'RCV') {
             $('#lblDocType').text('ใบเสร็จรับเงิน (RECEIPT)');
         }
-
+        let address = h.CustTAddr.split(",");
         //$('#lblCustCode').text(h.CustCode);
         if (h.UsedLanguage == 'TH') {
             $('#lblCustName').text(h.CustTName);
-            $('#lblCustAddr').text(h.CustTAddr);
+            $('#lblCustAddr1').text(h.CustTAddr1);
+            $('#lblCustAddr2').text(h.CustTAddr2);
             if(Number(h.CustBranch)>0) {
                     $('#lblCustTax').text(h.CustTaxID + ' BRANCH :' + h.CustBranch);
             } else {
@@ -239,7 +240,9 @@ End Code
             }
         } else {
             $('#lblCustName').text(h.CustEName);
-            $('#lblCustAddr').text(h.CustEAddr);
+            //$('#lblCustAddr1').text(h.CustEAddr);
+            $('#lblCustAddr1').text(h.CustEAddr1);
+            $('#lblCustAddr2').text(h.CustEAddr2);
             if(Number(h.CustBranch)>0) {
                 $('#lblCustTax').text(h.CustTaxID + ' BRANCH :' + h.CustBranch);
             } else {
@@ -314,12 +317,13 @@ End Code
         $.get(path + 'Acc/GetVoucher?Branch=' + h.BranchCode + '&Code=' + h.ReceiveRef).done(function (r) {
             if (r.voucher.payment.length > 0) {
                 for (let p of r.voucher.payment) {
-                    let date = p.TRemark.split("-");
+                    let pdate = p.TRemark.split('-');
+                    alert(pdate)
                     switch (p.acType) {
                         case 'CA':
                             $('#chkCash').prop('checked', true);
                             //$('#lblCashDate').text(p.TRemark);
-                            $('#lblCashDate').text(date[2] + "-" + date[1] + "-" + date[0]);
+                            $('#lblCashDate').text(pdate[2] + "-" + pdate[1] + "-" + pdate[0]);
                             $('#lblCashDate').css('text-decoration', 'underline');
                             $('#lblCashAmount').text(ShowNumber(p.CashAmount, 2));
                             $('#lblCashAmount').css('text-decoration', 'underline');
@@ -327,7 +331,7 @@ End Code
                         case 'CH':
                             $('#chkTransfer').prop('checked', true);
                             /*  $('#lblTransferDate').text(p.TRemark);        */
-                            $('#lblTransferDate').text(date[2] + "-" + date[1] + "-" + date[0]);
+                            $('#lblTransferDate').text(ShowDate(p.ChqDate));
                             $('#lblTransferDate').css('text-decoration', 'underline');
                             $('#lblTransferBank').text(p.BookCode);
                             $('#lblTransferBank').css('text-decoration', 'underline');
@@ -352,4 +356,4 @@ End Code
             }
         });
     }
-    </script>
+</script>

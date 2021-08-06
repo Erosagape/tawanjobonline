@@ -669,6 +669,9 @@ End Code
                                     Type
                                 </th>
                                 <th class="all">
+                                    Container
+                                </th>
+                                <th class="all">
                                     Document No
                                 </th>
                                 <th class="desktop">
@@ -1410,6 +1413,7 @@ End Code
                             }
                         },
                         { data: "DocType", title: "Type" },
+                        { data: "Container", title: "Container" },
                         {
                             data: null, title: "Doc No",
                             render: function (data) {
