@@ -501,6 +501,9 @@ End Code
                         render: function (data) {
                             return data < 0 ? ShowNumber(Math.abs(data), 2) : '0.00';
                         }
+                    },
+                    {
+                        data: r.clr.data[0].Table.Driver ? "Driver" : "DriverID", title: "Driver",
                     }
                 ],
                 responsive: true,

@@ -336,7 +336,7 @@ End Code
                                 </div>
                                 <div class="col-sm-2">
                                     <label id="lblCurrRate" for="txtCurRate">Rate :</label><br />
-                                    <input type="text" id="txtCurRate" class="form-control" style="text-align:right" tabindex="16" />
+                                    <input type="number" min="1" id="txtCurRate" class="form-control" style="text-align:right" tabindex="16" />
                                 </div>
                             </div>
                             <div class="row">
@@ -1352,7 +1352,11 @@ End Code
             $('#txtDate50Tavi').focus();
             return false;
         }
-
+        if ($('#txtCurRate').val() < 1) {
+            ShowMessage('Exchange Rate must equal or hignher than 1', true);
+            $('#txtCurRate').focus();
+            return;
+        }
         if (dtl != undefined) {
             let obj = GetDataDetail();
             if (obj.ItemNo == 0) {
