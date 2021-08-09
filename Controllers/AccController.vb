@@ -2796,6 +2796,25 @@ ORDER BY a.TName1
                 Return Content("{""invdetail"":{""msg"":""" & ex.Message & """,""data"":[]}}", jsonContent)
             End Try
         End Function
+        Function GetInvDetailReport() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE h.DocNo<>'' "
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format(" AND h.BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format(" AND h.DocNo ='{0}' ", Request.QueryString("Code").ToString)
+                End If
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectInvDetail() & tSqlw)
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                json = "{""invdetail"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetInvDetail", ex.Message, ex.StackTrace, True)
+                Return Content("{""invdetail"":{""msg"":""" & ex.Message & """,""data"":[]}}", jsonContent)
+            End Try
+
+        End Function
         Function GetInvDetail() As ActionResult
             Try
                 Dim tSqlw As String = " WHERE DocNo<>'' "

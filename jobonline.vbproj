@@ -1171,6 +1171,9 @@
     <Content Include="App_Data\TOTAL\Acc\Payment.vbhtml" />
     <Content Include="App_Data\TOTAL\Clr\Index.vbhtml" />
     <Content Include="App_Data\THESOLUTION\JobOrder\Index.vbhtml" />
+    <Content Include="App_Data\TOTAL\Acc\Voucher.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\Acc\FormBill.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\Acc\FormVoucher.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

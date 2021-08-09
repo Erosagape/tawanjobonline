@@ -282,8 +282,8 @@ Namespace Controllers
                 Next
 
                 If lst <> "" Then
-                    Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=3,PaymentRef='" & docno & "',PaymentBy='" & user & "',PaymentDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PaymentTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
- WHERE DocStatus=2 AND BranchCode+'|'+AdvNo in({0}) AND DocStatus<>99", lst)
+                    Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=(CASE WHEN DocStatus<=2 THEN 3 ELSE DocStatus END),PaymentRef='" & docno & "',PaymentBy='" & user & "',PaymentDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PaymentTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 
+ WHERE BranchCode+'|'+AdvNo in({0}) AND DocStatus<>99", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Main.DBExecute(GetSession("ConnJob"), String.Format("UPDATE Job_PaymentHeader SET PaymentRef='" & docno & "',PaymentBy='" & user & "',PaymentDate='" & DateTime.Now.ToString("yyyy-MM-dd") & "',PaymentTime='" & DateTime.Now.ToString("HH:mm:ss") & "' 

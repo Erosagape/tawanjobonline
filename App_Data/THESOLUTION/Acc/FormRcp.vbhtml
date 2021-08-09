@@ -47,6 +47,7 @@ End Code
     <div style="flex:1;border:1px solid black;border-radius:5px;">
         DOC NO. : <label id="lblReceiptNo"></label><br />
         REC DATE : <label id="lblReceiptDate"></label><br />
+        CUSTOMER PO : <label id="lblCustPo"></label><br />
     </div>
 </div>
 <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
@@ -131,6 +132,11 @@ End Code
         $('#lblCustTax').text(h.CustTaxID + ' BRANCH:' + h.BillToCustBranch);
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateEN(h.ReceiptDate)));
+        $.get(path + 'JobOrder/GetJobSQL?branch=' + branch + '&JNo' + h.JobNo, function (r) {
+            if (r.job.data.length !== null) {
+                $('#lblCustPo').text(r.job.data[0].CustRefNO);
+            }
+        });
         let html = '';
         let total = 0;
 

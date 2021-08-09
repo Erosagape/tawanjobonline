@@ -466,14 +466,18 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtAdvDateT').val());
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
-        w = w + '&Status=2';
+        //w = w + '&Status=2';
+        w = w + '&Show=ACTIVE';
         $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.adv.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.adv.data[0].Table;
+            let dh = r.adv.data[0].Table;
+            let h = dh.filter(function (data) {
+                return data.PaymentRef == '';
+            });
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
             let tb=$('#tbHeader').DataTable({

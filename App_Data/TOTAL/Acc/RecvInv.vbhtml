@@ -57,7 +57,7 @@ End Code
                         <label id="lblBankCA">To Bank:</label>
                         <select id="cboBankCash" class="form-control"></select>
                         <label id="lblBranchCA">To Branch:</label>
-                        <input type="text" id="txtBankBranchCash" class="form-control" />                                                                  
+                        <input type="text" id="txtBankBranchCash" class="form-control" />
                         <label id="lblPayCA">Pay To:</label>
                         <input type="text" id="txtCashPayTo" class="form-control" />
                         <br />
@@ -65,7 +65,7 @@ End Code
                         <input type="hidden" id="fldBankBranchCash" />
                     </div>
                     <div class="col-sm-3 table-bordered" id="dvChqCash">
-                        <input type="radio" name="optACType" id="chkChqCash" value="CU"><label><b id="linkChqCash">Transfer :</b></label><input type="text" id="txtAdvChqCash" class="form-control" value="" />
+                        <input type="radio" name="optACType" id="chkChqCash" value="CH"><label><b id="linkChqCash">Transfer :</b></label><input type="text" id="txtAdvChqCash" class="form-control" value="" />
                         <br />
                         <table>
                             <tr>
@@ -101,7 +101,7 @@ End Code
                         <input type="hidden" id="fldBankBranchChqCash" />
                     </div>
                     <div class="col-sm-3 table-bordered" id="dvChq">
-                        <label><input type="radio" name="optACType" id="chkChq" value="CH"><b id="linkChqCust">Cheque :</b></label>
+                        <label><input type="radio" name="optACType" id="chkChq" value="CU"><b id="linkChqCust">Cheque :</b></label>
                         <input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
                         <label id="lblRefNoCU">Chq No:</label>
@@ -122,7 +122,7 @@ End Code
                         <br />
                     </div>
                     <div class="col-sm-3 table-bordered" id="dvCred">
-                        <label><input type="radio" name="optACType" id="optCred" value="CR"><b id="linkCred">Credit :</b></label>
+                        <label><input type="radio" name="optACType" id="chkCred" value="CR"><b id="linkCred">Credit :</b></label>
                         <input type="text" id="txtAdvCred" class="form-control" value="" />
                         <br />
                         <label id="lblRefNoCR">Ref No:</label>
@@ -150,12 +150,12 @@ End Code
                     <div class="col-sm-6">
                         <input type="checkbox" id="chkUseDue" /><label id="lblSearchByDue">Select by Payment Due Date</label>
                         <br />
-                        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" /><label id="lblGroupByDoc">Group Documents</label> 
+                        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" /><label id="lblGroupByDoc">Group Documents</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <label id="lblCustCode">Customer :</label>                        
+                        <label id="lblCustCode">Customer :</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtCustCode" style="width:120px" />
@@ -384,10 +384,10 @@ End Code
         $('#txtSumApprove').val('');
         $('#txtSumWHTax').val('');
         $('#txtTRemark').val('');
-        $('#chkCash').prop('checked', true);
-        $('#chkChq').prop('checked', false);
-        $('#chkChqCash').prop('checked', false);
-        $('#chkCred').prop('checked', false);
+        //$('#chkCash').prop('checked', true);
+        //$('#chkChq').prop('checked', false);
+        //$('#chkChqCash').prop('checked', false);
+        //$('#chkCred').prop('checked', false);
     }
     function SetGridAdv(isAlert) {
         arr = [];
@@ -485,7 +485,7 @@ End Code
                 });
                 for (let d of filter) {
                     AddData(d);
-                }                      
+                }
             });
 
             let h = r.invdetail.data;
@@ -567,7 +567,6 @@ End Code
     function AddData(o) {
         let acType = $('input:radio[name=optACType]:checked').val();
         o.acType = acType;
-
         arr.push(o);
         ShowSummary();
     }
@@ -580,6 +579,7 @@ End Code
         ShowSummary();
     }
     function ShowSummary() {
+
         let tot = 0;
         let wtax = 0;
         let doc = '';
@@ -614,6 +614,7 @@ End Code
             if (o.acType == 'CH') sum_ch += Number(o.Net);
             if (o.acType == 'CU') sum_cu += Number(o.Net);
             if (o.acType == 'CR') sum_cr += Number(o.Net);
+
 
             list.push(obj);
 

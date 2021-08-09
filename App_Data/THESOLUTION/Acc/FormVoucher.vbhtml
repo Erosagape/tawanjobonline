@@ -111,6 +111,12 @@ End Code
                 <label id="lblCustName"></label>
             </p>
         </div>
+        <div class="row">
+            <p class="col-sm-12">
+                CUSTOMER PO :
+                <label id="lblCustPo"></label>
+            </p>
+        </div>
     </div>
 </div>
 <br />
@@ -120,31 +126,35 @@ End Code
 <br />
 <table width="100%" style="border-collapse:collapse;">
     <tr>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:25%" >
-            Director/Date
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+            CREATED.BY
         </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:25%">
-            Accountant/Date
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+            APPROVE.BY
         </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:25%">
-            Paid By/Date
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+            PAYER
         </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:25%">
-            Received/Date
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+            PAYEE
         </td>
     </tr>
     <tr>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-         
+            <label id="txtRecBy" style="font-size:10px">(__________________)</label><br />
+            <label id="txtRecDate" style="font-size:9px">__/__/____</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-           
+            <label id="txtPostedBy" style="font-size:10px">(__________________)</label><br />
+            <label id="txtPostedDate" style="font-size:9px">__/__/____</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-         
+            <label style="font-size:10px">(__________________)</label><br />
+            <label style="font-size:9px">__/__/____</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-           
+            <label style="font-size:9px">(__________________)</label><br />
+            <label style="font-size:9px">__/__/____</label>
         </td>
     </tr>
 </table>
@@ -192,11 +202,7 @@ End Code
                         desc0 += obj.TRemark != '' ? '<br/>DATE : ' + obj.TRemark : '';
                         break;
                     case 'CH':
-                        payType = 'TRANSFER';
-                        desc0 += obj.PayChqTo !== '' ? '<br/>PAY TO ' + obj.PayChqTo : '';
-                        desc0 += obj.RecvBank != '' ? '<br/>BANK ' + obj.RecvBank + ' BRANCH ' + obj.RecvBranch : '';
-                        desc0 += obj.BookCode != '' ? '<br/>ACCOUNT ' + obj.BookCode + ' REF# ' + obj.ChqNo : '';
-                        desc0 += obj.TRemark != '' ? '<br/>DATE : ' + obj.TRemark : '';
+                        payType = 'CASHIER CHEQUE';
                     case 'CU':
                         payType = 'CUSTOMER CHEQUE';
                         desc0 += obj.ChqNo !== '' ? '<br/>NO ' + obj.ChqNo + ' DATE ' + ShowDate(CDateTH(obj.ChqDate)) : '';
@@ -321,6 +327,8 @@ End Code
                                 $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
                                 $('#lblMAWB').text(j.MAWB);
                                 ShowVender(path, j.ForwarderCode, '#lblAgentName');
+                                $('#lblCustPo').text(j.CustRefNO);
+
                             }
                         });
                     }
@@ -371,7 +379,7 @@ End Code
                 desc2 += '</tr>';
                 desc2 += '<tr>';
                 desc2 += '<td width="20%" style="text-align:right">';
-                desc2 += CCurrency(CDbl(Number(CDbl(obj.TotalAmount,2)) + Number(CDbl(obj.VatExc,2)) - Number(CDbl(obj.WhtExc,2)), 2));
+                desc2 += CCurrency(CDbl(Number(obj.TotalNet) + Number(obj.WhtExc) + Number(obj.WhtInc), 2));
                 desc2 += '</td>';
                 desc2 += '</tr>';
                 desc2 += '</table>';

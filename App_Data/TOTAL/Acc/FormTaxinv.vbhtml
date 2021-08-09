@@ -318,7 +318,6 @@ End Code
             if (r.voucher.payment.length > 0) {
                 for (let p of r.voucher.payment) {
                     let pdate = p.TRemark.split('-');
-                    alert(pdate)
                     switch (p.acType) {
                         case 'CA':
                             $('#chkCash').prop('checked', true);

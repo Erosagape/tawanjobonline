@@ -222,12 +222,12 @@ End Code
         $.get(path + 'Acc/GetVoucher?Branch=' + h.BranchCode + '&Code=' + h.ReceiveRef).done(function (r) {
             if (r.voucher.payment.length > 0) {
                 for (let p of r.voucher.payment) {
-                    let date = p.TRemark.split("-");
+                    let pdate = p.TRemark.split('-');
                     switch (p.acType) {
                         case 'CA':
                             $('#chkCash').prop('checked', true);
                             //$('#lblCashDate').text(p.TRemark);
-                            $('#lblCashDate').text(date[2] + "-" + date[1] + "-" + date[0]);
+                            $('#lblCashDate').text(pdate[2] + "-" + pdate[1] + "-" + pdate[0]);
                             $('#lblCashDate').css('text-decoration', 'underline');
                             $('#lblCashAmount').text(ShowNumber(p.CashAmount, 2));
                             $('#lblCashAmount').css('text-decoration', 'underline');
@@ -235,12 +235,12 @@ End Code
                         case 'CH':
                             $('#chkTransfer').prop('checked', true);
                             /*  $('#lblTransferDate').text(p.TRemark);        */
-                            $('#lblTransferDate').text(date[2] + "-" + date[1] + "-" + date[0]);
+                            $('#lblTransferDate').text(ShowDate(p.ChqDate));
                             $('#lblTransferDate').css('text-decoration', 'underline');
                             $('#lblTransferBank').text(p.BookCode);
                             $('#lblTransferBank').css('text-decoration', 'underline');
                             $('#lblTransferAmount').text(ShowNumber(p.ChqAmount, 2));
-                            $('#lblTransferAmount').css('text-decoration', 'underline');         
+                            $('#lblTransferAmount').css('text-decoration', 'underline');
                             break;
                         case 'CU':
                             $('#chkCheque').prop('checked', true);

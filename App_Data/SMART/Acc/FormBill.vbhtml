@@ -154,8 +154,8 @@ End Code
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtAdvance, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(Number(dr.AmtChargeNonVAT)+Number(dr.AmtChargeVAT), 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtVAT, 2) + '</td>';
-                html += '<td style="text-align:right">' + (dr.AmtWHRate==1 ? ShowNumber(dr.AmtWH, 2) : 0) + '</td>';
-                html += '<td style="text-align:right">' + (dr.AmtWHRate!==1 ? ShowNumber(dr.AmtWH, 2) : 0) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH1, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH3, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtTotal, 2) + '</td>';
                 html += '</tr>';
 
@@ -163,8 +163,8 @@ End Code
                 serv += Number(dr.AmtChargeNonVAT+dr.AmtChargeVAT);
                 adv += Number(dr.AmtAdvance);
                 vat += Number(dr.AmtVAT);
-                wh1 += Number(dr.AmtWHRate == 1 ? ShowNumber(dr.AmtWH, 2) : 0);
-                wh3 += Number(dr.AmtWHRate !== 1 ? ShowNumber(dr.AmtWH, 2) : 0);
+                wh1 += Number(ShowNumber(dr.AmtWH1, 2));
+                wh3 += Number(ShowNumber(dr.AmtWH3, 2));
             }
             dv.html(html);
             $('#lblSumAdv').text(ShowNumber(adv, 2));
