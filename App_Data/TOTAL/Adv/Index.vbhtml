@@ -1315,6 +1315,11 @@ End Code
             ShowMessage('Please check advance amount', true);
             return;
         }
+  	if ($('#txtExcRate').val() < 1) {
+            ShowMessage('Exchange Rate must equal or hignher than 1', true);
+            $('#txtExcRate').focus();
+            return;
+        }
         if (dtl != undefined) {
             let obj = GetDataDetail();
             if (obj.ItemNo == 0) {
