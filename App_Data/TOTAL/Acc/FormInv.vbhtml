@@ -434,11 +434,11 @@ End Code
                 html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt, 2):''):'') + '</td>';
                 html += '            <td class="right">' + (row.AmtVat>0?ShowNumber(row.Amt, 2) : '') + '</td>';
                 html += '        </tr>';
-                adv += row.AmtAdvance;
+                adv += row.AmtAdvance * row.ExchangeRate.toFixed(4);
                 if (row.AmtVat > 0) {
-                    vat += row.AmtCharge;
+                    vat += row.AmtCharge * row.ExchangeRate.toFixed(4);
                 } else {
-                    nonVat += row.AmtCharge;
+                    nonVat += row.AmtCharge * row.ExchangeRate.toFixed(4);
                 }
                 switch (row.Rate50Tavi) {
 

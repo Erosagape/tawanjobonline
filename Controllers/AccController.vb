@@ -2386,9 +2386,9 @@ ORDER BY a.TName1
                 If Not IsNothing(Request.QueryString("DateTo")) Then
                     tSqlw &= " AND BillDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
-                Dim oData = New CBillHeader(GetSession(" ConnJob")).GetData(tSqlw & " ORDER BY BillDate DESC")
+                Dim oData = New CBillHeader(GetSession("ConnJob")).GetData(tSqlw & " ORDER BY BillDate DESC")
                 Dim json As String = JsonConvert.SerializeObject(oData)
-                json = " {"" billheader"":{""data"":" & json & "}}"
+                json = " {""billheader"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetBillHeader", ex.Message, ex.StackTrace, True)

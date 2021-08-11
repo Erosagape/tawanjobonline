@@ -67,8 +67,8 @@ End Code
                 @<tr>
                     <td>@dr("JNo").ToString()</td>
                     <td>@dr("ConsigneeTName").ToString()</td>
-                    <td>@dr("TotalContainer").ToString()</td>
-                    <td>@dr("ContainerList").ToString()</td>
+                    <td style="word-break:break-word;">@dr("TotalContainer").ToString()</td>
+                    <td style="word-break:break-word;">@dr("ContainerList").ToString()</td>
                     <td>@dr("MVesselName").ToString()</td>
                     <td>@dr("TotalGW").ToString()</td>
                     <td>@dr("ClearPortNo").ToString()</td>
