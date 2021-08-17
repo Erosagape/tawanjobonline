@@ -367,6 +367,7 @@ End Code
                         sumbasevat += (o.Amt - o.AmtDiscount);
                         sumvat += o.AmtVat;
                     } else {
+
                         sumnonvat += (o.Amt - o.AmtDiscount);
                     }
                     if (o.Amt50Tavi > 0) {

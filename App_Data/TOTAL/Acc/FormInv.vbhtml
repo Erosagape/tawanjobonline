@@ -322,7 +322,7 @@ End Code
         <td class="center bold">AUTHORIZED SIGNATURE</td>
     </tr>
 </table>
-<p class="bold">PLEASE ISSUE A CROSSED CHEQUE PAYABLE TO "TOTAL SHIPPING SERVICE CO.,LTD."</p>
+
 <p class="bold">หมายเหตุ ใบแจ้งหนี้นี้มิใช่ใบกำกับภาษี ใบกำกับภาษีจะออกให้ต่อเมื่อได้รับชำระเงินเรียบร้อยแล้ว</p>
 <p>
         กรุณาชําระด้วยเช็คขีดคร่อมและสั่งจ่ายในนาม "บริษัท โทเทิ่ล ชิปปิ้ง เซอร์วิส จำกัด"
@@ -340,6 +340,10 @@ End Code
   
         สาขา : ถนนรัชดาภิเษก-นางลิ้นจี่
 </p>    
+<p>
+   Remark:
+   <label id="remark"></label>
+</p>
 
 <script type="text/javascript">
     const path = '@Url.Content("~")';
@@ -384,6 +388,7 @@ End Code
             //$("#dueDate").text(AddDate(h.DocDate, c.CreditLimit));
             $("#currency").text(h.CurrencyCode);
             //$("#destiny").text("PASIR GUDANG-BANGKOK");
+            $("#remark").text(h.Remark1);
             if (j.JobType == 1) {
                 ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#original');
                 ShowCountry(path, j.InvCountry, '#destiny');
