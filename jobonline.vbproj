@@ -376,6 +376,7 @@
     <Content Include="App_Data\SQL_Report_V2.4.sql" />
     <Content Include="App_Data\SQL_Report_V2.5.sql" />
     <Content Include="App_Data\SQL_Report_V2.6.sql" />
+    <Content Include="App_Data\TextFile1.txt" />
     <Content Include="App_Data\THESOLUTION\Draft\Theso-bill.html" />
     <Content Include="App_Data\THESOLUTION\Draft\Theso-Invoice.html" />
     <Content Include="App_Data\THESOLUTION\Draft\Theso-oil.html" />
@@ -1175,6 +1176,8 @@
     <Content Include="App_Data\THESOLUTION\Acc\FormBill.vbhtml" />
     <Content Include="App_Data\THESOLUTION\Acc\FormVoucher.vbhtml" />
     <Content Include="App_Data\THESOLUTION\Acc\Invoice.vbhtml" />
+    <Content Include="App_Data\TOTAL\Acc\WHTax.vbhtml" />
+    <Content Include="App_Data\TOTAL\JobOrder\ShowJob.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

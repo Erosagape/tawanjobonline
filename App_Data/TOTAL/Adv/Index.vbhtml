@@ -2002,10 +2002,10 @@ End Code
         });
     }
     function SaveWHTax(dt) {
-        if ($('#btnSave').attr('disabled') == 'disabled') {
-            ShowMessage('This document is locked',true);
-            return;
-        }
+        //if ($('#btnSave').attr('disabled') == 'disabled') {
+        //    ShowMessage('This document is locked',true);
+        //    return;
+        //}
         let obj = GetWHTaxHeader(dt);
         let jsonText = JSON.stringify({ data: obj });
         //ShowMessage(jsonText);
@@ -2116,7 +2116,8 @@ End Code
             TeacherAmt: 0,
             Branch1: '',
             Branch2: '',
-            Branch3: ''
+            Branch3: '',
+            IsCSV:0
         };
         return obj;
     }

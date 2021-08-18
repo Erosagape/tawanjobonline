@@ -30,7 +30,7 @@ End Code
             <div id="tab1" class="tab-pane fade in active">
                 <div class="row">
                     <div class="col-sm-3 table-bordered" id="dvCash">
-                        <label><input type="radio" name="optACType" id="chkCash" value="CA"><b id="linkCash">Cash :</b></label>
+                        <label><input type="radio" name="optACType" id="chkCash" value="CA" checked><b id="linkCash">Cash :</b></label>
                         <input type="text" id="txtAdvCash" class="form-control" value="" />
                         <br />
                         <table>
@@ -653,8 +653,8 @@ End Code
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#txtAdvCash').val(CDbl(sum_ca, 2));
-        $('#txtAdvChq').val(CDbl(sum_ch, 2));
-        $('#txtAdvChqCash').val(CDbl(sum_cu, 2));
+        $('#txtAdvChq').val(CDbl(sum_cu, 2));
+        $('#txtAdvChqCash').val(CDbl(sum_ch, 2));
         $('#txtAdvCred').val(CDbl(sum_cr, 2));
 
         $('#txtSumApprove').val(CDbl(tot, 2));

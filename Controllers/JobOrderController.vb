@@ -1533,6 +1533,14 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     If FindJob.Count > 0 Then
                         oJob = FindJob(0)
                         oJob.JNo = ""
+                        oJob.CloseJobBy = ""
+                        oJob.CloseJobDate = DateTime.MinValue
+                        oJob.CloseJobTime = DateTime.MinValue
+                        oJob.CancelDate = DateTime.MinValue
+                        oJob.CancelProve = ""
+                        oJob.CancelTime = DateTime.MinValue
+                        oJob.JobStatus = 0
+                        oJob.ConfirmDate = DateTime.MinValue
                     End If
                 End If
                 oJob.CreateDate = DateTime.Today

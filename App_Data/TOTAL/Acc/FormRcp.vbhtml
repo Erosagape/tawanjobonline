@@ -14,7 +14,7 @@ End Code
         border-collapse: collapse;
     }
 
-    #dvFooter,#pFooter {
+    #dvFooter, #pFooter {
         display: none;
     }
 </style>
@@ -25,20 +25,20 @@ End Code
         </div>
         <br />
         <!--
-    <div style="display:flex;">
-        <div style="flex:3;">
-            <label>CUSTOMER:</label>
-            <br/>
-            <label id="lblCustCode"></label>
-        </div>
-        <div style="flex:1">
-            BRANCH: <label id="lblBranchName">@ViewBag.PROFILE_DEFAULT_BRANCH_NAME</label>
-            <br />
-            TAX ID: <label id="lblTaxNumer">@ViewBag.PROFILE_TAXNUMBER</label>
-        </div>
+        <div style="display:flex;">
+            <div style="flex:3;">
+                <label>CUSTOMER:</label>
+                <br/>
+                <label id="lblCustCode"></label>
+            </div>
+            <div style="flex:1">
+                BRANCH: <label id="lblBranchName">@ViewBag.PROFILE_DEFAULT_BRANCH_NAME</label>
+                <br />
+                TAX ID: <label id="lblTaxNumer">@ViewBag.PROFILE_TAXNUMBER</label>
+            </div>
 
-    </div>
-    -->
+        </div>
+        -->
         <div style="display:flex;">
             <div style="flex:3;border:1px solid black;border-radius:5px;">
                 NAME : <label id="lblCustName"></label><br />
@@ -244,7 +244,7 @@ End Code
                             break;
                         case 'CU':
                             $('#chkCheque').prop('checked', true);
-                            $('#lblChqDate').text(p.ChqDate);
+                            $('#lblChqDate').text(ShowDate(p.ChqDate));
                             $('#lblChqDate').css('text-decoration', 'underline');
                             $('#lblChqAmount').text(ShowNumber(p.ChqAmount, 2));
                             $('#lblChqAmount').css('text-decoration', 'underline');
@@ -265,7 +265,7 @@ End Code
                 let j = d.job.data[0];
                 if (j !== null) {
                     $('#lblCustInvNo').text(j.InvNo);
-                    ShowCustomerEN(path, j.CustCode,j.CustBranch, '#lblCustTName');		
+                    ShowCustomerEN(path, j.CustCode,j.CustBranch, '#lblCustTName');
                     $('#lblJobNo').text(j.JNo);
                     if(Number(j.JobType)==1){
                         ShowCountry(path, j.InvFCountry, '#lblFromCountry');

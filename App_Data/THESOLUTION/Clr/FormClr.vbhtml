@@ -69,18 +69,16 @@ End Code
     </div>
 </div>
 <div style="display:flex;flex-direction:column;margin:5px 5px 5px 5px;">
-    <table id="tbDetail" border="1" width="100%">
-        <thead>
-            <tr class="text-center">
-                <th width="10%">CODE.</th>
-                <th width="48%">DESCRIPTION</th>
-                <th width="12%">JOBNO</th>
-                <th width="10%">VAT</th>
-                <th width="10%">WHTAK</th>
-                <th width="10%">PAID</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
+    <table border="1" width="100%">
+        <tr class="text-center" style="font-weight:bold">
+            <td width="10%">CODE.</td>
+            <td width="48%">DESCRIPTION</td>
+            <td width="12%">JOBNO</td>
+            <td width="10%">VAT</td>
+            <td width="10%">WHTAK</td>
+            <td width="10%">PAID</td>
+        </tr>
+        <tbody id="tbDetail"></tbody>
     </table>
     <table border="1" width="100%">
         <tr class="text-center">
@@ -94,7 +92,7 @@ End Code
             <td colspan="4">
                 <div style="display:flex">
                     <div style="flex:1" class="text-left">
-                        Advance Summary:<br/>
+                        Advance Summary:<br />
                         <table style="width:100%;">
                             <tbody id="tbAdv"></tbody>
                         </table>
@@ -263,7 +261,7 @@ End Code
                         }
                         amttotal += d[i].BNet;
                     }
-                    $('#tbDetail tbody').html(html);
+                    $('#tbDetail').html(html);
 
                     $('#txtAmtVat').text(CCurrency(CDbl(amtforvat,2)));
                     $('#txtAmtNonVat').text(CCurrency(CDbl(amtnonvat,2)));
