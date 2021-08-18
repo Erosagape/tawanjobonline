@@ -567,6 +567,7 @@ End Code
     function AddData(o) {
         let acType = $('input:radio[name=optACType]:checked').val();
         o.acType = acType;
+	console.log(o.acType);
         arr.push(o);
         ShowSummary();
     }
