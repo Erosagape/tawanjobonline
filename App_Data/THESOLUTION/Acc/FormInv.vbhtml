@@ -89,8 +89,7 @@ End Code
         <table style="width:100%;margin-top:5px;" border="1" class="text-center">
             <tr style="background-color :gainsboro;text-align:center;font-weight:bold">
                 <td width="50px">No</td>
-                <td width="320px">DESCRIPTION</td>
-                <td width="50px">CTN</td>
+                <td width="370px">DESCRIPTION</td>
                 <td width="80px">PRICE</td>
                 <td width="50px">QTY</td>
                 <td width="100px">ADVANCE</td>
@@ -99,7 +98,7 @@ End Code
             </tr>
             <tbody id="tbDetail"></tbody>
             <tr style="font-weight:bold;">
-                <td colspan="5">
+                <td colspan="4">
                     TOTAL AMOUNT
                 </td>
                 <td style="text-align:right">
@@ -113,7 +112,7 @@ End Code
                 </td>
             </tr>
             <tr>
-                <td colspan="5">
+                <td colspan="4">
                     <div style="display:flex">
                         <div style="text-align:left;flex:1;vertical-align:top">
                             <div id="lblShippingRemark"></div>
@@ -139,7 +138,7 @@ End Code
             </tr>
             <tr>
                 <td>TOTAL<br />(<label id="lblCurrency"></label>)</td>
-                <td colspan="7">
+                <td colspan="6">
                     <div style="text-align:center;"><label id="lblTotalBaht" style="font-size:14px;font-weight:bold"></label></div>
                 </td>
             </tr>
@@ -321,8 +320,9 @@ End Code
     }
     function LoadDetail(d) {
         //sortData(d,'AmtAdvance','asc');
-        sortData(d, 'ItemNo', 'asc');
+        sortData(d, 'CTN_NO', 'asc');
         // sortData(d,'AmtVat','dasc');
+	
         let sumbase1 = 0;
         let sumbase3 = 0;
         let sumtax1 = 0;
@@ -330,14 +330,22 @@ End Code
         let sumbasevat = 0;
         let sumnonvat = 0;
         let sumvat = 0;
+        let currCtn = '-';
         let i = 0;
         if (d.length > 0) {
             for (let o of d) {
+                let Html = '';
+                if (currCtn !== o.CTN_NO) {
+                    currCtn = o.CTN_NO;
+                    Html = '<tr>';
+                    Html += '<td colspan="7">' + o.CTN_NO + '</td>';
+                    Html += '</tr>';
+                    $('#tbDetail').append(Html);
+                }
                 i++;
-                let Html = '<tr>';
+                Html = '<tr>';
                 Html += '<td style="text-align:center">' + i + '</td>';
                 Html += '<td>' + o.SDescription + '-' + o.TRemark + '</td>';
-                Html += '<td style="text-align:center">' + o.CTN_NO +  '</td>';
                 //Html += '<td style="text-align:center">' + o.CurrencyCode + '</td>';
                 //Html += '<td style="text-align:center">' + o.QtyUnit + '</td>';
                 Html += '<td style="text-align:right">' + ShowNumber(Number(o.UnitPrice), 2) + '</td>';
