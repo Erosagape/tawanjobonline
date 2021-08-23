@@ -160,7 +160,7 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtClrDateT').val());
         }
         w = w + '&Status=1';
-        $.get(path + 'clr/getclearinggrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
+        $.get(path + 'clr/getclearinggrid?branchcode=' + $('#txtBranchCode').val() + w).done(function (r) {
             if (r.clr.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if (isAlert==true) ShowMessage('Data not found',true);

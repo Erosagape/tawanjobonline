@@ -117,7 +117,7 @@ End Code
         } else {
             w = w + '&Show=ACTIVE';
         }
-        $.get(path + 'acc/getwhtaxgrid?branch=' + $('#txtBranchCode').val() + w, function (r) {
+        $.get(path + 'acc/getwhtaxgrid?branch=' + $('#txtBranchCode').val() + w).done(function (r) {
             if (r.whtax.data.length == 0) {
                 ShowMessage('Data not found',true);
                 return;

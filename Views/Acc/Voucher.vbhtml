@@ -1015,7 +1015,7 @@ End Code
         if ($('#txtDateTo').val() !== "") {
             w = w + '&DateTo=' + CDateEN($('#txtDateTo').val());
         }
-        $.get(path + 'acc/getvouchergrid' + w, function (r) {
+        $.get(path + 'acc/getvouchergrid' + w).done(function (r) {
             if (r.voucher.data.length == 0) {
                 ShowMessage('Data not found',true);
                 return;

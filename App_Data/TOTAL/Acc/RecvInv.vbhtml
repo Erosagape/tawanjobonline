@@ -354,40 +354,41 @@ End Code
     }
     function ClearData() {
         $('#txtAdvCash').val('');
-        $('#txtBookCash').val('');
-        $('#txtRefNoCash').val('');
-        $('#txtCashTranDate').val('');
-        $('#txtCashTranTime').val('');
-        $('#cboBankCash').val('');
-        $('#txtBankBranchCash').val('');
-        $('#txtCashPayTo').val('');
+        //$('#txtBookCash').val('');
+        //$('#txtRefNoCash').val('');
+        //$('#txtCashTranDate').val('');
+        //$('#txtCashTranTime').val('');
+        //$('#cboBankCash').val('');
+        //$('#txtBankBranchCash').val('');
+        //$('#txtCashPayTo').val('');
         $('#txtAdvChqCash').val('');
-        $('#txtBookChqCash').val('');
-        $('#txtRefNoChqCash').val('');
-        $('#txtChqCashTranDate').val('');
-        $('#chkStatusChq').prop('checked', false);
-        $('#cboBankChqCash').val('');
-        $('#txtBankBranchChqCash').val('');
-        $('#txtChqCashPayTo').val('');
+        //$('#txtBookChqCash').val('');
+        //$('#txtRefNoChqCash').val('');
+        //$('#txtChqCashTranDate').val('');
+        //$('#chkStatusChq').prop('checked', false);
+        //$('#cboBankChqCash').val('');
+        //$('#txtBankBranchChqCash').val('');
+        //$('#txtChqCashPayTo').val('');
         $('#txtAdvChq').val('');
-        $('#txtRefNoChq').val('');
-        $('#txtChqTranDate').val('');
-        $('#chkIsLocal').prop('checked', false);
-        $('#cboBankChq').val('');
-        $('#txtBankBranchChq').val('');
-        $('#txtChqPayTo').val('');
+        //$('#txtRefNoChq').val('');
+        //$('#txtChqTranDate').val('');
+        //$('#chkIsLocal').prop('checked', false);
+        //$('#cboBankChq').val('');
+        //$('#txtBankBranchChq').val('');
+        //$('#txtChqPayTo').val('');
         $('#txtAdvCred').val('');
-        $('#txtRefNoCred').val('');
-        $('#txtCredTranDate').val('');
-        $('#txtCredPayTo').val('');
+        //$('#txtRefNoCred').val('');
+        //$('#txtCredTranDate').val('');
+        //$('#txtCredPayTo').val('');
         $('#txtPaymentDate').val(CDateEN(GetToday()));
         $('#txtSumApprove').val('');
         $('#txtSumWHTax').val('');
-        $('#txtTRemark').val('');
-        //$('#chkCash').prop('checked', true);
-        //$('#chkChq').prop('checked', false);
-        //$('#chkChqCash').prop('checked', false);
-        //$('#chkCred').prop('checked', false);
+        //$('#txtTRemark').val('');
+
+        ////$('#chkCash').prop('checked', true);
+        ////$('#chkChq').prop('checked', false);
+        ////$('#chkChqCash').prop('checked', false);
+        ////$('#chkCred').prop('checked', false);
     }
     function SetGridAdv(isAlert) {
         arr = [];
@@ -728,7 +729,7 @@ End Code
                 PRVoucher: '',
                 PRType:sum_chqcash.sumamount > 0 ? 'R' : 'P',
                 ChqNo: $('#txtRefNoChqCash').val(),
-                BookCode: '',
+                BookCode: $('#txtBookChqCash').val(),
                 BankCode: '',
                 BankBranch: '',
                 ChqDate: CDateEN($('#txtChqCashTranDate').val()),

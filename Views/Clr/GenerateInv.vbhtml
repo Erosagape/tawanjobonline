@@ -493,7 +493,7 @@ End Code
             w = w + '&sby=' + $('#cboShipBy').val();
         }
         $('#tbHeader').DataTable().clear().draw();
-        $.get(path + 'acc/getclearforinv?branch=' + $('#txtBranchCode').val() + w, function (r) {
+        $.get(path + 'acc/getclearforinv?branch=' + $('#txtBranchCode').val() + w).done(function (r) {
             if (r.invdetail.data.length == 0) {
                 if (isAlert==true) ShowMessage('Data not found',true);
                 return;

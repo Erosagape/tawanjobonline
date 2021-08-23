@@ -156,7 +156,7 @@ End Code
         } else {
             w = w + '&Show=ACTIVE';
         }
-        $.get(path + 'clr/getclearinggrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
+        $.get(path + 'clr/getclearinggrid?branchcode=' + $('#txtBranchCode').val() + w).done(function (r) {
             if (r.clr.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if (isAlert==true) ShowMessage('Data not found',true);

@@ -439,7 +439,7 @@ End Code
         if ($('#chkFromClr').prop('checked') == true) {
             w = w + '&Data=CLR';
         }
-        $.get(path + 'clr/getclearingsum?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
+        $.get(path + 'clr/getclearingsum?branchcode=' + $('#txtBranchCode').val() + w).done(function (r) {
             if (r.clr.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);

@@ -526,7 +526,7 @@ End Code
         if (code !== '') {
             w += '&Code=' + code;
         }
-        $.get(path + 'acc/getinvforbill?branch=' + $('#txtBranchCode').val()+ w, function (r)
+        $.get(path + 'acc/getinvforbill?branch=' + $('#txtBranchCode').val()+ w).done(function (r)
         {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();

@@ -608,7 +608,7 @@ End Code
         if (code !== '') {
             w += '&Code=' + code;
         }
-        $.get(path + 'acc/getReceipt?type=ADV&branch=' + $('#txtBranchCode').val() + w, function (r) {
+        $.get(path + 'acc/getReceipt?type=ADV&branch=' + $('#txtBranchCode').val() + w).done(function (r) {
             if (r.receipt.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 ShowMessage('Data not found',true);

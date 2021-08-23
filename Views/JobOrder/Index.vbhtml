@@ -171,7 +171,7 @@ End Code
     }
     function getJobdata() {
         ShowWait();
-        $.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
+        $.get(path + 'joborder/updatejobstatus' + GetCliteria()).done(function (r) {
             CloseWait();
             let tb=$('#tblJob').DataTable({
                 "ajax": {
