@@ -260,7 +260,7 @@ End Code
                 let dt1 = d.filter((data) => {
                     return data.IsCredit == 1 || data.IsExpense == 0;
                 });
-
+                sortData(dt1, 'CTN_NO');
                 let html = '';
                 html += '<tr>';
                 html += '<td>{0}</td>';
@@ -289,10 +289,20 @@ End Code
                 let suma1 = 0;
                 let sumc1 = 0;
                 let sumt1 = 0;
+                let lastCon = '';
                 //alert(dt1.length);
                 for (let i = 0; i < dt1.length; i++) {
+                    if (lastCon !== dt1[i].CTN_NO) {
+                        lastCon = dt1[i].CTN_NO;
+                        let htmlHead = '';
+                        htmlHead += '<tr>';
+                        htmlHead += '<td colspan="12"><b>'+ lastCon +'<b/></td>';
+                        htmlHead += '</tr>';
+                        html1 += htmlHead;
+                    }
+                    let total = dt1[i].UsedAmount * dt1[i].Qty;
                     let tmp = html;
-                    tmp =tmp.replace('{0}', dt1[i].SDescription);
+                    tmp = tmp.replace('{0}', dt1[i].SDescription);
                     tmp = tmp.replace('{1}', 'P');
                     tmp = tmp.replace('{2}', dt1[i].CustCode);
                     tmp = tmp.replace('{3}', dt1[i].Qty);
@@ -300,19 +310,19 @@ End Code
                     tmp = tmp.replace('{5}', dt1[i].CurrencyCode);
                     tmp = tmp.replace('{6}', dt1[i].CurRate);
                     tmp = tmp.replace('{7}', ShowNumber(dt1[i].UnitPrice ,2));
-                    tmp = tmp.replace('{8}', ShowNumber(dt1[i].UsedAmount, 2));
-                    tmp = tmp.replace('{9}', dt1[i].IsCredit==1 ? ShowNumber(dt1[i].UsedAmount, 2) : '');
-                    tmp = tmp.replace('{10}', dt1[i].IsExpense == 0 && dt1[i].IsCredit == 0 ? ShowNumber(dt1[i].UsedAmount, 2):'');
-                    tmp = tmp.replace('{11}', ShowNumber(dt1[i].UsedAmount, 2));
+                    tmp = tmp.replace('{8}', ShowNumber(total, 2));
+                    tmp = tmp.replace('{9}', dt1[i].IsCredit==1 ? ShowNumber(total, 2) : '');
+                    tmp = tmp.replace('{10}', dt1[i].IsExpense == 0 && dt1[i].IsCredit == 0 ? ShowNumber(total, 2):'');
+                    tmp = tmp.replace('{11}', ShowNumber(total, 2));
 
                     if (dt1[i].IsCredit == 1)
                     {
-                        suma1 += dt1[i].UsedAmount;
+                        suma1 += total;
                     }
                     if (dt1[i].IsExpense == 0 && dt1[i].IsCredit == 0) {
-                        sumc1 += dt1[i].UsedAmount;
+                        sumc1 += total;
                     }
-                    sumt1 += dt1[i].UsedAmount;
+                    sumt1 += total;
 
                     html1 += tmp;
                 }
@@ -327,13 +337,23 @@ End Code
                 let dt2 = d.filter((data) => {
                     return data.IsCredit == 1 || data.IsExpense == 1;
                 });
-
+                sortData(dt2, 'CTN_NO');
                 let html2 = '';
                 let suma2 = 0;
                 let sumc2 = 0;
                 let sumt2 = 0;
+                lastCon = '';
                 //alert(dt2.length);
                 for (let i = 0; i < dt2.length; i++) {
+                    if (lastCon !== dt2[i].CTN_NO) {
+                        lastCon = dt2[i].CTN_NO;
+                        let htmlHead = '';
+                        htmlHead += '<tr>';
+                        htmlHead += '<td colspan="12"><b>' + lastCon + '</b></td>';
+                        htmlHead += '</tr>';
+                        html2 += htmlHead;
+                    }
+                    let total = dt2[i].UsedAmount * dt2[i].Qty;
                     let tmp = html;
                     tmp = tmp.replace('{0}', dt2[i].SDescription);
                     tmp = tmp.replace('{1}', 'P');
@@ -343,18 +363,18 @@ End Code
                     tmp = tmp.replace('{5}', dt2[i].CurrencyCode);
                     tmp = tmp.replace('{6}', dt2[i].CurRate);
                     tmp = tmp.replace('{7}', ShowNumber(dt2[i].UnitPrice, 2));
-                    tmp = tmp.replace('{8}', ShowNumber(dt2[i].UsedAmount, 2));
-                    tmp = tmp.replace('{9}', dt2[i].IsCredit == 1 ? ShowNumber(dt2[i].UsedAmount, 2) : '');
-                    tmp = tmp.replace('{10}', dt2[i].IsExpense == 1 && dt2[i].IsCredit == 0 ? ShowNumber(dt2[i].UsedAmount, 2) : '');
-                    tmp = tmp.replace('{11}', ShowNumber(dt2[i].UsedAmount, 2));
+                    tmp = tmp.replace('{8}', ShowNumber(total, 2));
+                    tmp = tmp.replace('{9}', dt2[i].IsCredit == 1 ? ShowNumber(total, 2) : '');
+                    tmp = tmp.replace('{10}', dt2[i].IsExpense == 1 && dt2[i].IsCredit == 0 ? ShowNumber(total, 2) : '');
+                    tmp = tmp.replace('{11}', ShowNumber(total, 2));
 
                     if (dt2[i].IsCredit == 1) {
-                        suma2 += dt2[i].UsedAmount;
+                        suma2 += total;
                     }
                     if (dt2[i].IsExpense == 1 && dt2[i].IsCredit == 0) {
-                        sumc2 += dt2[i].UsedAmount;
+                        sumc2 += total;
                     }
-                    sumt2 += dt2[i].UsedAmount;
+                    sumt2 += total;
 
                     html2 += tmp;
                 }

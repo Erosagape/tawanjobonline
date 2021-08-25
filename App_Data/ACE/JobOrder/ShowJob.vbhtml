@@ -999,14 +999,27 @@ End Code
                 SetContainerEdit();
                 break;
             case 'job':
-                let dbID = ('@ViewBag.DATABASE' == '1' ? '2' : '1');
                 let invNo = $('#txtCustInvNo').val();
-                let w = '?DBID=' + dbID;
+                let w = '?DBID=1';
                 if (invNo !== '') w += '&InvNo=' + invNo;
-                SetGridJob(path, '#tbJob', '#frmSearchJob', w, function (r) {
-                    $('#txtCustPoNo').val(r.JNo);
-                    ReadJob(r);
-                });
+                let lic = '@ViewBag.LICENSE_NAME';
+                let url = 'http://192.168.1.21/ace/';
+                if (lic.indexOf('โกลบอล') >= 0) {
+                    url = 'http://192.168.1.21/acet/';
+                }
+                $.get(url + 'Config/SetLogin?Group=S&Type=Guest&Database=' + dbID)
+                    .done(function (r) {
+                        if (r.user.data.length > 0) {
+                            SetGridJob(url, '#tbJob', '#frmSearchJob', w, function (res) {
+                                $.get(url + 'Config/SetLogOut?Group=S&Code=Guest').done(function () {
+
+                                    $('#txtCustPoNo').val(res.JNo);
+                                    ReadJob(res);
+                                });
+                            });
+                        }
+                    });
+
                 break;
 
         }
