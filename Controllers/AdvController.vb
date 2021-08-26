@@ -768,6 +768,12 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("DateTo")) Then
                     tSqlW &= " AND a.Advdate<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
+                If Not IsNothing(Request.QueryString("PayDateFrom")) Then
+                    tSqlW &= " AND a.PayChqDate>='" & Request.QueryString("PayDateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("PayDateTo")) Then
+                    tSqlW &= " AND a.PayChqDate<='" & Request.QueryString("PayDateTo") & " 23:59:00'"
+                End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     tSqlW &= " AND a.DocStatus='" & Request.QueryString("Status") & "' "
                 Else
@@ -800,6 +806,84 @@ Namespace Controllers
                 Return Content("{""adv"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
             End Try
         End Function
+        Function GetAdvanceGridSummary() As ActionResult
+            Try
+                ViewBag.User = GetSession("CurrUser").ToString()
+                Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
+                If AuthorizeStr.IndexOf("R") < 0 Then
+                    Return Content("{""adv"":{""data"":[],""msg"":""You are not allow to view""}}", jsonContent)
+                End If
+
+                Dim Branch As String = ""
+                Dim JobNo As String = ""
+                If Not IsNothing(Request.QueryString("BranchCode")) Then
+                    Branch = Request.QueryString("BranchCode")
+                End If
+
+                Dim tSqlW As String = String.Format(" WHERE a.BranchCode='{0}'", Branch)
+                If Not IsNothing(Request.QueryString("JobNo")) Then
+                    tSqlW &= " AND a.AdvNo IN(SELECT AdvNo FROM Job_AdvDetail WHERE BranchCode='" & Branch & "' And ForJNo='" & Request.QueryString("JobNo") & "')"
+                End If
+                If Not IsNothing(Request.QueryString("JType")) Then
+                    tSqlW &= " AND a.JobType=" & Request.QueryString("JType") & ""
+                End If
+                If Not IsNothing(Request.QueryString("SBy")) Then
+                    tSqlW &= " AND a.ShipBy=" & Request.QueryString("SBy") & ""
+                End If
+                If Not IsNothing(Request.QueryString("ReqBy")) Then
+                    tSqlW &= " AND a.Empcode='" & Request.QueryString("ReqBy") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("AdvBy")) Then
+                    tSqlW &= " AND a.AdvBy='" & Request.QueryString("AdvBy") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("CustCode")) Then
+                    tSqlW &= " AND a.CustCode='" & Request.QueryString("CustCode") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("CustBranch")) Then
+                    tSqlW &= " AND a.CustBranch='" & Request.QueryString("CustBranch") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlW &= " AND a.Advdate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlW &= " AND a.Advdate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
+                If Not IsNothing(Request.QueryString("PayDateFrom")) Then
+                    tSqlW &= " AND a.PayChqDate>='" & Request.QueryString("PayDateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("PayDateTo")) Then
+                    tSqlW &= " AND a.PayChqDate<='" & Request.QueryString("PayDateTo") & " 23:59:00'"
+                End If
+                If Not IsNothing(Request.QueryString("Status")) Then
+                    tSqlW &= " AND a.DocStatus='" & Request.QueryString("Status") & "' "
+                Else
+                    'tSqlW &= " AND a.DocStatus<>99 "
+                End If
+                If Not IsNothing(Request.QueryString("Show")) Then
+                    If Request.QueryString("Show").ToString() = "ACTIVE" Then
+                        tSqlW &= " AND a.DocStatus<>99 "
+                    Else
+                        tSqlW &= " AND a.DocStatus=99 "
+                    End If
+                End If
+                If Not IsNothing(Request.QueryString("Currency")) Then
+                    tSqlW &= " AND a.SubCurrency='" & Request.QueryString("Currency") & "' "
+                End If
+                If Not IsNothing(Request.QueryString("AdvType")) Then
+                    tSqlW &= " AND a.AdvType IN(" & Request.QueryString("AdvType") & ") "
+                Else
+                    tSqlW &= " AND a.AdvType IN(1,2,3,4) "
+                End If
+                Dim sql As String = SQLSelectAdvanceTotalEmp(tSqlW)
+                Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                Dim json = "{""adv"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetAdvanceGrid", ex.Message, ex.StackTrace, True)
+                Return Content("{""adv"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
+            End Try
+        End Function
+
         Function GetAdvance() As ActionResult
             Try
                 ViewBag.User = GetSession("CurrUser").ToString()

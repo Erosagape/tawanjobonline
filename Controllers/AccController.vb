@@ -1643,10 +1643,21 @@ select * from vc WHERE PaidAmount>0 order by PRType DESC,DocNo
                                 End If
                             End If
                         End If
-                        If data.VoucherDate = DateTime.MinValue Then
-                            data.VoucherDate = Today.Date
+                        Dim fmt = Main.GetValueConfig("RUNNING", "VOUCHER")
+                        If fmt <> "" Then
+                            If fmt.IndexOf("bb") >= 0 Then
+                                fmt = fmt.Replace("bb", data.VoucherDate.AddYears(543).ToString("yy"))
+                            End If
+                            If fmt.IndexOf("MM") >= 0 Then
+                                fmt = fmt.Replace("MM", data.VoucherDate.ToString("MM"))
+                            End If
+                            If fmt.IndexOf("yy") >= 0 Then
+                                fmt = fmt.Replace("yy", data.VoucherDate.ToString("yy"))
+                            End If
+                        Else
+                            fmt = data.VoucherDate.ToString("yyMM") & "-___"
                         End If
-                        data.AddNew(data.VoucherDate.ToString("yyMM") & "-___")
+                        data.AddNew(fmt)
                     End If
                     Dim tSql As String = String.Format(" WHERE BranchCode='{0}' AND  ControlNo='{1}' ", data.BranchCode, data.ControlNo)
                     Dim msg = data.SaveData(tSql)

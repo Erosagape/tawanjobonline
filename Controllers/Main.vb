@@ -3248,6 +3248,20 @@ c.CSCode,v.TName,b.ForJNo,c.DeclareNumber,c.DocDate,a.EmpCode,c.CloseJobDate
 ORDER BY e.NameEng,b.ForJNo"
         Return String.Format(tSql, sqlW)
     End Function
+    Public Function SQLSelectAdvanceTotalEmp(sqlw As String) As String
+        Dim sql = GetValueConfig("SQL", "SelectAdvanceTotalEmp")
+        If sql <> "" Then
+            Return sql.Replace("{0}", sqlw)
+        End If
+        sql = "
+select a.EmpCode,a.PayChqTo,a.PayChqDate as OperationDate,Sum(a.TotalAdvance) as TotalAdvance,count(*) as TotalDoc,
+sum(a.AdvCash) as AdvCashCal,sum(a.AdvChqCash) as AdvChqCashCal,sum(a.AdvChq) as AdvChqCal,sum(a.AdvCred) as AdvCredCal,
+sum(a.Total50Tavi) as Total50Tavi
+from Job_AdvHeader a {0}
+group by a.EmpCode,a.PayChqTo,a.PayChqDate
+"
+        Return sql.Replace("{0}", sqlw)
+    End Function
     Public Function SQLSelectAdvanceTotal(sqlW As String) As String
         Dim tSql As String = ""
         Dim hSql As String = "

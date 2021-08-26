@@ -2,14 +2,14 @@
     ViewBag.Title = "Advance Payment"
 End Code
 <style>
-    @@media only screen and ( max-width:600px )
-    {
+    @@media only screen and ( max-width:600px ) {
         #myTabs {
-            display:none;
+            display: none;
         }
+
         #mySelects {
-            width:100%;
-            display:block !important;
+            width: 100%;
+            display: block !important;
         }
     }
 </style>
@@ -29,7 +29,7 @@ End Code
         <div class="tab-content">
             <div id="tab1" class="tab-pane fade in active">
                 <div class="row">
-                    <div class="col-sm-4">                        
+                    <div class="col-sm-4">
                         <label id="lblBranch">Branch</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
@@ -47,10 +47,15 @@ End Code
                         <br />
                         <select id="cboShipBy" class="form-control dropdown"></select>
                     </div>
+                    <div class="col-sm-4">
+                        <input type="checkbox" id="chkRequest" /> Non-Approve Payment
+                        <br />
+                        <input type="checkbox" id="chkGroupEmp" /> Group By Employee
+                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <label id="lblReqBy">Request By :</label>                        
+                        <label id="lblReqBy">Request By :</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtReqBy" style="width:100px" />
@@ -71,7 +76,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <label id="lblCurrency">Request Currency :</label>                        
+                        <label id="lblCurrency">Request Currency :</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtCurrencyCode" style="width:20%" />
@@ -98,6 +103,22 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
+                        <table id="tbSummary" class="table table-responsive" style="display:none">
+                            <thead>
+                                <tr>
+                                    <th>Staff</th>
+                                    <th>Operation Date</th>
+                                    <th>Payment To</th>
+                                    <th>Cash/Transfer</th>
+                                    <th>Company Chq</th>
+                                    <th>Customer Chq</th>
+                                    <th>Credit</th>
+                                    <th>Total</th>
+                                    <th>W/T</th>
+                                    <th>Docs/th>
+                                </tr>
+                            </thead>
+                        </table>
                         <table id="tbHeader" class="table table-responsive">
                             <thead>
                                 <tr>
@@ -199,7 +220,7 @@ End Code
                     <div class="col-sm-3 table-bordered" id="dvChq">
                         <b id="linkChqCust">Customer Chq : </b><input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
-                        <input type="hidden" id="txtBookChq" class="form-control" value=""/>
+                        <input type="hidden" id="txtBookChq" class="form-control" value="" />
                         <a id="lblRefNoCU" href="../acc/cheque" target="_blank">Chq No:</a><input type="text" id="txtRefNoChq" class="form-control" value="" disabled />
                         <input type="button" class="btn" id="btnBrowseChq" value="..." onclick="SearchData('chequecust')" />
                         <br />
@@ -232,8 +253,8 @@ End Code
                             <b id="linkBal">Balance</b>
                             <br />
                             <label id="lblForCA">For Cash/Transfer :</label>
-                            <br /> 
-                            <input type="number" id="txtCashBal" class="form-control" disabled />                                   
+                            <br />
+                            <input type="number" id="txtCashBal" class="form-control" disabled />
                             <label id="lblForCH">For Cheque : </label>
                             <br /> <input type="number" id="txtChqCashBal" class="form-control" disabled />
                         </div>
@@ -285,31 +306,31 @@ End Code
     </div>
     <div id="dvLOVs"></div>
     <did id="frmSearchChq" class="modal fade" role="dialog">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <label id="lblCaptionChq">Select Cheque Onhand</label>                     
-                 </div>
-                 <div class="modal-body">
-                     <table id="tbChq" class="table table-responsive">
-                         <thead>
-                             <tr>
-                                 <th>#</th>
-                                 <th>ChqNo</th>
-                                 <th class="all">ChqDate</th>
-                                 <th class="desktop">ChqAmount</th>
-                                 <th class="desktop">AmountUsed</th>
-                                 <th class="all">AmountRemain</th>
-                             </tr>
-                         </thead>
-                         <tbody></tbody>
-                     </table>
-                 </div>
-                 <div class="modal-footer">
-                     <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
-                 </div>
-             </div>
-         </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <label id="lblCaptionChq">Select Cheque Onhand</label>
+                </div>
+                <div class="modal-body">
+                    <table id="tbChq" class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>ChqNo</th>
+                                <th class="all">ChqDate</th>
+                                <th class="desktop">ChqAmount</th>
+                                <th class="desktop">AmountUsed</th>
+                                <th class="all">AmountRemain</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
+                </div>
+            </div>
+        </div>
     </did>
 </div>
 <script src="~/Scripts/Func/combo.js"></script>
@@ -470,90 +491,176 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtAdvDateT').val());
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
-        w = w + '&Status=2';
-        $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
-            if (r.adv.data.length == 0) {
-                $('#tbHeader').DataTable().clear().draw();
-                if(isAlert==true) ShowMessage('Data not found',true);
-                return;
-            }
-            let h = r.adv.data[0].Table;
-            $('#tbHeader').DataTable().destroy();
-            $('#tbHeader').empty();
-            let tb=$('#tbHeader').DataTable({
-                data: h,
-                selected: true, //ให้สามารถเลือกแถวได้
-                columns: [ //กำหนด property ของ header column
-                    { data: "AdvNo", title: "Advance No" },
-                    {
-                        data: "AdvDate", title: "Request date ",
-                        render: function (data) {
-                            return CDateEN(data);
-                        }
-                    },
-                    { data: "JobNo", title: "Job Number" },
-                    { data: "CustInvNo", title: "InvNo" },
-                    { data: "CustCode", title: "Customer" },
-                    {
-                        data: "AdvCashCal", title: "Cash/Transfer",
-                        render: function (data) {
-                            return ShowNumber(data, 2);
-                        }
-                    },
-                    {
-                        data: "AdvChqCashCal", title: "Company Chq",
-                        render: function (data) {
-                            return ShowNumber(data, 2);
-                        }
-                    },
-                    {
-                        data: "AdvChqCal", title: "Customer Chq",
-                        render: function (data) {
-                            return ShowNumber(data, 2);
-                        }
-                    },
-                    {
-                        data: "AdvCredCal", title: "Credit",
-                        render: function (data) {
-                            return ShowNumber(data, 2);
-                        }
-                    },
-                    {
-                        data: "TotalAdvance", title: "Total",
-                        render: function (data) {
-                            return ShowNumber(data, 2);
-                        }
-                    },
-                    {
-                        data: "Total50Tavi", title: "W/T Amt",
-                        render: function (data) {
-                            return ShowNumber(data, 2);
-                        }
-                    },
-                    { data: "EmpCode", title: "Request By" }
-                ],
-                responsive:true,
-                destroy: true
-                , pageLength: 100
-            });
-            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
-
-            $('#tbHeader tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected') == true) {
-                    $(this).removeClass('selected');
-                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                    RemoveData(data); //callback function from caller
+        if ($('#chkRequest').prop('checked')) {
+            w = w + '&Status=1';
+        } else {
+            w = w + '&Status=2';
+        }
+        if ($('#chkGroupEmp').prop('checked')) {
+            $('#tbSummary').show();
+            $('#tbHeader').hide();
+            $.get(path + 'adv/getadvancegridsummary?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
+                if (r.adv.data.length == 0) {
+                    $('#tbSummary').DataTable().clear().draw();
+                    if(isAlert==true) ShowMessage('Data not found',true);
                     return;
                 }
-                $(this).addClass('selected');
-                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                AddData(data); //callback function from caller
+                let h = r.adv.data[0].Table;
+                $('#tbSummary').DataTable().destroy();
+                $('#tbSummary').empty();
+                let tb=$('#tbSummary').DataTable({
+                    data: h,
+                    selected: true, //ให้สามารถเลือกแถวได้
+                    columns: [ //กำหนด property ของ header column
+                        { data: "EmpCode", title: "Staff" },
+                        {
+                            data: "OperationDate", title: "Operation date ",
+                            render: function (data) {
+                                return CDateEN(data);
+                            }
+                        },
+                        { data: "PayChqTo", title: "Payment To" },
+                        {
+                            data: "AdvCashCal", title: "Cash/Transfer",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "AdvChqCashCal", title: "Company Chq",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "AdvChqCal", title: "Customer Chq",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "AdvCredCal", title: "Credit",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "TotalAdvance", title: "Total",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "Total50Tavi", title: "W/T Amt",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "TotalDoc", title: "Docs" }
+                    ],
+                    responsive:true,
+                    destroy: true,
+                    pageLength: 100
+                });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbSummary');
+                $('#tbSummary tbody').on('click', 'tr', function () {
+                    if ($(this).hasClass('selected') == true) {
+                        $(this).removeClass('selected');
+                        return;
+                    }
+                    $(this).addClass('selected');
+                });
+                $('#tbSummary tbody').on('dblclick', 'tr', function () {
+
+                });
             });
-            $('#tbHeader tbody').on('dblclick', 'tr', function () {
-                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                window.open(path + 'adv/index?BranchCode=' + data.BranchCode + '&AdvNo=' + data.AdvNo,'','');
+        } else {
+            $('#tbSummary').hide();
+            $('#tbHeader').show();
+            $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
+                if (r.adv.data.length == 0) {
+                    $('#tbHeader').DataTable().clear().draw();
+                    if(isAlert==true) ShowMessage('Data not found',true);
+                    return;
+                }
+                let h = r.adv.data[0].Table;
+                $('#tbHeader').DataTable().destroy();
+                $('#tbHeader').empty();
+                let tb=$('#tbHeader').DataTable({
+                    data: h,
+                    selected: true, //ให้สามารถเลือกแถวได้
+                    columns: [ //กำหนด property ของ header column
+                        { data: "AdvNo", title: "Advance No" },
+                        {
+                            data: "AdvDate", title: "Request date ",
+                            render: function (data) {
+                                return CDateEN(data);
+                            }
+                        },
+                        { data: "JobNo", title: "Job Number" },
+                        { data: "CustInvNo", title: "InvNo" },
+                        { data: "CustCode", title: "Customer" },
+                        {
+                            data: "AdvCashCal", title: "Cash/Transfer",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "AdvChqCashCal", title: "Company Chq",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "AdvChqCal", title: "Customer Chq",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "AdvCredCal", title: "Credit",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "TotalAdvance", title: "Total",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        {
+                            data: "Total50Tavi", title: "W/T Amt",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                            }
+                        },
+                        { data: "EmpCode", title: "Request By" }
+                    ],
+                    responsive:true,
+                    destroy: true
+                    , pageLength: 100
+                });
+                ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
+
+                $('#tbHeader tbody').on('click', 'tr', function () {
+                    if ($(this).hasClass('selected') == true) {
+                        $(this).removeClass('selected');
+                        let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                        RemoveData(data); //callback function from caller
+                        return;
+                    }
+                    $(this).addClass('selected');
+                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                    AddData(data); //callback function from caller
+                });
+                $('#tbHeader tbody').on('dblclick', 'tr', function () {
+                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                    window.open(path + 'adv/index?BranchCode=' + data.BranchCode + '&AdvNo=' + data.AdvNo,'','');
+                });
             });
-        });
+        }
     }
     function SetStatusInput(d, bl, ctl) {
         if (bl == false) {
