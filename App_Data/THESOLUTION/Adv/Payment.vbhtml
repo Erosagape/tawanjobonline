@@ -47,11 +47,6 @@ End Code
                         <br />
                         <select id="cboShipBy" class="form-control dropdown"></select>
                     </div>
-                    <div class="col-sm-4">
-                        <input type="checkbox" id="chkRequest" /> Non-Approve Payment
-                        <br />
-                        <input type="checkbox" id="chkGroupEmp" /> Group By Employee
-                    </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
@@ -103,22 +98,6 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <table id="tbSummary" class="table table-responsive" style="display:none">
-                            <thead>
-                                <tr>
-                                    <th>Staff</th>
-                                    <th>Operation Date</th>
-                                    <th>Payment To</th>
-                                    <th>Cash/Transfer</th>
-                                    <th>Company Chq</th>
-                                    <th>Customer Chq</th>
-                                    <th>Credit</th>
-                                    <th>Total</th>
-                                    <th>W/T</th>
-                                    <th>Docs/th>
-                                </tr>
-                            </thead>
-                        </table>
                         <table id="tbHeader" class="table table-responsive">
                             <thead>
                                 <tr>
@@ -491,176 +470,90 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtAdvDateT').val());
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
-        if ($('#chkRequest').prop('checked')) {
-            w = w + '&Status=1';
-        } else {
-            w = w + '&Status=2';
-        }
-        if ($('#chkGroupEmp').prop('checked')) {
-            $('#tbSummary').show();
-            $('#tbHeader').hide();
-            $.get(path + 'adv/getadvancegridsummary?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
-                if (r.adv.data.length == 0) {
-                    $('#tbSummary').DataTable().clear().draw();
-                    if(isAlert==true) ShowMessage('Data not found',true);
+        w = w + '&Show=NOPAY';
+        $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
+            if (r.adv.data.length == 0) {
+                $('#tbHeader').DataTable().clear().draw();
+                if(isAlert==true) ShowMessage('Data not found',true);
+                return;
+            }
+            let h = r.adv.data;
+            $('#tbHeader').DataTable().destroy();
+            $('#tbHeader').empty();
+            let tb=$('#tbHeader').DataTable({
+                data: h,
+                selected: true, //ให้สามารถเลือกแถวได้
+                columns: [ //กำหนด property ของ header column
+                    { data: "AdvNo", title: "Advance No" },
+                    {
+                        data: "AdvDate", title: "Request date ",
+                        render: function (data) {
+                            return CDateEN(data);
+                        }
+                    },
+                    { data: "JobNo", title: "Job Number" },
+                    { data: "CustInvNo", title: "InvNo" },
+                    { data: "CustCode", title: "Customer" },
+                    {
+                        data: "AdvCashCal", title: "Cash/Transfer",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "AdvChqCashCal", title: "Company Chq",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "AdvChqCal", title: "Customer Chq",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "AdvCredCal", title: "Credit",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "TotalAdvance", title: "Total",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "Total50Tavi", title: "W/T Amt",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "EmpCode", title: "Request By" }
+                ],
+                responsive:true,
+                destroy: true
+                , pageLength: 100
+            });
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
+
+            $('#tbHeader tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected') == true) {
+                    $(this).removeClass('selected');
+                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                    RemoveData(data); //callback function from caller
                     return;
                 }
-                let h = r.adv.data[0].Table;
-                $('#tbSummary').DataTable().destroy();
-                $('#tbSummary').empty();
-                let tb=$('#tbSummary').DataTable({
-                    data: h,
-                    selected: true, //ให้สามารถเลือกแถวได้
-                    columns: [ //กำหนด property ของ header column
-                        { data: "EmpCode", title: "Staff" },
-                        {
-                            data: "OperationDate", title: "Operation date ",
-                            render: function (data) {
-                                return CDateEN(data);
-                            }
-                        },
-                        { data: "PayChqTo", title: "Payment To" },
-                        {
-                            data: "AdvCashCal", title: "Cash/Transfer",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                            }
-                        },
-                        {
-                            data: "AdvChqCashCal", title: "Company Chq",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                            }
-                        },
-                        {
-                            data: "AdvChqCal", title: "Customer Chq",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                            }
-                        },
-                        {
-                            data: "AdvCredCal", title: "Credit",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                            }
-                        },
-                        {
-                            data: "TotalAdvance", title: "Total",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                            }
-                        },
-                        {
-                            data: "Total50Tavi", title: "W/T Amt",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                            }
-                        },
-                        { data: "TotalDoc", title: "Docs" }
-                    ],
-                    responsive:true,
-                    destroy: true,
-                    pageLength: 100
-                });
-                ChangeLanguageGrid('@ViewBag.Module', '#tbSummary');
-                $('#tbSummary tbody').on('click', 'tr', function () {
-                    if ($(this).hasClass('selected') == true) {
-                        $(this).removeClass('selected');
-                        return;
-                    }
-                    $(this).addClass('selected');
-                });
-                $('#tbSummary tbody').on('dblclick', 'tr', function () {
-
-                });
+                $(this).addClass('selected');
+                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                AddData(data); //callback function from caller
             });
-        } else {
-            $('#tbSummary').hide();
-            $('#tbHeader').show();
-            $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
-                if (r.adv.data.length == 0) {
-                    $('#tbHeader').DataTable().clear().draw();
-                    if(isAlert==true) ShowMessage('Data not found',true);
-                    return;
-                }
-                let h = r.adv.data[0].Table;
-                $('#tbHeader').DataTable().destroy();
-                $('#tbHeader').empty();
-                let tb=$('#tbHeader').DataTable({
-                    data: h,
-                    selected: true, //ให้สามารถเลือกแถวได้
-                    columns: [ //กำหนด property ของ header column
-                        { data: "AdvNo", title: "Advance No" },
-                        {
-                            data: "AdvDate", title: "Request date ",
-                            render: function (data) {
-                                return CDateEN(data);
-                            }
-                        },
-                        { data: "JobNo", title: "Job Number" },
-                        { data: "CustInvNo", title: "InvNo" },
-                        { data: "CustCode", title: "Customer" },
-                        {
-                            data: "AdvCashCal", title: "Cash/Transfer",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                            }
-                        },
-                        {
-                            data: "AdvChqCashCal", title: "Company Chq",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                            }
-                        },
-                        {
-                            data: "AdvChqCal", title: "Customer Chq",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                            }
-                        },
-                        {
-                            data: "AdvCredCal", title: "Credit",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                            }
-                        },
-                        {
-                            data: "TotalAdvance", title: "Total",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                            }
-                        },
-                        {
-                            data: "Total50Tavi", title: "W/T Amt",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                            }
-                        },
-                        { data: "EmpCode", title: "Request By" }
-                    ],
-                    responsive:true,
-                    destroy: true
-                    , pageLength: 100
-                });
-                ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
-
-                $('#tbHeader tbody').on('click', 'tr', function () {
-                    if ($(this).hasClass('selected') == true) {
-                        $(this).removeClass('selected');
-                        let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                        RemoveData(data); //callback function from caller
-                        return;
-                    }
-                    $(this).addClass('selected');
-                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                    AddData(data); //callback function from caller
-                });
-                $('#tbHeader tbody').on('dblclick', 'tr', function () {
-                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                    window.open(path + 'adv/index?BranchCode=' + data.BranchCode + '&AdvNo=' + data.AdvNo,'','');
-                });
+            $('#tbHeader tbody').on('dblclick', 'tr', function () {
+                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                window.open(path + 'adv/index?BranchCode=' + data.BranchCode + '&AdvNo=' + data.AdvNo,'','');
             });
-        }
+        });
     }
     function SetStatusInput(d, bl, ctl) {
         if (bl == false) {
@@ -865,7 +758,7 @@ End Code
             let sum_cash = GetSumPayment('AdvCash');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
@@ -903,7 +796,7 @@ End Code
             let sum_chq = GetSumPayment('AdvChq');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
@@ -941,7 +834,7 @@ End Code
             let sum_chqcash = GetSumPayment('AdvChqCash');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
@@ -979,7 +872,7 @@ End Code
             let sum_cr = GetSumPayment('AdvCred');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
@@ -1036,7 +929,7 @@ End Code
         if (list.length > 0) {
             for (let i = 0; i < list.length; i++) {
                 let o = list[i];
-                o.ControlNo = docno;
+                o.ControlNo = $('#txtControlNo').val();
             }
             let jsonString = JSON.stringify({ data: list });
             $.ajax({
@@ -1075,6 +968,7 @@ End Code
                 if (response) {
                     PrintVoucher($('#txtBranchCode').val(), $('#txtControlNo').val());
                 }
+                $('#btnSave').removeAttr('disabled');
                 SetGridAdv(false);
             },
             error: function (e) {
@@ -1083,6 +977,7 @@ End Code
         });
     }
     function ApproveData() {
+        $('#btnSave').attr('disabled', 'disabled');
         if (arr.length < 0) {
             ShowMessage('No data to approve',true);
             return;

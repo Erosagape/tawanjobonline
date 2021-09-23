@@ -284,7 +284,7 @@ Namespace Controllers
                 sql &= " ORDER BY h.BranchCode,h.ClrDate DESC,h.ClrNo,j.CustCode,j.CustBranch,d.ItemNo "
 
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
-                Dim json = "{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & "}"
+                Dim json = "{""data"":" & JsonConvert.SerializeObject(oData) & "}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearingReport", ex.Message, ex.StackTrace, True)
@@ -362,7 +362,7 @@ Namespace Controllers
                     End If
                 End If
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sql, tSqlW))
-                Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & tSqlW & """}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearingSum", ex.Message, ex.StackTrace, True)
@@ -430,7 +430,7 @@ Namespace Controllers
                 Dim sql As String = SQLSelectClrHeader() & "{0} ORDER BY a.ClrDate DESC"
 
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sql, tSqlW))
-                Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & tSqlW & """}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearingGrid", ex.Message, ex.StackTrace, True)
@@ -481,12 +481,12 @@ Namespace Controllers
                     tSqlW &= " AND d.ClrItemNo=0 "
                     Dim sql As String = SQLSelectPayForClear() & "{0}"
                     Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sql, tSqlW))
-                    Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                    Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & tSqlW & """}}"
                     Return Content(json, jsonContent)
                 Else
                     Dim sql As String = SQLSelectPayForCharge() & "{0}"
                     Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sql, tSqlW))
-                    Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                    Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & tSqlW & """}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -497,13 +497,13 @@ Namespace Controllers
         End Function
         Function GetAdvForClear() As ActionResult
             Try
-                Dim tSqlW As String = " WHERE (a.AdvNet-ISNULL(d.TotalCleared,0))>0 AND c.DocStatus IN('3','4') "
+                Dim tSqlW As String = " WHERE (a.AdvNet-ISNULL(d.TotalCleared,0))>0 AND c.DocStatus IN('3','4','5') "
                 If Not IsNothing(Request.QueryString("Show")) Then
                     If Request.QueryString("Show").ToString = "NOCLR" Then
                         tSqlW = " WHERE d.AdvNo IS NULL AND c.DocStatus IN('2','3') "
                     End If
                     If Request.QueryString("Show").ToString = "CLR" Then
-                        tSqlW = " WHERE d.AdvNo IS NOT NULL AND c.DocStatus IN('4','5') "
+                        tSqlW = " WHERE d.AdvNo IS NOT NULL AND c.DocStatus IN('4','5','6') "
                     End If
                     If Request.QueryString("Show").ToString = "ALL" Then
                         tSqlW = " WHERE c.DocStatus>0 "
@@ -542,7 +542,7 @@ Namespace Controllers
                 Dim sql As String = SQLSelectAdvForClear() & "{0}"
 
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sql, tSqlW))
-                Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & tSqlW & """}}"
                 Return Content(json, jsonContent)
 
             Catch ex As Exception

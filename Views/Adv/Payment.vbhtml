@@ -98,6 +98,24 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
+                        <input type="checkbox" id="chkSummary" /> Summary By Employee 
+                        <br/>
+                        <table id="tbSummary" class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th class="desktop">Oper.date</th>
+                                    <th>Employee</th>
+                                    <th class="desktop">Job.No</th>
+                                    <th class="desktop">customer</th>
+                                    <th class="desktop">Cash/Transfer</th>
+                                    <th class="desktop">Company Chq</th>
+                                    <th class="desktop">Customer Chq</th>
+                                    <th class="desktop">Credit</th>
+                                    <th class="all">Total</th>
+                                    <th class="all">W-Tax</th>
+                                </tr>
+                            </thead>
+                        </table>
                         <table id="tbHeader" class="table table-responsive">
                             <thead>
                                 <tr>
@@ -155,7 +173,7 @@ End Code
                         <select id="cboBankCash" class="form-control"></select>
                         <label id="lblBranchCA">To Branch:</label>
                         <input type="text" id="txtBankBranchCash" class="form-control" />
-                        <label id="lblPayCA">Pay To:</label>
+                        <label id="lblPayCA" onclick="SearchData('emp1')">Pay To:</label>
                         <input type="text" id="txtCashPayTo" class="form-control" />
                         <br />
                         <input type="hidden" id="fldBankCodeCash" />
@@ -190,7 +208,7 @@ End Code
                         <select id="cboBankChqCash" class="form-control"></select>
                         <label id="lblBranchCH">Chq Branch:</label>
                         <input type="text" id="txtBankBranchChqCash" class="form-control" />
-                        <label id="lblPayCH">Pay To:</label>
+                        <label id="lblPayCH" onclick="SearchData('emp2')">Pay To:</label>
                         <input type="text" id="txtChqCashPayTo" class="form-control" />
                         <br />
                         <input type="hidden" id="fldBankCodeChqCash" />
@@ -213,7 +231,7 @@ End Code
                         <select id="cboBankChq" class="form-control"></select>
                         <label id="lblBranchCU">Issue Branch:</label>
                         <input type="text" id="txtBankBranchChq" class="form-control" />
-                        <label id="lblPayCU">Pay To:</label>
+                        <label id="lblPayCU" onclick="SearchData('emp3')">Pay To:</label>
                         <input type="text" id="txtChqPayTo" class="form-control" />
                         <br />
                     </div>
@@ -225,7 +243,7 @@ End Code
                             <br />
                             <label id="lblTranDateCR">Ref Date:</label>
                             <input type="date" id="txtCredTranDate" class="form-control" />
-                            <label id="lblPayCR">Pay To:</label>
+                            <label id="lblPayCR" onclick="SearchData('emp4')">Pay To:</label>
                             <input type="text" id="txtCredPayTo" class="form-control" />
                         </div>
                         <div style="background-color:greenyellow;padding:10px 10px 10px 10px;margin:10px 10px 10px 10px;">
@@ -401,6 +419,10 @@ End Code
             CreateLOV(dv, '#frmSearchBookCash', '#tbBookCash', 'Book Accounts', response, 2);
             CreateLOV(dv, '#frmSearchBookChq', '#tbBookChq', 'Book Accounts', response, 2);
             CreateLOV(dv, '#frmSearchDoc', '#tbDoc', 'Account Receivables', response, 5);
+            CreateLOV(dv, '#frmSearchEmpCA', '#tbEmpCA', 'Employee', response, 2);
+            CreateLOV(dv, '#frmSearchEmpCU', '#tbEmpCU', 'Employee', response, 2);
+            CreateLOV(dv, '#frmSearchEmpCH', '#tbEmpCH', 'Employee', response, 2);
+            CreateLOV(dv, '#frmSearchEmpCR', '#tbEmpCR', 'Employee', response, 2);
         });
     }
     function ClearData() {
@@ -467,7 +489,7 @@ End Code
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
         w = w + '&Status=2';
-        $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w).done(function (r) {
+        $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.adv.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);
@@ -1050,8 +1072,37 @@ End Code
             case 'document':
                 SetGridDocument(path, '#tbDoc', '#frmSearchDoc', '?type=R&branch=' + $('#txtBranchCode').val(), ReadDocument);
                 break;
+            case 'emp1':
+                SetGridEmployee(path, '#tbEmpCA', '#frmSearchEmpCA', ReadEmpCA);
+                break;
+            case 'emp2':
+                SetGridEmployee(path, '#tbEmpCH', '#frmSearchEmpCH', ReadEmpCH);
+                break;
+            case 'emp3':
+                SetGridEmployee(path, '#tbEmpCU', '#frmSearchEmpCU', ReadEmpCU);
+                break;
+            case 'emp4':
+                SetGridEmployee(path, '#tbEmpCR', '#frmSearchEmpCR', ReadEmpCR);
+                break;
+
         }
     }
+    function ReadEmpCA(dt) {
+        $('#txtCashPayTo').val(dt.Name);
+        $('#txtBankBranchCash').val(dt.AccountNumber);
+    }
+    function ReadEmpCH(dt) {
+        $('#txtChqCashPayTo').val(dt.Name);
+        $('#txtBankBranchChqCash').val(dt.AccountNumber);
+    }
+    function ReadEmpCU(dt) {
+        $('#txtChqPayTo').val(dt.Name);
+        $('#txtBankBranchChq').val(dt.AccountNumber);
+    }
+    function ReadEmpCR(dt) {
+        $('#txtCredPayTo').val(dt.Name);
+    }
+
     function ReadDocument(dt) {
         let crAmt = Number($('#txtAdvCred').val());
         if (dt.AmountRemain < crAmt) {

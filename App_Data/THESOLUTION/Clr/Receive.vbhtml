@@ -299,8 +299,8 @@ End Code
     function SetEvents() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
-        $('#txtAdvDateF').val(GetFirstDayOfMonth());
-        $('#txtAdvDateT').val(GetLastDayOfMonth());
+        //$('#txtAdvDateF').val(GetFirstDayOfMonth());
+        //$('#txtAdvDateT').val(GetLastDayOfMonth());
         //Combos
         let lists = 'JOB_TYPE=#cboJobType';
         loadCombos(path, lists);
@@ -449,7 +449,7 @@ End Code
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.clr.data[0].Table;
+            let h = r.clr.data;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
             let tb=$('#tbHeader').DataTable({
@@ -503,7 +503,7 @@ End Code
                         }
                     },
                     {
-                        data: r.clr.data[0].Table.Driver ? "Driver" : "DriverID", title: "Driver",
+                        data: "Driver",title: "Driver"
                     }
                 ],
                 responsive: true,
@@ -670,7 +670,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: sum_cash.sumamount > 0 ? 'R' : 'P',
@@ -707,7 +707,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType:sum_chqcash.sumamount > 0 ? 'R' : 'P',
@@ -744,7 +744,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType:sum_chq.sumamount> 0 ? 'R' : 'P',
@@ -781,7 +781,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: sum_cr.sumamount > 0 ? 'R' : 'P',
@@ -836,7 +836,7 @@ End Code
         if (list.length > 0) {
             for (let i = 0; i < list.length; i++) {
                 let o = list[i];
-                o.ControlNo = docno;
+                o.ControlNo = $('#txtControlNo').val();
             }
             let jsonString = JSON.stringify({ data: list });
             $.ajax({
@@ -856,7 +856,7 @@ End Code
                             ReceiveClearing(response.result.data);
                         } else {
                             dataApp = [];
-                            dataApp.push(user + '|' + docno + '|' + ($('#chkFromClr').prop('checked') ? 'CLR' : 'ADV'));
+                            dataApp.push(user + '|' + $('#txtControlNo').val() + '|' + ($('#chkFromClr').prop('checked') ? 'CLR' : 'ADV'));
                             for (let i = 0; i < arr.length; i++) {
                                 let o = arr[i];
                                 let docApp = '';
@@ -871,6 +871,7 @@ End Code
                             }
                             ReceiveClearing(docno);
                         }
+                        $('#btnSave').removeAttr('disabled');
                         SetGridAdv(false);
                         ShowMessage(response.result.msg);
                         PrintVoucher($('#txtBranchCode').val(), $('#txtControlNo').val());
@@ -900,6 +901,7 @@ End Code
         });
     }
     function ApproveData() {
+        $('#btnSave').attr('disabled', 'disabled');
         if (arr.length < 0) {
             ShowMessage('No data to approve',true);
             return;

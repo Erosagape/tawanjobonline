@@ -16,13 +16,22 @@ End Code
     <tr>
         <td colspan="3" style="font-size:11px">
             <b>Customer : </b>
-            <label id="lblCustCode" style="text-decoration-line:underline;"></label>
-            <br />
+            <label id="lblCustCode" style="text-decoration-line:underline;"></label> / 
             <label id="lblCustName" style="text-decoration-line:underline;"></label>
         </td>
         <td align="right" style="font-size:11px">
             <b>Advance Date : </b>
             <label id="lblAdvDate" style="text-decoration-line:underline;"></label>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="font-size:11px;">
+            <b>Contact : </b>
+            <label id="lblCustContactName" style="text-decoration-line:underline;"></label>
+        </td>
+        <td align="right" style="font-size:11px">
+            <b>Inspection Date : </b>
+            <label id="lblDutyDate" style="text-decoration-line:underline;"></label>
         </td>
     </tr>
     <tr>
@@ -35,6 +44,18 @@ End Code
         <td align="right" colspan="2" style="font-size:11px">
             <b>Advance Type : </b>
             <label id="lblAdvType" style="text-decoration-line:underline;"></label>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="font-size:11px">
+            <b>ETA : </b>
+            <label id="lblETADate" style="text-decoration-line:underline;"></label>
+            <b>Clearance Date : </b>
+            <label id="lblClearDate" style="text-decoration-line:underline;"></label>
+        </td>
+        <td align="right" colspan="2" style="font-size:11px">
+            <b>Total Container : </b>
+            <label id="lblTotalContainer" style="text-decoration-line:underline;"></label>
         </td>
     </tr>
     <tr>
@@ -59,6 +80,16 @@ End Code
         <td align="right">
             <b>Job No :</b>
             <label id="lblJNo" style="text-decoration-line:underline;"></label>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <b>Customer PO :</b>
+            <label id="lblCustPO" style="text-decoration-line:underline;"></label>
+        </td>
+        <td>
+            <b>Agent :</b>
+            <label id="lblAgent" style="text-decoration-line:underline;"></label>
         </td>
     </tr>
 </table>
@@ -227,10 +258,10 @@ End Code
         //show headers
         let h = data.adv.header[0];
         $('#lblAdvNo').text(h.AdvNo);
-        $('#lblReqDate').text(ShowDate(GetToday()));
+        $('#lblReqDate').text(ShowDate(h.AdvDate));
         $('#lblCustCode').text(h.CustCode + '/' + h.CustBranch);
         $('#lblRemark').text(h.TRemark);
-        $('#lblAdvDate').text(ShowDate(h.AdvDate));
+        $('#lblAdvDate').text(ShowDate(h.PayChqDate));
         $('#lblPayTo').text(h.PayChqTo);
         ShowPendingAmount(h.BranchCode, h.EmpCode);
         ShowCustomer(h.CustCode, h.CustBranch);
@@ -239,7 +270,7 @@ End Code
         ShowUserSign(path,h.ApproveBy, '#lblAppBy');
         ShowUserSign(path,h.EmpCode, '#lblPayBy');
 
-        $('#lblRequestDate').text(ShowDate(h.AdvDate));
+        $('#lblRequestDate').text(ShowDate(GetToday()));
         $('#lblAppDate').text(ShowDate(h.ApproveDate));
         $('#lblPayDate').text(ShowDate(h.PaymentDate));
 
@@ -283,8 +314,22 @@ End Code
                 let j = r.job.data[0];
                 $('#lblInvNo').text(j.InvNo);
                 $('#lblHAWBNo').text(j.HAWB);
+                $('#lblDutyDate').text(ShowDate(j.DutyDate));
+                $('#lblETADate').text(ShowDate(j.ETADate));
+                $('#lblClearDate').text(ShowDate(j.ClearDate));
+                $('#lblTotalContainer').text(j.TotalContainer);
+                $('#lblCustContactName').text(j.CustContactName);
+                $('#lblCustPO').text(j.CustRefNO);
+                $.get(path + '/master/getvender?code=' + j.ForwarderCode).done(function (r) {
+                    if (r.vender.data.length > 0) {
+                        let v = r.vender.data[0];
+                        $('#lblAgent').text(v.TName);
+
+                    }
+                });
             }
         });
+       
         LoadServices(d,h);
     }
     function ShowCustomer(Code, Branch) {
@@ -315,15 +360,15 @@ End Code
                     return data.SICode === d.SICode;
                 });
                 if (c.length > 0) {
-                    strDesc = strDesc + (d.SICode + '-' + d.SDescription + '<br/>');
+                    strDesc = strDesc + (d.SICode + '-' + d.SDescription + `&emsp;` + (d.PayChqTo ? " Pay to : " + d.PayChqTo : "" )+ (d.TRemark?'<br/>' +"Remark :" + d.TRemark:"" )+ '<br/>' );
                 } else {
-                    strDesc = strDesc + d.SDescription+ '<br/>';
+                    strDesc = strDesc + d.SDescription + `&emsp;` + (d.PayChqTo ? " Pay to : " + d.PayChqTo : "") + (d.TRemark ? '<br/>' + "Remark :" + d.TRemark : "") + '<br/>'  ;
                 }
             } else {
-                strDesc = strDesc + (d.SICode + '<br/>');
+                strDesc = strDesc + (d.SICode + `&emsp;` + (d.PayChqTo ? " Pay to : " + d.PayChqTo : "") + (d.TRemark ? '<br/>' + "Remark :" + d.TRemark : "") + '<br/>'  );
             }
-            strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(3)) + '<br/>');
-            strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(3)) + '<br/>');
+            strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(3)) + (d.TRemark?'<br/>':'')+'<br/>');
+            strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(3)) + (d.TRemark ? '<br/>' : '')+ '<br/>');
             totAmt += d.AdvAmount;
             //vat += d.ChargeVAT;
             //wht += d.Charge50Tavi;

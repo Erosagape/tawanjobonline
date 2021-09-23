@@ -255,6 +255,19 @@ End Code
                                 </thead>
                                 <tbody></tbody>
                             </table>
+                            <br/>
+                            Remark :
+                            <br/>
+                            <input type="text" id="txtRemark1" class="form-control" /><br />
+                            <input type="text" id="txtRemark2" class="form-control" /><br />
+                            <input type="text" id="txtRemark3" class="form-control" /><br />
+                            <input type="text" id="txtRemark4" class="form-control" /><br />
+                            <input type="text" id="txtRemark5" class="form-control" /><br />
+                            <input type="text" id="txtRemark6" class="form-control" /><br />
+                            <input type="text" id="txtRemark7" class="form-control" /><br />
+                            <input type="text" id="txtRemark8" class="form-control" /><br />
+                            <input type="text" id="txtRemark9" class="form-control" /><br />
+                            <input type="text" id="txtRemark10" class="form-control" />
                         </div>
                     </div>
                 </div>
@@ -493,7 +506,7 @@ End Code
             w = w + '&sby=' + $('#cboShipBy').val();
         }
         $('#tbHeader').DataTable().clear().draw();
-        $.get(path + 'acc/getclearforinv?branch=' + $('#txtBranchCode').val() + w).done(function (r) {
+        $.get(path + 'acc/getclearforinv?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
                 if (isAlert==true) ShowMessage('Data not found',true);
                 return;
@@ -597,20 +610,20 @@ End Code
         let totalsumdisc = 0;
 
         for (let obj of arr) {
-            totaladv += (obj.AmtAdvance > 0 ? CNum(obj.AmtAdvance) : 0);
-            totalcharge += (obj.AmtCharge > 0 ? CNum(obj.AmtCharge) : 0);
-            totalcost += CNum(obj.AmtCost);
+            totaladv += (obj.AmtAdvance > 0 ? CNum(CDbl(obj.AmtAdvance,2)) : 0);
+            totalcharge += (obj.AmtCharge > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
+            totalcost += CNum(CDbl(obj.AmtCost,2));
             if (CNum(obj.AmtCharge) > 0) {
-                totalistaxcharge += (obj.AmtVat > 0 ? CNum(obj.AmtCharge) : 0);
-                totalis50tavi += (obj.Amt50Tavi > 0 ? CNum(obj.AmtCharge) : 0);
-                totalvat += CNum(obj.AmtVat);
-                total50tavi += CNum(obj.Amt50Tavi);
+                totalistaxcharge += (obj.AmtVat > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
+                totalis50tavi += (obj.Amt50Tavi > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
+                totalvat += CNum(CDbl(obj.AmtVat,2));
+                total50tavi += CNum(CDbl(obj.Amt50Tavi,2));
             }
-            totalnet += CNum(obj.AmtNet);
-            totalsumdisc += CNum(obj.AmtDiscount);
+            totalnet += CNum(CDbl(obj.AmtNet,2));
+            totalsumdisc += CNum(CDbl(obj.AmtDiscount,2));
         }
         for (let c of chq) {
-            totalcustadv += CNum(c.ChqAmount);
+            totalcustadv += CNum(CDbl(c.ChqAmount,2));
         }
         $('#txtTotalAdvance').val(CDbl(totaladv, 2));
         $('#txtTotalCharge').val(CDbl(totalcharge, 2));
@@ -619,16 +632,16 @@ End Code
         $('#txtTotalIsTaxCharge').val(CDbl(totalistaxcharge, 2));
         $('#txtTotalIs50Tavi').val(CDbl(totalis50tavi, 2));
         $('#txtTotalVat').val(CDbl(totalvat, 2));
-        $('#txtTotalAfter').val(CDbl(totalcharge+totalvat, 2));
+        $('#txtTotalAfter').val(CDbl(CNum(CDbl(totalcharge,2))+CNum(CDbl(totalvat,2)), 2));
         $('#txtTotal50Tavi').val(CDbl(total50tavi, 2));
-        $('#txtTotalService').val(CDbl(totalcharge+totalvat-total50tavi, 2));
-        $('#txtTotalNet').val(CDbl(totalnet-totalcustadv, 2));
+        $('#txtTotalService').val(CDbl(CNum(CDbl(totalcharge,2))+CNum(CDbl(totalvat,2))-CNum(CDbl(total50tavi, 2)),2));
+        $('#txtTotalNet').val(CDbl(CNum(CDbl(totalnet,2))-CNum(CDbl(totalcustadv, 2)),2));
         $('#txtTotalCustAdv').val(CDbl(totalcustadv, 2));
 
         $('#txtCurrencyCode').val('@ViewBag.PROFILE_CURRENCY');
         $('#txtExchangeRate').val(1);
         $('#txtTotalCost').val(CDbl(totalcost, 2));
-        $('#txtTotalProfit').val(CDbl(totalcharge - totalcost, 2));
+        $('#txtTotalProfit').val(CDbl(CDbl(CDbl(totalcharge,2)) - CNum(CDbl(totalcost, 2)),2));
 
         CalTotal();
 
@@ -1037,16 +1050,16 @@ End Code
             BillAcceptDate:null,
             BillIssueDate:null,
             BillAcceptNo:'',
-            Remark1:'',
-            Remark2:'',
-            Remark3:'',
-            Remark4:'',
-            Remark5:'',
-            Remark6:'',
-            Remark7:'',
-            Remark8:'',
-            Remark9:'',
-            Remark10:'',
+            Remark1: $('#txtRemark1').val(),
+            Remark2: $('#txtRemark2').val(),
+            Remark3: $('#txtRemark3').val(),
+            Remark4: $('#txtRemark4').val(),
+            Remark5: $('#txtRemark5').val(),
+            Remark6: $('#txtRemark6').val(),
+            Remark7: $('#txtRemark7').val(),
+            Remark8: $('#txtRemark8').val(),
+            Remark9: $('#txtRemark9').val(),
+            Remark10: $('#txtRemark10').val(),
             CancelReson:'',
             CancelProve:'',
             CancelDate:null,
@@ -1204,7 +1217,7 @@ End Code
     function ReadCheque(dt) {
         if (dt.AmountRemain > 0) {
             $('#txtChqNo').val(dt.ChqNo);
-            let amt = CNum($('#txtTotalNet').val()) + CNum($('#txtTotal50Tavi').val());
+            let amt = CNum($('#txtTotalNet').val());
             if (dt.AmountRemain <= amt) {
                 $('#txtChqAmount').val(CDbl(dt.AmountRemain,2));
             } else {
@@ -1455,13 +1468,16 @@ End Code
             ChqNo: $('#txtChqNo').val(),
             ChqAmount: $('#txtChqAmount').val()
         };
-        if (c.ChqAmount <= (CNum($('#txtTotalNet').val()) + CNum($('#txtTotal50Tavi').val()))) {
+            $('#txtChqAmount').val(CDbl(c.ChqAmount,2));
+/*
+        if (c.ChqAmount <= (CNum($('#txtTotalNet').val())+CNum($('#txtTotalNet').val()))) {
             $('#txtChqAmount').val(CDbl(c.ChqAmount,2));
         } else {
             //ShowMessage('Cheque Amount is more than total invoices', true);
-            c.ChqAmount = (CNum($('#txtTotalNet').val()) + CNum($('#txtTotal50Tavi').val()));
-            $('#txtChqAmount').val(CDbl((CNum($('#txtTotalNet').val()) + CNum($('#txtTotal50Tavi').val())),2));
+            c.ChqAmount = (CNum($('#txtTotalNet').val())+CNum($('#txtTotal50Tavi').val()));
+            $('#txtChqAmount').val(CDbl((CNum($('#txtTotalNet').val())+CNum($('#txtTotalNet').val())),2));
         }
+*/
         if (chq.indexOf(c) < 0) {
             chq.push(c);
         } else {
@@ -1540,10 +1556,10 @@ End Code
         CalTotal();
     }
     function CalTotal() {
-        let totalnet = CNum($('#txtTotalAdvance').val()) + CNum($('#txtTotalCharge').val()) + CNum($('#txtTotalVat').val()) - CNum($('#txtTotal50Tavi').val()) - CNum($('#txtTotalCustAdv').val()) - CNum($('#txtCalDiscount').val());
+        let totalnet =Number( CDbl(Number(CDbl($('#txtTotalAdvance').val(),2)) + Number(CDbl($('#txtTotalCharge').val(),2)) + Number(CDbl($('#txtTotalVat').val(),2)) - Number(CDbl($('#txtTotal50Tavi').val(),2)) - Number(CDbl($('#txtCalDiscount').val(),2)),2));
         if (CNum($('#txtTotalCustAdv').val()) > 0) {
             //alert(CNum($('#txtTotalCustAdv').val()));
-            totalnet += CNum($('#txtTotal50Tavi').val());
+            totalnet -= CNum(CDbl($('#txtTotalCustAdv').val(),2));
         }
         $('#txtTotalNet').val(ShowNumber(totalnet, 2));
         let totalamt = CNum($('#txtTotalCharge').val()) - CNum($('#txtCalDiscount').val());

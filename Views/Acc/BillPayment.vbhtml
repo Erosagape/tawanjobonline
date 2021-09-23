@@ -180,7 +180,7 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
         w = w + '&show='+ ($('#chkCancel').prop('checked')?'CANCEL':'ACTIVE') +'&currency=' + $('#txtCurrencyCode').val();
-        $.get(path + 'acc/getpaymentsummary?branch=' + $('#txtBranchCode').val() + w).done(function (r) {
+        $.get(path + 'acc/getpaymentsummary?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.payment.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);

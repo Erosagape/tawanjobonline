@@ -72,8 +72,9 @@ End Code
     <table border="1" width="100%">
         <tr class="text-center" style="font-weight:bold">
             <td width="10%">CODE.</td>
-            <td width="48%">DESCRIPTION</td>
+            <td width="38%">DESCRIPTION</td>
             <td width="12%">JOBNO</td>
+            <td width="10%">TRIP</td>
             <td width="10%">VAT</td>
             <td width="10%">WHTAK</td>
             <td width="10%">PAID</td>
@@ -83,13 +84,15 @@ End Code
     <table border="1" width="100%">
         <tr class="text-center">
             <td width="10%"></td>
-            <td width="50%"></td>
-            <td width="20%"></td>
+            <td width="38%"></td>
+            <td width="12%"></td>
+            <td width="10%"></td>
+            <td width="10%"></td>
             <td width="10%"></td>
             <td width="10%"></td>
         </tr>
         <tr>
-            <td colspan="4">
+            <td colspan="6">
                 <div style="display:flex">
                     <div style="flex:1" class="text-left">
                         Advance Summary:<br />
@@ -190,8 +193,8 @@ End Code
         let code = getQueryString('code');
         if (branch != "" && code != "") {
             $.get(path + 'clr/getclearingreport?branch=' + branch + '&code=' + code, function (r) {
-                if (r.data[0].Table !== undefined) {
-                    let h = r.data[0].Table[0];
+                if (r.data !== undefined) {
+                    let h = r.data[0];
                     $('#txtDocStatus').text(h.ClrStatusName);
                     $('#txtClearanceDate').text(CDateEN(h.ClearanceDate));
                     $('#txtJobType').text(h.JobTypeName);
@@ -226,9 +229,10 @@ End Code
                     let amtwht1 = 0;
                     let amtwht3 = 0;
                     let amttotal = 0;
+                    let amttrip = 0;
                     let advlist = '';
 
-                    let d = r.data[0].Table;
+                    let d = r.data;
                     for (let i= 0; i < d.length; i++){
                         if (d[i].CustCode !== cust) {
                             cust = d[i].CustCode;
@@ -244,7 +248,18 @@ End Code
                         advref = advref + (d[i].AdvAmount > 0 ? ' ยอดเบิก=' + CCurrency(CDbl(d[i].AdvAmount, 2)) : '');
                         advref = advref + (d[i].Remark !== '' ? '<br/>' + d[i].Remark : '');
 
-                        html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo +'<br/>' + d[i].InvNo + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 3)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 3)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
+                        if (d[i].SDescription.indexOf('ค่าเที่ยว') >= 0) {
+                            amttrip += d[i].UsedAmount;
+                        }
+                        html += '<tr>';
+                        html += '<td>' + d[i].SICode + '</td>'
+                        html += '<td>' + d[i].SDescription + '' + advref + '</td>'
+                        html += '<td>' + d[i].JobNo + '<br/>' + d[i].InvNo + '</td>'
+                        html += '<td style="text-align:right;">' + (d[i].SDescription.indexOf('ค่าเที่ยว')>=0 ? CCurrency(CDbl(d[i].UsedAmount, 2)) :'') + '</td>'
+                        html += '<td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 3)) + '</td>';
+                        html += '<td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 3)) + '</td>'
+                        html += '<td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td>'
+                        html +='</tr>';
 
                         if (d[i].ChargeVAT > 0) {
                             amtforvat += d[i].UsedAmount;
@@ -269,7 +284,7 @@ End Code
                     $('#txtSumVat').text(CCurrency(CDbl(amtvat+amtforvat+amtnonvat,2)));
                     $('#txtWht3').text(CCurrency(CDbl(amtwht3,2)));
                     $('#txtWht1').text(CCurrency(CDbl(amtwht1,2)));
-                    $('#txtTotal').text(CCurrency(CDbl(amttotal, 2)));
+                    $('#txtTotal').text(CCurrency(CDbl(amttotal-amttrip, 2)));
                     if (advlist !== '') {
                         advlist = advlist.substr(1, advlist.length - 1);
                         $.get(path + 'Clr/GetAdvForClear?show=ALL&advno=' + advlist).done(function (r) {
@@ -283,18 +298,18 @@ End Code
                                 html = '<tr>';
                                 html += '<td>#</td>';
                                 html += '<td>Advance</td>';
-                                html += '<td>Used</td>';
+                                html += '<td>Clearing</td>';
                                 html += '<td>Balance</td>';
                                 html += '<td>Paid</td>';
                                 html += '</tr>';
                                 $('#tbAdv').append(html);
                                 html = '';
-                                for (let d of r.clr.data[0].Table) {
+                                for (let d of r.clr.data) {
                                     if (lastadv !== d.AdvNO) {
                                         lastadv = d.AdvNO;
                                         if (html !== '') {
                                             html = html.replace('{0}', ShowNumber(sumadv,2));
-                                            html = html.replace('{1}', ShowNumber(sumused,2));
+                                            html = html.replace('{1}', ShowNumber(sumused, 2));
                                             html = html.replace('{2}', ShowNumber(sumreturn,2));
                                             html = html.replace('{3}', ShowNumber(sumoverpay,2));
                                             $('#tbAdv').append(html);
@@ -313,6 +328,7 @@ End Code
                                     }
                                     sumadv += d.AdvNet;
                                     sumused += d.UsedAmount;
+
                                     if (d.AdvBalance > 0) {
                                         sumreturn += d.AdvBalance;
                                     } else {
@@ -321,7 +337,7 @@ End Code
                                 }
                                 if (html !== '') {
                                     html = html.replace('{0}', ShowNumber(sumadv,2));
-                                    html = html.replace('{1}', ShowNumber(sumused,2));
+                                    html = html.replace('{1}', ShowNumber(sumused, 2));
                                     html = html.replace('{2}', ShowNumber(sumreturn,2));
                                     html = html.replace('{3}', ShowNumber(sumoverpay,2));
                                     $('#tbAdv').append(html);

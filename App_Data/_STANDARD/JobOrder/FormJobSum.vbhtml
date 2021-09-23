@@ -286,7 +286,7 @@ End Code
             if (r.voucher.data.length > 0) {
                 let dv = $('#dvCheque');
                 dv.empty();
-                for (o of r.voucher.data[0].Table) {
+                for (o of r.voucher.data) {
                     let html = '';
 
                     html += '<tr>';

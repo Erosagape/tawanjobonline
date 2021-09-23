@@ -24,7 +24,7 @@ End Code
             </div>
             <div class="col-sm-3">
                 <label id="lblClrDate">Document Date </label><br/>
-                <input type="date" class="form-control" id="txtClrDate" tabindex="1" disabled />
+                <input type="date" class="form-control" id="txtClrDate" tabindex="1" />
             </div>
 
         </div>
@@ -36,43 +36,46 @@ End Code
             <div id="tabHeader" class="tab-pane fade in active">
                 <div class="row">
                     <div class="col-sm-7">
-                        <table style="width:100%">
-                            <tr>
-                                <td>
-                                    <label id="lblClrBy">Clear By :</label>                                    
-                                </td>
-                                <td style="display:flex;flex-direction:row">
-                                    <input type="text" id="txtEmpCode" class="form-control" style="width:100px" disabled />
-                                    <button id="btnBrowseEmp1" class="btn btn-default" onclick="SearchData('clrby')" tabindex="2">...</button>
-                                    <input type="text" id="txtEmpName" class="form-control" style="width:100%" disabled />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label id="lblClrType">Clear Type :</label>                                    
-                                </td>
-                                <td>
-                                    <select id="cboClrType" style="width:200px;" class="form-control dropdown"></select>
-                                </td>
-                            </tr>
-                        </table>
-                        <table style="width:100%">
-                            <tr>
-                                <td>
-                                    <label id="lblContNo" style="color:red">Container No:</label>                                    
-                                </td>
-                                <td style="display:flex;flex-direction:row">
-                                    <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" />
-                                    <button class="btn btn-default" onclick="SearchData('container')">...</button>
-                                </td>
-                                <td>
-                                    <label id="lblClearanceDate">Clearance Date :</label>                                    
-                                </td>
-                                <td style="display:flex;flex-direction:row">
-                                    <input type="date" id="txtClearanceDate" class="form-control" />
-                                </td>
-                            </tr>
-                        </table>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label id="lblClrBy">Clear By :</label>
+
+                            </div>
+                            <div class="col-sm-10" style="display:flex">
+                                <input type="text" id="txtEmpCode" class="form-control" style="width:100px" disabled />
+                                <button id="btnBrowseEmp1" class="btn btn-default" onclick="SearchData('clrby')" tabindex="2">...</button>
+                                <input type="text" id="txtEmpName" class="form-control" style="width:100%" disabled />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label id="lblClrType">Clear Type :</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <select id="cboClrType" class="form-control dropdown"></select>
+                            </div>
+                            <div class="col-sm-2">
+                                <label id="lblAdvRefNo">Ref No :</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" id="txtAdvRefNo" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label id="lblContNo" style="color:red">Container No:</label>
+                            </div>
+                            <div class="col-sm-4" style="display:flex">
+                                <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" />
+                                <button class="btn btn-default" onclick="SearchData('container')">...</button>
+                            </div>
+                            <div class="col-sm-2">
+                                <label id="lblClearanceDate">Clearance Date :</label>
+                            </div>
+                            <div class="col-sm-4" style="display:flex">
+                                <input type="date" id="txtClearanceDate" class="form-control" />
+                            </div>
+                        </div>
                     </div>
                     <div class="col-sm-5">
                         <table style="width:100%">
@@ -444,7 +447,7 @@ End Code
                                     <input type="text" id="txtLinkItem" style="width:30px" disabled />
                                 </div>
                                 <div class="col-sm-6">
-                                    <label id="lblPayNo">Vender Inv#</label>
+                                    <label id="lblPayNo" ondblclick="SaveDetail()">Vender Inv#</label>
                                     <input type="text" id="txtVenderBillingNo" style="width:150px" />
                                     <input type="button" value="View" onclick="ShowVenderBill()" />
                                 </div>
@@ -950,7 +953,7 @@ End Code
         LoadService();
 
         //3 Fields Show
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2').done(function (response) {
             let dv = document.getElementById("dvLOVs");
             //Venders
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response,2);
@@ -986,7 +989,7 @@ End Code
             return;
         }
         ClearHeader();
-        $.get(path + 'clr/getclearing?branch=' + branchcode + '&code=' + clrno, function (r) {
+        $.get(path + 'clr/getclearing?branch=' + branchcode + '&code=' + clrno).done(function (r) {
             if (r.clr !== undefined) {
                 let h = r.clr.header[0];
                 ReadClrHeader(h);
@@ -1072,11 +1075,11 @@ End Code
             ClrDate: CDateEN($('#txtClrDate').val()),
             ClearanceDate: CDateEN($('#txtClearanceDate').val()),
             EmpCode: $('#txtEmpCode').val(),
-            AdvRefNo: null,
+            AdvRefNo: $('#txtAdvRefNo').val(),
             AdvTotal: CNum($('#txtAdvTotal').val()),
             JobType: $('#cboJobType').val(),
-            JNo: null,
-            InvNo: null,
+            JNo: $('#txtJNo').val(),
+            InvNo: $('#txtBookingNo').val(),
             ClearType: $('#cboClrType').val(),
             ClearFrom: $('#cboClrFrom').val(),
             DocStatus: $('#cboDocStatus').val(),
@@ -1110,6 +1113,10 @@ End Code
             hdr = dt;
             //$('#txtBranchCode').val(dt.BranchCode);
             $('#txtClrNo').val(dt.ClrNo);
+            $('#txtJNo').val(dt.JNo);
+            $('#txtBookingNo').val(dt.InvNo);
+            $('#txtAdvRefNo').val(dt.AdvRefNo);
+
             $('#txtClrDate').val(CDateEN(dt.ClrDate));
             $('#txtClearanceDate').val(CDateEN(dt.ClearanceDate));
             
@@ -1189,7 +1196,7 @@ End Code
         $('#txtClrNo').val('');
         ClearHeader();
         ClearDetail();
-        $.get(path + 'clr/getnewclearheader?branchcode=' + $('#txtBranchCode').val() , function (r) {
+        $.get(path + 'clr/getnewclearheader?branchcode=' + $('#txtBranchCode').val()).done(function (r) {
             let h = r.clr.header;
             ReadClrHeader(h);
             if (isjobmode == false) {
@@ -1217,7 +1224,7 @@ End Code
         }  
         $('#chkDuplicate').prop('checked', false);
         ClearDetail();
-        $.get(path + 'clr/getnewcleardetail?branchcode=' + $('#txtBranchCode').val() + '&clrno=' + $('#txtClrNo').val(), function (r) {
+        $.get(path + 'clr/getnewcleardetail?branchcode=' + $('#txtBranchCode').val() + '&clrno=' + $('#txtClrNo').val()).done(function (r) {
             let d = r.clr.detail[0];
             LoadDetail(d);
 
@@ -1235,7 +1242,7 @@ End Code
                 ShowMessage('Cannot delete');
                 return;
             }
-            $.get(path + 'clr/delclrdetail?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtClrNo').val() + '&item=' + dtl.ItemNo, function (r) {
+            $.get(path + 'clr/delclrdetail?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtClrNo').val() + '&item=' + dtl.ItemNo).done(function (r) {
                 ShowMessage(r.clr.result);
                 ShowData($('#txtBranchCode').val(), $('#txtClrNo').val());
             });
@@ -1254,6 +1261,9 @@ End Code
         $('#txtCoPersonCode').val('');
         $('#txtCTN_NO').val('');
         $('#txtTRemark').val('');
+        $('#txtAdvRefNo').val('');
+        $('#txtJNo').val('');
+        $('#txtBookingNo').val('');
 
         $('#txtCancelProve').val('');
         $('#txtCancelReson').val('');
@@ -1752,7 +1762,7 @@ End Code
             w += '&ctype=' + $('#cboClrType').val();
         }
         $('#dvClrFilter').html(w);
-        $.get(path + 'clr/getclearinggrid' +  w, function (r) {
+        $.get(path + 'clr/getclearinggrid' +  w).done(function (r) {
             if (r.clr.data.length == 0) {
                 ShowMessage('Data not found',true);
                 return;
@@ -1944,6 +1954,8 @@ End Code
         job = dt.JNo;
         SetJob();
         $('#txtCTN_NO').val(dt.CTN_NO);
+        $('#txtJNo').val(dt.JNo);
+        $('#txtBookingNo').val(dt.BookingNo);
         $('#txtCoPersonCode').val(dt.Driver);
         $('#txtTRemark').val(dt.Location);
     }
@@ -2098,7 +2110,7 @@ End Code
         }
         var advclick = 0;
         //$.get(path + 'Clr / GetAdvForClear ? branchcode = '+branch+' & jtype=' + jtype + GetClrFrom(cfrom), function (r) {
-        $.get(path + 'Clr/GetAdvForClear?branchcode=' + branch + '&jtype=' + jtype, function (r) {
+        $.get(path + 'Clr/GetAdvForClear?branchcode=' + branch + '&jtype=' + jtype).done(function (r) {
             if (r.clr.data.length > 0) {
                 let d = r.clr.data[0].Table;
                 $('#tbAdvance').DataTable({
@@ -2243,7 +2255,7 @@ End Code
             w += '&jobno=' + job;
         }
         var payclick = 0;
-        $.get(path + 'Clr/GetPaymentForClear?branch=' + branch + w, function (r) {
+        $.get(path + 'Clr/GetPaymentForClear?branch=' + branch + w).done(function (r) {
             if (r.clr.data.length > 0) {
                 let d = r.clr.data[0].Table;
                 $('#tbPayment').DataTable({

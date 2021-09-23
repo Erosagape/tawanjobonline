@@ -3174,6 +3174,7 @@ ORDER BY s.IsExpense
 SELECT j.DocDate,j.DutyDate,b.JobNo as 'Job Number',jt.JobTypeName as JobType,sb.ShipByName as ShipBy,
 e.NameEng as 'Customer',i.NameEng as 'Consignee',j.DeliveryTo as Shipper,t.TName as Agent,j.InvProduct,
 j.InvNo,j.HAWB,j.DeclareNumber,j.ETDDate,j.ETADate,j.LoadDate,j.EstDeliverDate as UnloadDate,j.TotalContainer,
+SUM(CASE WHEN s.IsExpense=0 THEN b.UsedAmount ELSE 0 END) as SumCollect,
 SUM(CASE WHEN s.IsCredit=1 AND s.IsExpense=0 THEN b.UsedAmount ELSE 0 END) as SumAdvance,
 SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=0 THEN b.UsedAmount ELSE 0 END) as SumCharge,
 SUM(CASE WHEN s.IsExpense=1 THEN b.UsedAmount ELSE 0 END) as SumCost,

@@ -812,7 +812,11 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             End Try
         End Function
         Function FormInv() As ActionResult
+            Dim formName As String = ""
             Try
+                If Request.QueryString("Form") IsNot Nothing Then
+                    formName = Request.QueryString("Form").ToString
+                End If
                 If Request.QueryString("branch") IsNot Nothing Then
                     If Request.QueryString("code") IsNot Nothing Then
                         Dim oRec = New CInvHeader(GetSession("ConnJob"))
@@ -829,7 +833,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "FormInv", ex.Message, ex.StackTrace, True)
             End Try
-            Return GetView("FormInv")
+            Return GetView("FormInv" & formName)
         End Function
         Function FormBill() As ActionResult
             Return GetView("FormBill")
@@ -856,7 +860,11 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             Return GetView("FormRcp")
         End Function
         Function FormTaxInv() As ActionResult
+            Dim formName = ""
             Try
+                If Request.QueryString("Form") IsNot Nothing Then
+                    formName = Request.QueryString("Form").ToString()
+                End If
                 If Request.QueryString("branch") IsNot Nothing Then
                     If Request.QueryString("code") IsNot Nothing Then
                         Dim oRec = New CRcpHeader(GetSession("ConnJob"))
@@ -875,7 +883,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "FormTaxInv", ex.Message, ex.StackTrace, True)
             End Try
 
-            Return GetView("FormTaxInv")
+            Return GetView("FormTaxInv" & formName)
         End Function
         Function FormCreditNote() As ActionResult
             Return GetView("FormCreditNote")
@@ -1355,7 +1363,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                     End Select
                 End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(tSqlw)
-                Dim oHead As String = JsonConvert.SerializeObject(oData.AsEnumerable().ToList())
+                Dim oHead As String = JsonConvert.SerializeObject(oData)
                 Dim json = "{""voucher"":{""data"":" & oHead & ",""msg"":""Complete!""}}"
 
                 Return Content(json, jsonContent)
@@ -1978,7 +1986,17 @@ select * from vc WHERE PaidAmount>0 order by PRType DESC,DocNo
                         sqlM = "
 SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
 sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
-FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' " & sqlW & ") a 
+FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a 
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+ORDER BY a.TName1
+"
+                    Case "PRD3A"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
+FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')<>'' " & sqlW & ") a 
 GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
 ORDER BY a.TName1
 "
@@ -1988,18 +2006,36 @@ ORDER BY a.TName1
                         sqlM = "
 SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
 sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
-FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>'' " & sqlW & ") a 
+FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>''  AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a 
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+ORDER BY a.TName1
+"
+                    Case "PRD53A"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
+FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>''  AND isnull(h.TaxNumber2,'')<>'' " & sqlW & ") a 
 GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
 ORDER BY a.TName1
 "
                     Case "PRD3D"
                         sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
                     Case "PRD53D"
                         sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>'' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                    Case "PRD3AD"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')<>''" & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                    Case "PRD53AD"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')<>''" & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
                 End Select
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)
@@ -2043,7 +2079,7 @@ ORDER BY a.TName1
                     End If
                 End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(tSqlw)
-                Dim oHead As String = JsonConvert.SerializeObject(oData.AsEnumerable().ToList())
+                Dim oHead As String = JsonConvert.SerializeObject(oData)
                 Dim json = "{""whtax"":{""data"":" & oHead & ",""msg"":""Complete!""}}"
 
                 Return Content(json, jsonContent)

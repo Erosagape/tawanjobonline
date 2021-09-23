@@ -39,39 +39,37 @@ End Code
                     <div id="tabHeader" class="tab-pane fade in active" style="width:100%">
                         <div class="row">
                             <div class="col-sm-7">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            *<label id="lblAdvBy">Advance By :</label>
-                                        </td>
-                                        <td style="display:flex;flex-direction:row">
-                                            <input type="text" id="txtAdvBy" class="form-control" style="width:120px" tabindex="2" />
-                                            <button id="btnBrowseEmp1" class="btn btn-default" onclick="SearchData('advby')">...</button>
-                                            <input type="text" id="txtAdvName" class="form-control" style="width:100%" disabled />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            *<label id="lblReqBy">Request By :</label>
-                                        </td>
-                                        <td style="display:flex;flex-direction:row">
-                                            <input type="text" id="txtReqBy" class="form-control" style="width:120px" tabindex="3" />
-                                            <button id="btnBrowseEmp2" class="btn btn-default" onclick="SearchData('reqby')">...</button>
-                                            <input type="text" id="txtReqName" class="form-control" style="width:100%" disabled />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            *<label id="lblAdvFor">Advance For :</label>
-                                        </td>
-                                        <td style="display:flex;flex-direction:row">
-                                            <input type="text" id="txtCustCode" class="form-control" style="width:130px" tabindex="4" />
-                                            <input type="text" id="txtCustBranch" class="form-control" style="width:70px" tabindex="5" />
-                                            <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
-                                            <input type="text" id="txtCustName" class="form-control" style="width:100%" disabled />
-                                        </td>
-                                    </tr>
-                                </table>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        *<label id="lblAdvBy">Advance By :</label>
+                                    </div>
+                                    <div class="col-sm-9" style="display:flex">
+                                        <input type="text" id="txtAdvBy" class="form-control" style="width:120px" tabindex="2" />
+                                        <button id="btnBrowseEmp1" class="btn btn-default" onclick="SearchData('advby')">...</button>
+                                        <input type="text" id="txtAdvName" class="form-control" style="width:100%" disabled />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        *<label id="lblReqBy">Request By :</label>
+                                    </div>
+                                    <div class="col-sm-9" style="display:flex">
+                                        <input type="text" id="txtReqBy" class="form-control" style="width:120px" tabindex="3" />
+                                        <button id="btnBrowseEmp2" class="btn btn-default" onclick="SearchData('reqby')">...</button>
+                                        <input type="text" id="txtReqName" class="form-control" style="width:100%" disabled />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        *<label id="lblAdvFor">Advance For :</label>
+                                    </div>
+                                    <div class="col-sm-9" style="display:flex">
+                                        <input type="text" id="txtCustCode" class="form-control" style="width:130px" tabindex="4" />
+                                        <input type="text" id="txtCustBranch" class="form-control" style="width:70px" tabindex="5" />
+                                        <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
+                                        <input type="text" id="txtCustName" class="form-control" style="width:100%" disabled />
+                                    </div>
+                                </div>
                                 <table>
                                     <tr>
                                         <td>
@@ -129,24 +127,34 @@ End Code
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-7">
+                            <div class="col-sm-3">
                                 <label id="lblAdvType">Advance Type:</label>
                                 <select id="cboAdvType" class="form-control dropdown" style="width:100%" tabindex="10"></select>
-                                <br />
+                            </div>
+                            <div class="col-sm-4">
+                                <label id="lblJNo" ondblclick="SaveHeader()">Container No:</label>
+                                <div style="display:flex;">
+                                    <input type="text" id="txtContainerNo" class="form-control" />
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('container')" />
+                                </div>
+                                <input type="hidden" id="txtJNo" />
+                            </div>
+                            <div class="col-sm-5">
+                                <label id="lblCurrency">Request Currency:</label>
+                                <div style="display:flex">
+                                    <input type="text" id="txtSubCurrency" style="width:100%" value="@ViewBag.PROFILE_CURRENCY" disabled />
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('subcurrency')" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-7">
                                 <label id="lblRemark">Remark:</label>
-                                <textarea id="txtTRemark" class="form-control-lg" style="width:100%;height:80px" tabindex="11"></textarea>
+                                <textarea id="txtTRemark" class="form-control-lg" style="width:100%;" tabindex="11"></textarea>
+                                <label id="lblPayTo">Payment To:</label><input type="text" id="txtPayTo" class="form-control" />
                             </div>
                             <div class="col-sm-5">
                                 <table>
-                                    <tr>
-                                        <td>
-                                            <label id="lblCurrency">Request Currency:</label>
-                                        </td>
-                                        <td style="display:flex;flex-direction:row">
-                                            <input type="text" id="txtSubCurrency" style="width:100%" value="@ViewBag.PROFILE_CURRENCY" disabled />
-                                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('subcurrency')" />
-                                        </td>
-                                    </tr>
                                     <tr>
                                         <td colspan="2">
                                             <label id="lblPayTotal">Payment Total:</label>
@@ -204,7 +212,7 @@ End Code
                                 <input type="text" id="txtApproveTime" style="width:80px" disabled />
                             </div>
                             <div class="col-sm-4" style="border-style:solid;border-width:1px">
-                                <input type="checkbox" id="chkPayment" disabled />
+                                <input type="checkbox" id="chkPayment" />
                                 <label id="lblPaymentBy" for="chkPayment">Payment By</label>
                                 <input type="text" id="txtPaymentBy" style="width:250px" disabled />
                                 <br />
@@ -316,7 +324,7 @@ End Code
                                             <div style="display:flex">
                                                 <select id="cboSTCode" class="form-control dropdown"></select>
                                                 <input type="button" id="btnBrowseS" class="btn btn-default" value="Estimate" onclick="SearchData('estimate')" />
-                                            </div>                                                                                        
+                                            </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <label id="lblDuplicate" for="chkDuplicate">Can Partial Clear</label><br />
@@ -333,7 +341,7 @@ End Code
                                         </div>
                                         <div class="col-sm-8">
                                             <label id="lblSDescription">Advance Description</label><br />
-                                            <input type="text" id="txtSDescription" class="form-control" tabindex="13" />
+                                            <textarea id="txtSDescription" class="form-control" tabindex="13"></textarea>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -426,7 +434,7 @@ End Code
                                             </div>
                                         </div>
                                         <div class="col-sm-8">
-                                            <label id="lblVenCode">Pay To Vender :</label>
+                                            <label id="lblVenCode" onclick="SaveDetail()">Pay To Vender :</label>
                                             <br />
                                             <div style="display:flex">
                                                 <input type="text" id="txtVenCode" class="form-control" style="width:100px" tabindex="26" />
@@ -490,7 +498,65 @@ End Code
             </div>
         </div>
     </div>
+    <div id="dvPayment" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div style="display:flex">
+                        <div style="flex:1">
+                            Chq/Slip No : <input type="text" class="form-control" id="txtRefNo" />
+                        </div>
+                        <div style="flex:1">
+                            Chq.Date/Transaction Date :
+                            <input type="date" class="form-control" id="txtTranDate" />
+                        </div>
+                        <div style="flex:1">
+                            Time : <input type="time" class="form-control" id="txtTranTime" />
+                        </div>
+                    </div>
+                    <br />
+                    <div style="display:flex">
+                        <div style="flex:1">
+                            <a href="#" onclick="SearchData('bookacc')">Book Account</a> : <input type="text" class="form-control" id="txtBook" />
+                        </div>
+                        <div style="flex:1">
+                            Balance <input type="number" id="txtCashBal" class="form-control" disabled />
+                        </div>
+                    </div>
+                    <br />
+                    <div style="display:flex">
+                        <div style="flex:1">
+                            <input type="hidden" id="txtBank" />
+                            <a href="#" onclick="SearchData('bank1')">From Bank</a>: <input type="text" class="form-control" id="txtBankName" disabled />
+                        </div>
+                        <div style="flex:1">
+                            Branch : <input type="text" class="form-control" id="txtBankBranch" />
+                        </div>
+                    </div>
+                    <br />
+                    <div style="display:flex">
+                        <div style="flex:1">
+                            <input type="hidden" id="txtBankTran" />
+                            <a href="#" onclick="SearchData('bank2')">To Bank</a>: <input type="text" class="form-control" id="txtBankTranName" />
+                        </div>
+                        <div style="flex:1">
+                            Branch : <input type="text" class="form-control" id="txtBankBranchTran" />
+                        </div>
+                    </div>
+                    <a href="#" onclick="SearchData('emp')"> Payment To : </a>
+                    <input type="text" id="txtPaymentTo" class="form-control" />
+                </div>
+                <div class="modal-footer">
+                    <div style="float:left">
+                        <button class="btn btn-success" id="btnSavePay" onclick="SaveVoucherHeader()">Save Payment</button>
+                    </div>
+                    <button class="btn btn-danger" data-dismiss="modal">X</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="dvLOVs"></div>
+
 </div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
@@ -675,6 +741,10 @@ End Code
             chkmode = this.checked;
             CallBackAuthorize(path, 'MODULE_ADV', 'Approve',(chkmode ? 'I':'D'), SetApprove);
         });
+        $('#chkPayment').on('click', function () {
+            chkmode = this.checked;
+            CallBackAuthorize(path, 'MODULE_ADV', 'Payment', (chkmode ? 'I' : 'D'), SetPayment);
+        });
         $('#chkCancel').on('click', function () {
             chkmode = this.checked;
             if (chkmode == true && $('#cboDocStatus').val().substr(0,2) !== '01') {
@@ -828,6 +898,327 @@ End Code
         }
         return status;
     }
+    function SaveVoucherHeader() {
+        if (CNum($('#txtCashBal').val()) == 0) {
+            ShowMessage('Balance is not enough to payment', true);
+            return;
+        }
+        if (CNum($('#txtCashBal').val()) < CNum($('#txtNetAmount').val())) {
+            ShowMessage('Balance is not enough to payment', true);
+            return;
+        }
+        if ($('#txtTranDate').val() == '') {
+            ShowMessage('Please Input Transaction Date', true);
+            return;
+        }
+        if (($('#txtRefNo').val() == '') && (CNum($('#txtAdvCred').val())==0)) {
+            ShowMessage('Please Input Reference No', true);
+            return;
+        }
+        if ($('#txtBook').val() == '') {
+            ShowMessage('Please Input Book No', true);
+            return;
+        }
+        $('#btnSavePay').attr('disabled', 'disabled');
+        if (chkmode) {
+            let oHeader = {
+                BranchCode: $('#txtBranchCode').val(),
+                ControlNo: '',
+                VoucherDate: CDateEN(GetToday()),
+                TRemark: $('#txtAdvNo').val(),
+                RecUser: user,
+                RecDate: CDateEN(GetToday()),
+                RecTime: CDateEN(GetTime()),
+                PostedBy: '',
+                PostedDate: '',
+                PostedTime: '',
+                CancelReson: '',
+                CancelProve: '',
+                CancelDate: '',
+                CancelTime: '',
+                CustCode: $('#txtCustCode').val(),
+                CustBranch: $('#txtCustBranch').val(),
+                PostRefNo: ''
+            };
+            docno = '';
+            let jsonString = JSON.stringify({ data: oHeader });
+            $.ajax({
+                url: "@Url.Action("SetVoucherHeader", "Acc")",
+                type: "POST",
+                contentType: "application/json",
+                data: jsonString,
+                success: function (response) {
+                    if (response.result.data != null) {
+                        docno = response.result.data;
+                        if (docno != '') {
+                            $('#txtPaymentRef').val(docno);
+                            SaveVoucherSub(docno);
+                        }
+                    }
+                },
+                error: function (e) {
+                    ShowMessage(e, true);
+                }
+            });
+        } else {
+            ShowMessage('Cannot Payment Again', true);
+            $('#btnSavePay').removeAttr('disabled');
+        }
+    }
+    function SaveVoucherSub(docno) {
+        let oData = [];
+        let actype = '';
+        let i = 0;
+        if ($('#txtAdvCash').val() > 0) {
+            actype = 'CA';
+            i = i + 1;
+            oData.push({
+                BranchCode: $('#txtBranchCode').val(),
+                ControlNo: docno,
+                ItemNo: i,
+                PRVoucher: '',
+                PRType: 'P',
+                ChqNo: '',
+                BookCode: $('#txtBook').val(),
+                BankCode: $('#txtBank').val(),
+                BankBranch: $('#txtBankBranch').val(),
+                ChqDate: '',
+                CashAmount: CNum($('#txtAdvCash').val()),
+                ChqAmount: 0,
+                CreditAmount: 0,
+                SumAmount: CNum($('#txtAdvAmount').val()),
+                CurrencyCode: $('#txtSubCurrency').val(),
+                ExchangeRate: CNum($('#txtExchangeRate').val()),
+                TotalAmount: CNum($('#txtNetAmount').val()) / CNum($('#txtExchangeRate').val()),
+                VatInc: 0,
+                VatExc: CNum($('#txtVatAmount').val()),
+                WhtInc: 0,
+                WhtExc: CNum($('#txtWhtAmount').val()),
+                TotalNet: CNum($('#txtNetAmount').val()),
+                IsLocal: 0,
+                ChqStatus: '',
+                TRemark: $('#txtTranDate').val() + '-' + $('#txtTranTime').val(),
+                PayChqTo: $('#txtPayTo').val(),
+                DocNo: $('#txtAdvNo').val(),
+                SICode: '',
+                RecvBank: '',
+                RecvBranch: '',
+                acType: 'CA',
+                ForJNo:''
+            });
+        }
+        if ($('#txtAdvChq').val() > 0) {
+            actype = 'CU';
+            i = i + 1;
+            oData.push({
+                BranchCode: $('#txtBranchCode').val(),
+                ControlNo: docno,
+                ItemNo: i,
+                PRVoucher: '',
+                PRType: 'P',
+                ChqNo: $('#txtRefNo').val(),
+                BookCode: $('#txtBook').val(),
+                BankCode: '',
+                BankBranch: '',
+                ChqDate:  CDateEN($('#txtTranDate').val()),
+                CashAmount: 0,
+                ChqAmount: CNum($('#txtAdvChq').val()),
+                CreditAmount: 0,
+                SumAmount: CNum($('#txtAdvAmount').val()),
+                CurrencyCode: $('#txtSubCurrency').val(),
+                ExchangeRate: CNum($('#txtExchangeRate').val()),
+                TotalAmount: CNum($('#txtNetAmount').val()) / CNum($('#txtExchangeRate').val()),
+                VatInc: 0,
+                VatExc: CNum($('#txtVatAmount').val()),
+                WhtInc: 0,
+                WhtExc: CNum($('#txtWhtAmount').val()),
+                TotalNet: CNum($('#txtNetAmount').val()),
+                IsLocal: 1,
+                ChqStatus:'C',
+                TRemark: '',
+                PayChqTo: $('#txtPayTo').val(),
+                DocNo: '',
+                SICode: '',
+                RecvBank: $('#txtBankTran').val(),
+                RecvBranch: $('#txtBankBranchTran').val(),
+                acType: 'CU',
+                ForJNo:''
+            });
+        }
+        if ($('#txtAdvChqCash').val() > 0) {
+            actype = 'CH';
+            i = i + 1;
+            oData.push({
+                BranchCode: $('#txtBranchCode').val(),
+                ControlNo: docno,
+                ItemNo: i,
+                PRVoucher: '',
+                PRType: 'P',
+                ChqNo: $('#txtRefNo').val(),
+                BookCode: $('#txtBook').val(),
+                BankCode: $('#txtBank').val(),
+                BankBranch: $('#txtBankBranch').val(),
+                ChqDate:  CDateEN($('#txtTranDate').val()),
+                CashAmount: 0,
+                ChqAmount: CNum($('#txtAdvChqCash').val()),
+                CreditAmount: 0,
+                SumAmount: CNum($('#txtAdvAmount').val()),
+                CurrencyCode: $('#txtSubCurrency').val(),
+                ExchangeRate: CNum($('#txtExchangeRate').val()),
+                TotalAmount: CNum($('#txtNetAmount').val()) / CNum($('#txtExchangeRate').val()),
+                VatInc: 0,
+                VatExc: CNum($('#txtVatAmount').val()),
+                WhtInc: 0,
+                WhtExc: CNum($('#txtWhtAmount').val()),
+                TotalNet: CNum($('#txtNetAmount').val()),
+                IsLocal: '',
+                ChqStatus: 'P',
+                TRemark: '',
+                PayChqTo: $('#txtPayTo').val(),
+                DocNo: '',
+                SICode: '',
+                RecvBank: $('#txtBankTran').val(),
+                RecvBranch: $('#txtBankBranchTran').val(),
+                acType: 'CH',
+                ForJNo:''
+            });
+        }
+        if ($('#txtAdvCred').val() > 0) {
+            actype = 'CR';
+            i = i + 1;
+            oData.push({
+                BranchCode: $('#txtBranchCode').val(),
+                ControlNo: docno,
+                ItemNo: i,
+                PRVoucher: '',
+                PRType: 'P',
+                ChqNo: '',
+                BookCode: '',
+                BankCode: '',
+                BankBranch: '',
+                ChqDate:  CDateEN($('#txtTranDate').val()),
+                CashAmount: 0,
+                ChqAmount: 0,
+                CreditAmount: CNum($('#txtAdvCred').val()),
+                SumAmount: CNum($('#txtAdvAmount').val()),
+                CurrencyCode: $('#txtSubCurrency').val(),
+                ExchangeRate: CNum($('#txtExchangeRate').val()),
+                TotalAmount: CNum($('#txtNetAmount').val()) / CNum($('#txtExchangeRate').val()),
+                VatInc: 0,
+                VatExc: CNum($('#txtVatAmount').val()),
+                WhtInc: 0,
+                WhtExc: CNum($('#txtWhtAmount').val()),
+                TotalNet: CNum($('#txtNetAmount').val()),
+                IsLocal: 0,
+                ChqStatus: '',
+                TRemark: '',
+                PayChqTo: $('#txtPayTo').val(),
+                DocNo: $('#txtRefNo').val(),
+                SICode: '',
+                RecvBank: '',
+                RecvBranch: '',
+                acType: 'CR',
+                ForJNo: ''
+            });
+        }
+        if (oData.length > 0) {
+            let jsonString = JSON.stringify({ data: oData });
+            $.ajax({
+                url: "@Url.Action("SetVoucherSub", "Acc")",
+                type: "POST",
+                contentType: "application/json",
+                data: jsonString,
+                success: function (response) {
+                    if (response.result.data != null) {
+                        SaveVoucherDoc(docno,actype);
+                    }
+                },
+                error: function (e) {
+                    ShowMessage(e,true);
+                }
+            });
+        } else {
+            ShowMessage('No data to approve',true);
+        }
+    }
+    function SaveVoucherDoc(docno,acctype) {
+        let obj = {
+            BranchCode:$('#txtBranchCode').val(),
+            ControlNo:docno,
+            ItemNo:1,
+            DocType:'ADV',
+            DocNo:$('#txtAdvNo').val(),
+            DocDate:CDateEN($('#txtPaymentDate').val()),
+            CmpType:'C',
+            CmpCode:$('#txtCustCode').val(),
+            CmpBranch:$('#txtCustBranch').val(),
+            PaidAmount:CNum($('#txtNetAmount').val()),
+            TotalAmount: CNum($('#txtNetAmount').val()),
+            acType: acctype
+        };
+        let jsonText = JSON.stringify({ data: [obj] });
+                    //ShowMessage(jsonText);
+        $.ajax({
+            url: "@Url.Action("SetVoucherDoc", "Acc")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonText,
+            success: function (response) {
+                if (response.result.document !== null) {
+                    SavePayment(docno);
+                }
+                ShowMessage(response.result.msg);
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
+    }
+    function SavePayment(refno) {
+        $('#cboDocStatus').val(chkmode ? '3' : GetStatus());
+        $('#txtPaymentBy').val(chkmode ? user : '');
+        $('#txtPaymentDate').val(chkmode ? CDateEN(GetToday()) : '');
+        $('#txtPaymentTime').val(chkmode ? ShowTime(GetTime()) : '');
+        $('#txtPaymentRef').val(chkmode ? refno : '');
+        $('#chkPayment').prop('checked', chkmode);
+        $('#dvPayment').modal('hide');
+        $('#btnSavePay').removeAttr('disabled');
+        SaveHeader();
+    }
+    function SetPayment(b) {
+        $('#chkPayment').prop('checked', !chkmode);
+        if ($('#txtApproveBy').val() == '') {
+            ShowMessage('Please Approve Before Payment', true);
+            return;
+        }
+        if ($('#txtCancelDate').val() !== '') {
+            ShowMessage('This Document has been Cancelled', true);
+            return;
+        }
+        if (b == true) {
+            ShowConfirm('Please confirm this operation', function (result) {
+                if (result == true) {
+                    $('#txtRefNo').val('');
+                    $('#txtBank').val('002');
+                    $('#txtBankName').val('ธนาคารกรุงเทพ BKKBTHBK');
+                    $('#txtBook').val('COMPANY_ADV');
+                    ShowBal('COMPANY_ADV');
+                    $('#txtBankBranch').val('0097179501');
+                    $('#txtBankTran').val('');
+                    $('#txtBankTranName').val('');
+                    $('#txtBankBranchTran').val('');
+                    $('#txtTranDate').val('');
+                    $('#txtTranTime').val('');
+                    $('#txtPaymentTo').val('');
+                    $('#txtCashBal').val(0);
+                    $('#dvPayment').modal('show');
+                    return;
+                }
+            });
+            return;
+        }
+        ShowMessage('You are not allow to do this', true);
+    }
     function SetCancel(b) {
         if (b == true) {
             ShowConfirm('Please confirm this operation', function (result) {
@@ -881,6 +1272,15 @@ End Code
             CreateLOV(dv, '#frmSearchExpCur', '#tbExpCur', 'Currency Code', response, 2);
             //Estimate
             CreateLOV(dv, '#frmSearchEstimate', '#tbEstimate', 'Estimate Price', response, 3);
+            //Containers
+            CreateLOV(dv, '#frmSearchCont', '#tbCont', 'Container Code', response, 4);
+            //Emp
+            CreateLOV(dv, '#frmSearchEmp', '#tbEmp', 'Employee', response, 2);
+            //Bank
+            CreateLOV(dv, '#frmSearchBank1', '#tbBank1', 'Bank', response, 2);
+            CreateLOV(dv, '#frmSearchBank2', '#tbBank2', 'Bank', response, 2);
+            //Book
+            CreateLOV(dv, '#frmSearchBookAcc', '#tbBookAcc', 'Book Accounts', response, 2);
         });
     }
     function ShowData(branchcode, advno) {
@@ -1026,10 +1426,10 @@ End Code
             AdvType : $('#cboAdvType').val(),
             DocStatus: $('#cboDocStatus').val(),
 
-            JNo: null,
-            InvNo: null,
+            JNo: $('#txtJNo').val(),
+            InvNo: $('#txtContainerNo').val(),
             VATRate: 0,
-            PayChqTo: null,
+            PayChqTo: $('#txtPayTo').val(),
             PayChqDate: CDateEN($('#txtPayChqDate').val()),
 
             MainCurrency: $('#txtMainCurrency').val(),
@@ -1097,6 +1497,11 @@ End Code
             $('#txtExchangeRate').val(CDbl(dt.ExchangeRate, 2));
 
             $('#txtPayChqDate').val(CDateEN(dt.PayChqDate));
+
+            $('#txtPayTo').val(dt.PayChqTo);
+            $('#txtContainerNo').val(dt.InvNo);
+            $('#txtJNo').val(dt.JNo);
+
             //Combos
             $('#cboAdvType').val(CCode(dt.AdvType));
             $('#cboDocStatus').val(CCode(dt.DocStatus));
@@ -1220,6 +1625,10 @@ End Code
         $('#txtPayChqDate').val(GetToday());
         $('#txtAdvBy').val(user);
         $('#txtReqBy').val('');
+        $('#txtJNo').val('');
+        $('#txtContainerNo').val('');
+        $('#txtPayTo').val('');
+
         if (isjobmode == false) {
             $('#txtCustCode').val('');
             $('#txtCustBranch').val('');
@@ -1616,7 +2025,7 @@ End Code
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.adv.data[0].Table;
+            let h = r.adv.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -1675,6 +2084,15 @@ End Code
     }
     function SearchData(type) {
         switch (type) {
+            case 'bank1':
+                SetGridBank(path, '#tbBank1', '#frmSearchBank1', ReadBank1);
+                break;
+            case 'bank2':
+                SetGridBank(path, '#tbBank2', '#frmSearchBank2', ReadBank2);
+                break;
+            case 'bookacc':
+                SetGridBookAccount(path, '#tbBookAcc', '#frmSearchBookAcc', ReadBook);
+                break;
             case 'advance':
                 SetGridAdv();
                 break;
@@ -1714,7 +2132,11 @@ End Code
                 SetGridUser(path, '#tbAdv', '#frmSearchAdv', ReadAdvBy);
                 break;
             case 'reqby':
-                SetGridUser(path, '#tbReq', '#frmSearchReq', ReadReqBy);
+                if ($('#cboAdvType').val() == '04') {
+                    SetGridEmployee(path, '#tbReq', '#frmSearchReq', ReadEmp);
+                } else {
+                    SetGridUser(path, '#tbReq', '#frmSearchReq', ReadReqBy);
+                }
                 break;
             case 'customer':
                 SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
@@ -1733,6 +2155,16 @@ End Code
                 break;
             case 'vender':
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
+                break;
+            case 'container':
+                w = '?Branch=' + $('#txtBranchCode').val();
+                if (job !== '') {
+                    w += '&Job=' + job;
+                }
+                SetGridTransport(path, '#tbCont', '#frmSearchCont', w, ReadContainer);
+                break;
+            case 'emp':
+                SetGridEmployee(path, '#tbEmp', '#frmSearchEmp', ReadEmp2);
                 break;
         }
     }
@@ -1762,6 +2194,50 @@ End Code
             $('#lblNETAmount').text("ยอดสุทธิ (" + $('#txtMainCurrency').val() + "):");
         }
     }
+    function ReadBank1(dt) {
+        $('#txtBank').val(dt.Code);
+        $('#txtBankName').val(dt.BName);
+    }
+    function ReadBank2(dt) {
+        $('#txtBankTran').val(dt.Code);
+        $('#txtBankTranName').val(dt.BName);
+    }
+    function ReadBook(dt) {
+        $('#txtBook').val(dt.BookCode);
+        $('#txtBank').val(dt.BankCode);
+        ShowBank(path, dt.BankCode, '#txtBankName');
+        $('#txtBankBranch').val(dt.BankBranch);
+        $('#txtCashBal').val(0);
+        ShowBal(dt.BookCode);
+    }
+    function ShowBal(book) {
+        $.get(path + 'master/getbookbalance?code=' + book, function (r) {
+            if (r.bookaccount.data.length > 0) {
+                let dt = r.bookaccount.data[0].Table[0];
+                $('#txtCashBal').val(dt.SumCashInBank);
+                if (dt.SumCashInBank < CNum($('#txtNetAmount').val())) {
+                    ShowMessage('Balance is not enough to payment', true);
+                    $('#txtBook').val('');
+                    $('#txtBank').val('');
+                    $('#txtBankName').val('');
+                    $('#txtBankBranch').val('');
+                }
+            }
+        });
+
+    }
+    function ReadEmp2(dt) {
+        $('#txtPayTo').val(dt.Name);
+        $('#txtPaymentTo').val(dt.Name);
+        $('#txtBankBranchTran').val(dt.AccountNumber);
+    }
+    function ReadContainer(dt) {
+        job = dt.JNo;
+        $('#txtContainerNo').val(dt.CTN_NO);
+        $('#txtJNo').val(dt.JNo);
+        $('#txtPayTo').val(dt.Driver);
+    }
+
     function ReadVender(dt) {
         $('#txtVenCode').val(dt.VenCode);
         $('#txtPayChqTo').val(dt.TName);
@@ -1783,6 +2259,10 @@ End Code
     function ReadAdvBy(dt) {
         $('#txtAdvBy').val(dt.UserID);
         $('#txtAdvName').val(dt.TName);
+    }
+    function ReadEmp(dt) {
+        $('#txtReqBy').val(dt.EmpCode);
+        $('#txtReqName').val(dt.PreName + dt.Name);
     }
     function ReadReqBy(dt) {
         $('#txtReqBy').val(dt.UserID);

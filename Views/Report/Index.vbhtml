@@ -619,6 +619,7 @@ End Code
                 break;
             case 'FIX':
             case 'EXP':
+            case 'EXC':
                 window.open(path + 'Report/Preview' + GetCliteria() +'&Layout=1', '', '');
                 break;
             case 'ADD':

@@ -24,7 +24,7 @@ End Code
             </div>
             <div class="col-sm-3">
                 <label id="lblClrDate">Document Date </label><br/>
-                <input type="date" class="form-control" id="txtClrDate" tabindex="1" disabled />
+                <input type="date" class="form-control" id="txtClrDate" tabindex="1" />
             </div>
 
         </div>
@@ -447,7 +447,7 @@ End Code
                                     <input type="text" id="txtLinkItem" style="width:30px" disabled />
                                 </div>
                                 <div class="col-sm-6">
-                                    <label id="lblPayNo">Vender Inv#</label>
+                                    <label id="lblPayNo" ondblclick="SaveDetail()">Vender Inv#</label>
                                     <input type="text" id="txtVenderBillingNo" style="width:150px" />
                                     <input type="button" value="View" onclick="ShowVenderBill()" />
                                 </div>
@@ -953,7 +953,7 @@ End Code
         LoadService();
 
         //3 Fields Show
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2').done(function (response) {
             let dv = document.getElementById("dvLOVs");
             //Venders
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response,2);
@@ -989,7 +989,7 @@ End Code
             return;
         }
         ClearHeader();
-        $.get(path + 'clr/getclearing?branch=' + branchcode + '&code=' + clrno, function (r) {
+        $.get(path + 'clr/getclearing?branch=' + branchcode + '&code=' + clrno).done(function (r) {
             if (r.clr !== undefined) {
                 let h = r.clr.header[0];
                 ReadClrHeader(h);
@@ -1196,7 +1196,7 @@ End Code
         $('#txtClrNo').val('');
         ClearHeader();
         ClearDetail();
-        $.get(path + 'clr/getnewclearheader?branchcode=' + $('#txtBranchCode').val() , function (r) {
+        $.get(path + 'clr/getnewclearheader?branchcode=' + $('#txtBranchCode').val()).done(function (r) {
             let h = r.clr.header;
             ReadClrHeader(h);
             if (isjobmode == false) {
@@ -1224,7 +1224,7 @@ End Code
         }  
         $('#chkDuplicate').prop('checked', false);
         ClearDetail();
-        $.get(path + 'clr/getnewcleardetail?branchcode=' + $('#txtBranchCode').val() + '&clrno=' + $('#txtClrNo').val(), function (r) {
+        $.get(path + 'clr/getnewcleardetail?branchcode=' + $('#txtBranchCode').val() + '&clrno=' + $('#txtClrNo').val()).done(function (r) {
             let d = r.clr.detail[0];
             LoadDetail(d);
 
@@ -1242,7 +1242,7 @@ End Code
                 ShowMessage('Cannot delete');
                 return;
             }
-            $.get(path + 'clr/delclrdetail?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtClrNo').val() + '&item=' + dtl.ItemNo, function (r) {
+            $.get(path + 'clr/delclrdetail?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtClrNo').val() + '&item=' + dtl.ItemNo).done(function (r) {
                 ShowMessage(r.clr.result);
                 ShowData($('#txtBranchCode').val(), $('#txtClrNo').val());
             });
@@ -1762,12 +1762,12 @@ End Code
             w += '&ctype=' + $('#cboClrType').val();
         }
         $('#dvClrFilter').html(w);
-        $.get(path + 'clr/getclearinggrid' +  w, function (r) {
+        $.get(path + 'clr/getclearinggrid' +  w).done(function (r) {
             if (r.clr.data.length == 0) {
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.clr.data[0].Table;
+            let h = r.clr.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -2110,9 +2110,9 @@ End Code
         }
         var advclick = 0;
         //$.get(path + 'Clr / GetAdvForClear ? branchcode = '+branch+' & jtype=' + jtype + GetClrFrom(cfrom), function (r) {
-        $.get(path + 'Clr/GetAdvForClear?branchcode=' + branch + '&jtype=' + jtype, function (r) {
+        $.get(path + 'Clr/GetAdvForClear?branchcode=' + branch + '&jtype=' + jtype).done(function (r) {
             if (r.clr.data.length > 0) {
-                let d = r.clr.data[0].Table;
+                let d = r.clr.data;
                 $('#tbAdvance').DataTable({
                     data: d,
                     selected: true, //ให้สามารถเลือกแถวได้
@@ -2255,9 +2255,9 @@ End Code
             w += '&jobno=' + job;
         }
         var payclick = 0;
-        $.get(path + 'Clr/GetPaymentForClear?branch=' + branch + w, function (r) {
+        $.get(path + 'Clr/GetPaymentForClear?branch=' + branch + w).done(function (r) {
             if (r.clr.data.length > 0) {
-                let d = r.clr.data[0].Table;
+                let d = r.clr.data;
                 $('#tbPayment').DataTable({
                     data: d,
                     selected: true, //ให้สามารถเลือกแถวได้

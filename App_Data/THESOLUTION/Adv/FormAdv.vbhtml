@@ -238,7 +238,7 @@ End Code
         $.get(path + 'Clr/GetAdvForClear?show=NOCLR&branchcode=' + branch + '&reqby=' + reqby)
             .done(function (r) {
                 if (r.clr.data.length > 0) {
-                    let d = r.clr.data[0].Table;
+                    let d = r.clr.data;
                     let sum = d.map(item => item.AdvBalance).reduce((prev, next) => prev + next);
                     $('#lblPendingAmount').text(ShowNumber(sum, 2));
                 }

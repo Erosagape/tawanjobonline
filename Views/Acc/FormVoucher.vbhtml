@@ -111,6 +111,12 @@ End Code
                 <label id="lblCustName"></label>
             </p>
         </div>
+        <div class="row">
+            <p class="col-sm-12">
+                CUSTOMER PO :
+                <label id="lblCustPo"></label>
+            </p>
+        </div>
     </div>
 </div>
 <br />
@@ -321,6 +327,8 @@ End Code
                                 $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
                                 $('#lblMAWB').text(j.MAWB);
                                 ShowVender(path, j.ForwarderCode, '#lblAgentName');
+                                $('#lblCustPo').text(j.CustRefNO);
+
                             }
                         });
                     }

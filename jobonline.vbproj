@@ -1181,6 +1181,11 @@
     <Content Include="App_Data\ACE\JobOrder\ShowJob.vbhtml" />
     <Content Include="App_Data\TOTAL\Acc\Receipt.vbhtml" />
     <Content Include="App_Data\TOTAL\Acc\Taxinvoice.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\Clr\Index.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\Acc\Voucher.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\Acc\RecvInv.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\Clr\Costing.vbhtml" />
+    <Content Include="App_Data\THESOLUTION\Acc\Expense.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

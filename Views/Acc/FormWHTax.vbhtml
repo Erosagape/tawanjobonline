@@ -39,7 +39,7 @@ End Code
 <div style="float:right;">
     เลขที่ <label id="txtDocNo"></label>
 </div>
-<table border="1" style="border-style:solid;border-width:thin;border-collapse:collapse" width="95%">
+<table border="1" style="border-style:solid;border-width:thin;border-collapse:collapse" width="100%">
     <tr>
         <td colspan="4" style="text-align:center;vertical-align:top">
             <b>หนังสือรับรองการหักภาษี ณ ที่จ่าย</b><br />
@@ -276,7 +276,7 @@ End Code
         </td>
     </tr>
 </table>
-<table border="1" style="border-style:solid;border-collapse:collapse;border-width:thin" width="95%">
+<table border="1" style="border-style:solid;border-collapse:collapse;border-width:thin" width="100%">
 
     <tr>
         <td>

@@ -406,8 +406,8 @@ End Code
     let code = getQueryString("ControlNo");
     if (branch !== '' && code !== '') {
         $.get(path + 'Acc/GetVoucherGrid?Branch=' + branch + '&Code=' + code).done(function (r) {
-            if (r.voucher.data[0].Table.length > 0) {
-                let h = r.voucher.data[0].Table[0];
+            if (r.voucher.data.length > 0) {
+                let h = r.voucher.data[0];
                 $('#lblVoucherNo').text(h.ControlNo);
                 $('#lblDocDate').text(ShowDate(h.VoucherDate));
                 let jobno = '';

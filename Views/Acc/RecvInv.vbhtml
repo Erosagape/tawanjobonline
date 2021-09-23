@@ -65,7 +65,7 @@ End Code
                         <input type="hidden" id="fldBankBranchCash" />
                     </div>
                     <div class="col-sm-3 table-bordered" id="dvChqCash">
-                        <input type="radio" name="optACType" id="chkChqCash" value="CH"><label><b id="linkChqCash">Company Cheque :</b></label><input type="text" id="txtAdvChqCash" class="form-control" value="" />
+                        <input type="radio" name="optACType" id="chkChqCash" value="CU"><label><b id="linkChqCash">Customer Cheque :</b></label><input type="text" id="txtAdvChqCash" class="form-control" value="" />
                         <br />
                         <table>
                             <tr>
@@ -101,7 +101,7 @@ End Code
                         <input type="hidden" id="fldBankBranchChqCash" />
                     </div>
                     <div class="col-sm-3 table-bordered" id="dvChq">
-                        <label><input type="radio" name="optACType" id="chkChq" value="CU"><b id="linkChqCust">Customer Cheque :</b></label>
+                        <label><input type="radio" name="optACType" id="chkChq" value="CH"><b id="linkChqCust">Company Cheque :</b></label>
                         <input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
                         <label id="lblRefNoCU">Chq No:</label>
@@ -384,10 +384,10 @@ End Code
         $('#txtSumApprove').val('');
         $('#txtSumWHTax').val('');
         $('#txtTRemark').val('');
-        //$('#chkCash').prop('checked', true);
-        //$('#chkChq').prop('checked', false);
-        //$('#chkChqCash').prop('checked', false);
-        //$('#chkCred').prop('checked', false);
+        $('#chkCash').prop('checked', true);
+        $('#chkChq').prop('checked', false);
+        $('#chkChqCash').prop('checked', false);
+        $('#chkCred').prop('checked', false);
     }
     function SetGridAdv(isAlert) {
         arr = [];
@@ -417,7 +417,7 @@ End Code
                 w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
             }
         }
-        $.get(path + 'acc/getinvforreceive?show=OPEN&branch=' + $('#txtBranchCode').val() + w).done(function (r) {
+        $.get(path + 'acc/getinvforreceive?show=OPEN&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 $('#tbSummary').DataTable().clear().draw();

@@ -116,7 +116,7 @@ End Code
                     <th class="all">Inv.Customer</th>
                     <th class="desktop">Customer</th>
                     <th>Consignee</th>
-                    <th class="desktop">LocalPort</th>
+                    <th class="desktop">CustRefNo</th>
                 </tr>
             </thead>
         </table>
@@ -171,7 +171,7 @@ End Code
     }
     function getJobdata() {
         ShowWait();
-        $.get(path + 'joborder/updatejobstatus' + GetCliteria()).done(function (r) {
+        $.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
             CloseWait();
             let tb=$('#tblJob').DataTable({
                 "ajax": {
@@ -204,7 +204,7 @@ End Code
                     { "data": "InvNo", "title": "Customer Inv." },
                     { "data": "CustTName", "title": "Customer" },
                     { "data": "ConsigneeName", "title": "Consignee" },
-                    { "data": "HAWB", "title": "H.B/L" }
+                    { "data": "CustRefNO", "title": "Ref.No" }
                 ]
                 , "pageLength": 100
             });

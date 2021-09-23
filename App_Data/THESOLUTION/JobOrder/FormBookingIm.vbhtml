@@ -124,6 +124,14 @@ End Code
     </div>
     <div style="display:flex">
         <div style="flex:1">
+            <b>บุคคลติดต่อ / CONTACT PERSON :</b>
+        </div>
+        <div style="flex:1">
+            <label id="lblCustContactName"></label>
+        </div>
+    </div>
+    <div style="display:flex">
+        <div style="flex:1">
             <b>สินค้า / GOODS DESCRIPTION : </b>
         </div>
         <div style="flex:1">
@@ -211,6 +219,7 @@ End Code
             $('#lblFactoryContact').text(h.FactoryContact);
             $('#lblCarrierName').text(h.CarrierName);
             $('#lblConsignName').text(h.ConsigneeName);
+            $('#lblCustContactName').text(h.CustContactName);
             $('#lblInvProduct').text(h.InvProduct);
             $('#lblGrossWeight').text(h.TotalGW + ' '+ h.GWUnit);
             $('#lblDescription').html(CStr(h.Description));

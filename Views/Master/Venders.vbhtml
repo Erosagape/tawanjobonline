@@ -177,10 +177,6 @@ End Code
         });
     }
     function SaveData() {
-        if ($('#txtVenCode').val().trim().length > 10) {
-            ShowMessage('Data must not have length over 10', true);
-            return;
-        }
         var obj = GetDataSave();
         if (obj.VenCode == '') {
             ShowMessage('Please input code',true);

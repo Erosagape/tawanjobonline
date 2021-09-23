@@ -13,15 +13,13 @@ End Code
         border-width: thin;
         border-collapse: collapse;
     }
-
-    #dvFooter {
-        display: none;
+    div {
+        margin-bottom:10px;
     }
 </style>
-<div style="text-align:center;width:100%;padding:5px 5px 5px 5px">
-    <label id="lblDocType" style="font-size:16px;font-weight:bold">ใบเสร็จรับเงินทดรองจ่าย (ADVANCE RECEIPT)</label>
+<div style="text-align:center;width:100%">
+    <h2>CASH RECEIPTS</h2>
 </div>
-<br />
 <!--
 <div style="display:flex;">
     <div style="flex:3;">
@@ -37,24 +35,24 @@ End Code
 
 </div>
 -->
+<div id="dvCopy" style="text-align:right;width:100%">
+</div>
 <div style="display:flex;">
     <div style="flex:3;border:1px solid black;border-radius:5px;">
-        NAME : <label id="lblCustName"></label><br />
-        ADDRESS : <label id="lblCustAddr"></label><br />
-        TEL : <label id="lblCustTel"></label><br />
-        TAX-ID : <lable id="lblCustTax"></lable>
+        <b>NAME : </b><label id="lblCustName"></label><br />
+        <b>ADDRESS : </b><br/><label id="lblCustAddr"></label><br />
+        <b>TAX ID : </b><lable id="lblCustTax"></lable>
+        <b>BRANCH : </b><lable id="lblTaxBranch"></lable>
     </div>
     <div style="flex:1;border:1px solid black;border-radius:5px;">
-        DOC NO. : <label id="lblReceiptNo"></label><br />
-        REC DATE : <label id="lblReceiptDate"></label><br />
-        CUSTOMER PO : <label id="lblCustPo"></label><br />
+        <b>DOC NO. : </b><label id="lblReceiptNo"></label><br />
+        <b>REC DATE : </b><label id="lblReceiptDate"></label><br />
     </div>
 </div>
 <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
     <thead>
         <tr style="background-color:lightblue;">
-            <th height="40" width="60">INV.NO.</th>
-            <th width="200">DESCRIPTION</th>
+            <th height="40" width="260">INV.NO.</th>
             <th width="70">JOB</th>
             <th width="60">AMOUNT</th>
             <th width="30">CURRENCY</th>
@@ -62,10 +60,11 @@ End Code
             <th width="60">THB AMOUNT</th>
         </tr>
     </thead>
-    <tbody id="tbDetail"></tbody>
+    <tbody id="tbDetail">
+    </tbody>
     <tfoot>
         <tr style="background-color:lightblue;text-align:center;">
-            <td colspan="4"><label id="lblTotalText"></label></td>
+            <td colspan="3"><label id="lblTotalText"></label></td>
             <td colspan="2">TOTAL RECEIPT</td>
             <td colspan="1"><label id="lblTotalNum"></label></td>
         </tr>
@@ -112,8 +111,13 @@ End Code
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
     let receiptno = getQueryString('code');
-
-    $.get(path + 'acc/getreceivereport?branch=' + branch + '&code=' + receiptno, function (r) {
+    let ans = confirm('OK to print Original or Cancel For Copy');
+    if (ans == true) {
+        $('#dvCopy').html('<b>**ORIGINAL**</b>');
+    } else {
+        $('#dvCopy').html('<b>**COPY**</b>');
+    }
+    $.get(path + 'acc/getreceivereport?type=SUM&branch=' + branch + '&code=' + receiptno, function (r) {
         if (r.receipt.data.length !== null) {
             ShowData(r.receipt.data);
         }
@@ -128,26 +132,26 @@ End Code
             $('#lblCustName').text(h.CustEName);
             $('#lblCustAddr').text(h.CustEAddr);
         }
-        $('#lblCustTel').text(h.CustPhone);
-        $('#lblCustTax').text(h.CustTaxID + ' BRANCH:' + h.BillToCustBranch);
-        $('#lblReceiptNo').text(h.ReceiptNo);
-        $('#lblReceiptDate').text(ShowDate(CDateEN(h.ReceiptDate)));
-        $.get(path + 'JobOrder/GetJobSQL?branch=' + branch + '&JNo' + h.JobNo, function (r) {
-            if (r.job.data.length !== null) {
-                $('#lblCustPo').text(r.job.data[0].CustRefNO);
+        //$('#lblCustTel').text(h.CustPhone);
+        $.get(path + 'Master/GetCompany?TaxNumber=' + h.CustTaxID).done(function (r) {
+            if (r.company.data.length > 0) {
+                let c = r.company.data[0];
+                $('#lblTaxBranch').text(c.Branch);
             }
         });
+        $('#lblCustTax').text(h.CustTaxID);
+        $('#lblReceiptNo').text(h.ReceiptNo);
+        $('#lblReceiptDate').text(ShowDate(CDateEN(h.ReceiveDate)));
         let html = '';
         let total = 0;
 
         for (let d of dt) {
             html = '<tr>';
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
-            html += '<td>' + d.SICode+ '-'+ d.SDescription + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
             html += '<td style="text-align:right">' + ShowNumber(d.FNet,2) + '</td>';
-            html += '<td style="text-align:center">' + d.DCurrencyCode + '</td>';
-            html += '<td style="text-align:center">' + d.DExchangeRate + '</td>';
+            html += '<td style="text-align:center">' + d.CurrencyCode + '</td>';
+            html += '<td style="text-align:center">' + d.ExchangeRate + '</td>';
             html += '<td style="text-align:right">' + ShowNumber(d.Net,2) + '</td>';
             html += '</tr>';
 

@@ -45,7 +45,7 @@ End Code
             <tr>
                 <td><label id="orderNoLbl">เลขที่ Order</label></td>
                 <td>:</td>
-                <td colspan="8"><label id="orderNo"></label></td>
+                <td colspan="8"><label id="orderNo" style=" font-weight: bold;"></label></td>
             </tr>
             <tr>
                 <td><label>เลขที่ใบสั่งงาน</label></td>
@@ -66,9 +66,9 @@ End Code
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><label>ชื่อสินค้า</label></td>
+                <td><label style=" font-weight: bold;">ชื่อสินค้า</label></td>
                 <td>:</td>
-                <td><label id="product"></label></td>
+                <td><label id="product" style=" font-weight: bold;"></label></td>
                 <td></td>
             </tr>
             <tr>
@@ -102,15 +102,15 @@ End Code
                 <td><label>เบอร์ซีล</label></td>
                 <td>:</td>
                 <td><div id="sealNo"></div></td>
-                <td><label>เบอร์บุ๊คกิ้ง</label></td>
+                <td><label style=" font-weight: bold;">เบอร์บุ๊คกิ้ง</label></td>
                 <td>:</td>
-                <td><label id="bookingNo"></label></td>
+                <td><label id="bookingNo" style=" font-weight: bold;"></label></td>
                 <td></td>
             </tr>
             <tr>
                 <td><label>สถานที่รับตู้</label></td>
                 <td>:</td>
-                <td><label id="getContainerPlace"></label></td>
+                <td><label id="getContainerPlace" style=" font-weight: bold;"></label></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -120,13 +120,13 @@ End Code
                 <td><label id="getContainerTime"></label></td>
             </tr>
             <tr>
-                <td><label>สถานที่บรรจุ</label></td>
+                <td><label>สถานที่ส่งของ</label></td>
                 <td>:</td>
-                <td><label id="loadPlace"></label></td>
+                <td><label id="loadPlace" style=" font-weight: bold;"></label></td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td><label>วันที่บรรจุ</label></td>
+                <td><label>วันที่ส่งของ</label></td>
                 <td>:</td>
                 <td><label id="loadDate"></label></td>
                 <td><label id="loadTime"></label></td>
@@ -134,7 +134,7 @@ End Code
             <tr>
                 <td><label>สถานที่คืนตู้</label></td>
                 <td>:</td>
-                <td><label id="returnContainerPlace"></label></td>
+                <td><label id="returnContainerPlace" style=" font-weight: bold;"></label></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -143,15 +143,13 @@ End Code
                 <td><label id="returnContainerDate"></label></td>
                 <td><label id="returnContainerTime"></label></td>
             </tr>
-            <tr class="roundBorder">
-                <td class="right"><label>คำสั่งลากตู้</label></td>
-                <td>:</td>
-                <td colspan="8"><label id="route"></label></td>
-            </tr>
             <tr>
                 <td><label>หมายเหตุ</label></td>
                 <td>:</td>
-                <td colspan="8"><label id="remark"></label></td>
+                <td colspan="4"><label id="remark"></label></td>
+                <td><label>Customer PO</label></td>
+                <td>:</td>
+                <td><label id="custPo1"></label></td>
             </tr>
             <tr>
                 <td><label>ชื่อ พขร</label></td>
@@ -169,16 +167,14 @@ End Code
                 <td colspan="4">
                     <div class="center">
                         <br />
-                        <br />
                         <p>.......................................................................................................................</p>
-                        <p>ลงชื่อ พนักงานขับรถ</p>
+                        <div>ลงชื่อ พนักงานขับรถ</div>
                     </div>
                     <div>
                         <br />
-                        <br />
                         <p>ลงชื่อ .................................................................................................................</p>
-                        <p>เวลารถเข้าถึงโรงงาน .......................................................................................................</p>
-                        <p class="center">ผู้ว่าจ้างหรือตัวแทนเจ้าของสินค้า</p>
+                        <p>เวลารถเข้าถึงโรงงาน .....................................................................................</p>
+                        <div class="center">ผู้ว่าจ้างหรือตัวแทนเจ้าของสินค้า</div>
                     </div>
                 </td>
                 <td></td>
@@ -186,21 +182,24 @@ End Code
                 <td colspan="4">
                     <div class="center">
                         <br />
-                        <br />
                         <p>.......................................................................................................................</p>
-                        <p>ลงชื่อ ผู้สั่งงาน</p>
+                        <div>ลงชื่อ ผู้สั่งงาน</div>
                     </div>
                     <div>
                         <br />
-                        <br />
                         <p>ลงชื่อ ..................................................................................................................</p>
-                        <p>เวลารถออกจากโรงงาน ......................................................................................................</p>
-                        <p class="center">ผู้ว่าจ้างหรือตัวแทนเจ้าของสินค้า</p>
+                        <p>เวลารถออกจากโรงงาน ...................................................................................</p>
+                        <div class="center">ผู้ว่าจ้างหรือตัวแทนเจ้าของสินค้า</div>
                     </div>
                 </td>
             </tr>
         </tbody>
     </table>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
     <br />
     <table>
         <thead>
@@ -209,11 +208,12 @@ End Code
                     <label for="" style="border:2px solid black;padding: 10px;border-radius: 10px;position: relative;top: 0em;">
                         ใบสั่งเติมน้ำมัน
                     </label>
+                    <br />
                 </td>
             </tr>
             <tr>
                 <td class="underline" colspan="3"><label id="date"></label> <label id="time"></label></td>
-                <td class="underline" colspan="2">เลขที่ใบสั่งเติม <label id="fueldocNo"></label></td>
+                <td class="underline" style="font-weight:bold" colspan="2">เลขที่ใบสั่งเติม <label style="font-weight:bold" id="fueldocNo"></label></td>
             </tr>
         </thead>
 
@@ -226,10 +226,10 @@ End Code
                 <td class="dottedUnderline" style="width:30%"><label id="fillDate"></label></td>
             </tr>
             <tr>
-                <td>ทะเบียนรถที่เติม</td>
-                <td class="dottedUnderline" colspan="2"><label id="carLicenseNo"></label></td>
-                <td>ชื่อ พขร</td>
-                <td class="dottedUnderline"><label id="driverName"></label></td>
+                <td style="font-weight:bold">ทะเบียนรถที่เติม</td>
+                <td class="dottedUnderline" colspan="2"><label id="carLicenseNo" style="font-weight:bold"></label></td>
+                <td style="font-weight:bold">ชื่อ พขร</td>
+                <td class="dottedUnderline"><label style="font-weight:bold" id="driver"></label></td>
             </tr>
             <tr>
                 <td>ชนิดเชื้อเพลิง</td>
@@ -247,8 +247,8 @@ End Code
                     </div>
                     )
                 </td>
-                <td>Job no. : </td>
-                <td class="dottedUnderline"><label id="jobNo"></label></td>
+                <td style="font-weight:bold">Job no. : </td>
+                <td style="font-weight:bold" class="dottedUnderline"><label id="jobNo"></label></td>
             </tr>
             <tr>
                 <td>จำนวนเงิน (บาท)</td>
@@ -265,28 +265,35 @@ End Code
             </tr>
             <tr>
                 <td>หมายเหตุ</td>
-                <td class="dottedUnderline" colspan="4"><label id="fuelremark"></label></td>
+                <td class="dottedUnderline" colspan="2"><label id="fuelremark"></label></td>
+                <td>Customer PO</td>
+                <td class="dottedUnderline"><label id="custPo2"></label></td>
+
             </tr>
             <tr>
                 <td colspan="5">ขอให้ทางปั๊มเดิมน้ำมันดังกล่าวข้างต้นด้วย</td>
             </tr>
             <tr>
                 <td colspan="3">
-                    ลงชื่อ .............................................................................. พนักงานขับรถ
+                    <br />
+                    ลงชื่อ .................................................................... พนักงานขับรถ
                 </td>
 
                 <td colspan="4">
-                    ลงชื่อ .............................................................................. ผู้สั่งเติม
+                    <br />
+                    ลงชื่อ ................................................................... ผู้สั่งเติม
                 </td>
             </tr>
             <tr>
                 <td colspan="3">
-                    ลงชื่อ .............................................................................. พนักงานปั๊มน้ำมัน
+                    <br />
+                    ลงชื่อ .....................................................................พนักงานปั๊มน้ำมัน
                 </td>
             </tr>
         </tbody>
     </table>
-
+    <br />
+    <br />
 </p>
 
 <script type="text/javascript">
@@ -303,7 +310,7 @@ End Code
             $('#fillDate').text(ShowDate(d.DocDate));
             $('#carLicenseNo').text(d.CarLicense + (d.TrailerNo == null ? '' : ' / ' + d.TrailerNo));
 
-            $('#driverName').text(d.Driver);
+            $('#driver').text(d.Driver);
             $('#fuelType').text(d.FuelType);
             $('#mile').text(d.MileBegin);
             $('#volume').text(d.ActualVolume);
@@ -313,20 +320,25 @@ End Code
             $('#bahtText').text(CNumThai(d.TotalAmount));
             $('#fuelremark').text(d.Remark);
             $('#weight').text(d.TotalWeight);
+            $('#carID').text(d.CarNo);
             $('#carNo').text(d.CarLicense);
             $('#carRefNo').text(d.TrailerNo);
 
-            LoadJob(d.BranchCode, d.JNo);
+            LoadJob(d.BranchCode, d.BookingNo,d.BookingItemNo);
         }
     });
-    function LoadJob(branch, job) {
-        $.get(path + 'JobOrder/GetTransportReport?Branch=' + branch + '&Job=' + job).done(function (r) {
+    function LoadJob(branch, book, item) {
+        $.get(path + 'JobOrder/GetTransportReport?Branch=' + branch + '&Code=' + book).done(function (r) {
             if (r.transport.data.length > 0) {
-                let j = r.transport.data[0];
+                let d = r.transport.data.filter(function (data) {
+                    return data.ItemNo == item;
+                });
+                //let j = r.transport.data[0];
+                let j = d[0];
                 $('#orderNo').text(j.JNo);
                 $('#docNo').text(j.DeliveryNo);
                 $('#refNo').text(j.CustRefNO);
-                $('#docDate').text(j.DocDate);
+                $('#docDate').text(j.DocDate.replaceAll("T"," "));
                 $('#factory').text(j.DeliveryPlace);
                 $('#product').text(j.InvProduct);
                 $('#agent').text(j.ForwarderCode);
@@ -335,7 +347,7 @@ End Code
                 $('#lastLoad').text(j.ClearPortNo);
                 let cont = '';
                 let seal = '';
-                for (let c of r.transport.data) {
+                for (let c of d) {
                     if (cont !== '') cont += '<br/>';
                     cont += c.CTN_SIZE + ' ' + c.CTN_NO;
                     if (seal !== '') seal += '<br/>';
@@ -349,15 +361,27 @@ End Code
                 $('#getContainerDate').text(ShowDate(j.CYDate));
                 $('#getContainerTime').text(ShowTime(j.CYTime));
                 $('#loadPlace').text(j.PlaceName2);
-                $('#loadDate').text(ShowDate(j.PackingDate));
-                $('#loadTime').text(ShowTime(j.PackingTime));
+                $('#loadDate').text(ShowDate(j.UnloadFinishDate));
+                $('#loadTime').text(ShowTime(j.UnloadFinishTime));
                 $('#returnContainerPlace').text(j.PlaceName3);
                 $('#returnContainerDate').text(ShowDate(j.ReturnDate));
                 $('#returnContainerTime').text(ShowTime(j.ReturnTime));
-                $('#route').text(j.LocationRoute);
+                //$('#route').text(j.LocationRoute);
                 $('#remark').text(j.Remark);
-                $('#driverName').text(j.Driver);
+                $('#custPo1').text(j.CustRefNO);
+                $('#custPo2').text(j.CustRefNO);
+                ShowEmpName(j.Driver);
+            }
+        });
+
+    }
+    function ShowEmpName(emp) {
+        $('#driverName').val(emp);
+        $.get(path + 'Master/GetEmployee?Code=' + emp).done(function (r) {
+            if (r.employee.data.length > 0) {
+                $('#driverName').text(r.employee.data[0].Name);
             }
         });
     }
+
 </script>

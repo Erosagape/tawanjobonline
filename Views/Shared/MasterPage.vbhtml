@@ -27,7 +27,7 @@
 <body style="background:#e6e6e6;color:black;">
     <!-- Sidebar -->
     <div class="w3-sidebar w3-bar-block w3-animate-left" style="display:none;z-index:5" id="mySidebar">
-        <div class="w3-sidebar w3-bar-block w3-indigo w3-card" style="width:250px;">
+        <div id="myMenuBar" class="w3-sidebar w3-bar-block w3-indigo w3-card" style="width:250px;">
             <div style="background-color:midnightblue;">
                 Select Menu :
                 <select id="cboMenu" onchange="SwitchMenu()">
@@ -69,6 +69,7 @@
                         <a href="#" id="mnuCS2" class="w3-bar-item w3-button" onclick="OpenLink('SearchJob')">- List Job</a>
                         <a href="#" id="mnuCS3" class="w3-bar-item w3-button" onclick="OpenLink('Transport')">- Transport Info</a>
                         <a href="#" id="mnuCS4" class="w3-bar-item w3-button" onclick="OpenLink('WHTax')">- Withholding Tax</a>
+                        <a href="#" id="mnuCS5" class="w3-bar-item w3-button" onclick="OpenLink('AddFuel')">- Fuel Refill</a>
                     </div>
                     <div id="mainShp" class="w3-bar-item w3-button" onclick="w3_accordion('mnuShp')">
                         Shipping Works
@@ -382,7 +383,7 @@
         <div class="w3-container" style="margin-bottom:10px">
             <!-- Page Content -->
             <div Class="panel-primary">
-                <div Class="panel-heading w3-indigo">
+                <div id="myTitleBar" Class="panel-heading w3-indigo">
                     <div Class="panel-title">
                         <div class="row">
                             <div class="col-xs-5 col-md-2" style="text-align:center">
@@ -414,7 +415,7 @@
     </div>
     <script type="text/javascript">
         let userID = '@ViewBag.User';
-        let dbID = GetDatabaseID();
+        let dbID = '@ViewBag.DATABASE';
         let userType = '@ViewBag.UserGroup';
         let sessionID = '@ViewBag.SESSION_ID';
         let dbMas = '@ViewBag.CONNECTION_MAS';
@@ -503,7 +504,13 @@
                 CheckSession(null);
             } else {
                 $('#imgMenu').attr('src',path + 'Resource/@ViewBag.PROFILE_LOGO');
-                $('#imgCompany').attr('src',path + 'Resource/@ViewBag.PROFILE_LOGO');
+                $('#imgCompany').attr('src', path + 'Resource/@ViewBag.PROFILE_LOGO');
+                if (dbID == '2') {
+                    $('#myTitleBar').removeClass('w3-indigo');
+                    $('#myMenuBar').removeClass('w3-indigo');
+                    $('#myTitleBar').addClass('w3-brown');
+                    $('#myMenuBar').addClass('w3-brown');
+                }
                 $('#lblUserID').text('@ViewBag.UserName');
                 $('#lblLicenseName').text('@ViewBag.LICENSE_NAME');
                 $('#cboLanguage').val('@ViewBag.PROFILE_DEFAULT_LANG');
@@ -578,4 +585,4 @@
         }
     </script>
 </body>
-</html> 
+</html>

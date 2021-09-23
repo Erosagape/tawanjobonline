@@ -432,7 +432,7 @@ Public Class CClrDetail
             Try
                 cn.Open()
 
-                Using da As New SqlDataAdapter("SELECT * FROM Job_ClearDetail" & pSQLWhere, cn)
+                Using da As New SqlDataAdapter("SELECT * FROM Job_ClearDetail " & pSQLWhere, cn)
                     Using cb As New SqlCommandBuilder(da)
                         Using dt As New DataTable
                             da.MissingSchemaAction = MissingSchemaAction.AddWithKey
@@ -693,7 +693,7 @@ Public Class CClrDetail
         Dim sql As String = SQLUpdateClearHeader()
 
         Using cm As New SqlCommand(sql, cn)
-            cm.CommandText = sql + " WHERE a.BranchCode='" + Me.BranchCode + "' and a.ClrNo='" + Me.ClrNo + "'"
+            cm.CommandText = sql + " WHERE a.BranchCode='" + Me.BranchCode + "' and a.ClrNo='" + Me.ClrNo + "' "
             cm.CommandType = CommandType.Text
             cm.ExecuteNonQuery()
             Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CClrDetail", "UpdateClrHeader", cm.CommandText, False)

@@ -212,7 +212,7 @@ End Code
         if ($('#txtDocDateT').val() !== "") {
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
-        $.get(path + 'acc/getinvforbill?branch=' + $('#txtBranchCode').val() + w).done(function (r) {
+        $.get(path + 'acc/getinvforbill?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if (isAlert==true) ShowMessage('Data not found',true);

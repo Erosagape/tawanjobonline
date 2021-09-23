@@ -215,7 +215,7 @@ End Code
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
         w = w + '&Type=NOPO&Show=ACTIVE';
-        $.get(path + 'acc/getpaymentgrid?branch=' + $('#txtBranchCode').val() + w).done(function (r) {
+        $.get(path + 'acc/getpaymentgrid?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.payment.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);

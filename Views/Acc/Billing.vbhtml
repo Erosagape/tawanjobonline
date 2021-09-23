@@ -297,7 +297,7 @@ End Code
         } else {
             w += '&show=ACTIVE';
         }
-        $.get(path + 'acc/getbillheader?branch=' + $('#txtBranchCode').val() + w).done(function (r) {
+        $.get(path + 'acc/getbillheader?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.billheader.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if (isAlert==true) ShowMessage('Data not found',true);

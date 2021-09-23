@@ -471,14 +471,12 @@ End Code
                                 codeCheck = 'B-ADV-006';
                                 break;
                         }
-                        if (SICode !== '') {
-                            if (codeCheck.indexOf(SICode) >= 0 && codeCheck !== '') {
-                                $('#qty' + i).text('1 SHP');
-                                $('#cost' + i).text(ShowNumber(d.ChqAmount, 2));
-                                $('#real' + i).text(ShowNumber(d.PaidTotal, 2));
-                                sumcost += Number(d.ChqAmount);
-                                sumreal += Number(d.PaidTotal);
-                            }
+                        if (codeCheck.indexOf(SICode) >= 0 && codeCheck !== '') {
+                            $('#qty' + i).text('1 SHP');
+                            $('#cost' + i).text(ShowNumber(d.ChqAmount,2));
+                            $('#real' + i).text(ShowNumber(d.PaidTotal, 2));
+                            sumcost += Number(d.ChqAmount);
+                            sumreal += Number(d.PaidTotal);
                         }
                     }
                     $('#costsum').text(ShowNumber(sumcost, 2));

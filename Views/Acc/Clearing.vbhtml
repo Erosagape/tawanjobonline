@@ -57,12 +57,13 @@ End Code
                 <select id="cboClrType" class="form-control dropdown"></select>
             </div>
             <div class="col-sm-2">
-                <br />
-                <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddClearing()">
-                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkCreate">Create Clearing</b>
-                </a>
+                Job No :<br />
+                <input type="text" id="txtJNo" />
             </div>
         </div>
+        <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddClearing()">
+            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkCreate">Create Clearing</b>
+        </a>
         <div class="row">
             <div class="col-sm-12">
                 <table id="tbHeader" class="table table-responsive">
@@ -119,7 +120,7 @@ End Code
         });
 
         //3 Fields Show
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name').done(function(response) {
             let dv = document.getElementById("dvLOVs");
             //Customers
             CreateLOV(dv, '#frmSearchEmp', '#tbEmp', 'Clear By', response, 2);
@@ -144,6 +145,9 @@ End Code
         }
         if ($('#cboClrFrom').val() !== "") {
             w = w + '&cfrom=' + $('#cboClrFrom').val();
+        }
+        if ($('#txtJNo').val() !== "") {
+            w = w + '&JobNo=' + $('#txtJNo').val();
         }
         if ($('#txtClrDateF').val() !== "") {
             w = w + '&DateFrom=' + CDateEN($('#txtClrDateF').val());

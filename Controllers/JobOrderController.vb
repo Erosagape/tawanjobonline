@@ -1301,7 +1301,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
         Function GetJobYear() As ActionResult
             Try
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL("SELECT DISTINCT Year(DocDate) as JobYear from Job_Order")
-                Dim json As String = JsonConvert.SerializeObject(oData.AsEnumerable().ToList())
+                Dim json As String = JsonConvert.SerializeObject(oData)
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetJobYear", ex.Message, ex.StackTrace, True)
@@ -1385,7 +1385,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     Return Content("[]", jsonContent)
                 End If
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL("SELECT DISTINCT " + Request.QueryString("Field").ToString() + " as val from " & Request.QueryString("Table").ToString())
-                Dim json As String = JsonConvert.SerializeObject(oData.AsEnumerable().ToList())
+                Dim json As String = JsonConvert.SerializeObject(oData)
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetDataDistinct", ex.Message, ex.StackTrace, True)
@@ -1399,7 +1399,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     Return Content("[]", jsonContent)
                 End If
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL("SELECT DISTINCT " + Request.QueryString("Field").ToString() + " as val from Job_Order")
-                Dim json As String = JsonConvert.SerializeObject(oData.AsEnumerable().ToList())
+                Dim json As String = JsonConvert.SerializeObject(oData)
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetJobDataDistinct", ex.Message, ex.StackTrace, True)

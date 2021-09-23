@@ -194,7 +194,7 @@ End Code
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
         w = w + '&Type=APP&Status=Y';
-        $.get(path + 'acc/getpaymentapprove?branch=' + $('#txtBranchCode').val() + w).done(function (r) {
+        $.get(path + 'acc/getpaymentapprove?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.payment.header.length == 0) {
                 $('#tbApprove').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);

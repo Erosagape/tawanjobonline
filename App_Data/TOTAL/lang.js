@@ -7,7 +7,7 @@ function SetLanguage(lang) {
         if (obj !== null) {
             let str = '';
             //if (id.substr(0, 3) == 'mnu') {
-                //str += '- ';
+            //str += '- ';
             //}
             switch (mainLanguage) {
                 case 'EN':
@@ -3731,7 +3731,7 @@ function GetLangForm(fname) {
             break;
         case 'Master/CarLicense':
             lang = {
-                lblTitle:'Car License|ข้อมูลรถ',
+                lblTitle: 'Car License|ข้อมูลรถ',
                 lblCarNo: 'Car Code|รหัสรถ',
                 lblCarLicense: 'Car License|ทะเบียนรถ',
                 lblEmpCode: 'Driver|พนักงานขับรถ',
@@ -3799,7 +3799,7 @@ function GetLangForm(fname) {
                 lblStationInvDate: 'Station Inv Date|วันที่ใบวางบิลปั้ม',
                 lblPaymentBy: 'Payment By|ชำระเงินโดย',
                 lblPaymentDate: 'Payment Date|วันที่ชำระเงิน',
-                lblPaymentRef:'Payment Ref|เลขที่ชำระเงิน'
+                lblPaymentRef: 'Payment Ref|เลขที่ชำระเงิน'
             };
             break;
     }
@@ -3980,6 +3980,10 @@ function GetReportLists_V2() {
         { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "PRD53", "ReportNameEN": "PRD-53 Cover Report", "ReportNameTH": "รายงานนำส่ง หัก ณ ที่จ่าย ภ.ง.ด.53 (ใบปะหน้า)" },
         { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "PRD3D", "ReportNameEN": "PRD-3 Detail Report", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.3 (ใบแนบ)" },
         { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "PRD53D", "ReportNameEN": "PRD-53 Detail Report", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.53 (ใบแนบ)" },
+        { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "PRD3A", "ReportNameEN": "PRD-3 Cover Report (Agent)", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.3 กระทำการแทน (ใบปะหน้า)" },
+        { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "PRD53A", "ReportNameEN": "PRD-53 Cover Report (Agent)", "ReportNameTH": "รายงานนำส่ง หัก ณ ที่จ่าย ภ.ง.ด.53 กระทำการแทน (ใบปะหน้า)" },
+        { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "PRD3AD", "ReportNameEN": "PRD-3 Detail Report (Agent)", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.3 กระทำการแทน (ใบแนบ)" },
+        { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "PRD53AD", "ReportNameEN": "PRD-53 Detail Report (Agent)", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.53 กระทำการแทน (ใบแนบ)" },
         { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CASHFLOW", "ReportNameEN": "Cash Flow", "ReportNameTH": "รายงานงบกระแสเงินสด" },
         { "ReportType": "FIX", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "VENDSUMMARY", "ReportNameEN": "Vender Summary Report", "ReportNameTH": "รายงานสรุปจ่ายเจ้าหนี้" },
         { "ReportType": "EXP", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBCOST", "ReportNameEN": "Job Costing Summary", "ReportNameTH": "รายงานสรุปต้นทุนตามจ๊อบ" },

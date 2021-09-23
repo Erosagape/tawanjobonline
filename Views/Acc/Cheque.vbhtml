@@ -414,9 +414,7 @@ End Code
         $('#txtSICode').keydown(function (event) {
             if (event.which == 13) {
                 $('#txtSDescription').val('');
-                if ($('#txtSICode').val() !== '') {
-                    CallBackQueryService(path, $('#txtSICode').val(), ReadService);
-                }
+                CallBackQueryService(path, $('#txtSICode').val(), ReadService);
             }
         });
         $('#txtCustBranch').keydown(function (event) {
@@ -893,9 +891,7 @@ End Code
             } else {
                 CallBackQueryBookAccount(path, dr.BranchCode, dr.BookCode, ReadBookAccount);
             }
-            if (dr.SICode !== ''){
-                CallBackQueryService(path, dr.SICode, ReadService);
-            }
+            CallBackQueryService(path, dr.SICode, ReadService);
             ShowBank(path, dr.RecvBank, '#txtRecvBankName');
         }
     }

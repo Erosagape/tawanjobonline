@@ -279,7 +279,7 @@ End Code
         }
         let type = $('#cboType').val();
         let url = path + 'acc/getinvforreceive?show=WAIT&type=' + type + '&branch=' + $('#txtBranchCode').val() + w;
-        $.get(url).done(function (r) {
+        $.get(url, function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 $('#tbSummary').DataTable().clear().draw();

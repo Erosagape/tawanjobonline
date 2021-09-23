@@ -178,7 +178,7 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtAdvDateT').val());
         }
         w = w + '&Status=1';
-        $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w).done(function (r) {
+        $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.adv.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if (isAlert==true) ShowMessage('Data not found',true);

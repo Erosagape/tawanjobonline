@@ -55,6 +55,7 @@ End Code
                 </div>
             </div>
         </div>
+        <br/>
         <div class="row">
             <div class="col-sm-2">
                 <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddAdvance()">
@@ -62,6 +63,7 @@ End Code
                 </a>
             </div>
             <div class="col-sm-8" style="text-align:right">
+                Job No : <input type="text" id="txtJNo" /> &nbsp;
                 <input type="checkbox" id="chkCancel" />Show Cancel Only
             </div>
             <div class="col-sm-2">
@@ -164,6 +166,9 @@ End Code
         if ($('#cboJobType').val() !== "") {
             w = w + '&jtype=' + $('#cboJobType').val();
         }
+        if ($('#txtJNo').val() !== "") {
+            w = w + '&jobno=' + $('#txtJNo').val();
+        }
         if ($('#cboShipBy').val() !== "") {
             w = w + '&sby=' + $('#cboShipBy').val();
         }
@@ -178,13 +183,13 @@ End Code
         } else {
             w = w + '&Show=ACTIVE';
         }
-        $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w).done(function (r) {
+        $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.adv.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if (isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.adv.data[0].Table;
+            let h = r.adv.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้

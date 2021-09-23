@@ -840,7 +840,7 @@ function LoadReport(path, reportID, obj, lang) {
 
                 let html = '<thead><tr><th style="border:1px solid black;text-align:left;background-color:lightgrey;width:2%">#</th>';
                 $.each(tb[0], function (key, value) {
-                    if (key !== groupField) {
+                    if (groupField.indexOf(key)<0) {
                         html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;';
                         if (colWidth.length > 0) {
                             if (colWidth.length > colCount) {
@@ -866,11 +866,14 @@ function LoadReport(path, reportID, obj, lang) {
 
                 let groupCount = 0;
                 let groupCaption = GetColumnHeader(groupField, lang);
+                if (groupField.indexOf(',') > 0) {
+                    groupCaption = "Group:";
+                }
                 let row = 0;
                 for (let r of tb) {
                     html += '<tr>';
                     if (groupField !== '') {
-                        if (FormatValue(groupField, r[groupField]) !== groupVal) {
+                        if (GetGroupValue(groupField, r) !== groupVal) {
                             //Show Summary
                             if (groupCount > 0) {
                                 html += '<td colspan="2" style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>SUB TOTAL</b></u></td>';
@@ -885,7 +888,7 @@ function LoadReport(path, reportID, obj, lang) {
                                 html += '</tr><tr>';
                                 groupCount = 0;
                             }
-                            groupVal = FormatValue(groupField, r[groupField]);
+                            groupVal = GetGroupValue(groupField, r);
                             groupCount++;
 
                             html += '<td colspan="' + (colCount + 1) + '" style="background-color:lightyellow;border:1px solid black;text-align:left;">' + groupCaption + ' <b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
@@ -898,7 +901,7 @@ function LoadReport(path, reportID, obj, lang) {
                     html += '<td style="border:1px solid black;text-align:center;">' + row + '</td>';
                     let col = 0;
                     for (let c in r) {
-                        if (c !== groupField) {
+                        if (groupField.indexOf(c)<0) {
                             if (c.indexOf('Date') >= 0) {
                                 html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
                             } else {
@@ -950,6 +953,21 @@ function LoadReport(path, reportID, obj, lang) {
             }
         }
     });
+}
+function GetGroupValue(fld,r) {
+    if (fld.indexOf(',') > 0) {
+        let str = '';
+        let lst = fld.split(fld, ',');
+        for (let n of lst) {
+            if (str !== '') {
+                str += ',';
+            }
+            str += FormatValue(n,r[n]);
+        }
+        return str;
+    } else {
+        return FormatValue(fld,r[fld]);
+    }    
 }
 function LoadReportNoTotal(path, reportID, obj, lang) {
     let str = JSON.stringify(obj);

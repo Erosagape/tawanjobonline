@@ -29,9 +29,12 @@ End Code
             <b>NAME :</b> <label id="lblCustName"></label>
             <br />
             <b>ADDRESS :</b> <label id="lblCustAddress"></label>
-        </p>
+            <br />
+            <b>CUSTOMER PO :</b> <label id="lblCustPo"></label>
+</p>
     </div>
 </div>
+
 <p>
     <br/>
     I have already received billing note and will pay the amount followed.
@@ -122,12 +125,15 @@ End Code
                 serv += Number(dr.AmtChargeNonVAT);
                 adv += Number(dr.AmtAdvance);
                 vat += Number(dr.AmtVAT);
-                wh1 += Number(dr.AmtWHRate == 1 ? ShowNumber(dr.AmtWH, 2) : 0);
-                wh3 += Number(dr.AmtWHRate !== 1 ? ShowNumber(dr.AmtWH, 2) : 0);
+                wh1 += Number(ShowNumber(dr.AmtWH1, 2));
+                wh3 += Number(ShowNumber(dr.AmtWH3, 2));
             }
             dv.html(html);
 
-            $('#lblBillTotal').text(ShowNumber(total,2));
+            $('#lblBillTotal').text(ShowNumber(total, 2));
+            $.get(path + 'acc/getinvoice?branch=' + branch + '&code=' + data.detail[0][0].InvNo, function (r) {
+                $('#lblCustPo').text(r.invoice.job[0][0].CustRefNO);
+            });
             //$('#lblBillTotalEng').text(CNumEng(total));
         }
     }

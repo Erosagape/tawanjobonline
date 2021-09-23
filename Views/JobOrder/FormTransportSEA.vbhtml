@@ -69,9 +69,9 @@ End Code
 <table style="width:100%">
     <tr>
         <td style="display:flex">
-            <img src="~/Resource/logo-east.jpg" style="width:150px;">
-            <div>
-                <b style="font-size:18px">EASTRONG INTERNATIONAL LOGISTICS CO.,LTD</b>
+            <img src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:50px;">
+            <div style="width:100%;text-align:center;">
+                <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME_EN</b>
             </div>
 
         </td>
@@ -332,7 +332,7 @@ End Code
 </p>
 <p>
     <div style="width:100%;font-size:14px;text-align:center">
-        <b>APISASI HOLDING CO.,LTD</b>
+        <b>@ViewBag.PROFILE_COMPANY_NAME_EN</b>
         <br />
         <div style="font-size:7px;text-align:left">
             Definitions 'Merchant' means and includes the Shipper, the Consignor, the Consignee the Holder of tis Bill of Lading, the Receiver and the Owner of the Goods "The Freight forwarder" means the issuer of this bill of Lading as named on the face of it.

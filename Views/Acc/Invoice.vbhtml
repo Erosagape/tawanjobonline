@@ -62,8 +62,9 @@ End Code
                         <th class="all">DocNo</th>
                         <th class="desktop">DocDate</th>
                         <th class="desktop">CustCode</th>
+                        <th class="desktop">BillTo</th>
                         <th>Remark</th>
-                        <th class="desktop">Discount</th>
+                        <th class="desktop">BillAcceptNo</th>
                         <th class="desktop">Cust.Adv</th>
                         <th class="desktop">Advance</th>
                         <th class="desktop">Charge</th>
@@ -388,7 +389,7 @@ End Code
                                         <div style="flex:1">
                                             <label id="lblDVATRate">Rate</label>
                                             <br />
-                                            <input type="text" id="txtDVATRate" class="form-control"  onchange="CalVATWHT(0)" />
+                                            <input type="text" id="txtDVATRate" class="form-control" />
                                         </div>
                                         <div style="flex:1">
                                             <br />
@@ -412,7 +413,7 @@ End Code
                                         <div style="flex:1">
                                             <label id="lblRate50Tavi">Rate</label>
                                             <br />
-                                            <input type="text" id="txtRate50Tavi" class="form-control" onchange="CalVATWHT(0)" />
+                                            <input type="text" id="txtRate50Tavi" class="form-control" />
                                         </div>
                                         <div style="flex:1">
                                             <br />
@@ -526,7 +527,7 @@ End Code
         if (code !== '') {
             w += '&Code=' + code;
         }
-        $.get(path + 'acc/getinvforbill?branch=' + $('#txtBranchCode').val()+ w).done(function (r)
+        $.get(path + 'acc/getinvforbill?branch=' + $('#txtBranchCode').val()+ w, function (r)
         {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
@@ -553,12 +554,9 @@ End Code
                         }
                     },
                     { data: "CustCode", title: "Customer" },
+                    { data: "BillToCustCode", title: "BillTo" },
                     { data: "RefNo", title: "Reference Number" },
-                    { data: "TotalDiscount", title: "Discount",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                        }
-                    },
+                    { data: "BillAcceptNo", title: "Billing.No" },
                     { data: "TotalCustAdv", title: "Cust.Adv",
                             render: function (data) {
                                 return ShowNumber(data, 2);

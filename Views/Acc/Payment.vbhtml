@@ -409,7 +409,7 @@ End Code
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
         w = w + '&Type=NOPAY&Status=A';
-        $.get(path + 'acc/getpayment?branch=' + $('#txtBranchCode').val() + w).done(function (r) {
+        $.get(path + 'acc/getpayment?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.payment.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);

@@ -231,8 +231,8 @@ End Code
     if (branch != "" && job != "") {
         let url = path + 'clr/getclearingreport?branch=' + branch + '&job=' + job;
         $.get(url, (r) => {
-            if (r.data[0].Table.length > 0) {
-                let h = r.data[0].Table[0];
+            if (r.data.length > 0) {
+                let h = r.data[0];
                 $("#number").text(h.JobNo);
                 $("#date").text(ShowDate(h.JobDate));
                 $("#reference").text(h.CustRefNO);
@@ -256,7 +256,7 @@ End Code
                 $("#sellUSDTHB").text(h.InvCurRate);
                 $("#buyUSDTHB").text(h.InvCurRate);
 
-                let d = r.data[0].Table;
+                let d = r.data;
                 let dt1 = d.filter((data) => {
                     return data.IsCredit == 1 || data.IsExpense == 0;
                 });

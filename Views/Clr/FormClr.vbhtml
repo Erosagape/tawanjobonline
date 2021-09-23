@@ -46,32 +46,39 @@ End Code
 </div>
 
 <div style="display:flex;flex-wrap:wrap;">
-    <div style="flex:1">
+    <div style="flex:2">
         CO-PERSON : <label id="txtCoPersonCode"></label>
     </div>
     <div style="flex:1">
         TRUCK : <label id="txtTruckNo"></label>
     </div>
+    <div style="flex:1">
+        Driver : <label id="txtDriver"></label>
+    </div>
 </div>
 
 <div style="display:flex">
-    <div style="flex:1">
+    <div style="flex:2">
         REMARK : <label id="txtRemark"></label>
+    </div>
+    <div style="flex:1">
+        Customer PO : <label id="txtCustPo"></label>
+    </div>
+    <div style="flex:1">
+        A/C No : <label id="txtEmpAcc"></label>
     </div>
 </div>
 <div style="display:flex;flex-direction:column;margin:5px 5px 5px 5px;">
-    <table id="tbDetail" border="1" width="100%">
-        <thead>
-            <tr class="text-center">
-                <th width="10%">CODE.</th>
-                <th width="48%">DESCRIPTION</th>
-                <th width="12%">JOBNO</th>
-                <th width="10%">VAT</th>
-                <th width="10%">WHTAK</th>
-                <th width="10%">PAID</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
+    <table border="1" width="100%">
+        <tr class="text-center" style="font-weight:bold">
+            <td width="10%">CODE.</td>
+            <td width="48%">DESCRIPTION</td>
+            <td width="12%">JOBNO</td>
+            <td width="10%">VAT</td>
+            <td width="10%">WHTAK</td>
+            <td width="10%">PAID</td>
+        </tr>
+        <tbody id="tbDetail"></tbody>
     </table>
     <table border="1" width="100%">
         <tr class="text-center">
@@ -85,9 +92,10 @@ End Code
             <td colspan="4">
                 <div style="display:flex">
                     <div style="flex:1" class="text-left">
-                        CLEARING TYPE : <label id="txtClrType"></label>
-                        <br />
-                        CLEARING FROM :  <label id="txtClrFrom"></label>
+                        Advance Summary:<br />
+                        <table style="width:100%;">
+                            <tbody id="tbAdv"></tbody>
+                        </table>
                     </div>
                     <div style="flex:1 ;text-align:right">
                         AMOUNT (VAT)
@@ -127,8 +135,6 @@ End Code
             </td>
         </tr>
     </table>
-    <div id="dvSummary">
-    </div>
     <table border="1" width="100%" style="margin-top:50px">
         <tr Class="text-center">
             <th> CLEARING BY</th>
@@ -204,7 +210,14 @@ End Code
                     $('#txtApproveDate').text(CDateEN(h.ApproveDate));
                     $('#txtReceiveBy').text(h.ReceiveByName);
                     $('#txtReceiveDate').text(CDateEN(h.ReceiveDate));
-
+                    $('#txtCustPo').text(h.CustRefNO);
+                    $.get(path + 'master/getemployee?code=' + h.Driver).done(function (r) {
+                        if (r.employee.data.length > 0) {
+                            let d = r.employee.data[0];
+                            $('#txtDriver').text(d.PreName + d.Name);
+                            $('#txtEmpAcc').text(d.AccountNumber);
+                        }
+                    });
                     let html = '';
                     let cust = '';
                     let amtforvat = 0;
@@ -248,7 +261,7 @@ End Code
                         }
                         amttotal += d[i].BNet;
                     }
-                    $('#tbDetail tbody').html(html);
+                    $('#tbDetail').html(html);
 
                     $('#txtAmtVat').text(CCurrency(CDbl(amtforvat,2)));
                     $('#txtAmtNonVat').text(CCurrency(CDbl(amtnonvat,2)));
@@ -261,6 +274,60 @@ End Code
                         advlist = advlist.substr(1, advlist.length - 1);
                         $.get(path + 'Clr/GetAdvForClear?show=ALL&advno=' + advlist).done(function (r) {
                             if (r.clr.data.length > 0) {
+                                let lastadv = '';
+                                let sumadv = 0;
+                                let sumused = 0;
+                                let sumreturn = 0;
+                                let sumoverpay = 0;
+                                let html = '';
+                                html = '<tr>';
+                                html += '<td>#</td>';
+                                html += '<td>Advance</td>';
+                                html += '<td>Used</td>';
+                                html += '<td>Balance</td>';
+                                html += '<td>Paid</td>';
+                                html += '</tr>';
+                                $('#tbAdv').append(html);
+                                html = '';
+                                for (let d of r.clr.data[0].Table) {
+                                    if (lastadv !== d.AdvNO) {
+                                        lastadv = d.AdvNO;
+                                        if (html !== '') {
+                                            html = html.replace('{0}', ShowNumber(sumadv,2));
+                                            html = html.replace('{1}', ShowNumber(sumused,2));
+                                            html = html.replace('{2}', ShowNumber(sumreturn,2));
+                                            html = html.replace('{3}', ShowNumber(sumoverpay,2));
+                                            $('#tbAdv').append(html);
+                                        }
+                                        sumadv = 0;
+                                        sumused = 0;
+                                        sumreturn = 0;
+                                        sumoverpay = 0;
+                                        html = '<tr>';
+                                        html += '<td>' + lastadv + '</td>';
+                                        html += '<td>{0}</td>';
+                                        html += '<td>{1}</td>';
+                                        html += '<td>{2}</td>';
+                                        html += '<td>{3}</td>';
+                                        html += '</tr>';
+                                    }
+                                    sumadv += d.AdvNet;
+                                    sumused += d.UsedAmount;
+                                    if (d.AdvBalance > 0) {
+                                        sumreturn += d.AdvBalance;
+                                    } else {
+                                        sumoverpay += Math.abs(d.AdvBalance);
+                                    }
+                                }
+                                if (html !== '') {
+                                    html = html.replace('{0}', ShowNumber(sumadv,2));
+                                    html = html.replace('{1}', ShowNumber(sumused,2));
+                                    html = html.replace('{2}', ShowNumber(sumreturn,2));
+                                    html = html.replace('{3}', ShowNumber(sumoverpay,2));
+                                    $('#tbAdv').append(html);
+                                }
+
+                                /*
                                 let html = '';
                                 for (let d of r.clr.data[0].Table) {
                                     let advno = d.AdvNO;
@@ -270,7 +337,8 @@ End Code
                                     html += '<br/>';
                                     html += '' + advno + ' Total=' + ShowNumber(advnet,4) + ' Used=' + ShowNumber(usedamount,4) + ' Balance=' + ShowNumber(advbalance,4);
                                 }
-                                $('#dvSummary').html(html);
+                                */
+                                //$('#dvSummary').html(html);
                             }
                         });
                     }

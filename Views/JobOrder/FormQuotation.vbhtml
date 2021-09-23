@@ -64,7 +64,7 @@ End Code
 <br />
 <div style="display:flex">
     <div style="flex:1">
-        <label id="lblDescriptionH"></label>
+        <div id="lblDescriptionH"></div>
     </div>
 </div>
 
@@ -82,22 +82,16 @@ End Code
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
-    <tfoot>
-        <tr>
-            <td colspan="6" class="number">GRAND TOTAL (THB)</td>
-            <td colspan="2" style="text-align:right"><label id="lblTotalCharge"></label></td>
-        </tr>
-    </tfoot>
 </table>
 <p>
     <br />
     <div style="display:flex">
         <div style="flex:1">
-            REMARKS : <label id="lblTRemark"></label>
+            REMARKS : <div id="lblTRemark"></div>
         </div>
     </div>
     <br />
-    <label id="lblDescriptionF"></label>
+    <div id="lblDescriptionF"></div>
 </p>
 <p>
     Best Regards,
@@ -147,10 +141,10 @@ End Code
 
         $('#lblQNo').text(h.QNo);
         $('#lblDocDate').text(ShowDate(CDateTH(h.DocDate)));
-        $('#lblTRemark').text(h.TRemark);
+        $('#lblTRemark').html(CStr(h.TRemark));
         $('#lblContactName').text(h.ContactName);
-        $('#lblDescriptionH').text(h.DescriptionH);
-        $('#lblDescriptionF').text(h.DescriptionF);
+        $('#lblDescriptionH').html(CStr(h.DescriptionH));
+        $('#lblDescriptionF').html(CStr(h.DescriptionF));
 
         ShowUser(path, h.ManagerCode, '#lblManagerName');
 

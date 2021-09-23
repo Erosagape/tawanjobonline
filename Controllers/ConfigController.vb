@@ -143,7 +143,7 @@ Namespace Controllers
                                 'columns &= "{""data"":""" & col.ColumnName & """,""title"":""" & col.ColumnName & """}"
                                 'Next
                                 'columns &= "]"
-                                json = JsonConvert.SerializeObject(oTable.AsEnumerable().ToList())
+                                json = JsonConvert.SerializeObject(oTable)
                                 msg = "OK (" & oTable.Rows.Count & " Rows selected)"
                             Else
                                 msg = oUtil.Message

@@ -719,7 +719,7 @@ Namespace Controllers
                 End If
                 Dim sql As String = SQLSelectAdvDetail()
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql + tSqlW + " ORDER BY a.AdvDate DESC")
-                Dim json = "{""adv"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                Dim json = "{""adv"":{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & tSqlW & """}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetAdvanceReport", ex.Message, ex.StackTrace, True)
@@ -779,11 +779,17 @@ Namespace Controllers
                 Else
                     'tSqlW &= " AND a.DocStatus<>99 "
                 End If
+
                 If Not IsNothing(Request.QueryString("Show")) Then
+
                     If Request.QueryString("Show").ToString() = "ACTIVE" Then
                         tSqlW &= " AND a.DocStatus<>99 "
-                    Else
+                    End If
+                    If Request.QueryString("Show").ToString() = "CANCEL" Then
                         tSqlW &= " AND a.DocStatus=99 "
+                    End If
+                    If Request.QueryString("Show").ToString() = "NOPAY" Then
+                        tSqlW &= " AND ISNULL(a.PaymentBy,'')='' AND a.DocStatus<>99 "
                     End If
                 End If
                 If Not IsNothing(Request.QueryString("TaxNumber")) Then
@@ -799,7 +805,7 @@ Namespace Controllers
                 End If
                 Dim sql As String = SQLSelectAdvHeader()
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql + tSqlW + " ORDER BY a.AdvDate DESC")
-                Dim json = "{""adv"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                Dim json = "{""adv"":{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & tSqlW & """}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetAdvanceGrid", ex.Message, ex.StackTrace, True)
@@ -876,7 +882,7 @@ Namespace Controllers
                 End If
                 Dim sql As String = SQLSelectAdvanceTotalEmp(tSqlW)
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
-                Dim json = "{""adv"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                Dim json = "{""adv"":{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & tSqlW & """}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetAdvanceGrid", ex.Message, ex.StackTrace, True)
@@ -932,8 +938,8 @@ Namespace Controllers
                 End If
                 Dim oDataH = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectAdvSumClear(tSqlW))
                 Dim oDataD = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectAdvClear(tSqlW))
-                Dim jsonh As String = JsonConvert.SerializeObject(oDataH.AsEnumerable().ToList())
-                Dim jsond As String = JsonConvert.SerializeObject(oDataD.AsEnumerable().ToList())
+                Dim jsonh As String = JsonConvert.SerializeObject(oDataH)
+                Dim jsond As String = JsonConvert.SerializeObject(oDataD)
                 Dim json = "{""adv"":{""header"":" & jsonh & ",""detail"":" & jsond & "}}"
                 Return Content(json, jsonContent)
 

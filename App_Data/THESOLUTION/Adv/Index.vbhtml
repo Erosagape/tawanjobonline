@@ -1593,6 +1593,14 @@ End Code
             ShowMessage('Please save document before add detail',true);
             return;
         }
+        if ($('#txtPayTo').val() == '') {
+            ShowMessage('Payment to must be enter first', true);
+            return;
+        }
+        if ($('#txtContainerNo').val() == '') {
+            ShowMessage('Container Number must be enter too', true);
+            return;
+        }
         $.get(path + 'adv/getnewadvancedetail?branchcode=' + $('#txtBranchCode').val() + '&advno=' + $('#txtAdvNo').val(), function (r) {
             let d = r.adv.detail[0];
             LoadDetail(d);
@@ -1723,6 +1731,10 @@ End Code
             ShowMessage('Please check advance amount', true);
             return;
         }
+        if (CheckBoxValidate() == false) {
+            ShowMessage("Please choose type of payment", true);
+            return;
+        }
         if (dtl != undefined) {
             let obj = GetDataDetail();
             if (obj.ItemNo == 0) {
@@ -1747,7 +1759,7 @@ End Code
                 contentType: "application/json",
                 data: jsonString,
                 success: function (response) {
-                    ShowMessage(response.result.msg);
+                    SaveHeader();
                     ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val());
                 }
             });
@@ -1827,6 +1839,14 @@ End Code
             LoadDetail(data); //callback function from caller
         });
         $('#tbDetail tbody').on('click', 'button', function () {
+            if ($('#txtPayTo').val() == '') {
+                ShowMessage('Payment to must be enter first', true);
+                return;
+            }
+            if ($('#txtContainerNo').val() == '') {
+                ShowMessage('Container Number must be enter too', true);
+                return;
+            }
             $('#frmDetail').modal('show');
             $('#txtSICode').focus();
         });
@@ -2025,7 +2045,7 @@ End Code
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.adv.data[0].Table;
+            let h = r.adv.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -2596,5 +2616,21 @@ End Code
     }
     function PrintClear() {
         window.open(path + 'Adv/FormClrAdv?branch=' + $('#txtBranchCode').val() + '&advno=' + $('#txtAdvNo').val());
+    }
+    function CheckBoxValidate() {
+        let pass = false;
+        if ($('#chkCash').prop('checked') == true) {
+            pass = true;
+        }
+        if ($('#chkChq').prop('checked') == true) {
+            pass = true;
+        }
+        if ($('#chkChqCash').prop('checked') == true) {
+            pass = true;
+        }
+        if ($('#chkCred').prop('checked') == true) {
+            pass = true;
+        }
+        return pass;
     }
 </script>
