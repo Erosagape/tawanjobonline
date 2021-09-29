@@ -3170,7 +3170,7 @@ ORDER BY s.IsExpense
                 tSql &= String.Format("SUM(CASE WHEN b.SICode='{0}' THEN b.UsedAmount ELSE 0 END) as 'SVC-{1}'", dr("SICode").ToString(), dr("Description").ToString())
             End If
         Next
-        tSql = "
+        Dim mSql = "
 SELECT j.DocDate,j.DutyDate,b.JobNo as 'Job Number',jt.JobTypeName as JobType,sb.ShipByName as ShipBy,
 e.NameEng as 'Customer',i.NameEng as 'Consignee',j.DeliveryTo as Shipper,t.TName as Agent,j.InvProduct,
 j.InvNo,j.HAWB,j.DeclareNumber,j.ETDDate,j.ETADate,j.LoadDate,j.EstDeliverDate as UnloadDate,j.TotalContainer,
@@ -3178,13 +3178,13 @@ SUM(CASE WHEN s.IsExpense=0 THEN b.UsedAmount ELSE 0 END) as SumCollect,
 SUM(CASE WHEN s.IsCredit=1 AND s.IsExpense=0 THEN b.UsedAmount ELSE 0 END) as SumAdvance,
 SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=0 THEN b.UsedAmount ELSE 0 END) as SumCharge,
 SUM(CASE WHEN s.IsExpense=1 THEN b.UsedAmount ELSE 0 END) as SumCost,
-" & tSql & "
+{1}
 FROM Job_ClearDetail b
 INNER JOIN Job_ClearHeader a ON b.BranchCode=a.BranchCode 
 AND b.ClrNo= a.ClrNo
 INNER JOIN Job_SrvSingle s ON b.SICode=s.SICode
 INNER JOIN Job_Order j ON b.BranchCode=j.BranchCode AND b.JobNo=j.JNo
-LEFT JOIN (SELECT CAST(ConfigKey as int) as JobType,ConfigValue as JobTypeName FROM MAs_Config WHERE ConfigCode='JOB_TYPE') jt ON j.ShipBy=jt.JobType
+LEFT JOIN (SELECT CAST(ConfigKey as int) as JobType,ConfigValue as JobTypeName FROM MAs_Config WHERE ConfigCode='JOB_TYPE') jt ON j.JobType=jt.JobType
 LEFT JOIN (SELECT CAST(ConfigKey as int) as ShipBy,ConfigValue as ShipByName FROM MAs_Config WHERE ConfigCode='SHIP_BY') sb ON j.ShipBy=sb.ShipBy
 LEFT JOIN Mas_Company e ON e.CustCode=j.CustCode AND e.Branch=j.CustBranch
 LEFT JOIN (SELECT CustCode,MAX(Branch) as Branch,MAX(NameEng) as NameEng FROM  Mas_Company GROUP BY CustCode) i ON i.CustCode=j.consigneecode
@@ -3194,7 +3194,11 @@ GROUP BY j.DocDate,j.DutyDate,b.JobNo,jt.JobTypeName,sb.ShipByName,e.NameEng,i.N
 j.InvNo,j.HAWB,j.DeclareNumber,j.ETDDate,j.ETADate,j.LoadDate,j.EstDeliverDate,j.TotalContainer 
 ORDER BY j.DocDate,b.JobNo
 "
-        Return String.Format(tSql, sqlW)
+        Dim val = GetValueConfig("SQL", "SelectJobDetail")
+        If val.Length > 0 Then
+            mSql = val
+        End If
+        Return String.Format(mSql, sqlW, tSql)
     End Function
     Public Function SQLSelectAdvanceTotalJob(sqlW As String) As String
         Dim tSql As String = ""
