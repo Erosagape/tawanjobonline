@@ -365,25 +365,25 @@ End Code
                                 <div class="col-md-4">
                                     <label id="lblTotalAmt">Total Amount</label>
                                     <br />
-                                    <input type="text" id="txtTotalAmt" class="form-control" onchange="CalculateTotal()"/>
+                                    <input type="text" id="txtTotalAmt" class="form-control" onchange="CalExclude()"/>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-3">
                                     Vat(Include)<br />
-                                    <input type="text" id="txtVatInc" class="form-control" onchange="CalculateTotal()"/>
+                                    <input type="text" id="txtVatInc" class="form-control" onchange="CalInclude()"/>
                                 </div>
                                 <div class="col-md-3">
                                     Vat(Exclude)<br />
-                                    <input type="text" id="txtVatExc" class="form-control" onchange="CalculateTotal()"/>
+                                    <input type="text" id="txtVatExc" class="form-control" onchange="CalExclude()"/>
                                 </div>
                                 <div class="col-md-3">
                                     Wht(Include)<br />
-                                    <input type="text" id="txtWhtInc" class="form-control" onchange="CalculateTotal()"/>
+                                    <input type="text" id="txtWhtInc" class="form-control" onchange="CalInclude()"/>
                                 </div>
                                 <div class="col-md-3">
                                     Wht(Exclude)<br />
-                                    <input type="text" id="txtWhtExc" class="form-control" onchange="CalculateTotal()"/>
+                                    <input type="text" id="txtWhtExc" class="form-control" onchange="CalExclude()"/>
                                 </div>
                             </div>
                             <div class="row">
@@ -686,14 +686,26 @@ End Code
         });
         $('#txtChqAmount').focusout(function (event) {
             $('#txtSumAmt').val($('#txtChqAmount').val());
-            CalculateTotal();
+            $('#txtVatExc').val(0);
+            $('#txtVatInc').val(0);
+            $('#txtWhtExc').val(0);
+            $('#txtWhtInc').val(0);
+            CalculateTotal();            
         });
         $('#txtCashAmount').focusout(function (event) {
             $('#txtSumAmt').val($('#txtCashAmount').val());
+            $('#txtVatExc').val(0);
+            $('#txtVatInc').val(0);
+            $('#txtWhtExc').val(0);
+            $('#txtWhtInc').val(0);
             CalculateTotal();
         });
         $('#txtCreditAmount').focusout(function (event) {
             $('#txtSumAmt').val($('#txtCreditAmount').val());
+            $('#txtVatExc').val(0);
+            $('#txtVatInc').val(0);
+            $('#txtWhtExc').val(0);
+            $('#txtWhtInc').val(0);
             CalculateTotal();
         });
 
@@ -1020,7 +1032,7 @@ End Code
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.voucher.data;
+            let h = r.voucher.data[0].Table;
             let tb=$('#tbControl').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -1557,21 +1569,27 @@ End Code
         let amtbase = Number($('#txtSumAmt').val());
         let excrate = Number($('#txtExchangeRate').val());
         let totalamt = amtbase * excrate;
+        let vat = Number($('#txtVatExc').val());
+        let wht = Number($('#txtWhtExc').val());
         $('#txtTotalAmt').val(CDbl(totalamt, 4));
-        //calculate for exclude vat/wht
-        totalamt = Number($('#txtTotalAmt').val());
-        let vatexc = Number($('#txtVatExc').val());
-        let whtexc = Number($('#txtWhtExc').val());
-        totalamt += vatexc;
-        totalamt -= whtexc;
-        $('#txtTotalNet').val(CDbl(totalamt, 4));
-
-        //calculate base for included vat/wht
-        let vatinc = Number($('#txtVatInc').val());
-        let whtinc = Number($('#txtWhtInc').val());
-        totalamt += whtinc;
-        totalamt -= vatinc;
-        $('#txtTotalAmt').val(CDbl(totalamt, 4));
+        $('#txtTotalNet').val(CDbl(totalamt +vat-wht, 4));
+    }
+    function CalExclude() {
+        let amt = Number($('#txtTotalAmt').val());
+        let vat = Number($('#txtVatExc').val());
+        let wht = Number($('#txtWhtExc').val());
+        let net = amt + vat - wht;
+        $('#txtTotalNet').val(CDbl(net, 4));
+    }
+    function CalInclude() {
+        let net = Number($('#txtTotalNet').val());
+        let vat = Number($('#txtVatInc').val());
+        let wht = Number($('#txtWhtInc').val());
+        let amt = net - vat + wht;
+        $('#txtTotalAmt').val(CDbl(amt, 4));
+        let excrate = Number($('#txtExchangeRate').val());
+        let base = amt / excrate;
+        $('#txtSumAmt').val(CDbl(base,4));
     }
     function PrintData() {
         if (userRights.indexOf('P') < 0) {

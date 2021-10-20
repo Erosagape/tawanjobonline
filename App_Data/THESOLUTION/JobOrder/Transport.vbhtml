@@ -261,6 +261,7 @@ End Code
                     <input type="text" id="txtMainLocation" style="width:100%" class="form-control" disabled />
                     <button id="btnRoute" class="btn btn-default" onclick="SearchData('location');">...</button>
                 </div>
+                <input type="checkbox" id="chkAllRoute" /> Show All
             </div>
             <div class="col-sm-2">
                 <label id="lblAutoGenCon">Auto Create Container</label>
@@ -777,7 +778,7 @@ End Code
                     <div id="tabDetailTruck" class="tab-pane fade">
                         <div class="row">
                             <div class="col-sm-5">
-                                <label id="lblDriver">Driver</label>
+                                <a href="~/Master/Employee"><label id="lblDriver">Driver</label></a>
                                 :
                                 <br />
                                 <div style="display:flex">
@@ -786,7 +787,7 @@ End Code
                                 </div>
                             </div>
                             <div class="col-sm-3">
-                                <label id="lblTruckNo">Truck ID</label>
+                                <a href="~/Master/CarLicense"><label id="lblTruckNo">Truck ID</label></a>
                                 :
                                 <br />
                                 <div style="display:flex">
@@ -1090,7 +1091,7 @@ End Code
                 SetGridSICode(path, '#tbServ2', '', '#frmSearchServ2', ReadService2);
                 break;
             case 'location':
-                SetGridTransportPrice(path, '#tbMainRoute', '#frmSearchMainRoute','?Vend=' + $('#txtVenderCode').val() + ($('#chkAllCust').prop('checked') ? '':'&Cust='+ $('#txtNotifyCode').val()), ReadMainRoute);
+                SetGridTransportPrice(path, '#tbMainRoute', '#frmSearchMainRoute','?Vend=' + $('#txtVenderCode').val() + ($('#chkAllRoute').prop('checked') ? '':'&Cust='+ $('#txtNotifyCode').val()), ReadMainRoute);
                 break;
             case 'route':
                 SetGridTransportPrice(path, '#tbRoute', '#frmSearchRoute', '?Vend=' + $('#txtVenderCode').val() + ($('#chkAllCust').prop('checked') ? '' : '&Cust=' + $('#txtNotifyCode').val()), ReadRoute);
@@ -1681,6 +1682,14 @@ End Code
         ShowPayment();
     }
     function SaveDetail() {
+	if($('#txtDriver').val()==''){
+		ShowMessage('Please enter driver',true);
+		return;
+	}
+	if($('#txtTruckNO').val()==''){
+		ShowMessage('Please enter truck no',true);
+		return;
+	}
         let obj = {
             BranchCode:$('#txtBranchCode').val(),
             JNo:$('#txtJNo').val(),

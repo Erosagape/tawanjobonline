@@ -175,8 +175,9 @@ End Code
                 let payType = '';
                 let desc = '';
                 let desc0 = '';
+		        let totalamt=Number(obj.TotalAmount);
 
-                appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>',obj.PRVoucher,CCurrency(CDbl(Number(obj.SumAmount),2)));
+                appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>', obj.PRVoucher, CCurrency(CDbl(totalamt + Number(CDbl(obj.VatExc, 2)) - + Number(CDbl(obj.WhtExc, 2)),2)));
                 //desc0 = '<b>TOTAL ' + obj.PRVoucher +'=' +  + ' ' + obj.CurrencyCode + '</b>';
                 let debit = '';
                 let credit = '';
@@ -352,11 +353,11 @@ End Code
                 desc1 += '</td>';
                 desc1 += '</tr>';
                 desc1 += '</table>';
-
+                let totalnet = Number(obj.TotalAmount) + Number(obj.VatExc) - Number(obj.WhtExc);
                 let desc2 = '<table width="100%">';
                 desc2 += '<tr>';
                 desc2 += '<td width="20%" style="text-align:right">';
-                desc2 += CCurrency(CDbl(Number(obj.TotalAmount),2));
+                desc2 += CCurrency(CDbl(totalamt,2));
                 desc2 += '</td>';
                 desc2 += '</tr>';
                 desc2 += '<tr>';
@@ -371,7 +372,7 @@ End Code
                 desc2 += '</tr>';
                 desc2 += '<tr>';
                 desc2 += '<td width="20%" style="text-align:right">';
-                desc2 += CCurrency(CDbl(Number(CDbl(obj.TotalAmount,2)) + Number(CDbl(obj.VatExc,2)) - Number(CDbl(obj.WhtExc,2)), 2));
+                desc2 += CCurrency(CDbl(totalnet, 2));
                 desc2 += '</td>';
                 desc2 += '</tr>';
                 desc2 += '</table>';

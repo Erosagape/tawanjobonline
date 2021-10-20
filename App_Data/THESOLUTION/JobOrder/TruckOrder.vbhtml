@@ -159,6 +159,7 @@ End Code
                     if (f.length > 0) {
                         html += ' / ' + f[0].CTN_NO + ' / ' + f[0].GrossWeight + ' KGS';
                     }
+                    html += ' สั่งเติม: ' + d.ActualVolume + ' ลิตร';
                     html += '</td>';
                     c += 1;
                 }

@@ -278,7 +278,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Condition")) Then
                     Select Case Request.QueryString("Condition").ToString()
                         Case "ERN"
-                            sql &= " AND ISNULL(d.LinkBillNo,'')='' AND d.UsedAmount > 0 "
+                            sql &= " AND d.LinkItem=0 AND d.UsedAmount > 0 "
                     End Select
                 End If
                 sql &= " ORDER BY h.BranchCode,h.ClrDate DESC,h.ClrNo,j.CustCode,j.CustBranch,d.ItemNo "

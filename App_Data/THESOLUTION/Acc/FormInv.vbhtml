@@ -1,6 +1,6 @@
 ﻿
 @Code
-    Layout = "~/Views/Shared/_Report.vbhtml"
+    Layout = "~/Views/Shared/_ReportLetter.vbhtml"
     ViewBag.Title = "Invoice Slip"
 End Code
 <style>
@@ -25,7 +25,7 @@ End Code
     <label id="lblDocType" style="font-size:16px;font-weight:bold">ใบแจ้งหนี้ (INVOICE)</label>
 </div>
 <div id="dvForm"  style="display:flex;flex-direction:column;">        
-    <div style="display:flex;flex-direction:row;">
+    <div style="display:flex;flex-direction:row;width:97%">
         <div style="flex:3;border:1px solid black;border-radius:5px;margin-right:5px;padding:5px 5px 5px 5px;">
             NAME : <label id="lblCustName"></label><br />
             ADDRESS : <label id="lblCustAddress"></label><br />
@@ -42,7 +42,7 @@ End Code
             JOB NO : <label id="lblJobNo"></label><br />
         </div>
     </div>
-    <div style="border:1px solid black;border-radius:5px;margin-top:5px;padding:5px 5px 5px 5px;">
+    <div style="border:1px solid black;border-radius:5px;margin-top:5px;padding:5px 5px 5px 5px;width:97%">
         <div style="display:flex">
             <div style="flex:1">
                 FROM :<label id="lblFromCountry"></label> TO :<label id="lblToCountry"></label>
@@ -85,7 +85,7 @@ End Code
             </div>
         </div>
     </div>
-    <div>
+    <div style="width:97%">
         <table style="width:100%;margin-top:5px;" border="1" class="text-center">
             <tr style="background-color :gainsboro;text-align:center;font-weight:bold">
                 <td width="50px">No</td>
@@ -144,7 +144,7 @@ End Code
             </tr>
         </table>
     </div>
-    <div style="display:flex;margin-top:5px;">
+    <div style="display:flex;margin-top:5px;width:97%">
         <div class="text-left" style="border:1px solid black;border-radius:5px;flex:1;margin-right:5px;padding:5px 5px 5px 5px;font-size:10px;">
             WITHHOLDING TAX DETAIL
             <table style="width:100%;">
@@ -186,14 +186,14 @@ End Code
         </div>
     </div>
     @If ViewBag.DATABASE = "2" Then
-        @<div style="border:1px solid black;border-radius:5px;margin-top:5px;padding:5px 5px 5px 5px;">
+        @<div style="border:1px solid black;border-radius:5px;margin-top:5px;padding:5px 5px 5px 5px;width:97%">
             สั่งจ่าย : <span id="lblCompanyName2" style="font-weight:bold">บจก.เกื้อพสิษฐ์</span> บัญชีออมทรัพย์ ธนาคารกสิกรไทย สาขาถนนศรีนครินทร์ กม.17<br />
             เลขที่บัญชี <span id="lblAccountName2" style="font-weight:bold">026-8-76046-6</span> <br />
             ชำระโดย By <input type="checkbox" />เงินสด/Cash <input type="checkbox" />เงินโอน/Transfer <input type="checkbox" /> เช็ค/Cheque No_______________/D_____________<br />
             ธนาคาร/ Bank ___________________________________ จำนวนเงิน/Amount__________________บาท/Baht
         </div>
     Else
-        @<div style="border:1px solid black;border-radius:5px;margin-top:5px;padding:5px 5px 5px 5px;">
+        @<div style="border:1px solid black;border-radius:5px;margin-top:5px;padding:5px 5px 5px 5px;width:97%">
             สั่งจ่าย : <span id="lblCompanyName2" style="font-weight:bold">บจก.เดอะโซลูชั่น โลจิสติกส์</span>
             <br />-บัญชีออมทรัพย์ ธนาคารกสิกรไทย สาขาถนนศรีนครินทร์ กม.17 เลขที่บัญชี <span id="lblAccountName2" style="font-weight:bold">026-8-76862-9</span>
             <br />-บัญชีกระแสรายวัน ธนาคารกสิกรไทย สาขาถนนรัชดาภิเษก (ตากสิน-ท่าพระ) เลขที่บัญชี <span id="lblAccountName3" style="font-weight:bold">707-1-00389-7</span>
@@ -338,14 +338,14 @@ End Code
                 if (currCtn !== o.CTN_NO) {
                     currCtn = o.CTN_NO;
                     Html = '<tr>';
-                    Html += '<td colspan="7">' + o.CTN_NO + '</td>';
+                    Html += '<td colspan="7">' + o.CTN_NO + ' / ' +  o.TRemark + '</td>';
                     Html += '</tr>';
                     $('#tbDetail').append(Html);
                 }
                 i++;
                 Html = '<tr>';
                 Html += '<td style="text-align:center">' + i + '</td>';
-                Html += '<td>' + o.SDescription + '-' + o.TRemark + '</td>';
+                Html += '<td>' + o.SDescription + '</td>';
                 //Html += '<td style="text-align:center">' + o.CurrencyCode + '</td>';
                 //Html += '<td style="text-align:center">' + o.QtyUnit + '</td>';
                 Html += '<td style="text-align:right">' + ShowNumber(Number(o.UnitPrice), 2) + '</td>';
@@ -367,7 +367,6 @@ End Code
                         sumbasevat += (o.Amt - o.AmtDiscount);
                         sumvat += o.AmtVat;
                     } else {
-
                         sumnonvat += (o.Amt - o.AmtDiscount);
                     }
                     if (o.Amt50Tavi > 0) {

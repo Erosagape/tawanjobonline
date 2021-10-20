@@ -566,6 +566,7 @@
     <Content Include="Content\responsive.dataTables.min.css" />
     <Content Include="Content\sheets-of-paper-a4-landscape.css" />
     <Content Include="Content\sheets-of-paper-a4.css" />
+    <Content Include="Content\sheets-of-paper-letter.css" />
     <Content Include="Content\sheets-of-paper.css" />
     <Content Include="Content\w3.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -1585,6 +1586,7 @@
     <Content Include="Views\JobOrder\CloseFuel.vbhtml" />
     <Content Include="Views\Report\TruckProfit.vbhtml" />
     <Content Include="App_Data\THESOLUTION\JobOrder\FormJob.vbhtml" />
+    <Content Include="Views\Shared\_ReportLetter.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

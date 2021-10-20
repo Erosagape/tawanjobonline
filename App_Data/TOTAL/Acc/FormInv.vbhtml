@@ -1,8 +1,9 @@
 ﻿@Code
-    Layout = "~/Views/Shared/_Report.vbhtml"
+    Layout = "~/Views/Shared/_ReportLetter.vbhtml"
     ViewBag.Title = "Invoice Slip"
 End Code
 <style>
+
     * {
         font-size: 11px;
     }
@@ -226,11 +227,11 @@ End Code
     </tbody>
 </table>
 
-<table class="table" style="border-width:thin;border-collapse:collapse;width:98%" border="1">
+<table class="table" style="border-width:thin;border-collapse:collapse ;width:98%" border="1">
     <thead>
         <tr class="upperLine underLine">
             <th class="bold align-top" rowspan="2">DESCRIPTION</th>
-            <th class="center bold" colspan="6">IN SOURCE CURRENCY</th>
+            <th id="insouce" class="center bold" colspan="6">IN SOURCE CURRENCY</th>
             <th class="center bold" colspan="3">AMOUNT IN THB</th>
         </tr>
         <tr class="upperLine">
@@ -240,25 +241,25 @@ End Code
             <th class="center bold">Curr.</th>
             <th class="center bold">Exc.</th>
             <th class="center bold">@@ UNIT</th>
-            <th class="center bold">ADVANCE</th>
-            <th class="center bold">NON VAT</th>
-            <th class="center bold">VAT</th>
+            <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">ADVANCE</th>
+            <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">NON VAT</th>
+            <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">VAT</th>
         </tr>
     </thead>
     <tbody id="details">
     </tbody>
 </table>
-<table class="table" style="width:98%">
+<table class="table" style="width:98%;border-collapse:collapse ">
     <thead></thead>
     <tbody>
         <tr class="upperLine">
             <td class="underLine">TAX RATE</td>
             <td class="center underLine">GROSS</td>
-            <td class="center underLine">W/T AMT</td>
+            <td class="center underLine">W/T AMT</td>		
             <td id="amountLbl" class="right">AMOUNT:</td>
-            <td id="advanceAmount" class="right"></td>
-            <td id="nonVatAmount" class="right" style="width:5em"></td>
-            <td id="vatAmount" class="right"></td>
+            <td style="width:60px;" id="advanceAmount" class="right"></td>
+            <td style="width:60px;" id="nonVatAmount" class="right" style="width:5em"></td>
+            <td style="width:60px;" id="vatAmount" class="right"></td>
         </tr>
         <tr>
             <td id="taxRate1"></td>
@@ -298,7 +299,7 @@ End Code
         </tr>
     </tbody>
 </table>
-
+<br>
 <p>
     TOTAL AMOUNT IN WORDS:
     <label id="bahtText">   BAHT TWENTY-EIGHT THOUSAND FIVE HUNDRED TWENTY-THREE AND</label>
@@ -350,12 +351,16 @@ End Code
     let bShowSlip = false;
     let branch = getQueryString('branch');
     let code = getQueryString('code');
+    /*----------
+     * unlock when need to change laybout to _report.vbhtml
+     * ---------
     if(confirm("show company header?")==false){
 	    $('#imgLogo').css('display','none');
 	    $('#divCompany').css('display','none');
 	    $('#dvCompAddr').css('display','none');
 	    $('#dvCompLogo').css('height','90px');
     }
+    */
     $.get(path + 'Acc/GetInvoice?Branch=' + branch + '&Code=' + code).done(function (r) {
         if (r.invoice.header.length > 0) {
             let h = r.invoice.header[0][0];

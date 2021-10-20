@@ -1865,7 +1865,9 @@ d.PayRate,d.PayDate,d.PayTaxDesc,d.DocRefType
             If Not IsNothing(Request.QueryString("Branch")) Then
                 sqlW &= String.Format(" AND j.BranchCode='{0}' ", Request.QueryString("Branch").ToString)
             End If
-
+            If Not IsNothing(Request.QueryString("Job")) Then
+                sqlW &= String.Format(" AND j.JNo='{0}' ", Request.QueryString("Job").ToString)
+            End If
             If Not IsNothing(Request.QueryString("HBL")) Then
                 sqlW &= String.Format(" AND j.HAWB='{0}' ", Request.QueryString("HBL").ToString)
             End If

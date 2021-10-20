@@ -3155,20 +3155,30 @@ inner join Job_Order j
 ON b.BranchCode=j.BranchCode AND b.JobNo=j.JNo
 inner join Mas_Company c
 ON j.CustCode=c.CustCode AND j.CustBranch=c.Branch
-WHERE a.DocStatus<>99 and s.IsCredit=0 {0}
+WHERE a.DocStatus<>99 {0}
 ORDER BY s.IsExpense
 "
+        Dim val = GetValueConfig("SQL", "SelectServiceDetail")
+        If val.Length > 0 Then
+            hSql = val
+        End If
         Dim tSql As String = ""
         Dim tb = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(hSql, sqlW))
         For Each dr As DataRow In tb.Rows
             If tSql <> "" Then
                 tSql &= ","
             End If
+            Dim prefix = ""
             If dr("IsExpense").ToString = "1" Then
-                tSql &= String.Format("SUM(CASE WHEN b.SICode='{0}' THEN b.UsedAmount ELSE 0 END) as 'COST-{1}'", dr("SICode").ToString(), dr("Description").ToString())
+                prefix = "COST"
             Else
-                tSql &= String.Format("SUM(CASE WHEN b.SICode='{0}' THEN b.UsedAmount ELSE 0 END) as 'SVC-{1}'", dr("SICode").ToString(), dr("Description").ToString())
+                If dr("IsCredit").ToString() = "1" Then
+                    prefix = "ADV"
+                Else
+                    prefix = "SRV"
+                End If
             End If
+            tSql &= String.Format("SUM(CASE WHEN b.SICode='{0}' THEN b.UsedAmount ELSE 0 END) as '" & prefix & "<br/>{1}'", dr("SICode").ToString(), dr("Description").ToString())
         Next
         Dim mSql = "
 SELECT j.DocDate,j.DutyDate,b.JobNo as 'Job Number',jt.JobTypeName as JobType,sb.ShipByName as ShipBy,
@@ -3194,7 +3204,7 @@ GROUP BY j.DocDate,j.DutyDate,b.JobNo,jt.JobTypeName,sb.ShipByName,e.NameEng,i.N
 j.InvNo,j.HAWB,j.DeclareNumber,j.ETDDate,j.ETADate,j.LoadDate,j.EstDeliverDate,j.TotalContainer 
 ORDER BY j.DocDate,b.JobNo
 "
-        Dim val = GetValueConfig("SQL", "SelectJobDetail")
+        val = GetValueConfig("SQL", "SelectJobDetail")
         If val.Length > 0 Then
             mSql = val
         End If
