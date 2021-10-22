@@ -3,6 +3,7 @@
     ViewData("Title") = "Profit & Costing By Truck"
     Dim SumProfit = 0
     Dim SumSumAdv = 0
+    Dim SumSumTrip = 0
     Dim SumTotalFuelAmount = 0
     Dim SumSumCost = 0
     Dim SumSumCharge = 0
@@ -53,6 +54,7 @@ End Code
                                     Try
                                         SumProfit += dr("Profit")
                                         SumSumAdv += dr("SumAdv")
+                                        SumSumTrip += dr("SumTrip")
                                         SumTotalFuelAmount += dr("TotalFuelAmount")
                                         SumSumCost += dr("SumCost")
                                         SumSumCharge += dr("SumCharge")
@@ -66,7 +68,7 @@ End Code
                                 </tr>
                                 <tr>
                                     <td> ค่าเที่ยวสิ้นเดือน</td>
-                                    <td Class="right" @Format(dr("SumAdv").ToString(), "Fixed")></td>
+                                    <td Class="right">@Format(dr("SumTrip").ToString(), "Fixed")</td>
                                 </tr>
                                 <tr>
                                     <td> ค่าน้ำมัน/แก๊ส</td>
@@ -111,11 +113,15 @@ End Code
                     <td> Cost</td>
                     <td colspan="10"> @dr("DetailCost").ToString()</td>
                 </tr>
-                @<tr style="border-bottom:1px solid black;margin-bottom:10px">
+                @<tr>
                     <td> Sale</td>
                     <td colspan="10"> @dr("DetailCharge").ToString()</td>
                 </tr>
-            Next
+                @<tr style="border-bottom:1px solid black;margin-bottom:10px">
+                    <td> Advance</td>
+                    <td colspan="10"> @dr("DetailAdv").ToString()</td>
+                </tr>
+                                    Next
             <tr>
                 <td colspan="11"></td>
                 <td>
@@ -127,7 +133,7 @@ End Code
                             </tr>
                             <tr>
                                 <td>ค่าเที่ยวสิ้นเดือน</td>
-                                <td class="right"> @Format(SumSumAdv, "Fixed")</td>
+                                <td class="right"> @Format(SumSumTrip, "Fixed")</td>
                             </tr>
                             <tr>
                                 <td>ค่าน้ำมัน/แก๊ส</td>
