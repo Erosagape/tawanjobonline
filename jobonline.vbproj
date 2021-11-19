@@ -1187,6 +1187,10 @@
     <Content Include="App_Data\THESOLUTION\Acc\RecvInv.vbhtml" />
     <Content Include="App_Data\THESOLUTION\Clr\Costing.vbhtml" />
     <Content Include="App_Data\THESOLUTION\Acc\Expense.vbhtml" />
+    <Content Include="App_Data\TOTAL\Acc\FormWTax53.vbhtml" />
+    <Content Include="App_Data\TOTAL\Acc\FormWTax53D.vbhtml" />
+    <Content Include="App_Data\TOTAL\Acc\FormWTax3.vbhtml" />
+    <Content Include="App_Data\TOTAL\Acc\FormWTax3D.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

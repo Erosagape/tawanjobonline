@@ -150,7 +150,7 @@ End Code
                             <br>
                             ลงชื่อ.....................................................ผู้จ่ายเงิน<br>
                             (<input type="text" style="border-style:none;text-align:center;width:150px" value=" @ViewBag.TaxAuthorize " />) <br>
-                            ตำแหน่ง <input type="text" style="border-style:none;text-align:center;width:150px" value="@ViewBag.TaxPosition" /> <br>
+                            ตำแหน่ง <input type="text" style="border-style:none;text-align:center;width:150px" value="{2}" /> <br>
                             ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
                         </td>
                         <td colspan="2">
@@ -257,7 +257,11 @@ End Code
                                 if ((p == 1 && n == 8) || (((n - 8) % 8) == 0 && p > 1)) {
                                     htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                                     htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
-
+                                    if (params.ReportCode == 'PRD3AD') {
+                                        htmlFoot = htmlFoot.replace('{2}', 'กระทำการแทน');
+                                    } else {
+                                        htmlFoot = htmlFoot.replace('{2}', '@ViewBag.TaxPosition');
+                                    }
                                     htmlAll = htmlAll.replace('{0}', htmlHead);
                                     htmlAll = htmlAll.replace('{1}', template);
                                     htmlAll = htmlAll.replace('{2}', htmlFoot);
@@ -284,7 +288,7 @@ End Code
                             field3 = '';
                             field4 = '';
                             field5 = '';
-                            
+
                             template += '<tr>';
                             template += '<td>' + n + '</td>';
                             template += '<td>';
@@ -303,10 +307,10 @@ End Code
                             template += '<td style="text-align:right">{3}</td>';
                             template += '<td style="text-align:right">{4}</td>';
                             template += '<td>' + r.PayTaxType + '</td>';
-                            docno = r.DocNo;  
+                            docno = r.DocNo;
                         }
 
-                        field1 += '<br/>' + ShowDate(r.PayDate);                        
+                        field1 += '<br/>' + ShowDate(r.PayDate);
                         field2 += '<br/>' + r.PayRate;
                         field3 += '<br/>' + ShowNumber(r.PayAmount, 2);
                         field4 += '<br/>' + ShowNumber(r.PayTax, 2);
@@ -326,7 +330,11 @@ End Code
 
                             htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                             htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
-
+                            if (params.ReportCode == 'PRD3AD') {
+                                htmlFoot = htmlFoot.replace('{2}', 'กระทำการแทน');
+                            } else {
+                                htmlFoot = htmlFoot.replace('{2}', '@ViewBag.TaxPosition');
+                            }
                             htmlAll = htmlAll.replace('{0}', htmlHead);
                             htmlAll = htmlAll.replace('{1}', template);
                             htmlAll = htmlAll.replace('{2}', htmlFoot);

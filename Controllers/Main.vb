@@ -2905,10 +2905,10 @@ ON d.BranchCode=c.BranchCode AND d.ClrNo=c.ClrNo
 WHERE d.DocStatus<>3 AND d.DocStatus<>99
 "
     End Function
-    Function SQLUpdateClrReceiveFromAdvance(user As String, docno As String) As String
+    Function SQLUpdateClrReceiveFromAdvance(user As String, docno As String, listdoc As String) As String
         Dim val = GetValueConfig("SQL", "UpdateClrReceiveFromAdvance")
         If val.Length > 0 Then
-            Return String.Format(val, user, docno)
+            Return String.Format(val, user, docno, listdoc)
         End If
 
         Return "
@@ -2922,7 +2922,7 @@ FROM Job_ClearHeader d INNER JOIN
     AND b.DocStatus<>99 AND a.AdvAmount>0
 	LEFT JOIN Job_AdvHeader c ON a.BranchCode=c.BranchCode
 	AND a.AdvNO=c.AdVNo
-    WHERE ISNULL(c.DocStatus,0)<>99
+    WHERE ISNULL(c.DocStatus,0)<>99 AND a.BranchCode+'|'+a.AdvNO in(" & listdoc & ")
     GROUP BY a.BranchCode,a.ClrNo,b.DocStatus
     HAVING COUNT(*)=SUM(CASE WHEN ISNULL(c.DocStatus,0)=6 THEN 1 ELSE 0 END)
 ) c 

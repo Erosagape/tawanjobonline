@@ -216,7 +216,7 @@ Namespace Controllers
                     Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=6 WHERE BranchCode+'|'+AdvNo in({0}) AND DocStatus<>99", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
-                        Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateClrReceiveFromAdvance(user, docno))
+                        Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateClrReceiveFromAdvance(user, docno, lst))
                         Return New HttpResponseMessage(HttpStatusCode.OK)
                     End If
                 End If
