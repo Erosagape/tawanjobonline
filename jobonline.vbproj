@@ -1191,6 +1191,7 @@
     <Content Include="App_Data\TOTAL\Acc\FormWTax53D.vbhtml" />
     <Content Include="App_Data\TOTAL\Acc\FormWTax3.vbhtml" />
     <Content Include="App_Data\TOTAL\Acc\FormWTax3D.vbhtml" />
+    <Content Include="App_Data\SUKHOTHAI\Clr\FormEntry.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
