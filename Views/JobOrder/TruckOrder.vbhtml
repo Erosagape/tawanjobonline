@@ -2,12 +2,18 @@
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Transport Order"
 End Code
-<p>
+<style>
+    #dvFooter {
+        display: none;
+    }
+</style>
+<br />
+            รายชื่องาน :
+<label id="txtProjectName"></label>
+<br/>
+<div style="display:flex;flex-direction:column;">
     <div style="display:flex;flex-direction:row">
         <div style="flex:1">
-            รายชื่องาน :
-            <label id="txtProjectName"></label>
-            <br />
             จำนวน :
             <label id="txtTotalContainer"></label>
             <br />
@@ -99,10 +105,11 @@ End Code
             </table>
         </div>
     </div>
+    <br />
     <table border="1" style="border-collapse:collapse;width:100%;">
         <tbody id="tbTruck"></tbody>
     </table>
-</p>
+</div>
 <script type="text/javascript">
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");
@@ -117,7 +124,7 @@ End Code
             $('#txtHAWB').text(h.HAWB);
             $('#txtJNo').text(h.JNo);
             $('#txtCYDate').text(CDateEN(h.CYDate));
-            $('#txtDutyDate').text(CDateEN(h.DeliveryDate));
+            $('#txtDutyDate').text(CDateEN(h.ActualDeliveryDate));
             $('#txtCYPlace').text(h.CYPlace);
             $('#txtReturnPlace').text(h.PackingPlace);
             $('#txtCloseJobDate').text(CDateEN(h.ActualReturnDate));
@@ -147,7 +154,7 @@ End Code
                             html += '</tr>';
                         html += '<tr>';
                     }
-                    html += '<td>';
+                    html += '<td style="padding:12px 12px 12px 12px;">';
                     html += 'No.' + (c + 1) + '<br/>';
                     html += 'ชื่อ พขร:' + d.Driver + '<br/>';
                     html += 'เบอร์โทรไทย:' + d.Tel + '<br/>';
@@ -159,6 +166,7 @@ End Code
                     if (f.length > 0) {
                         html += ' / ' + f[0].CTN_NO + ' / ' + f[0].GrossWeight + ' KGS';
                     }
+                    html += ' สั่งเติม: ' + d.ActualVolume + ' ลิตร';
                     html += '</td>';
                     c += 1;
                 }
