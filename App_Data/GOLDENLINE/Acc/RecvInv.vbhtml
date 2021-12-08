@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "รับชำระจากใบแจ้งหนี้"
+    ViewBag.Title = "Invoice Receive"
 End Code
 <style>
     @@media only screen and ( max-width:600px ) {
@@ -947,7 +947,8 @@ End Code
             CancelDate: '',
             CancelTime: '',
             CustCode: $('#txtCustCode').val(),
-            CustBranch: $('#txtCustBranch').val()
+            CustBranch: $('#txtCustBranch').val(),
+            PostRefNo:''
         };
         docno = '';
         let jsonString = JSON.stringify({ data: oHeader });

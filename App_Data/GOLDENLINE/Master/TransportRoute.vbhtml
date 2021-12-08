@@ -53,8 +53,9 @@ End Code
                     <textarea class="form-control" id="txtAddress1"></textarea>
                     <label id="lblContact1">Contact</label><br />
                     <input type="text" class="form-control" id="txtContact1" />
-                    <button id="btnSaveP1" class="btn btn-success" onclick="SavePlace(1)" >Save</button>
+                    <button id="btnSaveP1" class="btn btn-success" onclick="SavePlace(1)">Save</button>
                     <button id="btnClearP1" class="btn w3-purple" onclick="ClearPlace(1)">Clear</button>
+                    <button id="btnDelP1" class="btn btn-danger" onclick="DeletePlace(1)">Delete</button>
                 </div>
                 <div class="col-md-3">
                     <label id="lblPlace2">Delivery</label><br />
@@ -65,6 +66,7 @@ End Code
                     <input type="text" class="form-control" id="txtContact2" />
                     <button id="btnSaveP2" class="btn btn-success" onclick="SavePlace(2)">Save</button>
                     <button id="btnClearP2" class="btn w3-purple" onclick="ClearPlace(2)">Clear</button>
+                    <button id="btnDelP2" class="btn btn-danger" onclick="DeletePlace(2)">Delete</button>
                 </div>
                 <div class="col-md-3">
                     <label id="lblPlace3">Return</label><br />
@@ -75,6 +77,7 @@ End Code
                     <input type="text" class="form-control" id="txtContact3" />
                     <button id="btnSaveP3" class="btn btn-success" onclick="SavePlace(3)">Save</button>
                     <button id="btnClearP3" class="btn w3-purple" onclick="ClearPlace(3)">Clear</button>
+                    <button id="btnDelP3" class="btn btn-danger" onclick="DeletePlace(3)">Delete</button>
                 </div>
                 <div class="col-md-3">
                     <label id="lblPlace4">Container Size</label><br />
@@ -85,6 +88,7 @@ End Code
                     <input type="text" class="form-control" id="txtContact4" />
                     <button id="btnSaveP4" class="btn btn-success" onclick="SavePlace(4)">Save</button>
                     <button id="btnClearP4" class="btn w3-purple" onclick="ClearPlace(4)">Clear</button>
+                    <button id="btnDelP4" class="btn btn-danger" onclick="DeletePlace(4)">Delete</button>
                 </div>
             </div>
         </p>
@@ -113,7 +117,7 @@ End Code
                 <table id="lstPlace3" class="table table-responsive">
                     <thead>
                         <tr>
-                            <th>Container Yard</th>
+                            <th>Return</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -123,7 +127,7 @@ End Code
                 <table id="lstPlace4" class="table table-responsive">
                     <thead>
                         <tr>
-                            <th> Port</th>
+                            <th>Condition</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -320,17 +324,17 @@ End Code
                     data: r.transportprice.data,
                     columns: [
                         { data: "VenderCode", title: "Vender" },
-                        { data: "CustCode", title: "Cust" },
-                        { data: "SICode", title: "Cost.Cde" },
-                        { data: "SDescription", title: "Cost.Desc" },
-                        { data: "CostAmount", title: "Cost.Amt" },
-                        { data: "ChargeCode", title: "Charge.Cde" },
-                        { data: "ChargeAmount", title: "Charge.Amt" },
+                        { data: "CustCode", title: "Customer" },
+                        { data: "SICode", title: "Cost Code" },
+                        { data: "SDescription", title: "Description" },
+                        { data: "CostAmount", title: "Buy Rate" },
+                        { data: "ChargeCode", title: "Charge Code" },
+                        { data: "ChargeAmount", title: "Sale Rate" },
                         { data: "Location", title: "Location" }
                     ],
                     destroy:true
                 });
-                ChangeLanguageGrid('@ViewBag.Module', '#tbPrice');
+                //ChangeLanguageGrid('@ViewBag.Module', '#tbPrice');
                 $('#tbPrice tbody').on('click', 'tr', function () {
                     $('#tbPrice tbody > tr').removeClass('selected');
                     $(this).addClass('selected');
@@ -465,7 +469,7 @@ End Code
         });
     }
     function SetPlace(id, val) {
-        $.get(path + 'Master/GetTransportPlace?Type='+ id +'&Code=' + val).done(function (r) {
+        $.get(path + 'Master/GetTransportPlace?Type=' + id + '&Code=' + val.toString().replace("'", "''")).done(function (r) {
             if (r.transportplace.data.length > 0) {
                 let d = r.transportplace.data[0];
                 $('#txtAddress'+ d.PlaceType).val(d.PlaceAddress);
@@ -515,6 +519,18 @@ End Code
         }
         $('#txtLocationRoute').val(str);
     }
+    function DeletePlace(id) {
+        let pname = $('#txtPlace' + id).val();
+        ShowConfirm('Please confirm to delete', function (ask) {
+            if (ask == true) {
+                $.get(path + 'Master/DelTransportPlace?Type=' + id + '&Code=' + pname).done(function (r) {
+                    ShowMessage(r.transportplace.result);
+                    ShowData();
+                });
+            }
+        });
+    }
+
     function SavePlace(id) {
         let pname = $('#txtPlace' + id).val();
         let obj = {

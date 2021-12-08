@@ -41,7 +41,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-2">
-                        <a onclick="SearchData('bank')"><label id="lblBankCode">Bank Code :</label></a>                            
+                        <a onclick="SearchData('bank')"><label id="lblBankCode">Bank Code :</label></a>
                         <br />
                         <input type="text" id="txtBankCode" class="form-control" tabIndex="5">
                     </div>
@@ -83,7 +83,7 @@ End Code
                         <label id="lblGLAccountCode">
                             GL Code :
                         </label>
-                        <br/>
+                        <br />
                         <div style="display:flex">
                             <input type="text" id="txtGLAccountCode" class="form-control" />
                             <input type="button" class="btn btn-default" value="..." onclick="SearchData('acccode')" />
@@ -91,23 +91,29 @@ End Code
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <label id="lblPhone">
                             Phone :
                         </label>
                         <br /><input type="text" id="txtPhone" class="form-control" tabIndex="12">
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <label id="lblFaxNumber">
                             Fax :
                         </label>
                         <br /><input type="text" id="txtFaxNumber" class="form-control" tabIndex="13">
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <label id="lblLimitBalance">
                             Minimum Balance :
                         </label>
                         <br /><input type="number" id="txtLimitBalance" class="form-control" tabIndex="14">
+                    </div>
+                    <div class="col-sm-3">
+                        <label id="lblControlBalance">
+                            Control Balance :
+                        </label>
+                        <br /><input type="number" id="txtControlBalance" class="form-control" tabIndex="14">
                     </div>
                 </div>
             </div>
@@ -125,8 +131,11 @@ End Code
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData('book')">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
+                <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
+                    <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Petty Cash</b>
+                </a>
             </div>
-            <br/>
+            <br />
             <table id="tbBalance" class="table table-responsive">
                 <thead>
                     <tr>
@@ -140,6 +149,64 @@ End Code
                 </thead>
                 <tbody></tbody>
             </table>
+            <br />
+            <a href="#" class="btn btn-warning" id="btnChange" onclick="ShowPayment()">
+                <i class="fa fa-lg fa-check"></i>&nbsp;<b id="linkChange">Refund Account</b>
+            </a>
+            <a href="#" class="btn btn-primary" id="btnHistory" onclick="ShowApprove()">
+                <i class="fa fa-lg fa-search"></i>&nbsp;<b id="linkSearchApprove">Print Summary</b>
+            </a>
+            <div id="dvApprove" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <b>List of Approved Documents</b>
+                        </div>
+                        <div class="modal-body">
+                            <table id="tbApprove" class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Ref#</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger" data-dismiss="modal">X</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="dvPayment" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            From <input type="date" id="txtDateFrom" /> To <input type="date" id="txtDateTo" />
+                            <input type="button" id="btnRefresh" class="btn btn-primary" value="Show" onclick="SetGridPayment()" />
+                        </div>
+                        <div class="modal-body">
+                            <table id="tbPayment" class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Doc</th>
+                                        <th>Desc</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <div style="float:left">
+                                Balance <input type="number" id="txtBalance" disabled />
+                                Refund Date <input type="date" id="txtDocDate" />
+                                <button class="btn btn-success" onclick="SavePettyCash()">Save</button>
+                            </div>
+                            <button class="btn btn-danger" data-dismiss="modal">X</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div id="dvLOVs"></div>
     </div>
@@ -147,11 +214,10 @@ End Code
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
-    //$(document).ready(function () {
-        SetEvents();
-        SetEnterToTab();
-        ClearData();
-    //});
+    let user = '@ViewBag.User';
+    SetEvents();
+    SetEnterToTab();
+    ClearData();
     function SetEvents() {
         $('#txtBranchCode').keydown(function (event) {
             if (event.which == 13) {
@@ -262,8 +328,9 @@ End Code
         $('#txtEAddress1').val(dr.EAddress1);
         $('#txtEAddress2').val(dr.EAddress2);
         $('#txtPhone').val(dr.Phone);
-        $('#txtFaxNumber').val(dr.FaxNumber);        
-        $('#txtLimitBalance').val(dr.LimitBalance);   
+        $('#txtFaxNumber').val(dr.FaxNumber);
+        $('#txtLimitBalance').val(dr.LimitBalance);
+        $('#txtControlBalance').val(dr.ControlBalance);
         ShowBalance();
     }
     function ShowBalance() {
@@ -274,12 +341,42 @@ End Code
                 let t=$('#tbBalance').DataTable({
                     data: tb,
                     columns: [
-                        { data: "SumCash" },
-                        { data: "SumCashInBank" },
-                        { data: "SumChqOnhand" },
-                        { data: "SumChqReturn" },
-                        { data: "SumCredit" },
-                        { data: "SumBal" }
+                        {
+                            data: "SumCash",
+                            render: function (data) {
+                                return CDbl(data, 2);
+                            }
+                        },
+                        {
+                            data: "SumCashInBank",
+                            render: function (data) {
+                                return CDbl(data, 2);
+                            }
+                        },
+                        {
+                            data: "SumChqOnhand",
+                            render: function (data) {
+                                return CDbl(data, 2);
+                            }
+                        },
+                        {
+                            data: "SumChqReturn",
+                            render: function (data) {
+                                return CDbl(data, 2);
+                            }
+                        },
+                        {
+                            data: "SumCredit",
+                            render: function (data) {
+                                return CDbl(data, 2);
+                            }
+                        },
+                        {
+                            data: "SumBal",
+                            render: function (data) {
+                                return CDbl(data, 2);
+                            }
+                        }
                     ],
                     responsive:true,
                     destroy:true
@@ -304,7 +401,8 @@ End Code
             Phone:$('#txtPhone').val(),
             FaxNumber: $('#txtFaxNumber').val(),
             LimitBalance: $('#txtLimitBalance').val(),
-            GLAccountCode: $('#txtGLAccountCode').val()
+            GLAccountCode: $('#txtGLAccountCode').val(),
+            ControlBalance: $('#txtControlBalance').val()
         };
         if (obj.BookCode != "") {
             ShowConfirm('Please confirm to save', function (ask) {
@@ -348,8 +446,223 @@ End Code
         $('#txtPhone').val('');
         $('#txtFaxNumber').val('');
         $('#txtBookCode').focus();
-        $('#txtLimitBalance').val(0);   
+        $('#txtLimitBalance').val(0);
+        $('#txtControlBalance').val(0);
         $('#txtGLAccountCode').val('');
         $('#tbBalance').DataTable().clear().draw();
+        $('#tbApprove').DataTable().clear().draw();
+        $('#tbPayment').DataTable().clear().draw();
+    }
+    function PrintData() {
+        window.open(path + 'Acc/FormPettyCash?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtBookCode').val(), '', '');
+    }
+    function ShowApprove() {
+        $('#dvApprove').modal('show');
+        SetGridApprove();
+    }
+    function SetGridApprove() {
+        let w = '';
+        w = w + '&Code=' + $('#txtBookCode').val();
+
+        $.get(path + 'acc/getpettycashlist?branch=' + $('#txtBranchCode').val() + w, function (r) {
+            if (r.pettycash.header.length == 0) {
+                $('#tbApprove').DataTable().clear().draw();
+                ShowMessage('Data not found', true);
+                return;
+            }
+            let h = r.pettycash.header;
+            $('#tbApprove').DataTable().destroy();
+            $('#tbApprove').empty();
+            let tb = $('#tbApprove').DataTable({
+                data: h,
+                selected: true, //ให้สามารถเลือกแถวได้
+                columns: [ //กำหนด property ของ header column
+                    { data: "PostRefNo", title: "Ref#" },
+                    { data: "PostedDate", title: "Date#" }
+                ],
+                responsive: true,
+                destroy: true
+            });
+            $('#tbApprove tbody').on('dblclick', 'tr', function () {
+                let data = $('#tbApprove').DataTable().row(this).data(); //read current row selected
+                window.open(path + 'acc/formpettycash?Branch=' + $('#txtBranchCode').val() + '&DocNo=' + data.PostRefNo, '', '');
+            });
+        });
+    }
+    function ShowPayment() {
+        $('#txtDateFrom').val('');
+        $('#txtDateTo').val('');
+        $('#txtDocDate').val(GetToday());
+        SetGridPayment();
+        $('#dvPayment').modal('show');
+    }
+    function SetGridPayment() {
+        arr = [];
+        let br =  $('#txtBranchCode').val();
+        let bk = $('#txtBookCode').val();
+        let dfrom = CDateEN($('#txtDateFrom').val());
+        let dto = CDateEN($('#txtDateTo').val());
+        let w = '';
+        if (dfrom !== '') {
+            w += '&DateFrom=' + dfrom;
+        }
+        if (dto !== '') {
+            w += '&DateTo=' + dto;
+        }
+        $.get(path + 'Acc/GetVoucherDetail?BranchCode=' + br + '&BookNo=' + bk +w).done(function (r) {
+            if (r.data.detail.length > 0) {
+                let dh = r.data.header[0].Table;
+                let total = 0;
+                for (let r of dh) {
+                    total += Number(r.Net);
+                }
+                $('#txtBalance').val(CDbl(total, 2));
+
+                let dr = r.data.detail[0].Table;
+                arr = dr;
+                $('#tbPayment').DataTable().destroy();
+                $('#tbPayment').empty();
+                $('#tbPayment').DataTable({
+                    data: dr,
+                    selected: true, //ให้สามารถเลือกแถวได้
+                    columns: [ //กำหนด property ของ header column
+                        { data: "DocNo", title: "Doc#" },
+                        { data: "SDescription", title: "Desc" },
+                        { data: "TotalNet", title: "Amount" }
+                    ],
+                    responsive: true,
+                    destroy: true
+                });
+            }
+        });
+    }
+    function SavePettyCash() {
+
+        let obj = {
+            BranchCode:$('#txtBranchCode').val(),
+            ControlNo:'',
+            VoucherDate:CDateEN($('#txtDocDate').val()),
+            TRemark:'Refund Petty Cash ' + $('#txtBookCode').val() + '#' + CDateEN(GetToday()),
+            RecUser: user,
+            RecDate: CDateEN(GetToday()),
+            RecTime: GetTime(),
+            PostedBy:'',
+            PostedDate:null,
+            PostedTime:null,
+            CancelReson:'',
+            CancelProve:'',
+            CancelDate:null,
+            CancelTime: null,
+            CustCode: '',
+            CustBranch: '',
+            PostRefNo:''
+        };
+        let jsonText = JSON.stringify({ data: obj });
+        //ShowMessage(jsonText);
+        $.ajax({
+            url: "@Url.Action("SetVoucherHeader", "Acc")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonText,
+            success: function (response) {
+                if (response.result.data != null) {
+                    SavePayment(response.result.data);
+                    return;
+                }
+                ShowMessage(response.result.msg);
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
+    }
+    function SavePayment(docno) {
+        let prType = 'R';
+        let amt = CNum(Math.abs($('#txtBalance').val()));
+        let obj = {
+            BranchCode: $('#txtBranchCode').val(),
+            ControlNo: docno,
+            ItemNo: 0,
+            PRVoucher:'',
+            PRType:prType,
+            ChqNo:'',
+            BookCode:$('#txtBookCode').val(),
+            BankCode:$('#txtBankCode').val(),
+            BankBranch:$('#txtBankBranch').val(),
+            ChqDate: CDateEN($('#txtDocDate').val()),
+            CashAmount: amt,
+            ChqAmount: 0,
+            CreditAmount: 0,
+            SumAmount: amt,
+            CurrencyCode: '@ViewBag.PROFILE_CURRENCY',
+            ExchangeRate: 1,
+            TotalAmount: amt,
+            VatExc: 0,
+            VatInc: 0,
+            WhtExc: 0,
+            WhtInc: 0,
+            TotalNet: amt,
+            IsLocal:0,
+            ChqStatus:'C',
+            TRemark:'',
+            PayChqTo:'',
+            DocNo: '',
+            SICode: '',
+            RecvBank: '',
+            RecvBranch: '',
+            acType: 'CA',
+            ForJNo: ''
+        };
+
+        let jsonText = JSON.stringify({ data:[ obj ]});
+        //ShowMessage(jsonText);
+        $.ajax({
+            url: "@Url.Action("SetVoucherSub", "Acc")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonText,
+            success: function (response) {
+                if (response.result.data.length>0) {
+                    ApproveData(response.result.data[0].ControlNo);
+                    return;
+                }
+                ShowMessage(response.result.msg);
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
+    }
+    function ApproveData(docno) {
+        if (arr.length < 0) {
+            ShowMessage('No data to approve',true);
+            return;
+        }
+        let dataApp = [];
+        dataApp.push(user);
+        for (let i = 0; i < arr.length; i++) {
+            if (dataApp.indexOf($('#txtBranchCode').val() + '|' + arr[i].ControlNo) < 0) {
+                dataApp.push($('#txtBranchCode').val() + '|' + arr[i].ControlNo);
+            }
+        }
+        dataApp.push($('#txtBranchCode').val() + '|' + docno);
+
+        let jsonString = JSON.stringify({ data: dataApp });
+        $.ajax({
+            url: "@Url.Action("ApprovePettyCash", "Acc")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonString,
+            success: function (response) {
+                $('#dvPayment').modal('hide');
+                ShowBalance();
+                response ? ShowMessage("Approve Complete") : ShowMessage("Cannot Approve");
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
+        return;
+
     }
 </script>

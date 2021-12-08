@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Customs Port"
+    ViewBag.Title = "Customs Inspection Areas"
 End Code
 <div class="panel-body">
     <div class="container">

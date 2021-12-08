@@ -47,7 +47,7 @@ End Code
                 <table id="tbHeader" class="table table-responsive">
                     <thead>
                         <tr>
-                            <th>DocNo</th>
+                            <th class="all">DocNo</th>
                             <th class="desktop">DocDate</th>
                             <th class="desktop">CustCode</th>
                             <th class="desktop">Remark</th>
@@ -155,20 +155,25 @@ End Code
     let custcode = getQueryString("custcode");
     let custbranch = getQueryString("custbranch");
     let creditdays = 0;
-    if (custcode !== '') {
-        $('#txtBranchCode').val(branch);
-        ShowBranch(path, branch, '#txtBranchName');
 
-        $('#txtCustCode').val(custcode);
-        $('#txtCustBranch').val(custbranch);
-        //ShowCustomer(path, custcode, custbranch, '#txtCustName');
-        CallBackQueryCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), ReadCustomer);
-    } else {
-        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
-    }
     SetEvents();
+
     function SetEvents() {
+        if (custcode !== '') {
+            $('#txtBranchCode').val(branch);
+            ShowBranch(path, branch, '#txtBranchName');
+
+            $('#txtCustCode').val(custcode);
+            $('#txtCustBranch').val(custbranch);
+            //ShowCustomer(path, custcode, custbranch, '#txtCustName');
+            CallBackQueryCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), ReadCustomer);
+        } else {
+            $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+            $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        }
+
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
         //Events
         $('#txtBranchCode').keydown(function (event) {
             if (event.which == 13) {
@@ -493,7 +498,7 @@ End Code
                 data.push({
                     BranchCode: obj.BranchCode,
                     BillAcceptNo: no,
-                    ItemNo: i,
+                    ItemNo: 0,
                     InvNo: obj.DocNo,
                     InvDate: obj.DocDate,
                     RefNo:obj.RefNo,

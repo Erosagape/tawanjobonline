@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Billing Payment"
+    ViewBag.Title = "Bill Payments"
 End Code
 <div class="row">
     <div class="col-sm-4">
@@ -37,11 +37,12 @@ End Code
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtVenCode" style="width:20%" />
-            <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('vender')">...</button>
+            <button id="btnBrowseVend" class="btn btn-default" onclick="SearchData('vender')">...</button>
             <input type="text" class="form-control" id="txtVenName" style="width:100%" disabled />
         </div>
     </div>
     <div class="col-sm-2">
+        <input type="checkbox" id="chkCancel" /><label id="lblCancel">Show Cancel</label>
         <br />
         <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
             <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
@@ -57,11 +58,13 @@ End Code
             <thead>
                 <tr>
                     <th>DocNo</th>
-                    <th class="desktop">DocDate</th>
-                    <th class="desktop">VenCode</th>
+                    <th class="desktop">Job.No</th>
+                    <th class="desktop">Booking</th>
+                    <th class="desktop">Customer</th>
+                    <th class="all">Container</th>
+                    <th class="desktop">Vender.Inv</th>
                     <th class="all">Approve No</th>
-                    <th class="all">Reference</th>
-                    <th class="desktop">Po.No</th>
+                    <th class="desktop">Payment.No</th>
                     <th class="desktop">Amount</th>
                     <th class="desktop">WT</th>
                     <th class="desktop">VAT</th>
@@ -73,11 +76,11 @@ End Code
 </div>
 <div class="row">
     <div class="col-sm-3">
-        Print Approval Form:<br/>
+        Print Approval Form:<br />
         <input type="text" class="form-control" id="txtApproveRef" />
     </div>
     <div class="col-sm-2">
-        <br/>
+        <br />
         <a href="#" class="btn btn-info" id="btnPrnBill" onclick="PrintData()">
             <i class="fa fa-lg fa-print"></i>
         </a>
@@ -88,17 +91,31 @@ End Code
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
+    const userGroup = '@ViewBag.UserGroup';
     //$(document).ready(function () {
     SetEvents();
     //});
     function SetEvents() {
+        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
 
+        if (userGroup == 'V') {
+            $('#txtVenCode').attr('disabled', 'disabled');
+            $('#txtVenName').attr('disabled', 'disabled');
+            $('#btnBrowseVend').attr('disabled', 'disabled');
+            $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
+                if (r.vender.data.length > 0) {
+                    let dr = r.vender.data[0];
+                    $('#txtVenCode').val(dr.VenCode);
+                    $('#txtVenName').val(dr.TName);
+                }
+            });
+        }
         //default values
         $('#txtCurrencyCode').val('THB');
         ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
-
-        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
 
         //Events
         $('#txtBranchCode').focusout(function (event) {
@@ -162,14 +179,14 @@ End Code
         if ($('#txtDocDateT').val() !== "") {
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
-        w = w + '&currency=' + $('#txtCurrencyCode').val();
-        $.get(path + 'acc/getpayment?branch=' + $('#txtBranchCode').val() + w, function (r) {
-            if (r.payment.header.length == 0) {
+        w = w + '&show='+ ($('#chkCancel').prop('checked')?'CANCEL':'ACTIVE') +'&currency=' + $('#txtCurrencyCode').val();
+        $.get(path + 'acc/getpaymentsummary?branch=' + $('#txtBranchCode').val() + w, function (r) {
+            if (r.payment.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.payment.header;
+            let h = r.payment.data;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
             let tb=$('#tbHeader').DataTable({
@@ -177,36 +194,33 @@ End Code
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
                     { data: "DocNo", title: "Pay.No" },
+                    { data: "JobNo", title: "JobNo" },
+                    { data: "BookingRefNo", title: "Booking" },
+                    { data: "CustCode", title: "Customer" },
+                    { data: "RefNo", title: "Container.No" },
+                    { data: "PoNo", title: "Vender.Inv" },
+                    { data: "ApproveRef", title: "Approve.Ref" },
+                    { data: "PaymentRef", title: "Payment.Ref" },
                     {
-                        data: "DocDate", title: "Due Date",
-                        render: function (data) {
-                            return CDateEN(data);
-                        }
-                    },
-                    { data: "VenCode", title: "Vender" },
-                    { data: "ApproveRef", title: "Approve.No" },
-                    { data: "RefNo", title: "Ref.No" },
-                    { data: "PoNo", title: "PO.No" },
-                    {
-                        data: "TotalExpense", title: "Amount",
+                        data: "Amt", title: "Amount",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalVAT", title: "VAT",
+                        data: "AmtVat", title: "VAT",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalTax", title: "Tax",
+                        data: "AmtTax50Tavi", title: "Tax",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalNet", title: "Net",
+                        data: "Total", title: "Net",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
@@ -215,7 +229,7 @@ End Code
                 responsive: true,
                 destroy:true
             });
-            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
+            //ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 SetSelect('#tbHeader', this);
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
@@ -223,7 +237,7 @@ End Code
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo,'','');
+                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo + '&Job=' + data.JobNo +'&BookNo='+ data.BookingRefNo +'&Item=' + data.BookingItemNo,'','');
             });
         });
     }

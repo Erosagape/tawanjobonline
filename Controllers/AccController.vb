@@ -2279,8 +2279,13 @@ ORDER BY a.TName1
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     If "" & data.DocNo = "" Then
+                        Dim invHeadDefault = GetValueConfig("RUNNING_FORMAT", "INV", invPrefix)
                         If data.DocType = "" Then
-                            data.DocType = GetValueConfig("RUNNING_FORMAT", "INV", invPrefix)
+                            data.DocType = "INV"
+                        End If
+                        Dim invHeadConfig = GetValueConfig("RUNNING_FORMAT", data.DocType, "IVS-")
+                        If invHeadConfig <> invHeadDefault And invHeadConfig <> "" Then
+                            invHeadDefault = invHeadConfig
                         End If
                         If data.DocDate = DateTime.MinValue Then
                             data.DocDate = Today
@@ -2299,7 +2304,7 @@ ORDER BY a.TName1
                         Else
                             fmt = data.DocDate.ToString("yyMM") & "____"
                         End If
-                        data.AddNew(data.DocType & fmt)
+                        data.AddNew(invHeadDefault & fmt)
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' ", data.BranchCode, data.DocNo))
                     Dim json = "{""result"":{""data"":""" & data.DocNo & """,""msg"":""" & msg & """}}"

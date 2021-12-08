@@ -345,9 +345,9 @@ End Code
                         }
                     },
                     {
-                        data: "TotalChargeVAT", title: "Charge",
+                        data: null, title: "Charge",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber((Number(data.TotalChargeNonVAT)+Number(data.TotalChargeVAT)), 2);
                         }
                     },
                     {
@@ -564,6 +564,8 @@ End Code
     function SetLOVs() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Customers

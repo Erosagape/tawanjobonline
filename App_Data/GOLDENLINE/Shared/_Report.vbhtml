@@ -26,7 +26,8 @@
                 <div id="divCompany" style="text-align:left;color:darkblue;font-size:14px">
                     <span style="font-size:16px;font-weight:bold;">@ViewBag.PROFILE_COMPANY_NAME</span>
                     <br />@ViewBag.PROFILE_COMPANY_ADDR1 <br /> @ViewBag.PROFILE_COMPANY_ADDR2
-                    <br />Tel @ViewBag.PROFILE_COMPANY_TEL Fax @ViewBag.PROFILE_COMPANY_FAX Website http://www.goldenline-th.com
+                    <br />Tel @ViewBag.PROFILE_COMPANY_TEL Fax @ViewBag.PROFILE_COMPANY_FAX
+		    <br /> Website http://www.goldenline-th.com
                     <br />Tax-ID : @ViewBag.PROFILE_TAXNUMBER Branch HEAD OFFICE
                 </div>
             </div>

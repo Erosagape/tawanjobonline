@@ -13,7 +13,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-4">
-        <label id="lblJNo">Job No :</label>
+        <label id="lblJNo" style="color:red;" onclick="OpenJob()">Job Number</label>
         <br />
         <div style="display:flex">
             <input type="text" id="txtJNo" class="form-control">
@@ -103,7 +103,7 @@ End Code
 </div>
 <div class="row">
     <div class="col-sm-2">
-        <label id="lblVATRate">Vat Rate:</label>        
+        <label id="lblVATRate">Vat Rate:</label>
         <br />
         <div style="display:flex">
             <input type="number" id="txtAmtVatRate" class="form-control" value="0.00" onchange="CalTotal()">
@@ -117,7 +117,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblWHTRate">Wht Rate:</label>        
+        <label id="lblWHTRate">Wht Rate:</label>
         <br />
         <div style="display:flex">
             <input type="number" id="txtAmtWhtRate" class="form-control" value="0.00" onchange="CalTotal()">
@@ -131,12 +131,20 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblTotal">Total:</label>
+        <label id="lblNetTotal">Net Total:</label>
         <br />
         <div style="display:flex">
             <input type="number" id="txtAmtTotal" class="form-control" value="0.00">
         </div>
     </div>
+    <div class="col-sm-2">
+        <label id="lblGrandTotal">Grand Total :</label>
+        <br />
+        <div style="display:flex">
+            <input type="number" id="txtTotal" class="form-control w3-red" style="font-weight:bold;" value="0.00" disabled>
+        </div>
+    </div>
+
 </div>
 <div id="dvCommand">
     <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearData()">
@@ -163,6 +171,7 @@ End Code
                 <th>JNo</th>
                 <th>AmountCharge</th>
                 <th>Clear.No</th>
+                <th>AmountClear</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -228,6 +237,7 @@ End Code
             $.get(path + 'adv/delclearexp?branch=' + branch + '&code=' + code + '&job=' + job, function (r) {
                 ShowMessage(r.estimate.result);
                 ClearData();
+                RefreshGrid();
             });
         });
     }
@@ -325,11 +335,21 @@ End Code
                 $('#tbData').DataTable().clear().draw();
                 return;
             }
+            let tot = 0;
+            for (let row of r.estimate.data) {
+                tot += Number(row.AmtTotal);
+            }
+            $('#txtTotal').val(CDbl(tot,2));
             let tb= $('#tbData').dataTable({
                 data: r.estimate.data,
                 columns: [
                     { data: "SICode", title: "Code" },
-                    { data: "SDescription", title: "Name" },
+                    {
+                        data: null, title: "Name",
+                        render: function (data) {
+                            return data.SDescription + ' / ' + data.Qty + 'x'+ data.QtyUnit;
+                        }
+                    },
                     {
                         data: null, title: "Status",
                         render: function (data) {
@@ -345,12 +365,18 @@ End Code
                     },
                     { data: "JNo", title: "Job No" },
                     {
-                        data: "AmountCharge", title: "Charge",
+                        data: "AmtTotal", title: "Charge",
                         render: function (data) {
                             return ShowNumber(data, 2);
                         }
                     },
-                    { data: "ClrNo", title: "Clearing No" }
+                    { data: "ClrNo", title: "Clearing No" },
+                    {
+                        data: "CostAmount", title: "Clear.Amt",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    }
                 ],
                 destroy: true,
                 responsive:true
@@ -463,6 +489,9 @@ End Code
                 RefreshGrid();
             }
         });
+    }
+    function OpenJob() {
+        window.open(path + 'JobOrder/ShowJob?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
     }
 
     function PrintData() {

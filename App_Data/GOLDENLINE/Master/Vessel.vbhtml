@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Vessel/Vehicles"
+    ViewBag.Title = "Vessel"
 End Code
 <div class="panel-body">
     <div class="container">
