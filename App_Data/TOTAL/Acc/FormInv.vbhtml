@@ -1,5 +1,5 @@
 ﻿@Code
-    Layout = "~/Views/Shared/_ReportLetter.vbhtml"
+    Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Invoice Slip"
 End Code
 <style>
@@ -351,16 +351,14 @@ End Code
     let bShowSlip = false;
     let branch = getQueryString('branch');
     let code = getQueryString('code');
-    /*----------
-     * unlock when need to change laybout to _report.vbhtml
-     * ---------
+
     if(confirm("show company header?")==false){
 	    $('#imgLogo').css('display','none');
 	    $('#divCompany').css('display','none');
 	    $('#dvCompAddr').css('display','none');
 	    $('#dvCompLogo').css('height','90px');
     }
-    */
+
     $.get(path + 'Acc/GetInvoice?Branch=' + branch + '&Code=' + code).done(function (r) {
         if (r.invoice.header.length > 0) {
             let h = r.invoice.header[0][0];

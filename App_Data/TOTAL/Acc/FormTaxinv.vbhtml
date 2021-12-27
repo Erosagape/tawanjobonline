@@ -1,6 +1,6 @@
 ﻿
 @Code
-    Layout = "~/Views/Shared/_Report.vbhtml"
+    Layout = "~/Views/Shared/_ReportNoHead.vbhtml"
     ViewBag.Title = "Tax-Invoice Slip"
 End Code
 <style>
@@ -17,16 +17,61 @@ End Code
     }
 
     table {
+        border:none;
         border-width: thin;
         border-collapse: collapse;
+        page-break-inside: avoid
     }
 
     #dvFooter, #pFooter {
         display: none;
     }
+
+    thead {
+        display: table-row-group
+    }
+
+    tfoot {
+        display: table-row-group
+    }
+
+    /* tr {
+        page-break-inside: avoid
+    }*/
 </style>
+<div id="dvTitle" style="display:flex;flex-direction:column">
+    <div style="display:flex" id="dvCompLogo">
+        <div style="flex:1;vertical-align:middle">
+            <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:50px" />
+        </div>
+        <div style="flex:4;padding:5px;">
+            <div id="divCompany" style="text-align:left;color:darkblue;font-size:12px;">
+                <div style="height:25px;">
+                    <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME_EN</b>
+                </div>
+                <div>
+                    <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME</b>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="font-size:10px;" id="dvCompAddr">
+        @ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2 โทร @ViewBag.PROFILE_COMPANY_TEL แฟกซ์ @ViewBag.PROFILE_COMPANY_FAX
+        <br />@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN TEL @ViewBag.PROFILE_COMPANY_TEL FAX @ViewBag.PROFILE_COMPANY_FAX
+        <br />เลขประจำตัวผู้เสียภาษี @ViewBag.PROFILE_TAXNUMBER สาขา: สำนักงานใหญ่
+    </div>
+</div>
+<div id="dvTemp" style="display:none">
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+</div>
 <div style="display:flex;flex-direction:column;height:900px;">
     <div style="text-align:center;width:100%;">
+        <br/>
         <label style="font-size:16px;font-weight:bold;" id="lblDocType">ใบเสร็จรับเงิน/ใบกำกับภาษี (RECEIPT/TAX-INVOICE)</label>
     </div>
     <br />
@@ -44,7 +89,7 @@ End Code
         </div>
     </div>
     -->
-    <div style="display:flex;width:99%">
+    <div style="display:flex;width:96%">
         <div style="flex:3;border:1px solid black;border-radius:5px;">
             NAME : <label id="lblCustName"></label><br />
             ADDRESS : <label id="lblCustAddr1"></label><br />
@@ -60,7 +105,7 @@ End Code
         </div>
     </div>
     <br />
-    <div style="display:flex;width:99%;border:1px solid black;border-radius:5px;">
+    <div style="display:flex;width:96%;border:1px solid black;border-radius:5px;">
         <div style="flex:2">
             <div class="row">
                 <p class="col-sm-12">
@@ -124,30 +169,36 @@ End Code
             </div>
         </div>
     </div>
-    <table border="1" style="border-style:solid;width:99%; margin-top:5px" class="text-center">
+    <br/>
+    <table style="width:96%; margin-top:5px" class="text-center">
         <thead>
-            <tr style="background-color:lightblue;">
-                <th height="40" width="60">INV.NO.</th>
-                <th width="320">DESCRIPTION</th>
-                <th width="60">SERVICE</th>
+            <tr style="background-color: lightblue; border-style: solid; border-width: thin;">
+                <th height="40" width="60" style="border-right:solid;border-width:thin">INV.NO.</th>
+                <th width="320" style="border-right:solid;border-width:thin">DESCRIPTION</th>
+                <th width="60" style="border-right:solid;border-width:thin">ADVANCE</th>
+                <th width="60" style="border-right:solid;border-width:thin">NON-VAT</th>
                 <th width="30">VAT</th>
-                <th width="30">WHT</th>
+                <!--<th width="30">WHT</th>-->
             </tr>
         </thead>
         <tbody id="tbDetail"></tbody>
         <tfoot>
-            <tr style="background-color:lightblue;text-align:right;">
-                <td colspan="2" style="text-align:center"><label id="lblTotalText"></label></td>
-                <td colspan="2">TOTAL AMOUNT</td>
-                <td colspan="1"><label id="lblTotalBeforeVAT"></label></td>
+            <tr style="background-color: lightblue; text-align: right; border-style: solid; border-width: thin;">
+                <td colspan="2" style="border-left:solid;border-width:thin;"></td>
+                <td colspan="1" style="border-left:solid;border-width:thin;"><label id="lblSubTotalAdv"></label></td>
+                <td colspan="1" style="border-left:solid;border-width:thin;"><label id="lblSubTotalNonVat"></label></td>
+                <td colspan="1" style="border-left:solid;border-width:thin;"><label id="lblSubTotalVat"></label></td>
+                <!--<td colspan="1"><label id="lblSubTotalWht"></label></td>-->
             </tr>
-            <tr style="background-color:lightblue;text-align:right;">
-                <td colspan="4">TOTAL VAT</td>
-                <td colspan="1"><label id="lblTotalVAT"></label></td>
+            <tr style="background-color:lightblue;text-align:right;border-style:solid;border-width:thin;">
+                <td colspan="2" style="border-left:solid;border-width:thin;"></td>
+                <td colspan="2" style="border-left:solid;border-width:thin;">TOTAL VAT</td>
+                <td colspan="1" style="border-left:solid;border-width:thin;"><label id="lblTotalVAT"></label></td>
             </tr>
-            <tr style="background-color:lightblue;text-align:right;">
-                <td colspan="4">TOTAL RECEIPT</td>
-                <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
+            <tr style="background-color: lightblue; text-align: right; border-style: solid; border-width: thin;">
+                <td colspan="2" style="text-align:center;border-left:solid;border-width:thin;"><label id="lblTotalText"></label></td>
+                <td colspan="2" style="border-left:solid;border-width:thin;">TOTAL AMOUNT</td>
+                <td colspan="1" style="border-left:solid;border-width:thin;"><label id="lblTotalAfterVAT"></label></td>
             </tr>
         </tfoot>
     </table>
@@ -201,11 +252,15 @@ End Code
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
     let receiptno = getQueryString('code');
+    let isShowHeader = true;
     if (confirm("show company header?") == false) {
-        $('#imgLogo').css('display', 'none');
-        $('#divCompany').css('display', 'none');
-        $('#dvCompAddr').css('display', 'none');
-        $('#dvCompLogo').css('height', '90px');
+        isShowHeader = false;
+        $('#dvTitle').css('display', 'none');
+        $('#dvTemp').css('display', 'inline');
+        //$('#imgLogo').css('display', 'none');
+        //$('#divCompany').css('display', 'none');
+        //$('#dvCompAddr').css('display', 'none');
+        //$('#dvCompLogo').css('height', '90px');
     }
     $.get(path + 'acc/getreceivereport?branch=' + branch + '&code=' + receiptno, function (r) {
         if (r.receipt.data.length !== null) {
@@ -285,32 +340,85 @@ End Code
             }
         });
         let html = '';
+	    let adv = 0;
+	    let nonvat = 0;
+	    let vat = 0;
         let service = 0;
-        let vat = 0;
+        let invvat = 0;
         let wht = 0;
         let total = 0;
+        let rowid = 0;
+        let pageid = 0;
+        let totalrow = 35;
+
+        let htmlHead = '<tr>';
+        htmlHead += '<td><br/></td>';
+        htmlHead += '<td></td>';
+        htmlHead += '<td></td>';
+        htmlHead += '<td></td>';
+        htmlHead += '<td></td>';
+        htmlHead += '</tr>';
 
         for (let d of dt) {
-            html = '<tr>';
-            html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
-            html += '<td>' + d.SDescription + '</td>';
-            html += '<td style="text-align:right">' + ShowNumber(d.InvAmt,2) + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'0.00') + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.Inv50Tavi,2):'0.00') + '</td>';
+            rowid++;
+            if ((rowid % totalrow == 0) && pageid == 0) {
+                if (isShowHeader == false) {
+                    html = '<tr><td colspan="5" style="border:none;"><br/><br/><br/><br/><br/><br/></td></tr>';
+                    $('#tbDetail').append(html);
+                }
+                pageid++;
+                $('#tbDetail').append(htmlHead);
+            } else {
+                if (isShowHeader == false) {
+                    if ((rowid - totalrow) % 47 == 0) {
+                        html = '<tr><td colspan="5" style="border:none;"><br/><br/><br/><br/><br/><br/><br/></td></tr>';
+                        $('#tbDetail').append(html);
+                    }
+                } else {
+                    if ((rowid - totalrow) % 52 == 0) {
+                        $('#tbDetail').append(htmlHead);
+                    }
+                }
+            }
+            html = '<tr style="border-style:solid;border-width:thin;">';
+            html += '<td style="text-align:center;white-space:nowrap;border-right:solid;border-width:thin;">' + d.InvoiceNo + '</td>';
+            html += '<td style="border-right:solid;border-width:thin;">' + d.SDescription + '</td>';
+            html += '<td style="text-align:right;border-right:solid;border-width:thin;">' + (d.AmtAdvance>0? ShowNumber(d.InvAmt,2):'0.00') + '</td>';
+            html += '<td style="text-align:right;border-right:solid;border-width:thin;">' + (d.AmtCharge>0&&d.InvVAT==0? ShowNumber(d.InvAmt,2):'0.00') + '</td>';
+            html += '<td style="text-align:right">' + (d.AmtCharge>0&&d.InvVAT>0? ShowNumber(d.InvAmt,2):'0.00') + '</td>';
             html += '</tr>';
 
             $('#tbDetail').append(html);
-            //if (d.AmtCharge > 0) {
-                service += Number(d.InvAmt);
-                vat += Number(d.InvVAT);
+
+  	        service += Number(d.InvAmt);
+            total += Number(d.InvAmt) + Number(d.InvVAT);
+
+            if (d.AmtAdvance > 0)
+            {
+		        adv += Number(d.InvAmt);
+            }
+
+            if (d.AmtCharge > 0) {
+		        if(d.InvVAT>0){
+		           vat += Number(d.InvAmt);
+                }
+                else
+                {
+		           nonvat += Number(d.InvAmt);
+		        }
+                invvat += Number(d.InvVAT);
                 wht += Number(d.Inv50Tavi);
-                total += Number(d.InvAmt) + Number(d.InvVAT);
-            //}
+            }
         }
-        $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
-        $('#lblTotalVAT').text(ShowNumber(vat, 2));
+
+        $('#lblSubTotalAdv').text(ShowNumber(adv,2));
+        $('#lblSubTotalNonVat').text(ShowNumber(nonvat,2));
+        $('#lblSubTotalVat').text(ShowNumber(vat,2));
+        //$('#lblSubTotalWht').text(ShowNumber(wht,2));
+        //$('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
+        $('#lblTotalVAT').text(ShowNumber(invvat, 2));
         $('#lblTotalAfterVAT').text(ShowNumber(total, 2));
-        $('#lblTotalText').text(CNumThai(total));
+        $('#lblTotalText').text(CNumThai(ShowNumber(total,2)));
 
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiptDate)));
@@ -339,7 +447,7 @@ End Code
                             break;
                         case 'CU':
                             $('#chkCheque').prop('checked', true);
-                            $('#lblChqDate').text(p.ChqDate);
+                            $('#lblChqDate').text(ShowDate(p.ChqDate));
                             $('#lblChqDate').css('text-decoration', 'underline');
                             $('#lblChqAmount').text(ShowNumber(p.ChqAmount, 2));
                             $('#lblChqAmount').css('text-decoration', 'underline');

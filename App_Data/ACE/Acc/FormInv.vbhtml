@@ -217,6 +217,7 @@ CUST PO: <label id="lblCustRefNo"></label>
 </div>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
+    var isUseEng = false;
     //$(document).ready(function () {
     let ans = confirm('OK to print Original or Cancel For Copy');
     if (ans == true) {
@@ -248,8 +249,10 @@ CUST PO: <label id="lblCustRefNo"></label>
                 if (r.company.data.length > 0) {
                      let c = r.company.data[0];
                      $('#lblTaxNumber').text(c.TaxNumber);               
-                     if (c.UsedLanguage == 'TH') {
-                        $('#lblTotalBaht').text('(' + CNumThai(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)), 2)) + ')');
+                    if (c.UsedLanguage == 'TH') {
+                        if (isUseEng==false) {
+                            $('#lblTotalBaht').text('(' + CNumThai(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)), 2)) + ')');
+                        }
                         if (Number(c.Branch) == 0) { 
                             $('#lblTaxBranch').text('สำนักงานใหญ่');
                         } else {
@@ -257,8 +260,10 @@ CUST PO: <label id="lblCustRefNo"></label>
                         }
                         $('#lblCustName').text(c.Title+' '+c.NameThai);
                         $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
-                     } else {                
-                        $('#lblTotalBaht').text('(' + CNumEng(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)), 2)) + ')');
+                    } else {
+                        if (isUseEng==false) {
+                            $('#lblTotalBaht').text('(' + CNumEng(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)), 2)) + ')');
+                        }
                         if (Number(c.Branch) == 0) { 
                             $('#lblTaxBranch').text('HEAD OFFICE');
                         } else {
@@ -309,10 +314,13 @@ CUST PO: <label id="lblCustRefNo"></label>
             $('#lblSumTotal').text(ShowNumber((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT)) / h.ExchangeRate,2));
             $('#lblSumGrandTotal').text(ShowNumber((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)) / h.ExchangeRate,2));
             if (h.DocNo.substr(0, 3) == 'IVF') {
+                isUseEng = true;
                 $('#lblTotalBaht').text('(' + CNumEng(CDbl((Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)), 2) / h.ExchangeRate) + ')');
             }
             if (h.CurrencyCode !== 'THB') {
+                isUseEng = true;
                 $('#dvForeign').css('display', 'none');
+                $('#lblTotalBaht').text('(' + CNumEng(CDbl(Number(h.ForeignNet),2)) + ')');
             }
             $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalNet), 2));
         }

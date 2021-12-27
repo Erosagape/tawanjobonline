@@ -1592,6 +1592,7 @@
     <Content Include="Views\Report\TruckProfit.vbhtml" />
     <Content Include="App_Data\THESOLUTION\JobOrder\FormJob.vbhtml" />
     <Content Include="Views\Shared\_ReportLetter.vbhtml" />
+    <Content Include="Views\Report\TruckProfitDetail.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
