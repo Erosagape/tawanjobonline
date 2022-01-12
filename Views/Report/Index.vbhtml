@@ -125,6 +125,48 @@
                     </div>
                 </div>
             </div>
+            <div style="display:flex;width:100%;flex-direction:column;display:none;" id="tbJobType">
+                <div style="display:flex;">
+                    <div style="flex:1">
+                        Job Type:
+                    </div>
+                    <div style="flex:2">
+                        <select class="form-control dropdown" id="txtJobType"></select>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; width: 100%; flex-direction: column; display: none;" id="tbShipBy">
+                <div style="display:flex;">
+                    <div style="flex:1">
+                        Ship By:
+                    </div>
+                    <div style="flex:2">
+                        <select class="form-control dropdown" id="txtShipBy"></select>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; width: 100%; flex-direction: column; display: none;" id="tbTransport">
+                <div style="display:flex;">
+                    <div style="flex:1">
+                        Transporter :
+                    </div>
+                    <div style="flex:2">
+                        <textarea id="txtTransportCliteria"></textarea>
+                        <input type="button" class="btn btn-default" onclick="BrowseCliteria('transport')" value="..." />
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; width: 100%; flex-direction: column; display: none;" id="tbForwarder">
+                <div style="display:flex;">
+                    <div style="flex:1">
+                        Agent :
+                    </div>
+                    <div style="flex:2">
+                        <textarea id="txtForwarderCliteria"></textarea>
+                        <input type="button" class="btn btn-default" onclick="BrowseCliteria('forwarder')" value="..." />
+                    </div>
+                </div>
+            </div>
         </div>
         <br/>
         <a href="#" class="btn btn-info" id="btnPrnJob" onclick="PrintReport()">
@@ -234,6 +276,8 @@
         $('#txtDateTo').val(GetLastDayOfMonth());
         var lists = "COMMERCIAL_LEVEL=#cboCommLevel";
         lists += ",REPORT_GROUP=#cboReportGroup";
+        lists += ",JOB_TYPE=#txtJobType";
+        lists += ",SHIP_BY=#txtShipBy";
         loadCombos(path, lists);
 
         $('#tbCode').hide();
@@ -250,10 +294,29 @@
             $('#btnPrnJob').show();
             SetSelect('#tbReportList', this);
             reportID = data.ReportCode;
-            if (src.ReportCliteria !== null) {
-                ReadCliteria(src.ReportCliteria + ',,,');
-            } else {
-                LoadCliteria(src.ReportCode);
+            switch (reportID) {
+                case 'JOBCOUNTIM':
+                    $('#tbDate').show();
+                    $('#tbEmp').show();
+                    $('#tbCust').show();
+                    $('#tbStatus').hide(); //hide
+                    $('#tbJob').hide();  //hide
+                    $('#tbVend').hide();  //hide
+                    $('#tbGroup').hide();
+                    $('#tbCode').hide();
+
+                    $('#tbJobType').show();
+                    $('#tbShipBy').show();
+                    $('#tbTransport').show();
+                    $('#tbForwarder').show();
+                    break;
+                default:
+                    if (src.ReportCliteria !== null) {
+                        ReadCliteria(src.ReportCliteria + ',,,');
+                    } else {
+                        LoadCliteria(src.ReportCode);
+                    }
+                    break;
             }
         });
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
@@ -311,6 +374,10 @@
         } else {
             $('#tbGroup').hide();
         }
+        $('#tbJobType').hide();
+        $('#tbShipBy').hide();
+        $('#tbTransport').hide();
+        $('#tbForwarder').hide();
     }
 
     function BrowseCliteria(what) {
@@ -326,6 +393,8 @@
                 $('#lblCliteria').text('Filter Data For Job');
                 break;
             case 'vend':
+            case 'transport':
+            case 'forwarder':
                 $('#lblCliteria').text('Filter Data For Vender');
                 break;
             case 'emp':
@@ -359,6 +428,8 @@
                 SetGridJob(path, '#tblJob', '#frmSearchJob', '', ReadData);
                 break;
             case 'vend':
+            case 'transport':
+            case 'forwarder':
                 SetGridVender(path, '#tblVend', '#frmSearchVend', ReadData);
                 break;
             case 'emp':
@@ -392,6 +463,8 @@
                 $('#txtValue').val(dr.JNo);
                 break;
             case 'vend':
+            case 'transport':
+            case 'forwarder':
                 $('#txtValue').val(dr.VenCode);
                 break;
             case 'emp':
@@ -406,6 +479,14 @@
     }
     function SetData() {
         let str = '[' + browseWhat + ']';
+        switch (browseWhat) {
+            case 'transport':
+                str = '[STATUS]';
+                break;
+            case 'forwarder':
+                str = '[CODE]';
+                break;
+        }
         if (cliterias.length > 0 && $('#selOption').val() == "OR") {
             str = $('#selOption').val() + str;
         }
@@ -436,6 +517,13 @@
                 break;
             case 'code':
                 $('#txtCodeCliteria').val(cliteria);
+                break;
+            case 'transport':
+                $('#txtTransportCliteria').val(cliteria);
+                break;
+            case 'forwarder':
+                $('#txtForwarderCliteria').val(cliteria);
+                break;
         }
         $('#dvCliteria').modal('hide');
     }
@@ -455,6 +543,25 @@
                     window.open(path +'Acc/FormWTax53D' + GetCliteria(), '', '');
                     break;
             }
+            return;
+        }
+        if (reportID == 'JOBCOUNTIM') {
+            let obj = {
+                branch: '[BRANCH]=' + $('#txtBranchCode').val(),
+                dateFrom: ($('#txtDateFrom').val() == '' ? '' : '[DATE]>=' + $('#txtDateFrom').val()),
+                dateTo: ($('#txtDateTo').val() == '' ? '' : '[DATE]<=' + $('#txtDateTo').val()),
+                custWhere: $('#txtCustCliteria').val(),
+                jobWhere: $('#txtJobType').val()=='' ? '': '[JOB]=' + $('#txtJobType').val(),
+                empWhere: $('#txtEmpCliteria').val(),
+                vendWhere: $('#txtShipBy').val() == '' ? '' :  '[VEND]='+$('#txtShipBy').val(),
+                statusWhere: $('#txtTransportCliteria').val(),
+                codeWhere: $('#txtForwarderCliteria').val(),
+                groupWhere: ''
+            };
+            let str = JSON.stringify(obj);
+            let qrystr = '?data=' + JSON.stringify(data) + '&cliteria=' + encodeURIComponent(str) + '&group=' + $('#cboReportGroup').val();
+
+            window.open(path + 'Report/Preview' + qrystr + '&Layout=', '', '');
             return;
         }
         switch (data.ReportType) {

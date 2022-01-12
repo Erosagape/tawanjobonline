@@ -353,6 +353,15 @@ Public Class CWHTaxHeader
             m_TeacherAmt = value
         End Set
     End Property
+    Private m_IsCSV As Integer
+    Public Property IsCSV As Double
+        Get
+            Return m_IsCSV
+        End Get
+        Set(value As Double)
+            m_IsCSV = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -404,7 +413,7 @@ Public Class CWHTaxHeader
                             dr("Branch1") = Main.GetDBString(Me.Branch1, dt.Columns("Branch1"))
                             dr("Branch2") = Main.GetDBString(Me.Branch2, dt.Columns("Branch2"))
                             dr("Branch3") = Main.GetDBString(Me.Branch3, dt.Columns("Branch3"))
-
+                            dr("IsCSV") = 0
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CWHTaxHeader", "SaveData", Me, False)
