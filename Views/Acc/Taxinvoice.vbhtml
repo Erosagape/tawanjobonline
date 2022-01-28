@@ -670,7 +670,7 @@ End Code
         } else {
             w += '&show=ACTIVE';
         }
-        $.get(path + 'acc/getReceipt?type=' + type + '&branch=' + $('#txtBranchCode').val() + w, function (r) {
+        $.get(path + 'acc/getreceiptgrid?type=' + type + '&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.receipt.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 ShowMessage('Data not found',true);
@@ -696,8 +696,8 @@ End Code
                         }
                     },
                     { data: "CustCode", title: "Customer" },
-                    { data: "ReceiveRef", title: "Reference Number" },
-                    { data: "TRemark", title: "Remark" },
+                    { data: "InvoiceNo", title: "Invoice No" },
+                    { data: "JobNo", title: "Job No" },
                     { data: "TotalCharge", title: "Amount",
                             render: function (data) {
                                 return ShowNumber(data, 2);
