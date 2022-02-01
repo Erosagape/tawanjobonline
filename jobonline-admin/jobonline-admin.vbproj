@@ -163,6 +163,7 @@
     </Compile>
     <Compile Include="Controllers\Main.vb" />
     <Compile Include="Models\CController.vb" />
+    <Compile Include="Models\CTest.vb" />
     <Compile Include="Models\CTWTLog.vb" />
     <Compile Include="Models\CTWTApp.vb" />
     <Compile Include="Models\CTWTCustomer.vb" />
@@ -240,6 +241,7 @@
     <Content Include="Views\Config\Log.vbhtml" />
     <Content Include="Views\Config\WebLogin.vbhtml" />
     <Content Include="Views\Test\ExcelReader.vbhtml" />
+    <Content Include="Views\Home\Test.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

@@ -63,3 +63,12 @@ File Program: D:\Web
 File Database: D:\Database
 File Backup Database :d:\BackupDB
 
+
+-----------------------------------
+SINOTHAI-JOB 203.150.199.181:14322
+-----------------------------------
+ID : Sinothai@inet.nx
+User :Administrator
+Pass :J{Uht8tdv
+DB : job_stm,job_stl
+Folder : D:\Web\STM

@@ -1,5 +1,13 @@
-﻿Public Class HomeController
+﻿Imports System.Web.Http
+
+Public Class HomeController
     Inherits CController
+    Function Test() As ActionResult
+        Return View()
+    End Function
+    Function TestPost(<FromBody()> data As CTest) As ActionResult
+        Return Content("Success " + data.Field1, "text/json")
+    End Function
     Function TestConnectLicense() As ActionResult
         Try
             Using cn As New SqlClient.SqlConnection(My.Settings.weblicenseConnection)
