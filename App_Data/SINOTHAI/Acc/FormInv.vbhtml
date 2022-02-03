@@ -427,6 +427,7 @@ End Code
         let sumtax1 = 0;
         let sumtax3 = 0;
         let sumadv = 0;
+	let sumserv = 0;
         let sumnonvat = 0;
         let irow = 0;
         if (d.length > 0) {
@@ -452,7 +453,9 @@ End Code
                 $('#tbDetail').append(html);
                 if (Number(o.AmtAdvance) > 0) {
                     sumadv += Number(o.AmtAdvance);
-                }
+                } else {
+                    sumserv += Number(o.AmtCharge);
+		}
                 if (o.AmtCharge > 0 && o.AmtVat == 0) {
                     sumnonvat += Number(o.AmtCharge);
                 }
@@ -481,7 +484,7 @@ End Code
         }
         $('#lblSumAdvance').text(ShowNumber(sumadv, 2));
         $('#lblSumNonVat').text(ShowNumber(sumnonvat, 2));
-        $('#lblSumTotal').text(ShowNumber(Number(sumadv) + Number(sumnonvat) + Number(sumbase1) + Number(sumbase3) + ((Number(h.TotalVAT)-Number(sumtax1+sumtax3))/h.ExchangeRate), 2));
+        $('#lblSumTotal').text(ShowNumber(Number(sumadv) + Number(sumserv) + (Number(h.TotalVAT)/h.ExchangeRate), 2));
         $('#lblSumBaseWht1').text(ShowNumber(sumbase1, 2));
         $('#lblSumBaseWht3').text(ShowNumber(sumbase3,2));
         $('#lblSumWht').text(ShowNumber((sumtax1 + sumtax3) / h.ExchangeRate, 2));
@@ -489,7 +492,7 @@ End Code
         $('#lblSumWht1').text(ShowNumber(sumtax1 / h.ExchangeRate,2));
         $('#lblSumWht3').text(ShowNumber(sumtax3 / h.ExchangeRate, 2));
 
-        $('#lblSumGrandTotal').text(ShowNumber(Number(sumadv) + Number(sumnonvat) + Number(sumbase3) + Number(sumbase1) + ((Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)) / h.ExchangeRate), 2));
+        $('#lblSumGrandTotal').text(ShowNumber(Number(sumadv) + Number(sumserv) + ((Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.TotalDiscount)) / h.ExchangeRate), 2));
         //$('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.Total50Tavi)-Number(h.TotalDiscount),2));
         $('#lblTotalBaht').text('(' + CNumEng($('#lblSumGrandTotal').text()) + ')');
 
