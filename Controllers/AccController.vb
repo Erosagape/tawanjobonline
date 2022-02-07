@@ -2776,6 +2776,10 @@ ORDER BY a.TName1
                 If Not IsNothing(Request.QueryString("Type")) Then
                     chqType = Request.QueryString("Type").ToString
                 End If
+                Dim payType = "P"
+                If Not IsNothing(Request.QueryString("Voucher")) Then
+                    payType = Request.QueryString("Voucher").ToString
+                End If
                 If Not IsNothing(Request.QueryString("Cust")) Then
                     tSqlw &= String.Format(" AND b.CustCode='{0}' ", Request.QueryString("Cust").ToString)
                 End If
@@ -2786,7 +2790,7 @@ ORDER BY a.TName1
                         tSqlw &= " AND ISNULL(b.CancelProve,'')='' "
                     End If
                 End If
-                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectChequeBalance(chqType, If(chqType = "CU", "P", "R")) & tSqlw)
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectChequeBalance(chqType, payType) & tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""cheque"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
