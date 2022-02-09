@@ -240,7 +240,26 @@ End Code
                     </div>
                 </div>
             </div>
-
+            <div style="display:flex;width:100%;flex-direction:column" id="tbHBL">
+                <div style="display:flex;">
+                    <div style="flex:1">
+                        House BL :
+                    </div>
+                    <div style="flex:2">
+                        <input type="text" id="txtHBL" />
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex;width:100%;flex-direction:column" id="tbJob">
+                <div style="display:flex;">
+                    <div style="flex:1">
+                        Job Number :
+                    </div>
+                    <div style="flex:2">
+                        <input type="text" id="txtJobNumber" />
+                    </div>
+                </div>
+            </div>
         </div>
         <a href="#" class="btn btn-info" id="btnPrnJob" onclick="PrintReport()">
             <i class="fa fa-lg fa-print"><b>Print Report</b></i>
@@ -661,6 +680,12 @@ End Code
         }
         if ($('#txtTransport').val() !== '') {
             str += '&Transport=' + $('#txtTransport').val();
+        }
+        if ($('#txtHBL').val() !== '') {
+            str += '&HBL=' + $('#txtHBL').val();
+        }
+        if ($('#txtJobNumber').val() !== '') {
+            str += '&Job=' + $('#txtJobNumber').val();
         }
         return str;
     }

@@ -72,7 +72,10 @@ End Code
             <div class="col-sm-2">
                 Job No
                 <br />
-                <input type="text" class="form-control" id="txtJNo" />
+                <div style="display:flex;flex-direction:row">
+                    <input type="text" class="form-control" id="txtJNo" />
+                    <button id="btnBrowseJob" class="btn btn-default" onclick="SearchData('job')">...</button>
+                </div>
             </div>
         </div>
         <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridClr(true)">
@@ -92,6 +95,8 @@ End Code
                             <th>Clr.No</th>
                             <th class="desktop">Clr.date</th>
                             <th>Job No</th>
+                            <th class="desktop">Container</th>
+                            <th class="desktop">BL</th>
                             <th class="desktop">Inv.No</th>
                             <th class="desktop">Customer</th>
                             <th class="desktop">Adv.No</th>
@@ -319,6 +324,7 @@ End Code
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
+            CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Jobs', response, 4);
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response, 3);
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
             CreateLOV(dv, '#frmSearchEmp', '#tbEmp', 'Clear By', response, 2);
@@ -370,7 +376,7 @@ End Code
                 if (isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.data[0].Table;
+            let h = r.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -383,6 +389,8 @@ End Code
                         }
                     },
                     { data: "JobNo", title: "Job Number" },
+                    { data: "CTN_NO", title: "Container" },
+                    { data: "HAWB", title: "BL" },
                     { data: "InvNo", title: "InvNo" },
                     { data: "CustCode", title: "Customer" },
                     { data: "AdvNO", title: "Adv.No" },
@@ -468,6 +476,7 @@ End Code
         return;
     }
     function SearchData(type) {
+        let w = '';
         switch (type) {
             case 'branch':
                 SetGridBranch(path, '#tbBranch', '#frmSearchBranch', ReadBranch);
@@ -485,7 +494,6 @@ End Code
                 SetGridSICodeFilter(path,'#tbServ','?Type=E' ,'#frmSearchServ', ReadService);
                 break;
             case 'serviceexp':
-                let w = '';
                 if ($('#cboClrType').val() == "1") {
                     w = '&Type=A';
                 } else {
@@ -502,7 +510,20 @@ End Code
             case 'bank':
                 SetGridBank(path, '#tbBank', '#frmSearchBank', ReadBank);
                 break;
+            case 'job':
+                w = '?Branch=' + $('#txtBranchCode').val();
+                if ($('#txtVenCode').val()!=='') {
+                    w += '&Vend=' + $('#txtVenCode').val();
+                }
+                if ($('#txtCustCode').val()!=='') {
+                    w += '&Cust=' + $('#txtCustCode').val();
+                }
+                SetGridTransport(path, '#tbJob', '#frmSearchJob', w, ReadBooking);
+                break;
         }
+    }
+    function ReadBooking(dt) {
+        $('#txtJNo').val(dt.JNo);
     }
     function ReadCustomer(dt) {
         $('#txtCustCode').val(dt.CustCode);

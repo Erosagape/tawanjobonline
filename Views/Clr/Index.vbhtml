@@ -1793,7 +1793,7 @@ End Code
                     { data: "CTN_NO", title: "Container" },
                     { data: "AdvNO", title: "Adv No" },
                     {
-                        data: "AdvNet", title: "Adv.Total",
+                        data: "TotalAdvance", title: "Adv.Total",
                         render: function (data) {
                             return ShowNumber(data, 2);
                         }

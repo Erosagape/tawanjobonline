@@ -1530,21 +1530,18 @@ End Code
         let amtbase = Number($('#txtSumAmt').val());
         let excrate = Number($('#txtExchangeRate').val());
         let totalamt = amtbase * excrate;
-        $('#txtTotalAmt').val(CDbl(totalamt, 4));
-        //calculate for exclude vat/wht
-        totalamt = Number($('#txtTotalAmt').val());
+        let vatinc = Number($('#txtVatInc').val());
+        let whtinc = Number($('#txtWhtInc').val());
+        let totalbefore = totalamt + whtinc - vatinc;        
+        //calculate base for included vat/wht
         let vatexc = Number($('#txtVatExc').val());
         let whtexc = Number($('#txtWhtExc').val());
-        totalamt += vatexc;
-        totalamt -= whtexc;
-        $('#txtTotalNet').val(CDbl(totalamt, 4));
-
-        //calculate base for included vat/wht
-        let vatinc = Number($('#txtVatInc').val());
-        let whtinc = Number($('#txtWhtInc').val());        
-        totalamt += whtinc;
-        totalamt -= vatinc;
-        $('#txtTotalAmt').val(CDbl(totalamt, 4));
+        let totalafter = totalbefore + vatexc - whtexc;
+        if (totalbefore != totalamt) {
+            $('#txtSumAmt').val(CDbl(totalbefore, 4));
+        }
+        $('#txtTotalAmt').val(CDbl(totalbefore, 4));
+        $('#txtTotalNet').val(CDbl(totalafter, 4));
     }
     function PrintData() {
         if (userRights.indexOf('P') < 0) {

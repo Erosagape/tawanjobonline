@@ -216,7 +216,7 @@ Namespace Controllers
                     Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=6 WHERE BranchCode+'|'+AdvNo in({0}) AND DocStatus<>99", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
-                        Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateClrReceiveFromAdvance(user, docno))
+                        Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateClrReceiveFromAdvance(user, docno, lst))
                         Return New HttpResponseMessage(HttpStatusCode.OK)
                     End If
                 End If
@@ -278,7 +278,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Condition")) Then
                     Select Case Request.QueryString("Condition").ToString()
                         Case "ERN"
-                            sql &= " AND ISNULL(d.LinkBillNo,'')='' AND d.UsedAmount > 0 "
+                            sql &= " AND d.LinkItem=0 AND d.UsedAmount > 0 "
                     End Select
                 End If
                 sql &= " ORDER BY h.BranchCode,h.ClrDate DESC,h.ClrNo,j.CustCode,j.CustBranch,d.ItemNo "

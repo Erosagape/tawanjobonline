@@ -102,12 +102,12 @@ Public Class CInvDetail
             m_ExchangeRate = value
         End Set
     End Property
-    Private m_Qty As Integer
-    Public Property Qty As Integer
+    Private m_Qty As Double
+    Public Property Qty As Double
         Get
             Return m_Qty
         End Get
-        Set(value As Integer)
+        Set(value As Double)
             m_Qty = value
         End Set
     End Property

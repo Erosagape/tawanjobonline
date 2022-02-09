@@ -1643,16 +1643,25 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                             If fmt.IndexOf("bb") >= 0 Then
                                 fmt = fmt.Replace("bb", data.DocDate.AddYears(543).ToString("yy"))
                             End If
-                            If fmt.IndexOf("MM") >= 0 Then
-                                fmt = fmt.Replace("MM", data.DocDate.ToString("MM"))
-                            End If
                             If fmt.IndexOf("yy") >= 0 Then
                                 fmt = fmt.Replace("yy", data.DocDate.ToString("yy"))
+                            End If
+                            If fmt.IndexOf("MM") >= 0 Then
+                                fmt = fmt.Replace("MM", data.DocDate.ToString("MM"))
                             End If
                         Else
                             fmt = data.DocDate.ToString("yyMM") & "____"
                         End If
-                        data.AddNew(prefix & fmt, False)
+                        If Main.GetValueConfig("PROFILE", "RUNNING_BYMASK") = "N" Then
+                            data.AddNew("%" & fmt, False)
+                            If data.JNo.IndexOf("%") > 0 Then
+                                data.JNo = data.JNo.Replace("%", prefix)
+                            Else
+                                data.JNo = prefix & data.JNo.Substring(3)
+                            End If
+                        Else
+                            data.AddNew(prefix & fmt, False)
+                        End If
                     End If
                     Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
                     Dim FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
