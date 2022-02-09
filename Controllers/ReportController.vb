@@ -2040,5 +2040,102 @@ d.PayRate,d.PayDate,d.PayTaxDesc,d.DocRefType
             ViewBag.DataTable = dt
             Return GetView("KITProfitDetail")
         End Function
+        Function Summary() As ActionResult
+            Dim vResult = GetView("Summary")
+            Dim html1 = ""
+            Dim html2 = ""
+            If Session("CurrRights").ToString().IndexOf("M") > 0 And GetSession("CurrUser") <> "" Then
+                html1 = "<b>Summary By Type</b>"
+                html1 &= "<br/>"
+                Dim dtJobStatus = New CUtil(GetSession("ConnJob")).GetTableFromSQL("SELECT DISTINCT JobStatus FROM Job_Order")
+                Dim strSqlStatus = ""
+                If dtJobStatus.Rows.Count > 0 Then
+                    Dim i = 0
+                    For Each dr As DataRow In dtJobStatus.Rows
+                        Dim strJobStatus = Main.GetValueConfig("JOB_STATUS", Convert.ToInt32(dr(0)).ToString("00"), dr(0).ToString())
+                        html2 &= "<tr{x" & i & "}>"
+                        html2 &= "<td class=""status" & dr(0) & " text-right"">- " & strJobStatus & "</td><td>{y" & i & "}</td>"
+                        html2 &= "</tr>"
+
+                        strSqlStatus &= ",SUM(CASE WHEN JobStatus=" & dr(0).ToString() & " THEN 1 ELSE 0 END) as 'Count" & dr(0).ToString() & "'"
+                        i += 1
+                    Next
+                End If
+
+                Dim dtJobType = New CUtil(GetSession("ConnJob")).GetTableFromSQL("SELECT JobType,ShipBy,Count(*) as Total " & strSqlStatus & " FROM Job_Order GROUP BY JobType,ShipBy ORDER BY JobType,ShipBy")
+                If dtJobType.Rows.Count > 0 Then
+                    html1 &= "<table class=""table table-responsive"">"
+                    html1 &= "<thead><tr>"
+                    html1 &= "<th>Type</th>"
+                    html1 &= "<th>Total</th>"
+                    html1 &= "</tr></thead>"
+                    html1 &= "<tbody>"
+                    For Each dr As DataRow In dtJobType.Rows
+                        Dim strJobType = Main.GetValueConfig("JOB_TYPE", Convert.ToInt32(dr("JobType")).ToString("00"), dr("JobType").ToString("00"))
+                        Dim strShipBy = Main.GetValueConfig("SHIP_BY", Convert.ToInt32(dr("ShipBy")).ToString("00"), dr("ShipBy").ToString("00"))
+
+                        html1 &= "<tr class=""header"">"
+                        html1 &= "<td>+ " & strJobType & "/" & strShipBy & "</td>"
+                        html1 &= "<td>" & dr("Total") & "</td>"
+                        html1 &= "</tr>"
+                        Dim thtml = html2
+                        For i As Integer = 3 To dtJobType.Columns.Count - 1
+                            If dr(i) > 0 Then
+                                thtml = thtml.Replace("{x" & i - 3 & "}", " class=""detail""")
+                            Else
+                                thtml = thtml.Replace("{x" & i - 3 & "}", " class=""hide""")
+                            End If
+                            thtml = thtml.Replace("{y" & i - 3 & "}", dr(i))
+                        Next
+                        html1 &= thtml
+                    Next
+                    html1 &= "</tbody>"
+                    html1 &= "</table>"
+                End If
+                Dim sqlYearMonth = "
+SELECT CONCAT(Year(DocDate),'') as JobYear,Count(*) as Total {0}
+FROM Job_Order GROUP BY Year(DocDate) 
+UNION
+SELECT CONCAT(Year(DocDate),'/',FORMAT(Month(DocDate),'00')) as JobMonth,Count(*) as Total {0}
+FROM Job_Order GROUP BY Year(DocDate),Month(DocDate)
+                    "
+                sqlYearMonth = String.Format(sqlYearMonth, strSqlStatus)
+                Dim dtJobYearMonth = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlYearMonth)
+                If dtJobYearMonth.Rows.Count > 0 Then
+                    html1 &= "<b>Summary Yearly</b>"
+                    html1 &= "<table class=""table table-responsive"">"
+                    html1 &= "<thead>"
+                    html1 &= "<tr>"
+                    html1 &= "<th>Year/Month</th>"
+                    For i As Integer = 2 To dtJobYearMonth.Columns.Count - 1
+                        html1 &= "<th>" & dtJobYearMonth.Columns(i).ColumnName.Replace("Count", "") & "</th>"
+                    Next
+                    html1 &= "</tr>"
+                    html1 &= "</thead>"
+                    html1 &= "<tbody>"
+                    For Each dr As DataRow In dtJobYearMonth.Rows
+                        If dr(0).ToString().Length = 4 Then
+                            html1 &= "<tr class=""header"">"
+                        Else
+                            html1 &= "<tr>"
+                        End If
+                        html1 &= "<td>" & dr(0).ToString & "</td>"
+                        For i As Integer = 2 To dtJobYearMonth.Columns.Count - 1
+                            If dr(i) > 0 Then
+                                Dim cssString = " class=""status" & dtJobYearMonth.Columns(i).ColumnName.Replace("Count", "") & """"
+                                html1 &= "<td" & cssString & ">" & dr(i).ToString & "</td>"
+                            Else
+                                html1 &= "<td></td>"
+                            End If
+                        Next
+                        html1 &= "</tr>"
+                    Next
+                    html1 &= "</tbody>"
+                    html1 &= "</table>"
+                End If
+            End If
+            ViewBag.DataHTML = html1
+            Return vResult
+        End Function
     End Class
 End Namespace

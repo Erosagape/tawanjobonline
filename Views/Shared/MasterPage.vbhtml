@@ -355,24 +355,26 @@
             <div class="vertical-alignment-helper">
                 <div class="modal-dialog vertical-align-center">
                     <div class="modal-content">
-                        <div class="modal-header" style="background-color:black">
-                            <div class="modal-title" style="color:white;text-align:center">
-                                Log in
+                        <form>
+                            <div class="modal-header" style="background-color:black">
+                                <div class="modal-title" style="color:white;text-align:center">
+                                    Log in
+                                </div>
                             </div>
-                        </div>
-                        <div class="modal-body">
-                            Data : <select class="form-control dropdown" id="cboDatabase"></select>
-                            <a id="linkLogout" onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
-                            Password : <input type="password" class="form-control" id="txtUserPassword" />
-                        </div>
-                        <div class="modal-footer">
-                            <div style="display:flex;flex-direction:row;float:left;">
-                                <input type="radio" name="optRole" id="optShip" value="S" checked /><label for="optShip" style="padding-right:10px">Shipper</label>
-                                <input type="radio" name="optRole" id="optVend" value="V" /><label for="optVend" style="padding-right:10px">Vender</label>
-                                <input type="radio" name="optRole" id="optImEx" value="C" /><label for="optImEx" style="padding-right:10px">Importer/Exporter</label>
+                            <div class="modal-body">
+                                Data : <select class="form-control dropdown" id="cboDatabase"></select>
+                                <a id="linkLogout" onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
+                                Password : <input type="password" autocomplete="on" class="form-control" id="txtUserPassword" />
                             </div>
-                            <button class="btn btn-primary" id="btnLogin" onclick="SetVariable()">Log in</button>
-                        </div>
+                            <div class="modal-footer">
+                                <div style="display:flex;flex-direction:row;float:left;">
+                                    <input type="radio" name="optRole" id="optShip" value="S" checked /><label for="optShip" style="padding-right:10px">Shipper</label>
+                                    <input type="radio" name="optRole" id="optVend" value="V" /><label for="optVend" style="padding-right:10px">Vender</label>
+                                    <input type="radio" name="optRole" id="optImEx" value="C" /><label for="optImEx" style="padding-right:10px">Importer/Exporter</label>
+                                </div>
+                                <button class="btn btn-primary" id="btnLogin" onclick="SetVariable()">Log in</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

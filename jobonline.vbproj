@@ -1585,6 +1585,7 @@
     <Content Include="Views\JobOrder\CloseFuel.vbhtml" />
     <Content Include="Views\Report\TruckProfit.vbhtml" />
     <Content Include="App_Data\THESOLUTION\JobOrder\FormJob.vbhtml" />
+    <Content Include="Views\Report\Summary.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
