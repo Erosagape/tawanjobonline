@@ -2044,22 +2044,36 @@ d.PayRate,d.PayDate,d.PayTaxDesc,d.DocRefType
             Dim vResult = GetView("Summary")
             Dim html1 = ""
             Dim html2 = ""
+            Dim html3 = ""
             If Session("CurrRights").ToString().IndexOf("M") > 0 And GetSession("CurrUser") <> "" Then
-                html1 = "<b>Summary By Type</b>"
+                html1 &= "<b>Summary By Type</b>"
                 html1 &= "<br/>"
                 Dim dtJobStatus = New CUtil(GetSession("ConnJob")).GetTableFromSQL("SELECT DISTINCT JobStatus FROM Job_Order")
                 Dim strSqlStatus = ""
                 If dtJobStatus.Rows.Count > 0 Then
+                    html3 &= "<b>Job Status</b><br/>"
+                    html3 &= "<div class=""row"">"
                     Dim i = 0
                     For Each dr As DataRow In dtJobStatus.Rows
                         Dim strJobStatus = Main.GetValueConfig("JOB_STATUS", Convert.ToInt32(dr(0)).ToString("00"), dr(0).ToString())
                         html2 &= "<tr{x" & i & "}>"
-                        html2 &= "<td class=""status" & dr(0) & " text-right"">- " & strJobStatus & "</td><td>{y" & i & "}</td>"
+                        html2 &= "<td class=""status" & dr(0) & " text-right""><b>" & strJobStatus & "</b></td><td>{y" & i & "}</td>"
                         html2 &= "</tr>"
-
+                        html3 &= "
+    <div class=""col-sm-3"" style=""display:flex;"">        
+        <span class=""status" & dr(0) & """ style=""width:20px;""><br/></span> <b>" & strJobStatus & "</b>
+    </div>
+"
                         strSqlStatus &= ",SUM(CASE WHEN JobStatus=" & dr(0).ToString() & " THEN 1 ELSE 0 END) as 'Count" & dr(0).ToString() & "'"
                         i += 1
+                        If i Mod 4 = 0 Then
+                            html3 &= "</div>"
+                            If i < dtJobStatus.Rows.Count Then
+                                html3 &= "<div class=""row"">"
+                            End If
+                        End If
                     Next
+                    html1 = html3 & "<br/>" & html1
                 End If
 
                 Dim dtJobType = New CUtil(GetSession("ConnJob")).GetTableFromSQL("SELECT JobType,ShipBy,Count(*) as Total " & strSqlStatus & " FROM Job_Order GROUP BY JobType,ShipBy ORDER BY JobType,ShipBy")
@@ -2107,8 +2121,10 @@ FROM Job_Order GROUP BY Year(DocDate),Month(DocDate)
                     html1 &= "<thead>"
                     html1 &= "<tr>"
                     html1 &= "<th>Year/Month</th>"
+                    Dim sumArray = New Dictionary(Of String, Integer)
                     For i As Integer = 2 To dtJobYearMonth.Columns.Count - 1
                         html1 &= "<th>" & dtJobYearMonth.Columns(i).ColumnName.Replace("Count", "") & "</th>"
+                        sumArray.Add(dtJobYearMonth.Columns(i).ColumnName, 0)
                     Next
                     html1 &= "</tr>"
                     html1 &= "</thead>"
@@ -2124,12 +2140,26 @@ FROM Job_Order GROUP BY Year(DocDate),Month(DocDate)
                             If dr(i) > 0 Then
                                 Dim cssString = " class=""status" & dtJobYearMonth.Columns(i).ColumnName.Replace("Count", "") & """"
                                 html1 &= "<td" & cssString & ">" & dr(i).ToString & "</td>"
+                                If dr(0).ToString().Length = 4 Then
+                                    sumArray(dtJobYearMonth.Columns(i).ColumnName) += Convert.ToInt32(dr(i))
+                                End If
                             Else
                                 html1 &= "<td></td>"
                             End If
                         Next
                         html1 &= "</tr>"
                     Next
+                    html1 &= "<tr class=""header"">"
+                    html1 &= "<td><u><b>TOTAL</b><u></td>"
+                    For i As Integer = 2 To dtJobYearMonth.Columns.Count - 1
+                        If sumArray(dtJobYearMonth.Columns(i).ColumnName) > 0 Then
+                            Dim cssString = " class=""status" & dtJobYearMonth.Columns(i).ColumnName.Replace("Count", "") & """"
+                            html1 &= "<td" & cssString & "><u><b>" & sumArray(dtJobYearMonth.Columns(i).ColumnName) & "</b></u></td>"
+                        Else
+                            html1 &= "<td></td>"
+                        End If
+                    Next
+                    html1 &= "</tr>"
                     html1 &= "</tbody>"
                     html1 &= "</table>"
                 End If
