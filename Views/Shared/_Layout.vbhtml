@@ -4,15 +4,31 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>    
+    <style>
+        body {
+            background-color: forestgreen;
+        }
+
+        .panel-body {
+            background-color: white;
+        }
+
+        .panel-body, .panel-heading {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <div class="container body-content">
-        @RenderBody()
+        <div class="panel-primary">
+            <div class="panel-body">
+                @RenderBody()
+            </div>
+        </div>
     </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required:=False)
 </body>
 </html>

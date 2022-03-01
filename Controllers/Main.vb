@@ -2346,7 +2346,7 @@ dbo.Job_LoadInfoDetail.TargetYardTime, dbo.Job_LoadInfoDetail.ActualYardDate, db
 dbo.Job_LoadInfoDetail.UnloadFinishDate, dbo.Job_LoadInfoDetail.UnloadFinishTime, dbo.Job_LoadInfoDetail.UnloadDate, dbo.Job_LoadInfoDetail.UnloadTime, 
 dbo.Job_LoadInfoDetail.LocationID, dbo.Job_LoadInfoDetail.Location, dbo.Job_LoadInfoDetail.ReturnDate AS TruckReturnDate, dbo.Job_LoadInfoDetail.ShippingMark, 
 dbo.Job_LoadInfoDetail.ProductDesc, dbo.Job_LoadInfoDetail.CTN_SIZE, dbo.Job_LoadInfoDetail.ProductQty, dbo.Job_LoadInfoDetail.ProductUnit,dbo.Job_LoadInfoDetail.NetWeight,dbo.Job_LoadInfoDetail.ProductPrice, 
-dbo.Job_LoadInfoDetail.GrossWeight, dbo.Job_LoadInfoDetail.Measurement,dbo.Job_LoadInfoDetail.MileBegin,dbo.Job_LoadInfoDetail.MileEnd,
+dbo.Job_LoadInfoDetail.GrossWeight, dbo.Job_LoadInfoDetail.Measurement,
 dbo.Job_LoadInfoDetail.PlaceName1,dbo.Job_LoadInfoDetail.PlaceAddress1,dbo.Job_LoadInfoDetail.PlaceContact1, 
 dbo.Job_LoadInfoDetail.PlaceName2,dbo.Job_LoadInfoDetail.PlaceAddress2,dbo.Job_LoadInfoDetail.PlaceContact2,
 dbo.Job_LoadInfoDetail.PlaceName3,dbo.Job_LoadInfoDetail.PlaceAddress3,dbo.Job_LoadInfoDetail.PlaceContact3,

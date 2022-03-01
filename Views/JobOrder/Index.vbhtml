@@ -129,8 +129,22 @@ End Code
     let dateWhere = 'DocDate';
     let jt = getQueryString("jobtype");
     let sb = getQueryString("shipby");
+    let st = getQueryString("status");
+    let custcode = getQueryString("custcode");
     loadBranch(path);
     loadCombo();
+    $('#txtJobNo').keydown(function (e) {
+        if (e.which == 13) {
+            if ($('#txtJobNo').val() !== '') {
+                OpenJob();
+            }
+        }
+    });
+    $('#txtCliteria').keydown(function (e) {
+        if (e.which == 13) {
+            getJobdata();
+        }
+    });
     //3 Fields Show
     $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
         let dv = document.getElementById("dvLOVs");
@@ -150,24 +164,15 @@ End Code
     function loadCombo() {
         let lists = 'JOB_TYPE=#cboJobType|'+ jt;
         lists += ',SHIP_BY=#cboShipBy|'+sb;
-        lists += ',JOB_STATUS=#cboStatus';
+        lists += ',JOB_STATUS=#cboStatus|'+st;
 
         loadCombos(path, lists);
         loadYear(path);
         loadMonth('#cboMonth');
-
-        $('#txtJobNo').keydown(function (e) {
-            if (e.which == 13) {
-                if ($('#txtJobNo').val() !== '') {
-                    OpenJob();
-                }
-            }
-        });
-        $('#txtCliteria').keydown(function (e) {
-            if (e.which == 13) {
-                getJobdata();
-            }
-        });
+        $('#cboMonth').val('');
+        if (custcode != '') {
+            $('#txtCustCode').val(custcode);            
+        }
     }
     function getJobdata() {
         ShowWait();

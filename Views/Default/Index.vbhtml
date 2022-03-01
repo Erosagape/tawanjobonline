@@ -1,29 +1,76 @@
 ﻿@Code
+    Layout = "~/Views/Shared/_Layout.vbhtml"
     ViewData("Title") = "Index"
 End Code
-<input type="date" id="date1" />
-<input type="button" value="Test" onclick="TestDate('#date1')" />
-<input type="text" id="date2" />
-<input type="button" value="Test" onclick="TestDate('#date2')" />
-<input type="datetime-local" id="date3" />
-<input type="button" value="Test" onclick="TestDate('#date3')" />
-Return Data :
-<input type="text" id="dateret"/>
+<div class="row">
+    <div class="col-sm-4">        
+        <div class="modal-header">
+            <img src="~/Resource/bft_header.png" style="height:auto;width:100%;" />
+        </div>
+        <div class="modal-body">
+            Data : <select class="form-control dropdown" id="cboDatabase"></select>
+            <a id="linkLogout" onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
+            Password : <input type="password" autocomplete="on" class="form-control" id="txtUserPassword" />
+        </div>
+        <div class="modal-footer">
+            <div style="display:flex;flex-direction:row;float:left;">
+                <input type="radio" name="optRole" id="optShip" value="S" checked /><label for="optShip" style="padding-right:10px">Shipper</label>
+                <input type="radio" name="optRole" id="optVend" value="V" /><label for="optVend" style="padding-right:10px">Vender</label>
+                <input type="radio" name="optRole" id="optImEx" value="C" /><label for="optImEx" style="padding-right:10px">Importer/Exporter</label>
+            </div>
+            <button class="btn btn-primary" id="btnLogin" onclick="SetVariable()">Log in</button>
+        </div>        
+    </div>
+    <div class="col-sm-8">
+        <img src="~/Resource/better_bg.png" style="width:100%;" />
+    </div>
+</div>
 <script type="text/javascript">
-    const path = '@Url.Content("~")';
-    function TestDate(e) {
-        let obj = {
-            DocDate:CDateEN($(e).val())
-        };        
-        $.ajax({
-                url: path +"Default/TestDate",
-                type: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({ data: obj }),
-                success: function (response) {
-                    alert(response.DocDate);
-                    $('#dateret').val(ShowDate(response.DocDate));
+    let path = '@Url.Content("~")';
+    $('#txtUserLogin').keydown(function (event) {
+        if (event.which === 13) {
+            $('#txtUserPassword').focus();
+        }
+    });
+    $('#txtUserPassword').keydown(function (event) {
+        if (event.which === 13) {
+            SetVariable();
+        }
+    });
+    $('#cboDatabase').empty();
+    $('#cboDatabase').append($('<option>', { value: '' })
+        .text('N/A'));
+    $.get(path +'Config/GetDatabase').done(function (dr) {
+        if (dr.database.length > 0) {
+            for (let i = 0; i < dr.database.length; i++) {
+                $('#cboDatabase').append($('<option>', { value: (i + 1) })
+                    .text(dr.company + '->' + dr.database[i].trim()));
+            }
+            $('#cboDatabase').val(1);
+        }
+    });
+    function SetVariable() {
+        let userID = $('#txtUserLogin').val();
+        let dbID = $('#cboDatabase').val();
+        let userType = $('input[name=optRole]:checked').val();
+
+        let Password = $('#txtUserPassword').val();
+        $.get(path +'Config/SetLogin?Group=' + userType + '&Code=' + userID + '&Pass=' + Password + '&Database=' + dbID)
+            .done(function (r) {
+                if (r.user.data.length > 0) {
+                    window.location.assign(path +'Master');
+                } else {
+                    alert(r.user.message);
                 }
             });
-    }    
+    }
+    function ForceLogout() {
+        userType = $('input[name=optRole]:checked').val();
+
+        $.get(path + 'config/setlogout?group=' + userType + '&code=' + $('#txtUserLogin').val()).done(function (r) {
+            if (r == "Y") {
+                alert('Logout complete!');
+            }
+        });
+    }
 </script>

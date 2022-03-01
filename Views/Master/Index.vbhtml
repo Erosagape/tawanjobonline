@@ -28,12 +28,19 @@ End Code
             case 'S':
                 let csCheck = '3,4,5';
                 switch (userPosition) {
-                    case '3':
-                    case '4':
+                    case '1': //MD
+                    case '2': //Manager
+                        window.location.href = path + 'JobOrder/Summary';
+                        break;
+                    case '3': //cs
+                    case '4': //sales
                         window.location.href = path + 'Tracking/Timeline';
                         break;
-                    case '5':
+                    case '5': //Shipping
                         window.location.href = path + 'Tracking/Index';
+                        break;
+                    case '6': //accounts
+                        window.location.href = path + 'JobOrder/Summary';
                         break;
                     default:
                         if (IsMobile()||menuStart=='W') {

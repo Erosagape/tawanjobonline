@@ -1206,9 +1206,12 @@
     <Content Include="index.html" />
     <Content Include="Resource\apl-logo.png" />
     <Content Include="Resource\asal-logo.png" />
+    <Content Include="Resource\better_bg.png" />
+    <Content Include="Resource\bft_header.png" />
     <Content Include="Resource\jobtawan_bg.jpg" />
     <Content Include="Resource\logo-tawan.jpg" />
     <Content Include="Resource\logo-biz.png" />
+    <Content Include="Resource\logo_bft.png" />
     <Content Include="Resource\pnd53.png" />
     <Content Include="Resource\pnd3.png" />
     <Content Include="Scripts\bootstrap-select.js.map" />
@@ -1586,6 +1589,7 @@
     <Content Include="Views\Report\TruckProfit.vbhtml" />
     <Content Include="App_Data\THESOLUTION\JobOrder\FormJob.vbhtml" />
     <Content Include="Views\Report\Summary.vbhtml" />
+    <Content Include="Views\JobOrder\Summary.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
