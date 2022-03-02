@@ -4,8 +4,8 @@
     <title>@ViewBag.Title</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="~/Content/w3.css">
-    <link rel="stylesheet" href="~/Content/font-awesome.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/Content/Site.css">
     <link rel="stylesheet" href="~/Content/bootstrap.min.css">
     <link rel="stylesheet" href="~/Content/bootstrap-select.min.css">
@@ -23,12 +23,17 @@
     <script src="~/Scripts/Func/menu.js?@DateTime.Now.Ticks"></script>
     <script src="~/Scripts/Func/lang.js?@DateTime.Now.Ticks"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+	<style>
+		.panel-body{
+			background-color : #f1fce6;
+		}
+	</style>
 </head>
 <body style="background:#e6e6e6;color:black;">
     <!-- Sidebar -->
     <div class="w3-sidebar w3-bar-block w3-animate-left" style="display:none;z-index:5" id="mySidebar">
-        <div id="myMenuBar" class="w3-sidebar w3-bar-block w3-indigo w3-card" style="width:250px;">
-            <div style="background-color:midnightblue;">
+        <div class="w3-sidebar w3-bar-block w3-indigo w3-card btn-success" style="width: 250px; background-color: #47a447 !important ">
+            <div style="background-color: #47a447; ">
                 Select Menu :
                 <select id="cboMenu" onchange="SwitchMenu()">
                     <option value="D">By Department</option>
@@ -36,10 +41,10 @@
                 </select>
             </div>
             <div style="width:100%;text-align:center;background-color:white">
-                <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:70%;padding:5px 5px 5px 5px;" />
+                <img id="imgMenu" src="~/Resource/logo_bft.png" onclick="SetLogout()" style="width:70%;padding:5px 5px 5px 5px;" />
             </div>
             <div style="width:100%;text-align:center;background-color:white;color:black;font-size:11px">
-                <label id="lblLicenseName" ondblclick="OpenContact()">@ViewBag.LICENSE_NAME</label>
+                <label id="lblLicenseName" ondblclick="ReturnMain()">@ViewBag.LICENSE_NAME</label>
             </div>
             <div id="dvCustomerMenu">
                 <div id="mainCust" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCust')">
@@ -69,7 +74,6 @@
                         <a href="#" id="mnuCS2" class="w3-bar-item w3-button" onclick="OpenLink('SearchJob')">- List Job</a>
                         <a href="#" id="mnuCS3" class="w3-bar-item w3-button" onclick="OpenLink('Transport')">- Transport Info</a>
                         <a href="#" id="mnuCS4" class="w3-bar-item w3-button" onclick="OpenLink('WHTax')">- Withholding Tax</a>
-                        <a href="#" id="mnuCS5" class="w3-bar-item w3-button" onclick="OpenLink('AddFuel')">- Fuel Refill</a>
                     </div>
                     <div id="mainShp" class="w3-bar-item w3-button" onclick="w3_accordion('mnuShp')">
                         Shipping Works
@@ -265,8 +269,6 @@
                                 <button id="mnuMasA2" class="btn btn-default btn-block" onclick="OpenLink('venders')">- Venders</button>
                                 <button id="mnuMasA3" class="btn btn-default btn-block" onclick="OpenLink('ServUnit')">- Service Units</button>
                                 <button id="mnuMasA4" class="btn btn-default btn-block" onclick="OpenLink('Bank')">- Bank</button>
-                                <button id="mnuMasA10" class="btn btn-default btn-block" onclick="OpenLink('CarLicense')">- Car License</button>
-                                <button id="mnuMasA11" class="btn btn-default btn-block" onclick="OpenLink('Employee')">- Employee</button>
                             </div>
                             <div class="col-sm-6">
                                 <button id="mnuMasA5" class="btn btn-default btn-block" onclick="OpenLink('BookAccount')">- Bank Accounts</button>
@@ -291,7 +293,7 @@
                             System Master Files
                         </div>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body" >
                         <div class="row">
                             <div class="col-sm-6">
                                 <button id="mnuMasS1" class="btn btn-default btn-block" onclick="OpenLink('Constant')">- System Variables</button>
@@ -355,26 +357,24 @@
             <div class="vertical-alignment-helper">
                 <div class="modal-dialog vertical-align-center">
                     <div class="modal-content">
-                        <form>
-                            <div class="modal-header" style="background-color:black">
-                                <div class="modal-title" style="color:white;text-align:center">
-                                    Log in
-                                </div>
+                        <div class="modal-header" style="background-color:black">
+                            <div class="modal-title" style="color:white;text-align:center">
+                                Log in
                             </div>
-                            <div class="modal-body">
-                                Data : <select class="form-control dropdown" id="cboDatabase"></select>
-                                <a id="linkLogout" onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
-                                Password : <input type="password" autocomplete="on" class="form-control" id="txtUserPassword" />
+                        </div>
+                        <div class="modal-body">
+                            Data : <select class="form-control dropdown" id="cboDatabase"></select>
+                            <a id="linkLogout" onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
+                            Password : <input type="password" class="form-control" id="txtUserPassword" />
+                        </div>
+                        <div class="modal-footer">
+                            <div style="display:flex;flex-direction:row;float:left;">
+                                <input type="radio" name="optRole" id="optShip" value="S" checked /><label for="optShip" style="padding-right:10px">Shipper</label>
+                                <input type="radio" name="optRole" id="optVend" value="V" /><label for="optVend" style="padding-right:10px">Vender</label>
+                                <input type="radio" name="optRole" id="optImEx" value="C" /><label for="optImEx" style="padding-right:10px">Importer/Exporter</label>
                             </div>
-                            <div class="modal-footer">
-                                <div style="display:flex;flex-direction:row;float:left;">
-                                    <input type="radio" name="optRole" id="optShip" value="S" checked /><label for="optShip" style="padding-right:10px">Shipper</label>
-                                    <input type="radio" name="optRole" id="optVend" value="V" /><label for="optVend" style="padding-right:10px">Vender</label>
-                                    <input type="radio" name="optRole" id="optImEx" value="C" /><label for="optImEx" style="padding-right:10px">Importer/Exporter</label>
-                                </div>
-                                <button class="btn btn-primary" id="btnLogin" onclick="SetVariable()">Log in</button>
-                            </div>
-                        </form>
+                            <button class="btn btn-primary" id="btnLogin" onclick="SetVariable()">Log in</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -385,16 +385,16 @@
         <div class="w3-container" style="margin-bottom:10px">
             <!-- Page Content -->
             <div Class="panel-primary">
-                <div id="myTitleBar" Class="panel-heading w3-indigo">
+                <div Class="panel-heading w3-indigo" style="background-color: #47a447 !important">
                     <div Class="panel-title">
                         <div class="row">
                             <div class="col-xs-5 col-md-2" style="text-align:center">
-                                <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:70%;height:55px" onclick="w3_open();" />
+                                <img id="imgCompany" src="~/Resource/logo_bft.png" style="width:50%;height:60px" onclick="w3_open();" />
                             </div>
                             <div class="col-xs-7 col-md-10">
                                 <div style="display:flex;align-items:center;height:50px">
                                     <div style="text-align:left;flex:1;">
-                                        <label id="lblTitle" onclick="ReturnMain()">@ViewBag.Title</label>
+                                        <label id="lblTitle" onclick="OpenContact()">@ViewBag.Title</label>
                                         <input type="hidden" id="lblModule" value="@ViewBag.Module" />
                                     </div>
                                     <div style="text-align:right;flex:1;">
@@ -409,7 +409,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel-body">
+                <div class="panel-body" style="background-color:#f1fce6">
                     @RenderBody()
                 </div>
             </div>
@@ -417,7 +417,7 @@
     </div>
     <script type="text/javascript">
         let userID = '@ViewBag.User';
-        let dbID = '@ViewBag.DATABASE';
+        let dbID = GetDatabaseID();
         let userType = '@ViewBag.UserGroup';
         let sessionID = '@ViewBag.SESSION_ID';
         let dbMas = '@ViewBag.CONNECTION_MAS';
@@ -439,6 +439,8 @@
         $('#dvLogin').on('shown.bs.modal', function () {
             $('#txtUserLogin').focus();
         });
+	$('#dvLogin').css("margin-top", 20);
+	$('#dvLogin').css("margin-left", 20);
         $('#txtUserLogin').keydown(function (event) {
             if (event.which === 13) {
                 $('#txtUserPassword').focus();
@@ -506,13 +508,7 @@
                 CheckSession(null);
             } else {
                 $('#imgMenu').attr('src',path + 'Resource/@ViewBag.PROFILE_LOGO');
-                $('#imgCompany').attr('src', path + 'Resource/@ViewBag.PROFILE_LOGO');
-                if (dbID == '2') {
-                    $('#myTitleBar').removeClass('w3-indigo');
-                    $('#myMenuBar').removeClass('w3-indigo');
-                    $('#myTitleBar').addClass('w3-brown');
-                    $('#myMenuBar').addClass('w3-brown');
-                }
+                $('#imgCompany').attr('src',path + 'Resource/@ViewBag.PROFILE_LOGO');
                 $('#lblUserID').text('@ViewBag.UserName');
                 $('#lblLicenseName').text('@ViewBag.LICENSE_NAME');
                 $('#cboLanguage').val('@ViewBag.PROFILE_DEFAULT_LANG');
@@ -587,4 +583,4 @@
         }
     </script>
 </body>
-</html>
+</html> 

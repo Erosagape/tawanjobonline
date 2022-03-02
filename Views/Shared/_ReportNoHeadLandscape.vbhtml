@@ -13,13 +13,17 @@
     <script src="~/Scripts/bootstrap-select.js"></script>
     <script src="~/Scripts/Func/util.js"></script>
     <script src="~/Scripts/Func/reports.js"></script>
+    
     <style>
-table{
-    width:100%;
-}
-table td{
-    white-space: nowrap;  /** added **/
-}
+        table {
+            width: 100%;
+        }
+
+            table td {
+                white-space: nowrap; /** added **/
+            }
+
+        
     </style>
 </head>
 <body class="document">

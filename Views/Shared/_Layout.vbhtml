@@ -14,7 +14,7 @@
         }
 
         .panel-body {
-            background-color: white;
+			background-color : #f1fce6;
         }
 
         .panel-body, .panel-heading {
@@ -25,7 +25,7 @@
 <body>
     <div class="container body-content">
         <div class="panel-primary">
-            <div class="panel-body">
+            <div class="panel-body" >
                 @RenderBody()
             </div>
         </div>
