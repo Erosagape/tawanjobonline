@@ -2,14 +2,14 @@
     ViewBag.Title = "Advance Payment"
 End Code
 <style>
-    @@media only screen and ( max-width:600px )
-    {
+    @@media only screen and ( max-width:600px ) {
         #myTabs {
-            display:none;
+            display: none;
         }
+
         #mySelects {
-            width:100%;
-            display:block !important;
+            width: 100%;
+            display: block !important;
         }
     }
 </style>
@@ -29,7 +29,7 @@ End Code
         <div class="tab-content">
             <div id="tab1" class="tab-pane fade in active">
                 <div class="row">
-                    <div class="col-sm-4">                        
+                    <div class="col-sm-4">
                         <label id="lblBranch">Branch</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
@@ -50,7 +50,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <label id="lblReqBy">Request By :</label>                        
+                        <label id="lblReqBy">Request By :</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtReqBy" style="width:100px" />
@@ -71,7 +71,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <label id="lblCurrency">Request Currency :</label>                        
+                        <label id="lblCurrency">Request Currency :</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtCurrencyCode" style="width:20%" />
@@ -98,24 +98,6 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <input type="checkbox" id="chkSummary" /> Summary By Employee 
-                        <br/>
-                        <table id="tbSummary" class="table table-responsive">
-                            <thead>
-                                <tr>
-                                    <th class="desktop">Oper.date</th>
-                                    <th>Employee</th>
-                                    <th class="desktop">Job.No</th>
-                                    <th class="desktop">customer</th>
-                                    <th class="desktop">Cash/Transfer</th>
-                                    <th class="desktop">Company Chq</th>
-                                    <th class="desktop">Customer Chq</th>
-                                    <th class="desktop">Credit</th>
-                                    <th class="all">Total</th>
-                                    <th class="all">W-Tax</th>
-                                </tr>
-                            </thead>
-                        </table>
                         <table id="tbHeader" class="table table-responsive">
                             <thead>
                                 <tr>
@@ -217,7 +199,7 @@ End Code
                     <div class="col-sm-3 table-bordered" id="dvChq">
                         <b id="linkChqCust">Customer Chq : </b><input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
-                        <input type="hidden" id="txtBookChq" class="form-control" value=""/>
+                        <input type="hidden" id="txtBookChq" class="form-control" value="" />
                         <a id="lblRefNoCU" href="../acc/cheque" target="_blank">Chq No:</a><input type="text" id="txtRefNoChq" class="form-control" value="" disabled />
                         <input type="button" class="btn" id="btnBrowseChq" value="..." onclick="SearchData('chequecust')" />
                         <br />
@@ -250,8 +232,8 @@ End Code
                             <b id="linkBal">Balance</b>
                             <br />
                             <label id="lblForCA">For Cash/Transfer :</label>
-                            <br /> 
-                            <input type="number" id="txtCashBal" class="form-control" disabled />                                   
+                            <br />
+                            <input type="number" id="txtCashBal" class="form-control" disabled />
                             <label id="lblForCH">For Cheque : </label>
                             <br /> <input type="number" id="txtChqCashBal" class="form-control" disabled />
                         </div>
@@ -303,31 +285,31 @@ End Code
     </div>
     <div id="dvLOVs"></div>
     <did id="frmSearchChq" class="modal fade" role="dialog">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <label id="lblCaptionChq">Select Cheque Onhand</label>                     
-                 </div>
-                 <div class="modal-body">
-                     <table id="tbChq" class="table table-responsive">
-                         <thead>
-                             <tr>
-                                 <th>#</th>
-                                 <th>ChqNo</th>
-                                 <th class="all">ChqDate</th>
-                                 <th class="desktop">ChqAmount</th>
-                                 <th class="desktop">AmountUsed</th>
-                                 <th class="all">AmountRemain</th>
-                             </tr>
-                         </thead>
-                         <tbody></tbody>
-                     </table>
-                 </div>
-                 <div class="modal-footer">
-                     <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
-                 </div>
-             </div>
-         </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <label id="lblCaptionChq">Select Cheque Onhand</label>
+                </div>
+                <div class="modal-body">
+                    <table id="tbChq" class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>ChqNo</th>
+                                <th class="all">ChqDate</th>
+                                <th class="desktop">ChqAmount</th>
+                                <th class="desktop">AmountUsed</th>
+                                <th class="all">AmountRemain</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
+                </div>
+            </div>
+        </div>
     </did>
 </div>
 <script src="~/Scripts/Func/combo.js"></script>
@@ -488,14 +470,15 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtAdvDateT').val());
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
-        w = w + '&Status=2';
+        //w = w + '&Show=NOPAY';
+	w = w + '&Status=2';
         $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.adv.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.adv.data[0].Table;
+            let h = r.adv.data;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
             let tb=$('#tbHeader').DataTable({
@@ -742,7 +725,7 @@ End Code
     }
     function GetSumPayment(type) {
         let filter_data = arr.filter(function (data) {
-            return data.PayType==type
+            return data[type] > 0
         });
         let filter_sum = {
             sumamount: 0,
@@ -776,7 +759,7 @@ End Code
             let sum_cash = GetSumPayment('AdvCash');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
@@ -814,7 +797,7 @@ End Code
             let sum_chq = GetSumPayment('AdvChq');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
@@ -852,7 +835,7 @@ End Code
             let sum_chqcash = GetSumPayment('AdvChqCash');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
@@ -890,7 +873,7 @@ End Code
             let sum_cr = GetSumPayment('AdvCred');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
@@ -947,7 +930,7 @@ End Code
         if (list.length > 0) {
             for (let i = 0; i < list.length; i++) {
                 let o = list[i];
-                o.ControlNo = docno;
+                o.ControlNo = $('#txtControlNo').val();
             }
             let jsonString = JSON.stringify({ data: list });
             $.ajax({
@@ -986,6 +969,7 @@ End Code
                 if (response) {
                     PrintVoucher($('#txtBranchCode').val(), $('#txtControlNo').val());
                 }
+                $('#btnSave').removeAttr('disabled');
                 SetGridAdv(false);
             },
             error: function (e) {
@@ -994,6 +978,7 @@ End Code
         });
     }
     function ApproveData() {
+        $('#btnSave').attr('disabled', 'disabled');
         if (arr.length < 0) {
             ShowMessage('No data to approve',true);
             return;

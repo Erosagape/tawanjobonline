@@ -1,6 +1,6 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.ReportName = "QUOTATION"
+    ViewBag.ReportName = "ใบเสนอราคา/สัญญาขนส่ง"
     ViewBag.Title = "Quotation Form"
 End Code
 <style>
@@ -64,7 +64,7 @@ End Code
 <br />
 <div style="display:flex">
     <div style="flex:1">
-        <div id="lblDescriptionH"></div>
+        <div id="lblDescriptionH" style="color:red"></div>
     </div>
 </div>
 
@@ -108,18 +108,27 @@ End Code
         ___/_______/___<br />
         AUTHORIZED SIGNATURE
     </div>
-    <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
+    <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
         FOR THE COMPANY
-        <br /><br /><br />
-        <p>_____________________</p>
-        _____________________<br />
-        ___/_______/___<br />
+        <br />
+        <img src="~/Resource/chutarat.png" style="width:50%;" />
     </div>
+    @Code
+        If ViewBag.Database = "1" Then
+            @<img id="logo" src="~/Resource/theso_transparent.png" style="width:120px;position:absolute;left:50%;" />
+        Else
+            @<img id="logo" src="~/Resource/kps_transparent.png" style="width:120px;position:absolute;left:50%;" />
+        End If
+    End Code
 </div>
 <script type="text/javascript">
+
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
     let docno = getQueryString('docno');
+    if(confirm("Show Logo?")==false) {
+      $('#logo').hide();
+    }
     $.get(path + 'joborder/getquotation?branch=' + branch + '&code=' + docno, function (r) {
         if (r.quotation.header !== null) {
             ShowData(r.quotation);

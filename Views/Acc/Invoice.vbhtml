@@ -143,13 +143,13 @@ End Code
                                     <input type="text" id="txtVATRate" class="form-control" /><br />
                                 </div>
                                 <div style="flex:2">
-                                    <label id="lblTotalVat">VAT</label><br /><input type="text" id="txtTotalVAT" class="form-control" disabled />
+                                    <label id="lblTotalVat">VAT</label><br /><input type="text" id="txtTotalVAT" class="form-control" />
                                 </div>
                             </div>
                             <label id="lblTotalIs50Tavi">Taxable</label><input type="text" id="txtTotalIs50Tavi" class="form-control" disabled />
-                            <label id="lblTotal50Tavi">WH-Tax</label><input type="text" id="txtTotal50Tavi" class="form-control" disabled />
-                            <label id="lblTotalCustAdv">Cust.Adv</label><input type="text" id="txtTotalCustAdv" class="form-control" disabled />
-                            <label id="lblTotalNet">Total Inv</label><input type="text" id="txtTotalNet" class="form-control" disabled />
+                            <label id="lblTotal50Tavi">WH-Tax</label><input type="text" id="txtTotal50Tavi" class="form-control" />
+                            <label id="lblTotalCustAdv">Cust.Adv</label><input type="text" id="txtTotalCustAdv" class="form-control" />
+                            <label id="lblTotalNet">Total Inv</label><input type="text" id="txtTotalNet" class="form-control" />
                         </div>
                         <div class="col-sm-5" style="display:flex;flex-direction:column">
                             <p>
@@ -305,7 +305,7 @@ End Code
                             <label id="lblSICode">Code</label>
                             <br />
                             <div style="display:flex">
-                                <input type="text" id="txtSICode" class="form-control" style="width:20%" disabled />
+                                <input type="text" id="txtSICode" class="form-control" style="width:20%" />
                                 <input type="text" id="txtSDescription" class="form-control" style="width:80%" />
 
                             </div>
@@ -749,6 +749,7 @@ End Code
     }
     function SaveDetail() {
         if (row_d !== null) {
+	    row_d.SICode = $('#txtSICode').val();
             row_d.SDescription = $('#txtSDescription').val();
             row_d.ExpSlipNO = $('#txtExpSlipNO').val();
             row_d.SRemark = $('#txtSRemark').val();

@@ -16,7 +16,7 @@ End Code
                 <div id="dvJob"></div>
             </div>
             <div class="col-sm-4" style="text-align:left">
-                <label id="lblAdvNo">Advance No:</label>
+                <label id="lblAdvNo" ondblclick="SaveHeader()">Advance No:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtAdvNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
@@ -1345,6 +1345,16 @@ End Code
             $('#txtCustCode').focus();
             return false;
         }
+        if ($('#txtPayTo').val() == '') {
+            ShowMessage('Please input payment to',true);
+            $('#txtPayTo').focus();
+            return false;
+       } 
+       if ($('#txtTRemark').val() == '') {
+            ShowMessage('Please input some remark',true);
+            $('#txtTRemark').focus();
+            return false;
+        }
         if ($('#cboJobType').val() == 0) {
             ShowMessage('please select job type',true);
             $('#cboJobType').focus();
@@ -1717,6 +1727,10 @@ End Code
         }
         if (hdr.AdvNo == '') {
             ShowMessage('Please save document before add detail',true);
+            return;
+        }
+        if (Number($('#txtAdvQty').val()) == 0) {
+            ShowMessage('Please check quantity', true);
             return;
         }
         if (Number($('#txtNET').val()) == 0) {

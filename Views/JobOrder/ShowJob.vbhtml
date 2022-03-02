@@ -38,7 +38,7 @@ End Code
             <div class="col-sm-3">
                 <div style="display:flex;flex-direction:row">
                     <label id="lblDocDate">Open Date:</label>
-                    <input type="date" class="form-control" id="txtDocDate" disabled />
+                    <input type="date" class="form-control" id="txtDocDate" />
                 </div>
             </div>
             <div class="col-sm-3">
@@ -1301,6 +1301,10 @@ End Code
                 if (dr.JobStatus >= 7) {
                     $('#btnSave').attr('disabled', 'disabled');
                 }
+		if(dr.JobStatus>90){
+		    $('#btnLinkAdv').attr('disabled', 'disabled');
+		    $('#btnLinkClr').attr('disabled', 'disabled');
+		}
             }
         });
         ShowLog(Branch, Job);

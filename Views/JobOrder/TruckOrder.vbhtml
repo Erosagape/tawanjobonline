@@ -10,8 +10,8 @@ End Code
 <br />
             รายชื่องาน :
 <label id="txtProjectName"></label>
-<br/>
 <div style="display:flex;flex-direction:column;">
+<br/>
     <div style="display:flex;flex-direction:row">
         <div style="flex:1">
             จำนวน :

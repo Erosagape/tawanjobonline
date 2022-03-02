@@ -82,6 +82,10 @@ End Code
                                     <td> Total sale</td>
                                     <td Class="right">@Format(dr("SumCharge").ToString(), "Fixed")</td>
                                 </tr>
+                                <tr>
+                                    <td> Total Adv</td>
+                                    <td Class="right">@Format(dr("SumAdv").ToString(), "Fixed")</td>
+                                </tr>
                             </tbody>
                         </Table>
                     </td>

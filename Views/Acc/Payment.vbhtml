@@ -596,7 +596,7 @@ End Code
     }
     function GetSumPayment(type) {
         let filter_data = arr.filter(function (data) {
-            return data.PayType == type
+            return data[type] > 0
         });
         let filter_sum = {
             sumamount: 0,

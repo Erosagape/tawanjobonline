@@ -1468,16 +1468,7 @@ End Code
             ChqNo: $('#txtChqNo').val(),
             ChqAmount: $('#txtChqAmount').val()
         };
-            $('#txtChqAmount').val(CDbl(c.ChqAmount,2));
-/*
-        if (c.ChqAmount <= (CNum($('#txtTotalNet').val())+CNum($('#txtTotalNet').val()))) {
-            $('#txtChqAmount').val(CDbl(c.ChqAmount,2));
-        } else {
-            //ShowMessage('Cheque Amount is more than total invoices', true);
-            c.ChqAmount = (CNum($('#txtTotalNet').val())+CNum($('#txtTotal50Tavi').val()));
-            $('#txtChqAmount').val(CDbl((CNum($('#txtTotalNet').val())+CNum($('#txtTotalNet').val())),2));
-        }
-*/
+        $('#txtChqAmount').val(CDbl(c.ChqAmount,2));
         if (chq.indexOf(c) < 0) {
             chq.push(c);
         } else {
