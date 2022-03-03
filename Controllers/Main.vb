@@ -583,7 +583,7 @@ d.ItemNo,d.PRVoucher,d.PRType,d.ChqNo,d.BookCode,d.BankCode,d.BankBranch,d.ChqDa
 d.SumAmount,d.CurrencyCode,d.ExchangeRate,d.VatInc+d.VatExc as VatAmount,d.WhtInc+d.WhtExc as WhtAmount,d.TotalAmount,
 d.TotalNet,d.IsLocal,d.ChqStatus,d.TRemark as DRemark,d.PayChqTo,d.DocNo as DRefNo,d.SICode,d.RecvBank,d.RecvBranch,
 d.acType,d.ForJNo,r.ItemNo as DocItemNo,r.DocType,r.DocNo,r.DocDate,r.CmpType,r.CmpCode,r.CmpBranch,r.PaidAmount as PaidTotal,r.TotalAmount as DocTotal
-FROM Job_CashControl h inner join Job_CashControlSub d
+FROM Job_CashControl h left join Job_CashControlSub d
 on h.BranchCode=d.BranchCode AND h.ControlNo=d.ControlNo
 left join Job_CashControlDoc r
 on d.BranchCode=r.BranchCode AND d.ControlNo=r.ControlNo

@@ -978,7 +978,6 @@ End Code
         });
     }
     function ApproveData() {
-        $('#btnSave').attr('disabled', 'disabled');
         if (arr.length < 0) {
             ShowMessage('No data to approve',true);
             return;
@@ -986,6 +985,7 @@ End Code
         if (CheckBalance() == false) {
             return;
         }
+        $('#btnSave').attr('disabled', 'disabled');
         let oHeader = {
             BranchCode: $('#txtBranchCode').val(),
             ControlNo: '',

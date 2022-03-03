@@ -617,12 +617,12 @@ End Code
                                             </div>
                                             <div style="flex:1;display: flex;flex-direction: row; ">
                                                 <div>
-                                                    <label id="lblPickupActual">Actual Date :</label>
+                                                    <label id="lblPickupActual" onclick="SetDate('#txtActualYardDate')">Actual Date :</label>
                                                     <br />
                                                     <div style="display:flex"><input type="date" id="txtActualYardDate" class="form-control"></div>
                                                 </div>
                                                 <div>
-                                                    <label id="lblPickupActualTime">Actual Time :</label>
+                                                    <label id="lblPickupActualTime" onclick="SetTime('#txtActualYardTime')">Actual Time :</label>
                                                     <br />
                                                     <div style="display:flex"><input type="text" id="txtActualYardTime" class="form-control"></div>
                                                 </div>
@@ -672,11 +672,11 @@ End Code
                                             </div>
                                             <div style="flex:1;display: flex;flex-direction: row; ">
                                                 <div>
-                                                    <label id="lblDeliveryActual">Actual Date :</label>
+                                                    <label id="lblDeliveryActual" onclick="SetDate('#txtUnloadFinishDate')">Actual Date :</label>
                                                     <br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
                                                 </div>
                                                 <div>
-                                                    <label id="lblDeliveryActualTime">Actual Time :</label>
+                                                    <label id="lblDeliveryActualTime" onclick="SetTime('#txtUnloadFinishTime')">Actual Time :</label>
                                                     <br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
                                                 </div>
                                             </div>
@@ -727,12 +727,12 @@ End Code
                                             </div>
                                             <div style="flex:1;display: flex;flex-direction: row; ">
                                                 <div>
-                                                    <label id="lblReturnActual">Actual Date:</label>
+                                                    <label id="lblReturnActual" onclick="SetDate('#txtDReturnDate')">Actual Date:</label>
                                                     <br />
                                                     <div style="display:flex"><input type="date" id="txtDReturnDate" class="form-control"></div>
                                                 </div>
                                                 <div>
-                                                    <label id="lblReturnActualTime">Actual Time:</label>
+                                                    <label id="lblReturnActualTime" onclick="SetTime('#txtFinish')">Actual Time:</label>
                                                     <br />
                                                     <div style="display:flex"><input type="text" id="txtFinish" class="form-control"></div>
                                                 </div>
@@ -2215,5 +2215,11 @@ End Code
                 ChangeLanguageGrid('@ViewBag.Module', '#tbAddFuel');
             }
         });
+    }
+    function SetDate(id) {
+        $(id).val(CDateEN(GetToday()));
+    }
+    function SetTime(id) {
+        $(id).val(GetTime());
     }
 </script>

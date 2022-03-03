@@ -611,14 +611,14 @@ End Code
     function ReadService1(dt) {
         $('#txtSICode').val(dt.SICode);
         $('#txtCostName').val(dt.NameThai);
-        $('#txtChargeAmount').val(CDbl(dt.StdPrice,2));
+        //$('#txtChargeAmount').val(CDbl(dt.StdPrice,2));
         $('#txtCostAmount').val(CDbl(dt.StdPrice, 2));
         ReadService2(dt);
     }
     function ReadService2(dt) {
         $('#txtChargeCode').val(dt.SICode);
         $('#txtChargeName').val(dt.NameThai);
-        $('#txtChargeAmount').val(CDbl(dt.StdPrice,2));
+        //$('#txtChargeAmount').val(CDbl(dt.StdPrice,2));
     }
     function ReadVender(dt) {
         $('#txtVenderCode').val(dt.VenCode);

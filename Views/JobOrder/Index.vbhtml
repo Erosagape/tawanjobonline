@@ -122,7 +122,6 @@ End Code
         </table>
     </div>
 <div id="dvLOVs"></div>
-<script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let user = '@ViewBag.User';
@@ -169,7 +168,7 @@ End Code
         loadCombos(path, lists);
         loadYear(path);
         loadMonth('#cboMonth');
-        $('#cboMonth').val('');
+        
         if (custcode != '') {
             $('#txtCustCode').val(custcode);            
         }

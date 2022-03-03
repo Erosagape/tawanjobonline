@@ -311,8 +311,8 @@ End Code
         let code = getQueryString('code');
         if (branch != "" && code != "") {
             $.get(path + 'acc/getwhtaxgrid?branch=' + branch + '&code=' + code, function (r) {
-                if (r.whtax.data[0].Table !== undefined) {
-                    let h = r.whtax.data[0].Table[0];
+                if (r.whtax.data !== undefined) {
+                    let h = r.whtax.data[0];
                     $('#txtDocNo').text(h.DocNo);
                     $('#txtTaxNumber1').text(h.IDCard1);
                     if (h.TaxNumber1 !== null) {
@@ -346,7 +346,7 @@ End Code
                     $('#txtUpdateName').text(h.UpdateName);
                     $('#txtDocDate').text(ShowDate(CDateTH(h.DocDate)));
 
-                    let d = r.whtax.data[0].Table;
+                    let d = r.whtax.data;
                     let totalamt = 0;
                     let totaltax = 0;
                     for (let i = 0; i < d.length; i++) {
