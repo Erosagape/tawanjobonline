@@ -1590,6 +1590,9 @@
     <Content Include="App_Data\THESOLUTION\JobOrder\FormJob.vbhtml" />
     <Content Include="Views\Report\Summary.vbhtml" />
     <Content Include="Views\JobOrder\Summary.vbhtml" />
+    <Content Include="Views\Acc\Summary.vbhtml" />
+    <Content Include="Views\Adv\Summary.vbhtml" />
+    <Content Include="Views\Clr\Summary.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

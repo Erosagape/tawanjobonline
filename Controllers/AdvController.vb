@@ -1020,5 +1020,8 @@ Namespace Controllers
             Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateAdvStatus())
             Return Content("OK", textContent)
         End Function
+        Function Summary() As ActionResult
+            Return GetView("Summary", "MODULE_ADV")
+        End Function
     End Class
 End Namespace
