@@ -3453,5 +3453,288 @@ ORDER BY a.TName1
                 Return Content("{""rcpdetail"":{""result"":""" & ex.Message & """,""data"":[]}}", jsonContent)
             End Try
         End Function
+        Function Summary() As ActionResult
+            Dim html = ""
+            Dim sqlGroupSum = "
+select 
+Year(h.ClrDate) as Yearly,
+g.GroupName,s.IsExpense,s.IsCredit,
+sum(d.UsedAmount) as Total,
+sum(d.UsedAmount)/12 as Average,
+sum(case when Month(h.ClrDate)=1 then d.UsedAmount else 0 end) as Jan,
+sum(case when Month(h.ClrDate)=2 then d.UsedAmount else 0 end) as Feb,
+sum(case when Month(h.ClrDate)=3 then d.UsedAmount else 0 end) as Mar,
+sum(case when Month(h.ClrDate)=4 then d.UsedAmount else 0 end) as Apr,
+sum(case when Month(h.ClrDate)=5 then d.UsedAmount else 0 end) as May,
+sum(case when Month(h.ClrDate)=6 then d.UsedAmount else 0 end) as Jun,
+sum(case when Month(h.ClrDate)=7 then d.UsedAmount else 0 end) as Jul,
+sum(case when Month(h.ClrDate)=8 then d.UsedAmount else 0 end) as Aug,
+sum(case when Month(h.ClrDate)=9 then d.UsedAmount else 0 end) as Sep,
+sum(case when Month(h.ClrDate)=10 then d.UsedAmount else 0 end) as Oct,
+sum(case when Month(h.ClrDate)=11 then d.UsedAmount else 0 end) as Nov,
+sum(case when Month(h.ClrDate)=12 then d.UsedAmount else 0 end) as Dec
+from JoB_ClearHeader h 
+inner join Job_ClearDetail d
+on h.BranchCode=d.BranchCode 
+and h.ClrNo=d.ClrNo
+inner join Job_SrvSingle s
+on d.SICode=s.SICode
+left join Job_SrvGroup g
+on s.GroupCode=g.GroupCode
+where h.DocStatus<>99
+group by Year(h.ClrDate),g.GroupName,s.IsExpense,s.IsCredit
+order by 1,3,4
+"
+            Dim groupCode = New CServiceGroup(GetSession("ConnJob")).GetData("")
+            Dim htmlGroupHeader = ""
+            htmlGroupHeader &= "<thead>"
+            htmlGroupHeader &= "<tr>"
+            htmlGroupHeader &= "<th>Details</th>"
+            htmlGroupHeader &= "<th>YEARLY</th>"
+            For i As Integer = 1 To 12
+                htmlGroupHeader &= "<th></th>"
+            Next
+            htmlGroupHeader &= "<th>AVERAGE</th>"
+            htmlGroupHeader &= "</tr>"
+            htmlGroupHeader &= "</thead>"
+            Dim htmlGroupDetail = htmlGroupHeader & "<tbody>"
+
+            Dim oTbl = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlGroupSum)
+            If oTbl.Rows.Count > 0 Then
+                Dim currYear = oTbl.Rows(0)("Yearly").ToString()
+                htmlGroupDetail &= "<tr class=""groupheader"">"
+                htmlGroupDetail &= "<td></td>"
+                htmlGroupDetail &= "<td><b>" & currYear & "</b></td>"
+                For i As Integer = 1 To 12
+                    htmlGroupDetail &= "<td><b>" & i & "</b></td>"
+                Next
+                htmlGroupDetail &= "<td></td>"
+                htmlGroupDetail &= "</tr>"
+                Dim sumMonthly(12) As Double
+                Dim rowCount = 0
+                For Each dr As DataRow In oTbl.Rows
+                    rowCount += 1
+                    If currYear <> dr("Yearly").ToString() Then
+                        htmlGroupDetail &= "<tr class=""groupfooter"">"
+                        htmlGroupDetail &= "<td><b>TOTAL " & currYear & "</b></td>"
+                        htmlGroupDetail &= "<td class=""number""><b>" & sumMonthly(0).ToString("#,###,##0.00") & "</b></td>"
+                        For i As Integer = 1 To 12
+                            htmlGroupDetail &= "<td class=""number""><b>" & sumMonthly(i).ToString("#,###,##0.00") & "</b></td>"
+                        Next
+                        htmlGroupDetail &= "<td class=""number""><b>" & (sumMonthly(0) / 12).ToString("#,###,##0.00") & "</b></td>"
+                        htmlGroupDetail &= "</tr>"
+
+                        currYear = dr("Yearly").ToString()
+                        For i As Integer = 0 To 12
+                            sumMonthly(i) = 0
+                        Next
+
+                        htmlGroupDetail &= "<tr class=""groupheader"">"
+                        htmlGroupDetail &= "<td></td>"
+                        htmlGroupDetail &= "<td><b>" & currYear & "</b></td>"
+                        For i As Integer = 1 To 12
+                            htmlGroupDetail &= "<td><b>" & i & "</b></td>"
+                        Next
+                        htmlGroupDetail &= "<td></td>"
+                        htmlGroupDetail &= "</tr>"
+                    End If
+                    htmlGroupDetail &= "<tr>"
+                    htmlGroupDetail &= "<td>" & dr("GroupName") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Total")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Jan")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Feb")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Mar")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Apr")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("May")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Jun")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Jul")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Aug")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Sep")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Oct")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Nov")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Dec")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Average")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "</tr>"
+
+                    sumMonthly(0) += Convert.ToDouble(dr("Total"))
+                    sumMonthly(1) += Convert.ToDouble(dr("Jan"))
+                    sumMonthly(2) += Convert.ToDouble(dr("Feb"))
+                    sumMonthly(3) += Convert.ToDouble(dr("Mar"))
+                    sumMonthly(4) += Convert.ToDouble(dr("Apr"))
+                    sumMonthly(5) += Convert.ToDouble(dr("May"))
+                    sumMonthly(6) += Convert.ToDouble(dr("Jun"))
+                    sumMonthly(7) += Convert.ToDouble(dr("Jul"))
+                    sumMonthly(8) += Convert.ToDouble(dr("Aug"))
+                    sumMonthly(9) += Convert.ToDouble(dr("Sep"))
+                    sumMonthly(10) += Convert.ToDouble(dr("Oct"))
+                    sumMonthly(11) += Convert.ToDouble(dr("Nov"))
+                    sumMonthly(12) += Convert.ToDouble(dr("Dec"))
+                    If rowCount = oTbl.Rows.Count Then
+                        htmlGroupDetail &= "<tr class=""groupfooter"">"
+                        htmlGroupDetail &= "<td><b>TOTAL " & currYear & "</b></td>"
+                        htmlGroupDetail &= "<td class=""number""><b>" & sumMonthly(0).ToString("#,###,##0.00") & "</b></td>"
+                        For i As Integer = 1 To 12
+                            htmlGroupDetail &= "<td class=""number""><b>" & sumMonthly(i).ToString("#,###,##0.00") & "</b></td>"
+                        Next
+                        htmlGroupDetail &= "<td class=""number""><b>" & (sumMonthly(0) / 12).ToString("#,###,##0.00") & "</b></td>"
+
+                        htmlGroupDetail &= "</tr>"
+                    End If
+
+                Next
+            End If
+            htmlGroupDetail &= "</tbody>"
+
+            html &= "<h2>Summary Yearly By Group Accounts</h2>"
+            html &= "<table border=""1"" style=""border-collapse:collapse;border-width:thin;background-color:white;"">"
+            html &= htmlGroupDetail
+            html &= "</table>"
+
+            ViewBag.DataGrid1 = html
+
+            sqlGroupSum = "
+select YEAR(h.ClrDate) as Yearly,Month(h.ClrDate) as Monthly,
+s.GroupCode,g.GroupName,s.NameThai,
+sum(CASE WHEN s.IsExpense=0 THEN d.UsedAmount ELSE 0 END)  as Income,
+sum(CASE WHEN s.IsExpense=1 OR s.IsCredit=1 THEN d.UsedAmount ELSE 0 END)  as Expense,
+sum(CASE WHEN s.IsExpense=1 OR s.IsCredit=1 THEN -1*d.UsedAmount ELSE d.UsedAmount END)  as Total
+from Job_ClearDetail d
+inner join Job_SrvSingle s
+on d.SICode=s.SICode 
+inner join Job_ClearHeader h
+on d.BranchCode=h.BranchCode
+and d.ClrNo=h.ClrNo
+inner join Job_SrvGroup g
+on s.GroupCode=g.GroupCode
+where h.DocStatus<>99
+group by YEAR(h.ClrDate),Month(h.ClrDate),s.GroupCode,g.GroupName,s.NameThai
+order by YEAR(h.ClrDate),Month(h.ClrDate),s.GroupCode,s.NameThai
+"
+            html = "<h2>Yearly By Type</h2>"
+            html &= "<table border=""1"" style=""border-collapse:collapse;border-width:thin;background-color:white;width:100%;"">"
+
+            htmlGroupHeader = "<thead>"
+            htmlGroupHeader &= "<tr>"
+            htmlGroupHeader &= "<th>Details</th>"
+            htmlGroupHeader &= "<th>Income</th>"
+            htmlGroupHeader &= "<th>Expenses</th>"
+            htmlGroupHeader &= "<th>Total</th>"
+            htmlGroupHeader &= "</tr>"
+            htmlGroupHeader &= "</thead>"
+
+            htmlGroupDetail = htmlGroupHeader & "<tbody>"
+            oTbl = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlGroupSum)
+            If oTbl.Rows.Count > 0 Then
+                Dim currGroup = oTbl.Rows(0)("GroupName").ToString()
+                Dim currYear = oTbl.Rows(0)("Yearly").ToString() & " / " & oTbl.Rows(0)("Monthly").ToString()
+                htmlGroupDetail &= "<tr class=""groupheader"">"
+                htmlGroupDetail &= "<td><b>" & currYear & "</b></td>"
+                htmlGroupDetail &= "<td></td>"
+                htmlGroupDetail &= "<td></td>"
+                htmlGroupDetail &= "<td></td>"
+                htmlGroupDetail &= "</tr>"
+                htmlGroupDetail &= "<tr>"
+                htmlGroupDetail &= "<td colspan=""4""><b>" & currGroup & "</b></td>"
+                htmlGroupDetail &= "</tr>"
+                Dim rowCount = 0
+                Dim sumYear(3) As Double
+                Dim sumGroup(3) As Double
+                For Each dr As DataRow In oTbl.Rows
+                    rowCount += 1
+                    If currYear <> dr("Yearly").ToString() & " / " & dr("Monthly").ToString() Then
+                        htmlGroupDetail &= "<tr class=""grouptotal"">"
+                        htmlGroupDetail &= "<td>" & currGroup & "</td>"
+                        htmlGroupDetail &= "<td class=""number"">" & sumGroup(0).ToString("#,###,##0.00") & "</td>"
+                        htmlGroupDetail &= "<td class=""number"">" & sumGroup(1).ToString("#,###,##0.00") & "</td>"
+                        htmlGroupDetail &= "<td class=""number"">" & sumGroup(2).ToString("#,###,##0.00") & "</td>"
+                        htmlGroupDetail &= "</tr>"
+
+                        currGroup = dr("GroupName").ToString()
+                        sumGroup(0) = 0
+                        sumGroup(1) = 0
+                        sumGroup(2) = 0
+
+                        htmlGroupDetail &= "<tr class=""groupfooter"">"
+                        htmlGroupDetail &= "<td><b>" & currYear & "</b></td>"
+                        htmlGroupDetail &= "<td class=""number"">" & sumYear(0).ToString("#,###,##0.00") & "</td>"
+                        htmlGroupDetail &= "<td class=""number"">" & sumYear(1).ToString("#,###,##0.00") & "</td>"
+                        htmlGroupDetail &= "<td class=""number"">" & sumYear(2).ToString("#,###,##0.00") & "</td>"
+                        htmlGroupDetail &= "</tr>"
+
+                        sumYear(0) = 0
+                        sumYear(1) = 0
+                        sumYear(2) = 0
+
+                        currYear = dr("Yearly").ToString() & " / " & dr("Monthly").ToString()
+
+                        htmlGroupDetail &= "<tr class=""groupheader"">"
+                        htmlGroupDetail &= "<td><b>" & currYear & "</b></td>"
+                        htmlGroupDetail &= "<td></td>"
+                        htmlGroupDetail &= "<td></td>"
+                        htmlGroupDetail &= "<td></td>"
+                        htmlGroupDetail &= "</tr>"
+
+                        htmlGroupDetail &= "<tr>"
+                        htmlGroupDetail &= "<td colspan=""4""><b>" & currGroup & "</b></td>"
+                        htmlGroupDetail &= "</tr>"
+                    End If
+
+                    If currGroup <> dr("GroupName").ToString() Then
+                        htmlGroupDetail &= "<tr class=""grouptotal"">"
+                        htmlGroupDetail &= "<td>" & currGroup & "</td>"
+                        htmlGroupDetail &= "<td class=""number"">" & sumGroup(0).ToString("#,###,##0.00") & "</td>"
+                        htmlGroupDetail &= "<td class=""number"">" & sumGroup(1).ToString("#,###,##0.00") & "</td>"
+                        htmlGroupDetail &= "<td class=""number"">" & sumGroup(2).ToString("#,###,##0.00") & "</td>"
+                        htmlGroupDetail &= "</tr>"
+
+                        currGroup = dr("GroupName").ToString()
+                        sumGroup(0) = 0
+                        sumGroup(1) = 0
+                        sumGroup(2) = 0
+
+                        htmlGroupDetail &= "<tr>"
+                        htmlGroupDetail &= "<td colspan=""4""><b>" & currGroup & "</b></td>"
+                        htmlGroupDetail &= "</tr>"
+                    End If
+
+
+                    htmlGroupDetail &= "<tr>"
+                    htmlGroupDetail &= "<td>" & dr("NameThai").ToString() & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Income")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Expense")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "<td class=""number"">" & Convert.ToDouble(dr("Total")).ToString("#,###,##0.00") & "</td>"
+                    htmlGroupDetail &= "</tr>"
+
+                    sumYear(0) += Convert.ToDouble(dr("Income"))
+                    sumYear(1) += Convert.ToDouble(dr("Expense"))
+                    sumYear(2) += Convert.ToDouble(dr("Total"))
+                    sumGroup(0) += Convert.ToDouble(dr("Income"))
+                    sumGroup(1) += Convert.ToDouble(dr("Expense"))
+                    sumGroup(2) += Convert.ToDouble(dr("Total"))
+
+                    If rowCount = oTbl.Rows.Count Then
+                        htmlGroupDetail &= "<tr class=""grouptotal"">"
+                        htmlGroupDetail &= "<td>" & currGroup & "</td>"
+                        htmlGroupDetail &= "<td class=""number"">" & sumGroup(0).ToString("#,###,##0.00") & "</td>"
+                        htmlGroupDetail &= "<td class=""number"">" & sumGroup(1).ToString("#,###,##0.00") & "</td>"
+                        htmlGroupDetail &= "<td class=""number"">" & sumGroup(2).ToString("#,###,##0.00") & "</td>"
+                        htmlGroupDetail &= "</tr>"
+
+                        htmlGroupDetail &= "<tr class=""groupfooter"">"
+                        htmlGroupDetail &= "<td><b>" & currYear & "</b></td>"
+                        htmlGroupDetail &= "<td class=""number"">" & sumYear(0).ToString("#,###,##0.00") & "</td>"
+                        htmlGroupDetail &= "<td class=""number"">" & sumYear(1).ToString("#,###,##0.00") & "</td>"
+                        htmlGroupDetail &= "<td class=""number"">" & sumYear(2).ToString("#,###,##0.00") & "</td>"
+                        htmlGroupDetail &= "</tr>"
+                    End If
+                Next
+            End If
+            htmlGroupDetail &= "</tbody>"
+            html &= htmlGroupDetail
+            html &= "</table>"
+
+            ViewBag.DataGrid2 = html
+            Return GetView("Summary", "MODULE_ACC")
+        End Function
     End Class
 End Namespace

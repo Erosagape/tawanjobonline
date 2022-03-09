@@ -72,3 +72,10 @@ User :Administrator
 Pass :J{Uht8tdv
 DB : job_stm,job_stl
 Folder : D:\Web\STM
+
+-----------------------------------
+ACE : 203.151.56.105:14322
+-----------------------------------
+User : Administrator
+Pass : 5Chrr&e6pu
+DB : job_ace,job_act

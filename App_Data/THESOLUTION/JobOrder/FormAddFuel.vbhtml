@@ -197,10 +197,6 @@ End Code
     </table>
     <br />
     <br />
-    <br />
-    <br />
-    <br />
-    <br />
     <table>
         <thead>
             <tr>
@@ -292,8 +288,9 @@ End Code
             </tr>
         </tbody>
     </table>
-    <br />
-    <br />
+    <div style="display:flex;width:100%;">
+        <img src="~/Resource/fuel.jpg" style="width:100%;" />
+    </div>
 </p>
 
 <script type="text/javascript">

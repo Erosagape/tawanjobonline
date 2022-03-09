@@ -2696,6 +2696,25 @@ on f.CarNo=c.CarNo
             Dim json = "{""data"":" & jsonD & "}"
             Return Content(json, jsonContent)
         End Function
+        Function Summary() As ActionResult
+            Main.DBExecute(GetSession("ConnJob"), SQLUpdateJobStatus(""))
+            Dim cfgStatus = Main.GetDataConfig("JOB_STATUS")
+            ViewBag.DataStatus = cfgStatus
+            Dim fldStatus = ""
+            For Each status In cfgStatus
+                fldStatus &= String.Format(",SUM(CASE WHEN j.JobStatus={0} THEN 1 ELSE 0 END) as '{1}'", status.ConfigKey, status.ConfigValue)
+            Next
+            Dim sql = "
+SELECT c.CustCode,c.NameThai,c.NameEng,COUNT(*) as TotalJob,
+MAX(j.DutyDate) as LastWorkDate,MAX(j.JNo) as LastJobNo
+" & fldStatus & "
+FROM Job_Order j INNER JOIN Mas_Company c ON
+j.CustCode=c.CustCode
+GROUP BY c.CustCode,c.NameThai,c.NameEng
+"
+            ViewBag.DataCount1 = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+            Return GetView("Summary", "MODULE_CS")
+        End Function
     End Class
 
 End Namespace
