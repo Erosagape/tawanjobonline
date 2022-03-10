@@ -1014,12 +1014,12 @@ Namespace Controllers
         Function Summary() As ActionResult
             Dim sqlClrByTruck = "
 select r.Yearly,r.Monthly,r.TruckNo
-,sum(SumRevenue) as TotalRevenue 
-,sum(SumService) as TotalService
-,sum(SumAdvance) as TotalAdvance
-,sum(SumCost) as TotalCost
-,sum(SumFuel) as TotalFuel
-,sum(SumProfit) as TotalProfit
+,sum(ISNULL(SumRevenue,0)) as TotalRevenue 
+,sum(ISNULL(SumService,0)) as TotalService
+,sum(ISNULL(SumAdvance,0)) as TotalAdvance
+,sum(ISNULL(SumCost,0)) as TotalCost
+,sum(ISNULL(SumFuel,0)) as TotalFuel
+,sum(ISNULL(SumProfit,0)) as TotalProfit
 ,count(*) as CountTrip 
 from (
 select Year(j.DocDate) as Yearly,Month(j.DocDate) as Monthly,
