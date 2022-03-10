@@ -1021,6 +1021,155 @@ Namespace Controllers
             Return Content("OK", textContent)
         End Function
         Function Summary() As ActionResult
+            Dim sqlAdvSum = "
+select Year(h.PaymentDate) as Yearly,Month(h.PaymentDate) as Monthly
+,h.InvNo,d.ForJNo
+,isnull(ca.CarLicense,ld.TruckNO) as TruckNo
+,isnull(em.Name,ld.Driver) as Driver
+,sum(d.AdvAmount+d.ChargeVAT) as AdvPayment
+,sum(isnull(cl.ClrAmount,0)) as AdvClear
+,sum(isnull(cl.ClrCost,0)) as AdvCost
+,sum(isnull(cl.ClrCust,0)) as AdvCust
+,sum(isnull(cl.ClrInvoice,0)) as AdvBilling
+,sum(isnull(cl.ClrReceive,0)) as AdvReceive
+from Job_AdvHeader h
+inner join Job_AdvDetail d
+on h.BranchCode =d.BranchCode
+and h.AdvNo=d.AdvNo
+left join Job_LoadInfoDetail ld
+on h.BranchCode=ld.BranchCode 
+and h.InvNo=ld.CTN_NO
+and d.ForJNo=ld.JNo
+left join Mas_CarLicense ca
+on ld.TruckNO=ca.CarNo
+left join Mas_Employee em
+on ld.Driver=em.EmpCode
+left join (
+  select h.BranchCode,d.AdvNo,d.AdvItemNo,
+  sum(d.BNet+d.Tax50Tavi) as ClrAmount,
+  sum(case when s.IsExpense=1 then d.BNet+d.Tax50Tavi else 0 end) as ClrCost,
+  sum(case when s.IsExpense=0 then d.BNet+d.Tax50Tavi else 0 end) as ClrCust,
+  sum(i.InvAmt) as ClrInvoice,sum(i.RcvAmt) as ClrReceive
+  from Job_ClearDetail d inner join Job_ClearHeader h
+  on d.BranchCode=h.BranchCode and d.ClrNo=h.ClrNo
+  left join Job_SrvSingle s
+  on d.SICode=s.SICode
+  left join (
+	  select h.BranchCode,h.DocNo,d.ItemNo,d.TotalAmt+d.Amt50Tavi as InvAmt,r.RcvAmt
+	from Job_InvoiceDetail d inner join Job_InvoiceHeader h
+	on d.BranchCode=h.BranchCode and d.DocNo=h.DocNo 
+	left join (
+	 select h.BranchCode,d.InvoiceNo,d.InvoiceItemNo,sum(d.Net+d.Amt50Tavi+d.CreditAmount) as RcvAmt
+	 from Job_ReceiptDetail d inner join Job_ReceiptHeader h
+	 on d.BranchCode=h.BranchCode and d.ReceiptNo=h.ReceiptNo
+	 where not h.CancelProve<>''
+	 group by h.BranchCode,d.InvoiceNo,d.InvoiceItemNo
+	) r
+	on d.BranchCode=r.BranchCode
+	and d.DocNo=r.InvoiceNo
+	and d.ItemNo=r.InvoiceItemNo 
+	where not h.CancelProve<>''
+  ) i on d.BranchCode=i.BranchCode and 
+  d.LinkBillNo=i.DocNo and d.LinkItem=i.ItemNo
+  where h.DocStatus<>99
+  group by h.BranchCode,d.AdvNo,d.AdvItemNo
+) cl
+on d.BranchCode=cl.BranchCode
+and d.AdvNo=cl.AdvNO
+and d.ItemNo=cl.AdvItemNo
+where h.DocStatus<>99 and h.PaymentDate Is not null
+group by Year(h.PaymentDate),Month(h.PaymentDate),h.InvNo,d.ForJNo,isnull(ca.CarLicense,ld.TruckNO)
+,isnull(em.Name,ld.Driver)
+"
+            Dim html = "<h2>Summary By Documents</h2>"
+            html &= "<table border=""1"" style=""border-collapse:collapse;border-width:thin;background-color:white;width:100%;"">"
+            html &= "<thead>"
+            html &= "<tr>"
+            html &= "<th>Container No</th>"
+            html &= "<th>Job No</th>"
+            html &= "<th>Truck No</th>"
+            html &= "<th>Driver</th>"
+            html &= "<th>Payment</th>"
+            html &= "<th>Cleared</th>"
+            html &= "<th>Cost</th>"
+            html &= "<th>Customer</th>"
+            html &= "<th>Billing</th>"
+            html &= "<th>Receive</th>"
+            html &= "</tr>"
+            html &= "</thead>"
+            html &= "<tbody>"
+            Dim tb = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlAdvSum)
+            If tb.Rows.Count > 0 Then
+                Dim currYear = tb.Rows(0)("Yearly").ToString() & " / " & tb.Rows(0)("Monthly").ToString()
+
+                html &= "<tr class=""groupheader"">"
+                html &= "<td colspan=""4"">" & currYear & "</td>"
+                html &= "<td colspan=""6""></td>"
+                html &= "</tr>"
+
+                Dim sumValues(6) As Double
+                Dim rowCount = 0
+                For Each dr As DataRow In tb.Rows
+                    rowCount += 1
+                    If currYear <> dr("Yearly").ToString() & " / " & dr("Monthly").ToString() Then
+                        If rowCount > 1 Then
+                            html &= "<tr class=""grouptotal number"">"
+                            html &= "<td colspan=""4"">" & currYear & "</td>"
+                            For i As Integer = 0 To 5
+                                html &= "<td>" & sumValues(i).ToString("#,###,##0.00") & "</td>"
+                            Next
+                            html &= "</tr>"
+                        End If
+
+                        currYear = dr("Yearly").ToString() & " / " & dr("Monthly").ToString()
+
+                        html &= "<tr class=""groupheader"">"
+                        html &= "<td colspan=""4"">" & currYear & "</td>"
+                        html &= "<td colspan=""6""></td>"
+                        html &= "</tr>"
+
+                        For i As Integer = 0 To 5
+                            sumValues(i) = 0
+                        Next
+                    End If
+
+                    html &= "<tr class=""number"">"
+                    html &= "<td>" & dr("InvNo").ToString() & "</td>"
+                    html &= "<td>" & dr("ForJNo").ToString() & "</td>"
+                    html &= "<td>" & dr("TruckNo").ToString() & "</td>"
+                    html &= "<td>" & dr("Driver").ToString() & "</td>"
+                    html &= "<td>" & Convert.ToDouble(dr("AdvPayment")).ToString("#,###,##0.00") & "</td>"
+                    html &= "<td>" & Convert.ToDouble(dr("AdvClear")).ToString("#,###,##0.00") & "</td>"
+                    html &= "<td>" & Convert.ToDouble(dr("AdvCost")).ToString("#,###,##0.00") & "</td>"
+                    html &= "<td>" & Convert.ToDouble(dr("AdvCust")).ToString("#,###,##0.00") & "</td>"
+                    html &= "<td>" & Convert.ToDouble(dr("AdvBilling")).ToString("#,###,##0.00") & "</td>"
+                    html &= "<td>" & Convert.ToDouble(dr("AdvReceive")).ToString("#,###,##0.00") & "</td>"
+                    html &= "</tr>"
+
+                    sumValues(0) += Convert.ToDouble(dr(6))
+                    sumValues(1) += Convert.ToDouble(dr(7))
+                    sumValues(2) += Convert.ToDouble(dr(8))
+                    sumValues(3) += Convert.ToDouble(dr(9))
+                    sumValues(4) += Convert.ToDouble(dr(10))
+                    sumValues(5) += Convert.ToDouble(dr(11))
+
+                    If rowCount = tb.Rows.Count Then
+                        html &= "<tr class=""grouptotal number"">"
+                        html &= "<td colspan=""4"">" & currYear & "</td>"
+                        html &= "<td>" & sumValues(0).ToString("#,###,##0.00") & "</td>"
+                        html &= "<td>" & sumValues(1).ToString("#,###,##0.00") & "</td>"
+                        html &= "<td>" & sumValues(2).ToString("#,###,##0.00") & "</td>"
+                        html &= "<td>" & sumValues(3).ToString("#,###,##0.00") & "</td>"
+                        html &= "<td>" & sumValues(4).ToString("#,###,##0.00") & "</td>"
+                        html &= "<td>" & sumValues(5).ToString("#,###,##0.00") & "</td>"
+                        html &= "</tr>"
+
+                    End If
+                Next
+            End If
+            html &= "</tbody>"
+            html &= "</table>"
+            ViewBag.DataGrid1 = html
             Return GetView("Summary", "MODULE_ADV")
         End Function
     End Class
