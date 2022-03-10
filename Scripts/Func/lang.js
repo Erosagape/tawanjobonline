@@ -1380,7 +1380,12 @@ function GetLangMenu() {
         mnuSummary2: '2.Status Tracking|2.ติดตามสถานะงาน',
         mnuSummary3: '3.Job Timeline|3.สรุปสถานะงาน',
         mnuSummary4: '4.Dashboard By Customer|4.สรุปงานตามลูกค้า',
-        mnuSummary5: '5.Dashboard By Staff|5.สรุปงานตามพนักงาน'
+        mnuSummary5: '5.Dashboard By Staff|5.สรุปงานตามพนักงาน',
+        mainSum: 'Summary|สรุปการทำงาน',
+        mnuSum1: 'Operation|สรุปการปฏฺิบัติงาน',
+        mnuSum2: 'Advance|สรุปการเบิกเงิน',
+        mnuSum3: 'Clearing|สรุปการปิดค่าใช้จ่าย',
+        mnuSum4: 'Account|สรุปรายการทางบัญชี'
     };
 }
 function GetLangForm(fname) {
