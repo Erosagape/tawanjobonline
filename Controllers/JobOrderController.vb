@@ -301,7 +301,21 @@ Namespace Controllers
                     oHead(0).CancelDate = DateTime.MinValue
                     oHead(0).CancelReason = ""
                     oHead(0).ReferQNo = Request.QueryString("Code").ToString
-                    oHead(0).AddNew("Q-" & DateTime.Now.ToString("yyMM") & "-____")
+                    Dim fmt As String = GetValueConfig("RUNNING", "QUO")
+                    If fmt <> "" Then
+                        If fmt.IndexOf("bb") >= 0 Then
+                            fmt = fmt.Replace("bb", oHead(0).DocDate.AddYears(543).ToString("yy"))
+                        End If
+                        If fmt.IndexOf("MM") >= 0 Then
+                            fmt = fmt.Replace("MM", oHead(0).DocDate.ToString("MM"))
+                        End If
+                        If fmt.IndexOf("yy") >= 0 Then
+                            fmt = fmt.Replace("yy", oHead(0).DocDate.ToString("yy"))
+                        End If
+                    Else
+                        fmt = oHead(0).DocDate.ToString("yyMM") & "____"
+                    End If
+                    oHead(0).AddNew(GetValueConfig("RUNNING_FORMAT", "QUO", quoPrefix) & fmt)
                     Dim msg = oHead(0).SaveData(String.Format(" WHERE BranchCode='{0}' AND QNo='{1}'", oHead(0).BranchCode, oHead(0).QNo))
                     If msg.Substring(0, 1) = "S" Then
                         For Each detail In oDetails
