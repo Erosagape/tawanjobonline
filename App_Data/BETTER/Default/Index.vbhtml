@@ -10,7 +10,7 @@ End Code
     }
 </style>
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-xs-4">
             <div class="modal-header">
                 <img id="imgHeader" src="~/Resource/bft_header.png" />
             </div>
@@ -29,8 +29,8 @@ End Code
             </div>
         </form>
     </div>
-    <div class="col-sm-8">
-        <img src="~/Resource/better_bg.png" style="width:100%;" />
+    <div class="col-xs-8">
+        <img src="~/Resource/better_bg.png" style="width:90%;" />
     </div>
 </div>
 <script type="text/javascript">

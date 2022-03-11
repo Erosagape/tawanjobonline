@@ -4,101 +4,116 @@
 End Code
 <style>
     .underline {
-        border-bottom:solid;
-        border-width:thin;
-        border-collapse:collapse;
+        border-bottom: solid;
+        border-width: thin;
+        border-collapse: collapse;
     }
+
     table {
-        border-width:thin;
-        border-collapse:collapse;
+        border-width: thin;
+        border-collapse: collapse;
     }
+
     .block {
-        margin-bottom:4px;
+        margin-bottom: 4px;
     }
-    .block tr td {
-        text-align:center;
-    }
+
+        .block tr td {
+            text-align: center;
+        }
+
     .textleft {
-        text-align:left !important;
+        text-align: left !important;
     }
+
     .textright {
-        text-align:right !important;
+        text-align: right !important;
     }
 </style>
 <div style="display:flex;flex-direction:column">
-    <div class="block" style="width:100%;display:flex;flex-direction:row">
-        <div style="flex:1">
-            COMMERCIAL INVOICE:
-        </div>
-        <div id="dvInvNo" class="underline" style="flex:2">
 
+    <div class="block">
+        <div style="float:left">
+            <input type="checkbox" id="chkExport" />OUTBOUND
+            <input type="checkbox" id="chkImport" />INBOUND
+            <input type="checkbox" id="chkOther" />SHIPPING
         </div>
+        <div style="float:right;width:50%;">
+            <div style="width:100%;display:flex">
+                <div style="flex:1;">
+                    O BL/AWB NO:
+                </div>
+                <div id="dvMAWB" class="underline" style="flex:3">
+
+                </div>
+            </div>
+            <div style="width:100%;display:flex">
+                <div style="flex:1;">
+                    H BL/AWB NO:
+                </div>
+                <div id="dvHAWB" class="underline" style="flex:3">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
             JOB NO:
         </div>
         <div id="dvJNo" class="underline" style="flex:2">
 
         </div>
+        <div style="flex:1">
+            CUSTOMER INV.NO:
+        </div>
+        <div id="dvInvNo" class="underline" style="flex:2">
 
+        </div>
     </div>
-    <div class="block" style="width:100%;display:flex;flex-direction:row">
+    <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
             SHIPPER/CONSIGNEE:
         </div>
-        <div id="dvConsignee" class="underline" style="flex:5">
+        <div id="dvConsignee" class="underline" style="flex:2">
 
         </div>
-    </div>
-    <div class="block" style="display:flex;flex-direction:row">
-        <div style="flex:1;">
-            O BL/AWB NO:
+        <div style="flex:1">
+            ETD:
         </div>
-        <div id="dvMAWB" class="underline" style="flex:2">
-
-        </div>
-        <div style="flex:1;">
-            DECLARE NO:
-        </div>
-        <div id="dvDeclareNumber" class="underline" style="flex:2">
+        <div id="dvETDDate" class="underline" style="flex:2">
 
         </div>
     </div>
     <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
-            ETA DATE:
+            CONTACT:
+        </div>
+        <div id="dvContactName" class="underline" style="flex:2">
+
+        </div>
+        <div style="flex:1">
+            ETA:
         </div>
         <div id="dvETADate" class="underline" style="flex:2">
 
         </div>
+    </div>
+    <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
-            CLOSE JOB:
+            FEEDER:
         </div>
-        <div id="dvCloseJobDate" class="underline" style="flex:2">
+        <div id="dvVesselName" class="underline" style="flex:2">
+
+        </div>
+        <div style="flex:1">
+            D/O DATE:
+        </div>
+        <div id="dvEstDeliverDate" class="underline" style="flex:2">
 
         </div>
     </div>
     <div class="block" style="display:flex;flex-direction:row">
-        <div style="flex:1">
-            CONTAINER SIZE:
-        </div>
-        <div id="dvTotalContainer" class="underline" style="flex:2">
-
-        </div>
-        <div style="flex:1">
-            DESTINATION:
-        </div>
-        <div class="underline" style="flex:2">
-            <span id="dvToPort"></span>
-            <span id="dvToCountry"></span>
-        </div>
-    </div>
-    <div class="block" style="display:flex;flex-direction:row">
-        <div style="flex:1">
-            PRODUCT:
-        </div>
-        <div id="dvProduct" class="underline" style="flex:2">
-
-        </div>
         <div style="flex:1">
             FROM PORT:
         </div>
@@ -106,283 +121,146 @@ End Code
             <span id="dvFromPort"></span>
             <span id="dvFromCountry"></span>
         </div>
-    </div>
-    <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
-            DELIVERY PLACE:
-        </div>
-        <div id="dvDelivery" class="underline" style="flex:2">
-
-        </div>
-        <div style="flex:1">
-            TRANSPORT BY:
+            AGENT:
         </div>
         <div id="dvAgentName" class="underline" style="flex:2">
 
         </div>
     </div>
-    <table class="block" border="1">
-        <tr>
-            <td rowspan="2">
-                Exchange Rate: <div id="dvInvCurRate"></div>
-            </td>
-            <td colspan="3">
-                COST
-            </td>
-            <td>SELLING</td>
-            <td rowspan="2">PROFIT</td>
-        </tr>
-        <tr>
-            <td>
-                CUSTOMER-SLIP
-            </td>
-            <td>
-                COMPANY-SLIP
-            </td>
-            <td>
-                NO-SLIP
-            </td>
-            <td>
-                SERVICES
-            </td>
-        </tr>
-        <tbody>
+    <div class="block" style="display:flex;flex-direction:row">
+        <div style="flex:1">
+            TO PORT:
+        </div>
+        <div class="underline" style="flex:2">
+            <span id="dvToPort"></span>
+            <span id="dvToCountry"></span>
+        </div>
+        <div style="flex:1">
+            CONTAINER.DEPOSIT:
+        </div>
+        <div id="dvDeposit" class="underline" style="flex:2">
+
+        </div>
+    </div>
+    <table border="1">
+        <thead>
             <tr>
-                <td class="textleft">CUSTOMS TAX</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <th rowspan="2">CLEAR NO</th>
+                <th rowspan="2">DESCRIPTION</th>
+                <th colspan="3">COST</th>
+                <th>SELLING</th>
+                <th rowspan="2" colspan="2">PROFIT</th>
             </tr>
             <tr>
-                <td class="textleft">D/O CHARGE</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
+                <th>CUSTOMER-SLIP</th>
+                <th>COMPANY-SLIP</th>
+                <th>NO-SLIP</th>
+                <th>SERVICES</th>
             </tr>
-            <tr>
-                <td class="textleft">DEPOSIT</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft">CUSTOMS SERVICE</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft">OT CUSTOMS</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft">RENT</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft">Department of Agriculture</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft">Royal forest Department</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft">OTHER CHARGES</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft">RETURN CONTAINER</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft">TRANSPORT CHARGE</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft">SHIPPING CHARGE</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft">SHIPPING BANGPU</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft">OT SHIPPING BANGPU</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft">INSPECTION</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft"><br /></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft"><br /></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft"><br /></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft"><br /></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textright">TOTAL</td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-                <td class="textright"></td>
-            </tr>
-            <tr>
-                <td class="textleft" colspan="6">REMARK</td>
-            </tr>
+        </thead>
+        <tbody id="tb">
         </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td>Service</td>
+                <td id="sumService" style ="text-align: right" colspan="5"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Cost</td>
+                <td id="sumCost" style ="text-align: right" colspan="5"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Balance</td>
+                <td id="sumBalance"  style ="text-align: right" colspan="5"></td>
+            </tr>
+            <tr>
+                <td colspan="5">Price @@ <label id="remark1">_________________________</label>  CTN (<label id="remark2">_________________________</label>)</td>
+                <td>Margin</td>
+                <td><label id="marginProfit"></label></td>
+            </tr>
+        </tfoot>
     </table>
+    <br>
+    <div style="display:flex;width:100%;">
+	
+	 <div style="flex:1;border:1px black solid;text-align:center;" >		
+		<div style="border-bottom:1px black solid;padding:10px">Approve By</div>
+		<br>	
+             	<div>_____________________</div>
+	 	<pre>(                 )</pre>
+	     	<div>______/______/______</div>
+     	</div>
+	<div style="flex:1">
+
+     	</div>
+	<div style="flex:1;border:1px black solid;text-align:center;" >		
+		<div style="border-bottom:1px black solid;padding:10px">Approve By</div>
+		<br>	
+             	<div>_____________________</div>
+	 	<pre>(                 )</pre>
+	     	<div>______/______/______</div>
+     	</div>
+	<div style="flex:1">
+
+     	</div>
+	<div style="flex:1;border:1px black solid;text-align:center;">
+		<div style="border-bottom:1px black solid;padding:10px">Account</div>	
+		<br>	
+		<div>_____________________</div>
+	 	<pre>(                 )</pre>
+	     	<div>______/______/______</div>
+		<br>
+     	</div>
+     </div>
+	 <br>
     <div class="block" style="display:flex;width:50%">
         <div style="flex:1">
             HANDLE BY:
         </div>
-        <div id="dvCSName" class="underline" style="flex:2">
+        <div class="underline" style="flex:2">
 
         </div>
-    </div>
-    <div class="block">
-        <table style="border-collapse:collapse;width:100%">
-            <tr>
-                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                    Requested By
-                </td>
-                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                    Checked By
-                </td>
-                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                    Approved By
-                </td>
-            </tr>
-            <tr>
-                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-                    <label id="lblReqBy" style="font-size:10px">(__________________)</label>
-                    <br />
-                    Import Manager
-                    <br />
-                    <label id="lblRequestDate" style="font-size:9px">__/__/____</label>
-                </td>
-                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-                    <label id="lblCheckBy" style="font-size:9px">( Paruhas Boonpamorn )</label>
-                    <br />
-                    General Manager
-                    <br />
-                    <label id="lblCheckDate" style="font-size:9px">__/__/____</label>
-                </td>
-                <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-                    <label id="lblAppBy" style="font-size:10px">( Yingqing Pan )</label>
-                    <br />
-                    Managing Director
-                    <br />
-                    <label id="lblAppDate" style="font-size:9px">__/__/____</label>
-                </td>
-            </tr>
-        </table>
     </div>
 </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let branch = getQueryString("Branch");
     let job = getQueryString("Job");
+    let sService = 0;
     if (branch !== job && job !== '') {
         $.get(path + 'JobOrder/GetJobSql?Branch=' + branch + '&JNo=' + job).done(function (r) {
             if (r.job.data.length > 0) {
                 let dr = r.job.data[0];
-                $('#dvDeclareNumber').html(CStr(dr.DeclareNumber));
+                $('#chkImport').prop('checked', dr.JobType == 1 ? true : false);
+                $('#chkExport').prop('checked', dr.JobType == 2 ? true : false);
+                $('#chkOther').prop('checked', dr.JobType > 2 ? true : false);
                 $('#dvMAWB').html(CStr(dr.MAWB));
+                $('#dvHAWB').html(CStr(dr.HAWB));
                 $('#dvJNo').html(CStr(dr.JNo));
                 $('#dvInvNo').html(CStr(dr.InvNo));
-                $('#dvCloseJobDate').html(ShowDate(dr.CloseJobDate));
-                $('#dvETADate').html(ShowDate(dr.ETADate));                
-                $('#dvDelivery').html(CStr(dr.DeliveryTo));
+                $('#dvContactName').html(CStr(dr.CustContactName));
+                $('#dvETDDate').html(ShowDate(dr.ETDDate));
+                $('#dvETADate').html(ShowDate(dr.ETADate));
+                $('#dvEstDeliverDate').html(ShowDate(dr.EstDeliverDate));
+                $('#dvVesselName').html(CStr(dr.VesselName));
                 $('#dvProduct').html(CStr(dr.InvProduct));
+                $('#dvGrossWeight').html(CStr(dr.TotalGW + ' ' + dr.GWUnit));
+                $('#dvMeasurement').html(CStr(dr.Measurement));
                 $('#dvTotalContainer').html(CStr(dr.TotalContainer));
-
-                $.get(path + 'Master/GetUser?Code=' + dr.CSCode).done((r) => {
-                    if (r.user.data.length > 0) {
-                        let p = r.user.data[0];
-                        $('#dvCSName').html(p.TName);
-                    }
-                });                
+                $("#sumService").text(CCurrency(CDbl(dr.DutyCustPayOtherAmt, 2)));
+                sService = parseFloat(dr.DutyCustPayOtherAmt);
+              
+                if (dr.Description) {
+                    console.log(dr.Description);
+                    let remarks = dr.Description.split("/");
+                    $('#remark1').text(remarks[0]);
+                    $('#remark2').text(remarks[1]);              
+                }
+               
                 let intercountry = dr.InvFCountry;
                 if (dr.JobType !== 1) {
                     intercountry = dr.InvCountry;
@@ -441,14 +319,129 @@ End Code
                         let c = r.company.data[0];
                         $('#dvConsignee').html(CStr(c.NameEng));
                     }
-                });               
+                });
                 $.get(path + 'Master/GetVender?Code=' + dr.ForwarderCode).done((r) => {
                     if (r.vender.data.length > 0) {
                         let c = r.vender.data[0];
                         $('#dvAgentName').html(CStr(c.English));
                     }
                 });
+                getClearIngReport();
             }
+        });
+
+        
+    }
+
+    function getClearIngReport() {
+        $.get(path + 'clr/getclearingreport?branch=' + branch + '&job=' + job, function (r) {
+            let amtadv = 0;
+            let amtserv = 0;
+            let amtvat = 0;
+            let amtwht = 0;
+            let amttotal = 0;
+            let amtprofit = 0;
+            let amtcost = 0;
+            let commrate = 0;
+            if (r.data.length > 0) {
+                let tb = $('#tb');
+                tb.empty();
+
+                let h = r.data[0].Table[0];
+
+                commrate = h.Commission;
+
+                let d = r.data[0].Table.filter(function (data) {
+                    return data.BNet !== 0;
+                });
+                //console.log(JSON.stringify(d));
+                let customerSlipSum = 0;
+                let companySlipSum = 0;
+                let noSlipSum = 0;
+                let servSum = 0;
+                let profitSum = 0;
+                for (let i = 0; i < d.length; i++) {
+                    let html = '';
+                    let amt = d[i].UsedAmount;
+                    //let adv = (d[i].IsCredit == 1 ? amt : 0);
+                    //let cost = (d[i].IsExpense == 1 || d[i].IsCredit == 1 ? amt : 0);                
+                    let customerSlip = (d[i].IsHaveSlip == 1 && d[i].IsCredit == 1 ? amt : 0);
+                    let companySlip = (d[i].IsHaveSlip == 1 && d[i].IsExpense == 1 ? amt : 0);
+                    let noSlip = d[i].IsHaveSlip == 0 && d[i].IsExpense == 1 ? amt : 0;
+                    let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? amt : 0);
+                    let profit = (d[i].IsExpense == 1 ? amt * -1 : d[i].IsCredit == 1 ? 0 : d[i].UsedAmount);
+                    //amtadv += adv;
+                    //amtserv += serv;
+                    customerSlipSum += customerSlip;
+                    companySlipSum += companySlip;
+                    noSlipSum += noSlip;
+                    servSum += serv;
+                    profitSum += profit;
+                    if (d[i].IsCredit == 0 && d[i].IsExpense == 0) {
+                        if (d[i].IsTaxCharge > 0) {
+                            amtvat += d[i].ChargeVAT;
+                        }
+                        if (d[i].Is50Tavi > 0) {
+                            amtwht += d[i].Tax50Tavi;
+                        }
+                    }
+                    html = '<tr>';
+                    html += '<td>' + d[i].ClrNo + '#' + d[i].ItemNo + '</td>';
+                    html += '<td>' + d[i].SICode + '-' + d[i].SDescription;
+                    //if (d[i].AdvNO !== null) html += ' จากใบเบิก ' + d[i].AdvNO;
+                    //if (d[i].SlipNO !== null) html += ' ใบเสร็จเลขที่ ' + d[i].SlipNO;
+
+                    html += '</td>';
+                    //if (customerSlip > 0) {
+                    //    html += '<td style="text-align:right">' + customerSlip > 0 ? CCurrency(CDbl(customerSlip, 2)) : '' + '</td>';//CUSTOMER-SLIP
+                    //} else {
+                    //    html += '<td style="text-align:right"></td>';//CUSTOMER-SLIP
+                    //}
+                    html += '<td style="text-align:right">' + (customerSlip != 0 ? CCurrency(CDbl(customerSlip, 2)) : '') + '</td>';//CUSTOMER-SLIP
+                    html += '<td style="text-align:right">' + (companySlip != 0 ? CCurrency(CDbl(companySlip, 2)) : '') + '</td>';//COMPANY-SLIP
+                    html += '<td style="text-align:right">' + (noSlip != 0 ? CCurrency(CDbl(noSlip, 2)) : '') + '</td>';//NO-SLIP
+                    html += '<td style="text-align:right">' + (serv != 0 ? CCurrency(CDbl(serv, 2)) : '') + '</td>';//SERVICES
+                    html += '<td style="text-align:right">' + (profit != 0 ? CCurrency(CDbl(profit, 2)) : '') + '</td>';//PROFIT
+                    html += '</tr>';
+
+
+
+                    //amtcost += cost;
+                    //amttotal += serv + adv;
+                    //amtprofit += profit;
+
+                    tb.append(html);
+                }
+                let summary = ` <tr>
+               <td></td>
+               <td></td>
+
+               <td style="text-align:right">${customerSlipSum != 0 ? CCurrency(CDbl(customerSlipSum, 2)) : ""}</td>
+               <td style="text-align:right">${companySlipSum != 0 ? CCurrency(CDbl(companySlipSum, 2)) : ""}</td>
+               <td style="text-align:right">${noSlipSum != 0 ? CCurrency(CDbl(noSlipSum, 2)) : ""}</td>
+               <td style="text-align:right">${servSum != 0 ? CCurrency(CDbl(servSum, 2)) : ""}</td>
+               <td style="text-align:right">${profitSum != 0 ? CCurrency(CDbl(profitSum, 2)) : ""}</td>
+           </tr >`;
+                tb.append(summary);
+                $("#sumCost").text(CCurrency(CDbl(customerSlipSum + noSlipSum, 2)));
+                $("#sumBalance").text(CCurrency(CDbl(sService - (customerSlipSum + noSlipSum), 2)));
+                $('#marginProfit').text(CDbl(((sService - (customerSlipSum + noSlipSum)) * 100 / sService), 2) + '%');
+            }
+            //$('#lblSumAdv').text(CCurrency(CDbl(amtadv, 2)));
+            //$('#lblSumServ').text(CCurrency(CDbl(amtserv, 2)));
+
+            //$('#lblSumCharge').text(CCurrency(CDbl(amttotal, 2)));
+            //$('#lblSumTax').text(CCurrency(CDbl(amtwht, 2)));
+            //$('#lblSumCost').text(CCurrency(CDbl(amtcost, 2)));
+            //$('#lblSumProfit').text(CCurrency(CDbl(amtprofit, 2)));
+            //$('#lblTotalVAT').text(CCurrency(CDbl(amtvat, 2)));
+            //if (amtprofit > 0) {
+            //    $('#lblCommRate').text(CCurrency(CDbl(amtprofit * (commrate / 100), 2)));
+            //    $('#lblNetProfit').text(CCurrency(CDbl(amtprofit - (amtprofit * (commrate / 100)), 2)));
+            //} else {
+            //    $('#lblCommRate').text(CCurrency(CDbl(0, 2)));
+            //    $('#lblNetProfit').text(CCurrency(CDbl(amtprofit, 2)));
+            //}
         });
     }
 </script>

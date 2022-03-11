@@ -10,11 +10,11 @@
     <script src="~/Scripts/bootstrap.min.js"></script>    
     <style>
         body {
-            background-color: forestgreen;
+            background-color: #145314;
         }
 
         .panel-body {
-			background-color : #f1fce6;
+			background-color : #f1f1e6;
         }
 
         .panel-body, .panel-heading {
