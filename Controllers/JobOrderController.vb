@@ -61,6 +61,16 @@ Namespace Controllers
                 Else
                     Return Content("{""result"":{""data"":[],""msg"":""Please enter some data""}}", jsonContent)
                 End If
+                Dim job = ""
+                If Request.QueryString("Job") IsNot Nothing Then
+                    job = Request.QueryString("Job").ToString
+                Else
+                    job = GetValueSQL(GetSession("ConnJob"), String.Format("SELECT JNo FROM Job_LoadInfo WHERE BranchCode='{0}' AND BookingNo='{1}'", branch, book)).Result.ToString()
+                End If
+                Dim oJob = New CJobOrder(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", branch, job))
+                If oJob.Count = 0 Then
+                    Return Content("{""result"":{""data"":[],""msg"":""Job Not Found""}}", jsonContent)
+                End If
                 Dim size = ""
                 If Request.QueryString("Size") IsNot Nothing Then
                     size = Request.QueryString("Size").ToString
@@ -97,7 +107,7 @@ Namespace Controllers
                         Dim oRec = New CTransportDetail(GetSession("ConnJob")) With {
                             .BranchCode = branch,
                             .BookingNo = book,
-                            .JNo = GetValueSQL(GetSession("ConnJob"), String.Format("SELECT JNo FROM Job_LoadInfo WHERE BranchCode='{0}' AND BookingNo='{1}'", branch, book)).Result.ToString(),
+                            .JNo = job,
                             .CTN_NO = "",
                             .SealNumber = "",
                             .TruckNO = "",
@@ -109,12 +119,12 @@ Namespace Controllers
                             .Location = routename,
                             .ShippingMark = ""
                         }
-                        oRec.ProductDesc = GetValueSQL(GetSession("ConnJob"), String.Format("SELECT InvProduct FROM Job_Order WHERE BranchCode='{0}' AND JNo='{1}'", branch, oRec.JNo)).Result.ToString()
+                        oRec.ProductDesc = oJob(0).InvProduct
                         oRec.CTN_SIZE = size
-                        oRec.ProductQty = 0
-                        oRec.ProductUnit = ""
-                        oRec.GrossWeight = 0
-                        oRec.Measurement = 0
+                        oRec.ProductQty = oJob(0).InvProductQty
+                        oRec.ProductUnit = oJob(0).InvProductUnit
+                        oRec.GrossWeight = oJob(0).TotalGW
+                        oRec.Measurement = oJob(0).Measurement
                         oRec.DeliveryNo = ""
                         oRec.TargetYardDate = booking.CYDate
                         oRec.TargetYardTime = booking.CYTime

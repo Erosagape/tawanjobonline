@@ -6,8 +6,8 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblVenCode">Vender Code:</label>
-                <br /><input type="text" id="txtVenCode" Class="form-control" tabIndex="0">
+                <label id="lblVenCode">Vender Code:</label>  <a href="#" onclick="$('#modChange').modal('show');">Change</a>
+                <br /><input type="text" id="txtVenCode" Class="form-control" tabIndex="0" disabled>
             </div>
             <div class="col-sm-4">
                 <label id="lblBranchCode">Branch :</label>
@@ -103,6 +103,24 @@ End Code
         </div>
     </div>
 </div>
+<div id="modChange" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        To Code
+                    </div>
+                    <div class="col-sm-8">
+                        <input type="text" id="txtToVenCode" />
+                    </div>
+                </div>
+                <button class="btn btn-warning" onclick="ChangeVender()">Change Vender</button>
+                <label id="lblResult">Ready</label>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
@@ -178,14 +196,21 @@ End Code
     }
     function SaveData() {
         var obj = GetDataSave();
+        /*
         if (obj.VenCode == '') {
             ShowMessage('Please input code',true);
             return;
         }
+        */
         if (obj.TName == '') {
             ShowMessage('Please input name',true);
             return;
         }
+        if (obj.English == '') {
+            ShowMessage('Please input name', true);
+            return;
+        }
+
         ShowConfirm('Please confirm to save', function (ask) {
             if (ask == false) return;
             let jsonText = JSON.stringify({ data: obj });
@@ -205,7 +230,7 @@ End Code
                 error: function (e) {
                     ShowMessage(e,true);
                 }
-            });        
+            });
         });
     }
     function ReadAccount(dr) {
@@ -298,5 +323,19 @@ End Code
                 }
             });
         });
+    }
+    function ChangeVender() {
+        let fromcode = $('#txtVenCode').val();
+        let tocode = $('#txtToVenCode').val();
+        ShowConfirm(
+            "Please confirm to change code from '" + fromcode +  "' to '" + tocode + "'",
+            function (ans) {
+                if (ans == true) {
+                    $.get(path + 'Master/ChangeVender?FromCode=' + fromcode + '&ToCode=' + tocode).done(function (r) {
+                        ShowMessage(r);
+                        $('#lblResult').text(r);
+                    });
+                }
+            });
     }
 </script>

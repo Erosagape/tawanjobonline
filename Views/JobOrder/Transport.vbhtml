@@ -895,6 +895,8 @@ End Code
 <script type="text/javascript">
     //define letiables
     var path = '@Url.Content("~")';
+    let branch = getQueryString("BranchCode");
+    let job = getQueryString("JNo");
     const user = '@ViewBag.User';
     const userGroup ='@ViewBag.UserGroup';
     const userRights = '@ViewBag.UserRights';
@@ -948,8 +950,6 @@ End Code
     }
     function SetEvents() {
         ClearBooking();
-        let branch = getQueryString("BranchCode");
-        let job = getQueryString("JNo");
         if (branch !== '') {
             $('#txtBranchCode').val(branch);
             ShowBranch(path, branch, '#txtBranchName');
@@ -1278,6 +1278,7 @@ End Code
             dr = dr[0];
         }
         $('#txtJNo').val(dr.JNo);
+        job = dr.JNo;
         $('#txtBookingNo').val(dr.BookingNo);
         $('#txtVenderCode').val(dr.AgentCode);
         ShowVender(path, dr.AgentCode, '#txtVenderName');
@@ -1308,7 +1309,11 @@ End Code
     function ReadBooking(dr, loadcont = true) {
         $('#txtBranchCode').val(dr.BranchCode);
         ShowBranch(path, dr.BranchCode, '#txtBranchName');
-        $('#txtJNo').val(dr.JNo);
+        if (job !== '') {
+            $('#txtJNo').val(job);
+        } else {
+            $('#txtJNo').val(dr.JNo);
+        }        
         $('#txtBookingNo').val(dr.BookingNo);
         $('#txtVenderCode').val(dr.VenderCode);
         ShowVender(path, dr.VenderCode, '#txtVenderName');
@@ -1346,7 +1351,7 @@ End Code
     }
     function LoadDetail(code,doc) {
         $('#tbDetail').DataTable().clear().draw();
-        $.get(path + 'joborder/gettransportdetail?Branch=' + code + '&Code=' + doc).done(function (r) {
+        $.get(path + 'joborder/gettransportdetail?Branch=' + code + '&Code=' + doc +'&Job=' + $('#txtJNo').val()).done(function (r) {
             let dr = r.transport.detail;
             if (dr.length > 0) {
                 CountContainer(dr);
@@ -1537,7 +1542,7 @@ End Code
         }
     }
     function ClearBooking() {
-        $('#txtJNo').val('');
+        $('#txtJNo').val(job);
         if (userGroup !== 'V') {
             $('#txtVenderCode').val('');
             $('#txtVenderName').val('');
@@ -1777,6 +1782,11 @@ End Code
     }
     function ReadDetail(dr){
         $('#txtItemNo').val(dr.ItemNo);
+        if (job !== '') {
+            $('#txtJNo').val(job);
+        } else {
+            $('#txtJNo').val(dr.JNo);
+        }
         $('#txtCTN_NO').val(dr.CTN_NO);
         $('#txtSealNumber').val(dr.SealNumber);
         $('#txtTruckNO').val(dr.TruckNO);
@@ -2105,7 +2115,7 @@ End Code
     function GenContainer() {
         ShowConfirm('Please confirm to generate container', (ans) => {
             if (ans == true) {
-                let w ='?Branch='+ $('#txtBranchCode').val() + '&Code='+ $('#txtBookingNo').val() + '&Qty=' +$('#txtTotalContainer').val() + '&Size=' + $('#cboContainerSize').val() +'&Route=' + $('#txtMainRoute').val();
+                let w ='?Branch='+ $('#txtBranchCode').val() + '&Code='+ $('#txtBookingNo').val() + '&Qty=' +$('#txtTotalContainer').val() + '&Size=' + $('#cboContainerSize').val() +'&Route=' + $('#txtMainRoute').val() + '&Job=' + $('#txtJNo').val();
                 $.get(path + 'JobOrder/CreateContainer' + w).done(function (r) {
                     if (r.result.data !== null) {
                         LoadDetail($('#txtBranchCode').val(), $('#txtBookingNo').val());

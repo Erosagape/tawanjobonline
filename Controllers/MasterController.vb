@@ -1215,7 +1215,31 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.CustCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please choose customer first""}}", jsonContent)
+                        Dim sql=Main.GetValueConfig("SQL","SelectGroupCustomerRunning")
+                        If (sql="") Then
+                            Dim jsont = "{""result"":{""data"":null,""msg"":""Customer Code must be input""}}"
+                            Return Content(jsont, jsonContent)
+                        End If
+                        Dim codeSearch = data.NameEng.Replace(" ", "").Replace(".", "").Substring(0, 5)
+                        If (codeSearch="") Then
+                            Dim jsont = "{""result"":{""data"":null,""msg"":""Name English must be input""}}"
+                            Return Content(jsont, jsonContent)
+                        End If
+                        sql=String.Format("select t.* from (" & sql & ") t where t.Code='{0}'",codeSearch)
+                        Dim newCode=""
+                        Dim dt=New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                        If dt.Rows.Count > 0 Then
+                            If dt.Rows(0)("Code").Equals(System.DBNull.Value) Then
+                                newCode = codeSearch & "0001"
+                            Else
+                                newCode = dt.Rows(0)("Code").ToString() & (Convert.ToDouble(dt.Rows(0)("Counter")) + 1).ToString("0000")
+                            End If
+                        End If
+                        If (newCode="") Then
+                            Dim jsont = "{""result"":{""data"":null,""msg"":""Customer Code must be input""}}"
+                            Return Content(jsont, jsonContent)
+                        End If
+                        data.CustCode=newCode
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE CustCode='{0}' And Branch='{1}' ", data.CustCode, data.Branch))
@@ -1237,7 +1261,31 @@ AND b.IsApplyPolicy=1
             Try
                 If Not IsNothing(data) Then
                     If "" & data.VenCode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please choose vender first""}}", jsonContent)
+                        Dim sql = Main.GetValueConfig("SQL", "SelectGroupVenderRunning")
+                        If (sql = "") Then
+                            Dim jsont = "{""result"":{""data"":null,""msg"":""Vender Code must be input""}}"
+                            Return Content(jsont, jsonContent)
+                        End If
+                        Dim codeSearch = data.English.Replace("-", "").Replace("MR.", "").Replace(" ", "").Replace(".", "").Substring(0, 5)
+                        If (codeSearch = "") Then
+                            Dim jsont = "{""result"":{""data"":null,""msg"":""Name English must be input""}}"
+                            Return Content(jsont, jsonContent)
+                        End If
+                        sql = String.Format("select t.* from (" & sql & ") t where t.Code='{0}'", codeSearch)
+                        Dim newCode = ""
+                        Dim dt = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                        If dt.Rows.Count > 0 Then
+                            If dt.Rows(0)("Code").Equals(System.DBNull.Value) Then
+                                newCode = codeSearch & "0001"
+                            Else
+                                newCode = dt.Rows(0)("Code").ToString() & (Convert.ToDouble(dt.Rows(0)("Counter")) + 1).ToString("0000")
+                            End If
+                        End If
+                        If (newCode = "") Then
+                            Dim jsont = "{""result"":{""data"":null,""msg"":""Vender Code must be input""}}"
+                            Return Content(jsont, jsonContent)
+                        End If
+                        data.VenCode = newCode
                     End If
 
                     data.SetConnect(GetSession("ConnJob"))
@@ -1611,6 +1659,17 @@ AND b.IsApplyPolicy=1
                 Return Content("[]", jsonContent)
             End Try
         End Function
-
+        Function ChangeCustomer() As ActionResult
+            Dim fromCode As String = Request.QueryString("FromCode")
+            Dim fromBranch As String = Request.QueryString("FromBranch")
+            Dim toCode As String = Request.QueryString("ToCode")
+            Dim toBranch As String = Request.QueryString("ToBranch")
+            Return Content(Main.DBExecute(GetSession("ConnJob"), String.Format("dbo.ChangeCustomer '{0}','{1}','{2}','{3}'", fromCode, fromBranch, toCode, toBranch)), textContent)
+        End Function
+        Function ChangeVender() As ActionResult
+            Dim fromCode As String = Request.QueryString("FromCode")
+            Dim toCode As String = Request.QueryString("ToCode")
+            Return Content(Main.DBExecute(GetSession("ConnJob"), String.Format("dbo.ChangeVender '{0}','{1}'", fromCode, toCode)), textContent)
+        End Function
     End Class
 End Namespace
