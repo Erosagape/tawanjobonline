@@ -398,14 +398,14 @@ End Code
                                     <input type="text" id="txt50Tavi" class="form-control" tabindex="28" />
                                 </div>
                                 <div class="col-sm-4">
-                                    <label id="lblSlipNo">Slip No :</label>
-                                    <br />
-                                    <input type="text" id="txtSlipNo" class="form-control" tabindex="26" />
-                                </div>
-                                <div class="col-sm-4">
                                     <label id="lblSlipDate">Slip Date :</label>                                    
                                     <br />
-                                    <input type="date" class="form-control" id="txtDate50Tavi" tabindex="27" />
+                                    <input type="date" class="form-control" id="txtDate50Tavi" tabindex="26" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label id="lblSlipNo">Slip No :</label>
+                                    <br />
+                                    <input type="text" id="txtSlipNo" class="form-control" tabindex="27" />
                                 </div>
                             </div>                            
                             <div>
@@ -1988,7 +1988,7 @@ End Code
             $('#txtCurrencyCode').val(dt.CurrencyCode);
             ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
             ShowCaption();
-            $('#txtVenCode').val(dt.DefaultVender);
+            //$('#txtVenCode').val(dt.DefaultVender);
             ShowVender(path, dt.DefaultVender, '#txtPayChqTo');
             /*
             if (dt.IsTaxCharge == "2") {

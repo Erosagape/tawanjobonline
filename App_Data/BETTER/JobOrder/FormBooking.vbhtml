@@ -33,11 +33,11 @@ End Code
                 <div style="border-style:solid;border-width:thin;height:100px">
                     <b>Notify Party</b>
                     <div style="padding:5px 5px 5px 5px">
-                        <input type="text" style="border:none" value="SAME AS CONSIGNEE">
-                        <br/>
-                        <input type="text" style="border:none" value="">
-                        <br/>
-                        <input type="text" style="border:none" value="">
+                        <label id="lblNotifyName">SAME AS CONSIGNEE</label>
+                        <br />
+                        <label id="lblNotifyAddress1"></label>
+                        <br />
+                        <label id="lblNotifyAddress2"></label>
                     </div>
                 </div>
                 <div style="display:flex;flex-direction:row;">
@@ -162,6 +162,7 @@ End Code
                 $('#lblBookingDate').text('BANGKOK ' + ShowDate(h.BookingDate));
                 @*$('#lblShipperName').text('@ViewBag.PROFILE_COMPANY_NAME_EN');*@
                 $('#lblShipperName').text(h.ShipperName);
+                //$('#lblShipperName').text(h.NotifyName);
                 $('#lblForwarderName').text(h.ForwarderName);
                 @*$('#lblShipperAddress1').text('@ViewBag.PROFILE_COMPANY_ADDR1_EN');
                 $('#lblShipperAddress2').text('@ViewBag.PROFILE_COMPANY_ADDR2_EN');*@
@@ -194,7 +195,7 @@ End Code
                 }
 
                 $('#lblBLNo').text(h.BLNo);
-                $('#lblTotalQtyText').text(CNumEng(h.InvProductQty) + ' ' + h.InvProductUnit + ' ONLY');
+                $('#lblTotalQtyText').text(CNumEng(h.InvProductQty ? h.InvProductQty:0) + ' ' + h.InvProductUnit + ' ONLY');
                 $('#lblETADate').text(ShowDate(h.ETADate));
                 var Showinv = false;
                 if (confirm("Print PO/Commercial Invoice?") == true) {
@@ -205,13 +206,13 @@ End Code
                 html += '<div style="width:100%;display:flex;flex-direction:row;margin-bottom:5px;font-size:12px">';
                 html += '<div style="width:20%;">'+ CStr(h.Remark) +'</div>';
                 html += '<div style="width:15%;">' + h.InvProductQty + ' ' + $('#lblProductUnit').text() + '</div>';
-                html += '<div style="width:35%;">' + h.InvProduct + '<br/>' + h.ProjectName;
+                html += '<pre style="width:35%;word-wrap: break-word;white-space: pre-wrap; ">' + h.InvProduct  + '<br/>' + h.ProjectName;
                 if(Showinv==true) {
                     html += '<br/>AS ORDER NO ' + h.CustRefNO;
-                    html += '<br/>INVOICE NO ' + h.InvNo;
+                    html += '<br/>INVOICE NO ' + h.InvNo.replace(",",", " );
                     html += '<br/> DATE ' + ShowDate(h.ConfirmDate);
                 }
-                html += '</div>';
+                html += '</pre>';
                 html += '<div style="width:15%;">G.W ' + ShowNumber(h.TotalGW,2) + ' ' + h.GWUnit + '';
                 if(h.TotalNW>0)  {
                     html += '<br/>N.W '+ ShowNumber(h.TotalNW,2) + ' ' + h.GWUnit

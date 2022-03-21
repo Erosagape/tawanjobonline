@@ -6,14 +6,14 @@ End Code
 <div>
     <table id="divJobInfo" width="100%">
         <tr>
-            <td colspan="2">
-                <b>Job No : </b><input type="text" style="border:groove;text-align:center" id="txtJNo" value="" />
+            <td colspan="2" >
+                <b style="font-size:16px">Job No : </b><input  type="text" style="font-size:16px;border:groove;text-align:center" id="txtJNo" value="" />
+            </td>
+            <td >
+                <b style="font-size:16px">Job Type : <label style="font-size:16px" id="lblJobType"></label></b>
             </td>
             <td>
-                <b>Job Type : <label id="lblJobType"></label></b>
-            </td>
-            <td>
-                <b>Ship By : <label id="lblShipBy"></label></b>
+                <b  style="font-size:16px">Ship By : <label  style="font-size:16px" id="lblShipBy"></label></b>
             </td>
         </tr>
         <tr>

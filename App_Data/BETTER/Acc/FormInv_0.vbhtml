@@ -712,9 +712,9 @@ End Code
             let blankRows = totalRows - d.length;
             for (let row of d) {
                 html += '        <tr>';
-                html += '            <td class="">' + row.SDescription + '</td>';                
-                html += '            <td class="right">' + (row.AmtAdvance>0? '':row.Rate50Tavi) + '</td>';
-                html += '            <td class="center">' + row.Qty + '</td>';
+                html += '            <td class="">' + row.SDescription + ' #' + row.ExpSlipNO +  '</td>';
+                html += '            <td class="right">' + row.Rate50Tavi + '</td>';
+                html += '            <td class="center">' + ShowNumber(row.Qty,2) + '</td>';
                 html += '            <td class="right">' + row.QtyUnit+'</td>';
                 html += '            <td class="right">' + row.CurrencyCode + '</td>';
                 html += '            <td class="right">' + (row.AmtAdvance ? ShowNumber(row.FUnitPrice*(100.0 + row.VATRate)/100.0, 2) : ShowNumber(row.FUnitPrice, 2)) + '</td>';

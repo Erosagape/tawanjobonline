@@ -2740,6 +2740,72 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
             ViewBag.DataCount1 = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
             Return GetView("Summary")
         End Function
+        <HttpPost()>
+        <ActionName("CreateTransport")>
+        Function PostCreateTransport() As ActionResult
+            Dim data = New CJobOrder(GetSession("ConnJob")) With
+                {
+                .BranchCode = Request.Form("Branch"),
+                .JNo = Request.Form("Job"),
+                .CustCode = Request.Form("Cust").Split("|")(0),
+                .CustBranch = Request.Form("Cust").Split("|")(1),
+                .JobType = Request.Form("JobType"),
+                .ShipBy = Request.Form("ShipBy"),
+                .Consigneecode = Request.Form("Cons"),
+                .InvNo = Request.Form("CustInv"),
+                .BookingNo = Request.Form("BookingNo"),
+                .HAWB = Request.Form("HouseBL"),
+                .MAWB = Request.Form("MasterBL"),
+                .ETDDate = Request.Form("ETD"),
+                .ETADate = Request.Form("ETA"),
+                .VesselName = Request.Form("Vessel"),
+                .MVesselName = Request.Form("MVessel"),
+                .ForwarderCode = Request.Form("Forwarder"),
+                .AgentCode = Request.Form("Transport"),
+                .TotalNW = Request.Form("NetWeight"),
+                .TotalGW = Request.Form("GrossWeight"),
+                .Measurement = Request.Form("M3"),
+                .TotalContainer = Request.Form("ContQty") & "X" & Request.Form("ContUnit")
+                }
+            If data.JNo = "" Then
+                Dim prefix As String = GetJobPrefix(data)
+                If Not IsNothing(Request.QueryString("Prefix")) Then
+                    prefix = "" & Request.QueryString("Prefix")
+                End If
+                Dim fmt = Main.GetValueConfig("RUNNING", "JOB")
+                If fmt <> "" Then
+                    If fmt.IndexOf("bb") >= 0 Then
+                        fmt = fmt.Replace("bb", data.DocDate.AddYears(543).ToString("yy"))
+                    End If
+                    If fmt.IndexOf("yy") >= 0 Then
+                        fmt = fmt.Replace("yy", data.DocDate.ToString("yy"))
+                    End If
+                    If fmt.IndexOf("MM") >= 0 Then
+                        fmt = fmt.Replace("MM", data.DocDate.ToString("MM"))
+                    End If
+                Else
+                    fmt = data.DocDate.ToString("yyMM") & "____"
+                End If
+                If Main.GetValueConfig("PROFILE", "RUNNING_BYMASK") = "N" Then
+                    data.AddNew("%" & fmt, False)
+                    If data.JNo.IndexOf("%") > 0 Then
+                        data.JNo = data.JNo.Replace("%", prefix)
+                    Else
+                        data.JNo = prefix & data.JNo.Substring(3)
+                    End If
+                Else
+                    data.AddNew(prefix & fmt, False)
+                End If
+            End If
+            ViewBag.JobNo = data.JNo
+            ViewBag.Message = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
+            Return GetView("CreateTransport")
+        End Function
+        Function CreateTransport() As ActionResult
+            ViewBag.JobNo = ""
+            ViewBag.Message = "Ready"
+            Return GetView("CreateTransport")
+        End Function
     End Class
 
 End Namespace

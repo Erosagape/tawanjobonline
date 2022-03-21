@@ -184,23 +184,23 @@ End Code
                 let amtpending = 0;
 
                 let d = r.data.filter(function (data) {
-                    return data.BNet !== 0;
+                    return data.BNet !== 0 && data.DocStatus<99;
                 });
                 for (let i = 0; i < d.length; i++){
-                    let amt = d[i].UsedAmount + d[i].ChargeVAT;
+                    let amt = (d[i].UsedAmount) + d[i].ChargeVAT;   
                     let adv = (d[i].IsCredit == 1 && d[i].IsExpense == 0 ? amt : 0);
-                    let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? d[i].UsedAmount : 0);
-                    let cost = (d[i].IsExpense == 1 ?  d[i].UsedAmount : 0);
-                    let profit = (d[i].IsExpense == 1 ?  d[i].UsedAmount*-1 : (d[i].IsCredit==1 ? 0 : d[i].UsedAmount));
+                    let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? (d[i].UsedAmount) : 0);
+                    let cost = (d[i].IsExpense == 1 ?  (d[i].UsedAmount) : 0);
+                    let profit = (d[i].IsExpense == 1 ?  (d[i].UsedAmount)*-1 : (d[i].IsCredit==1 ? 0 : (d[i].UsedAmount)));
                     let slipNo = (d[i].IsHaveSlip == 1 && d[i].IsCredit==1 ? ' #' + d[i].SlipNO : '');
 
                     if (d[i].IsCredit == 0 && d[i].IsExpense == 0) {
                         if (d[i].IsTaxCharge > 0) {
-                            amtforvat += d[i].UsedAmount;
+                            amtforvat += (d[i].UsedAmount);
                             amtvat += d[i].ChargeVAT;
                             slipNo += '<br/>VAT ' + d[i].VATRate + '%=' + d[i].ChargeVAT;
                         } else {
-                            amtnonvat += d[i].UsedAmount;
+                            amtnonvat += (d[i].UsedAmount);
                         }
                         if (d[i].Is50Tavi > 0) {
                             amtwht += d[i].Tax50Tavi;

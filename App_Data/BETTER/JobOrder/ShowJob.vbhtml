@@ -1298,9 +1298,12 @@ End Code
 
                 ReadJob(dr);
 
-                if (dr.JobStatus >= 7) {
+                if (dr.JobStatus >= 7 && userPosition<='6') {
                     $('#btnSave').attr('disabled', 'disabled');
-                }
+                } else {
+                    $('#btnSave').removeAttr('disabled');
+		}
+
 		if(dr.JobStatus>90){
 		    $('#btnLinkAdv').attr('disabled', 'disabled');
 		    $('#btnLinkClr').attr('disabled', 'disabled');

@@ -210,6 +210,18 @@ function OpenMenu(mnuID, newpage = true) {
         case 'Planing':
             mnuPath = path + 'Tracking/Planing';
             break;
+        case 'SumJob':
+            mnuPath = path + 'JobOrder/Summary';
+            break;
+        case 'SumAdv':
+            mnuPath = path + 'Adv/Summary';
+            break;
+        case 'SumClr':
+            mnuPath = path + 'Clr/Summary';
+            break;
+        case 'SumAcc':
+            mnuPath = path + 'Acc/Summary';
+            break;
         default:
             ShowMessage('Under Development');
             break;

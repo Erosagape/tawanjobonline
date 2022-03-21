@@ -7,7 +7,7 @@ function SetLanguage(lang) {
         if (obj !== null) {
             let str = '';
             //if (id.substr(0, 3) == 'mnu') {
-                //str += '- ';
+            //str += '- ';
             //}
             switch (mainLanguage) {
                 case 'EN':
@@ -1246,7 +1246,7 @@ function GetLangMenu() {
         mainMkt: 'Marketing Works|แผนกการตลาด',
         mnuMkt1: 'Quotation|ใบเสนอราคา',
         mnuMkt2: 'Quotation Confirmation|อนุมัติใบเสนอราคา',
-        mnuMkt3: 'Estimate Cost|ประมาณการค่าใช้จ่าย',
+        mnuMkt3: 'Cs JOB|ประมาณการค่าใช้จ่าย',
         mainCS: 'CS Works|แผนกบริการลูกค้า',
         mnuCS1: 'Create Job|สร้างงานใหม่',
         mnuCS2: 'List Job|ค้นหางาน',
@@ -1619,7 +1619,7 @@ function GetLangForm(fname) {
             break;
         case 'MODULE_ADV/EstimateCost':
             lang = {
-                lblTitle: 'Estimate Cost|ประมาณการค่าใช้จ่าย',
+                lblTitle: 'Cs JOB|ประมาณการค่าใช้จ่าย',
                 lblBranch: 'Branch|สาขา',
                 lblJNo: 'Job No|หมายเลขงาน',
                 btnAutoEntry: 'Load From Quotation|ดึงข้อมูลใบเสนอราคา',
@@ -1775,9 +1775,9 @@ function GetLangForm(fname) {
             lang = {
                 lblTitle: 'Cheque Management|บันทีกรับจ่ายเช็ค',
                 lblBranch: 'Branch|สาขา',
-                lblChqType: 'Cheque Type|ประเภทเช็ค',
-                optRcv: 'Received|เช็ครับ',
-                optPay: 'Paid|เช็คจ่าย',
+                lblChqType: 'Transaction Type|ประเภทรายการ',
+                optRcv: 'Receivable|เพื่อรับชำระหนี้',
+                optPay: 'Payable|เพื่อจ่ายชำระหนี้',
                 linkRef: 'Reference No|เลขที่บันทึกบัญชี',
                 lblVoucherDate: 'Record Date|วันที่บันทึกรายการ',
                 lblTRemark: 'Cheque Note|บันทึก',
@@ -2852,8 +2852,8 @@ function GetLangForm(fname) {
                 lblShipBy: 'Ship By|ลักษณะงานขนส่ง',
                 lblBranch: 'Branch|สาขา',
                 lblCSCode: 'Support By|พนักงานผู้รับผิดชอบ',
-                lblCustCode: 'Customer|ลูกค้า',
-                lblBillingPlace: 'Consignee|ผู้ซื้อขาย',
+                lblCustCode: 'IM_EX PORTER|ลูกค้า',
+                lblBillingPlace: 'BILLING TO|ผู้ซื้อขาย',
                 lblContactName: 'Contact|ผู้ติดต่อ',
                 lblQuotation: 'Quotation|ใบเสนอราคา',
                 lblCustInv: 'Cust Inv.|อินวอยลูกค้า',
@@ -2888,10 +2888,10 @@ function GetLangForm(fname) {
                 lblJNo: 'Job Number|หมายเลขงาน',
                 lblDocDate: 'Open Date|วันที่เปิดงาน',
                 lblJobStatus: 'Job Status|สถานะงาน',
-                lblCustCode: 'Customer|ลูกค้า',
+                lblCustCode: 'IM-EX PORTER|ลูกค้า',
                 lblTAddress: 'Address|ที่อยู่(ไทย)',
                 lblPhoneFax: 'Contact Info|รายละเอียดการติดต่อ',
-                lblConsignee: 'Consignee|ผู้ซื้อขาย',
+                lblConsignee: 'BILLING TO|ผู้ซื้อขาย',
                 lblBillAddress: 'Address|ที่อยู่',
                 lblUseLocalTrans: 'Use Local Transport|ใช้รถของลูกค้าเอง',
                 lblContactName: 'Contact Person|ผู้ติดต่อ',
@@ -3737,7 +3737,7 @@ function GetLangForm(fname) {
             break;
         case 'Master/CarLicense':
             lang = {
-                lblTitle:'Car License|ข้อมูลรถ',
+                lblTitle: 'Car License|ข้อมูลรถ',
                 lblCarNo: 'Car Code|รหัสรถ',
                 lblCarLicense: 'Car License|ทะเบียนรถ',
                 lblEmpCode: 'Driver|พนักงานขับรถ',
@@ -3805,7 +3805,7 @@ function GetLangForm(fname) {
                 lblStationInvDate: 'Station Inv Date|วันที่ใบวางบิลปั้ม',
                 lblPaymentBy: 'Payment By|ชำระเงินโดย',
                 lblPaymentDate: 'Payment Date|วันที่ชำระเงิน',
-                lblPaymentRef:'Payment Ref|เลขที่ชำระเงิน'
+                lblPaymentRef: 'Payment Ref|เลขที่ชำระเงิน'
             };
             break;
     }

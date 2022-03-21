@@ -36,6 +36,8 @@ End Code
         <th height="40" width="200">INV.NO.</th>
         <th width="40">DATE</th>
         <th width="70">JOB</th>
+        <th width="20">CUR</th>
+        <th width="20">EXC</th>
         <th width="60">SERVICE</th>
         <th width="30">VAT</th>
         <th width="30">WHT</th>
@@ -45,7 +47,7 @@ End Code
     <tbody id="tbDetail"></tbody>
     <tr style="background-color:lightblue;text-align:right;">
         <td style="text-align:center" colspan="2"><label id="lblTotalText"></label></td>
-        <td>TOTAL AMOUNT</td>
+        <td colspan="3">TOTAL AMOUNT</td>
         <td><label id="lblTotalBeforeVAT"></label></td>
         <td><label id="lblTotalVAT"></label></td>
         <td><label id="lblTotalWHT"></label></td>
@@ -53,7 +55,7 @@ End Code
         <td><label id="lblTotalNET"></label></td>
     </tr>
     <tr style="background-color:lightblue;text-align:right;">
-        <td colspan="7">TOTAL RECEIPT</td>
+        <td colspan="9">TOTAL RECEIPT</td>
         <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
     </tr>
 </table>
@@ -174,6 +176,8 @@ End Code
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
             html += '<td style="text-align:center">' + ShowDate(d.InvoiceDate) + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
+            html += '<td style="text-align:center">' + d.CurrencyCode + '</td>';
+            html += '<td style="text-align:center">' + d.ExchangeRate + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge > 0 ? ShowNumber(d.AmtCharge,2):'') + '</td>';
             html += '<td style="text-align:right">' + (d.InvVAT>0? ShowNumber(d.InvVAT,2):'') + '</td>';
             html += '<td style="text-align:right">' + (d.Inv50Tavi>0? ShowNumber(d.Inv50Tavi,2):'') + '</td>';
@@ -182,14 +186,15 @@ End Code
             html += '</tr>';
 
             $('#tbDetail').append(html);
-            if (d.AmtCharge > 0) {
-                service += Number(d.InvAmt);
+            //if (d.AmtCharge > 0) {
+                service += Number(d.AmtCharge);
                 vat += Number(d.InvVAT);
                 wht += Number(d.Inv50Tavi);
-                amt += Number(d.InvAmt) + Number(d.InvVAT);
-            } else {
-                adv +=Number(d.InvTotal);
-            }
+                //amt += Number(d.InvAmt) + Number(d.InvVAT);
+            amt += Number(d.Net)
+            //} else {
+                adv +=Number(d.AmtAdvance);
+            //}
             total +=Number(d.InvTotal);
         }
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));

@@ -1007,6 +1007,7 @@ End Code
             ShowMessage('Please choose customer first',true);
             return;
         }
+        $('#btnGen').attr('disabled', 'disabled');
         if ($('#txtDocNo').val() !== '') {
             DeleteDetail();
         } else {

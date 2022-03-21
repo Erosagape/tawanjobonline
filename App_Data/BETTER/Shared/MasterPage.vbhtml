@@ -148,6 +148,15 @@
                         <a href="#" id="mnuMas1" class="w3-bar-item w3-button" onclick="OpenLink('MasG')">- Customs File</a>
                         <a href="#" id="mnuMas3" class="w3-bar-item w3-button" onclick="OpenLink('MasS')">- System Files</a>
                     </div>
+   		<div id="mainSum" class="w3-bar-item w3-button" onclick="w3_accordion('mnuSum')">
+                        Summary
+                    </div>
+                    <div id="mnuSum" class="w3-hide w3-sand w3-card-4">
+                        <a href="#" id="mnuSum1" class="w3-bar-item w3-button" onclick="OpenLink('SumJob')">- Operation</a>
+                        <a href="#" id="mnuSum2" class="w3-bar-item w3-button" onclick="OpenLink('SumAdv')">- Advance</a>
+                        <a href="#" id="mnuSum3" class="w3-bar-item w3-button" onclick="OpenLink('SumClr')">- Clearing</a>
+                        <a href="#" id="mnuSum4" class="w3-bar-item w3-button" onclick="OpenLink('SumAcc')">- Account</a>
+                    </div>
                     <div id="mainUtil" class="w3-bar-item w3-button" onclick="w3_accordion('mnuUtil')">
                         Utility
                     </div>

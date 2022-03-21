@@ -373,12 +373,12 @@ Module Main
                     cm.CommandType = CommandType.Text
                     cm.CommandText = SQL
                     cm.ExecuteNonQuery()
-                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DBExecute", conn, SQL, False)
+                    Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DBExecute", "OK", SQL, False, conn)
                 End Using
             End Using
             Return "OK"
         Catch ex As Exception
-            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DBExecute", ex.Message, ex.StackTrace, True)
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DBExecute", ex.Message, SQL, True, ex.StackTrace, "")
             Return "[ERROR]" & ex.Message
         End Try
     End Function

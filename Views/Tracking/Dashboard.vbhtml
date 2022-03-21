@@ -81,6 +81,7 @@ End Code
     });
     google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawChart);
+    /*
     window.onresize = () => {
         CheckSession(drawChart());
     }
@@ -89,6 +90,7 @@ End Code
             CheckSession(drawChart());
         }
     }, 300000);
+    */
     SetLOVs();
 
     function SetLOVs() {
@@ -302,7 +304,7 @@ End Code
         return dataTable.getFormattedValue(rowIndex, columnIndex) == "0" ? null : dataTable.getFormattedValue(rowIndex, columnIndex);
     }
     function CreateNewJob() {
-        window.open(path +'joborder/createjob?JType=' + $('#cboJobType').val() + '&SBy=' + $('#cboShipBy').val() + '&Branch=' + branch);
+        window.location.href=path +'joborder/createjob?JType=' + $('#cboJobType').val() + '&SBy=' + $('#cboShipBy').val() + '&Branch=' + branch;
     }
     function getValueByText(id, value) {
         let chk = '';
@@ -334,9 +336,9 @@ End Code
         SetGridJob(path, '#tbJob', '#frmSearchJob', w + wc, ReadJob);
     }
     function ReadJob(dt) {
-        window.open(path + 'joborder/showjob?BranchCode=' + dt.BranchCode + '&JNo=' + dt.JNo);
+        window.location.href=path + 'joborder/showjob?BranchCode=' + dt.BranchCode + '&JNo=' + dt.JNo;
     }
     function ShowList() {
-        window.open(path + 'joborder/index?jobtype='+ $('#cboJobType').val() +'&shipby=' + $('#cboShipBy').val());
+        window.location.href=path + 'joborder/index?jobtype='+ $('#cboJobType').val() +'&shipby=' + $('#cboShipBy').val();
     }
 </script>
