@@ -79,3 +79,15 @@ ACE : 203.151.56.105:14322
 User : Administrator
 Pass : 5Chrr&e6pu
 DB : job_ace,job_act
+
+-----------------------------------
+BETTER : 203.151.56.67:14322
+-----------------------------------
+User : Administrator
+Pass : $KNRJtE7Ve
+
+-----------------------------------
+JOBONLINE#2 : 203.154.158.39:14322
+-----------------------------------
+User : Administrator
+Pass : D?ec499=#GTN
