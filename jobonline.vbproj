@@ -1398,6 +1398,9 @@
     <Content Include="Resource\logo-tawan.jpg" />
     <Content Include="Resource\logo-biz.png" />
     <Content Include="Resource\logo_bft.png" />
+    <Content Include="Resource\logo_dyy.jpg" />
+    <Content Include="Resource\logo_dyy_t.jpeg" />
+    <Content Include="Resource\logo_porchoen.png" />
     <Content Include="Resource\pnd53.png" />
     <Content Include="Resource\pnd3.png" />
     <Content Include="Scripts\bootstrap-select.js.map" />
@@ -1712,7 +1715,7 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Default\Index.vbhtml" />
+    <Content Include="Views\Default\Index_bft.vbhtml" />
     <Content Include="Views\JobOrder\FormBookingAir.vbhtml" />
     <Content Include="Views\JobOrder\FormLetter.vbhtml" />
     <Content Include="Views\Admin\Index.vbhtml" />
@@ -1780,6 +1783,7 @@
     <Content Include="Views\Adv\Summary.vbhtml" />
     <Content Include="Views\Clr\Summary.vbhtml" />
     <Content Include="Views\JobOrder\CreateTransport.vbhtml" />
+    <Content Include="Views\Default\Index.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

@@ -102,19 +102,23 @@ End Code
     function ExportTableToCSV(filename) {
         var csv = [];
         var rows = document.querySelectorAll("#tbResult tr");
-        //csv.push($('#rptTitle').text());
+        csv.push($('#rptTitle').text());
         for (var i = 0; i < rows.length; i++) {
             var row = [], cols = rows[i].querySelectorAll("td, th");
 
-            for (var j = 0; j < cols.length; j++)
-                row.push(cols[j].innerText);
-
+            for (var j = 0; j < cols.length; j++) {
+                let val = cols[j].innerText.split('/');
+                if (val.length > 0) {
+                    row.push('=DATE(' + val[2] + ',' + val[1] + ',' + val[0] + ')');
+                } else {
+                    row.push(cols[j].innerText);
+                }
+            }
             csv.push(row.join("\t"));
         }
-        //csv.push($('#rptCliteria').text());
+        csv.push($('#rptCliteria').text());
         // Download CSV file
         DownloadCSV(csv.join("\n"), filename);
     }
-
 
 </script>

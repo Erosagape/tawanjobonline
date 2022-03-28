@@ -2741,17 +2741,18 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
             Return GetView("Summary")
         End Function
         <HttpPost()>
-        <ActionName("CreateTransport")>
         Function PostCreateTransport() As ActionResult
+            Dim totalcont = 0
             Dim data = New CJobOrder(GetSession("ConnJob")) With
                 {
                 .BranchCode = Request.Form("Branch"),
                 .JNo = Request.Form("Job"),
-                .CustCode = Request.Form("Cust").Split("|")(0),
-                .CustBranch = Request.Form("Cust").Split("|")(1),
+                .DocDate = DateTime.Today,
+                .CustCode = Request.Form("Shipper").Split("|")(0),
+                .CustBranch = Request.Form("Shipper").Split("|")(1),
                 .JobType = Request.Form("JobType"),
                 .ShipBy = Request.Form("ShipBy"),
-                .Consigneecode = Request.Form("Cons"),
+                .Consigneecode = Request.Form("Consignee").Split("|")(0),
                 .InvNo = Request.Form("CustInv"),
                 .BookingNo = Request.Form("BookingNo"),
                 .HAWB = Request.Form("HouseBL"),
@@ -2765,8 +2766,13 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 .TotalNW = Request.Form("NetWeight"),
                 .TotalGW = Request.Form("GrossWeight"),
                 .Measurement = Request.Form("M3"),
-                .TotalContainer = Request.Form("ContQty") & "X" & Request.Form("ContUnit")
+                .TotalContainer = Request.Form("ContQty") & "x" & Request.Form("ContUnit"),
+                .DeliveryTo = Request.Form("DeliveryName"),
+                .TotalQty = Request.Form("ContQty"),
+                .DeliveryAddr = Request.Form("DeliveryAddress"),
+                .BLNo = Request.Form("BLNo")
                 }
+            Int32.TryParse(Request.Form("ContQty"), totalcont)
             If data.JNo = "" Then
                 Dim prefix As String = GetJobPrefix(data)
                 If Not IsNothing(Request.QueryString("Prefix")) Then
@@ -2795,6 +2801,36 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                     End If
                 Else
                     data.AddNew(prefix & fmt, False)
+                End If
+                If totalcont > 0 Then
+                    Dim book = New CTransportHeader(GetSession("ConnJob")) With {
+                            .BranchCode = data.BranchCode,
+                            .JNo = data.JNo,
+                            .BookingNo = data.BookingNo,
+                            .LoadDate = IIf(data.JobType = 1, data.ETADate, data.ETDDate),
+                            .NotifyCode = Request.Form("Notify").Split("|")(0),
+                            .VenderCode = Request.Form("Transport"),
+                            .PaymentCondition = Request.Form("FreightCondition"),
+                            .PaymentBy = Request.Form("FreightPaymentBy"),
+                            .CYPlace = Request.Form("PlaceReceive"),
+                            .FactoryPlace = Request.Form("PlaceLoading"),
+                            .PackingPlace = Request.Form("PlaceDelivery"),
+                            .ReturnPlace = Request.Form("PlaceDischarge")
+                            }
+                    Dim msg = book.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", data.BranchCode, data.BookingNo))
+                    If msg.Substring(0, 4) = "Save" Then
+                        For i As Integer = 1 To totalcont
+                            Dim cont = New CTransportDetail(GetSession("ConnJob")) With {
+                                .BranchCode = data.BranchCode,
+                                .JNo = data.JNo,
+                                .BookingNo = data.BookingNo,
+                                .ItemNo = i,
+                                .CTN_NO = "",
+                                .CTN_SIZE = Request.Form("ContUnit")
+                                }
+                            cont.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", data.BranchCode, data.BookingNo, i))
+                        Next
+                    End If
                 End If
             End If
             ViewBag.JobNo = data.JNo

@@ -11,38 +11,30 @@ End Code
 </style>
 <div class="row">
     <div class="col-sm-4">
-        <div class="modal-header" style="display:flex">
-            <div style="flex:1">
-                <img style="width:100%;height:70px" src="~/Resource/logo_dyy.jpg" />
+            <div class="modal-header">
+                <img id="imgHeader" src="~/Resource/bft_header.png" />
             </div>
-            <div style="flex:1">
-                <img style="width:100%;height:70px" src="~/Resource/logo_dyy_t.jpeg" />
+            <div class="modal-body">
+                Data : <select class="form-control dropdown" id="cboDatabase"></select>
+                <a id="linkLogout" onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
+                Password : <input type="password" autocomplete="on" class="form-control" id="txtUserPassword" />
             </div>
-            <div style="flex:1">
-                <img style="width:100%;height:70px" src="~/Resource/logo_porchoen.png" />
+            <div class="modal-footer">
+                <div style="display:flex;flex-direction:row;float:left;">
+                    <input type="radio" name="optRole" id="optShip" value="S" checked /><label for="optShip" style="padding-right:10px">Shipper</label>
+                    <input type="radio" name="optRole" id="optVend" value="V" /><label for="optVend" style="padding-right:10px">Vender</label>
+                    <input type="radio" name="optRole" id="optImEx" value="C" /><label for="optImEx" style="padding-right:10px">Importer/Exporter</label>
+                </div>
+                <button class="btn btn-primary" id="btnLogin" onclick="SetVariable()">Log in</button>
             </div>
-        </div>
-        <div class="modal-body">
-            Data : <select class="form-control dropdown" id="cboDatabase"></select>
-            <a id="linkLogout" onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
-            Password : <input type="password" autocomplete="on" class="form-control" id="txtUserPassword" />
-        </div>
-        <div class="modal-footer">
-            <div style="display:flex;flex-direction:row;float:left;">
-                <input type="radio" name="optRole" id="optShip" value="S" checked /><label for="optShip" style="padding-right:10px">Shipper</label>
-                <input type="radio" name="optRole" id="optVend" value="V" /><label for="optVend" style="padding-right:10px">Vender</label>
-                <input type="radio" name="optRole" id="optImEx" value="C" /><label for="optImEx" style="padding-right:10px">Importer/Exporter</label>
-            </div>
-            <button class="btn btn-primary" id="btnLogin" onclick="SetVariable()">Log in</button>
-        </div>
         </form>
     </div>
     <div class="col-sm-8">
-        <img src="~/Resource/jobtawan_bg.png" style="width:100%;" />
+        <img src="~/Resource/better_bg.png" style="width:100%;" />
     </div>
 </div>
 <script type="text/javascript">
-    let path = '@Url.Content("~")';
+    let path = '@Url.Content("~")';    
     $('#txtUserLogin').keydown(function (event) {
         if (event.which === 13) {
             $('#txtUserPassword').focus();
