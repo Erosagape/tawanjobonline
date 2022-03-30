@@ -1301,7 +1301,7 @@
     <Content Include="App_Data\BETTER\JobOrder\FormSalesContract.vbhtml" />
     <Content Include="App_Data\BETTER\JobOrder\FormTransport.vbhtml" />
     <Content Include="App_Data\BETTER\JobOrder\FormTransportAIR.vbhtml" />
-    <Content Include="App_Data\BETTER\JobOrder\FormTransportEASTRONG.vbhtml" />
+    <Content Include="App_Data\BETTER\JobOrder\FormTransportBETTER.vbhtml" />
     <Content Include="App_Data\BETTER\JobOrder\FormTransportHAIR.vbhtml" />
     <Content Include="App_Data\BETTER\JobOrder\FormTransportMAIR.vbhtml" />
     <Content Include="App_Data\BETTER\JobOrder\FormTransportSEA.vbhtml" />

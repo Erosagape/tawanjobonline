@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewData("Title") = "Create Shipments"
+    ViewData("Title") = "Create Job"
 End Code
 <form method="POST" action="@Url.Content("~")/JobOrder/PostCreateTransport">
     <div Class="row">
@@ -72,7 +72,7 @@ End Code
         <div Class="col-sm-4" style="display:flex;">
             <input type="hidden" name="Delivery" id="txtDeliveryAgentCode" />
             <input type="hidden" name="DeliveryAddress" id="txtDeliveryAgentAddress" />
-            <input type="text" name="DeliveryName" id="txtDeliveryAgentName" Class="form-control" disabled />
+            <input type="text" name="DeliveryName" id="txtDeliveryAgentName" Class="form-control" />
         </div>
         <div Class="col-sm-2">
             <a onclick="SearchData('forwarder')">Shipping Line</a>
@@ -198,7 +198,7 @@ End Code
         </div>
         <div Class="col-sm-4" style="display:flex;">
             <input type="number" name="ContQty" id="txtTotalContainer" Class="form-control" />
-            <input type="text" name="ContUnit" id="txtContainerUnit" Class="form-control" disabled />
+            <input type="text" name="ContUnit" id="txtContainerUnit" Class="form-control" />
         </div>
     </div>
     <div Class="row">
@@ -248,6 +248,41 @@ End Code
             <input type="text" name="Job" id="txtJNo" Class="form-control" disabled value="@ViewBag.JobNo" />
         </div>
     </div>
+    <div class="row">
+        <div class="col-sm-2">
+            Container#<br /><input type="text" class="form-control" id="txtCTN" />
+        </div>
+        <div class="col-sm-3">
+            Qty<br/>
+               <div style="display:flex">
+                   <input type="text" class="form-control" id="txtQty" />
+                   <input type="text" class="form-control" id="txtUnit" />
+               </div>
+        </div>
+        <div class="col-sm-2">
+            N/W<br /><input type="text" class="form-control" id="txtNetW" />
+        </div>
+        <div class="col-sm-3">
+            G/W<br /><input type="text" class="form-control" id="txtGrossW" />
+        </div>
+        <div class="col-sm-2">
+            M3<br /><input type="text" class="form-control" id="txtM3" />
+        </div>
+    </div>
+    <a onclick="AddCont()" class="btn btn-warning">Add Details</a>
+    <table id="tbContainers" class="table table-responsive">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Qty</th>
+                <th>Net Weight</th>
+                <th>Gross Weight</th>
+                <th>M3</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <input type="hidden" name="ContList" id="ContainerList" />
     <input type="submit" id="btnSave" Class="btn btn-success" value="Save Data" />
 </form>
 @ViewBag.Message
@@ -258,9 +293,7 @@ End Code
     var job = '@ViewBag.JobNo';
     var branch = '@ViewBag.PROFILE_DEFAULT_BRANCH';
     if (job !== '') {
-        if (confirm("Do you want to show job?")) {
-            window.location.href=path + 'JobOrder/ShowJob?BranchCode=' + branch + '&JNo=' + job;
-        }
+        window.location.href=path + 'JobOrder/Transport?BranchCode=' + branch + '&JNo=' + job;
     }
     loadBranch(path);
 
@@ -354,5 +387,33 @@ End Code
                 });
                 break;
         }
+    }
+    function AddCont() {
+        let obj = $('#ContainerList').val();
+        obj += $('#txtCTN').val();        
+        obj += '|' + $('#txtNetW').val();
+        obj += '|' + $('#txtGrossW').val();
+        obj += '|' + $('#txtM3').val();
+        obj += '|' + $('#txtQty').val();
+        obj += '|' + $('#txtUnit').val();
+        obj += ';';
+        $('#ContainerList').val(obj);
+        let html = '<tr>';
+        html += '<td>' + $('#txtCTN').val() + '</td>';
+        html += '<td>' + $('#txtQty').val() + ' ' + $('#txtUnit').val() + '</td>';
+        html += '<td>' + $('#txtNetW').val() + '</td>';
+        html += '<td>' + $('#txtGrossW').val() + '</td>';
+        html += '<td>' + $('#txtM3').val() + '</td>';
+        html += '</tr>';
+        $('#tbContainers tbody').append(html);
+        let val = Number($('#txtTotalContainer').val()) + 1;
+        let m3 = Number($('#txtMeasureMent').val()) + Number($('#txtM3').val());
+        let netw = Number($('#txtNetWeight').val()) + Number($('#txtNetW').val());
+        let grossw = Number($('#txtGrossWeight').val()) + Number($('#txtGrossW').val());
+        $('#txtTotalContainer').val(val);
+        $('#txtMeasurement').val(m3);
+        $('#txtNetWeight').val(netw);
+        $('#txtGrossWeight').val(grossw);
+        //alert(val + ',' + netw + ',' + grossw);
     }
 </script>

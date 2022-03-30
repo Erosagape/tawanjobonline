@@ -45,6 +45,11 @@ End Code
         border-top: 1px solid black !important;
     }
 
+    .verticalLine {
+        border-left: 1px solid black !important;
+        border-right: 1px solid black !important;
+    }
+
     .textSpace {
         width: 20em;
     }
@@ -56,37 +61,64 @@ End Code
     table {
         width: 100%;
     }
+
+    #details td {
+        border-left: 1px solid black !important;
+        border-right: 1px solid black !important;
+    }
+
+    #tbhead th {
+        border-left: 1px solid black !important;
+        border-right: 1px solid black !important;
+    }
+
+    #tbfoot > tr > td {
+        border-left: 1px solid black !important;
+        border-right: 1px solid black !important;
+    }
 </style>
-<div style="display:flex">
+<div style="display:flex;width: 100%;">
     <div style="flex:1">
-        <img id="imgLogoAdd" src="/bft/Resource/bft_header.jpeg" style="width: 100%;">
+        <img id="imgLogoAdd" src="/bft/Resource/BFT_RPT_P1.jpg" style="width: 100%;">
     </div>
-    <div id="master" class="bold" style="display: flex; flex-direction: column; justify-content: center; text-align: center; width: 100px; height: 100px; display: none">
+    <div id="master" class="bold" style="display: flex; flex-direction: column; justify-content: center; text-align: center; width: 100px; height: 60px; display: none">
         <h1 style="font-size:20px">ตันฉบับ</h1>
         <h2 style="font-size:16px"> สำหรับลูกค้า</h2>
     </div>
-    <div id="copy" class="bold" style="display:flex;flex-direction:column;justify-content :center;text-align:center;width:100px;height:100px;display:none">
+    <div id="copy" class="bold" style="display:flex;flex-direction:column;justify-content :center;text-align:center;width:100px;height:60px;display:none">
         <h1 style="font-size:20px">สำเนา</h1>
         <h2 style="font-size:16px"> สำหรับลูกค้า</h2>
     </div>
 </div>
-<h2 style="font-size:16px;width:98%" class="right"> ใบแจ้งหนี้/INVOICE</h2>
+<div style="display:flex;width: 100%;">
+    <div style="width:30%">
+        <img id="imgLogoAdd" src="/bft/Resource/BFT_RPT_P2.jpg" style="width: 100%;">
+    </div>
+    <div style="width:40%"></div>
+    <div style="width:30%">
+        <h2 style="font-size:16px" class="right"> ใบแจ้งหนี้/INVOICE</h2>
+    </div>
+</div>
+
 <div style="margin-bottom:5px;">
-    <div style="display:flex;width:98%">
-        <div style="flex:60%;margin-right:5px;" class="curveBorder">
-            <table class="table table-borderless r">
+    <div style="display:flex;width:100%">
+        <div style="width:60%;margin-right:5px;" class="curveBorder">
+            <table class="table table-borderless">
                 <tbody>
                     <tr>
                         <td class="bold">
                             <label id="billToLbl">BILL TO NAME AND ADDRESS</label>
                         </td>
                         <td>
-                            <label id="id"></label>
+                            <label id="id" style="white-space:nowrap"></label>
                         </td>
                     </tr>
                     <tr>
                         <td>
                             <label id="billName"></label>
+                        </td>
+                        <td>
+                            <label id="quoNo" style="white-space:nowrap"></label>
                         </td>
                     </tr>
                     <tr>
@@ -110,18 +142,18 @@ End Code
                             <b>Name of Importer - Exporter :</b> <span id="imexname"></span>
                         </td>
                     </tr>
-                    <tr>
-                        <td></td>
-                        <td>
-                            <label id="quoNo"></label>
-                        </td>
-                    </tr>
+                    @*<tr>
+                            <td></td>
+                            <td>
+                                <label id="quoNo"></label>
+                            </td>
+                        </tr>*@
                 </tbody>
             </table>
 
         </div>
 
-        <div style="flex:40%">
+        <div style="width:40%;display:flex;flex-direction:column">
             <table class="table table-borderless curveBorder" style="margin-bottom:5px;">
                 <tbody>
                     <tr>
@@ -148,7 +180,7 @@ End Code
                 </tbody>
             </table>
 
-            <table class="table table-borderless curveBorder">
+            <table class="table table-borderless curveBorder" style="flex:1">
                 <tbody>
                     <tr>
                         <td style="width:40%"><label id="custInvNoLbl">CUST INV NO. :</label></td>
@@ -158,14 +190,14 @@ End Code
                     <tr>
                         <td><label id="customsNoLbl">CUSTOMS NO. :</label></td>
                         <td><label id="customsNo"></label></td>
-                    </tr>                   
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 <div style="margin-bottom:5px;">
-    <table class="table table-borderless curveBorder" style="width:98%">
+    <table class="table table-borderless curveBorder" style="width:100%">
 
         <tbody>
             <tr>
@@ -229,35 +261,35 @@ End Code
         </tbody>
     </table>
 </div>
-<table class="table" style="border-width:thin;border-collapse:collapse ;width:98%" border="1">
-    <thead>
-        <tr class="upperLine underLine">
-            <th class="bold align-top" rowspan="2">DESCRIPTION</th>
-            <th class="center underLine" rowspan="2">W/T</th>
+<table class="table curveBorder" style="width:100%;border-width:thin;border-collapse:collapse;">
+    <thead id="tbhead">
+        <tr>
+            <th class="bold align-top underLine" rowspan="2">DESCRIPTION</th>
+            <th class="center  underLine" rowspan="2">W/T</th>
             <th class="center underLine" rowspan="2">QTYs</th>
             <th class="center underLine" rowspan="2">UOM</th>
-            <th id="insouce" class="center bold" colspan="3">IN SOURCE CURRENCY</th>
-            <th class="center bold" colspan="2">AMOUNT IN THB</th>
+            <th id="insouce" class="center bold underLine" colspan="3" style="border-bottom">IN SOURCE CURRENCY</th>
+            <th class="center bold underLine" colspan="2">AMOUNT IN THB</th>
         </tr>
-        <tr class="upperLine">
+        <tr class="underLine">
             <th class="center bold">Curr.</th>
             <th class="center bold">@@ UNIT</th>
             <th class="center bold">Exc.</th>
-            <th style="width:80px;border:1px black solid;border-collapse:collapse" class="center bold">ADVANCE</th>
-            <th style="width:80px;border:1px black solid;border-collapse:collapse" class="center bold">VAT</th>
+            <th style="width:80px;" class="center bold">ADVANCE</th>
+            <th style="width:80px;" class="center bold">VAT</th>
         </tr>
 
     </thead>
-    <tbody id="details">
+    <tbody id="details" class="underLine">
     </tbody>
-    <tfoot>
+    <tfoot id="tbfoot">
         <tr>
             <td colspan="2" rowspan="6">
                 <table>
                     <tr>
-                        <td class="center " style="text-decoration:underline">W/T TAX</td>
-                        <td class="center " style="text-decoration:underline">GROSS</td>
-                        <td class="center " style="text-decoration:underline">W/T AMT</td>
+                        <td class="right">W/T TAX</td>
+                        <td class="right">GROSS</td>
+                        <td class="right">W/T AMT</td>
                     </tr>
                     <tr>
                         <td id="taxRate1" style="text-align:right"></td>
@@ -298,8 +330,8 @@ End Code
         </tr>
         <tr>
             <td id="valueAddedTaxLbl" class="right" colspan="5">TOTAL VAT AMOUNT:</td>
-            <td id="advanceVat" class="right underLine"></td>
-            <td id="valueAddedTax" class="right underLine"></td>
+            <td id="advanceVat" class="right"></td>
+            <td id="valueAddedTax" class="right"></td>
         </tr>
         <tr>
             <td id="totalAmountLbl" class="right" colspan="5">TOTAL AMOUNT:</td>
@@ -311,19 +343,19 @@ End Code
             <td id="custAdv" class="right"></td>
             <td class="right"></td>
         </tr>
-        <tr>
+        <tr class="underLine">
             <td id="netAmountLbl" class="right" colspan="5">NET AMOUNT:</td>
-            <td class="right"></td>
+            <td id="advLeft" class="right"></td>
             <td id="netAmount" class="right"></td>
         </tr>
         <tr class="underLine">
-            <td class="center" colspan="5">จำนวนเงินที่ต้องจ่าย = </td>
-            <td id="TotalNet" class="right" colspan="2"></td>
+            <td class="center" colspan="5" style="font-size:13px">จำนวนเงินที่ต้องจ่าย = </td>
+            <td id="TotalNet" class="right" colspan="2" style="font-size:13px"></td>
         </tr>
-        <tr>
+        <tr class="underLine">
             <td id="bahtText" class="center" colspan="10"></td>
         </tr>
-        <tr>
+        <tr class="underLine">
             <td colspan="10">
                 Remark:<br><br>
                 <p>         <div id="remark"></div></p>
@@ -339,18 +371,27 @@ End Code
         <td class="bold" style="width:100px">By :</td>
         <td class="underLine textSpace" style="width:50px"></td>
         <td style="width:50px"> </td>
-        <td class="underLine center" style="width:200px"></td>
+        <td class="underLine center" style="width:200px">
+
+            <br />
+            <br />
+        </td>
     </tr>
     <tr>
         <td class="bold">DUE DATE :</td>
-        <td class="underLine  textSpace"></td>
+        <td class="textSpace"></td>
         <td style="width:50px"> </td>
-        <td class="center bold">AUTHORIZED SIGNATURE</td>
+        <td class="center bold">
+            @ViewBag.User
+            <br />
+            AUTHORIZED SIGNATURE
+        </td>
     </tr>
 </table>
 <div style="display:flex">
     <div style="flex:1">
         <br />   <br />
+
         PLEASE ISSUE A CROSSED CHEQUE PAYABLE TO "BETTER FREIGHT & TRANSPORT CO.,LTD"
         <br />   <br />
         หมายเหตุ ใบแจ้งหนี้นี้มิใช่ใบกำกับภาษี ใบกำกับภาษีจะออกให้ต่อเมื่อได้รับชำระเงินเรียบร้อยแล้ว
@@ -361,8 +402,8 @@ End Code
 
 <script type="text/javascript">
 /*    $('#pFooter').hide();*/
-    $('#imgLogo').hide();
-    $('#imgLogoAdd').show();
+    //$('#imgLogo').hide();
+    //$('#imgLogoAdd').show();
     let ans = confirm('OK to print Original or Cancel For Copy');
     if (ans == true) {
         $('#master').show();
@@ -461,7 +502,7 @@ End Code
                 html += '            <td class="right">' + (row.AmtVat > 0 && !row.AmtAdvance ? ShowNumber(row.Amt, 2) : '') + '</td>';
                 html += '        </tr>';
                 if (row.AmtAdvance) {
-                    adv += row.Amt;
+                    adv += row.TotalAmt;
                     custadv += row.AmtCredit;
                     console.log(row.AmtCredit);
                 }
@@ -527,6 +568,8 @@ End Code
             $("#custAdv").text(ShowNumber(h.TotalCustAdv, 2));
             $("#lessWithholdingTax").text(ShowNumber(h.Total50Tavi, 2));
             $("#netAmount").text(ShowNumber(h.TotalNet + h.Total50Tavi, 2));
+            $("#advLeft").text(ShowNumber(adv - h.TotalCustAdv, 2));
+
             $("#TotalNet").text(ShowNumber(h.TotalNet , 2));
             $("#taxRate1").text("1% :");
             $("#taxRate1_5").text("1.5% :");

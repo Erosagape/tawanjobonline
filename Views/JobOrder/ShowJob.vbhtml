@@ -100,7 +100,7 @@ End Code
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <a href="../Master/Customers" target="_blank">
-                                            <label id="lblCustCode">Customer :</label>
+                                            <label id="lblCustCode">IM-EX PORTER :</label>
                                         </a>
                                     </div>
                                     <div class="col-sm-8">
@@ -136,7 +136,7 @@ End Code
                                     </div>
                                 </div>
                                 <a href="../Master/Customers?mode=CONSIGNEE" target="_blank">
-                                    <label id="lblConsignee">Consignee :</label>
+                                    <label id="lblConsignee">BILLING TO :</label>
                                 </a>
                                 <div class="row">
                                     <div class="col-sm-4" style="display:flex;flex-direction:row;">
@@ -357,7 +357,7 @@ End Code
                                 <div class="row">
                                     <div class="col-sm-4">
                                         <a href="../Master/Customers?mode=NOTIFY_PARTY" target="_blank">
-                                            <label id="lblDeliverTo">Delivery To :</label>
+                                            <label id="lblDeliverTo">Consignee SI :</label>
                                         </a>
                                     </div>
                                     <div class="col-sm-8" style="display:flex;flex-direction:row">
@@ -1298,13 +1298,16 @@ End Code
 
                 ReadJob(dr);
 
-                if (dr.JobStatus >= 7) {
+                if (dr.JobStatus >= 7 && userPosition<='6') {
                     $('#btnSave').attr('disabled', 'disabled');
-                }
-		if(dr.JobStatus>90){
-		    $('#btnLinkAdv').attr('disabled', 'disabled');
-		    $('#btnLinkClr').attr('disabled', 'disabled');
-		}
+                } else {
+                    $('#btnSave').removeAttr('disabled');
+		        }
+
+		        if(dr.JobStatus>90){
+		            $('#btnLinkAdv').attr('disabled', 'disabled');
+		            $('#btnLinkClr').attr('disabled', 'disabled');
+		        }
             }
         });
         ShowLog(Branch, Job);

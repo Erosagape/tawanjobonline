@@ -14,6 +14,7 @@ End Code
 
     td {
         vertical-align: top;
+        padding: 5px 5px 5px 5px;
     }
 
     .left {
@@ -180,7 +181,7 @@ End Code
         <td class="bodered" colspan="2">
             <b>LOCAL VESSEL</b>
             <div>
-                <label id="lblMVesselName"></label>
+                <label id="lblVesselName"></label>
             </div>
         </td>
     </tr>
@@ -188,7 +189,7 @@ End Code
         <td class="bodered" colspan="2">
             <b>Place of Delivery</b>
             <div>
-                <label id="lblInterPortName"></label>,<label id="lblCountryName"></label>
+                <label id="lblDeliveryPlace"></label>
             </div>
         </td>
         <td class="bodered">
@@ -200,12 +201,12 @@ End Code
         <td class="bodered">
             <b>OCEAN VESSEL</b>
             <div>
-                <label id="lblVesselName"></label>
+                <label id="lblMVesselName"></label>
             </div>
         </td>
     </tr>
 </table>
-<table style="width:100%" class="bodered">
+<table style="width:100%;" class="bodered">
     <thead>
         <tr>
             <th class="bodered" style="width:20%;text-align:center">MARKS AND NUMBERS<br />CONTAINER NO/SEAL NO</th>
@@ -215,7 +216,17 @@ End Code
             <th class="bodered" style="width: 15%; text-align: center">MEASUREMENT</th>
         </tr>
     </thead>
-    <tbody id="dvDetail" style="height :400px">
+    <tbody id="dvDetail">
+        <tr>
+            <td id="dvCont" colspan="5" style="position:absolute;width:100%;"></td>
+        </tr>
+        <tr style="height:300px;">
+            <td class="vbodered"></td>
+            <td class="vbodered"></td>
+            <td class="vbodered"></td>
+            <td class="vbodered"></td>
+            <td class="vbodered"></td>
+        </tr>
     </tbody>
 </table>
 <table style="width:100%" class="bodered">
@@ -230,15 +241,10 @@ End Code
         </tr>
         <tr>
             <td class="vbodered">PLACE : <label id="lblOnBoardPlace"></label></td>
-            <td class="vbodered"></td>
-            <td class="bodered" rowspan="2" colspan="2" style="text-align:center">
+            <td class="vbodered"><label id="lblPaymentBy"></label></td>
+            <td class="bodered" colspan="2" style="text-align:center">
                 <label id="lblPaymentCondition"></label>
-            </td>
-        </tr>
-        <tr>
-            <td class="vbodered"><br /></td>
-            <td class="vbodered">
-                <label id="lblPaymentBy"></label>
+                <br /><label id="lblTransMode"></label>
             </td>
         </tr>
         <tr>
@@ -265,14 +271,10 @@ End Code
                     AS AGENT FOR THE CARRIER BF CONTAINER LINE
                 </div>
             </td>
-
-
         </tr>
     </tbody>
 </table>
 <label id="lblProductUnit" style="display:none;"></label>
-
-</p>
 <script type="text/javascript">
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");
@@ -283,7 +285,7 @@ End Code
 	LoadData();
     });
     function LoadData() {
-$.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function (r) {
+        $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
             $('#lbljno').text(h.JNo);
@@ -295,7 +297,7 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
             $('#lblDeliveryAddr').html(CStr(h.DeliveryAddr));
             $('#lblTransMode').text(h.TransMode);
             $('#lblPaymentBy').text(h.PaymentBy);
-            $('#lblPaymentCondition').text(h.PaymentCondition);
+            $('#lblPaymentCondition').text('"'+h.PaymentCondition+'"');
             $('#lblBookingDate').text('BANGKOK ' + ShowDate(h.BookingDate));
             $('#lblLoadDate').text(ShowDate(h.BookingDate));
             $('#lblForwarderName').text(h.ForwarderName);
@@ -316,19 +318,20 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
 
             let unit=units.filter(function(data){
                return data.Code==h.InvProductUnit;
-             });
+            });
             if(unit.length>0) {
                $('#lblProductUnit').text(unit[0].TName);
             } else {
                $('#lblProductUnit').text(h.InvProductUnit);
             }
-            if (h.JobType == '1') {
+            /*if (h.JobType == '1') {
                 ShowInterPort(path, h.InvFCountry, h.InvInterPort, '#lblInterPortName');
                 ShowCountry(path, h.InvFCountry, '#lblCountryName');
             } else {
                 ShowCountry(path, h.InvCountry, '#lblCountryName');
                 ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblInterPortName');
-            }
+            }*/
+	        $('#txtDeliveryPlace').text(h.PackingPlace);
             $('#lblOnBoardDate').text(ShowDate(h.ETDDate));
             $('#lblOnBoardPlace').text(h.CYPlace);
             $('#lblFactoryPlace').text(h.FactoryPlace);
@@ -341,34 +344,20 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
             $('#lblServiceMode').text(h.TRemark);
             $('#lblInvCurRate').text(h.InvCurRate);
             $('#lblSumQty').text(CNumEng(h.InvProductQty).replace('ONLY', '') + ' ' + $('#lblProductUnit').text() + ' ONLY');
-            let html = ''
-            let row = $('<tr style="height: 0;"></tr>');
-            row.append($('<td class="vbodered">' + CStr(h.Remark) + '</td>'));
-            row.append($('<td class="vbodered">' + h.InvProductQty + ' ' + $('#lblProductUnit').text() + '</td>'));
-            row.append($('<td class="vbodered">' + h.InvProduct + '<br/>' + CStr(h.ProjectName) + '</td>'));
-            row.append($('<td class="vbodered">' + 'G.W ' + ShowNumber(h.TotalGW, 3) + ' ' + h.GWUnit + '</td>'));
-            row.append($('<td class="vbodered">' + h.TotalM3 + ' M3' + '</td>'));
-           // row.append($('<td>' + 'N.W ' + ShowNumber(h.TotalNW, 3) + ' ' + h.GWUnit + '</td>'));
+            let row = $('<tr>');
+            row.append($('<td class="vbodered"><br/><br/><br/>' + CStr(h.Remark) + '</td>'));
+            row.append($('<td class="vbodered" style="text-align:center;"><br/><br/>' + h.TotalContainer + '<br/>(' + h.InvProductQty + ' '+ h.InvProductUnit+ ')</td>'));
+            row.append($('<td class="vbodered">' + CStr(h.ProjectName) + '<br/><br/>' + h.InvProduct + '</td>'));
+            row.append($('<td class="vbodered"><br/><br/><br/>' + 'G.W ' + ShowNumber(h.TotalGW, 3) + ' ' + h.GWUnit + '</td>'));
+            row.append($('<td class="vbodered"><br/><br/><br/>' + h.TotalM3 + ' CBM' + '</td></tr>'));
 
-            $('#dvDetail').append(row);
-            let tmprow = $('<tr style="height: 0;"></tr>');
-            tmprow.append($('<td class="vbodered">Detail</td><td class="vbodered"></td><td class="vbodered"></td><td class="vbodered"></td>'));
-            $('#dvDetail').append( tmprow);
-            for (i = 0; i < r.booking.data.length; i++){
-                let row2 = $('<tr></tr>');
-                row2.append($('<td class="vbodered">' +'Container : '+ r.booking.data[i].CTN_NO + '<br />' +'Seal No : ' + r.booking.data[i].SealNumber + '</td>'));
-                row2.append($('<td class="vbodered">' + r.booking.data[i].ProductQty + ' ' + $('#lblProductUnit').text() + '</td>'));
-                row2.append($('<td class="vbodered"></td>'));
-                row2.append($('<td class="vbodered">' + 'G.W ' + r.booking.data[i].GrossWeight + ' ' + h.GWUnit + '<br/>' + 'N.W ' + r.booking.data[i].NetWeight + ' ' + h.GWUnit + '</td>'));
-
-                row2.append($('<td class="vbodered">' + r.booking.data[i].Measurement + ' M3' + '</td>'));
-
-                $('#dvDetail').append(row2);
-
-
-                row2 = $('<tr style=""><td class="vbodered"></td><td class="vbodered"></td><td class="vbodered"></td><td class="vbodered"></td><td class="vbodered"></td></tr>');
-                $('#dvDetail').append(row2);
+            $('#dvDetail').prepend(row);
+            let row2=$('<div>CONTAINER NO<br/>');
+            for (i = 0; i < r.booking.data.length; i++) {
+                row2.append($('<div style="width:100%;">'+ r.booking.data[i].CTN_NO + '/' + r.booking.data[i].SealNumber + '=' + r.booking.data[i].ProductQty + ' ' + $('#lblProductUnit').text() + ' G.W ' + r.booking.data[i].GrossWeight + ' ' + h.GWUnit+'</div>'));
             }
+            row2.append($('</div>'));
+            $('#dvCont').append(row2);
         }
     });
     }

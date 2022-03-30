@@ -902,8 +902,8 @@ function LoadReport(path, reportID, obj, lang) {
                     let col = 0;
                     for (let c in r) {
                         if (groupField.indexOf(c)<0) {
-                            if (c.indexOf('Date') >= 0) {
-                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
+                            if (c.toUpperCase().indexOf('DATE') >= 0) {
+                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDateExcel(r[c]) + '</td>';
                             } else {
                                 if (r[c] !== null) {
                                     if (sumGroup[col].isSummary == true) {
@@ -1056,7 +1056,7 @@ function LoadReportNoTotal(path, reportID, obj, lang) {
                     for (let c in r) {
                         if (c !== groupField) {
                             if (c.indexOf('Date') >= 0) {
-                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
+                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDateExcel(r[c]) + '</td>';
                             } else {
                                 if (r[c] !== null) {
                                     if (sumGroup[col].isSummary == true) {
@@ -1111,5 +1111,21 @@ function CheckAllIsNumber(arr, colName) {
         }
     } catch {
         return false;
+    }
+}
+function ShowDateExcel(sqlDateString) {
+    try {
+        let jsDate = sqlDateString.substr(0, 10);
+        let month = jsDate.substr(5, 2);
+        let day = jsDate.substr(8, 2);
+        let year = jsDate.substr(0, 4);
+        if (year < '1901') {
+            return '-';
+        }
+        let date = year + "-" + month + "-" + day;
+        return date;
+    }
+    catch (e) {
+        return '-';
     }
 }

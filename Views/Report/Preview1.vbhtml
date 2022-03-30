@@ -108,11 +108,7 @@ End Code
 
             for (var j = 0; j < cols.length; j++) {
                 let val = cols[j].innerText.split('/');
-                if (val.length > 0) {
-                    row.push('=DATE(' + val[2] + ',' + val[1] + ',' + val[0] + ')');
-                } else {
-                    row.push(cols[j].innerText);
-                }
+                row.push(cols[j].innerText);
             }
             csv.push(row.join("\t"));
         }

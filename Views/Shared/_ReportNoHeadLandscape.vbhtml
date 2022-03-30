@@ -11,8 +11,8 @@
     <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/bootstrap-select.js"></script>
-    <script src="~/Scripts/Func/util.js"></script>
-    <script src="~/Scripts/Func/reports.js"></script>
+    <script src="~/Scripts/Func/util.js?@DateTime.Now.Ticks"></script>
+    <script src="~/Scripts/Func/reports.js?@DateTime.Now.Ticks"></script>
     
     <style>
         table {

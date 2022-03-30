@@ -222,6 +222,9 @@ function OpenMenu(mnuID, newpage = true) {
         case 'SumAcc':
             mnuPath = path + 'Acc/Summary';
             break;
+        case 'CreateTransport':
+            mnuPath = path + 'JobOrder/CreateTransport';
+            break;
         default:
             ShowMessage('Under Development');
             break;

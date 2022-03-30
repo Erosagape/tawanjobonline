@@ -1610,7 +1610,7 @@ End Code
                 window.open(path + 'JobOrder/FormTransport?Type=WALMAY&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'BLE':
-                window.open(path + 'JobOrder/FormTransport?Type=EASTRONG&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                window.open(path + 'JobOrder/FormTransport?Type=BETTER&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'HAW':
                 window.open(path + 'JobOrder/FormTransport?Type=HAIR&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');

@@ -2742,12 +2742,12 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
         End Function
         <HttpPost()>
         Function PostCreateTransport() As ActionResult
-            Dim totalcont = 0
             Dim data = New CJobOrder(GetSession("ConnJob")) With
                 {
                 .BranchCode = Request.Form("Branch"),
                 .JNo = Request.Form("Job"),
                 .DocDate = DateTime.Today,
+                .CSCode = GetSession("CurrUser"),
                 .CustCode = Request.Form("Shipper").Split("|")(0),
                 .CustBranch = Request.Form("Shipper").Split("|")(1),
                 .JobType = Request.Form("JobType"),
@@ -2770,9 +2770,9 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 .DeliveryTo = Request.Form("DeliveryName"),
                 .TotalQty = Request.Form("ContQty"),
                 .DeliveryAddr = Request.Form("DeliveryAddress"),
-                .BLNo = Request.Form("BLNo")
+                .BLNo = Request.Form("BLNo"),
+                .ClearPortNo = Request.Form("PlaceDischarge")
                 }
-            Int32.TryParse(Request.Form("ContQty"), totalcont)
             If data.JNo = "" Then
                 Dim prefix As String = GetJobPrefix(data)
                 If Not IsNothing(Request.QueryString("Prefix")) Then
@@ -2802,7 +2802,8 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 Else
                     data.AddNew(prefix & fmt, False)
                 End If
-                If totalcont > 0 Then
+                Dim arrCont = Request.Form("ContList").Split(";")
+                If arrCont.Length > 0 Then
                     Dim book = New CTransportHeader(GetSession("ConnJob")) With {
                             .BranchCode = data.BranchCode,
                             .JNo = data.JNo,
@@ -2819,14 +2820,20 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                             }
                     Dim msg = book.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", data.BranchCode, data.BookingNo))
                     If msg.Substring(0, 4) = "Save" Then
-                        For i As Integer = 1 To totalcont
+                        For i As Integer = 1 To arrCont.Length - 1
+                            Dim val = arrCont(i - 1).Split("|")
                             Dim cont = New CTransportDetail(GetSession("ConnJob")) With {
                                 .BranchCode = data.BranchCode,
                                 .JNo = data.JNo,
                                 .BookingNo = data.BookingNo,
                                 .ItemNo = i,
-                                .CTN_NO = "",
-                                .CTN_SIZE = Request.Form("ContUnit")
+                                .CTN_NO = val(0),
+                                .CTN_SIZE = Request.Form("ContUnit"),
+                                .NetWeight = val(1),
+                                .GrossWeight = val(2),
+                                .Measurement = val(3),
+                                .ProductQty = val(4),
+                                .ProductUnit = val(5)
                                 }
                             cont.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", data.BranchCode, data.BookingNo, i))
                         Next
