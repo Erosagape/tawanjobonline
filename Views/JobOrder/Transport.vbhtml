@@ -126,7 +126,7 @@ End Code
                     <label id="lblPaymentCond">Freight Payment Condition :</label>
                     <br />
                     <div style="display:flex;flex-direction:row">
-                        <textarea id="txtPaymentCondition" class="form-control"></textarea>
+                        <input type="text" id="txtPaymentCondition" class="form-control" />
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -211,8 +211,9 @@ End Code
                 <option value="BA">Booking Confirmation (AIR)</option>
                 <option value="BS">Booking Confirmation (SEA)</option>
                 <option value="SP">Shipping Particulars</option>
-                <option value="BLW">Bill of Lading - WALMAY</option>
-                <option value="BLE">Bill of Lading - EASTRONG</option>
+                @*<option value="BLW">Bill of Lading - WALMAY</option>*@
+                <option value="BLE">Bill of Lading - BETTER</option>
+                @*<option value="BFT">Bill of Lading - BETTER</option>*@
                 <option value="BLS">Sea Way Bill</option>
                 <option value="HAW">House Air Way Bill</option>
                 <option value="MAW">Master Air Way Bill</option>
@@ -220,7 +221,6 @@ End Code
                 <option value="SC">Sales Contract</option>
                 <option value="PL">Packing Lists</option>
             </select>
-            >
             <div class="row">
                 <div class="col-sm-4">
                     <label id="lblActive">Active Trip:</label>
@@ -1107,7 +1107,7 @@ End Code
                 break;
             case 'carlicense':
                 SetGridCar(path, '#tbCar', '#frmSearchCar', ReadCar);
-                break;            
+                break;
             case 'driver':
                 SetGridEmployee(path, '#tbEmp', '#frmSearchEmp', ReadEmp);
                 break;
@@ -1313,7 +1313,7 @@ End Code
             $('#txtJNo').val(job);
         } else {
             $('#txtJNo').val(dr.JNo);
-        }        
+        }
         $('#txtBookingNo').val(dr.BookingNo);
         $('#txtVenderCode').val(dr.VenderCode);
         ShowVender(path, dr.VenderCode, '#txtVenderName');
@@ -1600,6 +1600,9 @@ End Code
             case 'SP':
                 window.open(path + 'JobOrder/FormBooking?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
+            //case 'BFT':
+            //    window.open(path + 'JobOrder/FormTransport?Type=BETTER&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+            //    break;
             case 'BLS':
                 window.open(path + 'JobOrder/FormTransport?Type=SEA&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
@@ -1607,7 +1610,7 @@ End Code
                 window.open(path + 'JobOrder/FormTransport?Type=WALMAY&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'BLE':
-                window.open(path + 'JobOrder/FormTransport?Type=EASTRONG&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                window.open(path + 'JobOrder/FormTransport?Type=BETTER&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'HAW':
                 window.open(path + 'JobOrder/FormTransport?Type=HAIR&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
@@ -1687,6 +1690,7 @@ End Code
         ShowPayment();
     }
     function SaveDetail() {
+/*
 	if($('#txtDriver').val()==''){
 		ShowMessage('Please enter driver',true);
 		return;
@@ -1695,6 +1699,7 @@ End Code
 		ShowMessage('Please enter truck no',true);
 		return;
 	}
+*/
         let obj = {
             BranchCode:$('#txtBranchCode').val(),
             JNo:$('#txtJNo').val(),

@@ -1,7 +1,7 @@
 ﻿@Code
     ViewData("Title") = "Create Job"
 End Code
-<form method="POST" action="@Url.Content("~")/JobOrder/PostCreateTransport">
+<form id="form" method="POST" action="@Url.Content("~")/JobOrder/PostCreateTransport">
     <div Class="row">
         <div Class="col-sm-2">
             Job Type
@@ -18,68 +18,76 @@ End Code
     </div>
     <div Class="row">
         <div Class="col-sm-2">
-            <a onclick="SearchData('cust')">Customer</a>
+            <a href="../Master/Customers">Customers</a>
         </div>
         <div Class="col-sm-4" style="display:flex;">
             <input type="hidden" name="Cust" id="txtCustCode" />
             <input type="text" id="txtCustName" Class="form-control" disabled />
+            <a onclick="SearchData('cust')" class="btn btn-default">...</a>
         </div>
         <div Class="col-sm-2">
-            <a onclick="SearchData('bill')">Billing To</a>
+            <a href="../Master/Customers">Billing To</a>            
         </div>
         <div Class="col-sm-4" style="display:flex;">
             <input type="hidden" name="BillTo" id="txtBillToCustCode" />
             <input type="text" id="txtBillToCustName" Class="form-control" disabled />
+            <a class="btn btn-default" onclick="SearchData('bill')">...</a>
         </div>
     </div>
     <div Class="row">
         <div Class="col-sm-2">
-            <a onclick="SearchData('shipper')">Shipper </a>
+            <a href="../Master/Customers">Shipper</a>            
         </div>
         <div Class="col-sm-4" style="display:flex;">
             <input type="hidden" name="Shipper" id="txtShipperCode" />
             <input type="text" id="txtShipperName" Class="form-control" disabled />
+            <a onclick="SearchData('shipper')" class="btn btn-default">...</a>
         </div>
         <div Class="col-sm-2">
-            <a onclick="SearchData('cons')">Consignee</a>
+            <a href="../Master/Customers">Consignee</a>
         </div>
         <div Class="col-sm-4" style="display:flex;">
             <input type="hidden" name="Consignee" id="txtConsigneeCode" />
             <input type="text" id="txtConsigneeName" Class="form-control" disabled />
+            <a onclick="SearchData('cons')" class="btn btn-default">...</a>
         </div>
 
     </div>
     <div Class="row">
         <div Class="col-sm-2">
-            <a onclick="SearchData('actshipper')">Notify Party</a>
+            <a href="../Master/Customers">Notify</a>
         </div>
         <div Class="col-sm-4" style="display:flex;">
             <input type="hidden" name="Notify" id="txtActualShipperCode" />
             <input type="text" id="txtActualShipperName" Class="form-control" disabled />
+            <a onclick="SearchData('actshipper')" class="btn btn-default">...</a>
         </div>
         <div Class="col-sm-2">
-            <a onclick="SearchData('actcons')">Also Notify</a>
+            <a href="../Master/Customers">Also Notify</a>
         </div>
         <div Class="col-sm-4" style="display:flex">
             <input type="hidden" name="AlsoNotify" id="txtActualConsigneeCode" />
             <input type="text" id="txtActualConsigneeName" Class="form-control" disabled />
+            <a onclick="SearchData('actcons')" class="btn btn-default">...</a>
         </div>
     </div>
     <div Class="row">
         <div Class="col-sm-2">
-            <a onclick="SearchData('delivery')">Delivery Agent</a>
+            <a href="../Master/Venders">Delivery Agent</a>
         </div>
         <div Class="col-sm-4" style="display:flex;">
             <input type="hidden" name="Delivery" id="txtDeliveryAgentCode" />
             <input type="hidden" name="DeliveryAddress" id="txtDeliveryAgentAddress" />
             <input type="text" name="DeliveryName" id="txtDeliveryAgentName" Class="form-control" />
+            <a class="btn btn-default" onclick="SearchData('delivery')">...</a>
         </div>
         <div Class="col-sm-2">
-            <a onclick="SearchData('forwarder')">Shipping Line</a>
+            <a href="../Master/Venders">Shipping Line</a>
         </div>
         <div Class="col-sm-4" style="display:flex;">
             <input type="hidden" name="Forwarder" id="txtForwarderCode" />
             <input type="text" id="txtForwarderName" Class="form-control" disabled />
+            <a class="btn btn-default" onclick="SearchData('forwarder')">...</a>
         </div>
     </div>
     <div Class="row">
@@ -187,23 +195,25 @@ End Code
     </div>
     <div Class="row">
         <div Class="col-sm-2">
-            <a onclick="SearchData('transport')">Transport</a>
+            <a href="../Master/Venders">Transport</a>
         </div>
         <div Class="col-sm-4" style="display:flex">
             <input type="hidden" name="Transport" id="txtTransportCode" />
             <input type="text" id="txtTransportName" Class="form-control" disabled />
+            <a onclick="SearchData('transport')" class="btn btn-default">...</a>
         </div>
         <div Class="col-sm-2">
-            <a onclick="SearchData('unit')">No OF Container</a>
+            No's' of Containers
         </div>
         <div Class="col-sm-4" style="display:flex;">
             <input type="number" name="ContQty" id="txtTotalContainer" Class="form-control" />
             <input type="text" name="ContUnit" id="txtContainerUnit" Class="form-control" />
+            <a onclick="SearchData('unit')" class="btn btn-default">...</a>
         </div>
     </div>
     <div Class="row">
         <div Class="col-sm-2">
-            No Of Original B/L
+            No's Of Original B/L
         </div>
         <div Class="col-sm-4">
             <select id="txtCountBL" name="BLNo" Class="form-control dropdown">
@@ -216,7 +226,7 @@ End Code
             Measurement
         </div>
         <div Class="col-sm-4">
-            <input type="number" name="M3" id="txtMeasureMent" Class="form-control" />
+            <input type="number" name="M3" id="txtMeasurement" Class="form-control" />
         </div>
     </div>
     <div Class="row">
@@ -252,21 +262,24 @@ End Code
         <div class="col-sm-2">
             Container#<br /><input type="text" class="form-control" id="txtCTN" />
         </div>
+        <div class="col-sm-2">
+            Seal<br /><input type="text" class="form-control" id="txtSeal" />
+        </div>
         <div class="col-sm-3">
-            Qty<br/>
-               <div style="display:flex">
-                   <input type="text" class="form-control" id="txtQty" />
-                   <input type="text" class="form-control" id="txtUnit" />
-               </div>
+            Qty<br />
+            <div style="display:flex">
+                <input type="text" class="form-control" id="txtQty" />
+                <input type="text" class="form-control" id="txtUnit" />
+            </div>
         </div>
         <div class="col-sm-2">
             N/W<br /><input type="text" class="form-control" id="txtNetW" />
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             G/W<br /><input type="text" class="form-control" id="txtGrossW" />
         </div>
-        <div class="col-sm-2">
-            M3<br /><input type="text" class="form-control" id="txtM3" />
+        <div class="col-sm-1">
+            CBM<br /><input type="text" class="form-control" id="txtM3" />
         </div>
     </div>
     <a onclick="AddCont()" class="btn btn-warning">Add Details</a>
@@ -283,7 +296,7 @@ End Code
         <tbody></tbody>
     </table>
     <input type="hidden" name="ContList" id="ContainerList" />
-    <input type="submit" id="btnSave" Class="btn btn-success" value="Save Data" />
+    <input type="button" id="btnSave" Class="btn btn-success" onclick="return ValidateData()" value="Save Data" />
 </form>
 @ViewBag.Message
 <div id="dvLOVs"></div>
@@ -330,6 +343,12 @@ End Code
                 SetGridCompany(path, '#tbCustomer', '#dvCustomer', (dr) => {
                     $('#txtCustCode').val(dr.CustCode + '|' + dr.Branch);
                     $('#txtCustName').val(dr.NameEng);
+                    $('#txtBillToCustCode').val(dr.CustCode + '|' + dr.Branch);
+                    $('#txtBillToCustName').val(dr.NameEng);
+                    $('#txtShipperCode').val(dr.CustCode + '|' + dr.Branch);
+                    $('#txtShipperName').val(dr.NameEng);
+                    $('#txtActualShipperCode').val(dr.CustCode + '|' + dr.Branch);
+                    $('#txtActualShipperName').val(dr.NameEng);
                 });
                 break;
             case 'bill':
@@ -354,6 +373,8 @@ End Code
                 SetGridCompany(path, '#tbConsignee', '#dvConsignee', (dr) => {
                     $('#txtConsigneeCode').val(dr.CustCode + '|' + dr.Branch);
                     $('#txtConsigneeName').val(dr.NameEng);
+                    $('#txtActualConsigneeCode').val(dr.CustCode + '|' + dr.Branch);
+                    $('#txtActualConsigneeName').val(dr.NameEng);
                 });
                 break;
             case 'actcons':
@@ -389,17 +410,38 @@ End Code
         }
     }
     function AddCont() {
+        if ($('#txtNetW').val() == '') {
+            ShowMessage('Net Weight Must be input', true);
+            return;
+        }
+        if ($('#txtGrossW').val() == '') {
+            ShowMessage('Gross Weight Must be input', true);
+            return;
+        }
+        if ($('#txtM3').val() == '') {
+            ShowMessage('CBM Must be input', true);
+            return;
+        }
+        if ($('#txtQty').val() == '') {
+            ShowMessage('Quantity Must be input', true);
+            return;
+        }
+        if ($('#txtUnit').val() == '') {
+            ShowMessage('Unit Must be input', true);
+            return;
+        }
         let obj = $('#ContainerList').val();
-        obj += $('#txtCTN').val();        
+        obj += $('#txtCTN').val();
         obj += '|' + $('#txtNetW').val();
         obj += '|' + $('#txtGrossW').val();
         obj += '|' + $('#txtM3').val();
         obj += '|' + $('#txtQty').val();
         obj += '|' + $('#txtUnit').val();
+        obj += '|' + $('#txtSeal').val();
         obj += ';';
         $('#ContainerList').val(obj);
         let html = '<tr>';
-        html += '<td>' + $('#txtCTN').val() + '</td>';
+        html += '<td>' + $('#txtCTN').val() + '/' + $('#txtSeal').val()+ '</td>';
         html += '<td>' + $('#txtQty').val() + ' ' + $('#txtUnit').val() + '</td>';
         html += '<td>' + $('#txtNetW').val() + '</td>';
         html += '<td>' + $('#txtGrossW').val() + '</td>';
@@ -407,7 +449,7 @@ End Code
         html += '</tr>';
         $('#tbContainers tbody').append(html);
         let val = Number($('#txtTotalContainer').val()) + 1;
-        let m3 = Number($('#txtMeasureMent').val()) + Number($('#txtM3').val());
+        let m3 = Number($('#txtMeasurement').val()) + Number($('#txtM3').val());
         let netw = Number($('#txtNetWeight').val()) + Number($('#txtNetW').val());
         let grossw = Number($('#txtGrossWeight').val()) + Number($('#txtGrossW').val());
         $('#txtTotalContainer').val(val);
@@ -415,5 +457,148 @@ End Code
         $('#txtNetWeight').val(netw);
         $('#txtGrossWeight').val(grossw);
         //alert(val + ',' + netw + ',' + grossw);
+    }
+    function ValidateData() {
+        if ($('#txtJobType').val() == '' || $('#txtShipBy').val() == '') {
+            ShowMessage("Job Type And Ship By must have been chosen", true);
+            if ($('#txtJobType').val() == '') $('#txtJobType').focus();
+            if ($('#txtShipBy').val() == '') $('#txtShipBy').focus();
+            return;
+        }
+        if ($('#txtCustCode').val() == '') {
+            ShowMessage("Customer Must be chosen", true);
+            SearchData('cust');
+            return;
+        }
+        if ($('#txtBillToCustCode').val() == '') {
+            ShowMessage("Billing's Place Must be chosen", true);
+            SearchData('bill');
+            return;
+        }
+        if ($('#txtShipperCode').val() == '') {
+            ShowMessage("Shipper Must be chosen", true);
+            SearchData('shipper');
+            return;
+        }
+        if ($('#txtConsigneeCode').val() == '') {
+            ShowMessage("Consignee Must be chosen", true);
+            SearchData('cons');
+            return;
+        }
+        if ($('#txtActualShipperCode').val() == '') {
+            ShowMessage("Actual Shipper Must be chosen", true);
+            SearchData('actshipper');
+            return;
+        }
+        /*
+        if ($('#txtActualConsigneeCode').val() == '') {
+            ShowMessage("Actual Consignee Must be chosen", true);
+            SearchData('actcons');
+            return;
+        }
+        */
+        /*
+        if ($('#txtDeliveryAgentCode').val() == '') {
+            ShowMessage("Delivery Agent Must be chosen", true);
+            SearchData('delivery');
+            return;
+        }
+        */
+        if ($('#txtForwarderCode').val() == '') {
+            ShowMessage("Shipping liner Must be chosen", true);
+            SearchData('forwarder');
+            return;
+        }
+        if ($('#txtBookingNo').val() == '') {
+            ShowMessage("Booking No Must be chosen", true);
+            return;
+        }
+        if ($('#txtInvNo').val() == '') {
+            ShowMessage("Customer Inv.No Must be chosen", true);
+            return;
+        }
+        if ($('#txtHAWB').val() == '') {
+            ShowMessage("House BL/AWB Must be chosen", true);
+            return;
+        }
+        if ($('#txtMAWB').val() == '') {
+            ShowMessage("Master BL/AWB Must be chosen", true);
+            return;
+        }
+        if ($('#txtETDDate').val() == '') {
+            ShowMessage("ETD Must be chosen", true);
+            return;
+        }
+        if ($('#txtETADate').val() == '') {
+            ShowMessage("ETA Must be chosen", true);
+            return;
+        }
+        if ($('#txtReceivePlace').val() == '') {
+            ShowMessage("Place of receive Must be chosen", true);
+            return;
+        }
+        if ($('#txtLoadingPlace').val() == '') {
+            ShowMessage("Place of Loading Must be chosen", true);
+            return;
+        }
+        if ($('#txtDeliveryPlace').val() == '') {
+            ShowMessage("Place of Delivery Must be chosen", true);
+            return;
+        }
+        if ($('#txtDischargePlace').val() == '') {
+            ShowMessage("Place of Discharge Must be chosen", true);
+            return;
+        }
+        if ($('#txtMVesselName').val() == '') {
+            ShowMessage("Local vessel Must be chosen", true);
+            return;
+        }
+        if ($('#txtVesselName').val() == '') {
+            ShowMessage("Ocean vessel Must be chosen", true);
+            return;
+        }
+        if ($('#txtFreightType').val() == '') {
+            ShowMessage("Freight Type Must be chosen", true);
+            return;
+        }
+        if ($('#txtFreightPayAt').val() == '') {
+            ShowMessage("Freight Pay At Must be chosen", true);
+            return;
+        }
+        if ($('#txtTransportCode').val() == '') {
+            ShowMessage("Transport Code Must be chosen", true);
+            SearchData('transport');
+            return;
+        }
+        if ($('#txtTotalContainer').val() == '') {
+            ShowMessage("Total Container Must be chosen", true);
+            return;
+        }
+        if ($('#txtContainerUnit').val() == '') {
+            ShowMessage("Container Unit Must be chosen", true);
+            SearchData('unit');
+            return;
+        }
+        if ($('#txtCountBL').val() == '') {
+            ShowMessage("No's of B/L Must be chosen", true);
+            return;
+        }
+        if ($('#txtMeasurement').val() == '') {
+            ShowMessage("Measurement Must be chosen", true);
+            return;
+        }
+        if ($('#txtNetWeight').val() == '') {
+            ShowMessage("Net Weight Must be chosen", true);
+            return;
+        }
+        if ($('#txtGrossWeight').val() == '') {
+            ShowMessage("Gross Weight Must be chosen", true);
+            return;
+        }
+        ShowConfirm("Are you sure to create by this information?", function (e) {
+            if (e == true) {
+                $('#form').submit();
+            }
+        });    
     }
 </script>

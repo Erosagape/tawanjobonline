@@ -293,8 +293,8 @@ End Code
             $('#lblHAWB').text(h.HAWB);
             $('#lblBookingNo').text(h.BookingNo);
             $('#lblBLNo').text(h.BLNo);
-            $('#lblDeliveryTo').text(h.DeliveryTo);
-            $('#lblDeliveryAddr').html(CStr(h.DeliveryAddr));
+            $('#lblDeliveryPlace').text(h.PackingPlace);
+            $('#lblDeliveryAddr').html(CStr(h.PackingAddr));
             $('#lblTransMode').text(h.TransMode);
             $('#lblPaymentBy').text(h.PaymentBy);
             $('#lblPaymentCondition').text('"'+h.PaymentCondition+'"');
@@ -336,8 +336,8 @@ End Code
             $('#lblOnBoardPlace').text(h.CYPlace);
             $('#lblFactoryPlace').text(h.FactoryPlace);
             $('#lblRouting').text(h.FactoryAddress);
-            $('#lblReturnPlace').text(h.ReturnPlace);
-            $('#lblReturnAddress').text(h.ReturnAddress);
+            $('#lblReturnPlace').text(h.DeliveryTo);
+            $('#lblReturnAddress').text(h.DeliveryAddress);
             $('#lblPickupPlace').text(h.CYAddress);
             $('#lblDischargePlace').text(h.ClearPortNo);
             $('#lblTotalPackage').text(CNumEng(h.InvProductQty).replace('ONLY', ''));

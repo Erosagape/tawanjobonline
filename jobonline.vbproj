@@ -1784,6 +1784,7 @@
     <Content Include="Views\Clr\Summary.vbhtml" />
     <Content Include="Views\JobOrder\CreateTransport.vbhtml" />
     <Content Include="Views\Default\Index.vbhtml" />
+    <Content Include="Views\JobOrder\FormTransportBETTER.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
