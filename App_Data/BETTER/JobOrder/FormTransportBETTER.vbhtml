@@ -331,7 +331,7 @@ End Code
                 ShowCountry(path, h.InvCountry, '#lblCountryName');
                 ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblInterPortName');
             }*/
-	        $('#txtDeliveryPlace').text(h.PackingPlace);
+	        $('#lblDeliveryPlace').text(h.PackingPlace);
             $('#lblOnBoardDate').text(ShowDate(h.ETDDate));
             $('#lblOnBoardPlace').text(h.CYPlace);
             $('#lblFactoryPlace').text(h.FactoryPlace);

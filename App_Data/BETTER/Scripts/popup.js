@@ -668,7 +668,7 @@ function SetGridCustContact(p, g, t, d, ev) {
 function SetGridDataDistinct(p, g, t, d, ev) {
     $.get(p + 'joborder/getdatadistinct' + t)
         .done(function (r) {
-            let dr = r[0].Table;
+            let dr = r;
             if (dr.length > 0) {
                 $(g).DataTable({
                     data: dr, //web service ที่จะ call ไปดึงข้อมูลมา

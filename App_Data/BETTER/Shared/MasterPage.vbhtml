@@ -70,7 +70,7 @@
                         CS Works
                     </div>
                     <div id="mnuCS" class="w3-hide w3-light-grey w3-card-4">
-                        <a href="#" id="mnuCS1" class="w3-bar-item w3-button" onclick="OpenLink('CreateJob')">- Create Job</a>
+                        <a href="#" id="mnuCS1" class="w3-bar-item w3-button" onclick="OpenLink('CreateTransport')">- Create Job</a>
                         <a href="#" id="mnuCS2" class="w3-bar-item w3-button" onclick="OpenLink('SearchJob')">- List Job</a>
                         <a href="#" id="mnuCS3" class="w3-bar-item w3-button" onclick="OpenLink('Transport')">- Transport Info</a>
                         <a href="#" id="mnuCS4" class="w3-bar-item w3-button" onclick="OpenLink('WHTax')">- Withholding Tax</a>
@@ -79,7 +79,6 @@
                         Shipping Works
                     </div>
                     <div id="mnuShp" class="w3-hide w3-khaki w3-card-4">
-                        <a href="#" id="mnuShp4" class="w3-bar-item w3-button" onclick="OpenLink('CreateTransport')">- Create Transport</a>
                         <a href="#" id="mnuShp3" class="w3-bar-item w3-button" onclick="OpenLink('Planing')">- Planing</a>
                         <a href="#" id="mnuShp1" class="w3-bar-item w3-button" onclick="OpenLink('Advance')">- Advance</a>
                         <a href="#" id="mnuShp2" class="w3-bar-item w3-button" onclick="OpenLink('Clearing')">- Clearing</a>
@@ -279,6 +278,8 @@
                                 <button id="mnuMasA2" class="btn btn-default btn-block" onclick="OpenLink('venders')">- Venders</button>
                                 <button id="mnuMasA3" class="btn btn-default btn-block" onclick="OpenLink('ServUnit')">- Service Units</button>
                                 <button id="mnuMasA4" class="btn btn-default btn-block" onclick="OpenLink('Bank')">- Bank</button>
+                                <button id="mnuMasA10" class="btn btn-default btn-block" onclick="OpenLink('CarLicense')">- Car License</button>
+                                <button id="mnuMasA11" class="btn btn-default btn-block" onclick="OpenLink('Employee')">- Employee</button>
                             </div>
                             <div class="col-sm-6">
                                 <button id="mnuMasA5" class="btn btn-default btn-block" onclick="OpenLink('BookAccount')">- Bank Accounts</button>

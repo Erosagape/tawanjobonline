@@ -2772,8 +2772,36 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 .TotalQty = Request.Form("ContQty"),
                 .DeliveryAddr = Request.Form("DeliveryAddress"),
                 .BLNo = Request.Form("BLNo"),
-                .ClearPortNo = Request.Form("PlaceDischarge")
+                .ClearPortNo = Request.Form("PlaceDischarge"),
+                .QNo = Request.Form("QuoNo"),
+                .InvInterPort = Request.Form("PortCode"),
+                .InvFCountry = IIf(Request.Form("JobType") = "1", Request.Form("Country"), "TH"),
+                .InvCountry = IIf(Request.Form("JobType") = "1", "TH", Request.Form("Country"))
                 }
+            Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
+            Dim FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
+            If FindJob.Count > 0 Then
+                If FindJob(0).JNo <> data.JNo Then
+                    ViewBag.Message = String.Format("Commercial Invoice No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).InvNo)
+                    Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
+                End If
+            End If
+            sql = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And BookingNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.BookingNo)
+            FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
+            If FindJob.Count > 0 Then
+                If FindJob(0).JNo <> data.JNo Then
+                    ViewBag.Message = String.Format("Booking No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).BookingNo)
+                    Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
+                End If
+            End If
+            sql = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And HAWB='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.HAWB)
+            FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
+            If FindJob.Count > 0 Then
+                If FindJob(0).JNo <> data.JNo Then
+                    ViewBag.Message = String.Format("House BL/AWB No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).HAWB)
+                    Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
+                End If
+            End If
             If data.JNo = "" Then
                 Dim prefix As String = GetJobPrefix(data)
                 If Not IsNothing(Request.QueryString("Prefix")) Then
@@ -2847,12 +2875,48 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
             End If
             ViewBag.JobNo = data.JNo
             ViewBag.Message = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
-            Return GetView("CreateTransport")
+            Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
         End Function
         Function CreateTransport() As ActionResult
             ViewBag.JobNo = ""
             ViewBag.Message = "Ready"
-            Return GetView("CreateTransport")
+            Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
+        End Function
+        Function GetPaperless2() As ActionResult
+            Try
+                Dim listPaperless = Main.GetValueConfig("PAPERLESS", "DBLINK2")
+                Dim hostPaperless = Main.GetValueConfig("PAPERLESS", "DBHOST")
+                Dim dbPaperless = Main.GetValueConfig("PAPERLESS", "DBTYPE2")
+
+                Dim job As String = ""
+                Dim type As Integer = 0
+                Dim where As String = ""
+                If Request.QueryString("job") IsNot Nothing Then
+                    job = Request.QueryString("job")
+                    where &= "AND Jobno ='" & job & "'"
+                End If
+
+                'If Request.QueryString("type") IsNot Nothing Then
+                '    type = Convert.ToInt16(Request.QueryString("type").ToString()) - 1
+                'End If
+                'If dbPaperless = "ETRANSIT" Then
+                Dim connStr = hostPaperless & ";database=" & listPaperless.Split(",")(type)
+                Dim dt As New DataTable
+                Using cn As MySqlConnection = New MySqlConnection(connStr)
+                    cn.Open()
+                    Dim sql As String = "SELECT * FROM v_transit_tojob where 1=1 " & where
+                    Using da As New MySqlDataAdapter(sql, cn)
+                        da.Fill(dt)
+                    End Using
+                    cn.Close()
+                End Using
+                Dim json = JsonConvert.SerializeObject(dt)
+                Return Content(json, jsonContent)
+                'End If
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetPaperless", ex.Message, ex.StackTrace, True)
+                Return Content("[]" + ex.Message, jsonContent)
+            End Try
         End Function
     End Class
 

@@ -148,6 +148,7 @@ function loadServiceGroupForClear(path, e, clearType) {
                             .text(dr[i].GroupCode + ' / ' + dr[i].GroupName));
                 }
             }
+if(clearType==3) $(e).val('SRV');
         }
     });
 }

@@ -29,8 +29,8 @@ End Code
             <select id="cboType" class="form-control dropdown">
                 <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
                 <option value="SRV">Tax-Invoice (Service only)</option>
-                <option value="REC">Receipt (Service Non-Vat only)</option>
-                <option value="RCV">Receipt (Service Non-Vat+Advance)</option>
+                <option value="REC">Debit Note</option>
+                <option value="RCV">Receipt Internal</option>
             </select>
         </div>
         <div class="col-sm-2">
@@ -126,8 +126,8 @@ End Code
                             <label id="lblHCustCode">Customer</label>                                
                             <br />
                             <div style="display:flex">
-                                <input type="text" id="txtHCustCode" class="form-control" style="width:20%" disabled />
-                                <input type="text" id="txtHCustBranch" class="form-control" style="width:10%" disabled />
+                                <input type="text" id="txtHCustCode" class="form-control" style="width:20%" />
+                                <input type="text" id="txtHCustBranch" class="form-control" style="width:10%" />
                                 <input type="text" id="txtHCustName" class="form-control" style="width:70%" disabled />
                             </div>
                         </div>
@@ -140,8 +140,8 @@ End Code
                                 <label id="lblBillToCustCode">Bill To</label>
                                 <br />
                                 <div style="display:flex">
-                                    <input type="text" id="txtBillToCustCode" class="form-control" style="width:20%" disabled />
-                                    <input type="text" id="txtBillToCustBranch" class="form-control" style="width:10%" disabled />
+                                    <input type="text" id="txtBillToCustCode" class="form-control" style="width:20%"  />
+                                    <input type="text" id="txtBillToCustBranch" class="form-control" style="width:10%"  />
                                     <input type="text" id="txtBillToCustName" class="form-control" style="width:70%" disabled />
                                 </div>
                             </div>

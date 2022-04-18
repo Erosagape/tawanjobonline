@@ -1107,7 +1107,7 @@ End Code
                 break;
             case 'carlicense':
                 SetGridCar(path, '#tbCar', '#frmSearchCar', ReadCar);
-                break;
+                break;            
             case 'driver':
                 SetGridEmployee(path, '#tbEmp', '#frmSearchEmp', ReadEmp);
                 break;
@@ -1313,7 +1313,7 @@ End Code
             $('#txtJNo').val(job);
         } else {
             $('#txtJNo').val(dr.JNo);
-        }
+        }        
         $('#txtBookingNo').val(dr.BookingNo);
         $('#txtVenderCode').val(dr.VenderCode);
         ShowVender(path, dr.VenderCode, '#txtVenderName');

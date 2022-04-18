@@ -1,6 +1,6 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.ReportName = "ใบเสนอราคา/สัญญาขนส่ง"
+    'ViewBag.ReportName = "QUOTATION"
     ViewBag.Title = "Quotation Form"
 End Code
 <style>
@@ -10,6 +10,7 @@ End Code
 
     td {
         font-size: 11px;
+        padding:1px;
     }
 
     th {
@@ -29,6 +30,8 @@ End Code
         border-collapse: collapse;
     }
 </style>
+<div id="title" style="text-align:center;font-size:20px;font-weight:bold">QUOTATION</div>
+<br>
 <div style="display:flex">
     <div style="flex:1">
         CUSTOMER : <label id="lblCustName"></label>
@@ -64,71 +67,71 @@ End Code
 <br />
 <div style="display:flex">
     <div style="flex:1">
-        <div id="lblDescriptionH" style="color:red"></div>
+        <label id="lblDescriptionH"></label>
     </div>
 </div>
+<div style="padding:10px 20px;box-sizing :border-box ">
+    <table  border="1" width="100%" >
+        <thead>
+            <tr>
+                <th width="5%">NO.</th>
+                <th width="40%">DESCRIPTION</th>
 
-<table style="" border="1" width="100%">
-    <thead>
-        <tr>
-            <th width="5%">NO.</th>
-            <th width="45%">DESCRIPTION</th>
-            <th width="5%">UNIT</th>
-            <th width="5%">QTY</th>
-            <th width="15%">UNIT PRICE</th>
-            <th width="5%">XRT</th>
-            <th width="10%">AMOUNT<br />(FC)</th>
-            <th width="10%">NET<br />(THB)</th>
-        </tr>
-    </thead>
-    <tbody id="tbDetail"></tbody>
-</table>
-<p>
-    <br />
+                <th width="10%">QTY</th>
+                <th width="10%">UNIT</th>
+                <th width="10%">CUR</th>
+                <th width="15%">UNIT PRICE</th>
+                <th width="15%">TOTAL PRICE</th>
+                @*<th width="5%">XRT</th>
+        <th width="10%">AMOUNT<br />(FC)</th>
+        <th width="10%">NET<br />(THB)</th>*@
+            </tr>
+        </thead>
+        <tbody id="tbDetail"></tbody>
+        <tfoot>
+            @*<tr>
+                    <td colspan="2" class="number">GRAND TOTAL (THB)</td>
+                    <td colspan="3" style="text-align:right"><label id="lblTotalCharge"></label></td>
+                </tr>*@
+        </tfoot>
+    </table>
+</div>
+
+
     <div style="display:flex">
         <div style="flex:1">
-            REMARKS : <div id="lblTRemark"></div>
+            REMARKS : <label></label>
+            <pre id="lblTRemark" style="white-space: pre-wrap; word-wrap: break-word; /* IE 5.5+ */"></pre>
         </div>
+        
     </div>
+    <pre id="lblDescriptionF" style="white-space: pre-wrap; word-wrap: break-word; /* IE 5.5+ */"></pre>
     <br />
-    <div id="lblDescriptionF"></div>
-</p>
-<p>
-    Best Regards,
-    <br /><br /><br /><br />
-    <label id="lblManagerName"></label>
-</p>
 <br />
 <div style="display:flex;">
     <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
         FOR THE CUSTOMER
         <br /><br /><br />
-        <p>_____________________</p>
-        _____________________<br />
-        ___/_______/___<br />
+        ___________________________<br />
+        ___________________________<br />
+        _______/_______/_______<br />
         AUTHORIZED SIGNATURE
     </div>
-    <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;">
+    <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
         FOR THE COMPANY
+        <br /><br /><br />
+        ___________________________<br />
+        <span> <label id="lblManagerName">___________________________</label></span>
         <br />
-        <img src="~/Resource/chutarat.png" style="width:50%;" />
+        _______/_______/_______<br />
     </div>
-    @Code
-        If ViewBag.Database = "1" Then
-            @<img id="logo" src="~/Resource/theso_transparent.png" style="width:120px;position:absolute;left:50%;" />
-        Else
-            @<img id="logo" src="~/Resource/kps_transparent.png" style="width:120px;position:absolute;left:50%;" />
-        End If
-    End Code
 </div>
 <script type="text/javascript">
-
+    $('#imgLogo').hide();
+    $('#imgLogoAdd').show();
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
     let docno = getQueryString('docno');
-    if(confirm("Show Logo?")==false) {
-      $('#logo').hide();
-    }
     $.get(path + 'joborder/getquotation?branch=' + branch + '&code=' + docno, function (r) {
         if (r.quotation.header !== null) {
             ShowData(r.quotation);
@@ -150,22 +153,24 @@ End Code
 
         $('#lblQNo').text(h.QNo);
         $('#lblDocDate').text(ShowDate(CDateTH(h.DocDate)));
-        $('#lblTRemark').html(CStr(h.TRemark));
+        $('#lblTRemark').text(h.TRemark);
         $('#lblContactName').text(h.ContactName);
-        $('#lblDescriptionH').html(CStr(h.DescriptionH));
-        $('#lblDescriptionF').html(CStr(h.DescriptionF));
+        $('#lblDescriptionH').text(h.DescriptionH);
+        $('#lblDescriptionF').text(h.DescriptionF);
 
         ShowUser(path, h.ManagerCode, '#lblManagerName');
 
         let html = '';
         let service = 0;
+        let ds = dt.detail;
+        $('#title').text($('#title').text()+" " + ds[0].JobTypeName );
+        
+        for (let d of ds) {
 
-        for (let d of dt.detail) {
-
-            html = '<tr><td>' + d.SeqNo + '</td>';
-            html += '<td colspan="3">' + d.Description + '</td>';
-            html += '<td colspan="2">' + d.JobTypeName + '</td>';
-            html += '<td colspan="2">' + d.ShipByName + '</td>';
+            html = '<tr><td  style="font-weight:bold;text-align:center">' + d.SeqNo + '</td>';
+            html += '<td colspan="5" style="font-weight:bold">' + d.Description + '</td>';
+            //html += '<td colspan="2">' + d.JobTypeName + '</td>';
+            //html += '<td colspan="2">' + d.ShipByName + '</td>';
             html += '</tr>';
 
             $('#tbDetail').append(html);
@@ -177,19 +182,23 @@ End Code
                 let amtTotal = Number(i.TotalCharge) * Number(i.QtyEnd);
                 desc += i.UnitDiscntAmt > 0 ? '<br/>Discount (Rate=' + i.UnitDiscntPerc + '%)=' + i.UnitDiscntAmt : '';
                 html = '<tr><td></td>';
-                html += '<td>' + d.SeqNo + '.' + i.ItemNo + ' ' + desc + '</td>';
+                html += '<td>' + desc + '</td>';
+              
+                html += '<td  style="text-align:center">' + i.QtyBegin + '</td>';
+                //html += '<td>' + i.QtyBegin + '-' + i.QtyEnd + '</td>';
                 html += '<td>' + i.UnitCheck + '</td>';
-                html += '<td>' + i.QtyBegin + '-' + i.QtyEnd + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(i.ChargeAmt, 2) + ' ' + i.CurrencyCode + '</td>';
-                html += '<td style="text-align:center">' + i.CurrencyRate + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(i.TotalAmt,2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(amtTotal,2) + '</td>';
+                html += '<td style="text-align:center">' + i.CurrencyCode + '</td>';
+                html += '<td style="text-align:center">' + ShowNumber(i.ChargeAmt, 2) + '</td>';
+                html += '<td style="text-align:center">' + ShowNumber(i.ChargeAmt, 2) + '*' + i.QtyEnd+'='+ ShowNumber(i.ChargeAmt * i.QtyEnd, 2) + '</td>';
+                //html += '<td style="text-align:center">' + i.CurrencyRate + '</td>';
+                //html += '<td style="text-align:right">' + ShowNumber(i.TotalAmt,2) + '</td>';
+                //html += '<td style="text-align:right">' + ShowNumber(amtTotal,2) + '</td>';
                 html += '<tr></tr>';
 
                 $('#tbDetail').append(html);
                 service += amtTotal;
             }
         }
-        $('#lblTotalCharge').text(ShowNumber(service, 2));
+        //$('#lblTotalCharge').text(ShowNumber(service, 2));
     }
 </script>

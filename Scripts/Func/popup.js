@@ -14,7 +14,7 @@ function CheckSession(ev) {
                         $('#cboDatabase').append($('<option>', { value: (i + 1) })
                             .text(dr.company + '->' + dr.database[i].trim()));
                     }
-                    $('#cboDatabase').val(1);                    
+                    $('#cboDatabase').val(1);
                     $('#dvLogin').modal('show');
                 }
             });
@@ -39,8 +39,8 @@ function CheckPassword(db, user, ev) {
                 className: 'btn-danger'
             },
             confirm: {
-                label: mainLanguage == "TH" ? 'ยืนยัน' :'Confirm',
-                className: 'btn-success'                
+                label: mainLanguage == "TH" ? 'ยืนยัน' : 'Confirm',
+                className: 'btn-success'
             }
         },
         callback: function (pass) {
@@ -49,7 +49,7 @@ function CheckPassword(db, user, ev) {
                     if (r.user.data.length > 0) {
                         ev();
                     } else {
-                        ShowMessage(r.user.message,true);
+                        ShowMessage(r.user.message, true);
                     }
                 });
             }
@@ -57,20 +57,19 @@ function CheckPassword(db, user, ev) {
     });
 }
 function ShowMessage(str, iserr = false) {
-    try
-    {
+    try {
         if (iserr) {
             let box = bootbox.alert({
-                title: mainLanguage=='TH'? '<b>พบข้อผิดพลาด</b>': '<b>Error</b>' ,
-                message: '<i class="glyphicon glyphicon-remove-sign" style="font-size:30px;color:red;padding-right:10px"></i>'+ GetLanguage(str)
+                title: mainLanguage == 'TH' ? '<b>พบข้อผิดพลาด</b>' : '<b>Error</b>',
+                message: '<i class="glyphicon glyphicon-remove-sign" style="font-size:30px;color:red;padding-right:10px"></i>' + GetLanguage(str)
             });
-            box.find('.modal-header').css({ 'background-color': 'red','color':'white' });
+            box.find('.modal-header').css({ 'background-color': 'red', 'color': 'white' });
             box.find('.modal-footer').css({ 'background-color': 'lightyellow' });
             box.find(".btn-primary").removeClass("btn-primary").addClass("btn-danger");
         } else {
-            let box =bootbox.alert({
-                title: mainLanguage=='TH' ?'<b>ข้อความจากระบบ</b>': '<b>Information</b>' ,
-                message: '<i class="glyphicon glyphicon-exclamation-sign" style="font-size:30px;color:blue;padding-right:10px"></i>'+ GetLanguage(str)
+            let box = bootbox.alert({
+                title: mainLanguage == 'TH' ? '<b>ข้อความจากระบบ</b>' : '<b>Information</b>',
+                message: '<i class="glyphicon glyphicon-exclamation-sign" style="font-size:30px;color:blue;padding-right:10px"></i>' + GetLanguage(str)
             });
             box.find('.modal-header').css({ 'background-color': 'green', 'color': 'white' });
             box.find('.modal-footer').css({ 'background-color': 'lightyellow' });
@@ -82,14 +81,14 @@ function ShowMessage(str, iserr = false) {
         alert(str);
     }
 }
-function ShowConfirm(str,func) {
+function ShowConfirm(str, func) {
     //bootbox.confirm(str, func);
-    let box=bootbox.confirm({
+    let box = bootbox.confirm({
         title: mainLanguage == "TH" ? "<b>กรุณายืนยัน<b/>" : "<b>confirm</b>",
         message: '<span class="glyphicon glyphicon-question-sign" style="font-size:30px;color:blue;padding-right:10px"></span>' + GetLanguage(str),
         buttons: {
             cancel: {
-                label: '<i class="fa fa-times"></i> ' + (mainLanguage == "TH" ? 'ยกเลิก' :'Cancel')
+                label: '<i class="fa fa-times"></i> ' + (mainLanguage == "TH" ? 'ยกเลิก' : 'Cancel')
             },
             confirm: {
                 label: '<i class="fa fa-check"></i> ' + (mainLanguage == "TH" ? 'ยืนยัน' : 'Confirm')
@@ -144,7 +143,7 @@ function ShowWait() {
     $('#dvWaiting').modal('show');
 }
 function CloseWait() {
-    $('#dvWaiting').modal('hide');  
+    $('#dvWaiting').modal('hide');
 }
 //Function for loading data to Grid for popup selection
 function SetGridConfigList(p, g, d, ev) {
@@ -197,14 +196,14 @@ function SetGridConfigVal(p, g, t, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        ,pageLength:100
+        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
-function SetGridVender(p, g ,d ,ev) {
+function SetGridVender(p, g, d, ev) {
     $(g).DataTable({
         ajax: {
-            url: p+'Master/GetVender', //web service ที่จะ call ไปดึงข้อมูลมา
+            url: p + 'Master/GetVender', //web service ที่จะ call ไปดึงข้อมูลมา
             dataSrc: 'vender.data'
         },
         selected: true, //ให้สามารถเลือกแถวได้
@@ -224,7 +223,7 @@ function SetGridVender(p, g ,d ,ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        ,pageLength:100
+        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -239,7 +238,7 @@ function SetGridSICode(p, g, t, d, ev) {
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
             { data: "SICode", title: mainLanguage == "TH" ? "รหัส" : "Service Code" },
-            { data: "NameThai", title: mainLanguage == "TH" ? "ความหมาย" :  "Description" }
+            { data: "NameEng", title: mainLanguage == "TH" ? "ความหมาย" : "Description" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -252,7 +251,7 @@ function SetGridSICode(p, g, t, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        ,pageLength: 100
+        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -266,8 +265,8 @@ function SetGridSICodeFilter(p, g, t, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "SICode", title: mainLanguage == "TH" ? "รหัส" :  "Service Code" },
-            { data: "NameThai", title: mainLanguage == "TH" ? "ความหมาย" :  "Description" }
+            { data: "SICode", title: mainLanguage == "TH" ? "รหัส" : "Service Code" },
+            { data: "NameEng", title: mainLanguage == "TH" ? "ความหมาย" : "Description" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -294,8 +293,8 @@ function SetGridSICodeByGroup(p, g, t, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "SICode", title: mainLanguage == "TH" ? "รหัส" :  "Service Code" },
-            { data: "NameThai", title: mainLanguage == "TH" ? "ความหมาย" :  "Description" }
+            { data: "SICode", title: mainLanguage == "TH" ? "รหัส" : "Service Code" },
+            { data: "NameEng", title: mainLanguage == "TH" ? "ความหมาย" : "Description" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -321,16 +320,16 @@ function SetGridDocument(p, g, d, t, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "DocNo", title: mainLanguage == "TH" ? "เลขที่" :  "Cheque No" },
+            { data: "DocNo", title: mainLanguage == "TH" ? "เลขที่" : "Cheque No" },
             {
                 data: null, title: mainLanguage == "TH" ? "วันที่เช็ค" : "Cheque Date",
                 render: function (data) {
                     return CDateTH(data.VoucherDate);
                 }
             },
-            { data: "CreditAmount", title: mainLanguage == "TH" ?  "ยอดเงินที่ตั้งไว้" :"Amount" },
-            { data: "AmountUsed", title: mainLanguage == "TH" ?  "ยอดเงินที่ใช้" :"Used" },
-            { data: "AmountRemain", title: mainLanguage == "TH" ? "ยอดเงินคงเหลือ" :"Balance" }
+            { data: "CreditAmount", title: mainLanguage == "TH" ? "ยอดเงินที่ตั้งไว้" : "Amount" },
+            { data: "AmountUsed", title: mainLanguage == "TH" ? "ยอดเงินที่ใช้" : "Used" },
+            { data: "AmountRemain", title: mainLanguage == "TH" ? "ยอดเงินคงเหลือ" : "Balance" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -356,16 +355,16 @@ function SetGridCheque(p, g, d, t, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "ChqNo", title: mainLanguage == "TH" ?  "เลขที่" :"Cheque No" },
+            { data: "ChqNo", title: mainLanguage == "TH" ? "เลขที่" : "Cheque No" },
             {
-                data: null, title: mainLanguage == "TH" ? "วันที่เช็ค" :"Cheque Date",
+                data: null, title: mainLanguage == "TH" ? "วันที่เช็ค" : "Cheque Date",
                 render: function (data) {
                     return CDateTH(data.ChqDate);
                 }
             },
-            { data: "ChqAmount", title: mainLanguage == "TH" ? "ยอดเงินหน้าเช็ค" :"Amount" },
-            { data: "AmountUsed", title: mainLanguage == "TH" ? "ยอดเงินที่ใช้" :"Used" },
-            { data: "AmountRemain", title: mainLanguage == "TH" ? "ยอดเงินคงเหลือ" :"Balance" }
+            { data: "ChqAmount", title: mainLanguage == "TH" ? "ยอดเงินหน้าเช็ค" : "Amount" },
+            { data: "AmountUsed", title: mainLanguage == "TH" ? "ยอดเงินที่ใช้" : "Used" },
+            { data: "AmountRemain", title: mainLanguage == "TH" ? "ยอดเงินคงเหลือ" : "Balance" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -391,8 +390,8 @@ function SetGridCustomsUnit(p, g, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "Code", title: mainLanguage == "TH" ? "รหัส" :  "Code" },
-            { data: "TName", title: mainLanguage == "TH" ? "คำอธิบาย" : "Description"  }
+            { data: "Code", title: mainLanguage == "TH" ? "รหัส" : "Code" },
+            { data: "TName", title: mainLanguage == "TH" ? "คำอธิบาย" : "Description" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -412,7 +411,7 @@ function SetGridCustomsUnit(p, g, d, ev) {
 function SetGridAccountCode(p, g, d, t, ev) {
     $(g).DataTable({
         ajax: {
-            url: p + 'Master/GetAccountCode'+ t, //web service ที่จะ call ไปดึงข้อมูลมา
+            url: p + 'Master/GetAccountCode' + t, //web service ที่จะ call ไปดึงข้อมูลมา
             dataSrc: 'accountcode.data'
         },
         selected: true, //ให้สามารถเลือกแถวได้
@@ -436,7 +435,7 @@ function SetGridAccountCode(p, g, d, t, ev) {
     });
     BindEvent(g, d, ev);
 }
-function SetGridCurrency(p, g , d, ev) {
+function SetGridCurrency(p, g, d, ev) {
     $(g).DataTable({
         ajax: {
             url: p + 'Master/GetCurrency', //web service ที่จะ call ไปดึงข้อมูลมา
@@ -490,7 +489,7 @@ function SetGridGroupCode(p, g, d, ev) {
     });
     BindEvent(g, d, ev);
 }
-function SetGridUnit(p, g ,d ,ev) {
+function SetGridUnit(p, g, d, ev) {
     $.get(p + 'master/getcustomsunit')
         .done(function (r) {
             let dr = r.customsunit.data;
@@ -575,7 +574,7 @@ function SetGridUser(p, g, d, ev) {
     });
     BindEvent(g, d, ev);
 }
-function SetGridCompanyByGroup(p, g,t, d, ev) {
+function SetGridCompanyByGroup(p, g, t, d, ev) {
     $(g).DataTable({
         ajax: {
             url: p + 'Master/GetCompany?Group=' + t, //web service ที่จะ call ไปดึงข้อมูลมา
@@ -584,7 +583,7 @@ function SetGridCompanyByGroup(p, g,t, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "CustCode", title: mainLanguage=="TH" ? "รหัส" : "Code" },
+            { data: "CustCode", title: mainLanguage == "TH" ? "รหัส" : "Code" },
             { data: "Branch", title: mainLanguage == "TH" ? "สาขา" : "Branch" },
             { data: "NameThai", title: mainLanguage == "TH" ? "ชื่อ" : "Name" }
         ],
@@ -641,9 +640,9 @@ function SetGridCustContact(p, g, t, d, ev) {
                     selected: true, //ให้สามารถเลือกแถวได้
                     columns: [ //กำหนด property ของ header column
                         { data: null, title: "#" },
-                        { data: "ContactName", title: mainLanguage == "TH" ? "ชื่อผู้ติดต่อ" :"Contact" },
-                        { data: "Department", title: mainLanguage == "TH" ?"แผนก":"Department" },
-                        { data: "Position", title: mainLanguage == "TH" ? "ตำแหน่ง":"Position" }
+                        { data: "ContactName", title: mainLanguage == "TH" ? "ชื่อผู้ติดต่อ" : "Contact" },
+                        { data: "Department", title: mainLanguage == "TH" ? "แผนก" : "Department" },
+                        { data: "Position", title: mainLanguage == "TH" ? "ตำแหน่ง" : "Position" }
                     ],
                     "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
                         {
@@ -661,14 +660,14 @@ function SetGridCustContact(p, g, t, d, ev) {
                 });
                 BindEvent(g, d, ev);
             } else {
-                ShowMessage('Not Found Contact of This Company',true);
+                ShowMessage('Not Found Contact of This Company', true);
             }
         });
 }
 function SetGridDataDistinct(p, g, t, d, ev) {
     $.get(p + 'joborder/getdatadistinct' + t)
         .done(function (r) {
-            let dr = r[0].Table;
+            let dr = r;
             if (dr.length > 0) {
                 $(g).DataTable({
                     data: dr, //web service ที่จะ call ไปดึงข้อมูลมา
@@ -703,7 +702,7 @@ function SetGridInv(p, g, d, t, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "DocNo", title: mainLanguage == "TH" ? "เลขที่ใบแจ้งหนี้":"Invoice No" },
+            { data: "DocNo", title: mainLanguage == "TH" ? "เลขที่ใบแจ้งหนี้" : "Invoice No" },
             { data: "CustCode", title: mainLanguage == "TH" ? "ลูกค้า" : "Customer" },
             { data: "TotalNet", title: mainLanguage == "TH" ? "ยอดรวม" : "Total" }
         ],
@@ -725,14 +724,14 @@ function SetGridInv(p, g, d, t, ev) {
 function SetGridJob(p, g, d, t, ev) {
     $(g).DataTable({
         ajax: {
-            url: p + 'joborder/getjobsql'+ t, //web service ที่จะ call ไปดึงข้อมูลมา
+            url: p + 'joborder/getjobsql' + t, //web service ที่จะ call ไปดึงข้อมูลมา
             dataSrc: 'job.data'
         },
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "JNo", title: mainLanguage == "TH" ? "หมายเลขงาน":"Job No" },
-            { data: "InvNo", title: mainLanguage == "TH" ?"อินวอยลูกค้า": "Cust Inv" },
+            { data: "JNo", title: mainLanguage == "TH" ? "หมายเลขงาน" : "Job No" },
+            { data: "InvNo", title: mainLanguage == "TH" ? "อินวอยลูกค้า" : "Cust Inv" },
             { data: "BookingNo", title: mainLanguage == "TH" ? "บุคกิ้ง" : "Booking" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
@@ -759,10 +758,10 @@ function SetGridTransport(p, g, d, t, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "JNo", title: mainLanguage == "TH" ? "หมายเลขงาน": "Job No" },
-            { data: "BookingNo", title: mainLanguage == "TH" ? "เลขที่บุคกี้ง": "BookingNo" },
-            { data: "CTN_NO", title: mainLanguage == "TH" ? "เบอร์ตู้": "Container" },
-            { data: "TruckNO", title: mainLanguage == "TH" ?"ทะเบียนรถ": "Truck" },
+            { data: "JNo", title: mainLanguage == "TH" ? "หมายเลขงาน" : "Job No" },
+            { data: "BookingNo", title: mainLanguage == "TH" ? "เลขที่บุคกี้ง" : "BookingNo" },
+            { data: "CTN_NO", title: mainLanguage == "TH" ? "เบอร์ตู้" : "Container" },
+            { data: "TruckNO", title: mainLanguage == "TH" ? "ทะเบียนรถ" : "Truck" },
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -788,8 +787,8 @@ function SetGridInterPort(p, g, d, t, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "PortCode", title: mainLanguage == "TH" ?"รหัส":"Code" },
-            { data: "CountryCode", title: mainLanguage == "TH" ?"ประเทศ":"Country" },
+            { data: "PortCode", title: mainLanguage == "TH" ? "รหัส" : "Code" },
+            { data: "CountryCode", title: mainLanguage == "TH" ? "ประเทศ" : "Country" },
             { data: "PortName", title: mainLanguage == "TH" ? "ชื่อ" : "Name" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
@@ -816,8 +815,8 @@ function SetGridCountry(p, g, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "CTYCODE", title: mainLanguage == "TH" ? "รหัส":"Country" },
-            { data: "CTYName", title: mainLanguage == "TH" ?"ชื่อประเทศ":"Name" }
+            { data: "CTYCODE", title: mainLanguage == "TH" ? "รหัส" : "Country" },
+            { data: "CTYName", title: mainLanguage == "TH" ? "ชื่อประเทศ" : "Name" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -865,7 +864,7 @@ function SetGridWeightUnit(p, g, d, ev) {
 
 }
 function SetGridVessel(p, g, d, t, ev) {
-    $.get(p + 'master/getvessel?type='+ t )
+    $.get(p + 'master/getvessel?type=' + t)
         .done(function (r) {
             let dr = r.vessel.data;
             if (dr.length > 0) {
@@ -874,7 +873,7 @@ function SetGridVessel(p, g, d, t, ev) {
                     selected: true, //ให้สามารถเลือกแถวได้
                     columns: [ //กำหนด property ของ header column
                         { data: null, title: "#" },
-                        { data: "TName", title: mainLanguage == "TH" ? "ชื่อเรือ":"Name" }
+                        { data: "TName", title: mainLanguage == "TH" ? "ชื่อเรือ" : "Name" }
                     ],
                     "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
                         {
@@ -902,8 +901,8 @@ function SetGridDeclareType(p, g, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "Type", title: mainLanguage == "TH" ?"รหัส":"Code" },
-            { data: "Description", title: mainLanguage == "TH" ?"คำอธิบาย":"Description" }
+            { data: "Type", title: mainLanguage == "TH" ? "รหัส" : "Code" },
+            { data: "Description", title: mainLanguage == "TH" ? "คำอธิบาย" : "Description" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -930,8 +929,8 @@ function SetGridCustomsPort(p, g, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "AreaCode", title: mainLanguage == "TH" ? "รหัส":"Code" },
-            { data: "AreaName", title: mainLanguage == "TH" ?"คำอธิบาย":"Description" }
+            { data: "AreaCode", title: mainLanguage == "TH" ? "รหัส" : "Code" },
+            { data: "AreaName", title: mainLanguage == "TH" ? "คำอธิบาย" : "Description" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -957,8 +956,8 @@ function SetGridServUnit(p, g, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "UnitType", title: mainLanguage == "TH" ? "รหัส":"Code" },
-            { data: "UName", title: mainLanguage == "TH" ? "คำอธิบาย":"Description" }
+            { data: "UnitType", title: mainLanguage == "TH" ? "รหัส" : "Code" },
+            { data: "UName", title: mainLanguage == "TH" ? "คำอธิบาย" : "Description" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -984,8 +983,8 @@ function SetGridServUnitFilter(p, g, t, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "UnitType", title: mainLanguage == "TH" ?"รหัส":"Code" },
-            { data: "UName", title: mainLanguage == "TH" ?"คำอธิบาย":"Description" }
+            { data: "UnitType", title: mainLanguage == "TH" ? "รหัส" : "Code" },
+            { data: "UName", title: mainLanguage == "TH" ? "คำอธิบาย" : "Description" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -1012,7 +1011,7 @@ function SetGridProjectName(p, g, d, ev) {
                     selected: true, //ให้สามารถเลือกแถวได้
                     columns: [ //กำหนด property ของ header column
                         { data: null, title: "#" },
-                        { data: "val", title: mainLanguage == "TH" ? "ชื่อโครงการ" :"Project Name"}
+                        { data: "val", title: mainLanguage == "TH" ? "ชื่อโครงการ" : "Project Name" }
                     ],
                     "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
                         {
@@ -1041,7 +1040,7 @@ function SetGridInvProduct(p, g, d, ev) {
                     selected: true, //ให้สามารถเลือกแถวได้
                     columns: [ //กำหนด property ของ header column
                         { data: null, title: "#" },
-                        { data: "val", title: mainLanguage == "TH" ?"ชื่อสินค้า":"Product" }
+                        { data: "val", title: mainLanguage == "TH" ? "ชื่อสินค้า" : "Product" }
                     ],
                     "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
                         {
@@ -1069,8 +1068,8 @@ function SetGridProvince(p, g, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "ProvinceCode", title: mainLanguage == "TH" ?"รหัส":"Code" },
-            { data: "ProvinceName", title: mainLanguage == "TH" ?"คำอธิบาย":"Name" }
+            { data: "ProvinceCode", title: mainLanguage == "TH" ? "รหัส" : "Code" },
+            { data: "ProvinceName", title: mainLanguage == "TH" ? "คำอธิบาย" : "Name" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -1090,15 +1089,15 @@ function SetGridProvince(p, g, d, ev) {
 function SetGridProvinceSub(p, g, d, t, ev) {
     $(g).DataTable({
         ajax: {
-            url: p + 'Master/GetProvinceSub'+ t, //web service ที่จะ call ไปดึงข้อมูลมา
+            url: p + 'Master/GetProvinceSub' + t, //web service ที่จะ call ไปดึงข้อมูลมา
             dataSrc: 'province.detail'
         },
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "District", title: mainLanguage == "TH" ?"อำเภอ":"District" },
-            { data: "SubProvince", title: mainLanguage == "TH" ?"ตำบล":"Sub-District" },
-            { data: "PostCode", title: mainLanguage == "TH" ?"รหัสไปรษณีย์":"Post Code" }
+            { data: "District", title: mainLanguage == "TH" ? "อำเภอ" : "District" },
+            { data: "SubProvince", title: mainLanguage == "TH" ? "ตำบล" : "Sub-District" },
+            { data: "PostCode", title: mainLanguage == "TH" ? "รหัสไปรษณีย์" : "Post Code" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -1124,8 +1123,8 @@ function SetGridBank(p, g, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "Code", title: mainLanguage == "TH" ?"รหัส":"Code" },
-            { data: "BName", title: mainLanguage == "TH" ?"คำอธิบาย":"Name" }
+            { data: "Code", title: mainLanguage == "TH" ? "รหัส" : "Code" },
+            { data: "BName", title: mainLanguage == "TH" ? "คำอธิบาย" : "Name" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -1151,8 +1150,8 @@ function SetGridBookAccount(p, g, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "BookCode", title: mainLanguage == "TH" ?"รหัส":"Book.No" },
-            { data: "BookName", title: mainLanguage == "TH" ?"คำอธิบาย":"Description" }
+            { data: "BookCode", title: mainLanguage == "TH" ? "รหัส" : "Book.No" },
+            { data: "BookName", title: mainLanguage == "TH" ? "คำอธิบาย" : "Description" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -1178,15 +1177,15 @@ function SetGridPayment(p, g, t, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "DocNo", title: mainLanguage == "TH" ? "เลขที่" :"Doc.No" },
-            { data: "VenCode", title: mainLanguage == "TH" ? "ผู้ให้บริการ":"Vender" },
+            { data: "DocNo", title: mainLanguage == "TH" ? "เลขที่" : "Doc.No" },
+            { data: "VenCode", title: mainLanguage == "TH" ? "ผู้ให้บริการ" : "Vender" },
             {
-                data: "DocDate", title: mainLanguage == "TH" ?"กำหนดชำระ":"Due.Date",
+                data: "DocDate", title: mainLanguage == "TH" ? "กำหนดชำระ" : "Due.Date",
                 render: function (data) {
                     return CDateTH(data);
                 }
             },
-            { data: "SDescription", title: mainLanguage == "TH" ?"ค่าใช้จ่าย": "Expense" },
+            { data: "SDescription", title: mainLanguage == "TH" ? "ค่าใช้จ่าย" : "Expense" },
             { data: "Total", title: mainLanguage == "TH" ? "ยอดเงิน" : "Total" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
@@ -1214,9 +1213,9 @@ function SetGridQuotationDesc(p, g, t, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "QNo", title: mainLanguage == "TH" ?"เลขที่ใบเสนอราคา":"Quotation No" },
-            { data: "SeqNo", title: mainLanguage == "TH" ?"ข้อ":"Seq" },
-            { data: "DescriptionThai", title: mainLanguage == "TH" ?"คำอธิบาย": "Desc" }
+            { data: "QNo", title: mainLanguage == "TH" ? "เลขที่ใบเสนอราคา" : "Quotation No" },
+            { data: "SeqNo", title: mainLanguage == "TH" ? "ข้อ" : "Seq" },
+            { data: "DescriptionThai", title: mainLanguage == "TH" ? "คำอธิบาย" : "Desc" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -1273,8 +1272,8 @@ function SetGridJournal(p, g, d, t, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "GLRefNo", title: mainLanguage == "TH" ?"เลขที่ลงบัญชี":"Batch No" },
-            { data: "Remark", title: mainLanguage == "TH" ?"บันทึก": "Remark" },
+            { data: "GLRefNo", title: mainLanguage == "TH" ? "เลขที่ลงบัญชี" : "Batch No" },
+            { data: "Remark", title: mainLanguage == "TH" ? "บันทึก" : "Remark" },
             { data: "TotalDebit", title: "Debit" },
             { data: "TotalCredit", title: "Credit" }
         ],
@@ -1305,7 +1304,7 @@ function SetGridTransportPrice(p, g, d, t, ev) {
             { data: "LocationID", title: mainLanguage == "TH" ? "เส้นทาง" : "Location" },
             { data: "Location", title: mainLanguage == "TH" ? "เส้นทาง" : "Location" },
             { data: "SDescription", title: mainLanguage == "TH" ? "ค่าใช้จ่าย" : "Expense" },
-            { data: "CostAmount", title: mainLanguage == "TH" ?"ยอดเงิน": "Amount" }
+            { data: "CostAmount", title: mainLanguage == "TH" ? "ยอดเงิน" : "Amount" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -1331,8 +1330,8 @@ function SetGridTransportRoute(p, g, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "LocationID", title: mainLanguage == "TH" ?"รหัส": "id" },
-            { data: "LocationRoute", title: mainLanguage == "TH" ?"เส้นทาง":"Route" }
+            { data: "LocationID", title: mainLanguage == "TH" ? "รหัส" : "id" },
+            { data: "LocationRoute", title: mainLanguage == "TH" ? "เส้นทาง" : "Route" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -1358,8 +1357,8 @@ function SetGridCompanyLogin(p, g, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "LoginName", title: mainLanguage == "TH" ?"รหัส":"Log-in" },
-            { data: "NameThai", title: mainLanguage == "TH" ?"ชื่อ":"Name" }
+            { data: "LoginName", title: mainLanguage == "TH" ? "รหัส" : "Log-in" },
+            { data: "NameThai", title: mainLanguage == "TH" ? "ชื่อ" : "Name" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -1385,8 +1384,8 @@ function SetGridVenderLogin(p, g, d, ev) {
         selected: true, //ให้สามารถเลือกแถวได้
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
-            { data: "LoginName", title: mainLanguage == "TH" ?"รหัส":"Log-in" },
-            { data: "TName", title: mainLanguage == "TH" ?"ชื่อ":"Name" }
+            { data: "LoginName", title: mainLanguage == "TH" ? "รหัส" : "Log-in" },
+            { data: "TName", title: mainLanguage == "TH" ? "ชื่อ" : "Name" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -1528,113 +1527,6 @@ function SetGridEstimateCost(p, g, t, d, ev) {
             { data: "SICode", title: "Code" },
             { data: "SDescription", title: "Description" },
             { data: "AmtTotal", title: "Price" }
-        ],
-        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
-            {
-                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
-                "data": null,
-                "render": function (data, type, full, meta) {
-                    let html = "<button class='btn btn-warning'>Select</button>";
-                    return html;
-                }
-            }
-        ],
-        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
-    });
-    BindEvent(g, d, ev);
-}
-function SetGridAddFuel(p, g, t, d, ev) {
-    //popup for search data
-    $(g).DataTable({
-        ajax: {
-            url: p + 'JobOrder/GetAddFuel' + t, //web service ที่จะ call ไปดึงข้อมูลมา
-            dataSrc: 'addfuel.data'
-        },
-        selected: true, //ให้สามารถเลือกแถวได้
-        columns: [ //กำหนด property ของ header column
-            { data: null, title: "#" },
-            { data: "DocNo", title: "No" },
-            { data: "JNo", title: "Job" },
-            {
-                data: "DocDate", title: "Date",
-                render: function (data) {
-                    return CDateEN(data);
-                }
-            },
-            {
-                data: "TotalAmount", title: "Total",
-                render: function (data) {
-                    return ShowNumber(data, 2);
-                }
-            },
-            {
-                data: null, title: "Status",
-                render: function (data) {
-                    switch (true) {
-                        case data.CancelBy !== null:
-                            return 'Cancel';
-                        case data.ApproveBy !== null:
-                            return 'Approve';
-                        default:
-                            return 'Request';
-                    }
-                }
-            },
-        ],
-        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
-            {
-                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
-                "data": null,
-                "render": function (data, type, full, meta) {
-                    let html = "<button class='btn btn-warning'>Select</button>";
-                    return html;
-                }
-            }
-        ],
-        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
-    });
-    BindEvent(g, d, ev);
-}
-function SetGridCar(p, g, d, ev) {
-    $(g).DataTable({
-        ajax: {
-            url: p + 'Master/GetCarLicense', //web service ที่จะ call ไปดึงข้อมูลมา
-            dataSrc: 'carlicense.data'
-        },
-        selected: true, //ให้สามารถเลือกแถวได้
-        columns: [ //กำหนด property ของ header column
-            { data: null, title: "#" },
-            { data: "CarNo", title: mainLanguage == "TH" ? "รหัสรถ" : "Code" },
-            { data: "CarLicense", title: mainLanguage == "TH" ? "เลขทะเบียนรถ" : "License Number" }
-        ],
-        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
-            {
-                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
-                "data": null,
-                "render": function (data, type, full, meta) {
-                    let html = "<button class='btn btn-warning'>Select</button>";
-                    return html;
-                }
-            }
-        ],
-        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
-    });
-    BindEvent(g, d, ev);
-}
-function SetGridEmployee(p, g, d, ev) {
-    $(g).DataTable({
-        ajax: {
-            url: p + 'Master/GetEmployee', //web service ที่จะ call ไปดึงข้อมูลมา
-            dataSrc: 'employee.data'
-        },
-        selected: true, //ให้สามารถเลือกแถวได้
-        columns: [ //กำหนด property ของ header column
-            { data: null, title: "#" },
-            { data: "EmpCode", title: mainLanguage == "TH" ? "รหัสพนักงาน" : "Code" },
-            { data: "Name", title: mainLanguage == "TH" ? "ชื่อพนักงาน" : "Employee Name" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {

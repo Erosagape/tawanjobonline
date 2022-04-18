@@ -210,15 +210,6 @@ function OpenMenu(mnuID, newpage = true) {
         case 'Planing':
             mnuPath = path + 'Tracking/Planing';
             break;
-        case 'CarLicense':
-            mnuPath = path + 'Master/CarLicense';
-            break;
-        case 'Employee':
-            mnuPath = path + 'Master/Employee';
-            break;
-        case 'AddFuel':
-            mnuPath = path + 'JobOrder/CloseFuel';
-            break;
         case 'SumJob':
             mnuPath = path + 'JobOrder/Summary';
             break;
@@ -230,6 +221,15 @@ function OpenMenu(mnuID, newpage = true) {
             break;
         case 'SumAcc':
             mnuPath = path + 'Acc/Summary';
+            break;
+	case 'CarLicense':
+            mnuPath = path + 'Master/Carlicense';
+            break;
+	case 'Employee':
+            mnuPath = path + 'Master/Employee';
+            break;
+        case 'CreateTransport':
+            mnuPath = path + 'JobOrder/CreateTransport';
             break;
         default:
             ShowMessage('Under Development');

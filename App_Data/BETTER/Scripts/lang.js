@@ -946,10 +946,11 @@ function GetLangGrid(module, id) {
                 "Job Number|หมายเลขงาน",
                 "Open Date|วันที่เปิดงาน",
                 "Job Status|สถานะงาน",
-                "Inspection Date|วันที่ตรวจปล่อย",
+                "ETD Date|วันที่ออกจากท่า",
+                "ETA Date|วันที่เทียบท่า",
                 "Customer Inv|อินวอยลูกค้า",
-                "Customer Name|ชื่อลูกค้า",
-                "Consignee Name|ชื่อผู้ซื้อชาย",
+                "Im-Exporter|ชื่อลูกค้า",
+                "Consignee|ชื่อผู้ซื้อชาย",
                 "Cust Ref.No|เลขที่อ้างอิงลูกค้า"
             ];
             break;
@@ -2516,9 +2517,9 @@ function GetLangForm(fname) {
                 lblPayDate: 'Pay date|วันที่จ่าย',
                 lblIncType: 'Revenue Type|ประเภทรายได้พึงประเมิน',
                 lblPayTaxDesc: 'Description|กลุ่มรายได้',
-                lblPayRate: 'Rate|อัตราภาษี',
-                lblAmount: 'Tax Base|ฐานภาษี',
-                lblPayTax: 'Tax|ยอดภาษี',
+                lblPayRate: 'Tax Rate|อัตราภาษี',
+                lblAmount: 'Amount Base|ฐานภาษี',
+                lblPayTax: 'Tax Amount|ยอดภาษี',
                 linkSaveDet: 'Save Detail|บันทึกรายการ',
                 linkDelDet: 'Delete Detail|ลบรายการ'
             };
@@ -2604,7 +2605,7 @@ function GetLangForm(fname) {
                 lblCmpBranch: 'Branch|สาขา',
                 lblCmpName: 'Name|ชื่อบริษัท',
                 lblDocType: 'Doc.Type|ประเภทเอกสาร',
-                lblDDocNo: 'Doc.No|เลขที่เอกสาร',
+                lblDDocNo: 'Doc.No/Receipts|เลขที่เอกสาร/ใบเสร็จ',
                 lblDDocDate: 'Doc.Date|วันที่เอกสาร',
                 lblPayType: 'Pay.Type|ประเภทการชำระ',
                 lblDocTotal: 'Total|ยอดรวมเอกสาร',
@@ -2917,7 +2918,7 @@ function GetLangForm(fname) {
                 lblInvCurrency: 'Currency|สกุลเงิน',
                 lblExchangeRate: 'Exchange Rate|อัตราแลกเปลี่ยน',
                 lblBookingNo: 'Booking No|ใบบุคกิ้ง',
-                lblBLNo: 'BL/AWB Status|สถานะ BL/AWB',
+                lblBLNo: 'No. of Original B/L(s)|No. of Original B/L(s)',
                 lblHAWB: 'House BL/AWB|House BL/AWB',
                 lblMAWB: 'Master BL/AWB|Master BL/AWB',
                 lblTotalCTN: 'Detail of CTN|ประเภทตู้',
@@ -2933,9 +2934,9 @@ function GetLangForm(fname) {
                 lblInvCountry: 'To Country|ไปประเทศ',
                 lblInvInterPort: 'Inter Port|ท่าต่างประเทศ',
                 lblForwarder: 'Shipping Line|ตัวแทนเรือ/สายการบิน',
-                lblVesselName: 'Ocean Vessel|ชื่อพาหนะ',
-                lblMVesselName: 'Mother Vessel|ชื่อพาหนะถ่ายลำ',
-                lblTransport: 'Co-Loader|บริษัทขนส่งในประเทศ',
+                lblVesselName: 'Local Vessel|ชื่อพาหนะ',
+                lblMVesselName: 'Ocean Vessel|ชื่อพาหนะถ่ายลำ',
+                lblTransport: 'Co-Loader|ตัวแทนโหลดหลัก',
                 lblETDDate: 'ETD Date|วันออกจากท่า',
                 lblETADate: 'ETA Date|วันเทียบท่า',
                 lblLoadDate: 'Load Date|วันบรรทุกของขึ้น',
@@ -3016,7 +3017,7 @@ function GetLangForm(fname) {
                 lblJNo: 'Job Number|หมายเลขงาน',
                 lblTransportTerm: 'Transport Term|รูปแบบการขนส่ง',
                 lblNotify: 'Notify Party|ผู้รับสินค้าปลายทาง',
-                lblTransport: 'Vender|ผู้ให้บริการขนส่ง',
+                lblTransport: 'Transporter|บริษัทขนส่ง',
                 lblLoadDate: 'Load Date|วันที่โหลดสินค้า',
                 lblContact: 'Contact Name|ผู้ติดต่อ',
                 lblRemark: 'Shipping Mask|ตราส่งสินค้า',
@@ -4027,7 +4028,11 @@ function GetReportLists_V2() {
         { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "VENDERS", "ReportNameEN": "Vender Lists", "ReportNameTH": "รายชื่อผู้ให้บริการ" },
         { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "SERVICES", "ReportNameEN": "Services Lists", "ReportNameTH": "รายการรหัสงานบริการ" },
         { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "AUTHORIZE", "ReportNameEN": "User Authorized Lists", "ReportNameTH": "รายการสิทธิผู้ใช้งาน" },
-        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBCOUNTIM", "ReportNameEN": "Customer Job Count Report", "ReportNameTH": "รายงานสรุปจำนวนจ๊อบตามลูกค้า" }
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBCOUNTIM", "ReportNameEN": "Customer Job Count Report", "ReportNameTH": "รายงานสรุปจำนวนจ๊อบตามลูกค้า" },
+        { "ReportType": "STD", "ReportCode": "PRD53AD", "ReportGroup": "FIN", "ReportNameTH": "รายงานนำส่งหักณที่จ่ายภ.ง.ด.53กระทำการแทน(ใบแนบ)", "ReportNameEN": "PRD-53 DetailReport(Agent)", "ReportAuthor": "1,2,6,98,99", "ReportUrl": "" },
+        { "ReportType": "STD", "ReportCode": "PRD3AD", "ReportGroup": "FIN", "ReportNameTH": "รายงานนำส่งหักณที่จ่ายภ.ง.ด.3กระทำการแทน(ใบแนบ)", "ReportNameEN": "PRD-3 DetailReport(Agent)", "ReportAuthor": "1,2,6,98,99", "ReportUrl": "" },
+        { "ReportType": "STD", "ReportCode": "PRD53A", "ReportGroup": "FIN", "ReportNameTH": "รายงานนำส่งหักณที่จ่ายภ.ง.ด.53กระทำการแทน(ใบปะหน้า)", "ReportNameEN": "PRD-53CoverReport(Agent)", "ReportAuthor": "1,2,6,98,99", "ReportUrl": "" },
+        { "ReportType": "STD", "ReportCode": "PRD3A", "ReportGroup": "FIN", "ReportNameTH": "รายงานนำส่งหักณที่จ่ายภ.ง.ด.3กระทำการแทน(ใบปะหน้า)", "ReportNameEN": "PRD-3CoverReport(Agent)", "ReportAuthor": "1,2,6,98,99", "ReportUrl": "" }
     ];
 }
 function ChangeLanguage(code, module) {

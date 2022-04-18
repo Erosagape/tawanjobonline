@@ -54,7 +54,7 @@ End Code
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
-                <input type="checkbox" id="chkSelectAll" checked /> Select All
+                <input type="checkbox" id="chkSelectAll" /> Select All
             </div>
         </div>
         <div class="row">
@@ -102,7 +102,7 @@ End Code
                                 <br />
                                 <select id="cboDocType" class="form-control dropdown">
                                     <option value="IVS-">Service</option>
-                                    <option value="IVT-">Transport</option>
+                                    <option value="IVT-">Internal</option>
                                     <option value="IVF-">Freight</option>
                                 </select>
 
@@ -255,9 +255,9 @@ End Code
                                 </thead>
                                 <tbody></tbody>
                             </table>
-                            <br/>
+                            <br />
                             Remark :
-                            <br/>
+                            <br />
                             <input type="text" id="txtRemark1" class="form-control" /><br />
                             <input type="text" id="txtRemark2" class="form-control" /><br />
                             <input type="text" id="txtRemark3" class="form-control" /><br />
@@ -358,7 +358,14 @@ End Code
                                 <td style="width:10%">
                                     Item No:
                                     <br />
-                                    <input type="text" class="form-control" id="txtItemNo" disabled />
+                                    @*<input type="text" class="form-control" id="txtItemNo" disabled />*@
+                                    <input type="text" class="form-control" id="txtItemNo"  />
+                                </td>
+                                <td style="width:10%">
+                                    <br />
+                                    <a href="#" class="btn btn-default" id="btnSplit" onclick="MoveTo()">
+                                        <b id="linkUpdate">Move To</b>
+                                    </a>
                                 </td>
                                 <td style="width:10%">
                                     <br />
@@ -435,6 +442,15 @@ End Code
     }
     //});
     SetEvents();
+
+    function allowDrop(ev) {
+        ev.preventDefault();
+        //console.log("During Test");
+    }
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+        console.log("test");
+    }
     function CheckJobType() {
         if (jt !== $('#cboJobType').val()) {
             jt = $('#cboJobType').val();
@@ -670,6 +686,7 @@ End Code
             return d.AmtCharge > 0 || d.AmtAdvance > 0;
         });
         for (let o of arr_sel) {
+
             iRow += 1;
             o.ItemNo = iRow;
         }
@@ -733,6 +750,26 @@ End Code
             }
             ],
         });
+        $('#tbDetail tbody tr').each(function () {
+            $(this).prop("draggable", "true");
+            //$(this).on("dragstart", "drag");
+            this.addEventListener("dragstart", function (event) {
+                // store a ref. on the dragged elem
+                console.log("dragstart:" + event.target);
+
+            }, false);
+            this.addEventListener("dragover", function (event) {
+                // store a ref. on the dragged elem
+                console.log("dragover:"+event.target);
+                allowDrop(event);
+            }, false);
+            this.addEventListener("dragstart", function (event) {
+                // store a ref. on the dragged elem
+                console.log("dragstart:" + event.target);
+                drag(event);
+            }, false);
+        });
+       // draggable = "true" ondragstart = "drag(event)"
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'button', function () {
             let data = GetSelect('#tbDetail', this); //read current row selected
@@ -1007,7 +1044,7 @@ End Code
             ShowMessage('Please choose customer first',true);
             return;
         }
-        $('#btnGen').attr('disabled', 'disabled');
+	$('#btnGen').attr('disabled','disabled');
         if ($('#txtDocNo').val() !== '') {
             DeleteDetail();
         } else {
@@ -1572,6 +1609,26 @@ End Code
 
         $('#txtAmtNET').val(ShowNumber(net,2));
     }
+    function MoveTo() {
+        let arr_cost = arr.filter(function (d) {
+            return d.AmtCost > 0;
+        });
+        //console.log(arr_split);
+        arr_split.ItemNo = $('#txtItemNo').val();
+        //console.log(arr_split);
+        let arr_sel = arr.filter(function (d) {
+            return d.AmtCharge > 0 || d.AmtAdvance > 0;
+        });
+
+        sortData(arr_sel, 'ItemNo', 'asc');
+        console.log(arr_sel);
+        for (let v of arr_cost) {
+            arr_sel.push(v);
+        }
+        arr = arr_sel;
+        CalSummary();
+        $('#dvEditor').modal('hide');
+    }
     function MoveUp() {
         let arr_cost = arr.filter(function (d) {
             return d.AmtCost > 0;
@@ -1581,6 +1638,9 @@ End Code
         });
         //sortData(arr_sel, 'ItemNo', 'asc');
         let idx = arr_sel.indexOf(arr_split);
+        console.log(arr_sel);
+        console.log("--------");
+        console.log(arr_split);
         if (idx <= 0 || idx > (arr_sel.length - 1) || arr_sel[idx - 1].ItemNo == 0) {
             alert('cannot move up');
         } else {

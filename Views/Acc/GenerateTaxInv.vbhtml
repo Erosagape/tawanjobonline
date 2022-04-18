@@ -19,8 +19,8 @@ End Code
                 <select id="cboType" Class="form-control dropdown">
                     <option value="TAX" selected>ใบเสร็จรับเงิน/ใบกำกับภาษี (Vat+Adv)</option>
                     <option value="SRV"> ใบกำกับภาษี (Vat only)</option>
-                    <option value="REC"> ใบเสร็จรับเงิน (Non-Vat)</option>
-                    <option value="RCV"> ใบเสร็จรับเงิน (Non-Vat + Adv)</option>
+                    <option value="REC"> Debit Note</option>
+                    <option value="RCV"> ใบเสร็จภายใน</option>
                 </select>
             </div>
         </div>

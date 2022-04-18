@@ -14,4 +14,5 @@
         <p id="pFooter" style="text-align:right">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
     </div>
 </body>
+
 </html>

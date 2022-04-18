@@ -112,7 +112,8 @@ End Code
                     <th>JobNo</th>
                     <th class="desktop">DocDate</th>
                     <th class="desktop">JobStatus</th>
-                    <th class="all">InspectDate</th>
+                    <th class="all">ETD</th>
+                    <th class="all">ETA</th>
                     <th class="all">Inv.Customer</th>
                     <th class="desktop">Customer</th>
                     <th>Consignee</th>
@@ -200,13 +201,19 @@ End Code
                         }
                     },
                     {
-                        "data": "DutyDate", "title": "Clearance Date",
+                        "data": "ETDDate", "title": "ETD Date",
+                        "render" : function (data) {
+                            return CDateEN(data);
+                        }
+                    },
+                    {
+                        "data": "ETADate", "title": "ETA Date",
                         "render" : function (data) {
                             return CDateEN(data);
                         }
                     },
                     { "data": "InvNo", "title": "Customer Inv." },
-                    { "data": "CustTName", "title": "Customer" },
+                    { "data": "CustTName", "title": "ImExPorter" },
                     { "data": "ConsigneeName", "title": "Consignee" },
                     { "data": "CustRefNO", "title": "Ref.No" }
                 ]

@@ -5,7 +5,7 @@ End Code
     <div class="col-md-12 text-center" >
         @ViewBag.Result
         <br/>
-        <img src="~/Resource/jobtawan_bg.jpg" style="width:100%"/>
+        <img src="~/Resource/better_bg.png" style="width:100%"/>
     </div>
 </div>
 <div id="dvSyncing" class="modal" role="dialog">
@@ -28,19 +28,12 @@ End Code
             case 'S':
                 let csCheck = '3,4,5';
                 switch (userPosition) {
-                    case '1': //MD
-                    case '2': //Manager
-                        window.location.href = path + 'JobOrder/Summary';
-                        break;
-                    case '3': //cs
-                    case '4': //sales
+                    case '3':
+                    case '4':
                         window.location.href = path + 'Tracking/Timeline';
                         break;
-                    case '5': //Shipping
+                    case '5':
                         window.location.href = path + 'Tracking/Index';
-                        break;
-                    case '6': //accounts
-                        window.location.href = path + 'JobOrder/Summary';
                         break;
                     default:
                         if (IsMobile()||menuStart=='W') {

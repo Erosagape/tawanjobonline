@@ -328,7 +328,7 @@ End Code
                                 <div style="flex:1">
                                     <label id="lblDExchangeRate">Exc.Rate</label>
                                     <br />
-                                    <input type="text" id="txtDExchangeRate" class="form-control" onchange="CalForeignDetail()" />
+                                    <input type="text" id="txtDExchangeRate" class="form-control" onchange="CalNetAmount()" />
                                 </div>
                                 <div style="flex:2">
                                     <label id="lblDiscountType">Discount</label>
@@ -755,6 +755,7 @@ End Code
             row_d.SRemark = $('#txtSRemark').val();
             row_d.CurrencyCode = $('#txtDCurrencyCode').val();
             row_d.ExchangeRate = $('#txtDExchangeRate').val();
+            row_d.UnitPrice = CNum($('#txtUnitPrice').val());
             row_d.FUnitPrice = CNum($('#txtFUnitPrice').val());
             row_d.FAmt = CNum($('#txtFAmt').val());
             row_d.DiscountType = $('#txtDiscountType').val();
@@ -767,6 +768,7 @@ End Code
             row_d.FTotalAmt = CNum($('#txtFTotalAmt').val());
             row_d.AmtAdvance = CNum($('#txtAmtAdvance').val());
             row_d.AmtCharge = CNum($('#txtAmtCharge').val());
+            row_d.Qty = $('#txtQty').val();
             row_d.QtyUnit = $('#txtQtyUnit').val();
             row_d.IsTaxCharge = $('#txtIsTaxCharge').val();
             row_d.Is50Tavi = $('#txtIs50Tavi').val();

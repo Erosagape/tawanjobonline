@@ -29,7 +29,7 @@ End Code
     }
 
     .table td, table th {
-        padding: .3rem;
+        padding: .2rem;
     }
 
     .table-borderless td {
@@ -170,13 +170,14 @@ End Code
 
 <table class="table" border="1" style="width:100%;border-collapse:collapse;border-width:thin;">
     <tr>
-        <td rowspan="2">Description</td>
-        <td class="center" rowspan="2" style="width:8em">Invoice No.</td>
-        <td class="center" rowspan="2">Settle with</td>
+        <td rowspan="2" style="width:30%">Description</td>
+        <td class="center" rowspan="2" style="width:8em">Customer Pay</td>
+        @*<td class="center" rowspan="2">Settle with</td>*@
         <td class="center" colspan="8">TOTAL REVENUE</td>
     </tr>
     <tr>
         <td class="center">Unit price</td>
+        <td class="center">Qty</td>
         <td class="center">Curr</td>
         <td class="center">Amount</td>
         <td class="center">VAT</td>
@@ -192,12 +193,13 @@ End Code
 <table class="table" border="1" style="width:100%;border-width:thin;border-collapse:collapse;">
     <tr>
         <td rowspan="2">Description</td>
-        <td class="center" rowspan="2" style="width:8em">Invoice No.</td>
-        <td class="center" rowspan="2">Settle with</td>
+        <td class="center" rowspan="2" style="width:8em">Company Pay</td>
+        @*<td class="center" rowspan="2">Settle with</td>*@
         <td class="center" colspan="8">TOTAL COST</td>
     </tr>
     <tr>
         <td class="center">Unit price</td>
+        <td class="center">Qty</td>
         <td class="center">Curr</td>
         <td class="center">Amount</td>
         <td class="center">VAT</td>
@@ -214,7 +216,7 @@ End Code
     <div class="col-8"></div>
     <div class="col-4">
         <p class="right bold" style="border: 1px solid black; padding:5px">
-            <label id="netAmountLbl"> NET AMOUNT IN THB</label>
+            <label id="netAmountLbl">SALES PROFIT</label>
             <label id="netAmount"></label>
         </p>
     </div>
@@ -223,7 +225,7 @@ End Code
     <div class="col-8"></div>
     <div class="col-4">
         <p class="right bold" style="border: 1px solid black; padding:5px">
-            <label id="netProfitLbl"> NET PROFIT</label>
+            <label id="netProfitLbl">JOB PROFIT</label>
             <label id="netProfit"></label>
         </p>
     </div>
@@ -271,9 +273,10 @@ End Code
                 let html = '';
                 html += '<tr>';
                 html += '<td>{0}</td>';
-                html += '<td class="center">{1}</td>';
-                html += '<td class="">{2}</td>';
+                html += `<td class="center"><a href="${path}/acc/voucher?Branch=${branch}&Code={1}" target="_blank" >{1}</a></td>`;
+                //html += '<td class="">{2}</td>';
                 html += '<td class="right">{3}</td>';
+                html += '<td class="right">{12}</td>';
                 html += '<td class="right">{4}</td>';
                 html += '<td class="center">{5}</td>';
                 //html += '<td class="right">{6}</td>';
@@ -306,18 +309,20 @@ End Code
                 //alert(dt1.length);
                 for (let i = 0; i < dt1.length; i++) {
                     let tmp = html;
-                    tmp =tmp.replace('{0}', dt1[i].SDescription);
-                    tmp = tmp.replace('{1}', dt1[i].LinkBillNo);
-                    tmp = tmp.replace('{2}', dt1[i].CustCode);
-                    tmp = tmp.replace('{3}', ShowNumber(dt1[i].UnitPrice, 2));
-                    tmp = tmp.replace('{4}', dt1[i].CurrencyCode);
-                    tmp = tmp.replace('{5}', ShowNumber(dt1[i].UsedAmount, 2));
-                                        //tmp = tmp.replace('{6}', dt1[i].CurRate);
-                    tmp = tmp.replace('{7}', ShowNumber(dt1[i].ChargeVAT, 2));
-                    tmp = tmp.replace('{8}', ShowNumber(dt1[i].Tax50Tavi, 2));
-                    tmp = tmp.replace('{9}', dt1[i].IsCredit==1 ? ShowNumber(dt1[i].BNet, 2) : '');
-                    tmp = tmp.replace('{10}', dt1[i].IsExpense == 0 && dt1[i].IsCredit == 0 ? ShowNumber(dt1[i].BNet, 2):'');
-                    tmp = tmp.replace('{11}', ShowNumber(dt1[i].BNet, 2));
+                    tmp =tmp.replaceAll('{0}', dt1[i].SDescription);
+            /*        tmp = tmp.replaceAll('{1}', dt1[i].LinkBillNo);*/
+                    //tmp = tmp.replaceAll('{2}', dt1[i].CustCode);
+                    tmp = tmp.replaceAll('{1}', dt1[i].ReceiveRef);
+                    tmp = tmp.replaceAll('{3}', ShowNumber(dt1[i].UnitPrice, 2));
+                    tmp = tmp.replaceAll('{12}', dt1[i].Qty);
+                    tmp = tmp.replaceAll('{4}', dt1[i].CurrencyCode);
+                    tmp = tmp.replaceAll('{5}', ShowNumber(dt1[i].UsedAmount, 2));
+                                        //tmp = tmp.replaceAll('{6}', dt1[i].CurRate);
+                    tmp = tmp.replaceAll('{7}', ShowNumber(dt1[i].ChargeVAT, 2));
+                    tmp = tmp.replaceAll('{8}', ShowNumber(dt1[i].Tax50Tavi, 2));
+                    tmp = tmp.replaceAll('{9}', dt1[i].IsCredit==1 ? ShowNumber(dt1[i].BNet, 2) : '');
+                    tmp = tmp.replaceAll('{10}', dt1[i].IsExpense == 0 && dt1[i].IsCredit == 0 ? ShowNumber(dt1[i].BNet, 2):'');
+                    tmp = tmp.replaceAll('{11}', ShowNumber(dt1[i].BNet, 2));
 
                     if (dt1[i].IsCredit == 1)
                     {
@@ -335,12 +340,12 @@ End Code
                 }
 
                 let tmp = htmlTotal;
-                tmp = tmp.replace('{0}', ShowNumber(suma1, 2));
-                tmp = tmp.replace('{1}', ShowNumber(sumc1, 2));
-                tmp = tmp.replace('{2}', ShowNumber(sumt1, 2));
-                tmp = tmp.replace('{3}', ShowNumber(sum1, 2));
-                tmp = tmp.replace('{4}', ShowNumber(sumv1, 2));
-                tmp = tmp.replace('{5}', ShowNumber(sumw1, 2));
+                tmp = tmp.replaceAll('{0}', ShowNumber(suma1, 2));
+                tmp = tmp.replaceAll('{1}', ShowNumber(sumc1, 2));
+                tmp = tmp.replaceAll('{2}', ShowNumber(sumt1, 2));
+                tmp = tmp.replaceAll('{3}', ShowNumber(sum1, 2));
+                tmp = tmp.replaceAll('{4}', ShowNumber(sumv1, 2));
+                tmp = tmp.replaceAll('{5}', ShowNumber(sumw1, 2));
                 html1 += tmp;
                 $('#dt1').html(html1);
 
@@ -363,18 +368,20 @@ End Code
                         sumcomm += dt2[i].BNet;
                     }
                     let tmp = html;
-                    tmp = tmp.replace('{0}', dt2[i].SDescription);
-                    tmp = tmp.replace('{1}', dt2[i].LinkBillNo);
-                    tmp = tmp.replace('{2}', dt2[i].VenderCode);
-                    //tmp = tmp.replace('{6}', dt2[i].CurRate);
-                    tmp = tmp.replace('{3}', ShowNumber(dt2[i].UnitCost, 2));
-                    tmp = tmp.replace('{4}', dt2[i].CurrencyCode);
-                    tmp = tmp.replace('{5}', ShowNumber(dt2[i].UsedAmount, 2));
-                    tmp = tmp.replace('{7}', ShowNumber(dt2[i].ChargeVAT, 2));
-                    tmp = tmp.replace('{8}', ShowNumber(dt2[i].Tax50Tavi, 2));
-                    tmp = tmp.replace('{9}', dt2[i].IsCredit == 1 ? ShowNumber(dt2[i].BNet, 2) : '');
-                    tmp = tmp.replace('{10}', dt2[i].IsExpense == 1 && dt2[i].IsCredit == 0 ? ShowNumber(dt2[i].BNet, 2) : '');
-                    tmp = tmp.replace('{11}', ShowNumber(dt2[i].BNet, 2));
+                    tmp = tmp.replaceAll('{0}', dt2[i].SDescription);
+                 /*   tmp = tmp.replaceAll('{1}', dt2[i].LinkBillNo);*/
+                    tmp = tmp.replaceAll('{1}', dt2[i].AdvPay ? dt2[i].AdvPay : dt2[i].ClrPay );
+                    //tmp = tmp.replaceAll('{2}', dt2[i].VenderCode);
+                    //tmp = tmp.replaceAll('{6}', dt2[i].CurRate);
+                    tmp = tmp.replaceAll('{3}', ShowNumber(dt2[i].UnitCost, 2));
+                    tmp = tmp.replaceAll('{12}', dt2[i].Qty);
+                    tmp = tmp.replaceAll('{4}', dt2[i].CurrencyCode);
+                    tmp = tmp.replaceAll('{5}', ShowNumber(dt2[i].UsedAmount, 2));
+                    tmp = tmp.replaceAll('{7}', ShowNumber(dt2[i].ChargeVAT, 2));
+                    tmp = tmp.replaceAll('{8}', ShowNumber(dt2[i].Tax50Tavi, 2));
+                    tmp = tmp.replaceAll('{9}', dt2[i].IsCredit == 1 ? ShowNumber(dt2[i].BNet, 2) : '');
+                    tmp = tmp.replaceAll('{10}', dt2[i].IsExpense == 1 && dt2[i].IsCredit == 0 ? ShowNumber(dt2[i].BNet, 2) : '');
+                    tmp = tmp.replaceAll('{11}', ShowNumber(dt2[i].BNet, 2));
 
                     if (dt2[i].IsCredit == 1) {
                         suma2 += dt2[i].BNet;
@@ -390,12 +397,12 @@ End Code
                     html2 += tmp;
                 }
                 tmp = htmlTotal;
-                tmp = tmp.replace('{0}', ShowNumber(suma2, 2));
-                tmp = tmp.replace('{1}', ShowNumber(sumc2, 2));
-                tmp = tmp.replace('{2}', ShowNumber(sumt2, 2));
-                tmp = tmp.replace('{3}', ShowNumber(sum2, 2));
-                tmp = tmp.replace('{4}', ShowNumber(sumv2, 2));
-                tmp = tmp.replace('{5}', ShowNumber(sumw2, 2));
+                tmp = tmp.replaceAll('{0}', ShowNumber(suma2, 2));
+                tmp = tmp.replaceAll('{1}', ShowNumber(sumc2, 2));
+                tmp = tmp.replaceAll('{2}', ShowNumber(sumt2, 2));
+                tmp = tmp.replaceAll('{3}', ShowNumber(sum2, 2));
+                tmp = tmp.replaceAll('{4}', ShowNumber(sumv2, 2));
+                tmp = tmp.replaceAll('{5}', ShowNumber(sumw2, 2));
                 html2 += tmp;
                 $('#dt2').html(html2);
                 $("#netAmount").text(ShowNumber(sum1-sum2,2));

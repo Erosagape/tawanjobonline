@@ -389,7 +389,7 @@ End Code
                         }
                     },
                     { data: "JobNo", title: "Job Number" },
-                    { data: "CTN_NO", title: "Container" },
+                    { data: "Remark", title: "Container" },
                     { data: "HAWB", title: "BL" },
                     { data: "InvNo", title: "InvNo" },
                     { data: "CustCode", title: "Customer" },

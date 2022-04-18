@@ -30,7 +30,11 @@ End Code
         text-align: right !important;
     }
 </style>
+<div style="text-align:center;width:100%;font-weight:bold;">
+JOB INSTRUCTION
+</div>
 <div style="display:flex;flex-direction:column">
+
     <div class="block">
         <div style="float:left">
             <input type="checkbox" id="chkExport" />OUTBOUND
@@ -142,448 +146,78 @@ End Code
 
         </div>
     </div>
-    <table class="block" border="1">
-        <tr>
-            <td>DESCRIPTION</td>
-            <td>WEIGHT</td>
-            <td>CBM(M3)</td>
-            <td>CONTAINER</td>
-        </tr>
-        <tbody>
+    <table border="1">
+        <thead>
             <tr>
-                <td id="dvProduct"></td>
-                <td id="dvGrossWeight"></td>
-                <td id="dvMeasurement"></td>
-                <td id="dvTotalContainer"></td>
+                <th rowspan="2">CLEAR NO</th>
+                <th rowspan="2">DESCRIPTION</th>
+                <th colspan="3">COST</th>
+                <th>SELLING</th>
+                <th rowspan="2" colspan="2">PROFIT</th>
             </tr>
+            <tr>
+                <th>CUSTOMER-SLIP</th>
+                <th>COMPANY-SLIP</th>
+                <th>NO-SLIP</th>
+                <th>SERVICES</th>
+            </tr>
+        </thead>
+        <tbody id="tb">
         </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <td>Service</td>
+                <td id="sumService" style ="text-align: right" colspan="5"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Cost</td>
+                <td id="sumCost" style ="text-align: right" colspan="5"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Balance</td>
+                <td id="sumBalance"  style ="text-align: right" colspan="5"></td>
+            </tr>
+            <tr>
+                <td colspan="7">Price @@ <label id="remark1">_________________________</label>  CTN (<label id="remark2">_________________________</label>)</td>
+            </tr>
+        </tfoot>
     </table>
-    <table class="block" border="1">
-        <tr>
-            <td rowspan="2">
-                Exchange Rate: <div id="dvInvCurRate"></div>
-            </td>
-            <td colspan="6"  style="width:45%">
-                COST
-            </td>
-            <td colspan="2" style="width:15%">SELLING</td>
-            <td rowspan="2" colspan="2" style="width:15%">PROFIT</td>
-        </tr>
-        <tr>
-            <td colspan="2" style="width:15%">
-                CUSTOMER-SLIP
-            </td>
-            <td colspan="2"  style="width:15%">
-                COMPANY-SLIP
-            </td>
-            <td colspan="2"  style="width:15%">
-                NO-SLIP
-            </td>
-            <td colspan="2" >
-                SERVICES
-            </td>
-        </tr>
-        <tbody>
-            <tr>
-                <td class="textleft">FREIGHT CHARGE</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">CFS CHARGE</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">THC CHARGE</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">B/L FEE</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">D/O FEE</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">SEAL FEE</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">STATUS</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">FACILITIES</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">HANDLING</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">CUSTOMS FORMAILTY</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">SERVICE CHARGES</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">TRANSPORTATION CHARGES</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">LABOUR CHARGES</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">CUSTOMS FEE</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">CASHIER CHEQUE</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">OVERTIME AGENT</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">OVERTIME PORT</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">CLEANING CONTAINER/FLOOR</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">TRUCKING PLANT</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">PROCURATION</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">PLANT CERFICATE</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">PAPERLESS FEE</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">PORT CHARGES</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">STORAGE CHARGES</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">DEMURRAGE/DETENTION CHARGES</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">RETURN EMPTY CONTAINER</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">KB TO CUSTOMER</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">REFUND FROM CARRIER</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">AGENT FEE</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft">OPERATION COSTS</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-            <tr>
-                <td class="textleft" colspan="11">REMARK</td>
-            </tr>
-            <tr>
-                <td class="textright" colspan="9">NET PROFIT</td>
-                <td class="textright" style="width:11%"></td>
-                <td class="textright" style="width:4%"></td>
-            </tr>
-        </tbody>
-    </table>
+    <br>
+    <div style="display:flex;width:100%;">
+	
+	 <div style="flex:1;border:1px black solid;text-align:center;" >		
+		<div style="border-bottom:1px black solid;padding:10px">Approve By</div>
+		<br>	
+             	<div>_____________________</div>
+	 	<pre>(                 )</pre>
+	     	<div>______/______/______</div>
+     	</div>
+	<div style="flex:1">
+
+     	</div>
+	<div style="flex:1;border:1px black solid;text-align:center;" >		
+		<div style="border-bottom:1px black solid;padding:10px">Approve By</div>
+		<br>	
+             	<div>_____________________</div>
+	 	<pre>(                 )</pre>
+	     	<div>______/______/______</div>
+     	</div>
+	<div style="flex:1">
+
+     	</div>
+	<div style="flex:1;border:1px black solid;text-align:center;">
+		<div style="border-bottom:1px black solid;padding:10px">Account</div>	
+		<br>	
+		<div>_____________________</div>
+	 	<pre>(                 )</pre>
+	     	<div>______/______/______</div>
+		<br>
+     	</div>
+     </div>
+	 <br>
     <div class="block" style="display:flex;width:50%">
         <div style="flex:1">
             HANDLE BY:
@@ -597,6 +231,7 @@ End Code
     let path = '@Url.Content("~")';
     let branch = getQueryString("Branch");
     let job = getQueryString("Job");
+    let sService = 0;
     if (branch !== job && job !== '') {
         $.get(path + 'JobOrder/GetJobSql?Branch=' + branch + '&JNo=' + job).done(function (r) {
             if (r.job.data.length > 0) {
@@ -617,6 +252,16 @@ End Code
                 $('#dvGrossWeight').html(CStr(dr.TotalGW + ' ' + dr.GWUnit));
                 $('#dvMeasurement').html(CStr(dr.Measurement));
                 $('#dvTotalContainer').html(CStr(dr.TotalContainer));
+                //$("#sumService").text(CCurrency(CDbl(dr.DutyCustPayOtherAmt, 2)));
+                //sService = parseFloat(dr.DutyCustPayOtherAmt);
+              
+                if (dr.Description) {
+                    console.log(dr.Description);
+                    let remarks = dr.Description.split("/");
+                    $('#remark1').text(remarks[0]);
+                    $('#remark2').text(remarks[1]);              
+                }
+               
                 let intercountry = dr.InvFCountry;
                 if (dr.JobType !== 1) {
                     intercountry = dr.InvCountry;
@@ -682,7 +327,123 @@ End Code
                         $('#dvAgentName').html(CStr(c.English));
                     }
                 });
+                getClearIngReport();
             }
+        });
+
+        
+    }
+
+    function getClearIngReport() {
+        $.get(path + 'clr/getclearingreport?branch=' + branch + '&job=' + job, function (r) {
+            let amtadv = 0;
+            let amtserv = 0;
+            let amtvat = 0;
+            let amtwht = 0;
+            let amttotal = 0;
+            let amtprofit = 0;
+            let amtcost = 0;
+            let commrate = 0;
+            if (r.data.length > 0) {
+                let tb = $('#tb');
+                tb.empty();
+
+                let h = r.data[0];
+
+                commrate = h.Commission;
+
+                let d = r.data.filter(function (data) {
+                    return data.BNet !== 0;
+                });
+                //console.log(JSON.stringify(d));
+                let customerSlipSum = 0;
+                let companySlipSum = 0;
+                let noSlipSum = 0;
+                let servSum = 0;
+                let profitSum = 0;
+                for (let i = 0; i < d.length; i++) {
+                    let html = '';
+                    let amt = d[i].SICode.indexOf("ADV") > -1 ? d[i].ClrNet : d[i].UsedAmount;
+                    d[i].SICode.indexOf("adv") > -1 ? console.log(d[i].AdvNet) : console.log("fail");
+                    //let adv = (d[i].IsCredit == 1 ? amt : 0);
+                    //let cost = (d[i].IsExpense == 1 || d[i].IsCredit == 1 ? amt : 0);                
+                    let customerSlip = (d[i].IsHaveSlip == 1 && d[i].IsCredit == 1 ? amt : 0);
+                    let companySlip = (d[i].IsHaveSlip == 1 && d[i].IsExpense == 1 ? amt : 0);
+                    let noSlip = d[i].IsHaveSlip == 0 && d[i].IsExpense == 1 ? amt : 0;
+                    let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? amt : 0);
+                    let profit = (d[i].IsExpense == 1 ? amt * -1 : (d[i].IsCredit==0 ? amt: 0));
+                    //amtadv += adv;
+                    //amtserv += serv;
+                    customerSlipSum += customerSlip;
+                    companySlipSum += companySlip;
+                    noSlipSum += noSlip;
+                    servSum += serv;
+                    profitSum += profit;
+                    if (d[i].IsCredit == 0 && d[i].IsExpense == 0) {
+                        if (d[i].IsTaxCharge > 0) {
+                            amtvat += d[i].ChargeVAT;
+                        }
+                        if (d[i].Is50Tavi > 0) {
+                            amtwht += d[i].Tax50Tavi;
+                        }
+                    }
+                    html = '<tr>';
+                    html += '<td>' + d[i].ClrNo + '#' + d[i].ItemNo + '</td>';
+                    html += '<td>' + d[i].SICode + '-' + d[i].SDescription;
+                    //if (d[i].AdvNO !== null) html += ' จากใบเบิก ' + d[i].AdvNO;
+                    //if (d[i].SlipNO !== null) html += ' ใบเสร็จเลขที่ ' + d[i].SlipNO;
+
+                    html += '</td>';
+                    //if (customerSlip > 0) {
+                    //    html += '<td style="text-align:right">' + customerSlip > 0 ? CCurrency(CDbl(customerSlip, 2)) : '' + '</td>';//CUSTOMER-SLIP
+                    //} else {
+                    //    html += '<td style="text-align:right"></td>';//CUSTOMER-SLIP
+                    //}
+                    html += '<td style="text-align:right">' + (customerSlip != 0 ? CCurrency(CDbl(customerSlip, 2)) : '') + '</td>';//CUSTOMER-SLIP
+                    html += '<td style="text-align:right">' + (companySlip != 0 ? CCurrency(CDbl(companySlip, 2)) : '') + '</td>';//COMPANY-SLIP
+                    html += '<td style="text-align:right">' + (noSlip != 0 ? CCurrency(CDbl(noSlip, 2)) : '') + '</td>';//NO-SLIP
+                    html += '<td style="text-align:right">' + (serv != 0 ? CCurrency(CDbl(serv, 2)) : '') + '</td>';//SERVICES
+                    html += '<td style="text-align:right">' + (profit != 0 ? CCurrency(CDbl(profit, 2)) : '') + '</td>';//PROFIT
+                    html += '</tr>';
+
+
+		
+                    //amtcost += cost;
+                    //amttotal += serv + adv;
+                    //amtprofit += profit;
+
+                    tb.append(html);
+                }
+                let summary = ` <tr>
+               <td></td>
+               <td></td>
+
+               <td style="text-align:right">${customerSlipSum != 0 ? CCurrency(CDbl(customerSlipSum, 2)) : ""}</td>
+               <td style="text-align:right">${companySlipSum != 0 ? CCurrency(CDbl(companySlipSum, 2)) : ""}</td>
+               <td style="text-align:right">${noSlipSum != 0 ? CCurrency(CDbl(noSlipSum, 2)) : ""}</td>
+               <td style="text-align:right">${servSum != 0 ? CCurrency(CDbl(servSum, 2)) : ""}</td>
+               <td style="text-align:right">${profitSum != 0 ? CCurrency(CDbl(profitSum, 2)) : ""}</td>
+           </tr >`;
+	$("#sumService").text(CCurrency(CDbl(customerSlipSum+servSum, 2)))
+                tb.append(summary);
+                $("#sumCost").text(CCurrency(CDbl(companySlipSum+customerSlipSum + noSlipSum, 2)));
+                $("#sumBalance").text(CCurrency(CDbl((servSum) - (companySlipSum+noSlipSum),2)));
+            }
+            //$('#lblSumAdv').text(CCurrency(CDbl(amtadv, 2)));
+            //$('#lblSumServ').text(CCurrency(CDbl(amtserv, 2)));
+
+            //$('#lblSumCharge').text(CCurrency(CDbl(amttotal, 2)));
+            //$('#lblSumTax').text(CCurrency(CDbl(amtwht, 2)));
+            //$('#lblSumCost').text(CCurrency(CDbl(amtcost, 2)));
+            //$('#lblSumProfit').text(CCurrency(CDbl(amtprofit, 2)));
+            //$('#lblTotalVAT').text(CCurrency(CDbl(amtvat, 2)));
+            //if (amtprofit > 0) {
+            //    $('#lblCommRate').text(CCurrency(CDbl(amtprofit * (commrate / 100), 2)));
+            //    $('#lblNetProfit').text(CCurrency(CDbl(amtprofit - (amtprofit * (commrate / 100)), 2)));
+            //} else {
+            //    $('#lblCommRate').text(CCurrency(CDbl(0, 2)));
+            //    $('#lblNetProfit').text(CCurrency(CDbl(amtprofit, 2)));
+            //}
         });
     }
 </script>

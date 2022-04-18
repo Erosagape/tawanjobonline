@@ -67,7 +67,7 @@ End Code
                                 <label id="lblContNo" style="color:red">Container No:</label>
                             </div>
                             <div class="col-sm-4" style="display:flex">
-                                <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" disabled />
+                                <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" value="N/A" disabled />
                                 <button class="btn btn-default" onclick="SearchData('container')">...</button>
                             </div>
                             <div class="col-sm-2">
@@ -398,14 +398,14 @@ End Code
                                     <input type="text" id="txt50Tavi" class="form-control" tabindex="28" />
                                 </div>
                                 <div class="col-sm-4">
-                                    <label id="lblSlipNo">Slip No :</label>
-                                    <br />
-                                    <input type="text" id="txtSlipNo" class="form-control" tabindex="26" />
-                                </div>
-                                <div class="col-sm-4">
                                     <label id="lblSlipDate">Slip Date :</label>                                    
                                     <br />
-                                    <input type="date" class="form-control" id="txtDate50Tavi" tabindex="27" />
+                                    <input type="date" class="form-control" id="txtDate50Tavi" tabindex="26" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label id="lblSlipNo">Slip No :</label>
+                                    <br />
+                                    <input type="text" id="txtSlipNo" class="form-control" tabindex="27" />
                                 </div>
                             </div>                            
                             <div>
@@ -861,11 +861,6 @@ End Code
         });
 
         $('#cboClrType').click(function (ev) {
-            if ((userPosition == '4' || userPosition == '5') && $('#cboClrType').val()=='3') {
-                ShowMessage('You are not allow to do this');
-                $('#cboClrType').val('1');
-                return;
-            }
             loadServiceGroupForClear(path, '#cboSTCode', $('#cboClrType').val());
         });
     }
@@ -1988,7 +1983,7 @@ End Code
             $('#txtCurrencyCode').val(dt.CurrencyCode);
             ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
             ShowCaption();
-            $('#txtVenCode').val(dt.DefaultVender);
+            //$('#txtVenCode').val(dt.DefaultVender);
             ShowVender(path, dt.DefaultVender, '#txtPayChqTo');
             /*
             if (dt.IsTaxCharge == "2") {
@@ -2008,6 +2003,8 @@ End Code
             $('#chkIsCost').prop('checked', dt.IsExpense == 1 ? true : false);
             if (dt.IsHaveSlip == 0) {
                 $('#txtSlipNo').attr('disabled', 'disabled');
+            } else {
+		$('#txtSlipNo').removeAttr('disabled');
             }
             CalVATWHT();
             return;

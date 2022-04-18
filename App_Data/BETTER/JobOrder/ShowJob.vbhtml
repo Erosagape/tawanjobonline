@@ -476,7 +476,7 @@ End Code
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <a href="../Master/Venders" target="_blank"><label style="color:red" id="lblTransporter">Transporter:</label></a>
+                                        <a href="../Master/Venders" target="_blank"><label style="color:red" id="lblTransport">Transporter:</label></a>
                                         <div style="display:flex;flex-direction:row">
 
                                             <input type="text" id="txtTransporter" class="form-control" style="width:130px" tabindex="40" />
@@ -635,7 +635,8 @@ End Code
                                     <button id="btnLinkPaperless" class="btn btn-success" onclick="LoadPaperless()">Load Data From Paperless</button>
                                     <select id="cboDBType" class="form-control dropdown">
                                         <option value="JANDT" selected>TAWAN</option>
-                                        <option value="ECS">ECS</option>
+                                        <option value="ECS">ECS</option> 
+                                        @*<option value="ETRANSIT">ETRANSIT(ทดสอบระบบ)</option>*@
                                     </select>
                                 </div>
                             </div>
@@ -918,7 +919,7 @@ End Code
     }
     SetEnterToTab();
     if (userPosition == '4' || userPosition == '5') {
-        $('#tab4').hide();
+        //$('#tab4').hide();
         $('#btnLinkCost').hide();
     } else {
         if (userGroup == 'C') {
@@ -1689,7 +1690,6 @@ End Code
             SaveData();
             return;
         } else {
-            if (user == rec.CloseJobBy) {
                 if (rec.JobStatus >= 3) {
                     rec.JobStatus = 0;
                     rec.CloseJobBy = null;
@@ -1704,7 +1704,6 @@ End Code
                     });
                     return;
                 }
-            }
         }
         ShowMessage('This job has been closed');
     }
@@ -1879,6 +1878,9 @@ End Code
                     LoadPaperlessECSExport();
                 }
                 break;
+            case 'ETRANSIT':
+                LoadPaperlessETRANSIT();
+                break;
         }
     }
     function LoadPaperlessECSExport() {
@@ -1956,6 +1958,7 @@ End Code
         $.get(path + 'JobOrder/GetPaperless'+ url).done(function (r) {
             if (r.length > 0) {
                 $('#txtDeclareNo').val(r[0].DECLNO);
+		$('#txtDeclareType').val(r[0].DOCTYPEOLD.split('-')[0]);
                 $('#txtCustInvNo').val(r[0].invoiceno);
                 if (rec.JobType == 1) {
                     $('#txtInvFCountry').val(r[0].consignmentCTY);
@@ -1963,6 +1966,8 @@ End Code
                     if(r[0].VSLDTE!==null) $('#txtETADate').val(ReverseDate(r[0].VSLDTE));
                     $('#txtInvTotal').val(r[0].BAHTVAL);
                     $('#txtDutyAmt').val(r[0].ALLDUTY);
+		    $('#txtComOthersPayBy').val(r[0].PaymentNo);
+                    $('#txtComPaidEPay').val(r[0].ALLDUTY);
                     $('#txtVesselName').val(r[0].VSLNME + (r[0].voy !== '' ? ' V.' + r[0].voy : ''));
                 } else {
                     $('#txtInvCountry').val(r[0].DestinationCTY);
@@ -1973,7 +1978,7 @@ End Code
                     if(r[0].LOADEDTIME!==null) $('#txtClearDate').val(r[0].LOADEDTIME.substring(0, 10));
                     $('#txtVesselName').val(r[0].VSLNME + (r[0].VOY!==''? ' V.'+ r[0].VOY:''));
                 }
-                $('#txtReleasePort').val(r[0].ReleasedPort);
+                $('#txtReleasePort').val(r[0].DischargePort);
                 $('#txtPortNo').val(r[0].LoadedPort);
                 $('#txtHAWB').val(r[0].HBL);
                 $('#txtMAWB').val(r[0].MBL);
@@ -1984,9 +1989,61 @@ End Code
                 $('#txtInvUnit').val(r[0].PCKUNT);
                 $('#txtInvCurrency').val(r[0].CUCVAL);
                 $('#txtInvCurRate').val(r[0].EHRVAL);
-                if(r[0].DECLDATECAL !==null) $('#txtEDIDate').val(ReverseDate(r[0].DECLDATECAL));
+                if(r[0].DECLDATECAL !==null) $('#txtReadyClearDate').val(ReverseDate(r[0].DECLDATECAL));
                 if(r[0].DECLDATE !==null) $('#txtDutyDate').val(ReverseDate(r[0].DECLDATE));
 
+                ShowMessage('Update Complete');
+            } else {
+                ShowMessage('Data not found', true);
+            }
+        });
+    }
+    function LoadPaperlessETRANSIT() {
+        let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
+        $.get(path + 'JobOrder/GetPaperless2' + url).done(function (r) {
+            if (r.length > 0) {
+                $('#txtDeclareNo').val(r[0].DECLNO);
+                $('#txtDeclareType').val(r[0].DOCTYPEOLD.split('-')[0]);
+                $('#txtCustInvNo').val(r[0].invoiceno);
+                let d = new Date(r[0].fImp_ArrivalDate);
+                console.log(d);
+                $('#txtEDIDate').val(r[0].fImp_ArrivalDate);
+                $('#txtReadyClearDate').val(r[0].fImp_ArrivalDate);
+                $('#txtClearDate').val(r[0].fImp_ArrivalDate);
+                if (rec.JobType == 1) {
+                    $('#txtInvFCountry').val(r[0].consignmentCTY);
+                    $('#txtInvCountry').val(r[0].OriginCTY);
+                    if (r[0].VSLDTE !== null) $('#txtETADate').val(ReverseDate(r[0].VSLDTE));
+                    $('#txtInvTotal').val(r[0].BAHTVAL);
+                    $('#txtDutyAmt').val(r[0].ALLDUTY);
+                    $('#txtComOthersPayBy').val(r[0].PaymentNo);
+                    $('#txtComPaidEPay').val(r[0].ALLDUTY);
+                    $('#txtVesselName').val(r[0].VSLNME + (r[0].voy !== '' ? ' V.' + r[0].voy : ''));
+                } else {
+                    $('#txtInvCountry').val(r[0].DestinationCTY);
+                    $('#txtInvFCountry').val(r[0].PurchaseCTY);
+                    if (r[0].VSLDTE !== null) $('#txtETDDate').val(ReverseDate(r[0].VSLDTE));
+                    $('#txtInvTotal').val(r[0].FOREVAL);
+                    $('#txtReadyClearDate').val(r[0].CHECKEDTIME.substring(0, 10));
+                    if (r[0].LOADEDTIME !== null) $('#txtClearDate').val(r[0].LOADEDTIME.substring(0, 10));
+                    $('#txtVesselName').val(r[0].VSLNME + (r[0].VOY !== '' ? ' V.' + r[0].VOY : ''));
+                }
+                $('#txtReleasePort').val(r[0].DischargePort);
+                $('#txtPortNo').val(r[0].LoadedPort);
+                $('#txtHAWB').val(r[0].HBL);
+                $('#txtMAWB').val(r[0].MBL);
+                $('#txtNetWeight').val(r[0].Net);
+                $('#txtGrossWeight').val(r[0].Gross);
+                $('#txtWeightUnit').val(r[0].GrossUnit);
+                $('#txtInvQty').val(r[0].PCK);
+                $('#txtInvUnit').val(r[0].PCKUNT);
+                $('#txtInvCurrency').val(r[0].CUCVAL);
+                $('#txtInvCurRate').val(r[0].EHRVAL);
+                if (r[0].DECLDATECAL !== null) $('#txtReadyClearDate').val(ReverseDate(r[0].DECLDATECAL));
+                if (r[0].DECLDATE !== null) $('#txtDutyDate').val(ReverseDate(r[0].DECLDATE));
+                $('#txtClearTaxReson').val(r[0].fReferenceNumber);
+                $('#txtInvCurrency').val(r[0].CurrencyCode);
+                $('#txtInvProduct').val(r[0].ProductEName);
                 ShowMessage('Update Complete');
             } else {
                 ShowMessage('Data not found', true);

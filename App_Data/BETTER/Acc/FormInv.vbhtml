@@ -49,7 +49,6 @@ End Code
         border-left: 1px solid black !important;
         border-right: 1px solid black !important;
     }
-
     .textSpace {
         width: 20em;
     }
@@ -62,22 +61,21 @@ End Code
         width: 100%;
     }
 
-    #details td {
+    #details td{
         border-left: 1px solid black !important;
         border-right: 1px solid black !important;
     }
-
-    #tbhead th {
+    #tbhead th{
         border-left: 1px solid black !important;
         border-right: 1px solid black !important;
     }
-
-    #tbfoot > tr > td {
+    #tbfoot>tr>td {
         border-left: 1px solid black !important;
         border-right: 1px solid black !important;
     }
+   
 </style>
-<div style="display:flex;width: 100%;">
+<div style="display:flex;width: 100%;" >
     <div style="flex:1">
         <img id="imgLogoAdd" src="/bft/Resource/BFT_RPT_P1.jpg" style="width: 100%;">
     </div>
@@ -110,7 +108,7 @@ End Code
                             <label id="billToLbl">BILL TO NAME AND ADDRESS</label>
                         </td>
                         <td>
-                            <label id="id" style="white-space:nowrap"></label>
+                            <label id="id"  style="white-space:nowrap"></label>
                         </td>
                     </tr>
                     <tr>
@@ -143,17 +141,17 @@ End Code
                         </td>
                     </tr>
                     @*<tr>
-                            <td></td>
-                            <td>
-                                <label id="quoNo"></label>
-                            </td>
-                        </tr>*@
+                        <td></td>
+                        <td>
+                            <label id="quoNo"></label>
+                        </td>
+                    </tr>*@
                 </tbody>
             </table>
 
         </div>
 
-        <div style="width:40%;display:flex;flex-direction:column">
+        <div style="width:40%;display:flex;flex-direction:column" >
             <table class="table table-borderless curveBorder" style="margin-bottom:5px;">
                 <tbody>
                     <tr>
@@ -190,7 +188,7 @@ End Code
                     <tr>
                         <td><label id="customsNoLbl">CUSTOMS NO. :</label></td>
                         <td><label id="customsNo"></label></td>
-                    </tr>
+                    </tr>                   
                 </tbody>
             </table>
         </div>
@@ -282,7 +280,7 @@ End Code
     </thead>
     <tbody id="details" class="underLine">
     </tbody>
-    <tfoot id="tbfoot">
+    <tfoot  id="tbfoot">
         <tr>
             <td colspan="2" rowspan="6">
                 <table>
@@ -372,7 +370,7 @@ End Code
         <td class="underLine textSpace" style="width:50px"></td>
         <td style="width:50px"> </td>
         <td class="underLine center" style="width:200px">
-
+           
             <br />
             <br />
         </td>
@@ -438,12 +436,14 @@ End Code
             $("#invoiceDate").text(ShowDate(h.DocDate));
             $("#currency").text(h.CurrencyCode);
             $("#remark").html(CStr(h.Remark1 + '<br/>' + h.Remark2));
-            if (j.JobType == 1) {
+            if (j.JobType !== 1) {
+                 $("#dcport").text(j.ClearPortNo);
                  ShowInterPort(path, j.InvFCountry, j.InvInterPort, "#loadport");
             } else {
-                ShowInterPort(path, j.InvCountry, j.InvInterPort, '#loadport');
+                $("#dcport").text(j.ClearPortNo);
+                ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#loadport');
             }
-            $("#dcport").text(j.ClearPortNo);
+            
             $("#jobNo").text(j.JNo);
             $("#quoNo").text(j.QNo!==''?"("+j.QNo+")":'');
             $("#vessel").text(j.VesselName);
@@ -569,7 +569,7 @@ End Code
             $("#lessWithholdingTax").text(ShowNumber(h.Total50Tavi, 2));
             $("#netAmount").text(ShowNumber(h.TotalNet + h.Total50Tavi, 2));
             $("#advLeft").text(ShowNumber(adv - h.TotalCustAdv, 2));
-
+           
             $("#TotalNet").text(ShowNumber(h.TotalNet , 2));
             $("#taxRate1").text("1% :");
             $("#taxRate1_5").text("1.5% :");

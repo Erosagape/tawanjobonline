@@ -137,7 +137,6 @@ End Code
     function RefreshGrid() {
         let url = '';
         if (userGroup == 'S') {
-            /*
             switch (userPosition) {
                 case '3':
                     url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val() + '&ManagerCode=' + user;
@@ -152,8 +151,6 @@ End Code
                     url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val();
                     break;
             }
-            */
-            url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val();
         }
         if (userGroup=='C') {
             url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val() + '&CustCode=' + cust ;
@@ -169,7 +166,6 @@ End Code
             if (status !== '') {
                 w += '&Status=' + status;
             }
-            /*
             if (userGroup == 'S' && userPosition=='3') {
                 w += '&ManagerCode=' + user;
             }
@@ -179,7 +175,6 @@ End Code
             if (userGroup == 'S' && userPosition=='5') {
                 w += '&ShippingCode=' + user;
             }
-            */
             w += '&ByDate=DutyDate';
             if ($('#txtDateFrom').val()!=='') {
                 w += '&DateFrom=' + CDateEN($('#txtDateFrom').val());
@@ -190,7 +185,7 @@ End Code
             if ($('#txtJNo').val() !== '') {
                 w += '&JNo=' + $('#txtJNo').val();
             }
-            $('#dvJobs').empty();
+            $('#dvJobs').html('');
             $.get(path + 'JobOrder/GetJobReport?Branch=' + branch + w)
                 .done(function (r) {
                     if (r.job.data.length > 0) {
@@ -255,7 +250,7 @@ End Code
                         }
                         html += '</div>';
 
-                        $('#dvJobs').html(html);
+                        $('#dvJobs').html(html).refresh();
                     }
                 });
 

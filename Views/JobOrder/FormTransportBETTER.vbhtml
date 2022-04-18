@@ -293,8 +293,8 @@ End Code
             $('#lblHAWB').text(h.HAWB);
             $('#lblBookingNo').text(h.BookingNo);
             $('#lblBLNo').text(h.BLNo);
-            $('#lblDeliveryPlace').text(h.PackingPlace);
-            $('#lblDeliveryAddr').html(CStr(h.PackingAddr));
+            $('#lblDeliveryTo').text(h.DeliveryTo);
+            $('#lblDeliveryAddr').html(CStr(h.DeliveryAddr));
             $('#lblTransMode').text(h.TransMode);
             $('#lblPaymentBy').text(h.PaymentBy);
             $('#lblPaymentCondition').text('"'+h.PaymentCondition+'"');
@@ -331,13 +331,13 @@ End Code
                 ShowCountry(path, h.InvCountry, '#lblCountryName');
                 ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblInterPortName');
             }*/
-	        $('#txtDeliveryPlace').text(h.PackingPlace);
+	        $('#lblDeliveryPlace').text(h.PackingPlace);
             $('#lblOnBoardDate').text(ShowDate(h.ETDDate));
             $('#lblOnBoardPlace').text(h.CYPlace);
             $('#lblFactoryPlace').text(h.FactoryPlace);
             $('#lblRouting').text(h.FactoryAddress);
-            $('#lblReturnPlace').text(h.DeliveryTo);
-            $('#lblReturnAddress').text(h.DeliveryAddress);
+            $('#lblReturnPlace').text(h.ReturnPlace);
+            $('#lblReturnAddress').text(h.ReturnAddress);
             $('#lblPickupPlace').text(h.CYAddress);
             $('#lblDischargePlace').text(h.ClearPortNo);
             $('#lblTotalPackage').text(CNumEng(h.InvProductQty).replace('ONLY', ''));

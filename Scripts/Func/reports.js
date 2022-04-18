@@ -269,6 +269,7 @@ function GetVoucherType() {
     }
 }
 function LoadCliteria(reportID) {
+    $('#tbDate').show();
     $('#tbCode').hide();
     switch (reportID) {
         case 'JOBDAILY':
@@ -840,7 +841,7 @@ function LoadReport(path, reportID, obj, lang) {
 
                 let html = '<thead><tr><th style="border:1px solid black;text-align:left;background-color:lightgrey;width:2%">#</th>';
                 $.each(tb[0], function (key, value) {
-                    if (groupField.indexOf(key)<0) {
+                    if (key !== groupField) {
                         html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;';
                         if (colWidth.length > 0) {
                             if (colWidth.length > colCount) {
@@ -848,7 +849,7 @@ function LoadReport(path, reportID, obj, lang) {
                             }
                         }
                         html += '"><b>' + GetColumnHeader(key, lang) + '</b></th>';
-                        if (textFields.indexOf(key) >= 0 || key.indexOf('CustCode') >= 0 || key.indexOf('TaxNumber') >= 0) {
+                        if (textFields.indexOf(key) >= 0 || key.indexOf('CustCode') >= 0) {
                             sumGroup.push({ isSummary: false, value: 0 });
                         } else {
                             if (IsSummaryColumn(key) == true) {
@@ -866,14 +867,11 @@ function LoadReport(path, reportID, obj, lang) {
 
                 let groupCount = 0;
                 let groupCaption = GetColumnHeader(groupField, lang);
-                if (groupField.indexOf(',') > 0) {
-                    groupCaption = "Group:";
-                }
                 let row = 0;
                 for (let r of tb) {
                     html += '<tr>';
                     if (groupField !== '') {
-                        if (GetGroupValue(groupField, r) !== groupVal) {
+                        if (FormatValue(groupField, r[groupField]) !== groupVal) {
                             //Show Summary
                             if (groupCount > 0) {
                                 html += '<td colspan="2" style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>SUB TOTAL</b></u></td>';
@@ -888,7 +886,7 @@ function LoadReport(path, reportID, obj, lang) {
                                 html += '</tr><tr>';
                                 groupCount = 0;
                             }
-                            groupVal = GetGroupValue(groupField, r);
+                            groupVal = FormatValue(groupField, r[groupField]);
                             groupCount++;
 
                             html += '<td colspan="' + (colCount + 1) + '" style="background-color:lightyellow;border:1px solid black;text-align:left;">' + groupCaption + ' <b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
@@ -901,9 +899,9 @@ function LoadReport(path, reportID, obj, lang) {
                     html += '<td style="border:1px solid black;text-align:center;">' + row + '</td>';
                     let col = 0;
                     for (let c in r) {
-                        if (groupField.indexOf(c)<0) {
-                            if (c.toUpperCase().indexOf('DATE') >= 0) {
-                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDateExcel(r[c]) + '</td>';
+                        if (c !== groupField) {
+                            if (c.indexOf('Date') >= 0) {
+                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
                             } else {
                                 if (r[c] !== null) {
                                     if (sumGroup[col].isSummary == true) {
@@ -953,21 +951,6 @@ function LoadReport(path, reportID, obj, lang) {
             }
         }
     });
-}
-function GetGroupValue(fld,r) {
-    if (fld.indexOf(',') > 0) {
-        let str = '';
-        let lst = fld.split(fld, ',');
-        for (let n of lst) {
-            if (str !== '') {
-                str += ',';
-            }
-            str += FormatValue(n,r[n]);
-        }
-        return str;
-    } else {
-        return FormatValue(fld,r[fld]);
-    }    
 }
 function LoadReportNoTotal(path, reportID, obj, lang) {
     let str = JSON.stringify(obj);
@@ -1056,7 +1039,7 @@ function LoadReportNoTotal(path, reportID, obj, lang) {
                     for (let c in r) {
                         if (c !== groupField) {
                             if (c.indexOf('Date') >= 0) {
-                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDateExcel(r[c]) + '</td>';
+                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
                             } else {
                                 if (r[c] !== null) {
                                     if (sumGroup[col].isSummary == true) {
@@ -1111,21 +1094,5 @@ function CheckAllIsNumber(arr, colName) {
         }
     } catch {
         return false;
-    }
-}
-function ShowDateExcel(sqlDateString) {
-    try {
-        let jsDate = sqlDateString.substr(0, 10);
-        let month = jsDate.substr(5, 2);
-        let day = jsDate.substr(8, 2);
-        let year = jsDate.substr(0, 4);
-        if (year < '1901') {
-            return '-';
-        }
-        let date = year + "-" + month + "-" + day;
-        return date;
-    }
-    catch (e) {
-        return '-';
     }
 }

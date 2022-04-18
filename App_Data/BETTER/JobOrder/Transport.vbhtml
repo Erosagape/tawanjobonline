@@ -126,7 +126,7 @@ End Code
                     <label id="lblPaymentCond">Freight Payment Condition :</label>
                     <br />
                     <div style="display:flex;flex-direction:row">
-                        <textarea id="txtPaymentCondition" class="form-control"></textarea>
+                        <input type="text" id="txtPaymentCondition" class="form-control" />
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -1690,6 +1690,7 @@ End Code
         ShowPayment();
     }
     function SaveDetail() {
+/*
 	if($('#txtDriver').val()==''){
 		ShowMessage('Please enter driver',true);
 		return;
@@ -1698,6 +1699,7 @@ End Code
 		ShowMessage('Please enter truck no',true);
 		return;
 	}
+*/
         let obj = {
             BranchCode:$('#txtBranchCode').val(),
             JNo:$('#txtJNo').val(),

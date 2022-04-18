@@ -363,7 +363,8 @@ JOB INSTRUCTION
                 let profitSum = 0;
                 for (let i = 0; i < d.length; i++) {
                     let html = '';
-                    let amt = d[i].UsedAmount;
+                    let amt = d[i].SICode.indexOf("ADV") > -1 ? d[i].ClrNet : d[i].UsedAmount;
+                    d[i].SICode.indexOf("adv") > -1 ? console.log(d[i].AdvNet) : console.log("fail");
                     //let adv = (d[i].IsCredit == 1 ? amt : 0);
                     //let cost = (d[i].IsExpense == 1 || d[i].IsCredit == 1 ? amt : 0);                
                     let customerSlip = (d[i].IsHaveSlip == 1 && d[i].IsCredit == 1 ? amt : 0);

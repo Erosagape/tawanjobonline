@@ -74,7 +74,7 @@ End Code
         <u><b>UNIT</b></u>
     </div>
     <div style="width:20%">
-        <u><b>EXPENSES</b></u>
+        <u><b>ADVANCE</b></u>
     </div>
     <div style="width:20%">
         <u><b>CHARGES</b></u>
@@ -84,10 +84,12 @@ End Code
 </div>
 <hr style="border-style:solid;" />
 <div style="width:80%;text-align:right;float:left">
-    <b>Expenses:</b><br />
+    <b>Advances:</b><br />
     <b>Charges:</b><br />
     <b>Vat:</b><br />
     <b>Total:</b><br />
+    <b>With-holding tax:</b><br />
+    <b>Net total:</b><br />
 </div>
 <div style="width:20%;float:right;text-align:right;">
     <div style="display:block;width:100%">
@@ -102,12 +104,19 @@ End Code
     <div style="display:block;width:100%">
         <label id="lblSumTotal"></label>
     </div>
+    <div style="display:block;width:100%">
+        <label id="lblSumWht"></label>
+    </div>
+    <div style="display:block;width:100%">
+        <label id="lblSumNet"></label>
+    </div>
 </div>
 <p>
-    PLEASE REMIT TO ACCOUNT NO:<br />999-99999-9<br />
-    "TAWAN TECHNOLOGY CO.,LTD"<br />
-    SIAM COMMERCIAL BANK PUBLIC LIMITED<br />
-    THE MALL RAMKAMHAENG BRANCH
+    PLEASE REMIT TO ACCOUNT NO.<br />
+    017-111-1943<br />
+    KASIKORN BANK<br />
+    “ BETTER FREIGHT AND TRANSPORT CO.,LTD.”<br />
+
 </p>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -159,6 +168,7 @@ End Code
         let html = '';
         let totamt = 0;
         let totvat = 0;
+        let totwht = 0;
         let total = 0;
         let totcost = 0;
         for (let r of dt) {
@@ -176,18 +186,22 @@ End Code
                 html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmtTotal,2)) + '</div>';
             }
             html += '</div>';
+            let amt = CNum(Number(r.AmountCharge) * Number(r.Qty) * Number(r.ExchangeRate));
             if (r.IsCredit==0) {
-                totamt += CNum(r.AmountCharge*r.Qty);
+                totamt += amt;
             } else {
-                totcost += CNum(r.AmountCharge*r.Qty);
+                totcost += amt;
             }
             totvat += CNum(r.AmtVat);
-            total += CNum(r.AmountCharge*r.Qty) + CNum(r.AmtVat);
+            totwht += CNum(r.AmtWht);
+            total += amt + CNum(r.AmtVat);
         }
         $('#dvDetail').html(html);
         $('#lblSumCost').text(CCurrency(CDbl(totcost,2)));
         $('#lblSumAmount').text(CCurrency(CDbl(totamt,2)));
-        $('#lblSumVat').text(CCurrency(CDbl(totvat,2)));
-        $('#lblSumTotal').text(CCurrency(CDbl(total,2)));
+        $('#lblSumVat').text(CCurrency(CDbl(totvat, 2)));
+        $('#lblSumWht').text(CCurrency(CDbl(totwht, 2)));
+        $('#lblSumTotal').text(CCurrency(CDbl(total, 2)));
+        $('#lblSumNet').text(CCurrency(CDbl(total-totwht, 2)));
     }
 </script>

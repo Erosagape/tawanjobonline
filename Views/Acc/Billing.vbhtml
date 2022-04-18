@@ -129,8 +129,8 @@ End Code
                                 <label id="lblBCustCode">Billing To:</label>                                
                                 <br />
                                 <div style="display:flex">
-                                    <input type="text" id="txtBCustCode" class="form-control" style="width:30%" disabled />
-                                    <input type="text" id="txtBCustBranch" class="form-control" style="width:10%" disabled />
+                                    <input type="text" id="txtBCustCode" class="form-control" style="width:30%" />
+                                    <input type="text" id="txtBCustBranch" class="form-control" style="width:10%"  />
                                     <input type="text" id="txtBCustName" class="form-control" style="width:60%" disabled />
                                 </div>
                             </div>
@@ -443,6 +443,8 @@ End Code
     }
     function SaveData() {
         if (row !== null) {
+            row.CustCode = $('#txtBCustCode').val();
+            row.CustBranch = $('#txtBCustBranch').val();
             row.BillRemark = $('#txtBillRemark').val();
             row.BillRecvBy = $('#txtBillRecvBy').val();
             row.BillRecvDate = CDateEN($('#txtBillRecvDate').val());

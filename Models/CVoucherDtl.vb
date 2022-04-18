@@ -152,6 +152,9 @@ Public Class CVoucherDoc
                             If Me.DocType = "PAY" Then
                                 msg = New CUtil(GetSession("ConnJob")).ExecuteSQL(" UPDATE a SET a.PaymentRef=b.ControlNo,a.PaymentDate=b.VoucherDate,a.PaymentBy=b.RecUser,a.PaymentTime=b.RecTime FROM Job_PaymentHeader a ,Job_CashControl b  WHERE a.BranchCode=b.BranchCode AND a.BranchCode='" & Me.BranchCode & "' AND a.DocNo='" & Me.DocNo & "' AND b.ControlNo='" & Me.ControlNo & "' ")
                             End If
+                            If Me.DocType = "ADV" Then
+                                msg = New CUtil(GetSession("ConnJob")).ExecuteSQL(" UPDATE a SET a.PaymentRef=b.ControlNo,a.PaymentDate=b.VoucherDate,a.PaymentBy=b.RecUser,a.PaymentTime=b.RecTime FROM Job_AdvHeader a ,Job_CashControl b  WHERE a.BranchCode=b.BranchCode AND a.BranchCode='" & Me.BranchCode & "' AND a.AdvNo='" & Me.DocNo & "' AND b.ControlNo='" & Me.ControlNo & "' ")
+                            End If
                             msg = "Save Complete"
                         End Using
                     End Using

@@ -63,10 +63,6 @@ End Code
         border-right: 1px solid black;
     }
 </style>
-
-<div class="center bold">
-    <label style="font-size:16px">INBOUND PAYABLE VOUCHER</label>
-</div>
 <table class="table">
     <thead></thead>
     <tbody>
@@ -78,7 +74,7 @@ End Code
                 <label id="id"></label>
             </td>
             <td>
-                <label id="voucherLbl" class="bold">VOUCHER NO:</label>
+                <label id="voucherLbl" class="bold">A/P NO:</label>
             </td>
             <td>
                 <label id="voucherNo"></label>
@@ -90,7 +86,7 @@ End Code
                 <div id="billAddress"></div>
             </td>
             <td>
-                <label id="voucherDateLbl" class="bold">VOUCHER DATE:</label>
+                <label id="voucherDateLbl" class="bold">CREATE DATE:</label>
             </td>
             <td>
                 <label id="voucherDate"></label>
@@ -367,6 +363,8 @@ End Code
         </td>
     </tr>
 </table>
+<br/><b>REMARKS:</b>
+<span id="remark"></span>
 <script src="~/Scripts/Func/reports.js"></script>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
@@ -383,6 +381,7 @@ End Code
                 $("#voucherNo").text(h.DocNo);
                 $("#voucherDate").text(ShowDate(h.DocDate));
                 $("#jobNo").text(h.ForJNo);
+                $("#remark").html(CStr(h.Remark));      
                 $("#totalVatAmount").text(ShowNumber(h.TotalVAT, 2));
                 $("#lessWT").text(ShowNumber(h.TotalTax, 2));
                 $("#netPayment").text(ShowNumber(h.TotalNet, 2));

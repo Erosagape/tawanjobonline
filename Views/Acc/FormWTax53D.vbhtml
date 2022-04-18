@@ -228,7 +228,7 @@ End Code
                             d += 1;
                         }
                     }
-                    if (d > 7) {
+                    if (d > 6) {
                         let r = 1;
                         for (let i = 8; i <= d; i++) {
                             if (r == 8||i==d) {
@@ -252,7 +252,7 @@ End Code
                                 template = template.replace('{4}', field4);
                                 template = template.replace('{5}', field5);
 
-                                if ((p == 1 && n == 8) || (((n - 8) % 8) == 0 && p > 1)) {
+                                if ((p == 1 && n == 7) || (((n - 7) % 7) == 0 && p > 1)) {
                                     htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                                     htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
 

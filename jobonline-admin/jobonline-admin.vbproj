@@ -240,6 +240,7 @@
     <Content Include="Views\Config\Log.vbhtml" />
     <Content Include="Views\Config\WebLogin.vbhtml" />
     <Content Include="Views\Test\ExcelReader.vbhtml" />
+    <Content Include="Views\Test\PostForm.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

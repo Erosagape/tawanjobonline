@@ -222,6 +222,12 @@ function OpenMenu(mnuID, newpage = true) {
         case 'SumAcc':
             mnuPath = path + 'Acc/Summary';
             break;
+	case 'CarLicense':
+            mnuPath = path + 'Master/Carlicense';
+            break;
+	case 'Employee':
+            mnuPath = path + 'Master/Employee';
+            break;
         case 'CreateTransport':
             mnuPath = path + 'JobOrder/CreateTransport';
             break;

@@ -1,30 +1,26 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.FileName = "export" & DateTime.Now.ToString("yyyyMMddHHMMss") & ".xls"
+    ViewBag.FileName = "export" & DateTime.Now.ToString("yyyyMMddHHMMss") & ".csv"
 End Code
 <style>
     * {
-        font-size: 8px;
+        font-size: 8px;        
     }
-
     label {
         font-size: 10px;
     }
-
     table {
-        width: 98%;
+        width:98%;
     }
-
-        table,
-        table tr td,
-        table tr th {
-            border-width: thin;
-            border-collapse: collapse;
-        }
-
-            table td {
-                word-break: break-word;
-            }
+    table,
+    table tr td,
+    table tr th {
+        border-width: thin;
+        border-collapse: collapse;
+    }
+    table td {
+        word-break: break-word;
+    }
 </style>
 <label id="rptTitle" onclick="ExportData()">Report Title</label>
 <div id="rptCliteria">Report Cliteria</div>
@@ -125,15 +121,15 @@ End Code
         for (var i = 0; i < rows.length; i++) {
             var row = [], cols = rows[i].querySelectorAll("td, th");
 
-            for (var j = 0; j < cols.length; j++) {
-                let val = cols[j].innerText.split('/');
+            for (var j = 0; j < cols.length; j++)
                 row.push(cols[j].innerText);
-            }
+
             csv.push(row.join("\t"));
         }
         csv.push($('#rptCliteria').text());
         // Download CSV file
         DownloadCSV(csv.join("\n"), filename);
     }
+
 
 </script>

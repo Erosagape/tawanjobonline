@@ -2058,24 +2058,30 @@ ON a.SICode=b.SICode
             Return val
         End If
         Return "
-SELECT dbo.Job_QuotationHeader.BranchCode, dbo.Job_QuotationHeader.QNo, dbo.Job_QuotationHeader.ReferQNo, dbo.Job_QuotationHeader.CustCode, 
-    dbo.Job_QuotationHeader.CustBranch, dbo.Job_QuotationHeader.BillToCustCode, dbo.Job_QuotationHeader.BillToCustBranch, 
-    dbo.Job_QuotationHeader.ContactName, dbo.Job_QuotationHeader.DocDate, dbo.Job_QuotationHeader.ManagerCode, dbo.Job_QuotationHeader.DescriptionH, 
-    dbo.Job_QuotationHeader.DescriptionF, dbo.Job_QuotationHeader.TRemark, dbo.Job_QuotationHeader.DocStatus, dbo.Job_QuotationHeader.ApproveBy, 
-    dbo.Job_QuotationHeader.ApproveDate, dbo.Job_QuotationHeader.ApproveTime, dbo.Job_QuotationHeader.CancelBy, dbo.Job_QuotationHeader.CancelDate, 
-    dbo.Job_QuotationHeader.CancelReason, dbo.Job_QuotationDetail.JobType, dbo.Job_QuotationDetail.ShipBy, dbo.Job_QuotationDetail.Description, 
-    dbo.Job_QuotationDetail.SeqNo, dbo.Job_QuotationItem.ItemNo, dbo.Job_QuotationItem.IsRequired, dbo.Job_QuotationItem.NetProfit, dbo.Job_QuotationItem.CommissionAmt, 
-    dbo.Job_QuotationItem.CommissionPerc, dbo.Job_QuotationItem.BaseProfit, dbo.Job_QuotationItem.VenderCost, dbo.Job_QuotationItem.VenderCode, 
-    dbo.Job_QuotationItem.UnitDiscntAmt, dbo.Job_QuotationItem.UnitDiscntPerc, dbo.Job_QuotationItem.TotalCharge, dbo.Job_QuotationItem.TotalAmt, 
-    dbo.Job_QuotationItem.TaxAmt, dbo.Job_QuotationItem.TaxRate, dbo.Job_QuotationItem.IsTax, dbo.Job_QuotationItem.VatAmt, dbo.Job_QuotationItem.VatRate, 
-    dbo.Job_QuotationItem.Isvat, dbo.Job_QuotationItem.ChargeAmt, dbo.Job_QuotationItem.CurrencyRate, dbo.Job_QuotationItem.CurrencyCode, 
-    dbo.Job_QuotationItem.UnitCheck, dbo.Job_QuotationItem.QtyEnd, dbo.Job_QuotationItem.QtyBegin, dbo.Job_QuotationItem.CalculateType, 
-    dbo.Job_QuotationItem.DescriptionThai, dbo.Job_QuotationItem.SICode
-FROM dbo.Job_QuotationHeader INNER JOIN
-    dbo.Job_QuotationDetail ON dbo.Job_QuotationHeader.BranchCode = dbo.Job_QuotationDetail.BranchCode AND 
-    dbo.Job_QuotationHeader.QNo = dbo.Job_QuotationDetail.QNo INNER JOIN
-    dbo.Job_QuotationItem ON dbo.Job_QuotationDetail.BranchCode = dbo.Job_QuotationItem.BranchCode AND 
-    dbo.Job_QuotationDetail.QNo = dbo.Job_QuotationItem.QNo AND dbo.Job_QuotationDetail.SeqNo = dbo.Job_QuotationItem.SeqNo
+SELECT a.BranchCode, a.QNo, a.ReferQNo, a.CustCode, 
+    a.CustBranch, a.BillToCustCode, a.BillToCustBranch, 
+    a.ContactName, a.DocDate, a.ManagerCode, a.DescriptionH, 
+    a.DescriptionF, a.TRemark, a.DocStatus, a.ApproveBy, 
+    a.ApproveDate, a.ApproveTime, a.CancelBy, a.CancelDate, 
+    a.CancelReason, b.JobType, b.ShipBy, b.Description, 
+    b.SeqNo, c.ItemNo, c.IsRequired, c.NetProfit, c.CommissionAmt, 
+    c.CommissionPerc, c.BaseProfit, c.VenderCost, c.VenderCode, 
+    c.UnitDiscntAmt, c.UnitDiscntPerc, c.TotalCharge, c.TotalAmt, 
+    c.TaxAmt, c.TaxRate, c.IsTax, c.VatAmt, c.VatRate, 
+    c.Isvat, c.ChargeAmt, c.CurrencyRate, c.CurrencyCode, 
+    c.UnitCheck, c.QtyEnd, c.QtyBegin, c.CalculateType, 
+    c.DescriptionThai, c.SICode,
+	d.NameThai as CustTName,d.NameEng as CustEName,
+	e.NameThai as BillTName,e.NameEng as BillEName
+FROM dbo.Job_QuotationHeader a INNER JOIN
+    dbo.Job_QuotationDetail b ON a.BranchCode = b.BranchCode AND 
+    a.QNo = b.QNo INNER JOIN
+    dbo.Job_QuotationItem c ON b.BranchCode = c.BranchCode AND 
+    b.QNo = c.QNo AND b.SeqNo = c.SeqNo
+	LEFT JOIN Mas_Company d on a.CustCode=d.CustCode 
+	and a.CustBranch=d.Branch
+		LEFT JOIN Mas_Company e on a.BillToCustCode=e.CustCode 
+	and a.BillToCustBranch=e.Branch
 "
     End Function
     Function SQLSelectPaymentSummary() As String

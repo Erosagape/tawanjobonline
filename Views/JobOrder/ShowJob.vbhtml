@@ -190,6 +190,7 @@ End Code
                                         <label id="lblQNo" for="txtQNo">Quotation : </label>
                                         <div style="display:flex;flex-direction:row">
                                             <input type="text" class="form-control" id="txtQNo" style="width:100%" tabindex="9" />
+                                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('quotation')" />
                                             <input type="text" class="form-control" id="txtQRevise" style="width:60px" tabindex="10" />
                                         </div>
                                     </div>
@@ -476,7 +477,7 @@ End Code
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <a href="../Master/Venders" target="_blank"><label style="color:red" id="lblTransporter">Transporter:</label></a>
+                                        <a href="../Master/Venders" target="_blank"><label style="color:red" id="lblTransport">Transporter:</label></a>
                                         <div style="display:flex;flex-direction:row">
 
                                             <input type="text" id="txtTransporter" class="form-control" style="width:130px" tabindex="40" />
@@ -635,7 +636,8 @@ End Code
                                     <button id="btnLinkPaperless" class="btn btn-success" onclick="LoadPaperless()">Load Data From Paperless</button>
                                     <select id="cboDBType" class="form-control dropdown">
                                         <option value="JANDT" selected>TAWAN</option>
-                                        <option value="ECS">ECS</option>
+                                        <option value="ECS">ECS</option> 
+                                        @*<option value="ETRANSIT">ETRANSIT(ทดสอบระบบ)</option>*@
                                     </select>
                                 </div>
                             </div>
@@ -918,7 +920,7 @@ End Code
     }
     SetEnterToTab();
     if (userPosition == '4' || userPosition == '5') {
-        $('#tab4').hide();
+        //$('#tab4').hide();
         $('#btnLinkCost').hide();
     } else {
         if (userGroup == 'C') {
@@ -1057,7 +1059,9 @@ End Code
             //Inv Units
             CreateLOV(dv,'#frmSearchIUnt', '#tbIUnt','Invoice Units',response,2);
             //Weights Unit
-            CreateLOV(dv,'#frmSearchWUnt', '#tbWUnt', 'Weight Unit',response,2);
+            CreateLOV(dv, '#frmSearchWUnt', '#tbWUnt', 'Weight Unit', response, 2);
+            //Quotation
+            CreateLOV(dv,'#frmSearchQuo','#tbQuo','Quotation',response,3)
         });
         //load list of values
         let lists = 'CUSTOMS_PRIVILEGE=#cboTyAuthorSp';
@@ -1238,6 +1242,40 @@ End Code
 
                 });
                 break;
+            case 'quotation':
+                let t = '?JType=' + rec.JobType + '&SBy=' + rec.ShipBy +'&Cust=' + $('#txtCustCode').val();
+                //popup for search data
+                $('#tbQuo').DataTable({
+                    ajax: {
+                        url: path + 'JobOrder/GetQuotationGrid' + t, //web service ที่จะ call ไปดึงข้อมูลมา
+                        dataSrc: 'quotation.data'
+                    },
+                    selected: true, //ให้สามารถเลือกแถวได้
+                    columns: [ //กำหนด property ของ header column
+                        { data: null, title: "#" },
+                        { data: "QNo", title: "Quotation No" },
+                        { data: "ApproveBy", title: "ApproveBy" },
+                        { data: "ApproveDate", title: "ApproveDate" }
+                    ],
+                    "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+                        {
+                            "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                            "data": null,
+                            "render": function (data, type, full, meta) {
+                                let html = "<button class='btn btn-warning'>Select</button>";
+                                return html;
+                            }
+                        }
+                    ],
+                    destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                });
+                BindEvent('#tbQuo', '#frmSearchQuo', function (dr) {
+                    $('#txtQNo').val(dr.QNo);
+                    $('#txtConfirmDate').val(CDateEN(dr.ApproveDate));
+                    rec.ManagerCode = dr.ApproveBy;
+                    ShowUser(path, dr.ApproveBy, '#txtManagerName');
+                });
+                break;
         }
     }
     //This section for calculate amount of duty payment
@@ -1302,12 +1340,12 @@ End Code
                     $('#btnSave').attr('disabled', 'disabled');
                 } else {
                     $('#btnSave').removeAttr('disabled');
-		        }
+		}
 
-		        if(dr.JobStatus>90){
-		            $('#btnLinkAdv').attr('disabled', 'disabled');
-		            $('#btnLinkClr').attr('disabled', 'disabled');
-		        }
+		if(dr.JobStatus>90){
+		    $('#btnLinkAdv').attr('disabled', 'disabled');
+		    $('#btnLinkClr').attr('disabled', 'disabled');
+		}
             }
         });
         ShowLog(Branch, Job);
@@ -1689,7 +1727,6 @@ End Code
             SaveData();
             return;
         } else {
-            if (user == rec.CloseJobBy) {
                 if (rec.JobStatus >= 3) {
                     rec.JobStatus = 0;
                     rec.CloseJobBy = null;
@@ -1704,7 +1741,6 @@ End Code
                     });
                     return;
                 }
-            }
         }
         ShowMessage('This job has been closed');
     }
@@ -1879,6 +1915,9 @@ End Code
                     LoadPaperlessECSExport();
                 }
                 break;
+            case 'ETRANSIT':
+                LoadPaperlessETRANSIT();
+                break;
         }
     }
     function LoadPaperlessECSExport() {
@@ -1905,7 +1944,7 @@ End Code
                 $('#txtInvUnit').val(r[0].TotalPackageUnit);
 
                 if (r[0].RecDate !== null) $('#txtEDIDate').val(CDateEN(r[0].RecDate));
-                if(r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));
+                if (r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));
                 if (r[0].UDateRelease !== null) $('#txtDutyDate').val(CDateEN(r[0].UDateRelease));
                 if (r[0].UDateActual !== null) $('#txtClearDate').val(CDateEN(r[0].UDateActual));
 
@@ -1956,6 +1995,7 @@ End Code
         $.get(path + 'JobOrder/GetPaperless'+ url).done(function (r) {
             if (r.length > 0) {
                 $('#txtDeclareNo').val(r[0].DECLNO);
+                $('#txtDeclareType').val(r[0].DOCTYPEOLD.split('-')[0]);
                 $('#txtCustInvNo').val(r[0].invoiceno);
                 if (rec.JobType == 1) {
                     $('#txtInvFCountry').val(r[0].consignmentCTY);
@@ -1963,6 +2003,8 @@ End Code
                     if(r[0].VSLDTE!==null) $('#txtETADate').val(ReverseDate(r[0].VSLDTE));
                     $('#txtInvTotal').val(r[0].BAHTVAL);
                     $('#txtDutyAmt').val(r[0].ALLDUTY);
+		    $('#txtComOthersPayBy').val(r[0].PaymentNo);
+                    $('#txtComPaidEPay').val(r[0].ALLDUTY);
                     $('#txtVesselName').val(r[0].VSLNME + (r[0].voy !== '' ? ' V.' + r[0].voy : ''));
                 } else {
                     $('#txtInvCountry').val(r[0].DestinationCTY);
@@ -1973,7 +2015,7 @@ End Code
                     if(r[0].LOADEDTIME!==null) $('#txtClearDate').val(r[0].LOADEDTIME.substring(0, 10));
                     $('#txtVesselName').val(r[0].VSLNME + (r[0].VOY!==''? ' V.'+ r[0].VOY:''));
                 }
-                $('#txtReleasePort').val(r[0].ReleasedPort);
+                $('#txtReleasePort').val(r[0].DischargePort);
                 $('#txtPortNo').val(r[0].LoadedPort);
                 $('#txtHAWB').val(r[0].HBL);
                 $('#txtMAWB').val(r[0].MBL);
@@ -1984,9 +2026,61 @@ End Code
                 $('#txtInvUnit').val(r[0].PCKUNT);
                 $('#txtInvCurrency').val(r[0].CUCVAL);
                 $('#txtInvCurRate').val(r[0].EHRVAL);
-                if(r[0].DECLDATECAL !==null) $('#txtEDIDate').val(ReverseDate(r[0].DECLDATECAL));
+                if(r[0].DECLDATECAL !==null) $('#txtReadyClearDate').val(ReverseDate(r[0].DECLDATECAL));
                 if(r[0].DECLDATE !==null) $('#txtDutyDate').val(ReverseDate(r[0].DECLDATE));
 
+                ShowMessage('Update Complete');
+            } else {
+                ShowMessage('Data not found', true);
+            }
+        });
+    }
+    function LoadPaperlessETRANSIT() {
+        let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
+        $.get(path + 'JobOrder/GetPaperless2' + url).done(function (r) {
+            if (r.length > 0) {
+                $('#txtDeclareNo').val(r[0].DECLNO);
+                $('#txtDeclareType').val(r[0].DOCTYPEOLD.split('-')[0]);
+                $('#txtCustInvNo').val(r[0].invoiceno);
+                let d = new Date(r[0].fImp_ArrivalDate);
+                console.log(d);
+                $('#txtEDIDate').val(r[0].fImp_ArrivalDate);
+                $('#txtReadyClearDate').val(r[0].fImp_ArrivalDate);
+                $('#txtClearDate').val(r[0].fImp_ArrivalDate);
+                if (rec.JobType == 1) {
+                    $('#txtInvFCountry').val(r[0].consignmentCTY);
+                    $('#txtInvCountry').val(r[0].OriginCTY);
+                    if (r[0].VSLDTE !== null) $('#txtETADate').val(ReverseDate(r[0].VSLDTE));
+                    $('#txtInvTotal').val(r[0].BAHTVAL);
+                    $('#txtDutyAmt').val(r[0].ALLDUTY);
+                    $('#txtComOthersPayBy').val(r[0].PaymentNo);
+                    $('#txtComPaidEPay').val(r[0].ALLDUTY);
+                    $('#txtVesselName').val(r[0].VSLNME + (r[0].voy !== '' ? ' V.' + r[0].voy : ''));
+                } else {
+                    $('#txtInvCountry').val(r[0].DestinationCTY);
+                    $('#txtInvFCountry').val(r[0].PurchaseCTY);
+                    if (r[0].VSLDTE !== null) $('#txtETDDate').val(ReverseDate(r[0].VSLDTE));
+                    $('#txtInvTotal').val(r[0].FOREVAL);
+                    $('#txtReadyClearDate').val(r[0].CHECKEDTIME.substring(0, 10));
+                    if (r[0].LOADEDTIME !== null) $('#txtClearDate').val(r[0].LOADEDTIME.substring(0, 10));
+                    $('#txtVesselName').val(r[0].VSLNME + (r[0].VOY !== '' ? ' V.' + r[0].VOY : ''));
+                }
+                $('#txtReleasePort').val(r[0].DischargePort);
+                $('#txtPortNo').val(r[0].LoadedPort);
+                $('#txtHAWB').val(r[0].HBL);
+                $('#txtMAWB').val(r[0].MBL);
+                $('#txtNetWeight').val(r[0].Net);
+                $('#txtGrossWeight').val(r[0].Gross);
+                $('#txtWeightUnit').val(r[0].GrossUnit);
+                $('#txtInvQty').val(r[0].PCK);
+                $('#txtInvUnit').val(r[0].PCKUNT);
+                $('#txtInvCurrency').val(r[0].CUCVAL);
+                $('#txtInvCurRate').val(r[0].EHRVAL);
+                if (r[0].DECLDATECAL !== null) $('#txtReadyClearDate').val(ReverseDate(r[0].DECLDATECAL));
+                if (r[0].DECLDATE !== null) $('#txtDutyDate').val(ReverseDate(r[0].DECLDATE));
+                $('#txtClearTaxReson').val(r[0].fReferenceNumber);
+                $('#txtInvCurrency').val(r[0].CurrencyCode);
+                $('#txtInvProduct').val(r[0].ProductEName);
                 ShowMessage('Update Complete');
             } else {
                 ShowMessage('Data not found', true);

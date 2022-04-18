@@ -213,7 +213,7 @@ Public Class CServiceCode
         Using cn As New SqlConnection(m_ConnStr)
             Try
                 cn.Open()
-                Using cm As New SqlCommand("DELETE FROM Job_SrvSingle " + pSQLWhere, cn)
+                Using cm As New SqlCommand("UPDATE Job_SrvSingle SET GroupCode ='OLD' " + pSQLWhere, cn)
                     cm.CommandTimeout = 0
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()

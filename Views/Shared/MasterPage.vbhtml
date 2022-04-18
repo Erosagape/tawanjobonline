@@ -32,8 +32,8 @@
 <body style="background:#e6e6e6;color:black;">
     <!-- Sidebar -->
     <div class="w3-sidebar w3-bar-block w3-animate-left" style="display:none;z-index:5" id="mySidebar">
-        <div class="w3-sidebar w3-bar-block w3-indigo w3-card btn-success" style="width: 250px; background-color: #47a447 !important ">
-            <div style="background-color: #47a447; ">
+        <div class="w3-sidebar w3-bar-block w3-indigo w3-card btn-success" style="width: 250px; background-color: #145314 !important ">
+            <div style="background-color: #145314; ">
                 Select Menu :
                 <select id="cboMenu" onchange="SwitchMenu()">
                     <option value="D">By Department</option>
@@ -64,13 +64,13 @@
                     </div>
                     <div id="mnuMkt" class="w3-hide w3-pale-green w3-card-4">
                         <a href="#" id="mnuMkt1" class="w3-bar-item w3-button" onclick="OpenLink('Quotation')">- Quotation</a>
-                        <a href="#" id="mnuMkt3" class="w3-bar-item w3-button" onclick="OpenLink('EstimateCost')">- Estimate Costing</a>
+                        <a href="#" id="mnuMkt3" class="w3-bar-item w3-button" onclick="OpenLink('EstimateCost')">- Cs JOB</a>
                     </div>
                     <div id="mainCS" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCS')">
                         CS Works
                     </div>
                     <div id="mnuCS" class="w3-hide w3-light-grey w3-card-4">
-                        <a href="#" id="mnuCS1" class="w3-bar-item w3-button" onclick="OpenLink('CreateJob')">- Create Job</a>
+                        <a href="#" id="mnuCS1" class="w3-bar-item w3-button" onclick="OpenLink('CreateTransport')">- Create Job</a>
                         <a href="#" id="mnuCS2" class="w3-bar-item w3-button" onclick="OpenLink('SearchJob')">- List Job</a>
                         <a href="#" id="mnuCS3" class="w3-bar-item w3-button" onclick="OpenLink('Transport')">- Transport Info</a>
                         <a href="#" id="mnuCS4" class="w3-bar-item w3-button" onclick="OpenLink('WHTax')">- Withholding Tax</a>
@@ -148,7 +148,7 @@
                         <a href="#" id="mnuMas1" class="w3-bar-item w3-button" onclick="OpenLink('MasG')">- Customs File</a>
                         <a href="#" id="mnuMas3" class="w3-bar-item w3-button" onclick="OpenLink('MasS')">- System Files</a>
                     </div>
-                    <div id="mainSum" class="w3-bar-item w3-button" onclick="w3_accordion('mnuSum')">
+   		<div id="mainSum" class="w3-bar-item w3-button" onclick="w3_accordion('mnuSum')">
                         Summary
                     </div>
                     <div id="mnuSum" class="w3-hide w3-sand w3-card-4">
@@ -278,6 +278,8 @@
                                 <button id="mnuMasA2" class="btn btn-default btn-block" onclick="OpenLink('venders')">- Venders</button>
                                 <button id="mnuMasA3" class="btn btn-default btn-block" onclick="OpenLink('ServUnit')">- Service Units</button>
                                 <button id="mnuMasA4" class="btn btn-default btn-block" onclick="OpenLink('Bank')">- Bank</button>
+                                <button id="mnuMasA10" class="btn btn-default btn-block" onclick="OpenLink('CarLicense')">- Car License</button>
+                                <button id="mnuMasA11" class="btn btn-default btn-block" onclick="OpenLink('Employee')">- Employee</button>
                             </div>
                             <div class="col-sm-6">
                                 <button id="mnuMasA5" class="btn btn-default btn-block" onclick="OpenLink('BookAccount')">- Bank Accounts</button>
@@ -394,13 +396,13 @@
         <div class="w3-container" style="margin-bottom:10px">
             <!-- Page Content -->
             <div Class="panel-primary">
-                <div Class="panel-heading w3-indigo" style="background-color: #47a447 !important">
+                <div Class="panel-heading w3-indigo" style="background-color: #145314 !important">
                     <div Class="panel-title">
                         <div class="row">
-                            <div class="col-xs-5 col-md-2" style="text-align:center">
-                                <img id="imgCompany" src="~/Resource/logo_bft.png" style="width:50%;height:60px" onclick="w3_open();" />
+                            <div class="col-xs-12 col-md-4" style="text-align:center">
+                                <img id="imgCompany" src="~/Resource/logo_main_bft.png" style="width:100%" onclick="w3_open();" />
                             </div>
-                            <div class="col-xs-7 col-md-10">
+                            <div class="col-xs-12 col-md-8">
                                 <div style="display:flex;align-items:center;height:50px">
                                     <div style="text-align:left;flex:1;">
                                         <label id="lblTitle" onclick="OpenContact()">@ViewBag.Title</label>
@@ -438,13 +440,13 @@
             $('#cboMenu').val(menuType);
             ChangeMenu();
         }
-        if (userLang !== 'EN' && userLang !== '') {
+        //if (userLang !== 'EN' && userLang !== '') {
             $('#cboLanguage').val(userLang);
             ChangeLanguage(userLang, $('#lblModule').val());
-        } else {
-            userLang = 'EN';
-            $('#cboLanguage').val(userLang);
-        }
+        //} else {
+        //    userLang = 'EN';
+        //    $('#cboLanguage').val(userLang);
+        //}
         $('#dvLogin').on('shown.bs.modal', function () {
             $('#txtUserLogin').focus();
         });
@@ -517,7 +519,9 @@
                 CheckSession(null);
             } else {
                 $('#imgMenu').attr('src',path + 'Resource/@ViewBag.PROFILE_LOGO');
-                $('#imgCompany').attr('src',path + 'Resource/@ViewBag.PROFILE_LOGO');
+                @*$('#imgCompany').attr('src', path + 'Resource/@ViewBag.PROFILE_LOGO');*@
+                //$('#imgMenu').attr('src', path + 'Resource/logo_main_bft.png');
+                $('#imgCompany').attr('src', path + 'Resource/logo_main_bft.png');
                 $('#lblUserID').text('@ViewBag.UserName');
                 $('#lblLicenseName').text('@ViewBag.LICENSE_NAME');
                 $('#cboLanguage').val('@ViewBag.PROFILE_DEFAULT_LANG');

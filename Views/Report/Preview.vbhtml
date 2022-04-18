@@ -1,6 +1,6 @@
 ﻿@Code
     Layout = "~/Views/Shared/_ReportLandscape.vbhtml"
-    ViewBag.FileName = "export" & DateTime.Now.ToString("yyyyMMddHHMMss") & ".xls"
+    ViewBag.FileName = "export" & DateTime.Now.ToString("yyyyMMddHHMMss") & ".csv"
 End Code
 <style>
     table {
@@ -95,16 +95,15 @@ End Code
         for (var i = 0; i < rows.length; i++) {
             var row = [], cols = rows[i].querySelectorAll("td, th");
 
-            for (var j = 0; j < cols.length; j++) {
+            for (var j = 0; j < cols.length; j++)
                 row.push(cols[j].innerText);
-            }
+
             csv.push(row.join("\t"));
         }
         csv.push($('#rptCliteria').text());
         // Download CSV file
         DownloadCSV(csv.join("\n"), filename);
     }
-
     function ProcessCliteria(data) {
         data = data.replace('[DATE]>=', 'Date From ');
         data = data.replace('[DATE]<=', 'Date To ');

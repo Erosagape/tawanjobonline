@@ -56,7 +56,7 @@ End Code
             </div>
             <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
-                    <a href="../Master/Customers?Mode=CONSIGNEE"><label id="lblBillingPlace" style="display:block;width:100%;">Consignee</label></a>
+                    <a href="../Master/Customers?Mode=CONSIGNEE"><label id="lblBillingPlace" style="display:block;width:100%;">BILL TO</label></a>
                 </div>
                 <div style="display:flex;width:70%">
                     <input type="text" class="form-control" id="txtConsignee" style="width:120px" tabindex="6" />

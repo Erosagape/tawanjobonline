@@ -90,7 +90,7 @@ End Code
             CheckSession(drawChart());
         }
     }, 300000);
-    */
+    */ 
     SetLOVs();
 
     function SetLOVs() {

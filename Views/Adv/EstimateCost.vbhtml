@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Estimate Cost"
+    ViewBag.Title = "CS JOB"
 End Code
 <!-- HTML CONTROLS -->
 <div class="row">

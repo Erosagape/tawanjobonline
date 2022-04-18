@@ -44,8 +44,8 @@ End Code
     <tr>
         <td>คำแนะนำในการส่งสินค้า</td>
         <td><div id="txtSpecialInstruction"></div></td>
-        <td>Customer PO</td>
-        <td><label id="txtCustPo"></label></td>
+        <td></td>
+        <td></td>
     </tr>
     <tr>
         <th colspan="2">ข้อมูลเกี่ยวกับลูกค้า</th>
@@ -187,16 +187,15 @@ End Code
             $('#txtAddress1').html(CStr(h.PlaceAddress1));
             $('#txtAddress2').html(CStr(h.PlaceAddress2));
             $('#txtAddress3').html(CStr(h.PlaceAddress3));
-            $('#txtTargetDate1').text(ShowDate(h.TargetYardDate) + ' ' + ShowTime(h.TargetYardTime));
-            $('#txtTargetDate2').text(ShowDate(h.TargetDeliveryDate) + ' ' + ShowTime(h.TargetDeliveryTime));
-            $('#txtTargetDate3').text(ShowDate(h.TargetReturnDate) + ' ' + ShowTime(h.TargetReturnTime));
-            $('#txtActualDate1').text(ShowDate(h.ActualYardDate) + ' ' + ShowTime(h.ActualYardTime));
-            $('#txtActualDate2').text(ShowDate(h.ActualDeliveryDate) + ' ' + ShowTime(h.ActualDeliveryTime));
-            $('#txtActualDate3').text(ShowDate(h.ActualReturnDate) + ' ' + ShowTime(h.ActualReturnTime));
+            $('#txtTargetDate1').text(ShowDate(h.TargetYardDate));
+            $('#txtTargetDate2').text(ShowDate(h.TargetDeliveryDate));
+            $('#txtTargetDate3').text(ShowDate(h.TargetReturnDate));
+            $('#txtActualDate1').text(ShowDate(h.ActualYardDate));
+            $('#txtActualDate2').text(ShowDate(h.ActualDeliveryDate));
+            $('#txtActualDate3').text(ShowDate(h.ActualReturnDate));
             $('#txtContact1').text(h.PlaceContact1);
             $('#txtContact2').text(h.PlaceContact2);
             $('#txtContact3').text(h.PlaceContact3);
-            $('#txtCustPo').text(h.CustRefNo);
         }
     });
 </script>

@@ -1,5 +1,6 @@
 ﻿@Code
-    Layout = "~/Views/Shared/_ReportNoHead.vbhtml"
+   
+  Layout = "~/Views/Shared/_ReportNoHead.vbhtml"
 End Code
 <style>
     * {
@@ -31,6 +32,10 @@ End Code
     .amount {
         text-align:right;
     }
+
+    #pFooter{
+ 	display:none
+     }
 </style>
 <div style="float:left;">
     <b>ฉบับที่ 1</b><i>(สำหรับผู้ถูกหักภาษี ณ ที่จ่ายใช้แนบพร้อมกับแบบแสดงรายการภาษี)</i><br />

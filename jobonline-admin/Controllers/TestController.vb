@@ -38,5 +38,16 @@ Namespace Controllers
             End Try
             Return View()
         End Function
+        <HttpPost()>
+        <ActionName("PostForm")>
+        Function PostFormSubmit() As ActionResult
+            Dim value = Request.Form("text1")
+            ViewBag.Result = "Value=" & value
+            Return View("PostForm")
+        End Function
+        Function PostForm() As ActionResult
+            ViewBag.Result = "Ready"
+            Return View()
+        End Function
     End Class
 End Namespace

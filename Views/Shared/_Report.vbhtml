@@ -6,8 +6,8 @@
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" type="text/css" href="~/Content/sheets-of-paper-a4.css">
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/Func/util.js?@DateTime.Now.Ticks"></script>
-    <script src="~/Scripts/Func/reports.js?@DateTime.Now.Ticks"></script>
+    <script src="~/Scripts/Func/util.js"></script>
+    <script src="~/Scripts/Func/reports.js"></script>
     <style>
         * {
             font-size: 11px;
@@ -79,6 +79,7 @@
                         <div style="display:flex;justify-content:center">
                             <img id="imgLogo" src="~/Resource/bft_header.png" style="width:90%;" />
                             <img id="imgLogoAdd" src="~/Resource/bft_header.jpeg" style="width:90%;display:none;" />
+                            <img id="imgLogo2" src="~/Resource/invheader.jpg" style="width:90%;display:none;" />
                         </div>
                         
                         @*<div style="display:flex" id="dvCompLogo">

@@ -1175,6 +1175,8 @@ AND b.IsApplyPolicy=1
                 End If
                 If Not IsNothing(Request.QueryString("Group")) Then
                     tSqlw &= String.Format("AND GroupCode Like '{0}%' ", Request.QueryString("Group").ToString)
+                Else
+                    tSqlw &= "AND GroupCode<>'OLD' "
                 End If
                 If Not IsNothing(Request.QueryString("Type")) Then
                     Dim type = Request.QueryString("Type").ToString

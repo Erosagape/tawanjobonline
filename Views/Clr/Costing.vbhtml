@@ -4,7 +4,7 @@
 End Code
 <div class="row">
     <div class="col-sm-3">
-        <label id="lblBranch">Branch</label>
+        <label id="lblBranch">Branch</label>        
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtBranchCode" style="width:60px" disabled />
@@ -12,21 +12,21 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblJobNo">Job No:</label>
-        <br />
+        <label id="lblJobNo">Job No:</label>        
+        <br/>
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtJNo" disabled />
         </div>
     </div>
     <div class="col-sm-3">
-        <label id="lblCloseDate">Close Date :</label>
+        <label id="lblCloseDate">Close Date :</label>        
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="date" id="txtCloseDate" class="form-control" disabled />
         </div>
     </div>
     <div class="col-sm-4">
-        <label id="lblJobStatus">Job Status:</label>
+        <label id="lblJobStatus">Job Status:</label>        
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtJobStatus" style="background-color:lightgoldenrodyellow;color:red;" disabled />
@@ -52,55 +52,55 @@ End Code
 <div class="row">
     <div class="col-sm-3">
         <label id="lblService">Service</label>
-        : <input type="text" id="txtSumService" class="form-control" disabled />
+         : <input type="text" id="txtSumService" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblAdvance">Advance</label>
-        :<input type="text" id="txtSumAdvance" class="form-control" disabled />
+         :<input type="text" id="txtSumAdvance" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblCost">Cost</label>
-        :<input type="text" id="txtSumCost" class="form-control" disabled />
+         :<input type="text" id="txtSumCost" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblProfit">Profit</label>
-        :<input type="text" id="txtSumProfit" class="form-control" disabled />
+         :<input type="text" id="txtSumProfit" class="form-control" disabled />
     </div>
 </div>
 <div class="row">
     <div class="col-sm-3">
         <label id="lblBaseVat">Vatable</label>
-        :<input type="text" id="txtSumBaseVAT" class="form-control" disabled />
+         :<input type="text" id="txtSumBaseVAT" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblNonVat">Non-vat</label>
-        :<input type="text" id="txtSumNonVAT" class="form-control" disabled />
+         :<input type="text" id="txtSumNonVAT" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblVat">VAT</label>
-        :<input type="text" id="txtSumVAT" class="form-control" disabled />
+         :<input type="text" id="txtSumVAT" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblWhTax">W/H-Tax</label>
-        :<input type="text" id="txtSumWHT" class="form-control" disabled />
+         :<input type="text" id="txtSumWHT" class="form-control" disabled />
     </div>
 </div>
 <div class="row">
     <div class="col-sm-3">
         <label id="lblSumCharge">Chargeable</label>
-        :<input type="text" id="txtSumCharge" class="form-control" disabled />
+         :<input type="text" id="txtSumCharge" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblInv">Invoiced</label>
-        :<input type="text" id="txtSumInvoice" class="form-control" disabled />
+         :<input type="text" id="txtSumInvoice" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblSumClear">Cleared</label>
-        :<input type="text" id="txtSumClear" class="form-control" disabled />
+         :<input type="text" id="txtSumClear" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblPending">Pending</label>
-        :<input type="text" id="txtSumPending" class="form-control" disabled />
+         :<input type="text" id="txtSumPending" class="form-control" disabled />
     </div>
 </div>
 <a href="#" class="btn btn-success" id="btnGenerateInv">
@@ -114,7 +114,7 @@ End Code
         <div class="modal-content">
             <div class="modal-header">
                 <label id="lblSetInv">Set Invoice To</label>
-                <label id="lblClrNo"></label> # <label id="lblItemNo"></label>
+                 <label id="lblClrNo"></label> # <label id="lblItemNo"></label>
             </div>
             <div class="modal-body">
                 Invoice Number
@@ -187,7 +187,7 @@ End Code
                     return data.BNet !== 0 && data.DocStatus<99;
                 });
                 for (let i = 0; i < d.length; i++){
-                    let amt = (d[i].UsedAmount) + d[i].ChargeVAT;
+                    let amt = (d[i].UsedAmount) + d[i].ChargeVAT;   
                     let adv = (d[i].IsCredit == 1 && d[i].IsExpense == 0 ? amt : 0);
                     let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? (d[i].UsedAmount) : 0);
                     let cost = (d[i].IsExpense == 1 ?  (d[i].UsedAmount) : 0);
