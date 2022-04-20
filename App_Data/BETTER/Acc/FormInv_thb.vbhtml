@@ -94,7 +94,7 @@ End Code
     </div>
     <div style="width:40%"></div>
     <div style="width:30%">
-        <h2 style="font-size:16px" class="right" id="headerDoc" ondblclick="ChangeHeader()">ใบแจ้งหนี้/INVOICE</h2>
+        <h2 style="font-size:16px" class="right"> ใบแจ้งหนี้/INVOICE</h2>
     </div>
 </div>
 
@@ -274,7 +274,7 @@ End Code
             <th class="center bold">@@ UNIT</th>
             <th class="center bold">Exc.</th>
             <th style="width:80px;" class="center bold">ADVANCE</th>
-            <th style="width:80px;" class="center bold">SERVICE</th>
+            <th style="width:80px;" class="center bold">VAT</th>
         </tr>
 
     </thead>
@@ -342,12 +342,12 @@ End Code
             <td class="right"></td>
         </tr>
         <tr class="underLine">
-            <td class="right" colspan="5" id="currencyText">NET AMOUNT :</td>
+            <td id="netAmountLbl" class="right" colspan="5">NET AMOUNT:</td>
             <td id="advLeft" class="right"></td>
             <td id="netAmount" class="right"></td>
         </tr>
         <tr class="underLine">
-            <td class="center" colspan="5" style="font-size:13px" id="labelText">จำนวนเงินที่ต้องจ่าย = </td>
+            <td class="center" colspan="5" style="font-size:13px">จำนวนเงินที่ต้องจ่าย = </td>
             <td id="TotalNet" class="right" colspan="2" style="font-size:13px"></td>
         </tr>
         <tr class="underLine">
@@ -496,7 +496,7 @@ End Code
                 html += '            <td class="center">' + row.Qty + '</td>';
                 html += '            <td class="right">' + row.QtyUnit+'</td>';
                 html += '            <td class="right">' + row.CurrencyCode + '</td>';
-                html += '            <td class="right">' + ShowNumber(row.FUnitPrice, 2) + '</td>';
+                html += '            <td class="right">' + (row.AmtAdvance ? ShowNumber(row.FUnitPrice*(100.0 + row.VATRate)/100.0, 2) : ShowNumber(row.FUnitPrice, 2)) + '</td>';
                 html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
                 html += '            <td class="right">' + (row.AmtAdvance ? ShowNumber(row.TotalAmt, 2) : '') + '</td>';
                 html += '            <td class="right">' + (!row.AmtAdvance ? ShowNumber(row.Amt, 2) : '') + '</td>';
@@ -586,23 +586,15 @@ End Code
         /*    $("#netAmount").text(ShowNumber(h.TotalNet + h.Total50Tavi, 2));*/
 
             $("#advLeft").text(ShowNumber(adv - h.TotalCustAdv, 2));
-         
+          
+
+            $("#TotalNet").text(ShowNumber(vat + adv + h.TotalVAT - h.TotalCustAdv - (sumWht1 + sumWht1_5 + sumWht3 + sumWhtO), 2));
            /* $("#TotalNet").text(ShowNumber(h.TotalNet , 2));*/
             $("#taxRate1").text("1% :");
             $("#taxRate1_5").text("1.5% :");
             $("#taxRate3").text("3% :");
             $("#taxRateO").text("OTHER :");
-            if(h.CurrencyCode=='THB') {
             $("#bahtText").text('( ' + CNumThai(CDbl(h.TotalNet, 2))+' )');
-            $("#TotalNet").text(ShowNumber(vat + adv + h.TotalVAT - h.TotalCustAdv - (sumWht1 + sumWht1_5 + sumWht3 + sumWhtO), 2));
-	    $("#labelText").html('จำนวนเงินที่ต้องจ่าย =');
-	    $("#currencyText").html('NET AMOUNT :');	
-            } else {
-            $("#bahtText").text('( ' + CNumEng(CDbl(h.ForeignNet, 2))+' )');
-            $("#TotalNet").text(ShowNumber((vat + adv + h.TotalVAT - h.TotalCustAdv - (sumWht1 + sumWht1_5 + sumWht3 + sumWhtO))/h.ExchangeRate, 2));
-	    $("#labelText").html('TOTAL PAYMENT ');
-	    $("#currencyText").html('NET AMOUNT :');	
-            }
         }
     });
 
@@ -619,7 +611,4 @@ End Code
             }
         });
     }
-function ChangeHeader(){
-$('#headerDoc').html('DEBIT NOTE');
-}
 </script>

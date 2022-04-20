@@ -64,7 +64,7 @@ Namespace Controllers
                             .AmtVat = row("VatAmt"),
                             .AmtWhtRate = row("TaxRate"),
                             .AmtWht = row("TaxAmt"),
-                            .AmtTotal = row("TotalAmt")
+                            .AmtTotal = row("TotalAmt") + row("VatAmt") - row("TaxAmt")
                         }
                         Dim msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode))
                     Next

@@ -839,7 +839,11 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             Return GetView("FormBill")
         End Function
         Function FormRcp() As ActionResult
+            Dim formName = ""
             Try
+                If Request.QueryString("Form") IsNot Nothing Then
+                    formName = Request.QueryString("Form").ToString()
+                End If
                 If Request.QueryString("branch") IsNot Nothing Then
                     If Request.QueryString("code") IsNot Nothing Then
                         Dim oRec = New CRcpHeader(GetSession("ConnJob"))
@@ -857,7 +861,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "FormRcp", ex.Message, ex.StackTrace, True)
             End Try
-            Return GetView("FormRcp")
+            Return GetView("FormRcp" & formName)
         End Function
         Function FormTaxInv() As ActionResult
             Dim formName = ""
@@ -3120,6 +3124,7 @@ ORDER BY a.TName1
                 If Not IsNothing(Request.QueryString("RecvNo")) Then
                     recvNo = Request.QueryString("RecvNo").ToString
                 End If
+
                 If Not IsNothing(Request.QueryString("Type")) Then
                     If Request.QueryString("Type").ToString.ToUpper = "ADV" Then
                         tSqlw &= " AND ISNULL(id.AmtAdvance,0)>0 "
@@ -3141,6 +3146,11 @@ ORDER BY a.TName1
                     End If
                 End If
 
+
+                If Not IsNothing(Request.QueryString("InvNo")) Then
+                    Dim invNo = Request.QueryString("InvNo").ToString
+                    tSqlw &= String.Format(" WHERE ih.DocNo='{0}' ", invNo)
+                End If
 
                 If byReceipt Then
                     Dim sql As String = SQLSelectInvByReceive(recvNo, bCheckVoucher) & tSqlw

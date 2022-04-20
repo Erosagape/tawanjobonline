@@ -64,16 +64,16 @@ End Code
 </p>
 <div style="display:flex;flex-direction:column">
     <div>
-        <label><input type="checkbox" name="vehicle1" value=""> CASH</label>
-        DATE_____________  AMOUNT______________BAHT
+        <label><input type="checkbox" id='cash' name="vehicle1" value=""> &nbsp;CASH&nbsp;</label>
+        &nbsp; DATE&nbsp;<label id='cashDate' style='text-decoration: underline;'>____________</label> &nbsp; AMOUNT&nbsp; <label id='cashAmount'>____________</label>&nbsp; BAHT
     </div>
     <div>
-        <label><input type="checkbox" name="vehicle2" value=""> CHEQUE</label>
-        DATE_____________  NO_______________  BANK_________________  AMOUNT______________BAHT
+        <label><input type="checkbox" id='chq' name="vehicle2" value=""> CHEQUE</label>
+        &nbsp; DATE&nbsp;<label id='chqDate' style='text-decoration: underline;'>____________</label> &nbsp;NO&nbsp;<label id='chqNo' style='text-decoration: underline;'>____________</label> &nbsp;BANK&nbsp;<label id='chqBank' style='text-decoration: underline;'>____________</label>  &nbsp;AMOUNT&nbsp;<label id='chqAmount' style='text-decoration: underline;'>____________</label>&nbsp;BAHT
     </div>
     <div>
-        <label><input type="checkbox" name="vehicle3" value=""> TRANSFER</label>
-        DATE_____________  BANK_________________  AMOUNT______________BAHT
+        <label><input type="checkbox" id='transfer' name="vehicle3" value=""> &nbsp;TRANSFER&nbsp;</label>
+        &nbsp;DATE&nbsp;<label id='transferDate' style='text-decoration: underline;'>____________</label> &nbsp;BANK&nbsp;<label id='transferBank' style='text-decoration: underline;'>____________</label>  &nbsp;AMOUNT&nbsp;<label id='transferAmount' style='text-decoration: underline;'>____________</label>&nbsp;BAHT
     </div>
 </div>
 <br />
@@ -164,6 +164,33 @@ End Code
         $('#lblCustTax').text(h.CustTaxID + branchText);
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiveDate)));
+
+        if (h.TRemark) {
+            let payment = h.TRemark.split(";");
+            let ca = payment[0].split(":")[1];
+            let isTransfer = h.TRemark.toLowerCase().indexOf("transfer") > -1;
+            let transfer = isTransfer ? payment[1].split(":")[1] : 0;
+            let chq = isTransfer ? 0 : payment[1].split(":")[1];
+            if (ca > 0) {
+                $('#cashDate').text(payment[0].split(":")[3] ? payment[0].split(":")[3] : "____________");
+                $('#cashAmount').text(ca ? ca : "____________");
+                document.getElementById("cash").checked = true;
+            }
+            if (transfer > 0) {
+                $('#transferDate').text(payment[0].split(":")[3] ? payment[0].split(":")[3] : "____________");
+                $('#transferAmount').text(transfer ? transfer : "____________");
+                $('#transferBank').text(payment[1].split(":")[2] ? payment[1].split(":")[2] : "____________");
+                document.getElementById("transfer").checked = true;
+            }
+            if (chq > 0) {
+                $('#chqDate').text(payment[0].split(":")[3] ? payment[0].split(":")[3] : "____________");
+                $('#chqAmount').text(chq);
+                $('#chqNo').text(payment[1].split(":")[3] ? payment[1].split(":")[3] : "____________");
+                $('#chqBank').text(payment[1].split(":")[2] ? payment[1].split(":")[2] : "____________");
+                document.getElementById("chq").checked = true;
+            }
+
+        }
         let html = '';
         let service = 0;
         let vat = 0;

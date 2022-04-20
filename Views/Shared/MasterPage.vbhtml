@@ -23,11 +23,11 @@
     <script src="~/Scripts/Func/menu.js?@DateTime.Now.Ticks"></script>
     <script src="~/Scripts/Func/lang.js?@DateTime.Now.Ticks"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
-	<style>
-		.panel-body{
-			background-color : #f1fce6;
-		}
-	</style>
+    <style>
+        .panel-body {
+            background-color: #f1fce6;
+        }
+    </style>
 </head>
 <body style="background:#e6e6e6;color:black;">
     <!-- Sidebar -->
@@ -148,7 +148,7 @@
                         <a href="#" id="mnuMas1" class="w3-bar-item w3-button" onclick="OpenLink('MasG')">- Customs File</a>
                         <a href="#" id="mnuMas3" class="w3-bar-item w3-button" onclick="OpenLink('MasS')">- System Files</a>
                     </div>
-   		<div id="mainSum" class="w3-bar-item w3-button" onclick="w3_accordion('mnuSum')">
+                    <div id="mainSum" class="w3-bar-item w3-button" onclick="w3_accordion('mnuSum')">
                         Summary
                     </div>
                     <div id="mnuSum" class="w3-hide w3-sand w3-card-4">
@@ -304,7 +304,7 @@
                             System Master Files
                         </div>
                     </div>
-                    <div class="modal-body" >
+                    <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-6">
                                 <button id="mnuMasS1" class="btn btn-default btn-block" onclick="OpenLink('Constant')">- System Variables</button>

@@ -18,20 +18,21 @@ End Code
     </div>
     <div Class="row">
         <div Class="col-sm-2">
-            <a href="../Master/Customers">Customers</a>
+            <a href="../JobOrder/Quotation">Quotation</a>
         </div>
         <div Class="col-sm-4" style="display:flex;">
             <input type="hidden" name="Cust" id="txtCustCode" />
-            <input type="text" id="txtCustName" Class="form-control" disabled />
-            <a onclick="SearchData('cust')" class="btn btn-default">...</a>
+            <input type="text" id="txtQuotation" name="QuoNo" Class="form-control" />
+            <a onclick="SearchData('quotation')" class="btn btn-default">...</a>
         </div>
         <div Class="col-sm-2">
-            <a href="../Master/Customers">Billing To</a>            
+            <a href="../Master/Country">Country</a>            
         </div>
         <div Class="col-sm-4" style="display:flex;">
-            <input type="hidden" name="BillTo" id="txtBillToCustCode" />
-            <input type="text" id="txtBillToCustName" Class="form-control" disabled />
-            <a class="btn btn-default" onclick="SearchData('bill')">...</a>
+            <input type="hidden" name="Country" id="txtCountryCode" />
+            <input type="hidden" name="PortCode" id="txtPortCode" />
+            <input type="text" id="txtCountryName" Class="form-control" disabled />
+            <a class="btn btn-default" onclick="SearchData('country')">...</a>
         </div>
     </div>
     <div Class="row">
@@ -135,30 +136,35 @@ End Code
     </div>
     <div Class="row">
         <div Class="col-sm-2">
-            Place of Receive
-        </div>
-        <div Class="col-sm-4">
-            <input type="text" name="PlaceReceive" id="txtReceivePlace" Class="form-control" />
-        </div>
-        <div Class="col-sm-2">
             Place of Loading
         </div>
-        <div Class="col-sm-4">
+        <div Class="col-sm-4" style="display:flex;">
             <input type="text" name="PlaceLoading" id="txtLoadingPlace" Class="form-control" />
+            <a class="btn btn-default" onclick="SearchData('loadat')">...</a>
         </div>
+        <div Class="col-sm-2">
+            Place of Receive
+        </div>
+        <div Class="col-sm-4" style="display:flex">
+            <input type="text" name="PlaceReceive" id="txtReceivePlace" Class="form-control" />
+            <a class="btn btn-default" onclick="SearchData('receiveat')">...</a>
+        </div>
+
     </div>
     <div Class="row">
         <div Class="col-sm-2">
-            Place of Delivery
-        </div>
-        <div Class="col-sm-4">
-            <input type="text" name="PlaceDelivery" id="txtDeliveryPlace" Class="form-control" />
-        </div>
-        <div Class="col-sm-2">
             Place of Discharge
         </div>
-        <div Class="col-sm-4">
+        <div Class="col-sm-4" style="display:flex;">
             <input type="text" name="PlaceDischarge" id="txtDischargePlace" Class="form-control" />
+            <a class="btn btn-default" onclick="SearchData('dischargeat')">...</a>
+        </div>
+        <div Class="col-sm-2">
+            Place of Delivery
+        </div>
+        <div Class="col-sm-4" style="display:flex;">
+            <input type="text" name="PlaceDelivery" id="txtDeliveryPlace" Class="form-control" />
+            <a class="btn btn-default" onclick="SearchData('deliveryat')">...</a>
         </div>
     </div>
     <div Class="row">
@@ -189,8 +195,9 @@ End Code
         <div Class="col-sm-2">
             Freight Payable At
         </div>
-        <div Class="col-sm-4">
+        <div Class="col-sm-4" style="display:flex;">
             <input type="text" name="FreightPaymentBy" id="txtFreightPayAt" Class="form-control" />
+            <a class="btn btn-default" onclick="SearchData('payableat')">...</a>
         </div>
     </div>
     <div Class="row">
@@ -326,41 +333,31 @@ End Code
 
     SetListOfValues((r) => {
         let dv = document.getElementById("dvLOVs");
-        CreateLOV(dv, '#dvCustomer', '#tbCustomer', 'Customers', r, 3);
-        CreateLOV(dv, '#dvBillTo', '#tbBillTo', 'Bill To', r, 3);
         CreateLOV(dv, '#dvShipper', '#tbShipper', 'Shipper', r, 3);
-        CreateLOV(dv, '#dvActShipper', '#tbActShipper', 'Actual Shipper', r, 3);
+        CreateLOV(dv, '#dvActShipper', '#tbActShipper', 'Notify Party', r, 3);
         CreateLOV(dv, '#dvConsignee', '#tbConsignee', 'Consignee', r, 3);
-        CreateLOV(dv, '#dvActConsignee', '#tbActConsignee', 'Actual Consignee', r, 3);
+        CreateLOV(dv, '#dvActConsignee', '#tbActConsignee', 'Also Notify', r, 3);
         CreateLOV(dv, '#dvDeliveryAgent', '#tbDeliveryAgent', 'Delivery Agent', r, 3);
         CreateLOV(dv, '#dvAgent', '#tbAgent', 'Agent', r, 3);
         CreateLOV(dv, '#dvTransporter', '#tbTransporter', 'Transporter', r, 3);
         CreateLOV(dv, '#dvUnit', '#tbUnit', 'Unit', r, 2);
+        CreateLOV(dv, '#dvQuotation', '#tbQuotation', 'Quotation', r, 3);
+        CreateLOV(dv, '#dvCountry', '#tbCountry', 'Country', r, 2);
+        CreateLOV(dv, '#dvReceiveAt', '#tbReceiveAt', 'Place of Receive', r, 3);
+        CreateLOV(dv, '#dvLoadAt', '#tbLoadAt', 'Place of Loading', r, 3);
+        CreateLOV(dv, '#dvDeliveryAt', '#tbDeliveryAt', 'Place of Delivery', r, 3);
+        CreateLOV(dv, '#dvDischargeAt', '#tbDischargeAt', 'Place of Discharge', r, 3);
+        CreateLOV(dv, '#dvPayableAt', '#tbPayableAt', 'Freight Payable At', r, 3);
     });
     function SearchData(type) {
+        let w = '';
         switch (type) {
-            case 'cust':
-                SetGridCompany(path, '#tbCustomer', '#dvCustomer', (dr) => {
-                    $('#txtCustCode').val(dr.CustCode + '|' + dr.Branch);
-                    $('#txtCustName').val(dr.NameEng);
-                    $('#txtBillToCustCode').val(dr.CustCode + '|' + dr.Branch);
-                    $('#txtBillToCustName').val(dr.NameEng);
-                    $('#txtShipperCode').val(dr.CustCode + '|' + dr.Branch);
-                    $('#txtShipperName').val(dr.NameEng);
-                    $('#txtActualShipperCode').val(dr.CustCode + '|' + dr.Branch);
-                    $('#txtActualShipperName').val(dr.NameEng);
-                });
-                break;
-            case 'bill':
-                SetGridCompany(path, '#tbBillTo', '#dvBillTo', (dr) => {
-                    $('#txtBillToCustCode').val(dr.CustCode + '|' + dr.Branch);
-                    $('#txtBillToCustName').val(dr.NameEng);
-                });
-                break;
             case 'shipper':
                 SetGridCompany(path, '#tbShipper', '#dvShipper', (dr) => {
                     $('#txtShipperCode').val(dr.CustCode + '|' + dr.Branch);
                     $('#txtShipperName').val(dr.NameEng);
+                    $('#txtActualShipperCode').val(dr.CustCode + '|' + dr.Branch);
+                    $('#txtActualShipperName').val(dr.NameEng);
                 });
                 break;
             case 'actshipper':
@@ -405,6 +402,96 @@ End Code
             case 'unit':
                 SetGridServUnit(path, '#tbUnit', '#dvUnit', (dr) => {
                     $('#txtContainerUnit').val(dr.UnitType);
+                });
+                break;
+            case 'quotation':
+                let t = '?JType=' + $('#txtJobType').val() + '&SBy=' + $('#txtShipBy').val();
+                //popup for search data
+                $('#tbQuotation').DataTable({
+                    ajax: {
+                        url: path + 'JobOrder/GetQuotationGrid' + t, //web service ที่จะ call ไปดึงข้อมูลมา
+                        dataSrc: 'quotation.data'
+                    },
+                    selected: true, //ให้สามารถเลือกแถวได้
+                    columns: [ //กำหนด property ของ header column
+                        { data: null, title: "#" },
+                        { data: "QNo", title: "Quotation No" },
+                        { data: "CustTName", title: "CustCode" },
+                        { data: "BillTName", title: "BillTo" }
+                    ],
+                    "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+                        {
+                            "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                            "data": null,
+                            "render": function (data, type, full, meta) {
+                                let html = "<button class='btn btn-warning'>Select</button>";
+                                return html;
+                            }
+                        }
+                    ],
+                    destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                });
+                BindEvent('#tbQuotation', '#dvQuotation', function (dr) {
+                    $('#txtQuotation').val(dr.QNo);
+                    $('#txtCustCode').val(dr.CustCode + '|' + dr.CustBranch);
+                    $('#txtBillToCustCode').val(dr.BillToCustCode + '|' + dr.BillToCustBranch);
+
+                    $('#txtShipperCode').val(dr.CustCode + '|' + dr.CustBranch);
+                    $('#txtShipperName').val(dr.CustEName);
+                    $('#txtActualShipperCode').val(dr.CustCode + '|' + dr.Branch);
+                    $('#txtActualShipperName').val(dr.CustEName);
+
+                    //$('#txtConsigneeCode').val(dr.BillToCustCode + '|' + dr.BillToCustBranch);
+                    //$('#txtConsigneeName').val(dr.BillEName);
+                    //$('#txtActualConsigneeCode').val(dr.BillToCustCode + '|' + dr.BillToCustBranch);
+                    //$('#txtActualConsigneeName').val(dr.BillEName);
+                });
+                break;
+            case 'country':
+                SetGridCountry(path, '#tbCountry', '#dvCountry', function (dr) {
+                    $('#txtCountryCode').val(dr.CTYCODE);
+                    $('#txtCountryName').val(dr.CTYName);
+                });
+                break;
+            case 'receiveat':
+                w = $('#txtJobType').val() == 1 ? $('#txtCountryCode').val() : 'TH';
+                SetGridInterPort(path, '#tbReceiveAt', '#dvReceiveAt', w, function (dr) {
+                    $('#txtReceivePlace').val(dr.PortName);
+                });
+                break;
+            case 'loadat':
+                w = $('#txtJobType').val() == 1 ? $('#txtCountryCode').val() : 'TH';
+                SetGridInterPort(path, '#tbLoadAt', '#dvLoadAt', w, function (dr) {
+                    if ($('#txtJobType').val() == 1) {
+                        $('#txtPortCode').val(dr.PortCode);
+                    }
+                    $('#txtLoadingPlace').val(dr.PortName);
+                    if ($('#txtReceivePlace').val() == '') {
+                        $('#txtReceivePlace').val(dr.PortName);
+                    }
+                });
+                break;
+            case 'dischargeat':
+                w = $('#txtJobType').val() == 1 ? 'TH' : $('#txtCountryCode').val();
+                SetGridInterPort(path, '#tbDischargeAt', '#dvDischargeAt', w, function (dr) {
+                    if ($('#txtJobType').val() !== 1) {
+                        $('#txtPortCode').val(dr.PortCode);
+                    }
+                    $('#txtDischargePlace').val(dr.PortName);
+                    if ($('#txtDeliveryPlace').val() == '') {
+                        $('#txtDeliveryPlace').val(dr.PortName);
+                    }
+                });
+                break;
+            case 'deliveryat':
+                w = $('#txtJobType').val() == 1 ? 'TH' : $('#txtCountryCode').val();
+                SetGridInterPort(path, '#tbDeliveryAt', '#dvDeliveryAt', w, function (dr) {
+                    $('#txtDeliveryPlace').val(dr.PortName);
+                });
+                break;
+            case 'payableat':
+                SetGridInterPort(path, '#tbPayableAt', '#dvPayableAt','', function (dr) {
+                    $('#txtPayableAt').val(dr.PortName);
                 });
                 break;
         }
@@ -465,14 +552,14 @@ End Code
             if ($('#txtShipBy').val() == '') $('#txtShipBy').focus();
             return;
         }
-        if ($('#txtCustCode').val() == '') {
-            ShowMessage("Customer Must be chosen", true);
-            SearchData('cust');
+        if ($('#txtQuotation').val() == '') {
+            ShowMessage("Quotation Must be chosen", true);
+            $('#txtQuotation').focus();
             return;
         }
-        if ($('#txtBillToCustCode').val() == '') {
-            ShowMessage("Billing's Place Must be chosen", true);
-            SearchData('bill');
+        if ($('#txtCountryCode').val() == '') {
+            ShowMessage("Country Must be chosen", true);
+            SearchData('country');
             return;
         }
         if ($('#txtShipperCode').val() == '') {

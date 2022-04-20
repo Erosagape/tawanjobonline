@@ -154,6 +154,7 @@ if(Number(data.customer[0][0].Branch)>0) {
                 $('#lblCustAddress').text(data.customer[0][0].EAddress1 + '\n' + data.customer[0][0].EAddress2);
             }
         }
+        
         if (data.detail.length > 0) {
             let total = 0;
             let serv = 0;
@@ -164,7 +165,7 @@ if(Number(data.customer[0][0].Branch)>0) {
             let prepaid = 0;
             let dv = $('#tbDetail');
             let html = '';
-            
+            let testNewBillTotal = 0;
             for (let dr of data.detail[0]) {
                 html += '<tr>';
                 html += '<td>' + dr.ItemNo + '</td>';
@@ -178,7 +179,17 @@ if(Number(data.customer[0][0].Branch)>0) {
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH1, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH3, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.TotalCustAdv, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet, 2) + '</td>';
+
+                let testNewNet = dr.AmtAdvance + Number(dr.AmtChargeNonVAT) + Number(dr.AmtChargeVAT) + dr.AmtVAT - dr.AmtWH;
+                testNewBillTotal += testNewNet;
+                //console.log(dr.AmtAdvance);
+                //console.log(Number(dr.AmtChargeNonVAT) + Number(dr.AmtChargeVAT));
+                //console.log(dr.AmtVAT);
+                //console.log(dr.AmtWH1);
+                //console.log(dr.AmtWH3);
+
+                html += '<td style="text-align:right">' + ShowNumber(testNewNet , 2) + '</td>';
+             /*   html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet, 2) + '</td>';*/
                 html += '</tr>';
 
                 total += Number(dr.TotalNet);
@@ -190,13 +201,14 @@ if(Number(data.customer[0][0].Branch)>0) {
                 wh3 += Number(ShowNumber(dr.AmtWH3, 2));
             }
             dv.html(html);
+
             $('#lblSumAdv').text(ShowNumber(adv, 2));
             $('#lblSumService').text(ShowNumber(serv, 2));
             $('#lblSumVat').text(ShowNumber(vat, 2));
             $('#lblSumWh1').text(ShowNumber(wh1, 2));
             $('#lblSumWh3').text(ShowNumber(wh3, 2));
             $('#lblSumPrepaid').text(ShowNumber(prepaid, 2));
-            $('#lblBillTotal').text(ShowNumber(total,2));
+            $('#lblBillTotal').text(ShowNumber(testNewBillTotal,2));
             $('#lblBillTotalEng').text(CNumEng(total));
         }
     }

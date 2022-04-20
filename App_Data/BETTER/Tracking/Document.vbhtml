@@ -23,6 +23,7 @@ End Code
                         <option value="PKL">Packing List</option>
                         <option value="BL">Bill of Lading</option>
                         <option value="AWB">Air Waybill</option>
+                        <option value="INS">Insurance Policys</option>
                     </optgroup>
                     <optgroup label="STEP 2">
                         <option value="JOB">Job Acknowledge</option>
@@ -36,6 +37,7 @@ End Code
                     <optgroup label="STEP 4">
                         <option value="CLR">Clearing</option>
                         <option value="EXP">Expense Slip</option>
+                        <option value="CHQ">Cheque</option>
                         <option value="IMG">Images</option>
                     </optgroup>
                     <optgroup label="STEP 5">

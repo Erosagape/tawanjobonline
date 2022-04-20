@@ -5,7 +5,7 @@
 End Code
 <div style="float:right">
     <b>Shipment No : </b><label id="lblJNo"></label>
-    <br/>
+    <br />
     <b>Date : </b><label id="lblOpenDate"></label>
 </div>
 <div style="float:left">
@@ -14,7 +14,7 @@ End Code
     <b>Address : </b><label id="lblCustAddress1"></label>
     <br /><label id="lblCustAddress2"></label>
 </div>
-<br/>
+<br />
 <div style="width:100%;display:flex">
     <div style="flex:1">
         <b>ORIGIN : </b><label id="lblCountryPort"></label>
@@ -164,44 +164,49 @@ End Code
         }
         $('#lblJNo').text(dr.JNo);
         $('#lblOpenDate').text(ShowDate(GetToday()));
-      
+
         let html = '';
         let totamt = 0;
         let totvat = 0;
         let totwht = 0;
-        let total = 0;
         let totcost = 0;
         for (let r of dt) {
-            html += '<div style="display:flex;width:100%">';
-            html += '<div style="width:20%">'+ r.SDescription +'</div>';
-            html += '<div style="width:5%">' + r.ExchangeRate + '</div>';
-            html += '<div style="width:15%;text-align:center">' + r.CurrencyCode + '</div>';
-            html += '<div style="width:10%;text-align:center">' + r.Qty + '</div>';
-            html += '<div style="width:10%;text-align:center">' + r.QtyUnit + '</div>';
-            if (r.IsCredit==1) {
-                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
-                html += '<div style="width:20%;text-align:right">0.00</div>';
-            } else {
-                html += '<div style="width:20%;text-align:right">0.00</div>';
-                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmtTotal,2)) + '</div>';
+            if (r.IsExpense == 0) {
+                html += '<div style="display:flex;width:100%">';
+                html += '<div style="width:20%">' + r.SDescription + '</div>';
+                html += '<div style="width:5%">' + r.ExchangeRate + '</div>';
+                html += '<div style="width:15%;text-align:center">' + r.CurrencyCode + '</div>';
+                html += '<div style="width:10%;text-align:center">' + r.Qty + '</div>';
+                html += '<div style="width:10%;text-align:center">' + r.QtyUnit + '</div>';
+                if (r.IsCredit == 1) {
+                    html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
+                    html += '<div style="width:20%;text-align:right">0.00</div>';
+                } else {
+                    html += '<div style="width:20%;text-align:right">0.00</div>';
+                    html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
+                }
+                html += '</div>';
             }
-            html += '</div>';
-            let amt = CNum(Number(r.AmountCharge) * Number(r.Qty) * Number(r.ExchangeRate));
-            if (r.IsCredit==0) {
+            let amt = CNum(r.AmtTotal);
+            if (r.IsCredit==0 && r.IsExpense==0) {
+                amt= CNum(r.AmountCharge) * CNum(r.ExchangeRate) * CNum(r.Qty);
+                totvat += CNum(r.AmtVat);
+                totwht += CNum(r.AmtWht);
                 totamt += amt;
             } else {
-                totcost += amt;
+                if (r.IsCredit == 1) {
+                    totcost += amt;
+                }
+
             }
-            totvat += CNum(r.AmtVat);
-            totwht += CNum(r.AmtWht);
-            total += amt + CNum(r.AmtVat);
+            
         }
         $('#dvDetail').html(html);
         $('#lblSumCost').text(CCurrency(CDbl(totcost,2)));
         $('#lblSumAmount').text(CCurrency(CDbl(totamt,2)));
         $('#lblSumVat').text(CCurrency(CDbl(totvat, 2)));
         $('#lblSumWht').text(CCurrency(CDbl(totwht, 2)));
-        $('#lblSumTotal').text(CCurrency(CDbl(total, 2)));
-        $('#lblSumNet').text(CCurrency(CDbl(total-totwht, 2)));
+        $('#lblSumTotal').text(CCurrency(CDbl(totamt+totcost+totvat, 2)));
+        $('#lblSumNet').text(CCurrency(CDbl(totamt + totcost + totvat-totwht, 2)));
     }
 </script>

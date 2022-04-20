@@ -465,8 +465,8 @@ End Code
     }
     function ReadService(dt) {
         $('#txtSICode').val(dt.SICode);
-        $('#txtSDescription').val(dt.NameThai);
-        $('#txtTRemark').val(dt.NameEng);
+        $('#txtSDescription').val(dt.NameEng);
+        $('#txtTRemark').val(dt.NameThai);
         if ($('#txtCurrencyCode').val() == '') {
             $('#txtCurrencyCode').val(dt.CurrencyCode);
         }

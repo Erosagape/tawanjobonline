@@ -103,7 +103,9 @@ End Code
                                 <select id="cboDocType" class="form-control dropdown">
                                     <option value="IVS-">Service</option>
                                     <option value="IVT-">Internal</option>
-                                    <option value="IVF-">Freight</option>
+                                    <option value="IVF-">Consold</option>
+                                    <option value="IVD-">CN Oversea</option>
+                                    <option value="IVC-">DN Oversea</option>
                                 </select>
 
                             </div>
@@ -359,7 +361,7 @@ End Code
                                     Item No:
                                     <br />
                                     @*<input type="text" class="form-control" id="txtItemNo" disabled />*@
-                                    <input type="text" class="form-control" id="txtItemNo"  />
+                                    <input type="text" class="form-control" id="txtItemNo" />
                                 </td>
                                 <td style="width:10%">
                                     <br />
@@ -1337,31 +1339,31 @@ End Code
                     SDescription: obj.SDescription,
                     ExpSlipNO: obj.ExpSlipNO,
                     SRemark: obj.SRemark,
-                    CurrencyCode: $('#txtCurrencyCode').val(),
-                    ExchangeRate: $('#txtExchangeRate').val(),
+                    CurrencyCode: obj.CurrencyCode,
+                    ExchangeRate: obj.ExchangeRate,
                     Qty: CNum(obj.Qty),
                     QtyUnit: obj.QtyUnit,
                     UnitPrice: obj.UnitPrice,
-                    FUnitPrice: CDbl(obj.UnitPrice / CNum($('#txtExchangeRate').val()), 2),
+                    FUnitPrice: obj.FUnitPrice,
                     Amt: CDbl(obj.Amt,2),
-                    FAmt: CDbl(obj.Amt / CNum($('#txtExchangeRate').val()), 2),
+                    FAmt: CDbl(obj.FAmt, 2),
                     DiscountType: obj.DiscountType,
                     DiscountPerc: obj.DiscountPerc,
                     AmtDiscount: CDbl(obj.AmtDiscount,2),
-                    FAmtDiscount: CDbl(obj.AmtDiscount / CNum($('#txtExchangeRate').val()), 2),
+                    FAmtDiscount: CDbl(obj.FAmtDiscount, 2),
                     Is50Tavi: obj.Is50Tavi,
                     Rate50Tavi: obj.Rate50Tavi,
                     Amt50Tavi: CDbl(obj.Amt50Tavi,2),
                     IsTaxCharge: obj.IsTaxCharge,
                     AmtVat: CDbl(obj.AmtVat,2),
-                    TotalAmt: CDbl(obj.AmtNet,2),
-                    FTotalAmt: CDbl(obj.AmtNet / CNum($('#txtExchangeRate').val()), 2),
-                    AmtAdvance: (obj.AmtAdvance > 0 ? CDbl(obj.AmtAdvance  / CNum($('#txtExchangeRate').val()),2) : 0),
-                    AmtCharge: (obj.AmtCharge > 0 ? CDbl(obj.AmtCharge  / CNum($('#txtExchangeRate').val()),2) : 0),
-                    CurrencyCodeCredit: $('#txtCurrencyCode').val(),
-                    ExchangeRateCredit: $('#txtExchangeRate').val(),
+                    TotalAmt: CDbl(obj.TotalAmt,2),
+                    FTotalAmt: CDbl(obj.FTotalAmt, 2),
+                    AmtAdvance: (obj.AmtAdvance > 0 ? CDbl(obj.AmtAdvance,2) : 0),
+                    AmtCharge: (obj.AmtCharge > 0 ? CDbl(obj.AmtCharge,2) : 0),
+                    CurrencyCodeCredit: obj.CurrencyCode,
+                    ExchangeRateCredit: obj.ExchangeRate,
                     AmtCredit: (creditamt >0 ? CDbl(creditamt,2) : 0),
-                    FAmtCredit: (creditamt > 0 ? CDbl(creditamt / CNum($('#txtExchangeRate').val()), 2) : 0),
+                    FAmtCredit: (creditamt > 0 ? CDbl(creditamt / CNum(obj.ExchangeRate), 2) : 0),
                     VATRate: CDbl(obj.VATRate,0)
                 });
             } else {

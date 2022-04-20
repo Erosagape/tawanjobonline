@@ -31,7 +31,7 @@ End Code
     }
 </style>
 <div style="text-align:center;width:100%;font-weight:bold;">
-JOB INSTRUCTION
+    JOB INSTRUCTION
 </div>
 <div style="display:flex;flex-direction:column">
 
@@ -168,17 +168,17 @@ JOB INSTRUCTION
             <tr>
                 <td></td>
                 <td>Service</td>
-                <td id="sumService" style ="text-align: right" colspan="5"></td>
+                <td id="sumService" style="text-align: right" colspan="5"></td>
             </tr>
             <tr>
                 <td></td>
                 <td>Cost</td>
-                <td id="sumCost" style ="text-align: right" colspan="5"></td>
+                <td id="sumCost" style="text-align: right" colspan="5"></td>
             </tr>
             <tr>
                 <td></td>
                 <td>Balance</td>
-                <td id="sumBalance"  style ="text-align: right" colspan="5"></td>
+                <td id="sumBalance" style="text-align: right" colspan="5"></td>
             </tr>
             <tr>
                 <td colspan="7">Price @@ <label id="remark1">_________________________</label>  CTN (<label id="remark2">_________________________</label>)</td>
@@ -187,37 +187,37 @@ JOB INSTRUCTION
     </table>
     <br>
     <div style="display:flex;width:100%;">
-	
-	 <div style="flex:1;border:1px black solid;text-align:center;" >		
-		<div style="border-bottom:1px black solid;padding:10px">Approve By</div>
-		<br>	
-             	<div>_____________________</div>
-	 	<pre>(                 )</pre>
-	     	<div>______/______/______</div>
-     	</div>
-	<div style="flex:1">
 
-     	</div>
-	<div style="flex:1;border:1px black solid;text-align:center;" >		
-		<div style="border-bottom:1px black solid;padding:10px">Approve By</div>
-		<br>	
-             	<div>_____________________</div>
-	 	<pre>(                 )</pre>
-	     	<div>______/______/______</div>
-     	</div>
-	<div style="flex:1">
+        <div style="flex:1;border:1px black solid;text-align:center;">
+            <div style="border-bottom:1px black solid;padding:10px">Approve By</div>
+            <br>
+            <div>_____________________</div>
+            <pre>(                 )</pre>
+            <div>______/______/______</div>
+        </div>
+        <div style="flex:1">
 
-     	</div>
-	<div style="flex:1;border:1px black solid;text-align:center;">
-		<div style="border-bottom:1px black solid;padding:10px">Account</div>	
-		<br>	
-		<div>_____________________</div>
-	 	<pre>(                 )</pre>
-	     	<div>______/______/______</div>
-		<br>
-     	</div>
-     </div>
-	 <br>
+        </div>
+        <div style="flex:1;border:1px black solid;text-align:center;">
+            <div style="border-bottom:1px black solid;padding:10px">Approve By</div>
+            <br>
+            <div>_____________________</div>
+            <pre>(                 )</pre>
+            <div>______/______/______</div>
+        </div>
+        <div style="flex:1">
+
+        </div>
+        <div style="flex:1;border:1px black solid;text-align:center;">
+            <div style="border-bottom:1px black solid;padding:10px">Account</div>
+            <br>
+            <div>_____________________</div>
+            <pre>(                 )</pre>
+            <div>______/______/______</div>
+            <br>
+        </div>
+    </div>
+    <br>
     <div class="block" style="display:flex;width:50%">
         <div style="flex:1">
             HANDLE BY:
@@ -254,14 +254,14 @@ JOB INSTRUCTION
                 $('#dvTotalContainer').html(CStr(dr.TotalContainer));
                 //$("#sumService").text(CCurrency(CDbl(dr.DutyCustPayOtherAmt, 2)));
                 //sService = parseFloat(dr.DutyCustPayOtherAmt);
-              
+
                 if (dr.Description) {
                     console.log(dr.Description);
                     let remarks = dr.Description.split("/");
                     $('#remark1').text(remarks[0]);
-                    $('#remark2').text(remarks[1]);              
+                    $('#remark2').text(remarks[1]);
                 }
-               
+
                 let intercountry = dr.InvFCountry;
                 if (dr.JobType !== 1) {
                     intercountry = dr.InvCountry;
@@ -331,11 +331,11 @@ JOB INSTRUCTION
             }
         });
 
-        
+
     }
 
     function getClearIngReport() {
-        $.get(path + 'clr/getclearingreport?branch=' + branch + '&job=' + job, function (r) {
+        $.get(path + 'adv/getclearexpreport?branch=' + branch + '&job=' + job, function (r) {
             let amtadv = 0;
             let amtserv = 0;
             let amtvat = 0;
@@ -344,17 +344,15 @@ JOB INSTRUCTION
             let amtprofit = 0;
             let amtcost = 0;
             let commrate = 0;
-            if (r.data.length > 0) {
+            if (r.estimate.data.length > 0) {
                 let tb = $('#tb');
                 tb.empty();
 
-                let h = r.data[0];
+                let h = r.estimate.data[0];
 
                 commrate = h.Commission;
 
-                let d = r.data.filter(function (data) {
-                    return data.BNet !== 0;
-                });
+                let d = r.estimate.data;
                 //console.log(JSON.stringify(d));
                 let customerSlipSum = 0;
                 let companySlipSum = 0;
@@ -363,13 +361,13 @@ JOB INSTRUCTION
                 let profitSum = 0;
                 for (let i = 0; i < d.length; i++) {
                     let html = '';
-                    let amt = d[i].SICode.indexOf("ADV") > -1 ? d[i].ClrNet : d[i].UsedAmount;
-                    d[i].SICode.indexOf("adv") > -1 ? console.log(d[i].AdvNet) : console.log("fail");
+                    let amt = d[i].AmtTotal;
+                    //d[i].SICode.indexOf("adv") > -1 ? console.log(d[i].AdvNet) : console.log("fail");
                     //let adv = (d[i].IsCredit == 1 ? amt : 0);
-                    //let cost = (d[i].IsExpense == 1 || d[i].IsCredit == 1 ? amt : 0);                
-                    let customerSlip = (d[i].IsHaveSlip == 1 && d[i].IsCredit == 1 ? amt : 0);
+                    //let cost = (d[i].IsExpense == 1 || d[i].IsCredit == 1 ? amt : 0);
+                    let customerSlip = (d[i].IsCredit == 1 ? amt : 0);
                     let companySlip = (d[i].IsHaveSlip == 1 && d[i].IsExpense == 1 ? amt : 0);
-                    let noSlip = d[i].IsHaveSlip == 0 && d[i].IsExpense == 1 ? amt : 0;
+                    let noSlip = (d[i].IsHaveSlip == 0 && d[i].IsExpense == 1 ? amt : 0);
                     let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? amt : 0);
                     let profit = (d[i].IsExpense == 1 ? amt * -1 : (d[i].IsCredit==0 ? amt: 0));
                     //amtadv += adv;
@@ -381,14 +379,14 @@ JOB INSTRUCTION
                     profitSum += profit;
                     if (d[i].IsCredit == 0 && d[i].IsExpense == 0) {
                         if (d[i].IsTaxCharge > 0) {
-                            amtvat += d[i].ChargeVAT;
+                            amtvat += d[i].AmtVat;
                         }
                         if (d[i].Is50Tavi > 0) {
-                            amtwht += d[i].Tax50Tavi;
+                            amtwht += d[i].AmtWht;
                         }
                     }
                     html = '<tr>';
-                    html += '<td>' + d[i].ClrNo + '#' + d[i].ItemNo + '</td>';
+                    html += '<td>' + (d[i].ClrNo == null ? '' : d[i].ClrNo) + '</td>';
                     html += '<td>' + d[i].SICode + '-' + d[i].SDescription;
                     //if (d[i].AdvNO !== null) html += ' จากใบเบิก ' + d[i].AdvNO;
                     //if (d[i].SlipNO !== null) html += ' ใบเสร็จเลขที่ ' + d[i].SlipNO;
@@ -407,7 +405,7 @@ JOB INSTRUCTION
                     html += '</tr>';
 
 
-		
+
                     //amtcost += cost;
                     //amttotal += serv + adv;
                     //amtprofit += profit;
@@ -424,7 +422,7 @@ JOB INSTRUCTION
                <td style="text-align:right">${servSum != 0 ? CCurrency(CDbl(servSum, 2)) : ""}</td>
                <td style="text-align:right">${profitSum != 0 ? CCurrency(CDbl(profitSum, 2)) : ""}</td>
            </tr >`;
-	$("#sumService").text(CCurrency(CDbl(customerSlipSum+servSum, 2)))
+	            $("#sumService").text(CCurrency(CDbl(customerSlipSum+servSum, 2)))
                 tb.append(summary);
                 $("#sumCost").text(CCurrency(CDbl(companySlipSum+customerSlipSum + noSlipSum, 2)));
                 $("#sumBalance").text(CCurrency(CDbl((servSum) - (companySlipSum+noSlipSum),2)));

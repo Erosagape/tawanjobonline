@@ -190,6 +190,7 @@ End Code
                                         <label id="lblQNo" for="txtQNo">Quotation : </label>
                                         <div style="display:flex;flex-direction:row">
                                             <input type="text" class="form-control" id="txtQNo" style="width:100%" tabindex="9" />
+                                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('quotation')" />
                                             <input type="text" class="form-control" id="txtQRevise" style="width:60px" tabindex="10" />
                                         </div>
                                     </div>
@@ -1058,7 +1059,9 @@ End Code
             //Inv Units
             CreateLOV(dv,'#frmSearchIUnt', '#tbIUnt','Invoice Units',response,2);
             //Weights Unit
-            CreateLOV(dv,'#frmSearchWUnt', '#tbWUnt', 'Weight Unit',response,2);
+            CreateLOV(dv, '#frmSearchWUnt', '#tbWUnt', 'Weight Unit', response, 2);
+            //Quotation
+            CreateLOV(dv,'#frmSearchQuo','#tbQuo','Quotation',response,3)
         });
         //load list of values
         let lists = 'CUSTOMS_PRIVILEGE=#cboTyAuthorSp';
@@ -1237,6 +1240,40 @@ End Code
                         }
                     });
 
+                });
+                break;
+            case 'quotation':
+                let t = '?JType=' + rec.JobType + '&SBy=' + rec.ShipBy +'&Cust=' + $('#txtCustCode').val();
+                //popup for search data
+                $('#tbQuo').DataTable({
+                    ajax: {
+                        url: path + 'JobOrder/GetQuotationGrid' + t, //web service ที่จะ call ไปดึงข้อมูลมา
+                        dataSrc: 'quotation.data'
+                    },
+                    selected: true, //ให้สามารถเลือกแถวได้
+                    columns: [ //กำหนด property ของ header column
+                        { data: null, title: "#" },
+                        { data: "QNo", title: "Quotation No" },
+                        { data: "ApproveBy", title: "ApproveBy" },
+                        { data: "ApproveDate", title: "ApproveDate" }
+                    ],
+                    "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+                        {
+                            "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                            "data": null,
+                            "render": function (data, type, full, meta) {
+                                let html = "<button class='btn btn-warning'>Select</button>";
+                                return html;
+                            }
+                        }
+                    ],
+                    destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                });
+                BindEvent('#tbQuo', '#frmSearchQuo', function (dr) {
+                    $('#txtQNo').val(dr.QNo);
+                    $('#txtConfirmDate').val(CDateEN(dr.ApproveDate));
+                    rec.ManagerCode = dr.ApproveBy;
+                    ShowUser(path, dr.ApproveBy, '#txtManagerName');
                 });
                 break;
         }
@@ -1907,7 +1944,7 @@ End Code
                 $('#txtInvUnit').val(r[0].TotalPackageUnit);
 
                 if (r[0].RecDate !== null) $('#txtEDIDate').val(CDateEN(r[0].RecDate));
-                if(r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));
+                if (r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));
                 if (r[0].UDateRelease !== null) $('#txtDutyDate').val(CDateEN(r[0].UDateRelease));
                 if (r[0].UDateActual !== null) $('#txtClearDate').val(CDateEN(r[0].UDateActual));
 
@@ -1958,7 +1995,7 @@ End Code
         $.get(path + 'JobOrder/GetPaperless'+ url).done(function (r) {
             if (r.length > 0) {
                 $('#txtDeclareNo').val(r[0].DECLNO);
-		$('#txtDeclareType').val(r[0].DOCTYPEOLD.split('-')[0]);
+                $('#txtDeclareType').val(r[0].DOCTYPEOLD.split('-')[0]);
                 $('#txtCustInvNo').val(r[0].invoiceno);
                 if (rec.JobType == 1) {
                     $('#txtInvFCountry').val(r[0].consignmentCTY);

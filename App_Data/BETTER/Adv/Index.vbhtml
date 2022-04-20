@@ -1749,10 +1749,10 @@ End Code
                 ShowMessage('You are not allow to edit',true);
                 return;
             }
-            if (CheckDuplicate(obj) == true) {
+            /*if (CheckDuplicate(obj) == true) {
                 ShowMessage('This data is duplicate',true);
                 return;
-            }
+            }*/
             let jsonString = JSON.stringify({ data: obj });
             //ShowMessage(jsonString);
             $.ajax({
@@ -2325,7 +2325,7 @@ End Code
             $('#txtSICode').val(dt.SICode);
             $('#cboSTCode').val(dt.GroupCode);
             $('#cboSTCode').change();
-            $('#txtSDescription').val(dt.NameThai);
+            $('#txtSDescription').val(dt.NameEng);
             $('#txtVatType').val(dt.IsTaxCharge);
             $('#txtVATRate').val(dt.IsTaxCharge == "0" ? "0" : CDbl(@ViewBag.PROFILE_VATRATE*100,0));
             $('#txtWHTRate').val(dt.Is50Tavi == "0" ? "0" : dt.Rate50Tavi);

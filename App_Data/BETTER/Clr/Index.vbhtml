@@ -26,7 +26,6 @@ End Code
                 <label id="lblClrDate">Document Date </label><br/>
                 <input type="date" class="form-control" id="txtClrDate" tabindex="1" />
             </div>
-
         </div>
         <ul class="nav nav-tabs">
             <li class="active"><a id="linkHeader" data-toggle="tab" href="#tabHeader">Clearing Header</a></li>
@@ -1975,7 +1974,7 @@ End Code
         if (dt != undefined) {
             $('#txtSICode').val(dt.SICode);
             $('#cboSTCode').val(dt.GroupCode);
-            $('#txtSDescription').val(dt.NameThai);
+            $('#txtSDescription').val(dt.NameEng);
             $('#txtVatType').val(dt.IsTaxCharge);
             $('#txtVATRate').val(dt.IsTaxCharge == "0" ? "0" : CDbl(@ViewBag.PROFILE_VATRATE*100,0));
             $('#txtWHTRate').val(dt.Is50Tavi == "0" ? "0" : dt.Rate50Tavi);

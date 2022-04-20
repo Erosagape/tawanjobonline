@@ -3,401 +3,388 @@
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Voucher Slip"
 End Code
-<div style="display:flex;flex-direction:column;">
-    <table id="tbAdvInfo" width="100%">
-        <tr>
-            <td colspan="3" style="font-size:11px">
-                <b>Voucher No : </b><label id="txtControlNo" style="text-decoration-line:underline"></label>
-            </td>
-            <td align="right" style="font-size:11px">
-                <input type="text" id="txtVoucherType" value="VOUCHER" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3" style="font-size:11px">
-                <b>Remark</b>
-                <label id="txtRemark" style="text-decoration-line:underline;"></label>
-            </td>
-            <td align="right" style="font-size:11px">
-                <b>Voucher Date : </b><label id="txtVoucherDate" style="text-decoration-line:underline;"></label>
-            </td>
-        </tr>
-    </table>
-    <div style="display:flex;border:1px solid black;border-radius:5px;">
-        <div style="flex:2">
-            <div class="row">
-                <p class="col-sm-12">
-                    FROM :
-                    <label id="lblFromCountry"></label> TO :
-                    <label id="lblToCountry"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    PORT :
-                    <label id="lblInterPort"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    FLIGHT/VESSEL :
-                    <label id="lblVesselName"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    QUANTITY :
-                    <label id="lblQtyGross"></label>
-                    <label id="lblQtyUnit"></label>
-                    <br />
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    JOB NO :
-                    <label id="lblJobNo"></label>
-                </p>
-            </div>
-        </div>
-        <div style="flex:2">
-            <div class="row">
-                <p class="col-sm-12">
-                    ETD :
-                    <label id="lblETDDate"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    HBL/HAWB :
-                    <label id="lblHAWB"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    MEASUREMENT :
-                    <label id="lblMeasurement"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    NET WEIGHT :
-                    <label id="lblNetWeight"></label>
-                    <label id="lblWeightUnit"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    CUSTOMER INV :
-                    <label id="lblCustInvNo"></label>
-                </p>
-            </div>
-        </div>
-        <div style="flex:2">
-            <div class="row">
-                <p class="col-sm-12">
-                    ETA :
-                    <label id="lblETADate"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    MBL/MAWB :
-                    <label id="lblMAWB"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    CUSTOMER :
-                    <br />
-                    <label id="lblCustName"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    CUSTOMER PO :
-                    <label id="lblCustPo"></label>
-                </p>
-            </div>
-        </div>
-    </div>
-    <table id="tbData" style="border-collapse:collapse;width:100%">
-        <tbody></tbody>
-    </table>
-    <table width="100%" style="border-collapse:collapse;">
-        <tr>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                CREATED.BY
-            </td>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                APPROVE.BY
-            </td>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                PAYER
-            </td>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                PAYEE
-            </td>
-        </tr>
-        <tr>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-                <label id="txtRecBy" style="font-size:10px">(__________________)</label><br />
-                <label id="txtRecDate" style="font-size:9px">__/__/____</label>
-            </td>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-                <label id="txtPostedBy" style="font-size:10px">(__________________)</label><br />
-                <label id="txtPostedDate" style="font-size:9px">__/__/____</label>
-            </td>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-                <label style="font-size:10px">(__________________)</label><br />
-                <label style="font-size:9px">__/__/____</label>
-            </td>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-                <label style="font-size:9px">(__________________)</label><br />
-                <label style="font-size:9px">__/__/____</label>
-            </td>
-        </tr>
-    </table>
+<div style="display:flex;  justify-content: center;  align-items: center;">
+    <div style="width:15%"><img style="width:100%;" src="/test/Resource/logo_bft.png" /></div>
+    <div style="font-weight:bold;font-size:30px;text-align:center" pv="ใบสำคัญจ่าย / PAYMENT VOUCHER" class="PVMode">ใบสำคัญรับ / RECEIPT VOUCHER</div>
 </div>
+
+<table style="width: 100%; border-collapse: collapse;  ">
+    <tbody>
+        <tr>
+            @*<td style="width:13%" id="test" pv="เลขที่ใบเบิก" class="PVMode">
+            เลขที่ใบรับเงิน:
+        </td>
+        <td style="width:8%">
+            <label id="lblControlNo1"></label>
+        </td>
+        <td style="width:6%" pv="วันที่เบิก" class="PVMode">
+            วันที่รับ:
+        </td>*@
+            <td pv="ใบสำคัญจ่ายเลขที่" class="PVMode" style="width:15%">
+                ใบสำคัญรับเลขที่:
+            </td>
+            <td style="width:20%">
+                <label id="lblControlNo2"></label>
+            </td>
+            @*<td style="width:8%">
+                <label id="lblRecvPayDate"></label>
+            </td>*@
+            <td style="width:15%">
+                VOUCHER NO:
+            </td>
+            <td style="width:20%">
+                <label id="lblVoucherNo"></label>
+            </td>
+            <td style="width:10%">
+                DATE:
+            </td>
+            <td  style="width:20%" >
+                <label id="lblVoucherDate"></label>
+            </td>
+        </tr>
+        <tr>
+            <td >
+                BANK CODE:
+            </td>
+            <td  >
+                <label id="lblBankCode"></label>
+            </td>
+            <td style="width:10%">
+                BANK A/C:
+            </td>
+            <td colspan="3">
+                <label id="lblBankAccount"></label>
+            </td>
+
+        </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;">
+    <tbody>
+        <tr>
+            <td style="width:10%" pv="จ่ายให้" class="PVMode">
+                รับจาก:
+            </td>
+            <td  style="width:20%">
+                <label id="lblPayCompany"></label>
+            </td>
+            <td style="width:10%">
+                ชำระเป็น:
+            </td>
+            <td style="width:10%;">
+                <div style="display:flex;width:100%">
+                    <div style="flex:1;text-align:right;"><input id="cash" type="checkbox"></div>
+                    <div style="flex:1;text-align:right;">เงินสด</div>
+                </div>
+            </td>
+            <td style="width:10%;">
+                <div style="display:flex;width:100%">
+                    <div style="flex:1;text-align:right;"><input id="transfer" type="checkbox"></div>
+                    <div style="flex:1;text-align:right">เงินโอน</div>
+                </div>
+            </td>
+            <td style="width:10%">
+            </td>
+            <td style="width:10%">
+                เลขที่:
+            </td>
+            <td style="width:20%">
+                <label id="lblRefNo"></label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+            </td>
+          
+            <td>
+                <div style="display:flex;width:100%">
+                    <div style="flex:1;text-align:right;"><input id="cheque" type="checkbox"></div>
+                    <div style="flex:1;text-align:right">เช็ค</div>
+                </div>
+            </td>
+            <td style="text-align: right;"> เลขที่</td>
+            <td>
+                <label id="lblChqNo"></label>
+            </td>
+            <td>
+                ลงวันที่:
+            </td>
+            <td >
+                <label id="lblChqDate"></label>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div id="paymentData" style="width:100%">
+
+
+</div>
+
+
+<table style="width: 100%; border-collapse: collapse;" id="T1">
+    <tbody>
+        <tr>
+            <td style="width:20%" pv="ผู้ขอเบิก" class="PVMode">
+                ผู้ออกใบเสร็จ
+            </td>
+            <td style="width:20%" pv="ผู้อนุมัติใบขอเบิก" class="PVMode">
+                ผู้ตรวจสอบเงินเข็าบัญชี
+            </td>
+            <td style="width:20%" pv="ผู้จัดทำใบสำคัญจ่าย" class="PVMode">
+                ผู้จัดทำใบสำคัญรับ
+            </td>
+            <td style="width:20%" pv="ผู้ตรวจสอบใบสำคัญจ่าย" class="PVMode">
+                ผู้ตรวจสอบใบสำคัญรับ
+            </td>
+            <td style="width:20%" pv="ผู้อนุมัติใบสำคัญจ่าย" class="PVMode">
+                ผู้อนุมัติใบสำคัญรับ
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<div style="text-align:center">(การเบิกจ่ายที่ไม่เกี่ยวข้องกับงานหรือกระทำการบิดเบือนความจริงเข้าข่ายการทุจริตและประพฤติมิชอบ หรือยักยอกทรัพย์บริษัท)</div>
+<h1 style="text-align:center;color:green;font-size:20px">บริษัท เบทเตอร์เฟรท แอนด์ทรานสปอร์ต จำกัด<br />BETTER FREIGHT & TRANSPORT CO.,LTD</h1>
+
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let vcType='P';
     //$(document).ready(function () {
-        let branch = getQueryString('branch');
-        let controlno = getQueryString('controlno');
-        $.get(path + 'acc/getvoucherreport?branch=' + branch + '&code=' + controlno, function (r) {
-            if (r.voucher.header !== null) {
-                ShowData(r.voucher);
-            }
-        });
-    //});
+    let branch = getQueryString('branch');
+    let controlno = getQueryString('controlno');
+    $('#imgLogo').hide();
+
+
+
+    $.get(path + 'acc/getvoucherreport?branch=' + branch + '&code=' + controlno, function (r) {
+        if (r.voucher.header !== null) {
+            ShowData(r.voucher);
+        }
+    });
+
+
+
+    async function loadVoucher2() {
+
+        let data = await fetch(path + 'acc/getvoucherreport')
+            .then((r) => r.json())
+            .then((d) => {
+                //console.log(d);
+                return d;
+            });
+
+    }
+
+    async function loadVoucher() {
+        let r = await fetch(path + 'acc/getvoucherreport');
+        let d = await r.json();
+        console.log(d);
+    }
+
+
+
 
     function ShowData(data) {
+        if (data.header) {
+            $('#lblControlNo1').text(data.header[0].ControlNo);
+            $('#lblControlNo2').text(data.header[0].ControlNo);
+            //$('#txtVoucherType').val(vcTypeName + ' VOUCHER');
+            $('#lblVoucherDate').text(ShowDate(CDateTH(data.header[0].VoucherDate)));
+            $('#lblRecvPayDate').text(ShowDate(data.header[0].RecTime));
+            //$('#txtRemark').text(data.header[0].TRemark);
+        }
+        if (data.payment ) {
+            $('#lblVoucherNo').text(data.payment[0].PRVoucher);
+            $('#lblPayCompany').text(data.payment[0].PayChqTo);//
+
+            //if (data.payment[0].acType == "CA") {
+              
+            //} else if (data.payment[0].acType == "CH"){
+            //    $('#lblChqNo').text(data.payment[0].ChqNo);
+            //    $('#lblChqDate').text(ShowDate(CDateTH(data.payment[0].ChqDate)));
+            //}
+        }
+        if (data.document ) {
+            $('#lblBankCode').text(data.document[0].BankCode);
+            $('#lblBankAccount').text(data.document[0].BookName);
+         
+
+            //$.get(path + 'Master/GetCompany?branch=' + data.document[0].CmpBranch + '&code=' + data.document[0].CmpCode, function (r) {
+            //    if (r.company.data ) {
+            //        $('#lblPayCompany').text(r.company.data[0].NameThai);
+            //    }
+            //});
+
+        }
         let div = $('#tbData tbody');
         let vcTypeName = '';
-        if (data.payment !== null) {
-            for(let obj of data.payment) {
-                if(vcType!==obj.PRType){
-                    vcType=obj.PRType;
-                }
-                vcTypeName = GetVoucherType(vcType);
-                let acType=obj.acType;
-                let acTypeName = GetPaymentType(acType);
-                let payType = '';
-                let desc = '';
-                let desc0 = '';
 
-                appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>',obj.PRVoucher,CCurrency(CDbl(Number(obj.SumAmount),2)));
-                //desc0 = '<b>TOTAL ' + obj.PRVoucher +'=' +  + ' ' + obj.CurrencyCode + '</b>';
-                let debit = '';
-                let credit = '';
-                switch (acType) {
-                    case 'CA':
-                        payType = 'CASH';
-                        if (obj.RecvBank !== '') {
-                            payType = 'TRANSFER';
-                        }
-                        desc0 += obj.PayChqTo !== '' ? '<br/>PAY TO ' + obj.PayChqTo : '';
-                        desc0 += obj.RecvBank != '' ? '<br/>BANK ' + obj.RecvBank + ' BRANCH ' + obj.RecvBranch : '';
-                        if(data.document[0].BookName!==''){
-	                        desc0 += obj.BookCode != '' ? '<br/>ACCOUNT ' + data.document[0].BookName + ' REF# ' + obj.DocNo : '';
-			} else {
-                        	desc0 += obj.BookCode != '' ? '<br/>ACCOUNT ' + obj.BookCode + ' REF# ' + obj.DocNo : '';
-			}
-                        desc0 += obj.TRemark != '' ? '<br/>DATE : ' + obj.TRemark : '';
-                        break;
-                    case 'CH':
-                        payType = 'CASHIER CHEQUE';
-                    case 'CU':
-                        payType = 'CUSTOMER CHEQUE';
-                        desc0 += obj.ChqNo !== '' ? '<br/>NO ' + obj.ChqNo + ' DATE ' + ShowDate(CDateTH(obj.ChqDate)) : '';
-                        desc0 += obj.BankCode != '' ? '<br/>BANK ' + obj.BankCode + ' BRANCH ' + obj.BankBranch : '';
-                        desc0 += obj.PayChqTo !== '' ? '<br/>TO ' + obj.PayChqTo : '';
-                        desc0 += obj.TRemark != '' ? '<br/>NOTE : ' + obj.TRemark : '';
-                        desc0 += obj.RecvBank != '' ? '<br/>DEP.BANK ' + obj.RecvBank + ' BRANCH ' + obj.RecvBranch : '';
-                        break;
-                    case 'CR':
-                        payType = 'CREDIT';
-                        desc0 += obj.DocNo !== '' ? '<br/>REF ' + obj.DocNo + ' DATE ' + ShowDate(CDateTH(obj.ChqDate)) : '';
-                        desc0 += obj.PayChqTo !== '' ? '<br/>TO ' + obj.PayChqTo : '';
-                        break;
-                }
-                switch (vcType) {
-                    case 'P':
-                        desc += '<table style="text-align:left;width:100%">';
-                        desc += '<tr><td>ค่าใช้จ่ายในการปฏิบัติงาน</td></tr>';
-                        desc += '<tr><td>ภาษีหัก ณ ที่จ่ายค้างจ่าย</td></tr>';
-                        desc += '<tr><td>เจ้าหนี้กรมสรรพากร</td></tr>';
-                        desc += '<tr><td>'+payType+'</td></tr>';
-                        desc += '</table>';
-
-                        debit += '<table style="text-align:right;width:100%">';
-                        debit += '<tr><td>' + CCurrency(CDbl(Number(obj.TotalAmount) + Number(obj.VatExc) + Number(obj.VatInc), 2)) + '</td></tr>';
-                        debit += '<tr><td>' + CCurrency(CDbl(Number(obj.WhtExc) + Number(obj.WhtInc), 2)) + '</td></tr>';
-                        debit += '<tr><td><br/></td></tr>';
-                        debit += '<tr><td><br/></td></tr>';
-                        debit += '</table>';
-
-                        credit += '<table style="text-align:right;width:100%">';
-                        credit += '<tr><td><br/></td></tr>';
-                        credit += '<tr><td><br/></td></tr>';
-                        credit += '<tr><td>' + CCurrency(CDbl(Number(obj.WhtExc) + Number(obj.WhtInc), 2)) + '</td></tr>';
-                        credit += '<tr><td>' + CCurrency(CDbl(Number(obj.TotalNet) + Number(obj.WhtExc) + Number(obj.WhtInc), 2)) + '</td></tr>';
-                        credit += '</table>';
-                        break;
-                    case 'R':
-                        desc += '<table style="text-align:left;width:100%">';
-                        desc += '<tr><td>' + payType + '</td></tr>';
-                        desc += '<tr><td>ภาษีขาย</td></tr>';
-                        desc += '<tr><td>เจ้าหนี้กรมสรรพากร</td></tr>';
-                        desc += '<tr><td>ภาษีหัก ณ ที่จ่ายค้างจ่าย</td></tr>';
-                        desc += '<tr><td>รายได้จากการปฏิบัติงาน</td></tr>';
-                        desc += '</table>';
-
-                        debit += '<table style="text-align:right;width:100%">';
-                        debit += '<tr><td>' + CCurrency(CDbl(Number(obj.TotalAmount), 2)) + '</td></tr>';
-                        debit += '<tr><td>' + CCurrency(CDbl(Number(obj.VatExc) + Number(obj.VatInc), 2)) + '</td></tr>';
-                        debit += '<tr><td>' + CCurrency(CDbl(Number(obj.WhtExc) + Number(obj.WhtInc), 2)) + '</td></tr>';
-                        debit += '<tr><td><br/></td></tr>';
-                        debit += '<tr><td><br/></td></tr>';
-                        debit += '</table>';
-
-                        credit += '<table style="text-align:right;width:100%">';
-                        credit += '<tr><td><br/></td></tr>';
-                        credit += '<tr><td><br/></td></tr>';
-                        credit += '<tr><td><br/></td></tr>';
-                        credit += '<tr><td>' + CCurrency(CDbl(Number(obj.WhtExc) + Number(obj.WhtInc), 2)) + '</td></tr>';
-                        credit += '<tr><td>' + CCurrency(CDbl(Number(obj.TotalNet) + Number(obj.WhtExc) + Number(obj.WhtInc), 2)) + '</td></tr>';
-                        credit += '</table>';
-                        break;
-                }
-                //appendLine(div, desc, debit, credit);
-                appendLine(div, '<b>DETAILS OF USAGES</b>', '<b>FOREIGN PAID</b>', '<b>PAID (THB)</b>');
-                if (data.document !== null) {
-                    let jobno = '';
-                    let doc=data.document.filter(function(r){
-                        return r.acType == acType;
-                    });
-                    sortData(doc, 'VenderName', 'asc');
-                    //sortData(doc, 'DocRefNo', 'asc');
-                    if (doc !== undefined) {
-                        let sum = 0;
-                        //let strDoc = '';
-                        let lastvender = '';
-                        for (d of doc) {
-                            if (d.JobNo !== '' && jobno=='') {
-                                jobno = d.JobNo;
-                            }
-                            if (lastvender!==d.VenderName) {
-                                if (sum>0) {
-                                    appendLine(div,'','<b>TOTAL</b>','<b>'+ShowNumber(sum,2)+'</b>');
-                                    sum = 0;
-                                }
-                                //strDoc += '|' + d.VenderName;
-                                lastvender = d.VenderName;
-                                appendLine(div,'<b>'+ d.VenderName +'</b>','','');
-                            }
-                            sum += Number(CDbl(d.PaidAmount, 2));
-                            desc = d.DocRefNo + ' : ' + d.SDescription;
-                            //if (d.Remark !== '') desc += '<br/>' + d.Remark+' '+ d.VenderName;
-                            appendLine(div, desc, CDbl(d.PaidAmount / CNum(obj.ExchangeRate), 2) + ' ' + obj.CurrencyCode + ' (Rate=' + obj.ExchangeRate + ')', CCurrency(CDbl(d.PaidAmount, 2)));
-                        }
-                        appendLine(div,'','<b>TOTAL</b>','<b>'+ShowNumber(sum,2)+'</b>');
-                    }
-                    if (jobno !== '') {
-                        $.get(path + 'JobOrder/GetJobSQL?Branch='+ obj.BranchCode +'&JNo='+ jobno).done(function (r) {
-                            let j = r.job.data[0];
-                            if (j !== null) {
-                                ShowCustomer(path, j.CustCode, j.CustBranch, '#lblCustName');
-                                $('#lblCustInvNo').text(j.InvNo);
-                                $('#lblJobNo').text(j.JNo);
-	                            if(Number(j.JobType)==1){
-                                    ShowCountry(path, j.InvFCountry, '#lblFromCountry');
-                                    ShowCountry(path, j.InvCountry, '#lblToCountry');
-                                    ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#lblInterPort');
- 	                            } else {
-                                    ShowCountry(path, j.InvFCountry, '#lblFromCountry');
-                                    ShowCountry(path, j.InvCountry, '#lblToCountry');
-                                    ShowInterPort(path, j.InvCountry, j.InvInterPort, '#lblInterPort');
-                                }
-                                //$('#lblFromCountry').text(j.DeclareNumber);
-                                $('#lblVesselName').text(j.VesselName);
-                                $('#lblQtyGross').text(j.InvProductQty);
-                                ShowInvUnit(path, j.InvProductUnit, '#lblQtyUnit');
-                                $('#lblNetWeight').text(j.TotalNW);
-                                ShowInvUnit(path, j.GWUnit, '#lblWeightUnit');
-                                $('#lblETDDate').text(ShowDate(CDateTH(j.ETDDate)));
-                                $('#lblHAWB').text(j.HAWB);
-                                $('#lblMeasurement').text(j.Measurement);
-                                $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
-                                $('#lblMAWB').text(j.MAWB);
-                                ShowVender(path, j.ForwarderCode, '#lblAgentName');
-                                $('#lblCustPo').text(j.CustRefNO);
-
-                            }
-                        });
-                    }
-                }
-                if (obj.SICode !== '') {
-                    desc0 += obj.SICode !== null ? '<br/>FOR ' + obj.SICode : '';
-                }
-
-                //summary section
-                let desc1 = '<table width="100%">';
-                desc1 += '<tr>';
-                desc1 += '<td style="text-align:right">';
-                desc1 += '<b>SUM AMOUNT</b>';
-                desc1 += '</td>';
-                desc1 += '</tr>';
-                desc1 += '<tr>';
-                desc1 += '<td style="text-align:right">';
-                desc1 += '<b>SUM VAT' + (obj.VatInc > 0 ? ' Incl=' + CCurrency(CDbl(Number(obj.VatInc),2)) + '' : '') + '</b>';
-                desc1 += '</td>';
-                desc1 += '</tr>';
-                desc1 += '<tr>';
-                desc1 += '<td width="80%" style="text-align:right">';
-                desc1 += '<b>SUM WHT' + (obj.WhtInc > 0 ? ' Incl=' + CCurrency(CDbl(Number(obj.WhtInc),2)) + '' : '') + '</b>';
-                desc1 += '</td>';
-                desc1 += '</tr>';
-                desc1 += '<tr>';
-                desc1 += '<td width="80%" style="text-align:right">';
-                desc1 += '<b>GRAND TOTAL</b>';
-                desc1 += '</td>';
-                desc1 += '</tr>';
-                desc1 += '</table>';
-
-                let desc2 = '<table width="100%">';
-                desc2 += '<tr>';
-                desc2 += '<td width="20%" style="text-align:right">';
-                desc2 += CCurrency(CDbl(Number(obj.TotalAmount),2));
-                desc2 += '</td>';
-                desc2 += '</tr>';
-                desc2 += '<tr>';
-                desc2 += '<td width="20%" style="text-align:right">';
-                desc2 += CCurrency(CDbl(Number(obj.VatExc),2));
-                desc2 += '</td>';
-                desc2 += '</tr>';
-                desc2 += '<tr>';
-                desc2 += '<td width="20%" style="text-align:right">';
-                desc2 += CCurrency(CDbl(Number(obj.WhtExc),2));
-                desc2 += '</td>';
-                desc2 += '</tr>';
-                desc2 += '<tr>';
-                desc2 += '<td width="20%" style="text-align:right">';
-                desc2 += CCurrency(CDbl(Number(obj.TotalNet), 2));
-                desc2 += '</td>';
-                desc2 += '</tr>';
-                desc2 += '</table>';
-
-                appendLine(div, desc0, desc1, desc2);
-
+        for (pay of data.payment) {
+            if (pay.PRType=="P") {
+                $(".PVMode").each(function () {
+                    $(this).text(this.getAttribute("pv"));
+                });
             }
+         
+
+            if (pay.acType == "CA") {
+                $('#lblRefNo').text(pay.DocNo ? pay.DocNo : "____________");
+                $('#transfer').prop('checked', true);
+            } else if (pay.acType == "CH" || pay.acType == "CU") {
+                $('#lblChqNo').text(pay.ChqNo ? pay.ChqNo : "____________");
+                $('#lblChqDate').text(pay.ChqDate ? ShowDate(pay.ChqDate) : "____________");
+                $('#cheque').prop('checked', true);
+            }
+
+            vcTypeName = GetVoucherType(vcType);
+            const doc = data.document.filter(d => d.acType == pay.acType);
+            let detailTrs = ``;
+            let i = 1;
+            for (d of doc) {
+                let tr = "";
+                //<td style="text-align:center;padding:0px 5px;">${i++}</td>
+                tr += `<tr style="height:0px">
+                           <td style="text-align:center;padding:0px 5px;">${d.DocRefNo}</td>
+                           <td style="text-align:center;padding:0px 5px;">${ShowDate(d.DocDate)}</td>
+                            ${ pay.PRType == "R" ?
+                                 `<td style="padding: 0px 5px; ">${d.BookingNo ? d.BookingNo : ""}</td>` :
+                                 ` <td colspan="2" style="padding:0px 5px;">${d.SDescription ? d.SDescription : ""}</td>`
+                            }
+                            <td style="padding:0px 5px;">${d.JobNo ? d.JobNo : ""}</td>
+                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.Amount,2))}</td>
+                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.VAT, 2))}</td>
+                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.WHT, 2))}</td>                       
+                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount, 2))}</td></tr>`;
+                detailTrs += tr;
+            }
+            detailTrs += "<tr> </tr>"
+            let desc = "";
+            let payType;
+            switch (pay.acType) {
+                case 'CA':
+                    payType = 'CASH';
+                    if (pay.RecvBank !== '') {
+                        payType = 'TRANSFER';
+                    }
+                    desc += pay.PayChqTo !== '' ? 'PAY TO : ' + pay.PayChqTo : '';
+                    desc += pay.RecvBank != '' ? '<br/>' + pay.RecvBranch : '';
+                    //if (data.document[0].BookName !== '') {
+                    //    desc += pay.BookCode != '' ? '<br/>ACCOUNT ' + data.document[0].BookName + ' REF# ' + pay.DocNo : '';
+                    //} else {
+                    //    desc += pay.BookCode != '' ? '<br/>ACCOUNT ' + pay.BookCode + ' REF# ' + pay.DocNo : '';
+                    //}
+                    //desc += pay.TRemark != '' ? '<br/>DATE : ' + pay.TRemark : '';
+                    break;
+                case 'CH':
+                    payType = 'CASHIER CHEQUE';
+                case 'CU':
+                    payType = 'CUSTOMER CHEQUE';
+                    desc += pay.ChqNo !== '' ? '<br/>NO ' + pay.ChqNo + ' DATE ' + ShowDate(CDateTH(pay.ChqDate)) : '';
+                    desc += pay.BankCode != '' ? '<br/>BANK ' + pay.BankCode + ' BRANCH ' + pay.BankBranch : '';
+                    desc += pay.PayChqTo !== '' ? '<br/>TO ' + pay.PayChqTo : '';
+                    desc += pay.TRemark != '' ? '<br/>NOTE : ' + pay.TRemark : '';
+                    desc += pay.RecvBank != '' ? '<br/>DEP.BANK ' + pay.RecvBank + ' BRANCH ' + pay.RecvBranch : '';
+                    break;
+                case 'CR':
+                    payType = 'CREDIT';
+                    desc += pay.DocNo !== '' ? '<br/>REF ' + pay.DocNo + ' DATE ' + ShowDate(CDateTH(pay.ChqDate)) : '';
+                    desc += pay.PayChqTo !== '' ? '<br/>TO ' + pay.PayChqTo : '';
+                    break;
+            }
+            //<label id="lblBankAccInfo">${pay.PayChqTo ? pay.PayChqTo : "________________"}</label><br/>
+            //BANK < label id = "lblBankAccInfo" > ${ pay.RecvBank ? pay.RecvBank : "________________" }</label >
+            //    BRANCH < label id = "lblBankAccInfo" > ${ pay.RecvBranch ? pay.RecvBranch : "________________" }</label > <br />
+            //ACCOUNT ${ doc[0].BookName !== '' ? (pay.BookCode != '' ? 'ACCOUNT ' + doc[0].BookName + ' <br/REF# ' + pay.DocNo : '') : (pay.BookCode != '' ? '<br/>ACCOUNT ' + pay.BookCode + ' <br/REF# ' + pay.DocNo : '') }
+            let sumTr = `<tr id="A3">
+            <td rowspan="2" style="font-size:13px;">
+                ${ pay.PRType == "P" ? "จ่ายให้:" :"รับจาก:"}
+               
+            </td>
+            <td colspan="4" rowspan="2" style="text-align:left">
+                ${desc}
+            </td>
+            <td colspan="2" style="font-size:13px;">
+                  ${ pay.PRType == "P" ? "จำนวนเงินที่ต้องจ่าย:" : "รับเงินจำนวน:"}
+               
+            </td>
+            <td colspan="3">
+                <label id="lblAmount" style="text-align:center;padding:0px 5px;font-size:16px;">${CCurrency(CDbl(pay.TotalNet, 2))}</label>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5" style="text-align:center;padding:0px 5px;"> ${CNumThai(CDbl(Number(pay.TotalNet), 2))} </td>
+        </tr>`;
+            let table =
+                `<table id="voucherTable" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr id="A1">
+                        <td style="width: 12%; ">
+                           เอกสารอ้างอิง
+                           
+                        </td>
+                        <td style="width: 10%; ">
+                            วันที่ใบเบิก
+                        </td>
+                        ${  pay.PRType == "R" ? 
+                        ` 
+                        <td style="width:14%; ">
+                            เลขที่ใบจอง/เลขที่ใบตราขนส่ง
+                        </td>`
+                        :
+                         `<td colspan="2" style="width:28%; ">
+                            รายละเอียด/คำอธิบาย
+                        </td>` }
+
+                        <td style="width:10%; ">
+                            งานอ้างอิง
+                        </td>
+                        <td style="width:10%; ">
+                            จำนวนเงิน
+                        </td>
+                        <td style="width:10%; ">
+                            VAT7%
+                        </td>
+                        <td style="width:10%; ">
+                            WHT
+                        </td>
+                        <td style="width:10%; ">
+                            จำนวนเงินรวม
+                        </td>
+                    </tr>
+                </thead>
+                <tbody id="tbdetail">
+                    ${detailTrs}
+                </tbody>
+                <tfoot>
+                    ${sumTr}
+                </tfoot>
+            </table>`;
+            $('#paymentData').html($('#paymentData').html()+table);
         }
-        if (data.header !== null) {
-            $('#txtControlNo').text(data.header[0].ControlNo);
-            $('#txtVoucherType').val(vcTypeName + ' VOUCHER');
-            $('#txtVoucherDate').text(ShowDate(CDateTH(data.header[0].VoucherDate)));
-            $('#txtRemark').text(data.header[0].TRemark);
-        }
+
+
+
     }
     function appendLine(dv,data,col1,col2) {
         let html = '<tr><td style="border-style:solid;border-width:thin;font-size:11px">';
@@ -410,3 +397,46 @@ End Code
         dv.append(html);
     }
 </script>
+<style>
+    * {
+        font-size: 11px;
+    }
+
+    #voucherTable tr td {
+        padding: 5px;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+    }
+
+    table tr td {
+        /*  border:1px solid black;*/
+        padding: 1px;
+        height: 19px;
+    }
+
+
+    table table {
+        border: 1px solid black;
+        margin-bottom: 5px;
+    }
+
+    #A1 td {
+        border: 1px solid black;
+        text-align: center;
+    }
+
+    #A2 td {
+        border: 1px solid black;
+        text-align: center;
+    }
+
+    #A3 td {
+        border: 1px solid black;
+        text-align: center;
+    }
+
+    #T1 td {
+        border: 1px solid black;
+        text-align: center;
+    }
+</style>
