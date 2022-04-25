@@ -968,6 +968,11 @@ End Code
         $('#txtCustCode').focus();
     }
     function SetEvents() {
+        $('#txtQNo').keydown(function (event) {
+            if (event.which == 13) {
+                
+            }
+        });
         $('#txtTransporter').keydown(function (event) {
             if (event.which == 13) {
                 ShowVender(path, $('#txtTransporter').val(), '#txtTransporterName');

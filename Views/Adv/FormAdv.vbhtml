@@ -118,7 +118,7 @@ End Code
             <label id="lblDepDate" style="width:50px">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</label> CHQ.AMT :
             <label id="txtAdvChq" style="width:50px">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</label>
         </td>
-<td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">VAT</td>
+        <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">VAT</td>
         <td style="border-style:solid;border-width:thin" width="150px">
             <input type="text" style="border: none; text-align: right; font-size: 11px; width: 100%" id="txtVATAmt" />
         </td>
@@ -279,7 +279,7 @@ End Code
         $('#txtNetAmt').val(CCurrency(h.TotalAdvance.toFixed(2)));
         $('#txtVATAmt').val(CCurrency(h.TotalVAT.toFixed(2)));
         $('#txtWHTAmt').val(CCurrency(h.Total50Tavi.toFixed(2)));
-     
+
         //$('#txtTotalAmt').val(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
         $('#txtCustomerPayment').text(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
         $('#txtCustomerPayment2').val(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
@@ -309,7 +309,7 @@ End Code
                 });
         }
     }
-    function ShowDetail(r,h) {
+    function ShowDetail(dr,h) {
         //Dummy Data
         let strDesc = '';
         let strJob = '';
@@ -318,8 +318,17 @@ End Code
         let totAmt = 0;
         //let vat = 0;
         //let wht = 0;
+        let r = dr;
+        sortData(r, 'TRemark', 'asc');
+        let venCode = 'tmp';
         for (i = 0; i < r.length; i++) {
             let d = r[i];
+            if (d.TRemark !== venCode) {
+                venCode = d.TRemark;
+                strDesc += '<b>' + d.TRemark + '</b><br/>';
+                strAmt += '<br/>';
+                strWht += '<br/>';
+            }
             if (serv.length > 0) {
                 let c = $.grep(serv, function (data) {
                     return data.SICode === d.SICode;
