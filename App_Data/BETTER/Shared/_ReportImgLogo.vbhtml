@@ -75,13 +75,11 @@
         <table border="0" style="width:100%">
             <thead>
                 <tr>
-                    <td style="padding:0px;margin:0px">
+                    <td style="">
                         <div style="display:flex;justify-content:center">
-                            <img id="imgLogo" src="~/Resource/bft_header.png" style="width:90%;" />
-                            <img id="imgLogoAdd" src="~/Resource/bft_header.jpeg" style="width:90%;display:none;" />
-                            <img id="imgLogo2" src="~/Resource/invheader.jpg" style="width:90%;display:none;" />
+                            <img id="imgLogo" src="~/Resource/@ViewBag.HeadSrc" style="width:90%;" />
                         </div>
-                        
+                        <br />
                         @*<div style="display:flex" id="dvCompLogo">
                             <div style="flex:1;vertical-align:middle">
                                 <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:50px" />
@@ -103,9 +101,9 @@
                             <br />เลขประจำตัวผู้เสียภาษี @ViewBag.PROFILE_TAXNUMBER สาขา: สำนักงานใหญ่
                         </div>*@
 
-                        <div style="width:100%;text-align:center">
+                        @*<div style="width:100%;text-align:center">
                             <h3>@ViewBag.ReportName</h3>
-                        </div>
+                        </div>*@
                     </td>
                 </tr>
             </thead>

@@ -57,7 +57,7 @@ End Code
                         <label id="lblBankCA">To Bank:</label>
                         <select id="cboBankCash" class="form-control"></select>
                         <label id="lblBranchCA">To Branch:</label>
-                        <input type="text" id="txtBankBranchCash" class="form-control" />                                                                  
+                        <input type="text" id="txtBankBranchCash" class="form-control" />
                         <label id="lblPayCA">Pay To:</label>
                         <input type="text" id="txtCashPayTo" class="form-control" />
                         <br />
@@ -150,12 +150,12 @@ End Code
                     <div class="col-sm-6">
                         <input type="checkbox" id="chkUseDue" /><label id="lblSearchByDue">Select by Payment Due Date</label>
                         <br />
-                        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" /><label id="lblGroupByDoc">Group Documents</label> 
+                        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" /><label id="lblGroupByDoc">Group Documents</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <label id="lblCustCode">Customer :</label>                        
+                        <label id="lblCustCode">Customer :</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtCustCode" style="width:120px" />
@@ -179,6 +179,8 @@ End Code
                     <div class="col-sm-12">
                         <label id="lblTaxNo">Tax-Invoice:</label>
                         <input type="text" id="txtTaxInvNo" />
+                        <label id="lblInvNo">Invoice:</label>
+                        <input type="text" id="txtInvNo" />
                         <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
                             <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                         </a>
@@ -399,6 +401,9 @@ End Code
         if ($('#txtTaxInvNo').val() !== "") {
             w = w + '&recvno=' + $('#txtTaxInvNo').val();
         }
+        if ($('#txtInvNo').val() !== "") {
+            w = w + '&invno=' + $('#txtInvNo').val();
+        }
         if ($('#txtCustCode').val() !== "") {
             w = w + '&cust=' + $('#txtCustCode').val();
         }
@@ -417,7 +422,7 @@ End Code
                 w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
             }
         }
-        $.get(path + 'acc/getinvforreceive?show=OPEN&branch=' + $('#txtBranchCode').val() + w, function (r) {
+        $.get(path + 'acc/getinvforreceive?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 $('#tbSummary').DataTable().clear().draw();
@@ -485,7 +490,7 @@ End Code
                 });
                 for (let d of filter) {
                     AddData(d);
-                }                      
+                }
             });
 
             let h = r.invdetail.data;

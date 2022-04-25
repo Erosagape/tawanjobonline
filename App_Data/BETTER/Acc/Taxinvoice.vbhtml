@@ -29,7 +29,7 @@ End Code
             <select id="cboType" class="form-control dropdown">
                 <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
                 <option value="SRV">Tax-Invoice (Service only)</option>
-                <option value="REC">Debit Note</option>
+                <option value="REC">Receipt</option>
                 <option value="RCV">Receipt Internal</option>
             </select>
         </div>

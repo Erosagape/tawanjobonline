@@ -239,7 +239,7 @@ function SetGridSICode(p, g, t, d, ev) {
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
             { data: "SICode", title: mainLanguage == "TH" ? "รหัส" : "Service Code" },
-            { data: "NameThai", title: mainLanguage == "TH" ? "ความหมาย" :  "Description" }
+            { data: "NameEng", title: mainLanguage == "TH" ? "ความหมาย" :  "Description" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -267,7 +267,7 @@ function SetGridSICodeFilter(p, g, t, d, ev) {
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
             { data: "SICode", title: mainLanguage == "TH" ? "รหัส" :  "Service Code" },
-            { data: "NameThai", title: mainLanguage == "TH" ? "ความหมาย" :  "Description" }
+            { data: "NameEng", title: mainLanguage == "TH" ? "ความหมาย" :  "Description" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -295,7 +295,7 @@ function SetGridSICodeByGroup(p, g, t, d, ev) {
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
             { data: "SICode", title: mainLanguage == "TH" ? "รหัส" :  "Service Code" },
-            { data: "NameThai", title: mainLanguage == "TH" ? "ความหมาย" :  "Description" }
+            { data: "NameEng", title: mainLanguage == "TH" ? "ความหมาย" :  "Description" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {

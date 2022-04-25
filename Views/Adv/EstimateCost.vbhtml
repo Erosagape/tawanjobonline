@@ -376,7 +376,7 @@ End Code
                         adv += Number(row.AmtTotal);
                     } else {
                         chg += Number(row.AmtTotal);
-                    }                    
+                    }
                 }
             }
             $('#txtCharge').val(CDbl(chg, 2));

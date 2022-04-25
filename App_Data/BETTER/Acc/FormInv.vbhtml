@@ -184,11 +184,16 @@ End Code
                         <td style="width:40%"><label id="custInvNoLbl">CUST INV NO. :</label></td>
                         <td><label id="custInvNo"></label></td>
                     </tr>
-                    <tr><td><br /><br /></td></tr>
+                    <tr><td><br /></td></tr>
                     <tr>
                         <td><label id="customsNoLbl">CUSTOMS NO. :</label></td>
                         <td><label id="customsNo"></label></td>
-                    </tr>                   
+                    </tr>
+                    <tr>
+                        <td>CREDIT TERM :</td>
+                        @*<td id="crTerm"></td>*@
+                        <td id="Remark1"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -255,7 +260,7 @@ End Code
                 <td>:</td>
                 <td id="mbl"></td>
             </tr>
-
+       
         </tbody>
     </table>
 </div>
@@ -436,6 +441,8 @@ End Code
             $("#invoiceDate").text(ShowDate(h.DocDate));
             $("#currency").text(h.CurrencyCode);
             $("#remark").html(CStr(h.Remark1 + '<br/>' + h.Remark2));
+            $("#Remark1").text(h.Remark1);
+            
             if (j.JobType !== 1) {
                  $("#dcport").text(j.ClearPortNo);
                  ShowInterPort(path, j.InvFCountry, j.InvInterPort, "#loadport");

@@ -56,34 +56,86 @@ End Code
         <b>SHED : </b><label id="lblDeliveryTo"></label>
     </div>
 </div>
-<hr style="border-style:solid;" />
-<div style="display:flex;text-align:center;">
-    <div style="width:20%">
+@*<hr style="border-style:solid;" />*@
+<br />
+<div id="dvHeader" style="display:flex;text-align:center;border-top:1px solid black;border-bottom:1px solid black;">
+    <div class="vborder" style="width:10%">
+        <u><b>SICODE</b></u>
+    </div>
+    <div class="vborder" style="width:25%">
         <u><b>DESCRIPTION</b></u>
     </div>
-    <div style="width:5%">
-        <u><b>RATE</b></u>
+    <div class="vborder" style="width:5%">
+        <u><b>EXC</b></u>
     </div>
-    <div style="width:15%">
-        <u><b>CURRENCY</b></u>
+    <div class="vborder" style="width:5%">
+        <u><b>CUR</b></u>
     </div>
-    <div style="width:10%">
+    <div class="vborder" style="width:5%">
         <u><b>QTY</b></u>
     </div>
-    <div style="width:10%">
+    <div class="vborder" style="width:10%">
         <u><b>UNIT</b></u>
     </div>
-    <div style="width:20%">
+    <div class="vborder" style="width:15%">
+        <u><b>VAT</b></u>
+    </div>
+    <div class="vborder" style="width:15%">
+        <u><b>WHT</b></u>
+    </div>
+    <div class="vborder" style="width:15%">
         <u><b>ADVANCE</b></u>
     </div>
-    <div style="width:20%">
-        <u><b>CHARGES</b></u>
+    <div class="vborder" style="width:15%">
+        <u><b>CHARGE</b></u>
     </div>
 </div>
-<div style="height:250px" id="dvDetail">
+<div  id="dvDetail">
 </div>
-<hr style="border-style:solid;" />
-<div style="width:80%;text-align:right;float:left">
+<br />
+<div id="dvHeader2" style="display:flex;text-align:center;border-top:1px solid black;border-bottom:1px solid black;">
+    <div class="vborder" style="width:10%">
+        <u><b>SICODE</b></u>
+    </div>
+    <div class="vborder" style="width:25%">
+        <u><b>DESCRIPTION</b></u>
+    </div>
+    <div class="vborder" style="width:5%">
+        <u><b>EXC</b></u>
+    </div>
+    <div class="vborder" style="width:5%">
+        <u><b>CUR</b></u>
+    </div>
+    <div class="vborder" style="width:5%">
+        <u><b>QTY</b></u>
+    </div>
+    <div class="vborder" style="width:10%">
+        <u><b>UNIT</b></u>
+    </div>
+    <div class="vborder" style="width:15%">
+        <u><b>VAT</b></u>
+    </div>
+    <div class="vborder" style="width:15%">
+        <u><b>WHT</b></u>
+    </div>
+    <div class="vborder" style="width:15%">
+        <u><b>ADVANCE</b></u>
+    </div>
+    <div class="vborder" style="width:15%">
+        <u><b>COST</b></u>
+    </div>
+</div>
+<div  id="dvDetail2">
+</div>
+<br />
+<div id="summary" style="display:flex;text-align:center;border-top:1px solid black;border-bottom:1px solid black;">
+
+</div>
+<br />
+<br />
+<br />
+@*<hr style="border-style:solid;" />*@
+@*<div style="width:80%;text-align:right;float:left">
     <b>Advances:</b><br />
     <b>Charges:</b><br />
     <b>Vat:</b><br />
@@ -110,8 +162,9 @@ End Code
     <div style="display:block;width:100%">
         <label id="lblSumNet"></label>
     </div>
-</div>
-<p>
+</div>*@
+<div></div>
+<p >
     PLEASE REMIT TO ACCOUNT NO.<br />
     017-111-1943<br />
     KASIKORN BANK<br />
@@ -119,6 +172,15 @@ End Code
 
 </p>
 <script type="text/javascript">
+   
+    let ans = confirm('OK to print for Customer or Cancel For Company');
+    if (ans == true) {
+        $('#dvHeader2').hide();
+        $('#dvDetail2').hide();
+        $('#summary').hide();
+    } else {
+
+    }
     let path = '@Url.Content("~")';
     let branch = getQueryString("Branch");
     let job = getQueryString("Job");
@@ -166,37 +228,159 @@ End Code
         $('#lblOpenDate').text(ShowDate(GetToday()));
       
         let html = '';
+        let html2 = '';
         let totamt = 0;
         let totvat = 0;
         let totwht = 0;
         let total = 0;
         let totcost = 0;
-        for (let r of dt) {
-            html += '<div style="display:flex;width:100%">';
-            html += '<div style="width:20%">'+ r.SDescription +'</div>';
-            html += '<div style="width:5%">' + r.ExchangeRate + '</div>';
-            html += '<div style="width:15%;text-align:center">' + r.CurrencyCode + '</div>';
-            html += '<div style="width:10%;text-align:center">' + r.Qty + '</div>';
-            html += '<div style="width:10%;text-align:center">' + r.QtyUnit + '</div>';
-            if (r.IsCredit==1) {
-                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
-                html += '<div style="width:20%;text-align:right">0.00</div>';
+        let totalCost = 0;
+        let totalCharge = 0;
+        let totalVatCharge = 0;
+        let sumHtml = "";
+        let expense = dt.filter((obj) => (obj.IsExpense == 1 && obj.IsCredit == 0) || (obj.IsCredit == 1 && obj.IsExpense == 0 ));
+        console.log(expense);
+
+        let income = dt.filter((obj) => (obj.IsCredit == 0 && obj.IsExpense == 0) || (obj.IsCredit == 1 && obj.IsExpense == 0));
+        console.log(income);
+
+        //html += '<div class="border" style="display:flex;width:100%;padding:2px;">Income</div>';
+        for (let r of income) {
+          
+            html += '<div  style="display:flex;width:100%">';
+
+            html += '<div class="vborder" style="width:10%">' + r.SICode + '</div>';
+            html += '<div class="vborder" style="width:25%">' + r.SDescription + '</div>';
+            html += '<div class="vborder" style="width:5%;text-align:center">' + r.ExchangeRate + '</div>';
+            html += '<div class="vborder" style="width:5%;text-align:center">' + r.CurrencyCode + '</div>';
+            html += '<div class="vborder" style="width:5%;text-align:center">' + r.Qty + '</div>';
+            html += '<div class="vborder" style="width:10%;text-align:center">' + r.QtyUnit + '</div>';
+            html += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmtVat, 2)) + '</div>';
+            html += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmtWht, 2)) + '</div>';
+            if (r.IsCredit == 1) {
+                //html += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmountCharge, 2)) + '</div>';
+                html += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
+                html += '<div class="vborder" style="width:15%;text-align:right">0.00</div>';
             } else {
-                html += '<div style="width:20%;text-align:right">0.00</div>';
-                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmtTotal,2)) + '</div>';
+                html += '<div class="vborder" style="width:15%;text-align:right">0.00</div>';
+                html += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
+              
             }
             html += '</div>';
-            let amt = CNum(Number(r.AmountCharge) * Number(r.Qty) * Number(r.ExchangeRate));
-            if (r.IsCredit==0) {
-                totamt += amt;
-            } else {
-                totcost += amt;
+            if (r.IsCredit == 0 && r.IsExpense == 0) {
+                totalCharge += r.AmtTotal - 0;//cast
             }
-            totvat += CNum(r.AmtVat);
-            totwht += CNum(r.AmtWht);
-            total += amt + CNum(r.AmtVat);
+       
+            //let amt = CNum(Number(r.AmountCharge) * Number(r.Qty) * Number(r.ExchangeRate));
+            //if (r.IsCredit == 0) {
+            //    totamt += amt;
+            //} else {
+            //    totcost += amt;
+            //}
+            //totvat += CNum(r.AmtVat);
+            //totwht += CNum(r.AmtWht);
+            //total += amt + CNum(r.AmtVat);
         }
+        let sumCharge = "";
+        sumCharge += '<div  style="display:flex;width:100%;border-top:1px solid black">';
+        sumCharge += '<div class="vborder" style="width:10%"></div>';
+        sumCharge += '<div class="vborder" style="width:25%;font-weight:bold"">TOTAL CHARGE</div>';
+        sumCharge += '<div class="vborder" style="width:5%;text-align:center"></div>';
+        sumCharge += '<div class="vborder" style="width:5%;text-align:center"></div>';
+        sumCharge += '<div class="vborder" style="width:5%;text-align:center"></div>';
+        sumCharge += '<div class="vborder" style="width:10%;text-align:center"></div>';
+        sumCharge += '<div class="vborder" style="width:15%;text-align:right"></div>';
+        sumCharge += '<div class="vborder" style="width:15%;text-align:right"></div>';
+        sumCharge += '<div class="vborder" style="width:15%;text-align:right"></div>';
+        sumCharge += '<div class="vborder" style="width:15%;text-align:right;font-weight:bold"">' + CCurrency(CDbl(totalCharge, 2)) + '</div>';
+        sumCharge += '</div>';
+        html += sumCharge;
+        html += '<div  style="display:flex;width:100%;border-top:1px solid black"></div>';
+        console.log(totalCharge);
+        //html += '<div class="border" style="display:flex;width:100%;padding:2px;">Expense</div>';
+        for (let r of expense) {
+            html2 += '<div  style="display:flex;width:100%">';
+
+            html2 += '<div class="vborder" style="width:10%;">' + r.SICode + '</div>';
+            html2 += '<div class="vborder" style="width:25%">' + r.SDescription + '</div>';
+            html2 += '<div class="vborder" style="width:5%;text-align:center">' + r.ExchangeRate + '</div>';
+            html2 += '<div class="vborder" style="width:5%;text-align:center">' + r.CurrencyCode + '</div>';
+            html2 += '<div class="vborder" style="width:5%;text-align:center">' + r.Qty + '</div>';
+            html2 += '<div class="vborder" style="width:10%;text-align:center">' + r.QtyUnit + '</div>';
+            html2 += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmtVat, 2)) + '</div>';
+            html2 += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmtWht, 2)) + '</div>';
+            if (r.IsCredit == 1) {
+                html2 += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
+                html2 += '<div class="vborder" style="width:15%;text-align:right">0.00</div>';
+            } else {
+                html2 += '<div class="vborder" style="width:15%;text-align:right">0.00</div>';
+                html2 += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
+            }
+            html2 += '</div>';
+            if  (r.IsExpense == 1 && r.IsCredit == 0) {
+                totalCost += r.AmtTotal - 0;//cast
+            }
+           
+            //let amt = CNum(Number(r.AmountCharge) * Number(r.Qty) * Number(r.ExchangeRate));
+            //if (r.IsCredit == 0) {
+            //    totamt += amt;
+            //} else {
+            //    totcost += amt;
+            //}
+            //totvat += CNum(r.AmtVat);
+            //totwht += CNum(r.AmtWht);
+            //total += amt + CNum(r.AmtVat);
+        }
+        let sumCost = "";
+        sumCost += '<div  style="display:flex;width:100%;border-top:1px solid black">';
+        sumCost += '<div class="vborder" style="width:10%"></div>';
+        sumCost += '<div class="vborder" style="width:25%;font-weight:bold">TOTAL COST</div>';
+        sumCost += '<div class="vborder" style="width:5%;text-align:center"></div>';
+        sumCost += '<div class="vborder" style="width:5%;text-align:center"></div>';
+        sumCost += '<div class="vborder" style="width:5%;text-align:center"></div>';
+        sumCost += '<div class="vborder" style="width:10%;text-align:center"></div>';
+        sumCost += '<div class="vborder" style="width:15%;text-align:right"></div>';
+        sumCost += '<div class="vborder" style="width:15%;text-align:right"></div>';
+        sumCost += '<div class="vborder" style="width:15%;text-align:right"></div>';
+        sumCost += '<div class="vborder" style="width:15%;text-align:right;font-weight:bold">' + CCurrency(CDbl(totalCost, 2)) + '</div>';
+        sumCost += '</div>';
+        html2 += sumCost;
+        html2 += '<div  style="display:flex;width:100%;border-top:1px solid black"></div>';
+        console.log(totalCost);
+
+        sumHtml += '<div style="width:85%;text-align:right;font-weight:bold">PROFIT:</div>';
+        sumHtml += '<div style="width:15%;text-align:right;font-weight:bold">'+ CCurrency(CDbl((totalCharge - totalCost),2))+'</div>';
+
+        //for (let r of dt) {
+        //    html += '<div style="display:flex;width:100%">';
+          
+        //    html += '<div style="width:20%">' + r.SICode + '</div>';
+        //    html += '<div style="width:20%">'+ r.SDescription +'</div>';
+        //    html += '<div style="width:5%">' + r.ExchangeRate + '</div>';
+        //    html += '<div style="width:15%;text-align:center">' + r.CurrencyCode + '</div>';
+        //    html += '<div style="width:10%;text-align:center">' + r.Qty + '</div>';
+        //    html += '<div style="width:10%;text-align:center">' + r.QtyUnit + '</div>';
+        //    if (r.IsCredit==1) {
+        //        html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
+        //        html += '<div style="width:20%;text-align:right">0.00</div>';
+        //    } else {
+        //        html += '<div style="width:20%;text-align:right">0.00</div>';
+        //        html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
+        //    }
+        //    html += '</div>';
+        //    let amt = CNum(Number(r.AmountCharge) * Number(r.Qty) * Number(r.ExchangeRate));
+        //    if (r.IsCredit==0) {
+        //        totamt += amt;
+        //    } else {
+        //        totcost += amt;
+        //    }
+        //    totvat += CNum(r.AmtVat);
+        //    totwht += CNum(r.AmtWht);
+        //    total += amt + CNum(r.AmtVat);
+        //}
+        $('#summary').html(sumHtml);
         $('#dvDetail').html(html);
+        $('#dvDetail2').html(html2);
         $('#lblSumCost').text(CCurrency(CDbl(totcost,2)));
         $('#lblSumAmount').text(CCurrency(CDbl(totamt,2)));
         $('#lblSumVat').text(CCurrency(CDbl(totvat, 2)));
@@ -204,4 +388,22 @@ End Code
         $('#lblSumTotal').text(CCurrency(CDbl(total, 2)));
         $('#lblSumNet').text(CCurrency(CDbl(total-totwht, 2)));
     }
+
+
+
 </script>
+<style>
+    .vborder {
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        padding:2px;
+    }
+
+    .border {
+        border: 1px solid black;
+    }
+
+    td div h3 {
+        font-size:20px;
+    }
+</style>

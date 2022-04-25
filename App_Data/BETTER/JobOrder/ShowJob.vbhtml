@@ -55,7 +55,7 @@ End Code
                         <li id="tab1" class="active"><a data-toggle="tab" id="linkTab1" href="#tabinfo">Customers Data</a></li>
                         <li id="tab2"><a data-toggle="tab" href="#tabinv" id="linkTab2">Invoice Data</a></li>
                         <li id="tab3"><a data-toggle="tab" href="#tabdeclare" id="linkTab3">Customs Data</a></li>
-                        <li id="tab4"><a data-toggle="tab" href="#tabtracking" id="linkTab4">Operation Data</a></li>
+                        <li id="tab4"><a data-toggle="tab" href="#tabtracking" id="linkTab4">Job Instruction</a></li>
                         <li id="tab5"><a data-toggle="tab" href="#tabremark" id="linkTab5">Other Controls</a></li>
                     </ul>
                     <select id="mySelects" class="form-control" style="display:none" onchange="ChangeTab(this.value);">

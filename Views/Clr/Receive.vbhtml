@@ -501,9 +501,6 @@ End Code
                         render: function (data) {
                             return data < 0 ? ShowNumber(Math.abs(data), 2) : '0.00';
                         }
-                    },
-                    {
-                        data: "Driver",title: "Driver"
                     }
                 ],
                 responsive: true,

@@ -1,12 +1,13 @@
 ﻿
 @Code
-    Layout = "~/Views/Shared/_Report.vbhtml"
+    Layout = "~/Views/Shared/_ReportImgLogo.vbhtml"
     ViewBag.Title = "Voucher Slip"
+    ViewBag.HeadSrc = "voucher_rv.jpg"
 End Code
-<div style="display:flex;  justify-content: center;  align-items: center;">
+@*<div style="display:flex;  justify-content: center;  align-items: center;">
     <div style="width:15%"><img style="width:100%;" src="/test/Resource/logo_bft.png" /></div>
     <div style="font-weight:bold;font-size:30px;text-align:center" pv="ใบสำคัญจ่าย / PAYMENT VOUCHER" class="PVMode">ใบสำคัญรับ / RECEIPT VOUCHER</div>
-</div>
+</div>*@
 
 <table style="width: 100%; border-collapse: collapse;  ">
     <tbody>
@@ -164,8 +165,10 @@ End Code
 <br />
 <br />
 <br />
-<div style="text-align:center">(การเบิกจ่ายที่ไม่เกี่ยวข้องกับงานหรือกระทำการบิดเบือนความจริงเข้าข่ายการทุจริตและประพฤติมิชอบ หรือยักยอกทรัพย์บริษัท)</div>
-<h1 style="text-align:center;color:green;font-size:20px">บริษัท เบทเตอร์เฟรท แอนด์ทรานสปอร์ต จำกัด<br />BETTER FREIGHT & TRANSPORT CO.,LTD</h1>
+<div style="display:flex;flex-direction:column;">
+    <div style="text-align:center" pv="(การเบิกจ่ายที่ไม่เกี่ยวข้องกับงานหรือกระทำการบิดเบือนความจริงเข้าข่ายการทุจริตและประพฤติมิชอบ หรือยักยอกทรัพย์บริษัท)" class="PVMode">(การออกใบเสร็จและใบสำคัญรับ  โดยไม่มีการตรวจสอบหรือกระทำการบิดเบือนความจริง เข้าข่ายการทุจริตและประพฤติมิชอบหรือยักยอกทรัพย์บริษัท)</div>
+<div style="text-align:center;color:green;font-size:20px">บริษัท เบทเตอร์เฟรท แอนด์ทรานสปอร์ต จำกัด<br />BETTER FREIGHT & TRANSPORT CO.,LTD</div>
+</div>
 
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -173,7 +176,8 @@ End Code
     //$(document).ready(function () {
     let branch = getQueryString('branch');
     let controlno = getQueryString('controlno');
-    $('#imgLogo').hide();
+
+    //$('#imgLogo').hide();
 
 
 
@@ -239,15 +243,16 @@ End Code
         }
         let div = $('#tbData tbody');
         let vcTypeName = '';
-
-        for (pay of data.payment) {
-            if (pay.PRType=="P") {
+        if (data.payment && data.payment.length > 0) {
+            let pay = data.payment[0];
+            if (pay.PRType == "P") {
                 $(".PVMode").each(function () {
                     $(this).text(this.getAttribute("pv"));
                 });
+                $("#imgLogo").prop("src", path + "/Resource/voucher_pv.jpg");
             }
-         
-
+        }
+        for (pay of data.payment) {
             if (pay.acType == "CA") {
                 $('#lblRefNo').text(pay.DocNo ? pay.DocNo : "____________");
                 $('#transfer').prop('checked', true);
@@ -341,10 +346,9 @@ End Code
                     <tr id="A1">
                         <td style="width: 12%; ">
                            เอกสารอ้างอิง
-                           
                         </td>
                         <td style="width: 10%; ">
-                            วันที่ใบเบิก
+                            วันที่
                         </td>
                         ${  pay.PRType == "R" ? 
                         ` 

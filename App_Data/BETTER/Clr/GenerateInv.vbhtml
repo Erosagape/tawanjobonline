@@ -106,6 +106,7 @@ End Code
                                     <option value="IVF-">Consold</option>
                                     <option value="IVD-">CN Oversea</option>
                                     <option value="IVC-">DN Oversea</option>
+                                    <option value="IVA-">Advance</option>
                                 </select>
 
                             </div>
