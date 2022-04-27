@@ -1,22 +1,212 @@
 ﻿
 @Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.ReportName = "Booking Confirmation"
+    ViewBag.ReportName = "Booking Confirmation Form"
     ViewBag.Title = "BOOKING CONFIRMATION"
 End Code
 <style>
     #dvFooter {
-        display:none;
+        display: none;
+    }
+
+    td {
+        vertical-align: top;
     }
 </style>
-    <div style="display:flex;font-size:14px">
-        <div style="text-align:left;flex:1">
+<table style="width:100%">
+    <tbody>
+        <tr>
+            <td style="width:25%"><b>TO </b></td>
+            <td>:</td>
+            <td style="width:25%" id="lblShipperName"></td>
+            <td style="width:10%"></td>
+            <td style="width:15%"><b>FROM </b></td>
+            <td>:</td>
+            <td style="width:25%"></td>
+        </tr>
+        <tr>
+            <td> <b>ATTN  </b></td>
+            <td>:</td>
+            <td id="lblShipperContact"></td>
+            <td></td>
+            <td><b>ATTN </b></td>
+            <td>:</td>
+            <td id="lblCSName"></td>
+        </tr>
+        <tr>
+            <td> <b>TEL  </b></td>
+            <td>:</td>
+            <td id="lblShipperTel"></td>
+            <td></td>
+            <td> <b>TEL  </b></td>
+            <td>:</td>
+            <td> @ViewBag.PROFILE_COMPANY_TEL</td>
+        </tr>
+        <tr>
+            <td> <b>FAX </b></td>
+            <td>:</td>
+            <td id="lblShipperFax"></td>
+            <td></td>
+            <td> <b>FAX  </b></td>
+            <td>:</td>
+            <td> @ViewBag.PROFILE_COMPANY_FAX</td>
+        </tr>
+        <tr>
+            <td> <b>EMAIL </b></td>
+            <td>:</td>
+            <td id="lblShipperMail"></td>
+            <td></td>
+            <td> <b>EMAIL  </b></td>
+            <td>:</td>
+            <td id="lblCSMail"></td>
+        </tr>
+        <tr> </tr>
+        <tr>
+            <td> <b>DATE OF BOOKING</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblBookingDate"></td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                Private & Confidential - Ocean Freight Rate (Booking Confirm)<br />
+                FURTHER TO YOUR BOOKING OF THE BELOW SHIPMENT PLEASE FIND THE FOLLOWING  DETAILS FOR YOUR KIND REFERENCE :-
+                <br />
+            </td>
+        </tr>
+        <tr>
+            <td> <b>Subject</b></td>
+            <td>:</td>
+            <td colspan="5"></td>
+        </tr>
+        <tr>
+            <td> <b>BOOKING'S DETAIL</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblBookingNo"></td>
+        </tr>
+        <tr>
+            <td> <b>SHIPPER</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblShipperName2"></td>
+        </tr>
+        <tr>
+            <td> <b ">PORT OF LOADING</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblPortLoading"></td>
+        </tr>
+        <tr>
+            <td> <b>PORT OF DELIVERY</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblPortArrival"></td>
+        </tr>
+        <tr>
+            <td> <b>QUANTITY</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblProductQty"></td>
+        </tr>
+        <tr>
+            <td> <b>OCEAN FREIGHT CHARGE</b></td>
+            <td>:</td>
+            <td colspan="5"></td>
+        </tr>
+        <tr>
+            <td> <b>FEEDER NAME</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblVesselName"></td>
+        </tr>
+        <tr>
+            <td> <b>VESSEL NAME</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblMVesselName"></td>
+        </tr>
+        <tr>
+            <td> <b>ETD ORIGIN</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblETDDate"></td>
+        </tr>
+        <tr>
+            <td> <b>ETA FINAL DESTINATION</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblETADate"></td>
+        </tr>
+        <tr>
+            <td> <b>BOOKING REF NO.</b></td>
+            <td>:</td>
+            <td colspan="5"></td>
+        </tr>
+        <tr>
+            <td> <b>AGENT</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblAgentName"></td>
+        </tr>
+        <tr>
+            <td> <b>PAPERLESS CODE</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblCustomsCode"></td>
+        </tr>
+        <tr>
+            <td> <b>CY DATE</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblCYDate"></td>
+        </tr>
+        <tr>
+            <td> <b>CY YARD LOCATION</b></td>
+            <td>:</td>
+            <td colspan="5">
+                <label id="lblCYPlace"></label>
+                <label id="lblCYContact"></label>
+            </td>
+        </tr>
+        <tr>
+            <td> <b>RETURN DATE</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblReturnDate"></td>
+        </tr>
+        <tr>
+            <td> <b>RTN YARD LOCATION</b></td>
+            <td>:</td>
+            <td colspan="5">
+                <label id="lblReturnPlace"></label>
+                <label id="lblReturnContact"></label>
+            </td>
+        </tr>
+        <tr>
+            <td> <b>CUT - OFF DATE & TIME</b></td>
+            <td>:</td>
+            <td colspan="5"></td>
+        </tr>
+        <tr>
+            <td> <b>REMARK</b></td>
+            <td>:</td>
+            <td colspan="5"></td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                If you have any further questions  or queries.please don't hesitate to contact us. We are greatful for your kind consideration.
+                <br />Yours sincerely,
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <br /><br /><br /><br />
+                ________________________________
+                <br />Chatweeraya W.
+                <br />UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.
+            </td>
+            <td colspan="3">
+                <br /><br /><br /><br />
+                ________________________________
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+@*<div style="display:flex;font-size:14px">
+
+        <div style="text-align:left;flex:1;">
             <b>TO :</b><label id="lblShipperName"></label>
             <br />
             <b>AN : </b><label id="lblShipperContact"></label>
-        </div>
-        <div style="text-align:right;flex:1">
-            <b>DATE :</b> <label id="lblBookingDate"></label>
             <br />
             <b>TEL : </b><label id="lblShipperTel"></label>
             <br />
@@ -24,6 +214,27 @@ End Code
             <br />
             <b>EMAIL : </b><label id="lblShipperEMail"></label>
         </div>
+        <div style="text-align:right;flex:1">
+            <b>TO :</b><label id="lblShipperName"></label>
+            <br />
+            <b>AN : </b><label id="lblShipperContact"></label>
+
+            <br />
+            <b>TEL : </b><label id="lblShipperTel"></label>
+            <br />
+            <b>FAX : </b><label id="lblShipperFax"></label>
+            <br />
+            <b>EMAIL : </b><label id="lblShipperEMail"></label>
+        </div>
+    </div>
+    <div style="width:100%;font-size:14px">
+        Private & Confidential - Ocean Freight Rate (Booking Confirm)<br />
+        FURTHER TO YOUR BOOKING OF THE BELOW SHIPMENT PLEASE FIND THE FOLLOWING  DETAILS FOR YOUR KIND REFERENCE :-
+        <br />
+        Subject        :
+    </div>
+    <div style="width:100%;font-size:14px">
+        <b>DATE :</b> <label id="lblBookingDate"></label>
     </div>
     <div style="width:100%;font-size:14px">
         <br />
@@ -37,24 +248,27 @@ End Code
         <br />
         <b>PLACE OF DELIVERY :</b> <label id="lblPortArrival"></label>,<label id="lblCountry"></label>
         <br />
-        <b>CLOSING DATE :</b><label id="lblClosingDate"></label> <b> CLOSING TIME </b> <label id="lblClosingTime"></label>
-        <b>AT :</b><label id="lblClosingPlace"></label>
-        <br />
-        <b>ETD DATE :</b><label id="lblETDDate"></label>
-        <br />
-        <b>ETA DATE :</b><label id="lblETADate"></label>
-        <br />
-        <b>VOLUME :</b><label id="lblTotalContainer"></label>
-        <br />
         <b>QUANTITY : </b><label id="lblProductQty"></label> &nbsp; <label id="lblProductUnit"></label>
         <br />
+
+        <br />
+
+        <b>VOLUME :</b><label id="lblTotalContainer"></label>
+        <br />
+
         <b>COMMODITY :</b> <label id="lblInvProduct"></label>
         <br />
         <b>MOTHER VESSEL / VOY :</b> <label id="lblMVesselName"></label>
         <br />
         <b>FEEDER VESSEL / VOY :</b> <label id="lblVesselName"></label>
         <br />
-        <b>CARRIER :</b> <label id="lblAgentName"></label>
+        <b>ETD DATE :</b><label id="lblETDDate"></label>
+        <br />
+        <b>ETA DATE :</b><label id="lblETADate"></label>
+        <br />
+        <b>AGENT :</b> <label id="lblAgentName"></label>
+        <br />
+        <b>PAPERLESS :</b> <label id="lblCustomsCode"></label>
         <br />
         <div style="display:flex">
             <div>
@@ -89,14 +303,19 @@ End Code
             </div>
         </div>
         <br />
-        <b>PAPERLESS :</b> <label id="lblCustomsCode"></label>
-        <br />
+
+        <b>CLOSING DATE :</b><label id="lblClosingDate"></label> <b> CLOSING TIME </b> <label id="lblClosingTime"></label>
+        <b>AT :</b><label id="lblClosingPlace"></label>
         <b>REMARK:</b> <div id="dvRemark"></div>
+                       <div>
+                           If you have any further questions  or queries.please don't hesitate to contact us. We are greatful for your kind consideration.
+                           <br />Yours sincerely,
+                       </div>
         <br />
         <br />
         <br />
         <br />
-    </div>
+    </div>*@
 <script type="text/javascript">
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");
@@ -155,6 +374,8 @@ End Code
             $('#lblShipperFax').text(h.ShipperFax);
             $('#lblShipperEMail').text(h.ShipperEMail);
             $('#lblCustomsCode').text(h.ClearPort);
+            $('#lblCSMail').text(h.CSEMail);
+            $('#lblCSName').text(h.CSName);
             let str = h.Description;
             $('#dvRemark').html(CStr(str));
         }

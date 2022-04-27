@@ -24,7 +24,7 @@ End Code
                   TAX-ID : <label id="lblTaxNumber"></label>
                 </p>
             </div>
-            <div style="flex:1;text-align:right" >
+            <div style="flex:1;" style="text-align:right">
                 DOC NO : <label id="lblBillAcceptNo"></label>
                 <br />DATE : <label id="lblBillDate"></label>
             </div>
@@ -88,7 +88,7 @@ End Code
 
         <div style="margin-top:60px">
             <p>PAYMENT DUE DATE : <label id="lblPaymentDueDate"></label></p>
-            <p>PLEASE PAY CHEQUE IN NAME @ViewBag.PROFILE_COMPANY_NAME</p>
+            <p>PLEASE PAY CHEQUE IN NAME @ViewBag.PROFILE_COMPANY_NAME_EN</p>
             <p>PAYMENT SHOULD BE PAID BY CROSS CHEQUE IN FAVOR OF  @ViewBag.PROFILE_COMPANY_NAME</p>
             <p>SIGN ON RECEIVER AND ASSIGNED PAYMENT DATE AND SEND THIS PAPER TO @ViewBag.PROFILE_COMPANY_NAME FAX. @ViewBag.PROFILE_COMPANY_FAX</p>
         </div>
@@ -110,9 +110,6 @@ End Code
             </div>
         </div>
 <script type="text/javascript">
-    $('#imgLogo').hide();
-    $('#imgLogoAdd').show();
-
     let path = '@Url.Content("~")';
     let ans = confirm('OK to print Original or Cancel For Copy');
     if (ans == true) {
@@ -138,7 +135,7 @@ End Code
             $('#lblTaxNumber').text(data.customer[0][0].TaxNumber);
             if (data.customer[0][0].UsedLanguage == 'TH') {
 if(Number(data.customer[0][0].Branch)>0) {
-    $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + data.customer[0][0].CustBranch);
+        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + h.CustBranch);
 } else {
         $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :สำนักงานใหญ่');
 }

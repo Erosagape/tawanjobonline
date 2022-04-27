@@ -364,7 +364,13 @@ End Code
 
                 //alert(dt2.length);
                 for (let i = 0; i < dt2.length; i++) {
+                    console.log("------------");
+                    console.log(commissionCode);
+                    console.log(dt2[i].SICode);
+                    console.log(commissionCode.indexOf(dt2[i].SICode) );
+                    console.log("------------");
                     if (commissionCode.indexOf(dt2[i].SICode) >= 0) {
+                       
                         sumcomm += dt2[i].BNet;
                     }
                     let tmp = html;
@@ -405,9 +411,10 @@ End Code
                 tmp = tmp.replaceAll('{5}', ShowNumber(sumw2, 2));
                 html2 += tmp;
                 $('#dt2').html(html2);
-                $("#netAmount").text(ShowNumber(sum1-sum2,2));
+                console.log(sum1);
+                console.log(sumt1);
+                $("#netAmount").text(ShowNumber(sum1 - sum2, 2));
                 $("#netProfit").text(ShowNumber(sumt1 - sumt2 + sumcomm, 2));
-
             }
         });
 

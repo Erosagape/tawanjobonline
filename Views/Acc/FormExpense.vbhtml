@@ -63,6 +63,10 @@ End Code
         border-right: 1px solid black;
     }
 </style>
+
+<div class="center bold">
+    <label style="font-size:16px">PAYABLE VOUCHER</label>
+</div>
 <table class="table">
     <thead></thead>
     <tbody>
@@ -74,7 +78,7 @@ End Code
                 <label id="id"></label>
             </td>
             <td>
-                <label id="voucherLbl" class="bold">A/P NO:</label>
+                <label id="voucherLbl" class="bold">VOUCHER NO:</label>
             </td>
             <td>
                 <label id="voucherNo"></label>
@@ -86,7 +90,7 @@ End Code
                 <div id="billAddress"></div>
             </td>
             <td>
-                <label id="voucherDateLbl" class="bold">CREATE DATE:</label>
+                <label id="voucherDateLbl" class="bold">VOUCHER DATE:</label>
             </td>
             <td>
                 <label id="voucherDate"></label>
@@ -363,8 +367,6 @@ End Code
         </td>
     </tr>
 </table>
-<br/><b>REMARKS:</b>
-<span id="remark"></span>
 <script src="~/Scripts/Func/reports.js"></script>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
@@ -378,10 +380,10 @@ End Code
         $.get(path + url).done(function (r) {
             if (r.payment.data.length > 0) {
                 let h = r.payment.data[0];
+		ShowVenderAddr(path,h.VenCode);
                 $("#voucherNo").text(h.DocNo);
                 $("#voucherDate").text(ShowDate(h.DocDate));
                 $("#jobNo").text(h.ForJNo);
-                $("#remark").html(CStr(h.Remark));      
                 $("#totalVatAmount").text(ShowNumber(h.TotalVAT, 2));
                 $("#lessWT").text(ShowNumber(h.TotalTax, 2));
                 $("#netPayment").text(ShowNumber(h.TotalNet, 2));
@@ -436,25 +438,27 @@ End Code
                     html += '</tr>';
                     let rateCal = 0;
                     if (row.AmtWHT > 0) {
-                        if (((row.AmtWHT * 100) / 1) == row.Amt)
+                        //let ans1 = (row.AmtWHT * 100) / 1;
+                        console.log(CDbl((row.AmtWHT * 100) / 1, 2) == CDbl(row.Amt, 2));
+                        if (CDbl((row.AmtWHT * 100) / 1, 2) == CDbl(row.Amt, 2))
                         {
                             rateCal = 1;
                             sumbaseWht1 += row.Amt;
                             sumWht1 += row.AmtWHT;
                         }
 
-                        if (((row.AmtWHT * 100) / 1.5) == row.Amt) {
+                        if (CDbl((row.AmtWHT * 100) / 1.5, 2) == CDbl(row.Amt, 2)) {
                             rateCal = 1.5;
                             sumbaseWht1_5 += row.Amt;
                             sumWht1_5 += row.AmtWHT;
                         }
-                        if (((row.AmtWHT * 100) / 3) == row.Amt)
+                        if (CDbl((row.AmtWHT * 100) / 3, 2) == CDbl(row.Amt, 2))
                         {
                             rateCal = 3;
                             sumbaseWht3 += row.Amt;
                             sumWht3 += row.AmtWHT;
                         }
-                        if (((row.AmtWHT * 100) / 10) == row.Amt)
+                        if (CDbl((row.AmtWHT * 100) / 10, 2) == CDbl(row.Amt, 2))
                         {
                             rateCal = 10;
                             sumbaseWht10 += row.Amt;
@@ -537,13 +541,22 @@ End Code
                 ShowVender(path, j.ForwarderCode, '#carrier');
             }
         });
+    }    
+    function ShowVenderAddr(path, code) {
+        $.get(path + 'Master/GetVender?Code=' + code).done(function (r) {
+            if (r.vender.data.length>0) {
+                let v = r.vender.data[0];
+                $('#billName').text(v.TName);
+                $('#billAddress').html(v.TAddress1 + '<br/>' + v.TAddress2);
+            }
+        });
     }
     function ShowCustomerAddress(path, code, branch,h) {
         $.get(path + 'Master/GetCompany?Code=' + code + '&Branch=' + branch).done(function (r) {
             if (r.company.data.length>0) {
                 let c = r.company.data[0];
-                $('#billName').text(c.NameEng);
-                $('#billAddress').html(c.EAddress1 + '<br/>' + c.EAddress2);
+                //$('#billName').text(c.NameEng);
+                //$('#billAddress').html(c.EAddress1 + '<br/>' + c.EAddress2);
                 let creditlimit = Number(c.CreditLimit);
                 $('#dueDate').text(AddDate(h.DocDate, creditlimit));
                 $("#creditTerm").text(creditlimit + " DAYS");
@@ -551,5 +564,6 @@ End Code
             }
         });
     }
+
 
 </script>

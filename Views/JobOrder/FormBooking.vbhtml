@@ -81,10 +81,9 @@ End Code
     @*<img src="~/Resource/bft_blheader.png" style="width:100%" />*@
     <div style="width:100%;display:flex;font-size:13px">
         <div style="width:60%">
-            <div style="text-align: center; white-space: nowrap; font-weight: bold; font-size: 20px">BETTER FREIGHT & TRANSPORT CO.,LTD</div>
-            <div style="text-align: center; white-space: nowrap; font-weight:bold;">GLOBAL LOGISTICS NETWORK</div>
+            <div style="text-align: center; white-space: nowrap; font-weight: bold; font-size: 16px">UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD. </div>
         </div>
-        <div style="width:40%"><h1 style="text-align:center;white-space:nowrap">SHIPPING INSTRUCTION</h1></div>
+        <div style="width:40%;text-align:center;white-space:nowrap; font-weight: bold; font-size: 16px">SHIPPING INSTRUCTION</div>
     </div>
 </div>
 <table style="width:100%">
@@ -102,7 +101,7 @@ End Code
         <td class="bodered" style="width: 50%;" rowspan="2" colspan="3">
             <div style="display:flex;flex-direction:column;height:200px">
                 <div style="display:flex;flex:1;">
-                    <div style="width:60%;display:flex;flex-direction:column">
+                    <div style="width:50%;display:flex;flex-direction:column">
                         <div style="display: flex; flex: 1">
                             <div>     TO : </div>
                             <div style="flex: 1; padding: 0px 5px" contenteditable="true"></div>
@@ -113,17 +112,17 @@ End Code
                         </div>
                         @*<p>    ATTN : <label id="lblForwarderName"></label></p>*@
                     </div>
-                    <div style="width:40%">
-                        <img src="~/Resource/bft_blpic.png" style="width:100%;" />
+                    <div style="width:50%">
+                        <img src="~/Resource/logo_uglobe.jpg" style="width:100%;" />
                     </div>
                 </div>
 
                 <div style="flex: 1; display: flex; flex-direction: column">
                     <div style="display: flex; flex: 1">
-                        FROM : BETTER FREIGHT & TRANSPORT CO,.LTD.
+                        FROM : UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.
                     </div>
                     <div style="display: flex; flex: 1">
-                        (E-MAIL: csteam@bftfreight.com,console@bftfreight.com)
+                        (E-MAIL: )
                     </div>
 
 
@@ -135,7 +134,7 @@ End Code
                         @*<p>  BFT NO. : <label id="lblJobNo"></label><br /></p>
         <p>  BKG NO. : <label></label><br /></p>*@
                         <div style="display: flex; flex: 1">
-                            <div>      BFT NO. : </div>
+                            <div>      JOB NO. : </div>
                             <div id="lblJobNo" style="flex: 1"></div>
                         </div>
                         <div style="display: flex; flex: 1">

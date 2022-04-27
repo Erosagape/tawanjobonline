@@ -757,6 +757,7 @@ End Code
             row_d.ExchangeRate = $('#txtDExchangeRate').val();
             row_d.UnitPrice = CNum($('#txtUnitPrice').val());
             row_d.FUnitPrice = CNum($('#txtFUnitPrice').val());
+            row_d.Amt = CNum($('#txtAmt').val());
             row_d.FAmt = CNum($('#txtFAmt').val());
             row_d.DiscountType = $('#txtDiscountType').val();
             row_d.DiscountPerc = CNum($('#txtDiscountPerc').val());

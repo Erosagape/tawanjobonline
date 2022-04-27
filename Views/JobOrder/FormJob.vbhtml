@@ -1,19 +1,19 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.ReportName = "SHIPPING CLOSING SHEET"
-    ViewBag.Title = "SHIPPING CLOSING SHEET"
+    ViewBag.ReportName = "JOB ACKNOWLEDGEMENT"
+    ViewBag.Title = "Job Acknowledgement"
 End Code
 <div>
     <table id="divJobInfo" width="100%">
         <tr>
-            <td colspan="2" >
-                <b style="font-size:16px">Job No : </b><input  type="text" style="font-size:16px;border:groove;text-align:center" id="txtJNo" value="" />
-            </td>
-            <td >
-                <b style="font-size:16px">Job Type : <label style="font-size:16px" id="lblJobType"></label></b>
+            <td colspan="2">
+                <b>Job No : </b><input type="text" style="border:groove;text-align:center" id="txtJNo" value="" />
             </td>
             <td>
-                <b  style="font-size:16px">Ship By : <label  style="font-size:16px" id="lblShipBy"></label></b>
+                <b>Job Type : <label id="lblJobType"></label></b>
+            </td>
+            <td>
+                <b>Ship By : <label id="lblShipBy"></label></b>
             </td>
         </tr>
         <tr>
@@ -32,10 +32,25 @@ End Code
         <tr>
             <td><b>Customer : </b><label id="lblCustCode"></label> / <label id="lblCustName"></label></td>
         </tr>
+        <tr>
+            <td id="dvAddr"></td>
+        </tr>
+        <tr>
+            <td><b>Tel : </b><label id="lblTel"></label></td>
+        </tr>
+        <tr>
+            <td><b>Fax : </b><label id="lblFax"></label></td>
+        </tr>
+        <tr>
+            <td><b>Contact : </b><label id="lblContact"></label></td>
+        </tr>
     </table>
     <table id="divBillingPlace">
         <tr>
             <td><b>Consignee : </b><label id="lblBillToCustCode"></label> / <label id="lblBillToCustName"></label></td>
+        </tr>
+        <tr>
+            <td id="dvBillAddr"></td>
         </tr>
     </table>
     <table id="tbInvoiceInfo" width="100%">
@@ -320,9 +335,6 @@ End Code
 </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
-
-$('#imgLogo').css('display','none');
-$('#imgLogoAdd').css('display','inline');
     //$(document).ready(function () {
         let br = getQueryString('BranchCode');
         let jno = getQueryString('JNo');

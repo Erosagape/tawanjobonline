@@ -46,7 +46,7 @@
         <div style="display:flex;flex-direction:column">
             @*<div style="display:flex" id="dvCompLogo">
                 <div style="flex:1;vertical-align:middle">
-                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100%" />
+                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:50px" />
                 </div>
                 <div style="flex:4;padding:5px;">
                     <div id="divCompany" style="text-align:left;color:darkblue;font-size:12px;">
@@ -75,51 +75,41 @@
         <table border="0" style="width:100%">
             <thead>
                 <tr>
-                    <td>
-                        <div style="display:flex" id="dvCompLogo">
+                    <td style="">
+                        <div style="display:flex;justify-content:center">
+                            <img id="imgLogo" src="~/Resource/@ViewBag.HeadSrc" style="width:90%;" />
+                        </div>
+                        <br />
+                        @*<div style="display:flex" id="dvCompLogo">
                             <div style="flex:1;vertical-align:middle">
-                                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100%" />
+                                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:50px" />
                             </div>
-                            <div style="flex:3;padding:5px;">
+                            <div style="flex:4;padding:5px;">
                                 <div id="divCompany" style="text-align:left;color:darkblue;font-size:12px;">
                                     <div style="height:25px;">
                                         <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME_EN</b>
                                     </div>
-                                    @*<div>
+                                    <div>
                                         <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME</b>
-                                    </div>*@
+                                    </div>
                                 </div>
-	  			<div style="font-size:10px;" id="dvCompAddr">
-                            		 @* @ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2 โทร @ViewBag.PROFILE_COMPANY_TEL แฟกซ์ @ViewBag.PROFILE_COMPANY_FAX
-                            		<br />*@
-
-					@ViewBag.PROFILE_COMPANY_ADDR1_EN 
-					<br />
-					@ViewBag.PROFILE_COMPANY_ADDR2_EN 
-					<br />
-					TEL @ViewBag.PROFILE_COMPANY_TEL FAX @ViewBag.PROFILE_COMPANY_FAX
-                            		<br />เลขประจำตัวผู้เสียภาษี @ViewBag.PROFILE_TAXNUMBER สาขา: สำนักงานใหญ่
-                        	</div>
                             </div>
                         </div>
-                      
+                        <div style="font-size:10px;" id="dvCompAddr">
+                            @ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2 โทร @ViewBag.PROFILE_COMPANY_TEL แฟกซ์ @ViewBag.PROFILE_COMPANY_FAX
+                            <br />@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN TEL @ViewBag.PROFILE_COMPANY_TEL FAX @ViewBag.PROFILE_COMPANY_FAX
+                            <br />เลขประจำตัวผู้เสียภาษี @ViewBag.PROFILE_TAXNUMBER สาขา: สำนักงานใหญ่
+                        </div>*@
 
-                        <div style="width:100%;text-align:center">
+                        @*<div style="width:100%;text-align:center">
                             <h3>@ViewBag.ReportName</h3>
-                        </div>
+                        </div>*@
                     </td>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>
-                       
-                        
-                    </td>
-                </tr>
-
-                <tr>
-                    <td> @RenderBody()</td>
+                    <td id="renderBody"> @RenderBody()</td>
                 </tr>
             </tbody>
         </table>

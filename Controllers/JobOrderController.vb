@@ -2779,6 +2779,56 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 .InvCountry = IIf(Request.Form("JobType") = "1", "TH", Request.Form("Country"))
                 }
             Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
+            If data.HAWB = "{AUTO}" And GetValueConfig("RUNNING_BYMASK", "HBLAWB") <> "" Then
+                Dim mask = GetValueConfig("RUNNING_BYMASK", "HBLAWB")
+                If mask.IndexOf("[CT]") >= 0 Then
+                    If (data.JobType = 1) Then
+                        mask = mask.Replace("[CT]", data.InvCountry)
+                    End If
+                    mask = mask.Replace("[CT]", data.InvFCountry)
+                End If
+                If mask.IndexOf("[IP]") >= 0 Then
+                    mask = mask.Replace("[IP]", data.InvInterPort)
+                End If
+                If mask.IndexOf("[CMP]") >= 0 Then
+                    mask = mask.Replace("[CMP]", data.CustCode.Substring(0, 3))
+                End If
+                If mask.IndexOf("yy") >= 0 Then
+                    mask = mask.Replace("yy", data.DocDate.ToString("yy"))
+                End If
+                If mask.IndexOf("MM") >= 0 Then
+                    mask = mask.Replace("MM", data.DocDate.ToString("MM"))
+                End If
+                If mask.IndexOf("#") >= 0 Then
+                    mask = mask.Replace("#", "_")
+                End If
+                data.AddHAWB(mask)
+            End If
+            If data.BookingNo = "{AUTO}" And GetValueConfig("RUNNING_BYMASK", "BOOKING") <> "" Then
+                Dim mask = GetValueConfig("RUNNING_BYMASK", "BOOKING")
+                If mask.IndexOf("[CT]") >= 0 Then
+                    If (data.JobType = 1) Then
+                        mask = mask.Replace("[CT]", data.InvCountry)
+                    End If
+                    mask = mask.Replace("[CT]", data.InvFCountry)
+                End If
+                If mask.IndexOf("[IP]") >= 0 Then
+                    mask = mask.Replace("[IP]", data.InvInterPort)
+                End If
+                If mask.IndexOf("[CMP]") >= 0 Then
+                    mask = mask.Replace("[CMP]", data.CustCode.Substring(0, 3))
+                End If
+                If mask.IndexOf("yy") >= 0 Then
+                    mask = mask.Replace("yy", data.DocDate.ToString("yy"))
+                End If
+                If mask.IndexOf("MM") >= 0 Then
+                    mask = mask.Replace("MM", data.DocDate.ToString("MM"))
+                End If
+                If mask.IndexOf("#") >= 0 Then
+                    mask = mask.Replace("#", "_")
+                End If
+                data.AddBooking(mask)
+            End If
             Dim FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
             If FindJob.Count > 0 Then
                 If FindJob(0).JNo <> data.JNo Then

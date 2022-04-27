@@ -225,7 +225,7 @@ End Code
         $.get(path + 'Clr/GetAdvForClear?show=NOCLR&branchcode=' + branch + '&reqby=' + reqby)
             .done(function (r) {
                 if (r.clr.data.length > 0) {
-                    let d = r.clr.data[0].Table;
+                    let d = r.clr.data[0];
                     let sum = d.map(item => item.AdvBalance).reduce((prev, next) => prev + next);
                     $('#lblPendingAmount').text(ShowNumber(sum, 2));
                 }
@@ -322,7 +322,9 @@ End Code
         sortData(r, 'TRemark', 'asc');
         let venCode = 'tmp';
         for (i = 0; i < r.length; i++) {
+            
             let d = r[i];
+            console.log(d);
             if (d.TRemark !== venCode) {
                 venCode = d.TRemark;
                 strDesc += '<b>' + d.TRemark + '</b><br/>';

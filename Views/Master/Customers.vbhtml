@@ -5,8 +5,8 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
-                <label id="lblCustCode">Customer Code:</label> <a href="#" onclick="$('#modChange').modal('show');">Change</a>
-                <br /><input type="text" id="txtCustCode" class="form-control" tabIndex="0" disabled>
+                <label id="lblCustCode">Customer Code:</label>
+                <br /><input type="text" id="txtCustCode" class="form-control" tabIndex="0">
             </div>
             <div class="col-sm-3">
                 <label id="lblBranch">Branch :</label>
@@ -259,32 +259,6 @@ End Code
             <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData('customer')">
                 <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
             </a>
-        </div>
-        <div id="modChange" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                To Code
-                            </div>
-                            <div class="col-sm-8">
-                                <input type="text" id="txtToCustCode" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                To Branch
-                            </div>
-                            <div class="col-sm-8">
-                                <input type="text" id="txtToCustBranch" />
-                            </div>
-                        </div>
-                        <button class="btn btn-warning" onclick="ChangeCustomer()">Change Customer</button>
-                        <label id="lblResult">Ready</label>
-                    </div>
-                </div>
-            </div>
         </div>
         <div id="dvLOVs"></div>
         <div id="dvHidden" style="display:none">
@@ -668,7 +642,7 @@ End Code
         $('#txtCustCode').focus();
     }
     function SaveData() {
-        /*if ($('#txtCustCode').val().trim().indexOf(' ') >= 0) {
+        if ($('#txtCustCode').val().trim().indexOf(' ') >= 0) {
             ShowMessage('Data must not have space', true);
             return;
         }
@@ -679,7 +653,7 @@ End Code
         if ($('#txtCustCode').val().trim().length < 3) {
             ShowMessage('Data must not have length less than 3', true);
             return;
-        }*/
+        }
         if ($('#txtBranch').val().trim().length > 5) {
             ShowMessage('Branch must not have length over 5', true);
             return;
@@ -749,43 +723,39 @@ End Code
             Code19BIS: $('#txtCode19BIS').val(),
             WEB_SITE: $('#txtWEB_SITE').val()
         };
-        //if (obj.CustCode != "") {
-        if (obj.Branch == '') {
-            ShowMessage('Please input branch',true);
-            return;
-        }
-        if (obj.NameThai == '') {
-            ShowMessage('Please input name',true);
-            return;
-        }
-        if (obj.NameEng == '') {
-            ShowMessage('Please input english name', true);
-            return;
-        }
-        ShowConfirm('Please confirm to save', function (ask) {
-            if (ask == false) return;
-            var jsonText = JSON.stringify({ data: obj });
-            //ShowMessage(jsonText);
-            $.ajax({
-                url: "@Url.Action("SetCompany", "Master")",
-                type: "POST",
-                contentType: "application/json",
-                data: jsonText,
-                success: function (response) {
-                    if (response.result.data != null) {
-                        $('#txtCustCode').val(response.result.data);
-                        $('#txtCustCode').focus();
+        if (obj.CustCode != "") {
+            if (obj.Branch == '') {
+                ShowMessage('Please input branch',true);
+                return;
+            }
+            if (obj.NameThai == '') {
+                ShowMessage('Please input name',true);
+                return;
+            }
+            ShowConfirm('Please confirm to save', function (ask) {
+                if (ask == false) return;
+                var jsonText = JSON.stringify({ data: obj });
+                //ShowMessage(jsonText);
+                $.ajax({
+                    url: "@Url.Action("SetCompany", "Master")",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: jsonText,
+                    success: function (response) {
+                        if (response.result.data != null) {
+                            $('#txtCustCode').val(response.result.data);
+                            $('#txtCustCode').focus();
+                        }
+                        ShowMessage(response.result.msg);
+                    },
+                    error: function (e) {
+                        ShowMessage(e,true);
                     }
-                    ShowMessage(response.result.msg);
-                },
-                error: function (e) {
-                    ShowMessage(e,true);
-                }
+                });
             });
-        });
-        //} else {
-        //    ShowMessage('No data to Save',true);
-        //}
+        } else {
+            ShowMessage('No data to Save',true);
+        }
     }
     function DeleteData() {
         var code = $('#txtCustCode').val();
@@ -815,21 +785,5 @@ End Code
 
     function CopyName() {
         $('#txtNameEng').val($('#txtNameThai').val());
-    }
-    function ChangeCustomer() {
-        let fromcode = $('#txtCustCode').val();
-        let frombranch = $('#txtBranch').val();
-        let tocode = $('#txtToCustCode').val();
-        let tobranch = $('#txtToCustBranch').val();
-        ShowConfirm(
-            "Please confirm to change code from '" + fromcode + "/" + frombranch + "' to '" + tocode + "/" + tobranch + "'",
-            function (ans) {
-            if (ans == true) {
-                $.get(path + 'Master/ChangeCustomer?FromCode=' + fromcode + '&FromBranch=' + frombranch + '&ToCode=' + tocode + '&ToBranch=' + tobranch).done(function (r) {
-                    ShowMessage(r);
-                    $('#lblResult').text(r);
-                });
-            }
-        });
     }
 </script>

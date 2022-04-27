@@ -1396,4 +1396,12 @@ Public Class CJobOrder
         End Using
         Return lst
     End Function
+    Public Sub AddHAWB(pFormatSQL As String)
+        Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(HAWB) as Ret FROM Job_Order WHERE HAWB Like '{0}'", pFormatSQL), pFormatSQL)
+        m_HAWB = retStr
+    End Sub
+    Public Sub AddBooking(pFormatSQL As String)
+        Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(BookingNo) as Ret FROM Job_Order WHERE BookingNo Like '{0}'", pFormatSQL), pFormatSQL)
+        m_BookingNo = retStr
+    End Sub
 End Class

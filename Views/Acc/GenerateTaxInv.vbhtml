@@ -17,10 +17,11 @@ End Code
                 <label id="lblDocType">Type :</label>
                 <br />
                 <select id="cboType" Class="form-control dropdown">
-                    <option value="TAX" selected>ใบเสร็จรับเงิน/ใบกำกับภาษี (Vat+Adv)</option>
-                    <option value="SRV"> ใบกำกับภาษี (Vat only)</option>
-                    <option value="REC"> Debit Note</option>
-                    <option value="RCV"> ใบเสร็จภายใน</option>
+                    <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
+                    <option value="SRV">Tax-Invoice (Service only)</option>
+                    <option value="REC">Receipt</option>
+                    <option value="RCV">Receipt Non-Vat</option>
+                    <option value="DNR">Debit Note Receipt</option>
                 </select>
             </div>
         </div>
