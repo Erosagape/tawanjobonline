@@ -2793,8 +2793,14 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 If mask.IndexOf("[CMP]") >= 0 Then
                     mask = mask.Replace("[CMP]", data.CustCode.Substring(0, 3))
                 End If
+                If mask.IndexOf("yyyy") >= 0 Then
+                    mask = mask.Replace("yyyy", data.DocDate.ToString("yyyy"))
+                End If
                 If mask.IndexOf("yy") >= 0 Then
                     mask = mask.Replace("yy", data.DocDate.ToString("yy"))
+                End If
+                If mask.IndexOf("MMM") >= 0 Then
+                    mask = mask.Replace("MMM", data.DocDate.ToString("MMM").ToUpper())
                 End If
                 If mask.IndexOf("MM") >= 0 Then
                     mask = mask.Replace("MM", data.DocDate.ToString("MM"))
@@ -2818,8 +2824,14 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 If mask.IndexOf("[CMP]") >= 0 Then
                     mask = mask.Replace("[CMP]", data.CustCode.Substring(0, 3))
                 End If
+                If mask.IndexOf("yyyy") >= 0 Then
+                    mask = mask.Replace("yyyy", data.DocDate.ToString("yyyy"))
+                End If
                 If mask.IndexOf("yy") >= 0 Then
                     mask = mask.Replace("yy", data.DocDate.ToString("yy"))
+                End If
+                If mask.IndexOf("MMM") >= 0 Then
+                    mask = mask.Replace("MMM", data.DocDate.ToString("MMM").ToUpper())
                 End If
                 If mask.IndexOf("MM") >= 0 Then
                     mask = mask.Replace("MM", data.DocDate.ToString("MM"))

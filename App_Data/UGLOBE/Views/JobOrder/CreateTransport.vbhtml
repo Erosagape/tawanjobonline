@@ -93,7 +93,7 @@ End Code
     </div>
     <div Class="row">
         <div Class="col-sm-2">
-            Booking
+            Booking <input type="checkbox" onclick="SetAuto('#txtBookingNo')" /> Auto
         </div>
         <div Class="col-sm-4">
             <input type="text" name="BookingNo" id="txtBookingNo" Class="form-control" />
@@ -107,7 +107,7 @@ End Code
     </div>
     <div Class="row">
         <div Class="col-sm-2">
-            H B/L
+            H B/L <input type="checkbox" onclick="SetAuto('#txtHAWB')" /> Auto
         </div>
         <div Class="col-sm-4">
             <input type="text" name="HouseBL" id="txtHAWB" Class="form-control" />
@@ -688,5 +688,8 @@ End Code
                 $('#form').submit();
             }
         });    
+    }
+    function SetAuto(id) {
+        $(id).val('{AUTO}');
     }
 </script>

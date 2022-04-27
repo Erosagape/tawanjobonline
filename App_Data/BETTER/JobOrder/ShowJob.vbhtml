@@ -677,9 +677,6 @@ End Code
                                     Document No
                                 </th>
                                 <th class="desktop">
-                                    Item
-                                </th>
-                                <th class="desktop">
                                     Expenses
                                 </th>
                                 <th class="all">
@@ -1487,7 +1484,6 @@ End Code
                                 }
                             }
                         },
-                        { data: "ItemNo", title: "Seq" },
                         { data: "Expense", title: "Description" },
                         {
                             data: "Amount", title: "Amount",
@@ -2015,7 +2011,7 @@ End Code
                     if(r[0].LOADEDTIME!==null) $('#txtClearDate').val(r[0].LOADEDTIME.substring(0, 10));
                     $('#txtVesselName').val(r[0].VSLNME + (r[0].VOY!==''? ' V.'+ r[0].VOY:''));
                 }
-                $('#txtReleasePort').val(r[0].DischargePort);
+                $('#txtReleasePort').val(r[0].ReleasePort);
                 $('#txtPortNo').val(r[0].LoadedPort);
                 $('#txtHAWB').val(r[0].HBL);
                 $('#txtMAWB').val(r[0].MBL);
