@@ -1216,20 +1216,29 @@ AND b.IsApplyPolicy=1
         Function SetCompany(<FromBody()> data As CCompany) As ActionResult
             Try
                 If Not IsNothing(data) Then
+                    If data.CustCode = "{AUTO}" Then
+                        If GetValueConfig("RUNNING_BYMASK", "CUSTOMER") <> "" Then
+                            Dim mask = GetValueConfig("RUNNING_BYMASK", "CUSTOMER")
+                            data.CustCode = GetMaxByMask(GetSession("ConnJob"), String.Format("SELECT MAX(CustCode) as t FROM Mas_Company where CustCode like '{0}'", mask), mask)
+                        Else
+                            data.CustCode = ""
+                        End If
+                    End If
+
                     If "" & data.CustCode = "" Then
-                        Dim sql=Main.GetValueConfig("SQL","SelectGroupCustomerRunning")
-                        If (sql="") Then
+                        Dim sql = Main.GetValueConfig("SQL", "SelectGroupCustomerRunning")
+                        If (sql = "") Then
                             Dim jsont = "{""result"":{""data"":null,""msg"":""Customer Code must be input""}}"
                             Return Content(jsont, jsonContent)
                         End If
                         Dim codeSearch = data.NameEng.Replace(" ", "").Replace(".", "").Substring(0, 5)
-                        If (codeSearch="") Then
+                        If (codeSearch = "") Then
                             Dim jsont = "{""result"":{""data"":null,""msg"":""Name English must be input""}}"
                             Return Content(jsont, jsonContent)
                         End If
-                        sql=String.Format("select t.* from (" & sql & ") t where t.Code='{0}'",codeSearch)
-                        Dim newCode=""
-                        Dim dt=New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                        sql = String.Format("select t.* from (" & sql & ") t where t.Code='{0}'", codeSearch)
+                        Dim newCode = ""
+                        Dim dt = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
                         If dt.Rows.Count > 0 Then
                             If dt.Rows(0)("Code").Equals(System.DBNull.Value) Then
                                 newCode = codeSearch & "0001"
@@ -1237,11 +1246,11 @@ AND b.IsApplyPolicy=1
                                 newCode = dt.Rows(0)("Code").ToString() & (Convert.ToDouble(dt.Rows(0)("Counter")) + 1).ToString("0000")
                             End If
                         End If
-                        If (newCode="") Then
+                        If (newCode = "") Then
                             Dim jsont = "{""result"":{""data"":null,""msg"":""Customer Code must be input""}}"
                             Return Content(jsont, jsonContent)
                         End If
-                        data.CustCode=newCode
+                        data.CustCode = newCode
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE CustCode='{0}' And Branch='{1}' ", data.CustCode, data.Branch))
@@ -1262,6 +1271,14 @@ AND b.IsApplyPolicy=1
         Function SetVender(<FromBody()> data As CVender) As ActionResult
             Try
                 If Not IsNothing(data) Then
+                    If data.VenCode = "{AUTO}" Then
+                        If GetValueConfig("RUNNING_BYMASK", "VENDER") <> "" Then
+                            Dim mask = GetValueConfig("RUNNING_BYMASK", "VENDER")
+                            data.VenCode = GetMaxByMask(GetSession("ConnJob"), String.Format("SELECT MAX(VenCode) as t FROM Mas_Vender where VenCode like '{0}'", mask), mask)
+                        Else
+                            data.VenCode = ""
+                        End If
+                    End If
                     If "" & data.VenCode = "" Then
                         Dim sql = Main.GetValueConfig("SQL", "SelectGroupVenderRunning")
                         If (sql = "") Then

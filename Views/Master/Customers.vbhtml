@@ -6,7 +6,8 @@ End Code
         <div class="row">
             <div class="col-sm-3">
                 <label id="lblCustCode">Customer Code:</label>
-                <br /><input type="text" id="txtCustCode" class="form-control" tabIndex="0">
+                <br />
+                <input type="text" id="txtCustCode" class="form-control" tabIndex="0" value="{AUTO}" disabled />
             </div>
             <div class="col-sm-3">
                 <label id="lblBranch">Branch :</label>
@@ -568,7 +569,7 @@ End Code
     }
     function ClearData() {
         if (userGroup !== 'C') {
-            $('#txtCustCode').val('');
+            $('#txtCustCode').val('{AUTO}');
             $('#txtBranch').val('0000');
         }
         $('#txtCustGroup').val(mode);

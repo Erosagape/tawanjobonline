@@ -7,7 +7,7 @@ End Code
         <div class="row">
             <div class="col-sm-4">
                 <label id="lblVenCode">Vender Code:</label>
-                <br /><input type="text" id="txtVenCode" Class="form-control" tabIndex="0">
+                <br /><input type="text" id="txtVenCode" Class="form-control" tabIndex="0" value="{AUTO}" disabled />
             </div>
             <div class="col-sm-4">
                 <label id="lblBranchCode">Branch :</label>
@@ -141,7 +141,7 @@ End Code
         return dr;
     }
     function ClearData() {
-        $('#txtVenCode').val('');
+        $('#txtVenCode').val('{AUTO}');
         $('#txtBranchCode').val('0000');
         $('#txtTaxNumber').val('');
         $('#txtTitle').val('');
