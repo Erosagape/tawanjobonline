@@ -1271,7 +1271,6 @@ End Code
                 });
                 BindEvent('#tbQuo', '#frmSearchQuo', function (dr) {
                     $('#txtQNo').val(dr.QNo);
-                    $('#txtQRevise').val(dr.ItemNo);
                     $('#txtConfirmDate').val(CDateEN(dr.ApproveDate));
                     rec.ManagerCode = dr.ApproveBy;
                     ShowUser(path, dr.ApproveBy, '#txtManagerName');

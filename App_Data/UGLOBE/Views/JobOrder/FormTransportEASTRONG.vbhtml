@@ -101,18 +101,15 @@ End Code
                     </div>
                 </div>
                 <img src="~/Resource/logo_uglobe.jpg" style="width:100%" />
-
-                as the Carrier
+                <div style="text-align:right">  AS THE CARRIER <br /> OCEAN BILL OF LADING</div>
+              
                 <div>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    RECEIVED by the Carrier in apparent good order and condition except as otherwise noted the goods below for shipment subject to the terms of this Bill of lading including those on the back page.
-                    One of the Original Bill of Lading must be surrendered duty endorsed in exchange for the Goods of Delivery Order. IN WITNESS whereof the number of Original Bill of lading stated below have been signed. one of which having been accomplished the others to be void.
-                    On presentation of this Document (duty endorsed) to the Carrier by or On behalf of the Holder,The rights and liablility arising in accordance with the terms hereof shall (without prejudice to any rule of common law or statute rendering them binding on the Merchant)
-                    become binding in all respects between the Carrier and the Holder as though the contract evidence hereby has been made between them.
-                    <br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    The Contract evidenced by this Bill of lading is governed by the Laws of the People's republic of China, Any Claim or dispute must be determined exclusively by the Courts in the People's republic of China and other courts'
-
+                    RECEIVED by the Carrier the Goods as specified below in apparent good order and condition unless otherwise stated, to be transported to such place as agreed, authorized or permitted herein and subject to all the terms and conditions appearing on the front and reverse of this Bill of Lading to which the Merchant agrees by accepting this Bill of Lading, any local privileges and customs notwithstanding.
+                    The particulars given below as stated by the shipper and the weight, measure, quantity, condition,
+                    contents and value of the Goods are unknown to the Carrier. In WTINESS whereof one (1)
+                    original Bill of Lading has been signed if not otherwise stated below, the same being accomplished
+                    the other(s), if any to be void. If required by the Carrier one (1) original Bill of Lading must be
+                    surrendered duly endored in exchange for the Goods or delivery order.
                 </div>
 
             </td>
@@ -259,10 +256,10 @@ End Code
             <td>
                 Per
             </td>
-            <td>
+            <td style="width:10%">
                 Prepaid
             </td>
-            <td class="left">
+            <td style="width:10%" class="left">
                 Collect
             </td>
         </tr>
@@ -308,17 +305,19 @@ End Code
             </td>
         </tr>
         <tr>
-            <td colspan="2" class="top-right">
-                SHIPPED on board the vessel
-                <br />
-                Date
-                <br />
-                <div style="text-align:center">
-                    <label id="lblLoadDate"></label>
-                </div>
+            <td  class="top-right" style="width:20%">
+                <div>Shipped on board </div>
             </td>
-            <td colspan="3" class="top-left">
-                
+            <td colspan="2" class="top-right" style="width:20%">
+                <label id="lblLoadDate"></label><br />
+                <label id="lblLoadPort2"></label><br />
+                <label id="lblPreCarriage"></label>
+            </td>
+            <td colspan="2" class="top-left" >
+                The contract evidenced by this Bill of Lading is governed by the laws of the Hong Kong Special Administrative Region. Any proceedings against the carrier must be brought in the courts of the
+                Hong Kong Special Administrative Region and on other court.
+                <br />
+                <div style="padding-left:50%">Excess Value Declaration Refer to Clause 11.4 on reverse side</div>
             </td>
         </tr>
     </table>
@@ -346,6 +345,7 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
             $('#lblPaymentCondition').text(h.PaymentCondition);
             $('#lblBookingDate').text('BANGKOK ' + ShowDate(h.BookingDate));
             $('#lblLoadDate').text(ShowDate(h.BookingDate));
+            $('#lblLoadDate').text(ShowDate(h.BookingDate));
             $('#lblForwarderName').text(h.ForwarderName);
             $('#lblShipperName').text(h.ShipperName);
             $('#lblShipperAddress1').text(CStr(h.ShipperAddress1));
@@ -358,6 +358,7 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
             $('#lblNotifyAddress2').text(h.NotifyAddress2);
             $('#lblVesselName').text(h.VesselName);
             $('#lblMVesselName').text(h.MVesselName);
+            $('#lblPreCarriage').text(h.MVesselName);
             $('#lblPackingPlace').text(h.CYPlace);
 
             let unit=units.filter(function(data){
@@ -370,10 +371,12 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
             }
             if (h.JobType == '1') {
                 ShowInterPort(path, h.InvFCountry, h.InvInterPort, '#lblInterPortName');
+                ShowInterPort(path, h.InvFCountry, h.InvInterPort, '#lblLoadPort2');
                 ShowCountry(path, h.InvFCountry, '#lblCountryName');
             } else {
                 ShowCountry(path, h.InvCountry, '#lblCountryName');
                 ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblInterPortName');
+                ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblLoadPort2');
             }
             $('#lblFactoryPlace').text(h.FactoryPlace);
             $('#lblRouting').text(h.FactoryAddress);

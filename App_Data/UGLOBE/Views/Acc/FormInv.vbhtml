@@ -1,400 +1,543 @@
-﻿
-@Code
+﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Invoice Slip"
 End Code
 <style>
+
     * {
-        font-size: 12px;
+        font-size: 11px;
     }
 
-    table {
-        border-width: thin;
-        border-collapse: collapse;
+    body {
+        line-height: 1;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .right {
+        text-align: right;
+    }
+
+    .bold {
+        font-weight: bold;
+    }
+
+    .table td, .table th, .table thead th {
+        padding: 0.3em;
+    }
+
+    .curveBorder {
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 5px;
+    }
+
+    .underLine {
+        border-bottom: 1px solid black !important;
+    }
+
+    .upperLine {
+        border-top: 1px solid black !important;
+    }
+
+    .vborder {
+        border-right: 1px solid black;
+        border-left: 1px solid black;
+    }
+
+    .textSpace {
+        width: 20em;
     }
 
     #dvFooter {
         display: none;
     }
 
-    #dvForm {
-        padding-right: 5px;
+    table {
+        width: 100%;
     }
-</style>
-<div style="text-align:center;width:100%;padding:5px 5px 5px 5px">
-    <label id="lblDocType" style="font-size:16px;font-weight:bold">ใบแจ้งหนี้ (INVOICE)</label>
-</div>
-<div id="dvForm"  style="display:flex;flex-direction:column;">        
-    <div style="display:flex;flex-direction:row;width:97%">
-        <div style="flex:3;border:1px solid black;border-radius:5px;margin-right:5px;padding:5px 5px 5px 5px;">
-            NAME : <label id="lblCustName"></label><br />
-            ADDRESS : <label id="lblCustAddress"></label><br />
-            <!--TEL : <label id="lblCustTel"></label><br />-->
-            <label>TAX-ID:</label>
-            <label id="lblTaxNumber"></label>
-            <label>BRANCH:</label>
-            <label id="lblTaxBranch"></label>
-        </div>
-        <div style="flex:1;border:1px solid black;border-radius:5px;padding:5px 5px 5px 5px;">
-            INV NO. : <label id="lblDocNo"></label><br />
-            INV DATE : <label id="lblDocDate"></label><br />
-            CUST INV : <label id="lblCustInvNo"></label><br />
-            JOB NO : <label id="lblJobNo"></label><br />
-        </div>
-    </div>
-    <div style="border:1px solid black;border-radius:5px;margin-top:5px;padding:5px 5px 5px 5px;width:97%">
-        <div style="display:flex">
-            <div style="flex:1">
-                FROM :<label id="lblFromCountry"></label> TO :<label id="lblToCountry"></label>
-            </div>
-            <div style="flex:1">
-                ETD :<label id="lblETDDate"></label>
-            </div>
-            <div style="flex:1">
-                ETA :<label id="lblETADate"></label>
-            </div>
-        </div>
-        <div style="display:flex">
-            <div style="flex:1">
-                PORT :<label id="lblInterPort"></label>
-            </div>
-            <div style="flex:1">
-                HBL/HAWB :<label id="lblHAWB"></label>
-            </div>
-            <div style="flex:1">
-                MBL/MAWB :<label id="lblMAWB"></label>
-            </div>
-        </div>
-        <div style="display:flex">
-            <div style="flex:1">
-                FLIGHT/VESSEL :<label id="lblVesselName"></label>
-            </div>
-            <div style="flex:1">
-                CUSTOMER :<label id="lblCustTName"></label>
-            </div>
 
-        </div>
-        <div style="display:flex">
-            <div style="flex:1">
-                QUANTITY :<label id="lblQtyGross"></label> <label id="lblQtyUnit"></label>
-            </div>
-            <div style="flex:1">
-                Customer PO :<label id="lblCustPo"></label>
-            </div>
-            <div style="flex:1">
-            </div>
-        </div>
-    </div>
-<br/>
-    <div style="width:97%;">
-        <table style="width:100%;" border="1" class="text-center">
-            <tr style="background-color :gainsboro;text-align:center;font-weight:bold">
-                <td width="50px">No</td>
-                <td width="370px">DESCRIPTION</td>
-                <td width="80px">PRICE</td>
-                <td width="50px">QTY</td>
-                <td width="100px">ADVANCE</td>
-                <td width="100px">NON-VAT</td>
-                <td width="100px">SERVICE</td>
-            </tr>
-            <tbody id="tbDetail"></tbody>
-            <tr style="font-weight:bold;">
-                <td colspan="4">
-                    TOTAL AMOUNT
-                </td>
-                <td style="text-align:right">
-                    <label id="lblSumAdvance"></label>
-                </td>
-                <td style="text-align:right">
-                    <label id="lblSumNonVat"></label>
-                </td>
-                <td style="text-align:right">
-                    <label id="lblSumBeforeVat"></label>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="4">
-                    <div style="display:flex">
-                        <div style="text-align:left;flex:1;vertical-align:top">
-                            <div id="lblShippingRemark"></div>
-                            REMARKS :<br />
-                            <div id="lblDescription"></div>
-                        </div>
-                    </div>
-                </td>
-                <td colspan="2">
-                    VAT (RATE=<label id="lblVATRate"></label>%)<br />
-                    SERVICE+VAT<br />
-                    DISCOUNT (RATE=<label id="lblDiscountRate"></label>%)<br />
-                    CUST. ADV<br />
-                    <b>GRAND TOTAL</b>
-                </td>
-                <td style="background-color:gainsboro;text-align:right;" colspan="2">
-                    <label id="lblSumVat"></label><br />
-                    <label id="lblSumAfterVat"></label><br />
-                    <label id="lblSumDiscount"></label><br />
-                    <label id="lblSumCustAdv"></label><br />
-                    <label id="lblSumGrandTotal" style="font-weight:bold;"></label>
-                </td>
-            </tr>
-            <tr>
-                <td>TOTAL<br />(<label id="lblCurrency"></label>)</td>
-                <td colspan="6">
-                    <div style="text-align:center;"><label id="lblTotalBaht" style="font-size:14px;font-weight:bold"></label></div>
-                </td>
-            </tr>
+    #main td ,th{
+        border-right: 1px solid black;
+        border-left: 1px solid black;
+    } 
+</style>
+<div class="center bold">
+    <br/>
+    <label style="font-size:16px">ใบแจ้งหนี้/INVOICE</label>
+</div>
+
+<div style="display:flex;width:98%" >
+    <div style="flex:60%" class="curveBorder">
+        <table class="table table-borderless">
+            <tbody>
+                <tr>
+                    <td class="bold">
+                        <label id="billToLbl">BILL TO NAME AND ADDRESS</label>
+                    </td>
+                    <td class="right">
+                        <label id="id"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label id="billName"></label>
+                    </td>
+                </tr>
+		<tr>
+                    <td>
+                        <label id="billAddress1"></label>
+                    </td>
+                </tr>
+		<tr>
+                    <td>
+                        <label id="billAddress2"></label>
+                    </td>
+                </tr>
+		<tr>
+                    <td>
+                        <label id="billContactInfo"></label>
+                    </td>
+                </tr>
+		
+            </tbody>
         </table>
     </div>
-<br/>
-    <div style="display:flex;width:97%">
-        <div class="text-left" style="border:1px solid black;border-radius:5px;flex:1;margin-right:5px;padding:5px 5px 5px 5px;font-size:10px;">
-            WITHHOLDING TAX DETAIL
-            <table style="width:100%;">
+    <div style="flex:2%"></div>
+    <div style="flex:38%" class="curveBorder">
+        <table class="table table-borderless">
+            <tbody>
                 <tr>
-                    <td style="width:55%;font-size:10px;">TRANSPORT 1%</td>
-                    <td style="width:25%;text-align:right;font-size:10px;"><label id="lblSumBaseWht1"></label><br /></td>
-                    <td style="width:20%;text-align:right;font-size:10px;"><label id="lblSumWht1"></label></td>
-                </tr>
-                <tr>
-                    <td style="width:55%;font-size:10px;">SERVICE 3%</td>
-                    <td style="width:25%;text-align:right;font-size:10px;"><label id="lblSumBaseWht3"></label></td>
-                    <td style="width:20%;text-align:right;font-size:10px;"><label id="lblSumWht3"></label></td>
-                </tr>
-                <tr>
-                    <td colspan="2" style="width:80%;font-size:10px;">
-                        <b>NET AMOUNT</b>
+                    <td>
+                        <label id="invoiceNoLbl">INVOICE NO.:</label>
                     </td>
-                    <td style="width:20%;text-align:right;font-size:10px;">
-                        <label id="lblSumNetInvoice" style="font-weight:bold"></label>
+                    <td>
+                        <label id="invoiceNo"> </label>
                     </td>
                 </tr>
-
-            </table>
-            <br />
-            <div>
-            </div>
-        </div>
-        <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;margin-right:5px;padding:5px 5px 5px 5px;font-size:10px;">
-            FOR THE CUSTOMER <br /><br /> <br /><br /><br />
-            ......................................................... <br />
-            __________/_________/________ <br />
-            AUTHORIZED SIGNATURE
-        </div>
-        <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center;padding:5px 5px 5px 5px;font-size:10px;">
-            FOR @ViewBag.PROFILE_COMPANY_NAME <br /><br /> <br /><br /><br />
-            ......................................................... <br />
-            __________/_________/________ <br />
-            AUTHORIZED SIGNATURE
-        </div>
+                <tr>
+                    <td>
+                        <label id="invoiceDateLbl">INVOICE DATE:</label>
+                    </td>
+                    <td>
+                        <label id="invoiceDate"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label id="crTermLbl">CR. TERM:</label>
+                    </td>
+                    <td>
+                        <label id="crTerm"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label id="dueDateLbl">DUE DATE:</label>
+                    </td>
+                    <td>
+                        <label id="dueDate"></label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label id="currencyLbl">CURRENCY:</label>
+                    </td>
+                    <td>
+                        <label id="currency"></label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
-    @If ViewBag.DATABASE = "2" Then
-        @<div style="border:1px solid black;border-radius:5px;margin-top:5px;padding:5px 5px 5px 5px;width:97%">
-            สั่งจ่าย : <span id="lblCompanyName2" style="font-weight:bold">บจก.เกื้อพสิษฐ์</span> บัญชีออมทรัพย์ ธนาคารกสิกรไทย สาขาถนนศรีนครินทร์ กม.17<br />
-            เลขที่บัญชี <span id="lblAccountName2" style="font-weight:bold">026-8-76046-6</span> <br />
-            ชำระโดย By <input type="checkbox" />เงินสด/Cash <input type="checkbox" />เงินโอน/Transfer <input type="checkbox" /> เช็ค/Cheque No_______________/D_____________<br />
-            ธนาคาร/ Bank ___________________________________ จำนวนเงิน/Amount__________________บาท/Baht
-        </div>
-    Else
-        @<div style="border:1px solid black;border-radius:5px;margin-top:5px;padding:5px 5px 5px 5px;width:97%">
-            สั่งจ่าย : <span id="lblCompanyName2" style="font-weight:bold">บจก.เดอะโซลูชั่น โลจิสติกส์</span>
-            <br />-บัญชีออมทรัพย์ ธนาคารกสิกรไทย สาขาถนนศรีนครินทร์ กม.17 เลขที่บัญชี <span id="lblAccountName2" style="font-weight:bold">026-8-76862-9</span>
-            <br />-บัญชีกระแสรายวัน ธนาคารกสิกรไทย สาขาถนนรัชดาภิเษก (ตากสิน-ท่าพระ) เลขที่บัญชี <span id="lblAccountName3" style="font-weight:bold">707-1-00389-7</span>
-            <br />-บัญชีออมทรัพย์ ธนาคารกรุงเทพ สาขาถนนเทพารักษ์ กม.22 เลขที่บัญชี <span id="lblAccountName4" style="font-weight:bold">921-0-38888-1</span>
-            <br />-บัญชีกระแสรายวัน ธนาคารกรุงเทพ สาขาถนนเทพารักษ์ กม.22 เลขที่บัญชี <span id="lblAccountName5" style="font-weight:bold">921-3-00552-4</span>
-            <br />ชำระโดย By <input type="checkbox" />เงินสด/Cash <input type="checkbox" />เงินโอน/Transfer <input type="checkbox" /> เช็ค/Cheque No_______________/D_____________<br />
-            ธนาคาร/ Bank ___________________________________ จำนวนเงิน/Amount__________________บาท/Baht
-        </div>
-    End If
 </div>
+<table class="table">
+
+    <tbody>
+        <tr>
+            <td><label id="destinyLbl">POL/ POD</label></td>
+            <td>:</td>
+            <td>
+                <label id="port"></label>
+                <label id="origin"></label>
+                to <label id="destiny"></label>
+            </td>
+          
+
+
+            <td><label id="jobNoLbl">JOB NO.</label></td>
+            <td>:</td>
+            <td><label id="jobNo"></label></td>
+
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td><label id="vesselLbl">VESSEL/VOYAGE</label></td>
+            <td>:</td>
+            <td><label id="vessel">SINAR SOLO V. 936N</label></td>
+
+            <td><label id="etdLbl">ETD</label></td>
+            <td>:</td>
+            <td><label id="etd"></label></td>
+
+            <td><label id="etaLbl">ETA</label></td>
+            <td>:</td>
+            <td><label id="eta"></label></td>
+        </tr>
+
+        <tr>
+            <td><label id="hblNoLbl">H-B/L NO.</label></td>
+            <td>:</td>
+            <td><label id="hblNo"></label></td>
+
+            <td><label id="quantityLbl">QUANTITY</label></td>
+            <td>:</td>
+            <td><label id="quantity"></label></td>
+
+            <td><label id="totpkgLbl">TOTAL PKG</label></td>
+            <td>:</td>
+            <td><label id="totpkg"></label></td>
+        </tr>
+
+        <tr>
+            <td><label id="newBlNoLbl">NEW B/L NO</label></td>
+            <td>:</td>
+            <td><label id="newBlNo"></label></td>
+
+            <td><label id="weightLbl">WEIGHT</label></td>
+            <td>:</td>
+            <td><label id="weight"></label></td>
+
+        </tr>
+
+        <tr>
+            <td><label id="containerNoLbl">CONTANER NO.</label></td>
+            <td>:</td>
+            <td><div id="containerNo"></div></td>
+
+            <td><label id="volumeLbl">VOLUME</label></td>
+            <td>:</td>
+            <td><label id="volume"></label></td>
+        </tr>
+
+        <tr>
+            <td><label id="custInvNoLbl">CUST INV NO.</label></td>
+            <td>:</td>
+            <td><label id="custInvNo"></label></td>
+
+            <td><label id="refLbl">REF.</label></td>
+            <td>:</td>
+            <td><label id="ref"></label></td>
+        </tr>
+
+
+    </tbody>
+</table>
+
+<table id="main" class="table" style="border-width:thin;border-collapse:collapse ;width:98%" >
+    <thead>
+        <tr class="upperLine underLine">
+            <th class="bold align-top underLine" rowspan="2">DESCRIPTION</th>
+            <th id="insouce" class="center bold underLine" colspan="6">IN SOURCE CURRENCY</th>
+            <th class="center bold underLine" colspan="3">AMOUNT IN THB</th>
+        </tr>
+        <tr class="upperLine">
+            <th class="center bold underLine">W/T</th>
+            <th class="center bold underLine">QTYs</th>
+            <th class="center bold underLine">UOM</th>
+            <th class="center bold underLine">Curr.</th>
+            <th class="center bold underLine">Exc.</th>
+            <th class="center bold underLine">@@ UNIT</th>
+            <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">ADVANCE</th>
+            <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">NON VAT</th>
+            <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">VAT</th>
+        </tr>
+    </thead>
+    <tbody id="details">
+    </tbody>
+</table>
+<table class="table" style="width:98%;border-collapse:collapse ">
+    <thead></thead>
+    <tbody>
+        <tr class="upperLine">
+            <td class="underLine">TAX RATE</td>
+            <td class="center underLine">GROSS</td>
+            <td class="center underLine">W/T AMT</td>		
+            <td id="amountLbl" class="right">AMOUNT:</td>
+            <td style="width:60px;" id="advanceAmount" class="right"></td>
+            <td style="width:60px;" id="nonVatAmount" class="right" style="width:5em"></td>
+            <td style="width:60px;" id="vatAmount" class="right"></td>
+        </tr>
+        <tr>
+            <td id="taxRate1"></td>
+            <td id="gross1" class="center right"></td>
+            <td id="wtAmt1" class="center right"></td>
+            <td id="valueAddedTaxLbl" class="right">VALUE ADDED TAX 7%:</td>
+            <td class="right underLine"></td>
+            <td class="right underLine"></td>
+            <td id="valueAddedTax" class="right underLine"></td>
+        </tr>
+        <tr>
+            <td id="taxRate1_5"></td>
+            <td id="gross1_5" class="center right"></td>
+            <td id="wtAmt1_5" class="center right"></td>
+            <td id="totalAmountLbl" class="right">TOTAL AMOUNT:</td>
+            <td class="right"></td>
+            <td class="right"></td>
+            <td id="totalAmount" class="right"></td>
+        </tr>
+        <tr>
+            <td id="taxRate3"></td>
+            <td id="gross3" class="center right"></td>
+            <td id="wtAmt3" class="center right"></td>
+            <td id="lessWithholdingTaxLbl" class="right">LESS: WITHHOLDING TAX:</td>
+            <td class="right underLine"></td>
+            <td class="right underLine"></td>
+            <td id="lessWithholdingTax" class="right underLine"></td>
+        </tr>
+        <tr class="underLine">
+            <td class="center"></td>
+            <td class="center"></td>
+            <td class="center"></td>
+            <td id="netAmountLbl" class="right">NET AMOUNT:</td>
+            <td class="right"></td>
+            <td class="right"></td>
+            <td id="netAmount" class="right"></td>
+        </tr>
+    </tbody>
+</table>
+<br>
+<p>
+    TOTAL AMOUNT IN WORDS:
+    <label id="bahtText">   BAHT TWENTY-EIGHT THOUSAND FIVE HUNDRED TWENTY-THREE AND</label>
+</p>
+<p class="bold">DULY CHECKED AND RECEIVED IN GOOD CONDITION</p>
+
+
+<p class="bold">หมายเหตุ ใบแจ้งหนี้นี้มิใช่ใบกำกับภาษี ใบกำกับภาษีจะออกให้ต่อเมื่อได้รับชำระเงินเรียบร้อยแล้ว</p>
+<p>
+        กรุณาชําระด้วยเช็คขีดคร่อมและสั่งจ่ายในนาม "บริษัท ยูไนเต็ด โกลบ โลจิสติกส์ (ประเทศไทย) จำกัด"
+       
+</p>
+<p>
+    Please make a crossed cheque payable to " UNITED GLOBE LOGISTICS(THAILAND) CO.,LTD."
+</p>
+<p>
+
+    <br>
+    ธนาคารกสิกรไทย
+    บริษัท ยูไนเต็ด โกลบ โลจิสติกส์ (ประเทศไทย) จำกัด
+    เลขบัญชี : 028-109-6419
+    ประเภทบัญชี ; กระแสรายวัน
+    สาขา : 208 เพชรบุรีตัดใหม่
+</p>    
+<p>
+   Remark:
+   <label id="remark"></label>
+</p>
+<br /><br />
+<table class="table" style="width:100%">
+    <tr>
+        <td colspan="2" class="bold" style="flex:1;text-align:center;">ผู้รับวางบิล / Received By :</td>
+
+        <td colspan="2" class="bold" style="flex: 1; text-align: center;">อนุมัติโดย / Approved By :</td>
+
+        <td colspan="2" class="bold" style="flex: 1; text-align: center;">ผูัจัดทำ /  Preapared By </td>
+
+    </tr>
+    <tr>
+        <td colspan="2" class="underLine textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /></td>
+        <td colspan="2" class="underLine textSpace" style="flex: 1; text-align: center;"></td>
+        <td colspan="2" class="underLine center" style="flex: 1; text-align: center;"> </td>
+    </tr>
+    <tr>
+        <td class="bold" style="width:10%; text-align: center;">DATE :</td>
+        <td class="underLine  textSpace" style="flex: 1; text-align: center;"></td>
+        <td class="bold" style="width: 10%; text-align: center;">DATE :</td>
+        <td class="underLine  textSpace" style="flex: 1; text-align: center;"></td>
+        <td class="bold" style="width: 10%; text-align: center;">DATE :</td>
+        <td class="underLine  textSpace" style="flex: 1; text-align: center;"></td>
+
+    </tr>
+</table>
+
 <script type="text/javascript">
-    var path = '@Url.Content("~")';
-    const license = '@ViewBag.LICENSE_NAME';
+    const path = '@Url.Content("~")';
+    let bShowSlip = false;
     let branch = getQueryString('branch');
-    let invno = getQueryString('code');
-    let ans = confirm('Show Tax-Invoice?');
-    if (ans == true) {
-        $('#lblDocType').html('ใบแจ้งหนี้ / ใบกำกับภาษี (INVOICE/TAX-INVOICE)');
-    } 
-    $.get(path + 'acc/getinvoice?branch=' + branch + '&code=' + invno, function (r) {
-        if (r.invoice.header!== null) {
-            ShowData(r.invoice);
+    let code = getQueryString('code');
+
+    if(confirm("show company header?")==false){
+	    $('#imgLogo').css('display','none');
+	    $('#divCompany').css('display','none');
+	    $('#dvCompAddr').css('display','none');
+	    $('#dvCompLogo').css('height','90px');
+    }
+
+    $.get(path + 'Acc/GetInvoice?Branch=' + branch + '&Code=' + code).done(function (r) {
+        if (r.invoice.header.length > 0) {
+            let h = r.invoice.header[0][0];
+            let c = r.invoice.customer[0][0];
+            let j = r.invoice.job[0][0];
+	        $.get(path + 'Master/GetCompany?Code='+h.BillToCustCode+'&Branch='+h.BillToCustBranch).done(function (r) {
+                let b = r.company.data[0];
+                $("#billName").text(b.NameEng);
+
+                let addr = '';
+                addr += b.EAddress1 + '<br/>' + b.EAddress2;
+                addr += '<br/>Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch;
+		        $("#billAddress1").text(b.EAddress1);
+		        $("#billAddress2").text(b.EAddress2);
+                $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch);
+                $("#crTerm").text(b.CreditLimit);
+                $("#dueDate").text(AddDate(h.DocDate, b.CreditLimit));
+	        });
+            $("#id").text(h.CustCode);
+            //$("#billName").text(c.NameEng);
+            //$("#billAddress").html(c.EAddress1 + '<br/>' + c.EAddress2);
+            //console.log(c.EAddress1);
+            $("#invoiceNo").text(h.DocNo);
+            //let date = new Date();
+            //date.setMonth(date.getMonth()+1);
+            //let tmpInvNo = "inv-"+(date.getFullYear()-2000)+(date.getMonth()<10?"0"+date.getMonth():date.getMonth())+h.DocNo.substring(6,12);
+            //$("#invoiceNo").text(tmpInvNo);
+            $("#invoiceDate").text(ShowDate(h.DocDate));
+            //$("#crTerm").text(c.CreditLimit);
+            //$("#dueDate").text(AddDate(h.DocDate, c.CreditLimit));
+            $("#currency").text(h.CurrencyCode);
+            //$("#destiny").text("PASIR GUDANG-BANGKOK");
+            $("#remark").text(h.Remark1);
+            if (j.JobType == 1) {
+                ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#port');
+                ShowCountry(path, j.InvFCountry, '#origin');
+                ShowCountry(path, j.InvCountry, '#destiny');
+            } else {
+
+                ShowInterPort(path, j.InvCountry, j.InvInterPort, '#port');
+                ShowCountry(path, j.InvFCountry, '#destiny');
+                ShowCountry(path, j.InvCountry, '#origin');
+            }
+            $("#jobNo").text(j.JNo);
+            $("#vessel").text(j.VesselName);
+            $("#etd").text(ShowDate(j.ETDDate));
+            $("#eta").text(ShowDate(j.ETADate));
+            $("#hblNo").text(j.HAWB);
+            $("#quantity").text(j.InvProductQty + ' ' + j.InvProductUnit);
+            $("#totpkg").text(j.TotalQty + " PALLETS");
+            $("#newBlNo").text(j.BookingNo);
+            $("#weight").text(ShowNumber(j.TotalGW, 2) + ' ' + j.GWUnit);
+            $("#volume").text(j.Measurement);
+            $("#custInvNo").text(j.InvNo);
+            $("#ref").text(j.CustRefNO);
+
+
+            ShowVender(path, j.ForwarderCode, '#carrier');
+            ShowContainer(j.BranchCode, j.JNo);
+
+            let d = r.invoice.detail[0];
+            let html = '';
+            let adv = 0;
+            let nonVat = 0;
+            let vat = 0;
+            let sumbaseWht1 = 0;
+            let sumbaseWht1_5 = 0;
+            let sumbaseWht3 = 0;
+            let sumWht1 = 0;
+            let sumWht1_5 = 0;
+            let sumWht3 = 0;
+            let totalRows = 10;
+            let blankRows = totalRows - d.length;
+            for (let row of d) {
+                html += '        <tr>';
+                html += '            <td class="">' + row.SDescription + ' #' + row.ExpSlipNO +  '</td>';
+                html += '            <td class="right">' + row.Rate50Tavi + '</td>';
+                html += '            <td class="center">' + ShowNumber(row.Qty,2) + '</td>';
+                html += '            <td class="right">' + row.QtyUnit+'</td>';
+                html += '            <td class="right">' + row.CurrencyCode + '</td>';
+                html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
+                html += '            <td class="right">' + ShowNumber(row.FUnitPrice,2) + '</td>';
+                html += '            <td class="right">' + (row.AmtAdvance?ShowNumber(row.Amt, 2):'') + '</td>';
+                html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt, 2):''):'') + '</td>';
+                html += '            <td class="right">' + (row.AmtVat>0?ShowNumber(row.Amt, 2) : '') + '</td>';
+                html += '        </tr>';
+                adv += row.AmtAdvance * row.ExchangeRate.toFixed(4);
+                if (row.AmtVat > 0) {
+                    vat += row.AmtCharge * row.ExchangeRate.toFixed(4);
+                } else {
+                    nonVat += row.AmtCharge * row.ExchangeRate.toFixed(4);
+                }
+                switch (row.Rate50Tavi) {
+
+                    case 1:
+			
+                        sumWht1 += row.Amt50Tavi;
+                        sumbaseWht1 += row.Amt;
+                        break;
+                    case 1.5:
+                        sumWht1_5 += row.Amt50Tavi;
+                        sumbaseWht1_5 += row.Amt;
+                        break;
+                    case 3:
+                        sumWht3 += row.Amt50Tavi;
+                        sumbaseWht3 += row.Amt;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            for (let i = 1; i <= blankRows; i++) {
+                html += '        <tr>';
+                html += '            <td><br/></td>';
+                html += '            <td class="right"></td>';
+                html += '            <td class="right"></td>';
+                html += '            <td class="center"></td>';
+                html += '            <td class="right"></td>';
+                html += '            <td class="right"></td>';
+                html += '            <td class="right"></td>';
+                html += '            <td class="right"></td>';
+                html += '            <td class="right"></td>';
+                html += '            <td class="right"></td>';
+                html += '        </tr>';
+            }
+            $('#gross1').text(ShowNumber(sumbaseWht1, 2));
+            $('#wtAmt1').text(ShowNumber(sumWht1, 2));
+            $('#gross3').text(ShowNumber(sumbaseWht3, 2));
+            $('#wtAmt3').text(ShowNumber(sumWht3, 2));
+            $('#gross1_5').text(ShowNumber(sumbaseWht1_5, 2));
+            $('#wtAmt1_5').text(ShowNumber(sumWht1_5, 2));
+
+            $("#advanceAmount").text(ShowNumber(adv,2));
+            $("#nonVatAmount").text(ShowNumber(nonVat, 2));
+            $("#vatAmount").text(ShowNumber(vat, 2));
+            $('#details').html(html);
+            $("#valueAddedTax").text(ShowNumber(h.TotalVAT, 2));
+            $("#totalAmount").text(ShowNumber(vat + h.TotalVAT, 2));
+            $("#lessWithholdingTax").text(ShowNumber(h.Total50Tavi, 2));
+            $("#netAmount").text(ShowNumber(h.TotalNet, 2));
+            $("#taxRate1").text("1%");
+            $("#taxRate1_5").text("1.5%");
+            $("#taxRate3").text("3%");
+            $("#bahtText").text(CNumEng(CDbl(h.TotalNet,2)));
+
+
         }
     });
-    //});
-    function ShowData(dr) {
-        if (dr.header[0].length > 0) {
-            let h = dr.header[0][0];
-            $('#lblDocNo').text(h.DocNo);
-            $('#lblDocDate').text(ShowDate(CDateTH(h.DocDate)));
-            $('#lblCurrencyCode').text(h.CurrencyCode);
-            $('#lblCurrency').text(h.CurrencyCode);
-            $('#lblExchangeRate').text(h.ExchangeRate);
-            $('#lblForeignNet').text(ShowNumber(h.ForeignNet, 2));
-            $('#lblDiscountRate').text(h.DiscountRate);
-            $('#lblVATRate').text(ShowNumber(h.VATRate,1));
-            $.get(path + 'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch=' + h.BillToCustBranch, function (r) {
-                let c = r.company.data[0];
-                if (c!== null) {
-                    $('#lblTaxNumber').text(c.TaxNumber);
-                    //if (c.UsedLanguage == 'TH') {
-                    //if (Number(c.Branch == 0)) {
-                    //$('#lblTaxBranch').text('สำนักงานใหญ่');
-                    //} else {
-                    //$('#lblTaxBranch').text(c.Branch);
-                    //}
-                        //$('#lblCustName').text(c.Title+' '+c.NameThai);
-                        //$('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
-                    //$('#lblCustTName').text(dr.customer[0][0].NameThai);
-                    //} else {
-                    if (Number(c.Branch == 0)) {
-                        $('#lblTaxBranch').text('HEAD OFFICE');
-                    } else {
-                        $('#lblTaxBranch').text(c.Branch);
-                    }
-                    $('#lblCustName').text(c.NameEng);
-                    $('#lblCustAddress').text(c.EAddress1 + '\n' + c.EAddress2);
-                    $('#lblCustTName').text(dr.customer[0][0].NameEng);
-                //}
-                //$('#lblCustTel').text(c.Phone);
+    function ShowContainer(branch,job) {
+        $.get(path + 'JobOrder/GetTransportReport?Branch=' + branch + '&JobList=' + job).done(function (r) {
+            if (r.transport.data.length > 0) {
+                let t = r.transport.data;
+                let str = '';
+                for (let row of t) {
+                    if (str !== '') str += '<br/>';
+                    str += row.CTN_NO + '/' + row.CTN_SIZE;
                 }
-
-            });
-            let j = dr.job[0][0];
-            if (j!== null) {
-                $('#lblCustInvNo').text(j.InvNo);
-                $('#lblJobNo').text(j.JNo);
-	            if (Number(j.JobType) == 1) {
-                    ShowCountry(path, j.InvFCountry, '#lblFromCountry');
-                    ShowCountry(path, j.InvCountry, '#lblToCountry');
-                    ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#lblInterPort');
-                } else {
-                    ShowCountry(path, j.InvFCountry, '#lblFromCountry');
-                    ShowCountry(path, j.InvCountry, '#lblToCountry');
-                    ShowInterPort(path, j.InvCountry, j.InvInterPort, '#lblInterPort');
-                }
-                //$('#lblFromCountry').text(j.DeclareNumber);
-                $('#lblVesselName').text(j.VesselName);
-                $('#lblQtyGross').text(j.InvProductQty);
-                ShowInvUnit(path, j.InvProductUnit, '#lblQtyUnit');
-                //$('#lblNetWeight').text(j.TotalNW);
-                //ShowInvUnit(path, j.GWUnit, '#lblWeightUnit');
-                $('#lblETDDate').text(ShowDate(CDateTH(j.ETDDate)));
-                $('#lblHAWB').text(j.HAWB);
-                //$('#lblMeasurement').text(j.Measurement);
-                $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
-                $('#lblMAWB').text(j.MAWB);
-                $('#lblCustPo').text(j.CustRefNO);
+                $("#containerNo").html(str);
             }
-            let remark = h.Remark1;
-	        remark += (h.Remark2 !=='' ? '<br/>':'')+ h.Remark2;
-            remark +=(h.Remark3 !=='' ? '<br/>':'')+ h.Remark3;
-	        remark += (h.Remark4 !=='' ? '<br/>':'')+ h.Remark4;
-            remark +=(h.Remark5 !=='' ? '<br/>':'')+ h.Remark5;
-	        remark += (h.Remark6 !=='' ? '<br/>':'')+ h.Remark6;
-            remark +=(h.Remark7 !=='' ? '<br/>':'')+ h.Remark7;
-	        remark += (h.Remark8 !=='' ? '<br/>':'')+ h.Remark8;
-            remark +=(h.Remark9 !=='' ? '<br/>':'')+ h.Remark9;
-	        remark += (h.Remark10 !=='' ? '<br/>':'')+ h.Remark10;
-            $('#lblDescription').html(CStr(remark));
-            remark = h.ShippingRemark.replace(/ (?:\r\n|\r|\n)/g, '<br/>');
-            $('#lblShippingRemark').html(remark);
-
-            $('#lblSumDiscount').text(ShowNumber(h.TotalDiscount, 2));
-            $('#lblSumCustAdv').text(ShowNumber(h.TotalCustAdv,2));
-
-            $('#lblSumVat').text(ShowNumber(h.TotalVAT,2));
-
-            $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
-            $('#lblSumTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT),2));
-            $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
-            $('#lblSumNetInvoice').text(ShowNumber(CDbl($('#lblSumGrandTotal').text(), 2) - CDbl(Number(h.Total50Tavi),2) - CDbl(Number(h.TotalDiscount),2), 2));
-            if (h.CurrencyCode == 'THB') {
-                $('#lblTotalBaht').text('(' + CNumThai(CDbl(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.Total50Tavi)-Number(h.TotalDiscount), 2)) + ')');
-            } else {
-                $('#lblTotalBaht').text('(' + CNumEng(CDbl(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.Total50Tavi)-Number(h.TotalDiscount), 2)) + ')');
-            }
-            $.get(path + 'Acc/GetInvDetailReport?Branch=' + h.BranchCode + '&Code=' + h.DocNo).done(function (r) {
-                if (r.invdetail.data.length > 0) {
-                    let d = r.invdetail.data;
-                    if (d[0].ItemNo !== null) {
-                        LoadDetail(d);
-                    }
-                }
-            });
-        }
-
-    }
-    function LoadDetail(d) {
-        //sortData(d,'AmtAdvance','asc');
-        sortData(d, 'CTN_NO', 'asc');
-        // sortData(d,'AmtVat','dasc');
-	
-        let sumbase1 = 0;
-        let sumbase3 = 0;
-        let sumtax1 = 0;
-        let sumtax3 = 0;
-        let sumbasevat = 0;
-        let sumnonvat = 0;
-        let sumvat = 0;
-        let currCtn = '-';
-        let i = 0;
-        if (d.length > 0) {
-            for (let o of d) {
-                let Html = '';
-                if (currCtn !== o.CTN_NO) {
-                    currCtn = o.CTN_NO;
-                    Html = '<tr>';
-                    Html += '<td colspan="7">' + o.CTN_NO + ' / ' +  o.TRemark + '</td>';
-                    Html += '</tr>';
-                    $('#tbDetail').append(Html);
-                }
-                i++;
-                Html = '<tr>';
-                Html += '<td style="text-align:center">' + i + '</td>';
-                Html += '<td>' + o.SDescription + '</td>';
-                //Html += '<td style="text-align:center">' + o.CurrencyCode + '</td>';
-                //Html += '<td style="text-align:center">' + o.QtyUnit + '</td>';
-                Html += '<td style="text-align:right">' + ShowNumber(Number(o.UnitPrice), 2) + '</td>';
-                Html += '<td style="text-align:center">' + o.Qty + '</td>';
-                if (o.AmtAdvance > 0) {
-                    Html += '<td style="text-align:right">' + ShowNumber(Number(o.AmtAdvance) * Number(o.ExchangeRate), 2) + '</td>';
-                    Html += '<td style="text-align:right">0.00</td>';
-                } else {
-                    Html += '<td style="text-align:right">0.00</td>';
-                    Html += '<td style="text-align:right">' + (o.AmtVat == 0 ? ShowNumber(Number(o.AmtCharge) * Number(o.ExchangeRate), 2) : "0.00") + '</td>';
-                }
-                Html += '<td style="text-align:right">' + (o.AmtVat > 0 ? ShowNumber(Number(o.AmtCharge) * Number(o.ExchangeRate), 2) : "0.00") + '</td>';
-
-                Html += '</tr>';
-
-                $('#tbDetail').append(Html);
-                if (o.AmtCharge > 0) {
-                    if (o.AmtVat > 0) {
-                        sumbasevat += (o.Amt - o.AmtDiscount);
-                        sumvat += o.AmtVat;
-                    } else {
-                        sumnonvat += (o.Amt - o.AmtDiscount);
-                    }
-                    if (o.Amt50Tavi > 0) {
-                        if (o.Rate50Tavi == 1) {
-                            sumbase1 += (o.Amt - o.AmtDiscount);
-                            sumtax1 += o.Amt50Tavi;
-                        } else {
-                            sumbase3 += (o.Amt - o.AmtDiscount);
-                            sumtax3 += o.Amt50Tavi;
-                        }
-                    }
-                }
-
-            }
-        }
-        $('#lblSumNonVat').text(ShowNumber(sumnonvat, 2));
-        $('#lblSumBeforeVat').text(ShowNumber(sumbasevat, 2));
-        $('#lblSumAfterVat').text(ShowNumber(sumbasevat + sumvat, 2));
-        $('#lblSumBaseWht1').text(ShowNumber(sumbase1, 2));
-        $('#lblSumBaseWht3').text(ShowNumber(sumbase3, 2));
-
-        $('#lblSumWht1').text(ShowNumber(sumtax1, 2));
-        $('#lblSumWht3').text(ShowNumber(sumtax3, 2));
+        });
     }
 </script>

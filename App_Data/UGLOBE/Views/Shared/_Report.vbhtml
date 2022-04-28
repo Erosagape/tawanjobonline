@@ -77,10 +77,10 @@
                 <tr>
                     <td>
                         <div style="display:flex" id="dvCompLogo">
-                            <div style="flex:1;vertical-align:middle">
+                            <div style="flex:35;vertical-align:middle">
                                 <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100%" />
                             </div>
-                            <div style="flex:3;padding:5px;">
+                            <div style="flex:65;padding:5px;">
                                 <div id="divCompany" style="text-align:left;color:darkblue;font-size:12px;">
                                     <div style="height:25px;">
                                         <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME_EN</b>
