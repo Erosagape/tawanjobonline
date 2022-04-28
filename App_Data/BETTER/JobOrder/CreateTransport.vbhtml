@@ -490,8 +490,9 @@ End Code
                 });
                 break;
             case 'payableat':
-                SetGridInterPort(path, '#tbPayableAt', '#dvPayableAt','', function (dr) {
-                    $('#txtPayableAt').val(dr.PortName);
+                w = $('#txtJobType').val() == 1 ? 'TH' : $('#txtCountryCode').val();
+                SetGridInterPort(path, '#tbPayableAt', '#dvPayableAt',w, function (dr) {
+                    $('#txtFreightPayAt').val(dr.PortName);
                 });
                 break;
         }

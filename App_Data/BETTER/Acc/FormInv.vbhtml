@@ -443,13 +443,22 @@ End Code
             $("#remark").html(CStr(h.Remark1 + '<br/>' + h.Remark2));
             $("#Remark1").text(h.Remark1);
             
-            if (j.JobType !== 1) {
-                 $("#dcport").text(j.ClearPortNo);
-                 ShowInterPort(path, j.InvFCountry, j.InvInterPort, "#loadport");
-            } else {
-                $("#dcport").text(j.ClearPortNo);
-                ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#loadport');
-            }
+            //if (j.JobType !== 1) {
+            //    $("#loadport").text(j.ClearPortNo);
+            //    ShowInterPort(path, j.InvCountry, j.InvInterPort, "#dcport").then(() => {
+            //        $.get(path + 'Master/GetCountry?Code=' + j.InvCountry,).done(function (r) {
+            //            $('#dcport').text(($('#dcport').text() + " ," + r.country.data[0].CTYName).toUpperCase());
+            //        });
+            //    });
+            //} else {
+            $("#dcport").text(j.ClearPortNo);
+                
+            ShowInterPort(path, (j.JobType == 1 ? j.InvFCountry : j.InvCountry), j.InvInterPort, '#loadport').then(() => {
+                $.get(path + 'Master/GetCountry?Code=' + (j.JobType == 1 ? j.InvFCountry : j.InvCountry)).done(function (r) {
+                        $('#loadport').text(($('#loadport').text() + " ," + r.country.data[0].CTYName).toUpperCase());
+                    });
+                });
+           /* }*/
             
             $("#jobNo").text(j.JNo);
             $("#quoNo").text(j.QNo!==''?"("+j.QNo+")":'');
@@ -499,12 +508,12 @@ End Code
             for (let row of d) {
                 html += '        <tr>';
                 html += '            <td class="">' + row.SDescription + '</td>';
-                html += '            <td class="right">' + (row.AmtAdvance>0? '':row.Rate50Tavi) + '</td>';
+                html += '            <td class="center">' + (row.AmtAdvance>0? 'A':row.Rate50Tavi) + '</td>';
                 html += '            <td class="center">' + row.Qty + '</td>';
-                html += '            <td class="right">' + row.QtyUnit+'</td>';
-                html += '            <td class="right">' + row.CurrencyCode + '</td>';
+                html += '            <td class="center">' + row.QtyUnit+'</td>';
+                html += '            <td class="center">' + row.CurrencyCode + '</td>';
                 html += '            <td class="right">' + ShowNumber(row.FUnitPrice, 2) + '</td>';
-                html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
+                html += '            <td class="center">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
                 html += '            <td class="right">' + (row.AmtAdvance ? ShowNumber(row.TotalAmt, 2) : '') + '</td>';
                 html += '            <td class="right">' + (!row.AmtAdvance ? ShowNumber(row.Amt, 2) : '') + '</td>';
                 html += '        </tr>';
@@ -623,7 +632,17 @@ End Code
                     str += row.CTN_NO + '/' + row.CTN_SIZE;
                 }
                 $("#containerNo").html(str);
+
+                //if (t[0].JobType !== 1) {
+                //    $("#loadport").text(t[0].FactoryPlace);
+                //    $("#dcport").text(t[0].PackingPlace);
+                //} else {
+                //    $("#dcport").text(t[0].FactoryPlace);
+                //    $("#loadport").text(t[0].PackingPlace);
+                //}
+              
             }
+
         });
     }
 function ChangeHeader(){

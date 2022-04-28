@@ -219,7 +219,7 @@ End Code
             //$('#txtRemark').text(data.header[0].TRemark);
         }
         if (data.payment ) {
-            $('#lblVoucherNo').text(data.payment[0].PRVoucher);
+          
             $('#lblPayCompany').text(data.payment[0].PayChqTo);//
 
             //if (data.payment[0].acType == "CA") {
@@ -253,6 +253,12 @@ End Code
             }
         }
         for (pay of data.payment) {
+            if ($('#lblVoucherNo').text() != "") {
+                $('#lblVoucherNo').text($('#lblVoucherNo').text()+","+pay.PRVoucher);
+            } else {
+                $('#lblVoucherNo').text(pay.PRVoucher);
+            }
+           
             if (pay.acType == "CA") {
                 $('#lblRefNo').text(pay.DocNo ? pay.DocNo : "____________");
                 $('#transfer').prop('checked', true);
@@ -266,6 +272,7 @@ End Code
             const doc = data.document.filter(d => d.acType == pay.acType);
             let detailTrs = ``;
             let i = 1;
+            let totalNet = 0;
             for (d of doc) {
                 let tr = "";
                 //<td style="text-align:center;padding:0px 5px;">${i++}</td>
@@ -281,7 +288,8 @@ End Code
                             <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.VAT, 2))}</td>
                             <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.WHT, 2))}</td>                       
                             <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount, 2))}</td></tr>`;
-                detailTrs += tr;
+                            totalNet += d.PaidAmount;
+                            detailTrs += tr;
             }
             detailTrs += "<tr> </tr>"
             let desc = "";
@@ -334,11 +342,11 @@ End Code
                
             </td>
             <td colspan="3">
-                <label id="lblAmount" style="text-align:center;padding:0px 5px;font-size:16px;">${CCurrency(CDbl(pay.TotalNet, 2))}</label>
+                <label id="lblAmount" style="text-align:center;padding:0px 5px;font-size:16px;">${CCurrency(CDbl(totalNet, 2))}</label>
             </td>
         </tr>
         <tr>
-            <td colspan="5" style="text-align:center;padding:0px 5px;"> ${CNumThai(CDbl(Number(pay.TotalNet), 2))} </td>
+            <td colspan="5" style="text-align:center;padding:0px 5px;"> ${CNumThai(CDbl(Number(totalNet), 2))} </td>
         </tr>`;
             let table =
                 `<table id="voucherTable" style="width: 100%; border-collapse: collapse;">

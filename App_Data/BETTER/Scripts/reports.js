@@ -85,7 +85,7 @@ function ShowCountry(path, CountryID, ControlID) {
 }
 function ShowInterPort(path, CountryID, PortCode, ControlID) {
     $(ControlID).text('-');
-    $.get(path + 'Master/GetInterPort?Code=' + PortCode + '&Key=' + CountryID)
+    return $.get(path + 'Master/GetInterPort?Code=' + PortCode + '&Key=' + CountryID)
         .done(function (r) {
             if (r.interport.data.length > 0) {
                 let b = r.interport.data[0];

@@ -1015,6 +1015,7 @@ Public Class CJobOrder
                             dr("TyClearTax") = Main.GetDBString(Me.TyClearTax, dt.Columns("TyClearTax"))
                             dr("TyClearTaxReson") = Main.GetDBString(Me.TyClearTaxReson, dt.Columns("TyClearTaxReson"))
                             dr("EstDeliverDate") = Main.GetDBDate(Me.EstDeliverDate)
+                            dr("EstDeliverTime") = Main.GetDBTime(Me.EstDeliverTime)
 
                             dr("TotalContainer") = Main.GetDBString(Me.TotalContainer, dt.Columns("TotalContainer"))
                             dr("DutyDate") = Main.GetDBDate(Me.DutyDate)

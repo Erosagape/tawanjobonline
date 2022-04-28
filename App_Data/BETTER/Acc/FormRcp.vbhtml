@@ -52,16 +52,7 @@ End Code
         </tr>
 </table>
 <br />
-<div style="display:flex;">
-    <div class="text-left" style="border:1px solid black;flex:2">
-        BANK DETAILS:<br />
-        ACCOUNT NAME :SINOTHAI MILLENNIUM CO.,LTD<br />
-        ADD :140/46-47 ITF TOWER 21st FLOOR, SILOM ROAD, SURIYAWONG, BANGRAK, BANGKOK 10500 THAILAND<br />
-        SIAM COMMERCIAL BANK PUBLIC COMPANY LIMITED<br />
-        ACCOUNT NO : 245-211559-2<br />
-        SWIFT CODE : SICOTHBK
-    </div>
-</div>
+
 <script type="text/javascript">
     $('#imgLogo').hide();
     $('#imgLogoAdd').show();
