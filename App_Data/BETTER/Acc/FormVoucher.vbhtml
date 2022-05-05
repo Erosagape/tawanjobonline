@@ -266,6 +266,8 @@ End Code
                 $('#lblChqNo').text(pay.ChqNo ? pay.ChqNo : "____________");
                 $('#lblChqDate').text(pay.ChqDate ? ShowDate(pay.ChqDate) : "____________");
                 $('#cheque').prop('checked', true);
+                $('#lblBankCode').text(pay.RecvBank);
+            
             }
 
             vcTypeName = GetVoucherType(vcType);

@@ -64,7 +64,7 @@ End Code
         </tr>
         <tr>
             <td>
-                TAX-ID <label><lable id="lblCustTax"></label> สาขา : สำนักงานใหญ่
+                TAX-ID <label><lable id="lblCustTax"></label>
             </td>
         </tr>
     </tbody>
@@ -82,6 +82,20 @@ End Code
         </div>
     </div>*@
 
+
+<table style="width:100%" border="1">
+    <tbody id="summary">
+        <tr style="text-align:center">
+            <td rowspan="2">SUMMARY</td>
+            <td>REIMBURSEMENT</td>
+            <td>SERVICE</td>
+            <td>VAT 7%</td>
+            <td>TOTAL AMOUNT</td>
+            <td>GRAND TOTAL</td>
+        </tr>
+    </tbody>
+
+</table>
 <table style="border-style:solid;width:100%; " class="text-center">
     <tr>
         <th class="border" height="40" width="40">NO.</th>
@@ -110,19 +124,6 @@ End Code
         <td style="text-align:center" colspan="8"><label id="lblTotalText"></label></td>
         @*<td colspan="1"><label id="lblTotalAfterVAT"></label></td>*@
     </tr>
-</table>
-<table style="width:100%" border="1">
-    <tbody id="summary">
-        <tr style="text-align:center">
-            <td rowspan="2">SUMMARY</td>
-            <td>REIMBURSEMENT</td>
-            <td>SERVICE</td>
-            <td>VAT 7%</td>
-            <td>TOTAL AMOUNT</td>
-            <td>GRAND TOTAL</td>
-        </tr>
-    </tbody>
-
 </table>
 @*<p>
         PAY BY
@@ -162,20 +163,20 @@ End Code
             ผู้รับชำระเงิน
         </div>
     </div>*@
-<table style="width:50%">
+<table style="width:70%";>
     <tbody>
         <tr>
-            <td rowspan="2" style="vertical-align:central;font-size:16px;">PAY BY:</td>
-            <td>TRANSFER</td>
-            <td></td>
-            <td>RV NO.</td>
-            <td></td>
+            <td rowspan="2" style="width:10%;vertical-align: central; font-size: 16px; white-space: nowrap">PAY BY:</td>
+            <td style="width: 10%; white-space: nowrap">TRANSFER</td>
+            <td contenteditable="true" style="border-bottom:1px black solid;white-space:pre;""></td>
+            <td style="width: 10%; white-space: nowrap">RV NO.</td>
+            <td contenteditable="true" style="border-bottom: 1px black solid; white-space: pre;"></td>
         </tr>
         <tr>
-            <td>CHEQUE NO.</td>
-            <td ></td>
-            <td >DATE:.</td>
-            <td ></td>
+            <td style="width: 10%; white-space: nowrap ">CHEQUE NO.</td>
+            <td contenteditable="true" style="border-bottom: 1px black solid; white-space: pre"></td>
+            <td style="width: 10%; white-space: nowrap">DATE:.</td>
+            <td contenteditable="true" style="border-bottom: 1px black solid; white-space: pre"></td>
         </tr>
     </tbody>
 </table>
@@ -240,7 +241,7 @@ End Code
             if (Number(h.CustBranch) == 0) {
                 branchText = ' สาขา: สำนักงานใหญ่';
             } else {
-                branchText = CCode(Number(h.CustBranch));
+                branchText = ' สาขา 000'+CCode(Number(h.CustBranch));
             }
         } else {
             $('#lblCustName').text(h.CustEName);
@@ -248,7 +249,7 @@ End Code
             if (Number(h.CustBranch) == 0) {
                 branchText = ' BRANCH: HEAD OFFICE';
             } else {
-                branchText = CCode(Number(h.CustBranch));
+                branchText = ' BRANCH 000'+CCode(Number(h.CustBranch));
             }
         }
         $('#lblCustTel').text(h.CustPhone);

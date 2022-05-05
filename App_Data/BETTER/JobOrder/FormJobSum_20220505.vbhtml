@@ -193,32 +193,6 @@ End Code
 <table class="table" border="1" style="width:100%;border-width:thin;border-collapse:collapse;">
     <tr>
         <td rowspan="2">Description</td>
-        <td class="center" rowspan="2" style="width:8em">INTERNAL</td>
-        @*<td class="center" rowspan="2">Settle with</td>*@
-        <td class="center" colspan="4">TOTAL COST</td>
-    </tr>
-    <tr>
-        <td class="center">Unit price</td>
-        <td class="center">Qty</td>
-        <td class="center">Curr</td>
-        <td class="center">Amount</td>
-    </tr>
-    <tbody id="dt3">
-    </tbody>
-</table>
-<div class="row">
-    <div class="col-8"></div>
-    <div class="col-4">
-        <p class="right bold" style="border: 1px solid black; padding:5px">
-            <label id="salesAmountLbl">SALES PROFIT</label>
-            <label id="salesAmount"></label>
-        </p>
-    </div>
-</div>
-<br />
-<table class="table" border="1" style="width:100%;border-width:thin;border-collapse:collapse;">
-    <tr>
-        <td rowspan="2">Description</td>
         <td class="center" rowspan="2" style="width:8em">Company Pay</td>
         @*<td class="center" rowspan="2">Settle with</td>*@
         <td class="center" colspan="8">TOTAL COST</td>
@@ -237,13 +211,47 @@ End Code
     <tbody id="dt2">
     </tbody>
 </table>
-
 <div class="row">
     <div class="col-8"></div>
     <div class="col-4">
         <p class="right bold" style="border: 1px solid black; padding:5px">
-            <label id="netAmountLbl">NET PROFIT</label>
+            <label id="netAmountLbl">SUMMARY</label>
             <label id="netAmount"></label>
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-8"></div>
+    <div class="col-4">
+        <p class="right bold" style="border: 1px solid black; padding:5px">
+            <label id="costAmountLbl">TOTAL COST SALES</label>
+            <label id="costAmount"></label>
+        </p>
+    </div>
+</div>
+<br />
+<table class="table" border="1" style="width:100%;border-width:thin;border-collapse:collapse;">
+    <tr>
+        <td rowspan="2">Description</td>
+        <td class="center" rowspan="2" style="width:8em">INTERNAL</td>
+        @*<td class="center" rowspan="2">Settle with</td>*@
+        <td class="center" colspan="4">COST SALES</td>
+    </tr>
+    <tr>
+        <td class="center">Unit price</td>
+        <td class="center">Qty</td>
+        <td class="center">Curr</td>
+        <td class="center">Amount</td>
+    </tr>
+    <tbody id="dt3">
+    </tbody>
+</table>
+<div class="row">
+    <div class="col-8"></div>
+    <div class="col-4">
+        <p class="right bold" style="border: 1px solid black; padding:5px">
+            <label id="salesAmountLbl">SALES PROFIT</label>
+            <label id="salesAmount"></label>
         </p>
     </div>
 </div>
@@ -386,6 +394,7 @@ End Code
                 let sumv2 = 0;
                 let sumw2 = 0;
                 let sum2 = 0;
+                let sum3 = 0;
                 let sumcomm = 0;
 
                 //alert(dt2.length);
@@ -420,7 +429,11 @@ End Code
                         sumv2 += dt2[i].ChargeVAT;
                         sumw2 += dt2[i].Tax50Tavi;
                     }
+                    let codeExclude='CST-027,CST-028';
                     if (dt2[i].IsExpense == 1 && dt2[i].IsCredit == 0) {
+			if(dt2[i].SICode.indexOf('CSP')<0 && codeExclude.indexOf(dt2[i].SICode)<0) {
+                           sum3 += dt2[i].BNet;
+			}
                         sumc2 += dt2[i].BNet;
                     }
                     sumt2 += dt2[i].BNet;
@@ -439,10 +452,13 @@ End Code
                 $('#dt2').html(html2);
                 console.log(sum1);
                 console.log(sumt1);
-                $("#netAmount").text(ShowNumber(sum1 - sum2, 2));
+                $("#netAmount").text(ShowNumber(sumc1 - sumc2, 2));
+                $("#costAmount").text(ShowNumber(sum3, 2));
+                $("#salesAmount").text(ShowNumber(sumc1-sum3, 2));
                 $.get(path + 'adv/getclearexpreport?branch=' + branch + '&job=' + job, function (t) {
                     if (t.estimate.data.length > 0) {
                         let htmlSub = '';
+			let sum4=0;
                         htmlSub += '<tr>';
                         htmlSub += '<td>{0}</td>';
                         htmlSub += '<td>{1}</td>';
@@ -453,9 +469,8 @@ End Code
                         htmlSub += '</tr>';
                         let html3 = '';
                         let dt = t.estimate.data.filter(function (data) {
-                            return data.ClrNo == null;
+                            return data.SICode.indexOf('INT-')>=0;
                         });
-                        let totalCostSales = 0;
                         for (let o of dt) {
                             let tmp = htmlSub;
                             tmp = tmp.replaceAll('{0}', o.SDescription);
@@ -465,10 +480,10 @@ End Code
                             tmp = tmp.replaceAll('{4}', o.ExchangeRate);
                             tmp = tmp.replaceAll('{5}', o.AmtTotal);
                             html3 += tmp;
-                            totalCostSales += Number(o.AmtTotal);
+			    sum4+=Number(o.AmtTotal);
                         }
                         $('#dt3').html(html3);
-                        $("#salesAmount").text(ShowNumber(sumc1-totalCostSales, 2));
+	                $("#salesAmount").text(ShowNumber(sumc1-sum3-sum4, 2));
                     }
                 });
                 //$("#netProfit").text(ShowNumber(sumt1 - sumt2 + sumcomm, 2));

@@ -658,6 +658,7 @@ End Code
                     <select id="cboDocType" class="dropdown" onclick="ShowTracking($('#txtBranchCode').val(), $('#txtJNo').val());">
                         <option value="">All</option>
                         <option value="ADV">Advance</option>
+                        <option value="PAY">Payment Bill</option>
                         <option value="CLR">Clearing</option>
                         <option value="CHQ">Cheque</option>
                         <option value="INV">Invoice</option>
