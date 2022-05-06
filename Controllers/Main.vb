@@ -3816,6 +3816,9 @@ j.DutyLtdPayCashAmt<>a.CashPayment
     End Function
     Function GetSession(sName As String) As String
         Try
+            If HttpContext.Current.Session(sName) Is Nothing Then
+                Return ""
+            End If
             Return HttpContext.Current.Session(sName).ToString
         Catch ex As Exception
             Return ""

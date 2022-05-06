@@ -3,239 +3,211 @@
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Voucher Slip"
 End Code
-<style>
-    #onlyForAccount td,th{
-        border:1px black solid;
-        padding:5px;
-     
-    }
-
-
-</style>
-
-
-<table id="tbAdvInfo" width="100%">
+<table style="width: 100%; border-collapse: collapse;">
+<tbody>
     <tr>
-        <td colspan="3" style="font-size:11px">
-            <b>Voucher No : </b><label id="txtControlNo" style="text-decoration-line:underline"></label>
+        <td style="width:13%" id="test">
+            เลขที่ใบเบิก:
         </td>
-        <td align="right" style="font-size:11px">
-            <input type="text" id="txtVoucherType" value="VOUCHER" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
+        <td style="width:7%">
+        </td>
+        <td style="width:10%">
+            วันที่รับ:
+        </td>
+        <td style="width:10%">
+        </td>
+        <td style="width:12%">
+            VOUCHER NO:
+        </td>
+        <td colspan="2" style="width:18%">
+        </td>
+        <td style="width:10%">
+            DATE:
+        </td>
+        <td colspan="2" style="width:20%">
         </td>
     </tr>
     <tr>
-        <td colspan="3" style="font-size:11px">
-            <b>Remark</b>
-            <label id="txtRemark" style="text-decoration-line:underline;"></label>
+        <td style="width:10%">
+            BANK CODE:
         </td>
-        <td align="right" style="font-size:11px">
-            <b>Voucher Date : </b><label id="txtVoucherDate" style="text-decoration-line:underline;"></label>
+        <td colspan="3" style="width:30%">
+        </td>
+        <td style="width:10%">
+            BANK A/C:
+        </td>
+        <td colspan="2" style="width:20%">
+        </td>
+        <td colspan="3" style="width:30%">
         </td>
     </tr>
-</table>
-<div style="display:flex;border:1px solid black;border-radius:5px;">
-    <div style="flex:2">
-        <div class="row">
-            <p class="col-sm-12">
-                FROM :
-                <label id="lblFromCountry"></label> TO :
-                <label id="lblToCountry"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                PORT :
-                <label id="lblInterPort"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                FLIGHT/VESSEL :
-                <label id="lblVesselName"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                QUANTITY :
-                <label id="lblQtyGross"></label>
-                <label id="lblQtyUnit"></label>
-                <br />
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                JOB NO :
-                <label id="lblJobNo"></label>
-            </p>
-        </div>
-    </div>
-    <div style="flex:2">
-        <div class="row">
-            <p class="col-sm-12">
-                ETD :
-                <label id="lblETDDate"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                HBL/HAWB :
-                <label id="lblHAWB"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                MEASUREMENT :
-                <label id="lblMeasurement"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                NET WEIGHT :
-                <label id="lblNetWeight"></label>
-                <label id="lblWeightUnit"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                CUSTOMER INV :
-                <label id="lblCustInvNo"></label>
-            </p>
-        </div>
-    </div>
-    <div style="flex:2">
-        <div class="row">
-            <p class="col-sm-12">
-                ETA :
-                <label id="lblETADate"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                MBL/MAWB :
-                <label id="lblMAWB"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                CUSTOMER :
-                <br />
-                <label id="lblCustName"></label>
-            </p>
-        </div>
-    </div>
-</div>
-<br />
-<table id="tbData" style="border-collapse:collapse;width:100%">
-    <tbody></tbody>
-</table>
-<br />
-<table id="onlyForAccount" style="border-collapse:collapse;width:100%">
+</tbody>
+        </table>
+<table style="width: 100%; border-collapse: collapse;">
     <tbody>
         <tr>
-            <th style="width:15%">รหัสบัญชี</th>
-            <th style="width:40%">ชื่อบัญชี</th>
-            <th style="width:15%">DR</th>
-            <th style="width:15%">CR</th>
-            <th style="width:15%"></th>
+            <td style="width:13%">
+                รับจาก:
+            </td>
+            <td colspan="3" style="width:27%">
+            </td>
+            <td style="width:12%">
+                ชำระเป็น:
+            </td>
+            <td style="width:10%">
+                <input type="checkbox"> เงินสด
+            </td>
+            <td style="width:8%">
+                <input type="checkbox"> เงินโอน
+            </td>
+            <td style="width:10%">
+            </td>
+            <td style="width:10%">
+                เลขที่:
+            </td>
+            <td style="width:10%">
+            </td>
         </tr>
         <tr>
-            <td><br /></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td rowspan="2">การเงิน</td>
+            <td>
+                ใบสำคัญรับเลขที่:
+            </td>
+            <td colspan="3">
+            </td>
+            <td>
+            </td>
+            <td>
+                <input type="checkbox">เช็ค    เลขที่:
+            </td>
+            <td style="text-align: right;">เลขที่</td>
+            <td>
+            </td>
+            <td>
+                ลงวันที่:
+            </td>
+            <td colspan="3">
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table style="width: 100%; border-collapse: collapse;">
+    <tbody id="tbdetail">
+        <tr id="A1">
+            <td style="width: 3%; ">
+                ลำดับ
+            </td>
+            <td colspan="2" style="width:8%; ">
+                เอกสารอ้างอิง
+            </td>
+            <td colspan="2" style="width:12%; ">
+                เลขที่ใบจอง/เลขที่ใบตราขนส่ง
+            </td>
+            <td style="width:3%; ">
+                งานอ้างอิง
+            </td>
+            <td style="width:3%; ">
+                จำนวนเงิน
+            </td>
+            <td style="width:3%; ">
+                VAT7%
+            </td>
+            <td style="width:3%; ">
+                WHT
+            </td>
+            <td style="width:3%; ">
+                ส่วนลด
+            </td>
+            <td style="width:4%; ">
+                จำนวนเงินรวม
+            </td>
+        </tr>
+        <tr id="A2">
+            <td>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+
+                <br>
+            </td>
+            <td colspan="2">
+                (เลขที่ใบแจ้งหนี้)
+            </td>
+            <td colspan="2">
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+        </tr>
+        <tr id="A3">
+            <td rowspan="2">
+                รับจาก:
+            </td>
+            <td colspan="6" rowspan="2">
+                เป็นชื่อและเลขที่บัญชีของลูกค้า
+            </td>
+            <td colspan="2">
+                รับเงินจำนวน
+            </td>
+            <td colspan="2">
+            </td>
         </tr>
         <tr>
-            <td><br /></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><br /></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td rowspan="2">บันทึกรายการ</td>
-        </tr>
-        <tr>
-            <td><br /></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><br /></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td rowspan="2">ตรวจสอบ</td>
-        </tr>
-        <tr>
-            <td><br /></td>
-            <td></td>
-            <td></td>
             <td></td>
         </tr>
     </tbody>
 </table>
-<br />
-<table width="100%" style="border-collapse:collapse;">
+<table style="width: 100%; border-collapse: collapse;" id="T1">
     <tbody>
         <tr>
-            <td  style="vertical-align:top">
-                ชำระโดย
+            <td>
+                ผู้ออกไบเสร็จ
             </td>
-            <td><span style="border:2px black solid;color:transparent">_____</span></td>
-            <td>Cash</td>
+            <td>
+                ผู้ตรวจสอบเงินเข็าบัญชี
+            </td>
+            <td>
+                ผู้จัดทำใบสำคัญรับ
+            </td>
+            <td>
+                ผู้ตรวจสอบใบสำคัญรับ
+            </td>
+            <td>
+                ผู้อนุมัติใบสำคัญรับ
+            </td>
         </tr>
         <tr>
-            <td></td>
-            <td ><span style="border:2px black solid;color:transparent">_____</span></td>
-            <td>Cheque</td>
-            <td style="text-align:center">
-                <span style="border:2px black solid;color:transparent;font-size:30px">_______________</span>
-                <p>  <br />ธนาคาร/Bank</p>
+            <td>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
             </td>
-            <td style="text-align:center">
-                <span style="border:2px black solid;color:transparent;font-size:30px">_______________</span>
-                <p>  <br />เช็คเลขที่/Cheque Number</p>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
+            </td>
+            <td>
             </td>
         </tr>
-
     </tbody>
-</table>
-
-<br />
-<table width="100%" style="border-collapse:collapse;">
-    <tr>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:25%" >
-            Director/Date
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:25%">
-            Accountant/Date
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:25%">
-            Paid By/Date
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:25%">
-            Received/Date
-        </td>
-    </tr>
-    <tr>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-         
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-           
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-         
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-           
-        </td>
-    </tr>
 </table>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -264,9 +236,8 @@ End Code
                 let payType = '';
                 let desc = '';
                 let desc0 = '';
-		        let totalamt=Number(obj.TotalAmount);
 
-                appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>', obj.PRVoucher, CCurrency(CDbl(totalamt + Number(CDbl(obj.VatExc, 2)) - + Number(CDbl(obj.WhtExc, 2)),2)));
+                appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>',obj.PRVoucher,CCurrency(CDbl(Number(obj.SumAmount),2)));
                 //desc0 = '<b>TOTAL ' + obj.PRVoucher +'=' +  + ' ' + obj.CurrencyCode + '</b>';
                 let debit = '';
                 let credit = '';
@@ -278,15 +249,15 @@ End Code
                         }
                         desc0 += obj.PayChqTo !== '' ? '<br/>PAY TO ' + obj.PayChqTo : '';
                         desc0 += obj.RecvBank != '' ? '<br/>BANK ' + obj.RecvBank + ' BRANCH ' + obj.RecvBranch : '';
-                        desc0 += obj.BookCode != '' ? '<br/>ACCOUNT ' + obj.BookCode + ' REF# ' + obj.DocNo : '';
+                        if(data.document[0].BookName!==''){
+	                        desc0 += obj.BookCode != '' ? '<br/>ACCOUNT ' + data.document[0].BookName + ' REF# ' + obj.DocNo : '';
+			} else {
+                        	desc0 += obj.BookCode != '' ? '<br/>ACCOUNT ' + obj.BookCode + ' REF# ' + obj.DocNo : '';
+			}
                         desc0 += obj.TRemark != '' ? '<br/>DATE : ' + obj.TRemark : '';
                         break;
                     case 'CH':
-                        payType = 'TRANSFER';
-                        desc0 += obj.PayChqTo !== '' ? '<br/>PAY TO ' + obj.PayChqTo : '';
-                        desc0 += obj.RecvBank != '' ? '<br/>BANK ' + obj.RecvBank + ' BRANCH ' + obj.RecvBranch : '';
-                        desc0 += obj.BookCode != '' ? '<br/>ACCOUNT ' + obj.BookCode + ' REF# ' + obj.ChqNo : '';
-                        desc0 += obj.TRemark != '' ? '<br/>DATE : ' + obj.TRemark : '';
+                        payType = 'CASHIER CHEQUE';
                     case 'CU':
                         payType = 'CUSTOMER CHEQUE';
                         desc0 += obj.ChqNo !== '' ? '<br/>NO ' + obj.ChqNo + ' DATE ' + ShowDate(CDateTH(obj.ChqDate)) : '';
@@ -378,7 +349,7 @@ End Code
                             }
                             sum += Number(CDbl(d.PaidAmount, 2));
                             desc = d.DocRefNo + ' : ' + d.SDescription;
-			    if (d.Remark !== '') desc += '<br/>' + d.Remark;
+                            //if (d.Remark !== '') desc += '<br/>' + d.Remark+' '+ d.VenderName;
                             appendLine(div, desc, CDbl(d.PaidAmount / CNum(obj.ExchangeRate), 2) + ' ' + obj.CurrencyCode + ' (Rate=' + obj.ExchangeRate + ')', CCurrency(CDbl(d.PaidAmount, 2)));
                         }
                         appendLine(div,'','<b>TOTAL</b>','<b>'+ShowNumber(sum,2)+'</b>');
@@ -411,6 +382,8 @@ End Code
                                 $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
                                 $('#lblMAWB').text(j.MAWB);
                                 ShowVender(path, j.ForwarderCode, '#lblAgentName');
+                                $('#lblCustPo').text(j.CustRefNO);
+
                             }
                         });
                     }
@@ -442,11 +415,11 @@ End Code
                 desc1 += '</td>';
                 desc1 += '</tr>';
                 desc1 += '</table>';
-                let totalnet = Number(obj.TotalAmount) + Number(obj.VatExc) - Number(obj.WhtExc);
+
                 let desc2 = '<table width="100%">';
                 desc2 += '<tr>';
                 desc2 += '<td width="20%" style="text-align:right">';
-                desc2 += CCurrency(CDbl(totalamt,2));
+                desc2 += CCurrency(CDbl(Number(obj.TotalAmount),2));
                 desc2 += '</td>';
                 desc2 += '</tr>';
                 desc2 += '<tr>';
@@ -456,17 +429,17 @@ End Code
                 desc2 += '</tr>';
                 desc2 += '<tr>';
                 desc2 += '<td width="20%" style="text-align:right">';
-                desc2 += CCurrency(CDbl(Number(obj.WhtExc), 2));
+                desc2 += CCurrency(CDbl(Number(obj.WhtExc),2));
                 desc2 += '</td>';
                 desc2 += '</tr>';
                 desc2 += '<tr>';
                 desc2 += '<td width="20%" style="text-align:right">';
-                desc2 += CCurrency(CDbl(totalnet, 2));
+                desc2 += CCurrency(CDbl(Number(obj.TotalNet), 2));
                 desc2 += '</td>';
                 desc2 += '</tr>';
                 desc2 += '</table>';
 
-                appendLine(div, desc0, desc1, desc2, "font-size: 16px;");
+                appendLine(div, desc0, desc1, desc2);
 
             }
         }
@@ -477,8 +450,8 @@ End Code
             $('#txtRemark').text(data.header[0].TRemark);
         }
     }
-    function appendLine(dv, data, col1, col2, addtionalStyle = "font-size:11px;") {
-        let html = `<tr><td style="border-style:solid;border-width:thin;font-size:11px;${addtionalStyle}">`;
+    function appendLine(dv,data,col1,col2) {
+        let html = '<tr><td style="border-style:solid;border-width:thin;font-size:11px">';
         html += data;
         html += '</td>';
         html += '<td style="border-style:solid;border-width:thin;font-size:11px;text-align:right" width="150px">' + col1 + '</td>';
@@ -488,3 +461,36 @@ End Code
         dv.append(html);
     }
 </script>
+<style>
+    table tr td {
+        /*  border:1px solid black;*/
+        font-size: 12px;
+        padding: 1px;
+        height: 19px;
+    }
+
+    table {
+        border: 1px solid black;
+        margin-bottom: 5px;
+    }
+
+    #A1 td {
+        border: 1px solid black;
+        text-align: center;
+    }
+
+    #A2 td {
+        border: 1px solid black;
+        text-align: center;
+    }
+
+    #A3 td {
+        border: 1px solid black;
+        text-align: center;
+    }
+
+    #T1 td {
+        border: 1px solid black;
+        text-align: center;
+    }
+</style>

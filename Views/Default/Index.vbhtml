@@ -3,6 +3,5 @@
     ViewData("Title") = "Index"
 End Code
 <script type="text/javascript">
-    let path = '@Url.Content("~")';
-    window.location =path +"/Master";
+	window.location= '@Url.Action("Index", "Master")';
 </script>
