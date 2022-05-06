@@ -3,6 +3,17 @@
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Voucher Slip"
 End Code
+<style>
+    #onlyForAccount td,th{
+        border:1px black solid;
+        padding:5px;
+     
+    }
+
+
+</style>
+
+
 <table id="tbAdvInfo" width="100%">
     <tr>
         <td colspan="3" style="font-size:11px">
@@ -117,6 +128,84 @@ End Code
 <table id="tbData" style="border-collapse:collapse;width:100%">
     <tbody></tbody>
 </table>
+<br />
+<table id="onlyForAccount" style="border-collapse:collapse;width:100%">
+    <tbody>
+        <tr>
+            <th style="width:15%">รหัสบัญชี</th>
+            <th style="width:40%">ชื่อบัญชี</th>
+            <th style="width:15%">DR</th>
+            <th style="width:15%">CR</th>
+            <th style="width:15%"></th>
+        </tr>
+        <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td rowspan="2">การเงิน</td>
+        </tr>
+        <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td rowspan="2">บันทึกรายการ</td>
+        </tr>
+        <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td rowspan="2">ตรวจสอบ</td>
+        </tr>
+        <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<table width="100%" style="border-collapse:collapse;">
+    <tbody>
+        <tr>
+            <td  style="vertical-align:top">
+                ชำระโดย
+            </td>
+            <td><span style="border:2px black solid;color:transparent">_____</span></td>
+            <td>Cash</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td ><span style="border:2px black solid;color:transparent">_____</span></td>
+            <td>Cheque</td>
+            <td style="text-align:center">
+                <span style="border:2px black solid;color:transparent;font-size:30px">_______________</span>
+                <p>  <br />ธนาคาร/Bank</p>
+            </td>
+            <td style="text-align:center">
+                <span style="border:2px black solid;color:transparent;font-size:30px">_______________</span>
+                <p>  <br />เช็คเลขที่/Cheque Number</p>
+            </td>
+        </tr>
+
+    </tbody>
+</table>
+
 <br />
 <table width="100%" style="border-collapse:collapse;">
     <tr>
@@ -368,7 +457,6 @@ End Code
                 desc2 += '<tr>';
                 desc2 += '<td width="20%" style="text-align:right">';
                 desc2 += CCurrency(CDbl(Number(obj.WhtExc), 2));
-                console.log(Number(obj.WhtExc));
                 desc2 += '</td>';
                 desc2 += '</tr>';
                 desc2 += '<tr>';
@@ -378,7 +466,7 @@ End Code
                 desc2 += '</tr>';
                 desc2 += '</table>';
 
-                appendLine(div, desc0, desc1, desc2);
+                appendLine(div, desc0, desc1, desc2, "font-size: 16px;");
 
             }
         }
@@ -389,8 +477,8 @@ End Code
             $('#txtRemark').text(data.header[0].TRemark);
         }
     }
-    function appendLine(dv,data,col1,col2) {
-        let html = '<tr><td style="border-style:solid;border-width:thin;font-size:11px">';
+    function appendLine(dv, data, col1, col2, addtionalStyle = "font-size:11px;") {
+        let html = `<tr><td style="border-style:solid;border-width:thin;font-size:11px;${addtionalStyle}">`;
         html += data;
         html += '</td>';
         html += '<td style="border-style:solid;border-width:thin;font-size:11px;text-align:right" width="150px">' + col1 + '</td>';

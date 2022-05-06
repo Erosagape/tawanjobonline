@@ -22,7 +22,7 @@ End Code
             <td style="width:10%"></td>
             <td style="width:15%"><b>FROM </b></td>
             <td>:</td>
-            <td style="width:25%"></td>
+            <td style="width:25%">UNITED GLOBE</td>
         </tr>
         <tr>
             <td> <b>ATTN  </b></td>
@@ -78,18 +78,16 @@ End Code
             <td>:</td>
             <td colspan="5"></td>
         </tr>
-        <tr>
-            <td> <b>BOOKING'S DETAIL</b></td>
-            <td>:</td>
-            <td colspan="5" id="lblBookingNo"></td>
-        </tr>
+
+
+
         <tr>
             <td> <b>SHIPPER</b></td>
             <td>:</td>
             <td colspan="5" id="lblShipperName2"></td>
         </tr>
         <tr>
-            <td> <b ">PORT OF LOADING</b></td>
+            <td> <b>PORT OF LOADING</b></td>
             <td>:</td>
             <td colspan="5" id="lblPortLoading"></td>
         </tr>
@@ -109,12 +107,12 @@ End Code
             <td colspan="5"></td>
         </tr>
         <tr>
-            <td> <b>FEEDER NAME</b></td>
+            <td> <b>FEEDER/VESSEL</b></td>
             <td>:</td>
             <td colspan="5" id="lblVesselName"></td>
         </tr>
         <tr>
-            <td> <b>VESSEL NAME</b></td>
+            <td> <b>MOTHER VESSEL</b></td>
             <td>:</td>
             <td colspan="5" id="lblMVesselName"></td>
         </tr>
@@ -129,10 +127,11 @@ End Code
             <td colspan="5" id="lblETADate"></td>
         </tr>
         <tr>
-            <td> <b>BOOKING REF NO.</b></td>
+            <td> <b>BOOKING REF NO</b></td>
             <td>:</td>
-            <td colspan="5"></td>
+            <td colspan="5" id="lblBookingNo"></td>
         </tr>
+
         <tr>
             <td> <b>AGENT</b></td>
             <td>:</td>
@@ -144,11 +143,6 @@ End Code
             <td colspan="5" id="lblCustomsCode"></td>
         </tr>
         <tr>
-            <td> <b>CY DATE</b></td>
-            <td>:</td>
-            <td colspan="5" id="lblCYDate"></td>
-        </tr>
-        <tr>
             <td> <b>CY YARD LOCATION</b></td>
             <td>:</td>
             <td colspan="5">
@@ -157,9 +151,9 @@ End Code
             </td>
         </tr>
         <tr>
-            <td> <b>RETURN DATE</b></td>
+            <td> <b>CY DATE</b></td>
             <td>:</td>
-            <td colspan="5" id="lblReturnDate"></td>
+            <td colspan="5" id="lblCYDate"></td>
         </tr>
         <tr>
             <td> <b>RTN YARD LOCATION</b></td>
@@ -170,14 +164,25 @@ End Code
             </td>
         </tr>
         <tr>
+            <td> <b>RETURN DATE</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblReturnDate"></td>
+        </tr>
+
+        <tr>
             <td> <b>CUT - OFF DATE & TIME</b></td>
             <td>:</td>
-            <td colspan="5"></td>
+            <td colspan="5" id="lblCloseDatetime"></td>
+        </tr>
+        <tr>
+            <td> <b>Doc Cut-off</b></td>
+            <td>:</td>
+            <td colspan="5"> <label id="lblSICutoff"></label><label id="lblVGMCutoff"></label></td>
         </tr>
         <tr>
             <td> <b>REMARK</b></td>
             <td>:</td>
-            <td colspan="5"></td>
+            <td colspan="5" id="lblRemark"></td>
         </tr>
         <tr>
             <td colspan="7">
@@ -323,7 +328,6 @@ End Code
     $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
-
             $('#lblBookingNo').text(h.BookingNo);
             $('#lblBookingDate').text(ShowDate(h.BookingDate));
             $('#lblShipperName2').text(h.ShipperName);
@@ -366,18 +370,32 @@ End Code
                 $('#lblClosingDate').text(ShowDate(h.PackingDate));
                 $('#lblClosingTime').text(ShowTime(h.PackingTime));
             }
-            ShowReleasePort(path, h.ClearPort, '#lblPortLoading');
+            //ShowReleasePort(path, h.ClearPort, '#lblPortLoading');
+            $('#lblPortLoading').text(h.FactoryPlace);
             $('#lblPackingPlace').text(h.PackingPlace);
             $('#lblShipperName').text(h.ShipperName);
             $('#lblShipperContact').text(h.ShipperContact);
             $('#lblShipperTel').text(h.ShipperPhone);
             $('#lblShipperFax').text(h.ShipperFax);
             $('#lblShipperEMail').text(h.ShipperEMail);
-            $('#lblCustomsCode').text(h.ClearPort);
+           
+
+            $.get(path + 'Master/GetCustomsPort?Code=' + h.ClearPort).done(function (r) {
+                $('#lblCustomsCode').text(r.RFARS.data[0].AreaName+"-"+h.ClearPort);
+            });
+
             $('#lblCSMail').text(h.CSEMail);
             $('#lblCSName').text(h.CSName);
             let str = h.Description;
             $('#dvRemark').html(CStr(str));
+            $('#lblRemark').text(h.Remark);
+            $('#lblCloseDatetime').text(ShowDate(h.FactoryDate) + "( BEFORE " + ShowTime(h.FactoryTime) + " HRS.)");
+            $('#lblSICutoff').text("CUT OFF SI : " + ShowDate(h.LoadDate) + " @@ " + ShowTime(h.EstDeliverTime) + ". VGM : " + ShowDate(h.EstDeliverDate) + " BEFORE " + ShowTime(h.ConfirmChqDate));
+          
+            //$('#lblVGMCutoff').text(h.VGMCutoff);
+            //$('#').text(h.EstDeliverTime);
+            //$('#').text(h.EstDeliverTime);
+            
         }
     });
 </script>

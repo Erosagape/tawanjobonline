@@ -426,13 +426,13 @@
             $('#cboMenu').val(menuType);
             ChangeMenu();
         }
-        if (userLang !== 'EN' && userLang !== '') {
+        //if (userLang !== 'EN' && userLang !== '') {
             $('#cboLanguage').val(userLang);
             ChangeLanguage(userLang, $('#lblModule').val());
-        } else {
-            userLang = 'EN';
-            $('#cboLanguage').val(userLang);
-        }
+        //} else {
+        //    userLang = 'EN';
+        //    $('#cboLanguage').val(userLang);
+        //}
         $('#dvLogin').on('shown.bs.modal', function () {
             $('#txtUserLogin').focus();
         });

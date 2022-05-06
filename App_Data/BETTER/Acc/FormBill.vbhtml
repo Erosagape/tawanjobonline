@@ -2,7 +2,7 @@
 @Code
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Billing Slip"
-    ViewBag.ReportName = "ใบวางบิล (BILLING COVER SHEET)"
+    ViewBag.ReportName = ""
 End Code
 <style>
     * {
@@ -42,34 +42,34 @@ End Code
         display: none;
     }
 </style>
-<div id="dvCopy"></div>
+@*<div id="dvCopy"></div>*@
 @*<div style="display:flex;">
-    <div style="flex:1;" class="text-left">
-        <p>
-            TAX-ID : <label id="lblTaxNumber"></label>
-        </p>
+        <div style="flex:1;" class="text-left">
+            <p>
+                TAX-ID : <label id="lblTaxNumber"></label>
+            </p>
+        </div>
+        <div style="flex:1;text-align:right" onclick="$('#test1').show();$('#test2').show();$('#test3').show();">
+            DOC NO : <label id="lblBillAcceptNo"></label>
+            <br />DATE : <label id="lblBillDate"></label>
+        </div>
     </div>
-    <div style="flex:1;text-align:right" onclick="$('#test1').show();$('#test2').show();$('#test3').show();">
-        DOC NO : <label id="lblBillAcceptNo"></label>
-        <br />DATE : <label id="lblBillDate"></label>
+    <div style="display:flex;">
+        <div class="text-left">
+            <p>
+                NAME : <label id="lblCustName"></label>
+            </p>
+        </div>
     </div>
-</div>
-<div style="display:flex;">
-    <div class="text-left">
-        <p>
-            NAME : <label id="lblCustName"></label>
-        </p>
-    </div>
-</div>
-<div style="display:flex;flex-direction:column">
-    <div style="flex:1" class="text-left">
-        <label id="lblCustAddress"></label>
-    </div>
-    <div style="flex:1" class="text-left">
-        <br />
-        PLEASE APPROVE BEFORE PAYMENT
-    </div>
-</div>*@
+    <div style="display:flex;flex-direction:column">
+        <div style="flex:1" class="text-left">
+            <label id="lblCustAddress"></label>
+        </div>
+        <div style="flex:1" class="text-left">
+            <br />
+            PLEASE APPROVE BEFORE PAYMENT
+        </div>
+    </div>*@
 <table id="test3" style="width: 100%; border: 1px solid black;">
     <tbody>
         <tr>
@@ -87,8 +87,7 @@ End Code
         <tr>
             <td><label id="lblCustAddress" rowspan="2"></label></td>
             <td style="border-left:1px solid black" rowspan="3" colspan="3">
-                <p style="text-align:center;font-weight:bold;font-size:16px">ใบวางบิล</p>
-                <p style="text-align: center; font-weight: bold; font-size: 16px">BILLING NOTE</p>
+                <p style="text-align:center;font-weight:bold;font-size:16px">ใบวางบิล (BILLING NOTE) </p>
             </td>
         </tr>
         <tr>
@@ -142,16 +141,41 @@ End Code
         @*<td colspan="1"><label id="lblTotalAfterVAT"></label></td>*@
     </tr>
 </table>
-
-<table border="1" style="border-style:solid;width:100%;margin-top:5px ">
+@*<table style="width:70%" ;>
+    <tbody>
+        <tr>
+            <td rowspan="2" style="width:10%;vertical-align: central; font-size: 16px; white-space: nowrap">PAY BY:</td>
+            <td style="width: 10%; white-space: nowrap">TRANSFER</td>
+            <td contenteditable="true" style="border-bottom:1px black solid;white-space:pre;"></td>
+            <td style="width: 10%; white-space: nowrap">RV NO.</td>
+            <td contenteditable="true" style="border-bottom: 1px black solid; white-space: pre;"></td>
+        </tr>
+        <tr>
+            <td style="width: 10%; white-space: nowrap ">CHEQUE NO.</td>
+            <td contenteditable="true" style="border-bottom: 1px black solid; white-space: pre"></td>
+            <td style="width: 10%; white-space: nowrap">DATE:.</td>
+            <td contenteditable="true" style="border-bottom: 1px black solid; white-space: pre"></td>
+        </tr>
+    </tbody>
+</table>*@
+<div id="dvCopy" style="display:flex;width:100%">
+    <div style="width:70%;"></div>
+</div>
+<div style="display:flex;width:100%">
+    <div style="width:70%;"></div>
+    <div style="width:30%;border-top:1px dotted black;text-align:center;padding:10px;margin:30px 0px;">
+        AUTHORIZED SIGNATURE
+    </div>
+</div>
+<!--<table border="1" style="border-style:solid;width:100%;margin-top:5px ">
     <thead>
         <tr>
             <th class="text-center" width="50" rowspan="2">NO</th>
             <th class="text-center" width="100" rowspan="2">ISSUE DATE</th>
             <th class="text-center" width="130" rowspan="2">INVOICE NO.</th>
-            <th class="text-center" width="130" rowspan="2">CUST INV..</th>
+            <th class="text-center" width="130" rowspan="2">CUST INV..</th>-->
             @*<th class="text-center" width="130" rowspan="2">JOB NO.</th>*@
-            <th class="text-center" colspan="2">AMOUNT</th>
+            <!--<th class="text-center" colspan="2">AMOUNT</th>
             <th class="text-center" width="60" rowspan="2">VAT</th>
             <th class="text-center" colspan="2">W/H</th>
             <th class="text-center" width="80" rowspan="2">PREPAID</th>
@@ -181,9 +205,9 @@ End Code
             <th class="text-center" colspan="11"><label id="lblBillTotalEng"></label></th>
         </tr>
     </tfoot>
-</table>
+</table>-->
 
-<div style="margin-top:60px">
+@*<div style="margin-top:60px">
     <p>PAYMENT DUE DATE : <label id="lblPaymentDueDate"></label></p>
     <p>PLEASE PAY CHEQUE IN NAME @ViewBag.PROFILE_COMPANY_NAME</p>
     <p>PAYMENT SHOULD BE PAID BY CROSS CHEQUE IN FAVOR OF  @ViewBag.PROFILE_COMPANY_NAME</p>
@@ -205,20 +229,35 @@ End Code
         .........................................<br />
         _____/______/______
     </div>
-</div>
+</div>*@
+@*<div style="text-align:center">
+    (โปรดตรวจสอบความถูกต้องของรายการในเอกสารฉบับนี้ภายใน 7 วัน มิฉะนั้นบริษัทฯ จะถือว่าเอกสารฉบับนี้ถูกต้องสมบูรณ์)
+    <br />
+    ใบวางบิลนี้จะสมบูรณ์ก็ต่อเมื่อมีลายเซ็นต์ของผู้รับเงินและผู้ได้รับมอบอำนาจเท่านั้น
+    <br />
+    และต่อเมื่อบริษัทฯ ได้เรียกเก็บเงินตามเช็คและเงินเข้าบัญชีบริษัทครบถ้วนแล้ว
+    <br />
+    <label style="font-size:10px"> This billing cover sheet is not valid unless signed by our bill collector and authorized person and that the cheque has already been cleared by bank.</label>
+
+</div>*@
 <script type="text/javascript">
     $('#imgLogo').hide();
     $('#imgLogoAdd').show();
-    $('#test1').hide();
-    $('#test2').hide();
-    $('#test3').hide();
+    //$('#test1').hide();
+    //$('#test2').hide();
+    //$('#test3').hide();
     let path = '@Url.Content("~")';
     let ans = confirm('OK to print Original or Cancel For Copy');
-    if (ans == true) {
-        $('#dvCopy').html(`<b onclick="$('#test1').toggle();$('#test2').toggle();$('#test3').toggle();">**ORIGINAL**</b>`);
-    } else {
-        $('#dvCopy').html('<b>**COPY**</b>');
-    }
+    let str = ans == true ? "ต้นฉบับ/ORIGINAL" : "สำเนา/COPY";
+
+    $('#dvCopy').html($('#dvCopy').html() + '<div style="width:30%;margin: 1em 0em; padding: 1em; border: 1px black solid;font-size:18px;text-align:center;font-weight:bold">' + str + '</div>');
+
+    //let ans = confirm('OK to print Original or Cancel For Copy');
+    //if (ans == true) {
+    //    $('#dvCopy').html(`<b onclick="$('#test1').toggle();$('#test2').toggle();$('#test3').toggle();">**ORIGINAL**</b>`);
+    //} else {
+    //    $('#dvCopy').html('<b>**COPY**</b>');
+    //}
     let branch = getQueryString('branch');
     let billno = getQueryString('code');
     $.get(path + 'acc/getbilling?branch=' + branch + '&code=' + billno, function (r) {

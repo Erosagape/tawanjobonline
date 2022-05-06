@@ -220,7 +220,7 @@ End Code
         }
         if (data.payment ) {
           
-            $('#lblPayCompany').text(data.payment[0].PayChqTo);//
+            //$('#lblPayCompany').text(data.payment[0].PayChqTo);
 
             //if (data.payment[0].acType == "CA") {
               
@@ -232,13 +232,8 @@ End Code
         if (data.document ) {
             $('#lblBankCode').text(data.document[0].BankCode);
             $('#lblBankAccount').text(data.document[0].BookName);
-         
 
-            //$.get(path + 'Master/GetCompany?branch=' + data.document[0].CmpBranch + '&code=' + data.document[0].CmpCode, function (r) {
-            //    if (r.company.data ) {
-            //        $('#lblPayCompany').text(r.company.data[0].NameThai);
-            //    }
-            //});
+        
 
         }
         let div = $('#tbData tbody');
@@ -250,6 +245,22 @@ End Code
                     $(this).text(this.getAttribute("pv"));
                 });
                 $("#imgLogo").prop("src", path + "/Resource/voucher_pv.jpg");
+                $('#lblPayCompany').text(data.payment[0].PayChqTo);
+            } else {
+                if (data.document) {
+                    $.get(path + 'acc/GetInvoice?branch=' + branch + '&code=' + data.document[0].DocRefNo, function (r) {
+                        let h = r.invoice.header;
+                        if (h) {
+                            $.get(path + 'Master/GetCompany?branch=' + h[0][0].BillToCustBranch + '&code=' + h[0][0].BillToCustCode, function (r) {
+                                if (r.company.data) {
+                                    $('#lblPayCompany').text(r.company.data[0].NameEng);
+                                }
+                            });
+
+                        }
+                    });
+                }
+
             }
         }
         for (pay of data.payment) {
@@ -280,7 +291,7 @@ End Code
                 //<td style="text-align:center;padding:0px 5px;">${i++}</td>
                 tr += `<tr style="height:0px">
                            <td style="text-align:center;padding:0px 5px;">${d.DocRefNo}</td>
-                           <td style="text-align:center;padding:0px 5px;">${ShowDate(d.DocDate)}</td>
+                           <td style="text-align:center;padding:0px 5px;">${d.CustInv/* ShowDate(d.DocDate)*/}</td>
                             ${ pay.PRType == "R" ?
                                  `<td style="padding: 0px 5px; ">${d.BookingNo ? d.BookingNo : ""}</td>` :
                                  ` <td colspan="2" style="padding:0px 5px;">${d.SDescription ? d.SDescription : ""}</td>`
@@ -358,7 +369,7 @@ End Code
                            เอกสารอ้างอิง
                         </td>
                         <td style="width: 10%; ">
-                            วันที่
+                            เลขที่อ้างอิง
                         </td>
                         ${  pay.PRType == "R" ? 
                         ` 

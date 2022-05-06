@@ -94,7 +94,6 @@ End Code
             <td>GRAND TOTAL</td>
         </tr>
     </tbody>
-
 </table>
 <table style="border-style:solid;width:100%; " class="text-center">
     <tr>
@@ -168,9 +167,9 @@ End Code
         <tr>
             <td rowspan="2" style="width:10%;vertical-align: central; font-size: 16px; white-space: nowrap">PAY BY:</td>
             <td style="width: 10%; white-space: nowrap">TRANSFER</td>
-            <td contenteditable="true" style="border-bottom:1px black solid;white-space:pre;""></td>
+            <td contenteditable="true" style="border-bottom:1px black solid;white-space:pre;"></td>
             <td style="width: 10%; white-space: nowrap">RV NO.</td>
-            <td contenteditable="true" style="border-bottom: 1px black solid; white-space: pre;"></td>
+            <td id="lblPRVoucher" contenteditable="true" style="border-bottom: 1px black solid; white-space: pre;"></td>
         </tr>
         <tr>
             <td style="width: 10%; white-space: nowrap ">CHEQUE NO.</td>
@@ -308,6 +307,10 @@ End Code
         $('#lblTotalADV').text(ShowNumber(adv, 2));
         $('#lblTotalAfterVAT').text(ShowNumber(amt, 2));
         $('#lblTotalNET').text(ShowNumber(amt, 2));
-        $('#lblTotalText').text(CNumThai(CDbl(amt,2)));
+        $('#lblTotalText').text(CNumThai(CDbl(amt, 2)));
+
+        $('#lblPRVoucher').text(h.PRVoucher);
+
+        
     }
 </script>

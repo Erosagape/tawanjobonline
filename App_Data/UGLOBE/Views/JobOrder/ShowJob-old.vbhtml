@@ -494,14 +494,10 @@ End Code
                                         <label id="lblETADate" for="txtETADate" style="color:red">ETA Date:</label><input type="date" style="width:100%" class="form-control" id="txtETADate" tabindex="42" />
                                     </div>
                                     <div class="col-sm-3">
-                                        <label id="lblLoadDate" for="txtLoadDate" style="color:red">SI Date:</label><input type="date" style="width:100%" class="form-control" id="txtLoadDate" tabindex="43" />
-                                        <br />
-                                        <input type="time" class="form-control" id="txtDeliveryTime" />
+                                        <label id="lblLoadDate" for="txtLoadDate" style="color:red">Load Date:</label><input type="date" style="width:100%" class="form-control" id="txtLoadDate" tabindex="43" />
                                     </div>
                                     <div class="col-sm-3">
-                                        <label id="lblDeliveryDate" for="txtDeliveryDate" style="color:red">Closing Date :</label><input type="date" style="width:100%" class="form-control" id="txtDeliveryDate" tabindex="44" />
-                                        <br />
-                                        <input type="time" class="form-control" id="txtConfirmChqDate" />
+                                        <label id="lblDeliveryDate" for="txtDeliveryDate" style="color:red">Unload Date :</label><input type="date" style="width:100%" class="form-control" id="txtDeliveryDate" tabindex="44" />
                                     </div>
                                 </div>
                             </div>
@@ -511,7 +507,7 @@ End Code
                 <div id="tabdeclare" class="tab-pane fade">
                     <div class="row">
                         <div class="col-sm-3">
-                            <label id="lblEDIDate" for="txtEDIDate">VGM Date :</label>
+                            <label id="lblEDIDate" for="txtEDIDate">EDI Date :</label>
                             <input type="date" id="txtEDIDate" class="form-control" style="width:100%" tabindex="45" />
                         </div>
                         <div class="col-sm-3">
@@ -640,7 +636,7 @@ End Code
                                     <button id="btnLinkPaperless" class="btn btn-success" onclick="LoadPaperless()">Load Data From Paperless</button>
                                     <select id="cboDBType" class="form-control dropdown">
                                         <option value="JANDT" selected>TAWAN</option>
-                                        <option value="ECS">ECS</option>
+                                        <option value="ECS">ECS</option> 
                                         @*<option value="ETRANSIT">ETRANSIT(ทดสอบระบบ)</option>*@
                                     </select>
                                 </div>
@@ -658,7 +654,6 @@ End Code
                     <select id="cboDocType" class="dropdown" onclick="ShowTracking($('#txtBranchCode').val(), $('#txtJNo').val());">
                         <option value="">All</option>
                         <option value="ADV">Advance</option>
-                        <option value="PAY">Payment Bill</option>
                         <option value="CLR">Clearing</option>
                         <option value="CHQ">Cheque</option>
                         <option value="INV">Invoice</option>
@@ -680,6 +675,9 @@ End Code
                                 </th>
                                 <th class="all">
                                     Document No
+                                </th>
+                                <th class="desktop">
+                                    Item
                                 </th>
                                 <th class="desktop">
                                     Expenses
@@ -1402,8 +1400,6 @@ End Code
         $('#txtETADate').val(CDateEN(dr.ETADate));
         $('#txtLoadDate').val(CDateEN(dr.LoadDate));
         $('#txtDeliveryDate').val(CDateEN(dr.EstDeliverDate));
-        $('#txtDeliveryTime').val(ShowTime(dr.EstDeliverTime));
-        $('#txtConfirmChqDate').val(ShowTime(dr.ConfirmChqDate));
         $('#txtEDIDate').val(CDateEN(dr.ImExDate));
         $('#txtReadyClearDate').val(CDateEN(dr.ReadyToClearDate));
         $('#txtDutyDate').val(CDateEN(dr.DutyDate));
@@ -1491,6 +1487,7 @@ End Code
                                 }
                             }
                         },
+                        { data: "ItemNo", title: "Seq" },
                         { data: "Expense", title: "Description" },
                         {
                             data: "Amount", title: "Amount",
@@ -1625,8 +1622,6 @@ End Code
         dr.ETADate = CDateEN($('#txtETADate').val());
         dr.LoadDate = CDateEN($('#txtLoadDate').val());
         dr.EstDeliverDate = CDateEN($('#txtDeliveryDate').val());
-        dr.EstDeliverTime = $('#txtDeliveryTime').val();
-        dr.ConfirmChqDate = $('#txtConfirmChqDate').val();
         dr.ImExDate = CDateEN($('#txtEDIDate').val());
         dr.ReadyToClearDate = CDateEN($('#txtReadyClearDate').val());
         dr.DutyDate = CDateEN($('#txtDutyDate').val());
@@ -2020,7 +2015,7 @@ End Code
                     if(r[0].LOADEDTIME!==null) $('#txtClearDate').val(r[0].LOADEDTIME.substring(0, 10));
                     $('#txtVesselName').val(r[0].VSLNME + (r[0].VOY!==''? ' V.'+ r[0].VOY:''));
                 }
-                $('#txtReleasePort').val(r[0].ReleasePort);
+                $('#txtReleasePort').val(r[0].DischargePort);
                 $('#txtPortNo').val(r[0].LoadedPort);
                 $('#txtHAWB').val(r[0].HBL);
                 $('#txtMAWB').val(r[0].MBL);
