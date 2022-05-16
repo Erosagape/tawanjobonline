@@ -192,7 +192,7 @@ End Code
         let branch = getQueryString('branch');
         let code = getQueryString('code');
         if (branch != "" && code != "") {
-            $.get(path + 'clr/getclearingreport?branch=' + branch + '&code=' + code, function (r) {
+            $.get(path + 'clr/getclearingreport?branch=' + branch + '&code=' + code).done(function (r) {
                 if (r.data !== undefined) {
                     let h = r.data[0];
                     $('#txtDocStatus').text(h.ClrStatusName);

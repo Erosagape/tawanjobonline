@@ -7,7 +7,7 @@ End Code
         font-family:AngsanaUPC;
         font-size:14px;
     }
-    #pFooter {
+    #pFooter,#dvFooter {
         display:none;
     }
     .circle {
@@ -52,8 +52,8 @@ End Code
                     <b>ชื่อผู้มีหน้าที่หักภาษี ณ ที่จ่าย (หน่วยงาน)</b>
                 </div>
                 <div style="flex:1">
-                    <b>สาขาที่</b>
-                    <label id="lblBranch1"></label>
+                    <b>สาขาที่</b>                    
+                    <input type="text" id="lblBranch1" style="width:50px;height:20px" />
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@ End Code
 <div style="display:flex">
     <div style="flex:55%;border-bottom-style:solid;border-bottom-width:1px;padding:5px 5px 5px 5px">
         <div>
-            <b>เดือนที่จ่ายเงินได้พึงประเมิน</b> (ให้ทำเครื่องหมาย <input type="checkbox" checked /> ลงใน <input type="checkbox" /> หน้าชื่อเดือน) พ.ศ. <input type="text" style="width:50px" />
+            <b>เดือนที่จ่ายเงินได้พึงประเมิน</b> (ให้ทำเครื่องหมาย <input type="checkbox" checked /> ลงใน <input type="checkbox" /> หน้าชื่อเดือน) พ.ศ. <input type="text" style="width:50px;height:20px" />
         </div>
         <div style="display:flex">
             <div style="flex:1">
@@ -219,9 +219,9 @@ End Code
 <div>
     <div style="width:100%;text-align:center;font-size:16px;float:left">
         <div style="float:right">
-            <br/>
-            <div class="circle"><br />ประทับตรา<br />นิติบุคคล<br/>(ถ้ามี)</div>
-            <br/>
+            <br />
+            <div class="circle"><br />ประทับตรา<br />นิติบุคคล<br />(ถ้ามี)</div>
+            <br />
         </div>
         ข้าพเจ้าขอรับรองว่า รายการที่แจ้งไว้ข้างต้นนี้ เป็นรายการที่ถูกต้องและครบถ้วนทุกประการ
         <br />
@@ -229,12 +229,26 @@ End Code
         <br />
         ลงชื่อ..............................................................................................ผู้จ่ายเงิน
         <br />
-        (..............................................................................................)
+        (<input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxAuthorize" />)
         <br />
-        ตำแหน่ง .....................................................................................
-        <br />
-        ยื่นวันที่............ เดือน..............................................พ.ศ. ...................
+        ตำแหน่ง <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxPosition" /> <br>
+        ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
     </div>
+</div>
+<div style="page-break-before:always">
+    <p style="text-align:center;font-weight:bolder;font-size:14px">คำชี้แจง</p>
+    <table style="width:100%;">
+        <tr>
+            <td style="width:50%">
+                <img src="~/Resource/prd53_left1.png" style="width:90%" />
+                <img src="~/Resource/prd53_left2.png" style="width:90%" />
+            </td>
+            <td style="width:50%">
+                <img src="~/Resource/prd53_right1.png" style="width:90%" />
+                <img src="~/Resource/prd53_right2.png" style="width:90%" />
+            </td>
+        </tr>
+    </table>
 </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -274,15 +288,21 @@ End Code
                     var tb = res.result[0];
                     $('#lblIDCard1').text(tb.IDCard1);
                     $('#lblTaxNumber1').text(tb.TaxNumber1);
-                    $('#lblBranch1').text(tb.Branch1);
+                    $('#lblBranch1').val('00'+CCode(tb.Branch1));
                     $('#lblTName1').text(tb.TName1);
                     $('#lblTAddress1').text(tb.TAddress1);
                     $('#txtTaxYear').val(tb.TaxYear + 543);
                     $('#chkMo' + tb.TaxMonth).prop('checked', true);
                     $('#chkLaw' + tb.TaxLawNo).prop('checked', true);
-                    $('#txtSumPayAmount').val(ShowNumber(tb.SumPayAmount,2));
-                    $('#txtSumPayTax').val(ShowNumber(tb.SumPayTax,2));
-                    $('#txtSumTax').val(ShowNumber(tb.SumPayTax,2));
+                    let amt = 0;
+                    let tax = 0;
+                    for (let d of res.result) {
+                        amt += Number(CDbl(d.SumPayAmount, 2));
+                        tax += Number(CDbl(d.SumPayTax,2));
+                    }
+                    $('#txtSumPayAmount').val(ShowNumber(amt,2));
+                    $('#txtSumPayTax').val(ShowNumber(tax,2));
+                    $('#txtSumTax').val(ShowNumber(tax,2));
                 }
             }
         });

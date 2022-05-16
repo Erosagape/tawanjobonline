@@ -7,7 +7,7 @@ End Code
         font-size: 13px;
     }
 
-    #pFooter {
+    #pFooter,#dvFooter {
         display: none;
     }
 
@@ -42,7 +42,7 @@ End Code
 <table>
     <tr>
         <td>
-            <table id="report" style="width:100%">
+            <table style="width:100%">
                 <tr>
                     <td style="width:10%">
                         ใบแนบ <label style="font-size:32px;font-weight:bold">ภ.ง.ด.3</label>
@@ -57,15 +57,15 @@ End Code
                     </td>
                     <td style="width:30%;text-align:right">
                         <br />
-                        แผ่นที่...............ในจำนวน..................แผ่น
+                        หน้าที่ 1 ใน <span id="dvPages"></span> หน้า
                     </td>
                 </tr>
             </table>
         </td>
     </tr>
     <tr>
-        <td>
-            <table id="tbDetail" border="1" style="border-style:solid;border-width:thin;border-collapse:collapse;">
+        <td id="report">
+            <table id="tbDetail" border="1" style="border-style:solid;border-width:thin;border-collapse:collapse;display:none;">
                 <thead style="text-align:center">
                     <tr>
                         <td rowspan="3">
@@ -130,15 +130,15 @@ End Code
                         <td colspan="6">
                             <p>รวมยอดเงินได้และภาษีที่นำส่ง (นำไปรวมกับ <b>ใบแนบ ภ.ง.ด.3 </b>แผ่นอื่น(ถ้ามี))</p>
                         </td>
-                        <td style="text-align:right"><label id="lblSumPayAmount"></label></td>
-                        <td style="text-align:right"><label id="lblSumPayTax"></label></td>
+                        <td style="text-align:right">{0}</td>
+                        <td style="text-align:right">{1}</td>
                         <td></td>
                     </tr>
                     <tr>
                         <td class="text-left" colspan="4">
                             (ให้กรอกลำดับที่ต่อเนื่องกันไปทุกแผ่น)
                             <br>
-                            <b>หมายเหตุ</b> 1 ให้ระบุว่าจ่ายเป็นค่าอะไร เช่น ค่าเช่าอาคาร ค่าสอบบัญชี ค่าทนายความ ค่าวิชาชีพของแพทย์
+                            <b>หมายเหตุ</b> 1 ให้ระบุว่าจ่ายเป็นค่าอะไร เช่น ค่าเช่าอาคาร ค่าสอบบัญชี ค่าทนายความ ค่าวิชาชีพของแพทย์<br/>
                             ค่าก่อสร้าง รางวัล ส่วนลดหรือประโยชน์ใดๆ เนื่องจากการส่งเสริมการขาย รางวัลในการประกวด การแข่งขัน การชิงโชค ค่าจ้างแสดงภาพยนต์ ร้องเพลงดนตรี ค่าจ้างทำของ ค่าโฆษณา ค่าขนส่งสินค้า ฯลฯ
                             <br>
                             2 เงื่อนไขการหักภาษี ณ ที่จ่ายให้กรอกดังนี้<br>
@@ -149,9 +149,9 @@ End Code
                         <td colspan="3" style="text-align:center">
                             <br>
                             ลงชื่อ.....................................................ผู้จ่ายเงิน<br>
-                            (.......................................................)<br>
-                            ตำแหน่ง........................................................<br>
-                            ยื่นวันที่.........เดือน........................พ.ศ. ............
+                            (<input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxAuthorize" />) <br>
+                            ตำแหน่ง <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxPosition" /> <br>
+                            ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
                         </td>
                         <td colspan="2">
                             <div class="circle"><br />ตราประทับ<br />นิติบุคคล<br />(ถ้ามี)</div>
@@ -174,7 +174,7 @@ End Code
     if (data !== '') {
         row = JSON.parse(data);
         let obj = JSON.parse(cliteria);
-        html = '';
+        let html = '';
         if (obj.DATEFROM !== '') html += obj.DATEFROM + ',';
         if (obj.DATETO !== '') html += obj.DATETO + ',';
         if (obj.CUSTWHERE !== '') html += obj.CUSTWHERE + ',';
@@ -201,42 +201,137 @@ End Code
                 if (res.result.length > 0) {
                     var tb = res.result[0];
                     $('#lblTaxNumber1').text(tb.TaxNumber1);
-                    $('#lblBranch1').text(tb.Branch1);
+                    $('#lblBranch1').text('00'+CCode(tb.Branch1));
                     $('#lblTName1').text(tb.TName1);
                     $('#lblTAddress1').text(tb.TAddress1);
                     let n = 0;
+                    let c = 0;
+                    let p = 1;
                     let sumamt = 0;
                     let sumtax = 0;
-                    for (let r of res.result) {
-                        n += 1;
-                        let template = '<tr>';
-                        template += '<td>' + n + '</td>';
-                        template += '<td>';
-                        template += '<p class="text-left">';
-                        template += 'เลขประจำตัวผู้เสียอาษีอากร : ' + r.TaxNumber3;
-                        template += '<br />';
-                        template += 'ชื่อ : ' + r.TName3;
-                        template += '<br />';
-                        template += 'ที่อยู่ : ' + r.TAddress3;
-                        template += '</p>';
-                        template += '</td>';
-                        template += '<td>'+r.Branch3+'</td>';
-                        template += '<td>'+ ShowDate(r.PayDate )+'</td>';
-                        template += '<td>' + r.PayTaxDesc + '<br/>' + r.DocNo + '<br/>' + r.JNo + '</td>';
-                        template += '<td>'+r.PayRate +'</td>';
-                        template += '<td style="text-align:right">'+ ShowNumber(r.PayAmount,2)+'</td>';
-                        template += '<td style="text-align:right">'+ ShowNumber(r.PayTax,2)+'</td>';
-                        template += '<td>'+r.PayTaxType+'</td>';
-                        template += '</tr>';
+                    let template = '';
+                    let field1 = '';
+                    let field2 = '';
+                    let field3 = '';
+                    let field4 = '';
+                    let field5 = '';
+                    let htmlAll = GetTableHtml();
+                    let htmlHead = $('#tbDetail thead').html();
+                    let htmlFoot = $('#tbDetail tfoot').html();
+                    let rd = res.result;
+                    sortData(rd, 'DocNo', 'asc');
+                    let docno = '';
+                    let t = 1;
+                    if (rd.length > 7) {
+                        t = Math.abs(CDbl(Math.floor((rd.length - 7) / 8) + 1, 0));
+                    }
+                    $('#dvPages').html(t);
+                    for (let r of rd) {
+                        if (docno !== r.DocNo) {
+                            n += 1;
+                            if (docno !== '') {
+                                template += '</tr>';
+                                template = template.replace('{1}', field1);
+                                template = template.replace('{2}', field2);
+                                template = template.replace('{3}', field3);
+                                template = template.replace('{4}', field4);
+                                template = template.replace('{5}', field5);
+
+                                if ((p == 1 && n == 8) || (((n - 8) % 8) == 0 && p > 1)) {
+                                    htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
+                                    htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
+
+                                    htmlAll = htmlAll.replace('{0}', htmlHead);
+                                    htmlAll = htmlAll.replace('{1}', template);
+                                    htmlAll = htmlAll.replace('{2}', htmlFoot);
+
+                                    if (p > 1) {
+                                        htmlAll = '<div style="width:98%;text-align:right;page-break-before:always"><br/>หน้าที่ ' + p + ' จาก ' + t + ' หน้า </div>' + htmlAll;
+                                    }
+
+                                    $('#report').append(htmlAll);
+
+                                    sumamt = 0;
+                                    sumtax = 0;
+
+                                    htmlAll = GetTableHtml();
+                                    htmlHead = $('#tbDetail thead').html();
+                                    htmlFoot = $('#tbDetail tfoot').html();
+
+                                    template = '';
+                                    p += 1;
+                                }
+                            }
+                            field1 = '';
+                            field2 = '';
+                            field3 = '';
+                            field4 = '';
+                            field5 = '';
+                            
+                            template += '<tr>';
+                            template += '<td>' + n + '</td>';
+                            template += '<td>';
+                            template += '<p class="text-left">';
+                            template += 'เลขประจำตัวผู้เสียอาษีอากร : ' + r.TaxNumber3;
+                            template += '<br />';
+                            template += 'ชื่อ : ' + r.TName3;
+                            template += '<br />';
+                            template += 'ที่อยู่ : ' + r.TAddress3;
+                            template += '</p>';
+                            template += '</td>';
+                            template += '<td>' + '00'+CCode(r.Branch3) + '</td>';
+                            template += '<td>{1}</td>';
+                            template += '<td>' + r.DocNo + ' / ' + r.JNo + '{5}</td>';
+                            template += '<td>{2}</td>';
+                            template += '<td style="text-align:right">{3}</td>';
+                            template += '<td style="text-align:right">{4}</td>';
+                            template += '<td>' + r.PayTaxType + '</td>';
+                            docno = r.DocNo;  
+                        }
+
+                        field1 += '<br/>' + ShowDate(r.PayDate);                        
+                        field2 += '<br/>' + r.PayRate;
+                        field3 += '<br/>' + ShowNumber(r.PayAmount, 2);
+                        field4 += '<br/>' + ShowNumber(r.PayTax, 2);
+                        field5 += '<br/>' + r.PayTaxDesc;
+
                         sumamt += CNum(r.PayAmount);
                         sumtax += CNum(r.PayTax);
-                        $('#tbDetail tbody').append(template);
+
+                        c += 1;
+                        if (c == rd.length) {
+                            template += '</tr>';
+                            template = template.replace('{1}', field1);
+                            template = template.replace('{2}', field2);
+                            template = template.replace('{3}', field3);
+                            template = template.replace('{4}', field4);
+                            template = template.replace('{5}', field5);
+
+                            htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
+                            htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
+
+                            htmlAll = htmlAll.replace('{0}', htmlHead);
+                            htmlAll = htmlAll.replace('{1}', template);
+                            htmlAll = htmlAll.replace('{2}', htmlFoot);
+
+                            if (p > 1) {
+                                htmlAll = '<div style="width:98%;text-align:right;page-break-before:always;"><br/>หน้าที่ ' + p + ' จาก ' + t + ' หน้า </div>' + htmlAll;
+                            }
+
+                            $('#report').append(htmlAll);
+                        }
                     }
-                    $('#lblSumPayAmount').text(ShowNumber(sumamt, 2));
-                    $('#lblSumPayTax').text(ShowNumber(sumtax, 2));
                 }
             }
         });
+    }
+    function GetTableHtml() {
+        let htmlTable = '<table border="1" style="border-style:solid;border-width:thin;border-collapse:collapse;">';
+        htmlTable += '<thead>{0}</thead>';
+        htmlTable += '<tbody>{1}</tbody>';
+        htmlTable += '<tfoot>{2}</tfoot>';
+        htmlTable += '</table>';
+        return htmlTable;
     }
 </script>
 

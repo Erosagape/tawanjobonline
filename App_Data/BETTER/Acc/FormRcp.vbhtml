@@ -6,6 +6,7 @@ End Code
 <style>
     td {
         font-size: 12px;
+
     }
 
     table {
@@ -15,7 +16,13 @@ End Code
 
     tbody > tr {
         border-bottom-color: white !important;
+
     }
+
+    #tbrcp tr td,th {
+        border: 1px solid #66FFCC;
+    }
+
 </style>
 <div style="text-align:center;width:100%">
     <h2><label id="lblDocType" style="font-size:18px">RECEIPT</label></h2>
@@ -23,13 +30,13 @@ End Code
 <div id="dvCopy" style="text-align:right;width:100%">
 </div>
 <div style="display:flex;">
-    <div style="flex:3;border:1px solid black;border-radius:5px;margin-right:8px;padding:5px 5px 5px 5px;">
+    <div style="flex:3;border:1px solid #66FFCC;border-radius:5px;margin-right:8px;padding:5px 5px 5px 5px;">
         NAME : <label id="lblCustName"></label><br />
         ADDRESS : <label id="lblCustAddr"></label><br />
         TEL : <label id="lblCustTel"></label><br />
         TAX-ID : <lable id="lblCustTax"></lable>
     </div>
-    <div style="flex:1;border:1px solid black;border-radius:5px;padding:5px 5px 5px 5px;">
+    <div style="flex:1;border:1px solid #66FFCC;border-radius:5px;padding:5px 5px 5px 5px;">
         NO. : <label id="lblReceiptNo"></label><br />
         ISSUE DATE : <label id="lblReceiptDate"></label><br />
         <br />
@@ -37,15 +44,15 @@ End Code
     </div>
 </div>
 
-<table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
-        <tr style="background-color:lightblue;">
+<table id="tbrcp" style="width:100%; margin-top:5px" class="text-center">
+        <tr style="background-color:#ff9999;">
             <th height="40" width="350">DESCRIPTION</th>
             <th height="40" width="80">INVOICE</th>
             <th width="60">RATE</th>
             <th width="60">CHARGE</th>
         </tr>
     <tbody id="tbDetail"></tbody>
-        <tr style="background-color:lightblue;text-align:right;">
+        <tr style="background-color:#ff9999;text-align:right;">
             <td colspan="2">TOTAL</td>
             <td style="text-align:center"><label id="lblCurrencyCode"></label></td>
             <td><label id="lblFTotalNet"></label></td>

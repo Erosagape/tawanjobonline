@@ -235,6 +235,9 @@ End Code
                             <a href="#" class="btn btn-warning" id="btnClear" onclick="PrintClear()">
                                 <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkClear">Print Clearing</b>
                             </a>
+  			    <a href="#" class="btn btn-info" id="btnPrintDebitNote" onclick="PrintDebitNote()">
+                                <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Debit Note</b>
+                            </a>
                         </div>
                     </div>
                     <div id="tabDetail" class="tab-pane fade">
@@ -292,6 +295,9 @@ End Code
                         </div>
                         <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
                             <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint2">Print Document</b>
+                        </a>
+ 			<a href="#" class="btn btn-info" id="btnPrintDebitNote" onclick="PrintDebitNote()">
+                            <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Debit Note</b>
                         </a>
                     </div>
                     <div id="frmDetail" class="modal fade" role="dialog">
@@ -897,6 +903,13 @@ End Code
         }
         window.open(path + 'Adv/FormAdv?branch=' + $('#txtBranchCode').val() + '&advno=' + $('#txtAdvNo').val());
     }
+    function PrintDebitNote() {
+        if (userRights.indexOf('P') < 0) {
+            ShowMessage('You are not allow to print',true);
+            return;
+        }
+        window.open(path + 'Adv/FormCreditAdv?branch=' + $('#txtBranchCode').val() + '&advno=' + $('#txtAdvNo').val());
+    }
     function CheckEntry() {
         if (hdr == undefined) {
             ShowMessage('No data to Save',true);
@@ -1352,31 +1365,31 @@ End Code
                 {
                     data: "UnitPrice", title: "Price",
                     render: function (data) {
-                        return ShowNumber(data, 3);
+                        return ShowNumber(data, 2);
                     }
                 },
                 {
                     data: "AdvAmount", title: "Amount",
                     render: function (data) {
-                        return ShowNumber(data, 3);
+                        return ShowNumber(data, 2);
                     }
                 },
                 {
                     data: "ChargeVAT", title: "VAT",
                     render: function (data) {
-                        return ShowNumber(data, 3);
+                        return ShowNumber(data, 2);
                     }
                 },
                 {
                     data: "Charge50Tavi", title: "WH-Tax",
                     render: function (data) {
-                        return ShowNumber(data, 3);
+                        return ShowNumber(data, 2);
                     }
                 },
                 {
                     data: "AdvNet", title: "Net",
                     render: function (data) {
-                        return ShowNumber(data, 3);
+                        return ShowNumber(data, 2);
                     }
                 }
             ],
@@ -1923,8 +1936,8 @@ End Code
             vat = amt * vatrate * 0.01;
             wht = amt * whtrate * 0.01;
         }
-        $('#txtVAT').val(CDbl(vat.toFixed(3),3));
-        $('#txtWHT').val(CDbl(wht.toFixed(3),3));
+        $('#txtVAT').val(CDbl(vat.toFixed(2),2));
+        $('#txtWHT').val(CDbl(wht.toFixed(2),2));
         CalTotal();
     }
     function GetExchangeRate() {

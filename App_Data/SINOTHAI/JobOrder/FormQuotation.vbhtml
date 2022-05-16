@@ -65,7 +65,7 @@ End Code
 <br />
 <div style="display:flex">
     <div style="flex:1">
-        <label id="lblDescriptionH"></label>
+        <pre id="lblDescriptionH"></pre>
     </div>
 </div>
 
@@ -73,9 +73,9 @@ End Code
     <thead>
         <tr>
             <th width="5%">NO.</th>
-            <th width="45%">DESCRIPTION</th>
-            <th width="5%">UNIT</th>
-            <th width="5%">QTY</th>
+            <th width="40%">DESCRIPTION</th>
+            <th width="8%">UNIT</th>
+            <th width="7%">QTY</th>
             <th width="15%">UNIT PRICE</th>
             <th width="5%">XRT</th>
             <th width="10%">AMOUNT<br />(FC)</th>
@@ -92,13 +92,15 @@ End Code
 </table>
 <p>
     <br />
-    <div style="display:flex">
-        <div style="flex:1">
-            REMARKS : <label id="lblTRemark"></label>
-        </div>
+    <div style="display:flex;width:100%">
+ 		<div style="flex:4">
+			<div id="lblDescriptionF" style="word-wrap: break-word;white-space: pre-wrap;" ></div>
+		</div>
+		<div style="flex:6">
+			<div id="lblTRemark" style="word-wrap: break-word;white-space: pre-wrap;width:100%;height:100%"></div>
+		</div>
     </div>
     <br />
-    <label id="lblDescriptionF"></label>
 </p>
 <p>
     Best Regards,
@@ -106,7 +108,7 @@ End Code
     <label id="lblManagerName"></label>
 </p>
 <br />
-<div style="display:flex;">
+<div style="display:none;">
     <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
         FOR THE CUSTOMER
         <br /><br /><br />
@@ -123,13 +125,67 @@ End Code
         ___/_______/___<br />
     </div>
 </div>
+  <table style="width: 100%;" border="1">
+        <tbody style="text-align: center;">
+            <tr style="text-align: center;background-color:lightgreen;">
+                <td colspan="2"><label id="lblCmp"></label></td>
+                <td>Order confirmation by customer</td>
+            </tr>
+            <tr style="text-align: center;background-color:lightgreen;">
+                <td > Approve by</td>
+                <td > Quoted by</td>
+                <td>Authorize Signature & Company Stamp</td>
+            </tr>
+            <tr>
+                <td>
+                    <br> <br> <br> <br> <br>
+                </td>
+ 		<td>
+                    <br> <br> <br> <br> <br>
+                </td>
+ 		<td>
+                    <br> <br> <br> <br> <br>
+                </td>
+            </tr>
+            <tr >
+                <td style="width:33%">
+                    (<label id="lblQBy">________________</label>)<br>
+                    <label id="lblQDate">Date &nbsp;:________________  </label><br>
+                    <label id="lblQbyPosition">________________</label>
+                </td>
+                <td style="width:33%"> 
+                    (<label id="lblABy">________________</label>)<br>
+                    <label id="lblADate">Date &nbsp;:________________  </label><br>
+                    <label id="lblAbyPosition">________________ </label>
+                </td>
+                <td style="text-align: left;">Date &nbsp;: <br>Position &nbsp;: </td>
+            </tr>
+        </tbody>
+    </table>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
     let docno = getQueryString('docno');
-    $.get(path + 'joborder/getquotation?branch=' + branch + '&code=' + docno, function (r) {
+    $.get(path + 'joborder/getquotation?branch=' + branch + '&code=' + docno, (r) =>{
         if (r.quotation.header !== null) {
             ShowData(r.quotation);
+	    $.get(path + '/Master/GetUser?code='+r.quotation.header[0].ManagerCode,  (r)=> {
+		let u = r.user.data[0];
+		$('#lblQBy').text(u.EName?u.EName:"________________");
+		$('#lblQDate').text("Date : "+ShowDate(new Date(Date.now()).toISOString()));
+		$('#lblQbyPosition').text(u.TPosition?u.TPosition:"________________");
+	    });
+	    if(r.quotation.header[0].ApproveBy){
+		$('#lblADate').text("Date : "+ShowDate(r.quotation.header[0].ApproveDate));
+ 		$.get(path + 'Master/GetUser?code='+r.quotation.header[0].ApproveBy, (r) =>{
+			let u = r.user.data[0];
+			$('#lblABy').text(u.EName?u.EName:"________________");
+			$('#lblAbyPosition').text(u.TPosition?u.TPosition:"________________");
+	    	});
+	    }
+ 	   
+	
+
         }
     });
     function LoadCustomer(cde, br) {
@@ -148,10 +204,10 @@ End Code
 
         $('#lblQNo').text(h.QNo);
         $('#lblDocDate').text(ShowDate(CDateTH(h.DocDate)));
-        $('#lblTRemark').text(h.TRemark);
+        $('#lblTRemark').html(h.TRemark);
         $('#lblContactName').text(h.ContactName);
         $('#lblDescriptionH').text(h.DescriptionH);
-        $('#lblDescriptionF').text(h.DescriptionF);
+        $('#lblDescriptionF').html(h.DescriptionF);
 
         ShowUser(path, h.ManagerCode, '#lblManagerName');
 
@@ -160,7 +216,7 @@ End Code
 
         for (let d of dt.detail) {
 
-            html = '<tr><td>' + d.SeqNo + '</td>';
+            html = '<tr style="background-color:lightgreen;"><td>' + d.SeqNo + '</td>';
             html += '<td colspan="3">' + d.Description + '</td>';
             html += '<td colspan="2">' + d.JobTypeName + '</td>';
             html += '<td colspan="2">' + d.ShipByName + '</td>';

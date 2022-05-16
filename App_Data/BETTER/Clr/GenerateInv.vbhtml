@@ -1120,9 +1120,9 @@ End Code
                     if (chq.length > 0) {
                         SaveCheque(response.result.data);
                     }
-                    if ($('#txtDocNo').val() == '') {
+                    //if ($('#txtDocNo').val() == '') {
                         SaveDetail(response.result.data);
-                    }
+                    //}
                     ShowMessage(response.result.data);
                     $('#dvCreate').modal('hide');
 
@@ -1186,12 +1186,13 @@ End Code
         });
     }
     function DeleteDetail() {
-        $.get(path + 'Acc/DelInvDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
-            //if (r.invdetail.data !== null) {
-            SaveHeader();
-            SaveDetail($('#txtDocNo').val());
-            //}
-        });
+        $.get(path + 'Acc/DelInvDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val())
+            .done(function (r) {
+                //if (r.invdetail.data !== null) {
+                SaveHeader();
+                //SaveDetail($('#txtDocNo').val());
+                //}
+            })
     }
     function SaveDetail(docno) {
         $('#txtDocNo').val(docno);

@@ -3,7 +3,139 @@
     ViewBag.Title = "PRE-INVOICE"
     ViewBag.ReportName = "PRE-INVOICE"
 End Code
-<div style="float:right">
+<table style="width:100%">
+    <tbody>
+        <tr>
+            <td style="width:10%" >CODE</td>
+            <td>:</td>
+            <td style="width:50%" id="lblCustCode"></td>
+
+            <td style="width:15%">PRE INVOICE NO.</td>
+            <td>:</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>INVOICE TO</td>
+            <td>:</td>
+            <td id="lblCustName"></td>
+
+            <td>INV. DATE</td>
+            <td>:</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td rowspan="3" style="vertical-align:top">ADDRESS</td>
+            <td rowspan="3" style="vertical-align:top">:</td>
+            <td rowspan="3" style="vertical-align:top">
+                <label id="lblCustAddress1"></label>
+                <br /><label id="lblCustAddress2"></label>
+            </td>
+
+            <td>DUE DATE</td>
+            <td>:</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>JOB NO.</td>
+            <td>:</td>
+            <td id="lblJNo"></td>
+        </tr>
+        <tr>
+            <td>TYPE</td>
+            <td>:</td>
+            <td id=""><label id="lblJobType"></label>-<label id="lblShipby"></label></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>TAX ID :<label id="lblCustTaxID"></label></td>
+
+            <td>CREDIT TERM</td>
+            <td>:</td>
+            <td>CASH</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>BRANCH: Head Office</td>
+        </tr>
+        <tr>
+            <td>COMMODITY</td>
+            <td>:</td>
+            <td id="lblInvProduct"></td>
+
+
+        </tr>
+    </tbody>
+</table>
+<table style="width:100%">
+    <tbody>
+        <tr>
+            <td style="width:15%">ORIGIN / DEST.</td>
+            <td >:</td>
+            <td style="width:25%" id="lblCountryPort"></td>
+
+            <td style="width:10%">ETD</td>
+            <td>:</td>
+            <td style="width:20%"  id="lblETDDate"></td>
+
+            <td style="width:10%">ETA</td>
+            <td>:</td>
+            <td style="width:20%"  id="lblETADate"></td>
+        </tr>
+        <tr>
+            <td>FEEDER</td>
+            <td>:</td>
+            <td id="lblMVesselName"></td>
+
+            <td>QUANTITY</td>
+            <td>:</td>
+            <td></td>
+
+            <td>VOLUME</td>
+            <td>:</td>
+            <td id="lblMeasurement"></td>
+        </tr>
+
+        <tr>
+            <td>VESSEL</td>
+            <td>:</td>
+            <td id="lblVesselName"></td>
+
+            <td>WEIGHT</td>
+            <td>:</td>
+            <td id="lblGrossWeight"></td>
+        </tr>
+
+        <tr>
+            <td>B/L NO.</td>
+            <td>:</td>
+            <td id="lblBLStatus"></td>
+
+            <td>OBL NO.</td>
+            <td>:</td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td>CONTAINER NO.</td>
+            <td>:</td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td colspan="3">SHIPPER</td>
+            <td colspan="3">CONSIGNEE</td>
+        </tr>
+
+        <tr>
+            <td colspan="3"></td>
+            <td colspan="3"></td>
+        </tr>
+    </tbody>
+
+</table>
+<!--<div style="float:right">
     <b>SHIPMENT NO : </b><label id="lblJNo"></label>
     <br />
     <b>DATE : </b><label id="lblOpenDate"></label>
@@ -37,11 +169,11 @@ End Code
 <div style="width:100%;display:flex">
     <div style="flex:1">
         <b>CUST INV :</b><label id="lblCustInv"></label>
-    </div>
+    </div>-->
     @*<div style="flex:1">
             <b>QUANTITY :</b><label id="lblInvQty"></label> &nbsp; <label id="lblInvQtyUnit"></label>
         </div>*@
-    <div style="flex:1">
+    <!--<div style="flex:1">
         <b>TOTAL CONTAINER :</b><label id="lblTotalContainer"></label>
     </div>
     <div style="flex:1">
@@ -58,128 +190,59 @@ End Code
     <div style="flex:1">
         <b>SHED : </b><label id="lblDeliveryTo"></label>
     </div>
-</div>
+</div>-->
 @*<hr style="border-style:solid;" />*@
 <br />
-<div id="dvHeader" style="display:flex;text-align:center;border-top:1px solid black;border-bottom:1px solid black;">
-    @*<div class="vborder" style="width:10%">
-            <u><b>SICODE</b></u>
-        </div>*@
-    <div class="vborder" style="width:25%">
-        <u><b>DESCRIPTION</b></u>
-    </div>
-    <div class="vborder" style="width:5%">
-        <u><b>EXC</b></u>
-    </div>
-    <div class="vborder" style="width:5%">
-        <u><b>CUR</b></u>
-    </div>
-    <div class="vborder" style="width:10%">
-        <u><b>QTY</b></u>
-    </div>
-    <div class="vborder" style="width:6%">
-        <u><b>UNIT</b></u>
-    </div>
-    <div class="vborder" style="width:15%">
-        <u><b>SERVICE</b></u>
-    </div>
-    <div class="vborder" style="width:15%">
-        <u><b>VAT</b></u>
-    </div>
-    <div class="vborder" style="width:15%">
-        <u><b>WHT</b></u>
-    </div>
-    <div class="vborder" style="width:15%">
-        <u><b>CHARGE</b></u>
-    </div>
-    <div class="vborder" style="width:15%">
-        <u><b>ADVANCE</b></u>
-    </div>
-</div>
-<div id="dvDetail">
-</div>
-<br />
-<div id="dvHeader2" style="display:flex;text-align:center;border-top:1px solid black;border-bottom:1px solid black;">
-    @*<div class="vborder" style="width:10%">
-            <u><b>SICODE</b></u>
-        </div>*@
-    <div class="vborder" style="width:25%">
-        <u><b>DESCRIPTION</b></u>
-    </div>
-    <div class="vborder" style="width:5%">
-        <u><b>EXC</b></u>
-    </div>
-    <div class="vborder" style="width:5%">
-        <u><b>CUR</b></u>
-    </div>
-    <div class="vborder" style="width:10%">
-        <u><b>QTY</b></u>
-    </div>
-    <div class="vborder" style="width:6%">
-        <u><b>UNIT</b></u>
-    </div>
-    <div class="vborder" style="width:15%">
-        <u><b>COST</b></u>
-    </div>
-    <div class="vborder" style="width:15%">
-        <u><b>VAT</b></u>
-    </div>
-    <div class="vborder" style="width:15%">
-        <u><b>WHT</b></u>
-    </div>
-    <div class="vborder" style="width:15%">
-        <u><b>COST</b></u>
-    </div>
-    <div class="vborder" style="width:15%">
-        <u><b>ADVANCE</b></u>
-    </div>
-</div>
-<div id="dvDetail2">
-</div>
-<br />
-<div id="summary" style="display:flex;text-align:center;border-top:1px solid black;border-bottom:1px solid black;">
+<table style="width:100%;border-collapse:collapse"> 
+      <thead>
+          <tr >
+              <th style="border-top:1px black solid;border-bottom:1px black solid;">DESCRIPTION</th>
+              <th style="border-top:1px black solid;border-bottom:1px black solid;">RATE</th>
+              <th style="border-top:1px black solid;border-bottom:1px black solid;">CURR</th>
+              <th style="border-top:1px black solid;border-bottom:1px black solid;">QTY</th>
+              <th style="border-top:1px black solid;border-bottom:1px black solid;">UNIT</th>
+              <th style="border-top:1px black solid;border-bottom:1px black solid;">EXCH</th>
+              <th style="border-top:1px black solid;border-bottom:1px black solid;">ADVANCE</th>
+              <th style="border-top:1px black solid;border-bottom:1px black solid;">NON VAT</th>
+              <th style="border-top:1px black solid;border-bottom:1px black solid;">VAT 7</th>
+              <th style="border-top:1px black solid;border-bottom:1px black solid;">WHT</th>
+          </tr>
+      </thead>
+      <tbody id="tbDetail">
 
-</div>
+      </tbody>
+      <tbody>
+          <tr>
+              <td colspan="10" style="font-weight:bold">
+                  "หากชำระเกินกำหนด ทางบริษัทจะคิดดอกเบีี้ยในอัตราร้อยละ 15% ต่อปี  จากยอดตามใบแจ้งหนี้ นับตั้งแต่วันที่ครบกำหนดตามใบแจ้งหนี้"<br />
+                   Please issue a cross cheque payable to "LEO GLOBAL LOGISTICS PUBLIC COMPANY LIMITED" Only
+              </td>
+          </tr>
+      </tbody>
+</table>
 <br />
 <br />
 <br />
-@*<hr style="border-style:solid;" />*@
-@*<div style="width:80%;text-align:right;float:left">
-        <b>Advances:</b><br />
-        <b>Charges:</b><br />
-        <b>Vat:</b><br />
-        <b>Total:</b><br />
-        <b>With-holding tax:</b><br />
-        <b>Net total:</b><br />
+<br />
+<br />
+<div style="width:100%;display:flex">
+    <div style="flex:1">
+        <div style="width:100%;border-bottom:1px black solid;text-align:center"></div>
+        <div style="text-align:center">ผู้จัดทำ / ()</div>
     </div>
-    <div style="width:20%;float:right;text-align:right;">
-        <div style="display:block;width:100%">
-            <label id="lblSumCost"></label>
-        </div>
-        <div style="display:block;width:100%">
-            <label id="lblSumAmount"></label>
-        </div>
-        <div style="display:block;width:100%">
-            <label id="lblSumVat"></label>
-        </div>
-        <div style="display:block;width:100%">
-            <label id="lblSumTotal"></label>
-        </div>
-        <div style="display:block;width:100%">
-            <label id="lblSumWht"></label>
-        </div>
-        <div style="display:block;width:100%">
-            <label id="lblSumNet"></label>
-        </div>
-    </div>*@
-<div></div>
-<p>
-    PLEASE REMIT TO ACCOUNT NO.<br />
-    017-111-1943<br />
-    KASIKORN BANK<br />
-    “ BETTER FREIGHT AND TRANSPORT CO.,LTD.”<br />
+    <div style="flex:1"></div>
+    <div style="flex:1">
+        <div style="width:100%;border-bottom:1px black solid;text-align:center"></div>
+        <div style="text-align:center">นัดรับเช็ค / วันที่  ()</div>
+    </div>
 
-</p>
+
+    <div style="flex:1"></div>
+    <div style="flex:1">
+        <div style="width:100%;border-bottom:1px black solid;text-align:center"></div>
+        <div style="text-align:center">Authorized Signature</div>
+    </div>
+</div>
 <script type="text/javascript">
 
     let ans = confirm('OK to print for Customer or Cancel For Company');
@@ -207,11 +270,18 @@ End Code
         } else {
             return;
         }
+
+        ShowJobTypeShipBy(path, dr.JobType, dr.ShipBy, dr.JobStatus, '#lblJobType', '#lblShipby', '#txtJobStatus');
+
+        $('#lblJobType').text(dr.JobType);
+        $('#lblJNo').text(dr.JNo);
         $('#lblETDDate').text(ShowDate(dr.ETDDate));
         $('#lblETADate').text(ShowDate(dr.ETADate));
         $('#lblVesselName').text(dr.VesselName);
         $('#lblMVesselName').text(dr.MVesselName);
         $('#lblCustInv').text(dr.InvNo);
+        $('#lblInvProduct').text(dr.InvProduct);
+        
       /*  $('#lblInvQty').text(dr.InvProductQty);*/
         ShowCountry(path, dr.InvCountry, '#lblCountryPort');
         /*  ShowInvUnit(path, dr.InvProductUnit, '#lblInvQtyUnit');*/
@@ -222,9 +292,13 @@ End Code
         $('#lblDeliveryTo').text(dr.ClearPortNo);
 
         CallBackQueryCustomer(path, dr.CustCode, dr.CustBranch, function (data) {
+            console.log(data);
             $('#lblCustName').text(data.NameEng);
             $('#lblCustAddress1').text(data.EAddress1);
             $('#lblCustAddress2').text(data.EAddress2);
+            $('#lblCustTaxID').text(data.TaxNumber);
+            $('#lblCustCode').text(data.CustCode);
+            
         });
     }
     function ReadData(dt) {
@@ -255,7 +329,17 @@ End Code
         let totalVatCost = 0;
         let totalWhtCost = 0;
         let totalAdvCost = 0;
+        let totalNonVat = 0;
+        let totalSrvVat = 0;
 
+        let sumWht1 = 0;
+        let sumbaseWht1 = 0;
+        let sumWht1_5 = 0;
+        let sumbaseWht1_5 = 0;
+        let sumWht3 = 0;
+        let sumbaseWht3 = 0;
+        
+        
         let sumHtml = "";
         let expense = dt.filter((obj) => (obj.IsExpense == 1 && obj.IsCredit == 0) || (obj.IsCredit == 1 && obj.IsExpense == 0 ));
         console.log(expense);
@@ -263,36 +347,49 @@ End Code
         let income = dt.filter((obj) => (obj.IsCredit == 0 && obj.IsExpense == 0) || (obj.IsCredit == 1 && obj.IsExpense == 0));
         console.log(income);
 
-        //html += '<div class="border" style="display:flex;width:100%;padding:2px;">Income</div>';
+   
         for (let r of income) {
-            html += '<div  style="display:flex;width:100%">';
-        /*    html += '<div class="vborder" style="width:10%">' + r.SICode + '</div>';*/
-            html += '<div class="vborder" style="width:25%">' + r.SDescription + '</div>';
-            html += '<div class="vborder" style="width:5%;text-align:center">' + r.ExchangeRate + '</div>';
-            html += '<div class="vborder" style="width:5%;text-align:center">' + r.CurrencyCode + '</div>';
-            html += '<div class="vborder" style="width:10%;text-align:center">' + r.Qty + '</div>';
-            html += '<div class="vborder" style="width:6%;text-align:center">' + r.QtyUnit + '</div>';
-            html += '<div class="vborder" style="width:15%;text-align:right">' +( r.IsCredit == 0 && r.IsExpense == 0?CCurrency(CDbl(r.AmountCharge, 2)):0 )+ '</div>';
-            html += '<div class="vborder" style="width:15%;text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 0 ?CCurrency(CDbl(r.AmtVat, 2)):0) + '</div>';
-            html += '<div class="vborder" style="width:15%;text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 0 ?CCurrency(CDbl(r.AmtWht, 2)):0) + '</div>';
-            if (r.IsCredit == 1) {
-                //html += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmountCharge, 2)) + '</div>';
-                html += '<div class="vborder" style="width:15%;text-align:right">0.00</div>';
-                html += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
-            } else {
-                html += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
-                html += '<div class="vborder" style="width:15%;text-align:right">0.00</div>';
-            }
-            html += '</div>';
             if (r.IsCredit == 0 && r.IsExpense == 0) {
-                totalCharge += r.AmtTotal - 0;//cast
+                totalCharge += r.AmountCharge - 0;//cast
+                if (r.AmtVat) {
+                    totalSrvVat += r.AmountCharge;
+                } else {
+                    totalNonVat += r.AmountCharge;
+                }
                 totalBaseCharge += r.AmountCharge - 0;
                 totalVatCharge += r.AmtVat - 0;
                 totalWhtCharge += r.AmtWht - 0;
             }else  if (r.IsCredit == 1) {
                 totalAdvCharge += r.AmtTotal;
             }
-
+            switch (r.AmtWhtRate) {
+                case 1:
+                    sumWht1 += r.AmtWht;
+                    sumbaseWht1 += r.AmountCharge;
+                    break;
+                case 1.5:
+                    sumWht1_5 += r.AmtWht;
+                    sumbaseWht1_5 += r.AmountCharge;
+                    break;
+                case 3:
+                    sumWht3 += r.AmtWht;
+                    sumbaseWht3 += r.AmountCharge;
+                    break;
+                default:
+                    break;
+            }
+            html += '<tr>';
+            html += '<td>' + r.SDescription + '</td>';
+            html += '<td style="text-align:right">' + CCurrency(CDbl(r.AmountCharge,2))  + '</td>';
+            html += '<td style="text-align:center">' + r.CurrencyCode + '</td>';
+            html += '<td style="text-align:center">' + r.Qty + '</td>';
+            html += '<td style="text-align:center">' + r.QtyUnit + '</td>'; 
+            html += '<td style="text-align:center">' + r.ExchangeRate + '</td>';
+            html += '<td style="text-align:right">' + (r.IsCredit == 1 && r.IsExpense == 0 ? CCurrency(CDbl(r.AmountCharge * r.Qty , 2)) : 0) + '</td>';
+            html += '<td style="text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 1 ? CCurrency(CDbl(r.AmountCharge * r.Qty, 2)) : 0) + '</td>';
+            html += '<td style="text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 0 ? CCurrency(CDbl(r.AmountCharge * r.Qty, 2)) : 0) + '</td>';
+            html += '<td style="text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 0 ? CCurrency(CDbl(r.AmtWhtRate, 2)) : 0) + '</td>';
+            html += '</tr>';
             //let amt = CNum(Number(r.AmountCharge) * Number(r.Qty) * Number(r.ExchangeRate));
             //if (r.IsCredit == 0) {
             //    totamt += amt;
@@ -304,113 +401,72 @@ End Code
             //total += amt + CNum(r.AmtVat);
         }
         let sumCharge = "";
-        sumCharge += '<div  style="display:flex;width:100%;border-top:1px solid black">';
-  /*      sumCharge += '<div class="vborder" style="width:10%"></div>';*/
-        sumCharge += '<div class="vborder" style="width:25%;font-weight:bold"">TOTAL CHARGE</div>';
-        sumCharge += '<div class="vborder" style="width:5%;text-align:center"></div>';
-        sumCharge += '<div class="vborder" style="width:5%;text-align:center"></div>';
-        sumCharge += '<div class="vborder" style="width:10%;text-align:center"></div>';
-        sumCharge += '<div class="vborder" style="width:6%;text-align:center"></div>';
-        sumCharge += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(totalBaseCharge, 2)) + '</div>';
-        sumCharge += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(totalVatCharge, 2)) + '</div>';
-        sumCharge += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(totalWhtCharge, 2)) + '</div>';
-        sumCharge += '<div class="vborder" style="width:15%;text-align:right;font-weight:bold"">' + CCurrency(CDbl(totalCharge, 2)) + '</div>';
-        sumCharge += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(totalAdvCharge, 2)) + '</div>';
+        sumCharge += '<tr>';
+        sumCharge += '<td class="" style="border-top:1px black solid">(ผิด ตก ยกเว้น O.E.)</td>';
+        sumCharge += '<td colspan="5" style="border-top:1px black solid;text-align:right">AMOUNT</td>';
+        sumCharge += '<td class="" style="border-top:1px black solid;text-align:right">'+ CCurrency(CDbl(totalAdvCharge, 2)) +'</td>';
+        sumCharge += '<td class="" style="border-top:1px black solid;text-align:right">' + CCurrency(CDbl(totalNonVat, 2)) +'</td>';
+        sumCharge += '<td class="" style="border-top:1px black solid;text-align:right">' + CCurrency(CDbl(totalSrvVat, 2)) +'</td>';
+        sumCharge += '<td class="" style="border-top:1px black solid"></td>';
+        sumCharge += '</tr>';
+        sumCharge += '<tr>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '<td colspan="5" style="text-align:right">SUB TOTAL</td>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '<td class="" style="text-align:right">' + CCurrency(CDbl(totalCharge, 2)) + '</td>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '</tr>';
+        sumCharge += '<tr>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '<td colspan="5" style="text-align:right">VALUE ADD TAX 7 %</td>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '<td class="" style="text-align:right">' + CCurrency(CDbl(totalVatCharge, 2)) + '</td>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '</tr>';
+        sumCharge += '<tr>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '<td colspan="5" style="text-align:right;font-weight:bold">TOTAL</td>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '<td class="" style="text-align:right;font-weight:bold">' + CCurrency(CDbl(totalCharge+totalVatCharge, 2)) + '</td>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '</tr>';
+        sumCharge += '<tr>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '<td colspan="5" style="text-align:right">WHT</td>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '<td class="" style="text-align:right;border-bottom:1px black solid">' + CCurrency(CDbl(totalWhtCharge, 2)) + '</td>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '</tr>';
+        sumCharge += '<tr>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '<td colspan="5" style="text-align:right;font-weight:bold">GRAND TOTAL</td>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '<td class="" style="text-align:right;border-bottom:1px black double;font-weight:bold">' + CCurrency(CDbl(totalCharge +totalVatCharge-totalWhtCharge, 2)) + '</td>';
+        sumCharge += '<td class="" style=""></td>';
+        sumCharge += '</tr>';
+        sumCharge += '<tr>';
+        sumCharge += '<td class="" style="" colspan="10">(' + CNumEng(CDbl(totalCharge + totalVatCharge - totalWhtCharge,2))+')</td>';
+        sumCharge += '</tr>';
+        sumCharge += '</tr>';
+        sumCharge += '<tr>';
+        sumCharge += '<td class="" style="" colspan="10">หัก ณ ที่จ่าย 1.00% จำนวนเงิน ' + CNumEng(CDbl(sumbaseWht1, 2)) + ' = ' + CNumEng(CDbl(sumWht1, 2))+')</td>';
+        sumCharge += '</tr>';
+        sumCharge += '</tr>';
+        sumCharge += '<tr>';
+        sumCharge += '<td class="" style="" colspan="10">หัก ณ ที่จ่าย 3.00% จำนวนเงิน ' + CNumEng(CDbl(sumbaseWht3, 2)) + ' = ' + CNumEng(CDbl(sumWht3, 2)) + ')</td>';
+        sumCharge += '</tr>';
 
-        sumCharge += '</div>';
         html += sumCharge;
-        html += '<div  style="display:flex;width:100%;border-top:1px solid black"></div>';
+    
         console.log(totalCharge);
-        //html += '<div class="border" style="display:flex;width:100%;padding:2px;">Expense</div>';
-        for (let r of expense) {
-            html2 += '<div  style="display:flex;width:100%">';
 
-          /*  html2 += '<div class="vborder" style="width:10%;">' + r.SICode + '</div>';*/
-            html2 += '<div class="vborder" style="width:25%">' + r.SDescription + '</div>';
-            html2 += '<div class="vborder" style="width:5%;text-align:center">' + r.ExchangeRate + '</div>';
-            html2 += '<div class="vborder" style="width:5%;text-align:center">' + r.CurrencyCode + '</div>';
-            html2 += '<div class="vborder" style="width:10%;text-align:center">' + r.Qty + '</div>';
-            html2 += '<div class="vborder" style="width:6%;text-align:center">' + r.QtyUnit + '</div>';
-            html2 += '<div class="vborder" style="width:15%;text-align:right">' +( r.IsExpense == 1 && r.IsCredit == 0? CCurrency(CDbl(r.AmountCharge, 2)):0 )+ '</div>';
-            html2 += '<div class="vborder" style="width:15%;text-align:right">' +( r.IsExpense == 1 && r.IsCredit == 0 ? CCurrency(CDbl(r.AmtVat, 2)):0) + '</div>';
-            html2 += '<div class="vborder" style="width:15%;text-align:right">' + (r.IsExpense == 1 && r.IsCredit == 0 ?CCurrency(CDbl(r.AmtWht, 2)):0) + '</div>';
-            if (r.IsCredit == 1) {
-                html2 += '<div class="vborder" style="width:15%;text-align:right">0.00</div>';
-                html2 += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
-            } else {
-                html2 += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
-                html2 += '<div class="vborder" style="width:15%;text-align:right">0.00</div>';
-            }
-            html2 += '</div>';
-            if  (r.IsExpense == 1 && r.IsCredit == 0) {
-                totalCost += r.AmtTotal - 0;//cast
-                totalBaseCost += r.AmountCharge - 0;
-                totalVatCost += r.AmtVat - 0;
-                totalWhtCost += r.AmtWht - 0;
-            }else if (r.IsCredit == 1) {
-                totalAdvCost+= r.AmtTotal;
-            }
-            //let amt = CNum(Number(r.AmountCharge) * Number(r.Qty) * Number(r.ExchangeRate));
-            //if (r.IsCredit == 0) {
-            //    totamt += amt;
-            //} else {
-            //    totcost += amt;
-            //}
-            //totvat += CNum(r.AmtVat);
-            //totwht += CNum(r.AmtWht);
-            //total += amt + CNum(r.AmtVat);
-        }
-        let sumCost = "";
-        sumCost += '<div  style="display:flex;width:100%;border-top:1px solid black">';
- /*       sumCost += '<div class="vborder" style="width:10%"></div>';*/
-        sumCost += '<div class="vborder" style="width:25%;font-weight:bold">TOTAL COST</div>';
-        sumCost += '<div class="vborder" style="width:5%;text-align:center"></div>';
-        sumCost += '<div class="vborder" style="width:5%;text-align:center"></div>';
-        sumCost += '<div class="vborder" style="width:10%;text-align:center"></div>';
-        sumCost += '<div class="vborder" style="width:6%;text-align:center"></div>';
-        sumCost += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(totalBaseCost, 2)) + '</div>';
-        sumCost += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(totalVatCost, 2)) + '</div>';
-        sumCost += '<div class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(totalWhtCost, 2)) + '</div>';
-        sumCost += '<div class="vborder" style="width:15%;text-align:right;font-weight:bold">' + CCurrency(CDbl(totalCost, 2)) + '</div>';
-        sumCost += '<div class="vborder" style="width:15%;text-align:right">'+ CCurrency(CDbl(totalAdvCost, 2)) +'</div>';
-
-        sumCost += '</div>';
-        html2 += sumCost;
-        html2 += '<div  style="display:flex;width:100%;border-top:1px solid black"></div>';
-        console.log(totalCost);
-
-        sumHtml += '<div style="width:85%;text-align:right;font-weight:bold">PROFIT:</div>';
-        sumHtml += '<div style="width:15%;text-align:right;font-weight:bold">'+ CCurrency(CDbl((totalCharge - totalCost),2))+'</div>';
-
-        //for (let r of dt) {
-        //    html += '<div style="display:flex;width:100%">';
-
-        //    html += '<div style="width:20%">' + r.SICode + '</div>';
-        //    html += '<div style="width:20%">'+ r.SDescription +'</div>';
-        //    html += '<div style="width:5%">' + r.ExchangeRate + '</div>';
-        //    html += '<div style="width:15%;text-align:center">' + r.CurrencyCode + '</div>';
-        //    html += '<div style="width:10%;text-align:center">' + r.Qty + '</div>';
-        //    html += '<div style="width:10%;text-align:center">' + r.QtyUnit + '</div>';
-        //    if (r.IsCredit==1) {
-        //        html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
-        //        html += '<div style="width:20%;text-align:right">0.00</div>';
-        //    } else {
-        //        html += '<div style="width:20%;text-align:right">0.00</div>';
-        //        html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
-        //    }
-        //    html += '</div>';
-        //    let amt = CNum(Number(r.AmountCharge) * Number(r.Qty) * Number(r.ExchangeRate));
-        //    if (r.IsCredit==0) {
-        //        totamt += amt;
-        //    } else {
-        //        totcost += amt;
-        //    }
-        //    totvat += CNum(r.AmtVat);
-        //    totwht += CNum(r.AmtWht);
-        //    total += amt + CNum(r.AmtVat);
-        //}
         $('#summary').html(sumHtml);
-        $('#dvDetail').html(html);
+        $('#tbDetail').html(html);
         $('#dvDetail2').html(html2);
         $('#lblSumCost').text(CCurrency(CDbl(totcost,2)));
         $('#lblSumAmount').text(CCurrency(CDbl(totamt,2)));
@@ -419,7 +475,6 @@ End Code
         $('#lblSumTotal').text(CCurrency(CDbl(total, 2)));
         $('#lblSumNet').text(CCurrency(CDbl(total-totwht, 2)));
     }
-
 
 
 </script>

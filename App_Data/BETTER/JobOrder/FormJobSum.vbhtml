@@ -237,7 +237,7 @@ End Code
 	SUMMARY
 	</td>
 	<td style="text-align:right;font-weight:bold;">
-            <label id="netAmount"></label>
+            <label id="netAmount" style="color:green"></label>
 	</td>
 	<td style="text-align:right;font-weight:bold;">
 	</td>
@@ -261,7 +261,7 @@ End Code
     </tbody>
     <tr>
         <td colspan="5"></td>
-        <td style="text-align:right;">
+        <td style="text-align:right;font-weight:bold">
             <label id="baseAmount"></label>
 	</td>
     </tr>
@@ -325,6 +325,7 @@ End Code
                 });
 
                 let html = '';
+                
                 html += '<tr>';
                 html += '<td>{0}</td>';
                 html += `<td class="center"><a href="${path}/acc/voucher?Branch=${branch}&Code={1}" target="_blank" >{1}</a></td>`;
@@ -363,7 +364,7 @@ End Code
                 //alert(dt1.length);
                 for (let i = 0; i < dt1.length; i++) {
                     let tmp = html;
-                    tmp =tmp.replaceAll('{0}', dt1[i].SDescription);
+                    tmp = tmp.replaceAll('{0}', dt1[i].SICode ==="AVF-000"?"<div style='color:red'>"+dt1[i].SDescription+"</div>": dt1[i].SDescription);
             /*        tmp = tmp.replaceAll('{1}', dt1[i].LinkBillNo);*/
                     //tmp = tmp.replaceAll('{2}', dt1[i].CustCode);
                     tmp = tmp.replaceAll('{1}', dt1[i].ReceiveRef);
@@ -395,7 +396,7 @@ End Code
 
                 let tmp = htmlTotal;
                 tmp = tmp.replaceAll('{0}', ShowNumber(suma1, 2));
-                tmp = tmp.replaceAll('{1}', ShowNumber(sumc1, 2));
+                tmp = tmp.replaceAll('{1}', "<div style='color:green;font-weight:bold'>" + ShowNumber(sumc1, 2) + "</div>");
                 tmp = tmp.replaceAll('{2}', ShowNumber(sumt1, 2));
                 tmp = tmp.replaceAll('{3}', ShowNumber(sum1, 2));
                 tmp = tmp.replaceAll('{4}', ShowNumber(sumv1, 2));
@@ -416,7 +417,7 @@ End Code
                 let sum2 = 0;
                 let sum3 = 0;
                 let sumcomm = 0;
-
+                let sumWH2 = 0;
                 //alert(dt2.length);
                 for (let i = 0; i < dt2.length; i++) {
                     console.log("------------");
@@ -429,7 +430,7 @@ End Code
                         sumcomm += dt2[i].BNet;
                     }
                     let tmp = html;
-                    tmp = tmp.replaceAll('{0}', dt2[i].SDescription);
+                    tmp = tmp.replaceAll('{0}', dt2[i].SICode === "AVF-000" ? "<div style='color:red'>" + dt2[i].SDescription + "</div>" : dt2[i].SDescription );
                  /*   tmp = tmp.replaceAll('{1}', dt2[i].LinkBillNo);*/
                     tmp = tmp.replaceAll('{1}', dt2[i].AdvPay ? dt2[i].AdvPay : dt2[i].ClrPay );
                     //tmp = tmp.replaceAll('{2}', dt2[i].VenderCode);
@@ -448,7 +449,10 @@ End Code
                         suma2 += dt2[i].BNet;
                         sumv2 += dt2[i].ChargeVAT;
                         sumw2 += dt2[i].Tax50Tavi;
+                    } else{
+                        sumWH2 += dt2[i].Tax50Tavi;
                     }
+                  
                     let codeExclude='CST-027,CST-028';
                     if (dt2[i].IsExpense == 1 && dt2[i].IsCredit == 0) {
 			if(dt2[i].SICode.indexOf('CSP')<0 && codeExclude.indexOf(dt2[i].SICode)<0) {
@@ -462,12 +466,12 @@ End Code
                     html2 += tmp;
                 }
                 tmp = htmlTotal;
-                tmp = tmp.replaceAll('{0}', ShowNumber(suma2, 2));
-                tmp = tmp.replaceAll('{1}', ShowNumber(sumc2, 2));
+                tmp = tmp.replaceAll('{0}',ShowNumber(suma2, 2) );
+                tmp = tmp.replaceAll('{1}', "<div style='color:green;font-weight:bold'>" + ShowNumber(sumc2, 2) + "</div>");
                 tmp = tmp.replaceAll('{2}', ShowNumber(sumt2, 2));
                 tmp = tmp.replaceAll('{3}', ShowNumber(sum2, 2));
                 tmp = tmp.replaceAll('{4}', ShowNumber(sumv2, 2));
-                tmp = tmp.replaceAll('{5}', ShowNumber(sumw2, 2));
+                tmp = tmp.replaceAll('{5}', ShowNumber(sumWH2, 2)) ;
                 html2 += tmp;
                 $('#dt2').html(html2);
                 console.log(sum1);

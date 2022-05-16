@@ -713,7 +713,7 @@ function SetGridJob(p, g, d, t, ev) {
             { data: null, title: "#" },
             { data: "JNo", title: mainLanguage == "TH" ? "หมายเลขงาน":"Job No" },
             { data: "InvNo", title: mainLanguage == "TH" ?"อินวอยลูกค้า": "Cust Inv" },
-            { data: "DeclareNumber", title: mainLanguage == "TH" ? "เลขที่ใบขน" : "Declare" }
+            { data: "BookingNo", title: mainLanguage == "TH" ? "บุคกิ้ง" : "Booking" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -1206,11 +1206,10 @@ function SetGridQuotation(p, g, t, d, ev) {
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
             { data: "QNo", title: "Quotation No" },
-            { data: "QtyBegin", title: "Qty Begin" },
-            { data: "QtyEnd", title: "Qty End" },
+            { data: "SICode", title: "Code" },
+            { data: "DescriptionThai", title: "Description" },
             { data: "ChargeAmt", title: "Price" },
-            { data: "VenderCode", title: "Vender" },
-            { data: "VenderCost", title: "Cost" }
+            { data: "VenderCode", title: "Vender" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -1413,4 +1412,58 @@ function SetGridLocation(p, g, d, t, ev) {
             BindEvent(g, d, ev);
         }
     });
+}
+function SetGridCompanyByVender(p, g, t, d, ev) {
+    $(g).DataTable({
+        ajax: {
+            url: p + 'Master/GetCompany?Vend=' + t, //web service ที่จะ call ไปดึงข้อมูลมา
+            dataSrc: 'company.data'
+        },
+        selected: true, //ให้สามารถเลือกแถวได้
+        columns: [ //กำหนด property ของ header column
+            { data: null, title: "#" },
+            { data: "CustCode", title: mainLanguage == "TH" ? "รหัส" : "Code" },
+            { data: "Branch", title: mainLanguage == "TH" ? "สาขา" : "Branch" },
+            { data: "NameThai", title: mainLanguage == "TH" ? "ชื่อ" : "Name" }
+        ],
+        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+            {
+                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                "data": null,
+                "render": function (data, type, full, meta) {
+                    let html = "<button class='btn btn-warning'>Select</button>";
+                    return html;
+                }
+            }
+        ],
+        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+    });
+    BindEvent(g, d, ev);
+}
+function SetGridBookBalance(p, g, d, ev) {
+    $(g).DataTable({
+        ajax: {
+            url: p + 'Master/GetBookBalance', //web service ที่จะ call ไปดึงข้อมูลมา
+            dataSrc: 'bookaccount.data[0].Table'
+        },
+        selected: true, //ให้สามารถเลือกแถวได้
+        columns: [ //กำหนด property ของ header column
+            { data: null, title: "#" },
+            { data: "BookCode", title: mainLanguage == "TH" ? "รหัส" : "Book.No" },
+            { data: "BookName", title: mainLanguage == "TH" ? "คำอธิบาย" : "Description" },
+            { data: "SumBal", title: mainLanguage == "TH" ? "คงเหลือ" : "Balance" }
+        ],
+        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+            {
+                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                "data": null,
+                "render": function (data, type, full, meta) {
+                    let html = "<button class='btn btn-warning'>Select</button>";
+                    return html;
+                }
+            }
+        ],
+        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+    });
+    BindEvent(g, d, ev);
 }

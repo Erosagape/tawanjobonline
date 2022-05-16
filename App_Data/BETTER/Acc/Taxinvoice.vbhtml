@@ -173,7 +173,7 @@ End Code
                                 <div style="flex:1">
                                     <label id="lblFTotalNet">Total Foreign</label>
                                     <br />
-                                    <input type="text" id="txtFTotalNet" class="form-control" disabled />
+                                    <input type="text" id="txtFTotalNet" class="form-control"  />
                                 </div>
                             </div>
                             <div style="display:flex">
@@ -192,19 +192,19 @@ End Code
                         <div class="col-sm-3" style="display:flex;flex-direction:column">
                             <div>
                                 <label id="lblReceiveRef">Voucher Ref:</label>
-                                <br /><input type="text" id="txtReceiveRef" class="form-control" disabled />
+                                <br /><input type="text" id="txtReceiveRef" class="form-control"  />
                             </div>
                             <div>
                                 <label id="lblReceiveDate">Receive Date:</label>
-                                <br /><input type="date" id="txtReceiveDate" class="form-control" disabled />
+                                <br /><input type="date" id="txtReceiveDate" class="form-control"  />
                             </div>
                             <div>
                                 <label id="lblReceiveTime">Receive Time:</label>
-                                <br /><input type="text" id="txtReceiveTime" class="form-control" disabled />
+                                <br /><input type="text" id="txtReceiveTime" class="form-control"  />
                             </div>
                             <div>
                                 <label id="lblReceiveBy">Receive By:</label>
-                                <br /><input type="text" id="txtReceiveBy" class="form-control" disabled />
+                                <br /><input type="text" id="txtReceiveBy" class="form-control"  />
                             </div>
                         </div>
                     </div>
@@ -212,7 +212,7 @@ End Code
                         <div class="row">
                             <div class="col-sm-4">
                                 <label id="lblEmpCode">Create By:</label>
-                                <br /> <input type="text" id="txtEmpCode" class="form-control" disabled />
+                                <br /> <input type="text" id="txtEmpCode" class="form-control"  />
                             </div>
                             <div class="col-sm-3">
                                 <label id="lblPrintedDate">Print Date:</label>
@@ -391,7 +391,7 @@ End Code
                                         <label id="lblAmt">Amount</label>                                            
                                     </div>
                                     <div style="flex:2">
-                                        <input type="number" id="txtAmt" class="form-control" onchange="CalVATWHT(0)" disabled />
+                                        <input type="number" id="txtAmt" class="form-control" onchange="CalVATWHT(0)"  />
                                     </div>
                                 </div>
                             </div>
@@ -411,7 +411,7 @@ End Code
                                 <div style="flex:1">
                                     <label id="lblIsTaxCharge">VAT</label>                                        
                                     <br />
-                                    <select id="txtIsTaxCharge" class="form-control dropdown" disabled>
+                                    <select id="txtIsTaxCharge" class="form-control dropdown" >
                                         <option value="0">NO</option>
                                         <option value="1">EX</option>
                                         <option value="2">IN</option>
@@ -432,7 +432,7 @@ End Code
                                 <div style="flex:1">
                                     <label id="lblFAmtVAT">VAT (F)</label>                                        
                                     <br />
-                                    <input type="number" id="txtFAmtVAT" class="form-control" disabled />
+                                    <input type="number" id="txtFAmtVAT" class="form-control"  />
                                 </div>
                             </div>
                         </div>
@@ -441,7 +441,7 @@ End Code
                                 <div style="flex:1">
                                     <label id="lblIs50Tavi">WH-TAX</label>                                        
                                     <br />
-                                    <select id="txtIs50Tavi" class="form-control dropdown" disabled>
+                                    <select id="txtIs50Tavi" class="form-control dropdown" >
                                         <option value="0">NO</option>
                                         <option value="1">YES</option>
                                     </select>
@@ -461,7 +461,7 @@ End Code
                                 <div style="flex:1">
                                     <label id="lblFAmt50Tavi">WHT (F)</label>                                        
                                     <br />
-                                    <input type="number" id="txtFAmt50Tavi" class="form-control" disabled />
+                                    <input type="number" id="txtFAmt50Tavi" class="form-control"  />
                                 </div>
                             </div>
                         </div>
@@ -472,7 +472,7 @@ End Code
                                         <label id="lblNet">Net</label>                                            
                                     </div>
                                     <div style="flex:2">
-                                        <input type="number" id="txtNet" class="form-control" onchange="ChangeAmount()" disabled />
+                                        <input type="number" id="txtNet" class="form-control" onchange="ChangeAmount()"  />
                                     </div>
                                 </div>
                             </div>
@@ -482,7 +482,7 @@ End Code
                                         <label id="lblFNet">Net (F)</label>                                            
                                     </div>
                                     <div style="flex:2">
-                                        <input type="number" id="txtFNet" class="form-control" disabled />
+                                        <input type="number" id="txtFNet" class="form-control"  />
                                     </div>
                                 </div>
                             </div>
@@ -492,19 +492,19 @@ End Code
                         <div class="row">
                             <div class="col-sm-3">
                                 <label id="lblCashAmount">Cash</label>
-                                <br /><input type="number" id="txtCashAmount" class="form-control" disabled />
+                                <br /><input type="number" id="txtCashAmount" class="form-control"  />
                             </div>
                             <div class="col-sm-3">
                                 <label id="lblTransferAmount">Transfer</label>
-                                <br /><input type="number" id="txtTransferAmount" class="form-control" disabled />
+                                <br /><input type="number" id="txtTransferAmount" class="form-control"  />
                             </div>
                             <div class="col-sm-3">
                                 <label id="lblChequeAmount">Cheque</label>
-                                <br /><input type="number" id="txtChequeAmount" class="form-control" disabled />
+                                <br /><input type="number" id="txtChequeAmount" class="form-control"  />
                             </div>
                             <div class="col-sm-3">
                                 <label id="lblCreditAmount">Credit</label>
-                                <br /><input type="number" id="txtCreditAmount" class="form-control" disabled />
+                                <br /><input type="number" id="txtCreditAmount" class="form-control"  />
                             </div>
                         </div>
                         <div class="row">

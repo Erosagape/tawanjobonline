@@ -477,3 +477,17 @@ function loadLocation(path, e, typ) {
         }
     });
 }
+function loadUser(e, path) {
+    $.get(path + 'Master/GetUser').done(function (r) {
+        let dr = r.user.data;
+        $(e).empty();
+        $(e).append($('<option>', { value: '' })
+            .text('N/A'));
+        if (dr.length > 0) {
+            for (let i = 0; i < dr.length; i++) {
+                $(e).append($('<option>', { value: dr[i].UserID.trim() })
+                    .text(dr[i].UserID.trim() + ' / ' + dr[i].TName.trim()));
+            }
+        }
+    });
+}

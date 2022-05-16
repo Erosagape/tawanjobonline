@@ -32,22 +32,22 @@ End Code
     }
 
     .curveBorder {
-        border: 1px solid black;
+        border: 1px solid #66FFCC;
         /* border-radius: 10px;*/
         padding: 5px;
     }
 
     .underLine {
-        border-bottom: 1px solid black !important;
+        border-bottom: 1px solid #66FFCC !important;
     }
 
     .upperLine {
-        border-top: 1px solid black !important;
+        border-top: 1px solid #66FFCC !important;
     }
 
     .verticalLine {
-        border-left: 1px solid black !important;
-        border-right: 1px solid black !important;
+        border-left: 1px solid #66FFCC !important;
+        border-right: 1px solid #66FFCC !important;
     }
     .textSpace {
         width: 20em;
@@ -61,19 +61,22 @@ End Code
         width: 100%;
     }
 
-    #details td{
-        border-left: 1px solid black !important;
-        border-right: 1px solid black !important;
+    #details td {
+        border-left: 1px solid #66FFCC !important;
+        border-right: 1px solid #66FFCC !important;
     }
-    #tbhead th{
-        border-left: 1px solid black !important;
-        border-right: 1px solid black !important;
+    #tbhead th {
+        border-left: 1px solid #66FFCC !important;
+        border-right: 1px solid #66FFCC !important;
     }
-    #tbfoot>tr>td {
-        border-left: 1px solid black !important;
-        border-right: 1px solid black !important;
+    #tbfoot > tr > td {
+        border-left: 1px solid #66FFCC !important;
+        border-right: 1px solid #66FFCC !important;
     }
-   
+
+    .greenbg {
+        background-color: #66ffcc61
+    }
 </style>
 <div style="display:flex;width: 100%;" >
     <div style="flex:1">
@@ -171,7 +174,7 @@ End Code
                         </td>
                     </tr>
                     <tr>
-                        <td><label id="jobNoLbl">JOB NO. :</label></td>
+                        <td><label id="jobNoLbl">BFT NO. :</label></td>
                         <td><label id="jobNo"></label></td>
                     </tr>
 
@@ -225,7 +228,7 @@ End Code
             </tr>
 
             <tr>
-                <td id="carrierlbl" style="width:10%">Carrier</td>
+                <td id="carrierlbl" style="width:10%">CARRIER</td>
                 <td style="width:5%">:</td>
                 <td style="width:30%" id="carrier"></td>
                 <td><label id="vesselLbl">VESSEL</label></td>
@@ -266,15 +269,15 @@ End Code
 </div>
 <table class="table curveBorder" style="width:100%;border-width:thin;border-collapse:collapse;">
     <thead id="tbhead">
-        <tr>
+        <tr class="greenbg">
             <th class="bold align-top underLine" rowspan="2">DESCRIPTION</th>
             <th class="center  underLine" rowspan="2">W/T</th>
             <th class="center underLine" rowspan="2">QTYs</th>
             <th class="center underLine" rowspan="2">UOM</th>
-            <th id="insouce" class="center bold underLine" colspan="3" style="border-bottom">IN SOURCE CURRENCY</th>
+            <th id="insouce" class="center bold underLine" colspan="3" style="">IN SOURCE CURRENCY</th>
             <th class="center bold underLine" colspan="2">AMOUNT IN THB</th>
         </tr>
-        <tr class="underLine">
+        <tr class="underLine greenbg" >
             <th class="center bold">Curr.</th>
             <th class="center bold">@@ UNIT</th>
             <th class="center bold">Exc.</th>
@@ -352,11 +355,11 @@ End Code
             <td id="netAmount" class="right"></td>
         </tr>
         <tr class="underLine">
-            <td class="center" colspan="5" style="font-size:13px" id="labelText">จำนวนเงินที่ต้องจ่าย = </td>
-            <td id="TotalNet" class="right" colspan="2" style="font-size:13px"></td>
+            <td class="center greenbg" colspan="5" style="font-size:13px" id="labelText">จำนวนเงินที่ต้องจ่าย = </td>
+            <td id="TotalNet" class="right greenbg" colspan="2" style="font-size:13px"></td>
         </tr>
-        <tr class="underLine">
-            <td id="bahtText" class="center" colspan="10"></td>
+        <tr class="underLine upperLine">
+            <td id="bahtText" class="center greenbg" colspan="10"></td>
         </tr>
         <tr class="underLine">
             <td colspan="10">
@@ -385,7 +388,7 @@ End Code
         <td class="textSpace"></td>
         <td style="width:50px"> </td>
         <td class="center bold">
-            @ViewBag.User
+            @ViewBag.Username
             <br />
             AUTHORIZED SIGNATURE
         </td>
@@ -404,6 +407,10 @@ End Code
 
 
 <script type="text/javascript">
+
+       $(document).ready(function() {
+                console.log('@ViewBag');
+      });
 /*    $('#pFooter').hide();*/
     //$('#imgLogo').hide();
     //$('#imgLogoAdd').show();
@@ -442,7 +449,7 @@ End Code
             $("#currency").text(h.CurrencyCode);
             $("#remark").html(CStr(h.Remark1 + '<br/>' + h.Remark2));
             $("#Remark1").text(h.Remark1);
-            
+
             //if (j.JobType !== 1) {
             //    $("#loadport").text(j.ClearPortNo);
             //    ShowInterPort(path, j.InvCountry, j.InvInterPort, "#dcport").then(() => {
@@ -452,14 +459,14 @@ End Code
             //    });
             //} else {
             $("#dcport").text(j.ClearPortNo);
-                
+
             ShowInterPort(path, (j.JobType == 1 ? j.InvFCountry : j.InvCountry), j.InvInterPort, '#loadport').then(() => {
                 $.get(path + 'Master/GetCountry?Code=' + (j.JobType == 1 ? j.InvFCountry : j.InvCountry)).done(function (r) {
                         $('#loadport').text(($('#loadport').text() + " ," + r.country.data[0].CTYName).toUpperCase());
                     });
                 });
            /* }*/
-            
+
             $("#jobNo").text(j.JNo);
             $("#quoNo").text(j.QNo!==''?"("+j.QNo+")":'');
             $("#vessel").text(j.VesselName);
@@ -484,8 +491,8 @@ End Code
             $("#bkg").text(j.BookingNo);
             $("#imexname").text(c.NameEng);
 
-
-            ShowVender(path, j.ForwarderCode, '#carrier');
+            console.log(j.ForwarderCode);
+            ShowVenderE(path, j.ForwarderCode, '#carrier');
             ShowContainer(j.BranchCode, j.JNo);
 
             let d = r.invoice.detail[0];
@@ -513,7 +520,7 @@ End Code
                 html += '            <td class="center">' + row.QtyUnit+'</td>';
                 html += '            <td class="center">' + row.CurrencyCode + '</td>';
                 html += '            <td class="right">' + ShowNumber(row.FUnitPrice, 2) + '</td>';
-                html += '            <td class="center">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
+                html += '            <td class="center">' + ShowNumber(row.ExchangeRate, 4) + '</td>';
                 html += '            <td class="right">' + (row.AmtAdvance ? ShowNumber(row.TotalAmt, 2) : '') + '</td>';
                 html += '            <td class="right">' + (!row.AmtAdvance ? ShowNumber(row.Amt, 2) : '') + '</td>';
                 html += '        </tr>';
@@ -562,9 +569,9 @@ End Code
             //console.log(h.TotalVAT);
             //console.log(vat + h.TotalVAT);
             //console.log(h.TotalCustAdv);
-           
+
             //console.log(sumWht1 + sumWht1_5 + sumWht3 + sumWhtO);
-           
+
             for (let i = 1; i <= blankRows; i++) {
                 html += '        <tr>';
                 html += '            <td><br/></td>';
@@ -596,13 +603,13 @@ End Code
             $("#custAdv").text(ShowNumber(h.TotalCustAdv, 2));
      /*       $("#lessWithholdingTax").text(ShowNumber(h.Total50Tavi, 2));*/
             $("#lessWithholdingTax").text(ShowNumber(sumWht1 + sumWht1_5 + sumWht3 + sumWhtO,2));
-          
+
             $("#netAmount").text(ShowNumber(vat + adv + h.TotalVAT - h.TotalCustAdv , 2));
             console.log(vat + "+" + adv + "+" + h.TotalVAT + "-" + h.TotalCustAdv +"+"+ (sumWht1 + sumWht1_5 + sumWht3 + sumWhtO));
         /*    $("#netAmount").text(ShowNumber(h.TotalNet + h.Total50Tavi, 2));*/
 
             $("#advLeft").text(ShowNumber(adv - h.TotalCustAdv, 2));
-         
+
            /* $("#TotalNet").text(ShowNumber(h.TotalNet , 2));*/
             $("#taxRate1").text("1% :");
             $("#taxRate1_5").text("1.5% :");
@@ -612,12 +619,12 @@ End Code
             $("#bahtText").text('( ' + CNumThai(CDbl(h.TotalNet, 2))+' )');
             $("#TotalNet").text(ShowNumber(vat + adv + h.TotalVAT - h.TotalCustAdv - (sumWht1 + sumWht1_5 + sumWht3 + sumWhtO), 2));
 	    $("#labelText").html('จำนวนเงินที่ต้องจ่าย =');
-	    $("#currencyText").html('NET AMOUNT :');	
+	    $("#currencyText").html('NET AMOUNT :');
             } else {
             $("#bahtText").text('( ' + CNumEng(CDbl(h.ForeignNet, 2))+' )');
             $("#TotalNet").text(ShowNumber((vat + adv + h.TotalVAT - h.TotalCustAdv - (sumWht1 + sumWht1_5 + sumWht3 + sumWhtO))/h.ExchangeRate, 2));
 	    $("#labelText").html('TOTAL PAYMENT ');
-	    $("#currencyText").html('NET AMOUNT :');	
+	    $("#currencyText").html('NET AMOUNT :');
             }
         }
     });
@@ -640,7 +647,7 @@ End Code
                 //    $("#dcport").text(t[0].FactoryPlace);
                 //    $("#loadport").text(t[0].PackingPlace);
                 //}
-              
+
             }
 
         });

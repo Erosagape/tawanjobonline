@@ -80,8 +80,8 @@ End Code
                 <th width="10%">QTY</th>
                 <th width="10%">UNIT</th>
                 <th width="10%">CUR</th>
-                <th width="15%">UNIT PRICE</th>
-                <th width="15%">TOTAL PRICE</th>
+                <th width="15%">PRICE</th>
+                <th width="15%">TOTAL</th>
                 @*<th width="5%">XRT</th>
         <th width="10%">AMOUNT<br />(FC)</th>
         <th width="10%">NET<br />(THB)</th>*@
@@ -189,7 +189,7 @@ End Code
                 html += '<td>' + i.UnitCheck + '</td>';
                 html += '<td style="text-align:center">' + i.CurrencyCode + '</td>';
                 html += '<td style="text-align:center">' + ShowNumber(i.ChargeAmt, 2) + '</td>';
-                html += '<td style="text-align:center">' + ShowNumber(i.ChargeAmt, 2) + '*' + i.QtyEnd+'='+ ShowNumber(i.ChargeAmt * i.QtyEnd, 2) + '</td>';
+                html += '<td style="text-align:center">' + ShowNumber(i.ChargeAmt * i.QtyBegin, 2) + '</td>';
                 //html += '<td style="text-align:center">' + i.CurrencyRate + '</td>';
                 //html += '<td style="text-align:right">' + ShowNumber(i.TotalAmt,2) + '</td>';
                 //html += '<td style="text-align:right">' + ShowNumber(amtTotal,2) + '</td>';

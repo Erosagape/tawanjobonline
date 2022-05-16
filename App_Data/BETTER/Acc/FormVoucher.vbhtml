@@ -4,23 +4,28 @@
     ViewBag.Title = "Voucher Slip"
     ViewBag.HeadSrc = "voucher_rv.jpg"
 End Code
+<style>
+    #voucherTable{
+        page-break-inside:auto;
+    }
+</style>
 @*<div style="display:flex;  justify-content: center;  align-items: center;">
-    <div style="width:15%"><img style="width:100%;" src="/test/Resource/logo_bft.png" /></div>
-    <div style="font-weight:bold;font-size:30px;text-align:center" pv="ใบสำคัญจ่าย / PAYMENT VOUCHER" class="PVMode">ใบสำคัญรับ / RECEIPT VOUCHER</div>
-</div>*@
+        <div style="width:15%"><img style="width:100%;" src="/test/Resource/logo_bft.png" /></div>
+        <div style="font-weight:bold;font-size:30px;text-align:center" pv="ใบสำคัญจ่าย / PAYMENT VOUCHER" class="PVMode">ใบสำคัญรับ / RECEIPT VOUCHER</div>
+    </div>*@
 
 <table style="width: 100%; border-collapse: collapse;  ">
     <tbody>
         <tr>
             @*<td style="width:13%" id="test" pv="เลขที่ใบเบิก" class="PVMode">
-            เลขที่ใบรับเงิน:
-        </td>
-        <td style="width:8%">
-            <label id="lblControlNo1"></label>
-        </td>
-        <td style="width:6%" pv="วันที่เบิก" class="PVMode">
-            วันที่รับ:
-        </td>*@
+                    เลขที่ใบรับเงิน:
+                </td>
+                <td style="width:8%">
+                    <label id="lblControlNo1"></label>
+                </td>
+                <td style="width:6%" pv="วันที่เบิก" class="PVMode">
+                    วันที่รับ:
+                </td>*@
             <td pv="ใบสำคัญจ่ายเลขที่" class="PVMode" style="width:15%">
                 ใบสำคัญรับเลขที่:
             </td>
@@ -28,8 +33,8 @@ End Code
                 <label id="lblControlNo2"></label>
             </td>
             @*<td style="width:8%">
-                <label id="lblRecvPayDate"></label>
-            </td>*@
+                    <label id="lblRecvPayDate"></label>
+                </td>*@
             <td style="width:15%">
                 VOUCHER NO:
             </td>
@@ -39,15 +44,15 @@ End Code
             <td style="width:10%">
                 DATE:
             </td>
-            <td  style="width:20%" >
+            <td style="width:20%">
                 <label id="lblVoucherDate"></label>
             </td>
         </tr>
         <tr>
-            <td >
+            <td>
                 BANK CODE:
             </td>
-            <td  >
+            <td>
                 <label id="lblBankCode"></label>
             </td>
             <td style="width:10%">
@@ -66,7 +71,7 @@ End Code
             <td style="width:10%" pv="จ่ายให้" class="PVMode">
                 รับจาก:
             </td>
-            <td  style="width:20%">
+            <td style="width:20%">
                 <label id="lblPayCompany"></label>
             </td>
             <td style="width:10%">
@@ -96,7 +101,7 @@ End Code
         <tr>
             <td colspan="3">
             </td>
-          
+
             <td>
                 <div style="display:flex;width:100%">
                     <div style="flex:1;text-align:right;"><input id="cheque" type="checkbox"></div>
@@ -110,7 +115,7 @@ End Code
             <td>
                 ลงวันที่:
             </td>
-            <td >
+            <td>
                 <label id="lblChqDate"></label>
             </td>
         </tr>
@@ -129,7 +134,7 @@ End Code
                 ผู้ออกใบเสร็จ
             </td>
             <td style="width:20%" pv="ผู้อนุมัติใบขอเบิก" class="PVMode">
-                ผู้ตรวจสอบเงินเข็าบัญชี
+                ผู้ตรวจสอบเงินเข้าบัญชี
             </td>
             <td style="width:20%" pv="ผู้จัดทำใบสำคัญจ่าย" class="PVMode">
                 ผู้จัดทำใบสำคัญรับ
@@ -167,7 +172,7 @@ End Code
 <br />
 <div style="display:flex;flex-direction:column;">
     <div style="text-align:center" pv="(การเบิกจ่ายที่ไม่เกี่ยวข้องกับงานหรือกระทำการบิดเบือนความจริงเข้าข่ายการทุจริตและประพฤติมิชอบ หรือยักยอกทรัพย์บริษัท)" class="PVMode">(การออกใบเสร็จและใบสำคัญรับ  โดยไม่มีการตรวจสอบหรือกระทำการบิดเบือนความจริง เข้าข่ายการทุจริตและประพฤติมิชอบหรือยักยอกทรัพย์บริษัท)</div>
-<div style="text-align:center;color:green;font-size:20px">บริษัท เบทเตอร์เฟรท แอนด์ทรานสปอร์ต จำกัด<br />BETTER FREIGHT & TRANSPORT CO.,LTD</div>
+    <div style="text-align:center;color:green;font-size:20px">บริษัท เบทเตอร์เฟรท แอนด์ทรานสปอร์ต จำกัด<br />BETTER FREIGHT & TRANSPORT CO.,LTD</div>
 </div>
 
 <script type="text/javascript">
@@ -216,14 +221,15 @@ End Code
             //$('#txtVoucherType').val(vcTypeName + ' VOUCHER');
             $('#lblVoucherDate').text(ShowDate(CDateTH(data.header[0].VoucherDate)));
             $('#lblRecvPayDate').text(ShowDate(data.header[0].RecTime));
+            $('#lblPayCompany').text(data.header[0].TRemark);
             //$('#txtRemark').text(data.header[0].TRemark);
         }
         if (data.payment ) {
-          
+
             //$('#lblPayCompany').text(data.payment[0].PayChqTo);
 
             //if (data.payment[0].acType == "CA") {
-              
+
             //} else if (data.payment[0].acType == "CH"){
             //    $('#lblChqNo').text(data.payment[0].ChqNo);
             //    $('#lblChqDate').text(ShowDate(CDateTH(data.payment[0].ChqDate)));
@@ -233,7 +239,7 @@ End Code
             $('#lblBankCode').text(data.document[0].BankCode);
             $('#lblBankAccount').text(data.document[0].BookName);
 
-        
+
 
         }
         let div = $('#tbData tbody');
@@ -269,7 +275,7 @@ End Code
             } else {
                 $('#lblVoucherNo').text(pay.PRVoucher);
             }
-           
+
             if (pay.acType == "CA") {
                 $('#lblRefNo').text(pay.DocNo ? pay.DocNo : "____________");
                 $('#transfer').prop('checked', true);
@@ -278,14 +284,18 @@ End Code
                 $('#lblChqDate').text(pay.ChqDate ? ShowDate(pay.ChqDate) : "____________");
                 $('#cheque').prop('checked', true);
                 $('#lblBankCode').text(pay.RecvBank);
-            
+
             }
 
             vcTypeName = GetVoucherType(vcType);
             const doc = data.document.filter(d => d.acType == pay.acType);
             let detailTrs = ``;
             let i = 1;
-            let totalNet = 0;
+            let totalNet = pay.TotalNet;
+            if (doc.length > 0) {
+                totalNet = 0;
+            } 
+                
             for (d of doc) {
                 let tr = "";
                 //<td style="text-align:center;padding:0px 5px;">${i++}</td>
@@ -299,9 +309,11 @@ End Code
                             <td style="padding:0px 5px;">${d.JobNo ? d.JobNo : ""}</td>
                             <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.Amount,2))}</td>
                             <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.VAT, 2))}</td>
-                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.WHT, 2))}</td>                       
+                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.WHT, 2))}</td>
                             <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount, 2))}</td></tr>`;
-                            totalNet += d.PaidAmount;
+                totalNet += d.PaidAmount;
+                //console.log(d.PaidAmount);
+                //console.log(d.TotalAmount);
                             detailTrs += tr;
             }
             detailTrs += "<tr> </tr>"
@@ -313,7 +325,8 @@ End Code
                     if (pay.RecvBank !== '') {
                         payType = 'TRANSFER';
                     }
-                    desc += pay.PayChqTo !== '' ? 'PAY TO : ' + pay.PayChqTo : '';
+                    let str = pay.PRType == "R" ? "PAY BY : " : "PAY TO : ";
+                    desc += pay.PayChqTo !== '' ? str + pay.PayChqTo : '';
                     desc += pay.RecvBank != '' ? '<br/>' + pay.RecvBranch : '';
                     //if (data.document[0].BookName !== '') {
                     //    desc += pay.BookCode != '' ? '<br/>ACCOUNT ' + data.document[0].BookName + ' REF# ' + pay.DocNo : '';
@@ -345,14 +358,14 @@ End Code
             let sumTr = `<tr id="A3">
             <td rowspan="2" style="font-size:13px;">
                 ${ pay.PRType == "P" ? "จ่ายให้:" :"รับจาก:"}
-               
+
             </td>
             <td colspan="4" rowspan="2" style="text-align:left">
                 ${desc}
             </td>
             <td colspan="2" style="font-size:13px;">
                   ${ pay.PRType == "P" ? "จำนวนเงินที่ต้องจ่าย:" : "รับเงินจำนวน:"}
-               
+
             </td>
             <td colspan="3">
                 <label id="lblAmount" style="text-align:center;padding:0px 5px;font-size:16px;">${CCurrency(CDbl(totalNet, 2))}</label>
@@ -371,8 +384,8 @@ End Code
                         <td style="width: 10%; ">
                             เลขที่อ้างอิง
                         </td>
-                        ${  pay.PRType == "R" ? 
-                        ` 
+                        ${  pay.PRType == "R" ?
+                        `
                         <td style="width:14%; ">
                             เลขที่ใบจอง/เลขที่ใบตราขนส่ง
                         </td>`

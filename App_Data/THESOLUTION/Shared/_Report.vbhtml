@@ -20,7 +20,7 @@
         <div style="display:flex;flex-direction:column">
             <div style="display:flex">
                 <div style="vertical-align:middle">
-                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100px;" />
+                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100px;"  />
                 </div>
                 <div style="padding:5px;">
                     <div id="divCompany" style="text-align:left;color:darkblue;font-size:12px">
@@ -28,15 +28,15 @@
                         <br /><b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME</b>
 
                     </div>
-                    <div style="font-size:10px;">
-                        @ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2 โทร @ViewBag.PROFILE_COMPANY_TEL แฟกซ์ @ViewBag.PROFILE_COMPANY_FAX
-                        <br />@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN TEL @ViewBag.PROFILE_COMPANY_TEL FAX @ViewBag.PROFILE_COMPANY_FAX
-                        <br />เลขประจำตัวผู้เสียภาษี @ViewBag.PROFILE_TAXNUMBER สาขา: สำนักงานใหญ่
-                    </div>
+   		<div style="font-size:13px;">
+                @ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2 โทร @ViewBag.PROFILE_COMPANY_TEL แฟกซ์ @ViewBag.PROFILE_COMPANY_FAX
+                <br />@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN TEL @ViewBag.PROFILE_COMPANY_TEL  <br />FAX @ViewBag.PROFILE_COMPANY_FAX
+                <br />เลขประจำตัวผู้เสียภาษี @ViewBag.PROFILE_TAXNUMBER สาขา: สำนักงานใหญ่
+            	</div>
 
                 </div>
             </div>
-
+         
             <div style="width:100%;text-align:center">
                 <h3>@ViewBag.ReportName</h3>
             </div>

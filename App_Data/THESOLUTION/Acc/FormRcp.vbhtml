@@ -126,11 +126,11 @@ End Code
         let h = dt[0];
         //$('#lblCustCode').text(h.CustCode);
         if (h.UsedLanguage == 'TH') {
-            $('#lblCustName').text(h.CustTName);
-            $('#lblCustAddr').text(h.CustTAddr);
+            $('#lblCustName').text(h.BillTName);
+            $('#lblCustAddr').text(h.BillTAddr);
         } else {
-            $('#lblCustName').text(h.CustEName);
-            $('#lblCustAddr').text(h.CustEAddr);
+            $('#lblCustName').text(h.BillEName);
+            $('#lblCustAddr').text(h.BillEAddr);
         }
         //$('#lblCustTel').text(h.CustPhone);
         $.get(path + 'Master/GetCompany?TaxNumber=' + h.CustTaxID).done(function (r) {

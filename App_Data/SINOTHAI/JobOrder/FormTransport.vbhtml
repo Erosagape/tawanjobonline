@@ -128,7 +128,7 @@ End Code
 </div>
 <div id="dvDetail" style="height:280px;vertical-align:top;display:flex;flex-direction:column;font-size:10px;border-right:solid;border-left:solid;border-width:thin;">
 </div>
-<div id="dvContainer" style="height:200px;vertical-align:top;width:100%;font-size:10px;text-align:center;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
+<div id="dvContainer" style="float:right;height:200px;vertical-align:top;width:100%;font-size:10px;text-align:center;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
 </div>
 <div style="width:100%;display:flex;flex-direction:row;font-size:10px;text-align:center;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
     <div style="width:20%;"><b>Total number of Packages or units (in words)</b></div>
@@ -228,11 +228,23 @@ End Code
 
                 let html = '';
 
-                html += '<div style="width:100%;display:flex;flex-direction:row;margin-bottom:5px;font-size:10px">';
+                html += '<div style="width:100%;display:flex;flex-direction:row;margin-bottom:5px;font-size:9px">';
                 html += '<div style="width:20%;">'+ CStr(h.Remark) +'</div>';
                 html += '<div style="width:15%;">' + h.InvProductQty + '<br/>' + $('#lblProductUnit').text() + '</div>';
                 html += '<div style="width:35%;">' + h.InvProduct + '<br/>' + CStr(h.ProjectName);
                 html += '<br/>SAY ' + h.TotalContainer + ' CONTAINER(s) ONLY';
+                html += '<br/><br/><u>CONTAINER & SEAL</u>';
+                html += '<br/>';
+
+                let i = 0;
+                for (i = 0; i < r.booking.data.length; i++) {
+                    let htmlTemplate = '<div style="width:100%;display:flex;flex-direction:row;font-size:9px;text-align:left">';
+                    htmlTemplate += r.booking.data[i].CTN_NO + '/' + r.booking.data[i].CTN_SIZE + ' #' + r.booking.data[i].SealNumber + ' ' + r.booking.data[i].Measurement + ' M3 G.W ' + r.booking.data[i].GrossWeight + ' KGS QTY: ' + r.booking.data[i].ProductQty + ' ' + r.booking.data[i].ProductUnit + ' ' + h.TransMode;
+                    htmlTemplate += '</div>';
+
+                    html += htmlTemplate;
+                }                
+
                 html += '</div>';
                 html += '<div style="width:15%;">G.W ' + ShowNumber(h.TotalGW,3) + ' ' + h.GWUnit + '';
                 if(h.TotalNW>0)  {
@@ -244,22 +256,7 @@ End Code
 
                 $('#dvDetail').html(html);
 
-                html = '<div style="width:100%;display:flex;flex-direction:row;margin-bottom:5px;font-size:10px">';
-                html += '<div style="width:45%;"><u>CONTAINER & SEAL</u></div>';
-                html += '</div>';
-
-                let i = 0;
-                for (i = 0; i < r.booking.data.length; i++){
-                    let htmlTemplate = '<div style="width:100%;display:flex;flex-direction:row;font-size:10px">';
-                    htmlTemplate += r.booking.data[i].CTN_NO + '/' + r.booking.data[i].CTN_SIZE + ' #' + r.booking.data[i].SealNumber + ' ' + r.booking.data[i].Measurement + ' M3 G.W '+ r.booking.data[i].GrossWeight+' KGS QTY: '+ r.booking.data[i].ProductQty + ' ' + r.booking.data[i].ProductUnit+ ' ' +h.TransMode;
-                    htmlTemplate += '</div>';
-
-                    html += htmlTemplate;
-                }
-
-                html += '</div>';
-
-                $('#dvContainer').html(html);
+                //$('#dvContainer').html(html);
             }
         });
     }

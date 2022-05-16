@@ -316,26 +316,6 @@ End Code
     TOTAL AMOUNT IN WORDS:
     <label id="bahtText">   BAHT TWENTY-EIGHT THOUSAND FIVE HUNDRED TWENTY-THREE AND</label>
 </p>
-<p class="bold">DULY CHECKED AND RECEIVED IN GOOD CONDITION</p>
-
-
-<p class="bold">หมายเหตุ ใบแจ้งหนี้นี้มิใช่ใบกำกับภาษี ใบกำกับภาษีจะออกให้ต่อเมื่อได้รับชำระเงินเรียบร้อยแล้ว</p>
-<p>
-        กรุณาชําระด้วยเช็คขีดคร่อมและสั่งจ่ายในนาม "บริษัท ยูไนเต็ด โกลบ โลจิสติกส์ (ประเทศไทย) จำกัด"
-       
-</p>
-<p>
-    Please make a crossed cheque payable to " UNITED GLOBE LOGISTICS(THAILAND) CO.,LTD."
-</p>
-<p>
-
-    <br>
-    ธนาคารกสิกรไทย
-    บริษัท ยูไนเต็ด โกลบ โลจิสติกส์ (ประเทศไทย) จำกัด
-    เลขบัญชี : 028-109-6419
-    ประเภทบัญชี ; กระแสรายวัน
-    สาขา : 208 เพชรบุรีตัดใหม่
-</p>    
 <p>
    Remark:
    <label id="remark"></label>
@@ -471,20 +451,18 @@ End Code
                 } else {
                     nonVat += row.AmtCharge * row.ExchangeRate.toFixed(4);
                 }
-                switch (row.Rate50Tavi) {
-
+                switch (r.Rate50Tavi) {
                     case 1:
-			
-                        sumWht1 += row.Amt50Tavi;
-                        sumbaseWht1 += row.Amt;
+                        sumWht1 += r.Amt50Tavi;
+                        sumbaseWht1 += r.Amt;
                         break;
                     case 1.5:
-                        sumWht1_5 += row.Amt50Tavi;
-                        sumbaseWht1_5 += row.Amt;
+                        sumWht1_5 += r.Amt50Tavi;
+                        sumbaseWht1_5 += r.Amt;
                         break;
                     case 3:
-                        sumWht3 += row.Amt50Tavi;
-                        sumbaseWht3 += row.Amt;
+                        sumWht3 += r.Amt50Tavi;
+                        sumbaseWht3 += r.Amt;
                         break;
                     default:
                         break;

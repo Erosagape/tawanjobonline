@@ -12,16 +12,17 @@ End Code
 
     #summary td {
         width: 16%;
-        border-color:black;
+        border-color: #66FFCC;
+        border: 1px solid #66FFCC;
     }
 
     .border {
-        border: 1px solid black;
+        border: 1px solid #66FFCC;
     }
 
     .vborder {
-        border-left: 1px solid black;
-        border-right: 1px solid black;
+        border-left: 1px solid #66FFCC;
+        border-right: 1px solid #66FFCC;
     }
 
    td {
@@ -33,28 +34,30 @@ End Code
     table {
         margin-bottom: 10px
     }
+
+
 </style>
 
 <div style="text-align:center;width:100%">
     <h2><label id="lblDocType" style="font-size:18px;display:none">TAX-INVOICE</label></h2>
 </div>
-<table id="taxHeader" style="width: 100%; border: 1px solid black;">
+<table id="taxHeader" style="width: 100%; border: 1px solid #66FFCC;">
     <tbody>
-        <tr>
-            <td style="width:55%">RECEIVED FROM</td>
-            <td style="border-left:1px solid black">No.</td>
-            <td>:</td>
-            <td><label id="lblReceiptNo"></label></td>
+        <tr >
+            <td style="width:55%;font-weight:bold">RECEIVED FROM</td>
+            <td style="border-left:1px solid #66FFCC;background-color: #FFFFCC;font-weight:bold">No.</td>
+            <td style="background-color: #FFFFCC;font-weight: bold">:</td>
+            <td style="background-color: #FFFFCC;font-weight: bold"><label id="lblReceiptNo"></label></td>
         </tr>
-        <tr>
+        <tr style="font-weight: bold">
             <td><label id="lblCustName"></label></td>
-            <td style="border-left: 1px solid black; border-bottom: 1px solid black">DATE</td>
-            <td style="border-bottom:1px solid black">:</td>
-            <td style="border-bottom:1px solid black"><label id="lblReceiptDate"></label></td>
+            <td style="border-left: 1px solid #66FFCC; border-bottom: 1px solid #66FFCC;background-color: #FFFFCC;font-weight:bold">DATE</td>
+            <td style="border-bottom:1px solid #66FFCC;background-color: #FFFFCC;">:</td>
+            <td style="border-bottom:1px solid #66FFCC;background-color: #FFFFCC;"><label id="lblReceiptDate"></label></td>
         </tr>
         <tr>
             <td><label id="lblCustAddr" rowspan="2"></label></td>
-            <td style="border-left:1px solid black" rowspan="3" colspan="3">
+            <td style="border-left:1px solid #66FFCC" rowspan="3" colspan="3">
                 <p  style="text-align:center;font-weight:bold;font-size:16px">ใบเสร็จรับเงิน/ใบกำกับภาษี</p>
                 <p style="text-align: center; font-weight: bold; font-size: 16px">RECEIPT/TAX INVOICE</p>
             </td>
@@ -78,28 +81,28 @@ End Code
         </div>
         <div style="flex:1;border:1px solid black;border-radius:5px;padding:5px 5px 5px 5px;">
             NO. : <label id="lblReceiptNo"></label><br />
-            ISSUE DATE : <label id="lblReceiptDate"></label><br />
+            CUST INV : <label id="lblInvNo"></label><br />
         </div>
     </div>*@
 
 
-<table style="width:100%" border="1">
+<table style="width:100%" >
     <tbody id="summary">
-        <tr style="text-align:center">
+        <tr style="text-align:center;" >
             <td rowspan="2">SUMMARY</td>
-            <td>REIMBURSEMENT</td>
-            <td>SERVICE</td>
-            <td>VAT 7%</td>
-            <td>TOTAL AMOUNT</td>
-            <td>GRAND TOTAL</td>
+            <td style="background-color: #FFFFCC;">REIMBURSEMENT</td>
+            <td style="background-color: #FFFFCC;">SERVICE</td>
+            <td style="background-color: #FFFFCC;">VAT 7%</td>
+            <td style="background-color: #FFFFCC;">TOTAL AMOUNT</td>
+            <td style="background-color: #FFFFCC;">GRAND TOTAL</td>
         </tr>
     </tbody>
 </table>
-<table style="border-style:solid;width:100%; " class="text-center">
-    <tr>
+<table style="border-style:solid;width:100%;" class="text-center">
+    <tr style="background-color: #FFFFCC;">
         <th class="border" height="40" width="40">NO.</th>
         <th class="border" height="40" width="80">INV.NO.</th>
-        <th class="border" width="40">DATE</th>
+        <th class="border" width="40">REF.NO</th>
         <th class="border" width="60">BFT NO</th>
         @*<th width="20">CUR</th>
             <th width="20">EXC</th>*@
@@ -110,7 +113,7 @@ End Code
         <th class="border" width="60">TOTAL</th>
     </tr>
     <tbody id="tbDetail"></tbody>
-    <tr style="text-align:right;">
+    <tr style="text-align:right;background-color:#FFFFCC;font-weight: bold">
         <td class="border" colspan="4" style="text-align:center">TOTAL</td>
         <td class="border"><label id="lblTotalADV"></label></td>
         <td class="border"><label id="lblTotalBeforeVAT"></label></td>
@@ -118,7 +121,7 @@ End Code
         <td class="border"><label id="lblTotalWHT"></label></td>
         <td class="border"><label id="lblTotalNET"></label></td>
     </tr>
-    <tr class="border" style="">
+    <tr class="border" style="font-weight: bold">
         <td colspan="2" style="text-align: left;">TOTAL RECEIPT : BAHT</td>
         <td style="text-align:center" colspan="8"><label id="lblTotalText"></label></td>
         @*<td colspan="1"><label id="lblTotalAfterVAT"></label></td>*@
@@ -167,15 +170,15 @@ End Code
         <tr>
             <td rowspan="2" style="width:10%;vertical-align: central; font-size: 16px; white-space: nowrap">PAY BY:</td>
             <td style="width: 10%; white-space: nowrap">TRANSFER</td>
-            <td contenteditable="true" style="border-bottom:1px black solid;white-space:pre;"></td>
+            <td contenteditable="true" style="border-bottom:1px #66FFCC solid;white-space:pre;"></td>
             <td style="width: 10%; white-space: nowrap">RV NO.</td>
-            <td id="lblPRVoucher" contenteditable="true" style="border-bottom: 1px black solid; white-space: pre;"></td>
+            <td id="lblPRVoucher" contenteditable="true" style="border-bottom: 1px #66FFCC solid; white-space: pre;"></td>
         </tr>
         <tr>
             <td style="width: 10%; white-space: nowrap ">CHEQUE NO.</td>
-            <td contenteditable="true" style="border-bottom: 1px black solid; white-space: pre"></td>
+            <td contenteditable="true" style="border-bottom: 1px #66FFCC solid; white-space: pre"></td>
             <td style="width: 10%; white-space: nowrap">DATE:.</td>
-            <td contenteditable="true" style="border-bottom: 1px black solid; white-space: pre"></td>
+            <td contenteditable="true" style="border-bottom: 1px #66FFCC solid; white-space: pre"></td>
         </tr>
     </tbody>
 </table>
@@ -184,11 +187,13 @@ End Code
 </div>
 <div  style="display:flex;width:100%">
     <div style="width:70%;"></div>
-    <div  style="width:30%;border-top:1px dotted black;text-align:center;padding:10px;margin:30px 0px;">
+    <div  style="width:30%;border-top:3px dotted #66FFCC;text-align:center;padding:10px;margin:30px 0px;">
+        @viewbag.username
+        <br />
         AUTHORIZED SIGNATURE
     </div>
 </div>
-<div style="text-align:center">
+<div style="text-align:center;color:#38cd9c">
     (โปรดตรวจสอบความถูกต้องของรายการในเอกสารฉบับนี้ภายใน 7 วัน มิฉะนั้นบริษัทฯ จะถือว่าเอกสารฉบับนี้ถูกต้องสมบูรณ์)
     <br />
     ใบเสร็จรับเงิน/ใบกากับภาษีนี้จะสมบูรณ์ก็ต่อเมื่อมีลายเซ็นต์ของผู้รับเงินและผู้ได้รับมอบอำนาจเท่านั้น
@@ -255,6 +260,7 @@ End Code
         $('#lblCustTax').text(h.CustTaxID + branchText);
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiveDate)));
+
         let html = '';
         let service = 0;
         let vat = 0;
@@ -267,27 +273,28 @@ End Code
             html = '<tr>';
             html += '<td class="vborder" style="text-align:center;">' + (i++) + '</td>';
             html += '<td class="vborder"  style="text-align:center">' + d.InvoiceNo + '</td>';
-            html += '<td  class="vborder" style="text-align:center">' + ShowDate(d.InvoiceDate) + '</td>';
+            html += '<td  class="vborder" style="text-align:center">' + d.InvNo + '</td>';
             html += '<td  class="vborder" style="text-align:center">' + d.JobNo + '</td>';
             //html += '<td style="text-align:center">' + d.CurrencyCode + '</td>';
             //html += '<td style="text-align:center">' + d.ExchangeRate + '</td>';
             html += '<td  class="vborder" style="text-align:right">' + (d.AmtAdvance > 0 ? ShowNumber(d.AmtAdvance, 2) : '0.00') + '</td>';
             html += '<td  class="vborder" style="text-align:right">' + (d.AmtCharge > 0 ? ShowNumber(d.AmtCharge,2):'') + '</td>';
-            html += '<td  class="vborder" style="text-align:right">' + (d.InvVAT > 0 ? ShowNumber(d.InvVAT * d.ExchangeRate,2):'') + '</td>';
-            html += '<td  class="vborder" style="text-align:right">' + (d.Inv50Tavi > 0 ? ShowNumber(d.Inv50Tavi * d.ExchangeRate,2):'') + '</td>';
-            html += '<td  class="vborder" style="text-align:right">' + ShowNumber((d.AmtCharge + d.AmtAdvance + d.InvVAT - d.Inv50Tavi) * d.ExchangeRate.toFixed(4), 2) + '</td>';
+            html += '<td  class="vborder" style="text-align:right">' + (d.AmtCharge > 0 ? ShowNumber(d.AmtVAT * d.ExchangeRate,2):'') + '</td>';
+            html += '<td  class="vborder" style="text-align:right">' + (d.AmtCharge > 0 ? ShowNumber(d.Amt50Tavi * d.ExchangeRate,2):'') + '</td>';
+            //html += '<td  class="vborder" style="text-align:right">' + ShowNumber((d.Amt + d.AmtVAT - d.Amt50Tavi) * d.ExchangeRate.toFixed(4), 2) + '</td>';
+            html += '<td  class="vborder" style="text-align:right">' + ShowNumber((d.AmtAdvance+d.AmtCharge+ d.AmtVAT - d.Amt50Tavi) * d.ExchangeRate.toFixed(4), 2) + '</td>';
             html += '</tr>';
             console.log(d.AmtCharge + d.AmtAdvance + d.InvVAT - d.Inv50Tavi);
             console.log(d.ExchangeRate);
             $('#tbDetail').append(html);
             //if (d.AmtCharge > 0) {
-                service += Number(d.AmtCharge);
-                vat += Number(d.InvVAT);
-                wht += Number(d.Inv50Tavi);
+                service += (Number(d.AmtCharge)>0? Number(d.AmtCharge) :0);
+                vat += (Number(d.AmtCharge)>0? Number(d.AmtVAT) :0);
+                wht += (Number(d.AmtCharge)>0? Number(d.Amt50Tavi) :0);
                 //amt += Number(d.InvAmt) + Number(d.InvVAT);
             amt += Number(d.Net)
             //} else {
-                adv +=Number(d.AmtAdvance);
+                adv +=(Number(d.AmtAdvance)>0? Number(d.AmtAdvance) :0);
             //}
             total +=Number(d.InvTotal);
         }

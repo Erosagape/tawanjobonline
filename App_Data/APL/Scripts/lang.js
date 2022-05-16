@@ -28,38 +28,39 @@ function ChangeLanguage(code, module) {
             let lang = {
                 mainMkt: 'Marketing Works|แผนกการตลาด',
                 mnuMkt1: 'Quotation|ใบเสนอราคา',
-                mnuMkt2: 'Approve Quotation|อนุมัติใบเสนอราคา',
+                mnuMkt2: 'Quotation Confirmation|อนุมัติใบเสนอราคา',
                 mnuMkt3: 'Estimate Cost|ประมาณการค่าใช้จ่าย',
                 mainCS: 'CS Works|แผนกบริการลูกค้า',
-                mnuCS1: 'CreateJob|สร้างงานใหม่',
+                mnuCS1: 'Create Job|สร้างงานใหม่',
                 mnuCS2: 'List Job|ค้นหางาน',
-                mnuCS3: 'Loading Info|ข้อมูลรับบรรทุก',
+                mnuCS3: 'Transport Info|ข้อมูลรับบรรทุก',
                 mnuCS4: 'Witholding-Tax|ออกหนังสือหักณที่จ่าย',
                 mainShp: 'Shipping Works|แผนกชิปปิ้ง',
                 mnuShp1: 'Advance|ใบเบิกค่าใช้จ่าย',
                 mnuShp2: 'Clearing|ใบปิดค่าใช้จ่าย',
                 mainApp: 'Approving|อนุมัติเอกสาร',
-                mnuApp1: 'Approve Advance|อนุมัติใบเบิก',
-                mnuApp2: 'Approve Clearing|อนุมัติใบปิด',
-                mnuApp3: 'Approve Expense|อนุมัติบิลค่าใช้จ่าย',
-                mnuApp4: 'Approve Transport|อนุมัติงานขนส่ง',
+                mnuApp1: 'Advance Confirm|อนุมัติใบเบิก',
+                mnuApp2: 'Clearing Confirm|อนุมัติใบปิด',
+                mnuApp3: 'Expense Confirm|อนุมัติบิลค่าใช้จ่าย',
+                mnuApp4: 'Transport Confirm|อนุมัติงานขนส่ง',
+                mnuApp5: 'Job Confirm|อนุมัติสถานะจ๊อบ',
                 mainFin: 'Finance Works|แผนกการเงิน',
-                mnuFin1: 'Payment Advance|จ่ายเงินตามใบเบิก',
-                mnuFin2: 'Payment Bill|จ่ายเงินตามบิลค่าใช้จ่าย',
-                mnuFin3: 'Receive Clearing|รับเคลียร์เงินใบเบิก/ปิด',
-                mnuFin4: 'Receive Invoice|รับชำระใบแจ้งหนี้',
+                mnuFin1: 'Advance Payment|จ่ายเงินตามใบเบิก',
+                mnuFin2: 'Expense Payment|จ่ายเงินตามบิลค่าใช้จ่าย',
+                mnuFin3: 'Clearing Receive|รับเคลียร์เงินใบเบิก/ปิด',
+                mnuFin4: 'Invoice Receive|รับชำระใบแจ้งหนี้',
                 mnuFin5: 'Cheque Management|บันทึกรับ/จ่ายเช็ค',
                 mnuFin6: 'Credit Advance|เบิกเงินทดรองจ่าย',
                 mnuFin7: 'Petty Cash|จัดการเงินสดย่อย',
-                mnuFin8: 'Earnest/Advance Refund|รับคืนมัดจำ/ทดรองจ่าย',
+                mnuFin8: 'Earnest Clearing|รับคืนมัดจำ/ทดรองจ่าย',
                 mainAcc: 'Accounting Works|งานบัญชี',
                 mnuAcc1: 'Vouchers|บันทึกการรับจ่ายเงิน',
                 mnuAcc2: 'Invoice|ใบแจ้งหนี้',
                 mnuAcc3: 'Billing|ใบวางบิล',
                 mnuAcc4: 'Receipts|ใบเสร็จรับเงิน',
                 mnuAcc5: 'Tax-Invoice|ใบกำกับภาษี',
-                mnuAcc6: 'Payment Bill|บิลค่าใช้จ่าย',
-                mnuAcc7: 'Credit/DebitNote|ใบเพิ่มหนี้/ลดหนี้',
+                mnuAcc6: 'Bill Payment|บิลค่าใช้จ่าย',
+                mnuAcc7: 'Credit/Debit Note|ใบเพิ่มหนี้/ลดหนี้',
                 mnuAcc8: 'Journal Entry|สมุดรายวัน',
                 mainRpt: 'Reports/Tracking|รายงานและการติดตามงาน',
                 mnuRpt1: 'Reports|รายงานต่างๆ',
@@ -105,14 +106,17 @@ function ChangeLanguage(code, module) {
                 mnuUtil2: 'Export|ส่งออกข้อมูล',
                 mainVend: 'Vender Works|งานผู้ให้บริการ',
                 mainVend2: 'Vender Works|งานผู้ให้บริการ',
-                mnuVen0: 'Approve Transport|อนุมัติงานขนส่ง',
-                mnuVen1: 'Entry Expenses|บันทึกค่าใช้จ่าย',
-                mnuVen2: 'Billing Invoice|บันทึกแจ้งวางบิล',
-                mnuVen3: 'Documents|เอกสารที่เกี่ยวข้อง',
-                mnuVend0: 'Approve Transport|อนุมัติงานขนส่ง',
-                mnuVend1: 'Entry Expenses|บันทึกค่าใช้จ่าย',
-                mnuVend2: 'Billing Invoice|บันทึกแจ้งวางบิล',
-                mnuVend3: 'Documents|เอกสารที่เกี่ยวข้อง'            };
+                mnuVen0: 'Transport Confirm|อนุมัติงานขนส่ง',
+                mnuVen1: 'Bill Payment|บันทึกบิลค่าใช้จ่าย',
+                mnuVen2: 'Vender Summary|บันทึกสรุปวางบิล',
+                mnuVen3: 'Transport Tracking|การติดตามงานขนส่ง',
+                mnuVen4: 'Expense Confirm|อนุมัติบิลค่าใช้จ่าย',
+                mnuVend0: 'Transport Confirm|อนุมัติงานขนส่ง',
+                mnuVend1: 'Bill Payment|บันทึกบิลค่าใช้จ่าย',
+                mnuVend2: 'Vender Summary|บันทึกสรุปวางบิล',
+                mnuVend3: 'Transport Tracking|การติดตามงานขนส่ง',
+                mnuVend4: 'Expense Confirm|อนุมัติบิลค่าใช้จ่าย',
+            };
             SetLanguage(lang);
             ChangeLanguageForm(module);
             CloseWait();
@@ -210,7 +214,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_ADV/Approve':
             lang = {
-                lblTitle: 'Approve Advance Slip|อนุมัติใบเบิกค่าใช้จ่าย',
+                lblTitle: 'Advance Confirmation|อนุมัติใบเบิกค่าใช้จ่าย',
                 lblBranch: 'Branch|สาขา',
                 lblDateFrom: 'Request Date From|ช่วงวันที่ขอเบิก',
                 lblDateTo: 'Request Date To|ถึงวันที่',
@@ -221,7 +225,7 @@ function ChangeLanguageForm(fname) {
                 linkSearch: 'Search|ค้นหา',
                 lblDocList: 'Approve Document|เอกสารที่เลือก',
                 lblTotal: 'Approve Total|ยอดรวมที่อนุมัติ',
-                linkApprove:'Approve|อนุมัติเอกสาร'
+                linkApprove:'Confirm|อนุมัติเอกสาร'
             };
             SetLanguage(lang);
             ChangeLanguageGrid(fname, '#tbHeader');
@@ -290,7 +294,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_ADV/Index':
             lang = {
-                lblTitle: 'Advance Slip|ใบเบิกค่าใช้จ่าย',
+                lblTitle: 'Advance Information|ใบเบิกค่าใช้จ่าย',
                 lblBranch: 'Branch|สาขา',
                 lblAdvNo: 'Advance No|เลขที่ใบเบิก',
                 lblAdvDate: 'Advance Date|วันที่ขอเบิก',
@@ -455,7 +459,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_ACC/Approve':
             lang = {
-                lblTitle: 'Payment Billing Approve|อนุมัติบิลค่าใช้จ่าย',
+                lblTitle: 'Expense Confirmation|อนุมัติบิลค่าใช้จ่าย',
                 lblBranch: 'Branch|สาขา',
                 lblDateFrom: 'Due Date From|กำหนดชำระวันที่',
                 lblDateTo: 'To|ถึงวันที่',
@@ -463,7 +467,7 @@ function ChangeLanguageForm(fname) {
                 lblVenCode: 'Vender|ผู้ให้บริการ',
                 linkSearch: 'Search|ค้นหา',
                 lblListApprove: 'Selected Document|เอกสารที่เลือก',
-                linkApprove:'Approve|อนุมัติเอกสาร'
+                linkApprove:'Confirm|อนุมัติเอกสาร'
             };
             SetLanguage(lang);
             ChangeLanguageGrid(fname, '#tbHeader');
@@ -624,7 +628,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_ACC/Expense':
             lang = {
-                lblTitle:'Bill Expenses|บิลค่าใช้จ่าย',
+                lblTitle:'Bill Payment|บิลค่าใช้จ่าย',
                 lblBranch: 'Branch|รหัสสาขา',
                 lblDocNo: 'Expenses No|เลขที่เอกสาร',
                 lblDocDate: 'Due Date|กำหนดชำระ',
@@ -834,7 +838,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_ACC/Payment':
             lang = {
-                lblTitle: 'Bill-Expenses Payment|จ่ายเงินตามบิลค่าใช้จ่าย',
+                lblTitle: 'Expense Payment|จ่ายเงินตามบิลค่าใช้จ่าย',
                 linkTab1: 'Select document|เลือกเอกสารที่ต้องการ',
                 linkTab2: 'Payment Info|ข้อมูลการชำระเงิน',
                 linkTab3: 'Payment Detail|สรุปข้อมูลการจ่ายเงิน',
@@ -891,7 +895,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_ACC/PettyCash':
             lang = {
-                lblTitle: 'Cash Management|บันทีกรับจ่ายเงินสด/เงินฝาก',
+                lblTitle: 'Petty Cash Management|บันทีกรับจ่ายเงินสด/เงินฝาก',
                 lblBranch: 'Branch|สาขา',
                 lblTranType: 'Transaction Type|ประเภทการทำรายการ',
                 optRcv: 'Received From|รับ/ฝากเงิน',
@@ -945,7 +949,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_ACC/Receipt':
             lang = {
-                lblTitle:'Receipt|ใบเสร็จรับเงิน',
+                lblTitle:'Receipts|ใบเสร็จรับเงิน',
                 lblBranch: 'Branch|สาขา',
                 lblCustCode: 'Customer|ลูกค้า',
                 lblDocDateF: 'Receipt Date From|วันที่ใบเสร็จตั้งแต่',
@@ -1124,7 +1128,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_ACC/RecvInv':
             lang = {
-                lblTitle: 'Receiving Invoice|รับชำระใบแจ้งหนี้',
+                lblTitle: 'Invoice Receive|รับชำระใบแจ้งหนี้',
                 linkTab1: 'Select Type|ประเภทการรับชำระ',
                 linkTab2: 'Document Info|เลือกเอกสาร',
                 linkTab3: 'Receiving Summary|สรุปข้อมูลการชำระเงิน',
@@ -1442,7 +1446,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_CLR/Approve':
             lang = {
-                lblTitle: 'Clearing Approve|อนุมัติใบปิดค่าใช้จ่าย',
+                lblTitle: 'Clearing Confirmation|อนุมัติใบปิดค่าใช้จ่าย',
                 lblBranch: 'Branch|สาขา',
                 lblDateFrom: 'Clear Date From|จากวันที่เคลียร์',
                 lblDateTo: 'Clear Date To|ถึงวันที่',
@@ -1453,14 +1457,14 @@ function ChangeLanguageForm(fname) {
                 linkSearch: 'Search|ค้นหา',
                 lblListApprove: 'Approve Document|เอกสารที่เลือก',
                 lblExpTotal: 'Expenses Total|ยอดรวมอนุมัติ',
-                linkApprove: 'Approve|อนุมัติเอกสาร'
+                linkApprove: 'Confirm|อนุมัติเอกสาร'
             };
             SetLanguage(lang);
             ChangeLanguageGrid(fname, '#tbHeader');
             break;
         case 'MODULE_CLR/Earnest':
             lang = {
-                lblTitle: 'Receive Earnest/Advance|รับคืนเงินมัดจำ/ทดรองจ่าย',
+                lblTitle: 'Earnest/Advance Clearing|รับคืนเงินมัดจำ/ทดรองจ่าย',
                 lblBranch: 'Branch|สาขา',
                 lblDateFrom: 'Clear Date From|จากวันที่ปิดค่าใช้จ่าย',
                 lblDateTo: 'Clear Date To|ถึงวันที่',
@@ -1500,7 +1504,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_CLR/Index':
             lang = {
-                lblTitle: 'Clearance Slip|ใบปิดค่าใช้จ่าย',
+                lblTitle: 'Clearing Information|ใบปิดค่าใช้จ่าย',
                 lblBranch: 'Branch|สาขา',
                 lblClrNo: 'Clearing No|เลขที่ใบปิด',
                 lblClrDate: 'Document Date|วันที่เอกสาร',
@@ -1588,7 +1592,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_CLR/Receive':
             lang = {
-                lblTitle: 'Advance Clearing|รับเคลียร์เงินตามใบเบิก/ปิด',
+                lblTitle: 'Clearing Receive|รับเคลียร์เงินตามใบเบิก/ปิด',
                 linkTab1: 'Select Type|ประเภทการรับเคลียร์เงิน',
                 linkTab2: 'Document Info|เลือกเอกสาร',
                 linkTab3: 'Clearing Summary|สรุปข้อมูลการปิดบัญชี',
@@ -1648,7 +1652,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_CS/Index':
             lang = {
-                lblTitle:'Job List|ค้นหางาน',
+                lblTitle:'List Job|ค้นหางาน',
                 lblBranch: 'Branch|สาขา',
                 lblStatus: 'Status|สถานะ',
                 lblJobType: 'Job Type|ประเภทงาน',
@@ -1833,7 +1837,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_CS/Transport':
             lang = {
-                lblTitle: 'Loading Information|ข้อมูลการรับบรรทุก',
+                lblTitle: 'Transport Information|ข้อมูลการรับบรรทุก',
                 lblBranchCode: 'Branch|สาขา',
                 lblBookingNo: 'Booking No|เลขที่ใบจอง',
                 lblJNo: 'Job Number|หมายเลขงาน',
@@ -1940,7 +1944,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_CS/TruckApprove':
             lang = {
-                lblTitle: 'Transport Order Approve|อนุมัติสถานะงานขนส่ง',
+                lblTitle: 'Transport Confirmation|อนุมัติสถานะงานขนส่ง',
                 lblBranch: 'Branch|สาขา',
                 lblDateFrom: 'Load Date From|จากวันที่โหลด',
                 lblDateTo: 'To|ถึงวันที่',
@@ -2032,7 +2036,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_MAS/BudgetPolicy':
             lang = {
-                lblTitle: 'Budget Control Policy|มาตรฐานควบคุมงบประมาณ',
+                lblTitle: 'Budget Policy|มาตรฐานควบคุมงบประมาณ',
                 lblBranchCode: 'Branch Code|รหัสสาขา',
                 lblJobType: 'Job Type|ประเภทงาน',
                 lblShipBy: 'Ship By|โดยทาง',
@@ -2329,7 +2333,7 @@ function ChangeLanguageForm(fname) {
                 lblPlace3: 'Return|ลานตู้สินค้า',
                 lblAddress3: 'Address|ที่อยู่',
                 lblContact3: 'Contact|ผู้ติดต่อ',
-                lblPlace4: 'Container Size|ประเภทตู้',
+                lblPlace4: 'Condition|เงื่อนไข',
                 lblAddress4: 'Address|ที่อยู่',
                 lblContact4: 'Contact|ผู้ติดต่อ',
                 lblBranchCode: 'Branch|สาขา',
@@ -2345,12 +2349,16 @@ function ChangeLanguageForm(fname) {
                 btnSaveRoute: 'Save|บันทึก',
                 btnSaveP1: 'Save|จัดเก็บข้อมูล',
                 btnClearP1: 'Clear|ล้างข้อมูล',
+                btnDelP1: 'Delete|ลบข้อมูล',
                 btnSaveP2: 'Save|จัดเก็บข้อมูล',
                 btnClearP2: 'Clear|ล้างข้อมูล',
+                btnDelP2: 'Delete|ลบข้อมูล',
                 btnSaveP3: 'Save|จัดเก็บข้อมูล',
                 btnClearP3: 'Clear|ล้างข้อมูล',
+                btnDelP3: 'Delete|ลบข้อมูล',
                 btnSaveP4: 'Save|จัดเก็บข้อมูล',
                 btnClearP4: 'Clear|ล้างข้อมูล',
+                btnDelP4: 'Delete|ลบข้อมูล',
                 btnNewPrice: 'New Price|เพิ่มราคา',
                 btnSavePrice: 'Save Price|จัดเก็บราคา',
                 btnDelPrice: 'Delete Price|ลบราคา'
@@ -2473,6 +2481,7 @@ function ChangeLanguageForm(fname) {
                     { "ConfigKey": "RCV", "ConfigValue": "Receiving Reports / รายงานใบเสร็จ/ใบกำกับภาษี" },
                     { "ConfigKey": "FIN", "ConfigValue": "Financial Reports / รายงานแผนกการเงิน" },
                     { "ConfigKey": "MKT", "ConfigValue": "Marketing Reports / รายงานแผนกการตลาด" },
+                    { "ConfigKey": "MAS", "ConfigValue": "Master Files Reports / รายงานข้อมูลมาตรฐาน" },
                     { "ConfigKey": "EXE", "ConfigValue": "Executives Reports / รายงานสำหรับผู้บริหาร" }
                 ];
                 loadComboArray('#cboReportGroup', reportGroups, 'N/A');
@@ -2495,7 +2504,7 @@ function ChangeLanguageForm(fname) {
             break;
         case 'MODULE_SALES/QuoApprove':
             lang = {
-                lblTitle: 'Approve Quotation|อนุมัติใบเสนอราคา',
+                lblTitle: 'Quotation Confirmation|อนุมัติใบเสนอราคา',
                 lblBranch: 'Branch|สาขา',
                 lblDateFrom: 'Date From|จากวันที่',
                 lblDateTo: 'Date To|ถึงวันที่',
@@ -2503,7 +2512,7 @@ function ChangeLanguageForm(fname) {
                 lblCustCode: 'Customer|ลูกค้า',
                 linkSearch: 'Search|ค้นหา',
                 lblListAppr: 'Approve Document|เอกสารที่เลือก',
-                linkAppr:'Approve|อนุมัติเอกสาร'
+                linkAppr:'Confirm|อนุมัติเอกสาร'
             };
             SetLanguage(lang);
             ChangeLanguageGrid(fname, '#tbHeader');
@@ -2589,7 +2598,7 @@ function ChangeLanguageForm(fname) {
                 linkHeader: 'Header|ส่วนควบคุม',
                 linkDetail: 'Detail|ส่วนรายการ',
                 btnCancel: 'Cancel|ยกเลิก',
-                btnApprove:'Approve|อนุมัติ'
+                btnApprove:'Confirm|อนุมัติ'
             };
             SetLanguage(lang);
             ChangeLanguageGrid(fname, '#tbHeader');
@@ -2736,9 +2745,13 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBLOADING", "ReportNameEN": "Job Loading By ETA Date", "ReportNameTH": "รายงานงานขนส่งตามวันเทียบท่า" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOADIM", "ReportNameEN": "Container Loading Import Daily", "ReportNameTH": "รายงานการลากตู้ขนส่งขาเข้า" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOADEX", "ReportNameEN": "Container Loading Export Daily", "ReportNameTH": "รายงานลากตู้ขนส่งขาออก" },
-        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKPNL", "ReportNameEN": "Trucking PNL Report By Container", "ReportNameTH": "รายงานกำไรขาดทุนตามตู้คอนเทนเนอร์" },
-        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKKPI", "ReportNameEN": "Trucking Turn Time Report", "ReportNameTH": "รายงานสรุปการปฏิบัติงานตามตู้คอนเทนเนอร์" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKPNL", "ReportNameEN": "Truck Summary Profit Report By Container", "ReportNameTH": "รายงานกำไรขาดทุนแต่ละตู้" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKSUM-A", "ReportNameEN": "Truck Summary Report By Container - Actual Delivery", "ReportNameTH": "รายงานกำไรขาดทุนแต่ละตู้ตามเป้าหมาย" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKSUM-T", "ReportNameEN": "Truck Summary Report By Container - Target Delivery", "ReportNameTH": "รายงานกำไรขาดทุนแต่ละตู้ตามสถานะจริง" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKKPI", "ReportNameEN": "Truck KPI Report", "ReportNameTH": "รายงานสรุปการปฏิบัติงานตามตู้คอนเทนเนอร์" },
         { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBKPI", "ReportNameEN": "Job Operation On-Time Report", "ReportNameTH": "รายงานสรุปเวลาปฏิบัติงานตามจ๊อบ" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "APLIMPORT", "ReportNameEN": "Job Import Summary", "ReportNameTH": "รายงานสรุปการทำงานขาเข้า" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "APLEXPORT", "ReportNameEN": "Job Export Summary", "ReportNameTH": "รายงานสรุปการทำงานขาออก" },
         { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBADV", "ReportNameEN": "Advance By Emp", "ReportNameTH": "รายงานการเบิกเงินตามพนักงาน" },
         { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "ADVSUMMARY", "ReportNameEN": "Advance Summary", "ReportNameTH": "รายงานสรุปใบเบิกค่าใช้จ่าย" },
         { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "ADVDAILY", "ReportNameEN": "Advance Payment", "ReportNameTH": "รายงานการจ่ายเงินเบิกล่วงหน้า" },
@@ -2749,7 +2762,8 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVCLEARING", "ReportNameEN": "Advance Clearing Detail Report", "ReportNameTH": "รายงานการติดตามใบเบิก" },
         { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVIMPORT", "ReportNameEN": "Advance Import Detail Report", "ReportNameTH": "รายงานรายละเอียดใบเบิกขาเข้า" },
         { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVEXPORT", "ReportNameEN": "Advance Export Detail Report", "ReportNameTH": "รายงานรายละเอียดใบเบิกขาออก" },
-        { "ReportType": "STD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVEXPENSE", "ReportNameEN": "Advance Total Expense Report", "ReportNameTH": "รายงานสรุปการเบิกแต่ละประเภท" },
+        { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVOTHER", "ReportNameEN": "Advance Local Detail Report", "ReportNameTH": "รายงานรายละเอียดใบเบิกอื่นๆ" },
+        { "ReportType": "FIX", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVEXPENSE", "ReportNameEN": "Advance Total Expense Report", "ReportNameTH": "รายงานสรุปการเบิกแต่ละประเภท" },
         { "ReportType": "ADD", "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "CLRDAILY", "ReportNameEN": "Clearing Daily", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายประจำวัน" },
         { "ReportType": "ADD", "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "EARNEST", "ReportNameEN": "Earnest Summary", "ReportNameTH": "รายงานเงินมัดจำ" },
         { "ReportType": "ADD", "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "CLRDETAIL", "ReportNameEN": "Clearing Expenses Report", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายตามประเภท" },
@@ -2760,8 +2774,8 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "RCPSUMMARY", "ReportNameEN": "Receipt Summary", "ReportNameTH": "รายงานสรุปใบเสร็จรับเงิน" },
         { "ReportType": "ADD", "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "TAXDAILY", "ReportNameEN": "Tax-invoice Daily", "ReportNameTH": "รายงานใบกำกับภาษีประจำวัน" },
         { "ReportType": "ADD", "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "TAXSUMMARY", "ReportNameEN": "Tax-invoice Summary", "ReportNameTH": "รายงานสรุปใบกำกับภาษี" },
-        { "ReportType": "ADD", "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "OUTPUTTAX", "ReportNameEN": "Output TAX Report", "ReportNameTH": "รายงานภาษีมูลค่าเพิ่มตามใบกำกับภาษี" },
-        { "ReportType": "ADD", "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "OUTPUTWHT", "ReportNameEN": "Withholding TAX Report", "ReportNameTH": "รายงานหักภาษี ณ ที่จ่ายตามใบกำกับภาษี" },
+        { "ReportType": "APL", "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "OUTPUTTAX", "ReportNameEN": "Output TAX Report", "ReportNameTH": "รายงานภาษีมูลค่าเพิ่มตามใบกำกับภาษี" },
+        { "ReportType": "APL", "ReportGroup": "RCV", "ReportAuthor": "1,2,6,98,99", "ReportCode": "OUTPUTWHT", "ReportNameEN": "Withholding TAX Report", "ReportNameTH": "รายงานหักภาษี ณ ที่จ่ายตามใบกำกับภาษี" },
         { "ReportType": "ADD", "ReportGroup": "MKT", "ReportAuthor": "1,2,3,6,99", "ReportCode": "JOBSTATUS", "ReportNameEN": "Job Volume By Status", "ReportNameTH": "รายงานสรุปงานตามสถานะ" },
         { "ReportType": "ADD", "ReportGroup": "MKT", "ReportAuthor": "1,2,3,6,99", "ReportCode": "JOBSALES", "ReportNameEN": "Job Sales By Emp", "ReportNameTH": "รายงานสรุปยอดขายตามพนักงาน" },
         { "ReportType": "ADD", "ReportGroup": "MKT", "ReportAuthor": "1,2,3,6,99", "ReportCode": "JOBCOMM", "ReportNameEN": "Job Commission By Emp", "ReportNameTH": "รายงานสรุปค่าคอมมิชชั่น" },
@@ -2773,7 +2787,7 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "STATEMENT", "ReportNameEN": "Bank Statement", "ReportNameTH": "รายงานการรับจ่ายเงินตามสมุดบัญชี" },
         { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "CASHBAL", "ReportNameEN": "Financial Balance", "ReportNameTH": "รายงานสรุปการรับจ่ายเงิน" },
         { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "BOOKBAL", "ReportNameEN": "Book Accounts Balance", "ReportNameTH": "รายงานการใช้จ่ายเงินตามสมุดบัญชี" },
-        { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "DAILYCASH", "ReportNameEN": "Daily Cash", "ReportNameTH": "รายงานการรับเงิน" },
+        { "ReportType": "APL", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "DAILYCASH", "ReportNameEN": "Daily Cash", "ReportNameTH": "รายงานการรับเงิน" },
         { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "CHQRECEIVE", "ReportNameEN": "Cheque Customer Receive", "ReportNameTH": "รายงานการรับเช็คประจำวัน" },
         { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "CHQISSUE", "ReportNameEN": "Cashier Cheque Issue", "ReportNameTH": "รายงานการจ่ายเช็คประจำวัน" },
         { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "CHQCUSTPAY", "ReportNameEN": "Cheque Customer Payment", "ReportNameTH": "รายงานการจ่ายเช็คของลูกค้า" },
@@ -2784,8 +2798,8 @@ function GetReportLists_V2() {
         { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "PRD3D", "ReportNameEN": "PRD-3 Detail Report", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.3 (ใบแนบ)" },
         { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "PRD53D", "ReportNameEN": "PRD-53 Detail Report", "ReportNameTH": "รายงานนำส่งหัก ณ ที่จ่าย ภ.ง.ด.53 (ใบแนบ)" },
         { "ReportType": "ADD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99","ReportCode": "CASHFLOW", "ReportNameEN": "Cash Flow", "ReportNameTH": "รายงานงบกระแสเงินสด" },
-        { "ReportType": "STD", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "VENDSUMMARY", "ReportNameEN": "Vender Summary Report", "ReportNameTH": "รายงานสรุปจ่ายเจ้าหนี้" },
-        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBCOST", "ReportNameEN": "Job Costing Summary", "ReportNameTH": "รายงานสรุปต้นทุนตามจ๊อบ" },
+        { "ReportType": "FIX", "ReportGroup": "FIN", "ReportAuthor": "1,2,6,98,99", "ReportCode": "VENDSUMMARY", "ReportNameEN": "Vender Summary Report", "ReportNameTH": "รายงานสรุปจ่ายเจ้าหนี้" },
+        { "ReportType": "EXP", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBCOST", "ReportNameEN": "Job Costing Summary", "ReportNameTH": "รายงานสรุปต้นทุนตามจ๊อบ" },
         { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBPROFIT", "ReportNameEN": "Job Costing And Profit", "ReportNameTH": "รายงานกำไรขั้นต้นตามจ๊อบ" },
         { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "VATSALES", "ReportNameEN": "Sales VAT Report", "ReportNameTH": "รายงานภาษีขาย" },
         { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99","ReportCode": "VATBUY", "ReportNameEN": "Purchase VAT Report", "ReportNameTH": "รายงานภาษีซื้อ" },
@@ -2801,11 +2815,11 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUSTPROFIT", "ReportNameEN": "Customer Profit Report", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามลูกค้า" },
         { "ReportType": "EXP", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "SETAR", "ReportNameEN": "SAP AR Input Report", "ReportNameTH": "รายงานตั้งลูกหนี้ SAP" },
         { "ReportType": "EXP", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUTAR", "ReportNameEN": "SAP AR Payment Report", "ReportNameTH": "รายงานตัดรับชำระหนี้ SAP" },
-        { "ReportType": "STD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "ADVTOTAL", "ReportNameEN": "Details of Advance Payment By Job Order", "ReportNameTH": "รายงานการเบิกค่าใช้จ่ายแยกตามประเภท" },
+        { "ReportType": "FIX", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "ADVTOTAL", "ReportNameEN": "Details of Advance Payment By Job Order", "ReportNameTH": "รายงานการเบิกค่าใช้จ่ายแยกตามประเภท" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "BUYRATE", "ReportNameEN": "Buy Rates By Broker", "ReportNameTH": "รายงานการเปรียบเทียบราคาต้นทุนแต่ละผู้ให้บริการ" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUSTSUMMARY", "ReportNameEN": "PNL By Customer", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามลูกค้า" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBSUMMARY", "ReportNameEN": "PNL By Job Order", "ReportNameTH": "รายงานสรุปกำไรขาดทุนตามจ๊อบ" },
-        { "ReportType": "STD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBDETAIL", "ReportNameEN": "Details of PNL By Job Order", "ReportNameTH": "รายงานรายละเอียดกำไรขั้นต้นตามจ๊อบ" },
+        { "ReportType": "FIX", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBDETAIL", "ReportNameEN": "Details of PNL By Job Order", "ReportNameTH": "รายงานรายละเอียดกำไรขั้นต้นตามจ๊อบ" },
         { "ReportType": "STD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT01", "ReportNameEN": "Outstanding Job Order By Customer", "ReportNameTH": "รายงานสรุปงานคงค้างตามลูกค้า" },
         { "ReportType": "STD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT02", "ReportNameEN": "Outstanding Job Order By Customer Service", "ReportNameTH": "รายงานสรุปงานคงค้างตามพนักงานบริการลูกค้า" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT03", "ReportNameEN": "Job Order Status", "ReportNameTH": "รายงานประเมินผลสถานะการปฏิบัติงาน" },
@@ -2816,7 +2830,13 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT08", "ReportNameEN": "Billing Report By Customer", "ReportNameTH": "รายงานติดตามการออกใบแจ้งหนี้ตามลูกค้า" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT09", "ReportNameEN": "Payment By Vender by Job Order", "ReportNameTH": "รายงานค่าใช้จ่ายเจ้าหนี้ตามจ๊อบงาน" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT10", "ReportNameEN": "A/P Accural Report", "ReportNameTH": "รายงานค่าใช้จ่ายรอการจ่าย" },
-        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT11", "ReportNameEN": "A/R Accural Report", "ReportNameTH": "รายงานรายได้รอการวางบิล" }
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT11", "ReportNameEN": "A/R Accural Report", "ReportNameTH": "รายงานรายได้รอการวางบิล" },
+        { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "USERS", "ReportNameEN": "User Lists", "ReportNameTH": "รายชื่อผู้ใช้งาน" },
+        { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "CUSTOMERS", "ReportNameEN": "Customer Lists", "ReportNameTH": "รายชื่อลูกค้า" },
+        { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "VENDERS", "ReportNameEN": "Vender Lists", "ReportNameTH": "รายชื่อผู้ให้บริการ" },
+        { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "SERVICES", "ReportNameEN": "Services Lists", "ReportNameTH": "รายการรหัสงานบริการ" },
+        { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "AUTHORIZE", "ReportNameEN": "User Authorized Lists", "ReportNameTH": "รายการสิทธิผู้ใช้งาน" },
+		{ "ReportType": "EXC", "ReportGroup": "ACC", "ReportAuthor": "1,6,99", "ReportCode": "PROFITDETAIL", "ReportNameEN": "Income and Expenses Details Report By Job", "ReportNameTH": "รายงานรายละเอียดรายได้ค่าใช้จ่ายตามจ๊อบงาน" }
     ];
 }
 function GetLanguage(msg) {
@@ -3051,6 +3071,7 @@ function ChangeLanguageGrid(module, id) {
             }
             SetGridLang(id, gridLang);
             break;
+/*
         case 'MODULE_ACC/Approve':
             if (id == '#tbHeader') {
                 gridLang = [
@@ -3067,6 +3088,7 @@ function ChangeLanguageGrid(module, id) {
             }
             SetGridLang(id, gridLang);
             break;
+*/
         case 'MODULE_ACC/Billing':
             if (id == '#tbHeader') {
                 gridLang = [
@@ -3725,7 +3747,7 @@ function ChangeLanguageGrid(module, id) {
                     "Cust Inv|อินวอยลูกค้า",
                     "Status|สถานะ",
                     "Clr.Total|ยอดปิด",
-                    "Currency|สกุลเงิน",
+                    "Container|เบอร์ตู้",
                     "Adv No|จากใบเบิก",
                     "Adv.Total|ยอดเบิก",
                     "Remark|หมายเหตุ"
@@ -3817,6 +3839,7 @@ function ChangeLanguageGrid(module, id) {
                     "Doc Date|วันที่เอกสาร",
                     "Type|ประเภทเอกสาร",
                     "Doc No|เลขที่เอกสาร",
+                    "Item|ลำดับที่",
                     "Description|รายละเอียด",
                     "Amount|ยอดเงิน",
                     "Status|สถานะ"
@@ -3874,11 +3897,13 @@ function ChangeLanguageGrid(module, id) {
             }
             SetGridLang(id, gridLang);
             break;
+/*
         case 'MODULE_CS/TruckApprove':
             if (id == '#tbDetail') {
                 gridLang = [
                     "#|#",
                     "Booking No|เลขที่บุคกิ้ง",
+                    "Job|เลขงาน",
                     "Customer|ลูกค้า",
                     "Cont.No|หมายเลขตู้",
                     "Cont.Size|ขนาดตู้",
@@ -3886,10 +3911,13 @@ function ChangeLanguageGrid(module, id) {
                     "Status|สถานะ",
                     "Route|เส้นทาง",
                     "Pickup|วันที่รับ",
+                    "Delivery|วันที่ส่ง",
+                    "Return|วันที่คืน"
                 ];
             }
             SetGridLang(id, gridLang);
             break;
+*/
         case 'MODULE_CS/Index':
             gridLang = [
                 "Job Number|หมายเลขงาน",
@@ -3998,10 +4026,10 @@ function ChangeLanguageGrid(module, id) {
                 gridLang = ["Delivery|สถานที่ส่งมอบของ"];
             }
             if (id == "#lstPlace3") {
-                gridLang = ["Container Yard|ลานตู้"];
+                gridLang = ["Return|คืนตู้ที่"];
             }
             if (id == "#lstPlace4") {
-                gridLang = ["Port|ท่านอก"];
+                gridLang = ["Condition|เงื่อนไข"];
             }
             SetGridLang(id, gridLang);
             break;

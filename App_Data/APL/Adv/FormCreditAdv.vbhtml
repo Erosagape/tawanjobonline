@@ -1,8 +1,8 @@
 ﻿
 @Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.Title = "Credit Advance Slip"
-    ViewBag.ReportName = "CREDIT ADVANCE SLIP"
+    ViewBag.Title = "DEBIT NOTE"
+    ViewBag.ReportName = "DEBIT NOTE"
 End Code
 <style>
     * {
@@ -12,169 +12,291 @@ End Code
 
     td {
         font-size: 11px;
+        border-width: thin;
+        border: 1px black solid;
     }
+
+
 
     table {
-        border-width: thin;
+
         border-collapse: collapse;
     }
+
+    .row {
+        width: 100%;
+        display: flex;
+        flex: 1;
+        border: 1px black solid;
+        text-align:center;
+    }
+
+    .center{
+        text-align:center;
+    }
+
+    .right {
+        text-align: right;
+    }
 </style>
-<div style="display:flex">
-    <div style="flex:1;text-align:left">
-        เลขที่ : <label id="lblControlNo"></label><br />
-        วันที่ : <label id="lblVoucherDate"></label>
-    </div>
-
-    <div style="flex:2">
-        <div style="display:flex;flex-direction:column;text-align:right;">
-            <div style="flex:1">
-                ผู้ขอเบิก <label id="lblRecByName"></label>
-            </div>
-            <div style="flex:1">
-                ถึงบริษัท <label id="lblCustName"></label>
-            </div>
-        </div>
-    </div>
-
-</div>
-<div style="margin-bottom:20px;">
-    <br/>
-    คำอธิบาย : <label id="lblTRemark"></label>
-</div>
-
-<table id="tbData" border="1" width="100%">
-    <thead>
-        <tr style="text-align:center;">
-            <th width="5%">No</th>
-            <th colspan="2" class="text-left">Description</th>
-            <th width="25%" class="text-right">Expense Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
-
-<table border="1" width="100%">
-    <tr style="text-align:center">
-        <td width="30%" >
-            <br><br>
-            _______________________________<br>
-            ผู้เบิก<br>
-            ______________________________<br>
-            <p class="text-left">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  DATE :
-            </p>
-        </td>
-        <td width="30%" >
-            <br><br>
-            _______________________________<br>
-            ผู้ตรวจ<br>
-            ______________________________<br>
-            <p class="text-left">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  DATE :
-            </p>
-        </td>
-        <td width="40%">
-            ข้อมูลการรับชำระ <input type="checkbox">เงินโอน <input type="checkbox"> เช็ค <br>
-            ธนาคาร ________________________________________<br>
-            สาขา _________________________<input type="checkbox">ต่างจังหวัด<br>
-            ผู้อนุมัติ _____________________ DATE :________________
-        </td>
+<table style="width:100%">
+    <tr>
+        <td id="billAddress" rowspan="6" style="width:40%;vertical-align:top" >
+            <b>Bill to Address</b>
+            <br>
+            <label id="companyName"></label>
+            <br>
+            <br>
+            <label id="address1"></label>
+            <label id="address2"></label>
+        </td>     
+        <td class="center" style="width:20%">DEBIT NOTE NO: </td>
+        <td class="center" style="width:20%"><label id="dbNo"></label></td>
+        <td class="center" style="width:20%"> </td>
+    </tr>
+    <tr>
+        <td class="center">DEBIT NOTE DATE:</td>
+        <td class="center"><label id="dbDate" ></label></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="center">SAP VENDOR NUMBER:</td>
+        <td class="center"><label id="sapVenNo" ></label></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="center">BL NO REFERENCE:</td>
+        <td class="center"><label id="blRef" ></label></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="center">LOCATION :</td>
+        <td class="center"><label id="location" >THAILAND</label></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td  class="center">CURRENCY:</td>
+        <td class="center"><label id="currency" ></label></td>
+        <td></td>
     </tr>
 </table>
+<table style="width:100%">
+    <tr>
+        <td class="center" style="width:5%">No.</td>
+        <td class="center" style="width:40%">Description</td>
+        <td class="center" style="width:15%">SAP Code</td>
+        <td class="center" style="width:10%"></td>
+        <td class="center" style="width:10%">Amount</td>
+        <td class="center"  style="width:20%">Actual Amount</td>
+    </tr>
+    <tr>
+        <td class="center" style="vertical-align:top" id="number"></td>
+        <td height="600px" style="vertical-align:top">
+            <label id="desc"></label>
+        </td>
+        <td class="center" style="vertical-align:top" id="sapCode"></td>
+        <td></td>
+        <td class="right" style="vertical-align:top" id="Amount"></td>
+        <td class="right" style="vertical-align:top" id="ActualAmount"></td>
+    </tr>
+    <tr>
+        <td class="center"  rowspan="2">Amount in Words</td>
+        <td class="center"  rowspan="2" colspan="2"><label id="txtThb"></label></td>
+        <td colspan="2">Sub-Total Value </td>
+        <td class="right"><label id="subTotal"></label></td>
+    </tr>
+    <tr>
+        <td colspan="2">VAT 7%</td>
+        <td class="right"><label id="vat"></label></td>
+    </tr>
+    <tr>
+        <td rowspan="2" colspan="3"></td>
+        <td colspan="2">Grand Total payable</td>
+        <td class="right"><label id="grandTotal"></label></td>
+    </tr>
+   <tr>
+       <td class="center" colspan="3">
+           <br />
+           <br />
+           <br />
+           AUTHORISED SIGNATORY
+       </td>
+   </tr>
+</table>
 <script type="text/javascript">
-    let path = '@Url.Content("~")';
-    let serv = [];    
+    const path = '@Url.Content("~")';
+    let serv = [];
     //$(document).ready(function () {
         let branch = getQueryString('branch');
-        let controlno = getQueryString('code');
-        $.get(path + 'acc/getvoucher?branch=' + branch + '&code=' + controlno, function (r) {
-            if (r.voucher.header !== null) {                
-                LoadData(r.voucher);
-            }
-        });
+        let advno = getQueryString('advno');
+        if (branch != "" && advno != "") {
+            GetAdv(branch, advno);
+        }
     //});
-    function LoadData(data) {
+    function GetAdv(Branch, Doc) {
+        $.get(path +'adv/getadvance?branchcode=' + Branch + '&advno=' + Doc)
+            .done(function (r) {
+                if (r.adv.header.length > 0) {
+                    ShowData(r);
+                    return;
+                }
+            });
+    }
+    function LoadServices(d,h) {
         $.get(path +'Master/GetServiceCode')
             .done(function (r) {
                 serv = r.servicecode.data;
-                ShowData(data);
+                ShowDetail(d,h);
+            });
+    }
+    function ShowPendingAmount(branch, reqby) {
+        $.get(path + 'Clr/GetAdvForClear?show=NOCLR&branchcode=' + branch + '&reqby=' + reqby)
+            .done(function (r) {
+                if (r.clr.data.length > 0) {
+                    let d = r.clr.data[0].Table;
+                    let sum = d.map(item => item.AdvBalance).reduce((prev, next) => prev + next);
+                    $('#lblPendingAmount').text(ShowNumber(sum, 2));
+                }
             });
     }
     function ShowData(data) {
-        let div = $('#tbData tbody');
-        if (data.payment !== null) {
-            let totalnet = 0;
-            let irow = 0;
-            for (let obj of data.payment) {
-                irow += 1;
-                let acType=obj.acType;
-                let payType = '';
-                let desc = '';
-                let desc0 = 'เอกสารเลขที่ ' + obj.DocNo + '<br/>';
-                let s = $.grep(serv, function (d) {
-                    return d.SICode === obj.SICode;
-                });
+        //show headers
+        let h = data.adv.header[0];
+        $('#dbNo').text(h.AdvNo);
+        //$('#lblReqDate').text(ShowDate(GetToday()));
+      //  $('#lblCustCode').text(h.CustCode + '/' + h.CustBranch);
+    
+        $('#dbDate').text(ShowDate(h.AdvDate));
+        $('#currency').text(h.MainCurrency); 
+    
 
-                totalnet += obj.TotalNet;
-                switch (acType) {
-                    case 'CA':
-                        payType = 'เงินสดย่อย';
-                        if (obj.RecvBank !== null) {
-                            payType = 'เงินฝากธนาคารหมุนเวียน';
-                        }
-                        desc0 += 'ตั้งเบิก' + payType;
-                        desc0 += ' สำหรับ ' + obj.SICode + ' ' + s[0].NameThai;
-                        desc0 += obj.PayChqTo !== null ? '<br/>ออกให้กับ ' + obj.PayChqTo : '';
-                        desc0 += obj.RecvBank != null ? '<br/>โอนไปยังบัญชีธนาคาร ' + obj.RecvBank + ' สาขา ' + obj.RecvBranch + ' เลขที่บัญชี ' + obj.DocNo : '';
-                        desc0 += obj.BookCode != null ? '<br/>จากเลขที่บัญชี ' + obj.BookCode : '';
-                        desc0 += obj.TRemark != null ? '<br/>วันเวลาที่ทำรายการ : ' + obj.TRemark : '';
-                        break;
-                    case 'CH':
-                        payType = 'เช็คเงินสด';
-                    case 'CU':
-                        payType = 'เช็ครับล่วงหน้า';
-                        desc0 += 'ตั้งเบิก' + payType;
-                        desc0 += ' สำหรับ ' + obj.SICode + ' ' + s[0].NameThai;
-                        desc0 += obj.ChqNo !== null ? '<br/>เช็คเลขที่ ' + obj.ChqNo + ' ลงวันที่ ' + ShowDate(CDateTH(obj.ChqDate)) : '';
-                        desc0 += obj.BankCode != null ? '<br/>เช็คธนาคาร ' + obj.BankCode + ' สาขา ' + obj.BankBranch : '';
-                        desc0 += obj.PayChqTo !== null ? '<br/>ออกให้กับ ' + obj.PayChqTo : '';
-                        desc0 += obj.TRemark != null ? '<br/>หมายเหตุ : ' + obj.TRemark : '';
-                        desc0 += obj.RecvBank != null ? '<br/>นำฝากไปยังบัญชีธนาคาร ' + obj.RecvBank + ' สาขา ' + obj.RecvBranch : '';
-                        break;
-                    case 'CR':
-                        payType = 'ลูกหนี้';
-                        desc0 += 'ตั้งเบิก' + payType;
-                        desc0 += ' สำหรับ ' + obj.SICode + ' ' + s[0].NameThai;
-                        desc0 += obj.DocNo !== null ? '<br/>ตามเอกสารเลขที่ ' + obj.DocNo + ' ลงวันที่ ' + ShowDate(CDateTH(obj.ChqDate)) : '';
-                        desc0 += obj.PayChqTo !== null ? '<br/>ออกให้กับ ' + obj.PayChqTo : '';
-                        break;
-                }
-                desc = '<tr class="text-center">';
-                desc += '<td width="5%">'+irow+'</td>';
-                desc += '<td width="10%">'+obj.ForJNo+'</td>';
-                desc += '<td class="text-left" width="60%">'+desc0+'</td>';
-                desc += '<td width="25"  style="text-align:right">'+CCurrency(CDbl(obj.TotalNet,2))+'</td>';
-                desc += '</tr>';
+        //$('#lblPayTo').text(h.PayChqTo);
+       // ShowPendingAmount(h.BranchCode, h.EmpCode);
+        //ShowCustomer(h.CustCode, h.CustBranch);
 
-                div.append(desc);
+       // ShowUserSign(path,h.EmpCode, '#lblReqBy');
+        //ShowUserSign(path,h.ApproveBy, '#lblAppBy');
+        //ShowUserSign(path,h.EmpCode, '#lblPayBy');
+
+      //  $('#lblRequestDate').text(ShowDate(h.AdvDate));
+        //$('#lblAppDate').text(ShowDate(h.ApproveDate));
+        //$('#lblPayDate').text(ShowDate(h.PaymentDate));
+
+        //let jt = h.JobType;
+        //let sb = h.ShipBy;
+        //let at = h.AdvType;
+        //if (jt < 10) jt = '0' + jt;
+        //if (sb < 10) sb = '0' + sb;
+        //if (at < 10) at = '0' + at;
+        //ShowConfig(path,'JOB_TYPE', jt, '#lblJobType');
+        //ShowConfig(path,'SHIP_BY', sb, '#lblShipBy');
+        //ShowConfig(path,'ADV_TYPE', at, '#lblAdvType');
+        //if (h.AdvCash > 0) {
+        //    $('#chkCash').prop('checked', true);
+        //    $('#txtAdvCash').text(ShowNumber(h.AdvCash, 2) + ' ' + h.SubCurrency);
+        //}
+        //if (h.AdvChq > 0) {
+        //    $('#chkCustChq').prop('checked', true);
+        //    $('#txtAdvChq').text(ShowNumber(h.AdvChq, 2) + ' ' + h.SubCurrency);
+        //}
+        //if (h.AdvChqCash > 0) {
+        //    $('#chkCompChq').prop('checked', true);
+        //    $('#txtAdvChqCash').text(ShowNumber(h.AdvChqCash, 2) + ' ' + h.SubCurrency);
+        //}
+        //if (h.AdvCred > 0) {
+        //    $('#chkCredit').prop('checked', true);
+        //    $('#txtAdvCred').text(ShowNumber(h.AdvCred, 2) + ' ' + h.SubCurrency);
+        //}
+       // $('#txtNetAmt').val(CCurrency(h.TotalAdvance.toFixed(2)));
+   
+        //$('#txtWHTAmt').val(CCurrency(h.Total50Tavi.toFixed(2)));
+       // $('#txtTotalAmt').val(CCurrency((h.TotalAdvance - h.TotalVAT + h.Total50Tavi).toFixed(2)));
+
+     
+        ////show details
+        let d = data.adv.detail;
+        let jobno = d[0].ForJNo;
+        //$('#lblJNo').text(jobno);
+        $.get(path + 'JobOrder/GetJobSql?BranchCode=' + h.BranchCode + '&JNo=' + jobno).done(function (r) {
+            if (r.job.data.length > 0) {
+                let j = r.job.data[0];
+                //$('#blRef').text(j.BLNo);
+                $('#blRef').text(j.HAWB);
+				$.get(path + 'Master/GetVender?Code=' + j.ForwarderCode ).done(function (r) {
+                    let v = r.vender.data[0];
+                    $('#companyName').text(v.English);
+                    $('#address1').text(v.EAddress1);
+                    $('#address2').text(v.EAddress2);
+					$('#sapVenNo').text(v.ContactAcc);
+                
+                })
+                //ShowVender(path, j.ForwarderCode, '#forwarderName');
             }
-            //summary section    
-            desc = '<tr class="text-center">';
-            desc += '<td colspan="3">';
-            desc += 'รวมจำนวนเงินทั้งหมด (' + CNumThai(totalnet) + ')';
-            desc += '</td>';
-            desc += '<td width="25%" style="text-align:right">' + CCurrency(CDbl(totalnet, 2)) + '</td>';
-            desc += '</tr>';
-            div.append(desc);
+        });
+       LoadServices(d,h);
+    }
+    function ShowCustomer(Code, Branch) {
+        $('#lblCustName').text('-');
+        if ((Code + Branch).length > 0) {
+            $.get(path +'Master/GetCompany?Code=' + Code + '&Branch=' + Branch)
+                .done(function (r) {
+                    if (r.company.data.length > 0) {
+                        let c = r.company.data[0];
+                        $('#lblCustName').text(c.NameThai);
+                    }
+                });
         }
-        if (data.header !== null) {
-            $('#lblControlNo').text(data.header[0].ControlNo);
-            $('#lblVoucherDate').text(ShowDate(CDateTH(data.header[0].VoucherDate)));
-            $('#lblTRemark').text(data.header[0].TRemark);
-            ShowUser(path, data.header[0].RecUser, '#lblRecByName');
-            ShowCustomer(path, data.header[0].CustCode, data.header[0].CustBranch, '#lblCustName');
+    }
+    function ShowDetail(r,h) {
+        //Dummy Data
+        let no = '';
+        let strDesc = '';
+        let strJob = '';
+        let strAmt = '';
+        let strWht = '';
+        let totAmt = 0;
+        let vat = 0.00;
+        let subtotal = 0.00;
+        //let vat = 0;
+        //let wht = 0;
+
+
+        for (i = 0; i < r.length; i++) {
+            let d = r[i];
+            no += (i + 1) + ")<br>";
+            if (serv.length > 0) {
+                let c = $.grep(serv, function (data) {
+                    return data.SICode === d.SICode;
+                });
+                if (c.length > 0) {
+                    strDesc = strDesc + (d.SICode + '-' + d.SDescription + '<br/>');
+                } else {
+                    strDesc = strDesc + d.SDescription+ '<br/>';
+                }
+            } else {
+                strDesc = strDesc + (d.SICode + '<br/>');
+            }
+            strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(3)) + '<br/>');
+            strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(3)) + '<br/>');
+            totAmt += d.AdvAmount;
+            $('#sapCode').html($('#sapCode').html() + $('#sapVenNo').html() + '<br/>');
+            subtotal += d.AdvAmount;
+            //console.log(subtotal);
+            vat += d.ChargeVAT;
+          
+            //wht += d.Charge50Tavi;
         }
-    }    
+        $('#number').html(no);
+        $('#desc').html(strDesc);
+        $('#Amount').html(strAmt);
+        $('#ActualAmount').html(strAmt);
+        $('#subTotal').text(CCurrency(Number.parseFloat(subtotal).toFixed(2)));
+        $('#vat').text(CCurrency(Number.parseFloat(vat).toFixed(2)));
+        $('#grandTotal').text(CCurrency(Number.parseFloat(subtotal + vat).toFixed(2)));
+        $('#txtThb').text(CNumThai(Number.parseFloat(vat + subtotal).toFixed(2)));
+   
+       
+
+    }
 
 </script>

@@ -2734,7 +2734,7 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBDAILY", "ReportNameEN": "Job List Daily", "ReportNameTH": "รายงานการตรวจปล่อยตามวันที่" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBCS", "ReportNameEN": "Job List By CS", "ReportNameTH": "รายงานการตรวจปล่อยตามพนักงานบริการลูกค้า" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBSHP", "ReportNameEN": "Job List By Shipping", "ReportNameTH": "รายงานการตรวจปล่อยตามชิปปิ้ง" },
-        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBTYPE", "ReportNameEN": "Job List By Type", "ReportNameTH": "รายงานการตรวจปล่อยตามประเภทงาน" },
+        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBTYPE", "ReportNameEN": "Job List By Type", "ReportNameTH": "รายงานการตรวจปล่อยตามประเภทงาน" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBSHIPBY", "ReportNameEN": "Job List By Transport", "ReportNameTH": "รายงานการตรวจปล่อยตามลักษณะงานขนส่ง" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99","ReportCode": "JOBCUST", "ReportNameEN": "Job List By Customer", "ReportNameTH": "รายงานการตรวจปล่อยตามลูกค้า" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBPORT", "ReportNameEN": "Job List By Port", "ReportNameTH": "รายงานการตรวจปล่อยตามสถานที่ตรวจปล่อย" },
@@ -2742,7 +2742,7 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBANALYSIS", "ReportNameEN": "Job Analysis", "ReportNameTH": "รายงานประเมินผลการปฏิบัติงาน" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBFOLLOWUP", "ReportNameEN": "Job List By Status", "ReportNameTH": "รายงานงานเรียงตามสถานะ" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOAD", "ReportNameEN": "Container Loading By Load Date", "ReportNameTH": "รายงานงานขนส่งตามวันโหลด" },
-        { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBLOADING", "ReportNameEN": "Job Loading By ETD Date", "ReportNameTH": "รายงานงานขนส่งตามวัน ETD" },
+        { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBLOADING", "ReportNameEN": "Job Loading By ETA Date", "ReportNameTH": "รายงานงานขนส่งตามวันเทียบท่า" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOADIM", "ReportNameEN": "Container Loading Import Daily", "ReportNameTH": "รายงานการลากตู้ขนส่งขาเข้า" },
         { "ReportType": "ADD", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "PLANLOADEX", "ReportNameEN": "Container Loading Export Daily", "ReportNameTH": "รายงานลากตู้ขนส่งขาออก" },
         { "ReportType": "EXP", "ReportGroup": "JOB", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "TRUCKPNL", "ReportNameEN": "Truck Summary Profit Report By Container", "ReportNameTH": "รายงานกำไรขาดทุนแต่ละตู้" },
@@ -2818,8 +2818,12 @@ function GetReportLists_V2() {
         { "ReportType": "FIX", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "ADVTOTAL", "ReportNameEN": "Details of Advance Payment By Job Order", "ReportNameTH": "รายงานการเบิกค่าใช้จ่ายแยกตามประเภท" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "BUYRATE", "ReportNameEN": "Buy Rates By Broker", "ReportNameTH": "รายงานการเปรียบเทียบราคาต้นทุนแต่ละผู้ให้บริการ" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUSTSUMMARY", "ReportNameEN": "PNL By Customer", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามลูกค้า" },
-        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBSUMMARY", "ReportNameEN": "PNL By Job Order", "ReportNameTH": "รายงานสรุปกำไรขาดทุนตามจ๊อบ" },
-        { "ReportType": "FIX", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBDETAIL", "ReportNameEN": "Details of PNL By Job Order", "ReportNameTH": "รายงานรายละเอียดกำไรขั้นต้นตามจ๊อบ" },
+	{ "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUSTSUMMARY_IMPORT", "ReportNameEN": "PNL By Customer", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามลูกค้า" },
+	{ "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUSTSUMMARY_EXPORT", "ReportNameEN": "PNL By Customer", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามลูกค้า" },
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUSTSUMMARY_DOME", "ReportNameEN": "PNL By Customer", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามลูกค้า" },
+	{ "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBSUMMARY", "ReportNameEN": "PNL By Job Order", "ReportNameTH": "รายงานสรุปกำไรขาดทุนตามจ๊อบ" },
+	{ "ReportType": "FIX", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "JOBDETAIL", "ReportNameEN": "Details of PNL By Job Order", "ReportNameTH": "รายงานรายละเอียดกำไรขั้นต้นตามจ๊อบ" },
+{ "ReportType": "EXP", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT01_BYTYPE", "ReportNameEN": "Outstanding Job Order By Customer", "ReportNameTH": "รายงานสรุปงานคงค้างตามลูกค้า" },
         { "ReportType": "STD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT01", "ReportNameEN": "Outstanding Job Order By Customer", "ReportNameTH": "รายงานสรุปงานคงค้างตามลูกค้า" },
         { "ReportType": "STD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT02", "ReportNameEN": "Outstanding Job Order By Customer Service", "ReportNameTH": "รายงานสรุปงานคงค้างตามพนักงานบริการลูกค้า" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT03", "ReportNameEN": "Job Order Status", "ReportNameTH": "รายงานประเมินผลสถานะการปฏิบัติงาน" },
@@ -2835,7 +2839,8 @@ function GetReportLists_V2() {
         { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "CUSTOMERS", "ReportNameEN": "Customer Lists", "ReportNameTH": "รายชื่อลูกค้า" },
         { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "VENDERS", "ReportNameEN": "Vender Lists", "ReportNameTH": "รายชื่อผู้ให้บริการ" },
         { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "SERVICES", "ReportNameEN": "Services Lists", "ReportNameTH": "รายการรหัสงานบริการ" },
-        { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "AUTHORIZE", "ReportNameEN": "User Authorized Lists", "ReportNameTH": "รายการสิทธิผู้ใช้งาน" }
+        { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "AUTHORIZE", "ReportNameEN": "User Authorized Lists", "ReportNameTH": "รายการสิทธิผู้ใช้งาน" },
+	{"ReportType":"EXC","ReportCode":"PROFITDETAIL","ReportGroup":"ACC","ReportNameTH":"รายงานรายละเอียดรายได้ค่าใช้จ่ายตามจ๊อบงาน","ReportNameEN":"Income%20and%20Expenses%20Details%20Report%20By%20Job","ReportAuthor":"1,99"}
     ];
 }
 function GetLanguage(msg) {
@@ -3242,6 +3247,7 @@ function ChangeLanguageGrid(module, id) {
                 gridLang = [
                     "Job No|หมายเลขงาน",
                     "Clr No|ใบปิดค่าใช้จ่าย",
+                    "Cont/Car No|เบอร์ตู้/ทะเบียนรถ",
                     "Customer|ลูกค้า",
                     "Description|ค่าใช้จ่าย",
                     "Advance|ทดรองจ่าย",
@@ -3274,9 +3280,9 @@ function ChangeLanguageGrid(module, id) {
             }
             if (id == '#tbCost') {
                 gridLang = [
+                    "#|#",
                     "Job No|หมายเลขงาน",
                     "Description|ค่าใช้จ่าย",
-                    "Slip No|เลขที่ใบเสร็จ",
                     "Amount|ยอดเงิน",
                     "VAT|VAT",
                     "WHT|หัก ณ ที่จ่าย",
@@ -3465,8 +3471,8 @@ function ChangeLanguageGrid(module, id) {
                     "Receive No|เลขที่ใบเสร็จ",
                     "Issue Date|วันที่เอกสาร",
                     "Customer|ลูกค้า",
-                    "Ref.No|เลขที่อ้างอิง",
-                    "Remark|หมายเหตุ",
+                    "Invoice.No|Invoice",
+                    "Job No|Job",
                     "Charge|ค่าบริการ",
                     "VAT|VAT",
                     "WHT|หัก ณ ที่จ่าย",
@@ -3925,8 +3931,8 @@ function ChangeLanguageGrid(module, id) {
                 "Inspection Date|วันที่ตรวจปล่อย",
                 "Customer Inv|อินวอยลูกค้า",
                 "Customer Name|ชื่อลูกค้า",
-                "Declare No|เลขที่ใบขนสินค้า",
-                "Vessel/Flight|ชือ่เรือ/เที่ยวบิน"
+                "Consignee Name|ชื่อผู้ซื้อชาย",
+                "Cust Ref.No|เลขที่อ้างอิงลูกค้า"
             ];
             SetGridLang(id, gridLang);
             break;

@@ -9,7 +9,7 @@ End Code
     }
 
     #tbDetail td {
-        font-size: 11px;
+        font-size: 13px;
     }
 
     table {
@@ -74,16 +74,16 @@ End Code
     </p>
     <div style="display:flex;flex-direction:column">
         <div>
-            <label><input type="checkbox" name="vehicle1" value=""> CASH</label>
-            DATE_____________  AMOUNT______________BAHT
+            <label><input type="checkbox" id='cash' name="vehicle1" value=""> CASH</label>
+            DATE<label id='cashDate' style='text-decoration: underline;'>____________</label>  AMOUNT <label id='cashAmount'>____________</label> BAHT
         </div>
         <div>
-            <label><input type="checkbox" name="vehicle2" value=""> CHEQUE</label>
-            DATE_____________  NO_______________  BANK_________________  AMOUNT______________BAHT
+            <label><input type="checkbox" id='chq' name="vehicle2" value=""> CHEQUE</label>
+            DATE<label id='chqDate' style='text-decoration: underline;'>____________</label> NO<label id='chqNo'  style='text-decoration: underline;'>____________</label> BANK<label id='chqBank'  style='text-decoration: underline;'>____________</label>  AMOUNT<label id='chqAmount' style='text-decoration: underline;'>____________</label>BAHT
         </div>
         <div>
-            <label><input type="checkbox" name="vehicle3" value=""> TRANSFER</label>
-            DATE_____________  BANK_________________  AMOUNT______________BAHT
+            <label><input type="checkbox" id='transfer' name="vehicle3" value=""> TRANSFER</label>
+            DATE<label id='transferDate' style='text-decoration: underline;'>____________</label> BANK<label id='transferBank'  style='text-decoration: underline;'>____________</label>  AMOUNT<label id='transferAmount' style='text-decoration: underline;'>____________</label>BAHT
         </div>
     </div>
     <br />
@@ -151,11 +151,11 @@ End Code
         }
         //$('#lblCustCode').text(h.CustCode);
         if (h.UsedLanguage == 'TH') {
-            $('#lblCustName').text(h.CustTName);
-            $('#lblCustAddr').text(h.CustTAddr);
+            $('#lblCustName').text(h.BillTName);
+            $('#lblCustAddr').text(h.BillTAddr);
         } else {
-            $('#lblCustName').text(h.CustEName);
-            $('#lblCustAddr').text(h.CustEAddr);
+            $('#lblCustName').text(h.BillEName);
+            $('#lblCustAddr').text(h.BillEAddr);
         }
         //$('#lblCustTel').text(h.CustPhone);
         $.get(path + 'Master/GetCompany?TaxNumber=' + h.CustTaxID).done(function (r) {
@@ -167,6 +167,34 @@ End Code
         $('#lblCustTax').text(h.CustTaxID);
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiveDate)));
+
+	if(h.TRemark){
+	   let payment =  h.TRemark.split(";");
+           let ca = payment[0].split(":")[1];
+	   let isTransfer = h.TRemark.toLowerCase().indexOf("transfer")>-1;
+           let transfer =  isTransfer?payment[1].split(":")[1]:0;
+	   let chq =  isTransfer?0:payment[1].split(":")[1];
+           if( ca > 0){
+		 $('#cashDate').text(payment[0].split(":")[3]?payment[0].split(":")[3]:"____________");
+                 $('#cashAmount').text(ca?ca:"____________");
+		 document.getElementById("cash").checked=true;
+	   }
+            if(transfer > 0){
+		 $('#transferDate').text( payment[0].split(":")[3]?payment[0].split(":")[3]:"____________");
+                 $('#transferAmount').text(transfer?transfer:"____________");
+		 $('#transferBank').text(payment[1].split(":")[2]?payment[1].split(":")[2]:"____________");
+	 	 document.getElementById("transfer").checked=true;
+	    }
+	    if(chq > 0){
+		 $('#chqDate').text( payment[0].split(":")[3]?payment[0].split(":")[3]:"____________");
+                 $('#chqAmount').text(chq);
+		 $('#chqNo').text(payment[1].split(":")[3]?payment[1].split(":")[3]:"____________");
+		 $('#chqBank').text(payment[1].split(":")[2]?payment[1].split(":")[2]:"____________");
+	         document.getElementById("chq").checked=true;
+	   }
+	 
+	}
+	$('#lblReceiptDate').text();
         let html = '';
         let service = 0;
         let vat = 0;
@@ -174,7 +202,7 @@ End Code
         let total = 0;
         let adv = 0;
         for (let d of dt) {
-            html = '<tr>';
+            html = '<tr style="font-size:13px">';
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
             html += '<td style="text-align:right">' + (CDbl(d.AmtAdvance) > 0 ? ShowNumber((d.AmtAdvance), 2) : '0.00') + '</td>';

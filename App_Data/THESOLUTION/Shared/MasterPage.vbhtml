@@ -151,6 +151,15 @@
                         <a href="#" id="mnuUtil1" class="w3-bar-item w3-button" onclick="OpenLink('Import')">- Import data</a>
                         <a href="#" id="mnuUtil2" class="w3-bar-item w3-button" onclick="OpenLink('Export')">- Export data</a>
                     </div>
+                    <div id="mainSum" class="w3-bar-item w3-button" onclick="w3_accordion('mnuSum')">
+                        Summary
+                    </div>
+                    <div id="mnuSum" class="w3-hide w3-sand w3-card-4">
+                        <a href="#" id="mnuSum1" class="w3-bar-item w3-button" onclick="OpenLink('SumJob')">- Operation</a>
+                        <a href="#" id="mnuSum2" class="w3-bar-item w3-button" onclick="OpenLink('SumAdv')">- Advance</a>
+                        <a href="#" id="mnuSum3" class="w3-bar-item w3-button" onclick="OpenLink('SumClr')">- Clearing</a>
+                        <a href="#" id="mnuSum4" class="w3-bar-item w3-button" onclick="OpenLink('SumAcc')">- Account</a>
+                    </div>
                 </div>
                 <div id="dvMenuByFlow">
                     <div id="mnuMaster" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMasters')">
@@ -427,13 +436,13 @@
             $('#cboMenu').val(menuType);
             ChangeMenu();
         }
-        if (userLang !== 'EN' && userLang !== '') {
+        //if (userLang !== 'EN' && userLang !== '') {
             $('#cboLanguage').val(userLang);
             ChangeLanguage(userLang, $('#lblModule').val());
-        } else {
-            userLang = 'EN';
-            $('#cboLanguage').val(userLang);
-        }
+        //} else {
+        //    userLang = 'EN';
+        //    $('#cboLanguage').val(userLang);
+        //}
         $('#dvLogin').on('shown.bs.modal', function () {
             $('#txtUserLogin').focus();
         });

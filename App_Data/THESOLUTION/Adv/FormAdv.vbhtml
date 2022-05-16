@@ -82,6 +82,16 @@ End Code
             <label id="lblJNo" style="text-decoration-line:underline;"></label>
         </td>
     </tr>
+    <tr>
+        <td colspan="2">
+            <b>Customer PO :</b>
+            <label id="lblCustPO" style="text-decoration-line:underline;"></label>
+        </td>
+        <td>
+            <b>Agent :</b>
+            <label id="lblAgent" style="text-decoration-line:underline;"></label>
+        </td>
+    </tr>
 </table>
 <br />
 <table style="border-collapse:collapse;width:100%">
@@ -96,7 +106,7 @@ End Code
             <b>Amount</b>
         </td>
     </tr>
-    <tr style="height:450px;vertical-align:top">
+    <tr style="height:400px;vertical-align:top">
         <td style="border-style:solid;border-width:thin;text-align:left">
             <div id="divDesc" style="font-size:12px"></div>
         </td>
@@ -238,7 +248,7 @@ End Code
         $.get(path + 'Clr/GetAdvForClear?show=NOCLR&branchcode=' + branch + '&reqby=' + reqby)
             .done(function (r) {
                 if (r.clr.data.length > 0) {
-                    let d = r.clr.data;
+                    let d = r.clr.data[0].Table;
                     let sum = d.map(item => item.AdvBalance).reduce((prev, next) => prev + next);
                     $('#lblPendingAmount').text(ShowNumber(sum, 2));
                 }
@@ -309,8 +319,17 @@ End Code
                 $('#lblClearDate').text(ShowDate(j.ClearDate));
                 $('#lblTotalContainer').text(j.TotalContainer);
                 $('#lblCustContactName').text(j.CustContactName);
+                $('#lblCustPO').text(j.CustRefNO);
+                $.get(path + '/master/getvender?code=' + j.ForwarderCode).done(function (r) {
+                    if (r.vender.data.length > 0) {
+                        let v = r.vender.data[0];
+                        $('#lblAgent').text(v.TName);
+
+                    }
+                });
             }
         });
+       
         LoadServices(d,h);
     }
     function ShowCustomer(Code, Branch) {
@@ -341,15 +360,15 @@ End Code
                     return data.SICode === d.SICode;
                 });
                 if (c.length > 0) {
-                    strDesc = strDesc + (d.SICode + '-' + d.SDescription + '<br/>');
+                    strDesc = strDesc + (d.SICode + '-' + d.SDescription + `&emsp;` + (d.PayChqTo ? " Pay to : " + d.PayChqTo : "" )+ (d.TRemark?'<br/>' +"Remark :" + d.TRemark:"" )+ '<br/>' );
                 } else {
-                    strDesc = strDesc + d.SDescription+ '<br/>';
+                    strDesc = strDesc + d.SDescription + `&emsp;` + (d.PayChqTo ? " Pay to : " + d.PayChqTo : "") + (d.TRemark ? '<br/>' + "Remark :" + d.TRemark : "") + '<br/>'  ;
                 }
             } else {
-                strDesc = strDesc + (d.SICode + '<br/>');
+                strDesc = strDesc + (d.SICode + `&emsp;` + (d.PayChqTo ? " Pay to : " + d.PayChqTo : "") + (d.TRemark ? '<br/>' + "Remark :" + d.TRemark : "") + '<br/>'  );
             }
-            strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(3)) + '<br/>');
-            strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(3)) + '<br/>');
+            strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(3)) + (d.TRemark?'<br/>':'')+'<br/>');
+            strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(3)) + (d.TRemark ? '<br/>' : '')+ '<br/>');
             totAmt += d.AdvAmount;
             //vat += d.ChargeVAT;
             //wht += d.Charge50Tavi;

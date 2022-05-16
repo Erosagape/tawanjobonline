@@ -47,7 +47,7 @@ End Code
             </div>
             <div class="col-sm-3">
                 <a id="linkJobNo" href="#" onclick="SearchData('job')">Job No :</a><br />
-                <input type="text" id="txtJobNo" class="form-control" disabled />
+                <input type="text" id="txtJobNo" class="form-control" />
             </div>
             <div class="col-sm-3">
                 <br />
@@ -707,6 +707,7 @@ End Code
                     }
                 }
             ],
+            pageLength:100,
             responsive:true,
             destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             columnDefs: [ //กำหนด control เพิ่มเติมในแต่ละแถว

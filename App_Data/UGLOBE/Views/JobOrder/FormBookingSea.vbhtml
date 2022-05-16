@@ -164,7 +164,7 @@ End Code
             </td>
         </tr>
         <tr>
-            <td> <b>RETURN DATE</b></td>
+            <td> <b>RTNDATE</b></td>
             <td>:</td>
             <td colspan="5" id="lblReturnDate"></td>
         </tr>
@@ -357,7 +357,7 @@ End Code
                 $('#lblCYDate').text(ShowDate(h.CYDate));
                 $('#lblCYPlace').text(h.CYPlace);
                 $('#lblCYContact').text(h.CYContact);
-                $('#lblReturnDate').text(ShowDate(h.ReturnDate));
+                $('#lblReturnDate').text(ShowDate(h.ReturnDate)+"        (First return container)");
                 $('#lblReturnPlace').text(h.ReturnPlace);
                 $('#lblReturnContact').text(h.ReturnContact);
                 $('#lblClosingPlace').text(h.ReturnPlace);
@@ -391,10 +391,6 @@ End Code
             $('#lblRemark').text(h.Remark);
             $('#lblCloseDatetime').text(ShowDate(h.FactoryDate) + "( BEFORE " + ShowTime(h.FactoryTime) + " HRS.)");
             $('#lblSICutoff').text("CUT OFF SI : " + ShowDate(h.LoadDate) + " @@ " + ShowTime(h.EstDeliverTime) + ". VGM : " + ShowDate(h.EstDeliverDate) + " BEFORE " + ShowTime(h.ConfirmChqDate));
-          
-            //$('#lblVGMCutoff').text(h.VGMCutoff);
-            //$('#').text(h.EstDeliverTime);
-            //$('#').text(h.EstDeliverTime);
             
         }
     });

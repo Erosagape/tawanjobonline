@@ -390,7 +390,8 @@
                 window.open(path + 'Report/Preview' + GetCliteria() + '&Layout=2', '', '');
                 break;
             case 'FIX':
-            case 'EXP':
+	    case 'EXC':
+	    case 'EXP':
                 window.open(path + 'Report/Preview' + GetCliteria() +'&Layout=1', '', '');
                 break;
             case 'ADD':

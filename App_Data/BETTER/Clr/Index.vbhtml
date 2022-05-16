@@ -2217,6 +2217,7 @@ End Code
         $('#txtVatType').val(dt.Isvat);
         $('#txtVATRate').val(dt.VatRate);
         $('#txtWHTRate').val(dt.IsTax == "0" ? "0" : dt.TaxRate);
+        $('#txtQty').val(CNum(dt.QtyBegin));
         if (dt.Isvat == "2") {
             $('#txtAMT').attr('disabled', 'disabled');
             $('#txtVATRate').attr('disabled', 'disabled');

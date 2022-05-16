@@ -45,9 +45,8 @@ End Code
         </div>
         <div class="row">
             <p class="col-sm-12">
-                QUANTITY :
-                <label id="lblQtyGross"></label>
-                <label id="lblQtyUnit"></label>
+                VOLUME :
+                <label id="lblTotalContainer"></label>
                 <br />
             </p>
         </div>
@@ -274,7 +273,7 @@ End Code
                         //let strDoc = '';
                         let lastvender = '';
                         for (d of doc) {
-                            if (d.JobNo !== '') {
+                            if (d.JobNo !== '' && jobno=='') {
                                 jobno = d.JobNo;
                             }
                             if (lastvender!==d.VenderName) {
@@ -311,8 +310,9 @@ End Code
                                 }
                                 //$('#lblFromCountry').text(j.DeclareNumber);
                                 $('#lblVesselName').text(j.VesselName);
-                                $('#lblQtyGross').text(j.InvProductQty);
-                                ShowInvUnit(path, j.InvProductUnit, '#lblQtyUnit');
+                                //$('#lblQtyGross').text(j.InvProductQty);
+                                //ShowInvUnit(path, j.InvProductUnit, '#lblQtyUnit');	
+                                $('#lblTotalContainer').text(j.TotalContainer);
                                 $('#lblNetWeight').text(j.TotalNW);
                                 ShowInvUnit(path, j.GWUnit, '#lblWeightUnit');
                                 $('#lblETDDate').text(ShowDate(CDateTH(j.ETDDate)));

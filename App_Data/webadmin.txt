@@ -63,3 +63,38 @@ File Program: D:\Web
 File Database: D:\Database
 File Backup Database :d:\BackupDB
 
+
+-----------------------------------
+SINOTHAI-JOB 203.150.199.181:14322
+-----------------------------------
+ID : Sinothai@inet.nx
+User :Administrator
+Pass :J{Uht8tdv
+DB : job_stm,job_stl
+Folder : D:\Web\STM
+
+-----------------------------------
+ACE : 203.151.56.105:14322
+-----------------------------------
+User : Administrator
+Pass : 5Chrr&e6pu
+DB : job_ace,job_act
+
+-----------------------------------
+BETTER : 203.151.56.67:14322
+-----------------------------------
+User : Administrator
+Pass : $KNRJtE7Ve
+
+-----------------------------------
+JOBONLINE#2 : 203.154.158.39:14322 ***NO ACTIVE SITE***
+-----------------------------------
+User : Administrator
+Pass : D?ec499=#GTN
+
+-----------------------------------
+JOBONLINE#3 : 203.151.56.161:14322
+-----------------------------------
+User : Administrator
+Pass : S7BM=S7f#x
+Database : job_porcheon,job_dyy_l,job_dyy_t

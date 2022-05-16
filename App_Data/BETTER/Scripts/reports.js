@@ -115,6 +115,18 @@ function ShowVender(path, VenderID, ControlID) {
             });
     }
 }
+function ShowVenderE(path, VenderID, ControlID) {
+    $(ControlID).text('-');
+    if (VenderID != "") {
+        $.get(path + 'Master/GetVender?Code=' + VenderID)
+            .done(function (r) {
+                if (r.vender.data.length > 0) {
+                    let b = r.vender.data[0];
+                    $(ControlID).text(b.English);
+                }
+            });
+    }
+}
 function ShowDeclareType(path, Code, ControlID) {
     $(ControlID).text('-');
     $.get(path + 'Master/GetDeclareType?Code=' + Code)

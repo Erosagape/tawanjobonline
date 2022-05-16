@@ -44,6 +44,10 @@ function compareValues(key, order = 'asc') {
             comparison = 1;
         } else if (varA < varB) {
             comparison = -1;
+        } else if (varA == null && varB !== null) {
+            comparison = -1;
+        } else if (varA !== null && varB == null) {
+            comparison = 1;
         }
         return (
             (order == 'desc') ?
@@ -59,6 +63,30 @@ function GetSelect(tb, e) {
 function SetSelect(tb, that) {
     $(tb+' tbody > tr').removeClass('selected');
     $(that).addClass('selected');
+}
+function GetLastDayOfMonth() {
+    var today = new Date();
+    var lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+    let d = lastDayOfMonth,
+        month = '' + (d.getMonth() + 1),
+        day = d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+function GetFirstDayOfMonth() {
+    let d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = ''+1,
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
 }
 function GetToday() {
     let d = new Date(),
@@ -178,7 +206,10 @@ function CNum(data) {
     if ((''+data).length==0) {
         return 0;
     } else {
-        let num = data.toString().replace(',', '');
+        let num = data.toString().replace(/[^0-9\.]+/g, "");
+        if (data < 0) {
+            num = num * -1;
+        }
         return Number(num);
     }
 }
@@ -316,8 +347,9 @@ function CNumEng(s) {
             }
         }
         if (strp == 'point ') strp = '';
-        str += strp + ' only';
+        str += strp;
     }
+    str += ' only';
     return str.replace(/\s+/g, ' ').toUpperCase();
 }
 function CCurrency(data) {
@@ -328,7 +360,7 @@ function ShowNumber(data, dec) {
     return CCurrency(numstr);
 }
 function CCode(data) {
-    let st = data;
+    let st = Number(data);
 
     if (st < 10) st = "0" + st;
     return st;

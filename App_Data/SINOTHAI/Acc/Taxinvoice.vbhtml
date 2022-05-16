@@ -29,8 +29,8 @@ End Code
             <select id="cboType" class="form-control dropdown">
                 <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
                 <option value="SRV">Tax-Invoice (Service only)</option>
-                <option value="REC">Debit Note (Service Non-Vat only)</option>
-                <option value="RCV">Receipt (Service Non-Vat+Advance)</option>
+                <option value="REC">Transport (Service Non-Vat only)</option>
+                <option value="RCV">Debit Note (Service Non-Vat+Advance)</option>
             </select>
         </div>
         <div class="col-sm-2">
@@ -71,8 +71,8 @@ End Code
                         <th class="all">DocNo</th>
                         <th class="desktop">DocDate</th>
                         <th class="desktop">CustCode</th>
-                        <th class="desktop">Reference</th>
-                        <th class="desktop">Remark</th>
+                        <th class="desktop">InvoiceNo</th>
+                        <th class="desktop">JobNo</th>
                         <th class="desktop">Service</th>
                         <th class="desktop">Vat</th>
                         <th class="desktop">Wht</th>
@@ -648,10 +648,10 @@ End Code
         let code = row.ReceiptNo;
         if (code !== '') {
             let branch = row.BranchCode;
-            if ($('#cboType').val().substr(0, 1) == 'R') {
-                window.open(path + 'Acc/FormRcp?Branch=' + branch + '&Code=' + code);
-                return;
-            }
+            //if ($('#cboType').val().substr(0, 1) == 'R') {
+                //window.open(path + 'Acc/FormRcp?Branch=' + branch + '&Code=' + code);
+                //return;
+            //}
             window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code);
         }
     }
@@ -672,7 +672,7 @@ End Code
         } else {
             w += '&show=ACTIVE';
         }
-        $.get(path + 'acc/getReceipt?type=' + type + '&branch=' + $('#txtBranchCode').val() + w, function (r) {
+        $.get(path + 'acc/getreceiptgrid?type=' + type + '&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.receipt.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 ShowMessage('Data not found',true);
@@ -698,8 +698,8 @@ End Code
                         }
                     },
                     { data: "CustCode", title: "Customer" },
-                    { data: "ReceiveRef", title: "Reference Number" },
-                    { data: "TRemark", title: "Remark" },
+                    { data: "InvoiceNo", title: "Invoice No" },
+                    { data: "JobNo", title: "Job No" },
                     { data: "TotalCharge", title: "Amount",
                             render: function (data) {
                                 return ShowNumber(data, 2);

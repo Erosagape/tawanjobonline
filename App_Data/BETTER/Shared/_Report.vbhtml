@@ -6,13 +6,13 @@
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" type="text/css" href="~/Content/sheets-of-paper-a4.css">
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/Func/util.js"></script>
-    <script src="~/Scripts/Func/reports.js"></script>
+    <script src="~/Scripts/Func/util.js?_=@Date.Now"></script>
+    <script src="~/Scripts/Func/reports.js?_=@Date.Now"></script>
     <style>
         * {
             font-size: 11px;
         }
-     /*   div {
+        /*   div {
             page-break-inside: avoid;
             page-break-after: auto;
         }*/
@@ -23,7 +23,7 @@
 
         thead {
             display: table-header-group;
-       /*     display: table-row-group;*/
+            /*     display: table-row-group;*/
         }
 
         tbody {
@@ -32,10 +32,10 @@
 
         tfoot {
             display: table-row-group;
-          /*  display: table-footer-group;*/
+            /*  display: table-footer-group;*/
         }
 
-      /*  #tbResult tbody tr td {
+        /*  #tbResult tbody tr td {
             border-color: red !important
         }*/
     </style>

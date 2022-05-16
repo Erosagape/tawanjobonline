@@ -33,9 +33,9 @@
                 <td width="80%">
                     <div id="divCompany" style="text-align:left;color:darkblue;">
                         <b>@ViewBag.PROFILE_COMPANY_NAME</b>
-                        <br />@ViewBag.PROFILE_COMPANY_ADDR1 <br/> @ViewBag.PROFILE_COMPANY_ADDR2
+                        <br />@ViewBag.PROFILE_COMPANY_ADDR1 <br />@ViewBag.PROFILE_COMPANY_ADDR2
                         <br />Tel @ViewBag.PROFILE_COMPANY_TEL Fax @ViewBag.PROFILE_COMPANY_FAX E-mail/Website @ViewBag.PROFILE_COMPANY_EMAIL
-                        <br />Tax-Reference ID : @ViewBag.PROFILE_TAXNUMBER Branch @ViewBag.PROFILE_TAXBRANCH
+                        <br />Tax ID : @ViewBag.PROFILE_TAXNUMBER Branch @ViewBag.PROFILE_TAXBRANCH
                     </div>
                 </td>
             </tr>

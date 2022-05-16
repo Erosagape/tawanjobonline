@@ -8,7 +8,10 @@
             mnuPath = path + 'Menu/Index?Type=V2';
             break;
         case 'Advance':
-            mnuPath = path + 'Adv/Index';
+            mnuPath = path + 'Acc/Advance';
+            break;
+        case 'AppJob':
+            mnuPath = path + 'JobOrder/Approve';
             break;
         case 'AppQuo':
             mnuPath = path + 'JobOrder/QuoApprove';
@@ -29,7 +32,7 @@
             mnuPath = path + 'Master/Branch';
             break;
         case 'Clearing':
-            mnuPath = path + 'Clr/Index';
+            mnuPath = path + 'Acc/Clearing';
             break;
         case 'AppClearing':
             mnuPath = path + 'Clr/Approve';
@@ -89,10 +92,10 @@
             mnuPath = path + 'Acc/GLNote';
             break;
         case 'Voucher':
-            mnuPath = path + 'Acc/Voucher';
+            mnuPath = path + 'Acc/Index';
             break;
         case 'WHTax':
-            mnuPath = path + 'Acc/WHTax';
+            mnuPath = path + 'Acc/Tax50Tavi';
             break;
         case 'Invoice':
             mnuPath = path + 'Acc/Invoice';
@@ -186,6 +189,12 @@
             break;
         case 'AppTransport':
             mnuPath = path + 'JobOrder/TruckApprove';
+            break;
+        case 'VenderInv':
+            mnuPath = path + 'Acc/VenderInv';
+            break;
+        case 'BillPayment':
+            mnuPath = path + 'Acc/BillPayment';
             break;
         default:
             ShowMessage('Under Development');

@@ -1,6 +1,6 @@
 ﻿@Code
     Layout = "~/Views/Shared/_ReportLandscape.vbhtml"
-    ViewBag.FileName = "export" & DateTime.Now.ToString("yyyyMMddHHMMss") & ".csv"
+    ViewBag.FileName = "export" & DateTime.Now.ToString("yyyyMMddHHMMss") & ".xls"
 End Code
 <style>
     table {

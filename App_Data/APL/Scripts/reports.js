@@ -295,11 +295,20 @@ function LoadCliteria(reportID) {
             $('#tbJob').show();
             $('#tbVend').show();
             break;
+        case 'STATEMENT':
         case 'BOOKBAL':
         case 'TRIALBAL':
         case 'BALANCS':
         case 'PROFITLOSS':
         case 'CASHFLOW':
+        case 'CASHBAL':
+            $('#tbDate').show();
+            $('#tbEmp').hide(); //hide
+            $('#tbCust').hide();  //hide
+            $('#tbStatus').hide(); //hide
+            $('#tbJob').show(); //hide
+            $('#tbVend').hide(); //hide
+            break;
         case 'JOURNAL':
         case 'ADVSUMMARY':
             $('#tbDate').show();
@@ -360,49 +369,49 @@ function LoadCliteria(reportID) {
             break;
     }
 }
-function IsNumberColumn(cname) {    
+function IsNumberColumn(cname) {
     let colname = ',InvTotal,InvProductQty,InvCurRate,DutyAmount,TotalGW,Commission,TotalNW,TotalQty,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,Tax3Tres,TaxNot3Tres,TotalJob,';
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ',TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,';
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
-    colname = ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService,PayTax,CashAmount,AmountUsed,';
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    colname = ',TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService,PayTax,CashAmount,AmountUsed,AmtCostSlip,AmtCostNoSlip,';
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
-    colname = ',TotalAdvBilled,TotalCostBilled,TotalChargeBilled,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,VAT,WHT,CostAmount,ChargeAmount,';
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    colname = ',TotalAdvBilled,TotalCostBilled,TotalChargeBilled,Amt,AmtVAT,AmtVat,AmtCredit,CreditNet,AmtWH,AmtTotal,AdvTotal,ClrTotal,TotalPayback,TotalReturn,Amt, Tax50Tavi, TotalInv, ReceivedNet, Charge50Tavi, Total, SumReceipt, TotalComm, VAT, WHT, CostAmount, ChargeAmount, ';
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ",PENDING CONFIRM,WAIT FOR OPERATION,WAIT FOR CLEAR,WORKING FINISHED,EXPENSES CLEARED,BILLING INCOMPLETE,BILLING COMPLETED,JOB COMPLETED,HOLD FOR CHECKING,JOB CANCELLED,";
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ",JOB CONFIRMED,JOB IN PROCESS,CLEARANCE COMPLETED,READY FOR BILLING,PARTIAL BILLING,PAYMENT COMPLETED,CANCELLED,BILLED,UNBILLED,";
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ",Invoice To Customer-Advance,Invoice To Customer-Service,Payment To Vender-Advance,Payment To Vender-Cost,Payment To Vender-Deposit,Amount,Prepaid,Total Amount,CN,DN Amount,";
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ",Customer Billed-Advance,Customer Billed-Service,Customer Unbilled-Advance,Customer Unbilled-Service,Paid,Unpaid,Invoice Billed,Invoice Unbilled,Payment Received,";
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ",Exp-Billed,Exp-Unbilled,Exp-Paid,Advance Amount,Actual Spending,Billable Amount,Billing With Tax,Billing Outstanding,Net Avaiable Balance,Billed Advance,";
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
-    colname =",Advanced Credit Limit,Advance Requested,Advance Paid,Paid+Cleared Advance,Billed To Customer,Unbilled Advance,Advance Cost,Advance Amount,Customer Payment,"
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    colname = ",Advanced Credit Limit,Advance Requested,Advance Paid,Paid+Cleared Advance,Billed To Customer,Unbilled Advance,Advance Cost,Advance Amount,Customer Payment,"
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
-    colname = ",Container Deposit,Addition Expenses,Deposit Return,Clear Amount,Clear VAT,Clear WHT,Clear Net,Adjust Amount,SVC Amount,VAT Amount,WHT Amount,";
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    colname = ",Container Deposit,Addition Expenses,Deposit Return,Clear Amount,Clear VAT,Clear WHT,Clear Net,Adjust Amount,SVC Amount,VAT Amount,WHT Amount,TotalChargeWaitBill,TotalAdvWaitBill,";
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ",Chq Amt,Cash Amt,WHD Tax,Total Amt,Transport,Service,Vat,Advance,Amt.Baht,Revenue,Cost,Total Job,Profit,TotalEarnest,";
@@ -413,50 +422,50 @@ function IsNumberColumn(cname) {
 }
 function IsSummaryColumn(cname) {
     let colname = ',DutyAmount,TotalGW,Commission,TotalNW,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,Amount,Prepaid,Total Amount,';
-    if (colname.indexOf(','+cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ',LimitBalance,SumCashOnhand,SumChqClear,SumChqOnhand,SumCreditable,SumAdvance,SumCharge,SumCost,Profit,ExpenseAmt,ExpenseVAT,TotalChargeVAT,TotalChargeNonVAT,AmtAdvance,AmtChargeNonVAT,AmtChargeVAT,Amt,AmtVAT,AmtVat,AmtCredit,VAT,WHT,Payment Received,CN,DN Amount,';
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ',CreditNet,AmtWH,AmtTotal,Tax50Tavi,TotalInv,ReceivedNet,Charge50Tavi,Total,SumReceipt,TotalComm,AdvTotal,ClrTotal,TotalPayback,TotalReturn,ReceiveAmt,PayTax,Tax3Tres,TaxNot3Tres,CashAmount,AmountUsed,TotalJob,TotalAdvWaitBill,TotalCostWaitBill,TotalChargeWaitBill,';
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ',TotalAdvBilled,TotalCostBilled,TotalChargeBilled,TotalExpClear,TotalExpWaitBill,TotalCostWaitBill,TotalCost,TotalProfit,SumWhTax,TotalAdvance,TotalPrepaid,TotalBalance,AmountRemain,ChqAmount,Amt50Tavi,AmtNet,ServiceAmount,TranAmount,TaxTransport,TaxService,';
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
-    colname = ",PENDING CONFIRM,WAIT FOR OPERATION,WAIT FOR CLEAR,WORKING FINISHED,EXPENSES CLEARED,BILLING INCOMPLETE,BILLING COMPLETED,JOB COMPLETED,HOLD FOR CHECKING,JOB CANCELLED,";
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    colname = ",PENDING CONFIRM,WAIT FOR OPERATION,WAIT FOR CLEAR,WORKING FINISHED,EXPENSES CLEARED,BILLING INCOMPLETE,BILLING COMPLETED,JOB COMPLETED,HOLD FOR CHECKING,JOB CANCELLED,TotalAdvWaitBill,TotalChargeWaitBill,";
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ",JOB CONFIRMED,JOB IN PROCESS,CLEARANCE COMPLETED,READY FOR BILLING,PARTIAL BILLING,PAYMENT COMPLETED,CANCELLED,UNBILLED,BILLED,";
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ",Invoice To Customer-Advance,Invoice To Customer-Service,Payment To Vender-Advance,Payment To Vender-Cost,Payment To Vender-Deposit,";
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ",Customer Billed-Advance,Customer Billed-Service,Customer Unbilled-Advance,Customer Unbilled-Service,Paid,Unpaid,Invoice Billed,Invoice Unbilled,";
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ",Exp-Billed,Exp-Unbilled,Exp-Paid,Advance Amount,Actual Spending,Billable Amount,Billing With Tax,Billing Outstanding,Billed Advance,";
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ",Net Avaiable Balance,Advance Requested,Advance Paid,Paid+Cleared Advance,Billed To Customer,Unbilled Advance,Advance Cost,Advance Amount,Customer Payment,"
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
     colname = ",Container Deposit,Addition Expenses,Deposit Return,Clear Amount,Clear VAT,Clear WHT,Clear Net,Adjust Amount,SVC Amount,VAT Amount,WHT Amount,";
-    if (colname.indexOf(',' +cname + ',') >= 0) {
+    if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
-    colname = ",Chq Amt,Cash Amt,WHD Tax,Total Amt,Transport,Service,Vat,Advance,Amt.Baht,Revenue,Cost,Total Job,Profit,TotalEarnest,";
+    colname = ",Chq Amt,Cash Amt,WHD Tax,Total Amt,Transport,Service,Vat,Advance,Amt.Baht,Revenue,Cost,Total Job,Profit,TotalEarnest,AmtCostSlip,AmtCostNoSlip,";
     if (colname.indexOf(',' + cname + ',') >= 0) {
         return true;
     }
@@ -473,7 +482,7 @@ function FormatValue(c, val) {
         }
     }
 }
-function GetColumnHeader(id,langid) {
+function GetColumnHeader(id, langid) {
     let lang = {
         JNo: 'Job#|เลขงาน',
         DocDate: 'Open Date|วันที่เปิด',
@@ -494,7 +503,7 @@ function GetColumnHeader(id,langid) {
         ShipBy: 'ShipBy|ลักษณะ',
         ShipByName: 'ShipBy|ลักษณะ',
         InvNo: 'Invoice#|อินวอย',
-        InvDate:'Inv.Date|วันที่ออก',
+        InvDate: 'Inv.Date|วันที่ออก',
         InvTotal: 'Total Inv.|ยอดอินวอย',
         InvProduct: 'Product|สินค้า',
         InvCountry: 'Origin Cty|ต้นทาง',
@@ -564,8 +573,8 @@ function GetColumnHeader(id,langid) {
         ChqNo: 'Chq No|เลขที่เช็ค',
         ChqDate: 'Chq Date|วันที่เช็ค',
         TotalNet: 'Net|ยอดสุทธิ',
-        ControlNo:'Control No|เลขที่ลงบัญชี',
-        DocNo: 'Doc No|เลขที่เอกสาร',   
+        ControlNo: 'Control No|เลขที่ลงบัญชี',
+        DocNo: 'Doc No|เลขที่เอกสาร',
         TName: 'Name|ชื่อภาษาไทย',
         PoNo: 'PO No|ใบสั่งซื้อ',
         RefNo: 'Ref No|เลขที่อ้างอิง',
@@ -612,7 +621,7 @@ function GetColumnHeader(id,langid) {
         NO50Tavi: 'Doc No|เลขที่เอกสาร',
         VenTaxNumber: 'Tax.Issue|เลขผู้เสียภาษีผู้หัก',
         VenTaxBranch: 'Tax.Branch|สาขาผู้หัก',
-        FormTypeName:'Tax.Form|แบบภาษี',
+        FormTypeName: 'Tax.Form|แบบภาษี',
         CustTaxBranch: 'Branch|สาขาผู้ถูกหัก',
         CustTaxNumber: 'Tax.Receive|เลขผู้เสียภาษีผู้ถูกหัก',
         CustName: 'Name|ชื่อผู้ถูกหัก',
@@ -633,7 +642,7 @@ function GetColumnHeader(id,langid) {
         AmtAdvance: 'Advance|ทดรองจ่าย',
         AmtChargeNonVAT: 'VAT Except|ยกเว้นภาษี',
         AmtChargeVAT: 'VAT Base|ฐานภาษี',
-        Amt:'Amt|ยอดเงิน',
+        Amt: 'Amt|ยอดเงิน',
         AmtVAT: 'VAT|VAT',
         AmtVat: 'VAT|VAT',
         AmtCredit: 'Credit|ชำระก่อน',
@@ -651,7 +660,7 @@ function GetColumnHeader(id,langid) {
         TotalExpClear: 'Expenses|รวมค่าใช้จ่าย',
         TotalExpWaitBill: 'Exp Pending|คชจรอวางบิล',
         TotalCostWaitBill: 'Cost Pending|ต้นทุนรอวางบิล',
-        TotalEarnest:'Container Earnest|มัดจำตู้',
+        TotalEarnest: 'Container Earnest|มัดจำตู้',
         TotalCost: 'Cost|ต้นทุนรวม',
         TotalPrepaid: 'Prepaid|รับล่วงหน้า',
         TotalBalance: 'Balance|ค้างชำระ',
@@ -666,17 +675,19 @@ function GetColumnHeader(id,langid) {
         Total: 'Total|ยอดรวม',
         DRefNo: 'Ref No|อ้างอิงเอกสาร',
         DocUsed: 'Document|เอกสารอ้างอิง',
-        ChqStatus:'CHK|สถานะ',
+        ChqStatus: 'CHK|สถานะ',
         SumReceipt: 'Receive|ยอดใบเสร็จ',
         TotalComm: 'Commission|ค่าคอม',
         ChqAmount: 'Chq.Amt|ยอดเช็ค',
         AmountUsed: 'Used.Amt|ยอดใช้ไป',
         AmountRemain: 'Remain|ยอดคงเหลือ',
+        AmtCostSlip: 'Cost Slip|ต้นทุนมีใบเสร็จ',
+        AmtCostNoSlip: 'Cost No-Slip|ต้นทุนไม่มีใบเสร็จ',
         'Invoice No': 'APLL Invoice#|ใบแจ้งหนี้',
         'Invoice Date': 'APLL Invoice Date|วันที่ใบแจ้งหนี้',
         'Receipt No': 'APLL Receipt#|ใบเสร็จรับเงิน',
         'Receipt Date': 'APLL Receipt Date|วันที่ใบเสร็จ',
-        'Inv.Create Date':'APLL Inv.Create Date|วันที่ใบแจ้งหนี้'
+        'Inv.Create Date': 'APLL Inv.Create Date|วันที่ใบแจ้งหนี้'
     }
     let str = id;
     if (lang[id] !== undefined) {
@@ -691,7 +702,7 @@ function GetColumnHeader(id,langid) {
     }
     return str;
 }
-function GetGroupCaption(src,fld, val) {
+function GetGroupCaption(src, fld, val) {
     let retstr = val;
     //if (src.length > 0) {
     switch (fld) {
@@ -750,18 +761,19 @@ function GetGroupCaption(src,fld, val) {
                 }
             }
             break;
-        }
+    }
     //}
     return retstr;
 }
 function LoadReport(path, reportID, obj, lang) {
     let str = JSON.stringify(obj);
     let urlReport = '';
-    if (obj.ReportType == 'STD') {
+    if (obj.ReportType == 'STD' || obj.ReportType == 'FIX') {
         urlReport = path + 'Report/GetReport';
     } else {
         urlReport = path + 'Report/GetReportByConfig';
     }
+    $('#tbResult').html('<tr><td style="font-size:20px;">Loading</td></tr>');
     $.ajax({
         url: urlReport,
         type: "POST",
@@ -780,17 +792,41 @@ function LoadReport(path, reportID, obj, lang) {
                 let colCount = 0;
                 let sumGroup = [];
                 let sumTotal = [];
-
+                let lengthFld = '';
+                let colWidth = [];
+                let textFields = '';
+                if (res.colwidth !== '') {
+                    lengthFld = res.colwidth;
+                }
+                if (lengthFld.indexOf(',') > 0) {
+                    colWidth = lengthFld.split(',');
+                }
+                if (res.text_field !== '') {
+                    textFields = res.text_field;
+                }
                 if (res.group !== '') {
                     groupField = res.group;
                 }
 
-                let html = '<thead><tr><th style="border:1px solid black;text-align:left;background-color:lightgrey;">#</th>';
+                let html = '<thead><tr><th style="border:1px solid black;text-align:left;background-color:lightgrey;width:2%">#</th>';
                 $.each(tb[0], function (key, value) {
                     if (key !== groupField) {
-                        //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
-                        html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></th>';
-                        sumGroup.push({ isSummary: IsSummaryColumn(key), value: 0 });
+                        html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;';
+                        if (colWidth.length > 0) {
+                            if (colWidth.length > colCount) {
+                                html += 'width:' + colWidth[colCount] + '%';
+                            }
+                        }
+                        html += '"><b>' + GetColumnHeader(key, lang) + '</b></th>';
+                        if (textFields.indexOf(key) >= 0) {
+                            sumGroup.push({ isSummary: false, value: 0 });
+                        } else {
+                            if (IsSummaryColumn(key) == true) {
+                                sumGroup.push({ isSummary: true, value: 0 });
+                            } else {
+                                sumGroup.push({ isSummary: CheckAllIsNumber(tb, key), value: 0 });
+                            }
+                        }
                         sumTotal.push(0);
                         colCount++;
                     }
@@ -822,26 +858,24 @@ function LoadReport(path, reportID, obj, lang) {
                             groupVal = FormatValue(groupField, r[groupField]);
                             groupCount++;
 
-                            html += '<td colspan="' + (colCount+1) + '" style="background-color:lightyellow;border:1px solid black;text-align:left;">'+ groupCaption +' <b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
+                            html += '<td colspan="' + (colCount + 1) + '" style="background-color:lightyellow;border:1px solid black;text-align:left;">' + groupCaption + ' <b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
                             html += '</tr><tr>';
                         } else {
                             groupCount++;
                         }
                     }
                     row++;
-                    html += '<td style="border:1px solid black;text-align:right;">' + row + '</td>';
+                    html += '<td style="border:1px solid black;text-align:center;">' + row + '</td>';
                     let col = 0;
                     for (let c in r) {
                         if (c !== groupField) {
                             if (c.indexOf('Date') >= 0) {
-                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
+                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDateExcel(r[c]) + '</td>';
                             } else {
                                 if (r[c] !== null) {
-                                    if (IsNumberColumn(c) == true) {
-                                        if (sumGroup[col].isSummary == true) {
-                                            sumGroup[col].value += Number(r[c]);
-                                            sumTotal[col] += Number(r[c]);
-                                        }
+                                    if (sumGroup[col].isSummary == true) {
+                                        sumGroup[col].value += Number(r[c]);
+                                        sumTotal[col] += Number(r[c]);
                                         html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c], 2) + '</td>';
                                     } else {
                                         html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
@@ -868,7 +902,7 @@ function LoadReport(path, reportID, obj, lang) {
                     html += '</tr>';
                     groupCount = 0;
                 }
-                html+='</tbody>'
+                html += '</tbody>'
                 //Grand Total
                 html += '<tfoot><tr style="font-weight:bold;background-color:lightgreen;"><td colspan="2" style="border:1px solid black;text-align:left;"><b>GRAND TOTAL<b/></td>';
                 for (let i = 1; i < colCount; i++) {
@@ -886,4 +920,164 @@ function LoadReport(path, reportID, obj, lang) {
             }
         }
     });
+}
+function LoadReportNoTotal(path, reportID, obj, lang) {
+    let str = JSON.stringify(obj);
+    let urlReport = '';
+    if (obj.ReportType == 'STD' || obj.ReportType == 'FIX') {
+        urlReport = path + 'Report/GetReport';
+    } else {
+        urlReport = path + 'Report/GetReportByConfig';
+    }
+    $('#tbResult').html('<tr><td>Loading</td></tr>');
+    $.ajax({
+        url: urlReport,
+        type: "POST",
+        contentType: "application/json",
+        data: str,
+        success: function (response) {
+            let res = JSON.parse(response);
+            if (res.msg !== "OK") {
+                //alert(r.msg);
+                return;
+            }
+            if (res.result.length > 0) {
+                var tb = res.result;
+                let groupField = '';
+                let groupVal = null;
+                let colCount = 0;
+                let sumGroup = [];
+                let sumTotal = [];
+                let sumFields = '';
+                if (res.summary !== '') {
+                    sumFields = res.summary;
+                }
+                if (res.group !== '') {
+                    groupField = res.group;
+                }
+
+                let html = '<thead><tr>';
+                $.each(tb[0], function (key, value) {
+                    if (key !== groupField) {
+                        //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
+                        html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></th>';
+                        if (sumFields.indexOf(key) >= 0 && CheckAllIsNumber(tb, key)) {
+                            sumGroup.push({ isSummary: true, value: 0 });
+                        } else {
+                            sumGroup.push({ isSummary: false, value: 0 });
+                        }
+                        sumTotal.push(0);
+                        colCount++;
+                    }
+                });
+
+                html += '</tr></thead><tbody>';
+
+                let groupCount = 0;
+                let groupCaption = GetColumnHeader(groupField, lang);
+                let row = 0;
+                for (let r of tb) {
+                    html += '<tr>';
+                    if (groupField !== '') {
+                        if (FormatValue(groupField, r[groupField]) !== groupVal) {
+                            //Show Summary
+                            if (groupCount > 0) {
+                                html += '<td colspan="2" style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>SUB TOTAL</b></u></td>';
+                                for (let i = 1; i < colCount; i++) {
+                                    if (sumGroup[i].isSummary == true) {
+                                        html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"><u><b>' + ShowNumber(sumGroup[i].value, 2) + '</b></u></td>';
+                                    } else {
+                                        html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"></td>';
+                                    }
+                                    sumGroup[i].value = 0;
+                                }
+                                html += '</tr><tr>';
+                                groupCount = 0;
+                            }
+                            groupVal = FormatValue(groupField, r[groupField]);
+                            groupCount++;
+
+                            html += '<td colspan="' + (colCount) + '" style="background-color:lightyellow;border:1px solid black;text-align:left;">' + groupCaption + ' <b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
+                            html += '</tr><tr>';
+                        } else {
+                            groupCount++;
+                        }
+                    }
+                    row++;
+                    let col = 0;
+                    for (let c in r) {
+                        if (c !== groupField) {
+                            if (c.indexOf('Date') >= 0) {
+                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDateExcel(r[c]) + '</td>';
+                            } else {
+                                if (r[c] !== null) {
+                                    if (sumGroup[col].isSummary == true) {
+                                        sumGroup[col].value += Number(r[c]);
+                                        sumTotal[col] += Number(r[c]);
+                                        html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c], 2) + '</td>';
+                                    } else {
+                                        html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
+                                    }
+                                } else {
+                                    html += '<td style="border:1px solid black;text-align:left;"></td>';
+                                }
+                            }
+                            col++;
+                        }
+                    }
+                    html += '</tr>';
+                }
+                //Last Total
+                if (groupCount > 0) {
+                    html += '<td style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>SUB TOTAL</b></u></td>';
+                    for (let i = 1; i < colCount; i++) {
+                        if (sumGroup[i].isSummary == true) {
+                            html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"><u><b>' + ShowNumber(sumGroup[i].value, 2) + '</b></u></td>';
+                        } else {
+                            html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"></td>';
+                        }
+                    }
+                    html += '</tr>';
+                    groupCount = 0;
+                }
+                html += '</tbody>'
+                //ShowMessage(html);
+                $('#tbResult').html(html);
+            }
+        }
+    });
+}
+function CheckAllIsNumber(arr, colName) {
+    let tb = JSON.parse(JSON.stringify(arr));
+    sortData(tb, colName, 'desc');
+    try {
+        if (tb[0][colName] !== null) {
+            let dbl = Number(tb[0][colName]);
+            if (isNaN(dbl) == false) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    } catch {
+        return false;
+    }
+}
+function ShowDateExcel(sqlDateString) {
+    try {
+        let jsDate = sqlDateString.substr(0, 10);
+        let month = jsDate.substr(5, 2);
+        let day = jsDate.substr(8, 2);
+        let year = jsDate.substr(0, 4);
+        if (year < '1901') {
+            return '-';
+        }
+        let date = year + "-" + month + "-" + day;
+        return date;
+    }
+    catch (e) {
+        return '-';
+    }
 }

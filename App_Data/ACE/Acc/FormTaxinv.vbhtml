@@ -208,6 +208,7 @@ End Code
             $('#tbDetail').append(html);
             if (d.AmtCharge > 0) {
                 service += Number(d.InvAmt);
+	
                 vat += Number(d.InvVAT);
                 wht += Number(d.Inv50Tavi);
             } else {
@@ -220,13 +221,13 @@ End Code
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
         $('#lblTotalAfterVAT').text(ShowNumber(service+vat, 2));
         $('#lblTotalAdv').text(ShowNumber(adv, 2));
-        $('#lblTotalNet').text(ShowNumber(service + vat - wht, 2));
+        $('#lblTotalNet').text(ShowNumber(service +adv+ vat - wht, 2));
         $('#lblCurrencyCode').text(h.CurrencyCode);
         $('#lblExchangeRate').text(h.ExchangeRate);
         $('#lblFTotalNet').text(ShowNumber(totalf, 2) + ' ' + h.CurrencyCode);
 
         if (h.UsedLanguage == 'TH') {
-            $('#lblTotalText').text(CNumThai(CDbl((service + vat - wht),2)));
+            $('#lblTotalText').text(CNumThai(CDbl((service + adv + vat - wht),2)));
         } else {
             $('#lblTotalText').text(CNumEng(CDbl((totalf),2)));
         }

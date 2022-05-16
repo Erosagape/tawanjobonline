@@ -44,8 +44,8 @@ End Code
     <tr>
         <td>คำแนะนำในการส่งสินค้า</td>
         <td><div id="txtSpecialInstruction"></div></td>
-        <td></td>
-        <td></td>
+        <td>Customer PO</td>
+        <td><label id="txtCustPo"></label></td>
     </tr>
     <tr>
         <th colspan="2">ข้อมูลเกี่ยวกับลูกค้า</th>
@@ -196,6 +196,7 @@ End Code
             $('#txtContact1').text(h.PlaceContact1);
             $('#txtContact2').text(h.PlaceContact2);
             $('#txtContact3').text(h.PlaceContact3);
+            $('#txtCustPo').text(h.CustRefNo);
         }
     });
 </script>

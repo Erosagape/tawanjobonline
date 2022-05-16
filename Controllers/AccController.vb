@@ -2974,7 +2974,7 @@ ORDER BY a.TName1
                 If oRec.Count > 0 Then
                     Dim msg = ""
                     For Each doc In oRec
-                        msg &= doc.DeleteData(tSqlw) & vbCrLf
+                        msg &= doc.DeleteData(tSqlw) & ","
                     Next
                     Dim json = "{""invdetail"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oRec(0)) & "]}}"
                     Return Content(json, jsonContent)

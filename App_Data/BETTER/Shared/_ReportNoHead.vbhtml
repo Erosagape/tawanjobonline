@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" type="text/css" href="~/Content/sheets-of-paper-a4.css" media="all">
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/Func/util.js"></script>
-    <script src="~/Scripts/Func/reports.js"></script>
+    <script src="~/Scripts/Func/util.js?_=@Date.Now"></script>
+    <script src="~/Scripts/Func/reports.js?_=@Date.Now"></script>
 </head>
 <body class="document">
     <div class="page" contenteditable="false">

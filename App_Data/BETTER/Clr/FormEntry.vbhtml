@@ -149,17 +149,18 @@ End Code
     <table border="1">
         <thead>
             <tr>
-                <th rowspan="2">CLEAR NO</th>
-                <th rowspan="2">DESCRIPTION</th>
-                <th colspan="3">COST</th>
-                <th>SELLING</th>
-                <th rowspan="2" colspan="2">PROFIT</th>
+                <th rowspan="2">เลขใบเคลียร์</th>
+                <th rowspan="2">คำอธิบาย</th>
+                <th>สำรองจ่าย</th>
+                <th colspan="2">ค่าใช้จ่าย</th>
+                <th>ยอดขาย</th>
+                <th rowspan="2" colspan="2">กำไร</th>
             </tr>
             <tr>
-                <th>CUSTOMER-SLIP</th>
-                <th>COMPANY-SLIP</th>
-                <th>NO-SLIP</th>
-                <th>SERVICES</th>
+                <th>ใบเสร็จลูกค้า</th>
+                <th>ใบเสร็จบริษัท</th>
+                <th>ไม่มีใบเสร็จ</th>
+                <th>ค่าบริการ</th>
             </tr>
         </thead>
         <tbody id="tb">

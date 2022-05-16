@@ -21,7 +21,7 @@
         <div style="display:flex">
             <div style="flex:4;padding:5px;">
                 <div id="divCompany" style="text-align:left;color:darkblue;font-size:16px">
-                    <span style="font-size:16px;font-weight:bold;">@ViewBag.PROFILE_COMPANY_NAME</span><br />
+                    <span style="font-size:16px;font-weight:bold;">@ViewBag.PROFILE_COMPANY_NAME</span ><br />
                     <span style="font-size:16px;font-weight:bold;">@ViewBag.PROFILE_COMPANY_NAME_EN</span><br />
                 </div>
             </div>
@@ -29,9 +29,8 @@
                 <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:200px" />
             </div>
         </div>
-        @ViewBag.PROFILE_COMPANY_ADDR1  @ViewBag.PROFILE_COMPANY_ADDR2
-        <br />@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN
-        <br />Tel @ViewBag.PROFILE_COMPANY_TEL Fax @ViewBag.PROFILE_COMPANY_FAX Tax-Reference ID : @ViewBag.PROFILE_TAXNUMBER Branch @ViewBag.PROFILE_TAXBRANCH
+        @ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2	
+        <br />Tel @ViewBag.PROFILE_COMPANY_TEL Fax @ViewBag.PROFILE_COMPANY_FAX Tax ID : @ViewBag.PROFILE_TAXNUMBER Branch @ViewBag.PROFILE_TAXBRANCH
         <div style="display:flex;flex-direction:column">
             <div style="width:100%;text-align:center">
                 <h3>@ViewBag.ReportName</h3>

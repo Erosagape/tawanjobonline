@@ -301,10 +301,10 @@ End Code
                     for (let r of res.result) {
                         d += r.CountDoc;
                     }
-                    if (d > 7) {
+                    if (d > 4) {
                         let r = 1;
-                        for (let i = 8; i <= d; i++) {
-                            if (r == 8 || i == d) {
+                        for (let i = 5; i <= d; i++) {
+                            if (r == 5 || i == d) {
                                 t += 1;
                                 r = 1;
                             } else {

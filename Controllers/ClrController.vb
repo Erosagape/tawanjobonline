@@ -73,7 +73,7 @@ Namespace Controllers
                             .Status = If(row("IsRequired").ToString = "1", "R", "O"),
                             .CurrencyCode = row("CurrencyCode").ToString,
                             .ExchangeRate = row("CurrencyRate"),
-                            .AmountCharge = row("ChargeAmt"),
+                            .AmountCharge = row("ChargeAmt") / row("CurrencyRate"),
                             .Qty = row("QtyBegin"),
                             .QtyUnit = row("UnitCheck").ToString,
                             .AmtVatRate = row("VatRate"),
@@ -82,7 +82,9 @@ Namespace Controllers
                             .AmtWht = row("TaxAmt"),
                             .AmtTotal = row("TotalAmt")
                         }
-                        Dim msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode))
+                        If oRow.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode)).Count = 0 Then
+                            Dim msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode))
+                        End If
                     Next
                 End If
                 Dim oRows = New CClearExp(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' ", branch, job))

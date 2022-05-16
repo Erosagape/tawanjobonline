@@ -14,36 +14,34 @@ End Code
     }
 </style>
 <div style="text-align:center;width:100%">
-    <h2><label id="lblDocType">TAX-INVOICE</label></h2>
+    <h2><label id="lblDocType" style="font-size:18px;">TAX-INVOICE</label></h2>
 </div>
 <div id="dvCopy" style="text-align:right;width:100%">
 </div>
 <div style="display:flex;">
-    <div style="flex:3;border:1px solid black;border-radius:5px;">
+    <div style="flex:3;border:1px solid black;border-radius:5px;margin-right:8px;padding:5px 5px 5px 5px;">
         NAME : <label id="lblCustName"></label><br />
         ADDRESS : <label id="lblCustAddr"></label><br />
         TEL : <label id="lblCustTel"></label><br />
         TAX-ID : <lable id="lblCustTax"></lable>
     </div>
-    <div style="flex:1;border:1px solid black;border-radius:5px;">
+    <div style="flex:1;border:1px solid black;border-radius:5px;padding:5px 5px 5px 5px;">
         NO. : <label id="lblReceiptNo"></label><br />
         ISSUE DATE : <label id="lblReceiptDate"></label><br />
     </div>
 </div>
 
 <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
-    <thead>
         <tr style="background-color:lightblue;">
-            <th height="40" width="300">INV.NO.</th>
+            <th height="40" width="240">INV.NO.</th>
             <th width="70">JOB</th>
             <th width="60">SERVICE</th>
             <th width="30">VAT</th>
             <th width="30">WHT</th>
             <th width="60">ADVANCE</th>
+            <th width="60">TOTAL</th>
         </tr>
-    </thead>
     <tbody id="tbDetail"></tbody>
-    <tfoot>
         <tr style="background-color:lightblue;text-align:right;">
             <td style="text-align:center"><label id="lblTotalText"></label></td>
             <td>TOTAL AMOUNT</td>
@@ -51,12 +49,12 @@ End Code
             <td><label id="lblTotalVAT"></label></td>
             <td><label id="lblTotalWHT"></label></td>
             <td><label id="lblTotalADV"></label></td>
+            <td><label id="lblTotalNET"></label></td>
         </tr>
         <tr style="background-color:lightblue;text-align:right;">
-            <td colspan="5">TOTAL RECEIPT</td>
+            <td colspan="6">TOTAL RECEIPT</td>
             <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
         </tr>
-    </tfoot>
 </table>
 <p>
     PAY BY
@@ -77,14 +75,6 @@ End Code
 </div>
 <br />
 <div style="display:flex;">
-    <!--
-    <div class="text-left" style="border:1px solid black;flex:2">
-        PLEASE REMIT TO ACCOUNT NO: 170-279834-5<br />
-        "DAMON GOOD SERVICES CO.,LTD"<br />
-        SIAM COMMERCIAL BANK PUBLIC LIMITED<br />
-        THE MALL THA-PHRA BRANCH
-    </div>
-        -->
     <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
 
         FOR THE CUSTOMER
@@ -130,6 +120,10 @@ End Code
                 $('#lblDocType').text('TAX-INVOICE');
                 serviceText = 'Service Charges';
                 break;
+            case 'RCV':
+                $('#lblDocType').text('DEBIT NOTE');
+                serviceText = 'Service Charges';
+                break;
             default:
                 $('#lblDocType').text('RECEIPT');
                 serviceText = 'Transportation Charges';
@@ -162,6 +156,7 @@ End Code
         let service = 0;
         let vat = 0;
         let wht = 0;
+        let amt = 0;
         let total = 0;
         let adv = 0;
         for (let d of dt) {
@@ -172,6 +167,7 @@ End Code
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'') + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.Inv50Tavi,2):'') + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? '0.00':ShowNumber(d.InvTotal,2)) + '</td>';
+            html += '<td style="text-align:right">' + ShowNumber(d.InvTotal,2) + '</td>';
             html += '</tr>';
 
             $('#tbDetail').append(html);
@@ -179,17 +175,18 @@ End Code
                 service += Number(d.InvAmt);
                 vat += Number(d.InvVAT);
                 wht += Number(d.Inv50Tavi);
-                total += Number(d.InvAmt) + Number(d.InvVAT);
+                amt += Number(d.InvAmt) + Number(d.InvVAT);
             } else {
                 adv +=Number(d.InvTotal);
             }
-
+            total +=Number(d.InvTotal);
         }
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
         $('#lblTotalWHT').text(ShowNumber(wht, 2));
         $('#lblTotalADV').text(ShowNumber(adv, 2));
-        $('#lblTotalAfterVAT').text(ShowNumber(total, 2));
-        $('#lblTotalText').text(CNumThai(total));
+        $('#lblTotalAfterVAT').text(ShowNumber(amt, 2));
+        $('#lblTotalNET').text(ShowNumber(amt, 2));
+        $('#lblTotalText').text(CNumThai(CDbl(amt,2)));
     }
 </script>
