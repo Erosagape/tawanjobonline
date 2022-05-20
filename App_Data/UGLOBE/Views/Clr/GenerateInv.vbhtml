@@ -1065,8 +1065,8 @@ End Code
             CancelProve:'',
             CancelDate:null,
             CancelTime:null,
-            ShippingRemark: GetDueDate($('#txtDocDate').val()),
-            DueDate: null,
+            ShippingRemark: $('#cboDocType').val(),
+            DueDate: GetDueDate($('#txtDocDate').val()),
             CreateDate:CDateEN(GetToday())
         };
         let jsonString = JSON.stringify({ data: dataInv });

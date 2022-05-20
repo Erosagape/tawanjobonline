@@ -762,7 +762,13 @@ ExchangeRate: 1,
         let code = $('#txtDocNo').val();
         if (code !== '') {
             let branch = $('#txtBranchCode').val();
-            window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code,'_blank');
+            switch ($('#cboType').val()) {
+                case "RET": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
+                    break;
+                case "DNR": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                    break;
+                default: window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code, '_blank');
+            }
         }
     }
 

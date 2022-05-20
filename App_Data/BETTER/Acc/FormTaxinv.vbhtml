@@ -59,7 +59,7 @@ End Code
             <td><label id="lblCustAddr" rowspan="2"></label></td>
             <td style="border-left:1px solid #66FFCC" rowspan="3" colspan="3">
                 <p  style="text-align:center;font-weight:bold;font-size:16px">ใบเสร็จรับเงิน/ใบกำกับภาษี</p>
-                <p style="text-align: center; font-weight: bold; font-size: 16px">RECEIPT/TAX INVOICE</p>
+                <p style="text-align: center; font-weight: bold; font-size: 18px">RECEIPT / TAX INVOICE</p>
             </td>
         </tr>
         <tr>
@@ -176,9 +176,9 @@ End Code
         </tr>
         <tr>
             <td style="width: 10%; white-space: nowrap ">CHEQUE NO.</td>
-            <td contenteditable="true" style="border-bottom: 1px #66FFCC solid; white-space: pre"></td>
+            <td id="lblChequeNo" contenteditable="true" style="border-bottom: 1px #66FFCC solid; white-space: pre"></td>
             <td style="width: 10%; white-space: nowrap">DATE:.</td>
-            <td contenteditable="true" style="border-bottom: 1px #66FFCC solid; white-space: pre"></td>
+            <td id="lblVoucherDate" contenteditable="true" style="border-bottom: 1px #66FFCC solid; white-space: pre"></td>
         </tr>
     </tbody>
 </table>
@@ -260,7 +260,10 @@ End Code
         $('#lblCustTax').text(h.CustTaxID + branchText);
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiveDate)));
-
+        $('#lblPRVoucher').text(h.ControlNo);
+        $('#lblChequeNo').text(h.ChequeNo);
+        $('#lblVoucherDate').text(ShowDate(h.ControlDate));
+        console.log(h.ControlNo);
         let html = '';
         let service = 0;
         let vat = 0;
@@ -316,7 +319,6 @@ End Code
         $('#lblTotalNET').text(ShowNumber(amt, 2));
         $('#lblTotalText').text(CNumThai(CDbl(amt, 2)));
 
-        $('#lblPRVoucher').text(h.PRVoucher);
 
         
     }

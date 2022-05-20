@@ -616,7 +616,7 @@ End Code
         let code = row.DocNo;
         if (code !== '') {
             let branch = row.BranchCode;
-            switch (row.DocNo.substring(1, 5)) {
+            switch (row.ShippingRemark) {
                 case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
                     break;
                 case "IVF-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');

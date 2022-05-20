@@ -2775,8 +2775,8 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 .ClearPortNo = Request.Form("PlaceDischarge"),
                 .QNo = Request.Form("QuoNo"),
                 .InvInterPort = Request.Form("PortCode"),
-                .InvFCountry = IIf(Request.Form("JobType") = "1", Request.Form("Country"), "TH"),
-                .InvCountry = IIf(Request.Form("JobType") = "1", "TH", Request.Form("Country"))
+                .InvFCountry = IIf(Convert.ToInt32(Request.Form("JobType").ToString()) = 1, Request.Form("Country"), "TH"),
+                .InvCountry = IIf(Convert.ToInt32(Request.Form("JobType").ToString()) = 1, "TH", Request.Form("Country"))
                 }
             Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
             If data.HAWB = "{AUTO}" And GetValueConfig("RUNNING_BYMASK", "HBLAWB") <> "" Then
@@ -2893,10 +2893,7 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 Else
                     data.AddNew(prefix & fmt, False)
                 End If
-                If Request.Form("ContList").ToString() <> "" Then
-                    Dim arrCont = Request.Form("ContList").Split(";")
-                    If arrCont.Length > 0 Then
-                        Dim book = New CTransportHeader(GetSession("ConnJob")) With {
+                Dim book = New CTransportHeader(GetSession("ConnJob")) With {
                             .BranchCode = data.BranchCode,
                             .JNo = data.JNo,
                             .BookingNo = data.BookingNo,
@@ -2910,7 +2907,10 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                             .PackingPlace = Request.Form("PlaceDelivery"),
                             .ReturnPlace = Request.Form("PlaceDischarge")
                             }
-                        Dim msg = book.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", data.BranchCode, data.BookingNo))
+                Dim msg = book.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", data.BranchCode, data.BookingNo))
+                If Request.Form("ContList").ToString() <> "" Then
+                    Dim arrCont = Request.Form("ContList").Split(";")
+                    If arrCont.Length > 0 Then
                         If msg.Substring(0, 4) = "Save" Then
                             For i As Integer = 1 To arrCont.Length - 1
                                 Dim val = arrCont(i - 1).Split("|")

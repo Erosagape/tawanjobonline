@@ -51,16 +51,22 @@ End Code
     <thead>
         <tr style="background-color:lightblue;">
             @*<th height="40" width="60">INV.NO.</th>*@
-            <th width="150">DESCRIPTION</th>
+            <th width="150" rowspan="2">DESCRIPTION</th>
             @*<th width="60">JOB</th>*@
-            <th width="20">QTY</th>
-            <th width="20">CURR</th>
-            <th width="20">EXC</th>
-            <th width="50">TOTAL</th>
-            <th width="60">SERVICE</th>
-            <th width="30">VAT</th>
-            <th width="30">WHT</th>
-            <th width="50">ADVANCE</th>
+            <th width="40"  rowspan="2">RATE</th>
+            <th width="20"  rowspan="2">CURR</th>
+            <th width="20"  rowspan="2">QTY</th>
+            <th width="20"  rowspan="2">UNIT</th>
+            <th width="90" colspan="3">AMOUNT</th>
+            @*<th width="20">EXC</th>*@
+            @*<th width="50">TOTAL</th>
+        <th width="60">SERVICE</th>
+        <th width="30">VAT</th>
+        <th width="30">WHT</th>
+        <th width="50">ADVANCE</th>*@
+        </tr>
+        <tr  style="background-color:lightblue;">
+            <th width="120" colspan="3">TRANSPORT</th>
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
@@ -70,32 +76,32 @@ End Code
             <br />
             <label id="lblFTotalNet"></label>
         </td>
-        <td colspan="3" style="text-align:right;">TOTAL ADVANCE (THB)</td>
+        <td colspan="2" style="text-align:right;">TOTAL ADVANCE (THB)</td>
         <td style="background-color:lightblue;text-align:right;">
             <label id="lblTotalAdv"></label>
         </td>
     </tr>
     <tr>
-        <td colspan="3" style="text-align:right;">TOTAL AMOUNT (THB)</td>
+        <td colspan="2" style="text-align:right;">TOTAL AMOUNT (THB)</td>
         <td style="background-color:lightblue;text-align:right;">
             <label id="lblTotalBeforeVAT"></label>
         </td>
     </tr>
     <tr>
-        <td colspan="3" style="text-align:right;">TOTAL VAT (THB)</td>
+        <td colspan="2" style="text-align:right;">TOTAL VAT (THB)</td>
         <td style="background-color:lightblue;text-align:right;">
             <label id="lblTotalVAT"></label>
         </td>
     </tr>
     <tr>
-        <td colspan="3" style="text-align:right;">TOTAL RECEIPT (THB)</td>
+        <td colspan="2" style="text-align:right;">TOTAL RECEIPT (THB)</td>
         <td style="background-color:lightblue;text-align:right;">
             <label id="lblTotalAfterVAT"></label>
         </td>
     </tr>
     <tr>
         <td colspan="5" > <div style="display:flex;"><div style="width: 30%">Total amount in words </div><div id="lblTotalText" style="text-align:center"></div></div></td>
-        <td colspan="3" style="text-align:right;">TOTAL NET (THB)</td>
+        <td colspan="2" style="text-align:right;">TOTAL NET (THB)</td>
         <td style="background-color:lightblue;text-align:right;">     
             <label id="lblTotalNet"></label>
         </td>
@@ -208,14 +214,17 @@ End Code
             //html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
             html += '<td>' + d.SDescription + '</td>';
             //html += '<td style="text-align:center">' + d.JobNo + '</td>';
-            html += '<td style="text-align:center">' + h.Qty + '</td>';
+            html += '<td style="text-align:right">' + ShowNumber(fnet / h.Qty, 2) + '</td>';
             html += '<td style="text-align:center">' + h.CurrencyCode + '</td>';
-            html += '<td style="text-align:center">' + h.DExchangeRate + '</td>';
-            html += '<td style="text-align:right">' + ShowNumber(fnet,2) +'</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvAmt,2):'0.00') + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'0.00') + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.Inv50Tavi,2):'0.00') + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge > 0 ? '0.00' : ShowNumber(d.InvTotal, 2)) + '</td>';
+            html += '<td style="text-align:center">' + h.Qty + '</td>';
+            html += '<td style="text-align:center">' + h.QtyUnit + '</td>';
+            //html += '<td style="text-align:center">' + h.DExchangeRate + '</td>';
+            //html += '<td style="text-align:right">' + ShowNumber(fnet,2) +'</td>';
+            html += '<td style="text-align:right;width:10%">' + (d.AmtCharge > 0 ? ShowNumber(d.FAmt, 2) : '0.00') + '</td>';
+            html += '<td style="text-align:right;width:10%"></td>';
+            //html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'0.00') + '</td>';
+            //html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.Inv50Tavi,2):'0.00') + '</td>';
+            html += '<td style="text-align:right;width:10%">' + (d.AmtCharge > 0 ? ShowNumber(d.InvAmt, 2) : '0.00') + '</td>';
             html += '</tr>';
 
             $('#tbDetail').append(html);

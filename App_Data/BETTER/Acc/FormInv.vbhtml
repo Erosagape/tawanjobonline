@@ -84,11 +84,11 @@ End Code
     </div>
     <div id="master" class="bold" style="display: flex; flex-direction: column; justify-content: center; text-align: center; width: 100px; height: 60px; display: none">
         <h1 style="font-size:20px">ตันฉบับ</h1>
-        <h2 style="font-size:16px"> สำหรับลูกค้า</h2>
+        @*<h2 style="font-size:16px"> สำหรับลูกค้า</h2>*@
     </div>
     <div id="copy" class="bold" style="display:flex;flex-direction:column;justify-content :center;text-align:center;width:100px;height:60px;display:none">
         <h1 style="font-size:20px">สำเนา</h1>
-        <h2 style="font-size:16px"> สำหรับลูกค้า</h2>
+        @*<h2 style="font-size:16px"> สำหรับลูกค้า</h2>*@
     </div>
 </div>
 <div style="display:flex;width: 100%;">
@@ -408,9 +408,6 @@ End Code
 
 <script type="text/javascript">
 
-       $(document).ready(function() {
-                console.log('@ViewBag');
-      });
 /*    $('#pFooter').hide();*/
     //$('#imgLogo').hide();
     //$('#imgLogoAdd').show();

@@ -462,7 +462,7 @@ End Code
             case 'loadat':
                 w = $('#txtJobType').val() == 1 ? $('#txtCountryCode').val() : 'TH';
                 SetGridInterPort(path, '#tbLoadAt', '#dvLoadAt', w, function (dr) {
-                    if ($('#txtJobType').val() == 1) {
+                    if (Number($('#txtJobType').val()) == 1) {
                         $('#txtPortCode').val(dr.PortCode);
                     }
                     $('#txtLoadingPlace').val(dr.PortName);
@@ -474,7 +474,7 @@ End Code
             case 'dischargeat':
                 w = $('#txtJobType').val() == 1 ? 'TH' : $('#txtCountryCode').val();
                 SetGridInterPort(path, '#tbDischargeAt', '#dvDischargeAt', w, function (dr) {
-                    if ($('#txtJobType').val() !== 1) {
+                    if (Number($('#txtJobType').val()) !== 1) {
                         $('#txtPortCode').val(dr.PortCode);
                     }
                     $('#txtDischargePlace').val(dr.PortName);

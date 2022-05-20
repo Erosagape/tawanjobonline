@@ -123,7 +123,7 @@ End Code
         <td>
             ACCOUNT:
         </td>
-        <td>
+        <td id="acc">
         </td>
         <td>
             HBL.:
@@ -135,7 +135,7 @@ End Code
         <td>
             E-MAIL:
         </td>
-        <td>
+        <td id="email">
         </td>
         <td>
             MBL.:
@@ -197,7 +197,7 @@ End Code
         <td>
             NOTIFY:
         </td>
-        <td>
+        <td id="noti">
         </td>
         <td>
             CUST INV.:
@@ -251,35 +251,14 @@ End Code
             </td>
         </tr>
     </tbody>
-    <tbody id="tbdetail">
-     
-    </tbody>
-    @*<tr>
-        <td>
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-    </tr>*@
 
-    <tbody>
-        @*<tr>
-            <td colspan="2" align="right">
-                SUBTOTAL:
+    <tbody id="tbdetail" style="padding:1px">
+    </tbody>
+    
+
+    @*<tr>
+            <td>
+                <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
             </td>
             <td>
             </td>
@@ -291,11 +270,34 @@ End Code
             </td>
             <td>
             </td>
-            <td id="debit">
+            <td>
+            </td>
+            <td>
             </td>
             <td>
             </td>
         </tr>*@
+
+    <tbody>
+        @*<tr>
+                <td colspan="2" align="right">
+                    SUBTOTAL:
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                <td id="debit">
+                </td>
+                <td>
+                </td>
+            </tr>*@
         <tr>
             <td style="width:85%" colspan="8">
                 TOTAL BALANCE DUE TO:
@@ -309,7 +311,7 @@ End Code
             </td>
         </tr>
     </tbody>
-   
+
 </table>
 <table border="0" style="width:100%; height:100%">
     <tr>
@@ -465,7 +467,7 @@ End Code
 
     //console.log(code);
     async function loadData() {
-        let GetInvoice = await $.get(path + '/Acc/GetInvoice?Branch=00&Code=' + code);
+        let GetInvoice = await $.get(path + '/Acc/GetInvoice?Branch=' + branch +   '&Code=' + code);
         let h = GetInvoice.invoice.header[0][0];
         let c = GetInvoice.invoice.customer[0][0];
         let j = GetInvoice.invoice.job[0][0];
@@ -481,13 +483,13 @@ End Code
                 `<tr>
                     <td>${item.HAWB}</td>
                     <td>${item.SDescription}</td>
-                    <td>${item.Qty}</td>
-                    <td>${item.QtyUnit}</td>
-                    <td>${item.CurrencyCode}</td>
-                    <td>${item.FUnitPrice}</td>
-                    <td>${item.FTotalAmt}</td>
-                    <td>${item.FTotalAmt}</td>
-                    <td></td>
+                    <td style="text-align:center">${item.Qty}</td>
+                    <td style="text-align:center">${item.QtyUnit}</td>
+                    <td style="text-align:center">${item.CurrencyCode}</td>
+                    <td style="text-align:right">${item.FUnitPrice}</td>
+                    <td style="text-align:right">${item.FTotalAmt}</td>
+                    <td style="text-align:right">${item.FTotalAmt}</td>
+                    <td style="text-align:right"></td>
                 </tr>`)
 
         }
@@ -499,17 +501,15 @@ End Code
             <td></td>
             <td></td>
             <td></td>
-            <td>${sum}</td>
-            <td></td>
-            <td></td>
+            <td style="text-align:right">${sum}</td>
+            <td style="text-align:right"></td>
+            <td style="text-align:right"x></td>
         </tr>`);
  
         
         $('#CNno').text(code);
         $('#indate').text(ShowDate(h.DocDate));
         $('#jobno').text(j.JNo);
-        $('#billToContact').text(h.ContactName);
- 
         $('#eta').text(ShowDate(j.ETADate));
         $('#etd').text(ShowDate(j.ETDDate));
         $('#mvess').text(j.MVesselName);
@@ -519,7 +519,6 @@ End Code
         $('#gw').text(j.TotalGW);
         $('#totalcontainer').text(j.TotalContainer);
         $('#custinv').text(j.InvNo);
-
         $("#dcport").text(j.ClearPortNo);
         $('#CustCode').text(c.NameEng);
         ShowInterPort(path, (j.JobType == 1 ? j.InvFCountry : j.InvCountry), j.InvInterPort, '#loadport').then(() => {
@@ -527,29 +526,40 @@ End Code
                 $('#loadport').text(($('#loadport').text() + " ," + r.country.data[0].CTYName).toUpperCase());
             });
         });
-        //console.log(path + 'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch=' + h.BillToCustBranch)
+        console.log(path + 'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch=' + h.BillToCustBranch)
         $.get(path + 'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch=' + h.BillToCustBranch).done(function (r) {
-
-/*            console.log(r.company.data[0].NameEng);*/
+            console.log(r.company);
+            /*console.log(r.company.data[0].NameEng);*/
             $('#billToEName').text(r.company.data[0].NameEng);
             $('#billToAdd1').text(r.company.data[0].EAddress1);
             $('#billToAdd2').text(r.company.data[0].EAddress2);
-
-
+            $('#billToContact').text(r.company.data[0].ManagerCode);
+            $('#acc').text(r.company.data[0].CSCodeIM);
+            $('#email').text(r.company.data[0].CSCodeEX);
             r.Phone = "34343434";
             $('#tell').text(r.Phone)
             $('#fax').text(r.FaxNumber)
-            console.log(r.company.contact);
+            /*console.log(r.company.contact);*/
         });
 
 
-        $.get(path + 'Master/GetCompany?Code=' + j.Consigneecode + '&Branch=00').done(function (r) {
-            $('#consigneecode').text(r.NameEng);
+        //$.get(path + 'Master/GetCompany?Code=' + j.Consigneecode).done(function (r) {
+        //    $('#consigneecode').text(r.company.data[0].NameEng);
+        //    console.log(r.company.data[0].NameEng);
+        //})
+        console.log(jobno);
+
+        $.get(path + 'joborder/GetBooking?Code=' + j.JNo + '&Branch=' + branch).done(function (r) {
+            $('#consigneecode').text(r.booking.data[0].NameEng);
+            $('#noti').text(r.booking.data[0].NotifyName);
+        //    console.log(r.company.data[0].NameEng);
         })
         //let comp = await $.get(path + 'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch=' + h.BillToCustBranch);
         $('#debit').text(h.DocNo);
         $('#billToAdd1').text(c.EAddress1);
         $('#billToAdd2').text(c.EAddress2);
+
+
 
 
 

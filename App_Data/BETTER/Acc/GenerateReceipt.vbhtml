@@ -246,7 +246,7 @@ End Code
                 w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
             }
         }
-        let url = path + 'acc/getinvforreceive?show=WAIT&type=ADV&branch=' + $('#txtBranchCode').val() + w;
+        let url = path + 'acc/getinvforreceive?show=HAVERV&type=ADV&branch=' + $('#txtBranchCode').val() + w;
         $.get(url , function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();

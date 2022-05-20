@@ -1449,7 +1449,9 @@ End Code
         $.get(path + 'joborder/getjobdocument?branch=' + Branch + '&job=' + Job + w)
         .done(function (r) {
             if (r.job.data.length > 0) {
+                
                 let d = r.job.data;
+                console.log(d);
                 let br = $('#txtBranchCode').val();
                 let tb=$('#tbTracking').DataTable({
                     data: d,

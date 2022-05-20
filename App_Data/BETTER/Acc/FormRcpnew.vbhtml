@@ -41,21 +41,21 @@ End Code
     <tbody>
         <tr>
             <td style="width:55%;font-weight:bold">RECEIVED FROM</td>
-            <td style="border-left:1px solid #66FFCC;background-color: #FFCB97;font-weight:bold">No.</td>
-            <td style="background-color: #FFCB97;font-weight: bold">:</td>
-            <td style="background-color: #FFCB97;font-weight: bold"><label id="lblReceiptNo"></label></td>
+            <td style="border-left:1px solid #66FFCC;background-color: #FFFFCC;font-weight:bold">No.</td>
+            <td style="background-color: #FFFFCC;font-weight: bold">:</td>
+            <td style="background-color: #FFFFCC;font-weight: bold"><label id="lblReceiptNo"></label></td>
         </tr>
         <tr style="font-weight: bold">
             <td><label id="lblCustName"></label></td>
-            <td style="border-left: 1px solid #66FFCC; border-bottom: 1px solid #66FFCC;background-color: #FFCB97;font-weight:bold">DATE</td>
-            <td style="border-bottom:1px solid #66FFCC;background-color: #FFCB97;">:</td>
-            <td style="border-bottom:1px solid #66FFCC;background-color: #FFCB97;"><label id="lblReceiptDate"></label></td>
+            <td style="border-left: 1px solid #66FFCC; border-bottom: 1px solid #66FFCC;background-color: #FFFFCC;font-weight:bold">DATE</td>
+            <td style="border-bottom:1px solid #66FFCC;background-color: #FFFFCC;">:</td>
+            <td style="border-bottom:1px solid #66FFCC;background-color: #FFFFCC;"><label id="lblReceiptDate"></label></td>
         </tr>
         <tr>
             <td><label id="lblCustAddr" rowspan="2"></label></td>
-            <td style="border-left:1px solid #66FFCC;vertical-align:middle" rowspan="3" colspan="3">
-                <p style="text-align:center;font-weight:bold;font-size:16px">ใบเสร็จรับเงิน / RECEIPT</p>
-            
+            <td style="border-left:1px solid #66FFCC" rowspan="3" colspan="3">
+                <p style="text-align:center;font-weight:bold;font-size:16px">ใบเสร็จรับเงิน</p>
+                <p style="text-align: center; font-weight: bold; font-size: 16px">RECEIPT</p>
             </td>
         </tr>
         <tr>
@@ -72,38 +72,37 @@ End Code
     <tbody id="summary">
         <tr style="text-align:center;">
             <td rowspan="2">SUMMARY</td>
-            <td style="background-color: #FFCB97;">REIMBURSEMENT</td>
-            <td style="background-color: #FFCB97;">SERVICE</td>
-            <td style="background-color: #FFCB97;">VAT 7%</td>
-            <td style="background-color: #FFCB97;">TOTAL AMOUNT</td>
-            <td style="background-color: #FFCB97;">GRAND TOTAL</td>
+            <td style="background-color: #FFFFCC;">REIMBURSEMENT</td>
+            <td style="background-color: #FFFFCC;">SERVICE</td>
+            <td style="background-color: #FFFFCC;">VAT 7%</td>
+            <td style="background-color: #FFFFCC;">TOTAL AMOUNT</td>
+            <td style="background-color: #FFFFCC;">GRAND TOTAL</td>
         </tr>
     </tbody>
 </table>*@
 <table id="tbmain" style="border-style:solid;width:100%;" class="text-center">
-    <tr style="background-color: #FFCB97;">
+    <tr style="background-color: #FFFFCC;">
         <th class="border" height="40" width="40">NO.</th>
         <th class="border" height="40" width="80">INV.NO.</th>
         <th class="border" width="40">REF.NO</th>
         <th class="border" width="60">BFT NO</th>
         <th class="border" width="100">HBL</th>
         <th class="border" width="120">DESCRIPTION</th>
-        @*<th class="border" width="60">ADVANCE</th>
-        <th class="border" width="60">SERVICE</th>
+        <th class="border" width="60">ADVANCE</th>
+        @*<th class="border" width="60">SERVICE</th>
         <th class="border" width="30">VAT</th>
-        <th class="border" width="30">WHT</th>*@
-        <th class="border" width="60">TOTAL</th>
+        <th class="border" width="30">WHT</th>
+        <th class="border" width="60">TOTAL</th>*@
     </tr>
     <tbody id="tbDetail"></tbody>
-    <tr style="text-align:right;background-color:#FFCB97;font-weight: bold">
-        <td class="border" colspan="5" style="text-align:center">TOTAL : REIMBURSEMENT</td>
-        <td class="border"></td>
+    @*<tr style="text-align:right;background-color:#FFFFCC;font-weight: bold">
+        <td class="border" colspan="4" style="text-align:center">TOTAL</td>
         <td class="border"><label id="lblTotalADV"></label></td>
-        @*<td class="border"><label id="lblTotalBeforeVAT"></label></td>
+        <td class="border"><label id="lblTotalBeforeVAT"></label></td>
         <td class="border"><label id="lblTotalVAT"></label></td>
         <td class="border"><label id="lblTotalWHT"></label></td>
-        <td class="border"><label id="lblTotalNET"></label></td>*@
-    </tr>
+        <td class="border"><label id="lblTotalNET"></label></td>
+    </tr>*@
     <tr class="border" style="font-weight: bold">
         <td colspan="2" style="text-align: left;">TOTAL RECEIPT : BAHT</td>
         <td style="text-align:center" colspan="8"><label id="lblTotalText"></label></td>
@@ -206,10 +205,10 @@ End Code
         $('#lblCustTel').text(h.CustPhone);
         $('#lblCustTax').text(h.CustTaxID + branchText);
         $('#lblReceiptNo').text(h.ReceiptNo);
-        $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiptDate)));
+        $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiveDate)));
         $('#lblPRVoucher').text(h.ControlNo);
-        $('#lblChequeNo').text(h.ChqNo);
-        $('#lblVoucherDate').text(ShowDate(h.ChqDate));
+        $('#lblChequeNo').text(h.ChequeNo);
+        $('#lblVoucherDate').text(ShowDate(h.ControlDate));
         console.log(h.ControlNo);
         let html = '';
         let service = 0;
@@ -237,8 +236,8 @@ End Code
             //html += '<td  class="vborder" style="text-align:right">' + ShowNumber((d.Amt + d.AmtVAT - d.Amt50Tavi) * d.ExchangeRate.toFixed(4), 2) + '</td>';
             //html += '<td  class="vborder" style="text-align:right">' + ShowNumber((d.AmtAdvance + d.AmtCharge + d.AmtVAT - d.Amt50Tavi) * d.ExchangeRate.toFixed(4), 2) + '</td>';
             html += '</tr>';
-            //console.log(d.AmtCharge + d.AmtAdvance + d.InvVAT - d.Inv50Tavi);
-            //console.log(d.ExchangeRate);
+            console.log(d.AmtCharge + d.AmtAdvance + d.InvVAT - d.Inv50Tavi);
+            console.log(d.ExchangeRate);
             $('#tbDetail').append(html);
             //if (d.AmtCharge > 0) {
             service += (Number(d.AmtCharge) > 0 ? Number(d.AmtCharge) : 0);

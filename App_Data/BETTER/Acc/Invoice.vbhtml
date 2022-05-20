@@ -63,8 +63,8 @@ End Code
                         <th class="desktop">DocDate</th>
                         <th class="desktop">CustCode</th>
                         <th class="desktop">BillTo</th>
-                        <th>Remark</th>
-                        <th class="desktop">BillAcceptNo</th>
+                        <th class="desktop">Remark</th>
+                        <th>BillAcceptNo</th>
                         <th class="desktop">Cust.Adv</th>
                         <th class="desktop">Advance</th>
                         <th class="desktop">Charge</th>
@@ -163,6 +163,12 @@ End Code
                                 </div>
                                 <textarea id="txtBillAddress" style="width:100%" class="form-control-lg" disabled></textarea>
                             </p>
+                            <div>
+                                <div>
+                                    <label id="lblRefNo">Ref.No</label>
+                                    :<br /><input type="text" id="txtRefNo" class="form-control" />
+                                </div>
+                            </div>
                             <div style="display:flex;flex-direction:row">
                                 <div style="flex:1">
                                     <label id="lblBillAcceptNo">Bill.No</label>
@@ -851,7 +857,7 @@ End Code
             PrintedBy:row.PrintedBy,
             PrintedDate:CDateEN(row.PrintedDate),
             PrintedTime:row.PrintedTime,
-            RefNo: row.RefNo,
+            RefNo: $('#txtRefNo').val(),
             VATRate:CDbl($('#txtVATRate').val(),0),
             TotalAdvance:CNum($('#txtTotalAdvance').val()),
             TotalCharge:CNum($('#txtTotalCharge').val()),
@@ -941,6 +947,7 @@ End Code
     function ReadData() {
         $('#txtInvNo').val(row.DocNo);
         $('#txtDocNo').val(row.DocNo);
+        $('#txtRefNo').val(row.RefNo);
         $('#txtDocDate').val(CDateEN(row.DocDate));
         $('#txtDCustCode').val(row.CustCode);
         $('#txtDCustBranch').val(row.CustBranch);

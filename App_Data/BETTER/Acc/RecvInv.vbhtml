@@ -658,8 +658,8 @@ End Code
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#txtAdvCash').val(CDbl(sum_ca, 2));
-        $('#txtAdvChq').val(CDbl(sum_ch, 2));
-        $('#txtAdvChqCash').val(CDbl(sum_cu, 2));
+        $('#txtAdvChq').val(CDbl(sum_cu, 2));
+        $('#txtAdvChqCash').val(CDbl(sum_ch, 2));
         $('#txtAdvCred').val(CDbl(sum_cr, 2));
 
         $('#txtSumApprove').val(CDbl(tot, 2));

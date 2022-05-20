@@ -66,7 +66,11 @@ End Code
     }
     #summary td, th {
         padding: 10px 5px;
-    } 
+    }
+
+    #signature td{
+        padding : 5px;
+    }
 </style>
 <div class="center bold">
     <br/>
@@ -270,18 +274,33 @@ End Code
     <tbody id="summary" style="border-top:1px black solid">
         <tr>
             <td colspan="3"></td>
-            <td colspan="3" style="text-align:center">AMOUNT</td>
-            <td style="text-align:right" id="sumSrv"> </td>
+            <td colspan="2" style="text-align:right">AMOUNT</td>
+            <td style="text-align:right" id="sumAdv"></td>
+            <td style="text-align:right" id="sumSrv"></td>
         </tr>
         <tr>
-            <td colspan="3"></td>
-            <td colspan="3" style="text-align:center">กรุณาหักภาษี ณ ที่จ่าย 1% เป็นจำนวนเงิน = </td>
+            <td colspan="2"></td>
+            <td colspan="3" style="text-align:right">ภาษีมูลค่าเพิ่ม 7% = </td>
+            <td></td>
+            <td style="text-align:right;border-bottom:1px black solid" id="sumVat"> </td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td colspan="3" style="text-align:right">TOTAL = </td>
+            <td></td>
+            <td style="text-align:right;border-bottom:double" id="totalNet"> </td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td colspan="3" style="text-align:right">กรุณาหักภาษี ณ ที่จ่าย 1% เป็นจำนวนเงิน = </td>
+            <td></td>
             <td style="text-align:right;border-bottom:1px black solid" id="sumWHTax"> </td>
         </tr>
         <tr>
-            <td colspan="3"></td>
-            <td colspan="3" style="text-align:center">TOTAL = </td>
-            <td style="text-align:right;border-bottom:double" id="totalNet"> </td>
+            <td colspan="2"></td>
+            <td colspan="3" style="text-align:right">GRAND TOTAL = </td>
+            <td></td>
+            <td style="text-align:right;border-bottom:double" id="grandTotalNet"> </td>
         </tr>
         <tr>
             <td>ยอดที่ต้องชำระทั้งสิ้น = </td>
@@ -348,28 +367,25 @@ End Code
 
 
 <br /><br />
-<table class="table" style="width:100%">
+<table id="signature" class="table" style="width:100%">
     <tr>
-        <td colspan="2" class="bold" style="flex:1;text-align:center;">ผู้รับวางบิล / Received By :</td>
-
-        <td colspan="2" class="bold" style="flex: 1; text-align: center;">อนุมัติโดย / Approved By :</td>
-
-        <td colspan="2" class="bold" style="flex: 1; text-align: center;">ผูัจัดทำ /  Preapared By </td>
-
+        <td colspan="2" class="bold" style="text-align:center;">ผู้รับวางบิล / Received By :</td>
+        <td colspan="2" class="bold" style=" text-align: center;">อนุมัติโดย / Approved By :</td>
+        <td colspan="2" class="bold" style=" text-align: center;">ผูัจัดทำ /  Preapared By </td>
     </tr>
     <tr>
-        <td colspan="2" class="underLine textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /></td>
-        <td colspan="2" class="underLine textSpace" style="flex: 1; text-align: center;"></td>
-        <td colspan="2" class="underLine center" style="flex: 1; text-align: center;"> </td>
+
+        <td colspan="2" class="underLine textSpace" style=" text-align: center;"><br /><br /><br /><br /><br /></td>
+        <td colspan="2" class="underLine textSpace" style=" text-align: center;"></td>
+        <td colspan="2" class="underLine center" style=" text-align: center;"> </td>
     </tr>
     <tr>
         <td class="bold" style="width:10%; text-align: center;">DATE :</td>
-        <td class="underLine  textSpace" style="flex: 1; text-align: center;"></td>
+        <td class="underLine  textSpace" style=" text-align: center;"></td>
         <td class="bold" style="width: 10%; text-align: center;">DATE :</td>
-        <td class="underLine  textSpace" style="flex: 1; text-align: center;"></td>
+        <td class="underLine  textSpace" style=" text-align: center;"></td>
         <td class="bold" style="width: 10%; text-align: center;">DATE :</td>
-        <td class="underLine  textSpace" style="flex: 1; text-align: center;"></td>
-
+        <td class="underLine  textSpace" style=" text-align: center;"></td>
     </tr>
 </table>
 
@@ -477,19 +493,19 @@ End Code
                     vat += row.AmtCharge * row.ExchangeRate.toFixed(4);
                 } else {
                     nonVat += row.AmtCharge * row.ExchangeRate.toFixed(4);
-                }
-                switch (r.Rate50Tavi) {
+                } 
+                switch (row.Rate50Tavi-0) {
                     case 1:
-                        sumWht1 += r.Amt50Tavi;
-                        sumbaseWht1 += r.Amt;
+                        sumWht1 += row.Amt50Tavi;
+                        sumbaseWht1 += row.Amt;
                         break;
                     case 1.5:
-                        sumWht1_5 += r.Amt50Tavi;
-                        sumbaseWht1_5 += r.Amt;
+                        sumWht1_5 += row.Amt50Tavi;
+                        sumbaseWht1_5 += row.Amt;
                         break;
                     case 3:
-                        sumWht3 += r.Amt50Tavi;
-                        sumbaseWht3 += r.Amt;
+                        sumWht3 += row.Amt50Tavi;
+                        sumbaseWht3 += row.Amt;
                         break;
                     default:
                         break;
@@ -516,14 +532,16 @@ End Code
             //$('#gross1_5').text(ShowNumber(sumbaseWht1_5, 2));
             //$('#wtAmt1_5').text(ShowNumber(sumWht1_5, 2));
 
-            $("#advanceAmount").text(ShowNumber(adv,2));
+            $("#sumAdv").text(ShowNumber(adv,2));
             $("#sumSrv").text(ShowNumber(nonVat, 2));
-            $("#totalNet").text(ShowNumber(nonVat - sumWht1, 2));
-            $("#totalPay").text(ShowNumber(nonVat - sumWht1, 2));
-            $("#bahtText").text(CNumThai(CDbl(nonVat - sumWht1, 2)));
+            $("#sumVat").text(ShowNumber(vat, 2));
+            $("#totalNet").text(ShowNumber(nonVat + vat , 2));
+            $("#grandTotalNet").text(ShowNumber(nonVat + vat - sumWht1, 2));
+            $("#totalPay").text(ShowNumber(nonVat + vat - sumWht1, 2));
+            $("#bahtText").text(CNumThai(CDbl(nonVat + vat- sumWht1, 2)));
+            
 
-
-            $("#vatAmount").text(ShowNumber(vat, 2));
+            
             $('#details').html(html);
             $("#valueAddedTax").text(ShowNumber(h.TotalVAT, 2));
             $("#totalAmount").text(ShowNumber(vat + h.TotalVAT, 2));

@@ -30,7 +30,8 @@ End Code
                 <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
                 <option value="SRV">Tax-Invoice (Service only)</option>
                 <option value="REC">Receipt Advance</option>
-                <option value="RCV">Receipt Transport</option>
+                @*<option value="RCV">Receipt Transport</option>*@
+                <option value="RET">Receipt Transport</option>
                 <option value="DNR">Debit Note Receipt</option>
             </select>
         </div>
@@ -657,7 +658,13 @@ End Code
         let code = row.ReceiptNo;
         if (code !== '') {
             let branch = row.BranchCode;
-            window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code);
+            switch (row.ReceiptType) {
+                case "RET": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
+                    break;
+                case "DNR": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                    break;
+                default: window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code);
+            }
         }
     }
     function ShowHeader() {

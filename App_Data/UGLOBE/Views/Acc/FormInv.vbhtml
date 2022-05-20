@@ -451,18 +451,18 @@ End Code
                 } else {
                     nonVat += row.AmtCharge * row.ExchangeRate.toFixed(4);
                 }
-                switch (r.Rate50Tavi) {
+                switch (row.Rate50Tavi - 0) {
                     case 1:
-                        sumWht1 += r.Amt50Tavi;
-                        sumbaseWht1 += r.Amt;
+                        sumWht1 += row.Amt50Tavi;
+                        sumbaseWht1 += row.Amt;
                         break;
                     case 1.5:
-                        sumWht1_5 += r.Amt50Tavi;
-                        sumbaseWht1_5 += r.Amt;
+                        sumWht1_5 += row.Amt50Tavi;
+                        sumbaseWht1_5 += row.Amt;
                         break;
                     case 3:
-                        sumWht3 += r.Amt50Tavi;
-                        sumbaseWht3 += r.Amt;
+                        sumWht3 += row.Amt50Tavi;
+                        sumbaseWht3 += row.Amt;
                         break;
                     default:
                         break;

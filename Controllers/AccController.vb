@@ -3073,6 +3073,9 @@ ORDER BY a.TName1
                         tSqlw = " AND ISNULL(r.LastReceiptNo,'')<>'' AND ISNULL(r.LastControlNo,'')='' "
                         tSqlw &= " AND " & defaultWhere & ">=0 "
                     End If
+                    If Request.QueryString("Show").ToString.ToUpper = "HAVERV" Then
+                        bCheckVoucher = True
+                    End If
                     If Request.QueryString("Show").ToString.ToUpper = "ALL" Then
                         tSqlw = ""
                     Else

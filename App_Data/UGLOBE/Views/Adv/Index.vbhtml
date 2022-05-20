@@ -2417,27 +2417,27 @@ End Code
         $('#txtVAT').val(0);
         $('#txtWHT').val(0);
         $('#txtNET').val(0);
-        let price = CDbl($('#txtUnitPrice').val(),2);
-        let qty = CDbl($('#txtAdvQty').val(),2);
-        let rate = CDbl($('#txtExcRate').val(),2); //rate ของ detail
+        let price = CDbl($('#txtUnitPrice').val(),4);
+        let qty = CDbl($('#txtAdvQty').val(),4);
+        let rate = CDbl($('#txtExcRate').val(),4); //rate ของ detail
         let type = $('#txtVatType').val();
         if (qty > 0) {
             let amt = CNum(qty) * CNum(price);
-            $('#txtAMTCal').val(CDbl(CNum(amt), 2));
+            $('#txtAMTCal').val(CDbl(CNum(amt), 4));
             if (type == '0' || type == '') type = '1';
             if (type == '2') {
-                $('#txtNET').val(CDbl(CNum(amt) * CNum(rate), 2));
+                $('#txtNET').val(CDbl(CNum(amt) * CNum(rate), 4));
             }
             if (type == '1') {
-                $('#txtAMT').val(CDbl(CNum(amt) * CNum(rate),2));
+                $('#txtAMT').val(CDbl(CNum(amt) * CNum(rate),4));
             }
             CalVATWHT();
         }
     }
     function CalTotal() {
-        let amt = CDbl($('#txtAMT').val(),2);
-        let vat = CDbl($('#txtVAT').val(),2);
-        let wht = CDbl($('#txtWHT').val(), 2);
+        let amt = CDbl($('#txtAMT').val(),3);
+        let vat = CDbl($('#txtVAT').val(),3);
+        let wht = CDbl($('#txtWHT').val(), 3);
 
         $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),2));
         $('#txtAMT').val(CDbl(amt,2));
@@ -2448,27 +2448,27 @@ End Code
             type = '1';
             $('#txtVatType').val(type);
         }
-        let amt = CDbl($('#txtAMT').val(),2);
+        let amt = CDbl($('#txtAMT').val(),4);
         if (type == '2') {
-            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 2);
+            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 4);
         }
-        let vatrate = CDbl($('#txtVATRate').val(),2);
-        let whtrate = CDbl($('#txtWHTRate').val(),2);
+        let vatrate = CDbl($('#txtVATRate').val(),4);
+        let whtrate = CDbl($('#txtWHTRate').val(),4);
         let vat = 0;
         let wht = 0;
         if (type == "2") {
             let base = amt * 100 / (100 + Number(vatrate));
             vat = base * vatrate * 0.01;
             wht = base * whtrate * 0.01;
-            $('#txtAMT').val(CDbl(CNum(base),2));
-            $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 2));
+            $('#txtAMT').val(CDbl(CNum(base),4));
+            $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 4));
         }
         if (type == "1") {
             vat = amt * vatrate * 0.01;
             wht = amt * whtrate * 0.01;
         }
-        $('#txtVAT').val(CDbl(vat.toFixed(3),3));
-        $('#txtWHT').val(CDbl(wht.toFixed(3),3));
+        $('#txtVAT').val(CDbl(vat.toFixed(4),4));
+        $('#txtWHT').val(CDbl(wht.toFixed(4),4));
         CalTotal();
     }
     function GetExchangeRate() {

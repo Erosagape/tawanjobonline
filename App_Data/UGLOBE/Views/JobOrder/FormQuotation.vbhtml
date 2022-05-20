@@ -127,8 +127,8 @@ End Code
     </div>
 </div>
 <script type="text/javascript">
-    $('#imgLogo').hide();
-    $('#imgLogoAdd').show();
+    ////$('#imgLogo').hide();
+    ////$('#imgLogoAdd').show();
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
     let docno = getQueryString('docno');

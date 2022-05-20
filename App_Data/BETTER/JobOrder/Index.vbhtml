@@ -197,7 +197,7 @@ End Code
                     {
                         "data": null, "title": "Job Status",
                         "render": function (data) {
-                            return data.JobStatus;
+                            return data.JobStatusName;
                         }
                     },
                     {
