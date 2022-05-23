@@ -443,9 +443,7 @@ End Code
             let totalRows = 10;
             let blankRows = totalRows - d.length;
             for (let row of d) {
-                if (row.AmtVat != 0) {
-                    continue;
-                }
+            
                 html += '        <tr>';
                 html += '            <td class="">' + row.SDescription + ' #' + row.ExpSlipNO + '</td>';
                 html += '            <td>' + row.CurrencyCode + ShowNumber(row.FUnitPrice, 2) + '/' + ShowNumber(row.Qty, 3) + ' ' + row.QtyUnit + '</td>';

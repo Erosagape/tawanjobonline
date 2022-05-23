@@ -31,7 +31,7 @@ End Code
             </div>
             <div class="col-sm-1">
                 <br />
-                <input type="checkbox" id="chkNoEarnest" checked />&nbsp; NO EARNEST
+                <input type="checkbox" id="chkNoEarnest" />&nbsp; NO EARNEST
             </div>
         </div>
         <div class="row">
@@ -590,22 +590,26 @@ End Code
                 pageLength: 100,
                 createdRow: function (row, data, index) {
                     if ($('#chkSelectAll').prop('checked')) {
-                        $(row).addClass('selected')
-                        AddData(data);
+                        if (CheckValidate(data)) {
+                            $(row).addClass('selected');
+                            AddData(data);
+                        }
                     }
                 },
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page,
             });
             $('#tbHeader tbody').on('click', 'tr', function () {
+                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
-                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                    data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
                     RemoveData(data); //callback function from caller
                     return;
                 }
-                $(this).addClass('selected');
-                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                AddData(data); //callback function from caller
+                if (CheckValidate(data)) {
+                    $(this).addClass('selected');
+                    AddData(data); //callback function from caller
+                }
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let clearno = $(this).find('td:eq(1)').text();
@@ -1021,11 +1025,11 @@ End Code
             $('#dvEditor').modal('show');
         }
     }
-    function AddData(o) {
+    function AddData(o) {        
         let idx = arr.indexOf(o);
         if (idx < 0) {
             arr.push(o);
-        }
+        }        
     }
     function RemoveData(o) {
         let idx = arr.indexOf(o);
@@ -1047,7 +1051,7 @@ End Code
             ShowMessage('Please choose customer first',true);
             return;
         }
-	$('#btnGen').attr('disabled','disabled');
+        $('#btnGen').attr('disabled', 'disabled');
         if ($('#txtDocNo').val() !== '') {
             DeleteDetail();
         } else {
@@ -1105,8 +1109,8 @@ End Code
             CancelProve:'',
             CancelDate:null,
             CancelTime:null,
-            ShippingRemark: GetDueDate($('#txtDocDate').val()),
-            DueDate: null,
+            ShippingRemark: '',
+            DueDate: GetDueDate($('#txtDocDate').val()),
             CreateDate:CDateEN(GetToday())
         };
         let jsonString = JSON.stringify({ data: dataInv });
@@ -1684,5 +1688,70 @@ End Code
             $('#dvEditor').modal('hide');
             CalSummary();
         }
+    }
+    function CheckValidate(o) {
+        let chk = true;
+        let msg = '';
+        if (o.ClearPortNo == '' || o.ClearPortNo == null) {
+            chk = false;
+            msg +='Discharge Port in job not found<br/>';
+        }
+        if (o.PortName == '' || o.PortName == null) {
+            chk = false;
+            msg += 'Loading Port in job not found<br/>';
+        }
+        if (o.DeclareNumber == '' || o.DeclareNumber == null) {
+            chk = false;
+            msg += 'Declare Number in job not found<br/>';
+        }
+        if (o.BookingNo == '' || o.BookingNo == null) {
+            chk = false;
+            msg += 'Booking No in job not found<br/>';
+        }
+        if (o.HAWB == '' || o.HAWB == null) {
+            chk = false;
+            msg += 'House BL/AWB in job not found<br/>';
+        }
+        if (o.MAWB == '' || o.MAWB == null) {
+            chk = false;
+            msg += 'Master BL/AWB in job not found<br/>';
+        }
+        if (o.Measurement == '' || o.Measurement == null) {
+            chk = false;
+            msg += 'Measurement in job not found<br/>';
+        }
+        if (o.VesselName == '' || o.VesselName == null) {
+            chk = false;
+            msg += 'Vessel Name in job not found<br/>';
+        }
+        if (o.TotalGW == 0 || o.TotalGW == null) {
+            chk = false;
+            msg += 'Gross Weight in job not found<br/>';
+        }
+        if (o.CustRefNO == '' || o.CustRefNO == null) {
+            chk = false;
+            msg += 'Customer PO in job not found<br/>';
+        }
+        if (o.TotalContainer == '' || o.TotalContainer == null) {
+            chk = false;
+            msg += 'Total Container in job not found<br/>';
+        }
+        if (o.ForwarderCode == '' || o.ForwarderCode == null) {
+            chk = false;
+            msg += 'Carrier in job not found<br/>';
+        }
+        if (o.ETDDate == '' || o.ETDDate == null) {
+            chk = false;
+            msg += 'ETD in job not found<br/>';
+        }
+        if (o.ETADate == '' || o.ETADate == null) {
+            chk = false;
+            msg += 'ETA in job not found<br/>';
+        }
+        if (msg != '') {
+            msg = 'Please check Job : ' + o.JobNo +'<br/>'+ msg;
+            ShowMessage(msg, true);
+        }
+        return chk;
     }
 </script>

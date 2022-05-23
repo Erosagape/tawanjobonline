@@ -104,7 +104,7 @@ End Code
         <tr>
             <td> <b>OCEAN FREIGHT CHARGE</b></td>
             <td>:</td>
-            <td colspan="5"></td>
+            <td colspan="5" id="lblPaymentBy"></td>
         </tr>
         <tr>
             <td> <b>FEEDER/VESSEL</b></td>
@@ -253,7 +253,7 @@ End Code
         <br />
         <b>PLACE OF DELIVERY :</b> <label id="lblPortArrival"></label>,<label id="lblCountry"></label>
         <br />
-        <b>QUANTITY : </b><label id="lblProductQty"></label> &nbsp; <label id="lblProductUnit"></label>
+        <b>QUANTITY : </b><label id="lblTotalContainer"></label>
         <br />
 
         <br />
@@ -331,9 +331,9 @@ End Code
             $('#lblBookingNo').text(h.BookingNo);
             $('#lblBookingDate').text(ShowDate(h.BookingDate));
             $('#lblShipperName2').text(h.ShipperName);
-            $('#lblAgentName').text(h.ForwarderName);
-            $('#lblTotalContainer').text(h.TotalContainer);
-
+            $('#lblAgentName').text(h.CarrierName);
+            //$('#lblTotalContainer').text(h.TotalContainer);
+            $('#lblPaymentBy').text(h.PaymentBy);
             if (h.JobType == '1') {
                 ShowInterPort(path, h.InvFCountry, h.InvInterPort, '#lblPortArrival');
                 ShowCountry(path, h.InvFCountry, '#lblCountry');
@@ -341,7 +341,7 @@ End Code
                 ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblPortArrival');
                 ShowCountry(path, h.InvCountry, '#lblCountry');
             }
-            $('#lblProductQty').text(h.InvProductQty);
+            $('#lblProductQty').text(h.TotalContainer);
             $('#lblInvProduct').text(h.InvProduct);
             ShowInvUnit(path, h.InvProductUnit, '#lblProductUnit');
             $('#lblTotalGW').text(h.TotalGW);
@@ -378,12 +378,12 @@ End Code
             $('#lblShipperTel').text(h.ShipperPhone);
             $('#lblShipperFax').text(h.ShipperFax);
             $('#lblShipperEMail').text(h.ShipperEMail);
-           
-
+	    $('#lblCustomsCode').text(h.ClearPort);
+/*
             $.get(path + 'Master/GetCustomsPort?Code=' + h.ClearPort).done(function (r) {
                 $('#lblCustomsCode').text(r.RFARS.data[0].AreaName+"-"+h.ClearPort);
             });
-
+*/
             $('#lblCSMail').text(h.CSEMail);
             $('#lblCSName').text(h.CSName);
             let str = h.Description;

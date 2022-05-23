@@ -196,6 +196,7 @@ End Code
                                     <th class="all">Net</th>
                                 </tr>
                             </thead>
+                            <tbody></tbody>
                         </table>
                         <table id="tbHeader" class="table table-responsive">
                             <thead>
@@ -213,6 +214,7 @@ End Code
                                     <th class="all">Net</th>
                                 </tr>
                             </thead>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -301,6 +303,43 @@ End Code
         ShowSummary();
     }
     function SetEvents() {
+        $('#tbHeader tbody').on('click', 'tr',function () {
+            console.log('click');
+            if ($(this).hasClass('selected') == true) {
+                $(this).removeClass('selected');
+                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                RemoveData(data); //callback function from caller
+                return;
+            }
+            $(this).addClass('selected');
+            let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+            AddData(data); //callback function from caller
+        });
+
+        $('#tbSummary tbody').on('click', 'tr',function () {
+            if ($(this).hasClass('selected') == true) {
+                $(this).removeClass('selected');
+
+                let data = $('#tbSummary').DataTable().row(this).data();
+                let filter = $.grep(dtl, function (d) {
+                    return d.InvoiceNo == data.InvoiceNo;
+                });
+                for (let d of filter) {
+                    RemoveData(d);
+                }
+                return;
+            }
+
+            $(this).addClass('selected');
+
+            let data = $('#tbSummary').DataTable().row(this).data();
+            let filter = $.grep(dtl, function (d) {
+                return d.InvoiceNo == data.InvoiceNo;
+            });
+            for (let d of filter) {
+                AddData(d);
+            }
+        });
 
         let cbos = ['#cboBankCash', '#cboBankChqCash', '#cboBankChq'];
         loadBank(cbos, path);
@@ -469,30 +508,7 @@ End Code
                 , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbSummary');
-            $('#tbSummary tbody tr').on('click', function () {
-                if ($(this).hasClass('selected') == true) {
-                    $(this).removeClass('selected');
-
-                    let data = $('#tbSummary').DataTable().row(this).data();
-                    let filter = $.grep(dtl,function (d) {
-                        return d.InvoiceNo == data.InvoiceNo;
-                    });
-                    for (let d of filter) {
-                        RemoveData(d);
-                    }
-                    return;
-                }
-
-                $(this).addClass('selected');
-
-                let data = $('#tbSummary').DataTable().row(this).data();
-                let filter = $.grep(dtl,function (d) {
-                    return d.InvoiceNo == data.InvoiceNo;
-                });
-                for (let d of filter) {
-                    AddData(d);
-                }
-            });
+          
 
             let h = r.invdetail.data;
             let tb2=$('#tbHeader').DataTable({
@@ -545,17 +561,7 @@ End Code
                 , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
-            $('#tbHeader tbody tr').on('click', function () {
-                if ($(this).hasClass('selected') == true) {
-                    $(this).removeClass('selected');
-                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                    RemoveData(data); //callback function from caller
-                    return;
-                }
-                $(this).addClass('selected');
-                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                AddData(data); //callback function from caller
-            });
+          
         });
     }
     function SetStatusInput(d, bl, ctl) {

@@ -11,8 +11,9 @@ End Code
     input[type="text"] {
         border: none;
     }
+
     * {
-        font-size:12px;
+        font-size: 12px;
     }
 </style>
 <div style="padding:30px 30px 30px 30px">
@@ -21,24 +22,30 @@ End Code
     </div>
     <br />
     <div style="text-align:left">
-        <label id="subj">เรื่อง  </label><span id="lblSubj">ขอใช้จดหมายรับ D/O เนื่องจาก <input type="text" id="txtType" style="width:200px" value="SURRENDER OB/L" /></span>
+        <label id="subj">เรื่อง  </label><span id="lblSubj">ขอรับ D/O โดยปราศจาก B/L ต้นฉบับ</span>
         <br /><br />
-        <label id="to">เรียน </label><span id="lblTo">เจ้าหน้าที่แผนกขาเข้าทางเรือ</span> <label id="lblForwarderName">บริษัท__________________________________________</label>
+        <label id="to">เรียน </label><span id="lblTo">เจ้าหน้าที่แผนกเรือเข้า </span> <label id="lblForwarderName">บริษัท__________________________________________</label>
     </div>
     <br />
     <br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  เนื่องด้วยบริษัท <label id="lblNameThai"></label>
     มีสินค้าเข้ามากับเรือ <label id="lblVesselName"></label>
     <br />
-    เที่ยววันที่ <label id="lblETADate"></label> ตาม B/L No: <label id="lblHAWB"></label>
-    จำนวน <label id="lblProductQty"></label>  <label id="lblProductUnit"></label>
+    เที่ยววันที่ <label id="lblETADate"></label>  &nbsp; มีสินค้ามาจาก PORT <label id="lblInterPort"></label> &nbsp;
+    จำนวน <label id="lblProductQty"></label>  <label id="lblProductUnit"></label> / <label id="lblGrossWeight"></label>  <label id="lblWeightUnit"></label> / <label id="lblMeasurement"></label> CBM <br />
     <br />
-    ซึ่งผู้ขายของบริษัทฯ ได้ทำการ <input type="text" id="txtType2" style="width:200px;" value="SURRENDER ORIGINAL B/L" />
+    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    CONSIGNEE <label id="lblConsignName"></label>
+    <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    B/L No: <label id="lblHAWB"></label>
+    <br />
+    <br />
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ซึ่งการนำสินค้าเข้าในครั้งนี้ ผู้ขายของบริษัทฯ ได้ทำการ <input type="text" id="txtType2" style="width:200px;" value="SURRENDER ORIGINAL B/L" />
     <br />ไว้กับทางต้นทางเรียบร้อยแล้ว
     <br />
     <br />
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ดังนั้นทางบริษัทฯ จึงขอรับ D/O โดยใช้จดหมายของทางบริษัทฯ เพิ้อไปทำการปล่อยสินค้า
-    <br/>ซึ่งในการนี้ หากเกิดความเสียหายใดๆ เกิดขึ้นทุกประการ ทางบริษัทฯ ยินดีจะรับผิดชอบความเสียหายที่เกิดขึ้นนั้นตามจริง
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ดังนั้นทางบริษัทฯ จึงขอรับ D/O โดยปราศจาก B/L ต้นฉบับ เพิ้อไปทำการตรวจปล่อยสินค้า
+    <br />ซึ่งในการนี้ หากเกิดความเสียหายใดๆ เกิดขึ้น ทางบริษัทฯ ยินดีจะรับผิดชอบความเสียหายที่เกิดขึ้นนั้นทุกประการ
     <br />
     <br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  จึงเรียนมาเพื่อทราบและโปรดพิจารณาดำเนินการ
@@ -55,7 +62,8 @@ End Code
             <br />
             ______________________
             <br />
-            (นายชาณุศักดิ์ ชายภักตร์)
+            (@ViewBag.UserName)<br />
+            แผนกเรือขาเข้า
         </div>
     </div>
 </div>
@@ -81,9 +89,14 @@ End Code
             $('#lblTo').html(strTo);
             $('#lblETADate').text(ShowDate(dr.ETADate));
             $('#lblVesselName').text(dr.VesselName);
-            $('#lblForwarderName').text(dr.ForwarderName);
+            $('#lblForwarderName').text(dr.ForwarderName); 
+            $('#lblConsignName').text(dr.ConsigneeName);
             $('#lblNameThai').text(dr.CustTName);
             $('#lblProductQty').text(dr.InvProductQty);
+            $('#lblGrossWeight').text(dr.TotalGW);
+            $('#lblWeightUnit').text(dr.GWUnit);
+            $('#lblMeasurement').text(dr.Measurement);
+            ShowInterPort(path, dr.InvCountry, dr.InvInterPort, '#lblInterPort');
             ShowInvUnit(path, dr.InvProductUnit, '#lblProductUnit');
             $('#lblHAWB').text(dr.HAWB);
         }

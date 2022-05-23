@@ -54,7 +54,7 @@ End Code
         <tr>
             <td><label id="lblCustAddr" rowspan="2"></label></td>
             <td style="border-left:1px solid #66FFCC;vertical-align:middle" rowspan="3" colspan="3">
-                <p style="text-align:center;font-weight:bold;font-size:16px">ใบเสร็จรับเงิน / RECEIPT</p>
+                <p style="text-align:center;font-weight:bold;font-size:16px">ใบรับคืนเงินทดรองจ่าย</p>
             
             </td>
         </tr>
@@ -105,7 +105,7 @@ End Code
         <td class="border"><label id="lblTotalNET"></label></td>*@
     </tr>
     <tr class="border" style="font-weight: bold">
-        <td colspan="2" style="text-align: left;">TOTAL RECEIPT : BAHT</td>
+        <td colspan="2" style="text-align: left;">TOTAL : BAHT</td>
         <td style="text-align:center" colspan="8"><label id="lblTotalText"></label></td>
         @*<td colspan="1"><label id="lblTotalAfterVAT"></label></td>*@
     </tr>

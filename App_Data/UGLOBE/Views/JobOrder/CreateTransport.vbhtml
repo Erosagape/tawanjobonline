@@ -497,6 +497,7 @@ End Code
                 break;
         }
     }
+    let arr = [];
     function AddCont() {
         if ($('#txtNetW').val() == '') {
             ShowMessage('Net Weight Must be input', true);
@@ -529,13 +530,24 @@ End Code
         obj += ';';
         $('#ContainerList').val(obj);
         let html = '<tr>';
-        html += '<td>' + $('#txtCTN').val() + '/' + $('#txtSeal').val()+ '</td>';
+        html += '<td>' + $('#txtCTN').val() + '/' + $('#txtSeal').val() + '</td>';
         html += '<td>' + $('#txtQty').val() + ' ' + $('#txtUnit').val() + '</td>';
         html += '<td>' + $('#txtNetW').val() + '</td>';
         html += '<td>' + $('#txtGrossW').val() + '</td>';
         html += '<td>' + $('#txtM3').val() + '</td>';
         html += '</tr>';
         $('#tbContainers tbody').append(html);
+        if (arr.length == 0) {
+            $('#txtTotalContainer').val(0);
+            $('#txtMeasurement').val(0);
+            $('#txtNetWeight').val(0);
+            $('#txtGrossWeight').val(0);
+            let o = {
+                Qty: 1,
+                Unit: $('#txtContainerUnit').val()
+            };
+            arr.push(o);
+        }
         let val = Number($('#txtTotalContainer').val()) + 1;
         let m3 = Number($('#txtMeasurement').val()) + Number($('#txtM3').val());
         let netw = Number($('#txtNetWeight').val()) + Number($('#txtNetW').val());

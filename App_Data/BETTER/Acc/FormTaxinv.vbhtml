@@ -260,7 +260,7 @@ End Code
         $('#lblCustTax').text(h.CustTaxID + branchText);
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiveDate)));
-        $('#lblPRVoucher').text(h.ControlNo);
+        $('#lblPRVoucher').text(h.PRVoucher);
         $('#lblChequeNo').text(h.ChequeNo);
         $('#lblVoucherDate').text(ShowDate(h.ControlDate));
         console.log(h.ControlNo);
