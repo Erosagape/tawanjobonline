@@ -376,7 +376,7 @@ End Code
                     tmp = tmp.replaceAll('{0}', dt1[i].SICode ==="AVF-000"?"<div style='color:red'>"+dt1[i].SDescription+"</div>": dt1[i].SDescription);
             /*        tmp = tmp.replaceAll('{1}', dt1[i].LinkBillNo);*/
                     //tmp = tmp.replaceAll('{2}', dt1[i].CustCode);
-                    tmp = tmp.replaceAll('{1}', dt1[i].ReceiveRef);
+                    tmp = tmp.replaceAll('{1}', dt1[i].PRVoucher);
                     tmp = tmp.replaceAll('{3}', ShowNumber(dt1[i].UnitPrice, 2));
                     tmp = tmp.replaceAll('{12}', dt1[i].Qty);
                     tmp = tmp.replaceAll('{4}', dt1[i].CurrencyCode);

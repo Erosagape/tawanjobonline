@@ -229,6 +229,7 @@ End Code
                                     <th class="desktop">W-Tax</th>
                                     <th class="desktop">Refund</th>
                                     <th class="desktop">Payback</th>
+				    <th class="desktop">Driver</th>
                                 </tr>
                             </thead>
                         </table>

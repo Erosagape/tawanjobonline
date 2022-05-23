@@ -596,7 +596,7 @@ End Code
     }
     function GetSumPayment(type) {
         let filter_data = arr.filter(function (data) {
-            return data[type] > 0
+            return data.PayType == type;
         });
         let filter_sum = {
             sumamount: 0,
@@ -612,8 +612,8 @@ End Code
         for (let i = 0; i < filter_data.length; i++) {
             filter_sum.currencycode = filter_data[i].CurrencyCode;
             filter_sum.exchangerate = filter_data[i].ExchangeRate;
-            filter_sum.sumamount += Number(filter_data[i].TotalExpense);
-            filter_sum.totalamount += Number(filter_data[i].TotalExpense + filter_data[i].TotalVAT);
+            filter_sum.sumamount += (Number(filter_data[i].TotalExpense) / Number(filter_data[i].ExchangeRate));
+            filter_sum.totalamount += Number(filter_data[i].TotalExpense);
             filter_sum.totalnet += Number(filter_data[i].TotalNet);
             filter_sum.vatinc += Number(0);
             filter_sum.vatexc += Number(filter_data[i].TotalVAT);

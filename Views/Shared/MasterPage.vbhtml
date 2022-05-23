@@ -156,8 +156,8 @@
                     </div>
                     <div id="mnuVen" class="w3-hide w3-pale-red w3-card-4">
                         <a href="#" id="mnuVen0" class="w3-bar-item w3-button" onclick="OpenLink('AppTransport')">- Transport Confirm</a>
-                        <a href="#" id="mnuVen2" class="w3-bar-item w3-button" onclick="OpenLink('BillPayment')">- Bill Payment</a>
-                        <a href="#" id="mnuVen1" class="w3-bar-item w3-button" onclick="OpenLink('VenderInv')">- Vender Summary</a>
+                        <a href="#" id="mnuVen1" class="w3-bar-item w3-button" onclick="OpenLink('BillPayment')">- Bill Payment</a>
+                        <a href="#" id="mnuVen2" class="w3-bar-item w3-button" onclick="OpenLink('VenderInv')">- Vender Summary</a>
                         <a href="#" id="mnuVen3" class="w3-bar-item w3-button" onclick="OpenLink('Tracking1')">- Transport Tracking</a>
                     </div>
                     <div id="mainRpt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuRpt')">

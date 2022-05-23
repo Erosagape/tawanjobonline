@@ -33,7 +33,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-6">
-        <label id="lblVenCode">Vender :</label>
+        <a href="~/Master/Venders"><label id="lblVenCode">Vender :</label></a>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtVenCode" style="width:20%" />
@@ -238,12 +238,12 @@ End Code
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo + '&Job=' + data.JobNo +'&BookNo='+ data.BookingRefNo +'&Item=' + data.BookingItemNo,'','');
+                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo + (data.JobNo!==null?'&Job=' + data.JobNo:'') +(data.BookingRefNo!==null?'&BookNo='+ data.BookingRefNo:'') +(data.BookingItemNo!==null?'&Item=' + data.BookingItemNo:''),'','');
             });
         });
     }
     function EntryExpense() {
-        window.open(path + 'acc/expense', '', '');
+        window.open(path + 'acc/expense' + ($('#txtVenCode').val() !== '' ? '?Vend=' + $('#txtVenCode').val():''), '', '');
     }
     function PrintData() {
         window.open(path + 'acc/formexpense?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtApproveRef').val(), '', '');

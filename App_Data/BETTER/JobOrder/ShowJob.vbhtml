@@ -1002,7 +1002,8 @@ End Code
         });
         $('#txtInterPort').keydown(function (event) {
             if (event.which == 13) {
-                ShowInterPort(path, $('#txtJobType').val() == 'IMPORT' ? $('#txtInvFCountryCode').val() : $('#txtInvCountryCode').val(), $('#txtInterPort').val(), '#txtInterPortName');
+                      ShowInterPort(path, $('#txtJobType').val() == 'IMPORT' ? $('#txtInvFCountryCode').val() : $('#txtInvCountryCode').val(), $('#txtInterPort').val(), '#txtInterPortName');
+                  /*    ShowInterPort(path, $('#txtInvCountryCode').val() , $('#txtInterPort').val(), '#txtInterPortName');*/
             }
         });
         $('#txtDeclareType').keydown(function (event) {

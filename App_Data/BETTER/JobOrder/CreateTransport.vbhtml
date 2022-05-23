@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewData("Title") = "Create Job"
+    ViewData("Title") = "Create BL/AWB"
 End Code
 <form id="form" method="POST" action="@Url.Content("~")/JobOrder/PostCreateTransport">
     <div Class="row">
@@ -312,6 +312,7 @@ End Code
     var path = '@Url.Content("~")';
     var job = '@ViewBag.JobNo';
     var branch = '@ViewBag.PROFILE_DEFAULT_BRANCH';
+    var arr = [];
     if (job !== '') {
         window.location.href=path + 'JobOrder/Transport?BranchCode=' + branch + '&JNo=' + job;
     }
@@ -454,13 +455,13 @@ End Code
                 });
                 break;
             case 'receiveat':
-                w = $('#txtJobType').val() == 1 ? $('#txtCountryCode').val() : 'TH';
+                w = Number($('#txtJobType').val()) == 1 ? $('#txtCountryCode').val() : 'TH';
                 SetGridInterPort(path, '#tbReceiveAt', '#dvReceiveAt', w, function (dr) {
                     $('#txtReceivePlace').val(dr.PortName);
                 });
                 break;
             case 'loadat':
-                w = $('#txtJobType').val() == 1 ? $('#txtCountryCode').val() : 'TH';
+                w = Number($('#txtJobType').val()) == 1 ? $('#txtCountryCode').val() : 'TH';
                 SetGridInterPort(path, '#tbLoadAt', '#dvLoadAt', w, function (dr) {
                     if (Number($('#txtJobType').val()) == 1) {
                         $('#txtPortCode').val(dr.PortCode);
@@ -472,7 +473,7 @@ End Code
                 });
                 break;
             case 'dischargeat':
-                w = $('#txtJobType').val() == 1 ? 'TH' : $('#txtCountryCode').val();
+                w = Number($('#txtJobType').val()) == 1 ? 'TH' : $('#txtCountryCode').val();
                 SetGridInterPort(path, '#tbDischargeAt', '#dvDischargeAt', w, function (dr) {
                     if (Number($('#txtJobType').val()) !== 1) {
                         $('#txtPortCode').val(dr.PortCode);
@@ -484,13 +485,13 @@ End Code
                 });
                 break;
             case 'deliveryat':
-                w = $('#txtJobType').val() == 1 ? 'TH' : $('#txtCountryCode').val();
+                w = Number($('#txtJobType').val()) == 1 ? 'TH' : $('#txtCountryCode').val();
                 SetGridInterPort(path, '#tbDeliveryAt', '#dvDeliveryAt', w, function (dr) {
                     $('#txtDeliveryPlace').val(dr.PortName);
                 });
                 break;
             case 'payableat':
-                w = $('#txtJobType').val() == 1 ? 'TH' : $('#txtCountryCode').val();
+                w = Number($('#txtJobType').val()) == 1 ? 'TH' : $('#txtCountryCode').val();
                 SetGridInterPort(path, '#tbPayableAt', '#dvPayableAt',w, function (dr) {
                     $('#txtFreightPayAt').val(dr.PortName);
                 });
@@ -536,6 +537,17 @@ End Code
         html += '<td>' + $('#txtM3').val() + '</td>';
         html += '</tr>';
         $('#tbContainers tbody').append(html);
+        if (arr.length == 0) {
+            $('#txtTotalContainer').val(0);
+            $('#txtMeasurement').val(0);
+            $('#txtNetWeight').val(0);
+            $('#txtGrossWeight').val(0);
+            let o = {
+                Qty: 1,
+                Unit: $('#txtContainerUnit').val()
+            };
+            arr.push(o);
+        }
         let val = Number($('#txtTotalContainer').val()) + 1;
         let m3 = Number($('#txtMeasurement').val()) + Number($('#txtM3').val());
         let netw = Number($('#txtNetWeight').val()) + Number($('#txtNetW').val());

@@ -119,7 +119,7 @@ End Code
         <td class="border"><label id="lblTotalBeforeVAT"></label></td>
         <td class="border"><label id="lblTotalVAT"></label></td>
         <td class="border"><label id="lblTotalWHT"></label></td>
-        <td class="border"><label id="lblTotalNET"></label></td>
+        <td class="border"><label id="lblTotalNET" onclick="$(this).text(ShowNumber(Math.round($(this).text().replaceAll(',',''),2),2)); "></label></td>
     </tr>
     <tr class="border" style="font-weight: bold">
         <td colspan="2" style="text-align: left;">TOTAL RECEIPT : BAHT</td>
@@ -170,7 +170,7 @@ End Code
         <tr>
             <td rowspan="2" style="width:10%;vertical-align: central; font-size: 16px; white-space: nowrap">PAY BY:</td>
             <td style="width: 10%; white-space: nowrap">TRANSFER</td>
-            <td contenteditable="true" style="border-bottom:1px #66FFCC solid;white-space:pre;"></td>
+            <td id="lblPayRef" contenteditable="true" style="border-bottom:1px #66FFCC solid;white-space:pre;"></td>
             <td style="width: 10%; white-space: nowrap">RV NO.</td>
             <td id="lblPRVoucher" contenteditable="true" style="border-bottom: 1px #66FFCC solid; white-space: pre;"></td>
         </tr>
@@ -261,8 +261,10 @@ End Code
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiveDate)));
         $('#lblPRVoucher').text(h.PRVoucher);
+        $('#lblPayRef').text(h.PayRef);
+        
         $('#lblChequeNo').text(h.ChequeNo);
-        $('#lblVoucherDate').text(ShowDate(h.ControlDate));
+        $('#lblVoucherDate').text(h.ControlDate);
         console.log(h.ControlNo);
         let html = '';
         let service = 0;
@@ -309,7 +311,7 @@ End Code
             <td>${ShowNumber(service, 2)}</td>
             <td>${ShowNumber(vat, 2)}</td>
             <td>${ShowNumber(service+vat, 2)}</td>
-            <td>${ShowNumber(amt, 2)}</td>
+            <td onclick="$(this).text(ShowNumber(Math.round($(this).text().replaceAll(',',''),2),2));">${ShowNumber(amt, 2)}</td>
         </tr>`);
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));

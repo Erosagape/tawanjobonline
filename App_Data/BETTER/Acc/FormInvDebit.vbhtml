@@ -62,7 +62,7 @@ End Code
         width: 100%;
     }
 
-    #details td {
+/*    #details td {
         border-left: 1px solid black !important;
         border-right: 1px solid black !important;
     }
@@ -75,6 +75,14 @@ End Code
     #tbfoot > tr > td {
         border-left: 1px solid black !important;
         border-right: 1px solid black !important;
+    }*/
+    table {
+        border-color: coral;
+    }
+    #hbltable td {
+        border-left: solid;
+        border-right :solid;
+        border-color: coral;
     }
 </style>
 <table border="0" style="width:100%; height:100%; border-bottom:solid; border-top:solid">
@@ -82,7 +90,7 @@ End Code
         <td align="left">
             PARTNER:
         </td>
-        <td  id="billToEName">
+        <td id="billToEName">
         </td>
         <td>
             CN NO.:
@@ -219,7 +227,7 @@ End Code
         </td>
     </tr>
 </table>
-<table border="1" style="width:100%; height:100%; border-collapse:collapse">
+<table id="hbltable" style="width:100%; height:100%; border-collapse:collapse">
     <tbody>
         <tr style="height:30px">
             <td style="text-align:center">
@@ -254,7 +262,7 @@ End Code
 
     <tbody id="tbdetail" style="padding:1px">
     </tbody>
-    
+
 
     @*<tr>
             <td>
@@ -337,27 +345,27 @@ End Code
 
 
 @*<div style="display:flex;width: 100%;">
-    <div style="flex:1">
-        <img id="imgLogoAdd" src="/bft/Resource/BFT_RPT_P1.jpg" style="width: 100%;">
+        <div style="flex:1">
+            <img id="imgLogoAdd" src="/bft/Resource/BFT_RPT_P1.jpg" style="width: 100%;">
+        </div>
+        <div id="master" class="bold" style="display: flex; flex-direction: column; justify-content: center; text-align: center; width: 100px; height: 60px; display: none">
+            <h1 style="font-size:20px">ตันฉบับ</h1>
+            <h2 style="font-size:16px"> สำหรับลูกค้า</h2>
+        </div>
+        <div id="copy" class="bold" style="display:flex;flex-direction:column;justify-content :center;text-align:center;width:100px;height:60px;display:none">
+            <h1 style="font-size:20px">สำเนา</h1>
+            <h2 style="font-size:16px"> สำหรับลูกค้า</h2>
+        </div>
     </div>
-    <div id="master" class="bold" style="display: flex; flex-direction: column; justify-content: center; text-align: center; width: 100px; height: 60px; display: none">
-        <h1 style="font-size:20px">ตันฉบับ</h1>
-        <h2 style="font-size:16px"> สำหรับลูกค้า</h2>
-    </div>
-    <div id="copy" class="bold" style="display:flex;flex-direction:column;justify-content :center;text-align:center;width:100px;height:60px;display:none">
-        <h1 style="font-size:20px">สำเนา</h1>
-        <h2 style="font-size:16px"> สำหรับลูกค้า</h2>
-    </div>
-</div>
-<div style="display:flex;width: 100%;">
-    <div style="width:30%">
-        <img id="imgLogoAdd" src="/bft/Resource/BFT_RPT_P2.jpg" style="width: 100%;">
-    </div>
-    <div style="width:40%"></div>
-    <div style="width:30%">
-        <h2 style="font-size:16px" class="right" id="headerDoc" ondblclick="ChangeHeader()">ใบแจ้งหนี้/INVOICE</h2>
-    </div>
-</div>*@
+    <div style="display:flex;width: 100%;">
+        <div style="width:30%">
+            <img id="imgLogoAdd" src="/bft/Resource/BFT_RPT_P2.jpg" style="width: 100%;">
+        </div>
+        <div style="width:40%"></div>
+        <div style="width:30%">
+            <h2 style="font-size:16px" class="right" id="headerDoc" ondblclick="ChangeHeader()">ใบแจ้งหนี้/INVOICE</h2>
+        </div>
+    </div>*@
 
 
 <table style="border:1px solid black">
@@ -505,8 +513,8 @@ End Code
             <td style="text-align:right"></td>
             <td style="text-align:right"x></td>
         </tr>`);
- 
-        
+
+
         $('#CNno').text(code);
         $('#indate').text(ShowDate(h.DocDate));
         $('#jobno').text(j.JNo);
@@ -591,6 +599,6 @@ End Code
         //    $.get(path + 'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch=' + h.BillToCustBranch)
 
         //});
-    
+
 
 </script>

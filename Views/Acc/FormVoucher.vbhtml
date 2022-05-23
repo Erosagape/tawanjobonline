@@ -186,7 +186,7 @@ End Code
                 let desc = '';
                 let desc0 = '';
 
-                appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>',obj.PRVoucher,CCurrency(CDbl(Number(obj.SumAmount),2)));
+                appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>',obj.PRVoucher,CCurrency(CDbl(Number(obj.SumAmount)*Number(obj.ExchangeRate),2)));
                 //desc0 = '<b>TOTAL ' + obj.PRVoucher +'=' +  + ' ' + obj.CurrencyCode + '</b>';
                 let debit = '';
                 let credit = '';
@@ -198,7 +198,7 @@ End Code
                         }
                         desc0 += obj.PayChqTo !== '' ? '<br/>PAY TO ' + obj.PayChqTo : '';
                         desc0 += obj.RecvBank != '' ? '<br/>BANK ' + obj.RecvBank + ' BRANCH ' + obj.RecvBranch : '';
-                        if(data.document[0].BookName!==''){
+                        if(data.document[0].BookName!==undefined){
 	                        desc0 += obj.BookCode != '' ? '<br/>ACCOUNT ' + data.document[0].BookName + ' REF# ' + obj.DocNo : '';
 			} else {
                         	desc0 += obj.BookCode != '' ? '<br/>ACCOUNT ' + obj.BookCode + ' REF# ' + obj.DocNo : '';

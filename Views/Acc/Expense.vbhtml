@@ -305,7 +305,7 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label id="lblSICode" for="txtSICode">Code :</label>
+                                    <a href="#" onclick="window.open('../Master/ServiceCode');"><label id="lblSICode" for="txtSICode">Code :</label></a>
                                     <br/>
                                     <div style="display:flex">
                                         <input type="text" id="txtSICode" class="form-control" tabindex="12" />
@@ -445,6 +445,7 @@ End Code
     const user = '@ViewBag.User';
     const userGroup = '@ViewBag.UserGroup';
     const userRights = '@ViewBag.UserRights';
+    
     let serv = []; //must be array of object
     let hdr = {}; //simple object
     let dtl = {}; //simple object
@@ -471,6 +472,16 @@ End Code
                 $('#txtVenName').val(dr.TName);
             }
         });
+    } else {
+        if (vend !== '') {
+            $.get(path + 'Master/GetVender?Code=' + vend).done(function (r) {
+                if (r.vender.data.length > 0) {
+                    let dr = r.vender.data[0];
+                    $('#txtVenCode').val(vend);
+                    $('#txtVenName').val(dr.TName);
+                }
+            });
+        }
     }
     SetLOVs();
     SetEvents();
@@ -857,7 +868,9 @@ End Code
         $('#txtDocDate').val( CDateEN(GetToday()));
         $('#txtVenCode').val(vend);
         if (userGroup !== 'V') {
-            $('#txtVenName').val('');
+            if (vend == '') {
+                $('#txtVenName').val('');
+            }
             $('#txtEmpCode').val(user);
             ShowUser(path, user, '#txtEmpName');
         } else {
@@ -1093,6 +1106,13 @@ End Code
                 $('#txtBookingRefNo').val(bookno);
                 $('#txtContainerNo').val(cont);
                 $('#txtBookingItemNo').val(item);
+            } else {
+                $('#txtForJNo').val('');
+                $('#txtCustCode').val('');
+                $('#txtBookingRefNo').val('');
+                $('#txtContainerNo').val('');
+                $('#txtBookingItemNo').val(0);
+
             }
         }
         $('#txtAdvItemNo').val(0);

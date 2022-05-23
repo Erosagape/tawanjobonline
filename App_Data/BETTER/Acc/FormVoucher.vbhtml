@@ -299,6 +299,9 @@ End Code
             for (d of doc) {
                 let tr = "";
                 //<td style="text-align:center;padding:0px 5px;">${i++}</td>
+                if (d.PaidAmount) {
+
+                }
                 tr += `<tr style="height:0px">
                            <td style="text-align:center;padding:0px 5px;">${d.DocRefNo}</td>
                            <td style="text-align:center;padding:0px 5px;">${d.CustInv/* ShowDate(d.DocDate)*/}</td>
@@ -307,11 +310,11 @@ End Code
                                  ` <td colspan="2" style="padding:0px 5px;">${d.SDescription ? d.SDescription : ""}</td>`
                             }
                             <td style="padding:0px 5px;">${d.JobNo ? d.JobNo : ""}</td>
-                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.Amount,2))}</td>
-                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.VAT, 2))}</td>
-                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.WHT, 2))}</td>
-                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount, 2))}</td></tr>`;
-                totalNet += d.PaidAmount;
+                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount ? d.Amount : d.CashAmount,2))}</td>
+                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount ? d.VAT:0, 2))}</td>
+                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount ? d.WHT:0, 2))}</td>
+                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount ? d.PaidAmount : d.CashAmount, 2))}</td></tr>`;
+                totalNet += d.PaidAmount ? d.PaidAmount : d.CashAmount;
                 //console.log(d.PaidAmount);
                 //console.log(d.TotalAmount);
                             detailTrs += tr;
