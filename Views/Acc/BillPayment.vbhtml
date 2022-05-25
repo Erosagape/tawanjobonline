@@ -113,10 +113,11 @@ End Code
                 }
             });
         }
-        //default values
+        //default values 
+        /*
         $('#txtCurrencyCode').val('THB');
         ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
-
+        */
         //Events
         $('#txtBranchCode').focusout(function (event) {
             if (true) {
@@ -179,7 +180,10 @@ End Code
         if ($('#txtDocDateT').val() !== "") {
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
-        w = w + '&show='+ ($('#chkCancel').prop('checked')?'CANCEL':'ACTIVE') +'&currency=' + $('#txtCurrencyCode').val();
+        if ($('#txtCurrencyCode').val() !== "") {
+            w = w +'&currency=' + $('#txtCurrencyCode').val();
+        }
+        w = w + '&show='+ ($('#chkCancel').prop('checked')?'CANCEL':'ACTIVE');
         $.get(path + 'acc/getpaymentsummary?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.payment.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();

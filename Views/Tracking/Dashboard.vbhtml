@@ -26,7 +26,7 @@ End Code
         <div class="col-sm-2">
             <input type="checkbox" id="chkAutoRefresh" /><label id="lblAutoRefresh">Auto Refresh</label><br />
             <button class="btn btn-success" id="btnUpdate" onclick="RefreshGrid()">Update</button>
-            <button class="btn w3-indigo" id="btnAddJob" onclick="CreateNewJob()">New</button>
+            @*<button class="btn w3-indigo" id="btnAddJob" onclick="CreateNewJob()">New</button>*@
             <button class="btn btn-primary" id="btnListJob" onclick="ShowList()">List</button>
         </div>
     </div>

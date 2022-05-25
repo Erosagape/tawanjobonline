@@ -107,5 +107,46 @@ Namespace Controllers
             End Try
             Return Content(String.Format(json, data, msg), jsonContent)
         End Function
+        Function ChangePassword() As ActionResult
+            ViewBag.Message = "Ready"
+            Return View()
+        End Function
+        <HttpPost>
+        <ActionName("ChangePassword")>
+        Function PostChangePassword() As ActionResult
+            Dim str = "User ID={0} Old Pass={1} New Pass={2} Db={3}"
+            str = String.Format(str, Request.Form("userid"), Request.Form("oldpass"), Request.Form("newpass"), Request.Form("db"))
+            ViewBag.Message = str
+            Dim userid = Request.Form("userid")
+            Dim oldpass = Request.Form("oldpass")
+            Dim newpass = Request.Form("newpass")
+            Dim db = Request.Form("db")
+            Dim conn = Main.GetDatabaseConnection(My.MySettings.Default.LicenseTo, "JOBSHIPPING", db)
+            If conn.Length <> 2 Then
+                ViewBag.Message = "Cannot Connect Database"
+            Else
+                Dim oUser = New CUser(conn(0)).GetData(String.Format(" WHERE UserID='{0}'", userid))
+                If oUser.Count > 0 Then
+                    If oUser(0).UPassword.Equals(oldpass) Then
+                        If newpass.Length = 0 Then
+                            ViewBag.Message = "Password must be input"
+                            Return View()
+                        End If
+                        oUser(0).UPassword = newpass
+                        str = oUser(0).SaveData(String.Format(" WHERE UserID='{0}'", userid))
+                        If str.Substring(0, 1) = "S" Then
+                            ViewBag.Message = str + " <a href=""../Default"">Back To Login</a>"
+                        Else
+                            ViewBag.Message = str
+                        End If
+                    Else
+                        ViewBag.Message = "Old Password Incorrect"
+                    End If
+                Else
+                    ViewBag.Message = "User Not Found"
+                End If
+            End If
+            Return View()
+        End Function
     End Class
 End Namespace

@@ -234,7 +234,7 @@ End Code
     </tr>
     <tr>
 	<td colspan="9" style="text-align:right;font-weight:bold;color:green">
-	SUMMARY
+	   INTERNAL + TOTAL COST = SUMMARY
 	</td>
 	<td style="text-align:right;font-weight:bold;">
          
@@ -263,7 +263,7 @@ End Code
     <tr>
         <td colspan="5"></td>
         <td style="text-align:right;font-weight:bold">
-            <label id="baseAmount"></label>
+            <label id="baseAmount" style="color:blue"></label>
 	</td>
     </tr>
 </table>
@@ -431,11 +431,11 @@ End Code
                 let sumWH2 = 0;
                 //alert(dt2.length);
                 for (let i = 0; i < dt2.length; i++) {
-                    console.log("------------");
-                    console.log(commissionCode);
-                    console.log(dt2[i].SICode);
-                    console.log(commissionCode.indexOf(dt2[i].SICode) );
-                    console.log("------------");
+                    //console.log("------------");
+                    //console.log(commissionCode);
+                    //console.log(dt2[i].SICode);
+                    //console.log(commissionCode.indexOf(dt2[i].SICode) );
+                    //console.log("------------");
                     if (commissionCode.indexOf(dt2[i].SICode) >= 0) {
 
                         sumcomm += dt2[i].BNet;
@@ -464,11 +464,12 @@ End Code
                         sumWH2 += dt2[i].Tax50Tavi;
                     }
                   
-                    let codeExclude='CST-027,CST-028';
+                    let codeExclude='CST-027,CST-028,CSP-002,CSP-003';
                     if (dt2[i].IsExpense == 1 && dt2[i].IsCredit == 0) {
-			if(dt2[i].SICode.indexOf('CSP')<0 && codeExclude.indexOf(dt2[i].SICode)<0) {
-                sum3 += dt2[i].UsedAmount;
-			}
+			            if( codeExclude.indexOf(dt2[i].SICode)<0) {
+                            sum3 += dt2[i].UsedAmount;
+                            console.log(dt2[i].UsedAmount);
+			            }
                         sumc2 += dt2[i].BNet;
                         sumt2 += dt2[i].UsedAmount;
                         sum2 += dt2[i].UsedAmount;
@@ -487,17 +488,29 @@ End Code
                 tmp = tmp.replaceAll('{5}', ShowNumber(sumWH2, 2)) ;
                 html2 += tmp;
                 $('#dt2').html(html2);
-                console.log(sum1);
-                console.log(sumt1);
+                //console.log(sum1);
+                //console.log(sumt1);
                 //$("#netAmount").text(ShowNumber(sumc1 - sumc2, 2));
-                $("#netAmount").text(ShowNumber(sumc1 - sumv1 - sum3, 2));
-                $("#costAmount").text(ShowNumber(sum3, 2));
+           
+                //$("#costAmount").text(ShowNumber(sum3, 2));
+                $("#costAmount").text(ShowNumber(sumt2, 2));
                 $("#chargeAmount").text(ShowNumber(sumc1-sumv1, 2));
-                $("#salesAmount").text(ShowNumber(sumc1-sumv1-sum3, 2));
+                $("#salesAmount").text(ShowNumber(sumc1 - sumv1 - sum3, 2));
+
+                let html3 = '';
+                html3 += '<tr>';
+                html3 += '<td>TOTAL COST </td>';
+                html3 += '<td></td>';
+                html3 += '<td class="right"></td>';
+                html3 += '<td class="right"></td>';
+                html3 += '<td class="right"></td>';
+                html3 += '<td class="right">' + ShowNumber(sum3, 2) + '</td>';
+                html3 += '</tr>';
+                $('#dt3').html(html3);
                 $.get(path + 'adv/getclearexpreport?branch=' + branch + '&job=' + job, function (t) {
                     if (t.estimate.data.length > 0) {
                         let htmlSub = '';
-			let sum4=0;
+			            let sum4=0;
                         htmlSub += '<tr>';
                         htmlSub += '<td>{0}</td>';
                         htmlSub += '<td>{1}</td>';
@@ -521,9 +534,10 @@ End Code
                             html3 += tmp;
 			    sum4+=Number(o.AmtTotal);
                         }
-                        $('#dt3').html(html3);
-	                $("#baseAmount").text(ShowNumber(sum4, 2));
-	                $("#salesAmount").text(ShowNumber(sumc1-sumv1-sum3-sum4, 2));
+                        $('#dt3').html($('#dt3').html()+html3);
+	                $("#baseAmount").text(ShowNumber(sum4+sum3, 2));
+                        $("#salesAmount").text(ShowNumber(sumc1 - sumv1 - sum3 - sum4, 2));
+                        $("#netAmount").text(ShowNumber(sumc1 - sumv1 - sumt2 + sum4, 2));
                     }
                 });
                 //$("#netProfit").text(ShowNumber(sumt1 - sumt2 + sumcomm, 2));

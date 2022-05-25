@@ -70,7 +70,7 @@
                 </select>
             </div>
             <div style="width:100%;text-align:center;background-color:white">
-                <img id="imgMenu" src="~/Resource/logo_bft.png" onclick="SetLogout()" style="width:70%;padding:5px 5px 5px 5px;" />
+                <img id="imgMenu" src="~/Resource/@ViewBag.PROFILE_LOGO" onclick="SetLogout()" style="width:70%;padding:5px 5px 5px 5px;" />
             </div>
             <div style="width:100%;text-align:center;background-color:white;color:black;font-size:11px">
                 <label id="lblLicenseName" ondblclick="ReturnMain()">@ViewBag.LICENSE_NAME</label>
@@ -422,7 +422,7 @@
                     <div Class="panel-title">
                         <div class="row">
                             <div class="col-xs-1 col-md-1" style="text-align:center">
-                                <img id="imgCompany" src="~/Resource/@viewbag.logo" style="width:100%" onclick="w3_open();" />
+                                <img id="imgCompany" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100%" onclick="w3_open();" />
                             </div>
                             <div class="col-xs-11 col-md-11">
                                 <div style="display:flex;align-items:center;height:50px">

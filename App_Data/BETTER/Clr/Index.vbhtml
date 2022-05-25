@@ -2091,7 +2091,7 @@ End Code
         let wht = 0;
         if (type == "2") {
             //let base = amt * 100 / (100 + (vatrate - whtrate));
-            let base = amt * 100 / (100 + Number(vatrate));
+            let base = amt * (100 / (100 + Number(vatrate)));
             vat = base * vatrate * 0.01;
             wht = base * whtrate * 0.01;
             $('#txtAMT').val(CDbl(CNum(base),2));

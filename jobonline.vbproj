@@ -2410,6 +2410,7 @@
     <Content Include="Views\Shared\_ReportWhTaxLandscape.vbhtml" />
     <Content Include="Views\Default\Index.vbhtml" />
     <Content Include="Views\Shared\MasterPage.vbhtml" />
+    <Content Include="Views\Admin\ChangePassword.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

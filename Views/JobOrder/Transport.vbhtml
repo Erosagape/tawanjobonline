@@ -1694,6 +1694,7 @@ End Code
         ShowPayment();
     }
     function SaveDetail() {
+        /*
 	if($('#txtDriver').val()==''){
 		ShowMessage('Please enter driver',true);
 		return;
@@ -1702,6 +1703,7 @@ End Code
 		ShowMessage('Please enter truck no',true);
 		return;
 	}
+    */
         let obj = {
             BranchCode:$('#txtBranchCode').val(),
             JNo:$('#txtJNo').val(),

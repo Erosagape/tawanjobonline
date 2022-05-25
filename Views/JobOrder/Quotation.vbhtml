@@ -1432,9 +1432,11 @@ End Code
         let rate = CNum($('#txtCurrencyRate').val());
         let charge = CDbl(($('#txtChargeAmt').val() * rate), 2);
         $('#txtTotalAmt').val(CDbl(charge, 2));
+        /*
         if ($('#txtIsService').val() == '0' && CNum($('#txtVenderCost').val())== 0) {
             $('#txtVenderCost').val(CDbl(charge, 2));
         }
+        */
         CalDiscount();
     }
     function CalDiscount() {
@@ -1453,7 +1455,7 @@ End Code
     }
     function GetBasePrice() {
         let type = $('#txtIsvat').val();
-        let amt=CNum($('#txtTotalCharge').val());
+        let amt = CNum(CNum($('#txtTotalAmt').val()) - CNum($('#txtUnitDiscntAmt').val()));
         switch (type) {
             case '2': //inc vat
                 amt = amt * (100 / (100 + (CNum($('#txtVatRate').val()) - CNum($('#txtTaxRate').val()))));
@@ -1480,10 +1482,11 @@ End Code
                 vat = 0;
                 break;
             default:
+                $('#txtTotalCharge').val(amt);
                 vat = amt * (CNum($('#txtVatRate').val()) * 0.01);
                 break;
         }
-        $('#txtVatAmt').val(CDbl(vat,2));
+        $('#txtVatAmt').val(CDbl(vat,3));
         let wht = 0;
         type = $('#txtIsTax').val();
         switch (type) {
@@ -1493,7 +1496,7 @@ End Code
                 wht = amt * (CNum($('#txtTaxRate').val()) * 0.01);
                 break;
         }
-        $('#txtTaxAmt').val(CDbl(wht, 2));
+        $('#txtTaxAmt').val(CDbl(wht, 3));
         CalCommission();
     }
     function CalCommission() {
@@ -1503,15 +1506,15 @@ End Code
         if (type == 1) {
             comm = CNum($('#txtCommissionAmt').val());
         }
-        $('#txtCommissionAmt').val(CDbl(comm, 2));
+        $('#txtCommissionAmt').val(CDbl(comm, 3));
         CalProfit();
     }
     function CalProfit() {
         let comm = CNum($('#txtCommissionAmt').val());
         let cost = CNum($('#txtVenderCost').val());
         let amt = GetBasePrice();
-        $('#txtBaseProfit').val(CDbl(amt - cost, 2));
-        $('#txtNetProfit').val(CDbl(amt - comm - cost, 2));
+        $('#txtBaseProfit').val(CDbl(amt - cost, 3));
+        $('#txtNetProfit').val(CDbl(amt - comm - cost, 3));
     }
     function CopyData() {
         if (userRights.indexOf('I') < 0) {

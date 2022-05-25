@@ -622,7 +622,13 @@ End Code
         let code = row.DocNo;
         if (code !== '') {
             let branch = row.BranchCode;
-            window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code,'_blank');
+            switch (row.ShippingRemark) {
+                case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                    break;
+                case "IVC-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=credit', '_blank');
+                    break;
+                default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code, '_blank');
+            }
         }
     }
     function ShowDetail(branch, code) {

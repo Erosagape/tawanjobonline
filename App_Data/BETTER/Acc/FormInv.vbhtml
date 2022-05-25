@@ -517,7 +517,7 @@ End Code
                 html += '            <td class="center">' + row.QtyUnit+'</td>';
                 html += '            <td class="center">' + row.CurrencyCode + '</td>';
                 html += '            <td class="right">' + ShowNumber(row.FUnitPrice, 2) + '</td>';
-                html += '            <td class="center">' + ShowNumber(row.ExchangeRate, 4) + '</td>';
+                html += '            <td class="center">' + ShowNumber(row.ExchangeRate,2) + '</td>';
                 html += '            <td class="right">' + (row.AmtAdvance ? ShowNumber(row.TotalAmt, 2) : '') + '</td>';
                 html += '            <td class="right">' + (!row.AmtAdvance ? ShowNumber(row.Amt, 2) : '') + '</td>';
                 html += '        </tr>';

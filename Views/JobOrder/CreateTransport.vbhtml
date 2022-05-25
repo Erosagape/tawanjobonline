@@ -504,7 +504,7 @@ End Code
                     if (Number($('#txtJobType').val()) == 1) {
                         $('#txtDeliveryPlace').val(dr.PortName + ',THAILAND');
                     } else {
-                        $('#txtDeliveryPlace').val(dr.PortName + $('#txtCountryName').val());
+                        $('#txtDeliveryPlace').val(dr.PortName + ','+ $('#txtCountryName').val());
                     }
                 });
                 break;
@@ -514,7 +514,7 @@ End Code
                     if (Number($('#txtJobType').val()) == 1) {
                         $('#txtFreightPayAt').val(dr.PortName + ',THAILAND');
                     } else {
-                        $('#txtFreightPayAt').val(dr.PortName + $('#txtCountryName').val());
+                        $('#txtFreightPayAt').val(dr.PortName + ','+ $('#txtCountryName').val());
                     }
                     
                 });

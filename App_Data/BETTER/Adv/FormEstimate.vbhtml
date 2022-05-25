@@ -312,17 +312,17 @@ End Code
             html += '<td class="vborder" style="width:5%;text-align:center">' + r.CurrencyCode + '</td>';
             html += '<td class="vborder" style="width:5%;text-align:center">' + r.Qty + '</td>';
             html += '<td class="vborder" style="width:5%;text-align:center">' + r.QtyUnit + '</td>';
-            html += '<td class="vborder" style="width:10%;text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 0 ? CCurrency(CDbl(r.AmountCharge / r.Qty, 2)) : "") + '</td>';
-            html += '<td class="vborder" style="width:10%;text-align:right">' +( r.IsCredit == 0 && r.IsExpense == 0?CCurrency(CDbl(r.AmountCharge*r.ExchangeRate, 2)):"" )+ '</td>';
+            html += '<td class="vborder" style="width:10%;text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 0 ? CCurrency(CDbl(r.AmountCharge , 2)) : "") + '</td>';
+            html += '<td class="vborder" style="width:10%;text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 0 ? CCurrency(CDbl(r.AmountCharge * r.ExchangeRate * r.Qty, 2)):"" )+ '</td>';
             html += '<td class="vborder" style="width:10%;text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 0 ?CCurrency(CDbl(r.AmtVat, 2)):"") + '</td>';
             html += '<td class="vborder" style="width:10%;text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 0 ?CCurrency(CDbl(r.AmtWht, 2)):"") + '</td>';
             if (r.IsCredit == 1) {
                 //html += '<td class="vborder" style="width:15%;text-align:right">' + CCurrency(CDbl(r.AmountCharge, 2)) + '</td>';
                 html += '<td class="vborder" style="text-align:right"></td>';
-                html += '<td class="vborder" style="text-align:right">' + (r.AmtTotal ? CCurrency(CDbl(r.AmountCharge*r.ExchangeRate, 2)) : "") + '</td>';
+                html += '<td class="vborder" style="text-align:right">' + (r.AmtTotal ? CCurrency(CDbl(r.AmountCharge * r.ExchangeRate * r.Qty, 2)) : "") + '</td>';
                 html += '<td class="vborder" style="text-align:right"></td>';
             } else {
-                html += '<td class="vborder" style="text-align:right">' + (r.AmtTotal ? CCurrency(CDbl((r.AmountCharge*r.ExchangeRate) - r.AmtWht, 2)) : "") + '</td>';
+                html += '<td class="vborder" style="text-align:right">' + (r.AmtTotal ? CCurrency(CDbl((r.AmountCharge * r.ExchangeRate * r.Qty) - r.AmtWht, 2)) : "") + '</td>';
                 html += '<td class="vborder" style="text-align:right"></td>';
                 html += '<td class="vborder" style="text-align:right">' + (r.AmtTotal ? CCurrency(CDbl(r.AmtTotal, 2)) : "") + '</td>';
             }
@@ -379,8 +379,8 @@ End Code
             html2 += '<td class="vborder" style="width:5%;text-align:center">' + r.CurrencyCode + '</td>';
             html2 += '<td class="vborder" style="width:5%;text-align:center">' + r.Qty + '</td>';
             html2 += '<td class="vborder" style="width:5%;text-align:center">' + r.QtyUnit + '</td>';
-            html2 += '<td class="vborder" style="width:10%;text-align:right">' + (r.IsExpense == 1 && r.IsCredit == 0 ? CCurrency(CDbl(r.AmountCharge / r.Qty, 2)) : "") + '</td>';
-            html2 += '<td class="vborder" style="width:10%;text-align:right">' +( r.IsExpense == 1 && r.IsCredit == 0? CCurrency(CDbl(r.AmountCharge*r.ExchangeRate, 2)):"" )+ '</td>';
+            html2 += '<td class="vborder" style="width:10%;text-align:right">' + (r.IsExpense == 1 && r.IsCredit == 0 ? CCurrency(CDbl(r.AmountCharge , 2)) : "") + '</td>';
+            html2 += '<td class="vborder" style="width:10%;text-align:right">' + (r.IsExpense == 1 && r.IsCredit == 0 ? CCurrency(CDbl(r.AmountCharge * r.ExchangeRate * r.Qty, 2)):"" )+ '</td>';
             html2 += '<td class="vborder" style="width:10%;text-align:right">' +( r.IsExpense == 1 && r.IsCredit == 0 ? CCurrency(CDbl(r.AmtVat, 2)):"") + '</td>';
             html2 += '<td class="vborder" style="width:10%;text-align:right">' + (r.IsExpense == 1 && r.IsCredit == 0 ?CCurrency(CDbl(r.AmtWht, 2)):"") + '</td>';
             if (r.IsCredit == 1) {
@@ -388,7 +388,7 @@ End Code
                 html2 += '<td class="vborder" style="width:10%;text-align:right">' + (r.AmtTotal?CCurrency(CDbl(r.AmtTotal, 2)):"" )+ '</td>';
                 html2 += '<td class="vborder" style="width:10%;text-align:right"></td>';
             } else {
-                html2 += '<td class="vborder" style="width:10%;text-align:right">' + (r.AmtTotal ? CCurrency(CDbl(r.AmountCharge, 2)) : "") + '</td>';
+                html2 += '<td class="vborder" style="width:10%;text-align:right">' + (r.AmtTotal ? CCurrency(CDbl(r.AmountCharge * r.ExchangeRate * r.Qty, 2)) : "") + '</td>';
                 html2 += '<td class="vborder" style="width:10%;text-align:right"></td>';
                 html2 += '<td class="vborder" style="text-align:right">' + (r.AmtTotal ? CCurrency(CDbl(r.AmtTotal, 2)) : "") + '</td>';
             }

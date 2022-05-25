@@ -104,8 +104,8 @@ End Code
                                     <option value="IVS-">Service</option>
                                     <option value="IVT-">Internal</option>
                                     <option value="IVF-">Consold</option>
-                                    <option value="IVD-">CN Oversea</option>
-                                    <option value="IVC-">DN Oversea</option>
+                                    <option value="IVC-">CN Oversea</option>
+                                    <option value="IVD-">DN Oversea</option>
                                     <option value="IVA-">Advance</option>
                                 </select>
 
@@ -1109,7 +1109,7 @@ End Code
             CancelProve:'',
             CancelDate:null,
             CancelTime:null,
-            ShippingRemark: '',
+            ShippingRemark: $('#cboDocType').val(),
             DueDate: GetDueDate($('#txtDocDate').val()),
             CreateDate:CDateEN(GetToday())
         };
@@ -1417,7 +1417,13 @@ End Code
         let code = $('#txtDocNo').val();
         if (code !== '') {
             let branch = $('#txtBranchCode').val();
-            window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code,'_blank');
+            switch ($('#cboDocType').val()) {
+                case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                    break;
+                case "IVC-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=credit', '_blank');
+                    break;
+                default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code, '_blank');
+            }
         }
     }
     function MergeData() {

@@ -110,7 +110,7 @@ End Code
     </div>
     <div style="width:40%"></div>
     <div style="width:30%">
-        <h2 style="font-size:16px" class="right" id="headerDoc" ondblclick="ChangeHeader()">DEBIT NOTE</h2>
+        <h2 style="font-size:16px" class="right" id="headerDoc" ondblclick="ChangeHeader()">CREDIT NOTE</h2>
     </div>
 </div>
 <table border="0" style="width: 100%; height: 100%; border-bottom-width: medium; border-top-width: medium">
@@ -121,7 +121,7 @@ End Code
         <td id="billToEName" style="width: 50%">
         </td>
         <td style="width: 10%">
-            DN NO.:
+            CN NO.:
         </td>
         <td id="CNno" style="width: 20%">
         </td>
@@ -420,13 +420,13 @@ End Code
                 `<tr>
                     <td style="border-left-width:0px">${j.HAWB}</td>
                     <td>${item.SDescription}</td>
-                    <td style="text-align:center">${ShowNumber(item.Qty,3)}</td>       
+                    <td style="text-align:center">${ShowNumber(item.Qty,3)}</td>
                     <td style="text-align:center">${item.QtyUnit}</td>
                     <td style="text-align:center">${item.CurrencyCode}</td>
                     <td style="text-align:right">${ShowNumber(item.FUnitPrice, 2)}</td>
                     <td style="text-align:right">${ShowNumber(item.FTotalAmt,2)}</td>
-                    <td style="text-align:right">${ShowNumber(item.FTotalAmt,2)}</td>
-                    <td style="text-align:right;border-right-width:0px"></td>
+                    <td style="text-align:right"></td>
+                    <td style="text-align:right;border-right-width:0px">${ShowNumber(item.FTotalAmt, 2)}</td>
                 </tr>`)
 
         }
@@ -438,8 +438,8 @@ End Code
             <td></td>
             <td></td>
             <td style="text-align:right"></td>
-            <td style="text-align:right">${ShowNumber(sum, 2)}</td>
-            <td style="text-align:right;border-right-width:0px"x></td>
+            <td style="text-align:right"></td>
+            <td style="text-align:right;border-right-width:0px"x>${ShowNumber(sum, 2)}</td>
         </tr>`);
         $('#ttbdt').html(
             `${ShowNumber(sum, 2)}`);

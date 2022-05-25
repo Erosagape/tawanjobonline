@@ -1227,12 +1227,12 @@ End Code
                 let dbID = '@ViewBag.DATABASE';
                 switch (dbID) {
                     case '1':
-                        break;
-                    case '2':
                         dbID = '3';
                         break;
-                    case '3':
+                    case '2':
                         dbID = '1';
+                        break;
+                    case '3':                        
                         break;
                 }
                 let invNo = $('#txtCustInvNo').val();
