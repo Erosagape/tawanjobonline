@@ -102,8 +102,8 @@ End Code
         <td><label id="txtContainer"></label></td>
     </tr>
     <tr>
-        <td>หมายเหตุ</td>
-        <td><div id="txtRemark"></div></td>
+	<td></td>
+	<td></td>
         <td>หมายเหตุในการส่งตู้ล่าช้า</td>
         <td><div id="txtDiscrepancyReason"></div></td>
     </tr>
@@ -150,82 +150,9 @@ End Code
         <td><label id="txtRemark3"></label></td>
     </tr>
 </table>
+<div>หมายเหตุ</div>
+<div id="txtRemark"></div>
 <br />
-<table id="transcost" style="width:100%">
-    <thead>
-        <tr>
-            <th colspan="5" style="background-color: gray;">ค่าใช้จ่ายเคลียร์ค่าขนส่ง</th>
-        </tr>
-        <tr>
-            <th colspan="3">
-                มีใบเสร็จในนามลูกค้า
-            </th>
-            <th colspan="2">
-                ไม่มีใบเสร็จรับเงิน
-            </th>
-        </tr>
-        <tr>
-            <th>รายละเอียด</th>
-            <th>เลขที่ใบเสร็จ</th>
-            <th>จำนวนเงิน</th>
-            <th>รายละเอียด</th>
-            <th>จำนวนเงิน</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>ค่าน้ำมัน01</td>
-            <td></td>
-            <td></td>
-            <td>ค่าน้ำมัน01</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าน้ำมัน02</td>
-            <td></td>
-            <td></td>
-            <td>ค่าน้ำมัน02</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าน้ำมัน03</td>
-            <td></td>
-            <td></td>
-            <td>ค่าน้ำมัน03</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าผ่าน</td>
-            <td></td>
-            <td></td>
-            <td>ค่าผ่าน</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าทางด่วน</td>
-            <td></td>
-            <td></td>
-            <td>ค่าทางด่วน</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าข้ามสะพาน</td>
-            <td></td>
-            <td></td>
-            <td>ค่าข้ามสะพาน</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าเที่ยวคนขับ</td>
-            <td></td>
-            <td></td>
-            <td>ค่าเที่ยวคนขับ</td>
-            <td></td>
-        </tr>
-        <tr></tr>
-        <tr></tr>
-    </tbody>
-</table>
 <br />
 <br />
 <br />
@@ -254,8 +181,6 @@ End Code
                 let c = r.carlicense.data[0];
                 $('#txtTruck').text(c.CarLicense);
             });
-
-
 
             $('#txtJNo').text(h.JNo);
             $('#txtDeliveryNo').text(h.DeliveryNo);

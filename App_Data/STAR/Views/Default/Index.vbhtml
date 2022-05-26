@@ -13,34 +13,44 @@ End Code
     }
 </style>
 <div class="row">
-    <div class="col-xs-4">
+    <div class="col-sm-4">
             <div class="modal-header" style="display:flex">
-		<div style="flex:1">
-			<img  style="width:100%;height:70px" src="~/Resource/logo-star.jpg" onclick="$('#cboDatabase').val('1');" />
-		</div>
-		<div style="flex:1">
-			<img  style="width:100%;height:70px" src="~/Resource/logo-diamond.jpg" onclick="$('#cboDatabase').val('2');" />
-		</div>
-		<div style="flex:1">
-			<img  style="width:100%;height:70px" src="~/Resource/logo-lita.png" onclick="$('#cboDatabase').val('3');" />
-		</div>
+		        <div style="flex:1">
+			        <img  style="width:100%;height:70px" src="~/Resource/logo-star.jpg" onclick="ChangeDatabase('1');" />
+		        </div>
+		        <div style="flex:1">
+			        <img  style="width:100%;height:70px" src="~/Resource/logo-diamond.jpg" onclick="ChangeDatabase('2');" />
+		        </div>
+		        <div style="flex:1">
+			        <img  style="width:100%;height:70px" src="~/Resource/logo-lita.png" onclick="ChangeDatabase('3');" />
+		        </div>
             </div>
             <div class="modal-body">
-                Data : <select class="form-control dropdown" id="cboDatabase"></select>
-                <a id="linkLogout" onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
-                Password : <input type="password" autocomplete="on" class="form-control" id="txtUserPassword" />
-            </div>
-            <div class="modal-footer">
-                <div style="display:flex;flex-direction:row;float:left;">
+                <div class="row">
+                    Data : <select class="form-control dropdown" id="cboDatabase"></select>
+                </div>
+                <div class="row">
+                    <a id="linkLogout" onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
+                </div>
+                <div class="row">
+                    Password : <input type="password" autocomplete="on" class="form-control" id="txtUserPassword" />
+                </div>
+                <div class="row">
                     <input type="radio" name="optRole" id="optShip" value="S" checked /><label for="optShip" style="padding-right:10px">Shipper</label>
                     <input type="radio" name="optRole" id="optVend" value="V" /><label for="optVend" style="padding-right:10px">Vender</label>
                     <input type="radio" name="optRole" id="optImEx" value="C" /><label for="optImEx" style="padding-right:10px">Importer/Exporter</label>
-                </div>
-                <button class="btn btn-primary" id="btnLogin" onclick="SetVariable()">Log in</button>
+                </div>                                
             </div>
-        </form>
+            <div class="modal-footer">
+                <div style="display:flex;flex-direction:row;float:left;">
+                    <button class="btn btn-primary" id="btnLogin" onclick="SetVariable()">Log in</button>
+                </div>
+                <div class="float:right">
+                    <a class="btn btn-warning" onclick="ChangePassword()">Change Password</a>
+                </div>                
+            </div>
     </div>
-    <div class="col-xs-8">
+    <div class="col-sm-8">
         <img src="~/Resource/jobtawan_bg.png" style="width:100%;" />
     </div>
 </div>
@@ -91,5 +101,12 @@ End Code
                 alert('Logout complete!');
             }
         });
+    }
+    function ChangePassword() {
+        window.location = path + "Admin/changePassword?DB=" + $('#cboDatabase').val() + "&Code=" + $('#txtUserLogin').val();
+    }
+    function ChangeDatabase(id) {
+        $('#cboDatabase').val(id);
+        $('#txtUserLogin').focus();
     }
 </script>

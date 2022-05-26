@@ -116,7 +116,7 @@ End Code
                     <th class="all">Inv.Customer</th>
                     <th class="desktop">Customer</th>
                     <th>Consignee</th>
-                    <th class="desktop">CustRefNo</th>
+                    <th class="desktop">House BL</th>
                 </tr>
             </thead>
         </table>
@@ -208,7 +208,7 @@ End Code
                     { "data": "InvNo", "title": "Customer Inv." },
                     { "data": "CustTName", "title": "Customer" },
                     { "data": "ConsigneeName", "title": "Consignee" },
-                    { "data": "CustRefNO", "title": "Ref.No" }
+                    { "data": "HAWB", "title": "House BL" }
                 ]
                 , "pageLength": 100
             });

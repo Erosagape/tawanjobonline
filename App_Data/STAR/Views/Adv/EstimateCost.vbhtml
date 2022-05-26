@@ -365,11 +365,18 @@ End Code
             let chg = 0;
             let cost = 0;
             for (let row of r.estimate.data) {
-                tot += Number(row.AmtTotal);
-                if (row.IsExpense == 1) {
-                    cost += Number(row.AmtTotal);
+                //tot += Number(row.AmtTotal);
+                if (row.IsExpense == 1 || row.IsCredit == 1) {
+                    if (row.IsExpense == 1) {
+                        cost += Number(row.AmtTotal);
+                    } else {
+                        tot += Number(row.AmtTotal);
+                    }                    
                 } else {
-                    chg += Number(row.AmtTotal);
+                    if (row.IsCredit == 0) {
+                        chg += Number(row.AmtTotal);
+                    }
+                    tot += Number(row.AmtTotal);
                 }
             }
             $('#txtCharge').val(CDbl(chg, 2));
@@ -403,7 +410,7 @@ End Code
                     {
                         data: "AmtTotal", title: "Charge",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data, 3);
                         }
                     },
                     { data: "ClrNo", title: "Clearing No" },
@@ -485,20 +492,20 @@ End Code
         let excrate = CNum($('#txtExchangeRate').val());
         let qty = CNum($('#txtQty').val());
         let amtcal = (amtbase * excrate) * qty;
-        $('#txtAmtCal').val(CDbl(amtcal, 2));
+        $('#txtAmtCal').val(CDbl(amtcal, 3));
         let vatrate = CNum($('#txtAmtVatRate').val()) * 0.01;
         let vat = amtcal * vatrate;
-        $('#txtAmtVat').val(CDbl(vat, 2));
+        $('#txtAmtVat').val(CDbl(vat, 3));
         let whtrate = CNum($('#txtAmtWhtRate').val()) * 0.01;
         let wht = amtcal * whtrate;
-        $('#txtAmtWht').val(CDbl(wht, 2));
+        $('#txtAmtWht').val(CDbl(wht, 3));
         SumTotal();
     }
     function SumTotal() {
         let amtbase = CNum($('#txtAmtCal').val());
         let amtvat = CNum($('#txtAmtVat').val());
         let amtwht = CNum($('#txtAmtWht').val());
-        $('#txtAmtTotal').val(CDbl(amtbase + amtvat - amtwht,2));
+        $('#txtAmtTotal').val(CDbl(amtbase + amtvat - amtwht,3));
     }
     function CopyData() {
         if ($('#txtJobCopyFrom').val() == '') {

@@ -414,7 +414,7 @@ End Code
                     html += '<td class="center">'+row.QtyUnit+'</td>';
                     html += '<td class="center">' + row.CurrencyCode + '</td>';
                     html += '<td class="right">' + ShowNumber(row.UnitPrice,2) + '</td>';
-                    html += '<td class="right">' + ShowNumber(row.Amt, 2) + '</td>';
+                    html += '<td class="right">' + ShowNumber((row.Amt/row.ExchangeRate), 2) + '</td>';
                     html += '<td class="right">' + row.ExchangeRate + '</td>';
                     let code = row.SICode;
                     if (code.indexOf('ADV') >= 0) {

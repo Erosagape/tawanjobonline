@@ -125,7 +125,13 @@ End Code
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
-
+    $('#txtTName').keydown((e) => {
+        if (e.which == 13) {
+            if ($('#txtEnglish').val() == '') {
+                $('#txtEnglish').val($('#txtTName').val());
+            }
+        }
+    });
     //$(document).ready(function () {
         SetEvents();
         SetLOVs();

@@ -950,7 +950,7 @@ function GetLangGrid(module, id) {
                 "Customer Inv|อินวอยลูกค้า",
                 "Customer Name|ชื่อลูกค้า",
                 "Consignee Name|ชื่อผู้ซื้อชาย",
-                "Cust Ref.No|เลขที่อ้างอิงลูกค้า"
+                "House BL|เลขที่ BL"
             ];
             break;
         case 'MODULE_ADV/EstimateCost':
