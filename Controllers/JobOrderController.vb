@@ -2980,6 +2980,14 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 Return Content("[]" + ex.Message, jsonContent)
             End Try
         End Function
+        Function CreateMasterJob() As ActionResult
+            ViewBag.JobNo = ""
+            ViewBag.Message = "Ready"
+            ViewBag.JobType = JsonConvert.SerializeObject(New CConfig(GetSession("ConnJob")).GetData(" WHERE ConfigCode='JOB_TYPE' "))
+            ViewBag.ShipBy = JsonConvert.SerializeObject(New CConfig(GetSession("ConnJob")).GetData(" WHERE ConfigCode='SHIP_BY' "))
+            ViewBag.ShipByFilter = JsonConvert.SerializeObject(New CConfig(GetSession("ConnJob")).GetData(" WHERE ConfigCode='SHIP_BY_FILTER' "))
+            Return GetView("CreateMasterJob", "MODULE_CS", "CreateJob")
+        End Function
     End Class
 
 End Namespace

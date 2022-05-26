@@ -836,7 +836,11 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             Return GetView("FormInv" & formName)
         End Function
         Function FormBill() As ActionResult
-            Return GetView("FormBill")
+            Dim formName = ""
+            If Request.QueryString("Form") IsNot Nothing Then
+                formName = Request.QueryString("Form").ToString
+            End If
+            Return GetView("FormBill" & formName)
         End Function
         Function FormRcp() As ActionResult
             Dim formName = ""
@@ -1288,8 +1292,11 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
             End If
-
-            Return GetView("FormVoucher")
+            Dim formName = ""
+            If Request.QueryString("Form") IsNot Nothing Then
+                formName = Request.QueryString("Form").ToString
+            End If
+            Return GetView("FormVoucher" & formName)
         End Function
         Function FormWHTax() As ActionResult
             ViewBag.User = GetSession("CurrUser").ToString()
