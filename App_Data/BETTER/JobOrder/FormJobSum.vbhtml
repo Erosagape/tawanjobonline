@@ -323,7 +323,7 @@ End Code
                 ShowReleasePort(path, h.ClearPort, '#terminal');
                 $("#feeder").text(h.MVesselName);
                 $("#cbm").text(h.Measurement);
-                $("#volume").text(h.TotalQty);
+                $("#volume").text(h.TotalContainer);
                 $("#remark").text(h.ShippingCmd);
                 $("#sellUSDTHB").text(h.InvCurRate);
                 $("#buyUSDTHB").text(h.InvCurRate);
@@ -537,7 +537,7 @@ End Code
                         $('#dt3').html($('#dt3').html()+html3);
 	                $("#baseAmount").text(ShowNumber(sum4+sum3, 2));
                         $("#salesAmount").text(ShowNumber(sumc1 - sumv1 - sum3 - sum4, 2));
-                        $("#netAmount").text(ShowNumber(sumc1 - sumv1 - sumt2 + sum4, 2));
+                        $("#netAmount").text(ShowNumber(sumc1 - sumv1 - sumt2 , 2));
                     }
                 });
                 //$("#netProfit").text(ShowNumber(sumt1 - sumt2 + sumcomm, 2));

@@ -238,20 +238,28 @@ Namespace Controllers
             Return GetView("FormCreditAdv")
         End Function
         Function FormAdv() As ActionResult
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
             ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "Index")
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
             End If
-            Return GetView("FormAdv")
+            Return GetView("FormAdv" & formName)
         End Function
         Function FormEstimate() As ActionResult
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
             ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "EstimateCost")
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
             End If
-            Return GetView("FormEstimate")
+            Return GetView("FormEstimate" & formName)
         End Function
         Function PaymentAdvance(<FromBody()> ByVal data As String()) As HttpResponseMessage
             Try

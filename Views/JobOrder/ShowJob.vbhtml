@@ -190,6 +190,7 @@ End Code
                                         <label id="lblQNo" for="txtQNo">Quotation : </label>
                                         <div style="display:flex;flex-direction:row">
                                             <input type="text" class="form-control" id="txtQNo" style="width:100%" tabindex="9" />
+                                            <input type="button" id="btnLinkQuo" value="..." class="btn btn-default" onclick="SearchData('quotation')" />
                                             <input type="text" class="form-control" id="txtQRevise" style="width:60px" tabindex="10" />
                                         </div>
                                     </div>
@@ -1058,7 +1059,9 @@ End Code
             //Inv Units
             CreateLOV(dv,'#frmSearchIUnt', '#tbIUnt','Invoice Units',response,2);
             //Weights Unit
-            CreateLOV(dv,'#frmSearchWUnt', '#tbWUnt', 'Weight Unit',response,2);
+            CreateLOV(dv, '#frmSearchWUnt', '#tbWUnt', 'Weight Unit', response, 2);
+            //Quotation
+            CreateLOV(dv, '#frmSearchQuo', '#tbQuo', 'Quotations', response, 3);
         });
         //load list of values
         let lists = 'CUSTOMS_PRIVILEGE=#cboTyAuthorSp';
@@ -1249,6 +1252,13 @@ End Code
 
                 });
                 break;
+            case 'quotation':
+                let branch = $('#txtBranchCode').val();
+                let cust = $('#txtCustCode').val();
+                let jtype = rec.JobType;
+                let sby = rec.ShipBy;
+                SetGridQuotationDesc(path, '#tbQuo', '?branch=' + branch + '&cust=' + cust + '&jtype=' + jtype + '&sby=' + sby + '&status=1', '#frmSearchQuo', ReadQuo);
+                break;
         }
     }
     //This section for calculate amount of duty payment
@@ -1323,6 +1333,13 @@ End Code
         });
         ShowLog(Branch, Job);
         ShowTracking(Branch, Job);
+    }
+    function ReadQuo(dt) {
+        $('#txtQNo').val(dt.QNo);
+        $('#txtQRevise').val(dt.SeqNo);
+        rec.ManagerCode = dt.ManagerCode;
+        //$('#txtContactPerson').val(dt.ContactName);
+
     }
     function ReadJob(dr) {
         $('#txtQNo').val(dr.QNo);

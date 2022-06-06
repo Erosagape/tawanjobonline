@@ -25,7 +25,11 @@ Namespace Controllers
             Return GetView("Approve", "MODULE_CLR")
         End Function
         Function FormEntry() As ActionResult
-            Return GetView("FormEntry")
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return GetView("FormEntry" & formName)
         End Function
         Function Receive() As ActionResult
             LoadCompanyProfile()
@@ -33,12 +37,16 @@ Namespace Controllers
             Return GetView("Receive", "MODULE_CLR")
         End Function
         Function FormClr() As ActionResult
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
             ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_CLR", "Index")
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
             End If
-            Return GetView("FormClr")
+            Return GetView("FormClr" & formName)
         End Function
         Function Costing() As ActionResult
             ViewBag.User = GetSession("CurrUser").ToString()
@@ -238,6 +246,9 @@ Namespace Controllers
                 End If
                 If Request.QueryString("Job") IsNot Nothing Then
                     sql &= " AND d.JobNo='" & Request.QueryString("Job").ToString & "' AND h.DocStatus<>99 "
+                End If
+                If Request.QueryString("InvNo") IsNot Nothing Then
+                    sql &= " AND d.LinkBillNo='" & Request.QueryString("InvNo").ToString & "' AND h.DocStatus<>99 "
                 End If
                 If Not IsNothing(Request.QueryString("JType")) Then
                     sql &= " AND h.JobType=" & Request.QueryString("JType") & ""

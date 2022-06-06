@@ -2924,7 +2924,7 @@ function GetLangForm(fname) {
                 lblTotalCTN: 'Detail of CTN|ประเภทตู้',
                 lblMeasurement: 'Meas.(M3)|ปริมาตร (M3)',
                 lblDeliverNo: 'Delivery No|เลขที่ใบส่งของ',
-                lblDeliverTo: 'Also Notify|ผู้รับแจ้งส่งสินค้า',
+                lblDeliverTo: 'Sub Agent|ผู้รับแจ้ง',
                 lblProjectName: 'Packages Summary|ข้อมูลการบรรจุสินค้า',
                 lblInvQty: 'Qty|จำนวนสินค้า',
                 lblInvPackQty: 'CTN.Total|จำนวนรวมตู้',

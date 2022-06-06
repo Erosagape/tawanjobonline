@@ -2,6 +2,7 @@
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Invoice Slip"
 End Code
+
 <style>
 
     * {
@@ -59,17 +60,17 @@ End Code
         width: 100%;
     }
 
-    #main td ,th{
+    #header,#details td,th {
         border-right: 1px solid black;
         border-left: 1px solid black;
-    } 
+    }
 </style>
 <div class="center bold">
-    <br/>
+    <br />
     <label style="font-size:16px">ใบแจ้งหนี้/INVOICE</label>
 </div>
 
-<div style="display:flex;width:98%" >
+<div style="display:flex;width:98%">
     <div style="flex:60%" class="curveBorder">
         <table class="table table-borderless">
             <tbody>
@@ -86,22 +87,22 @@ End Code
                         <label id="billName"></label>
                     </td>
                 </tr>
-		<tr>
+                <tr>
                     <td>
                         <label id="billAddress1"></label>
                     </td>
                 </tr>
-		<tr>
+                <tr>
                     <td>
                         <label id="billAddress2"></label>
                     </td>
                 </tr>
-		<tr>
+                <tr>
                     <td>
                         <label id="billContactInfo"></label>
                     </td>
                 </tr>
-		
+
             </tbody>
         </table>
     </div>
@@ -164,7 +165,7 @@ End Code
                 <label id="origin"></label>
                 to <label id="destiny"></label>
             </td>
-          
+
 
 
             <td><label id="jobNoLbl">JOB NO.</label></td>
@@ -191,9 +192,22 @@ End Code
         </tr>
 
         <tr>
+            <td><label id="mblNoLbl">M-B/L NO.</label></td>
+            <td>:</td>
+            <td><label id="mblNo"></label></td>
+
             <td><label id="hblNoLbl">H-B/L NO.</label></td>
             <td>:</td>
             <td><label id="hblNo"></label></td>
+
+            <td><label id="newBlNoLbl">B/L CHANGE NO</label></td>
+            <td>:</td>
+            <td><label id="newBlNo"></label></td>
+
+
+        </tr>
+
+        <tr>
 
             <td><label id="quantityLbl">QUANTITY</label></td>
             <td>:</td>
@@ -202,12 +216,6 @@ End Code
             <td><label id="totpkgLbl">TOTAL PKG</label></td>
             <td>:</td>
             <td><label id="totpkg"></label></td>
-        </tr>
-
-        <tr>
-            <td><label id="newBlNoLbl">NEW B/L NO</label></td>
-            <td>:</td>
-            <td><label id="newBlNo"></label></td>
 
             <td><label id="weightLbl">WEIGHT</label></td>
             <td>:</td>
@@ -239,128 +247,106 @@ End Code
     </tbody>
 </table>
 
-<table id="main" class="table" style="border-width:thin;border-collapse:collapse ;width:98%" >
-    <thead>
+<table id="main" class="table" style="border-width:thin;border-collapse:collapse ;width:98%">
+    <thead  id="header">
         <tr class="upperLine underLine">
             <th class="bold align-top underLine" rowspan="2">DESCRIPTION</th>
-            <th id="insouce" class="center bold underLine" colspan="6">IN SOURCE CURRENCY</th>
-            <th class="center bold underLine" colspan="3">AMOUNT IN THB</th>
+            <th id="insouce" class="center bold underLine" colspan="5">IN SOURCE CURRENCY</th>
+            <th class="center bold underLine" colspan="2">AMOUNT IN THB</th>
         </tr>
         <tr class="upperLine">
-            <th class="center bold underLine">W/T</th>
+            @*<th class="center bold underLine">W/T</th>*@
             <th class="center bold underLine">QTYs</th>
-            <th class="center bold underLine">UNIT</th>
+            <th class="center bold underLine">UOM</th>
             <th class="center bold underLine">Curr.</th>
             <th class="center bold underLine">Exc.</th>
             <th class="center bold underLine">@@ UNIT</th>
-            <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">ADVANCE</th>
+            @*<th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">ADVANCE</th>*@
             <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">NON VAT</th>
             <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">VAT</th>
         </tr>
     </thead>
-    <tbody id="details">
+    <tbody id="details" style="border-bottom:1px black solid">
     </tbody>
-</table>
-<table class="table" style="width:98%;border-collapse:collapse ">
-    <thead></thead>
-    <tbody>
-        <tr class="upperLine">
-            <td class="underLine">TAX RATE</td>
-            <td class="center underLine">GROSS</td>
-            <td class="center underLine">W/T AMT</td>
-            <td id="amountLbl" class="right">AMOUNT:</td>
-            <td style="width:60px;" id="advanceAmount" class="right"></td>
-            <td style="width:60px;" id="nonVatAmount" class="right" style="width:5em"></td>
-            <td style="width:60px;" id="vatAmount" class="right"></td>
+    <tbody id="summary">
+        <tr>
+            <td colspan="7" style="text-align:right">Amount(VAT)</td>
+            <td id="vatAmount" class="right"></td>
         </tr>
         <tr>
-            <td id="taxRate1"></td>
-            <td id="gross1" class="center right"></td>
-            <td id="wtAmt1" class="center right"></td>
-            <td id="valueAddedTaxLbl" class="right">VALUE ADDED TAX 7%:</td>
-            <td class="right underLine"></td>
-            <td class="right underLine"></td>
-            <td id="valueAddedTax" class="right underLine"></td>
+            <td colspan="7" style="text-align:right">VAT 7%</td>
+            <td id="valueAddedTax" class="right"></td>
         </tr>
         <tr>
-            <td id="taxRate1_5"></td>
-            <td id="gross1_5" class="center right"></td>
-            <td id="wtAmt1_5" class="center right"></td>
-            <td id="totalAmountLbl" class="right">TOTAL AMOUNT:</td>
-            <td class="right"></td>
-            <td class="right"></td>
-            <td id="totalAmount" class="right"></td>
+            <td colspan="7" style="text-align:right">Amount(Non VAT)</td>
+            <td id="nonVatAmount" class="right"></td>
         </tr>
         <tr>
-            <td id="taxRate3"></td>
-            <td id="gross3" class="center right"></td>
-            <td id="wtAmt3" class="center right"></td>
-            <td id="lessWithholdingTaxLbl" class="right">LESS: WITHHOLDING TAX:</td>
-            <td class="right underLine"></td>
-            <td class="right underLine"></td>
-            <td id="lessWithholdingTax" class="right underLine"></td>
+            <td colspan="7" style="text-align:right">Total</td>
+            <td id="totalAmountLbl" class="right"></td>
         </tr>
-        <tr class="">
-            <td class="center"></td>
-            <td class="center"></td>
-            <td class="center"></td>
-            <td id="netAmountLbl" class="right">NET AMOUNT:</td>
-            <td class="right"></td>
-            <td class="right"></td>
+        <tr>
+            <td colspan="5" style="text-align:right">หักภาษี ณ ที่จ่าย ค่าขนส่ง</td>
+            <td style="text-align:right">1%</td>
+            <td style="text-align:right" id="gross1"></td>
+            <td style="text-align:right" id="wtAmt1"></td>
+        </tr>
+        <tr>
+            <td colspan="5" style="text-align:right">หักภาษี ณ ที่จ่าย ค่าขนส่ง</td>
+            <td style="text-align:right">3%</td>
+            <td style="text-align:right" id="gross3"></td>
+            <td style="text-align:right" id="wtAmt3"></td>
+        </tr>
+        <tr>
+            <td colspan="7" style="text-align:right">GRAND TOTAL</td>
             <td id="netAmount" class="right"></td>
         </tr>
-        <tr>
-            <td class="center"></td>
-            <td class="center"></td>
-            <td class="center"></td>
-            <td id="custAdvLbl" class="right">CUST ADV:</td>
-            <td class="right underLine"></td>
-            <td class="right underLine"></td>
-            <td id="custAdv" class="right underLine"></td>
-        </tr>
-        <tr class="underLine">
-            <td class="center"></td>
-            <td class="center"></td>
-            <td class="center"></td>
-            <td id="grandTotalLbl" class="right">GRAND TOTAL:</td>
-            <td class="right"></td>
-            <td class="right"></td>
-            <td id="grandTotal" class="right"></td>
-        </tr>
+
     </tbody>
 </table>
+
 <br>
 <p>
     TOTAL AMOUNT IN WORDS:
     <label id="bahtText">   BAHT TWENTY-EIGHT THOUSAND FIVE HUNDRED TWENTY-THREE AND</label>
 </p>
 <p>
-   Remark:
-   <label id="remark"></label>
+    Credit Terms : <label id="lblCreditLimit"></label> DAYS
 </p>
-<br /><br />
-      <table class="table" style="width:100%">
-          <tr>
-              <td class="bold" style="width:33%;text-align:center;">ผู้รับวางบิล / Received By :</td>
+<p style="text-align:center">
+    นัดรับชำระทันที
+</p>
+<p>
+    Remark:
+    <label id="remark"></label>
+</p>
+<br />
+<br />
+<table class="table" style="width:100%">
+    <tr>
+        <td class="bold" style="width:33%;text-align:center;">ผู้รับวางบิล / Received By :</td>
 
-              <td class="bold" style="width: 33%; text-align: center;">อนุมัติโดย / Approved By :</td>
+        <td class="bold" style="width: 33%; text-align: center;">อนุมัติโดย / Approved By :</td>
 
-              <td class="bold" style="width: 33%; text-align: center;">ผูัจัดทำ /  Preapared By </td>
+        <td class="bold" style="width: 33%; text-align: center;">ผูัจัดทำ /  Preapared By </td>
 
-          </tr>
-          <tr>
-              <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
-              <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
-              <td class="center" style="flex: 1; text-align: center;"> <br /><br /><br /><br /><br /> _________________________________________</td>
-          </tr>
-          <tr>
-              <td class="bold" style="text-align: center;">DATE : ________________________________</td>
-              <td class="bold" style="text-align: center;">DATE : ________________________________</td>
-              <td class="bold" style="text-align: center;">DATE : ________________________________</td>
-          </tr>
-      </table>
-
+    </tr>
+    <tr>
+        <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
+        <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
+        <td class="center" style="flex: 1; text-align: center;"> <br /><br /><br /><br /><br /> _________________________________________</td>
+    </tr>
+    <tr>
+        <td class="bold" style="text-align: center;">DATE : ________________________________</td>
+        <td class="bold" style="text-align: center;">DATE : ________________________________</td>
+        <td class="bold" style="text-align: center;">DATE : ________________________________</td>
+    </tr>
+</table>
+<p style="text-align:center">
+   ** กรุณาหักภาษี ณ ที่จ่าย "บริษัท ยูไนเต็ด โกลบ โลจิสติกส์(ประเทศไทย)" **
+</p>
 <script type="text/javascript">
+
     const path = '@Url.Content("~")';
     let bShowSlip = false;
     let branch = getQueryString('branch');
@@ -390,6 +376,8 @@ End Code
                 $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch);
                 $("#crTerm").text(b.CreditLimit);
                 $("#dueDate").text(AddDate(h.DocDate, b.CreditLimit));
+                $("#lblCreditLimit").text(b.CreditLimit);
+                
 	        });
             $("#id").text(h.CustCode);
             //$("#billName").text(c.NameEng);
@@ -421,6 +409,7 @@ End Code
             $("#etd").text(ShowDate(j.ETDDate));
             $("#eta").text(ShowDate(j.ETADate));
             $("#hblNo").text(j.HAWB);
+            $("#mblNo").text(j.MAWB);
             $("#quantity").text(j.InvProductQty + ' ' + j.InvProductUnit);
             $("#totpkg").text(j.TotalQty + " PALLETS");
             $("#newBlNo").text(j.BookingNo);
@@ -449,13 +438,13 @@ End Code
             for (let row of d) {
                 html += '        <tr>';
                 html += '            <td class="">' + row.SDescription + ' #' + row.ExpSlipNO +  '</td>';
-                html += '            <td class="right">' + row.Rate50Tavi + '</td>';
+                //html += '            <td class="right">' + row.Rate50Tavi + '</td>';
                 html += '            <td class="center">' + ShowNumber(row.Qty,2) + '</td>';
                 html += '            <td class="right">' + row.QtyUnit+'</td>';
                 html += '            <td class="right">' + row.CurrencyCode + '</td>';
                 html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
                 html += '            <td class="right">' + ShowNumber(row.FUnitPrice,2) + '</td>';
-                html += '            <td class="right">' + (row.AmtAdvance?ShowNumber(row.Amt, 2):'') + '</td>';
+                //html += '            <td class="right">' + (row.AmtAdvance?ShowNumber(row.Amt, 2):'') + '</td>';
                 html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt, 2):''):'') + '</td>';
                 html += '            <td class="right">' + (row.AmtVat>0?ShowNumber(row.Amt, 2) : '') + '</td>';
                 html += '        </tr>';
@@ -492,8 +481,8 @@ End Code
                 html += '            <td class="right"></td>';
                 html += '            <td class="right"></td>';
                 html += '            <td class="right"></td>';
-                html += '            <td class="right"></td>';
-                html += '            <td class="right"></td>';
+                //html += '            <td class="right"></td>';
+                //html += '            <td class="right"></td>';
                 html += '        </tr>';
             }
             $('#gross1').text(ShowNumber(sumbaseWht1, 2));
@@ -511,13 +500,10 @@ End Code
             $("#totalAmount").text(ShowNumber(vat + h.TotalVAT, 2));
             $("#lessWithholdingTax").text(ShowNumber(h.Total50Tavi, 2));
             $("#netAmount").text(ShowNumber(h.TotalNet, 2));
-            $("#custAdv").text(ShowNumber(h.TotalCustAdv, 2));
-            $("#grandTotal").text(ShowNumber(h.TotalNet-h.TotalCustAdv, 2));
-            
             $("#taxRate1").text("1%");
             $("#taxRate1_5").text("1.5%");
             $("#taxRate3").text("3%");
-            $("#bahtText").text(CNumEng(CDbl(h.TotalNet,2)));
+            $("#bahtText").text(CNumThai(CDbl(h.TotalNet,2)));
 
 
         }

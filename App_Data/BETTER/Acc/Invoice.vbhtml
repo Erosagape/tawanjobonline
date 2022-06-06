@@ -251,10 +251,10 @@ End Code
                                 :<input type="text" id="txtContactName" class="form-control" />
                             </p>
                             <p>
-                                <label id="lblShippingRemark">Shipping Note</label>
+                                @*<label id="lblShippingRemark">Shipping Note</label>
                                 :<br />
                                 <textarea id="txtShippingRemark" style="width:100%" class="form-control-lg"></textarea>
-                            </p>
+                            </p>*@
                             <label id="lblRemark">Remark</label>
                             :
                             <input type="text" id="txtRemark1" class="form-control" />

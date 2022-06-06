@@ -119,7 +119,7 @@ End Code
         <td class="border"><label id="lblTotalBeforeVAT"></label></td>
         <td class="border"><label id="lblTotalVAT"></label></td>
         <td class="border"><label id="lblTotalWHT"></label></td>
-        <td class="border"><label id="lblTotalNET" onclick="$(this).text(ShowNumber(Math.round($(this).text().replaceAll(',',''),2),2)); "></label></td>
+        <td class="border"><label id="lblTotalNET" onclick="//$(this).text(ShowNumber(Math.round($(this).text().replaceAll(',',''),2),2)); "></label></td>
     </tr>
     <tr class="border" style="font-weight: bold">
         <td colspan="2" style="text-align: left;">TOTAL RECEIPT : BAHT</td>
@@ -289,15 +289,16 @@ End Code
             //html += '<td  class="vborder" style="text-align:right">' + ShowNumber((d.Amt + d.AmtVAT - d.Amt50Tavi) * d.ExchangeRate.toFixed(4), 2) + '</td>';
             html += '<td  class="vborder" style="text-align:right">' + ShowNumber((d.AmtAdvance+d.AmtCharge+ d.AmtVAT - d.Amt50Tavi) * d.ExchangeRate.toFixed(4), 2) + '</td>';
             html += '</tr>';
-            console.log(d.AmtCharge + d.AmtAdvance + d.InvVAT - d.Inv50Tavi);
-            console.log(d.ExchangeRate);
+            //console.log(d.AmtCharge + d.AmtAdvance + d.InvVAT - d.Inv50Tavi);
+            //console.log(d.ExchangeRate);
             $('#tbDetail').append(html);
             //if (d.AmtCharge > 0) {
                 service += (Number(d.AmtCharge)>0? Number(d.AmtCharge) :0);
                 vat += (Number(d.AmtCharge)>0? Number(d.AmtVAT) :0);
                 wht += (Number(d.AmtCharge)>0? Number(d.Amt50Tavi) :0);
                 //amt += Number(d.InvAmt) + Number(d.InvVAT);
-            amt += Number(d.Net)
+          //  amt += Number(d.Net)
+            amt += Number(d.AmtAdvance + d.AmtCharge + d.AmtVAT - d.Amt50Tavi);
             //} else {
                 adv +=(Number(d.AmtAdvance)>0? Number(d.AmtAdvance) :0);
             //}
@@ -311,7 +312,7 @@ End Code
             <td>${ShowNumber(service, 2)}</td>
             <td>${ShowNumber(vat, 2)}</td>
             <td>${ShowNumber(service+vat, 2)}</td>
-            <td onclick="$(this).text(ShowNumber(Math.round($(this).text().replaceAll(',',''),2),2));">${ShowNumber(amt, 2)}</td>
+            <td onclick="//$(this).text(ShowNumber(Math.round($(this).text().replaceAll(',',''),2),2));">${ShowNumber(amt, 2)}</td>
         </tr>`);
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));

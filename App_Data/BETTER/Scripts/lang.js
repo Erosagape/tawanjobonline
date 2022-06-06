@@ -276,7 +276,7 @@ function GetLangGrid(module, id) {
                     "Doc Date|วันที่รับวางบิล",
                     "Vender|ผู้ให้บริการ",
                     "Contact|ผู้ติดต่อ",
-                    "Container No|เบอร์ตู้คอนเทนเนอร์",
+                    "BL No|เบอร์ BL",
                     "Invoice.No|เลขที่ใบแจ้งหนี้",
                     "Amount|ยอดเงิน",
                     "VAT|VAT",
@@ -795,7 +795,7 @@ function GetLangGrid(module, id) {
                     "Cust Inv|อินวอยลูกค้า",
                     "Status|สถานะ",
                     "Clr.Total|ยอดปิด",
-                    "Container|เบอร์ตู้",
+                    "BL|เบอร์BL",
                     "Adv No|จากใบเบิก",
                     "Adv.Total|ยอดเบิก",
                     "Remark|หมายเหตุ"
@@ -902,7 +902,7 @@ function GetLangGrid(module, id) {
         case 'MODULE_CS/Transport':
             if (id == '#tbDetail') {
                 gridLang = [
-                    "Container No|เบอร์ตู้",
+                    "BL No|เบอร์ BL",
                     "Container Size|ขนาดตู้",
                     "Seal|เบอร์ซีล",
                     "Qty|จำนวน",
@@ -936,7 +936,7 @@ function GetLangGrid(module, id) {
                     "Doc.No|เลขที่บิล",
                     "Date|กำหนดชำระ",
                     "Inv No|เลขที่ใบแจ้งหนี้",
-                    "Cont.No|เบอร์ตู้",
+                    "BL|เบอร์BL",
                     "Total|รวมเงิน"
                 ];
             }
@@ -1616,7 +1616,8 @@ function GetLangForm(fname) {
                 linkUpdate: 'Save|จัดเก็บรายการ',
                 lblFilter: 'Filter By Status|แสดงข้อมูลตามสถานะ',
                 btnGetExcRate: 'Get Rate|ดึงอัตราแลกเปลี่ยน',
-                lblPayChqDate: 'Operation Date|วันที่ใช้เงิน'
+                lblPayChqDate: 'Operation Date|วันที่ใช้เงิน',
+lblJNo:'BL No|BL No'
             };
             break;
         case 'MODULE_ADV/EstimateCost':
@@ -1910,7 +1911,7 @@ function GetLangForm(fname) {
                 lblSICode: 'SICode|รหัสค่าบริการ',
                 lblCustCode: 'For|สำหรับลูกค้า',
                 lblBookingNo: 'Booking No|เลขที่ใบจอง',
-                lblContNo: 'Container No|หมายเลขตู้',
+                lblContNo: 'BL No|หมายเลขBL',
                 lblDescription: 'Description|รายละเอียดค่าบริการ',
                 lblQty: 'Qty|จำนวน',
                 lblQtyUnit: 'Unit|หน่วย',
@@ -2684,7 +2685,7 @@ function GetLangForm(fname) {
                 lblExpAmt: 'Amount|ยอดเงิน',
                 lblNet: 'Net|สุทธิ',
                 btnAddExpCode: 'Add|เพิ่มค่าใช้จ่าย',
-                lblContNo: 'Container No|เบอร์ตู้',
+                lblContNo: 'BL No|เบอร์BL',
                 linkUnit: 'Unit|หน่วยตู้',
                 linkSave: 'Save Expense|บันทึกการรับคืน'
             };
@@ -2699,7 +2700,7 @@ function GetLangForm(fname) {
                 linkDetail: 'Detail|ส่วนรายการ',
                 lblClrBy: 'Clear By|ผู้ทำรายการ',
                 lblClrType: 'Clearing Type|ประเภทการปิดบัญชี',
-                lblContNo: 'Container No|เลขที่ตู้คอนเทนเนอร์',
+                lblContNo: 'BL No|เลขที่BL',
                 lblClearanceDate: 'Clearance Date|วันที่ปฏิบัติงาน',
                 lblJobType: 'Job Type|ประเภทงาน',
                 lblClrFrom: 'Clear From|งานของแผนก',
@@ -2952,7 +2953,7 @@ function GetLangForm(fname) {
                 lblTyAuthorSp: 'Special Privilege|สิทธิประโยชน์',
                 lblTy19BIS: '19 BIS Rule|แบบ 19 ทวิ',
                 lblTyClearTax: 'Duty Rule|เงื่อนไขภาษี',
-                lblClearTaxReson: 'Certificate#|เลขที่ใบอนุญาต',
+                lblClearTaxReson: 'Paperless#|Paperlessต',
                 lblDeclareStatus: 'Declare Status|สถานะใบขน',
                 lblReleasePort: 'Release Port|สถานที่ตรวจปล่อย',
                 lblPortNo: 'Discharge Port|ท่าตรวจปล่อย',
@@ -3054,7 +3055,7 @@ function GetLangForm(fname) {
                 lblChargeAmt: 'Charge Amount|ราคาเรียกเก็บ',
                 lblChargeCode: 'Charge Code|รหัสค่าบริการ',
                 lblNo: 'No :|ลำดับที่',
-                lblContainerNo: 'Container|หมายเลขตู้',
+                lblContainerNo: 'BL No|หมายเลข BL',
                 lblContainerSize: 'Size|ขนาดตู้',
                 lblSealNo: 'Seal No.|เบอร์ซีล',
                 lblPackDetail: 'Description of Goods|ข้อมุลการบรรจุ',

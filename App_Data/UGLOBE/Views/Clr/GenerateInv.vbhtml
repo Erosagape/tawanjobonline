@@ -104,7 +104,7 @@ End Code
                                     <option value="IVS-">Service</option>
                                     <option value="IVT-">Transport</option>
                                     <option value="IVF-">Freight</option>
-				    <option value="IVD-">Debit Note</option>
+				                    <option value="IVD-">Debit Note</option>
                                 </select>
 
                             </div>

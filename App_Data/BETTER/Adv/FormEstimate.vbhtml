@@ -393,13 +393,14 @@ End Code
                 html2 += '<td class="vborder" style="text-align:right">' + (r.AmtTotal ? CCurrency(CDbl(r.AmtTotal, 2)) : "") + '</td>';
             }
             html2 += '</tr>';
-            if ((r.IsExpense == 1 && r.IsCredit == 0) || r.SICode.indexOf("INT") >= 0 ) {
+            if ((r.IsExpense == 1 && r.IsCredit == 0) || r.SICode.indexOf("INT") >= 0) {
+                console.log(r.SICode);
                 totalCost += r.AmtTotal;//cast
                 totalBaseCost += r.AmountCharge*r.Qty*r.ExchangeRate;
                 totalVatCost += r.AmtVat;
                 totalWhtCost += r.AmtWht;
-                totalPay += r.AmountCharge*r.Qty*r.ExchangeRate;
-
+                totalPay += r.AmountCharge * r.Qty * r.ExchangeRate;
+                console.log(totalPay);
             }else if (r.IsCredit == 1) {
                 totalAdvCost+= r.AmtTotal;
             }

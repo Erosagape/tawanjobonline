@@ -39,7 +39,11 @@ Namespace Controllers
             Return GetView("FormJob")
         End Function
         Function FormPrepare() As ActionResult
-            Return GetView("FormPrepare")
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return GetView("FormPrepare" & formName)
         End Function
         Function FormJobSum() As ActionResult
             Return GetView("FormJobSum")
@@ -2986,6 +2990,7 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
             ViewBag.JobType = JsonConvert.SerializeObject(New CConfig(GetSession("ConnJob")).GetData(" WHERE ConfigCode='JOB_TYPE' "))
             ViewBag.ShipBy = JsonConvert.SerializeObject(New CConfig(GetSession("ConnJob")).GetData(" WHERE ConfigCode='SHIP_BY' "))
             ViewBag.ShipByFilter = JsonConvert.SerializeObject(New CConfig(GetSession("ConnJob")).GetData(" WHERE ConfigCode='SHIP_BY_FILTER' "))
+            ViewBag.Company = JsonConvert.SerializeObject(New CCompany(GetSession("ConnJob")).GetData(""))
             Return GetView("CreateMasterJob", "MODULE_CS", "CreateJob")
         End Function
     End Class

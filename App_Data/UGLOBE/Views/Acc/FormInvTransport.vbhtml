@@ -367,27 +367,26 @@ End Code
 
 
 <br /><br />
-<table id="signature" class="table" style="width:100%">
-    <tr>
-        <td colspan="2" class="bold" style="text-align:center;">ผู้รับวางบิล / Received By :</td>
-        <td colspan="2" class="bold" style=" text-align: center;">อนุมัติโดย / Approved By :</td>
-        <td colspan="2" class="bold" style=" text-align: center;">ผูัจัดทำ /  Preapared By </td>
-    </tr>
-    <tr>
+      <table class="table" style="width:100%">
+          <tr>
+              <td class="bold" style="width:33%;text-align:center;">ผู้รับวางบิล / Received By :</td>
 
-        <td colspan="2" class="underLine textSpace" style=" text-align: center;"><br /><br /><br /><br /><br /></td>
-        <td colspan="2" class="underLine textSpace" style=" text-align: center;"></td>
-        <td colspan="2" class="underLine center" style=" text-align: center;"> </td>
-    </tr>
-    <tr>
-        <td class="bold" style="width:10%; text-align: center;">DATE :</td>
-        <td class="underLine  textSpace" style=" text-align: center;"></td>
-        <td class="bold" style="width: 10%; text-align: center;">DATE :</td>
-        <td class="underLine  textSpace" style=" text-align: center;"></td>
-        <td class="bold" style="width: 10%; text-align: center;">DATE :</td>
-        <td class="underLine  textSpace" style=" text-align: center;"></td>
-    </tr>
-</table>
+              <td class="bold" style="width: 33%; text-align: center;">อนุมัติโดย / Approved By :</td>
+
+              <td class="bold" style="width: 33%; text-align: center;">ผูัจัดทำ /  Preapared By </td>
+
+          </tr>
+          <tr>
+              <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
+              <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
+              <td class="center" style="flex: 1; text-align: center;"> <br /><br /><br /><br /><br /> _________________________________________</td>
+          </tr>
+          <tr>
+              <td class="bold" style="text-align: center;">DATE : ________________________________</td>
+              <td class="bold" style="text-align: center;">DATE : ________________________________</td>
+              <td class="bold" style="text-align: center;">DATE : ________________________________</td>
+          </tr>
+      </table>
 
 <script type="text/javascript">
     const path = '@Url.Content("~")';

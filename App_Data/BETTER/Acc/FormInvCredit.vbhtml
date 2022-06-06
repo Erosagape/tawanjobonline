@@ -84,7 +84,7 @@ End Code
         }
 
     #hbltable td {
-        border: medium solid #66ffcc;
+        border: 1px solid #66ffcc;
     }
 
     #tbdetail td {
@@ -116,66 +116,76 @@ End Code
 <table border="0" style="width: 100%; height: 100%; border-bottom-width: medium; border-top-width: medium">
     <tr>
         <td align="left" style="width: 20%">
-            PARTNER:
+            PARTNER
         </td>
+        <td>:</td>
         <td id="billToEName" style="width: 50%">
         </td>
         <td style="width: 10%">
-            CN NO.:
+            CN NO.
         </td>
+        <td>:</td>
         <td id="CNno" style="width: 20%">
         </td>
     </tr>
     <tr border="0">
-        <td colspan="2" rowspan="2">
+        <td colspan="3" rowspan="2">
             <label id="billToAdd1"></label><label id="billToAdd2"></label>
         </td>
         <td>
-            DATE:
+            DATE
         </td>
+        <td>:</td>
         <td id="indate">
         </td>
     </tr>
     <tr border="0">
         <td>
-            BFT NO.:
+            BFT NO.
         </td>
+        <td>:</td>
         <td id="jobno">
         </td>
     </tr>
     <tr border="0">
         <td>
-            CONTACT:
+            CONTACT
         </td>
-        <td id="billToContact">
+        <td>:</td>
+        <td id="acc">
         </td>
         <td>
-            REF.:
+            REF.
         </td>
+        <td>:</td>
         <td id="refno">
         </td>
     </tr>
     <tr border="0">
         <td>
-            ACCOUNT:
+            ACCOUNT
         </td>
-        <td id="acc">
+        <td>:</td>
+        <td id="email">
         </td>
         <td>
-            HBL.:
+            HBL.
         </td>
+        <td>:</td>
         <td id="HBL">
         </td>
     </tr>
     <tr border="0">
         <td>
-            E-MAIL:
+            E-MAIL
         </td>
-        <td id="email">
+        <td>:</td>
+        <td id="billToContact">
         </td>
         <td>
-            MBL.:
+            MBL.
         </td>
+        <td>:</td>
         <td id="MBL">
         </td>
     </tr>
@@ -183,73 +193,85 @@ End Code
 <table border="0" style="width:100%; height:100%">
     <tr>
         <td>
-            PORT OF LOADING:
+            PORT OF LOADING
         </td>
+        <td>:</td>
         <td id="loadport">
         </td>
         <td>
-            PORT OF DISCHARGE:
+            PORT OF DISCHARGE
         </td>
+        <td>:</td>
         <td id="dcport">
         </td>
     </tr>
     <tr>
         <td>
-            ETD:
+            ETD
         </td>
+        <td>:</td>
         <td id="etd">
         </td>
         <td>
-            ETA:
+            ETA
         </td>
+        <td>:</td>
         <td id="eta">
         </td>
     </tr>
     <tr>
         <td>
-            FEEDER:
+            FEEDER
         </td>
+        <td>:</td>
         <td id="mvess">
         </td>
         <td>
-            VESSEL:
+            VESSEL
         </td>
+        <td>:</td>
         <td id="vess">
         </td>
     </tr>
     <tr>
         <td>
-            SHIPPER:
+            SHIPPER
         </td>
+        <td>:</td>
         <td id="CustCode">
         </td>
         <td>
-            CONSIGNEE:
+            CONSIGNEE
         </td>
+        <td>:</td>
         <td id="consigneecode">
         </td>
     </tr>
     <tr>
         <td>
-            NOTIFY:
+            NOTIFY
         </td>
+        <td>:</td>
         <td id="noti">
         </td>
         <td>
-            CUST INV.:
+            CUST INV.
         </td>
+        <td>:</td>
         <td id="custinv">
         </td>
     </tr>
     <tr>
         <td>
-            CTN SIZE:
+            CTN SIZE
         </td>
+        <td>:</td>
         <td id="totalcontainer">
         </td>
         <td>
             CBM. : <label id="Measurement"></label>
         </td>
+        <td></td>
         <td>
             G.W : <label id="gw"></label>
         </td>
@@ -282,7 +304,7 @@ End Code
             <td style="text-align:center" width="10%">
                 DEBIT
             </td>
-            <td style="text-align: center; border-right-width: 0px"  width="10%">
+            <td style="text-align: center; border-right-width: 0px" width="10%">
                 CREDIT
             </td>
         </tr>
@@ -335,11 +357,13 @@ End Code
                 <td>
                 </td>
             </tr>*@
-        <tr>
-            <td style="width: 85%; border-left-width: 0px" colspan="8">
-                TOTAL BALANCE DUE TO:<label id="tbdt"></label>
+        <tr style="background-color: #c7fff2">
+            <td style="width: 85%; border-left-width: 0px" colspan="7">
+                TOTAL BALANCE DUE TO : <label id="tbdt"></label>
             </td>
-            <td style="width: 15%; border-right-width: 0px; text-align:right" id="ttbdt">
+            <td  style="width: 10%;  text-align:right">
+            </td>
+            <td id="ttbdt" style="width: 5%; border-right-width: 0px;text-align:right">
             </td>
         </tr>
         <tr>
@@ -352,25 +376,25 @@ End Code
 </table>
 <table border="0" style="width:100%; height:100%">
     <tr>
-        <td style="width:70%">
+        <td style="width:60%">
             REMARK:
         </td>
-        <td style="width:30%">
+        <td style="width:40%">
             <div style="padding-top:10px;">
                 BETTER FREIGHT & TRANSPORT CO.,LTD
             </div>
-            <div style="padding-top:10px;">
+            <div style="padding-top: 10px; font-style: italic; color: #66ffcc">
                 Signed by
             </div>
 
-            <div style="width: 100%; border-bottom: 1px black solid; text-align: center; padding-top: 10px; ">@viewbag.username</div>
+            <div style="width: 100%; border-bottom: 1px #66ffcc solid; text-align: center; padding-top: 10px"><p style="color: blue; font-size: 14px;">@viewbag.username</p></div>
             <div id="userPos" style="text-align: center; padding-top: 10px;"></div>
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td colspan="2" style="border-top: solid; border-bottom: solid; border-color: #66ffcc;line-height:2">
             BANK INFORMATION<br />
-            BENEFICIARY: BETTER FREIGHT $ TRANSPORT CO.,LTD.<br />
+            BENEFICIARY: BETTER FREIGHT & TRANSPORT CO.,LTD.<br />
             ACCOUNT NO.: 840-105-0029-401635-501(USD)<br />
             BANK NAME: BANGKOK BANK PUBLIC CO.LTD.<br />
             BANK ADDRESS: 182 SUKHUMVIT RD., KLONGTOEY BANGKOK 10110<br />
@@ -409,24 +433,27 @@ End Code
         let c = GetInvoice.invoice.customer[0][0];
         let j = GetInvoice.invoice.job[0][0];
         let d = GetInvoice.invoice.detail[0];
+        let clr = await $.get(path + 'clr/getclearingreport?job=' + j.JNo + '&Branch=' + j.BranchCode);
+        let clrd = clr.data.filter((data) => {
+            return data.LinkBillNo == code;
+        });
+;
 
-
+        console.log(clrd);
         let sum = 0;
-        for (item of d) {
-            console.log(item.SDescription);
-            sum = sum + item.FTotalAmt;
-
+        for (item of clrd) {
+            sum = sum + item.FFNet;
             $('#tbdetail').html($('#tbdetail').html() +
                 `<tr>
                     <td style="border-left-width:0px">${j.HAWB}</td>
                     <td>${item.SDescription}</td>
                     <td style="text-align:center">${ShowNumber(item.Qty,3)}</td>
-                    <td style="text-align:center">${item.QtyUnit}</td>
+                    <td style="text-align:center">${item.UnitCode}</td>
                     <td style="text-align:center">${item.CurrencyCode}</td>
-                    <td style="text-align:right">${ShowNumber(item.FUnitPrice, 2)}</td>
-                    <td style="text-align:right">${ShowNumber(item.FTotalAmt,2)}</td>
+                    <td style="text-align:right">${ShowNumber(item.FUnitCost, 2)}</td>
+                    <td style="text-align:right">${ShowNumber(item.FFNet,2)}</td>
                     <td style="text-align:right"></td>
-                    <td style="text-align:right;border-right-width:0px">${ShowNumber(item.FTotalAmt, 2)}</td>
+                    <td style="text-align:right;border-right-width:0px">${ShowNumber(item.FFNet, 2)}</td>
                 </tr>`)
 
         }
@@ -439,12 +466,12 @@ End Code
             <td></td>
             <td style="text-align:right"></td>
             <td style="text-align:right"></td>
-            <td style="text-align:right;border-right-width:0px"x>${ShowNumber(sum, 2)}</td>
+            <td style="text-align:right;border-right-width:0px">${ShowNumber(sum, 2)}</td>
         </tr>`);
         $('#ttbdt').html(
             `${ShowNumber(sum, 2)}`);
         $('#number').html(
-            `${CNumEng(sum, 2)}`);
+            `${CNumEng(ShowNumber(sum, 2))}`);
 
         $('#CNno').text(code);
         $('#indate').text(ShowDate(h.DocDate));
@@ -468,7 +495,7 @@ End Code
                 $('#loadport').text(($('#loadport').text() + " ," + r.country.data[0].CTYName).toUpperCase());
             });
         });
-        console.log(path + 'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch=' + h.BillToCustBranch)
+        //console.log(path + 'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch=' + h.BillToCustBranch)
         $.get(path + 'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch=' + h.BillToCustBranch).done(function (r) {
             console.log(r.company);
             /*console.log(r.company.data[0].NameEng);*/
@@ -476,7 +503,7 @@ End Code
             $('#tbdt').text(r.company.data[0].NameEng);
             $('#billToAdd1').text(r.company.data[0].EAddress1);
             $('#billToAdd2').text(r.company.data[0].EAddress2);
-            $('#billToContact').text(r.company.data[0].ManagerCode);
+            $('#billToContact').text(r.company.data[0].DMailAddress);
             $('#acc').text(r.company.data[0].CSCodeIM);
             $('#email').text(r.company.data[0].CSCodeEX);
             r.Phone = "34343434";
@@ -488,12 +515,12 @@ End Code
 
         $.get(path + 'Master/GetCompany?Code=' + j.Consigneecode).done(function (r) {
             $('#consigneecode').text(r.company.data[0].NameEng);
-            console.log(r.company.data[0].NameEng);
+            //console.log(r.company.data[0].NameEng);
         })
 
 
 
-        $.get(path + 'joborder/GetBooking?Code=' + j.JNo + '&Branch=' + branch).done(function (r) {
+        $.get(path + 'joborder/GetBooking?job=' + j.JNo + '&Branch=' + branch).done(function (r) {
 
             $('#noti').text(r.booking.data[0].NotifyName);
         //    console.log(r.company.data[0].NameEng);
@@ -506,17 +533,6 @@ End Code
         ShowUserPosition(path,"@viewbag.user", "#userPos");
 
 
-
-
-
-
-
-
-
-
-
-
-        c.Phone = "34343434";
         $('#tell').text(c.Phone)
         $('#fax').text(c.FaxNumber)
     }

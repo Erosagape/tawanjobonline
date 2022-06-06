@@ -99,8 +99,9 @@ End Code
             </td>
         </tr>
         <tr>
-            <td colspan="3">
-            </td>
+            <td pv="">ส่วนต่างรับ</td>
+            
+            <td colspan="2" id="lblDiff" style="color:red"></td>
 
             <td>
                 <div style="display:flex;width:100%">
@@ -284,7 +285,6 @@ End Code
                 $('#lblChqDate').text(pay.ChqDate ? ShowDate(pay.ChqDate) : "____________");
                 $('#cheque').prop('checked', true);
                 $('#lblBankCode').text(pay.RecvBank);
-
             }
 
             vcTypeName = GetVoucherType(vcType);
@@ -295,7 +295,8 @@ End Code
             if (doc.length > 0) {
                 totalNet = 0;
             } 
-                
+       
+            
             for (d of doc) {
                 let tr = "";
                 //<td style="text-align:center;padding:0px 5px;">${i++}</td>
@@ -314,11 +315,12 @@ End Code
                             <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount ? d.VAT:0, 2))}</td>
                             <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount ? d.WHT:0, 2))}</td>
                             <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount ? d.PaidAmount : d.CashAmount, 2))}</td></tr>`;
-                totalNet += d.PaidAmount ? d.PaidAmount : d.CashAmount;
+                            totalNet += d.PaidAmount ? d.PaidAmount : d.CashAmount;
                 //console.log(d.PaidAmount);
                 //console.log(d.TotalAmount);
                             detailTrs += tr;
             }
+            $('#lblDiff').text(pay.PRType == "R" ? (Math.round((pay.TotalNet - totalNet)*100)/100).toFixed(2) : "");
             detailTrs += "<tr> </tr>"
             let desc = "";
             let payType;
@@ -358,6 +360,8 @@ End Code
             //BANK < label id = "lblBankAccInfo" > ${ pay.RecvBank ? pay.RecvBank : "________________" }</label >
             //    BRANCH < label id = "lblBankAccInfo" > ${ pay.RecvBranch ? pay.RecvBranch : "________________" }</label > <br />
             //ACCOUNT ${ doc[0].BookName !== '' ? (pay.BookCode != '' ? 'ACCOUNT ' + doc[0].BookName + ' <br/REF# ' + pay.DocNo : '') : (pay.BookCode != '' ? '<br/>ACCOUNT ' + pay.BookCode + ' <br/REF# ' + pay.DocNo : '') }
+
+           
             let sumTr = `<tr id="A3">
             <td rowspan="2" style="font-size:13px;">
                 ${ pay.PRType == "P" ? "จ่ายให้:" :"รับจาก:"}
@@ -371,11 +375,11 @@ End Code
 
             </td>
             <td colspan="3">
-                <label id="lblAmount" style="text-align:center;padding:0px 5px;font-size:16px;">${CCurrency(CDbl(totalNet, 2))}</label>
+                <label id="lblAmount" style="text-align:center;padding:0px 5px;font-size:16px;">${CCurrency(CDbl(pay.TotalNet, 2))}</label>
             </td>
         </tr>
         <tr>
-            <td colspan="5" style="text-align:center;padding:0px 5px;"> ${CNumThai(CDbl(Number(totalNet), 2))} </td>
+            <td colspan="5" style="text-align:center;padding:0px 5px;"> ${CNumThai(CDbl(Number(pay.TotalNet), 2))} </td>
         </tr>`;
             let table =
                 `<table id="voucherTable" style="width: 100%; border-collapse: collapse;">

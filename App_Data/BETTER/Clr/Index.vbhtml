@@ -5,7 +5,7 @@ End Code
     <div id="dvHeader" class="container">
         <div class="row">
             <div class="col-sm-5">
-                *<label id="lblBranch">Branch:</label>                
+                *<label id="lblBranch">Branch:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -23,9 +23,10 @@ End Code
                 </div>
             </div>
             <div class="col-sm-3">
-                <label id="lblClrDate">Document Date </label><br/>
+                <label id="lblClrDate">Document Date </label><br />
                 <input type="date" class="form-control" id="txtClrDate" tabindex="1" />
             </div>
+
         </div>
         <ul class="nav nav-tabs">
             <li class="active"><a id="linkHeader" data-toggle="tab" href="#tabHeader">Clearing Header</a></li>
@@ -62,11 +63,11 @@ End Code
                         </div>
                         <div class="row">
                             <div class="col-sm-3">
-				<input type="checkbox" id="chkContainer" onclick="CheckContainer()" checked />
+                                <input type="checkbox" id="chkContainer" onclick="CheckContainer()" />
                                 <label id="lblContNo" style="color:red">Container No:</label>
                             </div>
                             <div class="col-sm-4" style="display:flex">
-                                <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" value="N/A" disabled />
+                                <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" disabled />
                                 <button class="btn btn-default" onclick="SearchData('container')">...</button>
                             </div>
                             <div class="col-sm-2">
@@ -81,7 +82,7 @@ End Code
                         <table style="width:100%">
                             <tr>
                                 <td>
-                                    <label id="lblJobType">Job Type :</label>                                    
+                                    <label id="lblJobType">Job Type :</label>
                                 </td>
                                 <td style="display:flex;flex-direction:row">
                                     <select id="cboJobType" class="form-control dropdown" tabindex="8"></select>
@@ -89,7 +90,7 @@ End Code
                             </tr>
                             <tr>
                                 <td>
-                                    <label id="lblClrFrom">Clear From :</label>                                    
+                                    <label id="lblClrFrom">Clear From :</label>
                                 </td>
                                 <td style="display:flex;flex-direction:row">
                                     <select id="cboClrFrom" class="form-control dropdown" tabindex="9"></select>
@@ -97,7 +98,7 @@ End Code
                             </tr>
                             <tr>
                                 <td>
-                                    <label id="lblClrStatus">Status :</label>                                    
+                                    <label id="lblClrStatus">Status :</label>
                                 </td>
                                 <td style="display:flex;flex-direction:row">
                                     <select id="cboDocStatus" class="form-control dropdown" disabled></select>
@@ -113,7 +114,7 @@ End Code
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtCoPersonCode" />
                         </div>
-                        <label id="lblTRemark">Remark:</label>                        
+                        <label id="lblTRemark">Remark:</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <textarea id="txtTRemark" class="form-control" tabindex="11"></textarea>
@@ -155,9 +156,9 @@ End Code
                         <br />
                         <input type="text" id="txtApproveBy" style="width:250px" disabled />
                         <br />
-                        <label id="lblApprDate">Date:</label>                        
+                        <label id="lblApprDate">Date:</label>
                         <input type="date" id="txtApproveDate" disabled />
-                        <label id="lblApprTime">Time:</label>                        
+                        <label id="lblApprTime">Time:</label>
                         <input type="text" id="txtApproveTime" style="width:80px" disabled />
                     </div>
                     <div class="col-sm-4" style="border-style:solid;border-width:1px">
@@ -165,7 +166,7 @@ End Code
                         <label id="lblRecvBy" for="chkReceive">Receive By</label>
                         <input type="text" id="txtReceiveBy" style="width:250px" disabled />
                         <br />
-                        <label id="lblRecvDate">Date:</label>                        
+                        <label id="lblRecvDate">Date:</label>
                         <input type="date" id="txtReceiveDate" disabled />
                         <label id="lblRecvTime">Time:</label>
                         <input type="text" id="txtReceiveTime" style="width:80px" disabled />
@@ -178,9 +179,9 @@ End Code
                         <label id="lblCancelBy" for="chkCancel">Cancel By</label>
                         <input type="text" id="txtCancelProve" style="width:250px" disabled />
                         <br />
-                        <label id="lblCancelDate">Date:</label>                        
+                        <label id="lblCancelDate">Date:</label>
                         <input type="date" id="txtCancelDate" disabled />
-                        <label id="lblCancelTime">Time:</label>                        
+                        <label id="lblCancelTime">Time:</label>
                         <input type="text" id="txtCancelTime" style="width:80px" disabled />
                         <br />
                         <label id="lblCancelReson">Cancel Reason :</label>
@@ -199,7 +200,7 @@ End Code
                     </a>
                 </div>
             </div>
-            <div id="tabDetail" class="tab-pane fade" onclick="PrepareData()" >
+            <div id="tabDetail" class="tab-pane fade" onclick="PrepareData()">
                 <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddDetail()">
                     <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkAdd">Add Detail</b>
                 </a>
@@ -237,28 +238,28 @@ End Code
                             <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDel">Delete Detail</b>
                         </a>
                         <p>
-                            <label id="lblSumCharge">Customers Chargable :</label>                            
+                            <label id="lblSumCharge">Customers Chargable :</label>
                             <input type="text" id="txtSumCharge" style="width:100px;text-align:right" />
-                            <br />                                                                                                        
-                            <label id="lblSumCost">Company Cost :</label>                            
+                            <br />
+                            <label id="lblSumCost">Company Cost :</label>
                             <input type="text" id="txtSumCost" style="width:100px;text-align:right" /><br />
                         </p>
                     </div>
                     <div class="col-sm-3" style="text-align:right">
                         <label id="lblClrAmount">Amount</label>
-                         :
+                        :
                         <input type="text" id="txtClrAmount" style="width:100px;text-align:right" />
-                        <br />                                                                                                    
+                        <br />
                         <label id="lblVatAmount">VAT</label>
-                         :
+                        :
                         <input type="text" id="txtVatAmount" style="width:100px;text-align:right" />
                         <br />
                         <label id="lblWhtAmount">WHT</label>
-                         :
+                        :
                         <input type="text" id="txtWhtAmount" style="width:100px;text-align:right" />
                         <br />
                         <label id="lblNetAmount">Total</label>
-                         :
+                        :
                         <input type="text" id="txtNetAmount" style="width:100px;text-align:right" />
                     </div>
                 </div>
@@ -292,7 +293,7 @@ End Code
                             <div class="row">
                                 <div class="col-sm-4">
                                     <a href="../Master/ServiceCode" target="_blank"><label id="lblSICode">Service Code</label></a>
-                                    <br/>
+                                    <br />
                                     <div style="display:flex">
                                         <input type="text" id="txtSICode" class="form-control" tabindex="12" />
                                         <input type="button" id="btnBrowseS" class="btn btn-default" value="..." onclick="SearchData('servicecode')" />
@@ -300,7 +301,7 @@ End Code
                                 </div>
                                 <div class="col-sm-8">
                                     <label id="lblSDescription">Description : </label>
-                                    <br/>
+                                    <br />
                                     <div style="display:flex">
                                         <input type="text" id="txtSDescription" class="form-control" tabindex="13" />
                                     </div>
@@ -323,7 +324,7 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label id="lblQNo">Quotation No :</label>/<label id="lblEstimate" onclick="SearchData('estimate')" >Estimate</label>
+                                    <label id="lblQNo">Quotation No :</label>/<label id="lblEstimate" onclick="SearchData('estimate')">Estimate</label>
                                     <div style="display:flex">
                                         <input type="text" id="txtQNo" class="form-control" disabled />
                                         <input type="button" id="btnBrowseQ" class="btn btn-default" value="..." onclick="SearchData('quotation')" />
@@ -344,17 +345,17 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-sm-3">
-                                    <label id="lblQty" for="txtQty">Qty:</label><br/>
+                                    <label id="lblQty" for="txtQty">Qty:</label><br />
                                     <input type="text" id="txtQty" class="form-control" style="text-align:right" tabindex="17" />
                                 </div>
                                 <div class="col-sm-3">
                                     <label id="lblUnit" for="txtUnitcode"><a onclick="SearchData('servunit')">Unit:</a></label>
-                                    <br/>
+                                    <br />
                                     <input type="text" id="txtUnitCode" class="form-control" tabindex="18" />
                                 </div>
                                 <div class="col-sm-3">
                                     <label id="lblUnitPrice" for="txtUnitPrice" style="color:red">Price :</label>
-                                    <br/>
+                                    <br />
                                     <input type="text" id="txtUnitPrice" class="form-control" style="color:red;text-align:right;background-color:lightyellow;font-weight:bold" tabindex="19" />
                                 </div>
                                 <div class="col-sm-3">
@@ -389,24 +390,24 @@ End Code
                                         <input type="text" id="txtNET" class="form-control" style="color:darkblue;font-weight:bold;text-align:right;background-color:aquamarine" tabindex="25" />
                                     </div>
                                 </div>
-                            </div>   
+                            </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label id="lblWTNo">WH-Tax No :</label>                                    
+                                    <label id="lblWTNo">WH-Tax No :</label>
                                     <br />
                                     <input type="text" id="txt50Tavi" class="form-control" tabindex="28" />
                                 </div>
                                 <div class="col-sm-4">
-                                    <label id="lblSlipDate">Slip Date :</label>                                    
-                                    <br />
-                                    <input type="date" class="form-control" id="txtDate50Tavi" tabindex="26" />
-                                </div>
-                                <div class="col-sm-4">
                                     <label id="lblSlipNo">Slip No :</label>
                                     <br />
-                                    <input type="text" id="txtSlipNo" class="form-control" tabindex="27" />
+                                    <input type="text" id="txtSlipNo" class="form-control" tabindex="26" />
                                 </div>
-                            </div>                            
+                                <div class="col-sm-4">
+                                    <label id="lblSlipDate">Slip Date :</label>
+                                    <br />
+                                    <input type="date" class="form-control" id="txtDate50Tavi" tabindex="27" />
+                                </div>
+                            </div>
                             <div>
                                 <input type="checkbox" id="chkIsLtdAdv50Tavi" />
                                 <label id="lblLtdAdv" for="chkIsLtdAdv50Tavi">**หักตามมาตรา 60,69,70</label>
@@ -424,7 +425,7 @@ End Code
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label id="lblDRemark">Remark :</label>
-                                    <br/>
+                                    <br />
                                     <textarea id="txtRemark" style="width:100%;height:80px" tabindex="31"></textarea>
                                 </div>
                                 <div class="col-sm-6">
@@ -432,15 +433,15 @@ End Code
                                     <label id="lblIsCost" for="chkIscost">Is Company Cost (Cannot Charge)</label>
                                     <br />
                                     <label id="lblAdvItemNo" for="txtAdvItemNo">Clear From Adv Item.No :</label>
-                                    <input type="text" id="txtAdvItemNo" style="width:40px"/>
-                                    <br/>
+                                    <input type="text" id="txtAdvItemNo" style="width:40px" />
+                                    <br />
                                     <label id="lblAdvNo" for="txtAdvNo">Adv.No :</label>
-                                    <input type="text" id="txtAdvNo" style="width:150px"/> 
-                                    <br/>
-                                    <label id="lblAdvAmt">Advance Net :</label>                                    
-                                    <input type="text" id="txtAdvAmount" style="width:60px"/>
+                                    <input type="text" id="txtAdvNo" style="width:150px" />
+                                    <br />
+                                    <label id="lblAdvAmt">Advance Net :</label>
+                                    <input type="text" id="txtAdvAmount" style="width:60px" />
                                 </div>
-                            </div>                            
+                            </div>
                             <div class="row">
                                 <div class="col-sm-6">
                                     <label id="lblInvNo">Invoice# :</label><input type="text" id="txtLinkBillNo" style="width:150px" disabled />
@@ -619,7 +620,7 @@ End Code
         SetEnterToTab();
         CheckParam();
     //});
-    function CheckContainer() { 
+    function CheckContainer() {
 	if($('#chkContainer').prop('checked')==false){
 		$('#txtCTN_NO').val('N/A');
 	}
@@ -652,7 +653,7 @@ End Code
             }
         } else {
             $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-            $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
+            $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
         }
     }
     function SetJob() {
@@ -681,7 +682,7 @@ End Code
             $('#btnBrowseCust').attr('disabled', 'disabled');
             $('#txtForJNo').attr('disabled', 'disabled');
             $('#btnBrowseJ').attr('disabled', 'disabled');
-            $('#cboJobType').attr('disabled', 'disabled');            
+            $('#cboJobType').attr('disabled', 'disabled');
 
             $('#txtEmpCode').val(user);
             CallBackQueryUser(path, $('#txtEmpCode').val(), ReadClrBy);
@@ -777,7 +778,7 @@ End Code
 
         $('#txtSICode').keydown(function (event) {
             if (event.which == 13) {
-                let dt = FindService($('#txtSICode').val());               
+                let dt = FindService($('#txtSICode').val());
                 if (CheckService(dt) == false) {
                     return;
                 }
@@ -860,6 +861,12 @@ End Code
         });
 
         $('#cboClrType').click(function (ev) {
+            //if ((userPosition == '4' || userPosition == '5') && $('#cboClrType').val()=='3') {
+		if (userPosition == '5' && $('#cboClrType').val()=='3') {
+                ShowMessage('You are not allow to do this');
+                $('#cboClrType').val('1');
+                return;
+            }
             loadServiceGroupForClear(path, '#cboSTCode', $('#cboClrType').val());
         });
     }
@@ -926,7 +933,7 @@ End Code
                 $('#cboDocStatus').val('1');
                 $('#txtApproveDate').val('');
                 $('#txtApproveTime').val('');
-            }                
+            }
             $('#txtCancelProve').val(chkmode ? user : '');
             $('#txtCancelDate').val(chkmode ? CDateEN(GetToday()) : '');
             $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
@@ -956,7 +963,7 @@ End Code
             //Job
             CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job List', response, 3);
             //Users
-            CreateLOV(dv, '#frmSearchClr', '#tbClr', 'Clear By', response,2);            
+            CreateLOV(dv, '#frmSearchClr', '#tbClr', 'Clear By', response,2);
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response,2);
             //SICode
@@ -1007,7 +1014,7 @@ End Code
             $('#txtBranchCode').focus();
             return false;
         }
-        if ($('#txtCTN_NO').val() == '') {
+        if ($('#txtCTN_NO').val() == '' && $('#chkContainer').prop('checked')) {
             ShowMessage('Please input container',true);
             $('#txtCTN_NO').focus();
             return false;
@@ -1120,7 +1127,7 @@ End Code
 
             $('#txtClrDate').val(CDateEN(dt.ClrDate));
             $('#txtClearanceDate').val(CDateEN(dt.ClearanceDate));
-            
+
             $('#txtEmpCode').val(dt.EmpCode);
             $('#txtAdvTotal').val(CDbl(dt.AdvTotal, 2));
             if (isjobmode == false) {
@@ -1157,12 +1164,12 @@ End Code
             $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
             $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
             $('#chkReceive').prop('checked', $('#txtReceiveBy').val() == '' ? false : true);
-            
+
             CallBackQueryUser(path, $('#txtEmpCode').val(), ReadClrBy);
             ShowBranch(path, $('#txtBranchCode').val(), '#txtBranchName');
 
             if (dt.DocStatus > 2) {
-                $('#chkApprove').attr('disabled', 'disabled');                
+                $('#chkApprove').attr('disabled', 'disabled');
                 //if document paymented/cancelled/cleared then disable save button
                 EnableSave(false);
             } else {
@@ -1222,7 +1229,7 @@ End Code
         if ($('#txtClrNo').val() == '') {
             ShowMessage('Please save document before add detail',true);
             return;
-        }  
+        }
         $('#chkDuplicate').prop('checked', false);
         ClearDetail();
         $.get(path + 'clr/getnewcleardetail?branchcode=' + $('#txtBranchCode').val() + '&clrno=' + $('#txtClrNo').val()).done(function (r) {
@@ -1309,7 +1316,7 @@ End Code
         $('#btnAdd').attr('disabled', 'disabled');
         $('#btnDel').attr('disabled', 'disabled');
         $('#btnUpdate').attr('disabled', 'disabled');
-                
+
         if (userRights.indexOf('E') >= 0){
             $('#btnSave').removeAttr('disabled');
             $('#btnUpdate').removeAttr('disabled');
@@ -1406,7 +1413,7 @@ End Code
             data:dt,
             selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
-                { data: null, title: "Edit" },                
+                { data: null, title: "Edit" },
                 { data: "JobNo", title: "Job" },
                 { data: "SICode", title: "Service" },
                 { data: "SDescription", title: "Description" },
@@ -1571,7 +1578,7 @@ End Code
             $('#txtAdvItemNo').val(dt.AdvItemNo);
             $('#txtAdvAmount').val(CDbl(dt.AdvAmount, 2));
             $('#txtVenderBillingNo').val(dt.VenderBillingNo);
-            $('#txtLinkBillNo').val(dt.LinkBillNo); 
+            $('#txtLinkBillNo').val(dt.LinkBillNo);
             if ($('#txtLinkBillNo').val() !== '') {
                 $('#btnUpdate').attr('disabled', 'disabled');
             }
@@ -1601,7 +1608,7 @@ End Code
             $('#txtQty').val(dt.Qty);
             $('#txtCurRate').val(dt.CurRate);
             $('#txtUnitPrice').val(CDbl(dt.UnitPrice,2));
-            $('#txtUnitCode').val(dt.UnitCode);            
+            $('#txtUnitCode').val(dt.UnitCode);
             $('#txtRemark').val(dt.Remark);
             $('#txtSlipNo').val(dt.SlipNO);
             $('#txt50Tavi').val(dt.NO50Tavi);
@@ -1625,7 +1632,7 @@ End Code
             $('#txtAdvAmount').val(0);
             $('#txtQNo').val('');
             $('#txtVenderBillingNo').val(dt.VenderBillingNo);
-            $('#txtLinkBillNo').val(dt.LinkBillNo); 
+            $('#txtLinkBillNo').val(dt.LinkBillNo);
             $('#txtLinkItem').val(dt.LinkItem);
             $('#txtCTN_NO').val(dt.RefNo);
             ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
@@ -1656,13 +1663,13 @@ End Code
             $('#txtQty').val(dt.Qty);
             $('#txtCurRate').val(dt.CurRate);
             $('#txtUnitPrice').val(CDbl(dt.UnitCost,2));
-            $('#txtUnitCode').val(dt.UnitCode);            
+            $('#txtUnitCode').val(dt.UnitCode);
             $('#txtRemark').val(dt.Remark);
             $('#txtSlipNo').val(dt.SlipNO);
             $('#txt50Tavi').val(dt.NO50Tavi);
             $('#txtDate50Tavi').val(CDateEN(dt.Date50Tavi));
             $('#txtPayChqTo').val(dt.Pay50TaviTo);
-            
+
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Tax50TaviRate);
@@ -1680,7 +1687,7 @@ End Code
             $('#txtAdvAmount').val(CDbl(dt.AdvBalance,2));
             $('#txtQNo').val(dt.QNo);
             $('#txtVenderBillingNo').val(dt.VenderBillingNo);
-            $('#txtLinkBillNo').val(dt.LinkBillNo); 
+            $('#txtLinkBillNo').val(dt.LinkBillNo);
             $('#txtLinkItem').val(dt.LinkItem);
             ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
             ShowCaption();
@@ -1716,7 +1723,7 @@ End Code
         $('#chkIsLtdAdv50Tavi').prop('checked', false);
         $('#txtCurrencyCode').val($('#txtSubCurrency').val());
         $('#txtVenderBillingNo').val('');
-        $('#txtLinkBillNo').val(''); 
+        $('#txtLinkBillNo').val('');
         $('#txtLinkItem').val('');
         ShowCurrency(path, $('#txtSubCurrency').val(), '#txtCurrencyName');
         ShowCaption();
@@ -1726,7 +1733,7 @@ End Code
             $('#txtAdvItemNo').val('0');
             $('#txtAdvAmount').val('0');
         }
-        $('#txtSlipNo').val('');        
+        $('#txtSlipNo').val('');
         $('#txtSlipNo').removeAttr('disabled');
         $('#txtAMT').removeAttr('disabled');
         $('#txtVATRate').removeAttr('disabled');
@@ -1865,13 +1872,13 @@ End Code
                 break;
             case 'quotation':
                 //let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val() + '&code=' + $('#txtSICode').val() + '&jtype=' + $('#txtJobType').val() + '&sby=' + $('#txtShipBy').val();
-                let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val();
+                let qry = '?branch=' + $('#txtBranchCode').val();
                 if ($('#txtJobType').val() > '0') {
                     qry += '&jtype=' + $('#txtJobType').val();
                 }
                 if ($('#txtShipBy').val() > '0') {
                     qry += '&sby=' + $('#txtShipBy').val();
-                }                
+                }
                 SetGridQuotation(path, '#tbQuo', qry, '#frmSearchQuo', ReadQuotation);
                 break;
         }
@@ -1974,7 +1981,7 @@ End Code
         if (dt != undefined) {
             $('#txtSICode').val(dt.SICode);
             $('#cboSTCode').val(dt.GroupCode);
-            $('#txtSDescription').val(dt.NameEng);
+            $('#txtSDescription').val(dt.NameThai);
             $('#txtVatType').val(dt.IsTaxCharge);
             $('#txtVATRate').val(dt.IsTaxCharge == "0" ? "0" : CDbl(@ViewBag.PROFILE_VATRATE*100,0));
             $('#txtWHTRate').val(dt.Is50Tavi == "0" ? "0" : dt.Rate50Tavi);
@@ -1982,12 +1989,12 @@ End Code
             $('#txtCurrencyCode').val(dt.CurrencyCode);
             ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
             ShowCaption();
-            //$('#txtVenCode').val(dt.DefaultVender);
+            $('#txtVenCode').val(dt.DefaultVender);
             ShowVender(path, dt.DefaultVender, '#txtPayChqTo');
             /*
             if (dt.IsTaxCharge == "2") {
                 $('#txtAMT').attr('disabled', 'disabled');
-                $('#txtVATRate').attr('disabled', 'disabled');
+                //$('#txtVATRate').attr('disabled', 'disabled');
                 $('#txtWHTRate').attr('disabled', 'disabled');
                 $('#txtVAT').attr('disabled', 'disabled');
                 $('#txtWHT').attr('disabled', 'disabled');
@@ -2002,8 +2009,6 @@ End Code
             $('#chkIsCost').prop('checked', dt.IsExpense == 1 ? true : false);
             if (dt.IsHaveSlip == 0) {
                 $('#txtSlipNo').attr('disabled', 'disabled');
-            } else {
-		$('#txtSlipNo').removeAttr('disabled');
             }
             CalVATWHT();
             return;
@@ -2040,7 +2045,7 @@ End Code
         }
         $('#txtForJNo').focus();
     }
-    
+
     function GetTotal() {
         return CDbl(CNum($('#txtTotalClear').val()) / CNum($('#txtExchangeRate').val()) ,2);
     }
@@ -2068,7 +2073,7 @@ End Code
                 $('#txtAMT').val(CDbl(CNum(amt) * CNum(rate),2));
             }
             CalVATWHT();
-        }           
+        }
     }
     function CalTotal() {
         let amt = CDbl($('#txtAMT').val(),3);
@@ -2091,7 +2096,7 @@ End Code
         let wht = 0;
         if (type == "2") {
             //let base = amt * 100 / (100 + (vatrate - whtrate));
-            let base = amt * (100 / (100 + Number(vatrate)));
+            let base = amt * 100 / (100 + Number(vatrate));
             vat = base * vatrate * 0.01;
             wht = base * whtrate * 0.01;
             $('#txtAMT').val(CDbl(CNum(base),2));
@@ -2109,7 +2114,7 @@ End Code
         if ($('#txtClrNo').val() == '') {
             ShowMessage('Please save document before add detail',true);
             return;
-        }  
+        }
         let jtype = $('#cboJobType').val();
         let branch = $('#txtBranchCode').val();
         if (job !== "") {
@@ -2217,10 +2222,9 @@ End Code
         $('#txtVatType').val(dt.Isvat);
         $('#txtVATRate').val(dt.VatRate);
         $('#txtWHTRate').val(dt.IsTax == "0" ? "0" : dt.TaxRate);
-        $('#txtQty').val(CNum(dt.QtyBegin));
         if (dt.Isvat == "2") {
             $('#txtAMT').attr('disabled', 'disabled');
-            $('#txtVATRate').attr('disabled', 'disabled');
+            //$('#txtVATRate').attr('disabled', 'disabled');
             $('#txtWHTRate').attr('disabled', 'disabled');
             $('#txtVAT').attr('disabled', 'disabled');
             $('#txtWHT').attr('disabled', 'disabled');
@@ -2234,9 +2238,10 @@ End Code
         $('#txtCurrencyCode').val(dt.CurrencyCode);
         ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
         $('#txtCurRate').val(dt.CurrencyRate);
+        $('#txtQty').val(CDbl(dt.QtyBegin,2));
         $('#txtUnitPrice').val(CDbl(dt.ChargeAmt,2));
-        $('#txtUnitCode').val(dt.UnitCheck);            
-        $('#txtVenCode').val(dt.VenderCode);           
+        $('#txtUnitCode').val(dt.UnitCheck);
+        $('#txtVenCode').val(dt.VenderCode);
         ShowVender(path, dt.VenderCode, '#txtPayChqTo');
         CalAmount();
     }
@@ -2244,7 +2249,7 @@ End Code
         if ($('#txtClrNo').val() == '') {
             ShowMessage('Please save document before add detail',true);
             return;
-        }        
+        }
         let branch = $('#txtBranchCode').val();
         let w = '';
 
@@ -2282,7 +2287,7 @@ End Code
                             data: "SICode", title: "Code"
                         },
                         {
-                            data: "SDescription", title: "Expense Name"                            
+                            data: "SDescription", title: "Expense Name"
                         },
                         { data: "JobNo", title: "Job" },
                         { data: "CurrencyCode", title: "Currency" },
@@ -2338,5 +2343,5 @@ End Code
             window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&DocNo=' + doc, '_blank');
         }
     }
-    
+
 </script>

@@ -1345,6 +1345,7 @@ End Code
             $('#txtCustCode').focus();
             return false;
         }
+/*
         if ($('#txtPayTo').val() == '') {
             ShowMessage('Please input payment to',true);
             $('#txtPayTo').focus();
@@ -1355,6 +1356,7 @@ End Code
             $('#txtTRemark').focus();
             return false;
         }
+*/
         if ($('#cboJobType').val() == 0) {
             ShowMessage('please select job type',true);
             $('#cboJobType').focus();

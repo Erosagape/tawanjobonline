@@ -84,7 +84,7 @@ End Code
         }
 
     #hbltable td {
-        border: medium solid #66ffcc;
+        border: 1px solid #66ffcc;
     }
 
     #tbdetail td {
@@ -116,66 +116,76 @@ End Code
 <table border="0" style="width: 100%; height: 100%; border-bottom-width: medium; border-top-width: medium">
     <tr>
         <td align="left" style="width: 20%">
-            PARTNER:
+            PARTNER
         </td>
+        <td>:</td>
         <td id="billToEName" style="width: 50%">
         </td>
         <td style="width: 10%">
-            DN NO.:
+            DN NO.
         </td>
+        <td>:</td>
         <td id="CNno" style="width: 20%">
         </td>
     </tr>
     <tr border="0">
-        <td colspan="2" rowspan="2">
+        <td colspan="3" rowspan="2">
             <label id="billToAdd1"></label><label id="billToAdd2"></label>
         </td>
         <td>
-            DATE:
+            DATE
         </td>
+        <td>:</td>
         <td id="indate">
         </td>
     </tr>
     <tr border="0">
         <td>
-            BFT NO.:
+            BFT NO.
         </td>
+        <td>:</td>
         <td id="jobno">
         </td>
     </tr>
     <tr border="0">
         <td>
-            CONTACT:
+            CONTACT
         </td>
-        <td id="billToContact">
+        <td>:</td>
+        <td id="acc">
         </td>
         <td>
-            REF.:
+            REF.
         </td>
+        <td>:</td>
         <td id="refno">
         </td>
     </tr>
     <tr border="0">
         <td>
-            ACCOUNT:
+            ACCOUNT
         </td>
-        <td id="acc">
+        <td>:</td>
+        <td id="email">
         </td>
         <td>
-            HBL.:
+            HBL.
         </td>
+        <td>:</td>
         <td id="HBL">
         </td>
     </tr>
     <tr border="0">
         <td>
-            E-MAIL:
+            E-MAIL
         </td>
-        <td id="email">
+        <td>:</td>
+        <td id="billToContact">
         </td>
         <td>
-            MBL.:
+            MBL.
         </td>
+        <td>:</td>
         <td id="MBL">
         </td>
     </tr>
@@ -183,73 +193,85 @@ End Code
 <table border="0" style="width:100%; height:100%">
     <tr>
         <td>
-            PORT OF LOADING:
+            PORT OF LOADING
         </td>
+        <td>:</td>
         <td id="loadport">
         </td>
         <td>
-            PORT OF DISCHARGE:
+            PORT OF DISCHARGE
         </td>
+        <td>:</td>
         <td id="dcport">
         </td>
     </tr>
     <tr>
         <td>
-            ETD:
+            ETD
         </td>
+        <td>:</td>
         <td id="etd">
         </td>
         <td>
-            ETA:
+            ETA
         </td>
+        <td>:</td>
         <td id="eta">
         </td>
     </tr>
     <tr>
         <td>
-            FEEDER:
+            FEEDER
         </td>
+        <td>:</td>
         <td id="mvess">
         </td>
         <td>
-            VESSEL:
+            VESSEL
         </td>
+        <td>:</td>
         <td id="vess">
         </td>
     </tr>
     <tr>
         <td>
-            SHIPPER:
+            SHIPPER
         </td>
+        <td>:</td>
         <td id="CustCode">
         </td>
         <td>
-            CONSIGNEE:
+            CONSIGNEE
         </td>
+        <td>:</td>
         <td id="consigneecode">
         </td>
     </tr>
     <tr>
         <td>
-            NOTIFY:
+            NOTIFY
         </td>
+        <td>:</td>
         <td id="noti">
         </td>
         <td>
-            CUST INV.:
+            CUST INV.
         </td>
+        <td>:</td>
         <td id="custinv">
         </td>
     </tr>
     <tr>
         <td>
-            CTN SIZE:
+            CTN SIZE
         </td>
+        <td>:</td>
         <td id="totalcontainer">
         </td>
         <td>
             CBM. : <label id="Measurement"></label>
         </td>
+        <td></td>
         <td>
             G.W : <label id="gw"></label>
         </td>
@@ -335,11 +357,13 @@ End Code
                 <td>
                 </td>
             </tr>*@
-        <tr>
-            <td style="width: 85%; border-left-width: 0px" colspan="8">
-                TOTAL BALANCE DUE TO:<label id="tbdt"></label>
+        <tr style="background-color: #c7fff2">
+            <td style="width: 85%; border-left-width: 0px" colspan="7">
+                TOTAL BALANCE DUE TO : <label>BETTER FREIGHT & TRANSPORT</label>
             </td>
-            <td style="width: 15%; border-right-width: 0px; text-align:right" id="ttbdt">
+            <td id="ttbdt" style="width: 10%;  text-align:right">
+            </td>
+            <td style="width: 5%; border-right-width: 0px;">
             </td>
         </tr>
         <tr>
@@ -352,25 +376,25 @@ End Code
 </table>
 <table border="0" style="width:100%; height:100%">
     <tr>
-        <td style="width:70%">
+        <td style="width:60%">
             REMARK:
         </td>
-        <td style="width:30%">
-            <div style="padding-top:10px;">
+        <td style="width:40%">
+            <div style="padding-top:10px;text-align:center; font-size: 14px;" ">
                 BETTER FREIGHT & TRANSPORT CO.,LTD
             </div>
-            <div style="padding-top:10px;">
+            <div style="padding-top: 10px; font-style: italic; color: #66ffcc;text-align:center">
                 Signed by
             </div>
 
-            <div style="width: 100%; border-bottom: 1px black solid; text-align: center; padding-top: 10px; ">@viewbag.username</div>
+            <div style="width: 100%; border-bottom: 1px #66ffcc solid; text-align: center; padding-top: 10px" ><p style="color: blue; font-size: 14px;">@viewbag.username</p></div>
             <div id="userPos" style="text-align: center; padding-top: 10px;"></div>
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td colspan="2" style="border-top: solid; border-bottom: solid; border-color: #66ffcc;line-height:2">
             BANK INFORMATION<br />
-            BENEFICIARY: BETTER FREIGHT $ TRANSPORT CO.,LTD.<br />
+            BENEFICIARY: BETTER FREIGHT & TRANSPORT CO.,LTD.<br />
             ACCOUNT NO.: 840-105-0029-401635-501(USD)<br />
             BANK NAME: BANGKOK BANK PUBLIC CO.LTD.<br />
             BANK ADDRESS: 182 SUKHUMVIT RD., KLONGTOEY BANGKOK 10110<br />
@@ -476,7 +500,7 @@ End Code
             $('#tbdt').text(r.company.data[0].NameEng);
             $('#billToAdd1').text(r.company.data[0].EAddress1);
             $('#billToAdd2').text(r.company.data[0].EAddress2);
-            $('#billToContact').text(r.company.data[0].ManagerCode);
+            $('#billToContact').text(r.company.data[0].DMailAddress);
             $('#acc').text(r.company.data[0].CSCodeIM);
             $('#email').text(r.company.data[0].CSCodeEX);
             r.Phone = "34343434";
@@ -493,7 +517,7 @@ End Code
 
 
 
-        $.get(path + 'joborder/GetBooking?Code=' + j.JNo + '&Branch=' + branch).done(function (r) {
+        $.get(path + 'joborder/GetBooking?job=' + j.JNo + '&Branch=' + branch).done(function (r) {
 
             $('#noti').text(r.booking.data[0].NotifyName);
         //    console.log(r.company.data[0].NameEng);

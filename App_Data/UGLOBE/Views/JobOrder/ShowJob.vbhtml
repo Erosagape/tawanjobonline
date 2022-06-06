@@ -357,8 +357,8 @@ End Code
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        <a href="../Master/Customers?mode=NOTIFY_PARTY" target="_blank">
-                                            <label id="lblDeliverTo">Consignee SI :</label>
+                                        <a href="../Master/Venders" target="_blank">
+                                            <label id="lblDeliverTo">Sub Agent :</label>
                                         </a>
                                     </div>
                                     <div class="col-sm-8" style="display:flex;flex-direction:row">
@@ -1151,7 +1151,7 @@ End Code
         $('#txtConsignee').focus();
     }
     function ReadNotify(dt) {
-        $('#txtDeliverTo').val(dt.NameEng);
+        $('#txtDeliverTo').val(dt.English);
         $('#txtDeliverAddr').val(dt.EAddress1 + dt.EAddress2);
     }
     function ReadInvProduct(dt) {
@@ -1217,7 +1217,8 @@ End Code
                 SetGridCompanyByGroup(path, '#tbCons','CONSIGNEE', '#frmSearchCons', ReadConsignee);
                 break;
             case 'NOTIFY':
-                SetGridCompanyByGroup(path, '#tbNotify', 'NOTIFY_PARTY', '#frmSearchNotify', ReadNotify);
+                //SetGridCompanyByGroup(path, '#tbNotify', 'NOTIFY_PARTY', '#frmSearchNotify', ReadNotify);
+                SetGridVenderWithTax(path, '#tbNotify', '#frmSearchNotify', ReadNotify);
                 break;
             case 'ProjectName':
                 SetGridProjectName(path, '#tbProj', '#frmSearchProj', ReadProjectName);

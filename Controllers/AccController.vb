@@ -3039,6 +3039,9 @@ ORDER BY a.TName1
                         isSummary = True
                     End If
                 End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format(" AND ih.DocNo='{0}' ", Request.QueryString("Code").ToString)
+                End If
                 Dim oData = If(isSummary, New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectInvSummary(tSqlw)), New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectInvReport(tSqlw)))
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""inv"":{""data"":" & json & "}}"
