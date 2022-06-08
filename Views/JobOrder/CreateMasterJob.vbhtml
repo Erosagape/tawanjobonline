@@ -32,7 +32,9 @@ End Code
             <label>Exporter/Importer</label>
             <br/>
             <div style="display:flex;">
-
+                <input type="text" id="txtCustCode" />
+                <input type="text" id="txtCustBranch" />
+                <a href="" class="btn btn-default" onclick="">...</a>
             </div>
         </div>
         <div class="col-sm-6">
@@ -61,7 +63,10 @@ End Code
                                 Code
                             </th>
                             <th>
-                                Name
+                                Name (TH)
+                            </th>
+                            <th>
+                                Name (EN)
                             </th>
                         </tr>
                     </thead>
@@ -118,6 +123,25 @@ End Code
                 });
             }
             for (let o of lst) {
+                let html = '<tr>';
+                html += '<td><button class=""btn btn-warning"" onclick=""SelectCust(""' + o.CustCode + '"",""' + o.Branch + '"") >Select</button></td>';
+                html += '<td>' + o.CustCode + '/' + o.Branch + '</td>';
+                html += '<td>' + o.NameThai + '</td>';
+                html += '<td>' + o.NameEng + '</td>';
+                html += '<tr>';
+                $('#tbCompany tbody').append(html);
+            }
+        }
+        $('#modCustomer').modal('show');
+    }
+    function SelectCust(cust, branch) {
+        let lst = companys;
+        if (type !== '') {
+            lst = $.grep(companys, function (data) {
+                return data.CustCode == cust && data.Branch=branch;
+            });
+            if (lst.length > 0) {
+                let c = lst[0];
 
             }
         }
