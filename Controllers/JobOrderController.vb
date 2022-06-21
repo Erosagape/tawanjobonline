@@ -139,7 +139,7 @@ Namespace Controllers
                         If msg.Substring(0, 1) = "S" Then
                             oList.Add(oRec)
                         Else
-                            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CreateContainer", "Save Container No" + i, msg, True, "", JsonConvert.SerializeObject(oRec))
+                            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CreateContainer", "Save Container No" & i, msg, True, "", JsonConvert.SerializeObject(oRec))
                         End If
                     Next
                     Dim json = JsonConvert.SerializeObject(oList)

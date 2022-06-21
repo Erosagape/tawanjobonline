@@ -1450,7 +1450,7 @@ ORDER BY d.SDescription,d.ChargeAmount-d.CostAmount DESC
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = SQLSelectAdvanceTotalJob(sqlW)
                     Case "JOBDETAIL"
-                        sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.ForwarderCode", "j.JobStatus", "j.BranchCode",, "c.CommLevel")
+                        sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.CustContactName", "j.JobStatus", "j.BranchCode",, "c.CommLevel")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = SQLSelectClearingTotal(sqlW)
                     Case "JOBDETAILSUM"
