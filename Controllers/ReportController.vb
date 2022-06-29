@@ -356,10 +356,9 @@ ORDER BY rc.CustTName,rc.ReceiptDate,rc.ReceiptNo"
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.Amt50Tavi,inv.TotalInv,inv.CreditNet,inv.ReceivedNet,inv.ReceiptNo,inv.LastVoucher FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.DocDate,inv.DocNo"
                     Case "INVDETAIL"
-                        fldGroup = "SDescription"
-                        sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode", "id.SICode")
+                        sqlW = GetSQLCommand(cliteria, "iv.DocDate", "iv.CustCode", "j.JNo", "j.CSCode", "j.CustContactName", "j.JobStatus", "j.BranchCode",, "c.CommLevel")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT inv.DocNo,inv.DocDate,inv.RefNo,inv.SDescription,inv.AmtAdvance,inv.AmtCharge as TotalCharge,inv.AmtCredit,inv.AmtVat,inv.Amt50Tavi,inv.TotalInv,inv.ReceivedNet,inv.ReceiptNo,inv.LastVoucher FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.SDescription,inv.DocNo"
+                        sqlM = SQLSelectClearingTotal(sqlW)
                     Case "INVSTATUS"
                         sqlW = GetSQLCommand(cliteria, "ih.DocDate", "ih.CustCode", "ih.RefNo", "ih.EmpCode", "", "(CASE WHEN ISNULL(ih.CancelProve,'')<>'' THEN 99 ELSE 0 END)", "ih.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
