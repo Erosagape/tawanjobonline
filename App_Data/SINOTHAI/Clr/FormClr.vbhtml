@@ -175,8 +175,8 @@ End Code
         let code = getQueryString('code');
         if (branch != "" && code != "") {
             $.get(path + 'clr/getclearingreport?branch=' + branch + '&code=' + code, function (r) {
-                if (r.data[0].Table !== undefined) {
-                    let h = r.data[0].Table[0];
+                if (r.data[0] !== undefined) {
+                    let h = r.data[0];
                     $('#txtDocStatus').text(h.ClrStatusName);
                     $('#txtClearanceDate').text(CDateEN(h.ClearanceDate));
                     $('#txtJobType').text(h.JobTypeName);
@@ -205,7 +205,7 @@ End Code
                     let amttotal = 0;
                     let advlist = '';
 
-                    let d = r.data[0].Table;
+                    let d = r.data;
                     for (let i= 0; i < d.length; i++){
                         if (d[i].CustCode !== cust) {
                             cust = d[i].CustCode;

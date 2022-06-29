@@ -301,11 +301,20 @@ End Code
         </div>
     </div>
 </div>
+<div>
+    โปรดจ่ายเช็คคร่อมในนาม "@ViewBag.PROFILE_COMPANY_NAME"  หากเกินกำหนดชำระ จะต้องจ่ายดอกเบี้ย 2% ต่อเดือน จากยอดค้างทั้งหมด<br />
+    ชื่อบริษัท : "@ViewBag.PROFILE_COMPANY_NAME". <span id="lblBankAccount">ธนาคาร : ไทยพาณิชย์ สาขา  ปาโซ่ทาวเวอร์   เลขที่บัญชี 245-2-13493-6</span>
+    <br />
+    Please issue a crossed Cheque to the order of "@ViewBag.PROFILE_COMPANY_NAME_EN"<br /> All payment are to be paid in full, interest 2% per month., will charged on all overdue payment notice
+</div>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
 
     let branch = getQueryString('branch');
     let invno = getQueryString('code');
+    if ('@ViewBag.Database' == '2') {
+        $('#lblBankAccount').text('ธนาคาร : กสิกรไทย สาขา  สำนักสีลม   เลขที่บัญชี 040-1-14558-3')
+    }
     if (invno.substring(0, 3) == 'IVF') {
         $('#lblDocType').text('DEBIT NOTE');
         $('#box3').css('display', 'inline');

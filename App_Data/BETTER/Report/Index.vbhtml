@@ -349,8 +349,12 @@ End Code
     }
     function GetCliteria() {
         let uposition='@ViewBag.UserPosition';
-        if (reportID == 'PROFITSALES' && uposition=='3') {
-            $('#txtEmpCliteria').val('[EMP]=@ViewBag.User');
+        if (reportID == 'PROFITSALES') {
+	        if(uposition=='3'){
+                $('#txtEmpCliteria').val('[EMP]=@ViewBag.User');
+	        } else {
+                $('#txtEmpCliteria').val('[EMP]IN(SELECT UserID From Mas_User WHERE UserUpline=' + "'@ViewBag.User'" + ')');
+	        }
         }
         let obj = {
             branch: '[BRANCH]=' + $('#txtBranchCode').val(),

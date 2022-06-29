@@ -729,7 +729,7 @@ End Code
 
         loadCombos(path,lists)
 
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name').done(function(response) {
             let dv = document.getElementById("dvLOVs");
             //Customers
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customer List', response, 3);
@@ -878,7 +878,7 @@ End Code
             ShowMessage('You are not allow to delete',true);
             return;
         }
-        $.get(path + 'acc/delvouchersub?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtControlNo').val() + '&item=' + $('#txtItemNo').val(), function (r) {
+        $.get(path + 'acc/delvouchersub?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtControlNo').val() + '&item=' + $('#txtItemNo').val()).done(function(r) {
             LoadData();
             ShowMessage(r.voucher.result);
             $('#frmPayment').modal('hide');
@@ -897,7 +897,7 @@ End Code
             ShowMessage('Voucher amount is not balance',true);
             return;
         }
-        $.get(path + 'acc/delvoucherdoc?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtControlNo').val() + '&item=' + $('#txtDocItemNo').val(), function (r) {
+        $.get(path + 'acc/delvoucherdoc?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtControlNo').val() + '&item=' + $('#txtDocItemNo').val()).done(function(r) {
             SetGridDocument(r.voucher.data[0]);
             ShowSumDocument(r.voucher.data[0]);
             ShowMessage(r.voucher.result);
@@ -1015,7 +1015,7 @@ End Code
         if ($('#txtDateTo').val() !== "") {
             w = w + '&DateTo=' + CDateEN($('#txtDateTo').val());
         }
-        $.get(path + 'acc/getvouchergrid' + w, function (r) {
+        $.get(path + 'acc/getvouchergrid' + w).done(function(r) {
             if (r.voucher.data.length == 0) {
                 ShowMessage('Data not found',true);
                 return;
@@ -1062,6 +1062,7 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbControl');
             $('#tbControl tbody').on('click', 'tr', function () {
@@ -1114,6 +1115,7 @@ End Code
             ],
             responsive:true,
             destroy: true
+            , pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
         $('#tbHeader tbody').on('click', 'tr', function () {
@@ -1165,6 +1167,7 @@ End Code
             ],
             responsive:true,
             destroy: true
+            , pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {

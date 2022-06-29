@@ -136,6 +136,15 @@ Namespace Controllers
             End If
             Return GetView("Preview" & ViewBag.Layout)
         End Function
+        Function GetReportBySQL() As ActionResult
+            Dim sqlW = ""
+            Try
+                Return Content("{""result"":[],""msg"":"""",""sql"":""""}")
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetReportBySQL", ex.Message, ex.StackTrace, True)
+                Return Content("{""result"":[],""msg"":""" & ex.Message & """,""sql"":""" & sqlW & """}")
+            End Try
+        End Function
         Function GetReportByConfig(<FromBody()> data As CReport) As ActionResult
             Dim sqlW As String = ""
             Dim groupDatas = ""

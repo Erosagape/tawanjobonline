@@ -279,6 +279,7 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbSummary');
             $('#tbSummary tbody').on('click', 'tr', function () {
@@ -320,7 +321,7 @@ End Code
                     { data: "BillToCustCode", title: "Billing To" },
                     { data: "RefNo", title: "Reference Number" },
                     { data: "SDescription", title: "Expenses" },
-                    { data: "Amt", title: "Advance",
+                    { data: "Net", title: "Advance",
                         render: function (data) {
                             return ShowNumber(data, 2);
                         }
@@ -328,6 +329,7 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
@@ -382,7 +384,7 @@ End Code
                 { data: "ItemNo", title: "Item No" },
                 { data: "SICode", title: "Code" },
                 { data: "SDescription", title: "Description" },
-                { data: "Amt", title: "Advance",
+                { data: "Net", title: "Advance",
                         render: function (data) {
                             return ShowNumber(data, 2);
                     }
@@ -390,6 +392,7 @@ End Code
             ],
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+            , pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
     }

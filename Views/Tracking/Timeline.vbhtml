@@ -83,8 +83,8 @@ End Code
         loadCombos(path, lists);
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
-        $('#txtDateFrom').val(GetFirstDayOfMonth());
-        $('#txtDateTo').val(GetLastDayOfMonth());
+        //$('#txtDateFrom').val(GetFirstDayOfMonth());
+        //$('#txtDateTo').val(GetLastDayOfMonth());
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Customers

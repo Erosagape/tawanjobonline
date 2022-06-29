@@ -151,7 +151,8 @@ End Code
                             <div class="col-sm-7">
                                 <label id="lblRemark">Remark:</label>
                                 <textarea id="txtTRemark" class="form-control-lg" style="width:100%;" tabindex="11"></textarea>
-                                <label id="lblPayTo">Payment To:</label><input type="text" id="txtPayTo" class="form-control" />
+                                <a href="#" onclick="SearchData('payto')"><label id="lblPayTo">Payment To:</label></a>
+                                <input type="text" id="txtPayTo" class="form-control" />
                             </div>
                             <div class="col-sm-5">
                                 <table>
@@ -1349,7 +1350,7 @@ End Code
             ShowMessage('Please input payment to',true);
             $('#txtPayTo').focus();
             return false;
-       } 
+       }
        if ($('#txtTRemark').val() == '') {
             ShowMessage('Please input some remark',true);
             $('#txtTRemark').focus();
@@ -1964,7 +1965,8 @@ End Code
         }
         $('#txtRemark').val('');
         $('#txt50Tavi').val('');
-        $('#txtPayChqTo').val('');
+        //$('#txtVenCode').val('');
+        //$('#txtPayChqTo').val('');
         $('#txtSDescription').val('');
         $('#txtVatType').val('1');
         $('#txtVATRate').val('');
@@ -1981,7 +1983,6 @@ End Code
         ShowCurrency(path, $('#txtSubCurrency').val(), '#txtCurrencyName');
         ShowCaption();
         $('#txtDetCurrency').val($('#txtMainCurrency').val());
-        $('#txtVenCode').val('');
 
         $('#chkDuplicate').prop('checked', false);
         $('#txtAMT').removeAttr('disabled');
@@ -2170,6 +2171,9 @@ End Code
             case 'vender':
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
                 break;
+            case 'payto':
+                SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender2);
+                break;
             case 'container':
                 w = '?Branch=' + $('#txtBranchCode').val();
                 if (job !== '') {
@@ -2258,6 +2262,13 @@ End Code
         $('#txtRemark').val(dt.ContactAcc);
         $('#txtPayChqTo').focus();
     }
+    function ReadVender2(dt) {
+        $('#txtVenCode').val(dt.VenCode);
+        $('#txtPayTo').val(dt.TName);
+        $('#txtPayChqTo').val(dt.TName);
+        $('#txtPayChqTo').focus();
+    }
+
     function ReadCurrencyD(dt) {
         $('#txtCurrencyCode').val(dt.Code);
         $('#txtCurrencyName').val(dt.TName);

@@ -548,7 +548,7 @@ End Code
         });
         $('#chkApprove').on('click', function () {
             chkmode = this.checked;
-            CallBackAuthorize(path, 'MODULE_ADV', 'Approve',(chkmode ? 'I':'D'), SetApprove);
+            CallBackAuthorize(path, 'MODULE_CLR', 'Approve',(chkmode ? 'I':'D'), SetApprove);
         });
         $('#txtBranchCode').focusout(function (event) {
             if (true) {

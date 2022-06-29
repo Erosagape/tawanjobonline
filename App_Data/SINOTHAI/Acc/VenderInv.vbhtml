@@ -266,7 +266,8 @@ End Code
                     }
                 ],
                 responsive: true,
-                destroy:true
+                destroy: true
+                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
@@ -386,6 +387,7 @@ End Code
                 ],
                 responsive: true,
                 destroy: true
+                , pageLength: 100   
             });
             $('#tbApprove tbody').on('click', 'tr', function () {
                 SetSelect('#tbApprove', this);

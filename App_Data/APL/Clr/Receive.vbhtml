@@ -445,7 +445,7 @@ End Code
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.clr.data[0].Table;
+            let h = r.clr.data;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
             let tb=$('#tbHeader').DataTable({
@@ -966,7 +966,7 @@ End Code
         $('#fldBankBranchCash').val(dt.BankBranch);
         $('#txtCashBal').val(0);
         $.get(path + 'master/getbookbalance?code='+ dt.BookCode, function (r) {
-            if (r.bookaccount.data.length > 0) {
+            if (r.bookaccount.data[0].Table.length > 0) {
                 let dt = r.bookaccount.data[0].Table[0];
                 $('#txtCashBal').val(dt.SumCashInBank);
             }
@@ -978,7 +978,7 @@ End Code
         $('#fldBankBranchChqCash').val(dt.BankBranch);
         $('#txtChqCashBal').val(0);
         $.get(path + 'master/getbookbalance?code='+ dt.BookCode, function (r) {
-            if (r.bookaccount.data.length > 0) {
+            if (r.bookaccount.data[0].Table.length > 0) {
                 let dt = r.bookaccount.data[0].Table[0];
                 $('#txtChqCashBal').val(dt.SumCashInBank);
             }

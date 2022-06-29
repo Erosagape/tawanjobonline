@@ -809,6 +809,7 @@ function LoadReport(path, reportID, obj, lang) {
     } else {
         urlReport = path + 'Report/GetReportByConfig';
     }
+$('#tbResult').html('<h3>Loading</h3>');
     $.ajax({
         url: urlReport,
         type: "POST",

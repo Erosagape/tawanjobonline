@@ -186,7 +186,7 @@ End Code
                 let desc = '';
                 let desc0 = '';
 
-                appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>',obj.PRVoucher,CCurrency(CDbl(Number(obj.SumAmount),2)));
+                appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>',obj.PRVoucher,CCurrency(CDbl(Number(obj.CashAmount)+Number(obj.ChqAmount)+Number(obj.CreditAmount),2)));
                 //desc0 = '<b>TOTAL ' + obj.PRVoucher +'=' +  + ' ' + obj.CurrencyCode + '</b>';
                 let debit = '';
                 let credit = '';
@@ -272,6 +272,11 @@ End Code
                 }
                 //appendLine(div, desc, debit, credit);
                 appendLine(div, '<b>DETAILS OF USAGES</b>', '<b>FOREIGN PAID</b>', '<b>PAID (THB)</b>');
+
+                let sumamt = 0;
+                let sumvat = 0;
+                let sumwht = 0;
+                let sumtotal = 0;
                 if (data.document !== null) {
                     let jobno = '';
                     let doc=data.document.filter(function(r){
@@ -296,10 +301,14 @@ End Code
                                 lastvender = d.VenderName;
                                 appendLine(div,'<b>'+ d.VenderName +'</b>','','');
                             }
-                            sum += Number(CDbl(d.PaidAmount, 2));
+                            sum += Number(CDbl(d.Amount, 2));
                             desc = d.DocRefNo + ' : ' + d.SDescription;
                             if (d.Remark !== '') desc += '<br/>' + d.Remark+' '+ d.VenderName;
-                            appendLine(div, desc, CDbl(d.PaidAmount / CNum(obj.ExchangeRate), 2) + ' ' + obj.CurrencyCode + ' (Rate=' + obj.ExchangeRate + ')', CCurrency(CDbl(d.PaidAmount, 2)));
+                            appendLine(div, desc, CDbl(d.Amount / CNum(obj.ExchangeRate), 2) + ' ' + obj.CurrencyCode + ' (Rate=' + obj.ExchangeRate + ')', CCurrency(CDbl(d.Amount, 2)));
+                            sumamt += d.Amount;
+                            sumvat += d.VAT;
+                            sumwht += d.WHT;
+                            sumtotal += d.PaidAmount;
                         }
                         appendLine(div,'','<b>TOTAL</b>','<b>'+ShowNumber(sum,2)+'</b>');
                     }
@@ -368,22 +377,22 @@ End Code
                 let desc2 = '<table width="100%">';
                 desc2 += '<tr>';
                 desc2 += '<td width="20%" style="text-align:right">';
-                desc2 += CCurrency(CDbl(Number(obj.TotalAmount),2));
+                desc2 += (sumamt > 0? CCurrency(CDbl(Number(sumamt),2)) : CCurrency(CDbl(Number(obj.TotalAmount),2)));
                 desc2 += '</td>';
                 desc2 += '</tr>';
                 desc2 += '<tr>';
                 desc2 += '<td width="20%" style="text-align:right">';
-                desc2 += CCurrency(CDbl(Number(obj.VatExc),2));
+                desc2 += (sumvat> 0? CCurrency(CDbl(Number(sumvat),2)) : CCurrency(CDbl(Number(obj.VatExc),2)));
                 desc2 += '</td>';
                 desc2 += '</tr>';
                 desc2 += '<tr>';
                 desc2 += '<td width="20%" style="text-align:right">';
-                desc2 += CCurrency(CDbl(Number(obj.WhtExc),2));
+                desc2 += (sumwht > 0 ? CCurrency(CDbl(Number(sumwht),2)) : CCurrency(CDbl(Number(obj.WhtExc), 2)));
                 desc2 += '</td>';
                 desc2 += '</tr>';
                 desc2 += '<tr>';
                 desc2 += '<td width="20%" style="text-align:right">';
-                desc2 += CCurrency(CDbl(Number(obj.TotalNet) + Number(obj.WhtExc) + Number(obj.WhtInc), 2));
+                desc2 += (sumtotal >0 ? CCurrency(CDbl(Number(sumtotal),2)) : CCurrency(CDbl(Number(obj.TotalNet) + Number(obj.WhtExc) + Number(obj.WhtInc), 2)));
                 desc2 += '</td>';
                 desc2 += '</tr>';
                 desc2 += '</table>';

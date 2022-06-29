@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Estimate Cost"
+    ViewBag.Title = "CS JOB"
 End Code
 <!-- HTML CONTROLS -->
 <div class="row">
@@ -13,7 +13,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-4">
-        <label id="lblJNo">Job No :</label>
+        <label id="lblJNo" style="color:red;" onclick="OpenJob()">Job Number</label>
         <br />
         <div style="display:flex">
             <input type="text" id="txtJNo" class="form-control">
@@ -63,7 +63,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblCurrency">Currency:</label>        
+        <label id="lblCurrency">Currency:</label>
         <br />
         <div style="display:flex">
             <input type="text" id="txtCurrencyCode" class="form-control" disabled />
@@ -71,7 +71,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblExchangeRate">Exchange Rate:</label>        
+        <label id="lblExchangeRate">Exchange Rate:</label>
         <br />
         <div style="display:flex">
             <input type="number" id="txtExchangeRate" class="form-control" value="0.00" onchange="CalTotal()">
@@ -79,14 +79,14 @@ End Code
     </div>
 
     <div class="col-sm-2">
-        <label id="lblQty">Qty:</label>        
+        <label id="lblQty">Qty:</label>
         <br />
         <div style="display:flex">
             <input type="number" id="txtQty" class="form-control" value="0.00" onchange="CalTotal()">
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblUnit">Unit:</label>        
+        <label id="lblUnit">Unit:</label>
         <br />
         <div style="display:flex">
             <input type="text" id="txtQtyUnit" class="form-control" disabled />
@@ -103,7 +103,7 @@ End Code
 </div>
 <div class="row">
     <div class="col-sm-2">
-        <label id="lblVATRate">Vat Rate:</label>        
+        <label id="lblVATRate">Vat Rate:</label>
         <br />
         <div style="display:flex">
             <input type="number" id="txtAmtVatRate" class="form-control" value="0.00" onchange="CalTotal()">
@@ -117,7 +117,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblWHTRate">Wht Rate:</label>        
+        <label id="lblWHTRate">Wht Rate:</label>
         <br />
         <div style="display:flex">
             <input type="number" id="txtAmtWhtRate" class="form-control" value="0.00" onchange="CalTotal()">
@@ -131,12 +131,20 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblTotal">Total:</label>
+        <label id="lblNetTotal">Net Total:</label>
         <br />
         <div style="display:flex">
             <input type="number" id="txtAmtTotal" class="form-control" value="0.00">
         </div>
     </div>
+    <div class="col-sm-2">
+        <label id="lblProfit">Profit :</label>
+        <br />
+        <div style="display:flex">
+            <input type="number" id="txtProfit" class="form-control w3-yellow" style="font-weight:bold;" value="0.00" disabled>
+        </div>
+    </div>
+
 </div>
 <div id="dvCommand">
     <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearData()">
@@ -163,14 +171,43 @@ End Code
                 <th>JNo</th>
                 <th>AmountCharge</th>
                 <th>Clear.No</th>
+                <th>AmountClear</th>
             </tr>
         </thead>
         <tbody></tbody>
     </table>
 </p>
-<a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
-    <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Pre-invoice</b>
-</a>
+<div class="row">
+    <div class="col-sm-3">
+        <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
+            <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Pre-invoice</b>
+        </a>
+    </div>
+    <div class="col-sm-3">
+        <label id="lblCharge">Charge :</label>
+        <br />
+        <div style="display:flex">
+            <input type="number" id="txtCharge" class="form-control w3-green" style="font-weight:bold;" value="0.00" disabled>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <label id="lblCost">Cost :</label>
+        <br />
+        <div style="display:flex">
+            <input type="number" id="txtCost" class="form-control w3-orange" style="font-weight:bold;" value="0.00" disabled>
+        </div>
+    </div>
+    <div class="col-sm-3">
+
+        <label id="lblGrandTotal">Advance :</label>
+        <br />
+        <div style="display:flex">
+            <input type="number" id="txtTotal" class="form-control w3-red" style="font-weight:bold;" value="0.00" disabled>
+        </div>
+
+    </div>
+
+</div>
 <div id="dvLOVs"></div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -228,6 +265,7 @@ End Code
             $.get(path + 'adv/delclearexp?branch=' + branch + '&code=' + code + '&job=' + job, function (r) {
                 ShowMessage(r.estimate.result);
                 ClearData();
+                RefreshGrid();
             });
         });
     }
@@ -325,11 +363,36 @@ End Code
                 $('#tbData').DataTable().clear().draw();
                 return;
             }
+            let adv = 0;
+            let tot = 0;
+            let chg = 0;
+            let cost = 0;
+            for (let row of r.estimate.data) {
+                tot += Number(row.AmtTotal);
+                if (row.IsExpense == 1) {
+                    cost += Number(row.AmtTotal);
+                } else {
+                    if (row.IsCredit == 1) {
+                        adv += Number(row.AmtTotal);
+                    } else {
+                        chg += Number(row.AmtTotal);
+                    }                    
+                }
+            }
+            $('#txtCharge').val(CDbl(chg, 2));
+            $('#txtCost').val(CDbl(cost, 2));
+            $('#txtProfit').val(CDbl(chg-cost, 2));
+            $('#txtTotal').val(CDbl(adv,2));
             let tb= $('#tbData').dataTable({
                 data: r.estimate.data,
                 columns: [
                     { data: "SICode", title: "Code" },
-                    { data: "SDescription", title: "Name" },
+                    {
+                        data: null, title: "Name",
+                        render: function (data) {
+                            return data.SDescription + ' / ' + data.Qty + 'x'+ data.QtyUnit;
+                        }
+                    },
                     {
                         data: null, title: "Status",
                         render: function (data) {
@@ -345,15 +408,22 @@ End Code
                     },
                     { data: "JNo", title: "Job No" },
                     {
-                        data: "AmountCharge", title: "Charge",
+                        data: "AmtTotal", title: "Charge",
                         render: function (data) {
                             return ShowNumber(data, 2);
                         }
                     },
-                    { data: "ClrNo", title: "Clearing No" }
+                    { data: "ClrNo", title: "Clearing No" },
+                    {
+                        data: "CostAmount", title: "Clear.Amt",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    }
                 ],
                 destroy: true,
-                responsive:true
+                responsive: true
+                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbData');
             $('#tbData tbody').on('click', 'tr', function () {
@@ -402,8 +472,8 @@ End Code
     }
     function ReadService(dt) {
         $('#txtSICode').val(dt.SICode);
-        $('#txtSDescription').val(dt.NameThai);
-        $('#txtTRemark').val(dt.NameEng);
+        $('#txtSDescription').val(dt.NameEng);
+        $('#txtTRemark').val(dt.NameThai);
         if ($('#txtCurrencyCode').val() == '') {
             $('#txtCurrencyCode').val(dt.CurrencyCode);
         }
@@ -463,6 +533,9 @@ End Code
                 RefreshGrid();
             }
         });
+    }
+    function OpenJob() {
+        window.open(path + 'JobOrder/ShowJob?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
     }
 
     function PrintData() {

@@ -2,14 +2,14 @@
     ViewBag.Title = "Advance Payment"
 End Code
 <style>
-    @@media only screen and ( max-width:600px )
-    {
+    @@media only screen and ( max-width:600px ) {
         #myTabs {
-            display:none;
+            display: none;
         }
+
         #mySelects {
-            width:100%;
-            display:block !important;
+            width: 100%;
+            display: block !important;
         }
     }
 </style>
@@ -29,7 +29,7 @@ End Code
         <div class="tab-content">
             <div id="tab1" class="tab-pane fade in active">
                 <div class="row">
-                    <div class="col-sm-4">                        
+                    <div class="col-sm-4">
                         <label id="lblBranch">Branch</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
@@ -50,7 +50,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <label id="lblReqBy">Request By :</label>                        
+                        <label id="lblReqBy">Request By :</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtReqBy" style="width:100px" />
@@ -71,7 +71,7 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <label id="lblCurrency">Request Currency :</label>                        
+                        <label id="lblCurrency">Request Currency :</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtCurrencyCode" style="width:20%" />
@@ -155,7 +155,7 @@ End Code
                         <select id="cboBankCash" class="form-control"></select>
                         <label id="lblBranchCA">To Branch:</label>
                         <input type="text" id="txtBankBranchCash" class="form-control" />
-                        <label id="lblPayCA">Pay To:</label>
+                        <label id="lblPayCA" onclick="SearchData('emp1')">Pay To:</label>
                         <input type="text" id="txtCashPayTo" class="form-control" />
                         <br />
                         <input type="hidden" id="fldBankCodeCash" />
@@ -190,7 +190,7 @@ End Code
                         <select id="cboBankChqCash" class="form-control"></select>
                         <label id="lblBranchCH">Chq Branch:</label>
                         <input type="text" id="txtBankBranchChqCash" class="form-control" />
-                        <label id="lblPayCH">Pay To:</label>
+                        <label id="lblPayCH" onclick="SearchData('emp2')">Pay To:</label>
                         <input type="text" id="txtChqCashPayTo" class="form-control" />
                         <br />
                         <input type="hidden" id="fldBankCodeChqCash" />
@@ -199,6 +199,7 @@ End Code
                     <div class="col-sm-3 table-bordered" id="dvChq">
                         <b id="linkChqCust">Customer Chq : </b><input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
+                        <input type="hidden" id="txtBookChq" class="form-control" value="" />
                         <a id="lblRefNoCU" href="../acc/cheque" target="_blank">Chq No:</a><input type="text" id="txtRefNoChq" class="form-control" value="" disabled />
                         <input type="button" class="btn" id="btnBrowseChq" value="..." onclick="SearchData('chequecust')" />
                         <br />
@@ -212,7 +213,7 @@ End Code
                         <select id="cboBankChq" class="form-control"></select>
                         <label id="lblBranchCU">Issue Branch:</label>
                         <input type="text" id="txtBankBranchChq" class="form-control" />
-                        <label id="lblPayCU">Pay To:</label>
+                        <label id="lblPayCU" onclick="SearchData('emp3')">Pay To:</label>
                         <input type="text" id="txtChqPayTo" class="form-control" />
                         <br />
                     </div>
@@ -224,15 +225,15 @@ End Code
                             <br />
                             <label id="lblTranDateCR">Ref Date:</label>
                             <input type="date" id="txtCredTranDate" class="form-control" />
-                            <label id="lblPayCR">Pay To:</label>
+                            <label id="lblPayCR" onclick="SearchData('emp4')">Pay To:</label>
                             <input type="text" id="txtCredPayTo" class="form-control" />
                         </div>
                         <div style="background-color:greenyellow;padding:10px 10px 10px 10px;margin:10px 10px 10px 10px;">
                             <b id="linkBal">Balance</b>
                             <br />
                             <label id="lblForCA">For Cash/Transfer :</label>
-                            <br /> 
-                            <input type="number" id="txtCashBal" class="form-control" disabled />                                   
+                            <br />
+                            <input type="number" id="txtCashBal" class="form-control" disabled />
                             <label id="lblForCH">For Cheque : </label>
                             <br /> <input type="number" id="txtChqCashBal" class="form-control" disabled />
                         </div>
@@ -284,31 +285,31 @@ End Code
     </div>
     <div id="dvLOVs"></div>
     <did id="frmSearchChq" class="modal fade" role="dialog">
-         <div class="modal-dialog">
-             <div class="modal-content">
-                 <div class="modal-header">
-                     <label id="lblCaptionChq">Select Cheque Onhand</label>                     
-                 </div>
-                 <div class="modal-body">
-                     <table id="tbChq" class="table table-responsive">
-                         <thead>
-                             <tr>
-                                 <th>#</th>
-                                 <th>ChqNo</th>
-                                 <th class="all">ChqDate</th>
-                                 <th class="desktop">ChqAmount</th>
-                                 <th class="desktop">AmountUsed</th>
-                                 <th class="all">AmountRemain</th>
-                             </tr>
-                         </thead>
-                         <tbody></tbody>
-                     </table>
-                 </div>
-                 <div class="modal-footer">
-                     <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
-                 </div>
-             </div>
-         </div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <label id="lblCaptionChq">Select Cheque Onhand</label>
+                </div>
+                <div class="modal-body">
+                    <table id="tbChq" class="table table-responsive">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>ChqNo</th>
+                                <th class="all">ChqDate</th>
+                                <th class="desktop">ChqAmount</th>
+                                <th class="desktop">AmountUsed</th>
+                                <th class="all">AmountRemain</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
+                </div>
+            </div>
+        </div>
     </did>
 </div>
 <script src="~/Scripts/Func/combo.js"></script>
@@ -400,6 +401,10 @@ End Code
             CreateLOV(dv, '#frmSearchBookCash', '#tbBookCash', 'Book Accounts', response, 2);
             CreateLOV(dv, '#frmSearchBookChq', '#tbBookChq', 'Book Accounts', response, 2);
             CreateLOV(dv, '#frmSearchDoc', '#tbDoc', 'Account Receivables', response, 5);
+            CreateLOV(dv, '#frmSearchEmpCA', '#tbEmpCA', 'Employee', response, 2);
+            CreateLOV(dv, '#frmSearchEmpCU', '#tbEmpCU', 'Employee', response, 2);
+            CreateLOV(dv, '#frmSearchEmpCH', '#tbEmpCH', 'Employee', response, 2);
+            CreateLOV(dv, '#frmSearchEmpCR', '#tbEmpCR', 'Employee', response, 2);
         });
     }
     function ClearData() {
@@ -413,6 +418,7 @@ End Code
         $('#txtCashPayTo').val('');
         $('#txtAdvChqCash').val('');
         $('#txtBookChqCash').val('');
+        $('#txtBookChq').val('');
         $('#txtRefNoChqCash').val('');
         $('#txtChqCashTranDate').val('');
         $('#chkStatusChq').prop('checked', false);
@@ -464,14 +470,15 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtAdvDateT').val());
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
-        w = w + '&Status=2';
+        //w = w + '&Show=NOPAY';
+	w = w + '&Status=2';
         $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.adv.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.adv.data[0].Table;
+            let h = r.adv.data;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
             let tb=$('#tbHeader').DataTable({
@@ -527,7 +534,8 @@ End Code
                     { data: "EmpCode", title: "Request By" }
                 ],
                 responsive:true,
-                destroy:true
+                destroy: true
+                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
 
@@ -691,7 +699,8 @@ End Code
                 }
             ],
             responsive:true,
-            destroy:true
+            destroy: true
+            , pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
 
@@ -750,7 +759,7 @@ End Code
             let sum_cash = GetSumPayment('AdvCash');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
@@ -779,7 +788,8 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankCash').val(),
                 RecvBranch: $('#txtBankBranchCash').val(),
-                acType : 'CA'
+                acType: 'CA',
+                ForJNo:''
             });
         }
         if ($('#txtAdvChq').val() > 0) {
@@ -787,12 +797,12 @@ End Code
             let sum_chq = GetSumPayment('AdvChq');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
                 ChqNo: $('#txtRefNoChq').val(),
-                BookCode: '',
+                BookCode: $('#txtBookChq').val(),
                 BankCode: '',
                 BankBranch: '',
                 ChqDate:  CDateEN($('#txtChqTranDate').val()),
@@ -816,7 +826,8 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankChq').val(),
                 RecvBranch: $('#txtBankBranchChq').val(),
-                acType: 'CU'
+                acType: 'CU',
+                ForJNo:''
             });
         }
         if ($('#txtAdvChqCash').val() > 0) {
@@ -824,7 +835,7 @@ End Code
             let sum_chqcash = GetSumPayment('AdvChqCash');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
@@ -853,7 +864,8 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankChqCash').val(),
                 RecvBranch: $('#txtBankBranchChqCash').val(),
-                acType: 'CH'
+                acType: 'CH',
+                ForJNo:''
             });
         }
         if ($('#txtAdvCred').val() > 0) {
@@ -861,7 +873,7 @@ End Code
             let sum_cr = GetSumPayment('AdvCred');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
@@ -918,7 +930,7 @@ End Code
         if (list.length > 0) {
             for (let i = 0; i < list.length; i++) {
                 let o = list[i];
-                o.ControlNo = docno;
+                o.ControlNo = $('#txtControlNo').val();
             }
             let jsonString = JSON.stringify({ data: list });
             $.ajax({
@@ -957,6 +969,7 @@ End Code
                 if (response) {
                     PrintVoucher($('#txtBranchCode').val(), $('#txtControlNo').val());
                 }
+                $('#btnSave').removeAttr('disabled');
                 SetGridAdv(false);
             },
             error: function (e) {
@@ -972,6 +985,7 @@ End Code
         if (CheckBalance() == false) {
             return;
         }
+        $('#btnSave').attr('disabled', 'disabled');
         let oHeader = {
             BranchCode: $('#txtBranchCode').val(),
             ControlNo: '',
@@ -1043,8 +1057,37 @@ End Code
             case 'document':
                 SetGridDocument(path, '#tbDoc', '#frmSearchDoc', '?type=R&branch=' + $('#txtBranchCode').val(), ReadDocument);
                 break;
+            case 'emp1':
+                SetGridEmployee(path, '#tbEmpCA', '#frmSearchEmpCA', ReadEmpCA);
+                break;
+            case 'emp2':
+                SetGridEmployee(path, '#tbEmpCH', '#frmSearchEmpCH', ReadEmpCH);
+                break;
+            case 'emp3':
+                SetGridEmployee(path, '#tbEmpCU', '#frmSearchEmpCU', ReadEmpCU);
+                break;
+            case 'emp4':
+                SetGridEmployee(path, '#tbEmpCR', '#frmSearchEmpCR', ReadEmpCR);
+                break;
+
         }
     }
+    function ReadEmpCA(dt) {
+        $('#txtCashPayTo').val(dt.Name);
+        $('#txtBankBranchCash').val(dt.AccountNumber);
+    }
+    function ReadEmpCH(dt) {
+        $('#txtChqCashPayTo').val(dt.Name);
+        $('#txtBankBranchChqCash').val(dt.AccountNumber);
+    }
+    function ReadEmpCU(dt) {
+        $('#txtChqPayTo').val(dt.Name);
+        $('#txtBankBranchChq').val(dt.AccountNumber);
+    }
+    function ReadEmpCR(dt) {
+        $('#txtCredPayTo').val(dt.Name);
+    }
+
     function ReadDocument(dt) {
         let crAmt = Number($('#txtAdvCred').val());
         if (dt.AmountRemain < crAmt) {
@@ -1059,6 +1102,7 @@ End Code
             ShowMessage('Balance not enough to payment',true);
             return;
         }
+        $('#txtBookChq').val(dt.BookCode);
         $('#txtRefNoChq').val(dt.ChqNo);
         $('#txtChqTranDate').val( CDateEN(dt.ChqDate));
         $('#chkIsLocal').prop('checked', dt.IsLocal == 1 ? true : false);
@@ -1182,8 +1226,8 @@ End Code
                     $('#txtChqTranDate').focus();
                     return false;
                 } else {
-                    if ($('#cboBankChq').val() == '' || $('#txtBankBranchChq').val() == '') {
-                        ShowMessage('Please input bank and branch',true);
+                    if ($('#cboBankChq').val() == '') {
+                        ShowMessage('Please input bank',true);
                         $('#cboBankChq').focus();
                         return false;
                     }

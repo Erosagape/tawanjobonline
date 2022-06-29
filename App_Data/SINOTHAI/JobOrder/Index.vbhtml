@@ -8,137 +8,148 @@ End Code
             }
         }
     </style>
-<div class="panel-body">
-    <div class="row">
-        <div class="col-sm-2">
-            <label for="cboBranch" id="lblBranch">Branch</label>
-            <select id="cboBranch" class="form-control dropdown"></select>
-        </div>
-        <div class="col-sm-2">
-            <label for="cboStatus" id="lblStatus">Status</label>
-            <select id="cboStatus" class="form-control dropdown"></select>
-        </div>
-        <div class="col-sm-2">
-            <label for="cboJobType" id="lblJobType">Job Type</label>
-            <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()"></select>
-        </div>
-        <div class="col-sm-2">
-            <label for="cboShipBy" id="lblShipBy">Ship By</label>
-            <select id="cboShipBy" class="form-control dropdown"></select>
-        </div>
-        <div class="col-sm-1">
-            <label for="cboYear" id="lblYear">Year</label>
-            <select id="cboYear" class="form-control dropdown"></select>
-        </div>
-        <div class="col-sm-1">
-            <label for="cboMonth" id="lblMonth">Month</label>
-            <select id="cboMonth" class="form-control dropdown"></select>
-        </div>
-        <div class="col-sm-2">
-            <br />
-            <input type="checkbox" id="chkDuty" />
-            <label for="chkDuty" id="lblDutyDate">By Inspection Date</label>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6">
-            <label id="lblVenCode">Vender :</label>
-            <br />
-            <div style="display:flex;flex-direction:row">
-                <input type="text" class="form-control" id="txtVenCode" style="width:20%" disabled />
-                <button id="btnBrowseVend" class="btn btn-default" onclick="SearchData('vender')">...</button>
-                <input type="text" class="form-control" id="txtVenName" style="width:100%" disabled />
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-2">
+                <label for="cboBranch" id="lblBranch">Branch</label>
+                <select id="cboBranch" class="form-control dropdown"></select>
+            </div>
+            <div class="col-sm-2">
+                <label for="cboStatus" id="lblStatus">Status</label>
+                <select id="cboStatus" class="form-control dropdown"></select>
+            </div>
+            <div class="col-sm-2">
+                <label for="cboJobType" id="lblJobType">Job Type</label>
+                <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()"></select>
+            </div>
+            <div class="col-sm-2">
+                <label for="cboShipBy" id="lblShipBy">Ship By</label>
+                <select id="cboShipBy" class="form-control dropdown"></select>
+            </div>
+            <div class="col-sm-1">
+                <label for="cboYear" id="lblYear">Year</label>
+                <select id="cboYear" class="form-control dropdown"></select>
+            </div>
+            <div class="col-sm-1">
+                <label for="cboMonth" id="lblMonth">Month</label>
+                <select id="cboMonth" class="form-control dropdown"></select>
+            </div>
+            <div class="col-sm-2">
+                <br />
+                <input type="checkbox" id="chkDuty" />
+                <label for="chkDuty" id="lblDutyDate">By Inspection Date</label>
             </div>
         </div>
-        <div class="col-sm-6">
-            <label id="lblCustCode">Customer :</label>
-            <br />
-            <div style="display:flex;flex-direction:row">
-                <input type="text" id="txtCustCode" class="form-control" style="width:130px" disabled />
-                <input type="text" id="txtCustBranch" class="form-control" style="width:70px" disabled />
-                <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
-                <input type="text" id="txtCustName" class="form-control" style="width:100%" disabled />
+        <div class="row">
+            <div class="col-sm-6">
+                <label id="lblVenCode">Vender :</label>
+                <br />
+                <div style="display:flex;flex-direction:row">
+                    <input type="text" class="form-control" id="txtVenCode" style="width:20%" disabled />
+                    <button id="btnBrowseVend" class="btn btn-default" onclick="SearchData('vender')">...</button>
+                    <input type="text" class="form-control" id="txtVenName" style="width:100%" disabled />
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <label id="lblCustCode">Customer :</label>
+                <br />
+                <div style="display:flex;flex-direction:row">
+                    <input type="text" id="txtCustCode" class="form-control" style="width:130px" disabled />
+                    <input type="text" id="txtCustBranch" class="form-control" style="width:70px" disabled />
+                    <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
+                    <input type="text" id="txtCustName" class="form-control" style="width:100%" disabled />
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12">
-            <a href="#" class="btn btn-primary" id="btnRefresh" onclick="getJobdata()">
-                <i class="fa fa-lg fa-filter"></i> &nbsp;<b id="linkSearch">Search</b>
-            </a>
-            <a href="#" class="btn btn-default w3-purple" id="btnGenJob" onclick="CreateNewJob()">
-                <i class="fa fa-lg fa-file-o"></i> &nbsp;<b id="linkCreate">Create Job</b>
-            </a>
-            <table id="tblJob" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>JobNo</th>
-                        <th class="desktop">DocDate</th>
-                        <th class="desktop">JobStatus</th>
-                        <th class="all">InspectDate</th>
-                        <th class="all">Inv.Customer</th>
-                        <th class="desktop">Customer</th>
-                        <th>DeclareNo</th>
-                        <th class="desktop">Vessel/Name</th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-2">
-            <label for="txtJobNo" id="lblJob">Enter Job >></label>
-            <input type="text" id="txtJobNo" class="form-control" />
-        </div>
-        <div class="col-sm-4">
-            <br />
-            <div class="btn-group">
-                <button id="btnJobSlip" class="btn btn-success" onclick="OpenJob()">Show</button>
-                <a href="#" class="btn btn-info" id="btnPrnJob" onclick="PrintJob()">
-                    <i class="fa fa-lg fa-print"></i> Job Order Form
+        <div class="row">
+            <div class="col-sm-4">
+                <label for="txtJobNo" id="lblJob">Enter Job >></label>
+                <input type="text" id="txtJobNo" class="form-control" />
+                <div class="btn-group">
+                    <button id="btnJobSlip" class="btn btn-success" onclick="OpenJob()">Show</button>
+                    <a href="#" class="btn btn-info" id="btnPrnJob" onclick="PrintJob()">
+                        <i class="fa fa-lg fa-print"></i> Job Order Form
+                    </a>
+                    <a href="#" class="btn btn-primary" id="btnPrnJob" onclick="PrintPrepareForm()">
+                        Prepare Form
+                    </a>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <label id="lblQuickSearch">Quick Search</label>:
+                <br />
+                <select class="form-control dropdown" id="cboField">
+                    <option value="">{Please Select}</option>
+                    <option value="CustCode">Customer</option>
+                    <option value="CSCode">Customer Service</option>
+                    <option value="ManagerCode">Sales Person</option>
+                    <option value="ShippingCode">Shipping Staff</option>
+                    <option value="DeclareNo">Declaration</option>
+                    <option value="HAWB">House BL/AWB</option>
+                    <option value="MAWB">Master BL/AWB</option>
+                    <option value="BookingNo">Booking No</option>
+                    <option value="InvNo">Commercial Invoice</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <label id="lblCliteria">Cliteria</label>:
+                <br />
+                <input type="text" id="txtCliteria" class="form-control" />
+            </div>
+            <div class="col-sm-3">
+                <br />
+                <a href="#" class="btn btn-primary" id="btnRefresh" onclick="getJobdata()">
+                    <i class="fa fa-lg fa-filter"></i> &nbsp;<b id="linkSearch">Search</b>
                 </a>
-                <a href="#" class="btn btn-primary" id="btnPrnJob" onclick="PrintPrepareForm()">
-                    Prepare Form
+                <a href="#" class="btn btn-default w3-purple" id="btnGenJob" onclick="CreateNewJob()">
+                    <i class="fa fa-lg fa-file-o"></i> &nbsp;<b id="linkCreate">Create Job</b>
                 </a>
             </div>
         </div>
-        <div class="col-sm-3">
-            <label id="lblQuickSearch">Quick Search</label>:
-            <br/>
-            <select class="form-control dropdown" id="cboField">
-                <option value="">{Please Select}</option>
-                <option value="CustCode">Customer</option>
-                <option value="CSCode">Customer Service</option>
-                <option value="ManagerCode">Sales Person</option>
-                <option value="ShippingCode">Shipping Staff</option>
-                <option value="DeclareNo">Declaration</option>
-                <option value="HAWB">House BL/AWB</option>
-                <option value="MAWB">Master BL/AWB</option>
-                <option value="BookingNo">Booking No</option>
-                <option value="InvNo">Commercial Invoice</option>
-            </select>
-        </div>
-        <div class="col-sm-3">
-            <label id="lblCliteria">Cliteria</label>:
-            <br/>
-            <input type="text" id="txtCliteria" class="form-control" />
-        </div>
+        <table id="tblJob" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>JobNo</th>
+                    <th class="desktop">DocDate</th>
+                    <th class="desktop">JobStatus</th>
+                    <th class="all">ETD</th>
+                    <th class="all">ETA</th>
+                    <th class="all">Inv.Customer</th>
+                    <th class="desktop">Customer</th>
+                    <th>Consignee</th>
+                    <th class="desktop">CustRefNo</th>
+                </tr>
+            </thead>
+        </table>
     </div>
-</div>
 <div id="dvLOVs"></div>
-<script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
-    const path = '@Url.Content("~")';
-    const user = '@ViewBag.User';
+    let path = '@Url.Content("~")';
+    let user = '@ViewBag.User';
     let dateWhere = 'DocDate';
     let jt = getQueryString("jobtype");
     let sb = getQueryString("shipby");
+    let st = getQueryString("status");
+    let custcode = getQueryString("custcode");
+    loadBranch(path);
+    loadCombo();
+    $('#txtJobNo').keydown(function (e) {
+        if (e.which == 13) {
+            if ($('#txtJobNo').val() !== '') {
+                OpenJob();
+            }
+        }
+    });
+    $('#txtCliteria').keydown(function (e) {
+        if (e.which == 13) {
+            getJobdata();
+        }
+    });
     //3 Fields Show
     $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
         let dv = document.getElementById("dvLOVs");
         CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response, 3);
         CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
-        loadCombo();
         getJobdata();
     });
     function CheckJobType() {
@@ -153,25 +164,15 @@ End Code
     function loadCombo() {
         let lists = 'JOB_TYPE=#cboJobType|'+ jt;
         lists += ',SHIP_BY=#cboShipBy|'+sb;
-        lists += ',JOB_STATUS=#cboStatus';
+        lists += ',JOB_STATUS=#cboStatus|'+st;
 
         loadCombos(path, lists);
-        loadBranch(path);
         loadYear(path);
         loadMonth('#cboMonth');
-
-        $('#txtJobNo').keydown(function (e) {
-            if (e.which == 13) {
-                if ($('#txtJobNo').val() !== '') {
-                    OpenJob();
-                }
-            }
-        });
-        $('#txtCliteria').keydown(function (e) {
-            if (e.which == 13) {
-                getJobdata();
-            }
-        });
+        
+        if (custcode != '') {
+            $('#txtCustCode').val(custcode);            
+        }
     }
     function getJobdata() {
         ShowWait();
@@ -200,16 +201,23 @@ End Code
                         }
                     },
                     {
-                        "data": "DutyDate", "title": "Clearance Date",
+                        "data": "ETDDate", "title": "ETD Date",
+                        "render" : function (data) {
+                            return CDateEN(data);
+                        }
+                    },
+                    {
+                        "data": "ETADate", "title": "ETA Date",
                         "render" : function (data) {
                             return CDateEN(data);
                         }
                     },
                     { "data": "InvNo", "title": "Customer Inv." },
-                    { "data": "CustTName", "title": "Customer" },
-                    { "data": "DeclareNumber", "title": "Declare No." },
-                    { "data": "VesselName", "title": "Vessel/Flight" }
+                    { "data": "CustTName", "title": "ImExPorter" },
+                    { "data": "ConsigneeName", "title": "Consignee" },
+                    { "data": "CustRefNO", "title": "Ref.No" }
                 ]
+                , "pageLength": 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tblJob');
             $('#tblJob tbody').on('click', 'tr', function () {
@@ -260,6 +268,7 @@ End Code
                     { "data": "DeclareNumber", "title": "Declare No." },
                     { "data": "InvProduct", "title": "Commodity" }
                 ]
+                , "pageLength": 100
             });
             $('#tblJob tbody').on('click', 'tr', function () {
                 $('#tblJob tbody > tr').removeClass('selected');

@@ -102,8 +102,9 @@ End Code
                                 <br />
                                 <select id="cboDocType" class="form-control dropdown">
                                     <option value="IVS-">Service</option>
-                                    <option value="IVT-">Internal</option>
+                                    <option value="IVT-">Transport</option>
                                     <option value="IVF-">Freight</option>
+                                    <option value="IVD-">Debit Note</option>
                                 </select>
 
                             </div>
@@ -359,7 +360,7 @@ End Code
                                     Item No:
                                     <br />
                                     @*<input type="text" class="form-control" id="txtItemNo" disabled />*@
-                                    <input type="text" class="form-control" id="txtItemNo"  />
+                                    <input type="text" class="form-control" id="txtItemNo" />
                                 </td>
                                 <td style="width:10%">
                                     <br />

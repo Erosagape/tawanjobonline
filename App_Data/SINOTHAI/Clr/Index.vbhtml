@@ -1748,7 +1748,7 @@ End Code
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.clr.data[0].Table;
+            let h = r.clr.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -2073,7 +2073,7 @@ End Code
         //$.get(path + 'Clr / GetAdvForClear ? branchcode = '+branch+' & jtype=' + jtype + GetClrFrom(cfrom), function (r) {
         $.get(path + 'Clr/GetAdvForClear?branchcode=' + branch + '&jtype=' + jtype, function (r) {
             if (r.clr.data.length > 0) {
-                let d = r.clr.data[0].Table;
+                let d = r.clr.data;
                 $('#tbAdvance').DataTable({
                     data: d,
                     selected: true, //ให้สามารถเลือกแถวได้
@@ -2187,7 +2187,7 @@ End Code
         var payclick = 0;
         $.get(path + 'Clr/GetPaymentForClear?branch=' + branch + w, function (r) {
             if (r.clr.data.length > 0) {
-                let d = r.clr.data[0].Table;
+                let d = r.clr.data;
                 $('#tbPayment').DataTable({
                     data: d,
                     selected: true, //ให้สามารถเลือกแถวได้

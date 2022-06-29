@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/sheets-of-paper-a4.css">
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/Func/util.js"></script>
-    <script src="~/Scripts/Func/reports.js"></script>
+    <script src="~/Scripts/Func/reports.js?@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
     <style>
         * {
             font-size: 11px;

@@ -18,6 +18,12 @@ function OpenMenu(mnuID, newpage = true) {
         case 'Dashboard2':
             mnuPath = path + 'Tracking/Dashboard?Type=V2';
             break;
+        case 'Dashboard3':
+            mnuPath = path + 'Tracking/Dashboard?Form=2';
+            break;
+        case 'Dashboard4':
+            mnuPath = path + 'Tracking/Dashboard?Form=3';
+            break;
         case 'Advance':
             mnuPath = path + 'Acc/Advance';
             break;

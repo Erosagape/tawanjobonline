@@ -76,7 +76,7 @@ Namespace Controllers
                             .BranchCode = row("BranchCode").ToString,
                             .JNo = row("JNo").ToString,
                             .SICode = row("SICode").ToString,
-                            .SDescription = row("NameThai").ToString,
+                            .SDescription = row("NameEng").ToString,
                             .TRemark = row("TRemark").ToString,
                             .Status = If(row("IsRequired").ToString = "1", "R", "O"),
                             .CurrencyCode = row("CurrencyCode").ToString,

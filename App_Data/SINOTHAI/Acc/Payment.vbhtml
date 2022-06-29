@@ -596,7 +596,7 @@ End Code
     }
     function GetSumPayment(type) {
         let filter_data = arr.filter(function (data) {
-            return data[type] > 0
+            return data.PayType == type;
         });
         let filter_sum = {
             sumamount: 0,
@@ -823,8 +823,9 @@ End Code
                 contentType: "application/json",
                 data: jsonString,
                 success: function (response) {
-                    if (response.result.data != null) {
-                        //SaveClearing();
+                    if (response.result.data !== null) {
+                        //SaveClearing();                        
+                        PrintVoucher($('#txtBranchCode').val(), $('#txtControlNo').val());
                         SetGridAdv(false);
                         ShowMessage(response.result.msg);
                     }

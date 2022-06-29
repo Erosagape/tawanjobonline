@@ -56,7 +56,7 @@ End Code
             </div>
             <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
-                    <a href="../Master/Customers?Mode=CONSIGNEE"><label id="lblBillingPlace" style="display:block;width:100%;">Consignee</label></a>
+                    <a href="../Master/Customers?Mode=CONSIGNEE"><label id="lblBillingPlace" style="display:block;width:100%;">BILL TO</label></a>
                 </div>
                 <div style="display:flex;width:70%">
                     <input type="text" class="form-control" id="txtConsignee" style="width:120px" tabindex="6" />
@@ -127,7 +127,7 @@ End Code
         <div class="row">
             <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
-                    <label id="lblHAWB" style="display:block;width:100%;">House BL/AWB</label>
+                    <label id="lblHAWB" style="display:block;width:100%;" onclick="CopyFromBooking()">House BL/AWB</label>
                 </div>
                 <div style="display:flex;width:70%">
                     <input type="text" class="form-control" id="txtHAWB" style="width:100%" tabindex="14" />
@@ -135,7 +135,7 @@ End Code
             </div>
             <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
-                    <label id="lblMAWB" style="display:block;width:100%;">Master BL/AWB</label>
+                    <label id="lblMAWB" style="display:block;width:100%;" onclick="CopyFromHouseBL()">Master BL/AWB</label>
                 </div>
                 <div style="display:flex;width:70%">
                     <input type="text" class="form-control" style="width:100%" id="txtMAWB" tabindex="15" />
@@ -164,7 +164,9 @@ End Code
         <div class="row">
             <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
-                    <label id="lblTransport" style="display:block;width:100%;">Transporter</label>
+                    <a href="../Master/Venders">
+                        <label id="lblTransport" style="display:block;width:100%;">Transporter</label>
+                    </a>
                 </div>
                 <div style="display:flex;width:70%">
                     <input type="text" class="form-control" id="txtAgentCode" style="width:120px" />
@@ -203,7 +205,9 @@ End Code
                 </div>
             </div>
             <div class="col-sm-6">
-                <label id="lblInterPort" style="display:block;width:100%;">International Port</label>
+                <a href="../Master/InterPort">
+                    <label id="lblInterPort" style="display:block;width:100%;">International Port</label>
+                </a>
                 <div style="display:flex;width:100%">
                     <input type="text" class="form-control" id="txtInterPort" style="width:120px" disabled />
                     <input type="text" class="form-control" id="txtInterPortName" style="width:100%" disabled />
@@ -235,7 +239,7 @@ End Code
                     <label id="lblCopyFrom" style="display:block;width:100%;">Copy From</label>
                 </div>
                 <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" id="txtCopyFromJob" style="width:100%" disabled />
+                    <input type="text" class="form-control" id="txtCopyFromJob" style="width:100%" />
                     <input type="button" class="btn btn-default" id="btnBrowseJob" value="..." onclick="SearchData('job')" />
                 </div>
             </div>
@@ -518,6 +522,9 @@ End Code
     function ReadQuo(dt) {
         $('#txtQNo').val(dt.QNo);
         $('#txtRevise').val(dt.SeqNo);
+        $('#txtManagerCode').val(dt.ManagerCode);
+        $('#txtContactPerson').val(dt.ContactName);
+
     }
     function SearchData(type) {
         switch (type) {
@@ -584,7 +591,8 @@ End Code
     }
     function GetQuotation() {
         let branch = $('#txtBranchCode').val();
-        let cust = $('#txtCustCode').val();
+        //let cust = $('#txtCustCode').val(); //Get From Customer
+        let cust = $('#txtConsignee').val(); //Get From Consignee for ANT Global
         let jtype = $('#cboJobType').val();
         let sby = $('#cboShipBy').val();
         $('#txtQNo').val('');
@@ -787,6 +795,12 @@ End Code
                 ShowMessage(e,true);
             }
         });
+    }
+    function CopyFromBooking() {
+        $('#txtHAWB').val($('#txtBookingNo').val());
+    }
+    function CopyFromHouseBL() {
+        $('#txtMAWB').val($('#txtHAWB').val());
     }
 </script>
 

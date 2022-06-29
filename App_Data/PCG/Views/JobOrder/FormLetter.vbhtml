@@ -59,7 +59,7 @@ End Code
         </tbody>
     </table>
     <br /><br /><br />
-    <div style="text-align:center"> IN TRANSIT CARGO TO <label id="lblProjectName"></label></div>
+    <div style="text-align:center"> IN TRANSIT CARGO TO <label id="lblCountryName"></label> VIA <label id="lblPortName"></label></div>
     <div style="display:flex">
         <div style="width:20%"></div>
         <div style="width:10%">NOTIFY: </div>
@@ -143,6 +143,7 @@ End Code
                         let c = r.country.data[0];
                         $('#lblCountryTo1').text(c.CTYName);
                         $('#lblCountryTo2').text(c.CTYName);
+                        $('#lblCountryName').text(c.CTYName);
                     }
                 });
                 $.get(path + '/Master/GetVender?code=' + j.ForwarderCode).done(function (r) {
@@ -178,10 +179,10 @@ End Code
                 $('#lblTotalCTN').text(j.TotalContainer);
                 $('#lblMarks').text(j.Description);
 		        $('#lblTRemark').text(j.TRemark);
- 		        $('#lblDischargePort').text(j.ClearPortNo);
+ 		        
                 $('#lblETD').text(ShowDate(j.JobType > 1 ? j.ETDDate : j.ETADate));
                 $('#lblConfirmDate').text(ShowDate(j.ConfirmDate));
-                $('#lblDischargePort').text(j.ClearPortNo);
+                $('#lblPortName').text(j.ClearPortNo);
                 $('#lblProjectName').text(j.ProjectName);
                 $('#lblCountryTo').text(j.ClearPortNo);
             }

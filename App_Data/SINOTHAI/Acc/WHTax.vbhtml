@@ -610,7 +610,7 @@ End Code
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.whtax.data[0].Table;
+            let h = r.whtax.data;
             let tb=$('#tbControl').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -633,6 +633,7 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbControl');
             $('#tbControl tbody').on('click', 'tr', function () {
@@ -732,6 +733,7 @@ End Code
                         ],
                         responsive:true,
                         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                        , pageLength: 100
                     });
                     $('#tbDoc tbody').on('click', 'button', function () {
                         let dt = GetSelect('#tbDoc', this); //read current row selected
@@ -747,7 +749,7 @@ End Code
                 break;
             case "2": //CLR
                 $.get(path + 'Clr/GetClearingGrid' + '?branchcode=' + $('#txtBranchCode').val() + '&taxnumber=' + $('#txtTaxNumber1').val(), function (r) {
-                    let d = r.clr.data[0].Table;
+                    let d = r.clr.data;
                     $(g).DataTable({
                         data: d,
                         selected: true, //ให้สามารถเลือกแถวได้
@@ -769,6 +771,7 @@ End Code
                         ],
                         responsive:true,
                         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                        , pageLength: 100
                     });
                     BindEvent('#tbDoc', '#frmSearchDoc', ReadClr);
                 });
@@ -847,6 +850,7 @@ End Code
             ],
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+            , pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {

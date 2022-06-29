@@ -125,6 +125,21 @@ End Code
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let user = '@ViewBag.User';
+    let userGroup = '@ViewBag.UserGroup';
+    if (userGroup == 'C') {
+        $('#btnBrowseCust').attr('disabled', 'disabled');
+        $('#txtCustCode').attr('disabled', 'disabled');
+        $('#txtCustBranch').attr('disabled', 'disabled');
+
+        $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
+            if (r.company.data.length > 0) {
+                let dr = r.company.data[0];
+                $('#txtCustCode').val(dr.CustCode);
+                $('#txtCustBranch').val(dr.Branch);
+                $('#txtCustName').val(dr.NameThai);
+            }
+        });
+    }
     let dateWhere = 'DocDate';
     let jt = getQueryString("jobtype");
     let sb = getQueryString("shipby");
@@ -168,9 +183,9 @@ End Code
         loadCombos(path, lists);
         loadYear(path);
         loadMonth('#cboMonth');
-        
+
         if (custcode != '') {
-            $('#txtCustCode').val(custcode);            
+            $('#txtCustCode').val(custcode);
         }
     }
     function getJobdata() {
@@ -224,7 +239,7 @@ End Code
                 OpenJob();
             });
             CloseWait();
-        });            
+        });
     }
     function getJobdata_1() {
         $.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
@@ -273,7 +288,7 @@ End Code
             $('#tblJob tbody').on('dblclick', 'tr', function () {
                 OpenJob();
             });
-        });            
+        });
     }
     function GetCliteria() {
         let str = '';

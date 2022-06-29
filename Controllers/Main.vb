@@ -3793,6 +3793,9 @@ j.DutyLtdPayCashAmt<>a.CashPayment
         If str.IndexOf("=") > 0 Then
             Return str.Split("=")(0)
         End If
+        If str.IndexOf("IN") > 0 Then
+            Return str.Split("IN")(0)
+        End If
         Return ""
     End Function
 
@@ -3811,6 +3814,9 @@ j.DutyLtdPayCashAmt<>a.CashPayment
         End If
         If str.IndexOf("=") > 0 Then
             Return "='" & str.Split("=")(1) & "'"
+        End If
+        If str.IndexOf("IN") > 0 Then
+            Return "IN(" & str.Split("=")(1) & ")"
         End If
         Return "''"
     End Function

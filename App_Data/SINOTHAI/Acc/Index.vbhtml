@@ -119,12 +119,12 @@ End Code
         } else {
             w = w + '&Show=ACTIVE';
         }
-        $.get(path + 'acc/getvouchergrid?branch=' + $('#txtBranchCode').val() + w, function (r) {
+        $.get(path + 'acc/getvouchergrid?branch=' + $('#txtBranchCode').val() + w).done(function (r) {
             if (r.voucher.data.length == 0) {
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.voucher.data[0].Table;
+            let h = r.voucher.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -166,6 +166,7 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                , pageLength: 100
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected

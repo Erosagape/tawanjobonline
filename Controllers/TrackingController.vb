@@ -1,4 +1,5 @@
-﻿Imports System.Web.Mvc
+﻿Imports System.IO
+Imports System.Web.Mvc
 
 Namespace Controllers
     Public Class TrackingController
@@ -6,10 +7,18 @@ Namespace Controllers
 
         ' GET: Tracking
         Function Index() As ActionResult
-            Return GetView("Index")
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return GetView("Index" & formName)
         End Function
         Function Planing() As ActionResult
-            Return GetView("Planing")
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return GetView("Planing" & formName)
         End Function
         Function Document() As ActionResult
             Return GetView("Document", "MODULE_CS")
@@ -81,13 +90,25 @@ Namespace Controllers
             Return GetView("Planload")
         End Function
         Function Timeline() As ActionResult
-            Return GetView("Timeline")
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return GetView("Timeline" & formName)
         End Function
         Function Dashboard() As ActionResult
-            Return GetView("Dashboard")
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return GetView("Dashboard" & formName)
         End Function
         Function PublicIndex() As ActionResult
-            Return View()
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return View("PublicIndex" & formName)
         End Function
         Function UploadDocument() As ActionResult
             Dim msg As String = ""
@@ -150,6 +171,29 @@ Namespace Controllers
             End Try
             If msg = "" Then msg = "[Error] No File To Upload"
             Return Content(msg, textContent)
+        End Function
+        Function UploadImage() As ActionResult
+            ViewBag.ImageShow = "<br/><b>No Image</b><br/>"
+            If Not Request.QueryString("Path") Is Nothing Then
+                Dim path = Request.QueryString("Path")
+                Dim html = ""
+                Dim dir = Server.MapPath("~/Resource/Import/" + path)
+                If System.IO.Directory.Exists(dir) = False Then
+                    System.IO.Directory.CreateDirectory(dir)
+                End If
+
+                Dim files = System.IO.Directory.GetFiles(dir)
+                For Each fileName As String In files
+                    Dim file As FileInfo = New FileInfo(fileName)
+                    html = html & "<br/>"
+                    html = html & "<div>"
+                    html = html & "<b>" & file.Name & "</b><br/>"
+                    html = html & "<img src=""../Resource/Import/" + path & "/" & file.Name & """ />"
+                    html = html & "</div>"
+                Next
+                ViewBag.ImageShow = html
+            End If
+            Return GetView("UploadImage")
         End Function
     End Class
 End Namespace

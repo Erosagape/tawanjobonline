@@ -58,7 +58,7 @@ End Code
                         <select id="cboBankCash" class="form-control"></select>
                         <label id="lblBranchCA">To Branch:</label>
                         <input type="text" id="txtBankBranchCash" class="form-control" />
-                        <label id="lblPayCA">Pay To:</label>
+                        <label id="lblPayCA" onclick="SearchData('emp1')">Pay To:</label>
                         <input type="text" id="txtCashPayTo" class="form-control" />
                         <br />
                         <input type="hidden" id="fldBankCodeCash" />
@@ -93,7 +93,7 @@ End Code
                         <select id="cboBankChqCash" class="form-control"></select>
                         <label id="lblBranchCH">Chq Branch:</label>
                         <input type="text" id="txtBankBranchChqCash" class="form-control" />
-                        <label id="lblPayCH">Pay To:</label>
+                        <label id="lblPayCH" onclick="SearchData('emp2')">Pay To:</label>
                         <input type="text" id="txtChqCashPayTo" class="form-control" />
                         <br />
                         <input type="hidden" id="fldBankCodeChqCash" />
@@ -116,7 +116,7 @@ End Code
                         <select id="cboBankChq" class="form-control"></select>
                         <label id="lblBranchCU">Issue Branch:</label>
                         <input type="text" id="txtBankBranchChq" class="form-control" />
-                        <label id="lblPayCU">Pay To:</label>
+                        <label id="lblPayCU" onclick="SearchData('emp3')">Pay To:</label>
                         <input type="text" id="txtChqPayTo" class="form-control" />
                         <br />
                     </div>
@@ -130,7 +130,7 @@ End Code
                             <br />
                             <label id="lblTranDateCR">Ref Date:</label>
                             <input type="date" id="txtCredTranDate" class="form-control" />
-                            <label id="lblPayCR">Pay To:</label>
+                            <label id="lblPayCR" onclick="SearchData('emp4')">Pay To:</label>
                             <input type="text" id="txtCredPayTo" class="form-control" />
                             <br />
                         </div>
@@ -220,15 +220,15 @@ End Code
                                 <tr>
                                     <th>Clr.No</th>
                                     <th class="desktop">Clr.date</th>
-                                    <th class="all">Job No</th>
-                                    <th class="desktop">Inv.No</th>
-                                    <th class="desktop">customer</th>
-                                    <th class="desktop">Adv.No</th>
+                                    <th class="all">Customer</th>
+                                    <th class="desktop">No</th>
+                                    <th class="desktop">Desc</th>
                                     <th class="all">Adv.Total</th>
                                     <th class="all">Used</th>
-                                    <th class="desktop">Balance</th>
+                                    <th class="desktop">Vat</th>
                                     <th class="desktop">W-Tax</th>
-                                    <th class="desktop">Clr.By</th>
+                                    <th class="desktop">Refund</th>
+                                    <th class="desktop">Payback</th>
                                 </tr>
                             </thead>
                         </table>
@@ -299,8 +299,8 @@ End Code
     function SetEvents() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
-        $('#txtAdvDateF').val(GetFirstDayOfMonth());
-        $('#txtAdvDateT').val(GetLastDayOfMonth());
+        //$('#txtAdvDateF').val(GetFirstDayOfMonth());
+        //$('#txtAdvDateT').val(GetLastDayOfMonth());
         //Combos
         let lists = 'JOB_TYPE=#cboJobType';
         loadCombos(path, lists);
@@ -361,6 +361,10 @@ End Code
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
             CreateLOV(dv, '#frmSearchBookCash', '#tbBookCash', 'Book Accounts', response, 2);
             CreateLOV(dv, '#frmSearchBookChq', '#tbBookChq', 'Book Accounts', response, 2);
+            CreateLOV(dv, '#frmSearchEmpCA', '#tbEmpCA', 'Employee', response, 2);
+            CreateLOV(dv, '#frmSearchEmpCU', '#tbEmpCU', 'Employee', response, 2);
+            CreateLOV(dv, '#frmSearchEmpCH', '#tbEmpCH', 'Employee', response, 2);
+            CreateLOV(dv, '#frmSearchEmpCR', '#tbEmpCR', 'Employee', response, 2);
         });
     }
     function ClearData() {
@@ -445,7 +449,7 @@ End Code
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.clr.data[0].Table;
+            let h = r.clr.data;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
             let tb=$('#tbHeader').DataTable({
@@ -461,7 +465,6 @@ End Code
                     },
                     { data: "CustCode", title: "Customer" },
                     { data: "ItemNo", title: "No" },
-                    { data: "SICode", title: "Adv.Code" },
                     { data: "SDescription", title: "Adv.Expenses" },
                     {
                         data: "AdvNet", title: "Adv Total",
@@ -488,14 +491,21 @@ End Code
                         }
                     },
                     {
-                        data: "ClrBal", title: "Balance",
+                        data: "ClrBal", title: "Refund",
                         render: function (data) {
-                            return ShowNumber(data,2);
+                            return data > 0 ? ShowNumber(data, 2) : '0.00';
+                        }
+                    },
+                    {
+                        data: "ClrBal", title: "Payback",
+                        render: function (data) {
+                            return data < 0 ? ShowNumber(Math.abs(data), 2) : '0.00';
                         }
                     }
                 ],
                 responsive: true,
-                destroy:true
+                destroy: true
+                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
@@ -563,8 +573,8 @@ End Code
                 CmpType: 'C',
                 CmpCode: o.CustCode,
                 CmpBranch: o.CustBranch,
-                PaidAmount: CDbl(o.ClrBal, 2),
-                TotalAmount: CDbl((o.ClrBal), 2),
+                PaidAmount: CDbl(Math.abs(o.ClrBal), 2),
+                TotalAmount: CDbl(Math.abs(o.ClrBal), 2),
                 acType:o.acType
             };
             if ($('#chkFromClr').prop('checked') == true) {
@@ -617,7 +627,8 @@ End Code
                 }
             ],
             responsive:true,
-            destroy:true
+            destroy: true
+            , pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#txtAdvCash').val(CDbl(sum_ca, 2));
@@ -656,7 +667,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: sum_cash.sumamount > 0 ? 'R' : 'P',
@@ -693,7 +704,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType:sum_chqcash.sumamount > 0 ? 'R' : 'P',
@@ -730,7 +741,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType:sum_chq.sumamount> 0 ? 'R' : 'P',
@@ -767,7 +778,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: sum_cr.sumamount > 0 ? 'R' : 'P',
@@ -822,7 +833,7 @@ End Code
         if (list.length > 0) {
             for (let i = 0; i < list.length; i++) {
                 let o = list[i];
-                o.ControlNo = docno;
+                o.ControlNo = $('#txtControlNo').val();
             }
             let jsonString = JSON.stringify({ data: list });
             $.ajax({
@@ -842,7 +853,7 @@ End Code
                             ReceiveClearing(response.result.data);
                         } else {
                             dataApp = [];
-                            dataApp.push(user + '|' + docno + '|' + ($('#chkFromClr').prop('checked') ? 'CLR' : 'ADV'));
+                            dataApp.push(user + '|' + $('#txtControlNo').val() + '|' + ($('#chkFromClr').prop('checked') ? 'CLR' : 'ADV'));
                             for (let i = 0; i < arr.length; i++) {
                                 let o = arr[i];
                                 let docApp = '';
@@ -857,6 +868,7 @@ End Code
                             }
                             ReceiveClearing(docno);
                         }
+                        $('#btnSave').removeAttr('disabled');
                         SetGridAdv(false);
                         ShowMessage(response.result.msg);
                         PrintVoucher($('#txtBranchCode').val(), $('#txtControlNo').val());
@@ -886,6 +898,7 @@ End Code
         });
     }
     function ApproveData() {
+        $('#btnSave').attr('disabled', 'disabled');
         if (arr.length < 0) {
             ShowMessage('No data to approve',true);
             return;
@@ -952,9 +965,36 @@ End Code
                 SetGridBookAccount(path, '#tbBookChq', '#frmSearchBookChq', ReadBookChq);
                 break;
             case 'currency':
-                SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
+                SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);                
+                break;
+            case 'emp1':
+                SetGridEmployee(path, '#tbEmpCA', '#frmSearchEmpCA', ReadEmpCA);
+                break;
+            case 'emp2':
+                SetGridEmployee(path, '#tbEmpCH', '#frmSearchEmpCH', ReadEmpCH);
+                break;
+            case 'emp3':
+                SetGridEmployee(path, '#tbEmpCU', '#frmSearchEmpCU', ReadEmpCU);
+                break;
+            case 'emp4':
+                SetGridEmployee(path, '#tbEmpCR', '#frmSearchEmpCR', ReadEmpCR);
                 break;
         }
+    }
+    function ReadEmpCA(dt) {
+        $('#txtCashPayTo').val(dt.Name);
+        $('#txtBankBranchCash').val(dt.AccountNumber);
+    }
+    function ReadEmpCH(dt) {
+        $('#txtChqCashPayTo').val(dt.Name);
+        $('#txtBankBranchChqCash').val(dt.AccountNumber);
+    }
+    function ReadEmpCU(dt) {
+        $('#txtChqPayTo').val(dt.Name);
+        $('#txtBankBranchChq').val(dt.AccountNumber);
+    }
+    function ReadEmpCR(dt) {
+        $('#txtCredPayTo').val(dt.Name);
     }
     function ReadCurrency(dt) {
         $('#txtCurrencyCode').val(dt.Code);

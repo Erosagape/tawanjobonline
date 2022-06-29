@@ -530,7 +530,7 @@ End Code
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.voucher.data[0].Table;
+            let h = r.voucher.data;
             let tb=$('#tbControl').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -875,7 +875,7 @@ End Code
     }
     function GetBookBalance() {
         $.get(path + 'Master/GetBookBalance?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtBookCode').val()).done(function (r) {
-            if (r.bookaccount.data.length > 0) {
+            if (r.bookaccount.data[0].Table.length > 0) {
                 let d = r.bookaccount.data[0].Table[0];
                 let used = Number(d.ControlBalance) - Number(d.SumBal);
                 $('#txtCashAmount').val(CDbl(used,2));

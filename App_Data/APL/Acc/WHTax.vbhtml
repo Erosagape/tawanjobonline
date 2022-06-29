@@ -672,12 +672,22 @@ End Code
         $('#txtTaxNumber3').val(dr.TaxNumber);
         $('#txtBranch3').val(dr.BranchCode);
     }
+
     function GetDefault() {
-        $('#txtTName2').val('@ViewBag.PROFILE_COMPANY_NAME');
-        $('#txtTAddress2').val('@ViewBag.PROFILE_COMPANY_ADDR1' + ' ' + '@ViewBag.PROFILE_COMPANY_ADDR2');
-        $('#txtTaxNumber2').val('@ViewBag.PROFILE_TAXNUMBER');
-        $('#txtBranch2').val('@ViewBag.PROFILE_TAXBRANCH');
+	if(confirm('for APL Logistic?')==true) {
+		$('#txtTName2').val('@ViewBag.PROFILE_COMPANY_NAME');
+        	$('#txtTAddress2').val('@ViewBag.PROFILE_COMPANY_ADDR1' + ' ' + '@ViewBag.PROFILE_COMPANY_ADDR2');
+	        $('#txtTaxNumber2').val('@ViewBag.PROFILE_TAXNUMBER');
+	        $('#txtBranch2').val('@ViewBag.PROFILE_TAXBRANCH');
+		return;
+	}
+        $('#txtTName2').val('C.C.&J SERVICE CO.,LTD.');
+        $('#txtTAddress2').val('69 Soi Bangbon 5 Soi 8, Ekachai Road, Bangbon, Bangbon Bangkok 10150');
+        $('#txtTaxNumber2').val('0115558022891');
+        $('#txtBranch2').val('00000');
+
     }
+
     function ReadAdv(dr) {
         let dh = docSel.header.find(function (chk) {
             return chk.BranchCode==dr.BranchCode && chk.AdvNo==dr.AdvNo

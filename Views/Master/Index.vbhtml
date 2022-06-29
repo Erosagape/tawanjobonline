@@ -48,7 +48,7 @@ End Code
                 window.location.href = path + 'Tracking/Index';
                 break;
             case 'C':
-                window.location.href = path + 'Tracking/Timeline';
+                window.location.href = path + 'Tracking/Dashboard?Type=V2';
                 break;
         }
     }    

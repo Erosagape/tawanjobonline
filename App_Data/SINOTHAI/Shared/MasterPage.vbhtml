@@ -17,11 +17,11 @@
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/bootbox.js"></script>
     <script src="~/Scripts/bootstrap-select.js"></script>
-    <script src="~/Scripts/Func/util.js"></script>
-    <script src="~/Scripts/Func/popup.js"></script>
-    <script src="~/Scripts/Func/combo.js"></script>
-    <script src="~/Scripts/Func/menu.js"></script>
-    <script src="~/Scripts/Func/lang.js"></script>
+    <script src="~/Scripts/Func/util.js?@DateTime.Now.ToString("yyyyMMddHHMMss")"></script>
+    <script src="~/Scripts/Func/popup.js?@DateTime.Now.ToString("yyyyMMddHHMMss")"></script>
+    <script src="~/Scripts/Func/combo.js?@DateTime.Now.ToString("yyyyMMddHHMMss")"></script>
+    <script src="~/Scripts/Func/menu.js?@DateTime.Now.ToString("yyyyMMddHHMMss")"></script>
+    <script src="~/Scripts/Func/lang.js?@DateTime.Now.ToString("yyyyMMddHHMMss")"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 </head>
 <body style="background:#e6e6e6;color:black;">

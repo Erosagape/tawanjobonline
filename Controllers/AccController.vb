@@ -3,7 +3,6 @@ Imports System.Net.Http
 Imports System.Web.Http
 Imports System.Web.Mvc
 Imports Newtonsoft.Json
-
 Namespace Controllers
     Public Class AccController
         Inherits CController
@@ -1573,6 +1572,12 @@ select * from vc WHERE PaidAmount>0 order by PRType DESC,DocNo
                 If Not IsNothing(Request.QueryString("DateTo")) Then
                     tSqlH &= " AND VoucherDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
+                If Not IsNothing(Request.QueryString("DocDateFrom")) Then
+                    tSqlH &= " AND DocDate>='" & Request.QueryString("DocDateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DocDateTo")) Then
+                    tSqlH &= " AND DocDate<='" & Request.QueryString("DocDateTo") & " 23:59:00'"
+                End If
                 tSqlH &= ")"
                 Dim oData = New CVoucher(GetSession("ConnJob")).GetData(tSqlw)
                 Dim oHead As String = JsonConvert.SerializeObject(oData)
@@ -2002,7 +2007,7 @@ GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Y
 ORDER BY a.TName1
 "
                     Case "PRD3A"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber2", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
@@ -2022,7 +2027,7 @@ GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Y
 ORDER BY a.TName1
 "
                     Case "PRD53A"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber2", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
 SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
@@ -2040,11 +2045,11 @@ ORDER BY a.TName1
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
                     Case "PRD3AD"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber2", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')<>''" & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
                     Case "PRD53AD"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber2", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')<>''" & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
                 End Select
@@ -2579,6 +2584,74 @@ ORDER BY a.TName1
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetReceiptReport", ex.Message, ex.StackTrace, True)
                 Return Content("{""receipt"":{""msg"":""" & ex.Message & """,""data"":[]}}", jsonContent)
+            End Try
+        End Function
+        Function GetReceiptGrid() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE ReceiptNo<>'' "
+                Dim docNo As String = ""
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format("AND BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format("AND ReceiptNo='{0}' ", Request.QueryString("Code").ToString)
+                    docNo = Request.QueryString("Code").ToString
+                End If
+                If Not IsNothing(Request.QueryString("Cust")) Then
+                    tSqlw &= String.Format("AND CustCode='{0}' ", Request.QueryString("Cust").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlw &= " AND ReceiptDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlw &= " AND ReceiptDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
+                If Not IsNothing(Request.QueryString("Type")) Then
+                    tSqlw &= " AND ReceiptType = '" & Request.QueryString("Type").ToString() & "' "
+                End If
+                If Not IsNothing(Request.QueryString("Show")) Then
+                    If Request.QueryString("Show").ToString() = "ACTIVE" Then
+                        tSqlw &= String.Format(" AND NOT ISNULL(CancelProve,'')<>'' ")
+                    End If
+                    If Request.QueryString("Show").ToString() = "CANCEL" Then
+                        tSqlw &= String.Format(" AND ISNULL(CancelProve,'')<>'' ")
+                    End If
+                End If
+
+                Dim sql = "
+SELECT *,
+(SELECT STUFF((
+    SELECT DISTINCT ',' + cd.JobNo
+    FROM Job_ClearDetail cd 
+    INNER JOIN Job_ReceiptDetail rd
+    ON cd.BranchCode=rd.BranchCode 
+    AND cd.LinkBillNo=rd.InvoiceNo
+    AND cd.LinkItem=rd.InvoiceItemNo
+    WHERE rd.BranchCode=r.BranchCode
+    AND rd.ReceiptNo=r.ReceiptNo
+FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+)) as JobNo,
+(SELECT STUFF((
+    SELECT DISTINCT ',' + cd.LinkBillNo
+    FROM Job_ClearDetail cd 
+    INNER JOIN Job_ReceiptDetail rd
+    ON cd.BranchCode=rd.BranchCode 
+    AND cd.LinkBillNo=rd.InvoiceNo
+    AND cd.LinkItem=rd.InvoiceItemNo
+    WHERE rd.BranchCode=r.BranchCode
+    AND rd.ReceiptNo=r.ReceiptNo
+FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+)) as InvoiceNo
+FROM Job_ReceiptHeader r " & tSqlw & " ORDER BY ReceiptDate DESC
+"
+                Dim oHead = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+
+                Dim jsonH As String = ""
+
+                Return Content("{""receipt"":{""msg"":""" & docNo & """,""header"":[" & jsonH & "]}}", jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetReceiptGrid", ex.Message, ex.StackTrace, True)
+                Return Content("{""receipt"":{""msg"":""" & ex.Message & """,""header"":[]}}", jsonContent)
             End Try
         End Function
         Function GetReceipt() As ActionResult
@@ -3610,6 +3683,173 @@ order by 1,2,3
             html &= "</table>"
             ViewBag.DataGrid1 = html
             Return GetView("Summary", "MODULE_CLR")
+        End Function
+        Function GetDetailRevenueMonthly() As ActionResult
+            Dim onYear = DateTime.Now.Year
+            Dim onMonth = DateTime.Now.AddDays(DateTime.Now.Day * -1).Month
+            If Not Request.QueryString("OnYear") Is Nothing Then
+                onYear = Request.QueryString("OnYear")
+            End If
+            If Not Request.QueryString("OnMonth") Is Nothing Then
+                onMonth = Request.QueryString("OnMonth")
+            End If
+            Dim sqlW As String = ""
+            If Not Request.QueryString("OnWhere") Is Nothing Then
+                sqlW = Request.QueryString("OnWhere").ToString().Replace(",", "")
+            End If
+            If Not Request.QueryString("OnValue") Is Nothing Then
+                If sqlW <> "" Then
+                    sqlW = " AND " & sqlW
+                    sqlW &= "='" & Request.QueryString("OnValue").ToString() & "'"
+                End If
+            End If
+            Dim onGroup As String = "sv.NameEng"
+            If Not Request.QueryString("OnGroup") Is Nothing Then
+                onGroup = Request.QueryString("OnGroup").ToString()
+            End If
+            Dim sql = Main.GetValueConfig("SQL", "DetailRevenueMonthly")
+            If sql = "" Then
+                sql = "
+select " & onGroup & ",
+sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)  as RevenueBill,
+sum(case when sv.IsExpense=0 and sv.IsCredit=1 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)  as ReimburseBill,
+sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is null THEN cd.UsedAmount ELSE 0 END)  as RevenueUnBill,
+sum(case when sv.IsExpense=0 and sv.IsCredit=1 and rh.ReceiptNo is null THEN cd.UsedAmount ELSE 0 END)  as ReimburseUnBill,
+sum(case when sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END)  as Cost,
+count(distinct cd.JobNo) as JobCount,
+sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)/count(distinct cd.JobNo) as RevPerJob,
+sum(case when sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END)/count(distinct cd.JobNo) as CostPerJob,
+case when sum(case when sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END)>0 then
+100-sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)/sum(case when sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END) 
+ELSE 100 END
+as ProfitRatio
+from Job_Order j inner join
+Job_ClearDetail cd
+on j.BranchCode=cd.BranchCode 
+and j.JNo=cd.JobNo
+inner join JoB_ClearHeader ch
+on cd.BranchCode=ch.BranchCode 
+and cd.ClrNo=ch.ClrNo 
+inner join Job_SrvSingle sv
+on cd.SICode=sv.SICode 
+inner join Job_InvoiceDetail id
+on cd.BranchCode=id.BranchCode
+and cd.LinkBillNo=id.DocNo 
+and cd.LinkItem=id.ItemNo 
+inner join Job_InvoiceHeader ih
+on id.BranchCode=ih.BranchCode
+and id.DocNo=ih.DocNo
+left join Job_ReceiptDetail rd
+on cd.BranchCode=rd.BranchCode
+and cd.LinkBillNo=rd.InvoiceNo
+and cd.LinkItem=rd.InvoiceItemNo
+left join Job_ReceiptHeader rh
+on rd.BranchCode=rh.BranchCode
+and rd.ReceiptNo=rh.ReceiptNo 
+where ch.DocStatus<>99 and  not isnull(ih.CancelProve,'')<>'' and  not isnull(rh.CancelProve,'')<>''
+and id.AmtCharge>0 
+"
+                If onYear > 0 And onMonth > 0 Then
+                    sql &= String.Format(" AND Year(j.DocDate)='{0}' AND Month(j.DocDate)='{1}' ", onYear, onMonth)
+                End If
+                sql &= sqlW
+                sql &= " GROUP BY " & onGroup & " ORDER BY 2 DESC"
+            Else
+                sql = sql.Replace("{0}", onYear)
+                sql = sql.Replace("{1}", onMonth)
+                sql = sql.Replace("{2}", sqlW)
+            End If
+            Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+            Dim chartstr = "[[""Type"",""Billed"",""Non-Bill""],[""N/A"",0,0]]"
+            If oData.Rows.Count > 0 Then
+                chartstr = "[[""Type"",""Billed"",""Non-Bill""]{0}]"
+                Dim str = ""
+                For Each dr In oData.Rows
+                    str &= ",[""" & dr(0).ToString() & """"
+                    str &= "," & CDbl("0" & dr("RevenueBill").ToString()) & ""
+                    str &= "," & CDbl("0" & dr("RevenueUnBill")) + CDbl("0" & dr("Cost")) & "]"
+                Next
+                chartstr = String.Format(chartstr, str)
+            End If
+            Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
+            Return Content(json, jsonContent)
+        End Function
+        Function GetSummaryRevenueMonthly() As ActionResult
+            Dim onYear = DateTime.Now.Year
+            Dim onMonth = DateTime.Now.AddDays(DateTime.Now.Day * -1).Month
+            If Not Request.QueryString("OnYear") Is Nothing Then
+                onYear = Request.QueryString("OnYear")
+            End If
+            If Not Request.QueryString("OnMonth") Is Nothing Then
+                onMonth = Request.QueryString("OnMonth")
+            End If
+            Dim sqlW As String = ""
+            If Not Request.QueryString("OnWhere") Is Nothing Then
+                sqlW = Request.QueryString("OnWhere").ToString().Replace(",", "")
+            End If
+            If Not Request.QueryString("OnValue") Is Nothing Then
+                If sqlW <> "" Then
+                    sqlW = " AND " & sqlW
+                    sqlW &= "='" & Request.QueryString("OnValue").ToString() & "'"
+                End If
+            End If
+            Dim sql = Main.GetValueConfig("SQL", "SummaryRevenueMonthly")
+            If sql = "" Then
+                sql = "
+select 
+sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)  as RevenueBill,
+sum(case when sv.IsExpense=0 and sv.IsCredit=1 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)  as ReimburseBill,
+sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is null THEN cd.UsedAmount ELSE 0 END)  as RevenueUnBill,
+sum(case when sv.IsExpense=0 and sv.IsCredit=1 and rh.ReceiptNo is null THEN cd.UsedAmount ELSE 0 END)  as ReimburseUnBill,
+sum(case when sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END)  as Cost,
+count(distinct cd.JobNo) as JobCount,
+sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)/count(distinct cd.JobNo) as RevPerJob,
+sum(case when sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END)/count(distinct cd.JobNo) as CostPerJob,
+case when sum(case when sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END)>0 then
+100-sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)/sum(case when sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END) 
+ELSE 100 END
+as ProfitRatio
+from Job_Order j inner join
+Job_ClearDetail cd
+on j.BranchCode=cd.BranchCode 
+and j.JNo=cd.JobNo
+inner join JoB_ClearHeader ch
+on cd.BranchCode=ch.BranchCode 
+and cd.ClrNo=ch.ClrNo 
+inner join Job_SrvSingle sv
+on cd.SICode=sv.SICode 
+inner join Job_InvoiceDetail id
+on cd.BranchCode=id.BranchCode
+and cd.LinkBillNo=id.DocNo 
+and cd.LinkItem=id.ItemNo 
+inner join Job_InvoiceHeader ih
+on id.BranchCode=ih.BranchCode
+and id.DocNo=ih.DocNo
+left join Job_ReceiptDetail rd
+on cd.BranchCode=rd.BranchCode
+and cd.LinkBillNo=rd.InvoiceNo
+and cd.LinkItem=rd.InvoiceItemNo
+left join Job_ReceiptHeader rh
+on rd.BranchCode=rh.BranchCode
+and rd.ReceiptNo=rh.ReceiptNo 
+where ch.DocStatus<>99 and  not isnull(ih.CancelProve,'')<>'' and  not isnull(rh.CancelProve,'')<>''
+and id.AmtCharge>0 
+"
+            End If
+            If onYear > 0 And onMonth > 0 Then
+                sql &= String.Format(" AND Year(j.DocDate)='{0}' AND Month(j.DocDate)='{1}' ", onYear, onMonth)
+            End If
+            sql &= sqlW & " ORDER BY 1 DESC"
+            Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+            Dim chartstr = "[[""Type"",""Value""],[""Non-Bill"",0],[""Billed"",0],[""Revenue"",0]]"
+            If oData.Rows.Count > 0 Then
+                Dim str = ",[""Cost""," & CDbl("0" & oData.Rows(0)("Cost")) & "]"
+                str &= ",[""Billed""," & CDbl("0" & oData.Rows(0)("RevenueBill")) & "]"
+                str &= ",[""Non-Bill""," & CDbl("0" & oData.Rows(0)("RevenueUnBill")) & "]"
+                chartstr = String.Format("[[""Type"",""Value""]{0}]", str)
+            End If
+            Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
+            Return Content(json, jsonContent)
         End Function
     End Class
 End Namespace

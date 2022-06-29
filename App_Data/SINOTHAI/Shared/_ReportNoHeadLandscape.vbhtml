@@ -12,7 +12,7 @@
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/bootstrap-select.js"></script>
     <script src="~/Scripts/Func/util.js"></script>
-    <script src="~/Scripts/Func/reports.js"></script>
+    <script src="~/Scripts/Func/reports.js?@DateTime.Now.ToString("yyyyMMddHHmmss")"></script>
     <style>
 table{
     width:100%;

@@ -265,6 +265,7 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
@@ -369,6 +370,7 @@ End Code
             ],
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+            , pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
     }
@@ -498,7 +500,7 @@ End Code
                 data.push({
                     BranchCode: obj.BranchCode,
                     BillAcceptNo: no,
-                    ItemNo: i,
+                    ItemNo: 0,
                     InvNo: obj.DocNo,
                     InvDate: obj.DocDate,
                     RefNo:obj.RefNo,

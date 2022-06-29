@@ -1988,6 +1988,9 @@
     <Content Include="App_Data\STAR\Views\Shared\_ReportLetter.vbhtml" />
     <Content Include="App_Data\STAR\Views\Shared\_ReportNoHead.vbhtml" />
     <Content Include="App_Data\STAR\Views\Shared\_ReportNoHeadLandscape.vbhtml" />
+    <Content Include="App_Data\APL\Acc\WHTax.vbhtml" />
+    <Content Include="App_Data\APL\Reports\Index.vbhtml" />
+    <Content Include="App_Data\SINOTHAI\Clr\Index.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -2411,6 +2414,11 @@
     <Content Include="Views\Default\Index.vbhtml" />
     <Content Include="Views\Shared\MasterPage.vbhtml" />
     <Content Include="Views\Admin\ChangePassword.vbhtml" />
+    <Content Include="Views\Tracking\UploadImage.vbhtml" />
+    <Content Include="Views\Tracking\Dashboard2.vbhtml" />
+    <Content Include="Views\Tracking\Dashboard3.vbhtml" />
+    <Content Include="Views\Tracking\Dashboard4.vbhtml" />
+    <Content Include="Views\Tracking\Timeline2.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

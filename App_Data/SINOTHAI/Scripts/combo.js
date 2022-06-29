@@ -174,7 +174,7 @@ function loadYear(path) {
     $('#cboYear').append($('<option>', { value: '' })
         .text('ALL'));
     $.get(path +'joborder/getjobyear').done(function (r) {
-        let dr = r[0].Table;
+        let dr = r;
         if (dr.length > 0) {
             for (let i = 0; i < dr.length; i++) {
                 $('#cboYear')
@@ -467,7 +467,7 @@ function loadLocation(path, e, typ) {
         .append($('<option>', { value: "" })
             .text("N/A"));
     $.get(path + 'JobOrder/GetLocation?Place=' + typ).done(function (r) {
-        let dr = r.data[0].Table;
+        let dr = r.data;
         if (dr.length > 0) {
             for (let i = 0; i < dr.length; i++) {
                 $(e)

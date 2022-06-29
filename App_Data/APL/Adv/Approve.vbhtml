@@ -184,7 +184,7 @@ End Code
                 if (isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.adv.data[0].Table;
+            let h = r.adv.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้

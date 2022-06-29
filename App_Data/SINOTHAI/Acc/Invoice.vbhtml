@@ -62,8 +62,9 @@ End Code
                         <th class="all">DocNo</th>
                         <th class="desktop">DocDate</th>
                         <th class="desktop">CustCode</th>
+                        <th class="desktop">BillTo</th>
                         <th>Remark</th>
-                        <th class="desktop">Discount</th>
+                        <th class="desktop">BillAcceptNo</th>
                         <th class="desktop">Cust.Adv</th>
                         <th class="desktop">Advance</th>
                         <th class="desktop">Charge</th>
@@ -142,13 +143,13 @@ End Code
                                     <input type="text" id="txtVATRate" class="form-control" /><br />
                                 </div>
                                 <div style="flex:2">
-                                    <label id="lblTotalVat">VAT</label><br /><input type="text" id="txtTotalVAT" class="form-control" disabled />
+                                    <label id="lblTotalVat">VAT</label><br /><input type="text" id="txtTotalVAT" class="form-control" />
                                 </div>
                             </div>
                             <label id="lblTotalIs50Tavi">Taxable</label><input type="text" id="txtTotalIs50Tavi" class="form-control" disabled />
-                            <label id="lblTotal50Tavi">WH-Tax</label><input type="text" id="txtTotal50Tavi" class="form-control" disabled />
-                            <label id="lblTotalCustAdv">Cust.Adv</label><input type="text" id="txtTotalCustAdv" class="form-control" disabled />
-                            <label id="lblTotalNet">Total Inv</label><input type="text" id="txtTotalNet" class="form-control" disabled />
+                            <label id="lblTotal50Tavi">WH-Tax</label><input type="text" id="txtTotal50Tavi" class="form-control" />
+                            <label id="lblTotalCustAdv">Cust.Adv</label><input type="text" id="txtTotalCustAdv" class="form-control" />
+                            <label id="lblTotalNet">Total Inv</label><input type="text" id="txtTotalNet" class="form-control" />
                         </div>
                         <div class="col-sm-5" style="display:flex;flex-direction:column">
                             <p>
@@ -243,7 +244,7 @@ End Code
                                 <label id="lblContactName">Cust contact</label>
                                 :<input type="text" id="txtContactName" class="form-control" />
                             </p>
-                            <p>
+                            <p style="display:none">
                                 <label id="lblShippingRemark">Shipping Note</label>
                                 :<br />
                                 <textarea id="txtShippingRemark" style="width:100%" class="form-control-lg"></textarea>
@@ -304,7 +305,7 @@ End Code
                             <label id="lblSICode">Code</label>
                             <br />
                             <div style="display:flex">
-                                <input type="text" id="txtSICode" class="form-control" style="width:20%" disabled />
+                                <input type="text" id="txtSICode" class="form-control" style="width:20%" />
                                 <input type="text" id="txtSDescription" class="form-control" style="width:80%" />
 
                             </div>
@@ -553,12 +554,9 @@ End Code
                         }
                     },
                     { data: "CustCode", title: "Customer" },
+                    { data: "BillToCustCode", title: "BillTo" },
                     { data: "RefNo", title: "Reference Number" },
-                    { data: "TotalDiscount", title: "Discount",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
-                        }
-                    },
+                    { data: "BillAcceptNo", title: "Billing.No" },
                     { data: "TotalCustAdv", title: "Cust.Adv",
                             render: function (data) {
                                 return ShowNumber(data, 2);
@@ -618,7 +616,15 @@ End Code
         let code = row.DocNo;
         if (code !== '') {
             let branch = row.BranchCode;
-            window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code,'_blank');
+            switch (row.ShippingRemark) {
+                case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
+                    break;
+                case "IVF-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');
+                    break;
+                case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                    break;
+                default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code, '_blank');
+            }
         }
     }
     function ShowDetail(branch, code) {
@@ -751,6 +757,7 @@ End Code
     }
     function SaveDetail() {
         if (row_d !== null) {
+	    row_d.SICode = $('#txtSICode').val();
             row_d.SDescription = $('#txtSDescription').val();
             row_d.ExpSlipNO = $('#txtExpSlipNO').val();
             row_d.SRemark = $('#txtSRemark').val();

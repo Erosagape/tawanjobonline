@@ -129,8 +129,8 @@ End Code
                                 <label id="lblBCustCode">Billing To:</label>                                
                                 <br />
                                 <div style="display:flex">
-                                    <input type="text" id="txtBCustCode" class="form-control" style="width:30%" disabled />
-                                    <input type="text" id="txtBCustBranch" class="form-control" style="width:10%" disabled />
+                                    <input type="text" id="txtBCustCode" class="form-control" style="width:30%" />
+                                    <input type="text" id="txtBCustBranch" class="form-control" style="width:10%"  />
                                     <input type="text" id="txtBCustName" class="form-control" style="width:60%" disabled />
                                 </div>
                             </div>
@@ -370,7 +370,8 @@ End Code
                     }
                 ],
                 responsive:true,
-                destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page,
+                ,pageLength:100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
@@ -442,6 +443,8 @@ End Code
     }
     function SaveData() {
         if (row !== null) {
+            row.CustCode = $('#txtBCustCode').val();
+            row.CustBranch = $('#txtBCustBranch').val();
             row.BillRemark = $('#txtBillRemark').val();
             row.BillRecvBy = $('#txtBillRecvBy').val();
             row.BillRecvDate = CDateEN($('#txtBillRecvDate').val());
@@ -533,7 +536,8 @@ End Code
                         }
                     ],
                     responsive:true,
-                    destroy:true
+                    destroy: true
+                    ,pageLength: 100
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
                 $('#tbDetail tbody').on('click', 'tr', function () {

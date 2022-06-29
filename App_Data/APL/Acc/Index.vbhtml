@@ -124,7 +124,7 @@ End Code
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.voucher.data[0].Table;
+            let h = r.voucher.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้

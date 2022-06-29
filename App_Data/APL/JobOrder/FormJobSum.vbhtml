@@ -254,7 +254,7 @@ End Code
             if (r.voucher.data.length > 0) {
                 let dv = $('#dvCheque');
                 dv.empty();
-                for (o of r.voucher.data[0].Table) {
+                for (o of r.voucher.data) {
                     let html = '';
 
                     html += '<tr>';
@@ -287,7 +287,7 @@ End Code
                 let d2 = $('#dvCustAdv');
                 d1.empty();
                 d2.empty();
-                let d = r.adv.data[0].Table;
+                let d = r.adv.data;
 
                 for (let i = 0; i < d.length; i++){
                     let o = d[i];
@@ -347,11 +347,11 @@ End Code
                 let dv = $('#dvClear');
                 dv.empty();
 
-                let h = r.data[0].Table[0];
+                let h = r.data[0];
 
                 commrate = h.Commission;
 
-                let d = r.data[0].Table.filter(function (data) {
+                let d = r.data.filter(function (data) {
                     return data.BNet !== 0;
                 });
                 for (let i = 0; i < d.length; i++){

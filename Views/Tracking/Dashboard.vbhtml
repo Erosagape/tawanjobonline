@@ -73,8 +73,10 @@ End Code
         $('#lblGrid3').show();
         $('#lblGrid4').hide();
     }
-    $('#txtDateFrom').val(firstDateOfMonth);
-    $('#txtDateTo').val(lastDateOfMonth);
+    if (userGroup == 'S') {
+        $('#txtDateFrom').val(firstDateOfMonth);
+        $('#txtDateTo').val(lastDateOfMonth);
+    }
     $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
         var dv = document.getElementById("dvLOVs");
         CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job Numbers', response, 3);
