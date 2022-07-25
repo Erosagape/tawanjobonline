@@ -3692,6 +3692,30 @@ j.DutyLtdPayCashAmt<>a.CashPayment
 )
 "
     End Function
+    Function SQLSelectCostForClear() As String
+        Dim val As String = GetValueConfig("SQL", "SelectCostForClear")
+        If val = "" Then
+            val = "
+SELECT d.BranchCode, '' AS ClrNo, 0 AS ItemNo, 0 AS LinkItem, 'CLR' AS STCode, d.SICode, 
+  d.SDescription, d.VenderCode, d.Qty, d.UnitCode, 
+  d.CurrencyCode, d.CurRate, d.UnitPrice, 
+  d.FPrice, 
+  d.BPrice, d.ChargeVAT, 
+  d.Tax50Tavi,'' AS AdvNO, 0 AS AdvAmount, d.UsedAmount, 0 AS IsQuoItem, '' AS SlipNO, 
+  '' AS Remark, 0 AS IsDuplicate, 0 AS IsLtdAdv50Tavi, '' AS Pay50TaviTo, '' AS NO50Tavi, NULL AS Date50Tavi,
+ '' as VenderBillingNo,'' AS AirQtyStep, '' AS StepSub, '' AS JobNo, 0 AS AdvItemNo, '' AS LinkBillNo, d.VATType, d.VATRate, 
+ d.Tax50TaviRate,j.QNo, d.FNet, 
+ d.BNet ,NULL as VenderBillDate
+ FROM dbo.Job_ClearDetail d INNER JOIN
+ dbo.Job_ClearHeader c ON d.BranchCode = c.BranchCode AND 
+ d.ClrNo = c.ClrNo
+ INNER JOIN Job_Order j ON
+ d.BranchCode=j.BranchCode
+ and d.JobNo=j.JNo
+"
+        End If
+        Return val
+    End Function
     Function GetSQLCommand(cliteria As String, fldDate As String, fldCust As String, fldJob As String, fldEmp As String, fldVend As String, fldStatus As String, fldBranch As String, Optional fldSICode As String = "", Optional fldGroup As String = "") As String
         Dim sqlW As String = ""
         If cliteria Is Nothing Then

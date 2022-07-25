@@ -495,6 +495,62 @@ Namespace Controllers
             End Try
 
         End Function
+        Function GetCostingForClear() As ActionResult
+            Try
+
+                Dim tSqlW As String = " WHERE c.DocStatus<>99 "
+                If Not IsNothing(Request.QueryString("Show")) Then
+                    If Request.QueryString("Show").ToString = "BILL" Then
+                        tSqlW &= " AND isnull(d.LinkBillNo,'')<>'' "
+                    End If
+                    If Request.QueryString("Show").ToString = "UNBILL" Then
+                        tSqlW &= " AND NOT isnull(d.LinkBillNo,'')<>'' "
+                    End If
+                    If Request.QueryString("Show").ToString = "ALL" Then
+                        tSqlW = " WHERE c.DocStatus>0 "
+                    End If
+                End If
+
+                If Not IsNothing(Request.QueryString("BranchCode")) Then
+                    Dim Branch = Request.QueryString("BranchCode")
+                    tSqlW &= String.Format(" AND c.BranchCode='{0}'", Branch)
+                End If
+
+                If Not IsNothing(Request.QueryString("JobNo")) Then
+                    tSqlW &= " AND d.JobNo='" & Request.QueryString("JobNo") & "' "
+                End If
+                If Not IsNothing(Request.QueryString("RefNo")) Then
+                    tSqlW &= " AND j.InvNo='" & Request.QueryString("RefNo") & "' "
+                End If
+
+                If Not IsNothing(Request.QueryString("JType")) Then
+                    tSqlW &= " AND j.JobType=" & Request.QueryString("JType") & ""
+                End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlW &= " AND c.ClrDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlW &= " AND c.ClrDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
+                If Not IsNothing(Request.QueryString("Status")) Then
+                    tSqlW &= " AND c.DocStatus='" & Request.QueryString("Status") & "' "
+                End If
+                Dim dbID = 1
+                If Not IsNothing(Request.QueryString("DB")) Then
+                    dbID = Request.QueryString("DB")
+                End If
+                Dim conn = Main.GetDatabaseConnection(My.Settings.LicenseTo, "JOBSHIPPING", dbID)(0)
+                Dim sql As String = SQLSelectCostForClear() & "{0}"
+
+                Dim oData As DataTable = New CUtil(conn).GetTableFromSQL(String.Format(sql, tSqlW))
+                Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & tSqlW & """}}"
+                Return Content(json, jsonContent)
+
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetCostingForClear", ex.Message, ex.StackTrace, True)
+            Return Content("{""clr"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
+            End Try
+        End Function
         Function GetAdvForClear() As ActionResult
             Try
                 Dim tSqlW As String = " WHERE (a.AdvNet-ISNULL(d.TotalCleared,0))>0 AND c.DocStatus IN('3','4','5') "
