@@ -3107,6 +3107,10 @@ from job_order j
             If Not Request.QueryString("OnField") Is Nothing Then
                 onField = Request.QueryString("OnField").ToString()
             End If
+            Dim type = ""
+            If Not Request.QueryString("Type") Is Nothing Then
+                type = Request.QueryString("Type")
+            End If
             Dim sqlW As String = ""
             If onWhere <> "" Then
                 sqlW = " AND " & onWhere
@@ -3123,9 +3127,24 @@ select " & If(groupField <> "", groupField & ",", "") & "
 count(*) as TotalJob,
 sum(j.InvTotal) as JobValue,
 sum(j.InvProductQty) as JobQty,
-sum(j.InvTotal) as TotalValue,
-sum(j.TotalGW) as TotalWeight
+sum(j.InvTotal*j.InvCurRate) as TotalValue,
+sum(j.TotalGW) as TotalWeight,
+sum(cl.TotalCost) as TotalCost,
+sum(case when j.CloseJobBy<>'' and j.JobStatus<90 then j.InvTotal*j.InvCurRate else 0 end) as JobClosedValue,
+sum(case when NOT j.CloseJobBy<>'' and j.JobStatus<90 then j.InvTotal*j.InvCurRate else 0 end) as JobWorkingValue,
+sum(case when j.CloseJobBy<>'' and j.JobStatus<90 then cl.TotalCost else 0 end) as JobClosedCost,
+sum(case when NOT j.CloseJobBy<>'' and j.JobStatus<90 then cl.TotalCost else 0 end) as JobWorkingCost
 from job_order j 
+left join (
+    select d.BranchCode,d.JobNo,sum(d.BNet) as TotalCost
+    from Job_ClearHeader h inner join Job_ClearDetail d
+    on h.BranchCode=d.BranchCode 
+    and h.ClrNo=d.ClrNo
+    inner join Job_SrvSingle s ON d.SICode=s.SICode
+    where h.DocStatus<>99 and s.IsExpense=0
+    group by d.BranchCode,d.JobNo
+) cl
+on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
 "
             End If
             sql = String.Format(sql, fields)
@@ -3134,21 +3153,44 @@ from job_order j
 
             Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
             Dim chartstr = "[[""Type"",""Value""],[""ALL"",0]]"
-            If groupField = "" Then
-                If oData.Rows.Count > 0 Then
-                    Dim str = ",[""" & onField & """," & oData.Rows(0)(onField) & "]"
-                    chartstr = String.Format("[[""Type"",""Value""]{0}]", str)
+            If type <> "" Then
+                chartstr = "[[""Type"",""Volume""],[""Close"",0],[""Working"",0]]"
+                If groupField = "" Then
+                    If oData.Rows.Count > 0 Then
+                        Dim str = ",[""Close""," & oData.Rows(0)("JobClosed" & type) & "]"
+                        str &= ",[""Working""," & oData.Rows(0)("JobWorking" & type) & "]"
+                        chartstr = String.Format("[[""Type"",""Volume""]{0}]", str)
+                    End If
+                Else
+                    chartstr = "[[""Type"",""Close"",""Working""],[""N/A"",0,0]]"
+                    If oData.Rows.Count > 0 Then
+                        chartstr = "[[""Type"",""Close"",""Working""]{0}]"
+                        Dim str = ""
+                        For Each dr In oData.Rows
+                            str &= ",[""" & dr(0).ToString() & """"
+                            str &= "," & dr("JobClosed" & type).ToString() & ""
+                            str &= "," & dr("JobWorking" & type).ToString() & "]"
+                        Next
+                        chartstr = String.Format(chartstr, str)
+                    End If
                 End If
             Else
-                chartstr = "[[""Type"",""Value""],[""ALL"",0]]"
-                If oData.Rows.Count > 0 Then
-                    chartstr = "[[""Type"",""Value""]{0}]"
-                    Dim str = ""
-                    For Each dr In oData.Rows
-                        str &= ",[""" & dr(0).ToString() & """"
-                        str &= "," & dr(onField).ToString() & "]"
-                    Next
-                    chartstr = String.Format(chartstr, str)
+                If groupField = "" Then
+                    If oData.Rows.Count > 0 Then
+                        Dim str = ",[""" & onField & """," & oData.Rows(0)(onField) & "]"
+                        chartstr = String.Format("[[""Type"",""Value""]{0}]", str)
+                    End If
+                Else
+                    chartstr = "[[""Type"",""Value""],[""ALL"",0]]"
+                    If oData.Rows.Count > 0 Then
+                        chartstr = "[[""Type"",""Value""]{0}]"
+                        Dim str = ""
+                        For Each dr In oData.Rows
+                            str &= ",[""" & dr(0).ToString() & """"
+                            str &= "," & dr(onField).ToString() & "]"
+                        Next
+                        chartstr = String.Format(chartstr, str)
+                    End If
                 End If
             End If
             Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"

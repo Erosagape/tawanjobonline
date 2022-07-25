@@ -15,6 +15,11 @@ End Code
     <br />
     <div class="row">
         <div class="col-md-6">
+            Summary By 
+            <select id="cboSum" onchange="drawChart()">
+                <option value="Cost">Expenses Value</option>
+                <option value="Value">Products Value</option>
+            </select>
             View By
             <select id="cboGroup" onchange="drawChart()">
                 <option value="j.CustCode">Customer</option>
@@ -166,14 +171,14 @@ End Code
             
             //CloseWait();
         });
-        url = 'joborder/getdashboardjobcount?' + w + '&OnGroup=' + $('#cboGroup').val();
+        url = 'joborder/getdashboardjobvalue?' + w + '&OnGroup=' + $('#cboGroup').val() + '&Type=' + $('#cboSum').val();
         $.get(path + url).done(function (r) {
             if (r.data.length > 0) {
                 drawChartCust(r.data);
             }
             //CloseWait();
         });
-        url = 'joborder/getdashboardjobvalue?' + w + '&OnGroup=j.InvCurUnit&OnField=JobValue';
+        url = 'joborder/getdashboardjobvalue?' + w + '&OnGroup=j.InvCurUnit&OnField=TotalValue';
         $.get(path + url).done(function (r) {
             if (r.data.length > 0) {
                 drawChartSummary(r.data);

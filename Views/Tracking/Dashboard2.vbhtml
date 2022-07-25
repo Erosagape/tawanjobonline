@@ -101,10 +101,11 @@ End Code
         if (getQueryString('Agent') !== '') {
             w += '&OnWhere=j.AgentCode&OnValue=' + getQueryString('Agent');
         }
-        if ('@ViewBag.UserGroup' == 'C') {
-            w += '&OnWhere=j.CustCode&OnValue=' + cust;
+        let type='@ViewBag.UserGroup'
+        if (type == 'C') {
+            w += '&OnWhere=j.CustCode&OnValue=' + cust + '&type=C';
         }
-        if ('@ViewBag.UserGroup' == 'V') {
+        if (type == 'V') {
             w += '&OnWhere=j.ForwarderCode&OnValue=@ViewBag.User';
         }
 
@@ -121,36 +122,49 @@ End Code
                 html += '<th>Value</th>';
                 html += '</tr></thead><tbody>';
                 for (let row of r.table) {
-                    html += '<tr>';
-                    html += '<td>Income (Billed)</td>';
-                    html += '<td>'+ row.RevenueBill.toFixed(2) +'</td>';
-                    html += '</tr>';
+                    if (type == 'C') {
+                        html += '<tr>';
+                        html += '<td>Expenses (Billed)</td>';
+                        html += '<td>' + row.InvBill.toFixed(2) + '</td>';
+                        html += '</tr>';
 
-                    html += '<tr>';
-                    html += '<td>Income (Non-Bill)</td>';
-                    html += '<td>' + row.RevenueUnBill.toFixed(2) + '</td>';
-                    html += '</tr>';
+                        html += '<tr>';
+                        html += '<td>Expenses (Non-Bill)</td>';
+                        html += '<td>' + row.InvUnBill.toFixed(2) + '</td>';
+                        html += '</tr>';
 
-                    html += '<tr>';
-                    html += '<td>Cost</td>';
-                    html += '<td>' + row.Cost.toFixed(2) + '</td>';
-                    html += '</tr>';
+                    } else {
+                        html += '<tr>';
+                        html += '<td>Income (Billed)</td>';
+                        html += '<td>' + row.RevenueBill.toFixed(2) + '</td>';
+                        html += '</tr>';
 
-                    html += '<tr>';
-                    html += '<td>Profit</td>';
-                    html += '<td>' + (Number(row.RevenueBill)-Number(row.Cost)).toFixed(2) + '</td>';
-                    html += '</tr>';
+                        html += '<tr>';
+                        html += '<td>Income (Non-Bill)</td>';
+                        html += '<td>' + row.RevenueUnBill.toFixed(2) + '</td>';
+                        html += '</tr>';
 
-                    html += '<tr>';
-                    html += '<td>Profit (%)</td>';
-                    html += '<td>' + row.ProfitRatio.toFixed(2) + '</td>';
-                    html += '</tr>';
+                        html += '<tr>';
+                        html += '<td>Cost</td>';
+                        html += '<td>' + row.Cost.toFixed(2) + '</td>';
+                        html += '</tr>';
 
-                    html += '<tr>';
-                    html += '<td>Profit/Job</td>';
-                    html += '<td>' + ((Number(row.RevenueBill) - Number(row.Cost)) / Number(row.JobCount)).toFixed(2) + '</td>';
-                    html += '</tr>';
+                        html += '<tr>';
+                        html += '<td>Profit</td>';
+                        html += '<td>' + (Number(row.RevenueBill) - Number(row.Cost)).toFixed(2) + '</td>';
+                        html += '</tr>';
 
+                        html += '<tr>';
+                        html += '<td>Profit (%)</td>';
+                        html += '<td>' + row.ProfitRatio.toFixed(2) + '</td>';
+                        html += '</tr>';
+
+                        html += '<tr>';
+                        html += '<td>Profit/Job</td>';
+                        html += '<td>' + ((Number(row.RevenueBill) - Number(row.Cost)) / Number(row.JobCount)).toFixed(2) + '</td>';
+                        html += '</tr>';
+
+                    }
                     html += '<tr>';
                     html += '<td>Total Job</td>';
                     html += '<td>' + row.JobCount + '</td>';

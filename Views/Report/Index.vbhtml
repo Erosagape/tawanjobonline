@@ -348,6 +348,17 @@ End Code
         });
     }
     function GetCliteria() {
+        let uposition='@ViewBag.UserPosition';
+        if (reportID == 'PROFITSALES') {
+            if ('HASSAPON'.indexOf('@ViewBag.User')>=0) {
+                $('#txtEmpCliteria').val('[EMP]IN' + "SELECT UserID FROM Mas_User WHERE UserUpLine='@ViewBag.User' OR UserID='@ViewBag.User'");
+                //$('#txtEmpCliteria').val('[EMP]IN' + "'CHAIRAT'+'KHANISORN'+'HASSAPON'");
+            } else {
+                if ('@ViewBag.UserPosition' == '3') {
+                    $('#txtEmpCliteria').val('[EMP]=@ViewBag.User');
+                }
+            }
+        }
         let obj = {
             branch: '[BRANCH]=' + $('#txtBranchCode').val(),
             dateFrom: ($('#txtDateFrom').val()==''?'': '[DATE]>=' + $('#txtDateFrom').val()),
@@ -366,8 +377,8 @@ End Code
     function SetEvents() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
-        $('#txtDateFrom').val(GetFirstDayOfMonth());
-        $('#txtDateTo').val(GetLastDayOfMonth());
+        //$('#txtDateFrom').val(GetFirstDayOfMonth());
+        //$('#txtDateTo').val(GetLastDayOfMonth());
         var lists = "COMMERCIAL_LEVEL=#cboCommLevel";
         lists += ",REPORT_GROUP=#cboReportGroup";
         lists += ",JOB_TYPE=#cboJobType";

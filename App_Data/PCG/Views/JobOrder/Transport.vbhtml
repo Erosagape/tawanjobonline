@@ -220,7 +220,6 @@ End Code
                 <option value="SC">Sales Contract</option>
                 <option value="PL">Packing Lists</option>
             </select>
-            >
             <div class="row">
                 <div class="col-sm-4">
                     <label id="lblActive">Active Trip:</label>
@@ -605,28 +604,17 @@ End Code
                                         <div style="display:flex;flex-direction:column;background:gold;padding-bottom:1em">
                                             <div style="flex:1;display: flex;flex-direction: row; ">
                                                 <div>
-                                                    <label id="lblPickupTarget">Target Date :</label>
+                                                    <label id="lblTargetYardDate">Target Date :</label>
                                                     <br />
-                                                    <div style="display:flex"><input type="date" id="txtTargetYardDate" class="form-control"></div>
+                                                    <div style="display:flex"><input type="datetime-local" id="txtTargetYardDate" class="form-control"></div>
                                                 </div>
                                                 <div>
-                                                    <label id="lblPickupTargetTime"></label>
+                                                    <label id="lblTargetYardTime"></label>
                                                     <br />
-                                                    <div style="display:flex"><input type="text" id="txtTargetYardTime" class="form-control"></div>
+                                                    <div style="display:flex"><input type="datetime-local" id="txtTargetYardTime" class="form-control"></div>
                                                 </div>
                                             </div>
-                                            <div style="flex:1;display: flex;flex-direction: row; ">
-                                                <div>
-                                                    <label id="lblPickupActual" onclick="SetDate('#txtActualYardDate')">Actual Date :</label>
-                                                    <br />
-                                                    <div style="display:flex"><input type="date" id="txtActualYardDate" class="form-control"></div>
-                                                </div>
-                                                <div>
-                                                    <label id="lblPickupActualTime" onclick="SetTime('#txtActualYardTime')">Actual Time :</label>
-                                                    <br />
-                                                    <div style="display:flex"><input type="text" id="txtActualYardTime" class="form-control"></div>
-                                                </div>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -659,26 +647,47 @@ End Code
                                         </div>
                                     </div>
                                     <div style="flex:1">
-                                        <div style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
+                                        @*<div style="display:flex;flex-direction:column;background:salmon;padding-bottom:1em">
                                             <div style="flex:1;display: flex;flex-direction: row; ">
                                                 <div>
                                                     <label id="lblDeliveryTarget">Target Date :</label>
-                                                    <br /><div style="display:flex"><input type="date" id="txtUnloadDate" class="form-control"></div>
+                                                    <br /><div style="display:flex"><input type="datetime-local" id="txtUnloadDate" class="form-control"></div>
                                                 </div>
                                                 <div>
                                                     <label id="lblDeliveryTargetTime">Target Time :</label>
-                                                    <br /><div style="display:flex"><input type="text" id="txtUnloadTime" class="form-control"></div>
+                                                    <br /><div style="display:flex"><input type="datetime-local" id="txtUnloadTime" class="form-control"></div>
                                                 </div>
+                                            </div>*@
+
+                                        <div style="flex:1;display: flex;flex-direction: row; ">
+                                            <div>
+                                                <label id="lblActualYardDate" onclick="SetDate('#txtActualYardDate')">Actual Date :</label>
+                                                <br />
+                                                <div style="display:flex"><input type="datetime-local" id="txtActualYardDate" class="form-control"></div>
                                             </div>
-                                            <div style="flex:1;display: flex;flex-direction: row; ">
-                                                <div>
-                                                    <label id="lblDeliveryActual" onclick="SetDate('#txtUnloadFinishDate')">Actual Date :</label>
-                                                    <br /><div style="display:flex"><input type="date" id="txtUnloadFinishDate" class="form-control"></div>
-                                                </div>
-                                                <div>
-                                                    <label id="lblDeliveryActualTime" onclick="SetTime('#txtUnloadFinishTime')">Actual Time :</label>
-                                                    <br /><div style="display:flex"><input type="text" id="txtUnloadFinishTime" class="form-control"></div>
-                                                </div>
+                                            <div>
+                                                <label id="lblActualYardTime" onclick="SetTime('#txtActualYardTime')">Actual Time :</label>
+                                                <br />
+                                                <div style="display:flex"><input type="datetime-local" id="txtActualYardTime" class="form-control"></div>
+                                            </div>
+                                        </div>
+                                        <div style="flex:1;display: flex;flex-direction: row; ">
+                                            <div>
+                                                <label id="lblStart">Target Time:</label>
+                                                <br />
+                                                <div style="display:flex"><input type="datetime-local" id="txtStart" class="form-control"></div>
+                                            </div>
+                                            <div>
+                                                <label id="lblFinishDate" onclick="SetTime('#txtFinish')">Finish:</label>
+                                                <br />
+                                                <div style="display:flex"><input type="datetime-local" id="txtFinish" class="form-control"></div>
+                                            </div>
+                                        </div>
+                                        <div style="flex:1;display: flex;flex-direction: row; ">
+                                            <div>
+                                                <label id="lblTruckIN">Target Date:</label>
+                                                <br />
+                                                <div style="display:flex"><input type="datetime-local" id="txtTruckIN" class="form-control"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -713,34 +722,35 @@ End Code
                                     </div>
                                     <div style="flex:1">
                                         <div style="display:flex;flex-direction:column;background:lightgreen;padding-bottom:1em">
-                                            <div style="flex:1;display:flex;flex-direction:row;">
-                                                <div>
-                                                    <label id="lblReturnTarget">Target Date:</label>
-                                                    <br />
-                                                    <div style="display:flex"><input type="date" id="txtTruckIN" class="form-control"></div>
-                                                </div>
-                                                <div>
-                                                    <label id="lblReturnTargetTime">Target Time:</label>
-                                                    <br />
-                                                    <div style="display:flex"><input type="text" id="txtStart" class="form-control"></div>
-                                                </div>
-                                            </div>
                                             <div style="flex:1;display: flex;flex-direction: row; ">
                                                 <div>
-                                                    <label id="lblReturnActual" onclick="SetDate('#txtDReturnDate')">Actual Date:</label>
-                                                    <br />
-                                                    <div style="display:flex"><input type="date" id="txtDReturnDate" class="form-control"></div>
+                                                    <label id="lblUnloadFinishDate" onclick="SetDate('#txtUnloadFinishDate')">UnloadFinishDate:</label>
+                                                    <br /><div style="display:flex"><input type="datetime-local" id="txtUnloadFinishDate" class="form-control"></div>
                                                 </div>
                                                 <div>
-                                                    <label id="lblReturnActualTime" onclick="SetTime('#txtFinish')">Actual Time:</label>
-                                                    <br />
-                                                    <div style="display:flex"><input type="text" id="txtFinish" class="form-control"></div>
+                                                    <label id="lblUnloadFinishTime" onclick="SetTime('#txtUnloadFinishTime')">UnloadFinishTime :</label>
+                                                    <br /><div style="display:flex"><input type="datetime-local" id="txtUnloadFinishTime" class="form-control"></div>
                                                 </div>
+
                                             </div>
+
+
+                                            @*<div>
+                                                    <label id="lblReturnActual" onclick="SetDate('#txtDReturnDate')">Actual Date:</label>
+                                                    <br />
+                                                    <div style="display:flex"><input type="datetime-local" id="txtDReturnDate" class="form-control"></div>
+                                                </div>*@
+
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+
+
+
                         </div>
                         <div class="row">
                             <div class="col-sm-6">
@@ -782,7 +792,7 @@ End Code
                                 :
                                 <br />
                                 <div style="display:flex">
-					<input type="hidden" id="txtDriver" />
+                                    <input type="hidden" id="txtDriver" />
                                     <input type="text" id="txtDriverName" class="form-control" disabled>
                                     <button class="btn btn-default" onclick="SearchData('driver')">...</button>
                                 </div>
@@ -792,7 +802,7 @@ End Code
                                 :
                                 <br />
                                 <div style="display:flex">
-					<input type="hidden" id="txtTruckNO" />
+                                    <input type="hidden" id="txtTruckNO" />
                                     <input type="text" id="txtTruckName" class="form-control" disabled>
                                     <button class="btn btn-default" onclick="SearchData('carlicense')">...</button>
                                 </div>
@@ -1109,7 +1119,7 @@ End Code
                 break;
             case 'carlicense':
                 SetGridCar(path, '#tbCar', '#frmSearchCar', ReadCar);
-                break;            
+                break;
             case 'driver':
                 SetGridEmployee(path, '#tbEmp', '#frmSearchEmp', ReadEmp);
                 break;
@@ -1318,7 +1328,7 @@ End Code
             $('#txtJNo').val(job);
         } else {
             $('#txtJNo').val(dr.JNo);
-        }        
+        }
         $('#txtBookingNo').val(dr.BookingNo);
         $('#txtVenderCode').val(dr.VenderCode);
         ShowVender(path, dr.VenderCode, '#txtVenderName');
@@ -1709,25 +1719,25 @@ End Code
             CTN_NO:$('#txtCTN_NO').val(),
             SealNumber:$('#txtSealNumber').val(),
             TruckNO:$('#txtTruckNO').val(),
-            TruckIN:CDateEN($('#txtTruckIN').val()),
-            Start:$('#txtStart').val(),
-            Finish:$('#txtFinish').val(),
+            TruckIN: CDateEN($('#txtTruckIN').val()) + "T" + $('#txtTruckIN').val().split("T")[1],
+            Start: CDateEN($('#txtStart').val()) + "T" + $('#txtStart').val().split("T")[1],
+            Finish: CDateEN($('#txtFinish').val()) + "T" + $('#txtFinish').val().split("T")[1],
             TimeUsed:$('#txtTimeUsed').val(),
             CauseCode:$('#txtCauseCode').val(),
             Comment:$('#txtComment').val(),
             TruckType:$('#txtTruckType').val(),
             Driver:$('#txtDriver').val(),
-            TargetYardDate:CDateEN($('#txtTargetYardDate').val()),
-            TargetYardTime:$('#txtTargetYardTime').val(),
-            ActualYardDate:CDateEN($('#txtActualYardDate').val()),
-            ActualYardTime:$('#txtActualYardTime').val(),
-            UnloadFinishDate:CDateEN($('#txtUnloadFinishDate').val()),
-            UnloadFinishTime:$('#txtUnloadFinishTime').val(),
-            UnloadDate:CDateEN($('#txtUnloadDate').val()),
-            UnloadTime:$('#txtUnloadTime').val(),
+            TargetYardDate: CDateEN($('#txtTargetYardDate').val()) + "T" + $('#txtTargetYardDate').val().split("T")[1],
+            TargetYardTime: CDateEN($('#txtTargetYardTime').val()) + "T" + $('#txtTargetYardTime').val().split("T")[1],
+            ActualYardDate:CDateEN($('#txtActualYardDate').val())+"T"+$('#txtActualYardDate').val().split("T")[1],
+            ActualYardTime: CDateEN($('#txtActualYardTime').val()) + "T" + $('#txtActualYardTime').val().split("T")[1],
+            UnloadFinishDate: CDateEN($('#txtUnloadFinishDate').val()) + "T" + $('#txtUnloadFinishDate').val().split("T")[1],
+            UnloadFinishTime: CDateEN($('#txtUnloadFinishTime').val()) + "T" + $('#txtUnloadFinishTime').val().split("T")[1],
+            UnloadDate: null,// CDateEN($('#txtUnloadDate').val()) + "T" + $('#txtUnloadDate').val().split("T")[1],
+            UnloadTime: null, // CDateEN($('#txtUnloadTime').val()) + "T" + $('#txtUnloadTime').val().split("T")[1],
             Location: $('#txtLocation').val(),
             LocationID: $('#txtRouteID').val(),
-            ReturnDate:CDateEN($('#txtDReturnDate').val()),
+            ReturnDate: null, //CDateEN($('#txtDReturnDate').val()) + "T" + $('#txtDReturnDate').val().split("T")[1],
             ShippingMark:$('#txtShippingMark').val(),
             ProductDesc:$('#txtProductDesc').val(),
             CTN_SIZE:$('#txtCTN_SIZE').val(),
@@ -1798,9 +1808,9 @@ End Code
         $('#txtSealNumber').val(dr.SealNumber);
         $('#txtTruckNO').val(dr.TruckNO);
 	ShowCarLicense(path,dr.TruckNO,'#txtTruckName');
-        $('#txtTruckIN').val(CDateEN(dr.TruckIN));
-        $('#txtStart').val(ShowTime(dr.Start));
-        $('#txtFinish').val(ShowTime(dr.Finish));
+        $('#txtTruckIN').val(dr.TruckIN);
+        $('#txtStart').val(dr.Start);
+        $('#txtFinish').val(dr.Finish);
         $('#txtTimeUsed').val(dr.TimeUsed);
         $('#txtCauseCode').val(dr.CauseCode);
         if (dr.CauseCode == '99') {
@@ -1817,14 +1827,14 @@ End Code
         $('#txtTruckType').val(dr.TruckType);
         $('#txtDriver').val(dr.Driver);
 	ShowEmployee(path,dr.Driver,'#txtDriverName');
-        $('#txtTargetYardDate').val(CDateEN(dr.TargetYardDate));
-        $('#txtTargetYardTime').val(ShowTime(dr.TargetYardTime));
-        $('#txtActualYardDate').val(CDateEN(dr.ActualYardDate));
-        $('#txtActualYardTime').val(ShowTime(dr.ActualYardTime));
-        $('#txtUnloadFinishDate').val(CDateEN(dr.UnloadFinishDate));
-        $('#txtUnloadFinishTime').val(ShowTime(dr.UnloadFinishTime));
-        $('#txtUnloadDate').val(CDateEN(dr.UnloadDate));
-        $('#txtUnloadTime').val(ShowTime(dr.UnloadTime));
+        $('#txtTargetYardDate').val(dr.TargetYardDate);
+        $('#txtTargetYardTime').val(dr.TargetYardTime);
+        $('#txtActualYardDate').val(dr.ActualYardDate);
+        $('#txtActualYardTime').val(dr.ActualYardTime);
+        $('#txtUnloadFinishDate').val(dr.UnloadFinishDate);
+        $('#txtUnloadFinishTime').val(dr.UnloadFinishTime);
+        $('#txtUnloadDate').val(dr.UnloadDate);
+        $('#txtUnloadTime').val(dr.UnloadTime);
         $('#txtLocation').val(dr.Location);
         $('#txtRouteID').val(dr.LocationID);
         if (dr.LocationID == 0 && $('#txtMainRoute').val() !== '') {
@@ -1832,7 +1842,7 @@ End Code
             $('#txtLocation').val($('#txtMainLocation').val());
         }
         $('#txtDeliveryNo').val(dr.DeliveryNo);
-        $('#txtDReturnDate').val(CDateEN(dr.ReturnDate));
+        $('#txtDReturnDate').val(dr.ReturnDate);
         $('#txtShippingMark').val(dr.ShippingMark);
         $('#txtProductDesc').val(dr.ProductDesc);
         $('#txtCTN_SIZE').val(dr.CTN_SIZE);

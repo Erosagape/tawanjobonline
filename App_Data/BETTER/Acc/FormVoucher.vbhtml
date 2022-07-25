@@ -53,7 +53,7 @@ End Code
                 BANK CODE:
             </td>
             <td>
-                <label id="lblBankCode"></label>
+                <label id="lblBankName"></label> <label id="lblBankCode"></label> 
             </td>
             <td style="width:10%">
                 BANK A/C:
@@ -69,10 +69,11 @@ End Code
     <tbody>
         <tr>
             <td style="width:10%" pv="จ่ายให้" class="PVMode">
-                รับจาก:
+                ชำระโดย/เพื่อ:
             </td>
             <td style="width:20%">
-                <label id="lblPayCompany"></label>
+                <label id="lblPayCompany"></label><br/>
+                <label id="lblTRemark"></label>
             </td>
             <td style="width:10%">
                 ชำระเป็น:
@@ -126,42 +127,68 @@ End Code
 
 
 </div>
-
-
+<br />
+<div>( ผู้จัดทำ ผู้อนุมัติ และบัญชีผู้ตรวจสอบ ลงนามเซ็นชื่อรับทราบ และยืนยันความถูกต้อง ว่าได้มีการตรวจสอบข้อมูลการเบิกจ่ายว่าเป็นข้อมูลที่ใช้ในงานอย่างถูกต้อง ก่อนที่จะให้ผู้บริหารโอนจ่ายหรือทำเช็คจ่าย หากมีความเสียหายเกิดขึ้นหรือข้อมูลที่ให้ไม่เป็นความจริง ยินดีรับผิดชอบความเสียหายนั้นทั้งหมดครบถ้วนสมบูรณ์ )</div>
+<br />
 <table style="width: 100%; border-collapse: collapse;" id="T1">
     <tbody>
         <tr>
-            <td style="width:20%" pv="ผู้ขอเบิก" class="PVMode">
-                ผู้ออกใบเสร็จ
-            </td>
-            <td style="width:20%" pv="ผู้อนุมัติใบขอเบิก" class="PVMode">
+            <td style="width:20%" id="person1" pv="ผู้ขอเบิก" class="PVMode">
                 ผู้ตรวจสอบเงินเข้าบัญชี
             </td>
-            <td style="width:20%" pv="ผู้จัดทำใบสำคัญจ่าย" class="PVMode">
+            <td style="width:20%" id="person2" pv="ผู้อนุมัติใบขอเบิก" class="PVMode">
                 ผู้จัดทำใบสำคัญรับ
             </td>
-            <td style="width:20%" pv="ผู้ตรวจสอบใบสำคัญจ่าย" class="PVMode">
+            <td style="width:20%" id="person3" pv="ผู้จัดทำใบสำคัญจ่าย" class="PVMode">
                 ผู้ตรวจสอบใบสำคัญรับ
             </td>
-            <td style="width:20%" pv="ผู้อนุมัติใบสำคัญจ่าย" class="PVMode">
+            <td style="width:20%" id="person4" pv="ผู้ตรวจสอบใบสำคัญจ่าย" class="PVMode">
                 ผู้อนุมัติใบสำคัญรับ
+            </td>
+            <td style="width:20%" id="person5" pv="ผู้อนุมัติใบสำคัญจ่าย" class="PVMode">
+                ผู้ออกใบเสร็จ
             </td>
         </tr>
         <tr>
-            <td>
+            <td >
                 <br />
                 <br />
                 <br />
                 <br />
                 <br />
+                <label id="signature1"></label><br /><label  id="date1"></label>
             </td>
             <td>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <label id="signature2"></label><br /><label id="date2"></label>
             </td>
             <td>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <label id="signature3"></label><br /><label id="date3"></label>
             </td>
             <td>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <label id="signature4"></label><br /><label id="date4"></label>
             </td>
             <td>
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <label id="signature5"></label><br /><label id="date5"></label>
             </td>
         </tr>
     </tbody>
@@ -174,6 +201,9 @@ End Code
 <div style="display:flex;flex-direction:column;">
     <div style="text-align:center" pv="(การเบิกจ่ายที่ไม่เกี่ยวข้องกับงานหรือกระทำการบิดเบือนความจริงเข้าข่ายการทุจริตและประพฤติมิชอบ หรือยักยอกทรัพย์บริษัท)" class="PVMode">(การออกใบเสร็จและใบสำคัญรับ  โดยไม่มีการตรวจสอบหรือกระทำการบิดเบือนความจริง เข้าข่ายการทุจริตและประพฤติมิชอบหรือยักยอกทรัพย์บริษัท)</div>
     <div style="text-align:center;color:green;font-size:20px">บริษัท เบทเตอร์เฟรท แอนด์ทรานสปอร์ต จำกัด<br />BETTER FREIGHT & TRANSPORT CO.,LTD</div>
+    <br />
+    <br />
+    <br />
 </div>
 
 <script type="text/javascript">
@@ -182,8 +212,6 @@ End Code
     //$(document).ready(function () {
     let branch = getQueryString('branch');
     let controlno = getQueryString('controlno');
-
-    //$('#imgLogo').hide();
 
 
 
@@ -222,11 +250,31 @@ End Code
             //$('#txtVoucherType').val(vcTypeName + ' VOUCHER');
             $('#lblVoucherDate').text(ShowDate(CDateTH(data.header[0].VoucherDate)));
             $('#lblRecvPayDate').text(ShowDate(data.header[0].RecTime));
-            $('#lblPayCompany').text(data.header[0].TRemark);
+            $('#lblTRemark').text(data.header[0].TRemark);
+            $.get(path + 'Master/GetCompany?branch=' + data.header[0].CustBranch + '&code=' + data.header[0].CustCode, function (r) {
+                if (r.company.data) {
+                    $('#lblPayCompany').text(r.company.data[0].NameEng);
+                }
+            });
             //$('#txtRemark').text(data.header[0].TRemark);
         }
+        if (data.document) {
+            $('#lblBankCode').text(data.document[0].BankCode);
+            ShowBank(path, data.document[0].BankCode, '#lblBankName');
+            $('#lblBankAccount').text(data.document[0].BookName);
+        }
         if (data.payment ) {
-
+            $('#lblBankCode').text(data.payment[0].BankCode);
+            ShowBank(path, data.payment[0].BankCode, '#lblBankName');
+            $('#lblBankAccount').text(data.payment[0].BookCode);
+            fetch(path + 'Master/GetBookAccount?Code=' + data.payment[0].BookCode)
+                .then((r) => r.json())
+                .then((d) => {
+                    if (d.bookaccount) {
+                        $('#lblBankAccount').text(d.bookaccount.data[0].BookName);
+                    }
+                    return d;
+                });
             //$('#lblPayCompany').text(data.payment[0].PayChqTo);
 
             //if (data.payment[0].acType == "CA") {
@@ -236,13 +284,7 @@ End Code
             //    $('#lblChqDate').text(ShowDate(CDateTH(data.payment[0].ChqDate)));
             //}
         }
-        if (data.document ) {
-            $('#lblBankCode').text(data.document[0].BankCode);
-            $('#lblBankAccount').text(data.document[0].BookName);
-
-
-
-        }
+     
         let div = $('#tbData tbody');
         let vcTypeName = '';
         if (data.payment && data.payment.length > 0) {
@@ -253,7 +295,15 @@ End Code
                 });
                 $("#imgLogo").prop("src", path + "/Resource/voucher_pv.jpg");
                 $('#lblPayCompany').text(data.payment[0].PayChqTo);
+                ShowUser(path, data.header[0].RecUser, "#signature3");
+                $('#date3').text(ShowDate(data.header[0].RecDate));
+                //$('#signature3').text(data.header[0].RecUser);
+                //$('#signature4').text();
+                //$('#signature5').text("");
+
             } else {
+                ShowUser(path, data.header[0].RecUser, "#signature2");
+                $('#date2').text(ShowDate(data.header[0].RecDate));
                 if (data.document) {
                     $.get(path + 'acc/GetInvoice?branch=' + branch + '&code=' + data.document[0].DocRefNo, function (r) {
                         let h = r.invoice.header;
@@ -263,20 +313,19 @@ End Code
                                     $('#lblPayCompany').text(r.company.data[0].NameEng);
                                 }
                             });
-
                         }
                     });
                 }
-
             }
         }
+	let totPay=0;
         for (pay of data.payment) {
             if ($('#lblVoucherNo').text() != "") {
                 $('#lblVoucherNo').text($('#lblVoucherNo').text()+","+pay.PRVoucher);
             } else {
                 $('#lblVoucherNo').text(pay.PRVoucher);
             }
-
+	    
             if (pay.acType == "CA") {
                 $('#lblRefNo').text(pay.DocNo ? pay.DocNo : "____________");
                 $('#transfer').prop('checked', true);
@@ -284,7 +333,7 @@ End Code
                 $('#lblChqNo').text(pay.ChqNo ? pay.ChqNo : "____________");
                 $('#lblChqDate').text(pay.ChqDate ? ShowDate(pay.ChqDate) : "____________");
                 $('#cheque').prop('checked', true);
-                $('#lblBankCode').text(pay.RecvBank);
+                $('#lblBankCode').text(pay.RecvBranch);
             }
 
             vcTypeName = GetVoucherType(vcType);
@@ -294,15 +343,31 @@ End Code
             let totalNet = pay.TotalNet;
             if (doc.length > 0) {
                 totalNet = 0;
+                if (pay.PRType == "P") {
+                    ShowUser(path, doc[0].DocRefBy, "#signature1");
+                    ShowUser(path, doc[0].DocRefApproveBy, "#signature2");
+                    $("#date1").text(ShowDate(doc[0].DocRefDate));
+                    $("#date2").text(ShowDate(doc[0].DocRefApproveDate));
+                    if (doc[0].DocRefNo.indexOf("PAY") >= 0) {
+                        $("#person1").text("ผู้ขอเบิกจ่าย");
+                        $("#person2").text("ผู้ขออนุมัติเบิกจ่าย");
+                    }
+                } else {
+                
+}
+                //$('#signature1').text(doc[0].DocRefBy);
+                //$('#signature2').text(doc[0].DocRefApproveBy);
             } 
-       
+
             
             for (d of doc) {
                 let tr = "";
                 //<td style="text-align:center;padding:0px 5px;">${i++}</td>
-                if (d.PaidAmount) {
-
-                }
+                 //<td style="padding:0px 5px;">${d.JobNo ? d.JobNo : ""}</td>
+                 //           <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount ? d.Amount : d.CashAmount,2))}</td>
+                 //           <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount ? d.VAT:0, 2))}</td>
+                 //           <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount ? d.WHT:0, 2))}</td>
+                 //           <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount ? d.PaidAmount : d.CashAmount, 2))}</td></tr >`;
                 tr += `<tr style="height:0px">
                            <td style="text-align:center;padding:0px 5px;">${d.DocRefNo}</td>
                            <td style="text-align:center;padding:0px 5px;">${d.CustInv/* ShowDate(d.DocDate)*/}</td>
@@ -311,16 +376,25 @@ End Code
                                  ` <td colspan="2" style="padding:0px 5px;">${d.SDescription ? d.SDescription : ""}</td>`
                             }
                             <td style="padding:0px 5px;">${d.JobNo ? d.JobNo : ""}</td>
-                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount ? d.Amount : d.CashAmount,2))}</td>
-                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount ? d.VAT:0, 2))}</td>
-                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount ? d.WHT:0, 2))}</td>
-                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.PaidAmount ? d.PaidAmount : d.CashAmount, 2))}</td></tr>`;
-                            totalNet += d.PaidAmount ? d.PaidAmount : d.CashAmount;
+                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.Amount, 2))}</td>
+                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.VAT, 2))}</td>
+                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl( d.WHT, 2))}</td>
+                            <td style="text-align:right;padding:0px 5px;">${ CCurrency(CDbl(d.Amount + d.VAT - d.WHT, 2))}</td></tr>`;
+                //totalNet += d.PaidAmount ? d.PaidAmount :d.CashAmoun;
+                totalNet +=  d.Amount + d.VAT - d.WHT;
+                console.log(d.Amount + d.VAT - d.WHT);
                 //console.log(d.PaidAmount);
                 //console.log(d.TotalAmount);
                             detailTrs += tr;
             }
-            $('#lblDiff').text(pay.PRType == "R" ? (Math.round((pay.TotalNet - totalNet)*100)/100).toFixed(2) : "");
+            console.log(totalNet + " " + pay.TotalNet);
+  //          if(totalNet>0){
+		//totPay+=totalNet;
+  //          } else {
+		totPay+=pay.TotalNet;
+            //}
+            $('#lblDiff').text(pay.PRType == "R" ? (Math.round((pay.TotalNet - totalNet) * 100) / 100).toFixed(2) : "");
+            console.log(pay.TotalNet + "/" + totalNet);
             detailTrs += "<tr> </tr>"
             let desc = "";
             let payType;
@@ -330,9 +404,10 @@ End Code
                     if (pay.RecvBank !== '') {
                         payType = 'TRANSFER';
                     }
-                    let str = pay.PRType == "R" ? "PAY BY : " : "PAY TO : ";
-                    desc += pay.PayChqTo !== '' ? str + pay.PayChqTo : '';
-                    desc += pay.RecvBank != '' ? '<br/>' + pay.RecvBranch : '';
+                    //let str = pay.PRType == "R" ? "PAY BY : " : "PAY TO : ";
+                    //desc += pay.PayChqTo !== '' ? str + pay.PayChqTo : '';
+                    desc += pay.PayChqTo;
+                    //desc += pay.RecvBank != '' ? '<br/>' + pay.RecvBranch : '';
                     //if (data.document[0].BookName !== '') {
                     //    desc += pay.BookCode != '' ? '<br/>ACCOUNT ' + data.document[0].BookName + ' REF# ' + pay.DocNo : '';
                     //} else {
@@ -364,7 +439,7 @@ End Code
            
             let sumTr = `<tr id="A3">
             <td rowspan="2" style="font-size:13px;">
-                ${ pay.PRType == "P" ? "จ่ายให้:" :"รับจาก:"}
+                ${ pay.PRType == "P" ? "จ่ายให้:" :"สำหรับ:"}
 
             </td>
             <td colspan="4" rowspan="2" style="text-align:left">
@@ -375,11 +450,11 @@ End Code
 
             </td>
             <td colspan="3">
-                <label id="lblAmount" style="text-align:center;padding:0px 5px;font-size:16px;">${CCurrency(CDbl(pay.TotalNet, 2))}</label>
+                <label id="lblAmount" style="text-align:center;padding:0px 5px;font-size:16px;">${CCurrency(CDbl(totPay, 2))}</label>
             </td>
         </tr>
         <tr>
-            <td colspan="5" style="text-align:center;padding:0px 5px;"> ${CNumThai(CDbl(Number(pay.TotalNet), 2))} </td>
+            <td colspan="5" style="text-align:center;padding:0px 5px;"> ${CNumThai(CDbl(Number(totPay), 2))} </td>
         </tr>`;
             let table =
                 `<table id="voucherTable" style="width: 100%; border-collapse: collapse;">
@@ -428,7 +503,8 @@ End Code
             $('#paymentData').html($('#paymentData').html()+table);
         }
 
-
+        $('#dvFooter').css("display", "block");
+        console.log($('#dvFooter').html());
 
     }
     function appendLine(dv,data,col1,col2) {

@@ -320,20 +320,20 @@ End Code
                                         //tmp = tmp.replaceAll('{6}', dt1[i].CurRate);
                     tmp = tmp.replaceAll('{7}', ShowNumber(dt1[i].ChargeVAT, 2));
                     tmp = tmp.replaceAll('{8}', ShowNumber(dt1[i].Tax50Tavi, 2));
-                    tmp = tmp.replaceAll('{9}', dt1[i].IsCredit==1 ? ShowNumber(dt1[i].BNet, 2) : '');
-                    tmp = tmp.replaceAll('{10}', dt1[i].IsExpense == 0 && dt1[i].IsCredit == 0 ? ShowNumber(dt1[i].BNet, 2):'');
-                    tmp = tmp.replaceAll('{11}', ShowNumber(dt1[i].BNet, 2));
+                    tmp = tmp.replaceAll('{9}', dt1[i].IsCredit==1 ? ShowNumber(dt1[i].UsedAmount, 2) : '');
+                    tmp = tmp.replaceAll('{10}', dt1[i].IsExpense == 0 && dt1[i].IsCredit == 0 ? ShowNumber(dt1[i].UsedAmount, 2):'');
+                    tmp = tmp.replaceAll('{11}', ShowNumber(dt1[i].UsedAmount, 2));
 
                     if (dt1[i].IsCredit == 1)
                     {
-                        suma1 += dt1[i].BNet;
+                        suma1 += dt1[i].UsedAmount;
                     }
                     if (dt1[i].IsExpense == 0 && dt1[i].IsCredit == 0) {
-                        sumc1 += dt1[i].BNet;
+                        sumc1 += dt1[i].UsedAmount;
                         sumv1 += dt1[i].ChargeVAT;
                         sumw1 += dt1[i].Tax50Tavi;
                     }
-                    sumt1 += dt1[i].BNet;
+                    sumt1 += dt1[i].UsedAmount;
                     sum1 += dt1[i].UsedAmount;
 
                     html1 += tmp;
@@ -370,7 +370,7 @@ End Code
                     console.log(commissionCode.indexOf(dt2[i].SICode) );
                     console.log("------------");
                     if (commissionCode.indexOf(dt2[i].SICode) >= 0) {
-                       
+
                         sumcomm += dt2[i].BNet;
                     }
                     let tmp = html;
@@ -385,19 +385,19 @@ End Code
                     tmp = tmp.replaceAll('{5}', ShowNumber(dt2[i].UsedAmount, 2));
                     tmp = tmp.replaceAll('{7}', ShowNumber(dt2[i].ChargeVAT, 2));
                     tmp = tmp.replaceAll('{8}', ShowNumber(dt2[i].Tax50Tavi, 2));
-                    tmp = tmp.replaceAll('{9}', dt2[i].IsCredit == 1 ? ShowNumber(dt2[i].BNet, 2) : '');
-                    tmp = tmp.replaceAll('{10}', dt2[i].IsExpense == 1 && dt2[i].IsCredit == 0 ? ShowNumber(dt2[i].BNet, 2) : '');
-                    tmp = tmp.replaceAll('{11}', ShowNumber(dt2[i].BNet, 2));
+                    tmp = tmp.replaceAll('{9}', dt2[i].IsCredit == 1 ? ShowNumber(dt2[i].UsedAmount, 2) : '');
+                    tmp = tmp.replaceAll('{10}', dt2[i].IsExpense == 1 && dt2[i].IsCredit == 0 ? ShowNumber(dt2[i].UsedAmount, 2) : '');
+                    tmp = tmp.replaceAll('{11}', ShowNumber(dt2[i].UsedAmount, 2));
 
                     if (dt2[i].IsCredit == 1) {
-                        suma2 += dt2[i].BNet;
+                        suma2 += dt2[i].UsedAmount;
                         sumv2 += dt2[i].ChargeVAT;
                         sumw2 += dt2[i].Tax50Tavi;
                     }
                     if (dt2[i].IsExpense == 1 && dt2[i].IsCredit == 0) {
-                        sumc2 += dt2[i].BNet;
+                        sumc2 += dt2[i].UsedAmount;
                     }
-                    sumt2 += dt2[i].BNet;
+                    sumt2 += dt2[i].UsedAmount;
                     sum2 += dt2[i].UsedAmount;
 
                     html2 += tmp;

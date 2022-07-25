@@ -2682,13 +2682,14 @@ WHERE (j.JobStatus < 90)
 "
     End Function
     Function SQLSelectJobSummary(sqlw As String, bCancel As Boolean) As String
+        Dim val As String = ""
         If bCancel = True Then
-            Dim val = GetValueConfig("SQL", "SelectJobSummaryCancel")
+            val = GetValueConfig("SQL", "SelectJobSummaryCancel")
             If val.Length > 0 Then
                 Return String.Format(val, sqlw)
             End If
         Else
-            Dim val = GetValueConfig("SQL", "SelectJobSummary")
+            val = GetValueConfig("SQL", "SelectJobSummary")
             If val.Length > 0 Then
                 Return String.Format(val, sqlw)
             End If
@@ -3771,13 +3772,16 @@ j.DutyLtdPayCashAmt<>a.CashPayment
     Function ProcessCliteria(str As String, key As String, val As String) As String
         If str.Contains(key) Then
             Dim fld As String = str.Replace(key, " " & val & " ")
-            fld = FindFieldCliteria(fld) & FindValueCliteria(str)
+            fld = FindFieldCliteria(fld) & " " & FindValueCliteria(str)
             Return fld
         Else
             Return str
         End If
     End Function
     Function FindFieldCliteria(str As String) As String
+        If str.IndexOf(" IN") > 0 Then
+            Return str.Split(New String() {" IN"}, StringSplitOptions.None)(0)
+        End If
         If str.IndexOf(">=") > 0 Then
             Return str.Split(">=")(0)
         End If
@@ -3793,13 +3797,14 @@ j.DutyLtdPayCashAmt<>a.CashPayment
         If str.IndexOf("=") > 0 Then
             Return str.Split("=")(0)
         End If
-        If str.IndexOf("IN") > 0 Then
-            Return str.Split("IN")(0)
-        End If
+
         Return ""
     End Function
 
     Function FindValueCliteria(str As String) As String
+        If str.IndexOf("]IN") > 0 Then
+            Return "IN(" & str.Split(New String() {"]IN"}, StringSplitOptions.None)(1).Replace("+", ",") & ")"
+        End If
         If str.IndexOf(">=") > 0 Then
             Return ">='" & str.Split(">=")(1).Substring(1) & "'"
         End If
@@ -3815,9 +3820,7 @@ j.DutyLtdPayCashAmt<>a.CashPayment
         If str.IndexOf("=") > 0 Then
             Return "='" & str.Split("=")(1) & "'"
         End If
-        If str.IndexOf("IN") > 0 Then
-            Return "IN(" & str.Split("=")(1) & ")"
-        End If
+
         Return "''"
     End Function
     Function GetSession(sName As String) As String

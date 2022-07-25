@@ -1096,3 +1096,13 @@ function CheckAllIsNumber(arr, colName) {
         return false;
     }
 }
+function ShowBank(path, bank, ControlID) {
+    $(ControlID).text(bank);
+    $.get(path + 'Master/GetBank?Code=' + bank)
+        .done(function (r) {
+            if (r.bank.data.length > 0) {
+                let b = r.bank.data[0];
+                $(ControlID).text(b.BName);
+            }
+        });
+}

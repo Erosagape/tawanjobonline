@@ -3135,6 +3135,10 @@ FROM Job_ReceiptHeader r " & tSqlw & " ORDER BY ReceiptDate DESC
                         'don't have receipt document yet
                         tSqlw &= " AND ISNULL(r.ReceivedNet,0)=0 "
                     End If
+                    If Request.QueryString("Show").ToString.ToUpper = "WAITRCV" Then
+                        'don't have receipt document yet
+                        tSqlw = " AND ISNULL(r.LastReceiptNo,'')=''"
+                    End If
                     If Request.QueryString("Show").ToString.ToUpper = "RECV" Then
                         'have receipt document
                         tSqlw = " AND ISNULL(r.ReceivedNet,0)>0 "
@@ -3783,6 +3787,10 @@ and id.AmtCharge>0
             If Not Request.QueryString("OnMonth") Is Nothing Then
                 onMonth = Request.QueryString("OnMonth")
             End If
+            Dim type = ""
+            If Not Request.QueryString("Type") Is Nothing Then
+                type = Request.QueryString("Type")
+            End If
             Dim sqlW As String = ""
             If Not Request.QueryString("OnWhere") Is Nothing Then
                 sqlW = Request.QueryString("OnWhere").ToString().Replace(",", "")
@@ -3802,6 +3810,8 @@ sum(case when sv.IsExpense=0 and sv.IsCredit=1 and rh.ReceiptNo is not null THEN
 sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is null THEN cd.UsedAmount ELSE 0 END)  as RevenueUnBill,
 sum(case when sv.IsExpense=0 and sv.IsCredit=1 and rh.ReceiptNo is null THEN cd.UsedAmount ELSE 0 END)  as ReimburseUnBill,
 sum(case when sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END)  as Cost,
+sum(case when sv.IsExpense=0 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)  as InvBill,
+sum(case when sv.IsExpense=0 and rh.ReceiptNo is null THEN cd.UsedAmount ELSE 0 END)  as InvUnBill,
 count(distinct cd.JobNo) as JobCount,
 sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)/count(distinct cd.JobNo) as RevPerJob,
 sum(case when sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END)/count(distinct cd.JobNo) as CostPerJob,
@@ -3836,17 +3846,28 @@ where ch.DocStatus<>99 and  not isnull(ih.CancelProve,'')<>'' and  not isnull(rh
 and id.AmtCharge>0 
 "
             End If
-            If onYear > 0 And onMonth > 0 Then
-                sql &= String.Format(" AND Year(j.DocDate)='{0}' AND Month(j.DocDate)='{1}' ", onYear, onMonth)
+            If onYear > 0 Then
+                sql &= String.Format(" AND Year(j.DocDate)='{0}'  ", onYear)
             End If
+            If onMonth > 0 Then
+                sql &= String.Format(" AND Month(j.DocDate)='{0}'  ", onMonth)
+            End If
+
             sql &= sqlW & " ORDER BY 1 DESC"
             Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
             Dim chartstr = "[[""Type"",""Value""],[""Non-Bill"",0],[""Billed"",0],[""Revenue"",0]]"
+            Dim str = ""
             If oData.Rows.Count > 0 Then
-                Dim str = ",[""Cost""," & CDbl("0" & oData.Rows(0)("Cost")) & "]"
-                str &= ",[""Billed""," & CDbl("0" & oData.Rows(0)("RevenueBill")) & "]"
-                str &= ",[""Non-Bill""," & CDbl("0" & oData.Rows(0)("RevenueUnBill")) & "]"
-                chartstr = String.Format("[[""Type"",""Value""]{0}]", str)
+                If type = "C" Then
+                    chartstr = "[[""Type"",""Value""],[""Non-Bill"",0],[""Billed"",0],[""Revenue"",0]]"
+                    str &= ",[""Billed""," & CDbl("0" & oData.Rows(0)("InvBill")) & "]"
+                    str &= ",[""Non-Bill""," & CDbl("0" & oData.Rows(0)("InvUnBill")) & "]"
+                Else
+                    Str = ",[""Cost""," & CDbl("0" & oData.Rows(0)("Cost")) & "]"
+                    Str &= ",[""Billed""," & CDbl("0" & oData.Rows(0)("RevenueBill")) & "]"
+                    str &= ",[""Non-Bill""," & CDbl("0" & oData.Rows(0)("RevenueUnBill")) & "]"
+                End If
+                chartstr = String.Format("[[""Type"",""Value""]{0}]", Str)
             End If
             Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
             Return Content(json, jsonContent)
