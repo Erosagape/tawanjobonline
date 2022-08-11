@@ -6,7 +6,7 @@
 End Code
 <style>
     * {
-        font-size: 12px;
+        font-size: 10px;
     }
 
     table {
@@ -16,10 +16,6 @@ End Code
     table, th, td {
         border: 1px solid black;
         border-collapse: collapse;
-    }
-
-    table tr>td{
-        padding:5px
     }
 </style>
 <table>
@@ -48,8 +44,8 @@ End Code
     <tr>
         <td>คำแนะนำในการส่งสินค้า</td>
         <td><div id="txtSpecialInstruction"></div></td>
-        <td></td>
-        <td></td>
+        <td>INV NO.</td>
+        <td id="txtCustInv"></td>
     </tr>
     <tr>
         <th colspan="2">ข้อมูลเกี่ยวกับลูกค้า</th>
@@ -150,113 +146,15 @@ End Code
         <td><label id="txtRemark3"></label></td>
     </tr>
 </table>
-<br />
-<table id="transcost" style="width:100%">
-    <thead>
-        <tr>
-            <th colspan="5" style="background-color: gray;">ค่าใช้จ่ายเคลียร์ค่าขนส่ง</th>
-        </tr>
-        <tr>
-            <th colspan="3">
-                มีใบเสร็จในนามลูกค้า
-            </th>
-            <th colspan="2">
-                ไม่มีใบเสร็จรับเงิน
-            </th>
-        </tr>
-        <tr>
-            <th>รายละเอียด</th>
-            <th>เลขที่ใบเสร็จ</th>
-            <th>จำนวนเงิน</th>
-            <th>รายละเอียด</th>
-            <th>จำนวนเงิน</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>ค่าน้ำมัน01</td>
-            <td></td>
-            <td></td>
-            <td>ค่าน้ำมัน01</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าน้ำมัน02</td>
-            <td></td>
-            <td></td>
-            <td>ค่าน้ำมัน02</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าน้ำมัน03</td>
-            <td></td>
-            <td></td>
-            <td>ค่าน้ำมัน03</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าผ่าน</td>
-            <td></td>
-            <td></td>
-            <td>ค่าผ่าน</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าทางด่วน</td>
-            <td></td>
-            <td></td>
-            <td>ค่าทางด่วน</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าข้ามสะพาน</td>
-            <td></td>
-            <td></td>
-            <td>ค่าข้ามสะพาน</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าเที่ยวคนขับ</td>
-            <td></td>
-            <td></td>
-            <td>ค่าเที่ยวคนขับ</td>
-            <td></td>
-        </tr>
-        <tr></tr>
-        <tr></tr>
-    </tbody>
-</table>
-<br />
-<br />
-<br />
-<div style="display:flex">
-    <div>ลายเซ็นคนจัดทำ ______________________ </div>
-    <div style="flex:1;text-align:right">ลายเซ็นคนขับ ______________________</div>
-</div>
 <script type="text/javascript">
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");
     let cont = getQueryString("ContainerNo");
     let user = '@ViewBag.User';
     var path = '@Url.Content("~")';
- 
-   
-
     $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc +'&Cont=' +cont).done(function (r) {
         if (r.booking !== null) {
-         
             let h = r.booking.data[0];
-            $.get(path + 'Master/GetEmployee?code=' + h.Driver).done(function (r) {
-                let e = r.employee.data[0];            
-                $('#txtDriverName').text(e.Name);
-            });
-            $.get(path + 'Master/GetCarLicense?code=' + h.TruckNO).done(function (r) {
-                let c = r.carlicense.data[0];
-                $('#txtTruck').text(c.CarLicense);
-            });
-
-
-
             $('#txtJNo').text(h.JNo);
             $('#txtDeliveryNo').text(h.DeliveryNo);
             $('#txtNotifyName').text(h.NotifyName);
@@ -276,9 +174,11 @@ End Code
             $('#txtCarrierBooking').text(h.BookingNo);
             $('#txtBookingDate').text(ShowDate(h.BookingDate));
             $('#txtServiceType').text(h.LocationRoute);
-        
+            //$('#txtTruck').text(h.TruckNO);
+            ShowCarLicense(path, h.TruckNO, '#txtTruck');
             $('#txtContainerType').text(h.CTN_SIZE);
-           
+            //$('#txtDriverName').text(h.Driver);
+            ShowEmployee(path, h.Driver, '#txtDriverName');
             $('#txtContainer').text(h.CTN_NO);
             $('#txtDiscrepancyReason').html(h.Comment);
             $('#txtRemark').html(CStr(h.Remark));
@@ -298,6 +198,8 @@ End Code
             $('#txtContact1').text(h.PlaceContact1);
             $('#txtContact2').text(h.PlaceContact2);
             $('#txtContact3').text(h.PlaceContact3);
+	    $('#txtCustInv').text(h.InvNo);
+
         }
     });
 </script>

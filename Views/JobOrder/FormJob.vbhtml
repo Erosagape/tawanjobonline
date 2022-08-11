@@ -1,19 +1,19 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.ReportName = "SHIPPING CLOSING SHEET"
-    ViewBag.Title = "SHIPPING CLOSING SHEET"
+    ViewBag.ReportName = "JOB ACKNOWLEDGEMENT"
+    ViewBag.Title = "Job Acknowledgement"
 End Code
 <div>
     <table id="divJobInfo" width="100%">
         <tr>
-            <td colspan="2" >
-                <b style="font-size:16px">Job No : </b><input  type="text" style="font-size:16px;border:groove;text-align:center" id="txtJNo" value="" />
-            </td>
-            <td >
-                <b style="font-size:16px">Job Type : <label style="font-size:16px" id="lblJobType"></label></b>
+            <td colspan="2">
+                <b>Job No : </b><input type="text" style="border:groove;text-align:center" id="txtJNo" value="" />
             </td>
             <td>
-                <b  style="font-size:16px">Ship By : <label  style="font-size:16px" id="lblShipBy"></label></b>
+                <b>Job Type : <label id="lblJobType"></label></b>
+            </td>
+            <td>
+                <b>Ship By : <label id="lblShipBy"></label></b>
             </td>
         </tr>
         <tr>
@@ -32,10 +32,25 @@ End Code
         <tr>
             <td><b>Customer : </b><label id="lblCustCode"></label> / <label id="lblCustName"></label></td>
         </tr>
+        <tr>
+            <td id="dvAddr"></td>
+        </tr>
+        <tr>
+            <td><b>Tel : </b><label id="lblTel"></label></td>
+        </tr>
+        <tr>
+            <td><b>Fax : </b><label id="lblFax"></label></td>
+        </tr>
+        <tr>
+            <td><b>Contact : </b><label id="lblContact"></label></td>
+        </tr>
     </table>
     <table id="divBillingPlace">
         <tr>
             <td><b>Consignee : </b><label id="lblBillToCustCode"></label> / <label id="lblBillToCustName"></label></td>
+        </tr>
+        <tr>
+            <td id="dvBillAddr"></td>
         </tr>
     </table>
     <table id="tbInvoiceInfo" width="100%">
@@ -181,7 +196,7 @@ End Code
                 <td style="border-style:solid;border-width:thin;">ค่าภาษีอากร</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าปล่อยวาลฟ์</td>
+                <td style="border-style:solid;border-width:thin;">ค่าใช้จ่ายรวม</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
@@ -216,11 +231,11 @@ End Code
                 <td style="border-style:solid;border-width:thin;">ค่าเช่าการท่าเรือ</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">จำนวน (คน)</td>
+                <td style="border-style:solid;border-width:thin;">ค่ารับ D/O</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่ามัดจำตู้</td>
+                <td style="border-style:solid;border-width:thin;">ค่าโกดัง</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">ค่านายตรวจศุลกากร</td>
@@ -286,7 +301,7 @@ End Code
                 <td style="border-style:solid;border-width:thin;">ค่ายื่น C/O หอการค้า</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td style="border-style:solid;border-width:thin;">ค่าโอที</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
@@ -312,16 +327,16 @@ End Code
                 <div id="lblDescription"></div>
             </td>
             <td width="40%" style="text-align:right">
-                <b>PREPARED BY:
-                <label id="lblCSName"></label></b> (<label id="lblPosition"></label>)
+                <b>
+                    PREPARED BY:
+                    <label id="lblCSName"></label>
+                </b> (<label id="lblPosition"></label>)
             </td>
         </tr>
     </table>
 </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
-
-
     //$(document).ready(function () {
         let br = getQueryString('BranchCode');
         let jno = getQueryString('JNo');

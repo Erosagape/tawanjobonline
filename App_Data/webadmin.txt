@@ -70,7 +70,7 @@ SINOTHAI-JOB 203.150.199.181:14322
 ID : Sinothai@inet.nx
 User :Administrator
 Pass :J{Uht8tdv
-DB : job_stm,job_stl
+DB : job_stm,job_stl,job_ste
 Folder : D:\Web\STM
 
 -----------------------------------
@@ -97,4 +97,4 @@ JOBONLINE#3 : 203.151.56.161:14322
 -----------------------------------
 User : Administrator
 Pass : S7BM=S7f#x
-Database : job_porcheon,job_dyy_l,job_dyy_t,job_star,job_diamond,job_lita,job_bkktat,job_bkkgrow,job_teg,job_bop,job_sincere,job_convey
+Database : job_porcheon,job_dyy_l,job_dyy_t,job_star,job_diamond,job_lita,job_bkktat,job_bkkgrow,job_teg,job_bop,job_sincere,job_convey,job_nct

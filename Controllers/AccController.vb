@@ -1742,23 +1742,25 @@ select * from vc WHERE PaidAmount>0 order by PRType DESC,DocNo
                 Dim str As String = ""
                 Dim branchcode As String = ""
                 Dim docno As String = ""
+                Dim c = New CVoucher(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND  ControlNo='{1}' ", data(0).BranchCode, data(0).ControlNo))
+                If c.Count > 0 Then
+                    For Each o As CVoucherSub In data
+                        i += 1
+                        branchcode = o.BranchCode
+                        docno = o.ControlNo
+                        o.SetConnect(GetSession("ConnJob"))
+                        If o.PRVoucher = "" Then
+                            o.AddNew(o.PRType & "V-" & c(0).VoucherDate.ToString("yyMM") & "-____")
+                        End If
+                        If str <> "" Then str &= ","
+                        Dim msg = o.SaveData(String.Format(" WHERE BranchCode='{0}' AND  ControlNo='{1}' And ItemNo='{2}' ", o.BranchCode, o.ControlNo, o.ItemNo))
+                        If msg.Substring(0, 1) = "[" Then
+                            Return Content("{""result"":{""data"":[],""msg"":""" & msg & """}}", jsonContent)
+                        End If
+                        str &= msg
+                    Next
 
-                For Each o As CVoucherSub In data
-                    i += 1
-                    branchcode = o.BranchCode
-                    docno = o.ControlNo
-                    o.SetConnect(GetSession("ConnJob"))
-                    If o.PRVoucher = "" Then
-                        o.AddNew(o.PRType & "V-" & DateTime.Today.ToString("yyMM") & "-____")
-                    End If
-                    If str <> "" Then str &= ","
-                    Dim msg = o.SaveData(String.Format(" WHERE BranchCode='{0}' AND  ControlNo='{1}' And ItemNo='{2}' ", o.BranchCode, o.ControlNo, o.ItemNo))
-                    If msg.Substring(0, 1) = "[" Then
-                        Return Content("{""result"":{""data"":[],""msg"":""" & msg & """}}", jsonContent)
-                    End If
-                    str &= msg
-                Next
-
+                End If
                 Dim obj = New CVoucherSub(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' And ControlNo='{1}'", branchcode, docno))
                 json = "{""result"":{""msg"":""" & str & """,""data"":[" & JsonConvert.SerializeObject(obj) & "]}}"
 
