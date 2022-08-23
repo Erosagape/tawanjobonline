@@ -45,13 +45,18 @@ Namespace Controllers
                     job = Request.QueryString("Job").ToString
                     tSqlW &= String.Format(" AND j.JNo='{0}'", job)
                 End If
+                If branch <> "" And job <> "" Then
+                    Main.DBExecute(GetSession("ConnJob"), "DELETE FROM Job_ClearExp j " & tSqlW & " AND j.QNo<>''")
+                End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectExpenseFromQuo() & tSqlW)
+                Dim msg = ""
                 If oData.Rows.Count > 0 Then
                     For Each row As DataRow In oData.Rows
                         Dim oRow As New CClearExp(GetSession("ConnJob")) With {
                             .BranchCode = row("BranchCode").ToString,
                             .JNo = row("JNo").ToString,
                             .SICode = row("SICode").ToString,
+                            .ItemNo = 0,
                             .SDescription = row("DescriptionThai").ToString,
                             .TRemark = row("TRemark").ToString,
                             .Status = If(row("IsRequired").ToString = "1", "R", "O"),
@@ -64,20 +69,32 @@ Namespace Controllers
                             .AmtVat = row("VatAmt"),
                             .AmtWhtRate = row("TaxRate"),
                             .AmtWht = row("TaxAmt"),
-                            .AmtTotal = row("TotalAmt") + row("VatAmt") - row("TaxAmt")
+                            .AmtTotal = row("TotalAmt") + row("VatAmt") - row("TaxAmt"),
+                            .QNo = row("QNo").ToString,
+                            .QSeqNo = Convert.ToInt32("0" & row("QSeqNo")),
+                            .QItemNo = Convert.ToInt32("0" & row("QItemNo")),
+                            .ClrNo = row("ClrNo").ToString,
+                            .ClrItemNo = Convert.ToInt32("0" & row("ClrItemNo"))
                         }
-                        If oRow.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode)).Count = 0 Then
-                            Dim msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode))
+                        Dim oCheck = oRow.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND QNo='{2}' AND QSeqNo={3} AND QItemNo={4} ", oRow.BranchCode, oRow.JNo, oRow.QNo, oRow.QSeqNo, oRow.QItemNo))
+                        If oCheck.Count = 0 Then
+                            oRow.AddNew()
+                            msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND QNo='{2}' AND QSeqNo={3} AND QItemNo={4}", oRow.BranchCode, oRow.JNo, oRow.QNo, oRow.QSeqNo, oRow.QItemNo))
+                        Else
+                            oRow.ItemNo = oCheck(0).ItemNo
+                            msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND QNo='{2}' AND QSeqNo={3} AND QItemNo={4}", oRow.BranchCode, oRow.JNo, oRow.QNo, oRow.QSeqNo, oRow.QItemNo))
                         End If
                     Next
+                Else
+                    msg = "Data Not Found"
                 End If
                 Dim oRows = New CClearExp(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' ", branch, job))
                 Dim json = JsonConvert.SerializeObject(oRows)
-                json = "{""estimate"":{""data"":" & json & "}}"
+                json = "{""estimate"":{""data"":" & json & ",""msg"":""" & msg & """}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearExpFromQuo", ex.Message, ex.StackTrace, True)
-                Return Content("{""estimate"":{""data"":[]}}", jsonContent)
+                Return Content("{""estimate"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
             End Try
         End Function
         Function GetClearExpReport() As ActionResult
@@ -128,6 +145,9 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND SICode ='{0}' ", Request.QueryString("Code").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Item")) Then
+                    tSqlw &= String.Format("AND ItemNo ={0} ", Request.QueryString("Item").ToString)
                 End If
                 Dim oData = New CClearExp(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
@@ -188,8 +208,11 @@ Namespace Controllers
                     If "" & data.SICode = "" Then
                         Return Content("{""result"":{""data"":null,""msg"":""Please input code""}}", jsonContent)
                     End If
+                    If data.ItemNo = 0 Then
+                        data.AddNew()
+                    End If
                     data.SetConnect(GetSession("ConnJob"))
-                    Dim msg = data.SaveData(String.Format(" WHERE SICode='{0}' AND BranchCode='{1}' AND JNo='{2}' ", data.SICode, data.BranchCode, data.JNo))
+                    Dim msg = data.SaveData(String.Format(" WHERE SICode='{0}' AND BranchCode='{1}' AND JNo='{2}' AND ItemNo={3} ", data.SICode, data.BranchCode, data.JNo, data.ItemNo))
                     Dim json = "{""result"":{""data"":""" & data.SICode & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
                 Else

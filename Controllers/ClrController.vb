@@ -69,12 +69,17 @@ Namespace Controllers
                     job = Request.QueryString("Job").ToString
                     tSqlW &= String.Format(" AND j.JNo='{0}'", job)
                 End If
+                If branch <> "" And job <> "" Then
+                    Main.DBExecute(GetSession("ConnJob"), "DELETE FROM Job_ClearExp j " & tSqlW & " AND j.ClrNo<>''")
+                End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectExpenseFromClr() & tSqlW)
+                Dim msg = ""
                 If oData.Rows.Count > 0 Then
                     For Each row As DataRow In oData.Rows
                         Dim oRow As New CClearExp(GetSession("ConnJob")) With {
                             .BranchCode = row("BranchCode").ToString,
                             .JNo = row("JNo").ToString,
+                            .ItemNo = 0,
                             .SICode = row("SICode").ToString,
                             .SDescription = row("NameEng").ToString,
                             .TRemark = row("TRemark").ToString,
@@ -88,20 +93,32 @@ Namespace Controllers
                             .AmtVat = row("VatAmt"),
                             .AmtWhtRate = row("TaxRate"),
                             .AmtWht = row("TaxAmt"),
-                            .AmtTotal = row("TotalAmt")
+                            .AmtTotal = row("TotalAmt"),
+                            .QNo = row("QNo").ToString,
+                            .QSeqNo = Convert.ToInt32("0" & row("QSeqNo")),
+                            .QItemNo = Convert.ToInt32("0" & row("QItemNo")),
+                            .ClrNo = row("ClrNo").ToString,
+                            .ClrItemNo = Convert.ToInt32("0" & row("ClrItemNo"))
                         }
-                        If oRow.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode)).Count = 0 Then
-                            Dim msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode))
+                        Dim oCheck = oRow.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ClrNo='{2}' AND ClrItemNo={3}", oRow.BranchCode, oRow.JNo, oRow.ClrNo, oRow.ClrItemNo))
+                        If oCheck.Count = 0 Then
+                            oRow.AddNew()
+                            msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ClrNo='{2}' AND  ClrItemNo={3}", oRow.BranchCode, oRow.JNo, oRow.ClrNo, oRow.ClrItemNo))
+                        Else
+                            oRow.ItemNo = oCheck(0).ItemNo
+                            msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ClrNo='{2}' AND  ClrItemNo={3}", oRow.BranchCode, oRow.JNo, oRow.ClrNo, oRow.ClrItemNo))
                         End If
                     Next
+                Else
+                    msg = "Data Not Found"
                 End If
                 Dim oRows = New CClearExp(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' ", branch, job))
                 Dim json = JsonConvert.SerializeObject(oRows)
-                json = "{""estimate"":{""data"":" & json & "}}"
+                json = "{""estimate"":{""data"":" & json & ",""msg"":""" & msg & """}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearExpFromQuo", ex.Message, ex.StackTrace, True)
-                Return Content("{""estimate"":{""data"":[]}}", jsonContent)
+                Return Content("{""estimate"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
             End Try
         End Function
         Function GenerateInv() As ActionResult

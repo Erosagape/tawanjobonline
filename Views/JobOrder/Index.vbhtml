@@ -84,6 +84,7 @@ End Code
                     <option value="CSCode">Customer Service</option>
                     <option value="ManagerCode">Sales Person</option>
                     <option value="ShippingCode">Shipping Staff</option>
+                    <option value="QNo">Quotation</option>
                     <option value="DeclareNo">Declaration</option>
                     <option value="HAWB">House BL/AWB</option>
                     <option value="MAWB">Master BL/AWB</option>

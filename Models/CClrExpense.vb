@@ -156,6 +156,60 @@ Public Class CClearExp
             m_AmtTotal = value
         End Set
     End Property
+    Private m_ItemNo As Integer
+    Public Property ItemNo As Integer
+        Get
+            Return m_ItemNo
+        End Get
+        Set(value As Integer)
+            m_ItemNo = value
+        End Set
+    End Property
+    Private m_QNo As String
+    Public Property QNo As String
+        Get
+            Return m_QNo
+        End Get
+        Set(value As String)
+            m_QNo = value
+        End Set
+    End Property
+    Private m_QSeqNo As Integer
+    Public Property QSeqNo As Integer
+        Get
+            Return m_QSeqNo
+        End Get
+        Set(value As Integer)
+            m_QSeqNo = value
+        End Set
+    End Property
+    Private m_QItemNo As Integer
+    Public Property QItemNo As Integer
+        Get
+            Return m_QItemNo
+        End Get
+        Set(value As Integer)
+            m_QItemNo = value
+        End Set
+    End Property
+    Private m_ClrNo As String
+    Public Property ClrNo As String
+        Get
+            Return m_ClrNo
+        End Get
+        Set(value As String)
+            m_ClrNo = value
+        End Set
+    End Property
+    Private m_ClrItemNo As Integer
+    Public Property ClrItemNo As Integer
+        Get
+            Return m_ClrItemNo
+        End Get
+        Set(value As Integer)
+            m_ClrItemNo = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -172,6 +226,7 @@ Public Class CClearExp
                             dr("BranchCode") = Main.GetDBString(Me.BranchCode, dt.Columns("BranchCode"))
                             dr("JNo") = Main.GetDBString(Me.JNo, dt.Columns("JNo"))
                             dr("SICode") = Main.GetDBString(Me.SICode, dt.Columns("SICode"))
+                            dr("ItemNo") = Me.ItemNo
                             dr("SDescription") = Main.GetDBString(Me.SDescription, dt.Columns("SDescription"))
                             dr("TRemark") = Main.GetDBString(Me.TRemark, dt.Columns("TRemark"))
                             dr("AmountCharge") = Me.AmountCharge
@@ -185,7 +240,11 @@ Public Class CClearExp
                             dr("AmtWhtRate") = Me.AmtWhtRate
                             dr("AmtWht") = Me.AmtWht
                             dr("AmtTotal") = Me.AmtTotal
-
+                            dr("QNo") = Me.QNo
+                            dr("QItemNo") = Me.QItemNo
+                            dr("QSeqNo") = Me.QSeqNo
+                            dr("ClrNo") = Me.ClrNo
+                            dr("ClrItemNo") = Me.ClrItemNo
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CClrExpense", "SaveData", Me, False)
@@ -201,14 +260,8 @@ Public Class CClearExp
         Return msg
     End Function
     Public Sub AddNew()
-
-        m_BranchCode = ""
-        m_JNo = DateTime.MinValue
-        m_SICode = ""
-        m_SDescription = ""
-        m_TRemark = ""
-        m_AmountCharge = 0
-        m_Status = ""
+        Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(ItemNo) as t FROM Job_ClearExp WHERE BranchCode='{0}' And JNo ='{1}' And SICode='{2}' ", m_BranchCode, m_JNo, m_SICode), "____")
+        m_ItemNo = Convert.ToInt32("0" & retStr)
     End Sub
     Public Function GetData(pSQLWhere As String) As List(Of CClearExp)
         Dim lst As New List(Of CClearExp)
@@ -249,6 +302,9 @@ Public Class CClearExp
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("Qty"))) = False Then
                         row.Qty = rd.GetDouble(rd.GetOrdinal("Qty"))
                     End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ItemNo"))) = False Then
+                        row.ItemNo = rd.GetInt32(rd.GetOrdinal("ItemNo"))
+                    End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("QtyUnit"))) = False Then
                         row.QtyUnit = rd.GetString(rd.GetOrdinal("QtyUnit")).ToString()
                     End If
@@ -266,6 +322,21 @@ Public Class CClearExp
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("AmtTotal"))) = False Then
                         row.AmtTotal = rd.GetDouble(rd.GetOrdinal("AmtTotal"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("QNo"))) = False Then
+                        row.QNo = rd.GetString(rd.GetOrdinal("QNo")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("QItemNo"))) = False Then
+                        row.QItemNo = rd.GetInt32(rd.GetOrdinal("QItemNo"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("QSeqNo"))) = False Then
+                        row.QSeqNo = rd.GetInt32(rd.GetOrdinal("QSeqNo"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ClrNo"))) = False Then
+                        row.ClrNo = rd.GetString(rd.GetOrdinal("ClrNo")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ClrItemNo"))) = False Then
+                        row.ClrItemNo = rd.GetInt32(rd.GetOrdinal("ClrItemNo"))
                     End If
                     lst.Add(row)
                 End While

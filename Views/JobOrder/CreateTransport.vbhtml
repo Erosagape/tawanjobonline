@@ -2,6 +2,7 @@
     ViewData("Title") = "Create BL/AWB"
 End Code
 <form id="form" method="POST" action="@Url.Content("~")/JobOrder/PostCreateTransport">
+    <input type="hidden" name="mode" id="txtMode" value="A" />
     <div Class="row">
         <div Class="col-sm-2">
             Job Type
@@ -261,8 +262,9 @@ End Code
         <div Class="col-sm-2">
             Job No
         </div>
-        <div Class="col-sm-4">
-            <input type="text" name="Job" id="txtJNo" Class="form-control" disabled value="@ViewBag.JobNo" />
+        <div Class="col-sm-4" style="display:flex;">
+            <input type="text" name="Job" id="txtJNo" Class="form-control" value="@ViewBag.JobNo" />
+            <a class="btn btn-default" onclick="SearchData('job')">...</a>
         </div>
     </div>
     <div class="row">
@@ -334,6 +336,7 @@ End Code
 
     SetListOfValues((r) => {
         let dv = document.getElementById("dvLOVs");
+        CreateLOV(dv, '#dvJob', '#tbJob', 'Job', r, 3);
         CreateLOV(dv, '#dvShipper', '#tbShipper', 'Shipper', r, 3);
         CreateLOV(dv, '#dvActShipper', '#tbActShipper', 'Notify Party', r, 3);
         CreateLOV(dv, '#dvConsignee', '#tbConsignee', 'Consignee', r, 3);
@@ -350,9 +353,23 @@ End Code
         CreateLOV(dv, '#dvDischargeAt', '#tbDischargeAt', 'Place of Discharge', r, 3);
         CreateLOV(dv, '#dvPayableAt', '#tbPayableAt', 'Freight Payable At', r, 3);
     });
+    function GetParam() {
+        let strParam = '?';
+        strParam += 'Branch=' + branch;
+        strParam += '&JType=' + $('#txtJobType').val();
+        strParam += '&SBy=' + $('#txtShipBy').val();
+        strParam += '&CustCode=' + $('#txtCustCode').val().split('|')[0];
+        return strParam;
+    }
     function SearchData(type) {
-        let w = '';
+        let w = '';        
         switch (type) {
+            case 'job':
+                SetGridJob(path, '#tbJob', '#dvJob', '', (dr) => {
+                    $('#txtMode').val('E');
+                    $('#txtJNo').val(dr.JNo);
+                });
+                break;
             case 'shipper':
                 SetGridCompany(path, '#tbShipper', '#dvShipper', (dr) => {
                     $('#txtShipperCode').val(dr.CustCode + '|' + dr.Branch);
@@ -588,11 +605,13 @@ End Code
             if ($('#txtShipBy').val() == '') $('#txtShipBy').focus();
             return;
         }
+        /*
         if ($('#txtQuotation').val() == '') {
             ShowMessage("Quotation Must be chosen", true);
             $('#txtQuotation').focus();
             return;
         }
+        */
         if ($('#txtCountryCode').val() == '') {
             ShowMessage("Country Must be chosen", true);
             SearchData('country');

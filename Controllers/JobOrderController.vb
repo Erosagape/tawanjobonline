@@ -1180,6 +1180,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("InvNo")) Then
                     tSqlW &= " AND j.InvNo Like '%" & Request.QueryString("InvNo") & "%'"
                 End If
+                If Not IsNothing(Request.QueryString("QNo")) Then
+                    tSqlW &= " AND j.QNo Like '%" & Request.QueryString("QNo") & "%'"
+                End If
                 If Not IsNothing(Request.QueryString("BookingNo")) Then
                     tSqlW &= " AND j.BookingNo Like '%" & Request.QueryString("BookingNo") & "%'"
                 End If
@@ -1271,6 +1274,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 End If
                 If Not IsNothing(Request.QueryString("InvNo")) Then
                     tSqlW &= " AND InvNo='" & Request.QueryString("InvNo") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("QNo")) Then
+                    tSqlW &= " AND QNo Like '%" & Request.QueryString("QNo") & "%'"
                 End If
                 If Not IsNothing(Request.QueryString("JType")) Then
                     tSqlW &= " AND JobType=" & Request.QueryString("JType") & ""
@@ -2786,7 +2792,45 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 .InvFCountry = IIf(Convert.ToInt32(Request.Form("JobType").ToString()) = 1, Request.Form("Country"), "TH"),
                 .InvCountry = IIf(Convert.ToInt32(Request.Form("JobType").ToString()) = 1, "TH", Request.Form("Country"))
                 }
-            Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
+            If Request.Form("mode") <> "A" And data.JNo <> "" Then
+                Dim chkData = New CJobOrder(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
+                If chkData.Count > 0 Then
+                    data = chkData(0)
+                    With data
+                        .DocDate = DateTime.Today
+                        .CSCode = GetSession("CurrUser")
+                        .CustCode = Request.Form("Shipper").Split("|")(0)
+                        .CustBranch = Request.Form("Shipper").Split("|")(1)
+                        .JobType = Request.Form("JobType")
+                        .ShipBy = Request.Form("ShipBy")
+                        .Consigneecode = Request.Form("Consignee").Split("|")(0)
+                        .InvNo = Request.Form("CustInv")
+                        .BookingNo = Request.Form("BookingNo")
+                        .HAWB = Request.Form("HouseBL")
+                        .MAWB = Request.Form("MasterBL")
+                        .ETDDate = Request.Form("ETD")
+                        .ETADate = Request.Form("ETA")
+                        .VesselName = Request.Form("Vessel")
+                        .MVesselName = Request.Form("MVessel")
+                        .ForwarderCode = Request.Form("Forwarder")
+                        .AgentCode = Request.Form("Transport")
+                        .TotalNW = Request.Form("NetWeight")
+                        .TotalGW = Request.Form("GrossWeight")
+                        .GWUnit = "KGS"
+                        .Measurement = Request.Form("M3")
+                        .TotalContainer = Request.Form("ContQty") & "x" & Request.Form("ContUnit")
+                        .DeliveryTo = Request.Form("DeliveryName")
+                        .TotalQty = Request.Form("ContQty")
+                        .DeliveryAddr = Request.Form("DeliveryAddress")
+                        .BLNo = Request.Form("BLNo")
+                        .ClearPortNo = Request.Form("PlaceDischarge")
+                        .QNo = Request.Form("QuoNo")
+                        .InvInterPort = Request.Form("PortCode")
+                        .InvFCountry = IIf(Convert.ToInt32(Request.Form("JobType").ToString()) = 1, Request.Form("Country"), "TH")
+                        .InvCountry = IIf(Convert.ToInt32(Request.Form("JobType").ToString()) = 1, "TH", Request.Form("Country"))
+                    End With
+                End If
+            End If
             If data.HAWB = "{AUTO}" And GetValueConfig("RUNNING_BYMASK", "HBLAWB") <> "" Then
                 Dim mask = GetValueConfig("RUNNING_BYMASK", "HBLAWB")
                 If mask.IndexOf("[CT]") >= 0 Then
@@ -2849,6 +2893,7 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 End If
                 data.AddBooking(mask)
             End If
+            Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
             Dim FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
             If FindJob.Count > 0 Then
                 If FindJob(0).JNo <> data.JNo Then
@@ -2856,23 +2901,26 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                     Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
                 End If
             End If
-            sql = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And BookingNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.BookingNo)
-            FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
-            If FindJob.Count > 0 Then
-                If FindJob(0).JNo <> data.JNo Then
-                    ViewBag.Message = String.Format("Booking No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).BookingNo)
-                    Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
-                End If
-            End If
-            sql = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And HAWB='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.HAWB)
-            FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
-            If FindJob.Count > 0 Then
-                If FindJob(0).JNo <> data.JNo Then
-                    ViewBag.Message = String.Format("House BL/AWB No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).HAWB)
-                    Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
-                End If
-            End If
+
             If data.JNo = "" Then
+
+                sql = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And BookingNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.BookingNo)
+                FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
+                If FindJob.Count > 0 Then
+                    If FindJob(0).JNo <> data.JNo Then
+                        ViewBag.Message = String.Format("Booking No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).BookingNo)
+                        Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
+                    End If
+                End If
+
+                sql = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And HAWB='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.HAWB)
+                FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
+                If FindJob.Count > 0 Then
+                    If FindJob(0).JNo <> data.JNo Then
+                        ViewBag.Message = String.Format("House BL/AWB No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).HAWB)
+                        Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
+                    End If
+                End If
                 Dim prefix As String = GetJobPrefix(data)
                 If Not IsNothing(Request.QueryString("Prefix")) Then
                     prefix = "" & Request.QueryString("Prefix")
@@ -2901,7 +2949,8 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 Else
                     data.AddNew(prefix & fmt, False)
                 End If
-                Dim book = New CTransportHeader(GetSession("ConnJob")) With {
+            End If
+            Dim book = New CTransportHeader(GetSession("ConnJob")) With {
                             .BranchCode = data.BranchCode,
                             .JNo = data.JNo,
                             .BookingNo = data.BookingNo,
@@ -2915,14 +2964,32 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                             .PackingPlace = Request.Form("PlaceDelivery"),
                             .ReturnPlace = Request.Form("PlaceDischarge")
                             }
-                Dim msg = book.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", data.BranchCode, data.BookingNo))
-                If Request.Form("ContList").ToString() <> "" Then
-                    Dim arrCont = Request.Form("ContList").Split(";")
-                    If arrCont.Length > 0 Then
-                        If msg.Substring(0, 4) = "Save" Then
-                            For i As Integer = 1 To arrCont.Length - 1
-                                Dim val = arrCont(i - 1).Split("|")
-                                Dim cont = New CTransportDetail(GetSession("ConnJob")) With {
+            Dim chkBook = New CTransportHeader(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{0}'", book.BranchCode, book.BookingNo))
+            If chkBook.Count > 0 Then
+                With chkBook(0)
+                    .BranchCode = data.BranchCode
+                    .JNo = data.JNo
+                    .BookingNo = data.BookingNo
+                    .LoadDate = IIf(data.JobType = 1, data.ETADate, data.ETDDate)
+                    .NotifyCode = Request.Form("Notify").Split("|")(0)
+                    .VenderCode = Request.Form("Transport")
+                    .PaymentCondition = Request.Form("FreightCondition")
+                    .PaymentBy = Request.Form("FreightPaymentBy")
+                    .CYPlace = Request.Form("PlaceReceive")
+                    .FactoryPlace = Request.Form("PlaceLoading")
+                    .PackingPlace = Request.Form("PlaceDelivery")
+                    .ReturnPlace = Request.Form("PlaceDischarge")
+                End With
+                book = chkBook(0)
+            End If
+            Dim msg = book.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", data.BranchCode, data.BookingNo))
+            If Request.Form("ContList").ToString() <> "" Then
+                Dim arrCont = Request.Form("ContList").Split(";")
+                If arrCont.Length > 0 Then
+                    If msg.Substring(0, 4) = "Save" Then
+                        For i As Integer = 1 To arrCont.Length - 1
+                            Dim val = arrCont(i - 1).Split("|")
+                            Dim cont = New CTransportDetail(GetSession("ConnJob")) With {
                                 .BranchCode = data.BranchCode,
                                 .JNo = data.JNo,
                                 .BookingNo = data.BookingNo,
@@ -2936,11 +3003,13 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                                 .ProductUnit = val(5),
                                 .SealNumber = val(6)
                                 }
-                                cont.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", data.BranchCode, data.BookingNo, i))
-                            Next
-                        End If
-                    End If
+                            Dim chkCont = New CTransportDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", data.BranchCode, data.BookingNo, i))
+                            If chkCont.Count > 0 Then
 
+                            End If
+                            cont.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", data.BranchCode, data.BookingNo, i))
+                        Next
+                    End If
                 End If
             End If
             ViewBag.JobNo = data.JNo
