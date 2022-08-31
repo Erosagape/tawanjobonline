@@ -191,6 +191,15 @@ Public Class CQuoHeader
             m_CancelReason = value
         End Set
     End Property
+    Private m_ExpireDate As Date
+    Public Property ExpireDate As Date
+        Get
+            Return m_ExpireDate
+        End Get
+        Set(value As Date)
+            m_ExpireDate = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -224,6 +233,7 @@ Public Class CQuoHeader
                             dr("CancelBy") = Main.GetDBString(Me.CancelBy, dt.Columns("CancelBy"))
                             dr("CancelDate") = Main.GetDBDate(Me.CancelDate)
                             dr("CancelReason") = Main.GetDBString(Me.CancelReason, dt.Columns("CancelReason"))
+                            dr("ExpireDate") = Main.GetDBDate(Me.ExpireDate)
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CQuoHeader", "SaveData", Me, False)
@@ -314,6 +324,9 @@ Public Class CQuoHeader
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("CancelReason"))) = False Then
                         row.CancelReason = rd.GetString(rd.GetOrdinal("CancelReason")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("ExpireDate"))) = False Then
+                        row.ExpireDate = rd.GetValue(rd.GetOrdinal("ExpireDate"))
                     End If
                     lst.Add(row)
                 End While

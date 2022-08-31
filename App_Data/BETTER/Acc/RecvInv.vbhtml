@@ -299,7 +299,7 @@ End Code
         $('#tbSummary tbody > tr').removeClass('selected');
         $('#tbHeader tbody > tr').removeClass('selected');
         arr = [];
-        ClearData();
+        //ClearData();
         ShowSummary();
     }
     function SetEvents() {
@@ -425,10 +425,10 @@ End Code
         $('#txtSumApprove').val('');
         $('#txtSumWHTax').val('');
         $('#txtTRemark').val('');
-        $('#chkCash').prop('checked', true);
-        $('#chkChq').prop('checked', false);
-        $('#chkChqCash').prop('checked', false);
-        $('#chkCred').prop('checked', false);
+        //$('#chkCash').prop('checked', true);
+        //$('#chkChq').prop('checked', false);
+        //$('#chkChqCash').prop('checked', false);
+        //$('#chkCred').prop('checked', false);
     }
     function SetGridAdv(isAlert) {
         arr = [];
@@ -579,7 +579,7 @@ End Code
     function AddData(o) {
         let acType = $('input:radio[name=optACType]:checked').val();
         o.acType = acType;
-
+        console.log(acType);
         arr.push(o);
         ShowSummary();
     }
@@ -628,6 +628,7 @@ End Code
             if (o.acType == 'CR') sum_cr += Number(o.Net);
 
             list.push(obj);
+            console.log(obj);
 
         }
         //show selected details

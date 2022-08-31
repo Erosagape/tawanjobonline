@@ -273,7 +273,7 @@ End Code
                     {
                         data: "TotalNet", title: "Advance",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     }
                 ],
@@ -323,7 +323,7 @@ End Code
                     { data: "SDescription", title: "Expenses" },
                     { data: "Net", title: "Advance",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     }
                 ],
@@ -362,7 +362,7 @@ End Code
         for (let obj of arr) {
             totaladv += obj.Amt;
         }
-        $('#txtTotalAdvance').val(CDbl(totaladv, 2));;
+        $('#txtTotalAdvance').val(CDbl(totaladv,4));;
 
         ShowDetail();
         $('#txtDocNo').val('');
@@ -386,7 +386,7 @@ End Code
                 { data: "SDescription", title: "Description" },
                 { data: "Net", title: "Advance",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                     }
                 }
             ],

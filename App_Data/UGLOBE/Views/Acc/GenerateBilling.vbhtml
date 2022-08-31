@@ -234,32 +234,32 @@ End Code
                     { data: "RefNo", title: "Reference Number" },
                     { data: "TotalCustAdv", title: "Cust.Adv",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "TotalAdvance", title: "Advance",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "TotalCharge", title: "Charge",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "TotalVAT", title: "VAT",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "Total50Tavi", title: "WHT",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "TotalNet", title: "NET",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     }
                 ],
@@ -309,16 +309,16 @@ End Code
             totalcustadv += obj.TotalCustAdv;
             totalnet += obj.TotalNet;
         }
-        $('#txtTotalAdvance').val(CDbl(totaladv, 2));
-        $('#txtTotalCharge').val(CDbl(totalcharge, 2));
-        $('#txtTotalIsTaxCharge').val(CDbl(totalistaxcharge, 2));
-        $('#txtTotalIs50Tavi').val(CDbl(totalis50tavi, 2));
-        $('#txtTotalVat').val(CDbl(totalvat, 2));
-        $('#txtTotalAfter').val(CDbl(totalcharge+totalvat, 2));
-        $('#txtTotal50Tavi').val(CDbl(total50tavi, 2));
-        $('#txtTotalService').val(CDbl(totalcharge+totalvat-total50tavi, 2));
-        $('#txtTotalNet').val(CDbl(totalnet, 2));
-        $('#txtTotalCustAdv').val(CDbl(totalcustadv, 2));
+        $('#txtTotalAdvance').val(CDbl(totaladv,4));
+        $('#txtTotalCharge').val(CDbl(totalcharge,4));
+        $('#txtTotalIsTaxCharge').val(CDbl(totalistaxcharge,4));
+        $('#txtTotalIs50Tavi').val(CDbl(totalis50tavi,4));
+        $('#txtTotalVat').val(CDbl(totalvat,4));
+        $('#txtTotalAfter').val(CDbl(totalcharge+totalvat,4));
+        $('#txtTotal50Tavi').val(CDbl(total50tavi,4));
+        $('#txtTotalService').val(CDbl(totalcharge+totalvat-total50tavi,4));
+        $('#txtTotalNet').val(CDbl(totalnet,4));
+        $('#txtTotalCustAdv').val(CDbl(totalcustadv,4));
 
         ShowDetail();
         $('#txtDocNo').val('');
@@ -339,32 +339,32 @@ End Code
                 },
                 { data: "TotalAdvance", title: "Advance",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                     }
                 },
                 { data: "TotalNonVat", title: "Transport",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                     }
                 },
                 { data: "TotalIsTaxCharge", title: "Service",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                     }
                 },
                 { data: "TotalVAT", title: "VAT",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                     }
                 },
                 { data: "Total50Tavi", title: "WHT",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                     }
                 },
                 { data: "TotalNet", title: "NET",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                     }
                 }
             ],

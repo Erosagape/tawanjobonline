@@ -2072,7 +2072,8 @@ SELECT a.BranchCode, a.QNo, a.ReferQNo, a.CustCode,
     c.UnitCheck, c.QtyEnd, c.QtyBegin, c.CalculateType, 
     c.DescriptionThai, c.SICode,
 	d.NameThai as CustTName,d.NameEng as CustEName,
-	e.NameThai as BillTName,e.NameEng as BillEName
+	e.NameThai as BillTName,e.NameEng as BillEName,
+    a.ExpireDate
 FROM dbo.Job_QuotationHeader a INNER JOIN
     dbo.Job_QuotationDetail b ON a.BranchCode = b.BranchCode AND 
     a.QNo = b.QNo INNER JOIN

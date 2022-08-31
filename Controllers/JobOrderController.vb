@@ -314,6 +314,7 @@ Namespace Controllers
                     oHead(0).CancelBy = ""
                     oHead(0).CancelDate = DateTime.MinValue
                     oHead(0).CancelReason = ""
+                    oHead(0).ExpireDate = DateTime.MinValue
                     oHead(0).ReferQNo = Request.QueryString("Code").ToString
                     Dim fmt As String = GetValueConfig("RUNNING", "QUO")
                     If fmt <> "" Then
@@ -378,6 +379,13 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlW &= " AND Job_QuotationItem.SICode='" & Request.QueryString("Code").ToString & "'"
                 End If
+                If Not IsNothing(Request.QueryString("Expire")) Then
+                    If Request.QueryString("Expire") = "Y" Then
+                        tSqlW &= " AND (Job_QuotationHeader.ExpireDate is not null) "
+                    Else
+                        tSqlW &= " AND (Job_QuotationHeader.ExpireDate is null) "
+                    End If
+                End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectQuotation() & " WHERE NOT ISNULL(Job_QuotationHeader.CancelBy,'')<>'' " & tSqlW & " ORDER BY Job_QuotationHeader.BranchCode,Job_QuotationHeader.QNo,Job_QuotationHeader.ApproveDate DESC,Job_QuotationItem.SICode,Job_QuotationItem.QtyBegin")
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""quotation"":{""data"":" & json & "}}"
@@ -418,6 +426,13 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("DateTo")) Then
                     tSqlw &= " AND DocDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
+                If Not IsNothing(Request.QueryString("Expire")) Then
+                    If Request.QueryString("Expire") = "Y" Then
+                        tSqlw &= " AND (ExpireDate is not null) "
+                    Else
+                        tSqlw &= " AND (ExpireDate is null) "
+                    End If
                 End If
                 Dim oDataH = New CQuoHeader(GetSession("ConnJob")).GetData(tSqlw)
                 Dim jsonH As String = JsonConvert.SerializeObject(oDataH)

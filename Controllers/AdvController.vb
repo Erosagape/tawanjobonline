@@ -242,6 +242,9 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND SICode = '{0}' ", Request.QueryString("Code").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("Item")) Then
+                    tSqlw &= String.Format("AND ItemNo = '{0}' ", Request.QueryString("Item").ToString)
+                End If
                 Dim oData As New CClearExp(GetSession("ConnJob"))
                 Dim msg = oData.DeleteData(tSqlw)
 

@@ -78,7 +78,7 @@ End Code
                 <label id="id"></label>
             </td>
             <td>
-                <label id="voucherLbl" class="bold">VOUCHER NO:</label>
+                <label id="voucherLbl" class="bold">BILL-PAYMENT NO:</label>
             </td>
             <td>
                 <label id="voucherNo"></label>
@@ -199,11 +199,17 @@ End Code
         </tr>
         <tr>
             <td class="">
-                <label id="carrierLbl" class="bold">CARRIER</label>
+                <label id="carrierLbl" class="bold">REMARK</label>
             </td>
             <td>:</td>
             <td>
                 <label id="carrier" class=""></label>
+            </td>            
+   	<td>
+                <label id="custRefLbl" class="bold">REF</label>
+            </td>
+            <td>
+                <label id="custRef"></label>
             </td>
         </tr>
     </tbody>
@@ -384,6 +390,7 @@ End Code
                 $("#voucherNo").text(h.DocNo);
                 $("#voucherDate").text(ShowDate(h.DocDate));
                 $("#jobNo").text(h.ForJNo);
+                $("#carrier").text(h.Remark);
                 $("#totalVatAmount").text(ShowNumber(h.TotalVAT, 2));
                 $("#lessWT").text(ShowNumber(h.TotalTax, 2));
                 $("#netPayment").text(ShowNumber(h.TotalNet, 2));
@@ -528,6 +535,7 @@ End Code
                 $("#newHBLNo").text(j.BookingNo);
                 $("#etd").text(ShowDate(j.ETDDate));
                 $("#eta").text(ShowDate(j.ETADate));
+                $("#custRef").text(j.CustRefNO);
                 ShowCustomerAddress(path, j.CustCode, j.CustBranch, header);
                 if (j.JobType == 1) {
                     ShowCustomerEN(path, j.CustCode, j.CustBranch, '#shipperName');
@@ -538,7 +546,7 @@ End Code
                     ShowCustomerEN(path, j.Consigneecode, j.CustBranch, '#shipperName');
                     ShowInterPort(path, j.InvCountry, j.InvInterPort, '#original');
                 }
-                ShowVender(path, j.ForwarderCode, '#carrier');
+                //ShowVender(path, j.ForwarderCode, '#carrier');
             }
         });
     }    

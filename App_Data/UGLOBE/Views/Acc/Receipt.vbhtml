@@ -638,7 +638,7 @@ End Code
                     { data: "TRemark", title: "Remark" },
                     { data: "TotalNet", title: "Total",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                         }
                     }
                 ],
@@ -693,42 +693,42 @@ End Code
                         { data: "SDescription", title: "Expenses" },
                         { data: "CashAmount", title: "Cash",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "TransferAmount", title: "Transfer",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "ChequeAmount", title: "Cheque" ,
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "CreditAmount", title: "Credit" ,
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "Amt", title: "Amount",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "AmtVAT", title: "VAT",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "Amt50Tavi", title: "WH-Tax",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "Net", title: "Total",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         }
                     ],
@@ -779,11 +779,11 @@ End Code
         $('#txtCurrencyCode').val(row.CurrencyCode);
         ShowCurrency(path, row.CurrencyCode, '#txtCurrencyName');
         $('#txtExchangeRate').val(row.ExchangeRate);
-        $('#txtTotalCharge').val(ShowNumber(row.TotalCharge,2));
-        $('#txtTotalVAT').val(ShowNumber(row.TotalVAT,2));
-        $('#txtTotal50Tavi').val(ShowNumber(row.Total50Tavi,2));
-        $('#txtTotalNet').val(ShowNumber(row.TotalNet,2));
-        $('#txtFTotalNet').val(ShowNumber(row.FTotalNet,2));
+        $('#txtTotalCharge').val(ShowNumber(row.TotalCharge,4));
+        $('#txtTotalVAT').val(ShowNumber(row.TotalVAT,4));
+        $('#txtTotal50Tavi').val(ShowNumber(row.Total50Tavi,4));
+        $('#txtTotalNet').val(ShowNumber(row.TotalNet,4));
+        $('#txtFTotalNet').val(ShowNumber(row.FTotalNet,4));
     }
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);
@@ -933,16 +933,16 @@ End Code
         let vat = CNum($('#txtTotalVAT').val());
         let wht = CNum($('#txtTotal50Tavi').val());
         let net = amt + vat - wht;
-        $('#txtTotalNet').val(ShowNumber(net, 2));
+        $('#txtTotalNet').val(ShowNumber(net,4));
         CalForeign();
     }
     function CalForeign() {
-        let totalforeign = CDbl(CNum($('#txtTotalNet').val()) / CNum($('#txtExchangeRate').val()), 2);
-        $('#txtFTotalNet').val(ShowNumber(totalforeign,2));
+        let totalforeign = CDbl(CNum($('#txtTotalNet').val()) / CNum($('#txtExchangeRate').val()),4);
+        $('#txtFTotalNet').val(ShowNumber(totalforeign,4));
     }
     function CalForeignDetail() {
         let rate = CNum($('#txtDExchangeRate').val());
-        $('#txtAmt').val(CDbl(CNum($('#txtFAmt').val()) * rate, 2));
+        $('#txtAmt').val(CDbl(CNum($('#txtFAmt').val()) * rate,4));
         CalVATWHT(0);
     }
     function CalVATWHT(step = 0) {
@@ -950,10 +950,10 @@ End Code
         let amt = CNum($('#txtAmt').val());
         if (step == 0) {
             let vat = amt * CNum($('#txtVATRate').val()) * 0.01;
-            $('#txtAmtVAT').val(CDbl(vat,2));
+            $('#txtAmtVAT').val(CDbl(vat,4));
         }
         let wht = amt * CNum($('#txtRate50Tavi').val()) * 0.01;
-        $('#txtAmt50Tavi').val(CDbl(wht, 2));
+        $('#txtAmt50Tavi').val(CDbl(wht,4));
         CalNetAmount();
     }
     function CalNetAmount() {
@@ -962,12 +962,12 @@ End Code
         let wht = CNum($('#txtAmt50Tavi').val());
         let net = amt + vat - wht;
 
-        $('#txtNet').val(CDbl(net, 2));
+        $('#txtNet').val(CDbl(net,4));
 
         let rate = CNum($('#txtDExchangeRate').val());
-        $('#txtFAmtVAT').val(CDbl(CNum($('#txtAmtVAT').val()) / rate, 2));
-        $('#txtFAmt50Tavi').val(CDbl(CNum($('#txtAmt50Tavi').val()) / rate, 2));
-        $('#txtFNet').val(CDbl(CNum($('#txtNet').val()) / rate, 2));
+        $('#txtFAmtVAT').val(CDbl(CNum($('#txtAmtVAT').val()) / rate,4));
+        $('#txtFAmt50Tavi').val(CDbl(CNum($('#txtAmt50Tavi').val()) / rate,4));
+        $('#txtFNet').val(CDbl(CNum($('#txtNet').val()) / rate,4));
         ChangeAmount();
     }
     function CreateReceipt() {

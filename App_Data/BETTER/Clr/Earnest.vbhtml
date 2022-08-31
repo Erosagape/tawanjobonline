@@ -897,7 +897,7 @@ End Code
             CmpBranch:'',
             PaidAmount:CNum(Math.abs($('#txtTotalNet').val())),
             TotalAmount: CNum(Math.abs($('#txtTotalNet').val())),
-            acType: $('#txtDocacType').val()
+            acType: $('#cboRefType').val()
         };
         let jsonText = JSON.stringify({ data:[ obj ]});
         //ShowMessage(jsonText);

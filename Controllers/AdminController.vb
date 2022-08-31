@@ -148,5 +148,11 @@ Namespace Controllers
             End If
             Return View()
         End Function
+        Function Test() As ActionResult
+            Return View()
+        End Function
+        Function TestFunction() As String
+            Return "Test Function Called"
+        End Function
     End Class
 End Namespace

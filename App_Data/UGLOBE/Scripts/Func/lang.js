@@ -946,12 +946,14 @@ function GetLangGrid(module, id) {
                 "Job Number|หมายเลขงาน",
                 "Open Date|วันที่เปิดงาน",
                 "Job Status|สถานะงาน",
-                "ETD Date|วันที่ออกจากท่า",
-                "ETA Date|วันที่เทียบท่า",
+                "Booking No|เลขที่ booking",
+                "HAWB|เลขที่ HBL",
                 "Customer Inv|อินวอยลูกค้า",
                 "Im-Exporter|ชื่อลูกค้า",
-                "Consignee|ชื่อผู้ซื้อชาย",
-                "Cust Ref.No|เลขที่อ้างอิงลูกค้า"
+                "BillTo/Consignee|ชื่อผู้ซื้อชาย",
+                "Cust Ref.No|เลขที่อ้างอิงลูกค้า",
+                "ETD Date|วันที่ออกจากท่า",
+                "ETA Date|วันที่เทียบท่า"
             ];
             break;
         case 'MODULE_ADV/EstimateCost':
@@ -2893,7 +2895,7 @@ function GetLangForm(fname) {
                 lblCustCode: 'IM-EX PORTER|ผู้นำเข้าส่งออก',
                 lblTAddress: 'Address|ที่อยู่(ไทย)',
                 lblPhoneFax: 'Contact Info|รายละเอียดการติดต่อ',
-                lblConsignee: 'Consignee|ผู้ซื้อขาย',
+                lblConsignee: 'BillTo/Consignee|ผู้ซื้อขาย',
                 lblBillAddress: 'Address|ที่อยู่',
                 lblUseLocalTrans: 'Use Local Transport|ใช้รถของลูกค้าเอง',
                 lblContactName: 'Contact Person|ผู้ติดต่อ',
@@ -3729,7 +3731,7 @@ function GetLangForm(fname) {
                 lblAgent: 'Agent|สายเรือ/สายการบิน',
                 lblTransport: 'Transport|บริษัทขนส่ง',
                 lblCustCode: 'Cust Code|รหัสผู้นำเข้าส่งออก',
-                lblConsCode: 'Consignee Code|รหัสผู้ซื้อขาย',
+                lblConsCode: 'BillTo/Consignee Code|รหัสผู้ซื้อขาย',
                 lblJobType: 'Job Type|ประเภทงาน',
                 lblShipBy: 'Ship By|ลักษณะงานขนส่ง',
                 lblFromDate: 'From Date|จากวันที่',
@@ -4032,7 +4034,11 @@ function GetReportLists_V2() {
         { "ReportType": "STD", "ReportCode": "PRD53AD", "ReportGroup": "FIN", "ReportNameTH": "รายงานนำส่งหักณที่จ่ายภ.ง.ด.53กระทำการแทน(ใบแนบ)", "ReportNameEN": "PRD-53 DetailReport(Agent)", "ReportAuthor": "1,2,6,98,99", "ReportUrl": "" },
         { "ReportType": "STD", "ReportCode": "PRD3AD", "ReportGroup": "FIN", "ReportNameTH": "รายงานนำส่งหักณที่จ่ายภ.ง.ด.3กระทำการแทน(ใบแนบ)", "ReportNameEN": "PRD-3 DetailReport(Agent)", "ReportAuthor": "1,2,6,98,99", "ReportUrl": "" },
         { "ReportType": "STD", "ReportCode": "PRD53A", "ReportGroup": "FIN", "ReportNameTH": "รายงานนำส่งหักณที่จ่ายภ.ง.ด.53กระทำการแทน(ใบปะหน้า)", "ReportNameEN": "PRD-53CoverReport(Agent)", "ReportAuthor": "1,2,6,98,99", "ReportUrl": "" },
-        { "ReportType": "STD", "ReportCode": "PRD3A", "ReportGroup": "FIN", "ReportNameTH": "รายงานนำส่งหักณที่จ่ายภ.ง.ด.3กระทำการแทน(ใบปะหน้า)", "ReportNameEN": "PRD-3CoverReport(Agent)", "ReportAuthor": "1,2,6,98,99", "ReportUrl": "" }
+        { "ReportType": "STD", "ReportCode": "PRD3A", "ReportGroup": "FIN", "ReportNameTH": "รายงานนำส่งหักณที่จ่ายภ.ง.ด.3กระทำการแทน(ใบปะหน้า)", "ReportNameEN": "PRD-3CoverReport(Agent)", "ReportAuthor": "1,2,6,98,99", "ReportUrl": "" },
+        {"ReportType":"ADD","ReportCode":"ARBAL2","ReportGroup":"ACC","ReportNameTH":"รายงานลูกหนี้รับชำระแล้ว","ReportNameEN":"Accrue Income Report(Received)","ReportAuthor":"1,2,6,98,99","ReportUrl":""},
+        {"ReportType":"ADD","ReportCode":"ARBAL3","ReportGroup":"ACC","ReportNameTH":"รายงานลูกหนี้ค้างชำระเกินดิว","ReportNameEN":"Accrue Income Report(Overdue)","ReportAuthor":"1,2,6,98,99","ReportUrl":""},
+        {"ReportType":"ADD","ReportCode":"ARBAL4","ReportGroup":"ACC","ReportNameTH":"รายงานลูกหนี้ไม่ถึงดิวชำระ","ReportNameEN":"Accrue Income Report(No%20pay)","ReportAuthor":"1,2,6,98,99","ReportUrl":""},
+        {"ReportType":"ADD","ReportCode":"ARBAL5","ReportGroup":"ACC","ReportNameTH":"รายงานลูกหนี้ค้างชำระทั้งหมด","ReportNameEN":"Accrue Income Report(WAIT%20FOR%20PAY)","ReportAuthor":"1,2,6,98,99","ReportUrl":""}
     ];
 }
 function ChangeLanguage(code, module) {

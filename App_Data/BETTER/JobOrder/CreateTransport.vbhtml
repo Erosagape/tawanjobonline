@@ -739,6 +739,11 @@ End Code
                 $('#form').submit();
             }
         });
+        if ($('#txtQuotation').val() == '') {
+            ShowMessage("Quotation Must be chosen", true);
+            return;
+        }
+      
     }
     function SetAuto(id) {
         $(id).val('{AUTO}');

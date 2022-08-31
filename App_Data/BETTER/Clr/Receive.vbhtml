@@ -65,7 +65,7 @@ End Code
                         <input type="hidden" id="fldBankBranchCash" />
                     </div>
                     <div class="col-sm-3 table-bordered" id="dvChqCash">
-                        <input type="radio" name="optACType" id="chkChqCash" value="CU"><label><b id="linkChqCash">Customer Cheque :</b></label><input type="text" id="txtAdvChqCash" class="form-control" value="" />
+                        <input type="radio" name="optACType" id="chkChqCash" value="CH"><label><b id="linkChqCash">Customer Cheque :</b></label><input type="text" id="txtAdvChqCash" class="form-control" value="" />
                         <br />
                         <table>
                             <tr>
@@ -100,7 +100,7 @@ End Code
                         <input type="hidden" id="fldBankBranchChqCash" />
                     </div>
                     <div class="col-sm-3 table-bordered" id="dvChq">
-                        <label><input type="radio" name="optACType" id="chkChq" value="CH"><b id="linkChqCust">Company Cheque :</b></label>
+                        <label><input type="radio" name="optACType" id="chkChq" value="CU"><b id="linkChqCust">Company Cheque :</b></label>
                         <input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
                         <label id="lblRefNoCU">Chq No:</label>
@@ -679,7 +679,7 @@ End Code
                 BookCode: $('#txtBookCash').val(),
                 BankCode: $('#fldBankCodeCash').val(),
                 BankBranch: $('#fldBankBranchCash').val(),
-                ChqDate: '',
+                ChqDate: $('#txtCashTranDate').val() ,
                 CashAmount: Math.abs(sum_cash.sumamount),
                 ChqAmount: 0,
                 CreditAmount: 0,
@@ -694,7 +694,7 @@ End Code
                 TotalNet: Math.abs(sum_cash.sumamount),
                 IsLocal: 0,
                 ChqStatus: '',
-                TRemark: $('#txtCashTranDate').val() + '-' + $('#txtCashTranTime').val(),
+                TRemark: $('#txtCashTranTime').val(),
                 PayChqTo: $('#txtCashPayTo').val(),
                 DocNo: $('#txtRefNoCash').val(),
                 SICode: '',

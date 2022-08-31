@@ -434,10 +434,11 @@ End Code
         //let j = GetInvoice.invoice.job[0][0];
         //let d = GetInvoice.invoice.detail[0];
         let clr = await $.get(path + 'clr/getclearingreport?invno=' + code + '&Branch=' + branch);
+        console.log(code + " " + clr.data[0].LinkBillNo);
         let clrd = clr.data.filter((data) => {
             return data.LinkBillNo == code;
         });
-
+        console.log(clrd);
         let sum = 0;
         for (item of clrd) {
             sum = sum + item.FFNet;
@@ -472,30 +473,32 @@ End Code
             `${CNumEng(ShowNumber(sum, 2))}`);
 
         $('#CNno').text(code);
-        $('#indate').text(ShowDate(clrd.InvDate));
-        $('#jobno').text(clrd.jobno);
-        $('#eta').text(ShowDate(clrd.ETADate));
-        $('#etd').text(ShowDate(clrd.ETDDate));
-        $('#mvess').text(clrd.MVesselName);
-        $('#vess').text(clrd.VesselName);
-        $('#Measurement').text(clrd.Measurement);
-        $('#HBL').text(clrd.HAWB);
-        $('#MBL').text(clrd.MAWB);
-        $('#refno').text(clrd.CustRefNO);
+        $('#indate').text(ShowDate(clrd[0].InvDate));
+        $('#jobno').text(clrd[0].JobNo);
+        $('#eta').text(ShowDate(clrd[0].ETADate));
+        $('#etd').text(ShowDate(clrd[0].ETDDate));
+        $('#mvess').text(clrd[0].MVesselName);
+        $('#vess').text(clrd[0].VesselName);
+        $('#Measurement').text(clrd[0].Measurement);
+        $('#HBL').text(clrd[0].HAWB);
+        $('#MBL').text(clrd[0].MAWB);
+        $('#refno').text(clrd[0].CustRefNO);
 
-        $('#gw').text(clrd.TotalGW);
-        $('#totalcontainer').text(clrd.TotalContainer);
-        $('#custinv').text(clrd.InvNo);
-        $("#dcport").text(clrd.ClearPortNo);
-        $('#CustCode').text(clrd.NameEng);
+        $('#gw').text(clrd[0].TotalGW);
+        $('#totalcontainer').text(clrd[0].TotalContainer);
+        $('#custinv').text(clrd[0].InvNo);
+        $("#dcport").text(clrd[0].ClearPortNo);
+        $('#CustCode').text(clrd[0].NameEng);
 
 
-        ShowInterPort(path, (clrd.JobType == 1 ? clrd.InvFCountry : clrd.InvCountry), clrd.InvInterPort, '#loadport').then(() => {
-            $.get(path + 'Master/GetCountry?Code=' + (clrd.JobType == 1 ? clrd.InvFCountry : clrd.InvCountry)).done(function (r) {
+        ShowInterPort(path, (clrd[0].JobType == 1 ? clrd[0].InvFCountry : clrd[0].InvCountry), clrd[0].InvInterPort, '#loadport').then(() => {
+            $.get(path + 'Master/GetCountry?Code=' + (clrd[0].JobType == 1 ? clrd[0].InvFCountry : clrd[0].InvCountry)).done(function (r) {
                 $('#loadport').text(($('#loadport').text() + " ," + r.country.data[0].CTYName).toUpperCase());
             });
         });
-        $.get(path + 'Master/GetCompany?Code=' + clrd.BillToCustCode + '&Branch=' + clrd.BillToCustBranch).done(function (r) {
+ 
+        $.get(path + 'Master/GetCompany?Code=' + clrd[0].BillToCustCode + '&Branch=' + clrd[0].BillToCustBranch).done(function (r) {
+
             $('#billToEName').text(r.company.data[0].NameEng);
             $('#tbdt').text(r.company.data[0].NameEng);
             $('#billToAdd1').text(r.company.data[0].EAddress1);
@@ -503,18 +506,20 @@ End Code
             $('#billToContact').text(r.company.data[0].DMailAddress);
             $('#acc').text(r.company.data[0].CSCodeIM);
             $('#email').text(r.company.data[0].CSCodeEX);
+
+
             //$('#tell').text(r.Phone)
             //$('#fax').text(r.FaxNumber)
         });
 
 
-        $.get(path + 'Master/GetCompany?Code=' + clrd.Consigneecode).done(function (r) {
+        $.get(path + 'Master/GetCompany?Code=' + clrd[0].Consigneecode).done(function (r) {
             $('#consigneecode').text(r.company.data[0].NameEng);
         })
 
 
 
-        $.get(path + 'joborder/GetBooking?job=' + clrd.Jobno+ '&Branch=' + branch).done(function (r) {
+        $.get(path + 'joborder/GetBooking?job=' + clrd[0].JobNo+ '&Branch=' + branch).done(function (r) {
             $('#noti').text(r.booking.data[0].NotifyName);
         })
         //let comp = await $.get(path + 'Master/GetCompany?Code=' + h.BillToCustCode + '&Branch=' + h.BillToCustBranch);
