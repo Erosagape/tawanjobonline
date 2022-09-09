@@ -2,6 +2,7 @@
     ViewData("Title") = "Create BL/AWB"
 End Code
 <form id="form" method="POST" action="@Url.Content("~")/JobOrder/PostCreateTransport">
+    <input type="hidden" name="mode" id="txtMode" value="A" />
     <div Class="row">
         <div Class="col-sm-2">
             Job Type
@@ -31,7 +32,7 @@ End Code
         <div Class="col-sm-4" style="display:flex;">
             <input type="hidden" name="Country" id="txtCountryCode" />
             <input type="hidden" name="PortCode" id="txtPortCode" />
-            <input type="text" id="txtCountryName" Class="form-control" disabled />
+            <input type="text" id="txtCountryName" Class="form-control" readonly />
             <a class="btn btn-default" onclick="SearchData('country')">...</a>
         </div>
     </div>
@@ -41,7 +42,7 @@ End Code
         </div>
         <div Class="col-sm-4" style="display:flex;">
             <input type="hidden" name="Shipper" id="txtShipperCode" />
-            <input type="text" id="txtShipperName" Class="form-control" disabled />
+            <input type="text" id="txtShipperName" Class="form-control" readonly />
             <a onclick="SearchData('shipper')" class="btn btn-default">...</a>
         </div>
         <div Class="col-sm-2">
@@ -49,7 +50,7 @@ End Code
         </div>
         <div Class="col-sm-4" style="display:flex;">
             <input type="hidden" name="Consignee" id="txtConsigneeCode" />
-            <input type="text" id="txtConsigneeName" Class="form-control" disabled />
+            <input type="text" id="txtConsigneeName" Class="form-control" readonly />
             <a onclick="SearchData('cons')" class="btn btn-default">...</a>
         </div>
 
@@ -60,7 +61,7 @@ End Code
         </div>
         <div Class="col-sm-4" style="display:flex;">
             <input type="hidden" name="Notify" id="txtActualShipperCode" />
-            <input type="text" id="txtActualShipperName" Class="form-control" disabled />
+            <input type="text" id="txtActualShipperName" Class="form-control" readonly />
             <a onclick="SearchData('actshipper')" class="btn btn-default">...</a>
         </div>
         <div Class="col-sm-2">
@@ -68,7 +69,7 @@ End Code
         </div>
         <div Class="col-sm-4" style="display:flex">
             <input type="hidden" name="AlsoNotify" id="txtActualConsigneeCode" />
-            <input type="text" id="txtActualConsigneeName" Class="form-control" disabled />
+            <input type="text" id="txtActualConsigneeName" Class="form-control" readonly />
             <a onclick="SearchData('actcons')" class="btn btn-default">...</a>
         </div>
     </div>
@@ -87,7 +88,7 @@ End Code
         </div>
         <div Class="col-sm-4" style="display:flex;">
             <input type="hidden" name="Forwarder" id="txtForwarderCode" />
-            <input type="text" id="txtForwarderName" Class="form-control" disabled />
+            <input type="text" id="txtForwarderName" Class="form-control" readonly />
             <a class="btn btn-default" onclick="SearchData('forwarder')">...</a>
         </div>
     </div>
@@ -139,14 +140,14 @@ End Code
             Place of Loading
         </div>
         <div Class="col-sm-4" style="display:flex;">
-            <input type="text" name="PlaceLoading" id="txtLoadingPlace" Class="form-control" disabled />
+            <input type="text" name="PlaceLoading" id="txtLoadingPlace" Class="form-control" readonly />
             <a class="btn btn-default" onclick="SearchData('loadat')">...</a>
         </div>
         <div Class="col-sm-2">
             Place of Receive
         </div>
         <div Class="col-sm-4" style="display:flex">
-            <input type="text" name="PlaceReceive" id="txtReceivePlace" Class="form-control" disabled />
+            <input type="text" name="PlaceReceive" id="txtReceivePlace" Class="form-control" readonly />
             <a class="btn btn-default" onclick="SearchData('receiveat')">...</a>
         </div>
 
@@ -156,29 +157,29 @@ End Code
             Place of Discharge
         </div>
         <div Class="col-sm-4" style="display:flex;">
-            <input type="text" name="PlaceDischarge" id="txtDischargePlace" Class="form-control" disabled />
+            <input type="text" name="PlaceDischarge" id="txtDischargePlace" Class="form-control" readonly />
             <a class="btn btn-default" onclick="SearchData('dischargeat')">...</a>
         </div>
         <div Class="col-sm-2">
             Place of Delivery
         </div>
         <div Class="col-sm-4" style="display:flex;">
-            <input type="text" name="PlaceDelivery" id="txtDeliveryPlace" Class="form-control" disabled />
+            <input type="text" name="PlaceDelivery" id="txtDeliveryPlace" Class="form-control" readonly />
             <a class="btn btn-default" onclick="SearchData('deliveryat')">...</a>
         </div>
     </div>
     <div Class="row">
         <div Class="col-sm-2">
-            Local Vessel
-        </div>
-        <div Class="col-sm-4">
-            <input type="text" name="Vessel" id="txtMVesselName" Class="form-control" />
-        </div>
-        <div Class="col-sm-2">
             Ocean Vessel
         </div>
         <div Class="col-sm-4">
-            <input type="text" name="MVessel" id="txtVesselName" Class="form-control" />
+            <input type="text" name="Vessel" id="txtVesselName" Class="form-control" />
+        </div>
+        <div Class="col-sm-2">
+            Local Vessel
+        </div>
+        <div Class="col-sm-4">
+            <input type="text" name="MVessel" id="txtMVesselName" Class="form-control" />
         </div>
     </div>
     <div Class="row">
@@ -196,7 +197,7 @@ End Code
             Freight Payable At
         </div>
         <div Class="col-sm-4" style="display:flex;">
-            <input type="text" name="FreightPaymentBy" id="txtFreightPayAt" Class="form-control" disabled />
+            <input type="text" name="FreightPaymentBy" id="txtFreightPayAt" Class="form-control" readonly />
             <a class="btn btn-default" onclick="SearchData('payableat')">...</a>
         </div>
     </div>
@@ -206,7 +207,7 @@ End Code
         </div>
         <div Class="col-sm-4" style="display:flex">
             <input type="hidden" name="Transport" id="txtTransportCode" />
-            <input type="text" id="txtTransportName" Class="form-control" disabled />
+            <input type="text" id="txtTransportName" Class="form-control" readonly />
             <a onclick="SearchData('transport')" class="btn btn-default">...</a>
         </div>
         <div Class="col-sm-2">
@@ -250,77 +251,107 @@ End Code
             <input type="number" name="GrossWeight" id="txtGrossWeight" Class="form-control" />
         </div>
     </div>
-
-    <div Class="row">
-        <div Class="col-sm-2">
-            Branch Code
-        </div>
-        <div Class="col-sm-4">
-            <select id="cboBranch" name="Branch" Class="form-control dropdown"></select>
-        </div>
-        <div Class="col-sm-2">
-            Job No
-        </div>
-        <div Class="col-sm-4">
-            <input type="text" name="Job" id="txtJNo" Class="form-control" disabled value="@ViewBag.JobNo" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-2">
-            Container#<br /><input type="text" class="form-control" id="txtCTN" />
-        </div>
-        <div class="col-sm-2">
-            Seal<br /><input type="text" class="form-control" id="txtSeal" />
-        </div>
-        <div class="col-sm-3">
-            Qty<br />
-            <div style="display:flex">
-                <input type="text" class="form-control" id="txtQty" />
-                <input type="text" class="form-control" id="txtUnit" />
+    <div class="panel" style="background-color:lightgreen;padding:5px 5px 5px 5px;font-weight:bold">
+        <div Class="row">
+            <div Class="col-sm-2">
+                Branch Code
+            </div>
+            <div Class="col-sm-4">
+                <select id="cboBranch" name="Branch" Class="form-control dropdown"></select>
+            </div>
+            <div Class="col-sm-2">
+                Job No
+            </div>
+            <div Class="col-sm-4" style="display:flex;">
+                <input type="text" name="Job" id="txtJNo" Class="form-control" value="@ViewBag.JobNo" />
+                <a class="btn btn-default" onclick="SearchData('job')">...</a>
+                <a class="btn btn-primary" onclick="OpenJob()">View</a>
             </div>
         </div>
-        <div class="col-sm-2">
-            N/W<br /><input type="text" class="form-control" id="txtNetW" />
+        <div class="row">
+            <div class="col-sm-2">
+                Container#<br /><input type="text" class="form-control" id="txtCTN" />
+            </div>
+            <div class="col-sm-2">
+                Seal<br /><input type="text" class="form-control" id="txtSeal" />
+            </div>
+            <div class="col-sm-3">
+                Qty<br />
+                <div style="display:flex">
+                    <input type="text" class="form-control" id="txtQty" />
+                    <input type="text" class="form-control" id="txtUnit" />
+                </div>
+            </div>
+            <div class="col-sm-2">
+                N/W<br /><input type="text" class="form-control" id="txtNetW" />
+            </div>
+            <div class="col-sm-2">
+                G/W<br /><input type="text" class="form-control" id="txtGrossW" />
+            </div>
+            <div class="col-sm-1">
+                CBM<br /><input type="text" class="form-control" id="txtM3" />
+            </div>
         </div>
-        <div class="col-sm-2">
-            G/W<br /><input type="text" class="form-control" id="txtGrossW" />
-        </div>
-        <div class="col-sm-1">
-            CBM<br /><input type="text" class="form-control" id="txtM3" />
-        </div>
+        <a onclick="AddCont()" class="btn btn-warning">Add Details</a>
+        <table id="tbContainers" class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Qty</th>
+                    <th>Net Weight</th>
+                    <th>Gross Weight</th>
+                    <th>M3</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </div>
-    <a onclick="AddCont()" class="btn btn-warning">Add Details</a>
-    <table id="tbContainers" class="table table-responsive">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Qty</th>
-                <th>Net Weight</th>
-                <th>Gross Weight</th>
-                <th>M3</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <input type="hidden" name="fieldJobType" value="ShipBy" />
     <input type="hidden" name="ContList" id="ContainerList" />
     <input type="button" id="btnSave" Class="btn btn-success" onclick="return ValidateData()" value="Save Data" />
+    @ViewBag.Message
 </form>
-@ViewBag.Message
+<a href="#" class="btn btn-info" id="btnPrint" onclick="PrintBooking()">
+    <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Form</b>
+</a>
+<select id="cboPrintForm">
+    <option value="BK">Booking Request</option>
+    <option value="TI">Truck Order (IMPORT)</option>
+    <option value="TE">Truck Order (EXPORT)</option>
+    <option value="BA">Booking Confirmation (AIR)</option>
+    <option value="BS">Booking Confirmation (SEA)</option>
+    <option value="SP">Shipping Instruction</option>
+    @*<option value="BLW">Bill of Lading - WALMAY</option>*@
+    <option value="BLE">Bill of Lading - UGLOBE</option>
+    @*<option value="BFT">Bill of Lading - BETTER</option>*@
+    <option value="BLS">Sea Way Bill</option>
+    <option value="HAW">House Air Way Bill</option>
+    <option value="MAW">Master Air Way Bill</option>
+    <option value="DO">D/O Letter</option>
+    <option value="SC">Sales Contract</option>
+    <option value="PL">Packing Lists</option>
+</select>
+
 <div id="dvLOVs"></div>
-<script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
+    /*---NOTE----
+     ****This version checking for IMPORT or EXPORT is change from field jobtype to shipby for UGLOBE ONLY****
+    -------------*/
     var path = '@Url.Content("~")';
     var job = '@ViewBag.JobNo';
     var branch = '@ViewBag.PROFILE_DEFAULT_BRANCH';
     var arr = [];
-    if (job !== '') {
-        window.location.href=path + 'JobOrder/Transport?BranchCode=' + branch + '&JNo=' + job;
-    }
     loadBranch(path);
 
     let list = 'JOB_TYPE=#txtJobType,';
     list += 'SHIP_BY=#txtShipBy';
     loadCombos(path, list);
+
+    if (job !== '') {
+        $('#txtJNo').val(job);
+        //window.location.href=path + 'JobOrder/Transport?BranchCode=' + branch + '&JNo=' + job;
+        CallBackQueryJob(path, branch, job, LoadJob);
+    }
 
     let jt = '';
     function CheckJobType() {
@@ -334,6 +365,7 @@ End Code
 
     SetListOfValues((r) => {
         let dv = document.getElementById("dvLOVs");
+        CreateLOV(dv, '#dvJob', '#tbJob', 'Job', r, 3);
         CreateLOV(dv, '#dvShipper', '#tbShipper', 'Shipper', r, 3);
         CreateLOV(dv, '#dvActShipper', '#tbActShipper', 'Notify Party', r, 3);
         CreateLOV(dv, '#dvConsignee', '#tbConsignee', 'Consignee', r, 3);
@@ -350,9 +382,104 @@ End Code
         CreateLOV(dv, '#dvDischargeAt', '#tbDischargeAt', 'Place of Discharge', r, 3);
         CreateLOV(dv, '#dvPayableAt', '#tbPayableAt', 'Freight Payable At', r, 3);
     });
+    function GetParam() {
+        let strParam = '?';
+        strParam += 'Branch=' + branch;
+        strParam += '&JType=' + $('#txtJobType').val();
+        strParam += '&SBy=' + $('#txtShipBy').val();
+        strParam += '&CustCode=' + $('#txtCustCode').val().split('|')[0];
+        return strParam;
+    }
+    function LoadBooking(dt) {
+        $.get(path + 'JobOrder/GetTransport?Branch='+ dt.BranchCode +'&Code=' + dt.BookingNo).done((r) => {
+            if (r.transport.header.length > 0) {
+                let h = r.transport.header[0];
+
+                $.get(path + 'Master/GetCompany?Code=' + h.NotifyCode).done((r) => {
+                    if (r.company.data.length > 0) {
+                        let c = r.company.data[0];
+                        $('#txtActualShipperCode').val(c.CustCode + '|' + c.Branch);
+                        $('#txtActualShipperName').val(c.NameEng);
+                    }
+                });
+
+                $('#txtTransportCode').val(h.VenderCode);
+                ShowVenderEN(path, h.VenderCode, '#txtTransportName');
+
+                $('#txtActualConsigneeCode').val(h.ReturnContact.split('|')[0]);
+                ShowCustomerEN(path, h.ReturnContact.split('|')[0], h.ReturnContact.split('|')[1], '#txtActualConsigneeName');
+
+                $('#txtFreightType').val(h.PaymentCondition);
+                $('#txtFreightPayAt').val(h.PaymentBy);
+
+                $('#txtReceivePlace').val(h.CYPlace);
+                $('#txtLoadingPlace').val(h.FactoryPlace);
+                $('#txtDeliveryPlace').val(h.PackingPlace);
+                $('#txtDischargePlace').val(h.ReturnPlace);
+            }
+            $('#ContainerList').val('');
+            if (r.transport.detail.length > 0) {
+                for (let d of r.transport.detail) {
+                    ShowCont(d);
+                }
+            }
+        });
+    }
+    function LoadJob(dr) {
+        $('#txtMode').val('E');
+        $('#txtJNo').val(dr.JNo);
+        $('#txtQuotation').val(dr.QNo);
+        $('#txtJobType').val(CCode(dr.JobType));
+        $('#txtShipBy').val(CCode(dr.ShipBy));
+
+        $('#txtPortCode').val(dr.InvInterPort);
+
+        $('#txtCountryCode').val(dr.ShipBy == 1 ? dr.InvFCountry : dr.InvCountry);
+        ShowCountry(path, $('#txtCountryCode').val(), '#txtCountryName');
+
+        $('#txtShipperCode').val(dr.CustCode + '|' + dr.CustBranch);
+        ShowCustomerEN(path, dr.CustCode, dr.CustBranch, '#txtShipperName');
+
+        $('#txtInvNo').val(dr.InvNo);
+        $('#txtBookingNo').val(dr.BookingNo);
+        $('#txtHAWB').val(dr.HAWB);
+        $('#txtMAWB').val(dr.MAWB);
+        $('#txtETDDate').val(CDateEN(dr.ETDDate));
+        $('#txtETADate').val(CDateEN(dr.ETADate));
+        $('#txtVesselName').val(dr.VesselName);
+        $('#txtMVesselName').val(dr.MVesselName);
+
+        $('#txtForwarderCode').val(dr.ForwarderCode);
+        ShowVenderEN(path, dr.ForwarderCode, '#txtForwarderName');
+
+        $('#txtTransportCode').val(dr.AgentCode);
+        ShowVenderEN(path, dr.AgentCode, '#txtTransportName');
+        $('#txtNetWeight').val(dr.TotalNW);
+        $('#txtGrossWeight').val(dr.TotalGW);
+        $('#txtMeasurement').val(dr.Measurement);
+        $('#txtDeliveryAgentName').val(dr.DeliveryTo);
+        $('#txtDeliveryAgentAddress').val(dr.DeliveryAddr);
+        $('#txtCountBL').val(dr.BLNo);
+
+        let ttlctn = dr.TotalContainer.split('x');
+        $('#txtTotalContainer').val(ttlctn[0]);
+        $('#txtContainerUnit').val(ttlctn[1]);
+
+        $.get(path + 'Master/GetCompany?Code=' + dr.Consigneecode).done((r) => {
+            if (r.company.data.length > 0) {
+                let c = r.company.data[0];
+                $('#txtConsigneeCode').val(c.CustCode + '|' + c.Branch);
+                $('#txtConsigneeName').val(c.NameEng);
+            }
+        });
+        LoadBooking(dr);
+    }
     function SearchData(type) {
         let w = '';
         switch (type) {
+            case 'job':
+                SetGridJob(path, '#tbJob', '#dvJob', '', LoadJob);
+                break;
             case 'shipper':
                 SetGridCompany(path, '#tbShipper', '#dvShipper', (dr) => {
                     $('#txtShipperCode').val(dr.CustCode + '|' + dr.Branch);
@@ -455,9 +582,9 @@ End Code
                 });
                 break;
             case 'receiveat':
-                w = Number($('#txtJobType').val()) == 1 ? $('#txtCountryCode').val() : 'TH';
+                w = Number($('#txtShipBy').val()) == 1 ? $('#txtCountryCode').val() : 'TH';
                 SetGridInterPort(path, '#tbReceiveAt', '#dvReceiveAt', w, function (dr) {
-                    if (Number($('#txtJobType').val()) == 1) {
+                    if (Number($('#txtShipBy').val()) == 1) {
                         $('#txtReceivePlace').val(dr.PortName + ',' + $('#txtCountryName').val());
                     } else {
                         $('#txtReceivePlace').val(dr.PortName + ',THAILAND');
@@ -465,9 +592,9 @@ End Code
                 });
                 break;
             case 'loadat':
-                w = Number($('#txtJobType').val()) == 1 ? $('#txtCountryCode').val() : 'TH';
+                w = Number($('#txtShipBy').val()) == 1 ? $('#txtCountryCode').val() : 'TH';
                 SetGridInterPort(path, '#tbLoadAt', '#dvLoadAt', w, function (dr) {
-                    if (Number($('#txtJobType').val()) == 1) {
+                    if (Number($('#txtShipBy').val()) == 1) {
                         $('#txtPortCode').val(dr.PortCode);
                         $('#txtLoadingPlace').val(dr.PortName + ',' +$('#txtCountryName').val());
                         if ($('#txtReceivePlace').val() == '') {
@@ -482,9 +609,9 @@ End Code
                 });
                 break;
             case 'dischargeat':
-                w = Number($('#txtJobType').val()) == 1 ? 'TH' : $('#txtCountryCode').val();
+                w = Number($('#txtShipBy').val()) == 1 ? 'TH' : $('#txtCountryCode').val();
                 SetGridInterPort(path, '#tbDischargeAt', '#dvDischargeAt', w, function (dr) {
-                    if (Number($('#txtJobType').val()) !== 1) {
+                    if (Number($('#txtShipBy').val()) !== 1) {
                         $('#txtPortCode').val(dr.PortCode);
                         $('#txtDischargePlace').val(dr.PortName + ',' + $('#txtCountryName').val());
                         if ($('#txtDeliveryPlace').val() == '') {
@@ -499,9 +626,9 @@ End Code
                 });
                 break;
             case 'deliveryat':
-                w = Number($('#txtJobType').val()) == 1 ? 'TH' : $('#txtCountryCode').val();
+                w = Number($('#txtShipBy').val()) == 1 ? 'TH' : $('#txtCountryCode').val();
                 SetGridInterPort(path, '#tbDeliveryAt', '#dvDeliveryAt', w, function (dr) {
-                    if (Number($('#txtJobType').val()) == 1) {
+                    if (Number($('#txtShipBy').val()) == 1) {
                         $('#txtDeliveryPlace').val(dr.PortName + ',THAILAND');
                     } else {
                         $('#txtDeliveryPlace').val(dr.PortName + ','+ $('#txtCountryName').val());
@@ -509,17 +636,39 @@ End Code
                 });
                 break;
             case 'payableat':
-                w = Number($('#txtJobType').val()) == 1 ? 'TH' : $('#txtCountryCode').val();
+                w = Number($('#txtShipBy').val()) == 1 ? 'TH' : $('#txtCountryCode').val();
                 SetGridInterPort(path, '#tbPayableAt', '#dvPayableAt', w, function (dr) {
-                    if (Number($('#txtJobType').val()) == 1) {
+                    if (Number($('#txtShipBy').val()) == 1) {
                         $('#txtFreightPayAt').val(dr.PortName + ',THAILAND');
                     } else {
                         $('#txtFreightPayAt').val(dr.PortName + ','+ $('#txtCountryName').val());
                     }
-                    
+
                 });
                 break;
         }
+    }
+    function ShowCont(dr) {
+        let obj = $('#ContainerList').val();
+        obj += dr.CTN_NO;
+        obj += '|' + dr.NetWeight;
+        obj += '|' + dr.GrossWeight;
+        obj += '|' + dr.Measurement;
+        obj += '|' + dr.ProductQty;
+        obj += '|' + dr.ProductUnit;
+        obj += '|' + dr.SealNumber;
+        obj += ';';
+        $('#ContainerList').val(obj);
+
+        let html = '<tr>';
+        html += '<td>' + dr.CTN_NO + '/' + dr.SealNumber + '</td>';
+        html += '<td>' + dr.ProductQty + ' ' + dr.ProductUnit + '</td>';
+        html += '<td>' + dr.NetWeight + '</td>';
+        html += '<td>' + dr.GrossWeight + '</td>';
+        html += '<td>' + dr.Measurement + '</td>';
+        html += '</tr>';
+
+        $('#tbContainers tbody').append(html);
     }
     function AddCont() {
         if ($('#txtNetW').val() == '') {
@@ -588,11 +737,13 @@ End Code
             if ($('#txtShipBy').val() == '') $('#txtShipBy').focus();
             return;
         }
+        /*
         if ($('#txtQuotation').val() == '') {
             ShowMessage("Quotation Must be chosen", true);
             $('#txtQuotation').focus();
             return;
         }
+        */
         if ($('#txtCountryCode').val() == '') {
             ShowMessage("Country Must be chosen", true);
             SearchData('country');
@@ -644,10 +795,12 @@ End Code
             ShowMessage("House BL/AWB Must be chosen", true);
             return;
         }
+        /*
         if ($('#txtMAWB').val() == '') {
             ShowMessage("Master BL/AWB Must be chosen", true);
             return;
         }
+        */
         if ($('#txtETDDate').val() == '') {
             ShowMessage("ETD Must be chosen", true);
             return;
@@ -672,10 +825,12 @@ End Code
             ShowMessage("Place of Discharge Must be chosen", true);
             return;
         }
+        /*
         if ($('#txtMVesselName').val() == '') {
             ShowMessage("Local vessel Must be chosen", true);
             return;
         }
+        */
         if ($('#txtVesselName').val() == '') {
             ShowMessage("Ocean vessel Must be chosen", true);
             return;
@@ -726,5 +881,57 @@ End Code
     }
     function SetAuto(id) {
         $(id).val('{AUTO}');
+    }
+    function PrintBooking() {
+        switch ($('#cboPrintForm').val()) {
+            case 'TI':
+                window.open(path + 'JobOrder/FormBookingIm?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'TE':
+                window.open(path + 'JobOrder/FormBookingEx?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'BA':
+                window.open(path + 'JobOrder/FormBookingAir?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'BS':
+                window.open(path + 'JobOrder/FormBookingSea?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'SP':
+                window.open(path + 'JobOrder/FormBooking?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            //case 'BFT':
+            //    window.open(path + 'JobOrder/FormTransport?Type=BETTER&BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+            //    break;
+            case 'BLS':
+                window.open(path + 'JobOrder/FormTransport?Type=SEA&BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'BLW':
+                window.open(path + 'JobOrder/FormTransport?Type=WALMAY&BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'BLE':
+                window.open(path + 'JobOrder/FormTransport?Type=EASTRONG&BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'HAW':
+                window.open(path + 'JobOrder/FormTransport?Type=HAIR&BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'MAW':
+                window.open(path + 'JobOrder/FormTransport?Type=MAIR&Branch=' + $('#cboBranch').val() + '&Code=' + $('#txtJNo').val(), '', '');
+                break;
+            case 'DO':
+                window.open(path + 'JobOrder/FormLetter?BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJNo').val(), '', '');
+                break;
+            case 'SC':
+                window.open(path + 'JobOrder/FormSalesContract?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'BK':
+                window.open(path + 'JobOrder/FormInvoice?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'PL':
+                window.open(path + 'JobOrder/FormPackingList?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+        }
+    }
+    function OpenJob() {
+        window.open(path + 'JobOrder/ShowJob?BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJNo').val(), '', '');
     }
 </script>
