@@ -49,6 +49,7 @@ Public Class CUtil
             Try
                 cn.Open()
                 Using da As New SqlDataAdapter(pSQL, cn)
+                    da.SelectCommand.CommandTimeout = 600
                     da.Fill(dt)
                 End Using
                 If dt.Rows.Count = 0 Then dt.Rows.Add(dt.NewRow)

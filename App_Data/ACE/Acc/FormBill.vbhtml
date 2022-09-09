@@ -7,16 +7,19 @@ End Code
     td {
         font-size: 11px;
     }
+
     #dvFooter {
-	display:none;
-    }		
+        display: none;
+    }
+
     table {
         border-width: thin;
         border-collapse: collapse;
     }
 </style>
-      <div id="dvCopy" style="float:right"></div>
-<br/><br/>
+<div id="dvCopy" style="float:right"></div>
+<br />
+<br />
 <div>
     <div style="float:left">
         <p>
@@ -24,11 +27,11 @@ End Code
         </p>
     </div>
     <div style="float:right;">
-          DOC NO : <label id="lblBillAcceptNo"></label>
+        DOC NO : <label id="lblBillAcceptNo"></label>
         <br />DATE : <label id="lblBillDate"></label>
     </div>
 </div>
-<br/>
+<br />
 <div style="display:flex;">
     <div class="text-left">
         <p>
@@ -69,9 +72,10 @@ End Code
 </table>
 
 <div style="margin-top:60px">
-	<p>Remark : <br>
-		<label id='lblRemark'></label>
-	</p>
+    <p>
+        Remark : <br>
+        <label id='lblRemark'></label>
+    </p>
     <p>PAYMENT DUE DATE : <label id="lblPaymentDueDate"></label></p>
     <p>PLEASE PAY CHEQUE IN NAME @ViewBag.PROFILE_COMPANY_NAME_EN</p>
     <p>PAYMENT SHOULD BE PAID BY CROSS CHEQUE IN FAVOR OF  @ViewBag.PROFILE_COMPANY_NAME_EN</p>
@@ -119,19 +123,19 @@ End Code
         }
         if (data.customer.length > 0) {
             if (data.customer[0][0].UsedLanguage == 'TH') {
-		if(Number(data.customer[0][0].Branch)==0) {
-	            $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : สำนักงานใหญ่');
-		} else {
-	            $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : '+ data.customer[0][0].Branch);
-		}
+		        if(Number(data.customer[0][0].Branch)==0) {
+                    $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : สำนักงานใหญ่');
+		        } else {
+                    $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : ' + data.customer[0][0].Branch);
+		        }
                 $('#lblCustName').text(data.customer[0][0].NameThai);
                 $('#lblCustAddress').text(data.customer[0][0].TAddress1 + '\n' + data.customer[0][0].TAddress2);
             } else {
-		if(Number(data.customer[0][0].Branch)==0) {
-	            $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : HEAD OFFICE');
-		} else {
-	            $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : '+ data.customer[0][0].Branch);
-		}
+		        if(Number(data.customer[0][0].Branch)==0) {
+                    $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : HEAD OFFICE');
+		        } else {
+                    $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : ' + data.customer[0][0].Branch);
+		        }
                 $('#lblCustName').text(data.customer[0][0].NameEng);
                 $('#lblCustAddress').text(data.customer[0][0].EAddress1 + '\n' + data.customer[0][0].EAddress2);
             }
@@ -146,7 +150,11 @@ End Code
 
             let dv = $('#tbDetail');
             let html = '';
-            for (let dr of data.detail[0]) {
+            let dt = data.detail[0].filter(function (d)
+            {
+                return d.BranchCode == branch;
+            });
+            for (let dr of dt) {
                 html += '<tr>';
                 html += '<td>' + dr.ItemNo + '</td>';
                 html += '<td>' + ShowDate(CDateTH(dr.InvDate)) + '</td>';
@@ -155,7 +163,7 @@ End Code
                 html += '<td style="text-align:right">' + ShowDate(CDateTH(dr.DueDate)) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtTotal, 2) + '</td>';
                 html += '</tr>';
-				
+
                 total += Number(dr.AmtTotal);
                 serv += Number(dr.AmtChargeNonVAT);
                 adv += Number(dr.AmtAdvance);
@@ -167,14 +175,14 @@ End Code
 
             $('#lblBillTotal').text(ShowNumber(total,2));
             $('#lblBillTotalEng').text(CNumEng(ShowNumber(total,2)));
-			
+
 			trans = CNumThai(ShowNumber(total,2));
-			document.getElementById("lblBillTotalEng").onclick = () =>{ 
+			document.getElementById("lblBillTotalEng").onclick = () =>{
 				let tmp = $('#lblBillTotalEng').text();
 				$('#lblBillTotalEng').text(trans);
 				trans = tmp;
 			};
-		
+
         }
     }
 </script>

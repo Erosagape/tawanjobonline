@@ -510,3 +510,15 @@ function ShowCarLicense(path, Code, ControlID) {
             }
         });
 }
+function ShowVenderEN(path, VenderID, ControlID) {
+    $(ControlID).val('');
+    if (VenderID != "") {
+        $.get(path + 'Master/GetVender?Code=' + VenderID)
+            .done(function (r) {
+                if (r.vender.data.length > 0) {
+                    let b = r.vender.data[0];
+                    $(ControlID).val(b.English);
+                }
+            });
+    }
+}

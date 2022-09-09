@@ -1436,7 +1436,7 @@ INNER JOIN Job_SrvSingle s
 ON b.SICode=s.SICode
 INNER JOIN Job_Order c
 ON b.BranchCode=c.BranchCode
-and b.JobNo=c.JNo
+and b.JobNo=c.JNo 
 "
     End Function
     Function SQLSelectInvForBilling() As String

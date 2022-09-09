@@ -4,11 +4,19 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
-    <meta charset="utf-8" />
+    <link rel="stylesheet" href="~/Content/Site.css">
     <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/bootstrap-select.min.css">
+    <link rel="stylesheet" href="~/Content/jquery.datatables.min.css">
+    <link rel="stylesheet" href="~/Content/responsive.dataTables.min.css">
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/bootbox.js"></script>
+    <script src="~/Scripts/bootstrap-select.js"></script>
     <script src="~/Scripts/Func/util.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
     <style>
         body {
             background-color: #145314;
