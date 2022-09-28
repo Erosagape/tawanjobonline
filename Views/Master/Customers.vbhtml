@@ -319,6 +319,7 @@ End Code
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let userGroup = '@ViewBag.UserGroup';
+    let userRight = '@ViewBag.UserRights';
     let mode = getQueryString("Mode");
     let user = '@ViewBag.User';
     if (userGroup !== 'S') {

@@ -2435,9 +2435,9 @@ End Code
         }
     }
     function CalTotal() {
-        let amt = CDbl($('#txtAMT').val(),2);
-        let vat = CDbl($('#txtVAT').val(),2);
-        let wht = CDbl($('#txtWHT').val(), 2);
+        let amt = CDbl($('#txtAMT').val(),4);
+        let vat = CDbl($('#txtVAT').val(),4);
+        let wht = CDbl($('#txtWHT').val(), 4);
 
         $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),2));
         $('#txtAMT').val(CDbl(amt,2));
@@ -2448,12 +2448,12 @@ End Code
             type = '1';
             $('#txtVatType').val(type);
         }
-        let amt = CDbl($('#txtAMT').val(),2);
+        let amt = CDbl($('#txtAMT').val(),4);
         if (type == '2') {
-            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 2);
+            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 4);
         }
-        let vatrate = CDbl($('#txtVATRate').val(),2);
-        let whtrate = CDbl($('#txtWHTRate').val(),2);
+        let vatrate = CDbl($('#txtVATRate').val(),4);
+        let whtrate = CDbl($('#txtWHTRate').val(),4);
         let vat = 0;
         let wht = 0;
         if (type == "2") {
@@ -2467,8 +2467,8 @@ End Code
             vat = amt * vatrate * 0.01;
             wht = amt * whtrate * 0.01;
         }
-        $('#txtVAT').val(CDbl(vat.toFixed(3),3));
-        $('#txtWHT').val(CDbl(wht.toFixed(3),3));
+        $('#txtVAT').val(CDbl(vat.toFixed(3),2));
+        $('#txtWHT').val(CDbl(wht.toFixed(3),2));
         CalTotal();
     }
     function GetExchangeRate() {

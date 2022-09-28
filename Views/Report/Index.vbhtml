@@ -318,7 +318,7 @@ End Code
 <script type="text/javascript" src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     let reportID = '';
-    let browseWhat = '';
+    let browseWhat = '';    
     let cliterias = [];
     let userPosition = '@ViewBag.UserPosition';
     let data = {};

@@ -236,6 +236,9 @@ End Code
     </div>
 
 </div>
+    <a href="#" class="btn btn-danger" id="btnDeleteAll" onclick="DeleteDataAll()">
+        <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete All Data</b>
+    </a>
 <div id="dvLOVs"></div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -288,9 +291,27 @@ End Code
         let branch = $('#txtBranchCode').val();
         let code = $('#txtSICode').val();
         let job = $('#txtJNo').val();
+        let item = $('#txtItemNo').val();
         ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
-            $.get(path + 'adv/delclearexp?branch=' + branch + '&code=' + code + '&job=' + job, function (r) {
+            $.get(path + 'adv/delclearexp?branch=' + branch + '&code=' + code + '&item='+ item +'&job=' + job, function (r) {
+                ShowMessage(r.estimate.result);
+                ClearData();
+                RefreshGrid();
+            });
+        });
+    }
+    function DeleteDataAll() {
+        let branch = $('#txtBranchCode').val();
+        let job = $('#txtJNo').val();
+        let userAllow = ['dahla', 'somphot', 'laongdao', 'sakorn'];
+        if (userAllow.indexOf('@ViewBag.User'.toLocaleLowerCase()) < 0) {
+            ShowMessage('you are not authorize to do this', true);
+            return;
+        }
+        ShowConfirm('Please confirm to delete ALL of data in this job', function (ask) {
+            if (ask == false) return;
+            $.get(path + 'adv/delclearexp?branch=' + branch + '&job=' + job, function (r) {
                 ShowMessage(r.estimate.result);
                 ClearData();
                 RefreshGrid();
