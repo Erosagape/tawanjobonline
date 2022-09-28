@@ -1789,6 +1789,92 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             Dim json3 = SQLDashboard3("")
             Return Content("{""result"":[{""data1"":""" & json1 & """,""data2"":""" & json2 & """,""data3"":""" & json3 & """}]}", jsonContent)
         End Function
+        Function GetDashboardCost() As ActionResult
+            Dim tsqlTotal = "
+select j.JobType,t.JobTypeName,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then c.UsedAmount else 0 end) as SumNormalCost,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then 0 else c.UsedAmount end) as SumAdditionCost
+from Job_Order j
+inner join Job_ClearDetail c
+on j.BranchCode=c.BranchCode 
+and j.JNo=c.JobNo
+inner join Job_ClearHeader h
+on c.BranchCode=h.BranchCode 
+and c.ClrNo=h.ClrNo 
+inner join (select ConfigKey as JobType,ConfigValue as JobTypeName 
+from Mas_Config where configCode='JOB_TYPE'
+) t
+on j.JobType=t.JobType
+where h.DocStatus<>99 {0}
+group by j.JobType,t.JobTypeName
+order by 1
+"
+            If GetValueConfig("SQL", "SelectDashboardCostSummary") <> "" Then
+                tsqlTotal = GetValueConfig("SQL", "SelectDashboardCostSummary")
+            End If
+            Dim onDate As String = "j.DocDate"
+            If Not Request.QueryString("DateWhere") Is Nothing Then
+                onDate = Request.QueryString("DateWhere")
+            End If
+            Dim tsqlW As String = ""
+            If Not Request.QueryString("Branch") Is Nothing Then
+                tsqlW &= String.Format(" AND j.BranchCode='{0}'", Request.QueryString("Branch"))
+            End If
+            If Not Request.QueryString("Year") Is Nothing Then
+                tsqlW &= String.Format(" AND Year(" & onDate & ")={0}", Request.QueryString("Year"))
+            End If
+            If Not Request.QueryString("Month") Is Nothing Then
+                tsqlW &= String.Format(" AND Month(" & onDate & ")={0}", Request.QueryString("Month"))
+            End If
+            If Not Request.QueryString("Cust") Is Nothing Then
+                tsqlW &= String.Format(" AND j.CustCode='{0}'", Request.QueryString("Cust"))
+            End If
+            Dim oTotal = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(tsqlTotal, tsqlW))
+            Dim jsChart = "[[""Type"",""Normal"",""Addition""],[""ALL"",0,0]]"
+            If oTotal.Rows.Count > 0 Then
+                jsChart = "[[""Type"",""Normal"",""Addition""]{0}]"
+                Dim str = ""
+                For Each dr As DataRow In oTotal.Rows
+                    str &= ",["
+                    str &= """" & dr("JobTypeName").ToString() & ""","
+                    str &= dr("SumNormalCost").ToString() & ","
+                    str &= dr("SumAdditionCost").ToString() & ""
+                    str &= "]"
+                Next
+                jsChart = String.Format(jsChart, str)
+            End If
+            Dim jsTotal = JsonConvert.SerializeObject(oTotal)
+            Dim tsqlDetail = "
+select j.DocDate,j.DutyDate,j.JNo,t.JobTypeName,s.ShipByName,
+j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalContainer,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then c.UsedAmount else 0 end) as SumNormalCost,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then 0 else c.UsedAmount end) as SumAdditionCost
+from Job_Order j
+inner join Job_ClearDetail c
+on j.BranchCode=c.BranchCode 
+and j.JNo=c.JobNo
+inner join Job_ClearHeader h
+on c.BranchCode=h.BranchCode 
+and c.ClrNo=h.ClrNo 
+inner join (select ConfigKey as JobType,ConfigValue as JobTypeName 
+from Mas_Config where configCode='JOB_TYPE'
+) t
+on j.JobType=t.JobType
+inner join (select ConfigKey as ShipBy,ConfigValue as ShipByName 
+from Mas_Config where configCode='SHIP_BY'
+) s
+on j.ShipBy=s.ShipBy
+where h.DocStatus<>99 {0}
+group by j.DocDate,j.DutyDate,j.Jno,t.JobTypeName,s.ShipByName,
+j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalContainer
+"
+            If GetValueConfig("SQL", "SelectDashboardCostDetail") <> "" Then
+                tsqlDetail = GetValueConfig("SQL", "SelectDashboardCostDetail")
+            End If
+            Dim oDetail = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(tsqlDetail, tsqlW))
+            Dim jsDetail = JsonConvert.SerializeObject(oDetail)
+            Return Content("{""data"":{""summary"":" & jsTotal & ",""detail"":" & jsDetail & ",""chart"":" & jsChart & "}}", jsonContent)
+        End Function
         Function GetTimelineReport() As ActionResult
             Try
                 Dim tSqlw As String = ""
@@ -2804,8 +2890,17 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 .ClearPortNo = Request.Form("PlaceDischarge"),
                 .QNo = Request.Form("QuoNo"),
                 .InvInterPort = Request.Form("PortCode"),
-                .InvFCountry = IIf(Convert.ToInt32(Request.Form("JobType").ToString()) = 1, Request.Form("Country"), "TH"),
-                .InvCountry = IIf(Convert.ToInt32(Request.Form("JobType").ToString()) = 1, "TH", Request.Form("Country"))
+                .InvFCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, Request.Form("Country"), "TH"),
+                .InvCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, "TH", Request.Form("Country")),
+                .InvProduct = Request.Form("InvProduct"),
+                .InvProductQty = Request.Form("InvProductQty"),
+                .InvProductUnit = Request.Form("InvProductUnit"),
+                .ProjectName = Request.Form("ProjectName"),
+                .LoadDate = Request.Form("LoadDate"),
+                .EstDeliverDate = Request.Form("EstDeliverDate"),
+                .EstDeliverTime = "1900-01-01 " & Request.Form("EstDeliverTime"),
+                .ConfirmChqDate = "1900-01-01 " & Request.Form("ConfirmChqDate"),
+                .ClearPort = Request.Form("ClearPort")
                 }
             If Request.Form("mode") <> "A" And data.JNo <> "" Then
                 Dim chkData = New CJobOrder(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
@@ -2841,8 +2936,8 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                         .ClearPortNo = Request.Form("PlaceDischarge")
                         .QNo = Request.Form("QuoNo")
                         .InvInterPort = Request.Form("PortCode")
-                        .InvFCountry = IIf(Convert.ToInt32(Request.Form("JobType").ToString()) = 1, Request.Form("Country"), "TH")
-                        .InvCountry = IIf(Convert.ToInt32(Request.Form("JobType").ToString()) = 1, "TH", Request.Form("Country"))
+                        .InvFCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, Request.Form("Country"), "TH")
+                        .InvCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, "TH", Request.Form("Country"))
                     End With
                 End If
             End If
@@ -2977,7 +3072,8 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                             .CYPlace = Request.Form("PlaceReceive"),
                             .FactoryPlace = Request.Form("PlaceLoading"),
                             .PackingPlace = Request.Form("PlaceDelivery"),
-                            .ReturnPlace = Request.Form("PlaceDischarge")
+                            .ReturnPlace = Request.Form("PlaceDischarge"),
+                            .ReturnContact = Request.Form("AlsoNotify")
                             }
             Dim chkBook = New CTransportHeader(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{0}'", book.BranchCode, book.BookingNo))
             If chkBook.Count > 0 Then
@@ -2994,6 +3090,7 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                     .FactoryPlace = Request.Form("PlaceLoading")
                     .PackingPlace = Request.Form("PlaceDelivery")
                     .ReturnPlace = Request.Form("PlaceDischarge")
+                    .ReturnContact = Request.Form("AlsoNotify")
                 End With
                 book = chkBook(0)
             End If

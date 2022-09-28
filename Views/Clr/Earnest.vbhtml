@@ -575,7 +575,7 @@ End Code
     function ShowExpense(dr) {
         RemoveData(dr);
         $('#txtClrNo').val(dr.AdvNO == '' ? dr.ClrNo : dr.AdvNO);
-        $('#txtItemNo').val(dr.AdvItemNo);
+        $('#txtItemNo').val(dr.AdvNO == '' ? dr.ItemNo : dr.AdvItemNo);
         $('#txtSlipNo').val(dr.SlipNO);
         $('#txtExpCode').val('');
         $('#txtCTN_NO').val('');

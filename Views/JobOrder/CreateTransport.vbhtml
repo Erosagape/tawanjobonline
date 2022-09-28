@@ -251,63 +251,184 @@ End Code
             <input type="number" name="GrossWeight" id="txtGrossWeight" Class="form-control" />
         </div>
     </div>
-
     <div Class="row">
         <div Class="col-sm-2">
-            Branch Code
+            Commodity
         </div>
         <div Class="col-sm-4">
-            <select id="cboBranch" name="Branch" Class="form-control dropdown"></select>
+            <textarea name="ProjectName" style="width:100%" id="txtProjectName" Class="form-control-lg"></textarea>
         </div>
         <div Class="col-sm-2">
-            Job No
+            Shipping Mask
+        </div>
+        <div Class="col-sm-4">
+            <textarea name="Remark" style="width:100%" id="txtRemark" Class="form-control-lg"></textarea>
+        </div>
+    </div>
+    <div Class="row">
+        <div Class="col-sm-2">
+            Package Summary
+        </div>
+        <div Class="col-sm-4" style="display:flex">
+            <input type="text" name="InvProduct" id="txtInvProduct" Class="form-control" />
+        </div>
+        <div Class="col-sm-2">
+            Package Qty
         </div>
         <div Class="col-sm-4" style="display:flex;">
-            <input type="text" name="Job" id="txtJNo" Class="form-control" value="@ViewBag.JobNo" />
-            <a class="btn btn-default" onclick="SearchData('job')">...</a>
+            <input type="number" name="InvProductQty" id="txtInvProductQty" Class="form-control" />
+            <input type="text" name="InvProductUnit" id="txtInvProductUnit" Class="form-control" />
+            <a onclick="SearchData('unit2')" class="btn btn-default">...</a>
+        </div>
+    </div>
+    <div class="panel" style="background-color:lightgreen;padding:5px 5px 5px 5px;font-weight:bold">
+        <div Class="row">
+            <div Class="col-sm-2">
+                Branch Code
+            </div>
+            <div Class="col-sm-4">
+                <select id="cboBranch" name="Branch" Class="form-control dropdown"></select>
+            </div>
+            <div Class="col-sm-2">
+                Job No
+            </div>
+            <div Class="col-sm-4" style="display:flex;">
+                <input type="text" name="Job" id="txtJNo" Class="form-control" value="@ViewBag.JobNo" readonly />
+                <a class="btn btn-primary" onclick="SearchData('job')">Search</a>
+                <a class="btn btn-warning" onclick="OpenJob()">View</a>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                Container#<br /><input type="text" class="form-control" id="txtCTN" />
+            </div>
+            <div class="col-sm-2">
+                Seal<br /><input type="text" class="form-control" id="txtSeal" />
+            </div>
+            <div class="col-sm-3">
+                Qty<br />
+                <div style="display:flex">
+                    <input type="text" class="form-control" id="txtQty" />
+                    <input type="text" class="form-control" id="txtUnit" />
+                </div>
+            </div>
+            <div class="col-sm-2">
+                N/W<br /><input type="text" class="form-control" id="txtNetW" />
+            </div>
+            <div class="col-sm-2">
+                G/W<br /><input type="text" class="form-control" id="txtGrossW" />
+            </div>
+            <div class="col-sm-1">
+                CBM<br /><input type="text" class="form-control" id="txtM3" />
+            </div>
+        </div>
+        <a onclick="AddCont()" class="btn btn-warning">Add Details</a>
+        <table id="tbContainers" class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Qty</th>
+                    <th>Net Weight</th>
+                    <th>Gross Weight</th>
+                    <th>M3</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            Cut off SI<br />
+            <div style="display:flex">
+                <input type="date" name="LoadDate" id="txtSIDate" class="form-control" />
+                <input type="time" name="EstDeliverTime" id="txtSITime" class="form-control" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            Cut off VGM<br />
+            <div style="display:flex">
+                <input type="date" name="EstDeliverDate" id="txtVGMDate" class="form-control" />
+                <input type="time" name="ConfirmChqDate" id="txtVGMTime" class="form-control" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            CY/CFS Date<br />
+            <div style="display:flex">
+                <input type="date" name="CYDate" id="txtCYDate" class="form-control" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            Closing Date<br />
+            <div style="display:flex">
+                <input type="date" name="PackingDate" id="txtPackingDate" class="form-control" />
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-2">
-            Container#<br /><input type="text" class="form-control" id="txtCTN" />
-        </div>
-        <div class="col-sm-2">
-            Seal<br /><input type="text" class="form-control" id="txtSeal" />
-        </div>
         <div class="col-sm-3">
-            Qty<br />
+            Cut off RTN<br />
             <div style="display:flex">
-                <input type="text" class="form-control" id="txtQty" />
-                <input type="text" class="form-control" id="txtUnit" />
+                <input type="date" name="FactoryDate" id="txtFactoryDate" class="form-control" />
+                <input type="time" name="FactoryTime" id="txtFactoryTime" class="form-control" />
             </div>
         </div>
         <div class="col-sm-2">
-            N/W<br /><input type="text" class="form-control" id="txtNetW" />
+            Return Date<br />
+            <div style="display:flex">
+                <input type="date" name="ReturnDate" id="txtReturnDate" class="form-control" />
+            </div>
         </div>
         <div class="col-sm-2">
-            G/W<br /><input type="text" class="form-control" id="txtGrossW" />
+            Clear Port<br />
+            <div style="display:flex">
+                <input type="text" class="form-control" name="ClearPort" id="txtClearPort" />
+                <a class="btn btn-default" onclick="SearchData('clearport')">...</a>
+            </div>
         </div>
-        <div class="col-sm-1">
-            CBM<br /><input type="text" class="form-control" id="txtM3" />
+        <div class="col-sm-3">
+            Return AT<br />
+            <div style="display:flex">
+                <input type="text" name="CYContact" id="txtCYContact" class="form-control" />
+            </div>
+        </div>
+        <div class="col-sm-2">
+            Mode
+            <br />
+            <select name="TransMode" id="txtTransMode" class="form-control dropdown">
+                <option value="CY-CY">CY/CY</option>
+                <option value="CY-CFS">CY/CFS</option>
+                <option value="CFS-CY">CFS/CY</option>
+                <option value="CFS-CFS">CFS/CFS</option>
+            </select>
         </div>
     </div>
-    <a onclick="AddCont()" class="btn btn-warning">Add Details</a>
-    <table id="tbContainers" class="table table-responsive">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Qty</th>
-                <th>Net Weight</th>
-                <th>Gross Weight</th>
-                <th>M3</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <input type="hidden" name="fieldJobType" value="ShipBy" />
     <input type="hidden" name="ContList" id="ContainerList" />
     <input type="button" id="btnSave" Class="btn btn-success" onclick="return ValidateData()" value="Save Data" />
+    @ViewBag.Message
 </form>
-@ViewBag.Message
+<a href="#" class="btn btn-info" id="btnPrint" onclick="PrintBooking()">
+    <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Form</b>
+</a>
+<select id="cboPrintForm">
+    <option value="BK">Booking Request</option>
+    <option value="TI">Truck Order (IMPORT)</option>
+    <option value="TE">Truck Order (EXPORT)</option>
+    <option value="BA">Booking Confirmation (AIR)</option>
+    <option value="BS">Booking Confirmation (SEA)</option>
+    <option value="SP">Shipping Instruction</option>
+    @*<option value="BLW">Bill of Lading - WALMAY</option>*@
+    <option value="BLE">Bill of Lading - UGLOBE</option>
+    @*<option value="BFT">Bill of Lading - BETTER</option>*@
+    <option value="BLS">Sea Way Bill</option>
+    <option value="HAW">House Air Way Bill</option>
+    <option value="MAW">Master Air Way Bill</option>
+    <option value="DO">D/O Letter</option>
+    <option value="SC">Sales Contract</option>
+    <option value="PL">Packing Lists</option>
+</select>
+
 <div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
@@ -323,6 +444,12 @@ End Code
     let list = 'JOB_TYPE=#txtJobType,';
     list += 'SHIP_BY=#txtShipBy';
     loadCombos(path, list);
+
+    if (job !== '') {
+        $('#txtJNo').val(job);
+        //window.location.href=path + 'JobOrder/Transport?BranchCode=' + branch + '&JNo=' + job;
+        CallBackQueryJob(path, branch, job, LoadJob);
+    }
 
     let jt = '';
     function CheckJobType() {
@@ -344,7 +471,9 @@ End Code
         CreateLOV(dv, '#dvDeliveryAgent', '#tbDeliveryAgent', 'Delivery Agent', r, 3);
         CreateLOV(dv, '#dvAgent', '#tbAgent', 'Agent', r, 3);
         CreateLOV(dv, '#dvTransporter', '#tbTransporter', 'Transporter', r, 3);
-        CreateLOV(dv, '#dvUnit', '#tbUnit', 'Unit', r, 2);
+        CreateLOV(dv, '#dvPort', '#tbPort', 'Clear Port', r, 2);
+        CreateLOV(dv, '#dvUnit', '#tbUnit', 'Container Unit', r, 2);
+        CreateLOV(dv, '#dvUnit2', '#tbUnit2', 'Package Unit', r, 2);
         CreateLOV(dv, '#dvQuotation', '#tbQuotation', 'Quotation', r, 3);
         CreateLOV(dv, '#dvCountry', '#tbCountry', 'Country', r, 2);
         CreateLOV(dv, '#dvReceiveAt', '#tbReceiveAt', 'Place of Receive', r, 3);
@@ -353,6 +482,7 @@ End Code
         CreateLOV(dv, '#dvDischargeAt', '#tbDischargeAt', 'Place of Discharge', r, 3);
         CreateLOV(dv, '#dvPayableAt', '#tbPayableAt', 'Freight Payable At', r, 3);
     });
+
     function GetParam() {
         let strParam = '?';
         strParam += 'Branch=' + branch;
@@ -360,6 +490,90 @@ End Code
         strParam += '&SBy=' + $('#txtShipBy').val();
         strParam += '&CustCode=' + $('#txtCustCode').val().split('|')[0];
         return strParam;
+    }
+    function LoadBooking(dt) {
+        $.get(path + 'JobOrder/GetTransport?Branch='+ dt.BranchCode +'&Code=' + dt.BookingNo).done((r) => {
+            if (r.transport.header.length > 0) {
+                let h = r.transport.header[0];
+
+                $.get(path + 'Master/GetCompany?Code=' + h.NotifyCode).done((r) => {
+                    if (r.company.data.length > 0) {
+                        let c = r.company.data[0];
+                        $('#txtActualShipperCode').val(c.CustCode + '|' + c.Branch);
+                        $('#txtActualShipperName').val(c.NameEng);
+                    }
+                });
+
+                $('#txtTransportCode').val(h.VenderCode);
+                ShowVenderEN(path, h.VenderCode, '#txtTransportName');
+
+                $('#txtActualConsigneeCode').val(h.ReturnContact.split('|')[0]);
+                ShowCustomerEN(path, h.ReturnContact.split('|')[0], h.ReturnContact.split('|')[1], '#txtActualConsigneeName');
+
+                $('#txtFreightType').val(h.PaymentCondition);
+                $('#txtFreightPayAt').val(h.PaymentBy);
+
+                $('#txtReceivePlace').val(h.CYPlace);
+                $('#txtLoadingPlace').val(h.FactoryPlace);
+                $('#txtDeliveryPlace').val(h.PackingPlace);
+                $('#txtDischargePlace').val(h.ReturnPlace);
+            }
+            $('#ContainerList').val('');
+            if (r.transport.detail.length > 0) {
+                for (let d of r.transport.detail) {
+                    ShowCont(d);
+                }
+            }
+        });
+    }
+    function LoadJob(dr) {
+        $('#txtMode').val('E');
+        $('#txtJNo').val(dr.JNo);
+        $('#txtQuotation').val(dr.QNo);
+        $('#txtJobType').val(CCode(dr.JobType));
+        $('#txtShipBy').val(CCode(dr.ShipBy));
+
+        $('#txtPortCode').val(dr.InvInterPort);
+
+        $('#txtCountryCode').val(dr.ShipBy == 1 ? dr.InvFCountry : dr.InvCountry);
+        ShowCountry(path, $('#txtCountryCode').val(), '#txtCountryName');
+
+        $('#txtShipperCode').val(dr.CustCode + '|' + dr.CustBranch);
+        ShowCustomerEN(path, dr.CustCode, dr.CustBranch, '#txtShipperName');
+
+        $('#txtInvNo').val(dr.InvNo);
+        $('#txtBookingNo').val(dr.BookingNo);
+        $('#txtHAWB').val(dr.HAWB);
+        $('#txtMAWB').val(dr.MAWB);
+        $('#txtETDDate').val(CDateEN(dr.ETDDate));
+        $('#txtETADate').val(CDateEN(dr.ETADate));
+        $('#txtVesselName').val(dr.VesselName);
+        $('#txtMVesselName').val(dr.MVesselName);
+
+        $('#txtForwarderCode').val(dr.ForwarderCode);
+        ShowVenderEN(path, dr.ForwarderCode, '#txtForwarderName');
+
+        $('#txtTransportCode').val(dr.AgentCode);
+        ShowVenderEN(path, dr.AgentCode, '#txtTransportName');
+        $('#txtNetWeight').val(dr.TotalNW);
+        $('#txtGrossWeight').val(dr.TotalGW);
+        $('#txtMeasurement').val(dr.Measurement);
+        $('#txtDeliveryAgentName').val(dr.DeliveryTo);
+        $('#txtDeliveryAgentAddress').val(dr.DeliveryAddr);
+        $('#txtCountBL').val(dr.BLNo);
+
+        let ttlctn = dr.TotalContainer.split('x');
+        $('#txtTotalContainer').val(ttlctn[0]);
+        $('#txtContainerUnit').val(ttlctn[1]);
+
+        $.get(path + 'Master/GetCompany?Code=' + dr.Consigneecode).done((r) => {
+            if (r.company.data.length > 0) {
+                let c = r.company.data[0];
+                $('#txtConsigneeCode').val(c.CustCode + '|' + c.Branch);
+                $('#txtConsigneeName').val(c.NameEng);
+            }
+        });
+        LoadBooking(dr);
     }
     function SearchData(type) {
         let w = '';        
@@ -420,6 +634,16 @@ End Code
             case 'unit':
                 SetGridServUnit(path, '#tbUnit', '#dvUnit', (dr) => {
                     $('#txtContainerUnit').val(dr.UnitType);
+                });
+                break;
+            case 'unit2':
+                SetGridServUnit(path, '#tbUnit2', '#dvUnit2', (dr) => {
+                    $('#txtInvProductUnit').val(dr.UnitType);
+                });
+                break;
+            case 'clearport':
+                SetGridCustomsPort(path, '#tbPort', '#dvPort', (dr) => {
+                    $('#txtClearPort').val(dr.AreaCode);
                 });
                 break;
             case 'quotation':
