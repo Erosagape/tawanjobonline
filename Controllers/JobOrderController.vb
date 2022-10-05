@@ -1717,7 +1717,12 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                             data.AddNew(prefix & fmt, False)
                         End If
                     End If
-                    Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
+
+                    '***Change Concept duplicate checking with JobType/ShipBy/Customer per commercial invoice No
+                    'Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
+
+                    '***Change Concept duplicate checking with JobType/ShipBy/Customer per commercial invoice No
+                    Dim sql As String = String.Format(" WHERE BranchCode='{1}' AND JobType={3} AND ShipBy={4} And InvNo='{2}' AND CustCode='{0}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo, data.JobType, data.ShipBy)
                     Dim FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
                     If FindJob.Count > 0 Then
                         If FindJob(0).JNo <> data.JNo Then
