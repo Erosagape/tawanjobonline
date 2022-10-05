@@ -392,7 +392,7 @@ Public Class CInvDetail
             If Me.ClrNoList <> "" Then
                 If Me.DocNo <> "" And Me.ItemNo <> 0 Then
                     sql = String.Format("UPDATE Job_ClearDetail SET LinkBillNo='{0}',LinkItem={1}", Me.DocNo, Me.ItemNo)
-                    sql &= String.Format(" WHERE ClrNo+'/'+Convert(varchar,ItemNo) IN('{0}')", Me.ClrNoList.Replace(",", "','"))
+                    sql &= String.Format(" WHERE BranchCode='{0}' AND ClrNo+'/'+Convert(varchar,ItemNo) IN('{1}')", Me.BranchCode, Me.ClrNoList.Replace(",", "','"))
                     cm.CommandText = sql
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()

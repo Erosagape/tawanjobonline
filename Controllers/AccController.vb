@@ -2473,7 +2473,7 @@ ORDER BY a.TName1
                         Else
                             'Invoice's Cost
                             Dim Sql = String.Format("UPDATE Job_ClearDetail SET LinkBillNo='{0}',LinkItem={1} ", dt.DocNo, dt.ItemNo)
-                            Sql &= String.Format(" WHERE ClrNo+'/'+Convert(varchar,ItemNo) IN('{0}')", dt.ClrNoList.Replace(",", "','"))
+                            Sql &= String.Format(" WHERE BranchCode='{0}' AND ClrNo+'/'+Convert(varchar,ItemNo) IN('{1}')", dt.BranchCode, dt.ClrNoList.Replace(",", "','"))
                             msg &= "Update " & dt.ClrNoList & "=" & Main.DBExecute(GetSession("ConnJob"), Sql) & "\n"
                         End If
                     Next
