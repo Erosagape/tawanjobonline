@@ -14,7 +14,7 @@ Namespace Controllers
         <HttpPost()>
         <ActionName("Excel")>
         Function PostExcel() As ActionResult
-
+            Return Content("Complete", textContent)
         End Function
     End Class
 End Namespace
