@@ -26,6 +26,9 @@
         <div>
             <a href="/Config/WebLogin">Web Log-in History Log</a>
         </div>
+        <div>
+            <a href="/Admin/Billing">TAWAN BILLING Monthly Report</a>
+        </div>
     </div>
     <div class="col-sm-9">
         <table class="table table-bordered" style="width:100%">

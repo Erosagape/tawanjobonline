@@ -3703,6 +3703,10 @@ order by 1,2,3
             If Not Request.QueryString("OnWhere") Is Nothing Then
                 sqlW = Request.QueryString("OnWhere").ToString().Replace(",", "")
             End If
+            Dim type = ""
+            If Not Request.QueryString("Type") Is Nothing Then
+                type = Request.QueryString("Type")
+            End If
             If Not Request.QueryString("OnValue") Is Nothing Then
                 If sqlW <> "" Then
                     sqlW = " AND " & sqlW
@@ -3721,6 +3725,8 @@ sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is not null THEN
 sum(case when sv.IsExpense=0 and sv.IsCredit=1 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)  as ReimburseBill,
 sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is null THEN cd.UsedAmount ELSE 0 END)  as RevenueUnBill,
 sum(case when sv.IsExpense=0 and sv.IsCredit=1 and rh.ReceiptNo is null THEN cd.UsedAmount ELSE 0 END)  as ReimburseUnBill,
+sum(case when sv.IsExpense=0 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)  as InvBill,
+sum(case when sv.IsExpense=0 and rh.ReceiptNo is null THEN cd.UsedAmount ELSE 0 END)  as InvUnBill,
 sum(case when sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END)  as Cost,
 count(distinct cd.JobNo) as JobCount,
 sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)/count(distinct cd.JobNo) as RevPerJob,
@@ -3753,7 +3759,6 @@ left join Job_ReceiptHeader rh
 on rd.BranchCode=rh.BranchCode
 and rd.ReceiptNo=rh.ReceiptNo 
 where ch.DocStatus<>99 and  not isnull(ih.CancelProve,'')<>'' and  not isnull(rh.CancelProve,'')<>''
-and id.AmtCharge>0 
 "
                 If onYear > 0 And onMonth > 0 Then
                     sql &= String.Format(" AND Year(j.DocDate)='{0}' AND Month(j.DocDate)='{1}' ", onYear, onMonth)
@@ -3761,21 +3766,35 @@ and id.AmtCharge>0
                 sql &= sqlW
                 sql &= " GROUP BY " & onGroup & " ORDER BY 2 DESC"
             Else
-                sql = sql.Replace("{0}", onYear)
-                sql = sql.Replace("{1}", onMonth)
-                sql = sql.Replace("{2}", sqlW)
+                sql = sql.Replace("{0}", onGroup)
+                sql = sql.Replace("{1}", onYear)
+                sql = sql.Replace("{2}", onMonth)
+                sql = sql.Replace("{3}", sqlW)
+
             End If
             Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
             Dim chartstr = "[[""Type"",""Billed"",""Non-Bill""],[""N/A"",0,0]]"
             If oData.Rows.Count > 0 Then
-                chartstr = "[[""Type"",""Billed"",""Non-Bill""]{0}]"
-                Dim str = ""
-                For Each dr In oData.Rows
-                    str &= ",[""" & dr(0).ToString() & """"
-                    str &= "," & CDbl("0" & dr("RevenueBill").ToString()) & ""
-                    str &= "," & CDbl("0" & dr("RevenueUnBill")) + CDbl("0" & dr("Cost")) & "]"
-                Next
-                chartstr = String.Format(chartstr, str)
+                If type = "C" Then
+                    chartstr = "[[""Type"",""Billed"",""Non-Bill""]{0}]"
+                    Dim str = ""
+                    For Each dr In oData.Rows
+                        str &= ",[""" & dr(0).ToString() & """"
+                        str &= "," & CDbl("0" & dr("InvBill").ToString()) & ""
+                        str &= "," & CDbl("0" & dr("InvUnBill").ToString()) & "]"
+                    Next
+                    chartstr = String.Format(chartstr, str)
+                Else
+                    chartstr = "[[""Type"",""Billed"",""Non-Bill"",""Cost""]{0}]"
+                    Dim str = ""
+                    For Each dr In oData.Rows
+                        str &= ",[""" & dr(0).ToString() & """"
+                        str &= "," & CDbl("0" & dr("InvBill").ToString()) & ""
+                        str &= "," & CDbl("0" & dr("InvUnBill").ToString()) & ""
+                        str &= "," & CDbl("0" & dr("Cost").ToString()) & "]"
+                    Next
+                    chartstr = String.Format(chartstr, str)
+                End If
             End If
             Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
             Return Content(json, jsonContent)
@@ -3845,7 +3864,6 @@ left join Job_ReceiptHeader rh
 on rd.BranchCode=rh.BranchCode
 and rd.ReceiptNo=rh.ReceiptNo 
 where ch.DocStatus<>99 and  not isnull(ih.CancelProve,'')<>'' and  not isnull(rh.CancelProve,'')<>''
-and id.AmtCharge>0 
 "
             End If
             If onYear > 0 Then
@@ -3866,8 +3884,8 @@ and id.AmtCharge>0
                     str &= ",[""Non-Bill""," & CDbl("0" & oData.Rows(0)("InvUnBill")) & "]"
                 Else
                     Str = ",[""Cost""," & CDbl("0" & oData.Rows(0)("Cost")) & "]"
-                    Str &= ",[""Billed""," & CDbl("0" & oData.Rows(0)("RevenueBill")) & "]"
-                    str &= ",[""Non-Bill""," & CDbl("0" & oData.Rows(0)("RevenueUnBill")) & "]"
+                    str &= ",[""Billed""," & CDbl("0" & oData.Rows(0)("InvBill")) & "]"
+                    str &= ",[""Non-Bill""," & CDbl("0" & oData.Rows(0)("InvUnBill")) & "]"
                 End If
                 chartstr = String.Format("[[""Type"",""Value""]{0}]", Str)
             End If

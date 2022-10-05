@@ -2857,6 +2857,10 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
         End Function
         <HttpPost()>
         Function PostCreateTransport() As ActionResult
+            Dim fldJobType = Request.Form("fieldJobType")
+            If IsNothing(Request.Form("fieldJobType")) Then
+                fldJobType = "JobType"
+            End If
             Dim data = New CJobOrder(GetSession("ConnJob")) With
                 {
                 .BranchCode = Request.Form("Branch"),

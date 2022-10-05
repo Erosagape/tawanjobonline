@@ -78,18 +78,22 @@ Namespace Controllers
                                         tsqlW = "WHERE " & tsqlW
                                     End If
                                     Using oTbJob = New SqlClient.SqlCommand("SELECT * FROM Job_Order " & tsqlW & " ORDER BY CreateDate", oConn).ExecuteReader()
+                                        Dim countJob As Integer = 0
                                         While oTbJob.Read
                                             Dim period = (Convert.ToDateTime(oTbJob("CreateDate")).Year & "/" & Convert.ToDateTime(oTbJob("CreateDate")).Month.ToString("00"))
                                             If lastPeriod <> period Then
                                                 If lastPeriod <> "" Then
                                                     htmlJobList &= "</ul></li></ul>"
+                                                    htmlJobList = String.Format(htmlJobList, "{0}", countJob)
+                                                    countJob = 0
                                                 End If
                                                 lastPeriod = period
                                                 htmlJobList &= "<ul class=""nested"">"
-                                                htmlJobList &= "<li><span class=""box"">" & period & "</span>"
+                                                htmlJobList &= "<li><span class=""box"">JOB " & period & " = {0}</span>"
                                                 htmlJobList &= "<ul class=""nested"">"
                                             End If
                                             htmlJobList &= "<li>" & oTbJob("JNo").ToString() & "</li>"
+                                            countJob += 1
                                         End While
                                         If lastPeriod <> "" Then
                                             htmlJobList &= "</ul></li></ul>"

@@ -8,16 +8,22 @@ End Code
         object-fit: contain;
     }
 </style>
-<table>
-    <tr>
-        <td>User ID :</td>
-        <td><input type="text" id="txtUserID" /></td>
-    </tr>
-    <tr>
-        <td>Password :</td>
-        <td><input type="password" id="txtPassword" /></td>
-    </tr>
-</table>
+<div class="row">
+    <div class="col-sm-2">
+        <span>User ID :</span>
+    </div>
+    <div class="col-sm-4">
+        <input type="text" id="txtUserID" class="form-control" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <span>Password :</span>
+    </div>
+    <div class="col-sm-4">
+        <input type="password" id="txtPassword" class="form-control" />
+    </div>
+</div>
 <button id="btnLogin" class="btn btn-primary" onclick="CheckLogin()">Log in</button>
 <div class="row" style="background-color:white;text-align:center;">
     <div class="col-sm-2">
