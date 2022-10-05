@@ -3892,5 +3892,14 @@ where ch.DocStatus<>99 and  not isnull(ih.CancelProve,'')<>'' and  not isnull(rh
             Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
             Return Content(json, jsonContent)
         End Function
+        Function Costing() As ActionResult
+            LoadCompanyProfile()
+            Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "GenerateInv")
+            If AuthorizeStr.IndexOf("M") < 0 Then
+                ViewBag.Module = "Account"
+                Return RedirectToAction("AuthError", "Menu")
+            End If
+            Return View()
+        End Function
     End Class
 End Namespace

@@ -2897,14 +2897,14 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 .InvFCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, Request.Form("Country"), "TH"),
                 .InvCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, "TH", Request.Form("Country")),
                 .InvProduct = Request.Form("InvProduct"),
-                .InvProductQty = Request.Form("InvProductQty"),
-                .InvProductUnit = Request.Form("InvProductUnit"),
-                .ProjectName = Request.Form("ProjectName"),
-                .LoadDate = Request.Form("LoadDate"),
-                .EstDeliverDate = Request.Form("EstDeliverDate"),
-                .EstDeliverTime = "1900-01-01 " & Request.Form("EstDeliverTime"),
-                .ConfirmChqDate = "1900-01-01 " & Request.Form("ConfirmChqDate"),
-                .ClearPort = Request.Form("ClearPort")
+            .InvProductQty = Request.Form("InvProductQty"),
+            .InvProductUnit = Request.Form("InvProductUnit"),
+            .ProjectName = Request.Form("ProjectName"),
+            .LoadDate = Request.Form("LoadDate"),
+            .EstDeliverDate = Request.Form("EstDeliverDate"),
+            .EstDeliverTime = "1900-01-01 " & Request.Form("EstDeliverTime"),
+            .ConfirmChqDate = "1900-01-01 " & Request.Form("ConfirmChqDate"),
+            .ClearPort = Request.Form("ClearPort")
                 }
             If Request.Form("mode") <> "A" And data.JNo <> "" Then
                 Dim chkData = New CJobOrder(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
@@ -2942,16 +2942,33 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                         .InvInterPort = Request.Form("PortCode")
                         .InvFCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, Request.Form("Country"), "TH")
                         .InvCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, "TH", Request.Form("Country"))
+                        .InvProduct = Request.Form("InvProduct")
+                        .InvProductQty = Request.Form("InvProductQty")
+                        .InvProductUnit = Request.Form("InvProductUnit")
+                        .ProjectName = Request.Form("ProjectName")
+                        .LoadDate = Request.Form("LoadDate")
+                        .EstDeliverDate = Request.Form("EstDeliverDate")
+                        .EstDeliverTime = "1900-01-01 " & Request.Form("EstDeliverTime")
+                        .ConfirmChqDate = "1900-01-01 " & Request.Form("ConfirmChqDate")
+                        .ClearPort = Request.Form("ClearPort")
                     End With
                 End If
             End If
             If data.HAWB = "{AUTO}" And GetValueConfig("RUNNING_BYMASK", "HBLAWB") <> "" Then
                 Dim mask = GetValueConfig("RUNNING_BYMASK", "HBLAWB")
                 If mask.IndexOf("[CT]") >= 0 Then
-                    If (data.JobType = 1) Then
-                        mask = mask.Replace("[CT]", data.InvCountry)
+                    If fldJobType = "JobType" Then
+                        If (data.JobType = 1) Then
+                            mask = mask.Replace("[CT]", data.InvCountry)
+                        End If
+                        mask = mask.Replace("[CT]", data.InvFCountry)
+                    Else
+                        If (data.ShipBy = 1) Then
+                            mask = mask.Replace("[CT]", data.InvCountry)
+                        End If
+                        mask = mask.Replace("[CT]", data.InvFCountry)
+
                     End If
-                    mask = mask.Replace("[CT]", data.InvFCountry)
                 End If
                 If mask.IndexOf("[IP]") >= 0 Then
                     mask = mask.Replace("[IP]", data.InvInterPort)
@@ -2979,10 +2996,17 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
             If data.BookingNo = "{AUTO}" And GetValueConfig("RUNNING_BYMASK", "BOOKING") <> "" Then
                 Dim mask = GetValueConfig("RUNNING_BYMASK", "BOOKING")
                 If mask.IndexOf("[CT]") >= 0 Then
-                    If (data.JobType = 1) Then
-                        mask = mask.Replace("[CT]", data.InvCountry)
+                    If fldJobType = "JobType" Then
+                        If (data.JobType = 1) Then
+                            mask = mask.Replace("[CT]", data.InvCountry)
+                        End If
+                        mask = mask.Replace("[CT]", data.InvFCountry)
+                    Else
+                        If (data.ShipBy = 1) Then
+                            mask = mask.Replace("[CT]", data.InvCountry)
+                        End If
+                        mask = mask.Replace("[CT]", data.InvFCountry)
                     End If
-                    mask = mask.Replace("[CT]", data.InvFCountry)
                 End If
                 If mask.IndexOf("[IP]") >= 0 Then
                     mask = mask.Replace("[IP]", data.InvInterPort)
@@ -3012,6 +3036,7 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
             If FindJob.Count > 0 Then
                 If FindJob(0).JNo <> data.JNo Then
                     ViewBag.Message = String.Format("Commercial Invoice No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).InvNo)
+                    ViewBag.JobNo = FindJob(0).JNo
                     Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
                 End If
             End If
@@ -3023,6 +3048,7 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 If FindJob.Count > 0 Then
                     If FindJob(0).JNo <> data.JNo Then
                         ViewBag.Message = String.Format("Booking No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).BookingNo)
+                        ViewBag.JobNo = FindJob(0).JNo
                         Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
                     End If
                 End If
@@ -3032,6 +3058,7 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 If FindJob.Count > 0 Then
                     If FindJob(0).JNo <> data.JNo Then
                         ViewBag.Message = String.Format("House BL/AWB No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).HAWB)
+                        ViewBag.JobNo = FindJob(0).JNo
                         Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
                     End If
                 End If
@@ -3085,7 +3112,7 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                     .BranchCode = data.BranchCode
                     .JNo = data.JNo
                     .BookingNo = data.BookingNo
-                    .LoadDate = IIf(data.JobType = 1, data.ETADate, data.ETDDate)
+                    .LoadDate = IIf(fldJobType = "JobType", IIf(data.JobType = 1, data.ETADate, data.ETDDate), IIf(data.ShipBy = 1, data.ETADate, data.ETDDate))
                     .NotifyCode = Request.Form("Notify").Split("|")(0)
                     .VenderCode = Request.Form("Transport")
                     .PaymentCondition = Request.Form("FreightCondition")
@@ -3121,7 +3148,17 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                                 }
                             Dim chkCont = New CTransportDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", data.BranchCode, data.BookingNo, i))
                             If chkCont.Count > 0 Then
-
+                                With chkCont(0)
+                                    .CTN_NO = val(0)
+                                    .CTN_SIZE = Request.Form("ContUnit")
+                                    .NetWeight = val(1)
+                                    .GrossWeight = val(2)
+                                    .Measurement = val(3)
+                                    .ProductQty = val(4)
+                                    .ProductUnit = val(5)
+                                    .SealNumber = val(6)
+                                End With
+                                cont = chkCont(0)
                             End If
                             cont.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", data.BranchCode, data.BookingNo, i))
                         Next
@@ -3380,6 +3417,21 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
             End If
             Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
             Return Content(json, jsonContent)
+        End Function
+        Function CopyCostData() As ActionResult
+            Dim fromBranch = Request.QueryString("FromBranch")
+            Dim fromJob = Request.QueryString("FromJob")
+            Dim toBranch = Request.QueryString("ToBranch")
+            Dim toJob = Request.QueryString("ToJob")
+            Dim sqlW = " WHERE BranchCode='{0}' AND JobNo='{1}' AND ClrNo NOT IN(select clrno from Job_ClearHeader where DocStatus<>99) ORDER BY ClrNo,ItemNo"
+            Dim oClearDetail = New CClrDetail(GetSession("ConnJob")).GetData(String.Format(sqlW, fromBranch, fromJob))
+            Dim oTotalRec = 0
+            If oClearDetail.Count > 0 Then
+                For Each oData In oClearDetail
+
+                Next
+            End If
+            Return Content(String.Format("Copy from {0} to {1} Complete (" & oTotalRec & " Records) ", fromJob, toJob), textContent)
         End Function
     End Class
 
