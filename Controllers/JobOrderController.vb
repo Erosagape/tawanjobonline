@@ -139,7 +139,7 @@ Namespace Controllers
                         If msg.Substring(0, 1) = "S" Then
                             oList.Add(oRec)
                         Else
-                            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CreateContainer", "Save Container No" + i, msg, True, "", JsonConvert.SerializeObject(oRec))
+                            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CreateContainer", "Save Container No" & i, msg, True, "", JsonConvert.SerializeObject(oRec))
                         End If
                     Next
                     Dim json = JsonConvert.SerializeObject(oList)
@@ -301,7 +301,21 @@ Namespace Controllers
                     oHead(0).CancelDate = DateTime.MinValue
                     oHead(0).CancelReason = ""
                     oHead(0).ReferQNo = Request.QueryString("Code").ToString
-                    oHead(0).AddNew("Q-" & DateTime.Now.ToString("yyMM") & "-____")
+                    Dim fmt As String = GetValueConfig("RUNNING", "QUO")
+                    If fmt <> "" Then
+                        If fmt.IndexOf("bb") >= 0 Then
+                            fmt = fmt.Replace("bb", oHead(0).DocDate.AddYears(543).ToString("yy"))
+                        End If
+                        If fmt.IndexOf("MM") >= 0 Then
+                            fmt = fmt.Replace("MM", oHead(0).DocDate.ToString("MM"))
+                        End If
+                        If fmt.IndexOf("yy") >= 0 Then
+                            fmt = fmt.Replace("yy", oHead(0).DocDate.ToString("yy"))
+                        End If
+                    Else
+                        fmt = oHead(0).DocDate.ToString("yyMM") & "____"
+                    End If
+                    oHead(0).AddNew(GetValueConfig("RUNNING_FORMAT", "QUO", quoPrefix) & fmt)
                     Dim msg = oHead(0).SaveData(String.Format(" WHERE BranchCode='{0}' AND QNo='{1}'", oHead(0).BranchCode, oHead(0).QNo))
                     If msg.Substring(0, 1) = "S" Then
                         For Each detail In oDetails
@@ -1643,16 +1657,25 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                             If fmt.IndexOf("bb") >= 0 Then
                                 fmt = fmt.Replace("bb", data.DocDate.AddYears(543).ToString("yy"))
                             End If
-                            If fmt.IndexOf("MM") >= 0 Then
-                                fmt = fmt.Replace("MM", data.DocDate.ToString("MM"))
-                            End If
                             If fmt.IndexOf("yy") >= 0 Then
                                 fmt = fmt.Replace("yy", data.DocDate.ToString("yy"))
+                            End If
+                            If fmt.IndexOf("MM") >= 0 Then
+                                fmt = fmt.Replace("MM", data.DocDate.ToString("MM"))
                             End If
                         Else
                             fmt = data.DocDate.ToString("yyMM") & "____"
                         End If
-                        data.AddNew(prefix & fmt, False)
+                        If Main.GetValueConfig("PROFILE", "RUNNING_BYMASK") = "N" Then
+                            data.AddNew("%" & fmt, False)
+                            If data.JNo.IndexOf("%") > 0 Then
+                                data.JNo = data.JNo.Replace("%", prefix)
+                            Else
+                                data.JNo = prefix & data.JNo.Substring(3)
+                            End If
+                        Else
+                            data.AddNew(prefix & fmt, False)
+                        End If
                     End If
                     Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
                     Dim FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
@@ -2686,6 +2709,25 @@ on f.CarNo=c.CarNo
             Dim jsonD As String = JsonConvert.SerializeObject(oDataD)
             Dim json = "{""data"":" & jsonD & "}"
             Return Content(json, jsonContent)
+        End Function
+        Function Summary() As ActionResult
+            Main.DBExecute(GetSession("ConnJob"), SQLUpdateJobStatus(""))
+            Dim cfgStatus = Main.GetDataConfig("JOB_STATUS")
+            ViewBag.DataStatus = cfgStatus
+            Dim fldStatus = ""
+            For Each status In cfgStatus
+                fldStatus &= String.Format(",SUM(CASE WHEN j.JobStatus={0} THEN 1 ELSE 0 END) as '{1}'", status.ConfigKey, status.ConfigValue)
+            Next
+            Dim sql = "
+SELECT c.CustCode,c.NameThai,c.NameEng,COUNT(*) as TotalJob,
+MAX(j.DutyDate) as LastWorkDate,MAX(j.JNo) as LastJobNo
+" & fldStatus & "
+FROM Job_Order j INNER JOIN Mas_Company c ON
+j.CustCode=c.CustCode
+GROUP BY c.CustCode,c.NameThai,c.NameEng
+"
+            ViewBag.DataCount1 = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+            Return GetView("Summary", "MODULE_CS")
         End Function
     End Class
 
