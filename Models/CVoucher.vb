@@ -225,7 +225,8 @@ Public Class CVoucher
         If pFormatSQL = "" Then
             m_ControlNo = ""
         Else
-            Dim tSql As String = String.Format("SELECT MAX(ControlNo) as t FROM Job_CashControl WHERE BranchCode='{0}' And ControlNo Like '%{1}' ", m_BranchCode, pFormatSQL)
+            'Dim tSql As String = String.Format("SELECT MAX(ControlNo) as t FROM Job_CashControl WHERE BranchCode='{0}' And ControlNo Like '%{1}' ", m_BranchCode, pFormatSQL)
+            Dim tSql As String = String.Format("SELECT MAX(ControlNo) as t FROM Job_CashControl WHERE ControlNo Like '%{0}' ", pFormatSQL)
             Dim retStr As String = Main.GetMaxByMask(m_ConnStr, tSql, pFormatSQL)
             m_ControlNo = retStr
         End If

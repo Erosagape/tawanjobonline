@@ -327,7 +327,8 @@ Public Class CRcpHeader
         If pFormatSQL = "" Then
             m_ReceiptNo = ""
         Else
-            Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(ReceiptNo) as t FROM Job_ReceiptHeader WHERE BranchCode='{0}' And ReceiptNo Like '%{1}' ", m_BranchCode, pFormatSQL), pFormatSQL)
+            'Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(ReceiptNo) as t FROM Job_ReceiptHeader WHERE BranchCode='{0}' And ReceiptNo Like '%{1}' ", m_BranchCode, pFormatSQL), pFormatSQL)
+            Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(ReceiptNo) as t FROM Job_ReceiptHeader WHERE ReceiptNo Like '%{0}' ", pFormatSQL), pFormatSQL)
             m_ReceiptNo = retStr
         End If
     End Sub

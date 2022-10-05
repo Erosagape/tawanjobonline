@@ -242,7 +242,8 @@ Public Class CQuoHeader
         If pFormatSQL = "" Then
             m_QNo = ""
         Else
-            Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(QNo) as t FROM Job_QuotationHeader WHERE BranchCode='{0}' And QNo Like '%{1}' ", m_BranchCode, pFormatSQL), pFormatSQL)
+            'Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(QNo) as t FROM Job_QuotationHeader WHERE BranchCode='{0}' And QNo Like '%{1}' ", m_BranchCode, pFormatSQL), pFormatSQL)
+            Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(QNo) as t FROM Job_QuotationHeader WHERE QNo Like '%{0}' ", pFormatSQL), pFormatSQL)
             m_QNo = retStr
         End If
     End Sub

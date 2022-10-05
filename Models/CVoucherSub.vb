@@ -383,7 +383,8 @@ Public Class CVoucherSub
         If pFormatSQL = "" Then
             m_PRVoucher = ""
         Else
-            Dim tSql As String = String.Format("SELECT MAX(PRVoucher) as t FROM Job_CashControlSub WHERE BranchCode='{0}' And PRVoucher Like '%{1}' ", m_BranchCode, pFormatSQL)
+            'Dim tSql As String = String.Format("SELECT MAX(PRVoucher) as t FROM Job_CashControlSub WHERE BranchCode='{0}' And PRVoucher Like '%{1}' ", m_BranchCode, pFormatSQL)
+            Dim tSql As String = String.Format("SELECT MAX(PRVoucher) as t FROM Job_CashControlSub WHERE PRVoucher Like '%{0}' ", pFormatSQL)
             Dim retStr = Main.GetMaxByMask(m_ConnStr, tSql, pFormatSQL)
             m_PRVoucher = retStr
         End If
