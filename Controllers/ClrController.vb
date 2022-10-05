@@ -216,7 +216,7 @@ Namespace Controllers
                     Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=6 WHERE BranchCode+'|'+AdvNo in({0}) AND DocStatus<>99", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
-                        Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateClrReceiveFromAdvance(user, docno))
+                        Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateClrReceiveFromAdvance(user, docno, lst))
                         Return New HttpResponseMessage(HttpStatusCode.OK)
                     End If
                 End If
@@ -278,7 +278,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Condition")) Then
                     Select Case Request.QueryString("Condition").ToString()
                         Case "ERN"
-                            sql &= " AND ISNULL(d.LinkBillNo,'')='' AND d.UsedAmount > 0 "
+                            sql &= " AND d.LinkItem=0 AND d.UsedAmount > 0 "
                     End Select
                 End If
                 sql &= " ORDER BY h.BranchCode,h.ClrDate DESC,h.ClrNo,j.CustCode,j.CustBranch,d.ItemNo "
@@ -494,6 +494,62 @@ Namespace Controllers
                 Return Content("{""clr"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
             End Try
 
+        End Function
+        Function GetCostingForClear() As ActionResult
+            Try
+
+                Dim tSqlW As String = " WHERE c.DocStatus<>99 "
+                If Not IsNothing(Request.QueryString("Show")) Then
+                    If Request.QueryString("Show").ToString = "BILL" Then
+                        tSqlW &= " AND isnull(d.LinkBillNo,'')<>'' "
+                    End If
+                    If Request.QueryString("Show").ToString = "UNBILL" Then
+                        tSqlW &= " AND NOT isnull(d.LinkBillNo,'')<>'' "
+                    End If
+                    If Request.QueryString("Show").ToString = "ALL" Then
+                        tSqlW = " WHERE c.DocStatus>0 "
+                    End If
+                End If
+
+                If Not IsNothing(Request.QueryString("BranchCode")) Then
+                    Dim Branch = Request.QueryString("BranchCode")
+                    tSqlW &= String.Format(" AND c.BranchCode='{0}'", Branch)
+                End If
+
+                If Not IsNothing(Request.QueryString("JobNo")) Then
+                    tSqlW &= " AND d.JobNo='" & Request.QueryString("JobNo") & "' "
+                End If
+                If Not IsNothing(Request.QueryString("RefNo")) Then
+                    tSqlW &= " AND j.InvNo='" & Request.QueryString("RefNo") & "' "
+                End If
+
+                If Not IsNothing(Request.QueryString("JType")) Then
+                    tSqlW &= " AND j.JobType=" & Request.QueryString("JType") & ""
+                End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlW &= " AND c.ClrDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlW &= " AND c.ClrDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
+                If Not IsNothing(Request.QueryString("Status")) Then
+                    tSqlW &= " AND c.DocStatus='" & Request.QueryString("Status") & "' "
+                End If
+                Dim dbID = 1
+                If Not IsNothing(Request.QueryString("DB")) Then
+                    dbID = Request.QueryString("DB")
+                End If
+                Dim conn = Main.GetDatabaseConnection(My.Settings.LicenseTo, "JOBSHIPPING", dbID)(0)
+                Dim sql As String = SQLSelectCostForClear() & "{0}"
+
+                Dim oData As DataTable = New CUtil(conn).GetTableFromSQL(String.Format(sql, tSqlW))
+                Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & tSqlW & """}}"
+                Return Content(json, jsonContent)
+
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetCostingForClear", ex.Message, ex.StackTrace, True)
+            Return Content("{""clr"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
+            End Try
         End Function
         Function GetAdvForClear() As ActionResult
             Try
@@ -1010,6 +1066,141 @@ Namespace Controllers
         Function UpdateClearStatus() As ActionResult
             Main.UpdateClearStatus()
             Return Content("OK", textContent)
+        End Function
+        Function Summary() As ActionResult
+            Dim sqlClrByTruck = "
+select r.Yearly,r.Monthly,r.TruckNo
+,sum(ISNULL(SumRevenue,0)) as TotalRevenue 
+,sum(ISNULL(SumService,0)) as TotalService
+,sum(ISNULL(SumAdvance,0)) as TotalAdvance
+,sum(ISNULL(SumCost,0)) as TotalCost
+,sum(ISNULL(SumFuel,0)) as TotalFuel
+,sum(ISNULL(SumProfit,0)) as TotalProfit
+,count(*) as CountTrip 
+from (
+select Year(j.DocDate) as Yearly,Month(j.DocDate) as Monthly,
+isnull(em.Name,ld.Driver) as Driver,
+isnull(cl.CarLicense,ld.TruckNO) as TruckNo,ld.CTN_NO,
+cd.SumRevenue,cd.SumService,cd.SumAdvance,
+cd.SumCost,cd.SumFuel,cd.SumRevenue-cd.SumCost as SumProfit
+from Job_LoadInfoDetail ld
+inner join Job_Order j
+on ld.BranchCode=j.BranchCode 
+and ld.JNo=j.JNo
+left join Mas_CarLicense cl
+on ld.TruckNO=cl.CarNo
+left join Mas_Employee em
+on ld.Driver=em.EmpCode
+left join (
+ select h.BranchCode,h.CTN_NO,d.JobNo
+ ,SUM(case when s.IsExpense=0 THEN d.BNet else 0 END) as SumRevenue
+ ,SUM(case when s.IsExpense=0 AND s.IsCredit=0 THEN d.BNet else 0 END) as SumService
+ ,SUM(case when s.IsExpense=0 AND s.IsCredit=1 THEN d.BNet else 0 END) as SumAdvance
+ ,SUM(case when s.IsExpense=1 THEN d.BNet else 0 END) as SumCost
+ ,SUM(case when s.IsExpense=1 AND d.SDescription like '%น้ำมัน%' THEN d.BNet else 0 END) as SumFuel
+
+ from Job_ClearDetail d inner join Job_ClearHeader h
+ on d.BranchCode=h.BranchCode and d.ClrNo=h.ClrNo
+ inner join Job_SrvSingle s on d.SICode=s.SICode
+ where h.DocStatus<>99
+ group by h.BranchCode,h.CTN_NO,d.JobNo
+) cd
+on ld.BranchCode=cd.BranchCode 
+and ld.CTN_NO=cd.CTN_NO
+and ld.JNo=cd.JobNo
+) r
+group by r.Yearly,r.Monthly,r.TruckNo
+order by 1,2,3
+"
+            Dim oTbl = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlClrByTruck)
+            Dim html = ""
+            html = "<h2>Summary By Truck</h2>"
+            html &= "<table border=""1"" style=""border-collapse:collapse;border-width:thin;background-color:white;width:100%;"">"
+            html &= "<thead>"
+            html &= "<tr>"
+            html &= "<th>Truck No</th>"
+            html &= "<th>Revenue</th>"
+            html &= "<th>Service/Transport</th>"
+            html &= "<th>Advance</th>"
+            html &= "<th>Cost</th>"
+            html &= "<th>Cost-Fuel</th>"
+            html &= "<th>Profit</th>"
+            html &= "<th>Trip<br/>Count</th>"
+            html &= "</tr>"
+            html &= "</thead>"
+            html &= "<tbody>"
+            If oTbl.Rows.Count > 0 Then
+                Dim currYear = oTbl.Rows(0)("Yearly").ToString() & " / " & oTbl.Rows(0)("Monthly").ToString()
+                html &= "<tr class=""groupheader"">"
+                html &= "<td>" & currYear & "</td>"
+                html &= "<td colspan=""7""></td>"
+                html &= "</tr>"
+                Dim sumValues(7) As Double
+                Dim rowCount = 0
+                For Each dr As DataRow In oTbl.Rows
+                    rowCount += 1
+                    If currYear <> dr("Yearly").ToString() & " / " & dr("Monthly").ToString() Then
+                        If rowCount > 1 Then
+                            html &= "<tr class=""grouptotal number"">"
+                            html &= "<td>" & currYear & "</td>"
+                            For i As Integer = 0 To 6
+                                If i = 6 Then
+                                    html &= "<td>" & sumValues(i).ToString("0") & "</td>"
+                                Else
+                                    html &= "<td>" & sumValues(i).ToString("#,###,##0.00") & "</td>"
+                                End If
+                            Next
+                            html &= "</tr>"
+                        End If
+
+                        currYear = dr("Yearly").ToString() & " / " & dr("Monthly").ToString()
+
+                        html &= "<tr class=""groupheader"">"
+                        html &= "<td>" & currYear & "</td>"
+                        html &= "<td colspan=""7""></td>"
+                        html &= "</tr>"
+
+                        For i As Integer = 0 To 6
+                            sumValues(i) = 0
+                        Next
+                    End If
+
+                    html &= "<tr class=""number"">"
+                    html &= "<td>" & dr("TruckNo").ToString() & "</td>"
+                    html &= "<td>" & Convert.ToDouble(dr("TotalRevenue")).ToString("#,###,##0.00") & "</td>"
+                    html &= "<td>" & Convert.ToDouble(dr("TotalService")).ToString("#,###,##0.00") & "</td>"
+                    html &= "<td>" & Convert.ToDouble(dr("TotalAdvance")).ToString("#,###,##0.00") & "</td>"
+                    html &= "<td>" & Convert.ToDouble(dr("TotalCost")).ToString("#,###,##0.00") & "</td>"
+                    html &= "<td>" & Convert.ToDouble(dr("TotalFuel")).ToString("#,###,##0.00") & "</td>"
+                    html &= "<td>" & Convert.ToDouble(dr("TotalProfit")).ToString("#,###,##0.00") & "</td>"
+                    html &= "<td>" & Convert.ToDouble(dr("CountTrip")).ToString("0") & "</td>"
+                    html &= "</tr>"
+                    sumValues(0) += Convert.ToDouble(dr(3))
+                    sumValues(1) += Convert.ToDouble(dr(4))
+                    sumValues(2) += Convert.ToDouble(dr(5))
+                    sumValues(3) += Convert.ToDouble(dr(6))
+                    sumValues(4) += Convert.ToDouble(dr(7))
+                    sumValues(5) += Convert.ToDouble(dr(8))
+                    sumValues(6) += Convert.ToDouble(dr(9))
+                    If rowCount = oTbl.Rows.Count Then
+                        html &= "<tr class=""grouptotal number"">"
+                        html &= "<td>" & currYear & "</td>"
+                        html &= "<td>" & sumValues(0).ToString("#,###,##0.00") & "</td>"
+                        html &= "<td>" & sumValues(1).ToString("#,###,##0.00") & "</td>"
+                        html &= "<td>" & sumValues(2).ToString("#,###,##0.00") & "</td>"
+                        html &= "<td>" & sumValues(3).ToString("#,###,##0.00") & "</td>"
+                        html &= "<td>" & sumValues(4).ToString("#,###,##0.00") & "</td>"
+                        html &= "<td>" & sumValues(5).ToString("#,###,##0.00") & "</td>"
+                        html &= "<td>" & sumValues(6).ToString("0") & "</td>"
+                        html &= "</tr>"
+
+                    End If
+                Next
+            End If
+            html &= "</tbody>"
+            html &= "</table>"
+            ViewBag.DataGrid1 = html
+            Return GetView("Summary", "MODULE_CLR")
         End Function
     End Class
 End Namespace
