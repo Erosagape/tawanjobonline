@@ -215,7 +215,7 @@ Public Class CGLHeader
         If pformatSQL = "" Then
             pformatSQL = "GL" & DateTime.Today.ToString("yyMM") & "____"
         End If
-        Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(GLRefNo) as t FROM Job_GLHeader WHERE BranchCode='{0}' And GLRefNo Like '%{1}' ", m_BranchCode, pformatSQL), pformatSQL)
+        Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(GLRefNo) as t FROM Job_GLHeader WHERE GLRefNo Like '%{0}' ", pformatSQL), pformatSQL)
         m_GLRefNo = retStr
     End Sub
     Public Function GetData(pSQLWhere As String) As List(Of CGLHeader)

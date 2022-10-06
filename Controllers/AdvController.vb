@@ -34,27 +34,40 @@ Namespace Controllers
         End Function
         Function GetClearExpFromQuo() As ActionResult
             Try
-                Dim tSqlW As String = " WHERE j.JNo<>'' "
+                Dim tSqlW As String = " WHERE d.QNo<>'' "
                 Dim branch As String = ""
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     branch = Request.QueryString("Branch").ToString
-                    tSqlW &= String.Format(" AND j.BranchCode='{0}'", branch)
+                    tSqlW &= String.Format(" AND d.BranchCode='{0}'", branch)
                 End If
-                Dim job As String = ""
-                If Not IsNothing(Request.QueryString("Job")) Then
-                    job = Request.QueryString("Job").ToString
-                    tSqlW &= String.Format(" AND j.JNo='{0}'", job)
+                Dim job As String = Request.QueryString("Job").ToString
+                Dim qno As String = ""
+                If Not IsNothing(Request.QueryString("QNo")) Then
+                    qno = Request.QueryString("QNo").ToString
+                    tSqlW &= String.Format(" AND d.QNo='{0}'", qno)
+                Else
+                    If Not IsNothing(Request.QueryString("Job")) Then
+                        tSqlW &= String.Format(" AND j.JNo='{0}'", job)
+                    End If
                 End If
-                If branch <> "" And job <> "" Then
-                    Main.DBExecute(GetSession("ConnJob"), "DELETE FROM Job_ClearExp j " & tSqlW & " AND j.QNo<>''")
+                Dim bDelete As Boolean = False
+                If Not IsNothing(Request.QueryString("DEL")) Then
+                    bDelete = (Request.QueryString("DEL").ToString = "Y")
+                End If
+                If bDelete = True Then
+                    If qno <> "" Then
+                        Main.DBExecute(GetSession("ConnJob"), "DELETE FROM Job_ClearExp j WHERE j.BranchCode='" & branch & "' AND j.QNo='" & qno & "' AND j.JNo='" & job & "'")
+                    Else
+                        Main.DBExecute(GetSession("ConnJob"), "DELETE FROM Job_ClearExp j WHERE j.BranchCode='" & branch & "' AND j.JNo='" & job & "' AND j.QNo<>''")
+                    End If
                 End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectExpenseFromQuo() & tSqlW)
                 Dim msg = ""
                 If oData.Rows.Count > 0 Then
                     For Each row As DataRow In oData.Rows
                         Dim oRow As New CClearExp(GetSession("ConnJob")) With {
-                            .BranchCode = row("BranchCode").ToString,
-                            .JNo = row("JNo").ToString,
+                            .BranchCode = branch,
+                            .JNo = job,
                             .SICode = row("SICode").ToString,
                             .ItemNo = 0,
                             .SDescription = row("DescriptionThai").ToString,

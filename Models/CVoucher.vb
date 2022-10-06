@@ -223,7 +223,7 @@ Public Class CVoucher
             Next
         End If
         Dim oDtl As New CVoucherDoc(GetSession("ConnJob"))
-        Dim oRows = oDtl.GetData(String.Format(" WHERE BranchCode='{0}' AND ControlNo='{1}' ", Me.BranchCode, Me.ControlNo))
+        Dim oRows = oDtl.GetData(String.Format(" WHERE ControlNo='{0}' ", Me.ControlNo))
         If oRows.Count > 0 Then
             For Each row In oRows
                 row.DeleteData()

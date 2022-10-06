@@ -2759,7 +2759,7 @@ dbo.Job_SrvSingle AS s ON i.SICode = s.SICode
 SELECT j.BranchCode, j.JNo, j.QNo, i.ItemNo, i.SICode, i.DescriptionThai as TRemark, i.QtyBegin, i.QtyEnd, i.CalculateType, i.UnitCheck, i.CurrencyCode, i.CurrencyRate, i.ChargeAmt, i.Isvat, i.VatRate, i.VatAmt, i.IsTax, 
 i.TaxRate, i.TaxAmt, i.TotalAmt, i.TotalCharge, i.UnitDiscntPerc, i.UnitDiscntAmt, i.VenderCode, i.VenderCost, i.BaseProfit, i.CommissionPerc, i.CommissionAmt, 
 i.NetProfit, i.IsRequired,s.NameThai, s.NameEng
-FROM dbo.Job_QuotationDetail AS d INNER JOIN
+FROM dbo.Job_QuotationDetail AS d LEFT JOIN
 dbo.Job_Order AS j ON d.BranchCode = j.BranchCode AND d.QNo = j.QNo AND d.SeqNo = j.Revise AND d.JobType = j.JobType AND d.ShipBy = j.ShipBy INNER JOIN
 dbo.Job_QuotationItem AS i ON d.BranchCode = i.BranchCode AND d.QNo = i.QNo AND d.SeqNo = i.SeqNo INNER JOIN
 dbo.Job_SrvSingle AS s ON i.SICode = s.SICode
