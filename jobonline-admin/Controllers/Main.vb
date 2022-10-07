@@ -234,7 +234,7 @@ Module Main
                 End If
             End Using
         Catch ex As Exception
-
+            Throw ex
         End Try
         Return dt
     End Function
