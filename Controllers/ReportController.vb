@@ -1,4 +1,5 @@
-﻿Imports System.Web.Http
+﻿Imports System.Data.OleDb
+Imports System.Web.Http
 Imports System.Web.Mvc
 Imports Newtonsoft.Json
 
@@ -2175,6 +2176,173 @@ FROM Job_Order GROUP BY Year(DocDate),Month(DocDate)
             End If
             ViewBag.DataHTML = html1
             Return vResult
+        End Function
+        Function ImportExcel() As ActionResult
+            Dim connStr = GetSession("ConnJob")
+            Dim dbName As String = ""
+            For Each str As String In connStr.Split(";")
+                If str.Contains("Initial Catalog") Then
+                    dbName = str.Split("=")(1)
+                End If
+            Next
+            ViewBag.DatabaseName = dbName
+            ViewBag.Result = "Ready"
+            Return GetView("ImportExcel")
+        End Function
+        <Mvc.HttpPost()>
+        <Mvc.ActionName("ImportExcel")>
+        Function PostImportExcel(xlsFiles As HttpPostedFileBase) As ActionResult
+            Dim msg = ""
+            Dim connStr = GetSession("ConnJob")
+            Dim dbName As String = ""
+            For Each str As String In connStr.Split(";")
+                If str.Contains("Initial Catalog") Then
+                    dbName = str.Split("=")(1)
+                End If
+            Next
+            ViewBag.DatabaseName = dbName
+            If xlsFiles.ContentLength > 0 Then
+                Dim files = xlsFiles
+                Dim fname = Server.MapPath("~") & "/Resource/Import/" + files.FileName
+                If System.IO.File.Exists(fname) Then
+                    System.IO.File.Delete(fname)
+                End If
+                files.SaveAs(fname)
+                If System.IO.File.Exists(fname) Then
+                    Dim fileName As String = fname
+                    Dim databaseName As String = dbName
+                    Dim sheetName As String = "Data"
+                    Dim str As String = ""
+                    If System.IO.File.Exists(fileName) Then
+                        Try
+                            Using oDataConfig = ReadExcelFromFile(fileName, "Config$")
+                                If oDataConfig.Rows.Count > 0 Then
+                                    Dim tbName As String = ""
+                                    Dim tbKeys As List(Of String) = New List(Of String)
+                                    Dim tbFields As New List(Of KeyValuePair(Of String, String))
+                                    Dim sql As String = "SELECT * FROM {0} "
+                                    Dim sqlWhere As String = ""
+                                    For Each dr As DataRow In oDataConfig.Rows
+                                        If dr(0).ToString() = "Table" Then
+                                            tbName = dr(1).ToString()
+                                        End If
+                                        If dr(0).ToString().Contains("Key") Then
+                                            tbKeys.Add(dr(1).ToString())
+                                        End If
+                                        If dr(0).ToString().Contains("Field") Then
+                                            tbFields.Add(New KeyValuePair(Of String, String)(dr(0).ToString().Replace("Field", ""), dr(1).ToString()))
+                                        End If
+                                    Next
+                                    sql = String.Format(sql, tbName)
+                                    Dim i = 0
+                                    For Each fld As String In tbKeys
+                                        If sqlWhere <> "" Then
+                                            sqlWhere &= " AND "
+                                        End If
+                                        sqlWhere &= " " & fld & "='{" & i & "}'"
+                                        i += 1
+                                    Next
+                                    sql &= " WHERE " & sqlWhere
+
+                                    Dim sqlConn = connStr
+                                    Dim dataHeader As String = ""
+                                    Dim dataDetail As String = ""
+                                    Dim rowHeader = 0
+                                    Dim rowDetail = 0
+                                    Using cn As New SqlClient.SqlConnection(sqlConn)
+                                        cn.Open()
+                                        If cn.State = ConnectionState.Open Then
+
+                                            Using oDataHeader = ReadExcelFromFile(fileName, sheetName & "$")
+                                                If oDataHeader.Rows.Count > 0 Then
+                                                    For Each dh As DataRow In oDataHeader.Rows
+                                                        Dim sqlTemp = sql
+                                                        i = 0
+                                                        For Each pk In tbKeys
+                                                            Dim idxKey = tbFields.Find(Function(o) o.Value.Equals(pk)).Key
+                                                            If idxKey <> "" Then
+                                                                Dim idx = Convert.ToInt32(idxKey) - 1
+                                                                Dim val = dh(idx).ToString()
+                                                                If val <> "" Then
+                                                                    sqlTemp = sqlTemp.Replace("{" & i & "}", val)
+                                                                    i += 1
+                                                                End If
+                                                            End If
+                                                        Next
+                                                        If i <> tbKeys.Count Then
+                                                            Continue For
+                                                        End If
+                                                        Using da As New SqlClient.SqlDataAdapter(sqlTemp, cn)
+                                                            Using cb As New SqlClient.SqlCommandBuilder(da)
+                                                                Using dt As New DataTable
+                                                                    da.Fill(dt)
+                                                                    Dim dr As DataRow = dt.NewRow
+                                                                    If dt.Rows.Count > 0 Then
+                                                                        dr = dt.Rows(0)
+                                                                    End If
+                                                                    For Each col In tbFields
+                                                                        Try
+                                                                            Dim idx = Convert.ToInt32(col.Key) - 1
+                                                                            dr(col.Value) = dh(idx)
+                                                                        Catch ex As Exception
+                                                                        End Try
+                                                                    Next
+                                                                    If dr.RowState = DataRowState.Detached Then
+                                                                        dt.Rows.Add(dr)
+                                                                    End If
+                                                                    If da.Update(dt) > 0 Then
+                                                                        If dataHeader <> "" Then
+                                                                            dataHeader &= ","
+                                                                        End If
+                                                                        dataHeader &= JsonConvert.SerializeObject(dt)
+                                                                        rowHeader += 1
+                                                                    End If
+                                                                End Using
+                                                            End Using
+                                                        End Using
+                                                    Next
+                                                End If
+                                            End Using
+                                        End If
+                                        cn.Close()
+                                    End Using
+                                    str = "Total =" & rowHeader & " Processed"
+                                Else
+                                    str = "Config sheet Not found in file"
+                                End If
+                            End Using
+                        Catch ex As Exception
+                            str = ex.Message
+                        End Try
+                    End If
+                    msg = str
+                End If
+            Else
+                msg = "No File Process"
+            End If
+            ViewBag.Result = msg
+            Return GetView("ImportExcel")
+        End Function
+        Private Function ReadExcelFromFile(fname As String, Optional tbName As String = "") As DataTable
+            Dim dt As New DataTable
+            Try
+                Dim connXLS As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 12.0;HDR={1};IMEX=1'"
+                Using cnExcel = New OleDbConnection(String.Format(connXLS, fname, "YES"))
+                    cnExcel.Open()
+                    Dim cnSchemaTable = cnExcel.GetOleDbSchemaTable(OleDb.OleDbSchemaGuid.Tables, Nothing)
+                    If cnSchemaTable.Rows.Count > 0 Then
+                        If tbName = "" Then
+                            tbName = cnSchemaTable.Rows(0)("TABLE_NAME").ToString()
+                        End If
+                        Using da = New OleDb.OleDbDataAdapter("SELECT * FROM [" & tbName & "]", cnExcel)
+                            da.Fill(dt)
+                        End Using
+                    End If
+                End Using
+            Catch ex As Exception
+                Throw ex
+            End Try
+            Return dt
         End Function
     End Class
 End Namespace

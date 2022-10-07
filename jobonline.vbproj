@@ -2420,6 +2420,7 @@
     <Content Include="Views\Tracking\Dashboard3.vbhtml" />
     <Content Include="Views\Tracking\Dashboard4.vbhtml" />
     <Content Include="Views\Tracking\Timeline2.vbhtml" />
+    <Content Include="Views\Report\ImportExcel.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
