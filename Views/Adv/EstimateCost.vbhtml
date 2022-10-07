@@ -209,9 +209,12 @@ End Code
 </p>
 <div class="row">
     <div class="col-sm-3">
+        <select id="remarkGroup" style="width:100%">
+        </select>
         <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
             <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Pre-invoice</b>
         </a>
+
     </div>
     <div class="col-sm-3">
         <label id="lblCharge">Charge :</label>
@@ -234,7 +237,7 @@ End Code
             <input type="number" id="txtProfit" class="form-control w3-yellow" style="font-weight:bold;" value="0.00" disabled>
         </div>
     </div>
-
+  
 </div>
     <a href="#" class="btn btn-danger" id="btnDeleteAll" onclick="DeleteDataAll()">
         <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete All Data</b>
@@ -256,6 +259,12 @@ End Code
     }
     ClearData();
     SetEvents();
+    var groupBy = function (xs, key) {
+        return xs.reduce(function (rv, x) {
+            (rv[x[key]] = rv[x[key]] || []).push(x);
+            return rv;
+        }, {});
+    };
     function SetEvents() {
         $('#txtSICode').keydown(function (event) {
             if (event.which == 13) {
@@ -425,6 +434,8 @@ End Code
         if ($('#txtJNo').val() !== '') {
             w += '&Job=' + $('#txtJNo').val();
         }
+
+
         $.get(path + 'Adv/GetClearExpReport' + w, function (r) {
             if (r.estimate.data.length == 0) {
                 $('#tbData').DataTable().clear().draw();
@@ -451,7 +462,16 @@ End Code
             $('#txtCharge').val(CDbl(chg, 2));
             $('#txtCost').val(CDbl(cost, 2));
             $('#txtProfit').val(CDbl(chg-cost, 2));
-            $('#txtTotal').val(CDbl(tot,2));
+            $('#txtTotal').val(CDbl(tot, 2));
+
+            let remarkGroups = groupBy(r.estimate.data, 'TRemark');
+            console.log(remarkGroups);
+            let options = '<option value="ALL">ALL</option>';
+            
+            for (const propname in remarkGroups) {
+                options += `<option value='${encodeURIComponent(propname)}'>${propname}</option>`;
+            }
+            $('#remarkGroup').html(options);
             let tb= $('#tbData').dataTable({
                 data: r.estimate.data,
                 columns: [
@@ -613,6 +633,11 @@ End Code
     }
 
     function PrintData() {
-        window.open(path + 'Adv/FormEstimate?branch=' + $('#txtBranchCode').val() + '&job=' + $('#txtJNo').val());
+        if ($('#remarkGroup').val() === 'ALL') {
+            window.open(path + 'Adv/FormEstimate?branch=' + $('#txtBranchCode').val() + '&job=' + $('#txtJNo').val() + '&selectAll=' + true);
+        } else {
+            window.open(path + 'Adv/FormEstimate?branch=' + $('#txtBranchCode').val() + '&job=' + $('#txtJNo').val() + '&remark=' + $('#remarkGroup').val());
+        }
+        
     }
 </script>

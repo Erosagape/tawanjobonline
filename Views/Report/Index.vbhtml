@@ -318,7 +318,7 @@ End Code
 <script type="text/javascript" src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     let reportID = '';
-    let browseWhat = '';    
+    let browseWhat = '';
     let cliterias = [];
     let userPosition = '@ViewBag.UserPosition';
     let data = {};
@@ -437,12 +437,13 @@ End Code
     }
     function ReadCliteria(str) {
         let arr = str.split(',');
+        $('#tbDate').show();
         if (arr[1] !== '') {
             $('#tbDate').show();
             let vStr = arr[1].indexOf('.') > 0 ? arr[1].split('.')[1] : arr[1];
             $('#fromDate').text(vStr.toString().replace('Date',' Date'));
         } else {
-            $('#tbDate').hide();
+           // $('#tbDate').hide();
         }
         if (arr[2] !== '') {
             $('#tbCust').show();

@@ -10,7 +10,7 @@ End Code
             </div>
             <div class="col-sm-3">
                 <label id="lblBranch">Branch :</label>
-                <br /><input type="text" id="txtBranch" class="form-control" tabIndex="1">
+                <br /><input type="text" id="txtBranch" class="form-control" tabIndex="1" disabled="disabled">
             </div>
             <div class="col-sm-3">
                 <label id="lblCustGroup">Customer Group :</label>
@@ -319,7 +319,6 @@ End Code
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let userGroup = '@ViewBag.UserGroup';
-    let userRight = '@ViewBag.UserRights';
     let mode = getQueryString("Mode");
     let user = '@ViewBag.User';
     if (userGroup !== 'S') {

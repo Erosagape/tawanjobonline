@@ -612,8 +612,8 @@ End Code
         for (let i = 0; i < filter_data.length; i++) {
             filter_sum.currencycode = filter_data[i].CurrencyCode;
             filter_sum.exchangerate = filter_data[i].ExchangeRate;
-            filter_sum.sumamount += (Number(filter_data[i].TotalExpense) / Number(filter_data[i].ExchangeRate));
-            filter_sum.totalamount += Number(filter_data[i].TotalExpense);
+            filter_sum.sumamount += Number(filter_data[i].TotalExpense);
+            filter_sum.totalamount += Number(filter_data[i].TotalExpense + filter_data[i].TotalVAT);
             filter_sum.totalnet += Number(filter_data[i].TotalNet);
             filter_sum.vatinc += Number(0);
             filter_sum.vatexc += Number(filter_data[i].TotalVAT);
@@ -638,7 +638,7 @@ End Code
                 BookCode: $('#txtBookCash').val(),
                 BankCode: $('#fldBankCodeCash').val(),
                 BankBranch: $('#fldBankBranchCash').val(),
-                ChqDate: '',
+                ChqDate: $('#txtCashTranDate').val(),
                 CashAmount: CNum($('#txtAdvCash').val()),
                 ChqAmount: 0,
                 CreditAmount: 0,
@@ -653,7 +653,7 @@ End Code
                 TotalNet: sum_cash.totalnet,
                 IsLocal: 0,
                 ChqStatus: '',
-                TRemark: $('#txtCashTranDate').val() + '-' + $('#txtCashTranTime').val(),
+                TRemark: $('#txtCashTranTime').val(),
                 PayChqTo: $('#txtCashPayTo').val(),
                 DocNo: $('#txtRefNoCash').val(),
                 SICode: '',
@@ -823,8 +823,9 @@ End Code
                 contentType: "application/json",
                 data: jsonString,
                 success: function (response) {
-                    if (response.result.data != null) {
-                        //SaveClearing();
+                    if (response.result.data !== null) {
+                        //SaveClearing();                        
+                        PrintVoucher($('#txtBranchCode').val(), $('#txtControlNo').val());
                         SetGridAdv(false);
                         ShowMessage(response.result.msg);
                     }

@@ -1,16 +1,21 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "PAYABLE VOUCHER"
-    ViewBag.ReportName = ""
+    ViewBag.ReportName = "ใบขออนุมัติเบิกจ่าย"
 End Code
 <style>
     * {
         font-size: 11px;
     }
 
-    .table{
-        width:100%;
+    h3{
+        font-size:16px;
     }
+    .table {
+        width: 100%;
+        page-break-inside: auto;
+    }
+
     body {
         line-height: 1;
     }
@@ -28,6 +33,7 @@ End Code
     }
 
     .table td, .table th {
+        border-color: black;
         border-top: 0px none;
         padding: 0.3rem;
     }
@@ -62,159 +68,72 @@ End Code
         border-left: 1px solid black;
         border-right: 1px solid black;
     }
+
 </style>
 
-<div class="center bold">
-    <label style="font-size:16px">INBOUND PAYABLE VOUCHER</label>
-</div>
-<table class="table">
-    <thead></thead>
-    <tbody>
-        <tr>
-            <td colspan="2" class="bold">
-                <label id="billToLbl">BILL TO NAME AND ADDRESS</label>
-            </td>
-            <td class="right">
-                <label id="id"></label>
-            </td>
-            <td>
-                <label id="voucherLbl" class="bold">VOUCHER NO:</label>
-            </td>
-            <td>
-                <label id="voucherNo"></label>
-            </td>
-        </tr>
-        <tr>
-            <td id="billTo" rowspan="4" colspan="3" style="vertical-align:top">
-                <label id="billName"></label>
-                <div id="billAddress"></div>
-            </td>
-            <td>
-                <label id="voucherDateLbl" class="bold">VOUCHER DATE:</label>
-            </td>
-            <td>
-                <label id="voucherDate"></label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label id="dueDateLbl" class="bold">DUE DATE:</label>
-            </td>
-            <td>
-                <label id="dueDate"></label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label id="creditTermLbl" class="bold">CREDIT TERM:</label>
-            </td>
-            <td>
-                <label id="creditTerm"></label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label id="currencyLbl" class="bold">CURRENCY:</label>
-            </td>
-            <td>
-                <label id="currency"></label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label id="jobNoLbl" class="bold">JOB NO</label>
-            </td>
-            <td>:</td>
-            <td>
-                <label id="jobNo" class=""></label>
-            </td>
-            <td>
-                <label id="masterBLNoLbl" class="bold">MASTER B/L NO.</label>
-            </td>
-            <td>
-                <label id="masterBLNo">:</label>
-            </td>
-        </tr>
-        <tr>
-            <td class="">
-                <label id="feederLbl" class="bold">FEEDER/VOYAGE</label>
-            </td>
-            <td>:</td>
-            <td>
-                <label id="feeder" class=""></label>
-            </td>
-            <td>
-                <label id="houseBLNoLbl" class="bold">HOUSE B/L NO.</label>
-            </td>
-            <td>
-                <label id="houseBLNo"></label>
-            </td>
-        </tr>
-        <tr>
-            <td class="">
-                <label id="vesselLbl" class="bold">VESSEL/VOYAGE</label>
-            </td>
-            <td>:</td>
-            <td>
-                <label id="vessel" class=""></label>
-            </td>
-            <td>
-                <label id="newHBLNoLbl" class="bold">NEW HB/L NO.</label>
-            </td>
-            <td>
-                <label id="newHBLNo"></label>
-            </td>
-        </tr>
-        <tr>
-            <td class="">
-                <label id="shipperNameLbl" class="bold">SHIPPER NAME</label>
-            </td>
-            <td>:</td>
-            <td>
-                <label id="shipperName" class=""></label>
-            </td>
-            <td>
-                <label id="etdLbl" class="bold">ETD : </label>
-                <label id="etd"></label>
-            </td>
-            <td>
-                <label id="etaLbl" class="bold">ETA : </label>
-                <label id="eta"></label>
-            </td>
-        </tr>
-        <tr>
-            <td class="">
-                <label id="consigneeNameLbl" class="bold">CONSIGNEE NAME</label>
-            </td>
-            <td>:</td>
-            <td>
-                <label id="consigneeName" class=""></label>
-            </td>
-            <td>
-                <label id="originalLbl" class="bold">ORIGINAL</label>
-            </td>
-            <td>
-                <label id="original"></label>
-            </td>
-        </tr>
-        <tr>
-            <td class="">
-                <label id="carrierLbl" class="bold">CARRIER</label>
-            </td>
-            <td>:</td>
-            <td>
-                <label id="carrier" class=""></label>
-            </td>
-        </tr>
-    </tbody>
-</table>
 <table class="table" border="1" style="border-width:thin;border-collapse:collapse;width:100%;">
     <thead>
         <tr>
+            <td colspan="14">
+                <table id="renderpage" class="table">
+                    <thead></thead>
+                    <tbody>
+                        <tr>
+                            <td class="bold">
+                                <label id="venderToLbl"> VENDER NAME (จ่ายให้)</label>
+                            </td>
+                            @*<td colspan="2" class="bold">
+                                <label id="billToLbl">BILL TO NAME AND ADDRESS</label>
+                            </td>*@
+                            <td>
+                                <label id="venderName"></label>
+                            </td>
+                            <td>
+                                <label id="voucherLbl" class="bold">A/P NO:</label>
+                            </td>
+                            <td>
+                                <label id="voucherNo"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label id="refno1Lbl" class="bold">REF NO.1 : </label>
+                            </td>
+                            <td>
+                                <label id="refno1" class=""></label>
+                            </td>
+                            <td>
+                                <label id="voucherDateLbl" class="bold">DUE DATE:</label>
+                            </td>
+                            <td>
+                                <label id="voucherDate"></label>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <label id="refno2Lbl" class="bold">เลขที่บัญชี : </label>
+                            </td>
+                            <td>
+                                <label id="refno2" class=""></label>
+                            </td>
+                            <td id="payTypeLbl" class="bold"> PAYMENT TYPE</td>
+                            <td><label id="payType" class=""></label></td>
+                        </tr>
+                        <tr>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <th class="align-top" rowspan="2" style="width:60px">SI CODE</th>
+            <th class="align-top" rowspan="2">JOB NO</th>
+            <th class="align-top" rowspan="2">BOOKING NO.</th>
             <th class="align-top" rowspan="2">DESCRIPTION</th>
-            <th class="center align-top" rowspan="2">QTYs</th>
-            <th class="center align-top" rowspan="2">UOM</th>
-            <th class="center" colspan="4">IN SOURCE CURRENCY</th>
+            <th class="center align-top" rowspan="2" colspan="2">QTYs</th>
+            <th class="center" colspan="5">IN SOURCE CURRENCY</th>
             <th class="center" colspan="3">AMOUNT IN THB</th>
         </tr>
         <tr>
@@ -222,15 +141,16 @@ End Code
             <th class="center">@@ UNIT</th>
             <th class="center">AMOUNT</th>
             <th class="center">EXC.</th>
-            <th class="center">ADVANCE</th>
-            <th class="center">NO VAT</th>
-            <th class="center">VAT</th>
+            <th class="center">WH</th>
+            <th class="center" style="width:60px">ADVANCE</th>
+            <th class="center" style="width:60px">NO VAT</th>
+            <th class="center" style="width:60px">VAT</th>
         </tr>
     </thead>
     <tbody id="details">
     </tbody>
     <tr>
-        <td rowspan="5" colspan="3">
+        <td rowspan="5" colspan="4" style="padding:0px">
             <table class="table table-borderless">
                 <thead>
                     <tr class="underLine">
@@ -298,77 +218,169 @@ End Code
                 </tbody>
             </table>
         </td>
-        <td id="totalVatExclusiveAmountLbl" class="bold" colspan="4">TOTAL VAT EXCLUSIVE AMOUNT</td>
+        <td id="totalVatExclusiveAmountLbl" class="bold" colspan="7">TOTAL VAT EXCLUSIVE AMOUNT</td>
         <td id="advanceVatExclusiveAmount" class="right bold"></td>
         <td id="noVatVatExclusiveAmount" class="right bold"></td>
         <td id="vatVatExclusiveAmount" class="right bold"></td>
 
     </tr>
     <tr>
-        <td id="totalVatAmountLbl" class="bold" colspan="4">TOTAL VAT AMOUNT</td>
+        <td id="totalVatAmountLbl" class="bold" colspan="7">TOTAL VAT AMOUNT</td>
         <td class="right"></td>
         <td class="right"></td>
         <td id="totalVatAmount" class="right bold"></td>
     </tr>
     <tr>
-        <td id="totalVatInclusiveAmountLbl" class="bold" colspan="4">TOTAL VAT INCLUSIVE AMOUNT</td>
+        <td id="totalVatInclusiveAmountLbl" class="bold" colspan="7">TOTAL VAT INCLUSIVE AMOUNT</td>
         <td id="totalVatInclusiveAmount" class="right bold" colspan="3"></td>
     </tr>
     <tr>
-        <td id="lessWTLbl" class="bold" colspan="4">LESS W/T</td>
+        <td id="lessWTLbl" class="bold" colspan="7">LESS W/T</td>
         <td id="lessWT" class="right bold" colspan="3"></td>
     </tr>
     <tr>
-        <td id="netPaymentLbl" class="bold" colspan="4">NET PAYMENT</td>
-        <td id="netPayment" class="right bold" colspan="3"></td>
+        <td id="netPaymentLbl" class="bold" colspan="7">NET PAYMENT (ยอดเงินที่ต้องจ่าย)
+        <br><br><br>
+                <div style="text-align: center"><label style="font-size:5px;font-weight:lighter">ประทับตราจ่าย</label></div>
+        <br /><br>
+        </td>
+        <td id="netPayment" class="right bold" colspan="3" style="vertical-align:top"></td>
     </tr>
 </table>
-<table class="table table-bordered" >
+<br />
+<br />
+( ผู้จัดทำ ผู้อนุมัติ และบัญชีผู้ตรวจสอบ ลงนามเซ็นชื่อรับทราบ และยืนยันความถูกต้อง ว่าได้มีการตรวจสอบข้อมูลการเบิกจ่ายว่าเป็นข้อมูลที่ใช้ในงานอย่างถูกต้อง ก่อนที่จะให้ผู้บริหารโอนจ่ายหรือทำเช็คจ่าย หากมีความเสียหายเกิดขึ้นหรือข้อมูลที่ให้ไม่เป็นความจริง ยินดีรับผิดชอบความเสียหายนั้นทั้งหมดครบถ้วนสมบูรณ์ )
+<br />
+<br />
+<table class="table table-bordered">
     <tr>
-        <td class="center bold" style="height: 100px; vertical-align: top">
-            PREPARED BY:
-            <br>
+        <td class="center bold" style="height: 100px; vertical-align: top;width:20%;">
+            บัญชีผู้จัดทำ :
             <br>
             <br>
             <br>
             <br>
             <br>
             <div class="row" style="border-bottom:1px solid black;margin: 5px;"></div>
+            <div class="center" id="empCode"></div>
         </td>
-        <td class="center bold" style="height: 100px; vertical-align: top">
-            APPROVED BY:
-            <br>
+        <td class="center bold" style="height: 100px; vertical-align: top;width:20%;">
+            หัวหน้าฝ่ายบัญชีผู้ตรวจสอบ :
             <br>
             <br>
             <br>
             <br>
             <br>
             <div class="row" style="border-bottom:1px solid black;margin: 5px;"></div>
+            <div class="center" id="approveBy"></div>
         </td>
-        <td class="center bold" style="height: 100px; vertical-align: top">
-            RECEIVED BY:
-            <br>
+        <td class="center bold" style="height: 100px; vertical-align: top;width:20%;">
+            การเงินผู้ทำจ่าย :
             <br>
             <br>
             <br>
             <br>
             <br>
             <div class="row" style="border-bottom:1px solid black;margin: 5px;"></div>
+            <div class="center" id="paymentBy"></div>
         </td>
-        <td class="center bold" style="height: 100px; vertical-align: top">
-            ACCOUNTANT:
-            <br>
-            <br>
+        <td class="center bold" style="height: 100px; vertical-align: top;width:20%;">
+            ผู้จัดการฝ่ายการเงินตรวจสอบและอนุมัติ :
             <br>
             <br>
             <br>
             <br>
             <div class="row" style="border-bottom:1px solid black;margin: 5px;"></div>
+            <div class="center">WANIDA PROMTHONG (AEW)</div>
         </td>
     </tr>
 </table>
+<br /><b>REMARKS:</b>
+<span id="remark"></span>
+<br />
+<br />
+<table class="table table-bordered">
+    <tr>
+        <td class="center bold" style="vertical-align: top;width:20%;">
+            หัวหน้าฝ่ายส่งออกรับทราบ :
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="row" style="border-bottom:1px solid black;margin: 5px;"></div>
+            <div class="center"> LAONGDAO MAIPAE (DAO)</div>
+        </td>
+        <td class="center bold" style="vertical-align: top;width:20%;">
+            หัวหน้าฝ่ายนำเข้ารับทราบ :
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="row" style="border-bottom:1px solid black;margin: 5px;"></div>
+            <div class="center"> SAKORN HAETUY (DIN)</div>
+        </td>
+        <td class="center bold" style="vertical-align: top;width:20%;">
+            หัวหน้าฝ่ายปฎิบัติงานรับทราบ :
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="row" style="border-bottom:1px solid black;margin: 5px;"></div>
+            <div class="center"> PHATSAMON JASALA(PUD)</div>
+        </td>
+        <td class="center bold" style="vertical-align: top;width:20%;">
+            ผู้จัดการฝ่ายขายรับทราบ  :
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="row" style="border-bottom:1px solid black;margin: 5px;"></div>
+            <div class="center">HASSAPON UDOMSUK (VECH)</div>
+        </td>
+    </tr>
+</table>
+
+<table class="table table-bordered">
+    <tr>
+        <td class="center bold" style="vertical-align: top;width:30%;">
+            ผู้จัดการฝ่ายต่างประเทศรับทราบ :
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="row" style="border-bottom:1px solid black;margin: 5px;"></div>
+            <div class="center"> SOMPHOT LILANGAMYING (PATRICK)</div>
+        </td>
+        <td class="center bold" style="vertical-align: top;width:30%;">
+            กรรมการผู้จัดการรับทราบ :
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="row" style="border-bottom:1px solid black;margin: 5px;"></div>
+            <div class="center"> PRASERT PORNTEPCHAROEN</div>
+</td>
+        <td class="center bold" style="vertical-align: top;width:30%;color:red">
+            ผู้จัดการฝ่ายบัญชีตรวจสอบและลงบันทึกใบสำคัญจ่าย :
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="row" style="border-bottom:1px solid black;margin: 5px;"></div>
+            <div class="center"> SUDARUT SORNDECH (AEW)</div>
+        </td>
+    </tr>
+</table>
+
 <script src="~/Scripts/Func/reports.js"></script>
 <script type="text/javascript">
+    
     const path = '@Url.Content("~")';
     const branchcode = getQueryString("BranchCode");
     const id = getQueryString("DocNo");
@@ -380,12 +392,27 @@ End Code
         $.get(path + url).done(function (r) {
             if (r.payment.data.length > 0) {
                 let h = r.payment.data[0];
+                $("#dvFooter").html($("#dvFooter").html() + "	A/P NO : " + h.DocNo);
                 $("#voucherNo").text(h.DocNo);
                 $("#voucherDate").text(ShowDate(h.DocDate));
                 $("#jobNo").text(h.ForJNo);
+                $("#remark").html(CStr(h.Remark));
                 $("#totalVatAmount").text(ShowNumber(h.TotalVAT, 2));
                 $("#lessWT").text(ShowNumber(h.TotalTax, 2));
                 $("#netPayment").text(ShowNumber(h.TotalNet, 2));
+                $("#refno1").text(h.RefNo);
+                $("#refno2").text(h.PoNo);
+                $("#payType").text(h.PayType);
+                ShowUser(path, h.EmpCode, "#empCode");
+                ShowUser(path, h.ApproveBy, "#approveBy");
+
+                ShowUser(path, h.PaymentBy, "#paymentBy");
+                $.get(path + "/Master/GetVender?code=" + h.VenCode).done(function (r) {
+                    if (r.vender.data.length > 0) {
+                        $("#venderName").text(r.vender.data[0].English);
+                        // $("#venderAddress").text(r.vender.data[0].EAddress1 + r.vender.data[0].EAddress2 );
+                    }
+                });
                 LoadJob(h.BranchCode, h.ForJNo, h);
                 let d = r.payment.data;
                 let sumAdv = 0;
@@ -406,18 +433,21 @@ End Code
                 let html = '';
                 let totalRows = 20;
                 let blankRows = totalRows - d.length;
-                
+
                 for (let row of d) {
                     html += '<tr>';
-                    html += '<td class="">'+ row.SDescription +'</td>';
-                    html += '<td class="right">'+row.Qty+'</td>';
-                    html += '<td class="center">'+row.QtyUnit+'</td>';
+                    html += '<td class="">' + row.SICode + '</td>';
+                    html += '<td class="">' + row.ForJNo + '</td>';
+                    html += '<td class="">' + row.BookingRefNo + '</td>';
+                    html += '<td class="">' + row.SDescription + (row.Remark ? "(" + row.Remark + ")" : "") + '</td>';
+                    html += '<td class="center" colspan="2">' + row.Qty + " " + row.QtyUnit + '</td>';
                     html += '<td class="center">' + row.CurrencyCode + '</td>';
-                    html += '<td class="right">' + ShowNumber(row.UnitPrice,2) + '</td>';
-                    html += '<td class="right">' + ShowNumber((row.Amt/row.ExchangeRate), 2) + '</td>';
+                    html += '<td class="right">' + ShowNumber(row.UnitPrice, 2) + '</td>';
+                    html += '<td class="right">' + ShowNumber(row.Amt, 2) + '</td>';
                     html += '<td class="right">' + row.ExchangeRate + '</td>';
+                    html += '<td class="right">{WHTP}</td>';
                     let code = row.SICode;
-                    if (code.indexOf('ADV') >= 0) {
+                    if (code.indexOf('ADV') >= 0 || (code.indexOf('ATK') >= 0) || (code.indexOf('AVF') >= 0) || (code.indexOf('ASP') >= 0)) {
                         html += '<td class="right">' + ShowNumber(row.Amt, 2) + '</td>';
                         html += '<td class="right"></td>';
                         html += '<td class="right"></td>';
@@ -435,85 +465,101 @@ End Code
                         }
                     }
                     html += '</tr>';
+                    html += '<tr><td colspan="14"><b>REMARK :  </b>' + row.SRemark+ '</td></tr>';
                     let rateCal = 0;
-                    if (row.AmtWHT > 0) {
-                        if (((row.AmtWHT * 100) / 1) == row.Amt)
+                    if (row.AmtWHT != 0) {
+                        //if (((row.AmtWHT * 0.01) * 1) == row.Amt)
+                        if (CDbl((row.Amt * 0.01),2) == CDbl(row.AmtWHT,2))
                         {
-                            rateCal = 1;
-                            sumbaseWht1 += row.Amt;
-                            sumWht1 += row.AmtWHT;
+                            rateCal = 1.0;
+
                         }
 
-                        if (((row.AmtWHT * 100) / 1.5) == row.Amt) {
+                        if (CDbl((row.Amt * 0.015),2) == CDbl(row.AmtWHT,2)) {
                             rateCal = 1.5;
-                            sumbaseWht1_5 += row.Amt;
-                            sumWht1_5 += row.AmtWHT;
+
                         }
-                        if (((row.AmtWHT * 100) / 3) == row.Amt)
-                        {
-                            rateCal = 3;
-                            sumbaseWht3 += row.Amt;
-                            sumWht3 += row.AmtWHT;
+                        if (CDbl((row.Amt * 0.03),2) == CDbl(row.AmtWHT,2)) {
+                            rateCal = 3.0;
+
                         }
-                        if (((row.AmtWHT * 100) / 10) == row.Amt)
-                        {
-                            rateCal = 10;
-                            sumbaseWht10 += row.Amt;
-                            sumWht10 += row.AmtWHT;
+                        if (CDbl((row.Amt * 0.10),2) == CDbl(row.AmtWHT,2)) {
+                            rateCal = 10.0;
+
                         }
                         if (rateCal == 0) {
-                            rateCal = (row.AmtWHT * 100) / row.Amt;
-                            sumbaseWhtother += row.Amt;
-                            sumWhtother += row.AmtWHT;
+                            rateCal = ((row.AmtWHT * 100) / row.Amt).toFixed(1);
+
                         }
-                        switch (rateCal) {
-                            case 0:
+                   
+                        switch (true) {
+                            case 0==rateCal:
                                 break;
-                            case 1:
+                            case 1.0==rateCal:
+                            sumbaseWht1 += row.Amt;
+                            sumWht1 += row.AmtWHT;
                                 $('#gross1').text(ShowNumber(sumbaseWht1,2));
                                 $('#taxAmt1').text(ShowNumber(sumWht1, 2));
                                 break;
-                            case 1.5:
+                            case 1.5==rateCal:
+                            sumbaseWht1_5 += row.Amt;
+                            sumWht1_5 += row.AmtWHT;
                                 $('#gross1_5').text(ShowNumber(sumbaseWht1_5, 2));
                                 $('#taxAmt1_5').text(ShowNumber(sumWht1_5, 2));
                                 break;
-                            case 3:
+                            case 3.0==rateCal:
+                            sumbaseWht3 += row.Amt;
+                            sumWht3 += row.AmtWHT;
                                 $('#gross3').text(ShowNumber(sumbaseWht3, 2));
                                 $('#taxAmt3').text(ShowNumber(sumWht3, 2));
                                 break;
-                            case 10:
+                            case 10.0==rateCal:
+                            sumbaseWht10 += row.Amt;
+                            sumWht10 += row.AmtWHT;
                                 $('#gross10').text(ShowNumber(sumbaseWht10, 2));
                                 $('#taxAmt10').text(ShowNumber(sumWht10, 2));
                                 break;
                             default:
+                            sumbaseWhtother += row.Amt;
+                            sumWhtother += row.AmtWHT;
                                 $('#grossOthers').text(ShowNumber(sumbaseWhtother, 2));
                                 $('#taxAmtOthers').text(ShowNumber(sumWhtother, 2));
                                 break;
                         }
                     }
+                    if (rateCal) {
+
+                        html = html.replace("{WHTP}", (rateCal - 0).toFixed(1) + "");
+                    } else {
+                        html = html.replace("{WHTP}", "");
+                    }
                 }
-                for (let i = 1; i <= blankRows; i++) {
-                    html += '<tr>';
-                    html += '<td class=""><br/></td>';
-                    html += '<td class="right"></td>';
-                    html += '<td class="center"></td>';
-                    html += '<td class="center"></td>';
-                    html += '<td class="right"></td>';
-                    html += '<td class="right"></td>';
-                    html += '<td class="right"></td>';
-                    html += '<td class="right"></td>';
-                    html += '<td class="right"></td>';
-                    html += '<td class="right"></td>';
-                }
+                //for (let i = 1; i <= blankRows; i++) {
+                //    html += '<tr>';
+                //    html += '<td class=""><br/></td>';
+                //    html += '<td class=""><br/></td>';
+                //    html += '<td class=""><br/></td>';
+                //    html += '<td class="center" colspan="2"></td>';
+                //    html += '<td class="center"></td>';
+                //    html += '<td class="right"></td>';
+                //    html += '<td class="right"></td>';
+                //    html += '<td class="right"></td>';
+                //    html += '<td class="right"></td>';
+                //    html += '<td class="right"></td>';
+                //    html += '<td class="right"></td>';
+                //}
                 $('#details').html(html);
                 $("#advanceVatExclusiveAmount").text(ShowNumber(sumAdv,2));
                 $("#noVatVatExclusiveAmount").text(ShowNumber(sumNoVat, 2));
                 $("#vatVatExclusiveAmount").text(ShowNumber(sumVat, 2));
-                $("#totalVatInclusiveAmount").text(ShowNumber(sumVat + h.TotalVAT, 2));
+                $("#totalVatInclusiveAmount").text(ShowNumber(sumAdv+sumVat + h.TotalVAT, 2));
             }
         });
+       
     }
+  
     function LoadJob(branch, job, header) {
+        $("#dvFooter").show();
         $.get(path + 'JobOrder/getjobsql?Branch=' + branch + '&JNo=' + job).done(function (r) {
             if (r.job.data.length > 0) {
                 let j = r.job.data[0];
@@ -536,6 +582,7 @@ End Code
                     ShowInterPort(path, j.InvCountry, j.InvInterPort, '#original');
                 }
                 ShowVender(path, j.ForwarderCode, '#carrier');
+            
             }
         });
     }
@@ -552,5 +599,5 @@ End Code
             }
         });
     }
-
+   
 </script>

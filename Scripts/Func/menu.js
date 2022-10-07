@@ -18,12 +18,6 @@ function OpenMenu(mnuID, newpage = true) {
         case 'Dashboard2':
             mnuPath = path + 'Tracking/Dashboard?Type=V2';
             break;
-        case 'Dashboard3':
-            mnuPath = path + 'Tracking/Dashboard?Form=2';
-            break;
-        case 'Dashboard4':
-            mnuPath = path + 'Tracking/Dashboard?Form=3';
-            break;
         case 'Advance':
             mnuPath = path + 'Acc/Advance';
             break;
@@ -216,18 +210,6 @@ function OpenMenu(mnuID, newpage = true) {
         case 'Planing':
             mnuPath = path + 'Tracking/Planing';
             break;
-	case 'CarLicense':
-            mnuPath = path + 'Master/Carlicense';
-            break;
-	case 'Employee':
-            mnuPath = path + 'Master/Employee';
-            break;
-        case 'CreateTransport':
-            mnuPath = path + 'JobOrder/CreateTransport';
-            break;
-        case 'AddFuel':
-            mnuPath = path + 'JobOrder/CloseFuel';
-            break;
         case 'SumJob':
             mnuPath = path + 'JobOrder/Summary';
             break;
@@ -239,6 +221,15 @@ function OpenMenu(mnuID, newpage = true) {
             break;
         case 'SumAcc':
             mnuPath = path + 'Acc/Summary';
+            break;
+	case 'CarLicense':
+            mnuPath = path + 'Master/Carlicense';
+            break;
+	case 'Employee':
+            mnuPath = path + 'Master/Employee';
+            break;
+        case 'CreateTransport':
+            mnuPath = path + 'JobOrder/CreateTransport';
             break;
         default:
             ShowMessage('Under Development');
