@@ -1501,7 +1501,7 @@ ac1.AccTName as CostCenterName,e.AccountCost,ac2.AccTName as AccountName,e.Total
 from 
 Job_CashControl a inner join Job_CashControlSub b
 ON a.BranchCode=b.BranchCode AND a.ControlNo=b.ControlNo
-LEFT JOIN Job_CashControlDoc c
+INNER JOIN Job_CashControlDoc c
 ON b.BranchCode=c.BranchCode AND b.ControlNo=c.ControlNo
 AND b.acType=c.acType 
 left join Mas_BookAccount d on b.BookCode=d.BookCode
@@ -1528,15 +1528,15 @@ FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
 ) e on c.BranchCode=e.BranchCode AND c.DocNo=e.AdvNo
 left join Mas_Account ac1 ON e.CostCenter=ac1.AccCode
 left join Mas_Account ac2 ON e.AccountCost=ac1.AccCode
-WHERE ISNULL(a.CancelProve,'')='' AND b.PRType='P' " & tSqlw & " 
+WHERE  b.PRType='P' " & tSqlw & " AND ISNULL(a.CancelProve,'')='' 
 )
 select * from vc WHERE PaidAmount>0 order by PRType DESC,DocNo
 "
                 End If
                 Dim oDataH As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(tsqlH)
-                Dim jsonH = JsonConvert.SerializeObject(oDataH.AsEnumerable.ToList())
+                Dim jsonH = JsonConvert.SerializeObject(oDataH)
                 Dim oDataD As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(tSqlD)
-                Dim jsonD = JsonConvert.SerializeObject(oDataD.AsEnumerable.ToList())
+                Dim jsonD = JsonConvert.SerializeObject(oDataD)
 
                 Return Content("{""data"":{""header"":" & jsonH & ",""detail"":" & jsonD & ",""msg"":""OK""}}", jsonContent)
             Catch ex As Exception
@@ -3528,7 +3528,7 @@ order by 1,2,3
 "
             Dim oTbl = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlClrByTruck)
             Dim html = ""
-            html = "<h2>Summary By Truck</h2>"
+            html &= "<h2>Summary By Truck</h2>"
             html &= "<table border=""1"" style=""border-collapse:collapse;border-width:thin;background-color:white;width:100%;"">"
             html &= "<thead>"
             html &= "<tr>"

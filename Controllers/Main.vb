@@ -3810,7 +3810,10 @@ j.DutyLtdPayCashAmt<>a.CashPayment
     End Function
     Function GetSession(sName As String) As String
         Try
-            Return HttpContext.Current.Session(sName).ToString
+            If Not HttpContext.Current.Session(sName) Is Nothing Then
+                Return HttpContext.Current.Session(sName).ToString
+            End If
+            Return ""
         Catch ex As Exception
             Return ""
         End Try
