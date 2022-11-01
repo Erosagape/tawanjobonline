@@ -3922,7 +3922,8 @@ function GetReportLists_V2() {
         { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "CUSTOMERS", "ReportNameEN": "Customer Lists", "ReportNameTH": "รายชื่อลูกค้า" },
         { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "VENDERS", "ReportNameEN": "Vender Lists", "ReportNameTH": "รายชื่อผู้ให้บริการ" },
         { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "SERVICES", "ReportNameEN": "Services Lists", "ReportNameTH": "รายการรหัสงานบริการ" },
-        { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "AUTHORIZE", "ReportNameEN": "User Authorized Lists", "ReportNameTH": "รายการสิทธิผู้ใช้งาน" }
+        { "ReportType": "EXP", "ReportGroup": "MAS", "ReportAuthor": "1,6,99", "ReportCode": "AUTHORIZE", "ReportNameEN": "User Authorized Lists", "ReportNameTH": "รายการสิทธิผู้ใช้งาน" },
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "JOBCOUNTIM", "ReportNameEN": "Job Count IM", "ReportNameTH": "รายงานจำนวนจ๊อบตามลูกค้า" }
     ];
 }
 function ChangeLanguage(code, module) {

@@ -56,15 +56,15 @@ End Code
             <div Class="col-sm-12">
                 <Table id = "tbSummary" Class="table table-responsive">
                     <thead>
-                                            <tr>
-                                            <th> DocNo</th>
-                            <th Class="desktop">DocDate</th>
-                            <th Class="desktop">CustCode</th>
-                            <th Class="desktop">Remark</th>
-                            <th Class="desktop">Service</th>
-                            <th Class="desktop">Vat</th>
-                            <th Class="desktop">Wh-tax</th>
-                            <th Class="all">Net</th>
+                            <tr>
+                            <th class="all"> DocNo</th>
+                            <th class="desktop">DocDate</th>
+                            <th class="desktop">CustCode</th>
+                            <th class="desktop">Remark</th>
+                            <th class="desktop">Service</th>
+                            <th class="desktop">Vat</th>
+                            <th class="desktop">Wh-tax</th>
+                            <th class="all">Net</th>
                         </tr>
                     </thead>
                 </table>
@@ -74,16 +74,16 @@ End Code
             <div Class="col-sm-12">
                 <Table id = "tbHeader" Class="table table-responsive">
                     <thead>
-                                                                                <tr>
-                                                                                <th> DocNo</th>
-                            <th Class="desktop">DocDate</th>
-                            <th Class="desktop">CustCode</th>
-                            <th Class="desktop">Remark</th>
-                            <th Class="all">Desc</th>
-                            <th Class="desktop">Service</th>
-                            <th Class="desktop">Vat</th>
-                            <th Class="desktop">Wh-tax</th>
-                            <th Class="all">Net</th>
+                            <tr>
+                            <th class="all"> DocNo</th>
+                            <th class="desktop">DocDate</th>
+                            <th class="desktop">CustCode</th>
+                            <th class="desktop">Remark</th>
+                            <th class="all">Desc</th>
+                            <th class="desktop">Service</th>
+                            <th class="desktop">Vat</th>
+                            <th class="desktop">Wh-tax</th>
+                            <th class="all">Net</th>
                         </tr>
                     </thead>
                 </table>
@@ -184,7 +184,7 @@ End Code
     <div id="dvLOVs"></div>
                                                                                                                                                                                                                                                                                                                                                                                                                                 </div>
 <script src="~/Scripts/Func/combo.js"></script>
-                                                                                                                                                                                                                <script type="text/javascript">
+<script type="text/javascript">
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     let arr = [];
@@ -194,20 +194,7 @@ End Code
     let branch = getQueryString("branch");
     let custcode = getQueryString("custcode");
     let custbranch = getQueryString("custbranch");
-    if (custcode !== '') {
-        $('#txtBranchCode').val(branch);
-        ShowBranch(path, branch, '#txtBranchName');
-
-        $('#txtCustCode').val(custcode);
-        $('#txtCustBranch').val(custbranch);
-        //ShowCustomer(path, custcode, custbranch, '#txtCustName');
-        CallBackQueryCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), ReadCustomer);
-    } else {
-        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
-    }
-    //$(document).ready(function () {
-        SetEvents();
+    SetEvents();
     //});
     function SetVisible() {
         if ($('#chkGroupByDoc').prop('checked')) {
@@ -225,6 +212,21 @@ End Code
         $('#dvMsg').append('<br/>' + str);
     }
     function SetEvents() {
+        if (custcode !== '') {
+            $('#txtBranchCode').val(branch);
+            ShowBranch(path, branch, '#txtBranchName');
+
+            $('#txtCustCode').val(custcode);
+            $('#txtCustBranch').val(custbranch);
+            //ShowCustomer(path, custcode, custbranch, '#txtCustName');
+            CallBackQueryCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), ReadCustomer);
+        } else {
+            $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+            $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        }
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
+
         //Events
         $('#txtBranchCode').keydown(function (event) {
             if (event.which == 13) {
@@ -348,7 +350,7 @@ End Code
                 });
                 for (let d of filter) {
                     AddData(d);
-                }                      
+                }
             });
 
             let tb2=$('#tbHeader').DataTable({

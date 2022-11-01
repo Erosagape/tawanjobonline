@@ -497,7 +497,7 @@ Namespace Controllers
         End Function
         Function GetAdvForClear() As ActionResult
             Try
-                Dim tSqlW As String = " WHERE (a.AdvNet-ISNULL(d.TotalCleared,0))>0 AND c.DocStatus IN('3','4') "
+                Dim tSqlW As String = " WHERE (a.AdvNet-ISNULL(d.TotalCleared,0))>0 AND c.DocStatus IN('3','4','5') "
                 If Not IsNothing(Request.QueryString("Show")) Then
                     If Request.QueryString("Show").ToString = "NOCLR" Then
                         tSqlW = " WHERE d.AdvNo IS NULL AND c.DocStatus IN('2','3') "

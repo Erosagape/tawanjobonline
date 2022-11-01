@@ -1469,6 +1469,14 @@
     <Content Include="Views\Admin\UpVersion.vbhtml" />
     <Content Include="Views\Report\Index.vbhtml" />
     <Content Include="Views\Tracking\Dashboard.vbhtml" />
+    <Content Include="Views\Tracking\Planing.vbhtml" />
+    <Content Include="Views\Tracking\Planload.vbhtml" />
+    <Content Include="Views\JobOrder\FormTransportAIR.vbhtml" />
+    <Content Include="Views\JobOrder\FormTransportEASTRONG.vbhtml" />
+    <Content Include="Views\JobOrder\FormTransportHAIR.vbhtml" />
+    <Content Include="Views\JobOrder\FormTransportMAIR.vbhtml" />
+    <Content Include="Views\JobOrder\FormTransportSEA.vbhtml" />
+    <Content Include="Views\JobOrder\FormTransportWALMAY.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

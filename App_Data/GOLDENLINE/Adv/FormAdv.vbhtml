@@ -10,7 +10,7 @@ End Code
             <label id="lblAdvNo" style="text-decoration-line:underline"></label>
         </td>
         <td align="right" style="font-size:11px">
-            <input type="text" value="ADVANCE" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
+            <input type="text" value="Advance Request" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
         </td>
     </tr>
     <tr>
@@ -177,28 +177,28 @@ TOTAL :
     <tr>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
             <br />
-            <label style="font-size:9px">(________________________________________)</label>
+            <label id="lblAdvBy" style="font-size:8px">(________________________________________)</label>
             <br />
-            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
+            <label style="font-size:8px">วันที่/Date_______/__________/__________</label>
 
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
             <br />
-            <label style="font-size:9px">(________________________________________)</label>
+            <label style="font-size:8px">(________________________________________)</label>
             <br />
-            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
+            <label style="font-size:8px">วันที่/Date_______/__________/__________</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
             <br />
-            <label style="font-size:9px">(________________________________________)</label>
+            <label style="font-size:8px">(________________________________________)</label>
             <br />
-            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
+            <label style="font-size:8px">วันที่/Date_______/__________/__________</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
             <br />
-            <label style="font-size:9px">(________________________________________)</label>
+            <label style="font-size:8px">(________________________________________)</label>
             <br />
-            <label style="font-size:9px">วันที่/Date_______/______________/__________</label>
+            <label style="font-size:8px">วันที่/Date_______/__________/__________</label>
         </td>
     </tr>
 </table>
@@ -252,7 +252,9 @@ TOTAL :
         //$('#lblRemark').text(h.TRemark);
         $('#lblAdvDate').text(ShowDate(h.AdvDate));
         //$('#lblPayTo').text(h.PayChqTo);
-        $('#lblReqBy').text(h.EmpCode);
+        //$('#lblReqBy').text(h.EmpCode);
+        ShowUser(path, h.EmpCode, '#lblReqBy');
+        ShowUser(path, h.AdvBy, '#lblAdvBy');
         ShowPendingAmount(h.BranchCode, h.EmpCode);
         ShowCustomer(h.CustCode, h.CustBranch);
         CallBackQueryCustomerSingle(path, h.consigneecode, function (c) {

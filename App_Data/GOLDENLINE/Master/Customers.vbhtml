@@ -1,5 +1,4 @@
-﻿
-@Code
+﻿@Code
     ViewBag.Title = "Customers"
 End Code
 <div class="panel-body">
@@ -60,8 +59,8 @@ End Code
                     </div>
                     <div class="col-sm-6">
                         <label id="lblEAddress1">Address (EN) :</label>
-                        <br /><input type="text" id="txtEAddress1" class="form-control" tabIndex="9">
-                        <br /><input type="text" id="txtEAddress2" class="form-control" tabIndex="10">
+                        <br /><textarea id="txtEAddress1" class="form-control" tabIndex="9"></textarea>
+                        <br /><textarea id="txtEAddress2" class="form-control" tabIndex="10"></textarea>
                     </div>
                 </div>
                 <div class="row">
@@ -123,7 +122,7 @@ End Code
             <div id="tabCust2" class="tab-pane fade in active">
                 <div class="row">
                     <div class="col-sm-6">
-                        <label id="lblGLAccountCode">GL Code :</label>                        
+                        <label id="lblGLAccountCode">GL Code :</label>
                         <br />
                         <div style="display:flex">
                             <input type="text" id="txtGLAccountCode" class="form-control" style="width:20%" tabIndex="23">
@@ -133,11 +132,11 @@ End Code
                         <label id="lblBillToCustCode">Billing To:</label>
                         <br />
                         <div style="display:flex">
-                            <input type="text" id="txtBillToCustCode"style="width:40%" class="form-control" tabIndex="24">
+                            <input type="text" id="txtBillToCustCode" style="width:40%" class="form-control" tabIndex="24">
                             <input type="text" id="txtBillToBranch" style="width:20%" class="form-control" tabIndex="25">
                             <input type="button" value="..." class="btn btn-default" onclick="SearchData('billing')" />
                             <button id="btnSetBilling" class="btn btn-primary" onclick="SetBilling()">Same as Company</button>
-                        </div>                                   
+                        </div>
                         <label id="lblBillToCustName">Billing Name :</label>
                         <input type="text" id="txtBillToCustName" class="form-control" disabled />
                         <label id="lblBillToAddress">Billing Address :</label>
@@ -147,7 +146,7 @@ End Code
                         <label id="lblTAddress">BLDG No/Street :</label>
                         <br />
                         <input type="text" id="txtTAddress" class="form-control" tabIndex="26">
-                        <label id="lblTDistrict">District :</label>                        
+                        <label id="lblTDistrict">District :</label>
                         <br />
                         <div style="display:flex">
                             <input type="text" id="txtTDistrict" class="form-control" style="width:100%" tabIndex="27">
@@ -168,7 +167,7 @@ End Code
                             <input type="text" id="txtTPostCode" style="width:20%" class="form-control" tabIndex="30">
                             <button id="btnSetAddress" class="btn btn-primary" onclick="SetAddress()">Set Full Address</button> &nbsp;
                             <button id="btnSetContact" class="btn btn-warning" onclick="AddContact()">Set Contact Person</button>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
 
@@ -185,7 +184,7 @@ End Code
                             <div>
                                 <input type="button" value="..." class="btn btn-default" onclick="SearchData('sales')" />
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                     <div class="col-sm-3">
                         <label id="lblCSCodeIM">CS Import :</label>
@@ -234,12 +233,15 @@ End Code
                         <label id="lblCommLevel">Commercial Level :</label>
                         <br /><input type="text" id="txtCommLevel" class="form-control" disabled />
                         <br /><select id="cboCommLevel" class="form-control"></select>
-                        <br/>
-                        Tracking Authorized : <br/>
+                        <br />
+                        Tracking Authorized : <br />
                         <div style="display:flex">
-                            <label id="lblLoginName" style="display:block;width:250px">Log in : </label><input type="text" id="txtLoginName" class="form-control">                                                                                      
+                            <label id="lblLoginName" style="display:block;width:250px">Log in : </label><input type="text" id="txtLoginName" class="form-control">
                             <label id="lblLoginPassword" style="display:block;width:250px">Password : </label><input type="password" id="txtLoginPassword" class="form-control">
                         </div>
+                        <br />
+                        SAP Customer ID:<br />
+                        <input type="text" id="txtLnNO" />
                     </div>
                 </div>
             </div>
@@ -269,7 +271,7 @@ End Code
             <input type="hidden" id="txtMgrSeq" class="form-control" value="0">
             <input type="hidden" id="txtLevelNoExp" class="form-control" value="0">
             <input type="hidden" id="txtLevelNoImp" class="form-control" value="0">
-            <input type="hidden" id="txtLnNO" class="form-control">
+
             <input type="hidden" id="txtAdjTaxCode" class="form-control">
             <input type="hidden" id="txtBkAuthorNo" class="form-control">
             <input type="hidden" id="txtBkAuthorCnn" class="form-control">
@@ -315,12 +317,12 @@ End Code
             }
         });
         $('#txtCustCode').keydown(function (event) {
-            if (event.which == 13) {                
+            if (event.which == 13) {
                 if (userGroup == 'S') {
                     let code = $('#txtCustCode').val();
                     ClearData();
                     $('#txtCustCode').val(code);
-                    CallBackQueryCustomerSingle(path, $('#txtCustCode').val(), ReadCustomer); 
+                    CallBackQueryCustomerSingle(path, $('#txtCustCode').val(), ReadCustomer);
                 }
             }
         });
@@ -386,7 +388,7 @@ End Code
         //load configuration data
         if (mode == '') {
             mode = 'CUSTOMERS';
-            if (userGroup == 'C') {                 
+            if (userGroup == 'C') {
                 $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
                     if (r.company.data.length > 0) {
                         let dr = r.company.data[0];
@@ -519,7 +521,7 @@ End Code
             $('#txtExportCode').val(dr.ExportCode);
             $('#txtCode19BIS').val(dr.Code19BIS);
             $('#txtWEB_SITE').val(dr.WEB_SITE);
-                          
+
             var cons = dr.ConsStatus == null ? '' : dr.ConsStatus;
             var lvl = dr.CommLevel == null ? '' : dr.CommLevel;
 
@@ -652,8 +654,8 @@ End Code
             ShowMessage('Data must not have length less than 3', true);
             return;
         }
-        if ($('#txtBranch').val().trim().length > 4) {
-            ShowMessage('Branch must not have length over 4', true);
+        if ($('#txtBranch').val().trim().length > 5) {
+            ShowMessage('Branch must not have length over 5', true);
             return;
         }
         var obj = {

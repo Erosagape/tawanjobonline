@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "อนุมัติใบปิดค่าใช้จ่าย"
+    ViewBag.Title = "Clearing Confirmation"
 End Code
 <div class="panel-body">
     <div class="container">
@@ -51,6 +51,7 @@ End Code
                 <select id="cboClrType" class="form-control dropdown"></select>
             </div>
             <div class="col-sm-2">
+                <input type="checkbox" id="chkSelectAll" checked /> Select All
                 <br />
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridClr(true)">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
@@ -84,7 +85,7 @@ End Code
                  : <input type="text" id="txtSumApprove" class="form-control" value="" />
                 <br />
                 <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Approve</b>
+                    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Confirm</b>
                 </a>
             </div>
         </div>
@@ -98,10 +99,13 @@ End Code
     let arr = [];
     //$(document).ready(function () {
     SetEvents();
-    $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-    $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
     //});
     function SetEvents() {
+        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+
+        $('#txtClrDateF').val(GetFirstDayOfMonth());
+        $('#txtClrDateT').val(GetLastDayOfMonth());
         //Combos
         let lists = 'JOB_TYPE=#cboJobType';
         lists += ',CLR_TYPE=#cboClrType';
@@ -197,6 +201,11 @@ End Code
                         }
                     }
                 ],
+                createdRow: function (row, data, index) {
+                    if ($('#chkSelectAll').prop('checked')) {
+                        $(row).addClass('selected')
+                    }
+                },
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             });
@@ -216,6 +225,11 @@ End Code
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
                 window.open(path + 'clr/index?BranchCode=' + data.BranchCode + '&ClrNo=' + data.ClrNo,'','');
             });
+            if ($('#chkSelectAll').prop('checked')) {
+                for (let row of h) {
+                    AddData(row);
+                }
+            }
         });
     }
     function AddData(o) {

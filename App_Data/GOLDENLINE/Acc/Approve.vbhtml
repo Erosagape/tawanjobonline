@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Approve Billing Payment"
+    ViewBag.Title = "Expense Confirmation"
 End Code
 <div class="row">
     <div class="col-sm-4">
@@ -53,14 +53,16 @@ End Code
         <table id="tbHeader" class="table table-responsive">
             <thead>
                 <tr>
-                    <th>DocNo</th>
-                    <th class="desktop">DocDate</th>
+                    <th class="desktop">Job Number</th>
+                    <th>Pay.No</th>
                     <th class="desktop">VenCode</th>
-                    <th class="all">Ref</th>
-                    <th class="desktop">PoNo</th>
+                    <th class="desktop">Customer</th>
+                    <th class="desktop">Booking</th>
+                    <th class="all">Container</th>
+                    <th class="desktop">Inv.No</th>
                     <th class="desktop">Amount</th>
-                    <th class="desktop">WT</th>
                     <th class="desktop">VAT</th>
+                    <th class="desktop">WT</th>
                     <th class="all">NET</th>
                 </tr>
             </thead>
@@ -75,10 +77,10 @@ End Code
 </div>
 <br />
 <a href="#" class="btn btn-success" id="btnSave" onclick="ApproveData()">
-    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Approve</b>
+    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkApprove">Confirm</b>
 </a>
 <a href="#" class="btn btn-primary" id="btnHistory" onclick="ShowApprove()">
-    <i class="fa fa-lg fa-search"></i>&nbsp;<b id="linkSearchApprove">Approve History</b>
+    <i class="fa fa-lg fa-search"></i>&nbsp;<b id="linkSearchApprove">Vender Summary</b>
 </a>
 <div id="dvApprove" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -91,7 +93,7 @@ End Code
                     <thead>
                         <tr>
                             <th>Approve Ref#</th>
-                            <th>Approve Date</th>
+                            <th>Vender Ref#</th>
                             <th>Payment Ref#</th>
                         </tr>
                     </thead>
@@ -127,7 +129,8 @@ End Code
 
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
-
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
         //Events
         $('#txtBranchCode').focusout(function (event) {
             if (true) {
@@ -205,12 +208,7 @@ End Code
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
                     { data: "ApproveRef", title: "Approve.Ref#" },
-                    {
-                        data: "ApproveDate", title: "Appr.Date",
-                        render: function (data) {
-                            return CDateEN(data);
-                        }
-                    },
+                    { data: "PoNo", title: "Vender Ref#" },
                     { data: "PaymentRef", title: "Payment Ref#" }
                 ],
                 responsive: true,
@@ -224,7 +222,7 @@ End Code
             });
             $('#tbApprove tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbApprove').DataTable().row(this).data(); //read current row selected
-                window.open(path + 'acc/formexpense?Branch=' + $('#txtBranchCode').val() + '&Code=' + data.ApproveRef,'','');
+                window.open(path + 'acc/formpettycash?Branch=' + $('#txtBranchCode').val() + '&Code=' + data.ApproveRef,'','');
             });
         });
     }
@@ -244,50 +242,47 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
-        w = w + '&Type=NOAPP';
-        $.get(path + 'acc/getpayment?branch=' + $('#txtBranchCode').val() + w, function (r) {
-            if (r.payment.header.length == 0) {
+        w = w + '&Type=NOAPP&Show=ACTIVE';
+        $.get(path + 'acc/getpaymentsummary?branch=' + $('#txtBranchCode').val() + w, function (r) {
+            if (r.payment.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.payment.header;
+            let h = r.payment.data;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
+                    { data: "JobNo", title: "Job Number" },
                     { data: "DocNo", title: "Pay.No" },
-                    {
-                        data: "DocDate", title: "Due Date",
-                        render: function (data) {
-                            return CDateEN(data);
-                        }
-                    },
                     { data: "VenCode", title: "Vender" },
-                    { data: "RefNo", title: "Ref.No" },
-                    { data: "PoNo", title: "PO.No" },
+                    { data: "CustCode", title: "Customer" },
+                    { data: "BookingRefNo", title: "Booking" },
+                    { data: "RefNo", title: "Container.No" },
+                    { data: "PoNo", title: "Inv.No" },
                     {
-                        data: "TotalExpense", title: "Amount",
+                        data: "Amt", title: "Amount",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalVAT", title: "VAT",
+                        data: "AmtVat", title: "VAT",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalTax", title: "Tax",
+                        data: "AmtTax50Tavi", title: "Tax",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "TotalNet", title: "Net",
+                        data: "Total", title: "Net",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
@@ -296,7 +291,7 @@ End Code
                 responsive: true,
                 destroy:true
             });
-            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
+            //ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
@@ -304,9 +299,13 @@ End Code
                     RemoveData(data); //callback function from caller
                     return;
                 }
-                $(this).addClass('selected');
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                AddData(data); //callback function from caller
+                if (data.PoNo !== '') {
+                    $(this).addClass('selected');
+                    AddData(data); //callback function from caller
+                } else {
+                    ShowMessage('This Data have not yet billed by vender',true);
+                }
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
@@ -339,6 +338,10 @@ End Code
         $('#txtListApprove').val(doc);
     }
     function ApproveData() {
+        if ($('#txtVenCode').val() == '') {
+            ShowMessage('Please Select Vendor', true);
+            return;
+        }
         if (arr.length < 0) {
             ShowMessage('No data to approve',true);
             return;
@@ -346,11 +349,13 @@ End Code
         let dataApp = [];
         dataApp.push(user);
         for (let i = 0; i < arr.length; i++) {
-            dataApp.push(arr[i].BranchCode + '|' + arr[i].DocNo);
+            if (dataApp.indexOf(arr[i].BranchCode + '|' + arr[i].DocNo) < 0) {
+                dataApp.push(arr[i].BranchCode + '|' + arr[i].DocNo);
+            }
         }
         let jsonString = JSON.stringify({ data: dataApp });
         $.ajax({
-            url: "@Url.Action("ApproveExpense", "Acc")",
+            url: "@Url.Action("ApproveExpense", "Acc")?Code=" + $('#txtVenCode').val(),
             type: "POST",
             contentType: "application/json",
             data: jsonString,

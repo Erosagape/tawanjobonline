@@ -3430,6 +3430,29 @@ group by rh.BranchCode,rh.ReceiptNo,rh.ReceiptDate,c.CustCode,c.TaxNumber,c.Bran
         End If
         Return String.Format(tSql, sqlW)
     End Function
+    Function SQLSelectReceiptGrid() As String
+        Dim tSql = "
+select h.*,
+STUFF(
+	(SELECT DISTINCT ',' + InvoiceNo  FROM Job_ReceiptDetail 
+	WHERE BranchCode=h.BranchCode  AND ReceiptNo=h.ReceiptNo    
+	 FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,'')
+as InvoiceNo,
+STUFF(
+	(SELECT DISTINCT ',' + c.JobNo  FROM Job_ClearDetail c 
+	inner join Job_ReceiptDetail d ON c.BranchCode =d.BranchCode
+	and c.LinkBillNo=d.InvoiceNo
+	WHERE c.BranchCode=h.BranchCode AND d.ReceiptNo=h.ReceiptNo    
+	 FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,'')
+as JobNo
+from Job_ReceiptHeader h 
+"
+        Dim val = GetValueConfig("SQL", "SelectReceiptGrid")
+        If val.Length > 0 Then
+            tSql = val
+        End If
+        Return tSql
+    End Function
     Function SQLSelectVenderReport(sqlW As String, sqlAdd As String) As String
         Dim tSql As String = "
 SELECT h.ApproveRef as 'Approve Ref#',h.PoNo as 'VenderInvNo',h.DocNo,d.ForJNo as JNo,c.NameEng as CustEName,b.Location as LocationRoute,

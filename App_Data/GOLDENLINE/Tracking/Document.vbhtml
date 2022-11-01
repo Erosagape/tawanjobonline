@@ -1,6 +1,6 @@
 ﻿
 @Code
-    ViewBag.Title = "Document"
+    ViewBag.Title = "Documents Tracking"
 End Code
     <div class="row">
         <div class="col-sm-4">

@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "รับเคลียร์เงินจากใบเบิกค่าใช้จ่าย"
+    ViewBag.Title = "Clearing Receive"
 End Code
 <style>
     @@media only screen and ( max-width:600px ) {
@@ -47,7 +47,7 @@ End Code
                         </table>
                         <br />
                         <label id="lblRefNoCA">Trans.No:</label>
-                        <input type="text" id="txtRefNoCash" class="form-control" value="" />
+                        <input type="text" id="txtRefNoCash" class="form-control" value="" ondblclick="AutoGenRef()" />
                         <br />
                         <label id="lblTranDateCA">Trans.Date:</label>
                         <input type="date" id="txtCashTranDate" class="form-control" />
@@ -291,15 +291,16 @@ End Code
     let dataApp = [];
     let docno = '';
     //$(document).ready(function () {
-        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME'); 
-
         SetEvents();
     //});
     function ChangeTab(id) {
         $('#myTabs a[href="' + id + '"]').tab('show');
     }
     function SetEvents() {
+        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtAdvDateF').val(GetFirstDayOfMonth());
+        $('#txtAdvDateT').val(GetLastDayOfMonth());
         //Combos
         let lists = 'JOB_TYPE=#cboJobType';
         loadCombos(path, lists);
@@ -553,7 +554,7 @@ End Code
             let o = arr[i];
             wtax += Number(o.Clr50Tavi);
             tot += Number(o.ClrBal);
-            
+
             let obj = {
                 BranchCode: $('#txtBranchCode').val(),
                 ControlNo: null,
@@ -562,8 +563,8 @@ End Code
                 CmpType: 'C',
                 CmpCode: o.CustCode,
                 CmpBranch: o.CustBranch,
-                PaidAmount: CDbl(o.ClrBal, 2),
-                TotalAmount: CDbl((o.ClrBal), 2),
+                PaidAmount: CDbl(Math.abs(o.ClrBal), 2),
+                TotalAmount: CDbl(Math.abs(o.ClrBal), 2),
                 acType:o.acType
             };
             if ($('#chkFromClr').prop('checked') == true) {
@@ -853,7 +854,7 @@ End Code
                                 if (dataApp.indexOf(docApp) < 0) {
                                     dataApp.push(docApp);
                                 }
-                            }                    
+                            }
                             ReceiveClearing(docno);
                         }
                         SetGridAdv(false);
@@ -908,7 +909,8 @@ End Code
             CancelDate: '',
             CancelTime: '',
             CustCode: $('#txtCustCode').val(),
-            CustBranch: $('#txtCustBranch').val()
+            CustBranch: $('#txtCustBranch').val(),
+            PostRefNo: ''
         };
         docno = '';
         let jsonString = JSON.stringify({ data: oHeader });
@@ -923,7 +925,7 @@ End Code
                     if (docno != '') {
                         $('#txtControlNo').val(docno);
                         SavePayment();
-                    } 
+                    }
                 }
             },
             error: function (e) {
@@ -1025,7 +1027,7 @@ End Code
                         return false;
                     }
                 }
-            }   
+            }
         }
         amtChk = Number($('#txtAdvChqCash').val());
         if (amtChk < 0) {
@@ -1048,7 +1050,7 @@ End Code
                             ShowMessage('Please input cheque date',true);
                             $('#txtChqCashTranDate').focus();
                             return false;
-                        } 
+                        }
                     }
                     if ($('#chkStatusChq').prop('checked') == true) {
                         if ($('#cboBankChqCash').val() == '' || $('#txtBankBranchChqCash').val() == '') {
@@ -1095,5 +1097,8 @@ End Code
             }
         }
         return true;
+    }
+    function AutoGenRef() {
+        $('#txtRefNoCash').val('CA'+'@DateTime.Now.ToString("yyyyMMddHHmmss")');
     }
 </script>

@@ -177,16 +177,16 @@ End Code
                                 </div>
                             </div>
                             <div style="display:flex">
-                                <label id="lblTotalCharge" style="width:40%">Total Charge:</label><input type="text" id="txtTotalCharge" class="form-control" style="width:40%" disabled /> THB
+                                <label id="lblTotalCharge" style="width:40%">Total Charge:</label><input type="text" id="txtTotalCharge" class="form-control" style="width:40%" onchange="CalTotal()" /> THB
                             </div>
                             <div style="display:flex">
-                                <label id="lblTotalVAT" style="width:40%">Total VAT:</label><input type="text" id="txtTotalVAT" class="form-control" style="width:40%" disabled /> THB
+                                <label id="lblTotalVAT" style="width:40%">Total VAT:</label><input type="text" id="txtTotalVAT" class="form-control" style="width:40%" onchange="CalTotal()"/> THB
                             </div>
                             <div style="display:flex">
-                                <label id="lblTotal50Tavi" style="width:40%">Total TAX:</label><input type="text" id="txtTotal50Tavi" class="form-control" style="width:40%" disabled /> THB
+                                <label id="lblTotal50Tavi" style="width:40%">Total TAX:</label><input type="text" id="txtTotal50Tavi" class="form-control" style="width:40%" onchange="CalTotal()"/> THB
                             </div>
                             <div style="display:flex">
-                                <label id="lblTotalNet" style="width:40%">Total Net:</label><input type="text" id="txtTotalNet" class="form-control" style="width:40%" disabled /> THB
+                                <label id="lblTotalNet" style="width:40%">Total Net:</label><input type="text" id="txtTotalNet" class="form-control" style="width:40%" onchange="CalTotal()" /> THB
                             </div>
                         </div>
                         <div class="col-sm-3" style="display:flex;flex-direction:column">
@@ -250,7 +250,7 @@ End Code
                     <b>Receive Remarks:</b>
                     <div class="row">
                         <div class="col-sm-3">
-                            CASH/TRANSFER:
+                            CASH:
                             <br />
                             <div style="display:flex">
                                 <input type="number" id="txtCashAmt" class="form-control" />
@@ -272,7 +272,7 @@ End Code
                     </div>
                     <div class="row">
                         <div class="col-sm-3">
-                            CHEQUE:
+                            CHEQUE/TRANSFER:
                             <br />
                             <div style="display:flex">
                                 <input type="number" id="txtChqAmt" class="form-control" />
@@ -289,7 +289,8 @@ End Code
                             <br />
                             <div style="display:flex">
                                 <input type="text" id="txtChqRef" class="form-control" />
-                            </div>
+                                <input type="checkbox" id="chkTransfer" onclick="SetTransfer()" /><b> TRANSFER</b>
+                            </div>                            
                         </div>
                     </div>
                     <div class="row">
@@ -546,15 +547,23 @@ End Code
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
+    let code = getQueryString("Code");
+    let branch = getQueryString("Branch");
     let row = {};
     let row_d = {};
     SetLOVs();
+    if (branch !== '' && code !== '') {
+        $('#txtBranchCode').val(branch);
+        ShowHeader();
+    }
     $('#btnShow').on('click', function () {
         ShowHeader();
     });
     function SetLOVs() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Customers
@@ -666,6 +675,9 @@ End Code
             w += '&show=CANCEL';
         } else {
             w += '&show=ACTIVE';
+        }
+        if (code !== '') {
+            w += '&Code=' + code;
         }
         $.get(path + 'acc/getReceipt?type=' + type + '&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.receipt.header.length == 0) {
@@ -858,11 +870,11 @@ End Code
         $('#txtCurrencyCode').val(row.CurrencyCode);
         ShowCurrency(path, row.CurrencyCode, '#txtCurrencyName');
         $('#txtExchangeRate').val(row.ExchangeRate);
-        $('#txtTotalCharge').val(row.TotalCharge);
-        $('#txtTotalVAT').val(row.TotalVAT);
-        $('#txtTotal50Tavi').val(row.Total50Tavi);
-        $('#txtTotalNet').val(row.TotalNet);
-        $('#txtFTotalNet').val(row.FTotalNet);
+        $('#txtTotalCharge').val(ShowNumber(row.TotalCharge,2));
+        $('#txtTotalVAT').val(ShowNumber(row.TotalVAT,2));
+        $('#txtTotal50Tavi').val(ShowNumber(row.Total50Tavi,2));
+        $('#txtTotalNet').val(ShowNumber(row.TotalNet,2));
+        $('#txtFTotalNet').val(ShowNumber(row.FTotalNet,2));
         $('#txtTRemark').val(row.TRemark);
 
         $('#txtCashAmt').val(0);
@@ -1044,6 +1056,14 @@ End Code
                 break;
         }
     }
+    function CalTotal() {
+        let amt = CNum($('#txtTotalCharge').val());
+        let vat = CNum($('#txtTotalVAT').val());
+        let wht = CNum($('#txtTotal50Tavi').val());
+        let net = amt + vat - wht;
+        $('#txtTotalNet').val(ShowNumber(net, 2));
+        CalForeign();
+    }
     function CalForeign() {
         let totalforeign = CDbl(CNum($('#txtTotalNet').val()) / CNum($('#txtExchangeRate').val()), 2);
         $('#txtFTotalNet').val(ShowNumber(totalforeign,2));
@@ -1064,6 +1084,7 @@ End Code
         $('#txtAmt50Tavi').val(CDbl(wht, 2));
         CalNetAmount();
     }
+
     function CalNetAmount() {
         let amt = CNum($('#txtAmt').val());
         let vat = CNum($('#txtAmtVAT').val());
@@ -1086,7 +1107,7 @@ End Code
         window.open(path +'Acc/GenerateTaxInv' + w, '_blank');
     }
     function SetAmount(id) {
-        $('#txt'+id+'Amt').val($('#txtTotalNet').val());
+        $('#txt'+id+'Amt').val(CDbl($('#txtTotalNet').val(),2));
     }
     function SetRemark() {
         let str = 'CASH';
@@ -1100,5 +1121,8 @@ End Code
         str += ';CHG';
         str += ':' + $('#txtBankChg').val();
         $('#txtTRemark').val(str);
+    }
+    function SetTransfer() {
+        $('#txtChqRef').val('TRANSFER');
     }
 </script>

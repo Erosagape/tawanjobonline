@@ -4,7 +4,7 @@
 End Code
 <style>
     * {
-        font-size: 8px;        
+        font-size: 10px;        
     }
     label {
         font-size: 10px;
