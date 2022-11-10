@@ -1834,6 +1834,23 @@ order by 1
             If Not Request.QueryString("Cust") Is Nothing Then
                 tsqlW &= String.Format(" AND j.CustCode='{0}'", Request.QueryString("Cust"))
             End If
+            If Not Request.QueryString("Vend") Is Nothing Then
+                tsqlW &= String.Format(" AND j.ForwarderCode='{0}'", Request.QueryString("Vend"))
+            End If
+            If Not Request.QueryString("Mode") Is Nothing Then
+                If Request.QueryString("Mode").ToString() = "E" Then
+                    tsqlW &= " AND c.SICode in(select SICode from Job_SrvSingle where IsExpense=1 OR IsCredit=1)"
+                End If
+                If Request.QueryString("Mode").ToString() = "C" Then
+                    tsqlW &= " AND c.SICode not in(select SICode from Job_SrvSingle where IsExpense=0)"
+                End If
+                If Request.QueryString("Mode").ToString() = "A" Then
+                    tsqlW &= " AND c.SICode in(select SICode from Job_SrvSingle where IsCredit=1 AND IsExpense=0)"
+                End If
+                If Request.QueryString("Mode").ToString() = "S" Then
+                    tsqlW &= " AND c.SICode in(select SICode from Job_SrvSingle where IsCredit=0 AND IsExpense=0)"
+                End If
+            End If
             Dim oTotal = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(tsqlTotal, tsqlW))
             Dim jsChart = "[[""Type"",""Normal"",""Addition""],[""ALL"",0,0]]"
             If oTotal.Rows.Count > 0 Then
@@ -1878,7 +1895,7 @@ j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalC
             End If
             Dim oDetail = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(tsqlDetail, tsqlW))
             Dim jsDetail = JsonConvert.SerializeObject(oDetail)
-            Return Content("{""data"":{""summary"":" & jsTotal & ",""detail"":" & jsDetail & ",""chart"":" & jsChart & "}}", jsonContent)
+            Return Content("{""data"":{""summary"":" & jsTotal & ",""detail"":" & jsDetail & ",""chart"":" & jsChart & ",""where"":""" & tsqlW & """}}", jsonContent)
         End Function
         Function GetTimelineReport() As ActionResult
             Try
