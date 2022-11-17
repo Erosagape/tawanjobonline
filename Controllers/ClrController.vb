@@ -69,56 +69,36 @@ Namespace Controllers
                     job = Request.QueryString("Job").ToString
                     tSqlW &= String.Format(" AND j.JNo='{0}'", job)
                 End If
-                If branch <> "" And job <> "" Then
-                    Main.DBExecute(GetSession("ConnJob"), "DELETE FROM Job_ClearExp j " & tSqlW & " AND j.ClrNo<>''")
-                End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectExpenseFromClr() & tSqlW)
-                Dim msg = ""
                 If oData.Rows.Count > 0 Then
                     For Each row As DataRow In oData.Rows
-                        Dim oRow As New CClearExp(GetSession("ConnJob")) With {
-                            .BranchCode = row("BranchCode").ToString,
-                            .JNo = row("JNo").ToString,
-                            .ItemNo = 0,
-                            .SICode = row("SICode").ToString,
-                            .SDescription = row("NameEng").ToString,
-                            .TRemark = row("TRemark").ToString,
-                            .Status = If(row("IsRequired").ToString = "1", "R", "O"),
-                            .CurrencyCode = row("CurrencyCode").ToString,
-                            .ExchangeRate = row("CurrencyRate"),
-                            .AmountCharge = row("ChargeAmt") / row("CurrencyRate"),
-                            .Qty = row("QtyBegin"),
-                            .QtyUnit = row("UnitCheck").ToString,
-                            .AmtVatRate = row("VatRate"),
-                            .AmtVat = row("VatAmt"),
-                            .AmtWhtRate = row("TaxRate"),
-                            .AmtWht = row("TaxAmt"),
-                            .AmtTotal = row("TotalAmt"),
-                            .QNo = row("QNo").ToString,
-                            .QSeqNo = Convert.ToInt32("0" & row("QSeqNo")),
-                            .QItemNo = Convert.ToInt32("0" & row("QItemNo")),
-                            .ClrNo = row("ClrNo").ToString,
-                            .ClrItemNo = Convert.ToInt32("0" & row("ClrItemNo"))
-                        }
-                        Dim oCheck = oRow.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ClrNo='{2}' AND ClrItemNo={3}", oRow.BranchCode, oRow.JNo, oRow.ClrNo, oRow.ClrItemNo))
-                        If oCheck.Count = 0 Then
-                            oRow.AddNew()
-                            msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ClrNo='{2}' AND  ClrItemNo={3}", oRow.BranchCode, oRow.JNo, oRow.ClrNo, oRow.ClrItemNo))
-                        Else
-                            oRow.ItemNo = oCheck(0).ItemNo
-                            msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ClrNo='{2}' AND  ClrItemNo={3}", oRow.BranchCode, oRow.JNo, oRow.ClrNo, oRow.ClrItemNo))
-                        End If
+                        Dim oRow As New CClearExp(GetSession("ConnJob"))
+                        oRow.BranchCode = row("BranchCode").ToString
+                        oRow.JNo = row("JNo").ToString
+                        oRow.SICode = row("SICode").ToString
+                        oRow.SDescription = row("NameThai").ToString
+                        oRow.TRemark = row("TRemark").ToString
+                        oRow.Status = If(row("IsRequired").ToString = "1", "R", "O")
+                        oRow.CurrencyCode = row("CurrencyCode").ToString
+                        oRow.ExchangeRate = row("CurrencyRate")
+                        oRow.AmountCharge = row("ChargeAmt")
+                        oRow.Qty = row("QtyBegin")
+                        oRow.QtyUnit = row("UnitCheck").ToString
+                        oRow.AmtVatRate = row("VatRate")
+                        oRow.AmtVat = row("VatAmt")
+                        oRow.AmtWhtRate = row("TaxRate")
+                        oRow.AmtWht = row("TaxAmt")
+                        oRow.AmtTotal = row("TotalAmt")
+                        Dim msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode))
                     Next
-                Else
-                    msg = "Data Not Found"
                 End If
                 Dim oRows = New CClearExp(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' ", branch, job))
                 Dim json = JsonConvert.SerializeObject(oRows)
-                json = "{""estimate"":{""data"":" & json & ",""msg"":""" & msg & """}}"
+                json = "{""estimate"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearExpFromQuo", ex.Message, ex.StackTrace, True)
-                Return Content("{""estimate"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearExpFromClr", ex.Message, ex.StackTrace, True)
+                Return Content("{""estimate"":{""data"":[]}}", jsonContent)
             End Try
         End Function
         Function GenerateInv() As ActionResult
@@ -380,7 +360,15 @@ Namespace Controllers
                     tSqlW &= " AND a.DocStatus<>99 AND a.AdvNo IS NOT NULL  AND h.DocStatus<>99 "
                     tSqlW &= " AND a.AdvNo+'#'+Convert(varchar,a.ItemNo) NOT IN(SELECT c1.DocNo FROM Job_CashControlDoc c1 inner join Job_CashControl c2 on c1.BranchCode=c2.BranchCode and c1.ControlNo=c2.ControlNo where ISNULL(c2.CancelProve,'')='')"
                 Else
-                    tSqlW &= " AND h.DocStatus<>99 AND a.AdvNo IS NULL AND h.ClearType<>3 "
+                    tSqlW &= " AND h.DocStatus<>99 AND a.AdvNo IS NULL "
+                    If Not IsNothing(Request.QueryString("All")) Then
+                    Else
+                        If Not IsNothing(Request.QueryString("NoAdv")) Then
+                            tSqlW &= " AND d.SICode not in(select SICode from Job_SrvSingle where IsCredit=0) "
+                        Else
+                            tSqlW &= " AND h.ClearType<>3 "
+                        End If
+                    End If
                     tSqlW &= " AND h.ClrNo+'#'+Convert(varchar,d.ItemNo) NOT IN(SELECT c1.DocNo FROM Job_CashControlDoc c1 inner join Job_CashControl c2 on c1.BranchCode=c2.BranchCode and c1.ControlNo=c2.ControlNo where ISNULL(c2.CancelProve,'')='')"
                     tSqlW &= " AND h.ClrNo+'#'+Convert(varchar,d.ItemNo) NOT IN(SELECT p1.ClrRefNo+'#'+Convert(varchar,p1.ClrItemNo) FROM Job_PaymentDetail p1 INNER JOIN Job_PaymentHeader p2 ON p1.BranchCode=p2.BranchCode AND p1.DocNo=p2.DocNo WHERE ISNULL(p2.CancelProve,'')='' AND p1.ClrRefNo=h.ClrNo AND p1.ClrItemNo=d.ItemNo) "
                 End If
