@@ -210,9 +210,10 @@ Public Class CController
         If CheckSession("UserProfiles") = False Then
             ViewBag.UserName = DirectCast(Session("UserProfiles"), CUser).TName
             ViewBag.UserPosition = DirectCast(Session("UserProfiles"), CUser).UPosition
-            ViewBag.UserUpline = DirectCast(Session("UserProfiles"), CUser).UserUpline
+            ViewBag.UserUpline = DirectCast(Session("UserProfiles"), CUser).UserID
+        Else
+            ViewBag.UserUpline = GetSession("UserUpline").ToString
         End If
-        ViewBag.UserUpline = GetSession("UserUpline").ToString
         ViewBag.UserGroup = GetSession("UserGroup").ToString
         ViewBag.CONNECTION_JOB = GetSession("ConnJob").ToString
         ViewBag.CONNECTION_MAS = GetSession("ConnMas").ToString
