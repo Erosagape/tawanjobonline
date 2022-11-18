@@ -29,6 +29,7 @@ Public Class CUtil
                 Using cm As New SqlCommand
                     cm.Connection = cn
                     cm.CommandText = pSQL
+                    cm.CommandTimeout = 600
                     cm.CommandType = CommandType.Text
                     Message &= " Row(s)=" & cm.ExecuteNonQuery()
                     If bLog Then Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "ExecuteSQL", Message, pSQL, False)
@@ -48,6 +49,7 @@ Public Class CUtil
             Try
                 cn.Open()
                 Using da As New SqlDataAdapter(pSQL, cn)
+                    da.SelectCommand.CommandTimeout = 600
                     da.Fill(dt)
                 End Using
                 If dt.Rows.Count = 0 Then dt.Rows.Add(dt.NewRow)

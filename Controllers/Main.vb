@@ -2217,7 +2217,7 @@ from TWTLog a
 INNER JOIN TWTCustomer b
 ON a.CustID=b.CustID+'/'
 where a.ModuleName='LOGIN_SHIPPING' and b.CustID='" & My.MySettings.Default.LicenseTo.ToString & "'
-and a.LogAction Not in('ADMIN','CS','BOAT','pasit','test')
+and a.LogAction Not in('ADMIN','CS','BOAT','pasit','test') {0}
 group by b.CustID,b.CustName,a.LogAction ,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2)
 UNION
 select b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2) as Period,Cast(Count(DISTINCT a.LogAction) as varchar)+' Users' as CountUser,'ALL' as LastLogin
@@ -2225,7 +2225,7 @@ from TWTLog a
 INNER JOIN TWTCustomer b
 ON a.CustID=b.CustID+'/'
 where a.ModuleName='LOGIN_SHIPPING' and b.CustID='" & My.MySettings.Default.LicenseTo.ToString & "'
-and a.LogAction Not in('ADMIN','CS','BOAT','pasit','test')
+and a.LogAction Not in('ADMIN','CS','BOAT','pasit','test') {0}
 group by b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+Convert(varchar,Month(a.LogDateTime)),2)
 ) tb"
     End Function
