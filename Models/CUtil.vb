@@ -31,6 +31,7 @@ Public Class CUtil
                     cm.Connection = cn
                     cm.CommandText = pSQL
                     cm.CommandType = CommandType.Text
+                    cm.CommandTimeout = Convert.ToInt32(Main.GetValueConfig("PROFILE", "QUERY_TIMEOUT", 600))
                     Message &= " Row(s)=" & cm.ExecuteNonQuery()
                     If bLog Then Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "ExecuteSQL", Message, pSQL, False)
                 End Using

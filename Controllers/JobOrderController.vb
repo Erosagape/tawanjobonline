@@ -2729,6 +2729,307 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
             ViewBag.DataCount1 = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
             Return GetView("Summary", "MODULE_CS")
         End Function
+        Function GetDashboardCost() As ActionResult
+            Dim tsqlTotal = "
+select j.JobType,t.JobTypeName,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then c.UsedAmount else 0 end) as SumNormalCost,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then 0 else c.UsedAmount end) as SumAdditionCost
+from Job_Order j
+inner join Job_ClearDetail c
+on j.BranchCode=c.BranchCode 
+and j.JNo=c.JobNo
+inner join Job_ClearHeader h
+on c.BranchCode=h.BranchCode 
+and c.ClrNo=h.ClrNo 
+inner join (select ConfigKey as JobType,ConfigValue as JobTypeName 
+from Mas_Config where configCode='JOB_TYPE'
+) t
+on j.JobType=t.JobType
+where h.DocStatus<>99 {0}
+group by j.JobType,t.JobTypeName
+order by 1
+"
+            If GetValueConfig("SQL", "SelectDashboardCostSummary") <> "" Then
+                tsqlTotal = GetValueConfig("SQL", "SelectDashboardCostSummary")
+            End If
+            Dim onDate As String = "j.DocDate"
+            If Not Request.QueryString("DateWhere") Is Nothing Then
+                onDate = Request.QueryString("DateWhere")
+            End If
+            Dim tsqlW As String = ""
+            If Not Request.QueryString("Branch") Is Nothing Then
+                tsqlW &= String.Format(" AND j.BranchCode='{0}'", Request.QueryString("Branch"))
+            End If
+            If Not Request.QueryString("Year") Is Nothing Then
+                tsqlW &= String.Format(" AND Year(" & onDate & ")={0}", Request.QueryString("Year"))
+            End If
+            If Not Request.QueryString("Month") Is Nothing Then
+                tsqlW &= String.Format(" AND Month(" & onDate & ")={0}", Request.QueryString("Month"))
+            End If
+            If Not Request.QueryString("Cust") Is Nothing Then
+                tsqlW &= String.Format(" AND j.CustCode='{0}'", Request.QueryString("Cust"))
+            End If
+            If Not Request.QueryString("Vend") Is Nothing Then
+                tsqlW &= String.Format(" AND j.ForwarderCode='{0}'", Request.QueryString("Vend"))
+            End If
+            If Not Request.QueryString("Mode") Is Nothing Then
+                If Request.QueryString("Mode").ToString() = "E" Then
+                    tsqlW &= " AND c.SICode in(select SICode from Job_SrvSingle where IsExpense=1 OR IsCredit=1)"
+                End If
+                If Request.QueryString("Mode").ToString() = "C" Then
+                    tsqlW &= " AND c.SICode not in(select SICode from Job_SrvSingle where IsExpense=0)"
+                End If
+                If Request.QueryString("Mode").ToString() = "A" Then
+                    tsqlW &= " AND c.SICode in(select SICode from Job_SrvSingle where IsCredit=1 AND IsExpense=0)"
+                End If
+                If Request.QueryString("Mode").ToString() = "S" Then
+                    tsqlW &= " AND c.SICode in(select SICode from Job_SrvSingle where IsCredit=0 AND IsExpense=0)"
+                End If
+            End If
+            Dim oTotal = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(tsqlTotal, tsqlW))
+            Dim jsChart = "[[""Type"",""Normal"",""Addition""],[""ALL"",0,0]]"
+            If oTotal.Rows.Count > 0 Then
+                jsChart = "[[""Type"",""Normal"",""Addition""]{0}]"
+                Dim str = ""
+                For Each dr As DataRow In oTotal.Rows
+                    str &= ",["
+                    str &= """" & dr("JobTypeName").ToString() & ""","
+                    str &= dr("SumNormalCost").ToString() & ","
+                    str &= dr("SumAdditionCost").ToString() & ""
+                    str &= "]"
+                Next
+                jsChart = String.Format(jsChart, str)
+            End If
+            Dim jsTotal = JsonConvert.SerializeObject(oTotal)
+            Dim tsqlDetail = "
+select j.DocDate,j.DutyDate,j.JNo,t.JobTypeName,s.ShipByName,
+j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalContainer,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then c.UsedAmount else 0 end) as SumNormalCost,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then 0 else c.UsedAmount end) as SumAdditionCost
+from Job_Order j
+inner join Job_ClearDetail c
+on j.BranchCode=c.BranchCode 
+and j.JNo=c.JobNo
+inner join Job_ClearHeader h
+on c.BranchCode=h.BranchCode 
+and c.ClrNo=h.ClrNo 
+inner join (select ConfigKey as JobType,ConfigValue as JobTypeName 
+from Mas_Config where configCode='JOB_TYPE'
+) t
+on j.JobType=t.JobType
+inner join (select ConfigKey as ShipBy,ConfigValue as ShipByName 
+from Mas_Config where configCode='SHIP_BY'
+) s
+on j.ShipBy=s.ShipBy
+where h.DocStatus<>99 {0}
+group by j.DocDate,j.DutyDate,j.Jno,t.JobTypeName,s.ShipByName,
+j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalContainer
+"
+            If GetValueConfig("SQL", "SelectDashboardCostDetail") <> "" Then
+                tsqlDetail = GetValueConfig("SQL", "SelectDashboardCostDetail")
+            End If
+            Dim oDetail = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(tsqlDetail, tsqlW))
+            Dim jsDetail = JsonConvert.SerializeObject(oDetail)
+            Return Content("{""data"":{""summary"":" & jsTotal & ",""detail"":" & jsDetail & ",""chart"":" & jsChart & ",""where"":""" & tsqlW & """}}", jsonContent)
+        End Function
+        Function GetDashboardJobCount() As ActionResult
+            Dim groupField = ""
+            If Not Request.QueryString("OnGroup") Is Nothing Then
+                groupField = Request.QueryString("OnGroup").ToString()
+            End If
+            Dim onDate = "j.DocDate"
+            If Not Request.QueryString("OnDate") Is Nothing Then
+                onDate = Request.QueryString("OnDate").ToString()
+            End If
+            Dim onYear = DateTime.Now.Year
+            Dim onMonth = DateTime.Now.AddDays(DateTime.Now.Day * -1).Month
+            If Not Request.QueryString("OnYear") Is Nothing Then
+                onYear = Request.QueryString("OnYear").ToString()
+            End If
+            If Not Request.QueryString("OnMonth") Is Nothing Then
+                onMonth = Request.QueryString("OnMonth").ToString()
+            End If
+            Dim onWhere = ""
+            If Not Request.QueryString("OnWhere") Is Nothing Then
+                onWhere = Request.QueryString("OnWhere").ToString().Replace(",", "")
+            End If
+            Dim onValue = ""
+            If Not Request.QueryString("OnValue") Is Nothing Then
+                onValue = Request.QueryString("OnValue").ToString()
+            End If
+            Dim sqlW As String = ""
+            If onWhere <> "" Then
+                sqlW = " AND " & onWhere
+                sqlW &= "='" & onValue & "'"
+            End If
+
+            Dim sql = "
+select " & If(groupField <> "", groupField & ",", "") & "
+{0}
+"
+            Dim fields = Main.GetValueConfig("SQL", "DashboardJobCount")
+            If fields = "" Then
+                fields = "
+count(*) as TotalJob,
+sum(case when j.DeclareNumber<>'' and j.JobStatus<90 then 1 else 0 end) as JobDeclared,
+sum(case when NOT j.CloseJobBy<>'' and j.JobStatus>5 then 1 else 0 end) as JobBilling,
+sum(case when j.CloseJobBy<>'' and j.JobStatus<90 then 1 else 0 end) as JobClosed,
+sum(case when NOT j.CloseJobBy<>'' and j.JobStatus<90 then 1 else 0 end) as JobWorking,
+sum(case when j.JobStatus>90 then 1 else 0 end) as JobCancel,
+sum(j.InvTotal) as TotalValue,
+sum(j.TotalGW) as TotalWeight
+from job_order j 
+"
+            End If
+            sql = String.Format(sql, fields)
+            sql &= String.Format(" WHERE Year(" & onDate & ")='{0}' AND Month(" & onDate & ")='{1}' ", onYear, onMonth)
+            sql &= sqlW & If(groupField <> "", " GROUP BY " & groupField, "")
+
+            Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+            Dim chartstr = "[[""Type"",""Volume""],[""Close"",0],[""Working"",0],[""Cancel"",0]]"
+            If groupField = "" Then
+                If oData.Rows.Count > 0 Then
+                    Dim str = ",[""Close""," & oData.Rows(0)("JobClosed") & "]"
+                    str &= ",[""Working""," & oData.Rows(0)("JobWorking") & "]"
+                    str &= ",[""Cancel""," & oData.Rows(0)("JobCancel") & "]"
+                    chartstr = String.Format("[[""Type"",""Volume""]{0}]", str)
+                End If
+            Else
+                chartstr = "[[""Type"",""Close"",""Working"",""Cancel""],[""N/A"",0,0,0]]"
+                If oData.Rows.Count > 0 Then
+                    chartstr = "[[""Type"",""Close"",""Working"",""Cancel""]{0}]"
+                    Dim str = ""
+                    For Each dr In oData.Rows
+                        str &= ",[""" & dr(0).ToString() & """"
+                        str &= "," & dr("JobClosed").ToString() & ""
+                        str &= "," & dr("JobWorking").ToString() & ""
+                        str &= "," & dr("JobCancel").ToString() & "]"
+                    Next
+                    chartstr = String.Format(chartstr, str)
+                End If
+            End If
+            Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
+            Return Content(json, jsonContent)
+        End Function
+        Function GetDashboardJobValue() As ActionResult
+            Dim groupField = ""
+            If Not Request.QueryString("OnGroup") Is Nothing Then
+                groupField = Request.QueryString("OnGroup").ToString()
+            End If
+            Dim onDate = "j.DocDate"
+            If Not Request.QueryString("OnDate") Is Nothing Then
+                onDate = Request.QueryString("OnDate").ToString()
+            End If
+            Dim onYear = DateTime.Now.Year
+            Dim onMonth = DateTime.Now.AddDays(DateTime.Now.Day * -1).Month
+            If Not Request.QueryString("OnYear") Is Nothing Then
+                onYear = Request.QueryString("OnYear").ToString()
+            End If
+            If Not Request.QueryString("OnMonth") Is Nothing Then
+                onMonth = Request.QueryString("OnMonth").ToString()
+            End If
+            Dim onWhere = ""
+            If Not Request.QueryString("OnWhere") Is Nothing Then
+                onWhere = Request.QueryString("OnWhere").ToString().Replace(",", "")
+            End If
+            Dim onValue = ""
+            If Not Request.QueryString("OnValue") Is Nothing Then
+                onValue = Request.QueryString("OnValue").ToString()
+            End If
+            Dim onField = "1"
+            If Not Request.QueryString("OnField") Is Nothing Then
+                onField = Request.QueryString("OnField").ToString()
+            End If
+            Dim type = ""
+            If Not Request.QueryString("Type") Is Nothing Then
+                type = Request.QueryString("Type")
+            End If
+            Dim sqlW As String = ""
+            If onWhere <> "" Then
+                sqlW = " AND " & onWhere
+                sqlW &= "='" & onValue & "'"
+            End If
+
+            Dim sql = "
+select " & If(groupField <> "", groupField & ",", "") & "
+{0}
+"
+            Dim fields = Main.GetValueConfig("SQL", "DashboardJobValue")
+            If fields = "" Then
+                fields = "
+count(*) as TotalJob,
+sum(j.InvTotal) as JobValue,
+sum(j.InvProductQty) as JobQty,
+sum(j.InvTotal*j.InvCurRate) as TotalValue,
+sum(j.TotalGW) as TotalWeight,
+sum(cl.TotalCost) as TotalCost,
+sum(case when j.CloseJobBy<>'' and j.JobStatus<90 then j.InvTotal*j.InvCurRate else 0 end) as JobClosedValue,
+sum(case when NOT j.CloseJobBy<>'' and j.JobStatus<90 then j.InvTotal*j.InvCurRate else 0 end) as JobWorkingValue,
+sum(case when j.CloseJobBy<>'' and j.JobStatus<90 then cl.TotalCost else 0 end) as JobClosedCost,
+sum(case when NOT j.CloseJobBy<>'' and j.JobStatus<90 then cl.TotalCost else 0 end) as JobWorkingCost
+from job_order j 
+left join (
+    select d.BranchCode,d.JobNo,sum(d.BNet) as TotalCost
+    from Job_ClearHeader h inner join Job_ClearDetail d
+    on h.BranchCode=d.BranchCode 
+    and h.ClrNo=d.ClrNo
+    inner join Job_SrvSingle s ON d.SICode=s.SICode
+    where h.DocStatus<>99 and s.IsExpense=0
+    group by d.BranchCode,d.JobNo
+) cl
+on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
+"
+            End If
+            sql = String.Format(sql, fields)
+            sql &= String.Format(" WHERE Year(" & onDate & ")='{0}' AND Month(" & onDate & ")='{1}' ", onYear, onMonth)
+            sql &= sqlW & If(groupField <> "", " GROUP BY " & groupField, "")
+
+            Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+            Dim chartstr = "[[""Type"",""Value""],[""ALL"",0]]"
+            If type <> "" Then
+                chartstr = "[[""Type"",""Volume""],[""Close"",0],[""Working"",0]]"
+                If groupField = "" Then
+                    If oData.Rows.Count > 0 Then
+                        Dim str = ",[""Close""," & oData.Rows(0)("JobClosed" & type) & "]"
+                        str &= ",[""Working""," & oData.Rows(0)("JobWorking" & type) & "]"
+                        chartstr = String.Format("[[""Type"",""Volume""]{0}]", str)
+                    End If
+                Else
+                    chartstr = "[[""Type"",""Close"",""Working""],[""N/A"",0,0]]"
+                    If oData.Rows.Count > 0 Then
+                        chartstr = "[[""Type"",""Close"",""Working""]{0}]"
+                        Dim str = ""
+                        For Each dr In oData.Rows
+                            str &= ",[""" & dr(0).ToString() & """"
+                            str &= "," & dr("JobClosed" & type).ToString() & ""
+                            str &= "," & dr("JobWorking" & type).ToString() & "]"
+                        Next
+                        chartstr = String.Format(chartstr, str)
+                    End If
+                End If
+            Else
+                If groupField = "" Then
+                    If oData.Rows.Count > 0 Then
+                        Dim str = ",[""" & onField & """," & oData.Rows(0)(onField) & "]"
+                        chartstr = String.Format("[[""Type"",""Value""]{0}]", str)
+                    End If
+                Else
+                    chartstr = "[[""Type"",""Value""],[""ALL"",0]]"
+                    If oData.Rows.Count > 0 Then
+                        chartstr = "[[""Type"",""Value""]{0}]"
+                        Dim str = ""
+                        For Each dr In oData.Rows
+                            str &= ",[""" & dr(0).ToString() & """"
+                            str &= "," & dr(onField).ToString() & "]"
+                        Next
+                        chartstr = String.Format(chartstr, str)
+                    End If
+                End If
+            End If
+            Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
+            Return Content(json, jsonContent)
+        End Function
+
     End Class
 
 End Namespace

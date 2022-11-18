@@ -45,6 +45,7 @@ Public Class CController
         Session("CurrUser") = Current.CurrUser
         Session("UserProfiles") = Current.UserProfiles
         Session("UserGroup") = Current.UserGroup
+        Session("UserUpline") = Current.UserProfiles.UserUpline
         Session("DatabaseID") = Current.DatabaseID
         Session("CurrLicense") = Current.CurrLicense
         Session("ConnJob") = Current.ConnJob
@@ -77,6 +78,7 @@ Public Class CController
         Session("CurrUser") = Nothing
         Session("UserProfiles") = Nothing
         Session("UserGroup") = Nothing
+        Session("UserUpline") = Nothing
         Session("DatabaseID") = Nothing
         Session("CurrLicense") = Nothing
         Session("ConnJob") = Nothing
@@ -163,6 +165,8 @@ Public Class CController
                     Session(sName) = GetValueConfig("PROFILE", "TAXRATE_SRV", "3")
                 Case "UserGroup"
                     Session(sName) = "S"
+                Case "UserUpline"
+                    Session(sName) = ""
                 Case "MenuType"
                     Session(sName) = GetValueConfig("PROFILE", "MENU_TYPE", "D")
                 Case Else
@@ -206,7 +210,9 @@ Public Class CController
         If CheckSession("UserProfiles") = False Then
             ViewBag.UserName = DirectCast(Session("UserProfiles"), CUser).TName
             ViewBag.UserPosition = DirectCast(Session("UserProfiles"), CUser).UPosition
+            ViewBag.UserUpline = DirectCast(Session("UserProfiles"), CUser).UserUpline
         End If
+        ViewBag.UserUpline = GetSession("UserUpline").ToString
         ViewBag.UserGroup = GetSession("UserGroup").ToString
         ViewBag.CONNECTION_JOB = GetSession("ConnJob").ToString
         ViewBag.CONNECTION_MAS = GetSession("ConnMas").ToString
@@ -269,14 +275,14 @@ Public Class CController
             oLogin(0).SaveData(String.Format(" WHERE CustID='{0}' AND AppID='{1}' AND UserLogIN='{2}'", oLogin(0).CustID, oLogin(0).AppID, oLogin(0).UserLogIN))
         End If
     End Sub
-    Friend Function GetView(vName As String, Optional modName As String = "") As ActionResult
+    Friend Function GetView(vName As String, modName As String, funcName As String) As ActionResult
         Dim baseURL = Me.ControllerContext.RouteData.Values("Controller").ToString() & "\" & vName
         Try
             LoadCompanyProfile()
             If modName <> "" And ViewBag.User <> "" Then
                 Session("CurrForm") = modName & "/" & vName
                 ViewBag.Module = GetSession("CurrForm").ToString()
-                Session("CurrRights") = Main.GetAuthorize(ViewBag.User, modName, vName)
+                Session("CurrRights") = Main.GetAuthorize(ViewBag.User, modName, funcName)
                 If Session("CurrRights").ToString().IndexOf("M") < 0 Then
                     Return RedirectToAction("AuthError", "Menu")
                 End If
@@ -292,5 +298,8 @@ Public Class CController
         Catch ex As Exception
             Return Redirect("~/index.html?message=" & ex.Message)
         End Try
+    End Function
+    Friend Function GetView(vName As String, Optional modName As String = "") As ActionResult
+        Return GetView(vName, modName, vName)
     End Function
 End Class

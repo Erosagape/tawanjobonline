@@ -84,7 +84,11 @@ Namespace Controllers
             Return GetView("Timeline")
         End Function
         Function Dashboard() As ActionResult
-            Return GetView("Dashboard")
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return GetView("Dashboard" & formName)
         End Function
         Function PublicIndex() As ActionResult
             Return View()

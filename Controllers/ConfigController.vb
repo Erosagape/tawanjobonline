@@ -581,7 +581,8 @@ Namespace Controllers
                                 .TName = oData(0).NameThai,
                                 .EName = oData(0).NameEng,
                                 .UPassword = cPass,
-                                .UsedLanguage = oData(0).UsedLanguage
+                                .UsedLanguage = oData(0).UsedLanguage,
+                                .UserUpline = oData(0).CustCode
                             }
 
                             Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
@@ -655,7 +656,8 @@ Namespace Controllers
                                 .TName = oData(0).TName,
                                 .EName = oData(0).English,
                                 .UPassword = vPass,
-                                .UsedLanguage = GetSession("CurrentLang").ToString
+                                .UsedLanguage = GetSession("CurrentLang").ToString,
+                                .UserUpline = oData(0).VenCode
                             }
 
                             Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
