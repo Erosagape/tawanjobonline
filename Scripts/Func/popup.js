@@ -169,7 +169,6 @@ function SetGridConfigList(p, g, d, ev) {
             }
         ],
         destroy: true, pageLength: 25 //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -197,7 +196,6 @@ function SetGridConfigVal(p, g, t, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        ,pageLength:100
     });
     BindEvent(g, d, ev);
 }
@@ -224,7 +222,6 @@ function SetGridVender(p, g ,d ,ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        ,pageLength:100
     });
     BindEvent(g, d, ev);
 }
@@ -252,7 +249,6 @@ function SetGridSICode(p, g, t, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        ,pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -280,7 +276,6 @@ function SetGridSICodeFilter(p, g, t, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -308,7 +303,6 @@ function SetGridSICodeByGroup(p, g, t, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -343,7 +337,6 @@ function SetGridDocument(p, g, d, t, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -378,7 +371,6 @@ function SetGridCheque(p, g, d, t, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -405,7 +397,6 @@ function SetGridCustomsUnit(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -432,7 +423,6 @@ function SetGridAccountCode(p, g, d, t, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -459,7 +449,6 @@ function SetGridCurrency(p, g , d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -486,7 +475,6 @@ function SetGridGroupCode(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -514,7 +502,6 @@ function SetGridUnit(p, g ,d ,ev) {
                         }
                     ],
                     destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                    , pageLength: 100
                 });
                 BindEvent(g, d, ev);
             }
@@ -544,7 +531,6 @@ function SetGridBranch(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -571,7 +557,6 @@ function SetGridUser(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -599,7 +584,6 @@ function SetGridCompanyByGroup(p, g,t, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -627,7 +611,6 @@ function SetGridCompany(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -657,7 +640,6 @@ function SetGridCustContact(p, g, t, d, ev) {
                     ],
                     destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page,
                     responsive: true
-                    , pageLength: 100
                 });
                 BindEvent(g, d, ev);
             } else {
@@ -688,7 +670,6 @@ function SetGridDataDistinct(p, g, t, d, ev) {
                         }
                     ],
                     destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                    , pageLength: 100
                 });
                 BindEvent(g, d, ev);
             }
@@ -718,7 +699,6 @@ function SetGridInv(p, g, d, t, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -746,7 +726,6 @@ function SetGridJob(p, g, d, t, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -775,7 +754,6 @@ function SetGridTransport(p, g, d, t, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -803,7 +781,6 @@ function SetGridInterPort(p, g, d, t, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -830,7 +807,6 @@ function SetGridCountry(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -857,7 +833,6 @@ function SetGridWeightUnit(p, g, d, ev) {
                         }
                     ],
                     destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                    , pageLength: 100
                 });
                 BindEvent(g, d, ev);
             }
@@ -887,7 +862,6 @@ function SetGridVessel(p, g, d, t, ev) {
                         }
                     ],
                     destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                    , pageLength: 100
                 });
                 BindEvent(g, d, ev);
             }
@@ -916,7 +890,6 @@ function SetGridDeclareType(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -944,7 +917,6 @@ function SetGridCustomsPort(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -971,7 +943,6 @@ function SetGridServUnit(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -998,7 +969,6 @@ function SetGridServUnitFilter(p, g, t, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -1025,7 +995,6 @@ function SetGridProjectName(p, g, d, ev) {
                         }
                     ],
                     destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                    , pageLength: 100
                 });
                 BindEvent(g, d, ev);
             }
@@ -1054,7 +1023,6 @@ function SetGridInvProduct(p, g, d, ev) {
                         }
                     ],
                     destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                    , pageLength: 100
                 });
                 BindEvent(g, d, ev);
             }
@@ -1083,7 +1051,6 @@ function SetGridProvince(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -1111,7 +1078,6 @@ function SetGridProvinceSub(p, g, d, t, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -1138,7 +1104,6 @@ function SetGridBank(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -1165,7 +1130,6 @@ function SetGridBookAccount(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -1200,7 +1164,6 @@ function SetGridPayment(p, g, t, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -1229,7 +1192,6 @@ function SetGridQuotationDesc(p, g, t, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -1244,10 +1206,11 @@ function SetGridQuotation(p, g, t, d, ev) {
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
             { data: "QNo", title: "Quotation No" },
-            { data: "SICode", title: "Code" },
-            { data: "DescriptionThai", title: "Description" },
+            { data: "QtyBegin", title: "Qty Begin" },
+            { data: "QtyEnd", title: "Qty End" },
             { data: "ChargeAmt", title: "Price" },
-            { data: "VenderCode", title: "Vender" }
+            { data: "VenderCode", title: "Vender" },
+            { data: "VenderCost", title: "Cost" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -1260,7 +1223,6 @@ function SetGridQuotation(p, g, t, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -1289,7 +1251,6 @@ function SetGridJournal(p, g, d, t, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -1318,7 +1279,6 @@ function SetGridTransportPrice(p, g, d, t, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -1345,7 +1305,6 @@ function SetGridTransportRoute(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -1372,7 +1331,6 @@ function SetGridCompanyLogin(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -1399,7 +1357,6 @@ function SetGridVenderLogin(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -1425,7 +1382,6 @@ function SetGridLocationEntry(p, g, d, t, ev) {
                     }
                 ],
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                , pageLength: 100
             });
             BindEvent(g, d, ev);
         }
@@ -1453,7 +1409,6 @@ function SetGridLocation(p, g, d, t, ev) {
                     }
                 ],
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                , pageLength: 100
             });
             BindEvent(g, d, ev);
         }
@@ -1483,7 +1438,6 @@ function SetGridCompanyByVender(p, g, t, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }
@@ -1511,143 +1465,6 @@ function SetGridBookBalance(p, g, d, ev) {
             }
         ],
         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
-    });
-    BindEvent(g, d, ev);
-}
-function SetGridEstimateCost(p, g, t, d, ev) {
-    //popup for search data
-    $(g).DataTable({
-        ajax: {
-            url: p + 'Adv/GetClearExpReport' + t, //web service ที่จะ call ไปดึงข้อมูลมา
-            dataSrc: 'estimate.data'
-        },
-        selected: true, //ให้สามารถเลือกแถวได้
-        columns: [ //กำหนด property ของ header column
-            { data: null, title: "#" },
-            { data: "SICode", title: "Code" },
-            { data: "SDescription", title: "Description" },
-            { data: "AmtTotal", title: "Price" }
-        ],
-        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
-            {
-                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
-                "data": null,
-                "render": function (data, type, full, meta) {
-                    let html = "<button class='btn btn-warning'>Select</button>";
-                    return html;
-                }
-            }
-        ],
-        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
-    });
-    BindEvent(g, d, ev);
-}
-function SetGridAddFuel(p, g, t, d, ev) {
-    //popup for search data
-    $(g).DataTable({
-        ajax: {
-            url: p + 'JobOrder/GetAddFuel' + t, //web service ที่จะ call ไปดึงข้อมูลมา
-            dataSrc: 'addfuel.data'
-        },
-        selected: true, //ให้สามารถเลือกแถวได้
-        columns: [ //กำหนด property ของ header column
-            { data: null, title: "#" },
-            { data: "DocNo", title: "No" },
-            { data: "JNo", title: "Job" },
-            {
-                data: "DocDate", title: "Date",
-                render: function (data) {
-                    return CDateEN(data);
-                }
-            },
-            {
-                data: "TotalAmount", title: "Total",
-                render: function (data) {
-                    return ShowNumber(data, 2);
-                }
-            },
-            {
-                data: null, title: "Status",
-                render: function (data) {
-                    switch (true) {
-                        case data.CancelBy !== null:
-                            return 'Cancel';
-                        case data.ApproveBy !== null:
-                            return 'Approve';
-                        default:
-                            return 'Request';
-                    }
-                }
-            },
-        ],
-        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
-            {
-                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
-                "data": null,
-                "render": function (data, type, full, meta) {
-                    let html = "<button class='btn btn-warning'>Select</button>";
-                    return html;
-                }
-            }
-        ],
-        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
-    });
-    BindEvent(g, d, ev);
-}
-function SetGridCar(p, g, d, ev) {
-    $(g).DataTable({
-        ajax: {
-            url: p + 'Master/GetCarLicense', //web service ที่จะ call ไปดึงข้อมูลมา
-            dataSrc: 'carlicense.data'
-        },
-        selected: true, //ให้สามารถเลือกแถวได้
-        columns: [ //กำหนด property ของ header column
-            { data: null, title: "#" },
-            { data: "CarNo", title: mainLanguage == "TH" ? "รหัสรถ" : "Code" },
-            { data: "CarLicense", title: mainLanguage == "TH" ? "เลขทะเบียนรถ" : "License Number" }
-        ],
-        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
-            {
-                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
-                "data": null,
-                "render": function (data, type, full, meta) {
-                    let html = "<button class='btn btn-warning'>Select</button>";
-                    return html;
-                }
-            }
-        ],
-        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
-    });
-    BindEvent(g, d, ev);
-}
-function SetGridEmployee(p, g, d, ev) {
-    $(g).DataTable({
-        ajax: {
-            url: p + 'Master/GetEmployee', //web service ที่จะ call ไปดึงข้อมูลมา
-            dataSrc: 'employee.data'
-        },
-        selected: true, //ให้สามารถเลือกแถวได้
-        columns: [ //กำหนด property ของ header column
-            { data: null, title: "#" },
-            { data: "EmpCode", title: mainLanguage == "TH" ? "รหัสพนักงาน" : "Code" },
-            { data: "Name", title: mainLanguage == "TH" ? "ชื่อพนักงาน" : "Employee Name" }
-        ],
-        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
-            {
-                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
-                "data": null,
-                "render": function (data, type, full, meta) {
-                    let html = "<button class='btn btn-warning'>Select</button>";
-                    return html;
-                }
-            }
-        ],
-        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
     });
     BindEvent(g, d, ev);
 }

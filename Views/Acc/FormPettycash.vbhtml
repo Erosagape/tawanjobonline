@@ -239,7 +239,7 @@ Re-imbursement Request By ___________________________________ Date _____________
         }
         $.get(path + url).done(function (r) {
             if (r.data.header.length > 0) {
-                let dt = r.data.header[0].Table;
+                let dt = r.data.header;
                 let htmls = '';
                 for (let s of dt) {
                     if (s.Amt !== null) {
@@ -265,7 +265,7 @@ Re-imbursement Request By ___________________________________ Date _____________
                 }
             }
             if (r.data.detail.length > 0) {
-                let dh = r.data.detail[0].Table[0];
+                let dh = r.data.detail[0];
                 //$('#lblVenderName').text(dh.AdvBy);
                 if (id !== '') {
                     $('#lblInvNo').text(id);
@@ -275,7 +275,7 @@ Re-imbursement Request By ___________________________________ Date _____________
                 $('#lblBookCode').text(dh.BookCode);
                 $('#lblDate').text(ShowDate(dh.PostedDate));
 
-                let dr = r.data.detail[0].Table;
+                let dr = r.data.detail;
                 let htmld = '';
                 let sumBaseVat = 0;
                 let sumNonVat = 0;

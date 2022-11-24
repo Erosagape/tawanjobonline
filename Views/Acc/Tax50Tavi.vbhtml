@@ -122,7 +122,7 @@ End Code
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.whtax.data[0].Table;
+            let h = r.whtax.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -134,8 +134,8 @@ End Code
                             return CDateEN(data);
                         }
                     },
-                    { data: "TName1", title: "Tax Issue" },
-                    { data: "TName2", title: "Tax Owner" },
+                    { data: "TName2", title: "Tax Issue" },
+                    { data: "TName1", title: "Tax Owner" },
                     { data: "TName3", title: "Tax Payer" },
                     { data: "JNo", title: "Job No" },
                     { data: "InvNo", title: "Inv No" },
@@ -145,7 +145,6 @@ End Code
                 ],
                 responsive: true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                , pageLength: 100
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected

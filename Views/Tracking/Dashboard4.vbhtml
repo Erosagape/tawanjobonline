@@ -68,14 +68,19 @@ End Code
     function drawChart() {
         drawChartSummary([]);
         $('#valueTable').html('');
-        let w = 'DateWhere=' + $('#cboGroup').val();
+        let w = 'Mode=A&DateWhere=' + $('#cboGroup').val();
         if ($('#txtYear').val() !== '') {
             w += '&Year=' + $('#txtYear').val();
         }
         if ($('#txtMonth').val() !== '') {
             w += '&Month=' + $('#txtMonth').val();
         }
-
+        if ('@ViewBag.UserGroup' == 'C') {
+            w += '&Cust=@ViewBag.UserUpline';
+        }
+        if ('@ViewBag.UserGroup' == 'V') {
+            w += '&Vend=@ViewBag.UserUpline';
+        }
         //ShowWait();
         var url = 'joborder/getdashboardcost?'+w;
         $.get(path + url).done(function (r) {
@@ -95,8 +100,8 @@ End Code
                         { data: "ETADate", title: "ETA" },
                         { data: "CloseJobDate", title: "Close Date" },
                         { data: "TotalContainer", title: "T.CTN" },
-                        { data: "SumNormalCost", title: "Normal Cost" },
-                        { data: "SumAdditionCost", title: "Addition Cost" }
+                        { data: null, title: "Normal Cost",render:function(data){ return ShowNumber(data.SumNormalCost,2); } },
+                        { data: null, title: "Addition Cost",render:function(data){ return ShowNumber(data.SumAdditionCost,2); }  }
                     ],
                     responsive:true,
                     destroy:true
@@ -112,7 +117,7 @@ End Code
                 for (let row of r.data.summary) {
                     html += '<tr>';
                     html += '<td>'+ row.JobTypeName+'</td>';
-                    html += '<td>'+ row.SumNormalCost +'</td>';
+                    html += '<td>'+ ShowNumber(row.SumNormalCost,2) +'</td>';
                     html += '</tr>';
                 }
                 html += '</tbody></table>';
@@ -124,7 +129,7 @@ End Code
                 for (let row of r.data.summary) {
                     html += '<tr>';
                     html += '<td>' + row.JobTypeName + '</td>';
-                    html += '<td>' + row.SumAdditionCost + '</td>';
+                    html += '<td>' + ShowNumber(row.SumAdditionCost,2) + '</td>';
                     html += '</tr>';
                 }
                 html += '</tbody></table>';

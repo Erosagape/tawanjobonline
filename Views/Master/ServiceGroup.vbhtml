@@ -264,8 +264,7 @@ End Code
                     { data: "NameEng", title: "Description (EN)" }
                 ],
                 select:true,
-                destroy: true
-                , pageLength: 100
+                destroy:true
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
 			$('#tbDetail tbody').on('click', 'tr', function () {

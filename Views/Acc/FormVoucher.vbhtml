@@ -111,12 +111,6 @@ End Code
                 <label id="lblCustName"></label>
             </p>
         </div>
-        <div class="row">
-            <p class="col-sm-12">
-                CUSTOMER PO :
-                <label id="lblCustPo"></label>
-            </p>
-        </div>
     </div>
 </div>
 <br />
@@ -277,24 +271,24 @@ End Code
                     //sortData(doc, 'DocRefNo', 'asc');
                     if (doc !== undefined) {
                         let sum = 0;
-                        //let strDoc = '';
+                        let strDoc = '';
                         let lastvender = '';
                         for (d of doc) {
-                            if (d.JobNo !== '' && jobno=='') {
+                            if (d.JobNo !== '') {
                                 jobno = d.JobNo;
                             }
-                            if (lastvender!==d.VenderName) {
-                                if (sum>0) {
-                                    appendLine(div,'','<b>TOTAL</b>','<b>'+ShowNumber(sum,2)+'</b>');
+                            if (strDoc.indexOf(d.VenderName) < 0) {
+                                if (lastvender !== '') {
+                                    appendLine(div,d.VenderName,'<b>TOTAL</b>','<b>'+ShowNumber(sum,2)+'</b>');
                                     sum = 0;
                                 }
-                                //strDoc += '|' + d.VenderName;
+                                strDoc += '|' + d.VenderName;
                                 lastvender = d.VenderName;
-                                appendLine(div,'<b>'+ d.VenderName +'</b>','','');
+                                //appendLine(div,'<b>'+ d.VenderName +'</b>','','');
                             }
                             sum += Number(CDbl(d.PaidAmount, 2));
                             desc = d.DocRefNo + ' : ' + d.SDescription;
-                            if (d.Remark !== '') desc += '<br/>' + d.Remark+' '+ d.VenderName;
+                            if (d.Remark !== '') desc += '<br/>' + d.Remark;
                             appendLine(div, desc, CDbl(d.PaidAmount / CNum(obj.ExchangeRate), 2) + ' ' + obj.CurrencyCode + ' (Rate=' + obj.ExchangeRate + ')', CCurrency(CDbl(d.PaidAmount, 2)));
                         }
                         appendLine(div,'','<b>TOTAL</b>','<b>'+ShowNumber(sum,2)+'</b>');
@@ -327,8 +321,6 @@ End Code
                                 $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
                                 $('#lblMAWB').text(j.MAWB);
                                 ShowVender(path, j.ForwarderCode, '#lblAgentName');
-                                $('#lblCustPo').text(j.CustRefNO);
-
                             }
                         });
                     }

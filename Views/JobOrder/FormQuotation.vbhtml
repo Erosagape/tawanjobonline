@@ -5,6 +5,7 @@
 End Code
 <style>
     * {
+        font-family: Tahoma;
         font-size: 11px;
     }
 
@@ -64,7 +65,7 @@ End Code
 <br />
 <div style="display:flex">
     <div style="flex:1">
-        <div id="lblDescriptionH"></div>
+        <label id="lblDescriptionH"></label>
     </div>
 </div>
 
@@ -82,16 +83,22 @@ End Code
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6" class="number">GRAND TOTAL (THB)</td>
+            <td colspan="2" style="text-align:right"><label id="lblTotalCharge"></label></td>
+        </tr>
+    </tfoot>
 </table>
 <p>
     <br />
     <div style="display:flex">
         <div style="flex:1">
-            REMARKS : <div id="lblTRemark"></div>
+            REMARKS : <label id="lblTRemark"></label>
         </div>
     </div>
     <br />
-    <div id="lblDescriptionF"></div>
+    <label id="lblDescriptionF"></label>
 </p>
 <p>
     Best Regards,
@@ -141,10 +148,10 @@ End Code
 
         $('#lblQNo').text(h.QNo);
         $('#lblDocDate').text(ShowDate(CDateTH(h.DocDate)));
-        $('#lblTRemark').html(CStr(h.TRemark));
+        $('#lblTRemark').text(h.TRemark);
         $('#lblContactName').text(h.ContactName);
-        $('#lblDescriptionH').html(CStr(h.DescriptionH));
-        $('#lblDescriptionF').html(CStr(h.DescriptionF));
+        $('#lblDescriptionH').text(h.DescriptionH);
+        $('#lblDescriptionF').text(h.DescriptionF);
 
         ShowUser(path, h.ManagerCode, '#lblManagerName');
 

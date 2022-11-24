@@ -1,338 +1,190 @@
-﻿@Code
+﻿
+@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.ReportName = "JOB ACKNOWLEDGEMENT"
     ViewBag.Title = "Job Acknowledgement"
 End Code
-<div>
-    <table id="divJobInfo" width="100%">
-        <tr>
-            <td colspan="2">
-                <b>Job No : </b><input type="text" style="border:groove;text-align:center" id="txtJNo" value="" />
-            </td>
-            <td>
-                <b>Job Type : <label id="lblJobType"></label></b>
-            </td>
-            <td>
-                <b>Ship By : <label id="lblShipBy"></label></b>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <b>Quotation : </b><label id="lblQuotation"></label>
-            </td>
-            <td>
-                <b>Confirm Date : </b><label id="lblConfirmDate"></label>
-            </td>
-            <td>
-                <b>Open Date : </b><label id="lblOpenDate"></label>
-            </td>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <td><b>Customer : </b><label id="lblCustCode"></label> / <label id="lblCustName"></label></td>
-        </tr>
-        <tr>
-            <td id="dvAddr"></td>
-        </tr>
-        <tr>
-            <td><b>Tel : </b><label id="lblTel"></label></td>
-        </tr>
-        <tr>
-            <td><b>Fax : </b><label id="lblFax"></label></td>
-        </tr>
-        <tr>
-            <td><b>Contact : </b><label id="lblContact"></label></td>
-        </tr>
-    </table>
-    <table id="divBillingPlace">
-        <tr>
-            <td><b>Consignee : </b><label id="lblBillToCustCode"></label> / <label id="lblBillToCustName"></label></td>
-        </tr>
-        <tr>
-            <td id="dvBillAddr"></td>
-        </tr>
-    </table>
-    <table id="tbInvoiceInfo" width="100%">
-        <tr>
-            <td colspan="3">
-                <b>INVOICE NO : </b><label id="lblInvNo"></label>
-            </td>
-            <td>
-                <b>RATE :</b>1 <label id="lblCurrency"></label>=<label id="lblExcRate"></label> THB
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <b>COMMODITY : </b><label id="lblInvProduct"></label>
-            </td>
-            <td>
-                <b>QTY : </b><label id="lblInvQty"></label> <label id="lblInvUnit"></label>
-            </td>
-            <td>
-                <b>TOTAL : </b><label id="lblInvTotal"></label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <b>PACKAGE : </b><label id="lblPackQty"></label> <label id="lblPackUnit"></label>
-            </td>
-            <td>
-                <b>GROSS WT : </b><label id="lblTotalGW"></label> <label id="lblGWUnit"></label>
-            </td>
-            <td>
-                <b>NET WT : </b><label id="lblTotalNW"></label> <label id="lblNWUnit"></label>
-            </td>
-            <td>
-                <b>M3 : </b><label id="lblMeasurement"></label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <b>BOOKING : </b><label id="lblBookingNo"></label>
-            </td>
-            <td>
-                <b>H.BL/AWB : </b><label id="lblHAWBNo"></label>
-            </td>
-            <td>
-                <b>M.BL/AWB : </b><label id="lblMAWBNo"></label>
-            </td>
-            <td>
-                <b>DECLARE NO : </b><label id="lblDeclareNo"></label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <b>DUTY.AMT : </b><label id="lblDutyAmt"></label>
-            </td>
-            <td>
-                <b>CERTIFICATES : </b><label id="lblTaxPrivilege"></label>
-            </td>
-            <td colspan="2">
-                <b>DECL.TYPE : </b><label id="lblDeclareType"></label>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <b>SHIPPING NOTE : </b><label id="lblShippingCmd"></label>
-            </td>
-            <td colspan="2">
-                <b>SHIPPING : </b><label id="lblShippingName"></label>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <b>FROM : </b><label id="lblFromCountry"></label>
-            </td>
-            <td colspan="2">
-                <b>PORT : </b><label id="lblFromPort"></label>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <b>TO : </b><label id="lblToCountry"></label>
-            </td>
-            <td colspan="2">
-                <b>PORT : </b><label id="lblToPort"></label>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <b>VESSEL/FLIGHT : </b><label id="lblVesselName"></label>
-            </td>
-            <td colspan="2">
-                <b>AGENT : </b><label id="lblAgentName"></label>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <b>LOADING / CTN : </b><label id="lblTotalContainer"></label>
-            </td>
-            <td colspan="2">
-                <b>TRANSPORTER : </b><label id="lblTransportName"></label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <b>ETD : </b><label id="lblETDDate"></label>
-            </td>
-            <td>
-                <b>ETA : </b><label id="lblETADate"></label>
-            </td>
-            <td>
-                <b>LOAD : </b><label id="lblLoadDate"></label>
-            </td>
-            <td>
-                <b>DELIVERY : </b><label id="lblDeliveryDate"></label>
-            </td>
-        </tr>
-    </table>
-    <table id="tbExpenses" style="width:100%;border-collapse:collapse;font-size:8px">
-        <thead>
+    <div>
+        <table id="divJobInfo" width="100%">
             <tr>
-                <th colspan="5" style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเคลียร์พิธีการศุลกากร</th>
+                <td colspan="2">
+                    <b>Job No : </b><input type="text" style="border:groove;text-align:center" id="txtJNo" value="" />
+                </td>
+                <td align="right">
+                    <b>Job Type : <label id="lblJobType"></label></b>
+                </td>
+                <td align="right">
+                    <b>Ship By : <label id="lblShipBy"></label></b>
+                </td>
             </tr>
             <tr>
-                <th colspan="3" style="border-style:solid;border-width:thin;width:50%">มีใบเสร็จในนามลูกค้า</th>
-                <th colspan="2" style="border-style:solid;border-width:thin;width:50%">ไม่มีใบเสร็จรับเงินในนามลูกค้า</th>
+                <td colspan="2">
+                    <b>  Quotation : </b><label id="lblQuotation"></label>
+                </td>
+                <td align="right">
+                    <b>Confirm Date : </b><label id="lblConfirmDate"></label>
+                </td>
+                <td align="right">
+                    <b>Open Date : </b><label id="lblOpenDate"></label>
+                </td>
+            </tr>
+        </table>
+        <hr />
+        <div id="divCustomer">
+            <b>Customer : </b><label id="lblCustCode"></label> / <label id="lblCustName"></label>
+            <div id="dvAddr"></div>
+            <b>Tel : </b><label id="lblTel"></label>
+            <b>  Fax : </b><label id="lblFax"></label>
+            <b>  Contact : </b><label id="lblContact"></label>
+        </div>
+        <hr />
+        <div id="divBillingPlace">
+            <b>Billing Place : </b><label id="lblBillToCustCode"></label> / <label id="lblBillToCustName"></label>
+            <div id="dvBillAddr"></div>
+        </div>
+        <hr />
+        <table id="tbInvoiceInfo" width="100%">
+            <tr>
+                <td colspan="2">
+                    <b>INVOICE NO : </b><label id="lblInvNo"></label>
+                </td>
+                <td>
+                    <b>CUSTOMER PO : </b><label id="lblCustRefNO"></label>
+                </td>
+                <td align="right">
+                    <b>RATE :</b>1 <label id="lblCurrency"></label>=<label id="lblExcRate"></label> THB
+                </td>
             </tr>
             <tr>
-                <th style="border-style:solid;border-width:thin;width:30%">รายละเอียด</th>
-                <th style="border-style:solid;border-width:thin;width:20%">เลขที่ใบเสร็จ</th>
-                <th style="border-style:solid;border-width:thin;width:10%">จำนวนเงิน</th>
-                <th style="border-style:solid;border-width:thin;width:30%">รายละเอียด</th>
-                <th style="border-style:solid;border-width:thin;width:10%">จำนวนเงิน</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าธรรมเนียม Paperless</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าปล่อยเบย์-จัดเรียงสินค้า</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td colspan="2">
+                    <b>COMMODITY : </b><label id="lblInvProduct"></label>
+                </td>
+                <td>
+                    <b> QTY : </b><label id="lblInvQty"></label> <label id="lblInvUnit"></label>
+                </td>
+                <td align="right">
+                    <b>TOTAL : </b><label id="lblInvTotal"></label>
+                </td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าภาษีอากร</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าปล่อยวาลฟ์</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>
+                    <b> PACKAGE : </b><label id="lblPackQty"></label> <label id="lblPackUnit"></label>
+                </td>
+                <td>
+                    <b> GROSS WT : </b><label id="lblTotalGW"></label> <label id="lblGWUnit"></label>
+                </td>
+                <td>
+                    <b> NET WT : </b><label id="lblTotalNW"></label> <label id="lblNWUnit"></label>
+                </td>
+                <td align="right">
+                    <b> M3 : </b><label id="lblMeasurement"></label>
+                </td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าล่วงเวลากรมศุลกากร</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่ารถตักสินค้า</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>
+                    <b> BOOKING : </b><br/><label id="lblBookingNo"></label>
+                </td>
+                <td>
+                    <b> H.BL/AWB : </b><br /><label id="lblHAWBNo"></label>
+                </td>
+                <td>
+                    <b> M.BL/AWB : </b><br /><label id="lblMAWBNo"></label>
+                </td>
+                <td align="right">
+                    <b> DECLARE NO : </b><br /><label id="lblDeclareNo"></label>
+                </td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าล่วงเวลาการท่าเรือ</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าพิธีการตรวจปล่อย</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>
+                    <b> DUTY.AMT : </b><label id="lblDutyAmt"></label>
+                </td>
+                <td>
+                    <b> CERTIFICATES : </b><label id="lblTaxPrivilege"></label>
+                </td>
+                <td colspan="2" align="right">
+                    <b> DECL.TYPE : </b><br /><label id="lblDeclareType"></label>
+                </td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าล่วงเวลาเอเย่นต์</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่านำแรงงานท่าเรือ</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td colspan="2">
+                    <b> SHIPPING NOTE : </b><br /><label id="lblShippingCmd"></label>
+                </td>
+                <td colspan="2" align="right">
+                    <b> SHIPPING : </b><label id="lblShippingName"></label>
+                </td>
+            </tr>
+        </table>
+        <hr />
+        <table id="tbShipmentInfo" width="100%">
+            <tr>
+                <td colspan="2">
+                    <b>FROM : </b><label id="lblFromCountry"></label>
+                </td>
+                <td align="right" colspan="2">
+                    <b>PORT : </b><label id="lblFromPort"></label>
+                </td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าแลก D/O</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าแรงงานคลังขนถ่ายสินค้า</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td colspan="2">
+                    <b>TO : </b><label id="lblToCountry"></label>
+                </td>
+                <td align="right" colspan="2">
+                    <b>PORT : </b><label id="lblToPort"></label>
+                </td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าเช่าการท่าเรือ</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">จำนวน (คน)</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td colspan="2">
+                    <b>VESSEL/FLIGHT : </b><br /><label id="lblVesselName"></label>
+                </td>
+                <td colspan="2" align="right">
+                    <b>AGENT : </b><br /><label id="lblAgentName"></label>
+                </td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่ามัดจำตู้</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่านายตรวจศุลกากร</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td colspan="2">
+                    <b>LOADING / CTN : </b><label id="lblTotalContainer"></label>
+                </td>
+                <td colspan="2" align="right">
+                    <b>TRANSPORTER : </b><br /><label id="lblTransportName"></label>
+                </td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่ารถขนส่งสินค้า 6ล้อ</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าปล่อย Print Permit</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>
+                    <b> ETD : </b><label id="lblETDDate"></label>
+                </td>
+                <td>
+                    <b> ETA : </b><label id="lblETADate"></label>
+                </td>
+                <td>
+                    <b> LOAD : </b><label id="lblLoadDate"></label>
+                </td>
+                <td align="right">
+                    <b> DELIVERY : </b><label id="lblDeliveryDate"></label>
+                </td>
             </tr>
+        </table>
+        <hr />
+        <table id="tblFooter">
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่ารถขนส่งสินค้า 4ล้อ</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่ารถหัวลากต่อระยะ</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td colspan="2" width="60%" align="left" valign="top">
+                    <b>NOTE:</b> <br />
+                    <div id="lblDescription"></div>
+                </td>
+                <td colspan="2" align="center" width="40%">
+                    <b>PREPARED BY:</b>
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    -------------------------------------
+                    <br />
+                    <b><label id="lblCSName"></label></b>
+                    <br />
+                    <label id="lblPosition"></label>
+                </td>
             </tr>
-            <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าผ่านท่า</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเจ้าหน้าที่ประมง</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-            </tr>
-            <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าคืนตู้เปล่า</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเจ้าหน้าที่ อย</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-            </tr>
-            <tr>
-                <td style="border-style:solid;border-width:thin;">ค่า Demurrage</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าทำบัตร</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-            </tr>
-            <tr>
-                <td style="border-style:solid;border-width:thin;">ค่า Detention</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าจอดรถ</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-            </tr>
-            <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าธรรมเนียมธนาคาร</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่ารับเอกสารทางอีเมล์</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-            </tr>
-            <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าซ่อมตู้</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าเช็คภาษี</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-            </tr>
-            <tr>
-                <td style="border-style:solid;border-width:thin;">ค่ายื่น C/O หอการค้า</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-            </tr>
-            <tr>
-                <td style="border-style:solid;border-width:thin;"><b>รวมรายจ่าย</b></td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;"><b>รวมรายจ่าย</b></td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-            </tr>
-            <tr>
-                <td style="border-style:solid;border-width:thin;">**FOR JOB NUMBER</td>
-                <td style="border-style:solid;border-width:thin;"><label id="lblJobNo"></label></td>
-                <td style="border-style:solid;border-width:thin;">ONLY**</td>
-                <td style="border-style:solid;border-width:thin;"><b>รวมทั้งสิ้น</b></td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-            </tr>
-        </tbody>
-    </table>
-    <table id="tblFooter" style="width:100%">
-        <tr>
-            <td width="60%" valign="top">
-                <b>NOTE:</b> <br />
-                <div id="lblDescription"></div>
-            </td>
-            <td width="40%" style="text-align:right">
-                <b>PREPARED BY:
-                <label id="lblCSName"></label></b> (<label id="lblPosition"></label>)
-            </td>
-        </tr>
-    </table>
-</div>
+        </table>
+    </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     //$(document).ready(function () {
@@ -390,7 +242,6 @@ End Code
     }
     function DisplayData(j) {
         $('#txtJNo').val(j.JNo);
-        $('#lblJobNo').text(j.JNo);
         $('#lblOpenDate').text(ShowDate(j.DocDate));
         $('#lblConfirmDate').text(ShowDate(j.ConfirmDate));
         $('#lblETDDate').text(ShowDate(j.ETDDate));
@@ -398,13 +249,14 @@ End Code
         $('#lblLoadDate').text(ShowDate(j.LoadDate));
         $('#lblDeliveryDate').text(ShowDate(j.EstDeliverDate));
         $('#lblQuotation').text(j.QNo);
+        $('#lblCustRefNO').text(j.CustRefNO);
         $('#lblInvNo').text(j.InvNo);
         $('#lblCurrency').text(j.InvCurUnit);
         $('#lblExcRate').text(j.InvCurRate);
         $('#lblInvProduct').text(j.InvProduct);
         $('#lblInvTotal').text(j.InvTotal + ' ' + CStr(j.InvCurUnit));
         $('#lblInvQty').text(j.InvProductQty);
-
+    
         ShowInvUnit(path, j.InvProductUnit, '#lblInvUnit');
 
         $('#lblPackQty').text(j.TotalQty);

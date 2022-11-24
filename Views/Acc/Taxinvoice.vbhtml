@@ -123,7 +123,7 @@ End Code
                             <br /><input type="date" id="txtReceiptDate" class="form-control" />
                         </div>
                         <div class="col-sm-6">
-                            <label id="lblHCustCode">Customer</label>                                
+                            <label id="lblHCustCode" onclick="SearchData('customer2')">Customer</label>                                
                             <br />
                             <div style="display:flex">
                                 <input type="text" id="txtHCustCode" class="form-control" style="width:20%" disabled />
@@ -137,7 +137,7 @@ End Code
                     <div class="row">
                         <div class="col-sm-5" style="display:flex;flex-direction:column">
                             <div>
-                                <label id="lblBillToCustCode">Bill To</label>
+                                <label id="lblBillToCustCode" onclick="SearchData('customer3')">Bill To</label>
                                 <br />
                                 <div style="display:flex">
                                     <input type="text" id="txtBillToCustCode" class="form-control" style="width:20%" disabled />
@@ -547,15 +547,9 @@ End Code
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
-    let code = getQueryString("Code");
-    let branch = getQueryString("Branch");
     let row = {};
     let row_d = {};
     SetLOVs();
-    if (branch !== '' && code !== '') {
-        $('#txtBranchCode').val(branch);
-        ShowHeader();
-    }
     $('#btnShow').on('click', function () {
         ShowHeader();
     });
@@ -568,6 +562,8 @@ End Code
             let dv = document.getElementById("dvLOVs");
             //Customers
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
+            CreateLOV(dv, '#frmSearchCust2', '#tbCust2', 'Customers', response, 3);
+            CreateLOV(dv, '#frmSearchCust3', '#tbCust3', 'Customers', response, 3);
             //Currency
             CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency', response, 2);
             //Branch
@@ -581,6 +577,12 @@ End Code
                 break;
             case 'customer':
                 SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
+                break;
+            case 'customer2':
+                SetGridCompany(path, '#tbCust2', '#frmSearchCust2', ReadCustomer2);
+                break;
+            case 'customer3':
+                SetGridCompany(path, '#tbCust3', '#frmSearchCust3', ReadCustomer3);
                 break;
             case 'currency':
                 SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
@@ -676,9 +678,6 @@ End Code
         } else {
             w += '&show=ACTIVE';
         }
-        if (code !== '') {
-            w += '&Code=' + code;
-        }
         $.get(path + 'acc/getReceipt?type=' + type + '&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.receipt.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
@@ -730,7 +729,6 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
@@ -827,8 +825,7 @@ End Code
                         { data:"VoucherNo",title:"Voucher" }
                     ],
                     responsive:true,
-                    destroy: true
-                    , pageLength: 100
+                    destroy:true
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
                 $('#tbDetail tbody').on('click', 'tr', function () {
@@ -924,6 +921,16 @@ End Code
         $('#txtCustCode').val(dt.CustCode);
         $('#txtCustBranch').val(dt.Branch);
         ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
+    }
+    function ReadCustomer2(dt) {
+        $('#txtHCustCode').val(dt.CustCode);
+        $('#txtHCustBranch').val(dt.Branch);
+        ShowCustomer(path, dt.CustCode, dt.Branch, '#txtHCustName');
+    }
+    function ReadCustomer3(dt) {
+        $('#txtBillToCustCode').val(dt.CustCode);
+        $('#txtBillToCustBranch').val(dt.Branch);
+        ShowCustomer(path, dt.CustCode, dt.Branch, '#txtBillToCustName');
     }
     function ReadCurrency(dt) {
         $('#txtCurrencyCode').val(dt.Code);

@@ -98,24 +98,6 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <input type="checkbox" id="chkSummary" /> Summary By Employee 
-                        <br/>
-                        <table id="tbSummary" class="table table-responsive">
-                            <thead>
-                                <tr>
-                                    <th class="desktop">Oper.date</th>
-                                    <th>Employee</th>
-                                    <th class="desktop">Job.No</th>
-                                    <th class="desktop">customer</th>
-                                    <th class="desktop">Cash/Transfer</th>
-                                    <th class="desktop">Company Chq</th>
-                                    <th class="desktop">Customer Chq</th>
-                                    <th class="desktop">Credit</th>
-                                    <th class="all">Total</th>
-                                    <th class="all">W-Tax</th>
-                                </tr>
-                            </thead>
-                        </table>
                         <table id="tbHeader" class="table table-responsive">
                             <thead>
                                 <tr>
@@ -173,7 +155,7 @@ End Code
                         <select id="cboBankCash" class="form-control"></select>
                         <label id="lblBranchCA">To Branch:</label>
                         <input type="text" id="txtBankBranchCash" class="form-control" />
-                        <label id="lblPayCA" onclick="SearchData('emp1')">Pay To:</label>
+                        <label id="lblPayCA">Pay To:</label>
                         <input type="text" id="txtCashPayTo" class="form-control" />
                         <br />
                         <input type="hidden" id="fldBankCodeCash" />
@@ -208,7 +190,7 @@ End Code
                         <select id="cboBankChqCash" class="form-control"></select>
                         <label id="lblBranchCH">Chq Branch:</label>
                         <input type="text" id="txtBankBranchChqCash" class="form-control" />
-                        <label id="lblPayCH" onclick="SearchData('emp2')">Pay To:</label>
+                        <label id="lblPayCH">Pay To:</label>
                         <input type="text" id="txtChqCashPayTo" class="form-control" />
                         <br />
                         <input type="hidden" id="fldBankCodeChqCash" />
@@ -217,7 +199,6 @@ End Code
                     <div class="col-sm-3 table-bordered" id="dvChq">
                         <b id="linkChqCust">Customer Chq : </b><input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
-                        <input type="hidden" id="txtBookChq" class="form-control" value=""/>
                         <a id="lblRefNoCU" href="../acc/cheque" target="_blank">Chq No:</a><input type="text" id="txtRefNoChq" class="form-control" value="" disabled />
                         <input type="button" class="btn" id="btnBrowseChq" value="..." onclick="SearchData('chequecust')" />
                         <br />
@@ -231,7 +212,7 @@ End Code
                         <select id="cboBankChq" class="form-control"></select>
                         <label id="lblBranchCU">Issue Branch:</label>
                         <input type="text" id="txtBankBranchChq" class="form-control" />
-                        <label id="lblPayCU" onclick="SearchData('emp3')">Pay To:</label>
+                        <label id="lblPayCU">Pay To:</label>
                         <input type="text" id="txtChqPayTo" class="form-control" />
                         <br />
                     </div>
@@ -243,7 +224,7 @@ End Code
                             <br />
                             <label id="lblTranDateCR">Ref Date:</label>
                             <input type="date" id="txtCredTranDate" class="form-control" />
-                            <label id="lblPayCR" onclick="SearchData('emp4')">Pay To:</label>
+                            <label id="lblPayCR">Pay To:</label>
                             <input type="text" id="txtCredPayTo" class="form-control" />
                         </div>
                         <div style="background-color:greenyellow;padding:10px 10px 10px 10px;margin:10px 10px 10px 10px;">
@@ -419,10 +400,6 @@ End Code
             CreateLOV(dv, '#frmSearchBookCash', '#tbBookCash', 'Book Accounts', response, 2);
             CreateLOV(dv, '#frmSearchBookChq', '#tbBookChq', 'Book Accounts', response, 2);
             CreateLOV(dv, '#frmSearchDoc', '#tbDoc', 'Account Receivables', response, 5);
-            CreateLOV(dv, '#frmSearchEmpCA', '#tbEmpCA', 'Employee', response, 2);
-            CreateLOV(dv, '#frmSearchEmpCU', '#tbEmpCU', 'Employee', response, 2);
-            CreateLOV(dv, '#frmSearchEmpCH', '#tbEmpCH', 'Employee', response, 2);
-            CreateLOV(dv, '#frmSearchEmpCR', '#tbEmpCR', 'Employee', response, 2);
         });
     }
     function ClearData() {
@@ -436,7 +413,6 @@ End Code
         $('#txtCashPayTo').val('');
         $('#txtAdvChqCash').val('');
         $('#txtBookChqCash').val('');
-        $('#txtBookChq').val('');
         $('#txtRefNoChqCash').val('');
         $('#txtChqCashTranDate').val('');
         $('#chkStatusChq').prop('checked', false);
@@ -495,7 +471,7 @@ End Code
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.adv.data[0].Table;
+            let h = r.adv.data;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
             let tb=$('#tbHeader').DataTable({
@@ -551,8 +527,7 @@ End Code
                     { data: "EmpCode", title: "Request By" }
                 ],
                 responsive:true,
-                destroy: true
-                , pageLength: 100
+                destroy:true
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
 
@@ -716,8 +691,7 @@ End Code
                 }
             ],
             responsive:true,
-            destroy: true
-            , pageLength: 100
+            destroy:true
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
 
@@ -805,8 +779,7 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankCash').val(),
                 RecvBranch: $('#txtBankBranchCash').val(),
-                acType: 'CA',
-                ForJNo:''
+                acType : 'CA'
             });
         }
         if ($('#txtAdvChq').val() > 0) {
@@ -819,7 +792,7 @@ End Code
                 PRVoucher: '',
                 PRType: 'P',
                 ChqNo: $('#txtRefNoChq').val(),
-                BookCode: $('#txtBookChq').val(),
+                BookCode: '',
                 BankCode: '',
                 BankBranch: '',
                 ChqDate:  CDateEN($('#txtChqTranDate').val()),
@@ -843,8 +816,7 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankChq').val(),
                 RecvBranch: $('#txtBankBranchChq').val(),
-                acType: 'CU',
-                ForJNo:''
+                acType: 'CU'
             });
         }
         if ($('#txtAdvChqCash').val() > 0) {
@@ -881,8 +853,7 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankChqCash').val(),
                 RecvBranch: $('#txtBankBranchChqCash').val(),
-                acType: 'CH',
-                ForJNo:''
+                acType: 'CH'
             });
         }
         if ($('#txtAdvCred').val() > 0) {
@@ -1072,37 +1043,8 @@ End Code
             case 'document':
                 SetGridDocument(path, '#tbDoc', '#frmSearchDoc', '?type=R&branch=' + $('#txtBranchCode').val(), ReadDocument);
                 break;
-            case 'emp1':
-                SetGridEmployee(path, '#tbEmpCA', '#frmSearchEmpCA', ReadEmpCA);
-                break;
-            case 'emp2':
-                SetGridEmployee(path, '#tbEmpCH', '#frmSearchEmpCH', ReadEmpCH);
-                break;
-            case 'emp3':
-                SetGridEmployee(path, '#tbEmpCU', '#frmSearchEmpCU', ReadEmpCU);
-                break;
-            case 'emp4':
-                SetGridEmployee(path, '#tbEmpCR', '#frmSearchEmpCR', ReadEmpCR);
-                break;
-
         }
     }
-    function ReadEmpCA(dt) {
-        $('#txtCashPayTo').val(dt.Name);
-        $('#txtBankBranchCash').val(dt.AccountNumber);
-    }
-    function ReadEmpCH(dt) {
-        $('#txtChqCashPayTo').val(dt.Name);
-        $('#txtBankBranchChqCash').val(dt.AccountNumber);
-    }
-    function ReadEmpCU(dt) {
-        $('#txtChqPayTo').val(dt.Name);
-        $('#txtBankBranchChq').val(dt.AccountNumber);
-    }
-    function ReadEmpCR(dt) {
-        $('#txtCredPayTo').val(dt.Name);
-    }
-
     function ReadDocument(dt) {
         let crAmt = Number($('#txtAdvCred').val());
         if (dt.AmountRemain < crAmt) {
@@ -1117,7 +1059,6 @@ End Code
             ShowMessage('Balance not enough to payment',true);
             return;
         }
-        $('#txtBookChq').val(dt.BookCode);
         $('#txtRefNoChq').val(dt.ChqNo);
         $('#txtChqTranDate').val( CDateEN(dt.ChqDate));
         $('#chkIsLocal').prop('checked', dt.IsLocal == 1 ? true : false);
@@ -1135,7 +1076,7 @@ End Code
         $('#fldBankBranchCash').val(dt.BankBranch);
         $('#txtCashBal').val(0);
         $.get(path + 'master/getbookbalance?code='+ dt.BookCode, function (r) {
-            if (r.bookaccount.data.length > 0) {
+            if (r.bookaccount.data[0].Table.length > 0) {
                 let dt = r.bookaccount.data[0].Table[0];
                 $('#txtCashBal').val(dt.SumCashInBank);
             }
@@ -1147,7 +1088,7 @@ End Code
         $('#fldBankBranchChqCash').val(dt.BankBranch);
         $('#txtChqCashBal').val(0);
         $.get(path + 'master/getbookbalance?code='+ dt.BookCode, function (r) {
-            if (r.bookaccount.data.length > 0) {
+            if (r.bookaccount.data[0].Table.length > 0) {
                 let dt = r.bookaccount.data[0].Table[0];
                 $('#txtChqCashBal').val(dt.SumCashInBank);
             }
@@ -1241,8 +1182,8 @@ End Code
                     $('#txtChqTranDate').focus();
                     return false;
                 } else {
-                    if ($('#cboBankChq').val() == '') {
-                        ShowMessage('Please input bank',true);
+                    if ($('#cboBankChq').val() == '' || $('#txtBankBranchChq').val() == '') {
+                        ShowMessage('Please input bank and branch',true);
                         $('#cboBankChq').focus();
                         return false;
                     }

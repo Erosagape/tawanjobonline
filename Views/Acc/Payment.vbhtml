@@ -459,8 +459,7 @@ End Code
                     }
                 ],
                 responsive: true,
-                destroy: true
-                , pageLength: 100
+                destroy:true
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
@@ -570,8 +569,7 @@ End Code
                 }
             ],
             responsive:true,
-            destroy: true
-            , pageLength: 100
+            destroy:true
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
 
@@ -944,7 +942,7 @@ End Code
         $('#fldBankBranchCash').val(dt.BankBranch);
         $('#txtCashBal').val(0);
         $.get(path + 'master/getbookbalance?code='+ dt.BookCode, function (r) {
-            if (r.bookaccount.data.length > 0) {
+            if (r.bookaccount.data[0].Table.length > 0) {
                 let dt = r.bookaccount.data[0].Table[0];
                 $('#txtCashBal').val(dt.SumCashInBank);
             }
@@ -956,7 +954,7 @@ End Code
         $('#fldBankBranchChqCash').val(dt.BankBranch);
         $('#txtChqCashBal').val(0);
         $.get(path + 'master/getbookbalance?code='+ dt.BookCode, function (r) {
-            if (r.bookaccount.data.length > 0) {
+            if (r.bookaccount.data[0].Table.length > 0) {
                 let dt = r.bookaccount.data[0].Table[0];
                 $('#txtChqCashBal').val(dt.SumCashInBank);
             }

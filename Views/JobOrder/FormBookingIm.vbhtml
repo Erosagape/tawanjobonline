@@ -51,14 +51,6 @@ End Code
     </div>
     <div style="display:flex">
         <div style="flex:1">
-            <b>วันปิดรับสินค้า / CLOSING DATE : </b>
-        </div>
-        <div style="flex:1">
-            <label id="lblPackingDate"></label>
-        </div>
-    </div>
-    <div style="display:flex">
-        <div style="flex:1">
             <b>สถานที่รับตู้ / PICK UP DEPOT : </b>
         </div>
         <div style="flex:1">
@@ -124,15 +116,7 @@ End Code
     </div>
     <div style="display:flex">
         <div style="flex:1">
-            <b>บุคคลติดต่อ / CONTACT PERSON :</b>
-        </div>
-        <div style="flex:1">
-            <label id="lblCustContactName"></label>
-        </div>
-    </div>
-    <div style="display:flex">
-        <div style="flex:1">
-            <b>สินค้า / GOODS DESCRIPTION : </b>
+            <b>สินค้า / GOODS DESCRIPTION : </b> 
         </div>
         <div style="flex:1">
             <label id="lblInvProduct"></label>
@@ -140,7 +124,7 @@ End Code
     </div>
     <div style="display:flex">
         <div style="flex:1">
-            <b>น้ำหนักรวมสินค้า / GROSS WEIGHT : </b>
+            <b>น้ำหนักรวมสินค้า / GROSS WEIGHT : </b> 
         </div>
         <div style="flex:1">
             <label id="lblGrossWeight"></label>
@@ -148,23 +132,7 @@ End Code
     </div>
     <div style="display:flex">
         <div style="flex:1">
-            <b>วันที่ต้องคืนตู้ / RETURN DATE : </b>
-        </div>
-        <div style="flex:1">
-            <label id="lblReturnDate"></label>
-        </div>
-    </div>
-    <div style="display:flex">
-        <div style="flex:1">
-            <b>สถานที่คืนตู้ / RETURN AT : </b>
-        </div>
-        <div style="flex:1">
-            <label id="lblReturnPlace"></label>
-        </div>
-    </div>
-    <div style="display:flex">
-        <div style="flex:1">
-            <b>สรุปรายละเอียดงาน / JOB DETAILS : </b>
+            <b>สรุปรายละเอียดงาน / JOB DETAILS : </b> 
         </div>
         <div style="flex:1">
             <div id="lblDescription"></div>
@@ -172,7 +140,7 @@ End Code
     </div>
     <div style="display:flex">
         <div style="flex:1">
-            <b>ที่อยู่ในการวางบิลรถ : </b>
+            <b>ที่อยู่ในการวางบิลรถ : </b> 
         </div>
         <div style="flex:1">
             <label id="lblBillToName"></label>
@@ -194,7 +162,7 @@ End Code
             <div id="dvRemark"></div>
         </div>
     </div>
-
+   
 </div>
 <script type="text/javascript">
     let br = getQueryString("BranchCode");
@@ -219,15 +187,11 @@ End Code
             $('#lblFactoryContact').text(h.FactoryContact);
             $('#lblCarrierName').text(h.CarrierName);
             $('#lblConsignName').text(h.ConsigneeName);
-            $('#lblCustContactName').text(h.CustContactName);
             $('#lblInvProduct').text(h.InvProduct);
             $('#lblGrossWeight').text(h.TotalGW + ' '+ h.GWUnit);
             $('#lblDescription').html(CStr(h.Description));
             $('#lblBillToName').text(h.PaymentBy);
             $('#lblBillToAddress').html(CStr(h.PaymentCondition));
-            $('#lblPackingDate').text(ShowDate(h.PackingDate) + ' / ' + ShowTime(h.PackingTime));
-            $('#lblReturnDate').text(ShowDate(h.ReturnDate) + ' / ' + ShowTime(h.ReturnTime));
-            $('#lblReturnPlace').text(h.PackingPlace);
 
             $('#dvRemark').html(CStr(h.Remark));
             let ctnList = '';

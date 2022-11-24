@@ -119,7 +119,7 @@ End Code
         }
         if (userGroup == 'C') {
             w += (w !== '' ? '&' : '?');
-            w += 'Cust=' + user;
+            w += 'Cust=@ViewBag.User';
         }
         return w;
     }
@@ -330,6 +330,10 @@ End Code
         }
         if ($('#txtDateTo').val()!==null) {
             wc += '&DateTo=' + CDateEN($('#txtDateTo').val());
+        }
+        if (userGroup == 'C') {
+            wc += (w !== '' ? '&' : '?');
+            wc += 'CustCode=@ViewBag.UserUpline';
         }
         SetGridJob(path, '#tbJob', '#frmSearchJob', w + wc, ReadJob);
     }

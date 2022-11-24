@@ -336,7 +336,7 @@ End Code
     function ShowBalance() {
         $('#tbBalance').DataTable().clear().draw();
         $.get(path + 'Master/GetBookBalance?code=' + $('#txtBookCode').val(), function (r) {
-            if (r.bookaccount.data.length > 0) {
+            if (r.bookaccount.data[0].Table.length > 0) {
                 let tb = r.bookaccount.data[0].Table;
                 let t=$('#tbBalance').DataTable({
                     data: tb,
@@ -379,8 +379,7 @@ End Code
                         }
                     ],
                     responsive:true,
-                    destroy: true
-                    , pageLength: 100
+                    destroy:true
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbBalance');
             }
@@ -483,7 +482,6 @@ End Code
                 ],
                 responsive: true,
                 destroy: true
-                , pageLength: 100
             });
             $('#tbApprove tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbApprove').DataTable().row(this).data(); //read current row selected
@@ -513,14 +511,14 @@ End Code
         }
         $.get(path + 'Acc/GetVoucherDetail?BranchCode=' + br + '&BookNo=' + bk +w).done(function (r) {
             if (r.data.detail.length > 0) {
-                let dh = r.data.header[0].Table;
+                let dh = r.data.header;
                 let total = 0;
                 for (let r of dh) {
                     total += Number(r.Net);
                 }
                 $('#txtBalance').val(CDbl(total, 2));
 
-                let dr = r.data.detail[0].Table;
+                let dr = r.data.detail;
                 arr = dr;
                 $('#tbPayment').DataTable().destroy();
                 $('#tbPayment').empty();
@@ -534,7 +532,6 @@ End Code
                     ],
                     responsive: true,
                     destroy: true
-                    , pageLength: 100
                 });
             }
         });

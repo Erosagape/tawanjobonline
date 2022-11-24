@@ -1,16 +1,22 @@
 ﻿@Code
-    Layout = "~/Views/Shared/_ReportNoHeadLandscape.vbhtml"
+    Layout = "~/Views/Shared/_ReportWhTaxLandscape.vbhtml"
 End Code
 <style>
     * {
-        font-family: AngsanaUPC;
-        font-size: 13px;
+        /*font-family: AngsanaUPC;*/
+        font-size: 12px;
     }
 
+    table{
+        width:100%
+    }
     #pFooter,#dvFooter {
         display: none;
     }
 
+    p {
+        margin:2px;
+    }
     thead {
         text-align: center;
     }
@@ -46,15 +52,14 @@ End Code
                 <div style="flex:15%">
                     ใบแนบ <label style="font-size:32px;font-weight:bold">ภ.ง.ด.53</label>
                 </div>
-                <div style="flex:55%">
+                <div style="flex:65%">
                     <br />
                     เลขที่ประจำตัวผู้เสียภาษีอากร (ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย) : <label id="lblTaxNumber1"></label>
-                    สาขา : <label id="lblBranch1"></label>
-                    <br />
-                    ชื่อผู้เสียภาษีอากร : <label id="lblTName1"></label><br />
+                    สาขา : <label id="lblBranch1"></label><br/>ชื่อผู้เสียภาษีอากร : <label id="lblTName1"></label><br />
+
                     ที่อยู่ : <label id="lblTAddress1"></label>
                 </div>
-                <div style="flex:30%;text-align:right">
+                <div style="flex:20%;text-align:right">
                                         <br />                    
                     หน้าที่ 1 ใน <span id="dvPages"></span> หน้า
                 </div>
@@ -66,6 +71,7 @@ End Code
             <div id="report" style="width:100%">
                 <table id="tbDetail" border="1" style="border-style:solid;border-width:thin;border-collapse:collapse;display:none">
                     <thead style="text-align:center">
+                        <tr></tr>
                         <tr>
                             <td rowspan="3">
                                 <p>ลำดับที่</p>
@@ -124,7 +130,7 @@ End Code
                             </td>
                         </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody id=""></tbody>
                     <tfoot>
                         <tr>
                             <td colspan="6">
@@ -139,8 +145,8 @@ End Code
                                 (ให้กรอกลำดับที่ต่อเนื่องกันไปทุกแผ่น)
                                 <br>
                                 <b>หมายเหตุ</b> 1 ให้ระบุว่าจ่ายเป็นค่าอะไร เช่น ค่านายหน้า ค่าแห่งกู๊ดวิลล์ ดอกเบี้ยเงินฝาก ดอกเบี้ยตั๋วเงิน เงินปันผล เงินส่วนแบ่งกำไร ค่าเช่าอาคาร ค่าสอบบัญชี ค่าออกแบบ ค่าก่อสร้างโรงเรียน ค่าซื้อเครื่องพิมพ์ดีด
-                                <br/>ค่าซื้อพืชผลทางการเกษตร (ยางพารา มันสำปะหลัง ปอ ข้าว ฯลฯ) ค่าจ้างทำของ ค่าจ้างโฆษณา รางวัล ส่วนลดหรือประโยชน์ใดๆ เนื่องจากการส่งเสริมการขาย
-                                <br/> รางวัลในการประกวด การแข่งขัน การชิงโชค ค่าขนส่งสินค้า ค่าเบี้ยประกันวินาศภัย
+                                <br />ค่าซื้อพืชผลทางการเกษตร (ยางพารา มันสำปะหลัง ปอ ข้าว ฯลฯ) ค่าจ้างทำของ ค่าจ้างโฆษณา รางวัล ส่วนลดหรือประโยชน์ใดๆ เนื่องจากการส่งเสริมการขาย
+                                <br /> รางวัลในการประกวด การแข่งขัน การชิงโชค ค่าขนส่งสินค้า ค่าเบี้ยประกันวินาศภัย
                                 <br>
                                 2 เงื่อนไขการหักภาษี ณ ที่จ่ายให้กรอกดังนี้<br>
                                 หัก ณ ที่จ่าย กรอก 1<br>
@@ -149,9 +155,9 @@ End Code
                             <td colspan="3" style="text-align:center">
                                 <br>
                                 ลงชื่อ.....................................................ผู้จ่ายเงิน<br>
-                                (<input type="text" style="border-style:none;text-align:center;width:150px" value=" @ViewBag.TaxAuthorize "/>) <br>
+                                (<input type="text" style="border-style:none;text-align:center;width:150px" value=" @ViewBag.TaxAuthorize " />) <br>
                                 ตำแหน่ง <input type="text" style="border-style:none;text-align:center;width:150px" value="@ViewBag.TaxPosition" /> <br>
-                                ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" /> 
+                                ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
                             </td>
                             <td colspan="2">
                                 <div class="circle"><br />ตราประทับ<br />นิติบุคคล<br />(ถ้ามี)</div>
@@ -160,6 +166,7 @@ End Code
                     </tfoot>
                 </table>
             </div>
+
         </td>
     </tr>
 </table>
@@ -228,10 +235,10 @@ End Code
                             d += 1;
                         }
                     }
-                    if (d > 7) {
+                    if (d > 4) {
                         let r = 1;
-                        for (let i = 8; i <= d; i++) {
-                            if (r == 8||i==d) {
+                        for (let i = 5; i <= d; i++) {
+                            if (r == 5||i==d) {
                                 t += 1;
                                 r = 1;
                             } else {
@@ -252,7 +259,7 @@ End Code
                                 template = template.replace('{4}', field4);
                                 template = template.replace('{5}', field5);
 
-                                if ((p == 1 && n == 8) || (((n - 8) % 8) == 0 && p > 1)) {
+                                if ((p == 1 && n == 5) || (((n - 5) % 5) == 0 && p > 1)) {
                                     htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                                     htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
 
@@ -283,7 +290,7 @@ End Code
                             field4 = '';
                             field5 = '';
 
-                            template += '<tr>';
+                            template += '<tr style="height:82px">';
                             template += '<td>' + n + '</td>';
                             template += '<td>';
                             template += '<p class="text-left">';
@@ -291,7 +298,17 @@ End Code
                             template += '<br />';
                             template += 'ชื่อ : ' + r.TName3;
                             template += '<br />';
-                            template += 'ที่อยู่ : ' + r.TAddress3;
+                            //if (r.TAddress3.length >= 20) {
+                            //    let i = 20;
+                            //    console.log(r.TAddress3.length);
+                            //    while (r.TAddress3 .charCodeAt(i) != 32) { i++;}
+                            //    let text = r.TAddress3.slice(0, i) + '<br>' + r.TAddress3.slice(i);
+                            //    console.log(r.TAddress3.slice(0, i) );
+                            //    template += 'ที่อยู่ : ' + text;
+                            //} else {
+                                template += 'ที่อยู่ : ' + r.TAddress3 + '<br>';
+                            //}
+                           
                             template += '</p>';
                             template += '</td>';
                             template += '<td>' + '00'+CCode(r.Branch3) + '</td>';

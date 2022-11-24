@@ -127,7 +127,7 @@ End Code
         <div class="row">
             <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
-                    <label id="lblHAWB" style="display:block;width:100%;" onclick="CopyFromBooking()">House BL/AWB</label>
+                    <label id="lblHAWB" style="display:block;width:100%;">House BL/AWB</label>
                 </div>
                 <div style="display:flex;width:70%">
                     <input type="text" class="form-control" id="txtHAWB" style="width:100%" tabindex="14" />
@@ -135,7 +135,7 @@ End Code
             </div>
             <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
-                    <label id="lblMAWB" style="display:block;width:100%;" onclick="CopyFromHouseBL()">Master BL/AWB</label>
+                    <label id="lblMAWB" style="display:block;width:100%;">Master BL/AWB</label>
                 </div>
                 <div style="display:flex;width:70%">
                     <input type="text" class="form-control" style="width:100%" id="txtMAWB" tabindex="15" />
@@ -164,9 +164,7 @@ End Code
         <div class="row">
             <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
-                    <a href="../Master/Venders">
-                        <label id="lblTransport" style="display:block;width:100%;">Transporter</label>
-                    </a>
+                    <label id="lblTransport" style="display:block;width:100%;">Transporter</label>
                 </div>
                 <div style="display:flex;width:70%">
                     <input type="text" class="form-control" id="txtAgentCode" style="width:120px" />
@@ -205,9 +203,7 @@ End Code
                 </div>
             </div>
             <div class="col-sm-6">
-                <a href="../Master/InterPort">
-                    <label id="lblInterPort" style="display:block;width:100%;">International Port</label>
-                </a>
+                <label id="lblInterPort" style="display:block;width:100%;">International Port</label>
                 <div style="display:flex;width:100%">
                     <input type="text" class="form-control" id="txtInterPort" style="width:120px" disabled />
                     <input type="text" class="form-control" id="txtInterPortName" style="width:100%" disabled />
@@ -239,7 +235,7 @@ End Code
                     <label id="lblCopyFrom" style="display:block;width:100%;">Copy From</label>
                 </div>
                 <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" id="txtCopyFromJob" style="width:100%"/>
+                    <input type="text" class="form-control" id="txtCopyFromJob" style="width:100%" disabled />
                     <input type="button" class="btn btn-default" id="btnBrowseJob" value="..." onclick="SearchData('job')" />
                 </div>
             </div>
@@ -575,8 +571,8 @@ End Code
     function GetParam() {
         let strParam = '?';
         strParam += 'Branch=' + $('#txtBranchCode').val();
-        //strParam += '&JType=' + $('#cboJobType').val().substr(0, 2);
-        //strParam += '&SBy=' + $('#cboShipBy').val().substr(0, 2);
+        strParam += '&JType=' + $('#cboJobType').val().substr(0, 2);
+        strParam += '&SBy=' + $('#cboShipBy').val().substr(0, 2);
         strParam += '&CustCode=' + $('#txtCustCode').val();
         return strParam;
     }
@@ -591,8 +587,7 @@ End Code
     }
     function GetQuotation() {
         let branch = $('#txtBranchCode').val();
-        //let cust = $('#txtCustCode').val(); //Get From Customer
-        let cust = $('#txtConsignee').val(); //Get From Consignee for ANT Global
+        let cust = $('#txtCustCode').val();
         let jtype = $('#cboJobType').val();
         let sby = $('#cboShipBy').val();
         $('#txtQNo').val('');
@@ -661,8 +656,6 @@ End Code
                 $('#btnCreateJob').attr('disabled', 'disabled');
                 if (r.job.status == "Y") {
                     let data = GetDataSave(r.job.data[0]);
-                    data.JobType = $('#cboJobType').val();
-                    data.ShipBy = $('#cboShipBy').val();
                     SaveData(data);
                 } else {
                     ShowMessage(r.job.result, true);
@@ -780,7 +773,6 @@ End Code
         window.location.href = 'Transport?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val();
     }
     function SaveData(obj) {
-        
         let jsonText = JSON.stringify({ data: obj });
         //ShowMessage(jsonText);
         $.ajax({
@@ -798,12 +790,6 @@ End Code
                 ShowMessage(e,true);
             }
         });
-    }
-    function CopyFromBooking() {
-        $('#txtHAWB').val($('#txtBookingNo').val());
-    }
-    function CopyFromHouseBL() {
-        $('#txtMAWB').val($('#txtHAWB').val());
     }
 </script>
 

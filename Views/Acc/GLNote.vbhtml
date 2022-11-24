@@ -261,8 +261,7 @@ End Code
                 }
             ],
             destroy: true,
-            responsive: true
-            , pageLength: 100
+            responsive:true
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {

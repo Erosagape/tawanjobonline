@@ -17,7 +17,7 @@ End Code
         <div class="col-md-12">
             View By 
             <select id="cboGroup" onchange="drawChart()">
-                <option value="j.CustCode">Customer</option>
+                <option value="j.CPolicyCode">Business Unit</option>
                 <option value="j.ConsigneeCode">Consignee</option>
                 <option value="j.CSCode">CS Staff</option>
                 <option value="j.ForwarderCode">Forwarder</option>

@@ -215,7 +215,6 @@ End Code
                     { "data": "DeclareNumber", "title": "Declare No." },
                     { "data": "CustRefNO", "title": "Cust.Ref" }
                 ]
-                , "pageLength": 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tblJob');
             $('#tblJob tbody').on('click', 'tr', function () {

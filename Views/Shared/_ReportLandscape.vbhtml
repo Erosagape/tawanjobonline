@@ -12,9 +12,9 @@
     <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/bootstrap-select.js"></script>
-    <script src="~/Scripts/Func/util.js"></script>
-    <script src="~/Scripts/Func/popup.js"></script>
-    <script src="~/Scripts/Func/reports.js"></script>
+    <script src="~/Scripts/Func/Util.js?@DateTime.Now.ToString()"></script>
+    <script src="~/Scripts/Func/popup.js?@DateTime.Now.ToString()"></script>
+    <script src="~/Scripts/Func/reports.js?@DateTime.Now.ToString()"></script>
     <style>
         table,
         table tr td,
@@ -28,11 +28,11 @@
         <table id="tblHeader" width="100%">
             <tr>
                 <td width="20%">
-                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:50px"/>
+                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:200px"/>
                 </td>
                 <td width="80%">
                     <div id="divCompany" style="text-align:left;color:darkblue;">
-                        <b>@ViewBag.PROFILE_COMPANY_NAME</b>
+                        <span style="font-weight:bold;font-size:18px;">@ViewBag.PROFILE_COMPANY_NAME</span>
                         <br />@ViewBag.PROFILE_COMPANY_ADDR1 <br/> @ViewBag.PROFILE_COMPANY_ADDR2
                         <br />Tel @ViewBag.PROFILE_COMPANY_TEL Fax @ViewBag.PROFILE_COMPANY_FAX E-mail/Website @ViewBag.PROFILE_COMPANY_EMAIL
                         <br />Tax-Reference ID : @ViewBag.PROFILE_TAXNUMBER Branch @ViewBag.PROFILE_TAXBRANCH

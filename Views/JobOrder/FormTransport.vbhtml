@@ -9,7 +9,7 @@ End Code
     }
 </style>
 <div style="display:flex">
-    <div style="flex-direction:row;width:40%;font-size:10px;">
+    <div style="flex-direction:row;width:55%;font-size:10px;">
         <div style="display:flex;flex-direction:column;">
             <div style="height:100px;border-bottom:solid;border-top:solid;border-left:solid;border-width:thin;">
                 <b>Shipper</b>
@@ -22,7 +22,7 @@ End Code
                 </div>
             </div>
             <div style="height:100px;border-bottom:solid;border-left:solid;border-width:thin;">
-                <b>Consignee or order</b>
+                <b>Consignee</b>
                 <div style="padding:5px 5px 5px 5px">
                     <label id="lblConsigneeName"></label>
                     <br />
@@ -32,7 +32,7 @@ End Code
                 </div>
             </div>
             <div style="height:100px;border-bottom:solid;border-left:solid;border-width:thin;">
-                <b>Notify address</b>
+                <b>Notify Party</b>
                 <div style="padding:5px 5px 5px 5px">
                     <label id="lblNotifyName"></label>
                     <br />
@@ -43,9 +43,23 @@ End Code
             </div>
             <div style="display:flex;flex-direction:row;">
                 <div style="flex:1;border-left:solid;border-bottom:solid;border-width:thin;">
+                    <b>Feeder Vessel</b>
+                    <div>
+                        <label id="lblVesselName"></label>
+                    </div>
+                </div>
+                <div style="flex:1;border-left:solid;border-bottom:solid;border-width:thin;">
                     <b>Place of Receipt</b>
                     <div>
                         <label id="lblPackingPlace"></label>
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex;flex-direction:row;">
+                <div style="flex:1;border-left:solid;border-bottom:solid;border-width:thin;">
+                    <b>Ocean Vessel</b>
+                    <div>
+                        <label id="lblMVesselName"></label>
                     </div>
                 </div>
                 <div style="flex:1;border-left:solid;border-bottom:solid;border-width:thin;">
@@ -55,116 +69,115 @@ End Code
                     </div>
                 </div>
             </div>
+            <div style="display:flex;flex-direction:row;">
+                <div style="flex:1;border-left:solid;border-bottom:solid;border-width:thin;">
+                    <b>Port of Discharge</b>
+                    <div>
+                        <label id="lblInterPortName"></label>,<label id="lblCountryName"></label>
+                    </div>
+                </div>
+                <div style="flex:1;border-left:solid;border-bottom:solid;border-width:thin;">
+                    <b>Port of Delivery</b>
+                    <div>
+                        <label id="lblFactoryPlace"></label>
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
-    <div style="flex-direction:row;width:60%;font-size:12px;border-top:solid;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
+    <div style="flex-direction:row;width:45%;font-size:12px;border-top:solid;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
         <div style="display:flex;flex-direction:column;">
-            <div style="display:flex;flex-direction:column;padding:5px 5px 5px 5px;width:50%;align-self:center">
+            <div style="display:flex;flex-direction:row;padding:5px 5px 5px 5px;">
+                <div style="flex:1">
+                    <b>BILL OF LADING</b><br />
+                    <input type="text" value="ORIGINAL/COPY" style="border:none;">
+                </div>
                 <div style="flex:1;text-align:center;align-items:center;border:thin;border-width:thin;border-style:solid;">
-                    B/L NO:<label id="lblHAWB" style="color:red"></label>
+                    House Bill of Lading
+                    <br />
+                    <label id="lblHAWB"></label>
                 </div>
             </div>
             <div style="text-align:center">
                 <br />
-                <img id="imgLogo" src="~/Resource/logo-stl.png" style="width:60%" />
+                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:60%" />
                 <br /><br />
-                <div id="divCompany" style="text-align:center;color:darkblue;font-size:12px">
-                    <div style="font-weight:bold;font-size:12px">
-                        SINOTHAI LOGISTICS INTERNATIONAL CO.,LTD<br />
-                        <b>BILL OF LADING</b><br />
-                    </div>
-                    <p style="font-size:10px;text-align:left">
-                        RECEIVED by the Carrier that the Goods as specified above in apparent good order and condition
-                        unless otherwise stated,to be transported to such place as agreed authorized or permited herein
-                        and subject to all the terms and conditions appearing on the front and reverse of this bill of lading
-                        that the Merchant agree by accepting this bill of lading any local privileges and customs not withstanding.
-                        <br />
-                        The particulars given below as stated by shipper and weight measure,quantity,condition contents and value of the goods
-                        are unknown to the Carrier in WITNESS where of one (1) original bill of lading has been signed if not otherwise stated below
-                        the same being accomplished the other(s),if any to be void,if required by the Carrier one (1) original bill of lading
-                        must be surrendered duty endorsed in exchange for the Goods or delivery order.
-
-                    </p>
-                </div>
+                      <div id="divCompany" style="text-align:center;color:darkblue;font-size:12px">
+                          <div style="font-weight:bold;font-size:12px">
+                              SINOTHAI MILLENNIUM CO.,LTD.
+                          </div>
+                          140/46-47 ITF TOWER 21TH FLOOR<br />SILOM ROAD, SURIYAWONGSE,BANGRAK BANGKOK THAILAND
+                          <br />Mobile: 039-460-383 / 084-5399663
+                      </div>
 
             </div>
         </div>
     </div>
 </div>
-<div style="width:100%;display:flex;flex-direction:row;font-size:10px;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
-    <div style="flex:1;">
-        <b>Ocean Vessel/Voyage No</b>
-        <div>
-            <label id="lblMVesselName"></label>
-        </div>
-    </div>
-    <div style="flex:1;border-left:solid;border-width:thin;">
-        <b>Port of Discharge</b>
-        <div>
-            <label id="lblInterPortName"></label>,<label id="lblCountryName"></label>
-        </div>
-    </div>
-
-    <div style="flex:1;border-left:solid;border-width:thin;">
-        <b>Port of Delivery</b>
-        <div>
-            <label id="lblFactoryPlace"></label>
-        </div>
-    </div>
-    <div style="flex:1;border-left:solid;border-width:thin;">
-        <b>Freight Payable At:</b><br />
-        <label id="lblPaymentBy"></label>
-    </div>
-    <div style="flex:1;border-left:solid;border-width:thin;">
-        <b>Number or original BLs :</b><br /><label id="lblBLNo"></label>
-    </div>
-</div>
 <div style="width:100%;display:flex;flex-direction:row;font-size:10px;text-align:center;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
     <div style="width:20%;"><b>Marks & Numbers</b></div>
-    <div style="width:15%;"><b>No. of Pkgs or Units</b></div>
-    <div style="width:35%;"><b>Kind of Pkgs or Description of Goods (said to contain)</b></div>
-    <div style="width:15%;"><b>Gross Weight</b></div>
-    <div style="width:15%;"><b>Measurements</b></div>
+    <div style="width:15%;"><b>Number and Kind of Packages</b></div>
+    <div style="width:35%;"><b>Description of Goods</b></div>
+    <div style="width:15%;"><b>Gross Weight (KGS)</b></div>
+    <div style="width:15%;"><b>Measurement (CBM)</b></div>
 </div>
 <div id="dvDetail" style="height:380px;vertical-align:top;display:flex;flex-direction:column;font-size:10px;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
 </div>
-<div style="width:100%;display:flex;flex-direction:row;font-size:10px;text-align:center;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
-    <div style="width:20%;"><b>Total number of Packages or units (in words)</b></div>
-    <div style="width:80%;">
-        <label id="lblTotalPackage"></label><label id="lblProductUnit"></label> ONLY
+<div style="width:100%;font-size:10px;text-align:center;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;"><b>according to the declaration of the consigner</b></div>
+<div style="width:100%;font-size:10px;text-align:left;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
+    The goods and instructions are accepted and dealt with subject to the standard conditions which are available upon request.
+    Taken in charge in apparent good order and condition,unless otherwise noted herein,at the place of receipt for transport and delivery as mentioned above.
+    One of these Multi-modal transport bills of lading must be surrendered duty endorse in exchange for the goods. In witness whereof the original multi-modal transport bill of lading all of this tenor and of this tenor and date have been signed in the number stated below One of this being accomplished the others to be void
+</div>
+<div style="font-size:10px;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
+    <div style="display:flex;flex-direction:row">
+        <div style="flex:3;border-right:solid;border-width:thin;">
+            <b>Freight Payable At:</b><br />
+            <label id="lblPaymentBy"></label>
+        </div>
+        <div style="flex:3;border-right:solid;border-width:thin;">
+            <b>Freight Condition:</b><br /><label id="lblPaymentCondition"></label>
+        </div>
+        <div style="flex:4;">
+            <b>Place and date of issue :</b><br />
+            <label id="lblBookingDate"></label>
+        </div>
     </div>
 </div>
 <div style="display:flex;">
-    <div style="font-size: 10px;width: 40%; border-left: solid; border-bottom: solid; border-width: thin;">
-        <div>
-            <b>Freight Details,Charges etc.</b>
-            <br /><label id="lblPaymentCondition"></label>
+    <div style="width:60%;border-left:solid;border-bottom:solid;border-width:thin;">
+        <div style="display:flex;flex-direction:column;font-size:10px;width:100%">
+            <div style="display:flex;flex-direction:row">
+                <div style="flex:1;">
+                    <b>Cargo insurance through the undersigned</b><br />
+                    <input type="checkbox" /> Not Covered<br /><input type="checkbox" /> Covered according to attached policy
+                </div>
+                <div style="flex:1;border-left:solid;border-width:thin;">
+                    <b>Number or original BLs :</b><br /><label id="lblBLNo"></label>
+                </div>
+            </div>
         </div>
-        <div>
-            <b>F/Agent Name to delivery</b><br />
+        <div style="font-size:10px;border-top:solid;border-width:thin;">
+            <b>For delivery of goods please apply to:</b><br />
             <label id="lblDeliveryTo"></label><br />
             <div id="lblDeliveryAddr"></div>
         </div>
     </div>
-    <div style="width:60%;font-size:10px;border-left:solid;border-right:solid;border-bottom:solid;border-width:thin;">
-        <div>
-            <b>Type of Service</b>
-            <label id="lblServiceMode"></label>
-        </div>
-        <div>
-            <b>Ex.Rate</b>
-            <label id="lblInvCurRate"></label>
-        </div>
-        <div>
-            <b>Place and date of issue :</b>
-            <label id="lblBookingDate"></label>
-        </div>
-        <div>
-            <b>Signed on behalf of the carrier:</b>
+    <div style="width:40%;font-size:10px;border-left:solid;border-right:solid;border-bottom:solid;border-width:thin;">
+        <div style="text-align:center">
+            <br />
+            <b>Stamp And Signature:</b>
             <br />
             <br />
-            AS AGENT FOR THE CARRIER: <label id="lblForwarderName"></label>
+            <br />
+            <br />
+            <br />
+            <br />
+            AS AGENT FOR <label id="lblForwarderName"></label>
         </div>
+        <br />
+        <label id="lblProductUnit" style="display:none"></label>
     </div>
 </div>
 <script type="text/javascript">
@@ -180,7 +193,6 @@ End Code
 $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
-            //$('#lblMAWB').text(h.MAWB);
             $('#lblHAWB').text(h.HAWB);
             $('#lblBLNo').text(h.BLNo);
             $('#lblDeliveryTo').text(h.DeliveryTo);
@@ -199,19 +211,22 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
             $('#lblNotifyName').text(h.NotifyName);
             $('#lblNotifyAddress1').text(h.NotifyAddress1);
             $('#lblNotifyAddress2').text(h.NotifyAddress2);
-            //$('#lblVesselName').text(h.VesselName);
+            $('#lblVesselName').text(h.VesselName);
             $('#lblMVesselName').text(h.MVesselName);
-            $('#lblPackingPlace').text(h.CYPlace);
-            $('#lblClearPortName').text(h.ClearPortNo);
-            //ShowReleasePort(path, h.ClearPort, '#lblClearPortName');
-            let unit=units.filter(function(data){
-               return data.Code==h.InvProductUnit;
-             });
-            if(unit.length>0) {
-               $('#lblProductUnit').text(unit[0].TName);
-            } else {
-               $('#lblProductUnit').text(h.InvProductUnit);
-            }
+            $('#lblPackingPlace').text(h.PackingPlace);
+            ShowReleasePort(path, h.ClearPort, '#lblClearPortName');
+let unit=units.filter(function(data){
+   return data.Code==h.InvProductUnit;
+ });
+if(unit.length>0) {
+   $('#lblProductUnit').text(unit[0].TName);
+} else {
+   $('#lblProductUnit').text(h.InvProductUnit);
+}
+	var Showinv=false;
+	if(confirm("Print PO/Commercial Invoice?")==true) {
+	 Showinv=true;
+	}
             if (h.JobType == '1') {
                 ShowInterPort(path, h.InvFCountry, h.InvInterPort, '#lblInterPortName');
                 ShowCountry(path, h.InvFCountry, '#lblCountryName');
@@ -220,21 +235,23 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
                 ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblInterPortName');
             }
             $('#lblFactoryPlace').text(h.FactoryPlace);
-            $('#lblTotalPackage').text(CNumEng(h.InvProductQty).replace('ONLY', ''));
-            $('#lblServiceMode').text(h.TRemark);
-            $('#lblInvCurRate').text(h.InvCurRate);
+
 
             let html = '';
-            //html += '<div style="width:100%;text-align:center;font-size:10px">"SHIPPER LOAD & COUNT & SEAL"</div>';
+            html += '<div style="width:100%;text-align:center;font-size:10px">"SHIPPER LOAD & COUNT & SEAL"<br/>"SAID TO CONTAIN ('+ h.TransMode +')"</div>';
             html += '<div style="width:100%;display:flex;flex-direction:row;margin-bottom:5px;font-size:10px">';
             html += '<div style="width:20%;">'+ CStr(h.Remark) +'</div>';
-            html += '<div style="width:15%;">' + h.InvProductQty + '<br/>' + $('#lblProductUnit').text() + '</div>';
+            html += '<div style="width:15%;">' + h.InvProductQty + ' ' + $('#lblProductUnit').text() + '</div>';
             html += '<div style="width:35%;">' + h.InvProduct + '<br/>' + CStr(h.ProjectName);
-            html += '<br/>SAY ' + h.TotalContainer + ' CONTAINER(s) ONLY';
+	if(Showinv==true) {
+            html += '<br/>AS ORDER NO ' + h.CustRefNO;
+            html += '<br/>INVOICE NO ' + h.InvNo;
+            html += '<br/> DATE ' + ShowDate(h.ConfirmDate);
+	}
             html += '</div>';
             html += '<div style="width:15%;">G.W ' + ShowNumber(h.TotalGW,3) + ' ' + h.GWUnit + '';
             if(h.TotalNW>0)  {
-                html += '<br/>N.W ' + ShowNumber(h.TotalNW, 3) + ' ' + h.GWUnit;
+            html += '<br/>N.W '+ ShowNumber(h.TotalNW,3) + ' ' + h.GWUnit
             }
             html +='</div>';
             html += '<div style="width:15%;text-align:center">'+ h.TotalM3 +' M3</div>';
@@ -242,17 +259,31 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
 
             html += '<div style="width:100%;display:flex;flex-direction:row;margin-bottom:5px;font-size:10px">';
             html += '<div style="width:45%;"><u>CONTAINER & SEAL</u></div>';
+            html += '<div style="width:25%;"><u>QTY & PACKAGES</u></div>';
+            html += '<div style="width:15%;"><u>G.W.</u></div>';
+            html += '<div style="width:15%;"><u>MEASUREMENT</u></div>';
             html += '</div>';
             let i = 0;
             for (i = 0; i < r.booking.data.length; i++){
                 let htmlTemplate = '<div style="width:100%;display:flex;flex-direction:row;font-size:10px">';
-                htmlTemplate += r.booking.data[i].CTN_NO + '/' + r.booking.data[i].CTN_SIZE + ' #' + r.booking.data[i].SealNumber + ' ' + r.booking.data[i].Measurement + ' M3 ' + r.booking.data[i].ProductQty + ' ' + r.booking.data[i].ProductUnit+ ' ' +h.TransMode;
+                htmlTemplate += '<div style="width:15%;">'+ r.booking.data[i].CTN_NO +'</div>';
+                htmlTemplate += '<div style="width:30%;">'+ r.booking.data[i].SealNumber +'</div>';
+unit=units.filter(function(data){
+   return data.Code==r.booking.data[i].ProductUnit;
+ });
+if(unit.length>0) {
+                htmlTemplate += '<div style="width:25%;">'+ r.booking.data[i].ProductQty + ' '+ unit[0].TName +'</div>';
+} else {
+                htmlTemplate += '<div style="width:25%;">'+ r.booking.data[i].ProductQty + ' '+ r.booking.data[i].ProductUnit +'</div>';
+}
+                htmlTemplate += '<div style="width:15%;">'+ ShowNumber(r.booking.data[i].GrossWeight,3) + ' ' + h.GWUnit +'</div>';
+                htmlTemplate += '<div style="width:15%;text-align:center;">' + CDbl(r.booking.data[i].Measurement,3) + ' M3</div>';
                 htmlTemplate += '</div>';
 
                 html += htmlTemplate;
             }
-            //html += '<div style="font-size:9px;">SAY ' + h.TotalContainer + ' CONTAINER(s) ONLY';
-            //html += '<br/> TOTAL ' + CNumEng(h.InvProductQty).replace('ONLY','') + ' ' + $('#lblProductUnit').text() + ' ONLY';
+            html += '<div style="font-size:9px;"><br/>TOTAL (' + (i) + ') CONTAINER(s)';
+            html += '<br/> TOTAL ' + CNumEng(h.InvProductQty).replace('ONLY','') + ' ' + $('#lblProductUnit').text() + ' ONLY';
             html += '</div>';
             $('#dvDetail').html(html);
         }

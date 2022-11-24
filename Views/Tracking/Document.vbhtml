@@ -282,7 +282,7 @@ End Code
                     w += '?Agent=' + vend;
                 }
                 if (userGroup == 'C') {
-                    w += '?CustCode=' + cust;
+                    w += '?CustCode=@ViewBag.UserUpline';
                 }
                 SetGridJob(path, '#tbJob', '#frmSearchJob', w, ReadJob);
                 break;
@@ -321,7 +321,7 @@ End Code
             w += '&Type=' + $('#txtDocType').val();
         }
         if (userGroup == 'C') {
-            w += '&Cust=' + user;
+            w += '&Cust=@ViewBag.UserUpline';
         }
         if (userGroup == 'V') {
             w += '&Vend=' + user;

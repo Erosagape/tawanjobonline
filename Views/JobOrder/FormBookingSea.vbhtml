@@ -4,11 +4,6 @@
     ViewBag.ReportName = "Booking Confirmation"
     ViewBag.Title = "BOOKING CONFIRMATION"
 End Code
-<style>
-    #dvFooter {
-        display:none;
-    }
-</style>
     <div style="display:flex;font-size:14px">
         <div style="text-align:left;flex:1">
             <b>TO :</b><label id="lblShipperName"></label>
@@ -26,6 +21,7 @@ End Code
         </div>
     </div>
     <div style="width:100%;font-size:14px">
+        <b>SHIPMENT NO:</b> <label id="lblJNo"></label>
         <br />
         <b>BOOKING NO:</b> <label id="lblBookingNo"></label>
         <br />
@@ -33,12 +29,11 @@ End Code
         <br />
         <b>PORT OF RECEIPT :</b> <label id="lblPackingPlace"></label>
         <br />
-        <b>PORT OF LOADING :</b> <label id="lblPortLoading"></label>
+        <b>PORT OF LOADING :</b> <label id="lblFactoryPlace"></label>
         <br />
         <b>PLACE OF DELIVERY :</b> <label id="lblPortArrival"></label>,<label id="lblCountry"></label>
         <br />
-        <b>CLOSING DATE :</b><label id="lblClosingDate"></label> <b> CLOSING TIME </b> <label id="lblClosingTime"></label>
-        <b>AT :</b><label id="lblClosingPlace"></label>
+        <b>CLOSING DATE :</b><label id="lblClosingDate"></label> <b>AT</b> <label id="lblClosingTime"></label>
         <br />
         <b>ETD DATE :</b><label id="lblETDDate"></label>
         <br />
@@ -52,7 +47,7 @@ End Code
         <br />
         <b>MOTHER VESSEL / VOY :</b> <label id="lblMVesselName"></label>
         <br />
-        <b>FEEDER VESSEL / VOY :</b> <label id="lblVesselName"></label>
+        <b>OCEAN VESSEL / VOY :</b> <label id="lblVesselName"></label>
         <br />
         <b>CARRIER :</b> <label id="lblAgentName"></label>
         <br />
@@ -104,7 +99,7 @@ End Code
     $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
-
+            $('#lblJNo').text(h.JNo);
             $('#lblBookingNo').text(h.BookingNo);
             $('#lblBookingDate').text(ShowDate(h.BookingDate));
             $('#lblShipperName2').text(h.ShipperName);
@@ -137,7 +132,7 @@ End Code
                 $('#lblReturnDate').text(ShowDate(h.ReturnDate));
                 $('#lblReturnPlace').text(h.ReturnPlace);
                 $('#lblReturnContact').text(h.ReturnContact);
-                $('#lblClosingPlace').text(h.ReturnPlace);
+
                 $('#lblClosingDate').text(ShowDate(h.PackingDate));
                 $('#lblClosingTime').text(ShowTime(h.PackingTime));
             } else {
@@ -147,8 +142,9 @@ End Code
                 $('#lblClosingDate').text(ShowDate(h.PackingDate));
                 $('#lblClosingTime').text(ShowTime(h.PackingTime));
             }
-            ShowReleasePort(path, h.ClearPort, '#lblPortLoading');
+            $('#lblFactoryPlace').text(h.FactoryPlace);
             $('#lblPackingPlace').text(h.PackingPlace);
+
             $('#lblShipperName').text(h.ShipperName);
             $('#lblShipperContact').text(h.ShipperContact);
             $('#lblShipperTel').text(h.ShipperPhone);

@@ -1,22 +1,11 @@
-﻿function SetMenu(code,ev) {
-    ShowWait();
-    $.get(path + 'Config/SetMenuType?data=' + code)
-        .done(function () {
-            ev();
-            CloseWait();
-        });
-}
-function OpenMenu(mnuID, newpage = true) {
+﻿function OpenMenu(mnuID) {
     let mnuPath = '';
     switch (mnuID) {
         case 'AccountCode':
             mnuPath = path + 'Master/AccountCode';
             break;
         case 'Dashboard':
-            mnuPath = path + 'Tracking/Dashboard';
-            break;
-        case 'Dashboard2':
-            mnuPath = path + 'Tracking/Dashboard?Type=V2';
+            mnuPath = path + 'Menu/Index?Type=V2';
             break;
         case 'Advance':
             mnuPath = path + 'Acc/Advance';
@@ -207,17 +196,20 @@ function OpenMenu(mnuID, newpage = true) {
         case 'BillPayment':
             mnuPath = path + 'Acc/BillPayment';
             break;
-        case 'Planing':
-            mnuPath = path + 'Tracking/Planing';
+        case 'Dashboard':
+            mnuPath = path + 'Tracking/Dashboard';
             break;
-        case 'CarLicense':
-            mnuPath = path + 'Master/CarLicense';
+        case 'Dashboard2':
+            mnuPath = path + 'Tracking/Dashboard?Type=V2';
             break;
-        case 'Employee':
-            mnuPath = path + 'Master/Employee';
+	case 'Dashboard3':
+            mnuPath = path + 'Tracking/Dashboard?Form=2';
             break;
-        case 'AddFuel':
-            mnuPath = path + 'JobOrder/CloseFuel';
+        case 'Dashboard4':
+            mnuPath = path + 'Tracking/Dashboard?Form=3';
+            break;
+        case 'Dashboard5':
+            mnuPath = path + 'Tracking/Dashboard?Form=4';
             break;
         default:
             ShowMessage('Under Development');
@@ -226,11 +218,7 @@ function OpenMenu(mnuID, newpage = true) {
     if (userID !== '') {
         if (mnuPath !== '') {
             //window.location.href = mnuPath;
-            if (newpage == true) {
-                window.open(mnuPath, '', '');
-            } else {
-                window.location.href=mnuPath;
-            }
+            window.open(mnuPath, '', '');
         }
     } else {
         ShowMessage('Please login first',true);

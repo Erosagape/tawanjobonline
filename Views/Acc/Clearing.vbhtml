@@ -57,13 +57,12 @@ End Code
                 <select id="cboClrType" class="form-control dropdown"></select>
             </div>
             <div class="col-sm-2">
-                Job No :<br />
-                <input type="text" id="txtJNo" />
+                <br />
+                <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddClearing()">
+                    <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkCreate">Create Clearing</b>
+                </a>
             </div>
         </div>
-        <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddClearing()">
-            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkCreate">Create Clearing</b>
-        </a>
         <div class="row">
             <div class="col-sm-12">
                 <table id="tbHeader" class="table table-responsive">
@@ -120,7 +119,7 @@ End Code
         });
 
         //3 Fields Show
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name').done(function(response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Customers
             CreateLOV(dv, '#frmSearchEmp', '#tbEmp', 'Clear By', response, 2);
@@ -146,9 +145,6 @@ End Code
         if ($('#cboClrFrom').val() !== "") {
             w = w + '&cfrom=' + $('#cboClrFrom').val();
         }
-        if ($('#txtJNo').val() !== "") {
-            w = w + '&JobNo=' + $('#txtJNo').val();
-        }
         if ($('#txtClrDateF').val() !== "") {
             w = w + '&DateFrom=' + CDateEN($('#txtClrDateF').val());
         }
@@ -160,13 +156,13 @@ End Code
         } else {
             w = w + '&Show=ACTIVE';
         }
-        $.get(path + 'clr/getclearinggrid?branchcode=' + $('#txtBranchCode').val() + w).done(function (r) {
+        $.get(path + 'clr/getclearinggrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.clr.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if (isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.clr.data[0].Table;
+            let h = r.clr.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -203,7 +199,6 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('dblclick', 'tr', function () {

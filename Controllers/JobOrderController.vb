@@ -1109,11 +1109,10 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
         Function GetJobReport() As ActionResult
             Try
                 Dim isShowAll As Boolean = True
-                Dim oUser = New CUser(GetSession("Connjob")).GetData(String.Format(" WHERE UserID='{0}'", GetSession("CurrUser")))
-                If oUser.Count > 0 Then
-                    If "5,4".IndexOf(oUser(0).UPosition) > 0 Then
-                        isShowAll = False
-                    End If
+
+                Dim oUser = DirectCast(Session("UserProfiles"), CUser)
+                If "5,4".IndexOf(oUser.UPosition) > 0 Then
+                    isShowAll = False
                 End If
                 Dim tSqlW As String = ""
                 If Not IsNothing(Request.QueryString("JType")) Then
@@ -1147,8 +1146,8 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("CSCode")) Then
                     tSqlW &= " AND j.CSCode='" & Request.QueryString("CSCode") & "'"
                 Else
-                    If isShowAll = False And oUser(0).UPosition = 4 Then
-                        tSqlW &= " AND (j.CSCode='" & oUser(0).UserID & "')"
+                    If isShowAll = False And oUser.UPosition = 4 Then
+                        tSqlW &= " AND (j.CSCode='" & oUser.UserID & "')"
                     End If
                 End If
                 If Not IsNothing(Request.QueryString("DeclareNo")) Then
@@ -1172,8 +1171,8 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("ShippingCode")) Then
                     tSqlW &= " AND j.ShippingEmp='" & Request.QueryString("ShippingCode") & "'"
                 Else
-                    If isShowAll = False And oUser(0).UPosition = 5 Then
-                        tSqlW &= " AND (j.ShippingEmp='" & oUser(0).UserID & "')"
+                    If isShowAll = False And oUser.UPosition = 5 Then
+                        tSqlW &= " AND (j.ShippingEmp='" & oUser.UserID & "')"
                     End If
                 End If
                 If Not IsNothing(Request.QueryString("Forwarder")) Then
@@ -1905,7 +1904,8 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If GetSession("ConnJob") = "" Then
                     Return Content("{""result"":[],""msg"":""No Connection""}", jsonContent)
                 End If
-                Dim msg As String = New CUtil(GetSession("ConnJob")).ExecuteSQL(SQLUpdateJobStatus(""), False)
+                'Dim msg As String = New CUtil(GetSession("ConnJob")).ExecuteSQL(SQLUpdateJobStatus(""), False)
+                Dim msg As String = ""
                 Dim tSqlw1 As String = ""
                 Dim bCheck As Boolean = False
                 If Request.QueryString("Period") IsNot Nothing Then
@@ -2052,7 +2052,8 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If GetSession("ConnJob") = "" Then
                     Return Content("{""result"":[],""msg"":""No Connection""}", jsonContent)
                 End If
-                Dim msg As String = New CUtil(GetSession("ConnJob")).ExecuteSQL(SQLUpdateJobStatus(""), False)
+                'Dim msg As String = New CUtil(GetSession("ConnJob")).ExecuteSQL(SQLUpdateJobStatus(""), False)
+                Dim msg As String = ""
                 Dim tSqlw1 As String = ""
                 Dim bCheck As Boolean = False
                 If Request.QueryString("Period") IsNot Nothing Then

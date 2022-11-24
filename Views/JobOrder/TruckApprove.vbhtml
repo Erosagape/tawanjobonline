@@ -596,8 +596,7 @@ End Code
                 }
             ],
             destroy: true,
-            responsive: true
-            , pageLength: 100
+            responsive:true
         });
         $('#tbDetail tbody').on('click', 'tr', function () {
             row = $('#tbDetail').DataTable().row(this).data();
@@ -835,7 +834,6 @@ End Code
                         { data: "CostAmount", title: "Cost.Amt" }
                     ],
                     destroy: true
-                    , pageLength: 100
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbExpense');
             }
@@ -856,7 +854,6 @@ End Code
                             { data: "TotalNet", title: "Total" }
                         ],
                         destroy: true
-                        , pageLength: 100
                     });
                     ChangeLanguageGrid('@ViewBag.Module', '#tbPayment');
                     $('#tbPayment tbody').on('dblclick', 'tr', function () {

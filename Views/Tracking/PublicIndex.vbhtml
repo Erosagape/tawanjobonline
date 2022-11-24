@@ -84,12 +84,16 @@ End Code
 <script type="text/javascript">
     var path = '@Url.Content("~")';
     let dbIndex = getQueryString("db") == '' ? '1' : getQueryString("db");
-
+let taxid=getQueryString('taxid');
     google.charts.load("current", { packages: ["corechart"] });
     window.onresize = () => {
         drawChart();
     }
     QuickCallback(function () {
+	if(taxid!==''){
+$('#txtTaxNumber').val(taxid);
+            ShowCompanyByTax(path, $('#txtTaxNumber').val(), '#txtCustName');
+}
         SetLOVs();
     },dbIndex);
     $('#txtTaxNumber').focusout(function () {
@@ -309,7 +313,8 @@ End Code
                     },
                     vAxis: {
                       title: 'Status'
-                    }
+                    },
+	            series: GetColorStatus()
                 };
                 var chartCust = new google.visualization.BarChart(document.getElementById('chartCust'));
                 chartCust.draw(custTable, custOptions);
@@ -348,5 +353,19 @@ End Code
     }
     function getAnnotation(dataTable, rowIndex, columnIndex) {
         return dataTable.getFormattedValue(rowIndex, columnIndex) == "0" ? null : dataTable.getFormattedValue(rowIndex, columnIndex);
+    }
+    function GetColorStatus() {
+        return [
+            { color: 'antiquewhite', visibleInLegend: true },
+            { color: 'aquamarine', visibleInLegend: true },
+            { color: 'coral', visibleInLegend: true },
+            { color: 'cyan', visibleInLegend: true },
+            { color: 'cornsilk', visibleInLegend: true },
+            { color: 'darkgreen', visibleInLegend: true },
+            { color: 'deeppink', visibleInLegend: true },
+            { color: 'greenyellow', visibleInLegend: true },
+            { color: 'lightblue', visibleInLegend: true },
+            { color: 'olive', visibleInLegend: true },
+        ];
     }
 </script>

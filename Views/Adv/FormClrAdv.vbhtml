@@ -200,7 +200,8 @@ End Code
         </tr>
     </table>
 </div>
-Re-imbursement Approve By ___________________________________ Date ___________________<br />
+Re-imbursement Approve By ___________________________________ Date ___________________
+<br />
 Re-imbursement Request By ___________________________________ Date ___________________
 <script type="text/javascript">
     const path = '@Url.Content("~")';
@@ -210,7 +211,7 @@ Re-imbursement Request By ___________________________________ Date _____________
     if (branchcode !== '' && advno !== '') {
         $.get(path + 'Adv/GetAdvanceClear?BranchCode=' + branchcode + '&AdvNo=' + advno, function (r) {
             if (r.adv.header.length > 0) {
-                let dt = r.adv.header[0].Table;
+                let dt = r.adv.header;
                 let htmls = '';
                 for (let s of dt) {
                     htmls = '<tr>';
@@ -226,7 +227,7 @@ Re-imbursement Request By ___________________________________ Date _____________
                 }
             }
             if (r.adv.detail.length > 0) {
-                let dh = r.adv.detail[0].Table[0];
+                let dh = r.adv.detail[0];
                 $('#lblVenderName').text(dh.AdvBy);
                 $('#lblInvNo').text(dh.AdvNo);
                 $('#lblDate').text(ShowDate(dh.AdvDate));
@@ -234,7 +235,7 @@ Re-imbursement Request By ___________________________________ Date _____________
                 $('#lblAdv').text(ShowNumber(dh.TotalAdvance,2));
                 ShowPendingAmt(dh.BranchCode, dh.AdvBy);
 
-                let dr = r.adv.detail[0].Table;
+                let dr = r.adv.detail;
                 let htmld = '';
                 let sumBaseVat = 0;
                 let sumNonVat = 0;
@@ -292,7 +293,7 @@ Re-imbursement Request By ___________________________________ Date _____________
         $.get(path + 'Clr/GetAdvForClear?show=NOCLR&branchcode=' + branch + '&reqby=' + reqby)
             .done(function (r) {
                 if (r.clr.data.length > 0) {
-                    let d = r.clr.data[0].Table;
+                    let d = r.clr.data;
                     let sum = d.map(item => item.AdvBalance).reduce((prev, next) => prev + next);
                     $('#lblCashOnhand').text(ShowNumber(sum, 2));
                 }

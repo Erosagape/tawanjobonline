@@ -110,7 +110,7 @@ End Code
             w += '&OnWhere=j.AgentCode&OnValue=' + getQueryString('Agent');
         }
         if ('@ViewBag.UserGroup' == 'C') {
-            w += '&OnWhere=j.CustCode&OnValue=@ViewBag.User';
+            w += '&OnWhere=j.CustCode&OnValue=@ViewBag.UserUpline';
         }
         if ('@ViewBag.UserGroup' == 'V') {
             w += '&OnWhere=j.ForwarderCode&OnValue=@ViewBag.User';
@@ -162,7 +162,7 @@ End Code
 
                     html += '<tr>';
                     html += '<td>Total Weight</td>';
-                    html += '<td>' + row.TotalWeight.toFixed(2) + '</td>';
+                    html += '<td>' + ShowNumber(row.TotalWeight,2) + '</td>';
                     html += '</tr>';
                 }
                 html += '</tbody></table>';

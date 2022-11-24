@@ -477,15 +477,9 @@ End Code
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
-    let code = getQueryString("Code");
-    let branch = getQueryString("Branch");
     let row = {};
     let row_d = {};
     SetLOVs();
-    if (branch !== '' && code !== '') {
-        $('#txtBranchCode').val(branch);
-        ShowHeader();
-    }
     $('#btnShow').on('click', function () {
         ShowHeader();
     });
@@ -605,9 +599,6 @@ End Code
         } else {
             w += '&show=ACTIVE';
         }
-        if (code !== '') {
-            w += '&Code=' + code;
-        }
         $.get(path + 'acc/getReceipt?type=ADV&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.receipt.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
@@ -644,7 +635,6 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
@@ -733,8 +723,7 @@ End Code
                         }
                     ],
                     responsive:true,
-                    destroy: true
-                    , pageLength: 100
+                    destroy:true
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
                 $('#tbDetail tbody').on('click', 'tr', function () {

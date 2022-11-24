@@ -4,11 +4,12 @@
 End Code
 <style>
     @@media only screen and (max-width: 600px) {
-        #btnAdd,#btnPrint,#btnSave,#btnAddDoc,#btnDelDoc,#btnUpdateDoc {
-            width:100%;
+        #btnAdd, #btnPrint, #btnSave, #btnAddDoc, #btnDelDoc, #btnUpdateDoc {
+            width: 100%;
         }
+
         #dvTypes .label {
-            width:100% !important;
+            width: 100% !important;
         }
     }
 </style>
@@ -17,7 +18,7 @@ End Code
         <div class="row">
             <div class="col-sm-4">
                 <label id="lblBranch">Branch:</label>
-                <br/>
+                <br />
                 <div style="display:flex;flex-direction:row;">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" />
                     <input type="button" class="btn btn-default" value="..." onclick="SearchData('branch');" />
@@ -28,17 +29,17 @@ End Code
                 <label id="lblDocNo">Doc No:</label>
                 <br />
                 <div style="display:flex;flex-direction:row;">
-                    <input type="text" class="form-control" id="txtDocNo"/>
+                    <input type="text" class="form-control" id="txtDocNo" />
                     <input type="button" class="btn btn-default" value="..." onclick="SetGridWHTax()" />
                 </div>
             </div>
             <div class="col-sm-4">
                 <label id="lblDocDate">Date:</label>
-                <br/>
+                <br />
                 <div style="display:flex;flex-direction:row;">
-                    <input type="date" class="form-control" id="txtDocDate"/>
+                    <input type="date" class="form-control" id="txtDocDate" />
                 </div>
-                
+
             </div>
         </div>
         <ul class="nav nav-tabs">
@@ -54,7 +55,7 @@ End Code
                 <p>
                     <div class="row">
                         <div class="col-sm-6">
-                            <label id="lblTaxName1">Tax Issuer</label>                            
+                            <label id="lblTaxName1">Tax Issuer</label>
                             <input id="chkVender" type="checkbox" /><label id="lblVend">Venders</label>
                             <br />
                             <div style="display:flex;flex-direction:row;">
@@ -65,14 +66,14 @@ End Code
                         </div>
                         <div class="col-sm-3">
                             <label id="lblTaxNumber1">Tax Number</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTaxNumber1" class="form-control" style="width:100%" />
-                            </div>                                                                                            
+                            </div>
                         </div>
                         <div class="col-sm-3">
                             <label id="lblIDCard1">ID Number</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtIDCard1" class="form-control" style="width:100%" />
                                 <input type="button" class="btn btn-default" value="DN" onclick="MoveData('1','2')" />
@@ -82,14 +83,14 @@ End Code
                     <div class="row">
                         <div class="col-sm-9">
                             <label id="lblAddress1">Address</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTAddress1" class="form-control" style="width:100%" />
-                            </div>                            
+                            </div>
                         </div>
                         <div class="col-sm-3">
                             <label id="lblBranch1">Branch</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtBranch1" class="form-control" style="width:100%" />
                             </div>
@@ -100,22 +101,31 @@ End Code
                     <div class="row">
                         <div class="col-sm-6">
                             <label id="lblTaxName2">Tax Agent</label>
-                            <br/>
+                            
+                            <br />
+
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTName2" class="form-control" style="width:100%" />
-                                <input type="button" class="btn btn-default" value="..." onclick="GetDefault()" />
+                                @*<input type="button" class="btn btn-default" value="..." onclick="GetDefault()" />*@
+                                <select style="width:200px" onchange="GetDefault2($(this).val())" class="form-control">
+                                    <option value=""> </option>
+                                    <option value="apl"> APL LOGISTIC</option>
+                                    <option value="ccj"> C.C.&J SERVICE</option>
+                                    <option value="nsl"> NS LOGISTICS </option>
+                                    <option value="smk"> SINMONGKOL</option>
+                                </select>
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <label id="lblTaxNumber2">Tax Number</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTaxNumber2" class="form-control" style="width:100%" />
-                            </div>                            
+                            </div>
                         </div>
                         <div class="col-sm-3">
                             <label id="lblIDCard2">ID Number</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtIDCard2" class="form-control" style="width:100%" />
                                 <input type="button" class="btn btn-default" value="DN" onclick="MoveData('2','3')" />
@@ -126,17 +136,17 @@ End Code
                     <div class="row">
                         <div class="col-sm-9">
                             <label id="lblAddress2">Address</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTAddress2" class="form-control" style="width:100%" />
-                            </div>                            
+                            </div>
                         </div>
                         <div class="col-sm-3">
                             <label id="lblBranch2">Branch</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtBranch2" class="form-control" style="width:100%" />
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                 </p>
@@ -144,7 +154,7 @@ End Code
                     <div class="row">
                         <div class="col-sm-6">
                             <label id="lblTaxName3">Tax Payer</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTName3" class="form-control" style="width:100%" />
                                 <input type="button" class="btn btn-default" value="..." onclick="SearchData('vender')" />
@@ -152,14 +162,14 @@ End Code
                         </div>
                         <div class="col-sm-3">
                             <label id="lblTaxNumber3">Tax Number</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTaxNumber3" class="form-control" style="width:100%" />
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <label id="lblIDCard3">ID Number</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtIDCard3" class="form-control" style="width:100%" />
                                 <input type="button" class="btn btn-default" value="UP" onclick="MoveData('3','2')" />
@@ -169,28 +179,28 @@ End Code
                     <div class="row">
                         <div class="col-sm-9">
                             <label id="lblAddress3">Address</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTAddress3" class="form-control" style="width:100%" />
-                            </div>                            
+                            </div>
                         </div>
                         <div class="col-sm-3">
                             <label id="lblBranch3">Branch</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtBranch3" class="form-control" style="width:100%" />
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                 </p>
                 <p>
                     <div class="row">
                         <div class="col-sm-2">
-                            <label id="lblSeqInForm">Number</label>                            
+                            <label id="lblSeqInForm">Number</label>
                             <input type="text" id="txtSeqInForm" class="form-control" />
                         </div>
                         <div class="col-sm-7">
-                            <label id="lblFormType">Type of :</label>                            
+                            <label id="lblFormType">Type of :</label>
                             <label><input type="radio" name="FormType" value="1" /> (1) ภ.ง.ด.1ก.</label>
                             <label><input type="radio" name="FormType" value="2" /> (2) ภ.ง.ด.1ก. พิเศษ</label>
                             <label><input type="radio" name="FormType" value="3" /> (3) ภ.ง.ด.2.</label>
@@ -200,7 +210,7 @@ End Code
                             <label><input type="radio" name="FormType" value="7" checked /> (7) ภ.ง.ด.53.</label>
                         </div>
                         <div class="col-sm-3" style="display:flex;flex-direction:column">
-                            <label id="lblLawNo">Tax Code:</label>                            
+                            <label id="lblLawNo">Tax Code:</label>
                             <select class="form-control dropdown" id="txtTaxLawNo">
                                 <option value="1" selected>3 เตรส</option>
                                 <option value="2">65 จัดวา</option>
@@ -214,10 +224,11 @@ End Code
                         <div class="col-sm-6" style="display:flex;flex-direction:row">
                             <div style="flex:1">
                                 <label style="display:block;width:20%">
-                                <input type="checkbox" id="chkCancel" /><label id="lblCancel" style="color:red"> Cancel</label></label>
+                                    <input type="checkbox" id="chkCancel" /><label id="lblCancel" style="color:red"> Cancel</label>
+                                </label>
                             </div>
                             <div style="flex:4">
-                                <label id="lblReason">Reason :</label>                                
+                                <label id="lblReason">Reason :</label>
                                 <input type="text" id="txtCancelReason" class="form-control" />
                             </div>
                         </div>
@@ -272,7 +283,7 @@ End Code
                     <div style="flex:2;">
                         <div class="row">
                             <div class="col-sm-3">
-                                <label id="lblCondition">Tax Condition:</label>                                
+                                <label id="lblCondition">Tax Condition:</label>
                                 <select class="form-control dropdown" id="txtPayTaxType">
                                     <option value="1">หัก ณ ที่จ่าย</option>
                                     <option value="2">ออกภาษีให้ตลอดไป</option>
@@ -281,54 +292,54 @@ End Code
                                 </select>
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblPayTaxOther">Condition Note:</label>                                
+                                <label id="lblPayTaxOther">Condition Note:</label>
                                 <input type="text" id="txtPayTaxOther" class="form-control" />
                             </div>
                             <div class="col-sm-5">
-                                <label id="lblIncRate">Control Rate.</label>                                
+                                <label id="lblIncRate">Control Rate.</label>
                                 <input type="text" id="txtIncRate" class="form-control" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <label id="lblIncOther">Description</label>                                
+                                <label id="lblIncOther">Description</label>
                                 <input type="text" id="txtIncOther" class="form-control" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-4">
-                                <label id="lblSoLicNo">Social Security No.</label>                                
+                                <label id="lblSoLicNo">Social Security No.</label>
                                 <input type="text" id="txtSoLicenseNo" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblSoTaxNo">Social Payer No.</label>                                
+                                <label id="lblSoTaxNo">Social Payer No.</label>
                                 <input type="text" id="txtSoTaxNo" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblSoLicAmt">Amount.</label>                                
+                                <label id="lblSoLicAmt">Amount.</label>
                                 <input type="text" id="txtSoLicenseAmount" class="form-control" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-4">
-                                <label id="lblPayeeAccNo">Provident Payer.</label>                                
+                                <label id="lblPayeeAccNo">Provident Payer.</label>
                                 <input type="text" id="txtPayeeAccNo" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblProvidentAmt">Provident Amount.</label>                                
+                                <label id="lblProvidentAmt">Provident Amount.</label>
                                 <input type="text" id="txtSoAccAmount" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblTeacherAmt">Teacher Amt.</label>                                
+                                <label id="lblTeacherAmt">Teacher Amt.</label>
                                 <input type="text" id="txtTeacherAmt" class="form-control" />
                             </div>
                         </div>
                     </div>
                     <div style="flex:1;margin-left:10px">
-                        <label id="lblTotalPayAmt">Total Amount :</label>                        
+                        <label id="lblTotalPayAmt">Total Amount :</label>
                         <input type="text" class="form-control" id="txtTotalPayAmount" />
                         <br />
-                        <label id="lblTotalPayTax">Total Tax :</label>                        
+                        <label id="lblTotalPayTax">Total Tax :</label>
                         <input type="text" class="form-control" id="txtTotalPayTax" />
                     </div>
                 </div>
@@ -340,12 +351,12 @@ End Code
                     <div class="modal-body">
                         <div style="display:flex;flex-wrap:wrap">
                             <div>
-                                <label id="lblItemNo">No :</label>                                
+                                <label id="lblItemNo">No :</label>
                                 <br />
                                 <input type="text" id="txtItemNo" class="form-control" value="0" disabled>
                             </div>
                             <div>
-                                <label id="lblDocType">Doc.Type :</label>                                
+                                <label id="lblDocType">Doc.Type :</label>
                                 <br />
                                 <select id="txtDocRefType" class="form-control dropdown">
                                     <option value="1">ADV</option>
@@ -355,7 +366,7 @@ End Code
                                 </select>
                             </div>
                             <div>
-                                <label id="lblRefNo">RefNo :</label>                                
+                                <label id="lblRefNo">RefNo :</label>
                                 <br />
                                 <input type="text" id="txtDocRefNo" class="form-control">
                             </div>
@@ -366,7 +377,7 @@ End Code
                         </div>
                         <div style="display:flex;flex-wrap:wrap">
                             <div>
-                                <label id="lblJNo">Job No :</label>                                
+                                <label id="lblJNo">Job No :</label>
                                 <br />
                                 <input type="text" id="txtJNo" class="form-control">
                             </div>
@@ -375,14 +386,14 @@ End Code
                                 <input type="button" class="btn btn-default" value="..." onclick="GetJobNo()" />
                             </div>
                             <div>
-                                <label id="lblPayDate">Pay.Date :</label>                                
+                                <label id="lblPayDate">Pay.Date :</label>
                                 <br />
                                 <input type="date" id="txtPayDate" class="form-control">
                             </div>
                         </div>
                         <div style="display:flex;flex-wrap:wrap">
                             <div>
-                                <label id="lblIncType">Revenue Type :</label>                                
+                                <label id="lblIncType">Revenue Type :</label>
                                 <br />
                                 <select id="txtIncType" class="form-control dropdown">
                                     <option value="1">
@@ -432,24 +443,24 @@ End Code
                         </div>
                         <div style="display:flex;flex-wrap:wrap;">
                             <div style="flex:1">
-                                <label id="lblPayTaxDesc">Description :</label>                                
+                                <label id="lblPayTaxDesc">Description :</label>
                                 <br />
                                 <input type="text" id="txtPayTaxDesc" class="form-control">
                             </div>
                         </div>
                         <div style="display:flex;flex-wrap:wrap">
                             <div style="flex:1">
-                                <label id="lblPayRate">Rate :</label>                                
+                                <label id="lblPayRate">Rate :</label>
                                 <br />
                                 <input type="number" id="txtPayRate" class="form-control" value="0.00" onchange="CalWHT()">
                             </div>
                             <div style="flex:1">
-                                <label id="lblAmount">Amount :</label>                                
+                                <label id="lblAmount">Amount :</label>
                                 <br />
                                 <input type="number" id="txtPayAmount" class="form-control" value="0.00" onchange="CalWHT()">
                             </div>
                             <div style="flex:1">
-                                <label id="lblPayTax">Tax :</label>                                
+                                <label id="lblPayTax">Tax :</label>
                                 <br />
                                 <input type="number" id="txtPayTax" class="form-control" value="0.00">
                             </div>
@@ -505,7 +516,35 @@ End Code
 </div>
 <div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
+
 <script type="text/javascript">
+    let cmpList = {
+        apl: {
+            TName2: "บริษัท เอพีแอล โลจิสติคส์ เอสวีซีเอส (ประเทศไทย) จำกัด",
+            TAddress2: "3195/8 อาคารวิบูลย์ธานี 1 ชั้น 3 ถนนพระราม 4 แขวงคลองตัน เขตคลองเตย กรุงเทพมหานคร 10110",
+            TaxNumber2: "0105542016277",
+            Branch2:"00000"
+        },
+        ccj: {
+            TName2: "C.C.&J SERVICE CO.,LTD.",
+            TAddress2: "69 Soi Bangbon 5 Soi 8, Ekachai Road, Bangbon, Bangbon Bangkok 10150",
+            TaxNumber2: "0115558022891",
+            Branch2: "00000"
+        },
+        nsl: {
+            TName2: "NS LOGISTICS CO.,LTD.",
+            TAddress2: "199 SOI ONNUT 30, SUKHUMVIT 77, SUANLUANG, BANGKOK 10250",
+            TaxNumber2: "0105548159886",
+            Branch2: "00000"
+        },
+        smk: {
+            TName2: "SINMONGKOL TRADING CO.,LTD.",
+            TAddress2: "156 CHALOEM PHRAKIAT 48 YAEK 19 DOKMAI, PRAWET BANGKOK 10250 THAILAND.",
+            TaxNumber2: "0105550064234",
+            Branch2: "00000"
+        },
+    };
+
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
@@ -610,7 +649,7 @@ End Code
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.whtax.data;
+            let h = r.whtax.data[0].Table;
             let tb=$('#tbControl').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -633,7 +672,6 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbControl');
             $('#tbControl tbody').on('click', 'tr', function () {
@@ -673,11 +711,27 @@ End Code
         $('#txtTaxNumber3').val(dr.TaxNumber);
         $('#txtBranch3').val(dr.BranchCode);
     }
+
     function GetDefault() {
-        $('#txtTName2').val('@ViewBag.PROFILE_COMPANY_NAME');
-        $('#txtTAddress2').val('@ViewBag.PROFILE_COMPANY_ADDR1' + ' ' + '@ViewBag.PROFILE_COMPANY_ADDR2');
-        $('#txtTaxNumber2').val('@ViewBag.PROFILE_TAXNUMBER');
-        $('#txtBranch2').val('@ViewBag.PROFILE_TAXBRANCH');
+	if(confirm('for APL Logistic?')==true) {
+		$('#txtTName2').val('@ViewBag.PROFILE_COMPANY_NAME');
+        	$('#txtTAddress2').val('@ViewBag.PROFILE_COMPANY_ADDR1' + ' ' + '@ViewBag.PROFILE_COMPANY_ADDR2');
+	        $('#txtTaxNumber2').val('@ViewBag.PROFILE_TAXNUMBER');
+	        $('#txtBranch2').val('@ViewBag.PROFILE_TAXBRANCH');
+		return;
+	}
+        $('#txtTName2').val('C.C.&J SERVICE CO.,LTD.');
+        $('#txtTAddress2').val('69 Soi Bangbon 5 Soi 8, Ekachai Road, Bangbon, Bangbon Bangkok 10150');
+        $('#txtTaxNumber2').val('0115558022891');
+        $('#txtBranch2').val('00000');
+
+    }
+    function GetDefault2(code) {
+        let company = cmpList[code];
+        $('#txtTName2').val(company['TName2']);
+        $('#txtTAddress2').val(company['TAddress2']);
+        $('#txtTaxNumber2').val(company['TaxNumber2']);
+        $('#txtBranch2').val(company['Branch2']);
     }
     function ReadAdv(dr) {
         let dh = docSel.header.find(function (chk) {
@@ -733,7 +787,6 @@ End Code
                         ],
                         responsive:true,
                         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                        , pageLength: 100
                     });
                     $('#tbDoc tbody').on('click', 'button', function () {
                         let dt = GetSelect('#tbDoc', this); //read current row selected
@@ -749,7 +802,7 @@ End Code
                 break;
             case "2": //CLR
                 $.get(path + 'Clr/GetClearingGrid' + '?branchcode=' + $('#txtBranchCode').val() + '&taxnumber=' + $('#txtTaxNumber1').val(), function (r) {
-                    let d = r.clr.data;
+                    let d = r.clr.data[0].Table;
                     $(g).DataTable({
                         data: d,
                         selected: true, //ให้สามารถเลือกแถวได้
@@ -771,7 +824,6 @@ End Code
                         ],
                         responsive:true,
                         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                        , pageLength: 100
                     });
                     BindEvent('#tbDoc', '#frmSearchDoc', ReadClr);
                 });
@@ -850,7 +902,6 @@ End Code
             ],
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-            , pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {

@@ -1,9 +1,7 @@
 ﻿@Code
     ViewData("Title") = "Import"
 End Code
-<script type="text/javascript">
-    var path = '@Url.Content("~")';
-</script>
+
 <h2>Import Job Order From Excel</h2>
 @Using Html.BeginForm("Import", "Report", FormMethod.Post, New With {.enctype = "multipart/form-data"})
     @<label id="lblMessage">@ViewBag.Message</label>

@@ -1,190 +1,253 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
+    ViewBag.ReportName = "Transport Order"
     ViewBag.Title = "Transport Order"
 End Code
-<p>
-    <div style="display:flex;flex-direction:row">
-        <div style="flex:1">
-            รายชื่องาน :
-            <label id="txtProjectName"></label>
-            <br />
-            จำนวน :
-            <label id="txtTotalContainer"></label>
-            <br />
-            ลูกค้า :
-            <label id="txtCustName"></label>
-            <br />
-            BL NO :
-            <label id="txtHAWB"></label>
-            <br />
-            JOB NO :
-            <label id="txtJNo"></label>
-            <br />
-            รับตู้หนักวันที่ :
-            <label id="txtCYDate"></label>
-            <br />
-            ข้ามด่าน/ส่งลูกค้าวันที่ :
-            <label id="txtDutyDate"></label>
-            <br />
-            ท่ารับตู้หนัก/ลานรับตู้เปล่า :
-            <label id="txtCYPlace"></label>
-            <br />
-            ท่าคืนตู้หนัก/ลานคืนตู้เปล่า :
-            <label id="txtReturnPlace"></label>
-            <br />
-            จบงานวันที่ :
-            <label id="txtCloseJobDate"></label>
-            <br />
-            Customer PO :
-            <label id="txtCustPo"></label>
-            <br />
-            <table style="width:80%">
-                <thead>
-                    <tr>
-                        <td>ใบเบิก</td>
-                        <td>จำนวนเงิน</td>
-                    </tr>
-                </thead>
-                <tbody id="tbAdvance"></tbody>
-            </table>
-        </div>
-        <div style="flex:2">
-            <table border="1" style="border-collapse:collapse;width:100%">
-                <tr>
-                    <td colspan="2">วันที่วางบิล :</td>
-                </tr>
-                <tr>
-                    <td colspan="2">เลขที่บิล :</td>
-                </tr>
-                <tr>
-                    <td>ค่าขนส่ง</td>
-                    <td>ค่า D/O</td>
-                </tr>
-                <tr>
-                    <td>ค่าผ่านท่า</td>
-                    <td>ค่า Rent</td>
-                </tr>
-                <tr>
-                    <td>ค่ารับตู้</td>
-                    <td>ค่าพิธีการ</td>
-                </tr>
-                <tr>
-                    <td>ค่าคืนตู้</td>
-                    <td>ค่าธรรมเนียม</td>
-                </tr>
-                <tr>
-                    <td>ค่าล้างตู้</td>
-                    <td>ค่าชอร์</td>
-                </tr>
-                <tr>
-                    <td>ค่าซ่อมตู้</td>
-                    <td>ค่าค้างคืนรถ</td>
-                </tr>
-                <tr>
-                    <td>ค่าชั่งน้ำหนัก</td>
-                    <td>รายได้อื่น</td>
-                </tr>
-                <tr>
-                    <td>ค่าจอดรถ</td>
-                    <td>ลดหนี้</td>
-                </tr>
-                <tr>
-                    <td>ค่าล่วงเวลา</td>
-                    <td>ค่าใช้จ่ายอื่นๆ</td>
-                </tr>
-                <tr>
-                    <td>ค่า BL</td>
-                    <td>อื่นๆ</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-    <table border="1" style="border-collapse:collapse;width:100%;">
-        <tbody id="tbTruck"></tbody>
-    </table>
-</p>
+<style>
+    * {
+        font-size:10px;
+    }
+    table {
+        width: 100%;
+    }
+
+    table, td, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+<table>
+    <tr>
+        <td>หมายเลข Job Order</td>
+        <td>
+            <label id="txtJNo" style="width:100%"></label>
+        </td>
+        <td>เลขที่เอกสาร</td>
+        <td>
+            <label id="txtDeliveryNo" style="width:100%"></label>
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2"><u>Customer Information / ข้อมูลเกี่ยวกับลูกค้า</u></th>
+        <th colspan="2"><u>Vendor information / ข้อมูลเกี่ยวกับบริษัท</u></th>
+    </tr>
+    <tr>
+        <td>
+            Customer <br />ชื่อบริษัท
+        </td>
+        <td>
+            <label id="txtNotifyName" style="width:100%"></label>
+        </td>
+        <td>Vendor <br />ชื่อบริษัทขนส่ง</td>
+        <td>
+            <label id="txtVenderName" style="width:100%"></label>
+        </td>
+    </tr>
+    <tr>
+        <td>Customer Address <br />ที่อยู่  </td>
+        <td><div id="txtCustomerAddress" style="width:100%" value=""></div></td>
+        <td>Vendor Address <br />ที่อยู่</td>
+        <td><div id="txtVenderAddress" style="width:100%" value=""></div></td>
+    </tr>
+    <tr>
+        <td>Customer Contact <br />ชื่อผู้ติดต่อ</td>
+        <td><label id="txtCustomerContact" style="width:100%" value=""></label></td>
+        <td>Vendor Contact <br />ผู้ติดต่อ</td>
+        <td><label id="txtVenderContact" style="width:100%" value=""></label></td>
+    </tr>
+    <tr>
+        <td>Customer Phone <br />โทรศัพท์</td>
+        <td><label id="txtCustomerPhone" style="width:100%" value=""></label></td>
+        <td>Vendor Phone <br />โทรศัพท์</td>
+        <td><label id="txtVenderPhone" style="width:100%" value=""></label></td>
+    </tr>
+    <tr>
+        <th colspan="2"><u>Carrier information / ข้อมูลเกี่ยวกับบริษัทเดินเรือ</u></th>
+        <th colspan="2"><u>Assignment / ข้อมูลส่งมอบงาน</u></th>
+    </tr>
+    <tr>
+        <td>Carrier Name<br />ชื่อบริษัทเดินเรือ</td>
+        <td><label id="txtCarrierName" style="width:100%" value=""></label></td>
+        <td>Service Mode <br />ชนิดการขนส่ง</td>
+        <td><label id="txtServiceMode" style="width:100%" value=""></label></td>
+    </tr>
+    <tr>
+        <td>Carrier Contact & Phone <br />ชื่อผู้ติดต่อ/โทรศัพท์</td>
+        <td><div id="txtCarrierContactPhone" style="width:100%" value=""></div></td>
+        <td>Customer Tariff <br />ประเภทการให้บริการลูกค้า</td>
+        <td><label id="txtCustomerTariff" style="width:100%"></label></td>
+    </tr>
+    <tr>
+        <td><b>Carrier Booking No</b><br />เลขที่ใบจองการเดินเรือ</td>
+        <td><b></b><label id="txtCarrierBooking" style="width:100%" value=""></label><b/></td>
+        <td>Vendor Tariff <br />ประเภทบริการของบริษัทขนส่ง</td>
+        <td><label id="txtVenderTariff" style="width:100%"></label></td>
+    </tr>
+    <tr>
+        <td>Booking Date <br />วันที่จอง</td>
+        <td><label id="txtBookingDate" style="width:100%" value=""></label></td>
+        <td>Remark <br />หมายเหตุ</td>
+        <td><div id="txtRemark" style="width:100%" value=""></div></td>
+    </tr>
+    <tr>
+        <th colspan="2"><u>Service Information / ข้อมูลเกี่ยวกับการบริการ</u></th>
+        <th colspan="2"><u>Truck Information / ข้อมูลเกี่ยวกับรถบรรทุก</u></th>
+    </tr>
+    <tr>
+        <td>Service Type <br />ประเภทการให้บริการ</td>
+        <td><label id="txtServiceType" style="width:100%" value=""></label></td>
+        <td>Truck <br />ทะเบียน/ยี่ห้อรถบรรทุก</td>
+        <td><label id="txtTruck" style="width:100%" value=""></label></td>
+    </tr>
+    <tr>
+        <td>Container Type <br />ประเภทตู้สินค้า</td>
+        <td><label id="txtContainerType" style="width:100%"></label></td>
+        <td>Driver Name&Phone <br />ชื่อคนขับ/โทรศัพท์</td>
+        <td><label id="txtDriverName" style="width:100%" value=""></label></td>
+    </tr>
+    <tr>
+        <td>Special Instruction <br />คำแนะนำในการส่งสินค้า</td>
+        <td><div id="txtSpecialInstruction" style="width:100%" value=""></div></td>
+        <td>Container No <br />หมายเลขตู้สินค้า</td>
+        <td><label id="txtContainer" style="width:100%" value=""></label></td>
+    </tr>
+    <tr>
+        <td>
+            Commodity Info
+            <br/>
+            รายละเอียดสินค้า
+        </td>
+        <td><div id="txtProductInfo" style="width:100%"></div></td>
+        <td>Discrepancy Reason <br />หมายเหตุในการส่งสินค้าล่าช้า</td>
+        <td><div id="txtDiscrepancyReason" style="width:100%" value=""></div></td>
+    </tr>
+    <tr>
+        <th colspan="2"><u>Billing information / ข้อมูลด้านบัญชีการเงิน</u> </th>
+        <th colspan="2"><u>Audit Information / ข้อมูลสำหรับตรวจสอบสถานะเอกสาร</u></th>
+    </tr>
+    <tr>
+        <td>Customer Invoice <br />หมายเลขใบกำกับภาษีของลูกค้า</td>
+        <td><label id="txtCustomerInvoice" style="width:100%" value=""></label></td>
+        <td>Assign Vendor By <br />ผู้รับมอบหมายให้บริษัทขนส่ง</td>
+        <td><label id="txtAssignVender" style="width:100%" value=""></label></td>
+    </tr>
+    <tr>
+        <td>Vendor Invoice No <br />หมายเลขใบกำกับภาษีบริษัทขนส่ง</td>
+        <td><label id="txtVenderInvoice" style="width:100%" value=""></label></td>
+        <td>Created By <br />ผู้สร้างเอกสาร</td>
+        <td><label id="txtCreatedBy" style="width:100%" value=""></label></td>
+    </tr>
+    <tr>
+        <td>Billing Remark <br />หมายเหตุทางการเงิน</td>
+        <td><label id="txtBillingRemark" style="width:100%" value=""></label></td>
+        <td>Updated By <br />ผู้แก้ไขเอกสารล่าสุด</td>
+        <td><label id="txtUpdatedBy" style="width:100%" value=""></label></td>
+    </tr>
+    <tr>
+        <th></th>
+        <th><u>Pickup Services / การไปรับสินค้า</u></th>
+        <th><u>Delivery Services / การส่งสินค้า</u></th>
+        <th><u>Return Services / การส่งคืนสินค้า</u></th>
+    </tr>
+    <tr>
+        <td>
+            Location <br />ชื่อสถานที่
+        </td>
+        <td><label id="txtLocation1" style="width:100%" value=""></label></td>
+        <td><label id="txtLocation2" style="width:100%" value=""></label></td>
+        <td><label id="txtLocation3" style="width:100%" value=""></label></td>
+    </tr>
+    <tr>
+        <td>Address <br />ที่อยู่</td>
+        <td><div id="txtAddress1" style="width:100%" value=""></div></td>
+        <td><div id="txtAddress2" style="width:100%" value=""></div></td>
+        <td><div id="txtAddress3" style="width:100%" value=""></div></td>
+    </tr>
+    <tr>
+        <td>
+            Contact <br />ชื่อผู้ติดต่อ
+        </td>
+        <td><label id="txtContact1" style="width:100%" value=""></label></td>
+        <td><label id="txtContact2" style="width:100%" value=""></label></td>
+        <td><label id="txtContact3" style="width:100%" value=""></label></td>
+    </tr>
+    <tr>
+        <td>
+            Expected Date Time <br />วัน/เวลาที่คาดหมาย
+        </td>
+        <td><label id="txtExpectedDateTime1" style="width:100%" value=""></label></td>
+        <td><label id="txtExpectedDateTime2" style="width:100%" value=""></label></td>
+        <td><label id="txtExpectedDateTime3" style="width:100%" value=""></label></td>
+    </tr>
+    <tr>
+        <td>Actual Date Time <br />วัน/เวลาจริง</td>
+        <td><label id="txtActualDateTime1" style="width:100%" value=""></label></td>
+        <td><label id="txtActualDateTime2" style="width:100%" value=""></label></td>
+        <td><label id="txtActualDateTime3" style="width:100%" value=""></label></td>
+    </tr>
+    <tr>
+        <td>Remark <br />หมายเหตุ</td>
+        <td><label id="txtRemark1" style="width:100%" value=""></label></td>
+        <td><label id="txtRemark2" style="width:100%" value=""></label></td>
+        <td><label id="txtRemark3" style="width:100%" value=""></label></td>
+    </tr>
+</table>
 <script type="text/javascript">
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");
+    let cont = getQueryString("ContainerNo");
     let user = '@ViewBag.User';
     var path = '@Url.Content("~")';
-    $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function (r) {
+    $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc +'&Cont=' +cont).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
-            $('#txtProjectName').text(h.ProjectName);
-            $('#txtTotalContainer').text(h.TotalContainer);
-            $('#txtCustName').text(h.ShipperName + ' ' + h.CustContactName);
-            $('#txtHAWB').text(h.HAWB);
+            $('#txtDeliveryNo').text(h.CustRefNO);
             $('#txtJNo').text(h.JNo);
-            $('#txtCYDate').text(CDateEN(h.CYDate));
-            $('#txtDutyDate').text(CDateEN(h.DeliveryDate));
-            $('#txtCYPlace').text(h.CYPlace);
-            $('#txtReturnPlace').text(h.PackingPlace);
-            $('#txtCloseJobDate').text(CDateEN(h.ActualReturnDate));
-            $('#txtCustPo').text(h.CustRefNO);
-            let d = r.booking.data;
-            LoadAdvance(h.BranchCode, h.JNo);
-            LoadTruck(h.BranchCode, h.JNo, d);
+            $('#txtNotifyName').text(h.NotifyName);
+            $('#txtVenderName').text(h.ForwarderName);
+            $('#txtCustomerAddress').html(CStr(h.NotifyAddress1 + '\n' + h.NotifyAddress2));
+            $('#txtVenderAddress').html(CStr(h.ForwarderAddress1 + '\n' + h.ForwarderAddress2));
+            $('#txtCustomerContact').text(h.CustContactName);
+            $('#txtVenderContact').text(h.ForwarderContact);
+            $('#txtCustomerPhone').text(h.NotifyPhone);
+            $('#txtVenderPhone').text(h.ForwarderPhone);
+            $('#txtCarrierName').text(h.CarrierName);
+            $('#txtCarrierContactPhone').html (CStr(h.CarrierContact + '\n' + h.CarrierPhone));
+            $('#txtServiceMode').text(h.TransMode);
+            $('#txtCustomerTariff').text(h.CYPlace + '->' + h.PackingPlace + '->' + h.FactoryPlace + '->' + h.ReturnPlace);
+            $('#txtCarrierBooking').text(h.BookingNo);
+            $('#txtVenderTariff').text(h.Location);
+            $('#txtBookingDate').text(CDateEN(h.BookingDate));
+            $('#txtRemark').html(CStr(h.Remark));
+            $('#txtServiceType').text(h.LocationRoute);
+            $('#txtTruck').text(h.TruckNO);
+            $('#txtContainerType').text(h.CTN_SIZE);
+            $('#txtDriverName').text(h.Driver);
+            $('#txtSpecialInstruction').html(h.Description);
+            $('#txtContainer').text(h.CTN_NO);
+            $('#txtDiscrepancyReason').html(h.Comment);
+            $('#txtCustomerInvoice').text(h.InvNo);
+            $('#txtAssignVender').text(h.CSName);
+            $('#txtVenderInvoice').text('');
+            $('#txtBillingRemark').text('');
+            $('#txtCreatedBy').text(user + ' @DateTime.Now.ToString("yyyy-MM-dd HH:mm")');
+            $('#txtUpdatedBy').text(user + ' @DateTime.Now.ToString("yyyy-MM-dd HH:mm")');
+            $('#txtLocation1').text(h.PlaceName1);
+            $('#txtLocation2').text(h.PlaceName2);
+            $('#txtLocation3').text(h.PlaceName3);
+            $('#txtAddress1').html(CStr(h.PlaceAddress1));
+            $('#txtAddress2').html(CStr(h.PlaceAddress2));
+            $('#txtAddress3').html(CStr(h.PlaceAddress3));
+            $('#txtContact1').text(h.PlaceContact1);
+            $('#txtContact2').text(h.PlaceContact2);
+            $('#txtContact3').text(h.PlaceContact3);
+            $('#txtExpectedDateTime1').text(CDateEN(h.TargetYardDate));
+            $('#txtExpectedDateTime2').text(CDateEN(h.TargetDeliveryDate));
+            $('#txtExpectedDateTime3').text(CDateEN(h.TargetReturnDate));
+            $('#txtActualDateTime1').text(CDateEN(h.ActualYardDate));
+            $('#txtActualDateTime2').text(CDateEN(h.ActualDeliveryDate));
+            $('#txtActualDateTime3').text(CDateEN(h.ActualReturnDate));
+            $('#txtProductInfo').html(h.ProductQty + ' ' + h.ProductUnit +'<br/>G.W ' + h.GrossWeight + ' KGS<br/>CBM ' + h.Measurement + ' M3');
         }
     });
-    function LoadTruck(branch, job,dt) {
-        $.get(path + 'JobOrder/GetFuelData?Branch=' + branch + '&Job=' + job).done(function (r) {
-            let rows = r.data;
-            if (rows.length > 0) {
-                let html = '';
-                let c = 0;
-                let i = 0;
-                for (let d of rows) {
-                    let f = dt.filter(function (data) {
-                        return data.BookingNo == d.BookingNo && data.ItemNo==d.BookingItemNo;
-                    });
-                    if (html == '')
-                        html = '<tr>';
-                    i += 1;
-                    if (i == 4) {
-                        i = 1;
-                        if (html !== '')
-                            html += '</tr>';
-                        html += '<tr>';
-                    }
-                    html += '<td>';
-                    html += 'No.' + (c + 1) + '<br/>';
-                    html += 'ชื่อ พขร:' + d.Driver + '<br/>';
-                    html += 'เบอร์โทรไทย:' + d.Tel + '<br/>';
-                    html += 'เบอร์โทรลาว:' + d.EmpRemark + '<br/>';
-                    html += 'ทะเบียนหัว:' + d.CarLicense + '<br/>';
-                    html += 'ทะเบียนหาง:' + d.TrailerNo + '<br/>';
-                    html += 'ยี่ห้อรถ:' + d.CarBrand + '/' + d.CarType + '<br/>';
-                    html += 'จังหวัด:' + d.CarModel;
-                    if (f.length > 0) {
-                        html += ' / ' + f[0].CTN_NO + ' / ' + f[0].GrossWeight + ' KGS';
-                    }
-                    html += '</td>';
-                    c += 1;
-                }
-                if (html !== '')
-                    html += '</tr>';
-                $('#tbTruck').html(html);
-            }
-        });
-    }
-    function LoadAdvance(branch, job) {
-        $.get(path + 'adv/getadvancereport?branchcode=' + branch + '&jobno=' + job).done(function (r) {
-            if (r.adv.data.length > 0) {
-                let html = '';
-                let lastAdv = '';
-                let c = 0;
-                let tot = 0;
-                for (let d of r.adv.data[0].Table) {
-                    c += 1;
-                    html += '<tr>';
-                    html += '<td>' + d.AdvNo + '</td>';
-                    html += '<td>' + ShowNumber(d.TotalAdvance, 2) + '</td>';
-                    html += '</tr>';
-
-                }
-                $('#tbAdvance').html(html);
-            }
-        });
-    }
 </script>

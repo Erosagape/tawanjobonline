@@ -3,8 +3,6 @@
 End Code
 <div class="row">
     <div class="col-md-12 text-center" >
-        @ViewBag.Result
-        <br/>
         <img src="~/Resource/jobtawan_bg.jpg" style="width:100%"/>
     </div>
 </div>
@@ -12,7 +10,7 @@ End Code
     <div class="modal-dialog-lg">
         <div class="modal-content">
             <div class="modal-body">
-                Please wait...
+                Syncing Data...
             </div>
         </div>
     </div>
@@ -21,8 +19,7 @@ End Code
     var path = '@Url.Content("~")';
     let user = '@ViewBag.User';
     let userGroup = '@ViewBag.UserGroup';
-    let userPosition = '@ViewBag.UserPosition';
-    let menuStart = '@ViewBag.PROFILE_MENU_TYPE';
+    let userPosition ='@ViewBag.UserPosition';
     if (user !== '') {
         switch (userGroup) {
             case 'S':
@@ -36,11 +33,7 @@ End Code
                         window.location.href = path + 'Tracking/Index';
                         break;
                     default:
-                        if (IsMobile()||menuStart=='W') {
-                            window.location.href = path + 'Menu/Index';
-                        } else {
-                            window.location.href = path + 'Tracking/Dashboard';
-                        }
+                        window.location.href = path + 'Menu/Index';
                         break;
                 }
                 break;
@@ -52,7 +45,4 @@ End Code
                 break;
         }
     }    
-    function IsMobile() {
-        return ((window.innerWidth <= 800) && (window.innerHeight <= 600));
-    }
 </script>

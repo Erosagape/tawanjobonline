@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "List Advance"
+    ViewBag.Title = "Lists Advance"
 End Code
 <div class="panel-body">
     <div class="container">
@@ -55,7 +55,6 @@ End Code
                 </div>
             </div>
         </div>
-        <br/>
         <div class="row">
             <div class="col-sm-2">
                 <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddAdvance()">
@@ -63,7 +62,6 @@ End Code
                 </a>
             </div>
             <div class="col-sm-8" style="text-align:right">
-                Job No : <input type="text" id="txtJNo" /> &nbsp;
                 <input type="checkbox" id="chkCancel" />Show Cancel Only
             </div>
             <div class="col-sm-2">
@@ -166,9 +164,6 @@ End Code
         if ($('#cboJobType').val() !== "") {
             w = w + '&jtype=' + $('#cboJobType').val();
         }
-        if ($('#txtJNo').val() !== "") {
-            w = w + '&jobno=' + $('#txtJNo').val();
-        }
         if ($('#cboShipBy').val() !== "") {
             w = w + '&sby=' + $('#cboShipBy').val();
         }
@@ -220,7 +215,6 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                ,pageLength:100
             });
 
             $('#tbHeader tbody').on('dblclick', 'tr', function () {

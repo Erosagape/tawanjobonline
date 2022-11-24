@@ -62,9 +62,8 @@ End Code
                         <th class="all">DocNo</th>
                         <th class="desktop">DocDate</th>
                         <th class="desktop">CustCode</th>
-                        <th class="desktop">BillTo</th>
                         <th>Remark</th>
-                        <th class="desktop">BillAcceptNo</th>
+                        <th class="desktop">Discount</th>
                         <th class="desktop">Cust.Adv</th>
                         <th class="desktop">Advance</th>
                         <th class="desktop">Charge</th>
@@ -554,9 +553,12 @@ End Code
                         }
                     },
                     { data: "CustCode", title: "Customer" },
-                    { data: "BillToCustCode", title: "BillTo" },
                     { data: "RefNo", title: "Reference Number" },
-                    { data: "BillAcceptNo", title: "Billing.No" },
+                    { data: "TotalDiscount", title: "Discount",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
                     { data: "TotalCustAdv", title: "Cust.Adv",
                             render: function (data) {
                                 return ShowNumber(data, 2);
