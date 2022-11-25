@@ -212,6 +212,9 @@ Module Main
         Return db
     End Function
     Function GetSession(sName As String) As String
-        Return HttpContext.Current.Session(sName).ToString
+        If Not IsNothing(HttpContext.Current.Session(sName)) Then
+            Return HttpContext.Current.Session(sName).ToString
+        End If
+        Return ""
     End Function
 End Module
