@@ -45,10 +45,9 @@ End Code
             <th class="desktop">Customer</th>
             <th class="desktop">Booking No</th>
             <th class="all">Container No</th>
+            <th class="desktop">Container Size</th>
             <th class="desktop">Route</th>
-            <th class="desktop">PickupDate</th>
             <th class="desktop">DeliveryDate</th>
-            <th class="desktop">ReturnDate</th>
             <th class="desktop">Status</th>
         </tr>
     </thead>
@@ -191,25 +190,12 @@ End Code
                         { data: "JNo", title: "Job No" },
                         { data: "NotifyCode", title: "Customer" },
                         { data: "BookingNo", title: "Booking No" },
-                        {
-                            data: null, title: "Container No", render: function(data) {
-                                return data.CTN_NO + ' / ' + data.CTN_SIZE;
-                            }
-                        },
-                        { data: "Location", title: "Route" },
-                        {
-                            data: null, title: "Pickup Date", render: function (data) {
-                                return CDateEN(data.ActualYardDate);
-                            }
-                        },
+                        { data: "CTN_NO", title: "Container No" },
+                        { data: "CTN_SIZE", title: "Container.Size" },
+                        { data: "Location", title: "Route" },                       
                         {
                             data: null, title: "Delivery Date", render: function (data) {
                                 return CDateEN(data.UnloadFinishDate);
-                            }
-                        },
-                        {
-                            data: null, title: "Return Date", render: function (data) {
-                                return CDateEN(data.ReturnDate);
                             }
                         },
                         { data: "TruckStatus", title: "Status" }

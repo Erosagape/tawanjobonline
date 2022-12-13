@@ -1,19 +1,26 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.ReportName = "JOB ACKNOWLEDGEMENT"
-    ViewBag.Title = "Job Acknowledgement"
+    ViewBag.ReportName = "SHIPPING CLOSING SHEET"
+    ViewBag.Title = "SHIPPING CLOSING SHEET"
 End Code
+<style>
+    #tbExpenses td {
+        border: 1px solid black;
+        padding: 4px;
+        font-size:14px;
+    }
+</style>
 <div>
     <table id="divJobInfo" width="100%">
         <tr>
             <td colspan="2">
-                <b>Job No : </b><input type="text" style="border:groove;text-align:center" id="txtJNo" value="" />
+                <b style="font-size:16px">Job No : </b><input type="text" style="font-size:16px;border:groove;text-align:center" id="txtJNo" value="" />
             </td>
             <td>
-                <b>Job Type : <label id="lblJobType"></label></b>
+                <b id="JobType" style="font-size:16px;color:blue">Job Type : <label style="font-size:16px" id="lblJobType"></label></b>
             </td>
             <td>
-                <b>Ship By : <label id="lblShipBy"></label></b>
+                <b style="font-size:16px">Ship By : <label style="font-size:16px" id="lblShipBy"></label></b>
             </td>
         </tr>
         <tr>
@@ -28,31 +35,17 @@ End Code
             </td>
         </tr>
     </table>
-    <table>
+    <table id="divBillingPlace" width="100%">
         <tr>
-            <td><b>Customer : </b><label id="lblCustCode"></label> / <label id="lblCustName"></label></td>
-        </tr>
-        <tr>
-            <td id="dvAddr"></td>
-        </tr>
-        <tr>
-            <td><b>Tel : </b><label id="lblTel"></label></td>
-        </tr>
-        <tr>
-            <td><b>Fax : </b><label id="lblFax"></label></td>
-        </tr>
-        <tr>
-            <td><b>Contact : </b><label id="lblContact"></label></td>
+            <td colspan="2" ><b>Customer : </b><label id="lblCustCode"></label> / <label id="lblCustName"></label></td>
+            <td colspan="2" ><b>Consignee : </b><label id="lblBillToCustCode"></label> / <div id="lblBillToCustName"></div></td>
         </tr>
     </table>
-    <table id="divBillingPlace">
+    @*<table id="divBillingPlace">
         <tr>
-            <td><b>Consignee : </b><label id="lblBillToCustCode"></label> / <label id="lblBillToCustName"></label></td>
+           
         </tr>
-        <tr>
-            <td id="dvBillAddr"></td>
-        </tr>
-    </table>
+    </table>*@
     <table id="tbInvoiceInfo" width="100%">
         <tr>
             <td colspan="3">
@@ -125,7 +118,7 @@ End Code
                 <b>FROM : </b><label id="lblFromCountry"></label>
             </td>
             <td colspan="2">
-                <b>PORT : </b><label id="lblFromPort"></label>
+                <b>PORT OF LOADING: </b><label id="lblFromPort"></label>
             </td>
         </tr>
         <tr>
@@ -133,7 +126,7 @@ End Code
                 <b>TO : </b><label id="lblToCountry"></label>
             </td>
             <td colspan="2">
-                <b>PORT : </b><label id="lblToPort"></label>
+                <b>PORT OF DISCHARGE : </b><label id="lblToPort"></label>
             </td>
         </tr>
         <tr>
@@ -167,159 +160,303 @@ End Code
             </td>
         </tr>
     </table>
-    <table id="tbExpenses" style="width:100%;border-collapse:collapse;font-size:8px">
+    <table id="tbExpenses" style="width:100%;border-collapse:collapse;font-size:14px">
         <thead>
-            <tr>
-                <th colspan="5" style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเคลียร์พิธีการศุลกากร</th>
-            </tr>
-            <tr>
-                <th colspan="3" style="border-style:solid;border-width:thin;width:50%">มีใบเสร็จในนามลูกค้า</th>
-                <th colspan="2" style="border-style:solid;border-width:thin;width:50%">ไม่มีใบเสร็จรับเงินในนามลูกค้า</th>
-            </tr>
-            <tr>
-                <th style="border-style:solid;border-width:thin;width:30%">รายละเอียด</th>
-                <th style="border-style:solid;border-width:thin;width:20%">เลขที่ใบเสร็จ</th>
-                <th style="border-style:solid;border-width:thin;width:10%">จำนวนเงิน</th>
-                <th style="border-style:solid;border-width:thin;width:30%">รายละเอียด</th>
-                <th style="border-style:solid;border-width:thin;width:10%">จำนวนเงิน</th>
+            <tr style="text-align:center">
+                <td style="width:40%">รายการ</td>
+                <td style="width:15%">ตัดบัตร</td>
+                <td style="width:15%">เงินสด</td>
+                <td style="width:15%">ไม่มีใบเสร็จ</td>
+                <td style="width:15%">มีใบเสร็จ</td>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าธรรมเนียม Paperless</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าปล่อยเบย์-จัดเรียงสินค้า</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>ชิปปิ้งทำงาน</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าภาษีอากร</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าใช้จ่ายรวม</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>ค่านายตรวจ</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าล่วงเวลากรมศุลกากร</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่ารถตักสินค้า</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>ค่าแรงงาน</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าล่วงเวลาการท่าเรือ</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าพิธีการตรวจปล่อย</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>ค่าเมล์ และแฟกซ์</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าล่วงเวลาเอเย่นต์</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่านำแรงงานท่าเรือ</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>  ค่ารับ D/O</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าแลก D/O</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าแรงงานคลังขนถ่ายสินค้า</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>ค่าออกหน้าปรตู</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าเช่าการท่าเรือ</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่ารับ D/O</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>CUSTOMS FEE / ค่าธรรมเนียม</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าโกดัง</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่านายตรวจศุลกากร</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>OVERTIME FEE / ค่าล่วงเวลา</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่ารถขนส่งสินค้า 6ล้อ</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าปล่อย Print Permit</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>OVERTIME AGENT / ค่าล่วงเวลาเรือ</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่ารถขนส่งสินค้า 4ล้อ</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่ารถหัวลากต่อระยะ</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>STORAGE / ค่าโกดัง</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าผ่านท่า</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเจ้าหน้าที่ประมง</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>GATE CHARGES / ค่าผ่านท่า</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าคืนตู้เปล่า</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเจ้าหน้าที่ อย</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>GATE CHARGES / ค่าผ่านท่า</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่า Demurrage</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าทำบัตร</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>PAPERLESS / ค่ายิงใบขน (ลานบรรจุ)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่า Detention</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าจอดรถ</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td>PAPERLESS / ค่ายิงใบขน (ลานบรรจุ)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าธรรมเนียมธนาคาร</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่ารับเอกสารทางอีเมล์</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td><br /></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าซ่อมตู้</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าเช็คภาษี</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td><br /></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่ายื่น C/O หอการค้า</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าโอที</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td><br /></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;"><b>รวมรายจ่าย</b></td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;"><b>รวมรายจ่าย</b></td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td style="text-align:center">รวม</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">**FOR JOB NUMBER</td>
-                <td style="border-style:solid;border-width:thin;"><label id="lblJobNo"></label></td>
-                <td style="border-style:solid;border-width:thin;">ONLY**</td>
-                <td style="border-style:solid;border-width:thin;"><b>รวมทั้งสิ้น</b></td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td colspan="3" style="text-align:center">ยอดรวมใช้เงินสดไป</td>
+                <td colspan="2"></td>
             </tr>
+
         </tbody>
     </table>
+    @*<table id="tbExpenses" style="width:100%;border-collapse:collapse;font-size:8px">
+            <thead>
+                <tr>
+                    <th colspan="5" style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเคลียร์พิธีการศุลกากร</th>
+                </tr>
+                <tr>
+                    <th colspan="3" style="border-style:solid;border-width:thin;width:50%">มีใบเสร็จในนามลูกค้า</th>
+                    <th colspan="2" style="border-style:solid;border-width:thin;width:50%">ไม่มีใบเสร็จรับเงินในนามลูกค้า</th>
+                </tr>
+                <tr>
+                    <th style="border-style:solid;border-width:thin;width:30%">รายละเอียด</th>
+                    <th style="border-style:solid;border-width:thin;width:20%">เลขที่ใบเสร็จ</th>
+                    <th style="border-style:solid;border-width:thin;width:10%">จำนวนเงิน</th>
+                    <th style="border-style:solid;border-width:thin;width:30%">รายละเอียด</th>
+                    <th style="border-style:solid;border-width:thin;width:10%">จำนวนเงิน</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่าธรรมเนียม Paperless</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">ค่าปล่อยเบย์-จัดเรียงสินค้า</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่าภาษีอากร</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">ค่าปล่อยวาลฟ์</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่าล่วงเวลากรมศุลกากร</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">ค่ารถตักสินค้า</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่าล่วงเวลาการท่าเรือ</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">ค่าพิธีการตรวจปล่อย</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่าล่วงเวลาเอเย่นต์</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">ค่านำแรงงานท่าเรือ</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่าแลก D/O</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">ค่าแรงงานคลังขนถ่ายสินค้า</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่าเช่าการท่าเรือ</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">จำนวน (คน)</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่ามัดจำตู้</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">ค่านายตรวจศุลกากร</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่ารถขนส่งสินค้า 6ล้อ</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">ค่าปล่อย Print Permit</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่ารถขนส่งสินค้า 4ล้อ</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">ค่ารถหัวลากต่อระยะ</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่าผ่านท่า</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเจ้าหน้าที่ประมง</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่าคืนตู้เปล่า</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเจ้าหน้าที่ อย</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่า Demurrage</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">ค่าทำบัตร</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่า Detention</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">ค่าจอดรถ</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่าธรรมเนียมธนาคาร</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">ค่ารับเอกสารทางอีเมล์</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่าซ่อมตู้</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">ค่าเช็คภาษี</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">ค่ายื่น C/O หอการค้า</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;"><b>รวมรายจ่าย</b></td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                    <td style="border-style:solid;border-width:thin;"><b>รวมรายจ่าย</b></td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="border-style:solid;border-width:thin;">**FOR JOB NUMBER</td>
+                    <td style="border-style:solid;border-width:thin;"><label id="lblJobNo"></label></td>
+                    <td style="border-style:solid;border-width:thin;">ONLY**</td>
+                    <td style="border-style:solid;border-width:thin;"><b>รวมทั้งสิ้น</b></td>
+                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>*@
     <table id="tblFooter" style="width:100%">
         <tr>
             <td width="60%" valign="top">
@@ -334,9 +471,34 @@ End Code
             </td>
         </tr>
     </table>
+
+    <div style="display:flex">
+        <div style="width: 20%; font-size: 16px">ลูกค้าจองรถเอง</div>
+        <div style="flex:1;border-bottom:1px black solid"></div>
+    </div>
+    <div style="display:flex">
+        <div style="width: 20%; font-size: 16px">บริษัทรถ</div>
+        <div style="flex:1;border-bottom:1px black solid"></div>
+    </div>
+    <br />
+    <div style="display:flex">
+        <div style="width:20%"></div>
+        <div style="width: 20%; font-size: 16px">ชื่อผู้เบิกเงิน</div>
+        <div style="flex:1;border-bottom:1px black solid"></div>
+        <div style="width:20%"></div>
+    </div>
+    <div style="display:flex">
+        <div style="width:20%"></div>
+        <div style="width: 20%; font-size: 16px">ชื่อผู้รับเงินคืน</div>
+        <div style="flex:1;border-bottom:1px black solid"></div>
+        <div style="width:20%"></div>
+    </div>
 </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
+
+$('#imgLogo').css('display','none');
+$('#imgLogoAdd').css('display','inline');
     //$(document).ready(function () {
         let br = getQueryString('BranchCode');
         let jno = getQueryString('JNo');
@@ -375,7 +537,8 @@ End Code
                     if (r.company.data.length > 0) {
                         var c = r.company.data[0];
                         if (isCons == true) {
-                            $('#lblBillToCustName').text(c.NameEng + ' Tax Reference :' + c.TaxNumber);
+                           //$('#lblBillToCustName').text(c.NameEng + ' Tax Reference :' + c.TaxNumber);
+                            $('#lblBillToCustName').text(c.NameEng );
                             $('#dvBillAddr').html('<b>Address : </b>'
                                 + (c.EAddress1 + ' ' + c.EAddress2).trim());
                         }
@@ -434,6 +597,10 @@ End Code
         var sb = j.ShipBy;
         if (jt < 10) jt = '0' + jt;
         if (sb < 10) sb = '0' + sb;
+
+        if (j.JobType) {
+            $('#JobType').css('color','orange');
+        }
         ShowConfig(path, 'JOB_TYPE', jt, '#lblJobType');
         ShowConfig(path, 'SHIP_BY', sb, '#lblShipBy');
 
@@ -445,14 +612,21 @@ End Code
 
         ShowCountry(path, j.InvFCountry, '#lblFromCountry');
         ShowCountry(path, j.InvCountry, '#lblToCountry');
-        if (j.JobType == '1') {
 
-            ShowInterPort(path,j.InvFCountry, j.InvInterPort, '#lblFromPort');
-            ShowReleasePort(path,j.ClearPort, '#lblToPort');
-        } else {
-            ShowInterPort(path,j.InvCountry, j.InvInterPort, '#lblToPort');
-            ShowReleasePort(path,j.ClearPort, '#lblFromPort');
-        }
+        $("#lblToPort").text(j.ClearPortNo);
+        ShowInterPort(path, (j.JobType == 1 ? j.InvFCountry : j.InvCountry), j.InvInterPort, '#lblFromPort').then(() => {
+            $.get(path + 'Master/GetCountry?Code=' + (j.JobType == 1 ? j.InvFCountry : j.InvCountry)).done(function (r) {
+                $('#lblFromPort').text(($('#lblFromPort').text() + " ," + r.country.data[0].CTYName).toUpperCase());
+            });
+        });
+
+        //if (j.JobType == '1') {
+        //    ShowInterPort(path,j.InvFCountry, j.InvInterPort, '#lblFromPort');
+        //    ShowReleasePort(path,j.ClearPort, '#lblToPort');
+        //} else {
+        //    ShowInterPort(path,j.InvCountry, j.InvInterPort, '#lblToPort');
+        //    ShowReleasePort(path,j.ClearPort, '#lblFromPort');
+        //}
         ShowVender(path,j.ForwarderCode, '#lblAgentName');
         ShowVender(path,j.AgentCode, '#lblTransportName');
 

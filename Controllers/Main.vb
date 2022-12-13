@@ -3662,8 +3662,8 @@ AND p.DocNo NOT IN(SELECT DocNo fROM Job_PaymentHeader where CancelProve<>'')
     Public Sub UpdateClearStatus()
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToClear())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusFromAdvance())
-        Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToComplete())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToInComplete())
+        Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToComplete())
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateAPClearLink())
     End Sub
     Public Function SQLUpdateCashFlowToJob() As String

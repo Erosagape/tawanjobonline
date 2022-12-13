@@ -154,5 +154,74 @@ Namespace Controllers
         Function TestFunction() As String
             Return "Test Function Called"
         End Function
+        Function ExecuteStoreProcedure() As String
+            Try
+                Dim procName As String = ""
+                If Not Request.QueryString("PROC") Is Nothing Then
+                    procName = Request.QueryString("PROC")
+                Else
+                    Return "Procedure Not Found"
+                End If
+                Dim dbID As String = "1"
+                If Not Request.QueryString("DBID") Is Nothing Then
+                    dbID = Request.QueryString("DBID") Is Nothing
+                End If
+                Dim connWebLicense = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
+                Dim custID = My.MySettings.Default.LicenseTo.ToString
+                Dim dbType As String = "Tran"
+                If Not Request.QueryString("DBTYPE") Is Nothing Then
+                    dbType = Request.QueryString("DBTYPE") Is Nothing
+                End If
+                Using cnConfig As New SqlClient.SqlConnection(connWebLicense)
+                    cnConfig.Open()
+                    Dim sql = "SELECT * FROM TWTCustomerApp wHERE CustID='{0}' AND Seq={1}"
+                    Using rd As SqlClient.SqlDataReader = New SqlClient.SqlCommand(String.Format(sql, custID, dbID), cnConfig).ExecuteReader
+                        If rd.HasRows Then
+                            While rd.Read
+                                Dim connStr = rd("Web" + dbType + "Connect").ToString()
+                                Using cn As New SqlClient.SqlConnection(connStr)
+                                    cn.Open()
+                                    If cn.State = ConnectionState.Open Then
+                                        Using cm As New SqlClient.SqlCommand
+                                            cm.Connection = cn
+                                            cm.CommandTimeout = Main.GetValueConfig("PROFILE", "QUERY_TIMEOUT", 600)
+                                            cm.CommandType = CommandType.StoredProcedure
+                                            cm.CommandText = procName
+                                            Dim i As Integer = 1
+                                            While i > 0
+                                                If Not Request.QueryString("PARAM" & i) Is Nothing Then
+                                                    Dim params = Request.QueryString("PARAM" & i).Split("|")
+                                                    If UBound(params) > 0 Then
+                                                        cm.Parameters.AddWithValue("@" + params(0).ToString(), params(1).ToString())
+                                                    End If
+                                                    i += 1
+                                                Else
+                                                    i = 0
+                                                End If
+                                            End While
+                                            Try
+                                                cm.ExecuteNonQuery()
+                                            Catch sqlex As SqlClient.SqlException
+                                                Return sqlex.Message
+                                            End Try
+                                        End Using
+                                    Else
+                                        Return "Can Not Open Connection"
+                                    End If
+                                End Using
+                                rd.Close()
+                            End While
+                            Return "Execute Complete"
+                        Else
+                            Return "Config Not Found"
+                        End If
+                    End Using
+                    cnConfig.Close()
+                End Using
+
+            Catch ex As Exception
+                Return ex.Message
+            End Try
+        End Function
     End Class
 End Namespace

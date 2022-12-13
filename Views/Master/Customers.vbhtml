@@ -10,7 +10,7 @@ End Code
             </div>
             <div class="col-sm-3">
                 <label id="lblBranch">Branch :</label>
-                <br /><input type="text" id="txtBranch" class="form-control" tabIndex="1">
+                <br /><input type="text" id="txtBranch" class="form-control" tabIndex="1" disabled="disabled" maxlength="4">
             </div>
             <div class="col-sm-3">
                 <label id="lblCustGroup">Customer Group :</label>
@@ -73,7 +73,7 @@ End Code
                         <br /><input type="text" id="txtFaxNumber" class="form-control" tabIndex="12">
                     </div>
                     <div class="col-sm-3">
-                        <label id="lblDMailAddress">EMail :</label>
+                        <label id="lblDMailAddress">E-Mail (อีเมลลูกค้า) :</label>
                         <br /><input type="text" id="txtDMailAddress" class="form-control" tabIndex="13">
                     </div>
                     <div class="col-sm-3">
@@ -253,7 +253,7 @@ End Code
             <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
                 <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
             </a>
-            <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteData()">
+            <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteData()" style="display:none">
                 <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete</b>
             </a>
             <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData('customer')">
@@ -478,6 +478,7 @@ End Code
         $('#txtTSubProvince').val(dr.SubProvince);
     }
     function ReadCustomer(dr) {
+        $('#txtBranch').attr('disabled', 'disabled');
         if (dr.CustCode != undefined) {
             $('#txtCustCode').val(dr.CustCode);
             $('#txtBranch').val(dr.Branch);
@@ -593,6 +594,7 @@ End Code
         $('#txtCSCodeOT').focus();
     }
     function ClearData() {
+        $('#txtBranch').removeAttr('disabled');
         if (userGroup !== 'C') {
             $('#txtCustCode').val('');
             $('#txtBranch').val('0000');

@@ -239,7 +239,7 @@ function SetGridSICode(p, g, t, d, ev) {
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
             { data: "SICode", title: mainLanguage == "TH" ? "รหัส" : "Service Code" },
-            { data: "NameThai", title: mainLanguage == "TH" ? "ความหมาย" :  "Description" }
+            { data: "NameEng", title: mainLanguage == "TH" ? "ความหมาย" :  "Description" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -267,7 +267,7 @@ function SetGridSICodeFilter(p, g, t, d, ev) {
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
             { data: "SICode", title: mainLanguage == "TH" ? "รหัส" :  "Service Code" },
-            { data: "NameThai", title: mainLanguage == "TH" ? "ความหมาย" :  "Description" }
+            { data: "NameEng", title: mainLanguage == "TH" ? "ความหมาย" :  "Description" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -295,7 +295,7 @@ function SetGridSICodeByGroup(p, g, t, d, ev) {
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
             { data: "SICode", title: mainLanguage == "TH" ? "รหัส" :  "Service Code" },
-            { data: "NameThai", title: mainLanguage == "TH" ? "ความหมาย" :  "Description" }
+            { data: "NameEng", title: mainLanguage == "TH" ? "ความหมาย" :  "Description" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
@@ -668,7 +668,7 @@ function SetGridCustContact(p, g, t, d, ev) {
 function SetGridDataDistinct(p, g, t, d, ev) {
     $.get(p + 'joborder/getdatadistinct' + t)
         .done(function (r) {
-            let dr = r
+            let dr = r;
             if (dr.length > 0) {
                 $(g).DataTable({
                     data: dr, //web service ที่จะ call ไปดึงข้อมูลมา
@@ -837,7 +837,7 @@ function SetGridCountry(p, g, d, ev) {
 function SetGridWeightUnit(p, g, d, ev) {
     $.get(p + 'joborder/getjobdatadistinct?field=GWUnit')
         .done(function (r) {
-            let dr = r
+            let dr = r[0].Table;
             if (dr.length > 0) {
                 $(g).DataTable({
                     data: dr, //web service ที่จะ call ไปดึงข้อมูลมา
@@ -1005,7 +1005,7 @@ function SetGridServUnitFilter(p, g, t, d, ev) {
 function SetGridProjectName(p, g, d, ev) {
     $.get(p + 'joborder/getjobdatadistinct?field=ProjectName')
         .done(function (r) {
-            let dr = r
+            let dr = r[0].Table;
             if (dr.length > 0) {
                 $(g).DataTable({
                     data: dr, //web service ที่จะ call ไปดึงข้อมูลมา
@@ -1034,7 +1034,7 @@ function SetGridProjectName(p, g, d, ev) {
 function SetGridInvProduct(p, g, d, ev) {
     $.get(p + 'joborder/getjobdatadistinct?field=InvProduct')
         .done(function (r) {
-            let dr = r;
+            let dr = r[0].Table;
             if (dr.length > 0) {
                 $(g).DataTable({
                     data: dr, //web service ที่จะ call ไปดึงข้อมูลมา
@@ -1528,113 +1528,6 @@ function SetGridEstimateCost(p, g, t, d, ev) {
             { data: "SICode", title: "Code" },
             { data: "SDescription", title: "Description" },
             { data: "AmtTotal", title: "Price" }
-        ],
-        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
-            {
-                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
-                "data": null,
-                "render": function (data, type, full, meta) {
-                    let html = "<button class='btn btn-warning'>Select</button>";
-                    return html;
-                }
-            }
-        ],
-        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
-    });
-    BindEvent(g, d, ev);
-}
-function SetGridAddFuel(p, g, t, d, ev) {
-    //popup for search data
-    $(g).DataTable({
-        ajax: {
-            url: p + 'JobOrder/GetAddFuel' + t, //web service ที่จะ call ไปดึงข้อมูลมา
-            dataSrc: 'addfuel.data'
-        },
-        selected: true, //ให้สามารถเลือกแถวได้
-        columns: [ //กำหนด property ของ header column
-            { data: null, title: "#" },
-            { data: "DocNo", title: "No" },
-            { data: "JNo", title: "Job" },
-            {
-                data: "DocDate", title: "Date",
-                render: function (data) {
-                    return CDateEN(data);
-                }
-            },
-            {
-                data: "TotalAmount", title: "Total",
-                render: function (data) {
-                    return ShowNumber(data, 2);
-                }
-            },
-            {
-                data: null, title: "Status",
-                render: function (data) {
-                    switch (true) {
-                        case data.CancelBy !== null:
-                            return 'Cancel';
-                        case data.ApproveBy !== null:
-                            return 'Approve';
-                        default:
-                            return 'Request';
-                    }
-                }
-            },
-        ],
-        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
-            {
-                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
-                "data": null,
-                "render": function (data, type, full, meta) {
-                    let html = "<button class='btn btn-warning'>Select</button>";
-                    return html;
-                }
-            }
-        ],
-        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
-    });
-    BindEvent(g, d, ev);
-}
-function SetGridCar(p, g, d, ev) {
-    $(g).DataTable({
-        ajax: {
-            url: p + 'Master/GetCarLicense', //web service ที่จะ call ไปดึงข้อมูลมา
-            dataSrc: 'carlicense.data'
-        },
-        selected: true, //ให้สามารถเลือกแถวได้
-        columns: [ //กำหนด property ของ header column
-            { data: null, title: "#" },
-            { data: "CarNo", title: mainLanguage == "TH" ? "รหัสรถ" : "Code" },
-            { data: "CarLicense", title: mainLanguage == "TH" ? "เลขทะเบียนรถ" : "License Number" }
-        ],
-        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
-            {
-                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
-                "data": null,
-                "render": function (data, type, full, meta) {
-                    let html = "<button class='btn btn-warning'>Select</button>";
-                    return html;
-                }
-            }
-        ],
-        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-        , pageLength: 100
-    });
-    BindEvent(g, d, ev);
-}
-function SetGridEmployee(p, g, d, ev) {
-    $(g).DataTable({
-        ajax: {
-            url: p + 'Master/GetEmployee', //web service ที่จะ call ไปดึงข้อมูลมา
-            dataSrc: 'employee.data'
-        },
-        selected: true, //ให้สามารถเลือกแถวได้
-        columns: [ //กำหนด property ของ header column
-            { data: null, title: "#" },
-            { data: "EmpCode", title: mainLanguage == "TH" ? "รหัสพนักงาน" : "Code" },
-            { data: "Name", title: mainLanguage == "TH" ? "ชื่อพนักงาน" : "Employee Name" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {

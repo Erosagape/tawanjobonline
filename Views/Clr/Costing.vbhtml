@@ -4,7 +4,7 @@
 End Code
 <div class="row">
     <div class="col-sm-3">
-        <label id="lblBranch">Branch</label>        
+        <label id="lblBranch">Branch</label>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtBranchCode" style="width:60px" disabled />
@@ -12,21 +12,21 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblJobNo">Job No:</label>        
-        <br/>
+        <label id="lblJobNo">Job No:</label>
+        <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtJNo" disabled />
         </div>
     </div>
     <div class="col-sm-3">
-        <label id="lblCloseDate">Close Date :</label>        
+        <label id="lblCloseDate">Close Date :</label>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="date" id="txtCloseDate" class="form-control" disabled />
         </div>
     </div>
     <div class="col-sm-4">
-        <label id="lblJobStatus">Job Status:</label>        
+        <label id="lblJobStatus">Job Status:</label>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtJobStatus" style="background-color:lightgoldenrodyellow;color:red;" disabled />
@@ -52,69 +52,83 @@ End Code
 <div class="row">
     <div class="col-sm-3">
         <label id="lblService">Service</label>
-         : <input type="text" id="txtSumService" class="form-control" disabled />
+        : <input type="text" id="txtSumService" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblAdvance">Advance</label>
-         :<input type="text" id="txtSumAdvance" class="form-control" disabled />
+        :<input type="text" id="txtSumAdvance" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblCost">Cost</label>
-         :<input type="text" id="txtSumCost" class="form-control" disabled />
+        :<input type="text" id="txtSumCost" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblProfit">Profit</label>
-         :<input type="text" id="txtSumProfit" class="form-control" disabled />
+        :<input type="text" id="txtSumProfit" class="form-control" disabled />
     </div>
 </div>
 <div class="row">
     <div class="col-sm-3">
         <label id="lblBaseVat">Vatable</label>
-         :<input type="text" id="txtSumBaseVAT" class="form-control" disabled />
+        :<input type="text" id="txtSumBaseVAT" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblNonVat">Non-vat</label>
-         :<input type="text" id="txtSumNonVAT" class="form-control" disabled />
+        :<input type="text" id="txtSumNonVAT" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblVat">VAT</label>
-         :<input type="text" id="txtSumVAT" class="form-control" disabled />
+        :<input type="text" id="txtSumVAT" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblWhTax">W/H-Tax</label>
-         :<input type="text" id="txtSumWHT" class="form-control" disabled />
+        :<input type="text" id="txtSumWHT" class="form-control" disabled />
     </div>
 </div>
-<div class="row">
+<div class="row ">
     <div class="col-sm-3">
         <label id="lblSumCharge">Chargeable</label>
-         :<input type="text" id="txtSumCharge" class="form-control" disabled />
+        :<input type="text" id="txtSumCharge" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblInv">Invoiced</label>
-         :<input type="text" id="txtSumInvoice" class="form-control" disabled />
+        :<input type="text" id="txtSumInvoice" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblSumClear">Cleared</label>
-         :<input type="text" id="txtSumClear" class="form-control" disabled />
+        :<input type="text" id="txtSumClear" class="form-control" disabled />
     </div>
     <div class="col-sm-3">
         <label id="lblPending">Pending</label>
-         :<input type="text" id="txtSumPending" class="form-control" disabled />
+        :<input type="text" id="txtSumPending" class="form-control" disabled />
     </div>
 </div>
-<a href="#" class="btn btn-success" id="btnGenerateInv">
-    <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkGen">Generate Invoice</b>
-</a>
-<a href="#" class="btn btn-info" id="btnPrintJobsum">
-    <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Summary</b>
-</a>
+<br />
+<div class="row">
+    <div class="col-sm-3">
+        <a href="#" class="btn btn-success" id="btnGenerateInv" style="width:100%">
+            <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkGen">Generate Invoice</b>
+        </a>
+    </div>
+    <div class="col-sm-3">
+        <a href="#" class="btn btn-info" id="btnPrintJobsum"  style="width:100%">
+            <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Summary</b>
+        </a>
+    </div>
+    <div class="col-sm-3" >
+        <select id="remarkGroup" class="form-control"  >
+        </select>
+    </div>
+   
+  
+</div>
+
 <div class="modal fade" id="dvEditor" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <label id="lblSetInv">Set Invoice To</label>
-                 <label id="lblClrNo"></label> # <label id="lblItemNo"></label>
+                <label id="lblClrNo"></label> # <label id="lblItemNo"></label>
             </div>
             <div class="modal-body">
                 Invoice Number
@@ -147,11 +161,22 @@ End Code
         window.open(path + 'Clr/Index?BranchCode=' + $('#txtBranchCode').val() + '&ClrNo=' + clearno);
     });
     $('#btnPrintJobsum').on('click', function () {
-        window.open(path + 'JobOrder/FormJobSum?branchcode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(),'','');
+        if ($('#remarkGroup').val() === 'ALL') {
+            window.open(path + 'JobOrder/FormJobSum?branchcode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val() + '&selectAll=' + true, '', '');
+        } else {
+            window.open(path + 'JobOrder/FormJobSum?branchcode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val() + '&remark=' + $('#remarkGroup').val(), '', '');
+        }
+       
     });
     $('#btnGenerateInv').on('click', function () {
         window.open(path + 'Clr/GenerateInv?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtJNo').val(),'','');
     });
+    var groupBy = function (xs, key) {
+        return xs.reduce(function (rv, x) {
+            (rv[x[key]] = rv[x[key]] || []).push(x);
+            return rv;
+        }, {});
+    };
     function RefreshGrid() {
         ShowWait();
         $.get(path + 'clr/getclearingreport?branch=' + branch + '&job=' + code, function (r) {
@@ -184,23 +209,34 @@ End Code
                 let amtpending = 0;
 
                 let d = r.data.filter(function (data) {
-                    return data.BNet !== 0;
+                    return data.BNet !== 0 && data.DocStatus<99;
                 });
+
+                let remarkGroups = groupBy(d ,'TRemark');
+                console.log(remarkGroups);
+                let options = '<option value="ALL">ALL</option>';
+
+                for (const propname in remarkGroups) {
+                    options += `<option value='${encodeURIComponent(propname)}'>${propname}</option>`;
+                }
+                $('#remarkGroup').html(options);
+
+
                 for (let i = 0; i < d.length; i++){
-                    let amt = d[i].UsedAmount + d[i].ChargeVAT;
+                    let amt = (d[i].UsedAmount) + d[i].ChargeVAT;
                     let adv = (d[i].IsCredit == 1 && d[i].IsExpense == 0 ? amt : 0);
-                    let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? d[i].UsedAmount : 0);
-                    let cost = (d[i].IsExpense == 1 ?  d[i].UsedAmount : 0);
-                    let profit = (d[i].IsExpense == 1 ?  d[i].UsedAmount*-1 : (d[i].IsCredit==1 ? 0 : d[i].UsedAmount));
+                    let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? (d[i].UsedAmount) : 0);
+                    let cost = (d[i].IsExpense == 1 ?  (d[i].UsedAmount) : 0);
+                    let profit = (d[i].IsExpense == 1 ?  (d[i].UsedAmount)*-1 : (d[i].IsCredit==1 ? 0 : (d[i].UsedAmount)));
                     let slipNo = (d[i].IsHaveSlip == 1 && d[i].IsCredit==1 ? ' #' + d[i].SlipNO : '');
 
                     if (d[i].IsCredit == 0 && d[i].IsExpense == 0) {
                         if (d[i].IsTaxCharge > 0) {
-                            amtforvat += d[i].UsedAmount;
+                            amtforvat += (d[i].UsedAmount);
                             amtvat += d[i].ChargeVAT;
                             slipNo += '<br/>VAT ' + d[i].VATRate + '%=' + d[i].ChargeVAT;
                         } else {
-                            amtnonvat += d[i].UsedAmount;
+                            amtnonvat += (d[i].UsedAmount);
                         }
                         if (d[i].Is50Tavi > 0) {
                             amtwht += d[i].Tax50Tavi;
@@ -214,7 +250,7 @@ End Code
                     if (d[i].LinkItem==0) {
                         html += '<td><input type="button" value="Edit" onclick="OpenEditor(' + "'" + d[i].ClrNo + "'" + ',' + d[i].ItemNo + ',' + "'" + d[i].LinkBillNo + "'" + ',' + d[i].LinkItem + ')"/></td>';
                     } else {
-                        html += '<td><input type="button" value="View" onclick="OpenInvoice(' + "'" + d[i].BranchCode + "'" + ',' + "'" + d[i].LinkBillNo + "'" + ')"/></td>';
+                        html += '<td><input type="button" value="View" onclick="OpenInvoice(' + "'" + d[i].BranchCode + "'" + ',' + "'" + d[i].LinkBillNo + "'" + ',' + "'" + d[i].ShippingRemark + "'"+')"/></td>';
                     }
                     html += '<td>' + d[i].ClrNo + '#' + d[i].ItemNo + '</td>';
                     html += '<td>'+d[i].SICode+'</td>';
@@ -270,8 +306,15 @@ End Code
             CloseWait();
         });
     }
-    function OpenInvoice(branch,code) {
-        window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code,'_blank');
+    function OpenInvoice(branch, code, type) {
+
+        switch (type) {
+            case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                break;
+            case "IVC-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=credit', '_blank');
+                break;
+            default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code, '_blank');
+        }
     }
     function OpenEditor(clrno, item,invno,seq) {
         //ShowMessage('you click ' + clrno + '/' + item);

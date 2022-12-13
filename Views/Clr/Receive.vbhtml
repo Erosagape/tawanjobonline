@@ -65,7 +65,7 @@ End Code
                         <input type="hidden" id="fldBankBranchCash" />
                     </div>
                     <div class="col-sm-3 table-bordered" id="dvChqCash">
-                        <input type="radio" name="optACType" id="chkChqCash" value="CU"><label><b id="linkChqCash">Customer Cheque :</b></label><input type="text" id="txtAdvChqCash" class="form-control" value="" />
+                        <input type="radio" name="optACType" id="chkChqCash" value="CH"><label><b id="linkChqCash">Customer Cheque :</b></label><input type="text" id="txtAdvChqCash" class="form-control" value="" />
                         <br />
                         <table>
                             <tr>
@@ -100,7 +100,7 @@ End Code
                         <input type="hidden" id="fldBankBranchChqCash" />
                     </div>
                     <div class="col-sm-3 table-bordered" id="dvChq">
-                        <label><input type="radio" name="optACType" id="chkChq" value="CH"><b id="linkChqCust">Company Cheque :</b></label>
+                        <label><input type="radio" name="optACType" id="chkChq" value="CU"><b id="linkChqCust">Company Cheque :</b></label>
                         <input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
                         <label id="lblRefNoCU">Chq No:</label>
@@ -139,9 +139,9 @@ End Code
                             <br />
                             <label id="lblForCA">For Cash/Transfer :</label>
                             <br />
-                            <input type="number" id="txtCashBal" class="form-control" disabled />
+                            <input type="number" id="txtCashBal" class="form-control" disabled />                                   
                             <label id="lblForCH">For Cheque : </label>
-                            <br />
+                            <br /> 
                             <input type="number" id="txtChqCashBal" class="form-control" disabled />
                         </div>
                     </div>
@@ -195,24 +195,37 @@ End Code
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <label id="lblDocNo">Clearing Document:</label>
                         <br />
                         <input type="text" id="txtAdvNo" class="form-control" />
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
                         <label id="lblJNo">Clearing Job No:</label>
                         <br />
                         <input type="text" id="txtJNo" class="form-control" />
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-3">
+                        <br />
                         <input type="checkbox" id="chkFromClr" /><label for="chkFromClr" id="lblClrNoAdv">NON-ADVANCE Clearing</label>
+                        <br />
+                        <input type="checkbox" id="chkForCNDN" /><label for="chkForCNDN" id="lblForCNDN">SOA(COST & SERVICE)</label>
+
+                    </div>
+                    <div class="col-sm-3">
                         <br />
                         <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
                             <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                         </a>
+
                     </div>
                 </div>
+                *ถ้าจัดการยอดขาด-เกินหลังเบิก ไม่ต้องติ๊ก
+                <br />
+                *ทำ PV จากใบเคลียร์ ติ๊ก NON-ADVANCE Clearing
+                <br />
+                *ถ้าทำ Debit & Credit ต่างประเทศให้ติ๊กทั้งสองอัน
+                <br />
                 <div class="row">
                     <div class="col-sm-12">
                         <table id="tbHeader" class="table table-responsive">
@@ -229,7 +242,9 @@ End Code
                                     <th class="desktop">W-Tax</th>
                                     <th class="desktop">Refund</th>
                                     <th class="desktop">Payback</th>
-                                    <th class="desktop">Driver</th>
+                                    @*<th class="desktop">InvNo</th>
+                                    <th class="desktop">JobNo</th>*@
+                                    @*<th class="desktop">Driver</th>*@
                                 </tr>
                             </thead>
                         </table>
@@ -291,6 +306,7 @@ End Code
     let list = [];
     let dataApp = [];
     let docno = '';
+    $('#chkCash').prop('checked', true);
     //$(document).ready(function () {
         SetEvents();
     //});
@@ -400,10 +416,12 @@ End Code
         $('#txtSumApprove').val('');
         $('#txtSumWHTax').val('');
         $('#txtTRemark').val('');
-        $('#chkCash').prop('checked', true);
-        $('#chkChq').prop('checked', false);
-        $('#chkChqCash').prop('checked', false);
-        $('#chkCred').prop('checked', false);
+        //$('#chkCash').prop('checked', true);
+
+        //$('#chkCash').prop('checked', false);
+        //$('#chkChq').prop('checked', false);
+        //$('#chkChqCash').prop('checked', false);
+        //$('#chkCred').prop('checked', false);
     }
     function SetGridAdv(isAlert) {
         arr = [];
@@ -444,6 +462,9 @@ End Code
         if ($('#chkFromClr').prop('checked') == true) {
             w = w + '&Data=CLR';
         }
+        if ($('#chkForCNDN').prop('checked') == true) {
+            w = w + '&NOADV=true';
+        }
         $.get(path + 'clr/getclearingsum?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.clr.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
@@ -451,13 +472,16 @@ End Code
                 return;
             }
             let h = r.clr.data;
+            if ($('#chkForCNDN').prop('checked')) {
+                h = r.clr.data.filter((item) =>  item.LinkBillNo.indexOf("O")>=0 );
+            }
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
-            let tb=$('#tbHeader').DataTable({
+            let tb = $('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
-                    { data:($('#chkFromClr').prop('checked') ? "ClrNo" : "AdvNo"), title: "Adv No" },
+                    { data: ($('#chkFromClr').prop('checked') ? "ClrNo" : "AdvNo"), title: "Adv No" },
                     {
                         data: ($('#chkFromClr').prop('checked') ? "ClrDate" : "PaymentDate"), title: "Payment date",
                         render: function (data) {
@@ -470,25 +494,25 @@ End Code
                     {
                         data: "AdvNet", title: "Adv Total",
                         render: function (data) {
-                            return ShowNumber(data,2);
+                            return ShowNumber(data, 2);
                         }
                     },
                     {
                         data: "ClrNet", title: "Clear",
                         render: function (data) {
-                            return ShowNumber(data,2);
+                            return ShowNumber(data, 2);
                         }
                     },
                     {
                         data: "ClrVat", title: "VAT",
                         render: function (data) {
-                            return ShowNumber(data,2);
+                            return ShowNumber(data, 2);
                         }
                     },
                     {
                         data: "Clr50Tavi", title: "WT",
                         render: function (data) {
-                            return ShowNumber(data,2);
+                            return ShowNumber(data, 2);
                         }
                     },
                     {
@@ -496,21 +520,33 @@ End Code
                         render: function (data) {
                             return data > 0 ? ShowNumber(data, 2) : '0.00';
                         }
-                    },
-                    {
+                    }
+                    ,
+                     {
+
                         data: "ClrBal", title: "Payback",
                         render: function (data) {
                             return data < 0 ? ShowNumber(Math.abs(data), 2) : '0.00';
                         }
+                    }
+                    ,
+                     {
+                         data: "ForJNo", title: "JobNo"
                     },
                     {
-                        data: "Driver",title: "Driver"
+                        data: "LinkBillNo", title: "InvNo"
                     }
+                    //,
+                    //{
+                    //    data: "Driver",title: "Driver"
+                    //}
                 ],
                 responsive: true,
                 destroy: true
                 , pageLength: 100
+           
             });
+            //tb.column(0).visible(false);
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
@@ -538,7 +574,9 @@ End Code
         }
     }
     function AddData(o) {
+     
         let acType = $('input:radio[name=optACType]:checked').val();
+        console.log(acType);
         o.acType = acType;
 
         arr.push(o);
@@ -594,6 +632,8 @@ End Code
                     doc += (doc !== '' ? ',' : '') + o.AdvNo;
                 }
             }
+
+            console.log(o);
             if (o.acType == 'CA') sum_ca += Number(o.ClrBal);
             if (o.acType == 'CH') sum_ch += Number(o.ClrBal);
             if (o.acType == 'CU') sum_cu += Number(o.ClrBal);
@@ -636,8 +676,8 @@ End Code
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#txtAdvCash').val(CDbl(sum_ca, 2));
-        $('#txtAdvChq').val(CDbl(sum_ch, 2));
-        $('#txtAdvChqCash').val(CDbl(sum_cu, 2));
+        $('#txtAdvChqCash').val(CDbl(sum_ch, 2));
+        $('#txtAdvChq').val(CDbl(sum_cu, 2));
         $('#txtAdvCred').val(CDbl(sum_cr, 2));
 
         $('#txtSumApprove').val(CDbl(tot, 2));
@@ -652,9 +692,6 @@ End Code
         });
         let filter_sum = {
             sumamount: 0,
-            sumvat: 0,
-            sumwht: 0,
-            sumnet: 0,
             currencycode : '@ViewBag.PROFILE_CURRENCY',
             exchangerate: 1,
             count: 0
@@ -662,9 +699,6 @@ End Code
         for (let i = 0; i < filter_data.length; i++) {
 
             filter_sum.sumamount += Number(filter_data[i].ClrBal);
-            filter_sum.sumvat += Number(filter_data[i].ClrVat);
-            filter_sum.sumwht += Number(filter_data[i].Clr50Tavi);
-            filter_sum.sumnet += Number(filter_data[i].ClrNet);
             filter_sum.count += 1;
         }
         return filter_sum;
@@ -685,7 +719,7 @@ End Code
                 BookCode: $('#txtBookCash').val(),
                 BankCode: $('#fldBankCodeCash').val(),
                 BankBranch: $('#fldBankBranchCash').val(),
-                ChqDate: '',
+                ChqDate: $('#txtCashTranDate').val() ,
                 CashAmount: Math.abs(sum_cash.sumamount),
                 ChqAmount: 0,
                 CreditAmount: 0,
@@ -694,13 +728,13 @@ End Code
                 ExchangeRate: sum_cash.exchangerate,
                 TotalAmount: Math.abs(sum_cash.sumamount),
                 VatInc: 0,
-                VatExc: sum_cash.sumvat,
+                VatExc: 0,
                 WhtInc: 0,
-                WhtExc: sum_cash.sumwht,
-                TotalNet: Math.abs(sum_cash.sumnet),
+                WhtExc: 0,
+                TotalNet: Math.abs(sum_cash.sumamount),
                 IsLocal: 0,
                 ChqStatus: '',
-                TRemark: $('#txtCashTranDate').val() + '-' + $('#txtCashTranTime').val(),
+                TRemark: $('#txtCashTranTime').val(),
                 PayChqTo: $('#txtCashPayTo').val(),
                 DocNo: $('#txtRefNoCash').val(),
                 SICode: '',
@@ -719,9 +753,9 @@ End Code
                 PRVoucher: '',
                 PRType:sum_chqcash.sumamount > 0 ? 'R' : 'P',
                 ChqNo: $('#txtRefNoChqCash').val(),
-                BookCode: '',
-                BankCode: '',
-                BankBranch: '',
+                BookCode: $('#txtBookChqCash').val(),
+                BankCode: $('#fldBankCodeChqCash').val(),
+                BankBranch: $('#fldBankBranchChqCash').val(),
                 ChqDate: CDateEN($('#txtChqCashTranDate').val()),
                 CashAmount: 0,
                 ChqAmount: Math.abs(sum_chqcash.sumamount),
@@ -731,10 +765,10 @@ End Code
                 ExchangeRate: sum_chqcash.exchangerate,
                 TotalAmount:  Math.abs(sum_chqcash.sumamount),
                 VatInc: 0,
-                VatExc: sum_chqcash.sumvat,
+                VatExc: 0,
                 WhtInc: 0,
-                WhtExc: sum_chqcash.sumwht,
-                TotalNet: Math.abs(sum_chqcash.sumnet),
+                WhtExc: 0,
+                TotalNet: Math.abs(sum_chqcash.sumamount),
                 IsLocal: 0,
                 ChqStatus: $('#chkStatusChq').prop('checked')==true? 'P':'',
                 TRemark: '',
@@ -768,10 +802,10 @@ End Code
                 ExchangeRate: sum_chq.exchangerate,
                 TotalAmount: Math.abs(sum_chq.sumamount),
                 VatInc: 0,
-                VatExc: sum_chq.sumvat,
+                VatExc: 0,
                 WhtInc: 0,
-                WhtExc: sum_chq.sumwht,
-                TotalNet: Math.abs(sum_chq.sumnet),
+                WhtExc: 0,
+                TotalNet: Math.abs(sum_chq.sumamount),
                 IsLocal: $('#chkIsLocal').prop('checked') == true ? 'P' : '',
                 ChqStatus: '',
                 TRemark: '',
@@ -805,10 +839,10 @@ End Code
                 ExchangeRate: sum_cr.exchangerate,
                 TotalAmount: Math.abs(sum_cr.sumamount),
                 VatInc: 0,
-                VatExc: sum_cr.sumvat,
+                VatExc: 0,
                 WhtInc: 0,
-                WhtExc: sum_cr.sumwht,
-                TotalNet: Math.abs(sum_cr.sumnet),
+                WhtExc: 0,
+                TotalNet: Math.abs(sum_cr.sumamount),
                 IsLocal: 0,
                 ChqStatus: '',
                 TRemark: '',
@@ -821,6 +855,7 @@ End Code
                 ForJNo: ''
             });
         }
+
         if (oData.length > 0) {
             let jsonString = JSON.stringify({ data: oData });
             $.ajax({
@@ -881,7 +916,11 @@ End Code
                         $('#btnSave').removeAttr('disabled');
                         SetGridAdv(false);
                         ShowMessage(response.result.msg);
-                        PrintVoucher($('#txtBranchCode').val(), $('#txtControlNo').val());
+                        if ($('#chkForCNDN').prop('checked')) {
+                            PrintSOA($('#txtBranchCode').val(), $('#txtControlNo').val());
+                        } else {
+                            PrintVoucher($('#txtBranchCode').val(), $('#txtControlNo').val());
+                        }
                     }
                 },
                 error: function (e) {
@@ -975,7 +1014,7 @@ End Code
                 SetGridBookAccount(path, '#tbBookChq', '#frmSearchBookChq', ReadBookChq);
                 break;
             case 'currency':
-                SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
+                SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);                
                 break;
             case 'emp1':
                 SetGridEmployee(path, '#tbEmpCA', '#frmSearchEmpCA', ReadEmpCA);
@@ -1048,7 +1087,10 @@ End Code
         ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
     }
     function PrintVoucher(br, cno) {
-        window.open(path + 'Acc/FormVoucher?branch=' + $('#txtBranchCode').val() + '&controlno=' + $('#txtControlNo').val());
+        window.open(path + 'Acc/FormVoucher?branch=' + br + '&controlno=' + cno);
+    }
+    function PrintSOA(br, cno) {
+        window.open(path + 'Acc/FormVoucher?branch=' + br + '&controlno=' + cno+'&form=DC');
     }
     function CheckBalance() {
         if ($('#txtBookCash').val() == $('#txtBookChqCash').val()) {

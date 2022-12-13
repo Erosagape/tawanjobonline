@@ -23,6 +23,7 @@ End Code
                         <option value="PKL">Packing List</option>
                         <option value="BL">Bill of Lading</option>
                         <option value="AWB">Air Waybill</option>
+                        <option value="INS">Insurance Policys</option>
                     </optgroup>
                     <optgroup label="STEP 2">
                         <option value="JOB">Job Acknowledge</option>
@@ -36,6 +37,7 @@ End Code
                     <optgroup label="STEP 4">
                         <option value="CLR">Clearing</option>
                         <option value="EXP">Expense Slip</option>
+                        <option value="CHQ">Cheque</option>
                         <option value="IMG">Images</option>
                     </optgroup>
                     <optgroup label="STEP 5">
@@ -95,26 +97,27 @@ End Code
                     </div>
                     <div class="col-sm-5">
                         <label id="lblDocTypeD">Type</label><br />
-                        <select id="txtDocTypeD" class="form-control dropdown">
-                            <option value="">ALL</option>
-                            <option value="CIV">Commercial Invoice</option>
-                            <option value="PKL">Packing List</option>
-                            <option value="JOB">Job Acknowledge</option>
-                            <option value="ADV">Advance</option>
-                            <option value="CLR">Clearing</option>
-                            <option value="EXP">Expense Slip</option>
-                            <option value="BL">Bill of Lading</option>
-                            <option value="AWB">Air Waybill</option>
-                            <option value="CER">Certificates</option>
-                            <option value="DO">Delivery Order</option>
-                            <option value="INV">Invoice</option>
-                            <option value="BIL">Billing</option>
-                            <option value="RCP">Receipts</option>
-                            <option value="TAX">Tax-Invoice</option>
-                            <option value="DEC">Declarations</option>
-                            <option value="IMG">Images</option>
-                            <option value="OTH">Others</option>
-                        </select>
+                                                            <select id="txtDocTypeD" class="form-control dropdown">
+                                                                <option value="">ALL</option>
+                                                                <option value="CIV">Commercial Invoice</option>
+                                                                <option value="PKL">Packing List</option>
+                                                                <option value="JOB">Job Acknowledge</option>
+                                                                <option value="ADV">Advance</option>
+                                                                <option value="CLR">Clearing</option>
+                                                                <option value="EXP">Expense Slip</option>
+                                                                <option value="BL">Bill of Lading</option>
+                                                                <option value="AWB">Air Waybill</option>
+                                                                <option value="CER">Certificates</option>
+                                                                <option value="DO">Delivery Order</option>
+                                                                <option value="INV">Invoice</option>
+                                                                <option value="BIL">Billing</option>
+                                                                <option value="RCP">Receipts</option>
+                                                                <option value="TAX">Tax-Invoice</option>
+                                                                <option value="DEC">Declarations</option>
+                                                                <option value="IMG">Images</option>
+                                                                <option value="INS">Insurance Policys</option>
+                                                                <option value="OTH">Others</option>
+                                                            </select>
                     </div>
                     <div class="col-sm-5">
                         <label id="lblDocDate">Doc Date</label><br />

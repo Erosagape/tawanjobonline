@@ -2,7 +2,6 @@
     ViewData("Title") = "Create BL/AWB"
 End Code
 <form id="form" method="POST" action="@Url.Content("~")/JobOrder/PostCreateTransport">
-    <input type="hidden" name="mode" id="txtMode" value="A" />
     <div Class="row">
         <div Class="col-sm-2">
             Job Type
@@ -140,14 +139,16 @@ End Code
             Place of Loading
         </div>
         <div Class="col-sm-4" style="display:flex;">
-            <input type="text" name="PlaceLoading" id="txtLoadingPlace" Class="form-control" disabled />
+            <input type="hidden" name="PlaceLoading" id="txtLoadingPlace" />
+            <input type="text" class="form-control" id="txtLoadingPlaceName" disabled />
             <a class="btn btn-default" onclick="SearchData('loadat')">...</a>
         </div>
         <div Class="col-sm-2">
             Place of Receive
         </div>
         <div Class="col-sm-4" style="display:flex">
-            <input type="text" name="PlaceReceive" id="txtReceivePlace" Class="form-control" disabled />
+            <input type="hidden" name="PlaceReceive" id="txtReceivePlace" />
+            <input type="text" class="form-control" id="txtReceivePlaceName" disabled />
             <a class="btn btn-default" onclick="SearchData('receiveat')">...</a>
         </div>
 
@@ -157,14 +158,16 @@ End Code
             Place of Discharge
         </div>
         <div Class="col-sm-4" style="display:flex;">
-            <input type="text" name="PlaceDischarge" id="txtDischargePlace" Class="form-control" disabled />
+            <input type="hidden" name="PlaceDischarge" id="txtDischargePlace" />
+            <input type="text" id="txtDischargePlaceName" class="form-control" disabled />
             <a class="btn btn-default" onclick="SearchData('dischargeat')">...</a>
         </div>
         <div Class="col-sm-2">
             Place of Delivery
         </div>
         <div Class="col-sm-4" style="display:flex;">
-            <input type="text" name="PlaceDelivery" id="txtDeliveryPlace" Class="form-control" disabled />
+            <input type="hidden" name="PlaceDelivery" id="txtDeliveryPlace" />
+            <input type="text" id="txtDeliveryPlaceName" class="form-control" disabled />
             <a class="btn btn-default" onclick="SearchData('deliveryat')">...</a>
         </div>
     </div>
@@ -197,7 +200,8 @@ End Code
             Freight Payable At
         </div>
         <div Class="col-sm-4" style="display:flex;">
-            <input type="text" name="FreightPaymentBy" id="txtFreightPayAt" Class="form-control" disabled />
+            <input type="hidden" id="txtFreightPayAt" />
+            <input type="text" id="txtFreightPayAtName" Class="form-control" disabled />
             <a class="btn btn-default" onclick="SearchData('payableat')">...</a>
         </div>
     </div>
@@ -262,9 +266,8 @@ End Code
         <div Class="col-sm-2">
             Job No
         </div>
-        <div Class="col-sm-4" style="display:flex;">
-            <input type="text" name="Job" id="txtJNo" Class="form-control" value="@ViewBag.JobNo" />
-            <a class="btn btn-default" onclick="SearchData('job')">...</a>
+        <div Class="col-sm-4">
+            <input type="text" name="Job" id="txtJNo" Class="form-control" disabled value="@ViewBag.JobNo" />
         </div>
     </div>
     <div class="row">
@@ -336,7 +339,6 @@ End Code
 
     SetListOfValues((r) => {
         let dv = document.getElementById("dvLOVs");
-        CreateLOV(dv, '#dvJob', '#tbJob', 'Job', r, 3);
         CreateLOV(dv, '#dvShipper', '#tbShipper', 'Shipper', r, 3);
         CreateLOV(dv, '#dvActShipper', '#tbActShipper', 'Notify Party', r, 3);
         CreateLOV(dv, '#dvConsignee', '#tbConsignee', 'Consignee', r, 3);
@@ -353,23 +355,9 @@ End Code
         CreateLOV(dv, '#dvDischargeAt', '#tbDischargeAt', 'Place of Discharge', r, 3);
         CreateLOV(dv, '#dvPayableAt', '#tbPayableAt', 'Freight Payable At', r, 3);
     });
-    function GetParam() {
-        let strParam = '?';
-        strParam += 'Branch=' + branch;
-        strParam += '&JType=' + $('#txtJobType').val();
-        strParam += '&SBy=' + $('#txtShipBy').val();
-        strParam += '&CustCode=' + $('#txtCustCode').val().split('|')[0];
-        return strParam;
-    }
     function SearchData(type) {
-        let w = '';        
+        let w = '';
         switch (type) {
-            case 'job':
-                SetGridJob(path, '#tbJob', '#dvJob', '', (dr) => {
-                    $('#txtMode').val('E');
-                    $('#txtJNo').val(dr.JNo);
-                });
-                break;
             case 'shipper':
                 SetGridCompany(path, '#tbShipper', '#dvShipper', (dr) => {
                     $('#txtShipperCode').val(dr.CustCode + '|' + dr.Branch);
@@ -476,8 +464,10 @@ End Code
                 SetGridInterPort(path, '#tbReceiveAt', '#dvReceiveAt', w, function (dr) {
                     if (Number($('#txtJobType').val()) == 1) {
                         $('#txtReceivePlace').val(dr.PortName + ',' + $('#txtCountryName').val());
+                        $('#txtReceivePlaceName').val(dr.PortName + ',' + $('#txtCountryName').val());
                     } else {
                         $('#txtReceivePlace').val(dr.PortName + ',THAILAND');
+                        $('#txtReceivePlaceName').val(dr.PortName + ',THAILAND');
                     }
                 });
                 break;
@@ -489,11 +479,13 @@ End Code
                         $('#txtLoadingPlace').val(dr.PortName + ',' +$('#txtCountryName').val());
                         if ($('#txtReceivePlace').val() == '') {
                             $('#txtReceivePlace').val(dr.PortName + ',' + $('#txtCountryName').val());
+                            $('#txtReceivePlaceName').val(dr.PortName + ',' + $('#txtCountryName').val());
                         }
                     } else {
                         $('#txtLoadingPlace').val(dr.PortName + ',THAILAND');
                         if ($('#txtReceivePlace').val() == '') {
                             $('#txtReceivePlace').val(dr.PortName + ',THAILAND');
+                            $('#txtReceivePlaceName').val(dr.PortName + ',THAILAND');
                         }
                     }
                 });
@@ -504,13 +496,16 @@ End Code
                     if (Number($('#txtJobType').val()) !== 1) {
                         $('#txtPortCode').val(dr.PortCode);
                         $('#txtDischargePlace').val(dr.PortName + ',' + $('#txtCountryName').val());
+                        $('#txtDischargePlaceName').val(dr.PortName + ',' + $('#txtCountryName').val());
                         if ($('#txtDeliveryPlace').val() == '') {
                             $('#txtDeliveryPlace').val(dr.PortName + ',' + $('#txtCountryName').val());
+                            $('#txtDeliveryPlaceName').val(dr.PortName + ',' + $('#txtCountryName').val());
                         }
                     } else {
                         $('#txtDischargePlace').val(dr.PortName + ',THAILAND');
                         if ($('#txtDeliveryPlace').val() == '') {
                             $('#txtDeliveryPlace').val(dr.PortName + ',THAILAND');
+                            $('#txtDeliveryPlaceName').val(dr.PortName + ',THAILAND');
                         }
                     }
                 });
@@ -520,8 +515,10 @@ End Code
                 SetGridInterPort(path, '#tbDeliveryAt', '#dvDeliveryAt', w, function (dr) {
                     if (Number($('#txtJobType').val()) == 1) {
                         $('#txtDeliveryPlace').val(dr.PortName + ',THAILAND');
+                        $('#txtDeliveryPlaceName').val(dr.PortName + ',THAILAND');
                     } else {
-                        $('#txtDeliveryPlace').val(dr.PortName + ','+ $('#txtCountryName').val());
+                        $('#txtDeliveryPlace').val(dr.PortName + ',' + $('#txtCountryName').val());
+                        $('#txtDeliveryPlaceName').val(dr.PortName + ',' + $('#txtCountryName').val());
                     }
                 });
                 break;
@@ -530,10 +527,12 @@ End Code
                 SetGridInterPort(path, '#tbPayableAt', '#dvPayableAt', w, function (dr) {
                     if (Number($('#txtJobType').val()) == 1) {
                         $('#txtFreightPayAt').val(dr.PortName + ',THAILAND');
+                        $('#txtFreightPayAtName').val(dr.PortName + ',THAILAND');
                     } else {
-                        $('#txtFreightPayAt').val(dr.PortName + ','+ $('#txtCountryName').val());
+                        $('#txtFreightPayAt').val(dr.PortName + ',' + $('#txtCountryName').val());
+                        $('#txtFreightPayAtName').val(dr.PortName + ',' + $('#txtCountryName').val());
                     }
-                    
+
                 });
                 break;
         }
@@ -605,13 +604,11 @@ End Code
             if ($('#txtShipBy').val() == '') $('#txtShipBy').focus();
             return;
         }
-        /*
         if ($('#txtQuotation').val() == '') {
             ShowMessage("Quotation Must be chosen", true);
             $('#txtQuotation').focus();
             return;
         }
-        */
         if ($('#txtCountryCode').val() == '') {
             ShowMessage("Country Must be chosen", true);
             SearchData('country');
@@ -742,6 +739,11 @@ End Code
                 $('#form').submit();
             }
         });
+        if ($('#txtQuotation').val() == '') {
+            ShowMessage("Quotation Must be chosen", true);
+            return;
+        }
+      
     }
     function SetAuto(id) {
         $(id).val('{AUTO}');

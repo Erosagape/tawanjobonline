@@ -3280,6 +3280,87 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
             Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
             Return Content(json, jsonContent)
         End Function
+        Function ChangeJobNumber() As ActionResult
+            Dim fromjob As String = ""
+            Dim tojob As String = ""
+            If Request.QueryString("FromCode") Is Nothing Or Request.QueryString("FromCode") = "" Then
+                Return Content("Please Enter Job No First", textContent)
+            Else
+                fromjob = Request.QueryString("FromCode").ToString
+            End If
+            If Request.QueryString("ToCode") Is Nothing Or Request.QueryString("ToCode") = "" Then
+                Return Content("Please Enter Job No First", textContent)
+            Else
+                tojob = Request.QueryString("ToCode").ToString
+            End If
+            Dim conn = GetSession("ConnJob")
+            If conn = "" Then
+                Return Content("Connection not yet opened", textContent)
+            Else
+                Dim sql = "dbo.ChangeJobNumber '{0}','{1}'"
+                sql = String.Format(sql, fromjob, tojob)
+                Return Content("Change Job Number : " & Main.DBExecute(conn, sql), textContent)
+            End If
+        End Function
+        Function ChangeCustomer() As ActionResult
+            Dim fromcode As String = ""
+            Dim tocode As String = ""
+            Dim frombranch As String = ""
+            Dim tobranch As String = ""
+            If Request.QueryString("FromCode") Is Nothing Or Request.QueryString("FromCode") = "" Then
+                Return Content("Please Enter Job No First", textContent)
+            Else
+                fromcode = Request.QueryString("FromCode").ToString
+            End If
+            If Request.QueryString("ToCode") Is Nothing Or Request.QueryString("ToCode") = "" Then
+                Return Content("Please Enter Job No First", textContent)
+            Else
+                tocode = Request.QueryString("ToCode").ToString
+            End If
+            If Request.QueryString("FromBranch") Is Nothing Or Request.QueryString("FromBranch") = "" Then
+                Return Content("Please Enter Job No First", textContent)
+            Else
+                frombranch = Request.QueryString("FromBranch").ToString
+            End If
+            If Request.QueryString("ToBranch") Is Nothing Or Request.QueryString("ToBranch") = "" Then
+                Return Content("Please Enter Job No First", textContent)
+            Else
+                tobranch = Request.QueryString("ToBranch").ToString
+            End If
+            Dim conn = GetSession("ConnJob")
+            If conn = "" Then
+                Return Content("Connection not yet opened", textContent)
+            Else
+                Dim sql = "dbo.ChangeCustomer '{0}','{1}','{2}','{3}'"
+                sql = String.Format(sql, fromcode, frombranch, tocode, tobranch)
+                Return Content("Change Customer : " & Main.DBExecute(conn, sql), textContent)
+            End If
+        End Function
+        Function ChangeServiceCode() As ActionResult
+            Dim fromcode As String = ""
+            Dim tocode As String = ""
+            If Request.QueryString("FromCode") Is Nothing Or Request.QueryString("FromCode") = "" Then
+                Return Content("Please Enter Job No First", textContent)
+            Else
+                fromcode = Request.QueryString("FromCode").ToString
+            End If
+            If Request.QueryString("ToCode") Is Nothing Or Request.QueryString("ToCode") = "" Then
+                Return Content("Please Enter Job No First", textContent)
+            Else
+                tocode = Request.QueryString("ToCode").ToString
+            End If
+            Dim conn = GetSession("ConnJob")
+            If conn = "" Then
+                Return Content("Connection not yet opened", textContent)
+            Else
+                Dim sql = "dbo.ChangeServiceCode '{0}','{1}'"
+                sql = String.Format(sql, fromcode, tocode)
+                Return Content("Change Service Code: " & Main.DBExecute(conn, sql), textContent)
+            End If
+        End Function
+        Function Util() As ActionResult
+            Return GetView("Util")
+        End Function
     End Class
 
 End Namespace

@@ -211,18 +211,6 @@ function ShowCustomer(path, Code, Branch, ControlID) {
             });
     }
 }
-function ShowCustomerEN(path, Code, Branch, ControlID) {
-    $(ControlID).val('');
-    if ((Code + Branch).length > 0) {
-        $.get(path + 'Master/GetCompany?Code=' + Code + '&Branch=' + Branch)
-            .done(function (r) {
-                if (r.company.data.length > 0) {
-                    let c = r.company.data[0];
-                    $(ControlID).val(c.NameEng);
-                }
-            });
-    }
-}
 function ShowCompanyByTax(path, Code, ControlID) {
     $(ControlID).val('');
     if (Code.length > 0) {
@@ -503,22 +491,4 @@ function loadUser(e, path) {
             }
         }
     });
-}
-function ShowEmployee(path, Code, ControlID) {
-    $.get(path + 'master/getemployee?code=' + Code)
-        .done(function (r) {
-            if (r.employee.data.length > 0) {
-                let b = r.employee.data[0];
-                $(ControlID).val(b.Name);
-            }
-        });
-}
-function ShowCarLicense(path, Code, ControlID) {
-    $.get(path + 'master/getcarlicense?code=' + Code)
-        .done(function (r) {
-            if (r.carlicense.data.length > 0) {
-                let b = r.carlicense.data[0];
-                $(ControlID).val(b.CarLicense);
-            }
-        });
 }

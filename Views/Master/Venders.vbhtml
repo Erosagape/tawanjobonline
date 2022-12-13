@@ -7,12 +7,12 @@ End Code
         <div class="row">
             <div class="col-sm-4">
                 <label id="lblVenCode">Vender Code:</label>  <a href="#" onclick="$('#modChange').modal('show');">Change</a>
-                <br /><input type="text" id="txtVenCode" Class="form-control" tabIndex="0" disabled>
+                <br /><input type="text" id="txtVenCode" Class="form-control" tabIndex="0" readonly>
             </div>
             <div class="col-sm-4">
                 <label id="lblBranchCode">Branch :</label>
                 <br />
-                <input type="text" id="txtBranchCode" Class="form-control" tabIndex="1" />
+                <input type="text" id="txtBranchCode" Class="form-control" tabIndex="1" maxlength="4"/>
             </div>
             <div class="col-sm-4">
                 <label id="lblTaxNumber">Tax Number:</label>
@@ -94,7 +94,7 @@ End Code
             <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
                 <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
             </a>
-            <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteData()">
+            <a href="#" class="btn btn-danger" id="btnDelete" onclick="DeleteData()" style="display:none">
                 <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete</b>
             </a>
             <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData('vender')">
@@ -125,13 +125,7 @@ End Code
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
-    $('#txtTName').keydown((e) => {
-        if (e.which == 13) {
-            if ($('#txtEnglish').val() == '') {
-                $('#txtEnglish').val($('#txtTName').val());
-            }
-        }
-    });
+
     //$(document).ready(function () {
         SetEvents();
         SetLOVs();
@@ -139,6 +133,8 @@ End Code
         ClearData();
     //});
     function GetDataSave() {
+        $('#txtEnglish').val($('#txtEnglish').val().toUpperCase());
+        $('#txtTName').val($('#txtTName').val().toUpperCase());
         let dr = {
             VenCode: $('#txtVenCode').val().trim(),
             BranchCode: $('#txtBranchCode').val(),
@@ -165,7 +161,7 @@ End Code
         return dr;
     }
     function ClearData() {
-        $('#txtVenCode').val('');
+        $('#txtVenCode').val('{AUTO}');
         $('#txtBranchCode').val('0000');
         $('#txtTaxNumber').val('');
         $('#txtTitle').val('');

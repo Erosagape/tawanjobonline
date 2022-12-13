@@ -26,6 +26,7 @@ End Code
                 <label id="lblClrDate">Document Date </label><br />
                 <input type="date" class="form-control" id="txtClrDate" tabindex="1" />
             </div>
+
         </div>
         <ul class="nav nav-tabs">
             <li class="active"><a id="linkHeader" data-toggle="tab" href="#tabHeader">Clearing Header</a></li>
@@ -62,11 +63,11 @@ End Code
                         </div>
                         <div class="row">
                             <div class="col-sm-3">
-                                <input type="checkbox" id="chkContainer" onclick="CheckContainer()" checked />
+                                <input type="checkbox" id="chkContainer" onclick="CheckContainer()" />
                                 <label id="lblContNo" style="color:red">Container No:</label>
                             </div>
                             <div class="col-sm-4" style="display:flex">
-                                <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" value="N/A" disabled />
+                                <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" disabled />
                                 <button class="btn btn-default" onclick="SearchData('container')">...</button>
                             </div>
                             <div class="col-sm-2">
@@ -397,14 +398,14 @@ End Code
                                     <input type="text" id="txt50Tavi" class="form-control" tabindex="28" />
                                 </div>
                                 <div class="col-sm-4">
-                                    <label id="lblSlipDate">Slip Date :</label>
-                                    <br />
-                                    <input type="date" class="form-control" id="txtDate50Tavi" tabindex="26" />
-                                </div>
-                                <div class="col-sm-4">
                                     <label id="lblSlipNo">Slip No :</label>
                                     <br />
-                                    <input type="text" id="txtSlipNo" class="form-control" tabindex="27" />
+                                    <input type="text" id="txtSlipNo" class="form-control" tabindex="26" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label id="lblSlipDate">Slip Date :</label>
+                                    <br />
+                                    <input type="date" class="form-control" id="txtDate50Tavi" tabindex="27" />
                                 </div>
                             </div>
                             <div>
@@ -423,9 +424,9 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <label id="lblDRemark">Remark :</label>
+                                    <a href="#" onclick="SearchData('remark');"><label id="lblDRemark">Remark :</label></a>
                                     <br />
-                                    <textarea id="txtRemark" style="width:100%;height:80px" tabindex="31"></textarea>
+                                    <textarea id="txtRemark" style="width:100%;height:80px" tabindexx="31"></textarea>
                                 </div>
                                 <div class="col-sm-6">
                                     <input type="checkbox" id="chkIsCost" disabled />
@@ -546,7 +547,7 @@ End Code
                                     <tr>
                                         <th>AdvNo</th>
                                         <th class="desktop">AdvDate</th>
-                                        <th class="all">Container</th>
+                                        <th class="all">ItemNo</th>
                                         <th class="desktop">SICode</th>
                                         <th>Description</th>
                                         <th class="desktop">JobNo</th>
@@ -860,6 +861,12 @@ End Code
         });
 
         $('#cboClrType').click(function (ev) {
+            //if ((userPosition == '4' || userPosition == '5') && $('#cboClrType').val()=='3') {
+		if (userPosition == '5' && $('#cboClrType').val()=='3') {
+                ShowMessage('You are not allow to do this');
+                $('#cboClrType').val('1');
+                return;
+            }
             loadServiceGroupForClear(path, '#cboSTCode', $('#cboClrType').val());
         });
     }
@@ -951,6 +958,8 @@ End Code
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2').done(function (response) {
             let dv = document.getElementById("dvLOVs");
+            //Customers
+            CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response,3);
             //Venders
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response,2);
             //Job
@@ -1007,7 +1016,7 @@ End Code
             $('#txtBranchCode').focus();
             return false;
         }
-        if ($('#txtCTN_NO').val() == '') {
+        if ($('#txtCTN_NO').val() == '' && $('#chkContainer').prop('checked')) {
             ShowMessage('Please input container',true);
             $('#txtCTN_NO').focus();
             return false;
@@ -1122,7 +1131,7 @@ End Code
             $('#txtClearanceDate').val(CDateEN(dt.ClearanceDate));
 
             $('#txtEmpCode').val(dt.EmpCode);
-            $('#txtAdvTotal').val(CDbl(dt.AdvTotal, 2));
+            $('#txtAdvTotal').val(CDbl(dt.AdvTotal,4));
             if (isjobmode == false) {
                 $('#cboJobType').val(CCode(dt.JobType));
             }
@@ -1130,7 +1139,7 @@ End Code
             $('#cboClrType').val(dt.ClearType);
             $('#cboClrFrom').val(dt.ClearFrom);
             $('#cboDocStatus').val(CCode(dt.DocStatus));
-            $('#txtTotalExpense').val(CDbl(dt.TotalExpense, 2));
+            $('#txtTotalExpense').val(CDbl(dt.TotalExpense,4));
             $('#txtTRemark').val(dt.TRemark);
             $('#txtApproveBy').val(dt.ApproveBy);
             $('#txtApproveDate').val(CDateEN(dt.ApproveDate));
@@ -1146,13 +1155,13 @@ End Code
 
             $('#txtCTN_NO').val(dt.CTN_NO);
             $('#txtCoPersonCode').val(dt.CoPersonCode);
-            $('#txtClearTotal').val(CDbl(dt.ClearTotal, 2));
-            $('#txtClrAmount').val(CDbl(dt.ClearNet+dt.ClearWht-dt.ClearVat, 2));
-            $('#txtVatAmount').val(CDbl(dt.ClearVat, 2));
-            $('#txtWhtAmount').val(CDbl(dt.ClearWht, 2));
-            $('#txtNetAmount').val(CDbl(dt.ClearNet, 2));
-            $('#txtSumCharge').val(CDbl(dt.ClearBill, 2));
-            $('#txtSumCost').val(CDbl(dt.ClearCost,2));
+            $('#txtClearTotal').val(CDbl(dt.ClearTotal, 4));
+            $('#txtClrAmount').val(CDbl(dt.ClearNet+dt.ClearWht-dt.ClearVat, 4));
+            $('#txtVatAmount').val(CDbl(dt.ClearVat, 4));
+            $('#txtWhtAmount').val(CDbl(dt.ClearWht, 4));
+            $('#txtNetAmount').val(CDbl(dt.ClearNet, 4));
+            $('#txtSumCharge').val(CDbl(dt.ClearBill, 4));
+            $('#txtSumCost').val(CDbl(dt.ClearCost,4));
 
             $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
             $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
@@ -1414,39 +1423,34 @@ End Code
                 {
                     data: "AdvAmount", title: "Advance",
                     render: function (data) {
-                        return ShowNumber(data, 3);
+                        return ShowNumber(data, 4);
                     }
                 },
                 {
                     data: "UsedAmount", title: "Clear",
                     render: function (data) {
-                        return ShowNumber(data, 3);
+                        return ShowNumber(data, 4);
                     }
                 },
                 {
                     data: "ChargeVAT", title: "VAT",
                     render: function (data) {
-                        return ShowNumber(data, 3);
+                        return ShowNumber(data, 4);
                     }
                 },
                 {
                     data: "Tax50Tavi", title: "WH-Tax",
                     render: function (data) {
-                        return ShowNumber(data, 3);
+                        return ShowNumber(data, 4);
                     }
                 },
                 {
                     data: "BNet", title: "Net",
                     render: function (data) {
-                        return ShowNumber(data, 3);
+                        return ShowNumber(data, 4);
                     }
                 },
-                {
-                    data: null, title: "Currency",
-                    render: function (d) {
-                        return d.CurrencyCode + '/' + d.CurRate;
-                    }
-                },
+                { data: "CurrencyCode", title: "Currency" },
                 { data: "SlipNO", title: "Slip No" }
             ],
             "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
@@ -1497,14 +1501,14 @@ End Code
             CurrencyCode: $('#txtCurrencyCode').val(),
             CurRate: $('#txtCurRate').val(),
             UnitPrice: $('#chkIsCost').prop('checked') == true ? 0 : $('#txtUnitPrice').val(),
-            FPrice: $('#chkIsCost').prop('checked') == true ? 0 : CDbl(Number($('#txtAMT').val()) / Number($('#txtCurRate').val()),2),
-            BPrice: $('#chkIsCost').prop('checked') == true ? 0 : CDbl(Number($('#txtAMT').val()), 2),
+            FPrice: $('#chkIsCost').prop('checked') == true ? 0 : CDbl(Number($('#txtAMT').val()) / Number($('#txtCurRate').val()),4),
+            BPrice: $('#chkIsCost').prop('checked') == true ? 0 : CDbl(Number($('#txtAMT').val()),4),
             QUnitPrice: dtl.QUnitPrice,
             QFPrice: CDbl(CNum(dtl.QUnitPrice) * CNum($('#txtQty').val()), 4),
-            QBPrice: CDbl(CNum($('#txtCurRate').val())*CNum(dtl.QUnitPrice) * CNum($('#txtQty').val()), 2),
+            QBPrice: CDbl(CNum($('#txtCurRate').val())*CNum(dtl.QUnitPrice) * CNum($('#txtQty').val()),4),
             UnitCost: $('#txtUnitPrice').val(),
-            FCost: CDbl(Number($('#txtAMT').val()) / Number($('#txtCurRate').val()),2),
-            BCost: CDbl(Number($('#txtAMT').val()),2),
+            FCost: CDbl(Number($('#txtAMT').val()) / Number($('#txtCurRate').val()),4),
+            BCost: CDbl(Number($('#txtAMT').val()),4),
             ChargeVAT: $('#txtVAT').val(),
             Tax50Tavi: $('#txtWHT').val(),
             AdvNO: $('#txtAdvNo').val(),
@@ -1563,10 +1567,10 @@ End Code
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(CDbl(dt.VATRate,0));
             $('#txtWHTRate').val(dt.Tax50TaviRate);
-            $('#txtAMT').val(CDbl(dt.UsedAmount,2));
-            $('#txtVAT').val(CDbl(dt.ChargeVAT,2));
-            $('#txtWHT').val(CDbl(dt.Tax50Tavi,2));
-            $('#txtNET').val(CDbl(dt.BNet,2));
+            $('#txtAMT').val(CDbl(dt.UsedAmount,4));
+            $('#txtVAT').val(CDbl(dt.ChargeVAT,4));
+            $('#txtWHT').val(CDbl(dt.Tax50Tavi,4));
+            $('#txtNET').val(CDbl(dt.BNet,4));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
@@ -1574,7 +1578,7 @@ End Code
             $('#txtAdvNo').val(dt.AdvNO);
             $('#txtQNo').val(dt.QNo);
             $('#txtAdvItemNo').val(dt.AdvItemNo);
-            $('#txtAdvAmount').val(CDbl(dt.AdvAmount, 2));
+            $('#txtAdvAmount').val(CDbl(dt.AdvAmount,4));
             $('#txtVenderBillingNo').val(dt.VenderBillingNo);
             $('#txtLinkBillNo').val(dt.LinkBillNo);
             if ($('#txtLinkBillNo').val() !== '') {
@@ -1605,7 +1609,7 @@ End Code
             }
             $('#txtQty').val(dt.Qty);
             $('#txtCurRate').val(dt.CurRate);
-            $('#txtUnitPrice').val(CDbl(dt.UnitPrice,2));
+            $('#txtUnitPrice').val(CDbl(dt.UnitPrice,4));
             $('#txtUnitCode').val(dt.UnitCode);
             $('#txtRemark').val(dt.Remark);
             $('#txtSlipNo').val(dt.SlipNO);
@@ -1616,10 +1620,10 @@ End Code
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Tax50TaviRate);
-            $('#txtAMT').val(CDbl(dt.UnitPrice,2));
-            $('#txtVAT').val(CDbl(dt.ChargeVAT,2));
-            $('#txtWHT').val(CDbl(dt.Tax50Tavi,2));
-            $('#txtNET').val(CDbl(dt.BNet,2));
+            $('#txtAMT').val(CDbl(dt.UnitPrice,4));
+            $('#txtVAT').val(CDbl(dt.ChargeVAT,4));
+            $('#txtWHT').val(CDbl(dt.Tax50Tavi,4));
+            $('#txtNET').val(CDbl(dt.BNet,4));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
@@ -1660,7 +1664,7 @@ End Code
             }
             $('#txtQty').val(dt.Qty);
             $('#txtCurRate').val(dt.CurRate);
-            $('#txtUnitPrice').val(CDbl(dt.UnitCost,2));
+            $('#txtUnitPrice').val(CDbl(dt.UnitCost,4));
             $('#txtUnitCode').val(dt.UnitCode);
             $('#txtRemark').val(dt.Remark);
             $('#txtSlipNo').val(dt.SlipNO);
@@ -1671,10 +1675,10 @@ End Code
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Tax50TaviRate);
-            $('#txtAMT').val(CDbl(dt.AdvBalance / CDbl(1 + ((dt.VATRate - dt.Tax50TaviRate) * 0.01),2),2));
-            $('#txtVAT').val(CDbl(CNum($('#txtAMT').val())*(dt.VATRate*0.01),2));
-            $('#txtWHT').val(CDbl(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01),2));
-            $('#txtNET').val(CDbl(CNum($('#txtAMT').val()) + (CNum($('#txtAMT').val()) * (dt.VATRate * 0.01)) - (CNum($('#txtAMT').val()) * (dt.Tax50TaviRate * 0.01)),2));
+            $('#txtAMT').val(CDbl(dt.AdvBalance / CDbl(1 + ((dt.VATRate - dt.Tax50TaviRate) * 0.01),4),4));
+            $('#txtVAT').val(CDbl(CNum($('#txtAMT').val())*(dt.VATRate*0.01),4));
+            $('#txtWHT').val(CDbl(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01),4));
+            $('#txtNET').val(CDbl(CNum($('#txtAMT').val()) + (CNum($('#txtAMT').val()) * (dt.VATRate * 0.01)) - (CNum($('#txtAMT').val()) * (dt.Tax50TaviRate * 0.01)),4));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
@@ -1682,7 +1686,7 @@ End Code
             $('#chkIsCost').prop('checked', dt.IsExpense == 1 ? true : false);
             $('#txtAdvNo').val(dt.AdvNO);
             $('#txtAdvItemNo').val(dt.AdvItemNo);
-            $('#txtAdvAmount').val(CDbl(dt.AdvBalance,2));
+            $('#txtAdvAmount').val(CDbl(dt.AdvBalance,4));
             $('#txtQNo').val(dt.QNo);
             $('#txtVenderBillingNo').val(dt.VenderBillingNo);
             $('#txtLinkBillNo').val(dt.LinkBillNo);
@@ -1797,7 +1801,7 @@ End Code
                     {
                         data: "ClrNet", title: "Clr.Total",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "CTN_NO", title: "Container" },
@@ -1805,7 +1809,7 @@ End Code
                     {
                         data: "TotalAdvance", title: "Adv.Total",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "TRemark", title: "Remark" },
@@ -1847,11 +1851,15 @@ End Code
                 SetGridUser(path, '#tbClr', '#frmSearchClr', ReadClrBy);
                 break;
             case 'servicecode':
-                let q = GetClrType($('#cboClrType').val());
-                if ($('#cboSTCode').val() !== '') {
-                    q += '&group=' + $('#cboSTCode').val();
+                if ($('#cboSTCode').val() == "EXP") {
+                    ShowMessage("Can't use EXP", true);
+                } else {
+                    let q = GetClrType($('#cboClrType').val());
+                    if ($('#cboSTCode').val() !== '') {
+                        q += '&group=' + $('#cboSTCode').val();
+                    }
+                    SetGridSICodeFilter(path, '#tbServ', q, '#frmSearchSICode', ReadService);
                 }
-                SetGridSICodeFilter(path, '#tbServ', q, '#frmSearchSICode', ReadService);
                 break;
             case 'job':
                 SetGridJob(path, '#tbJob', '#frmSearchJob', GetParam(), ReadJob);
@@ -1862,6 +1870,9 @@ End Code
             case 'vender':
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
                 break;
+            case 'remark':
+                SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadVender2);
+                break;
             case 'servunit':
                 SetGridServUnit(path, '#tbUnit', '#frmSearchUnit', ReadUnit);
                 break;
@@ -1870,7 +1881,7 @@ End Code
                 break;
             case 'quotation':
                 //let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val() + '&code=' + $('#txtSICode').val() + '&jtype=' + $('#txtJobType').val() + '&sby=' + $('#txtShipBy').val();
-                let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val();
+                let qry = '?branch=' + $('#txtBranchCode').val();
                 if ($('#txtJobType').val() > '0') {
                     qry += '&jtype=' + $('#txtJobType').val();
                 }
@@ -1942,6 +1953,10 @@ End Code
         $('#txtPayChqTo').val(dt.TName);
         $('#txtPayChqTo').focus();
     }
+    function ReadVender2(dt) {
+        $('#txtRemark').val(dt.NameEng);
+        $('#txtRemark').focus();
+    }
     function ReadCurrencyD(dt) {
         $('#txtCurrencyCode').val(dt.Code);
         $('#txtCurrencyName').val(dt.TName);
@@ -1987,12 +2002,12 @@ End Code
             $('#txtCurrencyCode').val(dt.CurrencyCode);
             ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
             ShowCaption();
-            //$('#txtVenCode').val(dt.DefaultVender);
+            $('#txtVenCode').val(dt.DefaultVender);
             ShowVender(path, dt.DefaultVender, '#txtPayChqTo');
             /*
             if (dt.IsTaxCharge == "2") {
                 $('#txtAMT').attr('disabled', 'disabled');
-                $('#txtVATRate').attr('disabled', 'disabled');
+                //$('#txtVATRate').attr('disabled', 'disabled');
                 $('#txtWHTRate').attr('disabled', 'disabled');
                 $('#txtVAT').attr('disabled', 'disabled');
                 $('#txtWHT').attr('disabled', 'disabled');
@@ -2007,8 +2022,6 @@ End Code
             $('#chkIsCost').prop('checked', dt.IsExpense == 1 ? true : false);
             if (dt.IsHaveSlip == 0) {
                 $('#txtSlipNo').attr('disabled', 'disabled');
-            } else {
-		$('#txtSlipNo').removeAttr('disabled');
             }
             CalVATWHT();
             return;
@@ -2047,7 +2060,7 @@ End Code
     }
 
     function GetTotal() {
-        return CDbl(CNum($('#txtTotalClear').val()) / CNum($('#txtExchangeRate').val()) ,2);
+        return CDbl(CNum($('#txtTotalClear').val()) / CNum($('#txtExchangeRate').val()) ,4);
     }
     function CalAmount() {
         $('#txtAMT').val(0);
@@ -2055,8 +2068,8 @@ End Code
         $('#txtVAT').val(0);
         $('#txtWHT').val(0);
 
-        let price = CDbl($('#txtUnitPrice').val(),2);
-        let qty = CDbl($('#txtQty').val(),3);
+        let price = CDbl($('#txtUnitPrice').val(),4);
+        let qty = CDbl($('#txtQty').val(),4);
         let rate = CDbl($('#txtCurRate').val(),4); //rate ของ detail
         let type = $('#txtVatType').val();
         if (type == '' || type == '0') type = '1';
@@ -2066,48 +2079,48 @@ End Code
             //let total = CDbl(CNum(amt) / CNum(exc),4);
             if (type == '2') {
                 //$('#txtNET').val(CDbl(CNum(total),4));
-                $('#txtNET').val(CDbl(CNum(amt) * CNum(rate), 2));
+                $('#txtNET').val(CDbl(CNum(amt) * CNum(rate), 4));
             }
             if (type == '1') {
                 //$('#txtAMT').val(CDbl(CNum(total),4));
-                $('#txtAMT').val(CDbl(CNum(amt) * CNum(rate),2));
+                $('#txtAMT').val(CDbl(CNum(amt) * CNum(rate),4));
             }
             CalVATWHT();
         }
     }
     function CalTotal() {
-        let amt = CDbl($('#txtAMT').val(),2);
-        let vat = CDbl($('#txtVAT').val(),2);
-        let wht = CDbl($('#txtWHT').val(),2);
+        let amt = CDbl($('#txtAMT').val(),4);
+        let vat = CDbl($('#txtVAT').val(),4);
+        let wht = CDbl($('#txtWHT').val(),4);
 
-        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),2));
-        $('#txtAMT').val(CDbl(amt,2));
+        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),4));
+        $('#txtAMT').val(CDbl(amt,4));
     }
     function CalVATWHT() {
         let type = $('#txtVatType').val();
         if (type == ''||type=='0') type = '1';
-        let amt = CDbl($('#txtAMT').val(),2);
+        let amt = CDbl($('#txtAMT').val(),4);
         if (type == '2') {
-            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 2);
+            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 4);
         }
-        let vatrate = CDbl($('#txtVATRate').val(),2);
-        let whtrate = CDbl($('#txtWHTRate').val(),2);
+        let vatrate = CDbl($('#txtVATRate').val(),4);
+        let whtrate = CDbl($('#txtWHTRate').val(),4);
         let vat = 0;
         let wht = 0;
         if (type == "2") {
             //let base = amt * 100 / (100 + (vatrate - whtrate));
-            let base = CDbl((amt * 100 / (100 + Number(vatrate))),2);
+            let base = amt * 100 / (100 + Number(vatrate));
             vat = base * vatrate * 0.01;
             wht = base * whtrate * 0.01;
-            $('#txtAMT').val(CDbl(CNum(base),2));
-            $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 2));
+            $('#txtAMT').val(CDbl(CNum(base),4));
+            $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 4));
         }
         if (type == "1") {
             vat = amt * vatrate * 0.01;
             wht = amt * whtrate * 0.01;
         }
-        $('#txtVAT').val(CDbl(vat,2));
-        $('#txtWHT').val(CDbl(wht,2));
+        $('#txtVAT').val(CDbl(vat,4));
+        $('#txtWHT').val(CDbl(wht,4));
         CalTotal();
     }
     function LoadAdvance() {
@@ -2147,13 +2160,13 @@ End Code
                         {
                             data: "AdvBalance", title: "Balance",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         {
                             data: "UsedAmount", title: "Used",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                     ],
@@ -2208,7 +2221,7 @@ End Code
         $('#txtCurrencyCode').val(dt.CurrencyCode);
         ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
         $('#txtCurRate').val(dt.ExchangeRate);
-        $('#txtUnitPrice').val(CDbl(dt.AmountCharge, 2));
+        $('#txtUnitPrice').val(CDbl(dt.AmountCharge,4));
         $('#txtQty').val(CNum(dt.Qty));
         $('#txtUnitCode').val(dt.QtyUnit);
         $('#txtVenCode').val(dt.VenderCode);
@@ -2224,7 +2237,7 @@ End Code
         $('#txtWHTRate').val(dt.IsTax == "0" ? "0" : dt.TaxRate);
         if (dt.Isvat == "2") {
             $('#txtAMT').attr('disabled', 'disabled');
-            $('#txtVATRate').attr('disabled', 'disabled');
+            //$('#txtVATRate').attr('disabled', 'disabled');
             $('#txtWHTRate').attr('disabled', 'disabled');
             $('#txtVAT').attr('disabled', 'disabled');
             $('#txtWHT').attr('disabled', 'disabled');
@@ -2238,7 +2251,8 @@ End Code
         $('#txtCurrencyCode').val(dt.CurrencyCode);
         ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
         $('#txtCurRate').val(dt.CurrencyRate);
-        $('#txtUnitPrice').val(CDbl(dt.ChargeAmt,2));
+        $('#txtQty').val(CDbl(dt.QtyBegin,4));
+        $('#txtUnitPrice').val(CDbl(dt.ChargeAmt,4));
         $('#txtUnitCode').val(dt.UnitCheck);
         $('#txtVenCode').val(dt.VenderCode);
         ShowVender(path, dt.VenderCode, '#txtPayChqTo');
@@ -2269,14 +2283,11 @@ End Code
         var payclick = 0;
         $.get(path + 'Clr/GetPaymentForClear?branch=' + branch + w).done(function (r) {
             if (r.clr.data.length > 0) {
-                //let d = r.clr.data;
-                let d = $("#txtCTN_NO").val() == "N/A" ? r.clr.data : r.clr.data.filter(data => data.RefNo == $("#txtCTN_NO").val());
-               // { data: "ItemNo", title: "#" },
+                let d = r.clr.data;
                 $('#tbPayment').DataTable({
                     data: d,
                     selected: true, //ให้สามารถเลือกแถวได้
                     columns: [ //กำหนด property ของ header column
-
                         { data: "VenderBillingNo", title: "Payment.No" },
                         {
                             data: "VenderBillDate", title: "Due.Date",
@@ -2284,8 +2295,7 @@ End Code
                                 return CDateEN(data);
                             }
                         },
-
-                        { data: "RefNo", title: "Container" },
+                        { data: "ItemNo", title: "#" },
                         {
                             data: "SICode", title: "Code"
                         },
@@ -2300,13 +2310,13 @@ End Code
                         {
                             data: "BNet", title: "Total",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         {
                             data: "Tax50Tavi", title: "WHT",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                     ],

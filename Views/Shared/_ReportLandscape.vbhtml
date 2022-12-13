@@ -27,7 +27,7 @@
     <div class="page" contenteditable="false">
         <table id="tblHeader" width="100%">
             <tr>
-                <td width="20%">
+                @*<td width="20%">
                     <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:50px"/>
                 </td>
                 <td width="80%">
@@ -37,6 +37,9 @@
                         <br />Tel @ViewBag.PROFILE_COMPANY_TEL Fax @ViewBag.PROFILE_COMPANY_FAX E-mail/Website @ViewBag.PROFILE_COMPANY_EMAIL
                         <br />Tax-Reference ID : @ViewBag.PROFILE_TAXNUMBER Branch @ViewBag.PROFILE_TAXBRANCH
                     </div>
+                </td>*@
+                <td width="100%">
+                    <img id="imgLogo" src="~/Resource/REPORT_LANDSCAPE_LOGO.jpg" style="width:35%" />
                 </td>
             </tr>
             <tr>
@@ -51,7 +54,7 @@
             </tr>
             <tr>
                 <td colspan="2" width="100%">
-                    <p style="text-align:right">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
+                    <p style="text-align:right">Printed By : @ViewBag.User Printed Date : @DateTime.Now</p>
                 </td>
             </tr>
         </table>

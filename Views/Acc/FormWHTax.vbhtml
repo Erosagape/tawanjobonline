@@ -310,6 +310,13 @@ End Code
     <b>คำเตือน</b> ผู้มีหน้าที่ออกหนังสือรับรองหักภาษี ณ ที่จ่าย ฝ่าฝืนไม่ปฏิบัติตามมาตรา 50 ทวิ แห่งประมวลรัษฏากรต้องรับโทษทางอาญาตามมาตรา 35 แห่งประมวลรัษฏากร
 </div>
 <script type="text/javascript">
+    var groupBy = function (xs, key) {
+        return xs.reduce(function (rv, x) {
+            (rv[x[key]] = rv[x[key]] || []).push(x);
+            return rv;
+        }, {});
+    };
+
     let path = '@Url.Content("~")';
     //$(document).ready(function () {
         let branch = getQueryString('branch');
@@ -351,50 +358,119 @@ End Code
                     $('#txtUpdateName').text(h.UpdateName);
                     $('#txtDocDate').text(ShowDate(CDateTH(h.DocDate)));
 
-                    let d = r.whtax.data;
+                    let data = r.whtax.data;
                     let totalamt = 0;
                     let totaltax = 0;
-                    for (let i = 0; i < d.length; i++) {
-                        let incType = CNum(d[i].IncType);
-                        if (incType > 0 && incType <= 14) {
-                            let oldData = $('#txtPayDate' + incType).html();
-                            if (oldData !== '') oldData += '<br/>';
-                            oldData += ShowDate(CDateTH(d[i].PayDate));
-                            $('#txtPayDate'+incType).html(oldData);
 
-                            let amt=Number(d[i].PayAmount);
-                            let tax=Number(d[i].PayTax);
+                    var group = groupBy(data, 'PayTaxDesc');
+                    console.log(group);
 
-                            totalamt += Number(d[i].PayAmount);
-                            totaltax += Number(d[i].PayTax);
+                    for (const propname in group) {
+                        console.log(propname);
+                        let d = group[propname];
+                        let groupamt = 0;
+                        let grouptax = 0;
+                        let groupdate = "";
+                        for (let i = 0; i < d.length; i++) {
+                            let incType = CNum(d[i].IncType);
+                            if (incType > 0 && incType <= 14) {
+                              
 
-                            oldData = $('#txtPayAmount' + incType).html();
-                            if (oldData !== '') oldData += '<br/>';
-                            oldData +=''+ ShowNumber(amt,2);
-                            $('#txtPayAmount' + incType).html(oldData);
+                                let amt = Number(d[i].PayAmount);
+                                let tax = Number(d[i].PayTax);
 
-                            oldData = $('#txtPayTax' + incType).html();
-                            if (oldData !== '') oldData += '<br/>';
-                            oldData += ''+ ShowNumber(tax,2);
-                            $('#txtPayTax' + incType).html(oldData);
+                                totalamt += Number(d[i].PayAmount);
+                                totaltax += Number(d[i].PayTax);
 
-                            switch (incType) {
-                                case 8:
-                                case 12:
-                                case 14:
-                                    oldData = $('#txtPayDesc' + incType).html();
+                                groupamt += Number(d[i].PayAmount);
+                                grouptax += Number(d[i].PayTax);
+                               
+                                if (groupdate.indexOf(ShowDate(CDateTH(d[i].PayDate))) < 0 ) {
+                                    groupdate += ShowDate(CDateTH(d[i].PayDate))+' ';
+                                }
+                               
+                                if (i == d.length - 1) {
+                                    let oldData = $('#txtPayDate' + incType).html();
                                     if (oldData !== '') oldData += '<br/>';
-                                    oldData += d[i].PayTaxDesc;
-                                    $('#txtPayDesc' + incType).html(oldData);
-                                    break;
-                                default:
-                                    break;
+                                    oldData += groupdate;
+                                    $('#txtPayDate' + incType).html(oldData);
+
+
+                                    oldData = $('#txtPayAmount' + incType).html();
+                                    if (oldData !== '') oldData += '<br/>';
+                                    oldData += '' + ShowNumber(groupamt, 2);
+                                    $('#txtPayAmount' + incType).html(oldData);
+
+                                    oldData = $('#txtPayTax' + incType).html();
+                                    if (oldData !== '') oldData += '<br/>';
+                                    oldData += '' + ShowNumber(grouptax, 2);
+                                    $('#txtPayTax' + incType).html(oldData);
+
+                                    switch (incType) {
+                                        case 8:
+                                        case 12:
+                                        case 14:
+                                            oldData = $('#txtPayDesc' + incType).html();
+                                            if (oldData !== '') oldData += '<br/>';
+                                            oldData += d[i].PayTaxDesc;
+                                            $('#txtPayDesc' + incType).html(oldData);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
                             }
                         }
+                       
+
+
+
+                        
                     }
+
+                    //for (let i = 0; i < d.length; i++) {
+                    //    let incType = CNum(d[i].IncType);
+                    //    if (incType > 0 && incType <= 14) {
+                    //        let oldData = $('#txtPayDate' + incType).html();
+                    //        if (oldData !== '') oldData += '<br/>';
+                    //        oldData += ShowDate(CDateTH(d[i].PayDate));
+                    //        $('#txtPayDate' + incType).html(oldData);
+
+                    //        let amt = Number(d[i].PayAmount);
+                    //        let tax = Number(d[i].PayTax);
+
+                    //        totalamt += Number(d[i].PayAmount);
+                    //        totaltax += Number(d[i].PayTax);
+
+                    //        oldData = $('#txtPayAmount' + incType).html();
+                    //        if (oldData !== '') oldData += '<br/>';
+                    //        oldData += '' + ShowNumber(amt, 2);
+                    //        $('#txtPayAmount' + incType).html(oldData);
+
+                    //        oldData = $('#txtPayTax' + incType).html();
+                    //        if (oldData !== '') oldData += '<br/>';
+                    //        oldData += '' + ShowNumber(tax, 2);
+                    //        $('#txtPayTax' + incType).html(oldData);
+
+                    //        switch (incType) {
+                    //            case 8:
+                    //            case 12:
+                    //            case 14:
+                    //                oldData = $('#txtPayDesc' + incType).html();
+                    //                if (oldData !== '') oldData += '<br/>';
+                    //                oldData += d[i].PayTaxDesc;
+                    //                $('#txtPayDesc' + incType).html(oldData);
+                    //                break;
+                    //            default:
+                    //                break;
+                    //        }
+                    //    }
+                    //}
+                    
                     $('#txtSumPayAmount').text(CCurrency(CDbl(totalamt,2)));
                     $('#txtSumPayTax').text(CCurrency(CDbl(totaltax,2)));
-                    $('#txtPayTaxMoney').text(CNumThai(CDbl(totaltax,2)));
+                    $('#txtPayTaxMoney').text(CNumThai(CDbl(totaltax, 2)));
+                    $('#pFooter').show();
                 }
             });
         }

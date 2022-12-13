@@ -5,7 +5,7 @@ End Code
     <div class="col-md-12 text-center" >
         @ViewBag.Result
         <br/>
-        <img src="~/Resource/jobtawan_bg.jpg" style="width:100%"/>
+        <img src="~/Resource/better_bg.png" style="width:100%"/>
     </div>
 </div>
 <div id="dvSyncing" class="modal" role="dialog">
@@ -48,7 +48,7 @@ End Code
                 window.location.href = path + 'Tracking/Index';
                 break;
             case 'C':
-                window.location.href = path + 'Tracking/Dashboard?Type=V2';
+                window.location.href = path + 'Tracking/Timeline';
                 break;
         }
     }    

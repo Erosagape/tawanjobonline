@@ -437,12 +437,13 @@ End Code
     }
     function ReadCliteria(str) {
         let arr = str.split(',');
+        $('#tbDate').show();
         if (arr[1] !== '') {
             $('#tbDate').show();
             let vStr = arr[1].indexOf('.') > 0 ? arr[1].split('.')[1] : arr[1];
             $('#fromDate').text(vStr.toString().replace('Date',' Date'));
         } else {
-            $('#tbDate').hide();
+           // $('#tbDate').hide();
         }
         if (arr[2] !== '') {
             $('#tbCust').show();
@@ -620,6 +621,10 @@ End Code
         $('#dvCliteria').modal('hide');
     }
     function PrintReport() {
+        //console.log(JSON.stringify(data));
+        //if (devMode) {
+        //    return;
+        //}
         if (reportID.indexOf('PRD')>=0) {
             switch (reportID) {
                 case 'PRD3':
@@ -649,6 +654,7 @@ End Code
             }
             return;
         }
+       
         switch (data.ReportType) {
             case 'DEV':
                 window.open(path + data.ReportUrl + GetQueryString(),'','');

@@ -26,7 +26,7 @@ End Code
         <div class="col-sm-2">
             <input type="checkbox" id="chkAutoRefresh" /><label id="lblAutoRefresh">Auto Refresh</label><br />
             <button class="btn btn-success" id="btnUpdate" onclick="RefreshGrid()">Update</button>
-            @*<button class="btn w3-indigo" id="btnAddJob" onclick="CreateNewJob()">New</button>*@
+            <button class="btn w3-indigo" id="btnAddJob" onclick="CreateNewJob()">New</button>
             <button class="btn btn-primary" id="btnListJob" onclick="ShowList()">List</button>
         </div>
     </div>
@@ -73,10 +73,8 @@ End Code
         $('#lblGrid3').show();
         $('#lblGrid4').hide();
     }
-    if (userGroup == 'S') {
-        $('#txtDateFrom').val(firstDateOfMonth);
-        $('#txtDateTo').val(lastDateOfMonth);
-    }
+    $('#txtDateFrom').val(firstDateOfMonth);
+    $('#txtDateTo').val(lastDateOfMonth);
     $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
         var dv = document.getElementById("dvLOVs");
         CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job Numbers', response, 3);
@@ -141,7 +139,7 @@ End Code
         var dataVol = google.visualization.arrayToDataTable(getDataTable(dt));
         var volOptions = {
             pieHole: 0.4,
-            colors : GetColorStatus()
+            colors : GetColorStatus2()
         };
         var chartVol = new google.visualization.PieChart(document.getElementById('chartVol'));
         google.visualization.events.addListener(chartVol, 'select', function (e) {
@@ -166,7 +164,7 @@ End Code
                 minValue: 0,
                 ticks: [0, .25, .5, .75, 1]
             },
-            series: GetColorStatus()
+            series: GetColorStatus2()
         };
         var chartStatus = new google.visualization.ColumnChart(document.getElementById('chartStatus'));
         google.visualization.events.addListener(chartStatus, 'select', function (e) {
@@ -202,7 +200,7 @@ End Code
                 minValue: 0,
                 ticks: [0, .3, .6, .9, 1]
             },
-            series: GetColorStatus()
+            series: GetColorStatus2()
         };
         var chartCust = new google.visualization.BarChart(document.getElementById('chartCust'));
         google.visualization.events.addListener(chartCust, 'select', function (e) {
@@ -237,6 +235,20 @@ End Code
             { color: 'cornsilk', visibleInLegend: true },
             { color: 'darkgreen', visibleInLegend: true },
             { color: 'deeppink', visibleInLegend: true },
+            { color: 'greenyellow', visibleInLegend: true },
+            { color: 'lightblue', visibleInLegend: true },
+            { color: 'olive', visibleInLegend: true },
+        ];
+    }
+    function GetColorStatus2() {
+        return [
+            { color: 'yellow', visibleInLegend: true },
+            { color: 'aquamarine', visibleInLegend: true },
+            { color: 'coral', visibleInLegend: true },
+            { color: 'cyan', visibleInLegend: true },
+            { color: 'pink', visibleInLegend: true },
+            { color: 'purple', visibleInLegend: true },
+            { color: 'green', visibleInLegend: true },
             { color: 'greenyellow', visibleInLegend: true },
             { color: 'lightblue', visibleInLegend: true },
             { color: 'olive', visibleInLegend: true },

@@ -2423,6 +2423,7 @@
     <Content Include="Views\JobOrder\FormJob.vbhtml" />
     <Content Include="Views\JobOrder\CreateTransport_UGLOBE.vbhtml" />
     <Content Include="Views\Admin\Test.vbhtml" />
+    <Content Include="Views\JobOrder\Util.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Tracking\favicon.ico" />

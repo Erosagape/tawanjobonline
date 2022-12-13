@@ -100,10 +100,10 @@ Namespace Controllers
                                 'columns &= "{""data"":""" & col.ColumnName & """,""title"":""" & col.ColumnName & """}"
                                 'Next
                                 'columns &= "]"
-                                Dim json = "{""source"":""" & data.Source & """,""data"":" & JsonConvert.SerializeObject(oTable.Rows) & "}"
-                                Dim writer = New System.IO.StreamWriter(path, False, UTF8Encoding.UTF8)
-                                writer.WriteLine(json)
-                                writer.Close()
+                                Dim json = "{""source"":""" & data.Source & """,""data"":" & JsonConvert.SerializeObject(oTable) & "}"
+                                'Dim writer = New System.IO.StreamWriter(path, False, UTF8Encoding.UTF8)
+                                'writer.WriteLine(json)
+                                'writer.Close()
                                 msg = "OK (" & oTable.Rows.Count & " Rows inserted)"
                             Else
                                 msg = oUtil.Message
@@ -1893,6 +1893,13 @@ Namespace Controllers
             End If
             Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
             Dim oData = New CUtil(cnMas).GetTableFromSQL(tSql)
+            Dim json = JsonConvert.SerializeObject(oData)
+            Return Content(json, jsonContent)
+        End Function
+        Function GetLicense() As ActionResult
+            Dim tSql As String = "SELECT * FROM TWTCustomerApp WHERE CustID='{0}'"
+            Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
+            Dim oData = New CUtil(cnMas).GetTableFromSQL(String.Format(tSql, My.Settings.LicenseTo))
             Dim json = JsonConvert.SerializeObject(oData)
             Return Content(json, jsonContent)
         End Function

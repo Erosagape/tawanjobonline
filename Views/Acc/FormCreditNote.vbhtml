@@ -171,7 +171,7 @@ End Code
         let c = dt.customer;
         $('#lblCustNameThai').text(c.NameThai);
         $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
-        $('#lblCustTaxBranch').text(c.Branch);
+        $('#lblCustTaxBranch').text('0'+c.Branch);
         $('#lblCustTaxNumber').text(c.TaxNumber);
 
         let typeThai = h.DocType == 0 ? 'ลดหนี้' : 'เพิ่มหนี้';

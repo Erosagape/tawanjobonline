@@ -15,7 +15,7 @@ End Code
                 </div>
             </div>
             <div class="col-sm-4" style="text-align:left">
-                <b id="lblDocNo">Expenses No:</b>
+                <b id="lblDocNo" ondblclick="SaveHeader()">Expenses No:</b>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtDocNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
@@ -137,7 +137,7 @@ End Code
                         <label id="lblApprTime">Time:</label>
                         <input type="text" id="txtApproveTime" style="width:80px" disabled />
                         <br />
-                        <label ondblclick="SaveHeader()">Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" />
+                        <label>Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" />
                     </div>
                     <div class="col-sm-4" style="border-style:solid;border-width:1px">
                         <label id="lblPayment">Payment By</label>
@@ -286,9 +286,13 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <label id="lblBookingNo">Booking No :</label>                                    
-                                    <br/>
-                                    <input type="text" id="txtBookingRefNo" class="form-control" />
+                                    <label id="lblBookingNo">Booking No :</label>
+                                    <br />
+                                    <div style="display:flex">
+                                        <input type="text" id="txtBookingRefNo" class="form-control" />
+                                        <input type="button" class="btn btn-default" onclick="SearchData('advance')" value="..." />
+                                    </div>
+                                   
                                 </div>
                                 <div class="col-sm-2">
                                     #<br/>
@@ -298,14 +302,14 @@ End Code
                                     <label id="lblContNo">Container No :</label>                                    
                                     <br/>
                                     <div style="display:flex">
-                                        <input type="text" id="txtContainerNo" class="form-control" disabled />
+                                        <input type="text" id="txtContainerNo" class="form-control"/>
                                         <button class="btn btn-default" id="btnSelPrice" onclick="SearchData('transportprice')">Select Price</button>
                                     </div>                                    
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <a href="#" onclick="window.open('../Master/ServiceCode');"><label id="lblSICode" for="txtSICode">Code :</label></a>
+                                    <label id="lblSICode" for="txtSICode">Code :</label>
                                     <br/>
                                     <div style="display:flex">
                                         <input type="text" id="txtSICode" class="form-control" tabindex="12" />
@@ -445,7 +449,6 @@ End Code
     const user = '@ViewBag.User';
     const userGroup = '@ViewBag.UserGroup';
     const userRights = '@ViewBag.UserRights';
-    
     let serv = []; //must be array of object
     let hdr = {}; //simple object
     let dtl = {}; //simple object
@@ -472,16 +475,6 @@ End Code
                 $('#txtVenName').val(dr.TName);
             }
         });
-    } else {
-        if (vend !== '') {
-            $.get(path + 'Master/GetVender?Code=' + vend).done(function (r) {
-                if (r.vender.data.length > 0) {
-                    let dr = r.vender.data[0];
-                    $('#txtVenCode').val(vend);
-                    $('#txtVenName').val(dr.TName);
-                }
-            });
-        }
     }
     SetLOVs();
     SetEvents();
@@ -506,7 +499,7 @@ End Code
         }
         if ((br + bookno + item).trim() !== '') {
             isjobmode = true;
-            $('#txtRefNo').attr('disabled', 'disabled');
+            //$('#txtRefNo').attr('disabled', 'disabled');
             $('#btnAdd').hide();
             $('#txtBookingRefNo').val(bookno);
             $('#txtBookingItemNo').val(item);
@@ -690,6 +683,9 @@ End Code
             //Jobs
             CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Jobs', response, 4);
             CreateLOV(dv, '#frmSearchPrice', '#tbPrice', 'Price Lists', response, 4);
+
+            //ADV
+            CreateLOV(dv, '#frmSearchAdvance', '#tbAdvance', 'Advance', response, 3);
         });
     }
     function ShowData(branchcode, docno) {
@@ -868,9 +864,7 @@ End Code
         $('#txtDocDate').val( CDateEN(GetToday()));
         $('#txtVenCode').val(vend);
         if (userGroup !== 'V') {
-            if (vend == '') {
-                $('#txtVenName').val('');
-            }
+            $('#txtVenName').val('');
             $('#txtEmpCode').val(user);
             ShowUser(path, user, '#txtEmpName');
         } else {
@@ -1063,7 +1057,7 @@ End Code
             $('#txtClrItemNo').val(dt.ClrItemNo);
             $('#txtAdvItemNo').val(dt.AdvItemNo);
             if (dt.ClrItemNo > 0 || dt.AdvItemNo > 0) {
-                $('#btnUpdate').attr('disabled', 'disabled');
+                //$('#btnUpdate').attr('disabled', 'disabled');
             }
             return;
         }
@@ -1106,13 +1100,6 @@ End Code
                 $('#txtBookingRefNo').val(bookno);
                 $('#txtContainerNo').val(cont);
                 $('#txtBookingItemNo').val(item);
-            } else {
-                $('#txtForJNo').val('');
-                $('#txtCustCode').val('');
-                $('#txtBookingRefNo').val('');
-                $('#txtContainerNo').val('');
-                $('#txtBookingItemNo').val(0);
-
             }
         }
         $('#txtAdvItemNo').val(0);
@@ -1235,7 +1222,7 @@ End Code
                 if (userGroup == 'V') {
                     SetGridTransport(path, '#tbJob', '#frmSearchJob', '?Cont='+ $('#txtRefNo').val() +'&Vend=' + $('#txtVenCode').val(), ReadTransport);
                 } else {
-                    SetGridJob(path, '#tbJob', '#frmSearchJob', '?Vend=' + $('#txtVenCode').val(), ReadJob);
+                    SetGridJob(path, '#tbJob', '#frmSearchJob', '', ReadJob);
                 }
                 break;
             case 'transportprice':
@@ -1245,6 +1232,9 @@ End Code
                     SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&Cust=' + $('#txtCustCode').val(), ReadPrice);
                 }
                 break;
+            case 'advance':
+                SetGridAdvance(path, '#tbAdvance', '#frmSearchAdvance', ReadAdvance);
+                break;
         }
     }
     function GetParam() {
@@ -1252,6 +1242,13 @@ End Code
         strParam += 'Branch=' + $('#txtBranchCode').val();
         strParam += '&VenCode=' + $('#txtVenCode').val();
         return strParam;
+    }
+    function ReadAdvance(dt) {
+        //if (dt.PayNo) {
+        //    ShowMessage('This advance already use', true);
+        //} else {
+            $('#txtBookingRefNo').val(dt.AdvNo);
+        //}
     }
     function ReadTransport(dt) {
         route = dt.LocationID;
@@ -1292,7 +1289,7 @@ End Code
     function ReadService(dt) {
         if (dt != undefined) {
             $('#txtSICode').val(dt.SICode);
-            $('#txtSDescription').val(dt.NameThai);
+            $('#txtSDescription').val(dt.NameEng);
             $('#txtQtyUnit').val(dt.UnitCharge);
             $('#txtUnitPrice').val(CDbl(CNum(dt.StdPrice) / CNum($('#txtExchangeRate').val()), 2));
             if (dt.IsTaxCharge == 1) {
@@ -1391,11 +1388,11 @@ End Code
         if (b == false) {
             $('#btnSave').attr('disabled', 'disabled');
             $('#btnDel').attr('disabled', 'disabled');
-            $('#btnUpdate').attr('disabled', 'disabled');
+            //$('#btnUpdate').attr('disabled', 'disabled');
         } else {
             $('#btnSave').removeAttr('disabled');
             $('#btnDel').removeAttr('disabled');
-            $('#btnUpdate').removeAttr('disabled');
+            //$('#btnUpdate').removeAttr('disabled');
         }
         if (userRights.indexOf('I') < 0) $('#btnNew').attr('disabled', 'disabled');
         if (userRights.indexOf('I') < 0) $('#btnAdd').attr('disabled', 'disabled');
@@ -1406,5 +1403,32 @@ End Code
     }
     function PrintData() {
         window.open(path + 'Acc/FormExpense?BranchCode=' + $('#txtBranchCode').val() + '&DocNo=' + $('#txtDocNo').val(), '', '');
+    }
+    function SetGridAdvance(p, g, d, ev) {
+        $(g).DataTable({
+            ajax: {
+                url: p + 'adv/getadvancegrid?Show=ACTIVE&BranchCode=' + $('#txtBranchCode').val() + ($('#txtForJNo').val() ? "&jobno=" + $('#txtForJNo').val():""), //web service ที่จะ call ไปดึงข้อมูลมา
+                dataSrc: 'adv.data'
+            },
+            selected: true, //ให้สามารถเลือกแถวได้
+            columns: [ //กำหนด property ของ header column
+                { data: null, title: "#" },
+                { data: "AdvNo", title: mainLanguage == "TH" ? "หมายเลขใบเบิก" : "Adv No." },
+                { data: "JobNo", title: mainLanguage == "TH" ? "หมายเลขงาน" : "Job No." },
+                 { data: "PayNo", title: mainLanguage == "TH" ? "ใบขออนุมัติเบิกจ่าย" : "Pay No." }
+            ],
+            "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+                {
+                    "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                    "data": null,
+                    "render": function (data, type, full, meta) {
+                        let html = "<button class='btn btn-warning'>Select</button>";
+                        return html;
+                    }
+                }
+            ],
+            destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+        });
+        BindEvent(g, d, ev);
     }
 </script>
