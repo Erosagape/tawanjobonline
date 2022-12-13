@@ -93,6 +93,8 @@ End Code
         1. Setup First-time using <a href="http://103.225.168.137/docs/setupmaster.pdf">PDF</a>
         <br/>
         2. Full Manual ver 1.0 <a href="http://103.225.168.137/docs/manual.pdf">PDF</a>
+	<br/>
+	3. Manual Data For B/L,AWB <a href="http://103.225.168.137/docs/manualBLAWB.pdf">PDF</a>
     </div>
 </div>
 

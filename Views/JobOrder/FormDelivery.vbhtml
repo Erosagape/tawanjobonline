@@ -118,7 +118,7 @@ End Code
             if (r.transport.data.length > 0) {
                 let j = r.transport.data[0];
                 if (j.CTN_NO !== null) $('#lblCTN_NO').text(j.CTN_NO);
-                if (j.JNo !== null) $('#lblJNo').text(j.JNo);
+                if (j.JNo !== null) $('#lblCTN_NO').text(j.JNo);
                 if (j.Driver!==null) $('#lblDriver').text(j.Driver);
                 $('#chkTRK4').prop('checked', (j.TruckType == 'TRK4'));
                 $('#chkTRK6').prop('checked', (j.TruckType == 'TRK6'));
@@ -132,14 +132,14 @@ End Code
                 if (j.Location!==null) $('#lblDeliveryAddr').text(j.Location);
                 if (j.InvNo!==null) $('#lblInvNo').text(j.InvNo);
                 if (j.CustRefNO!==null) $('#lblCustRefNo').text(j.CustRefNO);
-                if (j.ProductDesc!==null) $('#lblInvProduct').text(j.ProductDesc);
+                if (j.InvProduct!==null) $('#lblInvProduct').text(j.InvProduct);
                 if (j.ProductQty!==null) $('#lblInvProductQtyUnit').text(j.ProductQty + ' ' + j.ProductUnit);
                 if (j.GrossWeight!==null) $('#lblTotalGW').text(j.GrossWeight);
                 if (j.VesselName!==null) $('#lblVesselName').text(j.VesselName);
                 if (j.ETADate!==null) $('#lblETADate').text(ShowDate(j.ETADate));
                 if (j.HAWB!==null) $('#lblHAWB').text(j.HAWB);
                 if (j.MAWB!==null) $('#lblMAWB').text(j.MAWB);
-                if (j.Comment!==null) $('#lblShippingCmd').text(j.Comment);
+                if (j.ShippingCmd!==null) $('#lblShippingCmd').text(j.ShippingCmd);
                 if (j.NameThai!==null) $('#lblNameThai').text(j.NameThai);
                 if (j.TaxNumber!==null) $('#lblTaxNumber').text(j.TaxNumber);
                 if (j.TAddress1!==null) $('#lblTAddress').text(j.TAddress1 + ' '+ j.TAddress2);

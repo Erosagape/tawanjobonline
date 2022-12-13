@@ -109,14 +109,17 @@ End Code
         <table id="tblJob" class="table table-bordered">
             <thead>
                 <tr>
-                    <th>JobNo</th>
+                    <th class="all">JobNo</th>
                     <th class="desktop">DocDate</th>
-                    <th class="desktop">JobStatus</th>
-                    <th class="all">InspectDate</th>
+                    <th class="all">JobStatus</th>
+                    <th class="all">Booking</th>
+                    <th class="desktop">House BL</th>
                     <th class="all">Inv.Customer</th>
                     <th class="desktop">Customer</th>
-                    <th>Consignee</th>
-                    <th class="desktop">CustRefNo</th>
+                    <th>CustRefNo</th>
+                    <th>ETD</th>
+                    <th>ETA</th>
+
                 </tr>
             </thead>
         </table>
@@ -125,21 +128,6 @@ End Code
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let user = '@ViewBag.User';
-    let userGroup = '@ViewBag.UserGroup';
-    if (userGroup == 'C') {
-        $('#btnBrowseCust').attr('disabled', 'disabled');
-        $('#txtCustCode').attr('disabled', 'disabled');
-        $('#txtCustBranch').attr('disabled', 'disabled');
-
-        $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
-            if (r.company.data.length > 0) {
-                let dr = r.company.data[0];
-                $('#txtCustCode').val(dr.CustCode);
-                $('#txtCustBranch').val(dr.Branch);
-                $('#txtCustName').val(dr.NameThai);
-            }
-        });
-    }
     let dateWhere = 'DocDate';
     let jt = getQueryString("jobtype");
     let sb = getQueryString("shipby");
@@ -183,9 +171,9 @@ End Code
         loadCombos(path, lists);
         loadYear(path);
         loadMonth('#cboMonth');
-
+        
         if (custcode != '') {
-            $('#txtCustCode').val(custcode);
+            $('#txtCustCode').val(custcode);            
         }
     }
     function getJobdata() {
@@ -214,16 +202,23 @@ End Code
                             return data.JobStatus;
                         }
                     },
+                    { "data": "BookingNo", "title": "Booking" },
+                    { "data": "HAWB", "title": "House BL" },
+                    { "data": "InvNo", "title": "Customer Inv." },
+                    { "data": "CustTName", "title": "ImExPorter" },
+                    { "data": "CustRefNO", "title": "Ref.No" },
                     {
-                        "data": "DutyDate", "title": "Clearance Date",
+                        "data": "ETDDate", "title": "ETD Date",
                         "render" : function (data) {
                             return CDateEN(data);
                         }
                     },
-                    { "data": "InvNo", "title": "Customer Inv." },
-                    { "data": "CustTName", "title": "Customer" },
-                    { "data": "ConsigneeName", "title": "Consignee" },
-                    { "data": "CustRefNO", "title": "Ref.No" }
+                    {
+                        "data": "ETADate", "title": "ETA Date",
+                        "render" : function (data) {
+                            return CDateEN(data);
+                        }
+                    }
                 ]
                 , "pageLength": 100
             });
@@ -239,7 +234,7 @@ End Code
                 OpenJob();
             });
             CloseWait();
-        });
+        });            
     }
     function getJobdata_1() {
         $.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
@@ -288,7 +283,7 @@ End Code
             $('#tblJob tbody').on('dblclick', 'tr', function () {
                 OpenJob();
             });
-        });
+        });            
     }
     function GetCliteria() {
         let str = '';

@@ -26,7 +26,7 @@ End Code
         <div class="col-sm-2">
             <input type="checkbox" id="chkAutoRefresh" /><label id="lblAutoRefresh">Auto Refresh</label><br />
             <button class="btn btn-success" id="btnUpdate" onclick="RefreshGrid()">Update</button>
-            @*<button class="btn w3-indigo" id="btnAddJob" onclick="CreateNewJob()">New</button>*@
+            <button class="btn w3-indigo" id="btnAddJob" onclick="CreateNewJob()">New</button>
             <button class="btn btn-primary" id="btnListJob" onclick="ShowList()">List</button>
         </div>
     </div>
@@ -73,17 +73,14 @@ End Code
         $('#lblGrid3').show();
         $('#lblGrid4').hide();
     }
-    if (userGroup == 'S') {
-        $('#txtDateFrom').val(firstDateOfMonth);
-        $('#txtDateTo').val(lastDateOfMonth);
-    }
+    $('#txtDateFrom').val(firstDateOfMonth);
+    $('#txtDateTo').val(lastDateOfMonth);
     $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
         var dv = document.getElementById("dvLOVs");
         CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job Numbers', response, 3);
     });
     google.charts.load("current", { packages: ["corechart"] });
     google.charts.setOnLoadCallback(drawChart);
-    /*
     window.onresize = () => {
         CheckSession(drawChart());
     }
@@ -92,7 +89,6 @@ End Code
             CheckSession(drawChart());
         }
     }, 300000);
-    */ 
     SetLOVs();
 
     function SetLOVs() {
@@ -306,7 +302,7 @@ End Code
         return dataTable.getFormattedValue(rowIndex, columnIndex) == "0" ? null : dataTable.getFormattedValue(rowIndex, columnIndex);
     }
     function CreateNewJob() {
-        window.location.href=path +'joborder/createjob?JType=' + $('#cboJobType').val() + '&SBy=' + $('#cboShipBy').val() + '&Branch=' + branch;
+        window.open(path +'joborder/createjob?JType=' + $('#cboJobType').val() + '&SBy=' + $('#cboShipBy').val() + '&Branch=' + branch);
     }
     function getValueByText(id, value) {
         let chk = '';
@@ -338,9 +334,9 @@ End Code
         SetGridJob(path, '#tbJob', '#frmSearchJob', w + wc, ReadJob);
     }
     function ReadJob(dt) {
-        window.location.href=path + 'joborder/showjob?BranchCode=' + dt.BranchCode + '&JNo=' + dt.JNo;
+        window.open(path + 'joborder/showjob?BranchCode=' + dt.BranchCode + '&JNo=' + dt.JNo);
     }
     function ShowList() {
-        window.location.href=path + 'joborder/index?jobtype='+ $('#cboJobType').val() +'&shipby=' + $('#cboShipBy').val();
+        window.open(path + 'joborder/index?jobtype='+ $('#cboJobType').val() +'&shipby=' + $('#cboShipBy').val());
     }
 </script>

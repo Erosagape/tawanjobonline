@@ -1,4 +1,5 @@
-﻿@Code
+﻿comment
+@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.ReportName = ""
     ViewBag.Title = "Job Costing Summary"
@@ -168,20 +169,19 @@ End Code
     <thead>
         <tr>
             <td rowspan="2">Description</td>
-            <td class="center" rowspan="2">C/P</td>
+            <td class="center" rowspan="2">Invoice No.</td>
             <td class="center" rowspan="2">Settle with</td>
             <td class="center" rowspan="2">Qty</td>
             <td class="center" rowspan="2">Uom</td>
-            <td class="center" colspan="4">IN SOURCE CURRENCY</td>
-            <td class="center" colspan="4">TOTAL BILL (DOC. CURR)</td>
+            <td class="center" colspan="8">TOTAL REVENUE</td>
         </tr>
         <tr>
             <td class="center">Curr</td>
-            <td class="center">Exc</td>
+            <!--<td class="center">Exc</td>-->
             <td class="center">Unit price</td>
             <td class="center">Amount</td>
             <td class="center">Advance</td>
-            <td class="center">Charge</td>
+            <td class="center">Revenue</td>
             <td class="center">Total</td>
         </tr>
     </thead>
@@ -206,7 +206,7 @@ End Code
             <td class="center">Unit price</td>
             <td class="center">Amount</td>
             <td class="center">Advance</td>
-            <td class="center">Charge</td>
+            <td class="center">Cost</td>
             <td class="center">Total</td>
         </tr>
     </thead>
@@ -269,7 +269,7 @@ End Code
                 html += '<td class="right">{3}</td>';
                 html += '<td class="center">{4}</td>';
                 html += '<td class="center">{5}</td>';
-                html += '<td class="right">{6}</td>';
+                //html += '<td class="right">{6}</td>';
                 html += '<td class="right">{7}</td>';
                 html += '<td class="right">{8}</td>';
                 html += '<td class="right">{9}</td>';
@@ -293,12 +293,12 @@ End Code
                 for (let i = 0; i < dt1.length; i++) {
                     let tmp = html;
                     tmp =tmp.replace('{0}', dt1[i].SDescription);
-                    tmp = tmp.replace('{1}', 'P');
+                    tmp = tmp.replace('{1}', dt1[i].LinkBillNo);
                     tmp = tmp.replace('{2}', dt1[i].CustCode);
                     tmp = tmp.replace('{3}', dt1[i].Qty);
                     tmp = tmp.replace('{4}', dt1[i].UnitCode);
                     tmp = tmp.replace('{5}', dt1[i].CurrencyCode);
-                    tmp = tmp.replace('{6}', dt1[i].CurRate);
+                    //tmp = tmp.replace('{6}', dt1[i].CurRate);
                     tmp = tmp.replace('{7}', ShowNumber(dt1[i].UnitPrice ,2));
                     tmp = tmp.replace('{8}', ShowNumber(dt1[i].UsedAmount, 2));
                     tmp = tmp.replace('{9}', dt1[i].IsCredit==1 ? ShowNumber(dt1[i].UsedAmount, 2) : '');
@@ -336,12 +336,12 @@ End Code
                 for (let i = 0; i < dt2.length; i++) {
                     let tmp = html;
                     tmp = tmp.replace('{0}', dt2[i].SDescription);
-                    tmp = tmp.replace('{1}', 'P');
+                    tmp = tmp.replace('{1}', dt2[i].LinkBillNo);
                     tmp = tmp.replace('{2}', dt2[i].VenderCode);
                     tmp = tmp.replace('{3}', dt2[i].Qty);
                     tmp = tmp.replace('{4}', dt2[i].UnitCode);
                     tmp = tmp.replace('{5}', dt2[i].CurrencyCode);
-                    tmp = tmp.replace('{6}', dt2[i].CurRate);
+                    //tmp = tmp.replace('{6}', dt2[i].CurRate);
                     tmp = tmp.replace('{7}', ShowNumber(dt2[i].UnitPrice, 2));
                     tmp = tmp.replace('{8}', ShowNumber(dt2[i].UsedAmount, 2));
                     tmp = tmp.replace('{9}', dt2[i].IsCredit == 1 ? ShowNumber(dt2[i].UsedAmount, 2) : '');

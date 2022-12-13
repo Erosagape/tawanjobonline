@@ -175,24 +175,6 @@ End Code
                         <div class="col-sm-4">
                             <div style="display:flex;flex-direction:column">
                                 <div class="row">
-                                    <div class="col-sm-12" style="display:flex;">
-                                        <input type="button" id="btnLinkJob" value="Load From Database" class="btn btn-primary" onclick="SearchData('job')" />
-                                        <select id="cboDatabase" class="form-control dropdown">
-                                            @If ViewBag.Database = "1" Then
-                                                @<option value="2">LOGISTIC</option>
-                                            End If
-                                            @If ViewBag.Database = "2" Then
-                                                @<option value="1">MILLENIUM</option>
-                                            End If
-                                            @If ViewBag.Database = "3" Then
-                                                @<option value="1">MILLENIUM</option>
-                                                @<option value="2">LOGISTIC</option>
-                                            End If
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row">
                                     <div class="col-sm-6">
                                         <label id="lblJobCondition" for="txtJobCondition">Work Condition :</label>
                                         <input type="text" id="txtJobCondition" class="form-control" style="width:100%" tabindex="7" />
@@ -200,6 +182,7 @@ End Code
                                     <div class="col-sm-6">
                                         <label id="lblCustPoNo" for="txtCustPoNo">Customer PO :</label>
                                         <input type="text" id="txtCustPoNo" class="form-control" style="width:100%" tabindex="8" />
+                                        <input type="button" id="btnLinkJob" value="Load From Job Shipping" class="btn btn-primary" onclick="SearchData('job')" />
                                     </div>
                                 </div>
                                 <div class="row">
@@ -693,6 +676,9 @@ End Code
                                     Type
                                 </th>
                                 <th class="all">
+                                    Container
+                                </th>
+                                <th class="all">
                                     Document No
                                 </th>
                                 <th class="desktop">
@@ -1016,7 +1002,8 @@ End Code
         });
         $('#txtInterPort').keydown(function (event) {
             if (event.which == 13) {
-                ShowInterPort(path, $('#txtJobType').val() == 'IMPORT' ? $('#txtInvFCountryCode').val() : $('#txtInvCountryCode').val(), $('#txtInterPort').val(), '#txtInterPortName');
+                ShowInterPort(path, $('#txtShipBy').val() == 'IMPORT' ? $('#txtInvFCountryCode').val() : $('#txtInvCountryCode').val(), $('#txtInterPort').val(), '#txtInterPortName');
+                console.log($('#txtShipBy').val());
             }
         });
         $('#txtDeclareType').keydown(function (event) {
@@ -1179,7 +1166,7 @@ End Code
     function SearchData(type) {
         switch (type) {
             case 'interport':
-                let CountryID = $('#txtJobType').val() == "IMPORT" ? $('#txtInvFCountryCode').val() : $('#txtInvCountryCode').val();
+                let CountryID = $('#txtShipBy').val() == "IMPORT" ? $('#txtInvFCountryCode').val() : $('#txtInvCountryCode').val();
                 SetGridInterPort(path, '#tbIPort', '#frmSearchIPort', CountryID, ReadInterPort);
                 break;
             case 'agent':
@@ -1244,8 +1231,7 @@ End Code
                 SetContainerEdit();
                 break;
             case 'job':
-                //let dbID = ('@ViewBag.DATABASE' == '1'&&'@ViewBag.DATABASE' == '3' ? '2' : '1');
-                let dbID = $('#cboDatabase').val();
+                let dbID = ('@ViewBag.DATABASE' == '1' ? '2' : '1');
                 let invNo = $('#txtCustInvNo').val();
                 let w = '?DBID=' + dbID;
                 if (invNo !== '') w += '&InvNo=' + invNo;
@@ -1261,7 +1247,7 @@ End Code
                 });
                 break;
             case 'quotation':
-                let t = '?JType=' + rec.JobType + '&SBy=' + rec.ShipBy +'&Cust=' + $('#txtCustCode').val();
+                let t = '?JType=' + rec.ShipBy + '&SBy=' +  rec.JobType+'&Cust=' + $('#txtCustCode').val();
                 //popup for search data
                 $('#tbQuo').DataTable({
                     ajax: {
@@ -1451,7 +1437,7 @@ End Code
 
         ShowCountry(path, dr.InvCountry, '#txtInvCountry');
         ShowCountry(path, dr.InvFCountry, '#txtInvFCountry');
-        ShowInterPort(path, dr.JobType == 1 ? dr.InvFCountry : dr.InvCountry, dr.InvInterPort, '#txtInterPortName');
+        ShowInterPort(path, dr.ShipBy == 1 ? dr.InvFCountry : dr.InvCountry, dr.InvInterPort, '#txtInterPortName');
 
         ShowDeclareType(path, dr.DeclareType, '#txtDeclareTypeName');
         ShowReleasePort(path, dr.ClearPort, '#txtReleasePortName');
@@ -1478,6 +1464,7 @@ End Code
                             }
                         },
                         { data: "DocType", title: "Type" },
+                        { data: "Container", title: "Container" },
                         {
                             data: null, title: "Doc No",
                             render: function (data) {
@@ -1495,11 +1482,12 @@ End Code
                                         return '<a href="../Acc/Invoice?Branch='+ br +'&Code='+ data.DocNo+ '">' + data.DocNo + '</a>';
                                         break;
                                     case "TAX":
+                                    case "RCV":
                                         return '<a href="../Acc/TaxInvoice?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
                                         break;
-                                    case "RCV":
-                                        return '<a href="../Acc/Receipt?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
-                                        break;
+                                    
+                                        //return '<a href="../Acc/Receipt?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
+                                        //break;
                                     default:
                                         return data.DocNo;
                                         break;
@@ -1929,7 +1917,7 @@ End Code
                 LoadPaperlessJANDT();
                 break;
             case 'ECS':
-                if (rec.JobType == 1) {
+                if (rec.ShipBy == 1) {
                     LoadPaperlessECSImport();
                 } else {
                     LoadPaperlessECSExport();
@@ -1941,7 +1929,7 @@ End Code
         }
     }
     function LoadPaperlessECSExport() {
-        let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
+        let url = '?job=' + rec.JNo + '&type=' + rec.ShipBy;
         $.get(path + 'JobOrder/GetPaperless'+ url).done(function (r) {
             if (r.length > 0) {
                 $('#txtDeclareNo').val(r[0].DecNO);
@@ -1975,7 +1963,7 @@ End Code
         });
     }
     function LoadPaperlessECSImport() {
-        let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
+        let url = '?job=' + rec.JNo + '&type=' + rec.ShipBy;
         $.get(path + 'JobOrder/GetPaperless'+ url).done(function (r) {
             if (r.length > 0) {
                 $('#txtDeclareNo').val(r[0].DecNO);
@@ -2011,13 +1999,13 @@ End Code
 
     }
     function LoadPaperlessJANDT() {
-        let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
+        let url = '?job=' + rec.JNo + '&type=' + rec.ShipBy;
         $.get(path + 'JobOrder/GetPaperless'+ url).done(function (r) {
             if (r.length > 0) {
                 $('#txtDeclareNo').val(r[0].DECLNO);
                 $('#txtDeclareType').val(r[0].DOCTYPEOLD.split('-')[0]);
                 $('#txtCustInvNo').val(r[0].invoiceno);
-                if (rec.JobType == 1) {
+                if (rec.ShipBy == 1) {
                     $('#txtInvFCountry').val(r[0].consignmentCTY);
                     $('#txtInvCountry').val(r[0].OriginCTY);
                     if(r[0].VSLDTE!==null) $('#txtETADate').val(ReverseDate(r[0].VSLDTE));
@@ -2056,7 +2044,7 @@ End Code
         });
     }
     function LoadPaperlessETRANSIT() {
-        let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
+        let url = '?job=' + rec.JNo + '&type=' + rec.ShipBy;
         $.get(path + 'JobOrder/GetPaperless2' + url).done(function (r) {
             if (r.length > 0) {
                 $('#txtDeclareNo').val(r[0].DECLNO);
@@ -2067,7 +2055,7 @@ End Code
                 $('#txtEDIDate').val(r[0].fImp_ArrivalDate);
                 $('#txtReadyClearDate').val(r[0].fImp_ArrivalDate);
                 $('#txtClearDate').val(r[0].fImp_ArrivalDate);
-                if (rec.JobType == 1) {
+                if (rec.ShipBy == 1) {
                     $('#txtInvFCountry').val(r[0].consignmentCTY);
                     $('#txtInvCountry').val(r[0].OriginCTY);
                     if (r[0].VSLDTE !== null) $('#txtETADate').val(ReverseDate(r[0].VSLDTE));

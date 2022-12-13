@@ -784,7 +784,6 @@ End Code
                                 <div style="display:flex">
                                     <input type="text" id="txtDriver" class="form-control">
                                     <button class="btn btn-default" onclick="SearchData('driver')">...</button>
-                                    <input type="text" id="txtDriverName" class="form-control" disabled>
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -794,7 +793,6 @@ End Code
                                 <div style="display:flex">
                                     <input type="text" id="txtTruckNO" class="form-control">
                                     <button class="btn btn-default" onclick="SearchData('carlicense')">...</button>
-                                    <input type="text" id="txtTruckName" class="form-control" disabled />
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -1109,7 +1107,7 @@ End Code
                 break;
             case 'carlicense':
                 SetGridCar(path, '#tbCar', '#frmSearchCar', ReadCar);
-                break;
+                break;            
             case 'driver':
                 SetGridEmployee(path, '#tbEmp', '#frmSearchEmp', ReadEmp);
                 break;
@@ -1117,11 +1115,9 @@ End Code
     }
     function ReadEmp(dt) {
         $('#txtDriver').val(dt.EmpCode);
-        $('#txtDriverName').val(dt.Name);
     }
     function ReadCar(dt) {
         $('#txtTruckNO').val(dt.CarNo);
-        $('#txtTruckName').val(dt.CarLicense);
         //$('#txtDriver').val(dt.EmpCode);
     }
     function ReadRoute(dt) {
@@ -1317,7 +1313,7 @@ End Code
             $('#txtJNo').val(job);
         } else {
             $('#txtJNo').val(dr.JNo);
-        }
+        }        
         $('#txtBookingNo').val(dr.BookingNo);
         $('#txtVenderCode').val(dr.VenderCode);
         ShowVender(path, dr.VenderCode, '#txtVenderName');
@@ -1641,7 +1637,6 @@ End Code
         $('#txtCTN_NO').val('');
         $('#txtSealNumber').val('');
         $('#txtTruckNO').val('');
-        $('#txtTruckName').val('');
         $('#txtTruckIN').val($('#txtReturnDate').val());
         $('#txtStart').val($('#txtReturnTime').val());
         $('#txtDReturnDate').val('');
@@ -1651,7 +1646,6 @@ End Code
         $('#txtComment').val('');
         $('#txtTruckType').val('');
         $('#txtDriver').val('');
-        $('#txtDriverName').val('');
         $('#txtTargetYardDate').val($('#txtCYDate').val());
         $('#txtTargetYardTime').val($('#txtCYTime').val());
         $('#txtActualYardDate').val('');
@@ -1801,7 +1795,6 @@ End Code
         $('#txtCTN_NO').val(dr.CTN_NO);
         $('#txtSealNumber').val(dr.SealNumber);
         $('#txtTruckNO').val(dr.TruckNO);
-        ShowCarLicense(path, dr.TruckNO, '#txtTruckName');
         $('#txtTruckIN').val(CDateEN(dr.TruckIN));
         $('#txtStart').val(ShowTime(dr.Start));
         $('#txtFinish').val(ShowTime(dr.Finish));
@@ -1820,7 +1813,6 @@ End Code
         $('#txtComment').val(dr.Comment);
         $('#txtTruckType').val(dr.TruckType);
         $('#txtDriver').val(dr.Driver);
-        ShowEmployee(path, dr.Driver, '#txtDriverName');
         $('#txtTargetYardDate').val(CDateEN(dr.TargetYardDate));
         $('#txtTargetYardTime').val(ShowTime(dr.TargetYardTime));
         $('#txtActualYardDate').val(CDateEN(dr.ActualYardDate));
@@ -2096,7 +2088,7 @@ End Code
         $('#btnExpense2').attr('disabled', 'disabled');
         $('#tbPayment').DataTable().clear().draw();
         if ($('#txtCTN_NO').val() !== '') {
-            $.get(path + 'Acc/GetPayment?VenCode=' + $('#txtVenderCode').val() + '&Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
+            $.get(path + 'Acc/GetPayment?Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
                 if (r.payment.header.length > 0) {
                     $('#txtCTN_NO').attr('disabled', 'disabled');
                     let tb = $('#tbPayment').DataTable({

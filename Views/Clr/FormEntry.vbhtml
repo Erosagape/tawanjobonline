@@ -30,9 +30,6 @@ End Code
         text-align: right !important;
     }
 </style>
-<div style="text-align:center;width:100%;font-weight:bold;">
-JOB INSTRUCTION
-</div>
 <div style="display:flex;flex-direction:column">
 
     <div class="block">
@@ -185,39 +182,6 @@ JOB INSTRUCTION
             </tr>
         </tfoot>
     </table>
-    <br>
-    <div style="display:flex;width:100%;">
-	
-	 <div style="flex:1;border:1px black solid;text-align:center;" >		
-		<div style="border-bottom:1px black solid;padding:10px">Approve By</div>
-		<br>	
-             	<div>_____________________</div>
-	 	<pre>(                 )</pre>
-	     	<div>______/______/______</div>
-     	</div>
-	<div style="flex:1">
-
-     	</div>
-	<div style="flex:1;border:1px black solid;text-align:center;" >		
-		<div style="border-bottom:1px black solid;padding:10px">Approve By</div>
-		<br>	
-             	<div>_____________________</div>
-	 	<pre>(                 )</pre>
-	     	<div>______/______/______</div>
-     	</div>
-	<div style="flex:1">
-
-     	</div>
-	<div style="flex:1;border:1px black solid;text-align:center;">
-		<div style="border-bottom:1px black solid;padding:10px">Account</div>	
-		<br>	
-		<div>_____________________</div>
-	 	<pre>(                 )</pre>
-	     	<div>______/______/______</div>
-		<br>
-     	</div>
-     </div>
-	 <br>
     <div class="block" style="display:flex;width:50%">
         <div style="flex:1">
             HANDLE BY:
@@ -252,8 +216,8 @@ JOB INSTRUCTION
                 $('#dvGrossWeight').html(CStr(dr.TotalGW + ' ' + dr.GWUnit));
                 $('#dvMeasurement').html(CStr(dr.Measurement));
                 $('#dvTotalContainer').html(CStr(dr.TotalContainer));
-                //$("#sumService").text(CCurrency(CDbl(dr.DutyCustPayOtherAmt, 2)));
-                //sService = parseFloat(dr.DutyCustPayOtherAmt);
+                $("#sumService").text(CCurrency(CDbl(dr.DutyCustPayOtherAmt, 2)));
+                sService = parseFloat(dr.DutyCustPayOtherAmt);
               
                 if (dr.Description) {
                     console.log(dr.Description);
@@ -370,7 +334,7 @@ JOB INSTRUCTION
                     let companySlip = (d[i].IsHaveSlip == 1 && d[i].IsExpense == 1 ? amt : 0);
                     let noSlip = d[i].IsHaveSlip == 0 && d[i].IsExpense == 1 ? amt : 0;
                     let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? amt : 0);
-                    let profit = (d[i].IsExpense == 1 ? amt * -1 : (d[i].IsCredit==0 ? amt: 0));
+                    let profit = (d[i].IsExpense == 1 ? amt * -1 : d[i].IsCredit == 1 ? 0 : d[i].UsedAmount);
                     //amtadv += adv;
                     //amtserv += serv;
                     customerSlipSum += customerSlip;
@@ -406,7 +370,7 @@ JOB INSTRUCTION
                     html += '</tr>';
 
 
-		
+
                     //amtcost += cost;
                     //amttotal += serv + adv;
                     //amtprofit += profit;
@@ -423,10 +387,9 @@ JOB INSTRUCTION
                <td style="text-align:right">${servSum != 0 ? CCurrency(CDbl(servSum, 2)) : ""}</td>
                <td style="text-align:right">${profitSum != 0 ? CCurrency(CDbl(profitSum, 2)) : ""}</td>
            </tr >`;
-	$("#sumService").text(CCurrency(CDbl(customerSlipSum+servSum, 2)))
                 tb.append(summary);
-                $("#sumCost").text(CCurrency(CDbl(companySlipSum+customerSlipSum + noSlipSum, 2)));
-                $("#sumBalance").text(CCurrency(CDbl((servSum) - (companySlipSum+noSlipSum),2)));
+                $("#sumCost").text(CCurrency(CDbl(customerSlipSum + noSlipSum, 2)));
+                $("#sumBalance").text(CCurrency(CDbl(sService - (customerSlipSum + noSlipSum),2)));
             }
             //$('#lblSumAdv').text(CCurrency(CDbl(amtadv, 2)));
             //$('#lblSumServ').text(CCurrency(CDbl(amtserv, 2)));

@@ -46,23 +46,10 @@
                     Importer/Exporter
                 </div>
                 <div id="mnuCust" class="w3-hide w3-pale-red w3-card-4">
-                    <a href="#" id="mnuCust2" class="w3-bar-item w3-button" onclick="OpenLink('SearchJob')">Shipment Order</a>
+                    <a href="#" id="mnuCust1" class="w3-bar-item w3-button" onclick="OpenLink('Tracking1')">Transport Tracking</a>
+                    <a href="#" id="mnuCust3" class="w3-bar-item w3-button" onclick="OpenLink('Tracking2')">Shipment Status</a>
+                    <a href="#" id="mnuCust2" class="w3-bar-item w3-button" onclick="OpenLink('CreateJob')">Shipment Order</a>
                     <a href="#" id="mnuCust4" class="w3-bar-item w3-button" onclick="OpenLink('Document')">Documents</a>
-                </div>
-                <div id="mainCust2" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCustT')">
-                    Timeline
-                </div>
-                <div id="mnuCustT" class="w3-hide w3-pale-red w3-card-4">
-                    <a href="#" id="mnuCust1" class="w3-bar-item w3-button" onclick="OpenLink('Tracking1')">Transport</a>
-                    <a href="#" id="mnuCust3" class="w3-bar-item w3-button" onclick="OpenLink('Tracking2')">Shipment</a>
-                </div>
-                <div id="mainCust3" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCustD')">
-                    Dashboard
-                </div>
-                <div id="mnuCustD" class="w3-hide w3-pale-red w3-card-4">
-                    <a href="#" id="mnuCust5" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard2')">Overall</a>
-                    <a href="#" id="mnuCust6" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard3')">Billing Status</a>
-                    <a href="#" id="mnuCust7" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard4')">Working Status</a>
                 </div>
             </div>
             <div id="dvShippingMenu">
@@ -135,8 +122,8 @@
                     </div>
                     <div id="mnuVen" class="w3-hide w3-pale-red w3-card-4">
                         <a href="#" id="mnuVen0" class="w3-bar-item w3-button" onclick="OpenLink('AppTransport')">Transport Confirm</a>
-                        <a href="#" id="mnuVen1" class="w3-bar-item w3-button" onclick="OpenLink('BillPayment')">Bill Payment</a>
-                        <a href="#" id="mnuVen2" class="w3-bar-item w3-button" onclick="OpenLink('VenderInv')">Vender Summary</a>
+                        <a href="#" id="mnuVen2" class="w3-bar-item w3-button" onclick="OpenLink('BillPayment')">Bill Payment</a>
+                        <a href="#" id="mnuVen1" class="w3-bar-item w3-button" onclick="OpenLink('VenderInv')">Vender Summary</a>
                         <a href="#" id="mnuVen3" class="w3-bar-item w3-button" onclick="OpenLink('Tracking1')">Transport Tracking</a>
                     </div>
                     <div id="mainRpt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuRpt')">

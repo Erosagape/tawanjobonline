@@ -310,6 +310,7 @@ End Code
     <b>คำเตือน</b> ผู้มีหน้าที่ออกหนังสือรับรองหักภาษี ณ ที่จ่าย ฝ่าฝืนไม่ปฏิบัติตามมาตรา 50 ทวิ แห่งประมวลรัษฏากรต้องรับโทษทางอาญาตามมาตรา 35 แห่งประมวลรัษฏากร
 </div>
 <script type="text/javascript">
+  
     let path = '@Url.Content("~")';
     //$(document).ready(function () {
         let branch = getQueryString('branch');

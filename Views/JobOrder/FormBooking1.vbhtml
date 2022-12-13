@@ -8,9 +8,6 @@ End Code
     #dvFooter {
         display:none;
     }
-    * {
-        font-size: 13px;
-    } 
 </style>
     <div style="display:flex">
         <div style="flex-direction:row;width:50%;font-size:12px;">
@@ -145,8 +142,6 @@ End Code
     </div>
 </div>
 <script type="text/javascript">
-    $('#imgLogo').hide();
-    $('#imgLogoAdd').show();
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");
     var path = '@Url.Content("~")';

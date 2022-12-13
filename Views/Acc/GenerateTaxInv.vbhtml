@@ -5,7 +5,7 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblBranch">Branch:</label>
+                <label id="lblBranch">Branch:</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -17,46 +17,48 @@ End Code
                 <label id="lblDocType">Type :</label>
                 <br />
                 <select id="cboType" Class="form-control dropdown">
-                    <option value="TAX" selected>ใบเสร็จรับเงิน/ใบกำกับภาษี (Vat+Adv)</option>
-                    <option value="SRV"> ใบกำกับภาษี (Vat only)</option>
-                    <option value="REC"> Debit Note</option>
-                    <option value="RCV"> ใบเสร็จภายใน</option>
+                    <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
+                    <option value="SRV">Tax-Invoice (Service only)</option>
+                    <option value="RCV">Receipt Advance</option>
+                    <option value="RET">Receipt Transport</option>
+                    <option value="DNR">Debit Note Receipt</option>
+                    <option value="TFR">Tax-Invoice (Freight)</option>
                 </select>
             </div>
         </div>
         <div Class="row">
             <div Class="col-sm-6">
-                <Label id="lblCustCode"> Customer</Label>
-                <input type="checkbox" id="chkBilling"><label id="lblBilling">Search For Billing Place</label>
+                <Label id = "lblCustCode" > Customer</label>
+                <input type = "checkbox" id="chkBilling"><label id="lblBilling">Search For Billing Place</label>
                 <br />
-                <div style="display:flex;flex-direction:row">
-                    <input type="text" id="txtCustCode" class="form-control" style="width:120px" />
-                    <input type="text" id="txtCustBranch" Class="form-control" style="width:50px" />
-                    <Button id="btnBrowseCust" Class="btn btn-default" onclick="SearchData('customer')">...</Button>
-                    <input type="text" id="txtCustName" Class="form-control" disabled />
+                <div style = "display:flex;flex-direction:row" >
+                    <input type="text" id="txtCustCode" class="form-control" style="width:120px"/>
+                        <input type = "text" id="txtCustBranch" Class="form-control" style="width:50px" />
+                    <Button id = "btnBrowseCust" Class="btn btn-default" onclick="SearchData('customer')">...</button>
+                    <input type = "text" id="txtCustName" Class="form-control" disabled />
                 </div>
             </div>
             <div Class="col-sm-2">
-                <Label id="lblDocDateF"> Invoice Date From</Label>
+                <Label id = "lblDocDateF" > Invoice Date From</label>
                 <br />
-                <input type="date" Class="form-control" id="txtDocDateF" />
+                <input type = "date" Class="form-control" id="txtDocDateF" />
             </div>
             <div Class="col-sm-2">
-                <Label id="lblDocDateT"> Invoice Date To</Label>
+                <Label id = "lblDocDateT" > Invoice Date To</label>
                 <br />
-                <input type="date" Class="form-control" id="txtDocDateT" />
+                <input type = "date" Class="form-control" id="txtDocDateT" />
             </div>
         </div>
-        <a href="#" Class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
+        <a href = "#" Class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
             <i Class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
         </a>
-        <Label id="lblGroupDoc" For="chkGroupByDoc">Group By Document</Label>
-        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" />
+        <Label id = "lblGroupDoc" For="chkGroupByDoc">Group By Document</label>
+        <input type = "checkbox" id="chkGroupByDoc" onclick="SetVisible()" />
         <div Class="row" id="dvSummary" style="display:none">
             <div Class="col-sm-12">
-                <Table id="tbSummary" Class="table table-responsive">
+                <Table id = "tbSummary" Class="table table-responsive">
                     <thead>
-                        <tr>
+                            <tr>
                             <th class="all"> DocNo</th>
                             <th class="desktop">DocDate</th>
                             <th class="desktop">CustCode</th>
@@ -67,14 +69,14 @@ End Code
                             <th class="all">Net</th>
                         </tr>
                     </thead>
-                </Table>
+                </table>
             </div>
         </div>
         <div Class="row" id="dvHeader">
             <div Class="col-sm-12">
-                <Table id="tbHeader" Class="table table-responsive">
+                <Table id = "tbHeader" Class="table table-responsive">
                     <thead>
-                        <tr>
+                            <tr>
                             <th class="all"> DocNo</th>
                             <th class="desktop">DocDate</th>
                             <th class="desktop">CustCode</th>
@@ -86,23 +88,23 @@ End Code
                             <th class="all">Net</th>
                         </tr>
                     </thead>
-                </Table>
+                </table>
             </div>
         </div>
         <br />
-        <a href="#" Class="btn btn-success" id="btnGen" onclick="ShowSummary()">
+        <a href = "#" Class="btn btn-success" id="btnGen" onclick="ShowSummary()">
             <i Class="fa fa-lg fa-save"></i>&nbsp;<b id="linkGen">Create Tax-Invoice</b>
         </a>
     </div>
-    <div id="dvCreate" Class="modal modal-lg fade" role="dialog">
+    <div id = "dvCreate" Class="modal modal-lg fade" role="dialog">
         <div Class="modal-dialog-lg">
             <div Class="modal-content">
                 <div Class="modal-header">
                     <div Class="row">
                         <div Class="col-sm-3">
-                            <Label id="lblDocDate"> Receipt Date :</Label>
+                            <Label id = "lblDocDate" > Receipt Date :</label>
                             <br />
-                            <input type="date" id="txtDocDate" Class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                            <input type = "date" id="txtDocDate" Class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
                         </div>
                         <div class="col-sm-3">
                             <label id="lblBillToCustCode">Billing Place :</label><br />
@@ -112,8 +114,8 @@ End Code
                             <br />
                             <div style="display:flex">
                                 <input type="text" id="txtBillToCustBranch" class="form-control" disabled />
-                                <button class="btn btn-default" onclick="SearchData('billing')">...</button>
-                            </div>
+                                                                                                                                                <button class="btn btn-default" onclick="SearchData('billing')">...</button>
+                            </div>                            
                         </div>
                         <div class="col-sm-4">
                             <br />
@@ -133,7 +135,7 @@ End Code
                             <br />
                             <input type="text" id="txtTotalCharge" class="form-control" disabled />
                             <br />
-                            <label id="lblTotalVAT">Total VAT:</label>
+                            <label id="lblTotalVAT">Total VAT:</label>                            
                             <br />
                             <input type="text" id="txtTotalVAT" class="form-control" disabled />
                             <br />
@@ -146,7 +148,7 @@ End Code
                             <input type="text" id="txtTotalNet" class="form-control" disabled />
                             <br />
                             <input type="checkbox" id="chkMerge" checked /><label id="lblMerge">Generate One Tax-Invoice</label><br />
-                            <div id="dvMsg"></div>
+                            <div id="dvMsg"></div>                                                                                                                                                                   
                             <a href="#" class="btn btn-success" id="btnGen" onclick="SaveData()">
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Tax-Invoice</b>
                             </a>
@@ -160,8 +162,8 @@ End Code
                             <b id="lblDetail">Invoice Detail:</b><br />
                             <table id="tbDetail" style="width:100%;">
                                 <thead>
-                                    <tr>
-                                        <th>InvNo</th>
+                                                                                                                                                                                <tr>
+                                                                                                                                                                                <th>InvNo</th>
                                         <th class="desktop">InvDate</th>
                                         <th class="desktop">Item</th>
                                         <th class="desktop">Code</th>
@@ -182,7 +184,7 @@ End Code
 
     </div>
     <div id="dvLOVs"></div>
-</div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
@@ -260,23 +262,18 @@ End Code
             if ($('#txtCustCode').val() !== "") {
                 w = w + '&billto=' + $('#txtCustCode').val();
             }
-            if ($('#txtDocDateF').val() !== "") {
-                w = w + '&BillDateFrom=' + CDateEN($('#txtDocDateF').val());
-            }
-            if ($('#txtDocDateT').val() !== "") {
-                w = w + '&BillDateTo=' + CDateEN($('#txtDocDateT').val());
-            }
         } else {
             if ($('#txtCustCode').val() !== "") {
                 w = w + '&cust=' + $('#txtCustCode').val();
             }
+        }
             if ($('#txtDocDateF').val() !== "") {
                 w = w + '&DateFrom=' + CDateEN($('#txtDocDateF').val());
             }
             if ($('#txtDocDateT').val() !== "") {
                 w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
             }
-        }
+
         let type = $('#cboType').val();
         let url = path + 'acc/getinvforreceive?show=WAIT&type=' + type + '&branch=' + $('#txtBranchCode').val() + w;
         $.get(url, function (r) {
@@ -305,22 +302,22 @@ End Code
                     { data: "RefNo", title: "Reference Number" },
                     { data: "TotalAmt", title: "Charges",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "TotalVAT", title: "Vat",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "Total50Tavi", title: "W-Tax",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "TotalNet", title: "Net",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     }
                 ],
@@ -370,22 +367,22 @@ End Code
                     { data: "SDescription", title: "Expenses" },
                     { data: "Amt", title: "Charges",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "AmtVAT", title: "Vat",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "Amt50Tavi", title: "W-Tax",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "Net", title: "Net",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     }
                 ],
@@ -430,11 +427,11 @@ End Code
             totaltax += Number(obj.Amt50Tavi);
             totalnet += Number(obj.Net);
         }
-        $('#txtTotalAdvance').val(CDbl(totaladv, 2));
-        $('#txtTotalCharge').val(CDbl(totalcharge, 2));
-        $('#txtTotalVAT').val(CDbl(totalvat, 2));
-        $('#txtTotal50Tavi').val(CDbl(totaltax, 2));
-        $('#txtTotalNet').val(CDbl(totalnet, 2));
+        $('#txtTotalAdvance').val(CDbl(totaladv,4));;
+        $('#txtTotalCharge').val(CDbl(totalcharge,4));;
+        $('#txtTotalVAT').val(CDbl(totalvat,4));;
+        $('#txtTotal50Tavi').val(CDbl(totaltax,4));;
+        $('#txtTotalNet').val(CDbl(totalnet,4));;
 
         ShowDetail();
         $('#txtDocNo').val('');
@@ -458,22 +455,22 @@ End Code
                 { data: "SDescription", title: "Description" },
                 { data: "Amt", title: "Charge",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                     }
                 },
                 { data: "AmtVAT", title: "Vat",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                     }
                 },
                 { data: "Amt50Tavi", title: "W-Tax",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                     }
                 },
                 { data: "Net", title: "NET",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                     }
                 }
             ],
@@ -761,7 +758,15 @@ ExchangeRate: 1,
         let code = $('#txtDocNo').val();
         if (code !== '') {
             let branch = $('#txtBranchCode').val();
-            window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code,'_blank');
+            switch ($('#cboType').val()) {
+                case "RET": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
+                    break;
+                case "DNR": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                    break;
+                case "TFR": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');
+                    break;
+                default: window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code, '_blank');
+            }
         }
     }
 

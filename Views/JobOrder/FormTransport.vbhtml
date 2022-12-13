@@ -126,7 +126,7 @@ End Code
     <div style="width:15%;"><b>Gross Weight</b></div>
     <div style="width:15%;"><b>Measurements</b></div>
 </div>
-<div id="dvDetail" style="height:380px;vertical-align:top;display:flex;flex-direction:column;font-size:10px;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
+<div id="dvDetail" style="height:300px;vertical-align:top;display:flex;flex-direction:column;font-size:10px;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
 </div>
 <div style="width:100%;display:flex;flex-direction:row;font-size:10px;text-align:center;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
     <div style="width:20%;"><b>Total number of Packages or units (in words)</b></div>
@@ -167,6 +167,7 @@ End Code
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");

@@ -62,10 +62,6 @@ End Code
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
-    let code = getQueryString('Country');
-    if (code !== '') {
-        $('#txtCountryCode').val(code);
-    }
     //$(document).ready(function () {
         SetEvents();
         SetEnterToTab();

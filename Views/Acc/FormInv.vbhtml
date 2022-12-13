@@ -399,7 +399,7 @@ End Code
                 $("#dueDate").text(ShowDate(h.DueDate));
                 $("#id").text(h.BillToCustCode);
 	        });
-
+           
             //$("#billName").text(c.NameEng);
             //$("#billAddress").html(c.EAddress1 + '<br/>' + c.EAddress2);
             //console.log(c.EAddress1);
@@ -456,7 +456,7 @@ End Code
             //<td><label id="volume"></label></td>
             $("#custInvNo").text(j.InvNo);
             $("#ref").text(j.CustRefNO);
-
+	    $('#blno').text(j.BLNo);
             ShowCustomer(path, j.CustCode,j.CustBranch, '#cons');
             ShowVender(path, j.ForwarderCode, '#carrier');
             ShowContainer(j.BranchCode, j.JNo);
@@ -488,16 +488,14 @@ End Code
                 html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt,2):''):'') + '</td>';
                 html += '            <td class="right">' + (!row.AmtAdvance &&row.AmtVat>0?ShowNumber(row.Amt,2) : '') + '</td>';
                 html += '        </tr>';
-
-
                 if (row.AmtAdvance) {
-                    adv += ((row.Amt + row.AmtVat) * row.ExchangeRate.toFixed(4));
+                    adv += ((row.Amt) * row.ExchangeRate.toFixed(4)+ row.AmtVat);
                 } else {
                     if (row.AmtVat > 0) {
                         vat += row.AmtCharge * row.ExchangeRate.toFixed(4);
                         varFromSrv += row.AmtVat;
                     } else {
-                        nonVat += row.AmtCharge * row.ExchangeRate.toFixed(4);
+                        nonVat += row.AmtCharge* row.ExchangeRate.toFixed(4) ;
                     }
                     switch (row.Rate50Tavi - 0) {
                         case 1:
@@ -531,19 +529,19 @@ End Code
                 html += '            <td class="right"></td>';
                 html += '        </tr>';
             }
-            $('#gross1').text(ShowNumber(sumbaseWht1,3));
-            $('#wtAmt1').text(ShowNumber(sumWht1,3));
-            $('#gross3').text(ShowNumber(sumbaseWht3,3));
-            $('#wtAmt3').text(ShowNumber(sumWht3,3));
-            $('#gross1_5').text(ShowNumber(sumbaseWht1_5,3));
-            $('#wtAmt1_5').text(ShowNumber(sumWht1_5,3));
+            $('#gross1').text(ShowNumber(sumbaseWht1,2));
+            $('#wtAmt1').text(ShowNumber(sumWht1,2));
+            $('#gross3').text(ShowNumber(sumbaseWht3,2));
+            $('#wtAmt3').text(ShowNumber(sumWht3,2));
+            $('#gross1_5').text(ShowNumber(sumbaseWht1_5,2));
+            $('#wtAmt1_5').text(ShowNumber(sumWht1_5,2));
 
             $("#advanceAmount").text(ShowNumber(adv,2));
             $("#nonVatAmount").text(ShowNumber(nonVat,2));
             $("#vatAmount").text(ShowNumber(vat,2));
             $('#details').html(html);
             $("#valueAddedTax").text(ShowNumber(varFromSrv,2));
-            $("#totalAmount").text(ShowNumber(adv+vat + h.TotalVAT,2));
+            $("#totalAmount").text(ShowNumber(adv+nonVat +vat + h.TotalVAT,2));
             $("#lessWithholdingTax").text(ShowNumber(h.Total50Tavi,2));
             $("#netAmount").text(ShowNumber(adv + vat + nonVat + h.TotalVAT - h.Total50Tavi,2));
             $("#custAdv").text(ShowNumber(h.TotalCustAdv,2));

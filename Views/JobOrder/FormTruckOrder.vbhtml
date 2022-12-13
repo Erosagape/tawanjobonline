@@ -44,8 +44,8 @@ End Code
     <tr>
         <td>คำแนะนำในการส่งสินค้า</td>
         <td><div id="txtSpecialInstruction"></div></td>
-        <td>INV NO.</td>
-        <td id="txtCustInv"></td>
+        <td></td>
+        <td></td>
     </tr>
     <tr>
         <th colspan="2">ข้อมูลเกี่ยวกับลูกค้า</th>
@@ -174,11 +174,9 @@ End Code
             $('#txtCarrierBooking').text(h.BookingNo);
             $('#txtBookingDate').text(ShowDate(h.BookingDate));
             $('#txtServiceType').text(h.LocationRoute);
-            //$('#txtTruck').text(h.TruckNO);
-            ShowCarLicense(path, h.TruckNO, '#txtTruck');
+            $('#txtTruck').text(h.TruckNO);
             $('#txtContainerType').text(h.CTN_SIZE);
-            //$('#txtDriverName').text(h.Driver);
-            ShowEmployee(path, h.Driver, '#txtDriverName');
+            $('#txtDriverName').text(h.Driver);
             $('#txtContainer').text(h.CTN_NO);
             $('#txtDiscrepancyReason').html(h.Comment);
             $('#txtRemark').html(CStr(h.Remark));
@@ -198,8 +196,6 @@ End Code
             $('#txtContact1').text(h.PlaceContact1);
             $('#txtContact2').text(h.PlaceContact2);
             $('#txtContact3').text(h.PlaceContact3);
-	    $('#txtCustInv').text(h.InvNo);
-
         }
     });
 </script>

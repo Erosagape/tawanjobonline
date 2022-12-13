@@ -175,6 +175,9 @@ End Code
                     <button class="btn btn-info" onclick="PrintData()">
                         <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Data</b>
                     </button>
+                    <button class="btn btn-info" onclick="PrintCredit()">
+                        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Credit Note</b>
+                    </button>
                 </div>
             </div>
             <div id="tabDetail" class="tab-pane fade">
@@ -305,7 +308,7 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <a href="#" onclick="window.open('../Master/ServiceCode');"><label id="lblSICode" for="txtSICode">Code :</label></a>
+                                    <label id="lblSICode" for="txtSICode">Code :</label>
                                     <br/>
                                     <div style="display:flex">
                                         <input type="text" id="txtSICode" class="form-control" tabindex="12" />
@@ -445,7 +448,6 @@ End Code
     const user = '@ViewBag.User';
     const userGroup = '@ViewBag.UserGroup';
     const userRights = '@ViewBag.UserRights';
-    
     let serv = []; //must be array of object
     let hdr = {}; //simple object
     let dtl = {}; //simple object
@@ -472,16 +474,6 @@ End Code
                 $('#txtVenName').val(dr.TName);
             }
         });
-    } else {
-        if (vend !== '') {
-            $.get(path + 'Master/GetVender?Code=' + vend).done(function (r) {
-                if (r.vender.data.length > 0) {
-                    let dr = r.vender.data[0];
-                    $('#txtVenCode').val(vend);
-                    $('#txtVenName').val(dr.TName);
-                }
-            });
-        }
     }
     SetLOVs();
     SetEvents();
@@ -868,9 +860,7 @@ End Code
         $('#txtDocDate').val( CDateEN(GetToday()));
         $('#txtVenCode').val(vend);
         if (userGroup !== 'V') {
-            if (vend == '') {
-                $('#txtVenName').val('');
-            }
+            $('#txtVenName').val('');
             $('#txtEmpCode').val(user);
             ShowUser(path, user, '#txtEmpName');
         } else {
@@ -1106,13 +1096,6 @@ End Code
                 $('#txtBookingRefNo').val(bookno);
                 $('#txtContainerNo').val(cont);
                 $('#txtBookingItemNo').val(item);
-            } else {
-                $('#txtForJNo').val('');
-                $('#txtCustCode').val('');
-                $('#txtBookingRefNo').val('');
-                $('#txtContainerNo').val('');
-                $('#txtBookingItemNo').val(0);
-
             }
         }
         $('#txtAdvItemNo').val(0);
@@ -1406,5 +1389,8 @@ End Code
     }
     function PrintData() {
         window.open(path + 'Acc/FormExpense?BranchCode=' + $('#txtBranchCode').val() + '&DocNo=' + $('#txtDocNo').val(), '', '');
+    }
+    function PrintCredit() {
+        window.open(path + 'Acc/Forminv?form=credit&BranchCode=' + $('#txtBranchCode').val() + '&DocNo=' + $('#txtDocNo').val(), '', '');
     }
 </script>

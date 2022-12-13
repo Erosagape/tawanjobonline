@@ -139,9 +139,9 @@ End Code
                             <br />
                             <label id="lblForCA">For Cash/Transfer :</label>
                             <br />
-                            <input type="number" id="txtCashBal" class="form-control" disabled />
+                            <input type="number" id="txtCashBal" class="form-control" disabled />                                   
                             <label id="lblForCH">For Cheque : </label>
-                            <br />
+                            <br /> 
                             <input type="number" id="txtChqCashBal" class="form-control" disabled />
                         </div>
                     </div>
@@ -150,7 +150,7 @@ End Code
             <div id="tab2" class="tab-pane fade">
                 <div class="row">
                     <div class="col-sm-4">
-                        <label id="lblBranch">Branch</label>
+                        <label id="lblBranch">Branch</label>                        
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -164,7 +164,7 @@ End Code
                         <select id="cboJobType" class="form-control dropdown"></select>
                     </div>
                     <div class="col-sm-6">
-                        <label id="lblReqBy">Request By :</label>
+                        <label id="lblReqBy">Request By :</label>                        
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtReqBy" style="width:100px" />
@@ -229,7 +229,7 @@ End Code
                                     <th class="desktop">W-Tax</th>
                                     <th class="desktop">Refund</th>
                                     <th class="desktop">Payback</th>
-                                    <th class="desktop">Driver</th>
+				    <th class="desktop">Driver</th>
                                 </tr>
                             </thead>
                         </table>
@@ -503,8 +503,11 @@ End Code
                             return data < 0 ? ShowNumber(Math.abs(data), 2) : '0.00';
                         }
                     },
+                    //{
+                    //    data: "Driver",title: "Driver"
+                    //},
                     {
-                        data: "Driver",title: "Driver"
+                        data: "ForJNo", title: "Job No"
                     }
                 ],
                 responsive: true,
@@ -652,9 +655,6 @@ End Code
         });
         let filter_sum = {
             sumamount: 0,
-            sumvat: 0,
-            sumwht: 0,
-            sumnet: 0,
             currencycode : '@ViewBag.PROFILE_CURRENCY',
             exchangerate: 1,
             count: 0
@@ -662,9 +662,6 @@ End Code
         for (let i = 0; i < filter_data.length; i++) {
 
             filter_sum.sumamount += Number(filter_data[i].ClrBal);
-            filter_sum.sumvat += Number(filter_data[i].ClrVat);
-            filter_sum.sumwht += Number(filter_data[i].Clr50Tavi);
-            filter_sum.sumnet += Number(filter_data[i].ClrNet);
             filter_sum.count += 1;
         }
         return filter_sum;
@@ -694,10 +691,10 @@ End Code
                 ExchangeRate: sum_cash.exchangerate,
                 TotalAmount: Math.abs(sum_cash.sumamount),
                 VatInc: 0,
-                VatExc: sum_cash.sumvat,
+                VatExc: 0,
                 WhtInc: 0,
-                WhtExc: sum_cash.sumwht,
-                TotalNet: Math.abs(sum_cash.sumnet),
+                WhtExc: 0,
+                TotalNet: Math.abs(sum_cash.sumamount),
                 IsLocal: 0,
                 ChqStatus: '',
                 TRemark: $('#txtCashTranDate').val() + '-' + $('#txtCashTranTime').val(),
@@ -731,10 +728,10 @@ End Code
                 ExchangeRate: sum_chqcash.exchangerate,
                 TotalAmount:  Math.abs(sum_chqcash.sumamount),
                 VatInc: 0,
-                VatExc: sum_chqcash.sumvat,
+                VatExc: 0,
                 WhtInc: 0,
-                WhtExc: sum_chqcash.sumwht,
-                TotalNet: Math.abs(sum_chqcash.sumnet),
+                WhtExc: 0,
+                TotalNet: Math.abs(sum_chqcash.sumamount),
                 IsLocal: 0,
                 ChqStatus: $('#chkStatusChq').prop('checked')==true? 'P':'',
                 TRemark: '',
@@ -768,10 +765,10 @@ End Code
                 ExchangeRate: sum_chq.exchangerate,
                 TotalAmount: Math.abs(sum_chq.sumamount),
                 VatInc: 0,
-                VatExc: sum_chq.sumvat,
+                VatExc: 0,
                 WhtInc: 0,
-                WhtExc: sum_chq.sumwht,
-                TotalNet: Math.abs(sum_chq.sumnet),
+                WhtExc: 0,
+                TotalNet: Math.abs(sum_chq.sumamount),
                 IsLocal: $('#chkIsLocal').prop('checked') == true ? 'P' : '',
                 ChqStatus: '',
                 TRemark: '',
@@ -805,10 +802,10 @@ End Code
                 ExchangeRate: sum_cr.exchangerate,
                 TotalAmount: Math.abs(sum_cr.sumamount),
                 VatInc: 0,
-                VatExc: sum_cr.sumvat,
+                VatExc: 0,
                 WhtInc: 0,
-                WhtExc: sum_cr.sumwht,
-                TotalNet: Math.abs(sum_cr.sumnet),
+                WhtExc: 0,
+                TotalNet: Math.abs(sum_cr.sumamount),
                 IsLocal: 0,
                 ChqStatus: '',
                 TRemark: '',
@@ -975,7 +972,7 @@ End Code
                 SetGridBookAccount(path, '#tbBookChq', '#frmSearchBookChq', ReadBookChq);
                 break;
             case 'currency':
-                SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
+                SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);                
                 break;
             case 'emp1':
                 SetGridEmployee(path, '#tbEmpCA', '#frmSearchEmpCA', ReadEmpCA);

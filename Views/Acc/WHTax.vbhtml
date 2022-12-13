@@ -4,12 +4,11 @@
 End Code
 <style>
     @@media only screen and (max-width: 600px) {
-        #btnAdd, #btnPrint, #btnSave, #btnAddDoc, #btnDelDoc, #btnUpdateDoc {
-            width: 100%;
+        #btnAdd,#btnPrint,#btnSave,#btnAddDoc,#btnDelDoc,#btnUpdateDoc {
+            width:100%;
         }
-
         #dvTypes .label {
-            width: 100% !important;
+            width:100% !important;
         }
     }
 </style>
@@ -18,7 +17,7 @@ End Code
         <div class="row">
             <div class="col-sm-4">
                 <label id="lblBranch">Branch:</label>
-                <br />
+                <br/>
                 <div style="display:flex;flex-direction:row;">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" />
                     <input type="button" class="btn btn-default" value="..." onclick="SearchData('branch');" />
@@ -29,17 +28,17 @@ End Code
                 <label id="lblDocNo">Doc No:</label>
                 <br />
                 <div style="display:flex;flex-direction:row;">
-                    <input type="text" class="form-control" id="txtDocNo" />
+                    <input type="text" class="form-control" id="txtDocNo"/>
                     <input type="button" class="btn btn-default" value="..." onclick="SetGridWHTax()" />
                 </div>
             </div>
             <div class="col-sm-4">
                 <label id="lblDocDate">Date:</label>
-                <br />
+                <br/>
                 <div style="display:flex;flex-direction:row;">
-                    <input type="date" class="form-control" id="txtDocDate" />
+                    <input type="date" class="form-control" id="txtDocDate"/>
                 </div>
-
+                
             </div>
         </div>
         <ul class="nav nav-tabs">
@@ -55,7 +54,7 @@ End Code
                 <p>
                     <div class="row">
                         <div class="col-sm-6">
-                            <label id="lblTaxName1">Tax Issuer</label>
+                            <label id="lblTaxName1">Tax Issuer</label>                            
                             <input id="chkVender" type="checkbox" /><label id="lblVend">Venders</label>
                             <br />
                             <div style="display:flex;flex-direction:row;">
@@ -66,14 +65,14 @@ End Code
                         </div>
                         <div class="col-sm-3">
                             <label id="lblTaxNumber1">Tax Number</label>
-                            <br />
+                            <br/>
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTaxNumber1" class="form-control" style="width:100%" />
-                            </div>
+                            </div>                                                                                            
                         </div>
                         <div class="col-sm-3">
                             <label id="lblIDCard1">ID Number</label>
-                            <br />
+                            <br/>
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtIDCard1" class="form-control" style="width:100%" />
                                 <input type="button" class="btn btn-default" value="DN" onclick="MoveData('1','2')" />
@@ -83,14 +82,14 @@ End Code
                     <div class="row">
                         <div class="col-sm-9">
                             <label id="lblAddress1">Address</label>
-                            <br />
+                            <br/>
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTAddress1" class="form-control" style="width:100%" />
-                            </div>
+                            </div>                            
                         </div>
                         <div class="col-sm-3">
                             <label id="lblBranch1">Branch</label>
-                            <br />
+                            <br/>
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtBranch1" class="form-control" style="width:100%" />
                             </div>
@@ -101,7 +100,7 @@ End Code
                     <div class="row">
                         <div class="col-sm-6">
                             <label id="lblTaxName2">Tax Agent</label>
-                            <br />
+                            <br/>
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTName2" class="form-control" style="width:100%" />
                                 <input type="button" class="btn btn-default" value="..." onclick="GetDefault()" />
@@ -109,14 +108,14 @@ End Code
                         </div>
                         <div class="col-sm-3">
                             <label id="lblTaxNumber2">Tax Number</label>
-                            <br />
+                            <br/>
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTaxNumber2" class="form-control" style="width:100%" />
-                            </div>
+                            </div>                            
                         </div>
                         <div class="col-sm-3">
                             <label id="lblIDCard2">ID Number</label>
-                            <br />
+                            <br/>
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtIDCard2" class="form-control" style="width:100%" />
                                 <input type="button" class="btn btn-default" value="DN" onclick="MoveData('2','3')" />
@@ -127,17 +126,17 @@ End Code
                     <div class="row">
                         <div class="col-sm-9">
                             <label id="lblAddress2">Address</label>
-                            <br />
+                            <br/>
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTAddress2" class="form-control" style="width:100%" />
-                            </div>
+                            </div>                            
                         </div>
                         <div class="col-sm-3">
                             <label id="lblBranch2">Branch</label>
-                            <br />
+                            <br/>
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtBranch2" class="form-control" style="width:100%" />
-                            </div>
+                            </div>                            
                         </div>
                     </div>
                 </p>
@@ -145,7 +144,7 @@ End Code
                     <div class="row">
                         <div class="col-sm-6">
                             <label id="lblTaxName3">Tax Payer</label>
-                            <br />
+                            <br/>
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTName3" class="form-control" style="width:100%" />
                                 <input type="button" class="btn btn-default" value="..." onclick="SearchData('vender')" />
@@ -153,14 +152,14 @@ End Code
                         </div>
                         <div class="col-sm-3">
                             <label id="lblTaxNumber3">Tax Number</label>
-                            <br />
+                            <br/>
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTaxNumber3" class="form-control" style="width:100%" />
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <label id="lblIDCard3">ID Number</label>
-                            <br />
+                            <br/>
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtIDCard3" class="form-control" style="width:100%" />
                                 <input type="button" class="btn btn-default" value="UP" onclick="MoveData('3','2')" />
@@ -170,28 +169,28 @@ End Code
                     <div class="row">
                         <div class="col-sm-9">
                             <label id="lblAddress3">Address</label>
-                            <br />
+                            <br/>
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTAddress3" class="form-control" style="width:100%" />
-                            </div>
+                            </div>                            
                         </div>
                         <div class="col-sm-3">
                             <label id="lblBranch3">Branch</label>
-                            <br />
+                            <br/>
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtBranch3" class="form-control" style="width:100%" />
-                            </div>
+                            </div>                            
                         </div>
                     </div>
                 </p>
                 <p>
                     <div class="row">
                         <div class="col-sm-2">
-                            <label id="lblSeqInForm">Number</label>
+                            <label id="lblSeqInForm">Number</label>                            
                             <input type="text" id="txtSeqInForm" class="form-control" />
                         </div>
                         <div class="col-sm-7">
-                            <label id="lblFormType">Type of :</label>
+                            <label id="lblFormType">Type of :</label>                            
                             <label><input type="radio" name="FormType" value="1" /> (1) ภ.ง.ด.1ก.</label>
                             <label><input type="radio" name="FormType" value="2" /> (2) ภ.ง.ด.1ก. พิเศษ</label>
                             <label><input type="radio" name="FormType" value="3" /> (3) ภ.ง.ด.2.</label>
@@ -201,7 +200,7 @@ End Code
                             <label><input type="radio" name="FormType" value="7" checked /> (7) ภ.ง.ด.53.</label>
                         </div>
                         <div class="col-sm-3" style="display:flex;flex-direction:column">
-                            <label id="lblLawNo">Tax Code:</label>
+                            <label id="lblLawNo">Tax Code:</label>                            
                             <select class="form-control dropdown" id="txtTaxLawNo">
                                 <option value="1" selected>3 เตรส</option>
                                 <option value="2">65 จัดวา</option>
@@ -215,11 +214,10 @@ End Code
                         <div class="col-sm-6" style="display:flex;flex-direction:row">
                             <div style="flex:1">
                                 <label style="display:block;width:20%">
-                                    <input type="checkbox" id="chkCancel" /><label id="lblCancel" style="color:red"> Cancel</label>
-                                </label>
+                                <input type="checkbox" id="chkCancel" /><label id="lblCancel" style="color:red"> Cancel</label></label>
                             </div>
                             <div style="flex:4">
-                                <label id="lblReason">Reason :</label>
+                                <label id="lblReason">Reason :</label>                                
                                 <input type="text" id="txtCancelReason" class="form-control" />
                             </div>
                         </div>
@@ -274,7 +272,7 @@ End Code
                     <div style="flex:2;">
                         <div class="row">
                             <div class="col-sm-3">
-                                <label id="lblCondition">Tax Condition:</label>
+                                <label id="lblCondition">Tax Condition:</label>                                
                                 <select class="form-control dropdown" id="txtPayTaxType">
                                     <option value="1">หัก ณ ที่จ่าย</option>
                                     <option value="2">ออกภาษีให้ตลอดไป</option>
@@ -283,54 +281,54 @@ End Code
                                 </select>
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblPayTaxOther">Condition Note:</label>
+                                <label id="lblPayTaxOther">Condition Note:</label>                                
                                 <input type="text" id="txtPayTaxOther" class="form-control" />
                             </div>
                             <div class="col-sm-5">
-                                <label id="lblIncRate">Control Rate.</label>
+                                <label id="lblIncRate">Control Rate.</label>                                
                                 <input type="text" id="txtIncRate" class="form-control" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <label id="lblIncOther">Description</label>
+                                <label id="lblIncOther">Description</label>                                
                                 <input type="text" id="txtIncOther" class="form-control" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-4">
-                                <label id="lblSoLicNo">Social Security No.</label>
+                                <label id="lblSoLicNo">Social Security No.</label>                                
                                 <input type="text" id="txtSoLicenseNo" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblSoTaxNo">Social Payer No.</label>
+                                <label id="lblSoTaxNo">Social Payer No.</label>                                
                                 <input type="text" id="txtSoTaxNo" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblSoLicAmt">Amount.</label>
+                                <label id="lblSoLicAmt">Amount.</label>                                
                                 <input type="text" id="txtSoLicenseAmount" class="form-control" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-4">
-                                <label id="lblPayeeAccNo">Provident Payer.</label>
+                                <label id="lblPayeeAccNo">Provident Payer.</label>                                
                                 <input type="text" id="txtPayeeAccNo" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblProvidentAmt">Provident Amount.</label>
+                                <label id="lblProvidentAmt">Provident Amount.</label>                                
                                 <input type="text" id="txtSoAccAmount" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblTeacherAmt">Teacher Amt.</label>
+                                <label id="lblTeacherAmt">Teacher Amt.</label>                                
                                 <input type="text" id="txtTeacherAmt" class="form-control" />
                             </div>
                         </div>
                     </div>
                     <div style="flex:1;margin-left:10px">
-                        <label id="lblTotalPayAmt">Total Amount :</label>
+                        <label id="lblTotalPayAmt">Total Amount :</label>                        
                         <input type="text" class="form-control" id="txtTotalPayAmount" />
                         <br />
-                        <label id="lblTotalPayTax">Total Tax :</label>
+                        <label id="lblTotalPayTax">Total Tax :</label>                        
                         <input type="text" class="form-control" id="txtTotalPayTax" />
                     </div>
                 </div>
@@ -342,23 +340,22 @@ End Code
                     <div class="modal-body">
                         <div style="display:flex;flex-wrap:wrap">
                             <div>
-                                <label id="lblItemNo">No :</label>
+                                <label id="lblItemNo">No :</label>                                
                                 <br />
                                 <input type="text" id="txtItemNo" class="form-control" value="0" disabled>
                             </div>
                             <div>
-                                <label id="lblDocType">Doc.Type :</label>
+                                <label id="lblDocType">Doc.Type :</label>                                
                                 <br />
                                 <select id="txtDocRefType" class="form-control dropdown">
                                     <option value="1">ADV</option>
                                     <option value="2">CLR</option>
                                     <option value="3">PAY</option>
                                     <option value="4">TAX</option>
-                                    <option value="5">INV</option>
                                 </select>
                             </div>
                             <div>
-                                <label id="lblRefNo">RefNo :</label>
+                                <label id="lblRefNo">RefNo :</label>                                
                                 <br />
                                 <input type="text" id="txtDocRefNo" class="form-control">
                             </div>
@@ -369,7 +366,7 @@ End Code
                         </div>
                         <div style="display:flex;flex-wrap:wrap">
                             <div>
-                                <label id="lblJNo">Job No :</label>
+                                <label id="lblJNo">Job No :</label>                                
                                 <br />
                                 <input type="text" id="txtJNo" class="form-control">
                             </div>
@@ -378,14 +375,14 @@ End Code
                                 <input type="button" class="btn btn-default" value="..." onclick="GetJobNo()" />
                             </div>
                             <div>
-                                <label id="lblPayDate">Pay.Date :</label>
+                                <label id="lblPayDate">Pay.Date :</label>                                
                                 <br />
                                 <input type="date" id="txtPayDate" class="form-control">
                             </div>
                         </div>
                         <div style="display:flex;flex-wrap:wrap">
                             <div>
-                                <label id="lblIncType">Revenue Type :</label>
+                                <label id="lblIncType">Revenue Type :</label>                                
                                 <br />
                                 <select id="txtIncType" class="form-control dropdown">
                                     <option value="1">
@@ -435,24 +432,24 @@ End Code
                         </div>
                         <div style="display:flex;flex-wrap:wrap;">
                             <div style="flex:1">
-                                <label id="lblPayTaxDesc">Description :</label>
+                                <label id="lblPayTaxDesc">Description :</label>                                
                                 <br />
                                 <input type="text" id="txtPayTaxDesc" class="form-control">
                             </div>
                         </div>
                         <div style="display:flex;flex-wrap:wrap">
                             <div style="flex:1">
-                                <label id="lblPayRate">Rate :</label>
+                                <label id="lblPayRate">Rate :</label>                                
                                 <br />
                                 <input type="number" id="txtPayRate" class="form-control" value="0.00" onchange="CalWHT()">
                             </div>
                             <div style="flex:1">
-                                <label id="lblAmount">Amount :</label>
+                                <label id="lblAmount">Amount :</label>                                
                                 <br />
                                 <input type="number" id="txtPayAmount" class="form-control" value="0.00" onchange="CalWHT()">
                             </div>
                             <div style="flex:1">
-                                <label id="lblPayTax">Tax :</label>
+                                <label id="lblPayTax">Tax :</label>                                
                                 <br />
                                 <input type="number" id="txtPayTax" class="form-control" value="0.00">
                             </div>
@@ -563,11 +560,7 @@ End Code
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response, 3);
-            CreateLOV(dv, '#frmSearchDoc1', '#tbDoc1', 'Documents', response, 3);
-            CreateLOV(dv, '#frmSearchDoc2', '#tbDoc2', 'Documents', response, 3);
-            CreateLOV(dv, '#frmSearchDoc3', '#tbDoc3', 'Documents', response, 3);
-            CreateLOV(dv, '#frmSearchDoc4', '#tbDoc4', 'Documents', response, 3);
-            CreateLOV(dv, '#frmSearchDoc5', '#tbDoc5', 'Documents', response, 3);
+            CreateLOV(dv, '#frmSearchDoc', '#tbDoc', 'Documents', response, 3);
             CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job Number', response, 3);
         });
     }
@@ -663,19 +656,19 @@ End Code
         $('#txtBranchName').val(dr.BrName);
     }
     function ReadCustomer(dr) {
-        $('#txtTName1').val(dr.Title + ' ' +dr.NameThai);
+        $('#txtTName1').val((dr.Title?dr.Title:"") + ' ' +dr.NameThai);
         $('#txtTAddress1').val(dr.TAddress1 + ' ' + dr.TAddress2);
         $('#txtTaxNumber1').val(dr.TaxNumber);
         $('#txtBranch1').val(dr.Branch);
     }
     function ReadVender1(dr) {
-        $('#txtTName1').val(dr.Title + ' '+dr.TName);
+        $('#txtTName1').val((dr.Title?dr.Title:"") + ' '+dr.TName);
         $('#txtTAddress1').val(dr.TAddress1 + ' ' + dr.TAddress2);
         $('#txtTaxNumber1').val(dr.TaxNumber);
         $('#txtBranch1').val(dr.BranchCode);
     }
     function ReadVender3(dr) {
-        $('#txtTName3').val(dr.Title + ' '+ dr.TName);
+        $('#txtTName3').val((dr.Title?dr.Title:"") + ' '+ dr.TName);
         $('#txtTAddress3').val(dr.TAddress1 + ' ' + dr.TAddress2);
         $('#txtTaxNumber3').val(dr.TaxNumber);
         $('#txtBranch3').val(dr.BranchCode);
@@ -706,28 +699,6 @@ End Code
         $('#txtDocRefNo').val(dr.ClrNo);
         $('#txtPayRate').val(dr.Rate50Tavi);
     }
-    function ReadPay(dr) {
-        $('#txtPayDate').val($('#txtDocDate').val());
-        $('#txtPayAmount').val(dr.TotalExpense);
-        $('#txtPayTax').val(dr.TotalTax);
-        $('#txtDocRefNo').val(dr.DocNo);
-        $('#txtPayRate').val(dr.TaxRate);
-    }
-    function ReadRcp(dr) {
-        $('#txtPayDate').val($('#txtDocDate').val());
-        $('#txtPayAmount').val(dr.Amt);
-        $('#txtPayTax').val(dr.Amt50Tavi);        
-        $('#txtDocRefNo').val(dr.ReceiptNo);
-        $('#txtPayRate').val(dr.Rate50Tavi);
-    }
-    function ReadInv(dr) {
-        $('#txtPayDate').val($('#txtDocDate').val());
-        $('#txtPayAmount').val(dr.Amt);
-        $('#txtPayTax').val(dr.Amt50Tavi);
-        $('#txtJNo').val(dr.FromJobNo);
-        $('#txtDocRefNo').val(dr.DocNo);
-        $('#txtPayRate').val(dr.Rate50Tavi);
-    }
     function ReadJob(dr) {
         $('#txtJNo').val(dr.JNo);
     }
@@ -741,7 +712,7 @@ End Code
                     let c = d.filter(function (chk) {
                         return chk.Rate50Tavi >0
                     });
-                    let tb=$('#tbDoc1').DataTable({
+                    let tb=$('#tbDoc').DataTable({
                         data: c,
                         selected: true, //ให้สามารถเลือกแถวได้
                         columns: [ //กำหนด property ของ header column
@@ -764,22 +735,22 @@ End Code
                         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
                         , pageLength: 100
                     });
-                    $('#tbDoc1 tbody').on('click', 'button', function () {
-                        let dt = GetSelect('#tbDoc1', this); //read current row selected
+                    $('#tbDoc tbody').on('click', 'button', function () {
+                        let dt = GetSelect('#tbDoc', this); //read current row selected
                         ReadAdv(dt); //callback function from caller
-                        $('#frmSearchDoc1').modal('hide');
+                        $('#frmSearchDoc').modal('hide');
                     });
-                    $('#tbDoc1 tbody').on('click', 'tr', function () {
-                        $('#tbDoc1 tbody > tr').removeClass('selected'); //ล้างทุก row ที่มีการ select ก่อน
+                    $('#tbDoc tbody').on('click', 'tr', function () {
+                        $('#tbDoc tbody > tr').removeClass('selected'); //ล้างทุก row ที่มีการ select ก่อน
                         $(this).addClass('selected'); //select row ใหม่
                     });
-                    $('#frmSearchDoc1').modal('show');
+                    $('#frmSearchDoc').modal('show');
                 });
                 break;
             case "2": //CLR
                 $.get(path + 'Clr/GetClearingGrid' + '?branchcode=' + $('#txtBranchCode').val() + '&taxnumber=' + $('#txtTaxNumber1').val(), function (r) {
                     let d = r.clr.data;
-                    $('#tbDoc2').DataTable({
+                    $(g).DataTable({
                         data: d,
                         selected: true, //ให้สามารถเลือกแถวได้
                         columns: [ //กำหนด property ของ header column
@@ -802,139 +773,17 @@ End Code
                         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
                         , pageLength: 100
                     });
-                    $('#tbDoc2 tbody').on('click', 'button', function () {
-                        let dt = GetSelect('#tbDoc2', this); //read current row selected
-                        ReadClr(dt); //callback function from caller
-                        $('#frmSearchDoc2').modal('hide');
-                    });
-                    $('#tbDoc2 tbody').on('click', 'tr', function () {
-                        $('#tbDoc2 tbody > tr').removeClass('selected'); //ล้างทุก row ที่มีการ select ก่อน
-                        $(this).addClass('selected'); //select row ใหม่
-                    });
-                    $('#frmSearchDoc2').modal('show');
+                    BindEvent('#tbDoc', '#frmSearchDoc', ReadClr);
                 });
                 break;
             case "3": //PAY
-                $.get(path + 'Acc/GetPayment' + '?branch=' + $('#txtBranchCode').val(), function (r) {
-                    let d = r.payment.header;
-                    $('#tbDoc3').DataTable({
-                        data: d,
-                        selected: true, //ให้สามารถเลือกแถวได้
-                        columns: [ //กำหนด property ของ header column
-                            { data: null, title: "#" },
-                            { data: "DocNo", title: "รหัส" },
-                            { data: "PoNo", title: "เลขเอกสาร" },
-                            { data: "TotalTax", title: "ยอดเงิน" }
-                        ],
-                        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
-                            {
-                                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
-                                "data": null,
-                                "render": function (data, type, full, meta) {
-                                    let html = "<button class='btn btn-warning'>Select</button>";
-                                    return html;
-                                }
-                            }
-                        ],
-                        responsive: true,
-                        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                        , pageLength: 100
-                    });
-                    $('#tbDoc3 tbody').on('click', 'button', function () {
-                        let dt = GetSelect('#tbDoc3', this); //read current row selected
-                        ReadPay(dt); //callback function from caller
-                        $('#frmSearchDoc3').modal('hide');
-                    });
-                    $('#tbDoc3 tbody').on('click', 'tr', function () {
-                        $('#tbDoc3 tbody > tr').removeClass('selected'); //ล้างทุก row ที่มีการ select ก่อน
-                        $(this).addClass('selected'); //select row ใหม่
-                    });
-                    $('#frmSearchDoc3').modal('show');
-                });
                 break;
             case "4": //TAX
-                $.get(path + 'Acc/GetRcpDetail' + '?branch=' + $('#txtBranchCode').val(), function (r) {
-                    let d = r.rcpdetail.data;
-                    $('#tbDoc4').DataTable({
-                        data: d,
-                        selected: true, //ให้สามารถเลือกแถวได้
-                        columns: [ //กำหนด property ของ header column
-                            { data: null, title: "#" },
-                            { data: "ReceiptNo", title: "รหัส" },
-                            { data: "SDescription", title: "หมายเหตุ" },
-                            { data: "Amt50Tavi", title: "ยอดเงิน" }
-                        ],
-                        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
-                            {
-                                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
-                                "data": null,
-                                "render": function (data, type, full, meta) {
-                                    let html = "<button class='btn btn-warning'>Select</button>";
-                                    return html;
-                                }
-                            }
-                        ],
-                        responsive: true,
-                        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                        , pageLength: 100
-                    });
-                    $('#tbDoc4 tbody').on('click', 'button', function () {
-                        let dt = GetSelect('#tbDoc4', this); //read current row selected
-                        ReadRcp(dt); //callback function from caller
-                        $('#frmSearchDoc4').modal('hide');
-                    });
-                    $('#tbDoc4 tbody').on('click', 'tr', function () {
-                        $('#tbDoc4 tbody > tr').removeClass('selected'); //ล้างทุก row ที่มีการ select ก่อน
-                        $(this).addClass('selected'); //select row ใหม่
-                    });
-                    $('#frmSearchDoc4').modal('show');
-                });
-
-                break;
-            case "5": //INV
-                $.get(path + 'Acc/GetInvDetail' + '?branch=' + $('#txtBranchCode').val(), function (r) {
-                    let d = r.invdetail.data;
-                    $('#tbDoc5').DataTable({
-                        data: d,
-                        selected: true, //ให้สามารถเลือกแถวได้
-                        columns: [ //กำหนด property ของ header column
-                            { data: null, title: "#" },
-                            { data: "DocNo", title: "รหัส" },
-                            { data: "SDescription", title: "ค่าใช้จ่าย" },
-                            { data: "Amt50Tavi", title: "ยอดเงิน" }
-                        ],
-                        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
-                            {
-                                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
-                                "data": null,
-                                "render": function (data, type, full, meta) {
-                                    let html = "<button class='btn btn-warning'>Select</button>";
-                                    return html;
-                                }
-                            }
-                        ],
-                        responsive: true,
-                        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                        , pageLength: 100
-                    });
-                    $('#tbDoc5 tbody').on('click', 'button', function () {
-                        let dt = GetSelect('#tbDoc5', this); //read current row selected
-                        ReadInv(dt); //callback function from caller
-                        $('#frmSearchDoc5').modal('hide');
-                    });
-                    $('#tbDoc5 tbody').on('click', 'tr', function () {
-                        $('#tbDoc5 tbody > tr').removeClass('selected'); //ล้างทุก row ที่มีการ select ก่อน
-                        $(this).addClass('selected'); //select row ใหม่
-                    });
-                    $('#frmSearchDoc5').modal('show');
-                });
-
                 break;
         }
     }
     function GetJobNo() {
-        //SetGridJob(path, '#tbJob', '#frmSearchJob', '?branch=' + $('#txtBranchCode').val() + '&taxnumber=' + $('#txtTaxNumber1').val(), ReadJob);
-        SetGridJob(path, '#tbJob', '#frmSearchJob', '?branch=' + $('#txtBranchCode').val(), ReadJob);
+        SetGridJob(path, '#tbJob', '#frmSearchJob', '?branch=' + $('#txtBranchCode').val() + '&taxnumber=' + $('#txtTaxNumber1').val(), ReadJob);
     }
     function ReadData(dr,dt) {
         $('#txtBranchCode').val(dr.BranchCode);

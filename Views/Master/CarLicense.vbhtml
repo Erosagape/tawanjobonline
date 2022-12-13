@@ -23,7 +23,7 @@ End Code
             :
         </div>
         <div class="col-sm-8" style="display:flex">
-            <input type="text" id="txtEmpCode" class="form-control" disabled>
+            <input type="text" id="txtEmpCode" class="form-control">
             <input type="button" class="btn btn-default" id="btnBrowseType" value="..." onclick="SearchData('driver')" />
         </div>
 
@@ -253,7 +253,7 @@ End Code
 
     function ReadDriver(dr) {
         //popup step3
-        $('#txtEmpCode').val(dr.EmpCode);
+        $('#txtEmpCode').val(dr.Name);
     }
 </script>
 

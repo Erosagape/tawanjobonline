@@ -207,7 +207,7 @@ End Code
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <input id="objFile" type="file" />
+                <input id="objFile" type="file" multiple/>
                 <input id="btnUpload" type="button" value="Upload" onclick="UploadFile()" />                
             </div>
             <div class="modal-footer">

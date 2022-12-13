@@ -158,7 +158,8 @@ End Code
         if (rb.booking !== null) {
             let b = rb.booking.data[0];
             $('#lblTransportTerm').text(b.TransMode);
-
+                    $('#lblMarks').text(b.Remark);
+                    $('#lblBookingNo').text(b.BookingNo);
             $.get(path + '/joborder/getjobsql?branch=' + br + '&jno=' + b.JNo).done(function (r) {
                 if (r.job !== null) {
                     let j = r.job.data[0];
@@ -199,7 +200,7 @@ End Code
                             $('#lblCtns').text(ctns);
                         }
                     });
-                    $('#lblVessel').text(j.VesselName);
+                    $('#lblVesselName').text(j.VesselName);
                     $('#lblDescription').text(j.InvProduct);
                     $('#lblPkg1').text(j.InvProductQty + " " + j.InvProductUnit);
                     $('#lblPkg2').text(j.InvProductQty + " " + j.InvProductUnit);
@@ -207,7 +208,7 @@ End Code
                     $('#lblGW').text(j.TotalGW + " " + j.GWUnit);
                     $('#lblBLNo').text(j.HAWB);
                     $('#lblTotalCTN').text(j.TotalContainer);
-                    $('#lblMarks').text(j.Description);
+
                     $('#lblTRemark').text(j.TRemark);
                     $('#lblDischargePort').text(j.ClearPortNo);
                     $('#lblETD').text(ShowDate(j.JobType > 1 ? j.ETDDate : j.ETADate));

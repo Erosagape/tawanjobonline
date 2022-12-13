@@ -2,27 +2,28 @@
 function ShowBranch(path, Branch, ControlID) {
     $(ControlID).text('');
     $.get(path + 'Config/GetBranch?Code=' + Branch)
-        .done(function (r) {
+        .done(function(r) {
             if (r.branch.data.length > 0) {
                 let b = r.branch.data[0];
                 $(ControlID).text(b.BrName);
             }
         });
 }
+
 function ShowJobTypeShipBy(path, jt, sb, js, ControlJT, ControlSB, ControlST) {
     $(ControlJT).text('');
     $(ControlSB).text('');
     if (jt < 10) jt = '0' + jt;
     if (sb < 10) sb = '0' + sb;
     $.get(path + 'Config/GetConfig?Code=JOB_TYPE&Key=' + jt)
-        .done(function (r) {
+        .done(function(r) {
             let b = r.config.data;
             if (b.length > 0) {
                 $(ControlJT).text(b[0].ConfigValue);
             }
         });
     $.get(path + 'Config/GetConfig?Code=SHIP_BY&Key=' + sb)
-        .done(function (r) {
+        .done(function(r) {
             let b = r.config.data;
             if (b.length > 0) {
                 $(ControlSB).text(b[0].ConfigValue);
@@ -32,7 +33,7 @@ function ShowJobTypeShipBy(path, jt, sb, js, ControlJT, ControlSB, ControlST) {
         $(ControlST).val('');
         if (js < 10) js = '0' + js;
         $.get(path + 'Config/GetConfig?Code=JOB_STATUS&Key=' + js)
-            .done(function (r) {
+            .done(function(r) {
                 let b = r.config.data;
                 if (b.length > 0) {
                     $(ControlST).text(b[0].ConfigValue);
@@ -40,11 +41,12 @@ function ShowJobTypeShipBy(path, jt, sb, js, ControlJT, ControlSB, ControlST) {
             });
     }
 }
+
 function ShowInvUnit(path, unitCode, ControlID) {
     $(ControlID).text(unitCode);
     if (unitCode != "") {
         $.get(path + 'Master/GetCustomsUnit?Code=' + unitCode)
-            .done(function (r) {
+            .done(function(r) {
                 if (r.customsunit.data.length > 0) {
                     let b = r.customsunit.data[0];
                     $(ControlID).text(b.TName);
@@ -52,11 +54,12 @@ function ShowInvUnit(path, unitCode, ControlID) {
             });
     }
 }
+
 function ShowServUnit(path, unitCode, ControlID) {
     $(ControlID).text(unitCode);
     if (unitCode != "") {
         $.get(path + 'Master/GetServUnit?Code=' + unitCode)
-            .done(function (r) {
+            .done(function(r) {
                 if (r.servunit.data.length > 0) {
                     let b = r.servunit.data[0];
                     $(ControlID).text(b.UName);
@@ -64,18 +67,20 @@ function ShowServUnit(path, unitCode, ControlID) {
             });
     }
 }
+
 function ShowCompany(d) {
     let c = DummyCompanyData();
-    $(d).html('<b>' + c.CompanyName + '</b>'
-        + '<br/>' + c.CompanyAddress1
-        + ' '
-        + c.CompanyAddress2);
+    $(d).html('<b>' + c.CompanyName + '</b>' +
+        '<br/>' + c.CompanyAddress1 +
+        ' ' +
+        c.CompanyAddress2);
 }
+
 function ShowCountry(path, CountryID, ControlID) {
     $(ControlID).text('-');
     if (CountryID != "") {
         $.get(path + 'Master/GetCountry?Code=' + CountryID)
-            .done(function (r) {
+            .done(function(r) {
                 if (r.country.data.length > 0) {
                     let b = r.country.data[0];
                     $(ControlID).text(b.CTYName);
@@ -83,31 +88,34 @@ function ShowCountry(path, CountryID, ControlID) {
             });
     }
 }
-function ShowInterPort(path, CountryID, PortCode, ControlID) {
+
+ async function ShowInterPort(path, CountryID, PortCode, ControlID) {
     $(ControlID).text('-');
     $.get(path + 'Master/GetInterPort?Code=' + PortCode + '&Key=' + CountryID)
-        .done(function (r) {
+        .done(function(r) {
             if (r.interport.data.length > 0) {
                 let b = r.interport.data[0];
                 $(ControlID).text(b.PortName);
             }
         });
 }
+
 function ShowReleasePort(path, Code, ControlID) {
     $(ControlID).text('-');
     $.get(path + 'Master/GetCustomsPort?Code=' + Code)
-        .done(function (r) {
+        .done(function(r) {
             if (r.RFARS.data.length > 0) {
                 let b = r.RFARS.data[0];
                 $(ControlID).text(b.AreaName);
             }
         });
 }
+
 function ShowVender(path, VenderID, ControlID) {
     $(ControlID).text('-');
     if (VenderID != "") {
         $.get(path + 'Master/GetVender?Code=' + VenderID)
-            .done(function (r) {
+            .done(function(r) {
                 if (r.vender.data.length > 0) {
                     let b = r.vender.data[0];
                     $(ControlID).text(b.TName);
@@ -115,21 +123,23 @@ function ShowVender(path, VenderID, ControlID) {
             });
     }
 }
+
 function ShowDeclareType(path, Code, ControlID) {
     $(ControlID).text('-');
     $.get(path + 'Master/GetDeclareType?Code=' + Code)
-        .done(function (r) {
+        .done(function(r) {
             if (r.RFDCT.data.length > 0) {
                 let b = r.RFDCT.data[0];
                 $(ControlID).text(b.Description);
             }
         });
 }
+
 function ShowUser(path, UserID, ControlID) {
     $(ControlID).text('-');
     if (UserID != "") {
         $.get(path + 'Master/GetUser?Code=' + UserID)
-            .done(function (r) {
+            .done(function(r) {
                 if (r.user.data.length > 0) {
                     let b = r.user.data[0];
                     $(ControlID).text(b.TName);
@@ -137,19 +147,21 @@ function ShowUser(path, UserID, ControlID) {
             });
     }
 }
+
 function ShowConfig(path, Code, Key, ControlID) {
     $.get(path + 'Config/GetConfig?Code=' + Code + '&Key=' + Key)
-        .done(function (r) {
+        .done(function(r) {
             let b = r.config.data;
             if (b.length > 0) {
                 $(ControlID).text(b[0].ConfigValue);
             }
         });
 }
+
 function ShowUserSign(path, UserID, ControlID) {
     if (UserID != "") {
         $.get(path + 'Master/GetUser?Code=' + UserID)
-            .done(function (r) {
+            .done(function(r) {
                 if (r.user.data.length > 0) {
                     let b = r.user.data[0];
                     $(ControlID).text('(' + b.TName + ')');
@@ -157,11 +169,12 @@ function ShowUserSign(path, UserID, ControlID) {
             });
     }
 }
+
 function ShowCustomer(path, Code, Branch, ControlID) {
     $(ControlID).val('');
     if ((Code + Branch).length > 0) {
         $.get(path + 'Master/GetCompany?Code=' + Code + '&Branch=' + Branch)
-            .done(function (r) {
+            .done(function(r) {
                 if (r.company.data.length > 0) {
                     let c = r.company.data[0];
                     $(ControlID).text(c.NameThai);
@@ -169,11 +182,12 @@ function ShowCustomer(path, Code, Branch, ControlID) {
             });
     }
 }
+
 function ShowCustomerEN(path, Code, Branch, ControlID) {
     $(ControlID).val('');
     if ((Code + Branch).length > 0) {
         $.get(path + 'Master/GetCompany?Code=' + Code + '&Branch=' + Branch)
-            .done(function (r) {
+            .done(function(r) {
                 if (r.company.data.length > 0) {
                     let c = r.company.data[0];
                     $(ControlID).text(c.NameEng);
@@ -181,6 +195,7 @@ function ShowCustomerEN(path, Code, Branch, ControlID) {
             });
     }
 }
+
 function GetReportStatus(reportID) {
     let val = '';
     switch (reportID) {
@@ -239,6 +254,7 @@ function GetReportStatus(reportID) {
     }
     return val;
 }
+
 function GetPaymentType(p) {
     switch (p) {
         case 'CA':
@@ -255,6 +271,7 @@ function GetPaymentType(p) {
             break;
     }
 }
+
 function GetVoucherType() {
     switch (vcType) {
         case 'P':
@@ -268,8 +285,8 @@ function GetVoucherType() {
             break;
     }
 }
+
 function LoadCliteria(reportID) {
-    $('#tbDate').show();
     $('#tbCode').hide();
     switch (reportID) {
         case 'JOBDAILY':
@@ -336,7 +353,7 @@ function LoadCliteria(reportID) {
         case 'CASHBAL':
             $('#tbDate').show();
             $('#tbEmp').hide(); //hide
-            $('#tbCust').hide();  //hide
+            $('#tbCust').hide(); //hide
             $('#tbStatus').hide(); //hide
             $('#tbJob').show(); //hide
             $('#tbVend').hide(); //hide
@@ -345,7 +362,7 @@ function LoadCliteria(reportID) {
         case 'ADVSUMMARY':
             $('#tbDate').show();
             $('#tbEmp').hide(); //hide
-            $('#tbCust').hide();  //hide
+            $('#tbCust').hide(); //hide
             $('#tbStatus').hide(); //hide
             $('#tbJob').hide(); //hide
             $('#tbVend').hide(); //hide
@@ -395,12 +412,13 @@ function LoadCliteria(reportID) {
             $('#tbEmp').show();
             $('#tbCust').show();
             $('#tbStatus').hide(); //hide
-            $('#tbJob').hide();  //hide
-            $('#tbVend').hide();  //hide
+            $('#tbJob').hide(); //hide
+            $('#tbVend').hide(); //hide
             $('#tbCode').show();
             break;
     }
 }
+
 function IsNumberColumn(cname) {
     let colname = ',InvTotal,InvProductQty,InvCurRate,DutyAmount,TotalGW,Commission,TotalNW,TotalQty,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,Tax3Tres,TaxNot3Tres,TotalJob,';
     if (colname.indexOf(',' + cname + ',') >= 0) {
@@ -452,6 +470,7 @@ function IsNumberColumn(cname) {
     }
     return false;
 }
+
 function IsSummaryColumn(cname) {
     let colname = ',DutyAmount,TotalGW,Commission,TotalNW,AdvNet,AdvPayAmount,ClrNet,UsedAmount,AdvBalance,TotalNet,PaidAmount,UnPaidAmount,TotalAdv,TotalCharge,TotalVAT,TotalVat,Total50Tavi,TotalWHT,TotalNet,TotalReceived,TotalCredit,TotalBal,Amount,Prepaid,Total Amount,';
     if (colname.indexOf(',' + cname + ',') >= 0) {
@@ -503,6 +522,7 @@ function IsSummaryColumn(cname) {
     }
     return false;
 }
+
 function FormatValue(c, val) {
     if (c.indexOf('Date') >= 0) {
         return ShowDate(val);
@@ -514,6 +534,7 @@ function FormatValue(c, val) {
         }
     }
 }
+
 function GetColumnHeader(id, langid) {
     let lang = {
         JNo: 'Job#|เลขงาน',
@@ -734,6 +755,7 @@ function GetColumnHeader(id, langid) {
     }
     return str;
 }
+
 function GetGroupCaption(src, fld, val) {
     let retstr = val;
     //if (src.length > 0) {
@@ -752,7 +774,7 @@ function GetGroupCaption(src, fld, val) {
             break;
         case "JobStatus":
             if (src.length > 0) {
-                let status = src[0].filter(function (data) {
+                let status = src[0].filter(function(data) {
                     return val == data.ConfigKey;
                 });
                 if (status.length > 0) {
@@ -762,7 +784,7 @@ function GetGroupCaption(src, fld, val) {
             break;
         case "CustCode":
             if (src.length > 0) {
-                let cust = src[0].filter(function (data) {
+                let cust = src[0].filter(function(data) {
                     return val == data.CustCode;
                 });
                 if (cust.length > 0) {
@@ -775,7 +797,7 @@ function GetGroupCaption(src, fld, val) {
         case "ShippingEmp":
         case "ReqBy":
             if (src.length > 0) {
-                let emp = src[0].filter(function (data) {
+                let emp = src[0].filter(function(data) {
                     return val == data.UserID;
                 });
                 if (emp.length > 0) {
@@ -785,7 +807,7 @@ function GetGroupCaption(src, fld, val) {
             break;
         case "ClearPort":
             if (src.length > 0) {
-                let ports = src[0].filter(function (data) {
+                let ports = src[0].filter(function(data) {
                     return val == data.AreaCode;
                 });
                 if (ports.length > 0) {
@@ -797,6 +819,7 @@ function GetGroupCaption(src, fld, val) {
     //}
     return retstr;
 }
+
 function LoadReport(path, reportID, obj, lang) {
     let str = JSON.stringify(obj);
     let urlReport = '';
@@ -810,7 +833,7 @@ function LoadReport(path, reportID, obj, lang) {
         type: "POST",
         contentType: "application/json",
         data: str,
-        success: function (response) {
+        success: function(response) {
             let res = JSON.parse(response);
             if (res.msg !== "OK") {
                 //alert(r.msg);
@@ -840,16 +863,16 @@ function LoadReport(path, reportID, obj, lang) {
                 }
 
                 let html = '<thead><tr><th style="border:1px solid black;text-align:left;background-color:lightgrey;width:2%">#</th>';
-                $.each(tb[0], function (key, value) {
-                    if (key !== groupField) {
-                        html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;';
+                $.each(tb[0], function(key, value) {
+                    if (groupField.indexOf(key) < 0) {
+                        html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;white-space: nowrap;';
                         if (colWidth.length > 0) {
                             if (colWidth.length > colCount) {
                                 html += 'width:' + colWidth[colCount] + '%';
                             }
                         }
                         html += '"><b>' + GetColumnHeader(key, lang) + '</b></th>';
-                        if (textFields.indexOf(key) >= 0 || key.indexOf('CustCode') >= 0) {
+                        if (textFields.indexOf(key) >= 0 || key.indexOf('CustCode') >= 0 || key.indexOf('TaxNumber') >= 0) {
                             sumGroup.push({ isSummary: false, value: 0 });
                         } else {
                             if (IsSummaryColumn(key) == true) {
@@ -867,11 +890,14 @@ function LoadReport(path, reportID, obj, lang) {
 
                 let groupCount = 0;
                 let groupCaption = GetColumnHeader(groupField, lang);
+                if (groupField.indexOf(',') > 0) {
+                    groupCaption = "Group:";
+                }
                 let row = 0;
                 for (let r of tb) {
                     html += '<tr>';
                     if (groupField !== '') {
-                        if (FormatValue(groupField, r[groupField]) !== groupVal) {
+                        if (GetGroupValue(groupField, r) !== groupVal) {
                             //Show Summary
                             if (groupCount > 0) {
                                 html += '<td colspan="2" style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>SUB TOTAL</b></u></td>';
@@ -886,7 +912,7 @@ function LoadReport(path, reportID, obj, lang) {
                                 html += '</tr><tr>';
                                 groupCount = 0;
                             }
-                            groupVal = FormatValue(groupField, r[groupField]);
+                            groupVal = GetGroupValue(groupField, r);
                             groupCount++;
 
                             html += '<td colspan="' + (colCount + 1) + '" style="background-color:lightyellow;border:1px solid black;text-align:left;">' + groupCaption + ' <b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
@@ -896,20 +922,37 @@ function LoadReport(path, reportID, obj, lang) {
                         }
                     }
                     row++;
-                    html += '<td style="border:1px solid black;text-align:center;">' + row + '</td>';
+                    html += '<td name="0" style="border:1px solid black;text-align:center;white-space: nowrap;">' + row + '</td>';
                     let col = 0;
                     for (let c in r) {
-                        if (c !== groupField) {
+                        if (groupField.indexOf(c) < 0) {
                             if (c.indexOf('Date') >= 0) {
-                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
+                                html += '<td name="1" style="border:1px solid black;text-align:left;white-space: nowrap;">' + ShowDate(r[c]) + '</td>';
                             } else {
                                 if (r[c] !== null) {
                                     if (sumGroup[col].isSummary == true) {
                                         sumGroup[col].value += Number(r[c]);
                                         sumTotal[col] += Number(r[c]);
-                                        html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c], 2) + '</td>';
+                                        html += '<td name="2" style="border:1px solid black;text-align:right;white-space: nowrap;min-width:20px">' + ShowNumber(r[c], 2) + '</td>';
                                     } else {
-                                        html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
+                                        console.log(r[c] + "\n" + r[c].length);
+                                        // let whitespace = r[c].length > 20 ? "white-space: normal;" : "white-space: nowrap;";
+                                        // html += '<td name="' + c + '" style="border:1px solid black;text-align:left;' + whitespace + 'max-width:100px">' + r[c] + '</td>';
+                                        switch (c) {
+                                            case "Customer":
+                                                if (r[c].length > 20) {
+                                                    html += '<td name="' + c + '" style="border:1px solid black;text-align:left;white-space: normal;">' + r[c] + '</td>';
+                                                } else {
+                                                    html += '<td name="' + c + '" style="border:1px solid black;text-align:left;white-space: nowrap;">' + r[c] + '</td>';
+                                                }
+                                                break;
+                                            case "SDescription":
+                                            case "BookName":
+                                                html += '<td name="' + c + '" style="border:1px solid black;text-align:left;white-space: normal;">' + r[c] + '</td>';
+                                                break;
+                                            default:
+                                                html += '<td name="' + c + '" style="border:1px solid black;text-align:left;white-space: nowrap;max-width:100px">' + r[c] + '</td>';
+                                        }
                                     }
                                 } else {
                                     html += '<td style="border:1px solid black;text-align:left;"></td>';
@@ -934,7 +977,7 @@ function LoadReport(path, reportID, obj, lang) {
                     groupCount = 0;
                 }
                 html += '</tbody>'
-                //Grand Total
+                    //Grand Total
                 html += '<tfoot><tr style="font-weight:bold;background-color:lightgreen;"><td colspan="2" style="border:1px solid black;text-align:left;"><b>GRAND TOTAL<b/></td>';
                 for (let i = 1; i < colCount; i++) {
                     if (sumGroup[i].isSummary == true) {
@@ -952,6 +995,23 @@ function LoadReport(path, reportID, obj, lang) {
         }
     });
 }
+
+function GetGroupValue(fld, r) {
+    if (fld.indexOf(',') > 0) {
+        let str = '';
+        let lst = fld.split(fld, ',');
+        for (let n of lst) {
+            if (str !== '') {
+                str += ',';
+            }
+            str += FormatValue(n, r[n]);
+        }
+        return str;
+    } else {
+        return FormatValue(fld, r[fld]);
+    }
+}
+
 function LoadReportNoTotal(path, reportID, obj, lang) {
     let str = JSON.stringify(obj);
     let urlReport = '';
@@ -966,7 +1026,7 @@ function LoadReportNoTotal(path, reportID, obj, lang) {
         type: "POST",
         contentType: "application/json",
         data: str,
-        success: function (response) {
+        success: function(response) {
             let res = JSON.parse(response);
             if (res.msg !== "OK") {
                 //alert(r.msg);
@@ -988,7 +1048,7 @@ function LoadReportNoTotal(path, reportID, obj, lang) {
                 }
 
                 let html = '<thead><tr>';
-                $.each(tb[0], function (key, value) {
+                $.each(tb[0], function(key, value) {
                     if (key !== groupField) {
                         //html += '<th style="border:1px solid black;text-align:left;">' + key + '</th>';
                         html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;"><b>' + GetColumnHeader(key, lang) + '</b></th>';
@@ -1072,12 +1132,13 @@ function LoadReportNoTotal(path, reportID, obj, lang) {
                     groupCount = 0;
                 }
                 html += '</tbody>'
-                //ShowMessage(html);
+                    //ShowMessage(html);
                 $('#tbResult').html(html);
             }
         }
     });
 }
+
 function CheckAllIsNumber(arr, colName) {
     let tb = JSON.parse(JSON.stringify(arr));
     sortData(tb, colName, 'desc');
@@ -1095,14 +1156,4 @@ function CheckAllIsNumber(arr, colName) {
     } catch {
         return false;
     }
-}
-function ShowBank(path, bank, ControlID) {
-    $(ControlID).text(bank);
-    $.get(path + 'Master/GetBank?Code=' + bank)
-        .done(function (r) {
-            if (r.bank.data.length > 0) {
-                let b = r.bank.data[0];
-                $(ControlID).text(b.BName);
-            }
-        });
 }

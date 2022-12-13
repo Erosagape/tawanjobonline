@@ -26,7 +26,6 @@ End Code
                 <label id="lblClrDate">Document Date </label><br />
                 <input type="date" class="form-control" id="txtClrDate" tabindex="1" />
             </div>
-
         </div>
         <ul class="nav nav-tabs">
             <li class="active"><a id="linkHeader" data-toggle="tab" href="#tabHeader">Clearing Header</a></li>
@@ -63,11 +62,11 @@ End Code
                         </div>
                         <div class="row">
                             <div class="col-sm-3">
-                                <input type="checkbox" id="chkContainer" onclick="CheckContainer()" />
+                                <input type="checkbox" id="chkContainer" onclick="CheckContainer()" checked />
                                 <label id="lblContNo" style="color:red">Container No:</label>
                             </div>
                             <div class="col-sm-4" style="display:flex">
-                                <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" disabled />
+                                <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" value="N/A" disabled />
                                 <button class="btn btn-default" onclick="SearchData('container')">...</button>
                             </div>
                             <div class="col-sm-2">
@@ -398,14 +397,14 @@ End Code
                                     <input type="text" id="txt50Tavi" class="form-control" tabindex="28" />
                                 </div>
                                 <div class="col-sm-4">
-                                    <label id="lblSlipNo">Slip No :</label>
-                                    <br />
-                                    <input type="text" id="txtSlipNo" class="form-control" tabindex="26" />
-                                </div>
-                                <div class="col-sm-4">
                                     <label id="lblSlipDate">Slip Date :</label>
                                     <br />
-                                    <input type="date" class="form-control" id="txtDate50Tavi" tabindex="27" />
+                                    <input type="date" class="form-control" id="txtDate50Tavi" tabindex="26" />
+                                </div>
+                                <div class="col-sm-4">
+                                    <label id="lblSlipNo">Slip No :</label>
+                                    <br />
+                                    <input type="text" id="txtSlipNo" class="form-control" tabindex="27" />
                                 </div>
                             </div>
                             <div>
@@ -547,7 +546,7 @@ End Code
                                     <tr>
                                         <th>AdvNo</th>
                                         <th class="desktop">AdvDate</th>
-                                        <th class="all">ItemNo</th>
+                                        <th class="all">Container</th>
                                         <th class="desktop">SICode</th>
                                         <th>Description</th>
                                         <th class="desktop">JobNo</th>
@@ -861,11 +860,6 @@ End Code
         });
 
         $('#cboClrType').click(function (ev) {
-            if ((userPosition == '4' || userPosition == '5') && $('#cboClrType').val()=='3') {
-                ShowMessage('You are not allow to do this');
-                $('#cboClrType').val('1');
-                return;
-            }
             loadServiceGroupForClear(path, '#cboSTCode', $('#cboClrType').val());
         });
     }
@@ -1013,7 +1007,7 @@ End Code
             $('#txtBranchCode').focus();
             return false;
         }
-        if ($('#txtCTN_NO').val() == '' && $('#chkContainer').prop('checked')) {
+        if ($('#txtCTN_NO').val() == '') {
             ShowMessage('Please input container',true);
             $('#txtCTN_NO').focus();
             return false;
@@ -1152,13 +1146,13 @@ End Code
 
             $('#txtCTN_NO').val(dt.CTN_NO);
             $('#txtCoPersonCode').val(dt.CoPersonCode);
-            $('#txtClearTotal').val(CDbl(dt.ClearTotal, 2));
-            $('#txtClrAmount').val(CDbl(dt.ClearNet+dt.ClearWht-dt.ClearVat, 2));
-            $('#txtVatAmount').val(CDbl(dt.ClearVat, 2));
-            $('#txtWhtAmount').val(CDbl(dt.ClearWht, 2));
-            $('#txtNetAmount').val(CDbl(dt.ClearNet, 2));
-            $('#txtSumCharge').val(CDbl(dt.ClearBill, 2));
-            $('#txtSumCost').val(CDbl(dt.ClearCost,2));
+            $('#txtClearTotal').val(CDbl(dt.ClearTotal, 3));
+            $('#txtClrAmount').val(CDbl(dt.ClearNet+dt.ClearWht-dt.ClearVat, 3));
+            $('#txtVatAmount').val(CDbl(dt.ClearVat, 3));
+            $('#txtWhtAmount').val(CDbl(dt.ClearWht, 3));
+            $('#txtNetAmount').val(CDbl(dt.ClearNet, 3));
+            $('#txtSumCharge').val(CDbl(dt.ClearBill, 3));
+            $('#txtSumCost').val(CDbl(dt.ClearCost,3));
 
             $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
             $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
@@ -1447,7 +1441,12 @@ End Code
                         return ShowNumber(data, 3);
                     }
                 },
-                { data: "CurrencyCode", title: "Currency" },
+                {
+                    data: null, title: "Currency",
+                    render: function (d) {
+                        return d.CurrencyCode + '/' + d.CurRate;
+                    }
+                },
                 { data: "SlipNO", title: "Slip No" }
             ],
             "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
@@ -1871,7 +1870,7 @@ End Code
                 break;
             case 'quotation':
                 //let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val() + '&code=' + $('#txtSICode').val() + '&jtype=' + $('#txtJobType').val() + '&sby=' + $('#txtShipBy').val();
-                let qry = '?branch=' + $('#txtBranchCode').val();
+                let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val();
                 if ($('#txtJobType').val() > '0') {
                     qry += '&jtype=' + $('#txtJobType').val();
                 }
@@ -1980,7 +1979,7 @@ End Code
         if (dt != undefined) {
             $('#txtSICode').val(dt.SICode);
             $('#cboSTCode').val(dt.GroupCode);
-            $('#txtSDescription').val(dt.NameThai);
+            $('#txtSDescription').val(dt.NameEng);
             $('#txtVatType').val(dt.IsTaxCharge);
             $('#txtVATRate').val(dt.IsTaxCharge == "0" ? "0" : CDbl(@ViewBag.PROFILE_VATRATE*100,0));
             $('#txtWHTRate').val(dt.Is50Tavi == "0" ? "0" : dt.Rate50Tavi);
@@ -1988,12 +1987,12 @@ End Code
             $('#txtCurrencyCode').val(dt.CurrencyCode);
             ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
             ShowCaption();
-            $('#txtVenCode').val(dt.DefaultVender);
+            //$('#txtVenCode').val(dt.DefaultVender);
             ShowVender(path, dt.DefaultVender, '#txtPayChqTo');
             /*
             if (dt.IsTaxCharge == "2") {
                 $('#txtAMT').attr('disabled', 'disabled');
-                //$('#txtVATRate').attr('disabled', 'disabled');
+                $('#txtVATRate').attr('disabled', 'disabled');
                 $('#txtWHTRate').attr('disabled', 'disabled');
                 $('#txtVAT').attr('disabled', 'disabled');
                 $('#txtWHT').attr('disabled', 'disabled');
@@ -2008,6 +2007,8 @@ End Code
             $('#chkIsCost').prop('checked', dt.IsExpense == 1 ? true : false);
             if (dt.IsHaveSlip == 0) {
                 $('#txtSlipNo').attr('disabled', 'disabled');
+            } else {
+		$('#txtSlipNo').removeAttr('disabled');
             }
             CalVATWHT();
             return;
@@ -2054,8 +2055,8 @@ End Code
         $('#txtVAT').val(0);
         $('#txtWHT').val(0);
 
-        let price = CDbl($('#txtUnitPrice').val(),4);
-        let qty = CDbl($('#txtQty').val(),4);
+        let price = CDbl($('#txtUnitPrice').val(),2);
+        let qty = CDbl($('#txtQty').val(),3);
         let rate = CDbl($('#txtCurRate').val(),4); //rate ของ detail
         let type = $('#txtVatType').val();
         if (type == '' || type == '0') type = '1';
@@ -2065,7 +2066,7 @@ End Code
             //let total = CDbl(CNum(amt) / CNum(exc),4);
             if (type == '2') {
                 //$('#txtNET').val(CDbl(CNum(total),4));
-                $('#txtNET').val(CDbl(CNum(amt) * CNum(rate), 4));
+                $('#txtNET').val(CDbl(CNum(amt) * CNum(rate), 2));
             }
             if (type == '1') {
                 //$('#txtAMT').val(CDbl(CNum(total),4));
@@ -2075,38 +2076,38 @@ End Code
         }
     }
     function CalTotal() {
-        let amt = CDbl($('#txtAMT').val(),3);
-        let vat = CDbl($('#txtVAT').val(),3);
-        let wht = CDbl($('#txtWHT').val(),3);
+        let amt = CDbl($('#txtAMT').val(),4);
+        let vat = CDbl($('#txtVAT').val(),4);
+        let wht = CDbl($('#txtWHT').val(),4);
 
-        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),2));
+        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),4));
         $('#txtAMT').val(CDbl(amt,2));
     }
     function CalVATWHT() {
         let type = $('#txtVatType').val();
         if (type == ''||type=='0') type = '1';
-        let amt = CDbl($('#txtAMT').val(),4);
+        let amt = CDbl($('#txtAMT').val(),2);
         if (type == '2') {
-            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 4);
+            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 2);
         }
-        let vatrate = CDbl($('#txtVATRate').val(),4);
-        let whtrate = CDbl($('#txtWHTRate').val(),4);
+        let vatrate = CDbl($('#txtVATRate').val(),2);
+        let whtrate = CDbl($('#txtWHTRate').val(),2);
         let vat = 0;
         let wht = 0;
         if (type == "2") {
             //let base = amt * 100 / (100 + (vatrate - whtrate));
-            let base = amt * 100 / (100 + Number(vatrate));
+            let base = CDbl((amt * 100 / (100 + Number(vatrate))),2);
             vat = base * vatrate * 0.01;
             wht = base * whtrate * 0.01;
-            $('#txtAMT').val(CDbl(CNum(base),2));
-            $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 2));
+            $('#txtAMT').val(CDbl(CNum(base),4));
+            $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 4));
         }
         if (type == "1") {
             vat = amt * vatrate * 0.01;
             wht = amt * whtrate * 0.01;
         }
-        $('#txtVAT').val(CDbl(vat,3));
-        $('#txtWHT').val(CDbl(wht,3));
+        $('#txtVAT').val(CDbl(vat,4));
+        $('#txtWHT').val(CDbl(wht,4));
         CalTotal();
     }
     function LoadAdvance() {
@@ -2223,7 +2224,7 @@ End Code
         $('#txtWHTRate').val(dt.IsTax == "0" ? "0" : dt.TaxRate);
         if (dt.Isvat == "2") {
             $('#txtAMT').attr('disabled', 'disabled');
-            //$('#txtVATRate').attr('disabled', 'disabled');
+            $('#txtVATRate').attr('disabled', 'disabled');
             $('#txtWHTRate').attr('disabled', 'disabled');
             $('#txtVAT').attr('disabled', 'disabled');
             $('#txtWHT').attr('disabled', 'disabled');
@@ -2237,7 +2238,6 @@ End Code
         $('#txtCurrencyCode').val(dt.CurrencyCode);
         ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
         $('#txtCurRate').val(dt.CurrencyRate);
-        $('#txtQty').val(CDbl(dt.QtyBegin,2));
         $('#txtUnitPrice').val(CDbl(dt.ChargeAmt,2));
         $('#txtUnitCode').val(dt.UnitCheck);
         $('#txtVenCode').val(dt.VenderCode);
@@ -2269,11 +2269,14 @@ End Code
         var payclick = 0;
         $.get(path + 'Clr/GetPaymentForClear?branch=' + branch + w).done(function (r) {
             if (r.clr.data.length > 0) {
-                let d = r.clr.data;
+                //let d = r.clr.data;
+                let d = $("#txtCTN_NO").val() == "N/A" ? r.clr.data : r.clr.data.filter(data => data.RefNo.toUpperCase() == $("#txtCTN_NO").val().toUpperCase());
+               // { data: "ItemNo", title: "#" },
                 $('#tbPayment').DataTable({
                     data: d,
                     selected: true, //ให้สามารถเลือกแถวได้
                     columns: [ //กำหนด property ของ header column
+
                         { data: "VenderBillingNo", title: "Payment.No" },
                         {
                             data: "VenderBillDate", title: "Due.Date",
@@ -2281,7 +2284,8 @@ End Code
                                 return CDateEN(data);
                             }
                         },
-                        { data: "ItemNo", title: "#" },
+
+                        { data: "RefNo", title: "Container" },
                         {
                             data: "SICode", title: "Code"
                         },

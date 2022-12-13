@@ -227,7 +227,7 @@ End Code
                         advref = advref + (d[i].AdvAmount > 0 ? ' ยอดเบิก=' + CCurrency(CDbl(d[i].AdvAmount, 2)) : '');
                         //advref = advref + (d[i].Remark !== '' ? '<br/>' + d[i].Remark : '') + ' ' + d[i].Pay50TaviTo;
 
-                        html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo +'<br/>' + d[i].InvNo + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 3)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 3)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
+                        html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo +'<br/>' + d[i].InvNo + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 3)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 3)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 3)) + '</td></tr>';
 
                         if (d[i].ChargeVAT > 0) {
                             amtforvat += d[i].UsedAmount;
@@ -246,13 +246,13 @@ End Code
                     }
                     $('#tbDetail tbody').html(html);
 
-                    $('#txtAmtVat').text(CCurrency(CDbl(amtforvat,2)));
-                    $('#txtAmtNonVat').text(CCurrency(CDbl(amtnonvat,2)));
-                    $('#txtVat').text(CCurrency(CDbl(amtvat, 2)));
-                    $('#txtSumVat').text(CCurrency(CDbl(amtvat+amtforvat+amtnonvat,2)));
-                    $('#txtWht3').text(CCurrency(CDbl(amtwht3,2)));
-                    $('#txtWht1').text(CCurrency(CDbl(amtwht1,2)));
-                    $('#txtTotal').text(CCurrency(CDbl(amttotal, 2)));
+                    $('#txtAmtVat').text(CCurrency(CDbl(amtforvat,3)));
+                    $('#txtAmtNonVat').text(CCurrency(CDbl(amtnonvat,3)));
+                    $('#txtVat').text(CCurrency(CDbl(amtvat, 3)));
+                    $('#txtSumVat').text(CCurrency(CDbl(amtvat+amtforvat+amtnonvat,3)));
+                    $('#txtWht3').text(CCurrency(CDbl(amtwht3,3)));
+                    $('#txtWht1').text(CCurrency(CDbl(amtwht1,3)));
+                    $('#txtTotal').text(CCurrency(CDbl(amttotal, 3)));
                     if (advlist !== '') {
                         advlist = advlist.substr(1, advlist.length - 1);
                         console.log("if1");
@@ -267,7 +267,7 @@ End Code
                                     let advbalance = d.AdvBalance;
                                     let usedamount = d.UsedAmount;
                                     html += '<br/>';
-                                    html += '' + advno + ' Total=' + ShowNumber(advnet,2) + ' Used=' + ShowNumber(usedamount,2) + ' Balance=' + ShowNumber(advbalance,2);
+                                    html += '' + advno + ' Total=' + ShowNumber(advnet,3) + ' Used=' + ShowNumber(usedamount,3) + ' Balance=' + ShowNumber(advbalance,3);
                                 }
                                 $('#dvSummary').html(html);
                             }
