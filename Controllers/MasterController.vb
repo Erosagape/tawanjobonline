@@ -623,10 +623,10 @@ AND b.IsApplyPolicy=1
         Function GetInterPort() As ActionResult
             Try
                 Dim tSqlw As String = " WHERE PortCode<>'' "
-                If Not IsNothing(Request.QueryString("Code")) Then
+                If Not IsEmpty(Request.QueryString("Code")) Then
                     tSqlw &= String.Format(" AND PortCode ='{0}'", Request.QueryString("Code").ToString)
                 End If
-                If Not IsNothing(Request.QueryString("Key")) Then
+                If Not IsEmpty(Request.QueryString("Key")) Then
                     tSqlw &= String.Format(" AND CountryCode ='{0}'", Request.QueryString("Key").ToString)
                 End If
                 Dim oData = New CInterPort(GetSession("ConnMas")).GetData(tSqlw)

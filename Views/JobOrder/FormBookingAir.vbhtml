@@ -41,7 +41,7 @@ End Code
         <div style="flex:1">
             <b>VOLUME WEIGHT : </b><label id="lblMeasurement"></label>
             <br />
-            <b>CNX FLIGHT NO : </b><label id="lblMVesselName"></label>
+            <b>CHANGE FLIGHT NO : </b><label id="lblMVesselName"></label>
             <br />
             <b>ETD TIME :</b> <label id="lblETDTime"></label>
             <br />
@@ -100,13 +100,15 @@ End Code
             $('#lblCSName').text(h.CSName);
             $('#lblProjectName').text(h.ProjectName);
             $('#lblProduct').text(h.InvProduct);
-            if (h.JobType == '1') {
-                ShowInterPort(path, h.InvFCountry, h.InvInterPort, '#lblPortDeparture');
-                ShowReleasePort(path, h.ClearPort, '#lblPortArrival');
-            } else {
-                ShowReleasePort(path, h.ClearPort, '#lblPortDeparture');
-                ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblPortArrival');
-            }
+            //if (h.ShipBy == '1') { //for UGLOBE ONLY
+            //    ShowInterPort(path, h.InvFCountry, h.InvInterPort, '#lblPortDeparture');
+            //    ShowReleasePort(path, h.ClearPort, '#lblPortArrival');
+            //} else {
+            //    ShowReleasePort(path, h.ClearPort, '#lblPortDeparture');
+            //    ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblPortArrival');
+            //}
+            $('#lblPortDeparture').text(h.FactoryPlace);
+            $('#lblPortArrival').text(h.PackingPlace);
             $('#lblProductQty').text(h.InvProductQty);
             ShowInvUnit(path, h.InvProductUnit, '#lblProductUnit');
             $('#lblTotalGW').text(h.TotalGW);

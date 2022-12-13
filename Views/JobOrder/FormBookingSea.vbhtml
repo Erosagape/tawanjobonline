@@ -58,7 +58,7 @@ End Code
             <td></td>
             <td> <b>EMAIL  </b></td>
             <td>:</td>
-            <td id="lblCSMail"></td>
+            <td>@ViewBag.PROFILE_COMPANY_EMAIL</td>
         </tr>
         <tr> </tr>
         <tr>
@@ -76,7 +76,7 @@ End Code
         <tr>
             <td> <b>Subject</b></td>
             <td>:</td>
-            <td colspan="5"></td>
+            <td colspan="5" id="lblSubject"></td>
         </tr>
 
 
@@ -147,7 +147,6 @@ End Code
             <td>:</td>
             <td colspan="5">
                 <label id="lblCYPlace"></label>
-                <label id="lblCYContact"></label>
             </td>
         </tr>
         <tr>
@@ -160,7 +159,6 @@ End Code
             <td>:</td>
             <td colspan="5">
                 <label id="lblReturnPlace"></label>
-                <label id="lblReturnContact"></label>
             </td>
         </tr>
         <tr>
@@ -364,11 +362,13 @@ End Code
                 $('#lblClosingDate').text(ShowDate(h.PackingDate));
                 $('#lblClosingTime').text(ShowTime(h.PackingTime));
             } else {
-                $('#lblCFSDate').text(ShowDate(h.CYDate));
-                $('#lblCFSPlace').text(h.CYPlace);
-                $('#lblCFSContact').text(h.CYContact);
+                $('#lblCYDate').text(ShowDate(h.CYDate));
+                $('#lblCYPlace').text(h.CYPlace);
+                $('#lblCYContact').text(h.CYContact);
                 $('#lblClosingDate').text(ShowDate(h.PackingDate));
                 $('#lblClosingTime').text(ShowTime(h.PackingTime));
+                $('#lblReturnDate').text(ShowDate(h.ReturnDate));
+                $('#lblReturnPlace').text(h.ReturnPlace);
             }
             //ShowReleasePort(path, h.ClearPort, '#lblPortLoading');
             $('#lblPortLoading').text(h.FactoryPlace);
@@ -377,7 +377,7 @@ End Code
             $('#lblShipperContact').text(h.ShipperContact);
             $('#lblShipperTel').text(h.ShipperPhone);
             $('#lblShipperFax').text(h.ShipperFax);
-            $('#lblShipperEMail').text(h.ShipperEMail);
+            $('#lblShipperMail').text(h.ShipperEMail);
             $('#lblCustomsCode').text(h.ClearPort);
 
 /*

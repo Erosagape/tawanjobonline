@@ -2769,26 +2769,35 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 .BookingNo = Request.Form("BookingNo"),
                 .HAWB = Request.Form("HouseBL"),
                 .MAWB = Request.Form("MasterBL"),
-                .ETDDate = Request.Form("ETD"),
-                .ETADate = Request.Form("ETA"),
+                .ETDDate = Main.GetDateTime(Request.Form("ETD")),
+                .ETADate = Main.GetDateTime(Request.Form("ETA")),
                 .VesselName = Request.Form("Vessel"),
                 .MVesselName = Request.Form("MVessel"),
                 .ForwarderCode = Request.Form("Forwarder"),
                 .AgentCode = Request.Form("Transport"),
-                .TotalNW = Request.Form("NetWeight"),
-                .TotalGW = Request.Form("GrossWeight"),
+                .TotalNW = Main.GetDouble(Request.Form("NetWeight")),
+                .TotalGW = Main.GetDouble(Request.Form("GrossWeight")),
                 .GWUnit = "KGS",
-                .Measurement = Request.Form("M3"),
+                .Measurement = Main.GetDouble(Request.Form("M3")),
                 .TotalContainer = Request.Form("ContQty") & "x" & Request.Form("ContUnit"),
                 .DeliveryTo = Request.Form("DeliveryName"),
-                .TotalQty = Request.Form("ContQty"),
+                .TotalQty = Main.GetDouble(Request.Form("ContQty")),
                 .DeliveryAddr = Request.Form("DeliveryAddress"),
                 .BLNo = Request.Form("BLNo"),
                 .ClearPortNo = Request.Form("PlaceDischarge"),
                 .QNo = Request.Form("QuoNo"),
                 .InvInterPort = Request.Form("PortCode"),
                 .InvFCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, Request.Form("Country"), "TH"),
-                .InvCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, "TH", Request.Form("Country"))
+                .InvCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, "TH", Request.Form("Country")),
+                .InvProduct = Request.Form("InvProduct"),
+                .InvProductQty = Main.GetDouble(Request.Form("InvProductQty")),
+                .InvProductUnit = Request.Form("InvProductUnit"),
+                .ProjectName = Request.Form("ProjectName"),
+                .LoadDate = Main.GetDateTime(Request.Form("LoadDate")),
+                .EstDeliverDate = Main.GetDateTime(Request.Form("EstDeliverDate")),
+                .EstDeliverTime = Main.GetDateTime("1900-01-01 " & Request.Form("EstDeliverTime")),
+                .ConfirmChqDate = Main.GetDateTime("1900-01-01 " & Request.Form("ConfirmChqDate")),
+                .ClearPort = Request.Form("ClearPort")
                 }
             If Request.Form("mode") <> "A" And data.JNo <> "" Then
                 Dim chkData = New CJobOrder(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
@@ -2806,19 +2815,19 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                         .BookingNo = Request.Form("BookingNo")
                         .HAWB = Request.Form("HouseBL")
                         .MAWB = Request.Form("MasterBL")
-                        .ETDDate = Request.Form("ETD")
-                        .ETADate = Request.Form("ETA")
+                        .ETDDate = Main.GetDateTime(Request.Form("ETD"))
+                        .ETADate = Main.GetDateTime(Request.Form("ETA"))
                         .VesselName = Request.Form("Vessel")
                         .MVesselName = Request.Form("MVessel")
                         .ForwarderCode = Request.Form("Forwarder")
                         .AgentCode = Request.Form("Transport")
-                        .TotalNW = Request.Form("NetWeight")
-                        .TotalGW = Request.Form("GrossWeight")
+                        .TotalNW = Main.GetDouble(Request.Form("NetWeight"))
+                        .TotalGW = Main.GetDouble(Request.Form("GrossWeight"))
                         .GWUnit = "KGS"
-                        .Measurement = Request.Form("M3")
+                        .Measurement = Main.GetDouble(Request.Form("M3"))
                         .TotalContainer = Request.Form("ContQty") & "x" & Request.Form("ContUnit")
                         .DeliveryTo = Request.Form("DeliveryName")
-                        .TotalQty = Request.Form("ContQty")
+                        .TotalQty = Main.GetDouble(Request.Form("ContQty"))
                         .DeliveryAddr = Request.Form("DeliveryAddress")
                         .BLNo = Request.Form("BLNo")
                         .ClearPortNo = Request.Form("PlaceDischarge")
@@ -2826,6 +2835,15 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                         .InvInterPort = Request.Form("PortCode")
                         .InvFCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, Request.Form("Country"), "TH")
                         .InvCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, "TH", Request.Form("Country"))
+                        .InvProduct = Request.Form("InvProduct")
+                        .InvProductQty = Main.GetDouble(Request.Form("InvProductQty"))
+                        .InvProductUnit = Request.Form("InvProductUnit")
+                        .ProjectName = Request.Form("ProjectName")
+                        .LoadDate = Main.GetDateTime(Request.Form("LoadDate"))
+                        .EstDeliverDate = Main.GetDateTime(Request.Form("EstDeliverDate"))
+                        .EstDeliverTime = Main.GetDateTime("1900-01-01 " & Request.Form("EstDeliverTime"))
+                        .ConfirmChqDate = Main.GetDateTime("1900-01-01 " & Request.Form("ConfirmChqDate"))
+                        .ClearPort = Request.Form("ClearPort")
                     End With
                 End If
             End If
@@ -2979,7 +2997,15 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                             .FactoryPlace = Request.Form("PlaceLoading"),
                             .PackingPlace = Request.Form("PlaceDelivery"),
                             .ReturnPlace = Request.Form("PlaceDischarge"),
-                            .ReturnContact = Request.Form("AlsoNotify")
+                            .ReturnContact = Request.Form("AlsoNotify"),
+                            .CYContact = Request.Form("CYContact"),
+                            .CYDate = Main.GetDateTime(Request.Form("CYDate")),
+                            .PackingDate = Main.GetDateTime(Request.Form("PackingDate")),
+                            .ReturnDate = Main.GetDateTime(Request.Form("ReturnDate")),
+                            .FactoryDate = Main.GetDateTime(Request.Form("FactoryDate")),
+                            .FactoryTime = Main.GetDateTime(Request.Form("FactoryTime")),
+                            .TransMode = Request.Form("TransMode"),
+                            .Remark = Request.Form("Remark")
                             }
             Dim chkBook = New CTransportHeader(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{0}'", book.BranchCode, book.BookingNo))
             If chkBook.Count > 0 Then
@@ -2997,6 +3023,14 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                     .PackingPlace = Request.Form("PlaceDelivery")
                     .ReturnPlace = Request.Form("PlaceDischarge")
                     .ReturnContact = Request.Form("AlsoNotify")
+                    .CYContact = Request.Form("CYContact")
+                    .CYDate = Main.GetDateTime(Request.Form("CYDate"))
+                    .PackingDate = Main.GetDateTime(Request.Form("PackingDate"))
+                    .ReturnDate = Main.GetDateTime(Request.Form("ReturnDate"))
+                    .FactoryDate = Main.GetDateTime(Request.Form("FactoryDate"))
+                    .FactoryTime = Main.GetDateTime(Request.Form("FactoryTime"))
+                    .TransMode = Request.Form("TransMode")
+                    .Remark = Request.Form("Remark")
                 End With
                 book = chkBook(0)
             End If
@@ -3014,10 +3048,10 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                                 .ItemNo = i,
                                 .CTN_NO = val(0),
                                 .CTN_SIZE = Request.Form("ContUnit"),
-                                .NetWeight = val(1),
-                                .GrossWeight = val(2),
-                                .Measurement = val(3),
-                                .ProductQty = val(4),
+                                .NetWeight = Main.GetDouble(val(1)),
+                                .GrossWeight = Main.GetDouble(val(2)),
+                                .Measurement = Main.GetDouble(val(3)),
+                                .ProductQty = Main.GetDouble(val(4)),
                                 .ProductUnit = val(5),
                                 .SealNumber = val(6)
                                 }
@@ -3026,10 +3060,10 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                                 With chkCont(0)
                                     .CTN_NO = val(0)
                                     .CTN_SIZE = Request.Form("ContUnit")
-                                    .NetWeight = val(1)
-                                    .GrossWeight = val(2)
-                                    .Measurement = val(3)
-                                    .ProductQty = val(4)
+                                    .NetWeight = Main.GetDouble(val(1))
+                                    .GrossWeight = Main.GetDouble(val(2))
+                                    .Measurement = Main.GetDouble(val(3))
+                                    .ProductQty = Main.GetDouble(val(4))
                                     .ProductUnit = val(5)
                                     .SealNumber = val(6)
                                 End With

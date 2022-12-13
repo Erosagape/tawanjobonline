@@ -1033,7 +1033,7 @@ Public Class CJobOrder
                             dr("DutyLtdPayEPAYAmt") = Me.DutyLtdPayEPAYAmt
                             dr("DutyLtdPayCashAmt") = Me.DutyLtdPayCashAmt
                             dr("DutyLtdPayOtherAmt") = Me.DutyLtdPayOtherAmt
-                            dr("ConfirmChqDate") = Main.GetDBDate(Me.ConfirmChqDate)
+                            dr("ConfirmChqDate") = Main.GetDBTime(Me.ConfirmChqDate)
 
                             dr("CancelProveTime") = Main.GetDBTime(Me.CancelProveTime)
                             dr("CancelTime") = Main.GetDBTime(Me.CancelTime)

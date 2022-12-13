@@ -140,14 +140,14 @@ End Code
             Place of Loading
         </div>
         <div Class="col-sm-4" style="display:flex;">
-            <input type="text" name="PlaceLoading" id="txtLoadingPlace" Class="form-control" readonly />
+            <input type="text" name="PlaceLoading" id="txtLoadingPlace" Class="form-control" />
             <a class="btn btn-default" onclick="SearchData('loadat')">...</a>
         </div>
         <div Class="col-sm-2">
             Place of Receive
         </div>
         <div Class="col-sm-4" style="display:flex">
-            <input type="text" name="PlaceReceive" id="txtReceivePlace" Class="form-control" readonly />
+            <input type="text" name="PlaceReceive" id="txtReceivePlace" Class="form-control" />
             <a class="btn btn-default" onclick="SearchData('receiveat')">...</a>
         </div>
 
@@ -157,14 +157,14 @@ End Code
             Place of Discharge
         </div>
         <div Class="col-sm-4" style="display:flex;">
-            <input type="text" name="PlaceDischarge" id="txtDischargePlace" Class="form-control" readonly />
+            <input type="text" name="PlaceDischarge" id="txtDischargePlace" Class="form-control" />
             <a class="btn btn-default" onclick="SearchData('dischargeat')">...</a>
         </div>
         <div Class="col-sm-2">
             Place of Delivery
         </div>
         <div Class="col-sm-4" style="display:flex;">
-            <input type="text" name="PlaceDelivery" id="txtDeliveryPlace" Class="form-control" readonly />
+            <input type="text" name="PlaceDelivery" id="txtDeliveryPlace" Class="form-control" />
             <a class="btn btn-default" onclick="SearchData('deliveryat')">...</a>
         </div>
     </div>
@@ -197,7 +197,7 @@ End Code
             Freight Payable At
         </div>
         <div Class="col-sm-4" style="display:flex;">
-            <input type="text" name="FreightPaymentBy" id="txtFreightPayAt" Class="form-control" readonly />
+            <input type="text" name="FreightPaymentBy" id="txtFreightPayAt" Class="form-control" />
             <a class="btn btn-default" onclick="SearchData('payableat')">...</a>
         </div>
     </div>
@@ -256,7 +256,7 @@ End Code
             Commodity
         </div>
         <div Class="col-sm-4">
-            <textarea name="ProjectName" style="width:100%" id="txtProjectName" Class="form-control-lg"></textarea>
+            <input type="text" name="InvProduct" id="txtInvProduct" Class="form-control" />
         </div>
         <div Class="col-sm-2">
             Shipping Mask
@@ -270,7 +270,7 @@ End Code
             Package Summary
         </div>
         <div Class="col-sm-4" style="display:flex">
-            <input type="text" name="InvProduct" id="txtInvProduct" Class="form-control" />
+            <textarea name="ProjectName" style="width:100%" id="txtProjectName" Class="form-control-lg"></textarea>
         </div>
         <div Class="col-sm-2">
             Package Qty
@@ -414,6 +414,7 @@ End Code
     <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Form</b>
 </a>
 <select id="cboPrintForm">
+    <option value="JO">Shipment Order</option>
     <option value="BA">Booking Confirmation (AIR)</option>
     <option value="BS">Booking Confirmation (SEA)</option>
     <option value="SP">Shipping Instruction</option>
@@ -501,7 +502,7 @@ End Code
                 $('#txtTransportCode').val(h.VenderCode);
                 ShowVenderEN(path, h.VenderCode, '#txtTransportName');
 
-                $('#txtActualConsigneeCode').val(h.ReturnContact.split('|')[0]);
+                $('#txtActualConsigneeCode').val(h.ReturnContact);
                 ShowCustomerEN(path, h.ReturnContact.split('|')[0], h.ReturnContact.split('|')[1], '#txtActualConsigneeName');
 
                 $('#txtTransMode').val(h.TransMode);
@@ -768,14 +769,8 @@ End Code
                 });
                 break;
             case 'payableat':
-                w = Number($('#txtShipBy').val()) == 1 ? 'TH' : $('#txtCountryCode').val();
-                SetGridInterPort(path, '#tbPayableAt', '#dvPayableAt', w, function (dr) {
-                    if (Number($('#txtShipBy').val()) == 1) {
-                        $('#txtFreightPayAt').val(dr.PortName + ',THAILAND');
-                    } else {
-                        $('#txtFreightPayAt').val(dr.PortName + ','+ $('#txtCountryName').val());
-                    }
-
+                SetGridInterPort(path, '#tbPayableAt', '#dvPayableAt', '', function (dr) {
+                    $('#txtFreightPayAt').val(dr.PortName);
                 });
                 break;
         }
@@ -869,6 +864,17 @@ End Code
             if ($('#txtShipBy').val() == '') $('#txtShipBy').focus();
             return;
         }
+        if ($('#txtShipperCode').val() == '') {
+            ShowMessage("Shipper Must be chosen", true);
+            SearchData('shipper');
+            return;
+        }
+        if ($('#txtConsigneeCode').val() == '') {
+            ShowMessage("Consignee Must be chosen", true);
+            SearchData('cons');
+            return;
+        }
+
 /*
         if ($('#txtQuotation').val() == '') {
             ShowMessage("Quotation Must be chosen", true);
@@ -879,16 +885,6 @@ End Code
         if ($('#txtCountryCode').val() == '') {
             ShowMessage("Country Must be chosen", true);
             SearchData('country');
-            return;
-        }
-        if ($('#txtShipperCode').val() == '') {
-            ShowMessage("Shipper Must be chosen", true);
-            SearchData('shipper');
-            return;
-        }
-        if ($('#txtConsigneeCode').val() == '') {
-            ShowMessage("Consignee Must be chosen", true);
-            SearchData('cons');
             return;
         }
         if ($('#txtActualShipperCode').val() == '') {
@@ -1014,6 +1010,9 @@ End Code
     }
     function PrintBooking() {
         switch ($('#cboPrintForm').val()) {
+            case 'JO':
+                window.open(path + 'JobOrder/FormJob?BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJNo').val(), '', '');
+                break;
             case 'TI':
                 window.open(path + 'JobOrder/FormBookingIm?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;

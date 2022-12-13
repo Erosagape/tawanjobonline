@@ -3862,5 +3862,42 @@ j.DutyLtdPayCashAmt<>a.CashPayment
             Case Else
                 Return ""
         End Select
+
+    End Function
+    Function GetDateTime(obj As Object) As DateTime
+        Try
+            Return Convert.ToDateTime(obj)
+        Catch ex As Exception
+            Return DateTime.MinValue
+        End Try
+    End Function
+    Function GetDouble(obj As Object) As Double
+        Try
+            Return Convert.ToDouble(obj)
+        Catch ex As Exception
+            Return 0.0
+        End Try
+    End Function
+    Function GetInteger(obj As Object) As Integer
+        Try
+            Return Convert.ToInt32(obj)
+        Catch ex As Exception
+            Return 0
+        End Try
+    End Function
+    Function IsEmpty(obj As Object) As Boolean
+        Try
+            If IsNothing(obj) Then
+                Return True
+            Else
+                If Convert.ToString(obj) = "" Then
+                    Return True
+                Else
+                    Return False
+                End If
+            End If
+        Catch ex As Exception
+            Return True
+        End Try
     End Function
 End Module
