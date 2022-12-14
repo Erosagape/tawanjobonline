@@ -2754,17 +2754,23 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
             If IsNothing(Request.Form("fieldJobType")) Then
                 fldJobType = "JobType"
             End If
+            Dim fldShipper As String = "Shipper"
+            Dim fldConsignee As String = "Consignee"
+            If Request.Form(fldJobType).ToString() = "02" Then
+                fldShipper = "Consignee"
+                fldConsignee = "Shipper"
+            End If
             Dim data = New CJobOrder(GetSession("ConnJob")) With
                 {
                 .BranchCode = Request.Form("Branch"),
                 .JNo = Request.Form("Job"),
                 .DocDate = DateTime.Today,
                 .CSCode = GetSession("CurrUser"),
-                .CustCode = Request.Form("Shipper").Split("|")(0),
-                .CustBranch = Request.Form("Shipper").Split("|")(1),
+                .CustCode = IIf(Request.Form(fldShipper).IndexOf("|") > 0, Request.Form(fldShipper).Split("|")(0), ""),
+                .CustBranch = IIf(Request.Form(fldShipper).IndexOf("|") > 0, Request.Form(fldShipper).Split("|")(1), ""),
                 .JobType = Request.Form("JobType"),
                 .ShipBy = Request.Form("ShipBy"),
-                .Consigneecode = Request.Form("Consignee").Split("|")(0),
+                .Consigneecode = IIf(Request.Form(fldConsignee).IndexOf("|") > 0, Request.Form(fldConsignee).Split("|")(0), ""),
                 .InvNo = Request.Form("CustInv"),
                 .BookingNo = Request.Form("BookingNo"),
                 .HAWB = Request.Form("HouseBL"),
@@ -2806,11 +2812,11 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                     With data
                         .DocDate = DateTime.Today
                         .CSCode = GetSession("CurrUser")
-                        .CustCode = Request.Form("Shipper").Split("|")(0)
-                        .CustBranch = Request.Form("Shipper").Split("|")(1)
+                        .CustCode = IIf(Request.Form(fldShipper).IndexOf("|") > 0, Request.Form(fldShipper).Split("|")(0), "")
+                        .CustBranch = IIf(Request.Form(fldShipper).IndexOf("|") > 0, Request.Form(fldShipper).Split("|")(1), "")
                         .JobType = Request.Form("JobType")
                         .ShipBy = Request.Form("ShipBy")
-                        .Consigneecode = Request.Form("Consignee").Split("|")(0)
+                        .Consigneecode = IIf(Request.Form(fldConsignee).IndexOf("|") > 0, Request.Form(fldConsignee).Split("|")(0), "")
                         .InvNo = Request.Form("CustInv")
                         .BookingNo = Request.Form("BookingNo")
                         .HAWB = Request.Form("HouseBL")

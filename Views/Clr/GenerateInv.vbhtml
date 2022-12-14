@@ -1218,6 +1218,8 @@ End Code
         $('#txtJobNo').val(dt.JNo);
         $('#txtCustCode').val(dt.CustCode);
         $('#txtCustBranch').val(dt.CustBranch);
+        billtocustcode = dt.Consigneecode;
+        billtocustbranch = dt.CustBranch;
         $('#cboJobType').val(CCode(dt.JobType));
         $('#cboShipBy').val(CCode(dt.ShipBy));
         //ShowCustomer(path, $('#txtCustCode').val(), $('#txtCustBranch').val(), '#txtCustName');
@@ -1252,8 +1254,10 @@ End Code
         $('#txtCustBranch').val(dt.Branch);
         //ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
         $('#txtCustName').val(dt.NameThai);
-        billtocustcode = dt.BillToCustCode;
-        billtocustbranch = dt.BillToBranch;
+        if (billtocustcode == '') {
+            billtocustcode = dt.BillToCustCode;
+            billtocustbranch = dt.BillToBranch;
+        }
         $('#txtBillToCustCode').val(billtocustcode);
         $('#txtBillToCustBranch').val(billtocustbranch);
         ShowCustomer(path, billtocustcode, billtocustbranch, '#txtBillToCustName');
@@ -1383,7 +1387,7 @@ End Code
             switch ($('#cboDocType').val()) {
                 case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
                     break;
-                case "IVF-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');
+                case "IVF-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=freight' + (arr[0].ShipBy==1?'Im':'Ex'), '_blank');
                     break;
                 case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
                     break;

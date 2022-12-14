@@ -619,7 +619,7 @@ End Code
             switch (row.ShippingRemark) {
                 case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
                     break;
-                case "IVF-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');
+                case "IVF-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=freight' + (row.ShipBy==1 ? 'Im' :'Ex'), '_blank');
                     break;
                 case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
                     break;

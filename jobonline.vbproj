@@ -2421,6 +2421,12 @@
     <Content Include="Views\Tracking\Dashboard4.vbhtml" />
     <Content Include="Views\Tracking\Timeline2.vbhtml" />
     <Content Include="Views\JobOrder\FormJob.vbhtml" />
+    <Content Include="Views\Acc\FormInvCredit.vbhtml" />
+    <Content Include="Views\Acc\FormInvDebit.vbhtml" />
+    <Content Include="Views\Acc\FormInvFreight.vbhtml" />
+    <Content Include="Views\Acc\FormInvTransport.vbhtml" />
+    <Content Include="Views\Acc\FormInvFreightEx.vbhtml" />
+    <Content Include="Views\Acc\FormInvFreightIm.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

@@ -534,6 +534,7 @@ End Code
     }
     function ClearCont() {
         $('#ContainerList').val('');
+        $('#txtJNo').val('');
         $('#tbContainers tbody').empty();
     }
     function LoadJob(dr) {
@@ -548,8 +549,13 @@ End Code
         $('#txtCountryCode').val(dr.ShipBy == 1 ? dr.InvFCountry : dr.InvCountry);
         ShowCountry(path, $('#txtCountryCode').val(), '#txtCountryName');
 
-        $('#txtShipperCode').val(dr.CustCode + '|' + dr.CustBranch);
-        ShowCustomerEN(path, dr.CustCode, dr.CustBranch, '#txtShipperName');
+        if (dr.ShipBy == 1) {
+            $('#txtShipperCode').val(dr.CustCode + '|' + dr.CustBranch);
+            ShowCustomerEN(path, dr.CustCode, dr.CustBranch, '#txtShipperName');
+        } else {
+            $('#txtConsigneeCode').val(dr.CustCode + '|' + dr.CustBranch);
+            ShowCustomerEN(path, dr.CustCode, dr.CustBranch, '#txtConsigneeName');
+        }
 
         $('#txtInvNo').val(dr.InvNo);
         $('#txtBookingNo').val(dr.BookingNo);
@@ -591,8 +597,13 @@ End Code
         $.get(path + 'Master/GetCompany?Code=' + dr.Consigneecode).done((r) => {
             if (r.company.data.length > 0) {
                 let c = r.company.data[0];
-                $('#txtConsigneeCode').val(c.CustCode + '|' + c.Branch);
-                $('#txtConsigneeName').val(c.NameEng);
+                if (dr.ShipBy == 1) {
+                    $('#txtConsigneeCode').val(c.CustCode + '|' + c.Branch);
+                    $('#txtConsigneeName').val(c.NameEng);
+                } else {
+                    $('#txtShipperCode').val(c.CustCode + '|' + c.Branch);
+                    $('#txtShipperName').val(c.NameEng);
+                }
             }
         });
         LoadBooking(dr);
@@ -864,12 +875,12 @@ End Code
             if ($('#txtShipBy').val() == '') $('#txtShipBy').focus();
             return;
         }
-        if ($('#txtShipperCode').val() == '') {
+        if ($('#txtShipperCode').val() == '' && $('#txtShipBy').val() == '02') {
             ShowMessage("Shipper Must be chosen", true);
             SearchData('shipper');
             return;
         }
-        if ($('#txtConsigneeCode').val() == '') {
+        if ($('#txtConsigneeCode').val() == '' && $('#txtShipBy').val() == '01') {
             ShowMessage("Consignee Must be chosen", true);
             SearchData('cons');
             return;
