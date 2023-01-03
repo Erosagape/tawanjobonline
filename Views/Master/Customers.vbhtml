@@ -4,12 +4,12 @@ End Code
 <div class="panel-body">
     <div class="container">
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <label id="lblCustCode">Customer Code:</label>
                 <br />
                 <input type="text" id="txtCustCode" class="form-control" tabIndex="0" value="{AUTO}" disabled />
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <label id="lblBranch">Branch :</label>
                 <br /><input type="text" id="txtBranch" class="form-control" tabIndex="1">
             </div>
@@ -259,6 +259,9 @@ End Code
             </a>
             <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData('customer')">
                 <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
+            </a>
+            <a href="#" class="btn btn-warning" id="btnSaveVender" onclick="SaveToVender()">
+                <i class="fa fa-lg fa-check"></i>&nbsp;<b id="linkSaveVender">Save To Vender</b>
             </a>
         </div>
         <div id="dvLOVs"></div>
@@ -786,5 +789,10 @@ End Code
 
     function CopyName() {
         $('#txtNameEng').val($('#txtNameThai').val());
+    }
+    function SaveToVender() {
+        $.get(path + 'Master/TransferCustomerToVender?FromCode=' + $('#txtCustCode').val() + '&FromBranch=' + $('#txtBranch').val()).done(function (r) {
+            ShowMessage(r);
+        });
     }
 </script>

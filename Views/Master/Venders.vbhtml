@@ -100,6 +100,10 @@ End Code
             <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData('vender')">
                 <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
             </a>
+            <a href="#" class="btn btn-warning" id="btnSaveCustomer" onclick="SaveToCustomer()">
+                <i class="fa fa-lg fa-check"></i>&nbsp;<b id="linkSaveCustomer">Save To Customer</b>
+            </a>
+
         </div>
     </div>
 </div>
@@ -298,5 +302,11 @@ End Code
                 }
             });
         });
+    }
+    function SaveToCustomer() {
+        $.get(path + 'Master/TransferVenderToCustomer?FromCode=' + $('#txtVenCode').val() + '&FromBranch=' + $('#txtBranchCode').val()).done(function (r) {
+            ShowMessage(r);
+        });
+
     }
 </script>

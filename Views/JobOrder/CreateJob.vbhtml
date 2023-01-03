@@ -551,7 +551,7 @@ End Code
                 SetGridCustContact(path, '#tbContact', w,'#frmSearchContact', ReadContactName);
                 break;
             case 'interport':
-                let CountryID = $('#cboJobType').val() == "01" ? $('#txtInvFCountry').val() : $('#txtInvCountry').val();
+                let CountryID = $('#cboShipBy').val() == "01" ? $('#txtInvFCountry').val() : $('#txtInvCountry').val();
                 SetGridInterPort(path, '#tbIPort', '#frmSearchIPort', CountryID, ReadInterPort);
                 break;
             case 'country2':

@@ -810,24 +810,19 @@ End Code
     }
     function AddCont() {
         if ($('#txtNetW').val() == '') {
-            ShowMessage('Net Weight Must be input', true);
-            return;
+            $('#txtNetW').val(0);
         }
         if ($('#txtGrossW').val() == '') {
-            ShowMessage('Gross Weight Must be input', true);
-            return;
+            $('#txtGrossW').val(0);
         }
         if ($('#txtM3').val() == '') {
-            ShowMessage('CBM Must be input', true);
-            return;
+            $('#txtM3').val(0);
         }
         if ($('#txtQty').val() == '') {
-            ShowMessage('Quantity Must be input', true);
-            return;
+            $('#txtQty').val(0);
         }
         if ($('#txtUnit').val() == '') {
-            ShowMessage('Unit Must be input', true);
-            return;
+            $('#txtUnit').val('C62');
         }
         let obj = $('#ContainerList').val();
         obj += $('#txtCTN').val();
@@ -892,7 +887,7 @@ End Code
             $('#txtQuotation').focus();
             return;
         }
-        
+
         if ($('#txtCountryCode').val() == '') {
             ShowMessage("Country Must be chosen", true);
             SearchData('country');
@@ -903,7 +898,7 @@ End Code
             SearchData('actshipper');
             return;
         }
-        
+
         if ($('#txtActualConsigneeCode').val() == '') {
             ShowMessage("Actual Consignee Must be chosen", true);
             SearchData('actcons');
@@ -914,7 +909,7 @@ End Code
             SearchData('delivery');
             return;
         }
-        
+
         if ($('#txtForwarderCode').val() == '') {
             ShowMessage("Shipping liner Must be chosen", true);
             SearchData('forwarder');
@@ -931,12 +926,12 @@ End Code
         if ($('#txtHAWB').val() == '') {
             ShowMessage("House BL/AWB Must be chosen", true);
             return;
-        }        
+        }
         if ($('#txtMAWB').val() == '') {
             ShowMessage("Master BL/AWB Must be chosen", true);
             return;
         }
-        
+
         if ($('#txtETDDate').val() == '') {
             ShowMessage("ETD Must be chosen", true);
             return;
@@ -961,12 +956,12 @@ End Code
             ShowMessage("Place of Discharge Must be chosen", true);
             return;
         }
-        
+
         if ($('#txtMVesselName').val() == '') {
             ShowMessage("Local vessel Must be chosen", true);
             return;
         }
-        
+
         if ($('#txtVesselName').val() == '') {
             ShowMessage("Ocean vessel Must be chosen", true);
             return;

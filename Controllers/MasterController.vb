@@ -1690,5 +1690,142 @@ AND b.IsApplyPolicy=1
             Dim toCode As String = Request.QueryString("ToCode")
             Return Content(Main.DBExecute(GetSession("ConnJob"), String.Format("dbo.ChangeVender '{0}','{1}'", fromCode, toCode)), textContent)
         End Function
+        Function TransferCustomerToVender() As ActionResult
+            Dim fromCode As String = Request.QueryString("FromCode").ToString()
+            Dim fromBranch As String = Request.QueryString("FromBranch").ToString()
+            If fromCode <> "" And fromBranch <> "" Then
+                Dim oCustomer = New CCompany(GetSession("ConnJob")).GetData(String.Format(" WHERE CustCode='{0}' And Branch='{1}'", fromCode, fromBranch))
+                If oCustomer.Count > 0 Then
+                    Dim oSource = oCustomer(0)
+                    Dim oVender = New CVender(GetSession("ConnJob")).GetData(String.Format(" WHERE VenCode='{0}'", fromCode))
+                    If oVender.Count > 0 Then
+                        Return Content("Code is existing", textContent)
+                    Else
+                        Try
+                            Dim oDest = New CVender(GetSession("ConnJob")) With {
+                            .VenCode = oSource.CustCode,
+                            .BranchCode = oSource.Branch,
+                            .Title = oSource.Title,
+                            .TName = oSource.NameThai,
+                            .English = oSource.NameEng,
+                            .TAddress1 = oSource.TAddress1,
+                            .TAddress2 = oSource.TAddress2,
+                            .EAddress1 = oSource.EAddress1,
+                            .EAddress2 = oSource.EAddress2,
+                            .TaxNumber = oSource.TaxNumber,
+                            .Phone = oSource.Phone,
+                            .FaxNumber = oSource.FaxNumber,
+                            .WEB_SITE = oSource.WEB_SITE,
+                            .LoginName = oSource.LoginName,
+                            .LoginPassword = oSource.LoginPassword,
+                            .ContactAcc = "",
+                            .ContactSale = "",
+                            .ContactSupport1 = "",
+                            .ContactSupport2 = "",
+                            .ContactSupport3 = "",
+                            .GLAccountCode = oSource.GLAccountCode
+                            }
+                            Return Content(oDest.SaveData(String.Format(" WHERE VenCode='{0}'", oSource.CustCode)), textContent)
+
+                        Catch ex As Exception
+                            Return Content(ex.Message, textContent)
+                        End Try
+                    End If
+                Else
+                    Return Content("Code not found", textContent)
+                End If
+            Else
+                Return Content("Code not found", textContent)
+            End If
+        End Function
+        Function TransferVenderToCustomer() As ActionResult
+            Dim fromCode As String = Request.QueryString("FromCode").ToString()
+            If fromCode <> "" Then
+                Dim oVender = New CVender(GetSession("ConnJob")).GetData(String.Format(" WHERE VenCode='{0}'", fromCode))
+                If oVender.Count > 0 Then
+                    Dim oSource = oVender(0)
+                    Dim oCustomer = New CCompany(GetSession("ConnJob")).GetData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}'", oSource.VenCode, oSource.BranchCode))
+                    If oCustomer.Count > 0 Then
+                        Return Content("Code is existing", textContent)
+                    Else
+                        Try
+                            Dim oDest = New CCompany(GetSession("ConnJob")) With {
+                            .CustCode = oSource.VenCode,
+                            .Branch = oSource.BranchCode,
+                            .Title = oSource.Title,
+                            .NameThai = oSource.TName,
+                            .NameEng = oSource.English,
+                            .TAddress1 = oSource.TAddress1,
+                            .TAddress2 = oSource.TAddress2,
+                            .EAddress1 = oSource.EAddress1,
+                            .EAddress2 = oSource.EAddress2,
+                            .TAddress = oSource.TAddress1 & vbCrLf & oSource.TAddress2,
+                            .TaxNumber = oSource.TaxNumber,
+                            .BillToCustCode = oSource.VenCode,
+                            .BillToBranch = oSource.BranchCode,
+                            .CustGroup = "CUSTOMERS",
+                            .Phone = oSource.Phone,
+                            .FaxNumber = oSource.FaxNumber,
+                            .DMailAddress = oSource.WEB_SITE,
+                            .AdjTaxCode = "",
+                            .MgrSeq = 0,
+                            .MapText = "",
+                            .MapFileName = "",
+                            .ManagerCode = "",
+                            .LtdPsWkName = "",
+                            .LoginPassword = oSource.LoginPassword,
+                            .LoginName = oSource.LoginName,
+                            .LnNO = "",
+                            .BillCondition = "",
+                            .BkAuthorCnn = "",
+                            .BkAuthorNo = "",
+                            .CmpLevelExp = "",
+                            .CmpLevelImp = "",
+                            .CmpType = "C",
+                            .Code19BIS = "",
+                            .CommLevel = "",
+                            .CommRate = 0,
+                            .ConsStatus = "",
+                            .CreditLimit = 0,
+                            .CSCodeEX = "",
+                            .CSCodeIM = "",
+                            .CSCodeOT = "",
+                            .CustomsBrokerSeq = 0,
+                            .CustType = 1,
+                            .DutyLimit = 0,
+                            .ExportCode = "",
+                            .GLAccountCode = oSource.GLAccountCode,
+                            .GoldCardNO = 0,
+                            .Is19bis = 0,
+                            .ISCustomerSign = 0,
+                            .ISCustomerSignDec = 0,
+                            .ISCustomerSignECon = 0,
+                            .ISCustomerSignInv = 0,
+                            .IsShippingCannotSign = 0,
+                            .LevelGrade = "",
+                            .LevelNoExp = 0,
+                            .LevelNoImp = 0,
+                            .PrivilegeOption = "",
+                            .TDistrict = "",
+                            .TermOfPayment = 0,
+                            .TPostCode = "",
+                            .TProvince = "",
+                            .TSubProvince = "",
+                            .UsedLanguage = "EN",
+                            .WEB_SITE = oSource.WEB_SITE
+                            }
+                            Return Content(oDest.SaveData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}'", oSource.VenCode, oSource.BranchCode)), textContent)
+
+                        Catch ex As Exception
+                            Return Content(ex.Message, textContent)
+                        End Try
+                    End If
+                Else
+                    Return Content("Code not found", textContent)
+                End If
+            Else
+                Return Content("Code not found", textContent)
+            End If
+        End Function
     End Class
 End Namespace

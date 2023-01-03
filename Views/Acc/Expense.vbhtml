@@ -1278,6 +1278,8 @@ End Code
             $('#txtSDescription').val(dt.NameThai);
             $('#txtQtyUnit').val(dt.UnitCharge);
             $('#txtUnitPrice').val(CDbl(CNum(dt.StdPrice) / CNum($('#txtExchangeRate').val()), 2));
+            $('#txtIsTaxCharge').prop('checked', false);
+            $('#txtIs50Tavi').prop('checked', false);
             if (dt.IsTaxCharge == 1) {
                 $('#txtIsTaxCharge').prop('checked', true);
             }
