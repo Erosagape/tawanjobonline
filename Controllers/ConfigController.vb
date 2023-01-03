@@ -585,6 +585,7 @@ Namespace Controllers
                             }
 
                             Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
+
                             Dim oLogin = New CWebLogin(cnMas).GetData(String.Format(" WHERE CustID='{0}' AND AppID='JOBTRACKING' AND UserLogIN='{1}'", My.MySettings.Default.LicenseTo.ToString, cName))
                             If oLogin.Count > 0 Then
                                 Dim oOld = oLogin(0)
@@ -746,6 +747,16 @@ Namespace Controllers
                                             Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""License Expired On Date " & tbProfiles.Rows(0)("ExpireDate").ToString & """}}", jsonContent)
                                         Else
                                             Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
+                                            Dim oLoginIP = New CWebLogin(cnMas).GetData(String.Format(" WHERE CustID='{0}' AND AppID='JOBTRACKING'", My.MySettings.Default.LicenseTo.ToString))
+                                            If Main.GetValueConfig("CONFIG", "CHECK_IP") = "Y" Then
+                                                If oLoginIP.Count > 0 Then
+                                                    If oLoginIP.Exists(Function(e) e.FromIP.Equals(Request.UserHostAddress)) Then
+                                                    Else
+                                                        Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""You cannot login from this current location""}}", jsonContent)
+
+                                                    End If
+                                                End If
+                                            End If
                                             Dim oCount = New CWebLogin(cnMas).GetData(String.Format(" WHERE CustID='{0}' AND AppID='JOBSHIPPING'", My.MySettings.Default.LicenseTo.ToString))
                                             If oCount.Count > Convert.ToInt32(tbProfiles.Rows(0)("LoginCount").ToString()) And Convert.ToInt32(tbProfiles.Rows(0)("LoginCount").ToString()) > 0 Then
                                                 Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""Login over limit =" & tbProfiles.Rows(0)("LoginCount").ToString & """}}", jsonContent)
