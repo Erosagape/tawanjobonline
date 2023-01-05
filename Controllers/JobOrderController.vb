@@ -370,6 +370,9 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlW &= " AND Job_QuotationHeader.BranchCode='" & Request.QueryString("Branch").ToString & "'"
                 End If
+                If Not IsNothing(Request.QueryString("QNo")) Then
+                    tSqlW &= " AND Job_QuotationHeader.QNo='" & Request.QueryString("QNo").ToString & "'"
+                End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     tSqlW &= " AND Job_QuotationHeader.DocStatus='" & Request.QueryString("Status").ToString & "'"
                 End If
