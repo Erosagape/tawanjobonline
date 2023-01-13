@@ -102,6 +102,26 @@ Public Class CGLDetail
             m_EntryBy = value
         End Set
     End Property
+    Private m_Remark As String
+    Public Property Remark As String
+        Get
+            Return m_Remark
+        End Get
+        Set(value As String)
+            m_Remark = value
+        End Set
+    End Property
+
+    Private m_CmpCode As String
+    Public Property CmpCode As String
+        Get
+            Return m_CmpCode
+        End Get
+        Set(value As String)
+            m_CmpCode = value
+        End Set
+    End Property
+
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -126,7 +146,8 @@ Public Class CGLDetail
                             dr("CreditAmt") = Me.CreditAmt
                             dr("EntryDate") = Main.GetDBDate(Me.EntryDate)
                             dr("EntryBy") = Main.GetDBString(Me.EntryBy, dt.Columns("EntryBy"))
-
+                            dr("Remark") = Me.Remark
+                            dr("CmpCode") = Me.CmpCode
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CGLDetail", "SaveData", Me, False)
@@ -184,6 +205,12 @@ Public Class CGLDetail
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("EntryBy"))) = False Then
                         row.EntryBy = rd.GetString(rd.GetOrdinal("EntryBy")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("Remark"))) = False Then
+                        row.Remark = rd.GetString(rd.GetOrdinal("Remark")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CmpCode"))) = False Then
+                        row.CmpCode = rd.GetString(rd.GetOrdinal("CmpCode")).ToString()
                     End If
                     lst.Add(row)
                 End While

@@ -31,7 +31,7 @@ End Code
     }
 </style>
 <div style="text-align:center;width:100%;font-weight:bold;">
-JOB INSTRUCTION
+    JOB INSTRUCTION
 </div>
 <div style="display:flex;flex-direction:column">
 
@@ -109,12 +109,20 @@ JOB INSTRUCTION
         <div id="dvVesselName" class="underline" style="flex:2">
 
         </div>
+
         <div style="flex:1">
+            TOTAL CONTAINER
+        </div>
+        <div id="dvTotalContainer" class="underline" style="flex:2">
+
+        </div>
+
+        @*<div style="flex:1">
             D/O DATE:
         </div>
         <div id="dvEstDeliverDate" class="underline" style="flex:2">
 
-        </div>
+        </div>*@
     </div>
     <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
@@ -146,20 +154,56 @@ JOB INSTRUCTION
 
         </div>
     </div>
+    <div class="block" style="display:flex;flex-direction:row">
+       
+        <div style="flex:1">
+            MEASUREMENT:
+        </div>
+        <div id="dvMeasurement" class="underline" style="flex:2">
+
+        </div>
+        <div style="flex:1">
+            GROSS WEIGHT
+        </div>
+        <div id="dvGrossWeight" class="underline" style="flex:2">
+
+        </div>
+    </div>
+   
+    <div class="block" style="display:flex;flex-direction:row">
+        <div id="sellUSDTHBLbl" style="flex:1">
+            SELLING @@EXC
+        </div>
+        <div id="sellUSDTHB" class="underline" style="flex:2">
+
+        </div>
+        <div id="buyUSDTHBLbl" style="flex:1">
+            BUYING @@EXC
+        </div>
+        <div id="buyUSDTHB"  class="underline"  style="flex:2">
+
+        </div>
+    </div>
+
     <table border="1">
         <thead>
             <tr>
-                <th rowspan="2">CLEAR NO</th>
-                <th rowspan="2">DESCRIPTION</th>
-                <th colspan="3">COST</th>
-                <th>SELLING</th>
-                <th rowspan="2" colspan="2">PROFIT</th>
+                <th rowspan="2">เลขใบเคลียร์</th>
+                <th rowspan="2">คำอธิบาย</th>
+                <th rowspan="2">ราคาต่อหน่วย</th>
+                <th>สำรองจ่าย</th>
+                <th colspan="2">ค่าใช้จ่าย</th>
+                <th colspan="2">ยอดขาย</th>
+
+                @*<th rowspan="2" colspan="2">กำไร</th>*@
             </tr>
             <tr>
-                <th>CUSTOMER-SLIP</th>
-                <th>COMPANY-SLIP</th>
-                <th>NO-SLIP</th>
-                <th>SERVICES</th>
+
+                <th>ใบเสร็จลูกค้า</th>
+                <th>ใบเสร็จบริษัท</th>
+                <th>ไม่มีใบเสร็จ</th>
+
+                <th>ค่าบริการ</th>
             </tr>
         </thead>
         <tbody id="tb">
@@ -168,17 +212,17 @@ JOB INSTRUCTION
             <tr>
                 <td></td>
                 <td>Service</td>
-                <td id="sumService" style ="text-align: right" colspan="5"></td>
+                <td id="sumService" style="text-align: right" colspan="5"></td>
             </tr>
             <tr>
                 <td></td>
                 <td>Cost</td>
-                <td id="sumCost" style ="text-align: right" colspan="5"></td>
+                <td id="sumCost" style="text-align: right" colspan="5"></td>
             </tr>
             <tr>
                 <td></td>
                 <td>Balance</td>
-                <td id="sumBalance"  style ="text-align: right" colspan="5"></td>
+                <td id="sumBalance" style="text-align: right" colspan="5"></td>
             </tr>
             <tr>
                 <td colspan="7">Price @@ <label id="remark1">_________________________</label>  CTN (<label id="remark2">_________________________</label>)</td>
@@ -187,37 +231,37 @@ JOB INSTRUCTION
     </table>
     <br>
     <div style="display:flex;width:100%;">
-	
-	 <div style="flex:1;border:1px black solid;text-align:center;" >		
-		<div style="border-bottom:1px black solid;padding:10px">Approve By</div>
-		<br>	
-             	<div>_____________________</div>
-	 	<pre>(                 )</pre>
-	     	<div>______/______/______</div>
-     	</div>
-	<div style="flex:1">
 
-     	</div>
-	<div style="flex:1;border:1px black solid;text-align:center;" >		
-		<div style="border-bottom:1px black solid;padding:10px">Approve By</div>
-		<br>	
-             	<div>_____________________</div>
-	 	<pre>(                 )</pre>
-	     	<div>______/______/______</div>
-     	</div>
-	<div style="flex:1">
+        <div style="flex:1;border:1px black solid;text-align:center;">
+            <div style="border-bottom:1px black solid;padding:10px">Approve By</div>
+            <br>
+            <div>_____________________</div>
+            <pre>(                 )</pre>
+            <div>______/______/______</div>
+        </div>
+        <div style="flex:1">
 
-     	</div>
-	<div style="flex:1;border:1px black solid;text-align:center;">
-		<div style="border-bottom:1px black solid;padding:10px">Account</div>	
-		<br>	
-		<div>_____________________</div>
-	 	<pre>(                 )</pre>
-	     	<div>______/______/______</div>
-		<br>
-     	</div>
-     </div>
-	 <br>
+        </div>
+        <div style="flex:1;border:1px black solid;text-align:center;">
+            <div style="border-bottom:1px black solid;padding:10px">Approve By</div>
+            <br>
+            <div>_____________________</div>
+            <pre>(                 )</pre>
+            <div>______/______/______</div>
+        </div>
+        <div style="flex:1">
+
+        </div>
+        <div style="flex:1;border:1px black solid;text-align:center;">
+            <div style="border-bottom:1px black solid;padding:10px">Account</div>
+            <br>
+            <div>_____________________</div>
+            <pre>(                 )</pre>
+            <div>______/______/______</div>
+            <br>
+        </div>
+    </div>
+    <br>
     <div class="block" style="display:flex;width:50%">
         <div style="flex:1">
             HANDLE BY:
@@ -252,69 +296,79 @@ JOB INSTRUCTION
                 $('#dvGrossWeight').html(CStr(dr.TotalGW + ' ' + dr.GWUnit));
                 $('#dvMeasurement').html(CStr(dr.Measurement));
                 $('#dvTotalContainer').html(CStr(dr.TotalContainer));
+
+
+  
                 //$("#sumService").text(CCurrency(CDbl(dr.DutyCustPayOtherAmt, 2)));
                 //sService = parseFloat(dr.DutyCustPayOtherAmt);
-              
+
                 if (dr.Description) {
                     console.log(dr.Description);
                     let remarks = dr.Description.split("/");
                     $('#remark1').text(remarks[0]);
-                    $('#remark2').text(remarks[1]);              
+                    $('#remark2').text(remarks[1]);
                 }
-               
-                let intercountry = dr.InvFCountry;
-                if (dr.JobType !== 1) {
-                    intercountry = dr.InvCountry;
-                    $.get(path + 'Master/GetInterPort?Key=' + intercountry + '&Code=' + dr.InvInterPort).done((r) => {
-                        if (r.interport.length > 0) {
-                            let p = r.interport.data[0];
-                            $('#dvToPort').html(p.PortName);
-                        }
+
+                $("#dvToPort").text(dr.ClearPortNo);
+                ShowInterPort(path, (dr.JobType == 1 ? dr.InvFCountry : dr.InvCountry), dr.InvInterPort, '#dvFromPort').then(() => {
+                    $.get(path + 'Master/GetCountry?Code=' + (dr.JobType == 1 ? dr.InvFCountry : dr.InvCountry)).done(function (r) {
+                        $('#dvFromPort').text(($('#dvFromPort').text() + " ," + r.country.data[0].CTYName).toUpperCase());
                     });
-                    $.get(path + 'Master/GetCustomsPort?Code=' + dr.ClearPort).done((r) => {
-                        if (r.RFARS.length > 0) {
-                            let p = r.RFARS.data[0];
-                            $('#dvFromPort').html(p.AreaName);
-                        }
-                    });
-                    $.get(path + 'Master/GetCountry?Code=' + intercountry).done((r) => {
-                        if (r.country.data.length > 0) {
-                            let c = r.country.data[0];
-                            $('#dvToCountry').html(c.CTYName);
-                        }
-                    });
-                    $.get(path + 'Master/GetCountry?Code=' + dr.InvFCountry).done((r) => {
-                        if (r.country.data.length > 0) {
-                            let c = r.country.data[0];
-                            $('#dvFromCountry').html(c.CTYName);
-                        }
-                    });
-                } else {
-                    $.get(path + 'Master/GetInterPort?Key=' + intercountry + '&Code=' + dr.InvInterPort).done((r) => {
-                        if (r.interport.length > 0) {
-                            let p = r.interport.data[0];
-                            $('#dvFromPort').html(p.PortName);
-                        }
-                    });
-                    $.get(path + 'Master/GetCustomsPort?Code=' + dr.ClearPort).done((r) => {
-                        if (r.RFARS.length > 0) {
-                            let p = r.RFARS.data[0];
-                            $('#dvToPort').html(p.AreaName);
-                        }
-                    });
-                    $.get(path + 'Master/GetCountry?Code=' + intercountry).done((r) => {
-                        if (r.country.data.length > 0) {
-                            let c = r.country.data[0];
-                            $('#dvFromCountry').html(c.CTYName);
-                        }
-                    });
-                    $.get(path + 'Master/GetCountry?Code=' + dr.InvCountry).done((r) => {
-                        if (r.country.data.length > 0) {
-                            let c = r.country.data[0];
-                            $('#dvToCountry').html(c.CTYName);
-                        }
-                    });
-                }
+                });
+
+                //let intercountry = dr.InvFCountry;
+                //if (dr.JobType !== 1) {
+                //    intercountry = dr.InvCountry;
+                //    $.get(path + 'Master/GetInterPort?Key=' + intercountry + '&Code=' + dr.InvInterPort).done((r) => {
+                //        if (r.interport.length > 0) {
+                //            let p = r.interport.data[0];
+                //            $('#dvToPort').html(p.PortName);
+                //        }
+                //    });
+                //    $.get(path + 'Master/GetCustomsPort?Code=' + dr.ClearPort).done((r) => {
+                //        if (r.RFARS.length > 0) {
+                //            let p = r.RFARS.data[0];
+                //            $('#dvFromPort').html(p.AreaName);
+                //        }
+                //    });
+                //    $.get(path + 'Master/GetCountry?Code=' + intercountry).done((r) => {
+                //        if (r.country.data.length > 0) {
+                //            let c = r.country.data[0];
+                //            $('#dvToCountry').html(c.CTYName);
+                //        }
+                //    });
+                //    $.get(path + 'Master/GetCountry?Code=' + dr.InvFCountry).done((r) => {
+                //        if (r.country.data.length > 0) {
+                //            let c = r.country.data[0];
+                //            $('#dvFromCountry').html(c.CTYName);
+                //        }
+                //    });
+                //} else {
+                //    $.get(path + 'Master/GetInterPort?Key=' + intercountry + '&Code=' + dr.InvInterPort).done((r) => {
+                //        if (r.interport.length > 0) {
+                //            let p = r.interport.data[0];
+                //            $('#dvFromPort').html(p.PortName);
+                //        }
+                //    });
+                //    $.get(path + 'Master/GetCustomsPort?Code=' + dr.ClearPort).done((r) => {
+                //        if (r.RFARS.length > 0) {
+                //            let p = r.RFARS.data[0];
+                //            $('#dvToPort').html(p.AreaName);
+                //        }
+                //    });
+                //    $.get(path + 'Master/GetCountry?Code=' + intercountry).done((r) => {
+                //        if (r.country.data.length > 0) {
+                //            let c = r.country.data[0];
+                //            $('#dvFromCountry').html(c.CTYName);
+                //        }
+                //    });
+                //    $.get(path + 'Master/GetCountry?Code=' + dr.InvCountry).done((r) => {
+                //        if (r.country.data.length > 0) {
+                //            let c = r.country.data[0];
+                //            $('#dvToCountry').html(c.CTYName);
+                //        }
+                //    });
+                //}
                 $.get(path + 'Master/GetCompany?Code=' + dr.Consigneecode).done((r) => {
                     if (r.company.data.length > 0) {
                         let c = r.company.data[0];
@@ -331,11 +385,11 @@ JOB INSTRUCTION
             }
         });
 
-        
+
     }
 
     function getClearIngReport() {
-        $.get(path + 'clr/getclearingreport?branch=' + branch + '&job=' + job, function (r) {
+        $.get(path + 'adv/getclearexpreport?branch=' + branch + '&job=' + job, function (r) {
             let amtadv = 0;
             let amtserv = 0;
             let amtvat = 0;
@@ -344,31 +398,34 @@ JOB INSTRUCTION
             let amtprofit = 0;
             let amtcost = 0;
             let commrate = 0;
-            if (r.data.length > 0) {
+            let buycur = 0;
+            let sellcur = 0;
+            if (r.estimate.data.length > 0) {
                 let tb = $('#tb');
                 tb.empty();
 
-                let h = r.data[0];
+                let h = r.estimate.data[0];
 
                 commrate = h.Commission;
 
-                let d = r.data.filter(function (data) {
-                    return data.BNet !== 0;
-                });
+                let d = r.estimate.data;
                 //console.log(JSON.stringify(d));
                 let customerSlipSum = 0;
                 let companySlipSum = 0;
                 let noSlipSum = 0;
                 let servSum = 0;
                 let profitSum = 0;
+                let sellcur = 1;
+                let buycur = 1;
                 for (let i = 0; i < d.length; i++) {
                     let html = '';
-                    let amt = d[i].UsedAmount;
+                    let amt = d[i].AmtTotal;
+                    //d[i].SICode.indexOf("adv") > -1 ? console.log(d[i].AdvNet) : console.log("fail");
                     //let adv = (d[i].IsCredit == 1 ? amt : 0);
-                    //let cost = (d[i].IsExpense == 1 || d[i].IsCredit == 1 ? amt : 0);                
-                    let customerSlip = (d[i].IsHaveSlip == 1 && d[i].IsCredit == 1 ? amt : 0);
+                    //let cost = (d[i].IsExpense == 1 || d[i].IsCredit == 1 ? amt : 0);
+                    let customerSlip = (d[i].IsCredit == 1 ? amt : 0);
                     let companySlip = (d[i].IsHaveSlip == 1 && d[i].IsExpense == 1 ? amt : 0);
-                    let noSlip = d[i].IsHaveSlip == 0 && d[i].IsExpense == 1 ? amt : 0;
+                    let noSlip = (d[i].IsHaveSlip == 0 && d[i].IsExpense == 1 ? amt : 0);
                     let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? amt : 0);
                     let profit = (d[i].IsExpense == 1 ? amt * -1 : (d[i].IsCredit==0 ? amt: 0));
                     //amtadv += adv;
@@ -380,19 +437,31 @@ JOB INSTRUCTION
                     profitSum += profit;
                     if (d[i].IsCredit == 0 && d[i].IsExpense == 0) {
                         if (d[i].IsTaxCharge > 0) {
-                            amtvat += d[i].ChargeVAT;
+                            amtvat += d[i].AmtVat;
                         }
                         if (d[i].Is50Tavi > 0) {
-                            amtwht += d[i].Tax50Tavi;
+                            amtwht += d[i].AmtWht;
+                        }
+                        if (sellcur === 1 && d[i].ExchangeRate > 1) {
+                            sellcur = d[i].ExchangeRate
+                          
                         }
                     }
+                    if (d[i].IsCredit == 0 && d[i].IsExpense == 1) {
+                        if (buycur === 1 && d[i].ExchangeRate > 1) {
+                            buycur = d[i].ExchangeRate
+                          
+                        }
+                    }
+                  
                     html = '<tr>';
-                    html += '<td>' + d[i].ClrNo + '#' + d[i].ItemNo + '</td>';
+                    html += '<td>' + (d[i].ClrNo == null ? '' : d[i].ClrNo) + '</td>';
                     html += '<td>' + d[i].SICode + '-' + d[i].SDescription;
                     //if (d[i].AdvNO !== null) html += ' จากใบเบิก ' + d[i].AdvNO;
                     //if (d[i].SlipNO !== null) html += ' ใบเสร็จเลขที่ ' + d[i].SlipNO;
 
                     html += '</td>';
+                    html += '<td style="text-align:right">' + CCurrency(CDbl(d[i].AmountCharge, 2)) + " " + d[i].CurrencyCode + '</td>';
                     //if (customerSlip > 0) {
                     //    html += '<td style="text-align:right">' + customerSlip > 0 ? CCurrency(CDbl(customerSlip, 2)) : '' + '</td>';//CUSTOMER-SLIP
                     //} else {
@@ -402,28 +471,32 @@ JOB INSTRUCTION
                     html += '<td style="text-align:right">' + (companySlip != 0 ? CCurrency(CDbl(companySlip, 2)) : '') + '</td>';//COMPANY-SLIP
                     html += '<td style="text-align:right">' + (noSlip != 0 ? CCurrency(CDbl(noSlip, 2)) : '') + '</td>';//NO-SLIP
                     html += '<td style="text-align:right">' + (serv != 0 ? CCurrency(CDbl(serv, 2)) : '') + '</td>';//SERVICES
-                    html += '<td style="text-align:right">' + (profit != 0 ? CCurrency(CDbl(profit, 2)) : '') + '</td>';//PROFIT
+                    //html += '<td style="text-align:right">' + (profit != 0 ? CCurrency(CDbl(profit, 2)) : '') + '</td>';//PROFIT
                     html += '</tr>';
 
 
-		
+
                     //amtcost += cost;
                     //amttotal += serv + adv;
                     //amtprofit += profit;
 
                     tb.append(html);
                 }
+                $("#sellUSDTHB").text(sellcur);
+
+                $("#buyUSDTHB").text(buycur);
                 let summary = ` <tr>
                <td></td>
                <td></td>
-
+<td></td>
                <td style="text-align:right">${customerSlipSum != 0 ? CCurrency(CDbl(customerSlipSum, 2)) : ""}</td>
                <td style="text-align:right">${companySlipSum != 0 ? CCurrency(CDbl(companySlipSum, 2)) : ""}</td>
                <td style="text-align:right">${noSlipSum != 0 ? CCurrency(CDbl(noSlipSum, 2)) : ""}</td>
                <td style="text-align:right">${servSum != 0 ? CCurrency(CDbl(servSum, 2)) : ""}</td>
-               <td style="text-align:right">${profitSum != 0 ? CCurrency(CDbl(profitSum, 2)) : ""}</td>
+              
            </tr >`;
-	$("#sumService").text(CCurrency(CDbl(customerSlipSum+servSum, 2)))
+                //<td style="text-align:right">${profitSum != 0 ? CCurrency(CDbl(profitSum, 2)) : ""}</td>
+	            $("#sumService").text(CCurrency(CDbl(customerSlipSum+servSum, 2)))
                 tb.append(summary);
                 $("#sumCost").text(CCurrency(CDbl(companySlipSum+customerSlipSum + noSlipSum, 2)));
                 $("#sumBalance").text(CCurrency(CDbl((servSum) - (companySlipSum+noSlipSum),2)));

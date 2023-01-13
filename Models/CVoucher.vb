@@ -216,19 +216,20 @@ Public Class CVoucher
         Main.DBExecute(GetSession("ConnJob"), "UPDATE Job_AdvHeader SET PaymentRef='',PaymentDate=NULL,PaymentTime=NULL,PaymentBy='' WHERE PaymentRef='" & Me.ControlNo & "'")
         Main.DBExecute(GetSession("ConnJob"), "UPDATE Job_ClearHeader SET ReceiveRef='',ReceiveDate=NULL,ReceiveTime=NULL,ReceiveBy='' WHERE ReceiveRef='" & Me.ControlNo & "'")
         Main.DBExecute(GetSession("ConnJob"), "UPDATE Job_ClearDetail SET LinkBillNo='',LinkItem=0 WHERE LinkBillNo='" & Me.ControlNo & "'")
-        Dim oSub = New CVoucherSub(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND ControlNo='{1}'", Me.BranchCode, Me.ControlNo))
-        If oSub.Count > 0 Then
-            For Each row In oSub
-                row.CancelData()
-            Next
-        End If
-        Dim oDtl As New CVoucherDoc(GetSession("ConnJob"))
-        Dim oRows = oDtl.GetData(String.Format(" WHERE BranchCode='{0}' AND ControlNo='{1}' ", Me.BranchCode, Me.ControlNo))
-        If oRows.Count > 0 Then
-            For Each row In oRows
-                row.DeleteData()
-            Next
-        End If
+        Main.DBExecute(GetSession("ConnJob"), "UPDATE Job_ReceiptDetail SET ControlNo='',ControlItemNo=0,VoucherNo='' WHERE ControlNo='" & Me.ControlNo & "'")
+        'Dim oSub = New CVoucherSub(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND ControlNo='{1}'", Me.BranchCode, Me.ControlNo))
+        'If oSub.Count > 0 Then
+        'For Each row In oSub
+        'Row.CancelData()
+        'Next
+        'End If
+        'Dim oDtl As New CVoucherDoc(GetSession("ConnJob"))
+        'Dim oRows = oDtl.GetData(String.Format(" WHERE ControlNo='{0}' ", Me.ControlNo))
+        'If oRows.Count > 0 Then
+        'For Each row In oRows
+        'Row.DeleteData()
+        'Next
+        'End If
     End Sub
     Public Sub AddNew(pFormatSQL As String)
         If pFormatSQL = "" Then

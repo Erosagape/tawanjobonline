@@ -1002,7 +1002,8 @@ End Code
         });
         $('#txtInterPort').keydown(function (event) {
             if (event.which == 13) {
-                ShowInterPort(path, $('#txtJobType').val() == 'IMPORT' ? $('#txtInvFCountryCode').val() : $('#txtInvCountryCode').val(), $('#txtInterPort').val(), '#txtInterPortName');
+                ShowInterPort(path, $('#txtShipBy').val() == 'IMPORT' ? $('#txtInvFCountryCode').val() : $('#txtInvCountryCode').val(), $('#txtInterPort').val(), '#txtInterPortName');
+                console.log($('#txtShipBy').val());
             }
         });
         $('#txtDeclareType').keydown(function (event) {
@@ -1165,7 +1166,7 @@ End Code
     function SearchData(type) {
         switch (type) {
             case 'interport':
-                let CountryID = $('#txtJobType').val() == "IMPORT" ? $('#txtInvFCountryCode').val() : $('#txtInvCountryCode').val();
+                let CountryID = $('#txtShipBy').val() == "IMPORT" ? $('#txtInvFCountryCode').val() : $('#txtInvCountryCode').val();
                 SetGridInterPort(path, '#tbIPort', '#frmSearchIPort', CountryID, ReadInterPort);
                 break;
             case 'agent':
@@ -1246,7 +1247,7 @@ End Code
                 });
                 break;
             case 'quotation':
-                let t = '?JType=' + rec.JobType + '&SBy=' + rec.ShipBy +'&Cust=' + $('#txtCustCode').val();
+                let t = '?JType=' + rec.ShipBy + '&SBy=' +  rec.JobType+'&Cust=' + $('#txtCustCode').val();
                 //popup for search data
                 $('#tbQuo').DataTable({
                     ajax: {
@@ -1436,7 +1437,7 @@ End Code
 
         ShowCountry(path, dr.InvCountry, '#txtInvCountry');
         ShowCountry(path, dr.InvFCountry, '#txtInvFCountry');
-        ShowInterPort(path, dr.JobType == 1 ? dr.InvFCountry : dr.InvCountry, dr.InvInterPort, '#txtInterPortName');
+        ShowInterPort(path, dr.ShipBy == 1 ? dr.InvFCountry : dr.InvCountry, dr.InvInterPort, '#txtInterPortName');
 
         ShowDeclareType(path, dr.DeclareType, '#txtDeclareTypeName');
         ShowReleasePort(path, dr.ClearPort, '#txtReleasePortName');
@@ -1481,11 +1482,12 @@ End Code
                                         return '<a href="../Acc/Invoice?Branch='+ br +'&Code='+ data.DocNo+ '">' + data.DocNo + '</a>';
                                         break;
                                     case "TAX":
+                                    case "RCV":
                                         return '<a href="../Acc/TaxInvoice?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
                                         break;
-                                    case "RCV":
-                                        return '<a href="../Acc/Receipt?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
-                                        break;
+                                    
+                                        //return '<a href="../Acc/Receipt?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
+                                        //break;
                                     default:
                                         return data.DocNo;
                                         break;
@@ -1915,7 +1917,7 @@ End Code
                 LoadPaperlessJANDT();
                 break;
             case 'ECS':
-                if (rec.JobType == 1) {
+                if (rec.ShipBy == 1) {
                     LoadPaperlessECSImport();
                 } else {
                     LoadPaperlessECSExport();
@@ -1927,7 +1929,7 @@ End Code
         }
     }
     function LoadPaperlessECSExport() {
-        let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
+        let url = '?job=' + rec.JNo + '&type=' + rec.ShipBy;
         $.get(path + 'JobOrder/GetPaperless'+ url).done(function (r) {
             if (r.length > 0) {
                 $('#txtDeclareNo').val(r[0].DecNO);
@@ -1961,7 +1963,7 @@ End Code
         });
     }
     function LoadPaperlessECSImport() {
-        let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
+        let url = '?job=' + rec.JNo + '&type=' + rec.ShipBy;
         $.get(path + 'JobOrder/GetPaperless'+ url).done(function (r) {
             if (r.length > 0) {
                 $('#txtDeclareNo').val(r[0].DecNO);
@@ -1997,13 +1999,13 @@ End Code
 
     }
     function LoadPaperlessJANDT() {
-        let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
+        let url = '?job=' + rec.JNo + '&type=' + rec.ShipBy;
         $.get(path + 'JobOrder/GetPaperless'+ url).done(function (r) {
             if (r.length > 0) {
                 $('#txtDeclareNo').val(r[0].DECLNO);
                 $('#txtDeclareType').val(r[0].DOCTYPEOLD.split('-')[0]);
                 $('#txtCustInvNo').val(r[0].invoiceno);
-                if (rec.JobType == 1) {
+                if (rec.ShipBy == 1) {
                     $('#txtInvFCountry').val(r[0].consignmentCTY);
                     $('#txtInvCountry').val(r[0].OriginCTY);
                     if(r[0].VSLDTE!==null) $('#txtETADate').val(ReverseDate(r[0].VSLDTE));
@@ -2042,7 +2044,7 @@ End Code
         });
     }
     function LoadPaperlessETRANSIT() {
-        let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
+        let url = '?job=' + rec.JNo + '&type=' + rec.ShipBy;
         $.get(path + 'JobOrder/GetPaperless2' + url).done(function (r) {
             if (r.length > 0) {
                 $('#txtDeclareNo').val(r[0].DECLNO);
@@ -2053,7 +2055,7 @@ End Code
                 $('#txtEDIDate').val(r[0].fImp_ArrivalDate);
                 $('#txtReadyClearDate').val(r[0].fImp_ArrivalDate);
                 $('#txtClearDate').val(r[0].fImp_ArrivalDate);
-                if (rec.JobType == 1) {
+                if (rec.ShipBy == 1) {
                     $('#txtInvFCountry').val(r[0].consignmentCTY);
                     $('#txtInvCountry').val(r[0].OriginCTY);
                     if (r[0].VSLDTE !== null) $('#txtETADate').val(ReverseDate(r[0].VSLDTE));

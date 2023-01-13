@@ -431,13 +431,14 @@ End Code
         let GetInvoice = await $.get(path + '/Acc/GetInvoice?Branch=' + branch +   '&Code=' + code);
         let h = GetInvoice.invoice.header[0][0];
         let c = GetInvoice.invoice.customer[0][0];
-        let j = GetInvoice.invoice.job[0][0];
-        let d = GetInvoice.invoice.detail[0];
-        let clr = await $.get(path + 'clr/getclearingreport?job=' + j.JNo + '&Branch=' + j.BranchCode);
+        //let j = GetInvoice.invoice.job[0][0];
+        //let d = GetInvoice.invoice.detail[0];
+        let clr = await $.get(path + 'clr/getclearingreport?job=' + h.RefNo + '&Branch=' + h.BranchCode);
         let clrd = clr.data.filter((data) => {
             return data.LinkBillNo == code;
         });
-
+        let job = await $.get(path + '/joborder/getjobsql?Branch=' + branch + '&jno=' + h.RefNo);
+        let j = job.job.data[0];
         let sum = 0;
         for (item of clrd) {
             sum = sum + item.FFNet;

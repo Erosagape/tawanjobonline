@@ -29,6 +29,7 @@ Public Class CUtil
                 cn.Open()
                 Using cm As New SqlCommand
                     cm.Connection = cn
+                    cm.CommandTimeout = Convert.ToInt32(Main.GetValueConfig("PROFILE", "QUERY_TIMEOUT", 600))
                     cm.CommandText = pSQL
                     cm.CommandType = CommandType.Text
                     Message &= " Row(s)=" & cm.ExecuteNonQuery()
@@ -49,7 +50,7 @@ Public Class CUtil
             Try
                 cn.Open()
                 Using da As New SqlDataAdapter(pSQL, cn)
-                    da.SelectCommand.CommandTimeout = 600
+                    da.SelectCommand.CommandTimeout = Convert.ToInt32(Main.GetValueConfig("PROFILE", "QUERY_TIMEOUT", 600))
                     da.Fill(dt)
                 End Using
                 If dt.Rows.Count = 0 Then dt.Rows.Add(dt.NewRow)

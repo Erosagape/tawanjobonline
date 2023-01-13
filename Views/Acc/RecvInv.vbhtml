@@ -54,18 +54,18 @@ End Code
                         <label id="lblTranTimeCA">Trans.Time:</label>
                         <input type="text" id="txtCashTranTime" class="form-control" value="" />
                         <br />
-                        <label id="lblBankCA">To Bank:</label>
+                        <label id="lblBankCA">From Bank:</label>
                         <select id="cboBankCash" class="form-control"></select>
-                        <label id="lblBranchCA">To Branch:</label>
-                        <input type="text" id="txtBankBranchCash" class="form-control" />                                                                  
-                        <label id="lblPayCA">Pay To:</label>
+                        <label id="lblBranchCA">From Branch:</label>
+                        <input type="text" id="txtBankBranchCash" class="form-control" />
+                        <label id="lblPayCA">Pay By:</label>
                         <input type="text" id="txtCashPayTo" class="form-control" />
                         <br />
                         <input type="hidden" id="fldBankCodeCash" />
                         <input type="hidden" id="fldBankBranchCash" />
                     </div>
                     <div class="col-sm-3 table-bordered" id="dvChqCash">
-                        <input type="radio" name="optACType" id="chkChqCash" value="CU"><label><b id="linkChqCash">Customer Cheque :</b></label><input type="text" id="txtAdvChqCash" class="form-control" value="" />
+                        <input type="radio" name="optACType" id="chkChqCash" value="CH"><label><b id="linkChqCash">Customer Cheque :</b></label><input type="text" id="txtAdvChqCash" class="form-control" value="" />
                         <br />
                         <table>
                             <tr>
@@ -101,7 +101,7 @@ End Code
                         <input type="hidden" id="fldBankBranchChqCash" />
                     </div>
                     <div class="col-sm-3 table-bordered" id="dvChq">
-                        <label><input type="radio" name="optACType" id="chkChq" value="CH"><b id="linkChqCust">Company Cheque :</b></label>
+                        <label><input type="radio" name="optACType" id="chkChq" value="CU"><b id="linkChqCust">Company Cheque :</b></label>
                         <input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
                         <label id="lblRefNoCU">Chq No:</label>
@@ -150,12 +150,12 @@ End Code
                     <div class="col-sm-6">
                         <input type="checkbox" id="chkUseDue" /><label id="lblSearchByDue">Select by Payment Due Date</label>
                         <br />
-                        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" /><label id="lblGroupByDoc">Group Documents</label> 
+                        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" /><label id="lblGroupByDoc">Group Documents</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-6">
-                        <label id="lblCustCode">Customer :</label>                        
+                        <label id="lblCustCode">Customer :</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
                             <input type="text" class="form-control" id="txtCustCode" style="width:120px" />
@@ -179,6 +179,8 @@ End Code
                     <div class="col-sm-12">
                         <label id="lblTaxNo">Tax-Invoice:</label>
                         <input type="text" id="txtTaxInvNo" />
+                        <label id="lblInvNo">Invoice:</label>
+                        <input type="text" id="txtInvNo" />
                         <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
                             <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                         </a>
@@ -194,6 +196,7 @@ End Code
                                     <th class="all">Net</th>
                                 </tr>
                             </thead>
+                            <tbody></tbody>
                         </table>
                         <table id="tbHeader" class="table table-responsive">
                             <thead>
@@ -211,6 +214,7 @@ End Code
                                     <th class="all">Net</th>
                                 </tr>
                             </thead>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -295,10 +299,47 @@ End Code
         $('#tbSummary tbody > tr').removeClass('selected');
         $('#tbHeader tbody > tr').removeClass('selected');
         arr = [];
-        ClearData();
+        //ClearData();
         ShowSummary();
     }
     function SetEvents() {
+        $('#tbHeader tbody').on('click', 'tr',function () {
+            console.log('click');
+            if ($(this).hasClass('selected') == true) {
+                $(this).removeClass('selected');
+                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                RemoveData(data); //callback function from caller
+                return;
+            }
+            $(this).addClass('selected');
+            let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+            AddData(data); //callback function from caller
+        });
+
+        $('#tbSummary tbody').on('click', 'tr',function () {
+            if ($(this).hasClass('selected') == true) {
+                $(this).removeClass('selected');
+
+                let data = $('#tbSummary').DataTable().row(this).data();
+                let filter = $.grep(dtl, function (d) {
+                    return d.InvoiceNo == data.InvoiceNo;
+                });
+                for (let d of filter) {
+                    RemoveData(d);
+                }
+                return;
+            }
+
+            $(this).addClass('selected');
+
+            let data = $('#tbSummary').DataTable().row(this).data();
+            let filter = $.grep(dtl, function (d) {
+                return d.InvoiceNo == data.InvoiceNo;
+            });
+            for (let d of filter) {
+                AddData(d);
+            }
+        });
 
         let cbos = ['#cboBankCash', '#cboBankChqCash', '#cboBankChq'];
         loadBank(cbos, path);
@@ -384,10 +425,10 @@ End Code
         $('#txtSumApprove').val('');
         $('#txtSumWHTax').val('');
         $('#txtTRemark').val('');
-        $('#chkCash').prop('checked', true);
-        $('#chkChq').prop('checked', false);
-        $('#chkChqCash').prop('checked', false);
-        $('#chkCred').prop('checked', false);
+        //$('#chkCash').prop('checked', true);
+        //$('#chkChq').prop('checked', false);
+        //$('#chkChqCash').prop('checked', false);
+        //$('#chkCred').prop('checked', false);
     }
     function SetGridAdv(isAlert) {
         arr = [];
@@ -398,6 +439,9 @@ End Code
         let w = '';
         if ($('#txtTaxInvNo').val() !== "") {
             w = w + '&recvno=' + $('#txtTaxInvNo').val();
+        }
+        if ($('#txtInvNo').val() !== "") {
+            w = w + '&invno=' + $('#txtInvNo').val();
         }
         if ($('#txtCustCode').val() !== "") {
             w = w + '&cust=' + $('#txtCustCode').val();
@@ -417,8 +461,9 @@ End Code
                 w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
             }
         }
-        $.get(path + 'acc/getinvforreceive?show=OPEN&branch=' + $('#txtBranchCode').val() + w, function (r) {
+        $.get(path + 'acc/getinvforreceive?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
+                $('#tbSummary tbody').on('click', 'tr', function () { });
                 $('#tbHeader').DataTable().clear().draw();
                 $('#tbSummary').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);
@@ -463,30 +508,7 @@ End Code
                 , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbSummary');
-            $('#tbSummary tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected') == true) {
-                    $(this).removeClass('selected');
-
-                    let data = $('#tbSummary').DataTable().row(this).data();
-                    let filter = $.grep(dtl,function (d) {
-                        return d.InvoiceNo == data.InvoiceNo;
-                    });
-                    for (let d of filter) {
-                        RemoveData(d);
-                    }
-                    return;
-                }
-
-                $(this).addClass('selected');
-
-                let data = $('#tbSummary').DataTable().row(this).data();
-                let filter = $.grep(dtl,function (d) {
-                    return d.InvoiceNo == data.InvoiceNo;
-                });
-                for (let d of filter) {
-                    AddData(d);
-                }                      
-            });
+          
 
             let h = r.invdetail.data;
             let tb2=$('#tbHeader').DataTable({
@@ -539,17 +561,7 @@ End Code
                 , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
-            $('#tbHeader tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected') == true) {
-                    $(this).removeClass('selected');
-                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                    RemoveData(data); //callback function from caller
-                    return;
-                }
-                $(this).addClass('selected');
-                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                AddData(data); //callback function from caller
-            });
+          
         });
     }
     function SetStatusInput(d, bl, ctl) {
@@ -567,7 +579,7 @@ End Code
     function AddData(o) {
         let acType = $('input:radio[name=optACType]:checked').val();
         o.acType = acType;
-
+        console.log(acType);
         arr.push(o);
         ShowSummary();
     }
@@ -616,6 +628,7 @@ End Code
             if (o.acType == 'CR') sum_cr += Number(o.Net);
 
             list.push(obj);
+            console.log(obj);
 
         }
         //show selected details
@@ -652,8 +665,8 @@ End Code
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#txtAdvCash').val(CDbl(sum_ca, 2));
-        $('#txtAdvChq').val(CDbl(sum_ch, 2));
-        $('#txtAdvChqCash').val(CDbl(sum_cu, 2));
+        $('#txtAdvChq').val(CDbl(sum_cu, 2));
+        $('#txtAdvChqCash').val(CDbl(sum_ch, 2));
         $('#txtAdvCred').val(CDbl(sum_cr, 2));
 
         $('#txtSumApprove').val(CDbl(tot, 2));

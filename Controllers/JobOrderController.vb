@@ -314,6 +314,7 @@ Namespace Controllers
                     oHead(0).CancelBy = ""
                     oHead(0).CancelDate = DateTime.MinValue
                     oHead(0).CancelReason = ""
+                    oHead(0).ExpireDate = DateTime.MinValue
                     oHead(0).ReferQNo = Request.QueryString("Code").ToString
                     Dim fmt As String = GetValueConfig("RUNNING", "QUO")
                     If fmt <> "" Then
@@ -378,6 +379,13 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlW &= " AND Job_QuotationItem.SICode='" & Request.QueryString("Code").ToString & "'"
                 End If
+                If Not IsNothing(Request.QueryString("Expire")) Then
+                    If Request.QueryString("Expire") = "Y" Then
+                        tSqlW &= " AND (Job_QuotationHeader.ExpireDate is not null) "
+                    Else
+                        tSqlW &= " AND (Job_QuotationHeader.ExpireDate is null) "
+                    End If
+                End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectQuotation() & " WHERE NOT ISNULL(Job_QuotationHeader.CancelBy,'')<>'' " & tSqlW & " ORDER BY Job_QuotationHeader.BranchCode,Job_QuotationHeader.QNo,Job_QuotationHeader.ApproveDate DESC,Job_QuotationItem.SICode,Job_QuotationItem.QtyBegin")
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""quotation"":{""data"":" & json & "}}"
@@ -418,6 +426,13 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("DateTo")) Then
                     tSqlw &= " AND DocDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
+                If Not IsNothing(Request.QueryString("Expire")) Then
+                    If Request.QueryString("Expire") = "Y" Then
+                        tSqlw &= " AND (ExpireDate is not null) "
+                    Else
+                        tSqlw &= " AND (ExpireDate is null) "
+                    End If
                 End If
                 Dim oDataH = New CQuoHeader(GetSession("ConnJob")).GetData(tSqlw)
                 Dim jsonH As String = JsonConvert.SerializeObject(oDataH)
@@ -1180,6 +1195,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("InvNo")) Then
                     tSqlW &= " AND j.InvNo Like '%" & Request.QueryString("InvNo") & "%'"
                 End If
+                If Not IsNothing(Request.QueryString("QNo")) Then
+                    tSqlW &= " AND j.QNo Like '%" & Request.QueryString("QNo") & "%'"
+                End If
                 If Not IsNothing(Request.QueryString("BookingNo")) Then
                     tSqlW &= " AND j.BookingNo Like '%" & Request.QueryString("BookingNo") & "%'"
                 End If
@@ -1271,6 +1289,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 End If
                 If Not IsNothing(Request.QueryString("InvNo")) Then
                     tSqlW &= " AND InvNo='" & Request.QueryString("InvNo") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("QNo")) Then
+                    tSqlW &= " AND QNo Like '%" & Request.QueryString("QNo") & "%'"
                 End If
                 If Not IsNothing(Request.QueryString("JType")) Then
                     tSqlW &= " AND JobType=" & Request.QueryString("JType") & ""
@@ -1696,6 +1717,11 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                             data.AddNew(prefix & fmt, False)
                         End If
                     End If
+
+                    '***Change Concept duplicate checking with JobType/ShipBy/Customer per commercial invoice No
+                    'Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
+
+                    '***Change Concept duplicate checking with JobType/ShipBy/Customer per commercial invoice No
                     Dim sql As String = String.Format(" WHERE BranchCode='{1}' AND JobType={3} AND ShipBy={4} And InvNo='{2}' AND CustCode='{0}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo, data.JobType, data.ShipBy)
                     Dim FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
                     If FindJob.Count > 0 Then
@@ -1767,6 +1793,109 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             Dim json2 = SQLDashboard2("")
             Dim json3 = SQLDashboard3("")
             Return Content("{""result"":[{""data1"":""" & json1 & """,""data2"":""" & json2 & """,""data3"":""" & json3 & """}]}", jsonContent)
+        End Function
+        Function GetDashboardCost() As ActionResult
+            Dim tsqlTotal = "
+select j.JobType,t.JobTypeName,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then c.UsedAmount else 0 end) as SumNormalCost,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then 0 else c.UsedAmount end) as SumAdditionCost
+from Job_Order j
+inner join Job_ClearDetail c
+on j.BranchCode=c.BranchCode 
+and j.JNo=c.JobNo
+inner join Job_ClearHeader h
+on c.BranchCode=h.BranchCode 
+and c.ClrNo=h.ClrNo 
+inner join (select ConfigKey as JobType,ConfigValue as JobTypeName 
+from Mas_Config where configCode='JOB_TYPE'
+) t
+on j.JobType=t.JobType
+where h.DocStatus<>99 {0}
+group by j.JobType,t.JobTypeName
+order by 1
+"
+            If GetValueConfig("SQL", "SelectDashboardCostSummary") <> "" Then
+                tsqlTotal = GetValueConfig("SQL", "SelectDashboardCostSummary")
+            End If
+            Dim onDate As String = "j.DocDate"
+            If Not Request.QueryString("DateWhere") Is Nothing Then
+                onDate = Request.QueryString("DateWhere")
+            End If
+            Dim tsqlW As String = ""
+            If Not Request.QueryString("Branch") Is Nothing Then
+                tsqlW &= String.Format(" AND j.BranchCode='{0}'", Request.QueryString("Branch"))
+            End If
+            If Not Request.QueryString("Year") Is Nothing Then
+                tsqlW &= String.Format(" AND Year(" & onDate & ")={0}", Request.QueryString("Year"))
+            End If
+            If Not Request.QueryString("Month") Is Nothing Then
+                tsqlW &= String.Format(" AND Month(" & onDate & ")={0}", Request.QueryString("Month"))
+            End If
+            If Not Request.QueryString("Cust") Is Nothing Then
+                tsqlW &= String.Format(" AND j.CustCode='{0}'", Request.QueryString("Cust"))
+            End If
+            If Not Request.QueryString("Vend") Is Nothing Then
+                tsqlW &= String.Format(" AND j.ForwarderCode='{0}'", Request.QueryString("Vend"))
+            End If
+            If Not Request.QueryString("Mode") Is Nothing Then
+                If Request.QueryString("Mode").ToString() = "E" Then
+                    tsqlW &= " AND c.SICode in(select SICode from Job_SrvSingle where IsExpense=1 OR IsCredit=1)"
+                End If
+                If Request.QueryString("Mode").ToString() = "C" Then
+                    tsqlW &= " AND c.SICode not in(select SICode from Job_SrvSingle where IsExpense=0)"
+                End If
+                If Request.QueryString("Mode").ToString() = "A" Then
+                    tsqlW &= " AND c.SICode in(select SICode from Job_SrvSingle where IsCredit=1 AND IsExpense=0)"
+                End If
+                If Request.QueryString("Mode").ToString() = "S" Then
+                    tsqlW &= " AND c.SICode in(select SICode from Job_SrvSingle where IsCredit=0 AND IsExpense=0)"
+                End If
+            End If
+            Dim oTotal = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(tsqlTotal, tsqlW))
+            Dim jsChart = "[[""Type"",""Normal"",""Addition""],[""ALL"",0,0]]"
+            If oTotal.Rows.Count > 0 Then
+                jsChart = "[[""Type"",""Normal"",""Addition""]{0}]"
+                Dim str = ""
+                For Each dr As DataRow In oTotal.Rows
+                    str &= ",["
+                    str &= """" & dr("JobTypeName").ToString() & ""","
+                    str &= dr("SumNormalCost").ToString() & ","
+                    str &= dr("SumAdditionCost").ToString() & ""
+                    str &= "]"
+                Next
+                jsChart = String.Format(jsChart, str)
+            End If
+            Dim jsTotal = JsonConvert.SerializeObject(oTotal)
+            Dim tsqlDetail = "
+select j.DocDate,j.DutyDate,j.JNo,t.JobTypeName,s.ShipByName,
+j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalContainer,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then c.UsedAmount else 0 end) as SumNormalCost,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then 0 else c.UsedAmount end) as SumAdditionCost
+from Job_Order j
+inner join Job_ClearDetail c
+on j.BranchCode=c.BranchCode 
+and j.JNo=c.JobNo
+inner join Job_ClearHeader h
+on c.BranchCode=h.BranchCode 
+and c.ClrNo=h.ClrNo 
+inner join (select ConfigKey as JobType,ConfigValue as JobTypeName 
+from Mas_Config where configCode='JOB_TYPE'
+) t
+on j.JobType=t.JobType
+inner join (select ConfigKey as ShipBy,ConfigValue as ShipByName 
+from Mas_Config where configCode='SHIP_BY'
+) s
+on j.ShipBy=s.ShipBy
+where h.DocStatus<>99 {0}
+group by j.DocDate,j.DutyDate,j.Jno,t.JobTypeName,s.ShipByName,
+j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalContainer
+"
+            If GetValueConfig("SQL", "SelectDashboardCostDetail") <> "" Then
+                tsqlDetail = GetValueConfig("SQL", "SelectDashboardCostDetail")
+            End If
+            Dim oDetail = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(tsqlDetail, tsqlW))
+            Dim jsDetail = JsonConvert.SerializeObject(oDetail)
+            Return Content("{""data"":{""summary"":" & jsTotal & ",""detail"":" & jsDetail & ",""chart"":" & jsChart & ",""where"":""" & tsqlW & """}}", jsonContent)
         End Function
         Function GetTimelineReport() As ActionResult
             Try
@@ -2788,7 +2917,16 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 .QNo = Request.Form("QuoNo"),
                 .InvInterPort = Request.Form("PortCode"),
                 .InvFCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, Request.Form("Country"), "TH"),
-                .InvCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, "TH", Request.Form("Country"))
+                .InvCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, "TH", Request.Form("Country")),
+                .InvProduct = Request.Form("InvProduct"),
+            .InvProductQty = Request.Form("InvProductQty"),
+            .InvProductUnit = Request.Form("InvProductUnit"),
+            .ProjectName = Request.Form("ProjectName"),
+            .LoadDate = Request.Form("LoadDate"),
+            .EstDeliverDate = Request.Form("EstDeliverDate"),
+            .EstDeliverTime = "1900-01-01 " & Request.Form("EstDeliverTime"),
+            .ConfirmChqDate = "1900-01-01 " & Request.Form("ConfirmChqDate"),
+            .ClearPort = Request.Form("ClearPort")
                 }
             If Request.Form("mode") <> "A" And data.JNo <> "" Then
                 Dim chkData = New CJobOrder(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
@@ -2826,6 +2964,15 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                         .InvInterPort = Request.Form("PortCode")
                         .InvFCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, Request.Form("Country"), "TH")
                         .InvCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, "TH", Request.Form("Country"))
+                        .InvProduct = Request.Form("InvProduct")
+                        .InvProductQty = Request.Form("InvProductQty")
+                        .InvProductUnit = Request.Form("InvProductUnit")
+                        .ProjectName = Request.Form("ProjectName")
+                        .LoadDate = Request.Form("LoadDate")
+                        .EstDeliverDate = Request.Form("EstDeliverDate")
+                        .EstDeliverTime = "1900-01-01 " & Request.Form("EstDeliverTime")
+                        .ConfirmChqDate = "1900-01-01 " & Request.Form("ConfirmChqDate")
+                        .ClearPort = Request.Form("ClearPort")
                     End With
                 End If
             End If
@@ -3292,6 +3439,21 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
             End If
             Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
             Return Content(json, jsonContent)
+        End Function
+        Function CopyCostData() As ActionResult
+            Dim fromBranch = Request.QueryString("FromBranch")
+            Dim fromJob = Request.QueryString("FromJob")
+            Dim toBranch = Request.QueryString("ToBranch")
+            Dim toJob = Request.QueryString("ToJob")
+            Dim sqlW = " WHERE BranchCode='{0}' AND JobNo='{1}' AND ClrNo NOT IN(select clrno from Job_ClearHeader where DocStatus<>99) ORDER BY ClrNo,ItemNo"
+            Dim oClearDetail = New CClrDetail(GetSession("ConnJob")).GetData(String.Format(sqlW, fromBranch, fromJob))
+            Dim oTotalRec = 0
+            If oClearDetail.Count > 0 Then
+                For Each oData In oClearDetail
+
+                Next
+            End If
+            Return Content(String.Format("Copy from {0} to {1} Complete (" & oTotalRec & " Records) ", fromJob, toJob), textContent)
         End Function
     End Class
 

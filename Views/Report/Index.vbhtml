@@ -238,6 +238,53 @@
             CreateLOV(dv, '#frmSearchCode', '#tblCode', 'Search Code', response, 2);
         });
     }
+    function ReadCliteria(str) {
+        let arr = str.split(',');
+        $('#tbDate').show();
+        if (arr[1] !== '') {
+            $('#tbDate').show();
+            let vStr = arr[1].indexOf('.') > 0 ? arr[1].split('.')[1] : arr[1];
+            $('#fromDate').text(vStr.toString().replace('Date',' Date'));
+        } else {
+           // $('#tbDate').hide();
+        }
+        if (arr[2] !== '') {
+            $('#tbCust').show();
+        } else {
+            $('#tbCust').hide();
+        }
+        if (arr[3] !== '') {
+            $('#tbJob').show();
+        } else {
+            $('#tbJob').hide();
+        }
+        if (arr[4] !== '') {
+            $('#tbEmp').show();
+        } else {
+            $('#tbEmp').hide();
+        }
+        if (arr[5] !== '') {
+            $('#tbVend').show();
+        } else {
+            $('#tbVend').hide();
+        }
+        if (arr[6] !== '') {
+            $('#tbStatus').show();
+        } else {
+            $('#tbStatus').hide();
+        }
+        if (arr[8] !== '') {
+            $('#tbCode').show();
+        } else {
+            $('#tbCode').hide();
+        }
+        if (arr[9] !== '') {
+            $('#tbGroup').show();
+        } else {
+            $('#tbGroup').hide();
+        }
+    }
+
     function BrowseCliteria(what) {
         browseWhat = what;
         switch (browseWhat) {

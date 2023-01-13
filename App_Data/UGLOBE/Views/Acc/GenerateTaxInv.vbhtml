@@ -22,6 +22,7 @@ End Code
                     <option value="RCV">Receipt Advance</option>
                     <option value="RET">Receipt Transport</option>
                     <option value="DNR">Debit Note Receipt</option>
+                    <option value="TFR">Tax-Invoice (Freight)</option>
                 </select>
             </div>
         </div>
@@ -261,23 +262,18 @@ End Code
             if ($('#txtCustCode').val() !== "") {
                 w = w + '&billto=' + $('#txtCustCode').val();
             }
-            if ($('#txtDocDateF').val() !== "") {
-                w = w + '&BillDateFrom=' + CDateEN($('#txtDocDateF').val());
-            }
-            if ($('#txtDocDateT').val() !== "") {
-                w = w + '&BillDateTo=' + CDateEN($('#txtDocDateT').val());
-            }
         } else {
             if ($('#txtCustCode').val() !== "") {
                 w = w + '&cust=' + $('#txtCustCode').val();
             }
+        }
             if ($('#txtDocDateF').val() !== "") {
                 w = w + '&DateFrom=' + CDateEN($('#txtDocDateF').val());
             }
             if ($('#txtDocDateT').val() !== "") {
                 w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
             }
-        }
+
         let type = $('#cboType').val();
         let url = path + 'acc/getinvforreceive?show=WAIT&type=' + type + '&branch=' + $('#txtBranchCode').val() + w;
         $.get(url, function (r) {
@@ -306,22 +302,22 @@ End Code
                     { data: "RefNo", title: "Reference Number" },
                     { data: "TotalAmt", title: "Charges",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "TotalVAT", title: "Vat",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "Total50Tavi", title: "W-Tax",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "TotalNet", title: "Net",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     }
                 ],
@@ -371,22 +367,22 @@ End Code
                     { data: "SDescription", title: "Expenses" },
                     { data: "Amt", title: "Charges",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "AmtVAT", title: "Vat",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "Amt50Tavi", title: "W-Tax",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     },
                     { data: "Net", title: "Net",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                         }
                     }
                 ],
@@ -431,11 +427,11 @@ End Code
             totaltax += Number(obj.Amt50Tavi);
             totalnet += Number(obj.Net);
         }
-        $('#txtTotalAdvance').val(CDbl(totaladv, 2));;
-        $('#txtTotalCharge').val(CDbl(totalcharge, 2));;
-        $('#txtTotalVAT').val(CDbl(totalvat, 2));;
-        $('#txtTotal50Tavi').val(CDbl(totaltax, 2));;
-        $('#txtTotalNet').val(CDbl(totalnet, 2));;
+        $('#txtTotalAdvance').val(CDbl(totaladv,4));;
+        $('#txtTotalCharge').val(CDbl(totalcharge,4));;
+        $('#txtTotalVAT').val(CDbl(totalvat,4));;
+        $('#txtTotal50Tavi').val(CDbl(totaltax,4));;
+        $('#txtTotalNet').val(CDbl(totalnet,4));;
 
         ShowDetail();
         $('#txtDocNo').val('');
@@ -459,22 +455,22 @@ End Code
                 { data: "SDescription", title: "Description" },
                 { data: "Amt", title: "Charge",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                     }
                 },
                 { data: "AmtVAT", title: "Vat",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                     }
                 },
                 { data: "Amt50Tavi", title: "W-Tax",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                     }
                 },
                 { data: "Net", title: "NET",
                         render: function (data) {
-                            return ShowNumber(data, 2);
+                            return ShowNumber(data,4);
                     }
                 }
             ],
@@ -766,6 +762,8 @@ ExchangeRate: 1,
                 case "RET": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
                     break;
                 case "DNR": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                    break;
+                case "TFR": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');
                     break;
                 default: window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code, '_blank');
             }

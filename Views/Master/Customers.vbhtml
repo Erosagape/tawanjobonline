@@ -1,12 +1,13 @@
-﻿@Code
+﻿
+@Code
     ViewBag.Title = "Customers"
 End Code
 <div class="panel-body">
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
-                <label id="lblCustCode">Customer Code:</label> <a href="#" onclick="$('#modChange').modal('show');">Change</a>
-                <br /><input type="text" id="txtCustCode" class="form-control" tabIndex="0" disabled>
+                <label id="lblCustCode">Customer Code:</label>
+                <br /><input type="text" id="txtCustCode" class="form-control" tabIndex="0">
             </div>
             <div class="col-sm-3">
                 <label id="lblBranch">Branch :</label>
@@ -40,7 +41,7 @@ End Code
                 <br /><input type="text" id="txtNameThai" class="form-control" tabIndex="5">
             </div>
             <div class="col-sm-5">
-                <label id="lblNameEng" onclick="CopyName()">English :</label>
+                <label id="lblNameEng">English :</label>
                 <br /><input type="text" id="txtNameEng" class="form-control" tabIndex="6">
             </div>
         </div>
@@ -59,8 +60,8 @@ End Code
                     </div>
                     <div class="col-sm-6">
                         <label id="lblEAddress1">Address (EN) :</label>
-                        <br /><textarea id="txtEAddress1" class="form-control" tabIndex="9"></textarea>
-                        <br /><textarea id="txtEAddress2" class="form-control" tabIndex="10"></textarea>
+                        <br /><input type="text" id="txtEAddress1" class="form-control" tabIndex="9">
+                        <br /><input type="text" id="txtEAddress2" class="form-control" tabIndex="10">
                     </div>
                 </div>
                 <div class="row">
@@ -122,7 +123,7 @@ End Code
             <div id="tabCust2" class="tab-pane fade in active">
                 <div class="row">
                     <div class="col-sm-6">
-                        <label id="lblGLAccountCode">GL Code :</label>
+                        <label id="lblGLAccountCode">GL Code :</label>                        
                         <br />
                         <div style="display:flex">
                             <input type="text" id="txtGLAccountCode" class="form-control" style="width:20%" tabIndex="23">
@@ -132,11 +133,11 @@ End Code
                         <label id="lblBillToCustCode">Billing To:</label>
                         <br />
                         <div style="display:flex">
-                            <input type="text" id="txtBillToCustCode" style="width:40%" class="form-control" tabIndex="24">
+                            <input type="text" id="txtBillToCustCode"style="width:40%" class="form-control" tabIndex="24">
                             <input type="text" id="txtBillToBranch" style="width:20%" class="form-control" tabIndex="25">
                             <input type="button" value="..." class="btn btn-default" onclick="SearchData('billing')" />
                             <button id="btnSetBilling" class="btn btn-primary" onclick="SetBilling()">Same as Company</button>
-                        </div>
+                        </div>                                   
                         <label id="lblBillToCustName">Billing Name :</label>
                         <input type="text" id="txtBillToCustName" class="form-control" disabled />
                         <label id="lblBillToAddress">Billing Address :</label>
@@ -146,7 +147,7 @@ End Code
                         <label id="lblTAddress">BLDG No/Street :</label>
                         <br />
                         <input type="text" id="txtTAddress" class="form-control" tabIndex="26">
-                        <label id="lblTDistrict">District :</label>
+                        <label id="lblTDistrict">District :</label>                        
                         <br />
                         <div style="display:flex">
                             <input type="text" id="txtTDistrict" class="form-control" style="width:100%" tabIndex="27">
@@ -167,7 +168,7 @@ End Code
                             <input type="text" id="txtTPostCode" style="width:20%" class="form-control" tabIndex="30">
                             <button id="btnSetAddress" class="btn btn-primary" onclick="SetAddress()">Set Full Address</button> &nbsp;
                             <button id="btnSetContact" class="btn btn-warning" onclick="AddContact()">Set Contact Person</button>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
 
@@ -184,7 +185,7 @@ End Code
                             <div>
                                 <input type="button" value="..." class="btn btn-default" onclick="SearchData('sales')" />
                             </div>
-                        </div>
+                        </div>                        
                     </div>
                     <div class="col-sm-3">
                         <label id="lblCSCodeIM">CS Import :</label>
@@ -233,14 +234,14 @@ End Code
                         <label id="lblCommLevel">Commercial Level :</label>
                         <br /><input type="text" id="txtCommLevel" class="form-control" disabled />
                         <br /><select id="cboCommLevel" class="form-control"></select>
-                        <br />
-                        Tracking Authorized : <br />
+                        <br/>
+                        Tracking Authorized : <br/>
                         <div style="display:flex">
-                            <label id="lblLoginName" style="display:block;width:250px">Log in : </label><input type="text" id="txtLoginName" class="form-control">
+                            <label id="lblLoginName" style="display:block;width:250px">Log in : </label><input type="text" id="txtLoginName" class="form-control">                                                                                      
                             <label id="lblLoginPassword" style="display:block;width:250px">Password : </label><input type="password" id="txtLoginPassword" class="form-control">
                         </div>
-                        <br />
-                        SAP Customer ID:<br />
+                        <br/>
+                        SAP Customer ID:<br/> 
                         <input type="text" id="txtLnNO" />
                     </div>
                 </div>
@@ -259,32 +260,6 @@ End Code
             <a href="#" class="btn btn-primary" id="btnSearch" onclick="SearchData('customer')">
                 <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
             </a>
-        </div>
-        <div id="modChange" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                To Code
-                            </div>
-                            <div class="col-sm-8">
-                                <input type="text" id="txtToCustCode" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-4">
-                                To Branch
-                            </div>
-                            <div class="col-sm-8">
-                                <input type="text" id="txtToCustBranch" />
-                            </div>
-                        </div>
-                        <button class="btn btn-warning" onclick="ChangeCustomer()">Change Customer</button>
-                        <label id="lblResult">Ready</label>
-                    </div>
-                </div>
-            </div>
         </div>
         <div id="dvLOVs"></div>
         <div id="dvHidden" style="display:none">
@@ -343,12 +318,12 @@ End Code
             }
         });
         $('#txtCustCode').keydown(function (event) {
-            if (event.which == 13) {
+            if (event.which == 13) {                
                 if (userGroup == 'S') {
                     let code = $('#txtCustCode').val();
                     ClearData();
                     $('#txtCustCode').val(code);
-                    CallBackQueryCustomerSingle(path, $('#txtCustCode').val(), ReadCustomer);
+                    CallBackQueryCustomerSingle(path, $('#txtCustCode').val(), ReadCustomer); 
                 }
             }
         });
@@ -414,7 +389,7 @@ End Code
         //load configuration data
         if (mode == '') {
             mode = 'CUSTOMERS';
-            if (userGroup == 'C') {
+            if (userGroup == 'C') {                 
                 $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
                     if (r.company.data.length > 0) {
                         let dr = r.company.data[0];
@@ -547,7 +522,7 @@ End Code
             $('#txtExportCode').val(dr.ExportCode);
             $('#txtCode19BIS').val(dr.Code19BIS);
             $('#txtWEB_SITE').val(dr.WEB_SITE);
-
+                          
             var cons = dr.ConsStatus == null ? '' : dr.ConsStatus;
             var lvl = dr.CommLevel == null ? '' : dr.CommLevel;
 
@@ -668,7 +643,7 @@ End Code
         $('#txtCustCode').focus();
     }
     function SaveData() {
-        /*if ($('#txtCustCode').val().trim().indexOf(' ') >= 0) {
+        if ($('#txtCustCode').val().trim().indexOf(' ') >= 0) {
             ShowMessage('Data must not have space', true);
             return;
         }
@@ -679,9 +654,9 @@ End Code
         if ($('#txtCustCode').val().trim().length < 3) {
             ShowMessage('Data must not have length less than 3', true);
             return;
-        }*/
-        if ($('#txtBranch').val().trim().length > 5) {
-            ShowMessage('Branch must not have length over 5', true);
+        }
+        if ($('#txtBranch').val().trim().length > 4) {
+            ShowMessage('Branch must not have length over 4', true);
             return;
         }
         var obj = {
@@ -749,43 +724,39 @@ End Code
             Code19BIS: $('#txtCode19BIS').val(),
             WEB_SITE: $('#txtWEB_SITE').val()
         };
-        //if (obj.CustCode != "") {
-        if (obj.Branch == '') {
-            ShowMessage('Please input branch',true);
-            return;
-        }
-        if (obj.NameThai == '') {
-            ShowMessage('Please input name',true);
-            return;
-        }
-        if (obj.NameEng == '') {
-            ShowMessage('Please input english name', true);
-            return;
-        }
-        ShowConfirm('Please confirm to save', function (ask) {
-            if (ask == false) return;
-            var jsonText = JSON.stringify({ data: obj });
-            //ShowMessage(jsonText);
-            $.ajax({
-                url: "@Url.Action("SetCompany", "Master")",
-                type: "POST",
-                contentType: "application/json",
-                data: jsonText,
-                success: function (response) {
-                    if (response.result.data != null) {
-                        $('#txtCustCode').val(response.result.data);
-                        $('#txtCustCode').focus();
+        if (obj.CustCode != "") {
+            if (obj.Branch == '') {
+                ShowMessage('Please input branch',true);
+                return;
+            }
+            if (obj.NameThai == '') {
+                ShowMessage('Please input name',true);
+                return;
+            }
+            ShowConfirm('Please confirm to save', function (ask) {
+                if (ask == false) return;
+                var jsonText = JSON.stringify({ data: obj });
+                //ShowMessage(jsonText);
+                $.ajax({
+                    url: "@Url.Action("SetCompany", "Master")",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: jsonText,
+                    success: function (response) {
+                        if (response.result.data != null) {
+                            $('#txtCustCode').val(response.result.data);
+                            $('#txtCustCode').focus();
+                        }
+                        ShowMessage(response.result.msg);
+                    },
+                    error: function (e) {
+                        ShowMessage(e,true);
                     }
-                    ShowMessage(response.result.msg);
-                },
-                error: function (e) {
-                    ShowMessage(e,true);
-                }
+                });
             });
-        });
-        //} else {
-        //    ShowMessage('No data to Save',true);
-        //}
+        } else {
+            ShowMessage('No data to Save',true);
+        }
     }
     function DeleteData() {
         var code = $('#txtCustCode').val();
@@ -811,25 +782,5 @@ End Code
         $('#txtBillToBranch').val($('#txtBranch').val());
         $('#txtBillToCustName').val($('#txtNameThai').val());
         $('#txtBillToAddress').val($('#txtTAddress1').val() + ' '+$('#txtTAddress2').val());
-    }
-
-    function CopyName() {
-        $('#txtNameEng').val($('#txtNameThai').val());
-    }
-    function ChangeCustomer() {
-        let fromcode = $('#txtCustCode').val();
-        let frombranch = $('#txtBranch').val();
-        let tocode = $('#txtToCustCode').val();
-        let tobranch = $('#txtToCustBranch').val();
-        ShowConfirm(
-            "Please confirm to change code from '" + fromcode + "/" + frombranch + "' to '" + tocode + "/" + tobranch + "'",
-            function (ans) {
-            if (ans == true) {
-                $.get(path + 'Master/ChangeCustomer?FromCode=' + fromcode + '&FromBranch=' + frombranch + '&ToCode=' + tocode + '&ToBranch=' + tobranch).done(function (r) {
-                    ShowMessage(r);
-                    $('#lblResult').text(r);
-                });
-            }
-        });
     }
 </script>

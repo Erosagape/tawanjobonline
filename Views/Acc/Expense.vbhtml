@@ -15,7 +15,7 @@ End Code
                 </div>
             </div>
             <div class="col-sm-4" style="text-align:left">
-                <b id="lblDocNo">Expenses No:</b>
+                <b id="lblDocNo" ondblclick="SaveHeader()">Expenses No:</b>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtDocNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
@@ -137,7 +137,7 @@ End Code
                         <label id="lblApprTime">Time:</label>
                         <input type="text" id="txtApproveTime" style="width:80px" disabled />
                         <br />
-                        <label ondblclick="SaveHeader()">Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" />
+                        <label>Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" />
                     </div>
                     <div class="col-sm-4" style="border-style:solid;border-width:1px">
                         <label id="lblPayment">Payment By</label>
@@ -298,14 +298,14 @@ End Code
                                     <label id="lblContNo">Container No :</label>                                    
                                     <br/>
                                     <div style="display:flex">
-                                        <input type="text" id="txtContainerNo" class="form-control" disabled />
+                                        <input type="text" id="txtContainerNo" class="form-control"/>
                                         <button class="btn btn-default" id="btnSelPrice" onclick="SearchData('transportprice')">Select Price</button>
                                     </div>                                    
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <a href="#" onclick="window.open('../Master/ServiceCode');"><label id="lblSICode" for="txtSICode">Code :</label></a>
+                                    <label id="lblSICode" for="txtSICode">Code :</label>
                                     <br/>
                                     <div style="display:flex">
                                         <input type="text" id="txtSICode" class="form-control" tabindex="12" />
@@ -445,7 +445,6 @@ End Code
     const user = '@ViewBag.User';
     const userGroup = '@ViewBag.UserGroup';
     const userRights = '@ViewBag.UserRights';
-    
     let serv = []; //must be array of object
     let hdr = {}; //simple object
     let dtl = {}; //simple object
@@ -472,16 +471,6 @@ End Code
                 $('#txtVenName').val(dr.TName);
             }
         });
-    } else {
-        if (vend !== '') {
-            $.get(path + 'Master/GetVender?Code=' + vend).done(function (r) {
-                if (r.vender.data.length > 0) {
-                    let dr = r.vender.data[0];
-                    $('#txtVenCode').val(vend);
-                    $('#txtVenName').val(dr.TName);
-                }
-            });
-        }
     }
     SetLOVs();
     SetEvents();
@@ -506,7 +495,7 @@ End Code
         }
         if ((br + bookno + item).trim() !== '') {
             isjobmode = true;
-            $('#txtRefNo').attr('disabled', 'disabled');
+            //$('#txtRefNo').attr('disabled', 'disabled');
             $('#btnAdd').hide();
             $('#txtBookingRefNo').val(bookno);
             $('#txtBookingItemNo').val(item);
@@ -868,9 +857,7 @@ End Code
         $('#txtDocDate').val( CDateEN(GetToday()));
         $('#txtVenCode').val(vend);
         if (userGroup !== 'V') {
-            if (vend == '') {
-                $('#txtVenName').val('');
-            }
+            $('#txtVenName').val('');
             $('#txtEmpCode').val(user);
             ShowUser(path, user, '#txtEmpName');
         } else {
@@ -1063,7 +1050,7 @@ End Code
             $('#txtClrItemNo').val(dt.ClrItemNo);
             $('#txtAdvItemNo').val(dt.AdvItemNo);
             if (dt.ClrItemNo > 0 || dt.AdvItemNo > 0) {
-                $('#btnUpdate').attr('disabled', 'disabled');
+                //$('#btnUpdate').attr('disabled', 'disabled');
             }
             return;
         }
@@ -1106,13 +1093,6 @@ End Code
                 $('#txtBookingRefNo').val(bookno);
                 $('#txtContainerNo').val(cont);
                 $('#txtBookingItemNo').val(item);
-            } else {
-                $('#txtForJNo').val('');
-                $('#txtCustCode').val('');
-                $('#txtBookingRefNo').val('');
-                $('#txtContainerNo').val('');
-                $('#txtBookingItemNo').val(0);
-
             }
         }
         $('#txtAdvItemNo').val(0);
@@ -1292,7 +1272,7 @@ End Code
     function ReadService(dt) {
         if (dt != undefined) {
             $('#txtSICode').val(dt.SICode);
-            $('#txtSDescription').val(dt.NameThai);
+            $('#txtSDescription').val(dt.NameEng);
             $('#txtQtyUnit').val(dt.UnitCharge);
             $('#txtUnitPrice').val(CDbl(CNum(dt.StdPrice) / CNum($('#txtExchangeRate').val()), 2));
             if (dt.IsTaxCharge == 1) {
@@ -1391,11 +1371,11 @@ End Code
         if (b == false) {
             $('#btnSave').attr('disabled', 'disabled');
             $('#btnDel').attr('disabled', 'disabled');
-            $('#btnUpdate').attr('disabled', 'disabled');
+            //$('#btnUpdate').attr('disabled', 'disabled');
         } else {
             $('#btnSave').removeAttr('disabled');
             $('#btnDel').removeAttr('disabled');
-            $('#btnUpdate').removeAttr('disabled');
+            //$('#btnUpdate').removeAttr('disabled');
         }
         if (userRights.indexOf('I') < 0) $('#btnNew').attr('disabled', 'disabled');
         if (userRights.indexOf('I') < 0) $('#btnAdd').attr('disabled', 'disabled');

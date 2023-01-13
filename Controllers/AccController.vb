@@ -692,7 +692,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     If "" & data.DocNo = "" Then
-                        data.AddNew(GetValueConfig("RUNNING_FORMAT", "PAY", payPrefix) & Now.ToString("yyMM") & "-____")
+                        data.AddNew(GetValueConfig("RUNNING_FORMAT", "PAY", payPrefix) & data.DocDate.ToString("yyMM") & "-____")
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' ", data.BranchCode, data.DocNo))
                     Dim json = "{""result"":{""data"":""" & data.DocNo & """,""msg"":""" & msg & """}}"
@@ -1998,6 +1998,76 @@ select * from vc WHERE PaidAmount>0 order by PRType DESC,DocNo
             Try
                 Dim cliteria As String = data.ReportCliteria
                 Select Case data.ReportCode
+                    Case "PRD1"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
+FROM (" & SQLSelectWHTax() & " WHERE h.FormType=1 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a 
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+ORDER BY a.TName1
+"
+                    Case "PRD1D"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=1 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                    Case "PRD1S"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
+FROM (" & SQLSelectWHTax() & " WHERE h.FormType=2 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a 
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+ORDER BY a.TName1
+"
+                    Case "PRD1SD"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=2 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                    Case "PRD2"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
+FROM (" & SQLSelectWHTax() & " WHERE h.FormType=3 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a 
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+ORDER BY a.TName1
+"
+                    Case "PRD2D"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=3 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                    Case "PRD2K"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
+FROM (" & SQLSelectWHTax() & " WHERE h.FormType=5 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a 
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+ORDER BY a.TName1
+"
+                    Case "PRD2KD"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=5 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                    Case "PRD3K"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
+FROM (" & SQLSelectWHTax() & " WHERE h.FormType=6 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a 
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+ORDER BY a.TName1
+"
+                    Case "PRD3KD"
+                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=6 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
                     Case "PRD3"
                         sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
@@ -3703,6 +3773,10 @@ order by 1,2,3
             If Not Request.QueryString("OnWhere") Is Nothing Then
                 sqlW = Request.QueryString("OnWhere").ToString().Replace(",", "")
             End If
+            Dim type = ""
+            If Not Request.QueryString("Type") Is Nothing Then
+                type = Request.QueryString("Type")
+            End If
             If Not Request.QueryString("OnValue") Is Nothing Then
                 If sqlW <> "" Then
                     sqlW = " AND " & sqlW
@@ -3721,6 +3795,8 @@ sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is not null THEN
 sum(case when sv.IsExpense=0 and sv.IsCredit=1 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)  as ReimburseBill,
 sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is null THEN cd.UsedAmount ELSE 0 END)  as RevenueUnBill,
 sum(case when sv.IsExpense=0 and sv.IsCredit=1 and rh.ReceiptNo is null THEN cd.UsedAmount ELSE 0 END)  as ReimburseUnBill,
+sum(case when sv.IsExpense=0 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)  as InvBill,
+sum(case when sv.IsExpense=0 and rh.ReceiptNo is null THEN cd.UsedAmount ELSE 0 END)  as InvUnBill,
 sum(case when sv.IsExpense=1 THEN cd.UsedAmount ELSE 0 END)  as Cost,
 count(distinct cd.JobNo) as JobCount,
 sum(case when sv.IsExpense=0 and sv.IsCredit=0 and rh.ReceiptNo is not null THEN cd.UsedAmount ELSE 0 END)/count(distinct cd.JobNo) as RevPerJob,
@@ -3753,7 +3829,6 @@ left join Job_ReceiptHeader rh
 on rd.BranchCode=rh.BranchCode
 and rd.ReceiptNo=rh.ReceiptNo 
 where ch.DocStatus<>99 and  not isnull(ih.CancelProve,'')<>'' and  not isnull(rh.CancelProve,'')<>''
-and id.AmtCharge>0 
 "
                 If onYear > 0 And onMonth > 0 Then
                     sql &= String.Format(" AND Year(j.DocDate)='{0}' AND Month(j.DocDate)='{1}' ", onYear, onMonth)
@@ -3761,21 +3836,35 @@ and id.AmtCharge>0
                 sql &= sqlW
                 sql &= " GROUP BY " & onGroup & " ORDER BY 2 DESC"
             Else
-                sql = sql.Replace("{0}", onYear)
-                sql = sql.Replace("{1}", onMonth)
-                sql = sql.Replace("{2}", sqlW)
+                sql = sql.Replace("{0}", onGroup)
+                sql = sql.Replace("{1}", onYear)
+                sql = sql.Replace("{2}", onMonth)
+                sql = sql.Replace("{3}", sqlW)
+
             End If
             Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
             Dim chartstr = "[[""Type"",""Billed"",""Non-Bill""],[""N/A"",0,0]]"
             If oData.Rows.Count > 0 Then
-                chartstr = "[[""Type"",""Billed"",""Non-Bill""]{0}]"
-                Dim str = ""
-                For Each dr In oData.Rows
-                    str &= ",[""" & dr(0).ToString() & """"
-                    str &= "," & CDbl("0" & dr("RevenueBill").ToString()) & ""
-                    str &= "," & CDbl("0" & dr("RevenueUnBill")) + CDbl("0" & dr("Cost")) & "]"
-                Next
-                chartstr = String.Format(chartstr, str)
+                If type = "C" Then
+                    chartstr = "[[""Type"",""Billed"",""Non-Bill""]{0}]"
+                    Dim str = ""
+                    For Each dr In oData.Rows
+                        str &= ",[""" & dr(0).ToString() & """"
+                        str &= "," & CDbl("0" & dr("InvBill").ToString()) & ""
+                        str &= "," & CDbl("0" & dr("InvUnBill").ToString()) & "]"
+                    Next
+                    chartstr = String.Format(chartstr, str)
+                Else
+                    chartstr = "[[""Type"",""Billed"",""Non-Bill"",""Cost""]{0}]"
+                    Dim str = ""
+                    For Each dr In oData.Rows
+                        str &= ",[""" & dr(0).ToString() & """"
+                        str &= "," & CDbl("0" & dr("InvBill").ToString()) & ""
+                        str &= "," & CDbl("0" & dr("InvUnBill").ToString()) & ""
+                        str &= "," & CDbl("0" & dr("Cost").ToString()) & "]"
+                    Next
+                    chartstr = String.Format(chartstr, str)
+                End If
             End If
             Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
             Return Content(json, jsonContent)
@@ -3845,7 +3934,6 @@ left join Job_ReceiptHeader rh
 on rd.BranchCode=rh.BranchCode
 and rd.ReceiptNo=rh.ReceiptNo 
 where ch.DocStatus<>99 and  not isnull(ih.CancelProve,'')<>'' and  not isnull(rh.CancelProve,'')<>''
-and id.AmtCharge>0 
 "
             End If
             If onYear > 0 Then
@@ -3866,13 +3954,157 @@ and id.AmtCharge>0
                     str &= ",[""Non-Bill""," & CDbl("0" & oData.Rows(0)("InvUnBill")) & "]"
                 Else
                     Str = ",[""Cost""," & CDbl("0" & oData.Rows(0)("Cost")) & "]"
-                    Str &= ",[""Billed""," & CDbl("0" & oData.Rows(0)("RevenueBill")) & "]"
-                    str &= ",[""Non-Bill""," & CDbl("0" & oData.Rows(0)("RevenueUnBill")) & "]"
+                    str &= ",[""Billed""," & CDbl("0" & oData.Rows(0)("InvBill")) & "]"
+                    str &= ",[""Non-Bill""," & CDbl("0" & oData.Rows(0)("InvUnBill")) & "]"
                 End If
                 chartstr = String.Format("[[""Type"",""Value""]{0}]", Str)
             End If
             Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
             Return Content(json, jsonContent)
+        End Function
+        Function Costing() As ActionResult
+            LoadCompanyProfile()
+            Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "GenerateInv")
+            If AuthorizeStr.IndexOf("M") < 0 Then
+                ViewBag.Module = "Account"
+                Return RedirectToAction("AuthError", "Menu")
+            End If
+            Return View()
+        End Function
+        Function GetGLSummary() As ActionResult
+            Try
+                Dim sql = "SELECT * FROM vAccGL_Summary"
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                Return Content("{""data"":" & JsonConvert.SerializeObject(oData) & ",""message"",""" & sql & """}", jsonContent)
+            Catch ex As Exception
+                Return Content("{""data"":[],""message"",""" & ex.Message & """}", jsonContent)
+            End Try
+        End Function
+        Function GetGLBalance() As ActionResult
+            Try
+                Dim sql = "SELECT * FROM vAccGL_Balance"
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                Return Content("{""data"":" & JsonConvert.SerializeObject(oData) & ",""message"",""" & sql & """}", jsonContent)
+            Catch ex As Exception
+                Return Content("{""data"":[],""message"",""" & ex.Message & """}", jsonContent)
+            End Try
+        End Function
+
+        Function GetGLReport() As ActionResult
+            Dim branch = Request.QueryString("Branch").ToString
+            Dim datefrom = Request.QueryString("DateFrom").ToString
+            Dim dateto = Request.QueryString("DateTo").ToString
+            Dim doctype = Request.QueryString("DocType").ToString
+            Try
+                Dim sql = Main.GetValueConfig("SQL", "SelectGLReport")
+                If sql = "" Then
+                    sql = "SELECT * FROM vAccGL_HD "
+                End If
+                If Not IsNothing(Request.QueryString("Cancel")) Then
+                    If Request.QueryString("Cancel").ToString <> "Y" Then
+                        sql &= " WHERE CancelBy='' "
+                    Else
+                        sql &= " WHERE CancelBy<>'' "
+                    End If
+                Else
+                    sql &= " WHERE CancelBy='' "
+                End If
+                If branch <> "" Then
+                    sql &= String.Format(" AND BranchCode='{0}'", branch)
+                End If
+                If datefrom <> "" Then
+                    sql &= String.Format(" AND BatchDate >='{0}'", datefrom)
+                End If
+                If dateto <> "" Then
+                    sql &= String.Format(" AND BatchDate <='{0}'", dateto)
+                End If
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                Return Content("{""data"":" & JsonConvert.SerializeObject(oData) & ",""message"",""" & sql & """}", jsonContent)
+            Catch ex As Exception
+                Return Content("{""data"":[],""message"",""" & ex.Message & """}", jsonContent)
+            End Try
+        End Function
+        Function GenerateGLDocument() As ActionResult
+            Dim branch = Request.QueryString("Branch").ToString
+            Dim datefrom = Request.QueryString("DateFrom").ToString
+            Dim dateto = Request.QueryString("DateTo").ToString
+            Try
+                If "" & branch = "" Then
+                    Return Content("branch not found", textContent)
+                End If
+                If "" & datefrom = "" Then
+                    Return Content("begin date not found", textContent)
+                End If
+                If "" & dateto = "" Then
+                    Return Content("end date not found", textContent)
+                End If
+                Main.DBExecute(GetSession("ConnJob"), String.Format("dbo.ProcessGL '{0}','{1}','{2}'", branch, datefrom, dateto))
+                Return Content("Finished,Please check result in GL Document", textContent)
+            Catch ex As Exception
+                Return Content("[ERROR] " & ex.Message, textContent)
+            End Try
+        End Function
+        Function GetGLDocumentByType() As ActionResult
+            Dim branch = Request.QueryString("Branch").ToString
+            Dim datefrom = Request.QueryString("DateFrom").ToString
+            Dim dateto = Request.QueryString("DateTo").ToString
+            Dim doctype = Request.QueryString("DocType").ToString
+            Try
+                Dim sql = "Select * from vAccGL_" & doctype & " WHERE DocNo<>'' "
+                If branch <> "" Then
+                    sql &= String.Format(" AND BranchCode='{0}'", branch)
+                End If
+                If datefrom <> "" Then
+                    sql &= String.Format(" AND DocDate >='{0}'", datefrom)
+                End If
+                If dateto <> "" Then
+                    sql &= String.Format(" AND DocDate <='{0}'", dateto)
+                End If
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                Return Content("{""data"":" & JsonConvert.SerializeObject(oData) & ",""message"",""" & sql & """}", jsonContent)
+            Catch ex As Exception
+                Return Content("{""data"":[],""message"",""" & ex.Message & """}", jsonContent)
+            End Try
+        End Function
+        Function GLProcess() As ActionResult
+            ViewBag.DataSource = New DataTable()
+            ViewBag.DateFrom = ""
+            ViewBag.DateTo = ""
+            ViewBag.Branch = GetSession("CurrBranch")
+            If GetSession("ConnJob") <> "" Then
+                Dim sql = "select * from vAccGL_Summary "
+                Dim pcount = 0
+                Dim datefrom = ""
+                If Not Request.QueryString("DateFrom") Is Nothing Then
+                    datefrom = Request.QueryString("DateFrom").ToString()
+                    ViewBag.DateFrom = datefrom
+                    If datefrom <> "" Then pcount += 1
+                End If
+                Dim dateto = ""
+                If Not Request.QueryString("DateTo") Is Nothing Then
+                    dateto = Request.QueryString("DateTo").ToString()
+                    ViewBag.DateTo = dateto
+                    If dateto <> "" Then pcount += 1
+                End If
+                Dim branch = ""
+                If Not Request.QueryString("Branch") Is Nothing Then
+                    branch = Request.QueryString("Branch").ToString()
+                    ViewBag.Branch = branch
+                    If branch <> "" Then pcount += 1
+                End If
+                If pcount = 3 Then
+                    sql = String.Format("dbo.GetGLSummary '{0}','{1}','{2}'", branch, datefrom, dateto)
+                End If
+                ViewBag.DataSource = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+            End If
+            Return GetView("GLProcess", "MODULE_ACC", "GLNote")
+        End Function
+        <Mvc.ActionName("GLProcess")>
+        <Mvc.HttpPost()>
+        Function PostGLProcess() As ActionResult
+            Dim strUrl = "GenerateGLDocument?Branch={0}&DateFrom={1}&DateTo={2}"
+            strUrl = String.Format(strUrl, Request.Form("Branch"), Request.Form("DateFrom"), Request.Form("DateTo"))
+            Return Redirect(strUrl)
         End Function
     End Class
 End Namespace

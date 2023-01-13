@@ -45,6 +45,7 @@ Public Class CController
         Session("CurrUser") = Current.CurrUser
         Session("UserProfiles") = Current.UserProfiles
         Session("UserGroup") = Current.UserGroup
+        Session("UserUpline") = Current.UserProfiles.UserUpline
         Session("DatabaseID") = Current.DatabaseID
         Session("CurrLicense") = Current.CurrLicense
         Session("ConnJob") = Current.ConnJob
@@ -77,6 +78,7 @@ Public Class CController
         Session("CurrUser") = Nothing
         Session("UserProfiles") = Nothing
         Session("UserGroup") = Nothing
+        Session("UserUpline") = Nothing
         Session("DatabaseID") = Nothing
         Session("CurrLicense") = Nothing
         Session("ConnJob") = Nothing
@@ -163,6 +165,8 @@ Public Class CController
                     Session(sName) = GetValueConfig("PROFILE", "TAXRATE_SRV", "3")
                 Case "UserGroup"
                     Session(sName) = "S"
+                Case "UserUpline"
+                    Session(sName) = ""
                 Case "MenuType"
                     Session(sName) = GetValueConfig("PROFILE", "MENU_TYPE", "D")
                 Case Else
@@ -206,6 +210,13 @@ Public Class CController
         If CheckSession("UserProfiles") = False Then
             ViewBag.UserName = DirectCast(Session("UserProfiles"), CUser).TName
             ViewBag.UserPosition = DirectCast(Session("UserProfiles"), CUser).UPosition
+            If DirectCast(Session("UserProfiles"), CUser).UserUpline = "" Then
+                ViewBag.UserUpline = DirectCast(Session("UserProfiles"), CUser).UserID
+            Else
+                ViewBag.UserUpline = DirectCast(Session("UserProfiles"), CUser).UserUpline
+            End If
+        Else
+            ViewBag.UserUpline = GetSession("UserUpline").ToString
         End If
         ViewBag.UserGroup = GetSession("UserGroup").ToString
         ViewBag.CONNECTION_JOB = GetSession("ConnJob").ToString

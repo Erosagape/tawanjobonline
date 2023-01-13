@@ -32,203 +32,6 @@ Namespace Controllers
         Function EstimateCost() As ActionResult
             Return GetView("EstimateCost", "MODULE_ADV")
         End Function
-        Function GetClearExpFromQuo() As ActionResult
-            Try
-                Dim tSqlW As String = " WHERE j.JNo<>'' "
-                Dim branch As String = ""
-                If Not IsNothing(Request.QueryString("Branch")) Then
-                    branch = Request.QueryString("Branch").ToString
-                    tSqlW &= String.Format(" AND j.BranchCode='{0}'", branch)
-                End If
-                Dim job As String = ""
-                If Not IsNothing(Request.QueryString("Job")) Then
-                    job = Request.QueryString("Job").ToString
-                    tSqlW &= String.Format(" AND j.JNo='{0}'", job)
-                End If
-                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectExpenseFromQuo() & tSqlW)
-                If oData.Rows.Count > 0 Then
-                    For Each row As DataRow In oData.Rows
-                        Dim oRow As New CClearExp(GetSession("ConnJob")) With {
-                            .BranchCode = row("BranchCode").ToString,
-                            .JNo = row("JNo").ToString,
-                            .SICode = row("SICode").ToString,
-                            .SDescription = row("DescriptionThai").ToString,
-                            .TRemark = row("TRemark").ToString,
-                            .Status = If(row("IsRequired").ToString = "1", "R", "O"),
-                            .CurrencyCode = row("CurrencyCode").ToString,
-                            .ExchangeRate = row("CurrencyRate"),
-                            .AmountCharge = row("ChargeAmt"),
-                            .Qty = row("QtyBegin"),
-                            .QtyUnit = row("UnitCheck").ToString,
-                            .AmtVatRate = row("VatRate"),
-                            .AmtVat = row("VatAmt"),
-                            .AmtWhtRate = row("TaxRate"),
-                            .AmtWht = row("TaxAmt"),
-                            .AmtTotal = row("TotalAmt") + row("VatAmt") - row("TaxAmt")
-                        }
-                        If oRow.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode)).Count = 0 Then
-                            Dim msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode))
-                        End If
-                    Next
-                End If
-                Dim oRows = New CClearExp(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' ", branch, job))
-                Dim json = JsonConvert.SerializeObject(oRows)
-                json = "{""estimate"":{""data"":" & json & "}}"
-                Return Content(json, jsonContent)
-            Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearExpFromQuo", ex.Message, ex.StackTrace, True)
-                Return Content("{""estimate"":{""data"":[]}}", jsonContent)
-            End Try
-        End Function
-        Function GetClearExpReport() As ActionResult
-            Try
-                Dim tSqlw As String = " WHERE a.JNo<>'' "
-                If Not IsNothing(Request.QueryString("Branch")) Then
-                    tSqlw &= String.Format("AND a.BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
-                End If
-                If Not IsNothing(Request.QueryString("Job")) Then
-                    tSqlw &= String.Format("AND a.JNo ='{0}' ", Request.QueryString("Job").ToString)
-                End If
-                If Not IsNothing(Request.QueryString("Code")) Then
-                    tSqlw &= String.Format("AND a.SICode ='{0}' ", Request.QueryString("Code").ToString)
-                End If
-                If Not IsNothing(Request.QueryString("Group")) Then
-                    tSqlw &= String.Format("AND s.GroupCode ='{0}' ", Request.QueryString("Group").ToString)
-                End If
-                If Not IsNothing(Request.QueryString("Status")) Then
-                    tSqlw &= String.Format("AND (CASE WHEN b.ClrNo IS NOT NULL THEN 'CLR' ELSE 'NOCLR' END)='{0}' ", Request.QueryString("Status").ToString)
-                End If
-                If Not IsNothing(Request.QueryString("Type")) Then
-                    Select Case Request.QueryString("Type").ToString
-                        Case "1"
-                            tSqlw &= "AND s.IsExpense=0 AND s.IsCredit=1 "
-                        Case "2"
-                            tSqlw &= "AND s.IsExpense=1 "
-                        Case "3"
-                            tSqlw &= "AND s.IsExpense=0 AND s.IsCredit=0 "
-                    End Select
-                End If
-                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectClearExp() & tSqlw)
-                Dim json = JsonConvert.SerializeObject(oData)
-                json = "{""estimate"":{""data"":" & json & "}}"
-                Return Content(json, jsonContent)
-            Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearExpReport", ex.Message, ex.StackTrace, True)
-                Return Content("[]", jsonContent)
-            End Try
-        End Function
-        Function GetClearExp() As ActionResult
-            Try
-                Dim tSqlw As String = " WHERE JNo<>'' "
-                If Not IsNothing(Request.QueryString("Branch")) Then
-                    tSqlw &= String.Format("AND BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
-                End If
-                If Not IsNothing(Request.QueryString("Job")) Then
-                    tSqlw &= String.Format("AND JNo ='{0}' ", Request.QueryString("Job").ToString)
-                End If
-                If Not IsNothing(Request.QueryString("Code")) Then
-                    tSqlw &= String.Format("AND SICode ='{0}' ", Request.QueryString("Code").ToString)
-                End If
-                Dim oData = New CClearExp(GetSession("ConnJob")).GetData(tSqlw)
-                Dim json As String = JsonConvert.SerializeObject(oData)
-                json = "{""estimate"":{""data"":" & json & "}}"
-                Return Content(json, jsonContent)
-            Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearExp", ex.Message, ex.StackTrace, True)
-                Return Content("[]", jsonContent)
-            End Try
-        End Function
-        Function CopyClearExp() As ActionResult
-            Dim msg As String = ""
-            Try
-                Dim cliteria = Request.QueryString("cliteria").ToString()
-                Dim jobSource = cliteria.Split("=")(0)
-                Dim jobDest = cliteria.Split("=")(1)
-                Dim oSrc = New CClearExp(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode+'|'+JNo='{0}'", jobSource))
-                For Each oRow In oSrc
-                    Dim oDesc = New CClearExp(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode+'|'+JNo='{0}' AND SICode='{1}' ", jobDest, oRow.SICode))
-                    Dim oRec = New CClearExp(GetSession("ConnJob"))
-                    If oDesc.Count > 0 Then
-                        oRec = oDesc(0)
-                    Else
-                        oRec.BranchCode = jobDest.Split("|")(0).Trim()
-                        oRec.SICode = oRow.SICode
-                        oRec.JNo = jobDest.Split("|")(1).Trim()
-                    End If
-                    oRec.SDescription = oRow.SDescription
-                    oRec.AmountCharge = oRow.AmountCharge
-                    oRec.TRemark = oRow.TRemark
-                    oRec.Status = oRow.Status
-                    oRec.CurrencyCode = oRow.CurrencyCode
-                    oRec.ExchangeRate = oRow.ExchangeRate
-                    oRec.Qty = oRow.Qty
-                    oRec.QtyUnit = oRow.QtyUnit
-                    oRec.AmtVatRate = oRow.AmtVatRate
-                    oRec.AmtVat = oRow.AmtVat
-                    oRec.AmtWhtRate = oRow.AmtWhtRate
-                    oRec.AmtWht = oRow.AmtWht
-                    oRec.AmtTotal = oRow.AmtTotal
-
-                    msg &= "<br/>" & oRec.SaveData(String.Format(" WHERE BranchCode+'|'+JNo='{0}' AND SICode='{1}' ", jobDest, oRow.SICode))
-                Next
-                If msg = "" Then msg = "No data to Save"
-                msg = "Result:<br/>" & msg
-                Return Content(msg, textContent)
-            Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CopyClearExp", ex.Message, ex.StackTrace, True)
-                Return Content("[ERROR] " + ex.Message, textContent)
-            End Try
-        End Function
-        Function SetClearExp(<FromBody()> data As CClearExp) As ActionResult
-            Try
-                If Not IsNothing(data) Then
-                    If "" & data.JNo = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please input job""}}", jsonContent)
-                    End If
-                    If "" & data.SICode = "" Then
-                        Return Content("{""result"":{""data"":null,""msg"":""Please input code""}}", jsonContent)
-                    End If
-                    data.SetConnect(GetSession("ConnJob"))
-                    Dim msg = data.SaveData(String.Format(" WHERE SICode='{0}' AND BranchCode='{1}' AND JNo='{2}' ", data.SICode, data.BranchCode, data.JNo))
-                    Dim json = "{""result"":{""data"":""" & data.SICode & """,""msg"":""" & msg & """}}"
-                    Return Content(json, jsonContent)
-                Else
-                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
-                    Return Content(json, jsonContent)
-                End If
-            Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetClearExp", ex.Message, ex.StackTrace, True)
-                Dim json = "{""result"":{""data"":null,""msg"":""" & ex.Message & """}}"
-                Return Content(json, jsonContent)
-            End Try
-        End Function
-        Function DelClearExp() As ActionResult
-            Try
-                Dim tSqlw As String = " WHERE JNo<>'' "
-
-                If Not IsNothing(Request.QueryString("Branch")) Then
-                    tSqlw &= String.Format("AND BranchCode = '{0}' ", Request.QueryString("Branch").ToString)
-                Else
-                    Return Content("{""estimate"":{""result"":""Please input branch"",""data"":[]}}", jsonContent)
-                End If
-                If Not IsNothing(Request.QueryString("Job")) Then
-                    tSqlw &= String.Format("AND JNo = '{0}' ", Request.QueryString("Job").ToString)
-                Else
-                    Return Content("{""estimate"":{""result"":""Please input job"",""data"":[]}}", jsonContent)
-                End If
-                If Not IsNothing(Request.QueryString("Code")) Then
-                    tSqlw &= String.Format("AND SICode = '{0}' ", Request.QueryString("Code").ToString)
-                End If
-                Dim oData As New CClearExp(GetSession("ConnJob"))
-                Dim msg = oData.DeleteData(tSqlw)
-
-                Dim json = "{""estimate"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
-                Return Content(json, jsonContent)
-            Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DelClearExp", ex.Message, ex.StackTrace, True)
-                Return Content("[]", jsonContent)
-            End Try
-        End Function
         Function FormCreditAdv() As ActionResult
             ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ADV", "CreditAdv")
@@ -1181,6 +984,184 @@ group by Year(h.PaymentDate),Month(h.PaymentDate),h.InvNo,d.ForJNo,isnull(ca.Car
             html &= "</table>"
             ViewBag.DataGrid1 = html
             Return GetView("Summary", "MODULE_ADV")
+        End Function
+        Function GetClearExpFromQuo() As ActionResult
+            Try
+                Dim tSqlW As String = " WHERE j.JNo<>'' "
+                Dim branch As String = ""
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    branch = Request.QueryString("Branch").ToString
+                    tSqlW &= String.Format(" AND j.BranchCode='{0}'", branch)
+                End If
+                Dim job As String = ""
+                If Not IsNothing(Request.QueryString("Job")) Then
+                    job = Request.QueryString("Job").ToString
+                    tSqlW &= String.Format(" AND j.JNo='{0}'", job)
+                End If
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectExpenseFromQuo() & tSqlW)
+                If oData.Rows.Count > 0 Then
+                    For Each row As DataRow In oData.Rows
+                        Dim oRow As New CClearExp(GetSession("ConnJob"))
+                        oRow.BranchCode = row("BranchCode").ToString
+                        oRow.JNo = row("JNo").ToString
+                        oRow.SICode = row("SICode").ToString
+                        oRow.SDescription = row("NameThai").ToString
+                        oRow.TRemark = row("TRemark").ToString
+                        oRow.Status = If(row("IsRequired").ToString = "1", "R", "O")
+                        oRow.CurrencyCode = row("CurrencyCode").ToString
+                        oRow.ExchangeRate = row("CurrencyRate")
+                        oRow.AmountCharge = row("ChargeAmt")
+                        oRow.Qty = row("QtyBegin")
+                        oRow.QtyUnit = row("UnitCheck").ToString
+                        oRow.AmtVatRate = row("VatRate")
+                        oRow.AmtVat = row("VatAmt")
+                        oRow.AmtWhtRate = row("TaxRate")
+                        oRow.AmtWht = row("TaxAmt")
+                        oRow.AmtTotal = row("TotalAmt")
+                        Dim msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode))
+                    Next
+                End If
+                Dim oRows = New CClearExp(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' ", branch, job))
+                Dim json = JsonConvert.SerializeObject(oRows)
+                json = "{""estimate"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearExpFromQuo", ex.Message, ex.StackTrace, True)
+                Return Content("{""estimate"":{""data"":[]}}", jsonContent)
+            End Try
+        End Function
+        Function GetClearExpReport() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE a.JNo<>'' "
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format("AND a.BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Job")) Then
+                    tSqlw &= String.Format("AND a.JNo ='{0}' ", Request.QueryString("Job").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format("AND a.SICode ='{0}' ", Request.QueryString("Code").ToString)
+                End If
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectClearExp() & tSqlw)
+                Dim json = JsonConvert.SerializeObject(oData)
+                json = "{""estimate"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearExpReport", ex.Message, ex.StackTrace, True)
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
+        Function GetClearExp() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE JNo<>'' "
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format("AND BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Job")) Then
+                    tSqlw &= String.Format("AND JNo ='{0}' ", Request.QueryString("Job").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format("AND SICode ='{0}' ", Request.QueryString("Code").ToString)
+                End If
+                Dim oData = New CClearExp(GetSession("ConnJob")).GetData(tSqlw)
+                Dim json As String = JsonConvert.SerializeObject(oData)
+                json = "{""estimate"":{""data"":" & json & "}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearExp", ex.Message, ex.StackTrace, True)
+                Return Content("[]", jsonContent)
+            End Try
+        End Function
+        Function CopyClearExp() As ActionResult
+            Dim msg As String = ""
+            Try
+                Dim cliteria = Request.QueryString("cliteria").ToString()
+                Dim jobSource = cliteria.Split("=")(0)
+                Dim jobDest = cliteria.Split("=")(1)
+                Dim oSrc = New CClearExp(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode+'|'+JNo='{0}'", jobSource))
+                For Each oRow In oSrc
+                    Dim oDesc = New CClearExp(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode+'|'+JNo='{0}' AND SICode='{1}' ", jobDest, oRow.SICode))
+                    Dim oRec = New CClearExp(GetSession("ConnJob"))
+                    If oDesc.Count > 0 Then
+                        oRec = oDesc(0)
+                    Else
+                        oRec.BranchCode = jobDest.Split("|")(0).Trim()
+                        oRec.SICode = oRow.SICode
+                        oRec.JNo = jobDest.Split("|")(1).Trim()
+                    End If
+                    oRec.SDescription = oRow.SDescription
+                    oRec.AmountCharge = oRow.AmountCharge
+                    oRec.TRemark = oRow.TRemark
+                    oRec.Status = oRow.Status
+                    oRec.CurrencyCode = oRow.CurrencyCode
+                    oRec.ExchangeRate = oRow.ExchangeRate
+                    oRec.Qty = oRow.Qty
+                    oRec.QtyUnit = oRow.QtyUnit
+                    oRec.AmtVatRate = oRow.AmtVatRate
+                    oRec.AmtVat = oRow.AmtVat
+                    oRec.AmtWhtRate = oRow.AmtWhtRate
+                    oRec.AmtWht = oRow.AmtWht
+                    oRec.AmtTotal = oRow.AmtTotal
+
+                    msg &= "<br/>" & oRec.SaveData(String.Format(" WHERE BranchCode+'|'+JNo='{0}' AND SICode='{1}' ", jobDest, oRow.SICode))
+                Next
+                If msg = "" Then msg = "No data to Save"
+                msg = "Result:<br/>" & msg
+                Return Content(msg, textContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CopyClearExp", ex.Message, ex.StackTrace, True)
+                Return Content("[ERROR] " + ex.Message, textContent)
+            End Try
+        End Function
+        Function SetClearExp(<FromBody()> data As CClearExp) As ActionResult
+            Try
+                If Not IsNothing(data) Then
+                    If "" & data.JNo = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please input job""}}", jsonContent)
+                    End If
+                    If "" & data.SICode = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please input code""}}", jsonContent)
+                    End If
+                    data.SetConnect(GetSession("ConnJob"))
+                    Dim msg = data.SaveData(String.Format(" WHERE SICode='{0}' AND BranchCode='{1}' AND JNo='{2}' ", data.SICode, data.BranchCode, data.JNo))
+                    Dim json = "{""result"":{""data"":""" & data.SICode & """,""msg"":""" & msg & """}}"
+                    Return Content(json, jsonContent)
+                Else
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
+                    Return Content(json, jsonContent)
+                End If
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetClearExp", ex.Message, ex.StackTrace, True)
+                Dim json = "{""result"":{""data"":null,""msg"":""" & ex.Message & """}}"
+                Return Content(json, jsonContent)
+            End Try
+        End Function
+        Function DelClearExp() As ActionResult
+            Try
+                Dim tSqlw As String = " WHERE JNo<>'' "
+
+                If Not IsNothing(Request.QueryString("Branch")) Then
+                    tSqlw &= String.Format("AND BranchCode = '{0}' ", Request.QueryString("Branch").ToString)
+                Else
+                    Return Content("{""estimate"":{""result"":""Please input branch"",""data"":[]}}", jsonContent)
+                End If
+                If Not IsNothing(Request.QueryString("Job")) Then
+                    tSqlw &= String.Format("AND JNo = '{0}' ", Request.QueryString("Job").ToString)
+                Else
+                    Return Content("{""estimate"":{""result"":""Please input job"",""data"":[]}}", jsonContent)
+                End If
+                If Not IsNothing(Request.QueryString("Code")) Then
+                    tSqlw &= String.Format("AND SICode = '{0}' ", Request.QueryString("Code").ToString)
+                End If
+                Dim oData As New CClearExp(GetSession("ConnJob"))
+                Dim msg = oData.DeleteData(tSqlw)
+
+                Dim json = "{""estimate"":{""result"":""" & msg & """,""data"":[" & JsonConvert.SerializeObject(oData) & "]}}"
+                Return Content(json, jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DelClearExp", ex.Message, ex.StackTrace, True)
+                Return Content("[]", jsonContent)
+            End Try
         End Function
     End Class
 End Namespace

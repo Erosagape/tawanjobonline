@@ -80,8 +80,8 @@ End Code
                 <th width="10%">QTY</th>
                 <th width="10%">UNIT</th>
                 <th width="10%">CUR</th>
-                <th width="15%">UNIT PRICE</th>
-
+                <th width="15%">PRICE</th>
+                <th width="15%">TOTAL</th>
                 @*<th width="5%">XRT</th>
         <th width="10%">AMOUNT<br />(FC)</th>
         <th width="10%">NET<br />(THB)</th>*@
@@ -101,11 +101,11 @@ End Code
     <div style="display:flex">
         <div style="flex:1">
             REMARKS : <label></label>
-            <pre id="lblTRemark" style="white-space: pre-wrap; /* CSS3 - Text module (Candidate Recommendation) http://www.w3.org/TR/css3-text/#white-space */ word-wrap: break-word; /* IE 5.5+ */"></pre>
+            <pre id="lblTRemark" style="white-space: pre-wrap; word-wrap: break-word; /* IE 5.5+ */"></pre>
         </div>
         
     </div>
-    <label id="lblDescriptionF"></label>
+    <pre id="lblDescriptionF" style="white-space: pre-wrap; word-wrap: break-word; /* IE 5.5+ */"></pre>
     <br />
 <br />
 <div style="display:flex;">
@@ -189,7 +189,7 @@ End Code
                 html += '<td>' + i.UnitCheck + '</td>';
                 html += '<td style="text-align:center">' + i.CurrencyCode + '</td>';
                 html += '<td style="text-align:center">' + ShowNumber(i.ChargeAmt, 2) + '</td>';
-               
+                html += '<td style="text-align:center">' + ShowNumber(i.ChargeAmt * i.QtyBegin, 2) + '</td>';
                 //html += '<td style="text-align:center">' + i.CurrencyRate + '</td>';
                 //html += '<td style="text-align:right">' + ShowNumber(i.TotalAmt,2) + '</td>';
                 //html += '<td style="text-align:right">' + ShowNumber(amtTotal,2) + '</td>';
