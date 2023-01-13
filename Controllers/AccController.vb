@@ -3971,5 +3971,140 @@ where ch.DocStatus<>99 and  not isnull(ih.CancelProve,'')<>'' and  not isnull(rh
             End If
             Return View()
         End Function
+        Function GetGLSummary() As ActionResult
+            Try
+                Dim sql = "SELECT * FROM vAccGL_Summary"
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                Return Content("{""data"":" & JsonConvert.SerializeObject(oData) & ",""message"",""" & sql & """}", jsonContent)
+            Catch ex As Exception
+                Return Content("{""data"":[],""message"",""" & ex.Message & """}", jsonContent)
+            End Try
+        End Function
+        Function GetGLBalance() As ActionResult
+            Try
+                Dim sql = "SELECT * FROM vAccGL_Balance"
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                Return Content("{""data"":" & JsonConvert.SerializeObject(oData) & ",""message"",""" & sql & """}", jsonContent)
+            Catch ex As Exception
+                Return Content("{""data"":[],""message"",""" & ex.Message & """}", jsonContent)
+            End Try
+        End Function
+
+        Function GetGLReport() As ActionResult
+            Dim branch = Request.QueryString("Branch").ToString
+            Dim datefrom = Request.QueryString("DateFrom").ToString
+            Dim dateto = Request.QueryString("DateTo").ToString
+            Dim doctype = Request.QueryString("DocType").ToString
+            Try
+                Dim sql = Main.GetValueConfig("SQL", "SelectGLReport")
+                If sql = "" Then
+                    sql = "SELECT * FROM vAccGL_HD "
+                End If
+                If Not IsNothing(Request.QueryString("Cancel")) Then
+                    If Request.QueryString("Cancel").ToString <> "Y" Then
+                        sql &= " WHERE CancelBy='' "
+                    Else
+                        sql &= " WHERE CancelBy<>'' "
+                    End If
+                Else
+                    sql &= " WHERE CancelBy='' "
+                End If
+                If branch <> "" Then
+                    sql &= String.Format(" AND BranchCode='{0}'", branch)
+                End If
+                If datefrom <> "" Then
+                    sql &= String.Format(" AND BatchDate >='{0}'", datefrom)
+                End If
+                If dateto <> "" Then
+                    sql &= String.Format(" AND BatchDate <='{0}'", dateto)
+                End If
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                Return Content("{""data"":" & JsonConvert.SerializeObject(oData) & ",""message"",""" & sql & """}", jsonContent)
+            Catch ex As Exception
+                Return Content("{""data"":[],""message"",""" & ex.Message & """}", jsonContent)
+            End Try
+        End Function
+        Function GenerateGLDocument() As ActionResult
+            Dim branch = Request.QueryString("Branch").ToString
+            Dim datefrom = Request.QueryString("DateFrom").ToString
+            Dim dateto = Request.QueryString("DateTo").ToString
+            Try
+                If "" & branch = "" Then
+                    Return Content("branch not found", textContent)
+                End If
+                If "" & datefrom = "" Then
+                    Return Content("begin date not found", textContent)
+                End If
+                If "" & dateto = "" Then
+                    Return Content("end date not found", textContent)
+                End If
+                Main.DBExecute(GetSession("ConnJob"), String.Format("dbo.ProcessGL '{0}','{1}','{2}'", branch, datefrom, dateto))
+                Return Content("Finished,Please check result in GL Document", textContent)
+            Catch ex As Exception
+                Return Content("[ERROR] " & ex.Message, textContent)
+            End Try
+        End Function
+        Function GetGLDocumentByType() As ActionResult
+            Dim branch = Request.QueryString("Branch").ToString
+            Dim datefrom = Request.QueryString("DateFrom").ToString
+            Dim dateto = Request.QueryString("DateTo").ToString
+            Dim doctype = Request.QueryString("DocType").ToString
+            Try
+                Dim sql = "Select * from vAccGL_" & doctype & " WHERE DocNo<>'' "
+                If branch <> "" Then
+                    sql &= String.Format(" AND BranchCode='{0}'", branch)
+                End If
+                If datefrom <> "" Then
+                    sql &= String.Format(" AND DocDate >='{0}'", datefrom)
+                End If
+                If dateto <> "" Then
+                    sql &= String.Format(" AND DocDate <='{0}'", dateto)
+                End If
+                Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+                Return Content("{""data"":" & JsonConvert.SerializeObject(oData) & ",""message"",""" & sql & """}", jsonContent)
+            Catch ex As Exception
+                Return Content("{""data"":[],""message"",""" & ex.Message & """}", jsonContent)
+            End Try
+        End Function
+        Function GLProcess() As ActionResult
+            ViewBag.DataSource = New DataTable()
+            ViewBag.DateFrom = ""
+            ViewBag.DateTo = ""
+            ViewBag.Branch = GetSession("CurrBranch")
+            If GetSession("ConnJob") <> "" Then
+                Dim sql = "select * from vAccGL_Summary "
+                Dim pcount = 0
+                Dim datefrom = ""
+                If Not Request.QueryString("DateFrom") Is Nothing Then
+                    datefrom = Request.QueryString("DateFrom").ToString()
+                    ViewBag.DateFrom = datefrom
+                    If datefrom <> "" Then pcount += 1
+                End If
+                Dim dateto = ""
+                If Not Request.QueryString("DateTo") Is Nothing Then
+                    dateto = Request.QueryString("DateTo").ToString()
+                    ViewBag.DateTo = dateto
+                    If dateto <> "" Then pcount += 1
+                End If
+                Dim branch = ""
+                If Not Request.QueryString("Branch") Is Nothing Then
+                    branch = Request.QueryString("Branch").ToString()
+                    ViewBag.Branch = branch
+                    If branch <> "" Then pcount += 1
+                End If
+                If pcount = 3 Then
+                    sql = String.Format("dbo.GetGLSummary '{0}','{1}','{2}'", branch, datefrom, dateto)
+                End If
+                ViewBag.DataSource = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+            End If
+            Return GetView("GLProcess", "MODULE_ACC", "GLNote")
+        End Function
+        <Mvc.ActionName("GLProcess")>
+        <Mvc.HttpPost()>
+        Function PostGLProcess() As ActionResult
+            Dim strUrl = "GenerateGLDocument?Branch={0}&DateFrom={1}&DateTo={2}"
+            strUrl = String.Format(strUrl, Request.Form("Branch"), Request.Form("DateFrom"), Request.Form("DateTo"))
+            Return Redirect(strUrl)
+        End Function
     End Class
 End Namespace

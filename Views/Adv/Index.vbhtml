@@ -222,7 +222,7 @@ End Code
                                 <label id="lblPaymentTime">Time:</label>
                                 <input type="text" id="txtPaymentTime" style="width:80px" disabled />
                                 <br />
-                                <label id="lblPaymentRef">Payment Ref:</label>
+                                <label id="lblPaymentRef" ondblclick="OpenVoucher()">Payment Ref:</label>
                                 <input type="text" id="txtPaymentRef" style="width:200px" disabled />
                             </div>
                             <div class="col-sm-4" style="border-style:solid;border-width:1px;color:red">
@@ -2622,5 +2622,8 @@ End Code
     }
     function PrintClear() {
         window.open(path + 'Adv/FormClrAdv?branch=' + $('#txtBranchCode').val() + '&advno=' + $('#txtAdvNo').val());
+    }
+    function OpenVoucher() {
+        window.open(path + 'Acc/Voucher?branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtPaymentRef').val());
     }
 </script>
