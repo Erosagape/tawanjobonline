@@ -3361,6 +3361,22 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
         Function Util() As ActionResult
             Return GetView("Util")
         End Function
+        Function ChangeContainer() As ActionResult
+            Dim fromJob As String = Request.QueryString("FromJob").ToString()
+            If fromJob = "" Then
+                Return Content("Please select job", textContent)
+            End If
+            Dim fromCont As String = Request.QueryString("FromCont").ToString()
+            If fromCont = "" Then
+                Return Content("Please select from container", textContent)
+            End If
+            Dim toCont As String = Request.QueryString("ToCont").ToString()
+            If toCont = "" Then
+                Return Content("Please select to container", textContent)
+            End If
+            Main.DBExecute(GetSession("ConnJob"), String.Format("dbo.ChangeContainer '{2}','{0}','{1}' ", fromCont, toCont, fromJob))
+            Return Content("Update Complete", textContent)
+        End Function
     End Class
 
 End Namespace
