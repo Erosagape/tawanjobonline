@@ -1501,7 +1501,7 @@ AND a.BillAcceptNo=b.BillAcceptNo
         Dim sql As String = "UPDATE a"
         If iscancel Then
             sql &= " SET a.BillAcceptNo=null,a.BillIssueDate=null,a.BillAcceptDate=null"
-            sql &= " ,a.BillToCustCode=null,a.BillToCustBranch=null"
+            'sql &= " ,a.BillToCustCode=null,a.BillToCustBranch=null"
             sql &= " FROM Job_InvoiceHeader a "
             sql &= " WHERE a.BranchCode='{0}' AND a.BillAcceptNo='{1}' "
         Else

@@ -733,10 +733,10 @@ Public Class CInvHeader
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
 
-                    Sql = String.Format("DELETE FROM Job_CashControlDoc WHERE DocType='INV' AND BranchCode='{0}' AND DocNo Like '{1}%'", Me.BranchCode, Me.DocNo)
-                    cm.CommandText = Sql
-                    cm.CommandType = CommandType.Text
-                    cm.ExecuteNonQuery()
+                    'Sql = String.Format("DELETE FROM Job_CashControlDoc WHERE DocType='INV' AND BranchCode='{0}' AND DocNo Like '{1}%'", Me.BranchCode, Me.DocNo)
+                    'cm.CommandText = Sql
+                    'cm.CommandType = CommandType.Text
+                    'cm.ExecuteNonQuery()
 
                     Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvHeader", "UpdateClrDetail", cm.CommandText, False)
                 End If
