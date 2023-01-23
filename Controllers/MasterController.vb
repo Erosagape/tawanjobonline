@@ -1568,6 +1568,9 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("code")) Then
                     tSqlw &= String.Format("AND CarNo ='{0}'", Request.QueryString("code").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("type")) Then
+                    tSqlw &= String.Format("AND CarType ='{0}'", Request.QueryString("type").ToString)
+                End If
                 'Return Content(tSqlw, jsonContent)
                 Dim oData = New CarLicense(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
