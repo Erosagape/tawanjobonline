@@ -461,7 +461,7 @@ End Code
         }
         let jsonString = JSON.stringify({ data: dataApp });
         $.ajax({
-            url: "@Url.Action("ReceiveEarnest", "Clr")",
+            url: "@Url.Action("ReceiveEarnest", "Clr")" + '&Type=Y',
             type: "POST",
             contentType: "application/json",
             data: jsonString,
@@ -912,7 +912,7 @@ End Code
                     if ($('#txtExpSum').val() > 0) {
                         SaveClearHeader(response.result.data);
                     }
-                    window.open(path + 'Acc/voucher?branch=' + Branch + '&controlno=' + response.result.data);
+                    window.open(path + 'Acc/voucher?branch=' + $('#txtBranchCode').val() + '&controlno=' + response.result.data);
 
 
                     ApproveData(response.result.data);
