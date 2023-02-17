@@ -102,8 +102,9 @@ End Code
                                 <br />
                                 <select id="cboDocType" class="form-control dropdown">
                                     <option value="IVS-">Service</option>
-                                    <option value="IVT-">Internal</option>
+                                    <option value="IVT-">Transport</option>
                                     <option value="IVF-">Freight</option>
+                                    <option value="IVD-">Debit Note</option>
                                 </select>
 
                             </div>
@@ -358,14 +359,7 @@ End Code
                                 <td style="width:10%">
                                     Item No:
                                     <br />
-                                    @*<input type="text" class="form-control" id="txtItemNo" disabled />*@
-                                    <input type="text" class="form-control" id="txtItemNo"  />
-                                </td>
-                                <td style="width:10%">
-                                    <br />
-                                    <a href="#" class="btn btn-default" id="btnSplit" onclick="MoveTo()">
-                                        <b id="linkUpdate">Move To</b>
-                                    </a>
+                                    <input type="text" class="form-control" id="txtItemNo" disabled />
                                 </td>
                                 <td style="width:10%">
                                     <br />
@@ -442,15 +436,6 @@ End Code
     }
     //});
     SetEvents();
-
-    function allowDrop(ev) {
-        ev.preventDefault();
-        //console.log("During Test");
-    }
-    function drag(ev) {
-        ev.dataTransfer.setData("text", ev.target.id);
-        console.log("test");
-    }
     function CheckJobType() {
         if (jt !== $('#cboJobType').val()) {
             jt = $('#cboJobType').val();
@@ -686,7 +671,6 @@ End Code
             return d.AmtCharge > 0 || d.AmtAdvance > 0;
         });
         for (let o of arr_sel) {
-
             iRow += 1;
             o.ItemNo = iRow;
         }
@@ -750,26 +734,6 @@ End Code
             }
             ],
         });
-        $('#tbDetail tbody tr').each(function () {
-            $(this).prop("draggable", "true");
-            //$(this).on("dragstart", "drag");
-            this.addEventListener("dragstart", function (event) {
-                // store a ref. on the dragged elem
-                console.log("dragstart:" + event.target);
-
-            }, false);
-            this.addEventListener("dragover", function (event) {
-                // store a ref. on the dragged elem
-                console.log("dragover:"+event.target);
-                allowDrop(event);
-            }, false);
-            this.addEventListener("dragstart", function (event) {
-                // store a ref. on the dragged elem
-                console.log("dragstart:" + event.target);
-                drag(event);
-            }, false);
-        });
-       // draggable = "true" ondragstart = "drag(event)"
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'button', function () {
             let data = GetSelect('#tbDetail', this); //read current row selected
@@ -1044,7 +1008,6 @@ End Code
             ShowMessage('Please choose customer first',true);
             return;
         }
-	$('#btnGen').attr('disabled','disabled');
         if ($('#txtDocNo').val() !== '') {
             DeleteDetail();
         } else {
@@ -1102,8 +1065,8 @@ End Code
             CancelProve:'',
             CancelDate:null,
             CancelTime:null,
-            ShippingRemark: GetDueDate($('#txtDocDate').val()),
-            DueDate: null,
+            ShippingRemark: $('#cboDocType').val(),
+            DueDate: GetDueDate($('#txtDocDate').val()),
             CreateDate:CDateEN(GetToday())
         };
         let jsonString = JSON.stringify({ data: dataInv });
@@ -1409,7 +1372,16 @@ End Code
         let code = $('#txtDocNo').val();
         if (code !== '') {
             let branch = $('#txtBranchCode').val();
-            window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code,'_blank');
+            switch ($('#cboDocType').val()) {
+                case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
+                    break;
+                case "IVF-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');
+                    break;
+                case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                    break;
+                default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code , '_blank');
+            }
+
         }
     }
     function MergeData() {
@@ -1436,6 +1408,7 @@ End Code
             rowProcess +=1;
             if (currCode !== obj.SICode) {
                 if (currCode !== '') {
+                    clearList = clearList.substr(0, clearList.length - 1);
                     key.ClrNo = '';
                     key.ClrItemNo = 0;
                     key.ClrNoList = clearList;
@@ -1466,15 +1439,17 @@ End Code
                 key.AmtCredit+= CNum(obj.AmtCredit);
                 key.FAmtCredit= CDbl(CNum(key.FAmtCredit) / CNum(obj.ExchangeRate), 2);
             }
-            if (clearList.indexOf((obj.ClrNo + '/' + obj.ClrItemNo)) < 0) {
-                clearList += (clearList !== '' ? ',' : '') + (obj.ClrNo + '/' + obj.ClrItemNo);
+            if (clearList.indexOf((obj.ClrNo + '/' + obj.ClrItemNo+',')) < 0) {
+                //clearList += (clearList !== '' ? ',' : '') + (obj.ClrNo + '/' + obj.ClrItemNo);
+                clearList += (obj.ClrNo + '/' + obj.ClrItemNo) +',';
             }
             if (obj.ExpSlipNO !== null) {
                 if (slipList.indexOf(obj.ExpSlipNO) < 0) {
                     slipList += (slipList !== '' ? ',' : '') + obj.ExpSlipNO;
                 }
             }
-            if (rowProcess==arr_sel.length) {
+            if (rowProcess == arr_sel.length) {
+                clearList = clearList.substr(0, clearList.length - 1);
                 key.ClrNo = '';
                 key.ClrItemNo = 0;
                 key.ClrNoList = clearList;
@@ -1609,26 +1584,6 @@ End Code
 
         $('#txtAmtNET').val(ShowNumber(net,2));
     }
-    function MoveTo() {
-        let arr_cost = arr.filter(function (d) {
-            return d.AmtCost > 0;
-        });
-        //console.log(arr_split);
-        arr_split.ItemNo = $('#txtItemNo').val();
-        //console.log(arr_split);
-        let arr_sel = arr.filter(function (d) {
-            return d.AmtCharge > 0 || d.AmtAdvance > 0;
-        });
-
-        sortData(arr_sel, 'ItemNo', 'asc');
-        console.log(arr_sel);
-        for (let v of arr_cost) {
-            arr_sel.push(v);
-        }
-        arr = arr_sel;
-        CalSummary();
-        $('#dvEditor').modal('hide');
-    }
     function MoveUp() {
         let arr_cost = arr.filter(function (d) {
             return d.AmtCost > 0;
@@ -1638,9 +1593,6 @@ End Code
         });
         //sortData(arr_sel, 'ItemNo', 'asc');
         let idx = arr_sel.indexOf(arr_split);
-        console.log(arr_sel);
-        console.log("--------");
-        console.log(arr_split);
         if (idx <= 0 || idx > (arr_sel.length - 1) || arr_sel[idx - 1].ItemNo == 0) {
             alert('cannot move up');
         } else {
