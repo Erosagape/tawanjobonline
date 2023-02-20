@@ -2729,6 +2729,444 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
             ViewBag.DataCount1 = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
             Return GetView("Summary", "MODULE_CS")
         End Function
+        Function GetDashboardJobCount() As ActionResult
+            Dim groupField = ""
+            If Not Request.QueryString("OnGroup") Is Nothing Then
+                groupField = Request.QueryString("OnGroup").ToString()
+            End If
+            Dim onDate = "j.DocDate"
+            If Not Request.QueryString("OnDate") Is Nothing Then
+                onDate = Request.QueryString("OnDate").ToString()
+            End If
+            Dim onYear = DateTime.Now.Year
+            Dim onMonth = DateTime.Now.AddDays(DateTime.Now.Day * -1).Month
+            If Not Request.QueryString("OnYear") Is Nothing Then
+                onYear = Request.QueryString("OnYear").ToString()
+            End If
+            If Not Request.QueryString("OnMonth") Is Nothing Then
+                onMonth = Request.QueryString("OnMonth").ToString()
+            End If
+            Dim onWhere = ""
+            If Not Request.QueryString("OnWhere") Is Nothing Then
+                onWhere = Request.QueryString("OnWhere").ToString().Replace(",", "")
+            End If
+            Dim onValue = ""
+            If Not Request.QueryString("OnValue") Is Nothing Then
+                onValue = Request.QueryString("OnValue").ToString()
+            End If
+            Dim sqlW As String = ""
+            If onWhere <> "" Then
+                sqlW = " AND " & onWhere
+                sqlW &= "='" & onValue & "'"
+            End If
+
+            Dim sql = "
+select " & If(groupField <> "", groupField & ",", "") & "
+{0}
+"
+            Dim fields = Main.GetValueConfig("SQL", "DashboardJobCount")
+            If fields = "" Then
+                fields = "
+count(*) as TotalJob,
+sum(case when j.DeclareNumber<>'' and j.JobStatus<90 then 1 else 0 end) as JobDeclared,
+sum(case when NOT j.CloseJobBy<>'' and j.JobStatus>5 then 1 else 0 end) as JobBilling,
+sum(case when j.CloseJobBy<>'' and j.JobStatus<90 then 1 else 0 end) as JobClosed,
+sum(case when NOT j.CloseJobBy<>'' and j.JobStatus<90 then 1 else 0 end) as JobWorking,
+sum(case when j.JobStatus>90 then 1 else 0 end) as JobCancel,
+sum(j.InvTotal) as TotalValue,
+sum(j.TotalGW) as TotalWeight
+from job_order j 
+"
+            End If
+            sql = String.Format(sql, fields)
+            sql &= String.Format(" WHERE Year(" & onDate & ")='{0}' AND Month(" & onDate & ")='{1}' ", onYear, onMonth)
+            sql &= sqlW & If(groupField <> "", " GROUP BY " & groupField, "")
+
+            Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+            Dim chartstr = "[[""Type"",""Volume""],[""Close"",0],[""Working"",0],[""Cancel"",0]]"
+            If groupField = "" Then
+                If oData.Rows.Count > 0 Then
+                    Dim str = ",[""Close""," & oData.Rows(0)("JobClosed") & "]"
+                    str &= ",[""Working""," & oData.Rows(0)("JobWorking") & "]"
+                    str &= ",[""Cancel""," & oData.Rows(0)("JobCancel") & "]"
+                    chartstr = String.Format("[[""Type"",""Volume""]{0}]", str)
+                End If
+            Else
+                chartstr = "[[""Type"",""Close"",""Working"",""Cancel""],[""N/A"",0,0,0]]"
+                If oData.Rows.Count > 0 Then
+                    chartstr = "[[""Type"",""Close"",""Working"",""Cancel""]{0}]"
+                    Dim str = ""
+                    For Each dr In oData.Rows
+                        str &= ",[""" & dr(0).ToString() & """"
+                        str &= "," & dr("JobClosed").ToString() & ""
+                        str &= "," & dr("JobWorking").ToString() & ""
+                        str &= "," & dr("JobCancel").ToString() & "]"
+                    Next
+                    chartstr = String.Format(chartstr, str)
+                End If
+            End If
+            Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
+            Return Content(json, jsonContent)
+        End Function
+        Function GetDashboardJobValue() As ActionResult
+            Dim groupField = ""
+            If Not Request.QueryString("OnGroup") Is Nothing Then
+                groupField = Request.QueryString("OnGroup").ToString()
+            End If
+            Dim onDate = "j.DocDate"
+            If Not Request.QueryString("OnDate") Is Nothing Then
+                onDate = Request.QueryString("OnDate").ToString()
+            End If
+            Dim onYear = DateTime.Now.Year
+            Dim onMonth = DateTime.Now.AddDays(DateTime.Now.Day * -1).Month
+            If Not Request.QueryString("OnYear") Is Nothing Then
+                onYear = Request.QueryString("OnYear").ToString()
+            End If
+            If Not Request.QueryString("OnMonth") Is Nothing Then
+                onMonth = Request.QueryString("OnMonth").ToString()
+            End If
+            Dim onWhere = ""
+            If Not Request.QueryString("OnWhere") Is Nothing Then
+                onWhere = Request.QueryString("OnWhere").ToString().Replace(",", "")
+            End If
+            Dim onValue = ""
+            If Not Request.QueryString("OnValue") Is Nothing Then
+                onValue = Request.QueryString("OnValue").ToString()
+            End If
+            Dim onField = "1"
+            If Not Request.QueryString("OnField") Is Nothing Then
+                onField = Request.QueryString("OnField").ToString()
+            End If
+            Dim type = ""
+            If Not Request.QueryString("Type") Is Nothing Then
+                type = Request.QueryString("Type")
+            End If
+            Dim sqlW As String = ""
+            If onWhere <> "" Then
+                sqlW = " AND " & onWhere
+                sqlW &= "='" & onValue & "'"
+            End If
+
+            Dim sql = "
+select " & If(groupField <> "", groupField & ",", "") & "
+{0}
+"
+            Dim fields = Main.GetValueConfig("SQL", "DashboardJobValue")
+            If fields = "" Then
+                fields = "
+count(*) as TotalJob,
+sum(j.InvTotal) as JobValue,
+sum(j.InvProductQty) as JobQty,
+sum(j.InvTotal*j.InvCurRate) as TotalValue,
+sum(j.TotalGW) as TotalWeight,
+sum(cl.TotalCost) as TotalCost,
+sum(case when j.CloseJobBy<>'' and j.JobStatus<90 then j.InvTotal*j.InvCurRate else 0 end) as JobClosedValue,
+sum(case when NOT j.CloseJobBy<>'' and j.JobStatus<90 then j.InvTotal*j.InvCurRate else 0 end) as JobWorkingValue,
+sum(case when j.CloseJobBy<>'' and j.JobStatus<90 then cl.TotalCost else 0 end) as JobClosedCost,
+sum(case when NOT j.CloseJobBy<>'' and j.JobStatus<90 then cl.TotalCost else 0 end) as JobWorkingCost
+from job_order j 
+left join (
+    select d.BranchCode,d.JobNo,sum(d.BNet) as TotalCost
+    from Job_ClearHeader h inner join Job_ClearDetail d
+    on h.BranchCode=d.BranchCode 
+    and h.ClrNo=d.ClrNo
+    inner join Job_SrvSingle s ON d.SICode=s.SICode
+    where h.DocStatus<>99 and s.IsExpense=0
+    group by d.BranchCode,d.JobNo
+) cl
+on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
+"
+            End If
+            sql = String.Format(sql, fields)
+            sql &= String.Format(" WHERE Year(" & onDate & ")='{0}' AND Month(" & onDate & ")='{1}' ", onYear, onMonth)
+            sql &= sqlW & If(groupField <> "", " GROUP BY " & groupField, "")
+
+            Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+            Dim chartstr = "[[""Type"",""Value""],[""ALL"",0]]"
+            If type <> "" Then
+                chartstr = "[[""Type"",""Volume""],[""Close"",0],[""Working"",0]]"
+                If groupField = "" Then
+                    If oData.Rows.Count > 0 Then
+                        Dim str = ",[""Close""," & oData.Rows(0)("JobClosed" & type) & "]"
+                        str &= ",[""Working""," & oData.Rows(0)("JobWorking" & type) & "]"
+                        chartstr = String.Format("[[""Type"",""Volume""]{0}]", str)
+                    End If
+                Else
+                    chartstr = "[[""Type"",""Close"",""Working""],[""N/A"",0,0]]"
+                    If oData.Rows.Count > 0 Then
+                        chartstr = "[[""Type"",""Close"",""Working""]{0}]"
+                        Dim str = ""
+                        For Each dr In oData.Rows
+                            str &= ",[""" & dr(0).ToString() & """"
+                            str &= "," & dr("JobClosed" & type).ToString() & ""
+                            str &= "," & dr("JobWorking" & type).ToString() & "]"
+                        Next
+                        chartstr = String.Format(chartstr, str)
+                    End If
+                End If
+            Else
+                If groupField = "" Then
+                    If oData.Rows.Count > 0 Then
+                        Dim str = ",[""" & onField & """," & oData.Rows(0)(onField) & "]"
+                        chartstr = String.Format("[[""Type"",""Value""]{0}]", str)
+                    End If
+                Else
+                    chartstr = "[[""Type"",""Value""],[""ALL"",0]]"
+                    If oData.Rows.Count > 0 Then
+                        chartstr = "[[""Type"",""Value""]{0}]"
+                        Dim str = ""
+                        For Each dr In oData.Rows
+                            str &= ",[""" & dr(0).ToString() & """"
+                            str &= "," & dr(onField).ToString() & "]"
+                        Next
+                        chartstr = String.Format(chartstr, str)
+                    End If
+                End If
+            End If
+            Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
+            Return Content(json, jsonContent)
+        End Function
+        <HttpPost()>
+        Function SaveJobToDatabase(data As CJobParam) As ActionResult
+            If data.FromBranch = "" Then
+                Return Content("From Branch Must be enter", textContent)
+            End If
+            If data.ToBranch = "" Then
+                Return Content("To Branch Must be enter", textContent)
+            End If
+            If data.ToDB = "" Then
+                Return Content("Destination Database Must be enter", textContent)
+            End If
+            If data.FromJob = "" Then
+                Return Content("From Job Must be enter", textContent)
+            End If
+            Dim oChk = New CJobOrder(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.FromBranch, data.FromJob))
+            If oChk.Count = 0 Then
+                Return Content("Source Job Not Found", textContent)
+            End If
+            Dim oJob = oChk(0)
+            Dim oConn = ""
+            Try
+                Dim oDB = Main.GetDatabaseConnection(My.Settings.LicenseTo, "JOBSHIPPINg", data.ToDB)
+                If oDB.Length = 0 Then
+                    Return Content("Destination Database Not Found", textContent)
+                End If
+                oConn = oDB(0)
+                oJob.SetConnect(oConn)
+                oJob.BranchCode = data.ToBranch
+                oJob.JobType = data.JobType
+                oJob.ShipBy = data.ShipBy
+                oJob.CustRefNO = data.FromJob
+                If data.ToJob = "" Then
+                    Dim prefix As String = GetJobPrefix(oJob)
+                    Dim fmt = Main.GetValueConfig("RUNNING", "JOB")
+                    If fmt <> "" Then
+                        If fmt.IndexOf("bb") >= 0 Then
+                            fmt = fmt.Replace("bb", oJob.DocDate.AddYears(543).ToString("yy"))
+                        End If
+                        If fmt.IndexOf("yy") >= 0 Then
+                            fmt = fmt.Replace("yy", oJob.DocDate.ToString("yy"))
+                        End If
+                        If fmt.IndexOf("MM") >= 0 Then
+                            fmt = fmt.Replace("MM", oJob.DocDate.ToString("MM"))
+                        End If
+                    Else
+                        fmt = oJob.DocDate.ToString("yyMM") & "____"
+                    End If
+                    If Main.GetValueConfig("PROFILE", "RUNNING_BYMASK") = "N" Then
+                        oJob.AddNew("%" & fmt, False)
+                        If oJob.JNo.IndexOf("%") > 0 Then
+                            oJob.JNo = oJob.JNo.Replace("%", prefix)
+                        Else
+                            oJob.JNo = prefix & oJob.JNo.Substring(3)
+                        End If
+                    Else
+                        oJob.AddNew(prefix & fmt, False)
+                    End If
+                    data.ToJob = oJob.JNo
+                Else
+                    oJob.JNo = data.ToJob
+                End If
+                Dim msg = oJob.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.ToBranch, data.ToJob))
+                If data.IsTransferTransport = True Then
+                    Dim oHeader = New CTransportHeader(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", oJob.BranchCode, oJob.BookingNo))
+                    If oHeader.Count > 0 Then
+                        Dim oBooking = oHeader(0)
+                        oBooking.SetConnect(oConn)
+                        oBooking.BranchCode = data.ToBranch
+                        oBooking.JNo = data.ToJob
+                        msg &= vbCrLf & oBooking.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", data.ToBranch, data.ToJob))
+                    End If
+                    Dim oDetail = New CTransportDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", oJob.BranchCode, oJob.BookingNo))
+                    If oDetail.Count > 0 Then
+                        For Each oData In oDetail
+                            Dim oCon = oData
+                            oCon.SetConnect(oConn)
+                            oCon.BranchCode = data.ToBranch
+                            oCon.JNo = data.ToJob
+                            msg &= vbCrLf & oCon.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", data.ToBranch, data.ToJob, oCon.ItemNo))
+                        Next
+                    End If
+                End If
+                If data.IsTransferCost = True Then
+                    Dim sqlLink As String = Main.GetValueConfig("SQL", "SelectClearingLink")
+                    If sqlLink = "" Then
+                        sqlLink = "SELECT d.*,s.NameThai,s.NameEng,s.IsExpense,s.IsCredit,l.LinkSICode,h.ClrDate 
+FROM Job_ClearDetail d inner join (
+select ConfigKey as SICode,ConfigValue as LinkSICode FROM Mas_Config where ConfigCode='CONFIG_CODELINK'
+) l on d.SICode=l.SICode inner join Job_SrvSingle s on l.SICode=s.SICode inner join Job_ClearHeader h on d.BranchCode=h.BranchCode and d.ClrNo=h.ClrNo
+WHERE d.BranchCode='{0}' AND d.JobNo='{1}' AND h.DocStatus<>99"
+                    End If
+                    Dim sqlSource = String.Format(sqlLink, data.FromBranch, data.FromJob)
+                    Dim sqlSummary = "
+SELECT ClrDate,IsCredit,IsExpense,
+Sum(UsedAmount) as SumAmt,Sum(ChargeVAT) as SumVat,
+sum(Tax50Tavi) as SumWht,Sum(BNet) as SumNet,
+BranchCode,JobNo FROM (" & sqlSource & ") t GROUP BY ClrDate,IsCredit,IsExpense,BranchCode,JobNo 
+"
+                    Using oDocument = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlSummary)
+                        If oDocument.Rows.Count > 0 Then
+                            For Each dr As DataRow In oDocument.Rows
+                                Dim clrType = "1"
+                                If dr("IsCredit").ToString() = "0" Then
+                                    If dr("IsExpense").ToString() = "1" Then
+                                        clrType = "2"
+                                    Else
+                                        clrType = "3"
+                                    End If
+                                End If
+                                Dim oClrH = New CClrHeader(oConn) With {
+                                    .BranchCode = data.ToBranch,
+                                    .ClrNo = "",
+                                    .ClearType = clrType,
+                                    .ClrDate = dr("ClrDate"),
+                                    .EmpCode = GetSession("CurrUser"),
+                                    .DocStatus = 1,
+                                    .JobType = data.JobType,
+                                    .ClearBill = IIf(dr("IsExpense").ToString() = "0", dr("SumAmt"), 0),
+                                    .ClearCost = IIf(dr("IsExpense").ToString() = "1", dr("SumAmt"), 0),
+                                    .TotalExpense = dr("SumAmt"),
+                                    .AdvTotal = 0,
+                                    .ClearTotal = dr("SumNet"),
+                                    .ClearVat = dr("SumVat"),
+                                    .ClearWht = dr("SumWht"),
+                                    .ClearNet = dr("SumNet"),
+                                    .ClearFrom = 99,
+                                    .CTN_NO = "",
+                                    .JNo = data.ToJob,
+                                    .InvNo = oJob.InvNo,
+                                    .AdvRefNo = "",
+                                    .TRemark = "",
+                                    .CoPersonCode = ""
+                                    }
+                                If oClrH.ClrDate = DateTime.MinValue Then
+                                    oClrH.ClrDate = Today.Date
+                                End If
+                                Dim runningFormat = GetValueConfig("RUNNING_FORMAT", "CLR_ADV", clrPrefix)
+                                Select Case clrType
+                                    Case "2"
+                                        runningFormat = GetValueConfig("RUNNING_FORMAT", "CLR_COST", costPrefix)
+                                    Case "3"
+                                        runningFormat = GetValueConfig("RUNNING_FORMAT", "CLR_SERV", servPrefix)
+                                End Select
+                                Dim fmt = Main.GetValueConfig("RUNNING", "CLR")
+                                If fmt <> "" Then
+                                    If fmt.IndexOf("bb") >= 0 Then
+                                        fmt = fmt.Replace("bb", oClrH.ClrDate.AddYears(543).ToString("yy"))
+                                    End If
+                                    If fmt.IndexOf("MM") >= 0 Then
+                                        fmt = fmt.Replace("MM", oClrH.ClrDate.ToString("MM"))
+                                    End If
+                                    If fmt.IndexOf("yy") >= 0 Then
+                                        fmt = fmt.Replace("yy", oClrH.ClrDate.ToString("yy"))
+                                    End If
+                                Else
+                                    fmt = oClrH.ClrDate.ToString("yyMM") & "____"
+                                End If
+                                oClrH.AddNew(runningFormat & fmt)
+                                msg &= vbCrLf & oClrH.SaveData(String.Format(" WHERE BranchCode='{0}' AND ClrNo='{1}' ", oClrH.BranchCode, oClrH.ClrNo))
+
+                                Dim sqlDetail = "SELECT t.* FROM (" & sqlSource & ") t WHERE t.IsExpense={0} AND t.IsCredit={1} ORDER BY  t.IsExpense,t.IsCredit,t.ClrNo"
+                                Using oClearing = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sqlSource, dr("IsExpense").ToString(), dr("IsCredit").ToString()))
+                                    If oClearing.Rows.Count > 0 Then
+                                        Dim i As Integer = 1
+                                        For Each r As DataRow In oClearing.Rows
+                                            Dim oClrD = New CClrDetail(oConn) With {
+                                            .BranchCode = data.ToBranch,
+                                            .ClrNo = oClrH.ClrNo,
+                                            .ItemNo = i,
+                                            .SICode = r("LinkSICode").ToString(),
+                                            .SDescription = r("NameThai").ToString(),
+                                            .AdvAmount = 0,
+                                            .AdvItemNo = r("ItemNo"),
+                                            .AdvNO = r("ClrNo").ToString(),
+                                            .Remark = r("SDescription").ToString(),
+                                            .UsedAmount = r("UsedAmount"),
+                                            .ChargeVAT = r("ChargeVAT"),
+                                            .Tax50Tavi = r("Tax50Tavi"),
+                                            .Qty = r("Qty"),
+                                            .UnitCode = r("UnitCode"),
+                                            .UnitPrice = r("UnitPrice"),
+                                            .BCost = r("BCost"),
+                                            .FCost = r("FCost"),
+                                            .BNet = r("BNet"),
+                                            .FNet = r("FNet"),
+                                            .BPrice = r("BPrice"),
+                                            .FPrice = r("FPrice"),
+                                            .CurRate = r("CurRate"),
+                                            .CurrencyCode = r("CurrencyCode").ToString(),
+                                            .Date50Tavi = Main.GetDateTime(r("Date50Tavi")),
+                                            .IsDuplicate = 0,
+                                            .AirQtyStep = "",
+                                            .IsLtdAdv50Tavi = 0,
+                                            .IsQuoItem = 0,
+                                            .JobNo = data.ToJob,
+                                            .LinkBillNo = "",
+                                            .LinkItem = 0,
+                                            .NO50Tavi = r("NO50Tavi"),
+                                            .Pay50TaviTo = r("Pay50TaviTo").ToString(),
+                                            .QBPrice = r("QBPrice"),
+                                            .QFPrice = r("QFPrice"),
+                                            .QNo = r("QNo").ToString(),
+                                            .QUnitPrice = r("QUnitPrice"),
+                                            .SlipNO = r("SlipNO").ToString(),
+                                            .STCode = "CLR",
+                                            .StepSub = "",
+                                            .Tax50TaviRate = r("Tax50TaviRate"),
+                                            .UnitCost = r("UnitCost").ToString(),
+                                            .VATRate = r("VATRate"),
+                                            .VATType = r("VATType"),
+                                            .VenderBillingNo = "",
+                                            .VenderCode = r("VenderCode").ToString()
+                                            }
+                                            msg &= vbCrLf & oClrD.SaveData(String.Format(" WHERE BranchCode='{0}' AND ClrNo='{1}' AND ItemNo={2} ", oClrH.BranchCode, oClrH.ClrNo, oClrD.ItemNo))
+                                            i += 1
+                                        Next
+                                    End If
+                                End Using
+                            Next
+                        End If
+                    End Using
+                End If
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SaveJobToDatabase", "SaveData", msg, False, "", "")
+                Main.DBExecute(GetSession("ConnJob"), String.Format("Update Job_Order SET CustRefNO='{0}' WHERE BranchCode='{1}' AND JNo='{2}'", data.ToJob, data.FromBranch, data.FromJob))
+                Return Content("Save To " & data.ToJob & " Complete", textContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SaveJobToDatabase", "SaveData", ex.Message, True, ex.StackTrace, "")
+                Return Content("Save " & data.FromJob & " Failed " & vbCrLf & ex.Message, textContent)
+            End Try
+        End Function
+        Public Class CJobParam
+            Public Property FromBranch As String
+            Public Property FromJob As String
+            Public Property ToDB As String
+            Public Property ToBranch As String
+            Public Property ToJob As String
+            Public Property JobType As Integer
+            Public Property ShipBy As Integer
+            Public Property IsTransferCost As Boolean
+            Public Property IsTransferTransport As Boolean
+        End Class
     End Class
 
 End Namespace

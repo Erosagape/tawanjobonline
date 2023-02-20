@@ -181,7 +181,12 @@ End Code
                                     </div>
                                     <div class="col-sm-6">
                                         <label id="lblCustPoNo" for="txtCustPoNo">Customer PO :</label>
-                                        <input type="text" id="txtCustPoNo" class="form-control" style="width:100%" tabindex="8" />
+                                        <br/>
+                                        <div style="display:flex">
+                                            <input type="text" id="txtCustPoNo" class="form-control" style="width:100%" tabindex="8" />
+                                            <input type="button" id="btnCreateJob" class="btn btn-default" value="+" onclick="OpenModal()" />
+
+                                        </div>                             
                                         <input type="button" id="btnLinkJob" value="Load From Job Shipping" class="btn btn-primary" onclick="SearchData('job')" />
                                     </div>
                                 </div>
@@ -895,9 +900,49 @@ End Code
             </div>
         </div>
         <div id="frmLOVs"></div>
+        <div id="frmCreateJob" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                Job Type:<br/>
+                                <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()"></select>
+                            </div>
+                            <div class="col-sm-6">
+                                Ship By:<br />
+                                <select id="cboShipBy" class="form-control dropdown"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                To Database:<br />
+                                <select id="cboDBSel" class="form-control dropdown"></select>
+                            </div>
+                            <div class="col-sm-6">
+                                To Branch:<br />
+                                <select id="cboBranch" class="form-control dropdown"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div style="display:flex;">
+                            To Job:<br />
+                            <input type="text" id="txtToJob" class="form-control" value="" />
+                        </div>
+                        <input type="button" class="btn btn-success" onclick="SaveJobToOtherDB()" value="Create Job" />
+                        <input type="button" class="btn btn-danger" value="Close" data-dismiss="modal" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </div>
 <script type="text/javascript">
+CryptoKey
     //define letiables
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
@@ -1011,6 +1056,19 @@ End Code
         });
     }
     function SetLOVs() {
+        loadBranch(path);
+        $.get(path + 'Config/GetDatabase').done(function (dr) {
+            if (dr.database.length > 0) {
+                for (let i = 0; i < dr.database.length; i++) {
+                    $('#cboDBSel').append($('<option>', { value: (i + 1) })
+                        .text(dr.company + '->' + dr.database[i].trim()));
+                }
+                $('#cboDBSel').val(1);
+            }
+        });
+        var list = 'JOB_TYPE=#cboJobType|,';
+        list += 'SHIP_BY=#cboShipBy|';
+        loadCombos(path, list);
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("frmLOVs");
@@ -1436,6 +1494,9 @@ End Code
                                     case "RCV":
                                         return '<a href="../Acc/Receipt?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
                                         break;
+
+                                        //return '<a href="../Acc/Receipt?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
+                                        //break;
                                     default:
                                         return data.DocNo;
                                         break;
@@ -1995,4 +2056,44 @@ End Code
             ShowMessage(r);
         });
     }
+    function SaveJobToOtherDB() {
+        var obj = {
+            FromBranch: $('#txtBranchCode').val(),
+            FromJob: $('#txtJNo').val(),
+            ToDB: $('#cboDBSel').val(),
+            ToBranch: $('#cboBranch').val(),
+            ToJob: $('#txtToJob').val(),
+            JobType: $('#cboJobType').val(),
+            ShipBy: $('#cboShipBy').val(),
+            IsTransferCost: true,
+            IsTransferTransport: true
+        };
+        let jsonText = JSON.stringify({ data: obj });
+        $.ajax({
+            url: "@Url.Action("SaveJobToDatabase", "JobOrder")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonText,
+            success: function (r) {
+                alert(r);
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
+    }
+    function OpenModal() {
+        $('#txtToJob').val($('#txtCustPoNo').val());
+        $('#frmCreateJob').modal('show');
+    }
+    var jt = '';
+    function CheckJobType() {
+        if (jt !== $('#cboJobType').val()) {
+            jt = $('#cboJobType').val();
+            loadShipByByType(path, jt, '#cboShipBy');
+            return;
+        }
+        return;
+    }
+
 </script>
