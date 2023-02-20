@@ -2959,7 +2959,7 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
                 oJob.CustRefNO = data.FromJob
                 If data.ToJob = "" Then
                     Dim prefix As String = GetJobPrefix(oConn, oJob)
-                    Dim fmt = Main.GetValueConfig(oConn, "RUNNING", "JOB")
+                    Dim fmt = Main.GetValueConfigDB(oConn, "RUNNING", "JOB")
                     If fmt <> "" Then
                         If fmt.IndexOf("bb") >= 0 Then
                             fmt = fmt.Replace("bb", oJob.DocDate.AddYears(543).ToString("yy"))
@@ -2973,7 +2973,7 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
                     Else
                         fmt = oJob.DocDate.ToString("yyMM") & "____"
                     End If
-                    If Main.GetValueConfig(oConn, "PROFILE", "RUNNING_BYMASK") = "N" Then
+                    If Main.GetValueConfigDB(oConn, "PROFILE", "RUNNING_BYMASK") = "N" Then
                         oJob.AddNew("%" & fmt, False)
                         If oJob.JNo.IndexOf("%") > 0 Then
                             oJob.JNo = oJob.JNo.Replace("%", prefix)
@@ -2987,6 +2987,10 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
                 Else
                     oJob.JNo = data.ToJob
                 End If
+                oJob.JobStatus = 0
+                oJob.CloseJobDate = SqlTypes.SqlDateTime.MinValue
+                oJob.CloseJobBy = ""
+                oJob.ConfirmDate = SqlTypes.SqlDateTime.MinValue
                 Dim msg = oJob.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.ToBranch, data.ToJob))
                 If data.IsTransferTransport = True Then
                     Dim oHeader = New CTransportHeader(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", oJob.BranchCode, oJob.BookingNo))
@@ -3027,21 +3031,22 @@ BranchCode,JobNo FROM (" & sqlSource & ") t GROUP BY ClrDate,IsCredit,IsExpense,
                     Using oDocument = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlSummary)
                         If oDocument.Rows.Count > 0 Then
                             For Each dr As DataRow In oDocument.Rows
-                                Dim clrType = "1"
-                                If dr("IsCredit").ToString() = "0" Then
-                                    If dr("IsExpense").ToString() = "1" Then
-                                        clrType = "2"
-                                    Else
-                                        clrType = "3"
+                                If dr("JobNo").ToString() <> "" Then
+                                    Dim clrType = "1"
+                                    If dr("IsCredit").ToString() = "0" Then
+                                        If dr("IsExpense").ToString() = "1" Then
+                                            clrType = "2"
+                                        Else
+                                            clrType = "3"
+                                        End If
                                     End If
-                                End If
-                                Dim oClrH = New CClrHeader(oConn) With {
+                                    Dim oClrH = New CClrHeader(oConn) With {
                                     .BranchCode = data.ToBranch,
                                     .ClrNo = "",
                                     .ClearType = clrType,
+                                    .DocStatus = 1,
                                     .ClrDate = dr("ClrDate"),
                                     .EmpCode = GetSession("CurrUser"),
-                                    .DocStatus = 1,
                                     .JobType = data.JobType,
                                     .ClearBill = IIf(dr("IsExpense").ToString() = "0", dr("SumAmt"), 0),
                                     .ClearCost = IIf(dr("IsExpense").ToString() = "1", dr("SumAmt"), 0),
@@ -3059,39 +3064,39 @@ BranchCode,JobNo FROM (" & sqlSource & ") t GROUP BY ClrDate,IsCredit,IsExpense,
                                     .TRemark = "",
                                     .CoPersonCode = ""
                                     }
-                                If oClrH.ClrDate = DateTime.MinValue Then
-                                    oClrH.ClrDate = Today.Date
-                                End If
-                                Dim runningFormat = GetValueConfig(oConn, "RUNNING_FORMAT", "CLR_ADV", clrPrefix)
-                                Select Case clrType
-                                    Case "2"
-                                        runningFormat = GetValueConfig(oConn, "RUNNING_FORMAT", "CLR_COST", costPrefix)
-                                    Case "3"
-                                        runningFormat = GetValueConfig(oConn, "RUNNING_FORMAT", "CLR_SERV", servPrefix)
-                                End Select
-                                Dim fmt = Main.GetValueConfig(oConn, "RUNNING", "CLR")
-                                If fmt <> "" Then
-                                    If fmt.IndexOf("bb") >= 0 Then
-                                        fmt = fmt.Replace("bb", oClrH.ClrDate.AddYears(543).ToString("yy"))
+                                    If oClrH.ClrDate = DateTime.MinValue Then
+                                        oClrH.ClrDate = Today.Date
                                     End If
-                                    If fmt.IndexOf("MM") >= 0 Then
-                                        fmt = fmt.Replace("MM", oClrH.ClrDate.ToString("MM"))
+                                    Dim runningFormat = GetValueConfigDB(oConn, "RUNNING_FORMAT", "CLR_ADV", clrPrefix)
+                                    Select Case clrType
+                                        Case "2"
+                                            runningFormat = GetValueConfigDB(oConn, "RUNNING_FORMAT", "CLR_COST", costPrefix)
+                                        Case "3"
+                                            runningFormat = GetValueConfigDB(oConn, "RUNNING_FORMAT", "CLR_SERV", servPrefix)
+                                    End Select
+                                    Dim fmt = Main.GetValueConfigDB(oConn, "RUNNING", "CLR")
+                                    If fmt <> "" Then
+                                        If fmt.IndexOf("bb") >= 0 Then
+                                            fmt = fmt.Replace("bb", oClrH.ClrDate.AddYears(543).ToString("yy"))
+                                        End If
+                                        If fmt.IndexOf("MM") >= 0 Then
+                                            fmt = fmt.Replace("MM", oClrH.ClrDate.ToString("MM"))
+                                        End If
+                                        If fmt.IndexOf("yy") >= 0 Then
+                                            fmt = fmt.Replace("yy", oClrH.ClrDate.ToString("yy"))
+                                        End If
+                                    Else
+                                        fmt = oClrH.ClrDate.ToString("yyMM") & "____"
                                     End If
-                                    If fmt.IndexOf("yy") >= 0 Then
-                                        fmt = fmt.Replace("yy", oClrH.ClrDate.ToString("yy"))
-                                    End If
-                                Else
-                                    fmt = oClrH.ClrDate.ToString("yyMM") & "____"
-                                End If
-                                oClrH.AddNew(runningFormat & fmt)
-                                msg &= vbCrLf & oClrH.SaveData(String.Format(" WHERE BranchCode='{0}' AND ClrNo='{1}' ", oClrH.BranchCode, oClrH.ClrNo))
+                                    oClrH.AddNew(runningFormat & fmt)
+                                    msg &= vbCrLf & oClrH.SaveData(String.Format(" WHERE BranchCode='{0}' AND ClrNo='{1}' ", oClrH.BranchCode, oClrH.ClrNo))
 
-                                Dim sqlDetail = "SELECT t.* FROM (" & sqlSource & ") t WHERE t.IsExpense={0} AND t.IsCredit={1} ORDER BY  t.IsExpense,t.IsCredit,t.ClrNo"
-                                Using oClearing = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sqlSource, dr("IsExpense").ToString(), dr("IsCredit").ToString()))
-                                    If oClearing.Rows.Count > 0 Then
-                                        Dim i As Integer = 1
-                                        For Each r As DataRow In oClearing.Rows
-                                            Dim oClrD = New CClrDetail(oConn) With {
+                                    Dim sqlDetail = "SELECT t.* FROM (" & sqlSource & ") t WHERE t.IsExpense={0} AND t.IsCredit={1} ORDER BY  t.IsExpense,t.IsCredit,t.ClrNo"
+                                    Using oClearing = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sqlSource, dr("IsExpense").ToString(), dr("IsCredit").ToString()))
+                                        If oClearing.Rows.Count > 0 Then
+                                            Dim i As Integer = 1
+                                            For Each r As DataRow In oClearing.Rows
+                                                Dim oClrD = New CClrDetail(oConn) With {
                                             .BranchCode = data.ToBranch,
                                             .ClrNo = oClrH.ClrNo,
                                             .ItemNo = i,
@@ -3139,11 +3144,12 @@ BranchCode,JobNo FROM (" & sqlSource & ") t GROUP BY ClrDate,IsCredit,IsExpense,
                                             .VenderBillingNo = "",
                                             .VenderCode = r("VenderCode").ToString()
                                             }
-                                            msg &= vbCrLf & oClrD.SaveData(String.Format(" WHERE BranchCode='{0}' AND ClrNo='{1}' AND ItemNo={2} ", oClrH.BranchCode, oClrH.ClrNo, oClrD.ItemNo))
-                                            i += 1
-                                        Next
-                                    End If
-                                End Using
+                                                msg &= vbCrLf & oClrD.SaveData(String.Format(" WHERE BranchCode='{0}' AND ClrNo='{1}' AND ItemNo={2} ", oClrH.BranchCode, oClrH.ClrNo, oClrD.ItemNo))
+                                                i += 1
+                                            Next
+                                        End If
+                                    End Using
+                                End If
                             Next
                         End If
                     End Using

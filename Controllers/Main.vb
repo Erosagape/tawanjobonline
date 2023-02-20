@@ -18,9 +18,9 @@ Module Main
     Friend Const appName As String = "JOBSHIPPING"
     Friend jobmaster As String = "jobmaster"
     Function GetJobPrefix(conn As String, data As CJobOrder) As String
-        Dim formatStr As String = GetValueConfig(conn, "RUNNING_FORMAT", "JOBNO", jobPrefix)
-        Dim jobType As String = GetValueConfig(conn, "JOB_TYPE", data.JobType.ToString("00"))
-        Dim shipBy As String = GetValueConfig(conn, "SHIP_BY", data.ShipBy.ToString("00"))
+        Dim formatStr As String = GetValueConfigDB(conn, "RUNNING_FORMAT", "JOBNO", jobPrefix)
+        Dim jobType As String = GetValueConfigDB(conn, "JOB_TYPE", data.JobType.ToString("00"))
+        Dim shipBy As String = GetValueConfigDB(conn, "SHIP_BY", data.ShipBy.ToString("00"))
         Dim Customer As String = data.CustCode
         If jobType <> "" Then formatStr = formatStr.Replace("[J]", jobType.Substring(0, 1))
         If shipBy <> "" Then formatStr = formatStr.Replace("[S]", shipBy.Substring(0, 1))
@@ -242,7 +242,7 @@ Module Main
         End Try
         Return ret
     End Function
-    Friend Function GetValueConfig(sConn As String, sCode As String, sKey As String, Optional sDef As String = "") As String
+    Friend Function GetValueConfigDB(sConn As String, sCode As String, sKey As String, Optional sDef As String = "") As String
         Try
             Dim tSqlw As String = " WHERE ConfigCode<>'' "
             If sCode <> "" Then tSqlw &= String.Format("AND ConfigCode='{0}'", sCode)
