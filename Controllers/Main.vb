@@ -3869,4 +3869,11 @@ SELECT d.BranchCode, '' AS ClrNo, 0 AS ItemNo, 0 AS LinkItem, 'CLR' AS STCode, d
                 Return ""
         End Select
     End Function
+    Function GetDateTime(obj As Object) As DateTime
+        Try
+            Return Convert.ToDateTime(obj)
+        Catch ex As Exception
+            Return DateTime.MinValue
+        End Try
+    End Function
 End Module
