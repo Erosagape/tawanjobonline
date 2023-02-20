@@ -1055,6 +1055,19 @@ End Code
         });
     }
     function SetLOVs() {
+        loadBranch(path);
+        $.get(path + 'Config/GetDatabase').done(function (dr) {
+            if (dr.database.length > 0) {
+                for (let i = 0; i < dr.database.length; i++) {
+                    $('#cboDBSel').append($('<option>', { value: (i + 1) })
+                        .text(dr.company + '->' + dr.database[i].trim()));
+                }
+                $('#cboDBSel').val(1);
+            }
+        });
+        var list = 'JOB_TYPE=#cboJobType|,';
+        list += 'SHIP_BY=#cboShipBy|';
+        loadCombos(path, list);
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("frmLOVs");

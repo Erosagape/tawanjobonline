@@ -2958,8 +2958,8 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
                 oJob.ShipBy = data.ShipBy
                 oJob.CustRefNO = data.FromJob
                 If data.ToJob = "" Then
-                    Dim prefix As String = GetJobPrefix(oJob)
-                    Dim fmt = Main.GetValueConfig("RUNNING", "JOB")
+                    Dim prefix As String = GetJobPrefix(oConn, oJob)
+                    Dim fmt = Main.GetValueConfig(oConn, "RUNNING", "JOB")
                     If fmt <> "" Then
                         If fmt.IndexOf("bb") >= 0 Then
                             fmt = fmt.Replace("bb", oJob.DocDate.AddYears(543).ToString("yy"))
@@ -2973,7 +2973,7 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
                     Else
                         fmt = oJob.DocDate.ToString("yyMM") & "____"
                     End If
-                    If Main.GetValueConfig("PROFILE", "RUNNING_BYMASK") = "N" Then
+                    If Main.GetValueConfig(oConn, "PROFILE", "RUNNING_BYMASK") = "N" Then
                         oJob.AddNew("%" & fmt, False)
                         If oJob.JNo.IndexOf("%") > 0 Then
                             oJob.JNo = oJob.JNo.Replace("%", prefix)
@@ -3062,14 +3062,14 @@ BranchCode,JobNo FROM (" & sqlSource & ") t GROUP BY ClrDate,IsCredit,IsExpense,
                                 If oClrH.ClrDate = DateTime.MinValue Then
                                     oClrH.ClrDate = Today.Date
                                 End If
-                                Dim runningFormat = GetValueConfig("RUNNING_FORMAT", "CLR_ADV", clrPrefix)
+                                Dim runningFormat = GetValueConfig(oConn, "RUNNING_FORMAT", "CLR_ADV", clrPrefix)
                                 Select Case clrType
                                     Case "2"
-                                        runningFormat = GetValueConfig("RUNNING_FORMAT", "CLR_COST", costPrefix)
+                                        runningFormat = GetValueConfig(oConn, "RUNNING_FORMAT", "CLR_COST", costPrefix)
                                     Case "3"
-                                        runningFormat = GetValueConfig("RUNNING_FORMAT", "CLR_SERV", servPrefix)
+                                        runningFormat = GetValueConfig(oConn, "RUNNING_FORMAT", "CLR_SERV", servPrefix)
                                 End Select
-                                Dim fmt = Main.GetValueConfig("RUNNING", "CLR")
+                                Dim fmt = Main.GetValueConfig(oConn, "RUNNING", "CLR")
                                 If fmt <> "" Then
                                     If fmt.IndexOf("bb") >= 0 Then
                                         fmt = fmt.Replace("bb", oClrH.ClrDate.AddYears(543).ToString("yy"))
