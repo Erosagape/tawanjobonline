@@ -181,7 +181,12 @@ End Code
                                     </div>
                                     <div class="col-sm-6">
                                         <label id="lblCustPoNo" for="txtCustPoNo">Customer PO :</label>
-                                        <input type="text" id="txtCustPoNo" class="form-control" style="width:100%" tabindex="8" />
+                                        <br />
+                                        <div style="display:flex">
+                                            <input type="text" id="txtCustPoNo" class="form-control" style="width:100%" tabindex="8" />
+                                            <input type="button" id="btnCreateJob" class="btn btn-default" value="+" onclick="OpenModal()" />
+
+                                        </div>
                                         <input type="button" id="btnLinkJob" value="Load From Job Shipping" class="btn btn-primary" onclick="SearchData('job')" />
                                     </div>
                                 </div>
@@ -845,6 +850,45 @@ End Code
                 </div>
             </div>
         </p>
+        <div id="frmCreateJob" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                Job Type:<br />
+                                <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()"></select>
+                            </div>
+                            <div class="col-sm-6">
+                                Ship By:<br />
+                                <select id="cboShipBy" class="form-control dropdown"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                To Database:<br />
+                                <select id="cboDBSel" class="form-control dropdown"></select>
+                            </div>
+                            <div class="col-sm-6">
+                                To Branch:<br />
+                                <select id="cboBranch" class="form-control dropdown"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div style="display:flex;">
+                            To Job:<br />
+                            <input type="text" id="txtToJob" class="form-control" value="" />
+                        </div>
+                        <input type="button" class="btn btn-success" onclick="SaveJobToOtherDB()" value="Create Job" />
+                        <input type="button" class="btn btn-danger" value="Close" data-dismiss="modal" />
+                    </div>
+                </div>
+
+            </div>
+        </div>
         <div id="frmJobOrderLog" class="modal fade" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -1999,4 +2043,44 @@ End Code
             ShowMessage(r);
         });
     }
+        function SaveJobToOtherDB() {
+        var obj = {
+            FromBranch: $('#txtBranchCode').val(),
+            FromJob: $('#txtJNo').val(),
+            ToDB: $('#cboDBSel').val(),
+            ToBranch: $('#cboBranch').val(),
+            ToJob: $('#txtToJob').val(),
+            JobType: $('#cboJobType').val(),
+            ShipBy: $('#cboShipBy').val(),
+            IsTransferCost: true,
+            IsTransferTransport: true
+        };
+        let jsonText = JSON.stringify({ data: obj });
+        $.ajax({
+            url: "@Url.Action("SaveJobToDatabase", "JobOrder")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonText,
+            success: function (r) {
+                alert(r);
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
+    }
+    function OpenModal() {
+        $('#txtToJob').val($('#txtCustPoNo').val());
+        $('#frmCreateJob').modal('show');
+    }
+    var jt = '';
+    function CheckJobType() {
+        if (jt !== $('#cboJobType').val()) {
+            jt = $('#cboJobType').val();
+            loadShipByByType(path, jt, '#cboShipBy');
+            return;
+        }
+        return;
+    }
+
 </script>
