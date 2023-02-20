@@ -946,7 +946,6 @@ End Code
     </div>
 </div>
 <script type="text/javascript">
-CryptoKey
     //define letiables
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
