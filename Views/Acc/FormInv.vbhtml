@@ -396,7 +396,7 @@ End Code
 		        $("#billAddress2").text(b.EAddress2);
                 $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : 0' + b.Branch);
                 $("#crTerm").text(b.CreditLimit);
-                $("#dueDate").text(ShowDate(h.DueDate));
+                //$("#dueDate").text(ShowDate(h.DueDate));
                 $("#id").text(h.BillToCustCode);
 	        });
            
@@ -410,7 +410,7 @@ End Code
             //$("#invoiceNo").text(tmpInvNo);
             $("#invoiceDate").text(ShowDate(h.DocDate));
             //$("#crTerm").text(c.CreditLimit);
-            //$("#dueDate").text(AddDate(h.DocDate, c.CreditLimit));
+            $("#dueDate").text(AddDate(h.DocDate, c.CreditLimit));
             $("#currency").text(h.CurrencyCode);
             //$("#destiny").text("PASIR GUDANG-BANGKOK");
             $("#remark").text(h.Remark1);

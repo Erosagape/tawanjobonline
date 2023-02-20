@@ -1615,10 +1615,14 @@ End Code
             $('#txtSDescription').val(dt.SDescription);
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(dt.VATRate);
-            $('#txtWHTRate').val(dt.Tax50TaviRate);
+		if($("#cboClrType").val()!=1){
+		    $('#txtWHTRate').val(dt.Tax50TaviRate);
+			 $('#txtWHT').val(CDbl(dt.Tax50Tavi,2));
+		}
+           
             $('#txtAMT').val(CDbl(dt.UnitPrice,2));
             $('#txtVAT').val(CDbl(dt.ChargeVAT,2));
-            $('#txtWHT').val(CDbl(dt.Tax50Tavi,2));
+           
             $('#txtNET').val(CDbl(dt.BNet,2));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);

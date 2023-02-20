@@ -887,7 +887,7 @@ End Code
             $('#txtQuotation').focus();
             return;
         }
-
+        
         if ($('#txtCountryCode').val() == '') {
             ShowMessage("Country Must be chosen", true);
             SearchData('country');
@@ -898,7 +898,7 @@ End Code
             SearchData('actshipper');
             return;
         }
-
+        
         if ($('#txtActualConsigneeCode').val() == '') {
             ShowMessage("Actual Consignee Must be chosen", true);
             SearchData('actcons');
@@ -909,7 +909,7 @@ End Code
             SearchData('delivery');
             return;
         }
-
+        
         if ($('#txtForwarderCode').val() == '') {
             ShowMessage("Shipping liner Must be chosen", true);
             SearchData('forwarder');
@@ -926,12 +926,12 @@ End Code
         if ($('#txtHAWB').val() == '') {
             ShowMessage("House BL/AWB Must be chosen", true);
             return;
-        }
+        }        
         if ($('#txtMAWB').val() == '') {
             ShowMessage("Master BL/AWB Must be chosen", true);
             return;
         }
-
+        
         if ($('#txtETDDate').val() == '') {
             ShowMessage("ETD Must be chosen", true);
             return;
@@ -956,12 +956,12 @@ End Code
             ShowMessage("Place of Discharge Must be chosen", true);
             return;
         }
-
+        
         if ($('#txtMVesselName').val() == '') {
             ShowMessage("Local vessel Must be chosen", true);
             return;
         }
-
+        
         if ($('#txtVesselName').val() == '') {
             ShowMessage("Ocean vessel Must be chosen", true);
             return;

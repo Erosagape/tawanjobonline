@@ -266,6 +266,9 @@
             codeWhere: $('#txtCodeCliteria').val(),
             groupWhere: $('#cboCommLevel').val()==''?'': '[GROUP]=' + $('#cboCommLevel').val()
         };
+	if(reportID=='JOBCOMM') { 
+	obj.empWhere="[EMP]=@ViewBag.User";
+	}
         let str = JSON.stringify(obj);
         return '?data=' + JSON.stringify(data) + '&cliteria=' + encodeURIComponent(str) + '&group=' + $('#cboReportGroup').val();
     }

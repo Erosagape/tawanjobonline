@@ -412,7 +412,7 @@ End Code
                 let sumWht10 = 0
                 let sumWhtother = 0
                 let html = '';
-                let totalRows = 20;
+                let totalRows = 10;
                 let blankRows = totalRows - d.length;
                 
                 for (let row of d) {

@@ -185,7 +185,7 @@ End Code
                 $('#lblDocType').text('TAX-INVOICE/RECEIPT');
                 break;
             case 'SRV':
-                $('#lblDocType').text('TAX-INVOICE');
+                $('#lblDocType').text('TAX-INVOICE/RECEIPT');
                 break;
             default:
                 $('#lblDocType').text('RECEIPT');

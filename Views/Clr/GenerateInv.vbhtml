@@ -1420,12 +1420,13 @@ End Code
             rowProcess +=1;
             if (currCode !== obj.SICode) {
                 if (currCode !== '') {
+                    clearList = clearList.substr(0, clearList.length - 1);
                     key.ClrNo = '';
                     key.ClrItemNo = 0;
                     key.ClrNoList = clearList;
                     key.ExpSlipNO = slipList;
                     key.UnitPrice = CNum(key.Amt) / CNum(key.Qty);
-                    key.FUnitPrice = CDbl(CNum(key.UnitPrice) / CNum(obj.ExchangeRate),3);
+                    key.FUnitPrice = CDbl(CNum(key.UnitPrice) / CNum(obj.ExchangeRate), 2);
                     arr_new.push(key);
                 }
                 currCode = obj.SICode;
@@ -1444,27 +1445,29 @@ End Code
                 key.AmtVat+= CNum(obj.AmtVat);
                 key.TotalAmt += CNum(obj.TotalAmt);
                 key.AmtNet += CNum(obj.TotalAmt);
-                key.FTotalAmt= CDbl(CNum(key.TotalAmt) / CNum(obj.ExchangeRate),3);
+                key.FTotalAmt= CDbl(CNum(key.TotalAmt) / CNum(obj.ExchangeRate), 2);
                 key.AmtAdvance+= CNum(obj.AmtAdvance);
                 key.AmtCharge+= CNum(obj.AmtCharge);
                 key.AmtCredit+= CNum(obj.AmtCredit);
-                key.FAmtCredit= CDbl(CNum(key.FAmtCredit) / CNum(obj.ExchangeRate),3);
+                key.FAmtCredit= CDbl(CNum(key.FAmtCredit) / CNum(obj.ExchangeRate), 2);
             }
-            if (clearList.indexOf((obj.ClrNo + '/' + obj.ClrItemNo)) < 0) {
-                clearList += (clearList !== '' ? ',' : '') + (obj.ClrNo + '/' + obj.ClrItemNo);
+            if (clearList.indexOf((obj.ClrNo + '/' + obj.ClrItemNo+',')) < 0) {
+                //clearList += (clearList !== '' ? ',' : '') + (obj.ClrNo + '/' + obj.ClrItemNo);
+                clearList += (obj.ClrNo + '/' + obj.ClrItemNo) +',';
             }
             if (obj.ExpSlipNO !== null) {
                 if (slipList.indexOf(obj.ExpSlipNO) < 0) {
                     slipList += (slipList !== '' ? ',' : '') + obj.ExpSlipNO;
                 }
             }
-            if (rowProcess==arr_sel.length) {
+            if (rowProcess == arr_sel.length) {
+                clearList = clearList.substr(0, clearList.length - 1);
                 key.ClrNo = '';
                 key.ClrItemNo = 0;
                 key.ClrNoList = clearList;
                 key.ExpSlipNO = slipList;
                 key.UnitPrice = CNum(key.Amt) / CNum(key.Qty);
-                key.FUnitPrice = CDbl(CNum(key.UnitPrice) / CNum(obj.ExchangeRate),2);
+                key.FUnitPrice = CDbl(CNum(key.UnitPrice) / CNum(obj.ExchangeRate), 2);
                 arr_new.push(key);
             }
         }

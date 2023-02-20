@@ -11,6 +11,10 @@ End Code
     }
 
 
+    *{
+	page-break-inside:auto !important;
+	page-break-after:auto !important;
+     }
 </style>
 
 
@@ -383,6 +387,11 @@ End Code
                         }
                         appendLine(div,'','<b>TOTAL</b>','<b>'+ShowNumber(sum,2)+'</b>');
                     }
+		     if (!jobno&&data.payment.length>0) {
+				jobno=data.payment[0].ForJNo;
+		     }
+		    console.log(data.payment);
+		    console.log(jobno);
                     if (jobno !== '') {
                         $.get(path + 'JobOrder/GetJobSQL?Branch='+ obj.BranchCode +'&JNo='+ jobno).done(function (r) {
                             let j = r.job.data[0];
