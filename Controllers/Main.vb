@@ -3860,7 +3860,8 @@ SELECT d.BranchCode, '' AS ClrNo, 0 AS ItemNo, 0 AS LinkItem, 'CLR' AS STCode, d
     End Function
     Function GetSession(sName As String) As String
         Try
-            Return HttpContext.Current.Session(sName).ToString
+            'Return HttpContext.Current.Session(sName).ToString
+            Return CStr(HttpContext.Current.Session(sName))
         Catch ex As Exception
             Return ""
         End Try

@@ -16,6 +16,9 @@ End Code
                     <th class="all">
                         Report Name
                     </th>
+                    <th class="all">
+                        Report Group
+                    </th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -240,7 +243,26 @@ End Code
                     </div>
                 </div>
             </div>
-
+            <div style="display:flex;width:100%;flex-direction:column" id="tbHBL">
+                <div style="display:flex;">
+                    <div style="flex:1">
+                        House BL :
+                    </div>
+                    <div style="flex:2">
+                        <input type="text" id="txtHBL" />
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex;width:100%;flex-direction:column" id="tbJob">
+                <div style="display:flex;">
+                    <div style="flex:1">
+                        Job Number :
+                    </div>
+                    <div style="flex:2">
+                        <input type="text" id="txtJobNumber" />
+                    </div>
+                </div>
+            </div>
         </div>
         <a href="#" class="btn btn-info" id="btnPrnJob" onclick="PrintReport()">
             <i class="fa fa-lg fa-print"><b>Print Report</b></i>
@@ -295,7 +317,7 @@ End Code
     </div>
 </div>
 <div id="dvLOVs"></div>
-<script type="text/javascript" src="~/Scripts/Func/reports.js"></script>
+<script type="text/javascript" src="~/Scripts/Func/reports.js?@DateTime.Now.ToString("yyyyMMddHHMMss")"></script>
 <script type="text/javascript" src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     let reportID = '';
@@ -317,7 +339,8 @@ End Code
                     data: r,
                     columns: [
                         { data: "ReportCode", title: "Report Code" },
-                        { data: (mainLanguage == 'TH' ? "ReportNameTH" : "ReportNameEN"), title: "ReportName" }
+                        { data: (mainLanguage == 'TH' ? "ReportNameTH" : "ReportNameEN"), title: "ReportName" },
+                        { data: "ReportGroup", title: "Report Group" },
                     ],
                     responsive: true,
                     destroy: true
@@ -370,6 +393,9 @@ End Code
             $('#btnPrnJob').show();
             SetSelect('#tbReportList', this);
             reportID = data.ReportCode;
+            if (reportID.substr(0, 3) == 'PRD') {
+                $('#txtCustCliteria').val('[CUST]=@ViewBag.PROFILE_TAXNUMBER');
+            }
             if (src.ReportType == 'DEV') {
                 $('#cboDateBy').empty();
                 let cliteria = src.ReportCliteria.split('|');
@@ -387,7 +413,7 @@ End Code
             } else {
                 $('#cliteriaSet2').css('display', 'none');
                 $('#cliteriaSet1').css('display', 'inline');
-                if (src.ReportCliteria !== undefined) {
+                if (src.ReportCliteria !== null && src.ReportCliteria !== undefined) {
                     ReadCliteria(src.ReportCliteria + ',,,');
                 } else {
                     LoadCliteria(src.ReportCode);
@@ -407,12 +433,11 @@ End Code
     }
     function ReadCliteria(str) {
         let arr = str.split(',');
-        if (arr[1] !== '') {
-            $('#tbDate').show();
+        $('#tbDate').show();
+        $('#tbCust').show();
+        if (arr[1] !== '') {   
             let vStr = arr[1].indexOf('.') > 0 ? arr[1].split('.')[1] : arr[1];
             $('#fromDate').text(vStr.toString().replace('Date',' Date'));
-        } else {
-            $('#tbDate').hide();
         }
         if (arr[2] !== '') {
             $('#tbCust').show();
@@ -593,37 +618,37 @@ End Code
         if (reportID.indexOf('PRD')>=0) {
             switch (reportID) {
                 case 'PRD3':
-                    window.open(path +'Acc/FormWTax3' + GetCliteria(), '', '');
+                    window.location.href=path +'Acc/FormWTax3' + GetCliteria();
                     break;
                 case 'PRD3D':
-                    window.open(path +'Acc/FormWTax3D' + GetCliteria(), '', '');
+                    window.location.href=path +'Acc/FormWTax3D' + GetCliteria();
                     break;
                 case 'PRD53':
-                    window.open(path +'Acc/FormWTax53' + GetCliteria(), '', '');
+                    window.location.href=path +'Acc/FormWTax53' + GetCliteria();
                     break;
                 case 'PRD53D':
-                    window.open(path +'Acc/FormWTax53D' + GetCliteria(), '', '');
+                    window.location.href=path +'Acc/FormWTax53D' + GetCliteria();
                     break;
             }
             return;
         }
         switch (data.ReportType) {
             case 'DEV':
-                window.open(path + data.ReportUrl + GetQueryString(),'','');
+                window.location.href=path + data.ReportUrl + GetQueryString();
                 break;
             case 'STD':
-                window.open(path + 'Report/Preview' + GetCliteria()+ '&Layout=', '', '');
+                window.location.href=path + 'Report/Preview' + GetCliteria()+ '&Layout=';
                 break;
             case 'APL':
-                window.open(path + 'Report/Preview' + GetCliteria() + '&Layout=2', '', '');
+                window.location.href=path + 'Report/Preview' + GetCliteria() + '&Layout=2';
                 break;
             case 'FIX':
             case 'EXP':
             case 'EXC':
-                window.open(path + 'Report/Preview' + GetCliteria() +'&Layout=1', '', '');
+                window.location.href=path + 'Report/Preview' + GetCliteria() +'&Layout=1';
                 break;
             case 'ADD':
-                window.open(path + 'Report/Preview' + GetCliteria() + '&Layout=', '', '');
+                window.location.href=path + 'Report/Preview' + GetCliteria() + '&Layout=';
                 break;
         }
     }
@@ -661,6 +686,12 @@ End Code
         }
         if ($('#txtTransport').val() !== '') {
             str += '&Transport=' + $('#txtTransport').val();
+        }
+        if ($('#txtHBL').val() !== '') {
+            str += '&HBL=' + $('#txtHBL').val();
+        }
+        if ($('#txtJobNumber').val() !== '') {
+            str += '&Job=' + $('#txtJobNumber').val();
         }
         return str;
     }
