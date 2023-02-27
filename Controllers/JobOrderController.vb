@@ -2990,13 +2990,13 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
                         oJob.AddNew(prefix & fmt, False)
                     End If
                     data.ToJob = oJob.JNo
+                    oJob.JobStatus = 0
+                    oJob.CloseJobDate = SqlTypes.SqlDateTime.MinValue
+                    oJob.CloseJobBy = ""
+                    oJob.ConfirmDate = SqlTypes.SqlDateTime.MinValue
                 Else
                     oJob.JNo = data.ToJob
                 End If
-                oJob.JobStatus = 0
-                oJob.CloseJobDate = SqlTypes.SqlDateTime.MinValue
-                oJob.CloseJobBy = ""
-                oJob.ConfirmDate = SqlTypes.SqlDateTime.MinValue
                 Dim msg = oJob.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.ToBranch, data.ToJob))
                 If data.IsTransferTransport = True Then
                     Dim oHeader = New CTransportHeader(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", oJob.BranchCode, oJob.BookingNo))
