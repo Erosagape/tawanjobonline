@@ -1382,8 +1382,14 @@ h.TotalVAT=ROUND(d.TotalVAT,2),
 h.Total50Tavi=ROUND(d.Total50Tavi,2),
 h.SumDiscount=ROUND(d.SumDiscount,2),
 h.DiscountCal=ROUND(d.TotalNet*(h.DiscountRate*0.01),2),
-h.TotalNet=ROUND(d.TotalNet-(d.TotalNet*(h.DiscountRate*0.01)),2),
-h.ForeignNet=ROUND((d.TotalNet-(d.TotalNet*(h.DiscountRate*0.01)))/h.ExchangeRate,2)
+h.TotalNet=ROUND(
+(ROUND(d.TotalAdvance,2)+ROUND(d.TotalCharge,2)+ROUND(d.TotalVAT,2)-ROUND(d.Total50Tavi,2)-ROUND(d.SumDiscount,2))
+-ROUND((d.TotalNet*(h.DiscountRate*0.01)),2)
+,2),
+h.ForeignNet=ROUND(
+((ROUND(d.TotalAdvance,2)+ROUND(d.TotalCharge,2)+ROUND(d.TotalVAT,2)-ROUND(d.Total50Tavi,2)-ROUND(d.SumDiscount,2))
+-ROUND((d.TotalNet*(h.DiscountRate*0.01)),2))/h.ExchangeRate
+,2)
 from Job_InvoiceHeader h
 inner join (
 	select BranchCode,DocNo,
@@ -1395,11 +1401,11 @@ inner join (
 	sum(case when AmtCharge>0 then Amt50Tavi else 0 end) as Total50Tavi,
     sum(AmtDiscount) as SumDiscount,
 	sum(TotalAmt-AmtCredit) as TotalNet
-	from Job_InvoiceDetail
+	from Job_InvoiceDetail 
 	group by BranchCode,DocNo
 ) d
 on h.BranchCode=d.BranchCode
-and h.DocNo=d.DocNo 
+and h.DocNo=d.DocNo
 "
     End Function
     Function SQLSelectClrForInvoice() As String
@@ -1462,7 +1468,7 @@ a.TotalChargeNonVAT=ISNULL(b.SumChargeNonVAT,0),
 a.TotalVAT=ISNULL(b.SumVAT,0),
 a.TotalWH=ISNULL(b.SumWH,0),
 a.TotalDiscount=ISNULL(b.SumDiscount,0),
-a.TotalNet=ISNULL(b.SumNet,0)
+a.TotalNet=ISNULL(b.SumAdvance,0)+ISNULL(b.SumChargeVAT,0)+ISNULL(b.SumChargeNonVAT,0)+ISNULL(b.SumVAT,0)-ISNULL(b.SumWH,0)-ISNULL(b.SumDiscount,0)-ISNULL(b.SumCustAdvance,0)
 FROM Job_BillAcceptHeader a 
 LEFT JOIN (
     SELECT BranchCode,BillAcceptNo,
