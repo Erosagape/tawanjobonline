@@ -291,7 +291,7 @@ End Code
         $('#lblGrossWeight').text(dr.TotalGW + ' ' + dr.GWUnit);
         $('#lblDeliveryTo').text(dr.ClearPortNo);
 
-        CallBackQueryCustomer(path, dr.CustCode, dr.CustBranch, function (data) {
+        CallBackQueryCustomer(path,  dr.CustCode,  dr.CustBranch, function (data) {
             console.log(data);
             $('#lblCustName').text(data.NameEng);
             $('#lblCustAddress1').text(data.EAddress1);

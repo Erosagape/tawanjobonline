@@ -156,8 +156,10 @@
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\FilterConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
+    <Compile Include="Controllers\AdminController.vb" />
     <Compile Include="Controllers\ConfigController.vb" />
     <Compile Include="Controllers\TestController.vb" />
+    <Compile Include="Controllers\UtilController.vb" />
     <Compile Include="Global.asax.vb">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -223,6 +225,28 @@
     </None>
     <None Include="packages.config" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Resources\ant-logo.png" />
+    <Content Include="Resources\apl-logo.jpg" />
+    <Content Include="Resources\ctt-logo.jpg" />
+    <Content Include="Resources\kwanchai.png" />
+    <Content Include="Resources\logo-ace.png" />
+    <Content Include="Resources\logo-damon.jpg" />
+    <Content Include="Resources\logo-dpk.png" />
+    <Content Include="Resources\logo-sil.png" />
+    <Content Include="Resources\logo-south.png" />
+    <Content Include="Resources\logo-star.png" />
+    <Content Include="Resources\logo-stm.jpg" />
+    <Content Include="Resources\logo-theso.jpg" />
+    <Content Include="Resources\logo_bangkok.jpeg" />
+    <Content Include="Resources\logo_bft.png" />
+    <Content Include="Resources\logo_convey.png" />
+    <Content Include="Resources\logo_dyy_t.jpeg" />
+    <Content Include="Resources\logo_sincere.png" />
+    <Content Include="Resources\logo_teg.jpg" />
+    <Content Include="Resources\logo_tgs.png" />
+    <Content Include="Resources\logo_uglobe.jpg" />
+    <Content Include="Resources\mnl-logo.png" />
+    <Content Include="Resources\sss-logo.jpg" />
     <Content Include="Scripts\function.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -241,6 +265,10 @@
     <Content Include="Views\Config\WebLogin.vbhtml" />
     <Content Include="Views\Test\ExcelReader.vbhtml" />
     <Content Include="Views\Test\PostForm.vbhtml" />
+    <Content Include="Views\Admin\Billing.vbhtml" />
+    <Content Include="Views\Admin\Index.vbhtml" />
+    <Content Include="Views\Util\Index.vbhtml" />
+    <Content Include="Views\Util\Excel.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
@@ -269,6 +297,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Resources\Import\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -211,8 +211,9 @@ End Code
                 <option value="BA">Booking Confirmation (AIR)</option>
                 <option value="BS">Booking Confirmation (SEA)</option>
                 <option value="SP">Shipping Particulars</option>
-                <option value="BLW">Bill of Lading - WALMAY</option>
-                <option value="BLE">Bill of Lading - PORCHEON</option>
+                @*<option value="BLW">Bill of Lading - WALMAY</option>
+        <option value="BLE">Bill of Lading - PORCHEON</option>*@
+                <option value="BFT">Bill of Lading - BETTER</option>
                 <option value="BLS">Sea Way Bill</option>
                 <option value="HAW">House Air Way Bill</option>
                 <option value="MAW">Master Air Way Bill</option>
@@ -1052,7 +1053,7 @@ End Code
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
                 break;
             case 'customer':
-                SetGridCompanyByGroup(path, '#tbCust', 'NOTIFY_PARTY', '#frmSearchCust', ReadCustomer);
+                SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
                 break;
             case 'branch':
                 SetGridBranch(path, '#tbBranch','#frmSearchBranch', ReadBranch);
@@ -1613,6 +1614,8 @@ End Code
                 break;
             case 'BLE':
                 window.open(path + 'JobOrder/FormTransport?Type=EASTRONG&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+            case 'BFT':
+                window.open(path + 'JobOrder/FormTransport?Type=BETTER&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'HAW':
                 window.open(path + 'JobOrder/FormTransport?Type=HAIR&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');

@@ -2420,9 +2420,13 @@
     <Content Include="Views\Tracking\Dashboard3.vbhtml" />
     <Content Include="Views\Tracking\Dashboard4.vbhtml" />
     <Content Include="Views\Tracking\Timeline2.vbhtml" />
+    <Content Include="Views\JobOrder\FormJob.vbhtml" />
+    <Content Include="Views\JobOrder\CreateTransport_UGLOBE.vbhtml" />
+    <Content Include="Views\Admin\Test.vbhtml" />
+    <Content Include="Views\Report\ImportExcel.vbhtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="favicon.ico" />
+    <Content Include="Views\Tracking\favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootbox.all.js" />
     <Content Include="Scripts\bootbox.all.min.js" />

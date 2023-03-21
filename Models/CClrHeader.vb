@@ -384,7 +384,7 @@ Public Class CClrHeader
         If pFormatSQL = "" Then
             m_ClrNo = ""
         Else
-            Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(ClrNo) as t FROM Job_ClearHeader WHERE BranchCode='{0}' And ClrNo Like '%{1}' ", m_BranchCode, pFormatSQL), pFormatSQL)
+            Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(ClrNo) as t FROM Job_ClearHeader WHERE ClrNo Like '%{0}' ", pFormatSQL), pFormatSQL)
             m_ClrNo = retStr
         End If
     End Sub

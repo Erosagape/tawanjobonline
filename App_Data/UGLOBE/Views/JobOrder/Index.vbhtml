@@ -109,15 +109,18 @@ End Code
         <table id="tblJob" class="table table-bordered">
             <thead>
                 <tr>
-                    <th>JobNo</th>
+                    <th class="all">JobNo</th>
                     <th class="desktop">DocDate</th>
-                    <th class="desktop">JobStatus</th>
-                    <th class="all">ETD</th>
-                    <th class="all">ETA</th>
+                    <th class="all">JobStatus</th>
+                    <th class="all">Booking</th>
+                    <th class="desktop">House BL</th>
                     <th class="all">Inv.Customer</th>
                     <th class="desktop">Customer</th>
-                    <th>Consignee</th>
-                    <th class="desktop">CustRefNo</th>
+                    <th class="desktop">Consignee</th>
+                    <th>CustRefNo</th>
+                    <th>ETD</th>
+                    <th>ETA</th>
+
                 </tr>
             </thead>
         </table>
@@ -200,6 +203,12 @@ End Code
                             return data.JobStatus;
                         }
                     },
+                    { "data": "BookingNo", "title": "Booking" },
+                    { "data": "HAWB", "title": "House BL" },
+                    { "data": "InvNo", "title": "Customer Inv." },
+                    { "data": "CustTName", "title": "ImExPorter" },
+                    { "data": "ConsigneeName", "title": "Consignee" },
+                    { "data": "CustRefNO", "title": "Ref.No" },
                     {
                         "data": "ETDDate", "title": "ETD Date",
                         "render" : function (data) {
@@ -211,11 +220,7 @@ End Code
                         "render" : function (data) {
                             return CDateEN(data);
                         }
-                    },
-                    { "data": "InvNo", "title": "Customer Inv." },
-                    { "data": "CustTName", "title": "ImExPorter" },
-                    { "data": "ConsigneeName", "title": "Consignee" },
-                    { "data": "CustRefNO", "title": "Ref.No" }
+                    }
                 ]
                 , "pageLength": 100
             });

@@ -1849,11 +1849,15 @@ End Code
                 SetGridUser(path, '#tbClr', '#frmSearchClr', ReadClrBy);
                 break;
             case 'servicecode':
-                let q = GetClrType($('#cboClrType').val());
-                if ($('#cboSTCode').val() !== '') {
-                    q += '&group=' + $('#cboSTCode').val();
+                if ($('#cboSTCode').val() == "EXP") {
+                    ShowMessage("Can't use EXP", true);
+                } else {
+                    let q = GetClrType($('#cboClrType').val());
+                    if ($('#cboSTCode').val() !== '') {
+                        q += '&group=' + $('#cboSTCode').val();
+                    }
+                    SetGridSICodeFilter(path, '#tbServ', q, '#frmSearchSICode', ReadService);
                 }
-                SetGridSICodeFilter(path, '#tbServ', q, '#frmSearchSICode', ReadService);
                 break;
             case 'job':
                 SetGridJob(path, '#tbJob', '#frmSearchJob', GetParam(), ReadJob);

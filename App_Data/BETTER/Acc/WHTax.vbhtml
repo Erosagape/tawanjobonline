@@ -191,13 +191,13 @@ End Code
                         </div>
                         <div class="col-sm-7">
                             <label id="lblFormType">Type of :</label>                            
-                            <label><input type="radio" name="FormType" value="1" /> (1) ภ.ง.ด.1ก.</label>
-                            <label><input type="radio" name="FormType" value="2" /> (2) ภ.ง.ด.1ก. พิเศษ</label>
-                            <label><input type="radio" name="FormType" value="3" /> (3) ภ.ง.ด.2.</label>
-                            <label><input type="radio" name="FormType" value="4" /> (4) ภ.ง.ด.3.</label>
-                            <label><input type="radio" name="FormType" value="5" /> (5) ภ.ง.ด.2ก.</label>
-                            <label><input type="radio" name="FormType" value="6" /> (6) ภ.ง.ด.3ก.</label>
-                            <label><input type="radio" name="FormType" value="7" checked /> (7) ภ.ง.ด.53.</label>
+                            <label><input type="radio" name="FormType" value="1" onclick="GetDefault()" /> (1) ภ.ง.ด.1ก.</label>
+                            <label><input type="radio" name="FormType" value="2" onclick="GetDefault()" /> (2) ภ.ง.ด.1ก. พิเศษ</label>
+                            <label><input type="radio" name="FormType" value="3" onclick="GetDefault()" /> (3) ภ.ง.ด.2.</label>
+                            <label><input type="radio" name="FormType" value="4" onclick="GetDefault()" /> (4) ภ.ง.ด.3.</label>
+                            <label><input type="radio" name="FormType" value="5" onclick="GetDefault()" /> (5) ภ.ง.ด.2ก.</label>
+                            <label><input type="radio" name="FormType" value="6" onclick="GetDefault()" /> (6) ภ.ง.ด.3ก.</label>
+                            <label><input type="radio" name="FormType" value="7" onclick="GetDefault()" checked/> (7) ภ.ง.ด.53.</label>
                         </div>
                         <div class="col-sm-3" style="display:flex;flex-direction:column">
                             <label id="lblLawNo">Tax Code:</label>                            
@@ -352,6 +352,7 @@ End Code
                                     <option value="2">CLR</option>
                                     <option value="3">PAY</option>
                                     <option value="4">TAX</option>
+	                            <option value="5">INV</option>
                                 </select>
                             </div>
                             <div>
@@ -674,10 +675,27 @@ End Code
         $('#txtBranch3').val(dr.BranchCode);
     }
     function GetDefault() {
+	if(GetFormType()=='7') {
         $('#txtTName2').val('@ViewBag.PROFILE_COMPANY_NAME');
         $('#txtTAddress2').val('@ViewBag.PROFILE_COMPANY_ADDR1' + ' ' + '@ViewBag.PROFILE_COMPANY_ADDR2');
         $('#txtTaxNumber2').val('@ViewBag.PROFILE_TAXNUMBER');
         $('#txtBranch2').val('@ViewBag.PROFILE_TAXBRANCH');
+        $('#txtTName1').val('');
+        $('#txtTAddress1').val('');
+        $('#txtTaxNumber1').val('');
+        $('#txtBranch1').val('');
+
+ 	} else {
+        $('#txtTName1').val('@ViewBag.PROFILE_COMPANY_NAME');
+        $('#txtTAddress1').val('@ViewBag.PROFILE_COMPANY_ADDR1' + ' ' + '@ViewBag.PROFILE_COMPANY_ADDR2');
+        $('#txtTaxNumber1').val('@ViewBag.PROFILE_TAXNUMBER');
+        $('#txtBranch1').val('@ViewBag.PROFILE_TAXBRANCH');
+        $('#txtTName2').val('');
+        $('#txtTAddress2').val('');
+        $('#txtTaxNumber2').val('');
+        $('#txtBranch2').val('');
+
+	}
     }
     function ReadAdv(dr) {
         let dh = docSel.header.find(function (chk) {
@@ -890,11 +908,14 @@ End Code
         $('#txtIDCard1').val('');
         $('#txtIDCard2').val('');
         $('#txtIDCard3').val('');
+        $('#txtBranch1').val('');
+        $('#txtBranch2').val('');
+        $('#txtBranch3').val('');
         $('#txtSeqInForm').val('');
 
         $('input:radio[name=FormType]:checked').prop('checked', false);
-        $('input:radio[name=FormType][value=1]').prop('checked', true);
-
+        $('input:radio[name=FormType][value=7]').prop('checked', true);
+	GetDefault();
         $('#txtTaxLawNo').val('1');
         $('#txtPayTaxType').val('1');
         $('#txtIncRate').val('0');
@@ -914,9 +935,6 @@ End Code
         $('#txtTotalPayAmount').val('0.00');
         $('#txtTotalPayTax').val('0.00');
         $('#txtTeacherAmt').val('0.00');
-        $('#txtBranch1').val('');
-        $('#txtBranch2').val('');
-        $('#txtBranch3').val('');
 
         $('#tbDetail').DataTable().clear().draw();
     }

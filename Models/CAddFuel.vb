@@ -411,7 +411,7 @@ Public Class CAddFuel
         If pFormatSQL = "" Then
             m_DocNo = ""
         Else
-            Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(DocNo) as t FROM Job_AddFuel WHERE BranchCode='{0}' And DocNo Like '%{1}' ", m_BranchCode, pFormatSQL), pFormatSQL)
+            Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(DocNo) as t FROM Job_AddFuel WHERE DocNo Like '%{0}' ", pFormatSQL), pFormatSQL)
             m_DocNo = retStr
         End If
     End Sub

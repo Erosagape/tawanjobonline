@@ -29,11 +29,12 @@ End Code
             <select id="cboType" class="form-control dropdown">
                 <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
                 <option value="SRV">Tax-Invoice (Service only)</option>
-                <option value="REC">Receipt Advance</option>
-                @*<option value="RCV">Receipt Transport</option>*@
+                <option value="RCV">Receipt Advance</option>
                 <option value="RET">Receipt Transport</option>
                 <option value="DNR">Debit Note Receipt</option>
+                <option value="TFR">Tax-Invoice (Freight)</option>
             </select>
+
         </div>
         <div class="col-sm-2">
             <label id="lblDocDateF">Tax-Invoice Date From</label>
@@ -656,12 +657,15 @@ End Code
     }
     function PrintData() {
         let code = row.ReceiptNo;
+        console.log(row.ReceiptType);
         if (code !== '') {
             let branch = row.BranchCode;
             switch (row.ReceiptType) {
                 case "RET": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
                     break;
                 case "DNR": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                    break;
+                case "TFR": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');
                     break;
                 default: window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code);
             }
@@ -717,22 +721,22 @@ End Code
                     { data: "TRemark", title: "Remark" },
                     { data: "TotalCharge", title: "Amount",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                         }
                     },
                     { data: "TotalVAT", title: "Vat" ,
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                         }
                     },
                     { data: "Total50Tavi", title: "Wh-tax" ,
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                         }
                     },
                     { data: "TotalNet", title: "Net" ,
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                         }
                     }
                 ],
@@ -794,42 +798,42 @@ End Code
                         { data: "SDescription", title: "Expenses" },
                         { data: "CashAmount", title: "Cash" ,
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "TransferAmount", title: "Transfer" ,
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "ChequeAmount", title: "Cheque" ,
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "CreditAmount", title: "Credit" ,
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "Amt", title: "Amount" ,
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "AmtVAT", title: "VAT" ,
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "Amt50Tavi", title: "WH-Tax" ,
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "Net", title: "Total" ,
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data:"VoucherNo",title:"Voucher" }
@@ -880,11 +884,11 @@ End Code
         $('#txtCurrencyCode').val(row.CurrencyCode);
         ShowCurrency(path, row.CurrencyCode, '#txtCurrencyName');
         $('#txtExchangeRate').val(row.ExchangeRate);
-        $('#txtTotalCharge').val(ShowNumber(row.TotalCharge,2));
-        $('#txtTotalVAT').val(ShowNumber(row.TotalVAT,2));
-        $('#txtTotal50Tavi').val(ShowNumber(row.Total50Tavi,2));
-        $('#txtTotalNet').val(ShowNumber(row.TotalNet,2));
-        $('#txtFTotalNet').val(ShowNumber(row.FTotalNet,2));
+        $('#txtTotalCharge').val(ShowNumber(row.TotalCharge,4));
+        $('#txtTotalVAT').val(ShowNumber(row.TotalVAT,4));
+        $('#txtTotal50Tavi').val(ShowNumber(row.Total50Tavi,4));
+        $('#txtTotalNet').val(ShowNumber(row.TotalNet,4));
+        $('#txtFTotalNet').val(ShowNumber(row.FTotalNet,4));
         $('#txtTRemark').val(row.TRemark);
 
         $('#txtCashAmt').val(0);
@@ -1071,16 +1075,16 @@ End Code
         let vat = CNum($('#txtTotalVAT').val());
         let wht = CNum($('#txtTotal50Tavi').val());
         let net = amt + vat - wht;
-        $('#txtTotalNet').val(ShowNumber(net, 2));
+        $('#txtTotalNet').val(ShowNumber(net,4));
         CalForeign();
     }
     function CalForeign() {
-        let totalforeign = CDbl(CNum($('#txtTotalNet').val()) / CNum($('#txtExchangeRate').val()), 2);
-        $('#txtFTotalNet').val(ShowNumber(totalforeign,2));
+        let totalforeign = CDbl(CNum($('#txtTotalNet').val()) / CNum($('#txtExchangeRate').val()),4);
+        $('#txtFTotalNet').val(ShowNumber(totalforeign,4));
     }
     function CalForeignDetail() {
         let rate = CNum($('#txtDExchangeRate').val());
-        $('#txtAmt').val(CDbl(CNum($('#txtFAmt').val()) * rate, 2));
+        $('#txtAmt').val(CDbl(CNum($('#txtFAmt').val()) * rate,4));
         CalVATWHT(0);
     }
     function CalVATWHT(step = 0) {
@@ -1088,10 +1092,10 @@ End Code
         let amt = CNum($('#txtAmt').val());
         if (step == 0) {
             let vat = amt * CNum($('#txtVATRate').val()) * 0.01;
-            $('#txtAmtVAT').val(CDbl(vat,2));
+            $('#txtAmtVAT').val(CDbl(vat,4));
         }
         let wht = amt * CNum($('#txtRate50Tavi').val()) * 0.01;
-        $('#txtAmt50Tavi').val(CDbl(wht, 2));
+        $('#txtAmt50Tavi').val(CDbl(wht,4));
         CalNetAmount();
     }
 
@@ -1101,12 +1105,12 @@ End Code
         let wht = CNum($('#txtAmt50Tavi').val());
         let net = amt + vat - wht;
 
-        $('#txtNet').val(CDbl(net, 2));
+        $('#txtNet').val(CDbl(net,4));
 
         let rate = CNum($('#txtDExchangeRate').val());
-        $('#txtFAmtVAT').val(CDbl(CNum($('#txtAmtVAT').val()) / rate, 2));
-        $('#txtFAmt50Tavi').val(CDbl(CNum($('#txtAmt50Tavi').val()) / rate, 2));
-        $('#txtFNet').val(CDbl(CNum($('#txtNet').val()) / rate, 2));
+        $('#txtFAmtVAT').val(CDbl(CNum($('#txtAmtVAT').val()) / rate,4));
+        $('#txtFAmt50Tavi').val(CDbl(CNum($('#txtAmt50Tavi').val()) / rate,4));
+        $('#txtFNet').val(CDbl(CNum($('#txtNet').val()) / rate,4));
         ChangeAmount();
     }
     function CreateTaxInv() {
@@ -1117,7 +1121,7 @@ End Code
         window.open(path +'Acc/GenerateTaxInv' + w, '_blank');
     }
     function SetAmount(id) {
-        $('#txt'+id+'Amt').val(CDbl($('#txtTotalNet').val(),2));
+        $('#txt'+id+'Amt').val(CDbl($('#txtTotalNet').val(),4));
     }
     function SetRemark() {
         let str = 'CASH';

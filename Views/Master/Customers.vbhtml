@@ -10,7 +10,7 @@ End Code
             </div>
             <div class="col-sm-3">
                 <label id="lblBranch">Branch :</label>
-                <br /><input type="text" id="txtBranch" class="form-control" tabIndex="1">
+                <br /><input type="text" id="txtBranch" class="form-control" tabIndex="1" disabled="disabled">
             </div>
             <div class="col-sm-3">
                 <label id="lblCustGroup">Customer Group :</label>

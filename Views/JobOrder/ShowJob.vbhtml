@@ -55,7 +55,7 @@ End Code
                         <li id="tab1" class="active"><a data-toggle="tab" id="linkTab1" href="#tabinfo">Customers Data</a></li>
                         <li id="tab2"><a data-toggle="tab" href="#tabinv" id="linkTab2">Invoice Data</a></li>
                         <li id="tab3"><a data-toggle="tab" href="#tabdeclare" id="linkTab3">Customs Data</a></li>
-                        <li id="tab4"><a data-toggle="tab" href="#tabtracking" id="linkTab4">Operation Data</a></li>
+                        <li id="tab4"><a data-toggle="tab" href="#tabtracking" id="linkTab4">Job Instruction</a></li>
                         <li id="tab5"><a data-toggle="tab" href="#tabremark" id="linkTab5">Other Controls</a></li>
                     </ul>
                     <select id="mySelects" class="form-control" style="display:none" onchange="ChangeTab(this.value);">
@@ -175,6 +175,24 @@ End Code
                         <div class="col-sm-4">
                             <div style="display:flex;flex-direction:column">
                                 <div class="row">
+                                    <div class="col-sm-12" style="display:flex;">
+                                        <input type="button" id="btnLinkJob" value="Load From Database" class="btn btn-primary" onclick="SearchData('job')" />
+                                        <select id="cboDatabase" class="form-control dropdown">
+                                            @If ViewBag.Database = "1" Then
+                                                @<option value="2">LOGISTIC</option>
+                                            End If
+                                            @If ViewBag.Database = "2" Then
+                                                @<option value="1">MILLENIUM</option>
+                                            End If
+                                            @If ViewBag.Database = "3" Then
+                                                @<option value="1">MILLENIUM</option>
+                                                @<option value="2">LOGISTIC</option>
+                                            End If
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row">
                                     <div class="col-sm-6">
                                         <label id="lblJobCondition" for="txtJobCondition">Work Condition :</label>
                                         <input type="text" id="txtJobCondition" class="form-control" style="width:100%" tabindex="7" />
@@ -182,7 +200,6 @@ End Code
                                     <div class="col-sm-6">
                                         <label id="lblCustPoNo" for="txtCustPoNo">Customer PO :</label>
                                         <input type="text" id="txtCustPoNo" class="form-control" style="width:100%" tabindex="8" />
-                                        <input type="button" id="btnLinkJob" value="Load From Job Shipping" class="btn btn-primary" onclick="SearchData('job')" />
                                     </div>
                                 </div>
                                 <div class="row">
@@ -190,7 +207,7 @@ End Code
                                         <label id="lblQNo" for="txtQNo">Quotation : </label>
                                         <div style="display:flex;flex-direction:row">
                                             <input type="text" class="form-control" id="txtQNo" style="width:100%" tabindex="9" />
-                                            <input type="button" id="btnLinkQuo" value="..." class="btn btn-default" onclick="SearchData('quotation')" />
+                                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('quotation')" />
                                             <input type="text" class="form-control" id="txtQRevise" style="width:60px" tabindex="10" />
                                         </div>
                                     </div>
@@ -357,8 +374,8 @@ End Code
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        <a href="../Master/Customers?mode=NOTIFY_PARTY" target="_blank">
-                                            <label id="lblDeliverTo">Consignee SI :</label>
+                                        <a href="../Master/Venders" target="_blank">
+                                            <label id="lblDeliverTo">Sub Agent :</label>
                                         </a>
                                     </div>
                                     <div class="col-sm-8" style="display:flex;flex-direction:row">
@@ -477,7 +494,7 @@ End Code
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <a href="../Master/Venders" target="_blank"><label style="color:red" id="lblTransporter">Transporter:</label></a>
+                                        <a href="../Master/Venders" target="_blank"><label style="color:red" id="lblTransport">Transporter:</label></a>
                                         <div style="display:flex;flex-direction:row">
 
                                             <input type="text" id="txtTransporter" class="form-control" style="width:130px" tabindex="40" />
@@ -494,10 +511,14 @@ End Code
                                         <label id="lblETADate" for="txtETADate" style="color:red">ETA Date:</label><input type="date" style="width:100%" class="form-control" id="txtETADate" tabindex="42" />
                                     </div>
                                     <div class="col-sm-3">
-                                        <label id="lblLoadDate" for="txtLoadDate" style="color:red">Load Date:</label><input type="date" style="width:100%" class="form-control" id="txtLoadDate" tabindex="43" />
+                                        <label id="lblLoadDate" for="txtLoadDate" style="color:red">SI Date:</label><input type="date" style="width:100%" class="form-control" id="txtLoadDate" tabindex="43" />
+                                        <br />
+                                        <input type="time" class="form-control" id="txtDeliveryTime" />
                                     </div>
                                     <div class="col-sm-3">
-                                        <label id="lblDeliveryDate" for="txtDeliveryDate" style="color:red">Unload Date :</label><input type="date" style="width:100%" class="form-control" id="txtDeliveryDate" tabindex="44" />
+                                        <label id="lblDeliveryDate" for="txtDeliveryDate" style="color:red">Closing Date :</label><input type="date" style="width:100%" class="form-control" id="txtDeliveryDate" tabindex="44" />
+                                        <br />
+                                        <input type="time" class="form-control" id="txtConfirmChqDate" />
                                     </div>
                                 </div>
                             </div>
@@ -507,7 +528,7 @@ End Code
                 <div id="tabdeclare" class="tab-pane fade">
                     <div class="row">
                         <div class="col-sm-3">
-                            <label id="lblEDIDate" for="txtEDIDate">EDI Date :</label>
+                            <label id="lblEDIDate" for="txtEDIDate">VGM Date :</label>
                             <input type="date" id="txtEDIDate" class="form-control" style="width:100%" tabindex="45" />
                         </div>
                         <div class="col-sm-3">
@@ -637,7 +658,7 @@ End Code
                                     <select id="cboDBType" class="form-control dropdown">
                                         <option value="JANDT" selected>TAWAN</option>
                                         <option value="ECS">ECS</option>
-					<option value="ETRANSIT">ETRANSIT(ทดสอบระบบ)</option>
+                                        @*<option value="ETRANSIT">ETRANSIT(ทดสอบระบบ)</option>*@
                                     </select>
                                 </div>
                             </div>
@@ -654,6 +675,7 @@ End Code
                     <select id="cboDocType" class="dropdown" onclick="ShowTracking($('#txtBranchCode').val(), $('#txtJNo').val());">
                         <option value="">All</option>
                         <option value="ADV">Advance</option>
+                        <option value="PAY">Payment Bill</option>
                         <option value="CLR">Clearing</option>
                         <option value="CHQ">Cheque</option>
                         <option value="INV">Invoice</option>
@@ -671,13 +693,7 @@ End Code
                                     Type
                                 </th>
                                 <th class="all">
-                                    Container
-                                </th>
-                                <th class="all">
                                     Document No
-                                </th>
-                                <th class="desktop">
-                                    Item
                                 </th>
                                 <th class="desktop">
                                     Expenses
@@ -920,7 +936,7 @@ End Code
     }
     SetEnterToTab();
     if (userPosition == '4' || userPosition == '5') {
-        $('#tab4').hide();
+        //$('#tab4').hide();
         $('#btnLinkCost').hide();
     } else {
         if (userGroup == 'C') {
@@ -1061,7 +1077,7 @@ End Code
             //Weights Unit
             CreateLOV(dv, '#frmSearchWUnt', '#tbWUnt', 'Weight Unit', response, 2);
             //Quotation
-            CreateLOV(dv, '#frmSearchQuo', '#tbQuo', 'Quotations', response, 3);
+            CreateLOV(dv,'#frmSearchQuo','#tbQuo','Quotation',response,3)
         });
         //load list of values
         let lists = 'CUSTOMS_PRIVILEGE=#cboTyAuthorSp';
@@ -1149,7 +1165,7 @@ End Code
         $('#txtConsignee').focus();
     }
     function ReadNotify(dt) {
-        $('#txtDeliverTo').val(dt.NameEng);
+        $('#txtDeliverTo').val(dt.English);
         $('#txtDeliverAddr').val(dt.EAddress1 + dt.EAddress2);
     }
     function ReadInvProduct(dt) {
@@ -1215,7 +1231,8 @@ End Code
                 SetGridCompanyByGroup(path, '#tbCons','CONSIGNEE', '#frmSearchCons', ReadConsignee);
                 break;
             case 'NOTIFY':
-                SetGridCompanyByGroup(path, '#tbNotify', 'NOTIFY_PARTY', '#frmSearchNotify', ReadNotify);
+                //SetGridCompanyByGroup(path, '#tbNotify', 'NOTIFY_PARTY', '#frmSearchNotify', ReadNotify);
+                SetGridVenderWithTax(path, '#tbNotify', '#frmSearchNotify', ReadNotify);
                 break;
             case 'ProjectName':
                 SetGridProjectName(path, '#tbProj', '#frmSearchProj', ReadProjectName);
@@ -1227,17 +1244,8 @@ End Code
                 SetContainerEdit();
                 break;
             case 'job':
-                let dbID = '@ViewBag.DATABASE';
-                switch (dbID) {
-                    case '1':
-                        dbID = '3';
-                        break;
-                    case '2':
-                        dbID = '1';
-                        break;
-                    case '3':                        
-                        break;
-                }
+                //let dbID = ('@ViewBag.DATABASE' == '1'&&'@ViewBag.DATABASE' == '3' ? '2' : '1');
+                let dbID = $('#cboDatabase').val();
                 let invNo = $('#txtCustInvNo').val();
                 let w = '?DBID=' + dbID;
                 if (invNo !== '') w += '&InvNo=' + invNo;
@@ -1253,11 +1261,38 @@ End Code
                 });
                 break;
             case 'quotation':
-                let branch = $('#txtBranchCode').val();
-                let cust = $('#txtCustCode').val();
-                let jtype = rec.JobType;
-                let sby = rec.ShipBy;
-                SetGridQuotationDesc(path, '#tbQuo', '?branch=' + branch + '&cust=' + cust + '&jtype=' + jtype + '&sby=' + sby + '&status=1', '#frmSearchQuo', ReadQuo);
+                let t = '?JType=' + rec.JobType + '&SBy=' + rec.ShipBy +'&Cust=' + $('#txtCustCode').val();
+                //popup for search data
+                $('#tbQuo').DataTable({
+                    ajax: {
+                        url: path + 'JobOrder/GetQuotationGrid' + t, //web service ที่จะ call ไปดึงข้อมูลมา
+                        dataSrc: 'quotation.data'
+                    },
+                    selected: true, //ให้สามารถเลือกแถวได้
+                    columns: [ //กำหนด property ของ header column
+                        { data: null, title: "#" },
+                        { data: "QNo", title: "Quotation No" },
+                        { data: "ApproveBy", title: "ApproveBy" },
+                        { data: "ApproveDate", title: "ApproveDate" }
+                    ],
+                    "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+                        {
+                            "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                            "data": null,
+                            "render": function (data, type, full, meta) {
+                                let html = "<button class='btn btn-warning'>Select</button>";
+                                return html;
+                            }
+                        }
+                    ],
+                    destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                });
+                BindEvent('#tbQuo', '#frmSearchQuo', function (dr) {
+                    $('#txtQNo').val(dr.QNo);
+                    $('#txtConfirmDate').val(CDateEN(dr.ApproveDate));
+                    rec.ManagerCode = dr.ApproveBy;
+                    ShowUser(path, dr.ApproveBy, '#txtManagerName');
+                });
                 break;
         }
     }
@@ -1334,13 +1369,6 @@ End Code
         ShowLog(Branch, Job);
         ShowTracking(Branch, Job);
     }
-    function ReadQuo(dt) {
-        $('#txtQNo').val(dt.QNo);
-        $('#txtQRevise').val(dt.SeqNo);
-        rec.ManagerCode = dt.ManagerCode;
-        //$('#txtContactPerson').val(dt.ContactName);
-
-    }
     function ReadJob(dr) {
         $('#txtQNo').val(dr.QNo);
         $('#txtQRevise').val(dr.Revise);
@@ -1390,6 +1418,8 @@ End Code
         $('#txtETADate').val(CDateEN(dr.ETADate));
         $('#txtLoadDate').val(CDateEN(dr.LoadDate));
         $('#txtDeliveryDate').val(CDateEN(dr.EstDeliverDate));
+        $('#txtDeliveryTime').val(ShowTime(dr.EstDeliverTime));
+        $('#txtConfirmChqDate').val(ShowTime(dr.ConfirmChqDate));
         $('#txtEDIDate').val(CDateEN(dr.ImExDate));
         $('#txtReadyClearDate').val(CDateEN(dr.ReadyToClearDate));
         $('#txtDutyDate').val(CDateEN(dr.DutyDate));
@@ -1448,7 +1478,6 @@ End Code
                             }
                         },
                         { data: "DocType", title: "Type" },
-                        { data: "Container", title: "Container" },
                         {
                             data: null, title: "Doc No",
                             render: function (data) {
@@ -1477,7 +1506,6 @@ End Code
                                 }
                             }
                         },
-                        { data: "ItemNo", title: "Seq" },
                         { data: "Expense", title: "Description" },
                         {
                             data: "Amount", title: "Amount",
@@ -1612,6 +1640,8 @@ End Code
         dr.ETADate = CDateEN($('#txtETADate').val());
         dr.LoadDate = CDateEN($('#txtLoadDate').val());
         dr.EstDeliverDate = CDateEN($('#txtDeliveryDate').val());
+        dr.EstDeliverTime = $('#txtDeliveryTime').val();
+        dr.ConfirmChqDate = $('#txtConfirmChqDate').val();
         dr.ImExDate = CDateEN($('#txtEDIDate').val());
         dr.ReadyToClearDate = CDateEN($('#txtReadyClearDate').val());
         dr.DutyDate = CDateEN($('#txtDutyDate').val());
@@ -1717,7 +1747,6 @@ End Code
             SaveData();
             return;
         } else {
-            if (user == rec.CloseJobBy) {
                 if (rec.JobStatus >= 3) {
                     rec.JobStatus = 0;
                     rec.CloseJobBy = null;
@@ -1732,7 +1761,6 @@ End Code
                     });
                     return;
                 }
-            }
         }
         ShowMessage('This job has been closed');
     }
@@ -1907,8 +1935,8 @@ End Code
                     LoadPaperlessECSExport();
                 }
                 break;
-	     case 'ETRANSIT':
-               	LoadPaperlessETRANSIT();
+            case 'ETRANSIT':
+                LoadPaperlessETRANSIT();
                 break;
         }
     }
@@ -1936,7 +1964,7 @@ End Code
                 $('#txtInvUnit').val(r[0].TotalPackageUnit);
 
                 if (r[0].RecDate !== null) $('#txtEDIDate').val(CDateEN(r[0].RecDate));
-                if(r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));
+                if (r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));
                 if (r[0].UDateRelease !== null) $('#txtDutyDate').val(CDateEN(r[0].UDateRelease));
                 if (r[0].UDateActual !== null) $('#txtClearDate').val(CDateEN(r[0].UDateActual));
 
@@ -1987,6 +2015,7 @@ End Code
         $.get(path + 'JobOrder/GetPaperless'+ url).done(function (r) {
             if (r.length > 0) {
                 $('#txtDeclareNo').val(r[0].DECLNO);
+                $('#txtDeclareType').val(r[0].DOCTYPEOLD.split('-')[0]);
                 $('#txtCustInvNo').val(r[0].invoiceno);
                 if (rec.JobType == 1) {
                     $('#txtInvFCountry').val(r[0].consignmentCTY);
@@ -1994,6 +2023,8 @@ End Code
                     if(r[0].VSLDTE!==null) $('#txtETADate').val(ReverseDate(r[0].VSLDTE));
                     $('#txtInvTotal').val(r[0].BAHTVAL);
                     $('#txtDutyAmt').val(r[0].ALLDUTY);
+		    $('#txtComOthersPayBy').val(r[0].PaymentNo);
+                    $('#txtComPaidEPay').val(r[0].ALLDUTY);
                     $('#txtVesselName').val(r[0].VSLNME + (r[0].voy !== '' ? ' V.' + r[0].voy : ''));
                 } else {
                     $('#txtInvCountry').val(r[0].DestinationCTY);
@@ -2004,7 +2035,7 @@ End Code
                     if(r[0].LOADEDTIME!==null) $('#txtClearDate').val(r[0].LOADEDTIME.substring(0, 10));
                     $('#txtVesselName').val(r[0].VSLNME + (r[0].VOY!==''? ' V.'+ r[0].VOY:''));
                 }
-                $('#txtReleasePort').val(r[0].ReleasedPort);
+                $('#txtReleasePort').val(r[0].ReleasePort);
                 $('#txtPortNo').val(r[0].LoadedPort);
                 $('#txtHAWB').val(r[0].HBL);
                 $('#txtMAWB').val(r[0].MBL);
@@ -2015,7 +2046,7 @@ End Code
                 $('#txtInvUnit').val(r[0].PCKUNT);
                 $('#txtInvCurrency').val(r[0].CUCVAL);
                 $('#txtInvCurRate').val(r[0].EHRVAL);
-                if(r[0].DECLDATECAL !==null) $('#txtEDIDate').val(ReverseDate(r[0].DECLDATECAL));
+                if(r[0].DECLDATECAL !==null) $('#txtReadyClearDate').val(ReverseDate(r[0].DECLDATECAL));
                 if(r[0].DECLDATE !==null) $('#txtDutyDate').val(ReverseDate(r[0].DECLDATE));
 
                 ShowMessage('Update Complete');
@@ -2029,18 +2060,17 @@ End Code
         $.get(path + 'JobOrder/GetPaperless2' + url).done(function (r) {
             if (r.length > 0) {
                 $('#txtDeclareNo').val(r[0].DECLNO);
-                //$('#txtDeclareType').val(r[0].DOCTYPEOLD.split('-')[0]);
+                $('#txtDeclareType').val(r[0].DOCTYPEOLD.split('-')[0]);
                 $('#txtCustInvNo').val(r[0].invoiceno);
-      		let d = new Date(r[0].fImp_ArrivalDate);
-		d.setHours(12);
-		let dateStr = d.toISOString().split('T')[0];
-      		$('#txtEDIDate').val(dateStr);
-                $('#txtReadyClearDate').val(dateStr);
-                $('#txtClearDate').val(dateStr);
+                let d = new Date(r[0].fImp_ArrivalDate);
+                console.log(d);
+                $('#txtEDIDate').val(r[0].fImp_ArrivalDate);
+                $('#txtReadyClearDate').val(r[0].fImp_ArrivalDate);
+                $('#txtClearDate').val(r[0].fImp_ArrivalDate);
                 if (rec.JobType == 1) {
                     $('#txtInvFCountry').val(r[0].consignmentCTY);
                     $('#txtInvCountry').val(r[0].OriginCTY);
-                    //if (r[0].VSLDTE !== null) $('#txtETADate').val(ReverseDate(r[0].VSLDTE));
+                    if (r[0].VSLDTE !== null) $('#txtETADate').val(ReverseDate(r[0].VSLDTE));
                     $('#txtInvTotal').val(r[0].BAHTVAL);
                     $('#txtDutyAmt').val(r[0].ALLDUTY);
                     $('#txtComOthersPayBy').val(r[0].PaymentNo);
@@ -2066,8 +2096,8 @@ End Code
                 $('#txtInvUnit').val(r[0].PCKUNT);
                 $('#txtInvCurrency').val(r[0].CUCVAL);
                 $('#txtInvCurRate').val(r[0].EHRVAL);
-                //if (r[0].DECLDATECAL !== null) $('#txtReadyClearDate').val(ReverseDate(r[0].DECLDATECAL));
-                //if (r[0].DECLDATE !== null) $('#txtDutyDate').val(ReverseDate(r[0].DECLDATE));
+                if (r[0].DECLDATECAL !== null) $('#txtReadyClearDate').val(ReverseDate(r[0].DECLDATECAL));
+                if (r[0].DECLDATE !== null) $('#txtDutyDate').val(ReverseDate(r[0].DECLDATE));
                 $('#txtClearTaxReson').val(r[0].fReferenceNumber);
                 $('#txtInvCurrency').val(r[0].CurrencyCode);
                 $('#txtInvProduct').val(r[0].ProductEName);

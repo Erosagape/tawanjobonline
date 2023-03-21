@@ -314,6 +314,7 @@ Namespace Controllers
                     oHead(0).CancelBy = ""
                     oHead(0).CancelDate = DateTime.MinValue
                     oHead(0).CancelReason = ""
+                    oHead(0).ExpireDate = DateTime.MinValue
                     oHead(0).ReferQNo = Request.QueryString("Code").ToString
                     Dim fmt As String = GetValueConfig("RUNNING", "QUO")
                     If fmt <> "" Then
@@ -369,6 +370,9 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlW &= " AND Job_QuotationHeader.BranchCode='" & Request.QueryString("Branch").ToString & "'"
                 End If
+                If Not IsNothing(Request.QueryString("QNo")) Then
+                    tSqlW &= " AND Job_QuotationHeader.QNo='" & Request.QueryString("QNo").ToString & "'"
+                End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     tSqlW &= " AND Job_QuotationHeader.DocStatus='" & Request.QueryString("Status").ToString & "'"
                 End If
@@ -377,6 +381,13 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlW &= " AND Job_QuotationItem.SICode='" & Request.QueryString("Code").ToString & "'"
+                End If
+                If Not IsNothing(Request.QueryString("Expire")) Then
+                    If Request.QueryString("Expire") = "Y" Then
+                        tSqlW &= " AND (Job_QuotationHeader.ExpireDate is not null) "
+                    Else
+                        tSqlW &= " AND (Job_QuotationHeader.ExpireDate is null) "
+                    End If
                 End If
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectQuotation() & " WHERE NOT ISNULL(Job_QuotationHeader.CancelBy,'')<>'' " & tSqlW & " ORDER BY Job_QuotationHeader.BranchCode,Job_QuotationHeader.QNo,Job_QuotationHeader.ApproveDate DESC,Job_QuotationItem.SICode,Job_QuotationItem.QtyBegin")
                 Dim json As String = JsonConvert.SerializeObject(oData)
@@ -418,6 +429,13 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("DateTo")) Then
                     tSqlw &= " AND DocDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                End If
+                If Not IsNothing(Request.QueryString("Expire")) Then
+                    If Request.QueryString("Expire") = "Y" Then
+                        tSqlw &= " AND (ExpireDate is not null) "
+                    Else
+                        tSqlw &= " AND (ExpireDate is null) "
+                    End If
                 End If
                 Dim oDataH = New CQuoHeader(GetSession("ConnJob")).GetData(tSqlw)
                 Dim jsonH As String = JsonConvert.SerializeObject(oDataH)
@@ -824,11 +842,15 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("Vend")) Then
                     tSqlH &= String.Format(" AND VenderCode='{0}' ", Request.QueryString("Vend").ToString)
                 End If
+                Dim useDate As String = "LoadDate"
+                If Not IsNothing(Request.QueryString("UseDate")) Then
+                    useDate = Request.QueryString("UseDate").ToString()
+                End If
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
-                    tSqlH &= " AND LoadDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                    tSqlH &= " AND " & useDate & ">='" & Request.QueryString("DateFrom") & " 00:00:00'"
                 End If
                 If Not IsNothing(Request.QueryString("DateTo")) Then
-                    tSqlH &= " AND LoadDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                    tSqlH &= " AND " & useDate & "<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
                 tSqlH &= ")"
                 'Dim oData = New CTransportDetail(GetSession("ConnJob")).GetData(tSqlw & tSqlH)
@@ -922,11 +944,15 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("Vend")) Then
                     tSqlw &= String.Format(" AND Job_LoadInfo.VenderCode='{0}' ", Request.QueryString("Vend").ToString)
                 End If
+                Dim useDate As String = "Job_Order.DocDate"
+                If Not IsNothing(Request.QueryString("UseDate")) Then
+                    useDate = Request.QueryString("UseDate").ToString()
+                End If
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
-                    tSqlw &= " AND Job_Order.DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                    tSqlw &= " AND " & useDate & ">='" & Request.QueryString("DateFrom") & " 00:00:00'"
                 End If
                 If Not IsNothing(Request.QueryString("DateTo")) Then
-                    tSqlw &= " AND Job_Order.DocDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                    tSqlw &= " AND " & useDate & "<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
 
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectTracking(tSqlw))
@@ -1018,11 +1044,15 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("Cont")) Then
                     tSqlw &= String.Format(" AND Job_LoadinfoDetail.CTN_NO='{0}' ", Request.QueryString("Cont").ToString)
                 End If
+                Dim useDate As String = "Job_LoadInfo.LoadDate"
+                If Not IsNothing(Request.QueryString("UseDate")) Then
+                    useDate = Request.QueryString("UseDate").ToString()
+                End If
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
-                    tSqlw &= " AND Job_LoadInfo.LoadDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                    tSqlw &= " AND " & useDate & ">='" & Request.QueryString("DateFrom") & " 00:00:00'"
                 End If
                 If Not IsNothing(Request.QueryString("DateTo")) Then
-                    tSqlw &= " AND Job_LoadInfo.LoadDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                    tSqlw &= " AND " & useDate & "<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
 
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectTransport(tSqlw))
@@ -1180,6 +1210,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("InvNo")) Then
                     tSqlW &= " AND j.InvNo Like '%" & Request.QueryString("InvNo") & "%'"
                 End If
+                If Not IsNothing(Request.QueryString("QNo")) Then
+                    tSqlW &= " AND j.QNo Like '%" & Request.QueryString("QNo") & "%'"
+                End If
                 If Not IsNothing(Request.QueryString("BookingNo")) Then
                     tSqlW &= " AND j.BookingNo Like '%" & Request.QueryString("BookingNo") & "%'"
                 End If
@@ -1271,6 +1304,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 End If
                 If Not IsNothing(Request.QueryString("InvNo")) Then
                     tSqlW &= " AND InvNo='" & Request.QueryString("InvNo") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("QNo")) Then
+                    tSqlW &= " AND QNo Like '%" & Request.QueryString("QNo") & "%'"
                 End If
                 If Not IsNothing(Request.QueryString("JType")) Then
                     tSqlW &= " AND JobType=" & Request.QueryString("JType") & ""
@@ -1730,7 +1766,12 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                             data.AddNew(prefix & fmt, False)
                         End If
                     End If
-                    Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
+
+                    '***Change Concept duplicate checking with JobType/ShipBy/Customer per commercial invoice No
+                    'Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
+
+                    '***Change Concept duplicate checking with JobType/ShipBy/Customer per commercial invoice No
+                    Dim sql As String = String.Format(" WHERE BranchCode='{1}' AND JobType={3} AND ShipBy={4} And InvNo='{2}' AND CustCode='{0}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo, data.JobType, data.ShipBy)
                     Dim FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
                     If FindJob.Count > 0 Then
                         If FindJob(0).JNo <> data.JNo Then
@@ -1802,6 +1843,109 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             Dim json3 = SQLDashboard3("")
             Return Content("{""result"":[{""data1"":""" & json1 & """,""data2"":""" & json2 & """,""data3"":""" & json3 & """}]}", jsonContent)
         End Function
+        Function GetDashboardCost() As ActionResult
+            Dim tsqlTotal = "
+select j.JobType,t.JobTypeName,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then c.UsedAmount else 0 end) as SumNormalCost,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then 0 else c.UsedAmount end) as SumAdditionCost
+from Job_Order j
+inner join Job_ClearDetail c
+on j.BranchCode=c.BranchCode 
+and j.JNo=c.JobNo
+inner join Job_ClearHeader h
+on c.BranchCode=h.BranchCode 
+and c.ClrNo=h.ClrNo 
+inner join (select ConfigKey as JobType,ConfigValue as JobTypeName 
+from Mas_Config where configCode='JOB_TYPE'
+) t
+on j.JobType=t.JobType
+where h.DocStatus<>99 {0}
+group by j.JobType,t.JobTypeName
+order by 1
+"
+            If GetValueConfig("SQL", "SelectDashboardCostSummary") <> "" Then
+                tsqlTotal = GetValueConfig("SQL", "SelectDashboardCostSummary")
+            End If
+            Dim onDate As String = "j.DocDate"
+            If Not Request.QueryString("DateWhere") Is Nothing Then
+                onDate = Request.QueryString("DateWhere")
+            End If
+            Dim tsqlW As String = ""
+            If Not Request.QueryString("Branch") Is Nothing Then
+                tsqlW &= String.Format(" AND j.BranchCode='{0}'", Request.QueryString("Branch"))
+            End If
+            If Not Request.QueryString("Year") Is Nothing Then
+                tsqlW &= String.Format(" AND Year(" & onDate & ")={0}", Request.QueryString("Year"))
+            End If
+            If Not Request.QueryString("Month") Is Nothing Then
+                tsqlW &= String.Format(" AND Month(" & onDate & ")={0}", Request.QueryString("Month"))
+            End If
+            If Not Request.QueryString("Cust") Is Nothing Then
+                tsqlW &= String.Format(" AND j.CustCode='{0}'", Request.QueryString("Cust"))
+            End If
+            If Not Request.QueryString("Vend") Is Nothing Then
+                tsqlW &= String.Format(" AND j.ForwarderCode='{0}'", Request.QueryString("Vend"))
+            End If
+            If Not Request.QueryString("Mode") Is Nothing Then
+                If Request.QueryString("Mode").ToString() = "E" Then
+                    tsqlW &= " AND c.SICode in(select SICode from Job_SrvSingle where IsExpense=1 OR IsCredit=1)"
+                End If
+                If Request.QueryString("Mode").ToString() = "C" Then
+                    tsqlW &= " AND c.SICode not in(select SICode from Job_SrvSingle where IsExpense=0)"
+                End If
+                If Request.QueryString("Mode").ToString() = "A" Then
+                    tsqlW &= " AND c.SICode in(select SICode from Job_SrvSingle where IsCredit=1 AND IsExpense=0)"
+                End If
+                If Request.QueryString("Mode").ToString() = "S" Then
+                    tsqlW &= " AND c.SICode in(select SICode from Job_SrvSingle where IsCredit=0 AND IsExpense=0)"
+                End If
+            End If
+            Dim oTotal = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(tsqlTotal, tsqlW))
+            Dim jsChart = "[[""Type"",""Normal"",""Addition""],[""ALL"",0,0]]"
+            If oTotal.Rows.Count > 0 Then
+                jsChart = "[[""Type"",""Normal"",""Addition""]{0}]"
+                Dim str = ""
+                For Each dr As DataRow In oTotal.Rows
+                    str &= ",["
+                    str &= """" & dr("JobTypeName").ToString() & ""","
+                    str &= dr("SumNormalCost").ToString() & ","
+                    str &= dr("SumAdditionCost").ToString() & ""
+                    str &= "]"
+                Next
+                jsChart = String.Format(jsChart, str)
+            End If
+            Dim jsTotal = JsonConvert.SerializeObject(oTotal)
+            Dim tsqlDetail = "
+select j.DocDate,j.DutyDate,j.JNo,t.JobTypeName,s.ShipByName,
+j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalContainer,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then c.UsedAmount else 0 end) as SumNormalCost,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then 0 else c.UsedAmount end) as SumAdditionCost
+from Job_Order j
+inner join Job_ClearDetail c
+on j.BranchCode=c.BranchCode 
+and j.JNo=c.JobNo
+inner join Job_ClearHeader h
+on c.BranchCode=h.BranchCode 
+and c.ClrNo=h.ClrNo 
+inner join (select ConfigKey as JobType,ConfigValue as JobTypeName 
+from Mas_Config where configCode='JOB_TYPE'
+) t
+on j.JobType=t.JobType
+inner join (select ConfigKey as ShipBy,ConfigValue as ShipByName 
+from Mas_Config where configCode='SHIP_BY'
+) s
+on j.ShipBy=s.ShipBy
+where h.DocStatus<>99 {0}
+group by j.DocDate,j.DutyDate,j.Jno,t.JobTypeName,s.ShipByName,
+j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalContainer
+"
+            If GetValueConfig("SQL", "SelectDashboardCostDetail") <> "" Then
+                tsqlDetail = GetValueConfig("SQL", "SelectDashboardCostDetail")
+            End If
+            Dim oDetail = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(tsqlDetail, tsqlW))
+            Dim jsDetail = JsonConvert.SerializeObject(oDetail)
+            Return Content("{""data"":{""summary"":" & jsTotal & ",""detail"":" & jsDetail & ",""chart"":" & jsChart & ",""where"":""" & tsqlW & """}}", jsonContent)
+        End Function
         Function GetTimelineReport() As ActionResult
             Try
                 Dim tSqlw As String = ""
@@ -1826,12 +1970,6 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("Vend")) Then
                     tSqlw &= String.Format(" AND ForwarderCode='{0}' ", Request.QueryString("Vend").ToString)
                 End If
-                If Not IsNothing(Request.QueryString("DateFrom")) Then
-                    tSqlw &= " AND DutyDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
-                End If
-                If Not IsNothing(Request.QueryString("DateTo")) Then
-                    tSqlw &= " AND DutyDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
-                End If
                 Dim onDate As Date = DateTime.Today
                 If Not IsNothing(Request.QueryString("OnDate")) Then
                     onDate = Convert.ToDateTime(Request.QueryString("OnDate").ToString())
@@ -1839,6 +1977,12 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 Dim useDate As String = "DutyDate"
                 If Not IsNothing(Request.QueryString("UseDate")) Then
                     useDate = Request.QueryString("UseDate").ToString()
+                End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlw &= " AND " & useDate & ">='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlw &= " AND " & useDate & "<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
                 Dim totDays As Integer = 3
                 If Not IsNothing(Request.QueryString("Days")) Then
@@ -1905,11 +2049,16 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("Vend")) Then
                     tSqlw &= String.Format(" AND Job_LoadInfo.VenderCode='{0}' ", Request.QueryString("Vend").ToString)
                 End If
-                If Not IsNothing(Request.QueryString("DateFrom")) Then
-                    tSqlw &= " AND Job_Order.DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                Dim useDate As String = "Job_Order.DocDate"
+                If Not IsNothing(Request.QueryString("UseDate")) Then
+                    useDate = Request.QueryString("UseDate").ToString()
                 End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlw &= " AND " & useDate & ">='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                
                 If Not IsNothing(Request.QueryString("DateTo")) Then
-                    tSqlw &= " AND Job_Order.DocDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                    tSqlw &= " AND " & useDate & "<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
 
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectTrackingCount(tSqlw))
@@ -1961,23 +2110,27 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 Dim msg As String = New CUtil(GetSession("ConnJob")).ExecuteSQL(SQLUpdateJobStatus(""), False)
                 Dim tSqlw1 As String = ""
                 Dim bCheck As Boolean = False
+                Dim onDate As String = "j.DocDate"
+                If Request.QueryString("OnDate") IsNot Nothing Then
+                    onDate = Request.QueryString("OnDate").ToString()
+                End If
                 If Request.QueryString("Period") IsNot Nothing Then
                     bCheck = True
                     Dim yy = Request.QueryString("Period").ToString().Split("/")(1)
                     Dim mm = Convert.ToInt16(Request.QueryString("Period").ToString().Split("/")(0))
-                    tSqlw1 = " WHERE Year(j.DocDate)=" & yy & " AND Month(j.DocDate)=" & mm & " "
+                    tSqlw1 = " WHERE Year(" & onDate & ")=" & yy & " AND Month(" & onDate & ")=" & mm & " "
                 Else
                     If Request.QueryString("DateFrom") IsNot Nothing Then
                         If Request.QueryString("DateFrom").ToString() <> "" Then
                             bCheck = True
-                            tSqlw1 = " WHERE j.DutyDate>=Convert(datetime,'" & Request.QueryString("DateFrom").ToString() & " 00:00:00',102) "
+                            tSqlw1 = " WHERE " & onDate & ">=Convert(datetime,'" & Request.QueryString("DateFrom").ToString() & " 00:00:00',102) "
                         End If
                     End If
                     If Request.QueryString("DateTo") IsNot Nothing Then
                         If Request.QueryString("DateTo").ToString() <> "" Then
                             bCheck = True
                             If tSqlw1 <> "" Then tSqlw1 &= " AND " Else tSqlw1 = " WHERE "
-                            tSqlw1 &= " j.DutyDate<=Convert(datetime,'" & Request.QueryString("DateTo").ToString() & " 23:59:59',102) "
+                            tSqlw1 &= " " & onDate & "<=Convert(datetime,'" & Request.QueryString("DateTo").ToString() & " 23:59:59',102) "
                         End If
                     End If
                 End If
@@ -2108,23 +2261,27 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 Dim msg As String = New CUtil(GetSession("ConnJob")).ExecuteSQL(SQLUpdateJobStatus(""), False)
                 Dim tSqlw1 As String = ""
                 Dim bCheck As Boolean = False
+                Dim onDate As String = "j.DocDate"
+                If Request.QueryString("OnDate") IsNot Nothing Then
+                    onDate = Request.QueryString("OnDate").ToString()
+                End If
                 If Request.QueryString("Period") IsNot Nothing Then
                     bCheck = True
                     Dim yy = Request.QueryString("Period").ToString().Split("/")(1)
                     Dim mm = Convert.ToInt16(Request.QueryString("Period").ToString().Split("/")(0))
-                    tSqlw1 = " WHERE Year(j.DocDate)=" & yy & " AND Month(j.DocDate)=" & mm & " "
+                    tSqlw1 = " WHERE Year(" & onDate & ")=" & yy & " AND Month(" & onDate & ")=" & mm & " "
                 Else
                     If Request.QueryString("DateFrom") IsNot Nothing Then
                         If Request.QueryString("DateFrom").ToString() <> "" Then
                             bCheck = True
-                            tSqlw1 = " WHERE j.DutyDate>=Convert(datetime,'" & Request.QueryString("DateFrom").ToString() & " 00:00:00',102) "
+                            tSqlw1 = " WHERE " & onDate & ">=Convert(datetime,'" & Request.QueryString("DateFrom").ToString() & " 00:00:00',102) "
                         End If
                     End If
                     If Request.QueryString("DateTo") IsNot Nothing Then
                         If Request.QueryString("DateTo").ToString() <> "" Then
                             bCheck = True
                             If tSqlw1 <> "" Then tSqlw1 &= " AND " Else tSqlw1 = " WHERE "
-                            tSqlw1 &= " j.DutyDate<=Convert(datetime,'" & Request.QueryString("DateTo").ToString() & " 23:59:59',102) "
+                            tSqlw1 &= " " & onDate & "<=Convert(datetime,'" & Request.QueryString("DateTo").ToString() & " 23:59:59',102) "
                         End If
                     End If
                 End If
@@ -2488,6 +2645,40 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 Return Content("[]", jsonContent)
             End Try
         End Function
+        Function TestPaperless() As ActionResult
+            Dim msg As String = ""
+            Try
+                Dim listPaperless = Main.GetValueConfig("PAPERLESS", "DBLINK")
+                Dim hostPaperless = Main.GetValueConfig("PAPERLESS", "DBHOST")
+                Dim dbPaperless = Main.GetValueConfig("PAPERLESS", "DBTYPE")
+                Dim type As Integer = 0
+                If Request.QueryString("type") IsNot Nothing Then
+                    type = Convert.ToInt16(Request.QueryString("type").ToString()) - 1
+                End If
+                If dbPaperless = "ECS" Then
+                    Dim connStr = hostPaperless & ";Initial Catalog=" & listPaperless.Split(",")(Type)
+                    Dim dt As New DataTable
+                    Using cn As SqlClient.SqlConnection = New SqlClient.SqlConnection(connStr)
+                        cn.Open()
+                        msg = "Connect ECS OK"
+                        cn.Close()
+                    End Using
+                    Return Content(msg, textContent)
+                Else
+                    Dim connStr = hostPaperless & ";database=" & listPaperless.Split(",")(Type)
+                    Dim dt As New DataTable
+                    Using cn As MySqlConnection = New MySqlConnection(connStr)
+                        cn.Open()
+                        msg = "Connect TAWAN OK"
+                        cn.Close()
+                    End Using
+                    Return Content(msg, textContent)
+                End If
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "TestPaperless", ex.Message, ex.StackTrace, True)
+                Return Content(ex.Message, textContent)
+            End Try
+        End Function
         Function GetPaperless() As ActionResult
             Try
                 Dim listPaperless = Main.GetValueConfig("PAPERLESS", "DBLINK")
@@ -2784,6 +2975,10 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
         End Function
         <HttpPost()>
         Function PostCreateTransport() As ActionResult
+            Dim fldJobType = Request.Form("fieldJobType")
+            If IsNothing(Request.Form("fieldJobType")) Then
+                fldJobType = "JobType"
+            End If
             Dim data = New CJobOrder(GetSession("ConnJob")) With
                 {
                 .BranchCode = Request.Form("Branch"),
@@ -2817,17 +3012,81 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 .ClearPortNo = Request.Form("PlaceDischarge"),
                 .QNo = Request.Form("QuoNo"),
                 .InvInterPort = Request.Form("PortCode"),
-                .InvFCountry = IIf(Convert.ToInt32(Request.Form("JobType").ToString()) = 1, Request.Form("Country"), "TH"),
-                .InvCountry = IIf(Convert.ToInt32(Request.Form("JobType").ToString()) = 1, "TH", Request.Form("Country"))
+                .InvFCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, Request.Form("Country"), "TH"),
+                .InvCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, "TH", Request.Form("Country")),
+                .InvProduct = Request.Form("InvProduct"),
+            .InvProductQty = Request.Form("InvProductQty"),
+            .InvProductUnit = Request.Form("InvProductUnit"),
+            .ProjectName = Request.Form("ProjectName"),
+            .LoadDate = Request.Form("LoadDate"),
+            .EstDeliverDate = Request.Form("EstDeliverDate"),
+            .EstDeliverTime = "1900-01-01 " & Request.Form("EstDeliverTime"),
+            .ConfirmChqDate = "1900-01-01 " & Request.Form("ConfirmChqDate"),
+            .ClearPort = Request.Form("ClearPort")
                 }
-            Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
+            If Request.Form("mode") <> "A" And data.JNo <> "" Then
+                Dim chkData = New CJobOrder(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
+                If chkData.Count > 0 Then
+                    data = chkData(0)
+                    With data
+                        .DocDate = DateTime.Today
+                        .CSCode = GetSession("CurrUser")
+                        .CustCode = Request.Form("Shipper").Split("|")(0)
+                        .CustBranch = Request.Form("Shipper").Split("|")(1)
+                        .JobType = Request.Form("JobType")
+                        .ShipBy = Request.Form("ShipBy")
+                        .Consigneecode = Request.Form("Consignee").Split("|")(0)
+                        .InvNo = Request.Form("CustInv")
+                        .BookingNo = Request.Form("BookingNo")
+                        .HAWB = Request.Form("HouseBL")
+                        .MAWB = Request.Form("MasterBL")
+                        .ETDDate = Request.Form("ETD")
+                        .ETADate = Request.Form("ETA")
+                        .VesselName = Request.Form("Vessel")
+                        .MVesselName = Request.Form("MVessel")
+                        .ForwarderCode = Request.Form("Forwarder")
+                        .AgentCode = Request.Form("Transport")
+                        .TotalNW = Request.Form("NetWeight")
+                        .TotalGW = Request.Form("GrossWeight")
+                        .GWUnit = "KGS"
+                        .Measurement = Request.Form("M3")
+                        .TotalContainer = Request.Form("ContQty") & "x" & Request.Form("ContUnit")
+                        .DeliveryTo = Request.Form("DeliveryName")
+                        .TotalQty = Request.Form("ContQty")
+                        .DeliveryAddr = Request.Form("DeliveryAddress")
+                        .BLNo = Request.Form("BLNo")
+                        .ClearPortNo = Request.Form("PlaceDischarge")
+                        .QNo = Request.Form("QuoNo")
+                        .InvInterPort = Request.Form("PortCode")
+                        .InvFCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, Request.Form("Country"), "TH")
+                        .InvCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, "TH", Request.Form("Country"))
+                        .InvProduct = Request.Form("InvProduct")
+                        .InvProductQty = Request.Form("InvProductQty")
+                        .InvProductUnit = Request.Form("InvProductUnit")
+                        .ProjectName = Request.Form("ProjectName")
+                        .LoadDate = Request.Form("LoadDate")
+                        .EstDeliverDate = Request.Form("EstDeliverDate")
+                        .EstDeliverTime = "1900-01-01 " & Request.Form("EstDeliverTime")
+                        .ConfirmChqDate = "1900-01-01 " & Request.Form("ConfirmChqDate")
+                        .ClearPort = Request.Form("ClearPort")
+                    End With
+                End If
+            End If
             If data.HAWB = "{AUTO}" And GetValueConfig("RUNNING_BYMASK", "HBLAWB") <> "" Then
                 Dim mask = GetValueConfig("RUNNING_BYMASK", "HBLAWB")
                 If mask.IndexOf("[CT]") >= 0 Then
-                    If (data.JobType = 1) Then
-                        mask = mask.Replace("[CT]", data.InvCountry)
+                    If fldJobType = "JobType" Then
+                        If (data.JobType = 1) Then
+                            mask = mask.Replace("[CT]", data.InvCountry)
+                        End If
+                        mask = mask.Replace("[CT]", data.InvFCountry)
+                    Else
+                        If (data.ShipBy = 1) Then
+                            mask = mask.Replace("[CT]", data.InvCountry)
+                        End If
+                        mask = mask.Replace("[CT]", data.InvFCountry)
+
                     End If
-                    mask = mask.Replace("[CT]", data.InvFCountry)
                 End If
                 If mask.IndexOf("[IP]") >= 0 Then
                     mask = mask.Replace("[IP]", data.InvInterPort)
@@ -2855,10 +3114,17 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
             If data.BookingNo = "{AUTO}" And GetValueConfig("RUNNING_BYMASK", "BOOKING") <> "" Then
                 Dim mask = GetValueConfig("RUNNING_BYMASK", "BOOKING")
                 If mask.IndexOf("[CT]") >= 0 Then
-                    If (data.JobType = 1) Then
-                        mask = mask.Replace("[CT]", data.InvCountry)
+                    If fldJobType = "JobType" Then
+                        If (data.JobType = 1) Then
+                            mask = mask.Replace("[CT]", data.InvCountry)
+                        End If
+                        mask = mask.Replace("[CT]", data.InvFCountry)
+                    Else
+                        If (data.ShipBy = 1) Then
+                            mask = mask.Replace("[CT]", data.InvCountry)
+                        End If
+                        mask = mask.Replace("[CT]", data.InvFCountry)
                     End If
-                    mask = mask.Replace("[CT]", data.InvFCountry)
                 End If
                 If mask.IndexOf("[IP]") >= 0 Then
                     mask = mask.Replace("[IP]", data.InvInterPort)
@@ -2883,30 +3149,37 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 End If
                 data.AddBooking(mask)
             End If
+            Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
             Dim FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
             If FindJob.Count > 0 Then
                 If FindJob(0).JNo <> data.JNo Then
                     ViewBag.Message = String.Format("Commercial Invoice No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).InvNo)
+                    ViewBag.JobNo = FindJob(0).JNo
                     Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
                 End If
             End If
-            sql = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And BookingNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.BookingNo)
-            FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
-            If FindJob.Count > 0 Then
-                If FindJob(0).JNo <> data.JNo Then
-                    ViewBag.Message = String.Format("Booking No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).BookingNo)
-                    Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
-                End If
-            End If
-            sql = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And HAWB='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.HAWB)
-            FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
-            If FindJob.Count > 0 Then
-                If FindJob(0).JNo <> data.JNo Then
-                    ViewBag.Message = String.Format("House BL/AWB No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).HAWB)
-                    Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
-                End If
-            End If
+
             If data.JNo = "" Then
+
+                sql = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And BookingNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.BookingNo)
+                FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
+                If FindJob.Count > 0 Then
+                    If FindJob(0).JNo <> data.JNo Then
+                        ViewBag.Message = String.Format("Booking No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).BookingNo)
+                        ViewBag.JobNo = FindJob(0).JNo
+                        Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
+                    End If
+                End If
+
+                sql = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And HAWB='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.HAWB)
+                FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
+                If FindJob.Count > 0 Then
+                    If FindJob(0).JNo <> data.JNo Then
+                        ViewBag.Message = String.Format("House BL/AWB No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).HAWB)
+                        ViewBag.JobNo = FindJob(0).JNo
+                        Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
+                    End If
+                End If
                 Dim prefix As String = GetJobPrefix(data)
                 If Not IsNothing(Request.QueryString("Prefix")) Then
                     prefix = "" & Request.QueryString("Prefix")
@@ -2935,7 +3208,8 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                 Else
                     data.AddNew(prefix & fmt, False)
                 End If
-                Dim book = New CTransportHeader(GetSession("ConnJob")) With {
+            End If
+            Dim book = New CTransportHeader(GetSession("ConnJob")) With {
                             .BranchCode = data.BranchCode,
                             .JNo = data.JNo,
                             .BookingNo = data.BookingNo,
@@ -2947,16 +3221,36 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                             .CYPlace = Request.Form("PlaceReceive"),
                             .FactoryPlace = Request.Form("PlaceLoading"),
                             .PackingPlace = Request.Form("PlaceDelivery"),
-                            .ReturnPlace = Request.Form("PlaceDischarge")
+                            .ReturnPlace = Request.Form("PlaceDischarge"),
+                            .ReturnContact = Request.Form("AlsoNotify")
                             }
-                Dim msg = book.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", data.BranchCode, data.BookingNo))
-                If Request.Form("ContList").ToString() <> "" Then
-                    Dim arrCont = Request.Form("ContList").Split(";")
-                    If arrCont.Length > 0 Then
-                        If msg.Substring(0, 4) = "Save" Then
-                            For i As Integer = 1 To arrCont.Length - 1
-                                Dim val = arrCont(i - 1).Split("|")
-                                Dim cont = New CTransportDetail(GetSession("ConnJob")) With {
+            Dim chkBook = New CTransportHeader(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{0}'", book.BranchCode, book.BookingNo))
+            If chkBook.Count > 0 Then
+                With chkBook(0)
+                    .BranchCode = data.BranchCode
+                    .JNo = data.JNo
+                    .BookingNo = data.BookingNo
+                    .LoadDate = IIf(fldJobType = "JobType", IIf(data.JobType = 1, data.ETADate, data.ETDDate), IIf(data.ShipBy = 1, data.ETADate, data.ETDDate))
+                    .NotifyCode = Request.Form("Notify").Split("|")(0)
+                    .VenderCode = Request.Form("Transport")
+                    .PaymentCondition = Request.Form("FreightCondition")
+                    .PaymentBy = Request.Form("FreightPaymentBy")
+                    .CYPlace = Request.Form("PlaceReceive")
+                    .FactoryPlace = Request.Form("PlaceLoading")
+                    .PackingPlace = Request.Form("PlaceDelivery")
+                    .ReturnPlace = Request.Form("PlaceDischarge")
+                    .ReturnContact = Request.Form("AlsoNotify")
+                End With
+                book = chkBook(0)
+            End If
+            Dim msg = book.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", data.BranchCode, data.BookingNo))
+            If Request.Form("ContList").ToString() <> "" Then
+                Dim arrCont = Request.Form("ContList").Split(";")
+                If arrCont.Length > 0 Then
+                    If msg.Substring(0, 4) = "Save" Then
+                        For i As Integer = 1 To arrCont.Length - 1
+                            Dim val = arrCont(i - 1).Split("|")
+                            Dim cont = New CTransportDetail(GetSession("ConnJob")) With {
                                 .BranchCode = data.BranchCode,
                                 .JNo = data.JNo,
                                 .BookingNo = data.BookingNo,
@@ -2970,11 +3264,23 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
                                 .ProductUnit = val(5),
                                 .SealNumber = val(6)
                                 }
-                                cont.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", data.BranchCode, data.BookingNo, i))
-                            Next
-                        End If
+                            Dim chkCont = New CTransportDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", data.BranchCode, data.BookingNo, i))
+                            If chkCont.Count > 0 Then
+                                With chkCont(0)
+                                    .CTN_NO = val(0)
+                                    .CTN_SIZE = Request.Form("ContUnit")
+                                    .NetWeight = val(1)
+                                    .GrossWeight = val(2)
+                                    .Measurement = val(3)
+                                    .ProductQty = val(4)
+                                    .ProductUnit = val(5)
+                                    .SealNumber = val(6)
+                                End With
+                                cont = chkCont(0)
+                            End If
+                            cont.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", data.BranchCode, data.BookingNo, i))
+                        Next
                     End If
-
                 End If
             End If
             ViewBag.JobNo = data.JNo
@@ -3229,6 +3535,21 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
             End If
             Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
             Return Content(json, jsonContent)
+        End Function
+        Function CopyCostData() As ActionResult
+            Dim fromBranch = Request.QueryString("FromBranch")
+            Dim fromJob = Request.QueryString("FromJob")
+            Dim toBranch = Request.QueryString("ToBranch")
+            Dim toJob = Request.QueryString("ToJob")
+            Dim sqlW = " WHERE BranchCode='{0}' AND JobNo='{1}' AND ClrNo NOT IN(select clrno from Job_ClearHeader where DocStatus<>99) ORDER BY ClrNo,ItemNo"
+            Dim oClearDetail = New CClrDetail(GetSession("ConnJob")).GetData(String.Format(sqlW, fromBranch, fromJob))
+            Dim oTotalRec = 0
+            If oClearDetail.Count > 0 Then
+                For Each oData In oClearDetail
+
+                Next
+            End If
+            Return Content(String.Format("Copy from {0} to {1} Complete (" & oTotalRec & " Records) ", fromJob, toJob), textContent)
         End Function
     End Class
 

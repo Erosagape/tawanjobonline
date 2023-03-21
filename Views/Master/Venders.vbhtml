@@ -7,7 +7,7 @@ End Code
         <div class="row">
             <div class="col-sm-4">
                 <label id="lblVenCode">Vender Code:</label>  <a href="#" onclick="$('#modChange').modal('show');">Change</a>
-                <br /><input type="text" id="txtVenCode" Class="form-control" tabIndex="0" disabled>
+                <br /><input type="text" id="txtVenCode" Class="form-control" tabIndex="0" readonly>
             </div>
             <div class="col-sm-4">
                 <label id="lblBranchCode">Branch :</label>
@@ -125,13 +125,7 @@ End Code
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
-    $('#txtTName').keydown((e) => {
-        if (e.which == 13) {
-            if ($('#txtEnglish').val() == '') {
-                $('#txtEnglish').val($('#txtTName').val());
-            }
-        }
-    });
+
     //$(document).ready(function () {
         SetEvents();
         SetLOVs();
@@ -165,7 +159,7 @@ End Code
         return dr;
     }
     function ClearData() {
-        $('#txtVenCode').val('');
+        $('#txtVenCode').val('{AUTO}');
         $('#txtBranchCode').val('0000');
         $('#txtTaxNumber').val('');
         $('#txtTitle').val('');

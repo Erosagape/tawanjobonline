@@ -329,12 +329,15 @@ End Code
                 wc += '&SBy=' + $('#cboShipBy').val();
             }
         }
-        if ($('#txtDateFrom').val()!==null) {
+        if ($('#txtDateFrom').val()!=='') {
             wc += '&DateFrom=' + CDateEN($('#txtDateFrom').val());
         }
-        if ($('#txtDateTo').val()!==null) {
+        if ($('#txtDateTo').val()!=='') {
             wc += '&DateTo=' + CDateEN($('#txtDateTo').val());
         }
+        if (userGroup=='C') {
+            wc += '&CustCode=@ViewBag.UserUpline';
+        }	
         SetGridJob(path, '#tbJob', '#frmSearchJob', w + wc, ReadJob);
     }
     function ReadJob(dt) {

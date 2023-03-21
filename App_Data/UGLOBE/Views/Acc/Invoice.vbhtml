@@ -244,7 +244,7 @@ End Code
                                 <label id="lblContactName">Cust contact</label>
                                 :<input type="text" id="txtContactName" class="form-control" />
                             </p>
-                            <p>
+                            <p style="display:none">
                                 <label id="lblShippingRemark">Shipping Note</label>
                                 :<br />
                                 <textarea id="txtShippingRemark" style="width:100%" class="form-control-lg"></textarea>
@@ -559,32 +559,32 @@ End Code
                     { data: "BillAcceptNo", title: "Billing.No" },
                     { data: "TotalCustAdv", title: "Cust.Adv",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                         }
                     },
                     { data: "TotalAdvance", title: "Advance",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                         }
                     },
                     { data: "TotalCharge", title: "Charge",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                         }
                     },
                     { data: "TotalVAT", title: "VAT",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                         }
                     },
                     { data: "Total50Tavi", title: "WHT",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                         }
                     },
                     { data: "TotalNet", title: "NET",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                         }
                     }
                 ],
@@ -642,12 +642,12 @@ End Code
                         { data: "ExpSlipNO", title: "Slip" },
                         { data: "AmtAdvance", title: "Advance",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "AmtCharge", title: "Charge",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         {
@@ -657,27 +657,27 @@ End Code
                         },
                         { data: "Amt", title: "Amount",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "AmtDiscount", title: "Discount",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "AmtVat", title: "VAT",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "Amt50Tavi", title: "WHT",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         },
                         { data: "TotalAmt", title: "NET",
                             render: function (data) {
-                                return ShowNumber(data, 2);
+                                return ShowNumber(data,4);
                             }
                         }
                     ],
@@ -730,28 +730,28 @@ End Code
         $('#txtDExchangeRate').val(dt.ExchangeRate);
         $('#txtQty').val(dt.Qty);
         $('#txtQtyUnit').val(dt.QtyUnit);
-        $('#txtUnitPrice').val(ShowNumber(dt.UnitPrice,2));
-        $('#txtFUnitPrice').val(ShowNumber(dt.FUnitPrice, 2));
-        $('#txtAmt').val(ShowNumber(dt.Amt, 2));
-        $('#txtFAmt').val(ShowNumber(dt.FAmt, 2));
+        $('#txtUnitPrice').val(ShowNumber(dt.UnitPrice,4));
+        $('#txtFUnitPrice').val(ShowNumber(dt.FUnitPrice,4));
+        $('#txtAmt').val(ShowNumber(dt.Amt,4));
+        $('#txtFAmt').val(ShowNumber(dt.FAmt,4));
         $('#txtDiscountType').val(dt.DiscountType);
         $('#txtDiscountPerc').val(dt.DiscountPerc);
-        $('#txtAmtDiscount').val(ShowNumber(dt.AmtDiscount, 2));
-        $('#txtFAmtDiscount').val(ShowNumber(dt.FAmtDiscount, 2));
+        $('#txtAmtDiscount').val(ShowNumber(dt.AmtDiscount,4));
+        $('#txtFAmtDiscount').val(ShowNumber(dt.FAmtDiscount,4));
         $('#txtIs50Tavi').val(dt.Is50Tavi);
         $('#txtRate50Tavi').val(dt.Rate50Tavi);
-        $('#txtAmt50Tavi').val(ShowNumber(dt.Amt50Tavi,2));
+        $('#txtAmt50Tavi').val(ShowNumber(dt.Amt50Tavi,4));
         $('#txtIsTaxCharge').val(dt.IsTaxCharge);
-        $('#txtAmtVat').val(ShowNumber(dt.AmtVat,2));
-        $('#txtTotalAmt').val(ShowNumber(dt.TotalAmt,2));
-        $('#txtFTotalAmt').val(ShowNumber(dt.FTotalAmt,2));
-        $('#txtAmtAdvance').val(ShowNumber(dt.AmtAdvance,2));
-        $('#txtAmtCharge').val(ShowNumber(dt.AmtCharge, 2));
+        $('#txtAmtVat').val(ShowNumber(dt.AmtVat,4));
+        $('#txtTotalAmt').val(ShowNumber(dt.TotalAmt,4));
+        $('#txtFTotalAmt').val(ShowNumber(dt.FTotalAmt,4));
+        $('#txtAmtAdvance').val(ShowNumber(dt.AmtAdvance,4));
+        $('#txtAmtCharge').val(ShowNumber(dt.AmtCharge,4));
         $('#txtDVATRate').val(ShowNumber(dt.VATRate,0));
         $('#txtCurrencyCodeCredit').val(dt.CurrencyCodeCredit);
         $('#txtExchangeRateCredit').val(dt.ExchangeRateCredit);
-        $('#txtAmtCredit').val(ShowNumber(dt.AmtCredit,2));
-        $('#txtFAmtCredit').val(ShowNumber(dt.FAmtCredit, 2));
+        $('#txtAmtCredit').val(ShowNumber(dt.AmtCredit,4));
+        $('#txtFAmtCredit').val(ShowNumber(dt.FAmtCredit,4));
 
         $('#frmDetail').modal('show');
     }
@@ -960,12 +960,12 @@ End Code
         $('#txtBillAcceptDate').val(CDateEN(row.BillAcceptDate));
         $('#txtDueDate').val(CDateEN(row.DueDate));
         $('#txtDiscountRate').val(row.DiscountRate);
-        $('#txtDiscountCal').val(ShowNumber(row.DiscountCal,2));
+        $('#txtDiscountCal').val(ShowNumber(row.DiscountCal,4));
         $('#txtCurrencyCode').val(row.CurrencyCode);
         $('#txtExchangeRate').val(row.ExchangeRate);
         $('#txtVATRate').val(CDbl(row.VATRate));
         ShowCurrency(path, row.CurrencyCode, '#txtCurrencyName');
-        $('#txtForeignNet').val(ShowNumber(row.ForeignNet,2));
+        $('#txtForeignNet').val(ShowNumber(row.ForeignNet,4));
         $('#txtRemark1').val(row.Remark1);
         $('#txtRemark2').val(row.Remark2);
         $('#txtRemark3').val(row.Remark3);
@@ -976,17 +976,17 @@ End Code
         $('#txtRemark8').val(row.Remark8);
         $('#txtRemark9').val(row.Remark9);
         $('#txtRemark10').val(row.Remark10);
-        $('#txtTotalAdvance').val(ShowNumber(row.TotalAdvance,2));
-        $('#txtTotalCharge').val(ShowNumber(row.TotalCharge,2));
-        $('#txtSumDiscount').val(ShowNumber(row.SumDiscount,2));
-        $('#txtCalDiscount').val(ShowNumber(row.DiscountCal,2));
-        $('#txtTotalDiscount').val(ShowNumber(row.TotalDiscount,2));
-        $('#txtTotalCustAdv').val(ShowNumber(row.TotalCustAdv,2));
-        $('#txtTotalIsTaxCharge').val(ShowNumber(row.TotalIsTaxCharge,2));
-        $('#txtTotalIs50Tavi').val(ShowNumber(row.TotalIs50Tavi,2));
-        $('#txtTotalVAT').val(ShowNumber(row.TotalVAT,2));
-        $('#txtTotal50Tavi').val(ShowNumber(row.Total50Tavi,2));
-        $('#txtTotalNet').val(ShowNumber(row.TotalNet,2));
+        $('#txtTotalAdvance').val(ShowNumber(row.TotalAdvance,4));
+        $('#txtTotalCharge').val(ShowNumber(row.TotalCharge,4));
+        $('#txtSumDiscount').val(ShowNumber(row.SumDiscount,4));
+        $('#txtCalDiscount').val(ShowNumber(row.DiscountCal,4));
+        $('#txtTotalDiscount').val(ShowNumber(row.TotalDiscount,4));
+        $('#txtTotalCustAdv').val(ShowNumber(row.TotalCustAdv,4));
+        $('#txtTotalIsTaxCharge').val(ShowNumber(row.TotalIsTaxCharge,4));
+        $('#txtTotalIs50Tavi').val(ShowNumber(row.TotalIs50Tavi,4));
+        $('#txtTotalVAT').val(ShowNumber(row.TotalVAT,4));
+        $('#txtTotal50Tavi').val(ShowNumber(row.Total50Tavi,4));
+        $('#txtTotalNet').val(ShowNumber(row.TotalNet,4));
         $('#txtCancelReson').val(row.CancelReson);
         $('#txtCancelDate').val(CDateEN(row.CancelDate));
         $('#txtCancelTime').val(ShowTime(row.CancelTime));
@@ -1036,53 +1036,53 @@ End Code
     function SetDiscount() {
         let amt = CNum($('#txtTotalAdvance').val()) + CNum($('#txtTotalCharge').val()) - CNum($('#txtSumDiscount').val()) + CNum($('#txtTotalVAT').val()) - CNum($('#txtTotal50Tavi').val()) - CNum($('#txtTotalCustAdv').val());
         let disc = amt * Number($('#txtDiscountRate').val()) * 0.01;
-        $('#txtCalDiscount').val(ShowNumber(disc, 2));
-        $('#txtDiscountCal').val(ShowNumber(disc,2));
+        $('#txtCalDiscount').val(ShowNumber(disc,4));
+        $('#txtDiscountCal').val(ShowNumber(disc,4));
         SumDiscount();
     }
     function SumDiscount() {
         let totaldisc = CNum($('#txtSumDiscount').val()) + CNum($('#txtCalDiscount').val());
-        $('#txtTotalDiscount').val(ShowNumber(totaldisc,2));
+        $('#txtTotalDiscount').val(ShowNumber(totaldisc,4));
         CalTotal();
     }
     function CalTotal() {
         let totaldisc = CNum($('#txtSumDiscount').val()) + CNum($('#txtCalDiscount').val());
         let totalnet = CNum($('#txtTotalAdvance').val()) + CNum($('#txtTotalCharge').val())- totaldisc + CNum($('#txtTotalVAT').val()) - CNum($('#txtTotal50Tavi').val()) - CNum($('#txtTotalCustAdv').val());
-        $('#txtTotalNet').val(ShowNumber(totalnet,2));
+        $('#txtTotalNet').val(ShowNumber(totalnet,4));
         CalForeign();
     }
     function CalForeign() {
-        let totalforeign = CDbl(CNum($('#txtTotalNet').val()) / CNum($('#txtExchangeRate').val()), 2);
-        $('#txtForeignNet').val(ShowNumber(totalforeign,2));
+        let totalforeign = CDbl(CNum($('#txtTotalNet').val()) / CNum($('#txtExchangeRate').val()),4);
+        $('#txtForeignNet').val(ShowNumber(totalforeign,4));
     }
     function CalForeignDetail() {
         let rate = CNum($('#txtDExchangeRate').val());
-        $('#txtFUnitPrice').val(CDbl(CNum($('#txtUnitPrice').val()) / rate, 2));
-        $('#txtFAmt').val(CDbl(CNum($('#txtAmt').val()) / rate, 2));
-        $('#txtFTotalAmt').val(CDbl(CNum($('#txtTotalAmt').val()) / rate, 2));
-        //$('#txtFAmtCredit').val(CDbl(CNum($('#txtAmtCredit').val()) / rate, 2));
-        $('#txtFAmtDiscount').val(CDbl(CNum($('#txtAmtDiscount').val()) / rate, 2));
+        $('#txtFUnitPrice').val(CDbl(CNum($('#txtUnitPrice').val()) / rate,4));
+        $('#txtFAmt').val(CDbl(CNum($('#txtAmt').val()) / rate,4));
+        $('#txtFTotalAmt').val(CDbl(CNum($('#txtTotalAmt').val()) / rate,4));
+        //$('#txtFAmtCredit').val(CDbl(CNum($('#txtAmtCredit').val()) / rate,4));
+        $('#txtFAmtDiscount').val(CDbl(CNum($('#txtAmtDiscount').val()) / rate,4));
         if (CNum($('#txtAmtAdvance').val()) > 0) {
-            $('#txtAmtAdvance').val(ShowNumber($('#txtFTotalAmt').val(), 2));
+            $('#txtAmtAdvance').val(ShowNumber($('#txtFTotalAmt').val(),4));
         }
         if (CNum($('#txtAmtCharge').val()) > 0) {
-            $('#txtAmtCharge').val(ShowNumber(CNum($('#txtFAmt').val()) - CNum($('#txtFAmtDiscount').val()), 2));
+            $('#txtAmtCharge').val(ShowNumber(CNum($('#txtFAmt').val()) - CNum($('#txtFAmtDiscount').val()),4));
         }
     }
     function CalDiscountDetail() {
         let amt = CNum($('#txtAmt').val());
         let disc = amt * CNum($('#txtDiscountPerc').val()) * 0.01;
-        $('#txtAmtDiscount').val(ShowNumber(disc,2));
+        $('#txtAmtDiscount').val(ShowNumber(disc,4));
         CalVATWHT(0);
     }
     function CalVATWHT(step = 0) {
         let amt = CNum($('#txtAmt').val())-CNum($('#txtAmtDiscount').val());
         if (step == 0) {
             let vat = amt * CNum($('#txtDVATRate').val()) * 0.01;
-            $('#txtAmtVat').val(ShowNumber(vat,2));
+            $('#txtAmtVat').val(ShowNumber(vat,4));
         }
         let wht = amt * CNum($('#txtRate50Tavi').val()) * 0.01;
-        $('#txtAmt50Tavi').val(ShowNumber(wht, 2));
+        $('#txtAmt50Tavi').val(ShowNumber(wht,4));
         CalNetAmount();
     }
     function CalNetAmount() {
@@ -1091,7 +1091,7 @@ End Code
         let wht = CNum($('#txtAmt50Tavi').val());
         let net = amt + vat - wht;
 
-        $('#txtTotalAmt').val(ShowNumber(net, 2));
+        $('#txtTotalAmt').val(ShowNumber(net,4));
         CalForeignDetail();
     }
     function CreateInvoice() {

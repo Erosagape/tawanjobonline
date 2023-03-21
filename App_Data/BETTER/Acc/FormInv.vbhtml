@@ -95,9 +95,12 @@ End Code
     <div style="width:30%">
         <img id="imgLogoAdd" src="/bft/Resource/BFT_RPT_P2.jpg" style="width: 100%;">
     </div>
-    <div style="width:40%"></div>
+    <div style="flex:1"></div>
     <div style="width:30%">
-        <h2 style="font-size:16px" class="right" id="headerDoc" ondblclick="ChangeHeader()">ใบแจ้งหนี้/INVOICE</h2>
+        <h2 style="font-size:16px" class="right" id="headerDoc" ondblclick="AddHeaderNote()">ใบแจ้งหนี้/INVOICE </h2>
+    </div>
+    <div  id="warning" style="width:40%;border:1px black solid;margin:0px 0px 10px 10px;padding:10px;text-align:center;font-size:14px;display:none">
+        กรุณานำใบแจ้งหนี้มารับ D/O ด้วยทุกครั้ง
     </div>
 </div>
 
@@ -194,8 +197,8 @@ End Code
                     </tr>
                     <tr>
                         <td>CREDIT TERM :</td>
-                        @*<td id="crTerm"></td>*@
-                        <td id="Remark1"></td>
+                        <td id="crTerm"></td>
+                        @*<td id="Remark1"></td>*@
                     </tr>
                 </tbody>
             </table>
@@ -384,8 +387,8 @@ End Code
         </td>
     </tr>
     <tr>
-        <td class="bold">DUE DATE :</td>
-        <td class="textSpace"></td>
+        <td class="bold" >DUE DATE :</td>
+        <td class="textSpace" id="dueDate"></td>
         <td style="width:50px"> </td>
         <td class="center bold">
             @ViewBag.Username
@@ -401,14 +404,15 @@ End Code
         PLEASE ISSUE A CROSSED CHEQUE PAYABLE TO "BETTER FREIGHT & TRANSPORT CO.,LTD"
         <br />   <br />
         หมายเหตุ ใบแจ้งหนี้นี้มิใช่ใบกำกับภาษี ใบกำกับภาษีจะออกให้ต่อเมื่อได้รับชำระเงินเรียบร้อยแล้ว
+        <br />   <br />
     </div>
 </div>
 
 
 
 <script type="text/javascript">
-
-/*    $('#pFooter').hide();*/
+  
+/*    */
     //$('#imgLogo').hide();
     //$('#imgLogoAdd').show();
     let ans = confirm('OK to print Original or Cancel For Copy');
@@ -423,6 +427,7 @@ End Code
     let code = getQueryString('code');
 
     $.get(path + 'Acc/GetInvoice?Branch=' + branch + '&Code=' + code).done(function (r) {
+        $('#pFooter').show();
         if (r.invoice.header.length > 0) {
             let h = r.invoice.header[0][0];
             let c = r.invoice.customer[0][0];
@@ -437,7 +442,7 @@ End Code
 		        $("#billAddress1").text(b.EAddress1);
 		        $("#billAddress2").text(b.EAddress2);
                 $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch);
-                $("#crTerm").text(b.CreditLimit);
+                $("#crTerm").text(b.CreditLimit == 3 ? "CASH" : b.CreditLimit);
                 $("#dueDate").text(AddDate(h.DocDate, b.CreditLimit));
 	        });
             $("#id").text("("+h.CustCode+")");
@@ -445,7 +450,7 @@ End Code
             $("#invoiceDate").text(ShowDate(h.DocDate));
             $("#currency").text(h.CurrencyCode);
             $("#remark").html(CStr(h.Remark1 + '<br/>' + h.Remark2));
-            $("#Remark1").text(h.Remark1);
+            //$("#Remark1").text(h.Remark1);
 
             //if (j.JobType !== 1) {
             //    $("#loadport").text(j.ClearPortNo);
@@ -625,7 +630,7 @@ End Code
             }
         }
     });
-
+   
     function ShowContainer(branch,job) {
         $.get(path + 'JobOrder/GetTransportReport?Branch=' + branch + '&JobList=' + job).done(function (r) {
             if (r.transport.data.length > 0) {
@@ -649,7 +654,12 @@ End Code
 
         });
     }
-function ChangeHeader(){
-$('#headerDoc').html('DEBIT NOTE');
-}
+    function ChangeHeader(){
+        $('#headerDoc').html('DEBIT NOTE');
+    }
+
+    function AddHeaderNote(){
+        $('#warning').toggle();
+    }
+    
 </script>

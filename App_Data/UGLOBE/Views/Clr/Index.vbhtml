@@ -546,7 +546,7 @@ End Code
                                     <tr>
                                         <th>AdvNo</th>
                                         <th class="desktop">AdvDate</th>
-                                        <th class="all">ItemNo</th>
+                                        <th class="all">Container</th>
                                         <th class="desktop">SICode</th>
                                         <th>Description</th>
                                         <th class="desktop">JobNo</th>
@@ -2071,12 +2071,12 @@ End Code
         }           
     }
     function CalTotal() {
-        let amt = CDbl($('#txtAMT').val(),3);
-        let vat = CDbl($('#txtVAT').val(),3);
-        let wht = CDbl($('#txtWHT').val(),3);
+        let amt = CDbl($('#txtAMT').val(),2);
+        let vat = CDbl($('#txtVAT').val(),2);
+        let wht = CDbl($('#txtWHT').val(),2);
 
         $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),2));
-        $('#txtAMT').val(CDbl(amt,2));
+        $('#txtAMT').val(CDbl(amt,4));
     }
     function CalVATWHT() {
         let type = $('#txtVatType').val();
@@ -2094,15 +2094,15 @@ End Code
             let base = amt * 100 / (100 + Number(vatrate));
             vat = base * vatrate * 0.01;
             wht = base * whtrate * 0.01;
-            $('#txtAMT').val(CDbl(CNum(base),2));
-            $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 2));
+            $('#txtAMT').val(CDbl(CNum(base),4));
+            $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 4));
         }
         if (type == "1") {
             vat = amt * vatrate * 0.01;
             wht = amt * whtrate * 0.01;
         }
-        $('#txtVAT').val(CDbl(vat,3));
-        $('#txtWHT').val(CDbl(wht,3));
+        $('#txtVAT').val(CDbl(vat,2));
+        $('#txtWHT').val(CDbl(wht,2));
         CalTotal();
     }
     function LoadAdvance() {
@@ -2264,11 +2264,14 @@ End Code
         var payclick = 0;
         $.get(path + 'Clr/GetPaymentForClear?branch=' + branch + w).done(function (r) {
             if (r.clr.data.length > 0) {
-                let d = r.clr.data;
+                //let d = r.clr.data;
+                let d = $("#txtCTN_NO").val() == "N/A" ? r.clr.data : r.clr.data.filter(data => data.RefNo == $("#txtCTN_NO").val());
+               // { data: "ItemNo", title: "#" },
                 $('#tbPayment').DataTable({
                     data: d,
                     selected: true, //ให้สามารถเลือกแถวได้
                     columns: [ //กำหนด property ของ header column
+
                         { data: "VenderBillingNo", title: "Payment.No" },
                         {
                             data: "VenderBillDate", title: "Due.Date",
@@ -2276,7 +2279,8 @@ End Code
                                 return CDateEN(data);
                             }
                         },
-                        { data: "ItemNo", title: "#" },
+                      
+                        { data: "RefNo", title: "Container" },
                         {
                             data: "SICode", title: "Code"
                         },

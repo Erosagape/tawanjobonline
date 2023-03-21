@@ -112,7 +112,8 @@ End Code
                     <th>JobNo</th>
                     <th class="desktop">DocDate</th>
                     <th class="desktop">JobStatus</th>
-                    <th class="all">InspectDate</th>
+                    <th class="all">ETD</th>
+                    <th class="all">ETA</th>
                     <th class="all">Inv.Customer</th>
                     <th class="desktop">Customer</th>
                     <th>Consignee</th>
@@ -125,21 +126,6 @@ End Code
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let user = '@ViewBag.User';
-    let userGroup = '@ViewBag.UserGroup';
-    if (userGroup == 'C') {
-        $('#btnBrowseCust').attr('disabled', 'disabled');
-        $('#txtCustCode').attr('disabled', 'disabled');
-        $('#txtCustBranch').attr('disabled', 'disabled');
-
-        $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
-            if (r.company.data.length > 0) {
-                let dr = r.company.data[0];
-                $('#txtCustCode').val(dr.CustCode);
-                $('#txtCustBranch').val(dr.Branch);
-                $('#txtCustName').val(dr.NameThai);
-            }
-        });
-    }
     let dateWhere = 'DocDate';
     let jt = getQueryString("jobtype");
     let sb = getQueryString("shipby");
@@ -183,9 +169,9 @@ End Code
         loadCombos(path, lists);
         loadYear(path);
         loadMonth('#cboMonth');
-
+        
         if (custcode != '') {
-            $('#txtCustCode').val(custcode);
+            $('#txtCustCode').val(custcode);            
         }
     }
     function getJobdata() {
@@ -211,17 +197,23 @@ End Code
                     {
                         "data": null, "title": "Job Status",
                         "render": function (data) {
-                            return data.JobStatus;
+                            return data.JobStatusName;
                         }
                     },
                     {
-                        "data": "DutyDate", "title": "Clearance Date",
+                        "data": "ETDDate", "title": "ETD Date",
+                        "render" : function (data) {
+                            return CDateEN(data);
+                        }
+                    },
+                    {
+                        "data": "ETADate", "title": "ETA Date",
                         "render" : function (data) {
                             return CDateEN(data);
                         }
                     },
                     { "data": "InvNo", "title": "Customer Inv." },
-                    { "data": "CustTName", "title": "Customer" },
+                    { "data": "CustTName", "title": "ImExPorter" },
                     { "data": "ConsigneeName", "title": "Consignee" },
                     { "data": "CustRefNO", "title": "Ref.No" }
                 ]
@@ -239,7 +231,7 @@ End Code
                 OpenJob();
             });
             CloseWait();
-        });
+        });            
     }
     function getJobdata_1() {
         $.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
@@ -288,7 +280,7 @@ End Code
             $('#tblJob tbody').on('dblclick', 'tr', function () {
                 OpenJob();
             });
-        });
+        });            
     }
     function GetCliteria() {
         let str = '';

@@ -89,7 +89,7 @@ End Code
         if ($('#txtYear').val() !== '') {
             w += '&OnYear=' + $('#txtYear').val();
         }
-        if ($('#txtMonth').val() !== '') {
+        if ($('#txtMonth').val() !== '' && $('#txtMonth').val() !== '0') {
             w += '&OnMonth=' + $('#txtMonth').val();
         }
         if (getQueryString('Cust') !== '') {

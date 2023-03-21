@@ -117,9 +117,9 @@
         </table>
 
         </div>
-        @*<div id="dvFooter" style="width:100%;font-size:8px">
+        <div id="dvFooter" style="width:100%;font-size:8px;display:none">
             <p style="text-align:left">Printed By : @ViewBag.User Printed Date : @DateTime.Now</p>
-        </div>*@
+        </div>
     </div>
 </body>
 </html>

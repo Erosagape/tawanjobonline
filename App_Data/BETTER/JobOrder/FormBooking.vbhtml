@@ -333,8 +333,8 @@ End Code
 	units=m.customsunit.data;
 	LoadData();
     });
-    function LoadData() {
-        $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function (r) {
+     function  LoadData() {
+        $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(async function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
             $('#lbljno').text(h.JNo);
@@ -394,12 +394,19 @@ End Code
             $('#lblServiceMode').text(h.TRemark);
             $('#lblInvCurRate').text(h.InvCurRate);
             $('#lblSumQty').text(CNumEng(h.InvProductQty).replace('ONLY', '') + ' ' + $('#lblProductUnit').text() + ' ONLY');
+
             let row = $('<tr>');
             row.append($('<td class="vbodered"><br/><br/><br/>' + CStr(h.Remark) + '</td>'));
-            row.append($('<td class="vbodered" style="text-align:center;"><br/><br/>' + h.TotalContainer + '<br/>(' + h.InvProductQty + ' '+ h.InvProductUnit+ ')</td>'));
-            row.append($('<td class="vbodered"><pre style="white-space: pre-wrap;">' + CStr(h.ProjectName) + '</pre><br/><br/>' + h.InvProduct + '</td>'));
-            row.append($('<td class="vbodered"><br/><br/><br/>' + 'G.W ' + ShowNumber(h.TotalGW, 3) + ' ' + h.GWUnit + '</td>'));
-            row.append($('<td class="vbodered"><br/><br/><br/>' + h.TotalM3 + ' CBM' + '</td></tr>'));
+            let cunit = await $.get(path + 'Master/GetCustomsUnit?Code=' + h.InvProductUnit);
+            if (cunit.customsunit.data.length > 0) {
+                let b = cunit.customsunit.data[0];
+                
+                row.append($('<td class="vbodered" style="text-align:center;"><br/><br/>' + h.TotalContainer + '<br/>(' + h.InvProductQty + ' ' + b.TName + ')</td>'));
+                row.append($('<td class="vbodered"><pre style="white-space: pre-wrap;">' + CStr(h.ProjectName) + '</pre><br/><br/>' + h.InvProduct + '</td>'));
+                row.append($('<td class="vbodered"><br/><br/><br/>' + 'G.W ' + ShowNumber(h.TotalGW, 3) + ' ' + h.GWUnit + '</td>'));
+                row.append($('<td class="vbodered"><br/><br/><br/>' + h.TotalM3 + ' CBM' + '</td></tr>'));
+            }
+
 
             $('#dvDetail').prepend(row);
             let row2 = $('<div style="width:100%;">CONTAINER NO<br/>');

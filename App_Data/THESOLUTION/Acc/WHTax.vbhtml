@@ -352,6 +352,7 @@ End Code
                                     <option value="2">CLR</option>
                                     <option value="3">PAY</option>
                                     <option value="4">TAX</option>
+                                    <option value="5">INV</option>
                                 </select>
                             </div>
                             <div>
