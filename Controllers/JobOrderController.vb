@@ -1585,6 +1585,40 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 Return Content("{""job"":{""data"":[],""status"":""N"",""result"":""" & ex.Message & """}}", jsonContent)
             End Try
         End Function
+        Function TestPaperless() As ActionResult
+            Dim msg As String = ""
+            Try
+                Dim listPaperless = Main.GetValueConfig("PAPERLESS", "DBLINK")
+                Dim hostPaperless = Main.GetValueConfig("PAPERLESS", "DBHOST")
+                Dim dbPaperless = Main.GetValueConfig("PAPERLESS", "DBTYPE")
+                Dim type As Integer = 0
+                If Request.QueryString("type") IsNot Nothing Then
+                    type = Convert.ToInt16(Request.QueryString("type").ToString()) - 1
+                End If
+                If dbPaperless = "ECS" Then
+                    Dim connStr = hostPaperless & ";Initial Catalog=" & listPaperless.Split(",")(type)
+                    Dim dt As New DataTable
+                    Using cn As SqlClient.SqlConnection = New SqlClient.SqlConnection(connStr)
+                        cn.Open()
+                        msg = "Connect ECS OK"
+                        cn.Close()
+                    End Using
+                    Return Content(msg, textContent)
+                Else
+                    Dim connStr = hostPaperless & ";database=" & listPaperless.Split(",")(type)
+                    Dim dt As New DataTable
+                    Using cn As MySqlConnection = New MySqlConnection(connStr)
+                        cn.Open()
+                        msg = "Connect TAWAN OK"
+                        cn.Close()
+                    End Using
+                    Return Content(msg, textContent)
+                End If
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "TestPaperless", ex.Message, ex.StackTrace, True)
+                Return Content(ex.Message, textContent)
+            End Try
+        End Function
         Function TestSetJobData() As ActionResult
             Dim data = New CJobOrder(GetSession("ConnJob")).GetData(" WHERE BranchCode='00' AND JNo='TS00000000'")(0)
             Try
