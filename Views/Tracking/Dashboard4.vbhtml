@@ -68,14 +68,20 @@ End Code
     function drawChart() {
         drawChartSummary([]);
         $('#valueTable').html('');
+	$('#tbDetail').empty();
         let w = 'DateWhere=' + $('#cboGroup').val();
         if ($('#txtYear').val() !== '') {
             w += '&Year=' + $('#txtYear').val();
         }
-        if ($('#txtMonth').val() !== '') {
+        if ($('#txtMonth').val() !== '' && $('#txtMonth').val() !== '0' ) {
             w += '&Month=' + $('#txtMonth').val();
         }
-
+        if ('@ViewBag.UserGroup' == 'C') {
+            w += '&Cust=@ViewBag.UserUpline&Mode=A';
+        }
+        if ('@ViewBag.UserGroup' == 'V') {
+            w += '&Vend=@ViewBag.UserUpline&Mode=E';
+        }
         //ShowWait();
         var url = 'joborder/getdashboardcost?'+w;
         $.get(path + url).done(function (r) {
@@ -83,20 +89,20 @@ End Code
                 $('#tbDetail').DataTable({
                     data: r.data.detail,
                     columns: [
-                        { data: "DocDate", title: "Open Date" },
-                        { data: "DutyDate", title: "Inspection Date" },
+                        { data: null, title: "Open Date" ,render:function(data){ return ShowDate(data.DocDate); } },
+                        { data: null, title: "Inspection Date",render:function(data){ return ShowDate(data.DutyDate); } },
                         { data: "JNo", title: "Job No" },
-                        { data: "JobTypeName", title: "Job Type" },
-                        { data: "ShipByName", title: "Ship By" },
+                        { data: "ShipperName", title: "Shipper" },
+                        { data: "ConsigneeName", title: "Consignee" },
                         { data: "InvProduct", title: "Product" },
                         { data: "InvNo", title: "Customer Inv" },
                         { data: "DeclareNumber", title: "Declare" },
-                        { data: "ETDDate", title: "ETD" },
-                        { data: "ETADate", title: "ETA" },
-                        { data: "CloseJobDate", title: "Close Date" },
+                        { data: null, title: "ETD",render:function(data){ return ShowDate(data.ETDDate); }  },
+                        { data: null, title: "ETA",render:function(data){ return ShowDate(data.ETADate); }  },
+                        { data: null, title: "Close Date",render:function(data){ return ShowDate(data.CloseJobDate); }  },
                         { data: "TotalContainer", title: "T.CTN" },
-                        { data: "SumNormalCost", title: "Normal Cost" },
-                        { data: "SumAdditionCost", title: "Addition Cost" }
+                        { data: null, title: "Normal Cost",render:function(data){return ShowNumber(data.SumNormalCost,2);} },
+                        { data: null, title: "Addition Cost",render:function(data){return ShowNumber(data.SumAdditionCost,2);} }
                     ],
                     responsive:true,
                     destroy:true
@@ -112,7 +118,7 @@ End Code
                 for (let row of r.data.summary) {
                     html += '<tr>';
                     html += '<td>'+ row.JobTypeName+'</td>';
-                    html += '<td>'+ row.SumNormalCost +'</td>';
+                    html += '<td>'+ ShowNumber(row.SumNormalCost,2) +'</td>';
                     html += '</tr>';
                 }
                 html += '</tbody></table>';
@@ -124,7 +130,7 @@ End Code
                 for (let row of r.data.summary) {
                     html += '<tr>';
                     html += '<td>' + row.JobTypeName + '</td>';
-                    html += '<td>' + row.SumAdditionCost + '</td>';
+                    html += '<td>' + ShowNumber(row.SumAdditionCost,2) + '</td>';
                     html += '</tr>';
                 }
                 html += '</tbody></table>';

@@ -45,22 +45,18 @@ End Code
     var user = '@ViewBag.User';
     var userGroup = '@ViewBag.UserGroup';
     var cust = '';
-    $('#txtYear').val(new Date().getFullYear());
-    $('#txtMonth').val(new Date().getMonth());
     if (userGroup == 'C') {
         $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
             if (r.company.data.length > 0) {
                 let dr = r.company.data[0];
-                cust = dr.CustCode;
-                google.charts.load("current", { packages: ["corechart"] });
-                google.charts.setOnLoadCallback(drawChart);
+                cust=dr.CustCode;
             }
         });
-    } else {
-        google.charts.load("current", { packages: ["corechart"] });
-        google.charts.setOnLoadCallback(drawChart);
     }
-
+    $('#txtYear').val(new Date().getFullYear());
+    $('#txtMonth').val(new Date().getMonth());
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(drawChart);
     function drawChartVal(dt) {
         var dataVol = google.visualization.arrayToDataTable(getDataTable(dt));
         var volOptions = {
@@ -93,7 +89,7 @@ End Code
         if ($('#txtYear').val() !== '') {
             w += '&OnYear=' + $('#txtYear').val();
         }
-        if ($('#txtMonth').val() !== '') {
+        if ($('#txtMonth').val() !== '' && $('#txtMonth').val() !== '0') {
             w += '&OnMonth=' + $('#txtMonth').val();
         }
         if (getQueryString('Cust') !== '') {

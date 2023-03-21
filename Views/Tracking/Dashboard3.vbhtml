@@ -9,7 +9,8 @@ End Code
             <div id="chartVal"></div>
         </div>
         <div class="col-md-6">
-            <div id="valueTable"></div>
+            Total Value:<br />
+            <div id="chartSummary"></div>
         </div>
     </div>
     <br />
@@ -41,9 +42,9 @@ End Code
             <div id="chartCust"></div>
         </div>
         <div class="col-md-6">
-            Total Value:<br />
-            <div id="chartSummary"></div>
+            <div id="valueTable"></div>
         </div>
+
     </div>
 </div>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -97,7 +98,7 @@ End Code
         if ($('#txtYear').val() !== '') {
             w += '&OnYear=' + $('#txtYear').val();
         }
-        if ($('#txtMonth').val() !== '') {
+        if ($('#txtMonth').val() !== '' && $('#txtMonth').val() !== '0') {
             w += '&OnMonth=' + $('#txtMonth').val();
         }
         if (getQueryString('Cust') !== '') {
@@ -110,10 +111,10 @@ End Code
             w += '&OnWhere=j.AgentCode&OnValue=' + getQueryString('Agent');
         }
         if ('@ViewBag.UserGroup' == 'C') {
-            w += '&OnWhere=j.CustCode&OnValue=@ViewBag.User';
+            w += '&OnWhere=j.CustCode&OnValue=@ViewBag.UserUpline';
         }
         if ('@ViewBag.UserGroup' == 'V') {
-            w += '&OnWhere=j.ForwarderCode&OnValue=@ViewBag.User';
+            w += '&OnWhere=j.ForwarderCode&OnValue=@ViewBag.UserUpline';
         }
 
         //ShowWait();

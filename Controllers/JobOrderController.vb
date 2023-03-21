@@ -842,11 +842,15 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("Vend")) Then
                     tSqlH &= String.Format(" AND VenderCode='{0}' ", Request.QueryString("Vend").ToString)
                 End If
+                Dim useDate As String = "LoadDate"
+                If Not IsNothing(Request.QueryString("UseDate")) Then
+                    useDate = Request.QueryString("UseDate").ToString()
+                End If
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
-                    tSqlH &= " AND LoadDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                    tSqlH &= " AND " & useDate & ">='" & Request.QueryString("DateFrom") & " 00:00:00'"
                 End If
                 If Not IsNothing(Request.QueryString("DateTo")) Then
-                    tSqlH &= " AND LoadDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                    tSqlH &= " AND " & useDate & "<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
                 tSqlH &= ")"
                 'Dim oData = New CTransportDetail(GetSession("ConnJob")).GetData(tSqlw & tSqlH)
@@ -940,11 +944,15 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("Vend")) Then
                     tSqlw &= String.Format(" AND Job_LoadInfo.VenderCode='{0}' ", Request.QueryString("Vend").ToString)
                 End If
+                Dim useDate As String = "Job_Order.DocDate"
+                If Not IsNothing(Request.QueryString("UseDate")) Then
+                    useDate = Request.QueryString("UseDate").ToString()
+                End If
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
-                    tSqlw &= " AND Job_Order.DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                    tSqlw &= " AND " & useDate & ">='" & Request.QueryString("DateFrom") & " 00:00:00'"
                 End If
                 If Not IsNothing(Request.QueryString("DateTo")) Then
-                    tSqlw &= " AND Job_Order.DocDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                    tSqlw &= " AND " & useDate & "<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
 
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectTracking(tSqlw))
@@ -1036,11 +1044,15 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("Cont")) Then
                     tSqlw &= String.Format(" AND Job_LoadinfoDetail.CTN_NO='{0}' ", Request.QueryString("Cont").ToString)
                 End If
+                Dim useDate As String = "Job_LoadInfo.LoadDate"
+                If Not IsNothing(Request.QueryString("UseDate")) Then
+                    useDate = Request.QueryString("UseDate").ToString()
+                End If
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
-                    tSqlw &= " AND Job_LoadInfo.LoadDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                    tSqlw &= " AND " & useDate & ">='" & Request.QueryString("DateFrom") & " 00:00:00'"
                 End If
                 If Not IsNothing(Request.QueryString("DateTo")) Then
-                    tSqlw &= " AND Job_LoadInfo.LoadDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                    tSqlw &= " AND " & useDate & "<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
 
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectTransport(tSqlw))
@@ -1924,12 +1936,6 @@ j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalC
                 If Not IsNothing(Request.QueryString("Vend")) Then
                     tSqlw &= String.Format(" AND ForwarderCode='{0}' ", Request.QueryString("Vend").ToString)
                 End If
-                If Not IsNothing(Request.QueryString("DateFrom")) Then
-                    tSqlw &= " AND DutyDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
-                End If
-                If Not IsNothing(Request.QueryString("DateTo")) Then
-                    tSqlw &= " AND DutyDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
-                End If
                 Dim onDate As Date = DateTime.Today
                 If Not IsNothing(Request.QueryString("OnDate")) Then
                     onDate = Convert.ToDateTime(Request.QueryString("OnDate").ToString())
@@ -1937,6 +1943,12 @@ j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalC
                 Dim useDate As String = "DutyDate"
                 If Not IsNothing(Request.QueryString("UseDate")) Then
                     useDate = Request.QueryString("UseDate").ToString()
+                End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlw &= " AND " & useDate & ">='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                If Not IsNothing(Request.QueryString("DateTo")) Then
+                    tSqlw &= " AND " & useDate & "<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
                 Dim totDays As Integer = 3
                 If Not IsNothing(Request.QueryString("Days")) Then
@@ -2003,11 +2015,16 @@ j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalC
                 If Not IsNothing(Request.QueryString("Vend")) Then
                     tSqlw &= String.Format(" AND Job_LoadInfo.VenderCode='{0}' ", Request.QueryString("Vend").ToString)
                 End If
-                If Not IsNothing(Request.QueryString("DateFrom")) Then
-                    tSqlw &= " AND Job_Order.DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                Dim useDate As String = "Job_Order.DocDate"
+                If Not IsNothing(Request.QueryString("UseDate")) Then
+                    useDate = Request.QueryString("UseDate").ToString()
                 End If
+                If Not IsNothing(Request.QueryString("DateFrom")) Then
+                    tSqlw &= " AND " & useDate & ">='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                End If
+                
                 If Not IsNothing(Request.QueryString("DateTo")) Then
-                    tSqlw &= " AND Job_Order.DocDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                    tSqlw &= " AND " & useDate & "<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
 
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectTrackingCount(tSqlw))
@@ -2059,23 +2076,27 @@ j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalC
                 Dim msg As String = New CUtil(GetSession("ConnJob")).ExecuteSQL(SQLUpdateJobStatus(""), False)
                 Dim tSqlw1 As String = ""
                 Dim bCheck As Boolean = False
+                Dim onDate As String = "j.DocDate"
+                If Request.QueryString("OnDate") IsNot Nothing Then
+                    onDate = Request.QueryString("OnDate").ToString()
+                End If
                 If Request.QueryString("Period") IsNot Nothing Then
                     bCheck = True
                     Dim yy = Request.QueryString("Period").ToString().Split("/")(1)
                     Dim mm = Convert.ToInt16(Request.QueryString("Period").ToString().Split("/")(0))
-                    tSqlw1 = " WHERE Year(j.DocDate)=" & yy & " AND Month(j.DocDate)=" & mm & " "
+                    tSqlw1 = " WHERE Year(" & onDate & ")=" & yy & " AND Month(" & onDate & ")=" & mm & " "
                 Else
                     If Request.QueryString("DateFrom") IsNot Nothing Then
                         If Request.QueryString("DateFrom").ToString() <> "" Then
                             bCheck = True
-                            tSqlw1 = " WHERE j.DutyDate>=Convert(datetime,'" & Request.QueryString("DateFrom").ToString() & " 00:00:00',102) "
+                            tSqlw1 = " WHERE " & onDate & ">=Convert(datetime,'" & Request.QueryString("DateFrom").ToString() & " 00:00:00',102) "
                         End If
                     End If
                     If Request.QueryString("DateTo") IsNot Nothing Then
                         If Request.QueryString("DateTo").ToString() <> "" Then
                             bCheck = True
                             If tSqlw1 <> "" Then tSqlw1 &= " AND " Else tSqlw1 = " WHERE "
-                            tSqlw1 &= " j.DutyDate<=Convert(datetime,'" & Request.QueryString("DateTo").ToString() & " 23:59:59',102) "
+                            tSqlw1 &= " " & onDate & "<=Convert(datetime,'" & Request.QueryString("DateTo").ToString() & " 23:59:59',102) "
                         End If
                     End If
                 End If
@@ -2206,23 +2227,27 @@ j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalC
                 Dim msg As String = New CUtil(GetSession("ConnJob")).ExecuteSQL(SQLUpdateJobStatus(""), False)
                 Dim tSqlw1 As String = ""
                 Dim bCheck As Boolean = False
+                Dim onDate As String = "j.DocDate"
+                If Request.QueryString("OnDate") IsNot Nothing Then
+                    onDate = Request.QueryString("OnDate").ToString()
+                End If
                 If Request.QueryString("Period") IsNot Nothing Then
                     bCheck = True
                     Dim yy = Request.QueryString("Period").ToString().Split("/")(1)
                     Dim mm = Convert.ToInt16(Request.QueryString("Period").ToString().Split("/")(0))
-                    tSqlw1 = " WHERE Year(j.DocDate)=" & yy & " AND Month(j.DocDate)=" & mm & " "
+                    tSqlw1 = " WHERE Year(" & onDate & ")=" & yy & " AND Month(" & onDate & ")=" & mm & " "
                 Else
                     If Request.QueryString("DateFrom") IsNot Nothing Then
                         If Request.QueryString("DateFrom").ToString() <> "" Then
                             bCheck = True
-                            tSqlw1 = " WHERE j.DutyDate>=Convert(datetime,'" & Request.QueryString("DateFrom").ToString() & " 00:00:00',102) "
+                            tSqlw1 = " WHERE " & onDate & ">=Convert(datetime,'" & Request.QueryString("DateFrom").ToString() & " 00:00:00',102) "
                         End If
                     End If
                     If Request.QueryString("DateTo") IsNot Nothing Then
                         If Request.QueryString("DateTo").ToString() <> "" Then
                             bCheck = True
                             If tSqlw1 <> "" Then tSqlw1 &= " AND " Else tSqlw1 = " WHERE "
-                            tSqlw1 &= " j.DutyDate<=Convert(datetime,'" & Request.QueryString("DateTo").ToString() & " 23:59:59',102) "
+                            tSqlw1 &= " " & onDate & "<=Convert(datetime,'" & Request.QueryString("DateTo").ToString() & " 23:59:59',102) "
                         End If
                     End If
                 End If
@@ -2584,6 +2609,40 @@ j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalC
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "DelTransportRoute", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)
+            End Try
+        End Function
+        Function TestPaperless() As ActionResult
+            Dim msg As String = ""
+            Try
+                Dim listPaperless = Main.GetValueConfig("PAPERLESS", "DBLINK")
+                Dim hostPaperless = Main.GetValueConfig("PAPERLESS", "DBHOST")
+                Dim dbPaperless = Main.GetValueConfig("PAPERLESS", "DBTYPE")
+                Dim type As Integer = 0
+                If Request.QueryString("type") IsNot Nothing Then
+                    type = Convert.ToInt16(Request.QueryString("type").ToString()) - 1
+                End If
+                If dbPaperless = "ECS" Then
+                    Dim connStr = hostPaperless & ";Initial Catalog=" & listPaperless.Split(",")(Type)
+                    Dim dt As New DataTable
+                    Using cn As SqlClient.SqlConnection = New SqlClient.SqlConnection(connStr)
+                        cn.Open()
+                        msg = "Connect ECS OK"
+                        cn.Close()
+                    End Using
+                    Return Content(msg, textContent)
+                Else
+                    Dim connStr = hostPaperless & ";database=" & listPaperless.Split(",")(Type)
+                    Dim dt As New DataTable
+                    Using cn As MySqlConnection = New MySqlConnection(connStr)
+                        cn.Open()
+                        msg = "Connect TAWAN OK"
+                        cn.Close()
+                    End Using
+                    Return Content(msg, textContent)
+                End If
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "TestPaperless", ex.Message, ex.StackTrace, True)
+                Return Content(ex.Message, textContent)
             End Try
         End Function
         Function GetPaperless() As ActionResult
