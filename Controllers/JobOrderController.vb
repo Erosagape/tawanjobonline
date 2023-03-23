@@ -2339,6 +2339,407 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
         Function FormPackingList() As ActionResult
             Return GetView("FormPackingList")
         End Function
+        Friend Function GetView(vName As String, modName As String, funcName As String) As ActionResult
+            Dim baseURL = Me.ControllerContext.RouteData.Values("Controller").ToString() & "\" & vName
+            Try
+                LoadCompanyProfile()
+                If modName <> "" And ViewBag.User <> "" Then
+                    Session("CurrForm") = modName & "/" & vName
+                    ViewBag.Module = GetSession("CurrForm").ToString()
+                    Session("CurrRights") = Main.GetAuthorize(ViewBag.User, modName, funcName)
+                    If Session("CurrRights").ToString().IndexOf("M") < 0 Then
+                        Return RedirectToAction("AuthError", "Menu")
+                    End If
+                Else
+                    If Me.ControllerContext.RouteData.Values("Controller").ToString() & "/" & vName <> "Menu/AuthError" Then
+                        Session("CurrForm") = Me.ControllerContext.RouteData.Values("Controller").ToString() & "/" & vName
+                    End If
+                    Session("CurrRights") = "*MIREDP"
+                    ViewBag.Module = GetSession("CurrForm").ToString()
+                End If
+                ViewBag.UserRights = GetSession("CurrRights").ToString()
+                Return View(vName)
+            Catch ex As Exception
+                Return Redirect("~/index.html?message=" & ex.Message)
+            End Try
+        End Function
+        Friend Function GetView(vName As String, Optional modName As String = "") As ActionResult
+            Return GetView(vName, modName, vName)
+        End Function
+
+        Function GetDateTime(obj As Object) As DateTime
+            Try
+                Return Convert.ToDateTime(obj)
+            Catch ex As Exception
+                Return DateTime.MinValue
+            End Try
+        End Function
+        Function GetDouble(obj As Object) As Double
+            Try
+                Return Convert.ToDouble(obj)
+            Catch ex As Exception
+                Return 0.0
+            End Try
+        End Function
+        Function GetInteger(obj As Object) As Integer
+            Try
+                Return Convert.ToInt32(obj)
+            Catch ex As Exception
+                Return 0
+            End Try
+        End Function
+
+
+
+        <HttpPost()>
+        Function PostCreateTransport() As ActionResult
+            Dim fldJobType = Request.Form("fieldJobType")
+            If IsNothing(Request.Form("fieldJobType")) Then
+                fldJobType = "JobType"
+            End If
+            Dim fldShipper As String = "Shipper"
+            Dim fldConsignee As String = "Consignee"
+            If Request.Form(fldJobType).ToString() = "02" Then
+                fldShipper = "Consignee"
+                fldConsignee = "Shipper"
+            End If
+            Dim data = New CJobOrder(GetSession("ConnJob")) With
+                {
+                .BranchCode = Request.Form("Branch"),
+                .JNo = Request.Form("Job"),
+                .DocDate = DateTime.Today,
+                .CSCode = GetSession("CurrUser"),
+                .CustCode = IIf(Request.Form(fldShipper).IndexOf("|") > 0, Request.Form(fldShipper).Split("|")(0), ""),
+                .CustBranch = IIf(Request.Form(fldShipper).IndexOf("|") > 0, Request.Form(fldShipper).Split("|")(1), ""),
+                .JobType = Request.Form("JobType"),
+                .ShipBy = Request.Form("ShipBy"),
+                .Consigneecode = IIf(Request.Form(fldConsignee).IndexOf("|") > 0, Request.Form(fldConsignee).Split("|")(0), ""),
+                .InvNo = Request.Form("CustInv"),
+                .BookingNo = Request.Form("BookingNo"),
+                .HAWB = Request.Form("HouseBL"),
+                .MAWB = Request.Form("MasterBL"),
+                .ETDDate = Main.GetDateTime(Request.Form("ETD")),
+                .ETADate = Main.GetDateTime(Request.Form("ETA")),
+                .VesselName = Request.Form("Vessel"),
+                .MVesselName = Request.Form("MVessel"),
+                .ForwarderCode = Request.Form("Forwarder"),
+                .AgentCode = Request.Form("Transport"),
+                .TotalNW = Main.GetDouble(Request.Form("NetWeight")),
+                .TotalGW = Main.GetDouble(Request.Form("GrossWeight")),
+                .GWUnit = "KGS",
+                .Measurement = Main.GetDouble(Request.Form("M3")),
+                .TotalContainer = Request.Form("ContQty") & "x" & Request.Form("ContUnit"),
+                .DeliveryTo = Request.Form("DeliveryName"),
+                .TotalQty = Main.GetDouble(Request.Form("ContQty")),
+                .DeliveryAddr = Request.Form("DeliveryAddress"),
+                .BLNo = Request.Form("BLNo"),
+                .ClearPortNo = Request.Form("PlaceDischarge"),
+                .QNo = Request.Form("QuoNo"),
+                .InvInterPort = Request.Form("PortCode"),
+                .InvFCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, Request.Form("Country"), "TH"),
+                .InvCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, "TH", Request.Form("Country")),
+                .InvProduct = Request.Form("InvProduct"),
+                .InvProductQty = Main.GetDouble(Request.Form("InvProductQty")),
+                .InvProductUnit = Request.Form("InvProductUnit"),
+                .ProjectName = Request.Form("ProjectName"),
+                .LoadDate = Main.GetDateTime(Request.Form("LoadDate")),
+                .EstDeliverDate = Main.GetDateTime(Request.Form("EstDeliverDate")),
+                .EstDeliverTime = Main.GetDateTime("1900-01-01 " & Request.Form("EstDeliverTime")),
+                .ConfirmChqDate = Main.GetDateTime("1900-01-01 " & Request.Form("ConfirmChqDate")),
+                .ClearPort = Request.Form("ClearPort")
+                }
+            If Request.Form("mode") <> "A" And data.JNo <> "" Then
+                Dim chkData = New CJobOrder(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
+                If chkData.Count > 0 Then
+                    data = chkData(0)
+                    With data
+                        .DocDate = DateTime.Today
+                        .CSCode = GetSession("CurrUser")
+                        .CustCode = IIf(Request.Form(fldShipper).IndexOf("|") > 0, Request.Form(fldShipper).Split("|")(0), "")
+                        .CustBranch = IIf(Request.Form(fldShipper).IndexOf("|") > 0, Request.Form(fldShipper).Split("|")(1), "")
+                        .JobType = Request.Form("JobType")
+                        .ShipBy = Request.Form("ShipBy")
+                        .Consigneecode = IIf(Request.Form(fldConsignee).IndexOf("|") > 0, Request.Form(fldConsignee).Split("|")(0), "")
+                        .InvNo = Request.Form("CustInv")
+                        .BookingNo = Request.Form("BookingNo")
+                        .HAWB = Request.Form("HouseBL")
+                        .MAWB = Request.Form("MasterBL")
+                        .ETDDate = Main.GetDateTime(Request.Form("ETD"))
+                        .ETADate = Main.GetDateTime(Request.Form("ETA"))
+                        .VesselName = Request.Form("Vessel")
+                        .MVesselName = Request.Form("MVessel")
+                        .ForwarderCode = Request.Form("Forwarder")
+                        .AgentCode = Request.Form("Transport")
+                        .TotalNW = Main.GetDouble(Request.Form("NetWeight"))
+                        .TotalGW = Main.GetDouble(Request.Form("GrossWeight"))
+                        .GWUnit = "KGS"
+                        .Measurement = Main.GetDouble(Request.Form("M3"))
+                        .TotalContainer = Request.Form("ContQty") & "x" & Request.Form("ContUnit")
+                        .DeliveryTo = Request.Form("DeliveryName")
+                        .TotalQty = Main.GetDouble(Request.Form("ContQty"))
+                        .DeliveryAddr = Request.Form("DeliveryAddress")
+                        .BLNo = Request.Form("BLNo")
+                        .ClearPortNo = Request.Form("PlaceDischarge")
+                        .QNo = Request.Form("QuoNo")
+                        .InvInterPort = Request.Form("PortCode")
+                        .InvFCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, Request.Form("Country"), "TH")
+                        .InvCountry = IIf(Convert.ToInt32(Request.Form(fldJobType).ToString()) = 1, "TH", Request.Form("Country"))
+                        .InvProduct = Request.Form("InvProduct")
+                        .InvProductQty = Main.GetDouble(Request.Form("InvProductQty"))
+                        .InvProductUnit = Request.Form("InvProductUnit")
+                        .ProjectName = Request.Form("ProjectName")
+                        .LoadDate = Main.GetDateTime(Request.Form("LoadDate"))
+                        .EstDeliverDate = Main.GetDateTime(Request.Form("EstDeliverDate"))
+                        .EstDeliverTime = Main.GetDateTime("1900-01-01 " & Request.Form("EstDeliverTime"))
+                        .ConfirmChqDate = Main.GetDateTime("1900-01-01 " & Request.Form("ConfirmChqDate"))
+                        .ClearPort = Request.Form("ClearPort")
+                    End With
+                End If
+            End If
+            If data.HAWB = "{AUTO}" And GetValueConfig("RUNNING_BYMASK", "HBLAWB") <> "" Then
+                Dim mask = GetValueConfig("RUNNING_BYMASK", "HBLAWB")
+                If mask.IndexOf("[CT]") >= 0 Then
+                    If fldJobType = "JobType" Then
+                        If (data.JobType = 1) Then
+                            mask = mask.Replace("[CT]", data.InvCountry)
+                        End If
+                        mask = mask.Replace("[CT]", data.InvFCountry)
+                    Else
+                        If (data.ShipBy = 1) Then
+                            mask = mask.Replace("[CT]", data.InvCountry)
+                        End If
+                        mask = mask.Replace("[CT]", data.InvFCountry)
+
+                    End If
+                End If
+                If mask.IndexOf("[IP]") >= 0 Then
+                    mask = mask.Replace("[IP]", data.InvInterPort)
+                End If
+                If mask.IndexOf("[CMP]") >= 0 Then
+                    mask = mask.Replace("[CMP]", data.CustCode.Substring(0, 3))
+                End If
+                If mask.IndexOf("yyyy") >= 0 Then
+                    mask = mask.Replace("yyyy", data.DocDate.ToString("yyyy"))
+                End If
+                If mask.IndexOf("yy") >= 0 Then
+                    mask = mask.Replace("yy", data.DocDate.ToString("yy"))
+                End If
+                If mask.IndexOf("MMM") >= 0 Then
+                    mask = mask.Replace("MMM", data.DocDate.ToString("MMM").ToUpper())
+                End If
+                If mask.IndexOf("MM") >= 0 Then
+                    mask = mask.Replace("MM", data.DocDate.ToString("MM"))
+                End If
+                If mask.IndexOf("#") >= 0 Then
+                    mask = mask.Replace("#", "_")
+                End If
+                data.AddHAWB(mask)
+            End If
+            If data.BookingNo = "{AUTO}" And GetValueConfig("RUNNING_BYMASK", "BOOKING") <> "" Then
+                Dim mask = GetValueConfig("RUNNING_BYMASK", "BOOKING")
+                If mask.IndexOf("[CT]") >= 0 Then
+                    If fldJobType = "JobType" Then
+                        If (data.JobType = 1) Then
+                            mask = mask.Replace("[CT]", data.InvCountry)
+                        End If
+                        mask = mask.Replace("[CT]", data.InvFCountry)
+                    Else
+                        If (data.ShipBy = 1) Then
+                            mask = mask.Replace("[CT]", data.InvCountry)
+                        End If
+                        mask = mask.Replace("[CT]", data.InvFCountry)
+                    End If
+                End If
+                If mask.IndexOf("[IP]") >= 0 Then
+                    mask = mask.Replace("[IP]", data.InvInterPort)
+                End If
+                If mask.IndexOf("[CMP]") >= 0 Then
+                    mask = mask.Replace("[CMP]", data.CustCode.Substring(0, 3))
+                End If
+                If mask.IndexOf("yyyy") >= 0 Then
+                    mask = mask.Replace("yyyy", data.DocDate.ToString("yyyy"))
+                End If
+                If mask.IndexOf("yy") >= 0 Then
+                    mask = mask.Replace("yy", data.DocDate.ToString("yy"))
+                End If
+                If mask.IndexOf("MMM") >= 0 Then
+                    mask = mask.Replace("MMM", data.DocDate.ToString("MMM").ToUpper())
+                End If
+                If mask.IndexOf("MM") >= 0 Then
+                    mask = mask.Replace("MM", data.DocDate.ToString("MM"))
+                End If
+                If mask.IndexOf("#") >= 0 Then
+                    mask = mask.Replace("#", "_")
+                End If
+                data.AddBooking(mask)
+            End If
+            Dim sql As String = ""
+            Dim FindJob
+            If data.InvNo <> "" Then
+                sql = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
+                FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
+                If FindJob.Count > 0 Then
+                    If FindJob(0).JNo <> data.JNo Then
+                        ViewBag.Message = String.Format("Commercial Invoice No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).InvNo)
+                        ViewBag.JobNo = FindJob(0).JNo
+                        Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
+                    End If
+                End If
+            End If
+
+            If data.JNo = "" Then
+                If data.BookingNo <> "" Then
+                    sql = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And BookingNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.BookingNo)
+                    FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
+                    If FindJob.Count > 0 Then
+                        If FindJob(0).JNo <> data.JNo Then
+                            ViewBag.Message = String.Format("Booking No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).BookingNo)
+                            ViewBag.JobNo = FindJob(0).JNo
+                            Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
+                        End If
+                    End If
+                End If
+                If data.HAWB <> "" Then
+                    sql = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And HAWB='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.HAWB)
+                    FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
+                    If FindJob.Count > 0 Then
+                        If FindJob(0).JNo <> data.JNo Then
+                            ViewBag.Message = String.Format("House BL/AWB No.{1} has been used in job {0}", FindJob(0).JNo, FindJob(0).HAWB)
+                            ViewBag.JobNo = FindJob(0).JNo
+                            Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
+                        End If
+                    End If
+                End If
+                Dim prefix As String = GetJobPrefix(data)
+                If Not IsNothing(Request.QueryString("Prefix")) Then
+                    prefix = "" & Request.QueryString("Prefix")
+                End If
+                Dim fmt = Main.GetValueConfig("RUNNING", "JOB")
+                If fmt <> "" Then
+                    If fmt.IndexOf("bb") >= 0 Then
+                        fmt = fmt.Replace("bb", data.DocDate.AddYears(543).ToString("yy"))
+                    End If
+                    If fmt.IndexOf("yy") >= 0 Then
+                        fmt = fmt.Replace("yy", data.DocDate.ToString("yy"))
+                    End If
+                    If fmt.IndexOf("MM") >= 0 Then
+                        fmt = fmt.Replace("MM", data.DocDate.ToString("MM"))
+                    End If
+                Else
+                    fmt = data.DocDate.ToString("yyMM") & "____"
+                End If
+                If Main.GetValueConfig("PROFILE", "RUNNING_BYMASK") = "N" Then
+                    data.AddNew("%" & fmt, False)
+                    If data.JNo.IndexOf("%") > 0 Then
+                        data.JNo = data.JNo.Replace("%", prefix)
+                    Else
+                        data.JNo = prefix & data.JNo.Substring(3)
+                    End If
+                Else
+                    data.AddNew(prefix & fmt, False)
+                End If
+            End If
+            If data.BookingNo <> "" Then
+                Dim book = New CTransportHeader(GetSession("ConnJob")) With {
+                            .BranchCode = data.BranchCode,
+                            .JNo = data.JNo,
+                            .BookingNo = data.BookingNo,
+                            .LoadDate = IIf(fldJobType = "JobType", IIf(data.JobType = 1, data.ETADate, data.ETDDate), IIf(data.ShipBy = 1, data.ETADate, data.ETDDate)),
+                            .NotifyCode = Request.Form("Notify").Split("|")(0),
+                            .VenderCode = Request.Form("Transport"),
+                            .PaymentCondition = Request.Form("FreightCondition"),
+                            .PaymentBy = Request.Form("FreightPaymentBy"),
+                            .CYPlace = Request.Form("PlaceReceive"),
+                            .FactoryPlace = Request.Form("PlaceLoading"),
+                            .PackingPlace = Request.Form("PlaceDelivery"),
+                            .ReturnPlace = Request.Form("PlaceDischarge"),
+                            .ReturnContact = Request.Form("AlsoNotify"),
+                            .CYContact = Request.Form("CYContact"),
+                            .CYDate = Main.GetDateTime(Request.Form("CYDate")),
+                            .PackingDate = Main.GetDateTime(Request.Form("PackingDate")),
+                            .ReturnDate = Main.GetDateTime(Request.Form("ReturnDate")),
+                            .FactoryDate = Main.GetDateTime(Request.Form("FactoryDate")),
+                            .FactoryTime = Main.GetDateTime(Request.Form("FactoryTime")),
+                            .TransMode = Request.Form("TransMode"),
+                            .Remark = Request.Form("Remark")
+                            }
+                Dim chkBook = New CTransportHeader(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{0}'", book.BranchCode, book.BookingNo))
+                If chkBook.Count > 0 Then
+                    With chkBook(0)
+                        .BranchCode = data.BranchCode
+                        .JNo = data.JNo
+                        .BookingNo = data.BookingNo
+                        .LoadDate = IIf(fldJobType = "JobType", IIf(data.JobType = 1, data.ETADate, data.ETDDate), IIf(data.ShipBy = 1, data.ETADate, data.ETDDate))
+                        .NotifyCode = Request.Form("Notify").Split("|")(0)
+                        .VenderCode = Request.Form("Transport")
+                        .PaymentCondition = Request.Form("FreightCondition")
+                        .PaymentBy = Request.Form("FreightPaymentBy")
+                        .CYPlace = Request.Form("PlaceReceive")
+                        .FactoryPlace = Request.Form("PlaceLoading")
+                        .PackingPlace = Request.Form("PlaceDelivery")
+                        .ReturnPlace = Request.Form("PlaceDischarge")
+                        .ReturnContact = Request.Form("AlsoNotify")
+                        .CYContact = Request.Form("CYContact")
+                        .CYDate = Main.GetDateTime(Request.Form("CYDate"))
+                        .PackingDate = Main.GetDateTime(Request.Form("PackingDate"))
+                        .ReturnDate = Main.GetDateTime(Request.Form("ReturnDate"))
+                        .FactoryDate = Main.GetDateTime(Request.Form("FactoryDate"))
+                        .FactoryTime = Main.GetDateTime(Request.Form("FactoryTime"))
+                        .TransMode = Request.Form("TransMode")
+                        .Remark = Request.Form("Remark")
+                    End With
+                    book = chkBook(0)
+                End If
+                Dim msg = book.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}'", data.BranchCode, data.BookingNo))
+                If Request.Form("ContList").ToString() <> "" Then
+                    Dim arrCont = Request.Form("ContList").Split(";")
+                    If arrCont.Length > 0 Then
+                        If msg.Substring(0, 4) = "Save" Then
+                            For i As Integer = 1 To arrCont.Length - 1
+                                Dim val = arrCont(i - 1).Split("|")
+                                Dim cont = New CTransportDetail(GetSession("ConnJob")) With {
+                                .BranchCode = data.BranchCode,
+                                .JNo = data.JNo,
+                                .BookingNo = data.BookingNo,
+                                .ItemNo = i,
+                                .CTN_NO = val(0),
+                                .CTN_SIZE = Request.Form("ContUnit"),
+                                .NetWeight = Main.GetDouble(val(1)),
+                                .GrossWeight = Main.GetDouble(val(2)),
+                                .Measurement = Main.GetDouble(val(3)),
+                                .ProductQty = Main.GetDouble(val(4)),
+                                .ProductUnit = val(5),
+                                .SealNumber = val(6)
+                                }
+                                Dim chkCont = New CTransportDetail(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", data.BranchCode, data.BookingNo, i))
+                                If chkCont.Count > 0 Then
+                                    With chkCont(0)
+                                        .CTN_NO = val(0)
+                                        .CTN_SIZE = Request.Form("ContUnit")
+                                        .NetWeight = Main.GetDouble(val(1))
+                                        .GrossWeight = Main.GetDouble(val(2))
+                                        .Measurement = Main.GetDouble(val(3))
+                                        .ProductQty = Main.GetDouble(val(4))
+                                        .ProductUnit = val(5)
+                                        .SealNumber = val(6)
+                                    End With
+                                    cont = chkCont(0)
+                                End If
+                                cont.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo={2}", data.BranchCode, data.BookingNo, i))
+                            Next
+                        End If
+                    End If
+                End If
+            End If
+            ViewBag.JobNo = data.JNo
+            ViewBag.Message = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
+            Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
+        End Function
+        Function CreateTransport() As ActionResult
+            ViewBag.JobNo = ""
+            ViewBag.Message = "Ready"
+            Return GetView("CreateTransport", "MODULE_CS", "CreateJob")
+        End Function
 
     End Class
 End Namespace

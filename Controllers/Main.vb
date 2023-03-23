@@ -2889,4 +2889,27 @@ ORDER BY h.PoNo,h.DocNo
     Function GetSession(sName As String) As String
         Return HttpContext.Current.Session(sName).ToString
     End Function
+
+    Function GetDateTime(obj As Object) As DateTime
+        Try
+            Return Convert.ToDateTime(obj)
+        Catch ex As Exception
+            Return DateTime.MinValue
+        End Try
+    End Function
+    Function GetDouble(obj As Object) As Double
+        Try
+            Return Convert.ToDouble(obj)
+        Catch ex As Exception
+            Return 0.0
+        End Try
+    End Function
+    Function GetInteger(obj As Object) As Integer
+        Try
+            Return Convert.ToInt32(obj)
+        Catch ex As Exception
+            Return 0
+        End Try
+    End Function
+
 End Module

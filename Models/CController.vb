@@ -153,14 +153,14 @@ Public Class CController
         ViewBag.SESSION_ID = Session.SessionID
         Return Not bExpired
     End Function
-    Friend Function GetView(vName As String, Optional modName As String = "") As ActionResult
+    Friend Function GetView(vName As String, modName As String, funcName As String) As ActionResult
         Dim baseURL = Me.ControllerContext.RouteData.Values("Controller").ToString() & "\" & vName
         Try
             LoadCompanyProfile()
             If modName <> "" And ViewBag.User <> "" Then
                 Session("CurrForm") = modName & "/" & vName
                 ViewBag.Module = GetSession("CurrForm").ToString()
-                Session("CurrRights") = Main.GetAuthorize(ViewBag.User, modName, vName)
+                Session("CurrRights") = Main.GetAuthorize(ViewBag.User, modName, funcName)
                 If Session("CurrRights").ToString().IndexOf("M") < 0 Then
                     Return RedirectToAction("AuthError", "Menu")
                 End If
@@ -176,5 +176,8 @@ Public Class CController
         Catch ex As Exception
             Return Redirect("~/index.html?message=" & ex.Message)
         End Try
+    End Function
+    Friend Function GetView(vName As String, Optional modName As String = "") As ActionResult
+        Return GetView(vName, modName, vName)
     End Function
 End Class
