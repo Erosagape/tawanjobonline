@@ -43,6 +43,9 @@
         case 'CreateJob':
             mnuPath = path + 'JobOrder/CreateJob';
             break;
+        case 'CreateTransport':
+            mnuPath = path + 'JobOrder/CreateTransport';
+            break;
         case 'SearchJob':
             mnuPath = path + 'JobOrder/Index';
             break;

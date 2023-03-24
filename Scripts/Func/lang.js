@@ -35,6 +35,7 @@ function ChangeLanguage(code, module) {
                 mnuCS2: 'List Job|ค้นหางาน',
                 mnuCS3: 'Loading Info|ข้อมูลรับบรรทุก',
                 mnuCS4: 'Witholding-Tax|ออกหนังสือหักณที่จ่าย',
+                mnuCS5: 'Create BL/AWB|สร้าง BL/AWB',
                 mainShp: 'Shipping Works|แผนกชิปปิ้ง',
                 mnuShp1: 'Advance|ใบเบิกค่าใช้จ่าย',
                 mnuShp2: 'Clearing|ใบปิดค่าใช้จ่าย',
@@ -1753,7 +1754,7 @@ function ChangeLanguageForm(fname) {
                 lblGrossWeight: 'Gross Weight|น้ำหนักรวม',
                 lblInvFCountry: 'From Country|จากประเทศ',
                 lblInvCountry: 'To Country|ไปประเทศ',
-                lblInvInterPort: 'Inter Port|ท่าต่างประเทศ',
+                lblInvInterPort: 'Discharge Port|ท่าต่างประเทศ',
                 lblForwarder: 'Agent/Forwarder|ตัวแทนเรือ/สายการบิน',
                 lblVesselName: 'Vessel Name|ชื่อพาหนะ',
                 lblMVesselName: 'Master Vessel|ชื่อพาหนะถ่ายลำ',
@@ -1775,8 +1776,8 @@ function ChangeLanguageForm(fname) {
                 lblTyClearTax: 'Duty Rule|เงื่อนไขภาษี',
                 lblClearTaxReson: 'Certificate#|เลขที่ใบอนุญาต',
                 lblDeclareStatus: 'Declare Status|สถานะใบขน',
-                lblReleasePort: 'Release Port|สถานที่ตรวจปล่อย',
-                lblPortNo: 'Discharge Port|ท่าตรวจปล่อย',
+                lblReleasePort: 'Loading Port|สถานที่ตรวจปล่อย',
+                lblPortNo: 'Port#|ท่าใน',
                 lblShippingCmd: 'Shipping Note|หมายเหตุชิปปิ้ง',
                 lblShipping: 'Shipping Staff|พนักงานตรวจปล่อย',
                 lblComPaidBy: 'Company Paid By|ค่าใช้จ่ายของบริษัท',
@@ -1857,9 +1858,9 @@ function ChangeLanguageForm(fname) {
                 lblActive: 'Active Trip:|จำนวน',
                 lblFinish: 'Finished Trip:|จบงาน',
                 lblNonActive:'Non-active|ยังไม่จบ',
-                lblPlace1: 'Pick Up: |รับตู้/ออกรถ',
-                lblPlace2: 'Delivery: |ปลายทาง',
-                lblPlace3: 'Return: |คืนตู้',
+                lblPlace1: 'Pick Up: |ออกรถ',
+                lblPlace2: 'Receive: |รับตู้',
+                lblPlace3: 'Delivery: |ปลายทาง',
                 lblPlace4: 'Container Size: |ประเภทตู้',
                 lblAddress1: 'Address:|ที่อยู่',
                 lblAddress2: 'Address:|ที่อยู่',
@@ -2754,7 +2755,6 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVCLEARING", "ReportNameEN": "Advance Clearing Detail Report", "ReportNameTH": "รายงานการติดตามใบเบิก" },
         { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVIMPORT", "ReportNameEN": "Advance Import Detail Report", "ReportNameTH": "รายงานรายละเอียดใบเบิกขาเข้า" },
         { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVEXPORT", "ReportNameEN": "Advance Export Detail Report", "ReportNameTH": "รายงานรายละเอียดใบเบิกขาออก" },
-        { "ReportType": "ADD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVOTHER", "ReportNameEN": "Advance Local Detail Report", "ReportNameTH": "รายงานรายละเอียดใบเบิกอื่นๆ" },
         { "ReportType": "STD", "ReportGroup": "ADV", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "ADVEXPENSE", "ReportNameEN": "Advance Total Expense Report", "ReportNameTH": "รายงานสรุปการเบิกแต่ละประเภท" },
         { "ReportType": "ADD", "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "CLRDAILY", "ReportNameEN": "Clearing Daily", "ReportNameTH": "รายงานการปิดค่าใช้จ่ายประจำวัน" },
         { "ReportType": "ADD", "ReportGroup": "CLR", "ReportAuthor": "1,2,3,4,5,6,98,99", "ReportCode": "EARNEST", "ReportNameEN": "Earnest Summary", "ReportNameTH": "รายงานเงินมัดจำ" },
@@ -2822,7 +2822,8 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT08", "ReportNameEN": "Billing Report By Customer", "ReportNameTH": "รายงานติดตามการออกใบแจ้งหนี้ตามลูกค้า" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT09", "ReportNameEN": "Payment By Vender by Job Order", "ReportNameTH": "รายงานค่าใช้จ่ายเจ้าหนี้ตามจ๊อบงาน" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT10", "ReportNameEN": "A/P Accural Report", "ReportNameTH": "รายงานค่าใช้จ่ายรอการจ่าย" },
-        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT11", "ReportNameEN": "A/R Accural Report", "ReportNameTH": "รายงานรายได้รอการวางบิล" }
+        { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT11", "ReportNameEN": "A/R Accural Report", "ReportNameTH": "รายงานรายได้รอการวางบิล" },
+        { "ReportType": "EXC", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "PROFITDETAIL", "ReportNameEN": "Profit And Costing By Job Order", "ReportNameTH": "รายงานรายละเอียดตามจ๊อบ" }
     ];
 }
 function GetLanguage(msg) {
@@ -3731,7 +3732,7 @@ function ChangeLanguageGrid(module, id) {
                     "Cust Inv|อินวอยลูกค้า",
                     "Status|สถานะ",
                     "Clr.Total|ยอดปิด",
-                    "Container|เบอร์ตู้",
+                    "Currency|สกุลเงิน",
                     "Adv No|จากใบเบิก",
                     "Adv.Total|ยอดเบิก",
                     "Remark|หมายเหตุ"
@@ -3885,7 +3886,6 @@ function ChangeLanguageGrid(module, id) {
                 gridLang = [
                     "#|#",
                     "Booking No|เลขที่บุคกิ้ง",
-                    "Job|เลขงาน",
                     "Customer|ลูกค้า",
                     "Cont.No|หมายเลขตู้",
                     "Cont.Size|ขนาดตู้",
@@ -3893,8 +3893,6 @@ function ChangeLanguageGrid(module, id) {
                     "Status|สถานะ",
                     "Route|เส้นทาง",
                     "Pickup|วันที่รับ",
-                    "Delivery|วันที่ส่ง",
-                    "Return|วันที่คืน"
                 ];
             }
             SetGridLang(id, gridLang);

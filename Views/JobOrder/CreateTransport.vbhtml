@@ -403,7 +403,7 @@ End Code
             </select>
         </div>
     </div>
-    <input type="hidden" name="fieldJobType" value="ShipBy" />
+    <input type="hidden" name="fieldJobType" value="JobType" />
     <input type="hidden" name="ContList" id="ContainerList" />
     <input type="button" id="btnSave" Class="btn btn-success" onclick="return ValidateData()" value="Save Data" />
     <input class="btn btn-default w3-purple" type="reset" onclick="ClearCont()" value="New" />
@@ -414,11 +414,14 @@ End Code
     <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Form</b>
 </a>
 <select id="cboPrintForm">
-    <option value="JO">Shipment Order</option>
     <option value="BA">Booking Confirmation (AIR)</option>
     <option value="BS">Booking Confirmation (SEA)</option>
-    <option value="SP">Shipping Instruction</option>
-    <option value="BLE">Bill of Lading - UGLOBE</option>
+    <option value="SP">Shipping Particulars</option>
+    <option value="BL">BL/AWB</option>
+    <option value="DO">D/O Letter</option>
+    <option value="SC">Sales Contract</option>
+    <option value="IV">Commercial Invoice</option>
+    <option value="PL">Packing Lists</option>
 </select>
 <div id="dvLOVs"></div>
 <script type="text/javascript">
@@ -509,9 +512,9 @@ End Code
                 $('#txtFreightType').val(h.PaymentCondition);
                 $('#txtFreightPayAt').val(h.PaymentBy);
 
-                $('#txtReceivePlace').val(h.CYPlace);
-                $('#txtLoadingPlace').val(h.FactoryPlace);
-                $('#txtDeliveryPlace').val(h.PackingPlace);
+                $('#txtReceivePlace').val(h.PackingPlace);
+                $('#txtLoadingPlace').val(h.CYPlace);
+                $('#txtDeliveryPlace').val(h.FactoryPlace);
                 $('#txtDischargePlace').val(h.ReturnPlace);
 
                 $('#txtCYContact').val(h.CYContact);
@@ -546,16 +549,11 @@ End Code
 
         $('#txtPortCode').val(dr.InvInterPort);
 
-        $('#txtCountryCode').val(dr.ShipBy == 1 ? dr.InvFCountry : dr.InvCountry);
+        $('#txtCountryCode').val(dr.InvCountry);
         ShowCountry(path, $('#txtCountryCode').val(), '#txtCountryName');
 
-        if (dr.ShipBy == 1) {
-            $('#txtShipperCode').val(dr.CustCode + '|' + dr.CustBranch);
-            ShowCustomerEN(path, dr.CustCode, dr.CustBranch, '#txtShipperName');
-        } else {
-            $('#txtConsigneeCode').val(dr.CustCode + '|' + dr.CustBranch);
-            ShowCustomerEN(path, dr.CustCode, dr.CustBranch, '#txtConsigneeName');
-        }
+        $('#txtShipperCode').val(dr.CustCode + '|' + dr.CustBranch);
+        ShowCustomerEN(path, dr.CustCode, dr.CustBranch, '#txtShipperName');
 
         $('#txtInvNo').val(dr.InvNo);
         $('#txtBookingNo').val(dr.BookingNo);
@@ -597,13 +595,8 @@ End Code
         $.get(path + 'Master/GetCompany?Code=' + dr.Consigneecode).done((r) => {
             if (r.company.data.length > 0) {
                 let c = r.company.data[0];
-                if (dr.ShipBy == 1) {
-                    $('#txtConsigneeCode').val(c.CustCode + '|' + c.Branch);
-                    $('#txtConsigneeName').val(c.NameEng);
-                } else {
-                    $('#txtShipperCode').val(c.CustCode + '|' + c.Branch);
-                    $('#txtShipperName').val(c.NameEng);
-                }
+                $('#txtConsigneeCode').val(c.CustCode + '|' + c.Branch);
+                $('#txtConsigneeName').val(c.NameEng);
             }
         });
         LoadBooking(dr);
@@ -726,57 +719,34 @@ End Code
                 });
                 break;
             case 'receiveat':
-                w = Number($('#txtShipBy').val()) == 1 ? $('#txtCountryCode').val() : 'TH';
+                w = 'TH';
                 SetGridInterPort(path, '#tbReceiveAt', '#dvReceiveAt', w, function (dr) {
-                    if (Number($('#txtShipBy').val()) == 1) {
-                        $('#txtReceivePlace').val(dr.PortName + ',' + $('#txtCountryName').val());
-                    } else {
+                    $('#txtReceivePlace').val(dr.PortName + ',THAILAND');
+                });
+                break;
+            case 'loadat':
+                w = 'TH';
+                SetGridInterPort(path, '#tbLoadAt', '#dvLoadAt', w, function (dr) {
+                    $('#txtLoadingPlace').val(dr.PortName + ',THAILAND');
+                    if ($('#txtReceivePlace').val() == '') {
                         $('#txtReceivePlace').val(dr.PortName + ',THAILAND');
                     }
                 });
                 break;
-            case 'loadat':
-                w = Number($('#txtShipBy').val()) == 1 ? $('#txtCountryCode').val() : 'TH';
-                SetGridInterPort(path, '#tbLoadAt', '#dvLoadAt', w, function (dr) {
-                    if (Number($('#txtShipBy').val()) == 1) {
-                        $('#txtPortCode').val(dr.PortCode);
-                        $('#txtLoadingPlace').val(dr.PortName + ',' +$('#txtCountryName').val());
-                        if ($('#txtReceivePlace').val() == '') {
-                            $('#txtReceivePlace').val(dr.PortName + ',' + $('#txtCountryName').val());
-                        }
-                    } else {
-                        $('#txtLoadingPlace').val(dr.PortName + ',THAILAND');
-                        if ($('#txtReceivePlace').val() == '') {
-                            $('#txtReceivePlace').val(dr.PortName + ',THAILAND');
-                        }
-                    }
-                });
-                break;
             case 'dischargeat':
-                w = Number($('#txtShipBy').val()) == 1 ? 'TH' : $('#txtCountryCode').val();
+                w = $('#txtCountryCode').val();
                 SetGridInterPort(path, '#tbDischargeAt', '#dvDischargeAt', w, function (dr) {
-                    if (Number($('#txtShipBy').val()) !== 1) {
-                        $('#txtPortCode').val(dr.PortCode);
-                        $('#txtDischargePlace').val(dr.PortName + ',' + $('#txtCountryName').val());
-                        if ($('#txtDeliveryPlace').val() == '') {
-                            $('#txtDeliveryPlace').val(dr.PortName + ',' + $('#txtCountryName').val());
-                        }
-                    } else {
-                        $('#txtDischargePlace').val(dr.PortName + ',THAILAND');
-                        if ($('#txtDeliveryPlace').val() == '') {
-                            $('#txtDeliveryPlace').val(dr.PortName + ',THAILAND');
-                        }
+                    $('#txtPortCode').val(dr.PortCode);
+                    $('#txtDischargePlace').val(dr.PortName + ',' + $('#txtCountryName').val());
+                    if ($('#txtDeliveryPlace').val() == '') {
+                        $('#txtDeliveryPlace').val(dr.PortName + ',' + $('#txtCountryName').val());
                     }
                 });
                 break;
             case 'deliveryat':
-                w = Number($('#txtShipBy').val()) == 1 ? 'TH' : $('#txtCountryCode').val();
+                w = $('#txtCountryCode').val();
                 SetGridInterPort(path, '#tbDeliveryAt', '#dvDeliveryAt', w, function (dr) {
-                    if (Number($('#txtShipBy').val()) == 1) {
-                        $('#txtDeliveryPlace').val(dr.PortName + ',THAILAND');
-                    } else {
-                        $('#txtDeliveryPlace').val(dr.PortName + ','+ $('#txtCountryName').val());
-                    }
+                    $('#txtDeliveryPlace').val(dr.PortName + ','+ $('#txtCountryName').val());
                 });
                 break;
             case 'payableat':
@@ -870,12 +840,12 @@ End Code
             if ($('#txtShipBy').val() == '') $('#txtShipBy').focus();
             return;
         }
-        if ($('#txtShipperCode').val() == '' && $('#txtShipBy').val() == '02') {
+        if ($('#txtShipperCode').val() == '') {
             ShowMessage("Shipper Must be chosen", true);
             SearchData('shipper');
             return;
         }
-        if ($('#txtConsigneeCode').val() == '' && $('#txtShipBy').val() == '01') {
+        if ($('#txtConsigneeCode').val() == '') {
             ShowMessage("Consignee Must be chosen", true);
             SearchData('cons');
             return;
@@ -1014,7 +984,7 @@ End Code
     function SetAuto(id) {
         $(id).val('{AUTO}');
     }
-    function PrintBooking() {
+    function PrintBooking_bk() {
         switch ($('#cboPrintForm').val()) {
             case 'JO':
                 window.open(path + 'JobOrder/FormJob?BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJNo').val(), '', '');
@@ -1066,6 +1036,35 @@ End Code
                 break;
         }
     }
+    function PrintBooking() {
+        switch ($('#cboPrintForm').val()) {
+            case 'BA':
+                window.open(path + 'JobOrder/FormBookingAir?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'BS':
+                window.open(path + 'JobOrder/FormBookingSea?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'SP':
+                window.open(path + 'JobOrder/FormBooking?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'BL':
+                window.open(path + 'JobOrder/FormTransport?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'DO':
+                window.open(path + 'JobOrder/FormLetter?BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJNo').val(), '', '');
+                break;
+            case 'SC':
+                window.open(path + 'JobOrder/FormSalesContract?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'IV':
+                window.open(path + 'JobOrder/FormInvoice?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+            case 'PL':
+                window.open(path + 'JobOrder/FormPackingList?BranchCode=' + $('#cboBranch').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
+        }
+    }
+
     function OpenJob() {
         window.open(path + 'JobOrder/ShowJob?BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJNo').val(), '', '');
     }

@@ -491,3 +491,28 @@ function loadUser(e, path) {
         }
     });
 }
+function ShowCustomerEN(path, Code, Branch, ControlID) {
+    $(ControlID).val('');
+    if ((Code + Branch).length > 0) {
+        $.get(path + 'Master/GetCompany?Code=' + Code + '&Branch=' + Branch)
+            .done(function (r) {
+                if (r.company.data.length > 0) {
+                    let c = r.company.data[0];
+                    $(ControlID).val(c.NameEng);
+                }
+            });
+    }
+}
+
+function ShowVenderEN(path, VenderID, ControlID) {
+    $(ControlID).val('');
+    if (VenderID != "") {
+        $.get(path + 'Master/GetVender?Code=' + VenderID)
+            .done(function (r) {
+                if (r.vender.data.length > 0) {
+                    let b = r.vender.data[0];
+                    $(ControlID).val(b.English);
+                }
+            });
+    }
+}
