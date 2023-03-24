@@ -29,21 +29,10 @@
     <div class="w3-sidebar w3-bar-block w3-animate-left" style="display:none;z-index:5" id="mySidebar">
         <div class="w3-sidebar w3-bar-block w3-indigo w3-card" style="width:250px;">
             <div style="width:100%;text-align:center;background-color:white">
-                <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:70%;padding:5px 5px 5px 5px;" />
+                <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:80%;padding:5px 5px 5px 5px;" />
             </div>
             <div style="width:100%;text-align:center;background-color:white;color:black;font-size:11px">
                 <label id="lblLicenseName" onclick="CheckDatabase()">@ViewBag.LICENSE_NAME</label>
-            </div>
-            <div id="dvCustomerMenu">
-                <div id="mainCust" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCust')">
-                    Importer/Exporter
-                </div>
-                <div id="mnuCust" class="w3-hide w3-pale-red w3-card-4">
-                    <a href="#" id="mnuCust1" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
-                    <a href="#" id="mnuCust3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking2')">- Shipment Status</a>
-                    <a href="#" id="mnuCust2" class="w3-bar-item w3-button" onclick="OpenMenu('CreateJob')">- Shipment Order</a>
-                    <a href="#" id="mnuCust4" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">- Documents</a>
-                </div>
             </div>
             <div id="dvShippingMenu">
                 <div id="mainMkt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMkt')">
@@ -58,6 +47,7 @@
                 </div>
                 <div id="mnuCS" class="w3-hide w3-light-grey w3-card-4">
                     <a href="#" id="mnuCS1" class="w3-bar-item w3-button" onclick="OpenMenu('CreateJob')">- Create Job</a>
+                    <a href="#" id="mnuCS5" class="w3-bar-item w3-button" onclick="OpenMenu('CreateTransport')">- Create BL/AWB</a>
                     <a href="#" id="mnuCS2" class="w3-bar-item w3-button" onclick="OpenMenu('SearchJob')">- List Job</a>
                     <a href="#" id="mnuCS3" class="w3-bar-item w3-button" onclick="OpenMenu('Transport')">- Loading Info</a>
                     <a href="#" id="mnuCS4" class="w3-bar-item w3-button" onclick="OpenMenu('WHTax')">- Withholding Tax</a>
@@ -101,18 +91,9 @@
                     <a href="#" id="mnuAcc3" class="w3-bar-item w3-button" onclick="OpenMenu('Billing')">- Billing</a>
                     <a href="#" id="mnuAcc4" class="w3-bar-item w3-button" onclick="OpenMenu('Receipt')">- Receipts</a>
                     <a href="#" id="mnuAcc5" class="w3-bar-item w3-button" onclick="OpenMenu('TaxInvoice')">- Tax-invoice</a>
-                    <a href="#" id="mnuAcc6" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Payments Bill</a>
+                    <a href="#" id="mnuAcc6" class="w3-bar-item w3-button" onclick="OpenMenu('Expense')">- Payments Bill</a>
                     <a href="#" id="mnuAcc7" class="w3-bar-item w3-button" onclick="OpenMenu('CreditNote')">- Credit/Debit Note</a>
                     <a href="#" id="mnuAcc8" class="w3-bar-item w3-button" onclick="OpenMenu('GLNote')">- Journal Entry</a>
-                </div>
-                <div id="mainVend2" class="w3-bar-item w3-button" onclick="w3_accordion('mnuVen')">
-                    Vender Works
-                </div>
-                <div id="mnuVen" class="w3-hide w3-pale-red w3-card-4">
-                    <a href="#" id="mnuVen0" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Approve Transport</a>
-                    <a href="#" id="mnuVen2" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Entry Expenses</a>
-                    <a href="#" id="mnuVen1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Create Invoice</a>
-                    <a href="#" id="mnuVen3" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">- Documents</a>
                 </div>
                 <div id="mainRpt" class="w3-bar-item w3-button" onclick="w3_accordion('mnuRpt')">
                     Report & Tracking
@@ -140,14 +121,24 @@
                     <a href="#" id="mnuUtil2" class="w3-bar-item w3-button" onclick="OpenMenu('Export')">- Export data</a>
                 </div>
             </div>
+            <div id="dvCustomerMenu">
+                <div id="mainCust" class="w3-bar-item w3-button" onclick="w3_accordion('mnuCust')">
+                    Importer/Exporter
+                </div>
+                <div id="mnuCust" class="w3-hide w3-pale-red w3-card-4">
+                    <a href="#" id="mnuCust1" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
+                    <a href="#" id="mnuCust3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking2')">- Shipment Status</a>
+                    <a href="#" id="mnuCust2" class="w3-bar-item w3-button" onclick="OpenMenu('CreateJob')">- Shipment Order</a>
+                    <a href="#" id="mnuCust4" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">- Documents</a>
+                </div>
+            </div>
             <div id="dvVenderMenu">
                 <div id="mainVend" class="w3-bar-item w3-button" onclick="w3_accordion('mnuVend')">
                     Vender Works
                 </div>
                 <div id="mnuVend" class="w3-hide w3-pale-red w3-card-4">
-                    <a href="#" id="mnuVend0" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Approve Transport</a>
-                    <a href="#" id="mnuVend2" class="w3-bar-item w3-button" onclick="OpenMenu('BillPayment')">- Entry Expenses</a>
-                    <a href="#" id="mnuVend1" class="w3-bar-item w3-button" onclick="OpenMenu('VenderInv')">- Create Invoice</a>
+                    <a href="#" id="mnuVend1" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Approve</a>
+                    <a href="#" id="mnuVend2" class="w3-bar-item w3-button" onclick="OpenMenu('Expense')">- Expenses</a>
                     <a href="#" id="mnuVend3" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">- Documents</a>
                 </div>
             </div>
@@ -286,26 +277,21 @@
             <!-- Page Content -->
             <div Class="panel-primary">
                 <div Class="panel-heading w3-indigo">
-                    <div Class="panel-title">
-                        <div class="row">
-                            <div class="col-xs-5 col-md-2" style="text-align:center">
-                                <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:70%;height:55px" onclick="w3_open();" />
-                            </div>
-                            <div class="col-xs-7 col-md-10">
-                                <div style="display:flex;align-items:center;height:50px">
-                                    <div style="text-align:left;flex:1;">
-                                        <label id="lblTitle" onclick="OpenContact()">@ViewBag.Title</label>
-                                        <input type="hidden" id="lblModule" value="@ViewBag.Module" />
-                                    </div>
-                                    <div style="text-align:right;flex:1;">
-                                        <a href="#" onclick="SetLogin()"><label id="lblUserID" style="color:white;font-size:11px">Please Login</label></a>
-                                        <select id="cboLanguage" onchange="ChangeLanguage($(this).val(),'@ViewBag.Module')" data-width="fit">
-                                            <option value="EN">EN</option>
-                                            <option value="TH">ไทย</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+                    <div Class="panel-title" style="display:flex">
+                        <div style="width:10%;text-align:center">
+                            <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:100%;height:50px" onclick="w3_open();" />
+<br/>	<b>a.c.e shipping</b>
+                        </div>
+                        <div style="margin-left:10px;width:80%">
+                            <h4><label id="lblTitle" onclick="OpenContact()">@ViewBag.Title</label></h4>
+                            <label style="display:none" id="lblModule">@ViewBag.Module</label>
+                        </div>
+                        <div style="float:right;text-align:right;">
+                            <a href="#" onclick="SetLogin()"><label id="lblUserID" style="color:white;font-size:11px">Please Login</label></a><br/>
+                            <select id="cboLanguage" onchange="ChangeLanguage($(this).val(),'@ViewBag.Module')" data-width="fit">
+                                <option value="EN">EN</option>
+                                <option value="TH">ไทย</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -326,12 +312,10 @@
     let base = '@Url.Content("~")';
     if (userLang !== 'EN' && userLang !== '') {
         $('#cboLanguage').val(userLang);
-        ChangeLanguage(userLang, $('#lblModule').val());
+        ChangeLanguage(userLang, $('#lblModule').text());
     } else {
-        userLang = 'EN';
-        $('#cboLanguage').val(userLang);
+        $('#cboLanguage').val('EN');
     }
-    
     SetEvents();
 
     function ForceLogout() {
@@ -413,7 +397,7 @@
         }
     }
     function SetLogout() {
-        ShowConfirm('Please confirm to log out', function (c) {
+        ShowConfirm('Do you need to log out?', function (c) {
             if (c == true) {
                 ShowWait();
                 $.get(base + 'config/setlogout?group='+ userType +'&code=' + userID)

@@ -288,10 +288,6 @@
     function ReadData(dr) {
         switch (browseWhat) {
             case 'cust':
-                if (reportID.substr(0, 3) == 'PRD') {
-                    $('#txtValue').val(dr.TaxNumber);
-                    break;
-                } 
                 $('#txtValue').val(dr.CustCode);
                 break;
             case 'job':
@@ -361,6 +357,24 @@
                     window.open(path +'Acc/FormWTax53D' + GetCliteria(), '', '');
                     break;
             }
+            return;
+        }
+        if (reportID == 'MGMT01' || reportID == 'MGMT01_BYTYPE' ||  reportID == 'CUSTSUMMARY'|| reportID == 'PROFITDETAIL' ) {
+            let obj = {
+                branch: '[BRANCH]=' + $('#txtBranchCode').val(),
+                dateFrom: ($('#txtDateFrom').val() == '' ? '' : '[DATE]>=' + $('#txtDateFrom').val()),
+                dateTo: ($('#txtDateTo').val() == '' ? '' : '[DATE]<=' + $('#txtDateTo').val()),
+                custWhere: $('#txtCustCliteria').val(),
+                jobWhere: $('#txtJobCliteria').val(),
+                empWhere: $('#txtEmpCliteria').val(),
+                vendWhere: $('#txtVendCliteria').val(),
+                statusWhere: $('#txtStatusCliteria').val(),
+                codeWhere: $('#txtCodeCliteria').val()
+            };
+            let str = JSON.stringify(obj);
+            let qrystr = '?data=' + JSON.stringify(data) + '&cliteria=' + encodeURIComponent(str);
+
+            window.open(path + 'Report/Preview' + qrystr + '&Layout=1', '', '');
             return;
         }
         switch (data.ReportType) {

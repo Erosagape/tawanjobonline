@@ -1,6 +1,6 @@
 ﻿@Code
     Layout = "~/Views/Shared/_ReportNoHeadLandscape.vbhtml"
-    ViewBag.FileName = "export" & DateTime.Now.ToString("yyyyMMddHHMMss") & ".xls"
+    ViewBag.FileName = "export" & DateTime.Now.ToString("yyyyMMddHHMMss") & ".csv"
 End Code
 <style>
     * {
@@ -10,15 +10,16 @@ End Code
         font-size: 14px;
     }
 </style>
+<label id="rptTitle" onclick="ExportData()">Report Title</label>
+<div style="float:right" id="rptCliteria">Report Cliteria</div>
 <div style="display:flex;flex-direction:column;width:100%">
     <table id="tbResult" style="width:100%">
         <thead></thead>
         <tbody></tbody>
         <tfoot></tfoot>
     </table>
+
 </div>
-<label id="rptTitle" onclick="ExportData()">Report Title</label>
-<div style="float:right" id="rptCliteria">Report Cliteria</div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let data = getQueryString("data");
@@ -30,6 +31,7 @@ End Code
         row = JSON.parse(data);
         let obj = JSON.parse(cliteria);
         html = '';
+        if (obj.BRANCH !== '') html += obj.BRANCH + ',';
         if (obj.DATEFROM !== '') html += obj.DATEFROM + ',';
         if (obj.DATETO !== '') html += obj.DATETO + ',';
         if (obj.CUSTWHERE !== '') html += obj.CUSTWHERE + ',';
@@ -53,15 +55,9 @@ End Code
                 ReportCode: row.REPORTCODE,
                 ReportCliteria: html
             }
-            if (data.ReportType == 'EXP') {
-                $('#rptCliteria').css('display', 'none');
-                LoadReportNoTotal(path, row.REPORTCODE, data, lang);
-            }
-            else
-            {
-                LoadReport(path, row.REPORTCODE, data, lang);
-            }
+            LoadReport(path,row.REPORTCODE,data,lang);
         }
+
     }
     function ExportData() {
         var ans = confirm("Download This Data?");
@@ -98,7 +94,7 @@ End Code
     function ExportTableToCSV(filename) {
         var csv = [];
         var rows = document.querySelectorAll("#tbResult tr");
-        //csv.push($('#rptTitle').text());
+        csv.push($('#rptTitle').text());
         for (var i = 0; i < rows.length; i++) {
             var row = [], cols = rows[i].querySelectorAll("td, th");
 
@@ -107,7 +103,7 @@ End Code
 
             csv.push(row.join("\t"));
         }
-        //csv.push($('#rptCliteria').text());
+        csv.push($('#rptCliteria').text());
         // Download CSV file
         DownloadCSV(csv.join("\n"), filename);
     }

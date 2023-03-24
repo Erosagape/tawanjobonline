@@ -743,6 +743,7 @@ End Code
             $('#txtPostedBy').val(chkmode ? user : '');
             $('#txtPostedDate').val(chkmode ? CDateEN(GetToday()) : '');
             $('#txtPostedTime').val(chkmode ? ShowTime(GetTime()) : '');
+            SaveData();
             return;
         }
         ShowMessage('You are not allow to do this',true);

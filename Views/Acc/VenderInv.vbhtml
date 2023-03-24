@@ -55,7 +55,7 @@ End Code
                 <tr>
                     <th>DocNo</th>
                     <th class="desktop">DocDate</th>
-                    <th class="desktop">Customer</th>
+                    <th class="desktop">VenCode</th>
                     <th class="desktop">Booking</th>
                     <th class="all">Container</th>
                     <th class="desktop">JobNo</th>
@@ -208,7 +208,7 @@ End Code
                             return CDateEN(data);
                         }
                     },
-                    { data: "CustCode", title: "Customer" },
+                    { data: "VenCode", title: "Vender" },
                     { data: "BookingRefNo", title: "Booking" },
                     { data: "RefNo", title: "Container.No" },
                     { data: "ForJNo", title: "Job.No" },
@@ -259,7 +259,7 @@ End Code
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo + '&Job=' + data.ForJNo +'&BookNo='+ data.BookingRefNo +'&Item=' + data.BookingItemNo,'','');
+                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo,'','');
             });
         });
     }

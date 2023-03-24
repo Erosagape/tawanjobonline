@@ -483,7 +483,7 @@ End Code
                                         <th class="desktop">Inv No</th>
                                         <th class="desktop">Status</th>
                                         <th class="all">ClrAmount</th>
-                                        <th class="desktop">Container</th>
+                                        <th class="desktop">Currency</th>
                                         <th class="desktop">AdvNo</th>
                                         <th class="all">AdvAmount</th>
                                         <th class="desktop">Remark</th>
@@ -914,13 +914,7 @@ End Code
 
     function SetCancel(b) {
         if (b == true) {
-            if (chkmode) {
-                $('#cboDocStatus').val('99');
-            } else {
-                $('#cboDocStatus').val('1');
-                $('#txtApproveDate').val('');
-                $('#txtApproveTime').val('');
-            }                
+            if (chkmode) $('#cboDocStatus').val('99');
             $('#txtCancelProve').val(chkmode ? user : '');
             $('#txtCancelDate').val(chkmode ? CDateEN(GetToday()) : '');
             $('#txtCancelTime').val(chkmode ? ShowTime(GetTime()) : '');
@@ -1135,7 +1129,7 @@ End Code
             $('#txtSumCharge').val(CDbl(dt.ClearBill, 2));
             $('#txtSumCost').val(CDbl(dt.ClearCost,2));
 
-            $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
+            //$('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
             $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
             $('#chkReceive').prop('checked', $('#txtReceiveBy').val() == '' ? false : true);
             
@@ -1768,7 +1762,7 @@ End Code
                             return ShowNumber(data, 2);
                         }
                     },
-                    { data: "CTN_NO", title: "Container" },
+                    { data: "CurrencyCode", title: "Currency" },
                     { data: "AdvNO", title: "Adv No" },
                     {
                         data: "AdvNet", title: "Adv.Total",

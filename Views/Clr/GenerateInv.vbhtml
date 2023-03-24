@@ -5,7 +5,7 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblBranch">Branch:</label>
+                <label id="lblBranch">Branch:</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -26,7 +26,7 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <label id="lblCustCode">Customer</label>
+                <label id="lblCustCode">Customer</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" style="width:120px" />
@@ -44,7 +44,7 @@ End Code
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
-                <input type="checkbox" id="chkSelectAll" checked /> Select All
+                <input type="checkbox" id="chkSelectAll" checked /> Select All 
             </div>
         </div>
         <div class="row">
@@ -91,8 +91,8 @@ End Code
                                 <br />
                                 <select id="cboDocType" class="form-control dropdown">
                                     <option value="IVS-">Service</option>
-                                    <option value="IVT-">Transport</option>
                                     <option value="IVF-">Freight</option>
+                                    <option value="IVT-">Transport</option>
                                 </select>
 
                             </div>
@@ -132,7 +132,7 @@ End Code
                             <table>
                                 <tr>
                                     <td>
-                                        <label id="lblCheque">Use Cheque:</label>
+                                        <label id="lblCheque">Use Cheque:</label>                                        
                                         <br />
                                         <div style="display:flex;flex-direction:row">
                                             <input type="text" id="txtChqNo" class="form-control" disabled />
@@ -255,12 +255,12 @@ End Code
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <label id="lblClearNo">Clearing No</label> :
-                        <label id="lblClrNo"></label>
-                        <label id="lblJNo">Job No</label>:
+                        <label id="lblClearNo">Clearing No</label> : 
+                        <label id="lblClrNo"></label>                                                                     
+                        <label id="lblJNo">Job No</label>: 
                         <label id="lblJobNo"></label>
                         <br />
-                        <label id="lblCode">Code</label>:
+                        <label id="lblCode">Code</label>: 
                         <label id="lblSICode"></label>
                         <label id="lblDesc">Description</label>:
                         <label id="lblSDescription"></label>
@@ -929,7 +929,7 @@ End Code
         } else {
             SaveHeader();
         }
-
+        
         return;
     }
     function SaveHeader() {
@@ -1103,7 +1103,7 @@ End Code
                 SetGridJob(path, '#tbJob', '#frmSearchJob', '?branch=' + $('#txtBranchCode').val() + '&custcode=' + $('#txtCustCode').val(), ReadJob);
                 break;
             case 'invoice':
-                SetGridInv(path, '#tbInv', '#frmSearchInv', '?cancel=Y' ,ReadInv);
+                SetGridInv(path, '#tbInv', '#frmSearchInv', '?Branch='+$('#txtBranchCode').val()+'&cancel=Y' ,ReadInv);
                 break;
             case 'customer':
                 SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
@@ -1315,6 +1315,7 @@ End Code
             rowProcess +=1;
             if (currCode !== obj.SICode) {
                 if (currCode !== '') {
+		    clearList = clearList.substr(0, clearList.length - 1);
                     key.ClrNo = '';
                     key.ClrItemNo = 0;
                     key.ClrNoList = clearList;
@@ -1345,8 +1346,8 @@ End Code
                 key.AmtCredit+= CNum(obj.AmtCredit);
                 key.FAmtCredit= CDbl(CNum(key.FAmtCredit) / CNum(obj.ExchangeRate), 2);
             }
-            if (clearList.indexOf((obj.ClrNo + '/' + obj.ClrItemNo)) < 0) {
-                clearList += (clearList !== '' ? ',' : '') + (obj.ClrNo + '/' + obj.ClrItemNo);
+            if (clearList.indexOf((obj.ClrNo + '/' + obj.ClrItemNo+',')) < 0) {
+                clearList += (obj.ClrNo + '/' + obj.ClrItemNo)+',';
             }
             if (obj.ExpSlipNO !== null) {
                 if (slipList.indexOf(obj.ExpSlipNO) < 0) {
@@ -1354,6 +1355,7 @@ End Code
                 }
             }
             if (rowProcess==arr_sel.length) {
+		clearList = clearList.substr(0, clearList.length - 1);
                 key.ClrNo = '';
                 key.ClrItemNo = 0;
                 key.ClrNoList = clearList;

@@ -11,7 +11,7 @@
 <body class="document">
     <div class="page" contenteditable="false">
         @RenderBody()
-        <p id="pFooter" style="text-align:right">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
+        <p id="dvFooter" style="text-align:right;font-size:8px">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
     </div>
 </body>
 </html>

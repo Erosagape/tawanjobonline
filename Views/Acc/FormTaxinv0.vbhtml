@@ -65,7 +65,6 @@ End Code
             TOTAL PAYMENT (1 <label id="lblCurrencyCode"></label> = <label id="lblExchangeRate"></label> THB)
             <br />
             <label id="lblFTotalNet"></label>
-	    <br />REMARK: <label id="lblTRemark"></label>
         </td>
         <td colspan="3" style="text-align:right;">TOTAL ADVANCE (THB)</td>
         <td style="background-color:lightblue;text-align:right;">
@@ -192,7 +191,6 @@ End Code
         let wht = 0;
         let total = 0;
         let totalf = 0;
-	$('#lblTRemark').text(dt[0].TRemark);
         for (let d of dt) {
             let fnet = (Number(d.InvTotal) + Number(d.Inv50Tavi)) / Number(d.ExchangeRate);
             html = '<tr>';

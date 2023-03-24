@@ -12,7 +12,7 @@
     <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/bootstrap-select.js"></script>
-    <script src="~/Scripts/Func/util.js"></script>
+    <script src="~/Scripts/Func/Util.js"></script>
     <script src="~/Scripts/Func/popup.js"></script>
     <script src="~/Scripts/Func/reports.js"></script>
     <style>
@@ -28,14 +28,13 @@
         <table id="tblHeader" width="100%">
             <tr>
                 <td width="20%">
-                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:200px"/>
+                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:150px" ondblclick="ChangeAddress()"/>
                 </td>
                 <td width="80%">
                     <div id="divCompany" style="text-align:left;color:darkblue;">
-                        <b>@ViewBag.PROFILE_COMPANY_NAME</b>
-                        <br />@ViewBag.PROFILE_COMPANY_ADDR1 <br/> @ViewBag.PROFILE_COMPANY_ADDR2
-                        <br />Tel @ViewBag.PROFILE_COMPANY_TEL Fax @ViewBag.PROFILE_COMPANY_FAX E-mail/Website @ViewBag.PROFILE_COMPANY_EMAIL
-                        <br />Tax-Reference ID : @ViewBag.PROFILE_TAXNUMBER Branch @ViewBag.PROFILE_TAXBRANCH
+                    <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME</b>
+                    <br />@ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2
+                    <br />Tel @ViewBag.PROFILE_COMPANY_TEL Tax ID : @ViewBag.PROFILE_TAXNUMBER
                     </div>
                 </td>
             </tr>
@@ -56,5 +55,24 @@
             </tr>
         </table>
     </div>
+    <script type="text/javascript">
+        function ChangeAddress() {
+            if (confirm('Do you want to change address to old company') == true) {
+                let html = '';
+                if (lang == 'TH') {
+                    html = '<b style="font-size:18px">บริษัท แอดวานซ์ คาร์โก้ เอ็กซ์เพรส จำกัด</b>';
+                    html += '<br />21 ซอยร่มเกล้า 21/3 แขวงคลองสามประเวศ เขตลาดกระบัง กรุงเทพมหานคร 10520';
+                    html += '<br />Tel (+66)2 067 0660 E-Mail ace@th.ace.com';
+                    html += '<br />Tax ID 0105558166206 Branch: สำนักงานใหญ่';
+                } else {
+                    html = '<b style="font-size:18px">ADVANCE CARGO EXPRESS CO.,LTD</b>';
+                    html += '<br />21 ROMKLAO 21/3 KLONGSAMPRAVET LADKRABANG BANGKOK 10520 THAILAND ';
+                    html += '<br />Tel (+66)2 067 0660 E-Mail ace@th.ace.com';
+                    html += '<br />Tax ID 0105558166206 Branch: HEAD OFFICE';
+                }
+                $('#divCompany').html(html);
+            }
+        }
+    </script>
 </body>
 </html>

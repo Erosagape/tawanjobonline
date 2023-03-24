@@ -753,11 +753,6 @@ End Code
             row_d.AmtAdvance = CNum($('#txtAmtAdvance').val());
             row_d.AmtCharge = CNum($('#txtAmtCharge').val());
             row_d.QtyUnit = $('#txtQtyUnit').val();
-            row_d.IsTaxCharge = $('#txtIsTaxCharge').val();
-            row_d.Is50Tavi = $('#txtIs50Tavi').val();
-            row_d.VATRate = $('#txtDVATRate').val();
-            row_d.Rate50Tavi = $('#txtRate50Tavi').val();
-
             let jsonText = JSON.stringify({ data: row_d });
             //ShowMessage(jsonText);
             $.ajax({

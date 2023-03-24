@@ -4,6 +4,11 @@
     ViewBag.ReportName = "Booking Confirmation"
     ViewBag.Title = "BOOKING CONFIRMATION"
 End Code
+<style>
+	#dvFooter {
+		display:none;
+	}
+</style>
 <div style="text-align:right;width:100%">
     <b>SHIPMENT NO:</b> <label id="lblBookingNo"></label>
     <br/>

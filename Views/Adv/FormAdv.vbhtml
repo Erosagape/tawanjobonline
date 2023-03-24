@@ -135,16 +135,19 @@ End Code
             <table style="border-collapse:collapse;width:100%">
                 <tr>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        จัดทำโดย / PREPARED.BY
+                        REQUEST.BY
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        ตรวจสอบโดย / CHECKED.BY
+                        APPROVE.BY
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        อนุมัติโดย / APPROVED.BY
+                        PAYMENT.BY
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        ลงบัญชีโดย / POSTED.BY
+                        POSTED.BY
+                    </td>
+                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+                        CLEARED.BY
                     </td>
                 </tr>
                 <tr>
@@ -167,6 +170,11 @@ End Code
                         <label id="lblPostBy" style="font-size:9px">(__________________)</label>
                         <br />
                         <label id="lblPostDate" style="font-size:9px">__/__/____</label>
+                    </td>
+                    <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+                        <label id="lblClrBy" style="font-size:9px">(__________________)</label>
+                        <br />
+                        <label id="lblClrDate" style="font-size:9px">__/__/____</label>
                     </td>
                 </tr>
             </table>

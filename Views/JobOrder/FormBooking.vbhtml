@@ -84,11 +84,6 @@ End Code
                 </div>
                 <div>
                     <br />
-                    <b>Actual Shipper :</b><br />
-                    <label id="lblShipperName2"></label>
-                </div>
-                <div>
-                    <br />
                     <br />
                     <b>Master-File NO :</b><label id="lblJNo"></label>
                 </div>
@@ -158,20 +153,26 @@ End Code
                 $('#lblJNo').text(h.JNo);
                 $('#lblPaymentCondition').text(h.PaymentCondition);
                 $('#lblBookingDate').text('BANGKOK ' + ShowDate(h.BookingDate));
-                $('#lblShipperName').text('@ViewBag.PROFILE_COMPANY_NAME_EN');
-                $('#lblShipperName2').text(h.ShipperName);
+                //$('#lblShipperName').text('@ViewBag.PROFILE_COMPANY_NAME_EN');
+                //$('#lblShipperName2').text(h.ShipperName);
+                $('#lblShipperName').text(h.ShipperName);
                 $('#lblForwarderName').text(h.ForwarderName);
-                $('#lblShipperAddress1').text('@ViewBag.PROFILE_COMPANY_ADDR1_EN');
-                $('#lblShipperAddress2').text('@ViewBag.PROFILE_COMPANY_ADDR2_EN');
-                $('#lblConsigneeName').text(h.DeliveryTo);
-                $('#lblConsignAddress').text(h.DeliveryAddr);            
+                //$('#lblShipperAddress1').text('@ViewBag.PROFILE_COMPANY_ADDR1_EN');
+                //$('#lblShipperAddress2').text('@ViewBag.PROFILE_COMPANY_ADDR2_EN');
+                $('#lblShipperAddress1').text(h.ShipperAddress1);
+                $('#lblShipperAddress2').text(h.ShipperAddress2);
+                //$('#lblConsigneeName').text(h.DeliveryTo);
+                //$('#lblConsignAddress').text(h.DeliveryAddr);            
+            $('#lblConsigneeName').text(h.ConsigneeName);
+            $('#lblConsignAddress').text(h.ConsignAddress1 + h.ConsignAddress2);
                 $('#lblNotifyName').text(h.NotifyName);
                 $('#lblNotifyAddress1').text(h.NotifyAddress1);
                 $('#lblNotifyAddress2').text(h.NotifyAddress2);
                 $('#lblVesselName').text(h.VesselName);
                 $('#lblMVesselName').text(h.MVesselName);
                 $('#lblPackingPlace').text(h.PackingPlace);
-                $('#lblFactoryPlace').text(h.FactoryPlace);
+                //$('#lblFactoryPlace').text(h.FactoryPlace);
+		ShowReleasePort(path,h.ClearPort,'#lblFactoryPlace');
                 $('#lblCSName').text(h.CSName);
                 $('#lblCSTel').text(h.CSTel);
                 $('#lblCSEMail').text(h.CSEMail);

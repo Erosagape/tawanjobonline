@@ -1737,7 +1737,6 @@ End Code
     function ReadVender(dt) {
         $('#txtVenCode').val(dt.VenCode);
         $('#txtPayChqTo').val(dt.TName);
-        $('#txtRemark').val(dt.ContactAcc);
         $('#txtPayChqTo').focus();
     }
     function ReadCurrencyD(dt) {

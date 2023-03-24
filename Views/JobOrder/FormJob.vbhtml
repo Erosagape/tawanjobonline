@@ -108,8 +108,11 @@ End Code
             <td>
                 <b>CERTIFICATES : </b><label id="lblTaxPrivilege"></label>
             </td>
-            <td colspan="2">
+            <td>
                 <b>DECL.TYPE : </b><label id="lblDeclareType"></label>
+            </td>
+            <td>
+                <b>CUST.REF : </b><label id="lblCustRefNo"></label>
             </td>
         </tr>
         <tr>
@@ -327,8 +330,15 @@ End Code
                 <div id="lblDescription"></div>
             </td>
             <td width="40%" style="text-align:right">
-                <b>PREPARED BY:
-                <label id="lblCSName"></label></b> (<label id="lblPosition"></label>)
+                <b>
+                    SALES BY:
+                    <label id="lblManagerName"></label>
+                </b>
+                <br/>
+                <b>
+                    PREPARED BY:
+                    <label id="lblCSName"></label>
+                </b> (<label id="lblPosition"></label>)
             </td>
         </tr>
     </table>
@@ -378,7 +388,7 @@ End Code
                                 + (c.EAddress1 + ' ' + c.EAddress2).trim());
                         }
                         if (isCons == false) {
-                            $('#lblCustName').text(c.NameThai);
+                            $('#lblCustName').text(c.Title+' '+c.NameThai);
                             $('#dvAddr').html('<b>Address : </b>'
                                 + (c.TAddress1 + ' ' + c.TAddress2).trim());
                             $('#lblTel').text(c.Phone);
@@ -425,6 +435,7 @@ End Code
         $('#lblDutyAmt').text(j.DutyAmount + ' THB');
         $('#lblTaxPrivilege').text(j.TyClearTaxReson);
         $('#lblShippingCmd').text(j.ShippingCmd);
+        $('#lblCustRefNo').text(j.CustRefNO);
         let str =j.Description.replace(/(?:\r\n|\r|\n)/g, '<br/>');
         $('#lblDescription').html(str);
 
@@ -455,7 +466,8 @@ End Code
         ShowVender(path,j.AgentCode, '#lblTransportName');
 
         ShowDeclareType(path,j.DeclareType,'#lblDeclareType');
-        ShowUser(path,j.CSCode, '#lblCSName');
+        ShowUser(path, j.CSCode, '#lblCSName');
+        ShowUser(path, j.ManagerCode, '#lblManagerName');
         ShowUser(path,j.ShippingEmp, '#lblShippingName');
 
         $('#lblPosition').text('Customer Services');

@@ -80,67 +80,48 @@ End Code
 </div>
 
 <div id="Contact" class="tabcontent">
-    <div class="row">
-        <b>Contact Us</b>
-        <br/>
-        <a href="http://www.anydesk.com">1. AnyDesk</a>
-        <br/>
-        <a href="http://www.teamviewer.com">2. TeamViewer</a>
-    </div>
-    <div class="row">
-        <b>Manual</b>
-        <br/>
-        1. Setup First-time using <a href="http://103.225.168.137/docs/setupmaster.pdf">PDF</a>
-        <br/>
-        2. Full Manual ver 1.0 <a href="http://103.225.168.137/docs/manual.pdf">PDF</a>
-    </div>
+    <b>Contact Us</b>
+    <a href="http://www.anydesk.com">1. AnyDesk</a>
+    <a href="http://www.teamviewer.com">2. TeamViewer</a>
 </div>
 
 <div id="About" class="tabcontent">
     <b>About Us</b><br />
-                   <table class="table table-bordered">
-                       <tr>
-                           <td width="20%">
-                               Web site :
-                           </td>
-                           <td width="80%">
-                               <a href="http://www.tawantech.co.th">www.tawantech.co.th</a>
-                           </td>
-                       </tr>
-                       <tr>
-                           <td>
-                               Address :
-                           </td>
-                           <td>
-                               89 ซอยศรีประเวศ (ลาดกระบัง 1ก/3) ถนน ลาดกระบัง แขวง ลาดกระบัง เขต ลาดกระบัง กรุงเทพฯ 10520
-                               Tel :02-0586209, 02-0583509
-                           </td>
-                       </tr>
-                       <tr>
-                           <td>
-                               Facebook - Company:
-                           </td>
-                           <td>
-                               <a href="http://facebook.com/tawantechnology">Tawan Technology Co.,Ltd. - ตะวันเทคโนโลยี</a>
-                           </td>
-                       </tr>
-                       <tr>
-                           <td>
-                               Facebook - Job Online:
-                           </td>
-                           <td>
-                               <a href="https://www.facebook.com/%E0%B9%82%E0%B8%9B%E0%B8%A3%E0%B9%81%E0%B8%81%E0%B8%A3%E0%B8%A1%E0%B8%9A%E0%B8%A3%E0%B8%B4%E0%B8%AB%E0%B8%B2%E0%B8%A3%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%9A%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%8A%E0%B8%B4%E0%B8%9B%E0%B8%9B%E0%B8%B4%E0%B9%89%E0%B8%87-%E0%B9%82%E0%B8%9B%E0%B8%A3%E0%B9%81%E0%B8%81%E0%B8%A3%E0%B8%A1%E0%B9%83%E0%B8%9A%E0%B8%82%E0%B8%99%E0%B8%AA%E0%B8%B4%E0%B9%89%E0%B8%99%E0%B8%84%E0%B9%89%E0%B8%B2paperless-import-Export-115454756498290">Go To Page</a>
-                           </td>
-                       </tr>                       
-                       <tr>
-                           <td>
-                               Line :
-                           </td>
-                           <td>
-                               @@tawantech
-                           </td>
-                       </tr>
-                   </table>
+    <table class="table table-bordered">
+        <tr>
+            <td width="20%">
+                Web site :
+            </td>
+            <td width="80%">
+                <a href="http://www.tawantech.co.th">www.tawantech.co.th</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Address :
+            </td>
+            <td>
+                89 ซอยศรีประเวศ (ลาดกระบัง 1ก/3) ถนน ลาดกระบัง แขวง ลาดกระบัง เขต ลาดกระบัง กรุงเทพฯ 10520
+                Tel :02-0586209, 02-0583509
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Facebook :
+            </td>
+            <td>
+                <a href="http://facebook.com/tawantechnology">Tawan Technology Co.,Ltd. - ตะวันเทคโนโลยี</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Line :
+            </td>
+            <td>
+                @@tawantech
+            </td>
+        </tr>
+    </table>
 </div>
 <script type="text/javascript">
     var path = '@Url.Content("~")';

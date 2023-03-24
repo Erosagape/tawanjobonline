@@ -13,32 +13,32 @@ End Code
         <div style="display:flex;flex-direction:column;">
             <div style="height:100px;border-bottom:solid;border-top:solid;border-left:solid;border-width:thin;">
                 <b>Shipper</b>
-                <div style="padding:5px 5px 5px 5px">
+                <div style="padding:3px 3px 3px 3px">
                     <label id="lblShipperName"></label>
                     <br />
                     <label id="lblShipperAddress1"></label>
                     <br />
-                    <label id="lblShipperAddress2"></label>
+                    <div id="lblShipperAddress2"></div>
                 </div>
             </div>
             <div style="height:100px;border-bottom:solid;border-left:solid;border-width:thin;">
                 <b>Consignee</b>
-                <div style="padding:5px 5px 5px 5px">
+                <div style="padding:3px 3px 3px 3px">
                     <label id="lblConsigneeName"></label>
                     <br />
                     <label id="lblConsignAddress1"></label>
                     <br />
-                    <label id="lblConsignAddress2"></label>
+                    <div id="lblConsignAddress2"></div>
                 </div>
             </div>
             <div style="height:100px;border-bottom:solid;border-left:solid;border-width:thin;">
                 <b>Notify Party</b>
-                <div style="padding:5px 5px 5px 5px">
+                <div style="padding:3px 3px 3px 3px">
                     <label id="lblNotifyName"></label>
                     <br />
                     <label id="lblNotifyAddress1"></label>
                     <br />
-                    <label id="lblNotifyAddress2"></label>
+                    <div id="lblNotifyAddress2"></div>
                 </div>
             </div>
             <div style="display:flex;flex-direction:row;">
@@ -88,7 +88,7 @@ End Code
     </div>
     <div style="flex-direction:row;width:45%;font-size:12px;border-top:solid;border-right:solid;border-left:solid;border-bottom:solid;border-width:thin;">
         <div style="display:flex;flex-direction:column;">
-            <div style="display:flex;flex-direction:row;padding:5px 5px 5px 5px;">
+            <div style="display:flex;flex-direction:row;padding:3px 3px 3px 3px;">
                 <div style="flex:1">
                     <b>BILL OF LADING</b><br />
                     <input type="text" value="ORIGINAL/COPY" style="border:none;">
@@ -101,17 +101,23 @@ End Code
             </div>
             <div style="text-align:center">
                 <br />
-                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:60%" />
+                <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:60%" ondblclick="ChangeAddress()" />
                 <br /><br />
                 <div id="divCompany" style="text-align:center;color:darkblue;font-size:12px">
                     <div style="font-weight:bold;font-size:12px">
-                        ADVANCE CARGO EXPRESS CO.,LTD
+                        ACE GLOBAL LOGISTICS CO., LTD.
                     </div>
-                    21 ROMKLAO 21/3 KLONGSAMPRAVET<br />LADKRABANG BANGKOK 10320 THAILAND
+                    19/1 ROMKLAO 21/3 KLONGSAMPRAVET<br />LADKRABANG BANGKOK 10320 THAILAND
                     <br />Tel (662) 670 0660 Fax (662) 170 7253
                     <br />E-mail/Website ace@th-ace.com
                 </div>
-
+                <div id="dvAgent">
+                    <br/>
+                    <div  style="border-top:solid;border-width:thin;text-align:left;font-size:10px;padding:3px 3px 3px 3px;">
+                        <b>Delivery Agent of Destination</b><br/>
+                        <div id="lblPackingAddress"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -162,7 +168,7 @@ End Code
         <div style="font-size:10px;border-top:solid;border-width:thin;">
             <b>For delivery of goods please apply to:</b><br />
             <label id="lblDeliveryTo"></label><br />
-            <label id="lblDeliveryAddr"></label>
+            <div id="lblDeliveryAddr"></div>
         </div>
     </div>
     <div style="width:40%;font-size:10px;border-left:solid;border-right:solid;border-bottom:solid;border-width:thin;">
@@ -197,7 +203,7 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
             $('#lblHAWB').text(h.HAWB);
             $('#lblBLNo').text(h.BLNo);
             $('#lblDeliveryTo').text(h.DeliveryTo);
-            $('#lblDeliveryAddr').text(h.DeliveryAddr);
+            $('#lblDeliveryAddr').html(CStr(h.DeliveryAddr));
             $('#lblTransMode').text(h.TransMode);
             $('#lblPaymentBy').text(h.PaymentBy);
             $('#lblPaymentCondition').text(h.PaymentCondition);
@@ -205,16 +211,20 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
             $('#lblForwarderName').text(h.ForwarderName);
             $('#lblShipperName').text(h.ShipperName);
             $('#lblShipperAddress1').text(h.ShipperAddress1);
-            $('#lblShipperAddress2').text(h.ShipperAddress2);
+            $('#lblShipperAddress2').html(CStr(h.ShipperAddress2));
             $('#lblConsigneeName').text(h.ConsigneeName);
             $('#lblConsignAddress1').text(h.ConsignAddress1);
-            $('#lblConsignAddress2').text(h.ConsignAddress2);
+            $('#lblConsignAddress2').html(CStr(h.ConsignAddress2));
             $('#lblNotifyName').text(h.NotifyName);
             $('#lblNotifyAddress1').text(h.NotifyAddress1);
-            $('#lblNotifyAddress2').text(h.NotifyAddress2);
+            $('#lblNotifyAddress2').html(CStr(h.NotifyAddress2));
             $('#lblVesselName').text(h.VesselName);
             $('#lblMVesselName').text(h.MVesselName);
             $('#lblPackingPlace').text(h.PackingPlace);
+            if(h.PackingAddress==''){
+                $('#dvAgent').hide();
+            }
+            $('#lblPackingAddress').html(CStr(h.PackingAddress));
             ShowReleasePort(path, h.ClearPort, '#lblClearPortName');
 let unit=units.filter(function(data){
    return data.Code==h.InvProductUnit;
@@ -250,9 +260,9 @@ if(unit.length>0) {
             html += '<br/> DATE ' + ShowDate(h.ConfirmDate);
 	}
             html += '</div>';
-            html += '<div style="width:15%;">G.W ' + ShowNumber(h.TotalGW,2) + ' ' + h.GWUnit + '';
+            html += '<div style="width:15%;">G.W ' + ShowNumber(h.TotalGW,3) + ' ' + h.GWUnit + '';
             if(h.TotalNW>0)  {
-            html += '<br/>N.W '+ ShowNumber(h.TotalNW,2) + ' ' + h.GWUnit
+            html += '<br/>N.W '+ ShowNumber(h.TotalNW,3) + ' ' + h.GWUnit
             }
             html +='</div>';
             html += '<div style="width:15%;text-align:center">'+ h.TotalM3 +' M3</div>';
@@ -277,17 +287,30 @@ if(unit.length>0) {
 } else {
                 htmlTemplate += '<div style="width:25%;">'+ r.booking.data[i].ProductQty + ' '+ r.booking.data[i].ProductUnit +'</div>';
 }
-                htmlTemplate += '<div style="width:15%;">'+ ShowNumber(r.booking.data[i].GrossWeight,2) +'</div>';
-                htmlTemplate += '<div style="width:15%;text-align:center;">' + r.booking.data[i].Measurement + '</div>';
+                htmlTemplate += '<div style="width:15%;">'+ ShowNumber(r.booking.data[i].GrossWeight,3) + ' ' + h.GWUnit +'</div>';
+                htmlTemplate += '<div style="width:15%;text-align:center;">' + CDbl(r.booking.data[i].Measurement,3) + ' M3</div>';
                 htmlTemplate += '</div>';
 
                 html += htmlTemplate;
             }
             html += '<div style="font-size:9px;"><br/>TOTAL (' + (i) + ') CONTAINER(s)';
-            html += '<br/> TOTAL PACKAGES ' + CNumEng(h.InvProductQty) + ' ' + $('#lblProductUnit').text() + ' ONLY';
+            html += '<br/> TOTAL ' + CNumEng(h.InvProductQty).replace('ONLY','') + ' ' + $('#lblProductUnit').text() + ' ONLY';
             html += '</div>';
             $('#dvDetail').html(html);
         }
     });
     }
+    function ChangeAddress() {
+        if (confirm('Do you want to change address to old company') == true) {
+            let html = '';
+            html = '<div style="font-weight:bold;font-size:12px">';
+            html += 'ADVANCE CARGO EXPRESS CO.,LTD.';
+            html += '</div>';
+            html += '21 ROMKLAO 21/3 KLONGSAMPRAVET<br />LADKRABANG BANGKOK 10320 THAILAND';
+            html += '<br />Tel (662) 670 0660 Fax (662) 170 7253';
+            html += '<br />E-mail/Website ace@th-ace.com';
+            $('#divCompany').html(html);
+        }
+    }
+
 </script>

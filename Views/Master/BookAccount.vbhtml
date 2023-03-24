@@ -91,29 +91,23 @@ End Code
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <label id="lblPhone">
                             Phone :
                         </label>
                         <br /><input type="text" id="txtPhone" class="form-control" tabIndex="12">
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <label id="lblFaxNumber">
                             Fax :
                         </label>
                         <br /><input type="text" id="txtFaxNumber" class="form-control" tabIndex="13">
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         <label id="lblLimitBalance">
                             Minimum Balance :
                         </label>
                         <br /><input type="number" id="txtLimitBalance" class="form-control" tabIndex="14">
-                    </div>
-                    <div class="col-sm-3">
-                        <label id="lblControlBalance">
-                            Control Balance :
-                        </label>
-                        <br /><input type="number" id="txtControlBalance" class="form-control" tabIndex="14">
                     </div>
                 </div>
             </div>
@@ -270,7 +264,6 @@ End Code
         $('#txtPhone').val(dr.Phone);
         $('#txtFaxNumber').val(dr.FaxNumber);        
         $('#txtLimitBalance').val(dr.LimitBalance);   
-        $('#txtControlBalance').val(dr.ControlBalance); 
         ShowBalance();
     }
     function ShowBalance() {
@@ -311,8 +304,7 @@ End Code
             Phone:$('#txtPhone').val(),
             FaxNumber: $('#txtFaxNumber').val(),
             LimitBalance: $('#txtLimitBalance').val(),
-            GLAccountCode: $('#txtGLAccountCode').val(),
-            ControlBalance: $('#txtControlBalance').val()
+            GLAccountCode: $('#txtGLAccountCode').val()
         };
         if (obj.BookCode != "") {
             ShowConfirm('Please confirm to save', function (ask) {
@@ -357,7 +349,6 @@ End Code
         $('#txtFaxNumber').val('');
         $('#txtBookCode').focus();
         $('#txtLimitBalance').val(0);   
-        $('#txtControlBalance').val(0);
         $('#txtGLAccountCode').val('');
         $('#tbBalance').DataTable().clear().draw();
     }

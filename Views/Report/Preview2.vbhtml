@@ -31,6 +31,7 @@ End Code
         row = JSON.parse(data);
         let obj = JSON.parse(cliteria);
         html = '';
+        if (obj.BRANCH !== '') html += obj.BRANCH + ',';
         if (obj.DATEFROM !== '') html += obj.DATEFROM + ',';
         if (obj.DATETO !== '') html += obj.DATETO + ',';
         if (obj.CUSTWHERE !== '') html += obj.CUSTWHERE + ',';

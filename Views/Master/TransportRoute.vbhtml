@@ -324,17 +324,17 @@ End Code
                     data: r.transportprice.data,
                     columns: [
                         { data: "VenderCode", title: "Vender" },
-                        { data: "CustCode", title: "Customer" },
-                        { data: "SICode", title: "Cost Code" },
-                        { data: "SDescription", title: "Description" },
-                        { data: "CostAmount", title: "Buy Rate" },
-                        { data: "ChargeCode", title: "Charge Code" },
-                        { data: "ChargeAmount", title: "Sale Rate" },
+                        { data: "CustCode", title: "Cust" },
+                        { data: "SICode", title: "Cost.Cde" },
+                        { data: "SDescription", title: "Cost.Desc" },
+                        { data: "CostAmount", title: "Cost.Amt" },
+                        { data: "ChargeCode", title: "Charge.Cde" },
+                        { data: "ChargeAmount", title: "Charge.Amt" },
                         { data: "Location", title: "Location" }
                     ],
                     destroy:true
                 });
-                //ChangeLanguageGrid('@ViewBag.Module', '#tbPrice');
+                ChangeLanguageGrid('@ViewBag.Module', '#tbPrice');
                 $('#tbPrice tbody').on('click', 'tr', function () {
                     $('#tbPrice tbody > tr').removeClass('selected');
                     $(this).addClass('selected');

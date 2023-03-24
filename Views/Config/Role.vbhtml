@@ -248,7 +248,7 @@ End Code
             $('#txtRoleDesc').val(data.RoleDesc);
             $('#txtRoleGroup').val(data.RoleGroup);
 
-            //ClearUser();
+            ClearUser();
             ClearPolicy();
 
             LoadUser(data.RoleID);

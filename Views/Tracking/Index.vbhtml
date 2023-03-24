@@ -41,19 +41,18 @@ End Code
 <table id="tbDetail" class="table table-responsive">
     <thead>
         <tr>
-            <th>Container No</th>
+            <th>CTN_NO</th>
             <th class="desktop">InvNo</th>
-            <th class="desktop">Booking No</th>
-            <th class="all">Status</th>
+            <th class="desktop">DeclareNumber</th>
+            <th class="all">TruckNO</th>
             <th class="desktop">Location</th>
-            <th class="desktop">Customer</th>
-            <th class="desktop">Container Size</th>
-            <th class="desktop">Pickup</th>
-            <th class="desktop">DeliveryDate</th>
-            <th class="all">ReturnDate</th>
-            <th class="desktop">Truck</th>
-            <th class="desktop">Seal</th>
-            <th class="desktop">JobNo</th>
+            <th class="desktop">ProductDesc</th>
+            <th class="desktop">ProductQty</th>
+            <th class="desktop">LoadDate</th>
+            <th class="desktop">FactoryDate</th>
+            <th class="all">UnloadFinishDate</th>
+            <th class="desktop">Comment</th>
+            <th class="desktop">DeliveryNo</th>
         </tr>
     </thead>
     <tbody></tbody>
@@ -64,22 +63,9 @@ End Code
     var path = '@Url.Content("~")';
     let userGroup = '@ViewBag.UserGroup';
     let user = '@ViewBag.User';
-    let vencode = '';
-    if (userGroup == 'V') {
-        $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
-            if (r.vender.data.length > 0) {
-                let dr = r.vender.data[0];
-                $('#txtCustCode').val(dr.VenCode);
-                $('#txtCustBranch').val(dr.BranchCode);
-                $('#txtCustName').val(dr.TName);
-                $('#btnBrowseCust').attr('disabled', 'disabled');
-                $('#txtCustCode').attr('disabled', 'disabled');
-                $('#txtCustBranch').attr('disabled', 'disabled');
-            }
-        });
-
-    }
     if (userGroup == 'C') {
+
+
         $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
             if (r.company.data.length > 0) {
                 let dr = r.company.data[0];
@@ -114,14 +100,8 @@ End Code
     }
     function drawChart() {
         let w = '?Branch='+ $('#txtBranchCode').val();
-        if (userGroup == 'V') {
-            if ($('#txtCustCode').val() !== '') {
-                w += '&Vend=' + $('#txtCustCode').val();
-            }
-        } else {
-            if ($('#txtCustCode').val() !== '') {
-                w += '&Cust=' + $('#txtCustCode').val();
-            }
+        if ($('#txtCustCode').val() !== '') {
+            w += '&Cust=' + $('#txtCustCode').val();
         }
         $.get(path + 'JobOrder/GetTimelineReport' + w).done(function (r) {
             var dt = getDataTable(r.tracking.data);
@@ -141,7 +121,7 @@ End Code
             data.addRows(rows);
             var options = {
                 chart: {
-                    title: 'Total Shipment By Loading Date',
+                    title: 'Total Shipment By Duty Date',
                     subtitle: 'in past 7 and next 7 days',
                     chartArea: { width: '50%' }
                 }
@@ -177,14 +157,8 @@ End Code
         let branch = $('#txtBranchCode').val();
         let cust = $('#txtCustCode').val();
         let w = '';
-        if (userGroup == 'V') {
-            if (cust !== '') {
-                w += '&Vend=' + cust;
-            }
-        } else {
-            if (cust !== '') {
-                w += '&Cust=' + cust;
-            }
+        if (cust !== '') {
+            w += '&Cust=' + cust;
         }
         let status = $('#cboStatus').val();
         if (status !== '') {
@@ -198,29 +172,28 @@ End Code
                     columns: [ //กำหนด property ของ header column
                         { data: "CTN_NO", title: "Container No" },
                         { data: "InvNo", title: "Inv.No" },
-                        { data: "BookingNo", title: "Booking No" },
-                        { data: "TruckStatus", title: "Status" },
+                        { data: "DeclareNumber", title: "Declare No" },
+                        { data: "TruckNO", title: "Truck" },
                         { data: "Location", title: "Delivery" },
-                        { data: "NotifyCode", title: "Customer" },
-                        { data: "CTN_SIZE", title: "Cont.Size" },
+                        { data: "ProductDesc", title: "Product" },
+                        { data: "ProductQty", title: "Qty" },
                         {
-                            data: null, title: "Pickup Date", render: function (data) {
-                                return CDateEN(data.TargetYardDate);
+                            data: null, title: "Load Date", render: function (data) {
+                                return CDateEN(data.LoadDate);
                             }
                         },
                         {
-                            data: null, title: "Delivery Date", render: function (data) {
+                            data: null, title: "Factory Date", render: function (data) {
+                                return CDateEN(data.FactoryDate);
+                            }
+                        },
+                        {
+                            data: null, title: "Unload Date", render: function (data) {
                                 return CDateEN(data.UnloadFinishDate);
                             }
                         },
-                        {
-                            data: null, title: "Return Date", render: function (data) {
-                                return CDateEN(data.ReturnDate);
-                            }
-                        },
-                        { data: "TruckNO", title: "Truck" },
-                        { data: "SealNumber", title: "Seal" },
-                        { data: "JNo", title: "Job No" }
+                        { data: "Comment", title: "Remark" },
+                        { data: "DeliveryNo", title: "Delivery No" }
                     ],
                     destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
                     responsive:true
@@ -228,11 +201,7 @@ End Code
                 $('#tbDetail tbody').on('dblclick', 'tr', function () {
                     SetSelect('#tbDetail', this);
                     let row = $('#tbDetail').DataTable().row(this).data(); //read current row selected
-                    if (userGroup !== 'V') {
-                        window.open(path + 'JobOrder/ShowJob?BranchCode=' + row.BranchCode + '&JNo=' + row.JNo, '', '');
-                    } else {
-                        window.open(path + 'JobOrder/TruckOrder?BranchCode=' + row.BranchCode + '&BookingNo=' + row.BookingNo + '&ContainerNo=' + row.CTN_NO, '', '');
-                    }
+                    window.open(path + 'JobOrder/ShowJob?BranchCode=' + row.BranchCode + '&JNo=' + row.JNo,'','');
                 });
             }
         });

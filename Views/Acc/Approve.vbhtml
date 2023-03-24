@@ -56,8 +56,6 @@ End Code
                     <th>DocNo</th>
                     <th class="desktop">DocDate</th>
                     <th class="desktop">VenCode</th>
-                    <th class="desktop">Customer</th>
-                    <th class="desktop">Job</th>
                     <th class="all">Container</th>
                     <th class="desktop">Inv.No</th>
                     <th class="desktop">Amount</th>
@@ -93,7 +91,7 @@ End Code
                     <thead>
                         <tr>
                             <th>Approve Ref#</th>
-                            <th>Vender Ref#</th>
+                            <th>Approve Date</th>
                             <th>Payment Ref#</th>
                         </tr>
                     </thead>
@@ -207,7 +205,12 @@ End Code
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
                     { data: "ApproveRef", title: "Approve.Ref#" },
-                    { data: "PoNo", title: "Vender Ref#" },
+                    {
+                        data: "ApproveDate", title: "Appr.Date",
+                        render: function (data) {
+                            return CDateEN(data);
+                        }
+                    },
                     { data: "PaymentRef", title: "Payment Ref#" }
                 ],
                 responsive: true,
@@ -241,14 +244,14 @@ End Code
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
-        w = w + '&Type=NOAPP&Show=ACTIVE';
-        $.get(path + 'acc/getpaymentsummary?branch=' + $('#txtBranchCode').val() + w, function (r) {
-            if (r.payment.data.length == 0) {
+        w = w + '&Type=NOAPP';
+        $.get(path + 'acc/getpayment?branch=' + $('#txtBranchCode').val() + w, function (r) {
+            if (r.payment.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.payment.data;
+            let h = r.payment.header;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
             let tb=$('#tbHeader').DataTable({
@@ -263,30 +266,28 @@ End Code
                         }
                     },
                     { data: "VenCode", title: "Vender" },
-                    { data: "CustCode", title: "Customer" },
-                    { data: "JobNo", title: "Job Number" },
                     { data: "RefNo", title: "Container.No" },
                     { data: "PoNo", title: "Inv.No" },
                     {
-                        data: "Amt", title: "Amount",
+                        data: "TotalExpense", title: "Amount",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "AmtVat", title: "VAT",
+                        data: "TotalVAT", title: "VAT",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "AmtTax50Tavi", title: "Tax",
+                        data: "TotalTax", title: "Tax",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
                     },
                     {
-                        data: "Total", title: "Net",
+                        data: "TotalNet", title: "Net",
                         render: function (data) {
                             return ShowNumber(data,2);
                         }
@@ -295,7 +296,7 @@ End Code
                 responsive: true,
                 destroy:true
             });
-            //ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
+            ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');

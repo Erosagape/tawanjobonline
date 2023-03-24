@@ -60,8 +60,8 @@ End Code
                     </div>
                     <div class="col-sm-6">
                         <label id="lblEAddress1">Address (EN) :</label>
-                        <br /><input type="text" id="txtEAddress1" class="form-control" tabIndex="9">
-                        <br /><input type="text" id="txtEAddress2" class="form-control" tabIndex="10">
+                        <br /><textarea id="txtEAddress1" class="form-control" tabIndex="9"></textarea>
+                        <br /><textarea id="txtEAddress2" class="form-control" tabIndex="10"></textarea>
                     </div>
                 </div>
                 <div class="row">
@@ -655,8 +655,8 @@ End Code
             ShowMessage('Data must not have length less than 3', true);
             return;
         }
-        if ($('#txtBranch').val().trim().length > 4) {
-            ShowMessage('Branch must not have length over 4', true);
+        if ($('#txtBranch').val().trim().length > 5) {
+            ShowMessage('Branch must not have length over 5', true);
             return;
         }
         var obj = {

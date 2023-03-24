@@ -125,6 +125,7 @@ End Code
                                 <div>
                                     <label id="lblCustPoNo" for="txtCustPoNo">Customer PO :</label>
                                     <input type="text" id="txtCustPoNo" style="width:300px" tabindex="5" />
+                                    <input type="button" id="btnLinkJob" value="Search" class="btn btn-primary" onclick="SearchData('job')" />
                                 </div>
                                 <div>
                                     <label id="lblDescription" for="txtDescription">Descriptions : </label>
@@ -244,7 +245,7 @@ End Code
                             <div style="display:flex;flex-direction:column">
                                 <div>
                                     <label id="lblProjectName" for="txtProjectName">Project Name :</label>
-                                    <br/>
+                                    <br />
                                     <textarea id="txtProjectName" style="width:70%" tabindex="26"></textarea>
                                     <input type="button" id="btnBrowseProj" value="..." onclick="SearchData('ProjectName')" />
                                 </div>
@@ -670,7 +671,7 @@ End Code
                     </div>
                     <div class="modal-footer">
                         <label id="lblTotalC">Total Container</label>
-                         : <input type="text" id="txtTotalCon" disabled />
+                        : <input type="text" id="txtTotalCon" disabled />
                         <button class="btn btn-success" id="btnSaveCons" onclick="ApplyService()">Update Value</button>
                         <button class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
@@ -798,6 +799,8 @@ End Code
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("frmLOVs");
+            //Jobs
+            CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job Shipping', response, 4);
             //Customers
             CreateLOV(dv,'#frmSearchCust', '#tbCust','Customers',response,3);
             //Consignee
@@ -995,7 +998,119 @@ End Code
             case 'SERVUNIT':
                 SetContainerEdit();
                 break;
+            case 'job':
+                let invNo = $('#txtCustInvNo').val();
+                let w = '?DBID=1';
+                if (invNo !== '') w += '&InvNo=' + invNo;
+                let lic = '@ViewBag.LICENSE_NAME';
+                let url = 'http://'+location.hostname+'/ace/';
+                if (lic.indexOf('โกลบอล') >= 0) {
+                    url = 'http://'+location.hostname+'/acet/';
+                }
+                $.get(url + 'Config/SetLogin?Group=S&Type=Guest&Database=' + dbID)
+                    .done(function (r) {
+                        if (r.user.data.length > 0) {
+                            SetGridJob(url, '#tbJob', '#frmSearchJob', w, function (res) {
+                                $.get(url + 'Config/SetLogOut?Group=S&Code=Guest').done(function () {
+
+                                    $('#txtCustPoNo').val(res.JNo);
+                                    ReadJob(res);
+                                });
+                            });
+                        }
+                    });
+
+                break;
+
         }
+    }
+    function ReadJob(dr) {
+        $('#txtQNo').val(dr.QNo);
+        $('#txtQRevise').val(dr.Revise);
+        $('#txtCustInvNo').val(dr.InvNo);
+        $('#txtDeclareNo').val(dr.DeclareNumber);
+        $('#txtCommission').val(dr.Commission);
+        $('#txtContactName').val(dr.CustContactName);
+        $('#txtJobCondition').val(dr.TRemark);
+        $('#txtDescription').val(dr.Description);
+        $('#txtProjectName').val(dr.ProjectName);
+        $('#txtInvProduct').val(dr.InvProduct);
+        $('#txtInvQty').val(dr.InvProductQty);
+        $('#txtInvUnit').val(dr.InvProductUnit);
+        $('#txtInvPackQty').val(dr.TotalQty);
+        $('#txtInvTotal').val(dr.InvTotal);
+        $('#txtMeasurement').val(dr.Measurement);
+        $('#txtNetWeight').val(dr.TotalNW);
+        $('#txtGrossWeight').val(dr.TotalGW);
+        $('#txtWeightUnit').val(dr.GWUnit);
+
+        $('#cboTyAuthorSp').val(dr.TyAuthorSp);
+        $('#cboTy19BIS').val(dr.Ty19BIS);
+        $('#cboTyClearTax').val(dr.TyClearTax);
+        $('#txtClearTaxReson').val(dr.TyClearTaxReson);
+
+        $('#chkTSRequest').prop('checked', dr.TSRequest === 1 ? true : false);
+        $('#chkTyAuthorSp').prop('checked', $('#cboTyAuthorSp').val() === '' ? false : true);
+        $('#chkTy19BIS').prop('checked', $('#cboTy19BIS').val() === '' ? false : true);
+        $('#chkTyClearTax').prop('checked', $('#cboTyClearTax').val() === '' ? false : true);
+
+        $('input:radio[name=optDeclareStatus]:checked').prop('checked', false);
+        $('input:radio[name=optDeclareStatus][value="' + dr.DeclareStatus + '"]').prop('checked', true);
+
+        $('#txtInvCurrency').val(dr.InvCurUnit);
+        $('#txtInvCurRate').val(dr.InvCurRate);
+        $('#txtInvCountryCode').val(dr.InvCountry);
+        $('#txtInvFCountryCode').val(dr.InvFCountry);
+        $('#txtBookingNo').val(dr.BookingNo);
+        $('#txtBLNo').val(dr.BLNo);
+        $('#txtHAWB').val(dr.HAWB);
+        $('#txtMAWB').val(dr.MAWB);
+        $('#txtVesselName').val(dr.VesselName);
+        $('#txtMVesselName').val(dr.MVesselName);
+        $('#txtInterPort').val(dr.InvInterPort);
+        $('#txtTotalCTN').val(dr.TotalContainer);
+        $('#txtETDDate').val(CDateEN(dr.ETDDate));
+        $('#txtETADate').val(CDateEN(dr.ETADate));
+        $('#txtLoadDate').val(CDateEN(dr.LoadDate));
+        $('#txtDeliveryDate').val(CDateEN(dr.EstDeliverDate));
+        $('#txtEDIDate').val(CDateEN(dr.ImExDate));
+        $('#txtReadyClearDate').val(CDateEN(dr.ReadyToClearDate));
+        $('#txtDutyDate').val(CDateEN(dr.DutyDate));
+
+        $('#txtClearDate').val(CDateEN(dr.ClearDate));
+        $('#txtDeclareType').val(dr.DeclareType);
+        $('#txtReleasePort').val(dr.ClearPort);
+        $('#txtPortNo').val(dr.ClearPortNo);
+        $('#txtDutyAmt').val(dr.DutyAmount);
+
+        $('#txtShippingCmd').val(dr.ShippingCmd);
+
+        $('#txtComPaidChq').val(dr.DutyLtdPayChqAmt);
+        $('#txtComPaidCash').val(dr.DutyLtdPayCashAmt);
+        $('#txtComPaidEPay').val(dr.DutyLtdPayEPAYAmt);
+        $('#txtComPaidOthers').val(dr.DutyLtdPayOtherAmt);
+        $('#txtComOthersPayBy').val(dr.DutyLtdPayOther);
+
+        $('#txtCustPaidChq').val(dr.DutyCustPayChqAmt);
+        $('#txtCustPaidCash').val(dr.DutyCustPayCashAmt);
+        $('#txtCustPaidCard').val(dr.DutyCustPayCardAmt);
+        $('#txtCustPaidBank').val(dr.DutyCustPayBankAmt);
+        $('#txtCustPaidEPay').val(dr.DutyCustPayEPAYAmt);
+        $('#txtCustPaidOthers').val(dr.DutyCustPayOtherAmt);
+        $('#txtCustOthersPayBy').val(dr.DutyCustPayOther);
+        $('#txtDeliverNo').val(dr.DeliveryNo);
+        $('#txtDeliverTo').val(dr.DeliveryTo);
+        $('#txtDeliverAddr').val(dr.DeliveryAddr);
+
+        ShowCountry(path, dr.InvCountry, '#txtInvCountry');
+        ShowCountry(path, dr.InvFCountry, '#txtInvFCountry');
+        ShowInterPort(path, dr.JobType == 1 ? dr.InvFCountry : dr.InvCountry, dr.InvInterPort, '#txtInterPortName');
+
+        ShowDeclareType(path, dr.DeclareType, '#txtDeclareTypeName');
+        ShowReleasePort(path, dr.ClearPort, '#txtReleasePortName');
+
+        CalTotalLtd();
+        CalTotalCust();
     }
     //This section for calculate amount of duty payment
     function CalTotalLtd() {
@@ -1588,7 +1703,7 @@ End Code
                 if (r[0].DepDate !== null) $('#txtETDDate').val(CDateEN(r[0].DepDate));
                 $('#txtInvCurrency').val(r[0].CurCode);
                 $('#txtInvCurRate').val(r[0].CurRate);
-                $('#txtInvTotal').val(r[0].FOBValueF);                
+                $('#txtInvTotal').val(r[0].FOBValueF);
                 $('#txtVesselName').val(r[0].VesselName + (r[0].VoyNumber !== '' ? ' V.' + r[0].VoyNumber : ''));
                 $('#txtReleasePort').val(r[0].ReleasePort);
                 $('#txtPortNo').val(r[0].LoadedPort);
@@ -1598,7 +1713,7 @@ End Code
                 $('#txtGrossWeight').val(r[0].TotalGrossW);
                 $('#txtWeightUnit').val(r[0].WeightUnit);
                 $('#txtInvQty').val(r[0].TotalPackageAmt);
-                $('#txtInvUnit').val(r[0].TotalPackageUnit);                
+                $('#txtInvUnit').val(r[0].TotalPackageUnit);
 
                 if (r[0].RecDate !== null) $('#txtEDIDate').val(CDateEN(r[0].RecDate));
                 if(r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));
@@ -1633,7 +1748,7 @@ End Code
                 $('#txtGrossWeight').val(r[0].TotalGrossW);
                 $('#txtWeightUnit').val(r[0].WeightUnit);
                 $('#txtInvQty').val(r[0].TotalPackageAmt);
-                $('#txtInvUnit').val(r[0].TotalPackageUnit);                
+                $('#txtInvUnit').val(r[0].TotalPackageUnit);
 
                 if (r[0].RecDate !== null) $('#txtEDIDate').val(CDateEN(r[0].RecDate));
                 if(r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));

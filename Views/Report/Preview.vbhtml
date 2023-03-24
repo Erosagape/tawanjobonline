@@ -5,6 +5,8 @@ End Code
 <style>
     * {
         font-size: 11px;        
+	page-break-inside:auto !important;
+	page-break-after:auto !important;
     }
     label {
         font-size: 14px;
@@ -21,6 +23,7 @@ End Code
 
 </div>
 <script type="text/javascript">
+	console.log("test")
     let path = '@Url.Content("~")';
     let data = getQueryString("data");
     let cliteria = getQueryString("cliteria");
@@ -31,6 +34,7 @@ End Code
         row = JSON.parse(data);
         let obj = JSON.parse(cliteria);
         html = '';
+        if (obj.BRANCH !== '') html += obj.BRANCH + ',';
         if (obj.DATEFROM !== '') html += obj.DATEFROM + ',';
         if (obj.DATETO !== '') html += obj.DATETO + ',';
         if (obj.CUSTWHERE !== '') html += obj.CUSTWHERE + ',';
@@ -39,6 +43,7 @@ End Code
         if (obj.STATUSWHERE !== '') html += obj.STATUSWHERE + ',';
         if (obj.EMPWHERE !== '') html += obj.EMPWHERE + ',';
         if (obj.CODEWHERE !== '') html += obj.CODEWHERE + ',';
+	console.log(html);
         $('#rptCliteria').html('REPORT CODE:' + row.REPORTCODE + ', CLITERIA:'+ html);
         switch (lang) {
             case 'TH':

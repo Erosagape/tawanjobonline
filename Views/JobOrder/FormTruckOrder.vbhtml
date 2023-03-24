@@ -181,21 +181,21 @@ End Code
             $('#txtDiscrepancyReason').html(h.Comment);
             $('#txtRemark').html(CStr(h.Remark));
 
-            $('#txtPlace1').text(h.PlaceName1);
-            $('#txtPlace2').text(h.PlaceName2);
-            $('#txtPlace3').text(h.PlaceName3);
-            $('#txtAddress1').html(CStr(h.PlaceAddress1));
-            $('#txtAddress2').html(CStr(h.PlaceAddress2));
-            $('#txtAddress3').html(CStr(h.PlaceAddress3));
+            $('#txtPlace1').text(h.CYPlace);
+            $('#txtPlace2').text(h.FactoryPlace);
+            $('#txtPlace3').text(h.ReturnPlace);
+            $('#txtAddress1').html(CStr(h.CYAddress));
+            $('#txtAddress2').html(CStr(h.FactoryAddress));
+            $('#txtAddress3').html(CStr(h.ReturnAddress));
             $('#txtTargetDate1').text(ShowDate(h.TargetYardDate));
             $('#txtTargetDate2').text(ShowDate(h.TargetDeliveryDate));
             $('#txtTargetDate3').text(ShowDate(h.TargetReturnDate));
             $('#txtActualDate1').text(ShowDate(h.ActualYardDate));
             $('#txtActualDate2').text(ShowDate(h.ActualDeliveryDate));
             $('#txtActualDate3').text(ShowDate(h.ActualReturnDate));
-            $('#txtContact1').text(h.PlaceContact1);
-            $('#txtContact2').text(h.PlaceContact2);
-            $('#txtContact3').text(h.PlaceContact3);
+            $('#txtContact1').text(h.CYContact);
+            $('#txtContact2').text(h.FactoryContact);
+            $('#txtContact3').text(h.ReturnContact);
         }
     });
 </script>
