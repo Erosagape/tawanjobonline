@@ -254,7 +254,6 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlH &= String.Format(" AND DocNo='{0}' ", Request.QueryString("Code").ToString)
-                    tSqlD = tSqlH
                 End If
                 If Not IsNothing(Request.QueryString("VenCode")) Then
                     tSqlH &= String.Format(" AND VenCode='{0}' ", Request.QueryString("VenCode").ToString)
@@ -307,13 +306,28 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                         tSqlH &= " AND NOT ISNULL(CancelProve,'')<>'' "
                     End If
                 End If
-                Dim oData = New CPayHeader(GetSession("ConnJob")).GetData(tSqlH)
-                Dim json As String = JsonConvert.SerializeObject(oData)
-                Dim oDataD = New CPayDetail(GetSession("ConnJob")).GetData(tSqlD & " AND DocNo IN(SELECT DocNo FROM Job_PaymentHeader " & tSqlH & " )")
-                Dim jsonD As String = JsonConvert.SerializeObject(oDataD)
+                If Not IsNothing(Request.QueryString("Job")) Then
 
-                json = "{""payment"":{""header"":" & json & ",""detail"":" & jsonD & "}}"
-                Return Content(json, jsonContent)
+                    Dim oDataD = New CPayDetail(GetSession("ConnJob")).GetData(tSqlD & " AND ForJNo='" & Request.QueryString("Job") & "' AND DocNo IN(SELECT DocNo FROM Job_PaymentHeader " & tSqlH & " )")
+                    Dim jsonD As String = JsonConvert.SerializeObject(oDataD)
+
+                    tSqlH &= String.Format(" AND DocNo IN(SELECT DocNo FROM Job_PaymentDetail WHERE ForJNo='{0}') ", Request.QueryString("Job").ToString)
+                    Dim oData = New CPayHeader(GetSession("ConnJob")).GetData(tSqlH)
+                    Dim json As String = JsonConvert.SerializeObject(oData)
+
+                    json = "{""payment"":{""header"":" & json & ",""detail"":" & jsonD & "}}"
+                    Return Content(json, jsonContent)
+                Else
+                    Dim oDataD = New CPayDetail(GetSession("ConnJob")).GetData(tSqlD & " AND DocNo IN(SELECT DocNo FROM Job_PaymentHeader " & tSqlH & " )")
+                    Dim jsonD As String = JsonConvert.SerializeObject(oDataD)
+
+
+                    Dim oData = New CPayHeader(GetSession("ConnJob")).GetData(tSqlH)
+                    Dim json As String = JsonConvert.SerializeObject(oData)
+
+                    json = "{""payment"":{""header"":" & json & ",""detail"":" & jsonD & "}}"
+                    Return Content(json, jsonContent)
+                End If
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetPayment", ex.Message, ex.StackTrace, True)
                 Return Content("[]", jsonContent)
@@ -431,6 +445,9 @@ WHERE NOT ISNULL(h.CancelProve,'')<>''
                 If Not IsNothing(Request.QueryString("DateTo")) Then
                     tSqlw &= " AND h.DocDate<='" & Request.QueryString("DateTo") & " 23:59:00' "
                 End If
+                If Not IsNothing(Request.QueryString("Job")) Then
+                    tSqlw &= String.Format(" AND d.ForJNo='{0}' ", Request.QueryString("Job").ToString)
+                End If
                 If Not IsNothing(Request.QueryString("Type")) Then
                     If Request.QueryString("Type").ToString = "NOPAY" Then
                         tSqlw &= String.Format(" AND NOT (h.DocNo IN(SELECT p.DocNo FROM (
@@ -498,6 +515,10 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                 If Not IsNothing(Request.QueryString("DateTo")) Then
                     tSqlw &= " AND h.DocDate<='" & Request.QueryString("DateTo") & " 23:59:00' "
                 End If
+                If Not IsNothing(Request.QueryString("Job")) Then
+                    tSqlw &= String.Format(" AND d.ForJNo='{0}' ", Request.QueryString("Job").ToString)
+                End If
+
                 If Not IsNothing(Request.QueryString("Type")) Then
                     If Request.QueryString("Type").ToString = "NOPAY" Then
                         tSqlw &= String.Format(" AND NOT (h.DocNo IN(SELECT p.DocNo FROM (
