@@ -558,6 +558,18 @@ End Code
                     <a href="#" class="btn btn-primary" id="btnPrintClr" onclick="PrintForm()">
                         <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrintClr">Print Form Clear</b>
                     </a>
+                    <br />
+                    Filter :
+                    <select id="cboDocType" class="dropdown" onclick="ShowTracking($('#txtBranchCode').val(), $('#txtJNo').val());">
+                        <option value="">All</option>
+                        <option value="ADV">Advance</option>
+                        <option value="PAY">Payment Bill</option>
+                        <option value="CLR">Clearing</option>
+                        <option value="CHQ">Cheque</option>
+                        <option value="INV">Invoice</option>
+                        <option value="RCV">Cash Receipts</option>
+                        <option value="TAX">Tax Receipts</option>
+                    </select>
                     <input type="checkbox" id="chkCancel" onchange="ShowTracking($('#txtBranchCode').val(), $('#txtJNo').val());">Show Cancelled Document
                     <table id="tbTracking" class="table table-responsive">
                         <thead>
@@ -1262,6 +1274,11 @@ End Code
         .done(function (r) {
             if (r.job.data.length > 0) {
                 let d = r.job.data;
+                if ($('#cboDocType').val() !== '') {
+                    d = r.job.data.filter(function (data) {
+                        return data.DocType == $('#cboDocType').val();
+                    });
+                }
                 let tb=$('#tbTracking').DataTable({
                     data: d,
                     selected: true, //ให้สามารถเลือกแถวได้
@@ -1273,7 +1290,34 @@ End Code
                             }
                         },
                         { data: "DocType", title: "Type" },
-                        { data: "DocNo", title: "Doc No" },
+                        {
+                            data: null, title: "Doc No",
+                            render: function (data) {
+                                switch (data.DocType) {
+                                    case "CHQ":
+                                        return '<a href="../Acc/Cheque?BranchCode=' + br + '&ControlNo=' + data.DocNo + '">' + data.DocNo + '</a>';
+                                        break;
+                                    case "ADV":
+                                        return '<a href="../Adv/Index?BranchCode=' + br + '&AdvNo=' + data.DocNo + '">' + data.DocNo + '</a>';
+                                        break;
+                                    case "CLR":
+                                        return '<a href="../Clr/Index?BranchCode=' + br + '&ClrNo=' + data.DocNo + '">' + data.DocNo + '</a>';
+                                        break;
+                                    case "INV":
+                                        return '<a href="../Acc/Invoice?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
+                                        break;
+                                    case "TAX":
+                                        return '<a href="../Acc/TaxInvoice?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
+                                        break;
+                                    case "RCV":
+                                        return '<a href="../Acc/Receipt?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
+                                        break;
+                                    default:
+                                        return data.DocNo;
+                                        break;
+                                }
+                            }
+                        },
                         { data: "Expense", title: "Description" },
                         { data: "Amount", title: "Amount" },
                         { data: "DocStatus", title: "Status" }

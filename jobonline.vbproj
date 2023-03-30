@@ -1392,6 +1392,7 @@
     <Content Include="Views\Acc\Clearing.vbhtml" />
     <Content Include="Views\Acc\Advance.vbhtml" />
     <Content Include="Views\JobOrder\CreateTransport.vbhtml" />
+    <Content Include="Views\JobOrder\ShowJob_New.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

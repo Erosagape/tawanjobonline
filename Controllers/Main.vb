@@ -680,7 +680,10 @@ d.UnitPrice,d.Qty,d.CurrencyCode,d.CurRate,d.UnitCost,d.FNet,d.BNet,d.Tax50TaviR
 d.LinkItem,d.LinkBillNo,s.IsExpense,s.IsCredit,s.IsTaxCharge,s.Is50Tavi,s.IsHaveSlip,s.IsLtdAdv50Tavi,
 d.Remark,j.CustCode,j.CustBranch,j.InvNo,j.NameEng,j.NameThai,j.TotalContainer,j.VesselName,j.Commission,j.consigneecode,j.DeliveryTo,
 j.JobDate,j.JobStatus,c5.JobStatusName,j.CloseJobDate,j.CloseJobBy,j.DeclareNumber,j.InvProduct,j.TotalGW,j.InvProductQty,
-h.CancelProve,h.CancelReson,h.CancelDate,r.LastReceipt,r.ReceiveNet 
+h.CancelProve,h.CancelReson,h.CancelDate,r.LastReceipt,r.ReceiveNet,
+j.HAWB,j.CustRefNO,j.AgentCode,j.ForwarderCode,j.ClearPortNo,j.TRemark as JobCondition,j.[Description] as JobDesc,j.ETDDate,j.ETADate,
+j.DeliveryTo,j.ClearPort,j.MVesselName,j.Measurement,j.TotalContainer,j.TotalQty,j.InvProductQty,j.InvProductUnit,j.ProjectName,j.ShippingEmp,j.ShippingCmd
+,j.InvCurRate,d.UnitCode  
 from Job_ClearHeader h inner join Job_ClearDetail d on h.BranchCode=d.BranchCode and h.ClrNo=d.ClrNo
 left join Mas_Branch b on h.BranchCode=b.Code 
 left join (
