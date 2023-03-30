@@ -3822,7 +3822,7 @@ j.DutyLtdPayCashAmt<>a.CashPayment
             Return "<>'" & str.Split("<>")(1).Substring(1) & "'"
         End If
         If str.IndexOf("LIKE%") > 0 Then
-            Return "Like '" & str.Split("LIKE%")(1).Substring(3) & "%'"
+            Return "Like '" & str.Replace("LIKE%", "|").Split("|")(1).Replace("*", "%") & "%'"
         End If
         If str.IndexOf("=") > 0 Then
             Return "='" & str.Split("=")(1) & "'"
