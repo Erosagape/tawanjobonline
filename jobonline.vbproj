@@ -186,6 +186,9 @@
     <Compile Include="App_Start\BundleConfig.vb" />
     <Compile Include="App_Start\FilterConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
+    <Compile Include="Areas\Mobile\Controllers\LoginController.vb" />
+    <Compile Include="Areas\Mobile\Controllers\MenuController.vb" />
+    <Compile Include="Areas\Mobile\MobileAreaRegistration.vb" />
     <Compile Include="Controllers\AccController.vb" />
     <Compile Include="Controllers\AdminController.vb" />
     <Compile Include="Controllers\AdvController.vb" />
@@ -1992,6 +1995,12 @@
     <Content Include="App_Data\APL\Reports\Index.vbhtml" />
     <Content Include="App_Data\SINOTHAI\Clr\Index.vbhtml" />
     <Content Include="App_Data\SINOTHAI\Acc\Invoice.vbhtml" />
+    <Content Include="Areas\Mobile\Views\web.config" />
+    <Content Include="Areas\Mobile\Views\_ViewStart.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Shared\_Layout.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Login\Index.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Menu\Index.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Login\Verification.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -2468,6 +2477,7 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Mobile\Data\" />
     <Folder Include="Resource\Export\" />
     <Folder Include="Resource\Import\" />
   </ItemGroup>

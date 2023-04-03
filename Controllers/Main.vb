@@ -113,10 +113,10 @@ Module Main
     Function GetDatabaseProfile(pCustomer As String, dbID As String) As DataTable
         Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
         If dbID = "" Then
-            Dim tb = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT a.*,b.Comment FROM TWTCustomer a INNER JOIN TWTCustomerApp b ON a.CustID=b.CustID WHERE a.CustID='{0}' ", pCustomer))
+            Dim tb = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT a.*,b.Comment,b.Seq FROM TWTCustomer a INNER JOIN TWTCustomerApp b ON a.CustID=b.CustID WHERE a.CustID='{0}' ", pCustomer))
             Return tb
         Else
-            Dim tb = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT a.*,b.Comment FROM TWTCustomer a INNER JOIN TWTCustomerApp b ON a.CustID=b.CustID WHERE a.CustID='{0}' AND b.Seq={1} ", pCustomer, dbID))
+            Dim tb = New CUtil(cnMas).GetTableFromSQL(String.Format("SELECT a.*,b.Comment,b.Seq FROM TWTCustomer a INNER JOIN TWTCustomerApp b ON a.CustID=b.CustID WHERE a.CustID='{0}' AND b.Seq={1} ", pCustomer, dbID))
             Return tb
         End If
     End Function
