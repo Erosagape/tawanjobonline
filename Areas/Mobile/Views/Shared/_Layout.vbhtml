@@ -6,22 +6,18 @@
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    <style>
+        * {
+            font-family:Tahoma,'Segoe UI';
+            font-size:medium;
+        }
+    </style>
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Menu", "Index", "Menu", New With {.area = "Mobile"}, New With {.class = "navbar-brand"})
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
+                @Html.ActionLink(ViewBag.Title, "Index", "Menu", New With {.area = "Mobile"}, New With {.class = "navbar-brand"})
             </div>
         </div>
     </div>

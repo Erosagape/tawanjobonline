@@ -2,14 +2,12 @@
 
 Namespace Areas.Mobile.Controllers
     Public Class MenuController
-        Inherits Controller
+        Inherits MController
         ' GET: Mobile/Menu
         Function Index() As ActionResult
-            If TempData("UserID") Is Nothing Then
+            If Not CheckLogin() Then
+                TempData("UrlReturn") = Url.Action("Index", "Menu")
                 Return RedirectToAction("Index", "Login")
-            Else
-                ViewBag.UserID = TempData("UserID")
-                TempData("UserID") = ViewBag.UserID
             End If
             Return View()
         End Function

@@ -1,9 +1,9 @@
 ﻿
 @Code    
-    ViewData("Title") = "Index"
+    ViewData("Title") = "Login"
 End Code
 <h2>Who are you?</h2>
-<form action="" method="post">
+<form action="" method="post" class="container">
     <div class="row">
         <div class="col-md-6">
             Log-in as:
@@ -21,7 +21,7 @@ End Code
             Your ID:
         </div>
         <div class="col-md-6">
-            <input type="text" class="form-control" name="txtUserID" />
+            <input type="text" class="form-control" name="txtUserID" autofocus />
         </div>
     </div>
     <div class="row">
@@ -36,6 +36,11 @@ Next
             </select>
         </div>
     </div>
-    <input type = "submit" Class="btn btn-success fa fa-unlock" value="Log-in" />
+    <input type="hidden" name="redirect" value="@ViewBag.Redirect" />
+    <div class="row">
+        <div class="col">
+            <input type="submit" Class="btn btn-success fa fa-unlock" value="Log-in" />
+        </div>
+    </div>
 </form>
 @ViewBag.Message

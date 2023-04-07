@@ -1,5 +1,4 @@
 ﻿Imports System.Web.Mvc
-
 Namespace Areas.Mobile
     Public Class MobileAreaRegistration
         Inherits AreaRegistration
