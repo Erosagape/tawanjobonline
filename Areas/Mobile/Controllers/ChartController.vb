@@ -179,5 +179,148 @@ Namespace Areas.Mobile.Controllers
                     ViewBag.JobCountMonthly = oJobFilter.ToList()
             End Select
         End Sub
+        <HttpPost>
+        <ActionName("Loading")>
+        Function PostLoading(form As FormCollection) As ActionResult
+            TempData("AtDate") = form("atDate")
+            Return RedirectToAction("Loading", "Chart")
+        End Function
+        Function Finance() As ActionResult
+            If Not CheckLogin() Then
+                TempData("UrlReturn") = Url.Action("Finance", "Chart")
+                Return RedirectToAction("Index", "Login")
+            End If
+            Dim atDate = DateTime.Today.ToString("yyyy-MM-dd")
+            If Not IsNothing(Request.QueryString("AtDate")) Then
+                atDate = Request.QueryString("AtDate")
+            End If
+            PopulateCashDaily(atDate)
+            ViewBag.AtDate = atDate
+            Return View()
+        End Function
+        Function Loading() As ActionResult
+            If Not CheckLogin() Then
+                TempData("UrlReturn") = Url.Action("Loading", "Chart")
+                Return RedirectToAction("Index", "Login")
+            End If
+            Dim sqlW = ""
+            Dim dateWhere = "DocDate"
+            If Not IsNothing(Request.QueryString("OnDate")) Then
+                dateWhere = Request.QueryString("OnDate")
+            End If
+            Dim atDate = DateTime.Today.ToString("yyyy-MM-dd")
+            If Not IsNothing(TempData("AtDate")) Then
+                atDate = TempData("AtDate")
+            End If
+            ViewBag.AtDate = atDate
+            PopulateJobLoadingMonthly(sqlW, dateWhere, atDate)
+            Return View()
+        End Function
+        Public Sub PopulateJobLoadingMonthly(sqlw As String, dateWhere As String, atDate As String)
+            Dim oJobIMToday = New CJobOrder(ViewBag.JobConn).GetData(String.Format(" WHERE JobStatus<>99 AND JobType=1 AND ETADate='{0}'", atDate))
+            Dim oJobEXToday = New CJobOrder(ViewBag.JobConn).GetData(String.Format(" WHERE JobStatus<>99 AND JobType<>1 AND ETDDate='{0}'", atDate))
+            Dim oJobIMLastWeek = New CJobOrder(ViewBag.JobConn).GetData(String.Format(" WHERE JobStatus<>99 AND JobType=1 AND ETADate>=DATEADD(week,-1,'{0}') AND ETADate<'{0}'", atDate))
+            Dim oJobEXLastWeek = New CJobOrder(ViewBag.JobConn).GetData(String.Format(" WHERE JobStatus<>99 AND JobType<>1 AND ETDDate>=DATEADD(week,-1,'{0}') AND ETDDate<'{0}'", atDate))
+
+            Dim oJobIMNextWeek = New CJobOrder(ViewBag.JobConn).GetData(String.Format(" WHERE JobStatus<>99 AND JobType=1 AND ETADate<=DATEADD(week,1,'{0}') AND ETADate>'{0}'", atDate))
+            Dim oJobEXNextWeek = New CJobOrder(ViewBag.JobConn).GetData(String.Format(" WHERE JobStatus<>99 AND JobType<>1 AND ETDDate<=DATEADD(week,1,'{0}') AND ETDDate>'{0}'", atDate))
+
+            Dim oReleasePort = New CCustomsPort(ViewBag.MasConn).GetData("")
+
+            Dim oCountJobIM = From job In oJobIMToday
+                              Join port In oReleasePort
+                              On job.ClearPort Equals port.AreaCode
+                              Group By job.ClearPort, ClearPortName = port.AreaName
+                              Into DataSource = Group, CountIM = Count(job.JobType = 1), CountEx = Count(job.JobType <> 1)
+                              Order By ClearPortName
+
+            Dim oCountJobEX = From job In oJobEXToday
+                              Join port In oReleasePort
+                              On job.ClearPort Equals port.AreaCode
+                              Group By job.ClearPort, ClearPortName = port.AreaName
+                              Into DataSource = Group, CountIM = Count(job.JobType = 1), CountEx = Count(job.JobType <> 1)
+                              Order By ClearPortName
+
+            ViewBag.JobExToday = oCountJobEX.ToList()
+            ViewBag.JobImToday = oCountJobIM.ToList()
+
+            Dim ListTodayJoin = oCountJobIM.Concat(oCountJobEX)
+
+            ViewBag.JobToday = From lst In ListTodayJoin
+                               Group By lst.ClearPort, lst.ClearPortName
+                               Into DataSource = Group, CountIM = Sum(lst.CountIM), CountEX = Sum(lst.CountEx)
+                               Order By ClearPortName
+
+            Dim oCountJobIMLastWeek = From job In oJobIMLastWeek
+                                      Join port In oReleasePort
+                                      On job.ClearPort Equals port.AreaCode
+                                      Group By job.ClearPort, ClearPortName = port.AreaName, ImExDate = job.ETADate
+                                            Into DataSource = Group, CountIM = Count(job.JobType = 1), CountEx = Count(job.JobType <> 1)
+                                      Order By ClearPort
+
+            Dim oCountJobEXLastWeek = From job In oJobEXLastWeek
+                                      Join port In oReleasePort
+                                      On job.ClearPort Equals port.AreaCode
+                                      Group By job.ClearPort, ClearPortName = port.AreaName, ImExDate = job.ETDDate
+                                      Into DataSource = Group, CountIM = Count(job.JobType = 1), CountEx = Count(job.JobType <> 1)
+                                      Order By ClearPort
+
+            ViewBag.JobExLastWeek = oCountJobEXLastWeek.ToList()
+            ViewBag.JobImLastWeek = oCountJobIMLastWeek.ToList()
+
+            Dim ListLastWeekJoin = oCountJobEXLastWeek.Concat(oCountJobIMLastWeek)
+
+            ViewBag.JobLastWeek = From lst In ListLastWeekJoin
+                                  Group By lst.ImExDate
+                                  Into DataSource = Group, CountIM = Sum(lst.CountIM), CountEX = Sum(lst.CountEx)
+                                  Order By ImExDate
+
+            Dim oCountJobIMNextWeek = From job In oJobIMNextWeek
+                                      Join port In oReleasePort
+                                      On job.ClearPort Equals port.AreaCode
+                                      Group By job.ClearPort, ClearPortName = port.AreaName, ImExDate = job.ETADate
+                                            Into DataSource = Group, CountIM = Count(job.JobType = 1), CountEx = Count(job.JobType <> 1)
+                                      Order By ClearPort
+
+            Dim oCountJobEXNextWeek = From job In oJobEXNextWeek
+                                      Join port In oReleasePort
+                                      On job.ClearPort Equals port.AreaCode
+                                      Group By job.ClearPort, ClearPortName = port.AreaName, ImExDate = job.ETDDate
+                                      Into DataSource = Group, CountIM = Count(job.JobType = 1), CountEx = Count(job.JobType <> 1)
+                                      Order By ClearPort
+
+            ViewBag.JobExNextWeek = oCountJobEXNextWeek.ToList()
+            ViewBag.JobImNextWeek = oCountJobIMNextWeek.ToList()
+
+            Dim ListNextWeekJoin = oCountJobEXNextWeek.Concat(oCountJobIMNextWeek)
+
+            ViewBag.JobNextWeek = From lst In ListNextWeekJoin
+                                  Group By lst.ImExDate
+                                  Into DataSource = Group, CountIM = Sum(lst.CountIM), CountEX = Sum(lst.CountEx)
+                                  Order By ImExDate
+        End Sub
+        Sub PopulateCashDaily(atDate As String)
+            Dim oAdvHdr = New CAdvHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DocStatus<>99 AND PayChqDate='{0}'", atDate))
+            Dim oAdvDtl = From d In New CAdvDetail(ViewBag.JobConn).GetData(" WHERE AdvNo NOT IN(select AdvNo from Job_AdvHeader where DocStatus=99)")
+                          Join h In oAdvHdr On String.Concat(d.BranchCode, d.AdvNo) Equals String.Concat(h.BranchCode, h.AdvNo)
+                          Group By DueDate = h.PayChqDate
+                            Into DataSource = Group, SumExpense = Sum(d.AdvNet + d.Charge50Tavi), SumReceive = Sum(0)
+                          Order By DueDate
+
+            Dim oInvHdr = New CInvHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DueDate='{0}' AND NOT CancelProve<>''", atDate))
+            Dim oInvDtl = From d In New CInvDetail(ViewBag.JobConn).GetData(" WHERE DocNo NOT IN(SELECT DocNo from Job_InvoiceHeader WHERE DueDate is null OR CancelProve<>'')")
+                          Join h In oInvHdr On String.Concat(d.BranchCode, d.DocNo) Equals String.Concat(h.BranchCode, h.DocNo)
+                          Where h.CancelProve.ToString() = ""
+                          Group By h.DueDate
+                              Into DataSource = Group, SumExpense = Sum(0), SumReceive = Sum(d.TotalAmt + d.Amt50Tavi)
+                          Order By DueDate
+
+            ViewBag.SumInvDue = oInvDtl.ToList()
+            ViewBag.SumPayDue = oAdvDtl.ToList()
+            ViewBag.SumCashDaily = From r In oInvDtl.Union(oAdvDtl)
+                                   Group By r.DueDate
+                                   Into TotalExpense = Sum(r.SumExpense), TotalReceive = Sum(r.SumReceive)
+                                   Order By DueDate
+        End Sub
     End Class
 End Namespace

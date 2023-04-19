@@ -497,6 +497,8 @@
     <Content Include="Areas\Mobile\Views\Login\Verification.vbhtml" />
     <Content Include="Areas\Mobile\Views\Chart\Index.vbhtml" />
     <Content Include="Areas\Mobile\Views\Chart\Yearly.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Chart\Loading.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Chart\Finance.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
