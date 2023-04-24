@@ -195,6 +195,13 @@ Namespace Areas.Mobile.Controllers
                 atDate = Request.QueryString("AtDate")
             End If
             PopulateCashDaily(atDate)
+            PopulateCashWeekly(atDate)
+            PopulateCashMonthly(atDate)
+            PopulatePayablesDaily(atDate)
+            PopulatePayablesWeekly(atDate)
+            PopulateReceivablesDaily(atDate)
+            PopulateReceivablesWeekly(atDate)
+
             ViewBag.AtDate = atDate
             Return View()
         End Function
@@ -299,12 +306,54 @@ Namespace Areas.Mobile.Controllers
                                   Into DataSource = Group, CountIM = Sum(lst.CountIM), CountEX = Sum(lst.CountEx)
                                   Order By ImExDate
         End Sub
+        Sub PopulateCashMonthly(atDate As String)
+            Dim atYear = Convert.ToDateTime(atDate).Year
+
+            Dim oAdvHdr = New CAdvHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DocStatus<>99 AND Year(PayChqDate)={0} ", atYear))
+            Dim oAdvDtl = From d In New CAdvDetail(ViewBag.JobConn).GetData(" WHERE AdvNo NOT IN(select AdvNo from Job_AdvHeader where DocStatus=99)")
+                          Join h In oAdvHdr On String.Concat(d.BranchCode, d.AdvNo) Equals String.Concat(h.BranchCode, h.AdvNo)
+                          Group By DueYear = h.PayChqDate.Year, DueMonth = h.PayChqDate.Month
+                            Into SumExpense = Sum(d.AdvNet + d.Charge50Tavi), SumReceive = Sum(0)
+                          Order By DueYear, DueMonth
+
+            Dim oInvHdr = New CInvHeader(ViewBag.JobConn).GetData(String.Format(" WHERE Year(DueDate)={0} AND NOT CancelProve<>''", atYear))
+            Dim oInvDtl = From d In New CInvDetail(ViewBag.JobConn).GetData(" WHERE DocNo NOT IN(SELECT DocNo from Job_InvoiceHeader WHERE DueDate is null OR CancelProve<>'')")
+                          Join h In oInvHdr On String.Concat(d.BranchCode, d.DocNo) Equals String.Concat(h.BranchCode, h.DocNo)
+                          Where h.CancelProve.ToString() = ""
+                          Group By DueYear = h.DueDate.Year, DueMonth = h.DueDate.Month
+                              Into SumExpense = Sum(0), SumReceive = Sum(d.TotalAmt + d.Amt50Tavi)
+                          Order By DueYear, DueMonth
+
+            ViewBag.SumInvDueMonthly = oInvDtl.ToList()
+            ViewBag.SumPayDueMonthly = oAdvDtl.ToList()
+            Dim sumDue As List(Of DuePaymentMonthly) = New List(Of DuePaymentMonthly)
+            For Each d In oInvDtl.ToList()
+                Dim o As New DuePaymentMonthly
+                o.DueYear = d.DueYear
+                o.DueMonth = d.DueMonth
+                o.SumExpense = d.SumExpense
+                o.SumReceive = d.SumReceive
+                sumDue.Add(o)
+            Next
+            For Each d In oAdvDtl.ToList()
+                Dim o As New DuePaymentMonthly
+                o.DueYear = d.DueYear
+                o.DueMonth = d.DueMonth
+                o.SumExpense = d.SumExpense
+                o.SumReceive = d.SumReceive
+                sumDue.Add(o)
+            Next
+            ViewBag.SumCashMonthly = (From o In sumDue
+                                      Group By o.DueYear, o.DueMonth
+                                       Into TotalExpense = Sum(o.SumExpense), TotalReceive = Sum(o.SumReceive)
+                                      Order By DueYear, DueMonth).ToList()
+        End Sub
         Sub PopulateCashDaily(atDate As String)
             Dim oAdvHdr = New CAdvHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DocStatus<>99 AND PayChqDate='{0}'", atDate))
             Dim oAdvDtl = From d In New CAdvDetail(ViewBag.JobConn).GetData(" WHERE AdvNo NOT IN(select AdvNo from Job_AdvHeader where DocStatus=99)")
                           Join h In oAdvHdr On String.Concat(d.BranchCode, d.AdvNo) Equals String.Concat(h.BranchCode, h.AdvNo)
                           Group By DueDate = h.PayChqDate
-                            Into DataSource = Group, SumExpense = Sum(d.AdvNet + d.Charge50Tavi), SumReceive = Sum(0)
+                            Into SumExpense = Sum(d.AdvNet + d.Charge50Tavi), SumReceive = Sum(0)
                           Order By DueDate
 
             Dim oInvHdr = New CInvHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DueDate='{0}' AND NOT CancelProve<>''", atDate))
@@ -312,15 +361,140 @@ Namespace Areas.Mobile.Controllers
                           Join h In oInvHdr On String.Concat(d.BranchCode, d.DocNo) Equals String.Concat(h.BranchCode, h.DocNo)
                           Where h.CancelProve.ToString() = ""
                           Group By h.DueDate
-                              Into DataSource = Group, SumExpense = Sum(0), SumReceive = Sum(d.TotalAmt + d.Amt50Tavi)
+                              Into SumExpense = Sum(0), SumReceive = Sum(d.TotalAmt + d.Amt50Tavi)
                           Order By DueDate
 
             ViewBag.SumInvDue = oInvDtl.ToList()
             ViewBag.SumPayDue = oAdvDtl.ToList()
-            ViewBag.SumCashDaily = From r In oInvDtl.Union(oAdvDtl)
-                                   Group By r.DueDate
-                                   Into TotalExpense = Sum(r.SumExpense), TotalReceive = Sum(r.SumReceive)
-                                   Order By DueDate
+            Dim sumDue As List(Of DuePaymentSummary) = New List(Of DuePaymentSummary)
+            For Each d In oInvDtl.ToList()
+                Dim o As New DuePaymentSummary
+                o.DueDate = d.DueDate
+                o.SumExpense = d.SumExpense
+                o.SumReceive = d.SumReceive
+                sumDue.Add(o)
+            Next
+            For Each d In oAdvDtl.ToList()
+                Dim o As New DuePaymentSummary
+                o.DueDate = d.DueDate
+                o.SumExpense = d.SumExpense
+                o.SumReceive = d.SumReceive
+                sumDue.Add(o)
+            Next
+            ViewBag.SumCashDaily = (From o In sumDue
+                                    Group By o.DueDate
+                                       Into TotalExpense = Sum(o.SumExpense), TotalReceive = Sum(o.SumReceive)
+                                    Order By DueDate).ToList()
         End Sub
+        Sub PopulateCashWeekly(atDate As String)
+            Dim oAdvHdr = New CAdvHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DocStatus<>99 AND PayChqDate>='{0}' AND PayChqDate<=DATEADD(day,7,'{0}')", atDate))
+            Dim oAdvDtl = From d In New CAdvDetail(ViewBag.JobConn).GetData(" WHERE AdvNo NOT IN(select AdvNo from Job_AdvHeader where DocStatus=99)")
+                          Join h In oAdvHdr On String.Concat(d.BranchCode, d.AdvNo) Equals String.Concat(h.BranchCode, h.AdvNo)
+                          Group By DueDate = h.PayChqDate
+                            Into SumExpense = Sum(d.AdvNet + d.Charge50Tavi), SumReceive = Sum(0)
+                          Order By DueDate
+
+            Dim oInvHdr = New CInvHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DueDate>='{0}' AND DueDate<=DATEADD(day,7,'{0}') AND NOT CancelProve<>''", atDate))
+            Dim oInvDtl = From d In New CInvDetail(ViewBag.JobConn).GetData(" WHERE DocNo NOT IN(SELECT DocNo from Job_InvoiceHeader WHERE DueDate is null OR CancelProve<>'')")
+                          Join h In oInvHdr On String.Concat(d.BranchCode, d.DocNo) Equals String.Concat(h.BranchCode, h.DocNo)
+                          Where h.CancelProve.ToString() = ""
+                          Group By h.DueDate
+                              Into SumExpense = Sum(0), SumReceive = Sum(d.TotalAmt + d.Amt50Tavi)
+                          Order By DueDate
+
+            ViewBag.SumInvDueWeekly = oInvDtl.ToList()
+            ViewBag.SumPayDueWeekly = oAdvDtl.ToList()
+            Dim sumDue As List(Of DuePaymentSummary) = New List(Of DuePaymentSummary)
+            For Each d In oInvDtl.ToList()
+                Dim o As New DuePaymentSummary
+                o.DueDate = d.DueDate
+                o.SumExpense = d.SumExpense
+                o.SumReceive = d.SumReceive
+                sumDue.Add(o)
+            Next
+            For Each d In oAdvDtl.ToList()
+                Dim o As New DuePaymentSummary
+                o.DueDate = d.DueDate
+                o.SumExpense = d.SumExpense
+                o.SumReceive = d.SumReceive
+                sumDue.Add(o)
+            Next
+            ViewBag.SumCashWeekly = (From o In sumDue
+                                     Group By o.DueDate
+                                       Into TotalExpense = Sum(o.SumExpense), TotalReceive = Sum(o.SumReceive)
+                                     Order By DueDate).ToList()
+        End Sub
+        Sub PopulateReceivablesDaily(atDate As String)
+            Dim oBillHdr = New CBillHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DuePaymentDate='{0}' AND NOT CancelProve<>''", atDate))
+            Dim oBillDtl = New CBillDetail(ViewBag.JobConn).GetData(" WHERE BillAcceptNo not in(select BillAcceptNo from Job_BillAcceptHeader where CancelProve<>'')")
+            Dim oBillAll = From h In oBillHdr
+                           Join d In oBillDtl
+                              On String.Concat(h.BranchCode, h.BillAcceptNo) Equals String.Concat(d.BranchCode, d.BillAcceptNo)
+                           Join c In New CCompany(ViewBag.JobConn).GetData("")
+                               On String.Concat(h.CustCode, h.CustBranch) Equals String.Concat(c.CustCode, c.Branch)
+                           Group By CustName = c.NameThai
+                               Into DataSource = Group, TotalInvoice = Sum(d.AmtTotal + d.AmtWH)
+
+            ViewBag.ARToday = oBillAll.ToList()
+        End Sub
+        Sub PopulateReceivablesWeekly(atDate As String)
+            Dim oBillHdrLastWeek = New CBillHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DuePaymentDate>=DATEADD(day,-7,'{0}') AND DuePaymentDate<'{0}' AND NOT CancelProve<>''", atDate))
+            Dim oBillHdrNextWeek = New CBillHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DuePaymentDate>'{0}' AND DuePaymentDate<=DATEADD(day,7,'{0}') AND NOT CancelProve<>''", atDate))
+            Dim oBillDtl = New CBillDetail(ViewBag.JobConn).GetData(" WHERE BillAcceptNo not in(select BillAcceptNo from Job_BillAcceptHeader WHERE CancelProve<>'')")
+            Dim oBillLastWeek = From h In oBillHdrLastWeek
+                                Join d In oBillDtl
+                              On String.Concat(h.BranchCode, h.BillAcceptNo) Equals String.Concat(d.BranchCode, d.BillAcceptNo)
+                                Group By DueDate = h.DuePaymentDate
+                               Into DataSource = Group, TotalInvoice = Sum(d.AmtTotal + d.AmtWH)
+            Dim oBillNextWeek = From h In oBillHdrNextWeek
+                                Join d In oBillDtl
+                              On String.Concat(h.BranchCode, h.BillAcceptNo) Equals String.Concat(d.BranchCode, d.BillAcceptNo)
+                                Group By DueDate = h.DuePaymentDate
+                              Into DataSource = Group, TotalInvoice = Sum(d.AmtTotal + d.AmtWH)
+            ViewBag.ARLastWeek = oBillLastWeek.ToList()
+            ViewBag.ARNextWeek = oBillNextWeek.ToList()
+        End Sub
+
+        Sub PopulatePayablesDaily(atDate As String)
+            Dim oPayHdr = New CPayHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DocDate='{0}' AND NOT CancelProve<>''", atDate))
+            Dim oPayDtl = New CPayDetail(ViewBag.JobConn).GetData(" WHERE DocNo not in(select DocNo from Job_PaymentHeader WHERE CancelProve<>'')")
+            Dim oPayAll = From h In oPayHdr
+                          Join d In oPayDtl
+                              On String.Concat(h.BranchCode, h.DocNo) Equals String.Concat(d.BranchCode, d.DocNo)
+                          Join v In New CVender(ViewBag.JobConn).GetData("")
+                              On h.VenCode Equals v.VenCode
+                          Group By VenderName = v.TName
+                              Into DataSource = Group, TotalPayment = Sum(d.Total + d.AmtWHT)
+            ViewBag.APToday = oPayAll.ToList()
+        End Sub
+        Sub PopulatePayablesWeekly(atDate As String)
+            Dim oPayHdrLastWeek = New CPayHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DocDate>=DATEADD(day,-7,'{0}') AND DocDate<'{0}' AND NOT CancelProve<>''", atDate))
+            Dim oPayHdrNextWeek = New CPayHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DocDate>'{0}' AND DocDate<=DATEADD(day,7,'{0}') AND NOT CancelProve<>''", atDate))
+            Dim oPayDtl = New CPayDetail(ViewBag.JobConn).GetData(" WHERE DocNo not in(select DocNo from Job_PaymentHeader WHERE CancelProve<>'')")
+            Dim oPayLastWeek = From h In oPayHdrLastWeek
+                               Join d In oPayDtl
+                              On String.Concat(h.BranchCode, h.DocNo) Equals String.Concat(d.BranchCode, d.DocNo)
+                               Group By DueDate = h.DocDate
+                               Into DataSource = Group, TotalPayment = Sum(d.Total + d.AmtWHT)
+            Dim oPayNextWeek = From h In oPayHdrNextWeek
+                               Join d In oPayDtl
+                              On String.Concat(h.BranchCode, h.DocNo) Equals String.Concat(d.BranchCode, d.DocNo)
+                               Group By DueDate = h.DocDate
+                              Into DataSource = Group, TotalPayment = Sum(d.Total + d.AmtWHT)
+            ViewBag.APLastWeek = oPayLastWeek.ToList()
+            ViewBag.APNextWeek = oPayNextWeek.ToList()
+        End Sub
+    End Class
+
+    Public Class DuePaymentSummary
+        Public DueDate As DateTime
+        Public SumExpense As Double
+        Public SumReceive As Double
+    End Class
+    Public Class DuePaymentMonthly
+        Public DueYear As Integer
+        Public DueMonth As Integer
+        Public SumExpense As Double
+        Public SumReceive As Double
     End Class
 End Namespace
